@@ -1,19 +1,20 @@
-# Service Container
+# Service Container 서비스 컨테이너
 
-- [Introduction](#introduction)
-- [Basic Usage](#basic-usage)
-- [Binding Interfaces To Implementations](#binding-interfaces-to-implementations)
-- [Contextual Binding](#contextual-binding)
-- [Tagging](#tagging)
-- [Practical Applications](#practical-applications)
-- [Container Events](#container-events)
+- [Introduction 소개](#introduction)
+- [Basic Usage 기본 사용법](#basic-usage)
+- [Binding Interfaces To Implementations 인터페이스를 구현체에 바인딩 하는 법](#binding-interfaces-to-implementations)
+- [Contextual Binding 상황에 맞는 바인딩](#contextual-binding)
+- [Tagging 태깅](#tagging)
+- [Practical Applications 실제 어플리케이션](#practical-applications)
+- [Container Events 컨테이너 이벤트](#container-events)
 
 <a name="introduction"></a>
-## Introduction
+## Introduction 소개
 
-The Laravel service container is a powerful tool for managing class dependencies. Dependency injection is a fancy word that essentially means this: class dependencies are "injected" into the class via the constructor or, in some cases, "setter" methods.
+The Laravel service container is a powerful tool for managing class dependencies. 라라벨의 서비스 컨테이너는 클래스의 의존성을 관리하는 강력한 도구 입니다. Dependency injection is a fancy word that essentially means this: 의존성 주입이라는 멋진 말의 의미는 다음과 같습니다: class dependencies are "injected" into the class via the constructor or, in some cases, "setter" methods. 클래스간의 의존성은 클래스 생성될 때 또는 경우에 따라 "setter" 메소드에 의해서 "주입" 된다는 의미입니다.  
 
 Let's look at a simple example:
+간단한 예제를 들어 봅시다. 
 
 	<?php namespace App\Handlers\Commands;
 
@@ -52,14 +53,15 @@ Let's look at a simple example:
 
 	}
 
-In this example, the `PurchasePodcast` command handler needs to send e-mails when a podcast is purchased. So, we will **inject** a service that is able to send e-mails. Since the service is injected, we are able to easily swap it out with another implementation. We are also able to easily "mock", or create a dummy implementation of the mailer when testing our application.
+In this example, the `PurchasePodcast` command handler needs to send e-mails when a podcast is purchased. 위의 예제에서 `PurchasePodcast` 명령어는 podcast 가 주문이 되면 이메일을 보내야 할 필요가 있습니다. So, we will **inject** a service that is able to send e-mails. 그래서 우리는 이메일을 보내기 위한 서비스를 **주입** 시킬것입니다. Since the service is injected, we are able to easily swap it out with another implementation. 서비스가 주입되었기 때문에 원하는 경우 쉽게 다른 구현체로 바꿀 수 있습니다. We are also able to easily "mock", or create a dummy implementation of the mailer when testing our application. 또한 어플리케이션을 테스팅 할 때 손쉽게 "목킹" 할수 있고 메일러의 더미 구현체를 만들수 있습니다. 
 
 A deep understanding of the Laravel service container is essential to building a powerful, large application, as well as for contributing to the Laravel core itself.
+라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 애플리케이션을 구축 할 때나 라라벨 코어에 공헌하기 위해서  중요한 부분입니다.
 
 <a name="basic-usage"></a>
-## Basic Usage
+## Basic Usage 기본 사용법
 
-### Binding
+### Binding 바인딩
 
 Almost all of your service container bindings will be registered within [service providers](/docs/5.0/providers), so all of these examples will demonstrate using the container in that context. However, if you need an instance of the container elsewhere in your application, such as a factory, you may type-hint the `Illuminate\Contracts\Container\Container` contract and an instance of the container will be injected for you. Alternatively, you may use the `App` facade to access the container.
 

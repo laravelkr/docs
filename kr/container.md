@@ -304,11 +304,11 @@ In this example, the `OrderRepository` class will automatically be injected into
 Of course, as mentioned above, controllers are not the only classes Laravel resolves via the service container. You may also type-hint dependencies on route Closures, filters, queue jobs, event listeners, and more. For examples of using the service container in these contexts, please refer to their documentation.
 
 <a name="container-events"></a>
-## Container Events
+## Container Events 컨테이너 이벤트
 
-#### Registering A Resolving Listener
+#### Registering A Resolving Listener 의존성 해결 리스너 등록하기
 
-The container fires an event each time it resolves an object. You may listen to this event using the `resolving` method:
+The container fires an event each time it resolves an object. 컨테이너는 객체의 의존성 해결을 수행할 때 마다 이벤트를 발생시킵니다. You may listen to this event using the `resolving` method: `resolving` 메소드를 사용하여 이 이벤트들에 대응할 수 있습니다. 
 
 	$this->app->resolving(function($object, $app)
 	{
@@ -320,4 +320,4 @@ The container fires an event each time it resolves an object. You may listen to 
 		// Called when container resolves objects of type "FooBar"...
 	});
 
-The object being resolved will be passed to the callback.
+The object being resolved will be passed to the callback. 의존성이 해결된 객체가 콜백에 전달됩니다. 

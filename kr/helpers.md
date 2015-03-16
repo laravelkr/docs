@@ -1,18 +1,18 @@
-# Helper Functions
+# Helper Functions 헬퍼 함수
 
-- [Arrays](#arrays)
-- [Paths](#paths)
-- [Routing](#routing)
-- [Strings](#strings)
-- [URLs](#urls)
-- [Miscellaneous](#miscellaneous)
+- [Arrays 배열](#arrays)
+- [Paths 경로](#paths)
+- [Routing 라우팅](#routing)
+- [Strings 문자열](#strings)
+- [URLs URL](#urls)
+- [Miscellaneous 기타](#miscellaneous)
 
 <a name="arrays"></a>
-## Arrays
+## Arrays 배열
 
 ### array_add
 
-The `array_add` function adds a given key / value pair to the array if the given key doesn't already exist in the array.
+The `array_add` function adds a given key / value pair to the array if the given key doesn't already exist in the array. `array_add` 함수는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다. 
 
 	$array = ['foo' => 'bar'];
 
@@ -20,7 +20,7 @@ The `array_add` function adds a given key / value pair to the array if the given
 
 ### array_divide
 
-The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the original array.
+The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the original array. `array_divide` 원래의 배열에서 키들을 담고 있는 배열과 값들을 담고 있는 배열, 총 2개의 배열들을 반환합니다. 
 
 	$array = ['foo' => 'bar'];
 

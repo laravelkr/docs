@@ -9,7 +9,7 @@
 <a name="configuration"></a>
 ## Configuration 설정
 
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. Laravel ships with a variety of session back-ends available for use through a clean, unified API. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
+Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. Laravel ships with a variety of session back-ends available for use through a clean, unified API. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
 
 The session configuration is stored in `config/session.php`. 세션의 설정은 `config/session.php` 파일에 있습니다. Be sure to review the well documented options available to you in this file. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. By default, Laravel is configured to use the `file` session driver, which will work well for the majority of applications. 대부분의 어플리케이션에서 작동이 가능하도록 기본적으로 라라벨은 `file` 세션 드라이버를 사용합니다. 
 
@@ -20,13 +20,13 @@ Before using Redis sessions with Laravel, you will need to install the `predis/p
 #### Reserved Keys 
 #### 예약어 
 
-The Laravel framework uses the `flash` session key internally, so you should not add an item to the session by that name. 라라벨 프레임워크는 공통적으로 `flash` 세션키를 사용하고 있기 때문에 이 이름으로 세션을 추가하지 말아야 합니다. 
+The Laravel framework uses the `flash` session key internally, so you should not add an item to the session by that name. 라라벨 프레임워크는 내부적으로 `flash`라는 세션키를 사용하고 있기 때문에 이 이름으로 세션을 추가하지 말아야 합니다. 
 
 <a name="session-usage"></a>
 ## Session Usage
 ## 세션 사용법
 
-The session may be accessed in several ways, via the HTTP request's `session` method, the `Session` facade, or the `session` helper function. 세션에 엑세스하는데는 여러가지 방법이 있습니다. HTTP 요청-request의 `session` 메소드, `Session` 파사드, 그리고 `session` 헬퍼 함수가 있습니다. When the `session` helper is called without arguments, it will return the entire session object. For example: 아무런 전달 인자 없이 `session` 헬퍼함수를 호출할 때에는 전체 세션 객체가 반환됩니다. 
+The session may be accessed in several ways, via the HTTP request's `session` method, the `Session` facade, or the `session` helper function. 세션에 엑세스하기 위해서는 여러가지 방법이 있습니다. HTTP 요청-request의 `session` 메소드를 사용하는 방법, `Session` 파사드를 사용하는 방법, 그리고 `session` 헬퍼 함수를 사용할 수 있습니다. When the `session` helper is called without arguments, it will return the entire session object. For example: 아무런 전달 인자 없이 `session` 헬퍼함수를 호출할 때에는 전체 세션 객체가 반환됩니다. 
 
 	session()->regenerate();
 
@@ -93,7 +93,7 @@ The session may be accessed in several ways, via the HTTP request's `session` me
 ## Flash Data
 ## 임시 데이터
 
-Sometimes you may wish to store items in the session only for the next request. 때로는 바로 다음번의 요청에서만 사용하기 위해서 세션에 아이템을 저장할 수 있습니다. You may do so using the `Session::flash` method: `Session::flash` 메소드를 사용하는 것입니다. 
+Sometimes you may wish to store items in the session only for the next request. 때로는 바로 다음번의 요청에서만 사용하기 위해서 세션에 아이템을 저장할 수 있습니다. You may do so using the `Session::flash` method: 바로 `Session::flash` 메소드를 사용하는 것입니다. 
 
 	Session::flash('key', 'value');
 

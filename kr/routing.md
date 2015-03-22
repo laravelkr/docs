@@ -109,7 +109,7 @@ Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. 또한 라라벨은
 ## Method Spoofing
 ## 메소드 Spoofing-속이기
 
-HTML forms do not support `PUT` or `DELETE` actions. HTML form은 `PUT` 과 `DELETE` 액션을 지원하지 않습니다. So, when defining `PUT` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. 따라서 `PUT` 이나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. 
+HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. 따라서 `PUT`, `PATCH` 이나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. 
 
 The value sent with the `_method` field will be used as the HTTP request method. For example: `_method` 필드로 보내진 값은 HTTP 요청 메소드를 구분하는데 사용됩니다. 다음 예를 참조하십시오.
 

@@ -16,7 +16,7 @@ For example, if you wish to use a single log file instead of daily files, you ca
 
 	'log' => 'single'
 
-Out of the box, Laravel supported `single`, `daily`, and `syslog` logging modes. 별다른 구성이 없이도 라라벨은 `single`, `daily` 그리고 `syslog` 로깅 모드를 지원합니다. However, you are free to customize the logging for your application as you wish by overriding the `ConfigureLogging` bootstrapper class. 그러나 응용 프로그램에 대한 로깅을 원하는대로 사용자 정의하고자 한다면, `ConfigureLogging` 부트스트랩 클래스를 재정의 하여 사용할 수도 있습니다. 
+Out of the box, Laravel supported `single`, `daily`, `syslog` and `errorlog` logging modes. 별다른 구성이 없이도 라라벨은 `single`, `daily`, `syslog` 그리고 `errorlog` 로깅 모드를 지원합니다. However, you are free to customize the logging for your application as you wish by overriding the `ConfigureLogging` bootstrapper class. 그러나 응용 프로그램에 대한 로깅을 원하는대로 사용자 정의하고자 한다면, `ConfigureLogging` 부트스트랩 클래스를 재정의 하여 사용할 수도 있습니다. 
 
 ### Error Detail 오류의 상세정보
 

@@ -1,10 +1,18 @@
 # Upgrade Guide
 
+- [Upgrading To 5.0.16](#upgrade-5.0.16)
 - [Upgrading To 5.0 From 4.2](#upgrade-5.0)
 - [Upgrading To 4.2 From 4.1](#upgrade-4.2)
 - [Upgrading To 4.1.29 From <= 4.1.x](#upgrade-4.1.29)
 - [Upgrading To 4.1.26 From <= 4.1.25](#upgrade-4.1.26)
 - [Upgrading To 4.1 From 4.0](#upgrade-4.1)
+
+<a name="upgrade-5.0.16"></a>
+## Upgrading To 5.0.16
+
+In your `bootstrap/autoload.php` file, update the `$compiledPath` variable to:
+
+	$compiledPath = __DIR__.'/../vendor/compiled.php';
 
 <a name="upgrade-5.0"></a>
 ## Upgrading To 5.0 From 4.2
@@ -187,12 +195,12 @@ For example, you may add `"laravelcollective/html": "~5.0"` to your `composer.js
 
 You'll also need to add the Form and HTML facades and service provider. Edit `config/app.php` and add this line to the 'providers' array:
 
-    'Collective\Html\HtmlServiceProvider',
+	'Collective\Html\HtmlServiceProvider',
 
 Next, add these lines to the 'aliases' array:
 
-    'Form' => 'Collective\Html\FormFacade',
-    'Html' => 'Collective\Html\HtmlFacade',
+	'Form' => 'Collective\Html\FormFacade',
+	'Html' => 'Collective\Html\HtmlFacade',
 
 ### CacheManager
 
@@ -267,7 +275,7 @@ If you are extending the `Illuminate\Pagination\Presenter` class, the abstract m
 
 If you are using the Iron.io queue driver, you will need to add a new `encrypt` option to your queue configuration file:
 
-    'encrypt' => true
+	'encrypt' => true
 
 <a name="upgrade-4.1.29"></a>
 ## Upgrading To 4.1.29 From <= 4.1.x

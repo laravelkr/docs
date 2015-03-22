@@ -65,7 +65,7 @@ Laravel automatically generates a CSRF "token" for each active user session mana
 
 #### Insert The CSRF Token Into A Form
 
-    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+	<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
 Of course, using the Blade [templating engine](/docs/5.0/templates):
 
@@ -80,10 +80,10 @@ In addition to looking for the CSRF token as a "POST" parameter, the middleware 
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 	$.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
 
 Now all AJAX requests will automatically include the CSRF token:
 
@@ -100,14 +100,14 @@ Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. You can use the coo
 <a name="method-spoofing"></a>
 ## Method Spoofing
 
-HTML forms do not support `PUT` or `DELETE` actions. So, when defining `PUT` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form.
+HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form.
 
 The value sent with the `_method` field will be used as the HTTP request method. For example:
 
 	<form action="/foo/bar" method="POST">
 		<input type="hidden" name="_method" value="PUT">
-    	<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-    </form>
+		<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+	</form>
 
 <a name="route-parameters"></a>
 ## Route Parameters
@@ -204,7 +204,7 @@ Named routes allow you to conveniently generate URLs or redirects for a specific
 You may also specify route names for controller actions:
 
 	Route::get('user/profile', [
-        'as' => 'profile', 'uses' => 'UserController@showProfile'
+		'as' => 'profile', 'uses' => 'UserController@showProfile'
 	]);
 
 Now, you may use the route's name when generating URLs or redirects:

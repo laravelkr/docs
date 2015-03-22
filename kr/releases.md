@@ -1,4 +1,5 @@
 # Release Notes
+# 릴리즈 노트
 
 - [Laravel 5.0](#laravel-5.0)
 - [Laravel 4.2](#laravel-4.2)
@@ -300,53 +301,63 @@ In production, destructive migration operations will now ask for confirmation. C
 ## Laravel 4.1
 
 ### Full Change List
+### 전체 변경사항
 
-The full change list for this release by running the `php artisan changes` command from a 4.1 installation, or by [viewing the change file on Github](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json). These notes only cover the major enhancements and changes for the release.
+The full change list for this release by running the `php artisan changes` command from a 4.1 installation, or by [viewing the change file on Github](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json). 이번 릴리스의 전체 변경 사항은 설치 한 4.1 폴더에서 `php artisan changes` 명령을 실행하거나 [Github에서 변경사항 확인](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json)할 수 있습니다.  These notes only cover the major enhancements and changes for the release. 다음 내용은 릴리즈의 주요 개선사항과 변경점들을 포함하고 있습니다. 
 
 ### New SSH Component
+### 새로운 SSH 컴포넌트
 
-An entirely new `SSH` component has been introduced with this release. This feature allows you to easily SSH into remote servers and run commands. To learn more, consult the [SSH component documentation](/docs/ssh).
+An entirely new `SSH` component has been introduced with this release. 이번 릴리즈에서 완전히 새로운 `SSH` 컴포넌트가 추가되었습니다.  This feature allows you to easily SSH into remote servers and run commands. 이 기능은 손쉽게 원격 서버에 SSH 접속을 하거나, 명령어를 실행할 수 있도록 해줍니다. To learn more, consult the [SSH component documentation](/docs/ssh). 사용법을 익히기 위해서는 [SSH 컴포넌트 문서](/docs/ssh)를 참고하십시오. 
 
-The new `php artisan tail` command utilizes the new SSH component. For more information, consult the `tail` [command documentation](http://laravel.com/docs/ssh#tailing-remote-logs).
+The new `php artisan tail` command utilizes the new SSH component. 새로운 `php artisan tail` 명령어는 새로운 SSH 컴포넌트를 사용합니다. For more information, consult the `tail` [command documentation](http://laravel.com/docs/ssh#tailing-remote-logs). 보다 자세한 사항은  [명령어 문서](http://laravel.com/docs/ssh#tailing-remote-logs) 의 `tail` 항목을 참고하십시오.
 
 ### Boris In Tinker
 
-The `php artisan tinker` command now utilizes the [Boris REPL](https://github.com/d11wtq/boris) if your system supports it. The `readline` and `pcntl` PHP extensions must be installed to use this feature. If you do not have these extensions, the shell from 4.0 will be used.
+The `php artisan tinker` command now utilizes the [Boris REPL](https://github.com/d11wtq/boris) if your system supports it. `php artisan tinker` 명령은 시스템이 지원하는 경우 [Boris REPL](https://github.com/d11wtq/boris) 을 활용합니다. The `readline` and `pcntl` PHP extensions must be installed to use this feature. 이 기능을 사용하기 위해서는 반드시 `readline` 과 `pcntl` PHP 익스텐션이 설치되어 있어야 합니다. If you do not have these extensions, the shell from 4.0 will be used. 이 익스텐션들이 설치되어 있지 않다면 4.0 기반의 쉘이 사용됩니다. 
 
 ### Eloquent Improvements
+### Eloquent 향상
 
-A new `hasManyThrough` relationship has been added to Eloquent. To learn how to use it, consult the [Eloquent documentation](/docs/eloquent#has-many-through).
+A new `hasManyThrough` relationship has been added to Eloquent. Eloquent에 새로운 `hasManyThrough` 관계가 추가되었습니다. To learn how to use it, consult the [Eloquent documentation](/docs/eloquent#has-many-through). 이에대한 사용법은 [Eloquent 문서](/docs/eloquent#has-many-through) 를 참고하십시오.
 
-A new `whereHas` method has also been introduced to allow [retrieving models based on relationship constraints](/docs/eloquent#querying-relations).
+A new `whereHas` method has also been introduced to allow [retrieving models based on relationship constraints](/docs/eloquent#querying-relations). 또한 새로운 `whereHas` 메소드가 [릴레이션의 조건에 따라 모델을 얻기](/docs/eloquent#querying-relations) 위해 도입되었습니다.
 
 ### Database Read / Write Connections
+### 데이터베이스 읽기 / 쓰기 커넥션
 
-Automatic handling of separate read / write connections is now available throughout the database layer, including the query builder and Eloquent. For more information, consult [the documentation](/docs/database#read-write-connections).
+Automatic handling of separate read / write connections is now available throughout the database layer, including the query builder and Eloquent. 데이터 베이스 레이어에서 쿼리 빌더와 Eloquent 를 포함하여 자동으로 읽기/ 쓰기 커넥션을 구분하여 처리하도록 지원합니다. For more information, consult [the documentation](/docs/database#read-write-connections). 더 자세한 사항은  [문서](/docs/database#read-write-connections)를 참고하십시오. 
 
 ### Queue Priority
+### 큐 우선순위
 
-Queue priorities are now supported by passing a comma-delimited list to the `queue:listen` command.
+Queue priorities are now supported by passing a comma-delimited list to the `queue:listen` command. `queue:listen` 명령어에 쉼표로 구분 된 목록을 지정하여 큐 처리의 우선 순위가 지원됩니다.
 
 ### Failed Queue Job Handling
+### 실패한 큐 작업 처리하기
 
-The queue facilities now include automatic handling of failed jobs when using the new `--tries` switch on `queue:listen`. More information on handling failed jobs can be found in the [queue documentation](/docs/queues#failed-jobs).
+The queue facilities now include automatic handling of failed jobs when using the new `--tries` switch on `queue:listen`. `queue:listen` 에 새로운 `--tries` 스위치를 붙여, 실패한 작업을 자동으로 처리하는 기능이 추가되었습니다. More information on handling failed jobs can be found in the [queue documentation](/docs/queues#failed-jobs). 실패한 작업에 대한 자세한 내용은 [큐 문서](/docs/queues#failed-jobs) 를 참고하십시오.
 
 ### Cache Tags
+### 캐시 태그
 
-Cache "sections" have been superseded by "tags". Cache tags allow you to assign multiple "tags" to a cache item, and flush all items assigned to a single tag. More information on using cache tags may be found in the [cache documentation](/docs/cache#cache-tags).
+Cache "sections" have been superseded by "tags". 캐시의 “sections”은 “tags”로 대체되었습니다. Cache tags allow you to assign multiple "tags" to a cache item, and flush all items assigned to a single tag. 캐시 태그 기능은 각각 캐시 아이템에 여러개의 “태그”를 붙이거나, 전체 아이템에 할당된 태그를 삭제할 수도 있습니다. More information on using cache tags may be found in the [cache documentation](/docs/cache#cache-tags). 캐시 태그를 사용하는 더 자세한 사항은 [캐시 문서](/docs/cache#cache-tags)를 참고하십시오. 
 
 ### Flexible Password Reminders
+### 유연한 패스워드 알림
 
-The password reminder engine has been changed to provide greater developer flexibility when validating passwords, flashing status messages to the session, etc. For more information on using the enhanced password reminder engine, [consult the documentation](/docs/security#password-reminders-and-reset).
+The password reminder engine has been changed to provide greater developer flexibility when validating passwords, flashing status messages to the session, etc. 패스워드 알림 엔진은 패스워드를 검증할 때나, 세션에 상태 메세지를 지울 때 더 많은 개발자 유연성을 제공하도록 변경되었습니다. For more information on using the enhanced password reminder engine, [consult the documentation](/docs/security#password-reminders-and-reset). 패스워드 알림 엔진에 대한 더 자세한 사항은 다음 [문서](/docs/security#password-reminders-and-reset)를 참고하십시오.
 
 ### Improved Routing Engine
+### 라우팅 엔진 향상
 
-Laravel 4.1 features a totally re-written routing layer. The API is the same; however, registering routes is a full 100% faster compared to 4.0. The entire engine has been greatly simplified, and the dependency on Symfony Routing has been minimized to the compiling of route expressions.
+Laravel 4.1 features a totally re-written routing layer. 라라벨 4.1에서는 완전히 새롭게 라우팅 레이어를 재작성했습니다. The API is the same; however, registering routes is a full 100% faster compared to 4.0. API는 동일하지만 라우팅 등록과정이 4.0과 비교하여 100% 빨라졌습니다. The entire engine has been greatly simplified, and the dependency on Symfony Routing has been minimized to the compiling of route expressions. 전체 엔진은 매우 간단해 졌으며, 라우트 해석시의 Synfony 라우팅에 대한 종속성은 최소화 되었습니다.
 
 ### Improved Session Engine
+### 세션 엔진 향상
 
-With this release, we're also introducing an entirely new session engine. Similar to the routing improvements, the new session layer is leaner and faster. We are no longer using Symfony's (and therefore PHP's) session handling facilities, and are using a custom solution that is simpler and easier to maintain.
+With this release, we're also introducing an entirely new session engine. 이 릴리스에서 새로운 세션 엔진도 도입하였습니다. Similar to the routing improvements, the new session layer is leaner and faster. 라우팅에서의 향상과 비슷하게 새로운 세션 레이어는 더 작고 빨라졌습니다. We are no longer using Symfony's (and therefore PHP's) session handling facilities, and are using a custom solution that is simpler and easier to maintain.  더이상 Symfony의 (따라서 PHP의) 세션 처리 기능을 사용하지 않고, 더 간단하고 유지 보수하기 쉬운 고유한 처리 방식을 사용하고 있습니다.
 
 ### Doctrine DBAL
 
-If you are using the `renameColumn` function in your migrations, you will need to add the `doctrine/dbal` dependency to your `composer.json` file. This package is no longer included in Laravel by default.
+If you are using the `renameColumn` function in your migrations, you will need to add the `doctrine/dbal` dependency to your `composer.json` file. This package is no longer included in Laravel by default. 만약 마이그레이션에서 `renameColumn` 함수를  사용하는 경우 `composer.json` 파일에 `doctrine/dbal` 패키지를 추가해야합니다. 이 패키지는 기본적으로 라라벨에 포함되지 있지  않습니다.

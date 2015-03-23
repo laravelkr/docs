@@ -241,61 +241,70 @@ The popular `dd` helper function, which dumps variable debug information, has be
 <a name="laravel-4.2"></a>
 ## Laravel 4.2
 
-The full change list for this release by running the `php artisan changes` command from a 4.2 installation, or by [viewing the change file on Github](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json). These notes only cover the major enhancements and changes for the release.
+The full change list for this release by running the `php artisan changes` command from a 4.2 installation, or by [viewing the change file on Github](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json). 이번 릴리스의 전체 변경 사항은 설치 한 4.2 폴더에서 `php artisan changes` 명령을 실행하거나 [Github에서 변경사항 확인](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json)할 수 있습니다.  These notes only cover the major enhancements and changes for the release. 다음 내용은 릴리즈의 주요 개선사항과 변경점들을 포함하고 있습니다. 
 
-> **Note:** During the 4.2 release cycle, many small bug fixes and enhancements were incorporated into the various Laravel 4.1 point releases. So, be sure to check the change list for Laravel 4.1 as well!
+> **Note 참고:** During the 4.2 release cycle, many small bug fixes and enhancements were incorporated into the various Laravel 4.1 point releases. 4.2 버전이 릴리스되기 전까지 많은 다양한 작은 버그 수정 및 개선사힝이 라라벨 4.1에 포함되어 있습니다. So, be sure to check the change list for Laravel 4.1 as well! 따라서 라라벨 4.1의 변경 사항 역시 주의 깊게 확인하십시오.
 
 ### PHP 5.4 Requirement
+### PHP 5.4 필요
 
-Laravel 4.2 requires PHP 5.4 or greater. This upgraded PHP requirement allows us to use new PHP features such as traits to provide more expressive interfaces for tools like [Laravel Cashier](/docs/billing). PHP 5.4 also brings significant speed and performance improvements over PHP 5.3.
+Laravel 4.2 requires PHP 5.4 or greater. 라라벨 4.2는 PHP 5.4 또는 그 이상 버전을 필요로 합니다. This upgraded PHP requirement allows us to use new PHP features such as traits to provide more expressive interfaces for tools like [Laravel Cashier](/docs/billing). PHP 버전이 업그레이드 됨으로써 trait와 같은 새로운 PHP 기능들을 사용할 수 있게되어 [Laravel Cashier](/docs/billing)와 같은 툴을 위한 더 나은 인터페이스를 제공할 수 있게 되었습니다. PHP 5.4 also brings significant speed and performance improvements over PHP 5.3. 또한, PHP5.4은 PHP5.3보다 의미있는 속도와 퍼포먼스 향상을 가져다 줍니다.
 
 ### Laravel Forge
+### 라라벨 Forge
 
-Laravel Forge, a new web based application, provides a simple way to create and manage PHP servers on the cloud of your choice, including Linode, DigitalOcean, Rackspace, and Amazon EC2. Supporting automated Nginx configuration, SSH key access, Cron job automation, server monitoring via NewRelic & Papertrail, "Push To Deploy", Laravel queue worker configuration, and more, Forge provides the simplest and most affordable way to launch all of your Laravel applications.
+Laravel Forge, a new web based application, provides a simple way to create and manage PHP servers on the cloud of your choice, including Linode, DigitalOcean, Rackspace, and Amazon EC2. 라라벨 Forge는 새로운 웹 기반 애플리케이션으로 여러분이 Linode, DigitalOcean, Rackspace, Amazon EC2와 같은 클라우드에서 선택한 PHP 서버를 만들고 관리하는 간단한 방법을 제공합니다. Supporting automated Nginx configuration, SSH key access, Cron job automation, server monitoring via NewRelic & Papertrail, "Push To Deploy", Laravel queue worker configuration, and more, Forge provides the simplest and most affordable way to launch all of your Laravel applications. 자동화된 Nginx 설정, SSH 키 엑세스, 크론 작업 자동화, NewRelic 과 Papertrail을 통한 서버 모니터링, “Push를 이용한 배포”, 라라벨 큐 작업 설정등 Forge 는 여러분의 라라벨 어플리케이션을 손쉽게 구성할 수 있는 가장 적당한 방법입니다. 
 
-The default Laravel 4.2 installation's `app/config/database.php` configuration file is now configured for Forge usage by default, allowing for more convenient deployment of fresh applications onto the platform.
+The default Laravel 4.2 installation's `app/config/database.php` configuration file is now configured for Forge usage by default, allowing for more convenient deployment of fresh applications onto the platform. 기본적으로 라라벨 4.2를 설치했다면 `app/config/database.php` 파일이 Forge 를 사용하도록 설정되어 있을 것입니다. 이처럼 어떤 플랫폼에 편리하게 라라벨 어플리케이션을 배포 할 수 있도록 해줍니다.
 
-More information about Laravel Forge can be found on the [official Forge website](https://forge.laravel.com).
+More information about Laravel Forge can be found on the [official Forge website](https://forge.laravel.com). 라라벨 Forge 에 대한 보다 자세한 사항은 [공식 Forge 웹사이트](https://forge.laravel.com)에서 찾으실 수 있습니다. 
 
 ### Laravel Homestead
+### 라라벨 Homestead
 
-Laravel Homestead is an official Vagrant environment for developing robust Laravel and PHP applications. The vast majority of the boxes' provisioning needs are handled before the box is packaged for distribution, allowing the box to boot extremely quickly. Homestead includes Nginx 1.6, PHP 5.6, MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt, & Bower. Homestead includes a simple `Homestead.yaml` configuration file for managing multiple Laravel applications on a single box.
+Laravel Homestead is an official Vagrant environment for developing robust Laravel and PHP applications. 라라벨 Homestead는 라라벨 및 PHP 어플리케이션을 배포하기위한 강력한 공식 Vagrant 환경입니다. The vast majority of the boxes' provisioning needs are handled before the box is packaged for distribution, allowing the box to boot extremely quickly. Homestead includes Nginx 1.6, PHP 5.6, MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt, & Bower. Homestead includes a simple `Homestead.yaml` configuration file for managing multiple Laravel applications on a single box. 배포를 위해 box를 밧케지하기 전에 광대 한 범위에 걸쳐 필요한 box 준비 작업은 처리 된이기 때문에 매우 빠르게 box를 시작 가능합니다. Homestead은 Nginx1.6, PHP5.6, MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt, Bower를 준비하고 있습니다. Homestead 간단한 Homestead.yaml 설정 파일을 포함하고 있으며, 여러 Laravel 응용 프로그램을 하나의 box에서 관리하고 있습니다.
 
-The default Laravel 4.2 installation now includes an `app/config/local/database.php` configuration file that is configured to use the Homestead database out of the box, making Laravel initial installation and configuration more convenient.
+The default Laravel 4.2 installation now includes an `app/config/local/database.php` configuration file that is configured to use the Homestead database out of the box, making Laravel initial installation and configuration more convenient. 설치 한 Laravel4.2에 포함되어 있으며, 처음부터 준비되어있다 Homestead 데이터베이스를 사용하도록 설정되어있는 app / config / local / database.php 설정 파일은 Laravel의 초기 설치 및 구성을보다 편리하고 있습니다.
 
-The official documentation has also been updated to include [Homestead documentation](/docs/homestead).
+The official documentation has also been updated to include [Homestead documentation](/docs/homestead). 공식 메뉴얼에도 [Homestead 문서](/docs/homestead) 가 추가되었습니다.
 
 ### Laravel Cashier
 
-Laravel Cashier is a simple, expressive library for managing subscription billing with Stripe. With the introduction of Laravel 4.2, we are including Cashier documentation along with the main Laravel documentation, though installation of the component itself is still optional. This release of Cashier brings numerous bug fixes, multi-currency support, and compatibility with the latest Stripe API.
+Laravel Cashier is a simple, expressive library for managing subscription billing with Stripe. 라라벨 캐셔는 Stripe를 사용하여 가입 청구서를 관리하기위한 간단하고 유용한 라이브러리입니다. With the introduction of Laravel 4.2, we are including Cashier documentation along with the main Laravel documentation, though installation of the component itself is still optional. 라라벨 4.2에서 소개되는 캐셔의 문서도 라라벨의 기본 문서에 포함되었지만, 구성 요소의 설치는 아직 선택사항입니다. This release of Cashier brings numerous bug fixes, multi-currency support, and compatibility with the latest Stripe API.  이 릴리스의 캐셔기능은 많은 버그가 수정 되었고, 다양한 국가의 통화를 지원하며 최신 Stripe API와 호환됩니다.
 
 ### Daemon Queue Workers
 
-The Artisan `queue:work` command now supports a `--daemon` option to start a worker in "daemon mode", meaning the worker will continue to process jobs without ever re-booting the framework. This results in a significant reduction in CPU usage at the cost of a slightly more complex application deployment process.
+The Artisan `queue:work` command now supports a `--daemon` option to start a worker in "daemon mode", meaning the worker will continue to process jobs without ever re-booting the framework. 이제 아티즌의 `queue:work` 명령은 `--daemon` 옵션을 지원하여 작업을 "데몬 모드"로 시작할 수 있습니다. 즉, 큐 작업이 프레임 워크를 다시 시작하지 않고도 계속 처리된다는 것을 의미합니다. This results in a significant reduction in CPU usage at the cost of a slightly more complex application deployment process. 이를 통해서 약간 더 복잡한 응용 프로그램 배포가 필요하지만 CPU 사용량을 크게 감소시킬 수 있는 이점이 있습니다.
 
-More information about daemon queue workers can be found in the [queue documentation](/docs/queues#daemon-queue-worker).
+More information about daemon queue workers can be found in the [queue documentation](/docs/queues#daemon-queue-worker). 데몬 큐 작업에 대한 보다 자세한 사항은 [queue 문서](/docs/queues#daemon-queue-worker)를 참고하십시오. 
 
 ### Mail API Drivers
 
-Laravel 4.2 introduces new Mailgun and Mandrill API drivers for the `Mail` functions. For many applications, this provides a faster and more reliable method of sending e-mails than the SMTP options. The new drivers utilize the Guzzle 4 HTTP library.
+Laravel 4.2 introduces new Mailgun and Mandrill API drivers for the `Mail` functions. 라라벨 4.2에서는 `Mail` 기능에 새로운 Mailgun과 Mandrill API 드라이버를 지원합니다. For many applications, this provides a faster and more reliable method of sending e-mails than the SMTP options. 많은 어플리케이션에서 SMTP를 사용하는 대신 보다 더 빠르고 신뢰할만한 메일을 보내는 기능을 제공할 것입니다. The new drivers utilize the Guzzle 4 HTTP library. 이 새로운 드라이버는 Guzzle 4 HTTP 라이브러리를 사용하고 있습니다.
 
 ### Soft Deleting Traits
+### Soft Deleting Traits
 
-A much cleaner architecture for "soft deletes" and other "global scopes" has been introduced via PHP 5.4 traits. This new architecture allows for the easier construction of similar global traits, and a cleaner separation of concerns within the framework itself.
+A much cleaner architecture for "soft deletes" and other "global scopes" has been introduced via PHP 5.4 traits. “soft deletes” 와 다른 “global scopes” 에서 보다 깔끔한 아키텍처를 구현하기 위해서 PHP 5.4 traits 를 도입하였습니다. This new architecture allows for the easier construction of similar global traits, and a cleaner separation of concerns within the framework itself. 이 새로운 아키텍처는 유사한 글로벌 특성의 생성자와, 프레임 워크 자체의 관계에 대한 분리를 보다 쉽도록 해줍니다. 
 
-More information on the new `SoftDeletingTrait` may be found in the [Eloquent documentation](/docs/eloquent#soft-deleting).
+More information on the new `SoftDeletingTrait` may be found in the [Eloquent documentation](/docs/eloquent#soft-deleting). 새로운 `SoftDeletingTrait`에 대한 자세한 사항은 [Eloquent 문서](/docs/eloquent#soft-deleting) 를 참고하십시오.
 
 ### Convenient Auth & Remindable Traits
+### 편리한 인증 & Remindable  Traits
 
-The default Laravel 4.2 installation now uses simple traits for including the needed properties for the authentication and password reminder user interfaces. This provides a much cleaner default `User` model file out of the box.
+The default Laravel 4.2 installation now uses simple traits for including the needed properties for the authentication and password reminder user interfaces. 라라벨 4.2에서는 인증과 암호 알림 유저 인터페이스에 필요한 속성이 포함된 간단한 trait를 사용합니다. This provides a much cleaner default `User` model file out of the box. . 이를 통해서 기본 `User` 모델이 별다른 설정 없이도 훨씬 간결해 집니다. 
 
 ### "Simple Paginate"
+### “간단한 페이징”
 
-A new `simplePaginate` method was added to the query and Eloquent builder which allows for more efficient queries when using simple "Next" and "Previous" links in your pagination view.
+A new `simplePaginate` method was added to the query and Eloquent builder which allows for more efficient queries when using simple "Next" and "Previous" links in your pagination view. 쿼리와 Eloquent 빌더에 새로운 `simplePaginate` 메소드가 추가되어 페이지 네이션 뷰에서 단순히 '다음'과 '이전’ 링크만 사용한다면 더 효율적인 쿼리를 할 수있습니다.
 
 ### Migration Confirmation
+### 마이그레이션 확인과정
 
-In production, destructive migration operations will now ask for confirmation. Commands may be forced to run without any prompts using the `--force` command.
+In production, destructive migration operations will now ask for confirmation. Commands may be forced to run without any prompts using the `--force` command. 실제 제품 서버에서(production) 마이그레이션 작업을 하기 위해서 확인 과정을 거치게 됩니다. 확인과정없이 강제로 실행하려는 경우 `--force` 옵션을 사용하십시오.
+
+
 
 <a name="laravel-4.1"></a>
 ## Laravel 4.1

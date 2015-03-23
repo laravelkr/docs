@@ -1,4 +1,4 @@
-# HTTP Middleware
+# HTTP Middleware HTTP 미들웨어
 
 - [Introduction](#introduction)
 - [Defining Middleware](#defining-middleware)
@@ -6,18 +6,18 @@
 - [Terminable Middleware](#terminable-middleware)
 
 <a name="introduction"></a>
-## Introduction
+## Introduction 개요
 
-HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 어플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 어플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 그 사용자가 인증되지 않은 사용자라면 그 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로, 만약 그 사용자가 인증된 사용자라면, 그 미들웨어는 어플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
 
-Of course, middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.
+Of course, middleware can be written to perform a variety of tasks besides authentication. 물론, 미들웨어는 인증 이외에 다른 다양한 작업을 수행하도록 작성될 수도 있습니다. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. CORS 미들웨어는 어플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가하는 역할을 담당할 수도 있습니다. A logging middleware might log all incoming requests to your application. 로깅 미들웨어는 어플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
 
-There are several middleware included in the Laravel framework, including middleware for maintenance, authentication, CSRF protection, and more. All of these middleware are located in the `app/Http/Middleware` directory.
+There are several middleware included in the Laravel framework, including middleware for maintenance, authentication, CSRF protection, and more. 라라벨 프레임워크에는 보수(maintenance), 인증(authentication), CSRF 보안 등의 미들웨어가 포함돼 있습니다. All of these middleware are located in the `app/Http/Middleware` directory. 그 미들웨어들은 모두  `app/Http/Middleware` 디렉토리 안에 위치하고 있습니다.
 
 <a name="defining-middleware"></a>
-## Defining Middleware
+## Defining Middleware 미들웨어 정의하기
 
-To create a new middleware, use the `make:middleware` Artisan command:
+To create a new middleware, use the `make:middleware` Artisan command: 새로운 미들웨어를 생성하기 위하여 `make:middleware` Artisan 명령을 사용하십시오:
 
 	php artisan make:middleware OldMiddleware
 

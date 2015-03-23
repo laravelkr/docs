@@ -48,11 +48,11 @@ This command will place a new `OldMiddleware` class within your `app/Http/Middle
 
 As you can see, if the given `age` is less than `200`, the middleware will return an HTTP redirect to the client; 위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환할 것입니다; otherwise, the request will be passed further into the application. 그렇지 않으면 요청은 어플리케이션 안으로 더 깊이 전달될 것입니다. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.  (미들웨어가 "pass"를  허용하는) 요청을 어플리케이션 안으로 더 깊이 전달하기 원한다면, 간단하게 `$next` 콜백함수를 `$request`인자를 넣어 호출하면 됩니다.
 
-It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
+It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. 미들웨어를 HTTP request들이 어플리케이션에 도달하기 전에 반드시 통과해야 하는 일련의 "레이어"라고 상상하는 것이 가장 좋습니다. Each layer can examine the request and even reject it entirely. 각각의 레이어는 요청을 검사할 수 있고 완벽하게 요청을 거절할 수도 있습니다.
 
-### *Before* / *After* Middleware
+### *Before* / *After* Middleware  *Before* / *After* 미들웨어 
 
-Whether a middleware runs before or after a request depends on the middleware itself. This middleware would perform some task **before** the request is handled by the application:
+Whether a middleware runs before or after a request depends on the middleware itself. 미들웨어가 요청을 처리하기 전에 실행될지 처리한 후에 실행될지는 미들웨어 자신이 결정할 수 있습니다. This middleware would perform some task **before** the request is handled by the application: 이 미들웨어는 요청이 어플리케이션에 의해 처리되기 **전**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -66,7 +66,7 @@ Whether a middleware runs before or after a request depends on the middleware it
 		}
 	}
 
-However, this middleware would perform its task **after** the request is handled by the application:
+However, this middleware would perform its task **after** the request is handled by the application: 반대로, 이 미들웨어는 요청이 어플리케이션에 의해 처리된 **후**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -85,15 +85,15 @@ However, this middleware would perform its task **after** the request is handled
 <a name="registering-middleware"></a>
 ## Registering Middleware
 
-### Global Middleware
+### Global Middleware 전역 미들웨어
 
-If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class.
+If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class. 만약 어플레케이션의 모든 HTTP 요청에 대하여 미들웨어가 작동되기를 원한다면,  그저  `app/Http/Kernel.php` 클래스의 `$middleware` property에 그 미들웨어를 등록하시면 됩니다.
 
-### Assigning Middleware To Routes
+### Assigning Middleware To Routes 라우트에 미들웨어 할당하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, simply append it to this list and assign it a key of your choosing.
+If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 만약 특정 라우트에만 미들웨어를 할당하기를 원한다면, 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 단축키(short-hand key)를 할당해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로 그 클래스(Kernel)의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어를 이 목록에 붙여넣고, 지정하고 싶은 키를 할당하십시오.
 
-Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array:
+Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array: 미들웨어를 HTTP 커널에 정의하기만 하면, 라우트 옵션 배열에서 그 `middleware` 키를 사용할 수 있습니다.
 
 	Route::get('admin/profile', ['middleware' => 'auth', function()
 	{

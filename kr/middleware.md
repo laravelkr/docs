@@ -46,7 +46,7 @@ This command will place a new `OldMiddleware` class within your `app/Http/Middle
 
 	}
 
-As you can see, if the given `age` is less than `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.
+As you can see, if the given `age` is less than `200`, the middleware will return an HTTP redirect to the client; 위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환할 것입니다; otherwise, the request will be passed further into the application. 그렇지 않으면 요청은 어플리케이션 안으로 더 깊이 전달될 것입니다. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.  (미들웨어가 "pass"를  허용하는) 요청을 어플리케이션 안으로 더 깊이 전달하기 원한다면, 간단하게 `$next` 콜백함수를 `$request`인자를 넣어 호출하면 됩니다.
 
 It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
 

@@ -87,11 +87,11 @@ However, this middleware would perform its task **after** the request is handled
 
 ### Global Middleware 전역 미들웨어
 
-If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class. 만약 어플레케이션의 모든 HTTP 요청에 대하여 미들웨어가 작동되기를 원한다면,  그저  `app/Http/Kernel.php` 클래스의 `$middleware` property에 그 미들웨어를 등록하시면 됩니다.
+If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class. 만약 어플리케이션의 모든 HTTP 요청에 대하여 미들웨어가 작동되기를 원한다면,  `app/Http/Kernel.php` 클래스의 `$middleware` 프로퍼티에 미들웨어를 등록하시면 됩니다.
 
 ### Assigning Middleware To Routes 라우트에 미들웨어 할당하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 만약 특정 라우트에만 미들웨어를 할당하기를 원한다면, 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 단축키(short-hand key)를 할당해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로 그 클래스(Kernel)의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어를 이 목록에 붙여넣고, 지정하고 싶은 키를 할당하십시오.
+If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 만약 미들웨어를 특정 라우트에만 할당하기를 원한다면, 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 단축키(short-hand key)를 지정해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로 그 클래스(Kernel)의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어를 이 목록에 붙여넣고, 원하는 키를 지정하십시오.
 
 Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array: 미들웨어를 HTTP 커널에 정의하기만 하면, 라우트 옵션 배열에서 그 `middleware` 키를 사용할 수 있습니다.
 

@@ -8,9 +8,9 @@
 <a name="introduction"></a>
 ## Introduction 개요
 
-HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 어플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 어플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로, 그 사용자가 인증된 사용자라면, 미들웨어는 어플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
+HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 어플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 어플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로,  인증된 사용자라면, 미들웨어는 어플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
 
-Of course, middleware can be written to perform a variety of tasks besides authentication. 물론, 미들웨어는 인증 이외에 다양한 작업을 수행하도록 작성될 수 있습니다. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. CORS 미들웨어는 어플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가하는 역할을 담당할 수도 있습니다. A logging middleware might log all incoming requests to your application. 로깅 미들웨어는 어플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
+Of course, middleware can be written to perform a variety of tasks besides authentication. 물론, 미들웨어는 인증 이외에도 다양한 작업을 수행하도록 작성될 수 있습니다. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. CORS 미들웨어는 어플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가하는 역할을 담당할 수도 있습니다. A logging middleware might log all incoming requests to your application. 로깅 미들웨어는 어플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
 
 There are several middleware included in the Laravel framework, including middleware for maintenance, authentication, CSRF protection, and more. 라라벨 프레임워크에는 보수(maintenance), 인증(authentication), CSRF 보안 등을 위한 미들웨어들이 포함되어 있습니다. All of these middleware are located in the `app/Http/Middleware` directory. 그 미들웨어들은 모두  `app/Http/Middleware` 디렉토리 안에 위치하고 있습니다.
 
@@ -52,7 +52,7 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 ### *Before* / *After* Middleware  *Before* / *After* 미들웨어 
 
-Whether a middleware runs before or after a request depends on the middleware itself. 미들웨어가 요청을 처리하기 전에 실행될지 처리한 후에 실행될지는 미들웨어 자신이 결정할 수 있습니다. This middleware would perform some task **before** the request is handled by the application: 이 미들웨어는 요청이 어플리케이션에 의해 처리되기 **전**에 실행될 것입니다.
+Whether a middleware runs before or after a request depends on the middleware itself. 요청을 어플리케이션이 처리하기 전에 미들웨어가 실행될지 처리한 후에 미들웨어가 실행될지는 미들웨어 자신이 결정할 수 있습니다. This middleware would perform some task **before** the request is handled by the application: 아래의 경우, 미들웨어는 요청이 어플리케이션에 의해 처리되기 **전**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -66,7 +66,7 @@ Whether a middleware runs before or after a request depends on the middleware it
 		}
 	}
 
-However, this middleware would perform its task **after** the request is handled by the application: 반대로, 이 미들웨어는 요청이 어플리케이션에 의해 처리된 **후**에 실행될 것입니다.
+However, this middleware would perform its task **after** the request is handled by the application: 반대로, 아래의 경우에서 미들웨어는 요청이 어플리케이션에 의해 처리된 **후**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -91,7 +91,7 @@ If you want a middleware to be run during every HTTP request to your application
 
 ### Assigning Middleware To Routes 라우트에 미들웨어 할당하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 미들웨어를 특정 라우트에만 할당하고 싶을 때에는 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 키(short-hand key)를 지정해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로, Kernel 클래스의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어들의 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어에 원하는 키를 지정하고 이 목록에 붙여넣으십시오.
+If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 미들웨어를 특정 라우트에만 할당하고 싶을 때에는 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 키(short-hand key)를 지정해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로, 이 Kernel 클래스의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어들의 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어에 원하는 키를 지정하고 이 목록에 붙여넣으십시오.
 
 Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array: 미들웨어를 HTTP 커널에 등록했다면, 라우트의 옵션 배열에서 `middleware` 키를 사용할 수 있습니다.
 
@@ -103,7 +103,7 @@ Once the middleware has been defined in the HTTP kernel, you may use the `middle
 <a name="terminable-middleware"></a>
 ## Terminable Middleware 종료가능한 미들웨어
 
-Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. 가끔 미들웨어는 HTTP 응답을 브라우저로 전송하고 난 후에 어떤 작업을 할 필요가 있을지도 모릅니다 For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser.  예를 들어 라라벨에 내장된 "session" 미들웨어는 응답이 브라우저로 보내진 _후_에 세션데이터를 저장소에 저장합니다. To accomplish this, you may define the middleware as "terminable". 이럴 경우,  미들웨어를 "terminable"로 정의하십시오.
+Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. 가끔 미들웨어는 HTTP 응답을 브라우저로 전송하고 난 후에 어떤 작업을 수행할 필요가 있을지도 모릅니다. For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser.  예를 들어, 라라벨에 내장된 "session" 미들웨어는 응답이 브라우저로 보내진 _후_에 세션데이터를 저장소에 저장합니다. To accomplish this, you may define the middleware as "terminable". 이런 경우,  미들웨어를 "terminable"로 정의하면 됩니다.
 
 	use Illuminate\Contracts\Routing\TerminableMiddleware;
 
@@ -121,4 +121,4 @@ Sometimes a middleware may need to do some work after the HTTP response has alre
 
 	}
 
-As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. 위와 같이 `handle` 메소드를 정의하고 나서 `TerminableMiddleware`는 `terminate` 메소드를 추가로 정의합니다.  This method receives both the request and the response. 이 메소드는 요청과 응답을 모두 인자로 받습니다. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel. 종료 가능한 미들웨어를 정의하고 나서, 그것을 HTTP 커널의 전역 미들웨어 목록에 추가해주어야 합니다.
+As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. 위와 같이 `handle` 메소드를 정의하고 나서 `TerminableMiddleware`는 `terminate` 메소드를 추가로 정의합니다.  This method receives both the request and the response. 이 메소드는 요청 변수와 응답 변수를 모두 인자로 받습니다. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel. 종료 가능한 미들웨어를 정의했다면, 그것을 HTTP 커널의 전역 미들웨어 목록에 추가해 주어야 합니다.

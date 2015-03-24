@@ -91,9 +91,9 @@ If you want a middleware to be run during every HTTP request to your application
 
 ### Assigning Middleware To Routes 라우트에 미들웨어 할당하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 만약 미들웨어를 특정 라우트에만 할당하기를 원한다면, 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 단축키(short-hand key)를 지정해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로 그 클래스(Kernel)의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어를 이 목록에 붙여넣고, 원하는 키를 지정하십시오.
+If you would like to assign middleware to specific routes, you should first assign the middleware a short-hand key in your `app/Http/Kernel.php` file. 미들웨어를 특정 라우트에만 할당하고 싶을 때에는 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 키(short-hand key)를 지정해야 합니다. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel.  기본적으로, Kernel 클래스의  `$routeMiddleware`  프로퍼티는 라라벨에 포함된 미들웨어들의 목록을 가지고 있습니다. To add your own, simply append it to this list and assign it a key of your choosing. 추가하려는 미들웨어에 원하는 키를 지정하고 이 목록에 붙여넣으십시오.
 
-Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array: 미들웨어를 HTTP 커널에 정의하기만 하면, 라우트 옵션 배열에서 그 `middleware` 키를 사용할 수 있습니다.
+Once the middleware has been defined in the HTTP kernel, you may use the `middleware` key in the route options array: 미들웨어를 HTTP 커널에 등록했다면, 라우트의 옵션 배열에서 `middleware` 키를 사용할 수 있습니다.
 
 	Route::get('admin/profile', ['middleware' => 'auth', function()
 	{
@@ -101,9 +101,9 @@ Once the middleware has been defined in the HTTP kernel, you may use the `middle
 	}]);
 
 <a name="terminable-middleware"></a>
-## Terminable Middleware
+## Terminable Middleware 종료가능한 미들웨어
 
-Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser. To accomplish this, you may define the middleware as "terminable".
+Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. 가끔 미들웨어는 HTTP 응답을 브라우저로 전송하고 난 후에 어떤 작업을 할 필요가 있을지도 모릅니다 For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser. To accomplish this, you may define the middleware as "terminable". 예를 들어 라라벨에 내장된 "session" 미들웨어는 응답이 브라우저로 보내진 _후_에 세션데이터를 저장소에 저장합니다. 이럴 겨우,  미들웨어를 "terminable"로 정의하십시오.
 
 	use Illuminate\Contracts\Routing\TerminableMiddleware;
 
@@ -121,4 +121,4 @@ Sometimes a middleware may need to do some work after the HTTP response has alre
 
 	}
 
-As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. This method receives both the request and the response. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel.
+As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. 위와 같이 `handle` 메소드를 정의하고   This method receives both the request and the response. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel.

@@ -1,9 +1,9 @@
 # HTTP Middleware HTTP 미들웨어
 
-- [Introduction](#introduction)
-- [Defining Middleware](#defining-middleware)
-- [Registering Middleware](#registering-middleware)
-- [Terminable Middleware](#terminable-middleware)
+- [Introduction](#introduction) [개요](#introduction) 
+- [Defining Middleware](#defining-middleware) [미들웨어 정의하기](#defining-middleware)
+- [Registering Middleware](#registering-middleware) [미들웨어 등록하기](#registering-middleware)
+- [Terminable Middleware](#terminable-middleware) [종료가능한 미들웨어](#terminable-middleware)
 
 <a name="introduction"></a>
 ## Introduction 개요
@@ -83,7 +83,7 @@ However, this middleware would perform its task **after** the request is handled
 	}
 
 <a name="registering-middleware"></a>
-## Registering Middleware
+## Registering Middleware 미들웨어 등록하기
 
 ### Global Middleware 전역 미들웨어
 

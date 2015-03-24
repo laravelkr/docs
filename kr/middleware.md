@@ -1,12 +1,12 @@
 # HTTP Middleware HTTP 미들웨어
 
-- [Introduction](#introduction) [개요](#introduction) 
+- [Introduction](#introduction) [소개](#introduction) 
 - [Defining Middleware](#defining-middleware) [미들웨어 정의하기](#defining-middleware)
 - [Registering Middleware](#registering-middleware) [미들웨어 등록하기](#registering-middleware)
 - [Terminable Middleware](#terminable-middleware) [종료가능한 미들웨어](#terminable-middleware)
 
 <a name="introduction"></a>
-## Introduction 개요
+## Introduction 소개
 
 HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 어플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 어플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로,  인증된 사용자라면, 미들웨어는 어플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
 

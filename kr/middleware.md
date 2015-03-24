@@ -103,7 +103,7 @@ Once the middleware has been defined in the HTTP kernel, you may use the `middle
 <a name="terminable-middleware"></a>
 ## Terminable Middleware 종료가능한 미들웨어
 
-Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. 가끔 미들웨어는 HTTP 응답을 브라우저로 전송하고 난 후에 어떤 작업을 할 필요가 있을지도 모릅니다 For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser. To accomplish this, you may define the middleware as "terminable". 예를 들어 라라벨에 내장된 "session" 미들웨어는 응답이 브라우저로 보내진 _후_에 세션데이터를 저장소에 저장합니다. 이럴 겨우,  미들웨어를 "terminable"로 정의하십시오.
+Sometimes a middleware may need to do some work after the HTTP response has already been sent to the browser. 가끔 미들웨어는 HTTP 응답을 브라우저로 전송하고 난 후에 어떤 작업을 할 필요가 있을지도 모릅니다 For example, the "session" middleware included with Laravel writes the session data to storage _after_ the response has been sent to the browser.  예를 들어 라라벨에 내장된 "session" 미들웨어는 응답이 브라우저로 보내진 _후_에 세션데이터를 저장소에 저장합니다. To accomplish this, you may define the middleware as "terminable". 이럴 경우,  미들웨어를 "terminable"로 정의하십시오.
 
 	use Illuminate\Contracts\Routing\TerminableMiddleware;
 
@@ -121,4 +121,4 @@ Sometimes a middleware may need to do some work after the HTTP response has alre
 
 	}
 
-As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. 위와 같이 `handle` 메소드를 정의하고   This method receives both the request and the response. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel.
+As you can see, in addition to defining a `handle` method, `TerminableMiddleware` define a `terminate` method. 위와 같이 `handle` 메소드를 정의하고 나서 `TerminableMiddleware`는 `terminate` 메소드를 추가로 정의합니다.  This method receives both the request and the response. 이 메소드는 요청과 응답을 모두 인자로 받습니다. Once you have defined a terminable middleware, you should add it to the list of global middlewares in your HTTP kernel. 종료 가능한 미들웨어를 정의하고 나서, 그것을 HTTP 커널의 전역 미들웨어 목록에 추가해주어야 합니다.

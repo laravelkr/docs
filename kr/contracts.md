@@ -8,11 +8,11 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel's Contracts are a set of interfaces that define the core services provided by the framework. 라라벨의 Contract는 프레임워크에서 제공하는 코어 서비스들을 정의한 인터페이스들의 모음입니다. For example, a `Queue` contract defines the methods needed for queueing jobs, while the `Mailer` contract defines the methods needed for sending e-mail. 예를 들어 `Queue` 콘트렉트는 어떤 작업을 큐에서 다룰때 필요한 메소드들을 정의하고, `Mailer` 콘트렉트는 이메일을 보내기 위해 필요한 메소드들을 정의합니다.
+Laravel's Contracts are a set of interfaces that define the core services provided by the framework. 라라벨의 콘트렉트는 프레임워크에서 제공하는 코어 서비스들을 정의한 인터페이스들의 모음입니다. For example, a `Queue` contract defines the methods needed for queueing jobs, while the `Mailer` contract defines the methods needed for sending e-mail. 예를 들어 `Queue` 콘트렉트는 어떤 작업들을 큐에서 다룰때 필요한 메소드들을 정의하고, `Mailer` 콘트렉트는 이메일을 보내기 위해 필요한 메소드들을 정의합니다.
 
 Each contract has a corresponding implementation provided by the framework. 각각의 콘트렉트는 그에 상응하는 구현체를 프레임워크에 의해 제공받아 가지고 있습니다. For example, Laravel provides a `Queue` implementation with a variety of drivers, and a `Mailer` implementation that is powered by [SwiftMailer](http://swiftmailer.org/). 예를 들어, 라라벨은 다양한 드라이버를 포함한 `Queue`의 구현체를 제공하고, `Mailer`의 구현체는 [SwiftMailer](http://swiftmailer.org/)를 통해 제공합니다.
 
-All of the Laravel contracts live in [their own GitHub repository](https://github.com/illuminate/contracts). 모든 라라벨 콘트렉트는 [각각의 Github 저장소](https://github.com/illuminate/contracts)를 가지고 있습니다. This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by other package developers. 이 것은 
+All of the Laravel contracts live in [their own GitHub repository](https://github.com/illuminate/contracts). 라라벨의 모든 콘트렉트는 [각각의 Github 저장소](https://github.com/illuminate/contracts)를 가지고 있습니다. This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by other package developers. 이 것은 사용가능한 모든 콘트렉트들과 다른 패키지 개발자들에게 활용될지도 모르는 단일 패키지나 분리된 패키지에 대한 빠른 참조 포인트를 제공합니다.
 
 <a name="why-contracts"></a>
 ## Why Contracts?

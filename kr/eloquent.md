@@ -634,7 +634,7 @@ Even though the `posts` table does not contain a `country_id` column, the `hasMa
 
 		public function posts()
 		{
-			return $this->hasManyThrough('App\Post', 'User');
+			return $this->hasManyThrough('App\Post', 'App\User');
 		}
 
 	}
@@ -645,7 +645,7 @@ If you would like to manually specify the keys of the relationship, you may pass
 
 		public function posts()
 		{
-			return $this->hasManyThrough('App\Post', 'User', 'country_id', 'user_id');
+			return $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id');
 		}
 
 	}
@@ -1304,10 +1304,10 @@ When you pass a model to the `route` or `action` methods, it's primary key is in
 
 In this example the `$user->id` property will be inserted into the `{user}` place-holder of the generated URL. However, if you would like to use another property instead of the ID, you may override the `getRouteKey` method on your model:
 
-    public function getRouteKey()
-    {
-        return $this->slug;
-    }
+	public function getRouteKey()
+	{
+		return $this->slug;
+	}
 
 <a name="converting-to-arrays-or-json"></a>
 ## Converting To Arrays / JSON

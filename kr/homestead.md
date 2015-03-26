@@ -18,7 +18,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 > **Note:** If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS.
 
-Homestead is currently built and tested using Vagrant 1.6.
+Homestead is currently built and tested using Vagrant 1.7.
 
 <a name="included-software"></a>
 ## Included Software
@@ -60,9 +60,9 @@ If this command fails, you may have an old version of Vagrant that requires the 
 
 ### Installing Homestead
 
-#### Manually Via Git (No Local PHP)
+#### Option 1 - Manually Via Git (No Local PHP)
 
-Alternatively, if you do not want to install PHP on your local machine, you may install Homestead manually by simply cloning the repository. Consider cloning the repository into a `Homestead` folder within your "home" directory, as the Homestead box will serve as the host to all of your Laravel (and PHP) projects:
+If you do not want to install PHP on your local machine, you may install Homestead manually by simply cloning the repository. Consider cloning the repository into a `Homestead` folder within your "home" directory, as the Homestead box will serve as the host to all of your Laravel (and PHP) projects:
 
 	git clone https://github.com/laravel/homestead.git Homestead
 
@@ -72,13 +72,15 @@ Once you have installed the Homestead CLI tool, run the `bash init.sh` command t
 
 The `Homestead.yaml` file will be placed in your `~/.homestead` directory.
 
-#### With Composer + PHP Tool
+#### Option 2 - With Composer + PHP Tool
 
 Once the box has been added to your Vagrant installation, you are ready to install the Homestead CLI tool using the Composer `global` command:
 
 	composer global require "laravel/homestead=~2.0"
 
 Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `homestead` executable is found when you run the `homestead` command in your terminal.
+
+	PATH=~/.composer/vendor/bin:$PATH
 
 Once you have installed the Homestead CLI tool, run the `init` command to create the `Homestead.yaml` configuration file:
 
@@ -173,6 +175,8 @@ To connect to your MySQL or Postgres database from your main machine via Navicat
 
 Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. There are two ways to do this: First, you may simply add the sites to your `Homestead.yaml` file and then run `homestead provision` or `vagrant provision`.
 
+> **Note:** This process is destructive. When running the `provision` command, your existing databases will be destroyed and recreated.
+
 Alternatively, you may use the `serve` script that is available on your Homestead environment. To use the `serve` script, SSH into your Homestead environment and run the following command:
 
 	serve domain.app /home/vagrant/Code/path/to/public/directory
@@ -205,10 +209,10 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
 
 [Blackfire Profiler](https://blackfire.io) by SensioLabs automatically gathers data about your code's execution, such as RAM, CPU time, and disk I/O. Homestead makes it a breeze to use this profiler for your own applications.
 
-All of the proper packages have already been installed on your Homestead box, you simply need to set a Blackfire Server ID and token in your `Homestead.yaml` file:
+All of the proper packages have already been installed on your Homestead box, you simply need to set a Blackfire **Server** ID and token in your `Homestead.yaml` file:
 
 	blackfire:
-	    - id: your-id
-	      token: your-token
+	    - id: your-server-id
+	      token: your-server-token
 
 Once you have configured your Blackfire credentials, re-provision the box using `homestead provision` or `vagrant provision`. Of course, be sure to review the [Blackfire documentation](https://blackfire.io/getting-started) to learn how to install the Blackfire companion extension for your web browser.

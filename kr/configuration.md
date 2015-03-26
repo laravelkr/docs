@@ -37,7 +37,7 @@ Once Laravel is installed, you should also [configure your local environment](/d
 <a name="permissions"></a>
 ### Permissions 권한
 
-Laravel may require one set of permissions to be configured: folders within `storage` require write access by the web server. 라라벨은 한가지의 권한설정을 필요로 합니다: `storage` 폴더는 웹서버가 접근이 가능해야 합니다. 
+Laravel may require one set of permissions to be configured: folders within `storage` and `vendor` require write access by the web server. 라라벨은 한가지의 권한설정을 필요로 합니다: `storage` 폴더와 `vendor` 폴더는 웹서버에서 쓰기접근이 가능해야 합니다. 
 
 <a name="accessing-configuration-values"></a>
 ## Accessing Configuration Values

@@ -90,8 +90,9 @@ Once Laravel is installed, you should also [configure your local environment](/d
 ### Permissions
 ### 권한
 
-Laravel may require some permissions to be configured: folders within `storage` require write access by the web server.
-라라벨을 구성하기 위해 일부 폴더의 권한을 요구합니다: 웹서버에서 `sotrage`에 속하는 폴더에 대한 쓰기권한 허용하십시오.
+Laravel may require one set of permissions to be configured: folders within `storage` and `vendor` require write access by the web server.
+
+라라벨을 구성하기 위해 일부 폴더의 권한을 요구합니다: 웹서버에서 `sotrage`와 `vendor` 폴더에 대한 쓰기권한 허용하십시오.
 
 <a name="pretty-urls"></a>
 ## Pretty URLs

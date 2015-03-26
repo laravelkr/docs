@@ -53,6 +53,12 @@ Once you have configured your database connection, you may run queries using the
 The `select` method will always return an `array` of results.
 `select` 메소드는 항상 결과를 `배열`로 반환합니다. 
 
+You may also execute a query using named bindings:
+또한 named 바인딩을 사용한 쿼리를 실행할 수도 있습니다.
+
+	$results = DB::select('select * from users where id = :id', ['id' => 1]);
+
+
 #### Running An Insert Statement
 #### Insert문 실행
 

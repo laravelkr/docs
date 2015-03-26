@@ -91,13 +91,13 @@ Now the code is not coupled to any specific vendor, or even Laravel. 이제 코�
 
 ### Simplicity 단순성
 
-When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 모든 라라벨의 서비스가 단순한 인터페이스로 깔끔하게 정의돼 있을 때, 어떤 서비스에 의해 제공되는 기능을 알아내는 것은 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **콘트렉트들은 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 합니다.**
-In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분에 단순한 인터페이스에 의존할 때, 여러분의 코드는 이해하거나 유지보수하기가 더 쉽워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.
+When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 모든 라라벨의 서비스들이 단순한 인터페이스로 깔끔하게 정의돼 있을 때, 그 서비스들에 의해 제공되는 기능을 알아내는 것은 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **콘트렉트들은 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 합니다.**
+In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분이 단순한 인터페이스에 의존할 때, 여러분의 코드는 이해하거나 유지보수하기가 더 쉽워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface. 크고 복잡한 클래스에서 사용할 수 있는 메소드들을 훑어보는 대신, 단순하고 깨끗한 인터페이스를 참고할 수 있습니다.
 
 <a name="contract-reference"></a>
-## Contract Reference
+## Contract Reference 콘트렉트 레퍼런스
 
-This is a reference to most Laravel Contracts, as well as their Laravel "facade" counterparts:
+This is a reference to most Laravel Contracts, as well as their Laravel "facade" counterparts: 아래는 대부분의 라라벨 콘트랙트와 그에 대응되는 파사드들의 레퍼런스입니다.
 
 Contract  |  Laravel 4.x Facade
 ------------- | -------------
@@ -135,9 +135,9 @@ Contract  |  Laravel 4.x Facade
 [Illuminate\Contracts\View\View](https://github.com/illuminate/contracts/blob/master/View/View.php) | &nbsp;
 
 <a name="how-to-use-contracts"></a>
-## How To Use Contracts
+## How To Use Contracts 콘트랙트 사용법
 
-So, how do you get an implementation of a contract? It's actually quite simple. Many types of classes in Laravel are resolved through the [service container](/docs/5.0/container), including controllers, event listeners, filters, queue jobs, and even route Closures. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler:
+So, how do you get an implementation of a contract? 그럼 어떻게 콘트랙트의 구현체를 얻을 수 있을까요? It's actually quite simple. 사실 매우 간단합니다. Many types of classes in Laravel are resolved through the [service container](/docs/5.0/container), including controllers, event listeners, filters, queue jobs, and even route Closures. 라라벨에 있는 여러 종류의 클래스들은 컨트롤러, 이벤트리스너, 필터, 큐 작업, 라우트 클로저들을 포함하는 [서비스 컨테이너](/docs/5.0/container)를 통해 마련됩니다. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler: 그래서 어떤 콘트랙트의 구현체를 얻으려면 단지 "type-hint"를 
 
 	<?php namespace App\Handlers\Events;
 

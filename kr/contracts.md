@@ -8,9 +8,9 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel's Contracts are a set of interfaces that define the core services provided by the framework. 라라벨의 콘트렉트는 프레임워크에서 제공하는 코어 서비스들을 정의한 인터페이스들의 모음입니다. For example, a `Queue` contract defines the methods needed for queueing jobs, while the `Mailer` contract defines the methods needed for sending e-mail. 예를 들어 `Queue` 콘트렉트는 어떤 작업들을 큐에서 다룰때 필요한 메소드들을 정의하고, `Mailer` 콘트렉트는 이메일을 보내기 위해 필요한 메소드들을 정의합니다.
+Laravel's Contracts are a set of interfaces that define the core services provided by the framework. 라라벨의 콘트렉트는 프레임워크에서 제공하는 코어 서비스들을 정의한 인터페이스들의 모음입니다. For example, a `Queue` contract defines the methods needed for queueing jobs, while the `Mailer` contract defines the methods needed for sending e-mail. 예를 들어, `Queue` 콘트렉트에는 어떤 작업들을 큐에서 다룰때 필요한 메소드들이 정의되어 있고, `Mailer` 콘트렉트에는 이메일을 보내기 위해 필요한 메소드들을 정의되어 있습니다.
 
-Each contract has a corresponding implementation provided by the framework. 각각의 콘트렉트는 그에 상응하는 구현체를 프레임워크에 의해 제공받게 됩니다. For example, Laravel provides a `Queue` implementation with a variety of drivers, and a `Mailer` implementation that is powered by [SwiftMailer](http://swiftmailer.org/). 예를 들어, 라라벨은 다양한 드라이버를 포함한 `Queue`의 구현체를 제공하고, `Mailer`의 구현체는 [SwiftMailer](http://swiftmailer.org/)를 통해 제공합니다.
+Each contract has a corresponding implementation provided by the framework. 라라벨 프레임워크에는 각각의 콘트렉트에 상응하는 구현체(구현 클래스)가 있습니다 . For example, Laravel provides a `Queue` implementation with a variety of drivers, and a `Mailer` implementation that is powered by [SwiftMailer](http://swiftmailer.org/). 예를 들어, 라라벨은 다양한 드라이버로 구현된 `Queue`의 구현체를 가지고 있고, `Mailer`의 구현체는 [SwiftMailer](http://swiftmailer.org/)를 통해 가지고 있습니다.
 
 All of the Laravel contracts live in [their own GitHub repository](https://github.com/illuminate/contracts). 라라벨의 모든 콘트렉트는 [각각의 Github 저장소](https://github.com/illuminate/contracts)를 가지고 있습니다. This provides a quick reference point for all available contracts, as well as a single, decoupled package that may be utilized by other package developers. 이 것은 사용이 가능한  모든 콘트렉트들과 다른 패키지 개발자들에게 활용될지도 모르는 라라벨의 단일 패키지나 분리된 패키지에 대한 빠른 참조 포인트를 제공합니다.
 
@@ -23,7 +23,7 @@ Let's distill the reasons for using interfaces to the following headings: loose 
 
 ### Loose Coupling 느슨한 결합
 
-First, let's review some code that is tightly coupled to a cache implementation. Consider the following: 우선, 한 캐시 구현체에 밀접하게 결합된 코드를 살펴봅시다.
+First, let's review some code that is tightly coupled to a cache implementation. Consider the following: 우선, 한 캐시 구현체에 밀접하게 결합돼 있는 코드를 살펴봅시다.
 
 	<?php namespace App\Orders;
 
@@ -61,11 +61,11 @@ First, let's review some code that is tightly coupled to a cache implementation.
 
 	}
 
-In this class, the code is tightly coupled to a given cache implementation. 위의 클래스의 코드는 주어진 캐시 구현체와 밀접하게 결합돼 있습니다. It is tightly coupled because we are depending on a concrete Cache class from a package vendor.  우리는 패키지 벤더로부터 제공받은 캐시의 구상클래스에 의존하기 때문에 밀접하게 결합돼 있는 것입니다. If the API of that package changes our code must change as well. 만약 그 패키지의 API가 변경되면 우리의 코드 또한 변경되어야 합니다. 
+In this class, the code is tightly coupled to a given cache implementation. 이 클래스의 코드는 주어진 캐시 구현체와 밀접하게 결합돼 있습니다. It is tightly coupled because we are depending on a concrete Cache class from a package vendor.  우리는 특정 패키지 벤더로부터 제공받은 캐시의 구상클래스에 의존하기 때문에 밀접하게 결합돼 있는 것입니다. If the API of that package changes our code must change as well. 만약 그 패키지의 API가 변경되면 우리의 코드 또한 변경되어야 합니다. 
 
-Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. 또한, 우리가 기반을 두는 캐시 기술(Memcached)을 다른 기술(Redia)로 변경하고 싶다면, 우리는 저장소를 다시 수정해야만 할 것입니다.
-Our repository should not have so much knowledge regarding who is providing them data or how they are providing it. 우리의 저장소는 누가 어떻게 데이터를 제공하는지에 대한 너무 많은 정보를 가지고 있어서는 안 됩니다.
-**Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:** **이렇게 접근하는 대신, 단순하고 특정 벤더에 구속되지 않는 인터페이스에 의존하도록 하여 코드를 개선할 수 있습니다:**
+Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. 또한, 우리가 기반을 두는 캐시 기술(Memcached)을 다른 기술(Redia)로 변경하고 싶다면, 우리는 저장소 클래스를 다시 수정해야만 할 것입니다.
+Our repository should not have so much knowledge regarding who is providing them data or how they are providing it. 우리의 저장소클래스는 누가 어떻게 데이터를 제공하는지에 대한 너무 많은 정보를 가지고 있어서는 안 됩니다.
+**Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:** **이렇게 접근하는 대신, 특정 벤더에 구속되지 않고 단순한 인터페이스에 의존하도록 하여 코드를 개선할 수 있습니다:**
 
 	<?php namespace App\Orders;
 
@@ -86,14 +86,13 @@ Our repository should not have so much knowledge regarding who is providing them
 
 	}
 
-Now the code is not coupled to any specific vendor, or even Laravel. 이제 코드는 어떤 특정 벤더나 심지어 라라벨과도 결합되지 않습니다. Since the contracts package contains no implementation and no dependencies, you may easily write an alternative implementation of any given contract, allowing you to replace your cache implementation without modifying any of your cache consuming code.
-콘트랙트 패키지는 구현체를 가지지 않고 의존성도 없기 때문에, 우리는 캐시를 사용하는 코드의 수정하지 않고 캐시 구현체를 대체하는 것을 허용하는 콘트렉트의 다른 구현체를 작성할 수 있습니다.
+Now the code is not coupled to any specific vendor, or even Laravel. 이제 코드는 어떤 특정 벤더, 심지어 라라벨과도 결합되지 않습니다. Since the contracts package contains no implementation and no dependencies, you may easily write an alternative implementation of any given contract, allowing you to replace your cache implementation without modifying any of your cache consuming code.
+콘트랙트 패키지는 구현체를 가지지 않고 의존성도 없기 때문에, 우리는 캐시를 사용하는 코드를 수정하지 않고 캐시 구현체를 대체하는 것을 허용하는 콘트렉트의 다른 구현체를 작성할 수 있습니다.
 
-### Simplicity
+### Simplicity 단순성
 
-When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. **The contracts serve as succinct documentation to the framework's features.**
-
-In addition, when you depend on simple interfaces, your code is easier to understand and maintain. Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.
+When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 모든 라라벨의 서비스가 단순한 인터페이스로 깔끔하게 정의돼 있을 때, 어떤 서비스에 의해 제공되는 기능을 알아내는 것은 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **콘트렉트들은 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 합니다.**
+In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분에 단순한 인터페이스에 의존할 때, 여러분의 코드는 이해하거나 유지보수하기가 더 쉽워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface.
 
 <a name="contract-reference"></a>
 ## Contract Reference

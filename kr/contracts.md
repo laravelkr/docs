@@ -64,7 +64,7 @@ First, let's review some code that is tightly coupled to a cache implementation.
 In this class, the code is tightly coupled to a given cache implementation. 이 클래스의 코드는 주어진 캐시 구현체와 밀접하게 결합돼 있습니다. It is tightly coupled because we are depending on a concrete Cache class from a package vendor.  우리는 특정 패키지 벤더로부터 제공받은 캐시의 구상클래스에 의존하기 때문에 밀접하게 결합돼 있는 것입니다. If the API of that package changes our code must change as well. 만약 그 패키지의 API가 변경되면 우리의 코드 또한 변경되어야 합니다. 
 
 Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. 또한, 우리가 기반을 두는 캐시 기술(Memcached)을 다른 기술(Redia)로 변경하고 싶다면, 우리는 저장소 클래스를 다시 수정해야만 할 것입니다.
-Our repository should not have so much knowledge regarding who is providing them data or how they are providing it. 우리의 저장소클래스는 누가 어떻게 데이터를 제공하는지에 대한 너무 많은 정보를 가지고 있어서는 안 됩니다.
+Our repository should not have so much knowledge regarding who is providing them data or how they are providing it. 우리의 저장소클래스는 누가 어떻게 데이터를 제공하는지에 대한 정보를 너무 많이 가지고 있어서는 안 됩니다.
 **Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:** **이렇게 접근하는 대신, 특정 벤더에 구속되지 않고 단순한 인터페이스에 의존하도록 하여 코드를 개선할 수 있습니다:**
 
 	<?php namespace App\Orders;
@@ -91,7 +91,7 @@ Now the code is not coupled to any specific vendor, or even Laravel. 이제 코�
 
 ### Simplicity 단순성
 
-When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 모든 라라벨의 서비스들이 단순한 인터페이스로 깔끔하게 정의돼 있을 때, 그 서비스들에 의해 제공되는 기능을 알아내는 것은 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **콘트렉트들은 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 합니다.**
+When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 라라벨의 모든 서비스들이 단순한 인터페이스로 깔끔하게 정의돼 있을 때, 그 서비스들에 의해 제공되는 기능을 알아내는 것은 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **콘트렉트들은 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 하는 것입니다.**
 In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분이 단순한 인터페이스에 의존할 때, 여러분의 코드는 이해하거나 유지보수하기가 더 쉽워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface. 크고 복잡한 클래스에서 사용할 수 있는 메소드들을 훑어보는 대신, 단순하고 깨끗한 인터페이스를 참고할 수 있습니다.
 
 <a name="contract-reference"></a>
@@ -137,7 +137,7 @@ Contract  |  Laravel 4.x Facade
 <a name="how-to-use-contracts"></a>
 ## How To Use Contracts 콘트랙트 사용법
 
-So, how do you get an implementation of a contract? 그럼 어떻게 콘트랙트의 구현체를 얻을 수 있을까요? It's actually quite simple. 사실 매우 간단합니다. Many types of classes in Laravel are resolved through the [service container](/docs/5.0/container), including controllers, event listeners, filters, queue jobs, and even route Closures. 라라벨에 있는 여러 종류의 클래스들은 컨트롤러, 이벤트리스너, 필터, 큐 작업, 라우트 클로저들을 포함하는 [서비스 컨테이너](/docs/5.0/container)를 통해 마련됩니다. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler: 그래서 어떤 콘트랙트의 구현체를 얻으려면 단지 "type-hint"를 
+So, how do you get an implementation of a contract? 그럼 어떻게 콘트랙트의 구현체를 얻을 수 있을까요? It's actually quite simple. 사실 매우 간단합니다. Many types of classes in Laravel are resolved through the [service container](/docs/5.0/container), including controllers, event listeners, filters, queue jobs, and even route Closures. 라라벨에 있는 여러 종류의 클래스들은 컨트롤러, 이벤트리스너, 필터, 큐 작업, 라우트 클로저들을 관리하는 [서비스 컨테이너](/docs/5.0/container)를 통해 resolved 됩니다. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler: 그래서 어떤 콘트랙트의 구현체를 얻으려면 단지 "type-hint"를 
 
 	<?php namespace App\Handlers\Events;
 

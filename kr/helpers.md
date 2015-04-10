@@ -197,8 +197,8 @@ Filter the array using the given Closure.
 
 ### head
 
-Return the first element in the array. Useful for method chaining in PHP 5.3.x.
-배열의 첫번째 요소를 반환합니다. PHP 5.3.x 버전에서 메소드 체인을 사용하는데 유용합니다.
+Return the first element in the array. 
+배열의 첫번째 요소를 반환합니다.
 
 	$first = head($this->returnsArray('foo'));
 
@@ -521,7 +521,7 @@ Get a View instance for the given view path.
 
 ### with
 
-Return the given object. Useful for method chaining constructors in PHP 5.3.x.
-주어진 object를 반환합니다. PHP 5.3.x 버전에서 메소드 체인 생성자를 사용하는데 유용합니다.
+Return the given object.
+주어진 object를 반환합니다.
 
 	$value = with(new Foo)->doWork();

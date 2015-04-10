@@ -243,17 +243,15 @@ The `currentRouteName` method returns the name of the route handling the current
 ## Route Groups
 ## 라우트 그룹
 
-Sometimes many of your routes will share common requirements such as URL segments, middleware, namespaces, etc. Instead of specifying each of these options on every route individually, you may use a route group to apply attributes to many routes.
+Sometimes many of your routes will share common requirements such as URL segments, middleware, namespaces, etc. 때때로 많은 라우트들이 URL 세그먼트, 미들웨어, 네임스페이스 등과 같은 공통의 요구사항을 공유하고자 하는 경우가 있습니다. Instead of specifying each of these options on every route individually, you may use a route group to apply attributes to many routes. 이러한 옵션들을 모든 라우트에 개별로 각각 지정하는 대신에 라우트 그룹을 통해서 다수의 라우트에 속성을 지정할 수가 있습니다. 
 
-
-Sometimes you may need to apply filters to a group of routes. 때때로 여러 라우트들에 필터를 적용해야할 때가 있습니다. Instead of specifying the filter on each route, you may use a route group: 각각의 라우트에 전부 필터를 적용하는대신 라우트 그룹을 이용할 수 있습니다. 
-
-Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+Shared attributes are specified in an array format as the first parameter to the `Route::group` method. 속성값들을 공유하는 것은 `Route::group` 메소드의 첫번째 인자로 배열을 지정하면 됩니다. 
 
 <a name="route-group-middleware"></a>
 ### Middleware
+### 미들웨어
 
-Middleware is applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. Middleware will be executed in the order you define this array:
+Middleware is applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. 라우트 그룹에 지정하는 배열의 `middleware` 값에 미들웨어의 목록을 정의함으로써 그룹내의 모든 라우트에 미들웨어가 적용됩니다. Middleware will be executed in the order you define this array: 미들웨어는 배열에 정의된 순서대로 실행될것입니다. 
 
 	Route::group(['middleware' => 'foo|bar'], function()
 	{
@@ -272,9 +270,7 @@ Middleware is applied to all routes within the group by defining the list of mid
 ### Namespaces
 ### 네임스페이스
 
-You may use the `namespace` parameter in your group attribute array to specify the namespace for all controllers within the group:
-
-You may use the `namespace` parameter within your `group` array to specify the namespace for all controllers within the group: `group` 메소드에는 컨트롤러들이 소속된 namespace를 지정할 수 있도록 배열으로 `namespace` 파라미터를 사용할 수 있습니다. 
+You may use the `namespace` parameter in your group attribute array to specify the namespace for all controllers within the group: 그룹의 속성 배열에 `namespace` 파라미터를 사용하여 가룹의 모든 컨트롤러에 네임스페이스를 지정할 수 있습니다. 
 
 	Route::group(['namespace' => 'Admin'], function()
 	{
@@ -286,9 +282,7 @@ You may use the `namespace` parameter within your `group` array to specify the n
 		});
 	});
 
-> **Note:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix.
-
-> **Note주의:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full namespace. 기본적으로 `RouteServiceProvider` 에서 포함하고 있는 `routes.php` 파일에는 라우트 컨트롤들을 위해서 네임스페이스가 지정되어 있습니다. 따라서 전체 네임스페이스를 따로 지정할 필요는 없습니다. 
+> **Note 참고:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. 기본적으로 `RouteServiceProvider` 에서 포함하고 있는 `routes.php` 파일에는 라우트 컨트롤들을 위해서 네임스페이스가 지정되어 있습니다. 따라서 `App\Http\Controllers`의 전체 네임스페이스를 따로 지정할 필요는 없습니다. 
 
 <a name="sub-domain-routing"></a>
 ### Sub-Domain Routing
@@ -323,9 +317,10 @@ A group of routes may be prefixed by using the `prefix` option in the attributes
 		});
 	});
 
-You can also utilize the `prefix` parameter to pass common parameters to your routes:
+You can also utilize the `prefix` parameter to pass common parameters to your routes: 또한 `prefix` 파라미터를 라우트들의 공통 파라미터로 지정할 수 있습니다.
 
 #### Registering a URL parameter in a route prefix
+#### 라우트 prefix 안에서 URL 파라미터 등록하기
 
 	Route::group(['prefix' => 'accounts/{account_id}'], function()
 	{
@@ -335,7 +330,7 @@ You can also utilize the `prefix` parameter to pass common parameters to your ro
 		});
 	});
 
-You can even define parameter constraints for the named parameters in your prefix:
+You can even define parameter constraints for the named parameters in your prefix: 또한 지정된 파라미터 변수의 제약 사항을 정의할 수도 있습니다. 
 
 	Route::group([
 		'prefix' => 'accounts/{account_id}',
@@ -382,11 +377,7 @@ If you wish to specify your own "not found" behavior, pass a Closure as the thir
 		throw new NotFoundHttpException;
 	});
 
-If you wish to use your own resolution logic, you should use the `Route::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
-
-
-
-If you wish to use your own resolution logic, you should use the `Router::bind` method. 만약 고유한 의존성 검색 로직을 사용하려면 `Router::bind` 메소드를 사용해야 합니다. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route: `bind` 메소드에 전달되는 클로저에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
+If you wish to use your own resolution logic, you should use the `Route::bind` method. 만약 고유한 의존성 검색 로직을 사용하려면 `Route::bind` 메소드를 사용해야 합니다. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route: `bind` 메소드에 전달되는 클로저에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
 
 	Route::bind('user', function($value)
 	{

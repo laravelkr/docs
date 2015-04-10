@@ -21,7 +21,7 @@ You will define most of the routes for your application in the `app/Http/routes.
 		return 'Hello World';
 	});
 
-#### Other Basic Routes Route
+#### Other Basic Routes
 
 	Route::post('foo/bar', function()
 	{
@@ -220,29 +220,45 @@ The `currentRouteName` method returns the name of the route handling the current
 <a name="route-groups"></a>
 ## Route Groups
 
-Sometimes you may need to apply filters to a group of routes. Instead of specifying the filter on each route, you may use a route group:
+Sometimes many of your routes will share common requirements such as URL segments, middleware, namespaces, etc. Instead of specifying each of these options on every route individually, you may use a route group to apply attributes to many routes.
 
-	Route::group(['middleware' => 'auth'], function()
+Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+
+<a name="route-group-middleware"></a>
+### Middleware
+
+Middleware is applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. Middleware will be executed in the order you define this array:
+
+	Route::group(['middleware' => 'foo|bar'], function()
 	{
 		Route::get('/', function()
 		{
-			// Has Auth Filter
+			// Has Foo And Bar Middleware
 		});
 
 		Route::get('user/profile', function()
 		{
-			// Has Auth Filter
+			// Has Foo And Bar Middleware
 		});
+
 	});
 
-You may use the `namespace` parameter within your `group` array to specify the namespace for all controllers within the group:
+<a name="route-group-namespace"></a>
+### Namespaces
+
+You may use the `namespace` parameter in your group attribute array to specify the namespace for all controllers within the group:
 
 	Route::group(['namespace' => 'Admin'], function()
 	{
-		//
+		// Controllers Within The "App\Http\Controllers\Admin" Namespace
+
+		Route::group(['namespace' => 'User'], function()
+		{
+			// Controllers Within The "App\Http\Controllers\Admin\User" Namespace
+		});
 	});
 
-> **Note:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full namespace.
+> **Note:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix.
 
 <a name="sub-domain-routing"></a>
 ### Sub-Domain Routing
@@ -268,12 +284,32 @@ A group of routes may be prefixed by using the `prefix` option in the attributes
 
 	Route::group(['prefix' => 'admin'], function()
 	{
+		Route::get('users', function()
+		{
+			// Matches The "/admin/users" URL
+		});
+	});
 
-		Route::get('user', function()
+You can also utilize the `prefix` parameter to pass common parameters to your routes:
+
+#### Registering a URL parameter in a route prefix
+
+	Route::group(['prefix' => 'accounts/{account_id}'], function()
+	{
+		Route::get('detail', function($account_id)
 		{
 			//
 		});
+	});
 
+You can even define parameter constraints for the named parameters in your prefix:
+
+	Route::group([
+		'prefix' => 'accounts/{account_id}',
+		'where' => ['account_id' => '[0-9]+'],
+	], function() {
+
+		// Define Routes Here
 	});
 
 <a name="route-model-binding"></a>
@@ -310,7 +346,7 @@ If you wish to specify your own "not found" behavior, pass a Closure as the thir
 		throw new NotFoundHttpException;
 	});
 
-If you wish to use your own resolution logic, you should use the `Router::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
+If you wish to use your own resolution logic, you should use the `Route::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
 
 	Route::bind('user', function($value)
 	{

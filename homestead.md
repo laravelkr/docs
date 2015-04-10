@@ -207,7 +207,7 @@ Once your Homestead environment is provisioned and running, you may want to add 
 
 Alternatively, you may use the `serve` script that is available on your Homestead environment. 다른 방법으로는 홈스테드 환경에서 `serve` 스크립트를 사용하는 방법입니다. To use the `serve` script, SSH into your Homestead environment and run the following command: `serve` 스크립트를 사용하기 위해서는 홈스테드 환경에 SSH로 접속하여 다음과 같이 명령어를 실행하면 됩니다. 
 
-	serve domain.app /home/vagrant/Code/path/to/public/directory
+	serve domain.app /home/vagrant/Code/path/to/public/directory 80
 
 > **Note 주의:** After running the `serve` command, do not forget to add the new site to the `hosts` file on your main machine! `serve` 명령어를 실행하고 로컬머신의 `hosts` 파일에 새로운 사이트를 추가하는 것을 잊지 마십시오!
 

@@ -148,7 +148,7 @@ You may want to publish groups of files separately. 파일 그룹별로 분할�
 
 	// Publish your migrations
 	$this->publishes([
-		__DIR__.'/../database/migrations/' => base_path('/database/migrations')
+		__DIR__.'/../database/migrations/' => database_path('/migrations')
 	], 'migrations');
 
 You can then publish these files separately by referencing their tag like so: 이제 태그를 지정 하면 파일을 분할하여 퍼블리싱 할 수 있습니다.

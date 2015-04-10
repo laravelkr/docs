@@ -2,7 +2,6 @@
 
 - [Blade Templating 블레이드 템플릿](#blade-templating)
 - [Other Blade Control Structures 기타 블레이드 컨트롤 구조](#other-blade-control-structures)
-- [Extending Blade 블레이드 템플릿 확장하기](#extending-blade)
 
 <a name="blade-templating"></a>
 ## Blade Templating 블레이드 템플릿
@@ -15,6 +14,9 @@ Blade is a simple, yet powerful templating engine provided with Laravel. 블레�
 	<!-- Stored in resources/views/layouts/master.blade.php -->
 
 	<html>
+		<head>
+			<title>App Name - @yield('title')</title>
+		</head>
 		<body>
 			@section('sidebar')
 				This is the master sidebar.
@@ -30,6 +32,8 @@ Blade is a simple, yet powerful templating engine provided with Laravel. 블레�
 #### 블레이드 레이아웃 사용하기 
 
 	@extends('layouts.master')
+	
+	@section('title', 'Page Title')
 
 	@section('sidebar')
 		@@parent
@@ -150,22 +154,3 @@ To overwrite a section entirely, you may use the `overwrite` statement: 섹션 �
 #### 주석
 
 	{{-- This comment will not be in the rendered HTML --}}
-
-<a name="extending-blade"></a>
-## Extending Blade
-## 블레이드 확장하기 
-
-Blade even allows you to define your own custom control structures. 블레이드에서는 사용자 정의 구조를 지정 할 수 있습니다. When a Blade file is compiled, each custom extension is called with the view contents, allowing you to do anything from simple `str_replace` manipulations to more complex regular expressions. 블레이드 파일이 컴파일 될 때, 각 사용자 정의된 확장 기능이 뷰의 내용과 함께 호출되고 간단한 `str_replace` 대체하는 것 부터 복잡한 정규식 치환까지 수행 할 수 있습니다.
-
-The Blade compiler comes with the helper methods `createMatcher` and `createPlainMatcher`, which generate the expression you need to build your own custom directives. 블레이드 컴파일러는 사용자 정의 구조를 정의하는 데 필요한 코드를 생성 하기위한, `createMatcher` 와 `createPlainMatcher` 헬퍼 메소드를 제공합니다.
-
-The `createPlainMatcher` method is used for directives with no arguments like `@endif` and `@stop`, while `createMatcher` is used for directives with arguments. `createPlainMatcher` 메소드는 `@endif` 와 `@stop` 같이 인자 없이 사용하고, `createMatcher` 는 인자를 전달하는 방식으로 사용합니다.
-
-The following example creates a `@datetime($var)` directive which simply calls `->format()` on `$var`: `$var`변수를 `->format()` 에서 호출 하도록 하는 `@datetime($var)` 이라는 간단한 블레이드 확장 예제 입니다. 
-
-	Blade::extend(function($view, $compiler)
-	{
-		$pattern = $compiler->createOpenMatcher('datetime');
-
-		return preg_replace($pattern, '$1<?php echo $2->format(\'m/d/Y H:i\')); ?>', $view);
-	});

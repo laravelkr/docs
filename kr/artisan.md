@@ -140,6 +140,15 @@ Let's look at a few more scheduling examples:
 	$schedule->command('foo')->saturdays();
 	$schedule->command('foo')->sundays();
 
+#### Prevent Jobs From Overlapping
+#### 중복 작업 방지하기
+
+By default, scheduled jobs will be run even if the previous instance of the job is still running. 기본적으로 예약된 작업은 이전 인스턴스가 여전히 실행중이더라도 실행됩니다. To prevent this, you may use the `withoutOverlapping` method: 이를 방지하려면 `withoutOverlapping` 메소드를 사용하면 됩니다. 
+
+	$schedule->command('foo')->withoutOverlapping();
+
+In this example, the `foo` command will be run every minute if it is not already running. 이 예제에서 `foo` 명령어는 이미 실행되고 있지 않은 경우에 매분마다 실행됩니다. 
+
 #### Limit The Environment The Jobs Should Run In 구동 환경에 따라서 작업 실행해야 할 때
 
 	$schedule->command('foo')->monthly()->environments('production');

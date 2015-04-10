@@ -21,7 +21,7 @@ You will define most of the routes for your application in the `app/Http/routes.
 		return 'Hello World';
 	});
 
-#### Other Basic Routes Route 기타 기본 라우트
+#### Other Basic Routes 기타 기본 라우트
 
 	Route::post('foo/bar', function()
 	{
@@ -243,27 +243,50 @@ The `currentRouteName` method returns the name of the route handling the current
 ## Route Groups
 ## 라우트 그룹
 
+Sometimes many of your routes will share common requirements such as URL segments, middleware, namespaces, etc. Instead of specifying each of these options on every route individually, you may use a route group to apply attributes to many routes.
+
+
 Sometimes you may need to apply filters to a group of routes. 때때로 여러 라우트들에 필터를 적용해야할 때가 있습니다. Instead of specifying the filter on each route, you may use a route group: 각각의 라우트에 전부 필터를 적용하는대신 라우트 그룹을 이용할 수 있습니다. 
 
-	Route::group(['middleware' => 'auth'], function()
+Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+
+<a name="route-group-middleware"></a>
+### Middleware
+
+Middleware is applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. Middleware will be executed in the order you define this array:
+
+	Route::group(['middleware' => 'foo|bar'], function()
 	{
 		Route::get('/', function()
 		{
-			// Has Auth Filter
+			// Has Foo And Bar Middleware
 		});
 
 		Route::get('user/profile', function()
 		{
-			// Has Auth Filter
+			// Has Foo And Bar Middleware
 		});
 	});
+
+<a name="route-group-namespace"></a>
+### Namespaces
+### 네임스페이스
+
+You may use the `namespace` parameter in your group attribute array to specify the namespace for all controllers within the group:
 
 You may use the `namespace` parameter within your `group` array to specify the namespace for all controllers within the group: `group` 메소드에는 컨트롤러들이 소속된 namespace를 지정할 수 있도록 배열으로 `namespace` 파라미터를 사용할 수 있습니다. 
 
 	Route::group(['namespace' => 'Admin'], function()
 	{
-		//
+		// Controllers Within The "App\Http\Controllers\Admin" Namespace
+
+		Route::group(['namespace' => 'User'], function()
+		{
+			// Controllers Within The "App\Http\Controllers\Admin\User" Namespace
+		});
 	});
+
+> **Note:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix.
 
 > **Note주의:** By default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full namespace. 기본적으로 `RouteServiceProvider` 에서 포함하고 있는 `routes.php` 파일에는 라우트 컨트롤들을 위해서 네임스페이스가 지정되어 있습니다. 따라서 전체 네임스페이스를 따로 지정할 필요는 없습니다. 
 
@@ -294,12 +317,32 @@ A group of routes may be prefixed by using the `prefix` option in the attributes
 
 	Route::group(['prefix' => 'admin'], function()
 	{
+		Route::get('users', function()
+		{
+			// Matches The "/admin/users" URL
+		});
+	});
 
-		Route::get('user', function()
+You can also utilize the `prefix` parameter to pass common parameters to your routes:
+
+#### Registering a URL parameter in a route prefix
+
+	Route::group(['prefix' => 'accounts/{account_id}'], function()
+	{
+		Route::get('detail', function($account_id)
 		{
 			//
 		});
+	});
 
+You can even define parameter constraints for the named parameters in your prefix:
+
+	Route::group([
+		'prefix' => 'accounts/{account_id}',
+		'where' => ['account_id' => '[0-9]+'],
+	], function() {
+
+		// Define Routes Here
 	});
 
 <a name="route-model-binding"></a>
@@ -338,6 +381,10 @@ If you wish to specify your own "not found" behavior, pass a Closure as the thir
 	{
 		throw new NotFoundHttpException;
 	});
+
+If you wish to use your own resolution logic, you should use the `Route::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
+
+
 
 If you wish to use your own resolution logic, you should use the `Router::bind` method. 만약 고유한 의존성 검색 로직을 사용하려면 `Router::bind` 메소드를 사용해야 합니다. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route: `bind` 메소드에 전달되는 클로저에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
 

@@ -121,6 +121,21 @@ This method will return an array of role titles. 이 메소드는 role 테이블
 	$users = DB::table('users')
 	                    ->whereNull('updated_at')->get();
 
+#### Dynamic Where Clauses
+#### 동적 where 구문
+
+You may even use "dynamic" where statements to fluently build where statements using magic methods: 매직 매소드를 사용하여 where 구문을 동적으로 구성할 수도 있습니다. 
+
+	$admin = DB::table('users')->whereId(1)->first();
+
+	$john = DB::table('users')
+	                    ->whereIdAndEmail(2, 'john@doe.com')
+	                    ->first();
+
+	$jane = DB::table('users')
+	                    ->whereNameOrAge('Jane', 22)
+	                    ->first();
+
 #### Order By, Group By, And Having
 
 	$users = DB::table('users')

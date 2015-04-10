@@ -6,6 +6,9 @@
 - [Cache Tags 캐시 태그](#cache-tags)
 - [Cache Events 캐시 이벤트](#cache-events)
 - [Database Cache 데이터베이스 캐시](#database-cache)
+- [Memcached Cache Memcached 캐시](#memcached-cache)
+- [Redis Cache Redis 캐시](#redis-cache)
+
 
 <a name="configuration"></a>
 ## Configuration 설정
@@ -183,3 +186,28 @@ When using the `database` cache driver, you will need to setup a table to contai
 		$table->text('value');
 		$table->integer('expiration');
 	});
+	
+<a name="memcached-cache"></a>
+#### Memcached Cache
+
+Using the Memcached cache requires the [Memcached PECL package](http://pecl.php.net/package/memcached) to be installed. Memcached 캐시를 사용하기 위해서는 [Memcached PECL package](http://pecl.php.net/package/memcached)가 설치되어 있어야 합니다. 
+
+The default [configuration](#configuration) uses TCP/IP based on [Memcached::addServer](http://php.net/manual/en/memcached.addserver.php):
+기본 [설정](#configuration)은 TCP/IP 기반의 [Memcached::addServer](http://php.net/manual/en/memcached.addserver.php)을 사용합니다. 
+
+	'memcached' => array(
+		array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
+	),
+
+You may also set the `host` option to a UNIX socket path. If you do this, the `port` option should be set to `0`: `host` 옵션을 UNIX 소켓을 사용하도록 설정할 수 있으며 이 경우 `port` 는 `0` 으로 설정되어 있어야 합니다. 
+
+	'memcached' => array(
+		array('host' => '/var/run/memcached/memcached.sock', 'port' => 0, 'weight' => 100),
+	),
+
+<a name="redis-cache"></a>
+#### Redis Cache
+
+See [Redis Configuration](/docs/redis#configuration)
+[Redis 설정](/docs/redis#configuration)을 참고하십시오. 
+

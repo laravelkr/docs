@@ -67,7 +67,7 @@ The table builder contains a variety of column types that you may use when build
 
 Command  명령어 | Description 설명
 ------------- | -------------
-`$table->bigIncrements('id');`  |  Incrementing ID using a "big integer" equivalent. 증가 ID 를 “big integer” 로 하는것. 
+`$table->bigIncrements('id');`  |  Incrementing ID using a "big integer" equivalent. 증가 ID 를 “big integer” 로 하는것 
 `$table->bigInteger('votes');`  |  BIGINT equivalent to the table 테이블에 BIGINT 컬럼을 지정하는것
 `$table->binary('data');`  |  BLOB equivalent to the table 테이블에 BLOB 컬럼 지정
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent to the table 테이블에 BOOLEAN 컬럼 지정
@@ -78,9 +78,10 @@ Command  명령어 | Description 설명
 `$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point 전체 15자리에 소수점 8자리까지 허용가능한 DOUBLE 타입 지정
 `$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent to the table 테이블에 ENUM 타입 지정
 `$table->float('amount');`  |  FLOAT equivalent to the table 테이블에 FLOAT 타입 지정
-`$table->increments('id');`  |  Incrementing ID to the table (primary key). 테이블에 (primary key) ID 증가시키기
+`$table->increments('id');`  |  Incrementing ID to the table (primary key) 테이블에 (primary key) ID 증가시키기
 `$table->integer('votes');`  |  INTEGER equivalent to the table 테이블에 INTEGER 타입 지정
-`$table->json('options');`  |  JSON equivalent to the table 테이블에  JSON 타입 지정
+`$table->json('options');`  |  JSON equivalent to the table 테이블에 JSON 타입 지정
+`$table->jsonb('options');`  |  JSONB equivalent to the table 테이블에 JSONB 타입 지정
 `$table->longText('description');`  |  LONGTEXT equivalent to the table 테이블에 LONGTEXT 타입 지정
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent to the table 테이블에  MEDIUMINT 타입 지정
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent to the table 테이블에 MEDIUMTEXT 타입 지정

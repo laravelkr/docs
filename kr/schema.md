@@ -112,6 +112,8 @@ If you are using the MySQL database, you may use the `after` method to specify t
 ## Changing Columns
 ## 컬럼 변경
 
+**Note 주의:** Before changing a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file. 컬럼을 변경하기 전에 `composer.json` 에 `doctrine/dbal` 의존 패키지를 추가했는지 확인하십시오. 
+
 Sometimes you may need to modify an existing column. 때로는 이미 생성된 컬럼을 수정해야할 필요가 있습니다. For example, you may wish to increase the size of a string column. 예를들어 문자열 컬럼의 사이즈를 늘리고자 할 경우가 그렇습니다. The `change` method makes it easy! `change` 메소드가 이 역활을 수행합니다. For example, let's increase the size of the `name` column from 25 to 50: 예를들어 다음 예제는 `name` 컬럼의 사이즈를 25에서 50으로 늘려줍니다. 
 
 	Schema::table('users', function($table)

@@ -149,6 +149,9 @@ You can make any Homestead site use [HHVM](http://hhvm.com) by setting the `hhvm
 	      to: /home/vagrant/Code/Laravel/public
 	      hhvm: true
 
+Each site will be accessible by HTTP via port 8000 and HTTPS via port 44300.
+각각의 사이트는 HTTP 8000 포트와, HTTPS 44300 포트를 통해서 접속할 수 있습니다.
+
 ### Bash Aliases
 ### Bash 별칭
 
@@ -220,6 +223,7 @@ The following ports are forwarded to your Homestead environment:
 
 - **SSH:** 2222 &rarr; Forwards To 22
 - **HTTP:** 8000 &rarr; Forwards To 80
+- **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **Postgres:** 54320 &rarr; Forwards To 5432
 
@@ -246,5 +250,7 @@ All of the proper packages have already been installed on your Homestead box, yo
 	blackfire:
 	    - id: your-server-id
 	      token: your-server-token
+	      client-id: your-client-id
+	      client-token: your-client-token
 
 Once you have configured your Blackfire credentials, re-provision the box using `homestead provision` or `vagrant provision`. Blackfire 인증정보를 설정하고 난 뒤에, `homestead provision` 또는 `vagrant provision` 을 사용하여 Box 를 다시 실행하십시오. Of course, be sure to review the [Blackfire documentation](https://blackfire.io/getting-started) to learn how to install the Blackfire companion extension for your web browser.  또한 Blackfire 설치와 추가 확장에 대해서는 웹사이트에서 [Blackfire 문서](https://blackfire.io/getting-started)를 참고하십시오. 

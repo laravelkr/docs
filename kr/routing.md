@@ -133,6 +133,9 @@ Of course, you can capture segments of the request URI within your route:
 		return 'User '.$id;
 	});
 
+> **Note:** Route parameters cannot contain the `-` character. Use an underscore (`_`) instead.
+> **주의:** 라우트 파라미터는 `-` 문자를 포함하면 안됩니다. (`_`)를 사용하십시오. 
+
 #### Optional Route Parameters 
 #### 선택적인 라우트 파라미터
 

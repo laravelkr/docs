@@ -132,4 +132,10 @@ Sometimes you may wish to call other commands from your command. 때로는 해�
 #### Registering An Artisan Command
 #### 아티즌 명령어 등록하기
 
-Once your command is finished, you need to register it with Artisan so it will be available for use. 명령어 작성이 완료되면 명령어를 사용가능하도록 아티즌에 등록할 필요가 있습니다. This is typically done in the `app/Console/Kernel.php` file. 이 작업은 일반적으로 `app/Console/Kernel.php` 파일에서 이루어 집니다. Within this file, you will find a list of commands in the `commands` property. 이 파일에서, 명령어들의 목록을 담고 있는 `command` 변수를 찾을 수 있을 것입니다. To register your command, simply add it to this list. 여러분이 작성한 명령어를 등록하려면 해당 배열에 생성한 명령어 클래스를 추가하십시오. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/5.0/container) and registered with Artisan. 아티즌이 구동되면서 변수내의 모든 명령어들의 목록을 참고하여 [service container](/docs/5.0/container)들이 자동으로 실행가능한 상태로 아티즌에 등록됩니다. 
+Once your command is finished, you need to register it with Artisan so it will be available for use. 명령어 작성이 완료되면 명령어를 사용가능하도록 아티즌에 등록할 필요가 있습니다. This is typically done in the `app/Console/Kernel.php` file. 이 작업은 일반적으로 `app/Console/Kernel.php` 파일에서 이루어 집니다. Within this file, you will find a list of commands in the `commands` property. 이 파일에서, 명령어들의 목록을 담고 있는 `command` 변수를 찾을 수 있을 것입니다. To register your command, simply add it to this list. 여러분이 작성한 명령어를 등록하려면 해당 배열에 생성한 명령어 클래스를 추가하십시오. 
+
+	protected $commands = [
+		'App\Console\Commands\FooCommand'
+	];
+
+When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/5.0/container) and registered with Artisan. 아티즌이 구동되면서 변수내의 모든 명령어들의 목록을 참고하여 [service container](/docs/5.0/container)들이 자동으로 실행가능한 상태로 아티즌에 등록됩니다. 

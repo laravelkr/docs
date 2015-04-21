@@ -51,7 +51,7 @@ If you are unsure if your feature qualifies as a major or minor, please ask Tayl
 ## Security Vulnerabilities
 ## 보안 취약점
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at <a href="mailto:taylorotwell@gmail.com">taylorotwell@gmail.com</a>. 만약 라라벨에서 보안 취약점을 발견했다면 테일러 오트웰 <a href="mailto:taylorotwell@gmail.com">taylorotwell@gmail.com</a>에게 이메일을 보내주시길 바랍니다. All security vulnerabilities will be promptly addressed. 모든 보안 취약점은 신속하게 해결될 것입니다. 
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at <a href="mailto:taylor@laravel.com">taylor@laravel.com</a>. 만약 라라벨에서 보안 취약점을 발견했다면 테일러 오트웰 <a href="mailto:taylor@laravel.com">taylor@laravel.com</a>에게 이메일을 보내주시길 바랍니다. All security vulnerabilities will be promptly addressed. 모든 보안 취약점은 신속하게 해결될 것입니다. 
 
 <a name="coding-style"></a>
 ## Coding Style

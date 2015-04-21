@@ -43,7 +43,7 @@ The `--table` and `--create` options may also be used to indicate the name of th
 ### Forcing Migrations In Production
 ### 실제 제품 서버에서 강제로 마이그레이션 실행하기
 
-Some migration operations are destructive, meaning they may cause you to lose data. 일부의 마이그레이션 작업은 구조 변경이 있을 수 있으며 이로 인해 데이터를 잃을 수도 있습니다. In order to protect you from running these commands against your production database, you will prompted for confirmation before these commands are executed. 이러한 위험들로 부터 실제 제품 서버의 데이터베이스를 보호하기 위해 마이그레이션 명령어를 실행하기 전에 확인 메시지가 출력됩니다. To force the commands to run without a prompt, use the `--force` flag: 확인 메시지 없이 명령어을 실행시키기 위해서는 `--force` 플래그를 사용하면 됩니다. 
+Some migration operations are destructive, meaning they may cause you to lose data. 일부의 마이그레이션 작업은 구조 변경이 있을 수 있으며 이로 인해 데이터를 잃을 수도 있습니다. In order to protect you from running these commands against your production database, you be will prompted for confirmation before these commands are executed. 이러한 위험들로 부터 실제 제품 서버의 데이터베이스를 보호하기 위해 마이그레이션 명령어를 실행하기 전에 확인 메시지가 출력됩니다. To force the commands to run without a prompt, use the `--force` flag: 확인 메시지 없이 명령어을 실행시키기 위해서는 `--force` 플래그를 사용하면 됩니다. 
 
 	php artisan migrate --force
 

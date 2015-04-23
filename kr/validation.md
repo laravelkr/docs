@@ -11,29 +11,29 @@
 - [Custom Validation Rules](#custom-validation-rules)
 
 <a name="basic-usage"></a>
-## Basic Usage
+## Basic Usage 기본 사용법
 
-Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class.
+Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사시 출력될 오류 메세지를 구성하기 위하여 간단하고, 편리한 기능을 내장하고 있습니다.
 
-#### Basic Validation Example
+#### Basic Validation Example 기본적인 유효성 검사의 예
 
 	$validator = Validator::make(
 		['name' => 'Dayle'],
 		['name' => 'required|min:5']
 	);
 
-The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data.
+The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data. `make` 메소드는 첫번째 파라메터로 유효성 체크를 하기 위한 데이터를 받습니다. 두번째 파라메터로는 그 데이터에 적용할 유효성 검사의 룰을 받습니다.
 
-#### Using Arrays To Specify Rules
+#### Using Arrays To Specify Rules 배열을 사용하여 룰 지정하기
 
-Multiple rules may be delimited using either a "pipe" character, or as separate elements of an array.
+Multiple rules may be delimited using either a "pipe" character, or as separate elements of an array. 한개 이상의 룰은 "pipe" 문자로 구분되거나, 배열에 각각의 엘레먼트로 구분됩니다.
 
 	$validator = Validator::make(
 		['name' => 'Dayle'],
 		['name' => ['required', 'min:5']]
 	);
 
-#### Validating Multiple Fields
+#### Validating Multiple Fields 여러 필드의 유효성 검사
 
     $validator = Validator::make(
         [
@@ -48,14 +48,14 @@ Multiple rules may be delimited using either a "pipe" character, or as separate 
         ]
     );
 
-Once a `Validator` instance has been created, the `fails` (or `passes`) method may be used to perform the validation.
+Once a `Validator` instance has been created, the `fails` (or `passes`) method may be used to perform the validation. `Validator` 인스턴스가 생성되기만 하면, `fails`(또는 `passes`) 메소드를 사용하여 유효성 검사를 실행할 수 있습니다.
 
 	if ($validator->fails())
 	{
 		// The given data did not pass validation
 	}
 
-If validation has failed, you may retrieve the error messages from the validator.
+If validation has failed, you may retrieve the error messages from the validator. 만약 유효성 검사가 실패하면, 그 Validator 인스턴스로부터 오류 메세지를 얻을 수 있습니다.
 
 	$messages = $validator->messages();
 

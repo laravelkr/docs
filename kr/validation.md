@@ -69,7 +69,7 @@ The `Validator` class provides several rules for validating files, such as `size
 
 ### After Validation Hook 
 
-The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance:
+The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance: validator는 또한 유효성 검사가 완료된 후에 실행될 콜백함수를 추가할 수 있도록 해줍니다. 이는 손쉽게 더 많은 유효성 검사를 실행할 수 있도록 하고, 오류 메세지 모음에 오류 메시지를 더 추가할 수도 있도록 해줍니다. validator 인스턴스에 `after` 메소드를 사용해보세요. 
 
 	$validator = Validator::make(...);
 
@@ -86,12 +86,12 @@ The validator also allows you to attach callbacks to be run after validation is 
 		//
 	}
 
-You may add as many `after` callbacks to a validator as needed.
+You may add as many `after` callbacks to a validator as needed. 필요한만큼 `after` 콜백을 validator에 추가할 수 있습니다. 
 
 <a name="controller-validation"></a>
-## Controller Validation
+## Controller Validation 컨트롤러 단위 유효성 검사 
 
-Of course, manually creating and checking a `Validator` instance each time you do validation is a headache. Don't worry, you have other options! The base `App\Http\Controllers\Controller` class included with Laravel uses a `ValidatesRequests` trait. This trait provides a single, convenient method for validating incoming HTTP requests. Here's what it looks like:
+Of course, manually creating and checking a `Validator` instance each time you do validation is a headache. 유효성 검사를 실행할 때마다 수동으로 `Validator` 인스턴스를 생성하고 체크하는 것은 정말 골칫거리일 것입니다. Don't worry, you have other options! 걱정하지 마세요. 다른 방법이 있습니다 The base `App\Http\Controllers\Controller` class included with Laravel uses a `ValidatesRequests` trait. 라라벨에 포함된  `App\Http\Controllers\Controller` 기본 클래스는 `ValidatesRequests` 트래잇을 사용합니다 This trait provides a single, convenient method for validating incoming HTTP requests. 이 트래잇은 들어온 HTTP 리퀘스트의 유효성 검사를 위하여 편리한 메소드 하나를 제공합니다. Here's what it looks like: 그 메소드는 아래와 같습니다.
 
 	/**
 	 * Store the incoming blog post.

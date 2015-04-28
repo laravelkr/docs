@@ -13,7 +13,7 @@
 <a name="basic-usage"></a>
 ## Basic Usage 기본 사용법
 
-Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사시 출력될 오류 메세지를 구성하기 위하여 간단하고, 편리한 기능을 내장하고 있습니다.
+Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메세지를 구성하기 위하여 간단하고, 편리한 기능을 제공합니다.
 
 #### Basic Validation Example 기본적인 유효성 검사의 예
 
@@ -22,11 +22,11 @@ Laravel ships with a simple, convenient facility for validating data and retriev
 		['name' => 'required|min:5']
 	);
 
-The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data. `make` 메소드는 첫번째 파라메터로 유효성 체크를 하기 위한 데이터를 받습니다. 두번째 파라메터로는 그 데이터에 적용할 유효성 검사의 룰을 받습니다.
+The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data. `make` 메소드는 첫번째 파라메터로 유효성 검사를 할 데이터를 받습니다. 두번째 파라메터로는 그 데이터에 적용되어야 하는 유효성 검사의 룰을 받습니다.
 
 #### Using Arrays To Specify Rules 배열을 사용하여 룰 지정하기
 
-Multiple rules may be delimited using either a "pipe" character, or as separate elements of an array. 한개 이상의 룰은 "pipe" 문자로 구분되거나, 배열에 각각의 엘레먼트로 구분됩니다.
+Multiple rules may be delimited using either a "pipe" character, or as separate elements of an array. 두개 이상의 룰은 "pipe" 문자나, 배열의 각 엘레먼트로 구분될  수 있습니다.
 
 	$validator = Validator::make(
 		['name' => 'Dayle'],
@@ -48,26 +48,26 @@ Multiple rules may be delimited using either a "pipe" character, or as separate 
         ]
     );
 
-Once a `Validator` instance has been created, the `fails` (or `passes`) method may be used to perform the validation. `Validator` 인스턴스가 생성되기만 하면, `fails`(또는 `passes`) 메소드를 사용하여 유효성 검사를 실행할 수 있습니다.
+Once a `Validator` instance has been created, the `fails` (or `passes`) method may be used to perform the validation. `Validator` 인스턴스를 생성한 후, `fails`(또는 `passes`) 메소드를 사용하여 유효성 검사를 실행할 수 있습니다.
 
 	if ($validator->fails())
 	{
 		// The given data did not pass validation
 	}
 
-If validation has failed, you may retrieve the error messages from the validator. 만약 유효성 검사가 실패하면, 그 Validator 인스턴스로부터 오류 메세지를 얻을 수 있습니다.
+If validation has failed, you may retrieve the error messages from the validator. 만약 유효성 검사가 실패하면, validator 인스턴스로부터 오류 메세지를 얻을 수 있습니다.
 
 	$messages = $validator->messages();
 
-You may also access an array of the failed validation rules, without messages. To do so, use the `failed` method:
+You may also access an array of the failed validation rules, without messages. To do so, use the `failed` method:  또한 오류 메시지가 제외된, 실패한 유효성 검사 룰을 배열형태로 얻을 수 있습니다.
 
 	$failed = $validator->failed();
 
-#### Validating Files
+#### Validating Files 파일 유효성 검사
 
-The `Validator` class provides several rules for validating files, such as `size`, `mimes`, and others. When validating files, you may simply pass them into the validator with your other data.
+The `Validator` class provides several rules for validating files, such as `size`, `mimes`, and others. When validating files, you may simply pass them into the validator with your other data. `Validation` 클래스는 파일 유효성 검사를 위한 `size`, `mimes` 등의 몇가지 룰을 제공합니다. 파일의 유효성을 검시할 때, 간단히 그 파일들을 다른 데이터들과 함께 validator에 전달하세요.
 
-### After Validation Hook
+### After Validation Hook 
 
 The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance:
 

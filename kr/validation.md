@@ -606,20 +606,20 @@ In the rule above, only rows with an `account_id` of `1` would be included in th
 
 The field under validation must be formatted as an URL. 필드의 값이 URL 형식이어야 합니다.
 
-> **Note:** This function uses PHP's `filter_var` method. **주의** 이 기능은 PHP의 `filter_var` 함수를 사용합니다.
+> **Note:** This function uses PHP's `filter_var` method. **주의:** 이 기능은 PHP의 `filter_var` 함수를 사용합니다.
 
 <a name="conditionally-adding-rules"></a>
-## Conditionally Adding Rules
+## Conditionally Adding Rules 조건부 룰 추가하기
 
-In some situations, you may wish to run validation checks against a field **only** if that field is present in the input array. To quickly accomplish this, add the `sometimes` rule to your rule list:
+In some situations, you may wish to run validation checks against a field **only** if that field is present in the input array. 어떤 상황에서는 필드가 입력 배열에 존재할 때에만 그 필드의 유효성 검사를 실행하고 싶을수도 있습니다. To quickly accomplish this, add the `sometimes` rule to your rule list: 룰 목록에 `sometimes`를 추가하기만 하면 됩니다.
 
 	$v = Validator::make($data, [
 		'email' => 'sometimes|required|email',
 	]);
 
-In the example above, the `email` field will only be validated if it is present in the `$data` array.
+In the example above, the `email` field will only be validated if it is present in the `$data` array. 앞의 예에서 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
 
-#### Complex Conditional Validation
+#### Complex Conditional Validation 
 
 Sometimes you may wish to require a given field only if another field has a greater value than 100. Or you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your _static rules_ that never change:
 

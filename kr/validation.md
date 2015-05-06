@@ -619,23 +619,23 @@ In some situations, you may wish to run validation checks against a field **only
 
 In the example above, the `email` field will only be validated if it is present in the `$data` array. 앞의 예에서 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
 
-#### Complex Conditional Validation 
+#### Complex Conditional Validation 복잡한 조건부 유효성 검사
 
-Sometimes you may wish to require a given field only if another field has a greater value than 100. Or you may need two fields to have a given value only when another field is present. Adding these validation rules doesn't have to be a pain. First, create a `Validator` instance with your _static rules_ that never change:
+Sometimes you may wish to require a given field only if another field has a greater value than 100. 때때로 여러분은 다른 필드가 100 이상의 값을 가질때에만 주어진 필드가 반드시 존재하길 바랄 수도 있습니다. Or you may need two fields to have a given value only when another field is present. 또는 다른 필드가 존재할 때에만 두개의 필드가 주어진 값을 가질 필요가 있을수도 있습니다. Adding these validation rules doesn't have to be a pain. 그 유효성 검사 룰을 추가하는 것이 고통스럽지 않아도 됩니다. First, create a `Validator` instance with your _static rules_ that never change: 우선 _고정 룰_을 변경할 필요 없이 그대로 사용하여 `Validator` 인스턴스를 생성합니다.
 
 	$v = Validator::make($data, [
 		'email' => 'required|email',
 		'games' => 'required|numeric',
 	]);
 
-Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game re-sell shop, or maybe they just enjoy collecting. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance.
+Let's assume our web application is for game collectors. 여러분의 웹 어플리케이션이 게임 수집가들을 위한 사이트라고 가정해봅시다. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. 만약 100개 이상의 게임을 소유하고 있는 게임 수집가가 우리 사이트에 가입을 한다면, 우리는 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명을 듣고 싶을수 있습니다.  For example, perhaps they run a game re-sell shop, or maybe they just enjoy collecting. 아마 그들이 중고게임 판매점을 운영하거나, 단순히 수집을 취미로 할 수도 있습니다. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance. 이런 요구사항을 조건부로 추가하기 위하여 `Validator` 인스턴스의 `sometimes` 메소드를 사용할 수 있습니다.
 
 	$v->sometimes('reason', 'required|max:500', function($input)
 	{
 		return $input->games >= 100;
 	});
 
-The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. The second argument is the rules we want to add. If the `Closure` passed as the third argument returns `true`, the rules will be added. This method makes it a breeze to build complex conditional validations. You may even add conditional validations for several fields at once:
+The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. `sometimes` 메소드의 첫번째 인자는 필드의 이름입니다. The second argument is the rules we want to add. 두번째 인자는 추가하려는 룰입니다. If the `Closure` passed as the third argument returns `true`, the rules will be added. 만약 세번째 인자로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가도리 것입니다. This method makes it a breeze to build complex conditional validations. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 쉽게 만듭니다. You may even add conditional validations for several fields at once: 심지어 한번에 여러개의 필드에 대한 조건부 유효성 검사를 
 
 	$v->sometimes(['reason', 'cost'], 'required', function($input)
 	{

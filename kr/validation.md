@@ -396,216 +396,217 @@ The field under validation must be entirely alpha-numeric characters. 필드의 
 <a name="rule-array"></a>
 #### array
 
-The field under validation must be of type array. 필드의 값이 반드시 배열형태여야 합니다.
+The field under validation must be of type array. 필드의 값이 반드시 배열 형태이어야 합니다.
 
 <a name="rule-before"></a>
 #### before:_date_
 
-The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function.
+The field under validation must be a value preceding the given date. The dates will be passed into the PHP `strtotime` function. 필드의 값이 반드시 주어진 날짜보다 앞서야 합니다. 날짜는 `strtotime` PHP 함수를 통해 비교됩니다.
 
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-The field under validation must have a size between the given _min_ and _max_. Strings, numerics, and files are evaluated in the same fashion as the `size` rule.
+The field under validation must have a size between the given _min_ and _max_. 필드의 값이 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. Strings, numerics, and files are evaluated in the same fashion as the `size` rule. 문자열, 숫자, 그리고 파일이 `size` 룰에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
 
-The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, `0`, `"1"` and `"0"`.
+The field under validation must be able to be cast as a boolean. Accepted input are `true`, `false`, `1`, `0`, `"1"` and `"0"`. 필드의 값이 반드시 불리언으로 캐스팅될 수 있어야 합니다. 허용되는 값은 `true`, `false`, `1`, `0`, `"1"`, `"0"` 입니다.
 
 <a name="rule-confirmed"></a>
 #### confirmed
 
-The field under validation must have a matching field of `foo_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
+The field under validation must have a matching field of `foo_confirmation`. 필드의 값이 `foo_confirmation`의 매칭되는 필드를 가져야 합니다. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input. 예를 들어 만약 필드가 `password`이면, `password_confirmation` 필드가 입력 중에 있어야 합니다.
 
 <a name="rule-date"></a>
 #### date
 
-The field under validation must be a valid date according to the `strtotime` PHP function.
+The field under validation must be a valid date according to the `strtotime` PHP function. 필드의 값이 `strtotime` PHP 함수에 따라 올바른 날짜여야 합니다.
 
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-The field under validation must match the _format_ defined according to the `date_parse_from_format` PHP function.
+The field under validation must match the _format_ defined according to the `date_parse_from_format` PHP function. 필드의 값이 반드시 정의된 _format_과 일지해야 합니다. `date_parse_from_format` PHP 함수에 따릅니다.
 
 <a name="rule-different"></a>
 #### different:_field_
 
-The given _field_ must be different than the field under validation.
+The given _field_ must be different than the field under validation. 필드의 값이 주어진 _field_의 값과 달라야 합니다.
 
 <a name="rule-digits"></a>
 #### digits:_value_
 
-The field under validation must be _numeric_ and must have an exact length of _value_.
+The field under validation must be _numeric_ and must have an exact length of _value_. 필드의 값이 반드시 _숫자_여야 하고, 길이가 _value_이어야 합니다.
 
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-The field under validation must have a length between the given _min_ and _max_.
+The field under validation must have a length between the given _min_ and _max_. 필드의 값이 주어진 _min_과 _max_ 사이의 길이를 갖는 숫자여야 합니다.
 
 <a name="rule-email"></a>
 #### email
 
-The field under validation must be formatted as an e-mail address.
+The field under validation must be formatted as an e-mail address. 필드의 값이 이메일 주소 형식이어야 합니다.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
 
-The field under validation must exist on a given database table.
+The field under validation must exist on a given database table. 필드의 값이 주어진 데이터베이스 테이블의 컬럼에 존재하는 값이어야 합니다.
 
-#### Basic Usage Of Exists Rule
+#### Basic Usage Of Exists Rule exists 룰의 기본 사용법
 
 	'state' => 'exists:states'
 
-#### Specifying A Custom Column Name
+#### Specifying A Custom Column Name 특정 컬럼명 지정하기
 
 	'state' => 'exists:states,abbreviation'
 
-You may also specify more conditions that will be added as "where" clauses to the query:
+You may also specify more conditions that will be added as "where" clauses to the query: 쿼리문의 "where" 구분에 추가될 더 많은 조건을 지정할 수 있습니다.
 
 	'email' => 'exists:staff,email,account_id,1'
 
-Passing `NULL` as a "where" clause value will add a check for a `NULL` database value:
+Passing `NULL` as a "where" clause value will add a check for a `NULL` database value: "where" 구문에 `NULL`을 사용하여 데이터베이스의 `NULL` 값인지 체크할 수 있습니다.
 
 	'email' => 'exists:staff,email,deleted_at,NULL'
 
 <a name="rule-image"></a>
 #### image
 
-The file under validation must be an image (jpeg, png, bmp, gif, or svg)
+The file under validation must be an image (jpeg, png, bmp, gif, or svg) 이미지 파일(jpeg, png, bmp, gif, svg)이어야 합니다.
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-The field under validation must be included in the given list of values.
+The field under validation must be included in the given list of values. 필드의 값이 주어진 목록에 포함돼 있어야 합니다.
 
 <a name="rule-integer"></a>
 #### integer
 
-The field under validation must have an integer value.
+The field under validation must have an integer value. 필드의 값이 정수여야 합니다.
 
 <a name="rule-ip"></a>
 #### ip
 
-The field under validation must be formatted as an IP address.
+The field under validation must be formatted as an IP address. 필드의 값이 IP 주소 형식이어야 합니다.
 
 <a name="rule-max"></a>
 #### max:_value_
 
-The field under validation must be less than or equal to a maximum _value_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+The field under validation must be less than or equal to a maximum _value_. 필드의 값이 반드시 _value_보다 작거나 같아야 합니다. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule. 문자열, 숫자, 그리고 파일이  [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
 
-The file under validation must have a MIME type corresponding to one of the listed extensions.
+The file under validation must have a MIME type corresponding to one of the listed extensions. 파일의 MIME 타입이 주어진 확장자 리스트중에 하나와 일치해야 합니다.
 
-#### Basic Usage Of MIME Rule
+#### Basic Usage Of MIME Rule MIME 룰의 기본 사용법
 
 	'photo' => 'mimes:jpeg,bmp,png'
 
 <a name="rule-min"></a>
 #### min:_value_
 
-The field under validation must have a minimum _value_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
+The field under validation must have a minimum _value_. 필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule. 문자열, 숫자, 그리고 파일이  [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
-The field under validation must not be included in the given list of values.
+The field under validation must not be included in the given list of values. 필드의 값이 주어진 목록에 존재하지 않아야 합니다.
 
 <a name="rule-numeric"></a>
 #### numeric
 
-The field under validation must have a numeric value.
+The field under validation must have a numeric value. 필드의 값이 숫자여야 합니다.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
-The field under validation must match the given regular expression.
+The field under validation must match the given regular expression. 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character. **주의** `regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
 
 <a name="rule-required"></a>
 #### required
 
-The field under validation must be present in the input data.
+The field under validation must be present in the input data. 입력 값 중에 해당 필드가 존재해야 합니다.
 
 <a name="rule-required-if"></a>
 #### required_if:_field_,_value_,...
 
-The field under validation must be present if the _field_ field is equal to any _value_.
+The field under validation must be present if the _field_ field is equal to any _value_. 만약 _filed_의 값이 _value_중의 하나와 일치한다면, 해당 필드가 반드시 존재해야 합니다.
+
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-The field under validation must be present _only if_ any of the other specified fields are present.
+The field under validation must be present _only if_ any of the other specified fields are present. 다른 지정된 필드중 하나라도 존재한다면, 해당 필드가 반드시 존재해야 합니다.
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-The field under validation must be present _only if_ all of the other specified fields are present.
+The field under validation must be present _only if_ all of the other specified fields are present. 다른 지정된 필드가 모두 존재한다면, 해당 필드가 반드시 존재해야 합니다.
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-The field under validation must be present _only when_ any of the other specified fields are not present.
+The field under validation must be present _only when_ any of the other specified fields are not present. 다른 지정된 필드중 하나라도 존재하지 않으면, 해당 필드가 반드시 존재해야 합니다.
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-The field under validation must be present _only when_ all of the other specified fields are not present.
+The field under validation must be present _only when_ all of the other specified fields are not present. 다른 지정된 필드가 모두 존재하지 않으면, 해당 필드가 존재해야 합니다.
 
 <a name="rule-same"></a>
 #### same:_field_
 
-The given _field_ must match the field under validation.
+The given _field_ must match the field under validation. 필드의 값이 주어진 _field_의 값과 일치해야 합니다.
 
 <a name="rule-size"></a>
 #### size:_value_
 
-The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For files, _size_ corresponds to the file size in kilobytes.
+The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For files, _size_ corresponds to the file size in kilobytes. 필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
 
 <a name="rule-string"></a>
 #### string:_value_
 
-The field under validation must be a string type.
+The field under validation must be a string type. 필드의 값이 반드시 문자열 형식이어야 합니다.
 
 <a name="rule-timezone"></a>
 #### timezone
 
-The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
+The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function. 필드의 값이 `timezone_identifiers_list` PHP 함수에 따라 유효한 timezone 식별자여야 합니다.
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-The field under validation must be unique on a given database table. If the `column` option is not specified, the field name will be used.
+The field under validation must be unique on a given database table. If the `column` option is not specified, the field name will be used. 필드의 값이 주어진 데이터베이스 테이블에서 고유한 값이어야 합니다. 만약 `column` 지정돼 있지 않다면 필드의 이름이 사용됩니다.
 
-#### Basic Usage Of Unique Rule
+#### Basic Usage Of Unique Rule unique 룰의 기본 사용법
 
 	'email' => 'unique:users'
 
-#### Specifying A Custom Column Name
+#### Specifying A Custom Column Name 특정 컬럼명 지정하기
 
 	'email' => 'unique:users,email_address'
 
-#### Forcing A Unique Rule To Ignore A Given ID
+#### Forcing A Unique Rule To Ignore A Given ID 주어진 ID는 unique 룰에서 무시하기
 
 	'email' => 'unique:users,email_address,10'
 
-#### Adding Additional Where Clauses
+#### Adding Additional Where Clauses where 구문 추가하기
 
-You may also specify more conditions that will be added as "where" clauses to the query:
+You may also specify more conditions that will be added as "where" clauses to the query: 쿼리문의 "where"  구문에 추가할 조건을 더 지정할 수 있습니다.
 
 	'email' => 'unique:users,email_address,NULL,id,account_id,1'
 
-In the rule above, only rows with an `account_id` of `1` would be included in the unique check.
+In the rule above, only rows with an `account_id` of `1` would be included in the unique check. 앞서의 룰에서 오직 `account_id`가 `1`인 행만 unique 유효성 검사에 포함됩니다. 
 
 <a name="rule-url"></a>
 #### url
 
-The field under validation must be formatted as an URL.
+The field under validation must be formatted as an URL. 필드의 값이 URL 형식이어야 합니다.
 
-> **Note:** This function uses PHP's `filter_var` method.
+> **Note:** This function uses PHP's `filter_var` method. **주의** 이 기능은 PHP의 `filter_var` 함수를 사용합니다.
 
 <a name="conditionally-adding-rules"></a>
 ## Conditionally Adding Rules

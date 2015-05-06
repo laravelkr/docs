@@ -366,37 +366,37 @@ Below is a list of all available validation rules and their function: 모든 유
 <a name="rule-accepted"></a>
 #### accepted
 
-The field under validation must be _yes_, _on_, or _1_. This is useful for validating "Terms of Service" acceptance.
+The field under validation must be _yes_, _on_, or _1_. This is useful for validating "Terms of Service" acceptance. 필드의 값이 _yes_, _on_, 또는 _1_이어야 합니다. 이 것은 "이용약관" 동의와 같은 필드의 검사에 유용합니다.
 
 <a name="rule-active-url"></a>
 #### active_url
 
-The field under validation must be a valid URL according to the `checkdnsrr` PHP function.
+The field under validation must be a valid URL according to the `checkdnsrr` PHP function. 필드의 값이 PHP 함수 `checkdnsrr`에 기반하여 올바른 URL이어야 합니다.
 
 <a name="rule-after"></a>
 #### after:_date_
 
-The field under validation must be a value after a given date. The dates will be passed into the PHP `strtotime` function.
+The field under validation must be a value after a given date. The dates will be passed into the PHP `strtotime` function. 필드의 값이 주어진 날짜 이후여야 합니다. 이때 날짜는 PHP 함수 `strtotime`을 통해 생성된 값입니다.
 
 <a name="rule-alpha"></a>
 #### alpha
 
-The field under validation must be entirely alphabetic characters.
+The field under validation must be entirely alphabetic characters. 필드의 값이 완벽하게 알파벳 문자로 이루어져야 합니다.
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+The field under validation may have alpha-numeric characters, as well as dashes and underscores. 필드의 값이 알파벳 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다.
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 
-The field under validation must be entirely alpha-numeric characters.
+The field under validation must be entirely alpha-numeric characters. 필드의 값이 완벽하게 알파벳 및 숫자로 이루어져야 합니다.
 
 <a name="rule-array"></a>
 #### array
 
-The field under validation must be of type array.
+The field under validation must be of type array. 필드의 값이 반드시 배열형태여야 합니다.
 
 <a name="rule-before"></a>
 #### before:_date_

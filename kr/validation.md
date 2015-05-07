@@ -59,17 +59,17 @@ If validation has failed, you may retrieve the error messages from the validator
 
 	$messages = $validator->messages();
 
-You may also access an array of the failed validation rules, without messages. To do so, use the `failed` method:  또한 오류 메시지가 제외된, 실패한 유효성 검사 룰을 배열형태로 얻을 수 있습니다.
+You may also access an array of the failed validation rules, without messages. To do so, use the `failed` method:  또한 오류 메시지가 제외된, 실패한 유효성 검사 룰을 배열 형태로 얻을 수도 있습니다.
 
 	$failed = $validator->failed();
 
 #### Validating Files 파일 유효성 검사
 
-The `Validator` class provides several rules for validating files, such as `size`, `mimes`, and others. When validating files, you may simply pass them into the validator with your other data. `Validation` 클래스는 파일 유효성 검사를 위한 `size`, `mimes` 등의 몇가지 룰을 제공합니다. 파일의 유효성을 검시할 때, 간단히 그 파일들을 다른 데이터들과 함께 validator에 전달하세요.
+The `Validator` class provides several rules for validating files, such as `size`, `mimes`, and others. `Validation` 클래스는 파일 유효성 검사를 위한 `size`, `mimes` 등의 몇가지 룰을 제공합니다. When validating files, you may simply pass them into the validator with your other data. 파일의 유효성을 검사할 때, 간단히 그 파일들을 다른 데이터들과 함께 validator에 전달하십시오.
 
 ### After Validation Hook 유효성검사 후킹하기
 
-The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance: 유효성 검사가 완료된 후에 실행하고싶은 콜백함수를 validator에 추가할 수 있습니다. 이를 통하여 손쉽게 더 많은 유효성 검사를 실행할 수 있도록 하고, 오류 메시지 모음에 오류 메시지를 더 추가할 수도 있도록 해줍니다. validator 인스턴스에 `after` 메소드를 사용해보세요. 
+The validator also allows you to attach callbacks to be run after validation is completed. 유효성 검사가 완료된 후에 실행하고 싶은 콜백함수를 validator에 추가할 수 있습니다. This allows you to easily perform further validation, and even add more error messages to the message collection. 이를 통하여 손쉽게 더 많은 유효성 검사를 실행할 수 있도록 하고, 오류 메시지 모음에 오류 메시지를 더 추가할 수도 있도록 해줍니다. To get started, use the `after` method on a validator instance: validator 인스턴스의 `after` 메소드를 사용하십시오.
 
 	$validator = Validator::make(...);
 
@@ -91,7 +91,7 @@ You may add as many `after` callbacks to a validator as needed. 필요한만큼 
 <a name="controller-validation"></a>
 ## Controller Validation 컨트롤러 단위 유효성 검사 
 
-Of course, manually creating and checking a `Validator` instance each time you do validation is a headache. 유효성 검사를 실행할 때마다 수동으로 `Validator` 인스턴스를 생성하고 체크하는 것은 정말 골칫거리일 것입니다. Don't worry, you have other options! 걱정하지 마세요. 다른 방법이 있습니다 The base `App\Http\Controllers\Controller` class included with Laravel uses a `ValidatesRequests` trait. 라라벨에 포함된  `App\Http\Controllers\Controller` 기본 클래스는 `ValidatesRequests` 트래잇을 사용합니다 This trait provides a single, convenient method for validating incoming HTTP requests. 이 트래잇은 들어온 HTTP 리퀘스트의 유효성 검사를 위하여 편리한 메소드 하나를 제공합니다. Here's what it looks like: 그 메소드는 아래와 같습니다.
+Of course, manually creating and checking a `Validator` instance each time you do validation is a headache. 유효성 검사를 실행할 때마다 수동으로 `Validator` 인스턴스를 생성하고 체크한다면 정말 골치 아플 것입니다. Don't worry, you have other options! 걱정하지 마세요. 다른 방법이 있습니다 The base `App\Http\Controllers\Controller` class included with Laravel uses a `ValidatesRequests` trait. 라라벨에 포함된  `App\Http\Controllers\Controller` 기본 클래스는 `ValidatesRequests` trait을 사용합니다 This trait provides a single, convenient method for validating incoming HTTP requests. 이 trait은 들어오는 HTTP 요청의 유효성 검사를 위하여 편리한 메소드를 하나 제공합니다. Here's what it looks like: 그 메소드는 아래와 같습니다.
 
 	/**
 	 * Store the incoming blog post.
@@ -109,9 +109,9 @@ Of course, manually creating and checking a `Validator` instance each time you d
 		//
 	}
 
-If validation passes, your code will keep executing normally. 만약 유효성검사가 성공하면, 코드는 정상적으로 실행될 것입니다. However, if validation fails, an `Illuminate\Contracts\Validation\ValidationException` will be thrown. 하지만 유효성 검사가 실패하면, `Illuminate\Contracts\Validation\ValidationException`이 던져질 것입니다. This exception is automatically caught and a redirect is generated to the user's previous location. 이 예외는 자동으로 catch되고 사용자의 이전 페이지로 리다이렉트 됩니다. The validation errors are even automatically flashed to the session! 유효성검사 오류들 역시 자동으로 세션에 기록됩니다!
+If validation passes, your code will keep executing normally. 만약 유효성검사가 성공하면, 코드는 정상적으로 실행될 것입니다. However, if validation fails, an `Illuminate\Contracts\Validation\ValidationException` will be thrown. 하지만 유효성 검사가 실패하면, `Illuminate\Contracts\Validation\ValidationException`이 던져질 것입니다. This exception is automatically caught and a redirect is generated to the user's previous location. 이 예외는 자동으로 catch되고 사용자 페이지는 이전 페이지로 리다이렉트됩니다. The validation errors are even automatically flashed to the session! 유효성 검사 오류들 역시 자동으로 세션에 기록됩니다!
 
-If the incoming request was an AJAX request, no redirect will be generated. 만약  들어온 요청이 AJAX 요청이라면, 리다이렉트가 실행되지 않습니다. Instead, an HTTP response with a 422 status code will be returned to the browser containing a JSON representation of the validation errors. 대신, 422 상태코드의 HTTP 응답이 JSON 형식의 유효성 검사 오류를 포함한 채 브라우저로 반환될 것입니다.
+If the incoming request was an AJAX request, no redirect will be generated. 만약 들어온 요청이 AJAX 요청이라면, 리다이렉트는 실행되지 않습니다. Instead, an HTTP response with a 422 status code will be returned to the browser containing a JSON representation of the validation errors. 대신, 422 상태코드의 HTTP 응답이 JSON 형식으로 유효성 검사 오류를 포함한 채 브라우저로 반환될 것입니다.
 
 For example, here is the equivalent code written manually: 이와 동일한 작동을 하는 코드를 수동으로 작성한 예입니다.
 
@@ -151,11 +151,11 @@ If you wish to customize the format of the validation errors that are flashed to
 <a name="form-request-validation"></a>
 ## Form Request Validation 폼 요청 유효성 검사
 
-For more complex validation scenarios, you may wish to create a "form request". 당신은 "폼 요청(form request)"를 만들고 싶을수도 있습니다. Form requests are custom request classes that contain validation logic. 폼 요청은 유효성검사 로직을 내장하도록 커스터마이징한 요청 클래스입니다. To create a form request class, use the `make:request` Artisan CLI command: 폼 요청 클래스를 만드려면, `make:request` Artisan 명령을 사용하십시오.
+For more complex validation scenarios, you may wish to create a "form request". 여러분은 "폼 요청(form request)"를 만들고 싶을수도 있습니다. Form requests are custom request classes that contain validation logic. 폼 요청은 유효성검사 로직을 내장하는 커스텀 요청 클래스입니다. To create a form request class, use the `make:request` Artisan CLI command: 폼 요청 클래스를 만드려면, `make:request` Artisan 명령을 사용하십시오.
 
 	php artisan make:request StoreBlogPostRequest
 
-The generated class will be placed in the `app/Http/Requests` directory. 생성된 클래스는 `app/Http/Requests` 디렉토리에 위치합니다. Let's add a few validation rules to the `rules` method: 유효성검사 룰 몇개를 `rules` 메소드에 추가해봅시다.
+The generated class will be placed in the `app/Http/Requests` directory. 생성된 요청 클래스는 `app/Http/Requests` 디렉토리에 위치합니다. Let's add a few validation rules to the `rules` method: 유효성 검사 룰 몇개를 `rules` 메소드에 추가해봅시다.
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -170,7 +170,7 @@ The generated class will be placed in the `app/Http/Requests` directory. 생성�
 		];
 	}
 
-So, how are the validation rules executed? All you need to do is type-hint the request on your controller method: 그럼 어떻게 이 유효성 검사 룰이 실행되도록 할까요? 여러분의 컨트롤러 메소드에 그 요청의 타입힌트를 넣어주기만 하면 됩니다.
+So, how are the validation rules executed? All you need to do is type-hint the request on your controller method: 그럼 어떻게 이 유효성 검사 룰이 실행되도록 할 수 있을까요? 여러분의 컨트롤러 메소드에 그 요청의 타입힌트를 넣어주기만 하면 됩니다.
 
 	/**
 	 * Store the incoming blog post.
@@ -183,13 +183,13 @@ So, how are the validation rules executed? All you need to do is type-hint the r
 		// The incoming request is valid...
 	}
 
-The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic. 들어온 폼 요청은 컨트롤러 메소드가 실행되기 전에 유효성 검사를 거칩니다. 이는 유효성 검사 로직으로 여러분의 컨트롤러를 어지럽힐 필요가 없다는 것을 의미합니다.  It has already been validated! 이미 유효성 검사는 실행된 후입니다!
+The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic. 들어온 폼 요청은 컨트롤러 메소드가 실행되기 전에 미리 유효성 검사를 거칩니다. 이는 유효성 검사 로직으로 여러분의 컨트롤러를 어지럽힐 필요가 없다는 것을 의미합니다. It has already been validated! 이미 유효성 검사는 실행된 후입니다!
 
 If validation fails, a redirect response will be generated to send the user back to their previous location. 만약 유효성 검사가 실패하면 이전 페이지로의 리다이렉트 응답이 생성되어 사용자에게 보내집니다. The errors will also be flashed to the session so they are available for display. 오류들 또한 화면에 출력될 수 있도록 세션에 기록될 것입니다. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors. 만약 요청이 AJAX 요청이면, 422 status 코드의 HTTP 응답이 JSON 형식의 오류 메시지를 포함한 채 사용자에게 반환됩니다.
 
-### Authorizing Form Requests 폼 요청 인증하기
+### Authorizing Form Requests 폼 요청 권한 확인하기
 
-The form request class also contains an `authorize` method. 폼요청은 또한 `authorize` 메소드를 가지고 있습니다. Within this method, you may check if the authenticated user actually has the authority to update a given resource. 이 메소드에서 여러분은 인증된 사용자가 실제로 주어진 리소스를 업데이트할 권한을 가졌는지 체크할 수 있습니다.  For example, if a user is attempting to update a blog post comment, do they actually own that comment? For example: 예를 들어, 만약 사용자가 블로그 포스트의 댓글을 업데이트하려고 시도할 때, 실제로 그들이 그 댓글의 소유자인가를 인증하려면:
+The form request class also contains an `authorize` method. 또한 폼 요청 클래스는 `authorize` 메소드를 가지고 있습니다. Within this method, you may check if the authenticated user actually has the authority to update a given resource. 여러분은 이 메소드로 사용자가 실제로 주어진 리소스를 업데이트할 권한을 가졌는지 체크할 수 있습니다.  For example, if a user is attempting to update a blog post comment, do they actually own that comment? For example: 만약 사용자가 블로그 포스트의 댓글을 업데이트하려고 시도할 때, 실제로 그들이 그 댓글의 소유자인가를 확인하는 예제입니다:
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -204,7 +204,7 @@ The form request class also contains an `authorize` method. 폼요청은 또한 
                       ->where('user_id', Auth::id())->exists();
 	}
 
-Note the call to the `route` method in the example above. 앞의 예제에서 `route`메소드를 호출하는 것에 주목하십시오. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below: 이 메소드는 아래의 예제에서 `{comment}` 파라메터와 같이 호출된 라우트에 정의된 URI 파라메터에 여러분이 접근할 수 있는지를 인증합니다.
+Note the call to the `route` method in the example above. 앞의 예제에서 `route`메소드를 호출하는 것에 주목하십시오. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below: 이 메소드는 아래의 예제에서 `{comment}` 파라메터와 같이 호출된 라우트에 정의된 URI 파라메터에 여러분이 접근할 수 있는지 권한을 확인합니다.
 
 	Route::post('comment/{comment}');
 
@@ -222,9 +222,9 @@ If you plan to have authorization logic in another part of your application, sim
 		return true;
 	}
 
-### Customizing The Flashed Error Format 오류 형식 커스터마이징 하기
+### Customizing The Flashed Error Format 세션에 기록되는 오류 형식 커스터마이징 하기
 
-If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatErrors` on your base request (`App\Http\Requests\Request`). 만약 여러분이 유효성 검사가 실패했을 때 세션에 기록될 유효성 검사 오류의 형식을 커스터마이징하고 싶다면, base 요청 클래스(`App\Http\Requests\Request`)의 `formatErrors` 메소드를 오버라이딩하십시오.  Don't forget to import the `Illuminate\Validation\Validator` class at the top of the file: 이때, 파일 상단에서 `Illuminate\Validation\Validator`를 임포트하는 것을 잊지 마십시오.
+If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatErrors` on your base request (`App\Http\Requests\Request`). 만약 유효성 검사가 실패했을 때 세션에 기록될 유효성 검사 오류의 형식을 커스터마이징하고 싶다면, base 요청 클래스(`App\Http\Requests\Request`)의 `formatErrors` 메소드를 오버라이딩하십시오.  Don't forget to import the `Illuminate\Validation\Validator` class at the top of the file: 이때, 파일 상단에서 `Illuminate\Validation\Validator`를 임포트하는 것을 잊지 마십시오.
 
 	/**
 	 * {@inheritdoc}
@@ -237,13 +237,13 @@ If you wish to customize the format of the validation errors that are flashed to
 <a name="working-with-error-messages"></a>
 ## Working With Error Messages 오류 메시지 사용하기
 
-After calling the `messages` method on a `Validator` instance, you will receive a `MessageBag` instance, which has a variety of convenient methods for working with error messages. `Validator` 인스턴스의 `messages` 메소드를 실행하면, 오류 메시지를 편하게 사용하기 위한 여러 메소드를 가진  `MessageBag` 인스턴스를 받을 수 있습니다. 
+After calling the `messages` method on a `Validator` instance, you will receive a `MessageBag` instance, which has a variety of convenient methods for working with error messages. `Validator` 인스턴스의 `messages` 메소드를 실행하면, 오류 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다.
 
-#### Retrieving The First Error Message For A Field 한 필드에 대한 첫번째 오류 메시지 조회하기
+#### Retrieving The First Error Message For A Field 하나의 필드에 대한 첫번째 오류 메시지 조회하기
 
 	echo $messages->first('email');
 
-#### Retrieving All Error Messages For A Field 한 필드에 대한 모든 오류 메시지 조회하기
+#### Retrieving All Error Messages For A Field 하나의 필드에 대한 모든 오류 메시지 조회하기
 
 	foreach ($messages->get('email') as $message)
 	{
@@ -257,20 +257,20 @@ After calling the `messages` method on a `Validator` instance, you will receive 
 		//
 	}
 
-#### Determining If Messages Exist For A Field 한 필드에 대하여 오류 메시지가 존재하는지 검사하기
+#### Determining If Messages Exist For A Field 하나의 필드에 대하여 오류 메시지가 존재하는지 검사하기
 
 	if ($messages->has('email'))
 	{
 		//
 	}
 
-#### Retrieving An Error Message With A Format 특정 형식을 가진 오류 메시지 조회하기
+#### Retrieving An Error Message With A Format 특정 형식으로 오류 메시지 조회해 오기
 
 	echo $messages->first('email', '<p>:message</p>');
 
-> **Note:** By default, messages are formatted using Bootstrap compatible syntax. **주목** 기본적으로 메시지들은 Bootstrap에 호환되는 구문을 사용하여 구성되어 있습니다.
+> **Note:** By default, messages are formatted using Bootstrap compatible syntax. 기본적으로 메시지들은 Bootstrap에 호환되는 구문을 사용하여 구성되어 있습니다.
 
-#### Retrieving All Error Messages With A Format 특정 형식을 가진 모든 오류 메시지 조회하기
+#### Retrieving All Error Messages With A Format 특정 형식으로 모든 오류 메시지 조회해 오기
 
 	foreach ($messages->all('<li>:message</li>') as $message)
 	{
@@ -280,7 +280,7 @@ After calling the `messages` method on a `Validator` instance, you will receive 
 <a name="error-messages-and-views"></a>
 ## Error Messages & Views 오류 메시지 & 뷰
 
-Once you have performed validation, you will need an easy way to get the error messages back to your views. 여러분이 유효성 검사를 실행하면, 여러분의 뷰에서 오류메시지를 쉽게 얻을 수 있는 방법이 필요할 것입니다. This is conveniently handled by Laravel. 라라벨에서는 이 것을 손쉽게 할 수 있습니다. Consider the following routes as an example: 아래의 예제에 나오는 라우트를 생각해봅시다. 
+Once you have performed validation, you will need an easy way to get the error messages back to your views. 여러분이 유효성 검사를 실행하면, 뷰에서 오류 메시지를 쉽게 얻을 수 있는 방법이 필요할 것입니다. This is conveniently handled by Laravel. 이 것을 손쉽게 할 수 있도록 라라벨이 제공하고 있습니다. Consider the following routes as an example: 아래의 예제에 나오는 라우트를 생각해봅시다. 
 
 	Route::get('register', function()
 	{
@@ -299,21 +299,21 @@ Once you have performed validation, you will need an easy way to get the error m
 		}
 	});
 
-Note that when validation fails, we pass the `Validator` instance to the Redirect using the `withErrors` method. 유효성 검사가 실패했을 때를 보면, 우리는 `Validator` 인스턴스를 `withErrors` 메소드를 사용하여 리다이렉트에 전달합니다. This method will flash the error messages to the session so that they are available on the next request. 이 메소드는 오류 메시지를 다음 요청에서 사용할 수 있도록 세션에 기록합니다.
+Note that when validation fails, we pass the `Validator` instance to the Redirect using the `withErrors` method. 유효성 검사가 실패했을 때, 우리는 `withErrors` 메소드를 사용하여 리다이렉트에 `Validator` 인스턴스를 전달합니다. This method will flash the error messages to the session so that they are available on the next request. 이 메소드는 오류 메시지를 다음 요청에서 사용할 수 있도록 세션에 기록합니다.
 
-However, notice that we do not have to explicitly bind the error messages to the view in our GET route. 하지만, 우리는 명시적으로 오류메시지를 GET 라우트의 뷰에 바인딩하지 하지 말아야 하는 것을 유념해야 합니다. This is because Laravel will always check for errors in the session data, and automatically bind them to the view if they are available. 왜냐하면 라라벨은 항상 세션 데이터에 유효성 검사 오류가 있는지 체크하고, 자동으로 그것들을 뷰에 바인딩하기 때문입니다. **So, it is important to note that an `$errors` variable will always be available in all of your views, on every request**, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. **그래서, `$errors` 변수는 항상 모든 뷰에서 사용될 수 있다는 것을 아는 것이 중요합니다.** 이는 여러분이 `$errors` 변수가 항상 정의돼 있고 아무 지장없이 사용될 수 있다고 가정할 수 있도록 합니다. The `$errors` variable will be an instance of `MessageBag`. `$errors` 변수는 `MessageBag`의 인스턴스입니다.
+However, notice that we do not have to explicitly bind the error messages to the view in our GET route. 하지만, 명시적으로 오류메시지를 GET 라우트의 뷰에 바인딩하지 말아야 하는 것을 유념해야 합니다. This is because Laravel will always check for errors in the session data, and automatically bind them to the view if they are available. 왜냐하면 라라벨은 항상 세션 데이터에 유효성 검사 오류가 있는지 체크하고, 자동으로 오류들을 뷰에 바인딩하기 때문입니다. **So, it is important to note that an `$errors` variable will always be available in all of your views, on every request**, allowing you to conveniently assume the `$errors` variable is always defined and can be safely used. **그래서, `$errors` 변수는 항상 모든 뷰에서 사용될 수 있다는 것을 알고 있는 것이 중요합니다.** 이는 여러분이 `$errors` 변수가 항상 정의돼 있고 아무 지장없이 사용될 수 있다고 가정할 수 있도록 합니다. The `$errors` variable will be an instance of `MessageBag`. `$errors` 변수는 `MessageBag`의 인스턴스입니다.
 
-So, after redirection, you may utilize the automatically bound `$errors` variable in your view: 따라서, 리다이렉트된 후 여러분은 자동으로 바인딩된 `$errors` 변수를 뷰에서 활용할 수 있습니다.
+So, after redirection, you may utilize the automatically bound `$errors` variable in your view: 따라서, 리다이렉트된 후 여러분은 자동으로 바인딩 된 `$errors` 변수를 뷰에서 활용할 수 있습니다.
 
 	<?php echo $errors->first('email'); ?>
 
 ### Named Error Bags 이름이 지정된 오류 메시지 백
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors. 만약 여러개의 폼을 단일 페이지에서 사용한다면, 여러분은 오류의 `MessageBag`에 이름을 지정하고 싶을지도 모릅니다. This will allow you to retrieve the error messages for a specific form. 이는 여러분이 특정 폼에 대한 오류 메시지를 조회할 수 있도록 해줄 것입니다. Simply pass a name as the second argument to `withErrors`: `withErrors` 간단하게 메소드의 두번째 파라메터로 이름을 전달하면 됩니다.
+If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors. 만약 여러개의 폼을 단일 페이지에서 사용한다면, 여러분은 오류의 `MessageBag`에 이름을 지정하고 싶을지도 모릅니다. This will allow you to retrieve the error messages for a specific form. 이는 여러분이 특정 폼에 대한 오류 메시지를 조회할 수 있도록 해줍니다. Simply pass a name as the second argument to `withErrors`: `withErrors` 메소드의 두번째 파라메터로 이름을 전달하기만 하면 됩니다.
 
 	return redirect('register')->withErrors($validator, 'login');
 
-You may then access the named `MessageBag` instance from the `$errors` variable: 그 다음 여러분은 `$errors` 변수로부터 이름이 지정된 `MessageBag` 인스턴스에 접근할 수 있습니다.
+You may then access the named `MessageBag` instance from the `$errors` variable: 그 다음 `$errors` 변수로부터 이름이 지정된 `MessageBag` 인스턴스에 접근할 수 있습니다.
 
 	<?php echo $errors->login->first('email'); ?>
 
@@ -523,7 +523,7 @@ The field under validation must have a numeric value. 필드의 값이 숫자여
 
 The field under validation must match the given regular expression. 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character. **주의** `regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
+**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character. `regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
 
 <a name="rule-required"></a>
 #### required
@@ -606,7 +606,7 @@ In the rule above, only rows with an `account_id` of `1` would be included in th
 
 The field under validation must be formatted as an URL. 필드의 값이 URL 형식이어야 합니다.
 
-> **Note:** This function uses PHP's `filter_var` method. **주의:** 이 기능은 PHP의 `filter_var` 함수를 사용합니다.
+> **Note:** This function uses PHP's `filter_var` method. 이 기능은 PHP의 `filter_var` 함수를 사용합니다.
 
 <a name="conditionally-adding-rules"></a>
 ## Conditionally Adding Rules 조건부 룰 추가하기
@@ -642,7 +642,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 		return $input->games >= 100;
 	});
 
-> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files. **주의:** `Closure`로 전달된 `$input` 파라메터는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트는 사용할 수 있습니다.
+> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files. `Closure`로 전달된 `$input` 파라메터는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트는 사용할 수 있습니다.
 
 <a name="custom-error-messages"></a>
 ## Custom Error Messages 커스텀 오류 메시지
@@ -657,7 +657,7 @@ If needed, you may use custom error messages for validation instead of the defau
 
 	$validator = Validator::make($input, $rules, $messages);
 
-> *Note:* The `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. *주의:* `:attribute` place-holder는 유효성 검사 필드의 실제 이름으로 대체됩니다. 여러분은 유효성 검사 메시지에 있는 다른 place-holder를 활용할 수도 있습니다.
+> *Note:* The `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. `:attribute` place-holder는 유효성 검사 필드의 실제 이름으로 대체됩니다. 여러분은 유효성 검사 메시지에 있는 다른 place-holder를 활용할 수도 있습니다.
 
 #### Other Validation Place-Holders 다른 유효성 검사 Place-Holders
 

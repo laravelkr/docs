@@ -13,7 +13,7 @@
 <a name="basic-usage"></a>
 ## Basic Usage 기본 사용법
 
-Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메세지를 구성할 수 있는 간단하고, 편리한 기능을 제공합니다.
+Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메시지를 구성할 수 있는 간단하고, 편리한 기능을 제공합니다.
 
 #### Basic Validation Example 기본적인 유효성 검사의 예
 
@@ -55,7 +55,7 @@ Once a `Validator` instance has been created, the `fails` (or `passes`) method m
 		// The given data did not pass validation
 	}
 
-If validation has failed, you may retrieve the error messages from the validator. 만약 유효성 검사가 실패하면, validator 인스턴스로부터 오류 메세지를 얻을 수 있습니다.
+If validation has failed, you may retrieve the error messages from the validator. 만약 유효성 검사가 실패하면, validator 인스턴스로부터 오류 메시지를 얻을 수 있습니다.
 
 	$messages = $validator->messages();
 
@@ -69,7 +69,7 @@ The `Validator` class provides several rules for validating files, such as `size
 
 ### After Validation Hook 유효성검사 후킹하기
 
-The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance: 유효성 검사가 완료된 후에 실행하고싶은 콜백함수를 validator에 추가할 수 있습니다. 이를 통하여 손쉽게 더 많은 유효성 검사를 실행할 수 있도록 하고, 오류 메세지 모음에 오류 메시지를 더 추가할 수도 있도록 해줍니다. validator 인스턴스에 `after` 메소드를 사용해보세요. 
+The validator also allows you to attach callbacks to be run after validation is completed. This allows you to easily perform further validation, and even add more error messages to the message collection. To get started, use the `after` method on a validator instance: 유효성 검사가 완료된 후에 실행하고싶은 콜백함수를 validator에 추가할 수 있습니다. 이를 통하여 손쉽게 더 많은 유효성 검사를 실행할 수 있도록 하고, 오류 메시지 모음에 오류 메시지를 더 추가할 수도 있도록 해줍니다. validator 인스턴스에 `after` 메소드를 사용해보세요. 
 
 	$validator = Validator::make(...);
 
@@ -185,7 +185,7 @@ So, how are the validation rules executed? All you need to do is type-hint the r
 
 The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic. 들어온 폼 요청은 컨트롤러 메소드가 실행되기 전에 유효성 검사를 거칩니다. 이는 유효성 검사 로직으로 여러분의 컨트롤러를 어지럽힐 필요가 없다는 것을 의미합니다.  It has already been validated! 이미 유효성 검사는 실행된 후입니다!
 
-If validation fails, a redirect response will be generated to send the user back to their previous location. 만약 유효성 검사가 실패하면 이전 페이지로의 리다이렉트 응답이 생성되어 사용자에게 보내집니다. The errors will also be flashed to the session so they are available for display. 오류들 또한 화면에 출력될 수 있도록 세션에 기록될 것입니다. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors. 만약 요청이 AJAX 요청이면, 422 status 코드의 HTTP 응답이 JSON 형식의 오류 메세지를 포함한 채 사용자에게 반환됩니다.
+If validation fails, a redirect response will be generated to send the user back to their previous location. 만약 유효성 검사가 실패하면 이전 페이지로의 리다이렉트 응답이 생성되어 사용자에게 보내집니다. The errors will also be flashed to the session so they are available for display. 오류들 또한 화면에 출력될 수 있도록 세션에 기록될 것입니다. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors. 만약 요청이 AJAX 요청이면, 422 status 코드의 HTTP 응답이 JSON 형식의 오류 메시지를 포함한 채 사용자에게 반환됩니다.
 
 ### Authorizing Form Requests 폼 요청 인증하기
 

@@ -1,14 +1,14 @@
 # Validation
 
-- [Basic Usage](#basic-usage)
-- [Controller Validation](#controller-validation)
-- [Form Request Validation](#form-request-validation)
-- [Working With Error Messages](#working-with-error-messages)
-- [Error Messages & Views](#error-messages-and-views)
-- [Available Validation Rules](#available-validation-rules)
-- [Conditionally Adding Rules](#conditionally-adding-rules)
-- [Custom Error Messages](#custom-error-messages)
-- [Custom Validation Rules](#custom-validation-rules)
+- [Basic Usage](#basic-usage) 기본 사용법
+- [Controller Validation](#controller-validation) 컨트롤러 단위 유효성 검사 
+- [Form Request Validation](#form-request-validation) 폼 요청 유효성 검사
+- [Working With Error Messages](#working-with-error-messages) 오류 메시지 사용하기
+- [Error Messages & Views](#error-messages-and-views) 오류 메시지 & 뷰
+- [Available Validation Rules](#available-validation-rules) 유효성 검사 룰
+- [Conditionally Adding Rules](#conditionally-adding-rules) 조건부 룰 추가하기
+- [Custom Error Messages](#custom-error-messages) 커스텀 오류 메시지
+- [Custom Validation Rules](#custom-validation-rules) 커스텀 유효성 검사 룰
 
 <a name="basic-usage"></a>
 ## Basic Usage 기본 사용법
@@ -235,7 +235,7 @@ If you wish to customize the format of the validation errors that are flashed to
 	}
 
 <a name="working-with-error-messages"></a>
-## Working With Error Messages 오류 메시지 처리하기
+## Working With Error Messages 오류 메시지 사용하기
 
 After calling the `messages` method on a `Validator` instance, you will receive a `MessageBag` instance, which has a variety of convenient methods for working with error messages. `Validator` 인스턴스의 `messages` 메소드를 실행하면, 오류 메시지를 편하게 사용하기 위한 여러 메소드를 가진  `MessageBag` 인스턴스를 받을 수 있습니다. 
 
@@ -688,7 +688,7 @@ In some cases, you may wish to specify your custom messages in a language file i
 	],
 
 <a name="custom-validation-rules"></a>
-## Custom Validation Rules 커스텀 유효성검사 룰
+## Custom Validation Rules 커스텀 유효성 검사 룰
 
 #### Registering A Custom Validation Rule 커스텀 유효성 검사 룰 등록하기
 

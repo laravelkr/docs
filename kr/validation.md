@@ -699,17 +699,17 @@ Laravel provides a variety of helpful validation rules; however, you may wish to
 		return $value == 'foo';
 	});
 
-The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule. 커스텀 유효성 검사 클로저는 3개의 인자를 받습니다: 유효성 검사를 할 `$attribute`의 이름, 
+The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule. 커스텀 유효성 검사 클로저는 3개의 인자를 받습니다: 유효성 검사를 할 필드(`$attribute`)의 이름, 필드의 값(`$value`), 그리고 룰에 전달될 파라메터(`$parameters`)의 배열입니다. 
 
-You may also pass a class and method to the `extend` method instead of a Closure:
+You may also pass a class and method to the `extend` method instead of a Closure: 또한 클로저 대신 클래스명과 메소드명을 `extend` 메소드로 전달할 수도 있습니다.
 
 	Validator::extend('foo', 'FooValidator@validate');
 
-Note that you will also need to define an error message for your custom rules. You can do so either using an inline custom message array or by adding an entry in the validation language file.
+Note that you will also need to define an error message for your custom rules. You can do so either using an inline custom message array or by adding an entry in the validation language file. 또한 커스텀 룰에 대한 오류 메시지를 정의할 필요가 있다는 것을 유념하십시오. 인라인 커스텀 메시지 배열을 사용할 수도 있고 validation 언어파일에 추가할 수도 있습니다.
 
-#### Extending The Validator Class
+#### Extending The Validator Class Validator 클래스 확장하기
 
-Instead of using Closure callbacks to extend the Validator, you may also extend the Validator class itself. To do so, write a Validator class that extends `Illuminate\Validation\Validator`. You may add validation methods to the class by prefixing them with `validate`:
+Instead of using Closure callbacks to extend the Validator, you may also extend the Validator class itself. Validator를 확장하기 위해 클로저를 사용하는 대신에 Validator 클래스 자체를 확장할 수 있습니다. To do so, write a Validator class that extends `Illuminate\Validation\Validator`. 이를 위하여, `Illuminate\Validation\Validator`를 확장하는 Validator 클래스를 작성하십시오. You may add validation methods to the class by prefixing them with `validate`: 메소드명 앞에 `validate`를 붙이는 방법으로 validation 메소드를 그 클래스에 추가할 수 있습니다.
 
 	<?php
 
@@ -722,23 +722,23 @@ Instead of using Closure callbacks to extend the Validator, you may also extend 
 
 	}
 
-#### Registering A Custom Validator Resolver
+#### Registering A Custom Validator Resolver 커스텀 Validator Resolver 등록하기
 
-Next, you need to register your custom Validator extension:
+Next, you need to register your custom Validator extension: 그 다음, 확장한 커스텀 Validator를 등록해야 합니다.
 
 	Validator::resolver(function($translator, $data, $rules, $messages)
 	{
 		return new CustomValidator($translator, $data, $rules, $messages);
 	});
 
-When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above, and adding a `replaceXXX` function to the validator.
+When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. 커스텀 유효성 검사 룰을 생성할 때, 가끔 오류 메시지에서 사용할 커스텀 place-holder를 정의할 필요가 있을수도 있습니다. You may do so by creating a custom Validator as described above, and adding a `replaceXXX` function to the validator. 앞서 설명했던 커스텀 Validator를 생성하고 `replaceXXX` 메소드를 validator에 추가하는 방법으로 그렇게 할 수 있습니다.
 
 	protected function replaceFoo($message, $attribute, $rule, $parameters)
 	{
 		return str_replace(':foo', $parameters[0], $message);
 	}
 
-If you would like to add a custom message "replacer" without extending the `Validator` class, you may use the `Validator::replacer` method:
+If you would like to add a custom message "replacer" without extending the `Validator` class, you may use the `Validator::replacer` method: 만약 `Validator` 클래스를 확장하지 않고 커스텀 메시지 "대체자"를 추가하고 싶다면, `Validator::replacer` 메소드를 사용할 수 있습니다.
 
 	Validator::replacer('rule', function($message, $attribute, $rule, $parameters)
 	{

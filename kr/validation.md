@@ -13,7 +13,7 @@
 <a name="basic-usage"></a>
 ## Basic Usage 기본 사용법
 
-Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메세지를 구성하기 위하여 간단하고, 편리한 기능을 제공합니다.
+Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메세지를 구성할 수 있는 간단하고, 편리한 기능을 제공합니다.
 
 #### Basic Validation Example 기본적인 유효성 검사의 예
 
@@ -22,7 +22,7 @@ Laravel ships with a simple, convenient facility for validating data and retriev
 		['name' => 'required|min:5']
 	);
 
-The first argument passed to the `make` method is the data under validation. The second argument is the validation rules that should be applied to the data. `make` 메소드는 첫번째 파라메터로 유효성 검사를 할 데이터를 받습니다. 두번째 파라메터로는 그 데이터에 적용되어야 하는 유효성 검사의 룰을 받습니다.
+The first argument passed to the `make` method is the data under validation. `make` 메소드는 첫번째 파라메터로 유효성 검사를 할 데이터를 받습니다. The second argument is the validation rules that should be applied to the data. 두번째 파라메터로는 그 데이터에 적용되어야 하는 유효성 검사 룰을 받습니다.
 
 #### Using Arrays To Specify Rules 배열을 사용하여 룰 지정하기
 
@@ -309,7 +309,7 @@ So, after redirection, you may utilize the automatically bound `$errors` variabl
 
 ### Named Error Bags 이름이 지정된 오류 메시지 백
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors. 만약 여러개의 폼을 단일 페이지에서 사용한다면, 여러분은 오류의 `MessageBag`에 이름을 지정하고 싶을지도 모릅니다. This will allow you to retrieve the error messages for a specific form. 이는 여러분이 특정 폼에 대한 오류 메시지를 조회할 수 있도록 해줄 것입니다. Simply pass a name as the second argument to `withErrors`: `withErrors` 간단하게 메소드의 두번째 인자로 이름을 전달하면 됩니다.
+If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors. 만약 여러개의 폼을 단일 페이지에서 사용한다면, 여러분은 오류의 `MessageBag`에 이름을 지정하고 싶을지도 모릅니다. This will allow you to retrieve the error messages for a specific form. 이는 여러분이 특정 폼에 대한 오류 메시지를 조회할 수 있도록 해줄 것입니다. Simply pass a name as the second argument to `withErrors`: `withErrors` 간단하게 메소드의 두번째 파라메터로 이름을 전달하면 됩니다.
 
 	return redirect('register')->withErrors($validator, 'login');
 
@@ -635,14 +635,14 @@ Let's assume our web application is for game collectors. 여러분의 웹 어플
 		return $input->games >= 100;
 	});
 
-The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. `sometimes` 메소드의 첫번째 인자는 필드의 이름입니다. The second argument is the rules we want to add. 두번째 인자는 추가하려는 룰입니다. If the `Closure` passed as the third argument returns `true`, the rules will be added. 만약 세번째 인자로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가도리 것입니다. This method makes it a breeze to build complex conditional validations. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 쉽게 만듭니다. You may even add conditional validations for several fields at once: 한번에 여러개의 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
+The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. `sometimes` 메소드의 첫번째 파라메터는 필드의 이름입니다. The second argument is the rules we want to add. 두번째 파라메터는 추가하려는 룰입니다. If the `Closure` passed as the third argument returns `true`, the rules will be added. 만약 세번째 파라메터로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가도리 것입니다. This method makes it a breeze to build complex conditional validations. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 쉽게 만듭니다. You may even add conditional validations for several fields at once: 한번에 여러개의 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
 
 	$v->sometimes(['reason', 'cost'], 'required', function($input)
 	{
 		return $input->games >= 100;
 	});
 
-> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files. **주의:** `Closure`로 전달된 `$input` 인자는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트는 사용할 수 있습니다.
+> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files. **주의:** `Closure`로 전달된 `$input` 파라메터는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트는 사용할 수 있습니다.
 
 <a name="custom-error-messages"></a>
 ## Custom Error Messages 커스텀 오류 메시지
@@ -699,7 +699,7 @@ Laravel provides a variety of helpful validation rules; however, you may wish to
 		return $value == 'foo';
 	});
 
-The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule. 커스텀 유효성 검사 클로저는 3개의 인자를 받습니다: 유효성 검사를 할 필드(`$attribute`)의 이름, 필드의 값(`$value`), 그리고 룰에 전달될 파라메터(`$parameters`)의 배열입니다. 
+The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule. 커스텀 유효성 검사 클로저는 3개의 파라메터를 받습니다: 유효성 검사를 할 필드(`$attribute`)의 이름, 필드의 값(`$value`), 그리고 룰에 전달될 파라메터(`$parameters`)의 배열입니다. 
 
 You may also pass a class and method to the `extend` method instead of a Closure: 또한 클로저 대신 클래스명과 메소드명을 `extend` 메소드로 전달할 수도 있습니다.
 

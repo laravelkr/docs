@@ -1,49 +1,84 @@
 # Eloquent ORM
 
 - [Introduction](#introduction)
+- [소개](#introduction)
 - [Basic Usage](#basic-usage)
+- [기본 사용법](#basic-usage)
 - [Mass Assignment](#mass-assignment)
+- [대량 할당](#mass-assignment)
 - [Insert, Update, Delete](#insert-update-delete)
+- [인서트, 업데이트, 삭제](#insert-update-delete)
 - [Soft Deleting](#soft-deleting)
+- [소프트 삭제](#soft-deleting)
 - [Timestamps](#timestamps)
+- [타임스탬프](#timestamps)
 - [Query Scopes](#query-scopes)
+- [쿼리 스코프](#query-scopes)
 - [Global Scopes](#global-scopes)
+- [글로벌 스코프](#global-scopes)
 - [Relationships](#relationships)
+- [관계](#relationships)
 - [Querying Relations](#querying-relations)
+- [관계 쿼리](#querying-relations)
 - [Eager Loading](#eager-loading)
+- [Eager 로딩](#eager-loading)
 - [Inserting Related Models](#inserting-related-models)
+- [관련 모델 삽입](#inserting-related-models)
 - [Touching Parent Timestamps](#touching-parent-timestamps)
+- [부모의 타임스탬프 업데이트](#touching-parent-timestamps)
 - [Working With Pivot Tables](#working-with-pivot-tables)
+- [피벗 테이블 작업](#working-with-pivot-tables)
 - [Collections](#collections)
+- [컬렉션](#collections)
+- [Accessors & Mutators](#accessors-and-mutators)
 - [Accessors & Mutators](#accessors-and-mutators)
 - [Date Mutators](#date-mutators)
+- [날짜 변경](#date-mutators)
 - [Attribute Casting](#attribute-casting)
+- [속성 캐스팅](#attribute-casting)
 - [Model Events](#model-events)
+- [모델 이벤트](#model-events)
 - [Model Observers](#model-observers)
+- [모델 옵저버](#model-observers)
 - [Model URL Generation](#model-url-generation)
+- [모델 URL 생성](#model-url-generation)
 - [Converting To Arrays / JSON](#converting-to-arrays-or-json)
+- [배열 / JSON으로 변환](#converting-to-arrays-or-json)
 
 <a name="introduction"></a>
 ## Introduction
+## 소개
 
 The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord implementation for working with your database. Each database table has a corresponding "Model" which is used to interact with that table.
 
+라라벨에 포함된 Eloquent ORM은 여러분의 데이터베이스와 동작하는 아름답고 심플한 액티브 레코드를 제공합니다. 각각의 데이터베이스 테이블은 이에 해당하는 "모델”을 가지고 있습니다. 
+
 Before getting started, be sure to configure a database connection in `config/database.php`.
+
+시작하기에 앞서 `config/database.php` 에 데이터베이스 커넥션이 설정되어 있는지 확인하십시오. 
 
 <a name="basic-usage"></a>
 ## Basic Usage
+## 기본 사용법
 
 To get started, create an Eloquent model. Models typically live in the `app` directory, but you are free to place them anywhere that can be auto-loaded according to your `composer.json` file. All Eloquent models extend `Illuminate\Database\Eloquent\Model`.
 
+시작하기 위해서 Eloquent 모델 하나를 생성합니다. 일반적으로 모델은 `app`디렉토리에 존재하지만, `composer.json`파일에 의해서 오토로드 되는 곳이라면 어느곳에든 위치해도 상관없습니다. 모든 Eloquent 모델은 `Illuminate\Database\Eloquent\Model`을 상속받습니다. 
+
 #### Defining An Eloquent Model
+#### Eloquent 모델 정의하기
 
 	class User extends Model {}
 
 You may also generate Eloquent models using the `make:model` command:
 
+`make:model` 명령어를 사용하여 Eloquent 모델을 생성할 수 있습니다:
+
 	php artisan make:model User
 
 Note that we did not tell Eloquent which table to use for our `User` model. The "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Eloquent will assume the `User` model stores records in the `users` table. You may specify a custom table by defining a `table` property on your model:
+
+생성한 `User` 모델은 어떠한 테이블을 사용할지 엘로퀀트에게 알려주지 않는 다는 점을 주의하십시오. 관련된 테이블이 별도로 지정되지 않는다면 클래스의 “스네이크 케이스” 로 표시된 복수 형태의 이름이 사용되어 집니다. 따라서 이 예제에서는 Eloquent는 `User` 모델은 `users`테이블에 레코드를 저장한다고 추정할 것입니다. 여러분은 모델의 `table`속성을 통해서 고유한 테이블을 지정할 수 있습니다:
 
 	class User extends Model {
 
@@ -53,13 +88,19 @@ Note that we did not tell Eloquent which table to use for our `User` model. The 
 
 > **Note:** Eloquent will also assume that each table has a primary key column named `id`. You may define a `primaryKey` property to override this convention. Likewise, you may define a `connection` property to override the name of the database connection that should be used when utilizing the model.
 
+> **주의:** Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. `primaryKey` 속성을 통해서 이 컬럼명을 재지정할 수 있습니다. 마찬가지로 `connection` 속성을 통해서 모델에서 사용해야 하는 데이터베이스 커넥션을 지정할 수 있습니다. 
+
 Once a model is defined, you are ready to start retrieving and creating records in your table. Note that you will need to place `updated_at` and `created_at` columns on your table by default. If you do not wish to have these columns automatically maintained, set the `$timestamps` property on your model to `false`.
 
+모델이 정의되면, 테이블에서 레코드를 검색하거나 생성할 준비가 된 것입니다. 기본적으로 테이블에 `updated_at` 과 `created_at`컬럼을 필요로 한다는 점에 유의하십시오. 자동으로 이 컬럼값이 채워지기를 원하지 않는다면 `timestamps` 속성을 `false` 로 지정하십시오. 
+
 #### Retrieving All Records
+#### 모든 레코드 가져오기
 
 	$users = User::all();
 
 #### Retrieving A Record By Primary Key
+#### Primary Key를 통해서 하나의 레코드 가져오기
 
 	$user = User::find(1);
 
@@ -67,15 +108,22 @@ Once a model is defined, you are ready to start retrieving and creating records 
 
 > **Note:** All methods available on the [query builder](/docs/queries) are also available when querying Eloquent models.
 
+> **주의:** [쿼리 빌더](/docs/queries)에서 사용가능한 모든 메소드들은 Eloquent 모델에서 동일하게 사용할 수 있습니다. 
+
 #### Retrieving A Model By Primary Key Or Throw An Exception
+#### Primary Key를 통해서 찾거나 Exception 던지기
 
 Sometimes you may wish to throw an exception if a model is not found. To do this, you may use the `firstOrFail` method:
+
+때로는 모델을 찾지 못했을 때 Exception을 던지고 싶을 수도 있습니다. 이렇게 하려면 `firstOrFail` 메소드를 사용하면 됩니다. 
 
 	$model = User::findOrFail(1);
 
 	$model = User::where('votes', '>', 100)->firstOrFail();
 
 Doing this will let you catch the exception so you can log and display an error page as necessary. To catch the `ModelNotFoundException`, add some logic to your `app/Exceptions/Handler.php` file.
+
+이렇게 하면 여러분이 별도로 exception을 처리할 수 있게 합니다. 따라서 로그를 남기거나, 필요한 경우 에러 페이지를 보여줄 수 있습니다. `ModelNotFoundException`을 처리하기 위해서는 `app/Exceptions/Handler.php`파일에 로직을 추가하면 됩니다. 
 
 	use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -94,6 +142,7 @@ Doing this will let you catch the exception so you can log and display an error 
 	}
 
 #### Querying Using Eloquent Models
+#### Eloquent 모델에서 쿼리 사용하기 
 
 	$users = User::where('votes', '>', 100)->take(10)->get();
 
@@ -103,18 +152,26 @@ Doing this will let you catch the exception so you can log and display an error 
 	}
 
 #### Eloquent Aggregates
+#### Eloquent 합계
 
 Of course, you may also use the query builder aggregate functions.
+
+물론 쿼리 빌더 합계 함수도 사용할 수 있습니다.
 
 	$count = User::where('votes', '>', 100)->count();
 
 If you are unable to generate the query you need via the fluent interface, feel free to use `whereRaw`:
 
+쿼리빌더 기능을 사용할 수 없다면 `whereRaw`를 사용할 수 있습니다. 
+
 	$users = User::whereRaw('age > ? and votes = 100', [25])->get();
 
 #### Chunking Results
+#### 결과 분할
 
 If you need to process a lot (thousands) of Eloquent records, using the `chunk` command will allow you to do without eating all of your RAM:
+
+만약 처리해야할 Eloquent 레코드가 너무 많다면(몇천의), `chunk` 커맨드를 사용하여 램 사용량을 줄일 수 있습니다:
 
 	User::chunk(200, function($users)
 	{
@@ -126,26 +183,41 @@ If you need to process a lot (thousands) of Eloquent records, using the `chunk` 
 
 The first argument passed to the method is the number of records you wish to receive per "chunk". The Closure passed as the second argument will be called for each chunk that is pulled from the database.
 
+메소드의 첫번째 인자는 “chunk” 메소드에서 받아 들일 레코드의 갯수 입니다. 두번째 인자는 클로저로 데이터베이스로 부터 분할된 데이터들을 전달 받습니다. 
+
 #### Specifying The Query Connection
+#### 쿼리 커넥션 지정하기
 
 You may also specify which database connection should be used when running an Eloquent query. Simply use the `on` method:
+
+Eloquent 쿼리를 실행할 때 사용할 데이터베이스 커넥션을 지정할 수도 있습니다. 간단하게 `on` 메소드를 사용하면 됩니다. 
 
 	$user = User::on('connection-name')->find(1);
 
 If you are using [read / write connections](/docs/5.0/database#read-write-connections), you may force the query to use the "write" connection with the following method:
 
+여러분이 [읽기 / 쓰기용 커넥션](/docs/5.0/database#read-write-connections)을 사용하고 있다면, 다음과 같은 메소들를 통해서 “쓰기용” 커넥션을 강제로 지정할 수 있습니다. 
+
 	$user = User::onWriteConnection()->find(1);
 
 <a name="mass-assignment"></a>
 ## Mass Assignment
+## 대량 할당
 
 When creating a new model, you pass an array of attributes to the model constructor. These attributes are then assigned to the model via mass-assignment. This is convenient; however, can be a **serious** security concern when blindly passing user input into a model. If user input is blindly passed into a model, the user is free to modify **any** and **all** of the model's attributes. For this reason, all Eloquent models protect against mass-assignment by default.
 
+새로운 모델을 생성할 때, 여러분은 모델의 생성자에 속성을 나타내는 배열을 전달하게 됩니다. 이 속성들은 모델의 대량-할당을 통해서 모델이 지정됩니다. 이러한 특징은 편리하긴 하지만 사용자의 입력값을 그대로 전달하게 되면 **심각한** 보안 위험을 초래할 수 있습니다. 사용자 입력을 바로 모델에 전달하게 된다면, 사용자는 모든 모델의 속성을 변경할 수 있게됩니다. 따라서 모든 Eloquent 모델은 기본적으로 대량-할당이 되지 않도록 보호되고 있습니다. 
+
 To get started, set the `fillable` or `guarded` properties on your model.
 
+대량-할당을 사용하려면 `fillable` 또는 `guarded` 속성을 모델에 설정하십시오.
+
 #### Defining Fillable Attributes On A Model
+#### 모델에 할당할 수 있는 속성 정의하기
 
 The `fillable` property specifies which attributes should be mass-assignable. This can be set at the class or instance level.
+
+`fillable` 속성은 모델에서 할당 가능한 속성들을 지정합니다. 이 설정은 클래스나 인스턴스를 통해서 지정이 가능합니다. 
 
 	class User extends Model {
 
@@ -154,10 +226,13 @@ The `fillable` property specifies which attributes should be mass-assignable. Th
 	}
 
 In this example, only the three listed attributes will be mass-assignable.
+이 예제에서는 단지 3개의 속성을 할당 가능한 형태로 지정하였습니다. 
 
 #### Defining Guarded Attributes On A Model
+#### 모델에 보호해야할 속성 정의하기
 
 The inverse of `fillable` is `guarded`, and serves as a "black-list" instead of a "white-list":
+`fillable` 과는 반대로 `guarded` 속성은 “화이트-리스트” 대신 “블랙-리스트”를 정의합니다. 
 
 	class User extends Model {
 
@@ -166,19 +241,27 @@ The inverse of `fillable` is `guarded`, and serves as a "black-list" instead of 
 	}
 
 > **Note:** When using `guarded`, you should still never pass `Input::get()` or any raw array of user controlled input into a `save` or `update` method, as any column that is not guarded may be updated.
+> **주의** `guarded`를 사용하고 있을 때에는, 보호되지 않는 모든 컬럼이 업데이트 되기 때문에, `Input::get` 또는 사용자가 입력한 배열을 바로 전달하면 안됩니다. 
 
 #### Blocking All Attributes From Mass Assignment
+#### 모든 속성을 대량 할당으로 부터 보호하기
 
 In the example above, the `id` and `password` attributes may **not** be mass assigned. All other attributes will be mass assignable. You may also block **all** attributes from mass assignment using the guard property:
+
+위의 예제에서는 `id` 와 `password` 속성이 대량-할당 대상에서 제외 됩니다. 다른 속성들은 대량-할당이 가능합니다. 모든 속성을 대량-할당으로부터 보호하려면 guard 등록에 **모든** 속성을 지정하도록 할 수 있습니다. 
 
 	protected $guarded = ['*'];
 
 <a name="insert-update-delete"></a>
 ## Insert, Update, Delete
+## 인서트, 업데이트, 삭제
 
 To create a new record in the database from a model, simply create a new model instance and call the `save` method.
 
+모델에서 데이터베이스에 새로운 레코드를 만들려면 새로운 모델 인스턴스를 생성하고 `save` 메소드를 호출하면 됩니다.
+
 #### Saving A New Model
+#### 새로운 모델 저장하기
 
 	$user = new User;
 
@@ -187,14 +270,20 @@ To create a new record in the database from a model, simply create a new model i
 	$user->save();
 
 > **Note:** Typically, your Eloquent models will have auto-incrementing keys. However, if you wish to specify your own keys, set the `incrementing` property on your model to `false`.
+> **참고** 일반적으로 Eloquent 모델은 자동으로 auto-incrementing 키를 가집니다. 하지만 만약 고유한 key를 지정하고자 한다면 모델의 `incrementing` 속성을 `false`로 지정하십시오. 
 
 You may also use the `create` method to save a new model in a single line. The inserted model instance will be returned to you from the method. However, before doing so, you will need to specify either a `fillable` or `guarded` attribute on the model, as all Eloquent models protect against mass-assignment.
 
+또한 `create` 메소드를 사용하여 한번에 새로운 모델을 생성할 수도 있습니다. 이 메소드는 생성된 모델의 인스턴스를 반환할 것입니다. 그러나 이렇게 하기 전에 모든 Eloquent 모델들이 대량-할당을 방지 할 수 있도록 모델의 `fillable` 또는 `guarded` 속성값을 지정해야 합니다. 
+
 After saving or creating a new model that uses auto-incrementing IDs, you may retrieve the ID by accessing the object's `id` attribute:
+
+auto-incrementing ID를 사용하는 새로운 모델을 저장하거나 생성한 다음에, 객체의 `id` 속성에 해당하는 ID를 조회할 수 있습니다. 
 
 	$insertedId = $user->id;
 
 #### Setting The Guarded Attributes On The Model
+#### 모델에 보호되어야할 속성 설정하기
 
 	class User extends Model {
 
@@ -203,6 +292,7 @@ After saving or creating a new model that uses auto-incrementing IDs, you may re
 	}
 
 #### Using The Model Create Method
+#### 모델의 생성 메소드 사용하기
 
 	// Create a new user in the database...
 	$user = User::create(['name' => 'John']);
@@ -214,8 +304,10 @@ After saving or creating a new model that uses auto-incrementing IDs, you may re
 	$user = User::firstOrNew(['name' => 'John']);
 
 #### Updating A Retrieved Model
+#### 조회한 모델 업데이트 하기
 
 To update a model, you may retrieve it, change an attribute, and use the `save` method:
+모델을 업데이트 하기 위해서는, 우선 해당 모델을 조회한다음, 속성값들을 변경하고 `save` 메소드를 사용하면 됩니다: 
 
 	$user = User::find(1);
 
@@ -224,26 +316,34 @@ To update a model, you may retrieve it, change an attribute, and use the `save` 
 	$user->save();
 
 #### Saving A Model And Relationships
+#### 모델과 관계된 모델들 저장하기
 
 Sometimes you may wish to save not only a model, but also all of its relationships. To do so, you may use the `push` method:
+
+떄로는 해당 모델 뿐만 아니라 관계된 모든 모델 또한 저장해야 할 수도 있습니다. 이렇게 하려면, `push` 메서드를 사용하면 됩니다:
 
 	$user->push();
 
 You may also run updates as queries against a set of models:
+또한 모델들에 대한 쿼리를 통해서 업데이트를 실행할 수도 있습니다. 
 
 	$affectedRows = User::where('votes', '>', 100)->update(['status' => 2]);
 
 > **Note:** No model events are fired when updating a set of models via the Eloquent query builder.
+> **주의** Eloquent 쿼리 빌더를 사용하여 모델들에 대한 업데이트를 실행할 때에는 모델 이벤트가 발생하지 않습니다. 
 
 #### Deleting An Existing Model
+#### 기존 모델 삭제하기
 
 To delete a model, simply call the `delete` method on the instance:
+모델을 삭제하기 위해서는  간단하게 모델 인스턴스에 대해서 `delete` 메소드를 호출하면 됩니다. 
 
 	$user = User::find(1);
 
 	$user->delete();
 
 #### Deleting An Existing Model By Key
+#### 키를 통해서 모델 삭제하기
 
 	User::destroy(1);
 
@@ -252,19 +352,25 @@ To delete a model, simply call the `delete` method on the instance:
 	User::destroy(1, 2, 3);
 
 Of course, you may also run a delete query on a set of models:
+또한 모델들에 대해서 삭제 쿼리 실행시킬 수도 있습니다. 
 
 	$affectedRows = User::where('votes', '>', 100)->delete();
 
 #### Updating Only The Model's Timestamps
+#### 모델의 타임스탬프 값만 업데이트 하기
 
 If you wish to simply update the timestamps on a model, you may use the `touch` method:
+단순히 모델의 타임스탬프 값만을 업데이트 하려면 `touch` 메소드를 사용하면 됩니다:
 
 	$user->touch();
 
 <a name="soft-deleting"></a>
 ## Soft Deleting
+## 소프트 삭제
 
 When soft deleting a model, it is not actually removed from your database. Instead, a `deleted_at` timestamp is set on the record. To enable soft deletes for a model, apply the `SoftDeletes` to the model:
+
+모델에서 소프트 삭제를 사용하는 경우, 데이터베이스에서 실제로 삭제되지 않습니다. 대신에, `delete_at` 타임스탬프 값이 설정됩니다. 모델에서 소프트 삭제를 사용하려면 모델에서 `SoftDeletes` trait을 사용하도록 설정하십시오. 
 
 	use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -278,45 +384,63 @@ When soft deleting a model, it is not actually removed from your database. Inste
 
 To add a `deleted_at` column to your table, you may use the `softDeletes` method from a migration:
 
+테이블에 `delete_at` 컬럼을 추가하기 위해서는 마이그레이션에서 `softDeletes` 메소드를 사용하면 됩니다. 
+
 	$table->softDeletes();
 
 Now, when you call the `delete` method on the model, the `deleted_at` column will be set to the current timestamp. When querying a model that uses soft deletes, the "deleted" models will not be included in query results.
 
+이제 모델에서 `delete` 메소드를 호출하면, `delete_at` 컬럼이 현재의 타임스탬프 값으로 설정됩니다. 소프트 삭제를 사용하는 모델에 대해서 쿼리가 실행되면 “삭제된” 모델들은 쿼리 결과에 포함되지 않습니다. 
+
 #### Forcing Soft Deleted Models Into Results
+#### 강제로 소프트 삭제된 모델들을 결과에 포함하기
 
 To force soft deleted models to appear in a result set, use the `withTrashed` method on the query:
+
+강제로 소프트 삭제된 모델들을 결과에 나타나게 하기 위해서는, 쿼리에서 `withTrashed` 메소드를 사용하면 됩니다: 
 
 	$users = User::withTrashed()->where('account_id', 1)->get();
 
 The `withTrashed` method may be used on a defined relationship:
+`withTrashed` 메소드는 정의된 관계 모델에서도 사용할 수 있습니다. 
 
 	$user->posts()->withTrashed()->get();
 
 If you wish to **only** receive soft deleted models in your results, you may use the `onlyTrashed` method:
 
+결과에서 **삭제된 모델들만** 확인하고자 한다면 `onlyTrashed` 메소드를 사용하면 됩니다: 
+
 	$users = User::onlyTrashed()->where('account_id', 1)->get();
 
 To restore a soft deleted model into an active state, use the `restore` method:
+소프트 삭제처리된 모델을 원래 상태로 복원하고자 한다면 `restore` 메소드를 사용하면 됩니다:
 
 	$user->restore();
 
 You may also use the `restore` method on a query:
+또한 쿼리에서 `restore` 메소드를 사용할 수도 있습니다. 
 
 	User::withTrashed()->where('account_id', 1)->restore();
 
 Like with `withTrashed`, the `restore` method may also be used on relationships:
+`withTrashed` 와 같이, `restore` 메소드는 관계 질의에서도 사용할 수 있습니다. 
 
 	$user->posts()->restore();
 
 If you wish to truly remove a model from the database, you may use the `forceDelete` method:
 
+데이터베이스에서 모델을 완전히 삭제하고자 한다면 `forceDelete` 메소드를 사용하면 됩니다:
+
 	$user->forceDelete();
 
 The `forceDelete` method also works on relationships:
+`forceDelete` 메소드는 관계 질의에서도 동작합니다:
 
 	$user->posts()->forceDelete();
 
 To determine if a given model instance has been soft deleted, you may use the `trashed` method:
+
+모델 인스턴스가 소프트 삭제된 상태인지 확인하고자 한다면 `trashed` 메소드를 사용하면 됩니다:
 
 	if ($user->trashed())
 	{
@@ -325,10 +449,14 @@ To determine if a given model instance has been soft deleted, you may use the `t
 
 <a name="timestamps"></a>
 ## Timestamps
+## 타임스탬프
 
 By default, Eloquent will maintain the `created_at` and `updated_at` columns on your database table automatically. Simply add these `timestamp` columns to your table and Eloquent will take care of the rest. If you do not wish for Eloquent to maintain these columns, add the following property to your model:
 
+기본적으로 Eloquent는 데이터베이스 테이블에 자동으로 `created_at` 과 `updated_at` 컬럼을 가지도록 되어 있습니다. 
+
 #### Disabling Auto Timestamps
+#### 타임스탬프 자동으로 설정되지 않게 하기
 
 	class User extends Model {
 
@@ -339,8 +467,10 @@ By default, Eloquent will maintain the `created_at` and `updated_at` columns on 
 	}
 
 #### Providing A Custom Timestamp Format
+#### 타임 스탬프의 사용자 정의 형식 지정
 
-If you wish to customize the format of your timestamps, you may override the `getDateFormat` method in your model:
+If you wish to customize the format of your timestamps, you may override the `getDateFormat` method in your model: 
+고유한 타임스탬프 형식을 지정하고자 한다면 모델의 `getDateFormat` 메소드를 재지정하면 됩니다. 
 
 	class User extends Model {
 
@@ -353,10 +483,14 @@ If you wish to customize the format of your timestamps, you may override the `ge
 
 <a name="query-scopes"></a>
 ## Query Scopes
+## 쿼리 스코프
 
 #### Defining A Query Scope
+#### 쿼리 스코프 정의하기
 
 Scopes allow you to easily re-use query logic in your models. To define a scope, simply prefix a model method with `scope`:
+
+스코프는 여러분들이 모델안에서 쿼리 로직을 쉽게 재사용할 수 있도록 해줍니다. 스코프를 정의하기 위해서는 간단하게 메소드의 이름에 `scope` 를 접두어로 붙이면 됩니다. 
 
 	class User extends Model {
 
@@ -373,12 +507,16 @@ Scopes allow you to easily re-use query logic in your models. To define a scope,
 	}
 
 #### Utilizing A Query Scope
+#### 쿼리 스코프 사용하기
 
 	$users = User::popular()->women()->orderBy('created_at')->get();
 
 #### Dynamic Scopes
+#### 동적-다이나믹 스코프
 
 Sometimes you may wish to define a scope that accepts parameters. Just add your parameters to your scope function:
+
+때때로 파라미터를 전달받는 스코프를 정의하고자 할 수도 있습니다. 이 경우 간단하게 필요한 파라미터를 스코프 함수에 추가할 수 있습니다. 
 
 	class User extends Model {
 
@@ -390,15 +528,21 @@ Sometimes you may wish to define a scope that accepts parameters. Just add your 
 	}
 
 Then pass the parameter into the scope call:
+그 뒤에 스코프를 호출할때 필요한 파라미터를 전달하면 됩니다. 
 
 	$users = User::ofType('member')->get();
 
 <a name="global-scopes"></a>
 ## Global Scopes
+## 글로벌 스코프
 
 Sometimes you may wish to define a scope that applies to all queries performed on a model. In essence, this is how Eloquent's own "soft delete" feature works. Global scopes are defined using a combination of PHP traits and an implementation of `Illuminate\Database\Eloquent\ScopeInterface`.
 
+때때로 모델에서 실행되는 모든 쿼리에 대해서 스코프를 정의하고자 할 수도 있을 것입니다. 실제로 이러한 방식은 Eloquent가 “소프트 삭제”를 구동시키는 방식입니다. 글로벌 스코프는 PHP의 trait과 `Illuminate\Database\Eloquent\ScopeInterface`의 구현 클래스를 결합하여 정의합니다. 
+
 First, let's define a trait. For this example, we'll use the `SoftDeletes` that ships with Laravel:
+
+먼저 trait을 정의합니다. 예를 들어 라라벨에 포함된 `SoftDeletes` 을 사용할 수 있습니다. 
 
 	trait SoftDeletes {
 
@@ -416,7 +560,11 @@ First, let's define a trait. For this example, we'll use the `SoftDeletes` that 
 
 If an Eloquent model uses a trait that has a method matching the `bootNameOfTrait` naming convention, that trait method will be called when the Eloquent model is booted, giving you an opportunity to register a global scope, or do anything else you want. A scope must implement `ScopeInterface`, which specifies two methods: `apply` and `remove`.
 
+만약 Eloquent 모델이 `bootNameOfTrait`으로 이름이 붙여진 메소드를 가지고 있는 Trait을 사용한다면, 글로벌 스코프를 등록하거나 혹은 여러분이 하고자 하는 다른 작업들을 할 수 있는 기회를 제공하기 위해서 Eloquent 모델이 부팅될 때 해당 trait 메소드가 호출됩니다. 스코프는 반드시 `apply` 와 `remove` 메소드를 가진 `ScopeInterface`를 구현해야 합니다. 
+
 The `apply` method receives an `Illuminate\Database\Eloquent\Builder` query builder object and the `Model` it's applied to, and is responsible for adding any additional `where` clauses that the scope wishes to add. The `remove` method also receives a `Builder` object and `Model` and is responsible for reversing the action taken by `apply`. In other words, `remove` should remove the `where` clause (or any other clause) that was added. So, for our `SoftDeletingScope`, the methods look something like this:
+
+`apply` 메소드는 `Illuminate\Database\Eloquent\Builder` 쿼리 빌더 객체와 적용할 `Model` 을 받아 스코프에 추가하고자 하는 `where`절을 추가하는 역활을 담당합니다. `remove` 메소드 또한 `Builder` 객체와 `Model`을 받고 `apply` 메소드가 수행한 액션을 되돌리는 역활을 담당합니다. 다시 말해, `remove` 는 추가된 `where` 구문(또는 다른 구문)을 제거 해야합니다. 따라서 우리가 고려하는 `SoftDeletingScope`는 다음처럼 구성할 수 있습니다. 
 
 	/**
 	 * Apply the scope to a given Eloquent query builder.

@@ -635,21 +635,21 @@ Let's assume our web application is for game collectors. 여러분의 웹 어플
 		return $input->games >= 100;
 	});
 
-The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. `sometimes` 메소드의 첫번째 인자는 필드의 이름입니다. The second argument is the rules we want to add. 두번째 인자는 추가하려는 룰입니다. If the `Closure` passed as the third argument returns `true`, the rules will be added. 만약 세번째 인자로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가도리 것입니다. This method makes it a breeze to build complex conditional validations. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 쉽게 만듭니다. You may even add conditional validations for several fields at once: 심지어 한번에 여러개의 필드에 대한 조건부 유효성 검사를 
+The first argument passed to the `sometimes` method is the name of the field we are conditionally validating. `sometimes` 메소드의 첫번째 인자는 필드의 이름입니다. The second argument is the rules we want to add. 두번째 인자는 추가하려는 룰입니다. If the `Closure` passed as the third argument returns `true`, the rules will be added. 만약 세번째 인자로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가도리 것입니다. This method makes it a breeze to build complex conditional validations. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 쉽게 만듭니다. You may even add conditional validations for several fields at once: 한번에 여러개의 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
 
 	$v->sometimes(['reason', 'cost'], 'required', function($input)
 	{
 		return $input->games >= 100;
 	});
 
-> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files.
+> **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used as an object to access your input and files. **주의:** `Closure`로 전달된 `$input` 인자는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트는 사용할 수 있습니다.
 
 <a name="custom-error-messages"></a>
-## Custom Error Messages
+## Custom Error Messages 커스텀 오류 메시지
 
-If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages.
+If needed, you may use custom error messages for validation instead of the defaults. 만약 필요하다면 유효성 검사에서 기본 오류 메시지 대신 커스터마이징한 오류 메시지를 사용할 수 있습니다.  There are several ways to specify custom messages. 커스텀 오류 메시지를 지정하는 몇개의 방법이 있습니다.
 
-#### Passing Custom Messages Into Validator
+#### Passing Custom Messages Into Validator Validator로 커스텀 메시지 전달하기
 
 	$messages = [
 		'required' => 'The :attribute field is required.',
@@ -657,7 +657,7 @@ If needed, you may use custom error messages for validation instead of the defau
 
 	$validator = Validator::make($input, $rules, $messages);
 
-> *Note:* The `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages.
+> *Note:* The `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. *주의:* `:attribute` place-holder는 유효성 검사 필드의 실제 이름으로 대체됩니다. 여러분은 유효성 검사 메시지에 있는 다른 place-holder를 활용할 수도 있습니다.
 
 #### Other Validation Place-Holders
 

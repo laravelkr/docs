@@ -659,7 +659,7 @@ If needed, you may use custom error messages for validation instead of the defau
 
 > *Note:* The `:attribute` place-holder will be replaced by the actual name of the field under validation. You may also utilize other place-holders in validation messages. *주의:* `:attribute` place-holder는 유효성 검사 필드의 실제 이름으로 대체됩니다. 여러분은 유효성 검사 메시지에 있는 다른 place-holder를 활용할 수도 있습니다.
 
-#### Other Validation Place-Holders
+#### Other Validation Place-Holders 다른 유효성 검사 Place-Holders
 
 	$messages = [
 		'same'    => 'The :attribute and :other must match.',
@@ -668,18 +668,18 @@ If needed, you may use custom error messages for validation instead of the defau
 		'in'      => 'The :attribute must be one of the following types: :values',
 	];
 
-#### Specifying A Custom Message For A Given Attribute
+#### Specifying A Custom Message For A Given Attribute 주어진 필드에 대한 커스텀 메시지 지정하기
 
-Sometimes you may wish to specify a custom error messages only for a specific field:
+Sometimes you may wish to specify a custom error messages only for a specific field: 때때로 오직 하나의 특정 필드를 위해 커스텀 오류 메시지를 지정하고 싶을지도 모릅니다.
 
 	$messages = [
 		'email.required' => 'We need to know your e-mail address!',
 	];
 
 <a name="localization"></a>
-#### Specifying Custom Messages In Language Files
+#### Specifying Custom Messages In Language Files 언어 파일에 커스텀 메시지 지정하기
 
-In some cases, you may wish to specify your custom messages in a language file instead of passing them directly to the `Validator`. To do so, add your messages to `custom` array in the `resources/lang/xx/validation.php` language file.
+In some cases, you may wish to specify your custom messages in a language file instead of passing them directly to the `Validator`. 어떤 경우에는 직접 `Validator`로 커스텀 메시지를 전달하는 대신 언어 파일에 커스텀 메시지를 지정하고 싶을 수도 있습니다. To do so, add your messages to `custom` array in the `resources/lang/xx/validation.php` language file. 이를 위하여, `resources/lang/xx/validation.php` 언어 파일의 `custom` 배열에 메시지를 추가하십시오.
 
 	'custom' => [
 		'email' => [
@@ -688,18 +688,18 @@ In some cases, you may wish to specify your custom messages in a language file i
 	],
 
 <a name="custom-validation-rules"></a>
-## Custom Validation Rules
+## Custom Validation Rules 커스텀 유효성검사 룰
 
-#### Registering A Custom Validation Rule
+#### Registering A Custom Validation Rule 커스텀 유효성 검사 룰 등록하기
 
-Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using the `Validator::extend` method:
+Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using the `Validator::extend` method: 라라벨은 다양하고 유용한 유효성 검사 룰을 제공합니다; 하지만, 여러분은 여러분만의 유효성 검사 룰을 지정하길 바랄수도 있습니다. 커스텀 유효성 검사 룰을 등록하는 방법중 하나는 `Validator::extend` 메소드를 사용하는 것입니다:
 
 	Validator::extend('foo', function($attribute, $value, $parameters)
 	{
 		return $value == 'foo';
 	});
 
-The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule.
+The custom validator Closure receives three arguments: the name of the `$attribute` being validated, the `$value` of the attribute, and an array of `$parameters` passed to the rule. 커스텀 유효성 검사 클로저는 3개의 인자를 받습니다: 유효성 검사를 할 `$attribute`의 이름, 
 
 You may also pass a class and method to the `extend` method instead of a Closure:
 

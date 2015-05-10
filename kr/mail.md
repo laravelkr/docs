@@ -13,9 +13,9 @@ Laravel provides a clean, simple API over the popular [SwiftMailer](http://swift
 
 ### API Drivers API 드라이버
 
-Laravel also includes drivers for the Mailgun and Mandrill HTTP APIs. 라라벨은 또한 Mailgun 과 Mandrill의 HTTP API 드라이버들을 제공하고 있습니다. These APIs are often simpler and quicker than the SMTP servers. 이러한 API들은 대부분 SMTP 보다 간결하고 빠릅니다. Both of these drivers require that the Guzzle 4 HTTP library be installed into your application. 두가지의 드라이버를 사용하기 위해서는 어플리케이션에 Guzzle 4 HTTP 라이브러리를  설치해야 합니다. You can add Guzzle 4 to your project by adding the following line to your `composer.json` file: 다음과 같은 라인을 `composer.json` 파일에 추가하여 Guzzle 4 를 프로젝트에 추가할 수 있습니다. 
+Laravel also includes drivers for the Mailgun and Mandrill HTTP APIs. 라라벨은 또한 Mailgun 과 Mandrill의 HTTP API 드라이버들을 제공하고 있습니다. These APIs are often simpler and quicker than the SMTP servers. 이러한 API들은 대부분 SMTP 보다 간결하고 빠릅니다. Both of these drivers require that the Guzzle 5 HTTP library be installed into your application. 두가지의 드라이버를 사용하기 위해서는 어플리케이션에 Guzzle 5 HTTP 라이브러리를  설치해야 합니다. You can add Guzzle 5 to your project by adding the following line to your `composer.json` file: 다음과 같은 라인을 `composer.json` 파일에 추가하여 Guzzle 5 를 프로젝트에 추가할 수 있습니다. 
 
-	"guzzlehttp/guzzle": "~4.0"
+	"guzzlehttp/guzzle": "~5.0"
 
 #### Mailgun Driver 
 #### Mailgun 드라이버

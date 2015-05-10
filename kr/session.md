@@ -19,7 +19,7 @@ Before using Redis sessions with Laravel, you will need to install the `predis/p
 
 > **Note:** When using the `cookie` session driver, you should **never** remove the `EncryptCookie` middleware from your HTTP kernel. If you remove this middleware, your application will be vulnerable to remote code injection.
 
-> **참고** `cookie` 세션 드라이버를 사용할 때에는 HTTP 커널에서 **절대로** `EncryptCookie` 미들웨어를 제거해서는 안됩니다. 이 미들웨어를 제거하게 되면, 어플리케이션이 원격으로 부터 코드를 실행하는 취약점이 존재합니다.
+> **주의** `cookie` 세션 드라이버를 사용할 때에는 HTTP 커널에서 **절대로** `EncryptCookie` 미들웨어를 제거해서는 안됩니다. 이 미들웨어를 제거하게 되면, 어플리케이션이 원격으로 부터 코드를 실행하는 취약점이 존재합니다.
 
 #### Reserved Keys 
 #### 예약어 

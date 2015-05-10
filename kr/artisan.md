@@ -177,3 +177,10 @@ In this example, the `foo` command will be run every minute if it is not already
 #### Ping A Given URL After The Job Runs 작업이 실행된 후에 특정 URL 접속하기
 
 	$schedule->command('foo')->thenPing($url);
+
+Using the `thenPing($url)` feature requires the Guzzle HTTP library. You can add Guzzle 5 to your project by adding the following line to your `composer.json` file:
+
+`thenPing($url)`기능을 사용하려면 Guzzle HTTP 라이브러리가 필요합니다. `composer.json` 파일에 다음 라인을 추가하여 Guzzle 5 를 추가할 수 있습니다. 
+
+	"guzzlehttp/guzzle": "~5.0"
+

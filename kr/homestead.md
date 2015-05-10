@@ -40,7 +40,6 @@ Homestead is currently built and tested using Vagrant 1.7.
 - Memcached
 - Beanstalkd
 - [Laravel Envoy](/docs/5.0/envoy)
-- Fabric + HipChat Extension
 - [Blackfire Profiler](#blackfire-profiler)
 
 <a name="installation-and-setup"></a>
@@ -72,11 +71,9 @@ If this command fails, you may have an old version of Vagrant that requires the 
 ### Installing Homestead
 ### 홈스테드 설치하기
 
-#### Option 1 - Manually Via Git (No Local PHP)
-#### 옵션 1 - Git을 사용한 수동 설치 (로컬 PHP 없음) 
+If you do not want to install PHP on your local machine, you may install Homestead manually by simply cloning the repository. Consider cloning the repository into a `Homestead` folder within your "home" directory, as the Homestead box will serve as the host to all of your Laravel (and PHP) projects:
 
-If you do not want to install PHP on your local machine, you may install Homestead manually by simply cloning the repository. 여러분의 로컬 머신에 PHP를 설치하고 싶지 않다면, Git 저장소를 복제하여 수동으로 홈스테드를 설치할 수 있습니다. Consider cloning the repository into a `Homestead` folder within your "home" directory, as the Homestead box will serve as the host to all of your Laravel (and PHP) projects:
-여러분의 “home” 디렉토리안에 `Homestead` 폴더로 저장소를 복제하면 홈스테드 box가 라라벨(그리고 PHP) 프로젝트의 모든 호스트 역할을 할 것입니다. 
+Git 저장소를 복제하여 수동으로 홈스테드를 설치할 수 있습니다. 여러분의 “home” 디렉토리안에 `Homestead` 폴더로 저장소를 복제하면 홈스테드 box가 라라벨(그리고 PHP) 프로젝트의 모든 호스트 역할을 할 것입니다. 
 
 	git clone https://github.com/laravel/homestead.git Homestead
 
@@ -85,25 +82,6 @@ Once you have installed the Homestead CLI tool, run the `bash init.sh` command t
 	bash init.sh
 
 The `Homestead.yaml` file will be placed in your `~/.homestead` directory. `Homestead.yaml`파일은 여러분의 `~/.homestead` 디렉토리에 저장됩니다. 
-
-#### Option 2 - With Composer + PHP Tool
-#### 옵션 2 - 컴포저와 PHP 툴 사용
-
-Once the box has been added to your Vagrant installation, you are ready to install the Homestead CLI tool using the Composer `global` command: box 가 여러분의 Vagrant 에 추가되고 나면, 여러분은 컴포저를 통해서 홈스테드 CLI 를 설치할 준비가 되었습니다. 
-
-	composer global require "laravel/homestead=~2.0"
-
-Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `homestead` executable is found when you run the `homestead` command in your terminal. 이제 `~/.composer/vendor/bin` 디렉토리를 여러분의 PATH 에 추가하여 터미널에서 `homestead` 명령어를 입력하면 바로 실행될 수 있게 합니다. 
-
-	PATH=~/.composer/vendor/bin:$PATH
-
-Once you have installed the Homestead CLI tool, run the `init` command to create the `Homestead.yaml` configuration file: 홈스테드 CLI 툴까지 설치하고 나면, `init` 명령어를 실행하여 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 
-
-	homestead init
-
-The `Homestead.yaml` file will be placed in the `~/.homestead` directory. `Homestead.yaml` 파일은 `~/.homestead`디렉토리에 저장됩니다. If you're using a Mac or Linux system, you may edit `Homestead.yaml` file by running the `homestead edit` command in your terminal: 맥이나 리눅스 시스템이라면 터미널에서 `homestead edit` 명령어를 실행시켜 `Homestead.yaml`파일을 편집할 수 있습니다. 
-
-	homestead edit
 
 ### Configure Your Provider
 ### 프로바이더 설정하기
@@ -161,7 +139,7 @@ Bash 별칭을 Homestead box에 추가하려면 `~/.homestead` 디렉토리의 �
 ### Launch The Vagrant Box
 ### Vagrant Box 구동하기
 
-Once you have edited the `Homestead.yaml` to your liking, run the `homestead up` command from your Homestead directory. `Homestead.yaml` 파일 설정이 끝났다면, 홈스테드 디렉토리에서 `homestead up` 명령어를 실행하십시오. 
+Once you have edited the `Homestead.yaml` to your liking, run the `vagrant up` command from your Homestead directory. `Homestead.yaml` 파일 설정이 끝났다면, 홈스테드 디렉토리에서 `vagrant up` 명령어를 실행하십시오. 
 
 Vagrant will boot the virtual machine, and configure your shared folders and Nginx sites automatically! Vagrant가 가상머신을 구동시키고 공유폴더와 Nginx 사이트를 자동으로 설정할 것입니다. To destroy the machine, you may use the `vagrant destroy --force` command.
 가상 머신을 파괴하기 위해서는 `vagrant destroy --force` 명령어를 사용하면 됩니다.  
@@ -186,11 +164,15 @@ To learn how to connect to your databases, read on!
 
 To connect to your Homestead environment via SSH, issue the `vagrant ssh` command from your Homestead directory. SSH를 통해서 홈스테드 환경에 접속하려면 홈스테드 디렉토리에서 `vagrant ssh` 명령어를 실행하면 됩니다. 
 
-Since you will probably need to SSH into your Homestead machine frequently, consider creating an "alias" on your host machine: 홈스테드 머신에 자주 접속할 것이기 때문에 호스트 머신에 "별칭"을 만드는 것을 고려해 볼 수 있습니다.
+Since you will probably need to SSH into your Homestead machine frequently, consider creating an "alias" on your host machine to quickly SSH into the Homestead box:
+ 홈스테드 머신에 자주 접속할 것이기 때문에 손쉽게 홈스테드 머신에 SSH로 접속하기 위해서 호스트 머신에 "별칭"을 만드는 것을 고려해 볼 수 있습니다.
 
 	alias vm="ssh vagrant@127.0.0.1 -p 2222"
 
 Once you create this alias, you can simply use the "vm" command to SSH into your Homestead machine from anywhere on your system. 위와 같이 별칭을 생성하고 나면, 시스템의 어느곳에서도 “vm” 명령어를 통해서 홈스테드 머신에 SSH로 접속할 수 있습니다. 
+
+Alternatively, you can use the `vagrant ssh` command from your Homestead directory.
+또한 홈스테드 디렉토리에서 `vagrant ssh` 명령어를 사용할 수도 있습니다. 
 
 ### Connecting To Your Databases
 ### 데이터베이스에 접속하기 
@@ -204,7 +186,7 @@ To connect to your MySQL or Postgres database from your main machine via Navicat
 ### Adding Additional Sites
 ### 추가적인 사이트 지정하기
 
-Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. You can run as many Laravel installations as you wish on a single Homestead environment.  하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. There are two ways to do this: First, you may simply add the sites to your `Homestead.yaml` file and then run `homestead provision` or `vagrant provision`. 여기에는 두가지 방법이 있습니다: 첫번째 방법은 간단하게 `Homestead.yaml` 파일에 사이트를 추가하고 `homestead provision` 이나 `vagrant provision` 을 실행하는 것입니다. 
+Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. You can run as many Laravel installations as you wish on a single Homestead environment.  하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. There are two ways to do this: First, you may simply add the sites to your `Homestead.yaml` file and then run `vagrant provision` from your Homestead directory. 여기에는 두가지 방법이 있습니다: 첫번째 방법은 간단하게 `Homestead.yaml` 파일에 사이트를 추가하고 홈스테드 디렉토리에서 `vagrant provision` 을 실행하는 것입니다. 
 
 > **Note 주의:** This process is destructive. When running the `provision` command, your existing databases will be destroyed and recreated. 이 명령어는 내부에 변경사항이 있습니다. `provision` 명령어가 실행되면 이미 존재하는 데이터베이스가 삭제되고 다시 생성됩니다. 
 
@@ -253,4 +235,4 @@ All of the proper packages have already been installed on your Homestead box, yo
 	      client-id: your-client-id
 	      client-token: your-client-token
 
-Once you have configured your Blackfire credentials, re-provision the box using `homestead provision` or `vagrant provision`. Blackfire 인증정보를 설정하고 난 뒤에, `homestead provision` 또는 `vagrant provision` 을 사용하여 Box 를 다시 실행하십시오. Of course, be sure to review the [Blackfire documentation](https://blackfire.io/getting-started) to learn how to install the Blackfire companion extension for your web browser.  또한 Blackfire 설치와 추가 확장에 대해서는 웹사이트에서 [Blackfire 문서](https://blackfire.io/getting-started)를 참고하십시오. 
+Once you have configured your Blackfire credentials, re-provision the box using `vagrant provision` from your Homestead directory Blackfire 인증정보를 설정하고 난 뒤에, 여러분의 홈스테드 디렉토리에서 `vagrant provision`을 사용하여 Box 를 다시 실행하십시오. Of course, be sure to review the [Blackfire documentation](https://blackfire.io/getting-started) to learn how to install the Blackfire companion extension for your web browser.  또한 Blackfire 설치와 추가 확장에 대해서는 웹사이트에서 [Blackfire 문서](https://blackfire.io/getting-started)를 참고하십시오. 

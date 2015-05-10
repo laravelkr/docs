@@ -20,7 +20,9 @@ To create a new command, you may use the `make:console` Artisan command, which w
 
 	php artisan make:console FooCommand
 
-The command above would generate a class at `app/Console/FooCommand.php`. 이 명령어는 `app/Console/FooCommand.php`파일을 생성할 것입니다. 
+The command above would generate a class at `app/Console/Commands/FooCommand.php`.
+
+이 명령어는 `app/Console/Commands/FooCommand.php`파일을 생성할 것입니다. 
 
 When creating the command, the `--command` option may be used to assign the terminal command name: 명령어를 생성할 때 `--command` 옵션을 사용하면 터미널에서 사용할 명령어 이름을 지정할 수 있습니다. 
 

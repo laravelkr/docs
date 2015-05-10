@@ -224,6 +224,11 @@ Get the fully qualified path to the `app` directory.
 Get the fully qualified path to the root of the application install.
 어플리케이션 설치 루트의 완전한 경로를 얻습니다.
 
+### config_path
+
+Get the fully qualitifed path to the `config` directory.
+`config` 디렉토리의 완전한 경로를 얻습니다. 
+
 ### public_path
 
 Get the fully qualified path to the `public` directory.

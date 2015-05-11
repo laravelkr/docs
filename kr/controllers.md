@@ -79,8 +79,8 @@ You may access the name of the controller action being run using the `currentRou
 <a name="controller-middleware"></a>
 ## Controller Middleware 컨트롤러 미들웨어 
 
-[Middleware](/docs/5.0/middleware) may be specified on controller routes like so:
-[미들웨어](/docs/5.0/middleware)는 다음과 같이 컨트롤러 라우트에 지정합니다. 
+[Middleware](/docs/{{version}}/middleware) may be specified on controller routes like so:
+[미들웨어](/docs/{{version}}/middleware)는 다음과 같이 컨트롤러 라우트에 지정합니다. 
 
 	Route::get('profile', [
 		'middleware' => 'auth',
@@ -232,7 +232,7 @@ If it becomes necessary to add additional routes to a resource controller beyond
 
 #### Constructor Injection 생성자 주입
 
-The Laravel [service container](/docs/5.0/container) is used to resolve all Laravel controllers. 라라벨의 [서비스 컨테이너](/docs/5.0/container)는 모든 라라벨 컨트롤러의 의존성을 해결하기 위해서 사용됩니다. As a result, you are able to type-hint any dependencies your controller may need in its constructor: 그 결과 컨트롤러가 필요로 하는 의존 객체들에 대해서 생성자에서 타입힌트로 지정할 수 있게 됩니다. 
+The Laravel [service container](/docs/{{version}}/container) is used to resolve all Laravel controllers. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)는 모든 라라벨 컨트롤러의 의존성을 해결하기 위해서 사용됩니다. As a result, you are able to type-hint any dependencies your controller may need in its constructor: 그 결과 컨트롤러가 필요로 하는 의존 객체들에 대해서 생성자에서 타입힌트로 지정할 수 있게 됩니다. 
 
 	<?php namespace App\Http\Controllers;
 
@@ -259,7 +259,7 @@ The Laravel [service container](/docs/5.0/container) is used to resolve all Lara
 
 	}
 
-Of course, you may also type-hint any [Laravel contract](/docs/5.0/contracts). If the container can resolve it, you can type-hint it. 당연하게도 [라라벨 contract](/docs/5.0/contracts)의 형태도 타입 힌트로 지정할 수 있습니다. 컨테이너가 의존성 해결을 할 수 있다면 타입 힌트에 지정할 수는 있습니다. 
+Of course, you may also type-hint any [Laravel contract](/docs/{{version}}/contracts). If the container can resolve it, you can type-hint it. 당연하게도 [라라벨 contract](/docs/{{version}}/contracts)의 형태도 타입 힌트로 지정할 수 있습니다. 컨테이너가 의존성 해결을 할 수 있다면 타입 힌트에 지정할 수는 있습니다. 
 
 #### Method Injection 메소드 인젝션-주입
 
@@ -310,7 +310,7 @@ If your controller method is also expecting input from a route parameter, simply
 
 	}
 
-> **Note주의:** Method injection is fully compatible with [model binding](/docs/5.0/routing#route-model-binding). 메소드 인젝션-주입은 [모델 바인딩](/docs/5.0/routing#route-model-binding)에서도 마찬가지로 동작합니다. The container will intelligently determine which arguments are model bound and which arguments should be injected. 컨테이너는어느  인자가 모델 바인딩 되었고 어떤 인자가 주입될것인지 영리하게 판단할 것입니다.
+> **Note주의:** Method injection is fully compatible with [model binding](/docs/{{version}}/routing#route-model-binding). 메소드 인젝션-주입은 [모델 바인딩](/docs/{{version}}/routing#route-model-binding)에서도 마찬가지로 동작합니다. The container will intelligently determine which arguments are model bound and which arguments should be injected. 컨테이너는어느  인자가 모델 바인딩 되었고 어떤 인자가 주입될것인지 영리하게 판단할 것입니다.
 
 <a name="route-caching"></a>
 ## Route Caching 라우트 캐시

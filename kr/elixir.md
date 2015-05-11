@@ -176,8 +176,8 @@ elixir(function(mix) {
 });
 ```
 
-Paths passed to this method are relative to the `resources/css` directory.
-이 메소드에 전달된 경로는 `resources/css` 폴더의 상대 경로입니다.
+Paths passed to this method are relative to the `resources/assets/css` directory.
+이 메소드에 전달된 경로는 `resources/assets/css` 폴더의 상대 경로입니다.
 
 #### Combine Stylesheets and Save to a Custom Directory
 #### 스타일 시트를 결합하고 사용자 정의 폴더에 저장하기
@@ -228,9 +228,9 @@ elixir(function(mix) {
 });
 ```
 
-Again, this assumes all paths are relative to the `resources/js` directory.
+Again, this assumes all paths are relative to the `resources/assets/js` directory.
 
-이 경우에서도 전체 경로는 `resources/js` 폴더의 상대 경로로 가정됩니다.
+이 경우에서도 전체 경로는 `resources/assets/js` 폴더의 상대 경로로 가정됩니다.
 
 #### Combine All Scripts in a Directory
 #### 폴더내의 모든 스크립트 파일 결합하기
@@ -321,9 +321,9 @@ Want to require modules in the browser? Hoping to use EcmaScript 6 sooner than l
 
 브라우저에 모듈들을 포함하고 싶으신가요? EcmaScript 6를 좀더 일찍 사용 하고 싶으신가요? 빌트인 JSX 변환기가 필요하신가요? 그렇다면, [Browserify](http://browserify.org/), browserify Elixir 태스크와 함께 작업을 멋지게 처리하세요.
 
-This task assumes that your scripts are stored in `resources/js`, though you're free to override the default.
+This task assumes that your scripts are stored in `resources/assets/js`, though you're free to override the default.
 
-이 태스크는 여러분의 스크립트가 `resources/js` 저장되어 있다고 가정하지만, 기본 디렉토리를 재정의 할 수도 있습니다.
+이 태스크는 여러분의 스크립트가 `resources/assets/js` 저장되어 있다고 가정하지만, 기본 디렉토리를 재정의 할 수도 있습니다.
 
 #### Method Chaining
 #### 메소드 체인 (Method Chaining)

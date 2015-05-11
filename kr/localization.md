@@ -117,7 +117,7 @@ Since the Laravel translator is powered by the Symfony Translation component, yo
 ## Validation
 ## 검증 메세지 지역화하기
 
-For localization for validation errors and messages, take a look at the <a href="/docs/5.0/validation#localization">documentation on Validation</a>. 검증 오류와 메세지에 대한 다국어 지역화는 <a href="/docs/5.0/validation#localization">검증 문서</a>를 참고하십시오. 
+For localization for validation errors and messages, take a look at the <a href="/docs/{{version}}/validation#localization">documentation on Validation</a>. 검증 오류와 메세지에 대한 다국어 지역화는 <a href="/docs/{{version}}/validation#localization">검증 문서</a>를 참고하십시오. 
 
 <a name="overriding-package-language-files"></a>
 ## Overriding Package Language Files

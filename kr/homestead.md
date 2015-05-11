@@ -39,7 +39,7 @@ Homestead is currently built and tested using Vagrant 1.7.
 - Redis
 - Memcached
 - Beanstalkd
-- [Laravel Envoy](/docs/5.0/envoy)
+- [Laravel Envoy](/docs/{{version}}/envoy)
 - [Blackfire Profiler](#blackfire-profiler)
 
 <a name="installation-and-setup"></a>
@@ -77,7 +77,7 @@ Git 저장소를 복제하여 수동으로 홈스테드를 설치할 수 있습�
 
 	git clone https://github.com/laravel/homestead.git Homestead
 
-Once you have installed the Homestead CLI tool, run the `bash init.sh` command to create the `Homestead.yaml` configuration file: 홈스테드 CLI 툴이 설치된 경우, `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 
+Once you have cloned the Homestead CLI tool, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file: 홈스테드 CLI 툴을 클로닝한 뒤, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 
 
 	bash init.sh
 
@@ -86,7 +86,7 @@ The `Homestead.yaml` file will be placed in your `~/.homestead` directory. `Home
 ### Configure Your Provider
 ### 프로바이더 설정하기
 
-The `provider` key in your `Homestead.yaml` file indicates which Vagrant provider should be used: `virtualbox` or `vmware_fusion`. `Homestead.yaml` 파일의 `provider` 키는 `virtualbox` 와 `vmware_fusion` 중 어느 것을 사용할 것인지를 알려줍니다. You may set this to whichever provider you prefer. 여러분이 원하는대로 프로바이더를 설정할 수 있습니다.  
+The `provider` key in your `Homestead.yaml` file indicates which Vagrant provider should be used: `virtualbox`, `vmware_fusion` (Mac OS X) or `vmware_workstation` (Windows). You may set this to whichever provider you prefer. `Homestead.yaml` 파일의 `provider` 키는 `virtualbox`, `vmware_fusion`(Mac OS X)와 `vmware_workstation` (Windows)  중 어느 것을 사용할 것인지를 알려줍니다. You may set this to whichever provider you prefer. 여러분이 원하는대로 프로바이더를 설정할 수 있습니다.  
 
 	provider: virtualbox
 

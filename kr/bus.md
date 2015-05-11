@@ -57,7 +57,7 @@ The newly generated class will be placed in the `app/Commands` directory. 새롭
 
 	}
 
-The `handle` method may also type-hint dependencies, and they will be automatically injected by the [service container](/docs/5.0/container). 또한 `handle` 메소드에서도 타입힌트를 사용하여 [서비스 컨테이너](/docs/5.0/container)가 의존 객체를 자동으로 주입할 수 있도록 할 수 있습니다. For example: 예를 들어
+The `handle` method may also type-hint dependencies, and they will be automatically injected by the [service container](/docs/{{version}}/container). 또한 `handle` 메소드에서도 타입힌트를 사용하여 [서비스 컨테이너](/docs/{{version}}/container)가 의존 객체를 자동으로 주입할 수 있도록 할 수 있습니다. For example: 예를 들어
 
 		/**
 		 * Execute the command.
@@ -121,7 +121,7 @@ If you would like to convert an existing command into a queued command, simply i
 
 Then, just write your command normally. 그 다음에는, 정상적으로 커맨드를 작성하면 됩니다. When you dispatch it to the bus that bus will automatically queue the command for background processing.  커맨드가 처리될 때 버스가 자동으로 해당 커맨드를 백그라운드 처리를 위해 큐에 추가합니다. It doesn't get any easier than that. 이보다 더 쉬울 순 없습니다.
 
-For more information on interacting with queued commands, view the full [queue documentation](/docs/5.0/queues). 큐 커맨드의 상호 작용에 대한 보다 자세한 사항은 [큐 문서](/docs/5.0/queues)를 참고하십시오. 
+For more information on interacting with queued commands, view the full [queue documentation](/docs/{{version}}/queues). 큐 커맨드의 상호 작용에 대한 보다 자세한 사항은 [큐 문서](/docs/{{version}}/queues)를 참고하십시오. 
 
 <a name="command-pipeline"></a>
 ## Command Pipeline
@@ -148,7 +148,7 @@ A command pipe is defined with a `handle` method, just like a middleware:
 
 	}
 
-Command pipe classes are resolved through the [IoC container](/docs/5.0/container), so feel free to type-hint any dependencies you need within their constructors. 커맨드 파이프 클래스는 [IoC 컨테이너](/docs/5.0/container)를 통해서 의존성이 해결되므로 생성자에서 타입힌트를 통한 의존성을 지정할 수 있습니다. 
+Command pipe classes are resolved through the [IoC container](/docs/{{version}}/container), so feel free to type-hint any dependencies you need within their constructors. 커맨드 파이프 클래스는 [IoC 컨테이너](/docs/{{version}}/container)를 통해서 의존성이 해결되므로 생성자에서 타입힌트를 통한 의존성을 지정할 수 있습니다. 
 
 You may even define a `Closure` as a command pipe: 커맨드 파이프에는 `Closure` 도 지정할 수 있습니다. 
 

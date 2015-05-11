@@ -264,6 +264,6 @@ More information on creating seeds may be found in the [migrations and seeding](
 ## Refreshing The Application
 ## 어플리케이션 새로 고침
 
-As you may already know, you can access your Application ([service container](/docs/5.0/container)) via `$this->app` from any test method. This service container instance is refreshed for each test class. If you wish to manually force the Application to be refreshed for a given method, you may use the `refreshApplication` method from your test method. This will reset any extra bindings, such as mocks, that have been placed in the IoC container since the test case started running.
+As you may already know, you can access your Application ([service container](/docs/{{version}}/container)) via `$this->app` from any test method. This service container instance is refreshed for each test class. If you wish to manually force the Application to be refreshed for a given method, you may use the `refreshApplication` method from your test method. This will reset any extra bindings, such as mocks, that have been placed in the IoC container since the test case started running.
 
-이미 알고 있다 시피 여러분은 테스트 메소드에서 `$this->app` 을 통해서 어플리케이션([서비스 컨테이너](/docs/5.0/container))에 엑세스 할 수 있습니다. 이 서비스 컨테이너 인스턴스는 각각의 테스트 클래스 마다 새로 고침됩니다. 만약 여러분이 수동으로 어플리케이션을 새로고침 하고 싶은 경우에는 테스트 메소드에서 `refreshApplication` 메소드를 사용하면 됩니다. 이렇게 하면 테스트 케이스가 실행을 시작한 이후 IoC 컨테이너에 등록된 mock 객체와 추가적인 바인딩을 재설정 할것입니다. 
+이미 알고 있다 시피 여러분은 테스트 메소드에서 `$this->app` 을 통해서 어플리케이션([서비스 컨테이너](/docs/{{version}}/container))에 엑세스 할 수 있습니다. 이 서비스 컨테이너 인스턴스는 각각의 테스트 클래스 마다 새로 고침됩니다. 만약 여러분이 수동으로 어플리케이션을 새로고침 하고 싶은 경우에는 테스트 메소드에서 `refreshApplication` 메소드를 사용하면 됩니다. 이렇게 하면 테스트 케이스가 실행을 시작한 이후 IoC 컨테이너에 등록된 mock 객체와 추가적인 바인딩을 재설정 할것입니다. 

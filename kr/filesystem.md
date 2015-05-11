@@ -43,9 +43,9 @@ When using the `local` driver, note that all file operations are relative to the
 ## Basic Usage
 ## 기본적인 사용법
 
-The `Storage` facade may be used to interact with any of your configured disks. Alternatively, you may type-hint the `Illuminate\Contracts\Filesystem\Factory` contract on any class that is resolved via the Laravel [service container](/docs/5.0/container).
+The `Storage` facade may be used to interact with any of your configured disks. Alternatively, you may type-hint the `Illuminate\Contracts\Filesystem\Factory` contract on any class that is resolved via the Laravel [service container](/docs/{{version}}/container).
 
-`Storage` 파사드를 사용하여 설정된 디스크에 대한 작업을 처리할 수 있습니다. 또한 라라벨의 [서비스 컨테이너](/docs/5.0/container)에 의해서 의존성이 해결될 수 있도록 `Illuminate\Contracts\Filesystem\Factory` contract를 타입힌트에 사용할 수도 있습니다. 
+`Storage` 파사드를 사용하여 설정된 디스크에 대한 작업을 처리할 수 있습니다. 또한 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결될 수 있도록 `Illuminate\Contracts\Filesystem\Factory` contract를 타입힌트에 사용할 수도 있습니다. 
 
 #### Retrieving A Particular Disk
 #### 지정된 디스크 객체 반환하기

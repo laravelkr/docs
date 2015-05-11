@@ -30,7 +30,7 @@ Renaming your application is entirely optional, and you are free to keep the `Ap
 
 Laravel needs very little configuration out of the box. 라라벨은 구동에 필요한 설정이 그리 많지는 않습니다. You are free to get started developing! 바로 개발을 진행해도 됩니다! However, you may wish to review the `config/app.php` file and its documentation. 하지만 `config/app.php` 파일과 그 주석들을 읽어두는 것이 좋습니다. It contains several options such as `timezone` and `locale` that you may wish to change according to your location. 거기에는 여러분의 지역에 따라 변경하고 싶어할만한 `timezone`과 `locale`과 같은 옵션들을 포함하고 있습니다. 
 
-Once Laravel is installed, you should also [configure your local environment](/docs/5.0/configuration#environment-configuration). 라라벨이 설치된 이후에 여러분의 [로컬 개발환경을 설정](/docs/5.0/configuration#environment-configuration) 하기를 바랍니다. 
+Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration). 라라벨이 설치된 이후에 여러분의 [로컬 개발환경을 설정](/docs/{{version}}/configuration#environment-configuration) 하기를 바랍니다. 
 
 > **Note 주의:** You should never have the `app.debug` configuration option set to `true` for a production application. 실서버(production)에서 구동하는 경우에는 `app.debug` 설정을 `true`로 설정하지 마십시오. 
 
@@ -88,7 +88,7 @@ You may also pass arguments to the `environment` method to check if the environm
 		// The environment is either local OR staging...
 	}
 
-To obtain an instance of the application, resolve the `Illuminate\Contracts\Foundation\Application` contract via the [service container](/docs/5.0/container). 어플리케이션의 인스턴스를 획득하기 위해서 [서비스 컨테이너](/docs/5.0/container)를 통해서 `Illuminate\Contracts\Foundation\Application` contract에 대한 의존 객체를 불러옵니다. Of course, if you are within a [service provider](/docs/5.0/providers), the application instance is available via the `$this->app` instance variable. 만약 [서비스 컨테이너](/docs/5.0/providers)에서라면 어플리케이션의 인스턴스는 `$this->app` 변수를 통해서도 사용할 수 있습니다. 
+To obtain an instance of the application, resolve the `Illuminate\Contracts\Foundation\Application` contract via the [service container](/docs/{{version}}/container). 어플리케이션의 인스턴스를 획득하기 위해서 [서비스 컨테이너](/docs/{{version}}/container)를 통해서 `Illuminate\Contracts\Foundation\Application` contract에 대한 의존 객체를 불러옵니다. Of course, if you are within a [service provider](/docs/{{version}}/providers), the application instance is available via the `$this->app` instance variable. 만약 [서비스 컨테이너](/docs/{{version}}/providers)에서라면 어플리케이션의 인스턴스는 `$this->app` 변수를 통해서도 사용할 수 있습니다. 
 
 An application instance may also be accessed via the `app` helper or the `App` facade:
 또한 어플리케이션의 인스턴스는 `app` 헬퍼 함수 또는 `App` 파사드를 통해서도 엑세스 할 수 있습니다. 
@@ -125,7 +125,7 @@ The default template for maintenance mode responses is located in `resources/vie
 
 ### Maintenance Mode & Queues
 
-While your application is in maintenance mode, no [queued jobs](/docs/5.0/queues) will be handled. 어플리케이션이 점검 모드인 동안에는 [큐 작업](/docs/5.0/queues)은 동작하지 않습니다. The jobs will continue to be handled as normal once the application is out of maintenance mode. 큐 작업들은 점검 모드가 해제된 어플리케이션이 일반 모드로 전환된 시점에서 계속 처리됩니다. 
+While your application is in maintenance mode, no [queued jobs](/docs/{{version}}/queues) will be handled. 어플리케이션이 점검 모드인 동안에는 [큐 작업](/docs/{{version}}/queues)은 동작하지 않습니다. The jobs will continue to be handled as normal once the application is out of maintenance mode. 큐 작업들은 점검 모드가 해제된 어플리케이션이 일반 모드로 전환된 시점에서 계속 처리됩니다. 
 
 <a name="pretty-urls"></a>
 ## Pretty URLs 깔끔한 URL
@@ -152,4 +152,4 @@ Nginx의 경우라면 아래처럼 사이트 설정에서 지정하면 "깔끔�
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-Of course, when using [Homestead](/docs/5.0/homestead), pretty URLs will be configured automatically. 당연하게도 [Homestead](/docs/5.0/homestead)를 사용하고 있다면 이미 깔끔한 URL이 자동으로 설정되어 있습니다. 
+Of course, when using [Homestead](/docs/{{version}}/homestead), pretty URLs will be configured automatically. 당연하게도 [Homestead](/docs/{{version}}/homestead)를 사용하고 있다면 이미 깔끔한 URL이 자동으로 설정되어 있습니다. 

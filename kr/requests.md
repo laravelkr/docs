@@ -24,7 +24,7 @@ Remember, if you are in a namespace, you will have to import the `Request` facad
 ### Via Dependency Injection
 ### 의존성 주입을 통한 방법 
 
-To obtain an instance of the current HTTP request via dependency injection, you should type-hint the class on your controller constructor or method. 현재의 의존성 주입을 통해서 HTTP request 을 획득하기 위해서는 여러분의 컨트롤러 생성자나 메소드에서 타입힌트를 지정해야 합니다. The current request instance will automatically be injected by the [service container](/docs/5.0/container): 현재의  request의 인스턴스는 [서비스 컨테이너](/docs/5.0/container)에 의해서 자동으로 주입될것 입니다. 
+To obtain an instance of the current HTTP request via dependency injection, you should type-hint the class on your controller constructor or method. 현재의 의존성 주입을 통해서 HTTP request 을 획득하기 위해서는 여러분의 컨트롤러 생성자나 메소드에서 타입힌트를 지정해야 합니다. The current request instance will automatically be injected by the [service container](/docs/{{version}}/container): 현재의  request의 인스턴스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 자동으로 주입될것 입니다. 
 
 	<?php namespace App\Http\Controllers;
 
@@ -121,7 +121,7 @@ Laravel also allows you to keep input from one request during the next request. 
 #### Flashing Input To The Session
 #### 입력값들 세션에 저장하기
 
-The `flash` method will flash the current input to the [session](/docs/5.0/session) so that it is available during the user's next request to the application: `flash` 메소드는 현재의 입력들을 [세션](/docs/5.0/session)에 저장하여 사용자가 다음번에 request 를 보내도 사용가능하게 만들어 줍니다. 
+The `flash` method will flash the current input to the [session](/docs/{{version}}/session) so that it is available during the user's next request to the application: `flash` 메소드는 현재의 입력들을 [세션](/docs/{{version}}/session)에 저장하여 사용자가 다음번에 request 를 보내도 사용가능하게 만들어 줍니다. 
 
 	Request::flash();
 

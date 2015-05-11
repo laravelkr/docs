@@ -194,9 +194,9 @@ Eloquent 쿼리를 실행할 때 사용할 데이터베이스 커넥션을 지�
 
 	$user = User::on('connection-name')->find(1);
 
-If you are using [read / write connections](/docs/5.0/database#read-write-connections), you may force the query to use the "write" connection with the following method:
+If you are using [read / write connections](/docs/{{version}}/database#read-write-connections), you may force the query to use the "write" connection with the following method:
 
-여러분이 [읽기 / 쓰기용 커넥션](/docs/5.0/database#read-write-connections)을 사용하고 있다면, 다음과 같은 메소들를 통해서 “쓰기용” 커넥션을 강제로 지정할 수 있습니다. 
+여러분이 [읽기 / 쓰기용 커넥션](/docs/{{version}}/database#read-write-connections)을 사용하고 있다면, 다음과 같은 메소들를 통해서 “쓰기용” 커넥션을 강제로 지정할 수 있습니다. 
 
 	$user = User::onWriteConnection()->find(1);
 

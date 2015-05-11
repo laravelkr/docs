@@ -25,8 +25,8 @@ All Laravel packages are distributed via [Packagist](http://packagist.org) and [
 ## Views
 ## 뷰
 
-Your package's internal structure is entirely up to you; however, typically each package will contain one or more [service providers](/docs/5.0/providers). The service provider contains any [service container](/docs/5.0/container) bindings, as well as instructions as to where package configuration, views, and translation files are located.
-패키지의 내부 구조는 여러분이 구성하기 나름입니다. 그러나 일반적으로 각 패키지는 하나 이상의 [서비스 프로바이더](/docs/5.0/providers)를 가지고 있습니다. 서비스 프로바이더는 [service container](/docs/5.0/container) 바인딩을 설정하고, 동시에 패키지의 설정, 뷰, 언어 파일의 위치를 지정합니다.
+Your package's internal structure is entirely up to you; however, typically each package will contain one or more [service providers](/docs/{{version}}/providers). The service provider contains any [service container](/docs/{{version}}/container) bindings, as well as instructions as to where package configuration, views, and translation files are located.
+패키지의 내부 구조는 여러분이 구성하기 나름입니다. 그러나 일반적으로 각 패키지는 하나 이상의 [서비스 프로바이더](/docs/{{version}}/providers)를 가지고 있습니다. 서비스 프로바이더는 [service container](/docs/{{version}}/container) 바인딩을 설정하고, 동시에 패키지의 설정, 뷰, 언어 파일의 위치를 지정합니다.
 
 ### Views
 ### 뷰 파일

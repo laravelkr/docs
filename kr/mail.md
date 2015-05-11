@@ -117,7 +117,7 @@ Note that the `$message` variable is always passed to e-mail views by the `Mail`
 
 #### Queueing A Mail Message 이메일 메세지 큐잉 하기
 
-Since sending e-mail messages can drastically lengthen the response time of your application, many developers choose to queue e-mail messages for background sending. 메일을 송신하는 것은 어플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 두도록 합니다. Laravel makes this easy using its built-in [unified queue API](/docs/5.0/queues). 라라벨에서는 내장된 [일관된 큐 API](/docs/5.0/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. To queue a mail message, simply use the `queue` method on the `Mail` facade: 이메일 메세지를 대기 큐에 넣기 위해서는 간단하게 `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
+Since sending e-mail messages can drastically lengthen the response time of your application, many developers choose to queue e-mail messages for background sending. 메일을 송신하는 것은 어플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 두도록 합니다. Laravel makes this easy using its built-in [unified queue API](/docs/{{version}}/queues). 라라벨에서는 내장된 [일관된 큐 API](/docs/{{version}}/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. To queue a mail message, simply use the `queue` method on the `Mail` facade: 이메일 메세지를 대기 큐에 넣기 위해서는 간단하게 `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
 
 	Mail::queue('emails.welcome', $data, function($message)
 	{

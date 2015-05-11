@@ -71,12 +71,12 @@ Laravel automatically generates a CSRF "token" for each active user session mana
 
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
-Of course, using the Blade [templating engine](/docs/5.0/templates):
-다음처럼 Blade [템플릿 엔진](/docs/5.0/templates)을 사용할 수 있습니다.
+Of course, using the Blade [templating engine](/docs/{{version}}/templates):
+다음처럼 Blade [템플릿 엔진](/docs/{{version}}/templates)을 사용할 수 있습니다.
 
 	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-You do not need to manually verify the CSRF token on POST, PUT, or DELETE requests. 일일이 수동으로 POST, PUT 또는 DELETE 요청에 대한 CSRF 토큰을 확인할 필요가 없습니다. The `VerifyCsrfToken` [HTTP middleware](/docs/5.0/middleware) will verify token in the request input matches the token stored in the session. `VerifyCsrfToken` [HTTP 미들웨어](/docs/5.0/middleware)가 요청중인 토큰을 세션에 저장되어 있는 토큰과 일치하는지 확인할 것입니다. 
+You do not need to manually verify the CSRF token on POST, PUT, or DELETE requests. 일일이 수동으로 POST, PUT 또는 DELETE 요청에 대한 CSRF 토큰을 확인할 필요가 없습니다. The `VerifyCsrfToken` [HTTP middleware](/docs/{{version}}/middleware) will verify token in the request input matches the token stored in the session. `VerifyCsrfToken` [HTTP 미들웨어](/docs/{{version}}/middleware)가 요청중인 토큰을 세션에 저장되어 있는 토큰과 일치하는지 확인할 것입니다. 
 
 #### X-CSRF-TOKEN
 #### X-CSRF-TOKEN
@@ -254,9 +254,9 @@ Shared attributes are specified in an array format as the first parameter to the
 ### Middleware
 ### 미들웨어
 
-Middleware is applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. 라우트 그룹에 지정하는 배열의 `middleware` 값에 미들웨어의 목록을 정의함으로써 그룹내의 모든 라우트에 미들웨어가 적용됩니다. Middleware will be executed in the order you define this array: 미들웨어는 배열에 정의된 순서대로 실행될것입니다. 
+Middleware are applied to all routes within the group by defining the list of middleware with the `middleware` parameter on the group attribute array. 라우트 그룹에 지정하는 배열의 `middleware` 값에 미들웨어들의 목록을 정의함으로써 그룹내의 모든 라우트에 미들웨어가 적용됩니다. Middleware will be executed in the order you define this array: 미들웨어는 배열에 정의된 순서대로 실행될것입니다. 
 
-	Route::group(['middleware' => 'foo|bar'], function()
+	Route::group(['middleware' => ['foo','bar']], function()
 	{
 		Route::get('/', function()
 		{
@@ -395,8 +395,8 @@ There are two ways to manually trigger a 404 error from a route. First, you may 
 
 	abort(404);
 
-The `abort` helper simply throws a `Symfony\Component\HttpFoundation\Exception\HttpException` with the specified status code. `abort` 헬퍼함수는 지정된 상태 코드와 함께 `Symfony\Component\HttpFoundation\Exception\HttpException` 를 던집니다.
+The `abort` helper simply throws a `Symfony\Component\HttpKernel\Exception\HttpException` with the specified status code. `abort` 헬퍼함수는 지정된 상태 코드와 함께 `Symfony\Component\HttpKernel\Exception\HttpException` 를 던집니다.
 
 Secondly, you may manually throw an instance of `Symfony\Component\HttpKernel\Exception\NotFoundHttpException`. 두번째로 직접으로 `Symfony\Component\HttpKernel\Exception\NotFoundHttpException`을 던지는 것입니다. 
 
-More information on handling 404 exceptions and using custom responses for these errors may be found in the [errors](/docs/5.0/errors#http-exceptions) section of the documentation. 404 예외 처리와 오류의 커스텀한 처리를 사용하는 보다 자세한 내용은 다음 문서의 [errors](/docs/5.0/errors#http-exceptions) 부분을 참조하십시오.
+More information on handling 404 exceptions and using custom responses for these errors may be found in the [errors](/docs/{{version}}/errors#http-exceptions) section of the documentation. 404 예외 처리와 오류의 커스텀한 처리를 사용하는 보다 자세한 내용은 다음 문서의 [errors](/docs/{{version}}/errors#http-exceptions) 부분을 참조하십시오.

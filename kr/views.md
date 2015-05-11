@@ -54,7 +54,7 @@ When passing information in this manner, `$data` should be an array with key/val
 
 #### Sharing Data With All Views 모든 뷰에서 데이터 공유하기
 
-Occasionally, you may need to share a piece of data with all views that are rendered by your application. 때때로 어플리케이션에서 표시하는 모든 뷰에서 데이터를 공유할 필요가 있을 수도 있습니다. You have several options: the `view` helper, the `Illuminate\Contracts\View\Factory` [contract](/docs/5.0/contracts), or a wildcard [view composer](#view-composers). 이 경우 몇가지의 옵션이 있습니다. `view` 헬퍼 함수를 사용하거나 `Illuminate\Contracts\View\Factory` [contract](/docs/5.0/contracts)를 이용하는 법, 또는 와일드 카드의 [view composer](#view-composers)를 통하는 방법입니다. 
+Occasionally, you may need to share a piece of data with all views that are rendered by your application. 때때로 어플리케이션에서 표시하는 모든 뷰에서 데이터를 공유할 필요가 있을 수도 있습니다. You have several options: the `view` helper, the `Illuminate\Contracts\View\Factory` [contract](/docs/{{version}}/contracts), or a wildcard [view composer](#view-composers). 이 경우 몇가지의 옵션이 있습니다. `view` 헬퍼 함수를 사용하거나 `Illuminate\Contracts\View\Factory` [contract](/docs/{{version}}/contracts)를 이용하는 법, 또는 와일드 카드의 [view composer](#view-composers)를 통하는 방법입니다. 
 
 For example, using the `view` helper:
 `view` 헬퍼함수를 이용하는 예제입니다. 
@@ -94,7 +94,7 @@ View composers are callbacks or class methods that are called when a view is ren
 
 #### Defining A View Composer 뷰 컴포저 정의하기
 
-Let's organize our view composers within a [service provider](/docs/5.0/providers). 뷰 컴포저를 [서비스 프로바이더](/docs/5.0/providers)를 통해서 구성해 봅시다. We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation:
+Let's organize our view composers within a [service provider](/docs/{{version}}/providers). 뷰 컴포저를 [서비스 프로바이더](/docs/{{version}}/providers)를 통해서 구성해 봅시다. We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation:
  `Illuminate\Contracts\View\Factory` contract 구현체에 엑세스 하기 위해서 `View` 파사드를 사용할 것입니다.
 
 	<?php namespace App\Providers;
@@ -180,7 +180,7 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
 
 Just before the view is rendered, the composer's `compose` method is called with the `Illuminate\Contracts\View\View` instance. 뷰가 렌더링되기 전에 뷰컴포저의 `composer` 메소드가 `Illuminate\Contracts\View\View` 인스턴스와 함께 호출됩니다.  You may use the `with` method to bind data to the view. 데이터를 전달하기 위해서 `with` 메소드를 사용할 수 있습니다. 
 
-> **Note참고:** All view composers are resolved via the [service container](/docs/5.0/container), so you may type-hint any dependencies you need within a composer's constructor. 모든 뷰 컴포저의 의존성 주입은 [service container](/docs/5.0/container), 를 통해서 이루어 집니다. 그렇기 때문에 필요한 객체의 경우 뷰 컴포저의 생성자에서 타입힌트를 지정한 형태로 지정하면 됩니다. 
+> **Note참고:** All view composers are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a composer's constructor. 모든 뷰 컴포저의 의존성 주입은 [service container](/docs/{{version}}/container), 를 통해서 이루어 집니다. 그렇기 때문에 필요한 객체의 경우 뷰 컴포저의 생성자에서 타입힌트를 지정한 형태로 지정하면 됩니다. 
 
 #### Wildcard View Composers 와일드카드 뷰컴포저
 

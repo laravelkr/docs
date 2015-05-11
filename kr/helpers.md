@@ -226,7 +226,7 @@ Get the fully qualified path to the root of the application install.
 
 ### config_path
 
-Get the fully qualitifed path to the `config` directory.
+Get the fully qualified path to the `config` directory.
 `config` 디렉토리의 완전한 경로를 얻습니다. 
 
 ### public_path

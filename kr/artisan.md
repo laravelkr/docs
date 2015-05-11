@@ -54,7 +54,7 @@ Sometimes you may wish to execute an Artisan command outside of the CLI. 때로�
 		//
 	});
 
-You may even queue Artisan commands so they are processed in the background by your [queue workers](/docs/5.0/queues): [queue workers](/docs/5.0/queues)를 통해서 아티즌 명령어가 큐를 통해서 백그라운드에서 동작하도록 할 수도 있습니다. 
+You may even queue Artisan commands so they are processed in the background by your [queue workers](/docs/{{version}}/queues): [queue workers](/docs/version/queues)를 통해서 아티즌 명령어가 큐를 통해서 백그라운드에서 동작하도록 할 수도 있습니다. 
 
 	Route::get('/foo', function()
 	{

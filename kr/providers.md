@@ -22,7 +22,7 @@ In this overview you will learn how to write your own service providers and regi
 ## Basic Provider Example
 ## 기본적인 프로바이더 예제
 
-All service providers extend the `Illuminate\Support\ServiceProvider` class. 모든 서비스 프로바이더는 `Illuminate\Support\ServiceProvider` 클래스를 상속받습니다. This abstract class requires that you define at least one method on your provider: `register`. 이 추상 클래스는 여러분의 프로바이더에 최소한 `register` 메소드가  정의되어야 한다는 것을 지정합니다. Within the `register` method, you should **only bind things into the [service container](/docs/5.0/container)**. `register` 메소드에서는 **[서비스 컨테이너](/docs/5.0/container)에 등록만을 하도록 합니다** You should never attempt to register any event listeners, routes, or any other piece of functionality within the `register` method. `register` 메소드안에서는 다른 이벤트 리스너나 라우트 또는 기타 기능의 일부등을 등록하지 않아야 합니다. 
+All service providers extend the `Illuminate\Support\ServiceProvider` class. 모든 서비스 프로바이더는 `Illuminate\Support\ServiceProvider` 클래스를 상속받습니다. This abstract class requires that you define at least one method on your provider: `register`. 이 추상 클래스는 여러분의 프로바이더에 최소한 `register` 메소드가  정의되어야 한다는 것을 지정합니다. Within the `register` method, you should **only bind things into the [service container](/docs/{{version}}/container)**. `register` 메소드에서는 **[서비스 컨테이너](/docs/{{version}}/container)에 등록만을 하도록 합니다** You should never attempt to register any event listeners, routes, or any other piece of functionality within the `register` method. `register` 메소드안에서는 다른 이벤트 리스너나 라우트 또는 기타 기능의 일부등을 등록하지 않아야 합니다. 
 
 The Artisan CLI can easily generate a new provider via the `make:provider` command: 아티즌 CLI에서는 `make:provider` 명령어를 통해서 손쉽게 새로운 프로바이더를 생성할 수 있습니다. 
 
@@ -56,7 +56,7 @@ Now, let's take a look at a basic service provider:
 
 	}
 
-This service provider only defines a `register` method, and uses that method to define an implementation of `Riak\Contracts\Connection` in the service container. 이 서비스 프로바이더는 `register` 메소드만 정의되어 있습니다. 그리고 이 메소드를 통해서 서비스 컨테이너에 `Riak\Contracts\Connection` 구현 객체를 정의하고 있습니다. If you don't understand how the service container works, don't worry, [we'll cover that soon](/docs/5.0/container). 서비스 컨테이너가 어떻게 작동하는지 이해하지 못하더라도 걱정하지 마십시오. [곧바로 알 수 있습니다.](/docs/5.0/container)
+This service provider only defines a `register` method, and uses that method to define an implementation of `Riak\Contracts\Connection` in the service container. 이 서비스 프로바이더는 `register` 메소드만 정의되어 있습니다. 그리고 이 메소드를 통해서 서비스 컨테이너에 `Riak\Contracts\Connection` 구현 객체를 정의하고 있습니다. If you don't understand how the service container works, don't worry, [we'll cover that soon](/docs/{{version}}/container). 서비스 컨테이너가 어떻게 작동하는지 이해하지 못하더라도 걱정하지 마십시오. [곧바로 알 수 있습니다.](/docs/{{version}}/container)
 
 This class is namespaced under `App\Providers` since that is the default location for service providers in Laravel. 이 클래스는 라라벨의 기본 설치 장소에 있으므로 `App\Providers` 네임스페이스를 가집니다. However, you are free to change this as you wish. 그렇지만 원한다면 네임스페이스를 변경할 수도 있습니다. Your service providers may be placed anywhere that Composer can autoload them. 여러분의 서비스 프로바이더는 컴포저가 오토로딩을 할 수 있는 곳이라면 어디에 위치하더라도 상관없습니다. 
 
@@ -122,7 +122,7 @@ To register your provider, simply add it to the array:
 ## Deferred Providers
 ## 지연(deferred) 프로바이더
 
-If your provider is **only** registering bindings in the [service container](/docs/5.0/container), you may choose to defer its registration until one of the registered bindings is actually needed. 만약 여러분의 프로바이더가 **단지** 서비스 컨테이너에 바인딩을 등록하기만 한다면, 등록된 바인딩이 실제로 필요할때까지 등록 자체를 지연(deferred) 시킬 수 있습니다. Deferring the loading of such a provider will improve the performance of your application, since it is not loaded from the filesystem on every request. 이러한 프로바이더 로딩의 지연(deferred)은 모든 요청에 프로바이더를 파일 시스템에서 로드하지 않으므로 어플리케이션의 성능을 향상시킬 것입니다. 
+If your provider is **only** registering bindings in the [service container](/docs/{{version}}/container), you may choose to defer its registration until one of the registered bindings is actually needed. 만약 여러분의 프로바이더가 **단지** [서비스 컨테이너](/docs/{{version}}/container)에 바인딩을 등록하기만 한다면, 등록된 바인딩이 실제로 필요할때까지 등록 자체를 지연(deferred) 시킬 수 있습니다. Deferring the loading of such a provider will improve the performance of your application, since it is not loaded from the filesystem on every request. 이러한 프로바이더 로딩의 지연(deferred)은 모든 요청에 프로바이더를 파일 시스템에서 로드하지 않으므로 어플리케이션의 성능을 향상시킬 것입니다. 
 
 To defer the loading of a provider, set the `defer` property to `true` and define a `provides` method. 프로바이더를 지연(defer) 로딩 하려면 프로바이더의 `defer` 프로퍼티를 `true`로 설정하고 `provides` 메소드를 정의하면 됩니다. The `provides` method returns the service container bindings that the provider registers: `provides` 메소드는 서비스 컨테이너에 프로바이더를 등록하는 바인딩을 리턴합니다. 
 

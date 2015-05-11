@@ -106,7 +106,7 @@ When using multiple cache stores, you may access them via the `store` method:
 <a name="increments-and-decrements"></a>
 ## Increments & Decrements 증감 조작하기
 
-All drivers except `file` and `database` support the `increment` and `decrement` operations: `file`과 `database`를 제외한 드라이버는 `increment` 및 `decrement` 조작을 지원하고 있습니다.
+All drivers except `database` support the `increment` and `decrement` operations: `database`를 제외한 드라이버는 `increment` 및 `decrement` 조작을 지원하고 있습니다.
 
 #### Incrementing A Value 값 증가시키기
 

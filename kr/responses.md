@@ -24,7 +24,7 @@ The most basic response from a Laravel route is a string:
 #### Creating Custom Responses
 #### 사용자 지정 Response 생성하기
 
-However, for most routes and controller actions, you will be returning a full `Illuminate\Http\Response` instance or a [view](/docs/5.0/views). 대부분의 라우트나 컨트롤러 액션에서는 `Illuminate\Http\Response`의 인스턴스나  [뷰](/docs/5.0/views)를 반환합니다. Returning a full `Response` instance allows you to customize the response's HTTP status code and headers. `Response` 인스턴스를 반환하는 것은 여러분이 response 의 HTTP 상태 코드나 헤더를 변경할 수 있도록 지원합니다. A `Response` instance inherits from the `Symfony\Component\HttpFoundation\Response` class, providing a variety of methods for building HTTP responses: `Response` 는 `Symfony\Component\HttpFoundation\Response` 클래스를 상속받고 있으며 HTTP response 를 만들기 위한 다양한 메소드를 제공합니다. 
+However, for most routes and controller actions, you will be returning a full `Illuminate\Http\Response` instance or a [view](/docs/{{version}}/views). 대부분의 라우트나 컨트롤러 액션에서는 `Illuminate\Http\Response`의 인스턴스나  [뷰](/docs/{{version}}/views)를 반환합니다. Returning a full `Response` instance allows you to customize the response's HTTP status code and headers. `Response` 인스턴스를 반환하는 것은 여러분이 response 의 HTTP 상태 코드나 헤더를 변경할 수 있도록 지원합니다. A `Response` instance inherits from the `Symfony\Component\HttpFoundation\Response` class, providing a variety of methods for building HTTP responses: `Response` 는 `Symfony\Component\HttpFoundation\Response` 클래스를 상속받고 있으며 HTTP response 를 만들기 위한 다양한 메소드를 제공합니다. 
 
 	use Illuminate\Http\Response;
 
@@ -75,7 +75,7 @@ There are several ways to generate a `RedirectResponse` instance. `RedirectRespo
 #### Returning A Redirect With Flash Data
 #### 리다이렉트에 플래시 데이터와 함께 반환하기
 
-Redirecting to a new URL and [flashing data to the session](/docs/5.0/session) are typically done at the same time. 새로운 URL로 리다이렉트 이동하고 [플래시 데이터를 세션에 저장](/docs/5.0/session) 하는 것은 일반적으로 동시에 진행됩니다. So, for convenience, you may create a `RedirectResponse` instance **and** flash data to the session in a single method chain: 따라서 편의성을 높이기 위해 `RedirectResponse` 인스턴스를 생성하고 **동시에** 메소드 체인을 통해 플래시 데이터를 세션에 저장할 수 있습니다.
+Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session) are typically done at the same time. 새로운 URL로 리다이렉트 이동하고 [플래시 데이터를 세션에 저장](/docs/{{version}}/session) 하는 것은 일반적으로 동시에 진행됩니다. So, for convenience, you may create a `RedirectResponse` instance **and** flash data to the session in a single method chain: 따라서 편의성을 높이기 위해 `RedirectResponse` 인스턴스를 생성하고 **동시에** 메소드 체인을 통해 플래시 데이터를 세션에 저장할 수 있습니다.
 
 	return redirect('user/login')->with('message', 'Login Failed');
 
@@ -118,7 +118,7 @@ If you are redirecting to a route with an "ID" parameter that is being populated
 #### Returning A Redirect To A Controller Action
 #### 컨트롤러 액션으로 리다이렉트 하기
 
-Similarly to generating `RedirectResponse` instances to named routes, you may also generate redirects to [controller actions](/docs/5.0/controllers): 이름이 지정된 라우트로 이동하는 `RedirectResponse` 인스턴스를 생성하는것과 비슷하게 [컨트롤러 액션](/docs/5.0/controllers) 으로 리다이렉션 할 수 있습니다. 
+Similarly to generating `RedirectResponse` instances to named routes, you may also generate redirects to [controller actions](/docs/{{version}}/controllers): 이름이 지정된 라우트로 이동하는 `RedirectResponse` 인스턴스를 생성하는것과 비슷하게 [컨트롤러 액션](/docs/{{version}}/controllers) 으로 리다이렉션 할 수 있습니다. 
 
 	return redirect()->action('App\Http\Controllers\HomeController@index');
 
@@ -138,7 +138,7 @@ Similarly to generating `RedirectResponse` instances to named routes, you may al
 ## Other Responses
 ## 기타 Response
 
-The `response` helper may be used to conveniently generate other types of response instances. `response` 헬퍼 함수를 사용하여 편리하게 다른 타입의 response 인스턴스를 생성할 수도 있습니다. When the `response` helper is called without arguments, an implementation of the `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/5.0/contracts) is returned. `response` 헬퍼함수를 인자없이 호출하게 되면 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/5.0/contracts) 를 반환합니다. This contract provides several helpful methods for generating responses. 이 contract 는 response 를 생성하기 위한 다양한 메소드를 제공합니다. 
+The `response` helper may be used to conveniently generate other types of response instances. `response` 헬퍼 함수를 사용하여 편리하게 다른 타입의 response 인스턴스를 생성할 수도 있습니다. When the `response` helper is called without arguments, an implementation of the `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) is returned. `response` 헬퍼함수를 인자없이 호출하게 되면 `Illuminate\Contracts\Routing\ResponseFactory` [contract](/docs/{{version}}/contracts) 를 반환합니다. This contract provides several helpful methods for generating responses. 이 contract 는 response 를 생성하기 위한 다양한 메소드를 제공합니다. 
 
 #### Creating A JSON Response
 #### JSON response 생성하기
@@ -170,7 +170,7 @@ The `json` method will automatically set the `Content-Type` header to `applicati
 
 If you would like to define a custom response that you can re-use in a variety of your routes and controllers, you may use the `macro` method on an implementation of `Illuminate\Contracts\Routing\ResponseFactory`. 다양한 라우트와 컨트롤러에서 재사용할 수 있는 사용자 정의 Response를 정의하려면 `Illuminate\Contracts\Routing\ResponseFactory` 구현 클래스의 `macro` 메소드를 사용할 수 있습니다.
 
-For example, from a [service provider's](/docs/5.0/providers) `boot` method: 다음은  [service provider's](/docs/5.0/providers)의 `boot` 메소드에서 정의하는 예제입니다. 
+For example, from a [service provider's](/docs/{{version}}/providers) `boot` method: 다음은  [service provider's](/docs/{{version}}/providers)의 `boot` 메소드에서 정의하는 예제입니다. 
 
 	<?php namespace App\Providers;
 

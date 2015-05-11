@@ -63,7 +63,7 @@ A deep understanding of the Laravel service container is essential to building a
 
 ### Binding 바인딩
 
-Almost all of your service container bindings will be registered within [service providers](/docs/5.0/providers), so all of these examples will demonstrate using the container in that context. 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/5.0/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. However, if you need an instance of the container elsewhere in your application, such as a factory, you may type-hint the `Illuminate\Contracts\Container\Container` contract and an instance of the container will be injected for you. 하지만 만약 팩토리와 같이 어플리케이션의 다른 곳에서 컨테이너의 인스턴스가 필요하다면 컨테이너의 인스턴스가 주입되도록 `Illuminate\Contracts\Container\Container` contract 를 타입힌트로 지정하면 됩니다. Alternatively, you may use the `App` facade to access the container.  다른 방법으로는 컨테이너에 액세스하기 위해`App` 파사드를 사용할 수 있습니다.
+Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so all of these examples will demonstrate using the container in that context. 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. However, if you need an instance of the container elsewhere in your application, such as a factory, you may type-hint the `Illuminate\Contracts\Container\Container` contract and an instance of the container will be injected for you. 하지만 만약 팩토리와 같이 어플리케이션의 다른 곳에서 컨테이너의 인스턴스가 필요하다면 컨테이너의 인스턴스가 주입되도록 `Illuminate\Contracts\Container\Container` contract 를 타입힌트로 지정하면 됩니다. Alternatively, you may use the `App` facade to access the container.  다른 방법으로는 컨테이너에 액세스하기 위해`App` 파사드를 사용할 수 있습니다.
 
 #### Registering A Basic Resolver
 #### 기본적인 의존성 해결 등록하기
@@ -307,7 +307,7 @@ Laravel provides several opportunities to use the service container to increase 
 
 	}
 
-In this example, the `OrderRepository` class will automatically be injected into the controller. 위의 예제에서 `OrderRepository` 클래스는 자동으로 컨트롤러에 주입되었습니다. This means that a "mock" `OrderRepository` may be bound into the container when [unit testing](/docs/5.0/testing), allowing for painless stubbing of database layer interaction. 이것은  [단위 테스트](/docs/5.0/testing)를 할때, 데이터베이스 레이어에 관계 없이 “목업” `OrderRepository`가 컨테이너에 바인딩 될 수 있음을 의미합니다.
+In this example, the `OrderRepository` class will automatically be injected into the controller. 위의 예제에서 `OrderRepository` 클래스는 자동으로 컨트롤러에 주입되었습니다. This means that a "mock" `OrderRepository` may be bound into the container when [unit testing](/docs/{{version}}/testing), allowing for painless stubbing of database layer interaction. 이것은  [단위 테스트](/docs/{{version}}/testing)를 할때, 데이터베이스 레이어에 관계 없이 “목업” `OrderRepository`가 컨테이너에 바인딩 될 수 있음을 의미합니다.
 
 #### Other Examples Of Container Usage
 #### 컨테이너를 사용하는 다른 예제

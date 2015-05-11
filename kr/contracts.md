@@ -139,7 +139,7 @@ Contract  |  Laravel 5.x Facade
 ## How To Use Contracts 
 ## Contract 사용법
 
-So, how do you get an implementation of a contract? 그럼 어떻게 Contract의 구현체를 얻을 수 있을까요? It's actually quite simple. 사실 매우 간단합니다. Many types of classes in Laravel are resolved through the [service container](/docs/5.0/container), including controllers, event listeners, filters, queue jobs, and even route Closures. 라라벨에 있는 여러 종류의 클래스들은 컨트롤러, 이벤트리스너, 필터, 큐 작업, 라우트 클로저들을 관리하는 [서비스 컨테이너](/docs/5.0/container)를 통해 의존성 해결(resolve) 되고 있습니다. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler: 따라서 의존성이 해결되는 어떤 클래스가 특정 Contract의 구현체를 얻으려면 그 클래스의 생성자에 그 인터페이스를 "type-hint"로 지정해놓으면 됩니다. 그 예로 아래의 이벤트핸들러를 보겠습니다.
+So, how do you get an implementation of a contract? 그럼 어떻게 Contract의 구현체를 얻을 수 있을까요? It's actually quite simple. 사실 매우 간단합니다. Many types of classes in Laravel are resolved through the [service container](/docs/{{version}}/container), including controllers, event listeners, filters, queue jobs, and even route Closures. 라라벨에 있는 여러 종류의 클래스들은 컨트롤러, 이벤트리스너, 필터, 큐 작업, 라우트 클로저들을 관리하는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 의존성 해결(resolve) 되고 있습니다. So, to get an implementation of a contract, you can just "type-hint" the interface in the constructor of the class being resolved. For example, take a look at this event handler: 따라서 의존성이 해결되는 어떤 클래스가 특정 Contract의 구현체를 얻으려면 그 클래스의 생성자에 그 인터페이스를 "type-hint"로 지정해놓으면 됩니다. 그 예로 아래의 이벤트핸들러를 보겠습니다.
 
 	<?php namespace App\Handlers\Events;
 
@@ -178,4 +178,4 @@ So, how do you get an implementation of a contract? 그럼 어떻게 Contract의
 
 	}
 
-When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. 이벤트리스너가 의존성 해결될 때, 서비스 컨테이너는 클래스의 생성자에 있는 타입힌트를 읽고, 그에 적합한 값을 주입해 줍니다. To learn more about registering things in the service container, check out [the documentation](/docs/5.0/container). 서비스 컨테이너에 무언가를 등록하는 것에 대하여 더 알고싶다면, [이 문서](/docs/5.0/container)를 보시기 바랍니다.
+When the event listener is resolved, the service container will read the type-hints on the constructor of the class, and inject the appropriate value. 이벤트리스너가 의존성 해결될 때, 서비스 컨테이너는 클래스의 생성자에 있는 타입힌트를 읽고, 그에 적합한 값을 주입해 줍니다. To learn more about registering things in the service container, check out [the documentation](/docs/{{version}}/container). 서비스 컨테이너에 무언가를 등록하는 것에 대하여 더 알고싶다면, [이 문서](/docs/{{version}}/container)를 보시기 바랍니다.

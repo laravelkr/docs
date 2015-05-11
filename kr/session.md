@@ -149,4 +149,4 @@ The session "driver" defines where session data will be stored for each request.
 - `array` - sessions will be stored in a simple PHP array and will not be persisted across requests.
 - `array` - 세션은 간단한 PHP 배열에 저장되지만 요청들간에 지속되지 않습니다. 
 
-> **Note주의:** The array driver is typically used for running [unit tests](/docs/5.0/testing), so no session data will be persisted. 배열 드라이버의 경우에는 실제로 세션은 유지되지 않기 때문에 [unit tests](/docs/5.0/testing)를 수행하는데에만 사용하시기 바랍니다. 
+> **Note주의:** The array driver is typically used for running [unit tests](/docs/{{version}}/testing), so no session data will be persisted. 배열 드라이버의 경우에는 실제로 세션은 유지되지 않기 때문에 [unit tests](/docs/{{version}}/testing)를 수행하는데에만 사용하시기 바랍니다. 

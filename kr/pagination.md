@@ -37,8 +37,8 @@ Sometimes you may wish to create a pagination instance manually, passing it an a
 #### Paginating An Eloquent Model
 #### Eloquent Model 에서의 페이징
 
-You may also paginate [Eloquent](/docs/5.0/eloquent) models:
-또한 여러분은 [Eloquent](/docs/5.0/eloquent) models 에서도 페이징 처리를 할 수 있습니다.
+You may also paginate [Eloquent](/docs/{{version}}/eloquent) models:
+또한 여러분은 [Eloquent](/docs/{{version}}/eloquent) models 에서도 페이징 처리를 할 수 있습니다.
 
 	$allUsers = User::paginate(15);
 

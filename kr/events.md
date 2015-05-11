@@ -81,7 +81,7 @@ Sometimes, you may wish to stop the propagation of an event to other listeners. 
 ## Queued Event Handlers
 ## 큐에 저장된 이벤트 핸들러
 
-Need to [queue](/docs/5.0/queues) an event handler? 이벤트 핸들러에 [큐](/docs/5.0/queues)가 필요한가요? It couldn't be any easier. 간단하게 할 수 있습니다. When generating the handler, simply use the `--queued` flag: 핸들러를 생성할 때 `--queued` 플래스를 사용하면 됩니다. 
+Need to [queue](/docs/{{version}}/queues) an event handler? 이벤트 핸들러에 [큐](/docs/{{version}}/queues)가 필요한가요? It couldn't be any easier. 간단하게 할 수 있습니다. When generating the handler, simply use the `--queued` flag: 핸들러를 생성할 때 `--queued` 플래스를 사용하면 됩니다. 
 
 	php artisan handler:event SendPurchaseConfirmation --event=PodcastWasPurchased --queued
 
@@ -150,7 +150,7 @@ Once the subscriber has been defined, it may be registered with the `Event` clas
 
 	Event::subscribe($subscriber);
 
-You may also use the [service container](/docs/5.0/container) to resolve your subscriber. 서비스 컨테이너를 통해서 구독 클래스의 의존성 해결을 사용할 수 있습니다. To do so, simply pass the name of your subscriber to the `subscribe` method: 이 경우 간단하게 `subscribe` 메소드에 클래스 이름만 넣으면 됩니다. 
+You may also use the [service container](/docs/{{version}}/container) to resolve your subscriber. [서비스 컨테이너](/docs/{{version}}/container)를 통해서 구독 클래스의 의존성 해결을 사용할 수 있습니다. To do so, simply pass the name of your subscriber to the `subscribe` method: 이 경우 간단하게 `subscribe` 메소드에 클래스 이름만 넣으면 됩니다. 
 
 	Event::subscribe('UserEventHandler');
 

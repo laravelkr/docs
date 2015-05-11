@@ -80,8 +80,8 @@ Typically, this string should be 32 characters long. The key can be set in the `
 Laravel needs almost no other configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
 라라벨은 앞의 내용 이외의 다른 세팅은 필요 하지 않습니다. 이제 편하게 개발을 시작하면 됩니다! 그러나 가급적 `config/app.php` 파일의 내용을 살펴보길 권장합니다. `timezone`과 `locale`과 같이 여러분의 어플리케이션을 따라 바꾸기를 원하는 몇가지 옵션들을 포함하고 있습니다.
 
-Once Laravel is installed, you should also [configure your local environment](/docs/5.0/configuration#environment-configuration).
-라라벨이 설치하면 이 문서 [로컬 환경 설정하기](/docs/5.0/configuration#environment-configuration)  역시 참고하시기 바랍니다.
+Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration).
+라라벨이 설치하면 이 문서 [로컬 환경 설정하기](/docs/{{version}}/configuration#environment-configuration)  역시 참고하시기 바랍니다.
 
 > **Note:** You should never have the `app.debug` configuration option set to `true` for a production application.
 > **주의**  실제 운영중인 어플리케이션에서는 절대로 설정의 `app.debug` 옵션을 `true`로 설정하지 마시기 바랍니다. 
@@ -122,5 +122,5 @@ Nginx에서 여러분의 서버 설정이 아래의 지시를 따른다면 “pr
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-Of course, when using [Homestead](/docs/5.0/homestead), pretty URLs will be configured automatically.
-물론 [Homestead](/docs/5.0/homestead)를 사용하신다면 pretty URLs 는 자동으로 설정되어 있을 것입니다.
+Of course, when using [Homestead](/docs/{{version}}/homestead), pretty URLs will be configured automatically.
+물론 [Homestead](/docs/{{version}}/homestead)를 사용하신다면 pretty URLs 는 자동으로 설정되어 있을 것입니다.

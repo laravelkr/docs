@@ -217,6 +217,18 @@ Sometimes subscriptions are affected by "quantity". For example, your applicatio
 	// Subtract five to the subscription's current quantity...
 	$user->subscription()->decrement(5);
 
+<a name="subscription-tax"></a>
+## Subscription Tax
+
+With Cashier, it's easy to override the `tax_percent` value sent to Stripe. To specify the tax percentage a user pays on a subscription, implement the `getTaxPercent` method on your model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+
+	public function getTaxPercent()
+	{
+		return 20;
+	}
+
+This enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries.
+
 <a name="cancelling-a-subscription"></a>
 ## Cancelling A Subscription
 ## 구독 취소하기
@@ -255,7 +267,7 @@ To verify that a user is subscribed to your application, use the `subscribed` me
 		//
 	}
 
-The `subscribed` method makes a great candidate for a [route middleware](/docs/5.0/middleware):
+The `subscribed` method makes a great candidate for a [route middleware](/docs/{{version}}/middleware):
 
 `subscribed` 메소드는 라우트 미들웨어에 사용될수 있는 좋은 방법중 하나입니다:
 

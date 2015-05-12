@@ -254,6 +254,15 @@ The `Request` class provides many methods for examining the HTTP request for you
 #### Request URI 가져오기
 
 	$uri = Request::path();
+	
+#### Determine If The Request Is Using AJAX
+#### Request 가 AJAX 요청인지 확인
+
+	if (Request::ajax())
+	{
+		//
+	}
+
 
 #### Retrieving The Request Method
 #### Request 메소드 확인하기

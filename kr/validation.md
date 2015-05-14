@@ -742,7 +742,7 @@ The field under validation must have a size matching the given _value_. For stri
 필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
 
 <a name="rule-string"></a>
-#### string:_value_
+#### string
 
 The field under validation must be a string type. 
 

@@ -101,7 +101,7 @@ Now all AJAX requests will automatically include the CSRF token: 이제 모든 A
 #### X-XSRF-TOKEN
 #### X-XSRF-TOKEN
 
-Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. 또한 라라벨은 CSRF 토큰을 `XSRF-TOKEN` 쿠키에 저장합니다. You can use the cookie value to set the `X-XSRF-TOKEN` request header. 이 쿠키값을 요청 헤더(request header)에 `X-XSRF-TOKEN`을 설정하는데 사용할 수 있습니다. Some Javascript frameworks, like Angular, do this automatically for you. Angular와 같은 몇몇 자바스크립트 프레임워크는 자동으로 이 값을 사용합니다. 
+Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. 또한 라라벨은 CSRF 토큰을 `XSRF-TOKEN` 쿠키에 저장합니다. You can use the cookie value to set the `X-XSRF-TOKEN` request header. 이 쿠키값을 요청 헤더(request header)에 `X-XSRF-TOKEN`을 설정하는데 사용할 수 있습니다. Some JavaScript frameworks, like Angular, do this automatically for you. Angular와 같은 몇몇 자바스크립트 프레임워크는 자동으로 이 값을 사용합니다. 
 
 > Note 참고: The difference between the `X-CSRF-TOKEN` and `X-XSRF-TOKEN` is that the first uses a plain text value and the latter uses an encrypted value, because cookies in Laravel are always encrypted. `X-CSRF-TOKEN`와 `X-XSRF-TOKEN`의 차이점은 전자는 일반적인 텍스트를 사용한다면 후자는 암호화된 값을 사용한다는 것인데, 이는 라라벨에서는 쿠키를 항상 암호화 된 값으로 사용하기 때문입니다. If you use the `csrf_token()` function to supply the token value, you probably want to use the `X-CSRF-TOKEN` header. 여러분이 토큰 값을 제공하기 위해`csrf_token ()`함수를 사용하는 경우는, 아마 `X-CSRF-TOKEN` 헤더를 사용하게 되는 경우일것입니다. 
 

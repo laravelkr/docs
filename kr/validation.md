@@ -694,7 +694,7 @@ The field under validation must be present in the input data.
 <a name="rule-required-if"></a>
 #### required_if:_field_,_value_,...
 
-The field under validation must be present if the _field_ field is equal to any _value_. 
+The field under validation must be present if the _field_ is equal to any _value_. 
 
 만약 _filed_의 값이 _value_중의 하나와 일치한다면, 해당 필드가 반드시 존재해야 합니다.
 

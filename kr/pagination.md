@@ -66,6 +66,8 @@ You may also access additional pagination information via the following methods:
 - `lastPage`
 - `perPage`
 - `hasMorePages`
+- `firstItem`
+- `lastItem`
 - `url`
 - `nextPageUrl`
 - `total`

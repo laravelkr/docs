@@ -1,7 +1,7 @@
 # Contracts
 
 - [Introduction 소개](#introduction)
-- [Why Contracts? 왜 Conracts인가?](#why-contracts)
+- [Why Contracts? 왜 Contracts인가?](#why-contracts)
 - [Contract Reference Contract 참조](#contract-reference)
 - [How To Use Contracts Contract 사용법](#how-to-use-contracts)
 
@@ -62,7 +62,7 @@ First, let's review some code that is tightly coupled to a cache implementation.
 
 	}
 
-In this class, the code is tightly coupled to a given cache implementation. 이 클래스의 코드는 주어진 캐시 구현체와 밀접하게 결합돼 있습니다. It is tightly coupled because we are depending on a concrete Cache class from a package vendor.  특정 패키지 벤더의 캐시 구상클래스에 의존하기 때문에 이 코드는 캐스 클래스와 밀접하게 결합돼 있는 것입니다. If the API of that package changes our code must change as well. 만약 이 패키지의 API가 변경되면 예로든 코드 또한 변경되어야 합니다. 
+In this class, the code is tightly coupled to a given cache implementation. 이 클래스의 코드는 주어진 캐시 구현체와 밀접하게 결합돼 있습니다. It is tightly coupled because we are depending on a concrete Cache class from a package vendor.  특정 패키지 벤더의 캐시 구상클래스에 의존하기 때문에 이 코드는 캐시 클래스와 밀접하게 결합돼 있는 것입니다. If the API of that package changes our code must change as well. 만약 이 패키지의 API가 변경되면 예로든 코드 또한 변경되어야 합니다. 
 
 Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. 또한, 코드가 사용하는 캐시(Memcached)를 다른 것(Redia)으로 변경하고자 한다면, 역시나 Repository 클래스를 다시 수정해야만 할 것입니다.
 Our repository should not have so much knowledge regarding who is providing them data or how they are providing it. 저장소 클래스는 누가 어떻게 데이터를 제공하는지에 대한 정보를 너무 많이 가지고 있어서는 안 됩니다.

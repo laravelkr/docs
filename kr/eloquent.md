@@ -609,22 +609,35 @@ The `apply` method receives an `Illuminate\Database\Eloquent\Builder` query buil
 
 <a name="relationships"></a>
 ## Relationships
+## 관계
 
 Of course, your database tables are probably related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy. Laravel supports many types of relationships:
 
+당연하게도 데이터베이스 테이블은 다른 테이블과 관계를 형성합니다. 예를 들어, 하나의 블로그 포스트는 다수의 코멘트를 가질 수 있고, 하나의 주문정보는 주문을 신청한 사용자와 관계되어 있습니다. Eloquent는 이러한 관계를 손쉽게 관리하고, 작동 할 수 있도록합니다. 라라벨은 다양한 종류의 관계형성을 제공합니다:
+
 - [One To One](#one-to-one)
+- [일대일](#one-to-one)
 - [One To Many](#one-to-many)
+- [일대다](#one-to-many)
 - [Many To Many](#many-to-many)
+- [다대다](#many-to-many)
 - [Has Many Through](#has-many-through)
+- [연결을 통한 다수를 가지는 관계](#has-many-through)
 - [Polymorphic Relations](#polymorphic-relations)
+- [다형성 관계](#polymorphic-relations)
 - [Many To Many Polymorphic Relations](#many-to-many-polymorphic-relations)
+- [다대다 다형성 관계](#many-to-many-polymorphic-relations)
 
 <a name="one-to-one"></a>
 ### One To One
+### 일 대 일 관계
 
 #### Defining A One To One Relation
+#### 일대일 관계 정의하기
 
 A one-to-one relationship is a very basic relation. For example, a `User` model might have one `Phone`. We can define this relation in Eloquent:
+
+일대일 관계는 매우 기본적인 관계입니다. 예를 들어 `User` 모델은 하나의 `Phone` 을 가집니다. 이러한 관계를 Eloquent 에서 정의할 수 있습니다. 
 
 	class User extends Model {
 
@@ -637,9 +650,12 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
 
 The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve it using Eloquent's [dynamic properties](#dynamic-properties):
 
+`hasOne` 메소드의 첫번째 인자는 관계된 모델의 이름입니다. 관계가 정의되고 나면 Eloquent의 [동적 속성](#dynamic-properties)을 통해서 조회할 수 있습니다:
+
 	$phone = User::find(1)->phone;
 
 The SQL performed by this statement will be as follows:
+위의 구문의 다음과 같은 SQL로 동작합니다. 
 
 	select * from users where id = 1
 
@@ -647,13 +663,18 @@ The SQL performed by this statement will be as follows:
 
 Take note that Eloquent assumes the foreign key of the relationship based on the model name. In this case, `Phone` model is assumed to use a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method. Furthermore, you may pass a third argument to the method to specify which local column that should be used for the association:
 
+ Eloquent는 모델의 이름을 기반으로 관계된 외래 키를 추정한다는 것에 주의하십시오. 이 경우, `Phone` 모델은 `user_id` 외래 키를 사용 한다고 가정합니다. 만약 이러한 규칙을 재정의 하고자 한다면, `hasOne` 메소드의 두번째 인자로 외래 키로 사용하고자 하는 컬럼명을 전달하면 됩니다. 더불어, 세번째 인자로 어떠한 로컬 컬럼이 연결에 사용될지 명시 할 수도 있습니다:
+
 	return $this->hasOne('App\Phone', 'foreign_key');
 
 	return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
 #### Defining The Inverse Of A Relation
+#### 역관계 정의하기
 
 To define the inverse of the relationship on the `Phone` model, we use the `belongsTo` method:
+
+`Phone` 모델에서 관계 설정의 반대, 즉 역관계를 정의하기 위해서는 `belongsTo` 메소드를 사용하면 됩니다. 
 
 	class Phone extends Model {
 
@@ -666,6 +687,8 @@ To define the inverse of the relationship on the `Phone` model, we use the `belo
 
 In the example above, Eloquent will look for a `user_id` column on the `phones` table. If you would like to define a different foreign key column, you may pass it as the second argument to the `belongsTo` method:
 
+위의 예제에서 Eloquent는 `phones` 테이블에서 `user_id` 컬럼을 찾을 것입니다. 만약 여러분이 따로 외래키를 정의하였다면 `belongsTo` 메소드에 두번째 인자로 이 키를 전달하면 됩니다. 
+
 	class Phone extends Model {
 
 		public function user()
@@ -676,6 +699,7 @@ In the example above, Eloquent will look for a `user_id` column on the `phones` 
 	}
 
 Additionally, you pass a third parameter which specifies the name of the associated column on the parent table:
+추가적으로, 새번째 인자로 부모 테이블과 연결된 컬럼명을 전달 할 수도 있습니다:
 
 	class Phone extends Model {
 
@@ -688,8 +712,10 @@ Additionally, you pass a third parameter which specifies the name of the associa
 
 <a name="one-to-many"></a>
 ### One To Many
+### 일대다 관계
 
 An example of a one-to-many relation is a blog post that "has many" comments. We can model this relation like so:
+일대다 관계의 예는 하나의 블로그 포스트가 “다수의” 코멘트를 가지는 것입니다. 다음처럼 모델을 설정할 수 있습니다. 
 
 	class Post extends Model {
 
@@ -701,22 +727,27 @@ An example of a one-to-many relation is a blog post that "has many" comments. We
 	}
 
 Now we can access the post's comments through the [dynamic property](#dynamic-properties):
+이제 [동적 속성](#dynamic-properties)을 통해서 포스트의 코멘트들을 엑세스 할 수 있습니다. 
 
 	$comments = Post::find(1)->comments;
 
 If you need to add further constraints to which comments are retrieved, you may call the `comments` method and continue chaining conditions:
+만약 여러분이 어떤 코멘트들을 조회할 것인지에 대한 추가적인 제약이 필요하다면, `comments` 메소드와 연결된 체이닝 조건을 호출할 수도 있습니다. 
 
 	$comments = Post::find(1)->comments()->where('title', '=', 'foo')->first();
 
 Again, you may override the conventional foreign key by passing a second argument to the `hasMany` method. And, like the `hasOne` relation, the local column may also be specified:
+다시한번, `hasMany` 메서드에 두번째 인수를 전달하여, 외래 키 컬럼을 재정의 할 수 있습니다. 그리고, `hasOne` 관계와 같이, 로컬 컬럼 키 역시 명시 할 수 있습니다:
 
 	return $this->hasMany('App\Comment', 'foreign_key');
 
 	return $this->hasMany('App\Comment', 'foreign_key', 'local_key');
 
 #### Defining The Inverse Of A Relation
+#### 역관계 정의하기
 
 To define the inverse of the relationship on the `Comment` model, we use the `belongsTo` method:
+`Comment` 모델에 관계 설정의 반대, 즉 역관계를 설정하기 위해서는 `belongsTo` 메소드를 사용하면 됩니다. 
 
 	class Comment extends Model {
 
@@ -729,10 +760,14 @@ To define the inverse of the relationship on the `Comment` model, we use the `be
 
 <a name="many-to-many"></a>
 ### Many To Many
+### 다대다 관계
 
 Many-to-many relations are a more complicated relationship type. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". Three database tables are needed for this relationship: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and should have `user_id` and `role_id` columns.
 
+다대다 관계는 좀더 복잡한 관계타입입니다. 이러한 예를 들자면 하나의 사용자는 다수의 역활을 가지고, 이 역활은 또한 각각의 사용자와 공유되는 경우입니다. 예를 들어 다수의 사용자가 “관리자” 역활을 가질 수 있습니다. 이 관계를 위해서는 3개의 데이터베이스 테이블이 필요합니다: `users`, `roles`, 그리고 `role_user`입니다. `role_user` 테이블은 관계가 설정된 모델의 이름을 알파벳 순서로 정렬한 순서에서 이름이 유래되었으며, `user_id`와 `role_id` 컬럼을 포함하고 있어야만 합니다.
+
 We can define a many-to-many relation using the `belongsToMany` method:
+`belongsToMany` 메소드를 사용하여 다음처럼 다대다 관계를 정의할 수 있습니다:
 
 	class User extends Model {
 
@@ -744,18 +779,23 @@ We can define a many-to-many relation using the `belongsToMany` method:
 	}
 
 Now, we can retrieve the roles through the `User` model:
+이제 `User` 모델의 역활(roles)들을 조회할 수 있습니다. 
 
 	$roles = User::find(1)->roles;
 
 If you would like to use an unconventional table name for your pivot table, you may pass it as the second argument to the `belongsToMany` method:
 
+만약 피벗 테이블 이름을 위에서 설명한 형식과 다르게 사용하려면 `belongsToMany` 메소드의 두 번째 인자로 전달하면 됩니다. 
+
 	return $this->belongsToMany('App\Role', 'user_roles');
 
 You may also override the conventional associated keys:
+또한 관련된 키 이름 역시 재정의할 수 있습니다 :
 
 	return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'foo_id');
 
 Of course, you may also define the inverse of the relationship on the `Role` model:
+그리고 당연하게도 `Role` 모델에서 역관계를 정의할 수도 있습니다. 
 
 	class Role extends Model {
 
@@ -768,8 +808,11 @@ Of course, you may also define the inverse of the relationship on the `Role` mod
 
 <a name="has-many-through"></a>
 ### Has Many Through
+### 연결을 통한 다수를 가지는 관계
 
 The "has many through" relation provides a convenient short-cut for accessing distant relations via an intermediate relation. For example, a `Country` model might have many `Post` through a `User` model. The tables for this relationship would look like this:
+
+"연결을 통한 다수를 가지는" 관계는 중간 관계를 통해서 떨어진 관계에 엑세스 할 수 있는 편리한 방법을 제공합니다. 예를 들자면, 하나의 `Country` 모델은 `Users` 모델을 통해서 다수의 `Posts` 를 가지고 있을 수 있습니다. 테이블은 다음과 같이 구성될 것입니다.
 
 	countries
 		id - integer
@@ -787,6 +830,8 @@ The "has many through" relation provides a convenient short-cut for accessing di
 
 Even though the `posts` table does not contain a `country_id` column, the `hasManyThrough` relation will allow us to access a country's posts via `$country->posts`. Let's define the relationship:
 
+`posts` 테이블은 `country_id` 컬럼을 가지고 있지 않지만, `hasManyThrough` 관계를 사용하면 `$country->posts` 를 통해서 해당 country의 posts에 엑세스 할 수 있습니다.  관계를 정의하는 것을 살펴보겠습니다. 
+
 	class Country extends Model {
 
 		public function posts()
@@ -797,6 +842,8 @@ Even though the `posts` table does not contain a `country_id` column, the `hasMa
 	}
 
 If you would like to manually specify the keys of the relationship, you may pass them as the third and fourth arguments to the method:
+
+만약 수동으로 관계에 필요한 키를 지정하고자 한다면 메소드의 세번째와 네번째 인자로 전달하면 됩니다. 
 
 	class Country extends Model {
 
@@ -809,8 +856,11 @@ If you would like to manually specify the keys of the relationship, you may pass
 
 <a name="polymorphic-relations"></a>
 ### Polymorphic Relations
+### 다형성 관계
 
 Polymorphic relations allow a model to belong to more than one other model, on a single association. For example, you might have a photo model that belongs to either a staff model or an order model. We would define this relation like so:
+
+다형성 관계는 모델을 하나의 관계뿐만 여러 모델에 속할 수 있도록 합니다. 예를 들어 사진 모델이 직원 모델이나 주문 모델 모두에 소속되어 있을 수 있습니다. 이러한 관계는 다음과 같이 정의 할 수 있습니다:
 
 	class Photo extends Model {
 
@@ -840,8 +890,10 @@ Polymorphic relations allow a model to belong to more than one other model, on a
 	}
 
 #### Retrieving A Polymorphic Relation
+#### 하나의 다형성 관계 조회하기
 
 Now, we can retrieve the photos for either a staff member or an order:
+이제 직원 맴버 또는 주문을 통해서 사진을 조회 할 수 있습니다:
 
 	$staff = Staff::find(1);
 
@@ -851,8 +903,11 @@ Now, we can retrieve the photos for either a staff member or an order:
 	}
 
 #### Retrieving The Owner Of A Polymorphic Relation
+#### 다형성 관계의 소유자 조회하기
 
 However, the true "polymorphic" magic is when you access the staff or order from the `Photo` model:
+
+그러나, 실제로 “다형성”의 마법은 `Photo` 모델에서 직원 또는 주문을 엑세스할 때 나타납니다. 
 
 	$photo = Photo::find(1);
 
@@ -860,9 +915,14 @@ However, the true "polymorphic" magic is when you access the staff or order from
 
 The `imageable` relation on the `Photo` model will return either a `Staff` or `Order` instance, depending on which type of model owns the photo.
 
+`Photo` 모델의 `imageable` 관계는 사진을 소유하고 있는 모델의 유형에 따라서 `Staff` 또는 `Order` 인스턴스 중 하나를 반환합니다. 
+
 #### Polymorphic Relation Table Structure
+#### 다형성 관계의 테이블 구조
 
 To help understand how this works, let's explore the database structure for a polymorphic relation:
+
+이 관계에 대한 이해를 돕기 위해서 다형성 관계에서의 데이터베이스 구조를 살펴보겠습니다:
 
 	staff
 		id - integer
@@ -880,12 +940,18 @@ To help understand how this works, let's explore the database structure for a po
 
 The key fields to notice here are the `imageable_id` and `imageable_type` on the `photos` table. The ID will contain the ID value of, in this example, the owning staff or order, while the type will contain the class name of the owning model. This is what allows the ORM to determine which type of owning model to return when accessing the `imageable` relation.
 
+주목해야할 핵심적인 필드는 `photos` 테이블의 `imageable_id` 와 `imageable_type` 입니다.  이 예제에서 ID는 직원 또는 주문 의 ID 를 나타내고, type은 소유하고 있는 모델 클래스의 이름을 나타냅니다. 이것은 `imageable` 관계를 엑세스 할 때 ORM 이 어떤 타입의 소유 모델을 반환해야 하는지 결정해줍니다. 
+
 <a name="many-to-many-polymorphic-relations"></a>
 ### Many To Many Polymorphic Relations
+### 다대다 다형성 관계
 
 #### Polymorphic Many To Many Relation Table Structure
+#### 다대다 다형성 관게 테이블 구조
 
 In addition to traditional polymorphic relations, you may also specify many-to-many polymorphic relations. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. First, let's examine the table structure:
+
+추가적으로 일반적인 다형성 관계뿐만 아니라, 다대다 다형성 관계도 지정할 수 있습니다. 예를 들어 하나의 블로그 `Post`와 `Video` 모델은 하나의 `Tag` 모델에 다형성 관계를 공유할 수 있습니다. 먼저 테이블 구조를 살펴보겠습니다:
 
 	posts
 		id - integer
@@ -906,6 +972,8 @@ In addition to traditional polymorphic relations, you may also specify many-to-m
 
 Next, we're ready to setup the relationships on the model. The `Post` and `Video` model will both have a `morphToMany` relationship via a `tags` method:
 
+이제, 모델에 관계를 설정할 준비가 되었습니다. `Post` 와 `Video` 모델은 둘다 `tags` 메소드를 통해서 `morphToMany` 관계를 가집니다:
+
 	class Post extends Model {
 
 		public function tags()
@@ -916,6 +984,7 @@ Next, we're ready to setup the relationships on the model. The `Post` and `Video
 	}
 
 The `Tag` model may define a method for each of its relationships:
+`Tag` 모델에서는 각각의 관계에 대한 메소드를 정의할 수 있습니다:
 
 	class Tag extends Model {
 
@@ -933,22 +1002,30 @@ The `Tag` model may define a method for each of its relationships:
 
 <a name="querying-relations"></a>
 ## Querying Relations
+## 관계 쿼리
 
 #### Querying Relations When Selecting
+#### SELECT 경우 관계 쿼리
 
 When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, you wish to pull all blog posts that have at least one comment. To do so, you may use the `has` method:
+
+모델의 레코드에 엑세스할 때, 여러분은 여러분의 결과를 관계의 존재에 따라서 제한하기를 원할 수도 있습니다. 예를 들어 최소한 하나의 코멘트를 가지고 있는 모든 블로그 포스트들을 조회하고자 할 수 있습니다. 이런 경우 `has` 메소드를 사용하면 됩니다. 
 
 	$posts = Post::has('comments')->get();
 
 You may also specify an operator and a count:
+또한 메소드에서 사용할 수 있는 연산자와 카운트 갯수를 지정할 수도 있습니다:
 
 	$posts = Post::has('comments', '>=', 3)->get();
 
 Nested `has` statements may also be constructed using "dot" notation:
+중첩된 `has` 문법은 “점” 표기를 통해서 구성할 수 있습니다. 
 
 	$posts = Post::has('comments.votes')->get();
 
 If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your `has` queries:
+
+더 강력한 기능을 원한다면 `has` 쿼리에 "where"조건을 더하기 위해서 `whereHas` 과 `orWhereHas`을 이용할 수 있습니다.
 
 	$posts = Post::whereHas('comments', function($q)
 	{
@@ -958,8 +1035,11 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
 
 <a name="dynamic-properties"></a>
 ### Dynamic Properties
+### 동적 속성
 
 Eloquent allows you to access your relations via dynamic properties. Eloquent will automatically load the relationship for you, and is even smart enough to know whether to call the `get` (for one-to-many relationships) or `first` (for one-to-one relationships) method.  It will then be accessible via a dynamic property by the same name as the relation. For example, with the following model `$phone`:
+
+Eloquent는 동적 속성을 사용하여 지정된 관계들에 엑세스하는 방법을 제공합니다. Eloquent는 자동으로 지정된 관계를 로드하고, 똑똑하게도 `get` (일대다 관계의 경우) 또는 `first` (일대일 관계의 경우) 중 어떤 메소드를 호출해야 할지 구분합니다. 그다음에 관계와 동일한 이름의 동적 속성을 통해 엑세스 할 수 있습니다. 예를 들어, 다음의 `$phone` 모델을 확인해 봅시다:
 
 	class Phone extends Model {
 
@@ -973,19 +1053,25 @@ Eloquent allows you to access your relations via dynamic properties. Eloquent wi
 	$phone = Phone::find(1);
 
 Instead of echoing the user's email like this:
+사용자의 이메일을 다음처럼 표시하기 보다:
 
 	echo $phone->user()->first()->email;
 
 It may be shortened to simply:
+보다 짧고 간단하게 표시할 수 있습니다:
 
 	echo $phone->user->email;
 
 > **Note:** Relationships that return many results will return an instance of the `Illuminate\Database\Eloquent\Collection` class.
+> **참고:** 여러 결과를 반환하는 관계는 `Illuminate\Database\Eloquent\Collection` 클래스의 인스턴스를 반환할 것입니다. 
 
 <a name="eager-loading"></a>
 ## Eager Loading
+## Eager 로딩
 
 Eager loading exists to alleviate the N + 1 query problem. For example, consider a `Book` model that is related to `Author`. The relationship is defined like so:
+
+Eager 로딩은 N + 1 쿼리 문제를 위해서 존재합니다. 예를 들어 `Book` 모델과 관계된 `Author` 모델이 있다고 가정합니다. 관계에 대한 정의는 다음과 같을 것입니다. 
 
 	class Book extends Model {
 
@@ -997,6 +1083,7 @@ Eager loading exists to alleviate the N + 1 query problem. For example, consider
 	}
 
 Now, consider the following code:
+이제 다음 코드를 살펴보겠습니다:
 
 	foreach (Book::all() as $book)
 	{
@@ -1005,7 +1092,11 @@ Now, consider the following code:
 
 This loop will execute 1 query to retrieve all of the books on the table, then another query for each book to retrieve the author. So, if we have 25 books, this loop would run 26 queries.
 
+이 반복문은 테이블에서 모든 책들을 조회하는 1 개의 쿼리를 실행하고, 각각의 책마다 저자를 조회하는 별개의 쿼리를 실행할 것입니다. 따라서, 만약 25개의 책이 있다면, 이 반복문은 26개의 쿼리를 실행하게 됩니다.
+
 Thankfully, we can use eager loading to drastically reduce the number of queries. The relationships that should be eager loaded may be specified via the `with` method:
+
+다행스럽게도, 우리는 쿼리 수를 현저하게 줄일 수 있는 eager 로딩을 사용할 수 있습니다. `with`를 통해서 eager 로딩을 사용해야 하는 관계를 지정할 수 있습니다: 
 
 	foreach (Book::with('author')->get() as $book)
 	{
@@ -1013,6 +1104,7 @@ Thankfully, we can use eager loading to drastically reduce the number of queries
 	}
 
 In the loop above, only two queries will be executed:
+위의 루프는 2 개의 쿼리만 실행될것입니다:
 
 	select * from books
 
@@ -1020,19 +1112,29 @@ In the loop above, only two queries will be executed:
 
 Wise use of eager loading can drastically increase the performance of your application.
 
+Eager 로딩의 적절한 사용은 여러분의 어플리케이션의 성능을 크게 향상 시킬 수 있습니다.
+
 Of course, you may eager load multiple relationships at one time:
+
+당연하게도 한번에 여러개의 관계를 Eager 로딩할 수도 있습니다: 
 
 	$books = Book::with('author', 'publisher')->get();
 
 You may even eager load nested relationships:
+중첩된 관계에 대해서도 eager 로딩할 수 있습니다:
 
 	$books = Book::with('author.contacts')->get();
 
 In the example above, the `author` relationship will be eager loaded, and the author's `contacts` relation will also be loaded.
 
+이 예제에서 `author` 관계는 eager 로딩될 것이고, 저자의 `contacts` 관계도 로딩됩니다. 
+
 ### Eager Load Constraints
+### Eager 로드의 제약조건
 
 Sometimes you may wish to eager load a relationship, but also specify a condition for the eager load. Here's an example:
+
+때때로, 관계를 Eager 로딩 할 때 조건을 지정하고 싶은 경우도 있습니다. 다음의 예를 보겠습니다:
 
 	$users = User::with(['posts' => function($query)
 	{
@@ -1042,7 +1144,10 @@ Sometimes you may wish to eager load a relationship, but also specify a conditio
 
 In this example, we're eager loading the user's posts, but only if the post's title column contains the word "first".
 
+이 예제에서 사용자의 포스트들을 eager 로딩하게 되지만, 포스트의 제목이 "first"라는 단어로 구성되어있는 것만이 가져오게 됩니다.
+
 Of course, eager loading Closures aren't limited to "constraints". You may also apply orders:
+물론, Eager 로딩 클로저는 “제약 조건“에만 한정되어 있지 않습니다. 여러분은 또한 정렬 순서를 지정할 수도 있습니다:
 
 	$users = User::with(['posts' => function($query)
 	{
@@ -1051,14 +1156,18 @@ Of course, eager loading Closures aren't limited to "constraints". You may also 
 	}])->get();
 
 ### Lazy Eager Loading
+### 지연된 Eager 로딩
 
 It is also possible to eagerly load related models directly from an already existing model collection. This may be useful when dynamically deciding whether to load related models or not, or in combination with caching.
+
+이미 존재하는 모델 컬렉션에서 직접 연관된 모델들을 Eager 로딩하는 것 또한 가능합니다. 이것은 관련된 모델을 로드할지 말지 여부를 동적으로 결정하거나, 캐시와 연동할 때 유용합니다. 
 
 	$books = Book::all();
 
 	$books->load('author', 'publisher');
 
 You may also pass a Closure to set constraints on the query:
+여러분은 또한 쿼리에 제약 조건을 설정하는 클로저를 전달 할 수도 있습니다:
 
 	$books->load(['author' => function($query)
 	{
@@ -1067,10 +1176,14 @@ You may also pass a Closure to set constraints on the query:
 
 <a name="inserting-related-models"></a>
 ## Inserting Related Models
+## 관련된 모델 삽입하기
 
 #### Attaching A Related Model
+#### 관계된 모델 추가하기
 
 You will often need to insert new related models. For example, you may wish to insert a new comment for a post. Instead of manually setting the `post_id` foreign key on the model, you may insert the new comment from its parent `Post` model directly:
+
+여러분은 종종 새로운 관계 모델을 삽입해야할 필요가 있을 수 있습니다. 예를 들어, 여러분은 포스트와 연결된 새로운 코멘트를 추가하려고 할 수 있습니다. 수동으로 모델에 `post_id` 외래키를 설정하는 대신에, 새로운 코멘트를 `Post` 모델을 통해서 바로 추가할 수 있습니다. 
 
 	$comment = new Comment(['message' => 'A new comment.']);
 
@@ -1080,7 +1193,11 @@ You will often need to insert new related models. For example, you may wish to i
 
 In this example, the `post_id` field will automatically be set on the inserted comment.
 
+이 예제에서, `post_id` 필드는 삽입된 코멘트 레코드에 자동으로 설정됩니다.
+
 If you need to save multiple related models:
+
+만약 여러개의 관련된 모델을 저장해야 한다면 다음과 같이 할 수 있습니다:
 
 	$comments = [
 		new Comment(['message' => 'A new comment.']),
@@ -1093,8 +1210,11 @@ If you need to save multiple related models:
 	$post->comments()->saveMany($comments);
 
 ### Associating Models (Belongs To)
+### 연관 모델들 (Belongs To)
 
 When updating a `belongsTo` relationship, you may use the `associate` method. This method will set the foreign key on the child model:
+
+`belongsTo` 관계를 업데이트 할때, 여러분은 `associate` 메소드를 사용할 수 있습니다. 이 메소드는 자식 모델에 외래키를 설정할 것입니다. 
 
 	$account = Account::find(10);
 
@@ -1103,10 +1223,14 @@ When updating a `belongsTo` relationship, you may use the `associate` method. Th
 	$user->save();
 
 ### Inserting Related Models (Many To Many)
+### 관계된 모델 삽입(다대다)
 
 You may also insert related models when working with many-to-many relations. Let's continue using our `User` and `Role` models as examples. We can easily attach new roles to a user using the `attach` method:
 
+여러분은 또한 다대대 관계를 작업해야 하는 경우에도 관계된 모델을 삽입할 수 있습니다. 예제처럼 `User` 와 `Role` 모델을 예제로 사용하겠습니다. `attach` 메소드를 사용하여 새로운 역활을 사용자에게 추가할 수 있습니다. 
+
 #### Attaching Many To Many Models
+#### 다대다 모델 추가하기
 
 	$user = User::find(1);
 
@@ -1114,13 +1238,18 @@ You may also insert related models when working with many-to-many relations. Let
 
 You may also pass an array of attributes that should be stored on the pivot table for the relation:
 
+여러분은 또한 해당 관계에 대한 피벗 테이블에 저장되는 속성을 배열로 전달 할 수도 있습니다:
+
 	$user->roles()->attach(1, ['expires' => $expires]);
 
 Of course, the opposite of `attach` is `detach`:
+물론 `attach`의 반대는 `detach` 입니다.
 
 	$user->roles()->detach(1);
 
 Both `attach` and `detach` also take arrays of IDs as input:
+
+`attach`와 `detach` 두가지 모두 ID들의 배열을 받을 수도 있습니다:
 
 	$user = User::find(1);
 
@@ -1129,18 +1258,26 @@ Both `attach` and `detach` also take arrays of IDs as input:
 	$user->roles()->attach([1 => ['attribute1' => 'value1'], 2, 3]);
 
 #### Using Sync To Attach Many To Many Models
+#### 다대다 모델들을 추가하기 위해서 Sync 사용하기 
 
 You may also use the `sync` method to attach related models. The `sync` method accepts an array of IDs to place on the pivot table. After this operation is complete, only the IDs in the array will be on the intermediate table for the model:
+
+여러분은 또한 관계된 모델들을 추가하기 위해서 `sync` 메소드를 사용할 수 있습니다. `sync` 메소드는 피벗 테이블에 배치할 ID들의 배열을 받습니다. 이 연산이 완료된 후, 배열 안의 ID들만 해당 모델의 피벗 테이블에 있게 될것입니다. 
 
 	$user->roles()->sync([1, 2, 3]);
 
 #### Adding Pivot Data When Syncing
+#### 동기화중에 피벗 데이타 추가하기
 
 You may also associate other pivot table values with the given IDs:
+
+여러분은 또한 주어진 ID들의 피벗 테이블 값들를 연결 할 수도 있습니다:
 
 	$user->roles()->sync([1 => ['expires' => true]]);
 
 Sometimes you may wish to create a new related model and attach it in a single command. For this operation, you may use the `save` method:
+
+때떄로 여러분은 하나의 명령어로 관련 모델을 생성하고 추가하기를 원할 수도 있습니다. 이 작업을 위해서는 `save` 메소드를 사용할 수 있습니다:
 
 	$role = new Role(['name' => 'Editor']);
 
@@ -1148,12 +1285,17 @@ Sometimes you may wish to create a new related model and attach it in a single c
 
 In this example, the new `Role` model will be saved and attached to the user model. You may also pass an array of attributes to place on the joining table for this operation:
 
+이 예제에서 새로운 `Role` 모델은 데이터베이스에 저장되고 사용자 모델에 추가될 것입니다. 또한 이 작업에 영향을 받은 테이블에 저장될 속성 배열을 전달할 수도 있습니다. 
+
 	User::find(1)->roles()->save($role, ['expires' => $expires]);
 
 <a name="touching-parent-timestamps"></a>
 ## Touching Parent Timestamps
+## 부모의 타임스탬프 값 갱신
 
 When a model `belongsTo` another model, such as a `Comment` which belongs to a `Post`, it is often helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically touch the `updated_at` timestamp of the owning `Post`. Eloquent makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
+
+하나의 `Post` 에 소속되는 하나의 `Comment`와 같이, 특정 모델이 다른 모델에 `소속될(belongsTo)`때와 같이, 가끔 자식 모델이 업데이트 될 때 부모의 타임스탬프를 갱신하는 것이 유용할 때가 있습니다. 예를 들어 `Comment` 모델이 업데이트 될 때, 자동으로 부모 `Post` 의 `updated_at` 타임스탬프가 갱신되기를 바랄 수도 있습니다. Eloquent는 손쉽게 이를 가능하게 합니다. 단지 자식 모델에 관련 모델명을 포함하는 `touches` 속성을 추가하면 됩니다: 
 
 	class Comment extends Model {
 
@@ -1167,6 +1309,7 @@ When a model `belongsTo` another model, such as a `Comment` which belongs to a `
 	}
 
 Now, when you update a `Comment`, the owning `Post` will have its `updated_at` column updated:
+이제 `Comment` 가 업데이트 될때, 이를 소유한 `Post`의 `updated_at` 컬럼이 갱신 될것입니다. 
 
 	$comment = Comment::find(1);
 
@@ -1176,8 +1319,11 @@ Now, when you update a `Comment`, the owning `Post` will have its `updated_at` c
 
 <a name="working-with-pivot-tables"></a>
 ## Working With Pivot Tables
+## 피벗 테이블 작업
 
 As you have already learned, working with many-to-many relations requires the presence of an intermediate table. Eloquent provides some very helpful ways of interacting with this table. For example, let's assume our `User` object has many `Role` objects that it is related to. After accessing this relationship, we may access the `pivot` table on the models:
+
+앞서 배운대로, 다대다 관계를 위해서는 중간 테이블이 필요합니다. Eloquent은 이 테이블을 조작하는 유용한 방법을 제공하고 있습니다. 예를 들어 `User` 객체가 다수의 `Role`객체를 가지고 있는 관계를 생각해 봅시다. 이 관계에 엑세스 한 뒤에 모델에 대한 `pivot` 테이블에 엑세스 할 수 있습니다. 
 
 	$user = User::find(1);
 
@@ -1188,33 +1334,52 @@ As you have already learned, working with many-to-many relations requires the pr
 
 Notice that each `Role` model we retrieve is automatically assigned a `pivot` attribute. This attribute contains a model representing the intermediate table, and may be used as any other Eloquent model.
 
+조회한 `Role` 모델에 자동으로 `pivot` 속성이 부여되어 있다는 점을 기억하십시오. 이 속성은 중간 테이블을 나타내는 모델에서 다른 Eloquent모델과 마찬가지로 사용할 수 있습니다. 
+
 By default, only the keys will be present on the `pivot` object. If your pivot table contains extra attributes, you must specify them when defining the relationship:
+
+기본적으로 `pivot`객체는 단순히 키만 가지고 있습니다. 만약 피벗 테이블이 다른 추가적인 특성을 포함하려면 관계를 정의할 때 지정해주어야 합니다. 
 
 	return $this->belongsToMany('App\Role')->withPivot('foo', 'bar');
 
 Now the `foo` and `bar` attributes will be accessible on our `pivot` object for the `Role` model.
 
+이제 `Role` 모델의 `pivot` 객체에서 `foo`와 `bar` 속성에 엑세스 할 수 있을 것입니다. 
+
 If you want your pivot table to have automatically maintained `created_at` and `updated_at` timestamps, use the `withTimestamps` method on the relationship definition:
+
+만약 피벗 테이블에서 자동으로 `created_at` 과 `updated_at` 타임 스탬프를 갱신하길 원한다면 관계 정의에서 `withTimestamps` 메소드를 사용하면 됩니다.
 
 	return $this->belongsToMany('App\Role')->withTimestamps();
 
 #### Deleting Records On A Pivot Table
+#### 피벗 테이블의 레코드 삭제하기
 
 To delete all records on the pivot table for a model, you may use the `detach` method:
+
+하나의 모델에 대한 피벗 테이블의 모든 레코드를 삭제하려면 `detach` 메소드를 사용하면 됩니다.
 
 	User::find(1)->roles()->detach();
 
 Note that this operation does not delete records from the `roles` table, but only from the pivot table.
 
+이 작업은 `roles` 테이블에서는 레코드를 삭제하지 않고 피벗 테이블에 대해서만 동작한다는 점에 주의 하십시오. 
+
 #### Updating A Record On A Pivot Table
+#### 피벗 테이블의 레코드 업데이트 하기
 
 Sometimes you may need to update your pivot table, but not detach it. If you wish to update your pivot table in place you may use `updateExistingPivot` method like so:
+
+때로는 피벗 테이블을 삭제하지 않고, 업데이트가 필요할 수도 있습니다. 피벗 테이블을 업데이트 하고자 한다면 다음처럼 `updateExistingPivot` 메소드를 사용하면 됩니다:
 
 	User::find(1)->roles()->updateExistingPivot($roleId, $attributes);
 
 #### Defining A Custom Pivot Model
+#### 사용자 정의 피벗 모델 정의하기
 
 Laravel also allows you to define a custom Pivot model. To define a custom model, first create your own "Base" model class that extends `Eloquent`. In your other Eloquent models, extend this custom base model instead of the default `Eloquent` base. In your base model, add the following function that returns an instance of your custom Pivot model:
+
+라라벨은 사용자 정의 피벗 모델을 정의하는 것을 할 수 있게 해줍니다. 이러한 커스텀 모델을 정의하려면, 첫번째로 `Eloquent` 를 상속한 여러분의 고유한 “Base” 모델을 만들어야 합니다. 그런 다음에 `Eloquent` 기본 모델 대신에 상속한 사용자 정의 모델을 여러분의 다른 Eloquent 모델에서 상속하도록 합니다. 여러분의 기본 모델에서, 다음과 같이 사용자 저으이 피벗 모델의 인스턴스를 반환하는 함수를 추가하면 됩니다:
 
 	public function newPivot(Model $parent, array $attributes, $table, $exists)
 	{
@@ -1223,12 +1388,18 @@ Laravel also allows you to define a custom Pivot model. To define a custom model
 
 <a name="collections"></a>
 ## Collections
+## 컬렉션
 
 All multi-result sets returned by Eloquent, either via the `get` method or a `relationship`, will return a collection object. This object implements the `IteratorAggregate` PHP interface so it can be iterated over like an array. However, this object also has a variety of other helpful methods for working with result sets.
 
+`get` 메소드를 통해서 또는 하나의 `relationship-관계`를 통해서 Eloquent로 부터 반환되는 모든 멀티 레코드 결과가 반환되는 경우에는 하나의 컬렉션 객체가 반환됩니다. 이 객체는 `IteratorAggregate` PHP 인터페이스의 구현체이므로 배열과 같이 반복될수 있습니다. 그리고 이 객체는 결과를 조작할 수 있는 다양한 메소드들 또한 가지고 있습니다.
+
 #### Checking If A Collection Contains A Key
+#### 컬렉션이 키를 가지고 있는지 확인하기
 
 For example, we may determine if a result set contains a given primary key using the `contains` method:
+
+예를 들어 `contains` 메소드를 사용하여 지정된 primary 키가 결과에 포함되어 있는지 확인 할 수 있습니다. 
 
 	$roles = User::find(1)->roles;
 
@@ -1238,18 +1409,23 @@ For example, we may determine if a result set contains a given primary key using
 	}
 
 Collections may also be converted to an array or JSON:
+컬렉션은 배열이나 JSON으로 변환 될 수 있습니다:
 
 	$roles = User::find(1)->roles->toArray();
 
 	$roles = User::find(1)->roles->toJson();
 
 If a collection is cast to a string, it will be returned as JSON:
+컬렉션을 문자열로 변환하면 JSON이 반환됩니다:
 
 	$roles = (string) User::find(1)->roles;
 
 #### Iterating Collections
+#### 컬렉션의 반복
 
 Eloquent collections also contain a few helpful methods for looping and filtering the items they contain:
+
+Eloquent 컬렉션에 포함 된 항목을 반복하거나 필터링 할 수 있는 유용한 메소드들을 가지고 있습니다:
 
 	$roles = $user->roles->each(function($role)
 	{
@@ -1257,8 +1433,12 @@ Eloquent collections also contain a few helpful methods for looping and filterin
 	});
 
 #### Filtering Collections
+#### 컬렉션의 필터링
 
 When filtering collections, the callback provided will be used as callback for [array_filter](http://php.net/manual/en/function.array-filter.php).
+
+
+컬렉션을 필터링하는 경우, 지정된 콜백은 [array_filter](http://php.net/manual/en/function.array-filter.php) 콜백으로 이용됩니다.
 
 	$users = $users->filter(function($user)
 	{
@@ -1266,8 +1446,10 @@ When filtering collections, the callback provided will be used as callback for [
 	});
 
 > **Note:** When filtering a collection and converting it to JSON, try calling the `values` function first to reset the array's keys.
+> **주의:** 컬렉션을 필터링하거나 JSON으로 변환하는 경우, `values` ​​메소드를 먼저 호출하여 배열의 키를 초기화 하십시오.
 
 #### Applying A Callback To Each Collection Object
+#### 컬렉션의 각 개체에 콜백을 적용하기
 
 	$roles = User::find(1)->roles;
 
@@ -1277,6 +1459,7 @@ When filtering collections, the callback provided will be used as callback for [
 	});
 
 #### Sorting A Collection By A Value
+#### 값을 기준으로 컬렉션 정렬하기
 
 	$roles = $roles->sortBy(function($role)
 	{
@@ -1289,14 +1472,18 @@ When filtering collections, the callback provided will be used as callback for [
 	});
 
 #### Sorting A Collection By A Value
+#### 값을 기준으로 컬렉션 정렬하기
 
 	$roles = $roles->sortBy('created_at');
 
 	$roles = $roles->sortByDesc('created_at');
 
 #### Returning A Custom Collection Type
+#### 사용자 정의 컬렉션 타입 반환하기
 
 Sometimes, you may wish to return a custom Collection object with your own added methods. You may specify this on your Eloquent model by overriding the `newCollection` method:
+
+때로는, 여러분이 추가한 메소드와 함께 사용자 정의 컬렉션 객체를 반환하기를 원할 수도 있습니다. 이때는 `newCollection` 메소드를 재정의하여 이를 지정할 수 있습니다. 
 
 	class User extends Model {
 

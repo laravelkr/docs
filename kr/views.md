@@ -48,9 +48,9 @@ If you wish, you may pass an array of data as the second parameter to the `view`
 
 	$view = view('greetings', $data);
 	
-When passing information in this manner, `$data` should be an array with key/value pairs. Inside your view, you can then access each value using it's corresponding key, like `{{ $key }}` (assuming `$data['$key']` exists).
+When passing information in this manner, `$data` should be an array with key/value pairs. Inside your view, you can then access each value using it's corresponding key, like `{{ $key }}` (assuming `$data['key']` exists).
 
-이러한 방식으로 정보를 전달할 때,`$data`는 키/값으로 구성된 배열이어야 합니다. 뷰 안에서 여러분은 `{{ $key }}` 와 같이 각각의 키에 해당하는 값에 엑세스 할 수 있습니다. (`$data['$key']`는 존재한다고 가정합니다. )
+이러한 방식으로 정보를 전달할 때,`$data`는 키/값으로 구성된 배열이어야 합니다. 뷰 안에서 여러분은 `{{ $key }}` 와 같이 각각의 키에 해당하는 값에 엑세스 할 수 있습니다. (`$data['key']`는 존재한다고 가정합니다. )
 
 #### Sharing Data With All Views 모든 뷰에서 데이터 공유하기
 
@@ -122,7 +122,7 @@ Let's organize our view composers within a [service provider](/docs/{{version}}/
 		}
 
 		/**
-		 * Register
+		 * Register the service provider.
 		 *
 		 * @return void
 		 */

@@ -37,7 +37,8 @@ For convenience, you may also use the `response` helper:
 	return response($content, $status)
 	              ->header('Content-Type', $value);
 
-> **Note 참고:** For a full list of available `Response` methods, check out its [API documentation](http://laravel.com/api/master/Illuminate/Http/Response.html) and the [Symfony API documentation](http://api.symfony.com/2.5/Symfony/Component/HttpFoundation/Response.html).  `Response` 객체의 사용가능한 전체 메소드 목록은 [API 문서](http://laravel.com/api/master/Illuminate/Http/Response.html)와 [Symfony API 문서](http://api.symfony.com/2.5/Symfony/Component/HttpFoundation/Response.html) 를 참고하십시오. 
+> **Note 참고:** For a full list of available `Response` methods, check out its [API documentation](http://laravel.com/api/{{version}}/Illuminate/Http/Response.html) and the [Symfony API documentation](http://api.symfony.com/2.5/Symfony/Component/HttpFoundation/Response.html).
+ `Response` 객체의 사용가능한 전체 메소드 목록은 [API 문서](http://laravel.com/api/{{version}}/Illuminate/Http/Response.html)와 [Symfony API 문서](http://api.symfony.com/2.5/Symfony/Component/HttpFoundation/Response.html) 를 참고하십시오. 
 
 #### Sending A View In A Response
 #### Response 에서 뷰파일 내보내기

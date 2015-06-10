@@ -23,9 +23,9 @@
 ## Basic Usage 
 ## 기본적인 사용법
 
-Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validation` class. 
+Laravel ships with a simple, convenient facility for validating data and retrieving validation error messages via the `Validator` class. 
 
-라라벨은 `Validation` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메시지를 구성할 수 있는 간단하고, 편리한 기능을 제공합니다.
+라라벨은 `Validator` 클래스를 통해 데이터의 유효성을 검사하고, 유효성 검사 실패시 출력될 오류 메시지를 구성할 수 있는 간단하고, 편리한 기능을 제공합니다.
 
 #### Basic Validation Example
 #### 기본적인 유효성 검사의 예

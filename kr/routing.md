@@ -170,12 +170,11 @@ Of course, you can capture segments of the request URI within your route:
 #### Passing An Array Of Constraints
 #### 파리미터 제약을 배열로 전달하기
 
-
 	Route::get('user/{id}/{name}', function($id, $name)
 	{
 		//
 	})
-	->where(['id' => '[0-9]+', 'name' => '[a-z]+'])
+	->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
 
 #### Defining Global Patterns
 #### 글로벌 패턴 지정하기

@@ -70,6 +70,8 @@ You may also access additional pagination information via the following methods:
 - `lastItem`
 - `url`
 - `nextPageUrl`
+- `firstItem`
+- `lastItem`
 - `total`
 - `count`
 

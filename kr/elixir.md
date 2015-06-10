@@ -90,7 +90,7 @@ elixir(function(mix) {
 
 ```javascript
 elixir(function(mix) {
-	mix.sass("app.sass");
+	mix.sass("app.scss");
 });
 ```
 

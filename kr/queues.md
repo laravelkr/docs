@@ -378,6 +378,10 @@ You may also define a `failed` method directly on a queue job class, allowing yo
 		// Called when the job is failing...
 	}
 
+If your job is not self-handling and has a seperate handler class the `failed` method needs to be defined there instead.
+작업을 직접 처리하지 않고, 별도의 분리된 클래스로 처리하고 있다면 해당 클래스에는 `failed` 메소드가 지정되어 있어야 합니다. 
+
+
 ### Retrying Failed Jobs
 ### 실패한 작업 다시 시도하기
 

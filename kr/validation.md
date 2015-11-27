@@ -960,8 +960,8 @@ Instead of using Closure callbacks to extend the Validator, you may also extend 
 Validator를 확장하기 위해 클로저를 사용하는 대신에 Validator 클래스 자체를 확장할 수 있습니다. 이를 위하여, `Illuminate\Validation\Validator`를 상속받는 Validator 클래스를 작성하십시오. 메소드명 앞에 `validate`를 붙이는 방법으로 validation 메소드를 그 클래스에 추가할 수 있습니다:
 
 	<?php
-
-	class CustomValidator extends Illuminate\Validation\Validator {
+	
+	class CustomValidator extends \Illuminate\Validation\Validator {
 
 		public function validateFoo($attribute, $value, $parameters)
 		{

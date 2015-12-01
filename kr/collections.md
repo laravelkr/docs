@@ -1,13 +1,20 @@
 # Collections
+# 컬렉션
 
 - [Introduction](#introduction)
+- [소개](#introduction)
 - [Creating Collections](#creating-collections)
+- [컬렉션 생성하기](#creating-collections)
 - [Available Methods](#available-methods)
+- [사용 가능한 메소드](#available-methods)
 
 <a name="introduction"></a>
 ## Introduction
+## 소개
 
 The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper for working with arrays of data. For example, check out the following code. We'll use the `collect` helper to create a new collection instance from the array, run the `strtoupper` function on each element, and then remove all empty elements:
+
+`Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 다음의 사용예제를 확인하십시오. `collect` 헬퍼 함수를 사용하여 배열에서 새로운 collection 인스턴스를 생성하고 모든 요소들을 대문자로 변경한 다음 비어있는 요소들을 제거하는 예제 입니다:
 
     $collection = collect(['taylor', 'abigail', null])->map(function ($name) {
         return strtoupper($name);
@@ -19,17 +26,25 @@ The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper 
 
 As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, every `Collection` method returns an entirely new `Collection` instance.
 
+보시는 바와 같이 `Collection` 클래스는 map 매소드와 reject메소드를 체이닝 방식으로 사용할 수 있게 해줍니다. 다시말해서 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다. 
+
 <a name="creating-collections"></a>
 ## Creating Collections
+## 컬렉션 생성하기
 
 As mentioned above, the `collect` helper returns a new `Illuminate\Support\Collection` instance for the given array. So, creating a collection is as simple as:
+
+앞서 설명한 대로 `collect` 헬퍼 함수는 주어진 배열으로 부터 `Illuminate\Support\Collection` 인스턴스를 반환합니다. 따라서 컬렉션을 생성하는 것은 보시는 바와 같이 아주 간단합니다. 
 
     $collection = collect([1, 2, 3]);
 
 By default, collections of [Eloquent](/docs/{{version}}/eloquent) models are always returned as `Collection` instances; however, feel free to use the `Collection` class wherever it is convenient for your application.
 
+기본적으로 [Eloquent](/docs/5.1/eloquent) 모델의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 꼭 여기가 아니더라도 어플리케이션의 어느곳이라도 편리하게 `Collection` 클래스를 이용할 수 있습니다.
+
 <a name="available-methods"></a>
 ## Available Methods
+## 사용가능한 메소드
 
 For the remainder of this documentation, we'll discuss each method available on the `Collection` class. Remember, all of these methods may be chained for fluently manipulating the underlying array. Furthermore, almost every method returns a new `Collection` instance, allowing you to preserve the original copy of the collection when necessary.
 

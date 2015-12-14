@@ -178,9 +178,7 @@ Instead of using an array, you may also chain the `middleware` method onto the r
 Middleware can also receive additional custom parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `RoleMiddleware` that receives a role name as an additional argument.
 
 미들웨어에서는 추가적으로 사용자가 지정한 파라미터를 전달 받을 수 있습니다. 예를 들어 어플리케이션이 인증된 사용자인지 확인하기 위해서 사용자의 주어진 "역할(role)" 
-미들웨어는 추가 사용자 정의 매개 변수를받을 수 있습니다. 예를 들어 지정된 작업을 수행하기 전에 주어진 "역할 (role)"을 가진 인증 된 사용자인지 응용 프로그램에서 확인해야하는 경우 역할 이름을 추가 인수로 RoleMiddleware 을 만들 수 있습니다.
-
-만약 여러분의 어플리케이션이 주어진 액션을 실행하기 전에, 인증된 사용자가 특정 "역할"을 가지고 있는지 확인하고자 한다면, 역할의 이름을 추가적인 인자로 받아 들이는 `RoleMiddleware` 을 생성할 수 있습니다. 
+미들웨어는 추가 사용자 정의 매개 변수를받을 수 있습니다. 예를 들어 지정된 작업을 수행하기 전에 주어진 "역할 (role)"을 가진 인증 된 사용자인지 응용 프로그램에서 확인해야하는 경우 역할 이름을 추가 인수로 `RoleMiddleware` 을 만들 수 있습니다.
 
 Additional middleware parameters will be passed to the middleware after the `$next` argument:
 

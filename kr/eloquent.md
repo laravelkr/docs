@@ -1775,8 +1775,7 @@ Sometimes you may wish to limit the attributes that are included in your model's
 
 > **Note:** When hiding relationships, use the relationship's **method** name, not the dynamic accessor name.
 
-> **주의:** 관계를 숨기는 경우, 관계의 **메서드** 이름이 아닌, 동적 접근 이름을 사용합니다.
-
+> **주의:** 관계를 숨기고자 할 때에는, 동적인 accessor 이름이 아니라, 관계에 대한 **메소드** 이름을 사용하십시오.
 
 Alternatively, you may use the `visible` property to define a white-list:
 

@@ -21,7 +21,7 @@
     - [데이터베이스에 접속하기](#connecting-to-databases)
     - [Adding Additional Sites](#adding-additional-sites)
     - [사이트 추가하기](#adding-additional-sites)
-    - [Configuration Cron Schedules](#configuring-cron-schedules)
+    - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Ports](#ports)
     - [포트 지정](#ports)

@@ -70,9 +70,9 @@ The "meat" of your application lives in the `app` directory. By default, this di
 
 어플리케이션의 가장 **핵심적인 부분**은 `app` 디렉토리에 있습니다. 기본적으로 이 디렉토리의 네임스페이스는 컴포저가 [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/)방식으로 오토로딩될 수 있게 설정된 `App` 으로 설정되어 있습니다.  ** `app:name` 아티즌 명령어를 통해서 네임스페이스를 변경할 수 있습니다**.
 
-The `app` directory ships with a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the "core" of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are simply two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, filters, and requests. 
+The `app` directory ships with a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the "core" of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are simply two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
 
-`app` 디렉토리는 `Console`, `Http` 그리고 `Providers`와 같은 추가적인 디렉토리들을 가지고 있습니다. `Console` 과 `Http` 디렉토리는 어플리케이션의 "코어"에 API를 제공한다고 생각하면 됩니다. HTTP 프로토콜 과 CLI 모두 모두 어플리케이션과 상호 관계적인 메커니즘을 가지지만, 실제 어플리케이션 로직은 포함하고 있지 않습니다. 다시 말하자면 어플리케이션을 구동하는 방법이 두가지라는 것입니다. `Console` 디렉토리는 모든 아티즌 명령어를 가지고 있으며 `Http` 디렉토리는 컨트롤러, 필터, 그리고 requests-요청들을 가지고 있습니다. 
+`app` 디렉토리는 `Console`, `Http` 그리고 `Providers`와 같은 추가적인 디렉토리들을 가지고 있습니다. `Console` 과 `Http` 디렉토리는 어플리케이션의 "코어"에 API를 제공한다고 생각하면 됩니다. HTTP 프로토콜 과 CLI 모두 모두 어플리케이션과 상호 관계적인 메커니즘을 가지지만, 실제 어플리케이션 로직은 포함하고 있지 않습니다. 다시 말하자면 어플리케이션을 구동하는 방법이 두가지라는 것입니다. `Console` 디렉토리는 모든 아티즌 명령어를 가지고 있으며 `Http` 디렉토리는 컨트롤러, 미들웨어, 그리고 requests-요청들을 가지고 있습니다. 
 
 The `Jobs` directory, of course, houses the [queueable jobs](/docs/{{version}}/queues) for your application. Jobs may be queued by your application, as well as be run synchronously within the current request lifecycle.
 

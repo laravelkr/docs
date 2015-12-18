@@ -1,20 +1,33 @@
 # Session
+# 세션
 
 - [Introduction](#introduction)
+- [소개](#introduction)
 - [Basic Usage](#basic-usage)
+- [기본적인 사용법](#basic-usage)
     - [Flash Data](#flash-data)
+    - [임시 데이터](#flash-data)
 - [Adding Custom Session Drivers](#adding-custom-session-drivers)
+- [사용자 정의 세션 드라이버 추가하기](#adding-custom-session-drivers)
 
 <a name="introduction"></a>
 ## Introduction
+## 소개
 
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. Laravel ships with a variety of session back-ends available for use through a clean, unified API. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
+Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. Laravel ships with a variety of session back-ends available for use through a clean, unified API. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box. 
+
+HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
 
 ### Configuration
+### 설정하기
 
 The session configuration file is stored at `config/session.php`. Be sure to review the well documented options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
 
+세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. 많은 어플리케이션에서 작동이 가능하도록 라라벨에서는 기본적으로 `file` 세션 드라이버를 사용합니다. 실서비스용 어플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 나 `redis` 드라이버를 사용하는 것을 고려하십시오. 
+
 The session `driver` defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
+
+세션 `driver` 정의는 각각의 요청에 따른 세션을 어디에 저장할 것인지 정의합니다. 라라벨은 별다른 설정 없이도 다양한 드라이버를 제공합니다. 
 
 <div class="content-list" markdown="1">
 - `file` - sessions are stored in `storage/framework/sessions`.
@@ -24,13 +37,27 @@ The session `driver` defines where session data will be stored for each request.
 - `array` - sessions are stored in a simple PHP array and will not be persisted across requests.
 </div>
 
+<div class="content-list" markdown="1">
+- `file` - `storage/framework/sessions` 디렉토리에 세션을 저장합니다.
+- `cookie` - 암호화된 쿠키를 사용하여 안전하게 세션을 저장할 것입니다.
+- `database` - 어플리케이션이 사용하는 데이터베이스에 저장합니다. .
+- `memcached` / `redis` - 빠르고, 캐시를 기반으로한 memcached, redis 에 저장합니다.
+- `array` - PHP 배열에 세션을 저장합니다. 이경우 세션이 요청에 대해서 지속적으로 유지 되지 않습니다. 
+</div>
+
 > **Note:** The array driver is typically used for running [tests](/docs/{{version}}/testing) to prevent session data from persisting.
 
+> **주의:** array 드라이버는 일반적으로 [테스트](/docs/{{version}}/testing)용으로 사용되고, 세션이 유지되지 않습니다.
+
 ### Driver Prerequisites
+### 드라이버별 요구사항
 
 #### Database
+#### 데이터베이스
 
 When using the `database` session driver, you will need to setup a table to contain the session items. Below is an example `Schema` declaration for the table:
+
+`database` 세션 드라이버를 사용하는 경우, 세션을 저장할 수 있는 테이블을 구성할 필요가 있을 것입니다. 다음의 `Schema` 예제를 통해서 테이블을 생성할 수 있습니다. 
 
     Schema::create('sessions', function ($table) {
         $table->string('id')->unique();
@@ -40,6 +67,8 @@ When using the `database` session driver, you will need to setup a table to cont
 
 You may use the `session:table` Artisan command to generate this migration for you!
 
+`session:table` 아티즌 명령어를 통해서 이 마이그레이션을 생성할 수 있습니다. 
+
     php artisan session:table
 
     composer dump-autoload
@@ -47,10 +76,14 @@ You may use the `session:table` Artisan command to generate this migration for y
     php artisan migrate
 
 #### Redis
+#### Redis
 
 Before using Redis sessions with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer.
 
+라라벨에서 Redis 세션을 사용하기 전에, Composer 를 통해서 `predis/predis` 패키지 (~1.0)을 설치할 필요가 있습니다. 
+
 ### Other Session Considerations
+### 
 
 The Laravel framework uses the `flash` session key internally, so you should not add an item to the session by that name.
 

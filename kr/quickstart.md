@@ -55,7 +55,7 @@ To sample a basic selection of Laravel features, we will build a simple task lis
 
 Of course, first you will need a fresh installation of the Laravel framework. You may use the [Homestead virtual machine](/docs/{{version}}/homestead) or the local PHP environment of your choice to run the framework. Once your local environment is ready, you may install the Laravel framework using Composer:
 
-가장 먼저 라라벨 프레임워크를 새로 설치해야 합니다. [홈스테드 가상머신](/docs/5.1/homestead)이나 원하는 로컬 PHP 환경을 선택하여 프레임워크를 실행할 수 있습니다. 로컬 환경이 준비되었다면 Composer를 이용해 라라벨 프레임워크를 설치할 수 있습니다. 
+가장 먼저 라라벨 프레임워크를 새로 설치해야 합니다. [홈스테드 가상머신](/docs/{{version}}/homestead)이나 원하는 로컬 PHP 환경을 선택하여 프레임워크를 실행할 수 있습니다. 로컬 환경이 준비되었다면 Composer를 이용해 라라벨 프레임워크를 설치할 수 있습니다. 
 
 	composer create-project laravel/laravel quickstart --prefer-dist
 
@@ -70,7 +70,7 @@ You're free to just read along for the remainder of this quickstart; however, if
 
 For more complete documentation on building a local Laravel development environment, check out the full [Homestead](/docs/{{version}}/homestead) and [installation](/docs/{{version}}/installation) documentation.
 
-라라벨의 로컬 개발 환경 구성에 대해 더 많은 정보를 얻기 원하신다면 [홈스테드](/docs/5.1/homestead)와 [설치](/docs/5.1/installation) 메뉴얼을 확인하십시오. 
+라라벨의 로컬 개발 환경 구성에 대해 더 많은 정보를 얻기 원하신다면 [홈스테드](/docs/{{version}}/homestead)와 [설치](/docs/{{version}}/installation) 메뉴얼을 확인하십시오. 
 
 <a name="prepping-the-database"></a>
 ## Prepping The Database
@@ -86,13 +86,13 @@ First, let's use a migration to define a database table to hold all of our tasks
 
 So, let's build a database table that will hold all of our tasks. The [Artisan CLI](/docs/{{version}}/artisan) can be used to generate a variety of classes and will save you a lot of typing as you build your Laravel projects. In this case, let's use the `make:migration` command to generate a new database migration for our `tasks` table:
 
-그럼 이제 모든 해야할 일들을 저장할 데이터베이스 테이블을 만듭니다. [아티즌 CLI](/docs/5.1/artisan)를 이용하여 다양한 클래스를 생성하면 라라벨 프로젝트들을 구성할 때 매번 작성할 필요가 없어 효율성을 높일 수 있습니다. 지금은 `make:migration`커맨드를 이용하여 `tasks` 테이블을 구성할 새 데이터베이스 마이그레이션을 생성합니다. 
+그럼 이제 모든 해야할 일들을 저장할 데이터베이스 테이블을 만듭니다. [아티즌 CLI](/docs/{{version}}/artisan)를 이용하여 다양한 클래스를 생성하면 라라벨 프로젝트들을 구성할 때 매번 작성할 필요가 없어 효율성을 높일 수 있습니다. 지금은 `make:migration`커맨드를 이용하여 `tasks` 테이블을 구성할 새 데이터베이스 마이그레이션을 생성합니다. 
 
 	php artisan make:migration create_tasks_table --create=tasks
 
 The migration will be placed in the `database/migrations` directory of your project. As you may have noticed, the `make:migration` command already added an auto-incrementing ID and timestamps to the migration file. Let's edit this file and add an additional `string` column for the name of our tasks:
 
-마이그레이션 파일은 프로젝트의 `database/migrations` 디렉토리에 놓일 것입니다. 이미 알고 있을 수도 있듯이 `make:migration` 커맨드는 마이그레이션 파일에 auto-increment ID와 타임스탬프를 추가하였습니다. 해야할 일들의 이름을 위해 `string` 열을 추가합시다. 
+마이그레이션 파일은 프로젝트의 `database/migrations` 디렉토리에 놓일 것입니다. 이미 알고 있을 수도 있듯이 `make:migration` 커맨드는 마이그레이션 파일에 auto-increment ID와 타임스탬프를 추가하였습니다. 이 파일을 수정하여 추가적으로 해야할 일들의 이름을 위한 `string` 컬럼을 추가합시다. 
 
 	<?php
 
@@ -134,7 +134,7 @@ To run our migration, we will use the `migrate` Artisan command. If you are usin
 
 This command will create all of our database tables. If you inspect the database tables using the database client of your choice, you should see a new `tasks` table which contains the columns defined in our migration. Next, we're ready to define an Eloquent ORM model for our tasks!
 
-이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인한면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블을 확인할 수 있을 것입니다. 이제 Eloquent ORM 모델을 정의할 수 있습니다. 
+이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인한면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블을 확인할 수 있을 것입니다. 이제 할일을 구성하는 Eloquent ORM 모델을 정의할 수 있습니다. 
 
 <a name="eloquent-models"></a>
 ### Eloquent Models
@@ -142,7 +142,7 @@ This command will create all of our database tables. If you inspect the database
 
 [Eloquent](/docs/{{version}}/eloquent) is Laravel's default ORM (object-relational mapper). Eloquent makes it painless to retrieve and store data in your database using clearly defined "models". Usually, each Eloquent model corresponds directly with a single database table.
 
-[Eloquent](/docs/5.1/eloquent)은 라라벨의 기본 ORM입니다. Eloquent를 사용하면 명료하게 정의된 "모델"들을 이용하여 데이터베이스에 데이터를 저장하고 조회하기 용이합니다. 보통 각 Eloquent 모델은 하나의 데이터베이스 테이블에 대응합니다. 
+[Eloquent](/docs/{{version}}/eloquent)은 라라벨의 기본 ORM입니다. Eloquent를 사용하면 명료하게 정의된 "모델"들을 이용하여 데이터베이스에 데이터를 저장하고 조회하기 용이합니다. 보통 각 Eloquent 모델은 하나의 데이터베이스 테이블에 대응합니다. 
 
 So, let's define a `Task` model that corresponds to our `tasks` database table we just created. Again, we can use an Artisan command to generate this model. In this case, we'll use the `make:model` command:
 
@@ -167,7 +167,7 @@ The model will be placed in the `app` directory of your application. By default,
 
 We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
 
-Eloquent 모델의 사용법은 어플리케이션에 라우팅을 추가하면서 차차 알아가게 될 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/5.1/eloquent)를 참고하십시오.
+Eloquent 모델의 사용법은 어플리케이션에 라우팅을 추가하면서 차차 알아가게 될 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고하십시오.
 
 <a name="routing"></a>
 ## Routing
@@ -251,7 +251,7 @@ Almost all web applications share the same layout across pages. For example, thi
 
 As we discussed earlier, all Laravel views are stored in `resources/views`. So, let's define a new layout view in `resources/views/layouts/app.blade.php`. The `.blade.php` extension instructs the framework to use the [Blade templating engine](/docs/{{version}}/blade) to render the view. Of course, you may use plain PHP templates with Laravel. However, Blade provides convenient short-cuts for writing cleaner, terse templates.
 
-앞서 이야기한 바와 같이 라라벨의 모든 view 파일들은 `resources/views`에 저장되어 있습니다. 그럼 이제 `resources/views/layouts/app.blade.php`에 새 레이아웃 view를 정의합니다. `.blade.php` 확장자는 뷰를 렌더링하기 위해 [블레이드 템플릿 엔진](/docs/5.1/blade)를 이용하라고 프레임워크에 알려줍니다. 물론 라라벨에서는 순수 PHP 코드 템플릿을 사용하는 것이 가능합니다. 하지만 블레이드는 더 편리하고, 작성하기 깔끔한 방법을 제공해줍니다.
+앞서 이야기한 바와 같이 라라벨의 모든 view 파일들은 `resources/views`에 저장되어 있습니다. 그럼 이제 `resources/views/layouts/app.blade.php`에 새 레이아웃 view를 정의합니다. `.blade.php` 확장자는 뷰를 렌더링하기 위해 [블레이드 템플릿 엔진](/docs/{{version}}/blade)를 이용하라고 프레임워크에 알려줍니다. 물론 라라벨에서는 순수 PHP 코드 템플릿을 사용하는 것이 가능합니다. 하지만 블레이드는 더 편리하고, 작성하기 깔끔한 방법을 제공해줍니다.
 
 Our `app.blade.php` view should look like the following:
 
@@ -370,7 +370,7 @@ Now that we have a form in our view, we need to add code to our `POST /task` rou
 
 For this form, we will make the `name` field required and state that it must contain less than `255` characters. If the validation fails, we will redirect the user back to the `/` URL, as well as flash the old input and errors into the [session](/docs/{{version}}/session):
 
-이 Form에서는 `name` 필드를 필수로 하고 `255` 자 미만이어야 한다는 내용을 담도록 할 것입니다. 입력값 검증 실패 시에 사용자는 `/` URL로 돌아가게 되며 이전에 입력한 값들과 에러는 [세션](/docs/5.1/session)에 기록해 둡니다.
+이 Form에서는 `name` 필드를 필수로 하고 `255` 자 미만이어야 한다는 내용을 담도록 할 것입니다. 입력값 검증 실패 시에 사용자는 `/` URL로 돌아가게 되며 이전에 입력한 값들과 에러는 [세션](/docs/{{version}}/session)에 기록해 둡니다.
 
 	Route::post('/task', function (Request $request) {
 		$validator = Validator::make($request->all(), [

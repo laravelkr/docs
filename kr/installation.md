@@ -69,7 +69,7 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 그렇지 않으면, 터미널에서 컴포저의 `create-project` 커멘드를 사용하여 라라벨을 설치할 수도 있습니다
 
-    composer create-project laravel/laravel --prefer-dist blog
+    composer create-project laravel/laravel blog "5.1.*"
 
 <a name="configuration"></a>
 ## Configuration

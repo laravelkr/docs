@@ -609,18 +609,16 @@ Sometimes you may wish to "un-delete" a soft deleted model. To restore a soft de
 
     $flight->restore();
 
-[EN]
 You may also use the `restore` method in a query to quickly restore multiple models:
-[KO]
+
 여러 개의 모델을 빠르게 복구할 때도 `restore` 메소드를 쿼리에 사용할 수 있습니다. 
 
     App\Flight::withTrashed()
             ->where('airline_id', 1)
             ->restore();
 
-[EN]
 Like the `withTrashed` method, the `restore` method may also be used on [relationships](/docs/{{version}}/eloquent-relationships):
-[KO]
+
 `withTrashed` 메소드 같이 `restore` 메소드도 [관계](/docs/{{version}}/eloquent-relationships)에 쓰일 수 있습니다: 
 
     $flight->history()->restore();

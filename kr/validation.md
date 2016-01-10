@@ -868,7 +868,7 @@ The field under validation must match the given regular expression.
 #### required
 
 The field under validation must be present in the input data and not empty. A field is considered "empty" is one of the following conditions are true:
-[KO]
+
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다: 
 
 - The value is `null`.
@@ -1053,7 +1053,6 @@ The first argument passed to the `sometimes` method is the name of the field we 
 
 > **Note:** The `$input` parameter passed to your `Closure` will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files.
 
-[KO]
 > **참고:** `Closure`로 전달된 `$input` 파라메터는 `Illuminate\Support\Fluent`의 인스턴스입니다. 그리고 입력된 데이터와 파일에 접근하기 위해 이 오브젝트가 사용할 수 있습니다.
 
 <a name="custom-validation-rules"></a>
@@ -1160,5 +1159,4 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
 
 > **Note:** An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
 
-[KO]
 > **주의:** "묵시적" 확장은 단지 속성이 필요하다는 것을 _암시(내포)_합니다. 없거나 빈 속성의 유효성을 실제로 부정하는지는 여러분이 결정합니다.

@@ -12,7 +12,7 @@
     - [Views](#included-views)
     - [Views-뷰](#included-views)
     - [Authenticating](#included-authenticating)
-    - [Authenticating](#included-authenticating)
+    - [인증하기](#included-authenticating)
     - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
     - [인증된 사용자 획득하기](#retrieving-the-authenticated-user)
     - [Protecting Routes](#protecting-routes)
@@ -20,31 +20,31 @@
     - [Authentication Throttling](#authentication-throttling)
     - [인증 시도 횟수 제한](#authentication-throttling)
 - [Manually Authenticating Users](#authenticating-users)
-- [Manually Authenticating Users](#authenticating-users)
+- [수동으로 사용자 인증하기](#authenticating-users)
     - [Remembering Users](#remembering-users)
-    - [Remembering Users](#remembering-users)
+    - [사용자 기억하기](#remembering-users)
     - [Other Authentication Methods](#other-authentication-methods)
-    - [Other Authentication Methods](#other-authentication-methods)
+    - [그외 인증 메소드](#other-authentication-methods)
 - [HTTP Basic Authentication](#http-basic-authentication)
-- [HTTP Basic Authentication](#http-basic-authentication)
+- [HTTP 기본 인증](#http-basic-authentication)
     - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
-    - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
+    - [상태를 유지하지 않는 HTTP 기본 인증](#stateless-http-basic-authentication)
 - [Resetting Passwords](#resetting-passwords)
-- [Resetting Passwords](#resetting-passwords)
+- [패스워드 재설정](#resetting-passwords)
     - [Database Considerations](#resetting-database)
-    - [Database Considerations](#resetting-database)
+    - [데이터베이스 고려사항](#resetting-database)
     - [Routing](#resetting-routing)
-    - [Routing](#resetting-routing)
+    - [라우팅](#resetting-routing)
     - [Views](#resetting-views)
-    - [Views](#resetting-views)
+    - [Views-뷰](#resetting-views)
     - [After Resetting Passwords](#after-resetting-passwords)
-    - [After Resetting Passwords](#after-resetting-passwords)
+    - [패스워드 재설정 후](#after-resetting-passwords)
 - [Social Authentication](#social-authentication)
-- [Social Authentication](#social-authentication)
+- [소셜 인증](#social-authentication)
 - [Adding Custom Authentication Drivers](#adding-custom-authentication-drivers)
-- [Adding Custom Authentication Drivers](#adding-custom-authentication-drivers)
+- [사용자 정의 인증 드라이버 추가하기](#adding-custom-authentication-drivers)
 - [Events](#events)
-- [Events](#events)
+- [이벤트](#events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -519,7 +519,7 @@ Next, a table must be created to store the password reset tokens. The migration 
 
 <a name="resetting-routing"></a>
 ### Routing
-### ROuting-라우팅
+### Routing-라우팅
 
 Laravel includes an `Auth\PasswordController` that contains the logic necessary to reset user passwords. However, you will need to define routes to point requests to this controller:
 

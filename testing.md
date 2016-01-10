@@ -239,6 +239,10 @@ Of course, one common use of the session is for maintaining user state, such as 
         }
     }
 
+You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method:
+
+    $this->actingAs($user, 'backend')
+
 <a name="disabling-middleware"></a>
 ### Disabling Middleware
 
@@ -535,7 +539,7 @@ Laravel provides a convenient `expectsJobs` method that will verify that the exp
         }
     }
 
-> **Note:** This method only detects jobs that are dispatched via the `DispatchesJobs` trait's dispatch methods. It does not detect jobs that are sent directly to `Queue::push`.
+> **Note:** This method only detects jobs that are dispatched via the `DispatchesJobs` trait's dispatch methods or the `dispatch` helper function. It does not detect jobs that are sent directly to `Queue::push`.
 
 <a name="mocking-facades"></a>
 ### Mocking Facades

@@ -296,7 +296,7 @@ To require an authenticated users for all actions on the controller, we can add 
 
 The primary part of this application only has a single view which contains a form for adding new tasks as well as a listing of all current tasks. To help you visualize the view, here is a screenshot of the finished application with basic Bootstrap CSS styling applied:
 
-![Application Image](http://laravel.com/assets/img/quickstart/basic-overview.png)
+![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
 ### Defining The Layout
@@ -734,7 +734,7 @@ Finally, we need to associate our `Task` model with our `TaskPolicy`. We can do 
      * @var array
      */
     protected $policies = [
-        Task::class => TaskPolicy::class,
+        'App\Task' => 'App\Policies\TaskPolicy',
     ];
 
 

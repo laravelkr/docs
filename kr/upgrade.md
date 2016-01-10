@@ -27,7 +27,7 @@ Add `"symfony/dom-crawler": "~3.0"` and `"symfony/css-selector": "~3.0"` to the 
 
 #### Configuration File
 
-You should update your `config/auth.php` configuration file with the following: [https://github.com/laravel/laravel/blob/develop/config/auth.php](https://github.com/laravel/laravel/blob/master/config/auth.php)
+You should update your `config/auth.php` configuration file with the following: [https://github.com/laravel/laravel/blob/master/config/auth.php](https://github.com/laravel/laravel/blob/master/config/auth.php)
 
 Once you have updated the file with a fresh copy, set your authentication configuration options to their desired value based on your old configuration file. If you were using the typical, Eloquent based authentication services available in Laravel 5.1, most values should remain the same.
 
@@ -51,7 +51,7 @@ The `loginPath()` method has been removed from `Illuminate\Foundation\Auth\Authe
 
 ### Authorization
 
-The `Illuminate\Auth\Access\UnauthorizedException` has been renamed to `Illuminate\Auth\Access\AuthorizationException`. The is unlikely to affect your application if you are not manually catching this exception.
+The `Illuminate\Auth\Access\UnauthorizedException` has been renamed to `Illuminate\Auth\Access\AuthorizationException`. This is unlikely to affect your application if you are not manually catching this exception.
 
 ### Collections
 
@@ -65,7 +65,7 @@ The `slice`, `chunk`, and `reverse` methods now preserve keys on the collection.
 
 ### Composer Class
 
-The `Illuminate\Foundation\Support\Composer` class has been moved to `Illuminate\Support\Composer`. This is unlikely to affect your application if you were not manually using this class.
+The `Illuminate\Foundation\Composer` class has been moved to `Illuminate\Support\Composer`. This is unlikely to affect your application if you were not manually using this class.
 
 ### Commands And Handlers
 
@@ -112,6 +112,10 @@ Starting with MySQL 5.7, `0000-00-00 00:00:00` is no longer considered a valid d
 #### MySQL JSON Column Type
 
 The `json` column type now creates actual JSON columns when used by the MySQL driver. If you are not running MySQL 5.7 or above, this column type will not be available to you. Instead, use the `text` column type in your migration.
+
+#### Seeding
+
+When runnning database seeds, all Eloquent models are now unguarded by default. Previously a call to `Model::unguard()` was required. You can call `Model::reguard()` at the top of your `DatabaseSeeder` class if you would like models to be guarded during seeding.
 
 ### Eloquent
 
@@ -231,6 +235,8 @@ The `Illuminate\Routing\ControllerServiceProvider` may be removed from your serv
 
 ### Sessions
 
+Because of changes to the authentication system, any existing sessions will be invalidated when you upgrade to Laravel 5.2.
+
 #### Database Session Driver
 
 A new `database` session driver has been written for the framework which includes more information about the user such as their user ID, IP address, and user-agent. If you would like to continue using the old driver you may specify the `legacy-database` driver in your `session.php` configuration file.
@@ -254,6 +260,7 @@ The following features are deprecated in 5.2 and will be removed in the 5.3 rele
 - `Illuminate\Contracts\Bus\SelfHandling` contract. Can be removed from jobs.
 - The `lists` method on the Collection, query builder and Eloquent query builder objects has been renamed to `pluck`. The method signature remains the same.
 - Implicit controller routes using `Route::controller` have been deprecated. Please use explicit route registration in your routes file. This will likely be extracted into a package.
+- The `get`, `post`, and other route helper functions have been removed. You may use the `Route` facade instead.
 - The `database` session driver from 5.1 has been renamed to `legacy-database` and will be removed. Consult notes on the "database session driver" above for more information.
 - The `Str::randomBytes` function has been deprecated in favor of the `random_bytes` native PHP function.
 - The `Str::equals` function has been deprecated in favor of the `hash_equals` native PHP function.

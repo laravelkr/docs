@@ -148,7 +148,7 @@ A new rate limiter middleware is now included with the framework, allowing you t
 
 Validating array form input fields is much easier in Laravel 5.2. For example, to validate that each e-mail in a given array input field is unique, you may do the following:
 
-라라벨 5.2에서 입력된 필드로 부터 배열의 유효성을 검사 하는 것이 보다 손쉬워졌습니다. 예를 들어 주어진 배열 입력필드의 각각의 이메일이 고유한지 검증하려면 다음처럼 하면 됩니다: 
+라라벨 5.2에서 배열 form 필드 입력에 대해서 유효성을 검사 하는 것이 보다 손쉬워졌습니다. 예를 들어 주어진 배열 입력필드의 각각의 이메일이 고유한지 검증하려면 다음처럼 하면 됩니다: 
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users'

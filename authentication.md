@@ -19,6 +19,7 @@
     - [Routing](#resetting-routing)
     - [Views](#resetting-views)
     - [After Resetting Passwords](#after-resetting-passwords)
+    - [Customization](#password-customization)
 - [Social Authentication](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
 - [Adding Custom User Providers](#adding-custom-user-providers)
@@ -380,6 +381,31 @@ After the password is reset, the user will automatically be logged into the appl
     protected $redirectTo = '/dashboard';
 
 > **Note:** By default, password reset tokens expire after one hour. You may change this via the password reset `expire` option in your `config/auth.php` file.
+
+<a name="password-customization"></a>
+### Customization
+
+#### Authentication Guard Customization
+
+In your `auth.php` configuration file, you may configure multiple "guards", which may be used to define authentication behavior for multiple user tables. You can customize the included `PasswordController` to use the guard of your choice by adding a `$guard` property to the controller:
+
+    /**
+     * The authentication guard that should be used.
+     *
+     * @var string
+     */
+    protected $guard = 'admins';
+
+#### Password Broker Customization
+
+In your `auth.php` configuration file, you may configure multiple password "brokers", which may be used to reset passwords on multiple user tables. You can customize the included `PasswordController` to use the broker of your choice by adding a `$broker` property to the controller:
+
+    /**
+     * The password broker that should be used.
+     *
+     * @var string
+     */
+    protected $broker = 'admins';
 
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards

@@ -143,6 +143,7 @@ Method  | Description
 `$this->type($text, $elementName)`  |  "Type" text into a given field.
 `$this->select($value, $elementName)`  |  "Select" a radio button or drop-down field.
 `$this->check($elementName)`  |  "Check" a checkbox field.
+`$this->uncheck($elementName)`  |  "Uncheck" a checkbox field.
 `$this->attach($pathToFile, $elementName)`  |  "Attach" a file to the form.
 `$this->press($buttonTextOrElementName)`  |  "Press" a button with the given text or name.
 
@@ -184,6 +185,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 
 The `seeJson` method converts the given array into JSON, and then verifies that the JSON fragment occurs **anywhere** within the entire JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
 
+<a name="verify-exact-json-match"></a>
 #### Verify Exact JSON Match
 
 If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `seeJsonEquals` method:
@@ -205,6 +207,34 @@ If you would like to verify that the given array is an **exact** match for the J
                  ]);
         }
     }
+
+<a name="verify-structural-json-match"></a>
+#### Verify Structural JSON Match
+
+It is also possible to verify that a JSON response adheres to a specific structure. For this, you should use the `seeJsonStructure` method and pass it a list of (nested) keys:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $this->get('/user/1')
+                 ->seeJsonStructure([
+                     'name',
+                     'pet' => [
+                         'name', 'age'
+                     ]
+                 ]);
+        }
+    }
+
+The above example illustrates an expectation of receiving a `name` and a nested `pet` object with its own `name` and `age`. `seeJsonStructure` will not fail if additional keys are present in the response. For example, the test would still pass if the `pet` had a `weight` attribute.
 
 <a name="sessions-and-authentication"></a>
 ### Sessions / Authentication

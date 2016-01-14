@@ -155,6 +155,20 @@ If you are calling `env` from within your application, it is strongly recommende
 
 만약 어플리케이션에서 `env` 를 호출한다면, 여러분의 설정 파일에 해당 설정 값을 추가하고, 해당 위치에서는 `env` 를 호출하도록 하여 `env` 가 `config`를 호출하도록 변경할 것을 강력하게 권고합니다. 
 
+#### Compliled Classes
+#### 컴파일된 클래스들
+
+If present, remove the following lines from `config/compile.php` in the `files` array:
+
+존재하는 경우에는 `config/compile.php` 안에 있는 `files` 배열안에서 다음 라인들을 제거하십시오:
+
+    realpath(__DIR__.'/../app/Providers/BusServiceProvider.php'),
+    realpath(__DIR__.'/../app/Providers/ConfigServiceProvider.php'),
+
+Not doing so can trigger an error when running `php artisan optimize` if the service providers listed here do not exist.
+
+이렇게 하지 않으면 `php artisan optimize`가 실행될 때 서비스 프로바이더가 존재하지 않는다고 에러가 발생합니다.
+
 ### CSRF Verification
 ### CSRF 확인
 
@@ -209,7 +223,7 @@ The global scopes implementation has been re-written to be much easier to use. Y
 
 글로벌 스코프 구현이 보다 손쉽게 사용될 수 있도록 재작성되었습니다. 글로벌 스코프는 더이상 `remove` 메소드가 필요하지 않으며, 여러분이 작성한 글로벌 스코프에서 제거할 수 있습니다. 
 
-If we were calling `getQuery` on an Eloquent query builder to access the underlying query builder instance, you should now call `toBase`.
+If you were calling `getQuery` on an Eloquent query builder to access the underlying query builder instance, you should now call `toBase`.
 
 Eloquent 쿼리 빌더에서 쿼리 빌더 인스턴스에 엑세스 하고자 `getQueyt`를 호출하였었다면, 이제 `toBase` 메소드를 호출해야 합니다. 
 

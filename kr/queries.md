@@ -315,6 +315,15 @@ Of course, you may use a variety of other operators when writing a `where` claus
                     ->where('name', 'like', 'T%')
                     ->get();
 
+You may also pass an array of conditions to the `where` function:
+
+또한 `where` 함수에 조건에 대한 배열을 전달 할 수도 있습니다:
+
+    $users = DB::table('users')->where([
+        ['status','1'],
+        ['subscribed','<>','1'],
+    ])->get();
+
 #### Or Statements
 #### Or 구문
 

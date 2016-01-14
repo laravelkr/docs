@@ -39,6 +39,8 @@
     - [Views-뷰](#resetting-views)
     - [After Resetting Passwords](#after-resetting-passwords)
     - [패스워드 재설정 후](#after-resetting-passwords)
+    - [Customization](#password-customization)
+    - [커스터마이징](#password-customization)
 - [Social Authentication](https://github.com/laravel/socialite)
 - [소셜 인증](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
@@ -547,6 +549,38 @@ After the password is reset, the user will automatically be logged into the appl
 > **Note:** By default, password reset tokens expire after one hour. You may change this via the password reset `expire` option in your `config/auth.php` file.
 
 > **참고:**기본적으로 패스워드 재설정 토큰은 1시간 동안만 유효합니다. `config/auth.php` 파일의 패스워드 재설정 `expire` 옵션을 통해서 이를 변경할 수 있습니다. 
+
+<a name="password-customization"></a>
+### Customization
+### 커스터마이징
+
+#### Authentication Guard Customization
+#### 인증 guard 커스터마이징
+
+In your `auth.php` configuration file, you may configure multiple "guards", which may be used to define authentication behavior for multiple user tables. You can customize the included `PasswordController` to use the guard of your choice by adding a `$guard` property to the controller:
+
+`auth.php` 설정 파일 안에서, 여러분은 여러개의 사용자 테이블에 대한 인증의 동작을 정의하는데 사용될 수 있는 다수의 "guard"를 구성할 수 있습니다. 포함되어 있는 `PasswordController`에 `$guard` 속성을 추가하여 여러분이 선택한 guard를 사용하도록 커스터마이징 할 수 있습니다. 
+
+    /**
+     * The authentication guard that should be used.
+     *
+     * @var string
+     */
+    protected $guard = 'admins';
+
+#### Password Broker Customization
+#### 패스워드 Broker 커스터마이징
+
+In your `auth.php` configuration file, you may configure multiple password "brokers", which may be used to reset passwords on multiple user tables. You can customize the included `PasswordController` to use the broker of your choice by adding a `$broker` property to the controller:
+
+`auth.php` 설장 파일 안에서, 여러분은 여러개의 사용자 테이블에 대한 패스워드를 재설정하는데 사용될 수 있는 다수의 "broker"를 구성할 수 있습니다. 포함되어 있는 `PasswordController`에 `$broket` 속성을 추가하여 여러분이 선택한 broker를 사용하도록 커스터마이징 할 수 있습니다. 
+
+    /**
+     * The password broker that should be used.
+     *
+     * @var string
+     */
+    protected $broker = 'admins';
 
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards

@@ -196,6 +196,7 @@ Method  | Description
 `$this->type($text, $elementName)`  |  "Type" text into a given field.
 `$this->select($value, $elementName)`  |  "Select" a radio button or drop-down field.
 `$this->check($elementName)`  |  "Check" a checkbox field.
+`$this->uncheck($elementName)`  |  "Uncheck" a checkbox field.
 `$this->attach($pathToFile, $elementName)`  |  "Attach" a file to the form.
 `$this->press($buttonTextOrElementName)`  |  "Press" a button with the given text or name.
 
@@ -204,6 +205,7 @@ Method  | Description
 `$this->type($text, $elementName)`  |  주어진 필드에 텍스트를 "채워넣음"
 `$this->select($value, $elementName)`  |  라디오 버튼 또는 드랍다운 필드를 "선택"
 `$this->check($elementName)`  |  체크박스 필드를 "체크"
+`$this->uncheck($elementName)`  |  체크박스 필드를 "언체크" 
 `$this->attach($pathToFile, $elementName)`  |  파일을 form에 "추가"
 `$this->press($buttonTextOrElementName)`  |  주어진 텍스 또는 이름의 버튼을 "누르기"
 
@@ -253,6 +255,7 @@ The `seeJson` method converts the given array into JSON, and then verifies that 
 
 `seeJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 어플리케이션이 반환하는 JSON 응답 중 **어느 한곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
 
+<a name="verify-exact-json-match"></a>
 #### Verify Exact JSON Match
 #### JSON과 완전히 일치하는지 확인하기
 
@@ -277,6 +280,39 @@ If you would like to verify that the given array is an **exact** match for the J
                  ]);
         }
     }
+
+<a name="verify-structural-json-match"></a>
+#### Verify Structural JSON Match
+#### JSON의 구조가 일치하는지 확인하기
+
+It is also possible to verify that a JSON response adheres to a specific structure. For this, you should use the `seeJsonStructure` method and pass it a list of (nested) keys:
+
+JSON 응답이 지정한 구조에 부합하는지 확인하는 것도 가능합니다. 이를 위해서는 `seeJsonStructure` 메소드를 사용하고 (중첩된) 키들의 목록을 전달해야 합니다. 
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $this->get('/user/1')
+                 ->seeJsonStructure([
+                     'name',
+                     'pet' => [
+                         'name', 'age'
+                     ]
+                 ]);
+        }
+    }
+
+The above example illustrates an expectation of receiving a `name` and a nested `pet` object with its own `name` and `age`. `seeJsonStructure` will not fail if additional keys are present in the response. For example, the test would still pass if the `pet` had a `weight` attribute.
+
+위의 예제에서는 `name` 과 중첩된 `name` 과 `age`를 가지는 `pet` 객체를 전달 받는 것을 기대하는 것입니다. 응답에 추가적인 키가 존재하는 것은 `seeJsonStructure` 에서는 실패로 간주되지 않습니다. 예를 들어 `pet`에 `weight` 속성을 가지고 있다고 해도 테스트는 여전히 통과 할 것입니다. 
 
 <a name="sessions-and-authentication"></a>
 ### Sessions / Authentication 

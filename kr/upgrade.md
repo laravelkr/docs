@@ -155,7 +155,7 @@ If you are calling `env` from within your application, it is strongly recommende
 
 만약 어플리케이션에서 `env` 를 호출한다면, 여러분의 설정 파일에 해당 설정 값을 추가하고, 해당 위치에서는 `env` 를 호출하도록 하여 `env` 가 `config`를 호출하도록 변경할 것을 강력하게 권고합니다. 
 
-#### Compliled Classes
+#### Compiled Classes
 #### 컴파일된 클래스들
 
 If present, remove the following lines from `config/compile.php` in the `files` array:

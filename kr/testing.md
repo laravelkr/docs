@@ -685,7 +685,7 @@ If you are making heavy use of Laravel's event system, you may wish to silence o
 
 Laravel provides a convenient `expectsEvents` method that verifies the expected events are fired, but prevents any handlers for those events from running:
 
-라라벨은 예상되는 이벤트들이 발행했다는 것을 확인하고, 그 이벤트들의 핸들러들이 실행되는 것을 방지해주는 `expectsEvents` 메소드를 제공합니다: 
+라라벨은 예상되는 이벤트들이 발생했다는 것을 확인하고, 그 이벤트들의 핸들러들이 실행되는 것을 방지해주는 `expectsEvents` 메소드를 제공합니다: 
 
     <?php
 
@@ -695,7 +695,25 @@ Laravel provides a convenient `expectsEvents` method that verifies the expected 
         {
             $this->expectsEvents(App\Events\UserRegistered::class);
 
-            // Test user registration code...
+            // Test user registration...
+        }
+    }
+
+You may use the `doesntExpectEvents` method to verify that the given events are **not** fired:
+
+여러분은 주어진 이벤트가 발생하지 **않았다는** 것을 확인하기 위해서 `doesntExpectEvents` 메소드를 사용할 수 있습니다:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        public function testPodcastPurchase()
+        {
+            $this->expectsEvents(App\Events\PodcastWasPurchased::class);
+
+            $this->doesntExpectEvents(App\Events\PaymentWasDeclined::class);
+
+            // Test purchasing podcast...
         }
     }
 

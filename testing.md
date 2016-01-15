@@ -532,7 +532,23 @@ Laravel provides a convenient `expectsEvents` method that verifies the expected 
         {
             $this->expectsEvents(App\Events\UserRegistered::class);
 
-            // Test user registration code...
+            // Test user registration...
+        }
+    }
+
+You may use the `doesntExpectEvents` method to verify that the given events are **not** fired:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        public function testPodcastPurchase()
+        {
+            $this->expectsEvents(App\Events\PodcastWasPurchased::class);
+
+            $this->doesntExpectEvents(App\Events\PaymentWasDeclined::class);
+
+            // Test purchasing podcast...
         }
     }
 

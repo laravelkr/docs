@@ -380,6 +380,8 @@ The `Illuminate\Routing\ControllerServiceProvider` may be removed from your serv
 
 Because of changes to the authentication system, any existing sessions will be invalidated when you upgrade to Laravel 5.2.
 
+인증 시스템의 변경으로 인해서, 라라벨 5.2로 업그레이드 하면 기존에 존재하던 세션들은 모두 유효하지 않게 됩니다.
+
 #### Database Session Driver
 #### 데이터베이스 세션 드라이버
 

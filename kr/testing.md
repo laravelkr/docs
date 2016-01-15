@@ -662,7 +662,7 @@ Again, you may override attributes on the model by passing an array to the `crea
 #### 모델에 관계 추가하기 
 
 You may even persist multiple models to the database. In this example, we'll even attach a relation to the created models. When using the `create` method to create multiple models, an Eloquent [collection instance](/docs/{{version}}/eloquent-collections) is returned, allowing you to use any of the convenient functions provided by the collection, such as `each`:
-[KO]
+
 여러분은 데이터베이스에 여러 모델을 유지하고 싶을 수도 있습니다. 이 예제에서는, 생성된 모델에 관계를 추가할 것입니다. 여러 모델을 생성하기 위해서 `create` 메소드를 사용할 때 Eloquent [컬렉션 인스턴스](/docs/{{version}}/eloquent-collections)가 반환되어 `each`와 같이 컬렉션이 제공하는 편리한 함수들을 이용할 수 있도록 해줍니다: 
 
     $users = factory(App\User::class, 3)

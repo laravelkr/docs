@@ -325,6 +325,7 @@ elixir(function(mix) {
 
 To choose a different output location, simply specify your desired path as the second argument. The signature and functionality of this method are identical to `mix.scripts()`, excluding the Babel compilation.
 
+다른 출력 위치를 선택하려면, 원하는 경로를 두번째 인자로 지정하면 됩니다. 이 메소드의 사용법과 기능은 Babel을 컴파일 한다는 점을 제외하고, `mix.scripts()` 와 동일합니다.
 
 <a name="javascript"></a>
 ### Scripts

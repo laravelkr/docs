@@ -27,7 +27,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
 To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-relationships) to an array, you may use the `toArray` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to arrays:
 
-하나의 모델과 연관된 [관계 모델](/docs/{{version}}/eloquent-relationships)들을 변환 하고자 할 때에는, `toArray` 메소드를 사용하면 됩니다. 이 메소드는 재귀적이기 때문에, 모든 속성들과 모든 관계 모델들(관계 모델들 안에 포함된 관계 모델들까지)이 배열로 변환될 것입니다.
+하나의 모델과 연관된 [관계 모델](/docs/{{version}}/eloquent-relationships)들을 배열로 변환 하고자 할 때에는, `toArray` 메소드를 사용하면 됩니다. 이 메소드는 재귀적이기 때문에, 모든 속성들과 모든 관계 모델들(관계 모델들 안에 포함된 관계 모델들까지)이 배열로 변환될 것입니다.
 
     $user = App\User::with('roles')->first();
 
@@ -131,7 +131,7 @@ If you would like to make some typically hidden attributes visible on a given mo
 
 Occasionally, you may need to add array attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/docs/{{version}}/eloquent-mutators) for the value:
 
-때때로, 사용자는 데이터베이스에서 해당 컬럼이 없는 배열 속성을 추가가 필요할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 accessor를 정의하면 됩니다:
+때때로, 사용자는 데이터베이스에서 해당 컬럼이 없는 배열 속성을 추가가 필요할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 [accessor](/docs/{{version}}/eloquent-mutators)를 정의하면 됩니다:
 
     <?php
 

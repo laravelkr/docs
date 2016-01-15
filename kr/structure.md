@@ -80,8 +80,6 @@ The `Exceptions` directory contains your application's exception handler and is 
 
 `Exceptions` 디렉토리는 어플리케이션의 예외 핸들러를 포함하고 있으며, 또한 응용프로그램에서 발생하는 예외파일들을 선언해 두기에 적당한 곳입니다.
 
-
-
 The `Jobs` directory, of course, houses the [queueable jobs](/docs/{{version}}/queues) for your application. Jobs may be queued by your application or run synchronously within the current request lifecycle.
 
 `Jobs` 디렉토리는 당연하게도, [큐를 통한 작업이 가능한](/docs/{{version}}/queues) 어플리케이션의 작업들을 모아놓은 곳입니다. 각각의 Job들은 어플리케이션은 큐를 통해 처리될 수도, 현재 요청에 대한 라이프사이클 동안에 처리될수도(synchronously) 있습니다. 

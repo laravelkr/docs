@@ -218,7 +218,7 @@ An array of contextual data may also be passed to the log methods. This contextu
     Log::info('User failed to login.', ['id' => $user->id]);
 
 #### Accessing The Underlying Monolog Instance
-####
+#### 기반이 되는 모노로그 인스턴스에 엑세스하기
 
 Monolog has a variety of additional handlers you may use for logging. If needed, you may access the underlying Monolog instance being used by Laravel:
 

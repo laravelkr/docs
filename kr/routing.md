@@ -333,8 +333,6 @@ Sometimes you may wish to exclude a set of URIs from CSRF protection. For exampl
 
 때때로, 특정 URI들을 CSRF 보호로 부터 제외하고자 할 수도 있습니다. 예를 들어, [Stripe](https://stripe.com)을 통해서 결제하고 웹 후킹 시스템을 사용하는 경우, 라라벨의 CSRF 보호로 부터 웹 후킹을 처리하는 라우트를 제외할 필요가 있을 것입니다.
 
-You may exclude URIs by adding them to the `$except` property of the `VerifyCsrfToken` middleware:
-
 You may exclude URIs by defining their routes outside of the `web` middleware group that is included in the default `routes.php` file, or by adding the URIs to the `$except` property of the `VerifyCsrfToken` middleware:
 
 여러분은 `routes.php` 파일 안에서 제외하고자 하는 URI를 선언한 라우트를 `web` 미들웨어 그룹의 밖에 선언하거나, `VerifyCsrfToken` 미들웨어의 `$except` 속성에 제외하고자 하는 URI들을 추가할 수 있습니다: 
@@ -379,7 +377,7 @@ Once you have created the `meta` tag, you can instruct a library like jQuery to 
 
 <a name="csrf-x-xsrf-token"></a>
 ### X-XSRF-TOKEN
-#### X-XSRF-TOKEN
+### X-XSRF-TOKEN
 
 Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. You can use the cookie value to set the `X-XSRF-TOKEN` request header. Some JavaScript frameworks, like Angular, do this automatically for you. It is unlikely that you will need to use this value manually.
 

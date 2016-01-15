@@ -187,8 +187,6 @@ Next, we're ready to add a few routes to our application. Routes are used to poi
 
 이제 어플리케이션에 몇개의 라우트(route)를 추가할 수 있습니다. 라우트는 사용자가 특정 페이지에 접속할 때 실행되어야 하는 컨트롤러나 익명함수에 대한 URL을 구성하는 역할을 합니다. 모든 라라벨 라우트들은 기본적으로 `app/Http/routes.php` 파일에 정의되어 있습니다. 
 
-For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. So, let's stub all of these routes in the `app/Http/routes.php` file:
-
 For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. We'll wrap all of these routes in the `web` middleware so they have session state and CSRF protection. So, let's stub all of these routes in the `app/Http/routes.php` file:
 
 이 어플리케이션에서는 최소 3개의 라우트가 필요합니다: 모든 할일들을 목록화하는 라우트, 새로운 할일을 추가하는 라우트, 그리고 이미 존재하는 할일를 삭제하는 라우트입니다. 여기서는 `web` 미들웨어 안에 이러한 모든 라우트들을 구성할 것입니다. 따라서 이 라우트들은 세션과 CSRF 프로텍션 미들웨어를 가지게 됩니다. 그럼 이 라우트들을 아래와 같이 `app/Http/routes.php` 파일에 구성합니다.

@@ -208,8 +208,6 @@ Typically, you will want to publish your package's configuration file to the app
 
 Now, when users of your package execute Laravel's `vendor:publish` command, your file will be copied to the specified location. Of course, once your configuration has been published, it can be accessed like any other configuration file:
 
-Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's translations will be published to the specified location.
-
 이제 라라벨의 `vendor:publish` 명령어가 실행될 때 파일들이 지정된 위치로 복사될 것입니다. 패키지의 설정 파일들이 퍼블리싱 되고 나면, 다른 설정 파일들과 같이 엑세스 할 수 있습니다. 
 
     $value = config('courier.option');

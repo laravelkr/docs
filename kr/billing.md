@@ -226,12 +226,13 @@ You may also determine if a user has cancelled their subscription, but are still
         //
     }
 
-
 <a name="changing-plans"></a>
 ### Changing Plans
 ### 정기 구독 유형 변경하기
 
 After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, use the `swap` method. For example, we may easily switch a user to the `premium` subscription:
+
+사용자가 어플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드를 사용하면 됩니다. 예를 들어 다음처럼 사용자를 `premium` 구독 플랜으로 손쉽게 변경할 수 있습니다. 
 
     $user = App\User::find(1);
 

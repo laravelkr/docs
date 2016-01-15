@@ -246,6 +246,7 @@ Of course, if your controller route requires parameters, you may pass them as th
 
 <a name="redirecting-with-flashed-session-data"></a>
 #### Redirecting With Flashed Session Data
+#### 세션의 임시 데이터와 함께 리다이렉트 하기
 
 Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/session#flash-data) are typically done at the same time. So, for convenience, you may create a `RedirectResponse` instance **and** flash data to the session in a single method chain. This is particularly convenient for storing status messages after an action:
 

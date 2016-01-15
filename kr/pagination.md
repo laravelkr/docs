@@ -71,8 +71,6 @@ First, let's take a look at calling the `paginate` method on a query. In this ex
 
 If you only need to display simple "Next" and "Previous" links in your pagination view, you have the option of using the `simplePaginate` method to perform a more efficient query. This is very useful for large datasets if you do not need to display a link for each page number when rendering your view:
 
-If you only need to display simple "Next" and "Previous" links in your pagination view, you have the option of using the `simplePaginate` method to perform a more efficient query. This is useful for larger datasets when you do not require the display of exact page numbers on your view:
-
 만약 "다음" 과 "이전" 링크 만을 페이징 된 화면에서 보여주고자 한다면, 더 효율적으로 쿼리를 수행하는 옵션인 `simplePaginate` 메소드를 사용할 수 있습니다. 이 메소드는 화면에서 정확안 페이지 번호를 표시할 필요가 없는 큰 규모의 데이터 셋을 처리할 때 유용합니다. 
 
     $users = DB::table('users')->simplePaginate(15);

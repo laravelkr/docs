@@ -25,7 +25,7 @@
 
 [Laravel Envoy](https://github.com/laravel/envoy) provides a clean, minimal syntax for defining common tasks you run on your remote servers. Using a Blade style syntax, you can easily setup tasks for deployment, Artisan commands, and more. Currently, Envoy only supports the Mac and Linux operating systems.
 
-라라벨 Envoy는 원격 서버에서 정의된 공통의 작업을 수행하기 위한 깔끔하고 간결한 문법을 제공합니다. 블레이드 스타일의 문법을 사용하여 손쉽게 배포, 아티즌 명령어 등의 작업을 설정할 수 있습니다. 현재 Envoy 는 맥과 리눅스 OS를 지원하고 있습니다.
+[라라벨 Envoy](https://github.com/laravel/envoy)는 원격 서버에서 정의된 공통의 작업을 수행하기 위한 깔끔하고 간결한 문법을 제공합니다. 블레이드 스타일의 문법을 사용하여 손쉽게 배포, 아티즌 명령어 등의 작업을 설정할 수 있습니다. 현재 Envoy 는 맥과 리눅스 OS를 지원하고 있습니다.
 
 <a name="envoy-installation"></a>
 ### Installation
@@ -106,9 +106,13 @@ If you would like to be prompted for confirmation before running a given task on
 
 If needed, you may pass variables into the Envoy file using command line switches, allowing you to customize your tasks:
 
+필요한 경우, 작업의 정의를 위해서 커맨드 라인 스위치를 사용하여 Envoy에 변수를 전달할 수 있습니다.
+
     envoy run deploy --branch=master
 
 You may use the options in your tasks via Blade's "echo" syntax:
+
+작업 안에서 블레이드의 "echo" 문법을 통해서 옵션을 사용할 수도 있습니다. 
 
     @servers(['web' => '192.168.1.1'])
 

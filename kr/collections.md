@@ -348,6 +348,8 @@ The `except` method returns all items in the collection except for those with th
 
 For the inverse of `except`, see the [only](#method-only) method.
 
+`except` 의 반대는, [only](#method-only)메소드를 확인하십시오. 
+
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
 
@@ -738,7 +740,7 @@ The `max` method return the maximum value of a given key:
 
 The `merge` method merges the given array into the collection. Any string key in the array matching a string key in the collection will overwrite the value in the collection:
 
-`merge1 메소드는 주어진 배열을 컬렉션과 합칩니다. 배열 안에 컬렉션과 일치하는 키가 존재한다면, 컬렉션 안의 값을 덮어 쓸 것입니다:
+`merge` 메소드는 주어진 배열을 컬렉션과 합칩니다. 배열 안에 컬렉션과 일치하는 키가 존재한다면, 컬렉션 안의 값을 덮어 쓸 것입니다:
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -979,6 +981,8 @@ The `reject` method filters the collection using the given callback. The callbac
     // [1, 2]
 
 For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
+
+`reject` 메소드의 반대는, [`filter`](#method-filter)메소드를 확인하십시오.
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}

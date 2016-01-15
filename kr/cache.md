@@ -279,7 +279,7 @@ Flushing the cache **does not** respect the cache prefix and will remove all ent
 
 > **Note:** Cache tags are not supported when using the `file` or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
 
-캐시 태그는 `file`과 `database` 드라이버를 사용하는 경우 지원되지 않습니다. 또한 "forever"로 저장되는 캐시에 많은 태그를 사용하면 기존 레코드를 자동으로 삭제하는 `memcached` 와 같은 드라이버에서 최상의 성능을 낼 것입니다.
+> **주의:** 캐시 태그는 `file`과 `database` 드라이버를 사용하는 경우 지원되지 않습니다. 또한 "forever"로 저장되는 캐시에 많은 태그를 사용하면 기존 레코드를 자동으로 삭제하는 `memcached` 와 같은 드라이버에서 최상의 성능을 낼 것입니다.
 
 <a name="storing-tagged-cache-items"></a>
 ### Storing Tagged Cache Items

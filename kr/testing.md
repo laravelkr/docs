@@ -699,7 +699,7 @@ Laravel provides a convenient `expectsJobs` method that will verify that the exp
 
 > **Note:** This method only detects jobs that are dispatched via the `DispatchesJobs` trait's dispatch methods. It does not detect jobs that are sent directly to `Queue::push`.
 
-> **주의:** 이 메소드는 `DispatchesJobs` 트레이트-trait의 dispatch 메소들을 통해 job 이 보내졌는지만을 감지합니다. `Queue::push`로 바로 보내진 job은 감지하지 못합니다. 
+> **주의:** 이 메소드는 `DispatchesJobs` 트레이트-trait의 dispatch 메소드를 통해 job 이 보내졌는지만을 감지합니다. `Queue::push`로 바로 보내진 job은 감지하지 못합니다. 
 
 <a name="mocking-facades"></a>
 ### Mocking Facades 

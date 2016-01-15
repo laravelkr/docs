@@ -76,7 +76,7 @@ The `app` directory ships with a variety of additional directories such as `Cons
 
 The `Jobs` directory, of course, houses the [queueable jobs](/docs/{{version}}/queues) for your application. Jobs may be queued by your application, as well as be run synchronously within the current request lifecycle.
 
-`Commands` 디렉토리는 당연하게도, [큐를 통한 작업이 가능한](/docs/{{version}}/queues) 어플리케이션의 작업들을 모아놓은 곳입니다. 각각의 Job들은 어플리케이션은 큐를 통해 처리될 수도, 현재 요청에 대한 라이프사이클 동안에 처리될수도(synchronously) 있습니다. 
+`Jobs` 디렉토리는 당연하게도, [큐를 통한 작업이 가능한](/docs/{{version}}/queues) 어플리케이션의 작업들을 모아놓은 곳입니다. 각각의 Job들은 어플리케이션은 큐를 통해 처리될 수도, 현재 요청에 대한 라이프사이클 동안에 처리될수도(synchronously) 있습니다. 
 
 The `Events` directory, as you might expect, houses [event classes](/docs/{{version}}/events). Events may be used to alert other parts of your application that a given action has occurred, providing a great deal of flexibility and decoupling.
 

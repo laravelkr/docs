@@ -356,7 +356,7 @@ Laravel makes it easy to protect your application from [cross-site request forge
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application. To generate a hidden input field `_token` containing the CSRF token, you may use the `csrf_field` helper function:
 
-라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
+라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. CSRF 토큰을 포함하는 hidden 입력 필드 _token을 생성하려면 csrf_field 헬퍼 함수를 사용하면 됩니다.
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application. CSRF 토큰을 포함하는 hidden 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다. 
 
@@ -472,7 +472,7 @@ Since we have bound the `{user}` parameter to the `App\User` model, a `User` ins
 
 > **Note:** If a matching model instance is not found in the database, a 404 exception will be thrown automatically.
 
-> **주의:** 만약 데이터베이스에서 일치하는 모델 인스턴스를 찾이 못하는 경우 404 exception이 자동으로 발생합니다. 
+> **주의:** 만약 데이터베이스에서 일치하는 모델 인스턴스를 찾지 못하는 경우 404 exception이 자동으로 발생합니다. 
 
 If you wish to specify your own "not found" behavior, pass a Closure as the third argument to the `model` method:
 

@@ -158,7 +158,7 @@ To run our migrations, we will use the `migrate` Artisan command. If you are usi
 
 This command will create all of our database tables. If you inspect the database tables using the database client of your choice, you should see new `tasks` and `users` tables which contains the columns defined in our migration. Next, we're ready to define our Eloquent ORM models!
 
-이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인한면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블과 `users` 테이블을 확인할 수 있을 것입니다. 이제 Eloquent ORM 모델을 정의할 수 있습니다. 
+이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인하면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블과 `users` 테이블을 확인할 수 있을 것입니다. 이제 Eloquent ORM 모델을 정의할 수 있습니다. 
 
 <a name="eloquent-models"></a>
 ### Eloquent Models

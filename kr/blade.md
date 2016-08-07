@@ -260,7 +260,7 @@ Even though the included view will inherit all data available in the parent view
 
 You may combine loops and includes into one line with Blade's `@each` directive:
 
-블레이드의 `@each` 지시오을 사용하면 반복문을 하나의 줄로 구성할 수 있습니다: 
+블레이드의 `@each` 지시어를 사용하면 반복문을 하나의 줄로 구성할 수 있습니다: 
 
     @each('view.name', $jobs, 'job')
 

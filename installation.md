@@ -28,7 +28,7 @@ Once installed, the simple `laravel new` command will create a fresh Laravel ins
 
 You may also install Laravel by issuing the Composer `create-project` command in your terminal:
 
-	composer create-project laravel/laravel {directory} "~5.0.0" --prefer-dist
+	composer create-project laravel/laravel {directory} "5.0.*" --prefer-dist
 
 Once installed, you should upgrade to the latest packages. First, remove `{directory}/vendor/compiled.php` file then change your current directory to `{directory}` and issue `composer update` command.
 
@@ -43,7 +43,7 @@ Laravel ships with scaffolding for user registration and authentication. If you 
 
 The Laravel framework has a few system requirements:
 
-- PHP >= 5.4
+- PHP >= 5.4, PHP < 7
 - Mcrypt PHP Extension
 - OpenSSL PHP Extension
 - Mbstring PHP Extension

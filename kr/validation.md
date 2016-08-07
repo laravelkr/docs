@@ -114,7 +114,7 @@ Now we are ready to fill in our `store` method with the logic to validate the ne
 
 The `validate` method accepts an incoming HTTP request and a set of validation rules. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
-`validate` 메소드는 HTTP 요청의 유입과 유효성 검사 룰의 집합을 전달 받습니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAS 요청에는 JSON 응답이 보내질 것입니다.  
+`validate` 메소드는 HTTP 요청의 유입과 유효성 검사 룰의 집합을 전달 받습니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAX 요청에는 JSON 응답이 보내질 것입니다.  
 
 To get a better understanding of the `validate` method, let's jump back into the `store` method:
 
@@ -502,7 +502,7 @@ To retrieve an array of all messages for all fields, use the `all` method:
 
 If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
 
-필요하다면 기본적인 에얼 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다: 
+필요하다면 기본적인 에러 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다: 
 
     $messages = [
         'required' => 'The :attribute field is required.',

@@ -11,8 +11,9 @@
 - [보안 취약점](#security-vulnerabilities)
 - [Coding Style](#coding-style)
 - [코딩 스타일](#coding-style)
-    - [Code Style Fixer](#code-style-fixer)
-    - [코드 스타일 Fixer](#code-style-fixer)
+    - [PHPDoc](#phpdoc)
+    - [StyleCI](#styleci)
+
 
 <a name="bug-reports"></a>
 ## Bug Reports
@@ -57,17 +58,21 @@ The Laravel source code is managed on Github, and there are repositories for eac
 ## Core Development Discussion
 ## 코어 개발에 대한 논의
 
-Discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+You may propose new features or improvements of existing Laravel behavior in the Laravel Internals [issue board](https://github.com/laravel/internals/issues). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
-버그와 관련되거나, 새로운 기능 및 기존 기능의 구현에 대한 논의는 [LaraChat](http://larachat.com)의 `#internals` 채널에서 진행됩니다. 라라벨의 메인 관리자인 Taylor Otwell은 일반적으로 평일 오전 8시부터 5시까지 (America/Chicago 표준시 UTC-06:00 기준) 접속해 있고, 그 외에 다른 시간대에는 가끔 접속합니다.
+새로운 기능이나 기존의 라라벨의 동작에 대한 개선을 제안하고자 하는 경우는 라라벨 내부의 [issue 보드](https://github.com/laravel/internals/issues) 제안하십시오. 새로운 기능을 제안하는 경우 자발적으로 기능을 구동 시키는 데 필요한 코드를 최소한으로 구현하시기 바랍니다.
+
+Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+
+일상적으로, 버그와 관련 및 새로운 기능과 기존 기능의 구현에 대한 논의는 [LaraChat](http://larachat.com)의 `#internals` 채널에서 진행됩니다. 라라벨의 메인 관리자인 Taylor Otwell은 일반적으로 평일 오전 8시부터 5시까지 (America/Chicago 표준시 UTC-06:00 기준) 접속해 있고, 그 외에 다른 시간대에는 가끔 접속합니다.
 
 <a name="which-branch"></a>
 ## Which Branch?
 ## 브랜치 선택
 
-**All** bug fixes should be sent to the latest stable branch. Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release. 
+**All** bug fixes should be sent to the latest stable branch or to the current LTS branch (5.1). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**모든** 버그 수정은 최신 안정 브랜치에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
+**모든** 버그 수정은 최신 안정 브랜치나 현재의 LTS 브랜치(5.1)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
 **Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch. 
 
@@ -97,14 +102,17 @@ Laravel follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master
 
 라라벨은 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)와 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 코딩 표준을 따르고 있습니다.
 
-### DocBlocks
-### 문서 블럭 주석
+Please note that we do order our imports by length, rather than alphabetically.
 
-`@param` tags should **not be aligned** and arguments should be separated by **2 spaces**.
-`@param` 태그는 **정렬되어서는 안되고**, 인자는 **2개의 스페이스**로 구분되어 져야 합니다.
+import 에 대해서는 알파벳 순서 보다 길이순으로 진행하고 있음을 유의하시기 바랍니다.
 
-Here's an example block:
-다음은 문서 블럭의 예제입니다.
+<a name="phpdoc"></a>
+### PHPDoc
+### PHPDoc
+
+Below is an example of a valid Laravel documentation block. Note that the `@param` attribtue is followed by two spaces, the argument type, two more spaces, and finally the variable name:
+
+다음은 유효한 라라벨 문서 블록의 예시입니다. `@param` 속성은 2개의 스페이스가 뒤에 오고, 인수의 타입, 2개 이상의 스페이스로 구성되어, 마지막에 벼수의 이름이 위치하게 됩니다. 
 
     /**
      * Register a binding with the container.
@@ -119,18 +127,10 @@ Here's an example block:
         //
     }
 
-<a name="code-style-fixer"></a>
-### Code Style Fixer
-### 코드 스타일 Fixer
+<a name="styleci"></a>
+### StyleCI
+### StyleCI
 
-You may use the [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) to fix your code style before committing.
+If your code style isn't perfect, don't worry! [StyleCI](https://styleci.io/) will automatically merge any style fixes into the Laravel repository after any pull requests are merged. This allows us to focus on the content of the contribution and not the code style.
 
-커밋을 하기 전에 코드 스타일을 [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)를 사용하여 수정하십시오.
-
-To get started, [install the tool globally](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) and check the code style by issuing the following terminal command from your project's root directory:
-
-이 툴을 사용하기 위해서 [툴 글로벌 설치하기](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual)를 실행하고 프로젝트 루트 디렉토리에서 터미너를 통해서 코드 스타일을 체크하시기 바랍니다.
-
-```sh
-php-cs-fixer fix
-```
+코드의 스타일이 완벽하지 않더라도 걱정하지 마십시오. PR 이 Merge 될 때 [StyleCI](https://styleci.io/)가 자동으로 스타일을 수정하고 라라벨 저장소에 머지할 것입니다. 이렇게 하면 코드 스타일이 아니라 기여의 내용에 집중할 수 있습니다.

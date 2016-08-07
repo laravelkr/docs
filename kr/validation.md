@@ -801,7 +801,7 @@ The field under validation must be an IP address.
 <a name="rule-json"></a>
 #### json
 
-The field under validation must a valid JSON string.
+The field under validation must be a valid JSON string.
 
 필드의 값이 유효한 JSON 문자열이어야 합니다. 
 

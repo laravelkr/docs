@@ -492,6 +492,14 @@ Command  | Description
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기. 
 
+If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns and key type.
+
+제거할 인덱스들에 대한 컬럼들의 배열을 메소드의 인자로 전달하게 되면, 컨벤션에 따라 인덱스 이름은 테이블 이름, 컬럼 그리고 키 타입이 됩니다.
+
+    Schema::table('geo', function ($table) {
+        $table->dropIndex(['state']); // Drops index 'geo_state_index'
+    });
+
 <a name="foreign-key-constraints"></a>
 ### Foreign Key Constraints
 ### 외래키 제한
@@ -519,3 +527,10 @@ To drop a foreign key, you may use the `dropForeign` method. Foreign key constra
 외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제한은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제한(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다: 
 
     $table->dropForeign('posts_user_id_foreign');
+    
+Or you may pass an array value which will automatically use the conventional constraint name when dropping:
+
+또는 배열값을 전달하게 되면 자동으로 컨벤션에 따라 생성된 이름이 사용됩니다. 
+
+    $table->dropForeign(['user_id']);
+

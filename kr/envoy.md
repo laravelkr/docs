@@ -220,7 +220,7 @@ If you wish, you may also pass a custom message to send to the HipChat room. Any
 원하는 경우, HipChat 에 원하는 사용자 메세지를 전달할 수도 있습니다. 사용자 메세지를 구성하기 위해서 Envoy 작업의 어떤 변수라도 사용할 수 있습니다. 
 
     @after
-        @hipchat('token', 'room', 'Envoy', "{$task} ran in the {$env} environment.")
+        @hipchat('token', 'room', 'Envoy', "{{ $task }} ran in the {{ $env }} environment.")
     @endafter
 
 <a name="slack"></a>

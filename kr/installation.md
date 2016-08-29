@@ -26,13 +26,11 @@ However, if you are not using Homestead, you will need to make sure your server 
 
 하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다:
 
-<div class="content-list" markdown="1">
 - PHP >= 5.5.9
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
-</div>
 
 <a name="installing-laravel"></a>
 ### Installing Laravel

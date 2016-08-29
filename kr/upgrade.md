@@ -314,7 +314,6 @@ The following Laravel features have been deprecated and will be removed entirely
 
 다음의 기능들은 사용을 권장하지 않는 기능들이 되었으며, 2015년 12월에 릴리즈 되는 5.2 에서는 완전히 제거될것입니다. 
 
-<div class="content-list" markdown="1">
 - Route filters have been deprecated in preference of [middleware](/docs/{{version}}/middleware).
 - The `Illuminate\Contracts\Routing\Middleware` contract has been deprecated. No contract is required on your middleware. In addition, the `TerminableMiddleware` contract has also been deprecated. Instead of implementing the interface, simply define a `terminate` method on your middleware.
 - The `Illuminate\Contracts\Queue\ShouldBeQueued` contract has been deprecated in favor of `Illuminate\Contracts\Queue\ShouldQueue`.
@@ -325,9 +324,7 @@ The following Laravel features have been deprecated and will be removed entirely
 - The Eloquent and query builder `pluck` method has been deprecated and renamed to `value`.
 - The collection `fetch` method has been deprecated in favor of the `pluck` method.
 - The `array_fetch` helper has been deprecated in favor of the `array_pluck` method.
-</div>
 
-<div class="content-list" markdown="1">
 - 라우트 필터는 더이상 추천하지 않으며 [미들웨어](/docs/{{version}}/middleware)를 사용하십시오. 
 - `Illuminate\Contracts\Routing\Middleware` contract 는 더이상 사용하지 말기를 권장합니다. 미들웨어는 어떠한 필요사항도 존재하지 않습니다. 추가적으로 `TerminableMiddleware` contract 또한 권장하지 않습니다. 인터페이스를 구현하는 대신에, 미들웨어에 `terminate` 메소드를 정의하기만 하면 됩니다. 
 - The `Illuminate\Contracts\Queue\ShouldBeQueued` contract has been deprecated in favor of `Illuminate\Contracts\Queue\ShouldQueue`.
@@ -343,7 +340,6 @@ The following Laravel features have been deprecated and will be removed entirely
 - collection 의 `fetch` 메소드는 권장되지 않고, `pluck` 메소드를 사용하십시오. .
 - The `array_fetch` helper has been deprecated in favor of the `array_pluck` method.
 - `array_fetch` 헬퍼 메소드는 권장되지 않습니다. `array_pluck` 메소드를 사용하십시오. 
-</div>
 
 <a name="upgrade-5.0.16"></a>
 ## Upgrading To 5.0.16

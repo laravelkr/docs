@@ -16,15 +16,6 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 
 For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.
 
-<a name="laravel-5.3"></a>
-## Laravel 5.3
-
-Laravel 5.3 continues the improvements made in Laravel 5.2.
-
-### PHP 5.6.4+
-
-Since PHP 5.5 will enter "end of life" in June and will no longer receive security updates from the PHP development team, Laravel 5.3 requires PHP 5.6.4 or greater. If you require PHP 5.5 support, please see our 5.1 LTS series.
-
 <a name="laravel-5.2"></a>
 ## Laravel 5.2
 
@@ -91,6 +82,8 @@ Then, the `web` group may be assigned to routes like so:
         //
     });
 
+However, keep in mind the `web` middleware group is *already* applied to your routes by default since the `RouteServiceProvider` includes it in the default middleware group.
+
 ### Rate Limiting
 
 A new rate limiter middleware is now included with the framework, allowing you to easily limit the number of requests that a given IP address can make to a route over a specified number of minutes. For example, to limit a route to 60 requests every minute from a single IP address, you may do the following:
@@ -114,6 +107,14 @@ Likewise, you may use the `*` character when specifying your validation messages
             'unique' => 'Each person must have a unique e-mail address',
         ]
     ],
+
+### Bail Validation Rule
+
+A new `bail` validation rule has been added, which instructs the validator to stop validating after the first validation failure for a given rule. For example, you may now prevent the validator from running a `unique` check if an attribute fails an `integer` check:
+
+    $this->validate($request, [
+        'user_id' => 'bail|integer|unique:users'
+    ]);
 
 ### Eloquent Global Scope Improvements
 

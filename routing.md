@@ -4,6 +4,7 @@
 - [Route Parameters](#route-parameters)
     - [Required Parameters](#required-parameters)
     - [Optional Parameters](#parameters-optional-parameters)
+    - [Regular Expression Constraints](#parameters-regular-expression-constraints)
 - [Named Routes](#named-routes)
 - [Route Groups](#route-groups)
     - [Middleware](#route-group-middleware)
@@ -17,6 +18,7 @@
     - [X-XSRF-Token](#csrf-x-xsrf-token)
 - [Route Model Binding](#route-model-binding)
 - [Form Method Spoofing](#form-method-spoofing)
+- [Accessing The Current Route](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
 ## Basic Routing
@@ -29,13 +31,7 @@ All Laravel routes are defined in the `app/Http/routes.php` file, which is autom
 
 #### The Default Routes File
 
-By default, the `routes.php` file contains a single route as well as a [route group](#route-groups) that applies the `web` middleware group to all routes it contains. This middleware group provides session state and CSRF protection to routes.
-
-Any routes not placed within the `web` middleware group will not have access to sessions and CSRF protection, so make sure any routes that need these features are placed within the group. Typically, you will place most of your routes within this group:
-
-    Route::group(['middleware' => ['web']], function () {
-        //
-    });
+The default `routes.php` file is loaded by the `RouteServiceProvider` and is automatically included in the `web` middleware group, which provides access to session state and CSRF protection. Most of the routes for your application will be defined within this file.
 
 #### Available Router Methods
 
@@ -93,18 +89,62 @@ Occasionally you may need to specify a route parameter, but make the presence of
         return $name;
     });
 
+<a name="parameters-regular-expression-constraints"></a>
+### Regular Expression Constraints
+
+You may constrain the format of your route parameters using the `where` method on a route instance. The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+
+    Route::get('user/{name}', function ($name) {
+        //
+    })
+    ->where('name', '[A-Za-z]+');
+
+    Route::get('user/{id}', function ($id) {
+        //
+    })
+    ->where('id', '[0-9]+');
+
+    Route::get('user/{id}/{name}', function ($id, $name) {
+        //
+    })
+    ->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+<a name="parameters-global-constraints"></a>
+#### Global Constraints
+
+If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
+
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    public function boot(Router $router)
+    {
+        $router->pattern('id', '[0-9]+');
+
+        parent::boot($router);
+    }
+
+Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+
+    Route::get('user/{id}', function ($id) {
+        // Only called if {id} is numeric.
+    });
+
 <a name="named-routes"></a>
 ## Named Routes
 
 Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route using the `as` array key when defining the route:
 
-    Route::get('profile', ['as' => 'profile', function () {
+    Route::get('user/profile', ['as' => 'profile', function () {
         //
     }]);
 
 You may also specify route names for controller actions:
 
-    Route::get('profile', [
+    Route::get('user/profile', [
         'as' => 'profile', 'uses' => 'UserController@showProfile'
     ]);
 
@@ -284,7 +324,7 @@ Laravel route model binding provides a convenient way to inject model instances 
 
 ### Implicit Binding
 
-Laravel will automatically resolve type-hinted Eloquent model's defined in routes or controller actions whose variable names match a route segment name. For example:
+Laravel will automatically resolve type-hinted Eloquent models defined in routes or controller actions whose variable names match a route segment name. For example:
 
     Route::get('api/users/{user}', function (App\User $user) {
         return $user->email;
@@ -333,17 +373,17 @@ If a matching model instance is not found in the database, a 404 HTTP response w
 
 #### Customizing The Resolution Logic
 
-If you wish to use your own resolution logic, you should use the `Route::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
+If you wish to use your own resolution logic, you should use the `Route::bind` method. The `Closure` you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
 
-    $router->bind('user', function($value) {
+    $router->bind('user', function ($value) {
         return App\User::where('name', $value)->first();
     });
 
 #### Customizing The "Not Found" Behavior
 
-If you wish to specify your own "not found" behavior, pass a Closure as the third argument to the `model` method:
+If you wish to specify your own "not found" behavior, pass a `Closure` as the third argument to the `model` method:
 
-    $router->model('user', 'App\User', function() {
+    $router->model('user', 'App\User', function () {
         throw new NotFoundHttpException;
     });
 
@@ -364,3 +404,22 @@ To generate the hidden input field `_method`, you may also use the `method_field
 Of course, using the Blade [templating engine](/docs/{{version}}/blade):
 
     {{ method_field('PUT') }}
+
+<a name="accessing-the-current-route"></a>
+## Accessing The Current Route
+
+The `Route::current()` method will return the route handling the current HTTP request, allowing you to inspect the full `Illuminate\Routing\Route` instance:
+
+    $route = Route::current();
+
+    $name = $route->getName();
+
+    $actionName = $route->getActionName();
+
+You may also use the `currentRouteName` and `currentRouteAction` helper methods on the `Route` facade to access the current route's name or action:
+
+    $name = Route::currentRouteName();
+
+    $action = Route::currentRouteAction();
+
+Please refer to the API documentation for both the [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.

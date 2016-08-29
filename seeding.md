@@ -75,13 +75,9 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
      */
     public function run()
     {
-        Model::unguard();
-
         $this->call(UsersTableSeeder::class);
         $this->call(PostsTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
-        
-        Model::reguard();
     }
 
 <a name="running-seeders"></a>
@@ -91,7 +87,7 @@ Once you have written your seeder classes, you may use the `db:seed` Artisan com
 
     php artisan db:seed
 
-    php artisan db:seed --class=UserTableSeeder
+    php artisan db:seed --class=UsersTableSeeder
 
 You may also seed your database using the `migrate:refresh` command, which will also rollback and re-run all of your migrations. This command is useful for completely re-building your database:
 

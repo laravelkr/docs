@@ -6,6 +6,7 @@
     - [Obtaining Disk Instances](#obtaining-disk-instances)
     - [Retrieving Files](#retrieving-files)
     - [Storing Files](#storing-files)
+    - [File Visibility](#file-visibility)
     - [Deleting Files](#deleting-files)
     - [Directories](#directories)
 - [Custom Filesystems](#custom-filesystems)
@@ -22,6 +23,15 @@ The filesystem configuration file is located at `config/filesystems.php`. Within
 
 Of course, you may configure as many disks as you like, and may even have multiple disks that use the same driver.
 
+<a name="the-public-disk"></a>
+#### The Public Disk
+
+The `public` disk is meant for files that are going to be publicly accessible. By default, the `public` disk uses the `local` driver and stores these files in `storage/app/public`. To make them accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. This convention will keep your publicly accessible files in one directory that can be easily shared across deployments when using zero down-time deployment systems like [Envoyer](https://envoyer.io).
+
+Of course, once a file has been stored and the symbolic link has been created, you can create an URL to the files using the `asset` helper:
+
+    echo asset('storage/file.txt');
+
 #### The Local Driver
 
 When using the `local` driver, note that all file operations are relative to the `root` directory defined in your configuration file. By default, this value is set to the `storage/app` directory. Therefore, the following method would store a file in `storage/app/file.txt`:
@@ -34,6 +44,38 @@ Before using the S3 or Rackspace drivers, you will need to install the appropria
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
+
+#### FTP Driver Configuration
+
+Laravel's Flysystem integrations works great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a FTP filesystem, you may use the example configuration below:
+
+    'ftp' => [
+        'driver'   => 'ftp',
+        'host'     => 'ftp.example.com',
+        'username' => 'your-username',
+        'password' => 'your-password',
+
+        // Optional FTP Settings...
+        // 'port'     => 21,
+        // 'root'     => '',
+        // 'passive'  => true,
+        // 'ssl'      => true,
+        // 'timeout'  => 30,
+    ],
+
+#### Rackspace Driver Configuration
+
+Laravel's Flysystem integrations works great with Rackspace; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a Rackspace filesystem, you may use the example configuration below:
+
+    'rackspace' => [
+        'driver'    => 'rackspace',
+        'username'  => 'your-username',
+        'key'       => 'your-key',
+        'container' => 'your-container',
+        'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
+        'region'    => 'IAD',
+        'url_type'  => 'publicURL',
+    ],
 
 <a name="basic-usage"></a>
 ## Basic Usage
@@ -75,7 +117,7 @@ When using multiple disks, you may access a particular disk using the `disk` met
 
     $disk = Storage::disk('s3');
 
-    $contents = Storage::disk('local')->get('file.jpg')
+    $contents = Storage::disk('local')->get('file.jpg');
 
 <a name="retrieving-files"></a>
 ### Retrieving Files
@@ -87,6 +129,14 @@ The `get` method may be used to retrieve the contents of a given file. The raw s
 The `exists` method may be used to determine if a given file exists on the disk:
 
     $exists = Storage::disk('s3')->exists('file.jpg');
+
+### File URLs
+
+When using the `local` or `s3` drivers, you may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` driver, the fully qualified remote URL will be returned.
+
+    $url = Storage::url('file1.jpg');
+
+> **Note:** When using the `local` driver, be sure to [create a symbolic link at `public/storage`](#the-public-disk) which points to the `storage/app/public` directory.
 
 #### File Meta Information
 
@@ -122,6 +172,19 @@ The `prepend` and `append` methods allow you to easily insert content at the beg
     Storage::prepend('file.log', 'Prepended Text');
 
     Storage::append('file.log', 'Appended Text');
+
+<a name="file-visibility"></a>
+### File Visibility
+
+File visibility can be retrieved and set via the `getVisibility` and `setVisibility` methods. Visibility is the abstraction of file permissions across multiple platforms:
+
+    Storage::getVisibility('file.jpg');
+
+    Storage::setVisibility('file.jpg', 'public');
+
+Additionally, you can set the visibility when setting the file via the `put` method. The valid visibility values are `public` and `private`:
+
+    Storage::put('file.jpg', $contents, 'public');
 
 <a name="deleting-files"></a>
 ### Deleting Files

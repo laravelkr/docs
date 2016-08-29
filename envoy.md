@@ -43,6 +43,12 @@ All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the ro
 
 As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. Within your `@task` declarations, you should place the Bash code that will be run on your server when the task is executed.
 
+#### Local Tasks
+
+You can define a script to run locally by defining a server reference to the local host:
+
+    @servers(['localhost' => '127.0.0.1'])
+
 #### Bootstrapping
 
 Sometimes, you may need to execute some PHP code before evaluating your Envoy tasks. You may use the ```@setup``` directive to declare variables and do general PHP work inside the Envoy file:
@@ -164,7 +170,7 @@ After running a task, you may send a notification to your team's HipChat room us
 If you wish, you may also pass a custom message to send to the HipChat room. Any variables available to your Envoy tasks will also be available when constructing the message:
 
     @after
-        @hipchat('token', 'room', 'Envoy', "{$task} ran in the {$env} environment.")
+        @hipchat('token', 'room', 'Envoy', "$task ran in the $env environment.")
     @endafter
 
 <a name="slack"></a>

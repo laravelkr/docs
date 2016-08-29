@@ -6,7 +6,6 @@
     - [Job Class Structure](#job-class-structure)
 - [Pushing Jobs Onto The Queue](#pushing-jobs-onto-the-queue)
     - [Delayed Jobs](#delayed-jobs)
-    - [Dispatching Jobs From Requests](#dispatching-jobs-from-requests)
     - [Job Events](#job-events)
 - [Running The Queue Listener](#running-the-queue-listener)
     - [Supervisor Configuration](#supervisor-configuration)
@@ -227,6 +226,54 @@ By pushing jobs to different queues, you may "categorize" your queued jobs, and 
         }
     }
 
+> **Note:** The `DispatchesJobs` trait pushes jobs to queues within the default queue connection.
+
+#### Specifying The Queue Connection For A Job
+
+If you are working with multiple queue connections, you may specify which connection to push a job to. To specify the connection, use the `onConnection` method on the job instance. The `onConnection` method is provided by the `Illuminate\Bus\Queueable` trait, which is already included on the `App\Jobs\Job` base class:
+
+    <?php
+
+    namespace App\Http\Controllers;
+
+    use App\User;
+    use Illuminate\Http\Request;
+    use App\Jobs\SendReminderEmail;
+    use App\Http\Controllers\Controller;
+
+    class UserController extends Controller
+    {
+        /**
+         * Send a reminder e-mail to a given user.
+         *
+         * @param  Request  $request
+         * @param  int  $id
+         * @return Response
+         */
+        public function sendReminderEmail(Request $request, $id)
+        {
+            $user = User::findOrFail($id);
+
+            $job = (new SendReminderEmail($user))->onConnection('alternate');
+
+            $this->dispatch($job);
+        }
+    }
+
+Of course, you can also chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
+
+    public function sendReminderEmail(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $job = (new SendReminderEmail($user))
+                        ->onConnection('alternate')
+                        ->onQueue('emails');
+
+        $this->dispatch($job);
+
+    }
+
 <a name="delayed-jobs"></a>
 ### Delayed Jobs
 
@@ -267,9 +314,9 @@ In this example, we're specifying that the job should be delayed in the queue fo
 <a name="job-events"></a>
 ### Job Events
 
-#### Job Completion Event
+#### Job Lifecycle Events
 
-The `Queue::after` method allows you to register a callback to be executed when a queued job executes successfully. This callback is a great opportunity to perform additional logging, queue a subsequent job, or increment statistics for a dashboard. For example, we may attach a callback to this event from the `AppServiceProvider` that is included with Laravel:
+The `Queue::before` and `Queue::after` methods allow you to register a callback to be executed before a queued job is started or when it executes successfully. The callbacks are great opportunity to perform additional logging, queue a subsequent job, or increment statistics for a dashboard. For example, we may attach a callback to this event from the `AppServiceProvider` that is included with Laravel:
 
     <?php
 
@@ -289,9 +336,9 @@ The `Queue::after` method allows you to register a callback to be executed when 
         public function boot()
         {
             Queue::after(function (JobProcessed $event) {
-                // $event->connection
-                // $event->$job
-                // $event->$data
+                // $event->connectionName
+                // $event->job
+                // $event->data
             });
         }
 
@@ -317,7 +364,7 @@ Laravel includes an Artisan command that will run new jobs as they are pushed on
 
 You may also specify which queue connection the listener should utilize:
 
-    php artisan queue:listen connection
+    php artisan queue:listen connection-name
 
 Note that once this task has started, it will continue to run until it is manually stopped. You may use a process monitor such as [Supervisor](http://supervisord.org/) to ensure that the queue listener does not stop running.
 
@@ -342,6 +389,12 @@ In addition, you may specify the number of seconds to wait before polling for ne
     php artisan queue:listen --sleep=5
 
 Note that the queue only "sleeps" if no jobs are on the queue. If more jobs are available, the queue will continue to work them without sleeping.
+
+#### Processing The First Job On The Queue
+
+To process only the first job on the queue, you may use the `queue:work` command:
+
+	php artisan queue:work
 
 <a name="supervisor-configuration"></a>
 ### Supervisor Configuration
@@ -381,19 +434,17 @@ The `queue:work` Artisan command includes a `--daemon` option for forcing the qu
 
 To start a queue worker in daemon mode, use the `--daemon` flag:
 
-    php artisan queue:work connection --daemon
+    php artisan queue:work connection-name --daemon
 
-    php artisan queue:work connection --daemon --sleep=3
+    php artisan queue:work connection-name --daemon --sleep=3
 
-    php artisan queue:work connection --daemon --sleep=3 --tries=3
+    php artisan queue:work connection-name --daemon --sleep=3 --tries=3
 
 As you can see, the `queue:work` job supports most of the same options available to `queue:listen`. You may use the `php artisan help queue:work` job to view all of the available options.
 
 #### Coding Considerations For Daemon Queue Listeners
 
 Daemon queue workers do not restart the framework before processing each job. Therefore, you should be careful to free any heavy resources before your job finishes. For example, if you are doing image manipulation with the GD library, you should free the memory with `imagedestroy` when you are done.
-
-Similarly, your database connection may disconnect when being used by a long-running daemon. You may use the `DB::reconnect` method to ensure you have a fresh connection.
 
 <a name="deploying-with-daemon-queue-listeners"></a>
 ### Deploying With Daemon Queue Listeners
@@ -402,7 +453,7 @@ Since daemon queue workers are long-lived processes, they will not pick up chang
 
     php artisan queue:restart
 
-This command will gracefully instruct all queue workers to restart after they finish processing their current job so that no existing jobs are lost.
+This command will gracefully instruct all queue workers to "die" after they finish processing their current job so that no existing jobs are lost. Remember, the queue workers will die when the `queue:restart` command is executed, so you should be running a process manager such as Supervisor which automatically restarts the queue workers.
 
 > **Note:** This command relies on the cache system to schedule the restart. By default, APCu does not work for CLI jobs. If you are using APCu, add `apc.enable_cli=1` to your APCu configuration.
 
@@ -442,9 +493,9 @@ If you would like to register an event that will be called when a queued job fai
         public function boot()
         {
             Queue::failing(function (JobFailed $event) {
-                // $event->connection
-                // $event->$job
-                // $event->$data
+                // $event->connectionName
+                // $event->job
+                // $event->data
             });
         }
 

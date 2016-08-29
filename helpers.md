@@ -25,6 +25,7 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 ### Arrays
 
 <div class="collection-method-list" markdown="1">
+
 [array_add](#method-array-add)
 [array_collapse](#method-array-collapse)
 [array_divide](#method-array-divide)
@@ -49,18 +50,22 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 ### Paths
 
 <div class="collection-method-list" markdown="1">
+
 [app_path](#method-app-path)
 [base_path](#method-base-path)
 [config_path](#method-config-path)
 [database_path](#method-database-path)
 [elixir](#method-elixir)
 [public_path](#method-public-path)
+[resource_path](#method-resource-path)
 [storage_path](#method-storage-path)
+
 </div>
 
 ### Strings
 
 <div class="collection-method-list" markdown="1">
+
 [camel_case](#method-camel-case)
 [class_basename](#method-class-basename)
 [e](#method-e)
@@ -78,21 +83,25 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 [studly_case](#method-studly-case)
 [trans](#method-trans)
 [trans_choice](#method-trans-choice)
+
 </div>
 
 ### URLs
 
 <div class="collection-method-list" markdown="1">
+
 [action](#method-action)
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
 [url](#method-url)
+
 </div>
 
 ### Miscellaneous
 
 <div class="collection-method-list" markdown="1">
+
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
@@ -114,6 +123,7 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 [value](#method-value)
 [view](#method-view)
 [with](#method-with)
+
 </div>
 
 <a name="method-listing"></a>
@@ -144,7 +154,7 @@ The `array_add` function adds a given key / value pair to the array if the given
 <a name="method-array-collapse"></a>
 #### `array_collapse()` {#collection-method}
 
-The `array_collapse` function collapse an array of arrays into a single array:
+The `array_collapse` function collapses an array of arrays into a single array:
 
     $array = array_collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -242,7 +252,7 @@ The `array_has` function checks that a given item exists in an array using "dot"
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    $hasDesk = array_has($array, ['products.desk']);
+    $hasDesk = array_has($array, 'products.desk');
 
     // true
 
@@ -456,6 +466,17 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
     $path = public_path();
 
+<a name="method-resource-path"></a>
+#### `resource_path()` {#collection-method}
+
+The `resource_path` function returns the fully qualified path to the `resources` directory:
+
+    $path = resource_path();
+
+You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the storage directory:
+
+    $path = resource_path('assets/sass/app.scss');
+    
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
@@ -466,7 +487,7 @@ The `storage_path` function returns the fully qualified path to the `storage` di
 You may also use the `storage_path` function to generate a fully qualified path to a given file relative to the storage directory:
 
     $path = storage_path('app/file.txt');
-
+    
 <a name="strings"></a>
 ## Strings
 
@@ -608,7 +629,7 @@ The `str_singular` function converts a string to its singular form. This functio
 
 The `str_slug` function generates a URL friendly "slug" from the given string:
 
-    $title = str_slug("Laravel 5 Framework", "-");
+    $title = str_slug('Laravel 5 Framework', '-');
 
     // laravel-5-framework
 
@@ -738,7 +759,7 @@ The `config` helper may also be used to set configuration variables at runtime b
 
 The `csrf_field` function generates an HTML `hidden` input field containing the value of the CSRF token. For example, using [Blade syntax](/docs/{{version}}/blade):
 
-    {!! csrf_field() !!}
+    {{ csrf_field() }}
 
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
@@ -753,6 +774,10 @@ The `csrf_token` function retrieves the value of the current CSRF token:
 The `dd` function dumps the given variable and ends execution of the script:
 
     dd($value);
+
+If you do not want to halt the execution of your script, use the `dump` function instead:
+
+    dump($value);
 
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
@@ -791,7 +816,7 @@ The `factory` function creates a model factory builder for a given class, name, 
 The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
 
     <form method="POST">
-        {!! method_field('delete') !!}
+        {{ method_field('DELETE') }}
     </form>
 
 <a name="method-old"></a>

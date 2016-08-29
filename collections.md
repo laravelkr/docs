@@ -47,18 +47,22 @@ You may select any method from this table to see an example of its usage:
 </style>
 
 <div id="collection-method-list" markdown="1">
+
 [all](#method-all)
 [avg](#method-avg)
 [chunk](#method-chunk)
 [collapse](#method-collapse)
+[combine](#method-combine)
 [contains](#method-contains)
 [count](#method-count)
 [diff](#method-diff)
+[diffKeys](#method-diffkeys)
 [each](#method-each)
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
 [first](#method-first)
+[flatMap](#method-flatmap)
 [flatten](#method-flatten)
 [flip](#method-flip)
 [forget](#method-forget)
@@ -100,11 +104,15 @@ You may select any method from this table to see an example of its usage:
 [toArray](#method-toarray)
 [toJson](#method-tojson)
 [transform](#method-transform)
+[union](#method-union)
 [unique](#method-unique)
 [values](#method-values)
 [where](#method-where)
 [whereLoose](#method-whereloose)
+[whereIn](#method-wherein)
+[whereInLoose](#method-whereinloose)
 [zip](#method-zip)
+
 </div>
 
 <a name="method-listing"></a>
@@ -185,6 +193,19 @@ The `collapse` method collapses a collection of arrays into a flat collection:
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+<a name="method-combine"></a>
+#### `combine()` {#collection-method}
+
+The `combine` method combines the keys of the collection with the values of another array or collection:
+
+    $collection = collect(['name', 'age']);
+
+    $combined = $collection->combine(['George', 29]);
+
+    $combined->all();
+
+    // ['name' => 'George', 'age' => 29]
+
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}
 
@@ -235,7 +256,7 @@ The `count` method returns the total number of items in the collection:
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-The `diff` method compares the collection against another collection or a plain PHP `array`:
+The `diff` method compares the collection against another collection or a plain PHP `array` based on its values:
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -244,6 +265,30 @@ The `diff` method compares the collection against another collection or a plain 
     $diff->all();
 
     // [1, 3, 5]
+
+<a name="method-diffkeys"></a>
+#### `diffKeys()` {#collection-method}
+
+The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys:
+
+    $collection = collect([
+        'one' => 10,
+        'two' => 20,
+        'three' => 30,
+        'four' => 40,
+        'five' => 50,
+    ]);
+
+    $diff = $collection->diffKeys([
+        'two' => 2,
+        'four' => 4,
+        'six' => 6,
+        'eight' => 8,
+    ]);
+
+    $diff->all();
+
+    // ['one' => 10, 'three' => 30, 'five' => 50]
 
 <a name="method-each"></a>
 #### `each()` {#collection-method}
@@ -328,6 +373,25 @@ You may also call the `first` method with no arguments to get the first element 
 
     // 1
 
+<a name="method-flatmap"></a>
+#### `flatMap()` {#collection-method}
+
+The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
+
+    $collection = collect([
+        ['name' => 'Sally'],
+        ['school' => 'Arkansas'],
+        ['age' => 28]
+    ]);
+
+    $flattened = $collection->flatMap(function ($values) {
+        return array_map('strtoupper', $values);
+    });
+
+    $flattened->all();
+
+    // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
+
 <a name="method-flatten"></a>
 #### `flatten()` {#collection-method}
 
@@ -340,6 +404,30 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
     $flattened->all();
 
     // ['taylor', 'php', 'javascript'];
+
+You may optionally pass the function a "depth" argument:
+
+    $collection = collect([
+        'Apple' => [
+            ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+        ],
+        'Samsung' => [
+            ['name' => 'Galaxy S7', 'brand' => 'Samsung']
+        ],
+    ]);
+
+    $products = $collection->flatten(1);
+
+    $products->values()->all();
+
+    /*
+        [
+            ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+            ['name' => 'Galaxy S7', 'brand' => 'Samsung'],
+        ]
+    */
+
+Here, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to restrict the levels of nested arrays that will be flattened.
 
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
@@ -365,7 +453,7 @@ The `forget` method removes an item from the collection by its key:
 
     $collection->all();
 
-    // [framework' => 'laravel']
+    // ['framework' => 'laravel']
 
 > **Note:** Unlike most other collection methods, `forget` does not return a new modified collection; it modifies the collection it is called on.
 
@@ -915,7 +1003,7 @@ If you would like to limit the size of the returned slice, pass the desired size
 
     // [5, 6]
 
-The returned slice will have new, numerically indexed keys. If you wish to preserve the original keys, pass `true` as the third argument to the method.
+The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the `values` method to reindex them.
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
@@ -1135,6 +1223,19 @@ The `transform` method iterates over the collection and calls the given callback
 
 > **Note:** Unlike most other collection methods, `transform` modifies the collection itself. If you wish to create a new collection instead, use the [`map`](#method-map) method.
 
+<a name="method-union"></a>
+#### `union()` {#collection-method}
+
+The `union` method adds the given array to the collection. If the given array contains keys that are already in the collection, the collection's values will be preferred:
+
+    $collection = collect([1 => ['a'], 2 => ['b']]);
+
+    $union = $collection->union([3 => ['c'], 1 => ['b']]);
+
+    $union->all();
+
+    // [1 => ['a'], 2 => ['b'], [3 => ['c']]
+
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}
 
@@ -1231,12 +1332,42 @@ The `where` method filters the collection by a given key / value pair:
     ]
     */
 
-The `where` method uses strict comparisons when checking item values. Use the [`whereLoose`](#where-loose) method to filter using "loose" comparisons.
+The `where` method uses strict comparisons when checking item values. Use the [`whereLoose`](#method-whereloose) method to filter using "loose" comparisons.
 
 <a name="method-whereloose"></a>
 #### `whereLoose()` {#collection-method}
 
 This method has the same signature as the [`where`](#method-where) method; however, all values are compared using "loose" comparisons.
+
+<a name="method-wherein"></a>
+#### `whereIn()` {#collection-method}
+
+The `whereIn` method filters the collection by a given key / value contained within the given array.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereIn('price', [150, 200]);
+
+    $filtered->all();
+
+    /*
+    [
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Desk', 'price' => 200],
+    ]
+    */
+
+The `whereIn` method uses strict comparisons when checking item values. Use the [`whereInLoose`](#method-whereinloose) method to filter using "loose" comparisons.
+
+<a name="method-whereinloose"></a>
+#### `whereInLoose()` {#collection-method}
+
+This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "loose" comparisons.
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

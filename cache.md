@@ -10,7 +10,7 @@
     - [Storing Tagged Cache Items](#storing-tagged-cache-items)
     - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
-- [Events](#cache-events)
+- [Events](#events)
 
 <a name="configuration"></a>
 ## Configuration
@@ -30,6 +30,8 @@ When using the `database` cache driver, you will need to setup a table to contai
         $table->text('value');
         $table->integer('expiration');
     });
+
+You may also use the `php artisan cache:table` Artisan command to generate a migration with the proper schema.
 
 #### Memcached
 
@@ -202,7 +204,7 @@ Flushing the cache **does not** respect the cache prefix and will remove all ent
 <a name="storing-tagged-cache-items"></a>
 ### Storing Tagged Cache Items
 
-Cache tags allow you to tag related items in the cache and then flush all cached values that assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
 
 	Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
 

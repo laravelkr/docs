@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel provides a clean, simple API over the popular [SwiftMailer](http://swiftmailer.org) library. Laravel provides drivers for SMTP, Mailgun, Mandrill, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Laravel provides a clean, simple API over the popular [SwiftMailer](http://swiftmailer.org) library. Laravel provides drivers for SMTP, Mailgun, Mandrill, SparkPost, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
 ### Driver Prerequisites
 
@@ -34,6 +34,14 @@ To use the Mandrill driver, first install Guzzle, then set the `driver` option i
 
     'mandrill' => [
         'secret' => 'your-mandrill-key',
+    ],
+
+#### SparkPost Driver
+
+To use the SparkPost driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `sparkpost`. Next, verify that your `config/services.php` configuration file contains the following options:
+
+    'sparkpost' => [
+        'secret' => 'your-sparkpost-key',
     ],
 
 #### SES Driver
@@ -155,6 +163,12 @@ To add attachments to an e-mail, use the `attach` method on the `$message` objec
 When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
 
     $message->attach($pathToFile, ['as' => $display, 'mime' => $mime]);
+
+The `attachData` method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the e-mail without writing it to disk:
+
+    $message->attachData($pdf, 'invoice.pdf');
+
+    $message->attachData($pdf, 'invoice.pdf', ['mime' => $mime]);
 
 <a name="inline-attachments"></a>
 ### Inline Attachments

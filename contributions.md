@@ -5,7 +5,8 @@
 - [Which Branch?](#which-branch)
 - [Security Vulnerabilities](#security-vulnerabilities)
 - [Coding Style](#coding-style)
-    - [Code Style Fixer](#code-style-fixer)
+    - [PHPDoc](#phpdoc)
+    - [StyleCI](#styleci)
 
 <a name="bug-reports"></a>
 ## Bug Reports
@@ -22,6 +23,7 @@ The Laravel source code is managed on Github, and there are repositories for eac
 - [Laravel Application](https://github.com/laravel/laravel)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)
+- [Laravel Cashier for Braintree](https://github.com/laravel/cashier-braintree)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [Laravel Homestead](https://github.com/laravel/homestead)
 - [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
@@ -31,12 +33,14 @@ The Laravel source code is managed on Github, and there are repositories for eac
 <a name="core-development-discussion"></a>
 ## Core Development Discussion
 
-Discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+You may propose new features or improvements of existing Laravel behavior in the Laravel Internals [issue board](https://github.com/laravel/internals/issues). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
+
+Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
 <a name="which-branch"></a>
 ## Which Branch?
 
-**All** bug fixes should be sent to the latest stable branch. Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**All** bug fixes should be sent to the latest stable branch or to the current LTS branch (5.1). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
 **Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch.
 
@@ -54,11 +58,10 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 Laravel follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standard and the [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) autoloading standard.
 
-### DocBlocks
+<a name="phpdoc"></a>
+### PHPDoc
 
-`@param` tags should **not be aligned** and arguments should be separated by **2 spaces**.
-
-Here's an example block:
+Below is an example of a valid Laravel documentation block. Note that the `@param` attribute is followed by two spaces, the argument type, two more spaces, and finally the variable name:
 
     /**
      * Register a binding with the container.
@@ -73,13 +76,7 @@ Here's an example block:
         //
     }
 
-<a name="code-style-fixer"></a>
-### Code Style Fixer
+<a name="styleci"></a>
+### StyleCI
 
-You may use the [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) to fix your code style before committing.
-
-To get started, [install the tool globally](https://github.com/FriendsOfPHP/PHP-CS-Fixer#globally-manual) and check the code style by issuing the following terminal command from your project's root directory:
-
-```sh
-php-cs-fixer fix
-```
+If your code style isn't perfect, don't worry! [StyleCI](https://styleci.io/) will automatically merge any style fixes into the Laravel repository after any pull requests are merged. This allows us to focus on the content of the contribution and not the code style.

@@ -81,7 +81,7 @@ Note that we did not tell Eloquent which table to use for our `Flight` model. Th
 
 Eloquent will also assume that each table has a primary key column named `id`. You may define a `$primaryKey` property to override this convention.
 
-In addition, Eloquent assumes that the primary key is an incrementing integer value. If you wish to use a non-incrementing primary key, you must set the `$incrementing` property on your model to `false`.
+In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`.
 
 #### Timestamps
 
@@ -207,6 +207,16 @@ If you need to process thousands of Eloquent records, use the `chunk` command. T
 
 The first argument passed to the method is the number of records you wish to receive per "chunk". The Closure passed as the second argument will be called for each chunk that is retrieved from the database.
 
+> **Note:** The database query is re-executed for each chunk.
+
+#### Using Cursors
+
+The `cursor` method allows you to iterate through your database records using a cursor. When processing large amounts of data, the `cursor` method may be used to greatly reduce your memory usage:
+
+    foreach (Flight::where('foo', 'bar')->cursor() as $flight) {
+        //
+    }
+
 <a name="retrieving-single-models"></a>
 ## Retrieving Single Models / Aggregates
 
@@ -217,6 +227,10 @@ Of course, in addition to retrieving all of the records for a given table, you m
 
     // Retrieve the first model matching the query constraints...
     $flight = App\Flight::where('active', 1)->first();
+
+You may also call the `find` method with an array of primary keys, which will return a collection of the matching records:
+
+    $flights = App\Flight::find([1, 2, 3]);
 
 #### Not Found Exceptions
 

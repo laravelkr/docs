@@ -24,7 +24,7 @@
 
 This quickstart guide provides a basic introduction to the Laravel framework and includes content on database migrations, the Eloquent ORM, routing, validation, views, and Blade templates. This is a great starting point if you are brand new to the Laravel framework or PHP frameworks in general. If you have already used Laravel or other PHP frameworks, you may wish to consult one of our more advanced quickstarts.
 
-To sample a basic selection of Laravel features, we will build a simple task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. The complete, finished source code for this project is [available on GitHub](http://github.com/laravel/quickstart-basic).
+To sample a basic selection of Laravel features, we will build a simple task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. The complete, finished source code for this project is [available on GitHub](https://github.com/laravel/quickstart-basic).
 
 <a name="installation"></a>
 ## Installation
@@ -130,37 +130,35 @@ We'll learn more about how to use Eloquent models as we add routes to our applic
 
 Next, we're ready to add a few routes to our application. Routes are used to point URLs to controllers or anonymous functions that should be executed when a user accesses a given page. By default, all Laravel routes are defined in the `app/Http/routes.php` file that is included in every new project.
 
-For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. We'll wrap all of these routes in the `web` middleware so they have session state and CSRF protection. So, let's stub all of these routes in the `app/Http/routes.php` file:
+For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. So, let's stub all of these routes in the `app/Http/routes.php` file:
 
 	<?php
 
 	use App\Task;
 	use Illuminate\Http\Request;
 
-	Route::group(['middleware' => 'web'], function () {
-
-		/**
-		 * Show Task Dashboard
-		 */
-		Route::get('/', function () {
-			//
-		});
-
-		/**
-		 * Add New Task
-		 */
-		Route::post('/task', function (Request $request) {
-			//
-		});
-
-		/**
-		 * Delete Task
-		 */
-		Route::delete('/task/{task}', function (Task $task) {
-			//
-		});
+	/**
+	 * Show Task Dashboard
+	 */
+	Route::get('/', function () {
+		//
 	});
 
+	/**
+	 * Add New Task
+	 */
+	Route::post('/task', function (Request $request) {
+		//
+	});
+
+	/**
+	 * Delete Task
+	 */
+	Route::delete('/task/{task}', function (Task $task) {
+		//
+	});
+
+> **Note**: If your copy of Laravel has a `RouteServiceProvider` that already includes the default routes file within the `web` middleware group, you do not need to manually add the group to your `routes.php` file.
 
 <a name="displaying-a-view"></a>
 ### Displaying A View
@@ -180,7 +178,7 @@ Passing `tasks` to the `view` function will create a View object instance that c
 
 This application only has a single view which contains a form for adding new tasks as well as a listing of all current tasks. To help you visualize the view, here is a screenshot of the finished application with basic Bootstrap CSS styling applied:
 
-![Application Image](http://laravel.com/assets/img/quickstart/basic-overview.png)
+![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
 ### Defining The Layout
@@ -191,7 +189,7 @@ As we discussed earlier, all Laravel views are stored in `resources/views`. So, 
 
 Our `app.blade.php` view should look like the following:
 
-    // resources/views/layouts/app.blade.php
+    <!-- resources/views/layouts/app.blade.php -->
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -221,7 +219,7 @@ Next, we need to define a view that contains a form to create a new task as well
 
 We'll skip over some of the Bootstrap CSS boilerplate and only focus on the things that matter. Remember, you can download the full source for this application on [GitHub](https://github.com/laravel/quickstart-basic):
 
-    // resources/views/tasks.blade.php
+    <!-- resources/views/tasks.blade.php -->
 
 	@extends('layouts.app')
 
@@ -280,7 +278,7 @@ Next, we're ready to add code to our `POST /task` route to handle the incoming f
 <a name="validation"></a>
 ### Validation
 
-Now that we have a form in our view, we need to add code to our `POST /task` route to validate the incoming form input and create a new task. First, let's validate the input.
+Now that we have a form in our view, we need to add code to our `POST /task` route in `app/Http/routes.php` to validate the incoming form input and create a new task. First, let's validate the input.
 
 For this form, we will make the `name` field required and state that it must contain less than `255` characters. If the validation fails, we will redirect the user back to the `/` URL, as well as flash the old input and errors into the [session](/docs/{{version}}/session). Flashing the input into the session will allow us to maintain the user's input even when there are validation errors:
 
@@ -304,7 +302,7 @@ Let's take a break for a moment to talk about the `->withErrors($validator)` por
 
 Remember that we used the `@include('common.errors')` directive within our view to render the form's validation errors. The `common.errors` will allow us to easily show validation errors in the same format across all of our pages. Let's define the contents of this view now:
 
-    // resources/views/common/errors.blade.php
+    <!-- resources/views/common/errors.blade.php -->
 
     @if (count($errors) > 0)
         <!-- Form Error List -->
@@ -428,7 +426,9 @@ We left a "TODO" note in our code where our delete button is supposed to be. So,
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
 
-                <button>Delete Task</button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
             </form>
         </td>
     </tr>

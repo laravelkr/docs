@@ -169,6 +169,10 @@ To drop an existing table, you may use the `drop` or `dropIfExists` methods:
 
     Schema::dropIfExists('users');
 
+#### Renaming Tables With Foreign Keys
+
+Before renaming a table, you should verify that any foreign key constraints on the table have an explicit name in your migration files instead of letting Laravel assign a convention based name. Otherwise, the foreign key constraint name will refer to the old table name.
+
 <a name="creating-columns"></a>
 ### Creating Columns
 
@@ -191,15 +195,18 @@ Command  | Description
 `$table->char('name', 4);`  |  CHAR equivalent with a length.
 `$table->date('created_at');`  |  DATE equivalent for the database.
 `$table->dateTime('created_at');`  |  DATETIME equivalent for the database.
+`$table->dateTimeTz('created_at');`  |  DATETIME (with timezone) equivalent for the database.
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale.
 `$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point.
 `$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent for the database.
 `$table->float('amount');`  |  FLOAT equivalent for the database.
 `$table->increments('id');`  |  Incrementing ID (primary key) using a "UNSIGNED INTEGER" equivalent.
 `$table->integer('votes');`  |  INTEGER equivalent for the database.
+`$table->ipAddress('visitor');`  |  IP address equivalent for the database.
 `$table->json('options');`  |  JSON equivalent for the database.
 `$table->jsonb('options');`  |  JSONB equivalent for the database.
 `$table->longText('description');`  |  LONGTEXT equivalent for the database.
+`$table->macAddress('device');`  |  MAC address equivalent for the database.
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
 `$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
@@ -211,8 +218,10 @@ Command  | Description
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length.
 `$table->text('description');`  |  TEXT equivalent for the database.
 `$table->time('sunrise');`  |  TIME equivalent for the database.
+`$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent for the database.
 `$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
+`$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
 `$table->timestamps();`  |  Adds `created_at` and `updated_at` columns.
 `$table->uuid('id');`  |  UUID equivalent for the database.
 
@@ -233,6 +242,7 @@ Modifier  | Description
 `->nullable()`  |  Allow NULL values to be inserted into the column
 `->default($value)`  |  Specify a "default" value for the column
 `->unsigned()`  |  Set `integer` columns to `UNSIGNED`
+`->comment('my comment')`  |  Add a comment to a column
 
 <a name="changing-columns"></a>
 <a name="modifying-columns"></a>
@@ -256,6 +266,8 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
+> **Note:** Modifying any column in a table that also has a column of type `enum`, `json` or `jsonb` is not currently supported.
+
 <a name="renaming-columns"></a>
 #### Renaming Columns
 
@@ -265,7 +277,7 @@ To rename a column, you may use the `renameColumn` method on the Schema builder.
         $table->renameColumn('from', 'to');
     });
 
-> **Note:** Renaming columns in a table with a `enum` column is not currently supported.
+> **Note:** Renaming any column in a table that also has a column of type `enum`, `json` or `jsonb` is not currently supported.
 
 <a name="dropping-columns"></a>
 ### Dropping Columns
@@ -326,6 +338,12 @@ Command  | Description
 `$table->dropUnique('users_email_unique');`  |  Drop a unique index from the "users" table.
 `$table->dropIndex('geo_state_index');`  |  Drop a basic index from the "geo" table.
 
+If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns and key type.
+
+    Schema::table('geo', function ($table) {
+        $table->dropIndex(['state']); // Drops index 'geo_state_index'
+    });
+
 <a name="foreign-key-constraints"></a>
 ### Foreign Key Constraints
 
@@ -346,3 +364,13 @@ You may also specify the desired action for the "on delete" and "on update" prop
 To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "_foreign":
 
     $table->dropForeign('posts_user_id_foreign');
+
+Or you may pass an array value which will automatically use the conventional constraint name when dropping:
+
+    $table->dropForeign(['user_id']);
+
+You may enable or disable foreign key constraints within your migrations by using the following methods:
+
+    Schema::enableForeignKeyConstraints();
+
+    Schema::disableForeignKeyConstraints();

@@ -23,9 +23,9 @@ There are several middleware included in the Laravel framework, including middle
 
 To create a new middleware, use the `make:middleware` Artisan command:
 
-    php artisan make:middleware OldMiddleware
+    php artisan make:middleware AgeMiddleware
 
-This command will place a new `OldMiddleware` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the "home" URI.
+This command will place a new `AgeMiddleware` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the "home" URI.
 
     <?php
 
@@ -33,7 +33,7 @@ This command will place a new `OldMiddleware` class within your `app/Http/Middle
 
     use Closure;
 
-    class OldMiddleware
+    class AgeMiddleware
     {
         /**
          * Run the request filter.
@@ -137,6 +137,14 @@ Instead of using an array, you may also chain the `middleware` method onto the r
         //
     })->middleware(['first', 'second']);
 
+When assigning middleware, you may also pass the fully qualified class name:
+
+    use App\Http\Middleware\FooMiddleware;
+
+    Route::get('admin/profile', ['middleware' => FooMiddleware::class, function () {
+        //
+    }]);
+
 <a name="middleware-groups"></a>
 ### Middleware Groups
 
@@ -169,6 +177,8 @@ Middleware groups may be assigned to routes and controller actions using the sam
     Route::group(['middleware' => ['web']], function () {
         //
     });
+
+Keep in mind, the `web` middleware group is automatically applied to your default `routes.php` file by the `RouteServiceProvider`.
 
 <a name="middleware-parameters"></a>
 ## Middleware Parameters

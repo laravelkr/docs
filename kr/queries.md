@@ -17,8 +17,12 @@
 - [Where-구문](#where-clauses)
     - [Advanced Where Clauses](#advanced-where-clauses)
     - [복잡한 Where 절](#advanced-where-clauses)
+    - [JSON Where Clauses](#json-where-clauses)
+    - [JSON Where 절](#json-where-clauses)
 - [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
 - [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
+- [Conditional Statements](#conditional-statements)
+- [Conditional-조건적 구문](#conditional-statements)
 - [Inserts](#inserts)
 - [Inserts-삽입](#inserts)
 - [Updates](#updates)
@@ -105,7 +109,7 @@ If you need to work with thousands of database records, consider using the `chun
 
 데이터베이스 레코드가 많은 작업을 수행해야 한다면, `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 "chunk" 를 획득하고, 각각의 chunk를 `Closure` 를 통해서 처리합니다. 이 메소드는 다수의 레코드를 처리하는 [아티즌 명령어](/docs/{{version}}/artisan)를 작성하는데 유용합니다. 예를 들어, 전체 `users` 테이블에서 한번에 100개의 레코드를 가져온다고 해보겠습니다. 
 
-    DB::table('users')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function($users) {
         foreach ($users as $user) {
             //
         }
@@ -115,7 +119,7 @@ You may stop further chunks from being processed by returning `false` from the `
 
 `Closure` 에서 `false`를 반환하여, 더이상의 chunk를 처리하지 않도록 중단할 수 있습니다:
 
-    DB::table('users')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function($users) {
         // Process the records...
 
         return false;
@@ -124,11 +128,11 @@ You may stop further chunks from being processed by returning `false` from the `
 #### Retrieving A List Of Column Values
 #### 컬럼 값의 목록 조회하기
 
-If you would like to retrieve an array containing the values of a single column, you may use the `lists` method. In this example, we'll retrieve an array of role titles:
+If you would like to retrieve an array containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve an array of role titles:
 
-한개의 컬럼의 값들을 포함하고 있는 배열을 조회하고자 한다면, `lists` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 배열을 조회할 것입니다: 
+한개의 컬럼의 값들을 포함하고 있는 배열을 조회하고자 한다면, `pluck` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 배열을 조회할 것입니다: 
 
-    $titles = DB::table('roles')->lists('title');
+    $titles = DB::table('roles')-> pluck('title');
 
     foreach ($titles as $title) {
         echo $title;
@@ -232,6 +236,17 @@ If you would like to perform a "left join" instead of an "inner join", use the `
                 ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
                 ->get();
 
+#### Cross Join Statement
+#### Cross Join 구문
+
+To perform a "cross join" use the `crossJoin` method with the name of the table you wish to cross join to. Cross joins generate a cartesian product between the first table and the joined table:
+
+"Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다.
+
+    $users = DB::table('sizes')
+                ->crossJoin('colours')
+                ->get();
+
 #### Advanced Join Statements
 #### Advanced Join 구문
 
@@ -320,8 +335,8 @@ You may also pass an array of conditions to the `where` function:
 또한 `where` 함수에 조건에 대한 배열을 전달 할 수도 있습니다:
 
     $users = DB::table('users')->where([
-        ['status','1'],
-        ['subscribed','<>','1'],
+        ['status', '=', '1'],
+        ['subscribed', '<>', '1'],
     ])->get();
 
 #### Or Statements
@@ -398,6 +413,33 @@ The `whereNotNull` method verifies that the column's value is **not** `NULL`:
                         ->whereNotNull('updated_at')
                         ->get();
 
+**whereColumn**
+**whereColumn**
+
+The `whereColumn` method may be used to verify that two columns are equal:
+
+`whereColumn` 메소드는 두개의 컬럼이 동일하는 것을 확인하는데 사용할 수 있습니다:
+
+    $users = DB::table('users')
+                    ->whereColumn('first_name', 'last_name');
+
+You may also pass a comparison operator to the method:
+
+또한 비교 연산자를 메소드에 전달할 수도 있습니다:
+
+    $users = DB::table('users')
+                    ->whereColumn('updated_at', '>', 'created_at');
+
+The `whereColumn` method can also be passed an array of multiple conditions. These conditions will be joined using the `and` operator:
+
+`whereColumn`메소드는 또한 다수의 조건 배열을 전달 받을 수도 있습니다. 이 조건들은 `and` 연산자를 사용하여 연결됩니다.
+
+    $users = DB::table('users')
+                    ->whereColumn([
+                        ['first_name', 'last_name'],
+                        ['updated_at', '>', 'created_at']
+                    ]);
+
 <a name="advanced-where-clauses"></a>
 ## Advanced Where Clauses
 ## 복잡한 Where 절
@@ -417,18 +459,18 @@ Sometimes you may need to create more advanced where clauses such as "where exis
                 })
                 ->get();
 
-As you can see, passing `Closure` into the `orWhere` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
+As you can see, passing a `Closure` into the `orWhere` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
 
-위에서 보시다 시피, `orWhere` 메소드에 전달된 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다: 
+위에서 보시다 시피, `orWhere` 메소드에 전달된 하나의 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다: 
 
     select * from users where name = 'John' or (votes > 100 and title <> 'Admin')
 
 #### Exists Statements
 #### Exists 구문
 
-The `whereExists` method allows you to write `where exist` SQL clauses. The `whereExists` method accepts a `Closure` argument, which will receive a query builder instance allowing you to define the query that should be placed inside of the "exists" clause:
+The `whereExists` method allows you to write `where exists` SQL clauses. The `whereExists` method accepts a `Closure` argument, which will receive a query builder instance allowing you to define the query that should be placed inside of the "exists" clause:
 
-`whereExists` 메소드는 SQL 쿼리에 `where exist` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다.
+`whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다.
 
     DB::table('users')
                 ->whereExists(function ($query) {
@@ -447,6 +489,22 @@ The query above will produce the following SQL:
         select 1 from orders where orders.user_id = users.id
     )
 
+<a name="json-where-clauses"></a>
+## JSON Where Clauses
+## JSON Where 구문
+
+Laravel supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7 and Postgres. To query a JSON column, use the `->` operator:
+
+라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입에 대한 쿼리를 지원합니다. 현재는 MySQL 5.7 과 Postgres에 포함되어 있습니다. JSON 컬럼 질의를 하기 위해서는 `->` 연산자를 사용하십시오:
+
+    $users = DB::table('users')
+                    ->where('options->language', 'en')
+                    ->get();
+
+    $users = DB::table('users')
+                    ->where('preferences->dining->meal', 'salad')
+                    ->get();
+
 <a name="ordering-grouping-limit-and-offset"></a>
 ## Ordering, Grouping, Limit, & Offset
 ## Ordering, Grouping, Limit, & Offset
@@ -461,6 +519,17 @@ The `orderBy` method allows you to sort the result of the query by a given colum
     $users = DB::table('users')
                     ->orderBy('name', 'desc')
                     ->get();
+
+#### inRandomOrder
+#### inRandomOrder
+
+The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
+
+`inRandomOrder` 메소드는 쿼리 결과를 랜덤하게 정렬하고자 할때 사용할 수 있습니다. 예를 들어, 사용자를 랜덤하게 가져올 때 사용할 수 있습니다:
+
+    $randomUser = DB::table('users')
+                    ->inRandomOrder()
+                    ->first();
 
 #### groupBy / having / havingRaw
 #### groupBy / having / havingRaw
@@ -492,6 +561,26 @@ To limit the number of results returned from the query, or to skip a given numbe
 쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기(`OFFSET`) 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다:
 
     $users = DB::table('users')->skip(10)->take(5)->get();
+
+## Conditional Statements
+## Conditional-조건적 구문
+
+Sometimes you may want statements to apply to a query only when something else is true. For instance you may only want to apply a `where` statement if a given input value is present on the incoming request. You may accomplish this using the `when` method:
+
+때로는 어떠한 조건이 참일 때만 구문이 쿼리에 적용되는 것을 원할 수도 있습니다. 예를 들어, 현재의 요청에서 주어진 입력값이 존재할 때에만 `where` 구문을 적용하고 싶을 수도 있습니다. 이 경우 `when` 메소드를 사용할 수 있습니다:
+
+    $role = $request->input('role');
+
+    $users = DB::table('users')
+                    ->when($role, function ($query) use ($role) {
+                        return $query->where('role_id', $role);
+                    })
+                    ->get();
+
+
+The `when` method only executes the given Closure when the first parameter is `true`. If the first parameter is `false`, the Closure will not be executed.
+
+`when` 메소드는 첫번째 파라미터가 `true` 일때 주어진 클로저를 실행합니다. 첫번째 파라미터가 `false` 라면 클로저는 실행되지 않을 것입니다.
 
 <a name="inserts"></a>
 ## Inserts
@@ -580,7 +669,7 @@ You may constrain `delete` statements by adding `where` clauses before calling t
 
 `delete` 구문에서는 `delete` 메소드를 호출하기 전에 `where` 절을 추가하여 제약사항을 설정할 수 있습니다. 
 
-    DB::table('users')->where('votes', '<', 100)->delete();
+    DB::table('users')->where('votes', '>', 100)->delete();
 
 If you wish to truncate the entire table, which will remove all rows and reset the auto-incrementing ID to zero, you may use the `truncate` method:
 

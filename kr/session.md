@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [소개](#introduction)
+- [Configuration](#configuration)
+- [설정하기](#configuration)
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
     - [Flash Data](#flash-data)
@@ -18,6 +20,7 @@ Since HTTP driven applications are stateless, sessions provide a way to store in
 
 HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
 
+<a name="configuration"></a>
 ### Configuration
 ### 설정하기
 
@@ -29,21 +32,17 @@ The session `driver` defines where session data will be stored for each request.
 
 세션 `driver` 정의는 각각의 요청에 따른 세션을 어디에 저장할 것인지 정의합니다. 라라벨은 별다른 설정 없이도 다양한 드라이버를 제공합니다. 
 
-<div class="content-list" markdown="1">
 - `file` - sessions are stored in `storage/framework/sessions`.
 - `cookie` - sessions are stored in secure, encrypted cookies.
 - `database` - sessions are stored in a database used by your application.
 - `memcached` / `redis` - sessions are stored in one of these fast, cache based stores.
 - `array` - sessions are stored in a simple PHP array and will not be persisted across requests.
-</div>
 
-<div class="content-list" markdown="1">
 - `file` - `storage/framework/sessions` 디렉토리에 세션을 저장합니다.
 - `cookie` - 암호화된 쿠키를 사용하여 안전하게 세션을 저장할 것입니다.
 - `database` - 어플리케이션이 사용하는 데이터베이스에 저장합니다. .
 - `memcached` / `redis` - 빠르고, 캐시를 기반으로한 memcached, redis 에 저장합니다.
 - `array` - PHP 배열에 세션을 저장합니다. 이경우 세션이 요청에 대해서 지속적으로 유지 되지 않습니다. 
-</div>
 
 > **Note:** The array driver is typically used for running [tests](/docs/{{version}}/testing) to prevent session data from persisting.
 
@@ -299,16 +298,13 @@ Since these methods are not as readily understandable as the cache `StoreInterfa
 
 이 메소드들은 캐시의 `StoreInterface` 처럼 쉽게 이해 수 없기 때문에 각각의 메소드들에 대해서 간단하게 설명합니다. 
 
-<div class="content-list" markdown="1">
 - The `open` method would typically be used in file based session store systems. Since Laravel ships with a `file` session driver, you will almost never need to put anything in this method. You can leave it as an empty stub. It is simply a fact of poor interface design (which we'll discuss later) that PHP requires us to implement this method.
 - The `close` method, like the `open` method, can also usually be disregarded. For most drivers, it is not needed.
 - The `read` method should return the string version of the session data associated with the given `$sessionId`. There is no need to do any serialization or other encoding when retrieving or storing session data in your driver, as Laravel will perform the serialization for you.
 - The `write` method should write the given `$data` string associated with the `$sessionId` to some persistent storage system, such as MongoDB, Dynamo, etc.
 - The `destroy` method should remove the data associated with the `$sessionId` from persistent storage.
 - The `gc` method should destroy all session data that is older than the given `$lifetime`, which is a UNIX timestamp. For self-expiring systems like Memcached and Redis, this method may be left empty.
-</div>
 
-<div class="content-list" markdown="1">
 - `open` 메소드는 일반적으로 파일 기반의 세션 저장 시스템에서 사용됩니다. 라라벨은 `file` 세션 드라이버를 제공하고 있기 때문에, 여러분은 거의 해당 메소드에 추가할 것이 없습니다. 이 메소드는 비어 있는 형태로 구성해도 됩니다. 이것은 좋지않은 인터페이스 디자인의 경우가 됩니다만 (나중에 설명합니다), PHP가 이 메소드를 구현하게끔 요구하고 있습니다. 
 - The `close` method, like the `open` method, can also usually be disregarded. For most drivers, it is not needed.
 - `close` 메소드역시 `open` 메소드와 마찬가지로 무시할 수 있습니다. 대부분의 드라이버에서는 필요가 없습니다. 
@@ -317,7 +313,6 @@ Since these methods are not as readily understandable as the cache `StoreInterfa
 - The `destroy` method should remove the data associated with the `$sessionId` from persistent storage.
 - `destory` 메소드는 저장소에서 주어진 `$sessionId` 에 해당하는 데이터를 삭제해야 합니다. 
 - `gc` 메소드는 UNIX 타임스탬프로 주어진 `$lifetime` 보다 오래된 모든 세션 데이터들을 제거해야합니다. Memcached와 Redis처럼 스스로 오래된 데이터를 삭제하는 시스템에서는, 이 메소드는 비워 둡니다. 
-</div>
 
 Once the session driver has been registered, you may use the `mongo` driver in your `config/session.php` configuration file.
 

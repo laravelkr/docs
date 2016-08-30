@@ -57,6 +57,10 @@ For example, we may use the `encrypt` method to encrypt a secret and store it on
         }
     }
 
+> **Note:** Encrypted values are passed through `serialize` during encryption, which allows for "encryption" of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data.
+
+> **주의** 암호화된 값은 암호화가 진행되면서 `직렬화-serialize`되어 있으며, 이를 통해서 객체와 배열들을 암호화 할 수 있습니다. 따라서 PHP 이외의 클라이언트에서 암호화 된 값을 받는 경우, 해당 데이터를 `비 직렬화-unserialize` 할 필요가 있습니다.
+
 #### Decrypting A Value
 #### 값 복호화하기
 

@@ -113,8 +113,10 @@ Method  | Description
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->weekly();`  |  Run the task every week
 `->monthly();`  |  Run the task every month
+`->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
 `->quarterly();` |  Run the task every quarter
 `->yearly();`  |  Run the task every year
+`->timezone('America/New_York');` | Set the timezone
 
 메소드  | 설명
 ------------- | -------------
@@ -129,17 +131,28 @@ Method  | Description
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
+`->monthlyOn(4, '15:00');`  |  매달 4일 15::00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행
 `->yearly();`  |  일년 간격으로 작업 실행
-
+`->timezone('America/New_York');` | 타임존 지정
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:
 
 이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다: 
 
+    // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
-        // Runs once a week on Monday at 13:00...
+        //
     })->weekly()->mondays()->at('13:00');
+
+    // Run hourly from 8 AM to 5 PM on weekdays...
+    $schedule->command('foo')
+              ->weekdays()
+              ->hourly()
+              ->timezone('America/Chicago')
+              ->when(function () {
+                    return date('H') >= 8 && date('H') <= 17;
+              });
 
 Below is a list of the additional schedule constraints:
 
@@ -181,11 +194,11 @@ The `when` method may be used to limit the execution of a task based on the resu
         return true;
     });
 
-The `reject` method may be seen as the inverse of `when`. If the `reject` method returns `true`, the scheduled task will not be executed:
+The `skip` method may be seen as the inverse of `when`. If the `skip` method returns `true`, the scheduled task will not be executed:
 
-`reject` 메소드는 `when`의 반대입니다. `reject` 메소드가 `true`를 반환하면, 스케줄링 작업은 실행되지 않을 것입니다:
+`skip` 메소드는 `when`의 반대입니다. `skip` 메소드가 `true`를 반환하면, 스케줄링 작업은 실행되지 않을 것입니다:
 
-    $schedule->command('emails:send')->daily()->reject(function () {
+    $schedule->command('emails:send')->daily()->skip(function () {
         return true;
     });
 

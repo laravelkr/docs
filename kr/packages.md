@@ -164,7 +164,7 @@ Package translations are referenced using a double-colon `package::file.line` sy
 #### Publishing Translations
 #### 언어 파일 퍼블리싱하기
 
-If you would like to publish your package's translations to the application's `resources/lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their corresponding publish locations. For example, to the publish the translation files for our example `courier` package:
+If you would like to publish your package's translations to the application's `resources/lang/vendor` directory, you may use the service provider's `publishes` method. The `publishes` method accepts an array of package paths and their corresponding publish locations. For example, to publish the translation files for our example `courier` package:
 
 패키지의 언어파일을 어플리케이션의 `resources/lang/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 경로와 옮겨질 위치를 나타내는 배열을 인자로 전달 받습니다. 예를 들어 `courier` 패키지의 언어 파일을 다음처럼 퍼블리싱 할 수 있습니다. 
 

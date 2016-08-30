@@ -22,21 +22,6 @@ For general releases, bug fixes are provided for 6 months and security fixes are
 
 일반적인 릴리즈에서는 버그 픽스는 6개월 보안 패치는 1년동안 제공됩니다.
 
-<a name="laravel-5.3"></a>
-## Laravel 5.3
-## 라라벨 5.3
-
-Laravel 5.3 continues the improvements made in Laravel 5.2.
-
-라라벨 5.3은 라라벨 5.2에서 기능이 개선되었습니다.
-
-### PHP 5.6.4+
-### PHP 5.6.4 이상
-
-Since PHP 5.5 will enter "end of life" in June and will no longer receive security updates from the PHP development team, Laravel 5.3 requires PHP 5.6.4 or greater. If you require PHP 5.5 support, please see our 5.1 LTS series.
-
-PHP5.5가 2016년 6월에 "지원종료"되고, PHP 개발팀에서 보안 업데이트를 받을 수 없게 되므로, 라라벨 5.3은 PHP 5.6.4 버전 이상의 환경을 필요로 합니다. PHP 5.5 지원을 필요로 한다면, 라라벨 5.1 LTS 버전을 확인하십시오. 
-
 <a name="laravel-5.2"></a>
 ## Laravel 5.2
 ## 라라벨 5.2
@@ -132,6 +117,10 @@ Then, the `web` group may be assigned to routes like so:
         //
     });
 
+However, keep in mind the `web` middleware group is *already* applied to your routes by default since the `RouteServiceProvider` includes it in the default middleware group.
+
+다만, `web` 미들웨어 그룹은 `RouteServiceProvider`가 포함하고 있는 기본 미들웨어 그룹에 의해서 *이미* 적용되었다는 것을 주의하십시오. 
+
 ### Rate Limiting
 ### 접근 속도 제한
 
@@ -163,6 +152,17 @@ Likewise, you may use the `*` character when specifying your validation messages
             'unique' => 'Each person must have a unique e-mail address',
         ]
     ],
+
+### Bail Validation Rule
+### Bail 유효성 규칙
+
+A new `bail` validation rule has been added, which instructs the validator to stop validating after the first validation failure for a given rule. For example, you may now prevent the validator from running a `unique` check if an attribute fails an `integer` check:
+
+새로운 `bail` 유효성 규칙이 추가되어 유효성 검사 도중에 주어진 첫번째 규칙이 실패하면 이후의 검사를 중단할 수 있습니다. 예를 들어 `integer` 검사 규칙이 실패하면 `unique` 체크를 하지 않도록 방지할 수 있습니다.
+
+    $this->validate($request, [
+        'user_id' => 'bail|integer|unique:users'
+    ]);
 
 ### Eloquent Global Scope Improvements
 ### Eloquent 글로벌 스코프 개선

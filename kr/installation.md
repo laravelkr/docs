@@ -44,12 +44,14 @@ Laravel utilizes [Composer](http://getcomposer.org) to manage its dependencies. 
 #### 라라벨 인스톨러로 사용하기
 
 First, download the Laravel installer using Composer:
+
 먼저, 라라벨 인스톨러를 컴포저를 사용하여 다운로드 합니다.
 
     composer global require "laravel/installer"
 
-Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `laravel` executable can be located by your system.
-`laravel`이 여러분의 시스템에서 실행 가능하도록 `~/.composer/vendor/bin` 폴더를 여러분의 경로(PATH)에 추가 해야합니다. 
+Make sure to place the `~/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your PATH so the `laravel` executable can be located by your system.
+
+`laravel`이 여러분의 시스템에서 실행 가능하도록(또는 여러분의 OS에서 동일한 디렉토리) `~/.composer/vendor/bin` 폴더를 여러분의 경로(PATH)에 추가 해야합니다. 
 
 Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed. This method of installation is much faster than installing via Composer:
 
@@ -64,11 +66,15 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 그렇지 않으면, 터미널에서 컴포저의 `create-project` 커멘드를 사용하여 라라벨을 설치할 수도 있습니다
 
-    composer create-project --prefer-dist laravel/laravel blog 
+    composer create-project --prefer-dist laravel/laravel blog "5.2.*" 
 
 <a name="configuration"></a>
 ### Configuration
 ### 설정하기
+
+After installation, you should configure your application's document / web root to the `public` directory.
+
+설치후에 어플리케이션의 document / web 루트를 `public` 디렉토리로 설정해야 합니다.
 
 All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
 
@@ -84,9 +90,9 @@ After installing Laravel, you may need to configure some permissions. Directorie
 #### Application Key
 #### 어플리케이션 키 설정
 
-The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `key:generate` command. Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
+The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command. Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
 
-라라벨 설치 후 해야할 일은 여러분의 어플리케이션 키를 랜덤한 문자열로 세팅하는 것입니다. 만약 라라벨이 Composer 를 통해서 설치되었다면 키는 `key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다. 일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 변경하지 않았다면 지금 변경합니다. **만약 어플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
+라라벨 설치 후 해야할 일은 여러분의 어플리케이션 키를 랜덤한 문자열로 세팅하는 것입니다. 만약 라라벨이 Composer 를 통해서 설치되었다면 키는 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다. 일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 변경하지 않았다면 지금 변경합니다. **만약 어플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
 
 #### Additional Configuration
 #### 추가적인 설정 

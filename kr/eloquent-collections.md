@@ -65,7 +65,6 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
     }
 </style>
 
-<div id="collection-method-list" markdown="1">
 [all](/docs/{{version}}/collections#method-all)
 [chunk](/docs/{{version}}/collections#method-chunk)
 [collapse](/docs/{{version}}/collections#method-collapse)
@@ -119,7 +118,6 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
 [where](/docs/{{version}}/collections#method-where)
 [whereLoose](/docs/{{version}}/collections#method-whereloose)
 [zip](/docs/{{version}}/collections#method-zip)
-</div>
 
 <a name="custom-collections"></a>
 ## Custom Collections

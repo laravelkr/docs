@@ -49,6 +49,12 @@ Out of the box, Laravel supports `single`, `daily`, `syslog` and `errorlog` logg
 별다른 설정 없이도, 라라벨은 `single`, `dayly`, `syslog` 그리고 `errorlog` 의 로그 모드를 지원합니다. 예를 들어 여러분이 하나의 로그 파일 대신에 일별로 저장되는 로그파일을 사용하고자 한다면 `config/app.php` 설정 파일의 `log` 값을 다음과 같이 설정하면 됩니다. 
 
     'log' => 'daily'
+    
+When using the `daily` log mode, Laravel will only retain five days of log files by default. If you want to adjust the number of retained files, you may add an optional `log_max_files` configuration value to your `app.php` configuration file:
+
+`daily` 모드를 사용하는 경우, 라라벨은 기존적으로 5일치의 로그 파일들을 유지할 것입니다. 유지되는 파일의 갯수를 조절하고자 한다면 `app.php` 설정파일에 `log_max_files` 설정을 추가하십시오.  
+
+    'log_max_files' => 30
 
 #### Custom Monolog Configuration
 #### 사용자 지정 Monolog 설정하기
@@ -62,6 +68,12 @@ If you would like to have complete control over how Monolog is configured for yo
     });
 
     return $app;
+    
+By default, Laravel writes all log levels. In your production environment, you may wish to configure the default log level by adding the `log_level` option to your `app.php` configuration file. Laravel will then log all levels greater than or equal to the specified severity level. For example, a default `log_level` of `error` will log **error**, **critical**, **alert**, and **emergency** messages:
+
+기본적으로, 라라벨은 모든 로그 레벨을 기록합니다. `app.php` 설정 파일에 `log_level` 옵션을 추가함으로써, 실서버 환경에서의 기본 로그 레벨을 설정할 수 있습니다. 라라벨은 지정된 로그레벨 수준 이상인 모든 로그를 기록합니다. 예를 들어 기본 `log_level` 이 `error` 인경우라면  **error**, **critical**, **alert**, 그리고 **emergency** 메세지를 기록합니다: 
+
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
 <a name="the-exception-handler"></a>
 ## The Exception Handler
@@ -75,9 +87,9 @@ All exceptions are handled by the `App\Exceptions\Handler` class. This class con
 ### The Report Method
 ### Report 메소드
 
-The `report` method is used to log exceptions or send them to an external service like [BugSnag](https://bugsnag.com). By default, the `report` method simply passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
+The `report` method is used to log exceptions or send them to an external service like [BugSnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method simply passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
 
-`report` 메소드는 예외-exceptions를 로깅하거나 [BugSnag](https://bugsnag.com)와 같은 별도의 외부 서비스로 보내는데 사용되어 집니다. 기본적으로 `report` 메소드는 예외-exception가 기록되는 경우, 베이스 클래스로 예외-exception을 전달합니다. 
+`report` 메소드는 예외-exceptions를 로깅하거나 [BugSnag](https://bugsnag.com) 또는 [Sentry](https://github.com/getsentry/sentry-laravel) 같은 별도의 외부 서비스로 보내는데 사용되어 집니다. 기본적으로 `report` 메소드는 예외-exception가 기록되는 경우, 베이스 클래스로 예외-exception을 전달합니다. 
 
 For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
 
@@ -159,6 +171,12 @@ Laravel makes it easy to return custom error pages for various HTTP status codes
 
 라라벨에서는 HTTP 응답 코드에 따른 다양한 사용자 지정 에러 페이지를 반환할 수 있습니다. 예를 들어 404 HTTP 응답 코드에 대한 에러 페이지를 수정하고자 한다면, `resources/views/errors/404.blade.php` 파일을 생성하면 됩니다. 이 파일은 어플리케이션에서 404 에러가 발생했을 때 사용자에게 보여질 것입니다. 
 
+The exception raised by the abort method will be passed to the view as $exception, which allows you to present the user with the error message if needed. e.g.
+
+abort 메소드에 의해 예외-exception 가 전달되는 뷰에서 $exception 변수로 전해집며, 필요한 경우 에러 메시지를 사용자에게 표시하는 데 사용할 수 있습니다.
+
+    $exception->getMessage()
+
 The views within this directory should be named to match the HTTP status code they correspond to.
 
 이 디렉토리 안에 들어 있는 뷰 파일들은 파일의 이름이 HTTP 응답 코드와 일치해야만 합니다. 
@@ -167,9 +185,9 @@ The views within this directory should be named to match the HTTP status code th
 ## Logging
 ## 로깅
 
-The Laravel logging facilities provide a simple layer on top of the powerful [Monolog](http://github.com/seldaek/monolog) library. By default, Laravel is configured to create daily log files for your application which are stored in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
+The Laravel logging facilities provide a simple layer on top of the powerful [Monolog](http://github.com/seldaek/monolog) library. By default, Laravel is configured to create a log file for your application in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
 
-라라벨의 로그 기능은 강력한 [Monolog](http://github.com/seldaek/monolog) 라이브러리위에 간단한 레이어를 제공합니다. 기본적으로 라라벨은 일별 로그 파일을 생성하도록 설정되어 있고, 로그 파일들은 `storage/logs` 에 저장됩니다. `Log` [파사드](/docs/{{version}}/facades)를 사용하여, 로그 파일에 정보를 기록할 수도 있습니다:
+라라벨의 로그 기능은 강력한 [Monolog](http://github.com/seldaek/monolog) 라이브러리위에 간단한 레이어를 제공합니다. 기본적으로 라라벨은 `storage/logs` 디렉토리에 하나의 로그 파일을 생성하도록 설정되어 있습니다. `Log` [파사드](/docs/{{version}}/facades)를 사용하여, 로그 파일에 정보를 기록할 수도 있습니다:
 
     <?php
 

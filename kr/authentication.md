@@ -58,7 +58,7 @@ Laravel makes implementing authentication very simple. In fact, almost everythin
 
 라라벨은 인증기능을 구현하는 것을 매우 쉽게 해줍니다. 기본적으로 별도의 설정 없이도 대부분이 이미 준비되어 있습니다. 인증에 대한 설정 파일은 `config/auth.php` 으로 인증 서비스의 동작을 제어할 수 있는 옵션들이 자세한 설명과 함께 제공됩니다.
 
-At its core, Laravel's authentication facilities are made up of "guards" and "providers". Guards define how user's are authenticated for each request. For example, Laravel ships with a `session` guard which maintains state using session storage and cookies and a `token` guard, which authenticates users using a "API token" that is passed with each request.
+At its core, Laravel's authentication facilities are made up of "guards" and "providers". Guards define how users are authenticated for each request. For example, Laravel ships with a `session` guard which maintains state using session storage and cookies and a `token` guard, which authenticates users using a "API token" that is passed with each request.
 
 내부 시스템에서, 라라벨의 인증 기능은 "guards" 와 "프로바이더"로 구성되어 있습니다. Guard 는 사용자가 각각의 요청-request 마다 어떻게 인증되는지 정의합니다. 예를 들어 라라벨은 세션 스토리지와 쿠키를 사용하여 상태를 유지하는 `session` guard 와, 각 요청-request와 함께 전달되는 "API 토큰"을 사용하여 사용자를 인증하는`token` guard를 제공합니다. 
 
@@ -78,9 +78,9 @@ By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/el
 
 기본적으로 라라벨은 `app` 디렉토리에 `App\User` 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 어플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다. 
 
-When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length.
+When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length, the default of 255 would be a good choice.
 
-`App\User` 모델을 위한 데이터베이스 스키마를 구성할 때, 유의할 것은 패스워드 컬럼이 최소 60 자가 되어야 한다는 것입니다. 
+`App\User` 모델을 위한 데이터베이스 스키마를 구성할 때, 유의할 것은 패스워드 컬럼이 최소 60 자가 되어야 하며, 기본값인 255도 좋은 선택이 될 수 있습니다. 
 
 Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for "remember me" sessions being maintained by your application. This can be done by using `$table->rememberToken();` in a migration.
 
@@ -140,6 +140,16 @@ When a user is successfully authenticated, they will be redirected to the `/` UR
 When a user is not successfully authenticated, they will be redirected back to the login form location automatically.
 
 사용자가 성공적으로 인증되지 않았을 때에는, 로그인 Form 위치로 자동으로 리다이렉트되어 돌아가게 될 것입니다. 
+
+To customize where a user is redirected after logging out of the application, you may define a `redirectAfterLogout` property on the `AuthController`:
+
+사용자가 어플리케이션에서 성공적으로 로그아웃 한 뒤에 리다이렉트 할 곳을 지정하려면 `AuthController` 의 `redirectAfterLogout` 속성을 정의하면 됩니다.   
+                                                                                                                                                  
+    protected $redirectAfterLogout = '/login';
+
+If this property is not present, the user will be redirected to the `/` URI.
+
+이 속성이 정의되지 않은 경우에는 `/` URI로 리디렉트 됩니다.
 
 #### Guard Customization
 #### Guard 커스터마이징
@@ -405,6 +415,15 @@ If you need to log an existing user instance into your application, you may call
 애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 물론 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다: 
 
     Auth::login($user);
+    
+    // Login and "remember" the given user...
+    Auth::login($user, true);
+
+Of course, you may specify the guard instance you would like to use:
+
+물론, 사용하자 하는 가드의 인스턴스를 지정할 수도 있습니다.
+
+    Auth::guard('admin')->login($user);
 
 #### Authenticate A User By ID
 #### Id를 기반으로 사용자 인증하기
@@ -414,6 +433,9 @@ To log a user into the application by their ID, you may use the `loginUsingId` m
 사용자 ID를 통하여 사용자를 어플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 단순히 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다: 
 
     Auth::loginUsingId(1);
+
+    // Login and "remember" the given user...
+    Auth::loginUsingId(1, true);
 
 #### Authenticate A User Once
 #### 사용자 인증 한 번 하기 
@@ -761,6 +783,7 @@ Now that we have explored each of the methods on the `UserProvider`, let's take 
 
     interface Authenticatable {
 
+        public function getAuthIdentifierName();
         public function getAuthIdentifier();
         public function getAuthPassword();
         public function getRememberToken();
@@ -769,9 +792,9 @@ Now that we have explored each of the methods on the `UserProvider`, let's take 
 
     }
 
-This interface is simple. The `getAuthIdentifier` method should return the "primary key" of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The `getAuthPassword` should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a `User` class in the `app` directory which implements this interface, so you may consult this class for an implementation example.
+This interface is simple. The `getAuthIdentifierName` method should return the name of the "primary key" field of the user and the `getAuthIdentifier` method should return the "primary key" of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The `getAuthPassword` should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a `User` class in the `app` directory which implements this interface, so you may consult this class for an implementation example.
 
-이 인터페이스는 간단합니다. `getAuthIdentifier` 메소드는 사용자의 "프라이머리 키"를 반환합니다. MySQL의 경우 auto-incrementing primary key에 해당합니다. `getAuthPassword`는 사용자의 해시된 패스워드를 반환합니다. 이 인터페이스는 어떤 ORM 혹은 저장소 추상화 계층을 사용하든지에 상관 없이 인증 시스템이 어떤 사용자 클래스에도 적용 될수 있도록 해줍니다. 라라벨은 기본적으로 이 인터페이스를 구현하는 `app` 디렉토리에 `User` 클래스를 포함하기 때문에 구현된 예를 보기 위해 이 클래스를 이용면 됩니다. 
+이 인터페이스는 간단합니다. `getAuthIdentifierName` 메소드는 사용자의 "프라이머리 키" 필드의 이름을 반환해야하며 `getAuthIdentifier` 메소드는 사용자의 "프라이머리 키"를 반환합니다. MySQL의 경우 auto-incrementing primary key에 해당합니다. `getAuthPassword`는 사용자의 해시된 패스워드를 반환합니다. 이 인터페이스는 어떤 ORM 혹은 저장소 추상화 계층을 사용하든지에 상관 없이 인증 시스템이 어떤 사용자 클래스에도 적용 될수 있도록 해줍니다. 라라벨은 기본적으로 이 인터페이스를 구현하는 `app` 디렉토리에 `User` 클래스를 포함하기 때문에 구현된 예를 보기 위해 이 클래스를 이용면 됩니다. 
 
 <a name="events"></a>
 ## Events
@@ -797,5 +820,9 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
 
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogSuccessfulLogout',
+        ],
+        
+        'Illuminate\Auth\Events\Lockout' => [
+            'App\Listeners\LogLockout',
         ],
     ];

@@ -32,7 +32,6 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 ### Arrays 
 ### 배열
 
-<div class="collection-method-list" markdown="1">
 [array_add](#method-array-add)
 [array_collapse](#method-array-collapse)
 [array_divide](#method-array-divide)
@@ -52,25 +51,22 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 [array_where](#method-array-where)
 [head](#method-head)
 [last](#method-last)
-</div>
 
 ### Paths 
 ### 경로
 
-<div class="collection-method-list" markdown="1">
 [app_path](#method-app-path)
 [base_path](#method-base-path)
 [config_path](#method-config-path)
 [database_path](#method-database-path)
 [elixir](#method-elixir)
 [public_path](#method-public-path)
+[resource_path](#method-resource-path)
 [storage_path](#method-storage-path)
-</div>
 
 ### Strings 
 ### 문자열
 
-<div class="collection-method-list" markdown="1">
 [camel_case](#method-camel-case)
 [class_basename](#method-class-basename)
 [e](#method-e)
@@ -88,23 +84,19 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 [studly_case](#method-studly-case)
 [trans](#method-trans)
 [trans_choice](#method-trans-choice)
-</div>
 
 ### URLs
 ### URLs
 
-<div class="collection-method-list" markdown="1">
 [action](#method-action)
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
 [url](#method-url)
-</div>
 
 ### Miscellaneous 
 ### 기타
 
-<div class="collection-method-list" markdown="1">
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
@@ -126,7 +118,6 @@ Laravel includes a variety of "helper" PHP functions. Many of these functions ar
 [value](#method-value)
 [view](#method-view)
 [with](#method-with)
-</div>
 
 <a name="method-listing"></a>
 ## Method Listing 
@@ -160,7 +151,7 @@ The `array_add` function adds a given key / value pair to the array if the given
 <a name="method-array-collapse"></a>
 #### `array_collapse()` {#collection-method}
 
-The `array_collapse` function collapse an array of arrays into a single array:
+The `array_collapse` function collapses an array of arrays into a single array:
 
 `array_collapse` 함수는 배열들의 배열(여러개의 배열)을 하나의 배열로 통합합니다:
 
@@ -280,7 +271,7 @@ The `array_has` function checks that a given item exists in an array using "dot"
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    $hasDesk = array_has($array, ['products.desk']);
+    $hasDesk = array_has($array, 'products.desk');
 
     // true
 
@@ -534,6 +525,21 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
     $path = public_path();
 
+<a name="method-resource-path"></a>
+#### `resource_path()` {#collection-method}
+
+The `resource_path` function returns the fully qualified path to the `resources` directory:
+
+`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다:
+
+    $path = resource_path();
+
+You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the storage directory:
+
+`resource_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다:
+
+    $path = resource_path('assets/sass/app.scss');
+
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
@@ -720,7 +726,7 @@ The `str_slug` function generates a URL friendly "slug" from the given string:
 
 `str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다: 
 
-    $title = str_slug("Laravel 5 Framework", "-");
+    $title = str_slug('Laravel 5 Framework', '-');
 
     // laravel-5-framework
 
@@ -887,7 +893,7 @@ The `csrf_field` function generates an HTML `hidden` input field containing the 
 
 `csrf_field` 함수는 CSRF 토큰 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다: 
 
-    {!! csrf_field() !!}
+    {{ csrf_field() }}
 
 <a name="method-csrf-token"></a>
 #### `csrf_token()` {#collection-method}
@@ -906,6 +912,12 @@ The `dd` function dumps the given variable and ends execution of the script:
 `dd` 함수는 주어진 변수를 Dump 처리하고 스크립트의 실행을 중단합니다: 
 
     dd($value);
+    
+If you do not want to halt the execution of your script, use the `dump` function instead:
+
+스크립트 실행을 중단하고 싶지 않다면, `dump` 함수를 사용하십시오:
+
+    dump($value);
 
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
@@ -954,7 +966,7 @@ The `method_field` function generates an HTML `hidden` input field containing th
 `method_field` 함수는 HTTP 메소드 형식의 가짜(spoof) 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다: 
 
     <form method="POST">
-        {!! method_field('delete') !!}
+        {{ method_field('DELETE') }}
     </form>
 
 <a name="method-old"></a>
@@ -1046,5 +1058,4 @@ The `with` function returns the value it is given. This function is primarily us
 
 `with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 이 함수는 주로 다른 경우에서는 불가능한 메소드 체이닝을 구성하는 데 유용합니다.
     $value = with(new Foo)->work();
-    
     

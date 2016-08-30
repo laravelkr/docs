@@ -51,9 +51,9 @@ When running tests, Laravel will automatically set the configuration environment
 
 단위 테스트를 실행할 때 라라벨은 자동으로 설정 환경을 `testing`에 구성해 놓습니다. 또한 라라벨은 테스트 환경에서의 `session` 과 `cache`을 위한 설정 파일들을 포함하고 있습니다. 이 두개의 드라이버는 테스트 환경에서 `array` 로 설정되며 이는, 세션 또는 캐시 데이터가 테스팅이 진행되는 동안에만 존재한다는 것을 의미합니다. 
 
-You are free to create other testing environment configurations as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file.
+You are free to create other testing environment configurations as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
 
-여러분은 필요한 경우에 자유롭게 테스트 환경 설정을 생성할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있습니다.
+여러분은 필요한 경우에 자유롭게 테스트 환경 설정을 생성할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있습니다. 테스트를 실행 하기 전에 `config:clear` 아티즌 명령어를 실행하여 설정들에 대한 캐시를 지우는 것을 잊지 마십시오!
 
 ### Defining & Running Tests 
 ### 테스트 정의 & 실행하기
@@ -159,7 +159,7 @@ Laravel also provides several methods for testing forms. The `type`, `select`, `
 라라벨은 또한 form을 테스트하는 여러 메소드들을 제공합니다. `type`, `select`, `check`, `attach`, 그리고 `press` 메소드들은 form의 모든 input들과 상호작용할 수 있도록 해줍니다. 예를 들어 이 form이 어플리케이션의 등록 페이지에 존재한다고 가정해보겠습니다: 
 
     <form action="/register" method="POST">
-        {!! csrf_field() !!}
+        {{ csrf_field() }}
 
         <div>
             Name: <input type="text" name="name">
@@ -219,7 +219,7 @@ form이 `file` input 타입을 포함하고 있다면, `attach` 메소드를 이
     public function testPhotoCanBeUploaded()
     {
         $this->visit('/upload')
-             ->name('File Name', 'name')
+             ->type('File Name', 'name')
              ->attach($absolutePathToFile, 'photo')
              ->press('Upload')
              ->see('Upload Successful!');
@@ -244,7 +244,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
          */
         public function testBasicExample()
         {
-            $this->post('/user', ['name' => 'Sally'])
+            $this->json('POST', '/user', ['name' => 'Sally'])
                  ->seeJson([
                      'created' => true,
                  ]);
@@ -274,7 +274,7 @@ If you would like to verify that the given array is an **exact** match for the J
          */
         public function testBasicExample()
         {
-            $this->post('/user', ['name' => 'Sally'])
+            $this->json('POST', '/user', ['name' => 'Sally'])
                  ->seeJsonEquals([
                      'created' => true,
                  ]);
@@ -313,6 +313,46 @@ JSON 응답이 지정한 구조에 부합하는지 확인하는 것도 가능합
 The above example illustrates an expectation of receiving a `name` and a nested `pet` object with its own `name` and `age`. `seeJsonStructure` will not fail if additional keys are present in the response. For example, the test would still pass if the `pet` had a `weight` attribute.
 
 위의 예제에서는 `name` 과 중첩된 `name` 과 `age`를 가지는 `pet` 객체를 전달 받는 것을 기대하는 것입니다. 응답에 추가적인 키가 존재하는 것은 `seeJsonStructure` 에서는 실패로 간주되지 않습니다. 예를 들어 `pet`에 `weight` 속성을 가지고 있다고 해도 테스트는 여전히 통과 할 것입니다. 
+
+You may use the `*` to assert that the returned JSON structure has a list where each list item contains at least the attributes found in the set of values:
+
+반환된 JSON 구조가 각 목록 아이템 값의 세트에서 적어도 주어진 속성을 포함하는 리스트를 가지고 있는지 확인할 수 있도록 `*`를 사용할 수 있습니다:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            // Assert that each user in the list has at least an id, name and email attribute.
+            $this->get('/users')
+                 ->seeJsonStructure([
+                     '*' => [
+                         'id', 'name', 'email'
+                     ]
+                 ]);
+        }
+    }
+
+You may also nest the `*` notation. In this case, we will assert that each user in the JSON response contains a given set of attributes and that each pet on each user also contains a given set of attributes:
+
+`*` 표기는 중첩할 수도 있습니다. 다음 예제의 경우 JSON response 는 각각의 사용자가 주어진 속성들을 가지고 사용자의 pet들은 중첩되어 주어진 속성들을 가지고 있는지 확인할 수 있습니다:
+
+    $this->get('/users')
+         ->seeJsonStructure([
+             '*' => [
+                 'id', 'name', 'email', 'pets' => [
+                     '*' => [
+                         'name', 'age'
+                     ]
+                 ]
+             ]
+         ]);
 
 <a name="sessions-and-authentication"></a>
 ### Sessions / Authentication 
@@ -443,7 +483,7 @@ Method  | Description
 `->assertSessionHasAll(array $bindings);`  |  Assert that the session has a given list of values.
 `->assertSessionHasErrors($bindings = [], $format = null);`  |  Assert that the session has errors bound.
 `->assertHasOldInput();`  |  Assert that the session has old input.
-
+`->assertSessionMissing($key);`  |  Assert that the session is missing a given key.
 
 메소드  | 설명
 ------------- | -------------
@@ -459,6 +499,7 @@ Method  | Description
 `->assertSessionHasAll(array $bindings);`  |  세션이 주어진 값의 목록을 가지는지 확인.
 `->assertSessionHasErrors($bindings = [], $format = null);`  |  세션이 주어진 오류들을 가지고 있는지 확인. 
 `->assertHasOldInput();`  |  세션이 이전의 입력값을 가지고 있는지 확인.
+`->assertSessionMissing($key);`  |  세션이 주어진 키를 가지고 있지 않는 것을 확인.
 
 <a name="working-with-databases"></a>
 ## Working With Databases 
@@ -570,9 +611,9 @@ Within the Closure, which serves as the factory definition, you may return the d
 
 팩토리의 정의를 제공하는 클로저 안에서 모든 모델의 속성의 기본 테스트 값을 반환할 수 있습니다. 클로저는 [Faker](https://github.com/fzaninotto/Faker) PHP 라이브러리 인스턴스를 전달 받을 것이고, 이는 테스트할 수 있는 다양한 랜덤 데이터를 편리하게 생성할 수 있게 해줍니다. 
 
-Of course, you are free to add your own additional factories to the `ModelFactory.php` file.
+Of course, you are free to add your own additional factories to the `ModelFactory.php` file. You may also create additional factory files for each model for better organization. For example, you could create `UserFactory.php` and `CommentFactory.php` files within your `database/factories` directory. 
 
-물론 `ModelFactory.php` 파일에 여러분의 고유한 팩토리들을 자유롭게 추가할 수 있습니다. 
+물론 `ModelFactory.php` 파일에 여러분의 고유한 팩토리들을 자유롭게 추가할 수 있습니다. 여러분은 또한 보다 나은 구성을 위해서 각각의 모델들을 위한 추가적인 팩토리 파일들을 생성할 수 있습니다. 예를 들어 `database/factories` 디렉토리에 `UserFactory.php` 와 `CommentFactory.php` 파일을 생성할 수도 있습니다.
 
 #### Multiple Factory Types 
 #### 여러가지 팩토리 타입들
@@ -667,9 +708,43 @@ You may even persist multiple models to the database. In this example, we'll eve
 
     $users = factory(App\User::class, 3)
                ->create()
-               ->each(function($u) {
+               ->each(function ($u) {
                     $u->posts()->save(factory(App\Post::class)->make());
                 });
+
+#### Relations & Attribute Closures
+#### 관계 & 속성 클로저-Closures
+
+You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
+
+팩토리 정의안에서 클로저를 속성으로 사용하여 모델에 관계를 추가할 수도 있습니다. 예를 들어 `Post` 가 생성될 때 `User` 인스턴스를 생성하고자 한다면, 다음처럼 하면 됩니다:
+
+    $factory->define(App\Post::class, function ($faker) {
+        return [
+            'title' => $faker->title,
+            'content' => $faker->paragraph,
+            'user_id' => function () {
+                return factory(App\User::class)->create()->id;
+            }
+        ];
+    });
+
+These Closures also receive the evaluated attribute array of the factory that contains them:
+
+이 클로저는 팩토리의 계산된 속성 배열을 받을 수도 있습니다. 
+
+    $factory->define(App\Post::class, function ($faker) {
+        return [
+            'title' => $faker->title,
+            'content' => $faker->paragraph,
+            'user_id' => function () {
+                return factory(App\User::class)->create()->id;
+            },
+            'user_type' => function (array $post) {
+                return App\User::find($post['user_id'])->type;
+            }
+        ];
+    });
 
 <a name="mocking"></a>
 ## Mocking 

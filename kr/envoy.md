@@ -68,6 +68,15 @@ As you can see, an array of `@servers` is defined at the top of the file, allowi
 
 위에서 보시다 시피 `@servers` 배열이 파일의 최상단에 정의되어 작업을 지정할 때 `on` 옵션을 사용할 때 해당 서버를 참조할 수 있습니다. `@task` 선언 안에서 여러분은 작업이 실행될 때 구동시킬 Bash 코드를 작성해야 합니다. 
 
+#### Local Tasks
+#### 로컬 작업
+
+You can define a script to run locally by defining a server reference to the local host:
+
+로컬 호스트를 참조하는 서버를 정의하여 스크립트를 로컬에서 실행하는 것도 가능합니다.
+
+    @servers(['localhost' => '127.0.0.1'])
+
 #### Bootstrapping
 #### 부트스트래핑
 
@@ -224,7 +233,7 @@ If you wish, you may also pass a custom message to send to the HipChat room. Any
 원하는 경우, HipChat 에 원하는 사용자 메세지를 전달할 수도 있습니다. 사용자 메세지를 구성하기 위해서 Envoy 작업의 어떤 변수라도 사용할 수 있습니다. 
 
     @after
-        @hipchat('token', 'room', 'Envoy', "{$task} ran in the {$env} environment.")
+        @hipchat('token', 'room', 'Envoy', "$task ran in the $env environment.")
     @endafter
 
 <a name="slack"></a>

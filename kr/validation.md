@@ -143,6 +143,22 @@ As you can see, we simply pass the incoming HTTP request and desired validation 
 
 위에서 볼 수 있듯이, 간단하게 유입되는 HTTP 요청과 유효성 검사 룰들을 `validate` 메소드로 전달하면 됩니다. 이 때에도 유효 확인이 실패하면 적절한 응답이 생성될 것입니다. 유효성 검사를 통과하면 컨트롤러는 계속해서 정상적으로 수행합니다.
 
+#### Stopping On First Validation Failure
+#### 첫번째 유효성 검사가 실패하면 중지하기
+
+Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
+
+경우에 따라서 첫번째 유효성 감사가 실패하면 속성값에 대한 검사를 중단하기를 원할수도 있습니다. 이러한 경우 `bail` 규칙을 지정하면 됩니다.
+
+    $this->validate($request, [
+        'title' => 'bail|required|unique:posts|max:255',
+        'body' => 'required',
+    ]);
+
+In this example, if the `required` rule on the `title` attribute fails, the `unique` rule will not be checked. Rules will be validated in the order they are assigned.
+
+이 예제에서는, `required` 규칙으로 지정된(필수값) `title` 속성의 유효성 검사가 실패하면 `unique` 규칙은 확인하지 않습니다. 유효성 검사 규칙은 선언된 순서대로 검사될 것입니다. 
+
 #### A Note On Nested Attributes
 #### 중첩된 속성에 대한 유의사항
 
@@ -239,7 +255,8 @@ Validating array form input fields doesn't have to be a pain. For example, to va
 배열 form 필드에 대해서 유효성 검사를 하는 것은 어렵지 않습니다. 예를 들어 주어진 배열 입력필드의 각각의 이메일이 고유한지 검증하려면 다음처럼 하면 됩니다: 
 
     $validator = Validator::make($request->all(), [
-        'person.*.email' => 'email|unique:users'
+        'person.*.email' => 'email|unique:users',
+        'person.*.first_name' => 'required_with:person.*.last_name',
     ]);
 
 Likewise, you may use the `*` character when specifying your validation messages in your language files, making it a breeze to use a single validation message for array based fields:
@@ -594,7 +611,6 @@ Below is a list of all available validation rules and their function:
     }
 </style>
 
-<div class="collection-method-list" markdown="1">
 [Accepted](#rule-accepted)
 [Active URL](#rule-active-url)
 [After (Date)](#rule-after)
@@ -611,18 +627,25 @@ Below is a list of all available validation rules and their function:
 [Different](#rule-different)
 [Digits](#rule-digits)
 [Digits Between](#rule-digits-between)
+[Dimensions (Image Files)](#rule-dimensions)
+[Distinct](#rule-distinct)
 [E-Mail](#rule-email)
 [Exists (Database)](#rule-exists)
+[File](#rule-file)
+[Filled](#rule-filled)
 [Image (File)](#rule-image)
 [In](#rule-in)
+[In Array](#rule-in-array)
 [Integer](#rule-integer)
 [IP Address](#rule-ip)
 [JSON](#rule-json)
 [Max](#rule-max)
-[MIME Types (File)](#rule-mimes)
+[MIME Types](#rule-mimetypes)
+[MIME Type By File Extension](#rule-mimes)
 [Min](#rule-min)
 [Not In](#rule-not-in)
 [Numeric](#rule-numeric)
+[Present](#rule-present)
 [Regular Expression](#rule-regex)
 [Required](#rule-required)
 [Required If](#rule-required-if)
@@ -637,7 +660,6 @@ Below is a list of all available validation rules and their function:
 [Timezone](#rule-timezone)
 [Unique (Database)](#rule-unique)
 [URL](#rule-url)
-</div>
 
 <a name="rule-accepted"></a>
 #### accepted
@@ -761,6 +783,26 @@ The field under validation must have a length between the given _min_ and _max_.
 
 필드의 값이 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
 
+<a name="rule-dimensions"></a>
+#### dimensions
+
+The file under validation must be an image meeting the dimension constraints as specified by the rule's parameters:
+
+필드의 값이 룰에 지정된 파라미터들을 만족하는 이미지이어야 합니다.
+
+    'avatar' => 'dimensions:min_width=100,min_height=200'
+
+Available constraints are: _min\_width_, _max\_width_, _min\_height_, _max\_height_, _width_, _height_, _ratio_.
+
+<a name="rule-distinct"></a>
+#### distinct
+
+When working with arrays, the field under validation must not have any duplicate values.
+
+배열에서 동작하며, 필드의 값이 배열안의 다른 값과 중복되지 않아야 합니다.
+
+    'foo.*.id' => 'distinct'
+
 <a name="rule-email"></a>
 #### email
 
@@ -805,6 +847,26 @@ You may also pass `NULL` or `NOT_NULL` to the "where" clause:
 
     'email' => 'exists:staff,email,deleted_at,NOT_NULL'
 
+Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
+
+때때로, `exists` 쿼리에서 사용할 데이터베이스 커넥션을 지정하고자 할 수도 있습니다. 이경우 커넥션의 이름을 테이블 이름 앞에 "점" 문법을 사용하여 표기할 수도 있습니다.
+
+    'email' => 'exists:connection.staff,email'
+
+<a name="rule-file"></a>
+#### file
+
+The field under validation must be a successfully uploaded file.
+
+필드의 값이 완전히 업로드된 파일이어야 합니다.
+
+<a name="rule-filled"></a>
+#### filled
+
+The field under validation must not be empty when it is present.
+
+필드가 존재하는 경우 값이 비어있으면 안됩니다.
+
 <a name="rule-image"></a>
 #### image
 
@@ -818,6 +880,13 @@ The file under validation must be an image (jpeg, png, bmp, gif, or svg)
 The field under validation must be included in the given list of values. 
 
 필드의 값이 주어진 목록에 포함돼 있어야 합니다.
+
+<a name="rule-in-array"></a>
+#### in_array:_anotherfield_
+
+The field under validation must exist in _anotherfield_'s values.
+
+필드의 값이 주어진 다른 필드의 값안에 존재해야만 합니다.
 
 <a name="rule-integer"></a>
 #### integer
@@ -836,7 +905,7 @@ The field under validation must be an IP address.
 <a name="rule-json"></a>
 #### json
 
-The field under validation must a valid JSON string.
+The field under validation must be a valid JSON string.
 
 필드의 값이 유효한 JSON 문자열이어야 합니다. 
 
@@ -846,6 +915,19 @@ The field under validation must a valid JSON string.
 The field under validation must be less than or equal to a maximum _value_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
 필드의 값이 반드시 _value_보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
+
+<a name="rule-mimetypes"></a>
+#### mimetypes:_text/plain_,...
+
+The file under validation must match one of the given MIME types:
+
+파일이 주어진 MIME 타입들 중 하나와 일치해야만 합니다.
+
+    'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
+
+To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client provided MIME type.
+
+업로드 파일의 MIME 타입을 지정하고자 한다면, 프레임 워크는 파일의 내용을 읽어 들여 MIME 타입을 추측하게 되며 클라이언트가 제공하는 MIME 타입과 달라질 수 있습니다.  
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
@@ -888,6 +970,13 @@ The field under validation must be numeric.
 
 필드의 값이 숫자여야 합니다.
 
+<a name="rule-present"></a>
+#### present
+
+The field under validation must be present in the input data but can be empty.
+
+필드가 존재하고 있는지 확인하지만, 값이 비어있을 수 있습니다.
+
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
@@ -919,44 +1008,45 @@ The field under validation must be present in the input data and not empty. A fi
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
 
-The field under validation must be present if the _anotherfield_ field is equal to any _value_.
+The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
 
-만약 _filed_의 값이 _value_중의 하나와 일치한다면, 해당 필드가 반드시 존재해야 합니다.
+만약 _anotherfield_의 값이 _value_중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
 The field under validation must be present unless the _anotherfield_ field is equal to any _value_.
+The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
 
-_anotherfield_가 어떤 _value_와 동일하지 않은 이상 필드가 존재해야 합니다. 
+_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다. 
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
 
-The field under validation must be present _only if_ any of the other specified fields are present.
+The field under validation must be present and not empty _only if_ any of the other specified fields are present.
 
-다른 지정된 필드중 하나라도 존재한다면, 해당 필드가 반드시 존재해야 합니다.
+지정된 다른 필드중 하나라도 존재한다면, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-with-all"></a>
 #### required_with_all:_foo_,_bar_,...
 
-The field under validation must be present _only if_ all of the other specified fields are present.
+The field under validation must be present and not empty _only if_ all of the other specified fields are present.
 
-다른 지정된 필드가 모두 존재한다면, 해당 필드가 반드시 존재해야 합니다.
+지정된 다른 필드가 모두 존재한다면, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-without"></a>
 #### required_without:_foo_,_bar_,...
 
-The field under validation must be present _only when_ any of the other specified fields are not present.
+The field under validation must be present and not empty _only when_ any of the other specified fields are not present.
 
-다른 지정된 필드중 하나라도 존재하지 않으면, 해당 필드가 반드시 존재해야 합니다.
+지정된 다른 필드중 하나라도 존재하지 않으면, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-without-all"></a>
 #### required_without_all:_foo_,_bar_,...
 
-The field under validation must be present _only when_ all of the other specified fields are not present.
+The field under validation must be present and not empty _only when_ all of the other specified fields are not present.
 
-다른 지정된 필드가 모두 존재하지 않으면, 해당 필드가 존재해야 합니다.
+지정된 다른 필드들이 모두 존재하지 않으면, 해당 필드가 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-same"></a>
 #### same:_field_
@@ -968,9 +1058,9 @@ The given _field_ must match the field under validation.
 <a name="rule-size"></a>
 #### size:_value_
 
-The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For files, _size_ corresponds to the file size in kilobytes.
+The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes.
 
-필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
+필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 배열에서는 배열의 `count` 와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
 
 <a name="rule-string"></a>
 #### string
@@ -1038,9 +1128,9 @@ In the rule above, only rows with an `account_id` of `1` would be included in th
 <a name="rule-url"></a>
 #### url
 
-The field under validation must be a valid URL according to PHP's `filter_var` function.
+The field under validation must be a valid URL.
 
-필드는 반드시 PHP  `filter_var` 함수에 따라 유효한 URL이어야 합니다. 
+필드는 반드시 유효한 URL이어야 합니다. 
 
 <a name="conditionally-adding-rules"></a>
 ## Conditionally Adding Rules

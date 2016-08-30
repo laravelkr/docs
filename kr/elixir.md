@@ -70,9 +70,9 @@ Elixir를 사용하기전 여러분의 작업환경에 Node.js가 설치되어�
 
     node -v
 
-By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install Node by visiting [their download page](http://nodejs.org/download/).
+By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install Node by visiting [their download page](http://nodejs.org/en/download/).
 
-기본적으로 라라벨의 홈스테드는 여러분이 필요로하는 모든것을 포함하고 있습니다. 그러나 Vagrant를 사용하지 않으신다면 [Node.js 다운로드 페이지](http://nodejs.org/download/)에서 관련 문서를 통해서 쉽게 설치할 수 있습니다.
+기본적으로 라라벨의 홈스테드는 여러분이 필요로하는 모든것을 포함하고 있습니다. 그러나 Vagrant를 사용하지 않으신다면 [Node.js 다운로드 페이지](http://nodejs.org/en/download/)에서 관련 문서를 통해서 쉽게 설치할 수 있습니다.
 
 ### Gulp
 ### Gulp
@@ -81,7 +81,17 @@ Next, you'll want to pull in [Gulp](http://gulpjs.com) as a global NPM package:
 
 다음으로 [Gulp](http://gulpjs.com)을 글로벌 NPM 패키지로 설치합니다.
 
-    npm install --global gulp
+    npm install --global gulp-cli
+
+If you use a version control system, you may wish to run the `npm shrinkwrap` to lock your NPM requirements:
+
+버전 관리 시스템을 사용하는 경우 NPM 에 추가하기 위해서 `npm shrinkwrap` 라고 실행할 수도 있습니다:
+
+     npm shrinkwrap
+
+Once you have run this command, feel free to commit the [npm-shrinkwrap.json](https://docs.npmjs.com/cli/shrinkwrap) into source control.
+
+이 명령어를 실행한 뒤에, [npm-shrinkwrap.json](https://docs.npmjs.com/cli/shrinkwrap) 파일을 소스 컨트롤에 자유롭게 커밋할 수 있습니다.
 
 ### Laravel Elixir
 ### Laravel Elixir
@@ -275,17 +285,22 @@ elixir(function(mix) {
 ### Browserify
 ### Browserify
 
-Elixir also ships with a `browserify` method, which gives you all the benefits of requiring modules in the browser and using ECMAScript 6.
+Elixir also ships with a `browserify` method, which gives you all the benefits of requiring modules in the browser and using ECMAScript 6 and JSX.
 
-Elixir 는 또한 ECMAScript 6를 사용하는 모듈들의 require 를 구성하는 장점을 활용할 수 있도록 `browserify` 메소드도 제공합니다. 
+Elixir 는 또한 ECMAScript 6와 JSX 를 사용하는 모듈들의 require 를 구성하는 장점을 활용할 수 있도록 `browserify` 메소드도 제공합니다. 
 
-This task assumes that your scripts are stored in `resources/assets/js` and will place the resulting file in `public/js/main.js`:
+This task assumes that your scripts are stored in `resources/assets/js` and will place the resulting file in `public/js/main.js`. You may pass a custom output location as an optional second argument:
 
-이 메소드는 스크립트 파일들이 `resources/assets/js` 에 위치한다고 가정하고 있으며, 결과 파일은 `public/js/main.js` 파일이 됩니다:
+이 메소드는 스크립트 파일들이 `resources/assets/js` 에 위치한다고 가정하고 있으며, 결과 파일은 `public/js/main.js` 파일이 됩니다. 두번째 인자를 넘겨주어 결과 파일의 위치를 지정할 수도 있습니다:
 
 ```javascript
 elixir(function(mix) {
     mix.browserify('main.js');
+});
+
+// Specifying a specific output filename...
+elixir(function(mix) {
+    mix.browserify('main.js', 'public/javascripts/main.js');
 });
 ```
 
@@ -310,15 +325,16 @@ elixir(function(mix) {
 ### Babel
 ### Babel
 
-The `babel` method may be used to compile [ECMAScript 6 and 7](https://babeljs.io/docs/learn-es2015/) into plain JavaScript. This function accepts an array of files relative to the `resources/assets/js` directory, and generates a single `all.js` file in the `public/js` directory: 
+The `babel` method may be used to compile [ECMAScript 6 and 7](https://babeljs.io/docs/learn-es2015/) and [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) into plain JavaScript. This function accepts an array of files relative to the `resources/assets/js` directory, and generates a single `all.js` file in the `public/js` directory:
 
-`babel` 메소드는 [ECMAScript 6 과 7](https://babeljs.io/docs/learn-es2015/)을 일반적인 JavaScript로 컴파일하는데 사용됩니다. 이 함수는 `resources/assets/js`디렉토리에 들어 있는 파일들의 배열을 인자로 받아서 `public/js` 디렉토리에 하나의 `all.js` 파일을 생성합니다. 
+`babel` 메소드는 [ECMAScript 6 과 7](https://babeljs.io/docs/learn-es2015/) 그리고 [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html)를 일반적인 JavaScript로 컴파일하는데 사용됩니다. 이 함수는 `resources/assets/js`디렉토리에 들어 있는 파일들의 배열을 인자로 받아서 `public/js` 디렉토리에 하나의 `all.js` 파일을 생성합니다. 
 
 ```javascript
 elixir(function(mix) {
     mix.babel([
         'order.js',
-        'product.js'
+        'product.js',
+        'react-component.jsx'
     ]);
 });
 ```

@@ -207,6 +207,18 @@ For convenience, Blade also provides an `@unless` directive:
         You are not signed in.
     @endunless
 
+You may also determine if a given layout section has any content using the `@hasSection` directive:
+
+또한 주어진 섹션이 컨텐츠 내용을 가지고 있는지 확인하기 위해 `@hasSection` 지시어를 사용할 수도 있습니다. 
+
+    <title>
+        @hasSection ('title')
+            @yield('title') - App Name
+        @else
+            App Name
+        @endif
+    </title>
+
 #### Loops
 #### 반복문
 
@@ -231,6 +243,34 @@ In addition to conditional statements, Blade provides simple directives for work
     @while (true)
         <p>I'm looping forever.</p>
     @endwhile
+
+When using loops you might need to end the loop or skip the current iteration:
+
+반복문을 사용할 때에는 반복문의 중료 또는 현재 반복의 중단을 표시할 필요가 있습니다:
+
+    @foreach ($users as $user)
+        @if ($user->type == 1)
+            @continue
+        @endif
+
+        <li>{{ $user->name }}</li>
+
+        @if ($user->number == 5)
+            @break
+        @endif
+    @endforeach
+
+You may also include the condition with the directive declaration in one line:
+
+또한 하나의 라인으로 표현되는 조건식을 포함할 수도 있습니다:
+
+    @foreach ($users as $user)
+        @continue($user->type == 1)
+
+        <li>{{ $user->name }}</li>
+
+        @break($user->number == 5)
+    @endforeach
 
 #### Including Sub-Views
 #### 하위 뷰 포함하기
@@ -266,9 +306,9 @@ You may combine loops and includes into one line with Blade's `@each` directive:
 
     @each('view.name', $jobs, 'job')
 
-The first argument is the view partial to render for each element in the array or collection. The second argument is the array or collection you wish to iterate over, while the third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of `jobs`, typically you will want to access each job as a `job` variable within your view partial.
+The first argument is the view partial to render for each element in the array or collection. The second argument is the array or collection you wish to iterate over, while the third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of `jobs`, typically you will want to access each job as a `job` variable within your view partial. The key for the current iteration will be available as the `key` variable within your view partial.
 
-첫번째 인자는 배열이나 컬렉션의 각 요소를 렌더링하기 위한 부분적 뷰의 이름입니다. 두번째 인자는 반복 처리하는 배열이나 컬렉션이며 세번째 인수는 뷰에서의 반복값이 대입되는 변수의 이름입니다. 예를 들어 `jobs` 배열을 반복 처리하려면 보통 부분적 뷰에서 각 과제를 `job` 변수로 접근해야 할 것입니다. 
+첫번째 인자는 배열이나 컬렉션의 각 요소를 렌더링하기 위한 부분적 뷰의 이름입니다. 두번째 인자는 반복 처리하는 배열이나 컬렉션이며 세번째 인수는 뷰에서의 반복값이 대입되는 변수의 이름입니다. 예를 들어 `jobs` 배열을 반복 처리하려면 보통 부분적 뷰에서 각 과제를 `job` 변수로 접근해야 할 것입니다. 현재 반복에서의 키값은 부분적 뷰에서 `key` 변수로 접근할 수 있습니다. 
 
 You may also pass a fourth argument to the `@each` directive. This argument determines the view that will be rendered if the given array is empty.
 
@@ -371,4 +411,6 @@ As you can see, Laravel's `with` helper function was used in this directive. The
 
     <?php echo with($var)->format('m/d/Y H:i'); ?>
 
+After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
 
+블레이드 지시어 로직을 수정한 뒤에는, 블레이드 뷰 캐시를 삭제할 필요가 있습니다. 블레이드 뷰의 캐시는 `view:clear` 아티즌 명령어를 사용하여 제거할 수 있습니다.

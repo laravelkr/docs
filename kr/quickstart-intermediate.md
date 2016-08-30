@@ -7,48 +7,48 @@
 - [설치하기](#installation)
 - [Prepping The Database](#prepping-the-database)
 - [데이터베이스 준비사항](#prepping-the-database)
-	- [Database Migrations](#database-migrations)
-	- [데이터베이스 마이그레이션](#database-migrations)
-	- [Eloquent Models](#eloquent-models)
-	- [Eloquent 모델](#eloquent-models)
-	- [Eloquent Relationships](#eloquent-relationships)
-	- [Eloquent 관계 정의](#eloquent-relationships)
+    - [Database Migrations](#database-migrations)
+    - [데이터베이스 마이그레이션](#database-migrations)
+    - [Eloquent Models](#eloquent-models)
+    - [Eloquent 모델](#eloquent-models)
+    - [Eloquent Relationships](#eloquent-relationships)
+    - [Eloquent 관계 정의](#eloquent-relationships)
 - [Routing](#routing)
 - [Routing-라우팅](#routing)
-	- [Displaying A View](#displaying-a-view)
-	- [뷰 연결하기](#displaying-a-view)
-	- [Authentication](#authentication-routing)
-	- [사용자 인증](#authentication-routing)
-	- [The Task Controller](#the-task-controller)
-	- [Task 컨트롤러](#the-task-controller)
+    - [Displaying A View](#displaying-a-view)
+    - [뷰 연결하기](#displaying-a-view)
+    - [Authentication](#authentication-routing)
+    - [사용자 인증](#authentication-routing)
+    - [The Task Controller](#the-task-controller)
+    - [Task 컨트롤러](#the-task-controller)
 - [Building Layouts & Views](#building-layouts-and-views)
 - [레이아웃 & 뷰 구성하기](#building-layouts-and-views)
-	- [Defining The Layout](#defining-the-layout)
-	- [레이아웃 정의하기](#defining-the-layout)
-	- [Defining The Child View](#defining-the-child-view)
-	- [자식 뷰 파일 정의하기](#defining-the-child-view)
+    - [Defining The Layout](#defining-the-layout)
+    - [레이아웃 정의하기](#defining-the-layout)
+    - [Defining The Child View](#defining-the-child-view)
+    - [자식 뷰 파일 정의하기](#defining-the-child-view)
 - [Adding Tasks](#adding-tasks)
 - [할일 추가하기](#adding-tasks)
-	- [Validation](#validation)
-	- [입력값 유효성 검증하기](#validation)
-	- [Creating The Task](#creating-the-task)
-	- [할일 생성하기](#creating-the-task)
+    - [Validation](#validation)
+    - [입력값 유효성 검증하기](#validation)
+    - [Creating The Task](#creating-the-task)
+    - [할일 생성하기](#creating-the-task)
 - [Displaying Existing Tasks](#displaying-existing-tasks)
 - [추가된 할일들 표시하기](#displaying-existing-tasks)
-	- [Dependency Injection](#dependency-injection)
-	- [의존성 주입](#dependency-injection)
-	- [Displaying The Tasks](#displaying-the-tasks)
-	- [할일들 보여주기](#displaying-the-tasks)
+    - [Dependency Injection](#dependency-injection)
+    - [의존성 주입](#dependency-injection)
+    - [Displaying The Tasks](#displaying-the-tasks)
+    - [할일들 보여주기](#displaying-the-tasks)
 - [Deleting Tasks](#deleting-tasks)
 - [할일 삭제하기](#deleting-tasks)
-	- [Adding The Delete Button](#adding-the-delete-button)
-	- [삭제 버튼 추가하기](#adding-the-delete-button)
-	- [Route Model Binding](#route-model-binding)
-	- [라우트 모델 바인딩](#route-model-binding)
-	- [Authorization](#authorization)
-	- [Authorization-승인](#authorization)
-	- [Deleting The Task](#deleting-the-task)
-	- [할일 삭제하기](#deleting-the-task)
+    - [Adding The Delete Button](#adding-the-delete-button)
+    - [삭제 버튼 추가하기](#adding-the-delete-button)
+    - [Route Model Binding](#route-model-binding)
+    - [라우트 모델 바인딩](#route-model-binding)
+    - [Authorization](#authorization)
+    - [Authorization-승인](#authorization)
+    - [Deleting The Task](#deleting-the-task)
+    - [할일 삭제하기](#deleting-the-task)
 
 <a name="introduction"></a>
 ## Introduction
@@ -58,9 +58,9 @@ This quickstart guide provides an intermediate introduction to the Laravel frame
 
 이 퀵스타트 가이드는 중급 이상의 사용자들을 위해서 라라벨 프레임워크에 대한 소개와 데이터베이스 마이그레이션, Eloquent ORM, 라우팅, validation-검증, views-뷰, 블레이드 템플릿과 관련한 내용을 포함하고 있습니다. 라라벨 프레임워크와 PHP 프레임워크에 대한 기본적인 지식을 가지고 있다면 좋은 출발점이 될 것입니다. 
 
-To sample a basic selection of Laravel features, we will build a task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. In contrast to the "basic" quickstart, this tutorial will allow users to create accounts and authenticate with the application. The complete, finished source code for this project is [available on GitHub](http://github.com/laravel/quickstart-intermediate).
+To sample a basic selection of Laravel features, we will build a task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. In contrast to the "basic" quickstart, this tutorial will allow users to create accounts and authenticate with the application. The complete, finished source code for this project is [available on GitHub](https://github.com/laravel/quickstart-intermediate).
 
-라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 어플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](http://github.com/laravel/quickstart-intermediate).
+라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 어플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](https://github.com/laravel/quickstart-intermediate).
 
 <a name="installation"></a>
 ## Installation
@@ -73,7 +73,7 @@ Of course, first you will need a fresh installation of the Laravel framework. Yo
 
 가장 먼저 라라벨 프레임워크를 새롭게 설치해야 합니다. [홈스테드 가상머신](/docs/{{version}}/homestead)을 사용하거나, 또는 여러분이 원하는 로컬 PHP 환경을 선택하여 프레임워크를 실행할 수 있습니다. 로컬 개발 환경이 준비되면 Composer를 이용해 라라벨 프레임워크를 설치할 수 있습니다.
 
-	composer create-project laravel/laravel quickstart --prefer-dist
+    composer create-project laravel/laravel quickstart --prefer-dist
 
 #### Installing The Quickstart (Optional)
 #### 퀵스타트 설치하기(선택사항)
@@ -82,10 +82,10 @@ You're free to just read along for the remainder of this quickstart; however, if
 
 이제부터 나오는 내용은 눈으로 보기만 하셔도 됩니다. 하지만 이 퀵스타트의 소스 코드를 다운받아서 로컬 개발 머신에 실행하고 싶으시다면 Git 저장소를 복제하여 의존 패키지들을 설치하면 됩니다.
 
-	git clone https://github.com/laravel/quickstart-intermediate quickstart
-	cd quickstart
-	composer install
-	php artisan migrate
+    git clone https://github.com/laravel/quickstart-intermediate quickstart
+    cd quickstart
+    composer install
+    php artisan migrate
 
 For more complete documentation on building a local Laravel development environment, check out the full [Homestead](/docs/{{version}}/homestead) and [installation](/docs/{{version}}/installation) documentation.
 
@@ -117,50 +117,50 @@ Next, let's build a database table that will hold all of our tasks. The [Artisan
 
 그럼 이제 모든 할일들을 저장할 데이터베이스 테이블을 만들겠습니다. [아티즌 CLI](/docs/{{version}}/artisan)을 사용하여 다양한 클래스를 생성하면 라라벨 프로젝트들을 구성할 때, 매번 타이핑할 필요가 없어서 효율성을 높일 수 있습니다. 이 경우에서는 `make:migration`명령어를 사용하여 `tasks` 테이블을 위한 새로운 데이터베이스 마이그레이션 파일을 생성합니다:
 
-	php artisan make:migration create_tasks_table --create=tasks
+    php artisan make:migration create_tasks_table --create=tasks
 
 The migration will be placed in the `database/migrations` directory of your project. As you may have noticed, the `make:migration` command already added an auto-incrementing ID and timestamps to the migration file. Let's edit this file and add an additional `string` column for the name of our tasks, as well as a `user_id` column which will link our `tasks` and `users` tables:
 
 마이그레이션 파일은 프로젝트의 `database/migrations` 디렉토리에 놓일 것입니다. 이미 알고 있을 수도 있듯이 `make:migration` 커맨드는 마이그레이션 파일에 auto-increment ID와 타임스탬프를 추가하였습니다. 이 파일을 수정하여 추가적으로 해야할 일들의 이름을 위한 `string` 컬럼과 `tasks` 와 `users` 테이블을 연결하는 `user_id` 컬럼을 추가합시다. 
 
-	<?php
+    <?php
 
-	use Illuminate\Database\Schema\Blueprint;
-	use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Database\Migrations\Migration;
 
-	class CreateTasksTable extends Migration
-	{
-	    /**
-	     * Run the migrations.
-	     *
-	     * @return void
-	     */
-	    public function up()
-	    {
-	        Schema::create('tasks', function (Blueprint $table) {
-	            $table->increments('id');
-	            $table->integer('user_id')->index();
-	            $table->string('name');
-	            $table->timestamps();
-	        });
-	    }
+    class CreateTasksTable extends Migration
+    {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
+        public function up()
+        {
+            Schema::create('tasks', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned()->index();
+                $table->string('name');
+                $table->timestamps();
+            });
+        }
 
-	    /**
-	     * Reverse the migrations.
-	     *
-	     * @return void
-	     */
-	    public function down()
-	    {
-	        Schema::drop('tasks');
-	    }
-	}
+        /**
+         * Reverse the migrations.
+         *
+         * @return void
+         */
+        public function down()
+        {
+            Schema::drop('tasks');
+        }
+    }
 
 To run our migrations, we will use the `migrate` Artisan command. If you are using Homestead, you should run this command from within your virtual machine, since your host machine will not have direct access to the database:
 
 `migrate` 아티즌 커맨드를 이용하여 마이그레이션들을 실행합니다. 홈스테드를 이용하고 있다면 호스트 머신에서 데이터베이스에 직접 접속할 수 없기 때문에 홈스테드 가상 머신 안에서 커맨드를 실행해야 합니다. 
 
-	php artisan migrate
+    php artisan migrate
 
 This command will create all of our database tables. If you inspect the database tables using the database client of your choice, you should see new `tasks` and `users` tables which contains the columns defined in our migration. Next, we're ready to define our Eloquent ORM models!
 
@@ -187,7 +187,7 @@ So, let's define a `Task` model that corresponds to our `tasks` database table w
 
 이제 방금 생성한 `tasks` 데이터베이스 테이블에 대응하는 `Task` 모델을 정의합니다. 이번에도 아티즌 커맨드를 통해 이 모델을 생성할 수 있습니다. 이 경우 `make:model` 명령어를 사용합니다: 
 
-	php artisan make:model Task
+    php artisan make:model Task
 
 The model will be placed in the `app` directory of your application. By default, the model class is empty. We do not have to explicitly tell the Eloquent model which table it corresponds to because it will assume the database table is the plural form of the model name. So, in this case, the `Task` model is assumed to correspond with the `tasks` database table.
 
@@ -197,21 +197,21 @@ Let's add a few things to this model. First, we will state that the `name` attri
 
 모델에 몇 가지를 추가해 보겠습니다. 먼저 모델의 `name` 속성을 "mass-assignable"이라고 명시합니다. 이것은 우리에게 Eloquent의 `create` 메소드를 사용할 때, `name` 속성을 채울 수 있도록 해줄 것입니다.
 
-	<?php
+    <?php
 
-	namespace App;
+    namespace App;
 
-	use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Model;
 
-	class Task extends Model
-	{
-	    /**
-	     * The attributes that are mass assignable.
-	     *
-	     * @var array
-	     */
-	    protected $fillable = ['name'];
-	}
+    class Task extends Model
+    {
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var array
+         */
+        protected $fillable = ['name'];
+    }
 
 We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
 
@@ -225,11 +225,11 @@ Now that our models are defined, we need to link them. For example, our `User` c
 
 모델들을 정의하고 나면, 이것들을 서로 연결시켜야 합니다. 예를 들어서 `User`는 많은 `Task`를 가질 수 있지만 하나의 `Task`는 단 하나의 `User`에만 할당될 수 있다고 해보겠습니다. 하나의 관계를 정의하는 것은 다음 처럼 모델에서 관계를 통해서 유연한 접근이 가능하게 할것입니다:
 
-	$user = App\User::find(1);
+    $user = App\User::find(1);
 
-	foreach ($user->tasks as $task) {
-		echo $task->name;
-	}
+    foreach ($user->tasks as $task) {
+        echo $task->name;
+    }
 
 #### The `tasks` Relationship
 #### `tasks` 관계 정의하기
@@ -238,24 +238,24 @@ First, let's define the `tasks` relationship on our `User` model. Eloquent relat
 
 먼저 `User` 모델에 `tasks`과의 관계들을 정의해 보겠습니다. Eloquent 관계들은 모델에 대한 메소드로써 정의됩니다. Eloquent는 여러종류의 관계들을 표현할 수 있도록 지원하고 있으니 반드시 [Eloquent 문서](/docs/{{version}}/eloquent-relationships)에서 더 많은 정보를 확인하시기 바랍니다. 이 경우에서는, Eloquent가 제공하는 `hasMany` 메소드를 호출하는 `tasks` 함수를 `User` 모델에 정의할 것입니다: 
 
-	<?php
+    <?php
 
-	namespace App;
+    namespace App;
 
-	use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
 
-	class User extends Authenticatable
-	{
-	    // Other Eloquent Properties...
+    class User extends Authenticatable
+    {
+        // Other Eloquent Properties...
 
-	    /**
-	     * Get all of the tasks for the user.
-	     */
-	    public function tasks()
-	    {
-	        return $this->hasMany(Task::class);
-	    }
-	}
+        /**
+         * Get all of the tasks for the user.
+         */
+        public function tasks()
+        {
+            return $this->hasMany(Task::class);
+        }
+    }
 
 #### The `user` Relationship
 #### `user` 관계 정의하기
@@ -264,30 +264,30 @@ Next, let's define the `user` relationship on the `Task` model. Again, we will d
 
 다음으로 `Task` 모델에 `user`와의 관계를 정의해 보겠습니다. 이번에도 관계를 모델에 대한 메소드로써 정의할 것입니다. 이 경우에서, Eloquent가 제공하는 `belongTo` 메소드를 통해 관계를 정의할 것입니다:
 
-	<?php
+    <?php
 
-	namespace App;
+    namespace App;
 
-	use App\User;
-	use Illuminate\Database\Eloquent\Model;
+    use App\User;
+    use Illuminate\Database\Eloquent\Model;
 
-	class Task extends Model
-	{
-	    /**
-	     * The attributes that are mass assignable.
-	     *
-	     * @var array
-	     */
-	    protected $fillable = ['name'];
+    class Task extends Model
+    {
+        /**
+         * The attributes that are mass assignable.
+         *
+         * @var array
+         */
+        protected $fillable = ['name'];
 
-	    /**
-	     * Get the user that owns the task.
-	     */
-	    public function user()
-	    {
-	        return $this->belongsTo(User::class);
-	    }
-	}
+        /**
+         * Get the user that owns the task.
+         */
+        public function user()
+        {
+            return $this->belongsTo(User::class);
+        }
+    }
 
 Wonderful! Now that our relationships are defined, we can start building our controllers!
 
@@ -313,9 +313,9 @@ In Laravel, all HTML templates are stored in the `resources/views` directory, an
 
 라라벨에서는 `resources/views` 디렉토리에 모든 HTML 템플릿들이 저장되어 있으며 `view` 헬퍼를 통해 라우트에서 이 템플릿들을 반환할 수 있습니다: 
 
-	Route::get('/', function () {
-		return view('welcome');
-	});
+    Route::get('/', function () {
+        return view('welcome');
+    });
 
 Of course, we need to actually define this view. We'll do that in a bit!
 
@@ -340,7 +340,7 @@ So, what's left for us to do? Well, we still need to create the registration and
 
 이제 남은 작업이 무엇일까요? 아직 사용자 등록과 로그인 템플릿을 생성하고 사용자 인증 컨트롤러를 위한 라우트를 정의해야 합니다. `make:auth` 아티즌 명령어를 사용하여 이를 처리할 수 있습니다.
 
-	php artisan make:auth --views
+    php artisan make:auth
 
 > **Note:** If you would like to view complete examples for these views, remember that the entire application's source code is [available on GitHub](https://github.com/laravel/quickstart-intermediate).
 
@@ -350,9 +350,20 @@ Now, all we have to do is add the authentication routes to our routes file. We c
 
 이제, 남은 일은 인증 라우트를 라우트 파일에 추가하는 것입니다. `Route` 파사드에 `auth` 메소드를 사용하여 회원 가입과, 로그인, 패스워드 재설정등 필요한 모든 라우트들을 등록할 수 있습니다:
 
-	// Authentication Routes...
-	Route::auth();
+    // Authentication Routes...
+    Route::auth();
 
+Once the `auth` routes are registered, verify that the `$redirectTo` property on the `app/Http/Controllers/Auth/AuthController` controller is set to '/tasks':
+
+`auth` 라우트를 등록하고 나면, `app/Http/Controllers/Auth/AuthController` 컨트롤러의 `$redirectTo` 속성이 '/tasks' 로 설정되어 있는 것을 확인하십시오:  
+
+    protected $redirectTo = '/tasks';
+
+It is also necessary to update the `app/Http/Middleware/RedirectIfAuthenticated.php` file with the proper redirect path:
+
+또한 `app/Http/Middleware/RedirectIfAuthenticated.php` 파일의 라다이렉토 경로를 적절한 값으로 설정하십시오: 
+
+    return redirect('/tasks');
 
 <a name="the-task-controller"></a>
 ### The Task Controller
@@ -362,15 +373,15 @@ Since we know we're going to need to retrieve and store tasks, let's create a `T
 
 할일들을 획득하고 저장하기 위해서 아티즌 CLI를 이용해 `TaskController` 를 생성해야 하며 이를 통해 생성된 컨트롤러는 `app/Http/Controllers` 에 위치하게 됩니다. 
 
-	php artisan make:controller TaskController --plain
+    php artisan make:controller TaskController
 
 Now that the controller has been generated, let's go ahead and stub out some routes in our `app/Http/routes.php` file to point to the controller:
 
 이제 컨트롤러가 생성되었으니 `app/Http/routes.php` 파일에 컨트롤러를 가리키는 라우트들을 생성해보겠습니다: 
 
-	Route::get('/tasks', 'TaskController@index');
-	Route::post('/task', 'TaskController@store');
-	Route::delete('/task/{task}', 'TaskController@destroy');
+    Route::get('/tasks', 'TaskController@index');
+    Route::post('/task', 'TaskController@store');
+    Route::delete('/task/{task}', 'TaskController@destroy');
 
 #### Authenticating All Task Routes
 #### 모든 할일 관련 라우트들에 대한 인증
@@ -383,26 +394,26 @@ To require an authenticated users for all actions on the controller, we can add 
 
 컨트롤러의 모든 동작이 사용자들이 승인되었음을 조건으로 가능하게 하려면, 컨트롤러의 생성자에 `middleware` 메소드 호출을 추가할 수 있습니다. 사용할 수 있는 모든 라우트 미들웨어는 `app/Http/Kernel.php` 에 정의되어 있습니다. 이 경우 컨트롤러의 모든 동작에 `auth` 미들웨어를 할당합니다:
 
-	<?php
+    <?php
 
-	namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-	use App\Http\Requests;
-	use Illuminate\Http\Request;
-	use App\Http\Controllers\Controller;
+    use App\Http\Requests;
+    use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
 
-	class TaskController extends Controller
-	{
-	    /**
-	     * Create a new controller instance.
-	     *
-	     * @return void
-	     */
-	    public function __construct()
-	    {
-	        $this->middleware('auth');
-	    }
-	}
+    class TaskController extends Controller
+    {
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function __construct()
+        {
+            $this->middleware('auth');
+        }
+    }
 
 <a name="building-layouts-and-views"></a>
 ## Building Layouts & Views
@@ -430,26 +441,26 @@ Our `app.blade.php` view should look like the following:
 
 `app.blade.php` 뷰 파일은 다음과 같습니다:
 
-    // resources/views/layouts/app.blade.php
+    <!-- resources/views/layouts/app.blade.php -->
 
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<title>Laravel Quickstart - Intermediate</title>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Laravel Quickstart - Intermediate</title>
 
-			<!-- CSS And JavaScript -->
-		</head>
+            <!-- CSS And JavaScript -->
+        </head>
 
-		<body>
-			<div class="container">
-				<nav class="navbar navbar-default">
-					<!-- Navbar Contents -->
-				</nav>
-			</div>
+        <body>
+            <div class="container">
+                <nav class="navbar navbar-default">
+                    <!-- Navbar Contents -->
+                </nav>
+            </div>
 
-			@yield('content')
-		</body>
-	</html>
+            @yield('content')
+        </body>
+    </html>
 
 Note the `@yield('content')` portion of the layout. This is a special Blade directive that specifies where all child pages that extend the layout can inject their own content. Next, let's define the child view that will use this layout and provide its primary content.
 
@@ -467,44 +478,44 @@ We'll skip over some of the Bootstrap CSS boilerplate and only focus on the thin
 
 몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중하겠습니다. [GitHub](https://github.com/laravel/quickstart-intermediate)에서 이 어플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
 
-    // resources/views/tasks/index.blade.php
+    <!-- resources/views/tasks/index.blade.php -->
 
-	@extends('layouts.app')
+    @extends('layouts.app')
 
-	@section('content')
+    @section('content')
 
         <!-- Bootstrap Boilerplate... -->
 
-		<div class="panel-body">
+        <div class="panel-body">
             <!-- Display Validation Errors -->
-			@include('common.errors')
+            @include('common.errors')
 
-			<!-- New Task Form -->
-			<form action="{{ url('task') }}" method="POST" class="form-horizontal">
-				{{ csrf_field() }}
+            <!-- New Task Form -->
+            <form action="{{ url('task') }}" method="POST" class="form-horizontal">
+                {{ csrf_field() }}
 
                 <!-- Task Name -->
-				<div class="form-group">
-					<label for="task-name" class="col-sm-3 control-label">Task</label>
+                <div class="form-group">
+                    <label for="task-name" class="col-sm-3 control-label">Task</label>
 
-					<div class="col-sm-6">
-						<input type="text" name="name" id="task-name" class="form-control">
-					</div>
-				</div>
+                    <div class="col-sm-6">
+                        <input type="text" name="name" id="task-name" class="form-control">
+                    </div>
+                </div>
 
                 <!-- Add Task Button -->
-				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-6">
-						<button type="submit" class="btn btn-default">
-							<i class="fa fa-plus"></i> Add Task
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-plus"></i> Add Task
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-		<!-- TODO: Current Tasks -->
-	@endsection
+        <!-- TODO: Current Tasks -->
+    @endsection
 
 #### A Few Notes Of Explanation
 #### 간단한 설명 
@@ -527,10 +538,10 @@ Now we have defined a basic layout and view for our application. Let's go ahead 
      * @param  Request  $request
      * @return Response
      */
-	public function index(Request $request)
-	{
-		return view('tasks.index');
-	}
+    public function index(Request $request)
+    {
+        return view('tasks.index');
+    }
 
 Next, we're ready to add code to our `POST /task` route's controller method to handle the incoming form input and add a new task to the database.
 
@@ -558,14 +569,14 @@ For this form, we will make the `name` field required and state that it must con
      * @param  Request  $request
      * @return Response
      */
-	public function store(Request $request)
-	{
-		$this->validate($request, [
-			'name' => 'required|max:255',
-		]);
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
 
-		// Create The Task...
-	}
+        // Create The Task...
+    }
 
 If you followed along with the [basic quickstart](/docs/{{version}}/quickstart), you'll notice this validation code looks quite a bit different! Since we are in a controller, we can leverage the convenience of the `ValidatesRequests` trait that is included in the base Laravel controller. This trait exposes a simple `validate` method which accepts a request and an array of validation rules.
 
@@ -578,11 +589,11 @@ We don't even have to manually determine if the validation failed or do manual r
 #### The `$errors` Variable
 #### `$errors` 변수
 
-Remember that we used the `@include('common.errors')` directive within our view to render the form's validation errors. The `common.errors` will allow us to easily show validation errors in the same format across all of our pages. Let's define the contents of this view now:
+Remember that we used the `@include('common.errors')` directive within our view to render the form's validation errors. The `common.errors` view will allow us to easily show validation errors in the same format across all of our pages. Let's define the contents of this view now:
 
-form의 입력값 검증 오류를 뷰 안에서 표현하기 위해 `@include('common.errors')` 지시어를 사용하였습니다. `common.errors` 는 입력값 검증의 오류가 동일한 형식으로 모든 페이지에 나타나도록 해줍니다. 이제 이 뷰의 컨텐츠를 정의하겠습니다:
+form의 입력값 검증 오류를 뷰 안에서 표현하기 위해 `@include('common.errors')` 지시어를 사용하였습니다. `common.errors` 뷰는 입력값 검증의 오류가 동일한 형식으로 모든 페이지에 나타나도록 해줍니다. 이제 이 뷰의 컨텐츠를 정의하겠습니다:
 
-    // resources/views/common/errors.blade.php
+    <!-- resources/views/common/errors.blade.php -->
 
     @if (count($errors) > 0)
         <!-- Form Error List -->
@@ -685,28 +696,27 @@ So, let's create an `app/Repositories` directory and add a `TaskRepository` clas
 
 그럼 이제, `app/Repositories` 디렉토리를 생성하고 `TaskRepository` 클래스를 추가합니다. 라라벨의 모든 `app` 폴더들은 PSR-4 기준을 적용하여 오토로딩이 설정 되어 있기 때문에, 추가적으로 필요한 디렉토리들을 자유롭게 생성할 수 있습니다.
 
-	<?php
+    <?php
 
-	namespace App\Repositories;
+    namespace App\Repositories;
 
-	use App\User;
-	use App\Task;
+    use App\User;
 
-	class TaskRepository
-	{
-	    /**
-	     * Get all of the tasks for a given user.
-	     *
-	     * @param  User  $user
-	     * @return Collection
-	     */
-	    public function forUser(User $user)
-	    {
-	        return Task::where('user_id', $user->id)
-	                    ->orderBy('created_at', 'asc')
-	                    ->get();
-	    }
-	}
+    class TaskRepository
+    {
+        /**
+         * Get all of the tasks for a given user.
+         *
+         * @param  User  $user
+         * @return Collection
+         */
+        public function forUser(User $user)
+        {
+            return $user->tasks()
+                        ->orderBy('created_at', 'asc')
+                        ->get();
+        }
+    }
 
 #### Injecting The Repository
 #### Repository 주입하기
@@ -715,51 +725,51 @@ Once our repository is defined, we can simply "type-hint" it in the constructor 
 
 Repository가 정의되었다면 이를 `TaskController` 의 컨트롤러에 단순히 "타입-힌트"하고 `index` 라우트 안에서 활용할 수 있습니다. 라라벨은 모든 컨트롤러의 의존성을 해결하기 위해서 컨테이너를 사용하기 때문에 의존 객체들은 컨트롤러 인스턴스에 자동으로 주입될 것입니다.: 
 
-	<?php
+    <?php
 
-	namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-	use App\Task;
-	use App\Http\Requests;
-	use Illuminate\Http\Request;
-	use App\Http\Controllers\Controller;
-	use App\Repositories\TaskRepository;
+    use App\Task;
+    use App\Http\Requests;
+    use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
+    use App\Repositories\TaskRepository;
 
-	class TaskController extends Controller
-	{
-	    /**
-	     * The task repository instance.
-	     *
-	     * @var TaskRepository
-	     */
-	    protected $tasks;
+    class TaskController extends Controller
+    {
+        /**
+         * The task repository instance.
+         *
+         * @var TaskRepository
+         */
+        protected $tasks;
 
-	    /**
-	     * Create a new controller instance.
-	     *
-	     * @param  TaskRepository  $tasks
-	     * @return void
-	     */
-	    public function __construct(TaskRepository $tasks)
-	    {
-	        $this->middleware('auth');
+        /**
+         * Create a new controller instance.
+         *
+         * @param  TaskRepository  $tasks
+         * @return void
+         */
+        public function __construct(TaskRepository $tasks)
+        {
+            $this->middleware('auth');
 
-	        $this->tasks = $tasks;
-	    }
+            $this->tasks = $tasks;
+        }
 
-	    /**
-	     * Display a list of all of the user's task.
-	     *
-	     * @param  Request  $request
-	     * @return Response
-	     */
-	    public function index(Request $request)
-	    {
-	        return view('tasks.index', [
-	            'tasks' => $this->tasks->forUser($request->user()),
-	        ]);
-	    }
-	}
+        /**
+         * Display a list of all of the user's task.
+         *
+         * @param  Request  $request
+         * @return Response
+         */
+        public function index(Request $request)
+        {
+            return view('tasks.index', [
+                'tasks' => $this->tasks->forUser($request->user()),
+            ]);
+        }
+    }
 
 <a name="displaying-the-tasks"></a>
 ### Displaying The Tasks
@@ -769,9 +779,9 @@ Once the data is passed, we can spin through the tasks in our `tasks/index.blade
 
 데이터가 전달되고 나면 `tasks.blade.php` 뷰에 있는 할일들을 테이블에 나타낼 수 있습니다. `@foreach` 블레이드 지시어는 빠르고 단순한 PHP 코드로 컴파일되는 간결한 반복문을 사용할 수 있도록 해줍니다: 
 
-	@extends('layouts.app')
+    @extends('layouts.app')
 
-	@section('content')
+    @section('content')
         <!-- Create Task Form... -->
 
         <!-- Current Tasks -->
@@ -839,7 +849,9 @@ We left a "TODO" note in our code where our delete button is supposed to be. So,
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
 
-                <button>Delete Task</button>
+                <button type="submit" id="delete-task-{{ $task->id }}" class="btn btn-danger">
+                    <i class="fa fa-btn fa-trash"></i>Delete
+                </button>
             </form>
         </td>
     </tr>
@@ -856,7 +868,7 @@ We can spoof a `DELETE` request by outputting the results of the `method_field('
 
 form 안에서 `method_field('DELETE')` 함수의 결과를 출력하여 `DELETE` request-요청으로 흉내낼 수 있습니다. 이 기능은 hidden 형식의 input을 생성하고 라라벨은 이를 인식하여 실제 HTTP 요청 메소드를 대체할 것입니다. 생성된 필드는 다음과 같을 것입니다: 
 
-	<input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_method" value="DELETE">
 
 <a name="route-model-binding"></a>
 ### Route Model Binding
@@ -866,7 +878,7 @@ Now, we're almost ready to define the `destroy` method on our `TaskController`. 
 
 이제 `TaskController` 에 `destroy` 를 정의할 준비가 거의 다 되었습니다. 하지만, 우선 이 라우트의 선언부분과 라우트에 연결된 컨트롤러 메소드를 확인해봅시다:  
 
-	Route::delete('/task/{task}', 'TaskController@destroy');
+    Route::delete('/task/{task}', 'TaskController@destroy');
 
     /**
      * Destroy the given task.
@@ -875,10 +887,10 @@ Now, we're almost ready to define the `destroy` method on our `TaskController`. 
      * @param  Task  $task
      * @return Response
      */
-	public function destroy(Request $request, Task $task)
-	{
-		//
-	}
+    public function destroy(Request $request, Task $task)
+    {
+        //
+    }
 
 Since the `{task}` variable in our route matches the `$task` variable defined in our controller method, Laravel's [implicit model binding](/docs/{{version}}/routing#route-model-binding) will automatically inject the corresponding Task model instance.
 
@@ -905,30 +917,30 @@ Next, let's add a `destroy` method to the policy. This method will receive a `Us
 
 다음으로 policy-정책에 `destroy` 메소드를 추가합니다. 이 메소드는 `User` 인스턴스와 `Task` 인스턴스를 전달 받을 것입니다. 메소드는 단순히 사용자 아이디가 할일의 `user_id`와 일치하는지 확인합니다. 모든 policy-정책 메소드는 `true` 나 `false` 를 반환합니다:
 
-	<?php
+    <?php
 
-	namespace App\Policies;
+    namespace App\Policies;
 
-	use App\User;
-	use App\Task;
-	use Illuminate\Auth\Access\HandlesAuthorization;
+    use App\User;
+    use App\Task;
+    use Illuminate\Auth\Access\HandlesAuthorization;
 
-	class TaskPolicy
-	{
-	    use HandlesAuthorization;
+    class TaskPolicy
+    {
+        use HandlesAuthorization;
 
-	    /**
-	     * Determine if the given user can delete the given task.
-	     *
-	     * @param  User  $user
-	     * @param  Task  $task
-	     * @return bool
-	     */
-	    public function destroy(User $user, Task $task)
-	    {
-	        return $user->id === $task->user_id;
-	    }
-	}
+        /**
+         * Determine if the given user can delete the given task.
+         *
+         * @param  User  $user
+         * @param  Task  $task
+         * @return bool
+         */
+        public function destroy(User $user, Task $task)
+        {
+            return $user->id === $task->user_id;
+        }
+    }
 
 Finally, we need to associate our `Task` model with our `TaskPolicy`. We can do this by adding a line in the `app/Providers/AuthServiceProvider.php` file's `$policies` property. This will inform Laravel which policy should be used whenever we try to authorize an action on a `Task` instance:
 

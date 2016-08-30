@@ -16,9 +16,11 @@
     - [설정](/docs/{{version}}/configuration)
     - [Homestead](/docs/{{version}}/homestead)
     - [홈스테드](/docs/{{version}}/homestead)
+    - [Valet](/docs/{{version}}/valet)
+    - [발렛-Valet](/docs/{{version}}/valet)
 - Tutorials
 - 튜토리얼
-    - [Beginner Task List](/docs/{{version}}/quickstart)
+    - [Basic Task List](/docs/{{version}}/quickstart)
     - [할일 관리 만들기 (초급)](/docs/{{version}}/quickstart)
     - [Intermediate Task List](/docs/{{version}}/quickstart-intermediate)
     - [할일 관리 만들기 (중급)](/docs/{{version}}/quickstart-intermediate)
@@ -48,6 +50,8 @@
     - [서비스 프로바이더](/docs/{{version}}/providers)
     - [Service Container](/docs/{{version}}/container)
     - [서비스 컨테이너](/docs/{{version}}/container)
+    - [Contracts](/docs/{{version}}/contracts)
+    - [Contracts](/docs/{{version}}/contracts)
     - [Facades](/docs/{{version}}/facades)
     - [파사드](/docs/{{version}}/facades)
 - Services

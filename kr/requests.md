@@ -112,6 +112,12 @@ To get the full URL, not just the path info, you may use the `url` or `fullUrl` 
     // With Query String...
     $url = $request->fullUrl();
 
+You may also get the full URL and append query parameters. For example, if the request is targeted at `http://domain.com/foo`, the following method will return `http://domain.com/foo?bar=baz`:
+
+또한 전체 URL과 쿼리파라미터 가져올 수도 있습니다. 예를 들어 다음의 `http://domain.com/foo`에 대한 요청의 경우 메소드 결과는 `http://domain.com/foo?bar=baz`를 반환합니다:  
+
+    $url = $request->fullUrlWithQuery(['bar' => 'baz']);
+
 #### Retrieving The Request Method
 #### Request HTTP 메소드 조회하기
 
@@ -177,6 +183,15 @@ When working on forms with array inputs, you may use "dot" notation to access th
     $name = $request->input('products.0.name');
 
     $names = $request->input('products.*.name');
+
+#### Retrieving JSON Input Values
+#### JSON 입력 값 조회하기
+
+When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to dig deeper into JSON arrays:
+
+어플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열의 깊이 있는 요소에도 접근할 수 있습니다.   
+
+    $name = $request->input('user.name');
 
 #### Determining If An Input Value Is Present
 #### 입력값이 존재하는지 확인하기

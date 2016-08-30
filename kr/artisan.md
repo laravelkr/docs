@@ -310,7 +310,7 @@ If you need to ask the user for a simple confirmation, you may use the `confirm`
 #### Giving The User A Choice
 #### 사용자 선택
 
-The `anticipate` method can be used to provided autocompletion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
+The `anticipate` method can be used to provide autocompletion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
 
 `anticipate` 메소드는 입력가능한 값들에 대한 자동완성 기능을 제공합니다. 사용자는 자동완성되는 결과에 개의치 않고, 어떤 대답도 입력 할 수 있습니다.
 

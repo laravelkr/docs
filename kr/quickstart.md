@@ -47,7 +47,7 @@ This quickstart guide provides a basic introduction to the Laravel framework and
 
 To sample a basic selection of Laravel features, we will build a simple task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. The complete, finished source code for this project is [available on GitHub](http://github.com/laravel/quickstart-basic).
 
-라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](http://github.com/laravel/quickstart-basic).
+라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](https://github.com/laravel/quickstart-basic).
 
 <a name="installation"></a>
 ## Installation
@@ -187,38 +187,39 @@ Next, we're ready to add a few routes to our application. Routes are used to poi
 
 이제 어플리케이션에 몇개의 라우트(route)를 추가할 수 있습니다. 라우트는 사용자가 특정 페이지에 접속할 때 실행되어야 하는 컨트롤러나 익명함수에 대한 URL을 구성하는 역할을 합니다. 모든 라라벨 라우트들은 기본적으로 `app/Http/routes.php` 파일에 정의되어 있습니다. 
 
-For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. We'll wrap all of these routes in the `web` middleware so they have session state and CSRF protection. So, let's stub all of these routes in the `app/Http/routes.php` file:
+For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. So, let's stub all of these routes in the `app/Http/routes.php` file:
 
-이 어플리케이션에서는 최소 3개의 라우트가 필요합니다: 모든 할일들을 목록화하는 라우트, 새로운 할일을 추가하는 라우트, 그리고 이미 존재하는 할일를 삭제하는 라우트입니다. 여기서는 `web` 미들웨어 안에 이러한 모든 라우트들을 구성할 것입니다. 따라서 이 라우트들은 세션과 CSRF 프로텍션 미들웨어를 가지게 됩니다. 그럼 이 라우트들을 아래와 같이 `app/Http/routes.php` 파일에 구성합니다.
+이 어플리케이션에서는 최소 3개의 라우트가 필요합니다: 모든 할일들을 목록화하는 라우트, 새로운 할일을 추가하는 라우트, 그리고 이미 존재하는 할일를 삭제하는 라우트입니다. 그럼 이 라우트들을 아래와 같이 `app/Http/routes.php` 파일에 구성합니다.
 
 	<?php
 
 	use App\Task;
 	use Illuminate\Http\Request;
 
-	Route::group(['middleware' => 'web'], function () {
-
-		/**
-		 * Show Task Dashboard
-		 */
-		Route::get('/', function () {
-			//
-		});
-
-		/**
-		 * Add New Task
-		 */
-		Route::post('/task', function (Request $request) {
-			//
-		});
-
-		/**
-		 * Delete Task
-		 */
-		Route::delete('/task/{task}', function (Task $task) {
-			//
-		});
+	/**
+	 * Show Task Dashboard
+	 */
+	Route::get('/', function () {
+		//
 	});
+
+	/**
+	 * Add New Task
+	 */
+	Route::post('/task', function (Request $request) {
+		//
+	});
+
+	/**
+	 * Delete Task
+	 */
+	Route::delete('/task/{task}', function (Task $task) {
+		//
+	});
+
+> **Note**: If your copy of Laravel has a `RouteServiceProvider` that already includes the default routes file within the `web` middleware group, you do not need to manually add the group to your `routes.php` file.
+
+> **주의**: 만약 여러분의 어플리케이션에 있는 `RouteServiceProvider`가 이미 `web` 미들웨어 그룹 안에 있는 기본적인 라우트 파일들을 포함하고 있다면, 수동으로 `routes.php` 파일에 그룹을 추가해야만 합니다.     
 
 <a name="displaying-a-view"></a>
 ### Displaying A View
@@ -249,7 +250,9 @@ This application only has a single view which contains a form for adding new tas
 
 이 어플리케이션에서는 현재 할일들의 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 구성합니다. 화면을 구성하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일링을 적용한 완성된 어플리케이션의 스크린샷을 제공합니다.  
 
-![완성된 어플리케이션 스크린샷](http://laravel.com/assets/img/quickstart/basic-overview.png)
+![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
+
+![완성된 어플리케이션 스크린샷](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
 ### Defining The Layout
@@ -267,7 +270,7 @@ Our `app.blade.php` view should look like the following:
 
 `app.blade.php` 뷰는 다음과 같습니다:
 
-    // resources/views/layouts/app.blade.php
+    <!-- resources/views/layouts/app.blade.php -->
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -304,7 +307,7 @@ We'll skip over some of the Bootstrap CSS boilerplate and only focus on the thin
 
 몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중할 것입니다. [GitHub](https://github.com/laravel/quickstart-basic)에서 이 어플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
 
-    // resources/views/tasks.blade.php
+    <!-- resources/views/tasks.blade.php -->
 
 	@extends('layouts.app')
 
@@ -374,9 +377,9 @@ Next, we're ready to add code to our `POST /task` route to handle the incoming f
 ### Validation
 ### 입력값 검증
 
-Now that we have a form in our view, we need to add code to our `POST /task` route to validate the incoming form input and create a new task. First, let's validate the input.
+Now that we have a form in our view, we need to add code to our `POST /task` route in `app/Http/routes.php` to validate the incoming form input and create a new task. First, let's validate the input.
 
-이제 뷰에 Form 이 구성되어 있으며 전달되는 입력값을 확인하고 새 할일을 생성하기 위해서 `POST /task` 라우트에 코드를 추가해야 합니다. 먼저 입력값을 검증합니다.
+이제 뷰에 Form 이 구성되어 있으며 전달되는 입력값을 확인하고 새 할일을 생성하기 위해서 `app/Http/routes.php` 파일안에 있는 `POST/task` 라우트에 코드를 추가해야 합니다. 먼저 입력값을 검증합니다.
 
 For this form, we will make the `name` field required and state that it must contain less than `255` characters. If the validation fails, we will redirect the user back to the `/` URL, as well as flash the old input and errors into the [session](/docs/{{version}}/session). Flashing the input into the session will allow us to maintain the user's input even when there are validation errors:
 
@@ -407,7 +410,7 @@ Remember that we used the `@include('common.errors')` directive within our view 
 
 앞서 뷰 파일을 구성할 때 `@include('common.errors')` 지시어를 사용해 입력값 검증 오류를 표시하도록 하였습니다. `common.errors`는 모든 페이지에서 같은 형식으로 입력값 검증 오류를 쉽게 보여줄 수 있게 해줍니다.
 
-    // resources/views/common/errors.blade.php
+    <!-- resources/views/common/errors.blade.php -->
 
     @if (count($errors) > 0)
         <!-- Form Error List -->
@@ -550,7 +553,9 @@ We left a "TODO" note in our code where our delete button is supposed to be. So,
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
 
-                <button>Delete Task</button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
             </form>
         </td>
     </tr>

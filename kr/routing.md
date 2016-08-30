@@ -9,6 +9,8 @@
     - [필수 파라미터](#required-parameters)
     - [Optional Parameters](#parameters-optional-parameters)
     - [선택적인 파라미터](#parameters-optional-parameters)
+    - [Regular Expression Constraints](#parameters-regular-expression-constraints)
+    - [정규표현식 제약](#parameters-regular-expression-constraints)
 - [Named Routes](#named-routes)
 - [이름이 지정된 라우트](#named-routes)
 - [Route Groups](#route-groups)
@@ -35,6 +37,8 @@
 - [라우트 모델 바인딩](#route-model-binding)
 - [Form Method Spoofing](#form-method-spoofing)
 - [Form Method Spoofing](#form-method-spoofing)
+- [Accessing The Current Route](#accessing-the-current-route)
+- [현재 라우트에 엑세스하기](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
 ## Basic Routing
@@ -51,17 +55,9 @@ All Laravel routes are defined in the `app/Http/routes.php` file, which is autom
 #### The Default Routes File
 #### 기본적인 라우트 파일
 
-By default, the `routes.php` file contains a single route as well as a [route group](#route-groups) that applies the `web` middleware group to all routes it contains. This middleware group provides session state and CSRF protection to routes.
+The default `routes.php` file is loaded by the `RouteServiceProvider` and is automatically included in the `web` middleware group, which provides access to session state and CSRF protection. Most of the routes for your application will be defined within this file.
 
-기본적으로 `routes.php` 파일은 `web` 미들웨어 그룹이 지정되어 모든 라우트들을 포함하는 [route group](#route-groups)으로 된 하나의 라우트가 포함되어 있습니다. 이 미들웨어 그룹은 세션의 상태와 CSRF 보호 기능을 라우트에 제공합니다. 
-
-Any routes not placed within the `web` middleware group will not have access to sessions and CSRF protection, so make sure any routes that need these features are placed within the group. Typically, you will place most of your routes within this group:
-
-`web` 미들웨어 그룹 안에 있지 않은 라우트들은 세션과 CSRF 보호 기능을 가지지 않기 때문에, 이러한 기능들이 필요한 라우트라면 이 그룹 안에 있도록 확인해야 합니다. 일반적으로 대부분의 라우트는 이 그룹안에 있게 됩니다. 
-
-    Route::group(['middleware' => ['web']], function () {
-        //
-    });
+기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 어플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
 
 #### Available Router Methods
 #### 사용가능한 라우터 메소드들
@@ -137,6 +133,58 @@ Occasionally you may need to specify a route parameter, but make the presence of
         return $name;
     });
 
+<a name="parameters-regular-expression-constraints"></a>
+### Regular Expression Constraints
+### 정규 표현식 제약
+
+You may constrain the format of your route parameters using the `where` method on a route instance. The `where` method accepts the name of the parameter and a regular expression defining how the parameter should be constrained:
+
+라우트 인스턴스에 `where` 메소드를 사용하여 라우트 파라미터들의 포맷을 제한할 수 있습니다. `where` 메소드는 파라미터의 이름과 파라미터가 어떻게 규정되어야 하는지 나타내는 정규표현식을 인자로 전달 받습니다:
+
+    Route::get('user/{name}', function ($name) {
+        //
+    })
+    ->where('name', '[A-Za-z]+');
+
+    Route::get('user/{id}', function ($id) {
+        //
+    })
+    ->where('id', '[0-9]+');
+
+    Route::get('user/{id}/{name}', function ($id, $name) {
+        //
+    })
+    ->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+
+<a name="parameters-global-constraints"></a>
+#### Global Constraints
+#### 글로벌 제약 
+
+If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
+
+라우트 파라미터가 항상 주어진 정규표현식으로 제약을 가지게 된다면, `pattern` 메소드를 사용할 수 있습니다. 이 패턴들은 `RouteServiceProvider`의 `boot` 메소드 안에서 사용되어야 합니다:
+
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    public function boot(Router $router)
+    {
+        $router->pattern('id', '[0-9]+');
+
+        parent::boot($router);
+    }
+
+Once the pattern has been defined, it is automatically applied to all routes using that parameter name:
+
+패턴을 한번 정의하고나면, 해당 파라미터 이름을 사용하는 모든 라우트들에 자동으로 적용됩니다:
+
+    Route::get('user/{id}', function ($id) {
+        // Only called if {id} is numeric.
+    });
+
 <a name="named-routes"></a>
 ## Named Routes
 ## 이름이 지정된 라우트
@@ -145,7 +193,7 @@ Named routes allow you to conveniently generate URLs or redirects for a specific
 
 이름이 지정된 라우트는 지정된 라우트에 대한 URL 이나, 리다이렉트를 생성하기 편리합니다. 라우트에 이름을 지정하려면 라우트를 정의할 때 `as` 배열 키를 사용하면 됩니다. 
 
-    Route::get('profile', ['as' => 'profile', function () {
+    Route::get('user/profile', ['as' => 'profile', function () {
         //
     }]);
 
@@ -153,7 +201,7 @@ You may also specify route names for controller actions:
 
 컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다. 
 
-    Route::get('profile', [
+    Route::get('user/profile', [
         'as' => 'profile', 'uses' => 'UserController@showProfile'
     ]);
 
@@ -398,7 +446,7 @@ First, use the router's `model` method to specify the class for a given paramete
 ### Implicit Binding
 ### 묵시적 바인딩
 
-Laravel will automatically resolve type-hinted Eloquent model's defined in routes or controller actions whose variable names match a route segment name. For example:
+Laravel will automatically resolve type-hinted Eloquent models defined in routes or controller actions whose variable names match a route segment name. For example:
 
 라라벨은 자동으로 라우트나 컨트롤러 액션에서 라우트 세그먼트이름과 일치하는 변수에 해당하는 타입-힌트가 되어있는 Eloquent 모델을 의존성 해결해줄 것입니다. 예를 들면:
 
@@ -467,22 +515,22 @@ If a matching model instance is not found in the database, a 404 HTTP response w
 #### Customizing The Resolution Logic
 #### 의존성 해결 로직 커스터마이징하기
 
-If you wish to use your own resolution logic, you should use the `Route::bind` method. The Closure you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
+If you wish to use your own resolution logic, you should use the `Route::bind` method. The `Closure` you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
 
-만약 고유한 의존성 검색 로직을 사용하려면 `Route::bind` 메소드를 사용해야 합니다. `bind` 메소드에 전달되는 클로저에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
+만약 고유한 의존성 검색 로직을 사용하려면 `Route::bind` 메소드를 사용해야 합니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
 
-    $router->bind('user', function($value) {
+    $router->bind('user', function ($value) {
         return App\User::where('name', $value)->first();
     });
 
 #### Customizing The "Not Found" Behavior
 #### 모델을 "찾지 못했을 때" 어떻게 할지 커스터마이징하기
 
-If you wish to specify your own "not found" behavior, pass a Closure as the third argument to the `model` method:
+If you wish to specify your own "not found" behavior, pass a `Closure` as the third argument to the `model` method:
 
-만약 모델을 "찾지 못함"의 동작을 지정하고 싶다면 세번째 인자로 클로저를 전달하면 됩니다. 
+만약 모델을 "찾지 못함"의 동작을 지정하고 싶다면 세번째 인자로 `클로저`를 전달하면 됩니다. 
 
-    $router->model('user', 'App\User', function() {
+    $router->model('user', 'App\User', function () {
         throw new NotFoundHttpException;
     });
 
@@ -510,3 +558,29 @@ Of course, using the Blade [templating engine](/docs/{{version}}/blade):
 [템플릿 엔진](/docs/{{version}}/blade)에서 사용은 다음처럼 하면 됩니다:
 
     {{ method_field('PUT') }}
+    
+<a name="accessing-the-current-route"></a>
+## Accessing The Current Route
+## 현재 라우트에 엑세스하기
+
+The `Route::current()` method will return the route handling the current HTTP request, allowing you to inspect the full `Illuminate\Routing\Route` instance:
+
+`Route::current()` 메소드는 현재 HTTP 요청에 대해서 처리되는 라우트를 반환하여, `Illuminate\Routing\Route` 인스턴스를 확인할 수 있도록 해줍니다: 
+
+    $route = Route::current();
+
+    $name = $route->getName();
+
+    $actionName = $route->getActionName();
+
+You may also use the `currentRouteName` and `currentRouteAction` helper methods on the `Route` facade to access the current route's name or action:
+
+`Route` 파사드의 `currentRouteName` 와 `currentRouteAction` 헬퍼 메소드를 사용할 수도 있으며, 이를 통해서 현재 라우트의 이름과 액션에 엑세스 할 수 있습니다:
+
+    $name = Route::currentRouteName();
+
+    $action = Route::currentRouteAction();
+
+Please refer to the API documentation for both the [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.
+
+모든 메소드를 확인하고자 한다면 [Route 파사드 뒤에서 동작하는 클래스](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 와 [Route 인스턴스](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) API 문서를 참고하십시오. 

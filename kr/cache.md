@@ -21,8 +21,8 @@
     - [태그로 캐시 아이템 엑세스하기](#accessing-tagged-cache-items)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
 - [사용자 지정 캐시 드라이버 추가하기](#adding-custom-cache-drivers)
-- [Events](#cache-events)
-- [이벤트](#cache-events)
+- [Events](#events)
+- [이벤트](#events)
 
 <a name="configuration"></a>
 ## Configuration
@@ -50,6 +50,10 @@ When using the `database` cache driver, you will need to setup a table to contai
         $table->text('value');
         $table->integer('expiration');
     });
+
+You may also use the `php artisan cache:table` Artisan command to generate a migration with the proper schema.
+
+적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:tableArtisan` 명령를을 사용할 수도 있습니다.
 
 #### Memcached
 #### Memcached
@@ -285,7 +289,7 @@ Flushing the cache **does not** respect the cache prefix and will remove all ent
 ### Storing Tagged Cache Items
 ### 태그가 추가된 캐시 아이템 저장하기
 
-Cache tags allow you to tag related items in the cache and then flush all cached values that assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
 
 캐시 태그는 캐시에 있는 관련된 아이템들을 태그 할 수 있도록 해주고, 주어진 태그가 지정된 전체 캐시 항목들을 삭제 할 수도 있게 해줍니다. 여러분은 순서대로 태그 이름의 배열을 전달하여 태그가 추가된 캐시 아이템에 엑세스 할 수 있습니다. 예를 들어 태그가 지정된 캐시에 엑세스하여, 값을 `저장(put)` 해 보겠습니다. 
 

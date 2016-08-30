@@ -238,6 +238,13 @@ To drop an existing table, you may use the `drop` or `dropIfExists` methods:
 
     Schema::dropIfExists('users');
 
+#### Renaming Tables With Foreign Keys
+#### 외래 키를 가진 테이블의 이름 변경
+
+Before renaming a table, you should verify that any foreign key constraints on the table have an explicit name in your migration files instead of letting Laravel assign a convention based name. Otherwise, the foreign key constraint name will refer to the old table name.
+
+테이블의 이름 변경하기 전에, 마이그레이션 파일에서 라라벨의 규약에 따르는 기본 이름으로 지정되지 않고 고유한 이름을 붙인 외래 키 제약 조건이 존재하지 않는지 확인하십시오. 그렇지 않다면 외래 키 제약의 이름이 기존 테이블 이름을 참고하게 됩니다.
+
 <a name="creating-columns"></a>
 ### Creating Columns
 ### 컬럼 생성하기
@@ -266,15 +273,18 @@ Command  | Description
 `$table->char('name', 4);`  |  CHAR equivalent with a length.
 `$table->date('created_at');`  |  DATE equivalent for the database.
 `$table->dateTime('created_at');`  |  DATETIME equivalent for the database.
+`$table->dateTimeTz('created_at');`  |  DATETIME (with timezone) equivalent for the database.
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale.
 `$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point.
 `$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent for the database.
 `$table->float('amount');`  |  FLOAT equivalent for the database.
 `$table->increments('id');`  |  Incrementing ID (primary key) using a "UNSIGNED INTEGER" equivalent.
 `$table->integer('votes');`  |  INTEGER equivalent for the database.
+`$table->ipAddress('visitor');`  |  IP address equivalent for the database.
 `$table->json('options');`  |  JSON equivalent for the database.
 `$table->jsonb('options');`  |  JSONB equivalent for the database.
 `$table->longText('description');`  |  LONGTEXT equivalent for the database.
+`$table->macAddress('device');`  |  MAC address equivalent for the database.
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
 `$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
@@ -286,8 +296,10 @@ Command  | Description
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length.
 `$table->text('description');`  |  TEXT equivalent for the database.
 `$table->time('sunrise');`  |  TIME equivalent for the database.
+`$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent for the database.
 `$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
+`$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
 `$table->timestamps();`  |  Adds `created_at` and `updated_at` columns.
 `$table->uuid('id');`  |  UUID equivalent for the database.
 
@@ -301,15 +313,18 @@ Command  | Description
 `$table->char('name', 4);`  |  CHAR에 해당하며 길이(length)를 가짐.
 `$table->date('created_at');`  |  데이터베이스의 DATE.
 `$table->dateTime('created_at');`  |  데이터베이스의 DATETIME.
+`$table->dateTimeTz('created_at');`  | 데이터베이스의 DATETIME (타임존과 함께)
 `$table->decimal('amount', 5, 2);`  |  유효값과 소수 자릿수를 지정한 DECIMAL
 `$table->double('column', 15, 8);`  |  15자리, 소수점 8자릿수를 지정한 DOUBLE .
 `$table->enum('choices', ['foo', 'bar']);` | 데이터베이스의 ENUM.
 `$table->float('amount');`  |  데이터베이스의 FLOAT. 
 `$table->increments('id');`  |  "UNSIGNED INTEGER"에 해당하는 Incrementing ID (프라이머리 키).
 `$table->integer('votes');`  |  데이터베이스의 INTEGER.
+`$table->ipAddress('visitor');`  |  IP 주소.
 `$table->json('options');`  |  데이터베이스의 JSON.
 `$table->jsonb('options');`  |  데이터베이스의 JSONB.
 `$table->longText('description');`  |  데이터베이스의 LONGTEXT.
+`$table->macAddress('device');`  |  MAC 어드레스.
 `$table->mediumInteger('numbers');`  |  데이터베이스의 MEDIUMINT.
 `$table->mediumText('description');`  |  데이터베이스의 MEDIUMTEXT.
 `$table->morphs('taggable');`  |  `taggable_id` INTEGER와 `taggable_type` STRING 추가.
@@ -321,8 +336,10 @@ Command  | Description
 `$table->string('name', 100);`  |  VARCHAR에 해당하며 길이(length)를 가짐.
 `$table->text('description');`  |  데이터베이스의 TEXT.
 `$table->time('sunrise');`  |  데이터베이스의 TIME.
+`$table->timeTz('sunrise');`  |  데이터베이스의 TIME(타임존과 함께).
 `$table->tinyInteger('numbers');`  |  데이터베이스의 TINYINT.
 `$table->timestamp('added_on');`  |  데이터베이스의 TIMESTAMP.
+`$table->timestampTz('added_on');`  |  데이터베이스의 TIMESTAMP (타임존과 함께).
 `$table->timestamps();`  |  `created_at`과 `updated_at` 컬럼을 추가함.
 `$table->uuid('id');`  |  데이터베이스의 UUID에 해당.
 
@@ -348,6 +365,7 @@ Modifier  | Description
 `->nullable()`  |  Allow NULL values to be inserted into the column
 `->default($value)`  |  Specify a "default" value for the column
 `->unsigned()`  |  Set `integer` columns to `UNSIGNED`
+`->comment('my comment')`  |  Add a comment to a column
 
 Modifier  | 설명
 ------------- | -------------
@@ -356,6 +374,7 @@ Modifier  | 설명
 `->nullable()`  |  NULL 값들이 컬럼에 입력되는 것을 허용합니다
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->unsigned()`  | `UNSIGNED`에 `integer` 컬럼을 설정합니다
+`->comment('my comment')`  |  컬럼에 코멘트 추가
 
 
 <a name="changing-columns"></a>
@@ -388,6 +407,10 @@ We could also modify a column to be nullable:
     Schema::table('users', function ($table) {
         $table->string('name', 50)->nullable()->change();
     });
+
+> **Note:** Modifying any column in a table that also has a column of type `enum`, `json` or `jsonb` is not currently supported.
+
+> **주의:** 테이블에서 `enum`, `json` 또는 `jsonb` 컬럼을 수정하는 것은 현재 지원하지 않습니다.
 
 <a name="renaming-columns"></a>
 #### Renaming Columns
@@ -500,6 +523,14 @@ Command  | Description
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기. 
 
+If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns and key type.
+
+인덱스들을 삭제하기 위해서 메소드에 컬럼의 배열을 전달하게 되면 인덱스의 이름은 테이블명, 컬럼이름 그리고 키의 타입을 기반으로 컨벤션에 의해서 인덱스 이름을 추정할 것입니다.
+
+    Schema::table('geo', function ($table) {
+        $table->dropIndex(['state']); // Drops index 'geo_state_index'
+    });
+
 <a name="foreign-key-constraints"></a>
 ### Foreign Key Constraints
 ### 외래키 제한
@@ -527,3 +558,18 @@ To drop a foreign key, you may use the `dropForeign` method. Foreign key constra
 외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제한은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제한(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다: 
 
     $table->dropForeign('posts_user_id_foreign');
+    
+
+Or you may pass an array value which will automatically use the conventional constraint name when dropping:
+
+또는 배열 값을 전달하면 삭제시 자동으로 컨벤션 규칙에 따르는 이름이 사용됩니다.
+
+    $table->dropForeign(['user_id']);
+
+You may enable or disable foreign key constraints within your migrations by using the following methods:
+
+마이그레이션에서 다음의 메소드들을 사용하여 외래키 제약을 활성/비활성 할 수 있습니다.
+
+    Schema::enableForeignKeyConstraints();
+
+    Schema::disableForeignKeyConstraints();

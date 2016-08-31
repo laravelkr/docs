@@ -13,6 +13,8 @@
     - [파일 찾기](#retrieving-files)
     - [Storing Files](#storing-files)
     - [파일 저장하기](#storing-files)
+    - [File Visibility](#file-visibility)
+    - [파일 Visibility](#file-visibility)
     - [Deleting Files](#deleting-files)
     - [파일 삭제하기](#deleting-files)
     - [Directories](#directories)
@@ -40,6 +42,20 @@ Of course, you may configure as many disks as you like, and may even have multip
 
 물론 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
 
+<a name="the-public-disk"></a>
+#### The Public Disk
+#### Public 디스크
+
+The `public` disk is meant for files that are going to be publicly accessible. By default, the `public` disk uses the `local` driver and stores these files in `storage/app/public`. To make them accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. This convention will keep your publicly accessible files in one directory that can be easily shared across deployments when using zero down-time deployment systems like [Envoyer](https://envoyer.io).
+
+`public` 디스크는 파일을 누구나 접근 가능하다는 것을 의미합니다. 기본적으로, `public` 디스크는 `local` 드라이버를 사용하고 파일들을 `storage/app/public` 에 저장합니다. 이것들을 웹에서 접근할 수 있도록 하려면, `public/storage` 를 `storage/app/public` 으로 심볼릭 링크를 생성해야 합니다. 이 방법으로 접근가능한 파일들은 [Envoyer](https://envoyer.io)로 무중단 배포를 사용하는 경우, 손쉽게 공유될 수 있습니다   
+
+Of course, once a file has been stored and the symbolic link has been created, you can create an URL to the files using the `asset` helper:
+
+또한, 파일을 저장하고 심볼릭 링크가 생성되어 있다면, `asset` 헬퍼를 통해서 파일에 대한 URL을 생성할 수 있습니다:
+
+    echo asset('storage/file.txt');
+
 #### The Local Driver
 #### 로컬 드라이버
 
@@ -58,6 +74,44 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
+
+#### FTP Driver Configuration
+#### FTP 드라이버 설정
+
+Laravel's Flysystem integrations works great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a FTP filesystem, you may use the example configuration below:
+
+라라벨의 파일시스템은 FTP를 통해서도 원활하게 동작합니다; 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 FTP 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다:  
+
+    'ftp' => [
+        'driver'   => 'ftp',
+        'host'     => 'ftp.example.com',
+        'username' => 'your-username',
+        'password' => 'your-password',
+
+        // Optional FTP Settings...
+        // 'port'     => 21,
+        // 'root'     => '',
+        // 'passive'  => true,
+        // 'ssl'      => true,
+        // 'timeout'  => 30,
+    ],
+
+#### Rackspace Driver Configuration
+#### Rackspace 드라이버 설정
+
+Laravel's Flysystem integrations works great with Rackspace; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure a Rackspace filesystem, you may use the example configuration below:
+
+라라벨의 파일 시스템은 Rackspace 를 통해서도 원활하게 동작합니다: 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 Rackspace 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다: 
+
+    'rackspace' => [
+        'driver'    => 'rackspace',
+        'username'  => 'your-username',
+        'key'       => 'your-key',
+        'container' => 'your-container',
+        'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
+        'region'    => 'IAD',
+        'url_type'  => 'publicURL',
+    ],
 
 <a name="basic-usage"></a>
 ## Basic Usage
@@ -104,7 +158,7 @@ When using multiple disks, you may access a particular disk using the `disk` met
 
     $disk = Storage::disk('s3');
 
-    $contents = Storage::disk('local')->get('file.jpg')
+    $contents = Storage::disk('local')->get('file.jpg');
 
 <a name="retrieving-files"></a>
 ### Retrieving Files
@@ -121,6 +175,19 @@ The `exists` method may be used to determine if a given file exists on the disk:
 `exists` 메소드는 지정한 파일이 디스크에 존재하고 있는지를 확인하기 위해 사용합니다.
 
     $exists = Storage::disk('s3')->exists('file.jpg');
+
+### File URLs
+### 파일 URL들
+
+When using the `local` or `s3` drivers, you may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` driver, the fully qualified remote URL will be returned.
+
+`local` 또는 `s3` 드라이버를 사용중일 때에는 주어진 파일에 대한 URL 을 얻기 위해서 `url` 메소드를 사용할 수 있습니다. `local` 드라이버를 사용중이라면 일반적으로 주어진 경로 앞에 `/storage` 를 덧붙여서 파일에 대한 URL이 반환됩니다. `s3` 드라이버를 사용중이라면 전체 URL이 반환됩니다.   
+
+    $url = Storage::url('file1.jpg');
+
+> **Note:** When using the `local` driver, be sure to [create a symbolic link at `public/storage`](#the-public-disk) which points to the `storage/app/public` directory.
+
+> **주의:** `local` 드라이버를 사용할 때에는, `storage/app/public` 디렉토리에 [`public/storage`에 심볼릭 링크를 생성](#the-public-disk) 하는 것을 확인하십시오.
 
 #### File Meta Information
 #### 파일 메타 정보
@@ -171,6 +238,24 @@ The `prepend` and `append` methods allow you to easily insert content at the beg
     Storage::prepend('file.log', 'Prepended Text');
 
     Storage::append('file.log', 'Appended Text');
+
+<a name="file-visibility"></a>
+### File Visibility
+### 파일 Visibility
+
+File visibility can be retrieved and set via the `getVisibility` and `setVisibility` methods. Visibility is the abstraction of file permissions across multiple platforms:
+
+파일 Visibility는 `getVisibility` 과 `setVisibility` 메소드를 통해서 확인할 수 있습니다. Visibility는 다양한 플랫폼에서의 파일 퍼미션의 추상화된 사항입니다:  
+
+    Storage::getVisibility('file.jpg');
+
+    Storage::setVisibility('file.jpg', 'public');
+
+Additionally, you can set the visibility when setting the file via the `put` method. The valid visibility values are `public` and `private`:
+
+추가적으로 `put` 메소드를 통해서 파일의 visibility 를 설정할 수 있습니다. 유효한 visibility 는 `public` 과 `private` 입니다:
+
+    Storage::put('file.jpg', $contents, 'public');
 
 <a name="deleting-files"></a>
 ### Deleting Files

@@ -42,11 +42,11 @@ To create a new middleware, use the `make:middleware` Artisan command:
 
 새로운 미들웨어를 생성하기 위하여 `make:middleware` 아티즌 명령을 사용할 수 있습니다:
 
-    php artisan make:middleware OldMiddleware
+    php artisan make:middleware AgeMiddleware
 
-This command will place a new `OldMiddleware` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the "home" URI.
+This command will place a new `AgeMiddleware` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the "home" URI.
 
-이 명령은 `OldMiddleware` 클래스를 생성하여 `app/Http/Middleware` 디렉토리에 위치시킬 것입니다. 이 미들웨어 에서 우리는 입력받은 `age`가 200보다 클 때에만 요청된 주소에 접근할 수 있도록 허용하려고 합니다. 그렇지 않은경우 사용자를 "home" URI 으로 리다이렉트할 것입니다.
+이 명령은 `AgeMiddleware` 클래스를 생성하여 `app/Http/Middleware` 디렉토리에 위치시킬 것입니다. 이 미들웨어 에서 우리는 입력받은 `age`가 200보다 클 때에만 요청된 주소에 접근할 수 있도록 허용하려고 합니다. 그렇지 않은경우 사용자를 "home" URI 으로 리다이렉트할 것입니다.
 
     <?php
 
@@ -54,7 +54,7 @@ This command will place a new `OldMiddleware` class within your `app/Http/Middle
 
     use Closure;
 
-    class OldMiddleware
+    class AgeMiddleware
     {
         /**
          * Run the request filter.
@@ -180,6 +180,16 @@ Instead of using an array, you may also chain the `middleware` method onto the r
         //
     })->middleware(['first', 'second']);
 
+When assigning middleware, you may also pass the fully qualified class name:
+
+미들웨어를 할당할 때, 전체 클래스 이름을 전달할 수도 있습니다:
+
+    use App\Http\Middleware\FooMiddleware;
+
+    Route::get('admin/profile', ['middleware' => FooMiddleware::class, function () {
+        //
+    }]);
+
 <a name="middleware-groups"></a>
 ### Middleware Groups
 ### 미들웨어 그룹
@@ -219,6 +229,10 @@ Middleware groups may be assigned to routes and controller actions using the sam
     Route::group(['middleware' => ['web']], function () {
         //
     });
+
+Keep in mind, the `web` middleware group is automatically applied to your default `routes.php` file by the `RouteServiceProvider`.
+
+`web` 미들웨어 그룹은 `RouteServiceProvider`에 의해서 자동으로 `routes.php` 에 적용되어 있다는 것을 명심하십시오.  
 
 <a name="middleware-parameters"></a>
 ## Middleware Parameters

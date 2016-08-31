@@ -57,6 +57,20 @@ You may also configure a "fallback language", which will be used when the active
 
     'fallback_locale' => 'en',
 
+You may check if a given locale is currently being used by calling the `isLocale` method on the `App` [facade](/docs/{{version}}/facades):
+
+`App` [파사드](/docs/{{version}}/facades)의 `isLocale` 메소드를 호출 하여 지정된 로케일이 현재 사용되고 있는지 확인할 수 있습니다:
+
+    if (App::isLocale('en')) {
+        //
+    }
+
+To retrieve the current application locale, call the `getLocale` method on the `App` [facade](/docs/{{version}}/facades):
+
+`App` [파사드](/docs/{{version}}/facades)의 `getLocale` 메소드를 호출 하여 현재 어플리케이션의 로케일을 조회 할 수 있습니다: 
+
+    return App::getLocale();
+
 <a name="basic-usage"></a>
 ## Basic Usage
 ## 기본적인 사용법
@@ -67,11 +81,13 @@ You may retrieve lines from language files using the `trans` helper function. Th
 
     echo trans('messages.welcome');
 
-Of course if you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the language line:
+Of course if you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the language line or use the `@lang` directive:
 
-당연하게도, [블레이드 템플릿 엔진](/docs/{{version}}/blade)을 사용한다면 `{{ }}` 구문 안에서 다국어를 사용할 수 있습니다. 
+당연하게도, [블레이드 템플릿 엔진](/docs/{{version}}/blade)을 사용한다면 `{{ }}` 구문 안에서 또는 `@lang` 지시어를 통해서 다국어를 사용할 수 있습니다. 
 
     {{ trans('messages.welcome') }}
+
+    @lang('messages.welcome')
 
 If the specified language line does not exist, the `trans` function will simply return the language line key. So, using the example above, the `trans` function would return `messages.welcome` if the language line does not exist.
 
@@ -88,9 +104,16 @@ If you wish, you may define place-holders in your language lines. All place-hold
 
 To replace the place-holders when retrieving a language line, pass an array of replacements as the second argument to the `trans` function:
 
-다국어 메세지에서 플레이스 홀더를 교체하려면 `trans` 함수의 두번째 인자로 교체할 값의 배열을 전달하면 됩니다.
+다국어 메세지에서 플레이스 홀더를 교체하려면 `trans` 함수의 두번째 인자로 교체할 값의 배열을 전달하면 됩니다:
 
-    echo trans('messages.welcome', ['name' => 'Dayle']);
+    echo trans('messages.welcome', ['name' => 'dayle']);
+
+If your place-holder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+
+플레이스 홀더가 모두 대문자이거나, 첫번째 문자가 대문자라면, 변환된 값또한 이에 따라 대문자로 표기될것 입니다:
+
+    'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
+    'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
 
 <a name="pluralization"></a>
 ### Pluralization
@@ -98,13 +121,13 @@ To replace the place-holders when retrieving a language line, pass an array of r
 
 Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a "pipe" character, you may distinguish a singular and plural form of a string:
 
-각기 다른 언어에서 단수와 복수의 표기는 복잡하고 다양한 것처럼, 복수 표기는 아주 복잡한 문제입니다. "파이프" 문자를 사용하여 여러분은 단수 문자열과 복수형의 문자열을 나눌 수 있습니다.
+각기 다른 언어에서 단수와 복수의 표기는 복잡하고 다양한 것처럼, 복수 표기는 아주 복잡한 문제입니다. "파이프" 문자를 사용하여 여러분은 단수 문자열과 복수형의 문자열을 나눌 수 있습니다:
 
     'apples' => 'There is one apple|There are many apples',
 
-Then, you may then use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the language line is returned:
+Then, you may use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the language line is returned:
 
-그다음에 여러분은 `trans_choice` 함수를 사용하여 주어진 "갯수"에 맞는 다국어 메세지를 표시할 수 있습니다. 예를 들어 하나 이상인 경우에는 다음처럼 표시하면 됩니다. 
+그다음에 여러분은 `trans_choice` 함수를 사용하여 주어진 "갯수"에 맞는 다국어 메세지를 표시할 수 있습니다. 예를 들어 하나 이상인 경우에는 다음처럼 표시하면 됩니다: 
 
     echo trans_choice('messages.apples', 10);
 

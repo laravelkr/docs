@@ -121,9 +121,9 @@ Eloquent will also assume that each table has a primary key column named `id`. Y
 
 Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다. 
 
-In addition, Eloquent assumes that the primary key is an incrementing integer value. If you wish to use a non-incrementing primary key, you must set the `$incrementing` property on your model to `false`.
+In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`.
 
-추가적으로, Eloquent 는 primary key가 증가하는 정수값이라고 추정합니다. 증가하지 안는 primary key를 사용하고자 한다면, 모델의 `$incrementing` 속성을 `false` 로 설정해야 합니다. 
+추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary Key를 `int`로 자동 캐시팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. 
 
 #### Timestamps
 
@@ -271,10 +271,24 @@ If you need to process thousands of Eloquent records, use the `chunk` command. T
         }
     });
 
-
 The first argument passed to the method is the number of records you wish to receive per "chunk". The Closure passed as the second argument will be called for each chunk that is retrieved from the database.
 
 메소드의 첫번째 인자는 "chunk" 메소드에서 받아 들일 레코드의 갯수 입니다. 두번째 인자는 클로저로 데이터베이스로 부터 분할된 데이터들을 전달 받습니다.
+
+> **Note:** The database query is re-executed for each chunk.
+
+> **주의:** 데이터베이스 쿼리는 매번마다 다시 실행됩니다.
+
+#### Using Cursors
+#### 커서 사용하기
+
+The `cursor` method allows you to iterate through your database records using a cursor. When processing large amounts of data, the `cursor` method may be used to greatly reduce your memory usage:
+
+`cursor` 메소드는 커서를 사용하여 데이터베이스 레코드 전체를 반복할 수 있게 합니다. 대량의 데이터럴 처리하는 경우에, `cursor` 메소드는 메모리 사용량을 크게 줄여줍니다:
+
+    foreach (Flight::where('foo', 'bar')->cursor() as $flight) {
+        //
+    }
 
 <a name="retrieving-single-models"></a>
 ## Retrieving Single Models / Aggregates 
@@ -289,6 +303,12 @@ Of course, in addition to retrieving all of the records for a given table, you m
 
     // Retrieve the first model matching the query constraints...
     $flight = App\Flight::where('active', 1)->first();
+
+You may also call the `find` method with an array of primary keys, which will return a collection of the matching records:
+
+또한 `find` 메소드를 primary key 의 배열과 함께 사용하여 매칭되는 레코드들의 컬렉션을 반환받을 수 있습니다:
+
+    $flights = App\Flight::find([1, 2, 3]);
 
 #### Not Found Exceptions 
 #### Not Found Exceptions

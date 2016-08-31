@@ -13,6 +13,8 @@
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [Per Project Installation](#per-project-installation)
     - [프로젝트별 설치하기](#per-project-installation)
+    - [Installing MariaDB](#installing-mariadb)
+    - [MariaDB 설치하기](#installing-mariadb)
 - [Daily Usage](#daily-usage)
 - [사용 방법](#daily-usage)
     - [Accessing Homestead Globally](#accessing-homestead-globally)
@@ -27,6 +29,8 @@
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Ports](#ports)
     - [포트 지정](#ports)
+- [Network Interfaces](#network-interfaces)
+- [네트워크 인터페이스](#network-interfaces)
 
 <a name="introduction"></a>
 ## Introduction
@@ -44,20 +48,21 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.0, MySQL, Postgres, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
-> **Note:** If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS.
+> **Note:** If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
-> **주의:** 만약 윈도우를 사용하는 경우, 하드웨어 가상화 (VT-x)를 활성화해야합니다. 이 설정은 일반적으로 BIOS에서 사용할 수 있습니다.
+> **주의:** 만약 윈도우를 사용하는 경우, 하드웨어 가상화 (VT-x)를 활성화해야합니다. 이 설정은 일반적으로 BIOS에서 사용할 수 있습니다. 만약 UEFI 시스템에서 Hyper-V 를 사용중이라면 추가적으로 VT-x에 액세스하기 위해 Hyper-V를 비활성화 해야합니다.
 
 <a name="included-software"></a>
 ### Included Software
 ### 포함된 소프트웨어
 
-- Ubuntu 14.04
+- Ubuntu 16.04
 - Git
 - PHP 7.0
 - HHVM
 - Nginx
 - MySQL
+- MariaDB
 - Sqlite3
 - Postgres
 - Composer
@@ -165,6 +170,10 @@ You can make any Homestead site use [HHVM](http://hhvm.com) by setting the `hhvm
           to: /home/vagrant/Code/Laravel/public
           hhvm: true
 
+If you change the `sites` property after provisioning the Homestead box, you should re-run `vagrant reload --provision`  to update the Nginx configuration on the virtual machine.
+
+홈스테드 박스가 프로비저닝 된 이후에 `sites` 속성을 변경한다면, 가상머신의 Nginx 설정을 갱신하기 위해서 `vagrant reload --provision` 을 다시 실행시켜야만 합니다.
+
 #### The Hosts File
 #### Hosts 파일
 
@@ -216,11 +225,26 @@ Mac / Linux:
 
 Windows:
 
-  vendor\bin\homestead make
+	vendor\\bin\\homestead make
 
 Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.app` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.app` or the domain of your choice.
 
 다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.app` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.spp` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다. 
+
+<a name="installing-mariadb"></a>
+### Installing MariaDB
+### MariaDB 설치하기
+
+If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option to your `Homestead.yaml` file. This option will remove MySQL and install MariaDB. MariaDB serves as a drop-in replacement for MySQL so you should still use the `mysql` database driver in your application's database configuration:
+
+MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에 `mariadb` 옵션을 추가하면 됩니다. 이 옵션은 MySQL을 제거하고 MariaDB를 설치할 것입니다. MariaDB는 MySQL을 바로 대체가능하기 때문에, 어플리케이션에서 `mysql` 데이터베이스 드라이버를 그대로 사용할 수 있습니다.
+
+    box: laravel/homestead
+    ip: "192.168.20.20"
+    memory: 2048
+    cpus: 4
+    provider: virtualbox
+    mariadb: true
 
 <a name="daily-usage"></a>
 ## Daily Usage
@@ -230,15 +254,17 @@ Next, run the `vagrant up` command in your terminal and access your project at `
 ### Accessing Homestead Globally
 ### 어디에서나 홈스테드 엑세스하기
 
-Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this by adding a simple Bash alias to your Bash profile. This alias will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
+Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this by adding a simple Bash function to your Bash profile. This function will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
 
-때로는 파일시스템의 어디에서나 여러분의 홈스테드 머신에 `vagrant up`을 실행하고자 할 수 있습니다. 이렇게 하기 위해서는 간단한 Bash alias를 Bash profile 에 추가하여 구현할 수 있습니다. 이 alias는 여러분이 시스템 어디에서나 Vagrant 명령어를 실행할 수 있게 하고 자동으로 홈스테드 설치를 대상으로 하게 할 수 있습니다. 
+때로는 파일시스템의 어디에서나 여러분의 홈스테드 머신에 `vagrant up`을 실행하고자 할 수 있습니다. 이렇게 하기 위해서는 간단한 Bash 함수를 Bash profile 에 추가하여 구현할 수 있습니다. 이 함수는 여러분이 시스템 어디에서나 Vagrant 명령어를 실행할 수 있게 하고 자동으로 홈스테드 설치를 대상으로 하게 할 수 있습니다. 
 
-    alias homestead='function __homestead() { (cd ~/Homestead && vagrant $*); unset -f __homestead; }; __homestead'
+    function homestead() {
+        ( cd ~/Homestead && vagrant $* )
+    }
 
-Make sure to tweak the `~/Homestead` path in the alias to the location of your actual Homestead installation. Once the alias is installed, you may run commands like `homestead up` or `homestead ssh` from anywhere on your system.
+Make sure to tweak the `~/Homestead` path in the function to the location of your actual Homestead installation. Once the function is installed, you may run commands like `homestead up` or `homestead ssh` from anywhere on your system.
 
-alias으로 설정한 `~/Homestead` 경로가 여러분의 실제 홈스테드 설치 위치인지 확인하십시오. alias를 설정하면 시스템의 어느곳에서나 `homestead up` 또는 `homestead ssh`와 같은 명령어를 실행할 수 있습니다. 
+함수에서 설정한 `~/Homestead` 경로가 여러분의 실제 홈스테드 설치 위치인지 확인하십시오. 함수를 설정하면 시스템의 어느 곳에서나 `homestead up` 또는 `homestead ssh`와 같은 명령어를 실행할 수 있습니다. 
 
 <a name="connecting-via-ssh"></a>
 ### Connecting Via SSH
@@ -324,3 +350,32 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
         - send: 7777
           to: 777
           protocol: udp
+
+<a name="network-interfaces"></a>
+## Network Interfaces
+## 네트워크 인터페이스
+
+The `networks` property of the `Homestead.yaml` configures network interfaces for your Homestead environment. You may configure as many interfaces as necessary:
+
+`Homestead.yaml` 설정의 `networks` 속성은 홈스테드 환경의 네트워크 인터페이스 설정에 관련된 것입니다. 필요한 경우 여러개의 인터페이스를 설정할 수 있습니다:
+
+    networks:
+        - type: "private_network"
+          ip: "192.168.10.20"
+
+To enable a [bridged](https://www.vagrantup.com/docs/networking/public_network.html) interface, configure a `bridge` setting and change the network type to `public_network`:
+
+[bridged](https://www.vagrantup.com/docs/networking/public_network.html) 인터페이스를 활성화 하기 위해서는, `bridge` 옵션을 설정하고 네트워크 타입을 `public_network`로 변경해야 합니다:
+
+    networks:
+        - type: "public_network"
+          ip: "192.168.10.20"
+          bridge: "en1: Wi-Fi (AirPort)"
+
+To enable [DHCP](https://www.vagrantup.com/docs/networking/public_network.html), just remove the `ip` option from your configuration:
+
+[DHCP](https://www.vagrantup.com/docs/networking/public_network.html)를 활성화하기 위해서는, 설정에서 간단하게 `ip` 옵션을 제거하면 됩니다: 
+
+    networks:
+        - type: "public_network"
+          bridge: "en1: Wi-Fi (AirPort)"

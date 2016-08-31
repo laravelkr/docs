@@ -12,7 +12,9 @@
     - [Partial Resource Routes](#restful-partial-resource-routes)
     - [Resource 라우트의 일부만 지정하기](#restful-partial-resource-routes)
     - [Naming Resource Routes](#restful-naming-resource-routes)
-    - [resource 라우트 이름 지정하기](#restful-naming-resource-routes)
+    - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
+    - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
+    - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
     - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
     - [Resource 컨트롤러 라우트에 추가하기](#restful-supplementing-resource-controllers)
 - [Dependency Injection & Controllers](#dependency-injection-and-controllers)
@@ -172,6 +174,12 @@ GET       | `/photo/{photo}/edit` | edit         | photo.edit
 PUT/PATCH | `/photo/{photo}`      | update       | photo.update
 DELETE    | `/photo/{photo}`      | destroy      | photo.destroy
 
+Remember, since HTML forms can't make PUT, PATCH, or DELETE requests, you will need to add a hidden `_method` field to spoof these HTTP verbs:
+
+HTML form은 PUT, PATCH 또는 DELETE 요청을 만들지 못하기 때문에, hidden 유형의 `_method` 필드를 통해서 HTTP 메소드를 속이도록 해야합니다. 
+
+    <input type="hidden" name="_method" value="PUT">
+
 <a name="restful-partial-resource-routes"></a>
 #### Partial Resource Routes
 #### Resource 라우트의 일부만 지정하기
@@ -199,6 +207,58 @@ By default, all resource controller actions have a route name; however, you can 
     Route::resource('photo', 'PhotoController', ['names' => [
         'create' => 'photo.build'
     ]]);
+
+<a name="restful-naming-resource-route-parameters"></a>
+#### Naming Resource Route Parameters
+#### 리소스 라우트 파리미터 이름 지정하기
+
+By default, `Route::resource` will create the route parameters for your resource routes based on the resource name. You can easily override this on a per resource basis by passing `parameters` in the options array. The `parameters` array should be an associative array of resource names and parameter names:
+
+기본적으로 `Route::resource` 는 리소스 이름을 기반으로한 리소스 라우트들을 위한 라우트 파라미터들을 생성합니다. 여러분은 옵션 배열에 `parameters` 를 전달하여 손쉽게 각각의 리소스 마다 이를 덮어쓸 수 있습니다:   
+
+    Route::resource('user', 'AdminUserController', ['parameters' => [
+        'user' => 'admin_user'
+    ]]);
+
+The example above generates the following URIs for the resource's `show` route:
+
+위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다:
+
+    /user/{admin_user}
+
+Instead of passing an array of parameter names, you may also simply pass the word `singular` to instruct Laravel to use the default parameter names, but "singularize" them:
+
+파라미터의 이름 배열을 전달하는 대신에 `singular`을 지정하면 라라벨은 기본 파라미터의 이름에 "단수"를 사용합니다:
+
+    Route::resource('users.photos', 'PhotoController', [
+        'parameters' => 'singular'
+    ]);
+
+    // /users/{user}/photos/{photo}
+
+Alternatively, you may set your resource route parameters to be globally singular or set a global mapping for your resource parameter names:
+
+또는 리소스 라우트 파라미터를 전역으로 단수 설정하거나 글로벌 매핑 할 수 있습니다.
+
+    Route::singularResourceParameters();
+
+    Route::resourceParameters([
+        'user' => 'person', 'photo' => 'image'
+    ]);
+
+When customizing resource parameters, it's important to keep the naming priority in mind:
+
+리소스 파라미터들을 커스터마이징 하는 경우, 이름지정의 우선 순위를 인식하는 것이 중요합니다.
+
+1. The parameters explicitly passed to `Route::resource`.
+2. The global parameter mappings set via `Route::resourceParameters`.
+3. The `singular` setting passed via the `parameters` array to `Route::resource` or set via `Route::singularResourceParameters`.
+4. The default behavior.
+
+1. `Route::resource` 에 명시적으로 전달된 파라미터들.
+2. `Route::resourceParameters` 를 통해서 글로벌 파라미터 매핑된 것.
+3. `Route::resource` 에 `parameters` 배열을 통해서 `singular` 설정되었거나 `Route::singularResourceParameters` 된것. 
+4. 기본 동작.
 
 <a name="restful-supplementing-resource-controllers"></a>
 #### Supplementing Resource Controllers

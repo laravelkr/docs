@@ -101,11 +101,12 @@ The first argument passed to the `hasOne` method is the name of the related mode
 Eloquent assumes the foreign key of the relationship based on the model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
 
 Eloquent는 모델 명에 근거하여 relationship의 외래 키(foreign key)를 추정합니다. 이 경우, `Phone` 모델은 `user_id` 외래 키를 가질 것이라고 자동으로 추정합니다. 이 추정사항을 재정의하고 싶다면 `hasOne` 메소드로 두번째 인자를 전달하면 됩니다: 
+
     return $this->hasOne('App\Phone', 'foreign_key');
 
-Additionally, Eloquent assumes that the foreign key should have a value matching the `id` column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+Additionally, Eloquent assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
 
-Eloquent는 또한 외래 키가 부모의 `id` 컬럼에 상응하는 값을 가지고 있다고 추정합니다. 즉, Eloquent는 `Phone`레코드의 `user_id` 컬럼에서 사용자 `id` 컬럼의 값을 찾을 것입니다. Relationship이 `id`가 아닌 다른 값을 사용하고자 한다면 커스텀 키를 지정하는 세번째 인자를 `hasOne` 메소드로 전달하면 됩니다: 
+Eloquent는 또한 외래 키가 부모의 `id` 컬럼(또는 사용자가 정의한 `$primaryKey`)에 상응하는 값을 가지고 있다고 추정합니다. 즉, Eloquent는 `Phone`레코드의 `user_id` 컬럼에서 사용자 `id` 컬럼의 값을 찾을 것입니다. Relationship이 `id`가 아닌 다른 값을 사용하고자 한다면 커스텀 키를 지정하는 세번째 인자를 `hasOne` 메소드로 전달하면 됩니다: 
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
@@ -315,13 +316,13 @@ As mentioned previously, to determine the table name of the relationship's joini
 
 앞서 살펴본 바와같이, Eloquent는 relationship-관계의 조인(join) 테이블의 테이블 명을 결정하기 위해 관련된 두 모델 이름을 알파벳 순으로 합칠 것입니다. (user 와 role 일 경우에 role_user 로 이름을 추정합니다) 하지만 이러한 관례는 재지정 할 수 있습니다. `belongsToMany` 메소드로 두번째 인자를 전달하면 됩니다: 
 
-    return $this->belongsToMany('App\Role', 'user_roles');
+    return $this->belongsToMany('App\Role', 'role_user');
 
 In addition to customizing the name of the joining table, you may also customize the column names of the keys on the table by passing additional arguments to the `belongsToMany` method. The third argument is the foreign key name of the model on which you are defining the relationship, while the fourth argument is the foreign key name of the model that you are joining to:
 
 join 테이블의 이름을 커스터마이징하는 것 외에도 `belongsToMany` 메소드에 추가 인자들을 전달하면 키들의 이름들 또한 커스터마이징 할 수 있습니다. 세번째 인자는 관계를 정의하는 모델의 외래 키 이름이고 네번째 인자는 join 하는 모델의 외래 키 이름입니다: 
 
-    return $this->belongsToMany('App\Role', 'user_roles', 'user_id', 'role_id');
+    return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
 
 #### Defining The Inverse Of The Relationship
 #### 관계의 역(반대) 정의하기
@@ -380,6 +381,17 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 
     return $this->belongsToMany('App\Role')->withTimestamps();
 
+#### Filtering Relationships Via Intermediate Table Columns
+#### 중간 테이블의 컬럼을 사용한 관계의 필터링
+
+You can also filter the results returned by `belongsToMany` using the `wherePivot` and `wherePivotIn` methods when defining the relationship:
+
+관계를 정의할 때, `wherePivot` 과 `wherePivotIn` 메소드를 사용하여 `belongsToMany`이 반환하는 결과를 필터링 할 수도 있습니다.
+
+    return $this->belongsToMany('App\Role')->wherePivot('approved', 1);
+
+    return $this->belongsToMany('App\Role')->wherePivotIn('approved', [1, 2]);
+
 <a name="has-many-through"></a>
 ### Has Many Through
 ### 연결을 통한 다수를 가지는 관계 정의하기
@@ -431,15 +443,18 @@ The first argument passed to the `hasManyThrough` method is the name of the fina
 
 `hasManyThrough` 메소드로 전달되는 첫번째 인자는 접근하고자 하는 최종 모델의 이름이며 두번째 인자는 중간 모델의 이름입니다. 
 
-Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasManyThrough` method. The third argument is the name of the foreign key on the intermediate model, while the fourth argument is the name of the foreign key on the final model.
+Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasManyThrough` method. The third argument is the name of the foreign key on the intermediate model, the fourth argument is the name of the foreign key on the final model, and the fifth argument is the local key:
 
-관계의 쿼리를 수행할 때 전형적인 Eloquent 외래 키 관례들이 사용될 것입니다. 관계의 키를 사용자가 정의하고 싶다면 세번째와 네번재 인자로 `hasManyThrough` 메소드에 전달할 수 있습니다. 세번째 인자는 중간 모델의 외래 키 이름이며 네번째 인자는 최종 모델의 외래 키 이름입니다. 
+관계의 쿼리를 수행할 때 전형적인 Eloquent 외래 키 관례들이 사용될 것입니다. 관계의 키를 사용자가 정의하고 싶다면 세번째와 네번재 인자로 `hasManyThrough` 메소드에 전달할 수 있습니다. 세번째 인자는 중간 모델의 외래 키 이름이며 네번째 인자는 최종 모델의 외래 키 이름, 다섯번째 키는 로컬 키입니다. 
 
     class Country extends Model
     {
         public function posts()
         {
-            return $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id');
+            return $this->hasManyThrough(
+                'App\Post', 'App\User',
+                'country_id', 'user_id', 'id'
+            );
         }
     }
 
@@ -500,7 +515,7 @@ Next, let's examine the model definitions needed to build this relationship:
     class Post extends Model
     {
         /**
-         * Get all of the product's likes.
+         * Get all of the post's likes.
          */
         public function likes()
         {
@@ -543,6 +558,35 @@ You may also retrieve the owner of a polymorphic relation from the polymorphic m
 The `likeable` relation on the `Like` model will return either a `Post` or `Comment` instance, depending on which type of model owns the like.
 
 `Like` 모델의 `likeable` 관계는 좋아요를 어느 모델이 소유하느냐에 따라 `Post`나 `Comment` 인스턴스를 반환합니다. 
+
+#### Custom Polymorphic Types
+#### 사용자 정의 다형성 타입
+
+By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Like` may belong to a `Post` or a `Comment`, the default `likable_type` would be either `App\Post` or `App\Comment`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Eloquent to use the table name associated with each model instead of the class name:
+
+기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 예제에서 `Like` 는 하나의 `Post` 또는 하나의 `Comment` 에 지정되고, 기본적으로 `likeable_type` 의 각각 `App\Post` 또는 `App\Comment` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 어플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 테이블 이름을 Eloquent 에 지시할 수 있습니다:
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    Relation::morphMap([
+        App\Post::class,
+        App\Comment::class,
+    ]);
+
+Or, you may specify a custom string to associate with each model:
+
+또는 각 모델에 관련된 사용자 정의 문자열을 지정할 수도 있습니다:
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    Relation::morphMap([
+        'posts' => App\Post::class,
+        'comments' => App\Comment::class,
+    ]);
+
+You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
+
+여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
 
 <a name="many-to-many-polymorphic-relations"></a>
 ### Many To Many Polymorphic Relations
@@ -742,6 +786,30 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
         $query->where('content', 'like', 'foo%');
     })->get();
 
+#### Counting Relationship Results
+#### 관계 결과 갯수 확
+
+If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
+
+관계 결과의 갯수를 실제 레코드를 로딩하지 않고 알고자 한다면, `withCount` 메소드를 사용하여 건수는 결과 모델의 `{관계}_count` 컬럼에 위치하도록 할 수 있습니다 예를 들어:
+
+    $posts = App\Post::withCount('comments')->get();
+
+    foreach ($posts as $post) {
+        echo $post->comments_count;
+    }
+
+You may add retrieve the "counts" for multiple relations as well as add constraints to the queries:
+
+다수의 관계에 대해서도 쿼리에 제약을 추가하여 "갯수"를 조회할 수 있습니다.
+
+    $posts = Post::withCount(['votes', 'comments' => function ($query) {
+        $query->where('content', 'like', 'foo%');
+    }])->get();
+
+    echo $posts[0]->votes_count;
+    echo $posts[0]->comments_count;
+
 <a name="eager-loading"></a>
 ### Eager Loading
 ### Eager 로딩
@@ -830,9 +898,9 @@ Sometimes you may wish to eager load a relationship, but also specify additional
 
     }])->get();
 
-In this example, Eloquent will only eager load posts that if the post's `title` column contains the word `first`. Of course, you may call other [query builder](/docs/{{version}}/queries) to further customize the eager loading operation:
+In this example, Eloquent will only eager load posts where the post's `title` column contains the word `first`. Of course, you may call other [query builder](/docs/{{version}}/queries) methods to further customize the eager loading operation:
 
-이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 물론 다른 [쿼리 빌더](/docs/{{version}}/queries)를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
+이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 물론 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
 
     $users = App\User::with(['posts' => function ($query) {
         $query->orderBy('created_at', 'desc');
@@ -982,8 +1050,19 @@ For convenience, `attach` and `detach` also accept arrays of IDs as input:
 
     $user->roles()->attach([1 => ['expires' => $expires], 2, 3]);
 
-#### Syncing For Convenience
-#### 편리성을 위한 동기화 하기
+#### Updating A Record On A Pivot Table
+#### 피벗 테이블 레코드 업데이트
+
+If you need to update an existing row in your pivot table, you may use `updateExistingPivot` method:
+
+피벗 테이블의 컬럼을 수정 할 필요가있는 경우, `updateExistingPivot` 메소드를 사용할 수 있습니다:
+
+    $user = App\User::find(1);
+
+	$user->roles()->updateExistingPivot($roleId, $attributes);
+
+#### Syncing Associations
+#### 연결 동기화
 
 You may also use the `sync` method to construct many-to-many associations. The `sync` method accepts an array of IDs to place on the intermediate table. Any IDs that are not in the given array will be removed from the intermediate table. So, after this operation is complete, only the IDs in the array will exist in the intermediate table:
 
@@ -996,6 +1075,12 @@ You may also pass additional intermediate table values with the IDs:
 ID들과 함께 중간 테이블 값을 추가로 전달할 수도 있습니다: 
 
     $user->roles()->sync([1 => ['expires' => true], 2, 3]);
+
+If you do not want to detach existing IDs, you may use the `syncWithoutDetaching` method:
+
+존재하는 ID들을 삭제하고 싶지 않으면, `syncWithoutDetaching` 메소드를 사용하면 됩니다:
+
+    $user->roles()->syncWithoutDetaching([1, 2, 3]);
 
 <a name="touching-parent-timestamps"></a>
 ### Touching Parent Timestamps

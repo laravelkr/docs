@@ -65,19 +65,21 @@ You may select any method from this table to see an example of its usage:
     }
 </style>
 
-<div id="collection-method-list" markdown="1">
 [all](#method-all)
 [avg](#method-avg)
 [chunk](#method-chunk)
 [collapse](#method-collapse)
+[combine](#method-combine)
 [contains](#method-contains)
 [count](#method-count)
 [diff](#method-diff)
+[diffKeys](#method-diffkeys)
 [each](#method-each)
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
 [first](#method-first)
+[flatMap](#method-flatmap)
 [flatten](#method-flatten)
 [flip](#method-flip)
 [forget](#method-forget)
@@ -119,12 +121,14 @@ You may select any method from this table to see an example of its usage:
 [toArray](#method-toarray)
 [toJson](#method-tojson)
 [transform](#method-transform)
+[union](#method-union)
 [unique](#method-unique)
 [values](#method-values)
 [where](#method-where)
 [whereLoose](#method-whereloose)
+[whereIn](#method-wherein)
+[whereInLoose](#method-whereinloose)
 [zip](#method-zip)
-</div>
 
 <a name="method-listing"></a>
 ## Method Listing
@@ -217,6 +221,22 @@ The `collapse` method collapses a collection of arrays into a flat collection:
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+<a name="method-combine"></a>
+#### `combine()` {#collection-method}
+
+The `combine` method combines the keys of the collection with the values of another array or collection:
+
+`combine` 메소드는 컬렉션의 키들과 다른 배열 또는 컬렉션의 값을 결합합니다:
+
+    $collection = collect(['name', 'age']);
+
+    $combined = $collection->combine(['George', 29]);
+
+    $combined->all();
+
+    // ['name' => 'George', 'age' => 29]
+
+
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}
 
@@ -275,9 +295,9 @@ The `count` method returns the total number of items in the collection:
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-The `diff` method compares the collection against another collection or a plain PHP `array`:
+The `diff` method compares the collection against another collection or a plain PHP `array` based on its values:
 
-`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP '배열'과 비교합니다:
+`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP `배열`을 값을 기준으로 비교합니다:
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -286,6 +306,32 @@ The `diff` method compares the collection against another collection or a plain 
     $diff->all();
 
     // [1, 3, 5]
+
+<a name="method-diffkeys"></a>
+#### `diffKeys()` {#collection-method}
+
+The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys:
+
+`diffKeys` 메소드는 컬렉션과 다른 컬렉션의 키을 기준으로 `배열`을 비교합니다.
+
+    $collection = collect([
+        'one' => 10,
+        'two' => 20,
+        'three' => 30,
+        'four' => 40,
+        'five' => 50,
+    ]);
+
+    $diff = $collection->diffKeys([
+        'two' => 2,
+        'four' => 4,
+        'six' => 6,
+        'eight' => 8,
+    ]);
+
+    $diff->all();
+
+    // ['one' => 10, 'three' => 30, 'five' => 50]
 
 <a name="method-each"></a>
 #### `each()` {#collection-method}
@@ -392,6 +438,27 @@ You may also call the `first` method with no arguments to get the first element 
 
     // 1
 
+<a name="method-flatmap"></a>
+#### `flatMap()` {#collection-method}
+
+The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
+
+`flatMap` 메소드는 각각의 컬렉션을 반복하며 각가의 값을 주어진 콜백에 전달합니다. 콜백은 자유롭게 이 값을 변경하고 돌려주며 이를 통해서 수정된 값을 기반으로 새로운 컬렉션을 만듭니다. 이 배열은 일차원이 됩니다.
+
+    $collection = collect([
+        ['name' => 'Sally'],
+        ['school' => 'Arkansas'],
+        ['age' => 28]
+    ]);
+
+    $flattened = $collection->flatMap(function ($values) {
+        return array_map('strtoupper', $values);
+    });
+
+    $flattened->all();
+
+    // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
+
 <a name="method-flatten"></a>
 #### `flatten()` {#collection-method}
 
@@ -406,6 +473,34 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
     $flattened->all();
 
     // ['taylor', 'php', 'javascript'];
+
+You may optionally pass the function a "depth" argument:
+
+여러분은 선택적으로 함수에 "깊이" 인자를 전달할 수 있습니다:
+
+    $collection = collect([
+        'Apple' => [
+            ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+        ],
+        'Samsung' => [
+            ['name' => 'Galaxy S7', 'brand' => 'Samsung']
+        ],
+    ]);
+
+    $products = $collection->flatten(1);
+
+    $products->values()->all();
+
+    /*
+        [
+            ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+            ['name' => 'Galaxy S7', 'brand' => 'Samsung'],
+        ]
+    */
+
+Here, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to restrict the levels of nested arrays that will be flattened.
+
+이 중첩 된 배열에 대해 `flatten`을 깊이에 대한 인자없이 호출하면 결과는 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`이 됩니다. 깊이를 전달하게 되면 중첩된 배열의 깊이를 제한하여 정리될것입니다.
 
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
@@ -435,7 +530,7 @@ The `forget` method removes an item from the collection by its key:
 
     $collection->all();
 
-    // [framework' => 'laravel']
+    // ['framework' => 'laravel']
 
 > **Note:** Unlike most other collection methods, `forget` does not return a new modified collection; it modifies the collection it is called on.
 
@@ -1086,9 +1181,9 @@ If you would like to limit the size of the returned slice, pass the desired size
 
     // [5, 6]
 
-The returned slice will have new, numerically indexed keys. If you wish to preserve the original keys, pass `true` as the third argument to the method.
+The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the `values` method to reindex them.
 
-반환되는 컬렉션은 새로운 인덱스 키로 구성되어 있습니다. 만약 이전의 원래 키를 유지하려면, 메소드의 세번째 인자로 `true` 를 전달하십시오.
+반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 `value` 메소드를 사용할 수 있습니다.
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
@@ -1350,6 +1445,21 @@ The `transform` method iterates over the collection and calls the given callback
 
 > **주의:** 다른 컬렉션 메소드와 다르게, `transform` 메소드는 컬렉션 자신을 변경합니다. 대신에, 새로운 컬렉션을 생성하려면 [`map`](#method-map) 메소드를 사용하십시오.
 
+<a name="method-union"></a>
+#### `union()` {#collection-method}
+
+The `union` method adds the given array to the collection. If the given array contains keys that are already in the collection, the collection's values will be preferred:
+
+`union` 메소드는 주어진 배열을 컬렉션에 추가합니다. 이미 컬렉션에 가지고 있는 키가 배열에 포함되어있는 경우는에는 컬렉션의 값이 우선합니다.
+
+    $collection = collect([1 => ['a'], 2 => ['b']]);
+
+    $union = $collection->union([3 => ['c'], 1 => ['b']]);
+
+    $union->all();
+
+    // [1 => ['a'], 2 => ['b'], [3 => ['c']]
+
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}
 
@@ -1458,9 +1568,9 @@ The `where` method filters the collection by a given key / value pair:
     ]
     */
 
-The `where` method uses strict comparisons when checking item values. Use the [`whereLoose`](#where-loose) method to filter using "loose" comparisons.
+The `where` method uses strict comparisons when checking item values. Use the [`whereLoose`](#method-whereloose) method to filter using "loose" comparisons.
 
-`where` 메소드는 아이템의 값을 확인할 때 타입을 엄격하게 비교합니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#where-loose) 메소드를 사용하십시오. 
+`where` 메소드는 아이템의 값을 확인할 때 타입을 엄격하게 비교합니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오. 
 
 <a name="method-whereloose"></a>
 #### `whereLoose()` {#collection-method}
@@ -1468,6 +1578,42 @@ The `where` method uses strict comparisons when checking item values. Use the [`
 This method has the same signature as the [`where`](#method-where) method; however, all values are compared using "loose" comparisons.
 
 이 메소드는 [`where`](#method-where) 메소드와 동일한 사용법을 가지고 있습니다;하지만 모든 값이 "느슨하게" 비교되어 집니다.
+
+<a name="method-wherein"></a>
+#### `whereIn()` {#collection-method}
+
+The `whereIn` method filters the collection by a given key / value contained within the given array.
+
+`whereIn` 메소드는 주어진 배열 안에 포함 된 주어진 키/값을 사용하여 컬렉션을 필터링합니다.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereIn('price', [150, 200]);
+
+    $filtered->all();
+
+    /*
+    [
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Desk', 'price' => 200],
+    ]
+    */
+
+The `whereIn` method uses strict comparisons when checking item values. Use the [`whereInLoose`](#method-whereinloose) method to filter using "loose" comparisons.
+
+`whereIn` 메소드는 아이템 값을 엄격하게 비교합니다. "느슨한" 비교를해서 필터링 하려면 [`whereInLoose`](#method-whereinloose) 메소드를 사용하십시오.
+
+<a name="method-whereinloose"></a>
+#### `whereInLoose()` {#collection-method}
+
+This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "loose" comparisons.
+
+이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "느슨한" 비교를 진행합니다.
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

@@ -37,6 +37,33 @@ By default, Laravel's sample [environment configuration](/docs/{{version}}/insta
 
 기본적으로 라라벨의 샘플 [환경 설정](/docs/{{version}}/installation#environment-configuration)은 여러분의 로컬 머신에서 라라벨 개발 환경을 구축할 수 있는 편리한 방법을 제공하는 [라라벨 홈스테드](/docs/{{version}}/homestead)에 맞춰져 있습니다. 물론 로컬 데이터베이스에 맞게 변경하시면 됩니다. 
 
+#### SQLite Configuration
+#### SQLite 설정하기
+
+After creating a new SQLite database using a command such as `touch database/database.sqlite`, you can easily configure your environment variables to point to this newly created database by using the database's absolute path:
+
+`touch database/database.sqlite` 와 같은 명령어를 사용하여 SQLite 데이터베이스를 새롭게 생성한 뒤에, 데이터베이스의 절대 경로를 사용하여 새롭게 생성된 데이터베이스를 지정하는 환경 설정을 손쉽게 추가할 수 있습니다. 
+ 
+    DB_CONNECTION=sqlite
+    DB_DATABASE=/absolute/path/to/database.sqlite
+
+#### SQL Server Configuration
+#### SQL 서버 설정하기
+
+Laravel supports SQL Server out of the box; however, you will need to add the connection configuration for the database:
+
+라라벨은 별다른 추가 작업 없이도 SQL 서버를 지원하고 있습니다; 하지만 데이터베이스를 사용하기 위해서 커넥션에 대한 설정을 추가할 필요가 있을 것입니다:
+
+    'sqlsrv' => [
+        'driver' => 'sqlsrv',
+        'host' => env('DB_HOST', 'localhost'),
+        'database' => env('DB_DATABASE', 'forge'),
+        'username' => env('DB_USERNAME', 'forge'),
+        'password' => env('DB_PASSWORD', ''),
+        'charset' => 'utf8',
+        'prefix' => '',
+    ],
+
 <a name="read-write-connections"></a>
 #### Read / Write Connections
 #### 읽기 / 쓰기 커넥션
@@ -191,7 +218,7 @@ If you would like to receive each SQL query executed by your application, you ma
          */
         public function boot()
         {
-            DB::listen(function($query) {
+            DB::listen(function ($query) {
                 // $query->sql
                 // $query->bindings
                 // $query->time

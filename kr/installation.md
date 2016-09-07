@@ -111,4 +111,4 @@ You may also want to configure a few additional components of Laravel, such as:
 
 Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration).
 
-라라벨이 설치하면 이 문서 [로컬 환경 설정하기](/docs/{{version}}/configuration#environment-configuration)  역시 참고하시기 바랍니다.
+라라벨을 설치하면 이 문서 [구동 환경 설정](/docs/{{version}}/configuration#environment-configuration)도 참고하시기 바랍니다.

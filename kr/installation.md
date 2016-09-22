@@ -27,7 +27,7 @@
 
 The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine:
 
-라라벨은 몇가지 시스템 요구사힝을 필요로 합니다. 물론, [라라벨 홈스테드](/docs/{{version}}/homestead)은 모든 요구사항을 만족합니다. 
+라라벨은 몇가지 시스템 요구사항을 필요로 합니다. 물론, [라라벨 홈스테드](/docs/{{version}}/homestead)은 모든 요구사항을 만족합니다. 
 
 - PHP >= 5.5.9
 - OpenSSL PHP Extension

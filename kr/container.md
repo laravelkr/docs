@@ -79,7 +79,7 @@ A deep understanding of the Laravel service container is essential to building a
 
 Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so all of these examples will demonstrate using the container in that context. However, there is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve such "concrete" objects using PHP's reflection services.
 
-대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/5.1/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. 특정 인터페이스에 대한 의존성이 없을 때에는 컨테이너에 클래스를 바인딩 할 필요는 없습니다. 의존성과 관련된 객체들은 PHP의 리플랙션에 의해서 자동으로 생성되기 때문에 컨테이너가 각각의 객체들이 어떻게 생성될지 알 필요는 없습니다. 
+대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. 특정 인터페이스에 대한 의존성이 없을 때에는 컨테이너에 클래스를 바인딩 할 필요는 없습니다. 의존성과 관련된 객체들은 PHP의 리플랙션에 의해서 자동으로 생성되기 때문에 컨테이너가 각각의 객체들이 어떻게 생성될지 알 필요는 없습니다. 
 
 Within a service provider, you always have access to the container via the `$this->app` instance variable. We can register a binding using the `bind` method, passing the class or interface name that we wish to register along with a `Closure` that returns an instance of the class:
 

@@ -20,21 +20,21 @@
 
 - [소개하기](#introduction)
 - [설치하기](#installation)
-    - [Queueing](#queueing)
-    - [Driver Prerequisites](#driver-prerequisites)
-- [Configuration](#configuration)
-    - [Configuring Model Indexes](#configuring-model-indexes)
-    - [Configuring Searchable Data](#configuring-searchable-data)
-- [Indexing](#indexing)
-    - [Batch Import](#batch-import)
-    - [Adding Records](#adding-records)
-    - [Updating Records](#updating-records)
-    - [Removing Records](#removing-records)
-    - [Pausing Indexing](#pausing-indexing)
-- [Searching](#searching)
-    - [Where Clauses](#where-clauses)
-    - [Pagination](#pagination)
-- [Custom Engines](#custom-engines)
+    - [큐 사용하기](#queueing)
+    - [드라이버 준비사항](#driver-prerequisites)
+- [환경 설정](#configuration)
+    - [모델 인덱스 설정하기](#configuring-model-indexes)
+    - [검색 데이터 설정하기](#configuring-searchable-data)
+- [인덱싱](#indexing)
+    - [임포트 일괄처리](#batch-import)
+    - [레코드 추가하기](#adding-records)
+    - [레코드 업데이트하기](#updating-records)
+    - [레코드 삭제하기](#removing-records)
+    - [인덱싱 일시 멈춤](#pausing-indexing)
+- [검색하기](#searching)
+    - [Where 클로저](#where-clauses)
+    - [페이지네이션](#pagination)
+- [커스텀 엔진](#custom-engines)
 
 <a name="introduction"></a>
 ## Introduction
@@ -194,7 +194,7 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 <a name="batch-import"></a>
 ### Batch Import
 
-### 임포트 처리
+### 임포트 일괄처리
 
 If you are installing Scout into an existing project, you may already have database records you need to import into your search driver. Scout provides an `import` Artisan command that you may use to import all of your existing records into your search indexes:
 
@@ -296,7 +296,7 @@ If you do not want to retrieve the model before deleting the record, you may use
 <a name="pausing-indexing"></a>
 ### Pausing Indexing
 
-### 인덱싱 멈추기
+### 인덱싱 일시 멈춤
 
 Sometimes you may need to perform a batch of Eloquent operations on a model without syncing the model data to your search index. You may do this using the `withoutSyncingToSearch` method. This method accepts a single callback which will be immediately executed. Any model operations that occur within the callback will not be synced to the model's index:
 
@@ -314,11 +314,13 @@ Sometimes you may need to perform a batch of Eloquent operations on a model with
 
 You may begin searching a model using the `search` method. The search method accepts a single string that will be used to search your models. You should then chain the `get` method onto the search query to retrieve the Eloquent models that match the given search query:
 
-
+`search` 메소드를 사용하여 모델을 검색할 수 있습니다. search 메소드는 모델을 검색할 때 사용될 단일 스트링을 파라메터로 가집니다. 그런 다음, 주어진 검색 쿼리와 일치하는 엘로퀀트 모델을 조회하기 위하여 `get` 메소드를 연결해서 사용해야 합니다.
 
     $orders = App\Order::search('Star Trek')->get();
 
 Since Scout searches return a collection of Eloquent models, you may even return the results directly from a route or controller and they will automatically be converted to JSON:
+
+스카우트는 엘로퀀트 모델의 모음을 반환하기 때문에, 여러분은 라우트나 컨트롤러에서 결과를 바로 반환할 수 있으며, 그 결과는 JSON으로 자동 변환될 것입니다.
 
     use Illuminate\Http\Request;
 
@@ -329,22 +331,36 @@ Since Scout searches return a collection of Eloquent models, you may even return
 <a name="where-clauses"></a>
 ### Where Clauses
 
+### Where 클로저
+
 Scout allows you to add simple "where" clauses to your search queries. Currently, these clauses only support basic numeric equality checks, and are primarily useful for scoping search queries by a tenant ID. Since a search index is not a relational database, more advanced "where" clauses are not currently supported:
+
+여러분은 검색 쿼리를 위해 "where" 클로저를 스카우트에 추가할 수 있습니다. 현재로서는, 그 클로저는 오직 기본적인 수식을 지원하며, 주로 tenant ID에 의해 검색 쿼리를 한정할 때 유용합니다. 검색 인덱스는 관계형 데이터베이스가 아니기 때문에, 더 고수준의 "where" 클로저는 아직 지원하지 않습니다.
+
 
     $orders = App\Order::search('Star Trek')->where('user_id', 1)->get();
 
 <a name="pagination"></a>
 ### Pagination
 
+### 페이지네이션
+
 In addition to retrieving a collection of models, you may paginate your search results using the `paginate` method. This method will return a `Paginator` instance just as if you had [paginated a traditional Eloquent query](/docs/{{version}}/pagination):
+
+모델의 검색과 함께, `paginate` 메소드를 사용하여 검색결과를 페이징할 수도 있습니다. [엘로퀀트 쿼리에서 페이징](/docs/{{version}}/pagination)을 했던 것처럼, 이 메소드는 `Paginator` 인스턴스를 반환합니다.
 
     $orders = App\Order::search('Star Trek')->paginate();
 
 You may specify how many models to retrieve per page by passing the amount as the first argument to the `paginate` method:
 
+`paginate` 메소드의 첫번째 파라메터를 사용하여 한 페이지에 검색할 모델의 수량을 지정할 수도 있습니다.
+
+
     $orders = App\Order::search('Star Trek')->paginate(15);
 
 Once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade) just as if you had paginated a traditional Eloquent query:
+
+결과를 검색한 다음에, 여러분은 엘로퀀트 쿼리에서 페이징했던 것처럼 검색 결과를 출력하고 [블레이드](/docs/{{version}}/blade)를 사용하여 페이지 링크를 출력할 수 있습니다.
 
     <div class="container">
         @foreach ($orders as $order)
@@ -356,10 +372,14 @@ Once you have retrieved the results, you may display the results and render the 
 
 <a name="custom-engines"></a>
 ## Custom Engines
+## 커스텀 엔진
 
 #### Writing The Engine
+#### 엔진 구현하기
 
 If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains five methods your custom engine must implement:
+
+만약 내장된 스카우트 검색 엔진들 중 하나도 여러분의 요구사항을 충족하지 못한다면, 여러분은 여러분만의 커스텀 엔진을 구현하고 스카우트에 등록할 수 있습니다. 여러분이 구현하는 엔진은 `Laravel\Scout\Engines\Engine` 추상클래스를 상속받아야 합니다. 이 추상클래스는 반드시 구현해야하는 5개의 메소드를 포함하고 있습니다.
 
     use Laravel\Scout\Builder;
 
@@ -371,9 +391,16 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
 
 You may find it helpful to review the implementations of these methods on the `Laravel\Scout\Engines\AlgoliaEngine` class. This class will provide you with a good starting point for learning how to implement each of these methods in your own engine.
 
+`Laravel\Scout\Engines\AlgoliaEngine` 클래스에 구현된 그 메소드들을 살펴보는 것이 여러분에게 도움이 될 것입니다. 이 클래스는 여러분만의 엔진에 그 메소드를을 어떻게 구현해야 할지 배울 수 있는 좋은 출발점이 될 것입니다.
+
 #### Registering The Engine
+#### 엔진 등록하기
 
 Once you have written your custom engine, you may register it with Scout using the `extend` method of the Scout engine manager. You should call the `extend` method from the `boot` method of your `AppServiceProvider` or any other service provider used by your application. For example, if you have written a `MySqlSearchEngine`, you may register it like so:
+
+
+커스텀엔진을 작성했다면, 스카우트 엔진 매니저의 `extend` 메소드를 사용하여 그 엔진을 등록할 수 있습니다. 여러분은 이 `extend` 메소드를 `AppServiceProvider`나 여러분의 어플리케이션에서 사용되는 다른 서비스 프로바이더의 `boot` 메소드에서 호출해야 합니다. 예를 들어, 만약 여러분이 `MySqlSearchEngine`을 구현했다면, 다음과 같이 등록할 수 있습니다.
+
 
     use Laravel\Scout\EngineManager;
 
@@ -390,6 +417,8 @@ Once you have written your custom engine, you may register it with Scout using t
     }
 
 Once your engine has been registered, you may specify it as your default Scout `driver` in your `config/scout.php` configuration file:
+
+여러분의 엔진을 등록한 즉시, `config/scout.php` 설정 파일의 `driver`를 변경하여 스카우트의 기본 드라이버를 그것으로 지정하십시오.
 
     'driver' => 'mysql',
 

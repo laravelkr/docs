@@ -28,13 +28,13 @@ All of the configuration files for the Laravel framework are stored in the `conf
 
 You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
 
-어플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션 값이 존재하지 않았을 때 반환될 기본 값을 지정할 수도 있습니다. 
+어플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다. 
 
     $value = config('app.timezone');
 
 To set configuration values at runtime, pass an array to the `config` helper:
 
-어플리케이션의 실행중에 설정 값을 변경하려면 `config` 헬퍼에 배열을 전달 하십시오:
+어플리케이션의 실행중에 설정값을 변경하려면 `config` 헬퍼에 배열을 전달하십시오:
 
     config(['app.timezone' => 'America/Chicago']);
 
@@ -44,7 +44,7 @@ To set configuration values at runtime, pass an array to the `config` helper:
 
 It is often helpful to have different configuration values based on the environment the application is running in. For example, you may wish to use a different cache driver locally than you do on your production server.
 
-프로그램이 실행되는  구동환경에 따라 다른 설정값을 사용할 수 있으면 많은 이점이 있습니다. 예를 들어 실제 제품 서버와 로컬 개발 서버에 각각 다른 캐시 드라이버를 사용하려고 하는 경우가 그렇습니다.
+프로그램이 실행되는 구동환경에따라 다른 설정값을 사용할 수 있으면 많은 이점이 있습니다. 예를 들어 실제 제품 서버와 로컬 개발 서버에 각각 다른 캐시 드라이버를 사용하려고 하는 경우가 그렇습니다.
 
 To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
 
@@ -55,13 +55,13 @@ To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/ph
 
 All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice several of the options already using this helper:
 
-이 파일의 목록에 있는 모든 변수들은 어플리케이션이 요청을 받으면 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 헬퍼 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 헬퍼 함수가 사용되었다는 것을 알 수 있을 것입니다!
+이 파일의 목록에 있는 모든 변수는 어플리케이션이 요청을 받을 때 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 헬퍼 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 헬퍼 함수가 사용되었다는 것을 알 수 있을 것입니다!
 
     'debug' => env('APP_DEBUG', false),
 
 The second value passed to the `env` function is the "default value". This value will be used if no environment variable exists for the given key.
 
-`env` 함수에 전달되는 두번째 인자는 "기본값" 입니다. 이 값은 주어진 환경 이름이 존재하지 않을 경우에 사용될것입니다. 
+`env` 함수에 전달되는 두 번째 인자는 "기본값" 입니다. 이 값은 주어진 키를 위한 환경 변수가 존재하지 않을 때 사용될 것입니다. 
 
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration.
 
@@ -69,7 +69,7 @@ Your `.env` file should not be committed to your application's source control, s
 
 If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting place-holder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
 
-팀으로 개발을 하는 경우라면 `.env.example` 파일을 어플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 응용 프로그램을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다.
+팀으로 개발을 하는 경우라면 `.env.example` 파일을 어플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 어플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다.
 
 <a name="determining-the-current-environment"></a>
 ### Determining The Current Environment
@@ -83,7 +83,7 @@ The current application environment is determined via the `APP_ENV` variable fro
 
 You may also pass arguments to the `environment` method to check if the environment matches a given value. The method will return `true` if the environment matches any of the given values:
 
-또한 `environment` 메소드에 확인하고자 하는 구동 환경에 대한 값을 인자로 전달 할 수도 있습니다. 메소드는 주어진 값들에 일치하는게 하나라도 있다면 `true`를 반환할 것입니다. 
+또한 `environment` 메소드에 확인하고자 하는 구동 환경에 대한 값을 인자로 전달할 수도 있습니다. 메소드는 주어진 값들에 일치하는 게 하나라도 있다면 `true`를 반환할 것입니다. 
 
     if (App::environment('local')) {
         // The environment is local
@@ -99,11 +99,11 @@ You may also pass arguments to the `environment` method to check if the environm
 
 To give your application a speed boost, you should cache all of your configuration files into a single file using the `config:cache` Artisan command. This will combine all of the configuration options for your application into a single file which will be loaded quickly by the framework.
 
-어플리케이션의 구동 속도를 더 빠르게 하려면, `config:cache` 아티즌 명령어를 통해서 설정 파일들을 하나로 묶어 캐싱해야 합니다. 이 명령어는 모든 설정 옵션들을 하나의 파일로 묶어 어플리케이션이 빠르게 로드할 수 있게 해줍니다.
+어플리케이션의 구동 속도를 더 빠르게 하려면, `config:cache` 아티즌 명령어를 통해서 설정 파일들을 하나로 묶어 캐싱해야 합니다. 이 명령어는 모든 설정 옵션을 하나의 파일로 묶어 어플리케이션이 빠르게 로드할 수 있게 해줍니다.
 
 You should typically run the `php artisan config:cache` command as part of your production deployment routine. The command should not be run during local development as configuration options will frequently need to be changed during the course of your application's development.
 
-일반적으로 `php artisan config:cache` 명령어를 어플리케이션 배포 루틴의 일부에서 실행하도록 해야 합니다. 어플리케이션 개발 중에는 설정 옵션 값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다. 
+일반적으로 `php artisan config:cache` 명령어를 어플리케이션 배포 루틴의 일부에서 실행하도록 해야 합니다. 어플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다. 
 
 <a name="maintenance-mode"></a>
 ## Maintenance Mode

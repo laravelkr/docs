@@ -2,7 +2,7 @@
 # 설정
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [소개하기](#introduction)
 - [Accessing Configuration Values](#accessing-configuration-values)
 - [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [Environment Configuration](#environment-configuration)

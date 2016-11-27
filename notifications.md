@@ -117,7 +117,7 @@ Once the `ShouldQueue` interface has been added to your notification, you may se
 
     $user->notify(new InvoicePaid($invoice));
 
-If you would like to delay the deliver of the notification, you may chain the `delay` method onto your notification instantiation:
+If you would like to delay the delivery of the notification, you may chain the `delay` method onto your notification instantiation:
 
     $when = Carbon::now()->addMinutes(10);
 
@@ -520,6 +520,24 @@ Attachments also allow you to specify an array of data that should be presented 
 The example above will create a Slack message that looks like the following:
 
 <img src="https://laravel.com/assets/img/slack-fields-attachment.png">
+
+#### Customizing The Sender & Recipient
+
+You may use the `from` and `to` methods to customize the sender and recipient. The `from` method accepts a username and emoji identifier, while the `to` method accepts a channel or username:
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+                    ->from('Ghost', ':ghost:')
+                    ->to('#other')
+                    ->content('This will be sent to #other');
+    }
 
 <a name="routing-slack-notifications"></a>
 ### Routing Slack Notifications

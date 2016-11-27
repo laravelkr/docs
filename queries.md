@@ -98,7 +98,7 @@ If you would like to retrieve an array containing the values of a single column,
 
 If you need to work with thousands of database records, consider using the `chunk` method. This method retrieves a small chunk of the results at a time and feeds each chunk into a `Closure` for processing. This method is very useful for writing [Artisan commands](/docs/{{version}}/artisan) that process thousands of records. For example, let's work with the entire `users` table in chunks of 100 records at a time:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         foreach ($users as $user) {
             //
         }
@@ -106,7 +106,7 @@ If you need to work with thousands of database records, consider using the `chun
 
 You may stop further chunks from being processed by returning `false` from the `Closure`:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         // Process the records...
 
         return false;
@@ -315,19 +315,19 @@ The `whereNotNull` method verifies that the column's value is not `NULL`:
 The `whereDate` method may be used compare a column's value against a date:
 
     $users = DB::table('users')
-                    ->whereDate('created_at', '2016-10-10')
+                    ->whereDate('created_at', '2016-12-31')
                     ->get();
 
-The `whereMonth` method may be used compare a column's value against a specific month of an year:
+The `whereMonth` method may be used compare a column's value against a specific month of a year:
 
     $users = DB::table('users')
-                    ->whereMonth('created_at', '10')
+                    ->whereMonth('created_at', '12')
                     ->get();
 
 The `whereDay` method may be used compare a column's value against a specific day of a month:
 
     $users = DB::table('users')
-                    ->whereDay('created_at', '10')
+                    ->whereDay('created_at', '31')
                     ->get();
 
 The `whereYear` method may be used compare a column's value against a specific year:
@@ -419,6 +419,14 @@ The `orderBy` method allows you to sort the result of the query by a given colum
                     ->orderBy('name', 'desc')
                     ->get();
 
+#### latest / oldest
+
+The `latest` and `oldest` methods allow you to easily order results by date. By default, result will be ordered by the `created_at` column. Or, you may pass the column name that you wish to sort by:
+
+    $user = DB::table('users')
+                    ->latest()
+                    ->first();
+
 #### inRandomOrder
 
 The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
@@ -472,6 +480,19 @@ Sometimes you may want clauses to apply to a query only when something else is t
 
 
 The `when` method only executes the given Closure when the first parameter is `true`. If the first parameter is `false`, the Closure will not be executed.
+
+You may pass another Closure as the third parameter to the `when` method. This Closure will execute if the first parameter evaluates as `false`. To illustrate how this feature may be used, we will use it to configure the default sorting of a query:
+
+    $sortBy = null;
+
+    $users = DB::table('users')
+                    ->when($sortBy, function ($query) use ($sortBy) {
+                        return $query->orderBy($sortBy);
+                    }, function ($query) {
+                        return $query->orderBy('name');
+                    })
+                    ->get();
+
 
 <a name="inserts"></a>
 ## Inserts

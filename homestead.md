@@ -19,7 +19,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel strives to make the entire PHP development experience delightful, including your local development environment. [Vagrant](http://vagrantup.com) provides a simple, elegant way to manage and provision Virtual Machines.
+Laravel strives to make the entire PHP development experience delightful, including your local development environment. [Vagrant](https://www.vagrantup.com) provides a simple, elegant way to manage and provision Virtual Machines.
 
 Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!
 
@@ -50,9 +50,9 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 <a name="first-steps"></a>
 ### First Steps
 
-Before launching your Homestead environment, you must install [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) or [VMWare](http://www.vmware.com) as well as [Vagrant](http://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
+Before launching your Homestead environment, you must install [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) or [VMWare](https://www.vmware.com) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
 
-To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](http://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
+To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](https://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
 
 #### Installing The Homestead Vagrant Box
 
@@ -91,12 +91,23 @@ The `folders` property of the `Homestead.yaml` file lists all of the folders you
         - map: ~/Code
           to: /home/vagrant/Code
 
-To enable [NFS](http://docs.vagrantup.com/v2/synced-folders/nfs.html), just add a simple flag to your synced folder configuration:
+To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), just add a simple flag to your synced folder configuration:
 
     folders:
         - map: ~/Code
           to: /home/vagrant/Code
           type: "nfs"
+
+You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
+
+    folders:
+        - map: ~/Code
+          to: /home/vagrant/Code
+          type: "rsync"
+          options:
+              rsync__args: ["--verbose", "--archive", "--delete", "-zz"]
+              rsync__exclude: ["node_modules"]
+
 
 #### Configuring Nginx Sites
 
@@ -142,7 +153,7 @@ Mac / Linux:
 
 Windows:
 
-	vendor\\bin\\homestead make
+    vendor\\bin\\homestead make
 
 Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.app` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.app` or the domain of your choice.
 
@@ -191,12 +202,12 @@ To connect to your MySQL or Postgres database from your host machine via Navicat
 <a name="adding-additional-sites"></a>
 ### Adding Additional Sites
 
-Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your `~/.homestead/Homestead.yaml` file and then run the `vagrant provision` terminal command from your Homestead directory.
+Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your `~/.homestead/Homestead.yaml` file and then run the `vagrant reload --provision` terminal command from your Homestead directory.
 
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 
-Laravel provides a convenient way to [schedule Cron jobs](/docs/{{version}}/scheduling) by scheduling a single `schedule:run` Artisan command to be run every minute. The `schedule:run` command will examine the job scheduled defined in your `App\Console\Kernel` class to determine which jobs should be run.
+Laravel provides a convenient way to [schedule Cron jobs](/docs/{{version}}/scheduling) by scheduling a single `schedule:run` Artisan command to be run every minute. The `schedule:run` command will examine the job schedule defined in your `App\Console\Kernel` class to determine which jobs should be run.
 
 If you would like the `schedule:run` command to be run for a Homestead site, you may set the `schedule` option to `true` when defining the site:
 

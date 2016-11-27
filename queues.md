@@ -26,7 +26,7 @@
 
 Laravel queues provide a unified API across a variety of different queue backends, such as Beanstalk, Amazon SQS, Redis, or even a relational database. Queues allow you to defer the processing of a time consuming task, such as sending an email, until a later time. Deferring these time consuming tasks drastically speeds up web requests to your application.
 
-The queue configuration file is stored in `config/queue.php`. In this file you will find connection configurations for each of the queue drivers that are included with the framework, which includes a database, [Beanstalkd](http://kr.github.com/beanstalkd), [Amazon SQS](http://aws.amazon.com/sqs), [Redis](http://redis.io),  and synchronous (for local use) driver. A `null` queue driver is also included which simply discards queued jobs.
+The queue configuration file is stored in `config/queue.php`. In this file you will find connection configurations for each of the queue drivers that are included with the framework, which includes a database, [Beanstalkd](https://kr.github.io/beanstalkd/), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](http://redis.io),  and a synchronous driver that will execute jobs immediately (for local use). A `null` queue driver is also included which simply discards queued jobs.
 
 <a name="connections-vs-queues"></a>
 ### Connections Vs. Queues
@@ -41,7 +41,7 @@ Note that each connection configuration example in the `queue` configuration fil
     // This job is sent to the "emails" queue...
     dispatch((new Job)->onQueue('emails'));
 
-Some applications may not need to ever push jobs onto multiples queues, instead preferring to have one simple queue. However, pushing jobs to multiple queues can be especially useful for applications that wish to prioritize or segment how jobs are processed, since the Laravel queue worker allows you to specify which queues it should process by priority. For example, if you push jobs to a `high` queue, you may run a worker that gives them higher processing priority:
+Some applications may not need to ever push jobs onto multiple queues, instead preferring to have one simple queue. However, pushing jobs to multiple queues can be especially useful for applications that wish to prioritize or segment how jobs are processed, since the Laravel queue worker allows you to specify which queues it should process by priority. For example, if you push jobs to a `high` queue, you may run a worker that gives them higher processing priority:
 
     php artisan queue:work --queue=high,default
 
@@ -76,7 +76,7 @@ By default, all of the queueable jobs for your application are stored in the `ap
 
     php artisan make:job SendReminderEmail
 
-The generated class will implement the `Illuminate\Contracts\Queue\ShouldQueue` interface, indicating to Laravel that the job should be pushed onto the queue instead of run synchronously.
+The generated class will implement the `Illuminate\Contracts\Queue\ShouldQueue` interface, indicating to Laravel that the job should be pushed onto the queue to run asynchronously.
 
 <a name="class-structure"></a>
 ### Class Structure
@@ -89,6 +89,7 @@ Job classes are very simple, normally containing only a `handle` method which is
 
     use App\Podcast;
     use App\AudioProcessor;
+    use Illuminate\Bus\Queueable;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
@@ -125,6 +126,8 @@ Job classes are very simple, normally containing only a `handle` method which is
 In this example, note that we were able to pass an [Eloquent model](/docs/{{version}}/eloquent) directly into the queued job's constructor. Because of the `SerializesModels` trait that the job is using, Eloquent models will be gracefully serialized and unserialized when the job is processing. If your queued job accepts an Eloquent model in its constructor, only the identifier for the model will be serialized onto the queue. When the job is actually handled, the queue system will automatically re-retrieve the full model instance from the database. It's all totally transparent to your application and prevents issues that can arise from serializing full Eloquent model instances.
 
 The `handle` method is called when the job is processed by the queue. Note that we are able to type-hint dependencies on the `handle` method of the job. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
+
+> {note} Binary data, such as raw image contents, should be passed through the `base64_encode` function before being passed to a queued job. Otherwise, the job may not properly serialize to JSON when being placed on the queue.
 
 <a name="dispatching-jobs"></a>
 ## Dispatching Jobs
@@ -183,7 +186,7 @@ If you would like to delay the execution of a queued job, you may use the `delay
         {
             // Create podcast...
 
-            $job = (new ProcessPodcast($pocast))
+            $job = (new ProcessPodcast($podcast))
                         ->delay(Carbon::now()->addMinutes(10));
 
             dispatch($job);
@@ -314,7 +317,7 @@ This command will instruct all queue workers to gracefully "die" after they fini
 
 In your `config/queue.php` configuration file, each queue connection defines a `retry_after` option. This option specifies how many seconds the queue connection should wait before retrying a job that is being processed. For example, if the value of `retry_after` is set to `90`, the job will be released back onto the queue if it has been processing for 90 seconds without being deleted. Typically, you should set the `retry_after` value to the maximum number of seconds your jobs should reasonably take to complete processing.
 
-> {note} The only queue connection which does not contain a `retry_after` value is Amazon SQS. SQS will retry the job based on the [Default Visibility Timeout](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) which is managed within the AWS console.
+> {note} The only queue connection which does not contain a `retry_after` value is Amazon SQS. SQS will retry the job based on the [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) which is managed within the AWS console.
 
 #### Worker Timeouts
 
@@ -390,6 +393,7 @@ You may define a `failed` method directly on your job class, allowing you to per
     use Exception;
     use App\Podcast;
     use App\AudioProcessor;
+    use Illuminate\Bus\Queueable;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
@@ -428,7 +432,7 @@ You may define a `failed` method directly on your job class, allowing you to per
          * @param  Exception  $exception
          * @return void
          */
-        public function failed(Exception $e)
+        public function failed(Exception $exception)
         {
             // Send user notification of failure, etc...
         }

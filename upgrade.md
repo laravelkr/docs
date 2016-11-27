@@ -18,6 +18,12 @@
 
 > {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
 
+### Updating Dependencies
+
+Update your `laravel/framework` dependency to `5.3.*` in your `composer.json` file.
+
+You should also upgrade your `symfony/css-selector` and `symfony/dom-crawler` dependencies to `3.1.*` in the `require-dev` section of your `composer.json` file.
+
 ### PHP & HHVM
 
 Laravel 5.3 requires PHP 5.6.4 or higher. HHVM is no longer officially supported as it does not contain the same language features as PHP 5.6+.
@@ -157,7 +163,7 @@ In previous versions of Laravel, the `$key` was passed first. Since most use cas
 
 A collection's `where` method now performs a "loose" comparison by default instead of a strict comparison. If you would like to perform a strict comparison, you may use the `whereStrict` method.
 
-The `where` method also no longer accepts a third parameter to indicate "strictness." You should explicitly call either `where` or `whereStrict` depending on your application's needs.
+The `where` method also no longer accepts a third parameter to indicate "strictness". You should explicitly call either `where` or `whereStrict` depending on your application's needs.
 
 ### Controllers
 
@@ -221,9 +227,15 @@ Of course, you may also access the request session data or authenticated user by
 
 The [fluent query builder](/docs/{{version}}/queries) now returns `Illuminate\Support\Collection` instances instead of plain arrays. This brings consistency to the result types returned by the fluent query builder and Eloquent.
 
-If you do not want to migrate your query builder results to `Collection` instances, you may chain the `all` method onto your calls to the query builder's `get` method. This will return a plain PHP array of the results, allowing you to maintain backwards compatibility:
+If you do not want to migrate your query builder results to `Collection` instances, you may chain the `all` method onto your calls to the query builder's `get` or `pluck` methods. This will return a plain PHP array of the results, allowing you to maintain backwards compatibility:
 
     $users = DB::table('users')->get()->all();
+
+    $usersIds = DB::table('users')->pluck('id')->all();
+
+#### Eloquent `getRelation` Method
+
+The Eloquent `getRelation` method no longer throws a `BadMethodCallException` if the relation can't be loaded. Instead, it will throw an `Illuminate\Database\Eloquent\RelationNotFoundException`. This change will only affect your application if you were manually catching the `BadMethodCallException`.
 
 #### Eloquent `$morphClass` Property
 
@@ -413,13 +425,41 @@ It is no longer necessary to specify the `--daemon` option when calling the `que
 
 Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
 
-#### Jobs Table
+#### Database Driver Changes
 
-If you are using the `database` driver to store your queued jobs in `config/queue.php`, you should drop the `jobs_queue_reserved_reserved_at_index` index then drop the `reserved` column from your `jobs` table. This column is no longer required when using the `database` driver. Once you have completed these changes, you should add a new compound index on the `queue` and `reserved_at` columns.
+If you are using the `database` driver to store your queued jobs, you should drop the `jobs_queue_reserved_reserved_at_index` index then drop the `reserved` column from your `jobs` table. This column is no longer required when using the `database` driver. Once you have completed these changes, you should add a new compound index on the `queue` and `reserved_at` columns.
 
-#### Failed Jobs Table
+Below is an example migration you may use to perform the necessary changes:
 
-If your application has a `failed_jobs` table, you should add an `exception` column to the table. The `exception` column should be a `LONGTEXT` type column and will be used to store a string representation of the exception that caused the job to fail.
+    public function up()
+    {
+        Schema::table('jobs', function (Blueprint $table) {
+            $table->dropIndex('jobs_queue_reserved_reserved_at_index');
+            $table->dropColumn('reserved');
+            $table->index(['queue', 'reserved_at']);
+        });
+
+        Schema::table('failed_jobs', function (Blueprint $table) {
+            $table->longText('exception')->after('payload');
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('jobs', function (Blueprint $table) {
+            $table->tinyInteger('reserved')->unsigned();
+            $table->index(['queue', 'reserved', 'reserved_at']);
+            $table->dropIndex('jobs_queue_reserved_at_index');
+        });
+
+        Schema::table('failed_jobs', function (Blueprint $table) {
+            $table->dropColumn('exception');
+        });
+    }
+
+#### Process Control Extension
+
+If your application makes use of the `--timeout` option for queue workers, you'll need to verify that the [pcntl extension](https://secure.php.net/manual/en/pcntl.installation.php) is installed.
 
 #### Serializing Models On Legacy Style Queue Jobs
 
@@ -471,6 +511,10 @@ If this change causes you to have two routes with the same name, you have two op
 
 If a form request's validation fails, Laravel will now throw an instance of `Illuminate\Validation\ValidationException` instead of an instance of `HttpException`. If you are manually catching the `HttpException` instance thrown by a form request, you should update your `catch` blocks to catch the `ValidationException` instead.
 
+#### The Message Bag
+
+If you were previously using the `has` method to determine if an `Illuminate\Support\MessageBag` instance contained any messages, you should use the `count` method instead. The `has` method now requires a parameter and only determines if a specific key exists in the message bag.
+
 #### Nullable Primitives
 
 When validating arrays, booleans, integers, numerics, and strings, `null` will no longer be considered a valid value unless the rule set contains the new `nullable` rule:
@@ -496,7 +540,7 @@ Add `"symfony/dom-crawler": "~3.0"` and `"symfony/css-selector": "~3.0"` to the 
 
 #### Configuration File
 
-You should update your `config/auth.php` configuration file with the following: [https://github.com/laravel/laravel/blob/master/config/auth.php](https://github.com/laravel/laravel/blob/master/config/auth.php)
+You should update your `config/auth.php` configuration file with the following: [https://github.com/laravel/laravel/blob/5.2/config/auth.php](https://github.com/laravel/laravel/blob/5.2/config/auth.php)
 
 Once you have updated the file with a fresh copy, set your authentication configuration options to their desired value based on your old configuration file. If you were using the typical, Eloquent based authentication services available in Laravel 5.1, most values should remain the same.
 
@@ -693,7 +737,7 @@ If you were type-hinting a model instance in your route or controller and were e
 
 The IronMQ queue driver has been moved into its own package and is no longer shipped with the core framework.
 
-[http://github.com/LaravelCollective/iron-queue](http://github.com/laravelcollective/iron-queue)
+[https://github.com/LaravelCollective/iron-queue](https://github.com/laravelcollective/iron-queue)
 
 ### Jobs / Queue
 
@@ -761,7 +805,7 @@ First, create an empty `app/Policies` directory within your application.
 
 #### Create / Register The AuthServiceProvider & Gate Facade
 
-Create a `AuthServiceProvider` within your `app/Providers` directory. You may copy the contents of the default provider [from GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php). Remember to change the provider's namespace if your application is using a custom namespace. After creating the provider, be sure to register it in your `app.php` configuration file's `providers` array.
+Create a `AuthServiceProvider` within your `app/Providers` directory. You may copy the contents of the default provider [from GitHub](https://raw.githubusercontent.com/laravel/laravel/5.1/app/Providers/AuthServiceProvider.php). Remember to change the provider's namespace if your application is using a custom namespace. After creating the provider, be sure to register it in your `app.php` configuration file's `providers` array.
 
 Also, you should register the `Gate` facade in your `app.php` configuration file's `aliases` array:
 
@@ -910,7 +954,7 @@ The `sortBy` method now returns a fresh collection instance instead of modifying
 
 The `groupBy` method now returns `Collection` instances for each item in the parent `Collection`. If you would like to convert all of the items back to plain arrays, you may `map` over them:
 
-    $collection->groupBy('type')->map(function($item)
+    $collection->groupBy('type')->map(function ($item)
     {
         return $item->all();
     });

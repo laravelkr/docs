@@ -97,6 +97,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
+[secure_url](#method-secure-url)
 [url](#method-url)
 
 </div>
@@ -111,6 +112,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
+[cache](#method-cache)
 [collect](#method-collect)
 [config](#method-config)
 [csrf_field](#method-csrf-field)
@@ -120,6 +122,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
+[info](#method-info)
+[logger](#method-logger)
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
@@ -253,13 +257,17 @@ The `array_get` function also accepts a default value, which will be returned if
 <a name="method-array-has"></a>
 #### `array_has()` {#collection-method}
 
-The `array_has` function checks that a given item exists in an array using "dot" notation:
+The `array_has` function checks that a given item or items exists in an array using "dot" notation:
 
-    $array = ['products' => ['desk' => ['price' => 100]]];
+    $array = ['product' => ['name' => 'desk', 'price' => 100]];
 
-    $hasDesk = array_has($array, 'products.desk');
+    $hasItem = array_has($array, 'product.name');
 
     // true
+
+    $hasItems = array_has($array, ['product.price', 'product.discount']);
+
+    // false
 
 <a name="method-array-last"></a>
 #### `array_last()` {#collection-method}
@@ -446,7 +454,7 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 <a name="method-base-path"></a>
 #### `base_path()` {#collection-method}
 
-The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the application directory:
+The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
     $path = base_path();
 
@@ -700,14 +708,14 @@ If the method accepts route parameters, you may pass them as the second argument
 
 Generate a URL for an asset using the current scheme of the request (HTTP or HTTPS):
 
-	$url = asset('img/photo.jpg');
+    $url = asset('img/photo.jpg');
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
 
 Generate a URL for an asset using HTTPS:
 
-	echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip', $title, $attributes = []);
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -719,6 +727,15 @@ The `route` function generates a URL for the given named route:
 If the route accepts parameters, you may pass them as the second argument to the method:
 
     $url = route('routeName', ['id' => 1]);
+
+<a name="method-secure-url"></a>
+#### `secure_url()` {#collection-method}
+
+The `secure_url` function generates a fully qualified HTTPS URL to the given path:
+
+    echo secure_url('user/profile');
+
+    echo secure_url('user/profile', [1]);
 
 <a name="method-url"></a>
 #### `url()` {#collection-method}
@@ -783,6 +800,21 @@ The `back()` function generates a redirect response to the user's previous locat
 The `bcrypt` function hashes the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
 
     $password = bcrypt('my-secret-password');
+
+<a name="method-cache"></a>
+#### `cache()` {#collection-method}
+
+The `cache` function may be used to get values from the cache. If the given key does not exist in the cache, an optional default value will be returned:
+
+    $value = cache('key');
+
+    $value = cache('key', 'default');
+
+You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of minutes or duration the cached value should be considered valid:
+
+    cache(['key' => 'value'], 5);
+
+    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
@@ -862,6 +894,32 @@ The `factory` function creates a model factory builder for a given class, name, 
 
     $user = factory(App\User::class)->make();
 
+<a name="method-info"></a>
+#### `info()` {#collection-method}
+
+The `info` function will write information to the log:
+
+    info('Some helpful information!');
+
+An array of contextual data may also be passed to the function:
+
+    info('User login attempt failed.', ['id' => $user->id]);
+
+<a name="method-logger"></a>
+#### `logger()` {#collection-method}
+
+The `logger` function can be used to write a `debug` level message to the log:
+
+    logger('Debug message');
+
+An array of contextual data may also be passed to the function:
+
+    logger('User has logged in.', ['id' => $user->id]);
+
+A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
+
+    logger()->error('You are not allowed here.');
+
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
@@ -929,7 +987,9 @@ The session store will be returned if no value is passed to the function:
 
 The `value` function's behavior will simply return the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
 
-    $value = value(function() { return 'bar'; });
+    $value = value(function () {
+        return 'bar';
+    });
 
 <a name="method-view"></a>
 #### `view()` {#collection-method}

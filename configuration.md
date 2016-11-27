@@ -30,6 +30,8 @@ It is often helpful to have different configuration values based on the environm
 
 To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
 
+> {tip} You may also creating a `.env.testing` file. This file will override values from the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+
 #### Retrieving Environment Configuration
 
 All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice several of the options already using this helper:
@@ -77,7 +79,7 @@ To enable maintenance mode, simply execute the `down` Artisan command:
 
 You may also provide `message` and `retry` options to the `down` command. The `message` value may be used to display or log a custom message, while the `retry` value will be set as the `Retry-After` HTTP header's value:
 
-    php artisan down --message='Upgrading Database' --retry=60
+    php artisan down --message="Upgrading Database" --retry=60
 
 To disable maintenance mode, use the `up` command:
 

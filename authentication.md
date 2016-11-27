@@ -14,6 +14,7 @@
     - [Other Authentication Methods](#other-authentication-methods)
 - [HTTP Basic Authentication](#http-basic-authentication)
     - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
+- [Social Authentication](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
 - [Adding Custom User Providers](#adding-custom-user-providers)
     - [The User Provider Contract](#the-user-provider-contract)
@@ -23,7 +24,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -76,6 +77,15 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
 When a user is not successfully authenticated, they will be automatically redirected back to the login form.
 
+#### Username Customization
+
+By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
+
+    public function username()
+    {
+        return 'username';
+    }
+
 #### Guard Customization
 
 You may also customize the "guard" that is used to authenticate and register users. To get started, define a `guard` method on your `LoginController`, `RegisterController`, and `ResetPasswordController`. The method should return a guard instance:
@@ -102,7 +112,11 @@ You may access the authenticated user via the `Auth` facade:
 
     use Illuminate\Support\Facades\Auth;
 
+    // Get the currently authenticated user...
     $user = Auth::user();
+
+    // Get the currently authenticated user's ID...
+    $id = Auth::id();
 
 Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
 
@@ -181,7 +195,7 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
 
     use Illuminate\Support\Facades\Auth;
 
-    class AuthController extends Controller
+    class LoginController extends Controller
     {
         /**
          * Handle an authentication attempt.
@@ -282,7 +296,7 @@ You may use the `once` method to log a user into the application for a single re
 <a name="http-basic-authentication"></a>
 ## HTTP Basic Authentication
 
-[HTTP Basic Authentication](http://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
+[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
@@ -341,7 +355,7 @@ You may define your own authentication guards using the `extend` method on the `
 
     use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\ServiceProvider;
+    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -484,10 +498,14 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
      * @var array
      */
     protected $listen = [
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\LogRegisteredUser',
+        ],
+
         'Illuminate\Auth\Events\Attempting' => [
             'App\Listeners\LogAuthenticationAttempt',
         ],
-        
+
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticated',
         ],

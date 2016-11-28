@@ -14,9 +14,9 @@
 ## Introduction
 ## 소개하기
 
-While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](http://getbootstrap.com) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://npmjs.org) to install both of these frontend packages.
+While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
 
-라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](http://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://npmjs.org)을 사용합니다. 
+라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다. 
 
 #### CSS
 #### CSS
@@ -64,9 +64,9 @@ The default `gulpfile.js` included with Laravel will compile the `resources/asse
 ## Writing JavaScript
 ## 자바스크립트 작성하기
 
-All of the JavaScript dependencies required by your application can be found in the `package.json` file in the project's root directory. This file is similar to a `composer.json` file except it specifies JavaScript dependencies instead of PHP dependencies. You can install these dependencies using the [Node package manager (NPM)](https://npmjs.org):
+All of the JavaScript dependencies required by your application can be found in the `package.json` file in the project's root directory. This file is similar to a `composer.json` file except it specifies JavaScript dependencies instead of PHP dependencies. You can install these dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
 
-어플리케이션에 필요한 모든 자바스크립트 의존성들은 프로젝트 루트 디렉토리 안에 있는 `package.json` 파일 안에서 찾을 수 있습니다. 이 파일은 PHP 의존성 대신 자바스크립트 의존성이 지정되어 있다는 점을 제외하면 `composer.json` 파일과 비슷합니다. [Node 패키지 매니저 (NPM)](https://npmjs.org)을 사용하여 이 의존성들을 설치할 수 있습니다:
+어플리케이션에 필요한 모든 자바스크립트 의존성들은 프로젝트 루트 디렉토리 안에 있는 `package.json` 파일 안에서 찾을 수 있습니다. 이 파일은 PHP 의존성 대신 자바스크립트 의존성이 지정되어 있다는 점을 제외하면 `composer.json` 파일과 비슷합니다. [Node 패키지 매니저 (NPM)](https://www.npmjs.org)을 사용하여 이 의존성들을 설치할 수 있습니다:
 
     npm install
 
@@ -92,9 +92,9 @@ By default, the Laravel `gulpfile.js` file compiles your SASS and the `resources
 ### Writing Vue Components
 ### Vue 컴포넌트 작성하기
 
-By default, fresh Laravel applications contain an `Example.vue` Vue component located in the `resources/assets/js/components` directory. The `Example.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/application.html#Single-File-Components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
+By default, fresh Laravel applications contain an `Example.vue` Vue component located in the `resources/assets/js/components` directory. The `Example.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
 
-기본적으로 새로 설치한 라라벨 어플리케이션은 `resources/assets/js/components` 디렉토리에 `Example.vue` 뷰 컴포넌트를 포함하고 있습니다. `Example.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/application.html#Single-File-Components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 어플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다:
+기본적으로 새로 설치한 라라벨 어플리케이션은 `resources/assets/js/components` 디렉토리에 `Example.vue` 뷰 컴포넌트를 포함하고 있습니다. `Example.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 어플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다:
 
     Vue.component('example', require('./components/Example.vue'));
 
@@ -112,6 +112,6 @@ To use the component in your application, you may simply drop it into one of you
 
 > {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `gulp` 명령어를 실행해야 한다는 것입니다. 또는 `gulp watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.
 
-Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](http://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
+Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
 
-또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](http://vuejs.org/guide/)을 확인하길 바랍니다.
+또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://vuejs.org/guide/)을 확인하길 바랍니다.

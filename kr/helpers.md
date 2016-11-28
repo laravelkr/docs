@@ -95,6 +95,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [asset](#method-asset)
 [secure_asset](#method-secure-asset)
 [route](#method-route)
+[secure_url](#method-secure-url)
 [url](#method-url)
 
 ### Miscellaneous
@@ -106,6 +107,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
+[cache](#method-cache)
 [collect](#method-collect)
 [config](#method-config)
 [csrf_field](#method-csrf-field)
@@ -115,6 +117,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
+[info](#method-info)
+[logger](#method-logger)
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
@@ -270,15 +274,19 @@ The `array_get` function also accepts a default value, which will be returned if
 <a name="method-array-has"></a>
 #### `array_has()` {#collection-method}
 
-The `array_has` function checks that a given item exists in an array using "dot" notation:
+The `array_has` function checks that a given item or items exists in an array using "dot" notation:
 
-`array_has` 함수는 "점(.)" 표기를 이용하는 배열에 주어진 아이템이 있는지 확인합니다: 
+`array_has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다: 
 
-    $array = ['products' => ['desk' => ['price' => 100]]];
+    $array = ['product' => ['name' => 'desk', 'price' => 100]];
 
-    $hasDesk = array_has($array, 'products.desk');
+    $hasItem = array_has($array, 'product.name');
 
     // true
+
+    $hasItems = array_has($array, ['product.price', 'product.discount']);
+
+    // false
 
 <a name="method-array-last"></a>
 #### `array_last()` {#collection-method}
@@ -493,9 +501,9 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 <a name="method-base-path"></a>
 #### `base_path()` {#collection-method}
 
-The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the application directory:
+The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
-`base_path` 함수는 프로젝트의 루트 디렉토리에 대한 절대 경로를 반환합니다. `base_path` 함수를 사용하여 어플리케이션 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다:
+`base_path` 함수는 프로젝트의 루트 디렉토리에 대한 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다:
 
     $path = base_path();
 
@@ -808,7 +816,7 @@ Generate a URL for an asset using the current scheme of the request (HTTP or HTT
 
 HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다: 
 
-	$url = asset('img/photo.jpg');
+    $url = asset('img/photo.jpg');
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
@@ -817,7 +825,7 @@ Generate a URL for an asset using HTTPS:
 
 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다: 
 
-	echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip', $title, $attributes = []);
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -833,6 +841,17 @@ If the route accepts parameters, you may pass them as the second argument to the
 라우트가 파라미터를 가진다면 파라미터를 두번째 인자로 메소드에 전달하세요: 
 
     $url = route('routeName', ['id' => 1]);
+
+<a name="method-secure-url"></a>
+#### `secure_url()` {#collection-method}
+
+The `secure_url` function generates a fully qualified HTTPS URL to the given path:
+
+`secure_url` 함수는 주어진 경로에 대한 전체 HTTPS URL을 생성합니다:
+
+    echo secure_url('user/profile');
+
+    echo secure_url('user/profile', [1]);
 
 <a name="method-url"></a>
 #### `url()` {#collection-method}
@@ -916,6 +935,25 @@ The `bcrypt` function hashes the given value using Bcrypt. You may use it as an 
 `bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 해시 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다: 
 
     $password = bcrypt('my-secret-password');
+
+<a name="method-cache"></a>
+#### `cache()` {#collection-method}
+
+The `cache` function may be used to get values from the cache. If the given key does not exist in the cache, an optional default value will be returned:
+
+`cache` 함수는 캐시로 부터 값을 가져오는데 사용할 수 있습니다. 캐시에서 주어진 키가 존재하지 않는 경우, 옵션으로 전달된 기본값(두번째인자)가 반환됩니다
+
+    $value = cache('key');
+
+    $value = cache('key', 'default');
+
+You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of minutes or duration the cached value should be considered valid:
+
+함수에 키 / 값으로 된 배열을 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시에 값이 얼마나 유지되어야 하는지에 대한 시간(분)을 숫자로 전달할 수도 있습니다.
+
+    cache(['key' => 'value'], 5);
+
+    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
@@ -1018,6 +1056,42 @@ The `factory` function creates a model factory builder for a given class, name, 
 
     $user = factory(App\User::class)->make();
 
+<a name="method-info"></a>
+#### `info()` {#collection-method}
+
+The `info` function will write information to the log:
+
+`info` 함수는 로그에 정보를 기록합니다:
+
+    info('Some helpful information!');
+
+An array of contextual data may also be passed to the function:
+
+문맥에대한 데이터를 함수에 배열로 전달할 수도 있습니다:
+
+    info('User login attempt failed.', ['id' => $user->id]);
+
+<a name="method-logger"></a>
+#### `logger()` {#collection-method}
+
+The `logger` function can be used to write a `debug` level message to the log:
+
+`logger` 함수는 로그에 `debug` 로그 레벨을 기록하는데 사용합니다:
+
+    logger('Debug message');
+
+An array of contextual data may also be passed to the function:
+
+문맥에대한 데이터를 함수에 배열로 전달할 수도 있습니다:
+
+    logger('User has logged in.', ['id' => $user->id]);
+
+A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
+
+함수에 아무런 값이 전달되지 않으면 [logger](/docs/{{version}}/errors#logging) 인스턴스가 반환됩니다:
+
+    logger()->error('You are not allowed here.');
+
 <a name="method-method-field"></a>
 #### `method_field()` {#collection-method}
 
@@ -1102,7 +1176,9 @@ The `value` function's behavior will simply return the value it is given. Howeve
 
 `value` 함수의 행동은 단순히 자신에게 주어진 값을 반환합니다. 하지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다: 
 
-    $value = value(function() { return 'bar'; });
+    $value = value(function () {
+        return 'bar';
+    });
 
 <a name="method-view"></a>
 #### `view()` {#collection-method}

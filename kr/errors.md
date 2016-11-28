@@ -98,7 +98,7 @@ If you would like to have complete control over how Monolog is configured for yo
 
 만약 어플리케이션에서 Monolog 어떻게 설정할 것인지 완전히 제어하고자 한다면, 어플리케이션의 `configureMonologUsing` 메소드를 사용하면 됩니다. 이 메소드는 `bootstrap/app.php` 파일에서 `$app` 변수가 반환되기 전에 사용되어야만 합니다:
 
-    $app->configureMonologUsing(function($monolog) {
+    $app->configureMonologUsing(function ($monolog) {
         $monolog->pushHandler(...);
     });
 
@@ -209,9 +209,9 @@ Laravel makes it easy to display custom error pages for various HTTP status code
 ## Logging
 ## 로깅
 
-Laravel provides a simple abstraction layer on top of the powerful [Monolog](http://github.com/seldaek/monolog) library. By default, Laravel is configured to create a log file for your application in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
+Laravel provides a simple abstraction layer on top of the powerful [Monolog](https://github.com/seldaek/monolog) library. By default, Laravel is configured to create a log file for your application in the `storage/logs` directory. You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades):
 
-라라벨은 강력한 [Monolog](http://github.com/seldaek/monolog) 라이브러리 위에 간단한 추상화 레이어를 제공합니다. 기본적으로 라라벨은 `storage/logs` 디렉토리에 하나의 로그 파일을 생성하도록 설정되어 있습니다. `Log` [파사드](/docs/{{version}}/facades)를 사용하여, 로그 파일에 정보를 기록할 수도 있습니다:
+라라벨은 강력한 [Monolog](https://github.com/seldaek/monolog) 라이브러리 위에 간단한 추상화 레이어를 제공합니다. 기본적으로 라라벨은 `storage/logs` 디렉토리에 하나의 로그 파일을 생성하도록 설정되어 있습니다. `Log` [파사드](/docs/{{version}}/facades)를 사용하여, 로그 파일에 정보를 기록할 수도 있습니다:
 
     <?php
 
@@ -237,9 +237,9 @@ Laravel provides a simple abstraction layer on top of the powerful [Monolog](htt
         }
     }
 
-The logger provides the eight logging levels defined in [RFC 5424](http://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**.
+The logger provides the eight logging levels defined in [RFC 5424](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**.
 
-로그는 [RFC 5424](http://tools.ietf.org/html/rfc5424) 에 정의되어있는 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** 그리고 **debug**의 8가지 로깅 레벨을 제공합니다.
+로그는 [RFC 5424](https://tools.ietf.org/html/rfc5424) 에 정의되어있는 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** 그리고 **debug**의 8가지 로깅 레벨을 제공합니다.
 
     Log::emergency($message);
     Log::alert($message);

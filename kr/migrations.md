@@ -420,9 +420,9 @@ Before modifying a column, be sure to add the `doctrine/dbal` dependency to your
 #### Updating Column Attributes
 #### 컬럼의 속성 변경하기
 
-The `change` method allows you to modify an existing column to a new type or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
+The `change` method allows you to modify some existing column types to a new type or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
 
-`change` 메소드는 이미 존재하는 컬럼을 새로운 타입으로 수정하거나 컬럼의 속성을 변경할 수 있게 해줍니다. 예를 들어, 문자열 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다:
+`change` 메소드는 이미 존재하는 컬럼 타입을 새로운 타입으로 수정하거나 컬럼의 속성을 변경합니다. 예를 들어, 문자열 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다:
 
     Schema::table('users', function ($table) {
         $table->string('name', 50)->change();
@@ -436,9 +436,9 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} Modifying any column in a table that also has a column of type `enum` is not currently supported.
+> {note} The following column types can not be "changed": char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
 
-> {note} 테이블에서 `enum` 컬럼을 수정하는 것은 현재 지원하지 않습니다.
+> {note} 다음의 컬럼 타입들은 "변경" 할 수 없습니다: char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid. 
 
 <a name="renaming-columns"></a>
 #### Renaming Columns
@@ -521,6 +521,7 @@ Command  | Description
 `$table->primary(['first', 'last']);`  |  Add composite keys.
 `$table->unique('email');`  |  Add a unique index.
 `$table->unique('state', 'my_index_name');`  |  Add a custom index name.
+`$table->unique(['first', 'last']);`  |  Add a composite unique index.
 `$table->index('state');`  |  Add a basic index.
 
 커맨드  | 설명
@@ -529,6 +530,7 @@ Command  | Description
 `$table->primary(['first', 'last']);`  |   복합 키 추가.
 `$table->unique('email');`  |  유니크 인덱스 추가.
 `$table->unique('state', 'my_index_name');`  |  인덱스의 이름을 지정하기
+`$table->unique(['first', 'last']);`  |  복합키를 유니크 인덱스로 지정하기
 `$table->index('state');`  |  기본적인 인덱스 추가.
 
 <a name="dropping-indexes"></a>

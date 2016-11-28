@@ -187,9 +187,9 @@ When using the `local` or `s3` drivers, you may use the `url` method to get the 
 
     $url = Storage::url('file1.jpg');
 
-> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) to the `storage/app/public` directory.
+> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
 
-> {note} 주의할 점은, 만약 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 한다는 것입니다. 또한 `storage/app/public` 디렉토리에 [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
+> {note} 주의할 점은, 만약 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 한다는 것입니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage`  [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
 
 <a name="file-metadata"></a>
 ### File Metadata
@@ -242,7 +242,7 @@ There are a few important things to note about the `putFile` method. Note that w
 
 `putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일의 내용에 따라 자동으로 파일이름을 생성할 것입니다. 이는 파일 내용의 MD5 해쉬값에 의해서 결정됩니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
 
-The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to publicly accessible:
+The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
 
 `putFile` 과 `putFileAs` 메소드는 또한 저장되는 파일의 "visibility"를 지정하는 인자를 받아들입니다. 이는 특히 S3 와 같은 클라우드 디스크에 파일을 저장하고 파일의 접근 권한을 설정하고자 할 때 유용합니다: 
 
@@ -461,7 +461,7 @@ In order to set up the custom filesystem you will need to create a [service prov
          */
         public function boot()
         {
-            Storage::extend('dropbox', function($app, $config) {
+            Storage::extend('dropbox', function ($app, $config) {
                 $client = new DropboxClient(
                     $config['accessToken'], $config['clientIdentifier']
                 );
@@ -485,6 +485,6 @@ The first argument of the `extend` method is the name of the driver and the seco
 
 `extens` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다. 
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystem.php` configuration file.
+Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.
 
-확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystem.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다. 
+확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystems.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다. 

@@ -63,9 +63,9 @@ You may propose new features or improvements of existing Laravel behavior in the
 
 새로운 기능이나 기존의 라라벨의 동작에 대한 개선을 제안하고자 하는 경우는 라라벨 내부의 [이슈 보드](https://github.com/laravel/internals/issues)에 제안하십시오. 새로운 기능을 제안하는 경우 자발적으로 기능을 구동시키는 데 필요한 코드를 최소한으로 구현하시기 바랍니다.
 
-Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [LaraChat](https://larachat.co) Slack team. Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
-버그와 관련 및 새로운 기능과 기존 기능의 구현에 대한 격식에 얽매이지 않은 일상적인 논의는 [LaraChat](http://larachat.co)의 `#internals` 채널에서 진행됩니다. 라라벨의 메인 관리자인 Taylor Otwell은 일반적으로 평일 오전 8시부터 5시까지 (America/Chicago 표준시 UTC-06:00 기준) 접속해 있고, 그 외에 다른 시간대에는 가끔 접속합니다.
+버그와 관련 및 새로운 기능과 기존 기능의 구현에 대한 격식에 얽매이지 않은 일상적인 논의는 [LaraChat](https://larachat.co)의 `#internals` 채널에서 진행됩니다. 라라벨의 메인 관리자인 Taylor Otwell은 일반적으로 평일 오전 8시부터 5시까지 (America/Chicago 표준시 UTC-06:00 기준) 접속해 있고, 그 외에 다른 시간대에는 가끔 접속합니다.
 
 <a name="which-branch"></a>
 ## Which Branch?
@@ -83,9 +83,9 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 다음 라라벨 릴리즈에 포함될, **주요한** 새로운 기능들은 항상 `master` 브랜치로 보내 주시기 바랍니다.
 
-If you are unsure if your feature qualifies as a major or minor, please ask Taylor Otwell in the `#internals` channel of the [LaraChat](http://larachat.co) Slack team.
+If you are unsure if your feature qualifies as a major or minor, please ask Taylor Otwell in the `#internals` channel of the [LaraChat](https://larachat.co) Slack team.
 
-만약 당신의 새로운 기능이 메이저인지 마이너인지 명확하지 않으면 [LaraChat](http://larachat.co) 의 `#internals` 채널에서 Taylor Otwell에 문의하십시오.
+만약 당신의 새로운 기능이 메이저인지 마이너인지 명확하지 않으면 [LaraChat](https://larachat.co) 의 `#internals` 채널에서 Taylor Otwell에 문의하십시오.
 
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities

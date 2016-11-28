@@ -67,9 +67,9 @@ Elixir를 사용하기전 여러분의 작업환경에 Node.js와 NPM이 설치�
     node -v
     npm -v
 
-By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install the latest version of Node and NPM using simple graphical installers from [their download page](http://nodejs.org/en/download/).
+By default, Laravel Homestead includes everything you need; however, if you aren't using Vagrant, then you can easily install the latest version of Node and NPM using simple graphical installers from [their download page](https://nodejs.org/en/download/).
 
-기본적으로 라라벨의 홈스테드는 여러분이 필요로하는 모든것을 포함하고 있습니다. 하지만 Vagrant를 사용하지 않으신다면 [Node.js 다운로드 페이지](http://nodejs.org/en/download/)에서 간단한 화면 기반의 인스톨러를 사용하여 Node 와 NPM의 최신 버전을 손쉽게 설치할 수 있습니다.
+기본적으로 라라벨의 홈스테드는 여러분이 필요로하는 모든것을 포함하고 있습니다. 하지만 Vagrant를 사용하지 않으신다면 [Node.js 다운로드 페이지](https://nodejs.org/en/download/)에서 간단한 화면 기반의 인스톨러를 사용하여 Node 와 NPM의 최신 버전을 손쉽게 설치할 수 있습니다.
 
 #### Gulp
 #### Gulp
@@ -293,9 +293,9 @@ Elixir provides several features to help you work with your JavaScript files, su
 
 Elixir는 ECMAScript 2015 컴파일, 모듈 번들링, 스크립트 압축, JavaScript 파일 결합 등의 JavaScript 작업을 도와주는 많은 기능들을 제공합니다. 
 
-When writing ES2015 with modules, you have your choice between [Webpack](http://webpack.github.io) and [Rollup](http://rollupjs.org/). If these tools are foreign to you, don't worry, Elixir will handle all of the hard work behind the scenes. By default, the Laravel `gulpfile` uses `webpack` to compile Javascript, but you are free to use any module bundler you like.
+When writing ES2015 with modules, you have your choice between [Webpack](https://webpack.github.io) and [Rollup](http://rollupjs.org/). If these tools are foreign to you, don't worry, Elixir will handle all of the hard work behind the scenes. By default, the Laravel `gulpfile` uses `webpack` to compile Javascript, but you are free to use any module bundler you like.
 
-모듈을 ES2015로 작성하는 경우 [Webpack](http://webpack.github.io) 또는 [Rollup](http://rollupjs.org/) 을 선택할 수 있습니다. 두 도구에 대해 잘 모르더라도 걱정하지 마십시오. Elixir가 뒤에서 모든 복잡한 일들을 처리할 것입니다. 기본적으로 라라벨의 `gulpfile` 는  자바스크립트를 컴파일 하는데 `webpack`을 사용하지만, 원하는 어떤 모듈 번들러라도 자유롭게 사용할 수 있습니다.
+모듈을 ES2015로 작성하는 경우 [Webpack](https://webpack.github.io) 또는 [Rollup](http://rollupjs.org/) 을 선택할 수 있습니다. 두 도구에 대해 잘 모르더라도 걱정하지 마십시오. Elixir가 뒤에서 모든 복잡한 일들을 처리할 것입니다. 기본적으로 라라벨의 `gulpfile` 는  자바스크립트를 컴파일 하는데 `webpack`을 사용하지만, 원하는 어떤 모듈 번들러라도 자유롭게 사용할 수 있습니다.
 
 <a name="webpack"></a>
 ### Webpack
@@ -408,7 +408,7 @@ The `copy` method may be used to copy files and directories to new locations. Al
 
 ```javascript
 elixir(function(mix) {
-	mix.copy('vendor/foo/bar.css', 'public/css/bar.css');
+    mix.copy('vendor/foo/bar.css', 'public/css/bar.css');
 });
 ```
 

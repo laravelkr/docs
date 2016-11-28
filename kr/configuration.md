@@ -48,10 +48,14 @@ It is often helpful to have different configuration values based on the environm
 
 To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
 
+보다 확실하게 하기 위해서 라라벨은 Vance Lucas가 만든 PHP 라이브러리 [DotEnv](https://github.com/vlucas/phpdotenv)을 이용합니다. 새롭게 라라벨을 인스톨 한경우에 어플리케이션의 루트 디렉토리에 `.env.example` 파일이 포함되어 있습니다. 컴포저를 통해서 설치한 경우에는 이 파일이 자동으로 `.env`파일로 변경됩니다. 컴포저를 사용하지 않는다면 직접 파일을 변경하십시오.
+
+> {tip} You may also creating a `.env.testing` file. This file will override values from the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+
+> {tip} 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env` 값을 오버라이드 합니다.
+
 #### Retrieving Environment Configuration
 #### 구동환경 조회하기
-
-보다 확실하게 하기 위해서 라라벨은 Vance Lucas가 만든 PHP 라이브러리 [DotEnv](https://github.com/vlucas/phpdotenv)을 이용합니다. 새롭게 라라벨을 인스톨 한경우에 어플리케이션의 루트 디렉토리에 `.env.example` 파일이 포함되어 있습니다. 컴포저를 통해서 설치한 경우에는 이 파일이 자동으로 `.env`파일로 변경됩니다. 컴포저를 사용하지 않는다면 직접 파일을 변경하십시오. 
 
 All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice several of the options already using this helper:
 
@@ -123,7 +127,7 @@ You may also provide `message` and `retry` options to the `down` command. The `m
 
 또한 `down` 명령어에 `message` 와 `retry` 옵션을 지정할 수 있습니다. `message` 값은 화면에 보여주거나, 로그에 사용자 메세지를 남기는데 사용되고, `retry` 값은 HTTP 헤더의 `Retry-After` 를 설정하는데 사용될 것입니다.
 
-    php artisan down --message='Upgrading Database' --retry=60
+    php artisan down --message="Upgrading Database" --retry=60
 
 To disable maintenance mode, use the `up` command:
 

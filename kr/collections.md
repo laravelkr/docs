@@ -126,7 +126,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [where](#method-where)
 [whereStrict](#method-wherestrict)
 [whereIn](#method-wherein)
-[whereInLoose](#method-whereinloose)
+[whereInStrict](#method-whereinstrict)
 [zip](#method-zip)
 
 <a name="method-listing"></a>
@@ -193,9 +193,9 @@ The `chunk` method breaks the collection into multiple, smaller collections of a
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](http://getbootstrap.com/css/#grid). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
+This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/css/#grid). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
 
-이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](http://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다. 
+이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다. 
 [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
 
     @foreach ($products->chunk(3) as $chunk)
@@ -410,6 +410,16 @@ The `filter` method filters the collection using the given callback, keeping onl
     $filtered->all();
 
     // [3, 4]
+
+If no callback is supplied, all entries of the collection that are equivalent to `false` will be removed:
+
+콜백이 전달되지 않는다면, 모든 컬렉션의 엔트리 중에서 `false` 로 인식되는 값들은 제거됩니다:
+
+    $collection = collect([1, 2, 3, null, false, '', 0, []]);
+
+    $collection->filter()->all();
+
+    // [1, 2, 3]
 
 For the inverse of `filter`, see the [reject](#method-reject) method.
 
@@ -642,9 +652,9 @@ The `has` method determines if a given key exists in the collection:
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
-    $collection->has('email');
+    $collection->has('product');
 
-    // false
+    // true
 
 <a name="method-implode"></a>
 #### `implode()` {#collection-method}
@@ -1229,9 +1239,9 @@ The `sort` method sorts the collection. The sorted collection keeps the original
 
     // [1, 2, 3, 4, 5]
 
-If your sorting needs are more advanced, you may pass a callback to `sort` with your own algorithm. Refer to the PHP documentation on [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters), which is what the collection's `sort` method calls under the hood.
+If your sorting needs are more advanced, you may pass a callback to `sort` with your own algorithm. Refer to the PHP documentation on [`usort`](https://secure.php.net/manual/en/function.usort.php#refsect1-function.usort-parameters), which is what the collection's `sort` method calls under the hood.
 
-보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 호출될 때의 동작은 [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)PHP 문서를 참고하십시오.
+보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 호출될 때의 동작은 [`usort`](https://secure.php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)PHP 문서를 참고하십시오.
 
 > {tip} If you need to sort a collection of nested arrays or objects, see the [`sortBy`](#method-sortby) and [`sortByDesc`](#method-sortbydesc) methods.
 
@@ -1637,16 +1647,18 @@ The `whereIn` method filters the collection by a given key / value contained wit
     ]
     */
 
-The `whereIn` method uses strict comparisons when checking item values. Use the [`whereInLoose`](#method-whereinloose) method to filter using "loose" comparisons.
+The `whereIn` method uses "loose" comparisons when checking item values. Use the [`whereInStrict`](#method-whereinstrict) method to filter using strict comparisons.
 
-`whereIn` 메소드는 아이템 값을 엄격하게 비교합니다. "느슨한" 비교를해서 필터링 하려면 [`whereInLoose`](#method-whereinloose) 메소드를 사용하십시오.
+`whereIn` 메소드는 아이템 값을 "느슨하게" 비교합니다. "엄격한" 비교를 통해서 필터링 하려면 [`whereInStrict`](#method-whereinstrict) 메소드를 사용하십시오.
 
-<a name="method-whereinloose"></a>
-#### `whereInLoose()` {#collection-method}
+<a name="method-whereinstrict"></a>
+#### `whereInStrict()` {#collection-method}
 
-This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "loose" comparisons.
+This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using strict comparisons.
 
-이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "느슨한" 비교를 진행합니다.
+이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "엄격한" 비교를 진행합니다.
+
+(역자주 : 느슨한 비교와 엄격한 비교는 `==`와 `===`의 차이처럼 타입과 값이 모두 일치하는지 비교하는 정도를 나타냅니다)
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

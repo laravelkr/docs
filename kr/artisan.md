@@ -63,11 +63,15 @@ In addition to the commands provided with Artisan, you may also build your own c
 ### Generating Commands
 ### 명령어 생성하기
 
-To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if you this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
+To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
 
 새로운 명령어를 생성하기 위해, 아티즌 명령어 `make:console`을 사용합니다. 이 명령어는 `app/Console/Commands` 경로에 새로운 명령클래스를 생성할 것입니다. `make : command` 아티즌 명령을 처음 실행할 때 생성되기 때문에 이 경로가 애플리케이션에 존재하지 않는다고 걱정하지 마십시오. 생성 된 명령에는 모든 명령에있는 기본 등록 정보 및 함수 세트가 포함됩니다:
 
     php artisan make:command SendEmails
+
+Next, you will need to [register the command](#registering-commands) before it can be executed via the Artisan CLI.
+
+이 다음, 아티즌 CLI를 통해서 명령어를 실행시키기 전에 [명령어를 등록해야](#registering-commands)합니다.
 
 <a name="command-structure"></a>
 ### Command Structure
@@ -397,11 +401,11 @@ The `secret` method is similar to `ask`, but the user's input will not be visibl
 #### Asking For Confirmation
 #### 사용자 확인받기
 
-If you need to ask the user for a simple confirmation, you may use the `confirm` method. By default, this method will return `false`. However, if the user enters `y` in response to the prompt, the method will return `true`.
+If you need to ask the user for a simple confirmation, you may use the `confirm` method. By default, this method will return `false`. However, if the user enters `y` or `yes` in response to the prompt, the method will return `true`.
 
-단순히 사용자에게 확인 받고자 하는 경우에는 `confirm` 메소드를 사용하면 됩니다. 이 메소드는 기본값으로 `false` 를 반환합니다. 프롬프트에서 `y` 를 입력하면 `true` 를 반환합니다.
+단순히 사용자에게 확인 받고자 하는 경우에는 `confirm` 메소드를 사용하면 됩니다. 이 메소드는 기본값으로 `false` 를 반환합니다. 프롬프트에서 `y` 또는 `yes`를 입력하면 `true` 를 반환합니다.
 
-    if ($this->confirm('Do you wish to continue? [y|N]')) {
+    if ($this->confirm('Do you wish to continue?')) {
         //
     }
 
@@ -486,9 +490,9 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
 
     $bar->finish();
 
-For more advanced options, check out the [Symfony Progress Bar component documentation](http://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
+For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
 
-보다 자세한 옵션에 대해서는 [Symfony 진행률 표시줄 구성 컴포넌트 문서](http://symfony.com/doc/2.7/components/console/helpers/progressbar.html)  확인하십시오.
+보다 자세한 옵션에 대해서는 [Symfony 진행률 표시줄 구성 컴포넌트 문서](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html)  확인하십시오.
 
 <a name="registering-commands"></a>
 ## Registering Commands

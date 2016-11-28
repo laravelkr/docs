@@ -15,6 +15,8 @@
     - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
     - [Removing Items From The Cache](#removing-items-from-the-cache)
     - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
+    - [The Cache Helper](#the-cache-helper)
+    - [캐시 헬퍼 함수](#the-cache-helper)
 - [Cache Tags](#cache-tags)
 - [캐시 태그](#cache-tags)
     - [Storing Tagged Cache Items](#storing-tagged-cache-items)
@@ -36,9 +38,9 @@
 ## Configuration
 ## 설정하기
 
-Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at `config/cache.php`. In this file you may specify which cache driver you would like used by default throughout your application. Laravel supports popular caching backends like [Memcached](http://memcached.org) and [Redis](http://redis.io) out of the box.
+Laravel provides an expressive, unified API for various caching backends. The cache configuration is located at `config/cache.php`. In this file you may specify which cache driver you would like used by default throughout your application. Laravel supports popular caching backends like [Memcached](https://memcached.org) and [Redis](http://redis.io) out of the box.
 
-라라벨은 다양한 캐시 시스템을 위해서 풍부한 표현이 가능한 통합 API를 제공합니다. 캐시 설정은 `config/cache.php` 파일에 있습니다. 이 파일에 전체 어플리케이션에서 기본적으로 사용할 캐시 드라이버를 지정할 수 있습니다. 라라벨은 [Memcached](http://memcached.org) 나 [Redis](http://redis.io) 와 같은 인기 있는 백엔드 캐시 시스템을 지원합니다. 
+라라벨은 다양한 캐시 시스템을 위해서 풍부한 표현이 가능한 통합 API를 제공합니다. 캐시 설정은 `config/cache.php` 파일에 있습니다. 이 파일에 전체 어플리케이션에서 기본적으로 사용할 캐시 드라이버를 지정할 수 있습니다. 라라벨은 [Memcached](https://memcached.org) 나 [Redis](http://redis.io) 와 같은 인기 있는 백엔드 캐시 시스템을 지원합니다. 
 
 The cache configuration file also contains various other options, which are documented within the file, so make sure to read over these options. By default, Laravel is configured to use the `file` cache driver, which stores the serialized, cached objects in the filesystem. For larger applications, it is recommended that you use a more robust driver such as Memcached or Redis. You may even configure multiple cache configurations for the same driver.
 
@@ -55,7 +57,7 @@ When using the `database` cache driver, you will need to setup a table to contai
 
 `database` 캐시 드라이버를 사용할 때에는, 캐시 정보를 담아둘 테이블을 구성할 필요가 있습니다. 다음과 같이 테이블을 구성하는 `Scheme`를 확인하십시오.
 
-    Schema::create('cache', function($table) {
+    Schema::create('cache', function ($table) {
         $table->string('key')->unique();
         $table->text('value');
         $table->integer('expiration');
@@ -68,9 +70,9 @@ When using the `database` cache driver, you will need to setup a table to contai
 #### Memcached
 #### Memcached
 
-Using the Memcached driver requires the [Memcached PECL package](http://pecl.php.net/package/memcached) to be installed. You may list all of your Memcached servers in the `config/cache.php` configuration file:
+Using the Memcached driver requires the [Memcached PECL package](https://pecl.php.net/package/memcached) to be installed. You may list all of your Memcached servers in the `config/cache.php` configuration file:
 
-Memcached 드라이버를 사용하려면 [Memcached PECL 패키지](http://pecl.php.net/package/memcached)가 설치되어 있어야 합니다. `config/cache.php` 설정 파일안에서 Memcache 서버 목록을 나열하면 됩니다. 
+Memcached 드라이버를 사용하려면 [Memcached PECL 패키지](https://pecl.php.net/package/memcached)가 설치되어 있어야 합니다. `config/cache.php` 설정 파일안에서 Memcache 서버 목록을 나열하면 됩니다. 
 
     'memcached' => [
         [
@@ -168,7 +170,7 @@ You may even pass a `Closure` as the default value. The result of the `Closure` 
 
 기본값을 `클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다. 
 
-    $value = Cache::get('key', function() {
+    $value = Cache::get('key', function () {
         return DB::table(...)->get();
     });
 
@@ -279,8 +281,30 @@ You may clear the entire cache using the `flush` method:
 
 > {note} 모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 어플리케이션의 다른 부분에서 공유하는 캐시를 제거할 때에 주의하십시오.
 
+<a name="the-cache-helper"></a>
+### The Cache Helper
+### 캐시 헬퍼 함수
+
+In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
+
+`Cache` 파사드나 [캐시 contract](/docs/{{version}}/contracts)를 사용하는것에 더하여, 글로벌 `cache` 함수를 사용하여 캐시에서 데이터를 조회하거나 저장할 수 있습니다. `cache` 함수에 인자가 하나의 문자열일 때는, 주어진 키에 대한 값을 반환합니다:  
+    $value = cache('key');
+
+If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
+
+키와 값으로된 배열과 유효시간을 함수에 전달하면, 지정된 기간동안 캐시에 값을 저장하고 있습니다: 
+
+    cache(['key' => 'value'], $minutes);
+
+    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+
+> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
+
+> {tip} 글로벌 `cache` 함수 호출을 테스팅할 때에는, [파사드 테스팅](/docs/{{version}}/mocking#mocking-facades)을 참고하여 `Cache::shouldReceive`메소드를 사용할 수 있습니다. 
+
 <a name="cache-tags"></a>
 ## Cache Tags
+## 캐시 태그
 
 > {note} Cache tags are not supported when using the `file` or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
 
@@ -294,9 +318,9 @@ Cache tags allow you to tag related items in the cache and then flush all cached
 
 캐시 태그는 캐시에 있는 관련된 아이템들을 태그할 수 있도록 해주고, 주어진 태그가 지정된 전체 캐시 항목을 삭제할 수도 있게 해줍니다. 여러분은 순서대로 태그 이름의 배열을 전달하여 태그가 추가된 캐시 아이템에 엑세스할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 엑세스하여, 값을 `저장(put)` 해 보겠습니다. 
 
-	Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
+    Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
 
-	Cache::tags(['people', 'authors'])->put('Anne', $anne, $minutes);
+    Cache::tags(['people', 'authors'])->put('Anne', $anne, $minutes);
 
 <a name="accessing-tagged-cache-items"></a>
 ### Accessing Tagged Cache Items
@@ -306,7 +330,7 @@ To retrieve a tagged cache item, pass the same ordered list of tags to the `tags
 
 태그가 지정된 캐시 아이템을 찾으려면 `tags` 메소드에 저장된 것과 동일한 순서로 태그의 목록을 전달하고, 찾고자 하는 키와 함께 `get` 메소드를 호출하면 됩니다.
 
-	$john = Cache::tags(['people', 'artists'])->get('John');
+    $john = Cache::tags(['people', 'artists'])->get('John');
 
     $anne = Cache::tags(['people', 'authors'])->get('Anne');
 
@@ -318,13 +342,13 @@ You may flush all items that are assigned a tag or list of tags. For example, th
 
 태그 또는 태그 목록이 지정된 아이템을 모두 지울 수 있습니다. 예를 들어 다음 코드는 `people` 또는 `authors` 또는 둘 모두에 태그가 지정된 모든 캐시된 항목이 삭제됩니다. 그러므로 "Anne"과 "John" 두 아이템은 캐시에서 제거됩니다:
 
-	Cache::tags(['people', 'authors'])->flush();
+    Cache::tags(['people', 'authors'])->flush();
 
 In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
 
 한편, 다음 코드에서는 `authors` 태그된 캐시만 삭제되기 때문에 `Anne`은 삭제되지만 `John`는 남아 있습니다:
 
-	Cache::tags('authors')->flush();
+    Cache::tags('authors')->flush();
 
 <a name="adding-custom-cache-drivers"></a>
 ## Adding Custom Cache Drivers
@@ -362,7 +386,7 @@ We just need to implement each of these methods using a MongoDB connection. For 
 
 이제 MongoDB 연결을 사용하여 각각의 메소드를 구현해야 합니다. 각각의 메소드가 어떻게 구현되는가에 대한 예시로, 프레임워크 소스 코드 상에서 `Illuminate\Cache\MemcachedStore` 를 살펴보도록 하겠습니다. 구현을 완료하면 사용자 정의 드라이버를 등록할 수 있습니다.
 
-    Cache::extend('mongo', function($app) {
+    Cache::extend('mongo', function ($app) {
         return Cache::repository(new MongoStore);
     });
 
@@ -395,7 +419,7 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
          */
         public function boot()
         {
-            Cache::extend('mongo', function($app) {
+            Cache::extend('mongo', function ($app) {
                 return Cache::repository(new MongoStore);
             });
         }

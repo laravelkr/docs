@@ -28,6 +28,8 @@
 - [HTTP 기본 인증](#http-basic-authentication)
     - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
     - [상태를 유지하지 않는 HTTP 기본 인증](#stateless-http-basic-authentication)
+- [Social Authentication](https://github.com/laravel/socialite)
+- [소셜 인증](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
 - [사용자 정의 Guards 추가하기](#adding-custom-guards)
 - [Adding Custom User Providers](#adding-custom-user-providers)
@@ -44,9 +46,9 @@
 ## Introduction
 ## 소개
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
 
-> {tip} ** 빠르게 시작 하시는것을 원하십니까? ** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make : auth` 를 실행하고 브라우저를 `http://your-app.dev/register` 또는 다른 URL로 이동하세요. 여러분의 응용 프로그램에 할당 된 이 단일 명령은 전체 인증 시스템을 스캐폴딩합니다.
+> {tip} ** 빠르게 시작 하시는것을 원하십니까? ** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make:auth`와 `php artisan migrate` 를 실행하십시오. 그 다음에, 브라우저를 `http://your-app.dev/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -135,6 +137,18 @@ When a user is not successfully authenticated, they will be automatically redire
 
 사용자가 성공적으로 인증되지 않았을 때에는, 로그인 Form 위치로 자동으로 리다이렉트되어 돌아가게 될 것입니다.
 
+#### Username Customization
+#### 어떤 사용자이름을 사용할지 결정하기
+
+By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
+
+기본적으로 라라벨은 인증을 위해서 `email` 필드를 사용합니다 만약 이를 수정하고자 한다면, `LoginController`의 `username` 메소드를 정의하면 됩니다: 
+
+    public function username()
+    {
+        return 'username';
+    }
+
 #### Guard Customization
 #### Guard 커스터마이징
 
@@ -174,7 +188,11 @@ You may access the authenticated user via the `Auth` facade:
 
     use Illuminate\Support\Facades\Auth;
 
+    // Get the currently authenticated user...
     $user = Auth::user();
+
+    // Get the currently authenticated user's ID...
+    $id = Auth::id();
 
 Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
 
@@ -276,7 +294,7 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
 
     use Illuminate\Support\Facades\Auth;
 
-    class AuthController extends Controller
+    class LoginController extends Controller
     {
         /**
          * Handle an authentication attempt.
@@ -390,6 +408,7 @@ Of course, you may specify the guard instance you would like to use:
     Auth::guard('admin')->login($user);
 
 #### Authenticate A User By ID
+#### ID를 통해서 사용자 인증하기
 
 To log a user into the application by their ID, you may use the `loginUsingId` method. This method simply accepts the primary key of the user you wish to authenticate:
 
@@ -415,10 +434,9 @@ You may use the `once` method to log a user into the application for a single re
 ## HTTP Basic Authentication
 ## HTTP 기본 인증
 
-[HTTP Basic Authentication](http://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
+[HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
 
-
-[HTTP 기본 인증](http://en.wikipedia.org/wiki/Basic_access_authentication)은 어플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다:
+[HTTP 기본 인증](https://en.wikipedia.org/wiki/Basic_access_authentication)은 어플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다:
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
@@ -489,7 +507,7 @@ You may define your own authentication guards using the `extend` method on the `
 
     use App\Services\Auth\JwtGuard;
     use Illuminate\Support\Facades\Auth;
-    use Illuminate\Support\ServiceProvider;
+    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -664,10 +682,14 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
      * @var array
      */
     protected $listen = [
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\LogRegisteredUser',
+        ],
+
         'Illuminate\Auth\Events\Attempting' => [
             'App\Listeners\LogAuthenticationAttempt',
         ],
-        
+
         'Illuminate\Auth\Events\Authenticated' => [
             'App\Listeners\LogAuthenticated',
         ],

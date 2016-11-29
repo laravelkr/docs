@@ -261,7 +261,7 @@ Of course, if you are using [controllers](/docs/{{version}}/controllers), you ma
 
 When attaching the `auth` middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the `guards` array of your `auth.php` configuration file:
 
-`auth` 미들웨어를 라우트에 추가할 때, 여러분은 또한 어떤 guard 가 인증에 사용되어야 하는지 지정할 수 있습니다:
+`auth` 미들웨어를 라우트에 추가할 때, 여러분은 또한 어떤 guard 가 인증에 사용되어야 하는지 지정할 수 있습니다. 지정된 guard는 `auth.php` 설정 파일의 `guards` 배열에 있는 키와 일치해야 합니다:
 
     public function __construct()
     {
@@ -458,6 +458,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
 <a name="stateless-http-basic-authentication"></a>
 ### Stateless HTTP Basic Authentication
+### 상태를 유지하지 않는 HTTP 기본 인증
 
 You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, [define a middleware](/docs/{{version}}/middleware) that calls the `onceBasic` method. If no response is returned by the `onceBasic` method, the request may be passed further into the application:
 

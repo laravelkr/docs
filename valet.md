@@ -49,10 +49,10 @@ Out of the box, Valet support includes, but is not limited to:
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
 - [Symfony](https://symfony.com)
-- [Zend](http://framework.zend.com)
-- [CakePHP 3](http://cakephp.org)
+- [Zend](https://framework.zend.com)
+- [CakePHP 3](https://cakephp.org)
 - [WordPress](https://wordpress.org)
-- [Bedrock](https://roots.io/bedrock)
+- [Bedrock](https://roots.io/bedrock/)
 - [Craft](https://craftcms.com)
 - [Statamic](https://statamic.com)
 - [Jigsaw](http://jigsaw.tighten.co)
@@ -230,7 +230,7 @@ Once you have completed your custom Valet driver, place it in the `~/.valet/Driv
 
 여러분의 발렛 드라이버를 작성하고 나면, 이 파일을 `FrameworkValetDriver.php` 네이밍 컨벤션에 맞게 `~/.valet/Drivers` 디렉토리에 저장하십시오. 예를 들자면, 여러분이 워드프레스를 위한 발렛 드라이버를 작성하였다면 여러분의 파일 이름음 `WordPressValetDriver.php`가 되어야 합니다.     
 
-Let's take at a sample implementation of each method your custom Valet driver should implement.
+Let's take a look at a sample implementation of each method your custom Valet driver should implement.
 
 사용자 정의 발렛 드라이버에서 구현하는 메소드의 샘플 코드를 살펴 보겠습니다.
 

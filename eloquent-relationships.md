@@ -25,6 +25,8 @@
     - [관계 메소드 Vs. 동적 속성](#relationship-methods-vs-dynamic-properties)
     - [Querying Relationship Existence](#querying-relationship-existence)
     - [존재하는 관계에 대한 쿼리 질의하기](#querying-relationship-existence)
+    - [Querying Relationship Absence](#querying-relationship-absence)
+    - [관계된 모델이 존재하지 않는 것을 확인하며 질의하기](#querying-relationship-absence)
     - [Counting Related Models](#counting-related-models)
     - [연관된 모델 수량 확인하기-카운트](#counting-related-models)
 - [Eager Loading](#eager-loading)
@@ -793,9 +795,27 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
         $query->where('content', 'like', 'foo%');
     })->get();
 
+<a name="querying-relationship-absence"></a>
+### Querying Relationship Absence
+### 관계된 모델이 존재하지 않는 것을 확인하며 질의하기
+
+When accessing the records for a model, you may wish to limit your results based on the absence of a relationship. For example, imagine you want to retrieve all blog posts that **don't** have any comments. To do so, you may pass the name of the relationship to the `doesntHave` method:
+
+모델의 레코드에 엑세스 할 때, 관계된 모델이 존재하지 않는 것에 따라서 결과를 제한하고자 할 수 있습니다. 예를 들어 코멘트를 가지고 있지 **않은** 모든 블로그 포스트를 조회하는 경우를 생각해 보겠습니다. 이렇게 하기 위해서는 `doesntHave` 메소드에 정의한 관계의 이름을 전달하면됩니다:
+
+    $posts = App\Post::doesntHave('comments')->get();
+
+If you need even more power, you may use the `whereDoesntHave` method to put "where" conditions on your `doesntHave` queries. This method allows you to add customized constraints to a relationship constraint, such as checking the content of a comment:
+
+더 강력한 기능을 원한다면, `doesntHave` 쿼리에 "where" 조건을 붙여서, `whereDoesntHave` 메소드를 사용할 수 있습니다. 이 메소드는 코멘트의 내용을 확인하는 것과 같이 관계 제약에 커스터마이징된 제약을 추가해준다.    
+
+    $posts = Post::whereDoesntHave('comments', function ($query) {
+        $query->where('content', 'like', 'foo%');
+    })->get();
+
 <a name="counting-related-models"></a>
 ### Counting Related Models
-#### 연관된 모델의 갯수 확인하기-카운팅
+### 연관된 모델의 갯수 확인하기-카운팅
 
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
 
@@ -1088,11 +1108,11 @@ If you need to update an existing row in your pivot table, you may use `updateEx
 
     $user = App\User::find(1);
 
-	$user->roles()->updateExistingPivot($roleId, $attributes);
+    $user->roles()->updateExistingPivot($roleId, $attributes);
 
 <a name="touching-parent-timestamps"></a>
 ## Touching Parent Timestamps
-### 부모의 타임스탬프 값 갱신
+## 부모의 타임스탬프 값 갱신
 
 When a model `belongsTo` or `belongsToMany` another model, such as a `Comment` which belongs to a `Post`, it is sometimes helpful to update the parent's timestamp when the child model is updated. For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post`. Eloquent makes it easy. Just add a `touches` property containing the names of the relationships to the child model:
 

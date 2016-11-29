@@ -97,7 +97,6 @@ Now, let's look at an example `Flight` model, which we will use to retrieve and 
         //
     }
 
-
 #### Table Names
 #### 테이블 이름
 
@@ -173,6 +172,18 @@ If you need to customize the format of your timestamps, set the `$dateFormat` pr
          * @var string
          */
         protected $dateFormat = 'U';
+    }
+
+If you need to customize the names of the columns used to store the timestamps, you may set the `CREATED_AT` and `UPDATED_AT` constants in your model:
+
+만약 타임스탬프를 저장하는 필드의 이름을 수정하고자 하는 경우, 모델에 `CREATED_AT` 그리고 `UPDATED_AT` 상수를 설정하면 됩니다:  
+
+    <?php
+
+    class Flight extends Model
+    {
+        const CREATED_AT = 'creation_date';
+        const UPDATED_AT = 'last_update';
     }
 
 #### Database Connection
@@ -485,6 +496,9 @@ If you would like to make all attributes mass assignable, you may define the `$g
 ### Other Creation Methods
 ### 기타 생성을 위한 메소드들
 
+#### `firstOrCreate`/ `firstOrNew`
+#### `firstOrCreate`/ `firstOrNew`
+
 There are two other methods you may use to create models by mass assigning attributes: `firstOrCreate` and `firstOrNew`. The `firstOrCreate` method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the given attributes.
 
 속성을 대량 할당(mass assign) 하여 모델을 생성하는 또다른 방법은 `firstOrCreate`와 `firstOrNew`의 두 가지가 있습니다. `firstOrCreate` 메소드는 주어진 컬럼 / 값의 쌍을 이용하여 데이터베이스 레코드를 찾으려고 시도할 것입니다. 데이터베이스에서 모델을 찾을 수 없으면 주어진 속성들을 통해 새로운 레코드가 입력될 것입니다.
@@ -498,6 +512,20 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve the flight by the attributes, or instantiate a new instance...
     $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+
+#### `updateOrCreate`
+#### `updateOrCreate`
+
+You may also come across situations where you want to update an existing model or create a new model if none exists. Laravel provides an `updateOrCreate` method to do this in one step. Like the `firstOrCreate` method, `updateOrCreate` persists the model, so there's no need to call `save()`:
+
+또한 모델이 존재하는 경우에 이를 업데이트하고, 존재하지 않는 경우에는 새로운 모델을 생성할 수도 있습니다. 라라벨은 이런 경우 한번에 처리할 수 있는 `updateOrCreate` 메소드를 제공합니다. `firstOrCreate`메소드 처럼 `updateOrCreate` 모델을 직접 저장하므로, `save()` 메소드를 호출할 필요가 없습니다:   
+
+    // If there's a flight from Oakland to San Diego, set the price to $99.
+    // If no matching model exists, create one.
+    $flight = App\Flight::updateOrCreate(
+        ['departure' => 'Oakland', 'destination' => 'San Diego'],
+        ['price' => 99]
+    );
 
 <a name="deleting-models"></a>
 ## Deleting Models
@@ -690,7 +718,7 @@ Writing a global scope is simple. Define a class that implements the `Illuminate
          */
         public function apply(Builder $builder, Model $model)
         {
-            return $builder->where('age', '>', 200);
+            $builder->where('age', '>', 200);
         }
     }
 
@@ -758,7 +786,7 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
         {
             parent::boot();
 
-            static::addGlobalScope('age', function(Builder $builder) {
+            static::addGlobalScope('age', function (Builder $builder) {
                 $builder->where('age', '>', 200);
             });
         }
@@ -814,6 +842,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include popular users.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopePopular($query)
@@ -824,6 +853,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include active users.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeActive($query)
@@ -859,6 +889,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
+         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param mixed $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)

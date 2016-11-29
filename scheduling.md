@@ -9,6 +9,8 @@
     - [스케줄링 주기 관련 옵션](#schedule-frequency-options)
     - [Preventing Task Overlaps](#preventing-task-overlaps)
     - [작업의 중복 방지](#preventing-task-overlaps)
+    - [Maintenance Mode](#maintenance-mode)
+    - [공사중 모드](#maintenance-mode)
 - [Task Output](#task-output)
 - [작업 출력](#task-output)
 - [Task Hooks](#task-hooks)
@@ -81,10 +83,13 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
     }
 
 In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command:
+In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/5.1/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 아티즌 커맨드를 스케줄링할 수 있습니다:
+`Closure` 호출 외에도 [이트즌 커맨드](/docs/5.1/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
+
+    $schedule->command(EmailsCommand::class, ['--force'])->daily();
 
 The `exec` command may be used to issue a command to the operating system:
 
@@ -238,6 +243,16 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 이 예제에서 `emails:send` [아티즌 커맨드](/docs/5.1/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
 
+<a name="maintenance-mode"></a>
+### Maintenance Mode
+### 공사중 모드
+
+Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the `evenInMaintenanceMode` method:
+
+라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다: 
+
+    $schedule->command('emails:send')->evenInMaintenanceMode();
+
 <a name="task-output"></a>
 ## Task Output
 ## 작업 출력
@@ -267,9 +282,9 @@ Using the `emailOutputTo` method, you may e-mail the output to an e-mail address
              ->sendOutputTo($filePath)
              ->emailOutputTo('foo@example.com');
 
-> {note} The `emailOutputTo` and `sendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
+> {note} The `emailOutputTo`, `sendOutputTo` and `appendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
 
-> {note} `emailOutputTo` 와 `sendOutputTo` 메소드들은 `command` 메소드 전용이며 `call`에서는 지원되지 않습니다.
+> {note} `emailOutputTo`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 메소드 전용이며 `call`에서는 지원되지 않습니다.
 
 <a name="task-hooks"></a>
 ## Task Hooks

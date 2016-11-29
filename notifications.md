@@ -184,7 +184,7 @@ Once the `ShouldQueue` interface has been added to your notification, you may se
 
     $user->notify(new InvoicePaid($invoice));
 
-If you would like to delay the deliver of the notification, you may chain the `delay` method onto your notification instantiation:
+If you would like to delay the delivery of the notification, you may chain the `delay` method onto your notification instantiation:
 
 알림을 보낼 때 지연해서 보낼 필요가 있다면, 알림 인스턴스에 `delay` 메소를 체이닝하면 됩니다:
 
@@ -689,6 +689,27 @@ The example above will create a Slack message that looks like the following:
 이 예제는 다음과 같이 보여지는 슬랙 메세지를 생성할 것입니다:
 
 <img src="https://laravel.com/assets/img/slack-fields-attachment.png">
+
+#### Customizing The Sender & Recipient
+#### 송신자 & 수신자 설정하기
+
+You may use the `from` and `to` methods to customize the sender and recipient. The `from` method accepts a username and emoji identifier, while the `to` method accepts a channel or username:
+
+`from` 과 `to` 메소드를 사용하여 송신자와 수신자를 변경할 수 있습니다. `from` 메소드는 사용자 이름과 이모지 식별자를 인자로 받으며, `to` 메소드는 채널 또는 사용자 이름을 전달받습니다:  
+    
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+                    ->from('Ghost', ':ghost:')
+                    ->to('#other')
+                    ->content('This will be sent to #other');
+    }
 
 <a name="routing-slack-notifications"></a>
 ### Routing Slack Notifications

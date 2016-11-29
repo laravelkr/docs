@@ -53,7 +53,7 @@ Since global Composer libraries can sometimes cause package version conflicts, y
 #### Updating Envoy
 #### Envoy 업데이트 하기
 
-You may also use Composer to keep your Envoy installation up to date. Issuing the the `composer global update` command will update all of your globally installed Composer packages:
+You may also use Composer to keep your Envoy installation up to date. Issuing the `composer global update` command will update all of your globally installed Composer packages:
 
 설치 한 Envoy를 업데이트 할 때도 Composer를 사용합니다. `composer global update` 명령어는 설치된 글로벌 Composer 패키지를 업데이트 할 것입니다:
 
@@ -117,9 +117,9 @@ If needed, you may pass option values into Envoy tasks using the command line:
 
     envoy run deploy --branch=master
 
-You may use access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
+You may access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
 
-작업에서 옵션에 접근하기 위해서 블래이드의 "echo" 문법을 사용할 수 있습니다. 또한 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
+블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 또한 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
 
     @servers(['web' => '192.168.1.1'])
 
@@ -229,16 +229,14 @@ Envoy also supports sending notifications to [Slack](https://slack.com) after ea
 
 Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com)을 통해서 알림을 보내는 작업을 지원합니다. `@slack` 지시어는 슬랙 Hook URL 과 채널 이름을 인자로 받습니다. Slack 의 설정 패널의 `Incoming WebHooks` 통합 페이지에서 후킹 URL을 생성하여 찾을 수 있습니다. 여러분은 전체 웹훅 URL 을 `@slack` 지시어에 전달하면 됩니다:
 
-    @after
+    @finished
         @slack('webhook-url', '#bots')
-    @endafter
+    @endfinished
 
 You may provide one of the following as the channel argument:
 
 채널 인자는 다음 중 하나를 지정할 수 있습니다:
 
-<div class="content-list" markdown="1">
 - To send the notification to a channel: `#channel`
 - To send the notification to a user: `@user`
-</div>
 

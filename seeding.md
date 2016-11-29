@@ -30,9 +30,9 @@ seeder를 생성하기 위해서는, `make:seeder` [아티즌 명령어](/docs/{
 
     php artisan make:seeder UsersTableSeeder
 
-A seeder class only contains one method by default: `run`. This method is called when the `db:seed` [Artisan command](/docs/{{version}}/artisan) is executed. Within the `run` method, you may insert data into your database however you wish. You may use the [query builder](/docs/{{version}}/queries) to manually insert data or you may use [Eloquent model factories](/docs/{{version}}/database-testing#model-factories).
+A seeder class only contains one method by default: `run`. This method is called when the `db:seed` [Artisan command](/docs/{{version}}/artisan) is executed. Within the `run` method, you may insert data into your database however you wish. You may use the [query builder](/docs/{{version}}/queries) to manually insert data or you may use [Eloquent model factories](/docs/{{version}}/database-testing#writing-factories).
 
-seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가지고 있습니다. 이 메소드는 `db:seed` [아티즌 명령어](/docs/{{version}}/artisan)가 실행될 때 호출 됩니다. `run` 메소드 안에서 여러분은 원하는 어떤 데이터라도 입력할 수 있습니다. 직접 [query builder](/docs/{{version}}/queries)를 사용하여 데이터를 입력하거나, [Eloquent 모델 팩토리](/docs/{{version}}/database-testing#model-factories)를 사용할 수 있습니다.
+seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가지고 있습니다. 이 메소드는 `db:seed` [아티즌 명령어](/docs/{{version}}/artisan)가 실행될 때 호출 됩니다. `run` 메소드 안에서 여러분은 원하는 어떤 데이터라도 입력할 수 있습니다. 직접 [query builder](/docs/{{version}}/queries)를 사용하여 데이터를 입력하거나, [Eloquent 모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다.
 
 As an example, let's modify the default `DatabaseSeeder` class and add a database insert statement to the `run` method:
 
@@ -64,9 +64,9 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
 ### Using Model Factories
 ### 모델 팩토리 사용하기
 
-Of course, manually specifying the attributes for each model seed is cumbersome. Instead, you can use [model factories](/docs/{{version}}/database-testing#model-factories) to conveniently generate large amounts of database records. First, review the [model factory documentation](/docs/{{version}}/database-testing#model-factories) to learn how to define your factories. Once you have defined your factories, you may use the `factory` helper function to insert records into your database.
+Of course, manually specifying the attributes for each model seed is cumbersome. Instead, you can use [model factories](/docs/{{version}}/database-testing#writing-factories) to conveniently generate large amounts of database records. First, review the [model factory documentation](/docs/{{version}}/database-testing#writing-factories) to learn how to define your factories. Once you have defined your factories, you may use the `factory` helper function to insert records into your database.
 
-당연하게도, 수동으로 각각의 모델 seed 를 위한 속성들을 지정하는 것은 번거로운 일입니다. 대신에, 여러분은 대량의 데이터베이스 레코드를 생성하는데 유용한 [모델 팩토리](/docs/{{version}}/database-testing#model-factories)를 사용할 수 있습니다. 먼저 [모델 팩토리 문서](/docs/{{version}}/database-testing#model-factories)를 확인하고, 팩토리를 어떻게 정의하는지 알아 봅시다. 팩토리를 정의했다면, `factory` 헬퍼 함수를 사용하여 데이터베이스에 레코드를 추가할 수 있습니다. 
+당연하게도, 수동으로 각각의 모델 seed 를 위한 속성들을 지정하는 것은 번거로운 일입니다. 대신에, 여러분은 대량의 데이터베이스 레코드를 생성하는데 유용한 [모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다. 먼저 [모델 팩토리 문서](/docs/{{version}}/database-testing#writing-factories)를 확인하고, 팩토리를 어떻게 정의하는지 알아 봅시다. 팩토리를 정의했다면, `factory` 헬퍼 함수를 사용하여 데이터베이스에 레코드를 추가할 수 있습니다. 
 
 For example, let's create 50 users and attach a relationship to each user:
 
@@ -79,7 +79,7 @@ For example, let's create 50 users and attach a relationship to each user:
      */
     public function run()
     {
-        factory(App\User::class, 50)->create()->each(function($u) {
+        factory(App\User::class, 50)->create()->each(function ($u) {
             $u->posts()->save(factory(App\Post::class)->make());
         });
     }

@@ -31,14 +31,15 @@ However, if you are not using Homestead, you will need to make sure your server 
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
+- XML PHP Extension
 
 <a name="installing-laravel"></a>
 ### Installing Laravel
 ### 라라벨 설치하기
 
-Laravel utilizes [Composer](http://getcomposer.org) to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
+Laravel utilizes [Composer](https://getcomposer.org) to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.
 
-라라벨은 의존성 관리를 위해 [컴포저](http://getcomposer.org)를 활용합니다. 라라벨을 사용하기 전에, 여러분들은 라라벨을 설치할 서버(머신)에 Composer를 설치해야 합니다.
+라라벨은 의존성 관리를 위해 [컴포저](https://getcomposer.org)를 활용합니다. 라라벨을 사용하기 전에, 여러분들은 라라벨을 설치할 서버(머신)에 Composer를 설치해야 합니다.
 
 #### Via Laravel Installer
 #### 라라벨 인스톨러로 사용하기
@@ -49,9 +50,9 @@ First, download the Laravel installer using Composer:
 
     composer global require "laravel/installer"
 
-Make sure to place the `~/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your $PATH so the `laravel` executable can be located by your system.
+Make sure to place the `$HOME/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your $PATH so the `laravel` executable can be located by your system.
 
-`laravel`이 여러분의 시스템에서 실행 가능하도록(또는 여러분의 OS에서 동일한 디렉토리) `~/.composer/vendor/bin` 폴더를 여러분의 경로($PATH)에 추가 해야합니다. 
+`laravel`이 여러분의 시스템에서 실행 가능하도록(또는 여러분의 OS에서 동일한 디렉토리) `$HOME/.composer/vendor/bin` 폴더를 여러분의 경로($PATH)에 추가 해야합니다. 
 
 Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
 

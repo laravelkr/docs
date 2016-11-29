@@ -19,6 +19,8 @@
     - [언어 파일](#translations)
     - [Views](#views)
     - [뷰 파일들](#views)
+- [Commands](#commands)
+- [명령어](#commands)
 - [Public Assets](#public-assets)
 - [Public Assets](#public-assets)
 - [Publishing File Groups](#publishing-file-groups)
@@ -64,9 +66,9 @@ A service provider extends the `Illuminate\Support\ServiceProvider` class and co
 ## Routing
 ## 라우팅
 
-To define routes for your package, simply `require` the routes file from within your package service provider's `boot` method. From within your routes file, you may use the `Illuminate\Support\Facades\Route` facade to [register routes](/docs/{{version}}/routing) just as you would within a typical Laravel application:
+To define routes for your package, pass the routes file path to the `loadRoutesFrom` method from within your package service provider's `boot` method. From within your routes file, you may use the `Illuminate\Support\Facades\Route` facade to [register routes](/docs/{{version}}/routing) just as you would within a typical Laravel application:
 
-패키지에서 사용할 라우트를 정의하기 위해서는 패키지의 서비스 프로바이더의 `boot` 메소드 안에서 간단하게 라우트 파일을 `require` 하면 됩니다. 여러분이 지정한 라우트 파일 안에서는 라라벨의 일반적인 어플리케이션에서 사용된 것과 같이 `Illuminate\Support\Facades\Route` 파사드를 통해서 [라우트 등록](/docs/{{version}}/routing)을 할 수 있습니다:
+패키지에서 사용할 라우트를 정의하려면 패키지의 서비스 프로바이더의 `boot` 메소드안에서 `loadRoutesFrom` 메소드에 라우트 파일을 지정하면 됩니다. 여러분이 지정한 라우트 파일 안에서는 라라벨의 일반적인 어플리케이션에서 사용된 것과 같이 `Illuminate\Support\Facades\Route` 파사드를 통해서 [라우트 등록](/docs/{{version}}/routing)을 할 수 있습니다: 
 
     /**
      * Perform post-registration booting of services.
@@ -75,9 +77,7 @@ To define routes for your package, simply `require` the routes file from within 
      */
     public function boot()
     {
-        if (! $this->app->routesAreCached()) {
-            require __DIR__.'/../../routes.php';
-        }
+        $this->loadRoutesFrom(__DIR__.'/../../routes.php');
     }
 
 <a name="resources"></a>
@@ -257,6 +257,29 @@ If you would like to make your views available for publishing to the application
 Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's views will be copied to the specified publish location.
 
 이제 라라벨의 `vendor:publish` 아티즌 명령어가 실행될 때 패키지의 뷰 파일들은 지정된 퍼블리싱 위치로 복사될 것입니다.
+
+<a name="commands"></a>
+## Commands
+## 명령어
+
+To register your package's Artisan commands with Laravel, you may use the `commands` method. This method expects an array of command class names. Once the commands have been registered, you may execute them using the [Artisan CLI](/docs/{{version}}/artisan):
+
+패키지의 아티즌 명령어를 라라벨에 등록하려면, `commands` 메소드를 사용하면 됩니다. 이 메소드는 명령어 클래스이름을 가진 배열을 인자로 받습니다. 명령어를 등록하고나면, [아티즌 CLI](/docs/{{version}}/artisan)를 통해서 실행할 수 있습니다:
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                FooCommand::class,
+                BarCommand::class,
+            ]);
+        }
+    }
 
 <a name="public-assets"></a>
 ## Public Assets

@@ -143,7 +143,7 @@ If you need to work with thousands of database records, consider using the `chun
 
 데이터베이스 레코드가 많은 작업을 수행해야 한다면, `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 chunk 를 획득하고, 각각의 chunk를 `Closure` 를 통해서 처리합니다. 이 메소드는 다수의 레코드를 처리하는 [아티즌 명령어](/docs/{{version}}/artisan)를 작성하는데 유용합니다. 예를 들어, 전체 `users` 테이블에서 한번에 100개의 레코드를 가져온다고 해보겠습니다:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         foreach ($users as $user) {
             //
         }
@@ -153,7 +153,7 @@ You may stop further chunks from being processed by returning `false` from the `
 
 `Closure` 에서 `false`를 반환하여, 더이상의 chunk를 처리하지 않도록 중단할 수 있습니다:
 
-    DB::table('users')->orderBy('id')->chunk(100, function($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         // Process the records...
 
         return false;
@@ -433,15 +433,15 @@ The `whereDate` method may be used compare a column's value against a date:
 `whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다:
 
     $users = DB::table('users')
-                    ->whereDate('created_at', '2016-10-10')
+                    ->whereDate('created_at', '2016-12-31')
                     ->get();
 
-The `whereMonth` method may be used compare a column's value against a specific month of an year:
+The `whereMonth` method may be used compare a column's value against a specific month of a year:
 
 `whereMonth` 메소드는 컬럼의 값이 한해의 지정된 달과 같은지 비교하는데 사용됩니다:
 
     $users = DB::table('users')
-                    ->whereMonth('created_at', '10')
+                    ->whereMonth('created_at', '12')
                     ->get();
 
 The `whereDay` method may be used compare a column's value against a specific day of a month:
@@ -449,7 +449,7 @@ The `whereDay` method may be used compare a column's value against a specific da
 `whereDay` 메소드는 컬럼의 값이 한달의 지정된 일과 같은지 비교하는데 사용됩니다:
 
     $users = DB::table('users')
-                    ->whereDay('created_at', '10')
+                    ->whereDay('created_at', '31')
                     ->get();
 
 The `whereYear` method may be used compare a column's value against a specific year:
@@ -567,6 +567,17 @@ The `orderBy` method allows you to sort the result of the query by a given colum
                     ->orderBy('name', 'desc')
                     ->get();
 
+#### latest / oldest
+#### latest / oldest
+
+The `latest` and `oldest` methods allow you to easily order results by date. By default, result will be ordered by the `created_at` column. Or, you may pass the column name that you wish to sort by:
+
+`latest` 와`oldest` 메소드는 여러준이 손쉽게 날짜를 기반으로 결과를 정렬할 수 있게 해줍니다. 기본적으로 결과는 `created_at` 컬럼을 기준으로 정렬됩니다. 또는 정렬에 기준이 되는 컬럼이름을 전달할 수 있습니다:
+
+    $user = DB::table('users')
+                    ->latest()
+                    ->first();
+
 #### inRandomOrder
 #### inRandomOrder 랜던 정렬
 
@@ -637,6 +648,19 @@ Sometimes you may want clauses to apply to a query only when something else is t
 The `when` method only executes the given Closure when the first parameter is `true`. If the first parameter is `false`, the Closure will not be executed.
 
 `when` 메소드는 첫번째 파라미터가 `true` 일때 주어진 클로저를 실행합니다. 첫번째 파라미터가 `false` 라면 클로저는 실행되지 않을 것입니다.
+
+You may pass another Closure as the third parameter to the `when` method. This Closure will execute if the first parameter evaluates as `false`. To illustrate how this feature may be used, we will use it to configure the default sorting of a query:
+
+`when` 메소드의 세번째 파라미터로 또다른 클로저를 전달할 수 있습니다. 이 클로저는 첫번째 파라미터가 `false` 일때 실행됩니다. 다음은 이 기능을 어떻게 사용하는지 보여주기 위한 예로, 쿼리의 기본 정렬을 구성한 것입니다:  
+    $sortBy = null;
+
+    $users = DB::table('users')
+                    ->when($sortBy, function ($query) use ($sortBy) {
+                        return $query->orderBy($sortBy);
+                    }, function ($query) {
+                        return $query->orderBy('name');
+                    })
+                    ->get();
 
 <a name="inserts"></a>
 ## Inserts

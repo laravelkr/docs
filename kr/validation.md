@@ -429,9 +429,9 @@ The first argument passed to the `make` method is the data under validation. The
 
 `make` 메소드로 전달되는 첫번째 인자는 유효성 검사를 받을 데이터입니다. 두번째 인자는 데이터에 적용되어야 하는 유효성 검사 규칙들입니다.
 
-After checking if the request passed validation, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
+After checking if the request validation failed, you may use the `withErrors` method to flash the error messages to the session. When using this method, the `$errors` variable will automatically be shared with your views after redirection, allowing you to easily display them back to the user. The `withErrors` method accepts a validator, a `MessageBag`, or a PHP `array`.
 
-request-요청이 유효성 검사를 통과하였는지 확인였다면 `withErrors` 메소드로 세션에 에러 메세지를 임시저장-flash 할 수 있습니다. 이 메소드를 사용하면 리다이렉트 후에 `$errors` 변수가 자동으로 뷰에서 공유되어 손쉽게 사용자에게 보여질 수 있습니다. `withErrors` 메소드는 validator, `MessageBag`, 혹은 PHP `array`를 전달 받습니다.
+request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withErrors` 메소드로 세션에 에러 메세지를 임시저장-flash 할 수 있습니다. 이 메소드를 사용하면 리다이렉트 후에 `$errors` 변수가 자동으로 뷰에서 공유되어 손쉽게 사용자에게 보여질 수 있습니다. `withErrors` 메소드는 validator, `MessageBag`, 혹은 PHP `array`를 전달 받습니다.
 
 <a name="automatic-redirection"></a>
 ### Automatic Redirection
@@ -473,7 +473,7 @@ The validator also allows you to attach callbacks to be run after validation is 
 
     $validator = Validator::make(...);
 
-    $validator->after(function($validator) {
+    $validator->after(function ($validator) {
         if ($this->somethingElseIsInvalid()) {
             $validator->errors()->add('field', 'Something is wrong with this field!');
         }
@@ -683,9 +683,9 @@ The field under validation must be _yes_, _on_, _1_, or _true_. This is useful f
 <a name="rule-active-url"></a>
 #### active_url
 
-The field under validation must be a valid URL according to the `checkdnsrr` PHP function.
+The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function.
 
-필드의 값이 PHP 함수 `checkdnsrr`에 기반하여 올바른 URL이어야 합니다.
+필드의 값이 PHP 함수 `dns_get_record`에서 확인 가능한 올바른 A 또는 AAAA 레코드여야 합니다.
 
 <a name="rule-after"></a>
 #### after:_date_
@@ -847,31 +847,27 @@ The field under validation must exist on a given database table.
 
     'state' => 'exists:states,abbreviation'
 
-You may also specify more conditions that will be added as "where" clauses to the query:
-
-쿼리문의 "where" 구문에 추가될 더 많은 조건을 지정할 수도 있습니다: 
-
-    'email' => 'exists:staff,email,account_id,1'
-
-These conditions may be negated using the `!` sign:
-
-이러한 조건은 `!` 사인을 사용하여 부정할 수 있습니다. 
-
-    'email' => 'exists:staff,email,role,!admin'
-
-You may also pass `NULL` or `NOT_NULL` to the "where" clause:
-
-"where" 구분에 `NULL` 혹은 `NOT_NULL`을 전달할 수도 있습니다: 
-
-    'email' => 'exists:staff,email,deleted_at,NULL'
-
-    'email' => 'exists:staff,email,deleted_at,NOT_NULL'
-
 Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
 
 때때로, `exists` 쿼리에서 사용할 데이터베이스 커넥션을 지정하고자 할 수도 있습니다. 이경우 커넥션의 이름을 테이블 이름 앞에 "점" 문법을 사용하여 표기할 수도 있습니다.
 
     'email' => 'exists:connection.staff,email'
+
+If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
+
+유효성 검사 규칙에 의해서 실행되는 퀄리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'email' => [
+            'required',
+            Rule::exists('staff')->where(function ($query) {
+                $query->where('account_id', 1);
+            }),
+        ],
+    ]);
+
 
 <a name="rule-file"></a>
 #### file
@@ -965,9 +961,9 @@ Even though you only need to specify the extensions, this rule actually validate
 
 여러분은 확장자를 지정하기만 하면 되지만, 이 경우 파일의 컨텐트를 읽고 MIME 타입을 추정함으로써 이 파일의 MIME의 유효성을 검사합니다.
 
-A full listing of MIME types and their corresponding extensions may be found at the following location: [http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+A full listing of MIME types and their corresponding extensions may be found at the following location: [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
-MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치에서 확인하실 수 있습니다: [http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치에서 확인하실 수 있습니다: [https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="rule-min"></a>
 #### min:_value_
@@ -1127,36 +1123,39 @@ Occasionally, you may need to set a custom connection for database queries made 
 **Forcing A Unique Rule To Ignore A Given ID:**
 **주어진 ID에 대해서 유니크 규칙을 무시하도록 강제하기:**
 
-Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address. To tell the unique rule to ignore the user's ID, you may pass the ID as the third parameter:
+Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
 
-때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다. 유니크 규칙에 사용자 ID를 무시하라고 강제하기 위해서는 세번째 파라미터로 ID를 전달해야 합니다: 
+때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다. 
 
-    'email' => 'unique:users,email_address,'.$user->id
+To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
-If your table uses a primary key column name other than `id`, you may specify it as the fourth parameter:
+사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:  
 
-테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면 그 이름을 네번째 파라미터로 지정하면 됩니다:
+    use Illuminate\Validation\Rule;
 
-    'email' => 'unique:users,email_address,'.$user->id.',user_id'
+    Validator::make($data, [
+        'email' => [
+            'required',
+            Rule::unique('users')->ignore($user->id),
+        ],
+    ]);
+
+If your table uses a primary key column name other than `id`, you may specify the name of the column when calling the `ignore` method:
+
+테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면, `ignore` 메소드를 호출할 때 컬럼의 이름을 지정하면 됩니다:
+
+    'email' => Rule::unique('users')->ignore($user->id, 'user_id')
 
 **Adding Additional Where Clauses:**
 **추가적인 Where 구문 추가하기:**
 
-You may also specify more conditions that will be added as "where" clauses to the query:
+You may also specify additional query constraints by customizing the query using the `where` method. For example, let's add a constraint that verifies the `account_id` is `1`:
 
-더 추가되는 조건은 쿼리에 추가될 "where" 구문에 대해서 지정될 것입니다:
+`where` 메소드를 사용하여 쿼리를 커스터마이징하는 추가 제약을 지정할 수 있습니다. 예를 들어, `account_id`이 `1`인지 확인하는 제약 조건을 추가해 보겠습니다:
 
-    'email' => 'unique:users,email_address,NULL,id,account_id,1'
-
-In the rule above, only rows with an `account_id` of `1` would be included in the unique check.
-
-위의 룰에서는, `account_id`가 `1`인 데이터 만이 유니크 검사에 포함됩니다.
-
-This feature can be especially useful when using "soft deleting" Eloquent models. For example, you may verify that the `deleted_at` column is `NULL`:
-
-이 기능은 특별히 Eloquent 모델에서 "소프트 삭제"를 사용할 때 유용할 수 있습니다. 예를 들어 여러분은 `deleted_at` 컬럼이 `NULL` 인지 확인할 수 있습니다:
- 
-    'email' => 'unique:users,email,NULL,id,deleted_at,NULL'
+    'email' => Rule::unique('users')->where(function ($query) {
+        $query->where('account_id', 1);
+    })
 
 <a name="rule-url"></a>
 #### url
@@ -1200,7 +1199,7 @@ Let's assume our web application is for game collectors. If a game collector reg
 
 여러분의 웹 어플리케이션이 게임 수집가들을 위한 사이트라고 가정해보겠습니다. 만약 100개 이상의 게임을 소유하고 있는 게임 수집가가 우리 사이트에 가입을 한다면, 우리는 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명을 듣고 싶을수 있습니다. 예를 들어, 아마 그들이 중고게임 판매점을 운영하거나, 단순히 수집을 취미로 할 수도 있습니다. 이런 요구사항을 조건부로 추가하기 위하여 `Validator` 인스턴스의 `sometimes` 메소드를 사용할 수 있습니다.
 
-    $v->sometimes('reason', 'required|max:500', function($input) {
+    $v->sometimes('reason', 'required|max:500', function ($input) {
         return $input->games >= 100;
     });
 
@@ -1208,7 +1207,7 @@ The first argument passed to the `sometimes` method is the name of the field we 
 
 `sometimes` 메소드에 전달되는 첫번째 인자는 필드의 이름입니다. 두번째 인자는 추가하려는 룰입니다. 만약 세번째 파라메터로 전달된 `Closure`가 `true`를 리턴한다면 그 룰은 유효성 검사에 추가될 것입니다. 이 메소드는 복잡한 조건부 유효성 검사의 구성을 손쉽게 만들어 주며, 한번에 여러개의 필드에 대한 조건부 유효성 검사를 추가할 수도 있습니다.
 
-    $v->sometimes(['reason', 'cost'], 'required', function($input) {
+    $v->sometimes(['reason', 'cost'], 'required', function ($input) {
         return $input->games >= 100;
     });
 
@@ -1263,7 +1262,7 @@ Laravel provides a variety of helpful validation rules; however, you may wish to
          */
         public function boot()
         {
-            Validator::extend('foo', function($attribute, $value, $parameters, $validator) {
+            Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
         }
@@ -1315,7 +1314,7 @@ When creating a custom validation rule, you may sometimes need to define custom 
     {
         Validator::extend(...);
 
-        Validator::replacer('foo', function($message, $attribute, $rule, $parameters) {
+        Validator::replacer('foo', function ($message, $attribute, $rule, $parameters) {
             return str_replace(...);
         });
     }
@@ -1337,7 +1336,7 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
 
 속성이 비었을 때도 룰이 실행되기 위해서는 룰에 속성이 필요하다는 것이 내포되어 있어야 합니다. 이런 "묵시적"인 확장을 만드려면 `Validator::extendImplicit()` 메소드를 사용하세요:
 
-    Validator::extendImplicit('foo', function($attribute, $value, $parameters, $validator) {
+    Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
         return $value == 'foo';
     });
 

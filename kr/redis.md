@@ -5,6 +5,10 @@
 - [소개하기](#introduction)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
+    - [Predis](#predis)
+    - [Predis](#predis)
+    - [PhpRedis](#phpredis)
+    - [PhpRedis](#phpredis)
 - [Interacting With Redis](#interacting-with-redis)
 - [Redis 와 상호작용](#interacting-with-redis)
     - [Pipelining Commands](#pipelining-commands)
@@ -16,11 +20,19 @@
 ## Introduction
 ## 소개하기
 
-[Redis](http://redis.io) is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain [strings](http://redis.io/topics/data-types#strings), [hashes](http://redis.io/topics/data-types#hashes), [lists](http://redis.io/topics/data-types#lists), [sets](http://redis.io/topics/data-types#sets), and [sorted sets](http://redis.io/topics/data-types#sorted-sets). Before using Redis with Laravel, you will need to install the `predis/predis` package via Composer:
+[Redis](http://redis.io) is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain [strings](http://redis.io/topics/data-types#strings), [hashes](http://redis.io/topics/data-types#hashes), [lists](http://redis.io/topics/data-types#lists), [sets](http://redis.io/topics/data-types#sets), and [sorted sets](http://redis.io/topics/data-types#sorted-sets).
 
-[레디스](http://redis.io) 는 키-밸류 기반의 오픈소서 저장소 입니다. 레디스는 키에 [문자열](http://redis.io/topics/data-types#strings), [해쉬](http://redis.io/topics/data-types#hashes), [리스트](http://redis.io/topics/data-types#lists), [세트](http://redis.io/topics/data-types#sets), 그리고 [정렬 세트](http://redis.io/topics/data-types#sorted-sets)를 사용할 수 있기 때문에 데이터 구조 서버로 자주 거론되고 있습니다. 라라벨에서 레디스를 사용하기 전에 여러분은 Composer 를 통해서 `predis/predis` 패키지를 설치할 필요가 있습니다:
+[레디스](http://redis.io) 는 키-밸류 기반의 오픈소서 저장소 입니다. 레디스는 키에 [문자열](http://redis.io/topics/data-types#strings), [해쉬](http://redis.io/topics/data-types#hashes), [리스트](http://redis.io/topics/data-types#lists), [세트](http://redis.io/topics/data-types#sets), 그리고 [정렬 세트](http://redis.io/topics/data-types#sorted-sets)를 사용할 수 있기 때문에 데이터 구조 서버로 자주 거론되고 있습니다. 
+
+Before using Redis with Laravel, you will need to install the `predis/predis` package via Composer:
+
+라라벨에서 레디스를 사용하기 전에 여러분은 Composer 를 통해서 `predis/predis` 패키지를 설치할 필요가 있습니다:
 
     composer require predis/predis
+
+Alternatively, you may install the [PhpRedis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install but may yield better performance for applications that make heavy use of Redis.
+
+이렇게 하는 대신에, PECL을 통해서 [PhpRedis](https://github.com/phpredis/phpredis) PHP extension을 설치할 수도 있습니다. 이 extension 은 좀 더 설치가 복잡하지만, Redis를 많이 사용하는 어플리케이션에서 보다 나은 성능을 보여줍니다. 
 
 <a name="configuration"></a>
 ### Configuration
@@ -33,11 +45,14 @@ The Redis configuration for your application is located in the `config/database.
 
     'redis' => [
 
+        'client' => 'predis',
+
         'cluster' => false,
 
         'default' => [
-            'host' => '127.0.0.1',
-            'port' => 6379,
+            'host' => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
 
@@ -51,17 +66,52 @@ The `cluster` option will instruct the Laravel Redis client to perform client-si
 
 `cluster` 옵션은 라라벨 레디스 클라이언트에게 레디스 노드에 클라이언트 측 샤딩을 수행 할 수 있도록 지시하여 노드를 풀링하고 사용가능한 RAM 을 가능한 많이 생성할 수 있도록 합니다. 하지만 클라이언트 샤딩은 페일오버를 처리하지는 않기 때문에 다른 기본 저장소를 위해 사용할 캐시 데이터를 취급하는데 주로 적합합니다.
 
-Additionally, you may define an `options` array value in your Redis connection definition, allowing you to specify a set of Predis [client options](https://github.com/nrk/predis/wiki/Client-Options).
+<a name="predis"></a>
+### Predis
+### Predis
 
-추가적으로, 레디스 커넥션 정의 부분안에서 [클라이언트 옵션](https://github.com/nrk/predis/wiki/Client-Options)을 지정할 수 있도록 `options` 배열값을 정의할 수 있습니다.
+In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, simply add them to your Redis server configuration in the `config/database.php` configuration file:
 
-If your Redis server requires authentication, you may supply a password by adding a `password` configuration item to your Redis server configuration array.
+`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:   
 
-만약 레디스 서버에 인증이 필요하다면 레디스 서버 설정 배열에 `password` 설정값을 추가하면 됩니다.
+    'default' => [
+        'host' => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 0,
+        'read_write_timeout' => 60,
+    ],
 
-> {note} If you have the Redis PHP extension installed via PECL, you will need to rename the alias for Redis in your `config/app.php` file.
+<a name="phpredis"></a>
+### PhpRedis
+### PhpRedis
 
-> {note} 만약 레디스 PHP extension 이 PECL을 통해서 설치되었다면, `config/app.php` 파일 안에서 Redis 별칭을 변경해야합니다.
+> {note} If you have the PhpRedis PHP extension installed via PECL, you will need to rename the `Redis` alias in your `config/app.php` configuration file.
+
+> {note} 만약 PhpRedis PHP extension 이 PECL을 통해서 설치되었다면, `config/app.php` 파일 안에서 `Redis` 별칭을 다른 이름으로 변경해야합니다.
+
+To utilize the PhpRedix extension, you should change the `client` option of your Redis configuration to `phpredis`. This option is found in your `config/database.php` configuration file:
+
+PhpRedix extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다: 
+ 
+    'redis' => [
+
+        'client' => 'phpredis',
+
+        // Rest of Redis configuration...
+    ],
+
+In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout` and `timeout`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
+
+`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다: 
+
+    'default' => [
+        'host' => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', null),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 0,
+        'read_timeout' => 60,
+    ],
 
 <a name="interacting-with-redis"></a>
 ## Interacting With Redis
@@ -179,7 +229,7 @@ First, let's setup a channel listener using the `subscribe` method. We'll place 
          */
         public function handle()
         {
-            Redis::subscribe(['test-channel'], function($message) {
+            Redis::subscribe(['test-channel'], function ($message) {
                 echo $message;
             });
         }
@@ -202,10 +252,10 @@ Using the `psubscribe` method, you may subscribe to a wildcard channel, which ma
 
 `psubscribe` 메소드를 사용하여, 전체 채널에서 모든 메세지를 수신하는데 유용한 와일드 카드 채널을 subscribe 할 수 있습니다. `$channel`의 이름은 콜백 `Closure` 의 두번째 인자로 전달 될 것입니다:
 
-    Redis::psubscribe(['*'], function($message, $channel) {
+    Redis::psubscribe(['*'], function ($message, $channel) {
         echo $message;
     });
 
-    Redis::psubscribe(['users.*'], function($message, $channel) {
+    Redis::psubscribe(['users.*'], function ($message, $channel) {
         echo $message;
     });

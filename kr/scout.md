@@ -72,7 +72,7 @@ After registering the Scout service provider, you should publish the Scout confi
 
 스카우트 서비스 프로바이더를 등록한 다음에는, `vendor:publish` 아티즌 명령을 사용하여 스카우트 설정을 등록해야 합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성될 것입니다.
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
 Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to make searchable. This trait will register a model observer to keep the model in sync with your search driver:
 

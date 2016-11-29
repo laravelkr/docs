@@ -357,7 +357,7 @@ Next, define a route that contains a `{user}` parameter:
 
 다음으로, `{user}` 파라미터를 포함한 라우트를 정의합니다:
 
-    $router->get('profile/{user}', function (App\User $user) {
+    Route::get('profile/{user}', function (App\User $user) {
         //
     });
 
@@ -376,9 +376,14 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 
 만약 여러분의 고유한 의존성 해결 로직을 사용하려면 `Route::bind` 메소드를 사용할 수 있습니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입되어야 하는 클래스의 인스턴스를 반환해야 합니다:
 
-    $router->bind('user', function ($value) {
-        return App\User::where('name', $value)->first();
-    });
+    public function boot()
+    {
+        parent::boot();
+
+        Route::bind('user', function ($value) {
+            return App\User::where('name', $value)->first();
+        });
+    }
 
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing

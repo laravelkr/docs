@@ -38,7 +38,7 @@
 
 스카우트 서비스 프로바이더를 등록한 다음에는, `vendor:publish` 아티즌 명령을 사용하여 스카우트 설정을 등록해야 합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성될 것입니다.
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
 마지막으로, `Laravel\Scout\Searchable` trait를 검색 기능을 장착할 모델에 추가합니다. 이 trait는 모델과 검색 드라이버의 동기화를 유지하기 위한 모델 옵저버를 등록할 것입니다.
 

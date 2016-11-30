@@ -1124,6 +1124,8 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
 The `reverse` method reverses the order of the collection's items:
 
+`reverse` 메소드는 컬렉션 아이템의 순서를 반대가 되게 합니다:
+
     $collection = collect([1, 2, 3, 4, 5]);
 
     $reversed = $collection->reverse();
@@ -1384,7 +1386,7 @@ If the collection contains nested arrays or objects, you should pass a key to us
 
 컬렉션이 중첩된 배열이나 객체를 가지고 있다면, 어떤 값을 더해야할지 결정하는 키를 전달해야합니다:
 
-$collection = collect([
+    $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
         ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
     ]);

@@ -85,7 +85,7 @@ Now, when a request matches the specified route URI, the `show` method on the `U
 
 <a name="controllers-and-namespaces"></a>
 ### Controllers & Namespaces
-#### 컨트롤러 & 네임스페이스
+### 컨트롤러 & 네임스페이스
 
 It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
 
@@ -225,7 +225,7 @@ HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨
 
 <a name="restful-partial-resource-routes"></a>
 ### Partial Resource Routes
-#### Resource 라우트의 일부만 지정하기
+### Resource 라우트의 일부만 지정하기
 
 When declaring a resource route, you may specify a subset of actions the controller should handle instead of the full set of default actions:
 
@@ -241,7 +241,7 @@ resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있
 
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes
-#### resource 라우트 이름 지정하기
+### resource 라우트 이름 지정하기
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
@@ -253,7 +253,7 @@ By default, all resource controller actions have a route name; however, you can 
 
 <a name="restful-naming-resource-route-parameters"></a>
 ### Naming Resource Route Parameters
-#### 리소스 라우트 파리미터 이름 지정하기
+### 리소스 라우트 파리미터 이름 지정하기
 
 By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by passing `parameters` in the options array. The `parameters` array should be an associative array of resource names and parameter names:
 
@@ -271,7 +271,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers
-#### Resource 컨트롤러 라우트에 추가하기
+### Resource 컨트롤러 라우트에 추가하기
 
 If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to `Route::resource`; otherwise, the routes defined by the `resource` method may unintentionally take precedence over your supplemental routes:
 
@@ -283,7 +283,7 @@ If you need to add additional routes to a resource controller beyond the default
 
 > {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
-> {팁} 컨트롤러를 집중 관리하는 것을 잊지 마십시오. 일반적인 리소스 행동 세트 이외의 방법을 빈번하게 필요로하는 경우 컨트롤러를 두 개의 작은 컨트롤러로 분할하는 것을 고려하십시오.
+> {tip} 컨트롤러를 집중 관리하는 것을 잊지 마십시오. 일반적인 리소스 행동 세트 이외의 방법을 빈번하게 필요로하는 경우 컨트롤러를 두 개의 작은 컨트롤러로 분할하는 것을 고려하십시오.
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers
@@ -326,6 +326,7 @@ Of course, you may also type-hint any [Laravel contract](/docs/{{version}}/contr
 당연하게도 [라라벨 contract](/docs/{{version}}/contracts)의 형태도 타입 힌트로 지정할 수 있습니다. 컨테이너가 의존성 해결을 할 수 있다면 타입 힌트에 지정할 수는 있습니다.
 
 #### Method Injection
+#### 메소드 주입
 
 In addition to constructor injection, you may also type-hint dependencies on your controller's methods. A common use-case for method injection is injecting the `Illuminate\Http\Request` instance into your controller methods:
 
@@ -335,7 +336,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
+    use Illuminate\Http\Request;            
 
     class UserController extends Controller
     {
@@ -390,7 +391,7 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` param
 
 > {note} Closure based routes cannot be cached. To use route caching, you must convert any Closure routes to controller classes.
 
-> **주의:** 라우트 캐시는 클로저를 기반으로한 라우트에서는 동작하지 않습니다. 라우트 캐시를 사용하기 위해서는 모든 클로저 기반의 라우트를 컨트롤러를 사용하도록 변경해야 합니다.
+> {note} 라우트 캐시는 클로저를 기반으로한 라우트에서는 동작하지 않습니다. 라우트 캐시를 사용하기 위해서는 모든 클로저 기반의 라우트를 컨트롤러를 사용하도록 변경해야 합니다.
 
 If your application is exclusively using controller based routes, you should take advantage of Laravel's route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` Artisan command:
 

@@ -792,12 +792,6 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
         }
     }
 
-The first argument of the `addGlobalScope()` serves as an identifier to remove the scope:
-
-`addGlobalScope()`의 첫번째 인자는 스코프를 삭제할 수 있는 식별자를 제공합니다:
-
-    User::withoutGlobalScope('age')->get();
-
 #### Removing Global Scopes
 #### 글로벌 스코프 삭제하기
 

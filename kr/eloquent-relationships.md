@@ -827,7 +827,7 @@ If you want to count the number of results from a relationship without actually 
         echo $post->comments_count;
     }
 
-You may add retrieve the "counts" for multiple relations as well as add constraints to the queries:
+You may add the "counts" for multiple relations as well as add constraints to the queries:
 
 다수의 관계에 대해서도 쿼리에 제약을 추가하여 "갯수"를 조회할 수 있습니다.
 
@@ -1089,6 +1089,17 @@ If you do not want to detach existing IDs, you may use the `syncWithoutDetaching
 존재하는 ID들을 삭제하고 싶지 않으면, `syncWithoutDetaching` 메소드를 사용하면 됩니다:
 
     $user->roles()->syncWithoutDetaching([1, 2, 3]);
+
+#### Toggling Associations
+#### 연결 켜고 끄기(토클)
+
+는 다 대다 관계도 제공 toggle 방법있는 "전환"지정된 ID의 부착 상태. 주어진 ID가 현재 연결되어 있으면 분리됩니다. 마찬가지로 현재 분리되어있는 경우 첨부됩니다.
+
+The many-to-many relationship also provides a `toggle` method which "toggles" the attachment status of the given IDs. If the given ID is currently attached, it will be detached. Likewise, if it is currently detached, it will be attached:
+
+다대다 관계는 또한 주어진 ID들의 추가된 상태를 "전환"할 수 있는 `toggle` 메소드를 제공합니다. 만약 주어진 ID가 현재 추가되었다면, 이는 해제될것이고 마찬가지로 현재 추가되지 않은 상태라면 추가됩니다: 
+
+    $user->roles()->toggle([1, 2, 3]);
 
 #### Saving Additional Data On A Pivot Table
 #### 피벗 테이블에서 추가직인 데이터 저장하기

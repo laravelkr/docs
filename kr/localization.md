@@ -28,6 +28,8 @@ Laravel's localization features provide a convenient way to retrieve strings in 
 
 All language files simply return an array of keyed strings. For example:
 
+모든 언어 파일은 키를 가지고 있는 배열을 반환합니다. 예를들자면:
+
     <?php
 
     return [

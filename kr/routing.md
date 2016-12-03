@@ -36,6 +36,7 @@
 
 <a name="basic-routing"></a>
 ## Basic Routing
+## 기본적인 라우팅
 
 The most basic Laravel routes simply accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
 

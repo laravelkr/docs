@@ -247,7 +247,7 @@ If you wish to customize the format of the validation errors that are flashed to
 
 <a name="quick-ajax-requests-and-validation"></a>
 #### AJAX Requests & Validation
-### AJAX 요청과 유효성 검사
+#### AJAX 요청과 유효성 검사
 
 In this example, we used a traditional form to send data to the application. However, many applications use AJAX requests. When using the `validate` method during an AJAX request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
 
@@ -349,7 +349,7 @@ If you plan to have authorization logic in another part of your application, sim
 
 <a name="customizing-the-error-format"></a>
 ### Customizing The Error Format
-#### 에러의 포맷을 임의로 지정하기
+### 에러의 포맷을 임의로 지정하기
 
 If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatErrors` on your base request (`App\Http\Requests\Request`). Don't forget to import the `Illuminate\Contracts\Validation\Validator` class at the top of the file:
 
@@ -365,7 +365,7 @@ If you wish to customize the format of the validation errors that are flashed to
 
 <a name="customizing-the-error-messages"></a>
 ### Customizing The Error Messages
-#### 에러 메세지를 사용자 정의하기(커스터마이징하기)
+### 에러 메세지를 사용자 정의하기(커스터마이징하기)
 
 You may customize the error messages used by the form request by overriding the `messages` method. This method should return an array of attribute / rule pairs and their corresponding error messages:
 
@@ -1038,7 +1038,6 @@ The field under validation must be present and not empty if the _anotherfield_ f
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-The field under validation must be present unless the _anotherfield_ field is equal to any _value_.
 The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
 
 _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다. 

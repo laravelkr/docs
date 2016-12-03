@@ -34,7 +34,7 @@ Sometimes you may wish to redirect the user to their previous location, such as 
 
 <a name="redirecting-named-routes"></a>
 ## Redirecting To Named Routes
-### 이름이 지정된 라우트로 리다이렉트 하기
+## 이름이 지정된 라우트로 리다이렉트 하기
 
 When you call the `redirect` helper with no parameters, an instance of `Illuminate\Routing\Redirector` is returned, allowing you to call any method on the `Redirector` instance. For example, to generate a `RedirectResponse` to a named route, you may use the `route` method:
 
@@ -77,7 +77,7 @@ If you would like to customize the value that is placed in the route parameter, 
 
 <a name="redirecting-controller-actions"></a>
 ## Redirecting To Controller Actions
-### 컨트롤러 액션으로 리다이렉트 하기
+## 컨트롤러 액션으로 리다이렉트 하기
 
 You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method. Remember, you do not need to specify the full namespace to the controller since Laravel's `RouteServiceProvider` will automatically set the base controller namespace:
 

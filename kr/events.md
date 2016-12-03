@@ -330,7 +330,7 @@ Event subscribers are classes that may subscribe to multiple events from within 
 
 <a name="registering-event-subscribers"></a>
 ### Registering Event Subscribers
-#### 이벤트 Subscriber 등록하기
+### 이벤트 Subscriber 등록하기
 
 After writing the subscriber, you are ready to register it with the event dispatcher. You may register subscribers using the `$subscribe` property on the `EventServiceProvider`. For example, let's add the `UserEventSubscriber` to the list:
 

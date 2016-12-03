@@ -579,7 +579,7 @@ The `latest` and `oldest` methods allow you to easily order results by date. By 
                     ->first();
 
 #### inRandomOrder
-#### inRandomOrder 랜던 정렬
+#### inRandomOrder 랜덤 정렬
 
 The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
 

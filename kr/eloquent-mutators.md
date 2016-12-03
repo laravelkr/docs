@@ -33,7 +33,7 @@ In addition to custom accessors and mutators, Eloquent can also automatically ca
 
 <a name="defining-an-accessor"></a>
 ### Defining An Accessor
-#### Accessor 정의하기
+### Accessor 정의하기
 
 To define an accessor, create a `getFooAttribute` method on your model where `Foo` is the "studly" cased name of the column you wish to access. In this example, we'll define an accessor for the `first_name` attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the `first_name` attribute:
 
@@ -69,7 +69,7 @@ As you can see, the original value of the column is passed to the accessor, allo
 
 <a name="defining-a-mutator"></a>
 ### Defining A Mutator
-#### Mutator 정의하기
+### Mutator 정의하기
 
 To define a mutator, define a `setFooAttribute` method on your model where `Foo` is the "studly" cased name of the column you wish to access. So, again, let's define a mutator for the `first_name` attribute. This mutator will be automatically called when we attempt to set the value of the `first_name` attribute on the model:
 

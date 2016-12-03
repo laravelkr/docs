@@ -195,6 +195,7 @@ By default, tasks will be executed on each server serially. In other words, a ta
 
 <a name="running-tasks"></a>
 ## Running Tasks
+## 작업 실행하기
 
 To run a task or story that is defined in your `Envoy.blade.php` file, execute Envoy's `run` command, passing the name of the task or story you would like to execute. Envoy will run the task and display the output from the servers as the task is running:
 

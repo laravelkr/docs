@@ -22,6 +22,7 @@
 
 <a name="accessing-the-request"></a>
 ## Accessing The Request
+## Request 엑세스 하기
 
 To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your controller method. The incoming request instance will automatically be injected by the [service container](/docs/{{version}}/container):
 

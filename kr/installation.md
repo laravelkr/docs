@@ -61,7 +61,7 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
     laravel new blog
 
 #### Via Composer Create-Project
-### Composer Create-Project 통한 설치
+#### Composer Create-Project 통한 설치
 
 Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
 

@@ -385,7 +385,7 @@ The `delete` method accepts a single filename or an array of files to remove fro
 
 <a name="directories"></a>
 ## Directories
-### 디렉토리들
+## 디렉토리들
 
 #### Get All Files Within A Directory
 #### 디렉토리 안의 모든 파일들 확인하기

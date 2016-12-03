@@ -745,7 +745,7 @@ You are able to use any of the [query builder](/docs/{{version}}/queries) method
 
 <a name="relationship-methods-vs-dynamic-properties"></a>
 ### Relationship Methods Vs. Dynamic Properties
-#### 관계 메소드 Vs. 동적 속성
+### 관계 메소드 Vs. 동적 속성
 
 If you do not need to add additional constraints to an Eloquent relationship query, you may simply access the relationship as if it were a property. For example, continuing to use our `User` and `Post` example models, we may access all of a user's posts like so:
 
@@ -763,7 +763,7 @@ Dynamic properties are "lazy loading", meaning they will only load their relatio
 
 <a name="querying-relationship-existence"></a>
 ### Querying Relationship Existence
-#### 관계의 존재 여부 쿼리 질의하기
+### 관계의 존재 여부 쿼리 질의하기
 
 When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all blog posts that have at least one comment. To do so, you may pass the name of the relationship to the `has` method:
 
@@ -840,7 +840,7 @@ You may add the "counts" for multiple relations as well as add constraints to th
 
 <a name="eager-loading"></a>
 ## Eager Loading
-### Eager 로딩
+## Eager 로딩
 
 When accessing Eloquent relationships as properties, the relationship data is "lazy loaded". This means the relationship data is not actually loaded until you first access the property. However, Eloquent can "eager load" relationships at the time you query the parent model. Eager loading alleviates the N + 1 query problem. To illustrate the N + 1 query problem, consider a `Book` model that is related to `Author`:
 
@@ -961,7 +961,7 @@ Eager 로딩 쿼리에 추가적인 쿼리 제한을 지정해야 할 경우, `l
 
 <a name="the-save-method"></a>
 ### The Save Method
-#### Save 메소드
+### Save 메소드
 
 Eloquent provides convenient methods for adding new models to relationships. For example, perhaps you need to insert a new `Comment` for a `Post` model. Instead of manually setting the `post_id` attribute on the `Comment`, you may insert the `Comment` directly from the relationship's `save` method:
 
@@ -1008,7 +1008,7 @@ Before using the `create` method, be sure to review the documentation on attribu
 
 <a name="updating-belongs-to-relationships"></a>
 ### Belongs To Relationships
-#### Belongs To 관계
+### Belongs To 관계
 
 When updating a `belongsTo` relationship, you may use the `associate` method. This method will set the foreign key on the child model:
 

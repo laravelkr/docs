@@ -154,7 +154,7 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 <a name="the-link-command"></a>
 **The `link` Command**
-** `link` 명령어**
+**`link` 명령어**
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 

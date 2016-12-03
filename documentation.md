@@ -8,6 +8,7 @@
     - [설정하기](/docs/{{version}}/configuration)
     - [디렉토리 구조](/docs/{{version}}/structure)
     - [에러 & 로깅](/docs/{{version}}/errors)
+    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
 - 개발 환경
     - [홈스테드](/docs/{{version}}/homestead)
     - [발렛-Valet](/docs/{{version}}/valet)

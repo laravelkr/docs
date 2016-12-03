@@ -14,7 +14,7 @@
     - [입력 프롬프트](#prompting-for-input)
     - [출력 기록](#writing-output)
 - [명령어 등록하기](#registering-commands)
-- [프로그래밍 방식으로 명령 실행](#programatically-executing-commands)
+- [프로그래밍 방식으로 명령 실행](#programmatically-executing-commands)
     - [다른 명령에서 명령 호출](#calling-commands-from-other-commands)
 
 <a name="introduction"></a>
@@ -381,7 +381,7 @@
         Commands\SendEmails::class
     ];
 
-<a name="programatically-executing-commands"></a>
+<a name="programmatically-executing-commands"></a>
 ## 프로그래밍 방식의 명령 실행
 
 CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 있을 수 있습니다. 예를 들어 라우트 또는 컨트롤러에서 아티즌 명령어를 수행하기를 원할 수도 있습니다. 이 경우 `Artisan` 파사드의 `call` 메소드를 호출하면 됩니다. `call` 메소드는 명령어의 이름을 첫번째 인자로 전달받고 명령어의 파라미터들로 구성된 배열을 두번째 인자로 전달받습니다. 결과 코드가 반환될 것입니다:

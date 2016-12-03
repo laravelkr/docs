@@ -203,6 +203,16 @@ The `delete` method should be used to delete records from the database. Like `up
         DB::table('posts')->delete();
     });
 
+#### 데드락 처리하기
+
+`transaction` 메소드는 데드락이 발생하면 트랜젝션을 재시도 해야 하는 횟수를 정의하는 두번째 인자를 선택적으로 받아들입니다. 이러한 시도가 모두 종료되면, exception이 발생합니다:  
+
+    DB::transaction(function () {
+        DB::table('users')->update(['votes' => 1]);
+
+        DB::table('posts')->delete();
+    }, 5);
+
 #### 수동으로 트랙잭션 사용하기
 
 트랜잭션을 직접 시작하고 롤백과 커밋을 제어하고 싶은 경우는 `DB` 파사드의 `beginTransaction` 메소드를 사용하면 됩니다:

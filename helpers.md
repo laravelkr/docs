@@ -511,7 +511,7 @@
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-`e` 함수는 주어진 문자열에 `htmlentities`를 실행합니다: 
+`e` 함수는 주어진 문자열에 `htmlspecialchars`를 실행합니다: 
 
     echo e('<html>foo</html>');
 

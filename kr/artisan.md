@@ -30,8 +30,8 @@
     - [출력 기록](#writing-output)
 - [Registering Commands](#registering-commands)
 - [명령어 등록하기](#registering-commands)
-- [Programatically Executing Commands](#programatically-executing-commands)
-- [프로그래밍 방식으로 명령 실행](#programatically-executing-commands)
+- [Programmatically Executing Commands](#programmatically-executing-commands)
+- [프로그래밍 방식으로 명령 실행](#programmatically-executing-commands)
     - [Calling Commands From Other Commands](#calling-commands-from-other-commands)
     - [다른 명령에서 명령 호출](#calling-commands-from-other-commands)
 
@@ -506,8 +506,8 @@ Once your command is finished, you need to register it with Artisan. All command
         Commands\SendEmails::class
     ];
 
-<a name="programatically-executing-commands"></a>
-## Programatically Executing Commands
+<a name="programmatically-executing-commands"></a>
+## Programmatically Executing Commands
 ## 프로그래밍 방식의 명령 실행
 
 Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts the name of the command as the first argument, and an array of command parameters as the second argument. The exit code will be returned:

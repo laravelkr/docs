@@ -78,9 +78,9 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### First Steps
 ### 첫번째 단계
 
-Before launching your Homestead environment, you must install [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) or [VMWare](https://www.vmware.com) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
+Before launching your Homestead environment, you must install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) or [VMWare](https://www.vmware.com) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads) 또는 [VMWare](https://www.vmware.com) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다. 
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads) 또는 [VMWare](https://www.vmware.com) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다. 
 
 To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](https://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
 

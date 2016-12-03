@@ -596,9 +596,9 @@ The `class_basename` returns the class name of the given class with the class' n
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-The `e` function runs `htmlentities` over the given string:
+The `e` function runs `htmlspecialchars` over the given string:
 
-`e` 함수는 주어진 문자열에 `htmlentities`를 실행합니다: 
+`e` 함수는 주어진 문자열에 `htmlspecialchars`를 실행합니다: 
 
     echo e('<html>foo</html>');
 

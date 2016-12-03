@@ -18,6 +18,8 @@
     - [디렉토리 구조](/docs/{{version}}/structure)
     - [Errors & Logging](/docs/{{version}}/errors)
     - [에러 & 로깅](/docs/{{version}}/errors)
+    - [Request Lifecycle](/docs/{{version}}/lifecycle)
+    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
 - Dev Environments
 - 개발 환경
     - [Homestead](/docs/{{version}}/homestead)

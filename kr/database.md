@@ -270,6 +270,20 @@ You may use the `transaction` method on the `DB` facade to run a set of operatio
         DB::table('posts')->delete();
     });
 
+#### Handling Deadlocks
+#### 데드락 처리하기
+
+The `transaction` method accepts an optional second argument which defines the number of times a transaction should be reattempted when a deadlock occurs. Once these attempts have been exhausted, an exception will be thrown:
+
+`transaction` 메소드는 데드락이 발생하면 트랜젝션을 재시도 해야 하는 횟수를 정의하는 두번째 인자를 선택적으로 받아들입니다. 이러한 시도가 모두 종료되면, exception이 발생합니다:  
+
+    DB::transaction(function () {
+        DB::table('users')->update(['votes' => 1]);
+
+        DB::table('posts')->delete();
+    }, 5);
+
+
 #### Manually Using Transactions
 #### 수동으로 트랙잭션 사용하기
 

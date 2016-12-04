@@ -39,7 +39,7 @@
 - Sqlite3
 - Postgres
 - Composer
-- Node (With PM2, Bower, Grunt, and Gulp)
+- Node (With Yarn, PM2, Bower, Grunt, and Gulp)
 - Redis
 - Memcached
 - Beanstalkd

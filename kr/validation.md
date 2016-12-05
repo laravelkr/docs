@@ -307,9 +307,9 @@ If validation fails, a redirect response will be generated to send the user back
 ### Authorizing Form Requests
 ### Form Requests 사용자 승인
 
-The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, if a user is attempting to update a blog post comment, do they actually own that comment? For example:
+The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update:
 
-form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다. 다음 예를 보겠습니다:
+form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
  
     /**
      * Determine if the user is authorized to make this request.

@@ -726,7 +726,7 @@ JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스�
 ### Increment & Decrement
 ### 컬럼값의 증가 & 감소
 
-The query builder also provides convenient methods for incrementing or decrementing the value of a given column. This is simply a short-cut, providing a more expressive and terse interface compared to manually writing the `update` statement.
+The query builder also provides convenient methods for incrementing or decrementing the value of a given column. This is simply a shortcut, providing a more expressive and terse interface compared to manually writing the `update` statement.
 
 쿼리빌더는 주어진 컬럼의 값을 증가 또는 감소하는 편리한 메소드를 제공합니다. 이는 간단한 단축키와 같으며, 수종으로 `update` 구문을 작성하는 것과 비교하면 보다 간결한 인터페이스를 제공합니다.
 

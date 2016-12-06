@@ -154,7 +154,7 @@ Sometimes you may wish to echo a variable, but you aren't sure if the variable h
 
     {{ isset($name) ? $name : 'Default' }}
 
-However, instead of writing a ternary statement, Blade provides you with the following convenient short-cut, which will be compiled to the ternary statement above:
+However, instead of writing a ternary statement, Blade provides you with the following convenient shortcut, which will be compiled to the ternary statement above:
 
 하지만 이 경우 삼항연산자를 작성하는 대신 블레이드에서는 삼항 연산자로 컴파일 되는 편리한 단축표현을 사용할 수 있습니다: 
 
@@ -210,7 +210,7 @@ If you are displaying JavaScript variables in a large portion of your template, 
 ## Control Structures
 ## 컨트롤 구조
 
-In addition to template inheritance and displaying data, Blade also provides convenient short-cuts for common PHP control structures, such as conditional statements and loops. These short-cuts provide a very clean, terse way of working with PHP control structures, while also remaining familiar to their PHP counterparts.
+In addition to template inheritance and displaying data, Blade also provides convenient shortcuts for common PHP control structures, such as conditional statements and loops. These shortcuts provide a very clean, terse way of working with PHP control structures, while also remaining familiar to their PHP counterparts.
 
 템플릿 상속과 데이터 표시 외에도 블레이드는 공통적인 PHP 컨트롤 구조를 위해서 조건문과 반복문과 같은 편리한 방법들을 제공합니다. 이 방법들은 PHP 컨트롤 구조를 이용할 수 있는 깔끔하고 간단한 방법을 제공하면서 PHP에 익숙한 구조와 비슷하도록 유지합니다. 
 

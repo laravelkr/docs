@@ -1,38 +1,66 @@
 # Authorization
+# 권한 승인
 
 - [Introduction](#introduction)
+- [소개하기](#introduction)
+- [Gates](#gates)
 - [Gates](#gates)
     - [Writing Gates](#writing-gates)
+    - [Gates 작성하기](#writing-gates)
     - [Authorizing Actions](#authorizing-actions-via-gates)
+    - [승인 액션](#authorizing-actions-via-gates)
 - [Creating Policies](#creating-policies)
+- [Policies 생성하기](#creating-policies)
     - [Generating Policies](#generating-policies)
+    - [Policies 파일 생성하기](#generating-policies)
     - [Registering Policies](#registering-policies)
+    - [Policies 등록하기](#registering-policies)
 - [Writing Policies](#writing-policies)
+- [Policies 작성하기](#writing-policies)
     - [Policy Methods](#policy-methods)
+    - [Policy 메소드](#policy-methods)
+    - [Methods Without Models](#methods-without-models)
     - [Methods Without Models](#methods-without-models)
     - [Policy Filters](#policy-filters)
+    - [Policy Filters](#policy-filters)
+- [Authorizing Actions Using Policies](#authorizing-actions-using-policies)
 - [Authorizing Actions Using Policies](#authorizing-actions-using-policies)
     - [Via The User Model](#via-the-user-model)
+    - [Via The User Model](#via-the-user-model)
+    - [Via Middleware](#via-middleware)
     - [Via Middleware](#via-middleware)
     - [Via Controller Helpers](#via-controller-helpers)
+    - [Via Controller Helpers](#via-controller-helpers)
+    - [Via Blade Templates](#via-blade-templates)
     - [Via Blade Templates](#via-blade-templates)
 
 <a name="introduction"></a>
 ## Introduction
+## 소개하기
 
 In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
 
+별다른 설정없이도 [인증](/docs/{{version}}/authentication) 기능을 제공하는 것에 더하여, 라라벨은 간단한 방법으로 주어진 리소스에 대한 사용자 액션의 권한을 승인하는 방법을 제공합니다. 사용자 인증과 같이 권한 승인에 대한 라라벨의 접근 방식은 간단하며, 액션에 대한 승인을 위한 두가지 기본 방법이 있습니다: Gate 와 Policy 입니다.
+
 Think of gates and policies like routes and controllers. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
+
+gate 와 policy은 라우트와 컨트롤러와 같다고 생각됩니다. gate는 간단한, 클로저 기반의 권한 승인에 대한 접근방식을 제공하고, 컨트롤러와 같은 역할을 하는 policy는 특정 모델이나 리소스에 대한 로직을 정리 한 것입니다. 먼저 gate를 설명하고, policy에 대해서 확인해보겠습니다.
 
 It is important to not view gates and policies as mutually exclusive for your application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
 
+gate와 policy는 어플리케이션에서 서로 반대되는 기능이라고 보지 않는 것이 중요합니다. 대부분의 어플리케이션에서 gate와 policy를 혼합하여 사용되며, 이것은 아무런 문제가 없습니다. 관리자 대시보드와 같이 모델과 리소스에 관련되지 않은 작업들이 주로 gate에 정합합니다. 이에 반해, policy는 특정 모델이나 리소스에 대한 작업을 승인하고자 하는 경우 사용해야합니다.
+
 <a name="gates"></a>
+## Gates
 ## Gates
 
 <a name="writing-gates"></a>
 ### Writing Gates
+### Gates 작성하기
 
 Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
+
+Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한이 있는지 없는지 확인하는 클로저로, 일반적으로 `App\Providers\AuthServiceProvider` 클래스에 `Gate` 파사드를 사용하여 정의되어 있습니다. Gate는 항상 사용자 인스턴스를 첫번째 인자로 받고, 관련된 Eloquent 모델과 같은 추가적인 인자들을 선택적으로 전달 받습니다:
 
     /**
      * Register any authentication / authorization services.
@@ -50,8 +78,11 @@ Gates are Closures that determine if a user is authorized to perform a given act
 
 <a name="authorizing-actions-via-gates"></a>
 ### Authorizing Actions
+### 액션 권한 승인하기
 
 To authorize an action using gates, you should use the `allows` method. Note that you are not required to pass the currently authenticated user to the `allows` method. Laravel will automatically take care of passing the user into the gate Closure:
+
+gate를 사용하여 액션에 대한 권한을 승인하려면, `allows` 메소드를 사용해야 합니다. 현재 인증된 사용자를 `allow` 메소드에 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
 
     if (Gate::allows('update-post', $post)) {
         // The current user can update the post...
@@ -59,32 +90,47 @@ To authorize an action using gates, you should use the `allows` method. Note tha
 
 If you would like to determine if a particular user is authorized to perform an action, you may use the `forUser` method on the `Gate` facade:
 
+특정 사용자가 액션을 수행 할 수 있는 권한이 있는지 확인하려는 경우, `Gate` 파사드의 `forUser` 메소드를 사용할 수 있습니다:
+
     if (Gate::forUser($user)->allows('update-post', $post)) {
         // The user can update the post...
     }
 
 <a name="creating-policies"></a>
 ## Creating Policies
+## Policies 생성하기
 
 <a name="generating-policies"></a>
 ### Generating Policies
+### Policies 파일 생성하기
 
 Policies are classes that organize authorization logic around a particular model or resource. For example, if your application is a blog, you may have a `Post` model and a corresponding `PostPolicy` to authorize user actions such as creating or updating posts.
 
+Policy는 특정 모델 또는 리소스에 대한 권한 승인 로직을 구성한 클래스 입니다. 예를 들어 블로그 어플리케이션의 경우, `Post` 모델과 해당 포스트를 생성하거나 수정할 수 있는 액션을 허용하는 `PostPolicy`가 있을 수 있습니다.
+
 You may generate a policy using the `make:policy` [artisan command](/docs/{{version}}/artisan). The generated policy will be placed in the `app/Policies` directory. If this directory does not exist in your application, Laravel will create it for you:
+
+`make:policy` [아티즌 명령어](/docs/{{version}}/artisan)를 사용하여 policy 클래스를 생성할 수 있습니다. 생성된 policy는 `app/Policies` 디렉토리에 있습니다. 만약 어플리케이션에서 이 디렉토리가 존재하지 않더라도, 라라벨이 디렉토리를 생성해줍니다:
 
     php artisan make:policy PostPolicy
 
 The `make:policy` command will generate an empty policy class. If you would like to generate a class with the basic "CRUD" policy methods already included in the class, you may specify a `--model` when executing the command:
 
+`make:policy` 명령어는 비어 있는 policy 클래스를 생성합니다. 기본적인 "CRUD"에 해당하는 policy 메소드를 새로 생성하는 클래스에 포함시키려면, 명령어를 실행할 때 `--model`을 지정하십시오.
+
     php artisan make:policy PostPolicy --model=Post
 
 > {tip} All policies are resolved via the Laravel [service container](/docs/{{version}}/container), allowing you to type-hint any needed dependencies in the policy's constructor to have them automatically injected.
 
+> {tip} 모든 policy는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, policy의 생성자에 필요한 의존성을 타입 힌트 하기만 하면, 자동으로 주입됩니다.
+
 <a name="registering-policies"></a>
 ### Registering Policies
+### Policy 등록하기
 
 Once the policy exists, it needs to be registered. The `AuthServiceProvider` included with fresh Laravel applications contains a `policies` property which maps your Eloquent models to their corresponding policies. Registering a policy will instruct Laravel which policy to utilize when authorizing actions against a given model:
+
+policy를 생성하고 나면, 이를 등록해야 합니다. 새롭게 설치한 라라벨 어플리케이션에 포함되어 있는 `AuthServiceProvider` 는 `policies` 속성은 Eloquent 모델과 해당 모델에 대한 policy의 맵핑 내역입니다. policy를 등록하면 라라벨은 특정 모델에 대한 액션을 승인 할 때 어떤 policy를 활용할 것인지 알려주게 됩니다:
 
     <?php
 

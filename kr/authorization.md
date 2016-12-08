@@ -52,7 +52,7 @@ gate와 policy는 어플리케이션에서 서로 반대되는 기능이라고 �
 
 <a name="gates"></a>
 ## Gates
-## Gates
+## Gate
 
 <a name="writing-gates"></a>
 ### Writing Gates
@@ -98,7 +98,7 @@ If you would like to determine if a particular user is authorized to perform an 
 
 <a name="creating-policies"></a>
 ## Creating Policies
-## Policies 생성하기
+## Policy 생성하기
 
 <a name="generating-policies"></a>
 ### Generating Policies

@@ -325,8 +325,6 @@ Again, some actions like `create` may not require a model instance. In these sit
 
 In addition to helpful methods provided to the `User` model, Laravel provides a helpful `authorize` method to any of your controllers which extend the `App\Http\Controllers\Controller` base class. Like the `can` method, this method accepts the name of the action you wish to authorize and the relevant model. If the action is not authorized, the `authorize` method will throw an `Illuminate\Auth\Access\AuthorizationException`, which the default Laravel exception handler will convert to an HTTP response with a `403` status code:
 
-추가적으로, 라라벨에서 제공하는 `authoriza` 메소드 `User` 모델에는
-
 `User` 모델이 제공하는 편리함 메소드에 더하여, 라라벨에서는 `App\Http\Controllers\Controller` 베이스 클래스를 상속받는 컨트롤러가 사용할 수 있는 `authorize` 메소드를 제공합니다. `can` 메소드와 같이, 이 메소드는 승인하고자 하는 액션의 이름과, 관련된 모델을 인자로 받습니다. 만약 액션이 허용되지 않는 다면, `authorize` 메소드는 라라벨의 exception 핸들러에 의해서 `403` 상태코드를 가진 HTTP 응답-response로 변환되는 `Illuminate\Auth\Access\AuthorizationException`를 발생시킵니다:
 
     <?php

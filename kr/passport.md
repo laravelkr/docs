@@ -1,59 +1,102 @@
 # API Authentication (Passport)
+# API 인증(Passport)
 
 - [Introduction](#introduction)
+- [소개하기](#introduction)
 - [Installation](#installation)
+- [설치하기](#installation)
     - [Frontend Quickstart](#frontend-quickstart)
+    - [프론트 엔드 빠른시작](#frontend-quickstart)
 - [Configuration](#configuration)
+- [설정하기](#configuration)
+    - [Token Lifetimes](#token-lifetimes)
     - [Token Lifetimes](#token-lifetimes)
 - [Issuing Access Tokens](#issuing-access-tokens)
+- [Issuing Access Tokens](#issuing-access-tokens)
+    - [Managing Clients](#managing-clients)
     - [Managing Clients](#managing-clients)
     - [Requesting Tokens](#requesting-tokens)
+    - [Requesting Tokens](#requesting-tokens)
+    - [Refreshing Tokens](#refreshing-tokens)
     - [Refreshing Tokens](#refreshing-tokens)
 - [Password Grant Tokens](#password-grant-tokens)
+- [Password Grant Tokens](#password-grant-tokens)
+    - [Creating A Password Grant Client](#creating-a-password-grant-client)
     - [Creating A Password Grant Client](#creating-a-password-grant-client)
     - [Requesting Tokens](#requesting-password-grant-tokens)
+    - [Requesting Tokens](#requesting-password-grant-tokens)
+    - [Requesting All Scopes](#requesting-all-scopes)
     - [Requesting All Scopes](#requesting-all-scopes)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
+- [Implicit Grant Tokens](#implicit-grant-tokens)
+- [Personal Access Tokens](#personal-access-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
     - [Creating A Personal Access Client](#creating-a-personal-access-client)
+    - [Creating A Personal Access Client](#creating-a-personal-access-client)
+    - [Managing Personal Access Tokens](#managing-personal-access-tokens)
     - [Managing Personal Access Tokens](#managing-personal-access-tokens)
 - [Protecting Routes](#protecting-routes)
+- [Protecting Routes](#protecting-routes)
+    - [Via Middleware](#via-middleware)
     - [Via Middleware](#via-middleware)
     - [Passing The Access Token](#passing-the-access-token)
+    - [Passing The Access Token](#passing-the-access-token)
+- [Token Scopes](#token-scopes)
 - [Token Scopes](#token-scopes)
     - [Defining Scopes](#defining-scopes)
+    - [Defining Scopes](#defining-scopes)
+    - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [Checking Scopes](#checking-scopes)
+    - [Checking Scopes](#checking-scopes)
+- [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
 - [Events](#events)
+- [이벤트](#events)
 
 <a name="introduction"></a>
 ## Introduction
+## 소개하기
 
 Laravel already makes it easy to perform authentication via traditional login forms, but what about APIs? APIs typically use tokens to authenticate users and do not maintain session state between requests. Laravel makes API authentication a breeze using Laravel Passport, which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Alex Bilbie.
 
+라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 어플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Alex Bilbie에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 위에 구성되어 있습니다.
+
 > {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general terminology and features of OAuth2 before continuing.
+
+> {note} 이 문서는 여러분이 OAuth2에 익숙하다고 전제하고 있습니다. OAuth2 대해 잘 모르겠다면, 문서를 읽기 전에 OAuth2에서 사용되는 일반적인 용어와 기능들을 숙지해 주십시오.
 
 <a name="installation"></a>
 ## Installation
+## 설치하기
 
 To get started, install Passport via the Composer package manager:
+
+컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
 
     composer require laravel/passport
 
 Next, register the Passport service provider in the `providers` array of your `config/app.php` configuration file:
 
+다음으로 Passport 서비스 프로바이더를 `config/app.php` 설정 파일의 `providers` 배열에 등록합니다:
+
     Laravel\Passport\PassportServiceProvider::class,
 
 The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
+
+Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 서비스 프로바이더를 등록한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 어플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
 
     php artisan migrate
 
 Next, you should run the `passport:install` command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
 
+다음으로, `passport:install` 명령어를 실행해야합니다. 이 명령어는 안전한 엑세스 토큰을 생성하는데 필요한 암호화 키를 생성합니다. 추가적으로, 명령어는 엑세스 토큰을 생성하는데 사용되는 "personal access" 그리고 "password grant" 클라이언트를 생성합니다:
+
     php artisan passport:install
 
 After running this command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+
+이 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다:
 
     <?php
 
@@ -69,6 +112,8 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
     }
 
 Next, you should call the `Passport::routes` method within the `boot` method of your `AuthServiceProvider`. This method will register the routes necessary to issue access tokens and revoke access tokens, clients, and personal access tokens:
+
+다음으로, `AuthServiceProvider` 의 `boot` 메소드에서 `Passport::routes` 메소드를 호출해야 합니다. 이 메소드는 엑세스 토큰을 발급하는 라우트와 엑세스 토큰, 클라이언트 그리고 개인용 엑세스 토큰을 해제하는 라우트를 등록합니다:
 
     <?php
 
@@ -104,6 +149,8 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
 
 Finally, in your `config/auth.php` configuration file, you should set the `driver` option of the `api` authentication guard to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
 
+마지막으로, `config/auth.php` 설정 파일에서 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 어플리케이션이 Passport의 `TokenGuard` 를 사용합니다:
+
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -118,16 +165,25 @@ Finally, in your `config/auth.php` configuration file, you should set the `drive
 
 <a name="frontend-quickstart"></a>
 ### Frontend Quickstart
+### 빠른 프론트엔드 시작하기
 
 > {note} In order to use the Passport Vue components, you must be using the [Vue](https://vuejs.org) JavaScript framework. These components also use the Bootstrap CSS framework. However, even if you are not using these tools, the components serve as a valuable reference for your own frontend implementation.
 
+> {note} Passport 의 Vue 컴포넌트를 사용하려면, 여러분은 [Vue](https://vuejs.org) 자바스크립트 프레임워크를 사용해야만 합니다. 또한 이 컴포넌트는 부트스트랩 CSS 프레임워크도 사용합니다. 이러한 툴들을 사용하지 않더라도, 여러분의 고유한 프론트엔드 구현을 위한 주요한 참고 자료로 사용될 수 있습니다.
+
 Passport ships with a JSON API that you may use to allow your users to create clients and personal access tokens. However, it can be time consuming to code a frontend to interact with these APIs. So, Passport also includes pre-built [Vue](https://vuejs.org) components you may use as an example implementation or starting point for your own implementation.
 
+Passport 는 여러분의 사용자가 클라이언트와 개인용 엑세스 토큰을 생성하는 것을 가능하게 하는 JSON API를 제공합니다. 하지만 이런 API에 대한 프론트엔드를 구성하는데는 시간이 필요합니다. 그래서 Pssport는 여러분이 사용할 수 있는 구현 예제 또는 고유한 구현을 위한 참고가 될 수 있도록 사전에 작성해놓은 [Vue](https://vuejs.org) 컴포넌트를 포함하고 있습니다. 
+
 To publish the Passport Vue components, use the `vendor:publish` Artisan command:
+
+Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 명령어를 사용하면 됩니다:
 
     php artisan vendor:publish --tag=passport-components
 
 The published components will be placed in your `resources/assets/js/components` directory. Once the components have been published, you should register them in your `resources/assets/js/app.js` file:
+
+퍼블리싱이 끝난 컴포넌트는 `resources/assets/js/components` 디렉토리에 설치됩니다. 컴포넌트가 퍼블리싱되고 나면, `resources/assets/js/app.js` 파일에 등록해야합니다:
 
     Vue.component(
         'passport-clients',
@@ -146,17 +202,23 @@ The published components will be placed in your `resources/assets/js/components`
 
 Once the components have been registered, you may drop them into one of your application's templates to get started creating clients and personal access tokens:
 
+컴포넌트를 등록하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:
+
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
 
 <a name="configuration"></a>
 ## Configuration
+## 설정하기
 
 <a name="token-lifetimes"></a>
 ### Token Lifetimes
+### 토큰 지속시간
 
 By default, Passport issues long-lived access tokens that never need to be refreshed. If you would like to configure a shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+
+기본적으로 Passport 는 다시 생성할 필요없도록 오래동안 지속되는 엑세스 토큰을 발급합니다. 토큰의 지속시간을 더 짧게 줄이려면, `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
 
     use Carbon\Carbon;
 
@@ -178,27 +240,43 @@ By default, Passport issues long-lived access tokens that never need to be refre
 
 <a name="issuing-access-tokens"></a>
 ## Issuing Access Tokens
+## 엑세스 토큰 발급하기
 
 Using OAuth2 with authorization codes is how most developers are familiar with OAuth2. When using authorization codes, a client application will redirect a user to your server where they will either approve or deny the request to issue an access token to the client.
 
+승인 코드와 함께 OAuth2를 사용하는 것은 대부분의 개발자가 OAuth2를 사용하는 가장 익숙한 방법입니다. 승인 코드를 사용할 때, 클라이언트 어플리케이션은 사용자를 서버로 리다이렉션 시켜서, 클라이언트에 대한 엑세스 토큰을 발급하는 요청-request를 승인하거나, 거부하게 됩니다.
+
 <a name="managing-clients"></a>
 ### Managing Clients
+### 클라이언트 관리
 
 First, developers building applications that need to interact with your application's API will need to register their application with yours by creating a "client". Typically, this consists of providing the name of their application and a URL that your application can redirect to after users approve their request for authorization.
 
+먼저, 어플리케이션의 API와 인터렉션을 해야하는 어플리케이션을 작성하는 개발자는 하나의 "클라이언트"를 만들어 어플리케이션에 등록해야 합니다. 일반적으로 이것은 어플리케이션의 이름과 사용자가 reqeust을 승인한 뒤에 어플리케이션이 리다렉션 할 수 있는 URL을 제공하여 구성합니다.
+
 #### The `passport:client` Command
+#### `passport:client` 명령어
 
 The simplest way to create a client is using the `passport:client` Artisan command. This command may be used to create your own clients for testing your OAuth2 functionality. When you run the `client` command, Passport will prompt you for more information about your client and will provide you with a client ID and secret:
+
+클라이언틀르 만드는 가장 간단한 방법은 `passport:client` 아티즌 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다:
 
     php artisan passport:client
 
 #### JSON API
+#### JSON API
 
 Since your users will not be able to utilize the `client` command, Passport provides a JSON API that you may use to create clients. This saves you the trouble of having to manually code controllers for creating, updating, and deleting clients.
 
+여러분의 사용자는 `client` 명령어를 사용할 수 없기 때문에, Passport 는 클라이언트를 생성하는데 사용할 수 있는 JSON API를 제공합니다. 이렇게 하면, 일일이 클라이언트를 생성하고, 수정하고, 삭제하는 컨트롤러 코드를 구성해야 하는 문제에서 벗어날 수 있습니다. 
+
 However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
 
+하지만 Passport JSON API와 짝을 이루어 사용자가 클라이언트를 관리할 수 있는 대쉬보드를 제공하는 여러분 고유의 프론트 엔드를 구성해야 합니다. 다음에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모를 위해서 [Vue](https://vuejs.org)를 사용하겠습니다.
+
 > {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
+
+> {tip} 만약 클라인터 관리용 전체 프론트 엔드를 자체적으로 구현하는 것을 원하지 않는다면, [빠르게 프론트 엔드 시작하기](#frontend-quickstart)를 사용하여, 빠르게 프론트엔드 전체 기능을 구성할 수 있습니다.
 
 #### `GET /oauth/clients`
 

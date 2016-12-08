@@ -46,7 +46,7 @@
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/../../routes.php');
+        $this->loadRoutesFrom(__DIR__.'/path/to/routes.php');
     }
 
 <a name="resources"></a>

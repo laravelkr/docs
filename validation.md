@@ -599,7 +599,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 주어진 포맷은 `date_parse_from_format` PHP 함수에 의해서 연산될 것입니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다.
+필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다.
 
 <a name="rule-different"></a>
 #### different:_field_

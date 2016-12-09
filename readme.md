@@ -17,7 +17,7 @@
 
 ## 한국어 문서의 번역
 
-라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 laravel@laravel.kr에 문의주시거나 github 에서 Pull Request 를 보내주시면 검토후 반영됩니다.
+라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 [laravel@laravel.kr](mailto:laravel@laravel.kr)에 문의주시거나 [github](https://github.com/laravelkr/docs) 에서 [Pull Request](https://github.com/laravelkr/docs/pulls) 를 보내주시면 검토후 반영됩니다.
 
 ## 기여방법
 
@@ -29,7 +29,7 @@
 
 ## 라이센스 및 상업적 이용
 
-라라벨 한국어 매뉴얼은 영문 매뉴얼과 동일하게 MIT 라이센스를 따릅니다. 상업적 사용을 원하시는 경우 제한없이 사용하실 수 있으나, 매뉴얼 업데이트 사항을 알리거나, 관련 사용 정보를 수집하기 위해서 사용시 laravel@laravel.kr 로 사용처에 대해서 간략하게 알려주시기 바랍니다. 
+라라벨 한국어 매뉴얼은 영문 매뉴얼과 동일하게 MIT 라이센스를 따릅니다. 상업적 사용을 원하시는 경우 제한없이 사용하실 수 있으나, 매뉴얼 업데이트 사항을 알리거나, 관련 사용 정보를 수집하기 위해서 사용시 [laravel@laravel.kr](mailto:laravel@laravel.kr) 로 사용처에 대해서 간략하게 알려주시기 바랍니다. 
 
 ## 커뮤니티
 
@@ -39,8 +39,8 @@
 
 ## 채팅 참여 방법 
 
-채팅에 참여하려면 [슬랙](modernpug.slack.com)으로 [참가하기](http://slack-invite.modernpug.org/)를 신청하면 됩니다. 채널은 `#laravel`에서 이야기 하고 있습니다. 
+채팅에 참여하려면 [슬랙](https://modernpug.slack.com)으로 [참가하기](http://slack-invite.modernpug.org/)를 신청하면 됩니다. 채널은 `#laravel`에서 이야기 하고 있습니다. 
 
 ## 지원
 
-라라벨 한국어 매뉴얼은 [XpressEngine](xpressengine.io)과 [ModernPHP](http://www.modernpug.org/)의 지원을 받았습니다. 
+라라벨 한국어 매뉴얼은 [XpressEngine](https://xpressengine.io)과 [ModernPHP](http://www.modernpug.org/)의 지원을 받았습니다. 

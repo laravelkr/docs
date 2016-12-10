@@ -219,9 +219,7 @@ elixir(function(mix) {
 
 뷰 파일 안에서 해쉬된 asset를 로드하기 위해서 `elixir()` 함수를 사용할 수 있습니다. 다음은 그 예제입니다.
 
-```html
-<link rel="stylesheet" href="{{ elixir("css/all.css") }}">
-```
+    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
 
 어플리케이션 내부에서 `elixir()`함수는 로드(include) 해야하는 해시된 파일의 이름을 결정합니다. 벌써 무거운 짐을 내려놓은 것 같지 않으신가요?
 
@@ -233,10 +231,8 @@ elixir(function(mix) {
 });
 ```
 
-```html
-<link rel="stylesheet" href="{{ elixir("css/all.css") }}">
-<script src="{{ elixir("js/app.js") }}"></script>
-```
+    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
+    <script src="{{ elixir("js/app.js") }}"></script>
 
 #### 새로운 경로에 파일 복사하기
 

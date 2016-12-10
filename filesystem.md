@@ -75,7 +75,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
     $disk = Storage::disk('s3');
 
-    $contents = Storage::disk('local')->get('file.jpg')
+    $contents = Storage::disk('local')->get('file.jpg');
 
 <a name="retrieving-files"></a>
 ### 파일 찾기

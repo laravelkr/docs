@@ -799,7 +799,7 @@ If you want to count the number of results from a relationship without actually 
         echo $post->comments_count;
     }
 
-You may add retrieve the "counts" for multiple relations as well as add constraints to the queries:
+You may retrieve the "counts" for multiple relations as well as add constraints to the queries:
 
 다수의 관계에 대해서도 쿼리에 제약을 추가하여 "갯수"를 조회할 수 있습니다.
 

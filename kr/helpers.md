@@ -1058,5 +1058,6 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 The `with` function returns the value it is given. This function is primarily useful for method chaining where it would otherwise be impossible:
 
 `with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 이 함수는 주로 다른 경우에서는 불가능한 메소드 체이닝을 구성하는 데 유용합니다.
+
     $value = with(new Foo)->work();
     

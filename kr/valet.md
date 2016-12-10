@@ -19,8 +19,6 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
-- [Viewing Logs](#viewing-logs)
-- [로그 확인하기](#viewing-logs)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의 발렛 드라이버](#custom-valet-drivers)
 - [Other Valet Commands](#other-valet-commands)
@@ -30,13 +28,13 @@
 ## Introduction
 ## 소개하기
 
-Valet is a Laravel development environment for Mac minimalists. No Vagrant, No Apache, No Nginx, No `/etc/hosts` file. 
+Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
-발렛은 Mac에서 가벼움을 선호하는 사람들을 위한  라라벨 개발 환경입니다. Vagrant도, Apache 도, Nginx 도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._ 
+발렛은 Mac에서 가벼움을 선호하는 사람들을 위한 라라벨 개발 환경입니다. Vagrant도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._ 
 
-Laravel Valet configures your Mac to always run [Caddy](https://caddyserver.com) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
+Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
 
-라라벨 발렛은 설정 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Caddy](https://caddyserver.com)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.    
+라라벨 발렛 설정은 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Nginx](https://www.nginx.com/)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.    
 
 In other words, a blazing fast Laravel development environment that uses roughly 7 MB of RAM. Valet isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
@@ -85,12 +83,12 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 **발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 - Install or update [Homebrew](http://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.0 using Homebrew via `brew install homebrew/php/php70`.
+- Install PHP 7.1 using Homebrew via `brew install homebrew/php/php71`.
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install homebrew/php/php70` 명령어를 사용하여 Homebrew PHP7.0을 설치하십시오.
+- `brew install homebrew/php/php71` Homebrew 명령어를 사용하여 PHP7.1을 설치하십시오.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.  
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
 
@@ -127,6 +125,27 @@ If you need a database, try MariaDB by running `brew install mariadb` on your co
 You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
 터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오. 
+
+#### Upgrading To Valet 2.0
+#### 발렛 2.0 으로 업그레이드 하기
+
+Valet 2.0 transitions Valet's underlying web server from Caddy to Nginx. Before upgrading to this version you should run the following commands to stop and uninstall the existing Caddy daemon:
+
+발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다: 
+
+    valet stop
+    valet uninstall
+
+Next, you should upgrade to the latest version of Valet. Depending on how you installed Valet, this is typically done through Git or Composer. Once the fresh Valet source code has been downloaded, you should run the `install` command:
+
+그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 일단 새로운 발렛 소스 코드가 다운로드되면,`install` 명령을 실행해야합니다: 
+
+    valet install
+    valet restart
+
+After upgrading, it may be necessary to re-park or re-link your sites.
+
+업그레이드를 완료하면, 사이트를 다시 park 하거나 다시 link 설정해야 합니다.
 
 <a name="serving-sites"></a>
 ## Serving Sites
@@ -205,14 +224,6 @@ To share a site, navigate to the site's directory in your terminal and run the `
 To stop sharing your site, hit `Control + C` to cancel the process.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
-
-<a name="viewing-logs"></a>
-## Viewing Logs
-## 로그 확인하기
-
-If you would like to stream all of the logs for all of your sites to your terminal, run the `valet logs` command. New log entries will display in your terminal as they occur. This is a great way to stay on top of all of your log files without ever having to leave your terminal.
-
-전체 사이트에 대한 모든 로그를 터미널에서 스트림을 통해서 확인하고자 한다면 `valet logs` 명령어를 실행하십시오. 새로운 로그가 발생하는 대로 터미널에 표시될 것입니다. 이 방법은 터미널을 중단하지 않고 모든 로그 파일을 한 곳에서 확인하는 편리한 방법입니다.
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers

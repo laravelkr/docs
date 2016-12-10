@@ -267,9 +267,7 @@ Within your views, you may use the `elixir()` function to load the appropriately
 
 뷰 파일 안에서 해쉬된 asset를 로드하기 위해서 `elixir()` 함수를 사용할 수 있습니다. 다음은 그 예제 입니다. 
 
-```html
-<link rel="stylesheet" href="{{ elixir("css/all.css") }}">
-```
+    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
 
 Behind the scenes, the `elixir()` function will determine the name of the hashed file that should be included. Don't you feel the weight lifting off your shoulders already?
 
@@ -285,10 +283,8 @@ elixir(function(mix) {
 });
 ```
 
-```html
-<link rel="stylesheet" href="{{ elixir("css/all.css") }}">
-<script src="{{ elixir("js/app.js") }}"></script>
-```
+    <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
+    <script src="{{ elixir("js/app.js") }}"></script>
 
 #### Copy a File to a New Location
 #### 새로운 경로에 파일 복사하기

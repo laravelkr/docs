@@ -40,7 +40,9 @@ The `validator` method of the `Registrar` contains the validation rules for new 
 
 If you choose not to use the provided `AuthController` implementation, you will need to manage the authentication of your users using the Laravel authentication classes directly. 만약 제공된 `AuthController` 구현 클래스를 사용하지 않는다면, 직접 라라벨의 인증 클래스를 사용하여 사용자 인증을 관리할 필요가 있습니다. Don't worry, it's still a cinch! 걱정마십시오. 아주 쉽습니다. First, let's check out the `attempt` method: 먼저 `attempt` 메소드를 살펴봅시다. 
 
-	<?php namespace App\Http\Controllers;
+	<?php
+	
+	namespace App\Http\Controllers;
 
 	use Auth;
 	use Illuminate\Routing\Controller;
@@ -166,7 +168,9 @@ Once a user is authenticated, there are several ways to obtain an instance of th
 First, you may access the user from the `Auth` facade:
 첫번째로, `Auth` 파사드를 사용하여 사용자를 액세스 할 수 있습니다.
 
-	<?php namespace App\Http\Controllers;
+	<?php
+	
+	namespace App\Http\Controllers;
 
 	use Auth;
 	use Illuminate\Routing\Controller;
@@ -190,7 +194,9 @@ First, you may access the user from the `Auth` facade:
 
 Second, you may access the authenticated user via an `Illuminate\Http\Request` instance: 두번째로는, `Illuminate\Http\Request` 인스턴스를 사용하여 인증된 사용자를 액세스 할 수 있습니다:
 
-	<?php namespace App\Http\Controllers;
+	<?php
+	
+	namespace App\Http\Controllers;
 
 	use Illuminate\Http\Request;
 	use Illuminate\Routing\Controller;
@@ -214,7 +220,9 @@ Second, you may access the authenticated user via an `Illuminate\Http\Request` i
 
 Thirdly, you may type-hint the `Illuminate\Contracts\Auth\Authenticatable` contract. 세번째로는,  `Illuminate\Contracts\Auth\Authenticatable` contract를 타입힌트로 지정하는 것입니다. This type-hint may be added to a controller constructor, controller method, or any other constructor of a class resolved by the [service container](/docs/version/container): 이 타입힌트는 [서비스 컨테이너](/docs/version/container)에 의해서 의존성이 해결되는 컨트롤러의 생성자, 컨트롤러 메소드 또는 다른 어떤 클래스의 생성자에서 추가될 수 있습니다. 
 
-	<?php namespace App\Http\Controllers;
+	<?php
+	
+	namespace App\Http\Controllers;
 
 	use Illuminate\Routing\Controller;
 	use Illuminate\Contracts\Auth\Authenticatable;

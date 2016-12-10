@@ -239,18 +239,18 @@ The `TestCase` class contains several helper methods to make testing your applic
 #### 현재의 인증된 사용자를 설정하기
 
 You may set the currently authenticated user using the `be` method:
-`be`  메소드를 사용하여 현재 인증된 사용자를 설정할 수 있습니다. 
+`be` 메소드를 사용하여 현재 인증된 사용자를 설정할 수 있습니다. 
 
 	$user = new User(['name' => 'John']);
 
 	$this->be($user);
 
+#### Re-Seeding Database From Tests
+#### 테스트에서 데이터베이스 초기 값 설정 다시 실행
+
 You may re-seed your database from a test using the `seed` method:
 
 테스트에서 데이터베이스의 내용을 재구성하려면 `seed` 메소드를 사용하면 됩니다. 
-
-#### Re-Seeding Database From Tests
-#### 테스트에서 데이터베이스 초기 값 설정 다시 실행
 
 	$this->seed();
 

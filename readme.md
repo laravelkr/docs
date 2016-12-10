@@ -3,7 +3,8 @@
 이 문서는 라라벨 공식 매뉴얼을 한국어로 번역하여 제공합니다. 라라벨을 이해하고 프레임워크를 사용하는데 영어라는 장벽으로 인해서 겪는 문제점들을 해소하기 위해서 마련되었습니다.
 
 ## 라라벨 프레임워크
-라라벨은 PHP 에서 사용할 수 있는 가장 모던하고 세련된 프레임워크이며, 유연하고 세련된 기능을 제공합니다. 라라벨은 php개발이 즐겁고 좀더 창의적일 수 있도록 하기 위해서 만들어졌습니다. 라라벨을 사용하면 php를 사용한 웹 개발에 있어서, 보다 중요한 비지니스 로직을 구현하는데 집중할 수 있습니다. 
+
+라라벨은 PHP 에서 사용할 수 있는 가장 모던하고 세련된 프레임워크이며, 유연하고 세련된 기능을 제공합니다. 라라벨은 PHP개발이 즐겁고 좀더 창의적일 수 있도록 하기 위해서 만들어졌습니다. 라라벨을 사용하면 PHP를 사용한 웹 개발에 있어서, 보다 중요한 비지니스 로직을 구현하는데 집중할 수 있습니다. 
 
 [php 프레임워크 트렌드 살펴보기](https://www.google.com/trends/explore?q=codeigniter,laravel,cakephp)
 
@@ -17,15 +18,15 @@
 
 ## 한국어 문서의 번역
 
-라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 [laravel@laravel.kr](mailto:laravel@laravel.kr)에 문의주시거나 [github](https://github.com/laravelkr/docs) 에서 [Pull Request](https://github.com/laravelkr/docs/pulls) 를 보내주시면 검토후 반영됩니다.
+라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 [laravel@laravel.kr](mailto:laravel@laravel.kr)에 문의주시거나 [Github](https://github.com/laravelkr/docs) 에서 [Pull Request](https://github.com/laravelkr/docs/pulls) 를 보내주시면 검토후 반영됩니다.
 
 ## 기여방법
 
-한국어 매뉴얼 번역 및 수정사항에 대해서 기여하고자 한다면, github 을 통해서 PR(Pull Request)를 보내주시기 바랍니다. PR을 보낼 때에는 가급적 각 버전에 맞는 pre-kr-5.x 브랜치에 보내주셔야 합니다. 
+한국어 매뉴얼 번역 및 수정사항에 대해서 기여하고자 한다면, [Github](https://github.com/laravelkr/docs) 을 통해서 [PR(Pull Request)](https://github.com/laravelkr/docs/pulls)를 보내주시기 바랍니다. PR을 보낼 때에는 가급적 각 버전에 맞는 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.3) 브랜치에 보내주셔야 합니다. 
 
 ### PR 브랜치 
 
-예를 들어 5.3 버전에 대한 PR인 경우에는 pre-kr-5.3 브랜치에서 작업후 보내야 합니다. 각각의 pre-kr-5.x 브랜치에는 kr 디렉토리가 존재하고, 디렉토리 안의 파일들에는 영어와 한국어가 함께 기록되어 있습니다. 이는 검수 이전의 번역의 편의를 위한것입니다. 따라서 가급적 pre-kr-5.x 브랜치에서 PR 작업을 보내주시기 바랍니다. 
+예를 들어 5.3 버전에 대한 PR인 경우에는 [pre-kr-5.3 브랜치](https://github.com/laravelkr/docs/tree/pre-kr-5.3)에서 작업후 보내야 합니다. 각각의 pre-kr-5.x 브랜치에는 kr 디렉토리가 존재하고, 디렉토리 안의 파일들에는 영어와 한국어가 함께 기록되어 있습니다. 이는 검수 이전의 번역의 편의를 위한것입니다. 따라서 가급적 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.3) 브랜치에서 PR 작업을 보내주시기 바랍니다. 
 
 ## 라이센스 및 상업적 이용
 

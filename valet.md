@@ -9,16 +9,15 @@
     - ["Link" 명령어](#the-link-command)
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [사이트 공유하기](#sharing-sites)
-- [로그 확인하기](#viewing-logs)
 - [사용자 정의 발렛 드라이버](#custom-valet-drivers)
 - [기타 발렛 명령어들](#other-valet-commands)
 
 <a name="introduction"></a>
 ## 소개하기
 
-발렛은 Mac에서 가벼움을 선호하는 사람들을 위한  라라벨 개발 환경입니다. Vagrant도, Apache 도, Nginx 도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._ 
+발렛은 Mac에서 가벼움을 선호하는 사람들을 위한 라라벨 개발 환경입니다. Vagrant도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._ 
 
-라라벨 발렛은 설정 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Caddy](https://caddyserver.com)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.    
+라라벨 발렛 설정은 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Nginx](https://www.nginx.com/)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.    
 
 다시말해, 대략 7MB 의 RAM을 사용하는 매우 빠른 라라벨 개발 환경입니다. 발렛은 Vagrant 나 홈스테드를 완전히 대체하지는 않지만, 여러분이 유연하고, 속도를 중시하며, 또는 RAM 이 제한되어 있는 머신에서 동작시키는 데에는 훌륭한 대안입니다.   
 
@@ -51,7 +50,7 @@
 **발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install homebrew/php/php70` 명령어를 사용하여 Homebrew PHP7.0을 설치하십시오.
+- `brew install homebrew/php/php71` Homebrew 명령어를 사용하여 PHP7.1을 설치하십시오.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.  
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
 
@@ -73,6 +72,20 @@
 ### 업그레이드 하기
 
 터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오. 
+
+#### 발렛 2.0 으로 업그레이드 하기
+
+발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다: 
+
+    valet stop
+    valet uninstall
+
+그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 일단 새로운 발렛 소스 코드가 다운로드되면,`install` 명령을 실행해야합니다: 
+
+    valet install
+    valet restart
+
+업그레이드를 완료하면, 사이트를 다시 park 하거나 다시 link 설정해야 합니다.
 
 <a name="serving-sites"></a>
 ## 사이트 동작시키기
@@ -120,11 +133,6 @@
 사이트를 공유하기 위해서는, 터미널 상에서 사이트의 디렉토리로 이동한 뒤에 `valet share` 명령어를 입력하십시오. 공개된 접근가능한 URL 이 여러분의 클립보드에 복사되고 브라우저에서 직접 붙여넣을 수 있습니다. 이게 끝입니다.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
-
-<a name="viewing-logs"></a>
-## 로그 확인하기
-
-전체 사이트에 대한 모든 로그를 터미널에서 스트림을 통해서 확인하고자 한다면 `valet logs` 명령어를 실행하십시오. 새로운 로그가 발생하는 대로 터미널에 표시될 것입니다. 이 방법은 터미널을 중단하지 않고 모든 로그 파일을 한 곳에서 확인하는 편리한 방법입니다.
 
 <a name="custom-valet-drivers"></a>
 ## 사용자 정의 발렛 드라이버

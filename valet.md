@@ -80,7 +80,11 @@
     valet stop
     valet uninstall
 
-그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 일단 새로운 발렛 소스 코드가 다운로드되면,`install` 명령을 실행해야합니다: 
+그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 컴포저를 통해서 발렛을 설치했다면, 최신버전을 설치하기 위해서 다음 명령어를 사용해야합니다:
+
+    composer global require laravel/valet
+
+일단 새로운 발렛 소스 코드가 다운로드 되고나서,`install` 명령을 실행해야합니다:
 
     valet install
     valet restart

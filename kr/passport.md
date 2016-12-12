@@ -272,15 +272,18 @@ Since your users will not be able to utilize the `client` command, Passport prov
 
 However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
 
-하지만 Passport JSON API와 짝을 이루어 사용자가 클라이언트를 관리할 수 있는 대쉬보드를 제공하는 여러분 고유의 프론트 엔드를 구성해야 합니다. 다음에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모를 위해서 [Vue](https://vuejs.org)를 사용하겠습니다.
+그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Vue](https://vuejs.org)를 사용하겠습니다.
 
 > {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 
-> {tip} 만약 클라인터 관리용 전체 프론트 엔드를 자체적으로 구현하는 것을 원하지 않는다면, [빠르게 프론트 엔드 시작하기](#frontend-quickstart)를 사용하여, 빠르게 프론트엔드 전체 기능을 구성할 수 있습니다.
+> {tip} 만약 클라이언트 관리용 전체 프론트 엔드를 자체적으로 구현하는 것을 원하지 않는다면, [빠르게 프론트 엔드 시작하기](#frontend-quickstart)를 사용하여, 프론트엔드 전체 기능을 구성할 수 있습니다.
 
+#### `GET /oauth/clients`
 #### `GET /oauth/clients`
 
 This route returns all of the clients for the authenticated user. This is primarily useful for listing all of the user's clients so that they may edit or delete them:
+
+이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다: 
 
     this.$http.get('/oauth/clients')
         .then(response => {
@@ -288,10 +291,15 @@ This route returns all of the clients for the authenticated user. This is primar
         });
 
 #### `POST /oauth/clients`
+#### `POST /oauth/clients`
 
 This route is used to create new clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization.
 
+이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다: 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다.
+
 When a client is created, it will be issued a client ID and client secret. These values will be used when requesting access tokens from your application. The client creation route will return the new client instance:
+
+클라이언트가 생성되면, 클라이언트의 ID 와 암호키가 발급됩니다. 이 정보들은 어플리케이션에서 엑세스 토큰을 요청할 때 사용됩니다. 클라이언트 생성 라우트는 그 결과로 새로운 클라이언트의 인스턴스를 반환합니다:
 
     const data = {
         name: 'Client Name',
@@ -307,8 +315,11 @@ When a client is created, it will be issued a client ID and client secret. These
         });
 
 #### `PUT /oauth/clients/{client-id}`
+#### `PUT /oauth/clients/{client-id}`
 
 This route is used to update clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization. The route will return the updated client instance:
+
+이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다: 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다. 이 라우트는 수정된 클라이언트의 인스턴스를 반환합니다:
 
     const data = {
         name: 'New Client Name',
@@ -324,8 +335,11 @@ This route is used to update clients. It requires two pieces of data: the client
         });
 
 #### `DELETE /oauth/clients/{client-id}`
+#### `DELETE /oauth/clients/{client-id}`
 
 This route is used to delete clients:
+
+이 라우트는 클라이언트를 삭제할 때 사용됩니다:
 
     this.$http.delete('/oauth/clients/' + clientId)
         .then(response => {
@@ -334,10 +348,14 @@ This route is used to delete clients:
 
 <a name="requesting-tokens"></a>
 ### Requesting Tokens
+### 토큰 요청
 
 #### Redirecting For Authorization
+#### 권한승인을 위한 리다이렉팅
 
 Once a client has been created, developers may use their client ID and secret to request an authorization code and access token from your application. First, the consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
+
+클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를를 사용하여 권한 승인을 요청하고 어플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 어플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청을 하도록 만들어야 합니다:
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -352,17 +370,27 @@ Once a client has been created, developers may use their client ID and secret to
 
 > {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
 
+> {tip} `/oauth/authorize` 라우트는 `Passport::routes` 메소드에서 이미 정의되어 있습니다. 이 라우트를 수동으로 등록할 필요가 없습니다.
+
 #### Approving The Request
+#### Request-요청 승인
 
 When receiving authorization requests, Passport will automatically display a template to the user allowing them to approve or deny the authorization request. If they approve the request, they will be redirected back to the `redirect_uri` that was specified by the consuming application. The `redirect_uri` must match the `redirect` URL that was specified when the client was created.
 
+권한 승인 요청을 받으면, Passport는 자동으로 사용자가 템플릿을 표시하여 승인 요청을 수락하거나 거부할 수 있게 합니다. 요청이 승인되면, 어플리케이션에 의해서 지정된 `redirect_uri` 로 리다이렉션 됩니다. `redirect_uri` 는 클라이언트가 생성될 때 지정되었던 `redirect` URL과 일치해야 합니다.
+
 If you would like to customize the authorization approval screen, you may publish Passport's views using the `vendor:publish` Artisan command. The published views will be placed in `resources/views/vendor/passport`:
+
+권한 승인 화면을 커스터마이징 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport 뷰 파일을 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다. 이제 이를 수정하면 됩니다:
 
     php artisan vendor:publish --tag=passport-views
 
 #### Converting Authorization Codes To Access Tokens
+#### 승인 코드를 엑세스 토큰으로 변환하기
 
 If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should then issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
+
+사용자가 승인 요청을 수락하면, 사용중인 어플리케이션으로 리다이렉션됩니다. 고객은 엑세스 토큰을 획득하기 위해서 여러분의 어플리케이션으로 `POST` 요청을 보내야 합니다. 요청-request에는 사용자의 승인 요청을 통해서 어플리케이션에서 발급된 승인코드가 포함되어 있어야 합니다. 이 예제에서 Guzzle Http 라이브러리를 사용하여 `POST` 요청-request를 만들어 보겠습니다:
 
     Route::get('/callback', function (Request $request) {
         $http = new GuzzleHttp\Client;
@@ -382,12 +410,19 @@ If the user approves the authorization request, they will be redirected back to 
 
 This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
 
+`/oauth/token` 라우트는 `access_token`, `refresh_token`, 그리고 `expires_in`을 포함하는 JSON 응답-response를 반환합니다. `expires_in` 속성은 엑세스 토큰이 만료되기까지의 (초)를 가지고 있습니다.
+
 > {tip} Like the `/oauth/authorize` route, the `/oauth/token` route is defined for you by the `Passport::routes` method. There is no need to manually define this route.
+
+> {tip} `/oauth/authorize` 라우트와 같이 `/oauth/token` 라우트는 `Passport::routes` 메소드에 의해서 정의됩니다. 이 라우트를 수동으로 등록할 필요가 없습니다.
 
 <a name="refreshing-tokens"></a>
 ### Refreshing Tokens
+### 토큰 갱신하기
 
 If your application issues short-lived access tokens, users will need to refresh their access tokens via the refresh token that was provided to them when the access token was issued. In this example, we'll use the Guzzle HTTP library to refresh the token:
+
+어플리케이션에서 사용기간이 짧은 엑세스 토큰을 발급한다면, 사용자는 엑세스 토큰을 발급할 때 제공된 리프레쉬 토큰을 사용하여 엑세스 토큰을 새롭게 갱신해야 합니다. 이 예제에서 Guzzle HTTP 라이브러리르 사용하여 토큰을 갱신해보겠습니다:
 
     $http = new GuzzleHttp\Client;
 
@@ -405,13 +440,19 @@ If your application issues short-lived access tokens, users will need to refresh
 
 This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
 
+`/oauth/token` 라우트는 `access_token`, `refresh_token`, 그리고 `expires_in`을 포함하는 JSON 응답-response를 반환합니다. `expires_in` 속성은 엑세스 토큰이 만료되기까지의 (초)를 가지고 있습니다.
+
 <a name="password-grant-tokens"></a>
 ## Password Grant Tokens
+## 패스워드 Grant 토큰
 
 The OAuth2 password grant allows your other first-party clients, such as a mobile application, to obtain an access token using an e-mail address / username and password. This allows you to issue access tokens securely to your first-party clients without requiring your users to go through the entire OAuth2 authorization code redirect flow.
 
+OAuth2 패스워드 그랜트는 모바일 어플리케이션과 같은 여러분의 다른 클라이언트가 이메일 주소와 / 사용자 이름 및 암호를 사용하여 엑세스 토큰을 획득할 수 있도록 해줍니다. 이를 통해 OAuth2의 승인 코드 리다이렉션 request를 필요로 하지 않고도 엑세스 토큰을 안정하게 발급할 수 있도록 해줍니다.
+
 <a name="creating-a-password-grant-client"></a>
 ### Creating A Password Grant Client
+### 패스워드 Grant 클라이언트 생성하기
 
 Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` command with the `--password` option. If you have already run the `passport:install` command, you do not need to run this command:
 
@@ -565,9 +606,11 @@ This route may be used to delete personal access tokens:
 
 <a name="protecting-routes"></a>
 ## Protecting Routes
+## 라우트 보호하기
 
 <a name="via-middleware"></a>
 ### Via Middleware
+### 미들웨어를 통해서
 
 Passport includes an [authentication guard](/docs/{{version}}/authentication#adding-custom-guards) that will validate access tokens on incoming requests. Once you have configured the `api` guard to use the `passport` driver, you only need to specify the `auth:api` middleware on any routes that require a valid access token:
 
@@ -577,6 +620,7 @@ Passport includes an [authentication guard](/docs/{{version}}/authentication#add
 
 <a name="passing-the-access-token"></a>
 ### Passing The Access Token
+### 엑세스 토큰 전달하기
 
 When calling routes that are protected by Passport, your application's API consumers should specify their access token as a `Bearer` token in the `Authorization` header of their request. For example, when using the Guzzle HTTP library:
 
@@ -589,7 +633,7 @@ When calling routes that are protected by Passport, your application's API consu
 
 <a name="token-scopes"></a>
 ## Token Scopes
-
+## 토큰 스코프(범위)
 
 <a name="defining-scopes"></a>
 ### Defining Scopes
@@ -667,10 +711,15 @@ Once an access token authenticated request has entered your application, you may
 
 <a name="consuming-your-api-with-javascript"></a>
 ## Consuming Your API With JavaScript
+## 자바스크립트로 API 사용하기
 
 When building an API, it can be extremely useful to be able to consume your own API from your JavaScript application. This approach to API development allows your own application to consume the same API that you are sharing with the world. The same API may be consumed by your web application, mobile applications, third-party applications, and any SDKs that you may publish on various package managers.
 
+API를 구성할 때 자바스크립트 어플리케이션에서 여러분의 API를 사용할 수 있으면, 매우 편리합니다. 이런 API 개발 방식을 사용하면 여러분의 어플리케이션이 전세계로 공유되는 것과 동일한 API를 사용할 수 있게 됩니다. 웹 어플리케이션, 모바일 어플리케이션, 써드파티 어플리케이션 및 다양한 패키지 관리자를 통해 퍼블리싱 할 수 있는 SDK에서 동일한 API를 사용할 수 있습니다.
+
 Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group:
+
+일반적으로, 여러분의 API를 자바스크립트 어플리케이션에서 사용하고자 한다면, 어플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 어플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
 
     'web' => [
         // Other middleware...
@@ -679,12 +728,16 @@ Typically, if you want to consume your API from your JavaScript application, you
 
 This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
 
+이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 어플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 어플리케이션에 API에 요청-request를 만들 수 있습니다:
+
     this.$http.get('/user')
         .then(response => {
             console.log(response.data);
         });
 
 When using this method of authentication, you will need to send the CSRF token with every request via the `X-CSRF-TOKEN` header. Laravel will automatically send this header if you are using the default [Vue](https://vuejs.org) configuration that is included with the framework:
+
+이 인증 메소드를 사용할 때, 모든 요청-request에 대해 `X-CSRF-TOKEN` 헤더를 통해서 CSRF토큰을 보낼 필요가 있습니다. 프레임워크에 포함된 기본 [Vue](https://vuejs.org) 설정을 사용한다면, 라라벨이 자동으로 이 헤더를 보냅니다:
 
     Vue.http.interceptors.push((request, next) => {
         request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
@@ -694,11 +747,15 @@ When using this method of authentication, you will need to send the CSRF token w
 
 > {note} If you are using a different JavaScript framework, you should make sure it is configured to send this header with every outgoing request.
 
+> {note} 다른 자바스크립트 프레임워크를 사용한다면, 모든 요청-request에 대해서 이 헤더를 전달하도록 설정해야합니다.
 
 <a name="events"></a>
 ## Events
+## 이벤트
 
 Passport raises events when issuing access tokens and refresh tokens. You may use these events to prune or revoke other access tokens in your database. You may attach listeners to these events in your application's `EventServiceProvider`:
+
+Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 어플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다:
 
 ```php
 /**

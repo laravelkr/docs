@@ -195,6 +195,8 @@ For certain users, you may wish to authorize all actions within a given policy. 
         }
     }
 
+If you would like to deny all authorizations for a user you should return `false` from the `before` method. If `null` is returned, the authorization will fall through to the policy method.
+
 <a name="authorizing-actions-using-policies"></a>
 ## Authorizing Actions Using Policies
 

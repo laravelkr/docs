@@ -15,6 +15,7 @@
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Ports](#ports)
 - [Network Interfaces](#network-interfaces)
+- [Updating Homestead](#updating-homestead)
 
 <a name="introduction"></a>
 ## Introduction
@@ -267,3 +268,16 @@ To enable [DHCP](https://www.vagrantup.com/docs/networking/public_network.html),
     networks:
         - type: "public_network"
           bridge: "en1: Wi-Fi (AirPort)"
+
+<a name="updating-homestead"></a>
+## Updating Homestead
+
+You can update Homestead in two simple steps. First, you should update the Vagrant box using the `vagrant box update` command:
+
+    vagrant box update
+
+Next, you need to update the Homestead source code. If you cloned the repository you can simply `git pull origin master` at the location you originally cloned the repository.
+
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^4"` and update your dependencies:
+
+    composer update

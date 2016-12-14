@@ -448,7 +448,7 @@ This `/oauth/token` route will return a JSON response containing `access_token`,
 
 The OAuth2 password grant allows your other first-party clients, such as a mobile application, to obtain an access token using an e-mail address / username and password. This allows you to issue access tokens securely to your first-party clients without requiring your users to go through the entire OAuth2 authorization code redirect flow.
 
-OAuth2 패스워드 그랜트는 모바일 어플리케이션과 같은 여러분의 다른 클라이언트가 이메일 주소와 / 사용자 이름 및 암호를 사용하여 엑세스 토큰을 획득할 수 있도록 해줍니다. 이를 통해 OAuth2의 승인 코드 리다이렉션 request를 필요로 하지 않고도 엑세스 토큰을 안정하게 발급할 수 있도록 해줍니다.
+OAuth2 패스워드 그랜트는 모바일 어플리케이션과 같은 여러분의 다른 클라이언트가 이메일 주소와 / 사용자 이름 및 암호를 사용하여 엑세스 토큰을 획득할 수 있도록 해줍니다. 이를 통해 OAuth2의 승인 코드 리다이렉션 request를 필요로 하지 않고도 엑세스 토큰을 안전하게 발급할 수 있도록 해줍니다.
 
 <a name="creating-a-password-grant-client"></a>
 ### Creating A Password Grant Client
@@ -456,12 +456,17 @@ OAuth2 패스워드 그랜트는 모바일 어플리케이션과 같은 여러�
 
 Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` command with the `--password` option. If you have already run the `passport:install` command, you do not need to run this command:
 
+패스워드 grant를 통해서 어플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `passport:client` 명령어에 `--password` 옵션을 지정하여 이를 생성할 수 있습니다. `passport:install` 명령어를 이미 실행했다면, 이 명령어를 실행할 필요는 없습니다:
+
     php artisan passport:client --password
 
 <a name="requesting-password-grant-tokens"></a>
 ### Requesting Tokens
+### 토큰 요청하기
 
 Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by the `Passport::routes` method so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
+
+패스워드 grant 클라이언트가 생성되면, 사용자의 이메일과 패스워드와 함께 `/oauth/token` 라우트에 엑세스 토큰 발급 `POST` request-요청을 보낼 수 있습니다. 기억할점은, 이 라우트는 `Passport::routes`메소드에 의해서 이미 등록되어 있기 때문에, 직접 라우트를 등록할 필요가 없다는 것입니다. 요청-request가 성공적이라면, 서버로 부터 `access_token` 과 `refresh_token` 가 담긴 JSON 응답-response를 받습니다:
 
     $http = new GuzzleHttp\Client;
 
@@ -480,10 +485,15 @@ Once you have created a password grant client, you may request an access token b
 
 > {tip} Remember, access tokens are long-lived by default. However, you are free to [configure your maximum access token lifetime](#configuration) if needed.
 
+> {tip} 엑세스 토큰은 기본적으로 오랜시간 지속됩니다. 그렇지만 필요하다면, 자유롭게 [엑세스 토큰 지속시간을 설정](#configuration) 할 수 있습니다.
+
 <a name="requesting-all-scopes"></a>
 ### Requesting All Scopes
+### 모든 범위에 대하여 요청하기
 
 When using the password grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` grant:
+
+패스워드 grant를 사용할 때, 여러분은 어플리케이션에서 지원하는 모든 범위의 사용이 가능한 토큰을 승인 하고자 할수 있습니다. 이렇하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 범위는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -498,8 +508,11 @@ When using the password grant, you may wish to authorize the token for all of th
 
 <a name="implicit-grant-tokens"></a>
 ## Implicit Grant Tokens
+## 묵시적 grant 토큰
 
 The implicit grant is similar to the authorization code grant; however, the token is returned to the client without exchanging an authorization code. This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. To enable the grant, call the `enableImplicitGrant` method in your `AuthServiceProvider`:
+
+묵시적 grant는 승인 코드 grant와 비슷합니다. 그렇지만, 클라이언트에서 반환되는 토큰은 승인 코드를 교환하지 않습니다. 이 grant는 클라이언트 자격증명을 안전하게 저장할 수 없는 자바스크립트 또는 모바일 어플리케이션에서 가장 일반적으로 사용됩니다. grant를 활성화하려면, `AuthServiceProvider` 에서 `enableImplicitGrant` 메소드를 호출하면 됩니다:
 
     /**
      * Register any authentication / authorization services.
@@ -517,6 +530,8 @@ The implicit grant is similar to the authorization code grant; however, the toke
 
 Once a grant has been enabled, developers may use their client ID to request an access token from your application. The consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
 
+grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 어플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 어플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다:
+
     Route::get('/redirect', function () {
         $query = http_build_query([
             'client_id' => 'client-id',
@@ -530,24 +545,37 @@ Once a grant has been enabled, developers may use their client ID to request an 
 
 > {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
 
+> {tip} `/oauth/authorize` 라우트는 `Passport::routes` 메소드에 의해서 정의된다는 것을 기억하십시오. 이 라우트를 수동으로 등록할 필요가 없습니다.
+
 <a name="personal-access-tokens"></a>
 ## Personal Access Tokens
+## 개인용 엑세스 토큰
 
 Sometimes, your users may want to issue access tokens to themselves without going through the typical authorization code redirect flow. Allowing users to issue tokens to themselves via your application's UI can be useful for allowing users to experiment with your API or may serve as a simpler approach to issuing access tokens in general.
 
+때로는, 사용자가 일반적인 승인 코드 리다이렉션 플로우를 거치지 않고 엑세스 토큰을 발급하기를 원할 수도 있습니다. 사용자가 어플리케이션의 UI를 통해 자신에게 토큰을 발행 할 수 있게 하면, 사용자가 API를 테스트해 볼 수도 있고, 일반적으로 액세스 토큰을 발행하기 위한 더 간단한 방법으로도 사용할 수 있습니다.
+
 > {note} Personal access tokens are always long-lived. Their lifetime is not modified when using the `tokensExpireIn` or `refreshTokensExpireIn` methods.
+
+> {note} 개인용 엑세스 토큰은 기본적으로 오랜시간 지속됩니다. `tokensExpireIn` 또는 `refreshTokensExpireIn` 메소드를 사용하는 경우 지속시간이 수정되지 않습니다.
 
 <a name="creating-a-personal-access-client"></a>
 ### Creating A Personal Access Client
+### 개인용 엑세스 클라이언트 생성하기
 
 Before your application can issue personal access tokens, you will need to create a personal access client. You may do this using the `passport:client` command with the `--personal` option. If you have already run the `passport:install` command, you do not need to run this command:
+
+어플리케이션이 개인용 엑세스 토큰을 발급 할 수 있도록 하기 전에, 개인용 엑세스 클라이언트를 생성해야 합니다. 이렇게 하려면 `passport:client` 명령어에 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install`명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다:
 
     php artisan passport:client --personal
 
 <a name="managing-personal-access-tokens"></a>
 ### Managing Personal Access Tokens
+### 개인용 엑세스 토큰 관리하기
 
 Once you have created a personal access client, you may issue tokens for a given user using the `createToken` method on the `User` model instance. The `createToken` method accepts the name of the token as its first argument and an optional array of [scopes](#token-scopes) as its second argument:
+
+개인용 엑세스 클라이언트를 생성하고 나면, `User` 모델 인스턴스의 `createToken` 메소드를 사용하여 주어진 사용자를 위한 토큰을 발급할 수 있습니다. `createToken` 메소드는 토큰의 이름을 첫번째 인자로, [범위](#token-scopes)의 배열을 선택적으로 두번째 인자로 받습니다.
 
     $user = App\User::find(1);
 
@@ -558,14 +586,22 @@ Once you have created a personal access client, you may issue tokens for a given
     $token = $user->createToken('My Token', ['place-orders'])->accessToken;
 
 #### JSON API
+#### JSON API
 
 Passport also includes a JSON API for managing personal access tokens. You may pair this with your own frontend to offer your users a dashboard for managing personal access tokens. Below, we'll review all of the API endpoints for managing personal access tokens. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
 
+passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포함하고 있습니다. 이 API와 함께 여러분의 고유한 프론트 엔드를 구성하여 사용자에게 개인용 엑세스 토큰을 관리할 수 있는 대시보드를 제공할 수 있습니다. 아래에서 개인용 엑세스 토큰을 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드포인트에 대한 HTTP request-요청을 만드는 데모에는 [Vue](https://vuejs.org)를 사용하겠습니다.
+
 > {tip} If you don't want to implement the personal access token frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 
+> {tip} 만약 개인용 엑세스 토큰 관리용 전체 프론트 엔드를 자체적으로 구현하는 것을 원하지 않는다면, [빠르게 프론트 엔드 시작하기](#frontend-quickstart)를 사용하여, 프론트엔드 전체 기능을 구성할 수 있습니다.
+
+#### `GET /oauth/scopes`
 #### `GET /oauth/scopes`
 
 This route returns all of the [scopes](#token-scopes) defined for your application. You may use this route to list the scopes a user may assign to a personal access token:
+
+이 라우트는 어플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다:
 
     this.$http.get('/oauth/scopes')
         .then(response => {
@@ -573,8 +609,11 @@ This route returns all of the [scopes](#token-scopes) defined for your applicati
         });
 
 #### `GET /oauth/personal-access-tokens`
+#### `GET /oauth/personal-access-tokens`
 
 This route returns all of the personal access tokens that the authenticated user has created. This is primarily useful for listing all of the user's token so that they may edit or delete them:
+
+이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 삭제할 수 있습니다:
 
     this.$http.get('/oauth/personal-access-tokens')
         .then(response => {
@@ -582,8 +621,11 @@ This route returns all of the personal access tokens that the authenticated user
         });
 
 #### `POST /oauth/personal-access-tokens`
+#### `POST /oauth/personal-access-tokens`
 
 This route creates new personal access tokens. It requires two pieces of data: the token's `name` and the `scopes` that should be assigned to the token:
+
+이 라우트는 새로운 개인용 엑세스 토큰을 생성합니다. 여기에는 두개의 데이터가 필요합니다: 토큰의 `name` 과 토큰에 할당되는 `scopes` 입니다:
 
     const data = {
         name: 'Token Name',
@@ -599,8 +641,11 @@ This route creates new personal access tokens. It requires two pieces of data: t
         });
 
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
+#### `DELETE /oauth/personal-access-tokens/{token-id}`
 
 This route may be used to delete personal access tokens:
+
+이 라우트는 개인용 엑세스 토큰을 삭제하는데 사용됩니다:
 
     this.$http.delete('/oauth/personal-access-tokens/' + tokenId);
 
@@ -614,6 +659,8 @@ This route may be used to delete personal access tokens:
 
 Passport includes an [authentication guard](/docs/{{version}}/authentication#adding-custom-guards) that will validate access tokens on incoming requests. Once you have configured the `api` guard to use the `passport` driver, you only need to specify the `auth:api` middleware on any routes that require a valid access token:
 
+Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증하는 [사용자 승인 guard]((/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하기만 하면 됩니다:
+
     Route::get('/user', function () {
         //
     })->middleware('auth:api');
@@ -623,6 +670,8 @@ Passport includes an [authentication guard](/docs/{{version}}/authentication#add
 ### 엑세스 토큰 전달하기
 
 When calling routes that are protected by Passport, your application's API consumers should specify their access token as a `Bearer` token in the `Authorization` header of their request. For example, when using the Guzzle HTTP library:
+
+Passport에 의해서 보호되는 라우트를 호출할 때, 어플리케이션의 API 사용자는 그들의 요청-request의 `Authorization` 헤더에 `Bearer` 토큰으로 엑세스 토큰을 지정해야 합니다. 예를 들어 Guzzle HTTP 라이브러리를 사용해보겠습니다:
 
     $response = $client->request('GET', '/api/user', [
         'headers' => [
@@ -637,6 +686,7 @@ When calling routes that are protected by Passport, your application's API consu
 
 <a name="defining-scopes"></a>
 ### Defining Scopes
+### 스코프 정의하기
 
 Scopes allow your API clients to request a specific set of permissions when requesting authorization to access an account. For example, if you are building an e-commerce application, not all API consumers will need the ability to place orders. Instead, you may allow the consumers to only request authorization to access order shipment statuses. In other words, scopes allow your application's users to limit the actions a third-party application can perform on their behalf.
 

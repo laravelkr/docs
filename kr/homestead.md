@@ -31,6 +31,8 @@
     - [포트 지정](#ports)
 - [Network Interfaces](#network-interfaces)
 - [네트워크 인터페이스](#network-interfaces)
+- [Updating Homestead](#updating-homestead)
+- [홈스테드 업데이트하기](#updating-homestead)
 
 <a name="introduction"></a>
 ## Introduction
@@ -389,3 +391,23 @@ To enable [DHCP](https://www.vagrantup.com/docs/networking/public_network.html),
     networks:
         - type: "public_network"
           bridge: "en1: Wi-Fi (AirPort)"
+
+<a name="updating-homestead"></a>
+## Updating Homestead
+## 홈스테드 업데이트하기
+
+You can update Homestead in two simple steps. First, you should update the Vagrant box using the `vagrant box update` command:
+
+두가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
+
+    vagrant box update
+
+Next, you need to update the Homestead source code. If you cloned the repository you can simply `git pull origin master` at the location you originally cloned the repository.
+
+그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 간단하게 `git pull origin master` 를 사용할 수 있습니다.
+
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^4"` and update your dependencies:
+
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^4"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다: 
+
+    composer update

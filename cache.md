@@ -37,7 +37,7 @@
         $table->integer('expiration');
     });
 
-> {tip} 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:tableArtisan` 명령를을 사용할 수도 있습니다.
+> {tip} 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:tableArtisan` 명령어를 사용할 수도 있습니다.
 
 #### Memcached
 

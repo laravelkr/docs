@@ -15,6 +15,7 @@
     - [Cron 설정하기](#configuring-cron-schedules)
     - [포트 지정](#ports)
 - [네트워크 인터페이스](#network-interfaces)
+- [홈스테드 업데이트하기](#updating-homestead)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -79,7 +80,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 
 #### 프로바이더 설정하기
 
-`~/.homestead/Homestead.yaml` 파일의 `provider` 키는 `virtualbox`, `vmware_fusion`와 `vmware_workstation` 중 어느 것을 사용할 것인지를 알려줍니다. 여러분이 원하는대로 이 프로바이더를 설정할 수 있습니다.  
+`~/.homestead/Homestead.yaml` 파일의 `provider` 키는 `virtualbox`, `vmware_fusion`, `vmware_workstation` 와 `parallels`중 어느 것을 사용할 것인지를 알려줍니다. 여러분이 원하는대로 이 프로바이더를 설정할 수 있습니다.  
 
     provider: virtualbox
 
@@ -194,7 +195,7 @@ MySQL 대신에 MariaDB를 사용하려면, `Homestead.yaml` 파일에 `mariadb`
 
 별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 Postgres 가 설정되어 있습니다. 보다 편리하게 하기 위해 라라벨의 `.env` 파일의 설정이 프로임워크에서 별다른 작업 없이도 이 데이터베이스를 사용하도록 설정되어 있습니다.
 
-Navicat 나 Sequel Pro를 통해서 MySQL 또는 Postgres 데이터베이스에 접속하려면 `127.0.0.1` 의 `33060` (MySQL) 또는 `54320` (Postgres) 포트에 연결하면 됩니다. 데이터베이스 사용자 이름과 암호는 모두 `homestead` / `secret` 입니다. 
+데이터베이스 클라이언트를 통해서 MySQL 또는 Postgres 데이터베이스에 접속하려면 `127.0.0.1` 의 `33060` (MySQL) 또는 `54320` (Postgres) 포트에 연결하면 됩니다. 데이터베이스 사용자 이름과 암호는 모두 `homestead` / `secret` 입니다. 
 
 > {note} 데이터베이스에 접속할 때는 이러한 표준이 아닌 포트를 사용해야 합니다. 라라벨이 가상 머신 _안에서_ 동작하고 있기 때문에 기본적인 3306 과 5432 포트는 라라벨 데이터베이스 설정 파일 안에서 사용할 수 있습니다.  
 
@@ -260,3 +261,16 @@ Navicat 나 Sequel Pro를 통해서 MySQL 또는 Postgres 데이터베이스에 
     networks:
         - type: "public_network"
           bridge: "en1: Wi-Fi (AirPort)"
+
+<a name="updating-homestead"></a>
+## 홈스테드 업데이트하기
+
+두가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
+
+    vagrant box update
+
+그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 간단하게 `git pull origin master` 를 사용할 수 있습니다.
+
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^4"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다: 
+
+    composer update

@@ -36,7 +36,7 @@
     class CheckAge
     {
         /**
-         * Run the request filter.
+         * Handle an incoming request.
          *
          * @param  \Illuminate\Http\Request  $request
          * @param  \Closure  $next

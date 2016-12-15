@@ -173,7 +173,7 @@ The `vendor` directory contains your [Composer](https://getcomposer.org) depende
 
 The majority of your application is housed in the `app` directory. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/).
 
-어플리케이션의 대부분의 파일들은 `app` 디렉토리 안에 보관됩니다. 기본적으로 이 디렉토리는 [PSR-4 오토로딩 표준](http://www.php-fig.org/psr/psr-4/)를 사용하는 컴포저에 의해서 `App` 이라는 네임스페이스를 통해서 오도로딩됩니다.
+어플리케이션의 대부분의 파일들은 `app` 디렉토리 안에 보관됩니다. 기본적으로 이 디렉토리는 [PSR-4 오토로딩 표준](http://www.php-fig.org/psr/psr-4/)를 사용하는 컴포저에 의해서 `App` 이라는 네임스페이스를 통해서 오토로딩됩니다.
 
 The `app` directory contains a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the core of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are simply two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
 

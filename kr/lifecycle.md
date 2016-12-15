@@ -17,7 +17,7 @@ When using any tool in the "real world", you feel more confident if you understa
 
 The goal of this document is to give you a good, high-level overview of how the Laravel framework works. By getting to know the overall framework better, everything feels less "magical" and you will be more confident building your applications. If you don't understand all of the terms right away, don't lose heart! Just try to get a basic grasp of what is going on, and your knowledge will grow as you explore other sections of the documentation.
 
-이 문서의 목적은 어떻게 라라벨이 동작하는지 높으 수준의 개념을 잘 설명하는 것입니다. 전체 프레임워크를 더 잘 알게 됨으로써 모든 것을 덜 "혼란스러워" 할 수 있으며, 어플리케이션을 구성하는 데 좀 더 자신감을 가질 수 있습니다. 지금 당장 모든 것들을 이해하지 못하더라도 괜찮습니다. 그냥 무엇을 하고 있는지에 대한 기본적인 이해를 얻기 위해 노력하십시오, 여러분이 다른 문서의 여러 부분들을 살펴 볼 수록 지식이 더 쌓일 것입니다.
+이 문서의 목적은 어떻게 라라벨이 동작하는지 높은 수준의 개념을 잘 설명하는 것입니다. 전체 프레임워크를 더 잘 알게 됨으로써 모든 것을 덜 "혼란스러워" 할 수 있으며, 어플리케이션을 구성하는 데 좀 더 자신감을 가질 수 있습니다. 지금 당장 모든 것들을 이해하지 못하더라도 괜찮습니다. 그냥 무엇을 하고 있는지에 대한 기본적인 이해를 얻기 위해 노력하십시오, 여러분이 다른 문서의 여러 부분들을 살펴 볼 수록 지식이 더 쌓일 것입니다.
 
 <a name="lifecycle-overview"></a>
 ## Lifecycle Overview

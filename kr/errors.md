@@ -59,7 +59,7 @@ For local development, you should set the `APP_DEBUG` environment variable to `t
 
 Out of the box, Laravel supports writing log information to `single` files, `daily` files, the `syslog`, and the `errorlog`. To configure which storage mechanism Laravel uses, you should modify the `log` option in your `config/app.php` configuration file. For example, if you wish to use daily log files instead of a single file, you should set the `log` value in your `app` configuration file to `daily`:
 
-별다른 설정 없이도, 라라벨은 `single` 파일, `dayly` 파일, `syslog` 그리고 `errorlog` 의 로그 모드를 지원합니다. 라라벨이 사용할 스토리지 방식을 설정하기 위해서는`config/app.php` 설정 파일의 `log` 옵션을 수정해야 합니다. 예르르 들어 여러분이 하나의 로그 파일 대신에 일별로 저장되는 로그 파일을 사용하고자 한다면, `app` 설정 파일의 `log` 값을 `daily` 로 설정해야 합니다:
+별다른 설정 없이도, 라라벨은 `single` 파일, `daily` 파일, `syslog` 그리고 `errorlog` 의 로그 모드를 지원합니다. 라라벨이 사용할 스토리지 방식을 설정하기 위해서는`config/app.php` 설정 파일의 `log` 옵션을 수정해야 합니다. 예를 들어 여러분이 하나의 로그 파일 대신에 일별로 저장되는 로그 파일을 사용하고자 한다면, `app` 설정 파일의 `log` 값을 `daily` 로 설정해야 합니다:
 
     'log' => 'daily'
 

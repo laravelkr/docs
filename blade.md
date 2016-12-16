@@ -360,7 +360,7 @@
         public function boot()
         {
             Blade::directive('datetime', function ($expression) {
-                return "<?php echo $expression->format('m/d/Y H:i'); ?>";
+                return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
         }
 
@@ -377,6 +377,6 @@
 
 예제에서 볼 수 있듯이 이 지시어에 어떤 것이든 전달된 표현식에서 `format` 메소드를 체이닝합니다. 따라서 이 예제의 지시어의 경우에는 최종적으로 생성되는 PHP 코드는 다음과 같습니다: 
 
-    <?php echo $var->format('m/d/Y H:i'); ?>
+    <?php echo ($var)->format('m/d/Y H:i'); ?>
 
 > {note} 블레이드 지시어 로직을 수정한 뒤에는, 블레이드 뷰 캐시를 삭제할 필요가 있습니다. 블레이드 뷰의 캐시는 `view:clear` 아티즌 명령어를 사용하여 제거할 수 있습니다. 

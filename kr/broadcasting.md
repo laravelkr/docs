@@ -106,9 +106,9 @@ Next, you should configure your Pusher credentials in the `config/broadcasting.p
         'encrypted' => true
     ],
 
-When using Pusher and [Laravel Echo](#installing-laravel-echo), you should specify `pusher` as your desired broadcaster when instantiating an Echo instance:
+When using Pusher and [Laravel Echo](#installing-laravel-echo), you should specify `pusher` as your desired broadcaster when instantiating the Echo instance in your `resources/assets/js/bootstrap.js` file:
 
-Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
+Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/assets/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
     import Echo from "laravel-echo"
 

@@ -288,10 +288,14 @@ Policy를 등록하고 나면, 각각의 권한을 승인하려는 액션에 관
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
+    @elsecan('create', $post)
+        <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
+    @elsecannot('create', $post)
+        <!-- The Current User Can't Create New Post -->
     @endcannot
 
 이 지시어는 `@if` 와 `@unless` 를 작성하는 편리한 단축키와 같습니다. `@can` and `@cant` 구문은 다음의 구문으로 변환됩니다:

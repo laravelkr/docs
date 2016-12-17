@@ -376,16 +376,20 @@ As previously discussed, some actions like `create` may not require a model inst
 ### Via Blade Templates
 ### 블레이드 템플릿을 통해서
 
-When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` directives.
+When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` family of directives:
 
 블레이드 템플릿을 작성할 때, 사용자가 주어진 액션을 수행 할 권한이 있는 경우에만 페이지를 일부를 보여주고자 할 수 있습니다. 예를 들어, 사용자가 실제로 블로그 포스트를 수정할 권한이 있는 경우에만 업데이트 버튼을 보여주고자 하는 경우가 그렇습니다. 이런 경우, `@can` 과 `@cannot` 지시어를 사용할 수 있습니다.
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
+    @elsecan('create', $post)
+        <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
+    @elsecannot('create', $post)
+        <!-- The Current User Can't Create New Post -->
     @endcannot
 
 These directives are convenient shortcuts for writing `@if` and `@unless` statements. The `@can` and `@cannot` statements above respectively translate to the following statements:

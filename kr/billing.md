@@ -186,7 +186,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
 
 The discount amount configured in the Braintree control panel can be any value you wish, as Cashier will simply override the defined amount with our own custom amount each time we apply the coupon. This coupon is needed since Braintree does not natively support prorating subscriptions across subscription frequencies.
 
-이 할인율은 Braintree 설정 패널에서 여러분이 원하는 값으로 설정할 수 있으며 고객이 쿠폰을 적용한 경우 캐셔는 정의된 값을 덮어쓰게 될 것입니다. ???????
+이 할인율은 Braintree 설정 패널에서 여러분이 원하는 값으로 설정할 수 있으며 고객이 쿠폰을 적용한 경우 캐셔는 정의된 값을 대체합니다. Braintree는 가입 기간에  비례한 비율을 지원하지 않기 때문에 이 쿠폰이 필요합니다.
 
 #### Database Migrations
 #### 데이터베이스 마이그레이션
@@ -398,7 +398,7 @@ If the user is on trial, the trial period will be maintained. Also, if a "quanti
 
 If you would like to swap plans and cancel any trial period the user is currently on, you may use the `skipTrial` method:
 
-????????
+구독 유형을 변경하고 사영자의 현재 구독 트라이얼 기간을 취소하려면 `skipTrial` 메소드를 하용하면 됩니다:
 
     $user->subscription('main')
             ->skipTrial()
@@ -456,7 +456,7 @@ The `taxPercentage` method enables you to apply a tax rate on a model-by-model b
 
 > {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
 
-> {note} ??????
+> {note} `taxPercentage` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
 <a name="cancelling-subscriptions"></a>
 ### Cancelling Subscriptions
@@ -534,7 +534,11 @@ This method will set the trial period ending date on the subscription record wit
 
 > {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
 
+> {note} 트라이얼 기간 종료 이전에 고객이 구독을 취소하지 않으면 트라이얼 기간이 만료되는 즉시 요금이 부과되므로, 트라이얼의 종료일을 사용자에게 공지해야합니다.
+
 You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
+
+사용자가 현재 트라이얼 기간 안에 있는지 확인하려면, 사용자 인스턴스에서 `onTrial` 메소드를 사용하거나, 구독 인스턴스에서 `onTrial` 메소드를 사용하면 됩니다. 다음의 두 예제는 동일합니다:
 
     if ($user->onTrial('main')) {
         //
@@ -550,7 +554,7 @@ You may determine if the user is within their trial period using either the `onT
 
 If you would like to offer trial periods without collecting the user's payment method information up front, you may simply set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
 
-고객에게 신용카드에 대한 결제 정보의 사전등록 없이 트라이얼 기간을 부여하고자 한다면, 간단하게 사용자의 `trial_ends_at` 컬럼에 트리이얼 종료기간을 설정하면 됩니다. 이는 일반적으로 사용자를 등록할 때 설정하게 됩니다.
+고객에게 신용카드에 대한 결제 정보의 사전등록 없이 트라이얼 기간을 부여하고자 한다면, 간단하게 사용자의 `trial_ends_at` 컬럼에 트리이얼 종료기간을 설정하면 됩니다. 이는 일반적으로 사용자를 등록할 때 설정하게 됩니다:
 
     $user = User::create([
         // Populate other user properties...
@@ -591,6 +595,8 @@ Once you are ready to create an actual subscription for the user, you may use th
 
 Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
 
+Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+
     Route::post(
         'stripe/webhook',
         '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
@@ -598,11 +604,18 @@ Both Stripe and Braintree can notify your application of a variety of events via
 
 > {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
 
+> {note} 라우트를 등록하고나서, Stripe 설정 패널에서 webhook URL을 설정하십시오.
+
 By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
+기본적으로, 이 컨트롤러는 결제 실패가 너무 많은 경우(Stripe 설정에서 정의된) 자동으로 구독을 취소처리 합니다. 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 곧 살펴보겠습니다.
+
 #### Webhooks & CSRF Protection
+#### Webhook & CSRF 보호
 
 Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+
+Stripe webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하기 때문에, `VerifyCsrfToken` 미들웨어에서 예외 URI를 등록하거나, 라우트를 `web` 미들웨어 그룹 외부에 정의하십시오:
 
     protected $except = [
         'stripe/*',
@@ -610,8 +623,11 @@ Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version
 
 <a name="defining-webhook-event-handlers"></a>
 ### Defining Webhook Event Handlers
+### Webhook 이벤트 핸들러 정의하기
 
 Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Stripe webhook you wish to handle. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
+
+캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 Stripe webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 Stripe webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `invoice.payment_succeeded` webhook을 처리하고자 한다면, 컨트롤러에 `handleInvoicePaymentSucceeded` 메소드를 추가해야 합니다:
 
     <?php
 
@@ -635,8 +651,11 @@ Cashier automatically handles subscription cancellation on failed charges, but i
 
 <a name="handling-failed-subscriptions"></a>
 ### Failed Subscriptions
+### 실패한 정기구독
 
 What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. As noted above, all you need to do is point a route to the controller:
+
+만약 사용자의 신용카드가 만료 되었다면? 걱정하지 마십시오 - 캐셔는 사용자의 구독을 쉽게 취소할 수 있는 Webhook 컨트롤러를 포함하고 있습니다. 앞서 이야기 한것 처럼, 컨트롤러에 라우트를 지정하면 됩니다:
 
     Route::post(
         'stripe/webhook',
@@ -645,10 +664,15 @@ What if a customer's credit card expires? No worries - Cashier includes a Webhoo
 
 That's it! Failed payments will be captured and handled by the controller. The controller will cancel the customer's subscription when Stripe determines the subscription has failed (normally after three failed payment attempts).
 
+이게 전부입니다! 실패한 결제는 컨트롤러에 의해 확인되어 처리될 것입니다. 컨트롤러는 Stripe 가 결제에 실패하였다고 결정되면(보통 3번의 결제 시도가 실패하면) 사용자의 구독을 취소시킬 것입니다.
+
 <a name="handling-braintree-webhooks"></a>
 ## Handling Braintree Webhooks
+## Braintree webhook 처리하기
 
 Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+
+Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'braintree/webhook',
@@ -657,11 +681,18 @@ Both Stripe and Braintree can notify your application of a variety of events via
 
 > {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
 
+> {note} 라우트를 등록하고나서, Braintree 설정 패널에서 webhook URL을 설정하십시오.
+
 By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
+기본적으로, 이 컨트롤러는 결제 실패가 너무 많은 경우(Braintree 설정에서 정의된) 자동으로 구독을 취소처리 합니다. 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 곧 살펴보겠습니다.
+
 #### Webhooks & CSRF Protection
+#### Webhook & CSRF 보호
 
 Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
+
+Braintree webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하기 때문에, `VerifyCsrfToken` 미들웨어에서 예외 URI를 등록하거나, 라우트를 `web` 미들웨어 그룹 외부에 정의하십시오:
 
     protected $except = [
         'braintree/*',
@@ -672,6 +703,8 @@ Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{vers
 ### webhook 이벤트 핸들러 정의하기
 
 Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, simply extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
+
+캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 Braintree webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 Braintree webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `dispute_opened` webhook을 처리하고자 한다면, 컨트롤러에 `handleDisputeOpened` 메소드를 추가해야 합니다:
 
     <?php
 
@@ -720,7 +753,7 @@ That's it! Failed payments will be captured and handled by the controller. The c
 
 > {note} When using Stripe, the `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. However, when using Braintree, you should pass the full dollar amount to the `charge` method:
 
-> {note} Stripe 를 사용중일 떄, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인수로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
+> {note} Stripe 를 사용중일 떄, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
 
 If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
 

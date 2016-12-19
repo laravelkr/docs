@@ -231,6 +231,10 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
 
+> {note} `valet share` does not currently support sharing sites that have been secured using the `valet secure` command.
+
+> {note} 현재 `valet share`는 `valet secure` 명령어르 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
+
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers
 ## 사용자 정의 발렛 드라이버

@@ -498,7 +498,7 @@ The following example creates a `@datetime($var)` directive which formats a give
         public function boot()
         {
             Blade::directive('datetime', function ($expression) {
-                return "<?php echo $expression->format('m/d/Y H:i'); ?>";
+                return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
         }
 
@@ -517,7 +517,7 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 
 예제에서 볼 수 있듯이 이 지시어에 어떤 것이든 전달된 표현식에서 `format` 메소드를 체이닝합니다. 따라서 이 예제의 지시어의 경우에는 최종적으로 생성되는 PHP 코드는 다음과 같습니다: 
 
-    <?php echo $var->format('m/d/Y H:i'); ?>
+    <?php echo ($var)->format('m/d/Y H:i'); ?>
 
 > {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
 

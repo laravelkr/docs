@@ -93,6 +93,24 @@ In order to use the `database` queue driver, you will need a database table to h
 
     php artisan migrate
 
+#### Redis
+#### Redis
+
+In order to use the `redis` queue driver, you should configure a Redis database connection in your `config/database.php` configuration file.
+
+`redis` 큐 드라이버를 사용하기 위해서는 `config/dtabase.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
+
+If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
+
+Redis 큐 커넥션이 Redis 클러스터를 사용한다면, 큐 이름은 [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags)를 반드시 포함하고 있어야 합니다. 이것은 주어진 큐의 모든 Redis 키가 동일한 해시 슬롯에 배치되기 위해서 필요로합니다:
+
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+        'queue' => '{default}',
+        'retry_after' => 90,
+    ],
+
 #### Other Driver Prerequisites
 #### 다른 큐 드라이버의 사전준비 사항들
 
@@ -376,6 +394,13 @@ You may customize your queue worker even further by only processing particular q
 주어진 커넥션의 특정 queue만 처리되도록 queue-큐 worker를 커스터마이즈 할 수 있습니다. 예를 들어, 모든 이메일이 `redis` queue-큐 커넥션의 `emails` queue-큐에서 처리되도록 하고자 할경우, 다음의 명령어를 사용하여 하나의 queue-큐를 처리하는 worker를 시작할 수 있습니다:
  
     php artisan queue:work redis --queue=emails
+
+#### Resource Considerations
+#### 리소스 고려사항
+
+Daemon queue workers do not "reboot" the framework before processing each job. Therefore, you should free any heavy resources after each job completes. For example, if you are doing image manipulation with the GD library, you should free the memory with `imagedestroy` when you are done.
+
+데몬 큐 worker는 각 job을 처리하기 전에 프레임워크를 "reboot"하지 않습니다. 따라서 각 job이 완료되면 사용된 리소스를 해제(free)해야 합니다. 예를 들어 GD라이브러리로 이미지를 조작하는 경우, 작업이 완료되면 `imagedestroy`를 사용하여 메모리를 해제해야 합니다.   
 
 <a name="queue-priorities"></a>
 ### Queue Priorities
@@ -700,3 +725,13 @@ These callbacks are a great opportunity to perform additional logging or increme
             //
         }
     }
+
+Using the `looping` method on the `Queue` [facade](/docs/{{version}}/facades), you may specify callbacks that execute before the worker attempts to fetch a job from a queue. For example, you might register a Closure to rollback any transactions that were left open by a previously failed job:
+
+`Queue` [파사드](/docs/{{version}}/facades)의 `looping` 메소드를 사용할 때, worker가 큐에서 jobd을 처리하기 전에 실행할 콜백을 지정할 수 있습니다. 예를들어, 이전에 실패한 작업이 남겨놓은 트랙젝션을 롤백하는 클로저를 등록할 수 있습니다: 
+
+    Queue::looping(function () {
+        while (DB::transactionLevel() > 0) {
+            DB::rollBack();
+        }
+    });

@@ -690,7 +690,11 @@ Passport에 의해서 보호되는 라우트를 호출할 때, 어플리케이�
 
 Scopes allow your API clients to request a specific set of permissions when requesting authorization to access an account. For example, if you are building an e-commerce application, not all API consumers will need the ability to place orders. Instead, you may allow the consumers to only request authorization to access order shipment statuses. In other words, scopes allow your application's users to limit the actions a third-party application can perform on their behalf.
 
+스코프는 계정에 대한 엑세스 승인을 요청할 때, 여러분의 API 클라이언트가 제한된 권한을 지정하여 요청하도록 합니다. 예를 들어, e-커머스 어플리케이션을 구성한다면, 전체 API 사용자에게 주문을 할 수 있는 권한을 줄 필요는 없을것입니다. 대신에, 사용자에게 주문 배송상황에 엑세스 할 수 있는 권한을 주면 됩니다. 다시 말해 스코프는 여러분의 어플리케이션 사용자가 써드파티 어플리케이션을 통해서 실행할 수 있는 액션을 제한할 수 있습니다.
+
 You may define your API's scopes using the `Passport::tokensCan` method in the `boot` method of your `AuthServiceProvider`. The `tokensCan` method accepts an array of scope names and scope descriptions. The scope description may be anything you wish and will be displayed to users on the authorization approval screen:
+
+API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passport:tokensCan` 메소드를 사용하여 정의할 수 있습니다. `tokensCan` 메소드는 스코프의 이름과, 설명에 대한 배열을 인자로 받습니다. 스코프 설명은 권한 승인 페이지에서 사용자에게 보여주려는 어떠한 내용도 가능합니다:
 
     use Laravel\Passport\Passport;
 
@@ -701,10 +705,14 @@ You may define your API's scopes using the `Passport::tokensCan` method in the `
 
 <a name="assigning-scopes-to-tokens"></a>
 ### Assigning Scopes To Tokens
+### 토큰에 스코프 할당하기
 
 #### When Requesting Authorization Codes
+#### 승인 코드를 요청할 때
 
 When requesting an access token using the authorization code grant, consumers should specify their desired scopes as the `scope` query string parameter. The `scope` parameter should be a space-delimited list of scopes:
+
+승인 코드 grant를 사용하여 엑세스 토큰을 요청할 때, 사용자는 `scope` 쿼리 스트링 인자를 통해서 원하는 scope-범위를 지정해야 합니다. `scope` 파라미터는 scope-범위의 목록들을 공백으로 구분한 내용이어야 합니다:
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -718,38 +726,53 @@ When requesting an access token using the authorization code grant, consumers sh
     });
 
 #### When Issuing Personal Access Tokens
+#### 개인용 엑세스 토큰 발급할 때
 
 If you are issuing personal access tokens using the `User` model's `createToken` method, you may pass the array of desired scopes as the second argument to the method:
+
+`User` 모델의 `createToken` 메소드를 사용하여 개인용 엑세스 토큰을 발급하고자 한다면, 메소드의 두번째 인자로 원하는 scope를 배열로 전달할 수 있습니다:
 
     $token = $user->createToken('My Token', ['place-orders'])->accessToken;
 
 <a name="checking-scopes"></a>
 ### Checking Scopes
+### Scope 확인하기
 
 Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
+
+Passport 는 유입되는 request-요청이 주어진 코드에 의해서 권한이 확인된 토큰에 의해서 승인되었는지 확인할 수 있는 두개의 미들웨어를 포함하고 있습니다. 이를 사용하려면 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 속성에 다음과 같이 정의해야 합니다:
 
     'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 
 #### Check For All Scopes
+#### 전체 Scope-범위 확인하기
 
 The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has *all* of the listed scopes:
+
+`scopes` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *전체* scope인지 확인하는데 사용할 수 있습니다:
 
     Route::get('/orders', function () {
         // Access token has both "check-status" and "place-orders" scopes...
     })->middleware('scopes:check-status,place-orders');
 
 #### Check For Any Scopes
+#### 특정 범위 확인하기
 
 The `scope` middleware may be assigned to a route to verify that the incoming request's access token has *at least one* of the listed scopes:
+
+`scope` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *최소한 하나*의 scope에 해당하는지 확인하는데 사용할 수 있습니다:
 
     Route::get('/orders', function () {
         // Access token has either "check-status" or "place-orders" scope...
     })->middleware('scope:check-status,place-orders');
 
 #### Checking Scopes On A Token Instance
+#### 토큰 인스턴스에서 scope-범위 확인하기
 
 Once an access token authenticated request has entered your application, you may still check if the token has a given scope using the `tokenCan` method on the authenticated `User` instance:
+
+엑세스 토큰이 인증된 request-요청이 어플리케이션에 전달되면, 인증된 `User` 인스턴스의 `tokenCan` 메소드를 사용하여 토큰이 주어진 scope에 해당하는지 확인할 수 있습니다:
 
     use Illuminate\Http\Request;
 

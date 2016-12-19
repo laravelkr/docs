@@ -16,6 +16,7 @@
     - [포트 지정](#ports)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 업데이트하기](#updating-homestead)
+- [이전 버전](#old-versions)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -274,3 +275,26 @@ MySQL 대신에 MariaDB를 사용하려면, `Homestead.yaml` 파일에 `mariadb`
 프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^4"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다: 
 
     composer update
+
+<a name="old-versions"></a>
+## 이전 버전
+
+여러분은 `Homestead.yaml` 파일에 다음 라인을 추가하여 손쉽게 사용하는 홈스테드 box 버전을 지정할 수 있습니다: 
+
+    version: 0.6.0
+
+사용 예:
+
+    box: laravel/homestead
+    version: 0.6.0
+    ip: "192.168.20.20"
+    memory: 2048
+    cpus: 4
+    provider: virtualbox
+
+이전버전의 홈스테드 박스를 사용하는 경우 홈스테드 소스 코드와 호환되는 버전이어야 합니다 다음은 지원되는 박스의 버전과 사용할 홈스테드 소스 코드 버전 및 제공되는 PHP 버전을 보여주는 표입니다:
+
+|   | Homestead Version | Box Version |
+|---|---|---|
+| PHP 7.0 | 3.1.0 | 0.6.0 |
+| PHP 7.1 | 4.0.0 | 1.0.0 |

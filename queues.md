@@ -56,6 +56,19 @@
 
     php artisan migrate
 
+#### Redis
+
+`redis` 큐 드라이버를 사용하기 위해서는 `config/dtabase.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
+
+Redis 큐 커넥션이 Redis 클러스터를 사용한다면, 큐 이름은 [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags)를 반드시 포함하고 있어야 합니다. 이것은 주어진 큐의 모든 Redis 키가 동일한 해시 슬롯에 배치되기 위해서 필요로합니다:
+
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+        'queue' => '{default}',
+        'retry_after' => 90,
+    ],
+
 #### 다른 큐 드라이버의 사전준비 사항들
 
 아래의 의존 패키지들은 앞서 이야기 했던 각각의 큐 드라이버들을 사용하는데 필요합니다:
@@ -287,6 +300,10 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 주어진 커넥션의 특정 queue만 처리되도록 queue-큐 worker를 커스터마이즈 할 수 있습니다. 예를 들어, 모든 이메일이 `redis` queue-큐 커넥션의 `emails` queue-큐에서 처리되도록 하고자 할경우, 다음의 명령어를 사용하여 하나의 queue-큐를 처리하는 worker를 시작할 수 있습니다:
  
     php artisan queue:work redis --queue=emails
+
+#### 리소스 고려사항
+
+데몬 큐 worker는 각 job을 처리하기 전에 프레임워크를 "reboot"하지 않습니다. 따라서 각 job이 완료되면 사용된 리소스를 해제(free)해야 합니다. 예를 들어 GD라이브러리로 이미지를 조작하는 경우, 작업이 완료되면 `imagedestroy`를 사용하여 메모리를 해제해야 합니다.   
 
 <a name="queue-priorities"></a>
 ### 큐의 우선순위
@@ -545,3 +562,11 @@ Job이 실패한 경우에 호출 될 이벤트를 등록하고자 한다면, `Q
             //
         }
     }
+
+`Queue` [파사드](/docs/{{version}}/facades)의 `looping` 메소드를 사용할 때, worker가 큐에서 jobd을 처리하기 전에 실행할 콜백을 지정할 수 있습니다. 예를들어, 이전에 실패한 작업이 남겨놓은 트랙젝션을 롤백하는 클로저를 등록할 수 있습니다: 
+
+    Queue::looping(function () {
+        while (DB::transactionLevel() > 0) {
+            DB::rollBack();
+        }
+    });

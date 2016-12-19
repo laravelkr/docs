@@ -65,7 +65,7 @@
         'encrypted' => true
     ],
 
-Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
+Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, Echo 인스턴스를 초기화할 때 `resources/assets/js/bootstrap.js` 파일에서 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
     import Echo from "laravel-echo"
 

@@ -225,7 +225,8 @@
 `$table->mediumInteger('numbers');`  |  데이터베이스의 MEDIUMINT.
 `$table->mediumText('description');`  |  데이터베이스의 MEDIUMTEXT.
 `$table->morphs('taggable');`  |  `taggable_id` INTEGER와 `taggable_type` STRING 추가.
-`$table->nullableTimestamps();`  |  `timestamps()`와 동일하지만 NULL 허용.
+`$table->nullableMorphs('taggable');`  |  `morphs()` 컬럼의 Null 허용이 가능한 버전.
+`$table->nullableTimestamps();`  |  `timestamps()` 컬럼의 Null 허용이 가능한 버전.
 `$table->rememberToken();`  |  `remember_token`을 VARCHAR(100) NULL로 추가.
 `$table->smallInteger('votes');`  |  데이터베이스의 SMALLINT.
 `$table->softDeletes();`  |  soft delete할 때 `deleted_at` 컬럼을 추가함.

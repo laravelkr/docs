@@ -62,7 +62,7 @@
 
 > {note} 만약 PhpRedis PHP extension 이 PECL을 통해서 설치되었다면, `config/app.php` 파일 안에서 `Redis` 별칭을 다른 이름으로 변경해야합니다.
 
-PhpRedix extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다: 
+PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다: 
  
     'redis' => [
 

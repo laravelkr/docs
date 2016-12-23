@@ -144,7 +144,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-컴포넌트를 등록하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:
+컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `gulp`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>

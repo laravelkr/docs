@@ -141,12 +141,6 @@ Of course, the `seeInDatabase` method and other helpers like it are for convenie
     // Create three App\User instances...
     $users = factory(App\User::class, 3)->make();
 
-    // Create an "admin" App\User instance...
-    $user = factory(App\User::class, 'admin')->make();
-
-    // Create three "admin" App\User instances...
-    $users = factory(App\User::class, 'admin', 3)->make();
-
 #### 상태(States) 적용하기
 
 어떤 모델이라도 [팩토리 상태(states)](#factory-states)를 적용할 수 있습니다. 모델에 여러개의 팩토리 상태(state) 변경을 지정하고자 한다면, 다음과 같이 각각의 팩토리 상태(state)들의 이름을 지정하면 됩니다:  

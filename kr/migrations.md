@@ -311,7 +311,8 @@ Command  | Description
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
 `$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
-`$table->nullableTimestamps();`  |  Same as `timestamps()`, except allows NULLs.
+`$table->nullableMorphs('taggable');`  |  Nullable versions of the `morphs()` columns.
+`$table->nullableTimestamps();`  |  Nullable versions of the `timestamps()` columns.
 `$table->rememberToken();`  |  Adds `remember_token` as VARCHAR(100) NULL.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent for the database.
 `$table->softDeletes();`  |  Adds `deleted_at` column for soft deletes.
@@ -350,7 +351,8 @@ Command  | Description
 `$table->mediumInteger('numbers');`  |  데이터베이스의 MEDIUMINT.
 `$table->mediumText('description');`  |  데이터베이스의 MEDIUMTEXT.
 `$table->morphs('taggable');`  |  `taggable_id` INTEGER와 `taggable_type` STRING 추가.
-`$table->nullableTimestamps();`  |  `timestamps()`와 동일하지만 NULL 허용.
+`$table->nullableMorphs('taggable');`  |  `morphs()` 컬럼의 Null 허용이 가능한 버전.
+`$table->nullableTimestamps();`  |  `timestamps()` 컬럼의 Null 허용이 가능한 버전.
 `$table->rememberToken();`  |  `remember_token`을 VARCHAR(100) NULL로 추가.
 `$table->smallInteger('votes');`  |  데이터베이스의 SMALLINT.
 `$table->softDeletes();`  |  soft delete할 때 `deleted_at` 컬럼을 추가함.
@@ -436,9 +438,9 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} The following column types can not be "changed": char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
+> {note} The following column types can not be "changed": char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
 
-> {note} 다음의 컬럼 타입들은 "변경" 할 수 없습니다: char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid. 
+> {note} 다음의 컬럼 타입들은 "변경" 할 수 없습니다: char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid. 
 
 <a name="renaming-columns"></a>
 #### Renaming Columns

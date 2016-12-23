@@ -133,9 +133,18 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
     protected $redirectTo = '/';
 
-When a user is not successfully authenticated, they will be automatically redirected back to the login form.
+If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
 
-사용자가 성공적으로 인증되지 않았을 때에는, 로그인 Form 위치로 자동으로 리다이렉트되어 돌아가게 될 것입니다.
+리다이렉션 로직을 커스텀하고 구성할 필요가 있다면 `redirectTo` 속성 대신에 `redirectTo` 메소드를 정의하면 됩니다:
+
+    protected function redirectTo()
+    {
+        //
+    }
+
+> {tip} `redirectTo` method has higher priority than `redirectTo` attribute.
+
+> {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선순위가 높습니다.
 
 #### Username Customization
 #### 어떤 사용자이름을 사용할지 결정하기

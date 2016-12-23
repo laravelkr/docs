@@ -182,12 +182,6 @@ You may also create a Collection of many models or create models of a given type
     // Create three App\User instances...
     $users = factory(App\User::class, 3)->make();
 
-    // Create an "admin" App\User instance...
-    $user = factory(App\User::class, 'admin')->make();
-
-    // Create three "admin" App\User instances...
-    $users = factory(App\User::class, 'admin', 3)->make();
-
 #### Applying States
 #### 상태(States) 적용하기
 

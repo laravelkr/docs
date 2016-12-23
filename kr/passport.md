@@ -200,9 +200,9 @@ The published components will be placed in your `resources/assets/js/components`
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-Once the components have been registered, you may drop them into one of your application's templates to get started creating clients and personal access tokens:
+After registering the components, make sure to run `gulp` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
 
-컴포넌트를 등록하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:
+컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `gulp`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>

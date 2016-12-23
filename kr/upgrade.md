@@ -388,13 +388,6 @@ Relation::morphMap([
 ]);
 ```
 
-#### Eloquent `save` Method
-#### Eloquent `save` 메소드
-
-The Eloquent `save` method now returns `false` if the model has not been changed since the last time it was retrieved or saved.
-
-Eloquent의 `save` 메소드는 모델이 최종적으로 조회 또는 저장하고나서 변경이없는 경우 `false`를 반환합니다.
-
 #### Eloquent Scopes
 #### Eloquent 스코프
 

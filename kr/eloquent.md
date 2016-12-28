@@ -458,6 +458,12 @@ Once we have made the attributes mass assignable, we can use the `create` method
 
     $flight = App\Flight::create(['name' => 'Flight 10']);
 
+If you already have a model instance, you may use the `fill` method to populate it with an array of attributes:
+
+이미 모델 인스턴스를 가지고 있다면, `fill` 메소드에 배열을 전달하여 속성을 구성할 수 있습니다:
+
+    $flight->fill(['name' => 'Flight 22']);
+
 #### Guarding Attributes
 #### 속성들 보호하기
 

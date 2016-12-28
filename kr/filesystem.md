@@ -232,15 +232,15 @@ If you would like Laravel to automatically manage streaming a given file to your
 
     use Illuminate\Http\File;
 
-    // Automatically calculate MD5 hash for file name...
+    // Automatically generate a UUID for file name...
     Storage::putFile('photos', new File('/path/to/photo'));
 
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will automatically generate a filename based on the contents of the file. This is accomplished by taking a MD5 hash of the file's contents. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a UUID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
 
-`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일의 내용에 따라 자동으로 파일이름을 생성할 것입니다. 이는 파일 내용의 MD5 해쉬값에 의해서 결정됩니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
+`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 UUID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
 
 The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
 
@@ -301,19 +301,15 @@ In web applications, one of the most common use-cases for storing files is stori
         }
     }
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will automatically generate a filename based on the contents of the file. This is accomplished by taking a MD5 hash of the file's contents. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a UUID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
 
-이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일의 내용에 따라 자동으로 파일이름을 생성할 것입니다. 이는 파일 내용의 MD5 해쉬값에 의해서 결정됩니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 UUID를 생성합니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
 
 또한 다음 예제와 같이 `Storage` 파사드의 `putFile` 메소드를 호출하여 동일한 파일 조작을 수행할 수 있습니다:
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
-
-> {note} If you are receiving very large file uploads, you may wish to manually specify the file name as shown below. Calculating an MD5 hash for extremely large files can be memory intensive.
-
-> {note} 대용량 파일을 업로드하는 경우 표시된 파일 이름을 수동으로 지정할 수 있습니다. 대용량 파일에 대해 MD5해시를 계산하는 것은 많은 메모리가 소비됩니다.
 
 #### Specifying A File Name
 #### 파일 이름 지정하기

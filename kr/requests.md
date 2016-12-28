@@ -414,9 +414,9 @@ To store an uploaded file, you will typically use one of your configured [filesy
 
 업로드된 파일을 저장하려면, 일반적으로 설정된 [파일시스템](/docs/{{version}}/filesystem)중 하나를 사용합니다. `UploadedFile` 클래스는 업로드된 파일을 로컬 파일 시스템이나 아마존 S3 와 같은 클라우드 스토리지  디스크 중에 하나로 이동 시킬 수 있는 `store` 메소드를 가지고 있습니다. 
 
-The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since the name will automatically be generated using the MD5 hash of the file's contents.
+The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since a UUID will automatically be generated to serve as the file name.
 
-`store` 메소드는 파일 시스템에 구성된 루트 디렉토리로 부터 파일이 어디에 저장되어야 할지에 대한 경로를 전달 받습니다. 파일의 이름은 컨텐츠로 부터 자동으로 MD5 해시를 통해서 생성되므로 이 경로에는 파일 이름을 포함하지 않아야 합니다. 
+`store` 메소드는 파일 시스템에 구성된 루트 디렉토리로 부터 파일이 어디에 저장되어야 할지에 대한 경로를 전달 받습니다. 파일의 이름은 자동으로 UUID로 생성되므로 이 경로에는 파일 이름을 포함하지 않아야 합니다. 
 
 The `store` method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk's root:
 

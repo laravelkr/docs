@@ -16,8 +16,6 @@
     - [설정하기](/docs/{{version}}/configuration)
     - [Directory Structure](/docs/{{version}}/structure)
     - [디렉토리 구조](/docs/{{version}}/structure)
-    - [Errors & Logging](/docs/{{version}}/errors)
-    - [에러 & 로깅](/docs/{{version}}/errors)
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
 - Dev Environments
@@ -88,6 +86,8 @@
     - [브로드캐스팅](/docs/{{version}}/broadcasting)
     - [Cache](/docs/{{version}}/cache)
     - [캐시](/docs/{{version}}/cache)
+    - [Errors & Logging](/docs/{{version}}/errors)
+    - [에러 & 로깅](/docs/{{version}}/errors)
     - [Events](/docs/{{version}}/events)
     - [이벤트](/docs/{{version}}/events)
     - [File Storage](/docs/{{version}}/filesystem)

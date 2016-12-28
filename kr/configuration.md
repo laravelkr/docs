@@ -3,12 +3,12 @@
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)
-- [Accessing Configuration Values](#accessing-configuration-values)
-- [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [Environment Configuration](#environment-configuration)
 - [구동환경 설정](#environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
     - [현재 구동환경 결정하기](#determining-the-current-environment)
+- [Accessing Configuration Values](#accessing-configuration-values)
+- [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [Configuration Caching](#configuration-caching)
 - [설정 캐시](#configuration-caching)
 - [Maintenance Mode](#maintenance-mode)
@@ -21,22 +21,6 @@
 All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
 
 라라벨의 모든 설정 파일은 `config` 디렉토리에 저장됩니다. 모든 파일에는 개별 옵션에 대한 설명이 들어 있으니 해당 옵션에 대해 이해하는데 도움을 받을 수 있습니다. 
-
-<a name="accessing-configuration-values"></a>
-## Accessing Configuration Values
-## 설정 값에 엑세스 하기
-
-You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
-
-어플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다. 
-
-    $value = config('app.timezone');
-
-To set configuration values at runtime, pass an array to the `config` helper:
-
-어플리케이션의 실행중에 설정값을 변경하려면 `config` 헬퍼에 배열을 전달하십시오:
-
-    config(['app.timezone' => 'America/Chicago']);
 
 <a name="environment-configuration"></a>
 ## Environment Configuration
@@ -96,6 +80,22 @@ You may also pass arguments to the `environment` method to check if the environm
     if (App::environment('local', 'staging')) {
         // The environment is either local OR staging...
     }
+
+<a name="accessing-configuration-values"></a>
+## Accessing Configuration Values
+## 설정 값에 엑세스 하기
+
+You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
+
+어플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다. 
+
+    $value = config('app.timezone');
+
+To set configuration values at runtime, pass an array to the `config` helper:
+
+어플리케이션의 실행중에 설정값을 변경하려면 `config` 헬퍼에 배열을 전달하십시오:
+
+    config(['app.timezone' => 'America/Chicago']);
 
 <a name="configuration-caching"></a>
 ## Configuration Caching

@@ -129,6 +129,10 @@ You may also merge your own package configuration file with the application's pu
         );
     }
 
+> {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
+
+> {note} 이 메소드는 설정 배열의 첫번째 레벨만을 병합합니다. 만약 사용자가 부분적으로 다차원 배열로 된 설정 배열을 정의한다면, 손실된 옵션은 병합되지 않습니다.
+
 <a name="migrations"></a>
 ### Migrations
 ### 마이그레이션 파일들

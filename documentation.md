@@ -7,7 +7,6 @@
     - [설치하기](/docs/{{version}}/installation)
     - [설정하기](/docs/{{version}}/configuration)
     - [디렉토리 구조](/docs/{{version}}/structure)
-    - [에러 & 로깅](/docs/{{version}}/errors)
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
 - 개발 환경
     - [홈스테드](/docs/{{version}}/homestead)
@@ -43,6 +42,7 @@
 - 일반적인 기능들
     - [브로드캐스팅](/docs/{{version}}/broadcasting)
     - [캐시](/docs/{{version}}/cache)
+    - [에러 & 로깅](/docs/{{version}}/errors)
     - [이벤트](/docs/{{version}}/events)
     - [파일 스토리지](/docs/{{version}}/filesystem)
     - [메일](/docs/{{version}}/mail)

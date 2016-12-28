@@ -27,6 +27,9 @@
 - [라라벨 Envoy](https://github.com/laravel/envoy)
 - [라라벨 홈스테드](https://github.com/laravel/homestead)
 - [라라벨 홈스테드 구성 스크립트](https://github.com/laravel/settler)
+- [라라벨 패스포트(Passport)](https://github.com/laravel/passport)
+- [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
+- [라라벨 Socialite](https://github.com/laravel/socialite)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com)
 - [라라벨 아트웤](https://github.com/laravel/art)
 

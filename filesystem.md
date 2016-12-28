@@ -159,13 +159,13 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     use Illuminate\Http\File;
 
-    // Automatically calculate MD5 hash for file name...
+    // Automatically generate a UUID for file name...
     Storage::putFile('photos', new File('/path/to/photo'));
 
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일의 내용에 따라 자동으로 파일이름을 생성할 것입니다. 이는 파일 내용의 MD5 해쉬값에 의해서 결정됩니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
+`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 UUID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
 
 `putFile` 과 `putFileAs` 메소드는 또한 저장되는 파일의 "visibility"를 지정하는 인자를 받아들입니다. 이는 특히 S3 와 같은 클라우드 디스크에 파일을 저장하고 파일의 접근 권한을 설정하고자 할 때 유용합니다: 
 
@@ -215,13 +215,11 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         }
     }
 
-이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일의 내용에 따라 자동으로 파일이름을 생성할 것입니다. 이는 파일 내용의 MD5 해쉬값에 의해서 결정됩니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 UUID를 생성합니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 또한 다음 예제와 같이 `Storage` 파사드의 `putFile` 메소드를 호출하여 동일한 파일 조작을 수행할 수 있습니다:
 
     $path = Storage::putFile('avatars', $request->file('avatar'));
-
-> {note} 대용량 파일을 업로드하는 경우 표시된 파일 이름을 수동으로 지정할 수 있습니다. 대용량 파일에 대해 MD5해시를 계산하는 것은 많은 메모리가 소비됩니다.
 
 #### 파일 이름 지정하기
 

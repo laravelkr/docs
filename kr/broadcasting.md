@@ -254,7 +254,7 @@ Next, all that remains is to listen for the event in our JavaScript application.
 
 다음으로 자바스크립트 애플리케이션에서 이벤트를 수신하는 것만 남았습니다. 라라벨 에코를 사용해서 이를 처리할 수 있습니다. 우선, 비공개 채널을 수신하기 위해 `private` 메소드를 사용할 것입니다. 그리고 나서, `ShippingStatusUpdated` 이벤트를 수신하기 위해 `listen` 메소드를 사용할 것입니다. 기본적으로, 이벤트의 모든 공개 속성들은 전송하는 브로드캐스트 이벤트에 포함됩니다.
 
-    Echo.private('order.' + orderId)
+    Echo.private(`order.${orderId}`)
         .listen('ShippingStatusUpdated', (e) => {
             console.log(e.update);
         });
@@ -603,7 +603,7 @@ To join a presence channel, you may use Echo's `join` method. The `join` method 
 
 프레젠스 채널에 들어가기 위해 에코의 `join` 메소드를 사용할 수 있습니다. `join` 메소드는 `listen` 메소드를 노출하고 `here`, `joining` 그리고 `leaving` 이벤트를 구독할 수 있게 해주는 `PresenceChannel`을 되돌려줄 것입니다.
 
-    Echo.join('chat.' + roomId)
+    Echo.join(`chat.${roomId}`)
         .here((users) => {
             //
         })
@@ -648,7 +648,7 @@ You may listen for the join event via Echo's `listen` method:
 
 에코의 `listen` 메소드를 통해 조인 이벤트를 수신할 수 있습니다.
 
-    Echo.join('chat.' + roomId)
+    Echo.join(`chat.${roomId}`)
         .here(...)
         .joining(...)
         .leaving(...)
@@ -668,7 +668,7 @@ Once you have configured a notification to use the broadcast channel, you may li
 
 브로드캐스트 채널을 사용하는 것으로 알림을 설정하고나면, 에코의 `notification`메소드를 이용해 브로드캐스트 이벤트를 수신할 수 있습니다. 채널명은 알림을 받는 엔티티의 클래스명과 동일해야 합니다.
 
-    Echo.private('App.User.' + userId)
+    Echo.private(`App.User.${userId}`)
         .notification((notification) => {
             console.log(notification.type);
         });

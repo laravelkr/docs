@@ -115,9 +115,9 @@ If you don't even need an entire row, you may extract a single value from a reco
 #### Retrieving A List Of Column Values
 #### 컬럼 값의 목록 조회하기
 
-If you would like to retrieve an array containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve an array of role titles:
+If you would like to retrieve a Collection containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve a Collection of role titles:
 
-한개의 컬럼의 값들을 포함하고 있는 배열을 조회하고자 한다면, `pluck` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 배열을 조회할 것입니다:
+한개의 컬럼의 값들을 포함하고 있는 컬렉션을 조회하고자 한다면, `pluck` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 컬렉션을 조회할 것입니다:
 
     $titles = DB::table('roles')->pluck('title');
 
@@ -125,9 +125,9 @@ If you would like to retrieve an array containing the values of a single column,
         echo $title;
     }
 
- You may also specify a custom key column for the returned array:
+ You may also specify a custom key column for the returned Collection:
 
- 반환될 배열에서 사용될 특정한 컬럼 키를 지정할 수도 있습니다:
+ 반환될 컬렉션에서 사용될 특정한 컬럼 키를 지정할 수도 있습니다:
  
     $roles = DB::table('roles')->pluck('title', 'name');
 
@@ -428,7 +428,7 @@ The `whereNotNull` method verifies that the column's value is not `NULL`:
 **whereDate / whereMonth / whereDay / whereYear**
 **whereDate / whereMonth / whereDay / whereYear**
 
-The `whereDate` method may be used compare a column's value against a date:
+The `whereDate` method may be used to compare a column's value against a date:
 
 `whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다:
 
@@ -436,7 +436,7 @@ The `whereDate` method may be used compare a column's value against a date:
                     ->whereDate('created_at', '2016-12-31')
                     ->get();
 
-The `whereMonth` method may be used compare a column's value against a specific month of a year:
+The `whereMonth` method may be used to compare a column's value against a specific month of a year:
 
 `whereMonth` 메소드는 컬럼의 값이 한해의 지정된 달과 같은지 비교하는데 사용됩니다:
 
@@ -444,7 +444,7 @@ The `whereMonth` method may be used compare a column's value against a specific 
                     ->whereMonth('created_at', '12')
                     ->get();
 
-The `whereDay` method may be used compare a column's value against a specific day of a month:
+The `whereDay` method may be used to compare a column's value against a specific day of a month:
 
 `whereDay` 메소드는 컬럼의 값이 한달의 지정된 일과 같은지 비교하는데 사용됩니다:
 
@@ -452,7 +452,7 @@ The `whereDay` method may be used compare a column's value against a specific da
                     ->whereDay('created_at', '31')
                     ->get();
 
-The `whereYear` method may be used compare a column's value against a specific year:
+The `whereYear` method may be used to compare a column's value against a specific year:
 
 `whereYear` 메소드는 컬럼의 값이 지정된 년도와 같은지 비교하는데 사용됩니다:
 

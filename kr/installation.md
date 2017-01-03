@@ -137,10 +137,6 @@ You may also want to configure a few additional components of Laravel, such as:
 - [Database](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
 
-Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration).
-
-라라벨을 설치하면 이 문서 [구동 환경 설정](/docs/{{version}}/configuration#environment-configuration)도 참고하시기 바랍니다.
-
 <a name="web-server-configuration"></a>
 ## Web Server Configuration
 ## 웹 서버 설정

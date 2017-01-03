@@ -196,6 +196,14 @@ if ($policy) {
 
 `where` 메소드는 더이상 "엄격함"을 나타내는 세번째 인자를 받지 않습니다. 어플리케이션에서 필요에 따라 `where` 또는 `whereStrict` 메소드를 명확하게 호출해야합니다.
 
+### 설정
+
+#### 어플리케이션 이름
+
+`config/app.php` 설정 파일에 다음의 설정 옵션을 추가하십시오:
+
+    'name' => 'Your Application Name',
+
 ### 컨트롤러
 
 <a name="5.3-session-in-constructors"></a>

@@ -305,6 +305,18 @@ The `where` method also no longer accepts a third parameter to indicate "strictn
 
 `where` 메소드는 더이상 "엄격함"을 나타내는 세번째 인자를 받지 않습니다. 어플리케이션에서 필요에 따라 `where` 또는 `whereStrict` 메소드를 명확하게 호출해야합니다.
 
+### Configuration
+### 설정
+
+#### Application Name
+#### 어플리케이션 이름
+
+In the `config/app.php` configuration file, add the following configuration option:
+
+`config/app.php` 설정 파일에 다음의 설정 옵션을 추가하십시오:
+
+    'name' => 'Your Application Name',
+
 ### Controllers
 ### 컨트롤러
 

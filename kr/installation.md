@@ -9,6 +9,10 @@
     - [라라벨 설치하기](#installing-laravel)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
+- [Web Server Configuration](#web-server-configuration)
+- [웹 서버 설정](#web-server-configuration)
+    - [Pretty URLs](#pretty-urls)
+    - [Pretty URLs](#pretty-urls)
 
 <a name="installation"></a>
 ## Installation
@@ -136,3 +140,44 @@ You may also want to configure a few additional components of Laravel, such as:
 Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration).
 
 라라벨을 설치하면 이 문서 [구동 환경 설정](/docs/{{version}}/configuration#environment-configuration)도 참고하시기 바랍니다.
+
+<a name="web-server-configuration"></a>
+## Web Server Configuration
+## 웹 서버 설정
+
+<a name="pretty-urls"></a>
+### Pretty URLs
+### Pretty URLs
+
+#### Apache
+#### Apache
+
+Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
+
+라라벨은 주어진 경로에 `index.php` 파일이 없어도 될 수 있도록 URL 프론트 컨트롤링을 제공하는 `public/.htaccess` 파일을 가지고 있습니다. 아파치를 통해서 라라벨 웹서비스를 제공하기 전에, `.htaccess` 파일이 동작할 수 있도록 `mod_rewrite` 모듈이 활성화 하십시오.
+
+If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+
+아파치에서 라라벨이 제공하는 `.htaccess` 파일이 동작하지 않는다면, 대신 다음의 코드를 시도해보십시오:
+
+    Options +FollowSymLinks
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+#### Nginx
+#### Nginx
+
+If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
+
+Nginx 를 사용중이라면, 사이트 설정에 다음의 지시어를 설정하여 모든 요청이 `index.php` 프론트 컨트롤러로 향하도록 하십시오: 
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+
+물론 [홈스테드](/docs/{{version}}/homestead) 또는 [발렛](/docs/{{version}}/valet)을 사용중이라면 pretty URL을 자동으로 설정되어 있습니다.

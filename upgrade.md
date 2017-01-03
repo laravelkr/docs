@@ -196,6 +196,14 @@ A collection's `where` method now performs a "loose" comparison by default inste
 
 The `where` method also no longer accepts a third parameter to indicate "strictness". You should explicitly call either `where` or `whereStrict` depending on your application's needs.
 
+### Configuration
+
+#### Application Name
+
+In the `config/app.php` configuration file, add the following configuration option:
+
+    'name' => 'Your Application Name',
+
 ### Controllers
 
 <a name="5.3-session-in-constructors"></a>

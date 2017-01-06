@@ -225,7 +225,7 @@ If you want to perform a schema operation on a database connection that is not y
 
 기본 커넥션-connection이 아닌 다른 데이터베이스 커넥션-connection에 스키마 작업을 수행하려면 `connection` 메소드를 사용하면 됩니다:
 
-    Schema::connection('foo')->create('users', function ($table) {
+    Schema::connection('foo')->create('users', function (Blueprint $table) {
         $table->increments('id');
     });
 
@@ -233,7 +233,7 @@ You may use the `engine` property on the schema builder to define the table's st
 
 테이블의 스토리지 엔진을 정의하기 위해서 스키마 빌더의 `engine` 속성을 사용할 수 있습니다:
 
-    Schema::create('users', function ($table) {
+    Schema::create('users', function (Blueprint $table) {
         $table->engine = 'InnoDB';
 
         $table->increments('id');
@@ -276,7 +276,7 @@ The `table` method on the `Schema` facade may be used to update existing tables.
 
 이미 존재하는 테이블을 변경하기 하는데, `Schema` 파사드의 `table` 메소드를 사용할 수 있습니다. `create` 메소드와 같이 `table` 메소드도 두개읜 인자를 전달 받습니다: 하나는 테이블의 이름이고 ,다른 하나는 테이블에 컬럼을 추가하는데 사용할 수 있는 `Blueprint` 인스턴스를 받아들이는 `Closure`입니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('email');
     });
 
@@ -375,7 +375,7 @@ In addition to the column types listed above, there are several column "modifier
 
 위 목록의 컬럼 타입들에 더하여, 데이터베이스 테이블에 컬럼을 추가하는데 사용할 수 있는 몇가지 컬럼 "modifier"가 존재합니다. 예를 들어, 컬럼을 "nullable" 하게 만들려면, `nullable` 메소드를 사용할 수 있습니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('email')->nullable();
     });
 
@@ -426,7 +426,7 @@ The `change` method allows you to modify some existing column types to a new typ
 
 `change` 메소드는 이미 존재하는 컬럼 타입을 새로운 타입으로 수정하거나 컬럼의 속성을 변경합니다. 예를 들어, 문자열 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('name', 50)->change();
     });
 
@@ -434,7 +434,7 @@ We could also modify a column to be nullable:
 
 컬럼을 nullable로 수정할 수도 있습니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('name', 50)->nullable()->change();
     });
 
@@ -450,7 +450,7 @@ To rename a column, you may use the `renameColumn` method on the Schema builder.
 
 컬럼의 이름을 변경하기 위해서, 스키마 빌더에 `renameColumn` 메소드를 사용할 수 있습니다. 컬럼의 이름을 바꾸기 전에 반드시 `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하십시오:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
     });
 
@@ -466,7 +466,7 @@ To drop a column, use the `dropColumn` method on the Schema builder. Before drop
 
 컬럼을 삭제하기 위해서는, 스키마 빌더에서 `dropColumn` 메소드를 사용하면 됩니다. SQLite 데이터베이스에서 컬럼을 삭제하기 전에, `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하고 라이브러리를 설치하기 위해서 터미널에서 `composer update` 명령어를 실행할 필요가 있습니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');
     });
 
@@ -474,7 +474,7 @@ You may drop multiple columns from a table by passing an array of column names t
 
 `dropColumn` 메소드에 컬럼 이름들의 배열을 전달하면 테이블에서 여러 개의 컬럼을 없앨 수 있습니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
@@ -559,7 +559,7 @@ If you pass an array of columns into a method that drops indexes, the convention
 
 인덱스들을 삭제하기 위해서 메소드에 컬럼의 배열을 전달하게 되면 인덱스의 이름은 테이블명, 컬럼이름 그리고 키의 타입을 기반으로 컨벤션에 의해서 인덱스 이름을 추정할 것입니다:
 
-    Schema::table('geo', function ($table) {
+    Schema::table('geo', function (Blueprint $table) {
         $table->dropIndex(['state']); // Drops index 'geo_state_index'
     });
 
@@ -571,7 +571,7 @@ Laravel also provides support for creating foreign key constraints, which are us
 
 라라벨은 데이터베이스에서 또한 참조 무결성을 강제하는 외래 키 제한을 생성하는 것을 제공합니다. 예를 들어 `users` 테이블의 `id` 컬럼을 참조하는 `posts` 테이블에 `user_id` 컬럼을 정의해보겠습니다:
 
-    Schema::table('posts', function ($table) {
+    Schema::table('posts', function (Blueprint $table) {
         $table->integer('user_id')->unsigned();
 
         $table->foreign('user_id')->references('id')->on('users');

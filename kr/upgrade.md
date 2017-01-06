@@ -215,7 +215,7 @@ Move all of your command classes from your old `app/commands` directory to the n
 
 `app/commands` 디렉토리의 모든 커맨드 클래스드들을 새로운 `app/Console/Commands` 디렉토리로 이옮깁니다. 그다음에 `composer.json` 파일의 `classmap` 에 `app/Console/Commands` 을 추가합니다. 
 
-Then, copy your list of Artisan commands from `start/artisan.php` into the `command` array of the `app/Console/Kernel.php` file.
+Then, copy your list of Artisan commands from `start/artisan.php` into the `commands` array of the `app/Console/Kernel.php` file.
 
 그리고 `start/artisan.php` 파일의 아티즌 명령어 리스트를 `app/Console/Kernel.php` 파일의 `commands` 배열에 복사합니다. 
 

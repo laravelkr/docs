@@ -4,6 +4,8 @@
     - [Server Requirements](#server-requirements)
     - [Installing Laravel](#installing-laravel)
     - [Configuration](#configuration)
+- [Web Server Configuration](#web-server-configuration)
+    - [Pretty URLs](#pretty-urls)
 
 <a name="installation"></a>
 ## Installation
@@ -88,4 +90,31 @@ You may also want to configure a few additional components of Laravel, such as:
 - [Session](/docs/{{version}}/session#configuration)
 </div>
 
-Once Laravel is installed, you should also [configure your local environment](/docs/{{version}}/configuration#environment-configuration).
+<a name="web-server-configuration"></a>
+## Web Server Configuration
+
+<a name="pretty-urls"></a>
+### Pretty URLs
+
+#### Apache
+
+Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
+
+If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
+
+    Options +FollowSymLinks
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+#### Nginx
+
+If you are using Nginx, the following directive in your site configuration will direct all requests to the `index.php` front controller:
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.

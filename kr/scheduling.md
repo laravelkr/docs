@@ -112,6 +112,7 @@ Method  | Description
 `->everyTenMinutes();`  |  Run the task every ten minutes
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
+`->hourlyAt(17);`  |  Run the task every hour at 17 mins past the hour
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
@@ -130,6 +131,7 @@ Method  | Description
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
+`->hourlyAt(17);`  |  매시간 17분에 실행
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)

@@ -177,9 +177,9 @@ You may even pass a `Closure` as the default value. The result of the `Closure` 
 #### Checking For Item Existence
 #### 아이템이 존재하는지 확인하기
 
-The `has` method may be used to determine if an item exists in the cache:
+The `has` method may be used to determine if an item exists in the cache. This method will return `false` if the value is `null`:
 
-`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 
+`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 만약 값이 `null` 이라면 이 메소드는 `false`를 반환합니다:
 
     if (Cache::has('key')) {
         //

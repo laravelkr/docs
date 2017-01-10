@@ -234,10 +234,6 @@ When defining policy methods that will not receive a model instance, such as a `
         //
     }
 
-> {tip} If you used the `--model` option when generating your policy, all of the relevant "CRUD" policy methods will already be defined on the generated policy.
-
-> {tip} policy 클래스를 생성할 때 `--model` 옵션을 사용하였다면, 연관된 "CRUD" policy 메소드는 이미 정의되어 있습니다.
-
 <a name="policy-filters"></a>
 ### Policy Filters
 ### Policy 필터

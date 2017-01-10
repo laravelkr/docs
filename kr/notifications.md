@@ -200,7 +200,7 @@ If you would like to delay the delivery of the notification, you may chain the `
 ### Formatting Mail Messages
 ### 알림 메세지 포맷 지정하기
 
-If a notification supports being sent as an email, you should define a `toMail` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\MailMessage` instance. Mail messages may contains lines of text as well as a "call to action". Let's take a look at an example `toMail` method:
+If a notification supports being sent as an email, you should define a `toMail` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\MailMessage` instance. Mail messages may contain lines of text as well as a "call to action". Let's take a look at an example `toMail` method:
 
 알림이 이메일을 통해서 발송되는 것을 지원하고 있는 경우, 여러분은 알림 클래스에 `toMail` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable` 엔티티를 전달 받아 `Illuminate\Notifications\Messages\MailMessage` 인스턴스를 반환해야합니다. 메일 메세지는 "call to action"(액션 호출)과 같은 택스트 라인을 포함할 수 있습니다. 다음 `toMail` 메소드의 예제를 살펴보겠습니다:
 

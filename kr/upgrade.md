@@ -663,13 +663,6 @@ It is no longer necessary to specify the `--daemon` option when calling the `que
     // Process a single job...
     php artisan queue:work --once
 
-#### Event Data Changes
-#### 이벤트 데이터 변경사항
-
-Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
-
-`JobProcessing`, 그리고 `JobProcessed`와 같은 다양한 큐-queue 작업 이벤트들은 어디상 `$data` 속성을 가지고 있지 않습니다. 데이터를 가져오기 위해서는 어플리케이션이 `$event->job->payload()` 를 호출하도록 변경해야합니다.
-
 #### Database Driver Changes
 #### 데이터베이스 드라이버 변경사항
 
@@ -706,6 +699,28 @@ Below is an example migration you may use to perform the necessary changes:
             $table->dropColumn('exception');
         });
     }
+
+#### Event Data Changes
+#### 이벤트 데이터 변경사항
+
+Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
+
+`JobProcessing`, 그리고 `JobProcessed`와 같은 다양한 큐-queue 작업 이벤트들은 어디상 `$data` 속성을 가지고 있지 않습니다. 데이터를 가져오기 위해서는 어플리케이션이 `$event->job->payload()` 를 호출하도록 변경해야합니다.
+
+#### Failed Job Events
+#### 실패한 Job 에 대한 이벤트
+
+If you are calling the `Queue::failing` method in your `AppServiceProvider`, you should update the method signature to the following:
+
+`AppServiceProvider` 에서 `Queue:failing` 메소드를 호출한다면, 다음처럼 메소드를 수정해야 합니다:
+
+    use Illuminate\Queue\Events\JobFailed;
+
+    Queue::failing(function (JobFailed $event) {
+        // $event->connectionName
+        // $event->job
+        // $event->exception
+    });
 
 #### Process Control Extension
 #### 프로세스 컨트롤 확장-extension

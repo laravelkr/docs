@@ -453,8 +453,8 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
     use Illuminate\Database\Eloquent\Relations\Relation;
 
     Relation::morphMap([
-        'posts' => App\Post::class,
-        'videos' => App\Video::class,
+        'posts' => 'App\Post',
+        'videos' => 'App\Video',
     ]);
 
 여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.

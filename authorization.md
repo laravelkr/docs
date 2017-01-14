@@ -173,8 +173,6 @@ Policy를 등록하고 나면, 각각의 권한을 승인하려는 액션에 관
         //
     }
 
-> {tip} policy 클래스를 생성할 때 `--model` 옵션을 사용하였다면, 연관된 "CRUD" policy 메소드는 이미 정의되어 있습니다.
-
 <a name="policy-filters"></a>
 ### Policy 필터
 

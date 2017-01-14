@@ -15,18 +15,21 @@
 <a name="upgrade-5.4.0"></a>
 ## Upgrading To 5.4.0 From 5.3
 
-#### Estimated Upgrade Time: 10 Minutes
+#### Estimated Upgrade Time: 1-2 Hours
+
+> {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
+
+### Updating Dependencies
+
+Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file.
+
+In order to continue using the `tinker` Artisan command, you should also install the `laravel/tinker` package:
+
+    composer require laravel/tinker
+
+Once the package has been installed, you should add the `Laravel\Tinker\TinkerServiceProvider` to your `config/app.php` configuration file.
 
 ### Authorization
-
-#### Policy Class Determination
-
-Policies may now be bound to an interface or parent class. When determining which policy to use for a given object, a policy bound to the object's exact
-
-<div class="content-list" markdown="1">
-- Each class has its own policy, as policies bound to exactly the given class will be found before looking for subtypes
-- Or, bind your policy to the root of the inheritance tree
-</div>
 
 #### The `getPolicyFor` Method
 
@@ -41,6 +44,199 @@ if ($policy) {
     // code that was previously in the catch block
 }
 ```
+
+### Broadcasting
+
+#### Channel Model Binding
+
+When defining channel name placeholders in Laravel 5.3, then `*` character is used. In Laravel 5.4, you should define these placeholders using `{foo}` style placeholders, like routes:
+
+    Broadcast::channel('App.User.{userId}', function ($user, $userId) {
+        return (int) $user->id === (int) $userId;
+    });
+
+### Collections
+
+#### The `random` Method
+
+The `random` method now returns a new Collection instance regardless of the argument passed into the method. Previously, this method would return a single object instance if `1` was passed to the method.
+
+### Container
+
+#### Binding Classes With Leading Slashes
+
+Binding classes into the container with leading slashes is no longer supported. This feature required a significant amount of string formatting calls to the be made within the container. Instead, simply register your bindings without a leading slash:
+
+    $container->bind('Class\Name', function () {
+        //
+    });
+
+    $container->bind(ClassName::class, function () {
+        //
+    });
+
+#### `make` Method Parameters
+
+The container's `make` method no longer accepts a second array of parameters. This feature typically indicates a code smell. Typically, you can always construct the object in another way that is more intuitive.
+
+#### Resolving Callbacks
+
+The container's `resolving` and `afterResolving` method now must be provided a class name or binding key as the first argument to the method:
+
+    $container->resolving('Class\Name', function ($instance) {
+        //
+    });
+
+    $container->afterResolving('Class\Name', function ($instance) {
+        //
+    });
+
+#### `share` Method Removed
+
+The `share` method has been removed from the container. This was a legacy method that has not been documented in several years. If you are using this method, you should begin using the `singleton` method instead:
+
+    $container->singleton('foo', function () {
+        return 'foo';
+    });
+
+### Database
+
+#### Fetch Mode
+
+Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you will still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
+
+    Event::listen(StatementPrepared::class, function ($event) {
+        $event->statement->setFetchMode(...);
+    });
+
+### Eloquent
+
+#### Date Casts
+
+The `date` cast now converts the column to a `Carbon` object and calls the `startOfDay` method on the object. If you would like to preserve the time portion of the date, you should use the `datetime` cast.
+
+#### Has One / Many `createMany`
+
+The `createMany` method of a `hasOne` or `hasMany` relationship now returns a collection object instead of an array.
+
+#### `hydrateRaw` Method
+
+The `Model::hydrateRaw` method has been renamed to `hydrateUsing`.
+
+### Events
+
+#### Contract Changes
+
+If you are manually implementing the `Illuminate\Contracts\Events\Dispatcher` interface in your application or package, you should rename the `fire` method to `dispatch`.
+
+#### Event Priority
+
+Support for event handler "priorities" has been removed. This undocumented feature typically indicates an abuse of the event feature. Instead, consider using a series of synchronous method calls. Alternatively, you may dispatch a new event from within the handler of another event in order to ensure that a given event's handler fires after an unrelated handler.
+
+#### Wildcard Event Handler Signatures
+
+Wildcard event handlers now receive the event name as their first argument and the array of event data as their second argument. The `Event::firing` method has been removed:
+
+    Event::listen('*', function ($eventName, array $data) {
+        //
+    });
+
+#### The `locale.changed` Event
+
+The `locale.changed` event is now an object based event using the `Illuminate\Foundation\Events\LocaleUpdated` class.
+
+#### The `message.logged` Event
+
+The `message.logged` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
+
+### Mail
+
+#### `Class@method` Syntax
+
+Sending mail using `Class@method` syntax is no longer supported. For example:
+
+    Mail::send('view.name', $data, 'Class@send');
+
+If you are sending mail in this way you should convert these calls to [mailables](/docs/{{version}}/mail).
+
+#### Queueing Mail With Closures
+
+In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Queuing mail using the `Mail::queue` and `Mail::later` methods no longer supports using Closures to configure the mail message. This feature required the use of special libraries to serialize Closures since PHP does not natively support this feature.
+
+### Redis
+
+#### Improved Clustering Support
+
+Laravel 5.4 introduces improved Redis cluster support. If you are using Redis clusters, you should place your cluster connections inside of a `clusters` configuration option in the Redis portion of your `config/database.php` configuration file:
+
+    'redis' => [
+
+        'client' => 'predis',
+
+        'options' => [
+            'cluster' => 'redis',
+        ],
+
+        'clusters' => [
+            'default' => [
+                [
+                    'host' => env('REDIS_HOST', '127.0.0.1'),
+                    'password' => env('REDIS_PASSWORD', null),
+                    'port' => env('REDIS_PORT', 6379),
+                    'database' => 0,
+                ],
+            ],
+        ],
+
+    ],
+
+### Sessions
+
+#### Symfony Compatibility
+
+Laravel's session handlers no longer implements Symfony's `SessionInterface`. Implementing this interface required us to implement extraneous features that were not needed by the framework. Instead, a new `Illuminate\Contracts\Session\Session` interface has been defined and may be used instead. The following code changes should also be applied:
+
+All calls to the `->set()` method should be changed to `->put()`. Typically, Laravel applications would never call the `set` method since it has never been documented within the Laravel documentation. However, it is included here out of caution.
+
+All calls to the `->getToken()` method should be changed to `->token()`.
+
+All calls to the `$request->setSession()` method should be changed to `setLaravelSession()`.
+
+### Testing
+
+#### BrowserKit Compatibility
+
+Laravel 5.4's testing layer has been re-written to be simpler and lighter out of the box. If you would like to continue using the testing layer present in Laravel 5.3, you may install the `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing) into your application. This package provides full compatibility with the Laravel 5.3 testing layer.
+
+#### Environment
+
+The Laravel 5.4 test class no longer manually forces `putenv('APP_ENV=testing')` for each test. Instead, the framework utilizes the `APP_ENV` variable from the loaded `.env` file.
+
+#### Event Fake
+
+The `Event` fake's `assertFired` method should be updated to `assertDispatched`. The method signature has not been changed.
+
+#### Mail Fake
+
+The `Mail` fake has been greatly simplified for the Laravel 5.4 release. Instead of using the `assertSentTo` method, you should now simply use the `assertSent` method and utilize the `hasTo`, `hasCc`, etc. helper methods within your callback:
+
+    Mail::assertSent(MailableName::class, function ($mailable) {
+        return $mailable->hasTo('email@example.com');
+    });
+
+### Translation
+
+#### `{Inf}` Placeholder
+
+If you are using the `{Inf}` placeholder for pluralizing your translation strings, you should update your translation strings to use the `*` character instead:
+
+    {0} First Message|{1,*} Second Message
+
+### Validation
+
+#### Date Format Validation
+
+Date format validation is now more strict and supports the placeholders present within the documentation for the PHP [date function](http://php.net/manual/en/function.date.php). In previous releases of Laravel, the timezone placeholder `P` would accept all timezone formats; however, in Laravel 5.4 each timezone format has a unique placeholder as per the PHP documentation.
 
 <a name="upgrade-5.3.0"></a>
 ## Upgrading To 5.3.0 From 5.2
@@ -456,10 +652,6 @@ It is no longer necessary to specify the `--daemon` option when calling the `que
     // Process a single job...
     php artisan queue:work --once
 
-#### Event Data Changes
-
-Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
-
 #### Database Driver Changes
 
 If you are using the `database` driver to store your queued jobs, you should drop the `jobs_queue_reserved_reserved_at_index` index then drop the `reserved` column from your `jobs` table. This column is no longer required when using the `database` driver. Once you have completed these changes, you should add a new compound index on the `queue` and `reserved_at` columns.
@@ -491,6 +683,22 @@ Below is an example migration you may use to perform the necessary changes:
             $table->dropColumn('exception');
         });
     }
+
+#### Event Data Changes
+
+Various queue job events such as `JobProcessing` and `JobProcessed` no longer contain the `$data` property. You should update your application to call `$event->job->payload()` to get the equivalent data.
+
+#### Failed Job Events
+
+If you are calling the `Queue::failing` method in your `AppServiceProvider`, you should update the method signature to the following:
+
+    use Illuminate\Queue\Events\JobFailed;
+
+    Queue::failing(function (JobFailed $event) {
+        // $event->connectionName
+        // $event->job
+        // $event->exception
+    });
 
 #### Process Control Extension
 

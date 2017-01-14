@@ -46,7 +46,7 @@ To define routes for your package, pass the routes file path to the `loadRoutesF
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/../../routes.php');
+        $this->loadRoutesFrom(__DIR__.'/path/to/routes.php');
     }
 
 <a name="resources"></a>
@@ -73,6 +73,8 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
     $value = config('courier.option');
 
+> {note} You should not define Closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
+
 #### Default Package Configuration
 
 You may also merge your own package configuration file with the application's published copy. This will allow your users to define only the options they actually want to override in the published copy of the configuration. To merge the configurations, use the `mergeConfigFrom` method within your service provider's `register` method:
@@ -88,6 +90,8 @@ You may also merge your own package configuration file with the application's pu
             __DIR__.'/path/to/config/courier.php', 'courier'
         );
     }
+
+> {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
 
 <a name="migrations"></a>
 ### Migrations

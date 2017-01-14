@@ -181,8 +181,6 @@ When defining policy methods that will not receive a model instance, such as a `
         //
     }
 
-> {tip} If you used the `--model` option when generating your policy, all of the relevant "CRUD" policy methods will already be defined on the generated policy.
-
 <a name="policy-filters"></a>
 ### Policy Filters
 
@@ -194,6 +192,8 @@ For certain users, you may wish to authorize all actions within a given policy. 
             return true;
         }
     }
+
+If you would like to deny all authorizations for a user you should return `false` from the `before` method. If `null` is returned, the authorization will fall through to the policy method.
 
 <a name="authorizing-actions-using-policies"></a>
 ## Authorizing Actions Using Policies
@@ -290,14 +290,18 @@ As previously discussed, some actions like `create` may not require a model inst
 <a name="via-blade-templates"></a>
 ### Via Blade Templates
 
-When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` directives.
+When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` family of directives:
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
+    @elsecan('create', $post)
+        <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
+    @elsecannot('create', $post)
+        <!-- The Current User Can't Create New Post -->
     @endcannot
 
 These directives are convenient shortcuts for writing `@if` and `@unless` statements. The `@can` and `@cannot` statements above respectively translate to the following statements:

@@ -56,6 +56,19 @@ In order to use the `database` queue driver, you will need a database table to h
 
     php artisan migrate
 
+#### Redis
+
+In order to use the `redis` queue driver, you should configure a Redis database connection in your `config/database.php` configuration file.
+
+If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
+
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+        'queue' => '{default}',
+        'retry_after' => 90,
+    ],
+
 #### Other Driver Prerequisites
 
 The following dependencies are needed for the listed queue drivers:
@@ -290,6 +303,10 @@ You may customize your queue worker even further by only processing particular q
 
     php artisan queue:work redis --queue=emails
 
+#### Resource Considerations
+
+Daemon queue workers do not "reboot" the framework before processing each job. Therefore, you should free any heavy resources after each job completes. For example, if you are doing image manipulation with the GD library, you should free the memory with `imagedestroy` when you are done.
+
 <a name="queue-priorities"></a>
 ### Queue Priorities
 
@@ -328,6 +345,12 @@ The `queue:work` Artisan command exposes a `--timeout` option. The `--timeout` o
 The `retry_after` configuration option and the `--timeout` CLI option are different, but work together to ensure that jobs are not lost and that jobs are only successfully processed once.
 
 > {note} The `--timeout` value should always be at least several seconds shorter than your `retry_after` configuration value. This will ensure that a worker processing a given job is always killed before the job is retried. If your `--timeout` option is longer than your `retry_after` configuration value, your jobs may be processed twice.
+
+#### Worker Sleep Duration
+
+When jobs are available on the queue, the worker will keep processing jobs with no delay in between them. However, the `sleep` option determines how long the worker will "sleep" if there are no new jobs available:
+
+    php artisan queue:work --sleep=3
 
 <a name="supervisor-configuration"></a>
 ## Supervisor Configuration
@@ -547,3 +570,11 @@ Using the `before` and `after` methods on the `Queue` [facade](/docs/{{version}}
             //
         }
     }
+
+Using the `looping` method on the `Queue` [facade](/docs/{{version}}/facades), you may specify callbacks that execute before the worker attempts to fetch a job from a queue. For example, you might register a Closure to rollback any transactions that were left open by a previously failed job:
+
+    Queue::looping(function () {
+        while (DB::transactionLevel() > 0) {
+            DB::rollBack();
+        }
+    });

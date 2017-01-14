@@ -1,8 +1,6 @@
 # Upgrade Guide
 # 업그레이드 가이드
 
-- [Upgrading To 5.4.0 From 5.3](#upgrade-5.4.0)
-- [5.3에서 5.4.0 으로 업그레이드 하기](#upgrade-5.4.0)
 - [Upgrading To 5.3.0 From 5.2](#upgrade-5.3.0)
 - [5.2에서 5.3.0 으로 업그레이드 하기](#upgrade-5.3.0)
 - [Upgrading To 5.2.0 From 5.1](#upgrade-5.2.0)
@@ -23,46 +21,6 @@
 - [4.1.25 이하에서 4.1.26 으로 업그레이드 하기](#upgrade-4.1.26)
 - [Upgrading To 4.1 From 4.0](#upgrade-4.1)
 - [4.0에서 4.1 으로 업그레이드 하기](#upgrade-4.1)
-
-<a name="upgrade-5.4.0"></a>
-## Upgrading To 5.4.0 From 5.3
-## 5.3에서 5.4.0으로 업그레이드 하기
-
-#### Estimated Upgrade Time: 10 Minutes
-#### 업그레이드 예상 시간 : 약 10분
-
-### Authorization
-### 권한 승인-authorization
-
-#### Policy Class Determination
-#### Policy 클래스의 결정사항
-
-Policies may now be bound to an interface or parent class. When determining which policy to use for a given object, a policy bound to the object's exact
-
-Policy 클래스는 이제 인터페이스나 부모 클래스에 바인딩 될 수 있습니다. 주어진 객체에 대해서 어떤 Policy가 사용되는지 결정할 때, 바로 객체에 정확하게 바인딩된 policy가 됩니다.
-
-- Each class has its own policy, as policies bound to exactly the given class will be found before looking for subtypes
-- 각각의 클래스는 고유한 policy를 가지게 되며, 하위 클래스를 찾기 전에 정확히 주어진 클래스에 바인딩된 policy를 찾게 됩니다.
-- Or, bind your policy to the root of the inheritance tree
-- 또는 상속 구조의 최상의 root에 policy를 바인딩 할 수도 있습니다.
-
-
-#### The `getPolicyFor` Method
-#### `getPolicyFor` 메소드
-
-Previous, when calling the `Gate::getPolicyFor($class)` method, an exception was thrown if no policy could be found. Now, the method will return `null` if no policy is found for the given class. If you call this method directly, make sure you refactor your `try / catch` to a check for `null`:
-
-이전까지, `Gate::getPolicyFor($class)` 메소드가 호출 될 때 policy를 찾을 수 없으면 exception이 던져졌습니다. 이제는, 주어진 클래스에 대한 policy를 찾을 수 없으면 `null` 이 반환됩니다. 이 메소드를 직접 호출한다면 `try / catch` 부분을 `null`을 체크하도록 리팩토링 하십시오:
-
-```php
-$policy = Gate::getPolicyFor($class);
-
-if ($policy) {
-    // code that was previously in the try block
-} else {
-    // code that was previously in the catch block
-}
-```
 
 <a name="upgrade-5.3.0"></a>
 ## Upgrading To 5.3.0 From 5.2

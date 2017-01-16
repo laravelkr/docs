@@ -42,6 +42,9 @@ Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` fi
 
 `composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다.
 
+#### Laravel Tinker
+#### 라라벨 Tinker
+
 In order to continue using the `tinker` Artisan command, you should also install the `laravel/tinker` package:
 
 `laravel/tinker` 아티즌 명령어를 계속 사용하려면 `laravel/tinker` 패키지를 설치해야 합니다:
@@ -51,6 +54,13 @@ In order to continue using the `tinker` Artisan command, you should also install
 Once the package has been installed, you should add the `Laravel\Tinker\TinkerServiceProvider` to your `config/app.php` configuration file.
 
 패키지를 설치하고 나서 `config/app.php` 설정 파일에 `Laravel\Tinker\TinkerServiceProvider`를 추가 하십시오.
+
+#### Guzzle
+#### Guzzle
+
+Laravel 5.4 requires Guzzle 6.0 or greater.
+
+라라벨 5.4는 Guzzle 6.0 이상을 필요로합니다.
 
 ### Authorization
 ### 권한 승인-authorization

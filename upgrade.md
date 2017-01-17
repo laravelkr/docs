@@ -51,6 +51,10 @@ if ($policy) {
 }
 ```
 
+### Bootstrappers
+
+If you are manually overriding the `$bootstrappers` array on your HTTP or Console kernel, you should rename the `DetectEnvironment` entry to `LoadEnvironmentVariables`.
+
 ### Broadcasting
 
 #### Channel Model Binding
@@ -62,6 +66,10 @@ When defining channel name placeholders in Laravel 5.3, then `*` character is us
     });
 
 ### Collections
+
+#### The `every` Method
+
+The behavior of the `every` method has been moved to the `nth` method to match the method name defined by Lodash.
 
 #### The `random` Method
 
@@ -107,6 +115,14 @@ The `share` method has been removed from the container. This was a legacy method
 
 ### Database
 
+#### Custom Connections
+
+If you were previously binding a service container binding for a `db.connection.{driver-name}` key in order to resolve a custom database connection instance, you should now use the `DB::resolverFor` method in the `register` method of your `AppServiceProvider`:
+
+    DB::resolverFor('driver-name', function ($connection, $database, $prefix, $config) {
+        //
+    });
+
 #### Fetch Mode
 
 Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you will still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
@@ -147,13 +163,17 @@ Wildcard event handlers now receive the event name as their first argument and t
         //
     });
 
+#### The `kernel.handled` Event
+
+The `kernel.handled` event is now an object based event using the `Illuminate\Foundation\Http\Events\RequestHandled` class.
+
 #### The `locale.changed` Event
 
 The `locale.changed` event is now an object based event using the `Illuminate\Foundation\Events\LocaleUpdated` class.
 
-#### The `message.logged` Event
+#### The `illuminate.log` Event
 
-The `message.logged` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
+The `illuminate.log` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
 
 ### Mail
 
@@ -164,6 +184,18 @@ Sending mail using `Class@method` syntax is no longer supported. For example:
     Mail::send('view.name', $data, 'Class@send');
 
 If you are sending mail in this way you should convert these calls to [mailables](/docs/{{version}}/mail).
+
+#### New Configuration Options
+
+In order to provide support for Laravel 5.4's new Markdown mail components, you should add the following block of configuration to the bottom of your `mail` configuration file:
+
+    'markdown' => [
+        'theme' => 'default',
+
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
 
 #### Queueing Mail With Closures
 

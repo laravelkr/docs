@@ -7,6 +7,8 @@
     - [컬렉션 생성하기](#creating-collections)
 - [Available Methods](#available-methods)
 - [사용 가능한 메소드](#available-methods)
+- [Higher Order Messages](#higher-order-messages)
+- [Higher Order Messages](#higher-order-messages)
 
 <a name="introduction"></a>
 ## Introduction
@@ -94,7 +96,9 @@ For the remainder of this documentation, we'll discuss each method available on 
 [max](#method-max)
 [merge](#method-merge)
 [min](#method-min)
+[nth](#method-nth)
 [only](#method-only)
+[partition](#method-partition)
 [pipe](#method-pipe)
 [pluck](#method-pluck)
 [pop](#method-pop)
@@ -356,24 +360,15 @@ If you would like to stop iterating through the items, you may return `false` fr
 <a name="method-every"></a>
 #### `every()` {#collection-method}
 
-The `every` method creates a new collection consisting of every n-th element:
+The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
-`every` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다:
-(역자주: 첫번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
+`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다: 
 
-    $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
+    collect([1, 2, 3, 4])->every(function ($value, $key) {
+        return $value > 2;
+    });
 
-    $collection->every(4);
-
-    // ['a', 'e']
-
-You may optionally pass an offset as the second argument:
-
-두번째 인자로 offset을 전달할 수도 있습니다:
-
-    $collection->every(4, 1);
-
-    // ['b', 'f']
+    // false
 
 <a name="method-except"></a>
 #### `except()` {#collection-method}
@@ -897,6 +892,29 @@ The `min` method returns the minimum value of a given key:
 
     // 1
 
+<a name="method-nth"></a>
+#### `nth()` {#collection-method}
+
+The `nth` method creates a new collection consisting of every n-th element:
+
+`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다: 
+
+(역자주: 첫번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
+
+    $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
+
+    $collection->nth(4);
+
+    // ['a', 'e']
+
+You may optionally pass an offset as the second argument:
+
+두번째 인자로 offset을 전달할 수도 있습니다:
+
+    $collection->nth(4, 1);
+
+    // ['b', 'f']
+
 <a name="method-only"></a>
 #### `only()` {#collection-method}
 
@@ -915,6 +933,19 @@ The `only` method returns the items in the collection with the specified keys:
 For the inverse of `only`, see the [except](#method-except) method.
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
+
+<a name="method-partition"></a>
+#### `partition()` {#collection-method}
+
+The `partition` method may be combined with the `list` PHP function to separate elements that pass a given truth test from those that do not:
+
+`partition` 메소드는 PHP의 `list` 함수와 함께 사용되어 주어진 조건식을 만족하는, 그리고 만족하지 못하는 두개의 요소들로 나누는데 사용할 수 있습니다:
+
+    $collection = collect([1, 2, 3, 4, 5, 6]);
+
+    list($underThree, $aboveThree) = $collection->partition(function ($i) {
+        return $i < 3;
+    });
 
 <a name="method-pipe"></a>
 #### `pipe()` {#collection-method}
@@ -1063,9 +1094,9 @@ The `random` method returns a random item from the collection:
 
     // 4 - (retrieved randomly)
 
-You may optionally pass an integer to `random` to specify how many items you would like to randomly retrieve. If that integer is more than `1`, a collection of items is returned:
+You may optionally pass an integer to `random` to specify how many items you would like to randomly retrieve. A collection of items is always returned when explicitly passing the number of items you wish to receive:
 
-얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 만약 정수값이 `1`보다 크다면 컬렉션이 반환됩니다:
+얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 수신할 아이템의 수를 명서직으로 전달하면 아이템 컬렉션이 반환됩니다:
 
     $random = $collection->random(3);
 
@@ -1676,3 +1707,27 @@ The `zip` method merges together the values of the given array with the values o
     $zipped->all();
 
     // [['Chair', 100], ['Desk', 200]]
+
+<a name="higher-order-messages"></a>
+## Higher Order Messages
+## Higher Order Messages
+
+Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
+
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
+
+Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+
+각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다:
+
+    $users = User::where('votes', '>', 500)->get();
+
+    $users->each->markAsVip();
+
+Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+
+마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있씁니다:
+
+    $users = User::where('group', 'Development')->get();
+
+    return $users->sum->votes;

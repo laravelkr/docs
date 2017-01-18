@@ -47,6 +47,8 @@
     - [주둔 채널에 들어가기](#joining-presence-channels)
     - [Broadcasting To Presence Channels](#broadcasting-to-presence-channels)
     - [주둔 채널에 브로드캐스트하기](#broadcasting-to-presence-channels)
+- [Client Events](#client-events)
+- [클라이언트 이벤트](#client-events)
 - [Notifications](#notifications)
 - [알림](#notifications)
 
@@ -211,7 +213,12 @@ When a user is viewing one of their orders, we don't want them to have to refres
 
     class ShippingStatusUpdated implements ShouldBroadcast
     {
-        //
+        /**
+         * Information about the shipping status update.
+         *
+         * @var string
+         */
+        public $update;
     }
 
 The `ShouldBroadcast` interface requires our event to define a `broadcastOn` method. This method is responsible for returning the channels that the event should broadcast on. An empty stub of this method is already defined on generated event classes, so we only need to fill in its details. We only want the creator of the order to be able to view status updates, so we will broadcast the event on a private channel that is tied to the order:
@@ -231,11 +238,11 @@ The `ShouldBroadcast` interface requires our event to define a `broadcastOn` met
 #### Authorizing Channels
 #### 채널 인증하기
 
-Remember, users must be authorized to listen on private channels. We may define our channel authorization rules in the `boot` method of the `BroadcastServiceProvider`. In this example, we need to verify that any user attempting to listen on the private `order.1` channel is actually the creator of the order:
+Remember, users must be authorized to listen on private channels. We may define our channel authorization rules in the `routes/channels.php` file. In this example, we need to verify that any user attempting to listen on the private `order.1` channel is actually the creator of the order:
 
-비공개 채널을 수신하기 위해서는 반드시 사용자가 인증되어야 합니다. 우리는 `BroadcastServiceProvider` 의 `boot` 메소드에 채널 인증 규칙을 정의할 수 있습니다. 이 예제에서는 비공개 채널인 `order.1` 채널을 수신하고자 시도하는 모든 유저에 대해 해당 주문을 실제로 생성한 사람인지 확인할 필요가 있습니다.
+비공개 채널을 수신하기 위해서는 반드시 사용자가 인증되어야 합니다. `routes/channels.php` 파일에서 채널 인증 규칙을 정의할 수 있습니다. 이 예제에서는 비공개 채널인 `order.1` 채널을 수신하고자 시도하는 모든 유저에 대해 해당 주문을 실제로 생성한 사람인지 확인할 필요가 있습니다.
 
-    Broadcast::channel('order.*', function ($user, $orderId) {
+    Broadcast::channel('order.{orderId}', function ($user, $orderId) {
         return $user->id === Order::findOrNew($orderId)->user_id;
     });
 
@@ -243,9 +250,9 @@ The `channel` method accepts two arguments: the name of the channel and a callba
 
 `channel` 메소드는 두 개의 인자(채널명과 사용자가 채널을 들을 수 있도록 인증되었는지를 나타내는 `true` 혹은 `false`를 되돌려주는 콜백)를 받습니다.  
 
-All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments. In this example, we are using the `*` character to indicate that the "ID" portion of the channel name is a wildcard.
+All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments. In this example, we are using the `{orderId}` placeholder to indicate that the "ID" portion of the channel name is a wildcard.
 
-모든 승인 콜백은 현재 인증된 사용자를 첫번째 인수로 받고, 다음 인수로 추가적인 와일드카드 파라미터들을 받습니다. 이 예제에서, 채널명의 "ID" 부분을 가리키기 위해 `*`를 사용하는 것이 와일드 카드입니다.
+모든 승인 콜백은 현재 인증된 사용자를 첫번째 인수로 받고, 다음 인수로 추가적인 와일드카드 파라미터들을 받습니다. 이 예제에서, 채널명의 "ID" 부분을 가리키기 위해 `{orderId}` 플레이스 홀더를 사용합니다.
 
 #### Listening For Event Broadcasts
 #### 이벤트 브로드캐스트 수신하기
@@ -405,11 +412,11 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 ### Defining Authorization Callbacks
 ### 승인 콜백 정의하기
 
-Next, we need to define the logic that will actually perform the channel authorization. Like defining the authorization routes, this is also done in the `boot` method of the `BroadcastServiceProvider`. In this method, you may use the `Broadcast::channel` method to register channel authorization callbacks:
+Next, we need to define the logic that will actually perform the channel authorization. This is done in the `routes/channels.php` file that is included with your application. In this file, you may use the `Broadcast::channel` method to register channel authorization callbacks:
 
-이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 승인 라우트를 정의하는 것과 같이, 이것도 `BroadcastServiceProvider`의 `boot`메소드를 이용해서 할 수 있습니다. 이 메소드에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다.
+이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 어플리케이션의 `routes/channels.php` 파일에서 이를 정의할 수 있습니다. 이 파일에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다:
 
-    Broadcast::channel('order.*', function ($user, $orderId) {
+    Broadcast::channel('order.{orderId}', function ($user, $orderId) {
         return $user->id === Order::findOrNew($orderId)->user_id;
     });
 
@@ -417,10 +424,22 @@ The `channel` method accepts two arguments: the name of the channel and a callba
 
 `channel` 메소드는 두 개의 인수(채널명과 사용자가 채널을 수신하도록 승인되었는지 여부를 나타내는 `true` 혹은 `false` 값을 리턴하는 콜백)를 받습니다.
 
-All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments. In this example, we are using the `*` character to indicate that the "ID" portion of the channel name is a wildcard.
+All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments. In this example, we are using the `{orderId}` placeholder to indicate that the "ID" portion of the channel name is a wildcard.
 
-모든 승인 콜백은 현재 인증된 사용자를 첫번째 인수로 받고, 다음 인수로 추가적인 와일드카드 파라미터들을 받습니다. 이 예제에서, 채널명의 "ID" 부분을 가리키기 위해 `*`를 사용하는 것이 와일드 카드입니다.
+모든 승인 콜백은 현재 인증된 사용자를 첫번째 인수로 받고, 다음 인수로 추가적인 와일드카드 파라미터들을 받습니다. 이 예제에서, 채널명의 "ID" 부분을 가리키기 위해 `{orderId}` 플레이스 홀더를 사용합니다.
 
+#### Authorization Callback Model Binding
+#### 승인 콜백의 모델 바인딩
+
+Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/docs/{{version}}/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, I may request an actual `Order` model instance:
+
+HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다:
+
+    use App\Order;
+
+    Broadcast::channel('order.{order}', function ($user, Order $order) {
+        return $user->id === $order->user_id;
+    });
 
 <a name="broadcasting-events"></a>
 ## Broadcasting Events
@@ -656,6 +675,29 @@ You may listen for the join event via Echo's `listen` method:
             //
         });
 
+<a name="client-events"></a>
+## Client Events
+## 클라이언트 이벤트
+
+Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen. To broadcast client events, you may use Echo's `whisper` method:
+
+때로는 라라벨 어플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:   
+
+    Echo.channel('chat')
+        .whisper('typing', {
+            name: this.user.name
+        });
+
+To listen for client events, you may use the `listenForWhisper` method:
+
+클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다: 
+
+    Echo.channel('chat')
+        .listenForWhisper('typing', (e) => {
+            console.log(e.name);
+        });
+
+
 <a name="notifications"></a>
 ## Notifications
 ## 알림
@@ -673,6 +715,6 @@ Once you have configured a notification to use the broadcast channel, you may li
             console.log(notification.type);
         });
 
-In this example, all notifications sent to `App\User` instances via the `broadcast` channel would be received by the callback. A channel authorization callback for the `App.User.*` channel is included in the default `BroadcastServiceProvider` that ships with the Laravel framework.
+In this example, all notifications sent to `App\User` instances via the `broadcast` channel would be received by the callback. A channel authorization callback for the `App.User.{id}` channel is included in the default `BroadcastServiceProvider` that ships with the Laravel framework.
 
-이 예제에서 `broadcast` 채널을 통해 `App\User` 인스턴스에 보내지는 모든 알림들은 콜백에 의해 받아집니다. `App.User.*` 채널에 대한 채널 승인 콜백이 라라벨 프레임워크와 함께 제공되는 기본 `BroadcastServiceProvider` 에 포함됩니다.
+이 예제에서 `broadcast` 채널을 통해 `App\User` 인스턴스에 보내지는 모든 알림들은 콜백에 의해 받아집니다. `App.User.{id}` 채널에 대한 채널 승인 콜백이 라라벨 프레임워크와 함께 제공되는 기본 `BroadcastServiceProvider` 에 포함됩니다.

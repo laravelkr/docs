@@ -9,6 +9,8 @@
     - [레이아웃 정의하기](#defining-a-layout)
     - [Extending A Layout](#extending-a-layout)
     - [레이아웃 확장하기](#extending-a-layout)
+- [Components & Slots](#components-and-slots)
+- [컴포넌트 & 슬롯](#components-and-slots)
 - [Displaying Data](#displaying-data)
 - [데이터 표시하기](#displaying-data)
     - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
@@ -117,6 +119,52 @@ Blade views may be returned from routes using the global `view` helper:
         return view('child');
     });
 
+<<a name="components-and-slots"></a>
+ ## Components & Slots
+ ## 컴포넌트 & 슬롯
+ 
+ Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+ 
+ 컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 먼저 어플리케이션에서 재사용이 가능한 "경고(alert)" 컴포넌트를 생각해 보겠습니다. 
+ 
+     <!-- /resources/views/alert.blade.php -->
+ 
+     <div class="alert alert-danger">
+         {{ $slot }}
+     </div>
+ 
+ The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+ 
+ 이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
+ 
+     @component('alert')
+         <strong>Whoops!</strong> Something went wrong!
+     @endcomponent
+ 
+ Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by simply "echoing" the variable that matches their name:
+ 
+ 때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
+ 
+     <!-- /resources/views/alert.blade.php -->
+ 
+     <div class="alert alert-danger">
+         <div class="alert-title">{{ $title }}</div>
+ 
+         {{ $slot }}
+     </div>
+ 
+ Now, we can inject content into the named slot using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
+ 
+ 그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
+ 
+     @component('alert')
+         @slot('title')
+             Forbidden
+         @endslot
+ 
+         You are not allowed to access this resource!
+     @endcomponent
+ 
 <a name="displaying-data"></a>
 ## Displaying Data
 ## 데이터 표시하기

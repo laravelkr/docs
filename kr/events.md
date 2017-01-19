@@ -17,8 +17,10 @@
 - [큐로 처리하는 이벤트 리스너](#queued-event-listeners)
     - [Manually Accessing The Queue](#manually-accessing-the-queue)
     - [수동으로 큐에 엑세스하기](#manually-accessing-the-queue)
-- [Firing Events](#firing-events)
-- [이벤트 수행하기](#firing-events)
+    - [Handling Failed Jobs](#handling-failed-jobs)
+    - [실패한 job 처리하기](#handling-failed-jobs)
+- [Dispatching Events](#dispatching-events)
+- [이벤트 처리하기](#dispatching-events)
 - [Event Subscribers](#event-subscribers)
 - [이벤트 Subscribers](#event-subscribers)
     - [Writing Event Subscribers](#writing-event-subscribers)
@@ -92,11 +94,11 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
 #### Wildcard Event Listeners
 #### 와일드 카드(여러개의 이벤트를 수신하는) 이벤트 리스너
 
-You may even register listeners using the `*` as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the entire event data array as a single argument:
+You may even register listeners using the `*` as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument, and the entire event data array as their second argument:
 
-`*`를 와일드카드 파라미터로 사용하여 리스너를 등록하면 동일한 리스너 에서 여러 개의 이벤트에 대응 할 수 있습니다. 와일드카드 listener는 전체 이벤트 데이터 배열을 하나의 인자로 받아들입니다: 
+`*`를 와일드카드 파라미터로 사용하여 리스너를 등록하면 동일한 리스너 에서 여러 개의 이벤트에 대응 할 수 있습니다. 와일드카드 리스너는 이벤트 이름을 첫번째 인자로, 전체 이벤트 데이터 배열을 두번째 인자로 받습니다: 
 
-    Event::listen('event.*', function (array $data) {
+    Event::listen('event.*', function ($eventName, array $data) {
         //
     });
 
@@ -214,6 +216,37 @@ That's it! Now, when this listener is called for an event, it will be automatica
 
 이게 다입니다! 이제 이 리스너가 이벤트를 통해 호출된다면 라라벨의 [큐 시스템](/docs/{{version}}/queues)을 이용하는 이벤트 dispatcher에 의해 자동으로 큐에 저장될 것입니다. 큐를 통해서 리스너가 실행되고, 어떤 exception 도 발생하지 않았다면, 큐에 저장된 작업은 실행이 종료된 뒤 자동으로 삭제될 것입니다. 
 
+#### Customizing The Queue Connection & Queue Name
+#### 큐 커넥션과 큐 이름 커스터마이징 하기
+
+If you would like to customize the queue connection and queue name used by an event listener, you may define `$connection` and `$queue` properties on your listener class:
+
+이벤트 리스너에서 사용되는 큐 커넥션과 큐 이름을 커스터마이징 하려면, 리스너 클래스에 `$connection` 와 `$queue` 속성을 정의하면 됩니다: 
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderShipped;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class SendShipmentNotification implements ShouldQueue
+    {
+        /**
+         * The name of the connection the job should be sent to.
+         *
+         * @var string|null
+         */
+        public $connection = 'sqs';
+
+        /**
+         * The name of the queue the job should be sent to.
+         *
+         * @var string|null
+         */
+        public $queue = 'listeners';
+    }
+
 <a name="manually-accessing-the-queue"></a>
 ### Manually Accessing The Queue
 ### 수동으로 큐에 엑세스하기
@@ -242,13 +275,41 @@ If you need to manually access the listener's underlying queue job's `delete` an
         }
     }
 
-<a name="firing-events"></a>
-## Firing Events
-## 이벤트 발생시키기
 
-To fire an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
+Sometimes your queued event listeners may fail. If queued listener exceeds the maximum number of attempts as defined by your queue worker, the `failed` method will be called on your listener. The `failed` method receives the event instance and the exception that caused the failure:
 
-이벤트를 발생시키지 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 어플리케이션의 어느곳에서나 호출할 수 있습니다:
+때떄로 큐를 통한 이벤트 리스너가 실패할 수도 있습니다. 큐를 통한 리스너가 큐 워커에 정의된 재시도 횟수를 넘게 되면, 리스너 클래스의 `failed` 메소드가 호출됩니다. `failed` 메소드는 이벤트 인스턴스와 실패를 발생시킨 예외-exception를 인자로 받습니다:
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderShipped;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class SendShipmentNotification implements ShouldQueue
+    {
+        use InteractsWithQueue;
+
+        public function handle(OrderShipped $event)
+        {
+            //
+        }
+
+        public function failed(OrderShipped $event, $exception)
+        {
+            //
+        }
+    }
+
+<a name="dispatching-events"></a>
+## Dispatching Events
+## 이벤트 처리하기
+
+To dispatch an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
+
+이벤트를 처리하기 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 어플리케이션의 어느곳에서나 호출할 수 있습니다:
 
     <?php
 
@@ -276,7 +337,7 @@ To fire an event, you may pass an instance of the event to the `event` helper. T
         }
     }
 
-> {tip} When testing, it can be helpful to assert that certain events were fired without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#mocking-events) makes it a cinch.
+> {tip} When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#mocking-events) makes it a cinch.
 
 > {tip} 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](/docs/{{version}}/mocking#mocking-events) 를 통해서 수행됩니다.
 

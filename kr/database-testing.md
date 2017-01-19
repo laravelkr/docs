@@ -26,22 +26,22 @@
 ## Introduction
 ## 소개하기
 
-Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `seeInDatabase` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
+Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `assertDatabaseHas` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
 
-라라벨은 데이터베이스를 기반으로 하는 어플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `seeInDatabase` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
+라라벨은 데이터베이스를 기반으로 하는 어플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `assertDatabaseHas` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
 
     public function testDatabase()
     {
         // Make call to application...
 
-        $this->seeInDatabase('users', [
+        $this->assertDatabaseHas('users', [
             'email' => 'sally@example.com'
         ]);
     }
 
-Of course, the `seeInDatabase` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
+Of course, the `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
 
-`seeInDatabase` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
+`assertDatabaseHas` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
 
 <a name="resetting-the-database-after-each-test"></a>
 ## Resetting The Database After Each Test
@@ -61,6 +61,9 @@ One approach to resetting the database state is to rollback the database after e
 
     <?php
 
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
     use Illuminate\Foundation\Testing\DatabaseMigrations;
     use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -76,8 +79,9 @@ One approach to resetting the database state is to rollback the database after e
          */
         public function testBasicExample()
         {
-            $this->visit('/')
-                 ->see('Laravel 5');
+            $response = $this->get('/');
+
+            // ...
         }
     }
 
@@ -91,6 +95,9 @@ Another approach to resetting the database state is to wrap each test case in a 
 
     <?php
 
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
     use Illuminate\Foundation\Testing\DatabaseMigrations;
     use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -106,8 +113,9 @@ Another approach to resetting the database state is to wrap each test case in a 
          */
         public function testBasicExample()
         {
-            $this->visit('/')
-                 ->see('Laravel 5');
+            $response = $this->get('/');
+
+            // ...
         }
     }
 
@@ -263,8 +271,9 @@ You may also attach relationships to models using Closure attributes in your fac
     });
 
 These Closures also receive the evaluated attribute array of the factory that contains them:
+These Closures also receive the evaluated attribute array of the factory that defines them:
 
-이 클로저는 팩토리의 계산된 속성 배열을 받을 수도 있습니다. 
+이 클로저는 그것들을 정의하는 팩토리의 계산된 속성 배열을 받을 수도 있습니다:
 
     $factory->define(App\Post::class, function ($faker) {
         return [

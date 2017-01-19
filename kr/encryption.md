@@ -62,9 +62,18 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
         }
     }
 
-> {note} Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data.
+#### Encrypting Without Serialization
+#### Serialization 없이 암호화하기
 
-> {note} 암호화된 값은 암호화가 진행되면서 `직렬화-serialize`되어 있으며, 이를 통해서 객체와 배열들을 암호화 할 수 있습니다. 따라서 PHP 이외의 클라이언트에서 암호화 된 값을 받는 경우, 해당 데이터를 `비 직렬화-unserialize` 할 필요가 있습니다.
+Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
+
+암호화를 진행하는 동안 암호화된 값은 `serialize`를 통해서 전달되어 객체와 배열의 암호화를 가능하게 합니다. 따라서 PHP가 아닌 클라이언트에서 암호화된 값을 받으면 데이터를 `unserialize` 해야 합니다. 만약 serialize 없이 값을 암호화하고 이를 복호화하려면 Cyprt 파사드의 `encryptString` 과 `decryptString` 메소드를 하용하면 됩니다:
+
+    use Illuminate\Support\Facades\Crypt;
+
+    $encrypted = Crypt::encryptString('Hello world.');
+
+    $decrypted = Crypt::decryptString($encrypted);
 
 #### Decrypting A Value
 #### 값 복호화 하기

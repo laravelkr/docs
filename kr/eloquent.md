@@ -909,48 +909,40 @@ Now, you may pass the parameters when calling the scope:
 ## Events
 ## 이벤트 
 
-Eloquent models fire several events, allowing you to hook into various points in the model's lifecycle using the following methods: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
+Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
 
-Eloquent 모델은 여러 이벤트들을 발생시켜 다음의 메소드들을 통해 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다. 
+Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다.
 
 Whenever a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
 
 새로운 모델이 처음으로 저장될 때마다 `creating`과 `created` 이벤트가 발생할 것입니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생할 것입니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
 
-For example, let's define an Eloquent event listener in a [service provider](/docs/{{version}}/providers). Within our event listener, we will call the `isValid` method on the given model, and return `false` if the model is not valid. Returning `false` from an Eloquent event listener will cancel the `save` / `update` operation:
+To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 
-예로 들어 [서비스 프로바이더](/docs/{{version}}/providers)에 Eloquent 이벤트 리스너를 정의할 수 있습니다. 이벤트 리스너 안에서 주어진 모델에 `isValid` 메소드를 호출하여 모델이 유효하지 않을 경우 `false`를 반환할 것입니다. Eloquent 이벤트 리스너로부터 `false`가 반환된다면 `save` / `update` 작업은 취소됩니다:
+이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 맵핑하는 `$events` 속성을 Eloquent 모델에 정의하면 됩니다:
 
     <?php
 
-    namespace App\Providers;
+    namespace App;
 
-    use App\User;
-    use Illuminate\Support\ServiceProvider;
+    use App\Events\UserSaved;
+    use App\Events\UserDeleted;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
 
-    class AppServiceProvider extends ServiceProvider
+    class User extends Authenticatable
     {
-        /**
-         * Bootstrap any application services.
-         *
-         * @return void
-         */
-        public function boot()
-        {
-            User::creating(function ($user) {
-                return $user->isValid();
-            });
-        }
+        use Notifiable;
 
         /**
-         * Register the service provider.
+         * The event map for the model.
          *
-         * @return void
+         * @var array
          */
-        public function register()
-        {
-            //
-        }
+        protected $events = [
+            'saved' => UserSaved::class,
+            'deleted' => UserDeleted::class,
+        ];
     }
 
 <a name="observers"></a>

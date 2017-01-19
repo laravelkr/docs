@@ -409,6 +409,31 @@ You can also filter the results returned by `belongsToMany` using the `wherePivo
 
     return $this->belongsToMany('App\Role')->wherePivotIn('priority', [1, 2]);
 
+#### Defining Custom Intermediate Table Models
+#### 커스텀 중간 테이블 모델 정의하기
+
+If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship:
+
+관계의 중간 테이블을 포현하기 위해서 커스텀 모델을 정의하려면, 관례를 정의할 때 `using` 메소드를 호출하면 됩니다:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Role extends Model
+    {
+        /**
+         * The users that belong to the role.
+         */
+        public function users()
+        {
+            return $this->belongsToMany('App\User')->using('App\UserRole');
+        }
+    }
+
+
 <a name="has-many-through"></a>
 ### Has Many Through
 ### 연결을 통한 다수를 가지는 관계 정의하기

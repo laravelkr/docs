@@ -47,8 +47,6 @@ The Redis configuration for your application is located in the `config/database.
 
         'client' => 'predis',
 
-        'cluster' => false,
-
         'default' => [
             'host' => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
@@ -61,6 +59,48 @@ The Redis configuration for your application is located in the `config/database.
 The default server configuration should suffice for development. However, you are free to modify this array based on your environment. Each Redis server defined in your configuration file is required to have a name, host, and port.
 
 기본적으로 설정된 서버는 개발시에는 충분할 수 있습니다. 하지만 환경에 맞게 이 배열을 변경할 수도 있습니다. 설정 파일 안에서 정의된 각각의 레디스 서버는 이름과 호스트 그리고 포트를 필요로 합니다.
+
+#### Configuring Clusters
+#### 클러스터 설정하기
+
+If your application is utilizing a cluster of Redis servers, you should define these clusters within a `cluster` key of your Redis configuration:
+
+어플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `cluster` 키 안에 클러스터를 정의해야 합니다:
+
+    'redis' => [
+
+        'client' => 'predis',
+
+        'clusters' => [
+            'default' => [
+                [
+                    'host' => env('REDIS_HOST', 'localhost'),
+                    'password' => env('REDIS_PASSWORD', null),
+                    'port' => env('REDIS_PORT', 6379),
+                    'database' => 0,
+                ],
+            ],
+        ],
+
+    ],
+
+By default, clusters will perform client-side sharding across your nodes, allowing you to pool nodes and create a large amount of available RAM. However, note that client-side sharding does not handle failover; therefore, is primarily suited for cached data that is available from another primary data store. If you would like to use native Redis clustering, you should specify this in the `options` key of your Redis configuration:
+
+기본적으로, 클러스터는 클라이언트-사이드 샤딩을 수행하므로, 노드를 풀링하고 RAM을 가능한 많이 사용할 수 있도록 만듭니다. 하지만 클라이언트-사이드 샤딩은 페일오버-failover를 처리하지 않으므로, 다른 기본 데이터 저장소로 부터 데이터를 캐시하는데 적합합니다. 네이티브 Redis 클러스터링을 사용하려면, Redis 설정의 `options` 키에 다음의 설정을 지정해야합니다:
+
+    'redis' => [
+
+        'client' => 'predis',
+
+        'options' => [
+            'cluster' => 'redis',
+        ],
+
+        'clusters' => [
+            // ...
+        ],
+
+    ],
 
 The `cluster` option will instruct the Laravel Redis client to perform client-side sharding across your Redis nodes, allowing you to pool nodes and create a large amount of available RAM. However, note that client-side sharding does not handle failover; therefore, is primarily suited for cached data that is available from another primary data store.
 
@@ -167,9 +207,9 @@ You may get a Redis instance by calling the `Redis::connection` method:
 
     $redis = Redis::connection();
 
-This will give you an instance of the default Redis server. If you are not using server clustering, you may pass the server name to the `connection` method to get a specific server as defined in your Redis configuration:
+This will give you an instance of the default Redis server. You may also pass the connection or cluster name to the `connection` method to get a specific server or cluster as defined in your Redis configuration:
 
-이 구문은 기본으로 설정된 레디스 서버의 인스턴스를 반환 합니다. 만약 클러스터링을 사용하지 않고 있으면서, 레디스 설정에서 정의되어 있는 특정 서버 인스턴스를 가져오려면 미리 지정된 서버의 이름을 `connection` 메소드에 넘겨주면 됩니다:
+이 구문은 기본으로 설정된 레디스 서버의 인스턴스를 반환 합니다. 만약 클러스터링을 사용하지 않고 있으면서, 레디스 설정에서 정의되어 있는 특정 서버 인스턴스 혹은 클러스터를 가져오려면 미리 지정된 서버 또는 클러스터의 이름을 `connection` 메소드에 넘겨주면 됩니다:
 
     $redis = Redis::connection('other');
 

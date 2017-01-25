@@ -303,6 +303,28 @@ If validation fails, a redirect response will be generated to send the user back
 
 유효성 검사가 실패하면 리다이렉션 응답-response이 생성되어 사용자를 이전 위치로 되돌려 보냅니다. 오류를 세션에 임시저장하여 화면에 표시 할 수도 있습니다. AJAX 요청인 경우 유효성 검사 오류가 JSON 형식으로 재구성되어 422 상태 코드가있는 HTTP 응답이 사용자에게 반환됩니다.
 
+#### Adding After Hooks To Form Requests
+#### Form Request 에 After 후킹 추가하기
+
+If you would like to add an "after" hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
+
+form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를 사용하면 됩니다. 이 메소드는 생성된 완전한 validator를 전달 받는데, 유효성 검사 규칙이 실제로 수행되기 전에 메소드 중 하나를 호출할 수 있도록 해줍니다:
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+            }
+        });
+    }
+
 <a name="authorizing-form-requests"></a>
 ### Authorizing Form Requests
 ### Form Requests 사용자 승인
@@ -624,11 +646,13 @@ Below is a list of all available validation rules and their function:
 [Accepted](#rule-accepted)
 [Active URL](#rule-active-url)
 [After (Date)](#rule-after)
+[After Or Equal (Date)](#rule-after-or-equal)
 [Alpha](#rule-alpha)
 [Alpha Dash](#rule-alpha-dash)
 [Alpha Numeric](#rule-alpha-num)
 [Array](#rule-array)
 [Before (Date)](#rule-before)
+[Before Or Equal (Date)](#rule-before-or-equal)
 [Between](#rule-between)
 [Boolean](#rule-boolean)
 [Confirmed](#rule-confirmed)
@@ -702,6 +726,13 @@ Instead of passing a date string to be evaluated by `strtotime`, you may specify
 
     'finish_date' => 'required|date|after:start_date'
 
+<a name="rule-after-or-equal"></a>
+#### after\_or\_equal:_date_
+
+The field under validation must be a value after or equal to the given date. For more information, see the [after](#rule-after) rule.
+
+필드의 값이 주어진 날짜와 동일하거나, 이후여야 합니다. 보다 자세한 사항은 [after](#rule-after) 규칙을 확인하십시오.
+
 <a name="rule-alpha"></a>
 #### alpha
 
@@ -739,12 +770,19 @@ The field under validation must be a value preceding the given date. The dates w
 
 필드의 값이 반드시 주어진 날짜보다 앞서야 합니다. 날짜는 `strtotime` PHP 함수를 통해 비교됩니다.
 
+<a name="rule-before-or-equal"></a>
+#### before\_or\_equal:_date_
+
+The field under validation must be a value preceding or equal to the given date. The dates will be passed into the PHP `strtotime` function.
+
+필드의 값이 주어진 날짜보다 앞서거나, 같아야 합니다. 날짜는 `strtotime` PHP 함수를 통해서 비교됩니다.
+
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
 The field under validation must have a size between the given _min_ and _max_. Strings, numerics, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이, 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이, 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 계산될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
@@ -813,6 +851,19 @@ A _ratio_ constraint should be represented as width divided by height. This can 
 _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. 이는 `3/2` 또는 소수점 `1.5` 처럼 지정될 수 있습니다:
 
     'avatar' => 'dimensions:ratio=3/2'
+
+Since this rule requires several arguments, you may use the `Rule::dimensions` method to fluently construct the rule:
+
+이 룰은 여러개의 인자를 필요로 하는데, 다음처럼 `Rule:dimensions` 메소드를 사용하여 유연하게 룰을 생성할 수 있습니다:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'avatar' => [
+            'required',
+            Rule::dimensions()->maxWidth(1000)->maxHeight(500)->ratio(3 / 2),
+        ],
+    ]);
 
 <a name="rule-distinct"></a>
 #### distinct
@@ -893,9 +944,18 @@ The file under validation must be an image (jpeg, png, bmp, gif, or svg)
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
 
-The field under validation must be included in the given list of values. 
+The field under validation must be included in the given list of values. Since this rule often requires you to `implode` an array, the `Rule::in` method may be used to fluently construct the rule:
 
-필드의 값이 주어진 목록에 포함돼 있어야 합니다.
+필드의 값이 주어진 목록에 포함돼 있어야 합니다. 이 룰은 자주 배열을 `implode` 하는 것을 필요로 하며, 다음처럼 `Rule:in` 메소드를 사용하여 편리하게 생성할 수 있습니다:
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($data, [
+        'zones' => [
+            'required',
+            Rule::in(['first-zone', 'second-zone']),
+        ],
+    ]);
 
 <a name="rule-in-array"></a>
 #### in_array:_anotherfield_

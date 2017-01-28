@@ -19,6 +19,14 @@
     - [첨부 파일](#attachments)
     - [Inline Attachments](#inline-attachments)
     - [인라인 첨부](#inline-attachments)
+- [Markdown Mailables](#markdown-mailables)
+- [마크다운 Mailables](#markdown-mailables)
+    - [Generating Markdown Mailables](#generating-markdown-mailables)
+    - [마크다운 Mailable 생성하기](#generating-markdown-mailables)
+    - [Writing Markdown Messages](#writing-markdown-messages)
+    - [마크다운으로 메세지 작성하기](#writing-markdown-messages)
+    - [Customizing The Components](#customizing-the-components)
+    - [컴포넌트 커스터마이징](#customizing-the-components)
 - [Sending Mail](#sending-mail)
 - [메일 발송](#sending-mail)
     - [Queueing Mail](#queueing-mail)
@@ -380,6 +388,121 @@ If you already have a raw data string you wish to embed into an email template, 
 
         <img src="{{ $message->embedData($data, $name) }}">
     </body>
+
+<a name="markdown-mailables"></a>
+## Markdown Mailables
+## 마크다운 Mailables
+
+Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.
+
+마크다운 mailable 메세지 기능을 사용하면 미리 템플릿과 메일 컴포넌트를 활용할 수 있는 장점이 있습니다. 마크다운을 통해서 메세지를 작성하게 되면서, 라라벨은 메세지를 보다 원활하게 렌더링 하고, 반응형 HTML 템플릿을 사용하는 동시에 일반 텍스트를 자동으로 생성할 수 있게 되었습니다.
+
+<a name="generating-markdown-mailables"></a>
+### Generating Markdown Mailables
+### 마크다운 Mailables 생성하기
+
+To generate a mailable with a corresponding Markdown template, you may use the `--markdown` option of the `make:mail` Artisan command:
+
+일치하는 마크다운 템플릿으로 mailable 클래스를 생성하려면 `make:mail` 아티즌 명령어에 `--markdown` 옵션을 사용하면 됩니다:
+
+    php artisan make:mail OrderShipped --markdown=emails.orders.shipped
+
+Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` methods accepts the name of the Markdown template and an optional array of data to make available to the template:
+
+그런다음, `build` 메소드 안에서 mailable을 설정할 때 `view` 메소드 대신에 `markdown` 메소드를 호출합니다. `markdown` 메소드는 마크다운 템플릿의 이름과 선택적으로 사용할 수 있는 데이터 배열을 인자로 받습니다:
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->from('example@example.com')
+                    ->markdown('emails.orders.shipped');
+    }
+
+<a name="writing-markdown-messages"></a>
+### Writing Markdown Messages
+### 마크다운으로 메세지 작성하기
+
+Markdown mailables use a combination of Blade components and Markdown syntax which allow you to easily construct mail messages while leveraging Laravel's pre-crafted components:
+
+마크다운 mailable 은 블레이드 컴포넌트와 마크다운 문법을 조합하여 라라벨이 사적에 구성해둔 컴포넌트를 활용하면서 손쉽게 메일을 생성할 수 있게 해줍니다:
+
+    @component('mail::message')
+    # Order Shipped
+
+    Your order has been shipped!
+
+    @component('mail::button', ['url' => $url])
+    View Order
+    @endcomponent
+
+    Thanks,<br>
+    {{ config('app.name') }}
+    @endcomponent
+
+#### Button Component
+#### 버튼 컴포넌트
+
+The button component renders a centered button link. The component accepts two arguments, a `url` and an optional `color`. Supported colors are `blue`, `green`, and `red`. You may add as many button components to a message as you wish:
+
+버튼 컴포넌트는 가운데 있는 버튼 링크를 렌더링 합니다. 컴포넌트는 두개의 인자를 전달 받는데, `url` 과 옵셔널하게 `color`를 전달받습니다. 사용가능한 컬러는 `blue`, `green`, 그리고 `red` 입니다. 원하는 대로, 여러개의 버튼 컴포넌트를 추가할 수 있습니다:
+
+    @component('mail::button', ['url' => $url, 'color' => 'green'])
+    View Order
+    @endcomponent
+
+#### Panel Component
+#### 패널 컴포넌트
+
+The panel component renders the given block of text in a panel that has a slightly different background color than the rest of the message. This allows you to draw attention to a given block of text:
+
+패널 컴포넌트는 나머지 텍스트와 배경색이 약간 다른 패널에 텍스트 블럭을 렌더링합니다. 이렇게하면 주어진 텍스트 블럭을 보다 강조할 수 있습니다:
+
+    @component('mail::panel')
+    This is the panel content.
+    @endcomponent
+
+#### Table Component
+#### 테이블 컴포넌트
+
+The table component allows you to transform a Markdown table into an HTML table. The component accepts the Markdown table as its content. Table column alignment is supported using the default Markdown table alignment syntax:
+
+테이블 컴포넌트는 마크다운 테이블을 HTML 테이블로 변환합니다. 이 컴포넌트는 마크다운 테이블을 내용으로 전달받습니다. 테이블 컬럼 정렬은 기본적인 마크다운 테이블 정렬 문법을 사용합니다:
+
+    @component('mail::table')
+    | Laravel       | Table         | Example  |
+    | ------------- |:-------------:| --------:|
+    | Col 2 is      | Centered      | $10      |
+    | Col 3 is      | Right-Aligned | $20      |
+    @endcomponent
+
+<a name="customizing-the-components"></a>
+### Customizing The Components
+### 컴포넌트 커스터마이징
+
+You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
+
+어플리케이션에서 사용하는 모든 마크다운 메일 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다:
+
+    php artisan vendor:publish --tag=laravel-mail
+
+This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+
+이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `markdown` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. 원하시는대로 이 컴포넌트를 커스터마이징 할 수 있습니다.
+
+#### Customizing The CSS
+#### CSS 커스터마이징
+
+After exporting the components, the `resources/views/vendor/mail/html/themes` directory will contain a `default.css` file. You may customize the CSS in this file and your styles will automatically be in-lined within the HTML representations of your Markdown mail messages.
+
+컴포넌트를 내보내기(export) 한 이후에, `resources/views/vendor/mail/html/themes` 디렉토리를 보면 `default.css` 파일을 확인할 수 있습니다. 이 파일에서 CSS를 커스터마이징 할 수 있으며, 마크다운 메일 메세지의 HTML 표현에서 스타일이 자동으로 적용됩니다.
+
+> {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+
+> {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
 
 <a name="sending-mail"></a>
 ## Sending Mail

@@ -82,6 +82,13 @@ if ($policy) {
 }
 ```
 
+### Bootstrappers
+### Bootstrappers
+
+If you are manually overriding the `$bootstrappers` array on your HTTP or Console kernel, you should rename the `DetectEnvironment` entry to `LoadEnvironmentVariables`.
+
+HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 했다면, `DetectEnvironment` 엔트리를 `LoadEnvironmentVariables` 으로 이름을 변경해야 합니다.
+
 ### Broadcasting
 ### 브로드캐스팅
 
@@ -98,6 +105,13 @@ When defining channel name placeholders in Laravel 5.3, then `*` character is us
 
 ### Collections
 ### 컬렉션
+
+#### The `every` Method
+#### `every` 메소드
+
+The behavior of the `every` method has been moved to the `nth` method to match the method name defined by Lodash.
+
+`every` 메소드의 동작은 `nth` 메소드로 변경되어 Lodash에 정의된 메소드의 이름과 일치하게 되었습니다.
 
 #### The `random` Method
 #### `random` 메소드
@@ -159,6 +173,17 @@ The `share` method has been removed from the container. This was a legacy method
 
 ### Database
 ### 데이터베이스
+
+#### Custom Connections
+#### 커스텀 커넥션
+
+If you were previously binding a service container binding for a `db.connection.{driver-name}` key in order to resolve a custom database connection instance, you should now use the `DB::resolverFor` method in the `register` method of your `AppServiceProvider`:
+
+이전 버전에서 커스텀 데이터베이스 커넥션 인스턴스의 의존성을 해결하기 위해서, `db.connection.{driver-name}` 형태의 키를 서비스 컨테이너에 바인딩 했었다면, 이제 `AppServiceProvider` 파일의 `register` 메소드안에서 `DB::resolverFor` 메소드를 사용해야 합니다:
+
+    DB::resolverFor('driver-name', function ($connection, $database, $prefix, $config) {
+        //
+    });
 
 #### Fetch Mode
 #### Fetch 모드
@@ -223,6 +248,13 @@ Wildcard event handlers now receive the event name as their first argument and t
         //
     });
 
+#### The `kernel.handled` Event
+#### `kernel.handled` 이벤트
+
+The `kernel.handled` event is now an object based event using the `Illuminate\Foundation\Http\Events\RequestHandled` class.
+
+`kernel.handled` 이벤트는 이제 `Illuminate\Foundation\Http\Events\RequestHandled` 클래스를 사용하는 객체 기반의 이벤트입니다.
+
 #### The `locale.changed` Event
 #### `locale.changed` 이벤트
 
@@ -230,12 +262,12 @@ The `locale.changed` event is now an object based event using the `Illuminate\Fo
 
 `locale.changed` 이벤트는 이제 `Illuminate\Foundation\Events\LocaleUpdated` 클래스를 사용하는 객체 기반의 이벤트입니다.
 
-#### The `message.logged` Event
-#### `message.logged` 이벤트
+#### The `illuminate.log` Event
+#### `illuminate.log` 이벤트
 
-The `message.logged` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
+The `illuminate.log` event is now an object based event using the `Illuminate\Log\Events\MessageLogged` class.
 
-`message.logged` 이벤트는 이제 `Illuminate\Log\Events\MessageLogged` 클래스를 사용하는 객체 기반 이벤트입니다.
+`illuminate.log` 이벤트는 이제 `Illuminate\Log\Events\MessageLogged` 클래스를 사용하는 객체 기반 이벤트입니다.
 
 ### Mail
 ### 메일
@@ -252,6 +284,22 @@ Sending mail using `Class@method` syntax is no longer supported. For example:
 If you are sending mail in this way you should convert these calls to [mailables](/docs/{{version}}/mail).
 
 이 방법으로 이메일을 송신했었다면 [mailables](/docs/{{version}}/mail)를 사용하도록 변경해야합니다.
+
+#### New Configuration Options
+#### 새로운 설정 옵션
+
+In order to provide support for Laravel 5.4's new Markdown mail components, you should add the following block of configuration to the bottom of your `mail` configuration file:
+
+라라벨 5.4의 새로운 마크다운 메일 컴포넌트 기능을 지원하기 위해서, 다음의 설정 부분을 `mail` 설정 파일의 가장 아래쪽에 추가해야 합니다:
+
+    'markdown' => [
+        'theme' => 'default',
+
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
+
 
 #### Queueing Mail With Closures
 #### 클로저를 이용하여 메일을 큐에 지정하기

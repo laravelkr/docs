@@ -88,6 +88,10 @@ Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레�
 
     php artisan migrate
 
+> {note} If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using `php artisan vendor:publish --tag=passport-migrations`.
+
+> {note} passport 기본 마이그레이션을 사용하지 않는다면, `AppServiceProvider`파일의 `register` 메소드 안에서 `Passport::ignoreMigrations` 를 호출해야합니다. `php artisan vendor:publish --tag=passport-migrations` 명령어를 사용하여 기본 마에그레이션 파일을 확인할 수 있습니다.
+
 Next, you should run the `passport:install` command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
 
 다음으로, `passport:install` 명령어를 실행해야합니다. 이 명령어는 안전한 엑세스 토큰을 생성하는데 필요한 암호화 키를 생성합니다. 추가적으로, 명령어는 엑세스 토큰을 생성하는데 사용되는 "personal access" 그리고 "password grant" 클라이언트를 생성합니다:

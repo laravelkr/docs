@@ -18,7 +18,9 @@
     - [Delayed Dispatching](#delayed-dispatching)
     - [지연시켜서 처리하기](#delayed-dispatching)
     - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
-    - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
+    - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
+    - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
+    - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
     - [Error Handling](#error-handling)
     - [에러 핸들링](#error-handling)
 - [Running The Queue Worker](#running-the-queue-worker)
@@ -354,13 +356,71 @@ Of course, you may chain the `onConnection` and `onQueue` methods to specify the
                     ->onConnection('sqs')
                     ->onQueue('processing');
 
+<a name="max-job-attempts-and-timeout"></a>
+### Specifying Max Job Attempts / Timeout Values
+### 최대 재시도 횟수 / 타임아웃 시간 지정하기
+
+#### Max Attempts
+#### 최대 재시도 횟수
+
+One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line:
+
+작업이 수행될 때 쵀대 재시도 횟수를 지정하려면, 아티즌 명령어에 `--tries` 스위치를 지정하면 됩니다:
+
+    php artisan queue:work --tries=3
+
+However, you may take a more granular approach by defining the maximum number of attempts on the job class itself. If the maximum number of attempts is specified on the job, it will take precedence over the value provided on the command line:
+
+그렇지만, job 클래스 자체에 최대 재시도 횟수를 정의하여 보다 세부적으로 조절하는 방법도 있습니다. job 클래스에 최대 재시도 횟수가 지정되면 커맨드 라인에서 지정된 값보다 우선합니다:
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The number of times the job may be attempted.
+         *
+         * @var int
+         */
+        public $tries = 5;
+    }
+
+#### Timeout
+#### 타임아웃
+
+Likewise, the maximum number of seconds that jobs can run may be specified using the `--timeout` switch on the Artisan command line:
+
+마찬가지로, 작업이 수행될 때 최대 수행시간을 초단위로 지정할 수 있습니다. 이는 아티즌 명령어에 `--timeout` 스위치를 지정하면 됩니다:
+
+    php artisan queue:work --timeout=30
+
+However, you may also define the maximum number of seconds a job should be allowed to run on the job class itself. If the timeout is specified on the job, it will take precedence over any timeout specified on the command line:
+
+또한, job 클래스 자체에 최대 작업 수행 시간을 초단위로 정의할 수도 있습니다. 타임아웃 시간이 job에 저으이되면, 커맨드 라인에서 제공된 값보다 우선합니다:
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The number of seconds the job can run before timing out.
+         *
+         * @var int
+         */
+        public $timeout = 120;
+    }
+
 <a name="error-handling"></a>
 ### Error Handling
 ### 에러 핸들
 
-If an exception is thrown while the job is being processed, the job will automatically be released back onto the queue so it may be attempted again. The job will continue to be released until it has been attempted the maximum number of times allowed by your application. The number of maximum attempts is defined by the `--tries` switch used on the `queue:work` Artisan command. More information on running the queue worker [can be found below](#running-the-queue-worker).
+If an exception is thrown while the job is being processed, the job will automatically be released back onto the queue so it may be attempted again. The job will continue to be released until it has been attempted the maximum number of times allowed by your application. The maximum number of attempts is defined by the `--tries` switch used on the `queue:work` Artisan command. Alternatively, the maximum number of attempts may be defined on the job class itself. More information on running the queue worker [can be found below](#running-the-queue-worker).
 
-job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 어플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
+job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 어플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. 재시도 횟수를 job클래스 자체에 정의할 수도 있습니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
 
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker

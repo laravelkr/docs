@@ -144,14 +144,14 @@ The `links` method will render the links to the rest of the pages in the result 
 #### Customizing The Paginator URI
 #### 사용자 지정 Paginator URI 구성하기
 
-The `setPath` method allows you to customize the URI used by the paginator when generating links. For example, if you want the paginator to generate links like `http://example.com/custom/url?page=N`, you should pass `custom/url` to the `setPath` method:
+The `withPath` method allows you to customize the URI used by the paginator when generating links. For example, if you want the paginator to generate links like `http://example.com/custom/url?page=N`, you should pass `custom/url` to the `withPath` method:
 
-`setPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `setPath` 메소드에 `custom/url` 을 전달해야 합니다:
+`withPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `withPath` 메소드에 `custom/url` 을 전달해야 합니다:
 
     Route::get('users', function () {
         $users = App\User::paginate(15);
 
-        $users->setPath('custom/url');
+        $users->withPath('custom/url');
 
         //
     });

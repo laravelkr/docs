@@ -1,5 +1,5 @@
-# JavaScript & CSS
-# 자바스크립트 & CSS
+# JavaScript & CSS Scaffolding
+# 자바스크립트 & CSS 스캐폴딩
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)

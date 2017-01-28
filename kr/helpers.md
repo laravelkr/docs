@@ -124,6 +124,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [redirect](#method-redirect)
 [request](#method-request)
 [response](#method-response)
+[retry](#method-retry)
 [session](#method-session)
 [value](#method-value)
 [view](#method-view)
@@ -1145,6 +1146,18 @@ The `response` function creates a [response](/docs/{{version}}/responses) instan
     return response('Hello World', 200, $headers);
 
     return response()->json(['foo' => 'bar'], 200, $headers);
+
+<a name="method-retry"></a>
+#### `retry()` {#collection-method}
+
+The `retry` function attempts to execute the given callback until the given maximum attempt threshold is met. If the callback does not throw an exception, it's return value will be returned. If the callback throws an exception, it will automatically be retried. If the maximum attempt count is exceeded, the exception will be thrown:
+
+`retry` 함수는 주어진 최대 횟수가 될 때까지 주어진 콜백을 실행하려고 시도합니다. 콜백이 예외-exception를 던지지 않는다면, 결과 값이 반환됩니다. 콜백이 예외-exception를 던지면 자동으로 다시 시도됩니다. 최대 재시도 횟수를 초과하면 예외가 던져집니다.
+
+    return retry(5, function () {
+        // Attempt 5 times while resting 100ms in between attempts...
+    }, 100);
+
 
 <a name="method-session"></a>
 #### `session()` {#collection-method}

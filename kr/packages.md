@@ -15,6 +15,8 @@
     - [설정파일](#configuration)
     - [Migrations](#migrations)
     - [마이그레이션 파일들](#migrations)
+    - [Routes](#routes)
+    - [라우트](#routes)
     - [Translations](#translations)
     - [언어 파일](#translations)
     - [Views](#views)
@@ -136,6 +138,24 @@ You may also merge your own package configuration file with the application's pu
 > {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
 
 > {note} 이 메소드는 설정 배열의 첫번째 레벨만을 병합합니다. 만약 사용자가 부분적으로 다차원 배열로 된 설정 배열을 정의한다면, 손실된 옵션은 병합되지 않습니다.
+
+<a name="routes"></a>
+### Routes
+### 라우트
+
+If your package contains routes, you may load them using the `loadRoutesFrom` method. This method will automatically determine if the application's routes are cached and will not load your routes file if the routes have already been cached:
+
+패키지가 라우트를 포함하고 있다면, `loadRoutesForm` 메소드를 사용하여 이를 로딩해야 합니다. 이 메소드는 어플리케이션의 라우트가 캐싱되어 있는지를 자동으로 확인하여, 라우트가 이미 캐싱되어 있는 경우에는 라우트를 로딩하지 않습니다:
+
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+    }
 
 <a name="migrations"></a>
 ### Migrations

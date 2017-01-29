@@ -428,7 +428,7 @@ Then, when configuring the mailable within its `build` method, call the `markdow
 
 Markdown mailables use a combination of Blade components and Markdown syntax which allow you to easily construct mail messages while leveraging Laravel's pre-crafted components:
 
-마크다운 mailable 은 블레이드 컴포넌트와 마크다운 문법을 조합하여 라라벨이 사적에 구성해둔 컴포넌트를 활용하면서 손쉽게 메일을 생성할 수 있게 해줍니다:
+마크다운 mailable 은 블레이드 컴포넌트와 마크다운 문법을 조합하여 라라벨이 사전에 구성해둔 컴포넌트를 활용하면서 손쉽게 메일을 생성할 수 있게 해줍니다:
 
     @component('mail::message')
     # Order Shipped

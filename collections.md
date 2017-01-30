@@ -316,7 +316,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 
 The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
-    collect([1, 2, 3, 4])->first(function ($value, $key) {
+    collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
     });
 
@@ -737,7 +737,7 @@ The `max` method returns the maximum value of a given key:
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-The `merge` method merges the given array into the original collection. If a string key in the given array matches a string key in the original collection, the given array's value will overwrite the value in the original collection:
+The `merge` method merges the given array with the original collection. If a string key in the given array matches a string key in the original collection, the given array's value will overwrite the value in the original collection:
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 

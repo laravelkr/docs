@@ -110,9 +110,25 @@ This command will place a fresh notification class in your `app/Notifications` d
 ### Using The Notifiable Trait
 ### Notifiable 트레이트 사용하기
 
-Notifications may be sent in two ways: using the `notify` method of the `Notifiable` trait or using the `Notification` [facade](/docs/{{version}}/facades). First, let's examine the `Notifiable` trait. This trait is used by the default `App\User` model and contains one method that may be used to send notifications: `notify`. The `notify` method expects to receive a notification instance:
+Notifications may be sent in two ways: using the `notify` method of the `Notifiable` trait or using the `Notification` [facade](/docs/{{version}}/facades). First, let's explore using the trait:
 
-알림은 두가지 방법으로 발송할 수 있습니다: `Notifiable`트레이트의 `notify` 메소드를 사용하거나, `Notification` [파사드](/docs/{{version}}/facades)를 사용하는 것입니다. 먼저 `Notifiable` 트레이트를 살펴보겠습니다. 이 트레이트-trait는 기본적으로 `App\User` 모델에서 사용되며 메소드를 보내는데 사용할 수 있는 `notify` 메소드를 가지고 있습니다. `notify` 메소드는 알림 인스턴스를 전달 받습니다:
+알림은 두가지 방법으로 발송할 수 있습니다: `Notifiable`트레이트의 `notify` 메소드를 사용하거나, `Notification` [파사드](/docs/{{version}}/facades)를 사용하는 것입니다. 먼저 트레이트를 사용하는 경우를 살펴보겠습니다:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use Notifiable;
+    }
+
+This trait is utilized by the default `App\User` model and contains one method that may be used to send notifications: `notify`. The `notify` method expects to receive a notification instance:
+
+이 트레이트-trait는 기본적으로 `App\User` 모델에서 사용되며 알림을 보내는데 사용할 수 있는 `notify` 메소드를 가지고 있습니다. `notify` 메소드는 알림 인스턴스를 전달 받습니다:
 
     use App\Notifications\InvoicePaid;
 
@@ -242,6 +258,43 @@ In this example, we register a greeting, a line of text, a call to action, and t
 > {tip} When sending mail notifications, be sure to set the `name` value in your `config/app.php` configuration file. This value will be used in the header and footer of your mail notification messages.
 
 > {tip} 메일 알림을 발송할 때에는 `config/app.php` 설정 파일에서 `name` 값을 설정해야합니다. 이 값은 여러분의 이메일 알림 메세지의 헤더와 푸터에 사용됩니다.
+
+#### Other Notification Formatting Options
+#### 기타 알림 포매팅 옵션
+
+Instead of defining the "lines" of text in the notification class, you may use the `view` method to specify a custom template that should be used to render the notification email:
+
+알림 클래스안에 "lines"을 정의하는 대신에, 알림 이메일이 렌더링 되는데 사용할 커스텀 템플릿을 지정할 수 있는 `view` 메소드를 사용할 수 있습니다:
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)->view(
+            'emails.name', ['invoice' => $this->invoice]
+        );
+    }
+
+In addition, you may return a [mailable object](/docs/{{version}}/mail) from the `toMail` method:
+
+이에 더해서, `toMail` 메소드에서 [mailable 객체](/docs/{{version}}/mail)를 반환할 수도 있습니다:
+
+    use App\Mail\InvoicePaid as Mailable;
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return Mailable
+     */
+    public function toMail($notifiable)
+    {
+        return new Mailable($this->invoice)->to($this->user->email);
+    }
 
 <a name="error-messages"></a>
 ### Error Messages

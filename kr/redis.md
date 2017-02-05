@@ -63,9 +63,9 @@ The default server configuration should suffice for development. However, you ar
 #### Configuring Clusters
 #### 클러스터 설정하기
 
-If your application is utilizing a cluster of Redis servers, you should define these clusters within a `cluster` key of your Redis configuration:
+If your application is utilizing a cluster of Redis servers, you should define these clusters within a `clusters` key of your Redis configuration:
 
-어플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `cluster` 키 안에 클러스터를 정의해야 합니다:
+어플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `clusters` 키 안에 클러스터를 정의해야 합니다:
 
     'redis' => [
 

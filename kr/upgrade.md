@@ -18,9 +18,9 @@
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file.
+Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.0`.
 
-`composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다.
+`composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.0` 으로 업데이트 해야 합니다. 
 
 #### Flushing The Cache
 #### 캐시 플러시
@@ -96,6 +96,26 @@ if ($policy) {
     // code that was previously in the catch block
 }
 ```
+
+### Blade
+### 블레이드
+
+#### `@section` Escaping
+#### `@section` Escaping
+
+In Laravel 5.4, inline content passed to a section is automatically escaped:
+
+라라벨 5.4에서, 섹션에 전달된 인라인 컨텐츠는 자동으로 escape 됩니다:
+
+    @section('title', $content)
+
+If you would like to render unescaped content in a section, you must declare the section using the traditional "long form" style:
+
+섹션 안에서 컨텐츠를 escape 하지 않고 렌더링 하려면, 섹션을 "긴 폼" 스타일로 정의해야 합니다:
+
+    @section('title')
+        {!! $content !!}
+    @stop
 
 ### Bootstrappers
 ### Bootstrappers
@@ -547,6 +567,48 @@ Once you have created this class, make sure to update all of your tests to exten
 
 > {note} 새로운 테스트를 작성하고 라라벨 5.4 테스트 레이어를 사용하려면 `TestCase` 클래스를 상속받아야합니다.
 
+#### Installing Dusk In An Upgraded Application
+#### 업그레이드된 어플리케이션에서 Dusk 설치하기
+
+If you would like to install Laravel Dusk into an application that has been upgraded from Laravel 5.3, first install it via Composer:
+
+라라벨 5.3에서 업그레이드된 어플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
+
+    composer require laravel/dusk
+
+Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
+
+그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 어플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다: 
+
+    <?php
+
+    use Illuminate\Contracts\Console\Kernel;
+
+    trait CreatesApplication
+    {
+        /**
+         * Creates the application.
+         *
+         * @return \Illuminate\Foundation\Application
+         */
+        public function createApplication()
+        {
+            $app = require __DIR__.'/../bootstrap/app.php';
+
+            $app->make(Kernel::class)->bootstrap();
+
+            return $app;
+        }
+    }
+
+> {note} If you have namespaced your tests and are using the PSR-4 autoloading standard to load your `tests` directory, you should place the `CreatesApplication` trait under the appropriate namespace.
+
+> {note} 만약 테스트에 네임스페이스를 지정하고 PSR-4 오토로잉에 따라서 `tests` 디렉토리를 사용하고 있다면, `CreatesApplication` 트레이트를 지정한 네임스페이스에 구성하십시오.
+
+Once you have completed these preparatory steps, you can follow the normal [Dusk installation instructions](/docs/{{version}}/dusk#installation).
+
+준비단계가 완료되면 일반적인 [DUsk 설치 구성](/docs/{{version}}/dusk#installation)절차를 따르면 됩니다.
+
 #### Environment
 #### 구동환경
 
@@ -603,6 +665,13 @@ The `forceSchema` method of the `Illuminate\Routing\UrlGenerator` class has been
 Date format validation is now more strict and supports the placeholders present within the documentation for the PHP [date function](http://php.net/manual/en/function.date.php). In previous releases of Laravel, the timezone placeholder `P` would accept all timezone formats; however, in Laravel 5.4 each timezone format has a unique placeholder as per the PHP documentation.
 
 Date 포맷의 유효성 검사가 보다 엄격해지고 PHP [날짜 함수](http://php.net/manual/en/function.date.php) 문서에 있는 플레이스홀더 표현을 지원합니다. 이전 버전의 라라벨에서는 타임존 플레스홀더 `P` 는 모든 타임존 포맷을 받을 수 있었습니다만; 라라벨 5.4에서는 각각의 타임존 포맷은 PHP 문서에 따르는 고유한 플레스홀더를 가지게 됩니다. 
+
+#### Method Names
+#### 메소드 이름
+
+The `addError` method has been renamed to `addFailure`. In addition, the `doReplacements` method has been renamed to `makeReplacements`. Typically, these changes will only be relevant if you are extending the `Validator` class.
+
+`addError` 메소드는 `addFailure`으로 이름이 변경되었습니다. 또한 `doReplacements` 메소드는 `makeReplacements` 으로 이름이 변경되었습니다. 일반적으로 이 변경사항들은 `Validator` 클래스를 상속받아서 사용하는 경우에만 관련이 있습니다.  
 
 ### Miscellaneous
 ### 기타

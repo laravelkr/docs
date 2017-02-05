@@ -118,9 +118,9 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
         }
     }
 
-> {tip} The `assertJson` method converts the given array into JSON, and then verifies that the JSON fragment occurs **anywhere** within the entire JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
+> {tip} The `assertJson` method converts the response to an array and utilizes `PHPUnit::assertArraySubset` to verify that the given fragment exists within the JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
 
-> {tip} `assertJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 어플리케이션이 반환하는 JSON 응답 중 **어느 한 곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
+> {tip} `assertJson` 메소드는 response-응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 어플리케이션에서 반환된 JSON 응답안에 주어진 내용이 존재하는지 확인합니다. 따라서 JSON response-응답에 다른 속성이 있더라도, 주어진 내용이 존재하면 테스트는 통과합니다.   
 
 <a name="verifying-exact-match"></a>
 ### Verifying Exact Match
@@ -170,6 +170,7 @@ Method  | Description
 `$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
 `$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
 `$response->assertExactJson(array $data);`  |  Assert that the response contains an exact match of the given JSON data.
+`$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
 `$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
 
 메소드  | 설명
@@ -183,4 +184,5 @@ Method  | Description
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
 `$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
 `$response->assertExactJson(array $data);`  |  응답에 주어진 JSON 데이터와 정확하게 일치하게 포함되어 있는지 확인.
+`$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.

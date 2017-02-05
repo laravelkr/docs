@@ -120,42 +120,42 @@ Blade views may be returned from routes using the global `view` helper:
     });
 
 <<a name="components-and-slots"></a>
- ## Components & Slots
- ## 컴포넌트 & 슬롯
+## Components & Slots
+## 컴포넌트 & 슬롯
  
- Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
  
- 컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 먼저 어플리케이션에서 재사용이 가능한 "경고(alert)" 컴포넌트를 생각해 보겠습니다. 
+컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 먼저 어플리케이션에서 재사용이 가능한 "경고(alert)" 컴포넌트를 생각해 보겠습니다. 
  
-     <!-- /resources/views/alert.blade.php -->
+    <!-- /resources/views/alert.blade.php -->
  
-     <div class="alert alert-danger">
-         {{ $slot }}
-     </div>
+    <div class="alert alert-danger">
+        {{ $slot }}
+    </div>
  
- The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
  
- 이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
+이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
  
-     @component('alert')
-         <strong>Whoops!</strong> Something went wrong!
-     @endcomponent
+    @component('alert')
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent
  
- Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by simply "echoing" the variable that matches their name:
+Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by simply "echoing" the variable that matches their name:
  
- 때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
+때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
  
-     <!-- /resources/views/alert.blade.php -->
+    <!-- /resources/views/alert.blade.php -->
  
-     <div class="alert alert-danger">
-         <div class="alert-title">{{ $title }}</div>
+    <div class="alert alert-danger">
+        <div class="alert-title">{{ $title }}</div>
  
-         {{ $slot }}
-     </div>
+        {{ $slot }}
+    </div>
  
- Now, we can inject content into the named slot using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
- 
- 그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
+Now, we can inject content into the named slot using the `@slot` directive. Any content not within a `@slot` directive will be passed to the component in the `$slot` variable:
+
+그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
  
      @component('alert')
          @slot('title')
@@ -164,7 +164,18 @@ Blade views may be returned from routes using the global `view` helper:
  
          You are not allowed to access this resource!
      @endcomponent
- 
+
+#### Passing Additional Data To Components
+#### 추가적인 데이터를 컴포넌트로 전달하기
+
+Sometimes you may need to pass additional data to a component. For this reason, you can pass an array of data as the second argument to the `@component` directive. All of the data will be made available to the component template as variables:
+
+컴포넌트로 추가적인 데이터를 전달할 필요가 있는 경우, `@component` 지시어의 두번째 인자로 데이터 배열을 전달하면 됩니다. 전달된 데이터는 컴포넌트 템플릿 에서 변수로 사용 가능합니다: 
+
+    @component('alert', ['foo' => 'bar'])
+        ...
+    @endcomponent
+
 <a name="displaying-data"></a>
 ## Displaying Data
 ## 데이터 표시하기

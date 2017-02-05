@@ -283,7 +283,7 @@ To create a subscription, first retrieve an instance of your billable model, whi
 
     $user = User::find(1);
 
-    $user->newSubscription('main', 'monthly')->create($creditCardToken);
+    $user->newSubscription('main', 'monthly')->create($stripeToken);
 
 The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
 
@@ -300,7 +300,7 @@ If you would like to specify additional customer details, you may do so by passi
 
 만약 여러분이 추가적인 사용자 정보를 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째 인자로 전달하면 됩니다:
 
-    $user->newSubscription('main', 'monthly')->create($creditCardToken, [
+    $user->newSubscription('main', 'monthly')->create($stripeToken, [
         'email' => $email,
     ]);
 
@@ -317,7 +317,7 @@ If you would like to apply a coupon when creating the subscription, you may use 
 
     $user->newSubscription('main', 'monthly')
          ->withCoupon('code')
-         ->create($creditCardToken);
+         ->create($stripeToken);
 
 <a name="checking-subscription-status"></a>
 ### Checking Subscription Status
@@ -508,7 +508,7 @@ The `updateCard` method may be used to update a customer's credit card informati
 
 `updateCard` 메소드는 고객의 신용카드 정보를 업데이트 하는데 사용할 수 있습니다. 이 메소드는 Stripe 토큰을 인자로 받고, 새로운 신용카드 정보를 기본 결제 수단으로 지정합니다:
 
-    $user->updateCard($creditCardToken);
+    $user->updateCard($stripeToken);
 
 <a name="subscription-trials"></a>
 ## Subscription Trials
@@ -526,7 +526,7 @@ If you would like to offer trial periods to your customers while still collectin
 
     $user->newSubscription('main', 'monthly')
                 ->trialDays(10)
-                ->create($creditCardToken);
+                ->create($stripeToken);
 
 This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
 
@@ -587,7 +587,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
     $user = User::find(1);
 
-    $user->newSubscription('main', 'monthly')->create($creditCardToken);
+    $user->newSubscription('main', 'monthly')->create($stripeToken);
 
 <a name="handling-stripe-webhooks"></a>
 ## Handling Stripe Webhooks

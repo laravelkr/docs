@@ -21,13 +21,13 @@ While Laravel does not dictate which JavaScript or CSS pre-processors you use, i
 #### CSS
 #### CSS
 
-[Laravel Elixir](/docs/{{version}}/elixir) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable.
+[Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable.
 
-[라라벨 Elixir](/docs/{{version}}/elixir)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 
+[라라벨 Mix](/docs/{{version}}/mix)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 
 
-In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Elixir documentation](/docs/{{version}}/elixir) for more information on compiling SASS or Less.
+In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
 
-이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Elixir 문서](/docs/{{version}}/elixir)에서 확인할 수 있습니다:
+이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Mix 문서](/docs/{{version}}/mix)에서 확인할 수 있습니다:
 
 #### JavaScript
 #### 자바스크립트
@@ -50,15 +50,15 @@ CSS 를 컴파일 하기 전에, NPM을 사용하여 여러분의 프로젝트�
 
     npm install
 
-Once the dependencies have been installed using `npm install`, you can compile your SASS files to plain CSS using [Gulp](http://gulpjs.com/). The `gulp` command will process the instructions in your `gulpfile.js` file. Typically, your compiled CSS will be placed in the `public/css` directory:
+Once the dependencies have been installed using `npm install`, you can compile your SASS files to plain CSS using [Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets). The `npm run dev` command will process the instructions in your `webpack.mix.js` file. Typically, your compiled CSS will be placed in the `public/css` directory:
 
-`npm install` 을 사용하여 의존성을 설치하고 나면, [Gulp](http://gulpjs.com/)를 사용하여 SASS 파일을 순수 CSS 로 컴파일 할 수 있습니다. `gulp` 명령어는 `gulpfile.js` 파일 안에 있는 명령들을 처리할 것입니다. 일반적으로 컴파일된 CSS 파일은 `public/css` 디렉토리에 위치할 것입니다:
+`npm install` 을 사용하여 의존성을 설치하고 나면, [라라벨 Mix](/docs/{{version}}/mix#working-with-stylesheets)를 사용하여 SASS 파일을 순수 CSS 로 컴파일 할 수 있습니다. `npm run dev` 명령어는 `webpack.mix.js` 파일 안에 있는 명령들을 처리할 것입니다. 일반적으로 컴파일된 CSS 파일은 `public/css` 디렉토리에 위치할 것입니다:
 
-    gulp
+    npm run dev
 
-The default `gulpfile.js` included with Laravel will compile the `resources/assets/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Elixir](/docs/{{version}}/elixir).
+The default `webpack.mix.js` included with Laravel will compile the `resources/assets/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Mix](/docs/{{version}}/mix).
 
-라라벨에 기본적으로 포함된 `gulpfile.js`는 `resources/assets/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 어플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 elixir 에서 설정하여](/docs/{{version}}/elixir) 사용할 수도 있습니다.
+라라벨에 기본적으로 포함된 `webpack.mix.js`는 `resources/assets/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 어플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 Mix에서 설정하여](/docs/{{version}}/mix) 사용할 수도 있습니다.
 
 <a name="writing-javascript"></a>
 ## Writing JavaScript
@@ -70,23 +70,23 @@ All of the JavaScript dependencies required by your application can be found in 
 
     npm install
 
-By default, the Laravel `package.json` file includes a few packages such as `vue` and `vue-resource` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
+By default, the Laravel `package.json` file includes a few packages such as `vue` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
 
-기본적으로 라라벨의 `package.json` 파일은 자바스크립트 어플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `vue-resource` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 어플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
+기본적으로 라라벨의 `package.json` 파일은 자바스크립트 어플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 어플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
 
-Once the packages are installed, you can use the `gulp` command to [compile your assets](/docs/{{version}}/elixir). Gulp is a command-line build system for JavaScript. When you run the `gulp` command, Gulp will execute the instructions in your `gulpfile.js` file:
+Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
 
-패키지들이 설치되고 나면, `gulp` 명령어를 사용하여 [asset 을 컴파일](/docs/{{version}}/elixir) 할 수 있습니다. gulp는 자바스크립트를 위한 커맨드라인 시스템입니다. `gulp` 명령어를 실행하면, gulp 는 `gulpfile.js` 파일안에 있는 명령어들을 실행할 것입니다:
+패키지들이 설치되고 나면, `npm run dev` 명령어를 사용하여 [asset 을 컴파일](/docs/{{version}}/mix) 할 수 있습니다. Webpack은 현대적인 자바스크립트 어플리케이션을 위한 모듈 번들러 입니다. `npm run dev` 명령어를 실행하면, Webpack 는 `webpack.mix.js` 파일안에 있는 명령어들을 실행할 것입니다:
 
-    gulp
+    npm run dev
 
-By default, the Laravel `gulpfile.js` file compiles your SASS and the `resources/assets/js/app.js` file. Within the `app.js` file you may register your Vue components or, if you prefer a different framework, configure your own JavaScript application. Your compiled JavaScript will typically be placed in the `public/js` directory.
+By default, the Laravel `webpack.mix.js` file compiles your SASS and the `resources/assets/js/app.js` file. Within the `app.js` file you may register your Vue components or, if you prefer a different framework, configure your own JavaScript application. Your compiled JavaScript will typically be placed in the `public/js` directory.
 
-기본적으로 라라벨의 `gulpfile.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다. 
+기본적으로 라라벨의 `webpack.mix.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다. 
 
-> {tip} The `app.js` file will load the `resources/assets/js/bootstrap.js` file which bootstraps and configures Vue, Vue Resource, jQuery, and all other JavaScript dependencies. If you have additional JavaScript dependencies to configure, you may do so in this file.
+> {tip} The `app.js` file will load the `resources/assets/js/bootstrap.js` file which bootstraps and configures Vue, Axios, jQuery, and all other JavaScript dependencies. If you have additional JavaScript dependencies to configure, you may do so in this file.
 
-> {tip} `app.js` 파일은 `resources/assets/js/bootstrap.js`을 로드하여 Vue, Vuew 리소스, jQuery 그리고 다른 모든 자바스크립트 의존성들을 설정하고 구동할 것입니다. 만약 추가적인 자바스크립트 의존성을 설정해야 한다면, 이 파일안에서 할 수 있습니다.
+> {tip} `app.js` 파일은 `resources/assets/js/bootstrap.js`을 로드하여 Vue, Axios, jQuery 그리고 다른 모든 자바스크립트 의존성들을 설정하고 구동할 것입니다. 만약 추가적인 자바스크립트 의존성을 설정해야 한다면, 이 파일안에서 할 수 있습니다.
 
 <a name="writing-vue-components"></a>
 ### Writing Vue Components
@@ -108,9 +108,9 @@ To use the component in your application, you may simply drop it into one of you
         <example></example>
     @endsection
 
-> {tip} Remember, you should run the `gulp` command each time you change a Vue component. Or, you may run the `gulp watch` command to monitor and automatically recompile your components each time they are modified.
+> {tip} Remember, you should run the `npm run dev` command each time you change a Vue component. Or, you may run the `npm run watch` command to monitor and automatically recompile your components each time they are modified.
 
-> {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `gulp` 명령어를 실행해야 한다는 것입니다. 또는 `gulp watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.
+> {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `npm run dev` 명령어를 실행해야 한다는 것입니다. 또는 `npm run watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.
 
 Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
 

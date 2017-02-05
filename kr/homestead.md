@@ -268,9 +268,12 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
 ### Accessing Homestead Globally
 ### 어디에서나 홈스테드 엑세스하기
 
-Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this by adding a simple Bash function to your Bash profile. This function will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
+Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile. On Windows, you may accomplish this by adding a "batch" file to your `PATH`. This scripts will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
 
-때로는 파일시스템의 어디에서나 여러분의 홈스테드 머신에 `vagrant up`을 실행하고자 할 수 있습니다. 이렇게 하기 위해서는 간단한 Bash 함수를 Bash profile 에 추가하여 구현할 수 있습니다. 이 함수는 여러분이 시스템 어디에서나 Vagrant 명령어를 실행할 수 있게 하고 자동으로 홈스테드 설치를 대상으로 하게 할 수 있습니다. 
+때로는 파일시스템의 어디에서나 여러분의 홈스테드 머신에 `vagrant up`을 실행하고자 할 수 있습니다. 이렇게 하기 위해서는 맥 / 리눅스 시스템에서 Bash 함수를 Bash profile 에 추가하여 구현할 수 있습니다. 윈도우에서는 `PATH`에 "배치 파일을 추가하여 수행할 수 있습니다. 이 스크립트는 여러분이 시스템 어디에서나 Vagrant 명령어를 실행할 수 있게 하고 자동으로 홈스테드 설치를 대상으로 하게 할 수 있습니다. 
+
+#### Linux
+#### 리눅스
 
     function homestead() {
         ( cd ~/Homestead && vagrant $* )
@@ -279,6 +282,28 @@ Sometimes you may want to `vagrant up` your Homestead machine from anywhere on y
 Make sure to tweak the `~/Homestead` path in the function to the location of your actual Homestead installation. Once the function is installed, you may run commands like `homestead up` or `homestead ssh` from anywhere on your system.
 
 함수에서 설정한 `~/Homestead` 경로가 여러분의 실제 홈스테드 설치 위치인지 확인하십시오. 함수를 설정하면 시스템의 어느 곳에서나 `homestead up` 또는 `homestead ssh`와 같은 명령어를 실행할 수 있습니다. 
+
+#### Windows
+#### 윈도우
+
+Create a `homestead.bat` batch file anywhere on your machine with the following contents:
+
+다음 내용을 가지는 `homestead.bat` 배치 파일을 원하는 곳에다가 생성합니다:
+
+    @echo off
+
+    set cwd=%cd%
+    set homesteadVagrant=C:\Homestead
+
+    cd /d %homesteadVagrant% && vagrant %*
+    cd /d %cwd%
+
+    set cwd=
+    set homesteadVagrant=
+
+Make sure to tweak the example `C:\Homestead` path in the script to the actual location of your Homestead installation. After creating the file, add the file location to your `PATH`. You may then run commands like `homestead up` or `homestead ssh` from anywhere on your system.
+
+스크립트에서 설정한 `C:\Homestead` 경로가 여러분의 실제 홈스테드 설치 위치인지 확인하십시오 파일을 생성한뒤에, 파일의 경로를 `PATH` 에 추가합니다. 시스템의 어떤 경로에서라도 `homestead up` 또는 `homestead ssh` 명령어를 실행할 수 있습니다.
 
 <a name="connecting-via-ssh"></a>
 ### Connecting Via SSH
@@ -312,9 +337,26 @@ To connect to your MySQL or Postgres database from your host machine's database 
 ### Adding Additional Sites
 ### 추가적인 사이트 지정하기
 
-Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your `~/.homestead/Homestead.yaml` file and then run the `vagrant reload --provision` terminal command from your Homestead directory.
+Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your `~/.homestead/Homestead.yaml` file:
 
-홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `~/.homestead/Homestead.yaml` 파일에 사이트를 추가하고 터미널에서 홈스테드 디렉토리로 이동한 뒤 `vagrant reload --provision` 명령어를 실행하면 됩니다. 
+홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `~/.homestead/Homestead.yaml` 파일에 사이트를 추가하십시오: 
+
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
+        - map: another.app
+          to: /home/vagrant/Code/another/public
+
+If Vagrant is not automatically managing your "hosts" file, you may need to add the new site to that file as well:
+
+Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다: 
+
+    192.168.10.10  homestead.app
+    192.168.10.10  another.app
+
+Once the site has been added, run the `vagrant reload --provision` command from your Homestead directory.
+
+사이트가 추가되면, 홈스테드 디렉토리에서 `vagrant reload --provision` 명령어를 실행하십시오.
 
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules

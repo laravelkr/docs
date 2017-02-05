@@ -978,6 +978,18 @@ The field under validation must be an IP address.
 
 필드의 값이 IP 주소여야 합니다.
 
+#### ipv4
+
+The field under validation must be an IPv4 address.
+
+필드의 값이 IPv4 주소여야 합니다.
+
+#### ipv6
+
+The field under validation must be an IPv6 address.
+
+필드의 값이 IPv6 주소여야 합니다.
+
 <a name="rule-json"></a>
 #### json
 

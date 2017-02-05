@@ -853,7 +853,7 @@ The `max` method returns the maximum value of a given key:
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-The `merge` method merges the given array into the original collection. If a string key in the given array matches a string key in the original collection, the given array's value will overwrite the value in the original collection:
+The `merge` method merges the given array with the original collection. If a string key in the given array matches a string key in the original collection, the given array's value will overwrite the value in the original collection:
 
 `merge` 메소드는 주어진 배열을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 쓸 것입니다:
 

@@ -1,5 +1,6 @@
-# Console Commands
-# 콘솔 명령
+# Artisan Console
+# 아티즌 콘솔
+
 - [Introduction](#introduction)
 - [소개](#introduction)
 - [Writing Commands](#writing-commands)
@@ -50,6 +51,15 @@ Every command also includes a "help" screen which displays and describes the com
 모든 명령어들은 "도움말" 기능을 포함하고 있어서 해당 명령어의 인자와, 옵션들을 확인할 수 있습니다. 도움말 화면을 확인하기 위해서는 다음과 같이 명령어 앞에 `help` 를 추가하여 실행하면 됩니다.
 
     php artisan help migrate
+
+#### Laravel REPL
+#### 라라벨 REPL
+
+All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+
+모든 라라벨 어플리케이션에는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 REPL 인 Tinker가 포함됩니다. Tinker를 사용하면 Eloquent ORM, Job, 이벤트 등 커맨드라인을 통해서 라라벨 어플리케이션을 조작할 수 있습니다. Tinker 환경에 진입하려면 `tinker` 아티즌 명령어를 실행하십시오:
+
+    php artisan tinker
 
 <a name="writing-commands"></a>
 ## Writing Commands

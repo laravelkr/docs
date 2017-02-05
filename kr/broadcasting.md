@@ -9,7 +9,7 @@
     - [드라이버 사전준비사항](#driver-prerequisites)
 - [Concept Overview](#concept-overview)
 - [컨셉 개요](#concept-overview)
-    - [Using Example Application](#using-example-application)
+    - [Using An Example Application](#using-example-application)
     - [예제 애플리케이션 사용하기](#using-example-application)
 - [Defining Broadcast Events](#defining-broadcast-events)
 - [브로드캐스트 이벤트 정의하기](#defining-broadcast-events)
@@ -139,21 +139,21 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 #### Socket.IO
 #### Socket.IO
 
-If you are going to pair the Redis broadcaster with a Socket.IO server, you will need to include the Socket.IO JavaScript client library in your application's `head` HTML element:
+If you are going to pair the Redis broadcaster with a Socket.IO server, you will need to include the Socket.IO JavaScript client library in your application's `head` HTML element. When the Socket.IO server is started, it will automatically expose the client JavaScript library at a standard URL. For example, if you are running the Socket.IO server on the same domain as your web application, you may access the client library like so:
 
-만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션의 `head`에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다.
+만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션의 `head`에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. Socket.IO 서버가 구동되면 자동으로 자바스크립트 라이브러리와 기본 URL을 가지게 됩니다. 예를 들어 Socket.IO서버가 웹 어플리케이션과 동일한 도메인을 가진다면, 클라이언트 라이브러리는 다음과 같이 엑세스 할 수 있습니다:
 
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
-Next, you will need to instantiate Echo with the `socket.io` connector and a `host`. For example, if your application and socket server are running on the `app.dev` domain you should instantiate Echo like so:
+Next, you will need to instantiate Echo with the `socket.io` connector and a `host`.
 
-그리고나서, `socket.io` 커넥터와 `host`로 Echo를 초기화 시켜야 합니다. 예를 들어, 당신의 애플리케이션과 소켓 서버가 `app.dev` 도메인에서 운영되고 있다면 당신은 Echo를 다음과 같이 초기화 해야 합니다.
+그리고나서, `socket.io` 커넥터와 `host`로 Echo를 초기화 시켜야 합니다.
 
     import Echo from "laravel-echo"
 
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        host: 'http://app.dev:6001'
+        host: window.location.hostname + ':6001'
     });
 
 Finally, you will need to run a compatible Socket.IO server. Laravel does not include a Socket.IO server implementation; however, a community driven Socket.IO server is currently maintained at the [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) GitHub repository.
@@ -180,7 +180,7 @@ Events are broadcast over "channels", which may be specified as public or privat
 이벤트는 공개적이거나 비공개적이라고 명시된 "채널"을 통해 브로드캐스트 됩니다. 모든 방문자는 인증이나 승인 없이도 공개 채널을 구독할 수 있습니다. 하지만 비공개 채널을 구독하기 위해서는 반드시 인증과 승인을 받아야 합니다.
 
 <a name="using-example-application"></a>
-### Using Example Application
+### Using An Example Application
 ### 예제 애플리케이션 사용하기
 
 Before diving into each component of event broadcasting, let's take a high level overview using an e-commerce store as an example. We won't discuss the details of configuring [Pusher](https://pusher.com) or [Laravel Echo](#installing-laravel-echo) since that will be discussed in detail in other sections of this documentation.
@@ -431,7 +431,7 @@ All authorization callbacks receive the currently authenticated user as their fi
 #### Authorization Callback Model Binding
 #### 승인 콜백의 모델 바인딩
 
-Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/docs/{{version}}/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, I may request an actual `Order` model instance:
+Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/docs/{{version}}/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, you may request an actual `Order` model instance:
 
 HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다:
 
@@ -471,7 +471,7 @@ To better understand when you may want to use the `toOthers` method, let's imagi
 
 언제 `toOthers` 메소드를 쓰면 좋은지 더 잘 이해하기 위해 할일 이름을 입력함으로써 새로운 할일 을 생성하는 할일 목록 애플리케이션을 상상해봅시다.할일을 생성하기 위해 애플리케이션은 아마도 할일이 생성되었음을 브로드캐스트하고 새 할일의 JSON 표현을 되돌려주는 `/task` 라는 엔드포인트에 요청을 보낼 것입니다. 엔드포인트로부터 자바스크립트 애플리케이션이 응답을 받으면, 다음과 같이 즉각적으로 할일 목록에 새 할일을 추가할 것입니다.
 
-    this.$http.post('/task', task)
+    axios.post('/task', task)
         .then((response) => {
             this.tasks.push(response.data);
         });
@@ -487,13 +487,13 @@ You may solve this by using the `toOthers` method to instruct the broadcaster to
 #### Configuration
 #### 설정
 
-When you initialize a Laravel Echo instance, a socket ID is assigned to the connection. If you are using [Vue](https://vuejs.org) and Vue Resource, the socket ID will automatically be attached to every outgoing request as a `X-Socket-ID` header. Then, when you call the `toOthers` method, Laravel will extract the socket ID from the header and instruct the broadcaster to not broadcast to any connections with that socket ID.
+When you initialize a Laravel Echo instance, a socket ID is assigned to the connection. If you are using [Vue](https://vuejs.org) and [Axios](https://github.com/mzabriskie/axios), the socket ID will automatically be attached to every outgoing request as a `X-Socket-ID` header. Then, when you call the `toOthers` method, Laravel will extract the socket ID from the header and instruct the broadcaster to not broadcast to any connections with that socket ID.
 
-라라벨 에코 인스턴스를 초기화 할 때, 커넥션에 소켓 ID 가 할당 됩니다. 만약 당신이 [Vue](https://vuejs.org)와 Vue 리소스를 사용하고 있다면, 모든 외부로 나가는 리퀘스트에 소켓 ID가 `X-Socket-ID` 헤더로 자동으로 첨부될 것입니다. 이후, `toOthers` 메소드를 호출하면, 라라벨은 헤더에서 소켓 ID를 추출해서 브로드캐스터로 하여금 해당 소켓 ID를 가지고 있는 모든 커넥션에 브로드캐스트 하지 않도록 지시할 것입니다.
+라라벨 에코 인스턴스를 초기화 할 때, 커넥션에 소켓 ID 가 할당 됩니다. 만약 당신이 [Vue](https://vuejs.org)와 [Axios](https://github.com/mzabriskie/axios)를 사용하고 있다면, 모든 외부로 나가는 리퀘스트에 소켓 ID가 `X-Socket-ID` 헤더로 자동으로 첨부될 것입니다. 이후, `toOthers` 메소드를 호출하면, 라라벨은 헤더에서 소켓 ID를 추출해서 브로드캐스터로 하여금 해당 소켓 ID를 가지고 있는 모든 커넥션에 브로드캐스트 하지 않도록 지시할 것입니다.
 
-If you are not using Vue and Vue Resource, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header. You may retrieve the socket ID using the `Echo.socketId` method:
+If you are not using Vue and Axios, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header. You may retrieve the socket ID using the `Echo.socketId` method:
 
-만일 Vue와, 관련된 Vue 리소스를 사용하지 않는다면, `X-Socket-ID` 헤더를 전송하기 위해 자바스크립트 애플리케이션을 수동으로 설정해주어야 합니다. `Echo.socketId` 메소드를 이용하여 소켓 ID를 받을 수 있습니다.
+만일 Vue와 Axios를 사용하지 않는다면, `X-Socket-ID` 헤더를 전송하기 위해 자바스크립트 애플리케이션을 수동으로 설정해주어야 합니다. `Echo.socketId` 메소드를 이용하여 소켓 ID를 받을 수 있습니다:
 
     var socketId = Echo.socketId();
 

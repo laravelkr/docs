@@ -29,6 +29,8 @@
     - [Requesting All Scopes](#requesting-all-scopes)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
+- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
+- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
     - [Creating A Personal Access Client](#creating-a-personal-access-client)
@@ -204,9 +206,9 @@ The published components will be placed in your `resources/assets/js/components`
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-After registering the components, make sure to run `gulp` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
+After registering the components, make sure to run `npm run dev` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
 
-컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `gulp`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
+컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `npm run dev`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
@@ -274,9 +276,9 @@ Since your users will not be able to utilize the `client` command, Passport prov
 
 여러분의 사용자는 `client` 명령어를 사용할 수 없기 때문에, Passport 는 클라이언트를 생성하는데 사용할 수 있는 JSON API를 제공합니다. 이렇게 하면, 일일이 클라이언트를 생성하고, 수정하고, 삭제하는 컨트롤러 코드를 구성해야 하는 문제에서 벗어날 수 있습니다. 
 
-However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
+However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
 
-그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Vue](https://vuejs.org)를 사용하겠습니다.
+그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/mzabriskie/axios)를 사용하겠습니다.
 
 > {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 
@@ -289,7 +291,7 @@ This route returns all of the clients for the authenticated user. This is primar
 
 이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다: 
 
-    this.$http.get('/oauth/clients')
+    axios.get('/oauth/clients')
         .then(response => {
             console.log(response.data);
         });
@@ -310,7 +312,7 @@ When a client is created, it will be issued a client ID and client secret. These
         redirect: 'http://example.com/callback'
     };
 
-    this.$http.post('/oauth/clients', data)
+    axios.post('/oauth/clients', data)
         .then(response => {
             console.log(response.data);
         })
@@ -330,7 +332,7 @@ This route is used to update clients. It requires two pieces of data: the client
         redirect: 'http://example.com/callback'
     };
 
-    this.$http.put('/oauth/clients/' + clientId, data)
+    axios.put('/oauth/clients/' + clientId, data)
         .then(response => {
             console.log(response.data);
         })
@@ -345,7 +347,7 @@ This route is used to delete clients:
 
 이 라우트는 클라이언트를 삭제할 때 사용됩니다:
 
-    this.$http.delete('/oauth/clients/' + clientId)
+    axios.delete('/oauth/clients/' + clientId)
         .then(response => {
             //
         });
@@ -551,6 +553,26 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
 
 > {tip} `/oauth/authorize` 라우트는 `Passport::routes` 메소드에 의해서 정의된다는 것을 기억하십시오. 이 라우트를 수동으로 등록할 필요가 없습니다.
 
+<a name="client-credentials-grant-tokens"></a>
+## Client Credentials Grant Tokens
+## Client Credentials Grant Tokens
+
+The client credentials grant is suitable for machine-to-machine authentication. For example, you might use this grant in a scheduled job which is performing maintenance tasks over an API. To retrieve a token, make a request to the `oauth/token` endpoint:
+
+    $guzzle = new GuzzleHttp\Client;
+
+    $response = $guzzle->post('http://your-app.com/oauth/token', [
+        'form_params' => [
+            'grant_type' => 'client_credentials',
+            'client_id' => 'client-id',
+            'client_secret' => 'client-secret',
+            'scope' => 'your-scope',
+        ],
+    ]);
+
+    echo json_decode((string) $response->getBody(), true);
+
+
 <a name="personal-access-tokens"></a>
 ## Personal Access Tokens
 ## 개인용 엑세스 토큰
@@ -592,9 +614,9 @@ Once you have created a personal access client, you may issue tokens for a given
 #### JSON API
 #### JSON API
 
-Passport also includes a JSON API for managing personal access tokens. You may pair this with your own frontend to offer your users a dashboard for managing personal access tokens. Below, we'll review all of the API endpoints for managing personal access tokens. For convenience, we'll use [Vue](https://vuejs.org) to demonstrate making HTTP requests to the endpoints.
+Passport also includes a JSON API for managing personal access tokens. You may pair this with your own frontend to offer your users a dashboard for managing personal access tokens. Below, we'll review all of the API endpoints for managing personal access tokens. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
 
-passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포함하고 있습니다. 이 API와 함께 여러분의 고유한 프론트 엔드를 구성하여 사용자에게 개인용 엑세스 토큰을 관리할 수 있는 대시보드를 제공할 수 있습니다. 아래에서 개인용 엑세스 토큰을 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드포인트에 대한 HTTP request-요청을 만드는 데모에는 [Vue](https://vuejs.org)를 사용하겠습니다.
+passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포함하고 있습니다. 이 API와 함께 여러분의 고유한 프론트 엔드를 구성하여 사용자에게 개인용 엑세스 토큰을 관리할 수 있는 대시보드를 제공할 수 있습니다. 아래에서 개인용 엑세스 토큰을 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/mzabriskie/axios)를 사용하겠습니다.
 
 > {tip} If you don't want to implement the personal access token frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 
@@ -607,7 +629,7 @@ This route returns all of the [scopes](#token-scopes) defined for your applicati
 
 이 라우트는 어플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다:
 
-    this.$http.get('/oauth/scopes')
+    axios.get('/oauth/scopes')
         .then(response => {
             console.log(response.data);
         });
@@ -619,7 +641,7 @@ This route returns all of the personal access tokens that the authenticated user
 
 이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 삭제할 수 있습니다:
 
-    this.$http.get('/oauth/personal-access-tokens')
+    axios.get('/oauth/personal-access-tokens')
         .then(response => {
             console.log(response.data);
         });
@@ -636,7 +658,7 @@ This route creates new personal access tokens. It requires two pieces of data: t
         scopes: []
     };
 
-    this.$http.post('/oauth/personal-access-tokens', data)
+    axios.post('/oauth/personal-access-tokens', data)
         .then(response => {
             console.log(response.data.accessToken);
         })
@@ -651,7 +673,7 @@ This route may be used to delete personal access tokens:
 
 이 라우트는 개인용 엑세스 토큰을 삭제하는데 사용됩니다:
 
-    this.$http.delete('/oauth/personal-access-tokens/' + tokenId);
+    axios.delete('/oauth/personal-access-tokens/' + tokenId);
 
 <a name="protecting-routes"></a>
 ## Protecting Routes
@@ -807,24 +829,22 @@ This Passport middleware will attach a `laravel_token` cookie to your outgoing r
 
 이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 어플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 어플리케이션에 API에 요청-request를 만들 수 있습니다:
 
-    this.$http.get('/user')
+    axios.get('/user')
         .then(response => {
             console.log(response.data);
         });
 
-When using this method of authentication, you will need to send the CSRF token with every request via the `X-CSRF-TOKEN` header. Laravel will automatically send this header if you are using the default [Vue](https://vuejs.org) configuration that is included with the framework:
+When using this method of authentication, Axios will automatically send the `X-CSRF-TOKEN` header. In addition, the default Laravel JavaScript scaffolding instructs Axios to send the `X-Requested-With` header:
 
-이 인증 메소드를 사용할 때, 모든 요청-request에 대해 `X-CSRF-TOKEN` 헤더를 통해서 CSRF토큰을 보낼 필요가 있습니다. 프레임워크에 포함된 기본 [Vue](https://vuejs.org) 설정을 사용한다면, 라라벨이 자동으로 이 헤더를 보냅니다:
+이 인증 메소드를 사용할 때, Axios는 자동으로 `X-CSRF-TOKEN` 헤더를 보냅니다. 이에 더해 라라벨의 기본 자바스크립트 스캐폴딩은 Axios가 `X-Requested-With` 헤더를 보내도록 합니다:
 
-    Vue.http.interceptors.push((request, next) => {
-        request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+    window.axios.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+    };
 
-        next();
-    });
+> {note} If you are using a different JavaScript framework, you should make sure it is configured to send the `X-CSRF-TOKEN` and `X-Requested-With` headers with every outgoing request.
 
-> {note} If you are using a different JavaScript framework, you should make sure it is configured to send this header with every outgoing request.
-
-> {note} 다른 자바스크립트 프레임워크를 사용한다면, 모든 요청-request에 대해서 이 헤더를 전달하도록 설정해야합니다.
+> {note} 다른 자바스크립트 프레임워크를 사용한다면, 모든 요청-request에 대해서 `X-CSRF-TOKEN` 와 `X-Requested-With` 헤더를 전달하도록 설정해야합니다.
 
 <a name="events"></a>
 ## Events

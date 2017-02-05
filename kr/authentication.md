@@ -142,9 +142,9 @@ If the redirect path needs custom generation logic you may define a `redirectTo`
         //
     }
 
-> {tip} `redirectTo` method has higher priority than `redirectTo` attribute.
+> {tip} The `redirectTo` method will take precedence over the `redirectTo` attribute.
 
-> {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선순위가 높습니다.
+> {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선합니다.
 
 #### Username Customization
 #### 어떤 사용자이름을 사용할지 결정하기

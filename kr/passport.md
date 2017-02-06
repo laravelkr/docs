@@ -555,9 +555,11 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
 
 <a name="client-credentials-grant-tokens"></a>
 ## Client Credentials Grant Tokens
-## Client Credentials Grant Tokens
+## 클라이언트의 자격증명을 위한 Grant 토큰
 
 The client credentials grant is suitable for machine-to-machine authentication. For example, you might use this grant in a scheduled job which is performing maintenance tasks over an API. To retrieve a token, make a request to the `oauth/token` endpoint:
+
+클라이언트의 자격증명을 위한 Grant 는 시스템간의 인증에 적합합니다. 예를 들어, API를 통해서 관리 작업을 수행하도록 예약된 스케줄링 job에서 이 grant를 사용할 수 있습니다. 토큰을 획득하려면, `oauth/token` 으로 request를 연결하십시오:
 
     $guzzle = new GuzzleHttp\Client;
 

@@ -110,6 +110,10 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
     $value = config('courier.option');
 
+> {note} You should not define Closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
+
+> {note} 설정 파일에서 클로저를 정의하면 안됩니다. `config:cache` 아티즌 명령어가 실행될 때 설정들이 정상적으로 serialize 되지 못하기 때문입니다.
+
 #### Default Package Configuration
 #### 패키지 기본 설정
 

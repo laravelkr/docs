@@ -92,7 +92,7 @@ Now the code is not coupled to any specific vendor, or even Laravel. 이제 코�
 ### Simplicity 단순성
 
 When all of Laravel's services are neatly defined within simple interfaces, it is very easy to determine the functionality offered by a given service. 라라벨의 모든 서비스들이 단순한 인터페이스로 보기좋게 정의돼 있기 때문에, 그 서비스들에 의해 제공되는 기능을 알아내는 것이 매우 쉽습니다. **The contracts serve as succinct documentation to the framework's features.** **Contract들이 프레임워크의 기능들에 대한 간결한 도큐먼트의 역할을 하는 것입니다.**
-In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분이 간단한 인터페이스에 의존하게 되면, 여러분의 코드는 이해하거나 유지보수하기가 더 쉽워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface. 크고 복잡한 클래스에서 사용할 수 있는 메소드들을 훑어보는 대신, 단순하고 깨끗한 인터페이스를 참고할 수 있습니다.
+In addition, when you depend on simple interfaces, your code is easier to understand and maintain. 또한, 여러분이 간단한 인터페이스에 의존하게 되면, 여러분의 코드는 이해하거나 유지보수하기가 더 쉬워집니다.  Rather than tracking down which methods are available to you within a large, complicated class, you can refer to a simple, clean interface. 크고 복잡한 클래스에서 사용할 수 있는 메소드들을 훑어보는 대신, 단순하고 깨끗한 인터페이스를 참고할 수 있습니다.
 
 <a name="contract-reference"></a>
 ## Contract Reference 

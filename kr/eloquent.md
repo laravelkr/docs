@@ -703,7 +703,7 @@ Global scopes allow you to add constraints to all queries for a given model. Lar
 
 Writing a global scope is simple. Define a class that implements the `Illuminate\Database\Eloquent\Scope` interface. This interface requires you to implement one method: `apply`. The `apply` method may add `where` constraints to the query as needed:
 
-글로벌 스코프를 작성하는 것은 쉽습니다. `Illuminate\Database\Eloquent\Scope` 인터페이스의 구현 클래스를 정의합니다. 이 인터페이스는 `apply` 메소드를 구현해야 합니다. `apply` 메소드는 필요한 `whre` 조건을 쿼리에 추가할 수 있습니다:
+글로벌 스코프를 작성하는 것은 쉽습니다. `Illuminate\Database\Eloquent\Scope` 인터페이스의 구현 클래스를 정의합니다. 이 인터페이스는 `apply` 메소드를 구현해야 합니다. `apply` 메소드는 필요한 `where` 조건을 쿼리에 추가할 수 있습니다:
 
     <?php
 
@@ -809,7 +809,7 @@ If you would like to remove a global scope for a given query, you may use the `w
 
 If you would like to remove several or even all of the global scopes, you may use the `withoutGlobalScopes` method:
 
-몇몇 또는 모든 글로벌 스코프를 제거하고자 한다면, 다음처럼 `withoutGlobalScope` 메소드를 사용할 수 있습니다:
+몇몇 또는 모든 글로벌 스코프를 제거하고자 한다면, 다음처럼 `withoutGlobalScopes` 메소드를 사용할 수 있습니다:
 
     // Remove all of the global scopes...
     User::withoutGlobalScopes()->get();

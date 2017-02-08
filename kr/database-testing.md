@@ -270,7 +270,6 @@ You may also attach relationships to models using Closure attributes in your fac
         ];
     });
 
-These Closures also receive the evaluated attribute array of the factory that contains them:
 These Closures also receive the evaluated attribute array of the factory that defines them:
 
 이 클로저는 그것들을 정의하는 팩토리의 계산된 속성 배열을 받을 수도 있습니다:

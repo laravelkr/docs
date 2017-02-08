@@ -4,7 +4,7 @@
 - [소개](#introduction)
     - [Contracts Vs. Facades](#contracts-vs-facades)
 - [When To Use Contracts](#when-to-use-contracts)
-- [Contracts 사용 시기](#when-to-use-contracts)
+- [Contracts 사용시기](#when-to-use-contracts)
     - [Loose Coupling](#loose-coupling)
     - [느슨한 결합](#loose-coupling)
     - [Simplicity](#simplicity)
@@ -45,7 +45,7 @@ Unlike facades, which do not require you to require them in your class' construc
 
 > {tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.
 
-{팁} 대부분의 애플리케이션은 facades나 contract중 선호하는 어느것을 사용해도 무방합니다. 그러나 패키지를 빌드하는 경우 패키지 컨텍스트에서 테스트하기 쉽기 때문에 contract 사용을 강력하게 고려해야합니다.
+> {tip} 대부분의 애플리케이션은 facades나 contract중 선호하는 어느것을 사용해도 무방합니다. 그러나 패키지를 빌드하는 경우 패키지 컨텍스트에서 테스트하기 쉽기 때문에 contract 사용을 강력하게 고려해야합니다.
 
 <a name="when-to-use-contracts"></a>
 ## When To Use Contracts

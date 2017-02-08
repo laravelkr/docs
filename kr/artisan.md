@@ -211,7 +211,7 @@ When defining a Closure based command, you may use the `describe` method to add 
 
 <a name="defining-input-expectations"></a>
 ## Defining Input Expectations
-### Defining Input Expectations
+## 입력 값들 정의하기
 
 When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the `signature` property on your commands. The `signature` property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.
 
@@ -291,7 +291,7 @@ You may assign default values to options by specifying the default value after t
 
 <a name="option-shortcuts"></a>
 #### Option Shortcuts
-#### 옵션 일람
+#### 옵션의 짧은 표현
 
 To assign a shortcut when defining an option, you may specify it before the option name and use a | delimiter to separate the shortcut from the full option name:
 
@@ -346,7 +346,7 @@ You may assign descriptions to input arguments and options by separating the par
 
 <a name="retrieving-input"></a>
 ### Retrieving Input
-### 입력 조회
+### 입력 조회하기
 
 While your command is executing, you will obviously need to access the values for the arguments and options accepted by your command. To do so, you may use the `argument` and `option` methods:
 
@@ -420,7 +420,7 @@ If you need to ask the user for a simple confirmation, you may use the `confirm`
     }
 
 #### Auto-Completion
-### 자동완성
+#### 자동완성
 
 The `anticipate` method can be used to provide auto-completion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
 

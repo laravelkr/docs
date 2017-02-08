@@ -28,6 +28,7 @@
 
 <a name="introduction"></a>
 ## Introduction
+## 소개하기
 
 When you start a new Laravel project, error and exception handling is already configured for you. The `App\Exceptions\Handler` class is where all exceptions triggered by your application are logged and then rendered back to the user. We'll dive deeper into this class throughout this documentation.
 

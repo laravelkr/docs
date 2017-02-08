@@ -8,7 +8,7 @@
     - [Binding Basics](#binding-basics)
     - [기존적인 바인딩 ](#binding-basics)
     - [Binding Interfaces To Implementations](#binding-interfaces-to-implementations)
-    - [구현 객체에 인터페이스 바인딩하기](#binding-interfaces-to-implementations)
+    - [인터페이스dp 구현객체 바인딩하기](#binding-interfaces-to-implementations)
     - [Contextual Binding](#contextual-binding)
     - [문맥에 따른 조건적 바인딩](#contextual-binding)
     - [Tagging](#tagging)
@@ -150,7 +150,7 @@ Sometimes you may have a class that receives some injected classes, but also nee
 
 <a name="binding-interfaces-to-implementations"></a>
 ### Binding Interfaces To Implementations
-### 구현 객체에 인터페이스 바인딩하기
+### 인터페이스에 구현객체 바인딩하기
 
 A very powerful feature of the service container is its ability to bind an interface to a given implementation. For example, let's assume we have an `EventPusher` interface and a `RedisEventPusher` implementation. Once we have coded our `RedisEventPusher` implementation of this interface, we can register it with the service container like so:
 

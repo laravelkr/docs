@@ -119,7 +119,7 @@ Blade views may be returned from routes using the global `view` helper:
         return view('child');
     });
 
-<<a name="components-and-slots"></a>
+<a name="components-and-slots"></a>
 ## Components & Slots
 ## 컴포넌트 & 슬롯
  

@@ -1,4 +1,5 @@
 # Authentication
+# 인증
 
 - [Introduction](#introduction)
 - [소개](#introduction)
@@ -35,7 +36,7 @@
 - [Adding Custom User Providers](#adding-custom-user-providers)
 - [사용자 정의 User 프로바이더 추가하기](#adding-custom-user-providers)
     - [The User Provider Contract](#the-user-provider-contract)
-    - [사용자 계약 제공](#the-user-provider-contract)
+    - [사용자 프로바이더 Contract](#the-user-provider-contract)
     - [The Authenticatable Contract](#the-authenticatable-contract)
     - [인증가능 계약](#the-authenticatable-contract)
 - [Events](#events)
@@ -344,7 +345,7 @@ If you wish, you also may add extra conditions to the authentication query in ad
 
 > {note} In these examples, `email` is not a required option, it is merely used as an example. You should use whatever column name corresponds to a "username" in your database.
 
-> **주의:** 이 예제에서, `email` 은 필수 옵션이 아니라, 그냥 예제에서 사용된것입니다. 여러분은 데이터베이스 안에 있는 "username"과 일치하는 어떠한 컬럼 이름을 사용해야 합니다.
+> {note} 이 예제에서, `email` 은 필수 옵션이 아니라, 그냥 예제에서 사용된것입니다. 여러분은 데이터베이스 안에 있는 "username"과 일치하는 어떠한 컬럼 이름을 사용해야 합니다.
 
 #### Accessing Specific Guard Instances
 #### 지정된 Guard 인스턴스에 엑세스하기

@@ -201,7 +201,7 @@ The `update` method should be used to update existing records in the database. T
 
 The `delete` method should be used to delete records from the database. Like `update`, the number of rows affected will be returned:
 
-The `delete` method should be used to delete records from the database. Like `update`, the number of rows affected will be returned:
+`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다:
 
     $deleted = DB::delete('delete from users');
 

@@ -86,17 +86,17 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 
 #### Socket.IO
 
-만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션의 `head`에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다.
+만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션의 `head`에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. Socket.IO 서버가 구동되면 자동으로 자바스크립트 라이브러리와 기본 URL을 가지게 됩니다. 예를 들어 Socket.IO서버가 웹 어플리케이션과 동일한 도메인을 가진다면, 클라이언트 라이브러리는 다음과 같이 엑세스 할 수 있습니다:
 
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 
-그리고나서, `socket.io` 커넥터와 `host`로 Echo를 초기화 시켜야 합니다. 예를 들어, 당신의 애플리케이션과 소켓 서버가 `app.dev` 도메인에서 운영되고 있다면 당신은 Echo를 다음과 같이 초기화 해야 합니다.
+그리고나서, `socket.io` 커넥터와 `host`로 Echo를 초기화 시켜야 합니다.
 
     import Echo from "laravel-echo"
 
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        host: 'http://app.dev:6001'
+        host: window.location.hostname + ':6001'
     });
 
 마지막으로, 호환되는 Socket.IO 서버를 실행할 필요가 있습니다. 라라벨은 Socket.IO 서버 구현을 포함하지 않고 있습니다. 하지만 커뮤니티가 주도하는 Socket.IO 서버가 현재 [tlaverdure/laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) 깃헙 라이브러리에서 관리되고 있습니다.

@@ -60,7 +60,7 @@
 
 #### 인증 스캐폴딩
 
-기본적으로 프레임워크에서 제공되던 두개의 기본 인증 컨트롤러는 보다 작은 네 개의 컨트롤러로 분리되었습니다. 이 변경사항을 통해서 인증 컨트롤러는 보다 깔끔하고 그 역할 자체에 집중하도록 하였습니다. 어플리케이션이 새로운 인증 컨트롤러를 사용하도록 업그레이드 하는 가장 쉬운 방법은 [Github 에서 각각의 컨트롤러를 복사하고 어플리케이션에 복사하는 방법](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth)입니다.
+기본적으로 프레임워크에서 제공되던 두개의 기본 인증 컨트롤러는 보다 작은 네 개의 컨트롤러로 분리되었습니다. 이 변경사항을 통해서 인증 컨트롤러는 보다 깔끔하고 그 역할 자체에 집중하도록 하였습니다. 어플리케이션이 새로운 인증 컨트롤러를 사용하도록 업그레이드 하는 가장 쉬운 방법은 [Github 에서 각각의 컨트롤러를 복사하고 어플리케이션에 복사하는 방법](https://github.com/laravel/laravel/tree/5.3/app/Http/Controllers/Auth)입니다.
 
 `routes/web.php` 파일에서 `Auth::routes()` 메소드를 호출되고 있는지 확인해야 합니다. 이 메소드는 새로운 인증 컨트롤러에 대한 적절한 라우트를 등록합니다.
 
@@ -129,7 +129,7 @@
 
 #### 서비스 프로바이더
 
-라라벨 5.3에서는 [이벤트 브로드캐스팅](/docs/{{version}}/broadcasting)에 대한 많은 개선이 있었습니다. `app/Providers` 디렉토리에 `BroadcastServiceProvider` 를 [GitHub에서 소스를 복사하여](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php) 새로 추가해야합니다. 새로운 서비스 프로바이더를 정의하고 나면 `config/app.php` 설정 파일에서 `providers` 배열에 이를 추가해야 합니다.
+라라벨 5.3에서는 [이벤트 브로드캐스팅](/docs/{{version}}/broadcasting)에 대한 많은 개선이 있었습니다. `app/Providers` 디렉토리에 `BroadcastServiceProvider` 를 [GitHub에서 소스를 복사하여](https://raw.githubusercontent.com/laravel/laravel/5.3/app/Providers/BroadcastServiceProvider.php) 새로 추가해야합니다. 새로운 서비스 프로바이더를 정의하고 나면 `config/app.php` 설정 파일에서 `providers` 배열에 이를 추가해야 합니다.
 
 ### 캐시
 

@@ -14,6 +14,7 @@
     - [토큰 request-요청하기](#requesting-password-grant-tokens)
     - [모든 Scope-범위에 대하여 요청하기](#requesting-all-scopes)
 - [묵시적 Grant 토큰](#implicit-grant-tokens)
+- [클라이언트 자격증명을 위한 Grant 토큰](#client-credentials-grant-tokens)
 - [개인용 엑세스 토큰](#personal-access-tokens)
     - [개인용 엑세스 클라이언트 생성하기](#creating-a-personal-access-client)
     - [개인용 엑세스 토큰 관리하기](#managing-personal-access-tokens)
@@ -39,7 +40,7 @@
 
 컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
 
-    composer require laravel/passport
+    composer require laravel/passport=~1.0
 
 다음으로 Passport 서비스 프로바이더를 `config/app.php` 설정 파일의 `providers` 배열에 등록합니다:
 
@@ -410,6 +411,24 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
     });
 
 > {tip} `/oauth/authorize` 라우트는 `Passport::routes` 메소드에 의해서 정의된다는 것을 기억하십시오. 이 라우트를 수동으로 등록할 필요가 없습니다.
+
+<a name="client-credentials-grant-tokens"></a>
+## 클라이언트의 자격증명을 위한 Grant 토큰
+
+클라이언트의 자격증명을 위한 Grant 는 시스템간의 인증에 적합합니다. 예를 들어, API를 통해서 관리 작업을 수행하도록 예약된 스케줄링 job에서 이 grant를 사용할 수 있습니다. 토큰을 획득하려면, `oauth/token` 으로 request를 연결하십시오:
+
+    $guzzle = new GuzzleHttp\Client;
+
+    $response = $guzzle->post('http://your-app.com/oauth/token', [
+        'form_params' => [
+            'grant_type' => 'client_credentials',
+            'client_id' => 'client-id',
+            'client_secret' => 'client-secret',
+            'scope' => 'your-scope',
+        ],
+    ]);
+
+    echo json_decode((string) $response->getBody(), true);
 
 <a name="personal-access-tokens"></a>
 ## 개인용 엑세스 토큰

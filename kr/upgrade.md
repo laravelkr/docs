@@ -158,6 +158,18 @@ Calling `$collection->random(1)` will now return a new collection instance with 
 ### Container
 ### 컨테이너
 
+#### Aliasing Via `bind` / `instance`
+
+In previous Laravel releases, you could pass an array as the first parameter to the `bind` or `instance` methods to register an alias:
+
+    $container->bind(['foo' => FooContract::class], function () {
+        return 'foo';
+    });
+
+However, this behavior has been removed in Laravel 5.4. To register an alias, you should now use the `alias` method:
+
+    $container->alias(FooContract::class, 'foo');
+
 #### Binding Classes With Leading Slashes
 #### 슬래시 문자를 사용한 클래스 바인딩
 
@@ -298,6 +310,19 @@ Eloquent will query the posts table on the `example` connection instead of the d
 
 Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
 
+#### The `create` & `forceCreate` Methods
+
+The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illuminate\Database\Eloquent\Builder` class in order to provide better support for creating models on multiple connections. However, if you are extending these methods in your own models, you will need to modify your implementation to call the `create` method on the builder. For example:
+
+    public static function create(array $attributes = [])
+    {
+        $model = static::query()->create($attributes);
+
+        // ...
+
+        return $model;
+    }
+
 #### The `hydrate` Method
 #### `hydrate` 메소드
 
@@ -316,7 +341,7 @@ The `Model::hydrateRaw` method has been renamed to `fromQuery`. If you are passi
 
     User::on('connection')->fromQuery('...');
 
-#### The `whereKey` method
+#### The `whereKey` Method
 #### `whereKey` 메소드
 
 The `whereKey($id)` method will now add a "where" clause for the given primary key value. Previously, this would fall into the dynamic "where" clause builder and add a "where" clause for the "key" column. If you used the `whereKey` method to dynamically add a condition for the `key` column you should now use `where('key', ...)` instead.
@@ -513,29 +538,47 @@ If you have tests written using Laravel 5.3 and would like to run them side-by-s
 
 라라벨 5.3에서 작성된 테스트가 있고 라라벨의 새로운 테스트 레이어와 함께 테스트를 진행하려면, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
 
+#### Running Laravel 5.3 & 5.4 Tests In A Single Application
+#### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
+
+Before getting started, you should add the `Tests` namespace to your `composer.json` file's `autoload-dev` block.
+
+This will allow Laravel to autoload any new tests you generate using the Laravel 5.4 test generators:
+
+시작하기에 앞서, `composer.json` 파일의 `autoload-dev` 부분에 `Tests` 네임스페이스가 추가되어 있는지 확인하십시오.
+
+    "psr-4": {
+        "Tests\\": "tests/"
+    }
+
+Next, install the `laravel/browser-kit-testing` package:
+
     composer require laravel/browser-kit-testing
 
 Next, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTest.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTest.php`. In order for your `BrowserKitTest` class to be properly loaded, you may need to add it to your `composer.json` file:
 
 그런뒤에, `tests/TestCase.php` 파일을 `tests` 디렉토리에 `BrowserKitTest.php`라는 이름으로 저장하십시오. 이제 파일을 수정하여 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 합니다. 이 작업을 마쳤다면, `test` 디렉토리에 `TestCase.php` 와 `BrowserKitTest.php`의 두가지 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTest` 클래스르의 로딩을 위해서 `compose.json` 파일에 다음과 같이 추가하십시오:      
 
+Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
+
+
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php",
-            "tests/BrowserKitTest.php"
+            "tests/BrowserKitTestCase.php"
         ]
     },
 
-Tests written on Laravel 5.3 will extend the `BrowserKitTest` class while any new tests that use the Laravel 5.4 testing layer will extend the `TestCase` class. Your `BrowserKitTest` class should look like the following:
+Tests written on Laravel 5.3 will extend the `BrowserKitTestCase` class while any new tests that use the Laravel 5.4 testing layer will extend the `TestCase` class. Your `BrowserKitTestCase` class should look like the following:
 
-라라벨 5.3에서 작성된 테스트는 `BrowserKitTest` 클래스를 상속 받고, 라라벨 5.3의 테스트 레이어를 사용하는 새로운 테스트는 `TestCase` 클래스를 상속받습니다. `BrowserKitTest` 클래스는 다음과 같습니다:  
+라라벨 5.3에서 작성된 테스트는 `BrowserKitTestCase` 클래스를 상속 받고, 라라벨 5.3의 테스트 레이어를 사용하는 새로운 테스트는 `TestCase` 클래스를 상속받습니다. `BrowserKitTestCase` 클래스는 다음과 같습니다:
 
     <?php
 
     use Illuminate\Contracts\Console\Kernel;
     use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
-    abstract class BrowserKitTest extends BaseTestCase
+    abstract class BrowserKitTestCase extends BaseTestCase
     {
         /**
          * The base URL of the application.
@@ -559,9 +602,9 @@ Tests written on Laravel 5.3 will extend the `BrowserKitTest` class while any ne
         }
     }
 
-Once you have created this class, make sure to update all of your tests to extend your new `BrowserKitTest` class. This will allow all of your tests written on Laravel 5.3 to continue running on Laravel 5.4. If you choose, you can slowly begin to port them over to the new [Laravel 5.4 test syntax](/docs/5.4/http-tests) or [Laravel Dusk](/docs/5.4/dusk).
+Once you have created this class, make sure to update all of your tests to extend your new `BrowserKitTestCase` class. This will allow all of your tests written on Laravel 5.3 to continue running on Laravel 5.4. If you choose, you can slowly begin to port them over to the new [Laravel 5.4 test syntax](/docs/5.4/http-tests) or [Laravel Dusk](/docs/5.4/dusk).
 
-이 클래스를 생성한뒤에, 여러분의 테스트가 새로운 `BrowserKitTest` 클래스를 상속받도록 확인하십시오. 이렇게 하면 라라벨 5.3에서 작성한 모든 테스트를 라라벨 5.4에서 계속 실행할 수 있습니다. 원하는 경우 차근차근 [새로운 라라벨 5.4의 테스트 문법](/docs/5.4/http-tests) 또는 [라라벨 Dusk](/docs/5.4/dusk) 로 포팅 할 수도 있습니다.  
+이 클래스를 생성한뒤에, 여러분의 테스트가 새로운 `BrowserKitTestCase` 클래스를 상속받도록 확인하십시오. 이렇게 하면 라라벨 5.3에서 작성한 모든 테스트를 라라벨 5.4에서 계속 실행할 수 있습니다. 원하는 경우 차근차근 [새로운 라라벨 5.4의 테스트 문법](/docs/5.4/http-tests) 또는 [라라벨 Dusk](/docs/5.4/dusk) 로 포팅 할 수도 있습니다.
 
 > {note} If you are writing new tests and want them to use the Laravel 5.4 testing layer, make sure to extend the `TestCase` class.
 
@@ -619,9 +662,9 @@ The Laravel 5.4 test class no longer manually forces `putenv('APP_ENV=testing')`
 #### Event Fake
 #### 이벤트 Fake
 
-The `Event` fake's `assertFired` method should be updated to `assertDispatched`. The method signature has not been changed.
+The `Event` fake's `assertFired` method should be updated to `assertDispatched`, and the `assertNotFired` method should be updated to `assertNotDispatched`. The method's signatures have not been changed.
 
-`Event` fake의 `assertFired` 메소드는 `assertFired`로 업데이트해야 합니다. 메소드의 사용방법이 변경되지는 않았습니다.
+`Event` fake의 `assertFired` 메소드는 `assertFired`로, `assertNotFired` 메소드는 `assertNotDispatched` 으로 업데이트해야 합니다. 메소드의 사용방법이 변경되지는 않았습니다.
 
 #### Mail Fake
 #### 메일 Fake

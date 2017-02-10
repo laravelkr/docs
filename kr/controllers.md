@@ -21,6 +21,8 @@
     - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
     - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
     - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
+    - [Localizing Resource URIs](#restful-localizing-resource-uris)
+    - [Localizing Resource URIs](#restful-localizing-resource-uris)
     - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
     - [Resource 컨트롤러 라우트에 추가하기](#restful-supplementing-resource-controllers)
 - [Dependency Injection & Controllers](#dependency-injection-and-controllers)
@@ -278,6 +280,32 @@ By default, `Route::resource` will create the route parameters for your resource
  위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다:
 
     /user/{admin_user}
+
+<a name="restful-localizing-resource-uris"></a>
+### Localizing Resource URIs
+
+By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
+
+    use Illuminate\Support\Facades\Route;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Route::resourceVerbs([
+            'create' => 'crear',
+            'edit' => 'editar',
+        ]);
+    }
+
+Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
+
+    /fotos/crear
+
+    /fotos/{foto}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers

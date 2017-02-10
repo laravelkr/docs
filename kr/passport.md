@@ -55,6 +55,8 @@
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
 - [Events](#events)
 - [이벤트](#events)
+- [Testing](#testing)
+- [테스팅](#testing)
 
 <a name="introduction"></a>
 ## Introduction
@@ -872,3 +874,23 @@ protected $listen = [
     ],
 ];
 ```
+
+<a name="testing"></a>
+## Testing
+## 테스팅
+
+Passport's `actingAs` method may be used to specify the currently authenticated user as well as its scopes. The first argument given to the `actingAs` method is the user instance and the second is an array of scopes that should be granted to the user's token:
+
+Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는데 사용할 수 있습니다. `actionAs` 메소드에 전달되는 첫번째 인자는 사용자 인스턴스이고, 두번째 인자는 사용자의 토큰에 허용된 스코프 배열입니다:
+
+    public function testServerCreation()
+    {
+        Passport::actingAs(
+            factory(User::class)->create(),
+            ['create-servers']
+        );
+
+        $response = $this->post('/api/create-server');
+
+        $response->assertStatus(200);
+    }

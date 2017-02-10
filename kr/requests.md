@@ -7,6 +7,8 @@
     - [Request 경로 & 메소드](#request-path-and-method)
     - [PSR-7 Requests](#psr7-requests)
     - [PSR-7 Requests](#psr7-requests)
+- [Input Trimming & Normalization](#input-trimming-and-normaliation)
+- [입력값 Trim 처리 & Normalization](#input-trimming-and-normaliation)
 - [Retrieving Input](#retrieving-input)
 - [입력값 조회하기](#retrieving-input)
     - [Old Input](#old-input)
@@ -173,6 +175,16 @@ Once you have installed these libraries, you may obtain a PSR-7 request by type-
 
 > {tip} 라우트나 컨트롤러에서 반환된 PSR-7 response 인스턴스는 자동으로 라라벨 response 인스턴스로 변환되어 프레임워크에 표시될 것입니다.
 
+<a name="input-trimming-and-normaliation"></a>
+## Input Trimming & Normalization
+## 입력값 Trim 처리 & Normalization
+
+By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
+
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는
+
+If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
+
 <a name="retrieving-input"></a>
 ## Retrieving Input
 ## 입력값 조회하기
@@ -245,6 +257,10 @@ If you need to retrieve a subset of the input data, you may use the `only` and `
     $input = $request->except(['credit_card']);
 
     $input = $request->except('credit_card');
+
+The `only` method returns all of the key / value pairs that you request, even if the key is not present on the incoming request. When the key is not present on the request, the value will be `null`. If you would like to retrieve a portion of input data that is actually present on the request, you may use the `intersect` method:
+
+    $input = $request->intersect(['username', 'password']);
 
 #### Determining If An Input Value Is Present
 #### 입력값이 존재하는지 확인하기

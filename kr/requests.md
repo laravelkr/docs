@@ -8,7 +8,7 @@
     - [PSR-7 Requests](#psr7-requests)
     - [PSR-7 Requests](#psr7-requests)
 - [Input Trimming & Normalization](#input-trimming-and-normaliation)
-- [입력값 Trim 처리 & Normalization](#input-trimming-and-normaliation)
+- [입력값 Trim 처리 & 일반화처리](#input-trimming-and-normaliation)
 - [Retrieving Input](#retrieving-input)
 - [입력값 조회하기](#retrieving-input)
     - [Old Input](#old-input)
@@ -177,13 +177,15 @@ Once you have installed these libraries, you may obtain a PSR-7 request by type-
 
 <a name="input-trimming-and-normaliation"></a>
 ## Input Trimming & Normalization
-## 입력값 Trim 처리 & Normalization
+## 입력값 Trim 처리 & 일반화처리
 
 By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
 
-기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이 미들웨어는 request-요청에 유입되는 모든 문자 필드들을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 따라서 라우트와 컨트롤러에서 이러한 일반화 문제를 걱정할 필요가 없습니다.
 
 If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
+
+이 동작을 비활성화 시키려면, `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하면 됩니다. 
 
 <a name="retrieving-input"></a>
 ## Retrieving Input
@@ -259,6 +261,8 @@ If you need to retrieve a subset of the input data, you may use the `only` and `
     $input = $request->except('credit_card');
 
 The `only` method returns all of the key / value pairs that you request, even if the key is not present on the incoming request. When the key is not present on the request, the value will be `null`. If you would like to retrieve a portion of input data that is actually present on the request, you may use the `intersect` method:
+
+`only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 얻고자 하는 키가 request-요청에 존재하지 않더라도 값을 반환합니다. request-요청에서 키가 존재하지 않은경우, 값은 `null`이 됩니다. request-요청에서 실제 존재하는 입력값에서 값을 조회하고자 한다면, `intersect` 메소드를 사용합니다: 
 
     $input = $request->intersect(['username', 'password']);
 

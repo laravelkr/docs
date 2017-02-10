@@ -159,14 +159,19 @@ Calling `$collection->random(1)` will now return a new collection instance with 
 ### 컨테이너
 
 #### Aliasing Via `bind` / `instance`
+#### `bind` / `instance` 을 통한 별칭-aliasing
 
 In previous Laravel releases, you could pass an array as the first parameter to the `bind` or `instance` methods to register an alias:
+
+이전버전의 라라벨 릴리즈에서는, 별칭을 부여하기 위해서 `bind` 또는 `instance` 메소드에 첫번째 인자로 배열을 전달할 수 있었습니다:
 
     $container->bind(['foo' => FooContract::class], function () {
         return 'foo';
     });
 
 However, this behavior has been removed in Laravel 5.4. To register an alias, you should now use the `alias` method:
+
+그렇지만 이 동작은 라라벨 5.4에서는 제거되었기 때문에, 별칭을 등록하려면 이제 `alias` 메소드를 사용해야합니다:
 
     $container->alias(FooContract::class, 'foo');
 
@@ -311,8 +316,11 @@ Eloquent will query the posts table on the `example` connection instead of the d
 Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
 
 #### The `create` & `forceCreate` Methods
+#### `create` & `forceCreate` 메소드
 
 The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illuminate\Database\Eloquent\Builder` class in order to provide better support for creating models on multiple connections. However, if you are extending these methods in your own models, you will need to modify your implementation to call the `create` method on the builder. For example:
+
+`Model::create` 및 `Model:: forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
 
     public static function create(array $attributes = [])
     {
@@ -541,11 +549,9 @@ If you have tests written using Laravel 5.3 and would like to run them side-by-s
 #### Running Laravel 5.3 & 5.4 Tests In A Single Application
 #### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
 
-Before getting started, you should add the `Tests` namespace to your `composer.json` file's `autoload-dev` block.
+Before getting started, you should add the `Tests` namespace to your `composer.json` file's `autoload-dev` block. This will allow Laravel to autoload any new tests you generate using the Laravel 5.4 test generators:
 
-This will allow Laravel to autoload any new tests you generate using the Laravel 5.4 test generators:
-
-시작하기에 앞서, `composer.json` 파일의 `autoload-dev` 부분에 `Tests` 네임스페이스가 추가되어 있는지 확인하십시오.
+시작하기에 앞서, `composer.json` 파일의 `autoload-dev` 부분에 `Tests` 네임스페이스가 추가되어 있는지 확인하십시오. 이렇게하면 라라벨 5.4 테스트 제너레이터를 사용하여 생성 한 모든 새로운 테스트 클래스를 라라벨에서 오도토드 할 수 있습니다:
 
     "psr-4": {
         "Tests\\": "tests/"
@@ -553,14 +559,13 @@ This will allow Laravel to autoload any new tests you generate using the Laravel
 
 Next, install the `laravel/browser-kit-testing` package:
 
+그 다음, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
+
     composer require laravel/browser-kit-testing
-
-Next, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTest.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTest.php`. In order for your `BrowserKitTest` class to be properly loaded, you may need to add it to your `composer.json` file:
-
-그런뒤에, `tests/TestCase.php` 파일을 `tests` 디렉토리에 `BrowserKitTest.php`라는 이름으로 저장하십시오. 이제 파일을 수정하여 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 합니다. 이 작업을 마쳤다면, `test` 디렉토리에 `TestCase.php` 와 `BrowserKitTest.php`의 두가지 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTest` 클래스르의 로딩을 위해서 `compose.json` 파일에 다음과 같이 추가하십시오:      
 
 Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
 
+패키지를 설치하고 나서는, `tests/TestCase.php` 파일을 복사하여 `tests` 디렉토리에 `BrowserKitTestCase.php` 파일로 저장하십시오. 그런 뒤에, 파일이 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 수정하십시오. 이 작업을 마치면 `tests` 디렉토리에는 `TestCase.php`와 `BrowserKitTestCase.php` 두개의 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTestCase` 클래스를 로드하기 위해서, `composer.json` 파일에 추가해야할 수도 있습니다:   
 
     "autoload-dev": {
         "classmap": [

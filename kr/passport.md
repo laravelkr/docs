@@ -29,6 +29,8 @@
     - [Requesting All Scopes](#requesting-all-scopes)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
+- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
+- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
     - [Creating A Personal Access Client](#creating-a-personal-access-client)
@@ -74,7 +76,7 @@ To get started, install Passport via the Composer package manager:
 
 컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
 
-    composer require laravel/passport
+    composer require laravel/passport=~1.0
 
 Next, register the Passport service provider in the `providers` array of your `config/app.php` configuration file:
 
@@ -546,6 +548,27 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
 > {tip} Remember, the `/oauth/authorize` route is already defined by the `Passport::routes` method. You do not need to manually define this route.
 
 > {tip} `/oauth/authorize` 라우트는 `Passport::routes` 메소드에 의해서 정의된다는 것을 기억하십시오. 이 라우트를 수동으로 등록할 필요가 없습니다.
+
+<a name="client-credentials-grant-tokens"></a>
+## Client Credentials Grant Tokens
+## 클라이언트의 자격증명을 위한 Grant 토큰
+
+The client credentials grant is suitable for machine-to-machine authentication. For example, you might use this grant in a scheduled job which is performing maintenance tasks over an API. To retrieve a token, make a request to the `oauth/token` endpoint:
+
+클라이언트의 자격증명을 위한 Grant 는 시스템간의 인증에 적합합니다. 예를 들어, API를 통해서 관리 작업을 수행하도록 예약된 스케줄링 job에서 이 grant를 사용할 수 있습니다. 토큰을 획득하려면, `oauth/token` 으로 request를 연결하십시오:
+
+    $guzzle = new GuzzleHttp\Client;
+
+    $response = $guzzle->post('http://your-app.com/oauth/token', [
+        'form_params' => [
+            'grant_type' => 'client_credentials',
+            'client_id' => 'client-id',
+            'client_secret' => 'client-secret',
+            'scope' => 'your-scope',
+        ],
+    ]);
+
+    echo json_decode((string) $response->getBody(), true);
 
 <a name="personal-access-tokens"></a>
 ## Personal Access Tokens

@@ -1026,13 +1026,13 @@ You may also pass a second argument to set the key of the prepended item:
 
 또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다. 
 
-    $collection = collect(['one' => 1, 'two', => 2]);
+    $collection = collect(['one' => 1, 'two' => 2]);
 
     $collection->prepend(0, 'zero');
 
     $collection->all();
 
-    // ['zero' => 0, 'one' => 1, 'two', => 2]
+    // ['zero' => 0, 'one' => 1, 'two' => 2]
 
 <a name="method-pull"></a>
 #### `pull()` {#collection-method}

@@ -20,6 +20,13 @@
 
 Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.0`.
 
+#### Removing Compiled Services File
+#### 컴파일된 서비스 파일 제거
+
+If it exists, you may delete the `bootstrap/cache/compiled.php` file. It is no longer used by the framework.
+
+`bootstrap/cache/compiled.php`파일이 존재한다면 이 파일을 제거해야 합니다. 프레임워크는 더이상 이 파일을 사용하지 않습니다.
+
 `composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.0` 으로 업데이트 해야 합니다. 
 
 #### Flushing The Cache
@@ -506,9 +513,17 @@ The `middleware` method of the `Illuminate\Routing\Router` class has been rename
 
 `Illuminate\Routing\Router` 클래스의 `middleware` 메소드는 `aliasMiddleware()` 으로 이름이 변경되었습니다. 대부분의 어플리케이션에서는 이 메소드를 직접 호출하지 않습니다. 일반적으로 HTTP 커널에서 `$routeMiddleware` 배열에 정의된 라우트 레벨의 미들웨어를 등록하기 위해서 이 메소드를 호출합니다.  
  
-#### The `getParameter` Method
-#### `getParameter` 메소드
- 
+#### `Route` Methods
+#### `Route` 메소드
+
+The `getUri` method of the `Illuminate\Routing\Route` class has been removed. You should use the `uri` method instead.
+
+`Illuminate\Routing\Route` 클래스의 `getUri` 메소드는 제거되었습니다. 대신에 `uri` 메소드를 사용해야 합니다.
+
+The `getMethods` method of the `Illuminate\Routing\Route` class has been removed. You should use the `methods` method instead.
+
+`Illuminate\Routing\Route` 클래스의 `getMethods` 메소드는 제거되었습니다. 대신에 `methods` 메소드를 사용해야 합니다.
+
 The `getParameter` method of the `Illuminate\Routing\Route` class has been removed. You should use the `parameter` method instead.
 
 `Illuminate\Routing\Route` 클래스의 `getParameter` 메소드는 제거되었습니다. 대신에 `parameter` 메소드를 사용해야합니다.

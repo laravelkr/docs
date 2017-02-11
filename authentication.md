@@ -79,7 +79,7 @@
 
     protected function redirectTo()
     {
-        //
+        return '/path';
     }
 
 > {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선합니다.

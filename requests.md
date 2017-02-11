@@ -3,6 +3,7 @@
 - [Request 엑세스 하기](#accessing-the-request)
     - [Request 경로 & 메소드](#request-path-and-method)
     - [PSR-7 Requests](#psr7-requests)
+- [입력값 Trim 처리 & 일반화처리](#input-trimming-and-normaliation)
 - [입력값 조회하기](#retrieving-input)
     - [이전 입력값 확인하기](#old-input)
     - [쿠키](#cookies)
@@ -131,6 +132,13 @@
 
 > {tip} 라우트나 컨트롤러에서 반환된 PSR-7 response 인스턴스는 자동으로 라라벨 response 인스턴스로 변환되어 프레임워크에 표시될 것입니다.
 
+<a name="input-trimming-and-normaliation"></a>
+## 입력값 Trim 처리 & 일반화처리
+
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이 미들웨어는 request-요청에 유입되는 모든 문자 필드들을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 따라서 라우트와 컨트롤러에서 이러한 일반화 문제를 걱정할 필요가 없습니다.
+
+이 동작을 비활성화 시키려면, `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하면 됩니다. 
+
 <a name="retrieving-input"></a>
 ## 입력값 조회하기
 
@@ -181,6 +189,10 @@
     $input = $request->except(['credit_card']);
 
     $input = $request->except('credit_card');
+
+`only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 얻고자 하는 키가 request-요청에 존재하지 않더라도 값을 반환합니다. request-요청에서 키가 존재하지 않은경우, 값은 `null`이 됩니다. request-요청에서 실제 존재하는 입력값에서 값을 조회하고자 한다면, `intersect` 메소드를 사용합니다: 
+
+    $input = $request->intersect(['username', 'password']);
 
 #### 입력값이 존재하는지 확인하기
 

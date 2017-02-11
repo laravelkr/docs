@@ -10,6 +10,7 @@
     - [Resource 라우트의 일부만 지정하기](#restful-partial-resource-routes)
     - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
     - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
+    - [리소스 URI의 지역화(다국어 동사처리)](#restful-localizing-resource-uris)
     - [Resource 컨트롤러 라우트에 추가하기](#restful-supplementing-resource-controllers)
 - [의존성 주입 & 컨트롤러](#dependency-injection-and-controllers)
 - [라우트 캐싱](#route-caching)
@@ -205,6 +206,32 @@ resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있
 위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다:
 
     /user/{admin_user}
+
+<a name="restful-localizing-resource-uris"></a>
+### 리소스 URI의 지역화(다국어 동사처리)
+
+기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다:  
+
+    use Illuminate\Support\Facades\Route;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Route::resourceVerbs([
+            'create' => 'crear',
+            'edit' => 'editar',
+        ]);
+    }
+
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다: 
+
+    /fotos/crear
+
+    /fotos/{foto}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Resource 컨트롤러 라우트에 추가하기

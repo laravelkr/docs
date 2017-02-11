@@ -101,6 +101,18 @@ HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 
 
 ### 컨테이너
 
+#### `bind` / `instance` 을 통한 별칭-aliasing
+
+이전버전의 라라벨 릴리즈에서는, 별칭을 부여하기 위해서 `bind` 또는 `instance` 메소드에 첫번째 인자로 배열을 전달할 수 있었습니다:
+
+    $container->bind(['foo' => FooContract::class], function () {
+        return 'foo';
+    });
+
+그렇지만 이 동작은 라라벨 5.4에서는 제거되었기 때문에, 별칭을 등록하려면 이제 `alias` 메소드를 사용해야합니다:
+
+    $container->alias(FooContract::class, 'foo');
+
 #### 슬래시 문자를 사용한 클래스 바인딩
 
 컨테이너 안에서 클래스를 바인딩 할 때 문자열의 맨 앞에 슬래시를 붙이는 형태는 더이상 지원하지 않습니다. 이 기능은 많은 양의 문자열을 작성해야만 했었습니다. 앞에 슬래시 문자를 붙이는 대신에 간단하게 바인딩 할 수 있습니다:
@@ -198,6 +210,19 @@ HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 
     User::on('example')->with('posts');
 
 Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
+
+#### `create` & `forceCreate` 메소드
+
+`Model::create` 및 `Model:: forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
+
+    public static function create(array $attributes = [])
+    {
+        $model = static::query()->create($attributes);
+
+        // ...
+
+        return $model;
+    }
 
 #### `hydrate` 메소드
 
@@ -339,25 +364,37 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
 
 라라벨 5.3에서 작성된 테스트가 있고 라라벨의 새로운 테스트 레이어와 함께 테스트를 진행하려면, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
 
+#### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
+
+시작하기에 앞서, `composer.json` 파일의 `autoload-dev` 부분에 `Tests` 네임스페이스가 추가되어 있는지 확인하십시오. 이렇게하면 라라벨 5.4 테스트 제너레이터를 사용하여 생성 한 모든 새로운 테스트 클래스를 라라벨에서 오도토드 할 수 있습니다:
+
+    "psr-4": {
+        "Tests\\": "tests/"
+    }
+
+그 다음, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
+
     composer require laravel/browser-kit-testing
 
 그런뒤에, `tests/TestCase.php` 파일을 `tests` 디렉토리에 `BrowserKitTest.php`라는 이름으로 저장하십시오. 이제 파일을 수정하여 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 합니다. 이 작업을 마쳤다면, `test` 디렉토리에 `TestCase.php` 와 `BrowserKitTest.php`의 두가지 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTest` 클래스르의 로딩을 위해서 `compose.json` 파일에 다음과 같이 추가하십시오:      
 
+패키지를 설치하고 나서는, `tests/TestCase.php` 파일을 복사하여 `tests` 디렉토리에 `BrowserKitTestCase.php` 파일로 저장하십시오. 그런 뒤에, 파일이 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 수정하십시오. 이 작업을 마치면 `tests` 디렉토리에는 `TestCase.php`와 `BrowserKitTestCase.php` 두개의 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTestCase` 클래스를 로드하기 위해서, `composer.json` 파일에 추가해야할 수도 있습니다:   
+
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php",
-            "tests/BrowserKitTest.php"
+            "tests/BrowserKitTestCase.php"
         ]
     },
 
-라라벨 5.3에서 작성된 테스트는 `BrowserKitTest` 클래스를 상속 받고, 라라벨 5.3의 테스트 레이어를 사용하는 새로운 테스트는 `TestCase` 클래스를 상속받습니다. `BrowserKitTest` 클래스는 다음과 같습니다:  
+라라벨 5.3에서 작성된 테스트는 `BrowserKitTestCase` 클래스를 상속 받고, 라라벨 5.3의 테스트 레이어를 사용하는 새로운 테스트는 `TestCase` 클래스를 상속받습니다. `BrowserKitTestCase` 클래스는 다음과 같습니다:
 
     <?php
 
     use Illuminate\Contracts\Console\Kernel;
     use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
-    abstract class BrowserKitTest extends BaseTestCase
+    abstract class BrowserKitTestCase extends BaseTestCase
     {
         /**
          * The base URL of the application.
@@ -381,7 +418,7 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
         }
     }
 
-이 클래스를 생성한뒤에, 여러분의 테스트가 새로운 `BrowserKitTest` 클래스를 상속받도록 확인하십시오. 이렇게 하면 라라벨 5.3에서 작성한 모든 테스트를 라라벨 5.4에서 계속 실행할 수 있습니다. 원하는 경우 차근차근 [새로운 라라벨 5.4의 테스트 문법](/docs/5.4/http-tests) 또는 [라라벨 Dusk](/docs/5.4/dusk) 로 포팅 할 수도 있습니다.  
+이 클래스를 생성한뒤에, 여러분의 테스트가 새로운 `BrowserKitTestCase` 클래스를 상속받도록 확인하십시오. 이렇게 하면 라라벨 5.3에서 작성한 모든 테스트를 라라벨 5.4에서 계속 실행할 수 있습니다. 원하는 경우 차근차근 [새로운 라라벨 5.4의 테스트 문법](/docs/5.4/http-tests) 또는 [라라벨 Dusk](/docs/5.4/dusk) 로 포팅 할 수도 있습니다.
 
 > {note} 새로운 테스트를 작성하고 라라벨 5.4 테스트 레이어를 사용하려면 `TestCase` 클래스를 상속받아야합니다.
 
@@ -424,7 +461,7 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
 
 #### 이벤트 Fake
 
-`Event` fake의 `assertFired` 메소드는 `assertFired`로 업데이트해야 합니다. 메소드의 사용방법이 변경되지는 않았습니다.
+`Event` fake의 `assertFired` 메소드는 `assertFired`로, `assertNotFired` 메소드는 `assertNotDispatched` 으로 업데이트해야 합니다. 메소드의 사용방법이 변경되지는 않았습니다.
 
 #### 메일 Fake
 

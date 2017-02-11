@@ -27,6 +27,7 @@
     - [Checking Scopes](#checking-scopes)
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
 - [이벤트](#events)
+- [테스팅](#testing)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -655,3 +656,20 @@ protected $listen = [
     ],
 ];
 ```
+
+<a name="testing"></a>
+## 테스팅
+
+Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는데 사용할 수 있습니다. `actionAs` 메소드에 전달되는 첫번째 인자는 사용자 인스턴스이고, 두번째 인자는 사용자의 토큰에 허용된 스코프 배열입니다:
+
+    public function testServerCreation()
+    {
+        Passport::actingAs(
+            factory(User::class)->create(),
+            ['create-servers']
+        );
+
+        $response = $this->post('/api/create-server');
+
+        $response->assertStatus(200);
+    }

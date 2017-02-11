@@ -6,6 +6,7 @@
     - [컨트롤러 생성하기](#quick-creating-the-controller)
     - [Validation 로직 작성하기](#quick-writing-the-validation-logic)
     - [Validation 에러 표시하기](#quick-displaying-the-validation-errors)
+    - [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)
 - [Form Request 유효성 검사](#form-request-validation)
     - [Form Requests 생성하기](#creating-form-requests)
     - [Form Requests 사용자 승인](#authorizing-form-requests)
@@ -152,6 +153,19 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
     @endif
 
     <!-- Create Post Form -->
+
+<a name="a-note-on-optional-fields"></a>
+### 옵션 필드에 대한 주의사항
+
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으라면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
+
+    $this->validate($request, [
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+        'publish_at' => 'nullable|date',
+    ]);
+
+이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다. 
 
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### 임시저장된 에러의 포맷을 임의로 지정하기

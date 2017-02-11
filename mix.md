@@ -187,7 +187,7 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
 
 많은 개발자들이 기본 코드 대신 새로운 assets 을 강제로 로드하게끔 하기 위해서 컴파일된 assets 에 timestamp 또는 고유한 토큰을 접미사로 추가합니다. Mix는 이러한 문제를 처리하기 위해 `version` 메소드를 사용합니다.
 
-프로덕션 환경에서 실행하는 경우라면 (`npm run production`), `version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다:
+`version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .version();
@@ -195,6 +195,14 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
 버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다:
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+
+개발중에는 버저닝된 파일이 항상 필요하지는 않기 때문에, `npm run production` 일때만 버저닝 프로세스가 동작하도록 지시할 수 있습니다:
+
+    mix.js('resources/assets/js/app.js', 'public/js');
+
+    if (mix.config.inProduction) {
+        mix.version();
+    }
 
 <a name="notifications"></a>
 ## 알림

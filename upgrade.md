@@ -13,6 +13,10 @@
 
 Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.0`.
 
+#### Removing Compiled Services File
+
+If it exists, you may delete the `bootstrap/cache/compiled.php` file. It is no longer used by the framework.
+
 #### Flushing The Cache
 
 After upgrading all packages, you should run `php artisan view:clear` to avoid Blade errors related to the removal of `Illuminate\View\Factory::getFirstLoop()`. In addition, you may need to run `php artisan route:clear` to flush the route cache.
@@ -341,7 +345,11 @@ The class `Illuminate\Foundation\Http\Middleware\VerifyPostSize` has been rename
 
 The `middleware` method of the `Illuminate\Routing\Router` class has been renamed to `aliasMiddleware()`. It is likely that most applications never call this method manually, as it is typically only called by the HTTP kernel to register route-level middleware defined in the `$routeMiddleware` array.
 
-#### The `getParameter` Method
+#### `Route` Methods
+
+The `getUri` method of the `Illuminate\Routing\Route` class has been removed. You should use the `uri` method instead.
+
+The `getMethods` method of the `Illuminate\Routing\Route` class has been removed. You should use the `methods` method instead.
 
 The `getParameter` method of the `Illuminate\Routing\Route` class has been removed. You should use the `parameter` method instead.
 

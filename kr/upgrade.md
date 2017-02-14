@@ -18,7 +18,9 @@
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.0`.
+Update your `laravel/framework` dependency to `5.4.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~5.7`.
+
+`composer.json` 파일에 있는 laravel/framework 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.7` 으로 업데이트 해야 합니다.
 
 #### Removing Compiled Services File
 #### 컴파일된 서비스 파일 제거

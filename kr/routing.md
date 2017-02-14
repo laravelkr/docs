@@ -310,17 +310,17 @@ When injecting a model ID to a route or controller action, you will often query 
 ### Implicit Binding
 ### 묵시적 바인딩
 
-Laravel automatically resolves Eloquent models defined in routes or controller actions whose variable names match a route segment name. For example:
+Laravel automatically resolves Eloquent models defined in routes or controller actions whose type-hinted variable names match a route segment name. For example:
 
-라라벨은 자동으로 라우트나 컨트롤러 액션에서 정의되어 있는 라우트 세그먼트 이름과 일치하는 변수에 해당하는 Eloquent 모델을 의존성 해결합니다. 예를 들어:
+라라벨은 자동으로 라우트나 컨트롤러 액션에서 정의되어 있는 라우트 세그먼트 이름과 일치하는 타입힌트된 변수에 해당하는 Eloquent 모델을 의존성 해결합니다. 예를 들어:
 
     Route::get('api/users/{user}', function (App\User $user) {
         return $user->email;
     });
 
-In this example, since the Eloquent `$user` variable defined on the route matches the `{user}` segment in the route's URI, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
+Since the `$user` variable is type-hinted as the `App\User` Eloquent model and the variable name matches the `{user}` URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
 
-이 예제에서, 라우트에 정의되어 있는 Eloquent `$user` 변수는 라우트 URI 안에 있는 `{user}` 세그먼트와 일치하고, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 생성됩니다.
+`App\User` Eloquent 모델로 타입힌트된 ``$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 생성됩니다.
 
 #### Customizing The Key Name
 #### 키의 이름을 변경하기

@@ -84,7 +84,11 @@ To read more about Markdown mail and notifications, check out the full [mail](/d
 
 Laravel Dusk provides an expressive, easy-to-use browser automation and testing API. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation. However, you are free to utilize any other Selenium compatible driver you wish.
 
+라라벨 Dusk는 구성과 사용이 쉬운 브라우저 자동화 및 테스팅 API를 제공합니다. 기본적으로 Dusk는 사용자 머신에 JDK 나 Selenium을 설치하도록 요구하지 않습니다. 대신에 Dusk는 독립적인 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)를 사용합니다. 그렇긴 하지만, 원하는 경우 다른 Selenium 호환 드라이버를 사용할 수도 있습니다.
+
 Since Dusk operates using a real browser, you are able to easily test and interact with your applications that heavily use JavaScript:
+
+Dusk는 실제 브라우저를 사용하기 때문에, 자바스크립트를 많이 사용하는 어플리케이션이더라도 어플리케이션을 손쉽게 테스트하고 조작할 수 있습니다:
 
     /**
      * A basic browser test example.
@@ -112,6 +116,8 @@ Since Dusk operates using a real browser, you are able to easily test and intera
 
 For more information on Dusk, consult the full [Dusk documentation](/docs/5.4/dusk).
 
+Dusk에 대한 보다 자세한 사항은 [Dusk 문서](/docs/5.4/dusk)를 참고하십시오.
+
 ### Laravel Mix
 ### 라라벨 Mix
 
@@ -135,7 +141,7 @@ Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based
 
 Blade components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
 
-블레이드 컴포넌트 & 슬롯은 섹션 & 레이아웃과 비슷한 장점을 제공하지만,
+블레이드 컴포넌트 & 슬롯은 섹션 & 레이아웃과 비슷한 장점을 제공하지만, 컴포넌트와 슬롯의 개념보다 이해하기가 더 쉽습니다. 먼저 어플리케이션에서 재사용할 수 있는 "경고-alert" 컴포넌트를 생각해 보겠습니다:
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -145,11 +151,15 @@ Blade components and slots provide similar benefits to sections and layouts; how
 
 The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
 
+`{{ $slot }}` 변수는 컴포넌트에 주입하고자 하는 컨텐츠를 가지게 됩니다. 이제, 이 컴포넌트를 생성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
+
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
 
 Named slots allow you to provide multiple slots into a single component:
+
+이름이 지정된 슬롯을 사용하면 하나의 컴포넌트에 여러개의 슬롯을 제공 할 수 있습니다:
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -161,6 +171,8 @@ Named slots allow you to provide multiple slots into a single component:
 
 Named slots may be injected using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
 
+이름이 지정된 슬롯은 `@slot` 지시어를 사용하여 주입할 수 있습니다. `@slot` 지시어에 들어 있지 않은 컨텐츠는 컴포넌트의 `$slot` 변수에 전달됩니다:
+
     @component('alert')
         @slot('title')
             Forbidden
@@ -170,6 +182,8 @@ Named slots may be injected using the `@slot` directive. Any content is not with
     @endcomponent
 
 To read more about components and slots, consult the full [Blade documentation](/docs/5.4/blade).
+
+컴포넌트와 슬롯에 대한 보다 자세한 사항은 [블레이드 문서](/docs/5.4/blade)를 참고하십시오.
 
 ### Broadcast Model Binding
 ### 브로드캐스팅 모델 바인딩
@@ -217,7 +231,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 Eloquent event handlers may now be mapped to event objects. This provides a more intuitive way of handling Eloquent events and makes it easier to test the events. To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/5.4/events):
 
-Eloquent 이벤트 핸들러는 이제 이벤트 객체로 매핍되었습니다.
+Eloquent 이벤트 핸들러는 이제 이벤트 객체로 매핑되었습니다.
 
     <?php
 

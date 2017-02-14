@@ -26,11 +26,18 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 
 Laravel 5.4 continues the improvements made in Laravel 5.3 by adding support for [Markdown based emails and notifications](/docs/5.4/mail#markdown-mailables), the [Laravel Dusk](/docs/5.4/dusk) browser automation and testing framework, Laravel Mix, Blade "components" and "slots", route model binding on broadcast channels, higher order messages for Collections, object-based Eloquent events, job-level "retry" and "timeout" settings, "realtime" facades, improved support for Redis Cluster, custom pivot table models, middleware for request input trimming and cleaning, and more. In addition, the entire codebase of the framework was reviewed and refactored for general cleanliness.
 
+라라벨 5.4는 [마크다운을 기반으로한 이메일과 알림기능](/docs/5.4/mail#markdown-mailables), [라라벨 Dusk](/docs/5.4/dusk)를 통한 브라우저 테스팅 자동화, 라라벨 Mix, 블레이드의 "컴포넌트" 및 "슬롯"의 지원, 브로드캐스팅 채널에서 라우트 모델 바인딩, 컬렉션을 위한 higher order messages , 객체 기반의 Eloquent 이벤트, job 클래스에서의 "재시도" 및 "타임아웃" 설정, "realtime" 파사드, Redis의 클러스터 지원향상, 커스텀 피봇 테이블 모델, Request-요청에서 입력값의 trim 처리를 위한 미들웨어 추가등 라라벨 5.3에서 기능이 개선 계속 되었습니다. 또한 프레임워크의 전체 코드를 검토하여 클린한 코드를 위해서 리팩토링했습니다.
+
 > {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md).
 
+> {tip} 이 문서는 프레임워크에서 주요한 개선사항들에 대한 요약입니다. 보다 자세한 변경사항은 [GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md)에서 확인할 수 있습니다.
+
 ### Markdown Mail & Notifications
+### 마크다운 메일 & 알림 기능
 
 > {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7)를 참고하십시오.
 
 Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart. For example, a Markdown email might look something like the following:
 

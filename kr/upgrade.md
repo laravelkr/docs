@@ -103,9 +103,9 @@ The `make:console` command has been renamed to `make:command`.
 #### Authentication Scaffolding
 #### 인증 스캐폴딩
 
-The two default authentication controllers provided with the framework have been split into four smaller controllers. This change provides cleaner, more focused authentication controllers by default. The easiest way to upgrade your application to the new authentication controllers is to [grab a fresh copy of each controller from GitHub](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth) and place them into your application.
+The two default authentication controllers provided with the framework have been split into four smaller controllers. This change provides cleaner, more focused authentication controllers by default. The easiest way to upgrade your application to the new authentication controllers is to [grab a fresh copy of each controller from GitHub](https://github.com/laravel/laravel/tree/5.3/app/Http/Controllers/Auth) and place them into your application.
 
-기본적으로 프레임워크에서 제공되던 두개의 기본 인증 컨트롤러는 보다 작은 네 개의 컨트롤러로 분리되었습니다. 이 변경사항을 통해서 인증 컨트롤러는 보다 깔끔하고 그 역할 자체에 집중하도록 하였습니다. 어플리케이션이 새로운 인증 컨트롤러를 사용하도록 업그레이드 하는 가장 쉬운 방법은 [Github 에서 각각의 컨트롤러를 복사하고 어플리케이션에 복사하는 방법](https://github.com/laravel/laravel/tree/master/app/Http/Controllers/Auth)입니다.
+기본적으로 프레임워크에서 제공되던 두개의 기본 인증 컨트롤러는 보다 작은 네 개의 컨트롤러로 분리되었습니다. 이 변경사항을 통해서 인증 컨트롤러는 보다 깔끔하고 그 역할 자체에 집중하도록 하였습니다. 어플리케이션이 새로운 인증 컨트롤러를 사용하도록 업그레이드 하는 가장 쉬운 방법은 [Github 에서 각각의 컨트롤러를 복사하고 어플리케이션에 복사하는 방법](https://github.com/laravel/laravel/tree/5.3/app/Http/Controllers/Auth)입니다.
 
 You should also make sure that you are calling the `Auth::routes()` method in your `routes/web.php` file. This method will register the proper routes for the new authentication controllers.
 
@@ -205,7 +205,7 @@ In prior versions of Laravel, when registering custom Blade directives using the
 #### Service Provider
 #### 서비스 프로바이더
 
-Laravel 5.3 includes significant improvements to [event broadcasting](/docs/{{version}}/broadcasting). You should add the new `BroadcastServiceProvider` to your `app/Providers` directory by [grabbing a fresh copy of the source from GitHub](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php). Once you have defined the new service provider, you should add it to the `providers` array of your `config/app.php` configuration file.
+Laravel 5.3 includes significant improvements to [event broadcasting](/docs/{{version}}/broadcasting). You should add the new `BroadcastServiceProvider` to your `app/Providers` directory by [grabbing a fresh copy of the source from GitHub](https://raw.githubusercontent.com/laravel/laravel/5.3/app/Providers/BroadcastServiceProvider.php). Once you have defined the new service provider, you should add it to the `providers` array of your `config/app.php` configuration file.
 
 라라벨 5.3에서는 [이벤트 브로드캐스팅](/docs/{{version}}/broadcasting)에 대한 많은 개선이 있었습니다. `app/Providers` 디렉토리에 `BroadcastServiceProvider` 를 [GitHub에서 소스를 복사하여](https://raw.githubusercontent.com/laravel/laravel/develop/app/Providers/BroadcastServiceProvider.php) 새로 추가해야합니다. 새로운 서비스 프로바이더를 정의하고 나면 `config/app.php` 설정 파일에서 `providers` 배열에 이를 추가해야 합니다.
 

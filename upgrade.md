@@ -27,9 +27,9 @@
 
 #### 설정 파일
 
-`config/auth.php` 설정 파일을 다음의 [https://github.com/laravel/laravel/blob/master/config/auth.php](https://github.com/laravel/laravel/blob/master/config/auth.php)와 같이 변경해야 합니다. 
+`config/auth.php` 설정 파일을 다음의 [https://github.com/laravel/laravel/blob/638b261a68913bae9a64f6d540612b862fa3c4dd/config/auth.php](https://github.com/laravel/laravel/blob/638b261a68913bae9a64f6d540612b862fa3c4dd/config/auth.php)와 같이 변경해야 합니다.
 
-새로운 복사본으로 파일을 덮어씌우고, 이전 설정 파일의 옵션값을 참고하여 인증을 설정하십시오. 라라벨 5.1에서 일반적인 Eloquent 기반의 인증 서비스를 이용 중이었다면, 대부분의 값들은 동일할 것입니다. 
+새로운 복사본으로 파일을 덮어씌우고, 이전 설정 파일의 옵션값을 참고하여 인증을 설정하십시오. 라라벨 5.1에서 일반적인 Eloquent 기반의 인증 서비스를 이용 중이었다면, 대부분의 값들은 동일할 것입니다.
 
 새로운 `auth.php` 설정 파일안에 있는 `passwords.users.email` 설정 옵션의 특별한 사항를 확인하고, 뷰 파일의 경로가 어플리케이션의 실제의 뷰 파일 경로와 일치하는지 확인하십시오. 라라벨 5.2에서 이 뷰에 대한 기본 경로가 변경되었습니다. 새로운 설정 파일의 기본 값이 가지고 있는 뷰의 경로와 일치하지 않는다면 설정 옵션을 변경하십시오. 
 

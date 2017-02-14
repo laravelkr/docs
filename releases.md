@@ -19,15 +19,15 @@
 <a name="laravel-5.4"></a>
 ## 라라벨 5.4
 
-Laravel 5.4 continues the improvements made in Laravel 5.3 by adding support for [Markdown based emails and notifications](/docs/5.4/mail#markdown-mailables), the [Laravel Dusk](/docs/5.4/dusk) browser automation and testing framework, Laravel Mix, Blade "components" and "slots", route model binding on broadcast channels, higher order messages for Collections, object-based Eloquent events, job-level "retry" and "timeout" settings, "realtime" facades, improved support for Redis Cluster, custom pivot table models, middleware for request input trimming and cleaning, and more. In addition, the entire codebase of the framework was reviewed and refactored for general cleanliness.
+라라벨 5.4는 [마크다운을 기반으로한 이메일과 알림기능](/docs/5.4/mail#markdown-mailables), [라라벨 Dusk](/docs/5.4/dusk)를 통한 브라우저 테스팅 자동화, 라라벨 Mix, 블레이드의 "컴포넌트" 및 "슬롯"의 지원, 브로드캐스팅 채널에서 라우트 모델 바인딩, 컬렉션을 위한 higher order messages , 객체 기반의 Eloquent 이벤트, job 클래스에서의 "재시도" 및 "타임아웃" 설정, "realtime" 파사드, Redis의 클러스터 지원향상, 커스텀 피봇 테이블 모델, Request-요청에서 입력값의 trim 처리를 위한 미들웨어 추가등 라라벨 5.3에서 기능이 개선 계속 되었습니다. 또한 프레임워크의 전체 코드를 검토하여 클린한 코드를 위해서 리팩토링했습니다.
 
-> {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md).
+> {tip} 이 문서는 프레임워크에서 주요한 개선사항들에 대한 요약입니다. 보다 자세한 변경사항은 [GitHub](https://github.com/laravel/framework/blob/5.4/CHANGELOG-5.4.md)에서 확인할 수 있습니다.
 
-### Markdown Mail & Notifications
+### 마크다운 메일 & 알림 기능
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/7)를 참고하십시오.
 
-Markdown mailable messages allow you to take advantage of the pre-built templates and components of mail notifications in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart. For example, a Markdown email might look something like the following:
+마크다운 mailable 메세지 기능을 사용하면 미리 템플릿과 메일 컴포넌트를 활용할 수 있는 장점이 있습니다. 마크다운을 통해서 메세지를 작성하게 되면서, 라라벨은 메세지를 보다 원활하게 렌더링 하고, 반응형 HTML 템플릿을 사용하는 동시에 일반 텍스트를 자동으로 생성할 수 있게 되었습니다. 예를 들면 마크다운 이메일은 다음과 같이 구서할 수 있습니다:
 
     @component('mail::message')
     # Order Shipped
@@ -47,21 +47,21 @@ Markdown mailable messages allow you to take advantage of the pre-built template
     {{ config('app.name') }}
     @endcomponent
 
-Using this simple Markdown template, Laravel is able to generate a responsive HTML email and plain-text counterpart:
+이 마크다운 예제 템플릿을 사용하면, 라라벨은 반응형 HTML 이메일과 텍스트를 생성합니다:
 
 <img src="https://laravel.com/assets/img/examples/markdown.png" width="551" height="596">
 
-To read more about Markdown mail and notifications, check out the full [mail](/docs/5.4/mail) and [notification](/docs/5.4/notifications) documentation.
+마크다운 메일과 일림에 대해서 보다 자세한 사항은 [메일](/docs/5.4/mail) 그리고 [알림](/docs/5.4/notifications) 문서를 확인하십시오.
 
-> {tip} You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag.
+> {tip} 어플리케이션에서 사용하는 모든 마크다운 메일 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다.
 
-### Laravel Dusk
+### 라라벨 Dusk
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/9) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/9)를 참고하십시오.
 
-Laravel Dusk provides an expressive, easy-to-use browser automation and testing API. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation. However, you are free to utilize any other Selenium compatible driver you wish.
+라라벨 Dusk는 구성과 사용이 쉬운 브라우저 자동화 및 테스팅 API를 제공합니다. 기본적으로 Dusk는 사용자 머신에 JDK 나 Selenium을 설치하도록 요구하지 않습니다. 대신에 Dusk는 독립적인 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)를 사용합니다. 그렇긴 하지만, 원하는 경우 다른 Selenium 호환 드라이버를 사용할 수도 있습니다.
 
-Since Dusk operates using a real browser, you are able to easily test and interact with your applications that heavily use JavaScript:
+Dusk는 실제 브라우저를 사용하기 때문에, 자바스크립트를 많이 사용하는 어플리케이션이더라도 어플리케이션을 손쉽게 테스트하고 조작할 수 있습니다:
 
     /**
      * A basic browser test example.
@@ -87,22 +87,22 @@ Since Dusk operates using a real browser, you are able to easily test and intera
         });
     }
 
-For more information on Dusk, consult the full [Dusk documentation](/docs/5.4/dusk).
+Dusk에 대한 보다 자세한 사항은 [Dusk 문서](/docs/5.4/dusk)를 참고하십시오.
 
-### Laravel Mix
+### 라라벨 Mix
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/3) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/3)를 참고하십시오.
 
-Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based on Webpack instead of Gulp. Laravel Mix provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
+라라벨 Mix는 차세대 라라벨 Elixir 입니다. 이는 전적으로 Gulp 대신에 Webpack을 기반으로 합니다. 라라벨 Mix는 공통의 CSS 및 자바스크립트 프리프로세싱을 사용하는 라라벨 어플리케이션을 위해서 Webpack 빌드를 정의하는 유연한 API를 제공합니다. 메소드 체이닝이 가능하기 때문에, asset 파이프라인을 보다 손쉽게 정의할 수 있습니다. 예를 들면:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
 
-### Blade Components & Slots
+### 블레이드 컴포넌트 & 슬롯
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/6) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/6)를 참고하십시오.
 
-Blade components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
+블레이드 컴포넌트 & 슬롯은 섹션 & 레이아웃과 비슷한 장점을 제공하지만, 컴포넌트와 슬롯의 개념보다 이해하기가 더 쉽습니다. 먼저 어플리케이션에서 재사용할 수 있는 "경고-alert" 컴포넌트를 생각해 보겠습니다:
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -110,13 +110,13 @@ Blade components and slots provide similar benefits to sections and layouts; how
         {{ $slot }}
     </div>
 
-The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
+`{{ $slot }}` 변수는 컴포넌트에 주입하고자 하는 컨텐츠를 가지게 됩니다. 이제, 이 컴포넌트를 생성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
 
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
 
-Named slots allow you to provide multiple slots into a single component:
+이름이 지정된 슬롯을 사용하면 하나의 컴포넌트에 여러개의 슬롯을 제공 할 수 있습니다:
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -126,7 +126,7 @@ Named slots allow you to provide multiple slots into a single component:
         {{ $slot }}
     </div>
 
-Named slots may be injected using the `@slot` directive. Any content is not within a `@slot` directive will be passed to the component in the `$slot` variable:
+이름이 지정된 슬롯은 `@slot` 지시어를 사용하여 주입할 수 있습니다. `@slot` 지시어에 들어 있지 않은 컨텐츠는 컴포넌트의 `$slot` 변수에 전달됩니다:
 
     @component('alert')
         @slot('title')
@@ -136,11 +136,11 @@ Named slots may be injected using the `@slot` directive. Any content is not with
         You are not allowed to access this resource!
     @endcomponent
 
-To read more about components and slots, consult the full [Blade documentation](/docs/5.4/blade).
+컴포넌트와 슬롯에 대한 보다 자세한 사항은 [블레이드 문서](/docs/5.4/blade)를 참고하십시오.
 
-### Broadcast Model Binding
+### 브로드캐스팅 모델 바인딩
 
-Just like HTTP routes, channel routes may now take advantage of implicit and explicit [route model binding](/docs/5.4/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, you may request an actual `Order` model instance:
+HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/5.4/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다:
 
     use App\Order;
 
@@ -148,11 +148,11 @@ Just like HTTP routes, channel routes may now take advantage of implicit and exp
         return $user->id === $order->user_id;
     });
 
-To read more about broadcast model binding, consult the full [event broadcasting](/docs/5.4/broadcasting) documentation.
+브로드캐스팅 모델 바인딩에 대한 보다 자세한 사항은 [이벤트 브로드캐스팅](/docs/5.4/broadcasting)에 대한 문서를 참고하십시오.
 
 ### Collection Higher Order Messages
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2)를 참고하십시오.
 
 Collections now provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
 
@@ -168,9 +168,9 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
     return $users->sum->votes;
 
-### Object Based Eloquent Events
+### 객체 기반의 Eloquent 이벤트
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10)를 참고하십시오.
 
 Eloquent event handlers may now be mapped to event objects. This provides a more intuitive way of handling Eloquent events and makes it easier to test the events. To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/5.4/events):
 
@@ -227,7 +227,7 @@ For more information about these settings, consult the full [queue documentation
 
 ### Request Sanitization Middleware
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1)를 참고하십시오.
 
 Laravel 5.4 includes two new middleware in the default middleware stack: `TrimStrings` and `ConvertEmptyStringsToNull`:
 
@@ -247,9 +247,9 @@ Laravel 5.4 includes two new middleware in the default middleware stack: `TrimSt
 
 These middleware will automatically trim request input values and convert any empty strings to `null`. This helps you normalize the input for every request entering into your application and not have to worry about continually calling the `trim` function in every route and controller.
 
-### "Realtime" Facades
+### "Realtime" 파사드
 
-> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8) for this feature available on Laracasts.
+> {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8)를 참고하십시오.
 
 Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/facades), which provide quick, terse access to their methods via the service container. However, in Laravel 5.4, you may easily convert any of your application's classes into a facade in realtime simply by prefixing the imported class name with `Facades`. For example, imagine your application contains a class like the following:
 

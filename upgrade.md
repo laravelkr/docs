@@ -11,7 +11,7 @@
 
 ### 의존성 업데이트
 
-`composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.0` 으로 업데이트 해야 합니다. 
+`composer.json` 파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.7` 으로 업데이트 해야 합니다.
 
 #### 컴파일된 서비스 파일 제거
 

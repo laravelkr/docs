@@ -1472,7 +1472,7 @@
 
     $users->each->markAsVip();
 
-마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있씁니다:
+마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있습니다:
 
     $users = User::where('group', 'Development')->get();
 

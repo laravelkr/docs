@@ -1726,7 +1726,7 @@ Each higher order message can be accessed as a dynamic property on a collection 
 
 Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
 
-마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있씁니다:
+마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있습니다:
 
     $users = User::where('group', 'Development')->get();
 

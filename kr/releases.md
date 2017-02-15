@@ -203,7 +203,7 @@ To read more about broadcast model binding, consult the full [event broadcasting
 브로드캐스팅 모델 바인딩에 대한 보다 자세한 사항은 [이벤트 브로드캐스팅](/docs/5.4/broadcasting)에 대한 문서를 참고하십시오.
 
 ### Collection Higher Order Messages
-### Collection Higher Order Messages
+### 컬렉션 Higher Order Messages
 
 > {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/2) for this feature available on Laracasts.
 
@@ -211,13 +211,19 @@ To read more about broadcast model binding, consult the full [event broadcasting
 
 Collections now provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
 
+컬렉션은 이제 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
+
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+
+각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다:
 
     $users = User::where('votes', '>', 500)->get();
 
     $users->each->markAsVip();
 
 Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+
+마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 "전체 투표 수를" 확인할 수 있습니다:
 
     $users = User::where('group', 'Development')->get();
 

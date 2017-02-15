@@ -307,7 +307,7 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 
 #### 커스텀 중간 테이블 모델 정의하기
 
-관계의 중간 테이블을 포현하기 위해서 커스텀 모델을 정의하려면, 관례를 정의할 때 `using` 메소드를 호출하면 됩니다. 관계의 중간 테이블을 나타내는 데 사용되는 모든 커스텀 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야합니다:
+관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관례를 정의할 때 `using` 메소드를 호출하면 됩니다. 관계의 중간 테이블을 나타내는 데 사용되는 모든 커스텀 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야합니다:
 
     <?php
 

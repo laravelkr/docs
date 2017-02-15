@@ -263,7 +263,7 @@ Eloquent 이벤트 핸들러는 이제 이벤트 객체로 매핑되었습니다
 
 Previously, queue job "retry" and "timeout" settings could only be configured globally for all jobs on the command line. However, in Laravel 5.4, these settings may be configured on a per-job basis by defining them directly on the job class:
 
-이번버전까지는, queue job의 "재시도 횟수" 그리고 "타임아웃" 설정은 커맨드 라인에서 모든 job들을 대상으로만 설정이 가능했습니다. 라라벨 5.4에서는 이 설정들은 job 클래스에 직접 정의하여 설정이 가능하도록 변경되었습니다:
+이전 버전까지는, queue job의 "재시도 횟수" 그리고 "타임아웃" 설정은 커맨드 라인에서 모든 job들을 대상으로만 설정이 가능했습니다. 라라벨 5.4에서는 이 설정들은 job 클래스에 직접 정의하여 설정이 가능하도록 변경되었습니다:
 
     <?php
 

@@ -549,7 +549,7 @@ The `has` method may be used to determine if any error messages exist for a give
 
 If needed, you may use custom error messages for validation instead of the defaults. There are several ways to specify custom messages. First, you may pass the custom messages as the third argument to the `Validator::make` method:
 
-필요하다면 기본적인 에얼 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
+필요하다면 기본적인 에러 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -598,7 +598,7 @@ In most cases, you will probably specify your custom messages in a language file
 
 If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
 
-유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attribute` 배열에 사용자 정의 이름을 지정하면 됩니다:
+유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attributes` 배열에 사용자 정의 이름을 지정하면 됩니다:
 
     'attributes' => [
         'email' => 'email address',
@@ -609,6 +609,8 @@ If you would like the `:attribute` portion of your validation message to be repl
 ## 사용가능한 유효성 검사 규칙
 
 Below is a list of all available validation rules and their function:
+
+다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다:
 
 <style>
     .collection-method-list > p {

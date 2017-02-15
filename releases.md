@@ -172,7 +172,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 > {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/10)를 참고하십시오.
 
-Eloquent event handlers may now be mapped to event objects. This provides a more intuitive way of handling Eloquent events and makes it easier to test the events. To get started, define an `$events` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/5.4/events):
+Eloquent 이벤트 핸들러는 이제 이벤트 객체로 매핑되었습니다. 이를 통해서 Eloquent 이벤트 처리가 보다 직관적이고 테스트가 쉬워졌습니다. 시작하기 위해서, Eloquent 모델의 라이프사이클에 해당하는 다양한 포인트를 나타내는 [이벤트 클래스](/docs/5.4/events)를 매핑하고 있는 `$events` 속성을 정의하십시오:
 
     <?php
 
@@ -198,9 +198,9 @@ Eloquent event handlers may now be mapped to event objects. This provides a more
         ];
     }
 
-### Job Level Retry & Timeout
+### Job 재시도 횟수 & 타임아웃
 
-Previously, queue job "retry" and "timeout" settings could only be configured globally for all jobs on the command line. However, in Laravel 5.4, these settings may be configured on a per-job basis by defining them directly on the job class:
+이전 버전까지는, queue job의 "재시도 횟수" 그리고 "타임아웃" 설정은 커맨드 라인에서 모든 job들을 대상으로만 설정이 가능했습니다. 라라벨 5.4에서는 이 설정들은 job 클래스에 직접 정의하여 설정이 가능하도록 변경되었습니다:
 
     <?php
 
@@ -223,13 +223,13 @@ Previously, queue job "retry" and "timeout" settings could only be configured gl
         public $timeout = 120;
     }
 
-For more information about these settings, consult the full [queue documentation](/docs/5.4/queues).
+이 설정에 대한 보다 자세한 사항은 [queue 문서](/docs/5.4/queues)를 참고하십시오.
 
-### Request Sanitization Middleware
+### Request-요청 Sanitization 미들웨어
 
 > {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/1)를 참고하십시오.
 
-Laravel 5.4 includes two new middleware in the default middleware stack: `TrimStrings` and `ConvertEmptyStringsToNull`:
+라라벨 5.4는 기본 미들웨어 스택에 `TrimStrings`와 `ConvertEmptyStringsToNull`이라는 새로운 미들웨어를 포함합니다:
 
     /**
      * The application's global HTTP middleware stack.
@@ -245,13 +245,13 @@ Laravel 5.4 includes two new middleware in the default middleware stack: `TrimSt
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
-These middleware will automatically trim request input values and convert any empty strings to `null`. This helps you normalize the input for every request entering into your application and not have to worry about continually calling the `trim` function in every route and controller.
+이 미들웨어는 request-요청의 모든 입력값을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 이를 통해서 어플리케이션에 유입되는 모든 request의 입력값의 일반화 처리에 대해서 걱정할 필요가 없으며, 매번 라우트와 컨트롤러에서 `trim` 함수를 호출하지 않아도 됩니다. 
 
 ### "Realtime" 파사드
 
 > {video} 이 기능을 설명한 Laracast 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-4/episodes/8)를 참고하십시오.
 
-Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/facades), which provide quick, terse access to their methods via the service container. However, in Laravel 5.4, you may easily convert any of your application's classes into a facade in realtime simply by prefixing the imported class name with `Facades`. For example, imagine your application contains a class like the following:
+이전까지는, 라라벨의 고유한 내장 서비스만 [파사드](/docs/5.4/facades)로 노출되어 서비스 컨테이너를 통해서 메소드에 보다 빠르게 엑세스 할 수 있었습니다. 라라벨 5.4에서는 어플리케이션의 클래스앞에 `Facades`를 붙여서 import 함으로써 여러분의 고유한 클래스를 손쉽게 파사드로 변환할 수 있습니다. 예를 들어, 어플리케이션에 다음과 같은 클래스가 있다고 가정해보겠습니다:
 
     <?php
 
@@ -284,7 +284,7 @@ Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/fac
         }
     }
 
-You may easily use this class as a facade like so:
+다음처럼 이 클래스를 손쉽게 파사드로 사용할 수 있습니다:
 
     use Facades\ {
         App\Services\PaymentGateway
@@ -294,13 +294,13 @@ You may easily use this class as a facade like so:
         PaymentGateway::pay($amount);
     });
 
-Of course, if you leverage a realtime facade in this way, you may easily write a test for the interaction using Laravel's [facade mocking capabilities](/docs/5.4/mocking):
+물론, 이렇게 realtime 파사드를 사용하도라도, 라라벨의 [파사드 mocking 호환](/docs/5.4/mocking)기능을 통해서 테스트를 손쉽게 작성할 수 있습니다:
 
     PaymentGateway::shouldReceive('pay')->with('100');
 
-### Custom Pivot Table Models
+### 커스텀 피벗 테이블 모델
 
-In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used the same built-in `Pivot` model instance. In Laravel 5.4, you may define custom models for your pivot tables. If you would like to define a custom model to represent the intermediate table of your relationship, use the `using` method when defining the relationship:
+라라벨 5.3에서는 `belongsToMany` 관계를 위한 모든 "피벗" 테이블 모델은 동일한 내장 `Pivot` 모델 인스턴스를 사용했습니다. 라라벨 5.4에서는 이 피벗 테이블을 위한 커스텀 모델을 정의할 수 있습니다. 관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관례를 정의할 때 `using` 메소드를 호출하면 됩니다:
 
     <?php
 
@@ -319,16 +319,16 @@ In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used 
         }
     }
 
-### Improved Redis Cluster Support
+### Redis 클러스터 지원 향상 
 
-Previously, it was not possible to define Redis connections to single hosts and to clusters in the same application. In Laravel 5.4, you may now define Redis connections to multiple single hosts and multiple clusters within the same application. For more information on Redis in Laravel, please consult the full [Redis documentation](/docs/5.4/redis).
+이전버전까지, 동일한 어플리케이션에서 하나의 호스트 및 클러스터에 대한 Redis 커넥션을 정의할 수 없었습니다. 라라벨 5.4에서는 동일한 어플리케이션 안에서 여러개의 다수의 단일 호수트 및 다중 클러스터에 대한 Redis 커넥션을 정의할 수 있습니다. 라라벨의 Redis에 대한 보다 자세한 사항은 [Redis 문서](/docs/5.4/redis)를 참고하시기 바랍니다.
 
 <a name="utf8mb4"></a>
-### Migration Default String Length
+### 기본 문자열 길이 마이그레이션 하기
 
-Laravel 5.4 uses the `utf8mb4` character set by default, which includes support for storing "emojis" in the database. If you are upgrading your application from Laravel 5.3, you are not required to switch to this character set.
+라라벨 5.4는 기본적으로 "emojis"를 데이터베이스에 저장할 수 있는 `utf8mb4` 캐릭터셋을 사용합니다. 어플리케이션이 라라벨 5.3에서 업그레이드 되었다면, 이 캐릭터셋을 변경할 필요는 없습니다.
 
-If you choose to switch to this character set manually and are running a version of MySQL older than the 5.7.7 release, you may need to manually configure the default string length generated by migrations. You may configure this by calling the `Schema::defaultStringLength` method within your `AppServiceProvider`:
+이 캐릭터셋을 수동으로 변경하기를 원하거나 MySQL 5.7.7 이전버전을 사용중이라면, 마이그레이션 파일을 생성하여 수동으로 기본 문자열 길이를 조정해야합니다. `AppServiceProvider` 파일 안에서 `Schema::defaultStringLength` 메소드를 호출하여 이를 설정할 수 있습니다:
 
     use Illuminate\Support\Facades\Schema;
 

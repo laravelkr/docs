@@ -451,7 +451,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="custom-error-messages"></a>
 ### 사용자 지정(커스텀) 에러 메세지
 
-필요하다면 기본적인 에얼 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
+필요하다면 기본적인 에러 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -489,7 +489,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
 #### 언어파일에 커스텀 속성 지정하기
 
-유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attribute` 배열에 사용자 정의 이름을 지정하면 됩니다:
+유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attributes` 배열에 사용자 정의 이름을 지정하면 됩니다:
 
     'attributes' => [
         'email' => 'email address',
@@ -498,7 +498,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="available-validation-rules"></a>
 ## 사용가능한 유효성 검사 규칙
 
-Below is a list of all available validation rules and their function:
+다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다:
 
 <style>
     .collection-method-list > p {
@@ -716,7 +716,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 
     'email' => 'exists:connection.staff,email'
 
-유효성 검사 규칙에 의해서 실행되는 퀄리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
+유효성 검사 규칙에 의해서 실행되는 쿼리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
 
     use Illuminate\Validation\Rule;
 

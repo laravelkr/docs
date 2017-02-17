@@ -1,21 +1,21 @@
-# Browser Tests (Laravel Dusk)
+# 브라우저 테스트 (라라벨 Dusk)
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-    - [Using Other Browsers](#using-other-browsers)
-- [Getting Started](#getting-started)
-    - [Generating Tests](#generating-tests)
-    - [Running Tests](#running-tests)
-    - [Environment Handling](#environment-handling)
-    - [Creating Browsers](#creating-browsers)
-    - [Authentication](#authentication)
+- [소개하기](#introduction)
+- [설치하기](#installation)
+    - [다른 브라우저 사용하기](#using-other-browsers)
+- [시작하기](#getting-started)
+    - [테스트 클래스 생성하기](#generating-tests)
+    - [테스트 실행하기](#running-tests)
+    - [구동환경 처리](#environment-handling)
+    - [브라우저 생성하기](#creating-browsers)
+    - [인증](#authentication)
 - [Interacting With Elements](#interacting-with-elements)
-    - [Clicking Links](#clicking-links)
+    - [링크 클릭](#clicking-links)
     - [Text, Values, & Attributes](#text-values-and-attributes)
     - [Using Forms](#using-forms)
-    - [Attaching Files](#attaching-files)
-    - [Using The Keyboard](#using-the-keyboard)
-    - [Using The Mouse](#using-the-mouse)
+    - [파일 첨부](#attaching-files)
+    - [키보드 사용하기](#using-the-keyboard)
+    - [마우스 사용하기](#using-the-mouse)
     - [Scoping Selectors](#scoping-selectors)
     - [Waiting For Elements](#waiting-for-elements)
 - [Available Assertions](#available-assertions)
@@ -27,18 +27,18 @@
     - [Page Methods](#page-methods)
 
 <a name="introduction"></a>
-## Introduction
+## 소개하기
 
-Laravel Dusk provides an expressive, easy-to-use browser automation and testing API. By default, Dusk does not require you to install JDK or Selenium on your machine. Instead, Dusk uses a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation. However, you are free to utilize any other Selenium compatible driver you wish.
+라라벨 Dusk는 구성과 사용이 쉬운 브라우저 자동화 및 테스팅 API를 제공합니다. 기본적으로 Dusk는 사용자 머신에 JDK 나 Selenium을 설치하도록 요구하지 않습니다. 대신에 Dusk는 독립적인 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)를 사용합니다. 그렇긴 하지만, 원하는 경우 다른 Selenium 호환 드라이버를 사용할 수도 있습니다.
 
 <a name="installation"></a>
-## Installation
+## 설치하기
 
-To get started, you should add the `laravel/dusk` Composer dependency to your project:
+시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
     composer require laravel/dusk
 
-Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to login as other users:
+Dusk가 설치되고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 다른 사용자로 로그인 할 수 있는 기능을 가지고 있어, Dusk를 사용할 수있는 환경을 제한하기 위해서 `AppServiceProvider`의 `register` 메소드에서 프로바이더를 등록해야합니다:
 
     use Laravel\Dusk\DuskServiceProvider;
 
@@ -54,22 +54,22 @@ Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvide
         }
     }
 
-Next, run the `dusk:install` Artisan command:
+다음으로 `dusk:install` 아티즌 명령어를 실행합니다:
 
     php artisan dusk:install
 
-A `Browser` directory will be created within your `tests` directory and will contain an example test. Next, set the `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser.
+`tests` 디렉토리 안에 `Browser` 디렉토리가 생성되고 예제 테스트가 포함됩니다. 그런 다음에 `.env` 파일에서 `APP_URL` 환경 변수를 설정하십시오. 이 변수는 브라우저에서 어플리케이션에 엑세스 하는데 사용하는 URL과 일치해야 합니다.
 
-To run your tests, use the `dusk` Artisan command. The `dusk` command accepts any argument that is also accepted by the `phpunit` command:
+테스트를 실행하기 위해서는 `dusk` 아티즌 명령어를 사용합니다. `dusk` 명령어는 `phpunit` 명령어에 전달할 수 있는 모든 인자를 받을 수 있습니다:
 
     php artisan dusk
 
 <a name="using-other-browsers"></a>
-### Using Other Browsers
+### 다른 브라우저 사용하기
 
-By default, Dusk uses Google Chrome and a standalone [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home) installation to run your browser tests. However, you may start your own Selenium server and run your tests against any browser you wish.
+기본적으로, Dusk는 브라우저 테스트에서 구글 크롬 및 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)을 사용합니다. 그렇지만, 여러분이 다른 Selenium 서버를 구성하고 원하는 브라우저를 테스트할 수도 있습니다.
 
-To get started, open your `tests/DuskTestCase.php` file, which is the base Dusk test case for your application. Within this file, you can remove the call to the `startChromeDriver` method. This will stop Dusk from automatically starting the ChromeDriver:
+다른 브라우저를 사용하기 위해서는, 어플리케이션의 베이스 Dusk 테스트 케이스가 되는 `tests/DuskTestCase.php` 파일을 엽니다. 이 파일안에 있는 `startChromeDriver`을 제거하면 됩니다. 이렇게 하면 Dusk가 자동으로 ChromeDriver를 시작하지 않게 됩니다:
 
     /**
      * Prepare for Dusk test execution.
@@ -82,7 +82,9 @@ To get started, open your `tests/DuskTestCase.php` file, which is the base Dusk 
         // static::startChromeDriver();
     }
 
-Next, you may simply modify the `driver` method to connect to the URL and port of your choice. In addition, you may modify the "desired capabilities" that should be passed to the WebDriver:
+다음으로 `driver` 메소드에 접속하고자 하는 URL을 수정하면 됩니다. 또한 WebDriver에 전달되어야하는 "desired capabilities"을 수정할 수도 있습니다.
+
+(역자주 : "desired capabilities"는 Facebook\WebDriver\Remote\RemoteWebDriver 의 create 메소드에서 필요한 DesiredCapabilities 클래스 호출을 의미합니다)
 
     /**
      * Create the RemoteWebDriver instance.
@@ -97,29 +99,29 @@ Next, you may simply modify the `driver` method to connect to the URL and port o
     }
 
 <a name="getting-started"></a>
-## Getting Started
+## 시작하기
 
 <a name="generating-tests"></a>
-### Generating Tests
+### 테스트 클래스 생성하기
 
-To generate a Dusk test, use the `dusk:make` Artisan command. The generated test will be placed in the `tests/Browser` directory:
+Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 사용합니다. 생성된 테스트 파일은 `tests/Browser` 디렉토리에 저장됩니다:
 
     php artisan dusk:make LoginTest
 
 <a name="running-tests"></a>
-### Running Tests
+### 테스트 실행하기
 
-To run your browser tests, use the `dusk` Artisan command:
+브라우저 테스트를 실행하려면, `dusk` 아티즌 명령어를 사용하십시오:
 
     php artisan dusk
 
-The `dusk` command accepts any argument that is normally accepted by the PHPUnit test runner, allowing you to only run the tests for a given [group](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group), etc:
+`dusk` 명령어는 일반적으로 PHPUnit 테스트에 전달할 수 있는 인자들을 받을 수 있기 때문에, 지정된 [그룹](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group)에 대해서 테스트를 실행할 수도 있습니다.
 
     php artisan dusk --group=foo
 
-#### Manually Starting ChromeDriver
+#### 수동으로 ChromeDriver 시작하기
 
-By default, Dusk will automatically attempt to start ChromeDriver. If this does not work for your particular system, you may manually start ChromeDriver before running the `dusk` command. If you choose to start ChromeDriver manually, you should comment out the following line of your `tests/DuskTestCase.php` file:
+기본적으로는 Dusk가 자동으로 ChromeDriver를 시작합니다. 만약 특정 시스템에서 ChromeDriver가 동작하지 않으면 `dusk` 명령어를 실행하기 전에 수동으로 ChromeDriver를 시작해야 합니다. 수동으로 ChromeDriver를 시작하려면, `tests/DuskTestCase.php` 파일의 다음 라인을 주석으로 표시해야합니다:
 
     /**
      * Prepare for Dusk test execution.
@@ -132,7 +134,7 @@ By default, Dusk will automatically attempt to start ChromeDriver. If this does 
         // static::startChromeDriver();
     }
 
-In addition, if you start ChromeDriver on a port other than 9515, you should modify the `driver` method of the same class:
+또한, ChromeDriver가 9515포트가 아닌 다른 포트를 사용한다면, 이 클래스의 `driver` 메소드를 수정해야합니다:
 
     /**
      * Create the RemoteWebDriver instance.

@@ -1386,6 +1386,22 @@
             1 => ['product' => 'Desk', 'price' => 200],
         ]
     */
+
+<a name="method-when"></a>
+#### `when()` {#collection-method}
+
+`when` 메소드는 when 메소드에 주어진 첫 번째 인자가 `true`로 판정 될 때 두번째 인자로 전달되는 콜백을 실행합니다:
+
+    $collection = collect([1, 2, 3]);
+
+    $collection->when(true, function ($collection) {
+        return $collection->push(4);
+    });
+
+    $collection->all();
+
+    // [1, 2, 3, 4]
+
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 

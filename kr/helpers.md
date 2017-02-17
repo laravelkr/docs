@@ -549,7 +549,7 @@ The `public_path` function returns the fully qualified path to the `public` dire
 <a name="method-resource-path"></a>
 #### `resource_path()` {#collection-method}
 
-The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the storage directory:
+The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the resources directory:
 
 `resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다:
 

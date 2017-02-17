@@ -71,11 +71,13 @@ Of course, one common use of the session is for maintaining state for the authen
 
     <?php
 
+    use App\User;
+
     class ExampleTest extends TestCase
     {
         public function testApplication()
         {
-            $user = factory(App\User::class)->create();
+            $user = factory(User::class)->create();
 
             $response = $this->actingAs($user)
                              ->withSession(['foo' => 'bar'])
@@ -167,6 +169,7 @@ Method  | Description
 `$response->assertCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie (unencrypted).
 `$response->assertSessionHas($key, $value = null);`  |  Assert that the session contains the given piece of data.
+`$response->assertSessionHasErrors(array $keys);`  |  Assert that the session contains an error for the given field.
 `$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
 `$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
 `$response->assertJsonFragment(array $data);`  |  Assert that the response contains the given JSON fragment.
@@ -182,6 +185,7 @@ Method  | Description
 `$response->assertCookie($cookieName, $value = null);`  |  응답에서 주어진 쿠키가 포함되어 있는지 확인.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  응답에서 주어진 (암호화 되지 않은)쿠키가 포함되어 있는지 확인.
 `$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
+`$response->assertSessionHasErrors(array $keys);`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
 `$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
 `$response->assertJsonFragment(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있는지 확인

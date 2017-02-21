@@ -1127,7 +1127,7 @@ The `php artisan make:job` command now creates a "queued" job class definition b
 
 The `pretend` mail configuration option has been removed. Instead, use the `log` mail driver, which performs the same function as `pretend` and logs even more information about the mail message.
 
-`pretend` 메일 설정 옵션은 제거되었습니다. 대신에, `pretent` 함수와 동일한 역활을 수행하며 메일 메시지에 대한 보다 많은 정보를 기록하는, `log` 메일 드라이버를 사용하십시오. 
+`pretend` 메일 설정 옵션은 제거되었습니다. 대신에, `pretent` 함수와 동일한 역할을 수행하며 메일 메시지에 대한 보다 많은 정보를 기록하는, `log` 메일 드라이버를 사용하십시오.
 
 ### Pagination
 ### Pagination
@@ -1611,7 +1611,7 @@ By default, Laravel 4 applications did not utilize namespacing within your appli
 
 Copy the new `.env.example` file to `.env`, which is the `5.0` equivalent of the old `.env.php` file. Set any appropriate values there, like your `APP_ENV` and `APP_KEY` (your encryption key), your database credentials, and your cache and session drivers.
 
-`.env.example` 파일을 복사하여 이전 버전에서 `.env.php` 파일과 동일한 역활을 하는 `5.0의 `.env` 파일을 생성합니다. `APP_ENV` 와 `APP_KEY` (암호화 키), 데이터 베이스 연결 정보, 캐시 그리고 세션 드라이버와 같은 어플리케이션에서 사용가능항 설정 값들을 지정할 수 있습니다. 
+`.env.example` 파일을 복사하여 이전 버전에서 `.env.php` 파일과 동일한 역할을 하는 `5.0의 `.env` 파일을 생성합니다. `APP_ENV` 와 `APP_KEY` (암호화 키), 데이터 베이스 연결 정보, 캐시 그리고 세션 드라이버와 같은 어플리케이션에서 사용가능항 설정 값들을 지정할 수 있습니다.
 
 Additionally, copy any custom values you had in your old `.env.php` file and place them in both `.env` (the real value for your local environment) and `.env.example` (a sample instructional value for other team members).
 

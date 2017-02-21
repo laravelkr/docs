@@ -83,7 +83,7 @@
 
 이제 새로운 블로그 포스트에 대해 유효성을 검사하는 로직을 `store` 메소드에 채워넣을 준비가 되었습니다. 어플리케이션의 베이스 컨트롤러(`App\Http\Controllers\Controller`) 클래스를 살펴보면 클래스가 `ValidatesRequests` 트레이트-trait을 사용한다는 것을 알 수 있습니다. 이 트레이트-trait은 모든 컨트롤러에 편리하게 사용할 수 있는 `validate` 메소드를 제공합니다.
 
-`validate` 메소드는 HTTP 요청의 유입과 유효성 검사 룰의 집합을 전달 받습니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAS 요청에는 JSON 응답이 보내질 것입니다.
+`validate` 메소드는 HTTP 요청의 유입과 유효성 검사 룰의 집합을 전달 받습니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAX
 
 `validate` 메소드에 대해 더 잘 이해하기 위해, 다시 `store` 메소드로 돌아가 보겠습니다:
 
@@ -418,7 +418,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="custom-error-messages"></a>
 ### 사용자 지정(커스텀) 에러 메세지
 
-필요하다면 기본적인 에얼 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
+필요하다면 기본적인 에러 메세지 대신에 커스텀 에러 메세지를 유효성 검사에 사용할 수 있습니다. 커스텀 메세지를 지정하는 데에는 여러가지 방법이 있습니다. 먼저 `Validator::make` 메소드에 커스텀 메세지를 세번째 인자로 전달할 수 있습니다:
 
     $messages = [
         'required' => 'The :attribute field is required.',
@@ -456,7 +456,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
 #### 언어파일에 커스텀 속성 지정하기
 
-유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attribute` 배열에 사용자 정의 이름을 지정하면 됩니다:
+유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attributes` 배열에 사용자 정의 이름을 지정하면 됩니다:
 
     'attributes' => [
         'email' => 'email address',
@@ -464,6 +464,8 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
 <a name="available-validation-rules"></a>
 ## 사용가능한 유효성 검사 규칙
+
+다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다:
 
 <style>
     .collection-method-list > p {
@@ -476,56 +478,56 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
     }
 </style>
 
-[Accepted](#rule-accepted)
-[Active URL](#rule-active-url)
-[After (Date)](#rule-after)
-[Alpha](#rule-alpha)
-[Alpha Dash](#rule-alpha-dash)
-[Alpha Numeric](#rule-alpha-num)
-[Array](#rule-array)
-[Before (Date)](#rule-before)
-[Between](#rule-between)
-[Boolean](#rule-boolean)
-[Confirmed](#rule-confirmed)
-[Date](#rule-date)
-[Date Format](#rule-date-format)
-[Different](#rule-different)
-[Digits](#rule-digits)
-[Digits Between](#rule-digits-between)
-[Dimensions (Image Files)](#rule-dimensions)
-[Distinct](#rule-distinct)
-[E-Mail](#rule-email)
-[Exists (Database)](#rule-exists)
-[File](#rule-file)
-[Filled](#rule-filled)
-[Image (File)](#rule-image)
-[In](#rule-in)
-[In Array](#rule-in-array)
-[Integer](#rule-integer)
-[IP Address](#rule-ip)
-[JSON](#rule-json)
-[Max](#rule-max)
-[MIME Types](#rule-mimetypes)
-[MIME Type By File Extension](#rule-mimes)
-[Min](#rule-min)
-[Nullable](#rule-nullable)
-[Not In](#rule-not-in)
-[Numeric](#rule-numeric)
-[Present](#rule-present)
-[Regular Expression](#rule-regex)
-[Required](#rule-required)
-[Required If](#rule-required-if)
-[Required Unless](#rule-required-unless)
-[Required With](#rule-required-with)
-[Required With All](#rule-required-with-all)
-[Required Without](#rule-required-without)
-[Required Without All](#rule-required-without-all)
-[Same](#rule-same)
-[Size](#rule-size)
-[String](#rule-string)
-[Timezone](#rule-timezone)
-[Unique (Database)](#rule-unique)
-[URL](#rule-url)
+- [Accepted](#rule-accepted)
+- [Active URL](#rule-active-url)
+- [After (Date)](#rule-after)
+- [Alpha](#rule-alpha)
+- [Alpha Dash](#rule-alpha-dash)
+- [Alpha Numeric](#rule-alpha-num)
+- [Array](#rule-array)
+- [Before (Date)](#rule-before)
+- [Between](#rule-between)
+- [Boolean](#rule-boolean)
+- [Confirmed](#rule-confirmed)
+- [Date](#rule-date)
+- [Date Format](#rule-date-format)
+- [Different](#rule-different)
+- [Digits](#rule-digits)
+- [Digits Between](#rule-digits-between)
+- [Dimensions (Image Files)](#rule-dimensions)
+- [Distinct](#rule-distinct)
+- [E-Mail](#rule-email)
+- [Exists (Database)](#rule-exists)
+- [File](#rule-file)
+- [Filled](#rule-filled)
+- [Image (File)](#rule-image)
+- [In](#rule-in)
+- [In Array](#rule-in-array)
+- [Integer](#rule-integer)
+- [IP Address](#rule-ip)
+- [JSON](#rule-json)
+- [Max](#rule-max)
+- [MIME Types](#rule-mimetypes)
+- [MIME Type By File Extension](#rule-mimes)
+- [Min](#rule-min)
+- [Nullable](#rule-nullable)
+- [Not In](#rule-not-in)
+- [Numeric](#rule-numeric)
+- [Present](#rule-present)
+- [Regular Expression](#rule-regex)
+- [Required](#rule-required)
+- [Required If](#rule-required-if)
+- [Required Unless](#rule-required-unless)
+- [Required With](#rule-required-with)
+- [Required With All](#rule-required-with-all)
+- [Required Without](#rule-required-without)
+- [Required Without All](#rule-required-without-all)
+- [Same](#rule-same)
+- [Size](#rule-size)
+- [String](#rule-string)
+- [Timezone](#rule-timezone)
+- [Unique (Database)](#rule-unique)
+- [URL](#rule-url)
 
 
 <a name="rule-accepted"></a>
@@ -658,7 +660,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 
     'email' => 'exists:connection.staff,email'
 
-유효성 검사 규칙에 의해서 실행되는 퀄리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
+유효성 검사 규칙에 의해서 실행되는 쿼리를 커스터마이징 하고자 한다면, 규칙에 `Rule` 클래스를 정의해서 사용할 수 있습니다. 다음 예제에서 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
 
     use Illuminate\Validation\Rule;
 

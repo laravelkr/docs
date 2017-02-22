@@ -75,7 +75,7 @@ Once the test has been generated, you may define test methods as you normally wo
         }
     }
 
-> {note} If you define your own `setUp` method within a test class, be sure to call `parent::setUp`.
+> {note} If you define your own `setUp` method within a test class, be sure to call `parent::setUp()`.
 
-> {note} 테스트 클래스 내에서 여러분만의 `setUp` 메소드를 정의한다면 반드시 `parent::setUp`를 호출하십시오. 
+> {note} 테스트 클래스 내에서 여러분만의 `setUp()` 메소드를 정의한다면 반드시 `parent::setUp`를 호출하십시오.
 

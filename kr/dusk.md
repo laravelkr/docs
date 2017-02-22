@@ -315,16 +315,24 @@ Often, you will be testing pages that require authentication. You can use Dusk's
 
 To click a link, you may use the `clickLink` method on the browser instance. The `clickLink` method will click the link that has the given display text:
 
+링크를 클릭하기 위해서는 브라우저 인스턴스에서 `clickLink` 메소드를 사용하면 됩니다. `clickLink` 메소드는 주어진 텍스트에 해당하는 링크를 클릭합니다:
+
     $browser->clickLink($linkText);
 
 > {note} This method interacts with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
 
+> {note} 이 메소드는 jQuery를 통해서 상호작용을 수행합니다. 웹 페이지에서 jQuery를 사용할 수 없다면 Dusk는 테스트가 수행되는 동안에 자동으로 이를 로딩하여 사용하능한 형태로 만듭니다.
+
 <a name="text-values-and-attributes"></a>
+### Text, Values, & Attributes
 ### Text, Values, & Attributes
 
 #### Retrieving & Setting Values
+#### Retrieving & Setting Values
 
 Dusk provides several methods for interacting with the current display text, value, and attributes of elements on the page. For example, to get the "value" of an element that matches a given selector, use the `value` method:
+
+Dusk 는 페이지에 현재 표시된 텍스트, 입력값 그리고 속성들에 대해서 처리할 수 있는 다양한 메소드를 제공합니다. 예를 들어 주어진 selector 와 매칭되는 Element의 "value"를 얻고자 한다면 `value` 메소드를 사용하면 됩니다:
 
     // Retrieve the value...
     $value = $browser->value('selector');
@@ -333,43 +341,63 @@ Dusk provides several methods for interacting with the current display text, val
     $browser->value('selector', 'value');
 
 #### Retrieving Text
+#### 텍스트 조회하기
 
 The `text` method may be used to retrieve the display text of an element that matches the given selector:
+
+`text` 메소드는 주어진 selector 와 매칭되는 element의 텍스트를 조회하는데 사용됩니다:
 
     $text = $browser->text('selector');
 
 #### Retrieving Attributes
+#### 속성 조회하기
 
 Finally, the `attribute` method may be used to retrieve an attribute of an element matching the given selector:
+
+`attribute` 메소드는 주어진 selector와 매칭되는 element의 속성을 조회하는데 사용됩니다:
 
     $attribute = $browser->attribute('selector', 'value');
 
 <a name="using-forms"></a>
 ### Using Forms
+### Form 사용하기
 
 #### Typing Values
+#### 값 입력하기
 
 Dusk provides a variety of methods for interacting with forms and input elements. First, let's take a look at an example of typing text into an input field:
+
+Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 제공합니다. 먼저, input 필드에 값을 입력하는 예쩨를 살펴보겠습니다:
 
     $browser->type('email', 'taylor@laravel.com');
 
 Note that, although the method accepts one if necessary, we are not required to pass a CSS selector into the `type` method. If a CSS selector is not provided, Dusk will search for an input field with the given `name` attribute. Finally, Dusk will attempt to find a `textarea` with the given `name` attribute.
 
+위에서 보시다시피, `type` 메소드는 필요한 경우 CSS selector를 인자로 받습니다. 만약 CSS selector 가 전달되지 않으면, Dusk는 주어진 `name` 속성을 통해서 input 필드를 찾습니다. 그런 다음에 Dusk는 주어진 `name` 속성에 해당하는 `textarea` 를 찾으려고 시도합니다.
+
 You may "clear" the value of an input using the `clear` method:
+
+`clear` 메소드를 통해서 input 필드의 값을 "비우는" 동작을 할 수 있습니다:
 
     $browser->clear('email');
 
 #### Dropdowns
+#### Dropdowns(셀렉트박스)
 
 To select a value in a dropdown selection box, you may use the `select` method. Like the `type` method, the `select` method does not require a full CSS selector. When passing a value to the `select` method, you should pass the underlying option value instead of the display text:
+
+dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 사용하면 됩니다. `type` 메소드와 같이 `select` 메소드는 완전한 CSS selector 를 필요로 하지는 않습니다. `select` 메소드에 값이 전달될 때에는, 표시된 텍스트가 아니라, 선택할 값을 전달해야 된다는 것에 주의하십시오:
 
     $browser->select('size', 'Large');
 
 You may select a random option by omitting the second parameter:
 
+두번째 인자를 생략하면 랜덤한 값을 선택하게 됩니다:
+
     $browser->select('size');
 
 #### Checkboxes
+#### 체크박스
 
 To "check" a checkbox field, you may use the `check` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a checkbox with a matching `name` attribute:
 
@@ -378,6 +406,7 @@ To "check" a checkbox field, you may use the `check` method. Like many other inp
     $browser->uncheck('terms');
 
 #### Radio Buttons
+#### 라디오 버튼
 
 To "select" a radio button option, you may use the `radio` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a radio with matching `name` and `value` attributes:
 
@@ -385,6 +414,7 @@ To "select" a radio button option, you may use the `radio` method. Like many oth
 
 <a name="attaching-files"></a>
 ### Attaching Files
+### 파일 첨부
 
 The `attach` method may be used to attach a file to a `file` input element. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a file input with matching `name` attribute:
 
@@ -392,6 +422,7 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
 <a name="using-the-keyboard"></a>
 ### Using The Keyboard
+### 키보드 사용하기
 
 The `keys` method allows you to provide more complex input sequences to a given element than normally allowed by the `type` method. For example, you may hold modifier keys entering values. In this example, the `shift` key will be held while `taylor` is entered into the element matching the given selector. After `taylor` is typed, `otwell` will be typed without any modifier keys:
 
@@ -405,6 +436,7 @@ You may even send a "hot key" to the primary CSS selector that contains your app
 
 <a name="using-the-mouse"></a>
 ### Using The Mouse
+### 마우스 사용하기
 
 #### Clicking On Elements
 

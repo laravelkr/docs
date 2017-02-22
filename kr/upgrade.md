@@ -259,6 +259,10 @@ A collection's `where` method now performs a "loose" comparison by default inste
 
 컬렉션의 `where` 메소드는 이제 기본적으로 엄격한 비교 대신에 "느슨한" 비교를 수행합니다. 엄격한 비교를 수행하고자 한다면, `whereStrict` 메소드를 사용할 수 있습니다.
 
+Due to this change, the `whereLoose` method was removed from the collection class.
+
+이 변경사항으로 인해서 컬렉션 클래스에서 `whereLoose` 메서드가 제거되었습니다.
+
 The `where` method also no longer accepts a third parameter to indicate "strictness". You should explicitly call either `where` or `whereStrict` depending on your application's needs.
 
 `where` 메소드는 더이상 "엄격함"을 나타내는 세번째 인자를 받지 않습니다. 어플리케이션에서 필요에 따라 `where` 또는 `whereStrict` 메소드를 명확하게 호출해야합니다.

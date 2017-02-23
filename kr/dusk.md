@@ -20,7 +20,7 @@
     - [Authentication](#authentication)
     - [인증](#authentication)
 - [Interacting With Elements](#interacting-with-elements)
-- [Interacting With Elements](#interacting-with-elements)
+- [Element 조작하기](#interacting-with-elements)
     - [Clicking Links](#clicking-links)
     - [링크 클릭](#clicking-links)
     - [Text, Values, & Attributes](#text-values-and-attributes)
@@ -308,6 +308,7 @@ Often, you will be testing pages that require authentication. You can use Dusk's
 
 <a name="interacting-with-elements"></a>
 ## Interacting With Elements
+## Element 조작하기
 
 <a name="clicking-links"></a>
 ### Clicking Links
@@ -401,6 +402,8 @@ You may select a random option by omitting the second parameter:
 
 To "check" a checkbox field, you may use the `check` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a checkbox with a matching `name` attribute:
 
+체크박스 필드를 "체크" 처리하려면 `check` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면 Dusk는 `name` 속성을 기준으로 매칭되는 체크박스를 찾습니다:
+
     $browser->check('terms');
 
     $browser->uncheck('terms');
@@ -410,6 +413,8 @@ To "check" a checkbox field, you may use the `check` method. Like many other inp
 
 To "select" a radio button option, you may use the `radio` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a radio with matching `name` and `value` attributes:
 
+라디오 버튼의 옵션을 "선택" 하려면, `radio` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 과 `value` 속성을 기준으로 매칭되는 라디오를 찾습니다:
+
     $browser->radio('version', 'php7');
 
 <a name="attaching-files"></a>
@@ -417,6 +422,8 @@ To "select" a radio button option, you may use the `radio` method. Like many oth
 ### 파일 첨부
 
 The `attach` method may be used to attach a file to a `file` input element. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a file input with matching `name` attribute:
+
+`file` input element 에 파일을 첨부하는데에는 `attach` 메소드가 사용됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 속성을 기준으로 매칭되는 file input을 찾습니다:
 
     $browser->attach('photo', __DIR__.'/photos/me.png');
 
@@ -426,33 +433,48 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
 The `keys` method allows you to provide more complex input sequences to a given element than normally allowed by the `type` method. For example, you may hold modifier keys entering values. In this example, the `shift` key will be held while `taylor` is entered into the element matching the given selector. After `taylor` is typed, `otwell` will be typed without any modifier keys:
 
+`keys` 메소드는 `type` 메소드가 제공하는 것 보다 더 복잡한 작업들을 처리할 수 있습니다. 예를 들어, 특수 키를 값을 입력하는 동안 유지할 수 있습니다. 이 예제에서는 주어진 selector에 매칭되는 element에 `taylor`를 입력하는 동안 `shift` 키를 누르고 있는상태로 유지됩니다. `taylor` 가 입력된 후에, `otwell` 이 입력될 때는 특수키를 유지하지 않습니다:
+
     $browser->keys('selector', ['{shift}', 'taylor'], 'otwell');
 
 You may even send a "hot key" to the primary CSS selector that contains your application:
 
+어플리케이션에 포함된 기본 CSS selector에서 "단축키"를 전달 할 수도 있습니다:
+
     $browser->keys('.app', ['{command}', 'j']);
 
 > {tip} All modifier keys are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/facebook/php-webdriver/blob/community/lib/WebDriverKeys.php).
+
+> {tip} 모든 특수키는 `{}` 문자로 감싸여져 있으며, 사용되는 표시자들은 `Facebook\WebDriver\WebDriverKeys` 클래스에 정의되어 있습니다. 이러한 사항은 [GitHub](https://github.com/facebook/php-webdriver/blob/community/lib/WebDriverKeys.php)에서 보다 자세한 내용을 확인할 수 있습니다.
 
 <a name="using-the-mouse"></a>
 ### Using The Mouse
 ### 마우스 사용하기
 
 #### Clicking On Elements
+#### Element 클릭하기
 
 The `click` method may be used to "click" on an element matching the given selector:
+
+`click` 메소드는 주어진 selector에 매칭되는 element를 "클릭"하는데 사용합니다:
 
     $browser->click('.selector');
 
 #### Mouseover
+#### Mouseover
 
 The `mouseover` method may be used when you need to move the mouse over an element matching the given selector:
+
+`mouseover` 메소드는 주어진 selector에 매칭되는 element에 마우스를 이동하여 올려놓는 작업이 필요할 때 사용합니다:
 
     $browser->mouseover('.selector');
 
 #### Drag & Drop
+#### 드래그 & 드롭
 
 The `drag` method may be used to drag an element matching the given selector to another element:
+
+`drag` 메소드는 주어진 selector와 매칭되는 element를 다른 element로 드래그 하는데 사용합니다:
 
     $browser->drag('.from-selector', '.to-selector');
 

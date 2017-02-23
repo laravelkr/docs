@@ -41,7 +41,7 @@
 - Sqlite3
 - Postgres
 - Composer
-- Node (With Yarn, PM2, Bower, Grunt, and Gulp)
+- Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
 - Memcached
 - Beanstalkd
@@ -74,7 +74,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 
     git clone https://github.com/laravel/homestead.git Homestead
 
-홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. `~/.homestead`의 숨겨진 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다. 
+홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
     // Mac / Linux...
     bash init.sh

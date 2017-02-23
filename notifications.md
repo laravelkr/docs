@@ -673,6 +673,22 @@ SMS 메세지에 유니코드 문자가 포함되어 있다면, `NexmoMessage` �
                     ->content('This will be sent to #other');
     }
 
+이모지 대신에 이미지를 로고로 사용할 수도 있습니다:
+
+    /**
+     * Get the Slack representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return SlackMessage
+     */
+    public function toSlack($notifiable)
+    {
+        return (new SlackMessage)
+                    ->from('Laravel')
+                    ->image('https://laravel.com/favicon.png')
+                    ->content('This will display the Laravel logo next to the message');
+    }
+
 <a name="slack-attachments"></a>
 ### 슬랙 첨부파일
 

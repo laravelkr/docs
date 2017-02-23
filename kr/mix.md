@@ -13,20 +13,32 @@
     - [Less](#less)
     - [Sass](#sass)
     - [Sass](#sass)
+    - [Stylus](#stylus)
+    - [Stylus](#stylus)
+    - [PostCSS](#postcss)
+    - [PostCSS](#postcss)
     - [Plain CSS](#plain-css)
     - [일반적인 CSS](#plain-css)
+    - [URL Processing](#url-processing)
+    - [URL Processing](#url-processing)
     - [Source Maps](#css-source-maps)
     - [소스 맵](#css-source-maps)
 - [Working With JavaScript](#working-with-scripts)
 - [자바스크립트 작업하기](#working-with-scripts)
-    - [Code Splitting](#code-splitting)
-    - [코드 분할](#code-splitting)
+    - [Vendor Extraction](#vendor-extraction)
+    - [Vendor 분할](#vendor-extraction)
+    - [React](#react-support)
+    - [React](#react-support)
+    - [Vanilla JS](#vanilla-js)
+    - [Vanilla JS](#vanilla-js)
     - [Custom Webpack Configuration](#custom-webpack-configuration)
     - [커스텀 Webpack 설정](#custom-webpack-configuration)
 - [Copying Files & Directories](#copying-files-and-directories)
 - [파일 & 디렉토리 복사](#copying-files-and-directories)
 - [Versioning / Cache Busting](#versioning-and-cache-busting)
 - [버전 관리 / 캐시 갱신](#versioning-and-cache-busting)
+- [Browsersync Reloading](#browsersync-reloading)
+- [Browsersync 리로딩](#browsersync-reloading)
 - [Notifications](#notifications)
 - [알림](#notifications)
 
@@ -101,6 +113,10 @@ The `npm run watch` command will continue running in your terminal and watch all
 
     npm run watch
 
+You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
+
+    npm run watch-poll
+
 <a name="working-with-stylesheets"></a>
 ## Working With Stylesheets
 ## 스타일시트 작업하기
@@ -132,6 +148,12 @@ If you wish to customize the file name of the compiled CSS, you may pass a full 
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
 
+If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
+
+    mix.less('resources/assets/less/app.less', 'public/css', {
+        strictMath: true
+    });
+
 <a name="sass"></a>
 ### Sass
 
@@ -148,18 +170,86 @@ Again, like the `less` method, you may compile multiple Sass files into their ow
     mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
+Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
+
+    mix.sass('resources/assets/less/app.less', 'public/css', {
+        precision: 5
+    });
+
+<a name="stylus"></a>
+### Stylus
+### Stylus
+
+Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
+
+    mix.stylus('resources/assets/sass/app.scss', 'public/css');
+
+You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+
+    mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
+        use: [
+            require('rupture')()
+        ]
+    });
+
+<a name="postcss"></a>
+### PostCSS
+### PostCSS
+
+[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+
+    mix.sass('resources/assets/sass/app.scss', 'public/css')
+       .options({
+            postCss: [
+                require('postcss-css-variables')()
+            ]
+       });
+
 <a name="plain-css"></a>
 ### Plain CSS
 ### 일반적인 CSS
 
-If you would just like to combine some plain CSS stylesheets into a single file, you may use the `combine` method. This method also supports concatenating JavaScript files:
+If you would just like to concatenate some plain CSS stylesheets into a single file, you may use the `styles` method.
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 합치려면 `combine` 메소드를 사용하면 됩니다. 이 메소드는 자바스크립트 파일의 concatenating-연결 에도 사용됩니다:
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
 
-    mix.combine([
+    mix.styles([
         'public/css/vendor/normalize.css',
         'public/css/vendor/videojs.css'
     ], 'public/css/all.css');
+
+<a name="url-processing"></a>
+### URL Processing
+### URL 프로세싱
+
+Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
+
+라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 
+
+    .example {
+        background: url('../images/example.png');
+    }
+
+> {note} Absolute paths for `url()`s will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
+
+By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+
+    .example {
+      background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
+    }
+
+As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+
+    mix.sass('resources/assets/app/app.scss', 'public/css')
+       .options({
+          processCssUrls: false
+       });
+
+With this addition to your `webpack.mix.js` file, Mix will no longer match `url()`s or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+
+    .example {
+        background: url("../images/thing.png");
+    }
 
 <a name="css-source-maps"></a>
 ### Source Maps
@@ -187,12 +277,13 @@ With this single line of code, you may now take advantage of:
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
 
 - ES2015 syntax.
+- Modules
 - Compilation of `.vue` files.
 - Minification for production environments.
 
-<a name="code-splitting"></a>
-### Code Splitting
-### 코드 분할
+<a name="vendor-extraction"></a>
+### Vendor Extraction
+### Vendor 분할
 
 One potential downside to bundling all application-specific JavaScript with your vendor libraries is that it makes long-term caching more difficult. For example, a single update to your application code will force the browser to re-download all of your vendor libraries even if they haven't changed.
 
@@ -221,11 +312,46 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
     <script src="/js/vendor.js"></script>
     <script src="/js/app.js"></script>
 
+<a name="react"></a>
+### React
+### React
+
+Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
+
+Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치합니다. 이렇게 하기 위해서는 `mix.js()` 호출을 `mix.react()`으로 변경하십시오:  
+
+    mix.react('resources/assets/js/app.jsx', 'public/js');
+
+Behind the scenes, React will download and include the appropriate `babel-preset-react` Babel plug-in.
+
+이렇게 하면 백그라운드에서 React는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
+
+<a name="vanilla-js"></a>
+### Vanilla JS
+### Vanilla JS
+
+Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
+
+스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 순수 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다:
+
+    mix.scripts([
+        'public/js/admin.js',
+        'public/js/dashboard.js'
+    ], 'public/js/all.js');
+
+This option is particularly useful for legacy projects where you don't require Webpack compilation for your JavaScript.
+
+이 옵션은 자바스크립트를 위한 Webpack 컴파일이 필요 없는 레거시 프로젝트에 특별히 유용합니다.
+
+> {tip} A slight variation of `mix.scripts()` is `mix.babel()`. Its method signature is identical to `scripts`; however, the concatenated file will receive Babel compilation, which translates any ES2015 code to vanilla JavaScript that all browsers will understand.
+
+> {tip} `mix.babel()`은 `mix.scripts()`에서 약간의 변형입니다. 메소드 사용법은 `scripts` 와 동일하지만 하나로 연결된 결과 파일의 내용은 ES2015코드를 모든 브라우저에서 해석이 가능한 바닐라 자바스크립트로 코드를 변환하는 Babel 컴파일 결과물이 됩니다.
+
 <a name="custom-webpack-configuration"></a>
 ### Custom Webpack Configuration
 ### 커스텀 Webpack 설정
 
-Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. You might have a special loader or plugin that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
+Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
 
 어플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
 
@@ -243,19 +369,6 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
             ]
         }
     });
-
-#### Reference Your Own Configuration
-#### 고유한 설정 참조하기
-
-A second option is to copy Mix's `webpack.config.js` into your project root.
-
-두번째 옵션은 Mix의 `webpack.config.js` 파일을 프로젝트 루트에 복사하는 것입니다.
-
-    cp node_modules/laravel-mix/setup/webpack.config.js ./
-
-Next, you'll need to update the NPM scripts in your `package.json` to ensure that they no longer reference Mix's configuration file directly. Simply remove the `--config="node_modules/laravel-mix/setup/webpack.config.js"` entry from the commands. Once this has been done, you may freely modify your configuration file as needed.
-
-다음으로 Mix의 설정을 참조하지 않도록 `package.json` 파일안에 있는 NPM 스크립트를 업데이트 해야 합니다. `--config="node_modules/laravel-mix/setup/webpack.config.js"` 부분을 삭제하면 됩니다. 그 다음에 필요한대로 자유롭게 설정 파일을 수정하면 됩니다.
 
 <a name="copying-files-and-directories"></a>
 ## Copying Files & Directories
@@ -297,6 +410,26 @@ Because versioned files are usually unnecessary in development, you may wish to 
     if (mix.config.inProduction) {
         mix.version();
     }
+
+<a name="browsersync-reloading"></a>
+## Browsersync Reloading
+## Browsersync 리로딩
+
+[BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
+
+[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:  
+    mix.browserSync('my-domain.dev');
+
+    // Or...
+
+    // https://browsersync.io/docs/options
+    mix.browserSync({
+        proxy: 'my-domain.dev'
+    });
+
+You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.
+
+이 메소드에는 (프록시) 또는 (BrowserSync 설정)등을 전달할 수도 있습니다. 그런 다음, `npm run watch` 명령을 사용하여 Webpack의 dev 서버를 시작하십시오. 이제 스크립트나 PHP 파일을 수정하게되면 브라우저가 즉시 페이지를 새로 고침하여 변경 사항을 반영합니다.
 
 <a name="notifications"></a>
 ## Notifications

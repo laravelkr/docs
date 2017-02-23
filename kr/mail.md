@@ -443,6 +443,10 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
     {{ config('app.name') }}
     @endcomponent
 
+> {tip} Do not use excess indentation when writing Markdown emails. Markdown parsers will render indented content as code blocks.
+
+> {tip} Do not use excess indentation when writing Markdown emails. Markdown parsers will render indented content as code blocks.
+
 #### Button Component
 #### 버튼 컴포넌트
 
@@ -666,4 +670,3 @@ Laravel fires an event just before sending mail messages. Remember, this event i
             'App\Listeners\LogSentMessage',
         ],
     ];
-

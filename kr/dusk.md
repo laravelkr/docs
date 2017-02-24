@@ -26,7 +26,7 @@
     - [Text, Values, & Attributes](#text-values-and-attributes)
     - [Text, Values, & Attributes](#text-values-and-attributes)
     - [Using Forms](#using-forms)
-    - [Using Forms](#using-forms)
+    - [Form 사용하기](#using-forms)
     - [Attaching Files](#attaching-files)
     - [파일 첨부](#attaching-files)
     - [Using The Keyboard](#using-the-keyboard)
@@ -480,8 +480,13 @@ The `drag` method may be used to drag an element matching the given selector to 
 
 <a name="scoping-selectors"></a>
 ### Scoping Selectors
+### Selector의 특정 범위를 제한하여 동작하기
 
-Sometimes you may wish to perform several operations while scoping all of the operations within a given selector. For example, you may wish to assert that some text exists only within a table and then click a button within that table. You may use the `with` method to accomplish this. All operations performed within the callback given to the `with` method will be scoped to the original selector:
+Sometimes you may wish to perform several operations while scoping all of the operations within a given selector. For example, you may wish to assert that some text exists only within a table and then click a button within that table.
+
+You may use the `with` method to accomplish this. All operations performed within the callback given to the `with` method will be scoped to the original selector:
+
+때로는 주어진 selector안에서 특정 범위를 지정하여 동작을 수행하기을 원할 수도 있습니다. 예를 들어, 테이블 안에 있는 텍스트를 확인하고, 버튼을 클릭하고자 할 수 있습니다. 이 경우 `with`메소드를 사용하면 됩니다. `with` 메소드에 주어진 콜백안에서 수행되는 모든 동작들은 원래의 selector 에서 범위가 제한됩니다:
 
     $browser->with('.table', function ($table) {
         $table->assertSee('Hello World')
@@ -490,18 +495,27 @@ Sometimes you may wish to perform several operations while scoping all of the op
 
 <a name="waiting-for-elements"></a>
 ### Waiting For Elements
+### Element 기다리기
 
 When testing applications that use JavaScript extensively, it often becomes necessary to "wait" for certain elements or data to be available before proceeding with a test. Dusk makes this a cinch. Using a variety of methods, you may wait for elements to be visible on the page or even wait until a given JavaScript expression evaluates to `true`.
 
+자바스크립트를 많이 사용한 어플리케이션을 테스트할 때, 테스트를 수행하기 위해서 특정 element가 표시되기까지 "기다리는" 행동이 필요할 때가 있습니다. Dusk는 이를 아주 쉽게 해결합니다. 다양한 메소드를 사용하여, element가 페이지에 표시될 때까지 기다리거나, 주어진 자바스크립트 표현식이 `true` 가 될 때까지 기다릴 수 있습니다.
+
 #### Waiting
+#### 시간기준으로 기다리기
 
 If you need to pause the test for a given number of milliseconds, use the `pause` method:
+
+주어진 milliseconde 동안 테스트를 일시 정지하려면 `pause` 메소드를 사용합니다:
 
     $browser->pause(1000);
 
 #### Waiting For Selectors
+#### Selector 가 표시되기를 기다리기
 
 The `waitFor` method may be used to pause the execution of the test until the element matching the given CSS selector is displayed on the page. By default, this will pause the test for a maximum of five seconds before throwing an exception. If necessary, you may pass a custom timeout threshold as the second argument to the method:
+
+`waitFor` 메소드는 주어진 CSS selector 에 해당하는 element가 페이지에 표시될 때까지 테스트 실행을 일시 정지하는데 사용합니다. 기본적으로 이 동작은 exception이 발생하기 전까지 최대 5초동안 테스트를 일시 정지합니다. 필요하다면, 두번재 인자로 커스텀 타임아웃 값을 전달 할 수 있습니다:
 
     // Wait a maximum of five seconds for the selector...
     $browser->waitFor('.selector');
@@ -510,6 +524,8 @@ The `waitFor` method may be used to pause the execution of the test until the el
     $browser->waitFor('.selector', 1);
 
 You may also wait until the given selector is missing from the page:
+
+또한 주어진 selector가 페이지에서 사라질 때까지 일시 정지할 수도 있습니다:
 
     $browser->waitUntilMissing('.selector');
 

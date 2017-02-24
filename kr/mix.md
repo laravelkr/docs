@@ -55,7 +55,7 @@ Laravel Mix provides a fluent API for defining Webpack build steps for your Lara
 
 If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application. Of course, you are free to use any asset pipeline tool you wish, or even none at all.
 
-만약 여러분이 Webpack 과 asset 컴파일에 대해서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## Installation & Setup
@@ -115,6 +115,8 @@ The `npm run watch` command will continue running in your terminal and watch all
 
 You may find that in certain environments Webpack isn't updating when your files change. If this is the case on your system, consider using the `watch-poll` command:
 
+구동환경에 따라서 파일의 변경사항을 발생해도 Webpack이 업데이트 되지 않게 할 수도 있습니다. 사용하는 시스템이 이 경우라면, `watch-poll` 명령어 사용을 고려하십시오:
+
     npm run watch-poll
 
 <a name="working-with-stylesheets"></a>
@@ -123,7 +125,7 @@ You may find that in certain environments Webpack isn't updating when your files
 
 The `webpack.mix.js` file is your entry point for all asset compilation. Think of it as a light configuration wrapper around Webpack. Mix tasks can be chained together to define exactly how your assets should be compiled.
 
-`webpack.mix.js` 파일은 모든 asset 컴파일에 대한 내용을 담고 있습니다. 이 파일은 Webpack을 랩핑한 가벼운 설정이라고 볼 수 있습니다. Mix 작업은 assets 들이 어떻게 컴파일하는지 체이닝 형태로 정의되어 있습니다.
+`webpack.mix.js` 파일은 모든 asset 컴파일에 관한 내용을 담고 있습니다. 이 파일은 Webpack을 랩핑한 가벼운 설정이라고 볼 수 있습니다. Mix 작업은 assets 들이 어떻게 컴파일하는지 체이닝 형태로 정의되어 있습니다.
 
 <a name="less"></a>
 ### Less
@@ -150,6 +152,8 @@ If you wish to customize the file name of the compiled CSS, you may pass a full 
 
 If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
 
+[기본적인 Less 플러그인 옵션](https://github.com/webpack-contrib/less-loader#options)을 오버라이드 하려면, `mix.less()` 메소드의 세번째 인자로 이를 전달할 수 있습니다:
+
     mix.less('resources/assets/less/app.less', 'public/css', {
         strictMath: true
     });
@@ -172,6 +176,8 @@ Again, like the `less` method, you may compile multiple Sass files into their ow
 
 Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
 
+추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다:
+
     mix.sass('resources/assets/less/app.less', 'public/css', {
         precision: 5
     });
@@ -182,9 +188,13 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 
 Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
 
+Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://stylus-lang.com/)를 CSS로 컴파일 하는데 사용합니다:
+
     mix.stylus('resources/assets/sass/app.scss', 'public/css');
 
 You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
+
+[Rupture](https://github.com/jescalan/rupture)와 같은 추가적인 Stylus 플러그인을 설치할 수도 있습니다. 먼저 (`npm install rupture`)을 통해서 필요한 플러그인을 설치한다음, `mix.stylus()` 메소드에서 이를 require 하십시오:
 
     mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
         use: [
@@ -198,6 +208,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 
 [PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
 
+[PostCSS](http://postcss.org/)는 추가적인 작업없이도 라라벨 Mix에 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 어플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
             postCss: [
@@ -224,7 +235,7 @@ If you would just like to concatenate some plain CSS stylesheets into a single f
 
 Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
 
-라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 
+라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 스타일 시트 안에서 `url()`호출을 재작성하고 최적화합니다. 처음에는 이상해보일수도 있지만, 이것은 매우 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass를 컴파일하려고 한다고 생각해보겠습니다:
 
     .example {
         background: url('../images/example.png');
@@ -232,7 +243,11 @@ Because Laravel Mix is built on top of Webpack, it's important to understand a f
 
 > {note} Absolute paths for `url()`s will be excluded from URL-rewriting. For example, `url('/images/thing.png')` or `url('http://example.com/images/thing.png')` won't be modified.
 
+> {note} `url()`의 절대 경로는 URL-재작성에서 제외됩니다. 예를 들어, `url('/images/thing.png')` 와 `url('http://example.com/images/thing.png')` 는 수정되지 않습니다.
+
 By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
+
+기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
 
     .example {
       background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
@@ -240,12 +255,16 @@ By default, Laravel Mix and Webpack will find `example.png`, copy it to your `pu
 
 As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
 
+이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다:
+
     mix.sass('resources/assets/app/app.scss', 'public/css')
        .options({
           processCssUrls: false
        });
 
 With this addition to your `webpack.mix.js` file, Mix will no longer match `url()`s or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
+
+`webpack.mix.js`파일에 재작성 동작을 비활성화하도록 추가하면, Mix는 더이상 `url()`을 위한 asset을 public 디렉토리로 복사하지 않습니다. 다시말해서 컴파일된 CSS는 원래 입력한것과 같이 보여집니다:
 
     .example {
         background: url("../images/thing.png");
@@ -332,7 +351,7 @@ Behind the scenes, React will download and include the appropriate `babel-preset
 
 Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
 
-스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 순수 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다:
+스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 바닐라 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다:
 
     mix.scripts([
         'public/js/admin.js',
@@ -437,6 +456,6 @@ You may pass either a string (proxy) or object (BrowserSync settings) to this me
 
 When available, Mix will automatically display OS notifications for each bundle. This will give you instant feedback, as to whether the compilation was successful or not. However, there may be instances when you'd prefer to disable these notifications. One such example might be triggering Mix on your production server. Notifications may be deactivated, via the `disableNotifications` method.
 
-가능한 경우에, Mix 는 자동으로 번들링을 마칠 때 OS 알림을 표시합니다. 이렇게 하면 컴파일이 성공했는지, 그렇지 않은지에 대해서 즉각적인 피드백을 얻을 수 있습니다. 만약 이러한 알림을 비활성화 시키고자 할 수도 있는데, 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
+가능한 경우에, Mix 는 자동으로 번들링을 마칠 때 OS 알림을 표시합니다. 이렇게 하면 컴파일이 성공했는지, 그렇지 않은지 즉각적인 피드백을 얻을 수 있습니다. 만약 이러한 알림을 비활성화 시키고자 할 수도 있는데, 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
 
     mix.disableNotifications();

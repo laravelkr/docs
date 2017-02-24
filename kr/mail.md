@@ -445,7 +445,7 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
 
 > {tip} Do not use excess indentation when writing Markdown emails. Markdown parsers will render indented content as code blocks.
 
-> {tip} Do not use excess indentation when writing Markdown emails. Markdown parsers will render indented content as code blocks.
+> {tip} 마크다운으로 이메일을 작성할 때, 너무 많은 들여 쓰기를 하지마십시오. 마크다운 파서는 들여 쓰기 된 내용을 코드 블록으로 렌더링합니다.
 
 #### Button Component
 #### 버튼 컴포넌트

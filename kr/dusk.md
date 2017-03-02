@@ -70,7 +70,7 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
     composer require laravel/dusk
 
-Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to login as other users:
+Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to log in as other users:
 
 Dusk가 설치되고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 다른 사용자로 로그인 할 수 있는 기능을 가지고 있어, Dusk를 사용할 수있는 환경을 제한하기 위해서 `AppServiceProvider`의 `register` 메소드에서 프로바이더를 등록해야합니다:
 

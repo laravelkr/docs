@@ -178,7 +178,7 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 
 추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다:
 
-    mix.sass('resources/assets/less/app.less', 'public/css', {
+    mix.sass('resources/assets/sass/app.sass', 'public/css', {
         precision: 5
     });
 
@@ -190,7 +190,7 @@ Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](htt
 
 Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://stylus-lang.com/)를 CSS로 컴파일 하는데 사용합니다:
 
-    mix.stylus('resources/assets/sass/app.scss', 'public/css');
+    mix.stylus('resources/assets/stylus/app.styl', 'public/css');
 
 You may also install additional Stylus plug-ins, such as [Rupture](https://github.com/jescalan/rupture). First, install the plug-in in question through NPM (`npm install rupture`) and then require it in your call to `mix.stylus()`:
 

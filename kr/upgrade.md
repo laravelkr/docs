@@ -129,9 +129,9 @@ If you would like to render unescaped content in a section, you must declare the
 ### Bootstrappers
 ### Bootstrappers
 
-If you are manually overriding the `$bootstrappers` array on your HTTP or Console kernel, you should rename the `DetectEnvironment` entry to `LoadEnvironmentVariables`.
+If you are manually overriding the `$bootstrappers` array on your HTTP or Console kernel, you should rename the `DetectEnvironment` entry to `LoadEnvironmentVariables` and remove `ConfigureLogging`.
 
-HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 했다면, `DetectEnvironment` 엔트리를 `LoadEnvironmentVariables` 으로 이름을 변경해야 합니다.
+HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 했다면, `DetectEnvironment` 엔트리를 `LoadEnvironmentVariables` 으로 이름을 변경하고, `ConfigureLogging`를 제거해야 합니다.
 
 ### Broadcasting
 ### 브로드캐스팅
@@ -529,6 +529,10 @@ The `getMethods` method of the `Illuminate\Routing\Route` class has been removed
 The `getParameter` method of the `Illuminate\Routing\Route` class has been removed. You should use the `parameter` method instead.
 
 `Illuminate\Routing\Route` 클래스의 `getParameter` 메소드는 제거되었습니다. 대신에 `parameter` 메소드를 사용해야합니다.
+
+The `getPath` method of the `Illuminate\Routing\Route` class has been removed. You should use the `uri` method instead.
+
+`Illuminate\Routing\Route` 클래스의 `getPath` 메소드는 제거되었습니다. 대신에 `uri` 메소드를 사용해야 합니다.
 
 ### Sessions
 ### 세션

@@ -29,12 +29,18 @@
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Ports](#ports)
     - [포트 지정](#ports)
+    - [Sharing Your Environment](#sharing-your-environment)
+    - [환경 공유하기](#sharing-your-environment)
 - [Network Interfaces](#network-interfaces)
 - [네트워크 인터페이스](#network-interfaces)
 - [Updating Homestead](#updating-homestead)
 - [홈스테드 업데이트하기](#updating-homestead)
 - [Old Versions](#old-versions)
 - [이전 버전](#old-versions)
+- [Provider Specific Settings](#provider-specific-settings)
+- [프로바이더 한정 셋팅](#provider-specific-settings)
+    - [VirtualBox](#provider-specific-virtualbox)
+    - [VirtualBox](#provider-specific-virtualbox)
 
 <a name="introduction"></a>
 ## Introduction
@@ -73,6 +79,8 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Redis
 - Memcached
 - Beanstalkd
+- Mailhog
+- ngrok
 
 <a name="installation-and-setup"></a>
 ## Installation & Setup
@@ -117,6 +125,15 @@ You may install Homestead by simply cloning the repository. Consider cloning the
     cd ~
 
     git clone https://github.com/laravel/homestead.git Homestead
+
+You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [Github Release Page](https://github.com/laravel/homestead/releases):
+
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [Github 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
+
+    cd Homestead
+
+    // Clone the desired release...
+    git checkout v4.0.5
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -268,7 +285,7 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
 ### Accessing Homestead Globally
 ### 어디에서나 홈스테드 엑세스하기
 
-Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile. On Windows, you may accomplish this by adding a "batch" file to your `PATH`. This scripts will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
+Sometimes you may want to `vagrant up` your Homestead machine from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile. On Windows, you may accomplish this by adding a "batch" file to your `PATH`. These scripts will allow you to run any Vagrant command from anywhere on your system and will automatically point that command to your Homestead installation:
 
 때로는 파일시스템의 어디에서나 여러분의 홈스테드 머신에 `vagrant up`을 실행하고자 할 수 있습니다. 이렇게 하기 위해서는 맥 / 리눅스 시스템에서 Bash 함수를 Bash profile 에 추가하여 구현할 수 있습니다. 윈도우에서는 `PATH`에 "배치 파일을 추가하여 수행할 수 있습니다. 이 스크립트는 여러분이 시스템 어디에서나 Vagrant 명령어를 실행할 수 있게 하고 자동으로 홈스테드 설치를 대상으로 하게 할 수 있습니다. 
 
@@ -358,6 +375,23 @@ Once the site has been added, run the `vagrant reload --provision` command from 
 
 사이트가 추가되면, 홈스테드 디렉토리에서 `vagrant reload --provision` 명령어를 실행하십시오.
 
+<a name="site-types"></a>
+#### Site Types
+#### 사이트 타입
+
+Homestead supports several types of sites which allow you to easily run projects that are not based on Laravel. For example, we may easily add a Symfony application to Homestead using the `symfony2` site type:
+
+홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 어플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다:
+
+    sites:
+        - map: symfony2.app
+          to: /home/vagrant/Code/Symfony/public
+          type: symfony2
+
+The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, and `symfony2`.
+
+사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 ### Cron 스케줄링 설정하기 =
@@ -392,6 +426,7 @@ By default, the following ports are forwarded to your Homestead environment:
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **Postgres:** 54320 &rarr; Forwards To 5432
+- **Mailhog:** 8025 &rarr; Forwards To 8025
 
 #### Forwarding Additional Ports
 #### 추가적인 포트 포워딩하기
@@ -406,6 +441,26 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
         - send: 7777
           to: 777
           protocol: udp
+
+<a name="sharing-your-environment"></a>
+### Sharing Your Environment
+### 환경 공유하기
+
+Sometimes you may wish to share what you're currently working on with coworkers or a client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
+
+가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
+
+To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.app`. This will share the `homestead.app` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.app`.
+
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.app` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 ``homestead.app` 사이트는 물론 다른 사이트도 공유할 수 있습니다.
+
+After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site.
+
+이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다.
+
+> {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
+
+> {note} 유념할점은, `share` 명령어를 실행중일 때는 가상머신이 인터넷에 노출되고 보안에 노출될 수 있다는 점입니다.
 
 <a name="network-interfaces"></a>
 ## Network Interfaces
@@ -485,3 +540,18 @@ When you use an older version of the Homestead box you need to match that with a
 |---|---|---|
 | PHP 7.0 | 3.1.0 | 0.6.0 |
 | PHP 7.1 | 4.0.0 | 1.0.0 |
+
+<a name="provider-specific-settings"></a>
+## Provider Specific Settings
+## 프로바이더 지정 셋팅
+
+<a name="provider-specific-virtualbox"></a>
+### VirtualBox
+### VirtualBox
+
+By default, Homestead configures the `natdnshostresolver` setting to `on`. This allows Homestead to use your host operating system's DNS settings. If you would like to override this behavior, add the following lines to your `Homestead.yaml` file:
+
+기본적으로, 홈스테드는 `natdnshostresolver` 설정을 `on` 으로 구성합니다. 이렇게 하면 홈스테드가 여러분의 OS의 DNS 셋팅을 사용할 수 있게 해줍니다. 이 동작을 오버라이딩 하고자 한다면, `Homestead.yaml` 파일에 다음 라인을 추가하십시오:
+
+    provider: virtualbox
+    natdnshostresolver: off

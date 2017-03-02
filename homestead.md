@@ -14,9 +14,12 @@
     - [사이트 추가하기](#adding-additional-sites)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [포트 지정](#ports)
+    - [환경 공유하기](#sharing-your-environment)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 업데이트하기](#updating-homestead)
 - [이전 버전](#old-versions)
+- [프로바이더 한정 셋팅](#provider-specific-settings)
+    - [VirtualBox](#provider-specific-virtualbox)
 
 <a name="introduction"></a>
 ## 소개
@@ -45,6 +48,8 @@
 - Redis
 - Memcached
 - Beanstalkd
+- Mailhog
+- ngrok
 
 <a name="installation-and-setup"></a>
 ## 설치 & 구성하기
@@ -73,6 +78,13 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
     cd ~
 
     git clone https://github.com/laravel/homestead.git Homestead
+
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [Github 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
+
+    cd Homestead
+
+    // Clone the desired release...
+    git checkout v4.0.5
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -243,6 +255,18 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
 사이트가 추가되면, 홈스테드 디렉토리에서 `vagrant reload --provision` 명령어를 실행하십시오.
 
+<a name="site-types"></a>
+#### 사이트 타입
+
+홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 어플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다:
+
+    sites:
+        - map: symfony2.app
+          to: /home/vagrant/Code/Symfony/public
+          type: symfony2
+
+사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+
 <a name="configuring-cron-schedules"></a>
 ### Cron 스케줄링 설정하기
 
@@ -267,6 +291,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **Postgres:** 54320 &rarr; Forwards To 5432
+- **Mailhog:** 8025 &rarr; Forwards To 8025
 
 #### 추가적인 포트 포워딩하기
 
@@ -278,6 +303,17 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
         - send: 7777
           to: 777
           protocol: udp
+
+<a name="sharing-your-environment"></a>
+### 환경 공유하기
+
+가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
+
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.app` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 ``homestead.app` 사이트는 물론 다른 사이트도 공유할 수 있습니다.
+
+이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다.
+
+> {note} 유념할점은, `share` 명령어를 실행중일 때는 가상머신이 인터넷에 노출되고 보안에 노출될 수 있다는 점입니다.
 
 <a name="network-interfaces"></a>
 ## 네트워크 인터페이스
@@ -336,3 +372,14 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 |---|---|---|
 | PHP 7.0 | 3.1.0 | 0.6.0 |
 | PHP 7.1 | 4.0.0 | 1.0.0 |
+
+<a name="provider-specific-settings"></a>
+## 프로바이더 지정 셋팅
+
+<a name="provider-specific-virtualbox"></a>
+### VirtualBox
+
+기본적으로, 홈스테드는 `natdnshostresolver` 설정을 `on` 으로 구성합니다. 이렇게 하면 홈스테드가 여러분의 OS의 DNS 셋팅을 사용할 수 있게 해줍니다. 이 동작을 오버라이딩 하고자 한다면, `Homestead.yaml` 파일에 다음 라인을 추가하십시오:
+
+    provider: virtualbox
+    natdnshostresolver: off

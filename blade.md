@@ -144,7 +144,7 @@
 
     The current UNIX timestamp is {{ time() }}.
 
-> {note} 블레이드 `{{ }}` 문장들은 XSS 공격을 방지하기 위해 자동으로 PHP의 'htmlentities' 함수를 통과합니다.
+> {note} 블레이드 `{{ }}` 문장들은 XSS 공격을 방지하기 위해 자동으로 PHP의 'htmlspecialchars' 함수를 통과합니다.
 
 #### 데이터가 존재할 때 출력하기
 
@@ -160,7 +160,7 @@
 
 #### Escape 처리되지 않은 데이터 표시하기
 
-기본적으로 블레이드 `{{ }}` 문장은 XSS 공격을 방지하기 위해 PHP의 `htmlentities` 함수를 통과합니다. 데이터를 escape 처리를 하지 않으려면 다음과 같이 작성하면 됩니다:
+기본적으로 블레이드 `{{ }}` 문장은 XSS 공격을 방지하기 위해 PHP의 `htmlspecialchars` 함수를 통과합니다. 데이터를 escape 처리를 하지 않으려면 다음과 같이 작성하면 됩니다:
 
     Hello, {!! $name !!}.
 

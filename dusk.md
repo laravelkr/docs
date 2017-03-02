@@ -9,15 +9,15 @@
     - [구동환경 처리](#environment-handling)
     - [브라우저 생성하기](#creating-browsers)
     - [인증](#authentication)
-- [Interacting With Elements](#interacting-with-elements)
+- [Element 조작하기](#interacting-with-elements)
     - [링크 클릭](#clicking-links)
     - [Text, Values, & Attributes](#text-values-and-attributes)
-    - [Using Forms](#using-forms)
+    - [Form 사용하기](#using-forms)
     - [파일 첨부](#attaching-files)
     - [키보드 사용하기](#using-the-keyboard)
     - [마우스 사용하기](#using-the-mouse)
-    - [Scoping Selectors](#scoping-selectors)
-    - [Waiting For Elements](#waiting-for-elements)
+    - [Selector의 특정 범위를 제한하여 동작하기](#scoping-selectors)
+    - [Element 기다리기](#waiting-for-elements)
 - [Available Assertions](#available-assertions)
 - [Pages](#pages)
     - [Generating Pages](#generating-pages)
@@ -228,7 +228,7 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
     });
 
 <a name="interacting-with-elements"></a>
-## Interacting With Elements
+## Element 조작하기
 
 <a name="clicking-links"></a>
 ### 링크 클릭하기
@@ -291,7 +291,7 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
 
 #### 체크박스
 
-To "check" a checkbox field, you may use the `check` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a checkbox with a matching `name` attribute:
+체크박스 필드를 "체크" 처리하려면 `check` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면 Dusk는 `name` 속성을 기준으로 매칭되는 체크박스를 찾습니다:
 
     $browser->check('terms');
 
@@ -299,55 +299,55 @@ To "check" a checkbox field, you may use the `check` method. Like many other inp
 
 #### 라디오 버튼
 
-To "select" a radio button option, you may use the `radio` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a radio with matching `name` and `value` attributes:
+라디오 버튼의 옵션을 "선택" 하려면, `radio` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 과 `value` 속성을 기준으로 매칭되는 라디오를 찾습니다:
 
     $browser->radio('version', 'php7');
 
 <a name="attaching-files"></a>
 ### 파일 첨부
 
-The `attach` method may be used to attach a file to a `file` input element. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a file input with matching `name` attribute:
+`file` input element 에 파일을 첨부하는데에는 `attach` 메소드가 사용됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 속성을 기준으로 매칭되는 file input을 찾습니다:
 
     $browser->attach('photo', __DIR__.'/photos/me.png');
 
 <a name="using-the-keyboard"></a>
 ### 키보드 사용하기
 
-The `keys` method allows you to provide more complex input sequences to a given element than normally allowed by the `type` method. For example, you may hold modifier keys entering values. In this example, the `shift` key will be held while `taylor` is entered into the element matching the given selector. After `taylor` is typed, `otwell` will be typed without any modifier keys:
+`keys` 메소드는 `type` 메소드가 제공하는 것 보다 더 복잡한 작업들을 처리할 수 있습니다. 예를 들어, 특수 키를 값을 입력하는 동안 유지할 수 있습니다. 이 예제에서는 주어진 selector에 매칭되는 element에 `taylor`를 입력하는 동안 `shift` 키를 누르고 있는상태로 유지됩니다. `taylor` 가 입력된 후에, `otwell` 이 입력될 때는 특수키를 유지하지 않습니다:
 
     $browser->keys('selector', ['{shift}', 'taylor'], 'otwell');
 
-You may even send a "hot key" to the primary CSS selector that contains your application:
+어플리케이션에 포함된 기본 CSS selector에서 "단축키"를 전달 할 수도 있습니다:
 
     $browser->keys('.app', ['{command}', 'j']);
 
-> {tip} All modifier keys are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/facebook/php-webdriver/blob/community/lib/WebDriverKeys.php).
+> {tip} 모든 특수키는 `{}` 문자로 감싸여져 있으며, 사용되는 표시자들은 `Facebook\WebDriver\WebDriverKeys` 클래스에 정의되어 있습니다. 이러한 사항은 [GitHub](https://github.com/facebook/php-webdriver/blob/community/lib/WebDriverKeys.php)에서 보다 자세한 내용을 확인할 수 있습니다.
 
 <a name="using-the-mouse"></a>
 ### 마우스 사용하기
 
-#### Clicking On Elements
+#### Element 클릭하기
 
-The `click` method may be used to "click" on an element matching the given selector:
+`click` 메소드는 주어진 selector에 매칭되는 element를 "클릭"하는데 사용합니다:
 
     $browser->click('.selector');
 
 #### Mouseover
 
-The `mouseover` method may be used when you need to move the mouse over an element matching the given selector:
+`mouseover` 메소드는 주어진 selector에 매칭되는 element에 마우스를 이동하여 올려놓는 작업이 필요할 때 사용합니다:
 
     $browser->mouseover('.selector');
 
-#### Drag & Drop
+#### 드래그 & 드롭
 
-The `drag` method may be used to drag an element matching the given selector to another element:
+`drag` 메소드는 주어진 selector와 매칭되는 element를 다른 element로 드래그 하는데 사용합니다:
 
     $browser->drag('.from-selector', '.to-selector');
 
 <a name="scoping-selectors"></a>
-### Scoping Selectors
+### Selector의 특정 범위를 제한하여 동작하기
 
-Sometimes you may wish to perform several operations while scoping all of the operations within a given selector. For example, you may wish to assert that some text exists only within a table and then click a button within that table. You may use the `with` method to accomplish this. All operations performed within the callback given to the `with` method will be scoped to the original selector:
+때로는 주어진 selector안에서 특정 범위를 지정하여 동작을 수행하기을 원할 수도 있습니다. 예를 들어, 테이블 안에 있는 텍스트를 확인하고, 버튼을 클릭하고자 할 수 있습니다. 이 경우 `with`메소드를 사용하면 됩니다. `with` 메소드에 주어진 콜백안에서 수행되는 모든 동작들은 원래의 selector 에서 범위가 제한됩니다:
 
     $browser->with('.table', function ($table) {
         $table->assertSee('Hello World')
@@ -355,19 +355,19 @@ Sometimes you may wish to perform several operations while scoping all of the op
     });
 
 <a name="waiting-for-elements"></a>
-### Waiting For Elements
+### Element 기다리기
 
-When testing applications that use JavaScript extensively, it often becomes necessary to "wait" for certain elements or data to be available before proceeding with a test. Dusk makes this a cinch. Using a variety of methods, you may wait for elements to be visible on the page or even wait until a given JavaScript expression evaluates to `true`.
+자바스크립트를 많이 사용한 어플리케이션을 테스트할 때, 테스트를 수행하기 위해서 특정 element가 표시되기까지 "기다리는" 행동이 필요할 때가 있습니다. Dusk는 이를 아주 쉽게 해결합니다. 다양한 메소드를 사용하여, element가 페이지에 표시될 때까지 기다리거나, 주어진 자바스크립트 표현식이 `true` 가 될 때까지 기다릴 수 있습니다.
 
-#### Waiting
+#### 시간기준으로 기다리기
 
-If you need to pause the test for a given number of milliseconds, use the `pause` method:
+주어진 milliseconde 동안 테스트를 일시 정지하려면 `pause` 메소드를 사용합니다:
 
     $browser->pause(1000);
 
-#### Waiting For Selectors
+#### Selector 가 표시되기를 기다리기
 
-The `waitFor` method may be used to pause the execution of the test until the element matching the given CSS selector is displayed on the page. By default, this will pause the test for a maximum of five seconds before throwing an exception. If necessary, you may pass a custom timeout threshold as the second argument to the method:
+`waitFor` 메소드는 주어진 CSS selector 에 해당하는 element가 페이지에 표시될 때까지 테스트 실행을 일시 정지하는데 사용합니다. 기본적으로 이 동작은 exception이 발생하기 전까지 최대 5초동안 테스트를 일시 정지합니다. 필요하다면, 두번재 인자로 커스텀 타임아웃 값을 전달 할 수 있습니다:
 
     // Wait a maximum of five seconds for the selector...
     $browser->waitFor('.selector');
@@ -375,7 +375,7 @@ The `waitFor` method may be used to pause the execution of the test until the el
     // Wait a maximum of one second for the selector...
     $browser->waitFor('.selector', 1);
 
-You may also wait until the given selector is missing from the page:
+또한 주어진 selector가 페이지에서 사라질 때까지 일시 정지할 수도 있습니다:
 
     $browser->waitUntilMissing('.selector');
 

@@ -6,13 +6,19 @@
 - [스타일시트 작업하기](#working-with-stylesheets)
     - [Less](#less)
     - [Sass](#sass)
+    - [Stylus](#stylus)
+    - [PostCSS](#postcss)
     - [일반적인 CSS](#plain-css)
+    - [URL 프로세싱](#url-processing)
     - [소스 맵](#css-source-maps)
 - [자바스크립트 작업하기](#working-with-scripts)
-    - [코드 분할](#code-splitting)
+    - [Vendor 분할](#vendor-extraction)
+    - [React](#react-support)
+    - [Vanilla JS](#vanilla-js)
     - [커스텀 Webpack 설정](#custom-webpack-configuration)
 - [파일 & 디렉토리 복사](#copying-files-and-directories)
 - [버전 관리 / 캐시 갱신](#versioning-and-cache-busting)
+- [Browsersync 리로딩](#browsersync-reloading)
 - [알림](#notifications)
 
 <a name="introduction"></a>
@@ -23,7 +29,7 @@
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
 
-만약 여러분이 Webpack 과 asset 컴파일에 대해서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## 설치하기 & 설정하기
@@ -64,10 +70,14 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 
     npm run watch
 
+구동환경에 따라서 파일의 변경사항을 발생해도 Webpack이 업데이트 되지 않게 할 수도 있습니다. 사용하는 시스템이 이 경우라면, `watch-poll` 명령어 사용을 고려하십시오:
+
+    npm run watch-poll
+
 <a name="working-with-stylesheets"></a>
 ## 스타일시트 작업하기
 
-`webpack.mix.js` 파일은 모든 asset 컴파일에 대한 내용을 담고 있습니다. 이 파일은 Webpack을 랩핑한 가벼운 설정이라고 볼 수 있습니다. Mix 작업은 assets 들이 어떻게 컴파일하는지 체이닝 형태로 정의되어 있습니다.
+`webpack.mix.js` 파일은 모든 asset 컴파일에 관한 내용을 담고 있습니다. 이 파일은 Webpack을 랩핑한 가벼운 설정이라고 볼 수 있습니다. Mix 작업은 assets 들이 어떻게 컴파일하는지 체이닝 형태로 정의되어 있습니다.
 
 <a name="less"></a>
 ### Less
@@ -85,6 +95,12 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 
     mix.less('resources/assets/less/app.less', 'public/stylesheets/styles.css');
 
+[기본적인 Less 플러그인 옵션](https://github.com/webpack-contrib/less-loader#options)을 오버라이드 하려면, `mix.less()` 메소드의 세번째 인자로 이를 전달할 수 있습니다:
+
+    mix.less('resources/assets/less/app.less', 'public/css', {
+        strictMath: true
+    });
+
 <a name="sass"></a>
 ### Sass
 
@@ -97,15 +113,77 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
     mix.sass('resources/assets/sass/app.sass', 'public/css')
        .sass('resources/assets/sass/admin.sass', 'public/css/admin');
 
+추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다:
+
+    mix.sass('resources/assets/less/app.less', 'public/css', {
+        precision: 5
+    });
+
+<a name="stylus"></a>
+### Stylus
+
+Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://stylus-lang.com/)를 CSS로 컴파일 하는데 사용합니다:
+
+    mix.stylus('resources/assets/sass/app.scss', 'public/css');
+
+[Rupture](https://github.com/jescalan/rupture)와 같은 추가적인 Stylus 플러그인을 설치할 수도 있습니다. 먼저 (`npm install rupture`)을 통해서 필요한 플러그인을 설치한다음, `mix.stylus()` 메소드에서 이를 require 하십시오:
+
+    mix.stylus('resources/assets/stylus/app.styl', 'public/css', {
+        use: [
+            require('rupture')()
+        ]
+    });
+
+<a name="postcss"></a>
+### PostCSS
+
+[PostCSS](http://postcss.org/)는 추가적인 작업없이도 라라벨 Mix에 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 어플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
+    mix.sass('resources/assets/sass/app.scss', 'public/css')
+       .options({
+            postCss: [
+                require('postcss-css-variables')()
+            ]
+       });
+
 <a name="plain-css"></a>
 ### 일반적인 CSS
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 합치려면 `combine` 메소드를 사용하면 됩니다. 이 메소드는 자바스크립트 파일의 concatenating-연결 에도 사용됩니다:
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
 
-    mix.combine([
+    mix.styles([
         'public/css/vendor/normalize.css',
         'public/css/vendor/videojs.css'
     ], 'public/css/all.css');
+
+<a name="url-processing"></a>
+### URL 프로세싱
+
+라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 스타일 시트 안에서 `url()`호출을 재작성하고 최적화합니다. 처음에는 이상해보일수도 있지만, 이것은 매우 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass를 컴파일하려고 한다고 생각해보겠습니다:
+
+    .example {
+        background: url('../images/example.png');
+    }
+
+> {note} `url()`의 절대 경로는 URL-재작성에서 제외됩니다. 예를 들어, `url('/images/thing.png')` 와 `url('http://example.com/images/thing.png')` 는 수정되지 않습니다.
+
+기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
+
+    .example {
+      background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
+    }
+
+이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다:
+
+    mix.sass('resources/assets/app/app.scss', 'public/css')
+       .options({
+          processCssUrls: false
+       });
+
+`webpack.mix.js`파일에 재작성 동작을 비활성화하도록 추가하면, Mix는 더이상 `url()`을 위한 asset을 public 디렉토리로 복사하지 않습니다. 다시말해서 컴파일된 CSS는 원래 입력한것과 같이 보여집니다:
+
+    .example {
+        background: url("../images/thing.png");
+    }
 
 <a name="css-source-maps"></a>
 ### 소스 맵
@@ -125,11 +203,12 @@ Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기�
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
 
 - ES2015 syntax.
+- Modules
 - Compilation of `.vue` files.
 - Minification for production environments.
 
-<a name="code-splitting"></a>
-### 코드 분할
+<a name="vendor-extraction"></a>
+### Vendor 분할
 
 모든 어플리케이셔녈 자바스크립트를 벤더 라이브러리와 함께 번들링 하는 것은 캐시를 하는데 있어서 잠재적으로 불리한 점입니다. 예를 들어 어플리케이션 코드를 한번 업데이트 하면 브라우저는 벤더 라이브러리가 변경되지 않았더라도, 전부다 다시 다운로드 받아야 합니다.
 
@@ -150,6 +229,29 @@ Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기�
     <script src="/js/vendor.js"></script>
     <script src="/js/app.js"></script>
 
+<a name="react"></a>
+### React
+
+Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치합니다. 이렇게 하기 위해서는 `mix.js()` 호출을 `mix.react()`으로 변경하십시오:
+
+    mix.react('resources/assets/js/app.jsx', 'public/js');
+
+이렇게 하면 백그라운드에서 React는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
+
+<a name="vanilla-js"></a>
+### Vanilla JS
+
+스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 바닐라 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다:
+
+    mix.scripts([
+        'public/js/admin.js',
+        'public/js/dashboard.js'
+    ], 'public/js/all.js');
+
+이 옵션은 자바스크립트를 위한 Webpack 컴파일이 필요 없는 레거시 프로젝트에 특별히 유용합니다.
+
+> {tip} `mix.babel()`은 `mix.scripts()`에서 약간의 변형입니다. 메소드 사용법은 `scripts` 와 동일하지만 하나로 연결된 결과 파일의 내용은 ES2015코드를 모든 브라우저에서 해석이 가능한 바닐라 자바스크립트로 코드를 변환하는 Babel 컴파일 결과물이 됩니다.
+
 <a name="custom-webpack-configuration"></a>
 ### 커스텀 Webpack 설정
 
@@ -166,14 +268,6 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
             ]
         }
     });
-
-#### 고유한 설정 참조하기
-
-두번째 옵션은 Mix의 `webpack.config.js` 파일을 프로젝트 루트에 복사하는 것입니다.
-
-    cp node_modules/laravel-mix/setup/webpack.config.js ./
-
-다음으로 Mix의 설정을 참조하지 않도록 `package.json` 파일안에 있는 NPM 스크립트를 업데이트 해야 합니다. `--config="node_modules/laravel-mix/setup/webpack.config.js"` 부분을 삭제하면 됩니다. 그 다음에 필요한대로 자유롭게 설정 파일을 수정하면 됩니다.
 
 <a name="copying-files-and-directories"></a>
 ## 파일 & 디렉토리 복사하기
@@ -204,9 +298,24 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
         mix.version();
     }
 
+<a name="browsersync-reloading"></a>
+## Browsersync 리로딩
+
+[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:
+    mix.browserSync('my-domain.dev');
+
+    // Or...
+
+    // https://browsersync.io/docs/options
+    mix.browserSync({
+        proxy: 'my-domain.dev'
+    });
+
+이 메소드에는 (프록시) 또는 (BrowserSync 설정)등을 전달할 수도 있습니다. 그런 다음, `npm run watch` 명령을 사용하여 Webpack의 dev 서버를 시작하십시오. 이제 스크립트나 PHP 파일을 수정하게되면 브라우저가 즉시 페이지를 새로 고침하여 변경 사항을 반영합니다.
+
 <a name="notifications"></a>
 ## 알림
 
-가능한 경우에, Mix 는 자동으로 번들링을 마칠 때 OS 알림을 표시합니다. 이렇게 하면 컴파일이 성공했는지, 그렇지 않은지에 대해서 즉각적인 피드백을 얻을 수 있습니다. 만약 이러한 알림을 비활성화 시키고자 할 수도 있는데, 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
+가능한 경우에, Mix 는 자동으로 번들링을 마칠 때 OS 알림을 표시합니다. 이렇게 하면 컴파일이 성공했는지, 그렇지 않은지 즉각적인 피드백을 얻을 수 있습니다. 만약 이러한 알림을 비활성화 시키고자 할 수도 있는데, 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
 
     mix.disableNotifications();

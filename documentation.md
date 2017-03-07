@@ -51,7 +51,7 @@
     - [Notifications-알림](/docs/{{version}}/notifications)
     - [패키지 개발](/docs/{{version}}/packages)
     - [Queues-큐](/docs/{{version}}/queues)
-    - [작업 스케쥴링](/docs/{{version}}/scheduling)
+    - [작업 스케줄링](/docs/{{version}}/scheduling)
 - 데이터베이스
     - [시작하기](/docs/{{version}}/database)
     - [쿼리 빌더](/docs/{{version}}/queries)

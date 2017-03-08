@@ -104,6 +104,8 @@
     - [패키지 개발](/docs/{{version}}/packages)
     - [Queues](/docs/{{version}}/queues)
     - [Queues-큐](/docs/{{version}}/queues)
+    - [Scheduled Tasks](/docs/{{version}}/scheduling)
+    - [작업 스케줄링](/docs/{{version}}/scheduling)
 - Database
 - 데이터베이스
     - [Getting Started](/docs/{{version}}/database)

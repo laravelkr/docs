@@ -7,6 +7,8 @@
 - [세션 / 인증](#session-and-authentication)
 - [Testing JSON APIs](#testing-json-apis)
 - [JSON API 테스팅](#testing-json-apis)
+- [Testing File Uploads](#testing-file-uploads)
+- [파일 업로드 테스트하기](#testing-file-uploads)
 - [Available Assertions](#available-assertions)
 - [사용가능한 Assertions](#available-assertions)
 
@@ -47,8 +49,8 @@ The `get` method makes a `GET` request into the application, while the `assertSt
 `get` 메소드는 어플리케이션에 `GET` request-요청을 만들고, `assertStatus` 메소드는 반환된 response-응답이 주어진 HTTP 상태 코드와 일치하는지 확인합니다. 간단한 테스트에 더해, 라라벨은 response의 헤더값, 컨텐츠, JSON 구조 및 기타 확인을 할 수 있는 기능을 제공합니다.  
 
 <a name="session-and-authentication"></a>
-### Session / Authentication
-### 세션 / 인증
+## Session / Authentication
+## 세션 / 인증
 
 Laravel provides several helpers for working with the session during HTTP testing. First, you may set the session data to a given array using the `withSession` method. This is useful for loading the session with data before issuing a request to your application:
 
@@ -92,8 +94,8 @@ You may also specify which guard should be used to authenticate the given user b
     $this->actingAs($user, 'api')
 
 <a name="testing-json-apis"></a>
-### Testing JSON APIs
-### JSON API 테스팅하기
+## Testing JSON APIs
+## JSON API 테스팅하기
 
 Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, and `delete` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
 
@@ -153,9 +155,61 @@ If you would like to verify that the given array is an **exact** match for the J
         }
     }
 
+<a name="testing-file-uploads"></a>
+## Testing File Uploads
+## 파일 업로드 테스트하기
+
+The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be used to generate dummy files or images for testing. This, combined with the `Storage` facade's `fake` method greatly simplifies the testing of file uploads. For example, you may combine these two features to easily test an avatar upload form:
+
+`Illuminate\Http\UploadedFile` 클래스는 테스트를 위해서 더미 파일 또는 이미지를 생성하는 `fake` 메소드를 제공합니다. 이는 `Storage` 파사드의 `fake` 메소드와 함께 파일 업로드 테스팅을 간단하게 해줍니다. 예를 들어, 이 두기능을 통해서 프로필 이미지 업로드 폼을 손쉽게 테스트 할 수 있습니다. 
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    class ExampleTest extends TestCase
+    {
+        public function testAvatarUpload()
+        {
+            Storage::fake('avatars');
+
+            $response = $this->json('POST', '/avatar', [
+                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            ]);
+
+            // Assert the file was stored...
+            Storage::disk('avatars')->assertExists('avatar.jpg');
+
+            // Assert a file does not exist...
+            Storage::disk('avatars')->assertMissing('missing.jpg');
+        }
+    }
+
+#### Fake File Customization
+#### Fake 파일 커스터마이징
+
+When creating files using the `fake` method, you may specify the width, height, and size of the image in order to better test your validation rules:
+
+`fake` 메소드를 사용하여 파일을 생성할 때, 유효성 검사 테스트를 위해서 파일의 가로, 세로 및 파일 사이즈를 지정할 수 있습니다:
+
+    UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100);
+
+In addition to creating images, you may create files of any other type using the `create` method:
+
+이미지 타입 뿐만 아니라 `create` 메소드를 사용하여 다른 타입들의 파일도 생성할 수 있습니다: 
+
+    UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
+
 <a name="available-assertions"></a>
-### Available Assertions
-### 사용 가능한 Assertions
+## Available Assertions
+## 사용 가능한 Assertions
 
 Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
 

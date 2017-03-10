@@ -308,7 +308,7 @@ One potential downside to bundling all application-specific JavaScript with your
 
 모든 어플리케이셔녈 자바스크립트를 벤더 라이브러리와 함께 번들링 하는 것은 캐시를 하는데 있어서 잠재적으로 불리한 점입니다. 예를 들어 어플리케이션 코드를 한번 업데이트 하면 브라우저는 벤더 라이브러리가 변경되지 않았더라도, 전부다 다시 다운로드 받아야 합니다.
 
-If you intend to make frequent updates to your application's JavaScript, you should consider extracting all of your vendor libraries into their file. This way, a change to your application code will not affect the caching of your large `vendor.js` file. Mix's `extract` method makes this a breeze:
+If you intend to make frequent updates to your application's JavaScript, you should consider extracting all of your vendor libraries into their own file. This way, a change to your application code will not affect the caching of your large `vendor.js` file. Mix's `extract` method makes this a breeze:
 
 어플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 어플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다:
 
@@ -341,9 +341,9 @@ Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
 
-Behind the scenes, React will download and include the appropriate `babel-preset-react` Babel plug-in.
+Behind the scenes, Mix will download and include the appropriate `babel-preset-react` Babel plug-in.
 
-이렇게 하면 백그라운드에서 React는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
+이렇게 하면 백그라운드에서 Mix는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
 
 <a name="vanilla-js"></a>
 ### Vanilla JS

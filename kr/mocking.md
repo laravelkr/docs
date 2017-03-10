@@ -13,6 +13,8 @@
 - [Notification Fake](#notification-fake)
 - [Queue Fake](#queue-fake)
 - [Queue Fake](#queue-fake)
+- [Storage Fake](#storage-fake)
+- [Storage Fake](#storage-fake)
 - [Facades](#mocking-facades)
 - [파사드](#mocking-facades)
 
@@ -232,6 +234,43 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
         }
     }
     
+<a name="storage-fake"></a>
+## Storage Fake
+## Storage Fake
+
+The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+
+`Storage` 파사드의 `fake` 메소드를 사용하면 `UploadedFile` 클래스의 파일 생성과 결합된 가짜 디스크를 생성할 수 있어, 파일 업로드 테스트가 아주 쉬워집니다. 예를 들면:    
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+    class ExampleTest extends TestCase
+    {
+        public function testAvatarUpload()
+        {
+            Storage::fake('avatars');
+
+            $response = $this->json('POST', '/avatar', [
+                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            ]);
+
+            // Assert the file was stored...
+            Storage::disk('avatars')->assertExists('avatar.jpg');
+
+            // Assert a file does not exist...
+            Storage::disk('avatars')->assertMissing('missing.jpg');
+        }
+    }
+
 <a name="mocking-facades"></a>
 ## Facades
 ## 파사드

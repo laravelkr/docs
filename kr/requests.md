@@ -7,8 +7,8 @@
     - [Request 경로 & 메소드](#request-path-and-method)
     - [PSR-7 Requests](#psr7-requests)
     - [PSR-7 Requests](#psr7-requests)
-- [Input Trimming & Normalization](#input-trimming-and-normaliation)
-- [입력값 Trim 처리 & 일반화처리](#input-trimming-and-normaliation)
+- [Input Trimming & Normalization](#input-trimming-and-normalization)
+- [입력값 Trim 처리 & 일반화처리](#input-trimming-and-normalization)
 - [Retrieving Input](#retrieving-input)
 - [입력값 조회하기](#retrieving-input)
     - [Old Input](#old-input)
@@ -175,7 +175,7 @@ Once you have installed these libraries, you may obtain a PSR-7 request by type-
 
 > {tip} 라우트나 컨트롤러에서 반환된 PSR-7 response 인스턴스는 자동으로 라라벨 response 인스턴스로 변환되어 프레임워크에 표시될 것입니다.
 
-<a name="input-trimming-and-normaliation"></a>
+<a name="input-trimming-and-normalization"></a>
 ## Input Trimming & Normalization
 ## 입력값 Trim 처리 & 일반화처리
 

@@ -123,9 +123,9 @@ The `resources` directory contains your views as well as your raw, un-compiled a
 #### The Routes Directory
 #### Routes 디렉토리
 
-The `routes` directory contains all of the route definitions for your application. By default, three route files are included with Laravel: `web.php`, `api.php`, and `console.php`.
+The `routes` directory contains all of the route definitions for your application. By default, several route files are included with Laravel: `web.php`, `api.php`, `console.php` and `channels.php`.
 
-`routes` 디렉토리는 어플리케이션에서 정의된 모든 라우트들이 들어 있습니다. 기본적으로 여기에는 라라벨에서 포함하는 `web.php`, `api.php`, 그리고 `console.php` 파일이 포함되어 있습니다.
+`routes` 디렉토리는 어플리케이션에서 정의된 모든 라우트들이 들어 있습니다. 기본적으로 여기에는 라라벨에서 제공하는 `web.php`, `api.php`, `console.php` 그리고 `channels.php` 파일이 포함되어 있습니다.
 
 The `web.php` file contains routes that the `RouteServiceProvider` places in the `web` middleware group, which provides session state, CSRF protection, and cookie encryption. If your application does not offer a stateless, RESTful API, all of your routes will most likely be defined in the `web.php` file.
 
@@ -138,7 +138,11 @@ The `api.php` file contains routes that the `RouteServiceProvider` places in the
 The `console.php` file is where you may define all of your Closure based console commands. Each Closure is bound to a command instance allowing a simple approach to interacting with each command's IO methods. Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application.
 
 `console.php` 파일은 클로저 기반의 명령어들을 정의해 놓을 수 있는 파일입니다. 각각의 클로저는 각각의 명령어 IO 메소드와 상호작용하는 간단한 명령어를 구현하는 명령어 인스턴스에 바인드 되어 있습니다. 이 파일에는 HTTP 라우트가 정의되어 있지는 않지만, 어플리케이션에 콘솔 기반의 진입점(라우트와 비슷하게)을 정의합니다.
- 
+
+The `channels.php` file is where you may register all of the event broadcasting channels that your application supports.
+
+`channels.php` 파일은 어플리케이션에서 지원하는 모든 이벤트 브로드캐스팅 채널을 등록하는 파일입니다.
+
 <a name="the-storage-directory"></a>
 #### The Storage Directory
 #### Storage 디렉토리

@@ -478,6 +478,15 @@ The `drag` method may be used to drag an element matching the given selector to 
 
     $browser->drag('.from-selector', '.to-selector');
 
+Or, you may drag an element in a single direction:
+
+또는, element를 어느 한 방향으로 드래그 할 수 있습니다:
+
+    $browser->dragLeft('.selector', 10);
+    $browser->dragRight('.selector', 10);
+    $browser->dragUp('.selector', 10);
+    $browser->dragDown('.selector', 10);
+
 <a name="scoping-selectors"></a>
 ### Scoping Selectors
 ### Selector의 특정 범위를 제한하여 동작하기

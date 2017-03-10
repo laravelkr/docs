@@ -43,6 +43,7 @@
 - [array_sort](#method-array-sort)
 - [array_sort_recursive](#method-array-sort-recursive)
 - [array_where](#method-array-where)
+- [array_wrap](#method-array-wrap)
 - [head](#method-head)
 - [last](#method-last)
 
@@ -63,6 +64,7 @@
 - [class_basename](#method-class-basename)
 - [e](#method-e)
 - [ends_with](#method-ends-with)
+- [kebab_case](#method-kebab-case)
 - [snake_case](#method-snake-case)
 - [str_limit](#method-str-limit)
 - [starts_with](#method-starts-with)
@@ -399,10 +401,21 @@
 
     // [1 => 200, 3 => 400]
 
+<a name="method-array-wrap"></a>
+#### `array_wrap()` {#collection-method}
+
+`array_wrap` 함수는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다:
+
+    $string = 'Laravel';
+
+    $array = array_wrap($string);
+
+    // [0 => 'Laravel']
+
 <a name="method-head"></a>
 #### `head()` {#collection-method}
 
-`head` 함수는 단순히 배열의 첫번째 요소를 반환합니다:
+`head` 함수는 배열의 첫번째 요소를 반환합니다:
 
     $array = [100, 200, 300];
 
@@ -512,7 +525,7 @@
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-`e` 함수는 주어진 문자열에 `htmlspecialchars`를 실행합니다: 
+`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `duuble_encode` 옵션이 `false` 인 형태로 실행한 결과를 반환합니다:
 
     echo e('<html>foo</html>');
 
@@ -527,12 +540,20 @@
 
     // true
 
+<a name="method-kebab-case"></a>
+#### `kebab_case()` {#collection-method}
+
+`kebab_case` 함수는 주어진 문자열을 `kebab-case`로 변환합니다:
+ (역자주 : 단어와 단어를 '-'로 연결한 형태)
+
+    $value = kebab_case('fooBar');
+
+    // foo-bar
+
 <a name="method-snake-case"></a>
 #### `snake_case()` {#collection-method}
 
-The `snake_case` function converts the given string to `snake_case`:
-
-`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다: 
+`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
 
     $snake = snake_case('fooBar');
 

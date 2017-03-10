@@ -236,7 +236,7 @@ Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
 
-이렇게 하면 백그라운드에서 React는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
+이렇게 하면 백그라운드에서 Mix는 `babel-preset-react` Babel 플러그인을 다운로드 해서 인클루드 합니다.
 
 <a name="vanilla-js"></a>
 ### Vanilla JS

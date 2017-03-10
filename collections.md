@@ -111,6 +111,8 @@
 - [values](#method-values)
 - [where](#method-where)
 - [whereStrict](#method-wherestrict)
+- [whereNotIn](#method-wherenotin)
+- [whereNotInStrict](#method-wherenotinstrict)
 - [whereIn](#method-wherein)
 - [whereInStrict](#method-whereinstrict)
 - [zip](#method-zip)
@@ -1435,7 +1437,7 @@
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}
 
-`whereIn` 메소드는 주어진 배열 안에 포함 된 주어진 키/값을 사용하여 컬렉션을 필터링합니다.
+`whereIn` 메소드는 주어진 배열 안에 포함 된 주어진 키/값을 사용하여 컬렉션을 필터링합니다:
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1463,6 +1465,36 @@
 이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "엄격한" 비교를 진행합니다.
 
 (역자주 : 느슨한 비교와 엄격한 비교는 `==`와 `===`의 차이처럼 타입과 값이 모두 일치하는지 비교하는 정도를 나타냅니다)
+
+<a name="method-wherenotin"></a>
+#### `whereNotIn()` {#collection-method}
+
+`whereNotIn` 메소드는 컬렉션안에 주어진 키 / 값을 포함하지 않은 값들을 필터링합니다:
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereNotIn('price', [150, 200]);
+
+    $filtered->all();
+
+    /*
+    [
+        ['product' => 'Chair', 'price' => 100],
+        ['product' => 'Door', 'price' => 100],
+    ]
+    */
+
+`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨한" 비교를 수행합니다. (타입을 엄격하게 비교하지 않습니다) 엄격한 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.
+
+<a name="method-wherenotinstrict"></a>
+#### `whereNotInStrict()` {#collection-method}
+
+이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 엄격한 비교를 수행합니다.
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

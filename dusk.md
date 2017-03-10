@@ -18,7 +18,7 @@
     - [마우스 사용하기](#using-the-mouse)
     - [Selector의 특정 범위를 제한하여 동작하기](#scoping-selectors)
     - [Element 기다리기](#waiting-for-elements)
-- [Available Assertions](#available-assertions)
+- [사용 가능한 Assertions](#available-assertions)
 - [Pages](#pages)
     - [Generating Pages](#generating-pages)
     - [Configuring Pages](#configuring-pages)
@@ -344,6 +344,13 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
 
     $browser->drag('.from-selector', '.to-selector');
 
+또는, element를 어느 한 방향으로 드래그 할 수 있습니다:
+
+    $browser->dragLeft('.selector', 10);
+    $browser->dragRight('.selector', 10);
+    $browser->dragUp('.selector', 10);
+    $browser->dragDown('.selector', 10);
+
 <a name="scoping-selectors"></a>
 ### Selector의 특정 범위를 제한하여 동작하기
 
@@ -381,18 +388,18 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
 
     $browser->waitUntilMissing('.selector', 1);
 
-#### Scoping Selectors When Available
+#### 사용가능할 때 Selector의 특정 범위를 제한하여 동작하기
 
-Occasionally, you may wish to wait for a given selector and then interact with the element matching the selector. For example, you may wish to wait until a modal window is available and then press the "OK" button within the modal. The `whenAvailable` method may be used in this case. All element operations performed within the given callback will be scoped to the original selector:
+때로는, 주어진 selector 가 사용가능해지면, 매칭되는 selector에 작업을 수행하려고 할 수도 있습니다. 예를 들면, 모달 윈도우가 나타나기를 기다렸다가, 모달의 "OK" 버튼을 누른다고 해보겠습니다. 이런 경우 `whenAvailable` 메소를 사용하면 됩니다. 모든 element 작업은 원래의 selector 로 제한되어 주어진 콜백 안에서 수행됩니다:
 
     $browser->whenAvailable('.modal', function ($modal) {
         $modal->assertSee('Hello World')
               ->press('OK');
     });
 
-#### Waiting For Text
+#### 텍스트가 나타날 때까지 기다리기
 
-The `waitForText` method may be used to wait until the given text is displayed on the page:
+`waitForText` 메소드는 페이지에서 주어진 텍스트가 나타날때 까지 기다릴 때 사용됩니다:
 
     // Wait a maximum of five seconds for the text...
     $browser->waitForText('Hello World');
@@ -400,9 +407,9 @@ The `waitForText` method may be used to wait until the given text is displayed o
     // Wait a maximum of one second for the text...
     $browser->waitForText('Hello World', 1);
 
-#### Waiting For Links
+#### 링크가 나타날 때까지 기다리기
 
-The `waitForLink` method may be used to wait until the given link text is displayed on the page:
+`waitForLink` 메소드는 페이지에서 주어진 링크가 나타날때 까지 기다릴 때 사용됩니다:
 
     // Wait a maximum of five seconds for the link...
     $browser->waitForLink('Create');
@@ -410,9 +417,9 @@ The `waitForLink` method may be used to wait until the given link text is displa
     // Wait a maximum of one second for the link...
     $browser->waitForLink('Create', 1);
 
-#### Waiting On JavaScript Expressions
+#### 자바스크립트 표현식을 통해서 대기하기
 
-Sometimes you may wish to pause the execution of a test until a given JavaScript expression evaluates to `true`. You may easily accomplish this using the `waitUntil` method. When passing an expression to this method, you do not need to include the `return` keyword or an ending semi-colon:
+때로는 주어진 자바스크립트 표현식이 `true` 일 때까지 테스트 실행을 멈추고 있기를 원할 수도 있습니다. 이럴 때는 `waitUntil` 메소드를 사용하면 됩니다. 이 메소드에 표현식을 전달할 때에는 `return` 키워드나 종료 세미콜론을 포함할 필요가 없습니다:
 
     // Wait a maximum of five seconds for the expression to be true...
     $browser->waitUntil('App.dataLoaded');
@@ -423,35 +430,37 @@ Sometimes you may wish to pause the execution of a test until a given JavaScript
     $browser->waitUntil('App.data.servers.length > 0', 1);
 
 <a name="available-assertions"></a>
-## Available Assertions
+## 사용 가능한 Assertions
 
-Dusk provides a variety of assertions that you may make against your application. All of the available assertions are documented in the table below:
+Dusk는 어플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 표와 같습니다:
 
-Assertion  | Description
+Assertion  | 설명
 ------------- | -------------
-`$browser->assertTitle($title)`  |  Assert the page title matches the given text.
-`$browser->assertTitleContains($title)`  |  Assert the page title contains the given text.
-`$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
-`$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
-`$browser->assertCookieValue($name, $value)`  |  Assert a cookie has a given value.
-`$browser->assertPlainCookieValue($name, $value)`  |  Assert an unencrypted cookie has a given value.
-`$browser->assertSee($text)`  |  Assert the given text is present on the page.
-`$browser->assertDontSee($text)`  |  Assert the given text is not present on the page.
-`$browser->assertSeeIn($selector, $text)`  |  Assert the given text is present within the selector.
-`$browser->assertDontSeeIn($selector, $text)`  |  Assert the given text is not present within the selector.
-`$browser->assertSeeLink($linkText)`  |  Assert the given link is present on the page.
-`$browser->assertDontSeeLink($linkText)`  |  Assert the given link is not present on the page.
-`$browser->assertInputValue($field, $value)`  |  Assert the given input field has the given value.
-`$browser->assertInputValueIsNot($field, $value)`  |  Assert the given input field does not have the given value.
-`$browser->assertChecked($field)`  |  Assert the given checkbox is checked.
-`$browser->assertNotChecked($field)`  |  Assert the given checkbox is not checked.
-`$browser->assertRadioSelected($field, $value)`  |  Assert the given radio field is selected.
-`$browser->assertRadioNotSelected($field, $value)` |  Assert the given radio field is not selected.
-`$browser->assertSelected($field, $value)`  |  Assert the given dropdown has the given value selected.
-`$browser->assertNotSelected($field, $value)`  |  Assert the given dropdown does not have the given value selected.
-`$browser->assertValue($selector, $value)`  |  Assert the element matching the given selector has the given value.
-`$browser->assertVisible($selector)`  |  Assert the element matching the given selector is visible.
-`$browser->assertMissing($selector)`  |  Assert the element matching the given selector is not visible.
+`$browser->assertTitle($title)`  |  페이지 타이틀이 주어진 텍스트와 일치하는지 확인.
+`$browser->assertTitleContains($title)`  |  페이지 타이틀이 주어진 텍스트를 포함하는지 확인.
+`$browser->assertPathIs('/home')`  |  현재 경로가 주어진 경로와 일치하는지 확인.
+`$browser->assertQueryStringHas($name, $value)`  |  쿼리 스트링 파라미터가 존재하고 주어진 값을 가지고 있는지 확인.
+`$browser->assertQueryStringMissing($name)`  |  주어진 쿼리 스트링 파라미터가 없다는 것을 확인.
+`$browser->assertHasCookie($name)`  |  주어진 쿠키가 존재하는지 확인.
+`$browser->assertCookieValue($name, $value)`  |  쿠키가 주어진 값을 가지고 있는지 확인.
+`$browser->assertPlainCookieValue($name, $value)`  |  암호화 되지 않은 쿠키가 주어진 값을 가지고 있는지 확인.
+`$browser->assertSee($text)`  |  현재 페이지에 주어진 텍스트가 존재하는지 확인.
+`$browser->assertDontSee($text)`  |  현재 페이지에 주어진 텍스트가 존재하지 않는 것을 확인.
+`$browser->assertSeeIn($selector, $text)`  |  selector 안에서 주어진 텍스트가 존재하는지 확인.
+`$browser->assertDontSeeIn($selector, $text)`  |  selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인.
+`$browser->assertSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하는지 확인.
+`$browser->assertDontSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하지 않는 것을 확인.
+`$browser->assertInputValue($field, $value)`  |  주어진 input 필드가 주어진 값을 가지는지 확인.
+`$browser->assertInputValueIsNot($field, $value)`  |  주어진 input 필드가 주어진 값을 가지고 있지 않을 것을 확인.
+`$browser->assertChecked($field)`  |  주어진 체크박스가 체크되어 있는지 확인.
+`$browser->assertNotChecked($field)`  |  주어진 체크박스가 체크되어 있지 않은 것을 확인.
+`$browser->assertRadioSelected($field, $value)`  | 주어진 라디오박스가 선택되어 있는지 확인.
+`$browser->assertRadioNotSelected($field, $value)` |  주어진 라디오박스가 선택되어 있지 않은 것을 확인.
+`$browser->assertSelected($field, $value)`  |  주어진 드랍박스(셀렉트박스)에서 주어진 값이 선택되어 있는 것을 확인.
+`$browser->assertNotSelected($field, $value)`  |  주어진 드랍박스(셀렉트박스)에서 주어진 값이 선택되어 있지 않은 것을 확인.
+`$browser->assertValue($selector, $value)`  |  주어진 selector 와 매칭되는 element가 주어진 값을 가지는지 확인.
+`$browser->assertVisible($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이는지 확인.
+`$browser->assertMissing($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이지 않는 것은 확인.
 
 <a name="pages"></a>
 ## Pages

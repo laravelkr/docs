@@ -342,6 +342,13 @@ The `drag` method may be used to drag an element matching the given selector to 
 
     $browser->drag('.from-selector', '.to-selector');
 
+Or, you may drag an element in a single direction:
+
+    $browser->dragLeft('.selector', 10);
+    $browser->dragRight('.selector', 10);
+    $browser->dragUp('.selector', 10);
+    $browser->dragDown('.selector', 10);
+
 <a name="scoping-selectors"></a>
 ### Scoping Selectors
 

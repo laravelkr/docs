@@ -61,7 +61,7 @@ At its core, Laravel's authentication facilities are made up of "guards" and "pr
 
 Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using Eloquent and the database query builder. However, you are free to define additional providers as needed for your application.
 
-프로바이더는 저장소에서 사용자를 어떻게 찾을 찾을 수 있는지 정의합니다. 라라벨은 Eloqutn 와 데이터베이스 쿼리 빌더를 사용하여 사용자를 찾을 수 있도록 지원합니다. 또한, 어플리케이션에서 필요로 하는 추가적인 프로바이더를 자유롭게 정의할 수 있습니다.
+프로바이더는 저장소에서 사용자를 어떻게 찾을 찾을 수 있는지 정의합니다. 라라벨은 Eloquent 와 데이터베이스 쿼리 빌더를 사용하여 사용자를 찾을 수 있도록 지원합니다. 또한, 어플리케이션에서 필요로 하는 추가적인 프로바이더를 자유롭게 정의할 수 있습니다.
 
 Don't worry if this all sounds confusing now! Many applications will never need to modify the default authentication configuration.
 

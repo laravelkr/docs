@@ -257,7 +257,7 @@ Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치
 
 어플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
 
-#### Merging
+#### Merging 커스텀 설정
 
 Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 수 있는 `webpackConfig` 메소드를 제공합니다. 이 경우 별도의 `webpack.config.js` 파일을 복사하여 유지할 필요가 없어서 매력적인 선택입니다. `webpackConfig` 메소드는 적용하려는 [Webpack 설정](https://webpack.js.org/configuration/)을 포함하는 객체를 전달받습니다.
 
@@ -268,6 +268,10 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
             ]
         }
     });
+
+#### 커스텀 설정 파일
+
+Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/laravel-mix/setup/webpack.config.js` 파일을 프로젝트의 루트 디렉토리로 복사하십시오. 그다음에 `package.json` 파일의 `--config` 참조를 새로 복사한 설정 파일로 지정하도록 합니다. 이 경우에는 추후 업데이트되는 Mix 의 `webpack.config.js` 내역을 수동으로 커스텀 파일에 병합해야 합니다.
 
 <a name="copying-files-and-directories"></a>
 ## 파일 & 디렉토리 복사하기

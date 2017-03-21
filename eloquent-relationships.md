@@ -676,6 +676,19 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
     echo $posts[0]->votes_count;
     echo $posts[0]->comments_count;
 
+동일한 관계에 대하여 여러번 카운트를 수행하기 위해서 카운트 결과에 별칭(alias)를 부여할 수도 있습니다:
+
+    $posts = Post::withCount([
+        'comments',
+        'comments AS pending_comments' => function ($query) {
+            $query->where('approved', false);
+        }
+    ])->get();
+
+    echo $posts[0]->comments_count;
+
+    echo $posts[0]->pending_comments_count;
+
 <a name="eager-loading"></a>
 ## Eager 로딩
 

@@ -21,6 +21,16 @@ HTML 폼을 정의할 때, CSRF 보호 미들웨어가 요청을 검증할 수 �
 
 `web` 미들웨어 그룹에 속한 `VerifyCsrfToken` [미들웨어](/docs/{{version}}/middleware)는 자동으로 요청에 포함된 토큰이 세션에 저장된 토큰과 일치하는지 확인할 것입니다.
 
+#### CSRF 토큰 & Vue
+
+`make:auth` 아티즌 명령어를 통한 인증 스캐폴딩 없이 [Vue](https://vuejs.org) 자바스크립트 프레임워크를 사용한다면, 기본 어플리케이션 레이아웃에 수동으로 `Laravel` 자바스크립트 객체를 정의해야 합니다. 이 객체는 request 가 있을 때 Vue 가 사용하는 CSRF 토큰을 지정합니다:
+
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+
 <a name="csrf-excluding-uris"></a>
 ## CSRF 보호로 부터 특정 URI를 제외시키기
 

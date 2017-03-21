@@ -67,7 +67,7 @@
 
             $response = $this->actingAs($user)
                              ->withSession(['foo' => 'bar'])
-                             ->get('/')
+                             ->get('/');
         }
     }
 

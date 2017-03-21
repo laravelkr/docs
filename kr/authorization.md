@@ -407,10 +407,10 @@ Like most of the other authorization methods, you may pass a class name to the `
 
 다른 권한 인증 메소드 대부분과 같이, 액션이 모델을 필요로 하지 않는 경우 `@can` 과 `@cannot` 지시어에 클래스 이름을 전달할 수 있습니다:
 
-    @can('create', Post::class)
+    @can('create', App\Post::class)
         <!-- The Current User Can Create Posts -->
     @endcan
 
-    @cannot('create', Post::class)
+    @cannot('create', App\Post::class)
         <!-- The Current User Can't Create Posts -->
     @endcannot

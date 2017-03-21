@@ -261,7 +261,7 @@ If you were previously binding a service container binding for a `db.connection.
 #### Fetch Mode
 #### Fetch 모드
 
-Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you will still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
+Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you would still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
 
 라라벨은 더 이상 설정 파일에서 PDO의 "Fetch 모드"를 커스터마이징 할 수 있는 기능을 제공하지 않습니다. 대신에 `PDO::FETCH_OBJ`가 항상 사용됩니다. 계속 어플리케이션에서 Fetch 모드를 커스터마이징 하고자 하는 경우 `Illuminate\Database\Events\StatementPrepared` 이벤트를 리스닝 하면 됩니다:
 
@@ -339,6 +339,13 @@ The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illu
 
         return $model;
     }
+
+#### The `getForeignKey` Method
+#### `getForeignKey` 메소드
+
+The `getForeignKey` method has been removed. Use the `getForeignKeyName` method instead.
+
+`getForeignKey` 메소드는 제거되었습니다. 대신에 `getForeignKeyName` 메소드를 사용하십시오.
 
 #### The `hydrate` Method
 #### `hydrate` 메소드

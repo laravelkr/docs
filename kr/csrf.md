@@ -33,6 +33,21 @@ The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is inclu
 
 `web` 미들웨어 그룹에 속한 `VerifyCsrfToken` [미들웨어](/docs/{{version}}/middleware)는 자동으로 요청에 포함된 토큰이 세션에 저장된 토큰과 일치하는지 확인할 것입니다.
 
+#### CSRF Tokens & Vue
+#### CSRF 토큰 & Vue
+
+If you are using the [Vue](https://vuejs.org) JavaScript framework without the authentication scaffolding provided by the `make:auth` Artisan command, you will need to manually define a `Laravel` JavaScript object in your primary application layout.
+
+This object specifies the CSRF token Vue should use when making requests:
+
+`make:auth` 아티즌 명령어를 통한 인증 스캐폴딩 없이 [Vue](https://vuejs.org) 자바스크립트 프레임워크를 사용한다면, 기본 어플리케이션 레이아웃에 수동으로 `Laravel` 자바스크립트 객체를 정의해야 합니다. 이 객체는 request 가 있을 때 Vue 가 사용하는 CSRF 토큰을 지정합니다:
+
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+
 <a name="csrf-excluding-uris"></a>
 ## Excluding URIs From CSRF Protection
 ## CSRF 보호로 부터 특정 URI를 제외시키기

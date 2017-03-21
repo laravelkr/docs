@@ -374,8 +374,8 @@ Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` f
 
 어플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
 
-#### Merging
-#### Merging
+#### Merging Custom Configuration
+#### Merging 커스텀 설정
 
 Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is a particularly appealing choice, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
 
@@ -388,6 +388,13 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
             ]
         }
     });
+
+#### Custom Configuration Files
+#### 커스텀 설정 파일
+
+If you would like completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
+
+Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/laravel-mix/setup/webpack.config.js` 파일을 프로젝트의 루트 디렉토리로 복사하십시오. 그다음에 `package.json` 파일의 `--config` 참조를 새로 복사한 설정 파일로 지정하도록 합니다. 이 경우에는 추후 업데이트되는 Mix 의 `webpack.config.js` 내역을 수동으로 커스텀 파일에 병합해야 합니다.
 
 <a name="copying-files-and-directories"></a>
 ## Copying Files & Directories

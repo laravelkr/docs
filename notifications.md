@@ -766,7 +766,7 @@ SMS 메세지에 유니코드 문자가 포함되어 있다면, `NexmoMessage` �
                     ->content('Whoops! Something went wrong.')
                     ->attachment(function ($attachment) use ($url) {
                         $attachment->title('Exception: File Not Found', $url)
-                                   ->content('File [background.jpg] was **not found**.')
+                                   ->content('File [background.jpg] was *not found*.')
                                    ->markdown(['title', 'text']);
                     });
     }

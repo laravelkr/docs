@@ -403,7 +403,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
     use Illuminate\Support\Facades\Auth;
     use App\Extensions\RiakUserProvider;
-    use Illuminate\Support\ServiceProvider;
+    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
     class AuthServiceProvider extends ServiceProvider
     {

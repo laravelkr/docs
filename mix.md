@@ -13,7 +13,7 @@
     - [소스 맵](#css-source-maps)
 - [자바스크립트 작업하기](#working-with-scripts)
     - [Vendor 분할](#vendor-extraction)
-    - [React](#react-support)
+    - [React](#react)
     - [Vanilla JS](#vanilla-js)
     - [커스텀 Webpack 설정](#custom-webpack-configuration)
 - [파일 & 디렉토리 복사](#copying-files-and-directories)

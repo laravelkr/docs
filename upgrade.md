@@ -228,10 +228,6 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
         return $model;
     }
 
-#### `getForeignKey` 메소드
-
-`getForeignKey` 메소드는 제거되었습니다. 대신에 `getForeignKeyName` 메소드를 사용하십시오.
-
 #### `hydrate` 메소드
 
 이 메소드에 커넥션 이름을 전달하고 있다면, 이제 `on` 메소드를 사용해야 합니다:

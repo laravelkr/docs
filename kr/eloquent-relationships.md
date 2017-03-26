@@ -422,7 +422,7 @@ If you would like to define a custom model to represent the intermediate table o
 
     use Illuminate\Database\Relations\Pivot;
 
-    class Role extends Pivot
+    class Role extends Model
     {
         /**
          * The users that belong to the role.

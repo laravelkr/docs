@@ -340,13 +340,6 @@ The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illu
         return $model;
     }
 
-#### The `getForeignKey` Method
-#### `getForeignKey` 메소드
-
-The `getForeignKey` method has been removed. Use the `getForeignKeyName` method instead.
-
-`getForeignKey` 메소드는 제거되었습니다. 대신에 `getForeignKeyName` 메소드를 사용하십시오.
-
 #### The `hydrate` Method
 #### `hydrate` 메소드
 

@@ -64,11 +64,13 @@ For the remainder of this documentation, we'll discuss each method available on 
 </style>
 
 [all](#method-all)
+[average](#method-average)
 [avg](#method-avg)
 [chunk](#method-chunk)
 [collapse](#method-collapse)
 [combine](#method-combine)
 [contains](#method-contains)
+[containsStrict](#method-containsstrict)
 [count](#method-count)
 [diff](#method-diff)
 [diffKeys](#method-diffkeys)
@@ -88,14 +90,17 @@ For the remainder of this documentation, we'll discuss each method available on 
 [implode](#method-implode)
 [intersect](#method-intersect)
 [isEmpty](#method-isempty)
+[isNotEmpty](#method-isnotempty)
 [keyBy](#method-keyby)
 [keys](#method-keys)
 [last](#method-last)
 [map](#method-map)
 [mapWithKeys](#method-mapwithkeys)
 [max](#method-max)
+[median](#method-median)
 [merge](#method-merge)
 [min](#method-min)
+[mode](#method-mode)
 [nth](#method-nth)
 [only](#method-only)
 [partition](#method-partition)
@@ -121,11 +126,13 @@ For the remainder of this documentation, we'll discuss each method available on 
 [split](#method-split)
 [sum](#method-sum)
 [take](#method-take)
+[tap](#method-tap)
 [toArray](#method-toarray)
 [toJson](#method-tojson)
 [transform](#method-transform)
 [union](#method-union)
 [unique](#method-unique)
+[uniqueStrict](#method-uniquestrict)
 [values](#method-values)
 [when](#method-when)
 [where](#method-where)
@@ -161,29 +168,27 @@ The `all` method returns the underlying array represented by the collection:
 
     // [1, 2, 3]
 
+<a name="method-average"></a>
+#### `average()` {#collection-method}
+
+Alias for the [`avg`](#method-avg) method.
+
+[`avg`](#method-avg) 메소드의 별칭입니다.
+
 <a name="method-avg"></a>
 #### `avg()` {#collection-method}
 
-The `avg` method returns the average of all items in the collection:
+The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Average) of a given key:
 
-`avg` 메소드는 컬렉션안의 모든 아이템들의 평균값을 반환합니다:
+`avg` 메소드는 주어진 키의 [평균값](https://en.wikipedia.org/wiki/Average)을 반환합니다:
 
-    collect([1, 2, 3, 4, 5])->avg();
+    $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
 
-    // 3
+    // 20
 
-If the collection contains nested arrays or objects, you should pass a key to use for determining which values to calculate the average:
+    $average = collect([1, 1, 2, 4])->avg();
 
-컬렉션이 중첩된 배열 또는 객체를 가지고 있다면, 어떤 값을 평균값으로 계산할지 결정하는 키를 전달해야 합니다:
-
-    $collection = collect([
-        ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
-        ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
-    ]);
-
-    $collection->avg('pages');
-
-    // 636
+    // 2
 
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
@@ -284,6 +289,17 @@ Finally, you may also pass a callback to the `contains` method to perform your o
     });
 
     // false
+
+The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
+
+`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오. 
+
+<a name="method-containsstrict"></a>
+#### `containsStrict()` {#collection-method}
+
+This method has the same signature as the [`contains`](#method-contains) method; however, all values are compared using "strict" comparisons.
+
+이 메소드는 [`contains`](#method-contains) 메소드와 동일하게 사용되지만, "엄격한" 비교를 수행하는 것이 차이점입니다.
 
 <a name="method-count"></a>
 #### `count()` {#collection-method}
@@ -704,6 +720,17 @@ The `isEmpty` method returns `true` if the collection is empty; otherwise, `fals
 
     // true
 
+<a name="method-isnotempty"></a>
+#### `isNotEmpty()` {#collection-method}
+
+The `isNotEmpty` method returns `true` if the collection is not empty; otherwise, `false` is returned:
+
+`isNotEmpty` 메소드는 컬렉션이 비어 있지 않은 경우 `true` 를 반환하고, 그렇지 않은 경우 `false` 를 반환합니다:
+
+    collect([])->isNotEmpty();
+
+    // false
+
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
@@ -743,7 +770,6 @@ You may also pass a callback to the method. The callback should return the value
             'PROD-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
         ]
     */
-
 
 <a name="method-keys"></a>
 #### `keys()` {#collection-method}
@@ -853,12 +879,27 @@ The `max` method returns the maximum value of a given key:
 
     // 5
 
+<a name="method-median"></a>
+#### `median()` {#collection-method}
+
+The `median` method returns the [median value](https://en.wikipedia.org/wiki/Median) of a given key:
+
+`median` 메소드는 주어진 키에 대한 [중간값](https://en.wikipedia.org/wiki/Median)을 반환합니다
+
+    $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->median('foo');
+
+    // 15
+
+    $median = collect([1, 1, 2, 4])->median();
+
+    // 1.5
+
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-The `merge` method merges the given array with the original collection. If a string key in the given array matches a string key in the original collection, the given array's value will overwrite the value in the original collection:
+The `merge` method merges the given array or collection with the original collection. If a string key in the given items matches a string key in the original collection, the given items's value will overwrite the value in the original collection:
 
-`merge` 메소드는 주어진 배열을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 쓸 것입니다:
+`merge` 메소드는 주어진 배열 또는 컬렉션을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 쓸 것입니다:
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
@@ -868,9 +909,9 @@ The `merge` method merges the given array with the original collection. If a str
 
     // ['product_id' => 1, 'price' => 200, 'discount' => false]
 
-If the given array's keys are numeric, the values will be appended to the end of the collection:
+If the given items's keys are numeric, the values will be appended to the end of the collection:
 
-만약 주어진 배열의 키가 숫자라면, 이 값들은 컬렉션의 가장 마지막에 추가됩니다:
+만약 주어진 아이템의 키가 숫자라면, 이 값들은 컬렉션의 가장 마지막에 추가됩니다:
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -894,6 +935,21 @@ The `min` method returns the minimum value of a given key:
     $min = collect([1, 2, 3, 4, 5])->min();
 
     // 1
+
+<a name="method-mode"></a>
+#### `mode()` {#collection-method}
+
+The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(statistics)) of a given key:
+
+`mode` 메소드는 [확률분포에서의 중앙값](https://en.wikipedia.org/wiki/Mode_(statistics))을 반환합니다:
+
+    $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
+
+    // [10]
+
+    $mode = collect([1, 1, 2, 4])->mode();
+
+    // [1]
 
 <a name="method-nth"></a>
 #### `nth()` {#collection-method}
@@ -1181,9 +1237,9 @@ The `search` method searches the collection for the given value and returns its 
 
     // 1
 
-The search is done using a "loose" comparison, meaning a string with an integer value will be considered equal to an integer of the same value. To use strict comparison, pass `true` as the second argument to the method:
+The search is done using a "loose" comparison, meaning a string with an integer value will be considered equal to an integer of the same value. To use "strict" comparison, pass `true` as the second argument to the method:
 
-검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 엄격한 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다:
+검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 "엄격한" 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다:
 
     $collection->search('4', true);
 
@@ -1229,7 +1285,7 @@ The `shuffle` method randomly shuffles the items in the collection:
 
     $shuffled->all();
 
-    // [3, 2, 5, 1, 4] // (generated randomly)
+    // [3, 2, 5, 1, 4] - (generated randomly)
 
 <a name="method-slice"></a>
 #### `slice()` {#collection-method}
@@ -1256,9 +1312,9 @@ If you would like to limit the size of the returned slice, pass the desired size
 
     // [5, 6]
 
-The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the `values` method to reindex them.
+The returned slice will preserve keys by default. If you do not wish to preserve the original keys, you can use the [`values`](#method-values) method to reindex them.
 
-반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 `value` 메소드를 사용할 수 있습니다.
+반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 [`values`](#method-values) 메소드를 사용할 수 있습니다.
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
@@ -1472,6 +1528,22 @@ You may also pass a negative integer to take the specified amount of items from 
 
     // [4, 5]
 
+<a name="method-tap"></a>
+#### `tap()` {#collection-method}
+
+The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself:
+
+`tap` 메소드는 컬렉션에 콜백과 함께 전달되며, 원래의 컬렉션에 영향을 주지 않고 특정 지점에 대해서 어떤 작업을 수행하고자 할 때 사용됩니다:
+
+    collect([2, 4, 3, 1, 5])
+        ->sort()
+        ->tap(function ($collection) {
+            Log::debug('Values after sorting', $collection->values()->toArray());
+        })
+        ->shift();
+
+    // 1
+
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
@@ -1497,8 +1569,9 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
 #### `toJson()` {#collection-method}
 
 The `toJson` method converts the collection into JSON:
+The `toJson` method converts the collection into a JSON serialized string:
 
-`toJson` 메소드는 모든 컬렉션을 JSON으로 변환합니다:
+`toJson` 메소드는 모든 컬렉션을 JSON serialized 문자열으로 변환합니다:
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -1600,6 +1673,17 @@ You may also pass your own callback to determine item uniqueness:
         ]
     */
 
+The `unique` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`uniqueStrict`](#method-uniquestrict) method to filter using "strict" comparisons.
+
+`unique` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`uniqueStrict`](#method-uniquestrict) 메소드를 사용하십시오.
+
+<a name="method-uniquestrict"></a>
+#### `uniqueStrict()` {#collection-method}
+
+This method has the same signature as the [`unique`](#method-unique) method; however, all values are compared using "strict" comparisons.
+
+이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다. 
+
 <a name="method-values"></a>
 #### `values()` {#collection-method}
 
@@ -1659,15 +1743,15 @@ The `where` method filters the collection by a given key / value pair:
     $filtered->all();
 
     /*
-    [
-        ['product' => 'Chair', 'price' => 100],
-        ['product' => 'Door', 'price' => 100],
-    ]
+        [
+            ['product' => 'Chair', 'price' => 100],
+            ['product' => 'Door', 'price' => 100],
+        ]
     */
 
-The `where` method uses loose comparisons when checking item values. Use the [`whereStrict`](#method-wherestrict) method to filter using "strict" comparisons.
+The `where` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereStrict`](#method-wherestrict) method to filter using "strict" comparisons.
 
-`where` 메소드는 아이템의 값을 확인할 때 타입을 엄격하게 비교합니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오.
+`where` 메소드는 아이템의 값을 확인할 때 타입을 "느슨한" 비교 수행하기 때문에, 문자형으로 된 정수값이라도 정수형과 동일하다고 판단합니다. "엄격한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오.
 
 <a name="method-wherestrict"></a>
 #### `whereStrict()` {#collection-method}
@@ -1695,20 +1779,20 @@ The `whereIn` method filters the collection by a given key / value contained wit
     $filtered->all();
 
     /*
-    [
-        ['product' => 'Bookcase', 'price' => 150],
-        ['product' => 'Desk', 'price' => 200],
-    ]
+        [
+            ['product' => 'Bookcase', 'price' => 150],
+            ['product' => 'Desk', 'price' => 200],
+        ]
     */
 
-The `whereIn` method uses "loose" comparisons when checking item values. Use the [`whereInStrict`](#method-whereinstrict) method to filter using strict comparisons.
+The `whereIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereInStrict`](#method-whereinstrict) method to filter using "strict" comparisons.
 
-`whereIn` 메소드는 아이템 값을 "느슨하게" 비교합니다. "엄격한" 비교를 통해서 필터링 하려면 [`whereInStrict`](#method-whereinstrict) 메소드를 사용하십시오.
+`whereIn` 메소드는 아이템 값을 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. "엄격한" 비교를 통해서 필터링 하려면 [`whereInStrict`](#method-whereinstrict) 메소드를 사용하십시오.
 
 <a name="method-whereinstrict"></a>
 #### `whereInStrict()` {#collection-method}
 
-This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using strict comparisons.
+This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "strict" comparisons.
 
 이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "엄격한" 비교를 진행합니다.
 
@@ -1733,22 +1817,22 @@ The `whereNotIn` method filters the collection by a given key / value not contai
     $filtered->all();
 
     /*
-    [
-        ['product' => 'Chair', 'price' => 100],
-        ['product' => 'Door', 'price' => 100],
-    ]
+        [
+            ['product' => 'Chair', 'price' => 100],
+            ['product' => 'Door', 'price' => 100],
+        ]
     */
 
-The `whereNotIn` method uses "loose" comparisons when checking item values. Use the [`whereNotInStrict`](#method-wherenotinstrict) method to filter using strict comparisons.
+The `whereNotIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereNotInStrict`](#method-wherenotinstrict) method to filter using "strict" comparisons.
 
-`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨한" 비교를 수행합니다. (타입을 엄격하게 비교하지 않습니다) 엄격한 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.  
+`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.  
 
 <a name="method-wherenotinstrict"></a>
 #### `whereNotInStrict()` {#collection-method}
 
-This method has the same signature as the [`whereNotIn`](#method-wherenotin) method; however, all values are compared using strict comparisons.
+This method has the same signature as the [`whereNotIn`](#method-wherenotin) method; however, all values are compared using "strict" comparisons.
 
-이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 엄격한 비교를 수행합니다.
+이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 "엄격한" 비교를 수행합니다.
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

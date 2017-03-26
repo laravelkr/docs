@@ -53,6 +53,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [collapse](#method-collapse)
 [combine](#method-combine)
 [contains](#method-contains)
+[containsStrict](#method-containsstrict)
 [count](#method-count)
 [diff](#method-diff)
 [diffKeys](#method-diffkeys)
@@ -72,14 +73,17 @@ For the remainder of this documentation, we'll discuss each method available on 
 [implode](#method-implode)
 [intersect](#method-intersect)
 [isEmpty](#method-isempty)
+[isNotEmpty](#method-isnotempty)
 [keyBy](#method-keyby)
 [keys](#method-keys)
 [last](#method-last)
 [map](#method-map)
 [mapWithKeys](#method-mapwithkeys)
 [max](#method-max)
+[median](#method-median)
 [merge](#method-merge)
 [min](#method-min)
+[mode](#method-mode)
 [nth](#method-nth)
 [only](#method-only)
 [partition](#method-partition)
@@ -105,11 +109,13 @@ For the remainder of this documentation, we'll discuss each method available on 
 [split](#method-split)
 [sum](#method-sum)
 [take](#method-take)
+[tap](#method-tap)
 [toArray](#method-toarray)
 [toJson](#method-tojson)
 [transform](#method-transform)
 [union](#method-union)
 [unique](#method-unique)
+[uniqueStrict](#method-uniquestrict)
 [values](#method-values)
 [when](#method-when)
 [where](#method-where)
@@ -147,22 +153,15 @@ The `all` method returns the underlying array represented by the collection:
 <a name="method-avg"></a>
 #### `avg()` {#collection-method}
 
-The `avg` method returns the average of all items in the collection:
+The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Average) of a given key:
 
-    collect([1, 2, 3, 4, 5])->avg();
+    $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
 
-    // 3
+    // 20
 
-If the collection contains nested arrays or objects, you should pass a key to use for determining which values to calculate the average:
+    $average = collect([1, 1, 2, 4])->avg();
 
-    $collection = collect([
-        ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
-        ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
-    ]);
-
-    $collection->avg('pages');
-
-    // 636
+    // 2
 
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
@@ -248,6 +247,12 @@ Finally, you may also pass a callback to the `contains` method to perform your o
     });
 
     // false
+
+The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the `containsStrict` method to filter using "strict" comparisons.
+
+#### `containsStrict()` {#collection-method}
+
+This method has the same signature as the `contains` method; however, all values are compared using "strict" comparisons.
 
 <a name="method-count"></a>
 #### `count()` {#collection-method}
@@ -606,6 +611,15 @@ The `isEmpty` method returns `true` if the collection is empty; otherwise, `fals
 
     // true
 
+<a name="method-isnotempty"></a>
+#### `isNotEmpty()` {#collection-method}
+
+The `isNotEmpty` method returns `true` if the collection is not empty; otherwise, `false` is returned:
+
+    collect([])->isNotEmpty();
+
+    // false
+
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
@@ -737,6 +751,19 @@ The `max` method returns the maximum value of a given key:
 
     // 5
 
+<a name="method-median"></a>
+#### `median()` {#collection-method}
+
+The `median` method returns the [median value](https://en.wikipedia.org/wiki/Median) of a given key:
+
+    $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->median('foo');
+
+    // 15
+
+    $median = collect([1, 1, 2, 4])->median();
+
+    // 1.5
+
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
@@ -772,6 +799,19 @@ The `min` method returns the minimum value of a given key:
     $min = collect([1, 2, 3, 4, 5])->min();
 
     // 1
+
+<a name="method-mode"></a>
+#### `mode()` {#collection-method}
+
+The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(statistics)) of a given key:
+
+    $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
+
+    // [10]
+
+    $mode = collect([1, 1, 2, 4])->mode();
+
+    // [1]
 
 <a name="method-nth"></a>
 #### `nth()` {#collection-method}
@@ -1260,6 +1300,20 @@ You may also pass a negative integer to take the specified amount of items from 
 
     // [4, 5]
 
+<a name="method-tap"></a>
+#### `tap()` {#collection-method}
+
+The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself:
+
+    collect([2, 4, 3, 1, 5])
+        ->sort()
+        ->tap(function ($collection) {
+            Log::debug('Values after sorting', $collection->values()->toArray());
+        })
+        ->shift();
+
+    // 1
+
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
@@ -1368,6 +1422,13 @@ You may also pass your own callback to determine item uniqueness:
             ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
         ]
     */
+
+The `unique` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the `uniqueStrict` method to filter using "strict" comparisons.
+
+<a name="method-uniquestrict"></a>
+#### `uniqueStrict()` {#collection-method}
+
+This method has the same signature as the `unique` method; however, all values are compared using "strict" comparisons.
 
 <a name="method-values"></a>
 #### `values()` {#collection-method}

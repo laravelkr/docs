@@ -370,17 +370,15 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
 
 라라벨 5.4의 테스팅 레이어는 새롭게 작성되어 별다른 설정없이도 보다 간단하고 더 가벼워졌습니다. 라라벨 5.3의 테스팅 레이어를 계속 사용하고자 한다면 어플리케이션에 `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing)를 설치해야 합니다. 이 패키지는 라라벨 5.3 테스팅과 관련된 전체적인 호환성을 지원합니다. 사실, 라라벨 5.3의 테스트 레이어를 사용하면서 라라벨 5.4의 테스트 레이어를 같이 실행할 수 있습니다.
 
-라라벨 5.3에서 작성된 테스트가 있고 라라벨의 새로운 테스트 레이어와 함께 테스트를 진행하려면, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
-
-#### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
-
-시작하기에 앞서, `composer.json` 파일의 `autoload-dev` 부분에 `Tests` 네임스페이스가 추가되어 있는지 확인하십시오. 이렇게하면 라라벨 5.4 테스트 제너레이터를 사용하여 생성 한 모든 새로운 테스트 클래스를 라라벨에서 오도토드 할 수 있습니다:
+라라벨이 라라벨 5.4 테스트 제너레이터를 통해서 생성한 새로운 테스트를 오토로딩할 수 있도록 `Tests` 네임스페이스를 `composer.json` 파일의 `autoload-dev` 부분에 추가해야 합니다:
 
     "psr-4": {
         "Tests\\": "tests/"
     }
 
-그 다음, `laravel/browser-kit-testing` 패키지를 설치하십시오: 
+#### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
+
+먼저, `laravel/browser-kit-testing` 패키지를 설치하십시오:
 
     composer require laravel/browser-kit-testing
 

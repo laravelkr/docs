@@ -386,11 +386,21 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 `firstOrCreate`와 같이 `firstOrNew` 메소드도 주어진 속성들에 해당하는 레코드를 데이터베이스에서 찾으려고 시도할 것입니다. 하지만 모델을 찾을 수 없으면 새로운 모델 인스턴스가 반환될 것입니다. `firstOrNew`에 의해 반환된 모델은 아직 데이터베이스에서 저장되지 않았다는 점에 주의하십시오. 모델을 저장하기 위해서는 `save`를 수동으로 호출해야 합니다:
 
-    // Retrieve the flight by the attributes, or create it if it doesn't exist...
+    // Retrieve flight by name, or create it if it doesn't exist...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
 
-    // Retrieve the flight by the attributes, or instantiate a new instance...
+    // Retrieve flight by name, or create it with the name and delayed attributes...
+    $flight = App\Flight::firstOrCreate(
+        ['name' => 'Flight 10'], ['delayed' => 1]
+    );
+
+    // Retrieve by name, or instantiate...
     $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+
+    // Retrieve by name, or instantiate with the name and delayed attributes...
+    $flight = App\Flight::firstOrNew(
+        ['name' => 'Flight 10'], ['delayed' => 1]
+    );
 
 #### `updateOrCreate`
 

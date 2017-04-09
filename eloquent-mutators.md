@@ -157,7 +157,7 @@ mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * The attributes that should be cast to native types.
          *
          * @var array
          */
@@ -188,7 +188,7 @@ mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * The attributes that should be cast to native types.
          *
          * @var array
          */

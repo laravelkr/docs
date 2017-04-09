@@ -108,7 +108,7 @@
 
     namespace App\Http\Controllers;
 
-    use Cache;
+    use Illuminate\Support\Facades\Cache;
     use App\Http\Controllers\Controller;
 
     class UserController extends Controller

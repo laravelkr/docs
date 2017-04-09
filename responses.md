@@ -214,6 +214,8 @@ JSONP response 를 생성하고자 한다면, `json` 메소드와 `setCallback`�
 
     return response()->download($pathToFile, $name, $headers);
 
+    return response()->download($pathToFile)->deleteFileAfterSend(true);
+
 > {note} 파일 다운로드를 관리하는 Symfony HttpFoundation 클래스는 ASCII 형식의 파일 이름을 지정해야 합니다.
 
 <a name="file-responses"></a>

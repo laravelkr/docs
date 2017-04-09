@@ -109,6 +109,7 @@
 - [sum](#method-sum)
 - [take](#method-take)
 - [tap](#method-tap)
+- [times](#method-times)
 - [toArray](#method-toarray)
 - [toJson](#method-tojson)
 - [transform](#method-transform)
@@ -1319,6 +1320,35 @@
 
     // 1
 
+<a name="method-times"></a>
+#### `times()` {#collection-method}
+
+`times` 메소드는 주어진 양의 횟수만큼 콜백을 수행한 결과로 새로운 컬렉션을 생성합니다:
+
+    $collection = Collection::times(10, function ($number) {
+        return $number * 9;
+    });
+
+    $collection->all();
+
+    // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
+
+이 메소드는 [Eloquent](/docs/{{version}}/eloquent) 모델을 생성하는 팩토리와 조합할 때 유용합니다.
+
+    $categories = Collection::times(3, function ($number) {
+        return factory(Category::class)->create(['name' => 'Category #'.$number]);
+    });
+
+    $categories->all();
+
+    /*
+        [
+            ['id' => 1, 'name' => 'Category #1'],
+            ['id' => 2, 'name' => 'Category #2'],
+            ['id' => 3, 'name' => 'Category #3'],
+        ]
+    */
+
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
@@ -1579,7 +1609,7 @@
 <a name="higher-order-messages"></a>
 ## Higher Order Messages
 
-컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
 
 각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다:
 

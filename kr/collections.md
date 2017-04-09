@@ -127,6 +127,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [sum](#method-sum)
 [take](#method-take)
 [tap](#method-tap)
+[times](#method-times)
 [toArray](#method-toarray)
 [toJson](#method-tojson)
 [transform](#method-transform)
@@ -1544,6 +1545,39 @@ The `tap` method passes the collection to the given callback, allowing you to "t
 
     // 1
 
+<a name="method-times"></a>
+#### `times()` {#collection-method}
+
+The static `times` method creates a new collection by invoking the callback a given amount of times:
+
+`times` 메소드는 주어진 양의 횟수만큼 콜백을 수행한 결과로 새로운 컬렉션을 생성합니다:
+
+    $collection = Collection::times(10, function ($number) {
+        return $number * 9;
+    });
+
+    $collection->all();
+
+    // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
+
+This method can be useful when combined with factories to create [Eloquent](/docs/{{version}}/eloquent) models:
+
+이 메소드는 [Eloquent](/docs/{{version}}/eloquent) 모델을 생성하는 팩토리와 조합할 때 유용합니다.
+
+    $categories = Collection::times(3, function ($number) {
+        return factory(Category::class)->create(['name' => 'Category #'.$number]);
+    });
+
+    $categories->all();
+
+    /*
+        [
+            ['id' => 1, 'name' => 'Category #1'],
+            ['id' => 2, 'name' => 'Category #2'],
+            ['id' => 3, 'name' => 'Category #3'],
+        ]
+    */
+
 <a name="method-toarray"></a>
 #### `toArray()` {#collection-method}
 
@@ -1855,7 +1889,7 @@ The `zip` method merges together the values of the given array with the values o
 
 Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
 
-컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 입니다.
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 

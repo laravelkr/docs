@@ -51,6 +51,12 @@
     - [Shorthand Selectors](#shorthand-selectors)
     - [Page Methods](#page-methods)
     - [Page Methods](#page-methods)
+- [Continuous Integration](#continuous-integration)
+- [CI - 지속적 통합](#continuous-integration)
+    - [Travis CI](#running-tests-on-travis-ci)
+    - [Travis CI](#running-tests-on-travis-ci)
+    - [CircleCI](#running-tests-on-circle-ci)
+    - [CircleCI](#running-tests-on-circle-ci)
 
 <a name="introduction"></a>
 ## Introduction
@@ -796,3 +802,48 @@ Once the method has been defined, you may use it within any test that utilizes t
     $browser->visit(new Dashboard)
             ->createPlaylist('My Playlist')
             ->assertSee('My Playlist');
+
+
+<a name="continuous-integration"></a>
+## Continuous Integration
+## CI - 지속적 통합
+
+<a name="running-tests-on-travis-ci"></a>
+### Travis CI
+### Travis CI
+
+To run your Dusk tests on Travis CI, we will need to use the "sudo-enabled" Ubuntu 14.04 (Trusty) environment. Since Travis CI is not a graphical environment, we will need to take some extra steps in order to launch a Chrome browser. In addition, we will use `php artisan serve` to launch PHP's built-in web server:
+
+Travis CI에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 가능한 우분투 14.04 (Trusty) 환경을 사용해야 합니다. Travis CI는 그래픽 환경이 아니기 때문에, 크롬 브라우저를 구동하기 위해서는 몇가지 별도의 작업을 필요로 합니다. 추가적으로 PHP 내장 브라우저를 구동하기 위해서 `php artisan serve`를 사용할 수 있습니다:
+
+    sudo: required
+    dist: trusty
+
+    before_script:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - ./vendor/laravel/dusk/bin/chromedriver-linux &
+        - cp .env.testing .env
+        - php artisan serve &
+
+    script:
+        - php artisan dusk
+
+<a name="running-tests-on-circle-ci"></a>
+### CircleCI
+### CircleCI
+
+If you are using CircleCI to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
+
+CircleCI에서 Dusk 테스트를 수행하기 위해서는 다음 설정 파일을 사용할 수 있습니다. TravisCI와 같이, PHP 내장 웹서버를 실행하기 위해서 `php artisan serve` 를 사용할 수 있습니다:
+
+    test:
+        pre:
+            - "./vendor/laravel/dusk/bin/chromedriver-linux":
+                background: true
+            - cp .env.testing .env
+            - "php artisan serve":
+                background: true
+
+        override:
+            - php artisan dusk

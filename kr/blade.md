@@ -204,25 +204,6 @@ Of course, you are not limited to displaying the contents of the variables passe
 
 > {note} 블레이드 `{{ }}` 문장들은 XSS 공격을 방지하기 위해 자동으로 PHP의 'htmlspecialchars' 함수를 통과합니다.
 
-#### Echoing Data If It Exists
-#### 데이터가 존재할 때 출력하기
-
-Sometimes you may wish to echo a variable, but you aren't sure if the variable has been set. We can express this in verbose PHP code like so:
-
-때로는 변수를 출력하고자 할 때 해당 변수가 존재하는지 정확하게 알지 못할 수도 있습니다. 이경우 PHP 코드로 다음과 같이 길게 표현될 수 있습니다:
-
-    {{ isset($name) ? $name : 'Default' }}
-
-However, instead of writing a ternary statement, Blade provides you with the following convenient shortcut, which will be compiled to the ternary statement above:
-
-하지만 이 경우 삼항연산자를 작성하는 대신 블레이드에서는 삼항 연산자로 컴파일 되는 편리한 단축표현을 사용할 수 있습니다: 
-
-    {{ $name or 'Default' }}
-
-In this example, if the `$name` variable exists, its value will be displayed. However, if it does not exist, the word `Default` will be displayed.
-
-이 예제의 경우 `$name` 변수가 존재한다면 해당 값이 표시될 것입니다. 하지만 값이 존재하지 않는다면 `Default` 가 표시될 것입니다. 
-
 #### Displaying Unescaped Data
 #### Escape 처리되지 않은 데이터 표시하기
 

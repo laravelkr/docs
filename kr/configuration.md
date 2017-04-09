@@ -5,6 +5,8 @@
 - [소개하기](#introduction)
 - [Environment Configuration](#environment-configuration)
 - [구동환경 설정](#environment-configuration)
+    - [Retrieving Environment Configuration](#retrieving-environment-configuration)
+    - [구동환경 조회하기](#retrieving-environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
     - [현재 구동환경 결정하기](#determining-the-current-environment)
 - [Accessing Configuration Values](#accessing-configuration-values)
@@ -26,7 +28,7 @@ All of the configuration files for the Laravel framework are stored in the `conf
 ## Environment Configuration
 ## 구동환경 설정
 
-It is often helpful to have different configuration values based on the environment the application is running in. For example, you may wish to use a different cache driver locally than you do on your production server.
+It is often helpful to have different configuration values based on the environment where the application is running. For example, you may wish to use a different cache driver locally than you do on your production server.
 
 프로그램이 실행되는 구동환경에따라 다른 설정값을 사용할 수 있으면 많은 이점이 있습니다. 예를 들어 실제 제품 서버와 로컬 개발 서버에 각각 다른 캐시 드라이버를 사용하려고 하는 경우가 그렇습니다.
 
@@ -34,12 +36,21 @@ To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/ph
 
 보다 확실하게 하기 위해서 라라벨은 Vance Lucas가 만든 PHP 라이브러리 [DotEnv](https://github.com/vlucas/phpdotenv)을 이용합니다. 새롭게 라라벨을 인스톨 한경우에 어플리케이션의 루트 디렉토리에 `.env.example` 파일이 포함되어 있습니다. 컴포저를 통해서 설치한 경우에는 이 파일이 자동으로 `.env`파일로 변경됩니다. 컴포저를 사용하지 않는다면 직접 파일을 변경하십시오.
 
-> {tip} You may also create a `.env.testing` file. This file will override values from the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gain access to your source control repository, since any sensitive credentials would get exposed.
 
-> {tip} 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env` 값을 오버라이드 합니다.
+개별 개발자와 서버에서 어플리케이션별로 다른 구동 환경 설정을 필요로 하기 때문에, `.env` 파일을 어플리케이션의 소스 컨트롤 시스템에 커밋하지 않아야 합니다. 또한 이는 공격자가 소스 컨트롤 저장소에 엑세스 권한을 얻게 되는 경우에, 민감한 계정정보가 노출될 위험이 있어 보안 취약점이 될 수도 있습니다.
 
-#### Retrieving Environment Configuration
-#### 구동환경 조회하기
+If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting place-holder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application. You may also create a `.env.testing` file. This file will override values from the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+
+팀으로 개발을 하는 경우라면 `.env.example` 파일을 어플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 어플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env` 값을 오버라이드 합니다.
+
+> {tip} Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
+
+> {tip} `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
+
+<a name="retrieving-environment-configuration"></a>
+### Retrieving Environment Configuration
+### 구동환경 조회하기
 
 All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice several of the options already using this helper:
 
@@ -54,10 +65,6 @@ The second value passed to the `env` function is the "default value". This value
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration.
 
 개별 개발자와 서버에서 어플리케이션별로 다른 구동 환경 설정을 필요로 하기 때문에, `.env` 파일을 어플리케이션의 소스 컨트롤 시스템에 커밋하지 않아야 합니다. 
-
-If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting place-holder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
-
-팀으로 개발을 하는 경우라면 `.env.example` 파일을 어플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 어플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다.
 
 <a name="determining-the-current-environment"></a>
 ### Determining The Current Environment
@@ -80,6 +87,10 @@ You may also pass arguments to the `environment` method to check if the environm
     if (App::environment('local', 'staging')) {
         // The environment is either local OR staging...
     }
+
+> {tip} The current application environment detection can be overriden by a server-level `APP_ENV` environment variable. This can be useful when you need to share the same application for different environment configurations, so you can set up a given host to match a given environment in your server's configurations.
+
+> {tip} 현재의 어플리케이션 구동 환경의 감지하는 것은 서버의 APP_ENV 환경 변수에 의해서 오버라이딩 될 수 있습니다. 이 기능은 여러개의 환경 구성에 동일한 어플리케이션을 공유해야 할 때 유용하며, 따라서 여러분은 주어진 호스트가 주어진 환경과 매칭되도록 설정할 수 있습니다.
 
 <a name="accessing-configuration-values"></a>
 ## Accessing Configuration Values

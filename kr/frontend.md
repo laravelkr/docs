@@ -21,32 +21,28 @@ While Laravel does not dictate which JavaScript or CSS pre-processors you use, i
 #### CSS
 #### CSS
 
-[Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable.
+[Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable. In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
 
-[라라벨 Mix](/docs/{{version}}/mix)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 
-
-In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
-
-이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Mix 문서](/docs/{{version}}/mix)에서 확인할 수 있습니다:
+[라라벨 Mix](/docs/{{version}}/mix)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Mix 문서](/docs/{{version}}/mix)에서 확인할 수 있습니다:
 
 #### JavaScript
 #### 자바스크립트
 
-Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components.
+Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components. As with CSS, we may use Laravel Mix to easily compile JavaScript components into a single, browser-ready JavaScript file.
 
-라라벨은 어플리케이션을 구성하기 위해서 지정된 자바스크립트 프레임워크나 라이브러리를 사용하는 것을 요구하지 않습니다. 사실, 모든 곳에 자바스크립트를 사용할 필요는 없습니다. 하지만 라라벨은 [Vue](https://vuejs.org)라이브러리르 사용하여 현대적인 자바스크립트를 작성하는 일을 시작하는 것을 보다 쉽게 만들어 주는 몇몇 기본적인 스캐폴딩을 포함하고 있습니다. Vue는 컴포넌트를 사용하여 자바스크립트 어플리케이션을 구성하는는데 풍부한 표현이 가능한 API를 제공합니다. 
+라라벨은 어플리케이션을 구성하기 위해서 지정된 자바스크립트 프레임워크나 라이브러리를 사용하는 것을 요구하지 않습니다. 사실, 모든 곳에 자바스크립트를 사용할 필요는 없습니다. 하지만 라라벨은 [Vue](https://vuejs.org)라이브러리르 사용하여 현대적인 자바스크립트를 작성하는 일을 시작하는 것을 보다 쉽게 만들어 주는 몇몇 기본적인 스캐폴딩을 포함하고 있습니다. Vue는 컴포넌트를 사용하여 자바스크립트 어플리케이션을 구성하는는데 풍부한 표현이 가능한 API를 제공합니다. CSS와 마찬가지로, 라라벨 Mix를 사용하여 자바스크립트 컴포넌트를 브라우저에서 사용가능한 하나의 자바스크립트 파일로 컴파일 할 수 있습니다.
 
 <a name="writing-css"></a>
 ## Writing CSS
 ## CSS 작성하기
 
-The Laravel `package.json` file includes the `bootstrap-sass` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is simply provided as a good starting point for those who choose to use it.
+Laravel's `package.json` file includes the `bootstrap-sass` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is simply provided as a good starting point for those who choose to use it.
 
 라라벨의 `package.json` 파일은 부트스트랩을 사용하여 어플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap-sass` 패키지를 포함하고 있습니다. 그렇지만 어플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 어플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 간단한 시작점을 제공하고 있을 뿐입니다.
 
-Before compiling your CSS, install your project's frontend dependencies using NPM:
+Before compiling your CSS, install your project's frontend dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
 
-CSS 를 컴파일 하기 전에, NPM을 사용하여 여러분의 프로젝트의 프론트엔드 의존성을 설치하십시오:
+CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.npmjs.org)을 사용하여 여러분의 프로젝트의 프론트엔드 의존성을 설치하십시오:
 
     npm install
 
@@ -70,9 +66,9 @@ All of the JavaScript dependencies required by your application can be found in 
 
     npm install
 
-By default, the Laravel `package.json` file includes a few packages such as `vue` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
+> {tip} By default, the Laravel `package.json` file includes a few packages such as `vue` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
 
-기본적으로 라라벨의 `package.json` 파일은 자바스크립트 어플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 어플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
+> {tip} 기본적으로 라라벨의 `package.json` 파일은 자바스크립트 어플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 어플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
 
 Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
 

@@ -1276,6 +1276,10 @@ In the example above, the `email` field will only be validated if it is present 
 
 이 예제에서는 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
 
+> {tip} If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields)
+
+> {tip} 필드가 항상 존재하고 비어있지 않은지 확인하고자 한다면, [선택적 필드 부분을](#a-note-on-optional-fields) 참고하십시오.
+
 #### Complex Conditional Validation
 #### 복잡한 조건부 유효성 검사
 

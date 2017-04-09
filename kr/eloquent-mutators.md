@@ -198,7 +198,7 @@ For example, let's cast the `is_admin` attribute, which is stored in our databas
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * The attributes that should be cast to native types.
          *
          * @var array
          */
@@ -234,7 +234,7 @@ The `array` cast type is particularly useful when working with columns that are 
     class User extends Model
     {
         /**
-         * The attributes that should be casted to native types.
+         * The attributes that should be cast to native types.
          *
          * @var array
          */

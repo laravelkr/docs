@@ -1,5 +1,5 @@
-- Prologue
-- 프롤로그
+- ## Prologue
+- ## 프롤로그
     - [Release Notes](/docs/{{version}}/releases)
     - [릴리즈 노트](/docs/{{version}}/releases)
     - [Upgrade Guide](/docs/{{version}}/upgrade)
@@ -8,24 +8,22 @@
     - [기여 가이드](/docs/{{version}}/contributions)
     - [API Documentation](/api/{{version}})
     - [API 문서](/api/{{version}})
-- Getting Started
-- 시작하기
+- ## Getting Started
+- ## 시작하기
     - [Installation](/docs/{{version}}/installation)
     - [설치하기](/docs/{{version}}/installation)
     - [Configuration](/docs/{{version}}/configuration)
     - [설정하기](/docs/{{version}}/configuration)
     - [Directory Structure](/docs/{{version}}/structure)
     - [디렉토리 구조](/docs/{{version}}/structure)
-    - [Request Lifecycle](/docs/{{version}}/lifecycle)
-    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
-- Dev Environments
-- 개발 환경
     - [Homestead](/docs/{{version}}/homestead)
     - [홈스테드](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
     - [발렛-Valet](/docs/{{version}}/valet)
-- Core Concepts
-- 핵심 컨셉
+- ## Architecture Concepts
+- ## 설계 컨셉
+    - [Request Lifecycle](/docs/{{version}}/lifecycle)
+    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [Service Container](/docs/{{version}}/container)
     - [서비스 컨테이너](/docs/{{version}}/container)
     - [Service Providers](/docs/{{version}}/providers)
@@ -34,8 +32,8 @@
     - [파사드](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)
     - [Contracts](/docs/{{version}}/contracts)
-- The HTTP Layer
-- HTTP 레이어
+- ## The Basics
+- ## 기본적인 사항들
     - [Routing](/docs/{{version}}/routing)
     - [라우팅](/docs/{{version}}/routing)
     - [Middleware](/docs/{{version}}/middleware)
@@ -54,8 +52,10 @@
     - [세션](/docs/{{version}}/session)
     - [Validation](/docs/{{version}}/validation)
     - [Validation-유효성검사](/docs/{{version}}/validation)
-- Frontend
-- 프론트엔드
+    - [Errors & Logging](/docs/{{version}}/errors)
+    - [에러 & 로깅](/docs/{{version}}/errors)
+- ## Frontend
+- ## 프론트엔드
     - [Blade Templates](/docs/{{version}}/blade)
     - [블레이드 템플릿](/docs/{{version}}/blade)
     - [Localization](/docs/{{version}}/localization)
@@ -64,8 +64,8 @@
     - [프론트엔드 스캐폴딩](/docs/{{version}}/frontend)
     - [Compiling Assets](/docs/{{version}}/mix)
     - [Assets 컴파일](/docs/{{version}}/mix)
-- Security
-- 보안
+- ## Security
+- ## 보안
     - [Authentication](/docs/{{version}}/authentication)
     - [인증](/docs/{{version}}/authentication)
     - [API Authentication](/docs/{{version}}/passport)
@@ -78,8 +78,8 @@
     - [해싱](/docs/{{version}}/hashing)
     - [Password Reset](/docs/{{version}}/passwords)
     - [패스워드 재설정](/docs/{{version}}/passwords)
-- General Topics
-- 일반적인 기능들
+- ## Digging Deeper
+- ## 고급 기능들
     - [Artisan Console](/docs/{{version}}/artisan)
     - [아티즌 콘솔](/docs/{{version}}/artisan)
     - [Broadcasting](/docs/{{version}}/broadcasting)
@@ -88,8 +88,6 @@
     - [캐시](/docs/{{version}}/cache)
     - [Collections](/docs/{{version}}/eloquent-collections)
     - [컬렉션](/docs/{{version}}/eloquent-collections)
-    - [Errors & Logging](/docs/{{version}}/errors)
-    - [에러 & 로깅](/docs/{{version}}/errors)
     - [Events](/docs/{{version}}/events)
     - [이벤트](/docs/{{version}}/events)
     - [File Storage](/docs/{{version}}/filesystem)
@@ -100,14 +98,14 @@
     - [메일](/docs/{{version}}/mail)
     - [Notifications](/docs/{{version}}/notifications)
     - [Notifications-알림](/docs/{{version}}/notifications)
-    - [Packages](/docs/{{version}}/packages)
+    - [Package Development](/docs/{{version}}/packages)
     - [패키지 개발](/docs/{{version}}/packages)
     - [Queues](/docs/{{version}}/queues)
     - [Queues-큐](/docs/{{version}}/queues)
-    - [Scheduled Tasks](/docs/{{version}}/scheduling)
+    - [Task Scheduling](/docs/{{version}}/scheduling)
     - [작업 스케줄링](/docs/{{version}}/scheduling)
-- Database
-- 데이터베이스
+- ## Database
+- ## 데이터베이스
     - [Getting Started](/docs/{{version}}/database)
     - [시작하기](/docs/{{version}}/database)
     - [Query Builder](/docs/{{version}}/queries)
@@ -120,8 +118,8 @@
     - [Seeding-시딩](/docs/{{version}}/seeding)
     - [Redis](/docs/{{version}}/redis)
     - [Redis-레디스](/docs/{{version}}/redis)
-- Eloquent ORM
-- Eloquent ORM
+- ## Eloquent ORM
+- ## Eloquent ORM
     - [Getting Started](/docs/{{version}}/eloquent)
     - [시작하기](/docs/{{version}}/eloquent)
     - [Relationships](/docs/{{version}}/eloquent-relationships)
@@ -130,8 +128,8 @@
     - [Mutators](/docs/{{version}}/eloquent-mutators)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
-- Testing
-- 테스팅
+- ## Testing
+- ## Testing
     - [Getting Started](/docs/{{version}}/testing)
     - [시작하기](/docs/{{version}}/testing)
     - [HTTP Tests](/docs/{{version}}/http-tests)
@@ -142,8 +140,8 @@
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)
     - [Mocking](/docs/{{version}}/mocking)
-- Official Packages
-- Official Packages
+- ## Official Packages
+- ## 공식 패키지들
     - [Cashier](/docs/{{version}}/billing)
     - [캐셔-biling](/docs/{{version}}/billing)
     - [Envoy](/docs/{{version}}/envoy)

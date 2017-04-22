@@ -1,5 +1,5 @@
-# Event Broadcasting
-# 이벤트 브로드캐스팅
+# Broadcasting
+# 브로드캐스팅
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)

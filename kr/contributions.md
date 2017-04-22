@@ -34,10 +34,10 @@ The Laravel source code is managed on Github, and there are repositories for eac
 
 라라벨의 소스 코드는 GitHub에서 관리되며 각각의 라라벨 프로젝트의 저장소가 있습니다.
 
-- [Laravel Framework](https://github.com/laravel/framework)
-- [라라벨 프레임워크](https://github.com/laravel/framework)
 - [Laravel Application](https://github.com/laravel/laravel)
 - [라라벨 어플리케이션](https://github.com/laravel/laravel)
+- [Laravel Art](https://github.com/laravel/art)
+- [라라벨 아트웤](https://github.com/laravel/art)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [라라벨 매뉴얼](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)
@@ -46,6 +46,8 @@ The Laravel source code is managed on Github, and there are repositories for eac
 - [Braintree를 위한 라라벨 캐셔](https://github.com/laravel/cashier-braintree)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [라라벨 Envoy](https://github.com/laravel/envoy)
+- [Laravel Framework](https://github.com/laravel/framework)
+- [라라벨 프레임워크](https://github.com/laravel/framework)
 - [Laravel Homestead](https://github.com/laravel/homestead)
 - [라라벨 홈스테드](https://github.com/laravel/homestead)
 - [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
@@ -58,8 +60,6 @@ The Laravel source code is managed on Github, and there are repositories for eac
 - [라라벨 Socialite](https://github.com/laravel/socialite)
 - [Laravel Website](https://github.com/laravel/laravel.com)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com)
-- [Laravel Art](https://github.com/laravel/art)
-- [라라벨 아트웤](https://github.com/laravel/art)
 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion

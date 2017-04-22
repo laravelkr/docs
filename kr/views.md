@@ -14,6 +14,10 @@
 ## Creating Views
 ## 뷰 생성하기
 
+> {tip} Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
+
+> {tip} 블레이드 템플릿을 작성하는 방법에 대한 자세한 정보는 [블레이드 문서](/docs/{{version}}/blade)를 확인하십시오.
+
 Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
 
 뷰는 어플리케이션과 에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 어플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다: 

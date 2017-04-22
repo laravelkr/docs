@@ -1,4 +1,4 @@
-# Helper Functions
+# Helpers
 # 헬퍼 함수들
 
 - [Introduction](#introduction)

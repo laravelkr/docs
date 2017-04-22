@@ -227,6 +227,7 @@ Method  | Description
 `$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
 `$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
 `$response->assertJsonFragment(array $data);`  |  Assert that the response contains the given JSON fragment.
+`$response->assertJsonMissing(array $data);`  |  Assert that the response does not contain the given JSON fragment.
 `$response->assertExactJson(array $data);`  |  Assert that the response contains an exact match of the given JSON data.
 `$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
 `$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
@@ -243,6 +244,7 @@ Method  | Description
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
 `$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
 `$response->assertJsonFragment(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있는지 확인
+`$response->assertJsonMissing(array $data);`  |  응답에 주어진 JOSN 내용이 포함되어 있지 않은 것을 확인.
 `$response->assertExactJson(array $data);`  |  응답에 주어진 JSON 데이터와 정확하게 일치하게 포함되어 있는지 확인.
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.

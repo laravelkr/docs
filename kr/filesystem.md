@@ -1,5 +1,5 @@
-# Filesystem / Cloud Storage
-# 파일시스템 / 클라우드 스토리지
+# File Storage
+# 파일 스토리지
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)
@@ -443,15 +443,21 @@ Finally, the `deleteDirectory` may be used to remove a directory and all of its 
 
 <a name="custom-filesystems"></a>
 ## Custom Filesystems
-## 사용자 정의 파일 시스템
+## 커스텀(사용자 정의) 파일 시스템
 
 Laravel's Flysystem integration provides drivers for several "drivers" out of the box; however, Flysystem is not limited to these and has adapters for many other storage systems. You can create a custom driver if you want to use one of these additional adapters in your Laravel application.
 
 라라벨의 통합 파일시스템은 처음부터 다양한 “드라이버”가 제공됩니다. 하지만 파일시스템은 이러한 드라이버에 제한적이지 않고, 다은 스토리지 시스템에도 적용할 수 있습니다. 여러분은 라라벨 어플리케이션에 적합한 스토리지 시스템에 대한 사용자 정의 드라이버를 생성할 수 있습니다.
 
-In order to set up the custom filesystem you will need to create a [service provider](/docs/{{version}}/providers) such as `DropboxServiceProvider`. In the provider's `boot` method, you may use the `Storage` facade's `extend` method to define the custom driver:
+In order to set up the custom filesystem you will need a Flysystem adapter. Let's add a community maintained Dropbox adapter to our project:
 
-사용자 지정 파일 시스템을 구성하기 위해서는 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 할것입니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드 사용자 지정 드라이버를 지정하는데 사용할 수 있습니다: 
+커스텀(사용자 정의) 파일 시스템을 구성하기 위해서는 Flysystem 어댑터가 필요합니다. 커뮤니티에서 관리되고 있는 Dropbox 어댑터를 프로젝트에 추가해보겠습니다:
+
+    composer require spatie/flysystem-dropbox
+
+Next, you should create a [service provider](/docs/{{version}}/providers) such as `DropboxServiceProvider`. In the provider's `boot` method, you may use the `Storage` facade's `extend` method to define the custom driver:
+
+그 다음에 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 합니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드를 사요하여 커스텀 드라이버를 정의할 수 있습니다: 
 
     <?php
 
@@ -459,9 +465,9 @@ In order to set up the custom filesystem you will need to create a [service prov
 
     use Storage;
     use League\Flysystem\Filesystem;
-    use Dropbox\Client as DropboxClient;
+    use Spatie\Dropbox\Client as DropboxClient;
     use Illuminate\Support\ServiceProvider;
-    use League\Flysystem\Dropbox\DropboxAdapter;
+    use Spatie\FlysystemDropbox\DropboxAdapter;
 
     class DropboxServiceProvider extends ServiceProvider
     {
@@ -474,7 +480,7 @@ In order to set up the custom filesystem you will need to create a [service prov
         {
             Storage::extend('dropbox', function ($app, $config) {
                 $client = new DropboxClient(
-                    $config['accessToken'], $config['clientIdentifier']
+                    $config['authorizationToken']
                 );
 
                 return new Filesystem(new DropboxAdapter($client));

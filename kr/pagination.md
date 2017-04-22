@@ -1,5 +1,5 @@
-# Pagination
-# 페이지네이션
+# Database: Pagination
+# 데이터베이스 : 페이지네이션
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)

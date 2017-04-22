@@ -7,6 +7,8 @@
 - [설치하기](#installation)
     - [Frontend Quickstart](#frontend-quickstart)
     - [프론트 엔드 빠른시작](#frontend-quickstart)
+    - [Deploying Passport](#deploying-passport)
+    - [Passport 배포하기](#deploying-passport)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
     - [Token Lifetimes](#token-lifetimes)
@@ -215,6 +217,16 @@ After registering the components, make sure to run `npm run dev` to recompile yo
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
+
+<a name="deploying-passport"></a>
+### Deploying Passport
+### Passport 배포하기
+
+When deploying Passport to your production servers for the first time, you will likely need to run the `passport:keys` command. This command generates the encryption keys Passport needs in order to generate access token. The generated keys are not typically kept in source control:
+
+Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가 필요할 수 있습니다. 이 명령어는 액세스 토큰을 생성하기 위해 Passport에서 필요한 암호화된 키를 생성합니다. 생성 된 키는 일반적으로 소스 컨트롤에 유지되지 않습니다:
+
+    php artisan passport:keys
 
 <a name="configuration"></a>
 ## Configuration

@@ -19,6 +19,8 @@
     - [첨부 파일](#attachments)
     - [Inline Attachments](#inline-attachments)
     - [인라인 첨부](#inline-attachments)
+    - [Customizing The SwiftMailer Message](#customizing-the-swiftmailer-message)
+    - [SwiftMailer 메세지 커스터미아징하기](#customizing-the-swiftmailer-message)
 - [Markdown Mailables](#markdown-mailables)
 - [마크다운 Mailables](#markdown-mailables)
     - [Generating Markdown Mailables](#generating-markdown-mailables)
@@ -388,6 +390,29 @@ If you already have a raw data string you wish to embed into an email template, 
 
         <img src="{{ $message->embedData($data, $name) }}">
     </body>
+
+<a name="customizing-the-swiftmailer-message"></a>
+### Customizing The SwiftMailer Message
+### SwiftMailer 메세지 커스터마이징 하기
+
+The `withSwiftMessage` method of the `Mailable` base class allows you to register a callback which will be invoked with the raw SwiftMailer message instance before sending the message. This gives you an opportunity to customize the message before it is delivered:
+                      
+`Mailable` 기본 클래스의 `withSwiftMessage` 메소드를 사용하면 메세지를 보내기 전에, Raw SwiftMailer 인스턴스를 인자로 호출할 콜백을 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다:  
+
+        /**
+         * Build the message.
+         *
+         * @return $this
+         */
+        public function build()
+        {
+            $this->view('emails.orders.shipped');
+
+            $this->withSwiftMessage(function ($message) {
+                $message->getHeaders()
+                        ->addTextHeader('Custom-Header', 'HeaderValue');
+            });
+        }
 
 <a name="markdown-mailables"></a>
 ## Markdown Mailables

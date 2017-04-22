@@ -8,6 +8,8 @@
 <a name="creating-views"></a>
 ## 뷰 생성하기
 
+> {tip} 블레이드 템플릿을 작성하는 방법에 대한 자세한 정보는 [블레이드 문서](/docs/{{version}}/blade)를 확인하십시오.
+
 뷰는 어플리케이션과 에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 어플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다: 
 
     <!-- View stored in resources/views/greeting.blade.php -->

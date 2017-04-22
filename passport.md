@@ -3,6 +3,7 @@
 - [소개하기](#introduction)
 - [설치하기](#installation)
     - [프론트 엔드 빠른시작](#frontend-quickstart)
+    - [Passport 배포하기](#deploying-passport)
 - [설정하기](#configuration)
     - [Token Lifetimes](#token-lifetimes)
 - [Issuing Access Tokens](#issuing-access-tokens)
@@ -153,6 +154,13 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
     <passport-personal-access-tokens></passport-personal-access-tokens>
+
+<a name="deploying-passport"></a>
+### Passport 배포하기
+
+Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가 필요할 수 있습니다. 이 명령어는 액세스 토큰을 생성하기 위해 Passport에서 필요한 암호화된 키를 생성합니다. 생성 된 키는 일반적으로 소스 컨트롤에 유지되지 않습니다:
+
+    php artisan passport:keys
 
 <a name="configuration"></a>
 ## 설정하기

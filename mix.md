@@ -280,6 +280,10 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 
     mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
 
+디렉토리를 복사할 때, `copy` 메소드는 디렉토리 하위 구조를 하나의 형태로 구성합니다(flat 하게 만듭니다). 대신에 디렉토리의 원래 구조를 유지하려면 `copyDirectory` 메소드를 사용하십시오:  
+
+    mix.copyDirectory('assets/img', 'public/img');
+
 <a name="versioning-and-cache-busting"></a>
 ## 버전 관리 / 캐시 갱신
 

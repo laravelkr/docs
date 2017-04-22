@@ -9,6 +9,7 @@
     - [뷰 데이터](#view-data)
     - [첨부 파일](#attachments)
     - [인라인 첨부](#inline-attachments)
+    - [SwiftMailer 메세지 커스터미아징하기](#customizing-the-swiftmailer-message)
 - [마크다운 Mailables](#markdown-mailables)
     - [마크다운 Mailable 생성하기](#generating-markdown-mailables)
     - [마크다운으로 메세지 작성하기](#writing-markdown-messages)
@@ -307,6 +308,26 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
 
         <img src="{{ $message->embedData($data, $name) }}">
     </body>
+
+<a name="customizing-the-swiftmailer-message"></a>
+### SwiftMailer 메세지 커스터마이징 하기
+
+`Mailable` 기본 클래스의 `withSwiftMessage` 메소드를 사용하면 메세지를 보내기 전에, Raw SwiftMailer 인스턴스를 인자로 호출할 콜백을 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다:  
+
+        /**
+         * Build the message.
+         *
+         * @return $this
+         */
+        public function build()
+        {
+            $this->view('emails.orders.shipped');
+
+            $this->withSwiftMessage(function ($message) {
+                $message->getHeaders()
+                        ->addTextHeader('Custom-Header', 'HeaderValue');
+            });
+        }
 
 <a name="markdown-mailables"></a>
 ## 마크다운 Mailables

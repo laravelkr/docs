@@ -1,22 +1,21 @@
-- 프롤로그
+- ## 프롤로그
     - [릴리즈 노트](/docs/{{version}}/releases)
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [기여 가이드](/docs/{{version}}/contributions)
     - [API 문서](/api/{{version}})
-- 시작하기
+- ## 시작하기
     - [설치하기](/docs/{{version}}/installation)
     - [설정하기](/docs/{{version}}/configuration)
     - [디렉토리 구조](/docs/{{version}}/structure)
-    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
-- 개발 환경
     - [홈스테드](/docs/{{version}}/homestead)
     - [발렛-Valet](/docs/{{version}}/valet)
-- 핵심 컨셉
+- ## 설계 컨셉
+    - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [서비스 컨테이너](/docs/{{version}}/container)
     - [서비스 프로바이드](/docs/{{version}}/providers)
     - [파사드](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)
-- HTTP 레이어
+- ## 기본적인 사항들
     - [라우팅](/docs/{{version}}/routing)
     - [미들웨어](/docs/{{version}}/middleware)
     - [CSRF 보호하기](/docs/{{version}}/csrf)
@@ -26,24 +25,24 @@
     - [뷰](/docs/{{version}}/views)
     - [세션](/docs/{{version}}/session)
     - [Validation-유효성검사](/docs/{{version}}/validation)
-- 프론트엔드
+    - [에러 & 로깅](/docs/{{version}}/errors)
+- ## 프론트엔드
     - [블레이드 템플릿](/docs/{{version}}/blade)
     - [다국어](/docs/{{version}}/localization)
     - [프론트엔드 스캐폴딩](/docs/{{version}}/frontend)
     - [Assets 컴파일](/docs/{{version}}/mix)
-- 보안
+- ## 보안
     - [인증](/docs/{{version}}/authentication)
     - [API 인증](/docs/{{version}}/passport)
     - [Authorization-권한승인](/docs/{{version}}/authorization)
     - [암호화](/docs/{{version}}/encryption)
     - [해싱](/docs/{{version}}/hashing)
     - [패스워드 재설정](/docs/{{version}}/passwords)
-- 일반적인 기능들
+- ## 고급 기능들
     - [아티즌 콘솔](/docs/{{version}}/artisan)
     - [브로드캐스팅](/docs/{{version}}/broadcasting)
     - [캐시](/docs/{{version}}/cache)
     - [컬렉션](/docs/{{version}}/eloquent-collections)
-    - [에러 & 로깅](/docs/{{version}}/errors)
     - [이벤트](/docs/{{version}}/events)
     - [파일 스토리지](/docs/{{version}}/filesystem)
     - [헬퍼 함수들](/docs/{{version}}/helpers)
@@ -52,25 +51,25 @@
     - [패키지 개발](/docs/{{version}}/packages)
     - [Queues-큐](/docs/{{version}}/queues)
     - [작업 스케줄링](/docs/{{version}}/scheduling)
-- 데이터베이스
+- ## 데이터베이스
     - [시작하기](/docs/{{version}}/database)
     - [쿼리 빌더](/docs/{{version}}/queries)
     - [페이지네이션](/docs/{{version}}/pagination)
     - [마이그레이션](/docs/{{version}}/migrations)
     - [Seeding-시딩](/docs/{{version}}/seeding)
     - [Redis-레디스](/docs/{{version}}/redis)
-- Eloquent ORM
+- ## Eloquent ORM
     - [시작하기](/docs/{{version}}/eloquent)
     - [Relationships-관계](/docs/{{version}}/eloquent-relationships)
     - [Mutators](/docs/{{version}}/eloquent-mutators)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
-- 테스팅
+- ## Testing
     - [시작하기](/docs/{{version}}/testing)
     - [HTTP 테스트](/docs/{{version}}/http-tests)
     - [브라우저 테스트](/docs/{{version}}/dusk)
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)
-- Official Packages
+- ## 공식 패키지들
     - [캐셔-biling](/docs/{{version}}/billing)
     - [Envoy-Task Runner](/docs/{{version}}/envoy)
     - [Passport-OAuth2](/docs/{{version}}/passport)

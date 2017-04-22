@@ -199,6 +199,16 @@
         You are not signed in.
     @endunless
 
+추가적으로 `@isset` 와 `@empty` 지시어는 각각 대응되는 PHP 함수를 편리하게 사용할 수 있는 방법입니다:  
+
+    @isset($records)
+        // $records is defined and is not null...
+    @endisset
+
+    @empty($records)
+        // $records is "empty"...
+    @endempty
+
 <a name="loops"></a>
 ### 반복문
 

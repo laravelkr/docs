@@ -1,4 +1,4 @@
-# 이벤트 브로드캐스팅
+# 브로드캐스팅
 
 - [소개하기](#introduction)
     - [설정하기](#configuration)

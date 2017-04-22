@@ -21,9 +21,9 @@
 <a name="contracts-vs-facades"></a>
 ### Contracts VS Facades
 
-라라벨의 [파사드](/docs/{{version}}/facades)는 서비스 컨테이너 외부에서 타입 힌트나, contsract 의 의존성 없이도 라라벨의 서비스를 시용할 수 있는 쉬운 방법을 제공합니다.
+라라벨의 [파사드](/docs/{{version}}/facades)는 서비스 컨테이너 외부에서 타입 힌트나, contracts 의 의존성 없이도 라라벨의 서비스를 시용할 수 있는 쉬운 방법을 제공합니다.
 
-클래스 생성자에서 요구하지 않아도 되는 facade와 달리 contsract를 통해 클래스에 대한 명시적 종속성을 정의 할 수 있습니다. 일부 개발자는 이러한 방식으로 종속성을 명시적으로 정의하는 contsract를 선호하지만 대다수의 개발자는 facades의 편리함을 누리고 있습니다.
+클래스 생성자에서 요구하지 않아도 되는 facade와 달리 contracts를 통해 클래스에 대한 명시적 종속성을 정의 할 수 있습니다. 일부 개발자는 이러한 방식으로 종속성을 명시적으로 정의하는 contsract를 선호하지만 대다수의 개발자는 facades의 편리함을 누리고 있습니다.
 
 > {tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.
 
@@ -34,7 +34,7 @@
 
 다른 곳에서 논의 된 것처럼, contract나 facade를 사용하기로 한 결정의 대부분은 개인적인 취향과 개발 팀의 취향에 달려 있습니다. contract와 facades 모두 강력하고 잘 테스트 된 Laravel 응용 프로그램을 작성하는 데 사용할 수 있습니다. 클래스가 제 역할을 하는데에 contract와 facades를 사용하는 데는 실제적인 차이점이 거의 없습니다.
 
-그러나 계약과 관련하여 몇 가지 질문이 있을 수 있습니다. 예를 들어, 인터페이스를 사용하는 이유는 무엇입니까? 인터페이스를 더 복잡하게 사용하도 있지는 않습니까? 다음 표제에 대한 인터페이스를 사용하는 이유를 설명합니다. 느슨한 결합 및 단순성.
+그러나 계약(contracts)과 관련하여 몇 가지 의문을 떠올릴 수도 있습니다. 예를 들어, 인터페이스를 사용하는 이유는 무엇인가? 인터페이스를 더 복잡하게 사용하고 있지는 않은가? 입니다. 다음의 *느슨한 결합 및 단순성* 부분에서 인터페이스를 사용하는 이유를 설명합니다. 
 
 <a name="loose-coupling"></a>
 ### 느슨한 결합

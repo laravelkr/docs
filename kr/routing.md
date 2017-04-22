@@ -242,7 +242,7 @@ Route groups allow you to share route attributes, such as middleware or namespac
 
 To assign middleware to all routes within a group, you may use the `middleware` key in the group attribute array. Middleware are executed in the order they are listed in the array:
 
-그룬 안의 모든 라우트에 미들웨어를 할당하기 위해서는, 그룹 속성 배열에 `middleware` 키를 사용하면 됩니다. 미들웨어는 배열에 나열된 순서대로 실행될 것입니다:
+그룹 안의 모든 라우트에 미들웨어를 할당하기 위해서는, 그룹 속성 배열에 `middleware` 키를 사용하면 됩니다. 미들웨어는 배열에 나열된 순서대로 실행될 것입니다:
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/', function ()    {

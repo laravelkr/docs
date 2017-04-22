@@ -199,6 +199,16 @@ For convenience, Blade also provides an `@unless` directive:
         You are not signed in.
     @endunless
 
+In addition to the conditional directives already discussed, the `@isset` and `@empty` directives may be used as convenient shortcuts for their respective PHP functions:
+
+    @isset($records)
+        // $records is defined and is not null...
+    @endisset
+
+    @empty($records)
+        // $records is "empty"...
+    @endempty
+
 <a name="loops"></a>
 ### Loops
 

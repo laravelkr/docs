@@ -37,11 +37,11 @@ All of the Laravel contracts live in [their own GitHub repository](https://githu
 
 Laravel's [facades](/docs/{{version}}/facades) and helper functions provide a simple way of utilizing Laravel's services without needing to type-hint and resolve contracts out of the service container. In most cases, each facade has an equivalent contract.
 
-라라벨의 [파사드](/docs/{{version}}/facades)는 서비스 컨테이너 외부에서 타입 힌트나, contsract 의 의존성 없이도 라라벨의 서비스를 시용할 수 있는 쉬운 방법을 제공합니다.
+라라벨의 [파사드](/docs/{{version}}/facades)는 서비스 컨테이너 외부에서 타입 힌트나, contracts 의 의존성 없이도 라라벨의 서비스를 시용할 수 있는 쉬운 방법을 제공합니다.
 
 Unlike facades, which do not require you to require them in your class' constructor, contracts allow you to define explicit dependencies for your classes. Some developers prefer to explicitly define their dependencies in this way and therefore prefer to use contracts, while other developers enjoy the convenience of facades.
 
-클래스 생성자에서 요구하지 않아도 되는 facade와 달리 contsract를 통해 클래스에 대한 명시적 종속성을 정의 할 수 있습니다. 일부 개발자는 이러한 방식으로 종속성을 명시적으로 정의하는 contsract를 선호하지만 대다수의 개발자는 facades의 편리함을 누리고 있습니다.
+클래스 생성자에서 요구하지 않아도 되는 facade와 달리 contracts를 통해 클래스에 대한 명시적 종속성을 정의 할 수 있습니다. 일부 개발자는 이러한 방식으로 종속성을 명시적으로 정의하는 contsract를 선호하지만 대다수의 개발자는 facades의 편리함을 누리고 있습니다.
 
 > {tip} Most applications will be fine regardless of whether you prefer facades or contracts. However, if you are building a package, you should strongly consider using contracts since they will be easier to test in a package context.
 
@@ -57,7 +57,7 @@ As discussed elsewhere, much of the decision to use contracts or facades will co
 
 However, you may still have several questions regarding contracts. For example, why use interfaces at all? Isn't using interfaces more complicated? Let's distill the reasons for using interfaces to the following headings: loose coupling and simplicity.
 
-그러나 계약과 관련하여 몇 가지 질문이 있을 수 있습니다. 예를 들어, 인터페이스를 사용하는 이유는 무엇입니까? 인터페이스를 더 복잡하게 사용하도 있지는 않습니까? 다음 표제에 대한 인터페이스를 사용하는 이유를 설명합니다. 느슨한 결합 및 단순성.
+그러나 계약(contracts)과 관련하여 몇 가지 의문을 떠올릴 수도 있습니다. 예를 들어, 인터페이스를 사용하는 이유는 무엇인가? 인터페이스를 더 복잡하게 사용하고 있지는 않은가? 입니다. 다음의 *느슨한 결합 및 단순성* 부분에서 인터페이스를 사용하는 이유를 설명합니다. 
 
 <a name="loose-coupling"></a>
 ### Loose Coupling

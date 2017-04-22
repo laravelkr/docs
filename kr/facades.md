@@ -50,7 +50,7 @@ However, some care must be taken when using facades. The primary danger of facad
 
 > {tip} When building a third-party package that interacts with Laravel, it's better to inject [Laravel contracts](/docs/{{version}}/contracts) instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helpers.
 
-> {tip} 라라벨과 연관된 써드파티 패키지를 구성할 때, 파사드 사용하는 대신에 [라라벨 contracts](docs/{{version}}/contracts)를 주입하는 것이 더 나은 방법입니다. 패키지는 라라벨의 외부에서 구성되기 때문에, 라라벨의 파사드 테스팅 헬퍼에 엑세스할 필요는 없습니다.
+> {tip} 라라벨과 연관된 써드파티 패키지를 구성할 때, 파사드 사용하는 대신에 [라라벨 contracts](/docs/{{version}}/contracts)를 주입하는 것이 더 나은 방법입니다. 패키지는 라라벨의 외부에서 구성되기 때문에, 라라벨의 파사드 테스팅 헬퍼에 엑세스할 필요는 없습니다.
 
 <a name="facades-vs-dependency-injection"></a>
 ### Facades Vs. Dependency Injection

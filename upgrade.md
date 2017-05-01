@@ -380,7 +380,7 @@ Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에
 
 먼저, `laravel/browser-kit-testing` 패키지를 설치하십시오:
 
-    composer require laravel/browser-kit-testing
+    composer require laravel/browser-kit-testing --dev
 
 그런뒤에, `tests/TestCase.php` 파일을 `tests` 디렉토리에 `BrowserKitTest.php`라는 이름으로 저장하십시오. 이제 파일을 수정하여 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 합니다. 이 작업을 마쳤다면, `test` 디렉토리에 `TestCase.php` 와 `BrowserKitTest.php`의 두가지 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTest` 클래스르의 로딩을 위해서 `compose.json` 파일에 다음과 같이 추가하십시오:      
 

@@ -482,7 +482,7 @@
 
 모든 브로드캐스트 알림은 큐를 사용합니다. 브로드캐스팅을 수행할 때 사용할 큐 커넥션이나 큐 이름을 지정하려면, `BroadcastMessage` 의 `onConnection` 과 `onQueue` 메소드를 사용하면 됩니다:  
 
-    return new BroadcastMessage($data)
+    return (new BroadcastMessage($data))
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
 

@@ -19,6 +19,7 @@
 - [파일 & 디렉토리 복사](#copying-files-and-directories)
 - [버전 관리 / 캐시 갱신](#versioning-and-cache-busting)
 - [Browsersync 리로딩](#browsersync-reloading)
+- [환경변수](#environment-variables)
 - [알림](#notifications)
 
 <a name="introduction"></a>
@@ -320,6 +321,17 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
     });
 
 이 메소드에는 (프록시) 또는 (BrowserSync 설정)등을 전달할 수도 있습니다. 그런 다음, `npm run watch` 명령을 사용하여 Webpack의 dev 서버를 시작하십시오. 이제 스크립트나 PHP 파일을 수정하게되면 브라우저가 즉시 페이지를 새로 고침하여 변경 사항을 반영합니다.
+
+<a name="environment-variables"></a>
+## 환경 변수
+
+`.env` 파일에 `MIX_` 로 시작하는 키를 사용하면 환경변수를 Mix에 지정할 수 있습니다:
+
+    MIX_SENTRY_DSN_PUBLIC=http://example.com
+
+`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:  
+
+    process.env.MIX_SENTRY_DSN_PUBLIC
 
 <a name="notifications"></a>
 ## 알림

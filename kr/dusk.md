@@ -614,6 +614,7 @@ Assertion  | Description
 `$browser->assertTitle($title)`  |  Assert the page title matches the given text.
 `$browser->assertTitleContains($title)`  |  Assert the page title contains the given text.
 `$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
+`$browser->assertPathIsNot('/home')`  |  Assert the current path does not match the given path.
 `$browser->assertQueryStringHas($name, $value)`  |  Assert the given query string parameter is present and has a given value.
 `$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
 `$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
@@ -642,6 +643,7 @@ Assertion  | 설명
 `$browser->assertTitle($title)`  |  페이지 타이틀이 주어진 텍스트와 일치하는지 확인.
 `$browser->assertTitleContains($title)`  |  페이지 타이틀이 주어진 텍스트를 포함하는지 확인.
 `$browser->assertPathIs('/home')`  |  현재 경로가 주어진 경로와 일치하는지 확인.
+`$browser->assertPathIsNot('/home')`  |  현재 경로가 주어진 경로와 일치하지 않는 것을 확인.
 `$browser->assertQueryStringHas($name, $value)`  |  쿼리 스트링 파라미터가 존재하고 주어진 값을 가지고 있는지 확인.
 `$browser->assertQueryStringMissing($name)`  |  주어진 쿼리 스트링 파라미터가 없다는 것을 확인.
 `$browser->assertHasCookie($name)`  |  주어진 쿠키가 존재하는지 확인.

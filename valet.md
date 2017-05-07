@@ -10,6 +10,7 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [사이트 공유하기](#sharing-sites)
 - [사용자 정의 발렛 드라이버](#custom-valet-drivers)
+    - [로컬 드라이버](#local-drivers)
 - [기타 발렛 명령어들](#other-valet-commands)
 
 <a name="introduction"></a>
@@ -208,6 +209,40 @@
     public function frontControllerPath($sitePath, $siteName, $uri)
     {
         return $sitePath.'/public/index.php';
+    }
+
+<a name="local-drivers"></a>
+### 로컬 드라이버
+
+하나의 어플리케이션을 위한 커스텀 Valet 드라이버를 정의하고자 한다면, 어플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 커스텀 드라이버는 베이스 `ValetDriver` 클래스를 상속받거나 `LaravelValetDriver`과 같은 기존 어플리케이션에서 지정한 드라이버를 상속해야합니다:    
+
+    class LocalValetDriver extends LaravelValetDriver
+    {
+        /**
+         * Determine if the driver serves the request.
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return bool
+         */
+        public function serves($sitePath, $siteName, $uri)
+        {
+            return true;
+        }
+
+        /**
+         * Get the fully resolved path to the application's front controller.
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return string
+         */
+        public function frontControllerPath($sitePath, $siteName, $uri)
+        {
+            return $sitePath.'/public_html/index.php';
+        }
     }
 
 <a name="other-valet-commands"></a>

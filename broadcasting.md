@@ -244,6 +244,12 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
         return 'server.created';
     }
 
+`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 어플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다. 
+
+    .listen('.server.created', function (e) {
+        ....
+    });
+
 <a name="broadcast-data"></a>
 ### 브로드캐스트 데이터
 

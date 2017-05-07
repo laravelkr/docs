@@ -845,7 +845,7 @@ This Passport middleware will attach a `laravel_token` cookie to your outgoing r
 
 이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 어플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 어플리케이션에 API에 요청-request를 만들 수 있습니다:
 
-    axios.get('/user')
+    axios.get('/api/user')
         .then(response => {
             console.log(response.data);
         });

@@ -257,7 +257,7 @@
 <a name="service-injection"></a>
 ## 서비스 주입하기
 
-`@inject` 지시어는 라라벨의 [서비스 컨테이너](/docs/5.1/container)에서 서비스를 반환하는 데에 사용될 수 있습니다. `@inject`에 전달된 첫번째 인자는 서비스가 위치할 변수의 이름이며 두번째 인수는 의존성을 해결하려는 클래스/인터페이스의 이름입니다: 
+`@inject` 지시어는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에서 서비스를 반환하는 데에 사용될 수 있습니다. `@inject`에 전달된 첫번째 인자는 서비스가 위치할 변수의 이름이며 두번째 인수는 의존성을 해결하려는 클래스/인터페이스의 이름입니다: 
 
     @inject('metrics', 'App\Services\MetricsService')
 

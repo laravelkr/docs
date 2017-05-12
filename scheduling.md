@@ -61,7 +61,7 @@
         }
     }
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/5.1/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
@@ -161,7 +161,7 @@
 
     $schedule->command('emails:send')->withoutOverlapping();
 
-이 예제에서 `emails:send` [아티즌 커맨드](/docs/5.1/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
+이 예제에서 `emails:send` [아티즌 커맨드](/docs/{{version}}/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
 
 <a name="maintenance-mode"></a>
 ### 작업중(공사중) 모드
@@ -185,7 +185,7 @@
              ->daily()
              ->appendOutputTo($filePath);
 
-`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 하지만 그전에 먼저 출력 결과는 `sendOutputTo` 메소드를 통해 파일로 보내져야 합니다. 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/5.1/mail)를 설정해 놓아야만 합니다:
+`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 하지만 그전에 먼저 출력 결과는 `sendOutputTo` 메소드를 통해 파일로 보내져야 합니다. 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/{{version}}/mail)를 설정해 놓아야만 합니다:
 
     $schedule->command('foo')
              ->daily()

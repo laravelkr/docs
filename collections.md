@@ -1,7 +1,7 @@
 # 컬렉션
 
 - [소개](#introduction)
-- [컬렉션 생성하기](#creating-collections)
+    - [컬렉션 생성하기](#creating-collections)
 - [사용 가능한 메소드](#available-methods)
 
 <a name="introduction"></a>
@@ -16,23 +16,21 @@
         return empty($name);
     });
 
-보시는 바와 같이 `Collection` 클래스는 map 매소드와 reject메소드를 체이닝 방식으로 사용할 수 있게 해줍니다. 다시 말해서 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다. 
+보시는 바와 같이 `Collection` 클래스는 map 매소드와 reject메소드를 체이닝 방식으로 사용할 수 있게 해줍니다. 다시 말해서 컬렉션은 불변하며(immutable) 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다. 
 
 <a name="creating-collections"></a>
-## 컬렉션 생성하기
+### 컬렉션 생성하기
 
 앞서 설명한 대로 `collect` 헬퍼 함수는 주어진 배열으로 부터 `Illuminate\Support\Collection` 인스턴스를 반환합니다. 따라서 컬렉션을 생성하는 것은 보시는 바와 같이 아주 간단합니다. 
 
     $collection = collect([1, 2, 3]);
 
-기본적으로 [Eloquent](/docs/5.1/eloquent) 모델의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 꼭 여기가 아니더라도 어플리케이션의 어느곳이라도 편리하게 `Collection` 클래스를 이용할 수 있습니다.
+[Eloquent](/docs/{{version}}/eloquent) 쿼리는 항상 `Collection` 인스턴스를 반환합니다.
 
 <a name="available-methods"></a>
 ## 사용가능한 메소드
 
-이 문서의 나머지 부분에서는 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 컬렉션 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다. 
-
-다음의 테이블에서 메소드를 선택하면, 샘플 코드를 확인할 수 있습니다. 
+이 문서의 나머지 부분에서는 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 컬렉션 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다: 
 
 <style>
     #collection-method-list > p {
@@ -46,6 +44,7 @@
 </style>
 
 - [all](#method-all)
+- [average](#method-average)
 - [avg](#method-avg)
 - [chunk](#method-chunk)
 - [collapse](#method-collapse)
@@ -75,9 +74,12 @@
 - [last](#method-last)
 - [map](#method-map)
 - [max](#method-max)
+- [median](#method-median)
 - [merge](#method-merge)
 - [min](#method-min)
+- [mode](#method-mode)
 - [only](#method-only)
+- [pipe](#method-pipe)
 - [pluck](#method-pluck)
 - [pop](#method-pop)
 - [prepend](#method-prepend)
@@ -126,31 +128,29 @@
 <a name="method-all"></a>
 #### `all()` {#collection-method .first-collection-method}
 
-`all` 메소드는 간단하게 주어진 배열을 컬렉션으로 되돌려 줍니다. 
+`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다. 
 
     collect([1, 2, 3])->all();
 
     // [1, 2, 3]
 
+<a name="method-average"></a>
+#### `average()` {#collection-method}
+
+[`avg`](#method-avg) 메소드의 별칭입니다.
+
 <a name="method-avg"></a>
 #### `avg()` {#collection-method}
 
-`avg` 메소드는 컬렉션안의 모든 아이템들의 평균값을 반환합니다. 
+`avg` 메소드는 주어진 키의 [평균값](https://en.wikipedia.org/wiki/Average)을 반환합니다: 
 
-    collect([1, 2, 3, 4, 5])->avg();
+    $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
 
-    // 3
+    // 20
 
-컬렉션이 중첩된 배열 또는 객체를 가지고 있다면, 어떤 값을 평균값으로 계산할지 결정하는 키를 전달해야 합니다. 
+    $average = collect([1, 1, 2, 4])->avg();
 
-    $collection = collect([
-        ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
-        ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
-    ]);
-
-    $collection->avg('pages');
-
-    // 636
+    // 2
 
 <a name="method-chunk"></a>
 #### `chunk()` {#collection-method}
@@ -165,8 +165,7 @@
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩](http://getbootstrap.com/css/#grid)과 같은 그리드 시스템을 작업할 때 유용합니다. 
-[Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
+이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩](https://getbootstrap.com/css/#grid)과 같은 그리드 시스템을 작업할 때 유용합니다. [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
 
     @foreach ($products->chunk(3) as $chunk)
         <div class="row">
@@ -238,6 +237,8 @@
 
     // false
 
+`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다.
+
 <a name="method-count"></a>
 #### `count()` {#collection-method}
 
@@ -252,7 +253,7 @@
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
-`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP `배열`을 값을 기준으로 비교합니다:
+`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP `배열`을 값을 기준으로 비교합니다. 이 메소드는 주어진 컬렉션 안에 들어 있지 않은 원래의 컬렉션 안에 있는 값을 반환합니다:
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -265,7 +266,7 @@
 <a name="method-diffkeys"></a>
 #### `diffKeys()` {#collection-method}
 
-`diffKeys` 메소드는 컬렉션과 다른 컬렉션의 키을 기준으로 `배열`을 비교합니다.
+`diffKeys` 메소드는 컬렉션과 다른 컬렉션의 키을 기준으로 `배열`을 비교합니다. 이 메소드는 주어진 컬렉션 안에 들어 있지 않은 원래의 컬렉션 안에 있는 키 / 값 쌍을 반환합니다:
 
     $collection = collect([
         'one' => 10,
@@ -289,13 +290,13 @@
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
-`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 주어진 콜백에 각 아이템을 전달합니다.
+`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 콜백에 각 아이템을 전달합니다:
 
     $collection = $collection->each(function ($item, $key) {
         //
     });
 
-콜백에서 `false` 를 반환하면 반복문을 빠져나올 수 있습니다:
+전체 항목에 대한 반복을 중지하려면, 콜백 안에서 `false` 를 반환하면 됩니다:
 
     $collection = $collection->each(function ($item, $key) {
         if (/* some condition */) {
@@ -327,20 +328,20 @@
 
 `except` 메소드는 지정된 키에 대한 아이템을 제외한 컬렉션의 모든 아이템을 반환합니다: 
 
-    $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
+    $collection = collect(['product_id' => 1, 'price' => 100, 'discount' => false]);
 
     $filtered = $collection->except(['price', 'discount']);
 
     $filtered->all();
 
-    // ['product_id' => 1, 'name' => 'Desk']
+    // ['product_id' => 1]
 
 `except` 의 반대는, [only](#method-only)메소드를 확인하십시오. 
 
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
 
-`filter` 메소드는 지정한 콜백 컬렉션을 통해서 필터링을 하고, 주어진 테스트에 true를 반환하는 항목 만 남게 됩니다.
+`filter` 메소드는 주어진 콜백을 사용하여 컬렉션을 필터링하고, 주어진 테스트에 true를 반환하는 항목 만 남겨둡니다:
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -351,6 +352,14 @@
     $filtered->all();
 
     // [3, 4]
+
+콜백이 전달되지 않는다면, 모든 컬렉션의 엔트리 중에서 `false` 로 인식되는 값들은 제거됩니다:
+
+    $collection = collect([1, 2, 3, null, false, '', 0, []]);
+
+    $collection->filter()->all();
+
+    // [1, 2, 3]
 
 `filter` 의 반대는 [reject](#method-reject) 메소드를 확인하십시오.
 
@@ -425,7 +434,7 @@
         ]
     */
 
-이 중첩 된 배열에 대해 `flatten`을 깊이에 대한 인자없이 호출하면 결과는 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`이 됩니다. 깊이를 전달하게 되면 중첩된 배열의 깊이를 제한하여 정리될것입니다.
+이 예제에서,`flatten`을 깊이에 대한 인자없이 호출하면 결과는 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`이 됩니다. 깊이를 전달하게 되면 중첩된 배열의 깊이를 제한하여 정리합니다.
 
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
@@ -458,7 +467,7 @@
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-`forPage` 메소드는 주어진 페이지 넘버에 해당하는 아이템을 가지고 있는 새로운 컬렉션을 반환합니다: 
+`forPage` 메소드는 주어진 페이지 넘버에 해당하는 아이템을 가지고 있는 새로운 컬렉션을 반환합니다. 이 메소드는 페이지 번호를 첫번째 인자로 페이지별로 보여주고자 하는 아이템의 갯수를 두번째 인자로 받아 들입니다: 
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -467,8 +476,6 @@
     $chunk->all();
 
     // [4, 5, 6]
-
-메소드는 페이지의 넘버와, 페이지당 아이템 갯수에 대한 인자를 필요로 합니다. 
 
 <a name="method-get"></a>
 #### `get()` {#collection-method}
@@ -551,16 +558,14 @@
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
-    $collection->has('email');
+    $collection->has('product');
 
-    // false
+    // true
 
 <a name="method-implode"></a>
 #### `implode()` {#collection-method}
 
-`implode` 메소드는 컬렉션 안의 아이템들을 합쳐줍니다. 이 메소드의 인자는 컬렉션 안에 있는 아이템들의 타입에 의존합니다. 
-
-컬렉션이 배열 또는 객체를 가지고 있다면, 합치고자 하는 속성의 키와 값들 사이에 끼워 넣고자 하는 "glue" 문자열을 전달해야 합니다:
+`implode` 메소드는 컬렉션 안의 아이템들을 합쳐줍니다. 이 메소드의 인자는 컬렉션 안에 있는 아이템들의 타입에 의존합니다. 컬렉션이 배열 또는 객체를 가지고 있다면, 합치고자 하는 속성의 키와 값들 사이에 끼워 넣고자 하는 "glue" 문자열을 전달해야 합니다:
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],
@@ -580,7 +585,7 @@
 <a name="method-intersect"></a>
 #### `intersect()` {#collection-method}
 
-`intersect` 메소드는 주어진 배열 또는 컬렉션에 존재하지 않는 값을 제거합니다:
+`intersect` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 값을 제거합니다. 메소드를 호출한 뒤에도 원래 컬렉션의 키 값은 보존됩니다:
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -589,8 +594,6 @@
     $intersect->all();
 
     // [0 => 'Desk', 2 => 'Chair']
-
-보시다 시피, 결과 컬렉션은 원래 컬렉션의 키가 남아 있습니다.
 
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}
@@ -604,7 +607,7 @@
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
 
-주어진 키를 기준으로 컬렉션을 재구성합니다:
+`keyBy` 메소드는 주어진 키를 기준으로 컬렉션을 다시 구성합니다. 여러 아이템이 같은 키를 가지고 있다면, 새로운 컬렉션에서는 마지막 항목만 나타납니다:
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'desk'],
@@ -622,9 +625,7 @@
         ]
     */
 
-여러개의 아이템이 동일한 키를 가지고 있다면, 마지막 것만 새로운 컬렉션에 담겨집니다.
-
-메소드에 콜백을 전달할수도 있는데, 콜백은 컬렉션의 키가 될 값을 반환해야 합니다:
+메소드에 콜백은 전달할 수도 있습니다. 콜백은 컬렉션의 키 값을 반환해야합니다:
 
     $keyed = $collection->keyBy(function ($item) {
         return strtoupper($item['product_id']);
@@ -638,7 +639,6 @@
             'PROD-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
         ]
     */
-
 
 <a name="method-keys"></a>
 #### `keys()` {#collection-method}
@@ -693,7 +693,7 @@
 <a name="method-max"></a>
 #### `max()` {#collection-method}
 
-`max` 메소드는 주어진 키에 해당하는 최대 값을 반환합니다. 
+`max` 메소드는 주어진 키에 해당하는 최대 값을 반환합니다: 
 
     $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
 
@@ -703,20 +703,33 @@
 
     // 5
 
+<a name="method-median"></a>
+#### `median()` {#collection-method}
+
+`median` 메소드는 주어진 키에 대한 [중간값](https://en.wikipedia.org/wiki/Median)을 반환합니다:
+
+    $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->median('foo');
+
+    // 15
+
+    $median = collect([1, 1, 2, 4])->median();
+
+    // 1.5
+
 <a name="method-merge"></a>
 #### `merge()` {#collection-method}
 
-`merge` 메소드는 주어진 배열을 컬렉션과 합칩니다. 배열 안에 컬렉션과 일치하는 키가 존재한다면, 컬렉션 안의 값을 덮어 쓸 것입니다:
+`merge` 메소드는 주어진 배열 또는 컬렉션을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 씁니다:
 
-    $collection = collect(['product_id' => 1, 'name' => 'Desk']);
+    $collection = collect(['product_id' => 1, 'price' => 100]);
 
-    $merged = $collection->merge(['price' => 100, 'discount' => false]);
+    $merged = $collection->merge(['price' => 200, 'discount' => false]);
 
     $merged->all();
 
-    // ['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]
+    // ['product_id' => 1, 'price' => 200, 'discount' => false]
 
-주어진 배열의 키가 숫자인 경우, 값은 자동으로 컬렉션의 마지막에 추가될 것입니다: 
+만약 주어진 아이템의 키가 숫자라면, 이 값들은 컬렉션의 가장 마지막에 추가됩니다:
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -739,6 +752,19 @@
 
     // 1
 
+<a name="method-mode"></a>
+#### `mode()` {#collection-method}
+
+`mode` 메소드는 [확률분포에서의 중앙값](https://en.wikipedia.org/wiki/Mode_(statistics))을 반환합니다:
+
+    $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
+
+    // [10]
+
+    $mode = collect([1, 1, 2, 4])->mode();
+
+    // [1]
+
 <a name="method-only"></a>
 #### `only()` {#collection-method}
 
@@ -754,10 +780,23 @@
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
 
+<a name="method-pipe"></a>
+#### `pipe()` {#collection-method}
+
+`pipe` 메소드는 컬렉션을 주어진 콜백에 전달하고 그 결과를 반환합니다:
+
+    $collection = collect([1, 2, 3]);
+
+    $piped = $collection->pipe(function ($collection) {
+        return $collection->sum();
+    });
+
+    // 6
+
 <a name="method-pluck"></a>
 #### `pluck()` {#collection-method}
 
-`pluck` 메소드는 주어진 키에 대한 컬렉션의 모든 값을 반환합니다:
+`pluck` 메소드는 주어진 키에 대한 모든 값을 반환합니다:
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -806,15 +845,15 @@
 
     // [0, 1, 2, 3, 4, 5]
 
-두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다. 
+또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다: 
 
-    $collection = collect(['one' => 1, 'two', => 2]);
+    $collection = collect(['one' => 1, 'two' => 2]);
 
     $collection->prepend(0, 'zero');
 
     $collection->all();
 
-    // ['zero' => 0, 'one' => 1, 'two', => 2]
+    // ['zero' => 0, 'one' => 1, 'two' => 2]
 
 <a name="method-pull"></a>
 #### `pull()` {#collection-method}
@@ -868,7 +907,7 @@
 
     // 4 - (retrieved randomly)
 
-`random` 메소드의 인자로 정수 값을 전달하여 획득하고자 하는 아이템의 갯수를 전달할 수도 있습니다. 정수 값이 `1` 보다 크다면 컬렉션의 아이템 들이 반환될것입니다:
+얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 정수 값이 `1` 보다 크다면 컬렉션의 아이템 들이 반환 됩니다:
 
     $random = $collection->random(3);
 
@@ -900,7 +939,7 @@
 <a name="method-reject"></a>
 #### `reject()` {#collection-method}
 
-`reject` 메소드는 컬렉션에서 지정된 콜백을 사용하여 필터링을 합니다. 콜백은 제거하고자 결과 컬렉션에서 제거하고자 하는 아이템의 경우 `true`를 반환해야합니다:
+`reject` 메소드는 컬렉션에서 지정된 콜백을 사용하여 필터링을 합니다. 콜백은 결과 컬렉션에서 제거되어야 하는 아이템의 경우 `true`를 반환해야합니다:
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -912,9 +951,7 @@
 
     // [1, 2]
 
-For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
-
-`reject` 메소드의 반대는, [`filter`](#method-filter) 메소드를 확인하십시오. 
+`reject` 메소드의 반대는, [`filter`](#method-filter)메소드를 확인하십시오.
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}
@@ -939,7 +976,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
     // 1
 
-검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 이루어집니다. 타입에 일치하는 엄격한 비교를 수행하려면 `true`를 메소드의 두 번째 인수로 전달하면 됩니다.
+검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 "엄격한" 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다:
 
     $collection->search('4', true);
 
@@ -979,7 +1016,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
     $shuffled->all();
 
-    // [3, 2, 5, 1, 4] // (generated randomly)
+    // [3, 2, 5, 1, 4] - (generated randomly)
 
 <a name="method-slice"></a>
 #### `slice()` {#collection-method}
@@ -1002,12 +1039,12 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
     // [5, 6]
 
-반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 `value` 메소드를 사용할 수 있습니다.
+반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 [`values`](#method-values) 메소드를 사용할 수 있습니다.
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
 
-`sort` 메소드는 컬렉션을 정렬합니다:
+`sort` 메소드는 컬렉션을 정렬합니다. 정렬된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values) 메소드를 사용할 것입니다:
 
     $collection = collect([5, 3, 1, 2, 4]);
 
@@ -1017,16 +1054,14 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
     // [1, 2, 3, 4, 5]
 
-정렬된 컬렉션은 기존의 배열 키를 유지합니다. 이 예제에서는 [`values`](#method-values) 메소드를 사용하여 연속된 숫자 인덱스를 위해서 키를 리셋합니다. 
+보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 호출될 때의 동작은 [`usort`](https://secure.php.net/manual/en/function.usort.php#refsect1-function.usort-parameters) PHP 문서를 참고하십시오.
 
-중첩된 배열이나, 객체의 컬렉션을 정렬하기 위해서는, [`sortBy`](#method-sortby) 와 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
-
-보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 호출될 때의 동작은 [`usort`](http://php.net/manual/en/function.usort.php#refsect1-function.usort-parameters)PHP 문서를 참고하십시오. 
+만약 중첩된 배열이나 객체의 컬렉션을 정렬할 필요가 있다면, [`sortBy`](#method-sortby) 또는 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
 
 <a name="method-sortby"></a>
 #### `sortBy()` {#collection-method}
 
-`sortBy` 메소드는 주어진 키에 의한 정렬을 수행합니다:
+`sortBy` 메소드는 주어진 키에 의한 정렬을 수행합니다. 정렬된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values) 메소드를 사용할 것입니다:
 
     $collection = collect([
         ['name' => 'Desk', 'price' => 200],
@@ -1045,8 +1080,6 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
             ['name' => 'Desk', 'price' => 200],
         ]
     */
-
-정렬 된 컬렉션은 기존의 배열 키를 유지합니다. 이 예제에서는 [`values`](#method-values) 메소드를 사용하여 연속된 숫자 인덱스를 위해서 키를 리셋합니다. 
 
 컬렉션의 값을 어떻게 정렬하는지를 결정하기 위해 콜백을 전달할 수도 있습니다.
 
@@ -1192,18 +1225,18 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
         ]
     */
 
-> **주의:** `toArray` 는 또한 중첩된 모든 객체도 배열로 변환할 것입니다. 밑에있는 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
+> **주의:** `toArray` 는 또한 모든 컬렉션의 중첩된 객체도 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
 
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
 
-`toJson` 메소드는 모든 컬렉션을 JSON으로 변환합니다:
+`toJson` 메소드는 모든 컬렉션을 JSON serialized 문자열으로 변환합니다:
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
     $collection->toJson();
 
-    // '{"name":"Desk","price":200}'
+    // '{"name":"Desk", "price":200}'
 
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
@@ -1225,7 +1258,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 <a name="method-union"></a>
 #### `union()` {#collection-method}
 
-`union` 메소드는 주어진 배열을 컬렉션에 추가합니다. 이미 컬렉션에 가지고 있는 키가 배열에 포함되어있는 경우는에는 컬렉션의 값이 우선합니다.
+`union` 메소드는 주어진 배열을 컬렉션에 추가합니다. 만약 원래의 컬렉션에서 이미 가지고 있는 키를 주어진 배열에서 가지고 있다면, 원래의 컬렉션 값이 우선합니다:
 
     $collection = collect([1 => ['a'], 2 => ['b']]);
 
@@ -1233,12 +1266,12 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
     $union->all();
 
-    // [1 => ['a'], 2 => ['b'], [3 => ['c']]
+    // [1 => ['a'], 2 => ['b'], 3 => ['c']]
 
 <a name="method-unique"></a>
 #### `unique()` {#collection-method}
 
-`unique` 메소드는 컬렉션 안에서 유니크한 모든 아이템들을 반환합니다:
+`unique` 메소드는 컬렉션 안에서 유니크한 모든 아이템들을 반환합니다. 반환된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values) 메소드를 사용할 것입니다:
 
     $collection = collect([1, 1, 2, 2, 3, 4, 2]);
 
@@ -1247,8 +1280,6 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
     $unique->values()->all();
 
     // [1, 2, 3, 4]
-
-반환된 컬렉션은 기존의 배열 키를 유지합니다. 이 예제에서는 [`values`](#method-values) 메소드를 사용하여 연속된 숫자 인덱스를 위해서 키를 리셋합니다. 
 
 중첩된 배열이나 객체를 다룰 때에는, 유니크 여부를 결정할 키를 지정할 수 있습니다:
 
@@ -1288,6 +1319,8 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
         ]
     */
 
+`unique` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다.
+
 <a name="method-values"></a>
 #### `values()` {#collection-method}
 
@@ -1308,6 +1341,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
             1 => ['product' => 'Desk', 'price' => 200],
         ]
     */
+
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
@@ -1325,13 +1359,13 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
     $filtered->all();
 
     /*
-    [
-        ['product' => 'Chair', 'price' => 100],
-        ['product' => 'Door', 'price' => 100],
-    ]
+        [
+            ['product' => 'Chair', 'price' => 100],
+            ['product' => 'Door', 'price' => 100],
+        ]
     */
 
-`where` 메소드는 아이템의 값을 확인할 때 타입을 엄격하게 비교합니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오. 
+where 메소드는 아이템의 값을 확인할 때 타입을 "엄격하게" 비교를 수행하기 때문에, 문자형으로 된 정수값과 정수형은과 동일하다고 판단하지 않습니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오.
 
 <a name="method-whereloose"></a>
 #### `whereLoose()` {#collection-method}
@@ -1341,7 +1375,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}
 
-`whereIn` 메소드는 주어진 배열 안에 포함 된 주어진 키/값을 사용하여 컬렉션을 필터링합니다.
+`whereIn` 메소드는 주어진 배열 안에 포함 된 주어진 키/값을 사용하여 컬렉션을 필터링합니다:
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -1355,13 +1389,13 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
     $filtered->all();
 
     /*
-    [
-        ['product' => 'Bookcase', 'price' => 150],
-        ['product' => 'Desk', 'price' => 200],
-    ]
+        [
+            ['product' => 'Bookcase', 'price' => 150],
+            ['product' => 'Desk', 'price' => 200],
+        ]
     */
 
-`whereIn` 메소드는 아이템 값을 엄격하게 비교합니다. "느슨한" 비교를해서 필터링 하려면 [`whereInLoose`](#method-whereinloose) 메소드를 사용하십시오.
+`whereIn` 메소드는 아이템의 값을 확인할 때 타입을 "엄격하게" 비교를 수행하기 때문에, 문자형으로 된 정수값과 정수형은과 동일하다고 판단하지 않습니다. "느슨한" 비교를 사용하여 필터링을 하려면 [`whereInLoose`](#method-whereinloose) 메소드를 사용하십시오.
 
 <a name="method-whereinloose"></a>
 #### `whereInLoose()` {#collection-method}
@@ -1371,7 +1405,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}
 
-`zip` 메소드는 지정된 배열의 값과 대응하는 인덱스 컬렉션의 값을 합칩니다. 
+`zip` 메소드는 해당 인덱스의 원래 컬렉션의 값으로 주어진 배열의 값을 함께 합칩니다:
 
     $collection = collect(['Chair', 'Desk']);
 

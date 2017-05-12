@@ -510,7 +510,7 @@ For more advanced options, check out the [Symfony Progress Bar component documen
 
 Once your command is finished, you need to register it with Artisan. All commands are registered in the `app/Console/Kernel.php` file. Within this file, you will find a list of commands in the `commands` property. To register your command, simply add the command's class name to the list. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-명령어 작성이 완료되면 아티즌에서 사용할 수 있도록 등록할 필요가 있습니다. 이 작업은 일반적으로 `app/Console/Kernel.php` 파일에서 이루어 집니다. 이 파일 안에서, 명령어들의 목록을 담고 있는 `command` 변수를 찾을 수 있을 것입니다. 명령어를 등록하기 위해서 간단하게 목록에 작성한 클래스 이름을 추가하십시오. 아티즌이 구동할 때, 목록 안의 모든 명령어들은 [서비스 컨테이너](/docs/5.1/container)에 의해서 의존성이 해결된 상태로 생성되어 아티즌에 등록되어 집니다.
+명령어 작성이 완료되면 아티즌에서 사용할 수 있도록 등록할 필요가 있습니다. 이 작업은 일반적으로 `app/Console/Kernel.php` 파일에서 이루어 집니다. 이 파일 안에서, 명령어들의 목록을 담고 있는 `command` 변수를 찾을 수 있을 것입니다. 명령어를 등록하기 위해서 간단하게 목록에 작성한 클래스 이름을 추가하십시오. 아티즌이 구동할 때, 목록 안의 모든 명령어들은 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결된 상태로 생성되어 아티즌에 등록되어 집니다.
 
     protected $commands = [
         Commands\SendEmails::class
@@ -534,7 +534,7 @@ CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 
 
 Using the `queue` method on the `Artisan` facade, you may even queue Artisan commands so they are processed in the background by your [queue workers](/docs/{{version}}/queues). Before using this method, make sure you have configured your queue and are running a queue listener:
 
-`Artisan` 파사드에서 `queue` 메소드를 호출하는 경우 [queue workers](/docs/5.1/queues)를 통해서 아티즌 명령어가 백그라운드로 실행됩니다.
+`Artisan` 파사드에서 `queue` 메소드를 호출하는 경우 [queue workers](/docs/{{version}}/queues)를 통해서 아티즌 명령어가 백그라운드로 실행됩니다.
 
     Route::get('/foo', function () {
         Artisan::queue('email:send', [

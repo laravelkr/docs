@@ -82,7 +82,7 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
 
 In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command:
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/5.1/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 아티즌 커맨드를 스케줄링할 수 있습니다.:
+`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 아티즌 커맨드를 스케줄링할 수 있습니다.:
 
     $schedule->command('emails:send --force')->daily();
 
@@ -218,7 +218,7 @@ By default, scheduled tasks will be run even if the previous instance of the tas
 
 In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) will be run every minute if it is not already running. The `withoutOverlapping` method is especially useful if you have tasks that vary drastically in their execution time, preventing you from predicting exactly how long a given task will take.
 
-이 예제에서 `emails:send` [아티즌 커맨드](/docs/5.1/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
+이 예제에서 `emails:send` [아티즌 커맨드](/docs/{{version}}/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
 
 <a name="task-output"></a>
 ## Task Output
@@ -242,7 +242,7 @@ If you would like to append the output to a given file, you may use the `appendO
 
 Using the `emailOutputTo` method, you may e-mail the output to an e-mail address of your choice. Note that the output must first be sent to a file using the `sendOutputTo` method. Also, before e-mailing the output of a task, you should configure Laravel's [e-mail services](/docs/{{version}}/mail):
 
-`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 하지만 그전에 먼저 출력 결과는 `sendOutputTo` 메소드를 통해 파일로 보내져야 합니다. 또한 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/5.1/mail)를 설정해 놓아야만 합니다:
+`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 하지만 그전에 먼저 출력 결과는 `sendOutputTo` 메소드를 통해 파일로 보내져야 합니다. 또한 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/{{version}}/mail)를 설정해 놓아야만 합니다:
 
     $schedule->command('foo')
              ->daily()

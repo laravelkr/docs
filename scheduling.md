@@ -61,7 +61,7 @@
         }
     }
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/5.1/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
@@ -161,7 +161,7 @@
 
     $schedule->command('emails:send')->withoutOverlapping();
 
-이 예제에서 `emails:send` [아티즌 커맨드](/docs/5.1/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
+이 예제에서 `emails:send` [아티즌 커맨드](/docs/{{version}}/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
 
 <a name="maintenance-mode"></a>
 ### 공사중 모드

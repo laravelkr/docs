@@ -267,6 +267,18 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
 사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
 
+<a name="site-parameters"></a>
+#### 사이트 파라미터
+
+추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다:  
+
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
+          params:
+              - key: FOO
+                value: BAR
+
 <a name="configuring-cron-schedules"></a>
 ### Cron 스케줄링 설정하기
 
@@ -298,8 +310,8 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 원한다면 포트뿐만 아니라 프로토콜을 추가로 Vagrant Box에 포워딩하도록 지정 할 수 있습니다.
 
     ports:
-        - send: 93000
-          to: 9300
+        - send: 50000
+          to: 5000
         - send: 7777
           to: 777
           protocol: udp

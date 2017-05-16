@@ -21,15 +21,9 @@ HTML 폼을 정의할 때, CSRF 보호 미들웨어가 요청을 검증할 수 �
 
 `web` 미들웨어 그룹에 속한 `VerifyCsrfToken` [미들웨어](/docs/{{version}}/middleware)는 자동으로 요청에 포함된 토큰이 세션에 저장된 토큰과 일치하는지 확인할 것입니다.
 
-#### CSRF 토큰 & Vue
+#### CSRF 토큰 & JavaScript
 
-`make:auth` 아티즌 명령어를 통한 인증 스캐폴딩 없이 [Vue](https://vuejs.org) 자바스크립트 프레임워크를 사용한다면, 기본 어플리케이션 레이아웃에 수동으로 `Laravel` 자바스크립트 객체를 정의해야 합니다. 이 객체는 request 가 있을 때 Vue 가 사용하는 CSRF 토큰을 지정합니다:
-
-    <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
+자바스크립트를 기반으로한 어플리케이션을 구성할 때, 자바스크립트 HTTP 라이브러리가 모든 서버 요청에 CSRF 토큰을 자동으로 추가해주면 편리합니다. 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. 이 라이브러리를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.  
 
 <a name="csrf-excluding-uris"></a>
 ## CSRF 보호로 부터 특정 URI를 제외시키기
@@ -71,9 +65,11 @@ POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하�
         }
     });
 
+> {tip} 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. 이 라이브러리를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.
+
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN
 
-라라벨은 현재 CSRF 토큰을 프레임워크가 생성하는 모든 요청에 포함되어 있는 `XSRF-TOKEN` 쿠키에 저장합니다. `X-XSRF-TOKEN` 요청 헤더를 세팅하기 위해 쿠키 값을 사용할 수 있습니다.
+라라벨은 현재의 CSRF 토큰을 프레임워크가 생성하는 모든 요청에 포함되어 있는 `XSRF-TOKEN` 쿠키에 저장합니다. `X-XSRF-TOKEN` 요청 헤더를 세팅하기 위해 쿠키 값을 사용할 수 있습니다.
 
-이 쿠키는 주로 편의를 위해 보내집니다. 왜냐하면 Angular 같은 자바스크립트 프레임워크는 그 값을 `X-XSRF-TOKEN` 헤더에 자동으로 설정하기 때문입니다.
+이 쿠키는 주로 편의를 위해 보내집니다. 왜냐하면 Angular 와 Axios 같은 자바스크립트 프레임워크나 라이브러리는 그 값을 `X-XSRF-TOKEN` 헤더에 자동으로 설정하기 때문입니다.

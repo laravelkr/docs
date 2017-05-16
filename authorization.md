@@ -48,6 +48,20 @@ Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한�
         });
     }
 
+Gate는 또한 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열으로도 정의할 수 있습니다: 
+
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+
+        Gate::define('update-post', 'PostPolicy@update');
+    }
+
 <a name="authorizing-actions-via-gates"></a>
 ### 액션 권한 승인하기
 

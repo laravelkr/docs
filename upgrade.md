@@ -203,6 +203,10 @@ HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 
 
 이 경우 라라벨은 커스텀 정의사항을 우선하여 외래키 컬럼이름을 `user_id` 대신 `user_key` 로 결정합니다. 
 
+#### BelongsToMany `setJoin`
+
+`setJoin` 메소드는 `performJoin`으로 이름이 변경되었습니다.
+
 #### 하나 또는 여러 개의 `createMany`
 
 `hasOne` 또는 `hasMany` 관계의 `createMany` 메소드는 이제 배열 대신에 컬렉션 객체를 반환합니다.
@@ -215,9 +219,21 @@ HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 
 
 Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
 
+#### `chunk` 메소드
+
+이제 쿼리 빌더의 `chunk` 메소드에서는 `each` 메소드와의 일관성을 제공하기 위해서 `orderBy` 구문을 필요로 합니다. `orderBy` 구문이 제공되지 않으면 exception이 발생합니다. 예를 들자면:
+
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+        foreach ($users as $user) {
+            //
+        }
+    });
+
+Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제공하지 않으면, 자동으로 primary key를 사용합니다.
+
 #### `create` & `forceCreate` 메소드
 
-`Model::create` 및 `Model:: forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
+`Model::create` 및 `Model::forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
 
     public static function create(array $attributes = [])
     {

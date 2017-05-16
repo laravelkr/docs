@@ -219,7 +219,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 <a name="retrieving-single-models"></a>
 ## 하나의 모델 / 집계 조회하기
 
-테이블에서 모든 정보를 조회하는 것 외에도 `find`와 `first`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다:
+테이블에서 모든 정보를 조회하는 것 외에도 `find` 또는 `first`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다:
 
     // Retrieve a model by its primary key...
     $flight = App\Flight::find(1);

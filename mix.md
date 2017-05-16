@@ -165,7 +165,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
         background: url('../images/example.png');
     }
 
-> {note} `url()`의 절대 경로는 URL-재작성에서 제외됩니다. 예를 들어, `url('/images/thing.png')` 와 `url('http://example.com/images/thing.png')` 는 수정되지 않습니다.
+> {note} `url()`에 주어진 절대 경로들은 URL-재작성에서 제외됩니다. 예를 들어, `url('/images/thing.png')` 와 `url('http://example.com/images/thing.png')` 는 수정되지 않습니다.
 
 기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
 

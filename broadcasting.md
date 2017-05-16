@@ -276,7 +276,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
     }
 
 <a name="broadcast-queue"></a>
-### 브로드캐스트 대기행렬
+### 브로드캐스트 큐-queue
 
 기본적으로, 각 브로드캐스트 이벤트는 `queue.php` 설정 파일에 명시해둔 기본 대기행렬 연결상의 기본 대기행열에 놓이게 될 것입니다. 이벤트 클래스의 `broadcastQueue` 속성을 정의함으로써 대기행렬을 원하는대로 설정할 수 있습니다. 이 속성은 당신이 브로드캐스트할 때 사용하길 원하는 큐의 이름을 지정할 것입니다.
 
@@ -287,6 +287,17 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
      */
     public $broadcastQueue = 'your-queue-name';
 
+기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:  
+
+    <?php
+    
+    use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+
+    class ShippingStatusUpdated implements ShouldBroadcastNow
+    {   
+        //
+    }
+    
 <a name="authorizing-channels"></a>
 ## 채널 승인하기
 

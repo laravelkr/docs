@@ -304,6 +304,13 @@ When this is the case, Laravel will now respect your customization and determine
 
 이 경우 라라벨은 커스텀 정의사항을 우선하여 외래키 컬럼이름을 `user_id` 대신 `user_key` 로 결정합니다. 
 
+#### BelongsToMany `setJoin`
+#### BelongsToMany `setJoin`
+
+The `setJoin` method has been renamed to `performJoin`.
+
+`setJoin` 메소드는 `performJoin`으로 이름이 변경되었습니다.
+
 #### Has One / Many `createMany`
 #### 하나 또는 여러 개의 `createMany`
 

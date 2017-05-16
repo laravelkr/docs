@@ -296,9 +296,9 @@ The `cursor` method allows you to iterate through your database records using a 
 ## Retrieving Single Models / Aggregates
 ## 하나의 모델 / 집계 조회하기
 
-Of course, in addition to retrieving all of the records for a given table, you may also retrieve single records using `find` and `first`. Instead of returning a collection of models, these methods return a single model instance:
+Of course, in addition to retrieving all of the records for a given table, you may also retrieve single records using `find` or `first`. Instead of returning a collection of models, these methods return a single model instance:
 
-테이블에서 모든 정보를 조회하는 것 외에도 `find`와 `first`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다:
+테이블에서 모든 정보를 조회하는 것 외에도 `find` 또는 `first`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다:
 
     // Retrieve a model by its primary key...
     $flight = App\Flight::find(1);

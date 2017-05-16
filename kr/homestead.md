@@ -392,6 +392,21 @@ The available site types are: `apache`, `laravel` (the default), `proxy`, `silve
 
 사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
 
+<a name="site-parameters"></a>
+#### Site Parameters
+#### 사이트 파라미터
+
+You may add additional Nginx `fastcgi_param` values to your site via the `params` site directive. For example, we'll add a `FOO` parameter with a value of `BAR`:
+
+추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다:  
+
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
+          params:
+              - key: FOO
+                value: BAR
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 ### Cron 스케줄링 설정하기 =
@@ -436,8 +451,8 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
 원한다면 포트뿐만 아니라 프로토콜을 추가로 Vagrant Box에 포워딩하도록 지정 할 수 있습니다.
 
     ports:
-        - send: 93000
-          to: 9300
+        - send: 50000
+          to: 5000
         - send: 7777
           to: 777
           protocol: udp

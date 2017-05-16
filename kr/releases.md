@@ -3,6 +3,7 @@
 
 - [Versioning Scheme](#versioning-scheme)
 - [Support Policy](#support-policy)
+- [Laravel 5.4.22](#laravel-5.4.22)
 - [Laravel 5.4](#laravel-5.4)
 - [Laravel 5.3](#laravel-5.3)
 - [Laravel 5.2](#laravel-5.2)
@@ -21,7 +22,7 @@ Laravel's versioning scheme maintains the following convention: `paradigm.minor.
 
 라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다: `paradigm.minor.patch`. 마이너 프레임워크 릴리즈는 6 개월마다 (1월, 7월) 릴리즈되며, 패치 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 패치 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
-When referencing the Laravel framework or it's components from your application or package, you should always use a version constraint such as `5.4.*`, since minor releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new minor release in one day or less.
+When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.4.*`, since minor releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new minor release in one day or less.
 
 어플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 마이너 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.4.*` 와 같이 참조하도록 해야 합니다.
 
@@ -53,6 +54,20 @@ you should never receive a breaking change as long as your version constraints f
 For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.
 
 라라벨 5.1과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다.
+
+<a name="laravel-5.4.22"></a>
+## Laravel 5.4.22
+## 라라벨 5.4.22
+
+Laravel 5.4.22 patches a security vulnerability in the Laravel 5.4 release series that allows phishing attempts on users of the application. Using the password reset system, malicious users can attempt to trick your users into entering their login credentials into a separate application that they control. Since the password reset notification uses the host of the incoming request to build the password reset URL, the host of the password reset URL may be spoofed. If users do not notice that they are not on their intended application's domain, they may accidentally enter their login credentials into a malicious application.
+
+라라벨 5.4.22는 어플리케이션의 이용자에게 피싱시도가 가능한 5.4 릴리스의 보안 취약점을 패치하였습니다. 악의적인 ​​사용자가 패스워드 재설정 시스템을 악용하여 로그인을 통해서 어플리케이션에 진입하는 사용자를 자신이 제어하는 ​​별도의 어플리케이션으로 이동하도록 할 수 있습니다. 패스워드 재설정 알림은 유입된 요청의 호스트를 사용하여 패스워드 재설정 URL을 작성하기 때문에 패스워드 재설정 URL의 호스트가 스푸핑 될 수 있습니다. 개발자가 의도한 어플리케이션의 도메인이 사용되지 있다는 것을 확인하지 않으면, 이용자가 로그인 과정에서 악의적인 어플리케이션으로 이동 할 수 있습니다.
+
+In Laravel 5.1 applications, the password reset notification is maintained by the developer, so this vulnerability may or may not be present. You should verify that your application generates an absolute URL for password reset links:
+
+라라벨 5.1 어플리케이션에서 패스워드 재설정 알림은 개발자가 구성 하므로 이 취약점이 존재할 수도 있고, 없을 수도 있습니다. 어플리케이션이 패스워드 재설정 링크를 위한 절대경로의 URL을 생성하는지 확인해야합니다:
+
+    {{ url('http://example.com/password/reset/'.$token) }}
 
 <a name="laravel-5.4"></a>
 ## Laravel 5.4

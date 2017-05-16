@@ -380,7 +380,7 @@ However, if you wish to have more fine-grained control over your broadcast paylo
 
 <a name="broadcast-queue"></a>
 ### Broadcast Queue
-### 브로드캐스트 대기행렬
+### 브로드캐스트 큐-queue
 
 By default, each broadcast event is placed on the default queue for the default queue connection specified in your `queue.php` configuration file. You may customize the queue used by the broadcaster by defining a `broadcastQueue` property on your event class. This property should specify the name of the queue you wish to use when broadcasting:
 
@@ -393,6 +393,19 @@ By default, each broadcast event is placed on the default queue for the default 
      */
     public $broadcastQueue = 'your-queue-name';
 
+If you want to broadcast your event using the `sync` queue instead of the default queue driver, you can implement the `ShouldBroadcastNow` interface instead of `ShouldBroadcast`:
+
+기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:  
+
+    <?php
+    
+    use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+
+    class ShippingStatusUpdated implements ShouldBroadcastNow
+    {   
+        //
+    }
+    
 <a name="authorizing-channels"></a>
 ## Authorizing Channels
 ## 채널 승인하기

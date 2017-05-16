@@ -324,12 +324,29 @@ Eloquent will query the posts table on the `example` connection instead of the d
 
 Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
 
+#### The `chunk` Method
+#### `chunk` 메소드
+
+The query builder `chunk` method now requires an `orderBy` clause, which provides consistency with the `each` method. An exception will be thrown if an `orderBy` clause is not supplied. For example:
+
+이제 쿼리 빌더의 `chunk` 메소드에서는 `each` 메소드와의 일관성을 제공하기 위해서 `orderBy` 구문을 필요로 합니다. `orderBy` 구문이 제공되지 않으면 exception이 발생합니다. 예를 들자면:
+
+    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+        foreach ($users as $user) {
+            //
+        }
+    });
+
+The Eloquent query builder `chunk` method will automatically apply an `orderBy` clause on the model's primary key if one is not supplied.
+
+Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제공하지 않으면, 자동으로 primary key를 사용합니다.
+
 #### The `create` & `forceCreate` Methods
 #### `create` & `forceCreate` 메소드
 
-The `Model::create` & `Model:: forceCreate` methods have been moved to the `Illuminate\Database\Eloquent\Builder` class in order to provide better support for creating models on multiple connections. However, if you are extending these methods in your own models, you will need to modify your implementation to call the `create` method on the builder. For example:
+The `Model::create` & `Model::forceCreate` methods have been moved to the `Illuminate\Database\Eloquent\Builder` class in order to provide better support for creating models on multiple connections. However, if you are extending these methods in your own models, you will need to modify your implementation to call the `create` method on the builder. For example:
 
-`Model::create` 및 `Model:: forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
+`Model::create` 및 `Model::forceCreate` 메소드는 다수의 커넥션에서 모델을 생성하는 데 더 나은 지원을 제공하기 위해 `Illuminate\Database\Eloquent\Builder` 클래스로 옮겨졌습니다. 그렇지만, 만약 여러분의 고유한 모델에서 이 메소드를 확장하고자 한다면, 빌더의 `create` 메소드를 호출하도록 구현 메소드를 수정해야 합니다. 예들 들면:
 
     public static function create(array $attributes = [])
     {

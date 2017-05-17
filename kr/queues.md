@@ -226,9 +226,9 @@ You may pass a comma-delimited list of queue connections to the `listen` command
 
 	php artisan queue:listen --queue=high,low
 
-In this example, jobs on the `high-connection` will always be processed before moving onto jobs from the `low-connection`.
+In this example, jobs on the `high-connection` will always be processed before moving onto jobs from the `low` connection.
 
-이 예제에서,  `high-connection`의 작업은  항상  `low-connection` 작업보다 먼저 처리됩니다.
+이 예제에서, `high-connection`의 작업은 항상 `low` 커넥션 작업보다 먼저 처리됩니다.
 
 #### Specifying The Job Timeout Parameter
 #### 작업 제한 시간에 대한 매개 변수 지정하기

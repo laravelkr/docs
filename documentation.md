@@ -1,26 +1,26 @@
-- ## 프롤로그
+- 프롤로그
     - [릴리즈 노트](/docs/5.0/releases)
     - [업그레이드 가이드](/docs/5.0/upgrade)
     - [기여 가이드](/docs/5.0/contributions)
-- ## Setup
+- 셋업
     - [설치하기](/docs/5.0/installation)
     - [설정하기](/docs/5.0/configuration)
     - [홈스테드](/docs/5.0/homestead)
-- ## 기본 개념 익히기
+- 기본 개념 익히기
     - [라우팅](/docs/5.0/routing)
     - [미들웨어](/docs/5.0/middleware)
     - [컨트롤러](/docs/5.0/controllers)
     - [Requests](/docs/5.0/requests)
     - [Responses](/docs/5.0/responses)
     - [뷰-Views](/docs/5.0/views)
-- ## 아키텍처 구성
+- 아키텍처 구성
     - [서비스 프로바이더](/docs/5.0/providers)
     - [서비스 컨테이너](/docs/5.0/container)
     - [Contracts](/docs/5.0/contracts)
     - [파사드](/docs/5.0/facades)
     - [Request 라이프사이클](/docs/5.0/lifecycle)
     - [어플리케이션 구조](/docs/5.0/structure)
-- ## 제공되는 서비스들
+- 제공되는 서비스들
     - [사용자 인증](/docs/5.0/authentication)
     - [결제-캐셔](/docs/5.0/billing)
     - [캐시](/docs/5.0/cache)
@@ -44,13 +44,13 @@
     - [템플릿](/docs/5.0/templates)
     - [Unit 테스팅](/docs/5.0/testing)
     - [Validation-유효성검사](/docs/5.0/validation)
-- ## 데이터베이스
+- 데이터베이스
     - [기본적인 사용법](/docs/5.0/database)
     - [쿼리 빌더](/docs/5.0/queries)
     - [Eloquent ORM](/docs/5.0/eloquent)
     - [스키마 빌더](/docs/5.0/schema)
     - [마이그레이션 & 시딩](/docs/5.0/migrations)
     - [Redis-레디스](/docs/5.0/redis)
-- ## 아티즌 CLI
+- 아티즌 CLI
     - [개요](/docs/5.0/artisan)
     - [개발하기](/docs/5.0/commands)

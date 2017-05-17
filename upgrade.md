@@ -1,405 +1,360 @@
-# 업그레이드 가이드(Upgrade Guide)
+# 릴리즈 노트
 
-- [Upgrading To 5.0.16](#upgrade-5.0.16)
-- [Upgrading To 5.0 From 4.2](#upgrade-5.0)
-- [Upgrading To 4.2 From 4.1](#upgrade-4.2)
-- [Upgrading To 4.1.29 From <= 4.1.x](#upgrade-4.1.29)
-- [Upgrading To 4.1.26 From <= 4.1.25](#upgrade-4.1.26)
-- [Upgrading To 4.1 From 4.0](#upgrade-4.1)
+- [지원 정책](#support-policy)
+- [라라벨 5.0](#laravel-5.0)
+- [라라벨 4.2](#laravel-4.2)
+- [라라벨 4.1](#laravel-4.1)
 
-<a name="upgrade-5.0.16"></a>
-## 5.0.16으로 업그레이드
+<a name="support-policy"></a>
+## 지원 정책
 
-`bootstrap/autoload` 파일에서 `$compiledPath` 변수를 다음처럼 변경합니다:
+Security fixes are **always** applied to the previous major version of Laravel. Currently, **all** security fixes and patches will be applied to both Laravel 5.x **and** Laravel 4.x.
 
-    $compiledPath = __DIR__.'/../vendor/compiled.php';
+When feasible, security fixes will also be applied to even older releases of the framework, such as Laravel 3.x.
 
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-5-0-16으로-업그레이드-->
+<a name="laravel-5.0"></a>
+## 라라벨 5.0 
 
-<a name="upgrade-5.0"></a>
-## 4.2에서 5.0으로 업그레이드
+라라벨 5.0 에서는 완전히 새로운 어플리케이션 구조가 구성되었습니다. 이 새로운 구조는 라라벨이 보다 나은 어플리케이션을 구축하기 위한 좋은 기초가 되며, 어플리케이션에는 새로운 auto-loading 기준인 (PSR-4)가 적용되었습니다. 먼저 주요한 변경 사항들을 확인해 보겠습니다:
 
-### 새로 설치 후 마이그레이션 하기
+### 새로운 폴더 구조
 
-업그레이드에 대한 권장사항은 새롭게 라라벨 `5.0` 버전을 인스톨하고 `4.2` 버전의 사이트의 고유한 어플리케이션 파일들을 새로운 어플리케이션에 복사하라는 것입니다. 여기에는 컨트롤러, 라우트, 엘로퀀트 모델들, 아티즌 명령어들, asset 파일들 그리고 어플리케이션에 지정된 기타 코드들을 포함합니다.
+이전의 `app/modules` 디렉토리는 완전히 제거되었습니다. 대신에, 여러분의 모든 코드는 `app` 폴더안으로 옮겨졌고, 기본적으로 `App` 네임스페이스 이름으로 구성되었습니다. 이 기본 네임스페이스 는 `app:name` 아티즌 명령어를 통해서 손쉽게 변경가능합니다. 
 
-업그레이드를 시작하기 위해서 로컬 환경의 새로운 디렉토리에 [라라벨 5 어플리케이션을 설치](/docs/5.0/installation)합니다. 업그레이드를 위한 각 단계의 진행에 대해서 차근차근 알아보겠습니다.
+컨트롤러, 미들웨어, 그리고 request-요청 ( 라라벨 5.0 의 새로운 클래스 타입)은 어플리케이션의 HTTP 전송 계층과 관련된 클래스로, `app/Http` 디렉토리 아래에 위치합니다. 구조 없이 하나로 되어 있던 라우트 필터, 전체 미들웨어는 각각의 클래스 파일로 분할되었습니다. 
 
-### 컴포저 의존성 & 패키지
+이전의 라라벨 4.X 버전의 `app/start` 파일들이 새로운 `app/Providers` 디렉토리로 대체되었습니다. 이 서비스 프로바이더들은 에러 핸들링, 로깅, 라우트 로딩등의 어플리케이션의 부트스트래핑을 위한 다양한 기능을 제공합니다. 물론 어플리케이션에서 필요한 추가적인 서비스 프로바이더들을 자유롭게 추가할 수 있습니다. 
 
-설치된 5.0 버전의 어플리케이션에 추가적인 컴포저 의존 패키지들을 복사해 넣는 것을 잊지 마십시오. 여기에는 SDK와 같은 서드 파티 코드도 포함됩니다.
+어플리케이션의 언어 파일과 뷰 파일들은 `resources` 디렉토리로 이동되었습니다. 
 
-라라벨5가 릴리즈 된 이후 바로는 라라벨과 연동되는 일부 패키지는 라라벨5와 호환이 되지 않는수도 있습니다. 패키지의 제작자에게 라라벨5 버전에 대한 대응계획을 확인합니다. 컴포저에 어플리케이션을 위한 추가적인 의존 패키지를 추가하였다면 `composer updata`를 실행 해야 합니다.
+### Contracts
 
-### 네임스페이스
+모든 라라벨의 주요 컴포넌트들은 `illuminate/contracts` 저장소에 있는 인터페이스들을 구현하고 있습니다. 이 저장소는 어떠한 외부 의존성도 가지고 있지 않습니다. 보다 편의를 위해서, 인터페이스들이 한곳에 모여서 위치하고, 이 인터페이스들을 사용한 디커플링과 의존성 주입은 라라벨 파사드를 통해서 다른 대안을 손쉽게 사용할 수 있게 합니다 
 
-라라벨 4에서는 기본적으로 어플리케이션의 코드에 네임스페이스가 구성되어 있지 않았습니다. 그래서 예를 들면 모든 Eloquent 모델들과 컨트롤러는 "글로벌" 네임스페이스 영역에 해당되었습니다. 빠른 전환을 위해서는 라라벨5에서도 마찬가지로 글로벌 네임스페이스 안에 이 클래스들을 지정되도록 합니다.
+contracts 에 관한 보다 자세한 내용은 [문서](/docs/{{version}}/contracts)를 참고하십시오. 
 
-### 설정
+### 라우트 캐시
 
-#### 마이그레이션 환경 변수
+어플리케이션이 컨트롤러의 라우트만으로 구성된 경우에, `route:cache` 아티즌 명령어를 사용하여, 라우트 등록 속도를 대대적으로 개선할 수 있습니다. 이 기능은 주로 어플리케이션에 100개 이상의 라우트가 있는 경우 유용하며, 어플리케이션의 라우트 부분을 **극적으로** 단축 할 수 있습니다. 
 
-`.env.example` 파일을 복사하여 이전 버전에서 `.env.php` 파일과 같은 역할을 하는 `5.0의 `.env` 파일을 생성합니다. `APP_ENV`와 `APP_KEY` (암호화 키), 데이터베이스 연결 정보, 캐시 그리고 세션 드라이버와 같은 어플리케이션에서 사용가능항 설정 값들을 지정할 수 있습니다.
+### 라우트 미들웨어
 
-추가로 이전버전의 `.env.php` 파일에 들어 있던 사용자가 지정한 값들을 `.env` 파일(실제 로컬 환경을 위한 값 설정)과 `.env.example` 파일 (다른 팀 구성원들이 참고할 샘플 값)에 복사합니다.)에 복사해 넣습니다.
+라라벨 4 스타일의 라우트 "필터"에 더하여, 라라벨 5 에서는 HTTP 미들웨어가 지원되고, 사용자 인증과 CSRF "필터"가 미들웨어로 변경되었습니다. 미들웨어는 request 가 어플리케이션에 진입하기 전에 손쉽게 확인하고, 거부할 수 있도록 모든 타입의 필터를 대체하기 위한 하나의 일관된 인터페이스를 제공합니다. 
 
-환경 설정과 관련된 보다 자세한 내용은 [관련 문서](/docs/5.0/configuration#environment-configuration)를 확인하십시오.
+미들웨어 대한 보다 자세한 내용은 [문서](/docs/{{version}}/middleware)에서 확인하십시오.
 
-> **주의** 라라벨5 어플리케이션을 실제 제품 서버에 배포하기 전에 적절한 값을 지정한 `.env` 파일을 준비해 둘 필요가 있습니다.
+### 컨트롤러 메소드 주입
 
-#### 설정 파일들
+이미 존재하는 생성자에서의 주입에 더해, 컨트롤러의 메소드에서도 타입-힌트 의존성 주입을 사용할 수 있습니다. [서비스 컨테이너](/docs/{{version}}/container)는 라우트에 다른 파라미터를 포함하고 있더라도, 자동으로 의존성을 주입할 것입니다. 
 
-라라벨 5.0은 더 이상 `app/config/{구동환경의이름}/` 디렉토리를 주어진 구동 환경에 대한 설정파일로 사용하지 않습니다. 대신에  구동 환경에 의해 달라지는 설정 값들을 `.env` 파일로 이동 시켰습니다. 그리고 나서 설정 파일 안에서 `env(‘키’, ‘기본값’)`의 형태로 해당 값들에 엑세스 합니다. `config/database.php` 설정 파일에서 이러한 사용 예를 확인할 수 있습니다.
-
-구동환경과 관계없이 변하지 않는 값들과 또는 `env()`를 통해서 여러분의 로컬 환경에 의해서 변화하는 값 두 가지들에 대한 설정 값들을 `config/` 디렉토리안에 들어 있는 설정 파일들에 지정합니다.
-
-기억하십시오 만약 여러분이 `.env` 파일에 추가적인 키들을 추가하였다면, 마찬가지로 `.env.exampl` 파일에도 추가합니다. 여러분의 팀 동료들이 이를 참고하여 손쉽게 자신의 `.env` 파일을 생성하는 데 도움이 될 것입니다.
-
-### 라우트
-
-이전 버전의 `routes.php` 파일의 내용을 새로운 `app/Http/routes.php` 파일에 복사해 넣습니다.
-
-### 컨트롤러
-
-다음으로 모든 컨트롤러들을 `app/Http/Controllers` 디렉토리로 옮깁니다. 이 가이드에서는 네임스페이스를 사용하도록 변경하지 않기 때문에, `app/Http/Controllers` 디렉토리를 `composer.json` 파일의 `classmap` 여역에 추가합니다. 그런 다음 `app/Http/Controllers/Controller.php` 추상  클래스에서 네임스페이스를 제거합니다. 마이그레이션된 컨트롤러가 기본 클래스를 상속 받고 있는지 확인합니다.
-
-`app/Providers/RouteServiceProvider.php` 파일 내부에서 `namespace` 속성을 `null`로 설정합니다.
-
-### 라우트 필터
-
-`app/filters.php` 파일에 있던 필터 바인딩들을 `app/Providers/RouteServiceProvider.php`파일의 `boot()` 메소드에 복사합니다. `app/Providers/RouteServiceProvider.php` 파일에 `use Illuminate\Support\Facades\Route;`를 추가하여 `Route` 파사드를 사용할 수 있도록 합니다.
-
-`auth`와 `csrf`와 같은 기본적인 라라벨 4.0의 필터는 미들웨어로 변경되었기 때문에 따로 옮길 필요가 없습니다. 이전의 기본 필터들(예를 들어, `['before' => 'auth']`)을 참조하는 라우트나 컨트롤러들을 수정하여 새로운 미들웨어(예를 들어, `['middleware' => 'auth’].`)를 참조 하도록 변경합니다.
-
-필터는 라라벨5에서 삭제되지 않았습니다. 여러분은 여전히 `before`와 `after`를 사용하여 사용자 정의 필터를 지정하고 사용할 수 있습니다.
-
-### 전역 CSRF
-
-기본적으로 [CSRF 방지](/docs/5.0/routing#csrf-protection)가 전체 라우트에서 활성화되어 있습니다. 이를 비활성화 시키거나 특정 라우트에서만 수동으로 활성화하고자한다면 `App\Http\Kernel`파일의  `middleware` 배열에서 다음 미들웨어를 삭제합니다.
-
-    'App\Http\Middleware\VerifyCsrfToken',
-
-다른곳에서 사용하기 위해서 삭제한 라인을 `$routeMiddleware`에 추가합니다:
-
-    'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
-
-이제 개별 라우트 / 컨트롤러에 대해서 `['middleware' => 'csrf']`와 같이 미들웨어를 지정할 수 있습니다. 미들웨어에 대한 보다 자세한 사항은 [미들웨어 문서](/docs/5.0/middleware)를 참고하십시오.
-
-### Eloquent 모델
-
-Eloquent 모델을 모아두기 위한 `app/Models` 디렉토리를 생성합니다. 그런다음에 이 디렉토리를 `composer.json` 파일의 `classmap`에 추가합니다.
-
-`SoftDeletingTrait`을 사용하는 모델은  `Illuminate\Database\Eloquent\SoftDeletes`을 사용하도록 변경합니다.
-
-#### Eloquent 캐싱
-
-Eloquent는 더 이상 쿼리 캐시를 위한 `remember` 메소드를 제공하지 않습니다. 여러분은 이제 `Cache::remember` 함수를 사용하여 수동으로 쿼리를 캐싱해야 합니다. 캐시와 관련된 보다 자세한 정보는 [해당 문서](/docs/5.0/cache)를 참고하십시오.
-
-### 사용자 인증 모델
-
-`User` 모델을 라라벨5의 인증 시스템 용으로 업그레이드 하려면 다음과 같이 하면 됩니다:
-
-** 다음의 `use` 블럭을 삭제합니다 :**
-
-```php
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
-```
-
-** 다음의 `use` 블럭을 추가합니다:**
-
-```php
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-```
-
-**UserInterface와 RemindableInterface 인터페이스를 제거합니다.
-
-**클래스가 다음의 인터페이스들을 구현하도록 선언합니다:**
-
-```php
-implements AuthenticatableContract, CanResetPasswordContract
-```
-
-**클래스 선언부분 안에서 다음의 trait들을 사용하도록 합니다:**
-
-```php
-use Authenticatable, CanResetPassword;
-```
-
-**이 방법을 사용하면, 클래스의 선언부분의 use 블록에서 `Illuminate\Auth\Reminders\RemindableTrait`와 `Illuminate\Auth\UserTrait`를 제거합니다.
-
-### 캐셔 변경사항
-
-[라라벨 캐셔](/docs/5.0/billing)의 trait과 인터페이스의 이름이 변경되었습니다.  `BillableTrait` 대신 `Laravel\Cashier\Billable` trait을 사용합니다. 그리고 `Laravel\Cashier\BillableInterface` 대신에 `Laravel\Cashier\Contracts\Billable` 인터페이스를 사용합니다. 다른 메소드는 변경되지 않았습니다.
-
-### 아티즌 명령어들
-
-`app/commands` 디렉토리의 모든 커맨드 클래스드들을 새로운 `app/Console/Commands` 디렉토리로 이옮깁니다. 그다음에 `composer.json` 파일의 `classmap`에 `app/Console/Commands`을 추가합니다.
-
-그리고 `start/artisan.php` 파일의 아티즌 명령어 리스트를 `app/Console/Kernel.php` 파일의 `commands` 배열에 복사합니다.
-
-### 데이터베이스 마이그레이션 & 시딩
-
-데이터베이스에 이미 user 테이블에 존재하기 때문에 라라벨 5.0에 포함된 두 개의 마이그레이션 파일을 삭제 합니다.
-
-이전 `app/database/migrations` 디렉토리의 모든 마이그레이션 클래스들을 새로운 `database/migrations` 디렉토리로 옮깁니다. 시드 파일들은 `app/database/seeds`에서 `database/seeds`로 옮깁니다.
-
-### 글로벌 IoC 바인딩
-
-만약 `start/global.php` 파일에 [IoC](/docs/5.0/container) 바인딩들을 가지고 있었다면, `app/Providers/AppServiceProvider.php`의 `register` 메소드로 옮깁니다. `App` 파사드를 사용해야 할 것입니다.
-
-옵션으로, 바인딩들을 해당하는 개별 서비스 프로바이더에 나누어 옮길 수도있습니다.
-
-### 뷰
-
-`app/views` 디렉토리의 뷰 파일들을 `resources/views` 디렉토리로 옮깁니다
-
-### 블레이드 태그 변경
-
-보안을 기본적으로 강화하기 위해서 라라벨5에서는 `{{ }}`와 `{{{ }}}` 구문에서 모든 출력을 escape 합니다. 새로운 `{!! !!}` 구문이 escape 되지 않은 출력을 위해서 사용되어 집니다. 어플리케이션을 업데이트 할 때 가장 안전한 선택은 이전처럼 출력하기 위해서 기존 구문들을 `{!! !!}` 표기 방식으로 사용하는 것입니다.
-
-하지만 여러분이 **반드시** 이전 버전의 블레이드 문법을 사용해야 한다면 `AppServiceProvider@register`의 마지막에 다음 라인들을 추가하면 됩니다.
-
-```php
-\Blade::setRawTags('{{', '}}');
-\Blade::setContentTags('{{{', '}}}');
-\Blade::setEscapedContentTags('{{{', '}}}');
-```
-
-이렇게 하는 것이 편리한것만은 아니며 XSS 공격에 대해서 어플리케이션이 취약해질 수도 있습니다.
-또한, 코멘트와 `{{--`는 더 이상 동작하지 않습니다.
-
-### 다국어 파일
-
-`app/lang` 디렉토리의 언어 파일들을 `resources/lang` 디렉토리로 옮깁니다
-
-###  public 디렉토리
-
-`4.2` 어플리케이션의 `public` 디렉토리에 들어 있던 asset 파일들을 새로운 어플리케이션의 `public` 디렉토리로 복사해 넣습니다. `index.php`의 `5.0` 버전을 유지해야 합니다.
-
-### 테스트파일
-
-`app/tests` 폴더의 테스트 파일들을 `tests` 디렉토리로 옮깁니다.
-
-### 기타 파일들
-
-프로젝트의 다른 파일들을 복사합니다. 예를 들어, `.scrutinizer.yml`, `bower.json` 그리고 다를 비슷한 도구 관련 설정 파일 등입니다.
-
-Sass 나 Less, CoffeeScript 파일들을 원하는 위치로 이동합시다. `resources/assets` 디렉토리가 기본 위치로 적당할 것입니다.
-
-### Form & HTML 헬퍼
-
-만약 Form 이나 HTML 헬퍼를 사용중이었다면 `class 'Form' not found` 또는 `class 'Html' not found`와 같은 에러 메세지를 확인할 수 있을 것입니다. Form과 HTML 헬퍼는 라라벨 5.0에서 더 이상 제공하지 않습니다. 하지만 별도의 [Laravel Collective](http://laravelcollective.com/docs/5.0/html) 커뮤니티가 주관하는 대체 시스템이 있습니다.
-
-예를 들자면 `composer.json`의 `require` 영역에 `"laravelcollective/html": "~5.0"`를 추가할 수도 있습니다 .
-
-또한, Form과 HTML 파사드와 서비스 프로바이더가 필요할 것입니다. `config/app.php`를 수정하여 'providers' 배열에 다음 라인을 추가하십시오.
-
-	'Collective\Html\HtmlServiceProvider',
-
-다음으로 'aliases' 배열에 다음라인들을 추가합니다.
-
-	'Form' => 'Collective\Html\FormFacade',
-	'Html' => 'Collective\Html\HtmlFacade',
-
-### 캐시 매니저
-
-어플리케이션에서 라라벨 캐시를 파사드가 아닌 `Illuminate\Cache\CacheManager` 형태로 주입했었다면 이제는 그 대신에 `Illuminate\Contracts\Cache\Repository`를 주입하도록 합니다.
-
-### 페이지네이션
-
-`$paginator->links()`로 호출되던 부분을 `$paginator->render()`으로 교체하십시오.
-
-`$paginator->getFrom()`와 `$paginator->getTo()`로 호출되던 부분을 각각 `$paginator->firstItem()`와 `$paginator->lastItem()`로 교체합니다.
-
-`$paginator->getPerPage()`, `$paginator->getCurrentPage()`, `$paginator->getLastPage()` 그리고 `$paginator->getTotal()`메소드 앞에 접두어로 붙던 “get”을 제거 하십시오(예. `$paginator->perPage()`)
-
-### Beanstalk 큐
-
-라라벨 5.0에서는 `"pda/pheanstalk": "~2.1"` 대신에 `"pda/pheanstalk": "~3.0”`을 필요로 합니다.
-
-### Remote
-
-Remote 컴포넌트는 더 이상 제공하지 않습니다.
-
-### Workbench
-
-Workbench 컴포넌트는 더 이상 제공하지 않습니다.
-
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-4-2에서-5-0으로-업그레이드-->
-
-<a name="upgrade-4.2"></a>
-## 4.1에서 4.2로 업그레이드 하기
-
-### PHP 5.4 이상
-
-라라벨 4.2는 PHP 5.4.0 이상을 필요로 합니다.
-
-### 기본 암호화 방식
-
-`app/config/app.php` 설정 파일에 새로운 `chpher` 옵션을 추가하십시오. 이 옵션값은 `MCRYPT_RIJNDAEL_256`가 되어야 합니다.
-
-    'cipher' => MCRYPT_RIJNDAEL_256
-
-이 설정은 라라벨의 암호화 기능에 의해 사용되는 기본 암호화를 제어하는​​ 데 사용됩니다.
-
-> **참고:** 라라벨 4.2에서는 기본 암호화 옵션은 가장 안전한 암호화 방식으로 알려진 `MCRYPT_RIJNDAEL_128` (AES)입니다.  암호화 방식을 `MCRYPT_RIJNDAEL_256`으로 되돌릴 필요가 있는 경우는 라라벨 4.1 이전 버전에서 암호화 된 쿠키 / 값을 해독해야 하는 경우입니다.
-
-### Soft 삭제 모델은 Traits를 사용합니다.
-
-만약 모델의 soft 삭제를 사용하였었따면 `softDeletes` 속성은 제거되었습니다. 이제 다음처럼 `SoftDeletingTrait`을 사용해야 합니다.
-
-	use Illuminate\Database\Eloquent\SoftDeletingTrait;
-
-	class User extends Eloquent {
-		use SoftDeletingTrait;
-	}
-
-또한, 수동으로 `deleted_at` 컬럼을  `dates` 속성에 추가해주어야 합니다.
-
-	class User extends Eloquent {
-		use SoftDeletingTrait;
-
-		protected $dates = ['deleted_at'];
-	}
-
-모든 soft 삭제 작업을 위한 API는 동일합니다.
-
-> **주의:** `SoftDeletingTrait`는 기본 모델에 사용해서는 안됩니다. 실제 모델 클래스에서만 사용하도록 합니다.
-
-### 뷰 / 페이지네이션 Environment 이름 변경
-
-코드상에서 `Illuminate\View\Environment` 클래스 또는 `Illuminate\Pagination\Environment` 클래스를 참조하도록 되어 있었다면 그 대신에 `Illuminate\View\Factory`와 `Illuminate\Pagination\Factory`를 참조하도록 변경합니다. 이 두 개의 클래스는 기능을 보다 잘 나타내기 위해서 이름이 변경되었습니다.
-
-### 페이지네이션 프리젠터에 파라미터 추가
-
-`Illuminate\Pagination\Presenter`클래스를 확장하는 경우 `getPageLinkWrapper` 추상 메소드에 `rel` 인자가 추가되도록 변경되었습니다.
-
-    abstract public function getPageLinkWrapper($url, $page, $rel = null);
-
-### Iron.Io 큐 암호화
-
-Iron.io 큐 드라이버를 사용하는 경우 큐 설정 파일에서 새롭게 `encrypt` 옵션을 추가합니다.
-
-	'encrypt' => true
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-4-1에서-4-2로-업그레이드-하기-->
-
-<a name="upgrade-4.1.29"></a>
-## 4.1.X 이하에서 4.1.29로 업그레이드 하기
-
-라라벨 4.1.29에서는 모든 데이터베이스 드라이버에 대한 컬럼 인용 부분이 향상되었습니다. 모델에서 `fillable` 속성을 사용하지 않은 경우 여러 가지 컬럼의 대량 할당에 관한(msass assignment) 취약점으로부터 어플리케이션을 보호할 수 있습니다. 모델에서 `fillable` 속성을 사용하여 데이터를 할당하는 경우 어플리케이션이 보다 안전해 집니다. 그러나 여러분이 `guarded` 속성을 사용하고 있고 사용자로부터 전달된 배열을 “update” 나 “save” 유형의 기능에 전달하는 경우라면 어플리케이션이 mass assignment 위험에 노출되어 있으므로 즉시 4.1.29로 업그레이드 해야 합니다.
-
-라라벨4.1.29로 업그레이드 하기 위해서는 `composer update`를 실행하면 됩니다. 이 업데이트에서는 소스 수정이 필요한 사항들은 포함되어 있지 않습니다.
-
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-4-1-X-이하에서-4-1-29로-업그레이드-하기-->
-
-<a name="upgrade-4.1.26"></a>
-## 4.1.25 이하에서 4.1.26으로 업그레이드 하기
-
-라라벨 4.1.26에서는 “remember me” 쿠키와 관련된 보안이 강화되었습니다. 이 업데이트 이전에는 remember 쿠키가 악의적인 사용자에 의해서 탈취되어 사용자 계정의 암호를 재설정하거나, 로그아웃 해도 장기간 사용이 가능한 상태로 남아 있었습니다.
-
-이번 변경사항에서는 `users` 테이블(또는 사용자 관리랄 위한 테이블)에 새로운 `remember_token` 컬럼을 추가해야 합니다. 이 변경으로 인해서 사용자가 어플리케이션에 로그인 할 때마다 새로운 토큰이 할당됩니다. 이 토큰은 사용자가 어플리케이션에서 로그아웃 할때마다 다시 생성됩니다. 이 구현은 만약 “remember me” 쿠키가 탈취 당하더라도 어플리케이션에서 로그아웃 하면 해당 쿠키는 사용할 수 없게 된다는 것을 의미합니다.
-
-### 업그레이드 방법
-
-먼저 `users` 테이블에 null을 허용하는 VARCHAR(100) 또는 TEXT 형식의 `remember_token` 컬럼을 추가합니다.
-
-다음으로 Eloquent 인증 드라이버를 사용하고 있는 경우에, User 클래스에 다음 세 메소드를 추가하십시오.
-
-	public function getRememberToken()
+	public function createPost(Request $request, PostRepository $posts)
 	{
-		return $this->remember_token;
+		//
 	}
 
-	public function setRememberToken($value)
+### 인증 스캐폴딩
+
+사용자의 등록, 인증, 암호 재설정 컨트롤러는 별다른 설정 없이도 포함되어 있습니다. 동시에, 이에 대응하는 간단한 뷰가 `resources/views/auth` 에 위치하고 있습니다. 이에 더해, "users" 테이블 마이그레이션 파일이 프레임워크에 포함되어 있습니다. 이러한 간단한 리소스가 포함되어 있어서, 인증과 관련된 번거로운 작업 없이도 어플리케이션을 빠르게 구성할 수 있습니다. 인증 뷰는 `auth/login` 와 `auth/register` 라우트를 통해서 엑세스 할 수 있습니다. `App\Services\Auth\Registrar` 서비스가 사용자 검증과 생성과 관련된 역할을 합니다. 
+
+### 이벤트 객체
+
+이벤트는 이제 단순한 문자열 대신 객체로 정의됩니다. 다음의 이벤트 예제를 확인하십시오: 
+
+	class PodcastWasPurchased {
+
+		public $podcast;
+
+		public function __construct(Podcast $podcast)
+		{
+			$this->podcast = $podcast;
+		}
+
+	}
+
+다음과 같이 이벤트를 발생 시킬 수 있습니다:
+
+	Event::fire(new PodcastWasPurchased($podcast));
+
+물론, 이벤트 핸들러는 데이터 목록 대신 이벤트 객체를 받습니다:
+
+	class ReportPodcastPurchase {
+
+		public function handle(PodcastWasPurchased $event)
+		{
+			//
+		}
+
+	}
+
+이벤트의 동작과 관련된 보다 자세한 사항은 [문서](/docs/{{version}}/events)를 참고하십시오. 
+
+### 명령어 / 큐
+
+라라벨 4 에서 큐 작업 포맷을 지원하는데 더해, 라라벨 5 는 큐 작업을 간단한 명령어 객체로 나타낼 수 있게되었습니다. 이 명령어는 `app/Commands` 디렉토리에 위치합니다. 다음은 간단한 명령어 예입니다. 
+
+	class PurchasePodcast extends Command implements SelfHandling, ShouldBeQueued {
+
+		use SerializesModels;
+
+		protected $user, $podcast;
+
+		/**
+		 * Create a new command instance.
+		 *
+		 * @return void
+		 */
+		public function __construct(User $user, Podcast $podcast)
+		{
+			$this->user = $user;
+			$this->podcast = $podcast;
+		}
+
+		/**
+		 * Execute the command.
+		 *
+		 * @return void
+		 */
+		public function handle()
+		{
+			// Handle the logic to purchase the podcast...
+
+			event(new PodcastWasPurchased($this->user, $this->podcast));
+		}
+
+	}
+
+여러분의 명령어들을 손쉽게 수행할 수 있도록 라라벨의 기본 컨트롤러에서는 `DispatchesCommands` 트레이트-trait을 사용하고 있습니다. 
+
+	$this->dispatch(new PurchasePodcastCommand($user, $podcast));
+
+물론 작업을 동기적으로(큐를 통하지 않고) 실행하는 명령어를 사용할 수도 있습니다. 실제로, 명령어를 사용하는 것 자체는, 어플리케이션에서 수행해야 하는 복잡한 작업을 캡슐화 하기 위한 좋은 방법입니다. 보다 자세한 사항은 [command bus](/docs/{{version}}/bus) 문서를 확이하십시오. 
+
+### 데이터베이스 큐
+
+라라벨에 데이터베이스를 통한 간단한, 로컬 큐 드라이버를 제공하는 `database` 큐 드라이버가 포함되었습니다. 
+
+### 라라벨 스케줄러
+
+이전에는 개발자는 스케줄링을 원하는 각각의 콘솔 명령어를 Cron 항목으로 생성했었습니다. 그러나 이건 골치 아픈일입니다. 콘솔 스케줄링은 소스 관리되 되지 않고, Cron 항목을 추가하기 위해서는 SSH 를 통해서 서버에 접속해야만 합니다. 보다 손쉽게 하기 위해서 라라벨 명령어 스케줄러는 라라벨 자체에서 명령어 스케줄링을 보다 유연하고, 풍부한 표현이 가능하게 정의할 수 있도록 허용합니다. 서버에 필요한 Cron 항목은 단 한줄이면 충분합니다. 
+
+다음과 같이 정의할 수 있습니다:
+
+	$schedule->command('artisan:command')->dailyAt('15:00');
+
+스케줄러에 대해서 자세한 내용은 [문서](/docs/{{version}}/artisan#scheduling-artisan-commands)를 참고하십시오!
+
+### Tinker / Psysh
+
+이제, `php artisan tinker` 명령어는 PHP REPL 인 Justin Hileman 의 강령한 [Psysh](https://github.com/bobthecow/psysh)를 사용합니다. 라라벨 4의 Boris를 좋아했다면, Psysh는 더 좋아 하실 것입니다. 심지어, Windows에서도 동작합니다! 바로 사용해 보십시오.
+
+	php artisan tinker
+
+### DotEnv
+
+다양한 혼란을 가져왔던 중첩된 구동 환경 설정을 위한 디렉토리 구조 대신에, 라라벨 5는 이제 Vance Lucas의 [DotEnv](https://github.com/vlucas/phpdotenv)를 사용합니다. 이 라이브러리는 매우 간단한 방법으로 여러분의 구동 환경 설정을 구성할 수 있도록 하고, 라라벨 5에서 손쉽게 구동 환경을 확인할 수 있도록 만들어 줍니다. 보다 자세한 사항은 [설정 문서](/docs/{{version}}/installation#environment-configuration)를 확인하십시오. 
+
+### 라라벨 엘릭서
+
+Jeffrey Way의 라라벨 엘릭서는 assets 을 컴파일하고 합치기 위해서, 유연하고 풍부한 표현이 가능한 인터페이스를 제공합니다. Grunt 나 Gulp 를 배우는데 애를 먹었었다면, 더 이상 두려워할 필요가 없습니다. 엘릭서는 Gulp를 사용하여 Less, Sass 그리고 CoffeeScript를 컴파일하는것을 매우 쉽게 만들어 줍니다. 테스팅을 위해서 사용할 수도 있습니다! 
+
+엘릭서에 대한 보다 자세한 내용은 [문서](/docs/{{version}}/elixir)를 확인하십시오.
+
+### 라라벨 Socialite
+
+라라벨 Socialite는 라라벨 {{version}}+ 에 호환되는 옵션 패키지로, OAuth 프로바이더를 통한 손쉬운 인증을 제공합니다. 현재 Socialite가 지원하고 있는 것은 Facebook, Twitter, Google, GitHub입니다. 다음 예를 참고하십시오:
+
+	public function redirectForAuth()
 	{
-		$this->remember_token = $value;
+		return Socialize::with('twitter')->redirect();
 	}
 
-	public function getRememberTokenName()
+	public function getUserFromProvider()
 	{
-		return 'remember_token';
+		$user = Socialize::with('twitter')->user();
 	}
 
-> **주의:** 이 변경으로 인해 현재 사용중인 "Remember me" 세션이 무효화되기 때문에 모든 사용자는 어플리케이션에 접속할 때 강제로 다시 인증을 해야되게 됩니다.
+OAuth 인증을 구성하기 위해서 더 이상 시간 낭비할 필요가 없습니다. 몇 문안에 구성할 수 있을 정도입니다! 자세한 사항은 [문서](/docs/{{version}}/authentication#social-authentication)를 참고하십시오. 
 
-### 패키지 개발자에게.
+### 파일시스템 통합
 
-`Illuminate\Auth\UserProviderInterface` 인터페이스에 새로운 2개의 메소드가 추가되었습니다. 기본 드라이버에 간단한 구현예제를 확인하실 수 있습니다.
+라라벨은 이제, 로컬, 아마존 S3, 그리고 Rackspace 와 같은 클라우트 스토리지 서비스를 위해서, 일관되고 우아한 API를 제공하는 강력한 파일시스템 추상 라이브러리를 도입하였습니다! 아마존 S3 에 파일을 저장하는 것은 다음처럼 쉬워졌습니다. 
 
-	public function retrieveByToken($identifier, $token);
+	Storage::put('file.txt', 'contents');
 
-	public function updateRememberToken(UserInterface $user, $token);
+라라벨 파일시스템 통합에 대한 보다 자세한 내용은 [문서](/docs/{{version}}/filesystem)를 확인하십시오. 
 
-`Illuminate\Auth\UserInterface`에서도 “업데이트 방법”에서 설명하고 있는 새로운 메소드 3개가 추가되었습니다.
+### Form Requests
 
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-4-1-25-이하에서-4-1-26으로-업그레이드-하기-->
+라라벨 5.0 에서는 `Illuminate\Foundation\Http\FormRequest` 클래스를 확장한 **form requests**를 도입하였습니다. 이 request 객체는 컨트롤러의 메소드 주입과 결합되어, 사용자 입력의 유효성을 검증하거는데 별다른 코드를 작성하지 않아도 되도록 합니다. `FormRequest` 샘플을 확인해 보겠습니다. 
 
-<a name="upgrade-4.1"></a>
-## 4.0에서 4.1로 업그레이드
+	<?php namespace App\Http\Requests;
 
-### 컴포저 의존성 업그레이드 하기
+	class RegisterRequest extends FormRequest {
 
-라라벨 어플리케이션을 4.1로 업그레이드 하기 위해서는 `composer.json` 파일에서 `laravel/framework`의 버전을 `4.1.*`으로 변경해야 합니다.
+		public function rules()
+		{
+			return [
+				'email' => 'required|email|unique:users',
+				'password' => 'required|confirmed|min:8',
+			];
+		}
 
-### 파일 교체
+		public function authorize()
+		{
+			return true;
+		}
 
-`public/index.php` 파일을 [저장소의 새로운 버전](https://github.com/laravel/laravel/blob/v4.1.0/public/index.php)으로 교체 합니다.
+	}
 
-`artisan` 파일을 [저장소의 새로운 버전](https://github.com/laravel/laravel/blob/v4.1.0/artisan)으로 교체 합니다.
+클래스를 정의하였다면, 컨트롤러 액션에 타입-힌트를 지정할 수 있습니다.
 
-### 설정 파일과 옵션 추가
+	public function register(RegisterRequest $request)
+	{
+		var_dump($request->input());
+	}
 
-`app/config/app.php` 설정 파일에서 `aliases`와 `providers` 배열을 업데이트 합니다. 배열에서 업데이트 해야될 값은 [이 파일](https://github.com/laravel/laravel/blob/v4.1.0/app/config/app.php)에서 확인할 수 있습니다. 사용자가 별도로 지정한 패키지 서비스 프로바이더와 별칭을 따로 추가하는 것을 잊지 마십시오.
+라라벨의 서비스 컨테이너가 `FromRequest` 인스턴스의 주입을 식별하게 되면, 그 요청은 **자동으로 유효성 검증**이 될 것입니다. 이것은 여러분의 컨트롤러 액션에 호출되면 HTTP request 입력이 안전하게 지정한 form reqeust 클래스에 의해서 유효성이 검증되었다는 것을 의미합니다. 이에 더해서, request 가 유효하지 않다면 사용자가 정의한 HTTP 리다이렉션이 자동으로 발생하여 에러 메세지가 세션에 자동으로 임시 저장되거나, JSON으로 변환된다는 것을 의미합니다. **form 유효성 검사가 이보다 더 간단할 수는 없을 것입니다.** `FormRequest` 유효성 검사에 대한 보다 자세한 사항은 [문서](/docs/{{version}}/validation#form-request-validation)를 확인하시기 바랍니다. 
 
-새로운 `app/config/remote.php` 설정 파일을 [저장소](https://github.com/laravel/laravel/blob/v4.1.0/app/config/remote.php)로부터 추가합니다.
+### 간단한 컨트롤러 Request 유효성 검증
 
-새로운 `app/config/session.php` 파일에서 새로운 `expire_on_close` 설정 옵션을 추가합니다. 기본값은 `false`입니다.
+이제 라라벨 5의 기본 컨트롤러는 `ValidatesRequests` 트레이트-trait을 포함하고 있습니다. 이 트레이트-trait은 유입되는 reqeust-요청을 검사할 수 있는 간단한 `validate` 메소드를 제공합니다. 어플리케이션의 `FormRequest` 가 너무 크다면 다음을 확인하십시오: 
 
-`app/config/queue.php` 파일에서 새로운 `failed` 설정 섹션을 추가합니다. 이 섹션의 기본값은 다음과 같습니다.
+	public function createPost(Request $request)
+	{
+		$this->validate($request, [
+			'title' => 'required|max:255',
+			'body' => 'required',
+		]);
+	}
 
-	'failed' => [
-		'database' => 'mysql', 'table' => 'failed_jobs',
-	],
+유효성 검사가 실패한다면, exception-예외 가 던져지고 적당한 HTTP response 가 자동으로 브라우저로 보내질 것입니다. 유효성 검사 에러는 세션에 저장될 것입니다! request-요청 이 AJAX request-요청 이라면, 라라벨은 유효성 검사 에러를 JSON으로 구성하여 돌려보낼 것입니다. 
 
-**(선택사항)** `app/config/view.php` 파일에서 `pagination` 설정 옵션을 `pagination::slider-3`으로 업데이트 합니다.
+이 새로운 메소드에 대한 보다 자세한 내용은 [문서](/docs/{{version}}/validation#validation-quickstart)를 참고하십시오.
 
-### 컨트롤러 업데이트
+### 새로운 Generators
 
-`app/controllers/BaseController.php` 파일의 최 상단 부분에 `use`가 사용되었다면 `use Illuminate\Routing\Controllers\Controller;`를 `use Illuminate\Routing\Controller;`으로 변경합니다.
+새로운 기본 어플리케이션의 구조를 구성하기 위한, 새로운 아티즌 generator 명령어가 프레임워크에 추가되었습니다. `php artisan list` 를 통해서 자세한 내용을 확인하십시오. 
 
-### 패스워드 리마인더(알리미) 업데이트
+### 설정 캐시
 
-패스워드 리마인더는 유연성을 높이기 위해서 많은 변경이 있었습니다. `php artisan auth:reminders-controller` 아티즌 명령어를 실행하여 작성되는 새로운 컨트롤러를 살펴보십시오. 혹은 [변경 관련 문서](/docs/security#password-reminders-and-reset)를 확인하고 그에 따라 어플리케이션을 업데이트 하십시오.
+`config:cache` 명령어를 사용하여 설정을 하나의 파일로 구서하여 캐시할 수 있습니다. 
 
-`app/lang/en/reminders.php` 언어 파일을 [새로운 파일](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)에 맞게 변경하십시오.
+### Symfony VarDumper
 
-### 구동환경 감지 업데이트
+변수 디버그 정보를 덤프하는 인기있는 `dd` 헬퍼 함수가 Symfony VarDumper 를 사용하도록 업그레이드 되었습니다. 이를 통해서 색상이 지정된 결과와 열고 닫을 수 있는 배열형태로 출력이 가능합니다. 프로젝트에서 다음과 같이 사용 해보십시오. 
 
-보안의 이유로 어플리케이션의 구동 환경을 감지 하기 위해서 URL 도메인은 더 이상 사용되지 않습니다. 이 값은 손쉽게 요청시에 변경이 가능하여 공력을 가능하게 합니다. 머신의 호스트 네임 (맥, 리눅스, 윈도우에서 `hostname` 명령어를 사용하십시오)을 사용하도록 구동 환경 감지 로직을 변경해야 합니다.
+	dd([1, 2, 3]);
 
-### 로그 파일 간략화.
+<a name="laravel-4.2"></a>
+## 라라벨 4.2
 
-라라벨은 이제 `app/storage/logs/laravel.log` 라는 하나의 파일만을 생성합니다. 그러나 이 동작은 `app/start/global.php` 파일에서 설정이 가능합니다.
+이번 릴리즈의 전체 변경 목록은 설치한 4.2에서 `php artisan changes` 명령어를 실행하여 표시됩니다. 혹은 [Github에서 변경 내역 파일을 확인하십시오.](https://github.com/laravel/framework/blob/4.2/src/Illuminate/Foundation/changes.json). 이 노트에서는 릴리즈의 주요한 개선사항과 변경사항들만 기록되어 있습니다. 
 
-### Trailing Slash 리다이렉션 제거
+> **주의:** 4.2 릴리즈 사이클 동안, 다수의 소소한 버그 수정과 개선이 라라벨 4.1에 포함되어 왔습니다. 따라서, 라라벨 4.1의 변경 사항도 주의 깊게 확인해야 합니다
 
-`bootstrap/start.php` 파일안에서 `$app->redirectIfTrailingSlash()` 호출을 제거 하십시오. 이 기능은 프레임워크에 포함되어 있는 `.htaccess` 파일에서 처리되어 더 이상 메소드가 필요하지 않습니다.
+### PHP 5.4 이상 필요
 
-다음으로 `public/.htaccess` 파일을 [새버전의 파일](https://github.com/laravel/laravel/blob/v4.1.0/public/.htaccess)으로 교체합니다.
+라라벨 4.2는 PHP 5.4 또는 그 이상을 필요로 합니다. PHP 필요사항이 업그레이드 된 것은 [라라벨 캐셔](/docs/billing)와 같은 툴에서 보다 유연한 인터페이스를 제공하게 해주는 트레이트-trait와 같은 새로운 PHP 기능들 사용할 수 있도록 해줍니다. PHP 5.4 는 또한 PHP 5.3 보다 유효한 속도와 성능 향상을 가져옵니다. 
 
-### 현재 라우트 엑세스하기
+### 라라벨 Forge
 
-`Route::getCurrentRoute()` 대신에 `Route::current()`를 통해서 현재 라우트에 엑세스 할 수 있습니다.
-### 컴포저 업데이트
+라라벨 Forge 는 새로운 웹 기반의 어플리케이션으로 Linode, DigitalOcean, Rackspace, 그리고 아마존 EC2 와 같은 클라우드 에서 PHP 서버를 생성하고 관리하는 간단한 방법을 제공합니다. 자동화된 Nginx 설정, SSH key 엑세스, Cron 작업의 자동화, NewRelic & Papertrail 을 통한 서버 모니터링, "Push To Deploy", 라라벨 큐 worker 설정등 Forge 는 가장 간단하고, 가장 손쉬운 방법으로 라라벨 어플리케이션을 구동할 수 있도록 해줍니다. 
 
-변경사항 적용을 완료하면 `composer update`를 실행하여 어플리케이션 코어 파일을 업데이트 할 수 있습니다. 로딩과 관련된 에러가 발생한다면 다음처럼 `--no-scripts` 옵션과 함께 `update` 명령어를 실행하십시오 `composer update --no-scripts`.
+설치된 라라벨 4.2의 `app/config/database.php` 설정 파일은 보다 편리한 방법으로 어플리케이션을 플랫폼에 배포할 수 있도록 기본적으로 Forge 를 사용하도록 설정되어 있습니다. 
 
-### 와일드카드 이벤트 리스너
+라라벨 Forge 에 대한 보다 자세한 내용은 [공식 Forge 웹사이트](https://forge.laravel.com) 에서 찾으실 수 있습니다. 
 
-와일드 카드 이벤트 리스너는 더 이상 핸들러 함수의 인자에 이벤트를 전달하지 않습니다.  발행된 이벤트를 확인해야 할 필요가 다면, `Event::firing()`를 사용하십시오.
+### 라라벨 홈스테드
 
-<!--chak-comment-업그레이드-가이드(Upgrade-Guide)-4-0에서-4-1로-업그레이드-->
+라라벨 홈스테드는 강력한 라라벨 및 PHP 어플리케이션을 배포하기 위한 공식 Vagrant 환경입니다. 박스의 프로비저닝의 거대한 다수는 필요는 처리하는 것 박스가 배포를 위해서 패킹되기 전에 필요로 하는 것 박스가 부트 되기 위해서 외부적으로 빠르게 배포를 위해서 box가 pack 되기 전에 필요한 box의 준비 작업은 처리된 상태이기 때문에, 매우 빠르게 box를 시작할 수 있습니다. 홈스테드는 Nginx 1.6, PHP 5.6 MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt & Bower 를 포함하고 있습니다. 홈스테드는 하나의 box 에서 여러개의 라라벨 어플리케이션을 관리하기 위해서 하나의 `Homestead.yaml` 설정 파일을 가지고 있습니다. 
+
+설치된 라라벨 4.2는 이제 기본적으로 별다른 설정없이도 홈스테드 데이터베이스를 사용할 수 있도록 하여 라라벨의 초기 설정과 설정이 편리해 질 수 있또록 설정된 `app/config/local/database.php` 설정 파일을 포함하고 있습니다. 
+
+공식 문서는 또한 포함된 [홈스테드 문서](/docs/homestead)를 통해서 업데이트 되었습니다. 
+
+### 라라벨 캐셔
+
+라라벨 캐셔는 Stripe 를 사용하여 구독 결제를 관리하기 위한 간단하고, 풍부한 표현이 가능한 라이브러리 입니다. 라라벨 4.2 에서 도입되고, 캐셔 문서또한 주요 라라벨 메뉴얼에 포함되었지만, 컴포넌트의 설치는 아직 선택적으로 결정해야 합니다. 이번 릴리즈의 캐셔는 많은 버그가 수정되어, 다수의 통화를 지원하고, 최신 Stripe API와 호환됩니다. 
+
+### 데몬 큐 Worker
+
+아티즌 `queue:work` 명령어는 이제 worker를 "데몬 모드"로 시작할 수 있는 `--daemon` 옵션을 지원합니다. 이는 worker 가 프레임워크를 재시작 하지 않고도 작업을 계속 처리 할 수 있다는 것을 의미합니다. 그 결과 CPU 사용율이 효과적으로 줄어들지만, 어플리케이션의 배포 프로세스가 다소 복잡해집니다. 
+
+데몬 큐 worker 에 대한 보다 자세한 정보는 [큐 문서](/docs/queues#daemon-queue-worker)에서 확인할 수 있습니다. 
+
+### 메일 API 드라이버
+
+라라벨 4.2는 `Mail` 기능을 위해서 새로운 Mailgun 와 Mandrill API 드라이버를 도입했습니다. 이는 많은 어플리케이션에서 SMTP를 통한것 보다 빠르고, 신뢰할 수 있게 이메일을 보내는 기능을 제공합니다. 새로운 드라이버는 Guzzle 4 HTTP 라이브러리를 사용하고 있습니다.
+
+### Soft 삭제 트레이트-Trait
+
+PHP 5.4 트레이트-trait을 통해서 "soft 삭제" 와 "글로벌 스코프"를 위한 보다 깔끔한 아키텍처가 도입되었습니다. 이 새로운 아키텍처는 비슷한 글로벌 트레이트의 손쉬운 생성과 프레임워크 안에서 깔끔한 관심의 분리를 가능하게 합니다. 
+
+새로운 `SoftDeletingTrait`에 대한 보다 자세한 정보는 [Eloquent 문서](/docs/eloquent#soft-deleting)에서 확인할 수 있습니다. 
+
+### 편리한 인증과 암호 알림 트레이트-trait
+
+기본적인 라라벨 4.2 설치는 이제 인증과 패스워드 리마인더 유저 인터페이스를 위해서 필요한 속성을 포함하기 위해서 간단한 트레이트를 사용합니다. 이것은 처음부터 포함되어 있는 기본 `User` 모델 파일을 보다 깔끔하게 해줍니다. 
+
+### "간단한 페이징"
+
+여러분의 페이지 뷰에서 단순한 "다음"과 "이전" 링크를 사용할 때, 보다 효율적인 쿼리를 위해서, 새로운 `simplePaginate` 메소드가 쿼리와 Eloquent 빌더에 추가되었습니다. 
+
+### 마이그레이션 확인
+
+실제 운영 서버에서, 위험한 마이그레이션 작업은 확인 과정을 묻게 되었습니다. `--force` 명령어를 사용하여, 프롬프트 없이 강제로 실행하게 할 수 있습니다. 
+
+<a name="laravel-4.1"></a>
+## 라라벨 4.1
+
+### 전체 변경 목록
+
+이번 릴리즈의 전체 변경 목록은 설치한 4.1에서 `php artisan changes` 명령어를 실행하여 표시됩니다. 혹은 [Github에서 변경 내역 파일을 확인하십시오.](https://github.com/laravel/framework/blob/4.1/src/Illuminate/Foundation/changes.json). 이 노트에서는 릴리즈의 주요한 개선사항과 변경사항들만 기록되어 있습니다. 
+
+### 새로운 SSH 컴포넌트
+
+이 릴리즈에서 완전히 새로운 `SSH` 컴포넌트가 도입되었습니다. 이 기능은 여러분이 손쉽게 원격의 서버에 SSH 로 접속하고 명령어를 실행할 수 있도록 합니다. 이에 대해서 알아보려면 [SSH 컴포넌트 문서](/docs/ssh)를 참고하십시오. 
+
+새로운 `php artisan tail` 명령어는 새로운 SSH 컴포넌트를 사용합니다. 보다 자세한 정보는 [명령어 문서](http://laravel.com/docs/ssh#tailing-remote-logs)를 참고하십시오. 
+
+### Tinker 에서의 Boris
+
+`php artisan tinker` 명령어는 시스템이 지원하는 경우 [Boris REPL](https://github.com/d11wtq/boris)을 활용합니다. 이 기능을 사용하기 위해서는 `readline` 와 `pcntl` PHP extension을 설치해야만 합니다. 이러한 extension들을 가지고 있지 않다면, 4.0 의 shell 이 사용될 것입니다. 
+
+### Eloquent 향상
+
+새로운 `hasManyThrough` 관계가 Eloquent 에 추가되었습니다. 어떻게 사용하는지 알아보려면 [Eloquent 문서](/docs/eloquent#has-many-through)를 참고하십시오.
+
+[모델을 관계-relationship의 제약에 따라서 획득하기 위해서](/docs/eloquent#querying-relations) 새로운 `whereHas` 메소드가 또한 도입되었습니다. 
+
+### 데이터베이스 읽기 / 쓰기 커넥션
+
+쿼리빌더와 Eloquent를 포함하여 데이터베이스 레이어에서 자동으로 읽기 / 쓰기의 분리된 커넥션을 처리하는 것이 이제 가능합니다. 보다 자세한 정보는 [문서](/docs/database#read-write-connections)를 참조하십시오.
+
+### 큐 우선순위
+
+큐의 우선순위는 `queue:listen` 명령어에 콤마로 구분되는 리스트를 전달하여 지원될수 있습니다. 
+
+### 실패한 큐 작업 처리하기
+
+큐 기능은 이제 `queue:listen`의 `--tries` 스위치를 붙이는 것으로, 자동으로 실패된 작업들을 처리하는 기능을 포함하고 있습니다. 실패한 작업들을 처리하는 보다 자세한 정보는 [큐 문서](/docs/queues#failed-jobs)를 참조하십시오. 
+
+### 캐시 태그
+
+캐시 "section"은 "tags"로 대체되었습니다. 캐시 태그는 여러가지 태그를 캐시 아이템에 붙일 수 있도록 하고, 동일한 태그를 할당한 아이템들을 한번에 삭제할 수 있도록 해줍니다. 캐시 태그를 사용하는 보다 자세한 정보는 [캐시 문서](/docs/cache#cache-tags)에서 찾을 수 있습니다. 
+
+### 보다 유연해진 패스워드 리마인더
+
+패스워드를 검증하고, 상태 메세지를 세션에서 지우는등, 패스워드 리마인더 엔진이 개발자들이 보다 유연하게 사용할 수 있도록 변경되었습니다. 강화된 패스워드 리마인더 엔진에 대한 자세한 정보는 [문서](/docs/4.1/security#password-reminders-and-reset)를 참고하십시오
+
+### 라우팅 엔진 개선
+
+라라벨 4.1에서는 라우트 레이어를 완전히 새로 작성하였습니다. API는 동일합니다; 하지만 라우터를 등록하는 것이 4.0에 비해서 100% 빨라졌습니다. 엔진 전체는 보다 단순해지고, 라우트의 해석시 Symfony Routing에 대한 의존도가 줄어 들었습니다.
+
+### 세션 엔진 개선
+
+이 릴리즈에서 완전히 새로운 세션 엔진을 도입되었습니다. 라우팅의 개선과 비슷하게 새로운 세션 레이어는 더 작고 빨라졌습니다. 더 이상 Symfony의 (그리고 PHP의) 세션 핸들링 기능을 사용하지 않고, 더 간단하고 유지 보수하기 쉬운 사용자 정의 처리를 사용하고 있습니다. 
+
+### 독트린 DBAL
+
+마이그레이션 작업에서 `renameColumn` 함수를 사용하고 있다면 `composer.json` 파일에 `doctrine/dbal` 의존성을 추가해야할 필요가 있습니다. 이 패키지는 라라벨에서 더이상 기본으로 포함하고 있지 않습니다. 

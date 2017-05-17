@@ -162,7 +162,7 @@ listener가 사용해야 하는 큐 연결을 지정할 수도 있습니다:
 
 	php artisan queue:listen --queue=high,low
 
-이 예제에서,  `high-connection`의 작업은  항상  `low-connection` 작업보다 먼저 처리됩니다.
+이 예제에서, `high-connection`의 작업은 항상 `low` 커넥션 작업보다 먼저 처리됩니다.
 
 #### 작업 제한 시간에 대한 매개 변수 지정하기
 

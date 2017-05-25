@@ -436,7 +436,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
     <!-- resources/views/emails/password.blade.php -->
 
-    Click here to reset your password: {{ url('password/reset/'.$token) }}
+    Click here to reset your password: {{ url('http://example.com/password/reset/'.$token) }}
 
 #### 패스워드 재설정 Form 샘플
 

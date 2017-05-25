@@ -579,7 +579,7 @@ When a user submits a request to reset their password, they will receive an e-ma
 
     <!-- resources/views/emails/password.blade.php -->
 
-    Click here to reset your password: {{ url('password/reset/'.$token) }}
+    Click here to reset your password: {{ url('http://example.com/password/reset/'.$token) }}
 
 #### Sample Password Reset Form
 #### 패스워드 재설정 Form 샘플

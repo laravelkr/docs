@@ -373,9 +373,9 @@ The base Laravel controller utilizes the new `DispatchesCommands` trait, allowin
 
     $this->dispatch(new PurchasePodcastCommand($user, $podcast));
 
-Of course, you may also use commands for tasks that are executed synchronously (are not queued). In fact, using commands is a great way to encapsulate complex tasks your application needs to perform. For more information, check out the [command bus](/docs/{{version}}/bus) documentation.
+Of course, you may also use commands for tasks that are executed synchronously (are not queued). In fact, using commands is a great way to encapsulate complex tasks your application needs to perform. For more information, check out the [command bus](/docs/5.0/bus) documentation.
 
-물론 작업을 동기적으로(큐를 통하지 않고) 실행하는 명령어를 사용할 수도 있습니다. 실제로, 명령어를 사용하는 것 자체는, 어플리케이션에서 수행해야 하는 복잡한 작업을 캡슐화 하기 위한 좋은 방법입니다. 보다 자세한 사항은 [command bus](/docs/{{version}}/bus) 문서를 확이하십시오. 
+물론 작업을 동기적으로(큐를 통하지 않고) 실행하는 명령어를 사용할 수도 있습니다. 실제로, 명령어를 사용하는 것 자체는, 어플리케이션에서 수행해야 하는 복잡한 작업을 캡슐화 하기 위한 좋은 방법입니다. 보다 자세한 사항은 [command bus](/docs/5.0/bus) 문서를 확이하십시오. 
 
 ### Database Queue
 ### 데이터베이스 큐
@@ -669,13 +669,13 @@ The full change list for this release by running the `php artisan changes` comma
 ### New SSH Component
 ### 새로운 SSH 컴포넌트
 
-An entirely new `SSH` component has been introduced with this release. This feature allows you to easily SSH into remote servers and run commands. To learn more, consult the [SSH component documentation](/docs/ssh).
+An entirely new `SSH` component has been introduced with this release. This feature allows you to easily SSH into remote servers and run commands. To learn more, consult the [SSH component documentation](/docs/4.1/ssh).
 
-이 릴리즈에서 완전히 새로운 `SSH` 컴포넌트가 도입되었습니다. 이 기능은 여러분이 손쉽게 원격의 서버에 SSH 로 접속하고 명령어를 실행할 수 있도록 합니다. 이에 대해서 알아보려면 [SSH 컴포넌트 문서](/docs/ssh)를 참고하십시오. 
+이 릴리즈에서 완전히 새로운 `SSH` 컴포넌트가 도입되었습니다. 이 기능은 여러분이 손쉽게 원격의 서버에 SSH 로 접속하고 명령어를 실행할 수 있도록 합니다. 이에 대해서 알아보려면 [SSH 컴포넌트 문서](/docs/4.1/ssh)를 참고하십시오. 
 
-The new `php artisan tail` command utilizes the new SSH component. For more information, consult the `tail` [command documentation](http://laravel.com/docs/ssh#tailing-remote-logs).
+The new `php artisan tail` command utilizes the new SSH component. For more information, consult the `tail` [command documentation](http://laravel.com/docs/4.1/ssh#tailing-remote-logs).
 
-새로운 `php artisan tail` 명령어는 새로운 SSH 컴포넌트를 사용합니다. 보다 자세한 정보는 [명령어 문서](http://laravel.com/docs/ssh#tailing-remote-logs)를 참고하십시오. 
+새로운 `php artisan tail` 명령어는 새로운 SSH 컴포넌트를 사용합니다. 보다 자세한 정보는 [명령어 문서](http://laravel.com/docs/4.1/ssh#tailing-remote-logs)를 참고하십시오. 
 
 ### Boris In Tinker
 ### Tinker 에서의 Boris
@@ -726,9 +726,9 @@ Cache "sections" have been superseded by "tags". Cache tags allow you to assign 
 ### Flexible Password Reminders
 ### 보다 유연해진 패스워드 리마인더
 
-The password reminder engine has been changed to provide greater developer flexibility when validating passwords, flashing status messages to the session, etc. For more information on using the enhanced password reminder engine, [consult the documentation](/docs/security#password-reminders-and-reset).
+The password reminder engine has been changed to provide greater developer flexibility when validating passwords, flashing status messages to the session, etc. For more information on using the enhanced password reminder engine, [consult the documentation](/docs/4.1/security#password-reminders-and-reset).
 
-패스워드를 검증하고, 상태 메세지를 세션에서 지우는등, 패스워드 리마인더 엔진이 개발자들이 보다 유연하게 사용할 수 있도록 변경되었습니다. 강화된 패스워드 리마인더 엔진에 대한 자세한 정보는 [문서](/docs/security#password-reminders-and-reset)를 참고하십시오
+패스워드를 검증하고, 상태 메세지를 세션에서 지우는등, 패스워드 리마인더 엔진이 개발자들이 보다 유연하게 사용할 수 있도록 변경되었습니다. 강화된 패스워드 리마인더 엔진에 대한 자세한 정보는 [문서](/docs/4.1/security#password-reminders-and-reset)를 참고하십시오
 
 ### Improved Routing Engine
 ### 라우팅 엔진 개선

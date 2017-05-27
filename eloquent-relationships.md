@@ -313,9 +313,9 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 
     namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\Pivot;
 
-    class Role extends Model
+    class Role extends Pivot
     {
         /**
          * The users that belong to the role.

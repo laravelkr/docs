@@ -733,6 +733,10 @@ HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
     $url = route('routeName', ['id' => 1]);
 
+기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다:
+
+    $url = route('user/profile', ['id' => 1], false);
+
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}
 

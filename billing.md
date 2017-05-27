@@ -42,9 +42,9 @@
 
 #### 컴포저
 
-먼저 여러분의 `composer.json` Stripe 를 위한 파일에 캐셔 패키지를 추가하고 `composer update` 명령어를 실행 시켜야 합니다:
+먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
-    "laravel/cashier": "~7.0"
+    composer require "laravel/cashier":"~7.0"
 
 #### 서비스 프로바이더
 
@@ -109,9 +109,9 @@
 
 #### 컴포저
 
-먼저 여러분의 `composer.json` Braintree 를 위한 파일에 캐셔 패키지를 추가하고 `composer update` 명령어를 실행 시켜야 합니다:
+먼저 Braintree를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
-    "laravel/cashier-braintree": "~2.0"
+    composer require "laravel/cashier-braintree":"~2.0"
 
 #### 서비스 프로바이더
 
@@ -309,7 +309,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
 
     $user->subscription('main')->updateQuantity(10);
 
-구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/guides/subscriptions#setting-quantities)를 참고하십시오.
+구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/subscriptions/quantities)를 참고하십시오.
 
 <a name="subscription-taxes"></a>
 ### 정기구독의 세금계산

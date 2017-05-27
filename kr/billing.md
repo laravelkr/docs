@@ -77,11 +77,11 @@ Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://s
 #### Composer
 #### 컴포저
 
-First, add the Cashier package for Stripe to your `composer.json` file and run the `composer update` command:
+First, add the Cashier package for Stripe to your dependencies:
 
-먼저 여러분의 `composer.json` Stripe 를 위한 파일에 캐셔 패키지를 추가하고 `composer update` 명령어를 실행 시켜야 합니다:
+먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
-    "laravel/cashier": "~7.0"
+    composer require "laravel/cashier":"~7.0"
 
 #### Service Provider
 #### 서비스 프로바이더
@@ -165,11 +165,11 @@ For many operations, the Stripe and Braintree implementations of Cashier functio
 #### Composer
 #### 컴포저
 
-First, add the Cashier package for Braintree to your `composer.json` file and run the `composer update` command:
+First, add the Cashier package for Braintree to your dependencies:
 
-먼저 여러분의 `composer.json` Braintree 를 위한 파일에 캐셔 패키지를 추가하고 `composer update` 명령어를 실행 시켜야 합니다:
+먼저 Braintree를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
-    "laravel/cashier-braintree": "~2.0"
+    composer require "laravel/cashier-braintree":"~2.0"
 
 #### Service Provider
 #### 서비스 프로바이더
@@ -435,9 +435,9 @@ Alternatively, you may set a specific quantity using the `updateQuantity` method
 
     $user->subscription('main')->updateQuantity(10);
 
-For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/guides/subscriptions#setting-quantities).
+For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/subscriptions/quantities).
 
-구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/guides/subscriptions#setting-quantities)를 참고하십시오.
+구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/subscriptions/quantities)를 참고하십시오.
 
 <a name="subscription-taxes"></a>
 ### Subscription Taxes

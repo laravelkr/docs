@@ -352,9 +352,9 @@ To define the inverse of a many-to-many relationship, you simply place another c
 
     namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\Pivot;
 
-    class Role extends Model
+    class Role extends Pivot
     {
         /**
          * The users that belong to the role.

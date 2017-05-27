@@ -92,6 +92,33 @@ Gate는 또한 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자�
         Gate::define('update-post', 'PostPolicy@update');
     }
 
+#### Resource Gates
+#### 리소스 Gate
+
+You may also define multiple Gate abilities at once using the `resource` method:
+
+`resource` 메소드를 사용하여 여러개의 Gate 액션을 정의할 수도 있습니다: 
+
+    Gate::resource('posts', 'PostPolicy');
+
+This is identical to manually defining the following Gate definitions:
+
+이렇게 정의하면 직접 다음의 Gate 정의 한것과 동일하게 적용됩니다: 
+
+    Gate::define('posts.view', 'PostPolicy@view');
+    Gate::define('posts.create', 'PostPolicy@create');
+    Gate::define('posts.update', 'PostPolicy@update');
+    Gate::define('posts.delete', 'PostPolicy@delete');
+
+By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may define additional abilities by passing an array as third argument to the `resource` method. The key of the array defines the name of the ability while the value defines the method name:
+
+기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달하여 추가적인 메소드를 정의할 수 있습니다. 배열의 키는 Gate 엑션의 이름을, 값은 메소드를 정의합니다:   
+
+    Gate::resource('posts', 'PostPolicy', [
+        'posts.photo' => 'updatePhoto',
+        'posts.image' => 'updateImage',
+    ]);
+
 <a name="authorizing-actions-via-gates"></a>
 ### Authorizing Actions
 ### 액션 권한 승인하기

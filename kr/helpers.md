@@ -870,6 +870,12 @@ If the route accepts parameters, you may pass them as the second argument to the
 
     $url = route('routeName', ['id' => 1]);
 
+By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third parameter:
+
+기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다:
+
+    $url = route('user/profile', ['id' => 1], false);
+
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}
 

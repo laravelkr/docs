@@ -169,14 +169,18 @@ The `folders` property of the `Homestead.yaml` file lists all of the folders you
         - map: ~/Code
           to: /home/vagrant/Code
 
-To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), just add a simple flag to your synced folder configuration:
+To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you only need to add a simple flag to your synced folder configuration:
 
-[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html) 를 사용하려면 동기화 폴더 설정에 플래그를 지정하면 됩니다.
+[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
 
     folders:
         - map: ~/Code
           to: /home/vagrant/Code
           type: "nfs"
+
+> {note} When using NFS, you should consider installing the [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead box.
+
+> {note} NFS를 사용할 때에는, [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
 You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
 

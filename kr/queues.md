@@ -160,10 +160,11 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Foundation\Bus\Dispatchable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use InteractsWithQueue, Queueable, SerializesModels;
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
         protected $podcast;
 
@@ -440,6 +441,15 @@ Remember, queue workers are long-lived processes and store the booted applicatio
 
 주의할점은 queue worker는 장시간 동안 살아 있는 프로세스로, 어플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
 
+#### Processing A Single Job
+#### 하나의 단일 Job 처리하기
+
+The `--once` option may be used to instruct the worker to only process a single job from the queue:
+
+`--once` 옵션은 worker 가 queue로 부터 하나의 단일 job을 처리하도록 합니다:
+
+    php artisan queue:work --once
+
 #### Specifying The Connection & Queue
 #### 커넥션 & queue-큐 지정하기
 
@@ -491,6 +501,10 @@ queue worker는 장시간 동안 살아 있는 프로세스이기 때문에, 재
 This command will instruct all queue workers to gracefully "die" after they finish processing their current job so that no existing jobs are lost. Since the queue workers will die when the `queue:restart` command is executed, you should be running a process manager such as [Supervisor](#supervisor-configuration) to automatically restart the queue workers.
 
 이 명령어는 현재 job이 손실되지 않도록 현재 job의 처리가 종료 된 후 전체 queue worker에 부드럽게 "종료(die)" 되도록 지시합니다. `queue:restart` 명령이 실행되면 queue worker는 종료되기 때문에, 자동으로 queue worker를 다시 시작하는 [Supervisor](#supervisor-configuration)와 같은 프로세스 매니저를 실행해야 합니다.
+
+> {tip} The queue uses the [cache](/docs/{{version}}/cache) to store restart signals, so you should verify a cache driver is properly configured for your application before using this feature.
+
+> {tip} 큐-queue는 [cache](/docs/{{version}}/cache)에 재시작 시그널을 저장합니다. 따라서 이 기능을 사용하기 전에 어플리케이션에 설정된 캐시 드라이버를 확인해야합니다.
 
 <a name="job-expirations-and-timeouts"></a>
 ### Job Expirations & Timeouts

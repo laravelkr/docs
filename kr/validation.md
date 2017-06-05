@@ -1316,9 +1316,17 @@ The first argument passed to the `sometimes` method is the name of the field we 
 ## Validating Arrays
 ## 배열값 유효성 검사
 
-Validating array based form input fields doesn't have to be a pain. For example, to validate that each e-mail in a given array input field is unique, you may do the following:
+Validating array based form input fields doesn't have to be a pain. You may use "dot notation" to validate attributes within an array. For example, if the incoming HTTP request contains a `photos[profile]` field, you may validate it like so:
 
-form 입력필드의 배열을 유효성 검사하는 것이 고통일 필요는 없습니다. 예를들어 지정된 배열 입력필드의 각각의 이메일이 고유하다는 것(유니크)을 확인하려면 다음처럼 할 수 있습니다:
+form 입력필드의 배열을 유효성 검사하는 것을 어렵게 할 필요 없습니다. "점 표기법"을 사용하여 배열안에 있는 유효성 속성을 지정할 수 있습니다. 예를 들어 HTTP request가 가지고 있는 `photos[profile]` 필드에 대해서 다음과 같이 검사할 수 있습니다:
+
+    $validator = Validator::make($request->all(), [
+        'photos.profile' => 'required|image',
+    ]);
+
+You may also validate each element of an array. For example, to validate that each e-mail in a given array input field is unique, you may do the following:
+
+또한 배열의 각각의 요소들을 검사할 수 있습니다. 예들 들어 주어진 배열 입력값이 각각의 유니크한 이메일인지 확인하려면 다음과 같이 하면 됩니다:
 
     $validator = Validator::make($request->all(), [
         'person.*.email' => 'email|unique:users',

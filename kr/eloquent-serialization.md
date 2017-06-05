@@ -98,9 +98,9 @@ Sometimes you may wish to limit the attributes, such as passwords, that are incl
         protected $hidden = ['password'];
     }
 
-> {note} When hiding relationships, use the relationship's method name, not its dynamic property name.
+> {note} When hiding relationships, use the relationship's method name.
 
-> {note} 관계를 숨기고자 할 때에는, 동적인 프로퍼티 이름이 아니라, 관계에 대한 메소드 이름을 사용하십시오
+> {note} 관계를 숨기고자 할 때에는, 관계에 대한 메소드 이름을 사용하십시오
 
 Alternatively, you may use the `visible` property to define a white-list of attributes that should be included in your model's array and JSON representation. All other attributes will be hidden when the model is converted to an array or JSON:
 

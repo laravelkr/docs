@@ -77,6 +77,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [snake_case](#method-snake-case)
 [str_limit](#method-str-limit)
 [starts_with](#method-starts-with)
+[str_after](#method-str-after)
 [str_contains](#method-str-contains)
 [str_finish](#method-str-finish)
 [str_is](#method-str-is)
@@ -596,6 +597,16 @@ The `starts_with` function determines if the given string begins with the given 
 
     // true
 
+<a name="method-str-after"></a>
+#### `str_after()` {#collection-method}
+
+The `str_after` function returns everything after the given value in a string:
+
+    $value = str_after('This is: a test', 'This is:');
+
+    // ' a test'
+
+
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}
 
@@ -754,7 +765,7 @@ If the route accepts parameters, you may pass them as the second argument to the
 
 By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third parameter:
 
-    $url = route('user/profile', ['id' => 1], false);
+    $url = route('routeName', ['id' => 1], false);
 
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}

@@ -26,15 +26,16 @@
 
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
-- [Symfony](https://symfony.com)
-- [Zend](https://framework.zend.com)
-- [CakePHP 3](https://cakephp.org)
-- [WordPress](https://wordpress.org)
 - [Bedrock](https://roots.io/bedrock/)
+- [CakePHP 3](https://cakephp.org)
 - [Craft](https://craftcms.com)
-- [Statamic](https://statamic.com)
 - [Jigsaw](http://jigsaw.tighten.co)
+- [Slim](https://www.slimframework.com)
+- [Statamic](https://statamic.com)
 - Static HTML
+- [Symfony](https://symfony.com)
+- [WordPress](https://wordpress.org)
+- [Zend](https://framework.zend.com)
 
 여러분은 발렛을 고유한 [사용자 정의 드라이버](#custom-valet-drivers)를 통해서 확장할 수 있습니다.
 

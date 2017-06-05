@@ -111,12 +111,14 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
         - map: ~/Code
           to: /home/vagrant/Code
 
-[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html) 를 사용하려면 동기화 폴더 설정에 플래그를 지정하면 됩니다.
+[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
 
     folders:
         - map: ~/Code
           to: /home/vagrant/Code
           type: "nfs"
+
+> {note} NFS를 사용할 때에는, [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
 `options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다:
 

@@ -71,7 +71,6 @@
 - [has](#method-has)
 - [implode](#method-implode)
 - [intersect](#method-intersect)
-- [intersectByKeys](#method-intersectbykeys)
 - [isEmpty](#method-isempty)
 - [isNotEmpty](#method-isnotempty)
 - [keyBy](#method-keyby)
@@ -607,27 +606,6 @@
     $intersect->all();
 
     // [0 => 'Desk', 2 => 'Chair']
-
-<a name="method-intersectbykeys"></a>
-#### `intersectByKeys()` {#collection-method}
-
-`intersectByKeys` 메소드는 지정된 배열 또는 컬렉션에 없는 키를 원본 컬렉션에서 제거합니다:
-
-    $collection = collect([
-        'job' => 'Programmer',
-        'age' => 18,
-        'car' => 'Honda Civic'
-    ]);
-
-    $intersect = $collection->intersectByKeys([
-        'job' => 'Waiter',
-        'car' => 'Honda Accord'
-    ]);
-
-    $intersect->all();
-
-    // ['job' => 'Programmer', 'car' => 'Honda Civic']
-
 
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}

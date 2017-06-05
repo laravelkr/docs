@@ -105,10 +105,11 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Foundation\Bus\Dispatchable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use InteractsWithQueue, Queueable, SerializesModels;
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
         protected $podcast;
 
@@ -339,6 +340,12 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 
 주의할점은 queue worker는 장시간 동안 살아 있는 프로세스로, 어플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
 
+#### 하나의 단일 Job 처리하기
+
+`--once` 옵션은 worker 가 queue로 부터 하나의 단일 job을 처리하도록 합니다:
+
+    php artisan queue:work --once
+
 #### 커넥션 & queue-큐 지정하기
 
 어떤 queue-큐 커넥션을 worker 가 사용할지 지정할 수도 있습니다. `work` 명령어에 전달된 커넥션 이름은 `config/queue.php` 설정 파일에 정의되어 있는 커넥션 이름과 일치해야 합니다:
@@ -372,6 +379,8 @@ queue worker는 장시간 동안 살아 있는 프로세스이기 때문에, 재
     php artisan queue:restart
 
 이 명령어는 현재 job이 손실되지 않도록 현재 job의 처리가 종료 된 후 전체 queue worker에 부드럽게 "종료(die)" 되도록 지시합니다. `queue:restart` 명령이 실행되면 queue worker는 종료되기 때문에, 자동으로 queue worker를 다시 시작하는 [Supervisor](#supervisor-configuration)와 같은 프로세스 매니저를 실행해야 합니다.
+
+> {tip} 큐-queue는 [cache](/docs/{{version}}/cache)에 재시작 시그널을 저장합니다. 따라서 이 기능을 사용하기 전에 어플리케이션에 설정된 캐시 드라이버를 확인해야합니다.
 
 <a name="job-expirations-and-timeouts"></a>
 ### Job 만료 & 타임아웃

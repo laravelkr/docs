@@ -67,7 +67,7 @@
 - [kebab_case](#method-kebab-case)
 - [snake_case](#method-snake-case)
 - [str_limit](#method-str-limit)
-- [starts_with](#method-starts-with)
+- [str_after](#method-str-after)
 - [str_contains](#method-str-contains)
 - [str_finish](#method-str-finish)
 - [str_is](#method-str-is)
@@ -576,6 +576,17 @@
     $value = starts_with('This is my name', 'This');
 
     // true
+
+<a name="method-str-after"></a>
+#### `str_after()` {#collection-method}
+
+The `str_after` function returns everything after the given value in a string:
+
+`str_after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
+
+    $value = str_after('This is: a test', 'This is:');
+
+    // ' a test'
 
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}

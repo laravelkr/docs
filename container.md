@@ -190,6 +190,10 @@
 
     $api = resolve('HelpSpot\API');
 
+클래스의 의존성이 컨테이너를 통해서 해결될 수 없다면, `makeWith` 메소드에 관련된 인자를 배열로 전달 할 수도 있습니다:
+
+    $api = $this->app->makeWith('HelpSpot\API', ['id' => 1]);
+
 <a name="automatic-injection"></a>
 #### 자동 주입
 

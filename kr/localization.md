@@ -118,7 +118,7 @@ Translation files that use translation strings as keys are stored as JSON files 
 다국어 문자열을 키로 사용하는 다국어 파일은 `resources/lang` 디렉토리에 JSON파일로 저장됩니다. 예를 들어, 어플리케이션에서 스페인 언어가 필요한경우 `resources/lang/es.json` 파일을 생성해야합니다:
 
     {
-        "I love programming.": "Me encanta la programación."
+        "I love programming.": "Me encanta programar."
     }
 
 <a name="retrieving-translation-strings"></a>

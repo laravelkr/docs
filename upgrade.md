@@ -42,7 +42,7 @@
 
 #### 키 / 값 순서 변경
 
-`Arr` 클래스의 `first`, `last`, 그리고  `where` 메소드는 이제 "값"을 주어진 콜백 클로저의 첫번째 인자로 전달 받습니다. 예를 들어:
+`Arr` 클래스의 `first`, `last`, 그리고  `where` 메소드, 그리고 이와 연관된 글로벌 헬퍼 함수들은 이제 "값-value"을 주어진 콜백 클로저의 첫번째 인자로 전달 받습니다. 예를 들어:
 
     Arr::first($array, function ($value, $key) {
         return ! is_null($value);

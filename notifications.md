@@ -517,13 +517,11 @@
         /**
          * The channels the user receives notification broadcasts on.
          *
-         * @return array
+         * @return string
          */
         public function receivesBroadcastNotificationsOn()
         {
-            return [
-                new PrivateChannel('users.'.$this->id),
-            ];
+            return 'users.'.$this->id;
         }
     }
 

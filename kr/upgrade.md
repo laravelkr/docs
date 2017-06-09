@@ -75,9 +75,9 @@ You may remove the arguments from the `boot` method on the `EventServiceProvider
 #### Key / Value Order Change
 #### 키 / 값 순서 변경
 
-The `first`, `last`, and `where` methods on the `Arr` class now pass the "value" as the first parameter to the given callback Closure. For example:
+The `first`, `last`, and `where` methods on the `Arr` class, in addition to their associated global helper functions, now pass the "value" as the first parameter to the given callback Closure. For example:
 
-`Arr` 클래스의 `first`, `last`, 그리고  `where` 메소드는 이제 "값"을 주어진 콜백 클로저의 첫번째 인자로 전달 받습니다. 예를 들어:
+`Arr` 클래스의 `first`, `last`, 그리고  `where` 메소드, 그리고 이와 연관된 글로벌 헬퍼 함수들은 이제 "값-value"을 주어진 콜백 클로저의 첫번째 인자로 전달 받습니다. 예를 들어:
 
     Arr::first($array, function ($value, $key) {
         return ! is_null($value);

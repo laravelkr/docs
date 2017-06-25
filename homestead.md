@@ -84,7 +84,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
     cd Homestead
 
     // Clone the desired release...
-    git checkout v4.0.5
+    git checkout v5.4.0
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -267,7 +267,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
           to: /home/vagrant/Code/Symfony/public
           type: symfony2
 
-사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, 그리고 `symfony4`가 있습니다.
 
 <a name="site-parameters"></a>
 #### 사이트 파라미터

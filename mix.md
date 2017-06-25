@@ -25,7 +25,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨 Mix(믹스)는 여러분의 라라벨 어플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
+[라라벨 Mix(믹스)](https://github.com/JeffreyWay/laravel-mix) 는 여러분의 라라벨 어플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
@@ -303,7 +303,7 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-    if (mix.config.inProduction) {
+    if (mix.inProduction()) {
         mix.version();
     }
 

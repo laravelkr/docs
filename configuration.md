@@ -50,7 +50,7 @@
         // The environment is local
     }
 
-    if (App::environment('local', 'staging')) {
+    if (App::environment(['local', 'staging'])) {
         // The environment is either local OR staging...
     }
 

@@ -466,7 +466,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
 `retrieveByToken` 함수는 고유의 `retrieveByToken`와 `remember_token`에 저장된 "remember me" `$token`에 따라 사용자를 조회합니다. 이전의 메소드와 같이 `Authenticatable` 구현이 반환됩니다.
 
-`updateRememberToken` 메소드는 새로운 `$token`으로 `$user`의 `remember_token`필드를 업데이트합니다. 토큰의 값은 정상적으로 "remember me"을 통해서 로그인을 시도하기 위해서 할당된 새로운 값이거나, 아니면 사용자가 로그아웃되었을 때를 위한 null값일 수 있습니다.
+`updateRememberToken` 메소드는 새로운 `$token`으로 `$user`의 `remember_token`필드를 업데이트합니다. 토큰의 값은 정상적으로 "remember me"을 통해서 로그인을 시도하기 위해서 할당된 새로운 값이거나, 아니면 사용자가 로그아웃되었을 때를 위한 값일 수 있습니다.
 
 `retrieveByCredentials` 메소드는 어플리케이션에 로그인하려고 시도할 때 `Auth::attempt` 메소드로 전달되는 인증 정보 배열을 전달 받습니다. 그러면 메소드는 그 인증 정보에 맞는 사용자들을 위한 기반에 있는 지속적 저장소(persistent storage)에 "질의"해야 합니다. 일반적으로 이 메소드는 `$credentials['username']`에 맞는 "where" 쿼리를 실행할 것입니다. 그뒤에 메소드는 `UserInterface`의 구현체를 반환해야 합니다. **이 메소드는 패스워드 확인이나 인증을 시도해서는 안됩니다.**
 

@@ -9,6 +9,7 @@
     - [브로드캐스트 이름](#broadcast-name)
     - [브로드캐스트 데이터](#broadcast-data)
     - [브로드캐스트 큐](#broadcast-queue)
+    - [브로드캐스트 조건](#broadcast-conditions)
 - [승인 채널](#authorizing-channels)
     - [승인 라우트 정의하기](#defining-authorization-routes)
     - [승인 콜백 정의하기](#defining-authorization-callbacks)
@@ -290,14 +291,29 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:  
 
     <?php
-    
+
     use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
     class ShippingStatusUpdated implements ShouldBroadcastNow
-    {   
+    {
         //
     }
     
+<a name="broadcast-conditions"></a>
+### 브로드캐스트 조건
+
+때로는 주어진 조건이 참일 때에만 이벤트를 브로드 캐스트 하기를 원할 수도 있습니다. 이벤트 클래스에 `broadcastWhen` 메소드를 추가하여 이러한 조건을 정의할 수 있습니다:
+
+    /**
+     * Determine if this event should broadcast.
+     *
+     * @return bool
+     */
+    public function broadcastWhen()
+    {
+        return $this->value > 100;
+    }
+
 <a name="authorizing-channels"></a>
 ## 채널 승인하기
 

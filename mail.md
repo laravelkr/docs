@@ -299,6 +299,8 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
         <img src="{{ $message->embed($pathToFile) }}">
     </body>
 
+> {note} 마크다운 메세지에서는 `$message` 변수는 사용할 수 없습니다.
+
 #### Raw 데이터를 첨부하는 방법
 
 이미 이메일 템플릿에 포함시키고자 하는 raw 데이터 문자열을 가지고 있다면, `$message` 변수에서 `embedData` 메소드를 사용하면 됩니다:

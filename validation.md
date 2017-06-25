@@ -142,7 +142,7 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
 
     <h1>Create Post</h1>
 
-    @if (count($errors) > 0)
+    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)

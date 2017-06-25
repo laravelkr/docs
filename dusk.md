@@ -3,6 +3,7 @@
 - [소개하기](#introduction)
 - [설치하기](#installation)
     - [다른 브라우저 사용하기](#using-other-browsers)
+    - [크롬 드라이버 옵션](#chromedriver-options)
 - [시작하기](#getting-started)
     - [테스트 클래스 생성하기](#generating-tests)
     - [테스트 실행하기](#running-tests)
@@ -98,6 +99,29 @@ Dusk가 설치되고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로
     {
         return RemoteWebDriver::create(
             'http://localhost:4444', DesiredCapabilities::phantomjs()
+        );
+    }
+
+<a name="chromedriver-options"></a>
+### 크롬 드라이버 옵션
+
+크롬 드라이버 세션을 커스터마이징 하려면, `DuskTestCase` 클래스의 `driver` 메소드를 수정하면 됩니다:
+
+    use Facebook\WebDriver\Chrome\ChromeOptions;
+
+    /**
+     * Create the RemoteWebDriver instance.
+     *
+     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
+     */
+    protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments(['--headless']);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY, $options
+            )
         );
     }
 

@@ -10,6 +10,7 @@
     - [모델 생성하기](#creating-models)
     - [모델 저장하기](#persisting-models)
     - [관계-Relationships](#relationships)
+- [사용가능한 Assertions](#available-assertions)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -224,3 +225,14 @@
             }
         ];
     });
+
+<a name="available-assertions"></a>
+## 사용가능한 Assertions
+
+라라벨은 [PHPUnit](https://phpunit.de/) 테스르를 위한 몇가지 데이터베이스 assertion을 제공합니다:
+
+메소드  | 설명
+------------- | -------------
+`$this->assertDatabaseHas($table, array $data);`  |  데이터베이스가 해당 테이블을 가지고 있는지 확인.
+`$this->assertDatabaseMissing($table, array $data);`  |  데이터베이스가 해당 테이블을 가지고 있지 않은 것을 확인.
+`$this->assertSoftDeleted($table, array $data);`  |  주어진 레코드가 soft 삭제 된것을 확인.

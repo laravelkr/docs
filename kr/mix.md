@@ -441,7 +441,7 @@ Because versioned files are usually unnecessary in development, you may wish to 
 
     mix.js('resources/assets/js/app.js', 'public/js');
 
-    if (mix.config.inProduction) {
+    if (mix.inProduction()) {
         mix.version();
     }
 

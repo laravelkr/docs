@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
     - [Using Other Browsers](#using-other-browsers)
+    - [ChromeDriver Options](#chromedriver-options)
 - [Getting Started](#getting-started)
     - [Generating Tests](#generating-tests)
     - [Running Tests](#running-tests)
@@ -96,6 +97,29 @@ Next, you may simply modify the `driver` method to connect to the URL and port o
     {
         return RemoteWebDriver::create(
             'http://localhost:4444', DesiredCapabilities::phantomjs()
+        );
+    }
+
+<a name="chromedriver-options"></a>
+### ChromeDriver Options
+
+To customize the ChromeDriver session, you may modify the `driver` method of the `DuskTestCase` class:
+
+    use Facebook\WebDriver\Chrome\ChromeOptions;
+
+    /**
+     * Create the RemoteWebDriver instance.
+     *
+     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
+     */
+    protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments(['--headless']);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY, $options
+            )
         );
     }
 

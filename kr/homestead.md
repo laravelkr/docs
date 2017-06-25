@@ -133,7 +133,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd Homestead
 
     // Clone the desired release...
-    git checkout v4.0.5
+    git checkout v5.4.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -392,9 +392,9 @@ Homestead supports several types of sites which allow you to easily run projects
           to: /home/vagrant/Code/Symfony/public
           type: symfony2
 
-The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, and `symfony2`.
+The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, and `symfony4`.
 
-사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, 그리고 `symfony4`가 있습니다.
 
 <a name="site-parameters"></a>
 #### Site Parameters

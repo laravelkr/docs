@@ -40,7 +40,7 @@ First, install Envoy using the Composer `global require` command:
 
 먼저 Composer의 `global require` 명령어를 통해서 Envoy를 설치합니다. 
 
-    composer global require "laravel/envoy=~1.0"
+    composer global require laravel/envoy
 
 Since global Composer libraries can sometimes cause package version conflicts, you may wish to consider using `cgr`, which is a drop-in replacement for the `composer global require` command. The `cgr` library's installation instructions can be [found on GitHub](https://github.com/consolidation-org/cgr).
 

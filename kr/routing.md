@@ -119,9 +119,9 @@ You may define as many route parameters as required by your route:
         //
     });
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters. Route parameters may not contain a `-` character. Use an underscore (`_`) instead.
+Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`) instead. Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
 
-라우트 파라미터는 항상 "{}"(중괄호)로 쌓여져 있고, 알파벳 문자로 구성되어 있어야합니다. 라우트 파라미터는 `-` 문자는 포함할 수 없습니다. 대신에 (`_`) 언어스코어를 사용하십시오.
+라우트 파라미터는 항상 "{}"(중괄호)로 쌓여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자는 사용하기 보다는 대신 (`_`) 언어스코어를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
 
 <a name="parameters-optional-parameters"></a>
 ### Optional Parameters
@@ -240,17 +240,17 @@ Route groups allow you to share route attributes, such as middleware or namespac
 ### Middleware
 ### 미들웨어
 
-To assign middleware to all routes within a group, you may use the `middleware` key in the group attribute array. Middleware are executed in the order they are listed in the array:
+To assign middleware to all routes within a group, you may use the `middleware` method before defining the group. Middleware are executed in the order they are listed in the array:
 
-그룹 안의 모든 라우트에 미들웨어를 할당하기 위해서는, 그룹 속성 배열에 `middleware` 키를 사용하면 됩니다. 미들웨어는 배열에 나열된 순서대로 실행될 것입니다:
+그룹 안의 모든 라우트에 미들웨어를 할당하기 위해서는, 그룹을 정의하기 전에 `middleware` 메소드를 사용하면 됩니다. 미들웨어는 배열에 나열된 순서대로 실행될 것입니다:
 
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/', function ()    {
-            // Uses Auth Middleware
+    Route::middleware(['first', 'second'])->group(function () {
+        Route::get('/', function () {
+            // Uses first & second Middleware
         });
 
         Route::get('user/profile', function () {
-            // Uses Auth Middleware
+            // Uses first & second Middleware
         });
     });
 
@@ -258,11 +258,11 @@ To assign middleware to all routes within a group, you may use the `middleware` 
 ### Namespaces
 ### 네임스페이스
 
-Another common use-case for route groups is assigning the same PHP namespace to a group of controllers using the `namespace` parameter in the group array:
+Another common use-case for route groups is assigning the same PHP namespace to a group of controllers using the `namespace` method:
 
-라우트 그룹을 사용하는 또 다른 일반적 사용 예로는 그룹 배열 안에서 `namespace` 파라미터를 사용하는 컨트롤러들에 동일한 PHP 네임스페이스를 `namespace` 할당하는 경우 입니다:
+라우트 그룹을 사용하는 또 다른 사용 예로는 `namespace` 메소드를 사용하는 컨트롤러들에 동일한 PHP 네임스페이스를 할당하는 경우 입니다:
 
-    Route::group(['namespace' => 'Admin'], function () {
+    Route::namespace('Admin')->group(function () {
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
     });
 
@@ -274,11 +274,11 @@ Remember, by default, the `RouteServiceProvider` includes your route files withi
 ### Sub-Domain Routing
 ### 서브 도메인 라우팅
 
-Route groups may also be used to handle sub-domain routing. Sub-domains may be assigned route parameters just like route URIs, allowing you to capture a portion of the sub-domain for usage in your route or controller. The sub-domain may be specified using the `domain` key on the group attribute array:
+Route groups may also be used to handle sub-domain routing. Sub-domains may be assigned route parameters just like route URIs, allowing you to capture a portion of the sub-domain for usage in your route or controller. The sub-domain may be specified by calling the the `domain` method before defining the group:
 
-라우트 그룹은 또한 카드형태의 서브 도메인을 처리하는데 사용할 수도 있습니다. 서브 도메인은 라우트 URI와 같이 서브 도메인의 일부를 추출하여, 라우트 파라미터로 할당할 수 있습니다. 서브 도메인은 그룹의 속성 배열에서 `domain` 키로 지정되어집니다:
+라우트 그룹은 또한 카드형태의 서브 도메인을 처리하는데 사용할 수도 있습니다. 서브 도메인은 라우트 URI와 같이 서브 도메인의 일부를 추출하여, 라우트 파라미터로 할당할 수 있습니다. 서브 도메인은 그룹을 정의하기 전에 `domain` 메소드를 호출하여 지정할 수 있습니다:
 
-    Route::group(['domain' => '{account}.myapp.com'], function () {
+    Route::domain('{account}.myapp.com')->group(function () {
         Route::get('user/{id}', function ($account, $id) {
             //
         });
@@ -288,12 +288,12 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
 ### Route Prefixes
 ### 라우트 Prefix
 
-The `prefix` group attribute may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with `admin`:
+The `prefix` method may be used to prefix each route in the group with a given URI. For example, you may want to prefix all route URIs within the group with `admin`:
 
-`prefix` 그룹 속성은 그룹안의 라우트에 특정 URI을 접두어로 지정할 때 사용되어집니다. 그룹의 모든 라우트 URI에 `admin` 을 붙이고 싶다면 다음과 같이 지정하면 됩니다:
+`prefix` 메소드는 그룹안의 라우트에 특정 URI을 접두어로 지정할 때 사용합니다. 그룹의 모든 라우트 URI 앞에 `admin` 을 붙이고 싶다면 다음과 같이 지정하면 됩니다:
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('users', function ()    {
+    Route::prefix('admin')->group(function () {
+        Route::get('users', function () {
             // Matches The "/admin/users" URL
         });
     });

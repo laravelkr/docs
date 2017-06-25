@@ -21,6 +21,8 @@
     - [모델 저장하기](#persisting-models)
     - [Relationships](#relationships)
     - [관계-Relationships](#relationships)
+- [Available Assertions](#available-assertions)
+- [사용가능한 Assertions](#available-assertions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -286,3 +288,23 @@ These Closures also receive the evaluated attribute array of the factory that de
             }
         ];
     });
+
+<a name="available-assertions"></a>
+## Available Assertions
+## 사용가능한 Assertions
+
+Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) tests:
+
+라라벨은 [PHPUnit](https://phpunit.de/) 테스르를 위한 몇가지 데이터베이스 assertion을 제공합니다:
+
+Method  | Description
+------------- | -------------
+`$this->assertDatabaseHas($table, array $data);`  |  Assert that a table in the database contains the given data.
+`$this->assertDatabaseMissing($table, array $data);`  |  Assert that a table in the database does not contain the given data.
+`$this->assertSoftDeleted($table, array $data);`  |  Assert that the given record has been soft deleted.
+
+메소드  | 설명
+------------- | -------------
+`$this->assertDatabaseHas($table, array $data);`  |  데이터베이스가 해당 테이블을 가지고 있는지 확인.
+`$this->assertDatabaseMissing($table, array $data);`  |  데이터베이스가 해당 테이블을 가지고 있지 않은 것을 확인.
+`$this->assertSoftDeleted($table, array $data);`  |  주어진 레코드가 soft 삭제 된것을 확인.

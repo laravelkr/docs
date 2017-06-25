@@ -7,6 +7,8 @@
 - [설치하기](#installation)
     - [Using Other Browsers](#using-other-browsers)
     - [다른 브라우저 사용하기](#using-other-browsers)
+    - [ChromeDriver Options](#chromedriver-options)
+    - [크롬 드라이버 옵션](#chromedriver-options)
 - [Getting Started](#getting-started)
 - [시작하기](#getting-started)
     - [Generating Tests](#generating-tests)
@@ -148,6 +150,32 @@ Next, you may simply modify the `driver` method to connect to the URL and port o
     {
         return RemoteWebDriver::create(
             'http://localhost:4444', DesiredCapabilities::phantomjs()
+        );
+    }
+
+<a name="chromedriver-options"></a>
+### ChromeDriver Options
+### 크롬 드라이버 옵션
+
+To customize the ChromeDriver session, you may modify the `driver` method of the `DuskTestCase` class:
+
+크롬 드라이버 세션을 커스터마이징 하려면, `DuskTestCase` 클래스의 `driver` 메소드를 수정하면 됩니다:
+
+    use Facebook\WebDriver\Chrome\ChromeOptions;
+
+    /**
+     * Create the RemoteWebDriver instance.
+     *
+     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
+     */
+    protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments(['--headless']);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY, $options
+            )
         );
     }
 

@@ -1042,9 +1042,24 @@ In addition to the `save` and `saveMany` methods, you may also use the `create` 
         'message' => 'A new comment.',
     ]);
 
-Before using the `create` method, be sure to review the documentation on attribute [mass assignment](/docs/{{version}}/eloquent#mass-assignment).
+> {tip} Before using the `create` method, be sure to review the documentation on attribute [mass assignment](/docs/{{version}}/eloquent#mass-assignment).
 
-`create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다. 
+> {tip} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
+
+You may use the `createMany` method to create multiple related models:
+
+연관된 모델을 여러개 생성하기 위해서는 `createMany` 메소드를 사용할 수 있습니다:
+
+    $post = App\Post::find(1);
+
+    $post->comments()->createMany([
+        [
+            'message' => 'A new comment.',
+        ],
+        [
+            'message' => 'Another new comment.',
+        ],
+    ]);
 
 <a name="updating-belongs-to-relationships"></a>
 ### Belongs To Relationships

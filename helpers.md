@@ -580,8 +580,6 @@
 <a name="method-str-after"></a>
 #### `str_after()` {#collection-method}
 
-The `str_after` function returns everything after the given value in a string:
-
 `str_after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
 
     $value = str_after('This is: a test', 'This is:');

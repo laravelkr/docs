@@ -150,12 +150,9 @@ To disable maintenance mode, use the `up` command:
 
     php artisan up
 
-#### Maintenance Mode Response Template
-#### 점검모드의 템플릿
+> {tip} You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
 
-The default template for maintenance mode responses is located in `resources/views/errors/503.blade.php`. You are free to modify this view as needed for your application.
-
-점검모드의 응답페이지는 `resources/views/errors/503.blade.php` 파일에 위치하고 있습니다. 어플리케이션에서 필요한 경우 이 뷰 파일을 자유롭게 수정할 수 있습니다. 
+> {tip} 여러분은 `resources/views/errors/503.blade.php` 파일에 고유한 템플릿을 정의하여 점검모드의 기본 템플릿을 커스터마이징 할 수 있습니다.
 
 #### Maintenance Mode & Queues
 #### 점검모드 & 큐-Queue

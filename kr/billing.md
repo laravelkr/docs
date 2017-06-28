@@ -754,7 +754,7 @@ That's it! Failed payments will be captured and handled by the controller. The c
 
 > {note} When using Stripe, the `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. However, when using Braintree, you should pass the full dollar amount to the `charge` method:
 
-> {note} Stripe 를 사용중일 떄, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
+> {note} Stripe 를 사용중일 때, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
 
 If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
 
@@ -789,7 +789,7 @@ The `charge` method will throw an exception if the charge fails. If the charge i
 
 Sometimes you may need to make a one-time charge but also generate an invoice for the charge so that you may offer a PDF receipt to your customer. The `invoiceFor` method lets you do just that. For example, let's invoice the customer $5.00 for a "One Time Fee":
 
-떄로는 한 번만 결제를 진행하면서 고객에게 PDF 영수증을 발행하고자 할 수도 있습니다. `invoiceFor` 메소드는 바로 이경우 사용합니다. 예를 들어, 고객에게 "한번의 요금"을 위해서 5달러를 청구해 보겠습니다:
+때로는 한 번만 결제를 진행하면서 고객에게 PDF 영수증을 발행하고자 할 수도 있습니다. `invoiceFor` 메소드는 바로 이경우 사용합니다. 예를 들어, 고객에게 "한번의 요금"을 위해서 5달러를 청구해 보겠습니다:
 
     // Stripe Accepts Charges In Cents...
     $user->invoiceFor('One Time Fee', 500);

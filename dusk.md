@@ -645,7 +645,7 @@ Travis CI에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 �
         - sh -e /etc/init.d/xvfb start
         - ./vendor/laravel/dusk/bin/chromedriver-linux &
         - cp .env.testing .env
-        - php artisan serve &
+        - php artisan serve > /dev/null 2>&1 &
 
     script:
         - php artisan dusk

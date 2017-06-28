@@ -626,7 +626,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-필드의 값이, 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 계산될 수 있습니다.
+필드의 값이, 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. 문자열, 숫자, 배열 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 계산될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
@@ -790,7 +790,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 <a name="rule-max"></a>
 #### max:_value_
 
-필드의 값이 반드시 _value_보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이 반드시 _value_보다 작거나 같아야 합니다. 문자열, 숫자, 배열, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
@@ -817,7 +817,7 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 <a name="rule-min"></a>
 #### min:_value_
 
-필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. 문자열, 숫자, 배열, 그리고 파일이 [`size`](#rule-size) 룰에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-nullable"></a>
 #### nullable

@@ -739,7 +739,7 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
 
 종종 하나의 작업에서 여러 개의 다른 관계들을 eager 로드해야 될 때가 있습니다. 이 경우 `with` 메소드에 추가 인자들을 전달하면 됩니다:
 
-    $books = App\Book::with('author', 'publisher')->get();
+    $books = App\Book::with(['author', 'publisher'])->get();
 
 #### 중첩된 Eager 로딩하기
 

@@ -93,9 +93,7 @@
 
     php artisan up
 
-#### 점검모드의 템플릿
-
-점검모드의 응답페이지는 `resources/views/errors/503.blade.php` 파일에 위치하고 있습니다. 어플리케이션에서 필요한 경우 이 뷰 파일을 자유롭게 수정할 수 있습니다.
+> {tip} 여러분은 `resources/views/errors/503.blade.php` 파일에 고유한 템플릿을 정의하여 점검모드의 기본 템플릿을 커스터마이징 할 수 있습니다.
 
 #### 점검모드 & 큐-Queue
 

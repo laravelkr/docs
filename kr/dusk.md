@@ -612,6 +612,26 @@ The `waitForLink` method may be used to wait until the given link text is displa
     // Wait a maximum of one second for the link...
     $browser->waitForLink('Create', 1);
 
+#### Waiting On The Page Location
+#### 페이지 위치를 대기하기
+
+When making a path assertion such as `$browser->assertPathIs('/home')`, the assertion can fail if `window.location.pathname` is being updated asynchronously. You may use the `waitForLocation` method to wait for the location to be a given value:
+
+`$browser->assertPathIs('/home')` 메소드와 같이 페이지 위치를 확인하는 경우에, `window.location.pathname`이 비동기적으로 업데이트 되는 경우에 메소드 결과가 실패합니다. 이 경우 `waitForLocation` 메소드를 사용하여 경로가 주어진 값인지 대기할 수 있습니다:
+
+    $browser->waitForLocation('/secret');
+
+#### Waiting for Page Reloads
+#### 페이지 새로고침을 대기하기
+
+If you need to make assertions after a page has been reloaded, use the `waitForReload` method:
+
+패이지가 새로고침된 것을 확인해야 되는경우, `waitForReload` 메소드를 사용하십시오.
+
+    $browser->click('.some-action')
+            ->waitForReload()
+            ->assertSee('something');
+
 #### Waiting On JavaScript Expressions
 #### 자바스크립트 표현식을 통해서 대기하기
 

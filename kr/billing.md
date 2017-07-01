@@ -86,9 +86,11 @@ First, add the Cashier package for Stripe to your dependencies:
 #### Service Provider
 #### 서비스 프로바이더
 
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file.
+Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file:
 
 다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다. 
+
+    Laravel\Cashier\CashierServiceProvider::class
 
 #### Database Migrations
 #### 데이터베이스 마이그레이션

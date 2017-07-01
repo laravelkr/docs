@@ -10,6 +10,7 @@
     - [The Make Method](#the-make-method)
     - [Automatic Injection](#automatic-injection)
 - [Container Events](#container-events)
+- [PSR-11](#psr-11)
 
 <a name="introduction"></a>
 ## Introduction
@@ -251,3 +252,18 @@ The service container fires an event each time it resolves an object. You may li
     });
 
 As you can see, the object being resolved will be passed to the callback, allowing you to set any additional properties on the object before it is given to its consumer.
+
+<a name="psr-11"></a>
+## PSR-11
+
+Laravel's service container implements the [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) interface. Therefore, you may type-hint the PSR-11 container interface to obtain an instance of the Laravel container:
+
+    use Psr\Container\ContainerInterface;
+
+    Route::get('/', function (ContainerInterface $container) {
+        $service = $container->get('Service');
+
+        //
+    });
+
+> {note} Calling the `get` method will throw an exception if the identifier has not been explicitly bound into the container.

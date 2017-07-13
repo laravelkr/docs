@@ -174,6 +174,46 @@ If your parent model does not use `id` as its primary key, or you wish to join t
         return $this->belongsTo('App\User', 'foreign_key', 'other_key');
     }
 
+<a name="default-models"></a>
+#### Default Models
+#### 기본 모델
+
+The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
+
+`belongsTo` 관계에서 주어진 관계가 만약 `null` 인 경우에 반환할 기본모델을 정의할 수 있습니다. 이 패턴은 [Null 오브젝트 패턴](https://en.wikipedia.org/wiki/Null_Object_pattern) 이라고 하며 코드에서 조건식을 제거하는데 도움이 됩니다. 다음의 예제에서 `user` 관계는 포스트에 추가된 `user` 가 없는 경우 비어 있는 `App/User` 모델을 반환합니다:
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault();
+    }
+
+To populate the default model with attributes, you may pass an array or Closure to the `withDefault` method:
+
+기본 모델에 속성을 구성하려면, `withDefault` 메소드에 배열 또는 클로저를 전달하면 됩니다:
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault([
+            'name' => 'Guest Author',
+        ]);
+    }
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault(function ($user) {
+            $user->name = 'Guest Author';
+        });
+    }
+
 <a name="one-to-many"></a>
 ### One To Many
 ### 1:*(일대다) 관계 정의하기

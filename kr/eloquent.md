@@ -738,9 +738,9 @@ Writing a global scope is simple. Define a class that implements the `Illuminate
         }
     }
 
-> {tip} There is not a predefined folder for scopes in a default Laravel application, so feel free to make your own `Scopes` folder within your Laravel application's `app` directory.
+> {tip} If your global scope is adding columns to the select clause of the query, you should use the `addSelect` method instead of `select`. This will prevent the unintentional replacement of the query's existing select clause.
 
-> {tip} 라라벨 어플리케이션에서 기본적으로 지정된 스코프 폴더가 없기 때문에, 라라벨 어플리케이션의 `app` 디렉토리에 자유롭게 `Scopes` 폴더를 만들 수 있습니다.
+> {tip} 글로벌 스코프가 쿼리의 select 절에 컬럼을 추가하는 경우 select 대신 `addSelect` 메소드를 사용해야 합니다. 이렇게 하면 쿼리의 기존 `select` 절이 교체되는 실수를 방지할 수 있습니다.
 
 #### Applying Global Scopes
 #### 글로벌 스코프 적용하기

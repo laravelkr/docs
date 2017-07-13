@@ -239,6 +239,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
         }
     }
 
+> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일 삭제합니다. 이 파일들을 유지하고자 한다면, 대신 "persistentFake" 메소드를 사용하십시오.
+
 <a name="mocking-facades"></a>
 ## 파사드
 

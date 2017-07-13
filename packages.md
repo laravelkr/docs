@@ -7,7 +7,6 @@
 - [Resources](#resources)
     - [설정파일](#configuration)
     - [마이그레이션 파일들](#migrations)
-    - [라우트](#routes)
     - [언어 파일](#translations)
     - [뷰 파일들](#views)
 - [명령어](#commands)
@@ -34,21 +33,6 @@
 [서비스 프로바이더](/docs/{{version}}/providers)는 라라벨과 패키지 사이의 접점이라고 할 수 있습니다. 하나의 서비스 프로바이더는 [서비스 컨테이너](/docs/{{version}}/container) 바인딩에 대응하고, 패키지의 뷰, 설정파일, 언어파일의 위치를 라라벨에 알려주는 역할을 합니다.
 
 서비스 프로바이더는 `Illuminate\Support\ServiceProvider`를 상속 받고, 다음의 두개의 메소드: `register` 와 `boot` 메소드를 포함합니다. 베이스 `ServiceProvider` 클래스는 컴포저 패키지의 `illuminate/support` 에 위치하고 있으며, 여러분의 패키지에 필요한 의존성을 컴포저에 추가해야 합니다. 서비스 프로바이더의 구조와 목적에 대한 보다 자세한 사항은 [문서](/docs/{{version}}/providers)를 참고하십시오.
-
-<a name="routing"></a>
-## 라우팅
-
-패키지에서 사용할 라우트를 정의하려면 패키지의 서비스 프로바이더의 `boot` 메소드안에서 `loadRoutesFrom` 메소드에 라우트 파일을 지정하면 됩니다. 여러분이 지정한 라우트 파일 안에서는 라라벨의 일반적인 어플리케이션에서 사용된 것과 같이 `Illuminate\Support\Facades\Route` 파사드를 통해서 [라우트 등록](/docs/{{version}}/routing)을 할 수 있습니다: 
-
-    /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->loadRoutesFrom(__DIR__.'/path/to/routes.php');
-    }
 
 <a name="resources"></a>
 ## Resources

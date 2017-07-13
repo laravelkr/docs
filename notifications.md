@@ -630,7 +630,7 @@ SMS 메세지에 유니코드 문자가 포함되어 있다면, `NexmoMessage` �
 
     composer require guzzlehttp/guzzle
 
-슬랙 팀에서 "Incoming Webhook" intergration을 설정해야합니다. 이 intergration은 [슬랙 알림을 전송](#routing-slack-notifications)할 때 사용하는 하나의 URL을 제공해줍니다.
+슬랙 팀에서 ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) intergration을 설정해야합니다. 이 intergration은 [슬랙 알림을 전송](#routing-slack-notifications)할 때 사용하는 하나의 URL을 제공해줍니다.
 
 <a name="formatting-slack-notifications"></a>
 ### 슬랙 알림 포맷 지정하기

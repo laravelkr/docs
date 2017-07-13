@@ -193,4 +193,5 @@
 `$response->assertJsonMissing(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있지 않은 것을 확인.
 `$response->assertExactJson(array $data);`  |  응답에 주어진 JSON 데이터와 정확하게 일치하게 포함되어 있는지 확인.
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
+`$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.

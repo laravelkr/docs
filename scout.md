@@ -238,6 +238,16 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
         return App\Order::search($request->search)->get();
     });
 
+결과가 Eloquent 모델로 변환되기 전의 상태를 얻고자 한다면, `raw` 메소드를 사용하십시오:
+
+    $orders = App\Order::search('Star Trek')->raw();
+
+검색 쿼리는 일반적으로 모델의 [`searchableAs`](#configuring-model-indexes) 메소드에 의한 인덱스가 지정되어 실행됩니다. 대신에 `within` 메소드를 사용하여 검색하고자 하는 커스텀 인덱스를 지정할 수 있습니다:
+
+    $orders = App\Order::search('Star Trek')
+        ->within('tv_shows_popularity_desc')
+        ->get();
+
 <a name="where-clauses"></a>
 ### Where 클로저
 

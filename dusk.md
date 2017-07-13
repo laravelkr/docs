@@ -254,6 +254,8 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
               ->visit('/home');
     });
 
+> {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
+
 <a name="interacting-with-elements"></a>
 ## Element 조작하기
 
@@ -653,7 +655,9 @@ Travis CI에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 �
 <a name="running-tests-on-circle-ci"></a>
 ### CircleCI
 
-CircleCI에서 Dusk 테스트를 수행하기 위해서는 다음 설정 파일을 사용할 수 있습니다. TravisCI와 같이, PHP 내장 웹서버를 실행하기 위해서 `php artisan serve` 를 사용할 수 있습니다:
+#### CircleCI 1.0
+
+Dusk 테스트를 수행하기 위해서 CircleCI 1.0를 사용한다면, 다음 설정 파일을 사용할 수 있습니다. TravisCI와 같이, PHP 내장 웹서버를 실행하기 위해서 `php artisan serve` 를 사용할 수 있습니다:
 
     test:
         pre:
@@ -665,3 +669,24 @@ CircleCI에서 Dusk 테스트를 수행하기 위해서는 다음 설정 파일�
 
         override:
             - php artisan dusk
+
+#### CircleCI 2.0
+
+
+Dusk 테스트를 수행하기 위해서 CircleCI 2.0를 사용한다면, 빌드를 위해서 다음을 추가하십시오:
+
+     version: 2
+     jobs:
+         build:
+             steps:
+                  - run:
+                      name: Start Chrome Driver
+                      command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                      background: true
+                 - run:
+                     name: Run Laravel Server
+                     command: php artisan serve
+                     background: true
+                 - run:
+                     name: Run Laravel Dusk Tests
+                     command: php artisan dusk

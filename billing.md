@@ -198,7 +198,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
 
     $user = User::find(1);
 
-    $user->newSubscription('main', 'monthly')->create($stripeToken);
+    $user->newSubscription('main', 'premium')->create($stripeToken);
 
 `newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 어플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
 

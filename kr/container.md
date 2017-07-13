@@ -135,7 +135,7 @@ You may also bind an existing object instance into the container using the `inst
 
     $api = new HelpSpot\API(new HttpClient);
 
-    $this->app->instance('HelpSpot\Api', $api);
+    $this->app->instance('HelpSpot\API', $api);
 
 #### Binding Primitives
 #### 기본 타입 바인딩

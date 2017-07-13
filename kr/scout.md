@@ -330,6 +330,20 @@ Since Scout searches return a collection of Eloquent models, you may even return
         return App\Order::search($request->search)->get();
     });
 
+If you would like to get the raw results before they are converted to Eloquent models, you should use the `raw` method:
+
+결과가 Eloquent 모델로 변환되기 전의 상태를 얻고자 한다면, `raw` 메소드를 사용하십시오:
+
+    $orders = App\Order::search('Star Trek')->raw();
+
+Search queries will typically be performed on the index specified by the model's [`searchableAs`](#configuring-model-indexes) method. However, you may use the `within` method to specify a custom index that should be searched instead:
+
+검색 쿼리는 일반적으로 모델의 [`searchableAs`](#configuring-model-indexes) 메소드에 의한 인덱스가 지정되어 실행됩니다. 대신에 `within` 메소드를 사용하여 검색하고자 하는 커스텀 인덱스를 지정할 수 있습니다:
+
+    $orders = App\Order::search('Star Trek')
+        ->within('tv_shows_popularity_desc')
+        ->get();
+
 <a name="where-clauses"></a>
 ### Where Clauses
 

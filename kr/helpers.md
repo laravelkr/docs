@@ -79,7 +79,6 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [str_limit](#method-str-limit)
 [starts_with](#method-starts-with)
 [str_after](#method-str-after)
-[str_before](#method-str-before)
 [str_contains](#method-str-contains)
 [str_finish](#method-str-finish)
 [str_is](#method-str-is)
@@ -688,18 +687,6 @@ The `str_after` function returns everything after the given value in a string:
     $value = str_after('This is: a test', 'This is:');
 
     // ' a test'
-
-<a name="method-str-before"></a>
-#### `str_before()` {#collection-method}
-
-The `str_before` function returns everything before the given value in a string:
-
-`str_before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
-
-    $value = str_before('This is: a test', 'a test');
-
-    // 'This is: '
-
 
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}

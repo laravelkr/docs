@@ -110,9 +110,9 @@ This is identical to manually defining the following Gate definitions:
     Gate::define('posts.update', 'PostPolicy@update');
     Gate::define('posts.delete', 'PostPolicy@delete');
 
-By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may define additional abilities by passing an array as third argument to the `resource` method. The key of the array defines the name of the ability while the value defines the method name:
+By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You can override the default abilities by passing an array as third argument to the `resource` method. The key of the array defines the name of the ability while the value defines the method name:
 
-기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달하여 추가적인 메소드를 정의할 수 있습니다. 배열의 키는 Gate 엑션의 이름을, 값은 메소드를 정의합니다:   
+기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달하여 기본 속성들을 재정의할 수 있습니다. 배열의 키는 Gate 엑션의 이름을, 값은 메소드를 정의합니다:
 
     Gate::resource('posts', 'PostPolicy', [
         'posts.photo' => 'updatePhoto',

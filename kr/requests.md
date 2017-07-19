@@ -277,6 +277,14 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
         //
     }
 
+When given an array, the `has` method will determine if all of the specified values are present:
+
+`has` 메소드에 배열이 주어지면, 지정된 모든 값이 존재하는지 확인하게 됩니다:
+
+    if ($request->has(['name', 'email'])) {
+        //
+    }
+
 <a name="old-input"></a>
 ### Old Input
 ### 이전 입력값 확인하기

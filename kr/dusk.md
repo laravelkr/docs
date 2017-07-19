@@ -74,7 +74,7 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
 시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
-    composer require laravel/dusk
+    composer require --dev laravel/dusk
 
 Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to log in as other users:
 
@@ -311,6 +311,10 @@ Often, you will be testing pages that require authentication. You can use Dusk's
         $first->loginAs(User::find(1))
               ->visit('/home');
     });
+
+> {note} After using the `loginAs` method, the user session will be maintained for all tests within the file.
+
+> {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
 
 <a name="interacting-with-elements"></a>
 ## Interacting With Elements

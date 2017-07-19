@@ -68,7 +68,6 @@
 - [snake_case](#method-snake-case)
 - [str_limit](#method-str-limit)
 - [str_after](#method-str-after)
-- [str_before](#method-str-before)
 - [str_contains](#method-str-contains)
 - [str_finish](#method-str-finish)
 - [str_is](#method-str-is)
@@ -586,15 +585,6 @@
     $value = str_after('This is: a test', 'This is:');
 
     // ' a test'
-
-<a name="method-str-before"></a>
-#### `str_before()` {#collection-method}
-
-`str_before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
-
-    $value = str_before('This is: a test', 'a test');
-
-    // 'This is: '
 
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}

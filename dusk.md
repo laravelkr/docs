@@ -98,7 +98,7 @@ Dusk가 설치되고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로
     protected function driver()
     {
         return RemoteWebDriver::create(
-            'http://localhost:4444', DesiredCapabilities::phantomjs()
+            'http://localhost:4444/wd/hub', DesiredCapabilities::phantomjs()
         );
     }
 

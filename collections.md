@@ -55,6 +55,7 @@
 - [containsStrict](#method-containsstrict)
 - [count](#method-count)
 - [diff](#method-diff)
+- [diffAssoc](#method-diffassoc)
 - [diffKeys](#method-diffkeys)
 - [each](#method-each)
 - [every](#method-every)
@@ -282,6 +283,28 @@
     $diff->all();
 
     // [1, 3, 5]
+
+<a name="method-diffassoc"></a>
+#### `diffAssoc()` {#collection-method}
+
+`diffAssoc` 메소드는 컬렉션을 키와 값을 기준으로 하여 다른 컬렉션 또는 PHP `배열` 비교합니다. 이 메소드는 주어진 컬렉션에는 있지만 원래의 컬렉션에서는 존재하지 않는 키 / 값 쌍을 반환합니다:
+
+    $collection = collect([
+        'color' => 'orange',
+        'type' => 'fruit',
+        'remain' => 6
+    ]);
+
+    $diff = $collection->diffAssoc([
+        'color' => 'yellow',
+        'type' => 'fruit',
+        'remain' => 3,
+        'used' => 6
+    ]);
+
+    $diff->all();
+
+    // ['color' => 'orange', 'remain' => 6]
 
 <a name="method-diffkeys"></a>
 #### `diffKeys()` {#collection-method}

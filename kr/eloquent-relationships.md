@@ -452,15 +452,15 @@ You can also filter the results returned by `belongsToMany` using the `wherePivo
 #### Defining Custom Intermediate Table Models
 #### 커스텀 중간 테이블 모델 정의하기
 
-If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship. All custom models used to represent intermediate tables of relationships must extend the `Illuminate\Database\Eloquent\Relations\Pivot` class:
+If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship. All custom models used to represent intermediate tables of relationships must extend the `Illuminate\Database\Eloquent\Relations\Pivot` class. For example, we may define a `Role` which uses a custom `UserRole` pivot model:
 
-관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관례를 정의할 때 `using` 메소드를 호출하면 됩니다. 관계의 중간 테이블을 나타내는 데 사용되는 모든 커스텀 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야합니다:
+관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관계를 정의할 때 `using` 메소드를 호출하면 됩니다. 관계의 중간 테이블을 나타내는 데 사용되는 모든 커스텀 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야합니다. 예를 들어, 커스텀 `UserRole` 피벗 모델을 사용하는 `Role` 을 정의할 수 있습니다.
 
     <?php
 
     namespace App;
 
-    use Illuminate\Database\Relations\Pivot;
+    use Illuminate\Database\Eloquent\Model;
 
     class Role extends Model
     {
@@ -473,6 +473,20 @@ If you would like to define a custom model to represent the intermediate table o
         }
     }
 
+When defining the `UserRole` model, we will extend the `Pivot` class:
+
+`UserRole` 모델을 정의할 때에는 `Pivot` 클래스를 상속합니다:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Relations\Pivot;
+
+    class UserRole extends Pivot
+    {
+        //
+    }
 
 <a name="has-many-through"></a>
 ### Has Many Through

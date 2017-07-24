@@ -911,7 +911,10 @@ Eloquent는 또한 연관된 모델들을 다루는 데 편리한 몇 개의 헬
 
     $user->roles()->detach([1, 2, 3]);
 
-    $user->roles()->attach([1 => ['expires' => $expires], 2, 3]);
+    $user->roles()->attach([
+        1 => ['expires' => $expires],
+        2 => ['expires' => $expires]
+    ]);
 
 #### 연결 동기화
 

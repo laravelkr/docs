@@ -221,7 +221,7 @@ By default, the views rendered to display the pagination links are compatible wi
 
 However, the easiest way to customize the pagination views is by exporting them to your `resources/views/vendor` directory using the `vendor:publish` command:
 
-하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령얼르 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다: 
+하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령어를 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다:
 
     php artisan vendor:publish --tag=laravel-pagination
 

@@ -337,6 +337,10 @@
 
     @includeIf('view.name', ['some' => 'data'])
 
+bool 값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다:
+
+    @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
 > {note} 블레이드 뷰에서 `__DIR__`와 `__FILE__` 를 사용하지 마십시오. 이를 사용하면 컴파일된 캐시 뷰의 경로가 반환됩니다.
 
 <a name="rendering-views-for-collections"></a>

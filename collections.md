@@ -630,6 +630,23 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
+<a name="method-intersectkey"></a>
+#### `intersectKey()` {#collection-method}
+
+`intersectKey` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다:
+
+    $collection = collect([
+        'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
+    ]);
+
+    $intersect = $collection->intersectKey([
+        'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
+    ]);
+
+    $intersect->all();
+
+    // ['type' => 'screen', 'year' => 2009]
+
 <a name="method-isempty"></a>
 #### `isEmpty()` {#collection-method}
 

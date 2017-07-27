@@ -158,7 +158,7 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
     // Passing data to the view...
     {{ $paginator->links('view.name', ['foo' => 'bar']) }}
 
-하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령얼르 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다: 
+하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령어를 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다: 
 
     php artisan vendor:publish --tag=laravel-pagination
 

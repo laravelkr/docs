@@ -223,6 +223,27 @@ When working with forms that contain array inputs, use "dot" notation to access 
 
     $names = $request->input('products.*.name');
 
+#### Retrieving Input From The Query String
+#### 쿼리 스트링에서 입력값 조회하기
+
+While the `input` method retrieves values from entire request payload (including the query string), the `query` method will only retrieve values from the query string:
+
+`input` 메소드가 요청-request 전체의 payload(쿼리 스트링을 포함하여)에서 값을 조회한다면, `query` 메소드는 쿼리 스트링에서만 값을 조회합니다:
+
+    $name = $request->query('name');
+
+If the requested query string value data is not present, the second argument to this method will be returned:
+
+찾고자 하는 데이터가 존재하지 않을 때를 위해서 메소드의 두번째 인자로 기본값을 전달할 수 있습니다:
+
+    $name = $request->query('name', 'Helen');
+
+You may call the `query` method without any arguments in order to retrieve all of the query string values as an associative array:
+
+`query` 메소드를 호출할 때 아무런 인자를 전달하지 않는다면, 전체 쿼리 스트링의 값들을 배열 형태로 반환합니다:
+
+    $query = $request->query();
+
 #### Retrieving Input Via Dynamic Properties
 #### 동적 속성을 통한 입력값 조회하기
 

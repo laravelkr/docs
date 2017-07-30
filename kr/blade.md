@@ -461,6 +461,12 @@ Of course, if you attempt to `@include` a view which does not exist, Laravel wil
 
     @includeIf('view.name', ['some' => 'data'])
 
+If you would like to `@include` a view depending on a given boolean condition, you may use the `@includeWhen` directive:
+
+bool 값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다:
+
+    @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
 > {note} You should avoid using the `__DIR__` and `__FILE__` constants in your Blade views, since they will refer to the location of the cached, compiled view.
 
 > {note} 블레이드 뷰에서 `__DIR__`와 `__FILE__` 를 사용하지 마십시오. 이를 사용하면 컴파일된 캐시 뷰의 경로가 반환됩니다.

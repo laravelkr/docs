@@ -15,6 +15,7 @@
     - [Cron 설정하기](#configuring-cron-schedules)
     - [포트 지정](#ports)
     - [환경 공유하기](#sharing-your-environment)
+    - [여러 버전의 PHP 사용하기](#multiple-php-versions)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 업데이트하기](#updating-homestead)
 - [이전 버전](#old-versions)
@@ -332,6 +333,16 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
     share homestead.app -region=eu -subdomain=laravel
 
 > {note} 유념할점은, `share` 명령어를 실행중일 때는 가상머신이 인터넷에 노출되고 보안에 노출될 수 있다는 점입니다.
+
+<a name="multiple-php-versions"></a>
+### 여러 버전의 PHP 사용하기
+
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1" 입니다:
+
+    sites:
+        - map: homestead.app
+          to: /home/vagrant/Code/Laravel/public
+          php: "5.6"
 
 <a name="network-interfaces"></a>
 ## 네트워크 인터페이스

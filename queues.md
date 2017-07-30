@@ -304,6 +304,8 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
 
 #### 타임아웃
 
+> {note} `timeout` 기능은 PHP 7.1이상 그리고 `pcntl` PHP 확장 기능에 최적화 되어 있습니다.
+
 마찬가지로, 작업이 수행될 때 최대 수행시간을 초단위로 지정할 수 있습니다. 이는 아티즌 명령어에 `--timeout` 스위치를 지정하면 됩니다:
 
     php artisan queue:work --timeout=30

@@ -19,6 +19,8 @@
 - [제어 구조](#control-structures)
     - [If Statements](#if-statements)
     - [조건문](#if-statements)
+    - [Switch Statements](#switch-statements)
+    - [스위치 구문](#switch-statements)
     - [Loops](#loops)
     - [반복문](#loops)
     - [The Loop Variable](#the-loop-variable)
@@ -289,6 +291,27 @@ In addition to the conditional directives already discussed, the `@isset` and `@
     @empty($records)
         // $records is "empty"...
     @endempty
+
+<a name="switch-statements"></a>
+### Switch Statements
+### 스위치 구문
+
+Switch statements can be constructed using the `@switch`, `@case`, `@break`, `@default` and `@endswitch` directives:
+
+스위치 구문은 `@switch`, `@case`, `@break`, `@default` 그리고 `@endswitch` 지시어로 구성됩니다:
+
+    @switch($i)
+        @case(1)
+            First case...
+            @break
+
+        @case(2)
+            Second case...
+            @break
+
+        @default
+            Default case...
+    @endswitch
 
 <a name="loops"></a>
 ### Loops

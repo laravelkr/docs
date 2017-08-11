@@ -3,7 +3,6 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
     - [Using Other Browsers](#using-other-browsers)
-    - [ChromeDriver Options](#chromedriver-options)
 - [Getting Started](#getting-started)
     - [Generating Tests](#generating-tests)
     - [Running Tests](#running-tests)
@@ -42,23 +41,11 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
     composer require --dev laravel/dusk
 
-Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to log in as other users:
+> {note} You should never install Dusk in a production environment. Otherwise, anyone may be able to gain unauthorized access to your application.
 
-    use Laravel\Dusk\DuskServiceProvider;
+Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. Typically, this will be done automatically via Laravel's automatic service provider registration.
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        if ($this->app->environment('local', 'testing')) {
-            $this->app->register(DuskServiceProvider::class);
-        }
-    }
-
-Next, run the `dusk:install` Artisan command:
+After installing the Dusk package, run the `dusk:install` Artisan command:
 
     php artisan dusk:install
 
@@ -97,29 +84,6 @@ Next, you may simply modify the `driver` method to connect to the URL and port o
     {
         return RemoteWebDriver::create(
             'http://localhost:4444/wd/hub', DesiredCapabilities::phantomjs()
-        );
-    }
-
-<a name="chromedriver-options"></a>
-### ChromeDriver Options
-
-To customize the ChromeDriver session, you may modify the `driver` method of the `DuskTestCase` class:
-
-    use Facebook\WebDriver\Chrome\ChromeOptions;
-
-    /**
-     * Create the RemoteWebDriver instance.
-     *
-     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
-     */
-    protected function driver()
-    {
-        $options = (new ChromeOptions)->addArguments(['--headless']);
-
-        return RemoteWebDriver::create(
-            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
-                ChromeOptions::CAPABILITY, $options
-            )
         );
     }
 
@@ -487,11 +451,13 @@ Assertion  | Description
 ------------- | -------------
 `$browser->assertTitle($title)`  |  Assert the page title matches the given text.
 `$browser->assertTitleContains($title)`  |  Assert the page title contains the given text.
+`$browser->assertPathBeginsWith($path)`  |  Assert that the current URL path begins with given path.
 `$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
 `$browser->assertPathIsNot('/home')`  |  Assert the current path does not match the given path.
 `$browser->assertRouteIs($name, $parameters)`  |  Assert the current URL matches the given named route's URL.
 `$browser->assertQueryStringHas($name, $value)`  |  Assert the given query string parameter is present and has a given value.
 `$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
+`$browser->assertHasQueryStringParameter($name)`  |  Assert that the given query string parameter is present.
 `$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
 `$browser->assertCookieValue($name, $value)`  |  Assert a cookie has a given value.
 `$browser->assertPlainCookieValue($name, $value)`  |  Assert an unencrypted cookie has a given value.
@@ -499,8 +465,11 @@ Assertion  | Description
 `$browser->assertDontSee($text)`  |  Assert the given text is not present on the page.
 `$browser->assertSeeIn($selector, $text)`  |  Assert the given text is present within the selector.
 `$browser->assertDontSeeIn($selector, $text)`  |  Assert the given text is not present within the selector.
+`$browser->assertSourceHas($code)`  |  Assert that the given source code is present on the page.
+`$browser->assertSourceMissing($code)`  |  Assert that the given source code is not present on the page.
 `$browser->assertSeeLink($linkText)`  |  Assert the given link is present on the page.
 `$browser->assertDontSeeLink($linkText)`  |  Assert the given link is not present on the page.
+`$browser->assertSeeLink($link)`  |  Determine if the given link is visible.
 `$browser->assertInputValue($field, $value)`  |  Assert the given input field has the given value.
 `$browser->assertInputValueIsNot($field, $value)`  |  Assert the given input field does not have the given value.
 `$browser->assertChecked($field)`  |  Assert the given checkbox is checked.
@@ -509,9 +478,13 @@ Assertion  | Description
 `$browser->assertRadioNotSelected($field, $value)` |  Assert the given radio field is not selected.
 `$browser->assertSelected($field, $value)`  |  Assert the given dropdown has the given value selected.
 `$browser->assertNotSelected($field, $value)`  |  Assert the given dropdown does not have the given value selected.
+`$browser->assertSelectHasOptions($field, $values)`  |  Assert that the given array of values are available to be selected.
+`$browser->assertSelectMissingOptions($field, $values)`  |  Assert that the given array of values are not available to be selected.
+`$browser->assertSelectHasOption($field, $value)`  |  Assert that the given value is available to be selected on the given field.
 `$browser->assertValue($selector, $value)`  |  Assert the element matching the given selector has the given value.
 `$browser->assertVisible($selector)`  |  Assert the element matching the given selector is visible.
 `$browser->assertMissing($selector)`  |  Assert the element matching the given selector is not visible.
+`$browser->assertDialogOpened($message)`  |  Assert that a JavaScript dialog with given message has been opened.
 
 <a name="pages"></a>
 ## Pages

@@ -19,6 +19,7 @@
 - [Stacks](#stacks)
 - [Service Injection](#service-injection)
 - [Extending Blade](#extending-blade)
+    - [Custom If Statements](#custom-if-statements)
 
 <a name="introduction"></a>
 ## Introduction
@@ -209,6 +210,18 @@ In addition to the conditional directives already discussed, the `@isset` and `@
     @empty($records)
         // $records is "empty"...
     @endempty
+
+#### Authentication Shortcuts
+
+The `@auth` and `@guest` directives may be used to quickly determine if the current user is authenticated or is a guest:
+
+    @auth
+        // The user is authenticated...
+    @endauth
+
+    @guest
+        // The user is not authenticated...
+    @endguest
 
 <a name="switch-statements"></a>
 ### Switch Statements
@@ -449,3 +462,30 @@ As you can see, we will chain the `format` method onto whatever expression is pa
     <?php echo ($var)->format('m/d/Y H:i'); ?>
 
 > {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
+
+<a name="custom-if-statements"></a>
+### Custom If Statements
+
+Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::if('env', function ($environment) {
+            return app()->environment($environment);
+        });
+    }
+
+Once the custom conditional has been defined, we can easily use it on our templates:
+
+    @env('local')
+        // The application is in the local environment...
+    @else
+        // The application is not in the local environment...
+    @endenv

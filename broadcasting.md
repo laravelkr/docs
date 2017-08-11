@@ -47,7 +47,7 @@ Before broadcasting any events, you will first need to register the `App\Provide
 
 #### CSRF Token
 
-[Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. If available, Echo will pull the token from the `Laravel.csrfToken` JavaScript object. This object is defined in the `resources/views/layouts/app.blade.php` layout that is created if you run the `make:auth` Artisan command. If you are not using this layout, you may define a `meta` tag in your application's `head` HTML element:
+[Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. You should verify that your application's `head` HTML element defines a `meta` tag containing the CSRF token:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -58,7 +58,7 @@ Before broadcasting any events, you will first need to register the `App\Provide
 
 If you are broadcasting your events over [Pusher](https://pusher.com), you should install the Pusher PHP SDK using the Composer package manager:
 
-    composer require pusher/pusher-php-server "~2.6"
+    composer require pusher/pusher-php-server "~3.0"
 
 Next, you should configure your Pusher credentials in the `config/broadcasting.php` configuration file. An example Pusher configuration is already included in this file, allowing you to quickly specify your Pusher key, secret, and application ID. The `config/broadcasting.php` file's `pusher` configuration also allows you to specify additional `options` that are supported by Pusher, such as the cluster:
 

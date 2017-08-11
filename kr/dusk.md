@@ -665,11 +665,13 @@ Assertion  | Description
 ------------- | -------------
 `$browser->assertTitle($title)`  |  Assert the page title matches the given text.
 `$browser->assertTitleContains($title)`  |  Assert the page title contains the given text.
+`$browser->assertPathBeginsWith($path)`  |  Assert that the current URL path begins with given path.
 `$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
 `$browser->assertPathIsNot('/home')`  |  Assert the current path does not match the given path.
 `$browser->assertRouteIs($name, $parameters)`  |  Assert the current URL matches the given named route's URL.
 `$browser->assertQueryStringHas($name, $value)`  |  Assert the given query string parameter is present and has a given value.
 `$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
+`$browser->assertHasQueryStringParameter($name)`  |  Assert that the given query string parameter is present.
 `$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
 `$browser->assertCookieValue($name, $value)`  |  Assert a cookie has a given value.
 `$browser->assertPlainCookieValue($name, $value)`  |  Assert an unencrypted cookie has a given value.
@@ -677,6 +679,8 @@ Assertion  | Description
 `$browser->assertDontSee($text)`  |  Assert the given text is not present on the page.
 `$browser->assertSeeIn($selector, $text)`  |  Assert the given text is present within the selector.
 `$browser->assertDontSeeIn($selector, $text)`  |  Assert the given text is not present within the selector.
+`$browser->assertSourceHas($code)`  |  Assert that the given source code is present on the page.
+`$browser->assertSourceMissing($code)`  |  Assert that the given source code is not present on the page.
 `$browser->assertSeeLink($linkText)`  |  Assert the given link is present on the page.
 `$browser->assertDontSeeLink($linkText)`  |  Assert the given link is not present on the page.
 `$browser->assertInputValue($field, $value)`  |  Assert the given input field has the given value.
@@ -687,19 +691,25 @@ Assertion  | Description
 `$browser->assertRadioNotSelected($field, $value)` |  Assert the given radio field is not selected.
 `$browser->assertSelected($field, $value)`  |  Assert the given dropdown has the given value selected.
 `$browser->assertNotSelected($field, $value)`  |  Assert the given dropdown does not have the given value selected.
+`$browser->assertSelectHasOptions($field, $values)`  |  Assert that the given array of values are available to be selected.
+`$browser->assertSelectMissingOptions($field, $values)`  |  Assert that the given array of values are not available to be selected.
+`$browser->assertSelectHasOption($field, $value)`  |  Assert that the given value is available to be selected on the given field.
 `$browser->assertValue($selector, $value)`  |  Assert the element matching the given selector has the given value.
 `$browser->assertVisible($selector)`  |  Assert the element matching the given selector is visible.
 `$browser->assertMissing($selector)`  |  Assert the element matching the given selector is not visible.
+`$browser->assertDialogOpened($message)`  |  Assert that a JavaScript dialog with given message has been opened.
 
 Assertion  | 설명
 ------------- | -------------
 `$browser->assertTitle($title)`  |  페이지 타이틀이 주어진 텍스트와 일치하는지 확인.
 `$browser->assertTitleContains($title)`  |  페이지 타이틀이 주어진 텍스트를 포함하는지 확인.
+`$browser->assertPathBeginsWith($path)`  |  현재 URL 경로가 주어진 경로로 시작하는지 확인.
 `$browser->assertPathIs('/home')`  |  현재 경로가 주어진 경로와 일치하는지 확인.
 `$browser->assertPathIsNot('/home')`  |  현재 경로가 주어진 경로와 일치하지 않는 것을 확인.
 `$browser->assertRouteIs($name, $parameters)`  |  현재 URL이 주어진 이름의 라우트의 URL과 일치하는지 확인.
 `$browser->assertQueryStringHas($name, $value)`  |  쿼리 스트링 파라미터가 존재하고 주어진 값을 가지고 있는지 확인.
 `$browser->assertQueryStringMissing($name)`  |  주어진 쿼리 스트링 파라미터가 없다는 것을 확인.
+`$browser->assertHasQueryStringParameter($name)`  |  주어진 쿼리 스트링 파라미터가 존재하는지 확인.
 `$browser->assertHasCookie($name)`  |  주어진 쿠키가 존재하는지 확인.
 `$browser->assertCookieValue($name, $value)`  |  쿠키가 주어진 값을 가지고 있는지 확인.
 `$browser->assertPlainCookieValue($name, $value)`  |  암호화 되지 않은 쿠키가 주어진 값을 가지고 있는지 확인.
@@ -707,8 +717,11 @@ Assertion  | 설명
 `$browser->assertDontSee($text)`  |  현재 페이지에 주어진 텍스트가 존재하지 않는 것을 확인.
 `$browser->assertSeeIn($selector, $text)`  |  selector 안에서 주어진 텍스트가 존재하는지 확인.
 `$browser->assertDontSeeIn($selector, $text)`  |  selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인.
+`$browser->assertSourceHas($code)`  |  주어진 소스 코드가 현재 페이지에 존재하는지 확인.
+`$browser->assertSourceMissing($code)`  |  주어진 소스 코드가 현재 페이지에 존재하지 않는 것을 확인.
 `$browser->assertSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하는지 확인.
 `$browser->assertDontSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하지 않는 것을 확인.
+`$browser->assertSeeLink($link)`  |  주어진 링크가 보이는지 확인.
 `$browser->assertInputValue($field, $value)`  |  주어진 input 필드가 주어진 값을 가지는지 확인.
 `$browser->assertInputValueIsNot($field, $value)`  |  주어진 input 필드가 주어진 값을 가지고 있지 않을 것을 확인.
 `$browser->assertChecked($field)`  |  주어진 체크박스가 체크되어 있는지 확인.
@@ -717,9 +730,13 @@ Assertion  | 설명
 `$browser->assertRadioNotSelected($field, $value)` |  주어진 라디오박스가 선택되어 있지 않은 것을 확인.
 `$browser->assertSelected($field, $value)`  |  주어진 드랍박스(셀렉트박스)에서 주어진 값이 선택되어 있는 것을 확인.
 `$browser->assertNotSelected($field, $value)`  |  주어진 드랍박스(셀렉트박스)에서 주어진 값이 선택되어 있지 않은 것을 확인.
+`$browser->assertSelectHasOptions($field, $values)`  |  주어진 값의 배열이 선택가능한 옵션으로 제공되는지 확인.
+`$browser->assertSelectMissingOptions($field, $values)`  |  주어진 값의 배열이 선택가능하지 않는 옵션으로 제공되는지 확인.
+`$browser->assertSelectHasOption($field, $value)`  |  주어진 값이 필드에서 선택 가능한 값인지 확인.
 `$browser->assertValue($selector, $value)`  |  주어진 selector 와 매칭되는 element가 주어진 값을 가지는지 확인.
 `$browser->assertVisible($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이는지 확인.
 `$browser->assertMissing($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이지 않는 것은 확인.
+`$browser->assertDialogOpened($message)`  |  주어진 메세지가 있는 자바스크립트 다이얼로그가 열려있는지 확인.
 
 <a name="pages"></a>
 ## Pages

@@ -604,9 +604,10 @@
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-`str_finish` 함수는 문자열 뒤에 주어진 값을 추가합니다: 
+`str_finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
     $string = str_finish('this/string', '/');
+    $string2 = str_finish('this/string/', '/');
 
     // this/string/
 

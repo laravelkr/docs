@@ -79,10 +79,6 @@ To create a new command, use the `make:command` Artisan command. This command wi
 
     php artisan make:command SendEmails
 
-Next, you will need to [register the command](#registering-commands) before it can be executed via the Artisan CLI.
-
-이 다음, 아티즌 CLI를 통해서 명령어를 실행시키기 전에 [명령어를 등록해야](#registering-commands)합니다.
-
 <a name="command-structure"></a>
 ### Command Structure
 ### 명령어 구조
@@ -508,9 +504,26 @@ For more advanced options, check out the [Symfony Progress Bar component documen
 ## Registering Commands
 ## 명령어 등록하기
 
-Once your command is finished, you need to register it with Artisan. All commands are registered in the `app/Console/Kernel.php` file. Within this file, you will find a list of commands in the `commands` property. To register your command, simply add the command's class name to the list. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+Because of the `load` method call in your console kernel's `commands` method, all commands within the `app/Console/Commands` directory will automatically be registered with Artisan. In fact, you are free to make additional calls to the `load` method to scan other directories for Artisan commands:
 
-명령어 작성이 완료되면 아티즌에서 사용할 수 있도록 등록할 필요가 있습니다. 이 작업은 일반적으로 `app/Console/Kernel.php` 파일에서 이루어 집니다. 이 파일 안에서, 명령어들의 목록을 담고 있는 `command` 변수를 찾을 수 있을 것입니다. 명령어를 등록하기 위해서 간단하게 목록에 작성한 클래스 이름을 추가하십시오. 아티즌이 구동할 때, 목록 안의 모든 명령어들은 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결된 상태로 생성되어 아티즌에 등록되어 집니다.
+콘솔 커널의 `commands` 메소드가 `load` 메소드를 호출하기 때문에, `app/Console/Commands` 디렉토리안에 들어 있는 모든 명령어들은 아티즌에 자동으로 등록됩니다. 또한, 아티즌 명령어들을 스캔하기 위한 다른 디렉토리를 `load` 메소드에서 자유롭게 추가할 수도 있습니다:
+
+    /**
+     * Register the commands for the application.
+     *
+     * @return void
+     */
+    protected function commands()
+    {
+        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__.'/MoreCommands');
+
+        // ...
+    }
+
+You may also manually register commands by adding its class name to the `$command` property of your `app/Console/Kernel.php` file. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+
+또한, `app/Console/Kernel.php` 파일의 `$command` 속성에 클래스 이름을 추가하여 수동으로 명령어를 등록할 수도 있습니다. 아티즌이 부팅될 때, 이 속성에서 나열된 모든 명령어어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 자동으로 의존성이 해결되어 아티즌에 등록됩니다.
 
     protected $commands = [
         Commands\SendEmails::class

@@ -17,6 +17,8 @@
 - [Job 처리하기](#dispatching-jobs)
     - [Delayed Dispatching](#delayed-dispatching)
     - [지연시켜서 처리하기](#delayed-dispatching)
+    - [Job Chaining](#job-chaining)
+    - [Job 체이닝](#job-chaining)
     - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
     - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
     - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)

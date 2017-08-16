@@ -126,10 +126,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
+[report](#method-report)
 [request](#method-request)
 [response](#method-response)
 [retry](#method-retry)
 [session](#method-session)
+[tap](#method-tap)
 [value](#method-value)
 [view](#method-view)
 
@@ -1183,6 +1185,15 @@ The `redirect` function returns a redirect HTTP response, or returns the redirec
 
     return redirect()->route('route.name');
 
+<a name="method-report"></a>
+#### `report()` {#collection-method}
+
+The `report` function will report an exception using your exception handler's `report` method:
+
+`report` 함수는 exception 핸들러의 `report` 메소드를 사용하여 exception-예외를 보고합니다:
+
+    report($e);
+
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
@@ -1239,6 +1250,28 @@ The session store will be returned if no value is passed to the function:
     $value = session()->get('key');
 
     session()->put('key', $value);
+
+<a name="method-tap"></a>
+#### `tap()` {#collection-method}
+
+The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. The `$value` will be passed to the Closure and then be returned by the `tap` function. The return value of the Closure is irrelevant:
+
+`tap` 함수는 임의의 `$value` 와 클로저 두개의 인자를 받아들입니다. `$value` 는 클로저에 전달되어 `tap` 함수에 의해서 반환됩니다. 반환되는 값은 클로저와 무관합니다:
+
+    $user = tap(User::first(), function ($user) {
+        $user->name = 'taylor';
+
+        $user->save();
+    });
+
+If no Closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of the what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
+
+`tap` 함수에 클로저를 전달하지 않는다면, 주어진 `$value` 에 모든 메소드를 호출할 수 있습니다. 메소드에서 반환하는 값은 메소드가 실제로 정의해서 반환하는 `$value` 와는 관계없이 항상 `$value` 가 됩니다. 예를 들어 Eloquent update 메소드는 일반적으로 정수값을 반환하지만, `tap` 메소드를 통해서 `update` 메소드를 호출을 체이닝하면 메소드가 모델 그 자체를 반환하도록 할 수 있습니다:
+
+    $user = tap($user)->update([
+        'name' => $name,
+        'email' => $email
+    ]);
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}

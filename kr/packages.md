@@ -5,6 +5,8 @@
 - [소개하기](#introduction)
     - [A Note On Facades](#a-note-on-facades)
     - [파사드 사용의 주의사항](#a-note-on-facades)
+- [Package Discovery](#package-discovery)
+- [패키지 Discovery](#package-discovery)
 - [Service Providers](#service-providers)
 - [서비스 프로바이더](#service-providers)
 - [Resources](#resources)
@@ -46,9 +48,59 @@ On the other hand, other packages are specifically intended for use with Laravel
 ### A Note On Facades
 ### 파사드 사용의 주의사항
 
-When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, it is best to use [contracts](/docs/{{version}}/contracts) instead of [facades](/docs/{{version}}/facades). Since your package will not have access to all of Laravel's testing helpers, it will be easier to mock or stub a contract than to mock a facade.
+When writing a Laravel application, it generally does not matter if you use contracts or facades since both provide essentially equal levels of testability. However, when writing packages, your package will not typically have access to all of Laravel's testing helpers. If you would like to be able to write your package tests as if they existed inside a typical Laravel application, you may use the [Orchestral Testbench](https://github.com/orchestral/testbench) package.
 
-라라벨 어플리케이션을 작성하는 경우, contracts 또는 파사드의 어느 쪽을 사용해도 일반적으로는 테스트레벨에서 동일하게 문제가 없습니다. 그러나 패키지를 작성하는 경우, [facades](/docs/{{version}}/facades) 대신 [contracts](/docs/{{version}}/contracts)을 사용하는 것이 제일 좋습니다. 패키지는 라라벨의 테스트 헬퍼 모두에게 접근 할 수 없기 때문에, 파사드를 mocking 하는 것 보다 contract을 mock 하거나 stub 하는 것이 더 쉽습니다.
+라라벨 어플리케이션을 작성하는 경우, contracts 또는 파사드의 어느 쪽을 사용해도 일반적으로는 테스트레벨에서 동일하게 문제가 없습니다. 그러나 패키지를 작성하는 경우, 패키지는 일반적으로 라라벨의 테스트 헬퍼 모두에게 접근 할 수 없습니다. 여러분이 일반적인 라라벨 어플리케이션에 들어 있는 것과같이 패키지 테스트를 작성하고자 한다면, [Orchestral Testbench](https://github.com/orchestral/testbench) 패키지를 사용할 수 있습니다.
+
+<a name="package-discovery"></a>
+## Package Discovery
+## 패키지 Discovery
+
+In a Laravel application's `config/app.php` configuration file, the `providers` option defines a list of service providers that should be loaded by Laravel. When someone installs your package, you will typically want your service provider to be included in this list. Instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
+
+라라벨 어플리케이션의 `config/app.php` 설정 파일안에는 라라벨에서 로딩되어야 하는 서비스 프로바이더들의 리스트가 `providers` 옵션에 정의되어 있습니다. 패키지를 인스톨하게 되면, 일반적으로 서비스 프로바이더가 이 리스트에 포함되기를 원할 수 있습니다. 사용자가 직접  서비스 프러바이더를 이 목록에 추가하는 대신에, 패키지의 `composer.json` 파일의 `extra` 섹션에서 프로바이더를 정의할 수 있습니다. 서비스 프로바이더에 더해서, 등록하고자 하는 [facades](/docs/{{version}}/facades)도 나열 할 수 있습니다:
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Barryvdh\\Debugbar\\ServiceProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+            }
+        }
+    },
+
+Once your package has been configured for discovery, Laravel will automatically register its service providers and facades when it is installed, creating a convenient installation experience for your package's users.
+
+discovery 를 위해서 패키지 설정이 되었다면, 라라벨은 패키지가 설치되었을 때 자동으로 서비스 프로바이더와 파사드를 등록하여 패키지 사용자에게 편리한 설치 경험을 제공해주게 됩니다.
+
+### Opting Out Of Package Discovery
+### 패키지 Discovery에서 제외시키기
+
+If you are the consumer of a package and would like to disable package discovery for a package, you may list the package name in the `extra` section of your application's `composer.json` file:
+
+패키지 사용자가 패키지 discovery 기능을 사용하지 않기를 원한다면, 어플리케이션의 `composer.json` 파일의 `extra` 섹션에 패키지 이름을 나열해놓으면 됩니다:
+
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-debugbar"
+            ]
+        }
+    },
+
+You may disable package discovery for all packages using the `*` character inside of your application's `dont-discover` directive:
+
+어플리케이션의 `dont-discover` 지시어안에서 `*` 문자열을 사용하여 모든 패키지 dicovery를 비활성화 할 수도 있습니다:
+
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "*"
+            ]
+        }
+    },
 
 <a name="service-providers"></a>
 ## Service Providers

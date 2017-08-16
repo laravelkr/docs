@@ -191,6 +191,17 @@ When using the `local` or `s3` drivers, you may use the `url` method to get the 
 
 > {note} 주의할 점은, 만약 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 한다는 것입니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage`  [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
 
+#### Temporary URLs
+#### 임시 URLs
+
+For files stored using the `s3` driver, you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
+
+`s3` 드라이버를 사용하여 파일을 저장할 때, `temporaryUrl` 메소드를 사용하여 파일에 접근하기 위한 임시 URL을 생성할 수 있습니다. 이 메소드는 파일의 경로 및 언제 URL이 만료되어야 하는지 지정한 `DateTime` 인스턴스를 인자로 받습니다:
+
+    $url = Storage::temporaryUrl(
+        'file1.jpg', Carbon::now()->addMinutes(5)
+    );
+
 #### Local URL Host Customization
 #### 로컬 URL 호스트 커스터마이징
 

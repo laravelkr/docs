@@ -140,6 +140,24 @@ For example, if you need to report different types of exceptions in different wa
         return parent::report($exception);
     }
 
+#### The `report` Helper
+#### `report` 헬퍼 함수
+
+Sometimes you may need to report an exception but continue handling the current request. The `report` helper function allows you to quickly report an exception using your exception handler's `report` method without rendering an error page:
+
+때때로, 현재 발생한 exception-예외를 report-보고해야 하지만, 현재 request 처리를 계속하기를 원할 수도 있습니다. `report` 헬퍼 함수는 에러 페이지를 렌더링 하지 않으면서, exception 핸들러의 `report` 메소드를 사용하여 보다 빠르게 예외사항을 보고합니다:
+
+    public function isValid($value)
+    {
+        try {
+            // Validate the value...
+        } catch (Exception $e) {
+            report($e);
+
+            return false;
+        }
+    }
+
 #### Ignoring Exceptions By Type
 #### 유형에 따라서 예외-exception 무시하기
 

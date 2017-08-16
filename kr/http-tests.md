@@ -217,6 +217,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 Method  | Description
 ------------- | -------------
+`$response->assertSuccessful();`  |  Assert that the response has a successful status code.
 `$response->assertStatus($code);`  |  Assert that the response has a given code.
 `$response->assertRedirect($uri);`  |  Assert that the response is a redirect to a given URI.
 `$response->assertHeader($headerName, $value = null);`  |  Assert that the given header is present on the response.
@@ -235,6 +236,7 @@ Method  | Description
 
 메소드  | 설명
 ------------- | -------------
+`$response->assertSuccessful();`  |  응답이 성공적인 상태코드를 가지고 있는지 확인.
 `$response->assertStatus($code);`  |  응답이 주어진 코드를 가지고 있는지 확인.
 `$response->assertRedirect($uri);`  |  응답이 주어진 URI로 리다이렉트되었는지 여부를 확인.
 `$response->assertHeader($headerName, $value = null);`  |  응답에서 주어진 헤더가 존재하는지 확인.

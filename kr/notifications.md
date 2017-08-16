@@ -15,6 +15,8 @@
     - [채널 지정하기](#specifying-delivery-channels)
     - [Queueing Notifications](#queueing-notifications)
     - [큐를 통한 Notifications 사용](#queueing-notifications)
+    - [On-Demand Notifications](#on-demand-notifications)
+    - [필요할 때만 Notifications](#on-demand-notifications)
 - [Mail Notifications](#mail-notifications)
 - [메일을 통한 알림](#mail-notifications)
     - [Formatting Mail Messages](#formatting-mail-messages)
@@ -215,6 +217,18 @@ If you would like to delay the delivery of the notification, you may chain the `
     $when = Carbon::now()->addMinutes(10);
 
     $user->notify((new InvoicePaid($invoice))->delay($when));
+
+<a name="on-demand-notifications"></a>
+### On-Demand Notifications
+### 필요한 경우에만 Notifications
+
+Sometimes you may need to send a notification to someone who is not stored as a "user" of your application. Using the `Notification::route` method, you may specify ad-hoc notification routing information before sending the notification:
+
+때로는 어플리케이션의 "사용자"가 아닌 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 메소드를 사용하여, 알림이 전달될 정보를 지정할 수 있습니다:
+
+    Notification::route('mail', 'taylor@laravel.com')
+                ->route('nexmo', '5555555555')
+                ->send(new InvoicePaid($invoice));
 
 <a name="mail-notifications"></a>
 ## Mail Notifications

@@ -9,6 +9,8 @@
 - [JavaScript 작성하기](#writing-javascript)
     - [Writing Vue Components](#writing-vue-components)
     - [Vue 컴포넌트 작성하기](#writing-vue-components)
+    - [Using React](#using-react)
+    - [React 사용하기](#using-react)
 
 <a name="introduction"></a>
 ## Introduction
@@ -31,6 +33,15 @@ While Laravel does not dictate which JavaScript or CSS pre-processors you use, i
 Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components. As with CSS, we may use Laravel Mix to easily compile JavaScript components into a single, browser-ready JavaScript file.
 
 라라벨은 어플리케이션을 구성하기 위해서 지정된 자바스크립트 프레임워크나 라이브러리를 사용하는 것을 요구하지 않습니다. 사실, 모든 곳에 자바스크립트를 사용할 필요는 없습니다. 하지만 라라벨은 [Vue](https://vuejs.org)라이브러리르 사용하여 현대적인 자바스크립트를 작성하는 일을 시작하는 것을 보다 쉽게 만들어 주는 몇몇 기본적인 스캐폴딩을 포함하고 있습니다. Vue는 컴포넌트를 사용하여 자바스크립트 어플리케이션을 구성하는는데 풍부한 표현이 가능한 API를 제공합니다. CSS와 마찬가지로, 라라벨 Mix를 사용하여 자바스크립트 컴포넌트를 브라우저에서 사용가능한 하나의 자바스크립트 파일로 컴파일 할 수 있습니다.
+
+#### Removing The Frontend Scaffolding
+#### Frontend 스캐폴딩 삭제하기
+
+If you would like to remove the frontend scaffolding from your application, you may use the `preset` Artisan command. This command, when combined with the `none` option, will remove the Bootstrap and Vue scaffolding from your application, leaving only a blank SASS file and a few common JavaScript utility libraries:
+
+어플리케이션에서 프론트엔드 스캐폴딩을 제거하려면, `preset` 아티즌 명령어를 사용하면 됩니다. 이 명령어가 `none` 옵션과 함께 사용되면, 어플리케이션에 비어 있는 SASS 파일과 몇몇 자바스크립트 유틸리티 라이브러리를 남겨 놓고, 부트스트랩과 Vue 스캐폴딩을 제거합니다.
+
+    php artisan none
 
 <a name="writing-css"></a>
 ## Writing CSS
@@ -111,3 +122,16 @@ To use the component in your application, you may simply drop it into one of you
 Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
 
 또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://vuejs.org/guide/)을 확인하길 바랍니다.
+
+### Using React
+### React 사용하기
+
+If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding. On any fresh Laravel application, you may use the `preset` command with the `react` option:
+
+자바스크립트 어플리케이션을 구성하는데 React를 선호한다면, 라라벨에서는 Vue 스캐폴딩을 React 스캐폴딩으로 바꾸는 것이 아주 쉽습니다. 새롭게 라라벨 어플리케이션을 설치했다면, `preset` 명령어에 `react` 옵션을 지정하여 사용할 수 있습니다:
+
+    php artisan preset react
+
+This single command will remove the Vue scaffolding and replace it with React scaffolding, including an example component.
+
+이 한줄의 명령어는 Vue 스캐폴딩을 제거하고, 간단한 예제 컴포넌트가 들어 있는 React 스캐폴딩으로 교체합니다.

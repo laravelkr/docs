@@ -29,6 +29,8 @@
     - [마크다운으로 메세지 작성하기](#writing-markdown-messages)
     - [Customizing The Components](#customizing-the-components)
     - [컴포넌트 커스터마이징](#customizing-the-components)
+- [Previewing Mailables In The Browser](#previewing-mailables-in-the-browser)
+- [브라우저에서 Mailables 미리보기](#previewing-mailables-in-the-browser)
 - [Sending Mail](#sending-mail)
 - [메일 발송](#sending-mail)
     - [Queueing Mail](#queueing-mail)
@@ -532,6 +534,20 @@ After exporting the components, the `resources/views/vendor/mail/html/themes` di
 > {tip} If you would like to build an entirely new theme for the Markdown components, simply write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
 
 > {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
+
+<a name="previewing-mailables-in-the-browser"></a>
+## Previewing Mailables In The Browser
+## 브라우저에서 Mailables 미리보기
+
+When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
+
+mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 결과를 미리볼 수 있는 것은 빠르고 편리한 방법입니다. 이런 이유로, 라라벨은 라우트 클로저나 컨트롤러에서 maiable 을 바로 반환할 수 있게 허용하고 있습니다. maiable 이 반환되면, 브라우저에서 보여 질 수 있또록 렌더링 되며, 실제 이메일이 어떤 형태로 보여지게 될지 빠르게 확인할 수 있습니다:
+
+    Route::get('/mailable', function () {
+        $invoice = App\Invoice::find(1);
+
+        return new App\Mail\InvoicePaid($invoice);
+    });
 
 <a name="sending-mail"></a>
 ## Sending Mail

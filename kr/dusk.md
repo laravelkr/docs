@@ -835,15 +835,19 @@ Travis CI에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 �
     sudo: required
     dist: trusty
 
+    addons:
+       chrome: stable
+
+    install:
+       - cp .env.testing .env
+       - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+
     before_script:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - ./vendor/laravel/dusk/bin/chromedriver-linux &
-        - cp .env.testing .env
-        - php artisan serve &
+       - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+       - php artisan serve &
 
     script:
-        - php artisan dusk
+       - php artisan dusk
 
 <a name="running-tests-on-circle-ci"></a>
 ### CircleCI
@@ -854,6 +858,13 @@ Travis CI에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 �
 If you are using CircleCI 1.0 to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
 Dusk 테스트를 수행하기 위해서 CircleCI 1.0를 사용한다면, 다음 설정 파일을 사용할 수 있습니다. TravisCI와 같이, PHP 내장 웹서버를 실행하기 위해서 `php artisan serve` 를 사용할 수 있습니다:
+
+	dependencies:
+	  pre:
+	      - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	      - sudo dpkg -i google-chrome.deb
+	      - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+	      - rm google-chrome.deb
 
     test:
         pre:
@@ -877,15 +888,23 @@ Dusk 테스트를 수행하기 위해서 CircleCI 1.0를 사용한다면, 다음
      jobs:
          build:
              steps:
-                  - run:
-                      name: Start Chrome Driver
-                      command: ./vendor/laravel/dusk/bin/chromedriver-linux
-                      background: true
-                 - run:
-                     name: Run Laravel Server
-                     command: php artisan serve
-                     background: true
-                 - run:
-                     name: Run Laravel Dusk Tests
-                     command: php artisan dusk
+                - run: sudo apt-get install -y libsqlite3-dev
+                - run: cp .env.testing .env
+                - run: composer install -n --ignore-platform-reqs
+                - run: npm install
+                - run: npm run production
+                - run: vendor/bin/phpunit
 
+                - run:
+                   name: Start Chrome Driver
+                   command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                   background: true
+
+                - run:
+                   name: Run Laravel Server
+                   command: php artisan serve
+                   background: true
+
+                - run:
+                   name: Run Laravel Dusk Tests
+                   command: php artisan dusk

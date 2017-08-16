@@ -3,6 +3,10 @@
 
 - [Basic Routing](#basic-routing)
 - [기본적인 라우팅](#basic-routing)
+    - [Redirect Routes](#redirect-routes)
+    - [리다이렉트 라우트](#redirect-routes)
+    - [View Routes](#view-routes)
+    - [뷰-View 라우트](#view-routes)
 - [Route Parameters](#route-parameters)
 - [라우트 파라미터](#route-parameters)
     - [Required Parameters](#required-parameters)
@@ -100,6 +104,28 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
         {{ csrf_field() }}
         ...
     </form>
+
+<a name="redirect-routes"></a>
+### Redirect Routes
+### 리다이렉트 라우트
+
+If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
+
+다른 URI로 리다이렉트 시키는 라우트를 정의하려면, `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다.
+
+    Route::redirect('/here', '/there', 301);
+
+<a name="view-routes"></a>
+### View Routes
+### 뷰-View 라우트
+
+If your route only needs to return a view, you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
+
+단지 뷰를 반환하기만 하는 라우트가 필요하다면, `Route::view` 메소드를 사용할 수 있습니다. `redirect` 메소드와 같이 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다. `view` 메소드는 첫번째 인자로 URI를, 두번째 인자로 뷰 파일의 이름을 전달 받습니다. 또한 이에 더해, 세번째 인자로 view 에 제공할 데이터들의 배열을 제공할 수도 있습니다:
+
+    Route::view('/welcome', 'welcome');
+
+    Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 
 <a name="route-parameters"></a>
 ## Route Parameters

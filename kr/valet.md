@@ -50,15 +50,22 @@ Out of the box, Valet support includes, but is not limited to:
 - [Lumen](https://lumen.laravel.com)
 - [Bedrock](https://roots.io/bedrock/)
 - [CakePHP 3](https://cakephp.org)
+- [Concrete5](http://www.concrete5.org/)
+- [Contao](https://contao.org/en/)
 - [Craft](https://craftcms.com)
+- [Drupal](https://www.drupal.org/)
 - [Jigsaw](http://jigsaw.tighten.co)
+- [Joomla](https://www.joomla.org/)
+- [Katana](https://github.com/themsaid/katana)
+- [Kirby](https://getkirby.com/)
+- [Magento](https://magento.com/)
+- [Sculpin](https://sculpin.io/)
 - [Slim](https://www.slimframework.com)
 - [Statamic](https://statamic.com)
 - Static HTML
 - [Symfony](https://symfony.com)
 - [WordPress](https://wordpress.org)
 - [Zend](https://framework.zend.com)
-
 However, you may extend Valet with your own [custom drivers](#custom-valet-drivers).
 
 여러분은 발렛을 고유한 [사용자 정의 드라이버](#custom-valet-drivers)를 통해서 확장할 수 있습니다.

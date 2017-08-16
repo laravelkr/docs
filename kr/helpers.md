@@ -723,9 +723,9 @@ You may also pass an array of values to determine if the given string contains a
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-The `str_finish` function adds a single instance of the given value to a string:
+The `str_finish` function adds a single instance of the given value to a string if it does not already end with it:
 
-`str_finish` 함수는 문자열 뒤에 주어진 값을 추가합니다:
+`str_finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
     $string = str_finish('this/string', '/');
 

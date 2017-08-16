@@ -81,8 +81,9 @@ Before broadcasting any events, you will first need to register the `App\Provide
 #### CSRF Token
 #### CSRF 토큰
 
-[Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. If available, Echo will pull the token from the `Laravel.csrfToken` JavaScript object. This object is defined in the `resources/views/layouts/app.blade.php` layout that is created if you run the `make:auth` Artisan command. If you are not using this layout, you may define a `meta` tag in your application's `head` HTML element:
-현재 세션의 CSRF 토큰에 접근하기 위해 [Laravel Echo](#installing-laravel-echo)가 필요할 것입니다. 만약 가능하다면, Echo는 `Laravel.csrfToken` 자바스크립트 객체로부터 토큰을 받아 올 것입니다. 이 객체는 `make:auth`라는 아티즌 커맨드를 실행하면 생성되는 `resources/views/layouts/app.blade.php` 레이아웃에 정의되어 있습니다. 만약 당신이 이 레이아웃을 사용하지 않는다면, HTML `head`에 `meta` 태그를 정의할 수 있습니다.
+[Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. You should verify that your application's `head` HTML element defines a `meta` tag containing the CSRF token:
+
+현재 세션의 CSRF 토큰에 접근하기 위해서는 [라라벨 Echo](#installing-laravel-echo)가 필요합니다. 여러분은 어플리케이션의 `head` HTML 요소의 `meta` 테그가 CSRF 토큰을 포함하고 있는지 확인해야 합니다:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -97,7 +98,7 @@ If you are broadcasting your events over [Pusher](https://pusher.com), you shoul
 
 만약 [Pusher](https://pusher.com) 를 이용해서 이벤트를 브로드캐스팅한다면, 컴포저 패키지 매니저를 사용해 Pusher PHP SDK를 설치해야 합니다.
 
-    composer require pusher/pusher-php-server "~2.6"
+    composer require pusher/pusher-php-server "~3.0"
 
 Next, you should configure your Pusher credentials in the `config/broadcasting.php` configuration file. An example Pusher configuration is already included in this file, allowing you to quickly specify your Pusher key, secret, and application ID. The `config/broadcasting.php` file's `pusher` configuration also allows you to specify additional `options` that are supported by Pusher, such as the cluster:
 

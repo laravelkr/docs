@@ -30,7 +30,7 @@ Remember, bug reports are created in the hope that others with the same problem 
 
 버그 리포트를 통해 같은 문제를 겪고 있는 다른 사람들과 협력해서 그 문제를 해결할 수 있다는 것을 명심하세요. 버그 리포트가 자동으로 어떤 활동을 만들어 내거나, 다른 이들이 버그을 고칠 것이라는 기대를 하지 마십시오. 버그 리포트 제출은 여러분 자신과 다른 사람이 문제를 해결할 수 있는 길에 들어설 수 있도록 하는 것입니다. 
 
-The Laravel source code is managed on Github, and there are repositories for each of the Laravel projects: 
+The Laravel source code is managed on GitHub, and there are repositories for each of the Laravel projects:
 
 라라벨의 소스 코드는 GitHub에서 관리되며 각각의 라라벨 프로젝트의 저장소가 있습니다.
 

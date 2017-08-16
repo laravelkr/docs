@@ -842,15 +842,10 @@ When listing the invoices for the customer, you may use the invoice's helper met
 ### Generating Invoice PDFs
 ### 청구서 PDF 로 생성하기
 
-Before generating invoice PDFs, you need to install the `dompdf` PHP library:
+From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
+From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
 
-청구서를 PDF 로 생성하기 전에, `dompdf` PHP 라이브러리를 설치해야 합니다:
-
-    composer require dompdf/dompdf
-
-Then, from within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
-
-그러면, 라우트 또는 컨트롤러 안에서 `downloadInvoice` 메소드를 사용하여 청구서를 PDF 로 생성하고 다운로드 할 수 있습니다. 이 메소드는 자동으로 브라우저서 다운로드 할 수 있는 HTTP 응답을 생성합니다:
+라우트 또는 컨트롤러 안에서 `downloadInvoice` 메소드를 사용하여 청구서를 PDF 로 생성하고 다운로드 할 수 있습니다. 이 메소드는 자동으로 브라우저서 다운로드 할 수 있는 HTTP 응답을 생성합니다:
 
     use Illuminate\Http\Request;
 

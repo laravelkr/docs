@@ -21,8 +21,6 @@
     - [Form Requests 생성하기](#creating-form-requests)
     - [Authorizing Form Requests](#authorizing-form-requests)
     - [Form Requests 사용자 승인](#authorizing-form-requests)
-    - [Customizing The Error Format](#customizing-the-error-format)
-    - [에러 포맷 사용자 정의하기](#customizing-the-error-format)
     - [Customizing The Error Messages](#customizing-the-error-messages)
     - [에러 메세지 사용자 정의하기](#customizing-the-error-messages)
 - [Manually Creating Validators](#manually-creating-validators)
@@ -235,36 +233,6 @@ In this example, we are specifying that the `publish_at` field may be either `nu
 
 이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다. 
 
-<a name="quick-customizing-the-flashed-error-format"></a>
-#### Customizing The Flashed Error Format
-#### 임시저장된 에러의 포맷을 임의로 지정하기
-
-If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatValidationErrors` on your base controller. Don't forget to import the `Illuminate\Contracts\Validation\Validator` class at the top of the file:
-
-만약 유효성 검사가 실패했을 때 세션에 저장되는 에러의 형식을 커스터마이징하고 싶다면, 베이스 컨트롤러 클래스의 `formatErrors` 메소드를 오버라이딩하면 됩니다. 이때, 파일 상단에서 `Illuminate\Validation\Validator`를 임포트하는 것을 잊지 마십시오:
-
-    <?php
-
-    namespace App\Http\Controllers;
-
-    use Illuminate\Foundation\Bus\DispatchesJobs;
-    use Illuminate\Contracts\Validation\Validator;
-    use Illuminate\Routing\Controller as BaseController;
-    use Illuminate\Foundation\Validation\ValidatesRequests;
-
-    abstract class Controller extends BaseController
-    {
-        use DispatchesJobs, ValidatesRequests;
-
-        /**
-         * {@inheritdoc}
-         */
-        protected function formatValidationErrors(Validator $validator)
-        {
-            return $validator->errors()->all();
-        }
-    }
-
 <a name="quick-ajax-requests-and-validation"></a>
 #### AJAX Requests & Validation
 #### AJAX 요청과 유효성 검사
@@ -387,22 +355,6 @@ If you plan to have authorization logic in another part of your application, sim
     public function authorize()
     {
         return true;
-    }
-
-<a name="customizing-the-error-format"></a>
-### Customizing The Error Format
-### 에러의 포맷을 임의로 지정하기
-
-If you wish to customize the format of the validation errors that are flashed to the session when validation fails, override the `formatErrors` on your base request (`App\Http\Requests\Request`). Don't forget to import the `Illuminate\Contracts\Validation\Validator` class at the top of the file:
-
-만약 유효성 검사가 실패했을 때 세션에 저장되는 에러의 형식을 커스터마이징하고 싶다면, 베이스 request-요청 클래스(`App\Http\Requests\Request`)의 `formatErrors` 메소드를 오버라이딩하면 됩니다. 이때, 파일 상단에서 `Illuminate\Validation\Validator`를 임포트하는 것을 잊지 마십시오:
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function formatErrors(Validator $validator)
-    {
-        return $validator->errors()->all();
     }
 
 <a name="customizing-the-error-messages"></a>

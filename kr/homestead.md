@@ -128,9 +128,9 @@ You may install Homestead by simply cloning the repository. Consider cloning the
 
     git clone https://github.com/laravel/homestead.git Homestead
 
-You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [Github Release Page](https://github.com/laravel/homestead/releases):
+You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [GitHub Release Page](https://github.com/laravel/homestead/releases):
 
-`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [Github 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
 
     cd Homestead
 
@@ -491,6 +491,10 @@ After running the command, you will see an Ngrok screen appear which contains th
 ### Multiple PHP Versions
 ### 여러 버전의 PHP 사용하기
 
+> {note} This feature is only compatible with Nginx.
+
+> {note} 이 기능은 Nginx에서만 유효합니다.
+
 Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", and "7.1":
 
 홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1" 입니다:
@@ -499,6 +503,14 @@ Homestead 6 introduced support for multiple versions of PHP on the same virtual 
         - map: homestead.app
           to: /home/vagrant/Code/Laravel/public
           php: "5.6"
+
+In addition, you may use any of the supported PHP versions via the CLI:
+
+추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다:
+
+    php5.6 artisan list
+    php7.0 artisan list
+    php7.1 artisan list
 
 <a name="network-interfaces"></a>
 ## Network Interfaces
@@ -552,6 +564,10 @@ If you have installed Homestead via your project's `composer.json` file, you sho
 <a name="old-versions"></a>
 ## Old Versions
 ## 이전 버전
+
+> {tip} If you need an older version of PHP check the documentation on <a href="#multiple-php-versions">multiple PHP versions</a> before attempting to use an old version of Homestead.
+
+> {tip} 이전 버전의 PHP가 필요하다면, 오래된 버전의 홈스테드를 구성하기 보다 <a href="#multiple-php-versions">여러버전의 PHP 사용하기</a> 부분을 참고하십시오.
 
 You can easily override the version of the box that Homestead uses by adding the following line to your `Homestead.yaml` file:
 

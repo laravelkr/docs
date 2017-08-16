@@ -39,6 +39,8 @@
 - [서비스 인젝션-주입](#service-injection)
 - [Extending Blade](#extending-blade)
 - [블레이드 기능 확장하기](#extending-blade)
+    - [Custom If Statements](#custom-if-statements)
+    - [커스텀 If 구문](#custom-if-statements)
 
 <a name="introduction"></a>
 ## Introduction
@@ -291,6 +293,21 @@ In addition to the conditional directives already discussed, the `@isset` and `@
     @empty($records)
         // $records is "empty"...
     @endempty
+
+#### Authentication Shortcuts
+#### 인증 관련 편의 기능
+
+The `@auth` and `@guest` directives may be used to quickly determine if the current user is authenticated or is a guest:
+
+`@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다:
+
+    @auth
+        // The user is authenticated...
+    @endauth
+
+    @guest
+        // The user is not authenticated...
+    @endguest
 
 <a name="switch-statements"></a>
 ### Switch Statements
@@ -607,3 +624,35 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 > {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
 
 > {note} 블레이드 지시어 로직을 수정한 뒤에는, 블레이드 뷰 캐시를 삭제할 필요가 있습니다. 블레이드 뷰의 캐시는 `view:clear` 아티즌 명령어를 사용하여 제거할 수 있습니다.
+
+<a name="custom-if-statements"></a>
+### Custom If Statements
+### 커스텀 If 구문
+
+Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+
+커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 어플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Perform post-registration booting of services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::if('env', function ($environment) {
+            return app()->environment($environment);
+        });
+    }
+
+Once the custom conditional has been defined, we can easily use it on our templates:
+
+커스텀 조건을 정의한 뒤에는, 템플릿에서 손쉽게 사용할 수 있습니다:
+
+    @env('local')
+        // The application is in the local environment...
+    @else
+        // The application is not in the local environment...
+    @endenv

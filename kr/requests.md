@@ -281,18 +281,18 @@ If you need to retrieve a subset of the input data, you may use the `only` and `
 
     $input = $request->except('credit_card');
 
-The `only` method returns all of the key / value pairs that you request, even if the key is not present on the incoming request. When the key is not present on the request, the value will be `null`. If you would like to retrieve a portion of input data that is actually present on the request, you may use the `intersect` method:
+The `only` method returns all of the key / value pairs that you request; however, it will not return key / values pairs that are not present on the request.
 
-`only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 얻고자 하는 키가 request-요청에 존재하지 않더라도 값을 반환합니다. request-요청에서 키가 존재하지 않은경우, 값은 `null`이 됩니다. request-요청에서 실제 존재하는 입력값에서 값을 조회하고자 한다면, `intersect` 메소드를 사용합니다: 
+`only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 그렇지만 현재 request 에서 존재하지 않는 키/값은 반환하지 않습니다.
 
     $input = $request->intersect(['username', 'password']);
 
 #### Determining If An Input Value Is Present
 #### 입력값이 존재하는지 확인하기
 
-You should use the `has` method to determine if a value is present on the request. The `has` method returns `true` if the value is present and is not an empty string:
+You should use the `has` method to determine if a value is present on the request. The `has` method returns `true` if the value is present on the request:
 
-Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드를 사용해야 합니다. 값이 존재하면서 문자열이 비어있지 않을 때에만 `has` 메소드는 `true`를 반환합니다:
+Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드를 사용해야 합니다. `has` 메소드는 현재 request 에서 값이 존재할 때 `true`를 반환합니다:
 
     if ($request->has('name')) {
         //

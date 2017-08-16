@@ -47,6 +47,8 @@
     - [`Policies` 디렉토리](#the-policies-directory)
     - [The `Providers` Directory](#the-providers-directory)
     - [`Providers` 디렉토리](#the-providers-directory)
+    - [The `Rules` Directory](#the-rules-directory)
+    - [`Rules` 디렉토리](#the-rules-directory)
 
 <a name="introduction"></a>
 ## Introduction
@@ -274,3 +276,11 @@ The `Providers` directory contains all of the [service providers](/docs/{{versio
 In a fresh Laravel application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
 
 라라벨을 새롭게 설치하면 이 디렉토리안에는 이미 몇몇 프로바이더들이 포함되어 있습니다. 필요에 따라 이 디렉토리에 여러분의 프로바이더를 자유롭게 추가할 수 있습니다.
+
+<a name="the-rules-directory"></a>
+#### The Rules Directory
+#### Rules 디렉토리
+
+This directory does not exist by default, but will be created for you if you execute the `make:rule` Artisan command. The `Rules` directory contains the custom validation rule objects for your application. Rules are used to encapsulate complicated validation logic in a simple object. For more information, check out the [validation documentation](/docs/{{version}}/validation).
+
+이 디렉토리는 기본적으로 존재하지 않습니다만, `make:rule` 아티즌 명령어를 실행하게 된다면 생성됩니다. `Rules` 디렉토리는 어플리케이션에서 사용할 수 있는 커스텀 validation-유효성 검사를 위한 객체들을 포함하게 됩니다. Rules 은 복잡한 유효성 검사 로직을 간단한 객체로 캡슐화 하는데 사용됩니다. 보다 자세한 내용은 [validation 문서](/docs/{{version}}/validation).를 참고하십시오.

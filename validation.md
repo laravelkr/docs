@@ -21,6 +21,8 @@
 - [Conditionally Adding Rules](#conditionally-adding-rules)
 - [Validating Arrays](#validating-arrays)
 - [Custom Validation Rules](#custom-validation-rules)
+    - [Using Rule Objects](#using-rule-objects)
+    - [Using Extensions](#using-extensions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -82,9 +84,7 @@ Next, let's take a look at a simple controller that handles these routes. We'll 
 <a name="quick-writing-the-validation-logic"></a>
 ### Writing The Validation Logic
 
-Now we are ready to fill in our `store` method with the logic to validate the new blog post. If you examine your application's base controller (`App\Http\Controllers\Controller`) class, you will see that the class uses a `ValidatesRequests` trait. This trait provides a convenient `validate` method to all of your controllers.
-
-The `validate` method accepts an incoming HTTP request and a set of validation rules. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
+Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
 To get a better understanding of the `validate` method, let's jump back into the `store` method:
 
@@ -96,7 +96,7 @@ To get a better understanding of the `validate` method, let's jump back into the
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'title' => 'required|unique:posts|max:255',
             'body' => 'required',
         ]);
@@ -104,13 +104,13 @@ To get a better understanding of the `validate` method, let's jump back into the
         // The blog post is valid, store in database...
     }
 
-As you can see, we simply pass the incoming HTTP request and desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+As you can see, we simply pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
 #### Stopping On First Validation Failure
 
 Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'bail|required|unique:posts|max:255',
         'body' => 'required',
     ]);
@@ -121,7 +121,7 @@ In this example, if the `required` rule on the `title` attribute fails, the `uni
 
 If your HTTP request contains "nested" parameters, you may specify them in your validation rules using "dot" syntax:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'required|unique:posts|max:255',
         'author.name' => 'required',
         'author.description' => 'required',
@@ -159,7 +159,7 @@ So, in our example, the user will be redirected to our controller's `create` met
 
 By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
         'publish_at' => 'nullable|date',
@@ -287,7 +287,7 @@ You may customize the error messages used by the form request by overriding the 
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 
-If you do not want to use the `ValidatesRequests` trait's `validate` method, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
+If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
 
     <?php
 
@@ -329,7 +329,7 @@ After checking if the request validation failed, you may use the `withErrors` me
 <a name="automatic-redirection"></a>
 ### Automatic Redirection
 
-If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the `ValidatesRequest` trait, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the requests's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -991,7 +991,70 @@ Likewise, you may use the `*` character when specifying your validation messages
 <a name="custom-validation-rules"></a>
 ## Custom Validation Rules
 
-Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
+<a name="using-rule-objects"></a>
+### Using Rule Objects
+
+Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using rule objects. To generate a new rule object, you may use the `make:rule` Artisan command. Let's use this command to generate a rule that verifies a string is uppercase. Laravel will place the new rule in the `app/Rules` directory:
+
+    php artisan make:rule Uppercase
+
+Once the rule has been created, we are ready to define its behavior. A rule object contains two methods: `passes` and `message`. The `passes` method receives the attribute value and name, and should return `true` or `false` depending on whether the attribute value is valid or not. The `message` method should return the validation error message that should be used when validation fails:
+
+    <?php
+
+    namespace App\Rules;
+
+    use Illuminate\Contracts\Validation\Rule;
+
+    class Uppercase implements Rule
+    {
+        /**
+         * Determine if the validation rule passes.
+         *
+         * @param  string  $attribute
+         * @param  mixed  $value
+         * @return bool
+         */
+        public function passes($attribute, $value)
+        {
+            return strtoupper($value) === $value;
+        }
+
+        /**
+         * Get the validation error message.
+         *
+         * @return string
+         */
+        public function message()
+        {
+            return 'The :attribute must be uppercase.';
+        }
+    }
+
+Of course, you may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return trans('validation.uppercase');
+    }
+
+Once the rule has been defined, you may attach it to a validator by passing an instance of the rule object with your other validation rules:
+
+    use App\Rules\Uppercase;
+
+    $request->validate([
+        'name' => ['required', new Uppercase],
+    ]);
+
+<a name="using-extensions"></a>
+### Using Extensions
+
+Another method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
 
     <?php
 

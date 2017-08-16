@@ -33,6 +33,10 @@ Any `fire` methods present on your Artisan commands should be renamed to `handle
 
 When passing a multi-word model name to the `authorizeResource` method, the resulting route segment will now be "snake" case, matching the behavior of resource controllers.
 
+#### The `before` Policy Method
+
+The `before` method of a policy class will not be called if the class doesn't contain a method with name matching the name of the ability being checked.
+
 ### Cache
 
 #### Database Driver
@@ -115,7 +119,7 @@ However, in Laravel 5.5, the alias will be used exactly as it is given. If you w
 In Laravel 5.5, all exceptions, including validation exceptions, are converted into HTTP responses by the exception handler. In addition, the default format for JSON validation errors has changed. The new format conforms to the following convention:
 
     {
-        "message": "...",
+        "message": "The given data was invalid.",
         "errors": {
             "field-1": [
                 "Error 1",
@@ -216,6 +220,12 @@ The `only` method will now only return attributes that are actually present in t
 
     return $request->all('foo');
 
+#### The `request()` Helper
+
+The `request` helper will no longer retrieve nested keys. If needed, you may use the `input` method of the request to achieve this behavior:
+
+    return request()->input('filters.date');
+
 ### Testing
 
 #### Authentication Assertions
@@ -235,33 +245,6 @@ Some authentication assertions were renamed for better consistency with the rest
 #### The `LoaderInterface`
 
 The `Illuminate\Translation\LoaderInterface` interface has been moved to `Illuminate\Contracts\Translation\Loader`.
-
-#### The `trans` Helpers
-
-The `trans` helper signature has been updated to remove the unnecessary `$domain` argument. The new signature is as follows:
-
-    /**
-     * Translate the given message.
-     *
-     * @param  string  $id
-     * @param  array   $replace
-     * @param  string  $locale
-     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
-     */
-    function trans($id = null, $replace = [], $locale = null);
-
-In addition, the `trans_choice` helper has been updated:
-
-    /**
-     * Translates the given message based on a count.
-     *
-     * @param  string  $id
-     * @param  int|array|\Countable  $number
-     * @param  array   $replace
-     * @param  string  $locale
-     * @return string
-     */
-    function trans_choice($id, $number, array $replace = [], $locale = null);
 
 ### Validation
 

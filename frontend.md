@@ -4,6 +4,7 @@
 - [Writing CSS](#writing-css)
 - [Writing JavaScript](#writing-javascript)
     - [Writing Vue Components](#writing-vue-components)
+    - [Using React](#using-react)
 
 <a name="introduction"></a>
 ## Introduction
@@ -17,6 +18,12 @@ While Laravel does not dictate which JavaScript or CSS pre-processors you use, i
 #### JavaScript
 
 Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components. As with CSS, we may use Laravel Mix to easily compile JavaScript components into a single, browser-ready JavaScript file.
+
+#### Removing The Frontend Scaffolding
+
+If you would like to remove the frontend scaffolding from your application, you may use the `preset` Artisan command. This command, when combined with the `none` option, will remove the Bootstrap and Vue scaffolding from your application, leaving only a blank SASS file and a few common JavaScript utility libraries:
+
+    php artisan none
 
 <a name="writing-css"></a>
 ## Writing CSS
@@ -68,3 +75,11 @@ To use the component in your application, you may simply drop it into one of you
 > {tip} Remember, you should run the `npm run dev` command each time you change a Vue component. Or, you may run the `npm run watch` command to monitor and automatically recompile your components each time they are modified.
 
 Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
+
+### Using React
+
+If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding. On any fresh Laravel application, you may use the `preset` command with the `react` option:
+
+    php artisan preset react
+
+This single command will remove the Vue scaffolding and replace it with React scaffolding, including an example component.

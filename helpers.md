@@ -131,10 +131,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [method_field](#method-method-field)
 [old](#method-old)
 [redirect](#method-redirect)
+[report](#method-report)
 [request](#method-request)
 [response](#method-response)
 [retry](#method-retry)
 [session](#method-session)
+[tap](#method-tap)
 [value](#method-value)
 [view](#method-view)
 
@@ -996,6 +998,13 @@ The `redirect` function returns a redirect HTTP response, or returns the redirec
 
     return redirect()->route('route.name');
 
+<a name="method-report"></a>
+#### `report()` {#collection-method}
+
+The `report` function will report an exception using your exception handler's `report` method:
+
+    report($e);
+
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
@@ -1039,6 +1048,24 @@ The session store will be returned if no value is passed to the function:
     $value = session()->get('key');
 
     session()->put('key', $value);
+
+<a name="method-tap"></a>
+#### `tap()` {#collection-method}
+
+The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. The `$value` will be passed to the Closure and then be returned by the `tap` function. The return value of the Closure is irrelevant:
+
+    $user = tap(User::first(), function ($user) {
+        $user->name = 'taylor';
+
+        $user->save();
+    });
+
+If no Closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of the what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
+
+    $user = tap($user)->update([
+        'name' => $name,
+        'email' => $email
+    ]);
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}

@@ -58,27 +58,47 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 
 Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package auto-detection, auto-registration of console commands, queued job chaining, renderable mailables, renderable and reportable exceptions, more consistent exception handling, database testing improvements, simpler custom validation rules, React front-end presets, `Route::view` and `Route::redirect` methods, "locks" for the Memcached and Redis cache drivers, on-demand notifications, headless Chrome support in Dusk, convenient Blade shortcuts, improved trusted proxy support, and more.
 
+라라벨 5.5는 패키지 자동 감지, 콘솔 명령어의 자동 등록, queued job 체이닝, 브라우저에서 렌더링이 가능한 maialble, exception-예외에 대한 renderable, reportable, 보다 편리한 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
+
 In addition, Laravel 5.5 coincides with the release of [Laravel Horizon](http://horizon.laravel.com), a beautiful new queue dashboard and configuration system for your Redis based Laravel queues.
+
+또한 라라벨 5.5는 Redis 기반의 라라벨 queue를 위한 새로운 큐-queue 대시보드및 설정 시스템인 [라라벨 Horizon] (http://horizon.laravel.com)와 함께 출시되었습니다.
 
 > {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md).
 
+> {tip} 이 문서는 프레임워크에서 주요한 개선사항들에 대한 요약입니다. 보다 자세한 변경사항은 [GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md)에서 확인할 수 있습니다.
+
 ### Laravel Horizon
+### 라라벨 Horizon
 
 Horizon provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.
 
+Horizon 은 라라벨의 Redis 큐를 위한 멋진 대시보드와 코드 기반의 설정 시스템을 제공합니다. Horizon을 사용하면 작업 처리량, 실행 시간 및 작업 실패와 같은 queue-큐 시스템의 주요 메트릭을 쉽게 모니터링 할 수 있습니다.
+
 All of your worker configuration is stored in a single, simple configuration file, allowing your configuration to stay in source control where your entire team can collaborate.
+
+모든 워커 설정은 하나의 파일에 저장되므로, 전체 팀이 협업할 수 있는 소스제어시스템을 설정할 수 있습니다.
 
 For more information on Horizon, check out the [full Horizon documentation](/docs/{{version}}/horizon)
 
+Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{version}}/horizon)를 참고하십시오.
+
 ### Package Discovery
+### 패키지 Discovery
 
 In previous versions of Laravel, installing a package typically required several additional steps such as adding the service provider to your `app` configuration file and registering any relevant facades. However, beginning with Laravel 5.5, Laravel can automatically detect and register service providers and facades for you.
 
+이전버전의 라라벨에서는 패키지를 설치하려면, 일반적으로 서비스 프로바이더와 파사드를 등록하기 위해서 `app` 설정파일에 몇가지 추가적인 작업들을 진행해야만 했습니다. 하지만 라라벨 5.5 에서는 라라벨이 자동으로 서비스 프로바이더와 파사드를 감지하고, 등록합니다.
+
 For example, you can experience this by installing the popular `barryvdh/laravel-debugbar` package into your Laravel application. Once the package is installed via Composer, the debug bar will be available to your application with no additional configuration:
+
+예를 들어, 라라벨 어플리케이션에 `barryvdh/laravel-debugbar`를 설치하는 것을 예로 들어 보겠습니다. 컴포저를 통해서 패키지를 설치하고 나면, 추가적인 설정 없이도 어플리케이션에 디버그-바 가 활성화 됩니다:
 
     composer require barryvdh/laravel-debugbar
 
 Package developers only need to add their service providers and facades to their package's `composer.json` file:
+
+패키지 개발자에게 필요한 것은 패키지의 `composer.json` 파일에 서비스 프로바이더와 파사드에 대한 내용을 추가하는 것입니다:
 
     "extra": {
         "laravel": {
@@ -90,9 +110,14 @@ Package developers only need to add their service providers and facades to their
 
 For more information on updating your packages to use service provider and facade discovery, check out the full documentation on [package development](/docs/{{version}}/packages).
 
+패키지가 서비스 프로바이더와 파사드를 자동으로 감지하도록 업데이트하기 위한 보다 자세한 내용은 [패키지 개발](/docs/{{version}}/packages)에 대한 전체 문서를 확인하시기 바랍니다.
+
 ### Console Command Auto-Registration
+### 콘솔 명령어 자동 등록
 
 When creating new console commands, you no longer are required to manually list them in the `$commands` property of your Console kernel. Instead, a new `load` method is called from the `commands` method of your kernel, which will scan the given directory for any console commands and register them automatically:
+
+새로운 콘솔 명령어를 생성할 때, 더이상 콘솔 커널의 `$commands` 속성에 수동으로 이를 추가해줄 필요가 없어졌습니다. 대신에 커널의 `commands` 메소드가 새로운 `load` 메소드를 호출하여 주어진 디렉토리에서 콘솔 명령어객체를 찾고 자동으로 등록합니다:
 
     /**
      * Register the commands for the application.
@@ -107,20 +132,30 @@ When creating new console commands, you no longer are required to manually list 
     }
 
 ### New Frontend Presets
+### 새로운 프론트엔드 Presets
 
 While the basic Vue scaffolding is still included in Laravel 5.5, several new frontend preset options are now available. In a fresh Laravel application, you can swap the Vue scaffolding for React scaffolding using the `preset` command:
+
+라라벨에 여전히 포함되어 있는 기본적인 Vue 스캐폴딩과 같이 몇가지 새로운 프론트 엔드 preset 옵션이 가능해졌습니다. 새롭게 라라벨을 설치하고 나서, `preset` 명령어를 통해서 Vue 스캐폴딩을 React 스캐폴딩으로 변경할 수 있습니다:
 
     php artisan preset react
 
 Or, you can remove the JavaScript and CSS framework scaffolding entirely using the `none` preset. This preset will leave your application with a plain Sass file and a few simple JavaScript utilities:
 
+또는 `none` preset을 사용하여 자바스크립트와 CSS 프레임워크 스캐폴딩을 완전히 삭제할 수도 있습니다. 이 경우 Sass 파일 하나와 몇가지 자바스크립트 유틸리티를 남겨놓습니다:
+
     php artisan preset none
 
 > {note} These commands are only intended to be run on fresh Laravel installations. They should not be used on existing applications.
 
+> {note} 이 명령어는 새롭게 설치한 라라벨에서만 실행됩니다. 기존 어플리케이션에서는 사용해서는 안됩니다.
+
 ### Queued Job Chaining
+### 큐-Queued Job 체이닝
 
 Job chaining allows you to specify a list of queued jobs that should be run in sequence. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
+
+Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행되도록 목록을 지정할 수 있게 해줍니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, jobs 에 `withChain` 메소드를 사용하면 됩니다:
 
     ProvisionServer::withChain([
         new InstallNginx,
@@ -128,6 +163,7 @@ Job chaining allows you to specify a list of queued jobs that should be run in s
     ])->dispatch();
 
 ### Validation Rule Objects
+### 유효성 검사 Rule 객체
 
 Validation rule objects provide a new, compact way of adding custom validation rules to your application. In previous versions of Laravel, the `Validator::extend` method was used to add custom validation rules via Closures. However, this can grow cumbersome. In Laravel 5.5, a new `make:rule` Artisan command will generate a new validation rule in the `app/Rules` directory:
 

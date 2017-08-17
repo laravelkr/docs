@@ -42,6 +42,10 @@
 - [Validating Arrays](#validating-arrays)
 - [Custom Validation Rules](#custom-validation-rules)
 - [사용자 정의 유효성 검사 규칙 사용하기](#custom-validation-rules)
+    - [Using Rule Objects](#using-rule-objects)
+    - [Rule 객체 사용하기](#using-rule-objects)
+    - [Using Extensions](#using-extensions)
+    - [확장기능 사용하기](#using-extensions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -118,13 +122,9 @@ Next, let's take a look at a simple controller that handles these routes. We'll 
 ### Writing The Validation Logic
 ### 유효성 검사 로직 작성하기
 
-Now we are ready to fill in our `store` method with the logic to validate the new blog post. If you examine your application's base controller (`App\Http\Controllers\Controller`) class, you will see that the class uses a `ValidatesRequests` trait. This trait provides a convenient `validate` method to all of your controllers.
+Now we are ready to fill in our `store` method with the logic to validate the new blog post. To do this, we will use the `validate` method provided by the `Illuminate\Http\Request` object. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
 
-이제 새로운 블로그 포스트에 대해 유효성을 검사하는 로직을 `store` 메소드에 채워넣을 준비가 되었습니다. 어플리케이션의 베이스 컨트롤러(`App\Http\Controllers\Controller`) 클래스를 살펴보면 클래스가 `ValidatesRequests` 트레이트-trait을 사용한다는 것을 알 수 있습니다. 이 트레이트-trait은 모든 컨트롤러에 편리하게 사용할 수 있는 `validate` 메소드를 제공합니다.
-
-The `validate` method accepts an incoming HTTP request and a set of validation rules. If the validation rules pass, your code will keep executing normally; however, if validation fails, an exception will be thrown and the proper error response will automatically be sent back to the user. In the case of a traditional HTTP request, a redirect response will be generated, while a JSON response will be sent for AJAX requests.
-
-`validate` 메소드는 HTTP 요청의 유입과 유효성 검사 룰의 집합을 전달 받습니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAX 요청에는 JSON 응답이 보내질 것입니다.
+이제 새로운 블로그 포스트에 대해 유효성을 검사하는 로직을 `store` 메소드에 채워넣을 준비가 되었습니다. 이를 위해서 `Illuminate\Http\Request` 객체에 제공되는 `validate` 메소드를 사용할 것입니다. 유효성 검사 룰들을 통과하게되면 코드는 계속해서 정상적으로 실행됩니다. 하지만 유효성 검사를 통과하지 못할 경우, 예외-exception가 던져지고 적절한 오류 응답이 사용자에게 자동으로 보내질 것입니다. 전통적인 HTTP 요청의 경우, 리다이렉트 응답이 생성될 것이며 AJAX 요청에는 JSON 응답이 보내질 것입니다.
 
 To get a better understanding of the `validate` method, let's jump back into the `store` method:
 
@@ -138,7 +138,7 @@ To get a better understanding of the `validate` method, let's jump back into the
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'title' => 'required|unique:posts|max:255',
             'body' => 'required',
         ]);
@@ -146,9 +146,9 @@ To get a better understanding of the `validate` method, let's jump back into the
         // The blog post is valid, store in database...
     }
 
-As you can see, we simply pass the incoming HTTP request and desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+As you can see, we simply pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
-위에서 볼 수 있듯이, 간단하게 유입되는 HTTP 요청과 유효성 검사 룰들을 `validate` 메소드로 전달하면 됩니다. 이 때에도 유효 확인이 실패하면 적절한 응답이 생성될 것입니다. 유효성 검사를 통과하면 컨트롤러는 계속해서 정상적으로 수행합니다.
+보시다시피, 간단하게 원하는 유효성 검사 룰을 메소드에 전달하기만 하면 됩니다. 다시말해, 유효성 검사가 실패하면, 적절한 응답이 자동으로 생성됩니다. 유효성 검사를 통과하면 컨트롤러가 계속해서 정상적으로 로직을 수행합니다.
 
 #### Stopping On First Validation Failure
 #### 첫번째 유효성 검사가 실패하면 중지하기
@@ -157,7 +157,7 @@ Sometimes you may wish to stop running validation rules on an attribute after th
 
 경우에 따라서 첫번째 유효성 감사가 실패하면 속성값에 대한 검사를 중단하기를 원할수도 있습니다. 이러한 경우 `bail` 규칙을 지정하면 됩니다:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'bail|required|unique:posts|max:255',
         'body' => 'required',
     ]);
@@ -173,7 +173,7 @@ If your HTTP request contains "nested" parameters, you may specify them in your 
 
 HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법을 사용하여 유효성 확인 규칙을 지정할 수 있습니다:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'required|unique:posts|max:255',
         'author.name' => 'required',
         'author.description' => 'required',
@@ -223,7 +223,7 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
 
 기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으라면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
 
-    $this->validate($request, [
+    $request->validate([
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
         'publish_at' => 'nullable|date',
@@ -382,9 +382,9 @@ You may customize the error messages used by the form request by overriding the 
 ## Manually Creating Validators
 ## 수동으로 Validator 생성하기
 
-If you do not want to use the `ValidatesRequests` trait's `validate` method, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
+If you do not want to use the `validate` method on the request, you may create a validator instance manually using the `Validator` [facade](/docs/{{version}}/facades). The `make` method on the facade generates a new validator instance:
 
-`ValidatesRequests` 트레이트-trait의 `validate` 메소드를 사용하고 싶지 않다면 `Validator` [파사드](/docs/{{version}}/facades)를 사용하여 validator 인스턴스를 수동으로 생성할 수 있습니다. 파사드에 `make` 메소드를 사용하면 새로운 validator 인스턴스가 생성됩니다:
+request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [파사드](/docs/{{version}}/facades)를 사용하여 validator 인스턴스를 수동으로 생성할 수 있습니다. 파사드에 `make` 메소드를 사용하면 새로운 validator 인스턴스가 생성됩니다:
 
     <?php
 
@@ -431,9 +431,9 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 ### Automatic Redirection
 ### 자동으로 리다이렉트하기
 
-If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the `ValidatesRequest` trait, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the requests's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
 
-수동으로 validator 인스턴스를 생성하더라도, `ValidatesRequest` 트레이트에 의해서 자동으로 리다이렉트 되는 이점을 유지하고 싶다면, validator 인스턴스에 `validate` 메소드를 호출하면 됩니다. 유효성 검사가 실패하는 경우, 사용자는 자동으로 리다이렉트 되거나, 또는 AJAX 요청인 경우, JSON이 반환됩니다:
+수동으로 validator 인스턴스를 생성하더라도, request의 `validate` 메소드에 의해서 자동으로 리다이렉트 되는 이점을 유지하고 싶다면, validator 인스턴스에 `validate` 메소드를 호출하면 됩니다. 유효성 검사가 실패하는 경우, 사용자는 자동으로 리다이렉트 되거나, 또는 AJAX 요청인 경우, JSON이 반환됩니다:
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -1308,9 +1308,82 @@ Likewise, you may use the `*` character when specifying your validation messages
 ## Custom Validation Rules
 ## 사용자 정의 유효성 검사 룰
 
-Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
+<a name="using-rule-objects"></a>
+### Using Rule Objects
+### Rule 객체 사용하기
 
-라라벨은 다양하고 유용한 유효성 검사 룰을 제공합니다; 하지만, 여러분은 여러분만의 유효성 검사 룰을 정의하길 바랄수도 있습니다. 커스텀 유효성 검사 룰을 등록하는 방법중 하나는 `Validator` [파사드](/docs/{{version}}/facades)에 `extend` 메소드를 사용하는 것입니다. 이 메소드를 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 사용하여 커스텀 유효성 검사 룰을 등록합니다:
+Laravel provides a variety of helpful validation rules; however, you may wish to specify some of your own. One method of registering custom validation rules is using rule objects. To generate a new rule object, you may use the `make:rule` Artisan command. Let's use this command to generate a rule that verifies a string is uppercase. Laravel will place the new rule in the `app/Rules` directory:
+
+라라벨은 다양하고 유용한 유효성 검사 룰을 제공합니다; 하지만, 여러분은 여러분만의 유효성 검사 룰을 정의하길 바랄수도 있습니다. 커스텀 유효성 검사 룰을 등록하는 방법중 하나는 rule 객체를 사용하는 방법입니다. 새로운 rule 객체를 생성하기 위해서 `make:rule` 아티즌 명령어를 실행할 수 있습니다. 문자열이 대문자로 구성되었는지 확인하는 rule을 생성하기 위해서 명령어를 사용해보겠습니다. 라라벨은 `app/Rules` 디렉토리에 새로운 rule 객체를 생성합니다:
+
+    php artisan make:rule Uppercase
+
+Once the rule has been created, we are ready to define its behavior. A rule object contains two methods: `passes` and `message`. The `passes` method receives the attribute value and name, and should return `true` or `false` depending on whether the attribute value is valid or not. The `message` method should return the validation error message that should be used when validation fails:
+
+rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 두개의 메소드 : `passes` 와 `message` 를 가지고 있습니다. `passes` 메소드는 속성 값과 이름을 전달받아, 속성 값이 유효한지 아닌지에 따라, `true` 또는 `false` 를 반환해야 합니다. `message` 메소드는 유효성 검사가 실패했을 때 사용하는 에러 메세지를 반환해야 합니다:
+
+    <?php
+
+    namespace App\Rules;
+
+    use Illuminate\Contracts\Validation\Rule;
+
+    class Uppercase implements Rule
+    {
+        /**
+         * Determine if the validation rule passes.
+         *
+         * @param  string  $attribute
+         * @param  mixed  $value
+         * @return bool
+         */
+        public function passes($attribute, $value)
+        {
+            return strtoupper($value) === $value;
+        }
+
+        /**
+         * Get the validation error message.
+         *
+         * @return string
+         */
+        public function message()
+        {
+            return 'The :attribute must be uppercase.';
+        }
+    }
+
+Of course, you may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
+
+당연하게도, 여러분이 언어 파일로부터 변환된 에러 메세지를 전달해주고자 한다면, `messgae` 메소드 안에서 `trans` 헬퍼 함수를 호출할 수 있습니다:
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return trans('validation.uppercase');
+    }
+
+Once the rule has been defined, you may attach it to a validator by passing an instance of the rule object with your other validation rules:
+
+rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, rule 객체의 인스턴스를 전달하여, validator 에 추가할 수 있습니다:
+
+    use App\Rules\Uppercase;
+
+    $request->validate([
+        'name' => ['required', new Uppercase],
+    ]);
+
+<a name="using-extensions"></a>
+### Using Extensions
+### 확장기능 사용하기
+
+Another method of registering custom validation rules is using the `extend` method on the `Validator` [facade](/docs/{{version}}/facades). Let's use this method within a [service provider](/docs/{{version}}/providers) to register a custom validation rule:
+
+또다른 커스텀 유효성 검사 룰을 등록하는 방법중 하나는 `Validator` [파사드](/docs/{{version}}/facades)에 `extend` 메소드를 사용하는 것입니다. 이 메소드를 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 사용하여 커스텀 유효성 검사 룰을 등록합니다:
 
     <?php
 

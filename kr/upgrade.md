@@ -54,6 +54,13 @@ Any `fire` methods present on your Artisan commands should be renamed to `handle
 
 When passing a multi-word model name to the `authorizeResource` method, the resulting route segment will now be "snake" case, matching the behavior of resource controllers.
 
+#### The `before` Policy Method
+#### `before` Policy 메소드
+
+The `before` method of a policy class will not be called if the class doesn't contain a method with name matching the name of the ability being checked.
+
+policy 클래스의 `before` 메소드는 클래스가 검사되는 ability 이름과 일치하는 메소드가 없는 경우에 이를 호출하지 않습니다.
+
 ### Cache
 ### 캐시
 
@@ -167,7 +174,7 @@ In Laravel 5.5, all exceptions, including validation exceptions, are converted i
 라라벨 5.5에서는 유효성 검사-validation exception-예외를 포함하여 모든 exception-예외는 exception 핸들러에 의해서 HTTP 응답-response으로 변환합니다. 또한 JSON 유효성 검사에러에 대한 기본 포맷이 변경되었습니다. 새로운 포맷은 다음 형태를 따릅니다:
 
     {
-        "message": "...",
+        "message": "The given data was invalid.",
         "errors": {
             "field-1": [
                 "Error 1",
@@ -294,6 +301,14 @@ The `only` method will now only return attributes that are actually present in t
 
     return $request->all('foo');
 
+#### The `request()` Helper
+
+The `request` helper will no longer retrieve nested keys. If needed, you may use the `input` method of the request to achieve this behavior:
+
+`request` 헬퍼 함수는 더이상 중첩된 키를 조회하지 않습니다. 필요하다면, 이 동작을 위해서 request 의 `input` 메소드를 사용할 수 있습니다:
+
+    return request()->input('filters.date');
+
 ### Testing
 ### 테스팅
 
@@ -325,38 +340,6 @@ Some authentication assertions were renamed for better consistency with the rest
 The `Illuminate\Translation\LoaderInterface` interface has been moved to `Illuminate\Contracts\Translation\Loader`.
 
 `Illuminate\Translation\LoaderInterface` 인터페이스는 `Illuminate\Contracts\Translation\Loader`로 이동되었습니다.
-
-#### The `trans` Helpers
-#### `trans` 헬퍼 함수
-
-The `trans` helper signature has been updated to remove the unnecessary `$domain` argument. The new signature is as follows:
-
-`trans` 헬퍼함수는 필요하지 않는 `$domain` 인자를 제거하도록 수정되었습니다. 새로운 함수 형태는 다음과 같습니다:
-
-    /**
-     * Translate the given message.
-     *
-     * @param  string  $id
-     * @param  array   $replace
-     * @param  string  $locale
-     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
-     */
-    function trans($id = null, $replace = [], $locale = null);
-
-In addition, the `trans_choice` helper has been updated:
-
-또한, `trans_choice` 헬퍼 함수가 수정되었습니다:
-
-    /**
-     * Translates the given message based on a count.
-     *
-     * @param  string  $id
-     * @param  int|array|\Countable  $number
-     * @param  array   $replace
-     * @param  string  $locale
-     * @return string
-     */
-    function trans_choice($id, $number, array $replace = [], $locale = null);
 
 ### Validation
 ### 유효성 검사

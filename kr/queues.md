@@ -71,10 +71,10 @@ Note that each connection configuration example in the `queue` configuration fil
 `queue` 설정 파일 안에 있는 각각의 커넥션 설정 예제가 `queue` 속성을 포함하고 있다는 것을 주의하십시오. 이것은 job이 처리되기 위해 주어진 커넥션에 보내졌을 때의 기본 큐입니다. 다시 말해, job을 어떤 큐를 통해서 처리할지 명시적으로 정의하지 않는다면, job은 커넥션 설정의 `queue` 속성에 정의되어 있는 큐에 보내집니다:
 
     // This job is sent to the default queue...
-    dispatch(new Job);
+    Job::dispatch();
 
     // This job is sent to the "emails" queue...
-    dispatch((new Job)->onQueue('emails'));
+    Job::dispatch()->onQueue('emails');
 
 Some applications may not need to ever push jobs onto multiple queues, instead preferring to have one simple queue. However, pushing jobs to multiple queues can be especially useful for applications that wish to prioritize or segment how jobs are processed, since the Laravel queue worker allows you to specify which queues it should process by priority. For example, if you push jobs to a `high` queue, you may run a worker that gives them higher processing priority:
 
@@ -209,9 +209,9 @@ The `handle` method is called when the job is processed by the queue. Note that 
 ## Dispatching Jobs
 ## Job 처리하기
 
-Once you have written your job class, you may dispatch it using the `dispatch` helper. The only argument you need to pass to the `dispatch` helper is an instance of the job:
+Once you have written your job class, you may dispatch it using the `dispatch` method on the job itself. The arguments passed to the `dispatch` method will be given to the job's constructor:
 
-Job 클래스를 작성한 뒤에 `dispatch` 헬퍼를 사용하여 이를 처리할 수 있습니다. `dispatch` 헬퍼에 필요한 인자는 job의 인스턴스입니다:
+Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하여 이를 처리할 수 있습니다. `dispatch` 메소드에 전달할 인자는 job의 생성자입니다:
 
     <?php
 
@@ -233,21 +233,17 @@ Job 클래스를 작성한 뒤에 `dispatch` 헬퍼를 사용하여 이를 처�
         {
             // Create podcast...
 
-            dispatch(new ProcessPodcast($podcast));
+            ProcessPodcast::dispatch($podcast);
         }
     }
-
-> {tip} The `dispatch` helper provides the convenience of a short, globally available function, while also being extremely easy to test. Check out the Laravel [testing documentation](/docs/{{version}}/testing) to learn more.
-
-> {tip} `dispatch` 헬퍼는 짧아서 편리한, 글로벌에서 가용가능한 함수로, 동시에 테스트도 쉽게 할 수 있습니다. 라라벨의 [테스팅 문서](/docs/{{version}}/testing)를 통해서 보다 자세한 내용을 확인하십시오.
 
 <a name="delayed-dispatching"></a>
 ### Delayed Dispatching
 ### 지연시켜서 처리하기
 
-If you would like to delay the execution of a queued job, you may use the `delay` method on your job instance. The `delay` method is provided by the `Illuminate\Bus\Queueable` trait, which is included by default on all generated job classes. For example, let's specify that a job should not be available for processing until 10 minutes after it has been dispatched:
+If you would like to delay the execution of a queued job, you may use the `delay` method when dispatching a job. For example, let's specify that a job should not be available for processing until 10 minutes after it has been dispatched:
 
-Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한다면, job 인스턴스의 `delay` 메소드를 사용할 수 있습니다. `Illuminate\Bus\Queueable` 트레이트-trait에서 제공되는 `delay` 메소드는 생성된 job 클래스에 기본적으로 포함되어 있습니다. 예를 들어 job이 10 분이 지난 뒤에 처리되도록 지정해보겠습니다:  
+Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한다면, job 이 dispathcing 될 때 `delay` 메소드를 사용할 수 있습니다. 예를 들어, job이 10 분이 지난 뒤에 처리되도록 지정해보겠습니다:
 
     <?php
 
@@ -270,10 +266,8 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
         {
             // Create podcast...
 
-            $job = (new ProcessPodcast($podcast))
-                        ->delay(Carbon::now()->addMinutes(10));
-
-            dispatch($job);
+            ProcessPodcast::dispatch($podcast)
+                    ->delay(Carbon::now()->addMinutes(10));
         }
     }
 
@@ -281,6 +275,19 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
 
 > {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
  
+<a name="job-chaining"></a>
+### Job Chaining
+### Job 체이닝
+
+Job chaining allows you to specify a list of queued jobs that should be run in sequence. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
+
+Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행되도록 목록을 지정할 수 있게 해줍니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, jobs 에 `withChain` 메소드를 사용하면 됩니다:
+
+    ProcessPodcast::withChain([
+        new OptimizePodcast,
+        new ReleasePodcast
+    ])->dispatch();
+
 <a name="customizing-the-queue-and-connection"></a>
 ### Customizing The Queue & Connection
 ### Queue-큐 & 커넥션 커스터마이징
@@ -288,9 +295,9 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
 #### Dispatching To A Particular Queue
 #### 특정 queue-큐로 처리하기
 
-By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you assign to various queues. Keep in mind, this does not push jobs to different queue "connections" as defined by your queue configuration file, but only to specific queues within a single connection. To specify the queue, use the `onQueue` method on the job instance:
+By pushing jobs to different queues, you may "categorize" your queued jobs and even prioritize how many workers you assign to various queues. Keep in mind, this does not push jobs to different queue "connections" as defined by your queue configuration file, but only to specific queues within a single connection. To specify the queue, use the `onQueue` method when dispatching the job:
 
-다른 queue-큐에 job을 푸시하여, queue job을 "분류"할 수 있으며, 다양한 queue에 다수의 worker를 지정하여 개별 우선순위를 지정할 수도 있습니다. 유념할 점은, 이것은 queue 설정 파일에 정의된 다른 "커넥션"에 job을 푸시하는 것이 아니라, 하나의 커넥션 안에서 queue-큐를 지정한다는 것입니다. queue-큐를 지정하려면 job 인스턴스의 `onQueue` 메소드를 사용하면 됩니다:
+다른 queue-큐에 job을 푸시하여, queue job을 "분류"할 수 있으며, 다양한 queue에 다수의 worker를 지정하여 개별 우선순위를 지정할 수도 있습니다. 유념할 점은, 이것은 queue 설정 파일에 정의된 다른 "커넥션"에 job을 푸시하는 것이 아니라, 하나의 커넥션 안에서 queue-큐를 지정한다는 것입니다. queue-큐를 지정하려면 job 이 dispatching 될 때 `onQueue` 메소드를 사용하면 됩니다:
 
     <?php
 
@@ -312,18 +319,16 @@ By pushing jobs to different queues, you may "categorize" your queued jobs and e
         {
             // Create podcast...
 
-            $job = (new ProcessPodcast($podcast))->onQueue('processing');
-
-            dispatch($job);
+            ProcessPodcast::dispatch($podcast)->onQueue('processing');
         }
     }
 
 #### Dispatching To A Particular Connection
 #### 특정 커넥션으로 처리하기
 
-If you are working with multiple queue connections, you may specify which connection to push a job to. To specify the connection, use the `onConnection` method on the job instance:
+If you are working with multiple queue connections, you may specify which connection to push a job to. To specify the connection, use the `onConnection` method when dispatching the job:
 
-여러개의 queue-큐 커넥션을 사용하고자 한다면, 푸시하는 job에 커넥션을 지정할 수 있습니다. 커넥션을 지정하기 위해서는, job 인스턴스의 `onConnection` 메소드를 사용하면 됩니다: 
+여러개의 queue-큐 커넥션을 사용하고자 한다면, 푸시하는 job에 커넥션을 지정할 수 있습니다. 커넥션을 지정하기 위해서는, job이 dispatching 될 때 `onConnection` 메소드를 사용하면 됩니다:
 
     <?php
 
@@ -345,9 +350,7 @@ If you are working with multiple queue connections, you may specify which connec
         {
             // Create podcast...
 
-            $job = (new ProcessPodcast($podcast))->onConnection('sqs');
-
-            dispatch($job);
+            ProcessPodcast::dispatch($podcast)->onConnection('sqs');
         }
     }
 
@@ -355,9 +358,9 @@ Of course, you may chain the `onConnection` and `onQueue` methods to specify the
 
 물론, job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를 체이닝하여 지정할 수도 있습니다:
 
-    $job = (new ProcessPodcast($podcast))
-                    ->onConnection('sqs')
-                    ->onQueue('processing');
+    ProcessPodcast::dispatch($podcast)
+                  ->onConnection('sqs')
+                  ->onQueue('processing');
 
 <a name="max-job-attempts-and-timeout"></a>
 ### Specifying Max Job Attempts / Timeout Values

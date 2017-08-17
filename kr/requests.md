@@ -21,6 +21,8 @@
     - [업로드된 파일 조회하기](#retrieving-uploaded-files)
     - [Storing Uploaded Files](#storing-uploaded-files)
     - [업로드된 파일 저장하기](#storing-uploaded-files)
+- [Configuring Trusted Proxies](#configuring-trusted-proxies)
+- [신뢰할 수 있는 프록시 설정하기](#configuring-trusted-proxies)
 
 <a name="accessing-the-request"></a>
 ## Accessing The Request
@@ -281,9 +283,9 @@ If you need to retrieve a subset of the input data, you may use the `only` and `
 
     $input = $request->except('credit_card');
 
-The `only` method returns all of the key / value pairs that you request; however, it will not return key / values pairs that are not present on the request.
+> {tip} The `only` method returns all of the key / value pairs that you request; however, it will not return key / values pairs that are not present on the request.
 
-`only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 그렇지만 현재 request 에서 존재하지 않는 키/값은 반환하지 않습니다.
+> {tip} `only` 메소드는 유입되는 request-요청에서 입력한 키 / 값 쌍을 반환합니다. 그렇지만 현재 request 에서 존재하지 않는 키/값은 반환하지 않습니다.
 
     $input = $request->intersect(['username', 'password']);
 
@@ -303,6 +305,14 @@ When given an array, the `has` method will determine if all of the specified val
 `has` 메소드에 배열이 주어지면, 지정된 모든 값이 존재하는지 확인하게 됩니다:
 
     if ($request->has(['name', 'email'])) {
+        //
+    }
+
+If you would like to determine if a value is present on the request and is not empty, you may use the `filled` method:
+
+주어진 변수값이 현재 request 에 존재하고 비어 있지 않은 것을 확인하려면 `filled` 메소드를 사용하면 됩니다:
+
+    if ($request->filled('name')) {
         //
     }
 
@@ -482,3 +492,62 @@ If you do not want a file name to be automatically generated, you may use the `s
     $path = $request->photo->storeAs('images', 'filename.jpg');
 
     $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
+
+<a name="configuring-trusted-proxies"></a>
+## Configuring Trusted Proxies
+## 신뢰할 수 있는 프록시 설정하기
+
+When running your applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
+
+TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이션을 실행할 때 어플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있을 수 있습니다. 일반적으로 이는 어플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치하며, 보안 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
+
+To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the headers that are being sent by your proxy with information about the original request:
+
+이문제를 해결하기 위해서, 라라벨 어플리케이션에 포함되어 있는, 보다 빠르고 손쉽게 어플리케이션에서 신뢰할 수 있는 로드밸런서나 프록시를 설정하게 해주는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 나열해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 원래 요청에 대한 정보를 프록시에서 보내는 헤더에 설정 할 수 있습니다:
+
+    <?php
+
+    namespace App\Http\Middleware;
+
+    use Illuminate\Http\Request;
+    use Fideloper\Proxy\TrustProxies as Middleware;
+
+    class TrustProxies extends Middleware
+    {
+        /**
+         * The trusted proxies for this application.
+         *
+         * @var array
+         */
+        protected $proxies = [
+            '192.168.1.1',
+            '192.168.1.2',
+        ];
+
+        /**
+         * The current proxy header mappings.
+         *
+         * @var array
+         */
+        protected $headers = [
+            Request::HEADER_FORWARDED => 'FORWARDED',
+            Request::HEADER_X_FORWARDED_FOR => 'X_FORWARDED_FOR',
+            Request::HEADER_X_FORWARDED_HOST => 'X_FORWARDED_HOST',
+            Request::HEADER_X_FORWARDED_PORT => 'X_FORWARDED_PORT',
+            Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
+        ];
+    }
+
+#### Trusting All Proxies
+#### 모든 프록시 신뢰하기
+
+If you are using Amazon AWS or another "cloud" load balancer provider, you may not know the IP addresses of your actual balancers. In this case, you may use `**` to trust all proxies:
+
+아마존 AWS 또는 다른 "클라우드" 로드밸런서를 사용하는 경우에는, 실제 로드밸런서의 IP를 알 수가 없습니다. 이 경우, 모든 프록시를 신뢰할 수 있도록 하기 위해서 `**` 를 사용할 수 있습니다:
+
+    /**
+     * The trusted proxies for this application.
+     *
+     * @var array
+     */
+    protected $proxies = '**';

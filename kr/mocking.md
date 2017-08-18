@@ -151,6 +151,13 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
         }
     }
     
+If you are queueing mailables for delivery in the background, you should use the `assertQueued` method instead of `assertSent`:
+
+백그라운드에서 메일을 보내기 위해서 queue를 사용했다면, `assertSent` 대신에 `assertQueued` 메소드를 사요해야 합니다:
+
+    Mail::assertQueued(...);
+    Mail::assertNotQueued(...);
+
 <a name="notification-fake"></a>
 ## Notification Fake
 ## Notification Fake

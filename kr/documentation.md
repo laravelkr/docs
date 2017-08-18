@@ -146,6 +146,8 @@
     - [캐셔-biling](/docs/{{version}}/billing)
     - [Envoy](/docs/{{version}}/envoy)
     - [Envoy-Task Runner](/docs/{{version}}/envoy)
+    - [Horizon](/docs/{{version}}/horizon)
+    - [Horizon](/docs/{{version}}/horizon)
     - [Passport](/docs/{{version}}/passport)
     - [Passport-OAuth2](/docs/{{version}}/passport)
     - [Scout](/docs/{{version}}/scout)

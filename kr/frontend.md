@@ -41,7 +41,7 @@ If you would like to remove the frontend scaffolding from your application, you 
 
 어플리케이션에서 프론트엔드 스캐폴딩을 제거하려면, `preset` 아티즌 명령어를 사용하면 됩니다. 이 명령어가 `none` 옵션과 함께 사용되면, 어플리케이션에 비어 있는 SASS 파일과 몇몇 자바스크립트 유틸리티 라이브러리를 남겨 놓고, 부트스트랩과 Vue 스캐폴딩을 제거합니다.
 
-    php artisan none
+    php artisan preset none
 
 <a name="writing-css"></a>
 ## Writing CSS

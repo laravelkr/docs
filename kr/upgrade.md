@@ -331,6 +331,13 @@ Some authentication assertions were renamed for better consistency with the rest
 - `seeCredentials` 는 `assertCredentials` 으로 이름이 변경되었습니다.
 - `dontSeeCredentials` 는 `assertInvalidCredentials` 으로 이름이 변경되었습니다.
 
+#### Mail Fake
+#### Mail Fake
+
+If you are using the `Mail` fake to determine if a mailable was **queued** during a request, you should now use `Mail::assertQueued` instead of `Mail::assertSent`. This distinction allows you to specifically assert that the mail was queued for background sending and not sent during the request itself.
+
+메일이 request 를 처리하는 동안 **queue**를 통해서 처리되었는지 확인하기 위해서 `Mail` fake 를 사용하고 있었다면, `Mail::assertSent` 대신에 `Mail::assertQueued`를 사용해야 합니다. 이러한 구분방법을 통해서 메일이 백그라운드 전송을 위해서 queue에 대기중이며, request 를 처리하는 그 동안에 전송되지 않았다는 것을 확인할 수 있습니다.
+
 ### Translation
 ### 다국어
 

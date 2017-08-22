@@ -830,6 +830,18 @@ If you need to set additional query constraints on the eager loading query, you 
         $query->orderBy('published_date', 'asc');
     }]);
 
+To load a relationship only when it has not already been loaded, use the `loadMissing` method:
+
+    public function format(Book $book)
+    {
+        $book->loadMissing('author');
+
+        return [
+            'name' => $book->name,
+            'author' => $book->author->name
+        ];
+    }
+
 <a name="inserting-and-updating-related-models"></a>
 ## Inserting & Updating Related Models
 

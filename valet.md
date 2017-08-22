@@ -37,6 +37,7 @@
 - [Katana](https://github.com/themsaid/katana)
 - [Kirby](https://getkirby.com/)
 - [Magento](https://magento.com/)
+- [OctoberCMS](https://octobercms.com/)
 - [Sculpin](https://sculpin.io/)
 - [Slim](https://www.slimframework.com)
 - [Statamic](https://statamic.com)

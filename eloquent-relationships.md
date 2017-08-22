@@ -830,6 +830,18 @@ Eager 로딩 쿼리에 추가적인 쿼리 제한을 지정해야 할 경우, `l
         $query->orderBy('published_date', 'asc');
     }]);
 
+로딩되어 있지 않았을 때에만 관계 모델을 로딩하려면 `userMissing` 메소드를 사용하면됩니다:
+
+    public function format(Book $book)
+    {
+        $book->loadMissing('author');
+
+        return [
+            'name' => $book->name,
+            'author' => $book->author->name
+        ];
+    }
+
 <a name="inserting-and-updating-related-models"></a>
 ## 연관된 모델 삽입하기 & 수정하기
 

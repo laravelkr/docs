@@ -66,6 +66,12 @@ Monolog 를 사용할 때 로그 메세지는 각기 다른 수준의 레벨을 
 
     return $app;
 
+#### 채널 이름 커스터마이징 하기
+
+기본적으로, Monolog는 `production` 또는 `local`과 같은 현재 환경과 일치하는 이름으로 인스턴스가 됩니다. 이 값을 변경하려면, `app.php` 설정 파일에 `log_channel` 옵션을 추가하면됩니다:
+
+    'log_channel' => env('APP_LOG_CHANNEL', 'my-app-name'),
+
 <a name="the-exception-handler"></a>
 ## Exception 핸들러
 

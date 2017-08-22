@@ -45,6 +45,8 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
 
 ### 패키지 Discovery
 
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/5)를 참고하십시오.
+
 이전버전의 라라벨에서는 패키지를 설치하려면, 일반적으로 서비스 프로바이더와 파사드를 등록하기 위해서 `app` 설정파일에 몇가지 추가적인 작업들을 진행해야만 했습니다. 하지만 라라벨 5.5 에서는 라라벨이 자동으로 서비스 프로바이더와 파사드를 감지하고, 등록합니다.
 
 예를 들어, 라라벨 어플리케이션에 `barryvdh/laravel-debugbar`를 설치하는 것을 예로 들어 보겠습니다. 컴포저를 통해서 패키지를 설치하고 나면, 추가적인 설정 없이도 어플리케이션에 디버그-바 가 활성화 됩니다:
@@ -65,6 +67,8 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
 
 ### 콘솔 명령어 자동 등록
 
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/12)를 참고하십시오.
+
 새로운 콘솔 명령어를 생성할 때, 더이상 콘솔 커널의 `$commands` 속성에 수동으로 이를 추가해줄 필요가 없어졌습니다. 대신에 커널의 `commands` 메소드가 새로운 `load` 메소드를 호출하여 주어진 디렉토리에서 콘솔 명령어객체를 찾고 자동으로 등록합니다:
 
     /**
@@ -80,6 +84,8 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
     }
 
 ### 새로운 프론트엔드 Presets
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/4)를 참고하십시오.
 
 라라벨에 여전히 포함되어 있는 기본적인 Vue 스캐폴딩과 같이 몇가지 새로운 프론트 엔드 preset 옵션이 가능해졌습니다. 새롭게 라라벨을 설치하고 나서, `preset` 명령어를 통해서 Vue 스캐폴딩을 React 스캐폴딩으로 변경할 수 있습니다:
 
@@ -101,6 +107,8 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
     ])->dispatch();
 
 ### 유효성 검사 Rule 객체
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/7)를 참고하십시오.
 
 유효성 검사 Rule 객체는 어플리케이션에 커스텀 validation rule을 추가하는 새롭고 간결한 방법입니다. 이전버전의 라라벨에서는 클로저를 통한 커스텀 validation rule을 추가하기 위해서 `Validator::extend` 메소드가 사용되었습니다. 하지만 이는 매우 귀찮은 작업입니다. 라라벨 5.5에서는 새로운 `make:rule` 아티즌 명령어를 통해서 새로운 유효성 검사-validation rule을 `app/Rules` 디렉토리에 생성할 수 있습니다:
 
@@ -195,6 +203,8 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
 
 ### 렌더링이 가능한 Mailables
 
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/6)를 참고하십시오.
+
 브라우저에서 보다 빠르게 메일의 디자인을 확인할 수 있도록 Mailables는 이제 라우트에서 바로 반환 할 수 있습니다:
 
     Route::get('/mailable', function () {
@@ -204,6 +214,8 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
     });
 
 ### Renderable & Reportable Exceptions
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/18)를 참고하십시오.
 
 이전 버전의 라라벨에서는 exception 핸들러에서 주어진 exception 을 위한 별도의 응답을위해서 매번 "타입 체크"를 했어야만 합니다. 예를 들어 exception 핸들러의 `render` 메소드에 다음과 같은 코드를 작성했을 수 있습니다:
 
@@ -256,6 +268,8 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
     }
 
 ### Request 유효성 검사
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/2)를 참고하십시오.
 
 `Illuminate\Http\Request` 객체는 이제 라우트 클로저나 컨트롤러에서 유입되는 request에 대해 보다 빠르게 유효성 검사를 할 수 있도록 `validate` 메소드를 제공합니다:
 
@@ -330,6 +344,8 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
 
 ### 블레이드 개선사항
 
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/10)를 참고하십시오.
+
 커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 이제 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 어플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
 
     use Illuminate\Support\Facades\Blade;
@@ -365,6 +381,8 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
     @endguest
 
 ### 새로운 라우팅 메소드
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/16)를 참고하십시오.
 
 다른 UIR로 이동시키는 라우트를 정의했었다면, 이제 `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 손쉬운 방법을 제공합니다. 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다:
 

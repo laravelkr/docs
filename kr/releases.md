@@ -86,6 +86,10 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
 ### Package Discovery
 ### 패키지 Discovery
 
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/5) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/5)를 참고하십시오.
+
 In previous versions of Laravel, installing a package typically required several additional steps such as adding the service provider to your `app` configuration file and registering any relevant facades. However, beginning with Laravel 5.5, Laravel can automatically detect and register service providers and facades for you.
 
 이전버전의 라라벨에서는 패키지를 설치하려면, 일반적으로 서비스 프로바이더와 파사드를 등록하기 위해서 `app` 설정파일에 몇가지 추가적인 작업들을 진행해야만 했습니다. 하지만 라라벨 5.5 에서는 라라벨이 자동으로 서비스 프로바이더와 파사드를 감지하고, 등록합니다.
@@ -115,6 +119,10 @@ For more information on updating your packages to use service provider and facad
 ### Console Command Auto-Registration
 ### 콘솔 명령어 자동 등록
 
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/12) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/12)를 참고하십시오.
+
 When creating new console commands, you no longer are required to manually list them in the `$commands` property of your Console kernel. Instead, a new `load` method is called from the `commands` method of your kernel, which will scan the given directory for any console commands and register them automatically:
 
 새로운 콘솔 명령어를 생성할 때, 더이상 콘솔 커널의 `$commands` 속성에 수동으로 이를 추가해줄 필요가 없어졌습니다. 대신에 커널의 `commands` 메소드가 새로운 `load` 메소드를 호출하여 주어진 디렉토리에서 콘솔 명령어객체를 찾고 자동으로 등록합니다:
@@ -133,6 +141,10 @@ When creating new console commands, you no longer are required to manually list 
 
 ### New Frontend Presets
 ### 새로운 프론트엔드 Presets
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/4) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/4)를 참고하십시오.
 
 While the basic Vue scaffolding is still included in Laravel 5.5, several new frontend preset options are now available. In a fresh Laravel application, you can swap the Vue scaffolding for React scaffolding using the `preset` command:
 
@@ -164,6 +176,10 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
 
 ### Validation Rule Objects
 ### 유효성 검사 Rule 객체
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/7) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/7)를 참고하십시오.
 
 Validation rule objects provide a new, compact way of adding custom validation rules to your application. In previous versions of Laravel, the `Validator::extend` method was used to add custom validation rules via Closures. However, this can grow cumbersome. In Laravel 5.5, a new `make:rule` Artisan command will generate a new validation rule in the `app/Rules` directory:
 
@@ -275,6 +291,10 @@ Sometimes you may need to send a notification to someone who is not stored as a 
 ### Renderable Mailables
 ### 렌더링이 가능한 Mailables
 
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/6) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/6)를 참고하십시오.
+
 Mailables can now be returned directly from routes, allowing you to quickly preview your mailable's designs in the browser:
 
 브라우저에서 보다 빠르게 메일의 디자인을 확인할 수 있도록 Mailables는 이제 라우트에서 바로 반환 할 수 있습니다:
@@ -287,6 +307,10 @@ Mailables can now be returned directly from routes, allowing you to quickly prev
 
 ### Renderable & Reportable Exceptions
 ### Renderable & Reportable Exceptions
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/18) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/18)를 참고하십시오.
 
 In previous versions of Laravel, you may have had to resort to "type checking" in your exception handler in order to render a custom response for a given exception. For instance, you may have written code like this in your exception handler's `render` method:
 
@@ -344,6 +368,10 @@ In Laravel 5.5, you may now define a `render` method directly on your exceptions
 
 ### Request Validation
 ### Request 유효성 검사
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/2) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/2)를 참고하십시오.
 
 The `Illuminate\Http\Request` object now provides a `validate` method, allowing you to quickly validate an incoming request from a route Closure or controller:
 
@@ -433,6 +461,10 @@ In addition, you may "block" until the lock becomes available:
 ### Blade Improvements
 ### 블레이드 개선사항
 
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/10) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/10)를 참고하십시오.
+
 Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade now provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
 
 커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 이제 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 어플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
@@ -475,6 +507,10 @@ In addition to the ability to easily define custom Blade conditional directives,
 
 ### New Routing Methods
 ### 새로운 라우팅 메소드
+
+> {video} There is a free [video tutorial](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/16) for this feature available on Laracasts.
+
+> {video} 이 기능을 설명한 Laracasts 무료 [비디오 강좌](https://laracasts.com/series/whats-new-in-laravel-5-5/episodes/16)를 참고하십시오.
 
 If you are defining a route that redirects to another URI, you may now use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
 

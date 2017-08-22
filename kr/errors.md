@@ -107,6 +107,15 @@ If you would like to have complete control over how Monolog is configured for yo
 
     return $app;
 
+#### Customizing The Channel Name
+#### 채널 이름 커스터마이징 하기
+
+By default, Monolog is instantiated with name that matches the current environment, such as `production` or `local`. To change this value, add the `log_channel` option to your `app.php` configuration file:
+
+기본적으로, Monolog는 `production` 또는 `local`과 같은 현재 환경과 일치하는 이름으로 인스턴스가 됩니다. 이 값을 변경하려면, `app.php` 설정 파일에 `log_channel` 옵션을 추가하면됩니다:
+
+    'log_channel' => env('APP_LOG_CHANNEL', 'my-app-name'),
+
 <a name="the-exception-handler"></a>
 ## The Exception Handler
 ## Exception 핸들러

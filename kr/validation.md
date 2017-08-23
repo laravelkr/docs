@@ -40,6 +40,7 @@
 - [Conditionally Adding Rules](#conditionally-adding-rules)
 - [조건부로 유효성 검사 규칙 추가하기](#conditionally-adding-rules)
 - [Validating Arrays](#validating-arrays)
+- [배열값 유효성 검사](#validating-arrays)
 - [Custom Validation Rules](#custom-validation-rules)
 - [사용자 정의 유효성 검사 규칙 사용하기](#custom-validation-rules)
 

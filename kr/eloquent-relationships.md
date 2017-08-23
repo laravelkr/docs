@@ -1091,7 +1091,7 @@ If you do not want to detach existing IDs, you may use the `syncWithoutDetaching
     $user->roles()->syncWithoutDetaching([1, 2, 3]);
 
 #### Toggling Associations
-#### 연결 켜고 끄기(토클)
+#### 연결 켜고 끄기(토글)
 
 The many-to-many relationship also provides a `toggle` method which "toggles" the attachment status of the given IDs. If the given ID is currently attached, it will be detached. Likewise, if it is currently detached, it will be attached:
 

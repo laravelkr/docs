@@ -16,6 +16,7 @@
  * [라라벨 5.2](https://laravel.kr/docs/5.2)
  * [라라벨 5.3](https://laravel.kr/docs/5.3)
  * [라라벨 5.4](https://laravel.kr/docs/5.4)
+ * [라라벨 5.5](https://laravel.kr/docs/5.5)
 
 ## 한국어 문서의 번역
 

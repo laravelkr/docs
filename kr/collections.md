@@ -1647,7 +1647,6 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}
 
-The `toJson` method converts the collection into JSON:
 The `toJson` method converts the collection into a JSON serialized string:
 
 `toJson` 메소드는 모든 컬렉션을 JSON serialized 문자열으로 변환합니다:

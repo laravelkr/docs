@@ -285,9 +285,7 @@ By default, `Route::resource` will create the route parameters for your resource
 ### Localizing Resource URIs
 ### 리소스 URI의 지역화(다국어 동사처리)
 
-By default, `Route::resource` will create resource URIs using English verbs. 
-
-If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
+By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
 
 기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다:  
 

@@ -77,9 +77,9 @@ Informal discussion regarding bugs, new features, and implementation of existing
 ## Which Branch?
 ## 브랜치 선택
 
-**All** bug fixes should be sent to the latest stable branch or to the current LTS branch (5.1). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**All** bug fixes should be sent to the latest stable branch or to the current LTS branch (5.5). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**모든** 버그 수정은 최신 안정 브랜치 또는 현재의 LTS 브랜치 (5.1)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
+**모든** 버그 수정은 최신 안정 브랜치 또는 현재의 LTS 브랜치 (5.5)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
 **Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch. 
 

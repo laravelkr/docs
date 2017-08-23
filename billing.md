@@ -4,7 +4,7 @@
 - [설정하기](#configuration)
     - [Stripe](#stripe-configuration)
     - [Braintree](#braintree-configuration)
-    - [Currency Configuration](#currency-configuration)
+    - [화폐 설정하기](#currency-configuration)
 - [정기 구독 모델](#subscriptions)
     - [새로운 정기 구독 생성하기 =](#creating-subscriptions)
     - [정기 구독 상태 확인하기](#checking-subscription-status)

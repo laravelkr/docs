@@ -18,8 +18,9 @@
 - [에러 메세지 작업](#working-with-error-messages)
     - [에러 메세지 사용자 정의하기](#custom-error-messages)
 - [사용가능한 유효성 검사 규칙들](#available-validation-rules)
-- [조건부로 유효성 검사 규칙 추가하기](#conditionally-adding-rules)
-- [Custom Validation Rules](#custom-validation-rules)
+- [조건식 형태의 유효성 검사 규칙 추가하기](#conditionally-adding-rules)
+- [배열값 유효성 검사](#validating-arrays)
+- [커스텀 유효성 검사 규칙](#custom-validation-rules)
 
 <a name="introduction"></a>
 ## 소개하기

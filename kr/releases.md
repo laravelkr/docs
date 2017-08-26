@@ -58,7 +58,7 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 
 Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package auto-detection, auto-registration of console commands, queued job chaining, renderable mailables, renderable and reportable exceptions, more consistent exception handling, database testing improvements, simpler custom validation rules, React front-end presets, `Route::view` and `Route::redirect` methods, "locks" for the Memcached and Redis cache drivers, on-demand notifications, headless Chrome support in Dusk, convenient Blade shortcuts, improved trusted proxy support, and more.
 
-라라벨 5.5는 패키지 자동 감지, 콘솔 명령어의 자동 등록, queued job 체이닝, 브라우저에서 렌더링이 가능한 maialble, exception-예외에 대한 renderable, reportable, 보다 일관된 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
+라라벨 5.5는 패키지 자동 감지, 콘솔 명령어의 자동 등록, queued job 체이닝, 브라우저에서 렌더링이 가능한 mailable, exception-예외에 대한 renderable, reportable, 보다 일관된 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
 
 In addition, Laravel 5.5 coincides with the release of [Laravel Horizon](http://horizon.laravel.com), a beautiful new queue dashboard and configuration system for your Redis based Laravel queues.
 

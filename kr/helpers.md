@@ -124,6 +124,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [info](#method-info)
 [logger](#method-logger)
 [method_field](#method-method-field)
+[now](#method-now)
 [old](#method-old)
 [redirect](#method-redirect)
 [report](#method-report)
@@ -132,6 +133,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [retry](#method-retry)
 [session](#method-session)
 [tap](#method-tap)
+[today](#method-today)
 [value](#method-value)
 [view](#method-view)
 
@@ -1164,6 +1166,15 @@ The `method_field` function generates an HTML `hidden` input field containing th
         {{ method_field('DELETE') }}
     </form>
 
+<a name="method-now"></a>
+#### `now()` {#collection-method}
+
+The `now` function creates a new `Illuminate\Support\Carbon` instance for the current time:
+
+`now` 함수는 현재 시간을 기반으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
+    return now();
+
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
@@ -1272,6 +1283,15 @@ If no Closure is passed to the `tap` function, you may call any method on the gi
         'name' => $name,
         'email' => $email
     ]);
+
+<a name="method-today"></a>
+#### `today()` {#collection-method}
+
+The `today` function creates a new `Illuminate\Support\Carbon` instance for the current date:
+
+`today` 함수는 현재 날짜를 기준으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
+    return today();
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}

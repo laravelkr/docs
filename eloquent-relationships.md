@@ -672,7 +672,7 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 <a name="querying-relationship-existence"></a>
 ### 관계의 존재 여부 쿼리 질의하기
 
-모델의 기록에 접근할 때, 관계의 존재 여부에 따라 결과를 제한하기 원할 수 있습니다. 예를 들어 하나 이상의 댓글을 가진 모든 블로그 게시물을 조회하려고 한다고 생각해 봅시다. 이를 위해서 `has` 메소드로 관계의 이름을 전달할 수 있습니다:
+모델의 기록에 접근할 때, 관계의 존재 여부에 따라 결과를 제한하기 원할 수 있습니다. 예를 들어 하나 이상의 댓글을 가진 모든 블로그 게시물을 조회하려고 한다고 생각해 봅시다. 이를 위해서 `has` 또는 `orHas` 메소드로 관계의 이름을 전달할 수 있습니다:
 
     // Retrieve all posts that have at least one comment...
     $posts = App\Post::has('comments')->get();
@@ -697,11 +697,11 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 <a name="querying-relationship-absence"></a>
 ### 관계된 모델이 존재하지 않는 것을 확인하며 질의하기
 
-모델의 레코드에 엑세스 할 때, 관계된 모델이 존재하지 않는 것에 따라서 결과를 제한하고자 할 수 있습니다. 예를 들어 코멘트를 가지고 있지 **않은** 모든 블로그 포스트를 조회하는 경우를 생각해 보겠습니다. 이렇게 하기 위해서는 `doesntHave` 메소드에 정의한 관계의 이름을 전달하면됩니다:
+모델의 레코드에 엑세스 할 때, 관계된 모델이 존재하지 않는 것에 따라서 결과를 제한하고자 할 수 있습니다. 예를 들어 코멘트를 가지고 있지 **않은** 모든 블로그 포스트를 조회하는 경우를 생각해 보겠습니다. 이렇게 하기 위해서는 `doesntHave` 또는 `orDoesntHave` 메소드에 정의한 관계의 이름을 전달하면됩니다:
 
     $posts = App\Post::doesntHave('comments')->get();
 
-더 강력한 기능을 원한다면, `doesntHave` 쿼리에 "where" 조건을 붙여서, `whereDoesntHave` 메소드를 사용할 수 있습니다. 이 메소드는 코멘트의 내용을 확인하는 것과 같이 관계 제약에 커스터마이징된 제약을 추가해준다.
+더 강력한 기능을 원한다면, `doesntHave` 쿼리에 "where" 조건을 붙여서, `whereDoesntHave` 와 `orWhereDoesntHave` 메소드를 사용할 수 있습니다. 이 메소드는 코멘트의 내용을 확인하는 것과 같이 관계 제약에 커스터마이징된 제약을 추가해준다.
 
     $posts = Post::whereDoesntHave('comments', function ($query) {
         $query->where('content', 'like', 'foo%');

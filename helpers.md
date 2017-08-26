@@ -101,6 +101,7 @@
 - [info](#method-info)
 - [logger](#method-logger)
 - [method_field](#method-method-field)
+- [now](#method-now)
 - [old](#method-old)
 - [redirect](#method-redirect)
 - [report](#method-report)
@@ -109,6 +110,7 @@
 - [retry](#method-retry)
 - [session](#method-session)
 - [tap](#method-tap)
+- [today](#method-today)
 - [value](#method-value)
 - [view](#method-view)
 
@@ -953,6 +955,13 @@ An array of contextual data may also be passed to the function:
         {{ method_field('DELETE') }}
     </form>
 
+<a name="method-now"></a>
+#### `now()` {#collection-method}
+
+`now` 함수는 현재 시간을 기반으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
+    return now();
+
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
@@ -1039,6 +1048,13 @@ An array of contextual data may also be passed to the function:
         'name' => $name,
         'email' => $email
     ]);
+
+<a name="method-today"></a>
+#### `today()` {#collection-method}
+
+`today` 함수는 현재 날짜를 기준으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
+    return today();
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}

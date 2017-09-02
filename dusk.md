@@ -485,7 +485,6 @@ Assertion  | 설명
 `$browser->assertSourceMissing($code)`  |  주어진 소스 코드가 현재 페이지에 존재하지 않는 것을 확인.
 `$browser->assertSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하는지 확인.
 `$browser->assertDontSeeLink($linkText)`  |  현재 페이지에 주어진 링크가 존재하지 않는 것을 확인.
-`$browser->assertSeeLink($link)`  |  주어진 링크가 보이는지 확인.
 `$browser->assertInputValue($field, $value)`  |  주어진 input 필드가 주어진 값을 가지는지 확인.
 `$browser->assertInputValueIsNot($field, $value)`  |  주어진 input 필드가 주어진 값을 가지고 있지 않을 것을 확인.
 `$browser->assertChecked($field)`  |  주어진 체크박스가 체크되어 있는지 확인.

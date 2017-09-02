@@ -47,7 +47,7 @@
 
 그렇지 않으면, 터미널에서 컴포저의 `create-project` 커멘드를 사용하여 라라벨을 설치할 수도 있습니다
 
-    composer create-project --prefer-dist laravel/laravel blog
+    composer create-project --prefer-dist laravel/laravel blog "5.4.*"
 
 #### 로컬 개발 서버
 

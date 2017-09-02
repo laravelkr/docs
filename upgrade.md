@@ -325,6 +325,14 @@ Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제
 
 큐를 통해서 메일을 보내라면, 이제 [mailable](/docs/{{version}}/mail)을 사용해야만 합니다. `Mail::queue` 와 `Mail::later` 메소드는 더이상 클로저를 통해서 메일을 큐로 보내는 것을 지원하지 않습니다. 이 기능은 PHP가 기본적으로 지원하지 않는 클로저의 serialize를 가능하게 하기 위해서 별도의 라이브러리를 사용해야만 했기 때문입니다. 
 
+### 큐-Queue
+
+#### 실패한 Job 저장 테이블
+
+어플리케이션에서 `failed_jobs` 테이블을 구성해놓고 있었다면, 테이블에 `exception` 컬럼을 추가해야 합니다:
+
+    $table->longText('exception')->after('payload');
+
 ### Redis
 
 #### 클러스터링 지원기능 향상

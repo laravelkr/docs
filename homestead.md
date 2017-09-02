@@ -85,7 +85,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
     cd Homestead
 
     // Clone the desired release...
-    git checkout v5.4.0
+    git checkout v6.1.0
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -401,6 +401,8 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 |---|---|---|
 | PHP 7.0 | 3.1.0 | 0.6.0 |
 | PHP 7.1 | 4.0.0 | 1.0.0 |
+| PHP 7.1 | 5.0.0 | 2.0.0 |
+| PHP 7.1 | 6.0.0 | 3.0.0 |
 
 <a name="provider-specific-settings"></a>
 ## 프로바이더 지정 셋팅

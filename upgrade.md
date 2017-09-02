@@ -324,6 +324,14 @@ In order to provide support for Laravel 5.4's new Markdown mail components, you 
 
 In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Queuing mail using the `Mail::queue` and `Mail::later` methods no longer supports using Closures to configure the mail message. This feature required the use of special libraries to serialize Closures since PHP does not natively support this feature.
 
+### Queue
+
+#### Failed Jobs Table
+
+If your application contains a `failed_jobs` table, you should add an `exception` column to the table:
+
+    $table->longText('exception')->after('payload');
+
 ### Redis
 
 #### Improved Clustering Support
@@ -447,7 +455,7 @@ Once you have created this class, make sure to update all of your tests to exten
 
 If you would like to install Laravel Dusk into an application that has been upgraded from Laravel 5.3, first install it via Composer:
 
-    composer require laravel/dusk
+    composer require --dev laravel/dusk
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
@@ -499,6 +507,33 @@ The `Mail` fake has been greatly simplified for the Laravel 5.4 release. Instead
 If you are using the `{Inf}` placeholder for pluralizing your translation strings, you should update your translation strings to use the `*` character instead:
 
     {0} First Message|{1,*} Second Message
+    
+#### The `trans` Helpers
+
+The `trans` helper signature has been updated to remove the unnecessary `$domain` argument. The new signature is as follows:
+
+    /**
+     * Translate the given message.
+     *
+     * @param  string  $id
+     * @param  array   $replace
+     * @param  string  $locale
+     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
+     */
+    function trans($id = null, $replace = [], $locale = null);
+
+In addition, the `trans_choice` helper has been updated:
+
+    /**
+     * Translates the given message based on a count.
+     *
+     * @param  string  $id
+     * @param  int|array|\Countable  $number
+     * @param  array   $replace
+     * @param  string  $locale
+     * @return string
+     */
+    function trans_choice($id, $number, array $replace = [], $locale = null);
 
 ### URL Generation
 

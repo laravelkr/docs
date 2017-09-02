@@ -13,6 +13,8 @@
 
 Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`.
 
+> {tip} If you commonly use the Laravel installer via `laravel new`, you should update your Laravel installer package using the `composer global update` command.
+
 #### Laravel Dusk
 
 Laravel Dusk `2.0.0` has been released to provide compatibility with Laravel 5.5 and headless Chrome testing.
@@ -26,6 +28,10 @@ The Pusher event broadcasting driver now requires version `~3.0` of the Pusher S
 #### The `fire` Method
 
 Any `fire` methods present on your Artisan commands should be renamed to `handle`.
+
+#### The `optimize` Command
+
+With recent improvements to PHP op-code caching, the `optimize` Artisan command is no longer needed. You should remove any references to this command from your deployment scripts as it will be removed in a future release of Laravel.
 
 ### Authorization
 
@@ -62,7 +68,7 @@ If you are overriding the `belongsToMany` method on your Eloquent model, you sho
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function belongsToMany($related, $table = null, $foreignPivotKey = null,
-                                  $relatedPivotKey = null,$parentKey = null,
+                                  $relatedPivotKey = null, $parentKey = null,
                                   $relatedKey = null, $relation = null)
     {
         //
@@ -267,3 +273,7 @@ When allowing the dynamic `__call` method to share variables with a view, these 
 The `maximumVotes` variable may be accessed in the template like so:
 
     {{ $maximumVotes }}
+
+### Miscellaneous
+
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.4...master) and choose which updates are important to you.

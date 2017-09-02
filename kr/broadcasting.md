@@ -331,6 +331,14 @@ By default, Laravel will broadcast the event using the event's class name. Howev
         return 'server.created';
     }
 
+If you customize the broadcast name using the `broadcastAs` method, you should make sure to register your listener with a leading `.` character. This will instruct Echo to not prepend the application's namespace to the event:
+
+`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 어플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다:
+
+    .listen('.server.created', function (e) {
+        ....
+    });
+
 <a name="broadcast-data"></a>
 ### Broadcast Data
 ### 브로드캐스트 데이터

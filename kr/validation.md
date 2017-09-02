@@ -161,13 +161,13 @@ Sometimes you may wish to stop running validation rules on an attribute after th
 경우에 따라서 첫번째 유효성 감사가 실패하면 속성값에 대한 검사를 중단하기를 원할수도 있습니다. 이러한 경우 `bail` 규칙을 지정하면 됩니다:
 
     $this->validate($request, [
-        'title' => 'bail|required|unique:posts|max:255',
+        'title' => 'bail|unique:posts|max:255',
         'body' => 'required',
     ]);
 
-In this example, if the `required` rule on the `title` attribute fails, the `unique` rule will not be checked. Rules will be validated in the order they are assigned.
+In this example, if the `unique` rule on the `title` attribute fails, the `max` rule will not be checked. Rules will be validated in the order they are assigned.
 
-이 예제에서는, `required` 규칙으로 지정된(필수값) `title` 속성의 유효성 검사가 실패하면 `unique` 규칙은 확인하지 않습니다. 유효성 검사 규칙은 선언된 순서대로 검사될 것입니다.
+이 예제에서는, `unique` 규칙으로 지정된 `title` 속성의 유효성 검사가 실패하면 `max` 규칙은 확인하지 않습니다. 유효성 검사 규칙은 선언된 순서대로 검사될 것입니다.
 
 #### A Note On Nested Attributes
 #### 중첩된 속성에 대한 유의사항

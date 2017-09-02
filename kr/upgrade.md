@@ -491,6 +491,18 @@ In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Q
 
 큐를 통해서 메일을 보내라면, 이제 [mailable](/docs/{{version}}/mail)을 사용해야만 합니다. `Mail::queue` 와 `Mail::later` 메소드는 더이상 클로저를 통해서 메일을 큐로 보내는 것을 지원하지 않습니다. 이 기능은 PHP가 기본적으로 지원하지 않는 클로저의 serialize를 가능하게 하기 위해서 별도의 라이브러리를 사용해야만 했기 때문입니다. 
 
+### Queue
+### 큐-Queue
+
+#### Failed Jobs Table
+#### 실패한 Job 저장 테이블
+
+If your application contains a `failed_jobs` table, you should add an `exception` column to the table:
+
+어플리케이션에서 `failed_jobs` 테이블을 구성해놓고 있었다면, 테이블에 `exception` 컬럼을 추가해야 합니다:
+
+    $table->longText('exception')->after('payload');
+
 ### Redis
 ### Redis
 
@@ -663,7 +675,7 @@ If you would like to install Laravel Dusk into an application that has been upgr
 
 라라벨 5.3에서 업그레이드된 어플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
 
-    composer require laravel/dusk
+    composer require --dev laravel/dusk
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
@@ -734,6 +746,38 @@ If you are using the `{Inf}` placeholder for pluralizing your translation string
 다국어 문자열의 복수 표현을 위해서 `{Inf}` 플레이스홀더를 사용중이었다면, `*` 문자열을 사용하도록 수정해야 합니다:
 
     {0} First Message|{1,*} Second Message
+
+#### The `trans` Helpers
+#### `trans` 헬퍼 함수 수정
+
+The `trans` helper signature has been updated to remove the unnecessary `$domain` argument. The new signature is as follows:
+
+`trans` 헬퍼 함수는 사용하지 않는 `$domain` 인자를 제거하도록 수정되었습니다. 새로운 형태는 다음과 같습니다:
+
+    /**
+     * Translate the given message.
+     *
+     * @param  string  $id
+     * @param  array   $replace
+     * @param  string  $locale
+     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
+     */
+    function trans($id = null, $replace = [], $locale = null);
+
+In addition, the `trans_choice` helper has been updated:
+
+또한 `trans_choice` 헬퍼함수도 수정되었습니다:
+
+    /**
+     * Translates the given message based on a count.
+     *
+     * @param  string  $id
+     * @param  int|array|\Countable  $number
+     * @param  array   $replace
+     * @param  string  $locale
+     * @return string
+     */
+    function trans_choice($id, $number, array $replace = [], $locale = null);
 
 ### URL Generation
 ### URL 생성

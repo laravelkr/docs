@@ -76,6 +76,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
 또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://vuejs.org/guide/)을 확인하길 바랍니다.
 
+<a name="using-react"></a>
 ### React 사용하기
 
 자바스크립트 어플리케이션을 구성하는데 React를 선호한다면, 라라벨에서는 Vue 스캐폴딩을 React 스캐폴딩으로 바꾸는 것이 아주 쉽습니다. 새롭게 라라벨 어플리케이션을 설치했다면, `preset` 명령어에 `react` 옵션을 지정하여 사용할 수 있습니다:

@@ -210,6 +210,12 @@
     {
         use InteractsWithQueue;
 
+        /**
+         * Handle the event.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @return void
+         */
         public function handle(OrderShipped $event)
         {
             if (true) {
@@ -233,11 +239,24 @@
     {
         use InteractsWithQueue;
 
+        /**
+         * Handle the event.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @return void
+         */
         public function handle(OrderShipped $event)
         {
             //
         }
 
+        /**
+         * Handle a job failure.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @param  \Exception  $exception
+         * @return void
+         */
         public function failed(OrderShipped $event, $exception)
         {
             //

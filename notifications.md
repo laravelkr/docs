@@ -228,7 +228,7 @@ Sometimes you may need to send a notification to someone who is not stored as a 
 
     Notification::route('mail', 'taylor@laravel.com')
                 ->route('nexmo', '5555555555')
-                ->send(new InvoicePaid($invoice));
+                ->notify(new InvoicePaid($invoice));
 
 <a name="mail-notifications"></a>
 ## Mail Notifications
@@ -983,7 +983,7 @@ The example above will create a Slack message that looks like the following:
 #### Markdown Attachment Content
 #### 마크다운 첨부파일 컨텐츠
 
-If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text:
+If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text. The values accepted by this method are: `pretext`, `text`, and / or `fields`. For more information about Slack attachment formatting, check out the [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
 
 첨부 파일 필드 중 일부가 마크다운이 포함되어 있는 경우 `markdown` 메소드를 사용하여 슬랙에 주어진 마크다운 텍스트를 파싱하여 표시하도록 할 수 있습니다:
 
@@ -1003,7 +1003,7 @@ If some of your attachment fields contain Markdown, you may use the `markdown` m
                     ->attachment(function ($attachment) use ($url) {
                         $attachment->title('Exception: File Not Found', $url)
                                    ->content('File [background.jpg] was *not found*.')
-                                   ->markdown(['title', 'text']);
+                                   ->markdown(['text']);
                     });
     }
 

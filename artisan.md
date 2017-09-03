@@ -424,7 +424,19 @@ CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 
         //
     });
 
-`migrate:refresh` 명령어와 같이 문자열을 받지 못하는 지정된 옵션 값을들 필요로 하는 경우에는 `--force` 플래그를 통해서 `ture` 또는 `false` 값을 전달할 수 있습니다.
+#### 배열값 전달하기
+
+명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다:
+
+    Route::get('/foo', function () {
+        $exitCode = Artisan::call('email:send', [
+            'user' => 1, '--id' => [5, 13]
+        ]);
+    });
+
+#### Boolean 값 전달하기
+
+`migrate:refresh` 명령어와 같이 문자열이 아닌 옵션 값을들 필요로 하는 경우에는 `--force` 플래그를 통해서 `true` 또는 `false` 값을 전달할 수 있습니다.
 
     $exitCode = Artisan::call('migrate:refresh', [
         '--force' => true,

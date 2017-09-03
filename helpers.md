@@ -251,7 +251,7 @@
 <a name="method-array-last"></a>
 #### `array_last()` {#collection-method}
 
-`array_last` 함수는 전달된 조검을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
+`array_last` 함수는 전달된 조건을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
 
     $array = [100, 200, 300, 110];
 
@@ -260,6 +260,10 @@
     });
 
     // 300
+
+메소드의 세번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다:
+
+    $value = array_last($array, $callback, $default);
 
 <a name="method-array-only"></a>
 #### `array_only()` {#collection-method}
@@ -303,6 +307,14 @@
 
     // $array: ['zero', 'one', 'two', 'three', 'four']
 
+필요한 경우, 아이템의 키를 지정할 수도 있습니다:
+
+    $array = ['price' => 100];
+
+    $array = array_prepend($array, 'Desk', 'name');
+
+    // $array: ['name' => 'Desk', 'price' => 100]
+
 <a name="method-array-pull"></a>
 #### `array_pull()` {#collection-method}
 
@@ -315,6 +327,10 @@
     // $name: Desk
 
     // $array: ['price' => 100]
+
+메소드의 세번째 인자로 기본값을 전달 할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다:
+
+    $value = array_pull($array, $key, $default);
 
 <a name="method-array-set"></a>
 #### `array_set()` {#collection-method}

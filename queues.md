@@ -11,6 +11,7 @@
     - [Job 체이닝](#job-chaining)
     - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
     - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
+    - [실행 속도 제한](#rate-limiting)
     - [에러 핸들링](#error-handling)
 - [Queue Worker 구동하기](#running-the-queue-worker)
     - [Queue 우선순위 지정하기](#queue-priorities)
@@ -307,6 +308,23 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
         public $tries = 5;
     }
 
+<a name="time-based-attempts"></a>
+#### 재시도 시 시간 제한하기
+
+job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 할지 횟수를 정의하는 대신에, job이 시간초과 처리되는 기준 시간을 정의할 수 있습니다. 이를 이용하면 주어진 시간안에 job을 여러번 재시도하게 할 수 있습니다. job 의 시간초과를 정의하려면, job 클래스에 `retryUntil` 메소드를 추가하면 됩니다:
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addSeconds(5);
+    }
+
+> {tip} 또한 queued 이벤트 리스너에도 `retryUntil` 메소드를 정의할 수 있습니다.
+
 #### 타임아웃
 
 > {note} `timeout` 기능은 PHP 7.1이상 그리고 `pcntl` PHP 확장 기능에 최적화 되어 있습니다.
@@ -330,6 +348,35 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
          */
         public $timeout = 120;
     }
+
+<a name="rate-limiting"></a>
+### 실행 속도 제한
+
+> {note} 이 기능을 사용하려면, 어플리케이션이 [Redis server](/docs/{{version}}/redis)에 연결되어 있어야 합니다.
+
+어플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용 속도에 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다. 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
+
+    Redis::throttle('key')->allow(10)->every(60)->then(function () {
+        // Job logic...
+    }, function () {
+        // Could not obtain lock...
+
+        return $this->release(10);
+    });
+
+> {tip} 이 예제에서, `key` 는 속도제한을 시키고자 하는 job을 식별할 수 있는 고유한 문자열입니다. 예를 들면, 이 키는 job의 클래스 이름 그리고 Eloquent 모델의 id 값을 기반으로 구성할 수 있습니다.
+
+이 대신에, 여러분은 주어진 job을 동시에 처리할 수 있는 worker의 최대 갯수를 지정할 수도 있습니다. 이는 queue에 들어 있는 job이 리소스를 수정하는 것과 같이, 한번에 하나씩 실행되어야 하는 경우 유용합니다. 예를 들자면, `funnel` 메소드를 사용하여, 한번에 하나의 worker를 통해서 처리되도록 하는 유형의 job에서 제한을 걸 수도 있습니다:
+
+    Redis::funnel('key')->limit(1)->then(function () {
+        // Job logic...
+    }, function () {
+        // Could not obtain lock...
+
+        return $this->release(10);
+    });
+
+> {tip} 속도 제한을 사용하는 경우, job이 재시도 되는 횟수를 결정하는 것은 매우 어려운 일이 됩니다. 그래서 이런경우 속도 제한과 함께 [재시도 시 시간 제한하기 기능](#time-based-attempts)를 사용하는 것이 유용합니다.
 
 <a name="error-handling"></a>
 ### 에러 핸들

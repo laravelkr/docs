@@ -542,7 +542,7 @@ The query above will produce the following SQL:
 
 Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7 and Postgres. To query a JSON column, use the `->` operator:
 
-라라벨은 또한 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입에 대한 쿼리를 지원합니다. 현재는 MySQL 5.7 그리고 Postgres에 포함되어 있습니다. JSON 컬럼 질의를 하기 위해서는 `->` 연산자를 사용하십시오:
+라라벨은 또한 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입에 대한 쿼리를 지원합니다. 현재는 MySQL 5.7 그리고 PostgreSQL에 포함되어 있습니다. JSON 컬럼 질의를 하기 위해서는 `->` 연산자를 사용하십시오:
 
     $users = DB::table('users')
                     ->where('options->language', 'en')
@@ -696,7 +696,7 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
 
 > {note} When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the sequence name as the second parameter to the `insertGetId` method.
 
-> {note} PostgreSQL에서 insertGetId 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 시퀀스 이름을 전달 하십시오.
+> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 시퀀스 이름을 전달 하십시오.
 
 <a name="updates"></a>
 ## Updates

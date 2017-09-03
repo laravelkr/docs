@@ -238,10 +238,10 @@ Exception 핸들러의 `report` 그리고 `render` 메소드에서 exception의 
         }
 
         /**
-         * Report the exception.
+         * Render the exception into an HTTP response.
          *
          * @param  \Illuminate\Http\Request
-         * @return void
+         * @return \Illuminate\Http\Response
          */
         public function render($request)
         {

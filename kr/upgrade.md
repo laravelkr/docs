@@ -15,6 +15,13 @@
 
 > {note} 가능한 모든 변경 내용을 기록하려고 했습니다. 그렇지만 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 어플리케이션에 영향을 끼칠 수도 있습니다.
 
+### PHP
+### PHP
+
+Laravel 5.5 requires PHP 7.0.0 or higher.
+
+라라벨 5.5는 PHP 7.0.0 이상을 필요로 합니다.
+
 ### Updating Dependencies
 ### 의존성 업데이트
 
@@ -251,9 +258,11 @@ If you were customizing the response format of an individual form request, you s
 #### The `files` Method
 #### `files` 메소드
 
-The `files` method now returns an array of `SplFileInfo` objects, similar to the `allFiles` method. Previously, the `files` method returned an array of string path names.
+The `files` method of the `Illuminate\Filesystem\Filesystem` class has changed it signature to add the `$hidden` argument and now returns an array of `SplFileInfo` objects, similar to the `allFiles` method. Previously, the `files` method returned an array of string path names. The new signature is as follows:
 
-`files` 메소드는 이제 `allFiles` 메소드와 비슷하게 `SplFileInfo` 객체의 배열을 반환합니다. 이전까지는 `files` 메소드는 문자형태의 경로값을 가지는 배열을 반환했었습니다.
+`Illuminate\Filesystem\Filesystem` 클래스의 `files` 메소드는 `$hidden` 인자가 추가되었으며, `allFiles` 메소드와 비슷하게 `SplFileInfo` 객체의 배열을 반환합니다. 이전까지는 `files` 메소드는 문자형태의 경로값을 가지는 배열을 반환했었습니다. 새로운 형태는 다음과 같습니다.
+
+    public function files($directory, $hidden = false)
 
 ### Mail
 ### 메일
@@ -287,12 +296,30 @@ The unused `$data` and `$callback` arguments were removed from the `Illuminate\C
 ### Requests
 ### Requests-요청
 
+#### The `all` Method
+#### `all` 메소드
+
+If you are overriding the `all` method of the `Illuminate\Http\Request` class, you should update your method signature to reflect the new `$keys` argument:
+
+`Illuminate\Http\Request` 클래스의 `all` 메소드를 오버라이딩 했었다면, 메소드에 새로운 `$keys` 인자를 받을 수 있도록 업데이트 해야 합니다:
+
+    /**
+     * Get all of the input and files for the request.
+     *
+     * @param  array|mixed  $keys
+     * @return array
+     */
+    public function all($keys = null)
+    {
+        //
+    }
+
 #### The `has` Method
 #### `has` 메소드
 
-The `$request->has` method will now return `true` for empty strings and `null`. A new `$request->filled` method has been added that provides the previous behavior of the `has` method.
+The `$request->has` method will now return `true` even if the input value is an empty string or `null`. A new `$request->filled` method has been added that provides the previous behavior of the `has` method.
 
-`$request->has` 메소드는 이제 빈 문자열 그리고 `null` 에 대해서도 `true` 값을 반환합니다. 이전의 `has` 메소드의 동작은 새로운 `$request->filled` 메소드가 대신합니다.
+`$request->has` 메소드는 이제 입력값이 빈 문자열 이거나 `null` 인 경우에도 `true` 값을 반환합니다. 이전의 `has` 메소드의 동작은 새로운 `$request->filled` 메소드가 대신합니다.
 
 #### The `intersect` Method
 #### `intersect` 메소드

@@ -22,6 +22,10 @@ Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` fi
 
 `composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다.
 
+> {tip} If you commonly use the Laravel installer via `laravel new`, you should update your Laravel installer package using the `composer global update` command.
+
+> {tip} `laravel new` 를 통해서 라라벨을 설치했었다면, `composer global update` 명령어를 사용하여 라라벨 인스톨러를 업데이트 해야합니다.
+
 #### Laravel Dusk
 #### 라라벨 Dusk
 
@@ -45,6 +49,13 @@ Push 이벤트 브로드캐시팅 드라이버는 이제 Pusher SDK의 `~3.0` �
 Any `fire` methods present on your Artisan commands should be renamed to `handle`.
 
 아티즌 명령어에 존재하는 `fire` 메소드는 `handle` 으로 이름을 변경해야 합니다.
+
+#### The `optimize` Command
+#### `optimize` 명령어
+
+With recent improvements to PHP op-code caching, the `optimize` Artisan command is no longer needed. You should remove any references to this command from your deployment scripts as it will be removed in a future release of Laravel.
+
+최신의 PHP op-code 캐싱에 의해서, `optimize` 아티즌 명령어가 더이상 필요로하지 않습니다. 앞으로의 라라벨 릴리즈에서는 이 명령어가 삭제될 것이기 때문에, 배포스크립트에서 이 명령어를 사용하고 있다면 미리 삭제해두는 것이 좋습니다.
 
 ### Authorization
 ### 권한 승인-authorization
@@ -94,7 +105,7 @@ Eloquent 모델에서 `belongsToMany` 메소드를 오버라이딩해서 사용�
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function belongsToMany($related, $table = null, $foreignPivotKey = null,
-                                  $relatedPivotKey = null,$parentKey = null,
+                                  $relatedPivotKey = null, $parentKey = null,
                                   $relatedKey = null, $relation = null)
     {
         //
@@ -375,3 +386,10 @@ The `maximumVotes` variable may be accessed in the template like so:
 `maximumVotes` 변수는 템플릿 안에서 다음과 같이 엑세스 할 수 있습니다:
 
     {{ $maximumVotes }}
+
+### Miscellaneous
+### 기타
+
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.4...master) and choose which updates are important to you.
+
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 어플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. GitHub 에서 Diff 툴을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

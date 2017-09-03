@@ -23,6 +23,8 @@
     - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
     - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
     - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
+    - [Rate Limiting](#rate-limiting)
+    - [실행 속도 제한](#rate-limiting)
     - [Error Handling](#error-handling)
     - [에러 핸들링](#error-handling)
 - [Running The Queue Worker](#running-the-queue-worker)
@@ -397,6 +399,28 @@ However, you may take a more granular approach by defining the maximum number of
         public $tries = 5;
     }
 
+<a name="time-based-attempts"></a>
+#### Time Based Attempts
+#### 시간 기반의 재시도
+
+As an alternative to defining how many times a job may be attempted before it fails, you may define a time at which the job should timeout. This allows a job to be attempted any number of times within a given time frame. To define the time at which a job should timeout, add a `retryUntil` method to your job class:
+
+job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 할지 횟수를 정의하는 대신에, job이 시간초과 처리되는 기준 시간을 정의할 수 있습니다. 이를 이용하면 주어진 시간안에 job을 여러번 재시도하게 할 수 있습니다. job 의 시간초과를 정의하려면, job 클래스에 `retryUntil` 메소드를 추가하면 됩니다:
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addSeconds(5);
+    }
+
+> {tip} You may also define a `retryUntil` method on your queued event listeners.
+
+> {tip} 또한 queued 이벤트 리스너에도 `retryUntil` 메소드를 정의할 수 있습니다.
+
 #### Timeout
 #### 타임아웃
 
@@ -427,6 +451,46 @@ However, you may also define the maximum number of seconds a job should be allow
          */
         public $timeout = 120;
     }
+
+<a name="rate-limiting"></a>
+### Rate Limiting
+### 실행 속도 제한
+
+> {note} This feature requires that your application can interact with a [Redis server](/docs/{{version}}/redis).
+
+> {note} 이 기능을 사용하려면, 어플리케이션이 [Redis server](/docs/{{version}}/redis)에 연결되어 있어야 합니다.
+
+If your application interacts with Redis, you may throttle your queued jobs by time or concurrency. This feature can be of assistance when your queued jobs are interacting with APIs that are also rate limited. For example, using the `throttle` method, you may throttle a given type of job to only run 10 times every 60 seconds. If a lock can not be obtained, you should typically release the job back onto the queue so it can be retried later:
+
+어플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용 속도에 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다. 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
+
+    Redis::throttle('key')->allow(10)->every(60)->then(function () {
+        // Job logic...
+    }, function () {
+        // Could not obtain lock...
+
+        return $this->release(10);
+    });
+
+> {tip} In the example above, the `key` may be any string that uniquely identifies the type of job you would like to rate limit. For example, you may wish to construct the key based on the class name of the job and the IDs of the Eloquent models it operates on.
+
+> {tip} 이 예제에서, `key` 는 속도제한을 시키고자 하는 job을 식별할 수 있는 고유한 문자열입니다. 예를 들면, 이 키는 job의 클래스 이름 그리고 Eloquent 모델의 id 값을 기반으로 구성할 수 있습니다.
+
+Alternatively, you may specify the maximum number of workers that may simultaneously process a given job. This can be helpful when a queued job is modifying a resource that should only be modified by one job at a time. For example, using the `funnel` method, you may limit jobs of a given type to only be processed by one worker at a time:
+
+이 대신에, 여러분은 주어진 job을 동시에 처리할 수 있는 worker의 최대 갯수를 지정할 수도 있습니다. 이는 queue에 들어 있는 job이 리소스를 수정하는 것과 같이, 한번에 하나씩 실행되어야 하는 경우 유용합니다. 예를 들자면, `funnel` 메소드를 사용하여, 한번에 하나의 worker를 통해서 처리되도록 하는 유형의 job에서 제한을 걸 수도 있습니다:
+
+    Redis::funnel('key')->limit(1)->then(function () {
+        // Job logic...
+    }, function () {
+        // Could not obtain lock...
+
+        return $this->release(10);
+    });
+
+> {tip} When using rate limiting, the number of attempts your job will need to run successfully can be hard to determine. Therefore, it is useful to combine rate limiting with [time based attempts](#time-based-attempts).
+
+> {tip} 속도 제한을 사용하는 경우, job이 재시도 되는 횟수를 결정하는 것은 매우 어려운 일이 됩니다. 그래서 이런경우 속도 제한과 함께 [시간 기반 재시도 횟수 지정하기](#time-based-attempts)를 사용하는 것이 유용합니다.
 
 <a name="error-handling"></a>
 ### Error Handling

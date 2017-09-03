@@ -557,9 +557,25 @@ Using the `queue` method on the `Artisan` facade, you may even queue Artisan com
         //
     });
 
-If you need to specify the value of an option that does not accept string values, such as the `--force` flag on the `migrate:refresh` command, you may pass `true` or `false`:
+#### Passing Array Values
+#### 배열값 전달하기
 
-`migrate:refresh` 명령어와 같이 문자열을 받지 못하는 지정된 옵션 값을들 필요로 하는 경우에는 `--force` 플래그를 통해서 `ture` 또는 `false` 값을 전달할 수 있습니다.
+If your command defines an option that accepts an array, you may simply pass an array of values to that option:
+
+명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다:
+
+    Route::get('/foo', function () {
+        $exitCode = Artisan::call('email:send', [
+            'user' => 1, '--id' => [5, 13]
+        ]);
+    });
+
+#### Passing Boolean Values
+#### Boolean 값 전달하기
+
+If you need to specify the value of an option that does not accept string values, such as the `--force` flag on the `migrate:refresh` command, you should pass `true` or `false`:
+
+`migrate:refresh` 명령어와 같이 문자열이 아닌 옵션 값을들 필요로 하는 경우에는 `--force` 플래그를 통해서 `true` 또는 `false` 값을 전달할 수 있습니다.
 
     $exitCode = Artisan::call('migrate:refresh', [
         '--force' => true,

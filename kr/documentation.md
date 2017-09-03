@@ -126,6 +126,8 @@
     - [Relationships-관계](/docs/{{version}}/eloquent-relationships)
     - [Mutators](/docs/{{version}}/eloquent-mutators)
     - [Mutators](/docs/{{version}}/eloquent-mutators)
+    - [API Resources](/docs/{{version}}/eloquent-resources)
+    - [API Resources](/docs/{{version}}/eloquent-resources)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
 - ## Testing

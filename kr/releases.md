@@ -12,13 +12,13 @@
 ## Versioning Scheme
 ## 버전 관리 체계
 
-Laravel's versioning scheme maintains the following convention: `paradigm.minor.patch`. Minor framework releases are released every six months (January and July), while patch releases may be released as often as every week. Patch releases should **never** contain breaking changes.
+Laravel's versioning scheme maintains the following convention: `paradigm.major.minor`. Major framework releases are released every six months (February and August), while minor releases may be released as often as every week. Minor releases should **never** contain breaking changes.
 
-라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다: `paradigm.minor.patch`. 마이너 프레임워크 릴리즈는 6 개월마다 (1월, 7월) 릴리즈되며, 패치 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 패치 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다: `paradigm.major.minor`. 메이저 프레임워크 릴리즈는 6 개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.5.*`, since minor releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new minor release in one day or less.
+When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.5.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-어플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 마이너 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.5.*` 와 같이 참조하도록 해야 합니다.
+어플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.5.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
 Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
 
@@ -33,13 +33,9 @@ On one hand, all optional components of Laravel (Cashier, Dusk, Valet, Socialite
 
 그 이유는 시멘틱 버저닝이 코드의 두개의 피스가 호환되는지 결정하는 "reductionist" 방법이기 때문입니다. 시멘틱 버저닝을 사용하는 경우라도, 실제로 업그레이드된 패키지를 설치하고 자동화된 테스트를 통해서 *실제* 코드와 호환되지 않는 것이 있는지 확인해야 합니다.
 
-So, instead, the Laravel framework uses a versioning scheme that is more communicative of the actual scope of the release.
+So, instead, the Laravel framework uses a versioning scheme that is more communicative of the actual scope of the release. Furthermore, since minor releases **never** contain intentional breaking changes, you should never receive a breaking change as long as your version constraints follow the `paradigm.major.*` convention.
 
-Furthermore, since patch releases **never** contain intentional breaking changes,
-
-you should never receive a breaking change as long as your version constraints follow the `paradigm.minor.*` convention.
-
-따라서, 그 대신에, 라라벨 프레임워크는 릴리즈의 실제 범위와 관련된 더 많은 정보를 제공하는 버전 관리 체계를 사용합니다. 또한 패치 릴리즈에는 **절대로** 이전 버전과 호환성을 깨뜨리는 변경사항을 포함하고 있지 않습니다. 여러분이 `paradigm.minor.*` 컨벤션을 따르는 한 절대로 이전 버전과 호환되지 않는 사항을 포함하는 변경사항을 적용받지 않습니다.
+따라서, 그 대신에, 라라벨 프레임워크는 릴리즈의 실제 범위와 관련된 더 많은 정보를 제공하는 버전 관리 체계를 사용합니다. 또한 마이너 릴리즈에는 **절대로** 이전 버전과 호환성을 깨뜨리는 변경사항을 포함하고 있지 않습니다. 여러분이 `paradigm.major.*` 컨벤션을 따르는 한 절대로 이전 버전과 호환되지 않는 사항을 포함하는 변경사항을 적용받지 않습니다.
 
 <a name="support-policy"></a>
 ## Support Policy
@@ -50,15 +46,12 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 라라벨 5.1과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다.
 
 <a name="laravel-5.5"></a>
-## Laravel 5.5
-## 라라벨 5.5
+## Laravel 5.5 (LTS)
+## 라라벨 5.5 (LTS)
 
-<a name="laravel-5.5"></a>
-## Laravel 5.5
+Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package auto-detection, API resources / transformations, auto-registration of console commands, queued job chaining, queued job rate limiting, time based job attempts, renderable mailables, renderable and reportable exceptions, more consistent exception handling, database testing improvements, simpler custom validation rules, React front-end presets, `Route::view` and `Route::redirect` methods, "locks" for the Memcached and Redis cache drivers, on-demand notifications, headless Chrome support in Dusk, convenient Blade shortcuts, improved trusted proxy support, and more.
 
-Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package auto-detection, auto-registration of console commands, queued job chaining, renderable mailables, renderable and reportable exceptions, more consistent exception handling, database testing improvements, simpler custom validation rules, React front-end presets, `Route::view` and `Route::redirect` methods, "locks" for the Memcached and Redis cache drivers, on-demand notifications, headless Chrome support in Dusk, convenient Blade shortcuts, improved trusted proxy support, and more.
-
-라라벨 5.5는 패키지 자동 감지, 콘솔 명령어의 자동 등록, queued job 체이닝, 브라우저에서 렌더링이 가능한 mailable, exception-예외에 대한 renderable, reportable, 보다 일관된 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
+라라벨 5.5는 패키지 자동 감지, API 리소스 / 데이터변환, 콘솔 명령어의 자동 등록, queued job 체이닝, queued job 의 실행 속도 제한, 시간 기반의 job 재시도, 브라우저에서 렌더링이 가능한 mailable, exception-예외에 대한 renderable, reportable, 보다 일관된 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
 
 In addition, Laravel 5.5 coincides with the release of [Laravel Horizon](http://horizon.laravel.com), a beautiful new queue dashboard and configuration system for your Redis based Laravel queues.
 
@@ -115,6 +108,47 @@ Package developers only need to add their service providers and facades to their
 For more information on updating your packages to use service provider and facade discovery, check out the full documentation on [package development](/docs/{{version}}/packages).
 
 패키지가 서비스 프로바이더와 파사드를 자동으로 감지하도록 업데이트하기 위한 보다 자세한 내용은 [패키지 개발](/docs/{{version}}/packages)에 대한 전체 문서를 확인하시기 바랍니다.
+
+### API Resources
+### API 리소스
+
+When building an API, you may need a transformation layer that sits between your Eloquent models and the JSON responses that are actually returned to your application's users. Laravel's resource classes allow you to expressively and easily transform your models and model collections into JSON.
+
+API를 구성할 때, Eloquent 모델과 어플리케이션의 사용자에게 전달되는 JSON 응답 사이에 데이터를 변환하는 레이어가 필요할 수도 있습니다. 라라벨의 리소스 클래스는 여러분이 편리하고 손쉽게 모델과 모델 컬렉션을 JSON으로 변환할 수 있게 도와줍니다.
+
+A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `User` resource class:
+
+리소스 클래스는 하나의 모델을 JSON 구조에 맞게 변환하여 다시 구성합니다. 예를 들어, 다음과 같은 간단한 `User` 리소스 클래스가 있습니다:
+
+    <?php
+
+    namespace App\Http\Resources;
+
+    use Illuminate\Http\Resources\Json\Resource;
+
+    class User extends Resource
+    {
+        /**
+         * Transform the resource into an array.
+         *
+         * @param  \Illuminate\Http\Request
+         * @return array
+         */
+        public function toArray($request)
+        {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'email' => $this->email,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ];
+        }
+    }
+
+Of course, this is only the most basic example of an API resource. Laravel also provides a variety of methods to help you when building your resources and resource collections. For more information, check out the [full documentation](/docs/{{version}}/eloquent-resources) on API resources.
+
+물론 이것은 API 리소스기능의 가장 기본적인 예제 입니다. 라라벨은 리소스와 리소스 컬렉션을 구성할 때 이를 도와줄 수 있는 다양한 메소드를 제공합니다. 보다 자세한 내용은 API 리소스에 대한 [문서](/docs/{{version}}/eloquent-resources)를 참고하십시오.
 
 ### Console Command Auto-Registration
 ### 콘솔 명령어 자동 등록
@@ -228,7 +262,7 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
     use App\Rules\ValidName;
 
-    $this->validate($request, [
+    $request->validate([
         'name' => ['required', new ValidName],
     ]);
 
@@ -391,7 +425,7 @@ The `Illuminate\Http\Request` object now provides a `validate` method, allowing 
 ### Consistent Exception Handling
 ### 보다 일관된 exceptioin 핸들링
 
-Validation exception handling is now consistent throughout the framework. Previously, there were multiple locations in the framework that required customization to change the default format for JSON validation error responses. In addition, the default format for JSON validation responses in Laravel 5.5 now adheres the following convention:
+Validation exception handling is now consistent throughout the framework. Previously, there were multiple locations in the framework that required customization to change the default format for JSON validation error responses. In addition, the default format for JSON validation responses in Laravel 5.5 now adheres to the following convention:
 
 이제 유효성 검사의 exception-예외는 이제 프레임워크 전체에서 일관되게 처리됩니다. 이전까지는 JSON 타입의 유효성 검사 에러에 대한 응답의 기본 포맷을 변경하기 위한 작업들이 프레임워크의 여러곳에 흩어져 있었습니다. 또한 라라벨 5.5에서는 JSON 타입의 유효성 검사 응답-reponse는 다음의 형태를 띄게 됩니다:
 
@@ -525,3 +559,35 @@ If your route only needs to return a view, you may now use the `Route::view` met
     Route::view('/welcome', 'welcome');
 
     Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+
+### "Sticky" Database Connections
+### "Sticky" 데이터베이스 커넥션
+
+#### The `sticky` Option
+#### `sticky` 옵션
+
+When configuring read / write database connections, a new `sticky` configuration option is available:
+
+읽기 / 쓰기 데이터베이스 커넥션을 구분해서 구성할 때, 새로운 `sticky` 설정 옵션을 사용할 수 있습니다:
+
+
+    'mysql' => [
+        'read' => [
+            'host' => '192.168.1.1',
+        ],
+        'write' => [
+            'host' => '196.168.1.2'
+        ],
+        'sticky'    => true,
+        'driver'    => 'mysql',
+        'database'  => 'database',
+        'username'  => 'root',
+        'password'  => '',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'prefix'    => '',
+    ],
+
+The `sticky` option is an *optional* value that can be used to allow the immediate reading of records that have been written to the database during the current request cycle. If the `sticky` option is enabled and a "write" operation has been performed against the database during the current request cycle, any further "read" operations will use the "write" connection. This ensures that any data written during the request cycle can be immediately read back from the database during that same request. It is up to you to decide if this is the desired behavior for your application.
+
+`sticky` 옵션은 현재 request-요청사이클 에서 데이터베이스에 기록된 레코드를 바로 읽을 수 있도록 하는 *있어도 되고 없어도 되는* 값입니다. `sticky` 옵션이 활성화 되어 있고 현재 request-요청사이클에서 데이터베이스에 "쓰기" 작업을 수행한 경우 이 뒤에 "읽기"작업은 "쓰기"에서 사용한 커넥션으르 사용합니다. 이렇게 되면, request-요청사이클 동안에 작성된 모든 데이터를 동일한 request-요청 중에서는 바로 데이터베이스에서 읽을 수 있습니다. 여러분의 어플리케이션에서 이러한 동작이 필요한지에 대해서 결정하는 건 여러분의 선택에 따라 달라질 수 있습니다.

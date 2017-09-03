@@ -76,13 +76,13 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
     composer require --dev laravel/dusk
 
-> {note} You should never install Dusk in a production environment. Otherwise, anyone may be able to gain unauthorized access to your application.
-
-> {note} 실서버 환경에서는 절대로 Dusk를 설치하면 안됩니다. 다시 말하자면, 그 누군가가 여러분의 어플리케이션에 접근할 수 있는 비승인된 권한을 주게 되기 때문입니다.
-
 Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. Typically, this will be done automatically via Laravel's automatic service provider registration.
 
 Dusk를 설치하고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 일반적으로는 이 작업은 라라벨의 자동 서비스 프로바이더 등록 기능이 알아서 해줍니다.
+
+> {note} If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
+
+> {note} 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 어플리케이션의 인증을 통과할 수가 있습니다.
 
 After installing the Dusk package, run the `dusk:install` Artisan command:
 

@@ -302,7 +302,7 @@ The `array_has` function checks that a given item or items exists in an array us
 
 The `array_last` function returns the last element of an array passing a given truth test:
 
-`array_last` 함수는 전달된 조검을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
+`array_last` 함수는 전달된 조건을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
 
     $array = [100, 200, 300, 110];
 
@@ -311,6 +311,12 @@ The `array_last` function returns the last element of an array passing a given t
     });
 
     // 300
+
+A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
+
+메소드의 세번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다:
+
+    $value = array_last($array, $callback, $default);
 
 <a name="method-array-only"></a>
 #### `array_only()` {#collection-method}
@@ -362,6 +368,16 @@ The `array_prepend` function will push an item onto the beginning of an array:
 
     // $array: ['zero', 'one', 'two', 'three', 'four']
 
+If needed, you may specify the key that should be used for the value:
+
+필요한 경우, 아이템의 키를 지정할 수도 있습니다:
+
+    $array = ['price' => 100];
+
+    $array = array_prepend($array, 'Desk', 'name');
+
+    // $array: ['name' => 'Desk', 'price' => 100]
+
 <a name="method-array-pull"></a>
 #### `array_pull()` {#collection-method}
 
@@ -376,6 +392,12 @@ The `array_pull` function returns and removes a key / value pair from the array:
     // $name: Desk
 
     // $array: ['price' => 100]
+
+A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
+
+메소드의 세번째 인자로 기본값을 전달 할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다:
+
+    $value = array_pull($array, $key, $default);
 
 <a name="method-array-set"></a>
 #### `array_set()` {#collection-method}

@@ -56,9 +56,9 @@ Laravel Homestead is an official, pre-packaged Vagrant box that provides you a w
 
 라라벨 홈스테드는 공식적으로 여러분이 PHP, 웹서버, 기타 다른 서버 소프트웨어를 설치할 필요가 없는 사전에 준비된 Vagrant box이며 멋진 개발 환경을 제공합니다. 운영체제가 너저분 해지는 것을 걱정할 필요가 없습니다! Vagrant box는 완전히 일회용입니다. 만약 뭔가 잘 되지 않는다면, 여러분은 몇분안에 다시 box를 생성할 수 있습니다. 
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.1, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.1, MySQL, Postgres, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > {note} If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
@@ -75,7 +75,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - MySQL
 - MariaDB
 - Sqlite3
-- Postgres
+- PostgreSQL
 - Composer
 - Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
@@ -344,13 +344,13 @@ But, since you will probably need to SSH into your Homestead machine frequently,
 ### Connecting To Databases
 ### 데이터베이스 접속하기
 
-A `homestead` database is configured for both MySQL and Postgres out of the box. For even more convenience, Laravel's `.env` file configures the framework to use this database out of the box.
+A `homestead` database is configured for both MySQL and PostgreSQL out of the box. For even more convenience, Laravel's `.env` file configures the framework to use this database out of the box.
 
-별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 Postgres 가 설정되어 있습니다. 보다 편리하게 하기 위해 라라벨의 `.env` 파일의 설정이 프로임워크에서 별다른 작업 없이도 이 데이터베이스를 사용하도록 설정되어 있습니다.
+별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 PostgreSQL 가 설정되어 있습니다. 보다 편리하게 하기 위해 라라벨의 `.env` 파일의 설정이 프로임워크에서 별다른 작업 없이도 이 데이터베이스를 사용하도록 설정되어 있습니다.
 
-To connect to your MySQL or Postgres database from your host machine's database client, you should connect to `127.0.0.1` and port `33060` (MySQL) or `54320` (Postgres). The username and password for both databases is `homestead` / `secret`.
+To connect to your MySQL or PostgreSQL database from your host machine's database client, you should connect to `127.0.0.1` and port `33060` (MySQL) or `54320` (PostgreSQL). The username and password for both databases is `homestead` / `secret`.
 
-데이터베이스 클라이언트를 통해서 MySQL 또는 Postgres 데이터베이스에 접속하려면 `127.0.0.1` 의 `33060` (MySQL) 또는 `54320` (Postgres) 포트에 연결하면 됩니다. 데이터베이스 사용자 이름과 암호는 모두 `homestead` / `secret` 입니다. 
+데이터베이스 클라이언트를 통해서 MySQL 또는 PostgreSQL 데이터베이스에 접속하려면 `127.0.0.1` 의 `33060` (MySQL) 또는 `54320` (PostgreSQL) 포트에 연결하면 됩니다. 데이터베이스 사용자 이름과 암호는 모두 `homestead` / `secret` 입니다.
 
 > {note} You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel database configuration file since Laravel is running _within_ the virtual machine.
 
@@ -446,7 +446,7 @@ By default, the following ports are forwarded to your Homestead environment:
 - **HTTP:** 8000 &rarr; Forwards To 80
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
-- **Postgres:** 54320 &rarr; Forwards To 5432
+- **PostgreSQL:** 54320 &rarr; Forwards To 5432
 - **Mailhog:** 8025 &rarr; Forwards To 8025
 
 #### Forwarding Additional Ports
@@ -555,9 +555,9 @@ Next, you need to update the Homestead source code. If you cloned the repository
 
 그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 간단하게 `git pull origin master` 를 사용할 수 있습니다.
 
-If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^4"` and update your dependencies:
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^6"` and update your dependencies:
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^4"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다: 
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^6"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
 

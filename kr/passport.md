@@ -575,7 +575,7 @@ The client credentials grant is suitable for machine-to-machine authentication. 
 
 클라이언트의 자격증명을 위한 Grant 는 시스템간의 인증에 적합합니다. 예를 들어, API를 통해서 관리 작업을 수행하도록 예약된 스케줄링 job에서 이 grant를 사용할 수 있습니다. 이 메소드를 사용히기 위해서는 먼저 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 에 새로운 미들웨어를 추가해야합니다:
 
-    use Laravel\Passport\Http\Middleware\CheckClientCredentials::class;
+    use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
     protected $routeMiddleware = [
         'client' => CheckClientCredentials::class,

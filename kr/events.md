@@ -267,6 +267,12 @@ If you need to manually access the listener's underlying queue job's `delete` an
     {
         use InteractsWithQueue;
 
+        /**
+         * Handle the event.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @return void
+         */
         public function handle(OrderShipped $event)
         {
             if (true) {
@@ -292,11 +298,24 @@ Sometimes your queued event listeners may fail. If queued listener exceeds the m
     {
         use InteractsWithQueue;
 
+        /**
+         * Handle the event.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @return void
+         */
         public function handle(OrderShipped $event)
         {
             //
         }
 
+        /**
+         * Handle a job failure.
+         *
+         * @param  \App\Events\OrderShipped  $event
+         * @param  \Exception  $exception
+         * @return void
+         */
         public function failed(OrderShipped $event, $exception)
         {
             //

@@ -25,7 +25,7 @@ Laravel makes interacting with databases extremely simple across a variety of da
 라라벨은 직접 raw SQL을 사용할 때에도, [쿼리 빌더](/docs/{{version}}/queries)를 사용하거나 그리고 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용할 때에도 데이터베이스를 처리하는 것이 쉽도록 해줍니다. 현재 라라벨은 4가지 데이터베에스를 지원하고 있습니다:
 
 - MySQL
-- Postgres
+- PostgreSQL
 - SQLite
 - SQL Server
 
@@ -87,6 +87,7 @@ To see how read / write connections should be configured, let's look at this exa
         'write' => [
             'host' => '196.168.1.2'
         ],
+        'sticky'    => true,
         'driver'    => 'mysql',
         'database'  => 'database',
         'username'  => 'root',
@@ -96,13 +97,20 @@ To see how read / write connections should be configured, let's look at this exa
         'prefix'    => '',
     ],
 
-Note that two keys have been added to the configuration array: `read` and `write`. Both of these keys have array values containing a single key: `host`. The rest of the database options for the `read` and `write` connections will be merged from the main `mysql` array.
+Note that three keys have been added to the configuration array: `read`, `write` and `sticky`. The `read` and `write` keys have array values containing a single key: `host`. The rest of the database options for the `read` and `write` connections will be merged from the main `mysql` array.
 
-설정 배열에 `read` 와 `write` 두개의 키가 추가 된것을 참고하십시오. 이 키들은 `host`라는 싱글 키를 포함하는 배열 값을 갖는다: `read`와 `write` 연결에대한 나머지 데이터베이스 옵션들은 기본 `mysql` 배열에서 합쳐(merge)집니다. 
+설정 배열에 `read`, `write` 그리고 `sticky` 세개의 키가 추가 된것을 참고하십시오. `read` 와 `write` 키는 `host`라는 하나의 키를 포함하는 배열 값입니다: `read` 와 `write` 의 나머지 데이터베이스 옵션 값은 기본 `mysql` 배열에서 합쳐(merge)집니다.
 
 You only need to place items in the `read` and `write` arrays if you wish to override the values from the main array. So, in this case, `192.168.1.1` will be used as the host for the "read" connection, while `192.168.1.2` will be used for the "write" connection. The database credentials, prefix, character set, and all other options in the main `mysql` array will be shared across both connections.
 
 따라서 메인 배열에서 재정의하고자하는 값들을 `read`와 `write` 배열에 입력하기만 하면 됩니다. 위의 경우에서는 `192.168.1.1`는 "read(읽기용)" 커넥션에 대한 호스트로 사용되고, `192.168.1.2`는  "write(쓰기용)" 커넥션에 대한  호스트로 사용될 것입니다. 메인 `mysql`설정 배열에 포함된 데이터베이스 연결정보, 프리픽스, 캐릭터 셋 등 다른 모든 옵션들은 양쪽연결에서 모두 공유될 것입니다.
+
+#### The `sticky` Option
+#### `sticky` 옵션
+
+The `sticky` option is an *optional* value that can be used to allow the immediate reading of records that have been written to the database during the current request cycle. If the `sticky` option is enabled and a "write" operation has been performed against the database during the current request cycle, any further "read" operations will use the "write" connection. This ensures that any data written during the request cycle can be immediately read back from the database during that same request. It is up to you to decide if this is the desired behavior for your application.
+
+`sticky` 옵션은 현재 request-요청사이클 에서 데이터베이스에 기록된 레코드를 바로 읽을 수 있도록 하는 *있어도 되고 없어도 되는* 값입니다. `sticky` 옵션이 활성화 되어 있고 현재 request-요청사이클에서 데이터베이스에 "쓰기" 작업을 수행한 경우 이 뒤에 "읽기"작업은 "쓰기"에서 사용한 커넥션으르 사용합니다. 이렇게 되면, request-요청사이클 동안에 작성된 모든 데이터를 동일한 request-요청 중에서는 바로 데이터베이스에서 읽을 수 있습니다. 여러분의 어플리케이션에서 이러한 동작이 필요한지에 대해서 결정하는 건 여러분의 선택에 따라 달라질 수 있습니다.
 
 <a name="using-multiple-database-connections"></a>
 ### Using Multiple Database Connections

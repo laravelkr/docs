@@ -919,13 +919,13 @@ Now, you may pass the parameters when calling the scope:
 ## Events
 ## 이벤트
 
-Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
+Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database.
 
-Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다.
+Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다.
 
-Whenever a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
+The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
 
-새로운 모델이 처음으로 저장될 때마다 `creating`과 `created` 이벤트가 발생할 것입니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생할 것입니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
+데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생합니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
 
 To get started, define a `$dispatchesEvents` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 

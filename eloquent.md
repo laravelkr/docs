@@ -714,9 +714,9 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
 <a name="events"></a>
 ## 이벤트
 
-Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다.
+Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다.
 
-새로운 모델이 처음으로 저장될 때마다 `creating`과 `created` 이벤트가 발생할 것입니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생할 것입니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
+데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생합니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
 
 이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 맵핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다:
 

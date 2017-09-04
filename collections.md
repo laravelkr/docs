@@ -72,7 +72,7 @@
 - [has](#method-has)
 - [implode](#method-implode)
 - [intersect](#method-intersect)
-- [intersectKey](#method-intersectkey)
+- [intersectByKeys](#method-intersectbykeys)
 - [isEmpty](#method-isempty)
 - [isNotEmpty](#method-isnotempty)
 - [keyBy](#method-keyby)
@@ -630,16 +630,16 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
-<a name="method-intersectkey"></a>
-#### `intersectKey()` {#collection-method}
+<a name="method-intersectbykeys"></a>
+#### `intersectByKeys()` {#collection-method}
 
-`intersectKey` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다:
+`intersectByKeys` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다:
 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
     ]);
 
-    $intersect = $collection->intersectKey([
+    $intersect = $collection->intersectByKeys([
         'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
     ]);
 

@@ -9,6 +9,7 @@
     - [Directory Structure](/docs/{{version}}/structure)
     - [Homestead](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
+    - [Deployment](/docs/{{version}}/deployment)
 - ## Architecture Concepts
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
     - [Service Container](/docs/{{version}}/container)
@@ -23,6 +24,7 @@
     - [Requests](/docs/{{version}}/requests)
     - [Responses](/docs/{{version}}/responses)
     - [Views](/docs/{{version}}/views)
+    - [URL Generation](/docs/{{version}}/urls)
     - [Session](/docs/{{version}}/session)
     - [Validation](/docs/{{version}}/validation)
     - [Errors & Logging](/docs/{{version}}/errors)

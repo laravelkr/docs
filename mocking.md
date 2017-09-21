@@ -28,9 +28,8 @@ As an alternative to mocking, you may use the `Bus` facade's `fake` method to pr
     use Tests\TestCase;
     use App\Jobs\ShipOrder;
     use Illuminate\Support\Facades\Bus;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -62,9 +61,8 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
     use App\Events\OrderShipped;
     use App\Events\OrderFailedToShip;
     use Illuminate\Support\Facades\Event;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -97,9 +95,8 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
     use Tests\TestCase;
     use App\Mail\OrderShipped;
     use Illuminate\Support\Facades\Mail;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -145,9 +142,8 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
     use Tests\TestCase;
     use App\Notifications\OrderShipped;
     use Illuminate\Support\Facades\Notification;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -189,9 +185,8 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
     use Tests\TestCase;
     use App\Jobs\ShipOrder;
     use Illuminate\Support\Facades\Queue;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -228,9 +223,8 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
     use Tests\TestCase;
     use Illuminate\Http\UploadedFile;
     use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -286,9 +280,8 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
 
     use Tests\TestCase;
     use Illuminate\Support\Facades\Cache;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class UserControllerTest extends TestCase
     {

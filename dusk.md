@@ -156,11 +156,11 @@ To get started, let's write a test that verifies we can log into our application
     use App\User;
     use Tests\DuskTestCase;
     use Laravel\Dusk\Chrome;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
 
     class ExampleTest extends DuskTestCase
     {
-        use DatabaseMigrations;
+        use RefreshDatabase;
 
         /**
          * A basic browser test example.
@@ -459,6 +459,7 @@ Assertion  | Description
 `$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
 `$browser->assertHasQueryStringParameter($name)`  |  Assert that the given query string parameter is present.
 `$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
+`$browser->assertCookieMissing($name)`  |  Assert that the given cookie is not present.
 `$browser->assertCookieValue($name, $value)`  |  Assert a cookie has a given value.
 `$browser->assertPlainCookieValue($name, $value)`  |  Assert an unencrypted cookie has a given value.
 `$browser->assertSee($text)`  |  Assert the given text is present on the page.

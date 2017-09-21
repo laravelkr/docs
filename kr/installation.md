@@ -28,7 +28,7 @@
 
 The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
-라라벨은 몇가지 시스템 요구사항을 필요로 합니다. 물론, [라라벨 홈스테드](/docs/{{version}}/homestead)은 모든 요구사항을 만족합니다. 따라서 여러분의 로컬 라라벨 개발 환경에서 홈스테드를 사용할 것을 강력 권장합니다.
+라라벨은 몇가지 시스템 요구사항을 필요로 합니다. 물론, [라라벨 홈스테드](/docs/{{version}}/homestead)는 모든 요구사항을 만족합니다. 따라서 여러분의 로컬 라라벨 개발 환경에서 홈스테드를 사용할 것을 강력 권장합니다.
 
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 
@@ -82,13 +82,13 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
 
-로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 어플리케이션을 구동하고자 할 수 있는데, 이경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다:
+로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 어플리케이션을 구동하고자 할 수 있는데, 이 경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다:
 
     php artisan serve
 
 Of course, more robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
 
-물론, 보다 강력한 로컬 개발의 대안으로 [Homestead](/docs/{{version}}/homestead) 과 [Valet](/docs/{{version}}/valet) 도 사용할 수 있습니다.
+물론, 보다 강력한 로컬 개발의 대안으로 [홈스테드](/docs/{{version}}/homestead) 와 [발렛](/docs/{{version}}/valet) 도 사용할 수 있습니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -99,7 +99,7 @@ Of course, more robust local development options are available via [Homestead](/
 
 After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
 
-라라벨을 설치후에 어플리케이션의 document / web 루트를 `public` 디렉토리로 설정해야 합니다. 이 디렉토리의 `index.php`은 어플리케이션의 모든 HTTP 요청에 대해서 프론트 컨트롤러로 작동합니다.
+라라벨을 설치후에 어플리케이션의 document / web 루트를 `public` 디렉토리로 설정해야 합니다. 이 디렉토리의 `index.php`는 어플리케이션의 모든 HTTP 요청에 대해서 프론트 컨트롤러로 작동합니다.
 
 #### Configuration Files
 #### 설정 파일
@@ -154,7 +154,7 @@ You may also want to configure a few additional components of Laravel, such as:
 
 Laravel includes a `public/.htaccess` file that is used to provide URLs without the `index.php` front controller in the path. Before serving Laravel with Apache, be sure to enable the `mod_rewrite` module so the `.htaccess` file will be honored by the server.
 
-라라벨은 주어진 경로에 `index.php` 파일이 없어도 될 수 있도록 URL 프론트 컨트롤링을 제공하는 `public/.htaccess` 파일을 가지고 있습니다. 아파치를 통해서 라라벨 웹서비스를 제공하기 전에, `.htaccess` 파일이 동작할 수 있도록 `mod_rewrite` 모듈이 활성화 하십시오.
+라라벨은 주어진 경로에 `index.php` 파일이 없어도 될 수 있도록 URL 프론트 컨트롤링을 제공하는 `public/.htaccess` 파일을 가지고 있습니다. 아파치를 통해서 라라벨 웹서비스를 제공하기 전에, `.htaccess` 파일이 동작할 수 있도록 `mod_rewrite` 모듈을 활성화 하십시오.
 
 If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
 

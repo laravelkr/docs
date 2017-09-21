@@ -85,7 +85,7 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
 
 In previous versions of Laravel, installing a package typically required several additional steps such as adding the service provider to your `app` configuration file and registering any relevant facades. However, beginning with Laravel 5.5, Laravel can automatically detect and register service providers and facades for you.
 
-이전버전의 라라벨에서는 패키지를 설치하려면, 일반적으로 서비스 프로바이더와 파사드를 등록하기 위해서 `app` 설정파일에 몇가지 추가적인 작업들을 진행해야만 했습니다. 하지만 라라벨 5.5 에서는 라라벨이 자동으로 서비스 프로바이더와 파사드를 감지하고, 등록합니다.
+이전 버전의 라라벨에서는 패키지를 설치하려면, 일반적으로 서비스 프로바이더와 파사드를 등록하기 위해서 `app` 설정파일에 몇가지 추가적인 작업들을 진행해야만 했습니다. 하지만 라라벨 5.5 에서는 라라벨이 자동으로 서비스 프로바이더와 파사드를 감지하고, 등록합니다.
 
 For example, you can experience this by installing the popular `barryvdh/laravel-debugbar` package into your Laravel application. Once the package is installed via Composer, the debug bar will be available to your application with no additional configuration:
 
@@ -275,7 +275,7 @@ TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이�
 
 To solve this, many Laravel users install the [Trusted Proxies](https://github.com/fideloper/TrustedProxy) package by Chris Fidao. Since this is such a common use case, Chris' package now ships with Laravel 5.5 by default.
 
-이 문제를 해결하기 위해서, 많은 라라벨 사용자들이 Chris Fidao 의 [Trusted Proxies](https://github.com/fideloper/TrustedProxy) 패키지를 실처했었습니다. 이러한 공통의 상황에 대응하기 위해서 Chris의 패키지가 이제 라라벨 5.5에 기본적으로 제공됩니다.
+이 문제를 해결하기 위해서, 많은 라라벨 사용자들이 Chris Fidao 의 [Trusted Proxies](https://github.com/fideloper/TrustedProxy) 패키지를 실처했었습니다. 이제 이러한 공통의 상황에 대응하기 위해서 Chris의 패키지가 라라벨 5.5에 기본적으로 제공됩니다.
 
 A new `App\Http\Middleware\TrustProxies` middleware is included in the default Laravel 5.5 application. This middleware allows you to quickly customize the proxies that should be trusted by your application:
 
@@ -427,7 +427,7 @@ The `Illuminate\Http\Request` object now provides a `validate` method, allowing 
 
 Validation exception handling is now consistent throughout the framework. Previously, there were multiple locations in the framework that required customization to change the default format for JSON validation error responses. In addition, the default format for JSON validation responses in Laravel 5.5 now adheres to the following convention:
 
-이제 유효성 검사의 exception-예외는 이제 프레임워크 전체에서 일관되게 처리됩니다. 이전까지는 JSON 타입의 유효성 검사 에러에 대한 응답의 기본 포맷을 변경하기 위한 작업들이 프레임워크의 여러곳에 흩어져 있었습니다. 또한 라라벨 5.5에서는 JSON 타입의 유효성 검사 응답-reponse는 다음의 형태를 띄게 됩니다:
+이제 유효성 검사의 exception-예외는 이제 프레임워크 전체에서 일관되게 처리됩니다. 이전까지는 JSON 타입의 유효성 검사 에러에 대한 응답의 기본 포맷을 변경하기 위한 작업들이 프레임워크의 여러 곳에 흩어져 있었습니다. 또한 라라벨 5.5에서는 JSON 타입의 유효성 검사 응답-reponse는 다음의 형태를 띄게 됩니다:
 
     {
         "message": "The given data was invalid.",
@@ -445,7 +445,7 @@ Validation exception handling is now consistent throughout the framework. Previo
 
 All JSON validation error formatting can be controlled by defining a single method on your `App\Exceptions\Handler` class. For example, the following customization will format JSON validation responses using the Laravel 5.4 convention.
 
-`App\Exceptions\Handler` 클래스에 메소드를 정의하여 모든 JSON 타입의 유효성 검사 에러 포맷을 조정할 수 있습니다. 예를 들어, 다음처럼 메소드를 구성하면 JSON 타입의 유효성 검사 response는 라라벨 5.4와 같아집니다.
+`App\Exceptions\Handler` 클래스에 메소드를 정의하여 모든 JSON 타입의 유효성 검사 에러 포맷을 조정할 수 있습니다. 예를 들어, 다음처럼 메소드를 구성하면 JSON 타입의 유효성 검사 응답-response는 라라벨 5.4와 같아집니다.
 
     use Illuminate\Validation\ValidationException;
 
@@ -501,7 +501,7 @@ In addition, you may "block" until the lock becomes available:
 
 Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade now provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
 
-커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 이제 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 어플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
+커스텀 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이 때문에 블레이드는 이제 클로저를 사용하여 커스텀 if 지지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 어플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
 
     use Illuminate\Support\Facades\Blade;
 
@@ -548,7 +548,7 @@ In addition to the ability to easily define custom Blade conditional directives,
 
 If you are defining a route that redirects to another URI, you may now use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
 
-다른 UIR로 이동시키는 라우트를 정의했었다면, 이제 `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 손쉬운 방법을 제공합니다. 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다:
+다른 URI로 이동시키는 라우트를 정의했었다면, 이제 `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 손쉬운 방법을 제공합니다. 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다:
 
     Route::redirect('/here', '/there', 301);
 

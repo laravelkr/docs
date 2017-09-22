@@ -386,7 +386,7 @@ Below is a list of all the available column modifiers. This list does not includ
 Modifier  | Description
 ------------- | -------------
 `->after('column')`  |  Place the column "after" another column (MySQL Only)
-`->comment('my comment')`  |  Add a comment to a column
+`->comment('my comment')`  |  Add a comment to a column (MySQL Only)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL Only)
 `->nullable()`  |  Allow NULL values to be inserted into the column
@@ -397,7 +397,7 @@ Modifier  | Description
 Modifier  | 설명
 ------------- | -------------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮기세요 (MySQL의 경우에만)
-`->comment('my comment')`  |  컬럼에 코멘트 추가
+`->comment('my comment')`  |  컬럼에 코멘트 추가 (MySQL의 경우에만)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  테이블에 컬럼을 "맨 처음" 위치로 옮기세요 (MySQL의 경우에만) 
 `->nullable()`  |  NULL 값들이 컬럼에 입력되는 것을 허용합니다

@@ -126,9 +126,11 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [method_field](#method-method-field)
 [now](#method-now)
 [old](#method-old)
+[optional](#method-optional)
 [redirect](#method-redirect)
 [report](#method-report)
 [request](#method-request)
+[rescue](#method-rescue)
 [response](#method-response)
 [retry](#method-retry)
 [session](#method-session)
@@ -876,11 +878,11 @@ The `trans_choice` function translates the given language line with inflection:
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-The `action` function generates a URL for the given controller action. You do not need to pass the full namespace to the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
+The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
-`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러는 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
+`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
 
-    $url = action('HomeController@getIndex');
+    $url = action('HomeController@index');
 
 If the method accepts route parameters, you may pass them as the second argument to the method:
 
@@ -904,7 +906,7 @@ Generate a URL for an asset using HTTPS:
 
 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
-    echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -1207,6 +1209,17 @@ The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an o
 
     $value = old('value', 'default');
 
+<a name="method-optional"></a>
+#### `optional()` {#collection-method}
+
+The `optional` function accepts any argument and allows you to access properties or call methods on that object. If the given object is `null`, properties and methods will simply return `null` instead of causing an error:
+
+`optional` 함수는 인자를 전달받아 해당 객체의 프로퍼티에 엑세스 하거나, 메소드를 호출할 수 있도록 합니다. 지정된 객체가 `null` 이라면, 프로퍼티와 메소드는 에러를 유발하는 대신에 `null` 을 반환합니다:
+
+    return optional($user->address)->street;
+
+    {!! old('name', optional($user)->name) !!}
+
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
@@ -1237,6 +1250,31 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
     $request = request();
 
     $value = request('key', $default = null)
+
+<a name="method-rescue"></a>
+#### `rescue()` {#collection-method}
+
+The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your exception handler's `report` method; however, the request will continue processing:
+
+`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외-exception을 받아냅니다. catch 된 모든 예외-exception은 예외-exception 핸들러의 `report` 메소드로 전달되지만, request-요청 에 대한 처리는 계속됩니다:
+
+    return rescue(function () {
+        return $this->method();
+    });
+
+You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the Closure:
+
+`rescue` 함수에는 두번째 인자를 전달 할 수 있는데, 이 인자는 클로저를 실행하는 동안 예외-exception가 발생하면 반환된 "기본값" 입니다:
+
+    return rescue(function () {
+        return $this->method();
+    }, false);
+
+    return rescue(function () {
+        return $this->method();
+    }, function () {
+        return $this->failure();
+    });
 
 <a name="method-response"></a>
 #### `response()` {#collection-method}

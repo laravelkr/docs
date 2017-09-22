@@ -25,9 +25,13 @@ Laravel 5.5 requires PHP 7.0.0 or higher.
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`.
+Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`. Finally, add `filp/whoops` version `~2.0` to the `require-dev` section of your `composer.json` file.
 
-`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다.
+`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다. 끝으로 `composer.json` 파일의 `require-dev` 부분에 `filp/whoops` 버전 `~2.0`을 추가하십시오.
+
+Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.5 support.
+
+또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 > {tip} If you commonly use the Laravel installer via `laravel new`, you should update your Laravel installer package using the `composer global update` command.
 
@@ -46,6 +50,13 @@ Laravel Dusk `2.0.0` has been released to provide compatibility with Laravel 5.5
 The Pusher event broadcasting driver now requires version `~3.0` of the Pusher SDK.
 
 Push 이벤트 브로드캐시팅 드라이버는 이제 Pusher SDK의 `~3.0` 릴리즈 버전을 필요로 합니다.
+
+#### Swift Mailer
+#### Swift Mailer
+
+Laravel 5.5 requires version `~6.0` of Swift Mailer.
+
+라라벨 5.5는 Swift 메일러의 `~6.0` 를 필요로 합니다.
 
 ### Artisan
 ### Artisan
@@ -153,7 +164,7 @@ The protected `$parent` property on the `Illuminate\Database\Eloquent\Relations\
 #### Relationship `create` Methods
 #### Relationship-관계에서의 `create` 메소드
 
-The `BelongsToMany`, `HasOneOrMany`, and `MorphOneOrMany` class' `create` methods have been modified to provide a default value for the `$attributes` argument. If you are overriding these methods, you should update your signatures to match the new definition:
+The `BelongsToMany`, `HasOneOrMany`, and `MorphOneOrMany` classes' `create` methods have been modified to provide a default value for the `$attributes` argument. If you are overriding these methods, you should update your signatures to match the new definition:
 
 `BelongsToMany`, `HasOneOrMany`, 그리고 `MorphOneOrMany` 클래스의 `create` 메소드는 `$attributes` 인자를 위해서 기본값을 제공하도록 변경되었습니다. 이 메소드를 오버라이딩 한경우, 변경사항에 매칭되도록 사용한 곳을 수정해야 합니다:
 
@@ -258,7 +269,7 @@ If you were customizing the response format of an individual form request, you s
 #### The `files` Method
 #### `files` 메소드
 
-The `files` method of the `Illuminate\Filesystem\Filesystem` class has changed it signature to add the `$hidden` argument and now returns an array of `SplFileInfo` objects, similar to the `allFiles` method. Previously, the `files` method returned an array of string path names. The new signature is as follows:
+The `files` method of the `Illuminate\Filesystem\Filesystem` class has changed its signature to add the `$hidden` argument and now returns an array of `SplFileInfo` objects, similar to the `allFiles` method. Previously, the `files` method returned an array of string path names. The new signature is as follows:
 
 `Illuminate\Filesystem\Filesystem` 클래스의 `files` 메소드는 `$hidden` 인자가 추가되었으며, `allFiles` 메소드와 비슷하게 `SplFileInfo` 객체의 배열을 반환합니다. 이전까지는 `files` 메소드는 문자형태의 경로값을 가지는 배열을 반환했었습니다. 새로운 형태는 다음과 같습니다.
 
@@ -292,6 +303,22 @@ The unused `$data` and `$callback` arguments were removed from the `Illuminate\C
      * @return mixed
      */
     public function later($delay, $view, $queue = null);
+
+### Queues
+### 큐-Queues
+
+#### The `dispatch` Helper
+#### `dispatch` 헬퍼 함수
+
+If you would like to dispatch a job that runs immediately and returns a value from the `handle` method, you should use the `dispatch_now` or `Bus::dispatch` method to dispatch the job:
+
+`handle` 메소드에서 job을 즉시 처리하고 결과값을 필요로 한다면, `dispatch_now` 또는 `Bus::dispatch` 메소드를 사용해야 합니다:
+
+    use Illuminate\Support\Facades\Bus;
+
+    $value = dispatch_now(new Job);
+
+    $value = Bus::dispatch(new Job);
 
 ### Requests
 ### Requests-요청

@@ -20,6 +20,8 @@
     - [홈스테드](/docs/{{version}}/homestead)
     - [Valet](/docs/{{version}}/valet)
     - [발렛-Valet](/docs/{{version}}/valet)
+    - [Deployment](/docs/{{version}}/deployment)
+    - [배포](/docs/{{version}}/deployment)
 - Architecture Concepts
 - 설계 컨셉
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
@@ -48,6 +50,8 @@
     - [Responses-응답](/docs/{{version}}/responses)
     - [Views](/docs/{{version}}/views)
     - [뷰](/docs/{{version}}/views)
+    - [URL Generation](/docs/{{version}}/urls)
+    - [URL 생성](/docs/{{version}}/urls)
     - [Session](/docs/{{version}}/session)
     - [세션](/docs/{{version}}/session)
     - [Validation](/docs/{{version}}/validation)

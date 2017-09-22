@@ -15,6 +15,8 @@
     - [프로젝트별 설치하기](#per-project-installation)
     - [Installing MariaDB](#installing-mariadb)
     - [MariaDB 설치하기](#installing-mariadb)
+    - [Aliases](#aliases)
+    - [별칭 설정](#aliases)
 - [Daily Usage](#daily-usage)
 - [사용 방법](#daily-usage)
     - [Accessing Homestead Globally](#accessing-homestead-globally)
@@ -282,6 +284,21 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
     cpus: 4
     provider: virtualbox
     mariadb: true
+
+<a name="aliases"></a>
+### Aliases
+### 별칭 설정
+
+You may add Bash aliases to your Homestead machine by modifying the `aliases` file within your Homestead directory:
+
+홈스테드 디렉토리에 있는 `aliases` 파일을 수정하여 홈스테드 머신에 Bash 별칭을 추가할 수 있습니다:
+
+    alias c='clear'
+    alias ..='cd ..'
+
+After you have updated the `aliases` file, you should re-provision the Homestead machine using the `vagrant reload --provision` command. This will ensure that your new aliases are available on the machine.
+
+`aliases` 파일을 수정한 뒤에는 `vagrant reload --provision` 명령어를 사용하여 홈스테드 머신을 다시 프로비저닝 하십시오. 이렇게 하면 머신에서 새로운 별칭이 사용가능해집니다.
 
 <a name="daily-usage"></a>
 ## Daily Usage

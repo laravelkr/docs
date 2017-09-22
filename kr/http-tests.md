@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [소개](#introduction)
+    - [Customizing Request Headers](#customizing-request-headers)
+    - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
 - [Session / Authentication](#session-and-authentication)
 - [세션 / 인증](#session-and-authentication)
 - [Testing JSON APIs](#testing-json-apis)
@@ -25,9 +27,8 @@ Laravel provides a very fluent API for making HTTP requests to your application 
     namespace Tests\Feature;
 
     use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -47,6 +48,37 @@ Laravel provides a very fluent API for making HTTP requests to your application 
 The `get` method makes a `GET` request into the application, while the `assertStatus` method asserts that the returned response should have the given HTTP status code. In addition to this simple assertion, Laravel also contains a variety of assertions for inspecting the response headers, content, JSON structure, and more.
 
 `get` 메소드는 어플리케이션에 `GET` request-요청을 만들고, `assertStatus` 메소드는 반환된 response-응답이 주어진 HTTP 상태 코드와 일치하는지 확인합니다. 간단한 테스트에 더해, 라라벨은 response의 헤더값, 컨텐츠, JSON 구조 및 기타 확인을 할 수 있는 기능을 제공합니다.  
+
+<a name="customizing-request-headers"></a>
+### Customizing Request Headers
+### 요청-Request 헤더 커스터마이징하기
+
+You may use the `withHeaders` method to customize the request's headers before it is sent to the application. This allows you to add any custom headers you would like to the request:
+
+`withHeaders` 메소드를 사용하여 요청-requestr가 어플리케이션에 전달되기 전에 헤더를 커스터마이징 할 수 있습니다. 이를 통해 요청-request에 커스텀 헤더를 추가 할 수 있습니다:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $response = $this->withHeaders([
+                'X-Header' => 'Value',
+            ])->json('POST', '/user', ['name' => 'Sally']);
+
+            $response
+                ->assertStatus(200)
+                ->assertJson([
+                    'created' => true,
+                ]);
+        }
+    }
 
 <a name="session-and-authentication"></a>
 ## Session / Authentication
@@ -127,8 +159,8 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 > {tip} `assertJson` 메소드는 response-응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 어플리케이션에서 반환된 JSON 배열 안에 주어진 내용이 존재하는지 확인합니다. 따라서 JSON response-응답에 다른 속성이 있더라도, 주어진 내용이 존재하면 테스트는 통과합니다.
 
 <a name="verifying-exact-match"></a>
-### Verifying Exact Match
-### 정확하게 일치하는지 확인하기
+### Verifying An Exact JSON Match
+### JSON이 정확하게 일치하는지 확인하기
 
 If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `assertExactJson` method:
 
@@ -170,9 +202,8 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
     use Tests\TestCase;
     use Illuminate\Http\UploadedFile;
     use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {

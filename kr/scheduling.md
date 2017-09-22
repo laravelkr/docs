@@ -5,6 +5,12 @@
 - [소개하기](#introduction)
 - [Defining Schedules](#defining-schedules)
 - [스케줄 정의하기](#defining-schedules)
+    - [Scheduling Artisan Commands](#scheduling-artisan-commands)
+    - [아티즌 명령어 스케줄링](#scheduling-artisan-commands)
+    - [Scheduling Queued Jobs](#scheduling-queued-jobs)
+    - [Queued Jobs 스케줄링](#scheduling-queued-jobs)
+    - [Scheduling Shell Commands](#scheduling-shell-commands)
+    - [쉘 명령어 스케줄링](#scheduling-shell-commands)
     - [Schedule Frequency Options](#schedule-frequency-options)
     - [스케줄링 주기 관련 옵션](#schedule-frequency-options)
     - [Preventing Task Overlaps](#preventing-task-overlaps)
@@ -82,17 +88,35 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling `Closure` calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
+<a name="scheduling-artisan-commands"></a>
+### Scheduling Artisan Commands
+### 아티즌 명령어 스케줄링
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+In addition to scheduling Closure calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
+
+클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
     $schedule->command(EmailsCommand::class, ['--force'])->daily();
 
-The `exec` command may be used to issue a command to the operating system:
+<a name="scheduling-queued-jobs"></a>
+### Scheduling Queued Jobs
+### Queued Jobs 스케줄링
 
-`exec` 커맨드는 os에 커맨드를 내리는 데에 쓰일 수 있습니다:
+The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues). This method provides a convenient way to schedule jobs without using the `call` method to manually create Closures to queue the job:
+
+`job` 메소드는 [queued job](/docs/{{version}}/queues)을 스케줄링 하는데 사용됩니다. 이 메소드는 queue job 을 위한 클로저를 직접 생성하고 `call` 메소드를 사용하지 않고도 job을 스케줄링 할 수 있도록 하는 편리한 방법을 제공합니다:
+
+    $schedule->job(new Heartbeat)->everyFiveMinutes();
+
+<a name="scheduling-shell-commands"></a>
+### Scheduling Shell Commands
+### 쉘 명령어 스케줄링
+
+The `exec` method may be used to issue a command to the operating system:
+
+`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -110,6 +134,7 @@ Method  | Description
 `->everyMinute();`  |  Run the task every minute
 `->everyFiveMinutes();`  |  Run the task every five minutes
 `->everyTenMinutes();`  |  Run the task every ten minutes
+`->everyFifteenMinutes();`  |  Run the task every fifteen minutes
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
 `->hourlyAt(17);`  |  Run the task every hour at 17 mins past the hour
@@ -129,6 +154,7 @@ Method  | Description
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyFiveMinutes();`  |  5분 간격으로 작업 실행
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
+`->everyFifteenMinutes();`  |  50분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행

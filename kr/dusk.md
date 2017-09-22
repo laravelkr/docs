@@ -232,11 +232,11 @@ To get started, let's write a test that verifies we can log into our application
     use App\User;
     use Tests\DuskTestCase;
     use Laravel\Dusk\Chrome;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
 
     class ExampleTest extends DuskTestCase
     {
-        use DatabaseMigrations;
+        use RefreshDatabase;
 
         /**
          * A basic browser test example.
@@ -615,6 +615,7 @@ Assertion  | Description
 `$browser->assertQueryStringMissing($name)`  |  Assert the given query string parameter is missing.
 `$browser->assertHasQueryStringParameter($name)`  |  Assert that the given query string parameter is present.
 `$browser->assertHasCookie($name)`  |  Assert the given cookie is present.
+`$browser->assertCookieMissing($name)`  |  Assert that the given cookie is not present.
 `$browser->assertCookieValue($name, $value)`  |  Assert a cookie has a given value.
 `$browser->assertPlainCookieValue($name, $value)`  |  Assert an unencrypted cookie has a given value.
 `$browser->assertSee($text)`  |  Assert the given text is present on the page.
@@ -653,6 +654,7 @@ Assertion  | 설명
 `$browser->assertQueryStringMissing($name)`  |  주어진 쿼리 스트링 파라미터가 없다는 것을 확인.
 `$browser->assertHasQueryStringParameter($name)`  |  주어진 쿼리 스트링 파라미터가 존재하는지 확인.
 `$browser->assertHasCookie($name)`  |  주어진 쿠키가 존재하는지 확인.
+`$browser->assertCookieMissing($name)`  |  주어진 쿠키가 존재하지 않는 것을 확인.
 `$browser->assertCookieValue($name, $value)`  |  쿠키가 주어진 값을 가지고 있는지 확인.
 `$browser->assertPlainCookieValue($name, $value)`  |  암호화 되지 않은 쿠키가 주어진 값을 가지고 있는지 확인.
 `$browser->assertSee($text)`  |  현재 페이지에 주어진 텍스트가 존재하는지 확인.

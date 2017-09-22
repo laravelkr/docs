@@ -55,22 +55,15 @@ Currently, Scout ships with an [Algolia](https://www.algolia.com/) driver; howev
 ## Installation
 ## 설치하기
 
-First, install the Scout via the Composer package manager:
+First, install Scout via the Composer package manager:
 
-첫번째로, 컴포저 패키지 매니저를 사용하여 스카우트를 설치하십시오:
-
+먼저, 컴포저 패키지 매니저를 사용하여 스카우트를 설치하십시오:
 
     composer require laravel/scout
 
-Next, you should add the `ScoutServiceProvider` to the `providers` array of your `config/app.php` configuration file:
+After installing Scout, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
 
-그 다음, `ScoutServiceProvider`를 `config/app.php` 설정파일의 `providers` 배열에 추가해야 합니다.
-
-    Laravel\Scout\ScoutServiceProvider::class,
-
-After registering the Scout service provider, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
-
-스카우트 서비스 프로바이더를 등록한 다음에는, `vendor:publish` 아티즌 명령을 사용하여 스카우트 설정을 등록해야 합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성될 것입니다.
+스카우트를 설치한 다음, `vendor:publish` 아티즌 명령어를 사용하여 스카우트 설정 파일을 퍼블리싱 해야합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성됩니다:
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 

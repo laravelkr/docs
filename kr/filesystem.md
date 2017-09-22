@@ -179,9 +179,9 @@ The `exists` method may be used to determine if a file exists on the disk:
 ### File URLs
 ### 파일 URL
 
-When using the `local` or `s3` drivers, you may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` driver, the fully qualified remote URL will be returned:
+You may use the `url` method to get the URL for the given file. If you are using the `local` driver, this will typically just prepend `/storage` to the given path and return a relative URL to the file. If you are using the `s3` or `rackspace` driver, the fully qualified remote URL will be returned:
 
-`local` 또는 `s3` 드라이버를 사용중일 때에는 주어진 파일에 대한 URL 을 얻기 위해서 `url` 메소드를 사용할 수 있습니다. `local` 드라이버를 사용중이라면 일반적으로 주어진 경로 앞에 `/storage` 를 덧붙여서 파일에 대한 URL이 반환됩니다. `s3` 드라이버를 사용중이라면 전체 URL이 반환됩니다:
+주어진 파일의 URL을 얻기 위해서 `url` 메소드를 사용할 수 있습니다. `local` 드라이버를 사용중이라면 일반적으로 주어진 경로 앞에 `/storage` 를 덧붙여서 파일에 대한 URL이 반환됩니다. `s3` 나 `rackspace` 드라이버를 사용중이라면 전체 URL이 반환됩니다:
 
     use Illuminate\Support\Facades\Storage;
 
@@ -194,9 +194,9 @@ When using the `local` or `s3` drivers, you may use the `url` method to get the 
 #### Temporary URLs
 #### 임시 URLs
 
-For files stored using the `s3` driver, you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
+For files stored using the `s3` or `rackspace` driver, you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
 
-`s3` 드라이버를 사용하여 파일을 저장할 때, `temporaryUrl` 메소드를 사용하여 파일에 접근하기 위한 임시 URL을 생성할 수 있습니다. 이 메소드는 파일의 경로 및 언제 URL이 만료되어야 하는지 지정한 `DateTime` 인스턴스를 인자로 받습니다:
+`s3` 또는 `rackspace`드라이버를 사용하여 파일을 저장할 때, `temporaryUrl` 메소드를 사용하여 파일에 접근하기 위한 임시 URL을 생성할 수 있습니다. 이 메소드는 파일의 경로 및 언제 URL이 만료되어야 하는지 지정한 `DateTime` 인스턴스를 인자로 받습니다:
 
     $url = Storage::temporaryUrl(
         'file1.jpg', Carbon::now()->addMinutes(5)

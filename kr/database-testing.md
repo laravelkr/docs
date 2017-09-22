@@ -5,10 +5,6 @@
 - [소개하기](#introduction)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
-    - [Using Migrations](#using-migrations)
-    - [마이그레이션 이용하기](#using-migrations)
-    - [Using Transactions](#using-transactions)
-    - [트랜잭션 이용하기](#using-transactions)
 - [Writing Factories](#writing-factories)
 - [팩토리 작성하기](#writing-factories)
     - [Factory States](#factory-states)
@@ -51,30 +47,21 @@ Of course, the `assertDatabaseHas` method and other helpers like it are for conv
 ## Resetting The Database After Each Test
 ## 각각의 테스트 수행 후에 데이터베이스 재설정하기
 
-It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests.
+It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests. The `RefreshDatabase` trait takes the most optimal approach to migrating your test database depending on if you are using an in-memory database or a traditional database. Simply use the trait on your test class and everything will be handled for you:
 
-종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 방지하기 위해 각 테스트 후에 데이터베이스를 재설정하는 것이 유용합니다.
-
-<a name="using-migrations"></a>
-### Using Migrations
-### 마이그레이션 이용하기
-
-One approach to resetting the database state is to rollback the database after each test and migrate it before the next test. Laravel provides a simple `DatabaseMigrations` trait that will automatically handle this for you. Simply use the trait on your test class and everything will be handled for you:
-
-데이터베이스를 재설정하는 하나의 방법은 각각의 테스트 수행 후에 데이터베이스를 롤백하고 다음 테스트를 수행하기 전에 다시 마이그레이션을 실행하는 것입니다. 라라벨은 `DatabaseMigrations` 트레이트-trait을 제공하여 이를 자동으로 처리 해줍니다. 테스트 클래스에서 이 트레이트-trait을 사용하기만 하면, 모든게 처리될것입니다:
+종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 막기 위해 각각의 테스트가 끝난 뒤에 데이터베이스를 재설정하는 것이 유용합니다. `RefreshDatabase` 트레이트-trait 은 전통적인 데이터베이스 또는 in-memory 데이터베이스를 사용하는 경우 여러분의 테스트 데이터베이스를 마이그레이션 하는데 가장 적합한 방법입니다. 간단하게 테스트 클래스에 트레이트-trait를 사용하면 손쉽게 처리됩니다:
 
     <?php
 
     namespace Tests\Feature;
 
     use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
-        use DatabaseMigrations;
+        use RefreshDatabase;
 
         /**
          * A basic functional test example.
@@ -122,10 +109,6 @@ Another approach to resetting the database state is to wrap each test case in a 
             // ...
         }
     }
-
-> {note} By default, this trait will only wrap the default database connection in a transaction. If your application is using multiple database connections, you should define a `$connectionsToTransact` property on your test class. This property should be an array of connection names to execute the transactions on.
-
-> {note} 기본적으로, 이 트레이트-trait은 트랜잭션의 기본 데이터베이스 커넥션만을 랩핑(wrap) 하게 됩니다. 만약 어플리케이션에서 여러개의 데이터베이스 커넥션을 사용중이라면, 테스트 클래스에 `$connectionsToTransact` 속성을 정의해야 합니다. 수동으로 이 커넥션들을 위한 트랙잭션 처리를 할 필요가 있을 것입니다. 이 속성은 트랜젝션이 실행될 커넥션 이름의 배열이어야 합니다.
 
 <a name="writing-factories"></a>
 ## Writing Factories

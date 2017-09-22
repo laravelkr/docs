@@ -61,6 +61,23 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
         //
     }
 
+#### Creating The First Available View
+#### 사용가능한 뷰 파일 생성하기
+
+Using the `first` method, you may create the first view that exists in a given array of views. This is useful if your application or package allows views to be customized or overwritten:
+
+`first` 메소드를 사용하면, 주어진 배열에 있는 뷰를 생성할 수 있습니다. 이는 어플리케이션 또는 패키지에서 뷰파일을 커스마이징 하거나, 덮어 쓸 필요가 있는 경우 유용합니다:
+
+    return view()->first(['custom.admin', 'admin'], $data);
+
+Of course, you may also call this method via the `View` [facade](/docs/{{version}}/facades):
+
+당연하게도, `View` [파사드](/docs/{{version}}/facades)를 통해서도 이 메소드를 호출할 수 있습니다:
+
+    use Illuminate\Support\Facades\View;
+
+    return View::first(['custom.admin', 'admin'], $data);
+
 <a name="passing-data-to-views"></a>
 ## Passing Data To Views
 ## 뷰에 데이터 전달하기

@@ -438,6 +438,31 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 
     return $this->belongsToMany('App\Role')->withTimestamps();
 
+#### Customizing The `pivot` Attribute Name
+#### `pivot` 속성의 이름 커스터마이징 하기
+
+As noted earlier, attributes from the intermediate table may be accessed on models using the `pivot` attribute. However, you are free to customize the name of this attribute to better reflect its purpose within your application.
+
+앞서 이야기 한것처럼, 모델에서 `pivot` 속성을 사용하여 중간 테이블의 속성에 엑세스 할 수 있습니다. 그렇지만 어플리케이션에서 용도를 보다 명확하게 표현할 수 있도록 속성의 이름을 자유롭게 커스터마이징 할 수 있습니다.
+
+For example, if your application contains users that may subscribe to podcasts, you probably have a many-to-many relationship between users and podcasts. If this is the case, you may wish to rename your intermediate table accessor to `subscription` instead of `pivot`. This can be done using the `as` method when defining the relationship:
+
+예를 들어, 어플리케이션에서 팟캐스트를 등록할 수 있는 사용자를 가지는 경우, 사용자와 팟캐스트는 다대다 관계를 형성할 수 있습니다. 이 경우 중간 테이블에 엑세스 하는 `pivot` 대신에 `subscription` 으로 이름을 변경할 수 있습니다. 이는 관계를 정의 할 때 `as` 메소드를 사용하여 지정하면 됩니다:
+
+    return $this->belongsToMany('App\Podcast')
+                    ->as('subscription')
+                    ->withTimestamps();
+
+Once this is done, you may access the intermediate table data using the customized name:
+
+이 후에는, 다음과 같이 커스터마이징한 이름을 사용하여 중간 테이블에 엑세스 할 수 있습니다:
+
+    $users = User::with('podcasts')->get();
+
+    foreach ($users->flatMap->podcasts as $podcast) {
+        echo $podcast->subscription->created_at;
+    }
+
 #### Filtering Relationships Via Intermediate Table Columns
 #### 중간 테이블의 컬럼을 사용한 관계의 필터링
 
@@ -1010,6 +1035,19 @@ To eager load nested relationships, you may use "dot" syntax. For example, let's
 "점" 구문을 이용하면 중첩된 관계들을 eager 로드할 수 있습니다. 예를 들어, 하나의 Eloquent 구문(statement)에서 책의 모든 저자들과 저자들의 모든 연락처를 eager 로드해보겠습니다:
 
     $books = App\Book::with('author.contacts')->get();
+
+#### Eager Loading Specific Columns
+#### Eager 로딩에서 컬럼 지정하기
+
+You may not always need every column from the relationships you are retrieving. For this reason, Eloquent allows you to specify which columns of the relationship you would like to retrieve:
+
+조회하고자 하는 관계에서 항상 모든 컬럼이 필요한 것은 아닙니다. 이 경우, Eloquent 는 조회하고자 하는 관계에 컬럼을 지정할 수 있습니다:
+
+    $users = App\Book::with('author:id,name')->get();
+
+> {note} When using this feature, you should always include the `id` column in the list of columns you wish to retrieve.
+
+> {note} 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼이 포함되어 있어야 합니다.
 
 <a name="constraining-eager-loads"></a>
 ### Constraining Eager Loads

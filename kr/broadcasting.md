@@ -620,7 +620,7 @@ Presence channels build on the security of private channels while exposing the a
 
 프레젠스 채널은 비공개 채널에 누가 채널을 구독하고 있는지 알려주는 기능을 추가해줍니다. 프레젠스 채널은 다른 사용자가 같은 페이지를 보고 있을 때 알림을 보내는 것과 같은 강력하고, 협동적인 애플리케이션을 만들기 쉽게 해줍니다.
 
-<a name="joining-a-presence-channel"></a>
+<a name="authorizing-presence-channels"></a>
 ### Authorizing Presence Channels
 ### 프레젠스 채널 승인하기
 

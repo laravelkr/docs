@@ -212,6 +212,14 @@ If the item does not exist in the cache, the `Closure` passed to the `remember` 
 
 캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `클로저` 가 실행되어 캐시에 값을 저장하게 됩니다.
 
+You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
+
+어떤 아이템을 조회하고 이를 영원히 기억하도록 `rememberForever` 메소드를 사용할 수 있습니다:
+
+    $value = Cache::rememberForever('users', function() {
+        return DB::table('users')->get();
+    });
+
 #### Retrieve & Delete
 #### 조회 & 삭제하기
 

@@ -557,6 +557,14 @@ Using the `queue` method on the `Artisan` facade, you may even queue Artisan com
         //
     });
 
+You may also specify the connection or queue the Artisan command should be dispatched to:
+
+또한 Artisan 명령어가 어떻게 처리되어야 하는지 커넥션 또는 큐-queue를 지정할 수도 있습니다:
+
+    Artisan::queue('email:send', [
+        'user' => 1, '--queue' => 'default'
+    ])->onConnection('redis')->onQueue('commands');
+
 #### Passing Array Values
 #### 배열값 전달하기
 

@@ -105,6 +105,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [mode](#method-mode)
 [nth](#method-nth)
 [only](#method-only)
+[pad](#method-pad)
 [partition](#method-partition)
 [pipe](#method-pipe)
 [pluck](#method-pluck)
@@ -1038,6 +1039,31 @@ The `only` method returns the items in the collection with the specified keys:
 For the inverse of `only`, see the [except](#method-except) method.
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
+
+<a name="method-pad"></a>
+#### `pad()` {#collection-method}
+
+The `pad` method will fill the array with the given value until the array reaches the specified size. This method behaves like the [array_pad](https://secure.php.net/manual/en/function.array-pad.php) PHP function.
+
+`pad` 메소드는 배열이 지정된 사이즈에 도달할 때까지, 배열을 주어진 값으로 채웁니다. 이 메소드는 [array_pad](https://secure.php.net/manual/en/function.array-pad.php) PHP 함수와 같은 형태로 동작합니다.
+
+To pad to the left, you should specify a negative size. No padding will take place if the absolute value of the given size is less than or equal to the length of the array:
+
+배열의 앞쪽을 채우기 위해서는 사이즈를 음수로 지정하면 됩니다. 주어진 사이즈의 절대 값이 배열의 길이보다 작거나 같으면 메소드는 실행되지 않습니다.
+
+    $collection = collect(['A', 'B', 'C']);
+
+    $filtered = $collection->pad(5, 0);
+
+    $filtered->all();
+
+    // ['A', 'B', 'C', 0, 0]
+
+    $filtered = $collection->pad(-5, 0);
+
+    $filtered->all();
+
+    // [0, 0, 'A', 'B', 'C']
 
 <a name="method-partition"></a>
 #### `partition()` {#collection-method}

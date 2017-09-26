@@ -251,6 +251,15 @@ resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있
         'create', 'store', 'update', 'destroy'
     ]]);
 
+#### API Resource Routes
+#### API 리소스 라우트
+
+When declaring resource routes that will be consumed by APIs, you will commonly want to exclude routes that present HTML templates such as `create` and `edit`. For convenience, you may use the `apiResource` method to automatically exclude these two routes:
+
+API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 `create`, `edit`와 같은 HTML 템플릿을 표시하는 라우트는 제외하기를 원합니다. 편의를 위해서 `apiResource`를 사용하면 이 두가지의 라우트를 제외할 수 있습니다:
+
+    Route::apiResource('photo', 'PhotoController');
+
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes
 ### resource 라우트 이름 지정하기

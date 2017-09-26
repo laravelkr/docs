@@ -25,9 +25,17 @@ Laravel 5.5 requires PHP 7.0.0 or higher.
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`. Finally, add `filp/whoops` version `~2.0` to the `require-dev` section of your `composer.json` file.
+Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` file. In addition, you should update your `phpunit/phpunit` dependency to `~6.0`. Next, add the `filp/whoops` package with version `~2.0` to the `require-dev` section of your `composer.json` file. Finally, in the `scripts` section of your `composer.json` file, add the `package:discover` command to the `post-autoload-dump` event:
 
-`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다. 끝으로 `composer.json` 파일의 `require-dev` 부분에 `filp/whoops` 버전 `~2.0`을 추가하십시오.
+`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다. 다음으로 `composer.json` 파일의 `require-dev` 부분에 `filp/whoops` 버전 `~2.0`을 추가하십시오. 마지막으로, `composer.json` 파일의 `scripts` 부분에 `post-autoload-dump` 이벤트에 `package:discover` 명령어를 실행하도록 추가하십시오:
+
+    "scripts": {
+        ...
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ],
+    }
 
 Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.5 support.
 

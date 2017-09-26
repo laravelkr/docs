@@ -296,6 +296,10 @@ If you would like to deny all authorizations for a user you should return `false
 
 특정 한 사용자에게 모든 권한을 허용하지 않으려면, `before` 메소드에서 `false` 를 반환해야 합니다. 만약 `null`이 반환되면, policy 메소드에 대한 권한 확인이 실패해버립니다.
 
+> {note} The `before` method of a policy class will not be called if the class doesn't contain a method with a name matching the name of the ability being checked.
+
+> {note} 클래스가 확인하고자 하는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
+
 <a name="authorizing-actions-using-policies"></a>
 ## Authorizing Actions Using Policies
 ## Policy 를 사용하여 액션의 권한승인하기

@@ -123,9 +123,9 @@ Note that we did not tell Eloquent which table to use for our `Flight` model. By
 #### Primary Keys
 #### Primary Keys
 
-Eloquent will also assume that each table has a primary key column named `id`. You may define a `$primaryKey` property to override this convention.
+Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention.
 
-Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
+Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. protected `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
 
 In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`.
 

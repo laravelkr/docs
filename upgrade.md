@@ -11,7 +11,15 @@
 
 ### 의존성 업데이트
 
-`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다. 끝으로 `composer.json` 파일의 `require-dev` 부분에 `filp/whoops` 버전 `~2.0`을 추가하십시오.
+`composer.json` 파일에 있는 laravel/framework 의존성을 `5.5.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~6.0` 으로 업데이트 해야 합니다. 다음으로 `composer.json` 파일의 `require-dev` 부분에 `filp/whoops` 버전 `~2.0`을 추가하십시오. 마지막으로, `composer.json` 파일의 `scripts` 부분에 `post-autoload-dump` 이벤트에 `package:discover` 명령어를 실행하도록 추가하십시오:
+
+    "scripts": {
+        ...
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ],
+    }
 
 또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 

@@ -239,6 +239,16 @@
         // The user is not authenticated...
     @endguest
 
+필요한 경우, `@auth` 와 `@guest` 지시어에 체크하고자 하는 [인증 guard](/docs/{{version}}/authentication)를 지정할 수 있습니다:
+
+    @auth('admin')
+        // The user is authenticated...
+    @endauth
+
+    @guest('admin')
+        // The user is not authenticated...
+    @endguest
+
 <a name="switch-statements"></a>
 ### 스위치 구문
 

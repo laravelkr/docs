@@ -348,7 +348,25 @@
 <a name="method-array-sort"></a>
 #### `array_sort()` {#collection-method}
 
-`array_sort` 함수는 주어진 클로져의 결과 값으로 배열을 정렬합니다:
+`array_sort` 함수는 값을 기반으로 정렬을 수행합니다:
+
+    $array = [
+        'Desk',
+        'Table',
+        'Chair',
+    ];
+
+    $array = array_sort($array);
+
+    /*
+        [
+            'Chair',
+            'Desk',
+            'Table',
+        ]
+    */
+
+또한 주어진 클로저의 결과 값으로 배열을 정렬 할 수 있습니다:
 
     $array = [
         ['name' => 'Desk'],

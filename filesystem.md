@@ -342,8 +342,8 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     use Storage;
     use League\Flysystem\Filesystem;
-    use Spatie\Dropbox\Client as DropboxClient;
     use Illuminate\Support\ServiceProvider;
+    use Spatie\Dropbox\Client as DropboxClient;
     use Spatie\FlysystemDropbox\DropboxAdapter;
 
     class DropboxServiceProvider extends ServiceProvider

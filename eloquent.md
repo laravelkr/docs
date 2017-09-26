@@ -82,7 +82,7 @@
 
 #### Primary Keys
 
-Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
+Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. protected `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
 
 추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary Key를 `int`로 자동 캐시팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다.
 

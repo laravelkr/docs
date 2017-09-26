@@ -909,7 +909,7 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 `where` 메소드를 사용하여 쿼리를 커스터마이징하는 추가 제약을 지정할 수 있습니다. 예를 들어, `account_id`이 `1`인지 확인하는 제약 조건을 추가해 보겠습니다:
 
     'email' => Rule::unique('users')->where(function ($query) {
-        $query->where('account_id', 1);
+        return $query->where('account_id', 1);
     })
 
 <a name="rule-url"></a>

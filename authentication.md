@@ -533,4 +533,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
         'Illuminate\Auth\Events\Lockout' => [
             'App\Listeners\LogLockout',
         ],
+        'Illuminate\Auth\Events\PasswordReset' => [
+            'App\Listeners\LogPasswordReset',
+        ],
     ];

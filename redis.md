@@ -124,8 +124,8 @@ PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵�
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\Redis;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Redis;
 
     class UserController extends Controller
     {

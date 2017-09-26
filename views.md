@@ -42,6 +42,18 @@
         //
     }
 
+#### 사용가능한 뷰 파일 생성하기
+
+`first` 메소드를 사용하면, 주어진 배열에 있는 뷰를 생성할 수 있습니다. 이는 어플리케이션 또는 패키지에서 뷰파일을 커스마이징 하거나, 덮어 쓸 필요가 있는 경우 유용합니다:
+
+    return view()->first(['custom.admin', 'admin'], $data);
+
+당연하게도, `View` [파사드](/docs/{{version}}/facades)를 통해서도 이 메소드를 호출할 수 있습니다:
+
+    use Illuminate\Support\Facades\View;
+
+    return View::first(['custom.admin', 'admin'], $data);
+
 <a name="passing-data-to-views"></a>
 ## 뷰에 데이터 전달하기
 

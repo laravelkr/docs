@@ -449,8 +449,7 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
         ],
     ]);
 
-    echo json_decode((string) $response->getBody(), true);
-
+    return json_decode((string) $response->getBody(), true)['access_token'];
 
 <a name="personal-access-tokens"></a>
 ## 개인용 엑세스 토큰

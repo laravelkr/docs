@@ -9,6 +9,7 @@
     - [디렉토리 구조](/docs/{{version}}/structure)
     - [홈스테드](/docs/{{version}}/homestead)
     - [발렛-Valet](/docs/{{version}}/valet)
+    - [배포](/docs/{{version}}/deployment)
 - 설계 컨셉
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [서비스 컨테이너](/docs/{{version}}/container)
@@ -23,6 +24,7 @@
     - [Requests-요청](/docs/{{version}}/requests)
     - [Responses-응답](/docs/{{version}}/responses)
     - [뷰](/docs/{{version}}/views)
+    - [URL 생성](/docs/{{version}}/urls)
     - [세션](/docs/{{version}}/session)
     - [Validation-유효성검사](/docs/{{version}}/validation)
     - [에러 & 로깅](/docs/{{version}}/errors)

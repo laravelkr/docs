@@ -6,6 +6,7 @@
     - [JSON 으로 Serializing](#serializing-to-json)
 - [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
+- [날짜 Serialization](#date-serialization)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -145,3 +146,40 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
     }
 
 속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다.
+
+<a name="date-serialization"></a>
+## 날짜 Serialization
+
+라라벨은 Carbon의 JSON 시리얼라이즈 포맷을 편리하게 정의할 수 있도록 [Carbon](https://github.com/briannesbitt/Carbon) 날짜 라이브러리를 확장하고 있습니다. 어플리케이션에서 시리얼라이즈 되는 모든 Carbon 날짜를 커스터마이징 하려면 `Carbon::serializeUsing` 메소드를 사용하면 됩니다. `Carbon::serializeUsing` 메소드는 JSON 시리얼라이즈되는 날짜의 문자형식을 반환하는 클로저를 인자로 받습니다:
+
+    <?php
+
+    namespace App\Providers;
+
+    use Illuminate\Support\Carbon;
+    use Illuminate\Support\ServiceProvider;
+
+    class AppServiceProvider extends ServiceProvider
+    {
+        /**
+         * Perform post-registration booting of services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Carbon::serializeUsing(function ($carbon) {
+                return $carbon->format('U');
+            });
+        }
+
+        /**
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+    }

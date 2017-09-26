@@ -2,6 +2,9 @@
 
 - [소개하기](#introduction)
 - [스케줄 정의하기](#defining-schedules)
+    - [아티즌 명령어 스케줄링](#scheduling-artisan-commands)
+    - [Queued Jobs 스케줄링](#scheduling-queued-jobs)
+    - [쉘 명령어 스케줄링](#scheduling-shell-commands)
     - [스케줄링 주기 관련 옵션](#schedule-frequency-options)
     - [작업의 중복 방지](#preventing-task-overlaps)
     - [공사중 모드](#maintenance-mode)
@@ -61,13 +64,26 @@
         }
     }
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+<a name="scheduling-artisan-commands"></a>
+### 아티즌 명령어 스케줄링
+
+클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
     $schedule->command(EmailsCommand::class, ['--force'])->daily();
 
-`exec` 커맨드는 os에 커맨드를 내리는 데에 쓰일 수 있습니다:
+<a name="scheduling-queued-jobs"></a>
+### Queued Jobs 스케줄링
+
+`job` 메소드는 [queued job](/docs/{{version}}/queues)을 스케줄링 하는데 사용됩니다. 이 메소드는 queue job 을 위한 클로저를 직접 생성하고 `call` 메소드를 사용하지 않고도 job을 스케줄링 할 수 있도록 하는 편리한 방법을 제공합니다:
+
+    $schedule->job(new Heartbeat)->everyFiveMinutes();
+
+<a name="scheduling-shell-commands"></a>
+### 쉘 명령어 스케줄링
+
+`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -82,6 +98,7 @@
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyFiveMinutes();`  |  5분 간격으로 작업 실행
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
+`->everyFifteenMinutes();`  |  50분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행

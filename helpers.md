@@ -103,9 +103,11 @@
 - [method_field](#method-method-field)
 - [now](#method-now)
 - [old](#method-old)
+- [optional](#method-optional)
 - [redirect](#method-redirect)
 - [report](#method-report)
 - [request](#method-request)
+- [rescue](#method-rescue)
 - [response](#method-response)
 - [retry](#method-retry)
 - [session](#method-session)
@@ -730,9 +732,9 @@ The `title_case` function converts the given string to `Title Case`:
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러는 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
+`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
 
-    $url = action('HomeController@getIndex');
+    $url = action('HomeController@index');
 
 메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오:
 
@@ -750,7 +752,7 @@ HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기
 
 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
-    echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -986,6 +988,15 @@ An array of contextual data may also be passed to the function:
 
     $value = old('value', 'default');
 
+<a name="method-optional"></a>
+#### `optional()` {#collection-method}
+
+`optional` 함수는 인자를 전달받아 해당 객체의 프로퍼티에 엑세스 하거나, 메소드를 호출할 수 있도록 합니다. 지정된 객체가 `null` 이라면, 프로퍼티와 메소드는 에러를 유발하는 대신에 `null` 을 반환합니다:
+
+    return optional($user->address)->street;
+
+    {!! old('name', optional($user)->name) !!}
+
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
@@ -1010,6 +1021,27 @@ An array of contextual data may also be passed to the function:
     $request = request();
 
     $value = request('key', $default = null)
+
+<a name="method-rescue"></a>
+#### `rescue()` {#collection-method}
+
+`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외-exception을 받아냅니다. catch 된 모든 예외-exception은 예외-exception 핸들러의 `report` 메소드로 전달되지만, request-요청 에 대한 처리는 계속됩니다:
+
+    return rescue(function () {
+        return $this->method();
+    });
+
+`rescue` 함수에는 두번째 인자를 전달 할 수 있는데, 이 인자는 클로저를 실행하는 동안 예외-exception가 발생하면 반환된 "기본값" 입니다:
+
+    return rescue(function () {
+        return $this->method();
+    }, false);
+
+    return rescue(function () {
+        return $this->method();
+    }, function () {
+        return $this->failure();
+    });
 
 <a name="method-response"></a>
 #### `response()` {#collection-method}

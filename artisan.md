@@ -424,6 +424,12 @@ CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 
         //
     });
 
+또한 Artisan 명령어가 어떻게 처리되어야 하는지 커넥션 또는 큐-queue를 지정할 수도 있습니다:
+
+    Artisan::queue('email:send', [
+        'user' => 1, '--queue' => 'default'
+    ])->onConnection('redis')->onQueue('commands');
+
 #### 배열값 전달하기
 
 명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다:

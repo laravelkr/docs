@@ -148,7 +148,7 @@
 
     The current UNIX timestamp is {{ time() }}.
 
-> {note} 블레이드 `{{ }}` 문장들은 XSS 공격을 방지하기 위해 자동으로 PHP의 'htmlspecialchars' 함수를 통과합니다.
+> {tip} 블레이드 `{{ }}` 문장들은 XSS 공격을 방지하기 위해 자동으로 PHP의 'htmlspecialchars' 함수를 통과합니다.
 
 #### Escape 처리되지 않은 데이터 표시하기
 
@@ -157,6 +157,20 @@
     Hello, {!! $name !!}.
 
 > {note} 어플리케이션의 사용자들로 부터 입력하여 표시되는 컨텐츠를 출력할 때는 escape-이스케이프에 대한 주의가 필요합니다. 사용자가 제공 한 데이터를 표시 할 때 XSS 공격을 방지하려면 항상 이스케이프 처리 된 이중 중괄호 문법을 사용하십시오.
+
+#### JSON 렌더링
+
+때로는 다음의 예와 같이, 자바스크립트 변수를 초기화하는데 사용하기 위해서 뷰에 배열을 전달하여 json으로 렌더링하기를 원할수도 있습니다:
+
+    <script>
+        var app = <?php echo json_encode($array); ?>;
+    </script>
+
+직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시얼르 사용할 수 있습니다:
+
+    <script>
+        var app = @json($array)
+    </script>
 
 <a name="blade-and-javascript-frameworks"></a>
 ### 블레이드 & 자바스크립트 프레임워크

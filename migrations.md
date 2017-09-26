@@ -255,7 +255,7 @@
 Modifier  | 설명
 ------------- | -------------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮기세요 (MySQL의 경우에만)
-`->comment('my comment')`  |  컬럼에 코멘트 추가
+`->comment('my comment')`  |  컬럼에 코멘트 추가 (MySQL의 경우에만)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  테이블에 컬럼을 "맨 처음" 위치로 옮기세요 (MySQL의 경우에만) 
 `->nullable()`  |  NULL 값들이 컬럼에 입력되는 것을 허용합니다

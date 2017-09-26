@@ -7,6 +7,7 @@
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [프로젝트별 설치하기](#per-project-installation)
     - [MariaDB 설치하기](#installing-mariadb)
+    - [별칭 설정](#aliases)
 - [사용 방법](#daily-usage)
     - [어디에서나 홈스테드 엑세스하기](#accessing-homestead-globally)
     - [SSH로 접속하기 ](#connecting-via-ssh)
@@ -190,6 +191,16 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
     cpus: 4
     provider: virtualbox
     mariadb: true
+
+<a name="aliases"></a>
+### 별칭 설정
+
+홈스테드 디렉토리에 있는 `aliases` 파일을 수정하여 홈스테드 머신에 Bash 별칭을 추가할 수 있습니다:
+
+    alias c='clear'
+    alias ..='cd ..'
+
+`aliases` 파일을 수정한 뒤에는 `vagrant reload --provision` 명령어를 사용하여 홈스테드 머신을 다시 프로비저닝 하십시오. 이렇게 하면 머신에서 새로운 별칭이 사용가능해집니다.
 
 <a name="daily-usage"></a>
 ## 사용 방법

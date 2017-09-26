@@ -1,6 +1,7 @@
 # HTTP 테스트
 
 - [소개](#introduction)
+    - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
 - [세션 / 인증](#session-and-authentication)
 - [JSON API 테스팅](#testing-json-apis)
 - [파일 업로드 테스트하기](#testing-file-uploads)
@@ -16,9 +17,8 @@
     namespace Tests\Feature;
 
     use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -36,6 +36,34 @@
     }
 
 `get` 메소드는 어플리케이션에 `GET` request-요청을 만들고, `assertStatus` 메소드는 반환된 response-응답이 주어진 HTTP 상태 코드와 일치하는지 확인합니다. 간단한 테스트에 더해, 라라벨은 response의 헤더값, 컨텐츠, JSON 구조 및 기타 확인을 할 수 있는 기능을 제공합니다.
+
+<a name="customizing-request-headers"></a>
+### 요청-Request 헤더 커스터마이징하기
+
+`withHeaders` 메소드를 사용하여 요청-requestr가 어플리케이션에 전달되기 전에 헤더를 커스터마이징 할 수 있습니다. 이를 통해 요청-request에 커스텀 헤더를 추가 할 수 있습니다:
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $response = $this->withHeaders([
+                'X-Header' => 'Value',
+            ])->json('POST', '/user', ['name' => 'Sally']);
+
+            $response
+                ->assertStatus(200)
+                ->assertJson([
+                    'created' => true,
+                ]);
+        }
+    }
 
 <a name="session-and-authentication"></a>
 ## 세션 / 인증
@@ -104,7 +132,7 @@
 > {tip} `assertJson` 메소드는 response-응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 어플리케이션에서 반환된 JSON 배열 안에 주어진 내용이 존재하는지 확인합니다. 따라서 JSON response-응답에 다른 속성이 있더라도, 주어진 내용이 존재하면 테스트는 통과합니다.
 
 <a name="verifying-exact-match"></a>
-### 정확하게 일치하는지 확인하기
+### JSON이 정확하게 일치하는지 확인하기
 
 주어진 배열이 반환된 JSON과 **정확히** 일치하는지 확인하고자 한다면, `assertExactJson` 메소드를 사용하면 됩니다:
 
@@ -141,9 +169,8 @@
     use Tests\TestCase;
     use Illuminate\Http\UploadedFile;
     use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {

@@ -28,9 +28,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use Tests\TestCase;
     use App\Jobs\ShipOrder;
     use Illuminate\Support\Facades\Bus;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -62,9 +61,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use App\Events\OrderShipped;
     use App\Events\OrderFailedToShip;
     use Illuminate\Support\Facades\Event;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -97,9 +95,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use Tests\TestCase;
     use App\Mail\OrderShipped;
     use Illuminate\Support\Facades\Mail;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -145,9 +142,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use Tests\TestCase;
     use App\Notifications\OrderShipped;
     use Illuminate\Support\Facades\Notification;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -189,9 +185,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use Tests\TestCase;
     use App\Jobs\ShipOrder;
     use Illuminate\Support\Facades\Queue;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -228,9 +223,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     use Tests\TestCase;
     use Illuminate\Http\UploadedFile;
     use Illuminate\Support\Facades\Storage;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class ExampleTest extends TestCase
     {
@@ -286,9 +280,8 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     use Tests\TestCase;
     use Illuminate\Support\Facades\Cache;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     class UserControllerTest extends TestCase
     {

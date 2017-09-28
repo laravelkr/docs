@@ -86,12 +86,6 @@ The only remaining step is to install Laravel Mix. Within a fresh installation o
 
     npm install
 
-If you are developing on a Windows system or you are running your VM on a Windows host system, you may need to run the `npm install` command with the `--no-bin-links` switch enabled:
-
-여러분이 Windows 시스템에서 개발하고 있는 경우, 또는 Windows를 호스트로 가상 머신을 실행하는 경우에는 `--no-bin-links` 를 사용하여 `npm install` 명령어를 실행하십시오.
-
-    npm install --no-bin-links
-
 <a name="running-mix"></a>
 ## Running Mix
 ## Mix 실행하기

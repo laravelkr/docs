@@ -50,10 +50,6 @@ Mix를 사용하기전 여러분의 작업환경에 Node.js와 NPM이 설치되�
 
     npm install
 
-여러분이 Windows 시스템에서 개발하고 있는 경우, 또는 Windows를 호스트로 가상 머신을 실행하는 경우에는 `--no-bin-links` 를 사용하여 `npm install` 명령어를 실행하십시오.
-
-    npm install --no-bin-links
-
 <a name="running-mix"></a>
 ## Mix 실행하기
 

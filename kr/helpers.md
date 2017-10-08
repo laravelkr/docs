@@ -188,7 +188,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 <a name="method-array-add"></a>
 #### `array_add()` {#collection-method .first-collection-method}
 
-The `array_add` function adds a given key / value pair to the array if the given key doesn't already exist in the array:
+The `array_add` function adds a given key / value pair to an array if the given key doesn't already exist in the array:
 
 `array_add` 함수는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다:
 
@@ -210,9 +210,9 @@ The `array_collapse` function collapses an array of arrays into a single array:
 <a name="method-array-divide"></a>
 #### `array_divide()` {#collection-method}
 
-The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the original array:
+The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`array_divide` 함수는 원래의 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
+`array_divide` 함수는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
 
     list($keys, $values) = array_divide(['name' => 'Desk']);
 
@@ -227,14 +227,16 @@ The `array_dot` function flattens a multi-dimensional array into a single level 
 
 `array_dot` 함수는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다:
 
-    $array = array_dot(['foo' => ['bar' => 'baz']]);
+    $array = ['products' => ['desk' => ['price' => 100]]];
 
-    // ['foo.bar' => 'baz'];
+    $flattened = array_dot($array);
+
+    // ['products.desk.price' => 100]
 
 <a name="method-array-except"></a>
 #### `array_except()` {#collection-method}
 
-The `array_except` function removes the given key / value pairs from the array:
+The `array_except` function removes the given key / value pairs from an array:
 
 `array_except` 메소드는 주어진 키 / 값 쌍을 배열에서 제거합니다.
 
@@ -253,7 +255,7 @@ The `array_first` function returns the first element of an array passing a given
 
     $array = [100, 200, 300];
 
-    $value = array_first($array, function ($value, $key) {
+    $first = array_first($array, function ($value, $key) {
         return $value >= 150;
     });
 
@@ -263,20 +265,20 @@ A default value may also be passed as the third parameter to the method. This va
 
 메소드에 세번째 파라미터로 기본 값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다:
 
-    $value = array_first($array, $callback, $default);
+    $first = array_first($array, $callback, $default);
 
 <a name="method-array-flatten"></a>
 #### `array_flatten()` {#collection-method}
 
-The `array_flatten` function will flatten a multi-dimensional array into a single level.
+The `array_flatten` function flattens a multi-dimensional array into a single level array:
 
-`array_flatten` 함수는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다.
+`array_flatten` 함수는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다:
 
     $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
 
-    $array = array_flatten($array);
+    $flattened = array_flatten($array);
 
-    // ['Joe', 'PHP', 'Ruby'];
+    // ['Joe', 'PHP', 'Ruby']
 
 <a name="method-array-forget"></a>
 #### `array_forget()` {#collection-method}
@@ -300,30 +302,32 @@ The `array_get` function retrieves a value from a deeply nested array using "dot
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    $value = array_get($array, 'products.desk');
+    $price = array_get($array, 'products.desk.price');
 
-    // ['price' => 100]
+    // 100
 
 The `array_get` function also accepts a default value, which will be returned if the specific key is not found:
 
 `array_get` 함수는 특정 키를 찾지 못한 경우 반환되는 기본값을 지정할 수도 있습니다.
 
-    $value = array_get($array, 'names.john', 'default');
+    $discount = array_get($array, 'products.desk.discount', 0);
+
+    // 0
 
 <a name="method-array-has"></a>
 #### `array_has()` {#collection-method}
 
-The `array_has` function checks that a given item or items exists in an array using "dot" notation:
+The `array_has` function checks whether a given item or items exists in an array using "dot" notation:
 
 `array_has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
 
-    $array = ['product' => ['name' => 'desk', 'price' => 100]];
+    $array = ['product' => ['name' => 'Desk', 'price' => 100]];
 
-    $hasItem = array_has($array, 'product.name');
+    $contains = array_has($array, 'product.name');
 
     // true
 
-    $hasItems = array_has($array, ['product.price', 'product.discount']);
+    $contains = array_has($array, ['product.price', 'product.discount']);
 
     // false
 
@@ -336,7 +340,7 @@ The `array_last` function returns the last element of an array passing a given t
 
     $array = [100, 200, 300, 110];
 
-    $value = array_last($array, function ($value, $key) {
+    $last = array_last($array, function ($value, $key) {
         return $value >= 150;
     });
 
@@ -346,44 +350,44 @@ A default value may be passed as the third argument to the method. This value wi
 
 메소드의 세번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다:
 
-    $value = array_last($array, $callback, $default);
+    $last = array_last($array, $callback, $default);
 
 <a name="method-array-only"></a>
 #### `array_only()` {#collection-method}
 
-The `array_only` function will return only the specified key / value pairs from the given array:
+The `array_only` function returns only the specified key / value pairs from the given array:
 
 `array_only` 함수는 특정한 키 / 값 쌍만을 배열로부터 반환합니다:
 
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
 
-    $array = array_only($array, ['name', 'price']);
+    $slice = array_only($array, ['name', 'price']);
 
     // ['name' => 'Desk', 'price' => 100]
 
 <a name="method-array-pluck"></a>
 #### `array_pluck()` {#collection-method}
 
-The `array_pluck` function will pluck a list of the given key / value pairs from the array:
+The `array_pluck` function retrieves all of the values for a given key from an array:
 
-`array_pluck` 함수는 배열로부터 주어진 키 / 값 쌍의 리스트를 뽑아냅니다:
+`array_pluck` 함수는 배열로부터 주어진 키 / 값 쌍의 리스트를 조회합니다:
 
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
         ['developer' => ['id' => 2, 'name' => 'Abigail']],
     ];
 
-    $array = array_pluck($array, 'developer.name');
+    $names = array_pluck($array, 'developer.name');
 
-    // ['Taylor', 'Abigail'];
+    // ['Taylor', 'Abigail']
 
 You may also specify how you wish the resulting list to be keyed:
 
 리스트만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다:
 
-    $array = array_pluck($array, 'developer.name', 'developer.id');
+    $names = array_pluck($array, 'developer.name', 'developer.id');
 
-    // [1 => 'Taylor', 2 => 'Abigail'];
+    // [1 => 'Taylor', 2 => 'Abigail']
 
 <a name="method-array-prepend"></a>
 #### `array_prepend()` {#collection-method}
@@ -396,7 +400,7 @@ The `array_prepend` function will push an item onto the beginning of an array:
 
     $array = array_prepend($array, 'zero');
 
-    // $array: ['zero', 'one', 'two', 'three', 'four']
+    // ['zero', 'one', 'two', 'three', 'four']
 
 If needed, you may specify the key that should be used for the value:
 
@@ -406,12 +410,12 @@ If needed, you may specify the key that should be used for the value:
 
     $array = array_prepend($array, 'Desk', 'name');
 
-    // $array: ['name' => 'Desk', 'price' => 100]
+    // ['name' => 'Desk', 'price' => 100]
 
 <a name="method-array-pull"></a>
 #### `array_pull()` {#collection-method}
 
-The `array_pull` function returns and removes a key / value pair from the array:
+The `array_pull` function returns and removes a key / value pair from an array:
 
 `array_pull` 함수는 배열에서 주어진 키 / 값 쌍을 반환함과 동시에 제거합니다:
 
@@ -428,6 +432,27 @@ A default value may be passed as the third argument to the method. This value wi
 메소드의 세번째 인자로 기본값을 전달 할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다:
 
     $value = array_pull($array, $key, $default);
+
+<a name="method-array-random"></a>
+#### `array_random()` {#collection-method}
+
+The `array_random` function returns a random value from an array:
+
+`array_random` 함수는 배열에서 임의의 값을 반환합니다:
+
+    $array = [1, 2, 3, 4, 5];
+
+    $random = array_random($array);
+
+    // 4 - (retrieved randomly)
+
+You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array, even if only one item is desired:
+
+두번째 인자로 몇개의 아이템을 반환할지 값을 지정할 수 있습니다. 이 인자를 지정하면, 하나의 아이템이 포함되더라도 배열이 반환 됩니다:
+
+    $items = array_random($array, 2);
+
+    // [2, 5] - (retrieved randomly)
 
 <a name="method-array-set"></a>
 #### `array_set()` {#collection-method}
@@ -449,21 +474,11 @@ The `array_sort` function sorts an array by its values:
 
 `array_sort` 함수는 값을 기반으로 정렬을 수행합니다:
 
-    $array = [
-        'Desk',
-        'Table',
-        'Chair',
-    ];
+    $array = ['Desk', 'Table', 'Chair'];
 
-    $array = array_sort($array);
+    $sorted = array_sort($array);
 
-    /*
-        [
-            'Chair',
-            'Desk',
-            'Table',
-        ]
-    */
+    // ['Chair', 'Desk', 'Table']
 
 You may also sort the array by the results of the given Closure:
 
@@ -471,10 +486,11 @@ You may also sort the array by the results of the given Closure:
 
     $array = [
         ['name' => 'Desk'],
+        ['name' => 'Table'],
         ['name' => 'Chair'],
     ];
 
-    $array = array_values(array_sort($array, function ($value) {
+    $sorted = array_values(array_sort($array, function ($value) {
         return $value['name'];
     }));
 
@@ -482,56 +498,41 @@ You may also sort the array by the results of the given Closure:
         [
             ['name' => 'Chair'],
             ['name' => 'Desk'],
+            ['name' => 'Table'],
         ]
     */
 
 <a name="method-array-sort-recursive"></a>
 #### `array_sort_recursive()` {#collection-method}
 
-The `array_sort_recursive` function recursively sorts the array using the `sort` function:
+The `array_sort_recursive` function recursively sorts an array using the `sort` function:
 
 `array_sort_recursive` 함수는 `sort` 함수를 이용하여 반복적으로 배열을 정렬합니다:
 
     $array = [
-        [
-            'Roman',
-            'Taylor',
-            'Li',
-        ],
-        [
-            'PHP',
-            'Ruby',
-            'JavaScript',
-        ],
+        ['Roman', 'Taylor', 'Li'],
+        ['PHP', 'Ruby', 'JavaScript'],
     ];
 
-    $array = array_sort_recursive($array);
+    $sorted = array_sort_recursive($array);
 
     /*
         [
-            [
-                'Li',
-                'Roman',
-                'Taylor',
-            ],
-            [
-                'JavaScript',
-                'PHP',
-                'Ruby',
-            ]
-        ];
+            ['Li', 'Roman', 'Taylor'],
+            ['JavaScript', 'PHP', 'Ruby'],
+        ]
     */
 
 <a name="method-array-where"></a>
 #### `array_where()` {#collection-method}
 
-The `array_where` function filters the array using the given Closure:
+The `array_where` function filters an array using the given Closure:
 
 `array_where` 함수는 주어진 클로져를 사용하여 배열을 필터링합니다:
 
     $array = [100, '200', 300, '400', 500];
 
-    $array = array_where($array, function ($value, $key) {
+    $filtered = array_where($array, function ($value, $key) {
         return is_string($value);
     });
 
@@ -540,7 +541,7 @@ The `array_where` function filters the array using the given Closure:
 <a name="method-array-wrap"></a>
 #### `array_wrap()` {#collection-method}
 
-The `array_wrap` function will wrap the given value in an array. If the given value is already an array it will not be changed:
+The `array_wrap` function wraps the given value in an array. If the given value is already an array it will not be changed:
 
 `array_wrap` 함수는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다:
 
@@ -548,7 +549,112 @@ The `array_wrap` function will wrap the given value in an array. If the given va
 
     $array = array_wrap($string);
 
-    // [0 => 'Laravel']
+    // ['Laravel']
+
+<a name="method-data-fill"></a>
+#### `data_fill()` {#collection-method}
+
+The `data_fill` function sets a missing value within a nested array or object using "dot" notation:
+
+`data_fill` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 내부에 빠진 값을 채워넣습니다:
+
+    $data = ['products' => ['desk' => ['price' => 100]]];
+
+    data_fill($data, 'products.desk.price', 200);
+
+    // ['products' => ['desk' => ['price' => 100]]]
+
+    data_fill($data, 'products.desk.discount', 10);
+
+    // ['products' => ['desk' => ['price' => 100, 'discount' => 10]]]
+
+This function also accepts asterisks as wildcards and will fill the target accordingly:
+
+이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 채워넣습니다:
+
+    $data = [
+        'products' => [
+            ['name' => 'Desk 1' => 'price' => 100],
+            ['name' => 'Desk 2'],
+        ],
+    ];
+
+    data_fill($data, 'products.*.price', 200);
+
+    /*
+        [
+            'products' => [
+                ['name' => 'Desk 1' => 'price' => 100],
+                ['name' => 'Desk 2' => 'price' => 200],
+            ],
+        ]
+    */
+
+<a name="method-data-get"></a>
+#### `data_get()` {#collection-method}
+
+The `data_get` function retrieves a value from a nested array or object using "dot" notation:
+
+`data_get` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 안에서 값을 조회합니다:
+
+    $data = ['products' => ['desk' => ['price' => 100]]];
+
+    $price = data_get($data, 'products.desk.price');
+
+    // 100
+
+The `data_get` function also accepts a default value, which will be returned if the specified key is not found:
+
+`data_get` 함수는 또한 지정된 키를 찾을 수 없는 경우 반환될 기본값을 인자로 받습니다:
+
+    $discount = data_get($data, 'products.desk.discount', 0);
+
+    // 0
+
+<a name="method-data-set"></a>
+#### `data_set()` {#collection-method}
+
+The `data_set` function sets a value within a nested array or object using "dot" notation:
+
+`data_set` 함수는 "dot" 표기법을 사용하여 중첩된 배열 또는 객체 안의 값을 설정합니다:
+
+    $data = ['products' => ['desk' => ['price' => 100]]];
+
+    data_set($data, 'products.desk.price', 200);
+
+    // ['products' => ['desk' => ['price' => 200]]]
+
+This function also accepts wildcards and will set values on the target accordingly:
+
+이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 설정합니다:
+
+    $data = [
+        'products' => [
+            ['name' => 'Desk 1', 'price' => 100],
+            ['name' => 'Desk 2', 'price' => 150],
+        ],
+    ];
+
+    data_set($data, 'products.*.price', 200);
+
+    /*
+        [
+            'products' => [
+                ['name' => 'Desk 1' => 'price' => 200],
+                ['name' => 'Desk 2' => 'price' => 200],
+            ],
+        ]
+    */
+
+By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the third argument:
+
+기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만, 새로운 값을 설정하고자 한다면, 세번째 인자로 `false`를 전달하면 됩니다:
+
+    $data = ['products' => ['desk' => ['price' => 100]]];
+
+    data_set($data, 'products.desk.price', 200, false);
+
+    // ['products' => ['desk' => ['price' => 100]]]
 
 <a name="method-head"></a>
 #### `head()` {#collection-method}
@@ -606,45 +712,51 @@ The `base_path` function returns the fully qualified path to the project root. Y
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-The `config_path` function returns the fully qualified path to the application configuration directory:
+The `config_path` function returns the fully qualified path to the `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
 
-`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다:
+`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다. `config_path` 함수를 사용하여, 어플리케이션의 설정 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다:
 
     $path = config_path();
+
+    $path = config_path('app.php');
 
 <a name="method-database-path"></a>
 #### `database_path()` {#collection-method}
 
-The `database_path` function returns the fully qualified path to the application's database directory:
+The `database_path` function returns the fully qualified path to the `database` directory. You may also use the `database_path` function to generate a fully qualified path to a given file within the database directory:
 
-`database_path` 함수는 어플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다:
+`database_path` 함수는 어플리케이션의 `database` 디렉토리에 대한 절대 경로를 반환합니다. `database_path` 함수를 사용하여, 어플리케이션의 데이터베이스 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다:
 
     $path = database_path();
+
+    $path = database_path('factories/UserFactory.php');
 
 <a name="method-mix"></a>
 #### `mix()` {#collection-method}
 
-The `mix` function gets the path to a [versioned Mix file](/docs/{{version}}/mix):
+The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/mix):
 
 `mix` 함수는 [버전이 지정된 Mix](/docs/{{version}}/mix) 파일에 대한 경로를 반환합니다:
 
-    mix($file);
+    $path = mix('css/app.css');
 
 <a name="method-public-path"></a>
 #### `public_path()` {#collection-method}
 
-The `public_path` function returns the fully qualified path to the `public` directory:
+The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
 
-`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다:
+`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여, 어플리케이션의 public 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다:
 
     $path = public_path();
+
+    $path = public_path('css/app.css');
 
 <a name="method-resource-path"></a>
 #### `resource_path()` {#collection-method}
 
-The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file relative to the resources directory:
+The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
 
-`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다:
+`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다:
 
     $path = resource_path();
 
@@ -653,9 +765,9 @@ The `resource_path` function returns the fully qualified path to the `resources`
 <a name="method-storage-path"></a>
 #### `storage_path()` {#collection-method}
 
-The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file relative to the storage directory:
+The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
 
-`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다:
+`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다:
 
     $path = storage_path();
 
@@ -665,6 +777,21 @@ The `storage_path` function returns the fully qualified path to the `storage` di
 ## Strings
 ## 문자열
 
+<a name="method-__"></a>
+#### `__()` {#collection-method}
+
+The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
+
+`__` 함수는 주어진 다국어 문자열 또는 다국어 키를 [다국어 파일](/docs/{{version}}/localization)을 사용하여 변환합니다:
+
+    echo __('Welcome to our application');
+
+    echo __('messages.welcome');
+
+If the specified translation string or key does not exist, the `__` function will simply return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
+
+지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`를 그대로 반환합니다.
+
 <a name="method-camel-case"></a>
 #### `camel_case()` {#collection-method}
 
@@ -672,7 +799,7 @@ The `camel_case` function converts the given string to `camelCase`:
 
 `camel_case` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
 
-    $camel = camel_case('foo_bar');
+    $converted = camel_case('foo_bar');
 
     // fooBar
 
@@ -705,7 +832,7 @@ The `ends_with` function determines if the given string ends with the given valu
 
 `ends_with` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
 
-    $value = ends_with('This is my name', 'name');
+    $result = ends_with('This is my name', 'name');
 
     // true
 
@@ -717,9 +844,22 @@ The `kebab_case` function converts the given string to `kebab-case`:
 `kebab_case` 함수는 주어진 문자열을 `kebab-case`로 변환합니다:
  (역자주 : 단어와 단어를 '-'로 연결한 형태)
 
-    $value = kebab_case('fooBar');
+    $converted = kebab_case('fooBar');
 
     // foo-bar
+
+<a name="method-preg-replace-array"></a>
+#### `preg_replace_array()` {#collection-method}
+
+The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
+
+`preg_replace_array` 함수는 주어진 패턴에 맞는 문자열을 순차적으로 배열으로 교체합니다:
+
+    $string = 'The event will take place between :start and :end';
+
+    $replaced = preg_replace_array('/:[a-z_]+/', ['8:30', '9:00'], $string);
+
+    // The event will take place between 8:30 and 9:00
 
 <a name="method-snake-case"></a>
 #### `snake_case()` {#collection-method}
@@ -732,17 +872,6 @@ The `snake_case` function converts the given string to `snake_case`:
 
     // foo_bar
 
-<a name="method-str-limit"></a>
-#### `str_limit()` {#collection-method}
-
-The `str_limit` function limits the number of characters in a string. The function accepts a string as its first argument and the maximum number of resulting characters as its second argument:
-
-`str_limit` 함수는 문자열의 문자 수를 제한합니다. 함수는 문자열을 첫번째 인자로 받고 반환되는 최대 문자의 길이를 두번째 인자로 받습니다:
-
-    $value = str_limit('The PHP framework for web artisans.', 7);
-
-    // The PHP...
-
 <a name="method-starts-with"></a>
 #### `starts_with()` {#collection-method}
 
@@ -750,7 +879,7 @@ The `starts_with` function determines if the given string begins with the given 
 
 `starts_with` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
 
-    $value = starts_with('This is my name', 'This');
+    $result = starts_with('This is my name', 'This');
 
     // true
 
@@ -761,9 +890,9 @@ The `str_after` function returns everything after the given value in a string:
 
 `str_after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
 
-    $value = str_after('This is: a test', 'This is:');
+    $slice = str_after('This is my name', 'This is');
 
-    // ' a test'
+    // ' my name'
 
 
 <a name="method-str-before"></a>
@@ -773,9 +902,9 @@ The `str_before` function returns everything before the given value in a string:
 
 `str_before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
 
-    $value = str_before('Test :it before', ':it before');
+    $slice = str_before('This is my name', 'my name');
 
-    // 'Test '
+    // 'This is '
 
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}
@@ -784,7 +913,7 @@ The `str_contains` function determines if the given string contains the given va
 
 `str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다:
 
-    $value = str_contains('This is my name', 'my');
+    $contains = str_contains('This is my name', 'my');
 
     // true
 
@@ -792,18 +921,22 @@ You may also pass an array of values to determine if the given string contains a
 
 또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다:
 
-    $value = str_contains('This is my name', ['my', 'foo']);
+    $contains = str_contains('This is my name', ['my', 'foo']);
 
     // true
 
 <a name="method-str-finish"></a>
 #### `str_finish()` {#collection-method}
 
-The `str_finish` function adds a single instance of the given value to a string if it does not already end with it:
+The `str_finish` function adds a single instance of the given value to a string if it does not already end with the value:
 
 `str_finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
-    $string = str_finish('this/string', '/');
+    $adjusted = str_finish('this/string', '/');
+
+    // this/string/
+
+    $adjusted = str_finish('this/string/', '/');
 
     // this/string/
 
@@ -814,13 +947,32 @@ The `str_is` function determines if a given string matches a given pattern. Aste
 
 `str_is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
-    $value = str_is('foo*', 'foobar');
+    $matches = str_is('foo*', 'foobar');
 
     // true
 
-    $value = str_is('baz*', 'foobar');
+    $matches = str_is('baz*', 'foobar');
 
     // false
+
+<a name="method-str-limit"></a>
+#### `str_limit()` {#collection-method}
+
+The `str_limit` function truncates the given string at the specified length:
+
+`str_limit` 함수는 주어진 문자열을 지정된 길이로 제한합니다:
+
+    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20);
+
+    // The quick brown fox...
+
+You may also pass a third argument to change the string that will be appended to the end:
+
+변경될 문자열의 마지막에 덧붙일 문자열을 세번째 인자로 전달할 수도 있습니다:
+
+    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
+
+    // The quick brown fox (...)
 
 <a name="method-str-plural"></a>
 #### `str_plural()` {#collection-method}
@@ -856,7 +1008,42 @@ The `str_random` function generates a random string of the specified length. Thi
 
 `str_random` 함수는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
 
-    $string = str_random(40);
+    $random = str_random(40);
+
+<a name="method-str-replace-array"></a>
+#### `str_replace_array()` {#collection-method}
+
+The `str_replace_array` function replaces a given value in the string sequentially using an array:
+
+`str_replace_array` 함수는 주어진 값을 순차적으로 배열값으로 치환합니다:
+
+    $string = 'The event will take place between ? and ?';
+
+    $replaced = str_replace_array('?', ['8:30', '9:00'], $string);
+
+    // The event will take place between 8:30 and 9:00
+
+<a name="method-str-replace-first"></a>
+#### `str_replace_first()` {#collection-method}
+
+The `str_replace_first` function replaces the first occurrence of a given value in a string:
+
+`str_replace_first` 함수는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
+
+    $replaced = str_replace_first('the', 'a', 'the quick brown fox jumps over the lazy dog');
+
+    // a quick brown fox jumps over the lazy dog
+
+<a name="method-str-replace-last"></a>
+#### `str_replace_last()` {#collection-method}
+
+The `str_replace_last` function replaces the last occurrence of a given value in a string:
+
+`str_replace_last` 함수는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
+
+    $replaced = str_replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
+
+    // the quick brown fox jumps over a lazy dog
 
 <a name="method-str-singular"></a>
 #### `str_singular()` {#collection-method}
@@ -869,6 +1056,10 @@ The `str_singular` function converts a string to its singular form. This functio
 
     // car
 
+    $singular = str_singular('children');
+
+    // child
+
 <a name="method-str-slug"></a>
 #### `str_slug()` {#collection-method}
 
@@ -876,9 +1067,24 @@ The `str_slug` function generates a URL friendly "slug" from the given string:
 
 `str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
 
-    $title = str_slug('Laravel 5 Framework', '-');
+    $slug = str_slug('Laravel 5 Framework', '-');
 
     // laravel-5-framework
+
+<a name="method-str-start"></a>
+#### `str_start()` {#collection-method}
+
+The `str_start` function adds a single instance of the given value to a string if it does not already start with the value:
+
+`str_start` 함수는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
+
+    $adjusted = str_start('this/string', '/');
+
+    // /this/string
+
+    $adjusted = str_start('/this/string/', '/');
+
+    // /this/string
 
 <a name="method-studly-case"></a>
 #### `studly_case()` {#collection-method}
@@ -887,7 +1093,7 @@ The `studly_case` function converts the given string to `StudlyCase`:
 
 `studly_case` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
-    $value = studly_case('foo_bar');
+    $converted = studly_case('foo_bar');
 
     // FooBar
 
@@ -898,27 +1104,35 @@ The `title_case` function converts the given string to `Title Case`:
 
 `title_case` 함수는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
 
-    $title = title_case('a nice title uses the correct case');
+    $converted = title_case('a nice title uses the correct case');
 
     // A Nice Title Uses The Correct Case
 
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
-The `trans` function translates the given language line using your [localization files](/docs/{{version}}/localization):
+The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
 
-`trans` 함수는 [다국어 파일](/docs/{{version}}/localization)을 이용하여 주어진 언어를 번역합니다:
+`trans` 함수는 [다국어 파일](/docs/{{version}}/localization)을 이용하여 주어진 다국어 키를 변환합니다:
 
-    echo trans('validation.required'):
+    echo trans('messages.welcome');
+
+If the specified translation key does not exist, the `trans` function will simply return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
+
+지정된 다국어 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 그대로 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
-The `trans_choice` function translates the given language line with inflection:
+The `trans_choice` function translates the given translation key with inflection:
 
-`trans_choice` 함수는 주어진, 수량(단수, 복수 처리)을 이용하여 주어진 언어를 번역합니다:
+`trans_choice` 함수는 주어진, 수량(단수, 복수 처리)을 이용하여 주어진 다국어 키를 번역합니다:
 
-    $value = trans_choice('foo.bar', $count);
+    echo trans_choice('messages.notifications', $unreadCount);
+
+If the specified translation key does not exist, the `trans_choice` function will simply return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
+
+지정된 다국어 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 그대로 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 그대로 반환합니다.
 
 <a name="urls"></a>
 ## URLs
@@ -941,20 +1155,20 @@ If the method accepts route parameters, you may pass them as the second argument
 <a name="method-asset"></a>
 #### `asset()` {#collection-method}
 
-Generate a URL for an asset using the current scheme of the request (HTTP or HTTPS):
+The `asset` function generates a URL for an asset using the current scheme of the request (HTTP or HTTPS):
 
-HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다:
+`asset` 함수는 HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
     $url = asset('img/photo.jpg');
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}
 
-Generate a URL for an asset using HTTPS:
+The `secure_asset` function generates a URL for an asset using HTTPS:
 
-HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
+`secure_asset` 함수는 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
-    echo secure_asset('foo/bar.zip');
+    $url = secure_asset('img/photo.jpg');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
@@ -971,7 +1185,7 @@ If the route accepts parameters, you may pass them as the second argument to the
 
     $url = route('routeName', ['id' => 1]);
 
-By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third parameter:
+By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third argument:
 
 기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다:
 
@@ -984,9 +1198,9 @@ The `secure_url` function generates a fully qualified HTTPS URL to the given pat
 
 `secure_url` 함수는 주어진 경로에 대한 전체 HTTPS URL을 생성합니다:
 
-    echo secure_url('user/profile');
+    $url = secure_url('user/profile');
 
-    echo secure_url('user/profile', [1]);
+    $url = secure_url('user/profile', [1]);
 
 <a name="method-url"></a>
 #### `url()` {#collection-method}
@@ -995,17 +1209,19 @@ The `url` function generates a fully qualified URL to the given path:
 
 `url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다:
 
-    echo url('user/profile');
+    $url = url('user/profile');
 
-    echo url('user/profile', [1]);
+    $url = url('user/profile', [1]);
 
 If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned:
 
 경로를 전달하지 않으면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환됩니다:
 
-    echo url()->current();
-    echo url()->full();
-    echo url()->previous();
+    $current = url()->current();
+
+    $full = url()->full();
+
+    $previous = url()->previous();
 
 <a name="miscellaneous"></a>
 ## Miscellaneous
@@ -1014,17 +1230,17 @@ If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned
 <a name="method-abort"></a>
 #### `abort()` {#collection-method}
 
-The `abort` function throws a HTTP exception which will be rendered by the exception handler:
+The `abort` function throws [an HTTP exception](/docs/{{version}}/errors#http-exceptions) which will be rendered by the [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
-`abort` 함수는 Exception 핸들러에 의해서 렌더링 될 수 있는 HTTP exception 을 발생시킵니다:
+`abort` 함수는 [Exception 핸들러](/docs/{{version}}/errors#the-exception-handler)에 의해서 렌더링 될 수 있는 [HTTP exception](/docs/{{version}}/errors#http-exceptions)을 발생시킵니다:
 
-    abort(401);
+    abort(403);
 
-You may also provide the exception's response text:
+You may also provide the exception's response text and custom response headers:
 
-exception 의 응답 텍스트를 제공할 수도 있습니다:
+exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할 수도 있습니다:
 
-    abort(401, 'Unauthorized.');
+    abort(403, 'Unauthorized.', $headers);
 
 <a name="method-abort-if"></a>
 #### `abort_if()` {#collection-method}
@@ -1035,6 +1251,10 @@ The `abort_if` function throws an HTTP exception if a given boolean expression e
 
     abort_if(! Auth::user()->isAdmin(), 403);
 
+Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument.
+
+`abort` 메소드와 같이, exception 의 응답 텍스트를 세번째 인자로 전달할 수 있으며, 네번째 인자로 커스텀 응답 헤더를 전달할 수도 있습니다.
+
 <a name="method-abort-unless"></a>
 #### `abort_unless()` {#collection-method}
 
@@ -1044,39 +1264,99 @@ The `abort_unless` function throws an HTTP exception if a given boolean expressi
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
+Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument.
+
+`abort` 메소드와 같이, exception 의 응답 텍스트를 세번째 인자로 전달할 수 있으며, 네번째 인자로 커스텀 응답 헤더를 전달할 수도 있습니다.
+
+<a name="method-app"></a>
+#### `app()` {#collection-method}
+
+The `app` function returns the [service container](/docs/{{version}}/container) instance:
+
+`app` 함수는 [서비스 컨테이너](/docs/{{version}}/container) 인스턴스를 반환합니다:
+
+    $container = app();
+
+You may pass a class or interface name to resolve it from the container:
+
+컨테이너에 의존성을 해결하고자 하는 클래스나 인터페이스의 이름을 전달할 수도 있습니다:
+
+    $api = app('HelpSpot\API');
+
 <a name="method-auth"></a>
 #### `auth()` {#collection-method}
 
-The `auth` function returns an authenticator instance. You may use it instead of the `Auth` facade for convenience:
+The `auth` function returns an [authenticator](/docs/{{version}}/authentication) instance. You may use it instead of the `Auth` facade for convenience:
 
-`auth` 함수는 authenticator 인스턴스를 반환합니다. 편의를 위하여 `Auth` 파사드 대신 이용할 수 있습니다:
+`auth` 함수는 [authenticator](/docs/{{version}}/authentication) 인스턴스를 반환합니다. 편의를 위하여 `Auth` 파사드 대신 이용할 수 있습니다:
 
     $user = auth()->user();
+
+If needed, you may specify which guard instance you would like to access:
+
+필요한 경우, 어떤 guard 인스턴스를 사용할지 지정할 수 있습니다:
+
+    $user = auth('admin')->user();
 
 <a name="method-back"></a>
 #### `back()` {#collection-method}
 
-The `back()` function generates a redirect response to the user's previous location:
+The `back` function generates a [redirect HTTP response](/docs/{{version}}/responses#redirects) to the user's previous location:
 
-`back()` 함수는 사용자의 이전 위치로 리다이렉트하는 응답을 생성합니다:
+`back()` 함수는 사용자의 이전 위치로 [리다이렉트 HTTP response-응답](/docs/{{version}}/responses#redirects)을 생성합니다:
+
+    return back($status = 302, $headers = [], $fallback = false);
 
     return back();
 
 <a name="method-bcrypt"></a>
 #### `bcrypt()` {#collection-method}
 
-The `bcrypt` function hashes the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
+The `bcrypt` function [hashes](/docs/{{version}}/hashing) the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
 
-`bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 해시 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다:
+`bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 [해시](/docs/{{version}}/hashing) 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다:
 
     $password = bcrypt('my-secret-password');
+
+<a name="method-broadcast"></a>
+#### `broadcast()` {#collection-method}
+
+The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given [event](/docs/{{version}}/events) to its listeners:
+
+`broadcast` 함수는 주어진 [이벤트](/docs/{{version}}/events)를 리스너들에게 [broadcasts](/docs/{{version}}/broadcasting) 합니다:
+
+    broadcast(new UserRegistered($user));
+
+<a name="method-blank"></a>
+#### `blank()` {#collection-method}
+
+The `blank` function returns whether the given value is "blank":
+
+`blank` 함수는 주어진 값이 "빈값"인지 판단하여 결과를 반환합니다:
+
+    blank('');
+    blank('   ');
+    blank(null);
+    blank(collect());
+
+    // true
+
+    blank(0);
+    blank(true);
+    blank(false);
+
+    // false
+
+For the inverse of `blank`, see the [`filled`](#method-filled) method.
+
+`blank`의 반대는, [`filled`](#method-filled) 메소드를 참고하십시오.
 
 <a name="method-cache"></a>
 #### `cache()` {#collection-method}
 
-The `cache` function may be used to get values from the cache. If the given key does not exist in the cache, an optional default value will be returned:
+The `cache` function may be used to get values from the [cache](/docs/{{version}}/cache). If the given key does not exist in the cache, an optional default value will be returned:
 
-`cache` 함수는 캐시로 부터 값을 가져오는데 사용할 수 있습니다. 캐시에서 주어진 키가 존재하지 않는 경우, 옵션으로 전달된 기본값(두번째인자)가 반환됩니다
+`cache` 함수는 [캐시](/docs/{{version}}/cache)로 부터 값을 가져오는데 사용할 수 있습니다. 캐시에서 주어진 키가 존재하지 않는 경우, 옵션으로 전달된 기본값(두번째인자)가 반환됩니다
 
     $value = cache('key');
 
@@ -1090,32 +1370,50 @@ You may add items to the cache by passing an array of key / value pairs to the f
 
     cache(['key' => 'value'], Carbon::now()->addSeconds(10));
 
+<a name="method-class-uses-recursive"></a>
+#### `class_uses_recursive()` {#collection-method}
+
+The `class_uses_recursive` function returns all traits used by a class, including traits used by any subclasses:
+
+`class_uses_recursive` 함수는 자식클래스를 포함하여 클래스가 사용하는 모든 trait을 반환합니다:
+
+    $traits = class_uses_recursive(App\User::class);
+
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
-The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given array:
+The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given value:
 
-`collect` 함수는 주어진 배열로부터 [collection](/docs/{{version}}/collections) 인스턴스를 생성합니다:
+`collect` 함수는 주어진 값으로부터 [collection](/docs/{{version}}/collections) 인스턴스를 생성합니다:
 
     $collection = collect(['taylor', 'abigail']);
 
 <a name="method-config"></a>
 #### `config()` {#collection-method}
 
-The `config` function gets the value of a configuration variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
+The `config` function gets the value of a [configuration](/docs/{{version}}/configuration) variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
 
-`config` 함수는 환경 설정 변수의 값을 가져옵니다. 설정 값은 파일명과 접근하고자 하는 옵션을 포함하는 "점(.)" 문법(syntax)를 사용하여 접근할 수 있습니다. 설정 옵션이 존재하지 않는다면 지정된 기본값이 반환됩니다:
+`config` 함수는 [설정](/docs/{{version}}/configuration) 변수의 값을 가져옵니다. 설정 값은 파일명과 접근하고자 하는 옵션을 포함하는 "점(.)" 문법(syntax)를 사용하여 접근할 수 있습니다. 설정 옵션이 존재하지 않는다면 지정된 기본값이 반환됩니다:
 
     $value = config('app.timezone');
 
     $value = config('app.timezone', $default);
 
 
-The `config` helper may also be used to set configuration variables at runtime by passing an array of key / value pairs:
+You may set configuration variables at runtime by passing an array of key / value pairs:
 
-`config` 헬퍼는 키 / 값 쌍을 런타임에 전달하는 방법으로 설정 변수를 설정할 수도 있습니다:
+런타임에 설정 값을 키 / 값 형태로 전달하여 값을 설정할 수도 있습니다:
 
     config(['app.debug' => true]);
+
+<a name="method-cookie"></a>
+#### `cookie()` {#collection-method}
+
+The `cookie` function creates a new [cookie](/docs/{{version}}/requests#cookies) instance:
+
+`cookie` 함수는 새로운 [쿠키](/docs/{{version}}/requests#cookies) 인스턴스를 생성합니다:
+
+    $cookie = cookie('name', 'value', $minutes);
 
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
@@ -1146,31 +1444,71 @@ The `dd` function dumps the given variables and ends execution of the script:
 
     dd($value1, $value2, $value3, ...);
 
-If you do not want to halt the execution of your script, use the `dump` function instead:
+If you do not want to halt the execution of your script, use the [`dump`](#method-dump) function instead.
 
-스크립트 실행을 중단하고 싶지 않다면, `dump` 함수를 사용하십시오:
+스크립트 실행을 중단하고 싶지 않다면, [`dump`](#method-dump) 함수를 사용하십시오:
 
-    dump($value);
+<a name="method-decrypt"></a>
+#### `decrypt()` {#collection-method}
+
+The `decrypt` function decrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
+
+`decrypt` 함수는 라라벨의 [encrypter](/docs/{{version}}/encryption)를 사용하여 주어진 값을 복호화 합니다:
+
+    $decrypted = decrypt($encrypted_value);
 
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
 
-The `dispatch` function pushes a new job onto the Laravel [job queue](/docs/{{version}}/queues):
+The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating-jobs) onto the Laravel [job queue](/docs/{{version}}/queues):
 
-`dispatch` 함수는 라라벨의 [job queue](/docs/{{version}}/queues)에 새로운 작업을 추가합니다:
+`dispatch` 함수는 라라벨의 [job queue](/docs/{{version}}/queues)에 주어진 [job](/docs/{{version}}/queues#creating-jobs)을 추가합니다:
 
     dispatch(new App\Jobs\SendEmails);
+
+<a name="method-dispatch-now"></a>
+#### `dispatch_now()` {#collection-method}
+
+The `dispatch_now` function runs the given [job](/docs/{{version}}/queues#creating-jobs) immediately and returns the value from its `handle` method:
+
+`dispatch_now` 함수는 주어진 [job](/docs/{{version}}/queues#creating-jobs)을 즉시 실행하고 `handle` 메소드의 값을 반환합니다:
+
+    $result = dispatch_now(new App\Jobs\SendEmails);
+
+<a name="method-dump"></a>
+#### `dump()` {#collection-method}
+
+The `dump` function dumps the given variables:
+
+`dump` 함수는 주어진 변수의 값을 덤프하여 표시합니다:
+
+    dump($value);
+
+    dump($value1, $value2, $value3, ...);
+
+If you want to stop executing the script after dumping the variables, use the [`dd`](#method-dd) function instead.
+
+변수읙 값을 표시한 다음에 스크립트의 실행을 멈추고자 한다면, [`dd`](#method-dd)함수를 사용하십시오.
+
+<a name="method-encrypt"></a>
+#### `encrypt()` {#collection-method}
+
+The `encrypt` function encrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
+
+`encrypt` 함수는 라라벨의 [encrypter](/docs/{{version}}/encryption)를 사용하여 주어진 값을 암호화합니다:
+
+    $encrypted = encrypt($unencrypted_value);
 
 <a name="method-env"></a>
 #### `env()` {#collection-method}
 
-The `env` function gets the value of an environment variable or returns a default value:
+The `env` function retrieves the value of an [environment variable](/docs/{{version}}/configuration#environment-configuration) or returns a default value:
 
-`env` 함수는 환경 변수의 값을 가져오거나 기본값을 반환합니다:
+`env` 함수는 [환경변수](/docs/{{version}}/configuration#environment-configuration)의 값을 가져오거나 기본값을 조회합니다:
 
     $env = env('APP_ENV');
 
-    // Return a default value if the variable doesn't exist...
+    // Returns 'production' if APP_ENV is not set...
     $env = env('APP_ENV', 'production');
 
 <a name="method-event"></a>
@@ -1191,12 +1529,36 @@ The `factory` function creates a model factory builder for a given class, name, 
 
     $user = factory(App\User::class)->make();
 
+<a name="method-filled"></a>
+#### `filled()` {#collection-method}
+
+The `filled` function returns whether the given value is not "blank":
+
+`filled` 함수는 주어진 값이 "빈값"이 아닌지 판별하여 결과를 반환합니다:
+
+    filled(0);
+    filled(true);
+    filled(false);
+
+    // true
+
+    filled('');
+    filled('   ');
+    filled(null);
+    filled(collect());
+
+    // false
+
+For the inverse of `filled`, see the [`blank`](#method-blank) method.
+
+`filled`의 반대는, [`blank`](#method-blank) 메소드를 확인하십시오.
+
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
-The `info` function will write information to the log:
+The `info` function will write information to the [log](/docs/{{version}}/errors#logging):
 
-`info` 함수는 로그에 정보를 기록합니다:
+`info` 함수는 [로그](/docs/{{version}}/errors#logging)에 정보를 기록합니다:
 
     info('Some helpful information!');
 
@@ -1209,9 +1571,9 @@ An array of contextual data may also be passed to the function:
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-The `logger` function can be used to write a `debug` level message to the log:
+The `logger` function can be used to write a `debug` level message to the [log](/docs/{{version}}/errors#logging):
 
-`logger` 함수는 로그에 `debug` 로그 레벨을 기록하는데 사용합니다:
+`logger` 함수는 [로그](/docs/{{version}}/errors#logging)에 `debug` 로그 레벨을 기록하는데 사용합니다:
 
     logger('Debug message');
 
@@ -1245,14 +1607,14 @@ The `now` function creates a new `Illuminate\Support\Carbon` instance for the cu
 
 `now` 함수는 현재 시간을 기반으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
 
-    return now();
+    $now = now();
 
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
-The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an old input value flashed into the session:
+The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [old input](/docs/{{version}}/requests#old-input) value flashed into the session:
 
-`old` 함수는 세션에 저장된 오래된(flashed) 입력 값을 [조회](/docs/{{version}}/requests#retrieving-input)합니다:
+`old` 함수는 세션에 저장된 [이전 입력값](/docs/{{version}}/requests#old-input)(flashed)을 [조회](/docs/{{version}}/requests#retrieving-input)합니다:
     $value = old('value');
 
     $value = old('value', 'default');
@@ -1268,12 +1630,23 @@ The `optional` function accepts any argument and allows you to access properties
 
     {!! old('name', optional($user)->name) !!}
 
+<a name="method-policy"></a>
+#### `policy()` {#collection-method}
+
+The `policy` method retrieves a [policy](/docs/{{version}}/authorization#creating-policies) instance for a given class:
+
+`policy` 메소도는 주어진 클래스를 위한 [policy](/docs/{{version}}/authorization#creating-policies) 인스턴스를 조회합니다:
+
+    $policy = policy(App\User::class);
+
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
-The `redirect` function returns a redirect HTTP response, or returns the redirector instance if called with no arguments:
+The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/responses#redirects), or returns the redirector instance if called with no arguments:
 
-`redirect` 함수는 HTTP 응답을 리다이렉션 처리 하거나, 인자 없이 호출되는 경우 리디렉터 인스턴스를 반환합니다:
+`redirect` 함수는 [리다이렉트 HTTP response-응답](/docs/{{version}}/responses#redirects)을 반환하거나, 인자 없이 호출되는 경우 리디렉터 인스턴스를 반환합니다:
+
+    return redirect($to = null, $status = 302, $headers = [], $secure = null);
 
     return redirect('/home');
 
@@ -1282,9 +1655,9 @@ The `redirect` function returns a redirect HTTP response, or returns the redirec
 <a name="method-report"></a>
 #### `report()` {#collection-method}
 
-The `report` function will report an exception using your exception handler's `report` method:
+The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method:
 
-`report` 함수는 exception 핸들러의 `report` 메소드를 사용하여 exception-예외를 보고합니다:
+`report` 함수는 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드를 사용하여 exception-예외를 보고합니다:
 
     report($e);
 
@@ -1297,14 +1670,14 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 
     $request = request();
 
-    $value = request('key', $default = null)
+    $value = request('key', $default = null);
 
 <a name="method-rescue"></a>
 #### `rescue()` {#collection-method}
 
-The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your exception handler's `report` method; however, the request will continue processing:
+The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method; however, the request will continue processing:
 
-`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외-exception을 받아냅니다. catch 된 모든 예외-exception은 예외-exception 핸들러의 `report` 메소드로 전달되지만, request-요청 에 대한 처리는 계속됩니다:
+`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외-exception을 받아냅니다. catch 된 모든 예외-exception은 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드로 전달되지만, request-요청 에 대한 처리는 계속됩니다:
 
     return rescue(function () {
         return $this->method();
@@ -1323,6 +1696,15 @@ You may also pass a second argument to the `rescue` function. This argument will
     }, function () {
         return $this->failure();
     });
+
+<a name="method-resolve"></a>
+#### `resolve()` {#collection-method}
+
+The `resolve` function resolves a given class or interface name to its instance using the [service container](/docs/{{version}}/container):
+
+`resolve` 함수는 [서비스 컨테이너](/docs/{{version}}/container)를 사용하여 주어진 클래스 또는 인터페이스를 의존성 해결하여 인스턴스를 반환합니다:
+
+    $api = resolve('HelpSpot\API');
 
 <a name="method-response"></a>
 #### `response()` {#collection-method}
@@ -1350,9 +1732,9 @@ The `retry` function attempts to execute the given callback until the given maxi
 <a name="method-session"></a>
 #### `session()` {#collection-method}
 
-The `session` function may be used to get or set session values:
+The `session` function may be used to get or set [session](/docs/{{version}}/session) values:
 
-`session` 함수는 세션 값을 얻거나 지정하는 데에 사용할 수 있습니다.
+`session` 함수는 [세션](/docs/{{version}}/session) 값을 얻거나 지정하는 데에 사용할 수 있습니다.
 
     $value = session('key');
 
@@ -1389,7 +1771,7 @@ If no Closure is passed to the `tap` function, you may call any method on the gi
 
     $user = tap($user)->update([
         'name' => $name,
-        'email' => $email
+        'email' => $email,
     ]);
 
 <a name="method-today"></a>
@@ -1399,18 +1781,95 @@ The `today` function creates a new `Illuminate\Support\Carbon` instance for the 
 
 `today` 함수는 현재 날짜를 기준으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
 
-    return today();
+    $today = today();
+
+<a name="method-throw-if"></a>
+#### `throw_if()` {#collection-method}
+
+The `throw_if` function throws the given exception if a given boolean expression evaluates to `true`:
+
+`throw_if` 함수는 주어진 결과가 `true` 인 경우에 주어진 exception-예외를 던집니다:
+
+    throw_if(! Auth::user()->isAdmin(), AuthorizationException::class);
+
+    throw_if(
+        ! Auth::user()->isAdmin(),
+        AuthorizationException::class,
+        'You are not allowed to access this page'
+    );
+
+<a name="method-throw-unless"></a>
+#### `throw_unless()` {#collection-method}
+
+The `throw_unless` function throws the given exception if a given boolean expression evaluates to `false`:
+
+`throw_unless` 함수는 주어진 결과가 `false` 인 경우에 주어진 exception-예외를 던집니다:
+
+    throw_unless(Auth::user()->isAdmin(), AuthorizationException::class);
+
+    throw_unless(
+        Auth::user()->isAdmin(),
+        AuthorizationException::class,
+        'You are not allowed to access this page'
+    );
+
+<a name="method-trait-uses-recursive"></a>
+#### `trait_uses_recursive()` {#collection-method}
+
+The `trait_uses_recursive` function returns all traits used by a trait:
+
+`trait_uses_recursive` 함수는 해당 trait에서 사용된 모든 trait을 반환합니다:
+
+    $traits = trait_uses_recursive(\Illuminate\Notifications\Notifiable::class);
+
+<a name="method-transform"></a>
+#### `transform()` {#collection-method}
+
+The `transform` function executes a `Closure` on a given value if the value is not [blank](#method-blank) and returns the result of the `Closure`:
+
+`transform` 함수는 주어진 값이 [빈값](#method-blank)이 아닌 경우에 `Closure`를 실행하고 `Closure`의 결과를 반환합니다:
+
+    $callback = function ($value) {
+        return $value * 2;
+    };
+
+    $result = transform(5, $callback);
+
+    // 10
+
+A default value or `Closure` may also be passed as the third parameter to the method. This value will be returned if the given value is blank:
+
+세번째 인자로 기본값 또는 `Closure` 가 전달될 수 있습니다. 이 값은 첫번째 인자가 빈값인 경우 반환됩니다:
+
+    $result = transform(null, $callback, 'The value is blank');
+
+    // The value is blank
+
+<a name="method-validator"></a>
+#### `validator()` {#collection-method}
+
+The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it instead of the `Validator` facade for convenience:
+
+`validator` 함수는 주어진 인자를 통해서 새로운 [validator](/docs/{{version}}/validation) 인스턴스를 생성합니다. 보다 편리하게 `Validator` 파사드를 사용할 수도 있습니다:
+
+    $validator = validator($data, $rules, $messages);
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}
 
-The `value` function's behavior will simply return the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
+The `value` function returns the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
 
-`value` 함수의 행동은 단순히 자신에게 주어진 값을 반환합니다. 하지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다:
+`value` 함수는 자신에게 주어진 값을 그대로 반환합니다. 그렇지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다:
 
-    $value = value(function () {
-        return 'bar';
+    $result = value(true);
+
+    // true
+
+    $result = value(function () {
+        return false;
     });
+
+    // false
 
 <a name="method-view"></a>
 #### `view()` {#collection-method}
@@ -1420,3 +1879,26 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 `view` 함수는 [view](/docs/{{version}}/views) 인스턴스를 조회합니다:
 
     return view('auth.login');
+
+<a name="method-with"></a>
+#### `with()` {#collection-method}
+
+The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed its result will be returned:
+
+`with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다:
+
+    $callback = function ($value) {
+        return (is_numeric($value)) ? $value * 2 : 0;
+    };
+
+    $result = with(5, $callback);
+
+    // 10
+
+    $result = with(null, $callback);
+
+    // 0
+
+    $result = with(5, null);
+
+    // 5

@@ -169,7 +169,7 @@ Sometimes you may pass an array to your view with the intention of rendering it 
 However, instead of manually calling `json_encode`, you may use the `@json` Blade directive:
 
     <script>
-        var app = @json($array)
+        var app = @json($array);
     </script>
 
 <a name="blade-and-javascript-frameworks"></a>
@@ -398,6 +398,10 @@ Of course, if you attempt to `@include` a view which does not exist, Laravel wil
 If you would like to `@include` a view depending on a given boolean condition, you may use the `@includeWhen` directive:
 
     @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
+To include the first view that exists from a given array of views, you may use the `includeFirst` directive:
+
+    @includeFirst(['custom.admin', 'admin'], ['some' => 'data'])
 
 > {note} You should avoid using the `__DIR__` and `__FILE__` constants in your Blade views, since they will refer to the location of the cached, compiled view.
 

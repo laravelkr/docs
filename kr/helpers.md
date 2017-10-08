@@ -29,8 +29,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
     }
 </style>
 
-### Arrays
-### 배열
+### Arrays & Objects
+### 배열 & 객체
 
 [array_add](#method-array-add)
 [array_collapse](#method-array-collapse)
@@ -47,11 +47,15 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [array_pluck](#method-array-pluck)
 [array_prepend](#method-array-prepend)
 [array_pull](#method-array-pull)
+[array_random](#method-array-random)
 [array_set](#method-array-set)
 [array_sort](#method-array-sort)
 [array_sort_recursive](#method-array-sort-recursive)
 [array_where](#method-array-where)
 [array_wrap](#method-array-wrap)
+[data_fill](#method-data-fill)
+[data_get](#method-data-get)
+[data_set](#method-data-set)
 [head](#method-head)
 [last](#method-last)
 
@@ -70,23 +74,29 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ### Strings
 ### 문자열
 
+[\__](#method-__)
 [camel_case](#method-camel-case)
 [class_basename](#method-class-basename)
 [e](#method-e)
 [ends_with](#method-ends-with)
 [kebab_case](#method-kebab-case)
+[preg_replace_array](#method-preg-replace-array)
 [snake_case](#method-snake-case)
-[str_limit](#method-str-limit)
 [starts_with](#method-starts-with)
 [str_after](#method-str-after)
 [str_before](#method-str-before)
 [str_contains](#method-str-contains)
 [str_finish](#method-str-finish)
 [str_is](#method-str-is)
+[str_limit](#method-str-limit)
 [str_plural](#method-str-plural)
 [str_random](#method-str-random)
+[str_replace_array](#method-str-replace-array)
+[str_replace_first](#method-str-replace-first)
+[str_replace_last](#method-str-replace-last)
 [str_singular](#method-str-singular)
 [str_slug](#method-str-slug)
+[str_start](#method-str-start)
 [studly_case](#method-studly-case)
 [title_case](#method-title-case)
 [trans](#method-trans)
@@ -108,36 +118,54 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [abort](#method-abort)
 [abort_if](#method-abort-if)
 [abort_unless](#method-abort-unless)
+[app](#method-app)
 [auth](#method-auth)
 [back](#method-back)
 [bcrypt](#method-bcrypt)
+[blank](#method-blank)
+[broadcast](#method-broadcast)
 [cache](#method-cache)
+[class_uses_recursive](#method-class-uses-recursive)
 [collect](#method-collect)
 [config](#method-config)
+[cookie](#method-cookie)
 [csrf_field](#method-csrf-field)
 [csrf_token](#method-csrf-token)
 [dd](#method-dd)
+[decrypt](#method-decrypt)
 [dispatch](#method-dispatch)
+[dispatch_now](#method-dispatch-now)
+[dump](#method-dump)
+[encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
+[filled](#method-filled)
 [info](#method-info)
 [logger](#method-logger)
 [method_field](#method-method-field)
 [now](#method-now)
 [old](#method-old)
 [optional](#method-optional)
+[policy](#method-policy)
 [redirect](#method-redirect)
 [report](#method-report)
 [request](#method-request)
 [rescue](#method-rescue)
+[resolve](#method-resolve)
 [response](#method-response)
 [retry](#method-retry)
 [session](#method-session)
 [tap](#method-tap)
 [today](#method-today)
+[throw_if](#method-throw-if)
+[throw_unless](#method-throw-unless)
+[trait_uses_recursive](#method-trait-uses-recursive)
+[transform](#method-transform)
+[validator](#method-validator)
 [value](#method-value)
 [view](#method-view)
+[with](#method-with)
 
 <a name="method-listing"></a>
 ## Method Listing
@@ -154,8 +182,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 </style>
 
 <a name="arrays"></a>
-## Arrays
-## 배열
+## Arrays & Objects
+## 배열 & 객체
 
 <a name="method-array-add"></a>
 #### `array_add()` {#collection-method .first-collection-method}

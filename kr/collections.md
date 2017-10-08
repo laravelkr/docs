@@ -5,6 +5,8 @@
 - [소개하기](#introduction)
     - [Creating Collections](#creating-collections)
     - [컬렉션 생성하기](#creating-collections)
+    - [Extending Collections](#extending-collections)
+    - [컬렉션 확장하기](#extending-collections)
 - [Available Methods](#available-methods)
 - [사용 가능한 메소드](#available-methods)
 - [Higher Order Messages](#higher-order-messages)
@@ -44,6 +46,32 @@ As mentioned above, the `collect` helper returns a new `Illuminate\Support\Colle
 
 > {tip} [Eloquent](/docs/{{version}}/eloquent)쿼리의 결과는 항상 `Collection` 인스턴스를 반환합니다.
 
+<a name="extending-collections"></a>
+### Extending Collections
+### 컬렉션 확장하기
+
+Collections are "macroable", which allows you to add additional methods to the `Collection` class at run time. For example, the following code adds a `toUpper` method to the `Collection` class:
+
+컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다:
+
+    use Illuminate\Support\Str;
+
+    Collection::macro('toUpper', function () {
+        return $this->map(function ($value) {
+            return Str::upper($value);
+        });
+    });
+
+    $collection = collect(['first', 'second']);
+
+    $upper = $collection->toUpper();
+
+    // ['FIRST', 'SECOND']
+
+Typically, you should declare collection macros in a [service provider](/docs/{{version}}/providers).
+
+일반적으로, [서비스 프로바이더](/docs/{{version}}/providers)에서 컬렉션에 메소드를 추가하게 됩니다.
+
 <a name="available-methods"></a>
 ## Available Methods
 ## 사용가능한 메소드
@@ -69,13 +97,18 @@ For the remainder of this documentation, we'll discuss each method available on 
 [chunk](#method-chunk)
 [collapse](#method-collapse)
 [combine](#method-combine)
+[concat](#method-concat)
 [contains](#method-contains)
 [containsStrict](#method-containsstrict)
 [count](#method-count)
+[crossJoin](#method-crossjoin)
+[dd](#method-dd)
 [diff](#method-diff)
 [diffAssoc](#method-diffassoc)
 [diffKeys](#method-diffkeys)
+[dump](#method-dump)
 [each](#method-each)
+[eachSpread](#method-eachspread)
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
@@ -96,7 +129,12 @@ For the remainder of this documentation, we'll discuss each method available on 
 [keyBy](#method-keyby)
 [keys](#method-keys)
 [last](#method-last)
+[macro](#method-macro)
+[make](#method-make)
 [map](#method-map)
+[mapInto](#method-mapinto)
+[mapSpread](#method-mapspread)
+[mapToGroups](#method-maptogroups)
 [mapWithKeys](#method-mapwithkeys)
 [max](#method-max)
 [median](#method-median)
@@ -137,6 +175,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 [union](#method-union)
 [unique](#method-unique)
 [uniqueStrict](#method-uniquestrict)
+[unless](#method-unless)
+[unwrap](#method-unwrap)
 [values](#method-values)
 [when](#method-when)
 [where](#method-where)
@@ -145,6 +185,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [whereInStrict](#method-whereinstrict)
 [whereNotIn](#method-wherenotin)
 [whereNotInStrict](#method-wherenotinstrict)
+[wrap](#method-wrap)
 [zip](#method-zip)
 
 <a name="method-listing"></a>

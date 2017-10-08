@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [소개하기](#introduction)
+- [Generating Factories](#generating-factories)
+- [팩토리 생성하기](#generating-factories)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [Writing Factories](#writing-factories)
@@ -42,6 +44,26 @@ You can also use the `assertDatabaseMissing` helper to assert that data does not
 Of course, the `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
 
 `assertDatabaseHas` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
+
+<a name="generating-factories"></a>
+## Generating Factories
+## 팩토리 생성하기
+
+To create a factory, use the `make:factory` [Artisan command](/docs/{{version}}/artisan):
+
+팩토리 클래스를 생성하기 위해서는 `make:factory` [아티즌 명령어](/docs/{{version}}/artisan)를 사용합니다:
+
+    php artisan make:factory PostFactory
+
+The new factory will be placed in your `database/factories` directory.
+
+새로운 팩토리는 `database/factories` 디렉토리에 생성됩니다.
+
+The `--model` option may be used to indicate the name of the model created by the factory. This option will pre-fill the generated factory file with the given model:
+
+팩토리에 의해서 생성될 모델의 이름을 지정하고자 한다면 `--model` 옵션을 사용하면 됩니다. 이 옵션은 생성된 팩토리 파일을 주어진 모델로 미리 채워둡니다:
+
+    php artisan make:factory PostFactory --model=Post
 
 <a name="resetting-the-database-after-each-test"></a>
 ## Resetting The Database After Each Test

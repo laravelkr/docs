@@ -29,6 +29,8 @@
     - [사이트 추가하기](#adding-additional-sites)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Cron 설정하기](#configuring-cron-schedules)
+    - [Configuring Mailhog](#configuring-mailhog)
+    - [Mailhog 설정하기](#configuring-mailhog)
     - [Ports](#ports)
     - [포트 지정](#ports)
     - [Sharing Your Environment](#sharing-your-environment)
@@ -170,16 +172,27 @@ The `folders` property of the `Homestead.yaml` file lists all of the folders you
 `Homestead.yaml` 파일의 `folders` 속성은 홈스테드 환경과 공유하고자 하는 모든 폴더가 나열되어 있습니다. 여러분의 로컬 머신과 홈스테드 환경사이에서 동기화된 이 폴더 안의 파일들이 변경되면  변경사항이 서로 유지됩니다. 필요한 만큼 공유 폴더를 설정하십시오:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
+
+If you are only creating a few sites, this generic mapping will work just fine. However, as the number of sites continue to grow, you may begin to experience performance problems. This problem can be painfully apparent on low-end machines or projects that contain a very large number of files. If you are experiencing this issue, try mapping every project to its own Vagrant folder:
+
+몇개의 사이트만을 생성할 때에는 일반적인 맵핑으로도 충분합니다. 그렇지만, 사이트 수가 계속 증가하는 경우, 성능 문제를 겪을 수도 있습니다. 이 문제는 머신의 성능이 좋지 않거나, 프로젝트의 파일이 많은 경우에 아주 고통스럽습니다. 이러한 문제를 겪는다면, 프로젝트를 개별 Vagrant 폴더에 맵핑하십시오:
+
+    folders:
+        - map: ~/code/project1
+          to: /home/vagrant/code/project1
+
+        - map: ~/code/project2
+          to: /home/vagrant/code/project2
 
 To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you only need to add a simple flag to your synced folder configuration:
 
 [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
           type: "nfs"
 
 > {note} When using NFS, you should consider installing the [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead box.
@@ -191,8 +204,8 @@ You may also pass any options supported by Vagrant's [Synced Folders](https://ww
 `options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
           type: "rsync"
           options:
               rsync__args: ["--verbose", "--archive", "--delete", "-zz"]
@@ -207,7 +220,7 @@ Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
 
 If you change the `sites` property after provisioning the Homestead box, you should re-run `vagrant reload --provision`  to update the Nginx configuration on the virtual machine.
 
@@ -383,9 +396,9 @@ Once your Homestead environment is provisioned and running, you may want to add 
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
         - map: another.app
-          to: /home/vagrant/Code/another/public
+          to: /home/vagrant/code/another/public
 
 If Vagrant is not automatically managing your "hosts" file, you may need to add the new site to that file as well:
 
@@ -408,7 +421,7 @@ Homestead supports several types of sites which allow you to easily run projects
 
     sites:
         - map: symfony2.app
-          to: /home/vagrant/Code/Symfony/web
+          to: /home/vagrant/code/Symfony/web
           type: symfony2
 
 The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, and `symfony2`.
@@ -425,7 +438,7 @@ You may add additional Nginx `fastcgi_param` values to your site via the `params
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           params:
               - key: FOO
                 value: BAR
@@ -444,12 +457,27 @@ If you would like the `schedule:run` command to be run for a Homestead site, you
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           schedule: true
 
 The Cron job for the site will be defined in the `/etc/cron.d` folder of the virtual machine.
 
 사이트를 위한 Cron 작업은 가상 머신의 `/etc/cron.d` 폴더에 정의됩니다.
+
+<a name="configuring-mailhog"></a>
+### Configuring Mailhog
+### Mailhog 설정하기
+
+Mailhog allows you to easily catch your outgoing email and examine it without actually sending the mail to its recipients. To get started, update your `.env` file to use the following mail settings:
+
+Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내지 않고도 송신하는 메일을 손쉽게 찾아보고 확인 할 수 있습니다. 이를 시작하려면 `.env` 파일을 수정하여 다음의 메일 설정을 사용하십시오:
+
+    MAIL_DRIVER=smtp
+    MAIL_HOST=localhost
+    MAIL_PORT=1025
+    MAIL_USERNAME=null
+    MAIL_PASSWORD=null
+    MAIL_ENCRYPTION=null
 
 <a name="ports"></a>
 ### Ports
@@ -518,7 +546,7 @@ Homestead 6 introduced support for multiple versions of PHP on the same virtual 
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           php: "5.6"
 
 In addition, you may use any of the supported PHP versions via the CLI:

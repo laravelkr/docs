@@ -137,6 +137,20 @@ Eloquent 모델에서 `belongsToMany` 메소드를 오버라이딩해서 사용�
         //
     }
 
+#### BelongsToMany `getQualifiedRelatedKeyName`
+#### BelongsToMany `getQualifiedRelatedKeyName`
+
+The `getQualifiedRelatedKeyName` method has been renamed to `getQualifiedRelatedPivotKeyName`.
+
+`getQualifiedRelatedKeyName` 메소드가 `getQualifiedRelatedPivotKeyName` 으로 이름이 변경되었습니다.
+
+#### BelongsToMany `getQualifiedForeignKeyName`
+#### BelongsToMany `getQualifiedForeignKeyName`
+
+The `getQualifiedForeignKeyName` method has been renamed to `getQualifiedForeignPivotKeyName`.
+
+`getQualifiedForeignKeyName` 메소드가 `getQualifiedForeignPivotKeyName` 으로 이름이 변경되었습니다.
+
 #### Model `is` Method
 #### 모델의 `is` 메소드
 
@@ -202,6 +216,13 @@ However, in Laravel 5.5, the alias will be used exactly as it is given. If you w
 하지만, 라라벨 5.5에서는 alias-별칭이 그대로 사용됩니다. 결과 컬럼에 `_count`를 붙이고자 한다면, alias-별칭을 정의할 때 접미사를 지정해야합니다:
 
     $users = User::withCount('foo as bar_count')->get();
+
+#### Model Methods & Attribute Names
+#### 모델 메소드 & 속성의 이름
+
+To prevent accessing a model's private properties when using array access, it's no longer possible to have a model method with the same name as an attribute or property. Doing so will cause exceptions to be thrown when accessing the model's attributes via array access (`$user['name']`) or the `data_get` helper function.
+
+배열을 통한 엑세스를 사용할 때 모델의 private 속성에 엑세스하지 못하도록, 더 이상 속성이나 속성과 동일한 이름을 가지는 모델 메소드를 사용할 수 없습니다. 이렇게 하면 배열 엑세스를 통한 (`$user['name']`) 또는 `data_get` 헬퍼 함수를 통해서 모델의 속성에 엑세스 할 때 예외-exception이 발생합니다.
 
 ### Exception Format
 ### Exception 포맷
@@ -448,6 +469,17 @@ The `maximumVotes` variable may be accessed in the template like so:
 `maximumVotes` 변수는 템플릿 안에서 다음과 같이 엑세스 할 수 있습니다:
 
     {{ $maximumVotes }}
+
+#### `@php` Blade Directive
+#### `@php` 블레이드 지시어
+
+The `@php` blade directive no longer accepts inline tags. Instead, use the full form of the directive:
+
+`@php` 블레이드 지시어는 더이상 인라인 태그를 허용하지 않습니다. 그 대신에 지시어를 열고 닫는 형태로 사용하십시오:
+
+    @php
+        $teamMember = true;
+    @endphp
 
 ### Miscellaneous
 ### 기타

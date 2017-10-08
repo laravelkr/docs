@@ -37,6 +37,8 @@
     - [Scoping Selectors](#scoping-selectors)
     - [Waiting For Elements](#waiting-for-elements)
     - [Waiting For Elements](#waiting-for-elements)
+    - [Making Vue Assertions](#making-vue-assertions)
+    - [Making Vue Assertions](#making-vue-assertions)
 - [Available Assertions](#available-assertions)
 - [Available Assertions](#available-assertions)
 - [Pages](#pages)
@@ -51,6 +53,12 @@
     - [Shorthand Selectors](#shorthand-selectors)
     - [Page Methods](#page-methods)
     - [Page Methods](#page-methods)
+- [Components](#components)
+- [Components](#components)
+    - [Generating Components](#generating-components)
+    - [Generating Components](#generating-components)
+    - [Using Components](#using-components)
+    - [Using Components](#using-components)
 - [Continuous Integration](#continuous-integration)
 - [CI - 지속적 통합](#continuous-integration)
     - [Travis CI](#running-tests-on-travis-ci)
@@ -232,11 +240,11 @@ To get started, let's write a test that verifies we can log into our application
     use App\User;
     use Tests\DuskTestCase;
     use Laravel\Dusk\Chrome;
-    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
 
     class ExampleTest extends DuskTestCase
     {
-        use RefreshDatabase;
+        use DatabaseMigrations;
 
         /**
          * A basic browser test example.
@@ -376,9 +384,16 @@ Note that, although the method accepts one if necessary, we are not required to 
 
 위에서 보시다시피, `type` 메소드는 필요한 경우 CSS selector를 인자로 받습니다. 만약 CSS selector 가 전달되지 않으면, Dusk는 주어진 `name` 속성을 통해서 input 필드를 찾습니다. 그런 다음에 Dusk는 주어진 `name` 속성에 해당하는 `textarea` 를 찾으려고 시도합니다.
 
-You may "clear" the value of an input using the `clear` method:
+To append text to a field without clearing its content, you may use the `append` method:
 
-`clear` 메소드를 통해서 input 필드의 값을 "비우는" 동작을 할 수 있습니다:
+필드의 내용을 유지한채로 문자를 추가하려면 `append` 메소드를 사용하면 됩니다:
+
+    $browser->type('tags', 'foo')
+            ->append('tags', ', bar, baz');
+
+You may clear the value of an input using the `clear` method:
+
+`clear` 메소드를 통해서 input 필드의 값을 비울 수 있습니다:
 
     $browser->clear('email');
 
@@ -595,6 +610,55 @@ You may easily accomplish this using the `waitUntil` method. When passing an exp
     // Wait a maximum of one second for the expression to be true...
     $browser->waitUntil('App.data.servers.length > 0', 1);
 
+#### Waiting With A Callback
+#### Waiting With A Callback
+
+Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
+
+Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
+
+    $browser->waitUsing(10, 1, function () use ($something) {
+        return $something->isReady();
+    }, "Something wasn't ready in time.");
+
+<a name="making-vue-assertions"></a>
+### Making Vue Assertions
+
+Dusk even allows you to make assertions on the state of [Vue](https://vuejs.org) component data. For example, imagine your application contains the following Vue component:
+
+    // HTML...
+
+    <profile dusk="profile-component"></profile>
+
+    // Component Definition...
+
+    Vue.component('profile', {
+        template: '<div>{{ user.name }}</div>',
+
+        data: function () {
+            return {
+                user: {
+                  name: 'Taylor'
+                }
+            };
+        }
+    });
+
+You may assert on the state of the Vue component like so:
+
+    /**
+     * A basic Vue test example.
+     *
+     * @return void
+     */
+    public function testVue()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')
+                    ->assertVue('user.name', 'Taylor', '@profile-component');
+        });
+    }
+
 <a name="available-assertions"></a>
 ## Available Assertions
 ## 사용 가능한 Assertions
@@ -641,6 +705,8 @@ Assertion  | Description
 `$browser->assertVisible($selector)`  |  Assert the element matching the given selector is visible.
 `$browser->assertMissing($selector)`  |  Assert the element matching the given selector is not visible.
 `$browser->assertDialogOpened($message)`  |  Assert that a JavaScript dialog with given message has been opened.
+`$browser->assertVue($property, $value, $component)`  |  Assert that a given Vue component data property matches the given value.
+`$browser->assertVueIsNot($property, $value, $component)`  |  Assert that a given Vue component data property does not match the given value.
 
 Assertion  | 설명
 ------------- | -------------
@@ -678,8 +744,10 @@ Assertion  | 설명
 `$browser->assertSelectHasOption($field, $value)`  |  주어진 값이 필드에서 선택 가능한 값인지 확인.
 `$browser->assertValue($selector, $value)`  |  주어진 selector 와 매칭되는 element가 주어진 값을 가지는지 확인.
 `$browser->assertVisible($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이는지 확인.
-`$browser->assertMissing($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이지 않는 것은 확인.
+`$browser->assertMissing($selector)`  |  주어진 selector 와 매칭되는 element가 화면에 보이지 않는 것을 확인.
 `$browser->assertDialogOpened($message)`  |  주어진 메세지가 있는 자바스크립트 다이얼로그가 열려있는지 확인.
+`$browser->assertVue($property, $value, $component)`  |  주어진 Vue 컴포넌트의 속성이 주어진 값과 일치하는지 확인.
+`$browser->assertVueIsNot($property, $value, $component)`  |  주어진 Vue 컴포넌트의 속성이 주어진 값과 일치하지 않는 것을 확인.
 
 <a name="pages"></a>
 ## Pages
@@ -819,6 +887,116 @@ Once the method has been defined, you may use it within any test that utilizes t
             ->createPlaylist('My Playlist')
             ->assertSee('My Playlist');
 
+<a name="components"></a>
+## Components
+
+Components are similar to Dusk’s “page objects”, but are intended for pieces of UI and functionality that are re-used throughout your application, such as a navigation bar or notification window. As such, components are not bound to specific URLs.
+
+<a name="generating-components"></a>
+### Generating Components
+
+To generate a component, use the `dusk:component` Artisan command. New components are placed in the `test/Browser/Components` directory:
+
+    php artisan dusk:component DatePicker
+
+As shown above, a "date picker" is an example of a component that might exist throughout your application on a variety of pages. It can become cumbersome to manually write the browser automation logic to select a date in dozens of tests throughout your test suite. Instead, we can define a Dusk component to represent the date picker, allowing us to encapsulate that logic within the component:
+
+    <?php
+
+    namespace Tests\Browser\Components;
+
+    use Laravel\Dusk\Browser;
+    use Laravel\Dusk\Component as BaseComponent;
+
+    class DatePicker extends BaseComponent
+    {
+        /**
+         * Get the root selector for the component.
+         *
+         * @return string
+         */
+        public function selector()
+        {
+            return '.date-picker';
+        }
+
+        /**
+         * Assert that the browser page contains the component.
+         *
+         * @param  Browser  $browser
+         * @return void
+         */
+        public function assert(Browser $browser)
+        {
+            $browser->assertVisible($this->selector());
+        }
+
+        /**
+         * Get the element shortcuts for the component.
+         *
+         * @return array
+         */
+        public function elements()
+        {
+            return [
+                '@date-field' => 'input.datepicker-input',
+                '@month-list' => 'div > div.datepicker-months',
+                '@day-list' => 'div > div.datepicker-days',
+            ];
+        }
+
+        /**
+         * Select the given date.
+         *
+         * @param  \Laravel\Dusk\Browser  $browser
+         * @param  int  $month
+         * @param  int  $year
+         * @return void
+         */
+        public function selectDate($browser, $month, $year)
+        {
+            $browser->click('@date-field')
+                    ->within('@month-list', function ($browser) use ($month) {
+                        $browser->click($month);
+                    })
+                    ->within('@day-list', function ($browser) use ($day) {
+                        $browser->click($day);
+                    });
+        }
+    }
+
+<a name="using-components"></a>
+### Using Components
+
+Once the component has been defined, we can easily select a date within the date picker from any test. And, if the logic necessary to select a date changes, we only need to update the component:
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use Tests\DuskTestCase;
+    use Laravel\Dusk\Browser;
+    use Tests\Browser\Components\DatePicker;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+    class ExampleTest extends DuskTestCase
+    {
+        /**
+         * A basic component test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $this->browse(function (Browser $browser) {
+                $browser->visit('/')
+                        ->within(new DatePicker, function ($browser) {
+                            $browser->selectDate(1, 2018);
+                        })
+                        ->assertSee('January');
+            });
+        }
+    }
 
 <a name="continuous-integration"></a>
 ## Continuous Integration

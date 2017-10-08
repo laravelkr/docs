@@ -300,22 +300,32 @@ Command  | Description
 `$table->decimal('amount', 5, 2);`  |  DECIMAL equivalent with a precision and scale.
 `$table->double('column', 15, 8);`  |  DOUBLE equivalent with precision, 15 digits in total and 8 after the decimal point.
 `$table->enum('choices', ['foo', 'bar']);` | ENUM equivalent for the database.
-`$table->float('amount');`  |  FLOAT equivalent for the database.
+`$table->float('amount', 8, 2);`  |  FLOAT equivalent for the database, 8 digits in total and 2 after the decimal point.
+`$table->geometry('column');`  | GEOMETRY equivalent for the database.
+`$table->geometryCollection('column');`  | GEOMETRYCOLLECTION equivalent for the database.
 `$table->increments('id');`  |  Incrementing ID (primary key) using a "UNSIGNED INTEGER" equivalent.
 `$table->integer('votes');`  |  INTEGER equivalent for the database.
 `$table->ipAddress('visitor');`  |  IP address equivalent for the database.
 `$table->json('options');`  |  JSON equivalent for the database.
 `$table->jsonb('options');`  |  JSONB equivalent for the database.
+`$table->lineString('column');`  |  LINESTRING equivalent for the database.
 `$table->longText('description');`  |  LONGTEXT equivalent for the database.
 `$table->macAddress('device');`  |  MAC address equivalent for the database.
+`$table->mediumIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED MEDIUM INTEGER" equivalent.
 `$table->mediumInteger('numbers');`  |  MEDIUMINT equivalent for the database.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent for the database.
-`$table->morphs('taggable');`  |  Adds INTEGER `taggable_id` and STRING `taggable_type`.
+`$table->morphs('taggable');`  |  Adds unsigned INTEGER `taggable_id` and STRING `taggable_type`.
+`$table->multiLineString('column');`  |  MULTILINESTRING equivalent for the database.
+`$table->multiPoint('column');`  |  MULTIPOINT equivalent for the database.
+`$table->multiPolygon('column');`  |  MULTIPOLYGON equivalent for the database.
 `$table->nullableMorphs('taggable');`  |  Nullable versions of the `morphs()` columns.
 `$table->nullableTimestamps();`  |  Nullable versions of the `timestamps()` columns.
+`$table->point('column');`  | POINT equivalent for the database.
+`$table->polygon('column');`  | POLYGON equivalent for the database.
 `$table->rememberToken();`  |  Adds `remember_token` as VARCHAR(100) NULL.
+`$table->smallIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED SMALL INTEGER" equivalent.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent for the database.
-`$table->softDeletes();`  |  Adds `deleted_at` column for soft deletes.
+`$table->softDeletes();`  |  Adds nullable `deleted_at` column for soft deletes.
 `$table->string('email');`  |  VARCHAR equivalent column.
 `$table->string('name', 100);`  |  VARCHAR equivalent with a length.
 `$table->text('description');`  |  TEXT equivalent for the database.
@@ -324,14 +334,20 @@ Command  | Description
 `$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
 `$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
-`$table->timestamps();`  |  Adds `created_at` and `updated_at` columns.
+`$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` columns.
+`$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` (with timezone) columns.
+`$table->unsignedBigInteger('votes');`  |  Unsigned BIGINT equivalent for the database.
+`$table->unsignedInteger('votes');`  |  Unsigned INT equivalent for the database.
+`$table->unsignedMediumInteger('votes');`  |  Unsigned MEDIUMINT equivalent for the database.
+`$table->unsignedSmallInteger('votes');`  |  Unsigned SMALLINT equivalent for the database.
+`$table->unsignedTinyInteger('votes');`  |  Unsigned TINYINT equivalent for the database.
 `$table->uuid('id');`  |  UUID equivalent for the database.
 
 명령  | 설명
 ------------- | -------------
 `$table->bigIncrements('id');`  |  "UNSIGNED BIG INTEGER"에 해당하는 Incrementing ID (프라이머리 키).
 `$table->bigInteger('votes');`  |  데이터베이스의 BIGINT.
-`$table->binary('data');`  |  데이터베이스의 BLOB. 
+`$table->binary('data');`  |  데이터베이스의 BLOB.
 `$table->boolean('confirmed');`  |  데이터베이스의 BOOLEAN.
 `$table->char('name', 4);`  |  CHAR에 해당하며 길이(length)를 가짐.
 `$table->date('created_at');`  |  데이터베이스의 DATE.
@@ -340,22 +356,33 @@ Command  | Description
 `$table->decimal('amount', 5, 2);`  |  유효값과 소수 자릿수를 지정한 DECIMAL
 `$table->double('column', 15, 8);`  |  15자리, 소수점 8자릿수를 지정한 DOUBLE .
 `$table->enum('choices', ['foo', 'bar']);` | 데이터베이스의 ENUM.
-`$table->float('amount');`  |  데이터베이스의 FLOAT. 
+`$table->float('amount');`  |  데이터베이스의 FLOAT, 총 8자리의 자릿수와 소수점 이하 2자리를 표기합니다.
+`$table->geometry('column');`  | 데이터베이스의 GEOMETRY.
+`$table->geometryCollection('column');`  | 데이터베이스의 GEOMETRYCOLLECTION.
 `$table->increments('id');`  |  "UNSIGNED INTEGER"에 해당하는 Incrementing ID (프라이머리 키).
 `$table->integer('votes');`  |  데이터베이스의 INTEGER.
 `$table->ipAddress('visitor');`  |  IP 주소.
 `$table->json('options');`  |  데이터베이스의 JSON.
 `$table->jsonb('options');`  |  데이터베이스의 JSONB.
+`$table->lineString('column');`  |  데이터베이스의 LINESTRING.
 `$table->longText('description');`  |  데이터베이스의 LONGTEXT.
 `$table->macAddress('device');`  |  MAC 어드레스.
+`$table->mediumIncrements('id');`  |  "UNSIGNED MEDIUM INTEGER"를 사용한 증가 ID (primary key).
 `$table->mediumInteger('numbers');`  |  데이터베이스의 MEDIUMINT.
 `$table->mediumText('description');`  |  데이터베이스의 MEDIUMTEXT.
 `$table->morphs('taggable');`  |  `taggable_id` INTEGER와 `taggable_type` STRING 추가.
 `$table->nullableMorphs('taggable');`  |  `morphs()` 컬럼의 Null 허용이 가능한 버전.
 `$table->nullableTimestamps();`  |  `timestamps()` 컬럼의 Null 허용이 가능한 버전.
+`$table->multiPoint('column');`  |  MULTIPOINT equivalent for the database.
+`$table->multiPoint('column');`  |  데이터베이스의 MULTIPOINT.
+`$table->multiPolygon('column');`  |  MULTIPOLYGON equivalent for the database.
+`$table->multiPolygon('column');`  |  데이터베이스의 MULTIPOLYGON.
 `$table->rememberToken();`  |  `remember_token`을 VARCHAR(100) NULL로 추가.
 `$table->smallInteger('votes');`  |  데이터베이스의 SMALLINT.
-`$table->softDeletes();`  |  soft delete할 때 `deleted_at` 컬럼을 추가함.
+`$table->smallIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED SMALL INTEGER"를 사용한 증가 ID (primary key).
+`$table->point('column');`  | 데이터베이스의 POINT.
+`$table->polygon('column');`  | 데이터베이스의 POLYGON.
+`$table->softDeletes();`  |  soft delete할 때 필요한`deleted_at` 컬럼을 추가함.
 `$table->string('email');`  |  VARCHAR에 해당하는 컬럼.
 `$table->string('name', 100);`  |  VARCHAR에 해당하며 길이(length)를 가짐.
 `$table->text('description');`  |  데이터베이스의 TEXT.
@@ -364,7 +391,13 @@ Command  | Description
 `$table->tinyInteger('numbers');`  |  데이터베이스의 TINYINT.
 `$table->timestamp('added_on');`  |  데이터베이스의 TIMESTAMP.
 `$table->timestampTz('added_on');`  |  데이터베이스의 TIMESTAMP (타임존과 함께).
-`$table->timestamps();`  |  `created_at`과 `updated_at` 컬럼을 추가함.
+`$table->timestamps();`  |  null 값이 가능한 `created_at`과 `updated_at` 컬럼을 추가함.
+`$table->timestampsTz();`  |  null 값이 가능한 `created_at` 와 `updated_at` (timezone) 컬럼을 추가.
+`$table->unsignedBigInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) BIGINT와 동일.
+`$table->unsignedInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) INT와 동일.
+`$table->unsignedMediumInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) MEDIUMINT 와 동일.
+`$table->unsignedSmallInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) SMALLINT 와 동일.
+`$table->unsignedTinyInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) TINYINT 와 동일.
 `$table->uuid('id');`  |  데이터베이스의 UUID에 해당.
 
 <a name="column-modifiers"></a>

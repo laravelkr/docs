@@ -21,6 +21,8 @@
     - [인증](#authentication)
 - [Interacting With Elements](#interacting-with-elements)
 - [Element 조작하기](#interacting-with-elements)
+    - [Dusk Selectors](#dusk-selectors)
+    - [Dusk Selectors](#dusk-selectors)
     - [Clicking Links](#clicking-links)
     - [링크 클릭](#clicking-links)
     - [Text, Values, & Attributes](#text-values-and-attributes)
@@ -317,6 +319,34 @@ Often, you will be testing pages that require authentication. You can use Dusk's
 <a name="interacting-with-elements"></a>
 ## Interacting With Elements
 ## Element 조작하기
+
+<a name="dusk-selectors"></a>
+### Dusk Selectors
+### Dusk Selectors
+
+Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
+
+Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
+
+    // HTML...
+
+    <button>Login</button>
+
+    // Test...
+
+    $browser->click('.login-page .container div > button');
+
+Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
+
+Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
+
+    // HTML...
+
+    <button dusk="login-button">Login</button>
+
+    // Test...
+
+    $browser->click('@login-button');
 
 <a name="clicking-links"></a>
 ### Clicking Links

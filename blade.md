@@ -169,7 +169,7 @@
 직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시얼르 사용할 수 있습니다:
 
     <script>
-        var app = @json($array)
+        var app = @json($array);
     </script>
 
 <a name="blade-and-javascript-frameworks"></a>
@@ -377,7 +377,7 @@
 <a name="including-sub-views"></a>
 ## 하위 뷰 포함하기
 
-블레이드의 `@include` 지시어는 다른 뷰 내부에 하나의 블레이드 뷰를 포함할 수 있도록 해줍니다. 부모 뷰에서 볼 수 있는 모든 변수들은 포함되는 뷰에도 제공될 것입니다:
+블레이드의 `@include` 지시어는 뷰 파일 안에 다른 블레이드 뷰를 포함할 수 있도록 해줍니다. 부모 뷰에서 사용가능한 모든 변수들은 하위 뷰에도 사용가능합니다:
 
     <div>
         @include('shared.errors')
@@ -391,13 +391,17 @@
 
     @include('view.name', ['some' => 'data'])
 
-당연하게도, `@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 현재 존재하지 않을 수도 있는 뷰를 포함하려는 경우에는 `@includeIf` 지시어를 사용해야 합니다:
+당연하게도, `@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다:
 
     @includeIf('view.name', ['some' => 'data'])
 
-bool 값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다:
+조건값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다:
 
     @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
+주어진 배열에서 존재하는 것이 확인된 첫번째 뷰를 포함하도록 하려면, `includeFirst` 지시어를 사용하면 됩니다:
+
+    @includeFirst(['custom.admin', 'admin'], ['some' => 'data'])
 
 > {note} 블레이드 뷰에서 `__DIR__`와 `__FILE__` 를 사용하지 마십시오. 이를 사용하면 컴파일된 캐시 뷰의 경로가 반환됩니다.
 

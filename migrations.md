@@ -205,7 +205,7 @@
 ------------- | -------------
 `$table->bigIncrements('id');`  |  "UNSIGNED BIG INTEGER"에 해당하는 Incrementing ID (프라이머리 키).
 `$table->bigInteger('votes');`  |  데이터베이스의 BIGINT.
-`$table->binary('data');`  |  데이터베이스의 BLOB. 
+`$table->binary('data');`  |  데이터베이스의 BLOB.
 `$table->boolean('confirmed');`  |  데이터베이스의 BOOLEAN.
 `$table->char('name', 4);`  |  CHAR에 해당하며 길이(length)를 가짐.
 `$table->date('created_at');`  |  데이터베이스의 DATE.
@@ -214,22 +214,33 @@
 `$table->decimal('amount', 5, 2);`  |  유효값과 소수 자릿수를 지정한 DECIMAL
 `$table->double('column', 15, 8);`  |  15자리, 소수점 8자릿수를 지정한 DOUBLE .
 `$table->enum('choices', ['foo', 'bar']);` | 데이터베이스의 ENUM.
-`$table->float('amount');`  |  데이터베이스의 FLOAT. 
+`$table->float('amount');`  |  데이터베이스의 FLOAT, 총 8자리의 자릿수와 소수점 이하 2자리를 표기합니다.
+`$table->geometry('column');`  | 데이터베이스의 GEOMETRY.
+`$table->geometryCollection('column');`  | 데이터베이스의 GEOMETRYCOLLECTION.
 `$table->increments('id');`  |  "UNSIGNED INTEGER"에 해당하는 Incrementing ID (프라이머리 키).
 `$table->integer('votes');`  |  데이터베이스의 INTEGER.
 `$table->ipAddress('visitor');`  |  IP 주소.
 `$table->json('options');`  |  데이터베이스의 JSON.
 `$table->jsonb('options');`  |  데이터베이스의 JSONB.
+`$table->lineString('column');`  |  데이터베이스의 LINESTRING.
 `$table->longText('description');`  |  데이터베이스의 LONGTEXT.
 `$table->macAddress('device');`  |  MAC 어드레스.
+`$table->mediumIncrements('id');`  |  "UNSIGNED MEDIUM INTEGER"를 사용한 증가 ID (primary key).
 `$table->mediumInteger('numbers');`  |  데이터베이스의 MEDIUMINT.
 `$table->mediumText('description');`  |  데이터베이스의 MEDIUMTEXT.
 `$table->morphs('taggable');`  |  `taggable_id` INTEGER와 `taggable_type` STRING 추가.
 `$table->nullableMorphs('taggable');`  |  `morphs()` 컬럼의 Null 허용이 가능한 버전.
 `$table->nullableTimestamps();`  |  `timestamps()` 컬럼의 Null 허용이 가능한 버전.
+`$table->multiPoint('column');`  |  MULTIPOINT equivalent for the database.
+`$table->multiPoint('column');`  |  데이터베이스의 MULTIPOINT.
+`$table->multiPolygon('column');`  |  MULTIPOLYGON equivalent for the database.
+`$table->multiPolygon('column');`  |  데이터베이스의 MULTIPOLYGON.
 `$table->rememberToken();`  |  `remember_token`을 VARCHAR(100) NULL로 추가.
 `$table->smallInteger('votes');`  |  데이터베이스의 SMALLINT.
-`$table->softDeletes();`  |  soft delete할 때 `deleted_at` 컬럼을 추가함.
+`$table->smallIncrements('id');`  |  Incrementing ID (primary key) using a "UNSIGNED SMALL INTEGER"를 사용한 증가 ID (primary key).
+`$table->point('column');`  | 데이터베이스의 POINT.
+`$table->polygon('column');`  | 데이터베이스의 POLYGON.
+`$table->softDeletes();`  |  soft delete할 때 필요한`deleted_at` 컬럼을 추가함.
 `$table->string('email');`  |  VARCHAR에 해당하는 컬럼.
 `$table->string('name', 100);`  |  VARCHAR에 해당하며 길이(length)를 가짐.
 `$table->text('description');`  |  데이터베이스의 TEXT.
@@ -238,7 +249,13 @@
 `$table->tinyInteger('numbers');`  |  데이터베이스의 TINYINT.
 `$table->timestamp('added_on');`  |  데이터베이스의 TIMESTAMP.
 `$table->timestampTz('added_on');`  |  데이터베이스의 TIMESTAMP (타임존과 함께).
-`$table->timestamps();`  |  `created_at`과 `updated_at` 컬럼을 추가함.
+`$table->timestamps();`  |  null 값이 가능한 `created_at`과 `updated_at` 컬럼을 추가함.
+`$table->timestampsTz();`  |  null 값이 가능한 `created_at` 와 `updated_at` (timezone) 컬럼을 추가.
+`$table->unsignedBigInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) BIGINT와 동일.
+`$table->unsignedInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) INT와 동일.
+`$table->unsignedMediumInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) MEDIUMINT 와 동일.
+`$table->unsignedSmallInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) SMALLINT 와 동일.
+`$table->unsignedTinyInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) TINYINT 와 동일.
 `$table->uuid('id');`  |  데이터베이스의 UUID에 해당.
 
 <a name="column-modifiers"></a>

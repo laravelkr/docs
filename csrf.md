@@ -35,9 +35,9 @@ URI를 CSRF 보호에서 제외시키고 싶을 때가 있습니다. 예를 들�
 
     namespace App\Http\Middleware;
 
-    use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+    use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
-    class VerifyCsrfToken extends BaseVerifier
+    class VerifyCsrfToken extends Middleware
     {
         /**
          * The URIs that should be excluded from CSRF verification.

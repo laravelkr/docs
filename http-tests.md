@@ -214,7 +214,7 @@
 `$response->assertCookie($cookieName, $value = null);`  |  응답에서 주어진 쿠키가 포함되어 있는지 확인.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  응답에서 주어진 (암호화 되지 않은)쿠키가 포함되어 있는지 확인.
 `$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
-`$response->assertSessionHasErrors(array $keys, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
+`$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
 `$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
 `$response->assertJsonFragment(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있는지 확인

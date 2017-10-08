@@ -1,6 +1,7 @@
 # 데이터베이스 테스팅
 
 - [소개하기](#introduction)
+- [팩토리 생성하기](#generating-factories)
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [팩토리 작성하기](#writing-factories)
     - [팩토리 상태(States)](#factory-states)
@@ -26,6 +27,19 @@
 또한 데이터베이스에 데이터가 존재하지 않는 것을 확인하기 위해서 `assertDatabaseMissing` 헬퍼 함수를 사용할 수 있습니다.
 
 `assertDatabaseHas` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
+
+<a name="generating-factories"></a>
+## 팩토리 생성하기
+
+팩토리 클래스를 생성하기 위해서는 `make:factory` [아티즌 명령어](/docs/{{version}}/artisan)를 사용합니다:
+
+    php artisan make:factory PostFactory
+
+새로운 팩토리는 `database/factories` 디렉토리에 생성됩니다.
+
+팩토리에 의해서 생성될 모델의 이름을 지정하고자 한다면 `--model` 옵션을 사용하면 됩니다. 이 옵션은 생성된 팩토리 파일을 주어진 모델로 미리 채워둡니다:
+
+    php artisan make:factory PostFactory --model=Post
 
 <a name="resetting-the-database-after-each-test"></a>
 ## 각각의 테스트 수행 후에 데이터베이스 재설정하기

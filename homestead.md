@@ -14,6 +14,7 @@
     - [데이터베이스에 접속하기](#connecting-to-databases)
     - [사이트 추가하기](#adding-additional-sites)
     - [Cron 설정하기](#configuring-cron-schedules)
+    - [Mailhog 설정하기](#configuring-mailhog)
     - [포트 지정](#ports)
     - [환경 공유하기](#sharing-your-environment)
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
@@ -110,14 +111,23 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 `Homestead.yaml` 파일의 `folders` 속성은 홈스테드 환경과 공유하고자 하는 모든 폴더가 나열되어 있습니다. 여러분의 로컬 머신과 홈스테드 환경사이에서 동기화된 이 폴더 안의 파일들이 변경되면  변경사항이 서로 유지됩니다. 필요한 만큼 공유 폴더를 설정하십시오:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
+
+몇개의 사이트만을 생성할 때에는 일반적인 맵핑으로도 충분합니다. 그렇지만, 사이트 수가 계속 증가하는 경우, 성능 문제를 겪을 수도 있습니다. 이 문제는 머신의 성능이 좋지 않거나, 프로젝트의 파일이 많은 경우에 아주 고통스럽습니다. 이러한 문제를 겪는다면, 프로젝트를 개별 Vagrant 폴더에 맵핑하십시오:
+
+    folders:
+        - map: ~/code/project1
+          to: /home/vagrant/code/project1
+
+        - map: ~/code/project2
+          to: /home/vagrant/code/project2
 
 [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
           type: "nfs"
 
 > {note} NFS를 사용할 때에는, [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
@@ -125,8 +135,8 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 `options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다:
 
     folders:
-        - map: ~/Code
-          to: /home/vagrant/Code
+        - map: ~/code
+          to: /home/vagrant/code
           type: "rsync"
           options:
               rsync__args: ["--verbose", "--archive", "--delete", "-zz"]
@@ -138,7 +148,7 @@ Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
 
 홈스테드 박스가 프로비저닝 된 이후에 `sites` 속성을 변경한다면, 가상머신의 Nginx 설정을 갱신하기 위해서 `vagrant reload --provision` 을 다시 실행시켜야만 합니다.
 
@@ -258,9 +268,9 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
         - map: another.app
-          to: /home/vagrant/Code/another/public
+          to: /home/vagrant/code/another/public
 
 Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다:
 
@@ -276,7 +286,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: symfony2.app
-          to: /home/vagrant/Code/Symfony/web
+          to: /home/vagrant/code/Symfony/web
           type: symfony2
 
 사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
@@ -288,7 +298,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           params:
               - key: FOO
                 value: BAR
@@ -302,10 +312,22 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           schedule: true
 
 사이트를 위한 Cron 작업은 가상 머신의 `/etc/cron.d` 폴더에 정의됩니다.
+
+<a name="configuring-mailhog"></a>
+### Mailhog 설정하기
+
+Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내지 않고도 송신하는 메일을 손쉽게 찾아보고 확인 할 수 있습니다. 이를 시작하려면 `.env` 파일을 수정하여 다음의 메일 설정을 사용하십시오:
+
+    MAIL_DRIVER=smtp
+    MAIL_HOST=localhost
+    MAIL_PORT=1025
+    MAIL_USERNAME=null
+    MAIL_PASSWORD=null
+    MAIL_ENCRYPTION=null
 
 <a name="ports"></a>
 ### 포트지정하기
@@ -354,7 +376,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: homestead.app
-          to: /home/vagrant/Code/Laravel/public
+          to: /home/vagrant/code/Laravel/public
           php: "5.6"
 
 추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다:

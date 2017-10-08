@@ -275,6 +275,10 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
 
     $value = $request->cookie('name');
 
+또한, 쿠키에 엑세스 하기 위해서 `Cookie` 파사드를 사용할 수 있습니다:
+
+    $value = Cookie::get('name');
+
 #### 쿠키를 Response 에 추가하기
 
 외부로 나가는 `Illuminate\Http\Response`인스턴스에 `cookie` 메소드를 사용하여 쿠키를 추가할 수 있습니다. 메소드에는 이름과 값 그리고 쿠키가 얼마나 유효한지 결정하는 분단위의 값이 전달되어야 합니다:
@@ -288,6 +292,12 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
     return response('Hello World')->cookie(
         'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
     );
+
+또는, `Cookie` 파사드를 어플리케이션의 응답에 쿠키를 추가하기 위해서 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 응답이 브라우저로 보내지기 전에 추가됩니다:
+
+    Cookie::queue(Cookie::make('name', 'value', $minutes));
+
+    Cookie::queue('name', 'value', $minutes);
 
 #### 쿠키 인스턴스 생성하기
 

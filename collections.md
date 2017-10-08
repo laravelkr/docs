@@ -2,6 +2,7 @@
 
 - [소개하기](#introduction)
     - [컬렉션 생성하기](#creating-collections)
+    - [컬렉션 확장하기](#extending-collections)
 - [사용 가능한 메소드](#available-methods)
 - [Higher Order Messages](#higher-order-messages)
 
@@ -29,6 +30,27 @@
 
 > {tip} [Eloquent](/docs/{{version}}/eloquent)쿼리의 결과는 항상 `Collection` 인스턴스를 반환합니다.
 
+<a name="extending-collections"></a>
+### 컬렉션 확장하기
+
+컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다:
+
+    use Illuminate\Support\Str;
+
+    Collection::macro('toUpper', function () {
+        return $this->map(function ($value) {
+            return Str::upper($value);
+        });
+    });
+
+    $collection = collect(['first', 'second']);
+
+    $upper = $collection->toUpper();
+
+    // ['FIRST', 'SECOND']
+
+일반적으로, [서비스 프로바이더](/docs/{{version}}/providers)에서 컬렉션에 메소드를 추가하게 됩니다.
+
 <a name="available-methods"></a>
 ## 사용가능한 메소드
 
@@ -51,13 +73,18 @@
 - [chunk](#method-chunk)
 - [collapse](#method-collapse)
 - [combine](#method-combine)
+- [concat](#method-concat)
 - [contains](#method-contains)
 - [containsStrict](#method-containsstrict)
 - [count](#method-count)
+- [crossJoin](#method-crossjoin)
+- [dd](#method-dd)
 - [diff](#method-diff)
 - [diffAssoc](#method-diffassoc)
 - [diffKeys](#method-diffkeys)
+- [dump](#method-dump)
 - [each](#method-each)
+- [eachSpread](#method-eachspread)
 - [every](#method-every)
 - [except](#method-except)
 - [filter](#method-filter)
@@ -78,7 +105,12 @@
 - [keyBy](#method-keyby)
 - [keys](#method-keys)
 - [last](#method-last)
+- [macro](#method-macro)
+- [make](#method-make)
 - [map](#method-map)
+- [mapInto](#method-mapinto)
+- [mapSpread](#method-mapspread)
+- [mapToGroups](#method-maptogroups)
 - [mapWithKeys](#method-mapwithkeys)
 - [max](#method-max)
 - [median](#method-median)
@@ -119,6 +151,8 @@
 - [union](#method-union)
 - [unique](#method-unique)
 - [uniqueStrict](#method-uniquestrict)
+- [unless](#method-unless)
+- [unwrap](#method-unwrap)
 - [values](#method-values)
 - [when](#method-when)
 - [where](#method-where)
@@ -127,6 +161,7 @@
 - [whereInStrict](#method-whereinstrict)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
+- [wrap](#method-wrap)
 - [zip](#method-zip)
 
 <a name="method-listing"></a>
@@ -217,6 +252,19 @@
     $combined->all();
 
     // ['name' => 'George', 'age' => 29]
+
+<a name="method-concat"></a>
+#### `concat()` {#collection-method}
+
+`concat` 메소드는 주어진 `배열` 또는 컬렉션의 마지막에 값을 추가합니다:
+
+    $collection = collect(['John Doe']);
+
+    $concatenated = $collection->concat(['Jane Doe'])->concat(['name' => 'Johnny Doe']);
+
+    $concatenated->all();
+
+    // ['John Doe', 'Jane Doe', 'Johnny Doe']
 
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}

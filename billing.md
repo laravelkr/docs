@@ -311,6 +311,10 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 
     $user->subscription('main')->updateQuantity(10);
 
+`noProrate` 메소드를 사용하면 요금에 영향을 주지 않으면서 구독의 수량을 수정 할 수 있습니다:
+
+    $user->subscription('main')->noProrate()->updateQuantity(10);
+
 구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/subscriptions/quantities)를 참고하십시오.
 
 <a name="subscription-taxes"></a>

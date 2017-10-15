@@ -60,16 +60,19 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 <a name="writing-vue-components"></a>
 ### Vue 컴포넌트 작성하기
 
-기본적으로 새로 설치한 라라벨 어플리케이션은 `resources/assets/js/components` 디렉토리에 `Example.vue` 뷰 컴포넌트를 포함하고 있습니다. `Example.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 어플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다:
+기본적으로 새로 설치한 라라벨 어플리케이션은 `resources/assets/js/components` 디렉토리에 `ExampleComponent.vue` 뷰 컴포넌트를 포함하고 있습니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 어플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다:
 
-    Vue.component('example', require('./components/Example.vue'));
+    Vue.component(
+        'example-component',
+        require('./components/ExampleComponent.vue')
+    );
 
 어플리케이션에서 이 컴포넌트를 사용하려면, 간단하게 HTML 템플린 안에 간단하게 등록하면 됩니다. 예를 들어 어플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다:
 
     @extends('layouts.app')
 
     @section('content')
-        <example></example>
+        <example-component></example-component>
     @endsection
 
 > {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `npm run dev` 명령어를 실행해야 한다는 것입니다. 또는 `npm run watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.

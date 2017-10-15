@@ -516,7 +516,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 시퀀스 이름을 전달 하십시오.
+> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 컬름 이름을 전달 하십시오.
 
 <a name="updates"></a>
 ## Updates-수정

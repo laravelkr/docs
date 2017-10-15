@@ -31,7 +31,7 @@
 
 라라벨 5.5는 패키지 자동 감지, API 리소스 / 데이터변환, 콘솔 명령어의 자동 등록, queued job 체이닝, queued job 의 실행 속도 제한, job 재시도시  제한 시간 지정하기, 브라우저에서 렌더링이 가능한 mailable, exception-예외에 대한 renderable, reportable, 보다 일관된 exceptioin 핸들링, 데이터베이스 테스팅의 강화, 보다 간단해진 커스텀 유효성 검사 rule 등록, React 프론트엔드 preset, `Route::view` 와 `Route::redirect` 메소드, Memcache 와 Redis 캐시의 "잠금" 기능, 일회성 알림 기능, Dusk 에서 headless Chrome 지원, 편리한 블레이드 단축 기능, 신뢰가능한 프록시 지원 향상등 라라벨 5.4에 비해서 기능이 향상되었습니다.
 
-또한 라라벨 5.5는 Redis 기반의 라라벨 queue를 위한 새로운 큐-queue 대시보드및 설정 시스템인 [라라벨 Horizon] (http://horizon.laravel.com)와 함께 출시되었습니다.
+또한 라라벨 5.5는 Redis 기반의 라라벨 queue를 위한 새로운 큐-queue 대시보드및 설정 시스템인 [라라벨 Horizon] (https://horizon.laravel.com)와 함께 출시되었습니다.
 
 > {tip} 이 문서는 프레임워크에서 주요한 개선사항들에 대한 요약입니다. 보다 자세한 변경사항은 [GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md)에서 확인할 수 있습니다.
 

@@ -88,7 +88,7 @@ You may also pass arguments to the `environment` method to check if the environm
         // The environment is either local OR staging...
     }
 
-> {tip} The current application environment detection can be overriden by a server-level `APP_ENV` environment variable. This can be useful when you need to share the same application for different environment configurations, so you can set up a given host to match a given environment in your server's configurations.
+> {tip} The current application environment detection can be overridden by a server-level `APP_ENV` environment variable. This can be useful when you need to share the same application for different environment configurations, so you can set up a given host to match a given environment in your server's configurations.
 
 > {tip} 현재의 어플리케이션 구동 환경의 감지하는 것은 서버의 APP_ENV 환경 변수에 의해서 오버라이딩 될 수 있습니다. 이 기능은 여러개의 환경 구성에 동일한 어플리케이션을 공유해야 할 때 유용하며, 따라서 여러분은 주어진 호스트가 주어진 환경과 매칭되도록 설정할 수 있습니다.
 

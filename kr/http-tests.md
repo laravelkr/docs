@@ -264,6 +264,11 @@ Method  | Description
 `$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
 `$response->assertViewIs($value);`  |  Assert that the given view was returned by the route.
 `$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
+`$response->assertViewMissing($key);`  |  Assert that the response view is missing a piece of bound data.
+`$response->assertSee($value);`  |  Assert that the given string is contained within the response.
+`$response->assertDontSee($value);`  |  Assert that the given string is not contained within the response.
+`$response->assertSeeText($value);`  |  Assert that the given string is contained within the response text.
+`$response->assertDontSeeText($value);`  |  Assert that the given string is not contained within the response text.
 
 메소드  | 설명
 ------------- | -------------
@@ -283,3 +288,8 @@ Method  | Description
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
 `$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.
+`$response->assertViewMissing($key);`  |  응답 뷰가 주어진 데이터가 아닌것을 확인.
+`$response->assertSee($value);`  |  응답이 주어진 문자열을 포함하고 있는지 확인.
+`$response->assertDontSee($value);`  |  응답이 주어진 문자열을 포함하고 있지 않은 것을 확인.
+`$response->assertSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있는지 확인.
+`$response->assertDontSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있지 않은 것을 확인.

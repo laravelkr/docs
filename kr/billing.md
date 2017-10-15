@@ -437,6 +437,12 @@ Alternatively, you may set a specific quantity using the `updateQuantity` method
 
     $user->subscription('main')->updateQuantity(10);
 
+The `noProrate` method may be used to update the subscription's quantity without pro-rating the charges:
+
+`noProrate` 메소드를 사용하면 요금에 영향을 주지 않으면서 구독의 수량을 수정 할 수 있습니다:
+
+    $user->subscription('main')->noProrate()->updateQuantity(10);
+
 For more information on subscription quantities, consult the [Stripe documentation](https://stripe.com/docs/subscriptions/quantities).
 
 구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/subscriptions/quantities)를 참고하십시오.

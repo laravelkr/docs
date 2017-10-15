@@ -299,6 +299,21 @@ Sometimes you may need multiple browsers in order to properly carry out a test. 
               ->assertSee('Jeffrey Way');
     });
 
+#### Resizing Browser Windows
+#### 브라우저의 윈도우 리사이징
+
+You may use the `resize` method to adjust the size of the browser window:
+
+브라우저의 윈도우 사이즈를 조정하려면 `resize` 메소드를 사용하면 됩니다:
+
+    $browser->resize(1920, 1080);
+
+The `maximize` method may be used to maximize the browser window:
+
+`maximize` 메소드는 브라우저의 윈도우를 최대 크기로 조정하는데 사용합니다:
+
+    $browser->maximize();
+
 <a name="authentication"></a>
 ### Authentication
 ### 인증

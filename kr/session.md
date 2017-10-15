@@ -30,9 +30,9 @@
 ## Introduction
 ## 소개하기
 
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. Laravel ships with a variety of session backends that are accessed through an expressive, unified API. Support for popular backends such as [Memcached](https://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
+Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. Laravel ships with a variety of session backends that are accessed through an expressive, unified API. Support for popular backends such as [Memcached](https://memcached.org), [Redis](https://redis.io), and databases is included out of the box.
 
-HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 여러 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 풍부한 표현이 가능하며 일관된 API를 통해서 엑세스 되는 다양한 세션 백엔드를 제공합니다. 별다른 설정 없이도, 많이 알려진 [Memcached](https://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 지원합니다.
+HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 여러 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 풍부한 표현이 가능하며 일관된 API를 통해서 엑세스 되는 다양한 세션 백엔드를 제공합니다. 별다른 설정 없이도, 많이 알려진 [Memcached](https://memcached.org), [Redis](https://redis.io) 그리고 데이터베이스를 지원합니다.
 
 <a name="configuration"></a>
 ### Configuration

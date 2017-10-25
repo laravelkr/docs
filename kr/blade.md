@@ -238,7 +238,7 @@ Sometimes you may pass an array to your view with the intention of rendering it 
 
 However, instead of manually calling `json_encode`, you may use the `@json` Blade directive:
 
-직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시얼르 사용할 수 있습니다:
+직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다:
 
     <script>
         var app = @json($array);

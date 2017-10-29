@@ -127,6 +127,14 @@ You may rollback & re-migrate a limited number of migrations by providing the `s
 
     php artisan migrate:refresh --step=5
 
+#### Drop All Tables & Migrate
+
+The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+
+    php artisan migrate:fresh
+
+    php artisan migrate:fresh --seed
+
 <a name="tables"></a>
 ## Tables
 
@@ -246,11 +254,11 @@ Command  | Description
 `$table->text('description');`  |  TEXT equivalent for the database.
 `$table->time('sunrise');`  |  TIME equivalent for the database.
 `$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent for the database.
-`$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
 `$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
 `$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` columns.
 `$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` (with timezone) columns.
+`$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->unsignedBigInteger('votes');`  |  Unsigned BIGINT equivalent for the database.
 `$table->unsignedInteger('votes');`  |  Unsigned INT equivalent for the database.
 `$table->unsignedMediumInteger('votes');`  |  Unsigned MEDIUMINT equivalent for the database.
@@ -275,7 +283,7 @@ Modifier  | Description
 `->comment('my comment')`  |  Add a comment to a column (MySQL Only)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL Only)
-`->nullable()`  |  Allow NULL values to be inserted into the column
+`->nullable($value = true)`  |  Allows (by default) NULL values to be inserted into the column
 `->storedAs($expression)`  |  Create a stored generated column (MySQL Only)
 `->unsigned()`  |  Set `integer` columns to `UNSIGNED`
 `->virtualAs($expression)`  |  Create a virtual generated column (MySQL Only)

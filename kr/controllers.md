@@ -203,6 +203,15 @@ This single route declaration creates multiple routes to handle a variety of act
 
 한번의 선언만으로 photo 를 구성하는 RESTful 한 액션에 대한 다양한 라우트를 설정할 수 있습니다. 앞에서 직접 개별 메소드를 구성한것과 마찬가지로 생성된 컨트롤러는 각각의 메소드가 처리하는 URI와 액션에 대한 메모와 함께 구성됩니다.
 
+You may register many resource controllers at once by passing an array to the `resources` method:
+
+`resources` 메소드에 배열을 전달하여 한번에 여러개의 리소스 컨트롤러를 등록할 수 있습니다:
+
+    Route::resources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+
 #### Actions Handled By Resource Controller
 #### 리소스풀 컨트롤러에 의해서 구성된 액션들
 

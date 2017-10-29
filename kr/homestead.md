@@ -29,6 +29,8 @@
     - [데이터베이스에 접속하기](#connecting-to-databases)
     - [Adding Additional Sites](#adding-additional-sites)
     - [사이트 추가하기](#adding-additional-sites)
+    - [Environment Variables](#environment-variables)
+    - [구동 환경 변수](#environment-variables)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
@@ -141,7 +143,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd Homestead
 
     // Clone the desired release...
-    git checkout v6.3.0
+    git checkout v6.5.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -221,7 +223,7 @@ Not familiar with Nginx? No problem. The `sites` property allows you to easily m
 Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통해 홈스테드 환경의 폴더와 "도메인"을 쉽게 매핑 할 수 있습니다. 사이트 샘플이 `Homestead.yaml` 파일에 포함되어 있습니다. 여기에서도 여러분의 홈스테드 환경에 필요한만큼 사이트를 추가할 수 있습니다. 홈스테드는 편리하게, 여러분이 작업을 수행하는 모든 라라벨 프로젝트를 위한 가상 환경을 제공합니다:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
 
 If you change the `sites` property after provisioning the Homestead box, you should re-run `vagrant reload --provision`  to update the Nginx configuration on the virtual machine.
@@ -235,13 +237,13 @@ You must add the "domains" for your Nginx sites to the `hosts` file on your mach
 
 여러분은 Nginx 사이트에 설정한 "도메인"을 로컬 머신의 `hosts` 파일에 추가해야 합니다. `hosts` 파일은 여러분의 홈스테드 사이트에 대한 요청을 홈스테드 머신으로 리다이렉트 시킬 것 입니다. 맥과 리눅스에서는 `/etc/hosts`, 윈도우에서는 `C:\Windows\System32\drivers\etc\hosts`에 파일이 있습니다. 다음과 같이 도메인을 추가하십시오. 
 
-    192.168.10.10  homestead.localhost
+    192.168.10.10  homestead.test
 
 Make sure the IP address listed is the one set in your `Homestead.yaml` file. Once you have added the domain to your `hosts` file and launched the Vagrant box you will be able to access the site via your web browser:
 
 입력한 IP 주소가 여러분의 `Homestead.yaml` 파일에 설정된 목록중 하나인지 확인하십시오. `hosts` 파일에 도메인을 추가 하고 Vagrant box를 구동하면 웹브라우저를 통해서 사이트에 액세스 할 수 있습니다:
 
-    http://homestead.localhost
+    http://homestead.test
 
 <a name="launching-the-vagrant-box"></a>
 ### Launching The Vagrant Box
@@ -281,9 +283,9 @@ Windows:
 
     vendor\\bin\\homestead make
 
-Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.localhost` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.app` or the domain of your choice.
+Next, run the `vagrant up` command in your terminal and access your project at `http://homestead.test` in your browser. Remember, you will still need to add an `/etc/hosts` file entry for `homestead.test` or the domain of your choice.
 
-다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.localhost` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.spp` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다.
+다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.test` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.test` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다.
 
 <a name="installing-mariadb"></a>
 ### Installing MariaDB
@@ -412,17 +414,17 @@ Once your Homestead environment is provisioned and running, you may want to add 
 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `Homestead.yaml` 파일에 사이트를 추가하십시오:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
-        - map: another.localhost
+        - map: another.test
           to: /home/vagrant/code/another/public
 
 If Vagrant is not automatically managing your "hosts" file, you may need to add the new site to that file as well:
 
 Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다: 
 
-    192.168.10.10  homestead.localhost
-    192.168.10.10  another.localhost
+    192.168.10.10  homestead.test
+    192.168.10.10  another.test
 
 Once the site has been added, run the `vagrant reload --provision` command from your Homestead directory.
 
@@ -437,7 +439,7 @@ Homestead supports several types of sites which allow you to easily run projects
 홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 어플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다:
 
     sites:
-        - map: symfony2.localhost
+        - map: symfony2.test
           to: /home/vagrant/code/Symfony/web
           type: symfony2
 
@@ -454,15 +456,31 @@ You may add additional Nginx `fastcgi_param` values to your site via the `params
 추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다:  
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           params:
               - key: FOO
                 value: BAR
 
+<a name="environment-variables"></a>
+### Environment Variables
+### 구동 환경 변수
+
+You can set global environment variables by adding them to your `Homestead.yaml` file:
+
+`Homestead.yaml` 파일에 글로벌 구동환경에 대한 변수를 지정할 수 있습니다:
+
+    variables:
+        - key: APP_ENV
+          value: local
+        - key: FOO
+          value: bar
+
+After updating the `Homestead.yaml`, be sure to re-provision the machine by running `vagrant reload --provision`. This will update the PHP-FPM configuration for all of the installed PHP versions and also update the environment for the `vagrant` user.
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
-### Cron 스케줄링 설정하기 =
+### Cron 스케줄링 설정하기
 
 Laravel provides a convenient way to [schedule Cron jobs](/docs/{{version}}/scheduling) by scheduling a single `schedule:run` Artisan command to be run every minute. The `schedule:run` command will examine the job schedule defined in your `App\Console\Kernel` class to determine which jobs should be run.
 
@@ -473,7 +491,7 @@ If you would like the `schedule:run` command to be run for a Homestead site, you
 홈스테드의 사이트에서 `schedule:run` 명령을 실행하려면 사이트를 정의 할 때 `schedule` 옵션을 `true` 로 설정하십시오.
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           schedule: true
 
@@ -534,18 +552,17 @@ Sometimes you may wish to share what you're currently working on with coworkers 
 
 가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
 
-To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.localhost`. This will share the `homestead.localhost` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.localhost`:
-To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.localhost`. This will share the `homestead.localhost` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.localhost`:
+To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.test`. This will share the `homestead.test` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.test`:
 
-이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.localhost` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.localhost` 사이트는 물론 다른 사이트도 공유할 수 있습니다:
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트는 물론 다른 사이트도 공유할 수 있습니다:
 
-    share homestead.localhost
+    share homestead.test
 
 After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site. If you would like to specify a custom region, subdomain, or other Ngrok runtime option, you may add them to your `share` command:
 
 이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다. 커스텀 리전, 서브도메인, Ngrok 실행 옵션을 지정하고자 한다면 `share` 명령어에 이를 추가하면됩니다:
 
-    share homestead.localhost -region=eu -subdomain=laravel
+    share homestead.test -region=eu -subdomain=laravel
 
 > {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
 
@@ -559,12 +576,12 @@ After running the command, you will see an Ngrok screen appear which contains th
 
 > {note} 이 기능은 Nginx에서만 유효합니다.
 
-Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", and "7.1":
+Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1" and "7.2":
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1" 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2" 입니다:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           php: "5.6"
 
@@ -575,6 +592,7 @@ In addition, you may use any of the supported PHP versions via the CLI:
     php5.6 artisan list
     php7.0 artisan list
     php7.1 artisan list
+    php7.2 artisan list
 
 <a name="network-interfaces"></a>
 ## Network Interfaces
@@ -660,6 +678,7 @@ When you use an older version of the Homestead box you need to match that with a
 | PHP 7.1 | 4.0.0 | 1.0.0 |
 | PHP 7.1 | 5.0.0 | 2.0.0 |
 | PHP 7.1 | 6.0.0 | 3.0.0 |
+| PHP 7.2 RC3 | 6.4.0 | 4.0.0 |
 
 <a name="provider-specific-settings"></a>
 ## Provider Specific Settings

@@ -12,7 +12,7 @@
 ## Introduction
 ## 소개
 
-Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a `phpunit.xml` file is already setup for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
+Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a `phpunit.xml` file is already set up for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
 
 라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 어플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 어플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다. 
 

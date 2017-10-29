@@ -254,6 +254,8 @@ Method  | Description
 `$response->assertHeader($headerName, $value = null);`  |  Assert that the given header is present on the response.
 `$response->assertCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie (unencrypted).
+`$response->assertCookieExpired($cookieName);`  |  Assert that the response contains the given cookie and it is expired.
+`$response->assertCookieMissing($cookieName);`  |  Assert that the response does not contains the given cookie.
 `$response->assertSessionHas($key, $value = null);`  |  Assert that the session contains the given piece of data.
 `$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  Assert that the session contains an error for the given field.
 `$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
@@ -264,6 +266,7 @@ Method  | Description
 `$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
 `$response->assertViewIs($value);`  |  Assert that the given view was returned by the route.
 `$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
+`$response->assertViewHasAll(array $data);`  |  Assert that the response view has a given list of data.
 `$response->assertViewMissing($key);`  |  Assert that the response view is missing a piece of bound data.
 `$response->assertSee($value);`  |  Assert that the given string is contained within the response.
 `$response->assertDontSee($value);`  |  Assert that the given string is not contained within the response.
@@ -278,6 +281,8 @@ Method  | Description
 `$response->assertHeader($headerName, $value = null);`  |  응답에서 주어진 헤더가 존재하는지 확인.
 `$response->assertCookie($cookieName, $value = null);`  |  응답에서 주어진 쿠키가 포함되어 있는지 확인.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  응답에서 주어진 (암호화 되지 않은)쿠키가 포함되어 있는지 확인.
+`$response->assertCookieExpired($cookieName);`  |  응답에서 포함되어 있는 주어진 쿠키가 기간이 만료되었는지 확인.
+`$response->assertCookieMissing($cookieName);`  |  응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인.
 `$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
 `$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
@@ -288,6 +293,7 @@ Method  | Description
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
 `$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.
+`$response->assertViewHasAll(array $data);`  |  응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 확인.
 `$response->assertViewMissing($key);`  |  응답 뷰가 주어진 데이터가 아닌것을 확인.
 `$response->assertSee($value);`  |  응답이 주어진 문자열을 포함하고 있는지 확인.
 `$response->assertDontSee($value);`  |  응답이 주어진 문자열을 포함하고 있지 않은 것을 확인.

@@ -210,15 +210,71 @@ If you already have a query builder instance and you wish to add a column to its
 ## Raw Expressions
 ## Raw 표현식
 
-Sometimes you may need to use a raw expression in a query. These expressions will be injected into the query as strings, so be careful not to create any SQL injection points! To create a raw expression, you may use the `DB::raw` method:
+Sometimes you may need to use a raw expression in a query. To create a raw expression, you may use the `DB::raw` method:
 
-때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. 이러한 구문들은 쿼리에 문자열 형태로 주입될 것이기 때문에, SQL 인젝션 공격을 유발하지 않도록 주의하시기 바랍니다! raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다:
+때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다:
 
     $users = DB::table('users')
                          ->select(DB::raw('count(*) as user_count, status'))
                          ->where('status', '<>', 1)
                          ->groupBy('status')
                          ->get();
+
+> {note} Raw statements will be injected into the query as strings, so you should be extremely careful to not create SQL injection vulnerabilities.
+
+이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
+
+<a name="raw-methods"></a>
+### Raw Methods
+### Raw 메소드
+
+Instead of using `DB::raw`, you may also use the following methods to insert a raw expression into various parts of your query.
+
+`DB::raw` 를 사용하는 대신에, 쿼리의 다양한 부분을 raw expression으로 대체하기 위해서 다음의 메소드를 사용할 수 있습니다.
+
+#### `selectRaw`
+
+The `selectRaw` method can be used in place of `select(DB::raw(...))`. This method accepts an optional array of bindings as its second argument:
+
+`selectRaw` 메소드는 `select(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다:
+
+    $orders = DB::table('orders')
+                    ->selectRaw('price * ? as price_with_tax', [1.0825])
+                    ->get();
+
+#### `whereRaw / orWhereRaw`
+
+The `whereRaw` and `orWhereRaw` methods can be used to inject a raw `where` clause into your query. These methods accept an optional array of bindings as their second argument:
+
+`whereRaw` 와 `orWhereRaw` 메소드는 쿼리의 `where` 절에 raw 한 구문을 삽입하는데 사용할 수 있습니다. 이 메소드도 옵션 배열을 두번째 인자로 받습니다:
+
+    $orders = DB::table('orders')
+                    ->whereRaw('price > IF(state = "TX", ?, 100)', [200])
+                    ->get();
+
+#### `havingRaw / orHavingRaw`
+
+The `havingRaw` and `orHavingRaw` methods may be used to set a raw string as the value of the `having` clause:
+
+`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다.
+
+    $orders = DB::table('orders')
+                    ->select('department', DB::raw('SUM(price) as total_sales'))
+                    ->groupBy('department')
+                    ->havingRaw('SUM(price) > 2500')
+                    ->get();
+
+#### `orderByRaw`
+
+The `orderByRaw` method may be used to set a raw string as the value of the `order by` clause:
+
+`orderByRaw` 메소드는 `order by` 절의 값을 raw 한 문자열로 설정하는데 사용합니다:
+
+    $orders = DB::table('orders')
+                    ->orderByRaw('updated_at - created_at DESC')
+                    ->get();
+
+
 
 <a name="joins"></a>
 ## Joins
@@ -589,8 +645,8 @@ The `inRandomOrder` method may be used to sort the query results randomly. For e
                     ->inRandomOrder()
                     ->first();
 
-#### groupBy / having / havingRaw
-#### groupBy / having / havingRaw
+#### groupBy / having
+#### groupBy / having
 
 The `groupBy` and `having` methods may be used to group the query results. The `having` method's signature is similar to that of the `where` method:
 
@@ -601,15 +657,9 @@ The `groupBy` and `having` methods may be used to group the query results. The `
                     ->having('account_id', '>', 100)
                     ->get();
 
-The `havingRaw` method may be used to set a raw string as the value of the `having` clause. For example, we can find all of the departments with sales greater than $2,500:
+For more advanced `having` statements, see the [`havingRaw`](#raw-methods) method.
 
-`havingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다. 다음과 같이, $2,500보다 많은 매출을 올린 부서를 찾을 수도 있습니다:
-
-    $users = DB::table('orders')
-                    ->select('department', DB::raw('SUM(price) as total_sales'))
-                    ->groupBy('department')
-                    ->havingRaw('SUM(price) > 2500')
-                    ->get();
+보다 복잡한 `having` 구문에 대해서는 [`havingRaw`](#raw-methods) 메소드를 참조하십시오.
 
 #### skip / take
 

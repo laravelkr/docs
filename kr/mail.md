@@ -44,9 +44,9 @@
 ## Introduction
 ## 소개하기
 
-Laravel provides a clean, simple API over the popular [SwiftMailer](http://swiftmailer.org) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
-라라벨은 인기있는 [SwiftMailer](http://swiftmailer.org)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES, PHP 내장 `mail` 함수 그리고 `sendmail` 드라이버를 제공합니다.
+라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES, PHP 내장 `mail` 함수 그리고 `sendmail` 드라이버를 제공합니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
@@ -697,9 +697,9 @@ Finally, you may use a service like [Mailtrap](https://mailtrap.io) and the `smt
 ## Events
 ## 이벤트
 
-Laravel fires an event just before sending mail messages. Remember, this event is fired when the mail is *sent*, not when it is queued. You may register an event listener for this event in your `EventServiceProvider`:
+Laravel fires two events during the process of sending mail messages. The `MessageSending` event is fired prior to a message being sent, while the `MessageSent` event is fired after a message has been sent. Remember, these events are fired when the mail is being *sent*, not when it is queued. You may register an event listener for this event in your `EventServiceProvider`:
 
-라라벨은 이메일을 보내기 전에 이벤트 하나를 발생시킵니다. 주의할 점은 이벤트는 이메일이 큐를 통하지 않고 바로 *보내질* 때 발생한다는 것입니다. 여러분은 `EventServiceProvider` 에서 이 이벤트를 위한 이벤트 리스너를 등록할 수 있습니다:
+라라벨은 이메일을 보내는 동안 두개의 이벤트를 발생시킵니다. `MessageSending` 이벤트는 메세지를 보내기 전에 발생하고, `MessageSent` 이벤트는 메세지를 보낸 후에 발생합니다. 주의할 점은 이 이벤트들은 메일이 큐를 통하지 않고 바로 *보내질* 때 발생한다는 것입니다. 여러분은 `EventServiceProvider` 에서 이 이벤트들을 위한 이벤트 리스너를 등록할 수 있습니다:
 
     /**
      * The event listener mappings for the application.
@@ -708,6 +708,9 @@ Laravel fires an event just before sending mail messages. Remember, this event i
      */
     protected $listen = [
         'Illuminate\Mail\Events\MessageSending' => [
+            'App\Listeners\LogSendingMessage',
+        ],
+        'Illuminate\Mail\Events\MessageSent' => [
             'App\Listeners\LogSentMessage',
         ],
     ];

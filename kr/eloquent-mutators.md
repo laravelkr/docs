@@ -68,6 +68,20 @@ As you can see, the original value of the column is passed to the accessor, allo
 
     $firstName = $user->first_name;
 
+Of course, you may also use accessors to return new, computed values from existing attributes:
+
+물론 이미 존재하는 속성값의 새롭게 변경하는데에도 accessor 를 사용할 수 있습니다:
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
 <a name="defining-a-mutator"></a>
 ### Defining A Mutator
 ### Mutator 정의하기

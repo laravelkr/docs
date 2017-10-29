@@ -183,6 +183,17 @@ You may rollback & re-migrate a limited number of migrations by providing the `s
 
     php artisan migrate:refresh --step=5
 
+#### Drop All Tables & Migrate
+#### 모든 테이블과 마이그레이션 Drop
+
+The `migrate:fresh` command will drop all tables from the database and then execute the `migrate` command:
+
+`migrate:fresh` 명령어는 `migrate` 명령이 실행될 때 데이터베이스의 모든 테이블을 drop 합니다:
+
+    php artisan migrate:fresh
+
+    php artisan migrate:fresh --seed
+
 <a name="tables"></a>
 ## Tables
 ## 테이블
@@ -331,11 +342,11 @@ Command  | Description
 `$table->text('description');`  |  TEXT equivalent for the database.
 `$table->time('sunrise');`  |  TIME equivalent for the database.
 `$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent for the database.
-`$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->timestamp('added_on');`  |  TIMESTAMP equivalent for the database.
 `$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent for the database.
 `$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` columns.
 `$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` (with timezone) columns.
+`$table->tinyInteger('numbers');`  |  TINYINT equivalent for the database.
 `$table->unsignedBigInteger('votes');`  |  Unsigned BIGINT equivalent for the database.
 `$table->unsignedInteger('votes');`  |  Unsigned INT equivalent for the database.
 `$table->unsignedMediumInteger('votes');`  |  Unsigned MEDIUMINT equivalent for the database.
@@ -388,11 +399,11 @@ Command  | Description
 `$table->text('description');`  |  데이터베이스의 TEXT.
 `$table->time('sunrise');`  |  데이터베이스의 TIME.
 `$table->timeTz('sunrise');`  |  데이터베이스의 TIME(타임존과 함께).
-`$table->tinyInteger('numbers');`  |  데이터베이스의 TINYINT.
 `$table->timestamp('added_on');`  |  데이터베이스의 TIMESTAMP.
 `$table->timestampTz('added_on');`  |  데이터베이스의 TIMESTAMP (타임존과 함께).
 `$table->timestamps();`  |  null 값이 가능한 `created_at`과 `updated_at` 컬럼을 추가함.
 `$table->timestampsTz();`  |  null 값이 가능한 `created_at` 와 `updated_at` (timezone) 컬럼을 추가.
+`$table->tinyInteger('numbers');`  |  데이터베이스의 TINYINT.
 `$table->unsignedBigInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) BIGINT와 동일.
 `$table->unsignedInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) INT와 동일.
 `$table->unsignedMediumInteger('votes');`  |  데이터베이스에서 부호 없는(unsigned) MEDIUMINT 와 동일.
@@ -422,7 +433,7 @@ Modifier  | Description
 `->comment('my comment')`  |  Add a comment to a column (MySQL Only)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL Only)
-`->nullable()`  |  Allow NULL values to be inserted into the column
+`->nullable($value = true)`  |  Allows (by default) NULL values to be inserted into the column
 `->storedAs($expression)`  |  Create a stored generated column (MySQL Only)
 `->unsigned()`  |  Set `integer` columns to `UNSIGNED`
 `->virtualAs($expression)`  |  Create a virtual generated column (MySQL Only)
@@ -433,7 +444,7 @@ Modifier  | 설명
 `->comment('my comment')`  |  컬럼에 코멘트 추가 (MySQL의 경우에만)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  테이블에 컬럼을 "맨 처음" 위치로 옮기세요 (MySQL의 경우에만) 
-`->nullable()`  |  NULL 값들이 컬럼에 입력되는 것을 허용합니다
+`->nullable($value = true)`  |  NULL 값이 컬럼에 입력되는 것을 허용합니다(기본값)
 `->storedAs($expression)`  |  Create a stored generated column (MySQL의 경우에만)
 `->unsigned()`  | `UNSIGNED`에 `integer` 컬럼을 설정합니다
 `->virtualAs($expression)`  |  Create a virtual generated column (MySQL의 경우에만)

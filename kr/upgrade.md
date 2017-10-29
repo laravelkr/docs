@@ -41,6 +41,9 @@ Of course, don't forget to examine any 3rd party packages consumed by your appli
 
 또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
+#### Laravel Installer
+#### 라라벨 인스톨러
+
 > {tip} If you commonly use the Laravel installer via `laravel new`, you should update your Laravel installer package using the `composer global update` command.
 
 > {tip} `laravel new` 를 통해서 라라벨을 설치했었다면, `composer global update` 명령어를 사용하여 라라벨 인스톨러를 업데이트 해야합니다.
@@ -431,6 +434,18 @@ Some authentication assertions were renamed for better consistency with the rest
 If you are using the `Mail` fake to determine if a mailable was **queued** during a request, you should now use `Mail::assertQueued` instead of `Mail::assertSent`. This distinction allows you to specifically assert that the mail was queued for background sending and not sent during the request itself.
 
 메일이 request 를 처리하는 동안 **queue**를 통해서 처리되었는지 확인하기 위해서 `Mail` fake 를 사용하고 있었다면, `Mail::assertSent` 대신에 `Mail::assertQueued`를 사용해야 합니다. 이러한 구분방법을 통해서 메일이 백그라운드 전송을 위해서 queue에 대기중이며, request 를 처리하는 그 동안에 전송되지 않았다는 것을 확인할 수 있습니다.
+
+#### Tinker
+#### Tinker
+
+Laravel Tinker now supports omitting namespaces when referring to your application classes. This feature requires an optimized Composer class-map, so you should add the `optimize-autoloader` directive to the `config` section of your `composer.json` file:
+
+라라벨 Tinker 는 이제 어플리케이션 클래스를 참조할 때 네임스페이스를 생략하는 기능을 지원합니다. 이 기능을 사용하려면 최적화된 컴포저 클래스 맵이 필요합니다. 따라서 `composer.json` 파일의 `config` 섹션에 `optimize-autoloader` 지시어를 추가하십시오:
+
+    "config": {
+        ...
+        "optimize-autoloader": true
+    }
 
 ### Translation
 ### 다국어

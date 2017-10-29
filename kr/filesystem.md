@@ -99,9 +99,9 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 #### S3 Driver Configuration
 #### S3 드라이버 설정하기
 
-The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials.
+The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
 
-S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 있습니다. 이 파일은 S3 드라이버 설정에 대한 예제 배열을 포함하고 있습니다. 여러분은 자유롭게 여러분의 S3 설정과 인증을 위해서 이 배열을 수정할 수 있습니다. 
+S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 있습니다. 이 파일은 S3 드라이버 설정에 대한 예제 배열을 포함하고 있습니다. 여러분은 자유롭게 여러분의 S3 설정과 인증을 위해서 이 배열을 수정할 수 있습니다. 편의를 위해서, 이 환경설정값들은 AWS CLI를 사용하여 네이밍 컨벤션과 매칭됩니다.
 
 #### FTP Driver Configuration
 #### FTP 드라이버 설정하기
@@ -257,6 +257,7 @@ If you would like Laravel to automatically manage streaming a given file to your
 만약 주어진 파일이 여러분의 스토리지 위치에 자동적으로 스트리밍되도록 라라벨이 관리하기를 바란다면 `putFile` 이나 `putFileAs` 메소드를 사용하면 됩니다. 이 메소드는 `Illuminate\Http\File` 이나 `Illuminate\Http\UploadedFile` 인스턴스를 인자로 받아들이고 자동으로 명시한 위치에 파일을 스트림 처리할 것입니다. 
 
     use Illuminate\Http\File;
+    use Illuminate\Support\Facades\Storage;
 
     // Automatically generate a unique ID for file name...
     Storage::putFile('photos', new File('/path/to/photo'));
@@ -404,6 +405,14 @@ The `delete` method accepts a single filename or an array of files to remove fro
     Storage::delete('file.jpg');
 
     Storage::delete(['file1.jpg', 'file2.jpg']);
+
+If necessary, you may specify the disk that the file should be deleted from:
+
+필요한 경우, 파일이 어디에서 지워져야 하는지 디스크를 지정할 수 있습니다:
+
+    use Illuminate\Support\Facades\Storage;
+
+    Storage::disk('s3')->delete('folder_path/file_name.jpg');
 
 <a name="directories"></a>
 ## Directories

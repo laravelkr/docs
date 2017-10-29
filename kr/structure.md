@@ -85,9 +85,9 @@ The `app` directory, as you might expect, contains the core code of your applica
 #### The Bootstrap Directory
 #### Bootstrap 디렉토리
 
-The `bootstrap` directory contains files that bootstrap the framework and configure autoloading. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files.
+The `bootstrap` directory contains the `app.php` file which bootstraps the framework. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files.
 
-`bootstrap` 디렉토리는 프레임워크의 부트스트래핑과 오토로딩을 설정하는 파일을 포함하고 있습니다. 이 디렉토리는 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스의 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다.
+`bootstrap` 디렉토리는 프레임워크의 부트스트래핑을 담당하는 `app.php` 파일을 가지고 있습니다. 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다.
 
 <a name="the-config-directory"></a>
 #### The Config Directory
@@ -109,9 +109,9 @@ The `database` directory contains your database migration and seeds. If you wish
 #### The Public Directory
 #### Public 디렉토리
 
-The `public` directory contains the `index.php` file, which is the entry point for all requests entering your application. This directory also houses your assets such as images, JavaScript, and CSS.
+The `public` directory contains the `index.php` file, which is the entry point for all requests entering your application and configures autoloading. This directory also houses your assets such as images, JavaScript, and CSS.
 
-`public` 디렉토리는 어플리케이션에 진입하는 모든 request-요청들에 대한 진입점 역할을 하는 `index.php` 파일을 가지고 있습니다. 이 디렉토리는 이미지나 자바스크립트, CSS와 같은 asset파일들을도 포함되어 있습니다.
+`public` 디렉토리는 어플리케이션에 진입하는 모든 request-요청들에 대한 진입점 역할과 오토로딩을 설정하는 `index.php` 파일을 가지고 있습니다. 이 디렉토리는 이미지나 자바스크립트, CSS와 같은 asset파일들을도 포함되어 있습니다.
 
 <a name="the-resources-directory"></a>
 #### The Resources Directory

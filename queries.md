@@ -149,13 +149,54 @@
 <a name="raw-expressions"></a>
 ## Raw 표현식
 
-때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. 이러한 구문들은 쿼리에 문자열 형태로 주입될 것이기 때문에, SQL 인젝션 공격을 유발하지 않도록 주의하시기 바랍니다! raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다:
+때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다:
 
     $users = DB::table('users')
                          ->select(DB::raw('count(*) as user_count, status'))
                          ->where('status', '<>', 1)
                          ->groupBy('status')
                          ->get();
+
+이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
+
+<a name="raw-methods"></a>
+### Raw 메소드
+
+`DB::raw` 를 사용하는 대신에, 쿼리의 다양한 부분을 raw expression으로 대체하기 위해서 다음의 메소드를 사용할 수 있습니다.
+
+#### `selectRaw`
+
+`selectRaw` 메소드는 `select(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다:
+
+    $orders = DB::table('orders')
+                    ->selectRaw('price * ? as price_with_tax', [1.0825])
+                    ->get();
+
+#### `whereRaw / orWhereRaw`
+
+`whereRaw` 와 `orWhereRaw` 메소드는 쿼리의 `where` 절에 raw 한 구문을 삽입하는데 사용할 수 있습니다. 이 메소드도 옵션 배열을 두번째 인자로 받습니다:
+
+    $orders = DB::table('orders')
+                    ->whereRaw('price > IF(state = "TX", ?, 100)', [200])
+                    ->get();
+
+#### `havingRaw / orHavingRaw`
+
+`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다.
+
+    $orders = DB::table('orders')
+                    ->select('department', DB::raw('SUM(price) as total_sales'))
+                    ->groupBy('department')
+                    ->havingRaw('SUM(price) > 2500')
+                    ->get();
+
+#### `orderByRaw`
+
+`orderByRaw` 메소드는 `order by` 절의 값을 raw 한 문자열로 설정하는데 사용합니다:
+
+    $orders = DB::table('orders')
+                    ->orderByRaw('updated_at - created_at DESC')
+                    ->get();
 
 <a name="joins"></a>
 ## Joins-조인
@@ -435,7 +476,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                     ->inRandomOrder()
                     ->first();
 
-#### groupBy / having / havingRaw
+#### groupBy / having
 
 `groupBy` 와 `hanving` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다:
 
@@ -444,13 +485,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                     ->having('account_id', '>', 100)
                     ->get();
 
-`havingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다. 다음과 같이, $2,500보다 많은 매출을 올린 부서를 찾을 수도 있습니다:
-
-    $users = DB::table('orders')
-                    ->select('department', DB::raw('SUM(price) as total_sales'))
-                    ->groupBy('department')
-                    ->havingRaw('SUM(price) > 2500')
-                    ->get();
+보다 복잡한 `having` 구문에 대해서는 [`havingRaw`](#raw-methods) 메소드를 참조하십시오.
 
 #### skip / take
 

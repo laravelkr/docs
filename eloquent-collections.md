@@ -85,7 +85,7 @@
 - [mode](/docs/{{version}}/collections#method-mode)
 - [nth](/docs/{{version}}/collections#method-nth)
 - [only](/docs/{{version}}/collections#method-only)
-- [pad](docs/{{version}}/collections#method-pad)
+- [pad](/docs/{{version}}/collections#method-pad)
 - [partition](/docs/{{version}}/collections#method-partition)
 - [pipe](/docs/{{version}}/collections#method-pipe)
 - [pluck](/docs/{{version}}/collections#method-pluck)

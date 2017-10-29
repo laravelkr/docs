@@ -46,12 +46,6 @@
 
     composer require "laravel/cashier":"~7.0"
 
-#### 서비스 프로바이더
-
-다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다.
-
-    Laravel\Cashier\CashierServiceProvider::class
-
 #### 데이터베이스 마이그레이션
 
 캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:

@@ -322,13 +322,13 @@ Policy를 등록하고 나면, 각각의 권한을 승인하려는 액션에 관
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
-    @elsecan('create', $post)
+    @elsecan('create', App\Post::class)
         <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Can't Update The Post -->
-    @elsecannot('create', $post)
+    @elsecannot('create', App\Post::class)
         <!-- The Current User Can't Create New Post -->
     @endcannot
 

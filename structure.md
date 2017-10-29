@@ -47,7 +47,7 @@
 <a name="the-bootstrap-directory"></a>
 #### Bootstrap 디렉토리
 
-`bootstrap` 디렉토리는 프레임워크의 부트스트래핑과 오토로딩을 설정하는 파일을 포함하고 있습니다. 이 디렉토리는 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스의 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다.
+`bootstrap` 디렉토리는 프레임워크의 부트스트래핑을 담당하는 `app.php` 파일을 가지고 있습니다. 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다.
 
 <a name="the-config-directory"></a>
 #### Config 디렉토리
@@ -62,7 +62,7 @@
 <a name="the-public-directory"></a>
 #### Public 디렉토리
 
-`public` 디렉토리는 어플리케이션에 진입하는 모든 request-요청들에 대한 진입점 역할을 하는 `index.php` 파일을 가지고 있습니다. 이 디렉토리는 이미지나 자바스크립트, CSS와 같은 asset파일들을도 포함되어 있습니다.
+`public` 디렉토리는 어플리케이션에 진입하는 모든 request-요청들에 대한 진입점 역할과 오토로딩을 설정하는 `index.php` 파일을 가지고 있습니다. 이 디렉토리는 이미지나 자바스크립트, CSS와 같은 asset파일들을도 포함되어 있습니다.
 
 <a name="the-resources-directory"></a>
 #### Resources 디렉토리

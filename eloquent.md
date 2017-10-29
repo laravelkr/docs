@@ -84,7 +84,7 @@
 
 Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. protected `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
 
-추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary Key를 `int`로 자동 캐시팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다.
+추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오.
 
 #### 타임스탬프
 
@@ -382,7 +382,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 #### `firstOrCreate`/ `firstOrNew`
 
-속성을 대량 할당(mass assign) 하여 모델을 생성하는 또다른 방법은 `firstOrCreate`와 `firstOrNew`의 두 가지가 있습니다. `firstOrCreate` 메소드는 주어진 컬럼 / 값의 쌍을 이용하여 데이터베이스 레코드를 찾으려고 시도할 것입니다. 데이터베이스에서 모델을 찾을 수 없으면 주어진 속성들을 통해 새로운 레코드가 입력될 것입니다.
+속성을 대량 할당(mass assign) 하여 모델을 생성하는 또다른 방법은 `firstOrCreate`와 `firstOrNew`의 두 가지가 있습니다. `firstOrCreate` 메소드는 주어진 컬럼 / 값의 쌍을 이용하여 데이터베이스 레코드를 찾으려고 시도할 것입니다. 데이터베이스에서 모델을 찾을 수 없으면 주어진 첫번째 속성과 두번째 속성을 기반으로 새로운 레코드를 입력합니다.
 
 `firstOrCreate`와 같이 `firstOrNew` 메소드도 주어진 속성들에 해당하는 레코드를 데이터베이스에서 찾으려고 시도할 것입니다. 하지만 모델을 찾을 수 없으면 새로운 모델 인스턴스가 반환될 것입니다. `firstOrNew`에 의해 반환된 모델은 아직 데이터베이스에서 저장되지 않았다는 점에 주의하십시오. 모델을 저장하기 위해서는 `save`를 수동으로 호출해야 합니다:
 
@@ -760,7 +760,7 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
         /**
          * Listen to the User created event.
          *
-         * @param  User  $user
+         * @param  \App\User  $user
          * @return void
          */
         public function created(User $user)
@@ -771,7 +771,7 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
         /**
          * Listen to the User deleting event.
          *
-         * @param  User  $user
+         * @param  \App\User  $user
          * @return void
          */
         public function deleting(User $user)

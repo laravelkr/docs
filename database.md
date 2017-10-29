@@ -32,20 +32,6 @@
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database.sqlite
 
-#### SQL 서버 설정하기
-
-라라벨은 별다른 추가 작업 없이도 SQL 서버를 지원하고 있습니다; 하지만 데이터베이스를 사용하기 위해서 `config/database.php` 설정 파일에 커넥션에 대한 설정을 추가할 필요가 있을 것입니다:
-
-    'sqlsrv' => [
-        'driver' => 'sqlsrv',
-        'host' => env('DB_HOST', 'localhost'),
-        'database' => env('DB_DATABASE', 'forge'),
-        'username' => env('DB_USERNAME', 'forge'),
-        'password' => env('DB_PASSWORD', ''),
-        'charset' => 'utf8',
-        'prefix' => '',
-    ],
-
 <a name="read-and-write-connections"></a>
 ### 읽기 & 쓰기 커넥션
 

@@ -322,7 +322,7 @@
         parent::boot();
 
         Route::bind('user', function ($value) {
-            return App\User::where('name', $value)->first();
+            return App\User::where('name', $value)->first() ?? abort(404);
         });
     }
 

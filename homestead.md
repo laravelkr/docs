@@ -14,6 +14,7 @@
     - [SSH로 접속하기 ](#connecting-via-ssh)
     - [데이터베이스에 접속하기](#connecting-to-databases)
     - [사이트 추가하기](#adding-additional-sites)
+    - [구동 환경 변수](#environment-variables)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Mailhog 설정하기](#configuring-mailhog)
     - [포트 지정](#ports)
@@ -88,7 +89,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
     cd Homestead
 
     // Clone the desired release...
-    git checkout v6.3.0
+    git checkout v6.5.0
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -148,7 +149,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통해 홈스테드 환경의 폴더와 "도메인"을 쉽게 매핑 할 수 있습니다. 사이트 샘플이 `Homestead.yaml` 파일에 포함되어 있습니다. 여기에서도 여러분의 홈스테드 환경에 필요한만큼 사이트를 추가할 수 있습니다. 홈스테드는 편리하게, 여러분이 작업을 수행하는 모든 라라벨 프로젝트를 위한 가상 환경을 제공합니다:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
 
 홈스테드 박스가 프로비저닝 된 이후에 `sites` 속성을 변경한다면, 가상머신의 Nginx 설정을 갱신하기 위해서 `vagrant reload --provision` 을 다시 실행시켜야만 합니다.
@@ -157,11 +158,11 @@ Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통
 
 여러분은 Nginx 사이트에 설정한 "도메인"을 로컬 머신의 `hosts` 파일에 추가해야 합니다. `hosts` 파일은 여러분의 홈스테드 사이트에 대한 요청을 홈스테드 머신으로 리다이렉트 시킬 것 입니다. 맥과 리눅스에서는 `/etc/hosts`, 윈도우에서는 `C:\Windows\System32\drivers\etc\hosts`에 파일이 있습니다. 다음과 같이 도메인을 추가하십시오.
 
-    192.168.10.10  homestead.localhost
+    192.168.10.10  homestead.test
 
 입력한 IP 주소가 여러분의 `Homestead.yaml` 파일에 설정된 목록중 하나인지 확인하십시오. `hosts` 파일에 도메인을 추가 하고 Vagrant box를 구동하면 웹브라우저를 통해서 사이트에 액세스 할 수 있습니다:
 
-    http://homestead.localhost
+    http://homestead.test
 
 <a name="launching-the-vagrant-box"></a>
 ### Vagrant Box 구동하기
@@ -189,7 +190,7 @@ Windows:
 
     vendor\\bin\\homestead make
 
-다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.localhost` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.spp` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다.
+다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.test` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.test` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다.
 
 <a name="installing-mariadb"></a>
 ### MariaDB 설치하기
@@ -280,15 +281,15 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `Homestead.yaml` 파일에 사이트를 추가하십시오:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
-        - map: another.localhost
+        - map: another.test
           to: /home/vagrant/code/another/public
 
 Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다:
 
-    192.168.10.10  homestead.localhost
-    192.168.10.10  another.localhost
+    192.168.10.10  homestead.test
+    192.168.10.10  another.test
 
 사이트가 추가되면, 홈스테드 디렉토리에서 `vagrant reload --provision` 명령어를 실행하십시오.
 
@@ -298,7 +299,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 어플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다:
 
     sites:
-        - map: symfony2.localhost
+        - map: symfony2.test
           to: /home/vagrant/code/Symfony/web
           type: symfony2
 
@@ -310,21 +311,34 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           params:
               - key: FOO
                 value: BAR
 
+<a name="environment-variables"></a>
+### 구동 환경 변수
+
+`Homestead.yaml` 파일에 글로벌 구동환경에 대한 변수를 지정할 수 있습니다:
+
+    variables:
+        - key: APP_ENV
+          value: local
+        - key: FOO
+          value: bar
+
+`Homestead.yaml` 파일을 수정한 뒤에는 `vagrant reload --provision` 를 실행하여 머신을 새롭게 프로비저닝 하십시오. 이 명령어는 설치된 PHP버전에 맞는 PHP-FPM 설정을 업데이트하고 `vagrant` 사용자를 위한 구동환경을 업데이트 합니다.
+
 <a name="configuring-cron-schedules"></a>
-### Cron 스케줄링 설정하기 =
+### Cron 스케줄링 설정하기
 
 라라벨에서는 단 한번 `schedule:run` 아티즌 명령어를 실행하여 매분마다 [Cron 작업 스케줄링](/docs/{{version}}/scheduling)을 할 수 있도록 하는 편리한 방법을 제공합니다. `schedule:run` 명령어는 `App\Console\Kernel` 클래스에 정의되어 있는 작업 스케줄이 실행되어야 하는지 검사할 것입니다.
 
 홈스테드의 사이트에서 `schedule:run` 명령을 실행하려면 사이트를 정의 할 때 `schedule` 옵션을 `true` 로 설정하십시오.
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           schedule: true
 
@@ -371,13 +385,13 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 
 가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
 
-이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.localhost` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.localhost` 사이트는 물론 다른 사이트도 공유할 수 있습니다:
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트는 물론 다른 사이트도 공유할 수 있습니다:
 
-    share homestead.localhost
+    share homestead.test
 
 이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다. 커스텀 리전, 서브도메인, Ngrok 실행 옵션을 지정하고자 한다면 `share` 명령어에 이를 추가하면됩니다:
 
-    share homestead.localhost -region=eu -subdomain=laravel
+    share homestead.test -region=eu -subdomain=laravel
 
 > {note} 유념할점은, `share` 명령어를 실행중일 때는 가상머신이 인터넷에 노출되고 보안에 노출될 수 있다는 점입니다.
 
@@ -386,10 +400,10 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 
 > {note} 이 기능은 Nginx에서만 유효합니다.
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1" 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2" 입니다:
 
     sites:
-        - map: homestead.localhost
+        - map: homestead.test
           to: /home/vagrant/code/Laravel/public
           php: "5.6"
 
@@ -398,6 +412,7 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
     php5.6 artisan list
     php7.0 artisan list
     php7.1 artisan list
+    php7.2 artisan list
 
 <a name="network-interfaces"></a>
 ## 네트워크 인터페이스
@@ -460,6 +475,7 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 | PHP 7.1 | 4.0.0 | 1.0.0 |
 | PHP 7.1 | 5.0.0 | 2.0.0 |
 | PHP 7.1 | 6.0.0 | 3.0.0 |
+| PHP 7.2 RC3 | 6.4.0 | 4.0.0 |
 
 <a name="provider-specific-settings"></a>
 ## 프로바이더 지정 셋팅

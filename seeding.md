@@ -75,9 +75,11 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
      */
     public function run()
     {
-        $this->call(UsersTableSeeder::class);
-        $this->call(PostsTableSeeder::class);
-        $this->call(CommentsTableSeeder::class);
+        $this->call([
+            UsersTableSeeder::class,
+            PostsTableSeeder::class,
+            CommentsTableSeeder::class,
+        ]);
     }
 
 <a name="running-seeders"></a>

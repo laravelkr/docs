@@ -213,6 +213,8 @@
 `$response->assertHeader($headerName, $value = null);`  |  응답에서 주어진 헤더가 존재하는지 확인.
 `$response->assertCookie($cookieName, $value = null);`  |  응답에서 주어진 쿠키가 포함되어 있는지 확인.
 `$response->assertPlainCookie($cookieName, $value = null);`  |  응답에서 주어진 (암호화 되지 않은)쿠키가 포함되어 있는지 확인.
+`$response->assertCookieExpired($cookieName);`  |  응답에서 포함되어 있는 주어진 쿠키가 기간이 만료되었는지 확인.
+`$response->assertCookieMissing($cookieName);`  |  응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인.
 `$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
 `$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
@@ -223,6 +225,7 @@
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
 `$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.
+`$response->assertViewHasAll(array $data);`  |  응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 확인.
 `$response->assertViewMissing($key);`  |  응답 뷰가 주어진 데이터가 아닌것을 확인.
 `$response->assertSee($value);`  |  응답이 주어진 문자열을 포함하고 있는지 확인.
 `$response->assertDontSee($value);`  |  응답이 주어진 문자열을 포함하고 있지 않은 것을 확인.

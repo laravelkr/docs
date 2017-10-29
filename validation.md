@@ -96,12 +96,12 @@
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|unique:posts|max:255',
             'body' => 'required',
         ]);
 
-        // The blog post is valid, store in database...
+        // The blog post is valid...
     }
 
 보시다시피, 간단하게 원하는 유효성 검사 룰을 메소드에 전달하기만 하면 됩니다. 다시말해, 유효성 검사가 실패하면, 적절한 응답이 자동으로 생성됩니다. 유효성 검사를 통과하면 컨트롤러가 계속해서 정상적으로 로직을 수행합니다.

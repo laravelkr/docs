@@ -478,6 +478,8 @@ You can set global environment variables by adding them to your `Homestead.yaml`
 
 After updating the `Homestead.yaml`, be sure to re-provision the machine by running `vagrant reload --provision`. This will update the PHP-FPM configuration for all of the installed PHP versions and also update the environment for the `vagrant` user.
 
+`Homestead.yaml` 파일을 수정한 뒤에는 `vagrant reload --provision` 를 실행하여 머신을 새롭게 프로비저닝 하십시오. 이 명령어는 설치된 PHP버전에 맞는 PHP-FPM 설정을 업데이트하고 `vagrant` 사용자를 위한 구동환경을 업데이트 합니다.
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 ### Cron 스케줄링 설정하기

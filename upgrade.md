@@ -207,6 +207,10 @@ When this is the case, Laravel will now respect your customization and determine
 
 The `setJoin` method has been renamed to `performJoin`.
 
+#### BelongsToMany `getRelatedIds`
+
+The `getRelatedIds` method has been renamed to `allRelatedIds`.
+
 #### Has One / Many `createMany`
 
 The `createMany` method of a `hasOne` or `hasMany` relationship now returns a collection object instead of an array.
@@ -405,7 +409,7 @@ In order to allow Laravel to autoload any new tests you generate using the Larav
 
 First install the `laravel/browser-kit-testing` package:
 
-    composer require laravel/browser-kit-testing="1.*" --dev
+    composer require --dev laravel/browser-kit-testing "1.*"
 
 Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
 
@@ -455,7 +459,7 @@ Once you have created this class, make sure to update all of your tests to exten
 
 If you would like to install Laravel Dusk into an application that has been upgraded from Laravel 5.3, first install it via Composer:
 
-    composer require --dev laravel/dusk
+    composer require --dev laravel/dusk "1.*"
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
@@ -553,4 +557,4 @@ The `addError` method has been renamed to `addFailure`. In addition, the `doRepl
 
 ### Miscellaneous
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.3...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.3...5.4) and choose which updates are important to you.

@@ -40,7 +40,7 @@
 
 시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
-    composer require --dev laravel/dusk
+    composer require --dev laravel/dusk:^1.0
 
 Dusk가 설치되고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 다른 사용자로 로그인 할 수 있는 기능을 가지고 있어, Dusk를 사용할 수있는 환경을 제한하기 위해서 `AppServiceProvider`의 `register` 메소드에서 프로바이더를 등록해야합니다:
 

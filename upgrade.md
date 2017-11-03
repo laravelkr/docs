@@ -207,6 +207,10 @@ HTTP 나 Console 커널에서 `$bootstrappers` 배열을 직접 오버라이딩 
 
 `setJoin` 메소드는 `performJoin`으로 이름이 변경되었습니다.
 
+#### BelongsToMany `getRelatedIds`
+
+`getRelatedIds` 메소드는 `allRelatedIds`으로 이름이 변경되었습니다.
+
 #### 하나 또는 여러 개의 `createMany`
 
 `hasOne` 또는 `hasMany` 관계의 `createMany` 메소드는 이제 배열 대신에 컬렉션 객체를 반환합니다.
@@ -404,7 +408,7 @@ Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제
 
 먼저, `laravel/browser-kit-testing` 패키지를 설치하십시오:
 
-    composer require laravel/browser-kit-testing="1.*" --dev
+    composer require --dev laravel/browser-kit-testing "1.*"
 
 그런뒤에, `tests/TestCase.php` 파일을 `tests` 디렉토리에 `BrowserKitTest.php`라는 이름으로 저장하십시오. 이제 파일을 수정하여 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 합니다. 이 작업을 마쳤다면, `test` 디렉토리에 `TestCase.php` 와 `BrowserKitTest.php`의 두가지 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTest` 클래스르의 로딩을 위해서 `compose.json` 파일에 다음과 같이 추가하십시오:      
 
@@ -456,7 +460,7 @@ Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제
 
 라라벨 5.3에서 업그레이드된 어플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
 
-    composer require laravel/dusk
+    composer require --dev laravel/dusk "1.*"
 
 그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 어플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다: 
 
@@ -527,4 +531,4 @@ Date 포맷의 유효성 검사가 보다 엄격해지고 PHP [날짜 함수](ht
 
 ### 기타
 
-`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 어플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [Github 비교 도구](https://github.com/laravel/laravel/compare/5.3...master)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.  
+`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 어플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [GitHub 비교 도구](https://github.com/laravel/laravel/compare/5.3...5.4)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.

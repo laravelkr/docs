@@ -487,7 +487,7 @@
 
     $data = [
         'products' => [
-            ['name' => 'Desk 1' => 'price' => 100],
+            ['name' => 'Desk 1', 'price' => 100],
             ['name' => 'Desk 2'],
         ],
     ];
@@ -497,8 +497,8 @@
     /*
         [
             'products' => [
-                ['name' => 'Desk 1' => 'price' => 100],
-                ['name' => 'Desk 2' => 'price' => 200],
+                ['name' => 'Desk 1', 'price' => 100],
+                ['name' => 'Desk 2', 'price' => 200],
             ],
         ]
     */
@@ -545,8 +545,8 @@
     /*
         [
             'products' => [
-                ['name' => 'Desk 1' => 'price' => 200],
-                ['name' => 'Desk 2' => 'price' => 200],
+                ['name' => 'Desk 1', 'price' => 200],
+                ['name' => 'Desk 2', 'price' => 200],
             ],
         ]
     */

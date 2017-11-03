@@ -219,4 +219,4 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
     DB::commit();
 
-> {tip} `DB` 파사드의 트랜잭션 메소드와 마찬가지로 [쿼리 빌더](/docs/{{version}}/queries) 와 [Eloquent ORM](/docs/{{version}}/eloquent)에서도, 트랜잭션을 제어 할 수도 있습니다.
+> {tip} `DB` 파사드의 트랜잭션 메소드는 [쿼리 빌더](/docs/{{version}}/queries) 와 [Eloquent ORM](/docs/{{version}}/eloquent)에 모두에서, 트랜잭션을 제어 할 수도 있습니다.

@@ -311,6 +311,13 @@ The `setJoin` method has been renamed to `performJoin`.
 
 `setJoin` 메소드는 `performJoin`으로 이름이 변경되었습니다.
 
+#### BelongsToMany `getRelatedIds`
+#### BelongsToMany `getRelatedIds`
+
+The `getRelatedIds` method has been renamed to `allRelatedIds`.
+
+`getRelatedIds` 메소드는 `allRelatedIds`으로 이름이 변경되었습니다.
+
 #### Has One / Many `createMany`
 #### 하나 또는 여러 개의 `createMany`
 
@@ -614,7 +621,7 @@ First install the `laravel/browser-kit-testing` package:
 
 먼저, `laravel/browser-kit-testing` 패키지를 설치하십시오:
 
-    composer require laravel/browser-kit-testing="1.*" --dev
+    composer require --dev laravel/browser-kit-testing "1.*"
 
 Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
 
@@ -675,7 +682,7 @@ If you would like to install Laravel Dusk into an application that has been upgr
 
 라라벨 5.3에서 업그레이드된 어플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
 
-    composer require --dev laravel/dusk
+    composer require --dev laravel/dusk "1.*"
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
@@ -809,6 +816,6 @@ The `addError` method has been renamed to `addFailure`. In addition, the `doRepl
 ### Miscellaneous
 ### 기타
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.3...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.3...5.4) and choose which updates are important to you.
 
-`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 어플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [GitHub 비교 도구](https://github.com/laravel/laravel/compare/5.3...master)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.
+`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 어플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [GitHub 비교 도구](https://github.com/laravel/laravel/compare/5.3...5.4)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.

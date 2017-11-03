@@ -861,9 +861,9 @@ This Passport middleware will attach a `laravel_token` cookie to your outgoing r
             console.log(response.data);
         });
 
-When using this method of authentication, Axios will automatically send the `X-CSRF-TOKEN` header. In addition, the default Laravel JavaScript scaffolding instructs Axios to send the `X-Requested-With` header:
+When using this method of authentication, the default Laravel JavaScript scaffolding instructs Axios to always send the `X-CSRF-TOKEN` and `X-Requested-With` headers. However, you should be sure to include your CSRF token in a [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token):
 
-이 인증 메소드를 사용할 때, Axios는 자동으로 `X-CSRF-TOKEN` 헤더를 보냅니다. 이에 더해 라라벨의 기본 자바스크립트 스캐폴딩은 Axios가 `X-Requested-With` 헤더를 보내도록 합니다:
+이 인증 메소드를 사용할 때, 라라벨에서 기본적으로 제공하는 자바스크립트 스캐폴딩은 Axios가 항상 `X-CSRF-TOKEN`와  `X-Requested-With` 헤더를 전송하도록 합니다. 그렇지만, [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token)에 CSRF 토큰이 들어 있어야 합니다.
 
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',

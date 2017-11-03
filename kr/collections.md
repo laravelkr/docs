@@ -1549,17 +1549,25 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}
 
-The `reverse` method reverses the order of the collection's items:
+The `reverse` method reverses the order of the collection's items, preserving the original keys:
 
-`reverse` 메소드는 컬렉션 아이템의 순서를 반대가 되게 합니다:
+`reverse` 메소드는 컬렉션의 원래의 키는 유지하면서 아이템의 순서를 반대가 되게 합니다:
 
-    $collection = collect([1, 2, 3, 4, 5]);
+    $collection = collect(['a', 'b', 'c', 'd', 'e']);
 
     $reversed = $collection->reverse();
 
     $reversed->all();
 
-    // [5, 4, 3, 2, 1]
+    /*
+        [
+            4 => 'e',
+            3 => 'd',
+            2 => 'c',
+            1 => 'b',
+            0 => 'a',
+        ]
+    */
 
 <a name="method-search"></a>
 #### `search()` {#collection-method}

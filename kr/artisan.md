@@ -521,9 +521,9 @@ Because of the `load` method call in your console kernel's `commands` method, al
         // ...
     }
 
-You may also manually register commands by adding its class name to the `$command` property of your `app/Console/Kernel.php` file. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+You may also manually register commands by adding its class name to the `$commands` property of your `app/Console/Kernel.php` file. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-또한, `app/Console/Kernel.php` 파일의 `$command` 속성에 클래스 이름을 추가하여 수동으로 명령어를 등록할 수도 있습니다. 아티즌이 부팅될 때, 이 속성에서 나열된 모든 명령어어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 자동으로 의존성이 해결되어 아티즌에 등록됩니다.
+또한, `app/Console/Kernel.php` 파일의 `$commands` 속성에 클래스 이름을 추가하여 수동으로 명령어를 등록할 수도 있습니다. 아티즌이 부팅될 때, 이 속성에서 나열된 모든 명령어어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 자동으로 의존성이 해결되어 아티즌에 등록됩니다.
 
     protected $commands = [
         Commands\SendEmails::class

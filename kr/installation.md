@@ -58,9 +58,12 @@ First, download the Laravel installer using Composer:
 
     composer global require "laravel/installer"
 
-Make sure to place the `$HOME/.composer/vendor/bin` directory (or the equivalent directory for your OS) in your $PATH so the `laravel` executable can be located by your system.
+Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
 
-`laravel`이 여러분의 시스템에서 실행 가능하도록(또는 여러분의 OS에서 동일한 디렉토리) `$HOME/.composer/vendor/bin` 폴더를 여러분의 경로($PATH)에 추가 해야합니다. 
+laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
+
+- MacOS: `$HOME/.composer/vendor/bin`
+- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
 
 Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
 

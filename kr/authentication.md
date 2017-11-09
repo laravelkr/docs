@@ -321,9 +321,9 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
         }
     }
 
-The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the `password` value passed to the method via the array. You should not hash the password specified as the `password` value, since the framework will automatically has the value before comparing it to the hashed password in the database. If the two hashed passwords match an authenticated session will be started for the user.
+The `attempt` method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table. So, in the example above, the user will be retrieved by the value of the `email` column. If the user is found, the hashed password stored in the database will be compared with the `password` value passed to the method via the array. You should not hash the password specified as the `password` value, since the framework will automatically hash the value before comparing it to the hashed password in the database. If the two hashed passwords match an authenticated session will be started for the user.
 
-`attempt` 메소드는 키 / 값의 쌍으로 이루어진 배열을 첫번째 인자로 전달 받습니다. 배열의 값들은 데이터베이스 테이블에서 사용자를 찾는데 사용될 것입니다. 따라서 위의 예제에서는, `email` 컬럼을 통해서 사용자를 찾게됩니다. 사용자를 찾았다면, 해시 처리되어 데이터베이스에 저장된 패스워드와 매소드에 전달받은 배열의 `password` 값을 비교할 것입니다. 프레임워크가 데이터베이스에서 해서처리된 암호화 비교하기 전에 자동으로 이를 찾기 때문에, `password` 로 지정된 값을 해서처리해서는 안됩니다. 두개의 해시처리된 패스워드가 일치한다면 해당 사용자의 새로운 인증 세션이 시작됩니다.
+`attempt` 메소드는 키 / 값의 쌍으로 이루어진 배열을 첫번째 인자로 전달 받습니다. 배열의 값들은 데이터베이스 테이블에서 사용자를 찾는데 사용될 것입니다. 따라서 위의 예제에서는, `email` 컬럼을 통해서 사용자를 찾게됩니다. 사용자를 찾았다면, 해시 처리되어 데이터베이스에 저장된 패스워드와 매소드에 전달받은 배열의 `password` 값을 비교할 것입니다. 프레임워크가 데이터베이스에서 해시 처리된 암호와 비교하기 전에 값을 자동으로 해시처리 하기 때문에, `password` 로 지정된 값을 해시처리해서는 안됩니다. 두개의 해시처리된 패스워드가 일치한다면 해당 사용자의 새로운 인증 세션이 시작됩니다.
 
 The `attempt` method will return `true` if authentication was successful. Otherwise, `false` will be returned.
 

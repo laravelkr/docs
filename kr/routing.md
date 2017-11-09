@@ -151,7 +151,7 @@ You may define as many route parameters as required by your route:
         //
     });
 
-Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`) instead. Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
+Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`). Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
 
 라우트 파라미터는 항상 "{}"(중괄호)로 쌓여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자는 사용하기 보다는 대신 (`_`) 언어스코어를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
 

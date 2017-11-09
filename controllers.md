@@ -198,6 +198,13 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 
     Route::apiResource('photo', 'PhotoController');
 
+`apiResources` 메소드에 배열형태의 API 리소스 컨트롤러를 전달하여 여러개를 한번에 등록할 수 있습니다:
+
+    Route::apiResources([
+        'photos' => 'PhotoController',
+        'posts' => 'PostController'
+    ]);
+
 <a name="restful-naming-resource-routes"></a>
 ### resource 라우트 이름 지정하기
 

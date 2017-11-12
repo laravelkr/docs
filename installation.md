@@ -1,4 +1,3 @@
-    composer global require "laravel/installer"
 # 설치하기
 
 - [설치하기](#installation)

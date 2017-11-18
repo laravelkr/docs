@@ -228,8 +228,8 @@ You may easily check for the existence of a table or column using the `hasTable`
         //
     }
 
-#### Connection & Storage Engine
-#### 커넥션-connection & 스토리지 엔진
+#### Database Connection & Table Options
+#### 데이터베이스 커넥션-connection & 테이블 옵션
 
 If you want to perform a schema operation on a database connection that is not your default connection, use the `connection` method:
 
@@ -239,15 +239,23 @@ If you want to perform a schema operation on a database connection that is not y
         $table->increments('id');
     });
 
-You may use the `engine` property on the schema builder to define the table's storage engine:
+You may use the following commands on the schema builder to define the table's options:
 
-테이블의 스토리지 엔진을 정의하기 위해서 스키마 빌더의 `engine` 속성을 사용할 수 있습니다:
+테이블 옵션을 정의하기 위해서 스키마 빌더의 다음 명령어를 사용할 수 있습니다:
 
-    Schema::create('users', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
+Command  |  Description
+-------  |  -----------
+`$table->engine = 'InnoDB';`  |  Specify the table storage engine (MySQL).
+`$table->charset = 'utf8';`  |  Specify a default character set for the table (MySQL).
+`$table->collation = 'utf8_unicode_ci';`  |  Specify a default collation for the table (MySQL).
+`$table->temporary();`  |  Create a temporary table (except SQL Server).
 
-        $table->increments('id');
-    });
+명령어 | 설명
+-------  |  -----------
+`$table->engine = 'InnoDB';`  |  테이블 엔진을 지정합니다.(MySQL).
+`$table->charset = 'utf8';`  |  테이블의 기본 케릭터셋을 지정합니다.(MySQL).
+`$table->collation = 'utf8_unicode_ci';`  |  테이블의 기본 collation을 지정합니다.(MySQL).
+`$table->temporary();`  |  임시 테이블을 생성 (SQL Server 제외).
 
 <a name="renaming-and-dropping-tables"></a>
 ### Renaming / Dropping Tables
@@ -297,8 +305,8 @@ Of course, the schema builder contains a variety of column types that you may sp
 
 당연하게도, 스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
 
-Command  | Description
-------------- | -------------
+Command  |  Description
+-------  |  -----------
 `$table->bigIncrements('id');`  |  Auto-incrementing UNSIGNED BIGINT (primary key) equivalent column.
 `$table->bigInteger('votes');`  |  BIGINT equivalent column.
 `$table->binary('data');`  |  BLOB equivalent column.
@@ -321,7 +329,7 @@ Command  | Description
 `$table->lineString('positions');`  |  LINESTRING equivalent column.
 `$table->longText('description');`  |  LONGTEXT equivalent column.
 `$table->macAddress('device');`  |  MAC address equivalent column.
-`$table->mediumIncrements('id');`  |  Auto-incrementing UNSIGNED MEDIUMINT (primary key) equivalent colum.
+`$table->mediumIncrements('id');`  |  Auto-incrementing UNSIGNED MEDIUMINT (primary key) equivalent column.
 `$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
 `$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED INTEGER and `taggable_type` VARCHAR equivalent columns.
@@ -329,7 +337,7 @@ Command  | Description
 `$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
 `$table->nullableMorphs('taggable');`  |  Adds nullable versions of `morphs()` columns.
-`$table->nullableTimestamps();`  |  Adds nullable versions of `timestamps()` columns.
+`$table->nullableTimestamps();`  |  Alias of `timestamps()` method.
 `$table->point('position');`  |  POINT equivalent column.
 `$table->polygon('positions');`  |  POLYGON equivalent column.
 `$table->rememberToken();`  |  Adds a nullable `remember_token` VARCHAR(100) equivalent column.
@@ -388,7 +396,7 @@ Command  | Description
 `$table->multiPoint('positions');`  |  MULTIPOINT 컬럼.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
 `$table->nullableMorphs('taggable');`  |  nullable (null 값이 허용되는) `morphs()` 컬럼 버전.
-`$table->nullableTimestamps();`  |  nullable (null 값이 허용되는) `timestamps()` 컬럼 버전.
+`$table->nullableTimestamps();`  |  `timestamps()` 의 별칭입니다.
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.
 `$table->rememberToken();`  |  nullable (null 값이 허용되는) `remember_token` VARCHAR(100) 컬럼.
@@ -430,8 +438,8 @@ Below is a list of all the available column modifiers. This list does not includ
 
 아래는 사용 가능한 모든 컬럼 Modifier의 목록입니다. 이 목록은 [인덱스 modifiers](#creating-indexes)를 포함하지 않습니다:
 
-Modifier  | Description
-------------- | -------------
+Modifier  |  Description
+--------  |  -----------
 `->after('column')`  |  Place the column "after" another column (MySQL)
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
 `->charset('utf8')`  |  Specify a character set for the column (MySQL)
@@ -445,7 +453,7 @@ Modifier  | Description
 `->virtualAs($expression)`  |  Create a virtual generated column (MySQL)
 
 Modifier  | 설명
-------------- | -------------
+--------  |  -----------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮기세요 (MySQL)
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정
 `->charset('utf8')`  |  컬럼의 캐릭터셋을 지정 (MySQL)
@@ -490,9 +498,9 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} The following column types can not be "changed": char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
+> {note} Only the following column types can be "changed": bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger and unsignedSmallInteger.
 
-> {note} 다음의 컬럼 타입들은 "변경" 할 수 없습니다: char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid. 
+> {note} 다음의 컬럼 타입들만 "변경" 할 수 있습니다: bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger.
 
 #### Renaming Columns
 #### 컬럼의 이름 변경하기
@@ -533,6 +541,25 @@ You may drop multiple columns from a table by passing an array of column names t
 
 > {note} SQLite 데이터베이스를 사용하는 중에는, 하나의 마이그레이션 안에서 여러 개의 컬럼을 없애거나 수정할 수 없습니다.
 
+#### Available Command Aliases
+#### 사용가능한 명령어 alias(별칭)
+
+Command  |  Description
+-------  |  -----------
+`$table->dropRememberToken();`  |  Drop the `remember_token` column.
+`$table->dropSoftDeletes();`  |  Drop the `deleted_at` column.
+`$table->dropSoftDeletesTz();`  |  Alias of `dropSoftDeletes()` method.
+`$table->dropTimestamps();`  |  Drop the `created_at` and `updated_at` columns.
+`$table->dropTimestampsTz();` |  Alias of `dropTimestamps()` method.
+
+명령어 |  설명
+-------  |  -----------
+`$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
+`$table->dropSoftDeletes();`  |  `deleted_at` 컬럼 drop.
+`$table->dropSoftDeletesTz();`  |  `dropSoftDeletes()` 메소드의 alias.
+`$table->dropTimestamps();`  |  `created_at`와 `updated_at` 컬럼 drop.
+`$table->dropTimestampsTz();` |  `dropTimestamps()` 메소드의 alias.
+
 <a name="indexes"></a>
 ## Indexes
 ## 인덱스
@@ -568,21 +595,21 @@ Laravel will automatically generate a reasonable index name, but you may pass a 
 #### Available Index Types
 #### 사용가능한 인덱스 타입
 
-Command  | Description
-------------- | -------------
+Command  |  Description
+-------  |  -----------
 `$table->primary('id');`  |  Adds a primary key.
 `$table->primary(['id', 'parent_id']);`  |  Adds composite keys.
 `$table->unique('email');`  |  Adds a unique index.
 `$table->index('state');`  |  Adds a plain index.
-`$table->spatialIndex('location');`  |  Adds a spatial index. (MySQL)
+`$table->spatialIndex('location');`  |  Adds a spatial index. (except SQLite)
 
 커맨드  | 설명
-------------- | -------------
+-------  |  -----------
 `$table->primary('id');`  |  primary key 추가.
 `$table->primary(['id', 'parent_id']);`  |   복합 키 추가.
 `$table->unique('email');`  |  유니크 인덱스 추가.
 `$table->index('state');`  |  기본적인 인덱스 추가.
-`$table->spatialIndex('location');`  |  공간(spatial) 인덱스 추가 (MySQL)
+`$table->spatialIndex('location');`  |  공간(spatial) 인덱스 추가 (SQLite 제외.)
 
 #### Index Lengths & MySQL / MariaDB
 #### 인덱스 길이 & MySQL / MariaDB
@@ -615,17 +642,19 @@ To drop an index, you must specify the index's name. By default, Laravel automat
 
 인덱스를 삭제하기 위해서는 인덱스의 이름을 지정해야 합니다. 라라벨은 자동으로 인덱스에 합리적인 이름을 부여하도록 설정되어 있습니다. 간단하게는 테이블 이름, 인덱스된 컬럼의 이름, 그리고 인덱스 타입을 합친것입니다. 다음은 몇 개의 예제 입니다:
 
-Command  | Description
-------------- | -------------
+Command  |  Description
+-------  |  -----------
 `$table->dropPrimary('users_id_primary');`  |  Drop a primary key from the "users" table.
 `$table->dropUnique('users_email_unique');`  |  Drop a unique index from the "users" table.
 `$table->dropIndex('geo_state_index');`  |  Drop a basic index from the "geo" table.
+`$table->dropSpatialIndex('geo_location_spatialindex');`  |  Drop a spatial index from the "geo" table  (except SQLite).
 
 명령어  | 설명
 ------------- | -------------
 `$table->dropPrimary('users_id_primary');`  |  "users" 테이블에서 프라이머리 키 지우기.
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기.
+`$table->dropSpatialIndex('geo_location_spatialindex');`  |  "geo" 테이블에서 공간(spatial) 인덱스 지우기(SQLite 제외).
 
 If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns and key type:
 

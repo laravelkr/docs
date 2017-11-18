@@ -158,5 +158,5 @@
     - [Passport-OAuth2](/docs/{{version}}/passport)
     - [Scout](/docs/{{version}}/scout)
     - [Scout-검색](/docs/{{version}}/scout)
-    - [Socialite](https://github.com/laravel/socialite)
-    - [Socialite-소셜로그인](https://github.com/laravel/socialite)
+    - [Socialite](/docs/{{version}}/socialite)
+    - [Socialite-소셜로그인](/docs/{{version}}/socialite)

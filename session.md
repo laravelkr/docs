@@ -202,7 +202,7 @@ HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HT
 
     namespace App\Extensions;
 
-    class MongoHandler implements SessionHandlerInterface
+    class MongoSessionHandler implements \SessionHandlerInterface
     {
         public function open($savePath, $sessionName) {}
         public function close() {}
@@ -212,7 +212,7 @@ HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HT
         public function gc($lifetime) {}
     }
 
-> {tip} 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
+> {tip} 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoSessionHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
 
 이 메소드들의 목적을 쉽게 이해하기 어렵기 때문에, 각각의 메소드를 빠르게 살펴보겠습니다:
 
@@ -232,7 +232,7 @@ HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HT
 
     namespace App\Providers;
 
-    use App\Extensions\MongoSessionStore;
+    use App\Extensions\MongoSessionHandler;
     use Illuminate\Support\Facades\Session;
     use Illuminate\Support\ServiceProvider;
 
@@ -247,7 +247,7 @@ HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HT
         {
             Session::extend('mongo', function ($app) {
                 // Return implementation of SessionHandlerInterface...
-                return new MongoSessionStore;
+                return new MongoSessionHandler;
             });
         }
 

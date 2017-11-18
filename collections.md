@@ -320,6 +320,65 @@
 
     // 4
 
+<a name="method-crossjoin"></a>
+#### `crossJoin()` {#collection-method}
+
+`crossJoin` 메소드는 컬렉션의 값을 주어진 배열 또는 컬렉션을 사용하여 크로스 조인(cross join)하여 합성 가능한 모든 순열을 가지는 데카르트 곱(직교 값)을 반환합니다:
+
+    $collection = collect([1, 2]);
+
+    $matrix = $collection->crossJoin(['a', 'b']);
+
+    $matrix->all();
+
+    /*
+        [
+            [1, 'a'],
+            [1, 'b'],
+            [2, 'a'],
+            [2, 'b'],
+        ]
+    */
+
+    $collection = collect([1, 2]);
+
+    $matrix = $collection->crossJoin(['a', 'b'], ['I', 'II']);
+
+    $matrix->all();
+
+    /*
+        [
+            [1, 'a', 'I'],
+            [1, 'a', 'II'],
+            [1, 'b', 'I'],
+            [1, 'b', 'II'],
+            [2, 'a', 'I'],
+            [2, 'a', 'II'],
+            [2, 'b', 'I'],
+            [2, 'b', 'II'],
+        ]
+    */
+
+<a name="method-dd"></a>
+#### `dd()` {#collection-method}
+
+`dd` 메소드는 컬렉션의 아이템을 덤프하여 표시하고 스크립트를 종료합니다:
+
+    $collection = collect(['John Doe', 'Jane Doe']);
+
+    $collection->dd();
+
+    /*
+        Collection {
+            #items: array:2 [
+                0 => "John Doe"
+                1 => "Jane Doe"
+            ]
+        }
+    */
+
+스크립트가 종료되지 않길 원한다면, [`dump`](#method-dump) 메소드를 사용하십시오.
+
 <a name="method-diff"></a>
 #### `diff()` {#collection-method}
 
@@ -379,6 +438,26 @@
 
     // ['one' => 10, 'three' => 30, 'five' => 50]
 
+<a name="method-dump"></a>
+#### `dump()` {#collection-method}
+
+`dump` 메소드는 컬렉션의 아이템을 덤프하여 표시합니다:
+
+    $collection = collect(['John Doe', 'Jane Doe']);
+
+    $collection->dump();
+
+    /*
+        Collection {
+            #items: array:2 [
+                0 => "John Doe"
+                1 => "Jane Doe"
+            ]
+        }
+    */
+
+If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
+
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
@@ -394,6 +473,23 @@
         if (/* some condition */) {
             return false;
         }
+    });
+
+<a name="method-eachspread"></a>
+#### `eachSpread()` {#collection-method}
+
+`eachSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다:
+
+    $collection = collect([['John Doe', 35], ['Jane Doe', 33]]);
+
+    $collection->eachSpread(function ($name, $age) {
+        //
+    });
+
+반복을 멈추고자 한다면, 콜백안에서 `false` 를 반환하면 됩니다:
+
+    $collection->eachSpread(function ($name, $age) {
+        return false;
     });
 
 <a name="method-every"></a>
@@ -720,8 +816,8 @@
 `keyBy` 메소드는 주어진 키를 기준으로 컬렉션을 다시 구성합니다. 여러 아이템이 같은 키를 가지고 있다면, 새로운 컬렉션에서는 마지막 항목만 나타납니다:
 
     $collection = collect([
-        ['product_id' => 'prod-100', 'name' => 'desk'],
-        ['product_id' => 'prod-200', 'name' => 'chair'],
+        ['product_id' => 'prod-100', 'name' => 'Desk'],
+        ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
 
     $keyed = $collection->keyBy('product_id');
@@ -783,6 +879,16 @@
 
     // 4
 
+<a name="method-macro"></a>
+#### `macro()` {#collection-method}
+
+`macro` 메소드를 사용하면 런타임에 `Collection` 클래스에 메소드를 추가할 수 있습니다. 자세한 정보는 [컬렉션 확장하기](#extending-collections) 문서를 참조하십시오.
+
+<a name="method-make"></a>
+#### `make()` {#collection-method}
+
+`make` 메소드는 새로운 컬렉션 인스턴스를 생성합니다. [컬렉션 생성하기](#creating-collections) 부분을 참고하십시오.
+
 <a name="method-map"></a>
 #### `map()` {#collection-method}
 
@@ -799,6 +905,87 @@
     // [2, 4, 6, 8, 10]
 
 > {note} 대다수의 다른 컬렉션 메소드와 같이, `map` 메소드는 새로운 컬렉션 인스턴스를 반환합니다; 이 메소드는 호출된 컬렉션을 변경하지 않습니다. 원래의 컬렉션을 변경하고자 한다면 [`transform`](#method-transform)메소드를 사용하십시오.
+
+<a name="method-mapinto"></a>
+#### `mapInto()` {#collection-method}
+
+`mapInto` 메소드는 컬렉션의 아이템을 반복하면서 전달된 클래스의 생성자에 주어진 값을 전달하여 새로운 인스턴스를 생성합니다:
+
+    class Currency
+    {
+        /**
+         * Create a new currency instance.
+         *
+         * @param  string  $code
+         * @return void
+         */
+        function __construct(string $code)
+        {
+            $this->code = $code;
+        }
+    }
+
+    $collection = collect(['USD', 'EUR', 'GBP']);
+
+    $currencies = $collection->mapInto(Currency::class);
+
+    $currencies->all();
+
+    // [Currency('USD'), Currency('EUR'), Currency('GBP')]
+
+<a name="method-mapspread"></a>
+#### `mapSpread()` {#collection-method}
+
+`mapSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다. 콜백에서는 자유롭게 아이템을 수정하고 반환할 수 있으며, 그 결과 수정된 아이템으로 구성된 새로운 컬렉션을 반환합니다:
+
+    $collection = collect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+    $chunks = $collection->chunk(2);
+
+    $sequence = $chunks->mapSpread(function ($odd, $even) {
+        return $odd + $even;
+    });
+
+    $sequence->all();
+
+    // [1, 5, 9, 13, 17]
+
+<a name="method-maptogroups"></a>
+#### `mapToGroups()` {#collection-method}
+
+`mapToGroups` 메소드는 컬렉션의 항목을 지정된 콜백별로 그룹화합니다. 콜백은 하나의 키 / 값 쌍을 포함하는 그룹화 된 값으로 구성된 새로운 컬렉션을 반환합니다:
+
+    $collection = collect([
+        [
+            'name' => 'John Doe',
+            'department' => 'Sales',
+        ],
+        [
+            'name' => 'Jane Doe',
+            'department' => 'Sales',
+        ],
+        [
+            'name' => 'Johnny Doe',
+            'department' => 'Marketing',
+        ]
+    ]);
+
+    $grouped = $collection->mapToGroups(function ($item, $key) {
+        return [$item['department'] => $item['name']];
+    });
+
+    $grouped->toArray();
+
+    /*
+        [
+            'Sales' => ['John Doe', 'Jane Doe'],
+            'Marketing' => ['Johhny Doe'],
+        ]
+    */
+
+    $grouped->get('Sales')->all();
+
+    // ['John Doe', 'Jane Doe']
 
 <a name="method-mapwithkeys"></a>
 #### `mapWithKeys()` {#collection-method}
@@ -1150,7 +1337,7 @@
 
 `reverse` 메소드는 컬렉션의 원래의 키는 유지하면서 아이템의 순서를 반대가 되게 합니다:
 
-    $collection = collect([1, 2, 3, 4, 5]);
+    $collection = collect(['a', 'b', 'c', 'd', 'e']);
 
     $reversed = $collection->reverse();
 
@@ -1584,6 +1771,44 @@
 
 이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다.
 
+<a name="method-unless"></a>
+#### `unless()` {#collection-method}
+
+`unless` 메소드는 메소드에 주어진 첫번째 인자값이 `true`가 아닐 때 두번째 인자로 전달되는 콜백을 실행합니다:
+
+    $collection = collect([1, 2, 3]);
+
+    $collection->unless(true, function ($collection) {
+        return $collection->push(4);
+    });
+
+    $collection->unless(false, function ($collection) {
+        return $collection->push(5);
+    });
+
+    $collection->all();
+
+    // [1, 2, 3, 5]
+
+`unless` 메소드의 반대는 [`when`](#method-when) 메소드를 참고하십시오.
+
+<a name="method-unwrap"></a>
+#### `unwrap()` {#collection-method}
+
+정적 메소드인 `unwrap` 메소드는 해당되는 경우, 컬렉션의 아이템을 컬렉션의 형태에서 해제하여 기본 타입 형태로 반환합니다:
+
+    Collection::unwrap(collect('John Doe'));
+
+    // ['John Doe']
+
+    Collection::unwrap(['John Doe']);
+
+    // ['John Doe']
+
+    Collection::unwrap('John Doe');
+
+    // 'John Doe'
+
 <a name="method-values"></a>
 #### `values()` {#collection-method}
 
@@ -1616,9 +1841,15 @@
         return $collection->push(4);
     });
 
+    $collection->when(false, function ($collection) {
+        return $collection->push(5);
+    });
+
     $collection->all();
 
     // [1, 2, 3, 4]
+
+`when` 메소드의 반대는, [`unless`](#method-unless) 메소드를 참고하십시오.
 
 <a name="method-where"></a>
 #### `where()` {#collection-method}
@@ -1711,6 +1942,29 @@
 #### `whereNotInStrict()` {#collection-method}
 
 이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 "엄격한" 비교를 수행합니다.
+
+<a name="method-wrap"></a>
+#### `wrap()` {#collection-method}
+
+정적 메소드인 `wrap` 메소드는 가능한 경우, 주어진 값을 컬렉션으로 감쌉니다:
+
+    $collection = Collection::wrap('John Doe');
+
+    $collection->all();
+
+    // ['John Doe']
+
+    $collection = Collection::wrap(['John Doe']);
+
+    $collection->all();
+
+    // ['John Doe']
+
+    $collection = Collection::wrap(collect('John Doe'));
+
+    $collection->all();
+
+    // ['John Doe']
 
 <a name="method-zip"></a>
 #### `zip()` {#collection-method}

@@ -160,7 +160,7 @@
         //
     }
 
-#### 커넥션-connection & 스토리지 엔진
+#### 데이터베이스 커넥션-connection & 테이블 옵션
 
 기본 커넥션-connection이 아닌 다른 데이터베이스 커넥션-connection에 스키마 작업을 수행하려면 `connection` 메소드를 사용하면 됩니다:
 
@@ -168,13 +168,14 @@
         $table->increments('id');
     });
 
-테이블의 스토리지 엔진을 정의하기 위해서 스키마 빌더의 `engine` 속성을 사용할 수 있습니다:
+테이블 옵션을 정의하기 위해서 스키마 빌더의 다음 명령어를 사용할 수 있습니다:
 
-    Schema::create('users', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
-
-        $table->increments('id');
-    });
+명령어 | 설명
+-------  |  -----------
+`$table->engine = 'InnoDB';`  |  테이블 엔진을 지정합니다.(MySQL).
+`$table->charset = 'utf8';`  |  테이블의 기본 케릭터셋을 지정합니다.(MySQL).
+`$table->collation = 'utf8_unicode_ci';`  |  테이블의 기본 collation을 지정합니다.(MySQL).
+`$table->temporary();`  |  임시 테이블을 생성 (SQL Server 제외).
 
 <a name="renaming-and-dropping-tables"></a>
 ### 테이블 이름 변경 / 제거하기
@@ -241,7 +242,7 @@
 `$table->multiPoint('positions');`  |  MULTIPOINT 컬럼.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
 `$table->nullableMorphs('taggable');`  |  nullable (null 값이 허용되는) `morphs()` 컬럼 버전.
-`$table->nullableTimestamps();`  |  nullable (null 값이 허용되는) `timestamps()` 컬럼 버전.
+`$table->nullableTimestamps();`  |  `timestamps()` 의 별칭입니다.
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.
 `$table->rememberToken();`  |  nullable (null 값이 허용되는) `remember_token` VARCHAR(100) 컬럼.
@@ -279,7 +280,7 @@
 아래는 사용 가능한 모든 컬럼 Modifier의 목록입니다. 이 목록은 [인덱스 modifiers](#creating-indexes)를 포함하지 않습니다:
 
 Modifier  | 설명
-------------- | -------------
+--------  |  -----------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮기세요 (MySQL)
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정
 `->charset('utf8')`  |  컬럼의 캐릭터셋을 지정 (MySQL)
@@ -315,7 +316,7 @@ Modifier  | 설명
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} 다음의 컬럼 타입들은 "변경" 할 수 없습니다: char, double, enum, mediumInteger, timestamp, tinyInteger, ipAddress, json, jsonb, macAddress, mediumIncrements, morphs, nullableMorphs, nullableTimestamps, softDeletes, timeTz, timestampTz, timestamps, timestampsTz, unsignedMediumInteger, unsignedTinyInteger, uuid.
+> {note} 다음의 컬럼 타입들만 "변경" 할 수 있습니다: bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger.
 
 #### 컬럼의 이름 변경하기
 
@@ -344,6 +345,16 @@ Modifier  | 설명
 
 > {note} SQLite 데이터베이스를 사용하는 중에는, 하나의 마이그레이션 안에서 여러 개의 컬럼을 없애거나 수정할 수 없습니다.
 
+#### 사용가능한 명령어 alias(별칭)
+
+명령어 |  설명
+-------  |  -----------
+`$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
+`$table->dropSoftDeletes();`  |  `deleted_at` 컬럼 drop.
+`$table->dropSoftDeletesTz();`  |  `dropSoftDeletes()` 메소드의 alias.
+`$table->dropTimestamps();`  |  `created_at`와 `updated_at` 컬럼 drop.
+`$table->dropTimestampsTz();` |  `dropTimestamps()` 메소드의 alias.
+
 <a name="indexes"></a>
 ## 인덱스
 
@@ -367,13 +378,14 @@ Modifier  | 설명
     $table->unique('email', 'unique_email');
 
 #### 사용가능한 인덱스 타입
+
 커맨드  | 설명
-------------- | -------------
+-------  |  -----------
 `$table->primary('id');`  |  primary key 추가.
 `$table->primary(['id', 'parent_id']);`  |   복합 키 추가.
 `$table->unique('email');`  |  유니크 인덱스 추가.
 `$table->index('state');`  |  기본적인 인덱스 추가.
-`$table->spatialIndex('location');`  |  공간(spatial) 인덱스 추가 (MySQL)
+`$table->spatialIndex('location');`  |  공간(spatial) 인덱스 추가 (SQLite 제외.)
 
 #### 인덱스 길이 & MySQL / MariaDB
 
@@ -403,6 +415,7 @@ Modifier  | 설명
 `$table->dropPrimary('users_id_primary');`  |  "users" 테이블에서 프라이머리 키 지우기.
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기.
+`$table->dropSpatialIndex('geo_location_spatialindex');`  |  "geo" 테이블에서 공간(spatial) 인덱스 지우기(SQLite 제외).
 
 인덱스들을 삭제하기 위해서 메소드에 컬럼의 배열을 전달하게 되면 인덱스의 이름은 테이블명, 컬럼이름 그리고 키의 타입을 기반으로 컨벤션에 의해서 인덱스 이름을 추정할 것입니다:
 

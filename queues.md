@@ -63,7 +63,7 @@
 
 #### Redis
 
-`redis` 큐 드라이버를 사용하기 위해서는 `config/dtabase.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
+`redis` 큐 드라이버를 사용하기 위해서는 `config/database.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
 
 Redis 큐 커넥션이 Redis 클러스터를 사용한다면, 큐 이름은 [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags)를 반드시 포함하고 있어야 합니다. 이것은 주어진 큐의 모든 Redis 키가 동일한 해시 슬롯에 배치되기 위해서 필요로합니다:
 

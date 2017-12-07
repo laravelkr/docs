@@ -61,7 +61,7 @@ For most applications, you will begin by defining routes in your `routes/web.php
 
 대부분의 어플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다. `routes/web.php` 에 정의된 라우트는 브라우저를 통해서 유입되는 라우트 URL을 정의하는데 사용됩니다. 예를 들어 브라우저에서 `http://your-app.dev/user`와 같이 접속하기 위해서 다음의 라우트를 정의할 수 있습니다:
 
-    Route::get('/user', 'UsersController@index');
+    Route::get('/user', 'UserController@index');
 
 Routes defined in the `routes/api.php` file are nested within a route group by the `RouteServiceProvider`. Within this group, the `/api` URI prefix is automatically applied so you do not need to manually apply it to every route in the file. You may modify the prefix and other route group options by modifying your `RouteServiceProvider` class.
 

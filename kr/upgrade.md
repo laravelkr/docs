@@ -72,6 +72,15 @@ Laravel 5.5 requires version `~6.0` of Swift Mailer.
 ### Artisan
 ### Artisan
 
+#### Auto-Loading Commands
+#### Auto-Loading Commands
+
+In Laravel 5.5, Artisan can automatically discover commands so that you do not have to manually register them in your kernel. To take advantage of this new feature, you should add the following line to the `commands` method of your  `App\Console\Kernel` class:
+
+라라벨 5.5에서는 아티즌 명령어는 자동으로 등록되기 때문에, 커널에서 수동으로 명령어를 등록해줄 필요가 없습니다. 이 기능을 사용하기 위해서는 `App\Console\Kernel` 클래스의 `commands` 메소드에 다음 라인을 추가하십시오:
+
+    $this->load(__DIR__.'/Commands');
+
 #### The `fire` Method
 #### `fire` 메소드
 
@@ -97,7 +106,7 @@ When passing a multi-word model name to the `authorizeResource` method, the resu
 #### The `before` Policy Method
 #### `before` Policy 메소드
 
-The `before` method of a policy class will not be called if the class doesn't contain a method with name matching the name of the ability being checked.
+The `before` method of a policy class will not be called if the class doesn't contain a method matching the name of the ability being checked.
 
 policy 클래스의 `before` 메소드는 클래스가 검사되는 ability 이름과 일치하는 메소드가 없는 경우에 이를 호출하지 않습니다.
 
@@ -342,15 +351,15 @@ The unused `$data` and `$callback` arguments were removed from the `Illuminate\C
 #### The `dispatch` Helper
 #### `dispatch` 헬퍼 함수
 
-If you would like to dispatch a job that runs immediately and returns a value from the `handle` method, you should use the `dispatch_now` or `Bus::dispatch` method to dispatch the job:
+If you would like to dispatch a job that runs immediately and returns a value from the `handle` method, you should use the `dispatch_now` or `Bus::dispatchNow` method to dispatch the job:
 
-`handle` 메소드에서 job을 즉시 처리하고 결과값을 필요로 한다면, `dispatch_now` 또는 `Bus::dispatch` 메소드를 사용해야 합니다:
+`handle` 메소드에서 job을 즉시 처리하고 결과값을 필요로 한다면, `dispatch_now` 또는 `Bus::dispatchNow` 메소드를 사용해야 합니다:
 
     use Illuminate\Support\Facades\Bus;
 
     $value = dispatch_now(new Job);
 
-    $value = Bus::dispatch(new Job);
+    $value = Bus::dispatchNow(new Job);
 
 ### Requests
 ### Requests-요청

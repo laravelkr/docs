@@ -230,7 +230,7 @@ Next, add the `Billable` trait to your model definition:
 #### API Keys
 #### API Key
 
-Next, You should configure the following options in your `services.php` file:
+Next, you should configure the following options in your `services.php` file:
 
 다음으로 `services.php`에 다음의 옵션값들을 설정해야 합니다:
 
@@ -518,7 +518,7 @@ The `updateCard` method may be used to update a customer's credit card informati
 ### With Credit Card Up Front
 ### 신용카드 사전 등록
 
-If you would like to offer trial periods to your customers while still collecting payment method information up front, You should use the `trialDays` method when creating your subscriptions:
+If you would like to offer trial periods to your customers while still collecting payment method information up front, you should use the `trialDays` method when creating your subscriptions:
 
 고객에게 트라이얼 기간을 제공하고, 결제 정보를 사전에 등록 해달라고 요청하고자 한다면, 구독을 생성할 때 `trialDays` 메소드를 해야합니다:
 

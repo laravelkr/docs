@@ -45,8 +45,6 @@
 - [네트워크 인터페이스](#network-interfaces)
 - [Updating Homestead](#updating-homestead)
 - [홈스테드 업데이트하기](#updating-homestead)
-- [Old Versions](#old-versions)
-- [이전 버전](#old-versions)
 - [Provider Specific Settings](#provider-specific-settings)
 - [프로바이더 한정 셋팅](#provider-specific-settings)
     - [VirtualBox](#provider-specific-virtualbox)
@@ -64,9 +62,9 @@ Laravel Homestead is an official, pre-packaged Vagrant box that provides you a w
 
 라라벨 홈스테드는 공식적으로 여러분이 PHP, 웹서버, 기타 다른 서버 소프트웨어를 설치할 필요가 없는 사전에 준비된 Vagrant box이며 멋진 개발 환경을 제공합니다. 운영체제가 너저분 해지는 것을 걱정할 필요가 없습니다! Vagrant box는 완전히 일회용입니다. 만약 뭔가 잘 되지 않는다면, 여러분은 몇분안에 다시 box를 생성할 수 있습니다. 
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > {note} If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
@@ -78,7 +76,10 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 - Ubuntu 16.04
 - Git
+- PHP 7.2
 - PHP 7.1
+- PHP 7.0
+- PHP 5.6
 - Nginx
 - MySQL
 - MariaDB
@@ -100,9 +101,9 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### First Steps
 ### 첫번째 단계
 
-Before launching your Homestead environment, you must install [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), or [Parallels](https://www.parallels.com/products/desktop/) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
+Before launching your Homestead environment, you must install [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), or [Parallels](https://www.parallels.com/products/desktop/) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
 
 To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](https://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
 
@@ -143,7 +144,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd Homestead
 
     // Clone the desired release...
-    git checkout v6.5.0
+    git checkout v7.0.1
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -578,9 +579,9 @@ After running the command, you will see an Ngrok screen appear which contains th
 
 > {note} 이 기능은 Nginx에서만 유효합니다.
 
-Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1" and "7.2":
+Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1" and "7.2" (the default):
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2" 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2"(기본) 입니다:
 
     sites:
         - map: homestead.test
@@ -644,43 +645,6 @@ If you have installed Homestead via your project's `composer.json` file, you sho
 프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^6"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
-
-<a name="old-versions"></a>
-## Old Versions
-## 이전 버전
-
-> {tip} If you need an older version of PHP check the documentation on <a href="#multiple-php-versions">multiple PHP versions</a> before attempting to use an old version of Homestead.
-
-> {tip} 이전 버전의 PHP가 필요하다면, 오래된 버전의 홈스테드를 구성하기 보다 <a href="#multiple-php-versions">여러버전의 PHP 사용하기</a> 부분을 참고하십시오.
-
-You can easily override the version of the box that Homestead uses by adding the following line to your `Homestead.yaml` file:
-
-여러분은 `Homestead.yaml` 파일에 다음 라인을 추가하여 손쉽게 사용하는 홈스테드 box 버전을 지정할 수 있습니다: 
-
-    version: 0.6.0
-
-An example:
-
-사용 예:
-
-    box: laravel/homestead
-    version: 0.6.0
-    ip: "192.168.10.10"
-    memory: 2048
-    cpus: 4
-    provider: virtualbox
-
-When you use an older version of the Homestead box you need to match that with a compatible version of the Homestead source code. Below is a chart which shows the supported box versions, which version of Homestead source code to use, and the version of PHP provided:
-
-이전버전의 홈스테드 박스를 사용하는 경우 홈스테드 소스 코드와 호환되는 버전이어야 합니다 다음은 지원되는 박스의 버전과 사용할 홈스테드 소스 코드 버전 및 제공되는 PHP 버전을 보여주는 표입니다:
-
-|   | Homestead Version | Box Version |
-|---|---|---|
-| PHP 7.0 | 3.1.0 | 0.6.0 |
-| PHP 7.1 | 4.0.0 | 1.0.0 |
-| PHP 7.1 | 5.0.0 | 2.0.0 |
-| PHP 7.1 | 6.0.0 | 3.0.0 |
-| PHP 7.2 RC3 | 6.4.0 | 4.0.0 |
 
 <a name="provider-specific-settings"></a>
 ## Provider Specific Settings

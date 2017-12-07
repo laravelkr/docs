@@ -112,7 +112,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
-[first](#method-first)
+[firstWhere](#method-first-where)
 [flatMap](#method-flatmap)
 [flatten](#method-flatten)
 [flip](#method-flip)
@@ -653,6 +653,32 @@ You may also call the `first` method with no arguments to get the first element 
     collect([1, 2, 3, 4])->first();
 
     // 1
+
+<a name="method-first-where"></a>
+#### `firstWhere()` {#collection-method}
+
+The `firstWhere` method returns the first element in the collection with the given key / value pair:
+
+`firstWhere` 메소드는 주어진 키 /값에 해당하는 첫번째 요소를 반환합니다:
+
+    $collection = collect([
+        ['name' => 'Regena', 'age' => 12],
+        ['name' => 'Linda', 'age' => 14],
+        ['name' => 'Diego', 'age' => 23],
+        ['name' => 'Linda', 'age' => 84],
+    ]);
+
+    $collection->firstWhere('name', 'Linda');
+
+    // ['name' => 'Linda', 'age' => 14]
+
+You may also call the `firstWhere` method with an operator:
+
+또한 `firstWhere` 메소드에 연산자를 지정할 수도 있습니다:
+
+    $collection->firstWhere('age', '>=', 18);
+
+    // ['name' => 'Diego', 'age' => 23]
 
 <a name="method-flatmap"></a>
 #### `flatMap()` {#collection-method}

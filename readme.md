@@ -24,7 +24,7 @@
 
 ## 기여방법
 
-한국어 매뉴얼 번역 및 수정사항에 대해서 기여하고자 한다면, [Github](https://github.com/laravelkr/docs) 을 통해서 [PR(Pull Request)](https://github.com/laravelkr/docs/pulls)를 보내주시기 바랍니다. PR을 보낼 때에는 가급적 각 버전에 맞는 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.4) 브랜치에 보내주셔야 합니다.
+한국어 매뉴얼 번역 및 수정사항에 대해서 기여하고자 한다면, [Github](https://github.com/laravelkr/docs) 을 통해서 [PR(Pull Request)](https://github.com/laravelkr/docs/pulls)를 보내주시기 바랍니다. PR을 보낼 때에는 가급적 각 버전에 맞는 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.5) 브랜치에 보내주셔야 합니다.
 
 ### PR 브랜치
 

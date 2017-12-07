@@ -108,7 +108,7 @@ In order to use the `database` queue driver, you will need a database table to h
 
 In order to use the `redis` queue driver, you should configure a Redis database connection in your `config/database.php` configuration file.
 
-`redis` 큐 드라이버를 사용하기 위해서는 `config/dtabase.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
+`redis` 큐 드라이버를 사용하기 위해서는 `config/database.php` 설정 파일에서 Redis 커넥션을 설정해야 합니다.
 
 If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
 

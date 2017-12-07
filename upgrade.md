@@ -415,11 +415,10 @@ Eloquent 쿼리 빌더의 `chunk` 메소드는 특별히 `orderBy` 구문을 제
 패키지를 설치하고 나서는, `tests/TestCase.php` 파일을 복사하여 `tests` 디렉토리에 `BrowserKitTestCase.php` 파일로 저장하십시오. 그런 뒤에, 파일이 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 수정하십시오. 이 작업을 마치면 `tests` 디렉토리에는 `TestCase.php`와 `BrowserKitTestCase.php` 두개의 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTestCase` 클래스를 로드하기 위해서, `composer.json` 파일에 추가해야할 수도 있습니다:   
 
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php",
-            "tests/BrowserKitTestCase.php"
-        ]
-    },
+        "psr-4": {
+            "Tests\\": "tests/"
+       }
+    }
 
 라라벨 5.3에서 작성된 테스트는 `BrowserKitTestCase` 클래스를 상속 받고, 라라벨 5.3의 테스트 레이어를 사용하는 새로운 테스트는 `TestCase` 클래스를 상속받습니다. `BrowserKitTestCase` 클래스는 다음과 같습니다:
 

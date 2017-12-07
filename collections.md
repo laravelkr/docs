@@ -51,6 +51,7 @@
 - [chunk](#method-chunk)
 - [collapse](#method-collapse)
 - [combine](#method-combine)
+- [concat](#method-concat)
 - [contains](#method-contains)
 - [containsStrict](#method-containsstrict)
 - [count](#method-count)
@@ -216,6 +217,19 @@
     $combined->all();
 
     // ['name' => 'George', 'age' => 29]
+
+<a name="method-concat"></a>
+#### `concat()` {#collection-method}
+
+`concat` 메소드는 주어진 `배열` 또는 컬렉션의 마지막에 값을 추가하며, 주어진 아이템에 존제하는 키는 무시됩니다:
+
+    $collection = collect(['John Doe']);
+
+    $concatenated = $collection->concat(['Jane Doe'])->concat(['name' => 'Johnny Doe']);
+
+    $concatenated->all();
+
+    // ['John Doe', 'Jane Doe', 'Johnny Doe']
 
 <a name="method-contains"></a>
 #### `contains()` {#collection-method}

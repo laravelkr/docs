@@ -74,4 +74,4 @@
     - [Envoy-Task Runner](/docs/{{version}}/envoy)
     - [Passport-OAuth2](/docs/{{version}}/passport)
     - [Scout-검색](/docs/{{version}}/scout)
-    - [Socialite-소셜로그인](https://github.com/laravel/socialite)
+    - [Socialite-소셜로그인](/docs/{{version}}/socialite)

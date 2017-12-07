@@ -112,6 +112,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
+[first](#method-first)
 [firstWhere](#method-first-where)
 [flatMap](#method-flatmap)
 [flatten](#method-flatten)

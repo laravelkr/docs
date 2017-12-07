@@ -22,7 +22,6 @@
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 업데이트하기](#updating-homestead)
-- [이전 버전](#old-versions)
 - [프로바이더 한정 셋팅](#provider-specific-settings)
     - [VirtualBox](#provider-specific-virtualbox)
 
@@ -33,7 +32,7 @@
 
 라라벨 홈스테드는 공식적으로 여러분이 PHP, 웹서버, 기타 다른 서버 소프트웨어를 설치할 필요가 없는 사전에 준비된 Vagrant box이며 멋진 개발 환경을 제공합니다. 운영체제가 너저분 해지는 것을 걱정할 필요가 없습니다! Vagrant box는 완전히 일회용입니다. 만약 뭔가 잘 되지 않는다면, 여러분은 몇분안에 다시 box를 생성할 수 있습니다.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > {note} 만약 윈도우를 사용하는 경우, 하드웨어 가상화 (VT-x)를 활성화해야합니다. 이 설정은 일반적으로 BIOS에서 사용할 수 있습니다. 만약 UEFI 시스템에서 Hyper-V 를 사용중이라면 추가적으로 VT-x에 액세스하기 위해 Hyper-V를 비활성화 해야합니다.
 
@@ -42,7 +41,10 @@
 
 - Ubuntu 16.04
 - Git
+- PHP 7.2
 - PHP 7.1
+- PHP 7.0
+- PHP 5.6
 - Nginx
 - MySQL
 - MariaDB
@@ -62,7 +64,7 @@
 <a name="first-steps"></a>
 ### 첫번째 단계
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.1](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
 
 VMware 프로바이더를 사용하려면 VMware Fusion / Workstation 과 [VMware Vagrant plug-in](https://www.vagrantup.com/vmware)을 구매해야 합니다. 무료는 아니지만, VMware 의 경우 추가적인 설정 없이도 더 빠른 공유폴더의 퍼포먼스를 제공합니다.
 
@@ -89,7 +91,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
     cd Homestead
 
     // Clone the desired release...
-    git checkout v6.5.0
+    git checkout v7.0.1
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -400,7 +402,7 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 
 > {note} 이 기능은 Nginx에서만 유효합니다.
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2" 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2"(기본) 입니다:
 
     sites:
         - map: homestead.test
@@ -448,34 +450,6 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^6"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
-
-<a name="old-versions"></a>
-## 이전 버전
-
-> {tip} 이전 버전의 PHP가 필요하다면, 오래된 버전의 홈스테드를 구성하기 보다 <a href="#multiple-php-versions">여러버전의 PHP 사용하기</a> 부분을 참고하십시오.
-
-여러분은 `Homestead.yaml` 파일에 다음 라인을 추가하여 손쉽게 사용하는 홈스테드 box 버전을 지정할 수 있습니다:
-
-    version: 0.6.0
-
-사용 예:
-
-    box: laravel/homestead
-    version: 0.6.0
-    ip: "192.168.10.10"
-    memory: 2048
-    cpus: 4
-    provider: virtualbox
-
-이전버전의 홈스테드 박스를 사용하는 경우 홈스테드 소스 코드와 호환되는 버전이어야 합니다 다음은 지원되는 박스의 버전과 사용할 홈스테드 소스 코드 버전 및 제공되는 PHP 버전을 보여주는 표입니다:
-
-|   | Homestead Version | Box Version |
-|---|---|---|
-| PHP 7.0 | 3.1.0 | 0.6.0 |
-| PHP 7.1 | 4.0.0 | 1.0.0 |
-| PHP 7.1 | 5.0.0 | 2.0.0 |
-| PHP 7.1 | 6.0.0 | 3.0.0 |
-| PHP 7.2 RC3 | 6.4.0 | 4.0.0 |
 
 <a name="provider-specific-settings"></a>
 ## 프로바이더 지정 셋팅

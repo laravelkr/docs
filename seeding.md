@@ -20,6 +20,8 @@ seeder를 생성하기 위해서는, `make:seeder` [아티즌 명령어](/docs/{
 
 seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가지고 있습니다. 이 메소드는 `db:seed` [아티즌 명령어](/docs/{{version}}/artisan)가 실행될 때 호출 됩니다. `run` 메소드 안에서 여러분은 원하는 어떤 데이터라도 입력할 수 있습니다. 직접 [query builder](/docs/{{version}}/queries)를 사용하여 데이터를 입력하거나, [Eloquent 모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다.
 
+> {tip} 데이터베이스 시딩이 진행되는 동안 [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment)는 자동으로 동작하지 않습니다.
+
 다음 예제에서, `DatabaseSeeder` 클래스를 수정해서 `run` 메소드에 입력 구문을 추가해보겠습니다:
 
     <?php

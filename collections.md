@@ -89,6 +89,7 @@
 - [except](#method-except)
 - [filter](#method-filter)
 - [first](#method-first)
+- [firstWhere](#method-first-where)
 - [flatMap](#method-flatmap)
 - [flatten](#method-flatten)
 - [flip](#method-flip)
@@ -559,6 +560,28 @@ If you want to stop executing the script after dumping the collection, use the [
     collect([1, 2, 3, 4])->first();
 
     // 1
+
+<a name="method-first-where"></a>
+#### `firstWhere()` {#collection-method}
+
+`firstWhere` 메소드는 주어진 키 /값에 해당하는 첫번째 요소를 반환합니다:
+
+    $collection = collect([
+        ['name' => 'Regena', 'age' => 12],
+        ['name' => 'Linda', 'age' => 14],
+        ['name' => 'Diego', 'age' => 23],
+        ['name' => 'Linda', 'age' => 84],
+    ]);
+
+    $collection->firstWhere('name', 'Linda');
+
+    // ['name' => 'Linda', 'age' => 14]
+
+또한 `firstWhere` 메소드에 비교연산자를 지정할 수도 있습니다:
+
+    $collection->firstWhere('age', '>=', 18);
+
+    // ['name' => 'Diego', 'age' => 23]
 
 <a name="method-flatmap"></a>
 #### `flatMap()` {#collection-method}

@@ -278,7 +278,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
 #### 엔진 구현하기
 
-만약 내장된 스카우트 검색 엔진들 중 하나도 여러분의 요구사항을 충족하지 못한다면, 여러분은 여러분만의 커스텀 엔진을 구현하고 스카우트에 등록할 수 있습니다. 여러분이 구현하는 엔진은 `Laravel\Scout\Engines\Engine` 추상클래스를 상속받아야 합니다. 이 추상클래스는 반드시 구현해야하는 5개의 메소드를 포함하고 있습니다.
+만약 내장된 스카우트 검색 엔진들 중 하나도 여러분의 요구사항을 충족하지 못한다면, 여러분은 여러분만의 커스텀 엔진을 구현하고 스카우트에 등록할 수 있습니다. 여러분이 구현하는 엔진은 `Laravel\Scout\Engines\Engine` 추상클래스를 상속받아야 합니다. 이 추상클래스는 반드시 구현해야하는 7개의 메소드를 포함하고 있습니다.
 
     use Laravel\Scout\Builder;
 
@@ -286,7 +286,9 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
     abstract public function delete($models);
     abstract public function search(Builder $builder);
     abstract public function paginate(Builder $builder, $perPage, $page);
+    abstract public function mapIds($results);
     abstract public function map($results, $model);
+    abstract public function getTotalCount($results);
 
 `Laravel\Scout\Engines\AlgoliaEngine` 클래스에 구현된 그 메소드들을 살펴보는 것이 여러분에게 도움이 될 것입니다. 이 클래스는 여러분만의 엔진에 그 메소드를을 어떻게 구현해야 할지 배울 수 있는 좋은 출발점이 될 것입니다.
 

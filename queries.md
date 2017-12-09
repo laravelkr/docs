@@ -351,7 +351,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                         ->whereNotNull('updated_at')
                         ->get();
 
-**whereDate / whereMonth / whereDay / whereYear**
+**whereDate / whereMonth / whereDay / whereYear / whereTime**
 
 `whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다:
 
@@ -375,6 +375,12 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
 
     $users = DB::table('users')
                     ->whereYear('created_at', '2016')
+                    ->get();
+
+`whereTime` 메소드는 컬럼의 값을 특정 시간과 비교하는데 사용할 수 있습니다:
+
+    $users = DB::table('users')
+                    ->whereTime('created_at', '=', '11:20')
                     ->get();
 
 **whereColumn**

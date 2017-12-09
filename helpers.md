@@ -468,6 +468,14 @@
 
     // ['Laravel']
 
+주어진 값이 null인 경우, 빈 배열이 반환됩니다:
+
+    $nothing = null;
+
+    $array = array_wrap($nothing);
+
+    // []
+
 <a name="method-data-fill"></a>
 #### `data_fill()` {#collection-method}
 

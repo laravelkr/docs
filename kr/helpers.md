@@ -551,6 +551,16 @@ The `array_wrap` function wraps the given value in an array. If the given value 
 
     // ['Laravel']
 
+If the given value is null, an empty array will be returned:
+
+주어진 값이 null인 경우, 빈 배열이 반환됩니다:
+
+    $nothing = null;
+
+    $array = array_wrap($nothing);
+
+    // []
+
 <a name="method-data-fill"></a>
 #### `data_fill()` {#collection-method}
 

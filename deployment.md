@@ -62,7 +62,7 @@
 <a name="autoloader-optimization"></a>
 ### Autoloader 최적화
 
-실 서버에 배포할 때 컴포저의 클래스 오도로딩 맵을 최적화 하여 컴포저가 주어진 클래스 파일을 빠르게 찾을 수 있도록 하십시오:
+실 서버에 배포할 때 컴포저의 클래스 오토로딩 맵을 최적화 하여 컴포저가 주어진 클래스 파일을 빠르게 찾을 수 있도록 하십시오:
 
     composer install --optimize-autoloader
 

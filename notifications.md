@@ -138,7 +138,7 @@
 
 알림을 보낼 때 지연해서 보낼 필요가 있다면, 알림 인스턴스에 `delay` 메소를 체이닝하면 됩니다:
 
-    $when = Carbon::now()->addMinutes(10);
+    $when = now()->addMinutes(10);
 
     $user->notify((new InvoicePaid($invoice))->delay($when));
 
@@ -453,7 +453,7 @@
 
     $user = App\User::find(1);
 
-    $user->unreadNotifications()->update(['read_at' => Carbon::now()]);
+    $user->unreadNotifications()->update(['read_at' => now()]);
 
 물론, 여러분은 테이블 엔티티에서 알림을 삭제하기 위해서 `delete` 메소드를 사용할 수 있습니다:
 

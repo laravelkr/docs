@@ -69,7 +69,7 @@ Horizon 에 대한 보다 자세한 내용은 [전체 Horizon 문서](/docs/{{ve
 
 API를 구성할 때, Eloquent 모델과 어플리케이션의 사용자에게 전달되는 JSON 응답 사이에 데이터를 변환하는 레이어가 필요할 수도 있습니다. 라라벨의 리소스 클래스는 여러분이 편리하고 손쉽게 모델과 모델 컬렉션을 JSON으로 변환할 수 있게 도와줍니다.
 
-리소스 클래스는 하나의 모델을 JSON 구조에 맞게 변환하여 다시 구성합니다. 예를 들어, 다음과 같은 간단한 `User` 리소스 클래스가 있습니다:
+리소스 클래스는 하나의 모델을 JSON 구조에 맞게 변환하여 다시 구성합니다. 예를 들어, 다음과 같은 간단한 `UserResource` 클래스가 있습니다:
 
     <?php
 
@@ -77,7 +77,7 @@ API를 구성할 때, Eloquent 모델과 어플리케이션의 사용자에게 �
 
     use Illuminate\Http\Resources\Json\Resource;
 
-    class User extends Resource
+    class UserResource extends Resource
     {
         /**
          * Transform the resource into an array.

@@ -1135,7 +1135,7 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 
     cache(['key' => 'value'], 5);
 
-    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+    cache(['key' => 'value'], now()->addSeconds(10));
 
 <a name="method-class-uses-recursive"></a>
 #### `class_uses_recursive()` {#collection-method}

@@ -267,6 +267,7 @@
 `$table->unsignedSmallInteger('votes');`  |  UNSIGNED SMALLINT 컬럼.
 `$table->unsignedTinyInteger('votes');`  |  UNSIGNED TINYINT 컬럼.
 `$table->uuid('id');`  |  UUID 컬럼.
+`$table->year('birth_year');`  |  YEAR 컬럼.
 
 <a name="column-modifiers"></a>
 ### 컬럼 Modifiers

@@ -9,6 +9,7 @@
     - [구동환경 처리](#environment-handling)
     - [브라우저 생성하기](#creating-browsers)
     - [인증](#authentication)
+    - [데이터베이스 마이그레이션](#migrations)
 - [Element 조작하기](#interacting-with-elements)
     - [Dusk Selectors](#dusk-selectors)
     - [링크 클릭](#clicking-links)
@@ -235,6 +236,25 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
     });
 
 > {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
+
+<a name="migrations"></a>
+### 데이터베이스 마이그레이션
+
+위의 인증 예제와 같이, 테스트가 마이그레이션을 필요로 할 때에는 절대로 `RefreshDatabase` 트레이트-trait을 사용하면 안됩니다. `RefreshDatabase` 트레이트-trait은 HTTP 요청에서 적용 할 수 없는 데이터베이스 트랜잭션을 사용합니다. 이 대신에 `DatabaseMigrations` 트레이트-trait을 사용하십시오:
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use App\User;
+    use Tests\DuskTestCase;
+    use Laravel\Dusk\Chrome;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseMigrations;
+    }
 
 <a name="interacting-with-elements"></a>
 ## Element 조작하기

@@ -307,13 +307,14 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 ## Browsersync 리로딩
 
 [BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:
-    mix.browserSync('my-domain.dev');
+
+    mix.browserSync('my-domain.test');
 
     // Or...
 
     // https://browsersync.io/docs/options
     mix.browserSync({
-        proxy: 'my-domain.dev'
+        proxy: 'my-domain.test'
     });
 
 이 메소드에는 (프록시) 또는 (BrowserSync 설정)등을 전달할 수도 있습니다. 그런 다음, `npm run watch` 명령을 사용하여 Webpack의 dev 서버를 시작하십시오. 이제 스크립트나 PHP 파일을 수정하게되면 브라우저가 즉시 페이지를 새로 고침하여 변경 사항을 반영합니다.

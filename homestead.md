@@ -64,12 +64,14 @@
 <a name="first-steps"></a>
 ### 첫번째 단계
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/), [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
 
 VMware 프로바이더를 사용하려면 VMware Fusion / Workstation 과 [VMware Vagrant plug-in](https://www.vagrantup.com/vmware)을 구매해야 합니다. 무료는 아니지만, VMware 의 경우 추가적인 설정 없이도 더 빠른 공유폴더의 퍼포먼스를 제공합니다.
 
 Parallels 프로바이더를 사용하려면, [Parallels Vagrant 플러그인](https://github.com/Parallels/vagrant-parallels)을 설치해야 합니다. 이는 무료입니다.
  
+[Vagrant 제한사항](https://www.vagrantup.com/docs/hyperv/limitations.html)으로 인해서, Hyper-V 프로바이더에서는 모든 네트워크 설정이 무시됩니다.
+
 #### 홈스테드 Vagrant Box 설치하기
 
 VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 다음의 명령어를 통해서 인스톨된 Vagrant에 `laravel/homestead` box 를 추가해야 합니다. box를 다운로드 하는 것은 인터넨 연결 속도에 따라 몇분 정도 소요됩니다.
@@ -106,7 +108,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 
 #### 프로바이더 설정하기
 
-`Homestead.yaml` 파일의 `provider` 키는 `virtualbox`, `vmware_fusion`, `vmware_workstation` 와 `parallels`중 어느 것을 사용할 것인지를 알려줍니다. 여러분이 원하는대로 이 프로바이더를 설정할 수 있습니다.
+`Homestead.yaml` 파일의 `provider` 키는 `virtualbox`, `vmware_fusion`, `vmware_workstation`, `parallels`와 `hyperv` 중 어느 것을 사용할 것인지를 알려줍니다. 여러분이 원하는대로 이 프로바이더를 설정할 수 있습니다.
 
     provider: virtualbox
 
@@ -209,14 +211,16 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
 <a name="installing-elasticsearch"></a>
 ### Elasticsearch 설치하기
 
-Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵션을 추가하십시오. 기본적인 설치사항은 `homestead` 이름으로 클러스터를 생성되고 2GB 메모리가 할당됩니다. Elasticsearch 에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 최소 4GB의 메모리가 있는지 확인하십시오:
+Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵션을 추가하고 지원버전을 지정해야 합니다. 기본설치는 `homestead` 이름으로 클러스터가 생성됩니다. Elasticsearch 에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch 헬당한 것의 두배 이상의 메모리가 있는지 확인하십시오:
 
     box: laravel/homestead
     ip: "192.168.10.10"
     memory: 4096
     cpus: 4
     provider: virtualbox
-    elasticsearch: true
+    elasticsearch: 6
+
+> {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
 
 <a name="aliases"></a>
 ### 별칭 설정
@@ -447,7 +451,7 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 
 그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 간단하게 `git pull origin master` 를 사용할 수 있습니다.
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^6"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^7"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
 

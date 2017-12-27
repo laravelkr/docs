@@ -21,7 +21,7 @@ When building an API, you may need a transformation layer that sits between your
 
 To generate a resource class, you may use the `make:resource` Artisan command. By default, resources will be placed in the `app/Http/Resources` directory of your application. Resources extend the `Illuminate\Http\Resources\Json\Resource` class:
 
-    php artisan make:resource User
+    php artisan make:resource UserResource
 
 #### Resource Collections
 

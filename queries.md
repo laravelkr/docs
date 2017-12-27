@@ -491,6 +491,13 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                     ->having('account_id', '>', 100)
                     ->get();
 
+멀티 컬럼 groupBy를 위해서 `groupBy` 메소드에 여러개의 인자를 전달 할 수 있습니다:
+
+    $users = DB::table('users')
+                    ->groupBy('first_name', 'status')
+                    ->having('account_id', '>', 100)
+                    ->get();
+
 보다 복잡한 `having` 구문에 대해서는 [`havingRaw`](#raw-methods) 메소드를 참조하십시오.
 
 #### skip / take

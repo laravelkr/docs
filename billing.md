@@ -394,7 +394,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 
     $user = User::create([
         // Populate other user properties...
-        'trial_ends_at' => Carbon::now()->addDays(10),
+        'trial_ends_at' => now()->addDays(10),
     ]);
 
 > {note} 모델 정의에 `trial_ends_at`을 [날짜 mutator](/docs/{{version}}/eloquent-mutators#date-mutators)로 추가되어 있어야 합니다.

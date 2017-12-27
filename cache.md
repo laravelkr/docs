@@ -170,7 +170,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 몇 분동안 저장해야 할지 정수형의 숫자를 전달하는 대신에, 캐시된 아이템의 유효 기간을 나타내는 `DateTime` 인스턴스를 전달할 수 있습니다.
 
-    $expiresAt = Carbon::now()->addMinutes(10);
+    $expiresAt = now()->addMinutes(10);
 
     Cache::put('key', 'value', $expiresAt);
 
@@ -211,7 +211,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     cache(['key' => 'value'], $minutes);
 
-    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+    cache(['key' => 'value'], now()->addSeconds(10));
 
 > {tip} 글로벌 `cache` 함수 호출을 테스팅할 때에는, [파사드 테스팅](/docs/{{version}}/mocking#mocking-facades)을 참고하여 `Cache::shouldReceive`메소드를 사용할 수 있습니다.
 

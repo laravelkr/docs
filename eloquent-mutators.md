@@ -123,7 +123,7 @@ mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형
 
     $user = App\User::find(1);
 
-    $user->deleted_at = Carbon::now();
+    $user->deleted_at = now();
 
     $user->save();
 

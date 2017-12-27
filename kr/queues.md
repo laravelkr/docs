@@ -255,7 +255,6 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
 
     namespace App\Http\Controllers;
 
-    use Carbon\Carbon;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
@@ -273,7 +272,7 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
             // Create podcast...
 
             ProcessPodcast::dispatch($podcast)
-                    ->delay(Carbon::now()->addMinutes(10));
+                    ->delay(now()->addMinutes(10));
         }
     }
 

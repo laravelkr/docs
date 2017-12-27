@@ -446,13 +446,13 @@ Because versioned files are usually unnecessary in development, you may wish to 
 [BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
 
 [BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:  
-    mix.browserSync('my-domain.dev');
+    mix.browserSync('my-domain.test');
 
     // Or...
 
     // https://browsersync.io/docs/options
     mix.browserSync({
-        proxy: 'my-domain.dev'
+        proxy: 'my-domain.test'
     });
 
 You may pass either a string (proxy) or object (BrowserSync settings) to this method. Next, start Webpack's dev server using the `npm run watch` command. Now, when you modify a script or PHP file, watch as the browser instantly refreshes the page to reflect your changes.

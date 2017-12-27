@@ -20,7 +20,7 @@ Of course, all collections also serve as iterators, allowing you to loop over th
 
 또한 당연하게도, 모든 컬렉션은 Iterators(반복자)이기 때문에, 간단한 PHP 배열과 같이 반복문 안에서 사용할 수도 있습니다: 
 
-    $users = App\User::where('active', 1)->get();
+    $users = App\User::all();
 
     foreach ($users as $user) {
         echo $user->name;

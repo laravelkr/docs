@@ -19,6 +19,8 @@
     - [브라우저 생성하기](#creating-browsers)
     - [Authentication](#authentication)
     - [인증](#authentication)
+    - [Database Migrations](#migrations)
+    - [데이터베이스 마이그레이션](#migrations)
 - [Interacting With Elements](#interacting-with-elements)
 - [Element 조작하기](#interacting-with-elements)
     - [Dusk Selectors](#dusk-selectors)
@@ -332,6 +334,28 @@ Often, you will be testing pages that require authentication. You can use Dusk's
 > {note} After using the `loginAs` method, the user session will be maintained for all tests within the file.
 
 > {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
+
+<a name="migrations"></a>
+### Database Migrations
+### 데이터베이스 마이그레이션
+
+When your test requires migrations, like the authentication example above, you should never use the `RefreshDatabase` trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable across HTTP requests. Instead, use the `DatabaseMigrations` trait:
+
+위의 인증 예제와 같이, 테스트가 마이그레이션을 필요로 할 때에는 절대로 `RefreshDatabase` 트레이트-trait을 사용하면 안됩니다. `RefreshDatabase` 트레이트-trait은 HTTP 요청에서 적용 할 수 없는 데이터베이스 트랜잭션을 사용합니다. 이 대신에 `DatabaseMigrations` 트레이트-trait을 사용하십시오:
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use App\User;
+    use Tests\DuskTestCase;
+    use Laravel\Dusk\Chrome;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseMigrations;
+    }
 
 <a name="interacting-with-elements"></a>
 ## Interacting With Elements

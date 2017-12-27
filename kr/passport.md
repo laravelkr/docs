@@ -234,8 +234,6 @@ By default, Passport issues long-lived access tokens that never need to be refre
 
 기본적으로 Passport 는 다시 생성할 필요없도록 오래동안 지속되는 엑세스 토큰을 발급합니다. 토큰의 지속시간을 더 짧게 줄이려면, `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
 
-    use Carbon\Carbon;
-
     /**
      * Register any authentication / authorization services.
      *
@@ -247,9 +245,9 @@ By default, Passport issues long-lived access tokens that never need to be refre
 
         Passport::routes();
 
-        Passport::tokensExpireIn(Carbon::now()->addDays(15));
+        Passport::tokensExpireIn(now()->addDays(15));
 
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(30));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
     }
 
 <a name="issuing-access-tokens"></a>

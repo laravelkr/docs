@@ -243,7 +243,7 @@ Instead of passing the number of minutes as an integer, you may also pass a `Dat
 
 몇 분동안 저장해야 할지 정수형의 숫자를 전달하는 대신에, 캐시된 아이템의 유효 기간을 나타내는 `DateTime` 인스턴스를 전달할 수 있습니다. 
 
-    $expiresAt = Carbon::now()->addMinutes(10);
+    $expiresAt = now()->addMinutes(10);
 
     Cache::put('key', 'value', $expiresAt);
 
@@ -304,7 +304,7 @@ If you provide an array of key / value pairs and an expiration time to the funct
 
     cache(['key' => 'value'], $minutes);
 
-    cache(['key' => 'value'], Carbon::now()->addSeconds(10));
+    cache(['key' => 'value'], now()->addSeconds(10));
 
 > {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
 

@@ -665,6 +665,15 @@ The `groupBy` and `having` methods may be used to group the query results. The `
                     ->having('account_id', '>', 100)
                     ->get();
 
+You may pass multiple arguments to the `groupBy` method to group by multiple columns:
+
+멀티 컬럼 groupBy를 위해서 `groupBy` 메소드에 여러개의 인자를 전달 할 수 있습니다:
+
+    $users = DB::table('users')
+                    ->groupBy('first_name', 'status')
+                    ->having('account_id', '>', 100)
+                    ->get();
+
 For more advanced `having` statements, see the [`havingRaw`](#raw-methods) method.
 
 보다 복잡한 `having` 구문에 대해서는 [`havingRaw`](#raw-methods) 메소드를 참조하십시오.

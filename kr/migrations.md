@@ -362,6 +362,7 @@ Command  |  Description
 `$table->unsignedSmallInteger('votes');`  |  UNSIGNED SMALLINT equivalent column.
 `$table->unsignedTinyInteger('votes');`  |  UNSIGNED TINYINT equivalent column.
 `$table->uuid('id');`  |  UUID equivalent column.
+`$table->year('birth_year');`  |  YEAR equivalent column.
 
 
 명령  | 설명
@@ -421,6 +422,7 @@ Command  |  Description
 `$table->unsignedSmallInteger('votes');`  |  UNSIGNED SMALLINT 컬럼.
 `$table->unsignedTinyInteger('votes');`  |  UNSIGNED TINYINT 컬럼.
 `$table->uuid('id');`  |  UUID 컬럼.
+`$table->year('birth_year');`  |  YEAR 컬럼.
 
 <a name="column-modifiers"></a>
 ### Column Modifiers

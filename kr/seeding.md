@@ -45,7 +45,7 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
     <?php
 
     use Illuminate\Database\Seeder;
-    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Facades\DB;
 
     class DatabaseSeeder extends Seeder
     {
@@ -114,9 +114,15 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
 ## Running Seeders
 ## Seeder 실행하기
 
-Once you have written your seeder classes, you may use the `db:seed` Artisan command to seed your database. By default, the `db:seed` command runs the `DatabaseSeeder` class, which may be used to call other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
+Once you have written your seeder, you may need to regenerate Composer's autoloader using the `dump-autoload` command:
 
-seeder 클래스를 작성하고 난뒤, `db:seed` 아티즌 명령어를 통해서 데이터베이스에 데이터를 입력할 수 있습니다. 기본적으로 `db:seed` 명령어는 다른 시드(seed) 클래스들을 호출하는 `DatabaseSeeder`클래스를 실행합니다. 하지만 `--class`옵션을 사용해서 특정 시더(seeder) 클래스가 개별적으로 실행되도록 지정할 수 있습니다:
+seeder 클래스를 작성하고 나면, `dump-autoload` 명령어를 사용해서 컴포저의 오토로더를 다시 생성할 필요가 있습니다:
+
+    composer dump-autoload
+
+Now you may use the `db:seed` Artisan command to seed your database. By default, the `db:seed` command runs the `DatabaseSeeder` class, which may be used to call other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
+
+이제, `db:seed` 아티즌 명령어를 통해서 데이터베이스에 데이터를 입력할 수 있습니다. 기본적으로 `db:seed` 명령어는 다른 시드(seed) 클래스들을 호출하는 `DatabaseSeeder`클래스를 실행합니다. 하지만 `--class`옵션을 사용해서 특정 시더(seeder) 클래스가 개별적으로 실행되도록 지정할 수 있습니다:
 
     php artisan db:seed
 

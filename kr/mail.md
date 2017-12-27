@@ -622,7 +622,7 @@ If you wish to delay the delivery of a queued email message, you may use the `la
 
 큐를 통해서 이메일을 보낼 때 시간을 지연시켜서 보내고자 한다면, `later` 메소드를 사용하면 됩니다. `later` 메소드의 첫번째 인자로 몇초동안 지연시킬 것인지 나타내는 `DateTime` 인스턴스를 전달 받습니다:
 
-    $when = Carbon\Carbon::now()->addMinutes(10);
+    $when = now()->addMinutes(10);
 
     Mail::to($request->user())
         ->cc($moreUsers)

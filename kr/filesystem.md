@@ -199,7 +199,7 @@ For files stored using the `s3` or `rackspace` driver, you may create a temporar
 `s3` 또는 `rackspace`드라이버를 사용하여 파일을 저장할 때, `temporaryUrl` 메소드를 사용하여 파일에 접근하기 위한 임시 URL을 생성할 수 있습니다. 이 메소드는 파일의 경로 및 언제 URL이 만료되어야 하는지 지정한 `DateTime` 인스턴스를 인자로 받습니다:
 
     $url = Storage::temporaryUrl(
-        'file1.jpg', Carbon::now()->addMinutes(5)
+        'file1.jpg', now()->addMinutes(5)
     );
 
 #### Local URL Host Customization

@@ -513,7 +513,7 @@ The `sms_from` option is the phone number that your SMS messages will be sent fr
 ### Formatting SMS Notifications
 ### SMS 알림 포맷 지정하기
 
-If a notification supports being sent as a SMS, you should define a `toNexmo` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\NexmoMessage` instance:
+If a notification supports being sent as an SMS, you should define a `toNexmo` method on the notification class. This method will receive a `$notifiable` entity and should return a `Illuminate\Notifications\Messages\NexmoMessage` instance:
 
 알림이 SMS로 전송되는것을 지원하려면, 알림 클래스에 `toNexmo` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable` 엔티티를 전달받고 `Illuminate\Notifications\Messages\NexmoMessage` 인스턴스를 반환해야합니다:
 

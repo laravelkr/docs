@@ -517,8 +517,11 @@ The `when` method also accepts a Closure as its second argument, allowing you to
 > {팁} 유의할 것은, 리소스 프록시에서의 메소드 호출은 기본 모델 인스턴스까지 전달된다는 점입니다. 따라서 이 경우 `isAdmin` 메소드는 원래 리소스에 제공되는 기본 Eloquent 모델의 메소드로 프록시 전달됩니다.
 
 #### Merging Conditional Attributes
+#### 조건에 따라 속성값 포함시키기
 
 Sometimes you may have several attributes that should only be included in the resource response based on the same condition. In this case, you may use the `mergeWhen` method to include the attributes in the response only when the given condition is `true`:
+
+때로는 특정 조건에 기반헤서 리소스 응답-response에 포함되어야 할 속성을 구성할 수도 있습니다. 이 경우 `mergeWhen` 메소드를 사용하여 주어진 조건이 `true` 일 때만 응답-response에 속성값을 포함시킬 수 있습니다:
 
     /**
      * Transform the resource into an array.
@@ -543,14 +546,23 @@ Sometimes you may have several attributes that should only be included in the re
 
 Again, if the given condition is `false`, these attributes will be removed from the resource response entirely before it is sent to the client.
 
+주어진 조건이 `false` 인 경우에는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다.
+
 > {note} The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
+
+> {note} `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
 
 <a name="conditional-relationships"></a>
 ### Conditional Relationships
+### 조건에 따라 관계-relationship 표시하기
 
 In addition to conditionally loading attributes, you may conditionally include relationships on your resource responses based on if the relationship has already been loaded on the model. This allows your controller to decide which relationships should be loaded on the model and your resource can easily include them only when they have actually been loaded.
 
+조건에 따라서 속성값을 표시하는 것에 더해서, 모델에 관계-relationship 이 로딩되어 있는 경우에 조건에 따라서, 응답-response에 관계-relationship을 포함 시킬 수 있습니다. 컨트롤러는 이를 통해서 어떤 관계-relationship을 로딩해야 하는지 결정할 수 있으며 실제로 로딩된 경우에만 리소스에 쉽게 포함 시킬 수 있습니다.
+
 Ultimately, this makes it easier to avoid "N+1" query problems within your resources. The `whenLoaded` method may be used to conditionally load a relationship. In order to avoid unnecessarily loading relationships, this method accepts the name of the relationship instead of the relationship itself:
+
+궁극적으로 이는 리소스 안에서 "N+1" 쿼리 문제를 회피할 수 있도록 해줍니다. `whenLoaded` 메소드는 조건에 따라 관계-relationship 를 로딩하는데 사용할 수 있습니다. 필요하지 않은 관계-relationship를 로딩하는 것을 회피하기 위해서 이 메소드는 관계-relationship 그 자체 대신 관계-relationship 이름을 인지로 받습니다:
 
     /**
      * Transform the resource into an array.
@@ -572,9 +584,14 @@ Ultimately, this makes it easier to avoid "N+1" query problems within your resou
 
 In this example, if the relationship has not been loaded, the `posts` key will be removed from the resource response entirely before it is sent to the client.
 
+이 예제에서 관계-relationship가 로딩되지 않은 경우에 리소스 응답-response에서 `posts` 키는 제거됩니다.
+
 #### Conditional Pivot Information
+#### 조건에 따른 피벗 정보 포함하기
 
 In addition to conditionally including relationship information in your resource responses, you may conditionally include data from the intermediate tables of many-to-many relationships using the `whenPivotLoaded` method. The `whenPivotLoaded` method accepts the name of the pivot table as its first argument. The second argument should be a Closure that defines the value to be returned if the pivot information is available on the model:
+
+리소스 응답-response에서 조건에 따라 관계-relationship를 포함하는 것에 더해서, `whenPivotLoaded` 메소드를 사용해서 다대다 관계-relationship 에서 조건에 따라서 중간 테이블을 포함시킬 수 있습니다. `whenPivotLoaded` 메소드는 첫번째 인자로 피벗 테이블의 이름을 전달 받고, 두번째 인자로 모델에서 피벗 정보를 사용할 수 있는 경우 반환 할 값을 정의하는 클로저를 전달받습니다:
 
     /**
      * Transform the resource into an array.
@@ -599,6 +616,8 @@ In addition to conditionally including relationship information in your resource
 
 Some JSON API standards require the addition of meta data to your resource and resource collections responses. This often includes things like `links` to the resource or related resources, or meta data about the resource itself. If you need to return additional meta data about a resource, simply include it in your `toArray` method. For example, you might include `link` information when transforming a resource collection:
 
+일부 JSON API 표준에서는 리소스 및 리소스 컬렉션 응답-response에 메타 데이터를 추가해야합니다. 여기에는 리소스 또는 연관된 리소스에 `links` 같은 데이터를 추가하거나, 리소스 그 자체에 대한 메타 데이터를 추가하는 것들이 포함됩니다. 만약 여러분이 리소스에 대한 추가적인 메타 데이터를 반환할 필요가 있다면, 간단하게 `toArray` 메소드를 포함시키면 됩니다. 예를 들어, 다음처럼 리소스 컬렉션이 변환될 때 `link` 정보를 포함시킬 수 있습니다:
+
     /**
      * Transform the resource into an array.
      *
@@ -617,10 +636,14 @@ Some JSON API standards require the addition of meta data to your resource and r
 
 When returning additional meta data from your resources, you never have to worry about accidentally overriding the `links` or `meta` keys that are automatically added by Laravel when returning paginated responses. Any additional `links` you define will simply be merged with the links provided by the paginator.
 
+리소스에서 추가적인 메타 데이터를 반환 할 때는, 페이징 처리된 응답-reponse가 반환 하면서 실수로 라라벨에 의해서 자동으로 추가되는 `links` 또는 `mata` 키를 오버라이딩 하는 것을 걱정하지 않아도 됩니다. 여러분이 정의한 추가적인 `links`는 페이지네이터에 의해서 제공되는 링크와 자동으로 병합됩니다.
+
 #### Top Level Meta Data
 #### 최상위 레벨의 메타 데이터
 
 Sometimes you may wish to only include certain meta data with a resource response if the resource is the outer-most resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a `with` method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outer-most resource being rendered:
+
+반환되는 리소스가 가장 외부의 리소스인 경우에, 리소스 응답-response에 특정 메타 데이터만을 포함시키기를 원할 수 있습니다. 일반적으로 이는 전체적인 응답-response에 대한 메타데이터를 포함합니다. 이러한 메타 데이터를 정의하려면, 리소스 클래스에 `with` 메소드를 추가하면 됩니다. 이 메소드는 리소스가 렌더링 되는 가장 외부의 리소스인 경우에 리소스 응답에 포함되어야 하는 메타 데이터의 배열을 반환해야 합니다:
 
     <?php
 
@@ -661,6 +684,8 @@ Sometimes you may wish to only include certain meta data with a resource respons
 #### 리소스가 생성될 때 메타 데이터 추가하기
 
 You may also add top-level data when constructing resource instances in your route or controller. The `additional` method, which is available on all resources, accepts an array of data that should be added to the resource response:
+
+또한 라우트 또는 컨트롤러에서 리소스 인스턴스가 생성될 때, 최상위 레벨의 데이터를 추가할 수도 있습니다. 모든 리소스에서 사용될 수 있는 `additional` 메소드는 리소스 응답-response에서 추가되야 하는 데이터의 베열을 인자로 받습니다:
 
     return (new UserCollection(User::all()->load('roles')))
                     ->additional(['meta' => [

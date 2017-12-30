@@ -15,6 +15,8 @@
     - [이름이 지정된 라우트로 리다이렉트 하기](#redirecting-named-routes)
     - [Redirecting To Controller Actions](#redirecting-controller-actions)
     - [컨트롤러 액션으로 리다이렉트 하기](#redirecting-controller-actions)
+    - [Redirecting To External Domains](#redirecting-external-domains)
+    - [외부 도메인으로 리다이렉트 하기](#redirecting-external-domains)
     - [Redirecting With Flashed Session Data](#redirecting-with-flashed-session-data)
     - [세션의 임시 데이터와 함께 리다이렉트 하기](#redirecting-with-flashed-session-data)
 - [Other Response Types](#other-response-types)
@@ -222,6 +224,16 @@ If your controller route requires parameters, you may pass them as the second ar
     return redirect()->action(
         'UserController@profile', ['id' => 1]
     );
+
+<a name="redirecting-external-domains"></a>
+### Redirecting To External Domains
+### 외부 도메인으로 리다이렉트 하기
+
+Sometimes you may need to redirect to a domain outside of your application. You may do so by calling the `away` method, which creates a `RedirectResponse` without any additional URL encoding, validation, or verification:
+
+때로는 어플리케이션의 외부 도메인으로 리다이렉트 해야하기도 합니다. 추가적인 URL 인코딩, 유효성 검사와 확인과정없이 `RedirectResponse`을 만드는 `away` 메소드를 호출해서 이렇게 할 수 있습니다.
+
+    return redirect()->away('https://www.google.com');
 
 <a name="redirecting-with-flashed-session-data"></a>
 ### Redirecting With Flashed Session Data

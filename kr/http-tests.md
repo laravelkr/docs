@@ -13,6 +13,10 @@
 - [파일 업로드 테스트하기](#testing-file-uploads)
 - [Available Assertions](#available-assertions)
 - [사용가능한 Assertions](#available-assertions)
+    - [Response Assertions](#response-assertions)
+    - [응답-Response Assertions](#response-assertions)
+    - [Authentication Assertions](#authentication-assertions)
+    - [인증 Assertions](#authentication-assertions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -242,6 +246,10 @@ In addition to creating images, you may create files of any other type using the
 ## Available Assertions
 ## 사용 가능한 Assertions
 
+<a name="response-assertions"></a>
+### Response Assertions
+### 응답-response Assertions
+
 Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
 
 라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다: 
@@ -257,13 +265,18 @@ Method  | Description
 `$response->assertCookieExpired($cookieName);`  |  Assert that the response contains the given cookie and it is expired.
 `$response->assertCookieMissing($cookieName);`  |  Assert that the response does not contains the given cookie.
 `$response->assertSessionHas($key, $value = null);`  |  Assert that the session contains the given piece of data.
+`$response->assertSessionHasAll($key, $value = null);`  |  Assert that the session has a given list of values.
 `$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  Assert that the session contains an error for the given field.
+`$response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);`  |  Assert that the session has the given errors.
 `$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
 `$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
+`$response->assertJsonCount(int $count, $key = null);`  |  Assert that the response JSON has the expected count of items at the given key.
 `$response->assertJsonFragment(array $data);`  |  Assert that the response contains the given JSON fragment.
 `$response->assertJsonMissing(array $data);`  |  Assert that the response does not contain the given JSON fragment.
+`$response->assertJsonMissingExact(array $data);`  |  Assert that the response does not contain the exact JSON fragment.
 `$response->assertExactJson(array $data);`  |  Assert that the response contains an exact match of the given JSON data.
 `$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
+`$response->assertJsonValidationErrors($keys);`  |  Assert that the response has the given JSON validation errors for the given keys.
 `$response->assertViewIs($value);`  |  Assert that the given view was returned by the route.
 `$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
 `$response->assertViewHasAll(array $data);`  |  Assert that the response view has a given list of data.
@@ -284,13 +297,18 @@ Method  | Description
 `$response->assertCookieExpired($cookieName);`  |  응답에서 포함되어 있는 주어진 쿠키가 기간이 만료되었는지 확인.
 `$response->assertCookieMissing($cookieName);`  |  응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인.
 `$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
+`$response->assertSessionHasAll($key, $value = null);`  |  세션에 주어진 목록의 값들이 포함되어 있는지 확인.
 `$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
+`$response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);`  |  세션에 주어진 에러를 가지고 있는지 확인.
 `$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
 `$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
+`$response->assertJsonCount(int $count, $key = null);`  |  응답 JSON이 가지고 있는 주어진 키의 아이템이 해당하는 갯수를 가지고 있는지 확인.
 `$response->assertJsonFragment(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있는지 확인
 `$response->assertJsonMissing(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있지 않은 것을 확인.
+`$response->assertJsonMissingExact(array $data);`  |  응답에 주어진 JSON 내용이 정확하게 포함되어 있지 않은 것을 확인.
 `$response->assertExactJson(array $data);`  |  응답에 주어진 JSON 데이터와 정확하게 일치하게 포함되어 있는지 확인.
 `$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
+`$response->assertJsonValidationErrors($keys);`  |  응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지고 있는지 확인.
 `$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
 `$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.
 `$response->assertViewHasAll(array $data);`  |  응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 확인.
@@ -299,3 +317,27 @@ Method  | Description
 `$response->assertDontSee($value);`  |  응답이 주어진 문자열을 포함하고 있지 않은 것을 확인.
 `$response->assertSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있는지 확인.
 `$response->assertDontSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있지 않은 것을 확인.
+
+<a name="authentication-assertions"></a>
+### Authentication Assertions
+### 인증 Assertions
+
+Laravel also provides a variety of authentication related assertions for your [PHPUnit](https://phpunit.de/) tests:
+
+라라벨은 또한 [PHPUnit](https://phpunit.de/) 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다:
+
+Method  | Description
+------------- | -------------
+`$this->assertAuthenticated($guard = null);`  |  Assert that the user is authenticated.
+`$this->assertGuest($guard = null);`  |  Assert that the user is not authenticated.
+`$this->assertAuthenticatedAs($user, $guard = null);`  |  Assert that the given user is authenticated.
+`$this->assertCredentials(array $credentials, $guard = null);`  |  Assert that the given credentials are valid.
+`$this->assertInvalidCredentials(array $credentials, $guard = null);`  |  Assert that the given credentials are invalid.
+
+메소드  | 설명
+------------- | -------------
+`$this->assertAuthenticated($guard = null);`  |  사용자가 인증되었는지 확인.
+`$this->assertGuest($guard = null);`  |  사용자가 인증되지 않은 것을 확인.
+`$this->assertAuthenticatedAs($user, $guard = null);`  |  주어진 사용자가 인증되었는지 확인.
+`$this->assertCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효한지 확인.
+`$this->assertInvalidCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효하지 않은 것을 확인.

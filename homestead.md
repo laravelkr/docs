@@ -47,8 +47,9 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - PHP 7.0
 - PHP 5.6
 - Nginx
+- Apache (Optional)
 - MySQL
-- MariaDB
+- MariaDB (Optional)
 - Sqlite3
 - PostgreSQL
 - Composer
@@ -57,6 +58,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Memcached
 - Beanstalkd
 - Mailhog
+- Elasticsearch (Optional)
 - ngrok
 </div>
 
@@ -86,13 +88,11 @@ If this command fails, make sure your Vagrant installation is up to date.
 
 You may install Homestead by simply cloning the repository. Consider cloning the repository into a `Homestead` folder within your "home" directory, as the Homestead box will serve as the host to all of your Laravel projects:
 
-    cd ~
-
-    git clone https://github.com/laravel/homestead.git Homestead
+    git clone https://github.com/laravel/homestead.git ~/Homestead
 
 You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [GitHub Release Page](https://github.com/laravel/homestead/releases):
 
-    cd Homestead
+    cd ~/Homestead
 
     // Clone the desired release...
     git checkout v7.0.1
@@ -149,7 +149,6 @@ You may also pass any options supported by Vagrant's [Synced Folders](https://ww
           options:
               rsync__args: ["--verbose", "--archive", "--delete", "-zz"]
               rsync__exclude: ["node_modules"]
-
 
 #### Configuring Nginx Sites
 
@@ -310,7 +309,7 @@ Homestead supports several types of sites which allow you to easily run projects
     sites:
         - map: symfony2.test
           to: /home/vagrant/code/Symfony/web
-          type: symfony2
+          type: "symfony2"
 
 The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, and `symfony4`.
 
@@ -464,7 +463,17 @@ If you have installed Homestead via your project's `composer.json` file, you sho
 <a name="provider-specific-virtualbox"></a>
 ### VirtualBox
 
+#### `natdnshostresolver`
+
 By default, Homestead configures the `natdnshostresolver` setting to `on`. This allows Homestead to use your host operating system's DNS settings. If you would like to override this behavior, add the following lines to your `Homestead.yaml` file:
 
     provider: virtualbox
     natdnshostresolver: off
+
+#### Symbolic Links On Windows
+
+If symbolic are not working properly on your Windows machine, you may need to add the following block to your `Vagrantfile`:
+
+    config.vm.provider "virtualbox" do |v|
+        v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    end

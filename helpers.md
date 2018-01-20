@@ -497,7 +497,7 @@ The `array_wrap` function wraps the given value in an array. If the given value 
     $array = array_wrap($string);
 
     // ['Laravel']
-  
+
 If the given value is null, an empty array will be returned:
 
     $nothing = null;
@@ -1273,6 +1273,8 @@ The `env` function retrieves the value of an [environment variable](/docs/{{vers
     // Returns 'production' if APP_ENV is not set...
     $env = env('APP_ENV', 'production');
 
+> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
+
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
@@ -1573,7 +1575,7 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
-The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed its result will be returned:
+The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed and its result will be returned:
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

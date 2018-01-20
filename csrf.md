@@ -47,6 +47,8 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
          */
         protected $except = [
             'stripe/*',
+            'http://example.com/foo/bar',
+            'http://example.com/foo/*',
         ];
     }
 

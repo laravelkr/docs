@@ -60,7 +60,6 @@ Now, let's look at an example `Flight` model, which we will use to retrieve and 
         //
     }
 
-
 #### Table Names
 
 Note that we did not tell Eloquent which table to use for our `Flight` model. By convention, the "snake case", plural name of the class will be used as the table name unless another name is explicitly specified. So, in this case, Eloquent will assume the `Flight` model stores records in the `flights` table. You may specify a custom table by defining a `table` property on your model:
@@ -679,7 +678,7 @@ Scopes should always return a query builder instance:
 
 #### Utilizing A Local Scope
 
-Once the scope has been defined, you may call the scope methods when querying the model. However, you do not need to include the `scope` prefix when calling the method. You can even chain calls to various scopes, for example:
+Once the scope has been defined, you may call the scope methods when querying the model. However, you should not include the `scope` prefix when calling the method. You can even chain calls to various scopes, for example:
 
     $users = App\User::popular()->active()->orderBy('created_at')->get();
 

@@ -180,11 +180,20 @@ Once you have a user instance, you can grab a few more details about the user:
     $user->getEmail();
     $user->getAvatar();
 
-#### Retrieving User Details From A Token
-#### 토큰으로 부터 사용자 상세정보 조회하기
+#### Retrieving User Details From A Token (OAuth2)
+#### 토큰으로 부터 사용자 상세정보 조회하기 (OAuth2)
 
 If you already have a valid access token for a user, you can retrieve their details using the `userFromToken` method:
 
 사용자에 대한 유요한 엑세스 토큰을 가지고 있는 경우 `userFromToken` 메소드를 사용하여 상세 정보를 조회할 수 있습니다:
 
     $user = Socialite::driver('github')->userFromToken($token);
+
+#### Retrieving User Details From A Token And Secret (OAuth1)
+#### 토큰과 비밀번호를 사용하여 사용자 정보 조회하기 (OAuth1)
+
+If you already have a valid pair of token / secret for a user, you can retrieve their details using the `userFromTokenAndSecret` method:
+
+사용자의 유효한 토큰과 비밀번호를 가지고 있다면, `userFromTokenAndSecret` 메소드를 사용하여 사용자 정보를 조회할 수 있습니다:
+
+    $user = Socialite::driver('twitter')->userFromTokenAndSecret($token, $secret);

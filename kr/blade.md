@@ -317,8 +317,8 @@ In addition to the conditional directives already discussed, the `@isset` and `@
         // $records is "empty"...
     @endempty
 
-#### Authentication Shortcuts
-#### 인증 관련 편의 기능
+#### Authentication Directives
+#### 인증 관련 지시어
 
 The `@auth` and `@guest` directives may be used to quickly determine if the current user is authenticated or is a guest:
 
@@ -343,6 +343,21 @@ If needed, you may specify the [authentication guard](/docs/{{version}}/authenti
     @guest('admin')
         // The user is not authenticated...
     @endguest
+
+#### Section Directives
+#### 섹션 지시어
+
+You may check if a section has content using the `@hasSection` directive:
+
+`@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다:
+
+    @hasSection('navigation')
+        <div class="pull-right">
+            @yield('navigation')
+        </div>
+
+        <div class="clearfix"></div>
+    @endif
 
 <a name="switch-statements"></a>
 ### Switch Statements

@@ -742,6 +742,7 @@ Assertion  | Description
 ------------- | -------------
 `$browser->assertTitle($title)`  |  Assert the page title matches the given text.
 `$browser->assertTitleContains($title)`  |  Assert the page title contains the given text.
+`$browser->assertUrlIs($url)`  |  Assert that the current URL (without the query string) matches the given string.
 `$browser->assertPathBeginsWith($path)`  |  Assert that the current URL path begins with given path.
 `$browser->assertPathIs('/home')`  |  Assert the current path matches the given path.
 `$browser->assertPathIsNot('/home')`  |  Assert the current path does not match the given path.
@@ -783,6 +784,7 @@ Assertion  | 설명
 ------------- | -------------
 `$browser->assertTitle($title)`  |  페이지 타이틀이 주어진 텍스트와 일치하는지 확인.
 `$browser->assertTitleContains($title)`  |  페이지 타이틀이 주어진 텍스트를 포함하는지 확인.
+`$browser->assertUrlIs($url)`  |  현재의 URL이 (쿼리 스트링을 제외하고) 주어진 문자열과 일치 하는지 확인.
 `$browser->assertPathBeginsWith($path)`  |  현재 URL 경로가 주어진 경로로 시작하는지 확인.
 `$browser->assertPathIs('/home')`  |  현재 경로가 주어진 경로와 일치하는지 확인.
 `$browser->assertPathIsNot('/home')`  |  현재 경로가 주어진 경로와 일치하지 않는 것을 확인.

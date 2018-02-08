@@ -707,7 +707,7 @@ Sometimes you may wish to broadcast an event to other connected clients without 
 
 때로는 라라벨 어플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:   
 
-    Echo.channel('chat')
+    Echo.private('chat')
         .whisper('typing', {
             name: this.user.name
         });
@@ -716,7 +716,7 @@ To listen for client events, you may use the `listenForWhisper` method:
 
 클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다: 
 
-    Echo.channel('chat')
+    Echo.private('chat')
         .listenForWhisper('typing', (e) => {
             console.log(e.name);
         });

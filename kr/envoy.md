@@ -241,3 +241,5 @@ You may provide one of the following as the channel argument:
 - To send the notification to a channel: `#channel`
 - To send the notification to a user: `@user`
 
+- 채널로 알림을 보낼 때: `#채널`
+- 유저에게 알림을 보낼 때: `@유저`

@@ -25,7 +25,7 @@ Artisan is the command-line interface included with Laravel. It provides a numbe
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with `help`:
+Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, precede the name of the command with `help`:
 
     php artisan help migrate
 
@@ -321,9 +321,9 @@ The `anticipate` method can be used to provide auto-completion for possible choi
 
 #### Multiple Choice Questions
 
-If you need to give the user a predefined set of choices, you may use the `choice` method. You may set the default value to be returned if no option is chosen:
+If you need to give the user a predefined set of choices, you may use the `choice` method. You may set the array index of the default value to be returned if no option is chosen:
 
-    $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $default);
+    $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $defaultIndex);
 
 <a name="writing-output"></a>
 ### Writing Output
@@ -431,7 +431,7 @@ You may also specify the connection or queue the Artisan command should be dispa
 
 #### Passing Array Values
 
-If your command defines an option that accepts an array, you may simply pass an array of values to that option:
+If your command defines an option that accepts an array, you may pass an array of values to that option:
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [

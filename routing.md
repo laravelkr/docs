@@ -13,6 +13,7 @@
     - [Namespaces](#route-group-namespaces)
     - [Sub-Domain Routing](#route-group-sub-domain-routing)
     - [Route Prefixes](#route-group-prefixes)
+    - [Route Name Prefixes](#route-group-name-prefixes)
 - [Route Model Binding](#route-model-binding)
     - [Implicit Binding](#implicit-binding)
     - [Explicit Binding](#explicit-binding)
@@ -22,7 +23,7 @@
 <a name="basic-routing"></a>
 ## Basic Routing
 
-The most basic Laravel routes simply accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
+The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -258,6 +259,17 @@ The `prefix` method may be used to prefix each route in the group with a given U
     Route::prefix('admin')->group(function () {
         Route::get('users', function () {
             // Matches The "/admin/users" URL
+        });
+    });
+
+<a name="route-group-name-prefixes"></a>
+### Route Name Prefixes
+
+The `name` method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route's names with `admin`. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing `.` character in the prefix:
+
+    Route::name('admin.')->group(function () {
+        Route::get('users', function () {
+            // Route assigned name "admin.users"...
         });
     });
 

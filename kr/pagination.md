@@ -175,7 +175,7 @@ If you wish to append a "hash fragment" to the paginator's URLs, you may use the
 ### Converting Results To JSON
 ### 결과를 JSON으로 변환하기
 
-The Laravel paginator result classes implement the `Illuminate\Contracts\Support\Jsonable` Interface contract and expose the `toJson` method, so it's very easy to convert your pagination results to JSON. You may also convert a paginator instance to JSON by simply returning it from a route or controller action:
+The Laravel paginator result classes implement the `Illuminate\Contracts\Support\Jsonable` Interface contract and expose the `toJson` method, so it's very easy to convert your pagination results to JSON. You may also convert a paginator instance to JSON by returning it from a route or controller action:
 
 라라벨의 paginator 결과 클래스는 `Illuminate\Contracts\Support\Jsonable` 인터페이스 contract을 구현하고 `toJson` 메소드를 제공하고 있어서, pagination 결과를 JSON으로 변환하는 것은 아주 쉽습니다. 또한 라우트나 컨트롤러 액션에서 paginator 인스턴스를 JSON으로 변환할 수도 있습니다:
 
@@ -228,9 +228,9 @@ However, the easiest way to customize the pagination views is by exporting them 
 
     php artisan vendor:publish --tag=laravel-pagination
 
-This command will place the views in the `resources/views/vendor/pagination` directory. The `default.blade.php` file within this directory corresponds to the default pagination view. Simply edit this file to modify the pagination HTML.
+This command will place the views in the `resources/views/vendor/pagination` directory. The `default.blade.php` file within this directory corresponds to the default pagination view. Edit this file to modify the pagination HTML.
 
-이 명령어는 뷰파일들을 `resources/views/vendor/pagination`로 옮겨넣습니다. 이 디렉토리 안에 있는 `default.blade.php` 파일은 페이지네이션 기본 뷰와 일치합니다. 페이지네이션 HTML을 수정하려면 간단하게 이 파일을 편집하면 됩니다.
+이 명령어는 뷰파일들을 `resources/views/vendor/pagination`로 옮겨넣습니다. 이 디렉토리 안에 있는 `default.blade.php` 파일은 페이지네이션 기본 뷰와 일치합니다. 페이지네이션 HTML을 수정하려면 이 파일을 편집하면 됩니다.
 
 <a name="paginator-instance-methods"></a>
 ## Paginator Instance Methods

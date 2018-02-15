@@ -255,7 +255,7 @@ For Eloquent methods like `all` and `get` which retrieve multiple results, an in
         return $flight->cancelled;
     });
 
-Of course, you may also simply loop over the collection like an array:
+Of course, you may also loop over the collection like an array:
 
 물론 배열과 동일하게 또한 이 컬렉션을 반복문에서 사용 할 수 있습니다:
 
@@ -351,9 +351,9 @@ You may also use the `count`, `sum`, `max`, and other [aggregate methods](/docs/
 ### Inserts
 ### Inserts
 
-To create a new record in the database, simply create a new model instance, set attributes on the model, then call the `save` method:
+To create a new record in the database, create a new model instance, set attributes on the model, then call the `save` method:
 
-데이터베이스에 새로운 레코드를 생성하기 위해는, 단순히 새 모델의 인스턴스를 생성하고 모델의 속성을 설정하여, `save` 메소드를 호출하면 됩니다:
+데이터베이스에 새로운 레코드를 생성하기 위해는, 새 모델의 인스턴스를 생성하고 모델의 속성을 설정하여, `save` 메소드를 호출하면 됩니다:
 
     <?php
 
@@ -383,7 +383,7 @@ To create a new record in the database, simply create a new model instance, set 
         }
     }
 
-In this example, we simply assign the `name` parameter from the incoming HTTP request to the `name` attribute of the `App\Flight` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
+In this example, we assign the `name` parameter from the incoming HTTP request to the `name` attribute of the `App\Flight` model instance. When we call the `save` method, a record will be inserted into the database. The `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
 
 이 예제에서 HTTP 요청에서 확인된 `name` 파라미터를 `App\Flight` 모델 인스턴스의 `name` 속성에 지정합니다. `save` 메소드를 호출하면 데이터베이스에 레코드가 추가 될 것입니다. `save` 메소드를 호출하면 `created_at`와 `updated_at` 타임스탬프가 자동으로 설정되며 수동으로 지정할 필요가 없습니다.
 
@@ -833,9 +833,9 @@ If you would like to remove several or even all of the global scopes, you may us
 ### Local Scopes
 ### 로컬 스코프
 
-Local scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, simply prefix an Eloquent model method with `scope`.
+Local scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, prefix an Eloquent model method with `scope`.
 
-로컬 스코프는 어플리케이션에서 손쉽게, 반복적으로 사용할 수 있는 공통의 범위 제한을 정의할 수 있게 해줍니다. 예로 들어 여러분은 종종 "인기가 높은" 것으로 생각되는 사용자를  조회해야 한다고 합시다. 스코프를 정의하기 위해서는 간단하게 Eloquent 메소드의 이름에 `scope` 를 접두어로 붙이면 됩니다.
+로컬 스코프는 어플리케이션에서 손쉽게, 반복적으로 사용할 수 있는 공통의 범위 제한을 정의할 수 있게 해줍니다. 예로 들어 여러분은 종종 "인기가 높은" 것으로 생각되는 사용자를  조회해야 한다고 합시다. 스코프를 정의하기 위해서는 Eloquent 메소드의 이름에 `scope` 를 접두어로 붙이면 됩니다.
 
 Scopes should always return a query builder instance:
 

@@ -20,7 +20,7 @@ By default, your application's `tests` directory contains two directories: `Feat
 
 기본적으로, 어플리케이션의 `tests` 디렉토리는 두개의 디렉토리: `Feature` 와 `Unit` 디렉토리를 가지고 있습니다. 단위테스트는 코드의 매우 작고, 독립적인 부분에 초점을 둔 테스트 입니다. 실제로, 대부분의 단위 테스트는 하나의 메소드에 포커스를 맞춥니다. 기능 테스트는 여러 객체가 서로 상호작용하는 방식 또는 JSON 엔드 포인트에 대한 전체 HTTP request-요청을 포함하여 코드의 많은 부분을 확인하는 테스트 입니다.
 
-An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, simply run `phpunit` on the command line to run your tests.
+An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, run `phpunit` on the command line to run your tests.
 
 `Feature` 와 `Unit` 디렉토리에는 `ExampleTest.php` 테스트 예제 파일이 들어 있습니다. 새로운 라라벨 어플리케이션을 설치한 뒤에, 커맨드 라인에서 `phpunit` 명령어를 실행하여 테스트를 수행할 수 있습니다.
 
@@ -50,9 +50,9 @@ To create a new test case, use the `make:test` Artisan command:
     // Create a test in the Unit directory...
     php artisan make:test UserTest --unit
 
-Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, simply execute the `phpunit` command from your terminal:
+Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, execute the `phpunit` command from your terminal:
 
-테스트 파일이 생성되고 나면, PHPUnit에서 사용할 테스트 메소드를 정의하면 됩니다. 테스트를 실행하려면 간단하게 터미널에서 `phpunit` 커맨드를 실행하면 됩니다:
+테스트 파일이 생성되고 나면, PHPUnit에서 사용할 테스트 메소드를 정의하면 됩니다. 테스트를 실행하려면 터미널에서 `phpunit` 커맨드를 실행하면 됩니다:
 
     <?php
 

@@ -13,6 +13,8 @@
     - [문맥에 따른 조건적 바인딩](#contextual-binding)
     - [Tagging](#tagging)
     - [태깅](#tagging)
+    - [Extending Bindings](#extending-bindings)
+    - [바인딩 확장하기](#extending-bindings)
 - [Resolving](#resolving)
 - [의존성 해결](#resolving)
     - [The Make Method](#the-make-method)
@@ -229,6 +231,18 @@ Once the services have been tagged, you may easily resolve them all via the `tag
         return new ReportAggregator($app->tagged('reports'));
     });
 
+<a name="extending-bindings"></a>
+### Extending Bindings
+### 바인딩 확장하기
+
+The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a Closure, which should return the modified service, as its only argument:
+
+`extend` 메소드를 사용하여 의존성이 해결된 서비스를 변경할 수 있습니다. 예를 들어, 서비스가 의존성 해결되었을 때, 서비스 객체를 설정하기 위해서 추가적인 코드를 실행할 수 있습니다. `extend` 메소드는 클로저를 인자로 전달 받는데, 변경되는 서비스를 반환해야 합니다:
+
+    $this->app->extend(Service::class, function($service) {
+        return new DecoratedService($service);
+    });
+
 <a name="resolving"></a>
 ## Resolving
 ## 의존성 해결
@@ -259,7 +273,7 @@ If some of your class' dependencies are not resolvable via the container, you ma
 #### Automatic Injection
 #### 자동 주입
 
-Alternatively, and importantly, you may simply "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
+Alternatively, and importantly, you may "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
 
 앞서 이야기한 방법과 다르게, 그리고 가장 중요한 방법은 [컨트롤러](/docs/{{version}}/controllers), [이벤트 리스너](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [미들웨어](/docs/{{version}}/middleware) 그리고 다른 곳에서도 클래스의 생성자에 "타입-힌트" 를 선언함으로써 컨테이너가 의존성을 해결할 수 있도록 하는 것입니다. 실제로는 이 방법이 개발에서 컨테이너에 의해서 객체의 의존성을 해결되어야 하는 데 가장 많이 사용되는 방법입니다.
 

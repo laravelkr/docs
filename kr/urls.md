@@ -32,9 +32,9 @@ Laravel provides several helpers to assist you in generating URLs for your appli
 ### Generating Basic URLs
 ### 기본 URL 생성하기
 
-The `url` helper may be used to arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
+The `url` helper may be used to generate arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
 
-`url` 헬퍼는 어플리케이션에서 사용하는 어떠한 URL에서도 사용가능합니다. 생성된 URL은 자동으로 현재 요청-request 에서 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
+`url` 헬퍼는 어플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request 에서 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
 
     $post = App\Post::find(1);
 

@@ -181,7 +181,7 @@ The majority of your application is housed in the `app` directory. By default, t
 
 어플리케이션의 대부분의 파일들은 `app` 디렉토리 안에 보관됩니다. 기본적으로 이 디렉토리는 [PSR-4 오토로딩 표준](http://www.php-fig.org/psr/psr-4/)를 사용하는 컴포저에 의해서 `App` 이라는 네임스페이스를 통해서 오토로딩됩니다.
 
-The `app` directory contains a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the core of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are simply two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
+The `app` directory contains a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the core of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
 
 `app` 디렉토리는 `Console`, `Http` 그리고 `Providers` 와 같은 다양한 추가 디렉토리를 가지고 있습니다. `Console` 과 `Http` 디렉토리는 어플리케이션의 코어에 API를 제공하고 있다고 생각할 수 있습니다. HTTP 프로토콜과 CLI 모두 어플리케이션과 상호작용하는 매커니즘이지만, 실제 어플리케이션 로직을 포함하지는 않습니다. 다시말해, 이것은 어플리케이션에 명령을 보내는 두가지 방법일 뿐입니다. `Console` 디렉토리는 모든 아티즌 명령어들을 포함하고, `Http` 디렉토리는 컨트롤러와 미들웨어, requests 들을 포함합니다. 
 

@@ -92,9 +92,9 @@ For example, let's create 50 users and attach a relationship to each user:
 ### Calling Additional Seeders
 ### 추가적인 Seeder 호출하기
 
-Within the `DatabaseSeeder` class, you may use the `call` method to execute additional seed classes. Using the `call` method allows you to break up your database seeding into multiple files so that no single seeder class becomes overwhelmingly large. Simply pass the name of the seeder class you wish to run:
+Within the `DatabaseSeeder` class, you may use the `call` method to execute additional seed classes. Using the `call` method allows you to break up your database seeding into multiple files so that no single seeder class becomes overwhelmingly large. Pass the name of the seeder class you wish to run:
 
-`DatabaseSeeder` 클래스 안에서, `call` 메소드를 사용하여 추가적인 seeder 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면, 여러분의 데이터베이스 seeding 을 하나의 매우 커다란 파일에서 여러개의 파일로 쪼갤 수 있게 됩니다. 메소드에서는 간단하게 실행하려는 seeder 클래스의 이름을 전달하면 됩니다. 
+`DatabaseSeeder` 클래스 안에서, `call` 메소드를 사용하여 추가적인 seeder 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면, 여러분의 데이터베이스 seeding 을 하나의 매우 커다란 파일에서 여러개의 파일로 쪼갤 수 있게 됩니다. 메소드에서는 실행하려는 seeder 클래스의 이름을 전달하면 됩니다.
 
     /**
      * Run the database seeds.

@@ -146,9 +146,9 @@ To get a better understanding of the `validate` method, let's jump back into the
         // The blog post is valid...
     }
 
-As you can see, we simply pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
+As you can see, we pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
-보시다시피, 간단하게 원하는 유효성 검사 룰을 메소드에 전달하기만 하면 됩니다. 다시말해, 유효성 검사가 실패하면, 적절한 응답이 자동으로 생성됩니다. 유효성 검사를 통과하면 컨트롤러가 계속해서 정상적으로 로직을 수행합니다.
+보시다시피, 원하는 유효성 검사 룰을 메소드에 전달하기만 하면 됩니다. 다시말해, 유효성 검사가 실패하면, 적절한 응답이 자동으로 생성됩니다. 유효성 검사를 통과하면 컨트롤러가 계속해서 정상적으로 로직을 수행합니다.
 
 #### Stopping On First Validation Failure
 #### 첫번째 유효성 검사가 실패하면 중지하기
@@ -343,9 +343,9 @@ If the `authorize` method returns `false`, a HTTP response with a 403 status cod
 
 만약 `authorize` 메소드가 `false`를 리턴하면, 403 HTTP 응답이 자동적으로 반환되고 컨트롤러 메소드는 실행되지 않을 것입니다.
 
-If you plan to have authorization logic in another part of your application, simply return `true` from the `authorize` method:
+If you plan to have authorization logic in another part of your application, return `true` from the `authorize` method:
 
-여러분이 어플리케이션의 다른 부분에 있는 인증로직을 사용할 계획이라면, 그냥 `authorize` 메소드에서 `true`를 리턴하면 됩니다.
+여러분이 어플리케이션의 다른 부분에 있는 인증로직을 사용할 계획이라면, `authorize` 메소드에서 `true`를 리턴하면 됩니다.
 
     /**
      * Determine if the user is authorized to make this request.
@@ -444,9 +444,9 @@ If you would like to create a validator instance manually but still take advanta
 ### Named Error Bags
 ### 이름이 지정된 Error Bags
 
-If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors, allowing you to retrieve the error messages for a specific form. Simply pass a name as the second argument to `withErrors`:
+If you have multiple forms on a single page, you may wish to name the `MessageBag` of errors, allowing you to retrieve the error messages for a specific form. Pass a name as the second argument to `withErrors`:
 
-한 페이지 안에서 여러개의 form을 가지고 있다면 에러들의 `MessageBag`에 이름을 붙여 지정한 form에 맞는 에러 메세지를 조회할 수 있도록 할 수 있습니다. 단순히 `withErrors`에 이름을 두번째 인자로 전달하면 됩니다:
+한 페이지 안에서 여러개의 form을 가지고 있다면 에러들의 `MessageBag`에 이름을 붙여 지정한 form에 맞는 에러 메세지를 조회할 수 있도록 할 수 있습니다. `withErrors`에 이름을 두번째 인자로 전달하면 됩니다:
 
     return redirect('register')
                 ->withErrors($validator, 'login');

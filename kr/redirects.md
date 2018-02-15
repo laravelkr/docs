@@ -53,9 +53,9 @@ If your route has parameters, you may pass them as the second argument to the `r
 #### Populating Parameters Via Eloquent Models
 #### Eloquent 모델을 통한 매개 변수 채우기
 
-If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may simply pass the model itself. The ID will be extracted automatically:
+If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may pass the model itself. The ID will be extracted automatically:
 
-Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 간단하게 모들 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다:
+Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 모델 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다:
 
     // For a route with the following URI: profile/{id}
 

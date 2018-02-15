@@ -26,7 +26,7 @@ The goal of this document is to give you a good, high-level overview of how the 
 ### First Things
 ### 첫번째
 
-The entry point for all requests to a Laravel application is the `public/index.php` file. All requests are directed to this file by your web server (Apache / Nginx) configuration. The `index.php` file doesn't contain much code. Rather, it is simply a starting point for loading the rest of the framework.
+The entry point for all requests to a Laravel application is the `public/index.php` file. All requests are directed to this file by your web server (Apache / Nginx) configuration. The `index.php` file doesn't contain much code. Rather, it is a starting point for loading the rest of the framework.
 
 라라벨 어플리케이션의 모든 요청에 대한 시작점은 `public/index.php` 파일입니다. 웹서버 (Apache / Nginx)의 설정에 따라 모든 요청은 이 파일에 전달됩니다. `index.php` 파일은 그다지 많은 코드를 가지고 있지 않습니다. 대신 프레임워크의 나머지 부분들을 로딩하기 위한 시작점이 됩니다.
 

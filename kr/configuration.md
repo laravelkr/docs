@@ -132,7 +132,7 @@ When your application is in maintenance mode, a custom view will be displayed fo
 
 어플리케이션이 점검 모드일 경우 어플리케이션에서 지정한 모든 라우팅이 특정한 화면으로 보여지게 됩니다. 따라서 어플리케이션을 업데이트 하거나 튜닝하는 중에 손쉽게 "사용 정지"시킬 수 있습니다. 점검 모드를 확인하는 부분은 어플리케이션의 미들웨어 스택에 기본적으로 포함되어 있습니다. 만약 어플리케이션이 점검 모드에 있다면 503 상태 코드와 함께 `MaintenanceModeException`이 발생합니다. 
 
-To enable maintenance mode, simply execute the `down` Artisan command:
+To enable maintenance mode, execute the `down` Artisan command:
 
 점검 모드를 활성화 하려면 아티즌 명령어 `down`을 실행시키면 됩니다:
 

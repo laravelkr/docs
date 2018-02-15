@@ -47,9 +47,9 @@ If you would like to remove the frontend scaffolding from your application, you 
 ## Writing CSS
 ## CSS 작성하기
 
-Laravel's `package.json` file includes the `bootstrap-sass` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is simply provided as a good starting point for those who choose to use it.
+Laravel's `package.json` file includes the `bootstrap-sass` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is provided as a good starting point for those who choose to use it.
 
-라라벨의 `package.json` 파일은 부트스트랩을 사용하여 어플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap-sass` 패키지를 포함하고 있습니다. 그렇지만 어플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 어플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 간단한 시작점을 제공하고 있을 뿐입니다.
+라라벨의 `package.json` 파일은 부트스트랩을 사용하여 어플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap-sass` 패키지를 포함하고 있습니다. 그렇지만 어플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 어플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 이는 부트스트랩을 사용하기로 선택한 사람들을 위해서 시작점을 제공하고 있을 뿐입니다.
 
 Before compiling your CSS, install your project's frontend dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
 
@@ -108,9 +108,9 @@ By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue com
         require('./components/ExampleComponent.vue')
     );
 
-To use the component in your application, you may simply drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
+To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
 
-어플리케이션에서 이 컴포넌트를 사용하려면, 간단하게 HTML 템플린 안에 간단하게 등록하면 됩니다. 예를 들어 어플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다:
+어플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플린 안에 등록하면 됩니다. 예를 들어 어플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다:
 
     @extends('layouts.app')
 

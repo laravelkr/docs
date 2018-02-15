@@ -46,7 +46,7 @@ Artisan is the command-line interface included with Laravel. It provides a numbe
 
     php artisan list
 
-Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, simply precede the name of the command with `help`:
+Every command also includes a "help" screen which displays and describes the command's available arguments and options. To view a help screen, precede the name of the command with `help`:
 
 모든 명령어들은 "도움말" 기능을 포함하고 있어서 해당 명령어의 인자와, 옵션들을 확인할 수 있습니다. 도움말 화면을 확인하기 위해서는 다음과 같이 명령어 앞에 `help` 를 추가하여 실행하면 됩니다.
 
@@ -425,13 +425,13 @@ The `anticipate` method can be used to provide auto-completion for possible choi
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
 
 #### Multiple Choice Questions
-#### 다중 질문 선택
+#### 여러개의 선택지
 
-If you need to give the user a predefined set of choices, you may use the `choice` method. You may set the default value to be returned if no option is chosen:
+If you need to give the user a predefined set of choices, you may use the `choice` method. You may set the array index of the default value to be returned if no option is chosen:
 
-미리 주어진 선택지를 사용자에게 제공하려는 경우에는 `choice` 메소드를 사용하면 됩니다. 사용자는 특정한 값을 선택하고, 결과 값이 돌아옵니다. 아무것도 선택되지 않은 경우에는 기본값을 지정할 수도 있습니다.
+미리 주어진 선택지를 사용자에게 제공하려는 경우에는 `choice` 메소드를 사용하면 됩니다. 사용자는 특정한 배열의 인덱스를 선택하고, 결과 값을 선택합니다. 아무것도 선택되지 않은 경우에는 기본값을 지정할 수도 있습니다.
 
-    $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $default);
+    $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $defaultIndex);
 
 <a name="writing-output"></a>
 ### Writing Output
@@ -568,7 +568,7 @@ You may also specify the connection or queue the Artisan command should be dispa
 #### Passing Array Values
 #### 배열값 전달하기
 
-If your command defines an option that accepts an array, you may simply pass an array of values to that option:
+If your command defines an option that accepts an array, you may pass an array of values to that option:
 
 명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다:
 

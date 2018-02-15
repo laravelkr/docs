@@ -36,9 +36,9 @@ Laravel's events provides a simple observer implementation, allowing you to subs
 
 라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 어플리케이션에서 발행하는 다양한 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 여러분의 어플리케이션에 해당 디렉토리가 보이지 않더라도 걱정하지 마십시오. 아티즌 콘솔 명령어를 통해서 이벤트와 리스너를 생성하면 해당 디렉토리가 새롭게 생겨날 것입니다.
 
-Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can simply raise an `OrderShipped` event, which a listener can receive and transform into a Slack notification.
+Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can raise an `OrderShipped` event, which a listener can receive and transform into a Slack notification.
 
-하나의 이벤트는 서로 의존하지 않는 여러개의 리스너를 가질 수 있으므로, 이를 통해서 어플리케이션의 다양한 레이어들이 서로 의존하지 않도록 만드는 멋진 방법을 제공할 수 있습니다. 예를 들어 주문에 대한 배송이 처리될 때마다 사용자에게 Slack으로 알림을 보내려고 할 수 있습니다. 슬랙에 알림을 보내는 코드를 주문 처리 부분에 결합하는 대신에, 간단하게 `OrderShipped` 이벤트를 발생시키고 리스너가 이를 받아 슬랙 알림으로 변환하도록 할 수 있습니다. 
+하나의 이벤트는 서로 의존하지 않는 여러개의 리스너를 가질 수 있으므로, 이를 통해서 어플리케이션의 다양한 레이어들이 서로 의존하지 않도록 만드는 멋진 방법을 제공할 수 있습니다. 예를 들어 주문에 대한 배송이 처리될 때마다 사용자에게 Slack으로 알림을 보내려고 할 수 있습니다. 슬랙에 알림을 보내는 코드를 주문 처리 부분에 결합하는 대신에, `OrderShipped` 이벤트를 발생시키고 리스너가 이를 받아 슬랙 알림으로 변환하도록 할 수 있습니다.
 
 <a name="registering-events-and-listeners"></a>
 ## Registering Events & Listeners
@@ -63,9 +63,9 @@ The `EventServiceProvider` included with your Laravel application provides a con
 ### Generating Events & Listeners
 ### 이벤트 & 리스너 생성하기
 
-Of course, manually creating the files for each event and listener is cumbersome. Instead, simply add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Of course, events and listeners that already exist will be left untouched:
+Of course, manually creating the files for each event and listener is cumbersome. Instead, add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Of course, events and listeners that already exist will be left untouched:
 
-물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신 단순히 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 물론 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다:
+물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 물론 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다:
 
     php artisan event:generate
 
@@ -106,9 +106,9 @@ You may even register listeners using the `*` as a wildcard parameter, allowing 
 ## Defining Events
 ## 이벤트 정의하기
 
-An event class is simply a data container which holds the information related to the event. For example, let's assume our generated `OrderShipped` event receives an [Eloquent ORM](/docs/{{version}}/eloquent) object:
+An event class is a data container which holds the information related to the event. For example, let's assume our generated `OrderShipped` event receives an [Eloquent ORM](/docs/{{version}}/eloquent) object:
 
-이벤트 클래스는 단순히 이벤트와 관련된 정보를 가지고 있는 데이터 컨테이너입니다. 예를 들어 `OrderShipped` 이벤트가 [Eloquent ORM](/docs/{{version}}/eloquent) 객체를 를 받는다고 해보겠습니다:
+이벤트 클래스는 이벤트와 관련된 정보를 가지고 있는 데이터 컨테이너입니다. 예를 들어 `OrderShipped` 이벤트가 [Eloquent ORM](/docs/{{version}}/eloquent) 객체를 를 받는다고 해보겠습니다:
 
     <?php
 
@@ -135,9 +135,9 @@ An event class is simply a data container which holds the information related to
         }
     }
 
-As you can see, this event class contains no logic. It is simply a container for the `Order` instance that was purchased. The `SerializesModels` trait used by the event will gracefully serialize any Eloquent models if the event object is serialized using PHP's `serialize` function.
+As you can see, this event class contains no logic. It is a container for the `Order` instance that was purchased. The `SerializesModels` trait used by the event will gracefully serialize any Eloquent models if the event object is serialized using PHP's `serialize` function.
 
-보시다시피, 이 이벤트 클래스는 로직을 가지고 있지 않습니다. 단순히, 구매한 `Order` 인스턴스의 컨테이너입니다. 이벤트가 사용하는 `SerializesModels` 속성은 이벤트 객체가 PHP의 `serialize` 기능을 통해 serialize될 경우 Eloquent 모델도 serialize 하게 할 것입니다.
+보시다시피, 이 이벤트 클래스는 로직을 가지고 있지 않습니다. 이는 구매한 `Order` 인스턴스의 컨테이너입니다. 이벤트가 사용하는 `SerializesModels` 속성은 이벤트 객체가 PHP의 `serialize` 기능을 통해 serialize될 경우 Eloquent 모델도 serialize 하게 할 것입니다.
 
 <a name="defining-listeners"></a>
 ## Defining Listeners

@@ -69,9 +69,9 @@ Again, Laravel will generate all of the necessary views for password reset when 
 ## After Resetting Passwords
 ## 패스워드 재설정 이후 처리사항
 
-Once you have defined the routes and views to reset your user's passwords, you may simply access the route in your browser at `/password/reset`. The `ForgotPasswordController` included with the framework already includes the logic to send the password reset link e-mails, while the `ResetPasswordController` includes the logic to reset user passwords.
+Once you have defined the routes and views to reset your user's passwords, you may access the route in your browser at `/password/reset`. The `ForgotPasswordController` included with the framework already includes the logic to send the password reset link e-mails, while the `ResetPasswordController` includes the logic to reset user passwords.
 
-사용자의 패스워드를 재설정하기 위한 라우트와 뷰를 정의하고 나면, 여러분은 간단하게 브라우저에서 `/password/reset` 주소로 엑세스 할 수 있습니다. 프레임워크에서 포함되어 있는 `ForgotPasswordController`는 이미 패스워드를 재설정하는 링크가지고 있는 이메일을 발송하는 로직을 포함하고 있고, `ResetPasswordController` 는 사용자의 패스워드를 재설정하는 로직을 포함하고 있습니다.
+사용자의 패스워드를 재설정하기 위한 라우트와 뷰를 정의하고 나면, 여러분은 브라우저에서 `/password/reset` 주소로 엑세스 할 수 있습니다. 프레임워크에서 포함되어 있는 `ForgotPasswordController`는 이미 패스워드를 재설정하는 링크가지고 있는 이메일을 발송하는 로직을 포함하고 있고, `ResetPasswordController` 는 사용자의 패스워드를 재설정하는 로직을 포함하고 있습니다.
 
 After a password is reset, the user will automatically be logged into the application and redirected to `/home`. You can customize the post password reset redirect location by defining a `redirectTo` property on the `ResetPasswordController`:
 

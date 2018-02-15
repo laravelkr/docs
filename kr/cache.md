@@ -448,7 +448,7 @@ The first argument passed to the `extend` method is the name of the driver. This
 
 `extend` 메소드에 전달되는 첫 번째 인자는 드라이버의 이름입니다. 이 이름은 `config/cache.php` 설정 파일의 `driver` 옵션에 해당합니다. 두 번째 인자는 `Illuminate\Cache\Repository` 인스턴스를 반환하는 클로저가 됩니다. 클로저에는 `$app` 인스턴스가 전달되는데, 이 인자는 [서비스 컨테이너](/docs/{{version}}/container)의 인스턴스입니다. 
 
-Once your extension is registered, simply update your `config/cache.php` configuration file's `driver` option to the name of your extension.
+Once your extension is registered, update your `config/cache.php` configuration file's `driver` option to the name of your extension.
 
 extension이 등록되고 나면, `config/cache.php` 설정 파일의 `driver` 옵션을 추가한 extension의 이름으로 변경하면 됩니다. 
 

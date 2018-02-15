@@ -222,7 +222,7 @@ Using real-time facades, you may treat any class in your application as if it we
         }
     }
 
-Injecting a publisher implementation into the method allows us to easily test the method in isolation since we can mock the injected publisher. However, it requires us to always pass a publisher instance each time we call the `publish` method. Using real-time facades, we can maintain the same testability while not being required to explicitly pass a `Publisher` instance. To generate a real-time facade, simply prefix the namespace of the imported class with `Facades`:
+Injecting a publisher implementation into the method allows us to easily test the method in isolation since we can mock the injected publisher. However, it requires us to always pass a publisher instance each time we call the `publish` method. Using real-time facades, we can maintain the same testability while not being required to explicitly pass a `Publisher` instance. To generate a real-time facade, prefix the namespace of the imported class with `Facades`:
 
 메소드에 publisher 구현체를 주입하면 주입된 publisher 는 mock 할 수 있기 때문에, 메소드를 분리시켜 테스트를 용이하게 합니다. 그렇지만, `publish` 메소드를 호출할 때마다 매번 publisher 인스턴스를 전달할 필요가 있습니다. 리얼타임 파사드를 사용하면, 동일한 테스트 유효성을 유지하면서도, 명시적으로 `Publisher` 인스턴스를 전달하지 않아도 됩니다. 리얼타임 파사드를 생성하기 위해서는 Import 한 클래스 이름 앞에 `Facades` 를 붙이면 됩니다:
 

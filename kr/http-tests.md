@@ -254,69 +254,311 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다: 
 
-Method  | Description
-------------- | -------------
-`$response->assertSuccessful();`  |  Assert that the response has a successful status code.
-`$response->assertStatus($code);`  |  Assert that the response has a given code.
-`$response->assertRedirect($uri);`  |  Assert that the response is a redirect to a given URI.
-`$response->assertHeader($headerName, $value = null);`  |  Assert that the given header is present on the response.
-`$response->assertCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie.
-`$response->assertPlainCookie($cookieName, $value = null);`  |  Assert that the response contains the given cookie (unencrypted).
-`$response->assertCookieExpired($cookieName);`  |  Assert that the response contains the given cookie and it is expired.
-`$response->assertCookieMissing($cookieName);`  |  Assert that the response does not contains the given cookie.
-`$response->assertSessionHas($key, $value = null);`  |  Assert that the session contains the given piece of data.
-`$response->assertSessionHasAll($key, $value = null);`  |  Assert that the session has a given list of values.
-`$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  Assert that the session contains an error for the given field.
-`$response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);`  |  Assert that the session has the given errors.
-`$response->assertSessionMissing($key);`  |  Assert that the session does not contain the given key.
-`$response->assertJson(array $data);`  |  Assert that the response contains the given JSON data.
-`$response->assertJsonCount(int $count, $key = null);`  |  Assert that the response JSON has the expected count of items at the given key.
-`$response->assertJsonFragment(array $data);`  |  Assert that the response contains the given JSON fragment.
-`$response->assertJsonMissing(array $data);`  |  Assert that the response does not contain the given JSON fragment.
-`$response->assertJsonMissingExact(array $data);`  |  Assert that the response does not contain the exact JSON fragment.
-`$response->assertExactJson(array $data);`  |  Assert that the response contains an exact match of the given JSON data.
-`$response->assertJsonStructure(array $structure);`  |  Assert that the response has a given JSON structure.
-`$response->assertJsonValidationErrors($keys);`  |  Assert that the response has the given JSON validation errors for the given keys.
-`$response->assertViewIs($value);`  |  Assert that the given view was returned by the route.
-`$response->assertViewHas($key, $value = null);`  |  Assert that the response view was given a piece of data.
-`$response->assertViewHasAll(array $data);`  |  Assert that the response view has a given list of data.
-`$response->assertViewMissing($key);`  |  Assert that the response view is missing a piece of bound data.
-`$response->assertSee($value);`  |  Assert that the given string is contained within the response.
-`$response->assertDontSee($value);`  |  Assert that the given string is not contained within the response.
-`$response->assertSeeText($value);`  |  Assert that the given string is contained within the response text.
-`$response->assertDontSeeText($value);`  |  Assert that the given string is not contained within the response text.
+<style>
+    .collection-method-list > p {
+        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
+    }
 
-메소드  | 설명
-------------- | -------------
-`$response->assertSuccessful();`  |  응답이 성공적인 상태코드를 가지고 있는지 확인.
-`$response->assertStatus($code);`  |  응답이 주어진 코드를 가지고 있는지 확인.
-`$response->assertRedirect($uri);`  |  응답이 주어진 URI로 리다이렉트되었는지 여부를 확인.
-`$response->assertHeader($headerName, $value = null);`  |  응답에서 주어진 헤더가 존재하는지 확인.
-`$response->assertCookie($cookieName, $value = null);`  |  응답에서 주어진 쿠키가 포함되어 있는지 확인.
-`$response->assertPlainCookie($cookieName, $value = null);`  |  응답에서 주어진 (암호화 되지 않은)쿠키가 포함되어 있는지 확인.
-`$response->assertCookieExpired($cookieName);`  |  응답에서 포함되어 있는 주어진 쿠키가 기간이 만료되었는지 확인.
-`$response->assertCookieMissing($cookieName);`  |  응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인.
-`$response->assertSessionHas($key, $value = null);`  |  세션에 주어진 데이터가 포함되어 있는지 확인.
-`$response->assertSessionHasAll($key, $value = null);`  |  세션에 주어진 목록의 값들이 포함되어 있는지 확인.
-`$response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');`  |  세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인.
-`$response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);`  |  세션에 주어진 에러를 가지고 있는지 확인.
-`$response->assertSessionMissing($key);`  |  세션에 주어진 키가 포함되어 있지 않은 것을 확인.
-`$response->assertJson(array $data);`  |  응답에 주어진 JSON 데이터가 포함되어 있는지 확인.
-`$response->assertJsonCount(int $count, $key = null);`  |  응답 JSON이 가지고 있는 주어진 키의 아이템이 해당하는 갯수를 가지고 있는지 확인.
-`$response->assertJsonFragment(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있는지 확인
-`$response->assertJsonMissing(array $data);`  |  응답에 주어진 JSON 내용이 포함되어 있지 않은 것을 확인.
-`$response->assertJsonMissingExact(array $data);`  |  응답에 주어진 JSON 내용이 정확하게 포함되어 있지 않은 것을 확인.
-`$response->assertExactJson(array $data);`  |  응답에 주어진 JSON 데이터와 정확하게 일치하게 포함되어 있는지 확인.
-`$response->assertJsonStructure(array $structure);`  |  응답이 주어진 JOSN 구조를 가지고 있는지 확인.
-`$response->assertJsonValidationErrors($keys);`  |  응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지고 있는지 확인.
-`$response->assertViewIs($value);`  |  라우터에 의해서 주어진 뷰가 반환되었는지 확인.
-`$response->assertViewHas($key, $value = null);`  |  응답 뷰가 주어진 데이터인지 확인.
-`$response->assertViewHasAll(array $data);`  |  응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 확인.
-`$response->assertViewMissing($key);`  |  응답 뷰가 주어진 데이터가 아닌것을 확인.
-`$response->assertSee($value);`  |  응답이 주어진 문자열을 포함하고 있는지 확인.
-`$response->assertDontSee($value);`  |  응답이 주어진 문자열을 포함하고 있지 않은 것을 확인.
-`$response->assertSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있는지 확인.
-`$response->assertDontSeeText($value);`  |  응답 텍스트가 주어진 문자열을 포함하고 있지 않은 것을 확인.
+    .collection-method-list a {
+        display: block;
+    }
+</style>
+
+<div class="collection-method-list" markdown="1">
+
+[assertCookie](#assert-cookie)
+[assertCookieExpired](#assert-cookie-expired)
+[assertCookieMissing](#assert-cookie-missing)
+[assertDontSee](#assert-dont-see)
+[assertDontSeeText](#assert-dont-see-text)
+[assertExactJson](#assert-exact-json)
+[assertHeader](#assert-header)
+[assertHeaderMissing](#assert-header-missing)
+[assertJson](#assert-json)
+[assertJsonFragment](#assert-json-fragment)
+[assertJsonMissing](#assert-json-missing)
+[assertJsonMissingExact](#assert-json-missing-exact)
+[assertJsonStructure](#assert-json-structure)
+[assertJsonValidationErrors](#assert-json-validation-errors)
+[assertPlainCookie](#assert-plain-cookie)
+[assertRedirect](#assert-redirect)
+[assertSee](#assert-see)
+[assertSeeText](#assert-see-text)
+[assertSessionHas](#assert-session-has)
+[assertSessionHasAll](#assert-session-has-all)
+[assertSessionHasErrors](#assert-session-has-errors)
+[assertSessionHasErrorsIn](#assert-session-has-errors-in)
+[assertSessionMissing](#assert-session-missing)
+[assertStatus](#assert-status)
+[assertSuccessful](#assert-successful)
+[assertViewHas](#assert-view-has)
+[assertViewHasAll](#assert-view-has-all)
+[assertViewIs](#assert-view-is)
+[assertViewMissing](#assert-view-missing)
+
+</div>
+
+<a name="assert-cookie"></a>
+#### assertCookie
+
+Assert that the response contains the given cookie:
+
+response-응답에서 주어진 쿠키가 포함되어 있는지 확인:
+
+    $response->assertCookie($cookieName, $value = null);
+
+<a name="assert-cookie-expired"></a>
+#### assertCookieExpired
+
+Assert that the response contains the given cookie and it is expired:
+
+response-응답에서 주어진 쿠키가 기간이 만료되었는지 확인:
+
+    $response->assertCookieExpired($cookieName);
+
+<a name="assert-cookie-missing"></a>
+#### assertCookieMissing
+
+Assert that the response does not contains the given cookie:
+
+response-응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인:
+
+    $response->assertCookieMissing($cookieName);
+
+<a name="assert-dont-see"></a>
+#### assertDontSee
+
+Assert that the given string is not contained within the response:
+
+response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확인:
+
+    $response->assertDontSee($value);
+
+<a name="assert-dont-see-text"></a>
+#### assertDontSeeText
+
+Assert that the given string is not contained within the response text:
+
+response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인:
+
+    $response->assertDontSeeText($value);
+
+<a name="assert-exact-json"></a>
+#### assertExactJson
+
+Assert that the response contains an exact match of the given JSON data:
+
+response-응답에 주어진 JSON 데이터가 정확하게 일치하게 포함되어 있는지 확인:
+
+    $response->assertExactJson(array $data);
+
+<a name="assert-header"></a>
+#### assertHeader
+
+Assert that the given header is present on the response:
+
+response-응답에서 주어진 헤더가 존재하는지 확인:
+
+    $response->assertHeader($headerName, $value = null);
+
+<a name="assert-header-missing"></a>
+#### assertHeaderMissing
+
+Assert that the given header is not present on the response:
+
+response-응답에서 주어진 헤더가 존재하는 않는 것을 확인:
+
+    $response->assertHeaderMissing($headerName);
+
+<a name="assert-json"></a>
+#### assertJson
+
+Assert that the response contains the given JSON data:
+
+response-응답에 주어진 JSON 데이터가 포함되어 있는지 확인:
+
+    $response->assertJson(array $data);
+
+<a name="assert-json-fragment"></a>
+#### assertJsonFragment
+
+Assert that the response contains the given JSON fragment:
+
+response-응답에 주어진 JSON 내용이 포함되어 있는지 확인:
+
+    $response->assertJsonFragment(array $data);
+
+<a name="assert-json-missing"></a>
+#### assertJsonMissing
+
+Assert that the response does not contain the given JSON fragment:
+
+response-응답에 주어진 JSON 내용이 포함되어 있지 않은 것을 확인:
+
+    $response->assertJsonMissing(array $data);
+
+<a name="assert-json-missing-exact"></a>
+#### assertJsonMissingExact
+
+Assert that the response does not contain the exact JSON fragment:
+
+response-응답에 주어진 JSON 내용이 정확하게 포함되어 있지 않은 것을 확인:
+
+    $response->assertJsonMissingExact(array $data);
+
+<a name="assert-json-structure"></a>
+#### assertJsonStructure
+
+Assert that the response has a given JSON structure:
+
+response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
+
+    $response->assertJsonStructure(array $structure);
+
+<a name="assert-json-validation-errors"></a>
+#### assertJsonValidationErrors
+
+Assert that the response has the given JSON validation errors for the given keys:
+
+response-응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지고 있는지 확인:
+
+    $response->assertJsonValidationErrors($keys);
+
+<a name="assert-plain-cookie"></a>
+#### assertPlainCookie
+
+Assert that the response contains the given cookie (unencrypted):
+
+response-응답에서 (암호화 되지 않은) 주어진 쿠키가 포함되어 있는지 확인:
+
+    $response->assertPlainCookie($cookieName, $value = null);
+
+<a name="assert-redirect"></a>
+#### assertRedirect
+
+Assert that the response is a redirect to a given URI:
+
+response-응답이 주어진 URI로 리다이렉트되는지 여부를 확인:
+
+    $response->assertRedirect($uri);
+
+<a name="assert-see"></a>
+#### assertSee
+
+Assert that the given string is contained within the response:
+
+response-응답이 주어진 문자열을 포함하고 있는지 확인:
+
+    $response->assertSee($value);
+
+<a name="assert-see-text"></a>
+#### assertSeeText
+
+Assert that the given string is contained within the response text:
+
+response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확인:
+
+    $response->assertSeeText($value);
+
+<a name="assert-session-has"></a>
+#### assertSessionHas
+
+Assert that the session contains the given piece of data:
+
+세션에 주어진 데이터가 포함되어 있는지 확인:
+
+    $response->assertSessionHas($key, $value = null);
+
+<a name="assert-session-has-all"></a>
+#### assertSessionHasAll
+
+Assert that the session has a given list of values:
+
+세션에 주어진 목록의 값들이 포함되어 있는지 확인:
+
+    $response->assertSessionHasAll($key, $value = null);
+
+<a name="assert-session-has-errors"></a>
+#### assertSessionHasErrors
+
+Assert that the session contains an error for the given field:
+
+세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인:
+
+    $response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');
+
+<a name="assert-session-has-errors-in"></a>
+#### assertSessionHasErrorsIn
+
+Assert that the session has the given errors:
+
+세션이 주어진 에러를 가지고 있는지 확인:
+
+    $response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);
+
+<a name="assert-session-missing"></a>
+#### assertSessionMissing
+
+Assert that the session does not contain the given key:
+
+세션에 주어진 키가 포함되어 있지 않은 것을 확인:
+
+    $response->assertSessionMissing($key);
+
+<a name="assert-status"></a>
+#### assertStatus
+
+Assert that the response has a given code:
+
+response-응답이 주어진 코드를 가지고 있는지 확인:
+
+    $response->assertStatus($code);
+
+<a name="assert-successful"></a>
+#### assertSuccessful
+
+Assert that the response has a successful status code:
+
+response-응답이 성공적인 상태코드를 가지고 있는지 확인:
+
+    $response->assertSuccessful();
+
+<a name="assert-view-has"></a>
+#### assertViewHas
+
+Assert that the response view was given a piece of data:
+
+response-응답 뷰가 주어진 데이터인지 확인:
+
+    $response->assertViewHas($key, $value = null);
+
+<a name="assert-view-has-all"></a>
+#### assertViewHasAll
+
+Assert that the response view has a given list of data:
+
+response-응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 확인:
+
+    $response->assertViewHasAll(array $data);
+
+<a name="assert-view-is"></a>
+#### assertViewIs
+
+Assert that the given view was returned by the route:
+
+라우터에 의해서 주어진 뷰가 반환되었는지 확인:
+
+    $response->assertViewIs($value);
+
+<a name="assert-view-missing"></a>
+#### assertViewMissing
+
+Assert that the response view is missing a piece of bound data:
+
+response-응답 뷰가 주어진 데이터가 아닌것을 확인:
+
+    $response->assertViewMissing($key);
 
 <a name="authentication-assertions"></a>
 ### Authentication Assertions

@@ -93,9 +93,9 @@ It is very important to note that we did not need to specify the full controller
 
 컨트롤러에 대응하는 라우트를 정의 할 때 전체 컨트롤러의 전체 네임 스페이스를 지정할 필요가 없다는 점에 유의해야합니다. `RouteServiceProvider`는 네임 스페이스를 포함하는 라우트 그룹 내에서 라우트 파일을 로드하기 때문에 네임 스페이스의 `App\Http\Controllers` 부분의 뒤에 오는 클래스 이름부분만 지정했습니다.
 
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, simply use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
+If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
 
-컨트롤러를 `App \ Http \ Controllers` 디렉토리내에 위치시키려면 `App \ Http \ Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다. :
+컨트롤러를 `App\Http\Controllers` 디렉토리내에 위치시키려면 `App\Http\Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다:
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -426,9 +426,9 @@ In addition to constructor injection, you may also type-hint dependencies on you
         }
     }
 
-If your controller method is also expecting input from a route parameter, simply list your route arguments after your other dependencies. For example, if your route is defined like so:
+If your controller method is also expecting input from a route parameter, list your route arguments after your other dependencies. For example, if your route is defined like so:
 
-컨트롤러 메소드가 라우트 인자로 부터 입력값을 받아야 한다면 간단하게 라우트 인자를 지정하면 됩니다. 예를 들어 다음과 같이 정의할 수 있습니다.
+컨트롤러 메소드가 라우트 인자로 부터 입력값을 받아야 한다면 라우트 인자를 지정하면 됩니다. 예를 들어 다음과 같이 정의할 수 있습니다.
 
     Route::put('user/{id}', 'UserController@update');
 

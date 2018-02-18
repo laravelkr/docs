@@ -98,6 +98,10 @@ With recent improvements to PHP op-code caching, the `optimize` Artisan command 
 ### Authorization
 ### 권한 승인-authorization
 
+> {note} When upgrading from Laravel 5.4 to 5.5, all `remember_me` cookies will be rendered invalid and users will be logged out.
+
+> {note} 라라벨 5.4에서 5.5 로 업그레이드 할 때, 모든 `remember_me` 쿠키가 유효하지 않게 처리되어 유저들은 는 로그아웃 처리됩니다.
+
 #### The `authorizeResource` Controller Method
 #### `authorizeResource` 컨트롤러 메소드
 

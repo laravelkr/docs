@@ -181,7 +181,7 @@ rule 객체는 두개의 메소드 : `passes` 와 `message` 를 가지고 있습
         }
     }
 
-rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, rule 객체의 인스턴스를 전달하여, 손쉽게 사용할 수 있습니다.
+rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, rule 객체의 인스턴스를 전달하여, 사용할 수 있습니다.
 
     use App\Rules\ValidName;
 

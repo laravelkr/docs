@@ -138,6 +138,12 @@
 
     echo trans_choice('messages.apples', 10);
 
+복수형 문자를 위한 플레이스홀더 속성을 정의할 수 있습니다. 이 플레이스홀더는 `trans_choice` 함수에 전달되는 세번째 인자인 배열의 값으로 치환됩니다:
+
+    'minutes_ago' => '{1} :value minute ago|[2,*] :value minutes ago',
+
+    echo trans_choice('time.minutes_ago', 5, ['value' => 5]);
+
 <a name="overriding-package-language-files"></a>
 ## 패키지의 언어 파일 재정의하기
 

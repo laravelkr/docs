@@ -46,6 +46,8 @@ URI를 CSRF 보호에서 제외시키고 싶을 때가 있습니다. 예를 들�
          */
         protected $except = [
             'stripe/*',
+            'http://example.com/foo/bar',
+            'http://example.com/foo/*',
         ];
     }
 

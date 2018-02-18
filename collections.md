@@ -754,6 +754,47 @@ If you want to stop executing the script after dumping the collection, use the [
         ]
     */
 
+여러개의 groupBy 기준을 배열로 전달 할 수 있습니다. 각 배열의 요소는 다차원 배열 안에서 해당되는 레벨에 적용됩니다:
+
+    $data = new Collection([
+        10 => ['user' => 1, 'skill' => 1, 'roles' => ['Role_1', 'Role_3']],
+        20 => ['user' => 2, 'skill' => 1, 'roles' => ['Role_1', 'Role_2']],
+        30 => ['user' => 3, 'skill' => 2, 'roles' => ['Role_1']],
+        40 => ['user' => 4, 'skill' => 2, 'roles' => ['Role_2']],
+    ]);
+
+    $result = $data->groupBy([
+        'skill',
+        function ($item) {
+            return $item['roles'];
+        },
+    ], $preserveKeys = true);
+
+    /*
+    [
+        1 => [
+            'Role_1' => [
+                10 => ['user' => 1, 'skill' => 1, 'roles' => ['Role_1', 'Role_3']],
+                20 => ['user' => 2, 'skill' => 1, 'roles' => ['Role_1', 'Role_2']],
+            ],
+            'Role_2' => [
+                20 => ['user' => 2, 'skill' => 1, 'roles' => ['Role_1', 'Role_2']],
+            ],
+            'Role_3' => [
+                10 => ['user' => 1, 'skill' => 1, 'roles' => ['Role_1', 'Role_3']],
+            ],
+        ],
+        2 => [
+            'Role_1' => [
+                30 => ['user' => 3, 'skill' => 2, 'roles' => ['Role_1']],
+            ],
+            'Role_2' => [
+                40 => ['user' => 4, 'skill' => 2, 'roles' => ['Role_2']],
+            ],
+        ],
+    ];
+    */
+
 <a name="method-has"></a>
 #### `has()` {#collection-method}
 
@@ -779,7 +820,7 @@ If you want to stop executing the script after dumping the collection, use the [
 
     // Desk, Chair
 
-컬렉션이 간단한 문자열 또는 숫자값을 가지고 있다면, 간단하게 "glue" 를 첫번째 인자로 전달하면 됩니다:
+컬렉션이 간단한 문자열 또는 숫자값을 가지고 있다면, "glue" 를 첫번째 인자로 전달하면 됩니다:
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -2005,7 +2046,7 @@ If you want to stop executing the script after dumping the collection, use the [
 <a name="higher-order-messages"></a>
 ## Higher Order Messages
 
-컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc` `sum` 입니다.
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum`, `unique` 입니다.
 
 각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다:
 

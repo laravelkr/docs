@@ -773,7 +773,7 @@
 <a name="method-str-contains"></a>
 #### `str_contains()` {#collection-method}
 
-`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다:
+`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
 
     $contains = str_contains('This is my name', 'my');
 
@@ -945,7 +945,7 @@
 
     echo trans('messages.welcome');
 
-지정된 다국어 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 그대로 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
+지정된 다국어 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
@@ -954,7 +954,7 @@
 
     echo trans_choice('messages.notifications', $unreadCount);
 
-지정된 다국어 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 그대로 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 그대로 반환합니다.
+지정된 다국어 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 그대로 반환합니다.
 
 <a name="urls"></a>
 ## URLs
@@ -1245,6 +1245,8 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
     // Returns 'production' if APP_ENV is not set...
     $env = env('APP_ENV', 'production');
 
+> {note} 배포과정에서 `config:cache` 명령어를 실행했다면, 설정 파일안에서 `env` 함수를 호출한 부분이 있는지 확인해야 합니다. 설정이 캐싱되고 나면, `.env` 파일은 로드하지 않고, 모든 `env` 함수는 `null`을 반환합니다.
+
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
@@ -1371,7 +1373,7 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 
     $request = request();
 
-    $value = request('key', $default = null);
+    $value = request('key', $default);
 
 <a name="method-rescue"></a>
 #### `rescue()` {#collection-method}

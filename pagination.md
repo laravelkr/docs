@@ -166,7 +166,7 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 
     php artisan vendor:publish --tag=laravel-pagination
 
-이 명령어는 뷰파일들을 `resources/views/vendor/pagination`로 옮겨넣습니다. 이 디렉토리 안에 있는 `default.blade.php` 파일은 페이지네이션 기본 뷰와 일치합니다. 페이지네이션 HTML을 수정하려면 간단하게 이 파일을 편집하면 됩니다.
+이 명령어는 뷰파일들을 `resources/views/vendor/pagination`로 옮겨넣습니다. 이 디렉토리 안에 있는 `default.blade.php` 파일은 페이지네이션 기본 뷰와 일치합니다. 페이지네이션 HTML을 수정하려면 이 파일을 편집하면 됩니다.
 
 <a name="paginator-instance-methods"></a>
 ## 페이지네이터 인스턴스 메소드

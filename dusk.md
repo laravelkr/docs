@@ -46,7 +46,7 @@
 
 시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
-    composer require --dev laravel/dusk
+    composer require --dev laravel/dusk:^2.0
 
 Dusk를 설치하고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 일반적으로는 이 작업은 라라벨의 자동 서비스 프로바이더 등록 기능이 알아서 해줍니다.
 
@@ -541,6 +541,7 @@ Assertion  | 설명
 ------------- | -------------
 `$browser->assertTitle($title)`  |  페이지 타이틀이 주어진 텍스트와 일치하는지 확인.
 `$browser->assertTitleContains($title)`  |  페이지 타이틀이 주어진 텍스트를 포함하는지 확인.
+`$browser->assertUrlIs($url)`  |  현재의 URL이 (쿼리 스트링을 제외하고) 주어진 문자열과 일치 하는지 확인.
 `$browser->assertPathBeginsWith($path)`  |  현재 URL 경로가 주어진 경로로 시작하는지 확인.
 `$browser->assertPathIs('/home')`  |  현재 경로가 주어진 경로와 일치하는지 확인.
 `$browser->assertPathIsNot('/home')`  |  현재 경로가 주어진 경로와 일치하지 않는 것을 확인.
@@ -910,7 +911,7 @@ Dusk 테스트를 수행하기 위해서 CircleCI 2.0를 사용한다면, 빌드
 <a name="running-tests-on-codeship"></a>
 ### Codeship
 
-To run Dusk tests on [Codeship](https://codeship.com), add the following commands to your Codeship project. Of course, these commands are simply a starting point and you are free to add additional commands as needed:
+[Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 물론, 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다:
 
     phpenv local 7.1
     cp .env.testing .env

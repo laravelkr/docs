@@ -57,6 +57,8 @@ Push 이벤트 브로드캐시팅 드라이버는 이제 Pusher SDK의 `~3.0` �
 
 ### 권한 승인-authorization
 
+> {note} 라라벨 5.4에서 5.5 로 업그레이드 할 때, 모든 `remember_me` 쿠키가 유효하지 않게 처리되어 유저들은 로그아웃 처리됩니다.
+
 #### `authorizeResource` 컨트롤러 메소드
 
 When passing a multi-word model name to the `authorizeResource` method, the resulting route segment will now be "snake" case, matching the behavior of resource controllers.

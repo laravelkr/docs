@@ -31,7 +31,7 @@
     // Create a test in the Unit directory...
     php artisan make:test UserTest --unit
 
-테스트 파일이 생성되고 나면, PHPUnit에서 사용할 테스트 메소드를 정의하면 됩니다. 테스트를 실행하려면 간단하게 터미널에서 `phpunit` 커맨드를 실행하면 됩니다:
+테스트 파일이 생성되고 나면, PHPUnit에서 사용할 테스트 메소드를 정의하면 됩니다. 테스트를 실행하려면 터미널에서 `phpunit` 커맨드를 실행하면 됩니다:
 
     <?php
 

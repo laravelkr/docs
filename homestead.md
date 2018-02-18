@@ -20,6 +20,7 @@
     - [포트 지정](#ports)
     - [환경 공유하기](#sharing-your-environment)
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
+    - [웹서버](#web-servers)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 업데이트하기](#updating-homestead)
 - [프로바이더 한정 셋팅](#provider-specific-settings)
@@ -46,8 +47,9 @@
 - PHP 7.0
 - PHP 5.6
 - Nginx
+- Apache (Optional)
 - MySQL
-- MariaDB
+- MariaDB (Optional)
 - Sqlite3
 - PostgreSQL
 - Composer
@@ -56,6 +58,7 @@
 - Memcached
 - Beanstalkd
 - Mailhog
+- Elasticsearch (Optional)
 - ngrok
 
 <a name="installation-and-setup"></a>
@@ -82,18 +85,16 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 
 #### 홈스테드 설치하기
 
-간단하게 Git 저장소를 복제하여 홈스테드를 설치할 수 있습니다. 여러분의 "home" 디렉토리안에 `Homestead` 폴더로 저장소를 복제하면 홈스테드 box가 라라벨 프로젝트의 모든 호스트 역할을 할 것입니다.
+Git 저장소를 복제하여 홈스테드를 설치할 수 있습니다. 여러분의 "home" 디렉토리안에 `Homestead` 폴더로 저장소를 복제하면 홈스테드 box가 라라벨 프로젝트의 모든 호스트 역할을 할 것입니다.
 
-    cd ~
-
-    git clone https://github.com/laravel/homestead.git Homestead
+    git clone https://github.com/laravel/homestead.git ~/Homestead
 
 `master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
 
-    cd Homestead
+    cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.0.1
+    git checkout v7.1.2
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -284,7 +285,7 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
 <a name="adding-additional-sites"></a>
 ### 추가적인 사이트 지정하기
 
-홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `Homestead.yaml` 파일에 사이트를 추가하십시오:
+홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, `Homestead.yaml` 파일에 사이트를 추가하십시오:
 
     sites:
         - map: homestead.test
@@ -307,7 +308,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
     sites:
         - map: symfony2.test
           to: /home/vagrant/code/Symfony/web
-          type: symfony2
+          type: "symfony2"
 
 사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
 
@@ -420,6 +421,13 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
     php7.1 artisan list
     php7.2 artisan list
 
+<a name="web-servers"></a>
+### 웹서버
+
+홈스테드는 기본적으로 Nginx를 웹서버로 사용합니다. 그렇지만, site 타입에 `apache`를 지정해서 아파치를 설치할 수 있습니다. 두 웹서버를 모두 설치할 수 있지만, 동시에 실행할 수는 없습니다. `flip` 쉘 명령어를 사용하여 웹서버를 쉽게 전환할 수 있습니다. `flip` 쉘 명령어는 자동으로 실행되는 웹서버를 멈추고 다른 서버를 구동합니다. 이 명령어을 사용하려면 홈스테드에 SSH 접속을 하고 터미널에 명령어를 실행하면 됩니다:
+
+    flip
+
 <a name="network-interfaces"></a>
 ## 네트워크 인터페이스
 
@@ -449,7 +457,7 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 
     vagrant box update
 
-그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 간단하게 `git pull origin master` 를 사용할 수 있습니다.
+그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 `git pull origin master` 를 사용할 수 있습니다.
 
 프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^7"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
@@ -461,7 +469,17 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 <a name="provider-specific-virtualbox"></a>
 ### VirtualBox
 
+#### `natdnshostresolver`
+
 기본적으로, 홈스테드는 `natdnshostresolver` 설정을 `on` 으로 구성합니다. 이렇게 하면 홈스테드가 여러분의 OS의 DNS 셋팅을 사용할 수 있게 해줍니다. 이 동작을 오버라이딩 하고자 한다면, `Homestead.yaml` 파일에 다음 라인을 추가하십시오:
 
     provider: virtualbox
     natdnshostresolver: off
+
+#### 윈도우에서 심볼릭 링크
+
+윈도우 환경에서 심볼릭 링크가 원하는 대로 동작하지 않는다면, `Vagrantfile` 파일에 다음 블럭을 추가하십시오:
+
+    config.vm.provider "virtualbox" do |v|
+        v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    end

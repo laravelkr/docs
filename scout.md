@@ -191,7 +191,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 <a name="removing-records"></a>
 ### 레코드 삭제하기
 
-인덱스에서 레코드를 삭제하기 위해서는, 간단히 데이터베이스에서 해당 모델을 `delete`하면 됩니다. 이 삭제 방법은 [soft deleted](/docs/{{version}}/eloquent#soft-deleting)가 적용된 모델에서도 작동합니다.
+인덱스에서 레코드를 삭제하기 위해서는, 데이터베이스에서 해당 모델을 `delete`하면 됩니다. 이 삭제 방법은 [soft deleted](/docs/{{version}}/eloquent#soft-deleting)가 적용된 모델에서도 작동합니다.
 
     $order = App\Order::find(1);
 

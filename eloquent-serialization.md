@@ -147,6 +147,14 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
 
 속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다.
 
+#### 실행 될때(run time에서) 추가하기
+
+`append` 메소드를 사용해서 하나의 모델 인스턴스에 속성을 추가할 수도 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 추가된 속성들의 전체 배열을 오버라이드 할 수 있습니다:
+
+    return $user->append('is_admin')->toArray();
+
+    return $user->setAppends(['is_admin'])->toArray();
+
 <a name="date-serialization"></a>
 ## 날짜 Serialization
 

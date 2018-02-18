@@ -13,6 +13,7 @@
     - [네임스페이스](#route-group-namespaces)
     - [서브 도메인 라우팅](#route-group-sub-domain-routing)
     - [라우트 Prefixes](#route-group-prefixes)
+    - [라우트 이름의 Prefixes](#route-group-name-prefixes)
 - [라우트 모델 바인딩](#route-model-binding)
     - [명시적 바인딩](#implicit-binding)
     - [묵시적 바인딩](#explicit-binding)
@@ -22,7 +23,7 @@
 <a name="basic-routing"></a>
 ## 기본적인 라우팅
 
-가장 기본적인 라라벨 라우트는 간단하게 URI 와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할 수 있는 방법을 제공합니다:
+가장 기본적인 라라벨 라우트는 URI 와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할 수 있는 방법을 제공합니다:
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -258,6 +259,17 @@
     Route::prefix('admin')->group(function () {
         Route::get('users', function () {
             // Matches The "/admin/users" URL
+        });
+    });
+
+<a name="route-group-name-prefixes"></a>
+### 라우트 이름의 Prefixes
+
+`name` 메소드는 그룹 안에서 각각의 라우트에 이름을 prefix로 붙이는데 사용할 수 있습니다. 예를 들어, 그룹으로 지정된 모든 라우트들의 이름앞에 `admin` 이라는 문자를 붙이려고 한다고 생각해 보겠습니다. 지정된 문자열은 라우트의 이름의 바로 앞에 붙기 때문에, `.` 문자를 덧붙이도록 해야합니다:
+
+    Route::name('admin.')->group(function () {
+        Route::get('users', function () {
+            // Route assigned name "admin.users"...
         });
     });
 

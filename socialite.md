@@ -135,8 +135,14 @@ Socialite를 사용하기 전에, 어플리케이션에서 사용할 OAuth서비
     $user->getEmail();
     $user->getAvatar();
 
-#### 토큰으로 부터 사용자 상세정보 조회하기
+#### 토큰으로 부터 사용자 상세정보 조회하기 (OAuth2)
 
 사용자에 대한 유요한 엑세스 토큰을 가지고 있는 경우 `userFromToken` 메소드를 사용하여 상세 정보를 조회할 수 있습니다:
 
     $user = Socialite::driver('github')->userFromToken($token);
+
+#### 토큰과 비밀번호를 사용하여 사용자 정보 조회하기 (OAuth1)
+
+사용자의 유효한 토큰과 비밀번호를 가지고 있다면, `userFromTokenAndSecret` 메소드를 사용하여 사용자 정보를 조회할 수 있습니다:
+
+    $user = Socialite::driver('twitter')->userFromTokenAndSecret($token, $secret);

@@ -44,7 +44,7 @@
 <a name="resetting-the-database-after-each-test"></a>
 ## 각각의 테스트 수행 후에 데이터베이스 재설정하기
 
-종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 막기 위해 각각의 테스트가 끝난 뒤에 데이터베이스를 재설정하는 것이 유용합니다. `RefreshDatabase` 트레이트-trait 은 전통적인 데이터베이스 또는 in-memory 데이터베이스를 사용하는 경우 여러분의 테스트 데이터베이스를 마이그레이션 하는데 가장 적합한 방법입니다. 간단하게 테스트 클래스에 트레이트-trait를 사용하면 손쉽게 처리됩니다:
+종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 막기 위해 각각의 테스트가 끝난 뒤에 데이터베이스를 재설정하는 것이 유용합니다. `RefreshDatabase` 트레이트-trait 은 전통적인 데이터베이스 또는 in-memory 데이터베이스를 사용하는 경우 여러분의 테스트 데이터베이스를 마이그레이션 하는데 가장 적합한 방법입니다. 테스트 클래스에 트레이트-trait를 사용하면 손쉽게 처리됩니다:
 
     <?php
 
@@ -110,12 +110,10 @@
     use Faker\Generator as Faker;
 
     $factory->define(App\User::class, function (Faker $faker) {
-        static $password;
-
         return [
             'name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
-            'password' => $password ?: $password = bcrypt('secret'),
+            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
             'remember_token' => str_random(10),
         ];
     });

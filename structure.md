@@ -57,7 +57,7 @@
 <a name="the-database-directory"></a>
 #### Database 디렉토리
 
-`database` 디렉토리는 데이터베이스 마이그레이션 파일들과 시딩 파일들을 포함하고 있습니다. 원한다면, 이 디렉토리를 SQLite 데이터베이스가 저장되는 곳으로 사용할수도 있습니다.
+`database` 디렉토리는 데이터베이스 마이그레이션 파일, 모델 팩토리, 시딩 파일들을 포함하고 있습니다. 원한다면, 이 디렉토리를 SQLite 데이터베이스가 저장되는 곳으로 사용할수도 있습니다.
 
 <a name="the-public-directory"></a>
 #### Public 디렉토리

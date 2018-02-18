@@ -227,7 +227,7 @@
         // $records is "empty"...
     @endempty
 
-#### 인증 관련 편의 기능
+#### 인증 관련 지시어
 
 `@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다:
 
@@ -248,6 +248,18 @@
     @guest('admin')
         // The user is not authenticated...
     @endguest
+
+#### 섹션 지시어
+
+`@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다:
+
+    @hasSection('navigation')
+        <div class="pull-right">
+            @yield('navigation')
+        </div>
+
+        <div class="clearfix"></div>
+    @endif
 
 <a name="switch-statements"></a>
 ### 스위치 구문

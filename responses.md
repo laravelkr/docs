@@ -21,7 +21,7 @@
 
 #### 문자열 & 배열
 
-모든 라우트와 컨트롤러는 response 를 사용자 브라우저로 다시 반환해야 합니다. 라라벨은 response 를 반환하기 위한 몇가지 다른 방법을 제공합니다. 가장 기존벅인 response 는 라우트나 컨트롤러에서 간단한 문자열을 반환하는 것입니다. 프레임워크는 자동으로 문자열을 전체 HTTP response로 변환할것입니다:
+모든 라우트와 컨트롤러는 response 를 사용자 브라우저로 다시 반환해야 합니다. 라라벨은 response 를 반환하기 위한 몇가지 다른 방법을 제공합니다. 가장 기본적인 response 는 라우트나 컨트롤러에서 문자열을 반환하는 것입니다. 프레임워크는 자동으로 문자열을 전체 HTTP response로 변환할것입니다:
 
     Route::get('/', function () {
         return 'Hello World';
@@ -130,7 +130,7 @@ response 인스턴스의 `cookie` 메소드는 response 에 쿠키를 손쉽게 
 
 #### Eloquent 모델을 통한 매개 변수 채우기
 
-Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 간단하게 모들 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다:
+Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 모델 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다:
 
     // For a route with the following URI: profile/{id}
 

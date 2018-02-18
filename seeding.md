@@ -68,7 +68,7 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
 <a name="calling-additional-seeders"></a>
 ### 추가적인 Seeder 호출하기
 
-`DatabaseSeeder` 클래스 안에서, `call` 메소드를 사용하여 추가적인 seeder 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면, 여러분의 데이터베이스 seeding 을 하나의 매우 커다란 파일에서 여러개의 파일로 쪼갤 수 있게 됩니다. 메소드에서는 간단하게 실행하려는 seeder 클래스의 이름을 전달하면 됩니다. 
+`DatabaseSeeder` 클래스 안에서, `call` 메소드를 사용하여 추가적인 seeder 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면, 여러분의 데이터베이스 seeding 을 하나의 매우 커다란 파일에서 여러개의 파일로 쪼갤 수 있게 됩니다. 메소드에서는 실행하려는 seeder 클래스의 이름을 전달하면 됩니다.
 
     /**
      * Run the database seeds.

@@ -170,7 +170,7 @@ API 를 작성할 때, 어플리케이션의 사용자에게 Eloquent 모델을 
 
 #### 관계-relationships
 
-응답-response에서 연관된 리소스(relationships)를 포함하고자 한다면, `toArray` 메소드에서 반환하는 배열에 이를 추가하기만 하면 됩니다. 다음 예제에서는 `Post` 리소스의 `collection` 메소드를 사용하여 사용자의 블로그 포스트를 응답-response에 추가합니다:
+응답-response에서 연관된 리소스(relationships)를 포함하고자 한다면, `toArray` 메소드에서 반환하는 배열에 이를 추가하면 됩니다. 다음 예제에서는 `Post` 리소스의 `collection` 메소드를 사용하여 사용자의 블로그 포스트를 응답-response에 추가합니다:
 
     /**
      * Transform the resource into an array.

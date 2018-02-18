@@ -47,7 +47,7 @@
          * @var array
          */
         protected $commands = [
-            \App\Console\Commands\Inspire::class,
+            //
         ];
 
         /**
@@ -179,6 +179,10 @@
     $schedule->command('emails:send')->withoutOverlapping();
 
 이 예제에서 `emails:send` [아티즌 커맨드](/docs/{{version}}/artisan)는 명령이 실행중이 아니라면 매 1분마다 실행될 것입니다. `withoutOverlapping` 메소드는 특히 작업의 예상 실행 시간이 극명하게 다른 경우에 유용하며 특정 작업이 얼마나 오래 걸릴지 매번 예상해야만 하는 일들을 방지 해줍니다.
+
+필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다:
+
+    $schedule->command('emails:send')->withoutOverlapping(10);
 
 <a name="maintenance-mode"></a>
 ### 공사중 모드

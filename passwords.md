@@ -42,7 +42,7 @@
 <a name="after-resetting-passwords"></a>
 ## 패스워드 재설정 이후 처리사항
 
-사용자의 패스워드를 재설정하기 위한 라우트와 뷰를 정의하고 나면, 여러분은 간단하게 브라우저에서 `/password/reset` 주소로 엑세스 할 수 있습니다. 프레임워크에서 포함되어 있는 `ForgotPasswordController`는 이미 패스워드를 재설정하는 링크가지고 있는 이메일을 발송하는 로직을 포함하고 있고, `ResetPasswordController` 는 사용자의 패스워드를 재설정하는 로직을 포함하고 있습니다.
+사용자의 패스워드를 재설정하기 위한 라우트와 뷰를 정의하고 나면, 여러분은 브라우저에서 `/password/reset` 주소로 엑세스 할 수 있습니다. 프레임워크에서 포함되어 있는 `ForgotPasswordController`는 이미 패스워드를 재설정하는 링크가지고 있는 이메일을 발송하는 로직을 포함하고 있고, `ResetPasswordController` 는 사용자의 패스워드를 재설정하는 로직을 포함하고 있습니다.
 
 패스워드가 재설정 되고나면, 사용자는 자동으로 어플리케이션에 로드인되고, `/home` 으로 리다이렉션됩니다. 패스워드가 재설정되고 난 뒤에 이동되는 리다이렉션 경로를 수정하고자 한다면, `ResetPasswordController` 의 `redirectTo` 속성을 정의하면 됩니다:
 

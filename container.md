@@ -2,7 +2,7 @@
 
 - [소개](#introduction)
 - [바인딩](#binding)
-    - [기존적인 바인딩 ](#binding-basics)
+    - [기본적인 바인딩](#binding-basics)
     - [구현 객체에 인터페이스 바인딩하기](#binding-interfaces-to-implementations)
     - [문맥에 따른 조건적 바인딩](#contextual-binding)
     - [태깅](#tagging)

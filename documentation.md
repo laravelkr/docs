@@ -77,5 +77,5 @@
     - [Envoy-Task Runner](/docs/{{version}}/envoy)
     - [Horizon](/docs/{{version}}/horizon)
     - [Passport-OAuth2](/docs/{{version}}/passport)
-    - [Socialite](/docs/{{version}}/socialite)
+    - [Scout-검색](/docs/{{version}}/scout)
     - [Socialite-소셜로그인](/docs/{{version}}/socialite)

@@ -230,9 +230,9 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
 ### Token Lifetimes
 ### 토큰 지속시간
 
-By default, Passport issues long-lived access tokens that never need to be refreshed. If you would like to configure a shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
 
-기본적으로 Passport 는 다시 생성할 필요없도록 오래동안 지속되는 엑세스 토큰을 발급합니다. 토큰의 지속시간을 더 짧게 줄이려면, `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
+기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 / 줄이려면  `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
 
     /**
      * Register any authentication / authorization services.
@@ -841,9 +841,9 @@ When building an API, it can be extremely useful to be able to consume your own 
 
 API를 구성할 때 자바스크립트 어플리케이션에서 여러분의 API를 사용할 수 있으면, 매우 편리합니다. 이런 API 개발 방식을 사용하면 여러분의 어플리케이션이 전세계로 공유되는 것과 동일한 API를 사용할 수 있게 됩니다. 웹 어플리케이션, 모바일 어플리케이션, 써드파티 어플리케이션 및 다양한 패키지 관리자를 통해 퍼블리싱 할 수 있는 SDK에서 동일한 API를 사용할 수 있습니다.
 
-Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group:
+Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group in your `app/Http/Kernel.php` file:
 
-일반적으로, 여러분의 API를 자바스크립트 어플리케이션에서 사용하고자 한다면, 어플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 어플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
+일반적으로, 여러분의 API를 자바스크립트 어플리케이션에서 사용하고자 한다면, 어플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 어플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `app/Http/Kernel.php` 파일의 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
 
     'web' => [
         // Other middleware...

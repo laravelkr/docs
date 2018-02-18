@@ -67,6 +67,8 @@ You may use the `withHeaders` method to customize the request's headers before i
         }
     }
 
+> {tip} The CSRF middleware is automatically disabled when running tests.
+
 <a name="session-and-authentication"></a>
 ## Session / Authentication
 

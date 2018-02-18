@@ -2,8 +2,8 @@
 
 - [소개](#introduction)
 - [바인딩](#binding)
-    - [기존적인 바인딩 ](#binding-basics)
-    - [인터페이스dp 구현객체 바인딩하기](#binding-interfaces-to-implementations)
+    - [기본적인 바인딩](#binding-basics)
+    - [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations)
     - [문맥에 따른 조건적 바인딩](#contextual-binding)
     - [태깅](#tagging)
     - [바인딩 확장하기](#extending-bindings)

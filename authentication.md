@@ -75,6 +75,8 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
     protected $redirectTo = '/';
 
+Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` method to use your new URI when redirecting the user.
+
 If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
 
     protected function redirectTo()
@@ -173,6 +175,21 @@ Of course, if you are using [controllers](/docs/{{version}}/controllers), you ma
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+#### Redirecting Unauthenticated Users
+
+When the `auth` middleware detects an unauthorized user, it will either return a JSON `401` response, or, if the request was not an AJAX request, redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes).
+
+You may modify this behavior by defining an `unauthenticated` function in your `app/Exceptions/Hander.php` file:
+
+    use Illuminate\Auth\AuthenticationException;
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+                    ? response()->json(['message' => $exception->getMessage()], 401)
+                    : redirect()->guest(route('login'));
     }
 
 #### Specifying A Guard

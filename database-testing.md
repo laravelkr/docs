@@ -92,6 +92,8 @@ Within the Closure, which serves as the factory definition, you may return the d
 
 You may also create additional factory files for each model for better organization. For example, you could create `UserFactory.php` and `CommentFactory.php` files within your `database/factories` directory. All of the files within the `factories` directory will automatically be loaded by Laravel.
 
+> {tip} You can set the Faker locale by adding a `faker_locale` option to your `config/app.php` configuration file.
+
 <a name="factory-states"></a>
 ### Factory States
 

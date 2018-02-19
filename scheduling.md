@@ -6,6 +6,7 @@
     - [Scheduling Queued Jobs](#scheduling-queued-jobs)
     - [Scheduling Shell Commands](#scheduling-shell-commands)
     - [Schedule Frequency Options](#schedule-frequency-options)
+    - [Timezones](#timezones)
     - [Preventing Task Overlaps](#preventing-task-overlaps)
     - [Running Tasks On One Server](#running-tasks-on-one-server)
     - [Maintenance Mode](#maintenance-mode)
@@ -172,6 +173,17 @@ The `skip` method may be seen as the inverse of `when`. If the `skip` method ret
 
 When using chained `when` methods, the scheduled command will only execute if all `when` conditions return `true`.
 
+<a name="timezones"></a>
+### Timezones
+
+Using the `timezone` method, you may specify that a scheduled task's time should be interpreted within a given timezone:
+
+    $schedule->command('report:generate')
+             ->timezone('America/New_York')
+             ->at('02:00')
+
+> {note} Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
+
 <a name="preventing-task-overlaps"></a>
 ### Preventing Task Overlaps
 
@@ -228,7 +240,7 @@ Using the `emailOutputTo` method, you may e-mail the output to an e-mail address
              ->sendOutputTo($filePath)
              ->emailOutputTo('foo@example.com');
 
-> {note} The `emailOutputTo`, `sendOutputTo` and `appendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
+> {note} The `emailOutputTo`, `sendOutputTo` and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
 
 <a name="task-hooks"></a>
 ## Task Hooks

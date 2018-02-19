@@ -579,13 +579,13 @@ To better understand when you may want to use the `toOthers` method, let's imagi
             this.tasks.push(response.data);
         });
 
-However, remember that we also broadcast the task's creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast.
+However, remember that we also broadcast the task's creation. If your JavaScript application is listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the `toOthers` method to instruct the broadcaster to not broadcast the event to the current user.
 
-그러나, 할일이 생성되었음을 브로드캐스트도 한다는 것을 기억하세요. 만약 자바스크립트 애플리케이션이 할일 목록에 새 할일을 추가하기 위해 이 이벤트를 수신하고 있다면 하나는 엔드 포인트를 통해, 다른 하나는 브로드캐스트를 통해 할일 목록에 할일이 중복으로 생성될 것입니다.
+그러나, 할일이 생성되었음을 브로드캐스트도 한다는 것을 기억하세요. 만약 자바스크립트 애플리케이션이 할일 목록에 새 할일을 추가하기 위해 이 이벤트를 수신하고 있다면 하나는 엔드 포인트를 통해, 다른 하나는 브로드캐스트를 통해 할일 목록에 할일이 중복으로 생성될 것입니다. 현재 사용자에게는 이벤트를 브로드캐스트 하지 않도록 브로드캐스터에 지시하기 위해 `toOthers` 메소드를 사용함으로써 이러한 문제를 해결할 수 있습니다.
 
-You may solve this by using the `toOthers` method to instruct the broadcaster to not broadcast the event to the current user.
+> {note} Your event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
 
-현재 사용자에게는 이벤트를 브로드캐스트 하지 않도록 브로드캐스터에 지시하기 위해 `toOthers` 메소드를 사용함으로써 이러한 문제를 해결할 수 있습니다.
+> {note} `toOthers` 메서드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
 
 #### Configuration
 #### 설정

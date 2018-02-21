@@ -817,6 +817,12 @@ If you would like to remove a global scope for a given query, you may use the `w
 
     User::withoutGlobalScope(AgeScope::class)->get();
 
+Or, if you defined the global scope using a Closure:
+
+혹은, closure를 이용하여 글로벌 스코프를 정의할 수 있습니다:
+
+    User::withoutGlobalScope('age')->get();
+
 If you would like to remove several or even all of the global scopes, you may use the `withoutGlobalScopes` method:
 
 몇몇 또는 모든 글로벌 스코프를 제거하고자 한다면, 다음처럼 `withoutGlobalScopes` 메소드를 사용할 수 있습니다:

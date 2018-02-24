@@ -34,7 +34,7 @@ Laravel provides several helpers to assist you in generating URLs for your appli
 
 The `url` helper may be used to generate arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
 
-`url` 헬퍼는 어플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request 에서 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
+`url` 헬퍼는 어플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request의 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
 
     $post = App\Post::find(1);
 
@@ -73,7 +73,7 @@ Each of these methods may also be accessed via the `URL` [facade](/docs/{{versio
 
 The `route` helper may be used to generate URLs to named routes. Named routes allow you to generate URLs without being coupled to the actual URL defined on the route. Therefore, if the route's URL changes, no changes need to be made to your `route` function calls. For example, imagine your application contains a route defined like the following:
 
-`route` 헬퍼함수는 이름이 지정된 라우트에 대한 URL을 생성하는데 사용할 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 어플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
+`route` 헬퍼 함수는 이름이 지정된 라우트에 대한 URL을 생성하는데 사용할 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 어플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
 
     Route::get('/post/{post}', function () {
         //
@@ -81,7 +81,7 @@ The `route` helper may be used to generate URLs to named routes. Named routes al
 
 To generate a URL to this route, you may use the `route` helper like so:
 
-이 라우에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다:
+이 라우트에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다:
 
     echo route('post.show', ['post' => 1]);
 
@@ -89,7 +89,7 @@ To generate a URL to this route, you may use the `route` helper like so:
 
 You will often be generating URLs using the primary key of [Eloquent models](/docs/{{version}}/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's primary key:
 
-또한 자주 [Eloquent 모델](/docs/{{version}}/eloquent)의 기본 키를 사용하여 URL을 생합니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수 있습니다. `route` 헬퍼 함수는 자동으로 모델의 기본 키를 추출하여 사용합니다:
+여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 기본 키를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 기본 키를 추출하여 사용합니다:
 
     echo route('post.show', ['post' => $post]);
 
@@ -99,7 +99,7 @@ You will often be generating URLs using the primary key of [Eloquent models](/do
 
 The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
-`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달할 필요는 없습니다. 대신에 `App\Http\Controllers` 네임스페이스로 부터 시작하는 컨트롤러 클래스 이름을 전달하십시오:
+`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달할 필요는 없습니다. 대신에 `App\Http\Controllers` 네임스페이스로부터 시작하는 컨트롤러 클래스 이름을 전달하십시오:
 
     $url = action('HomeController@index');
 

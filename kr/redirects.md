@@ -24,7 +24,7 @@ Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class
 
 Sometimes you may wish to redirect the user to their previous location, such as when a submitted form is invalid. You may do so by using the global `back` helper function. Since this feature utilizes the [session](/docs/{{version}}/session), make sure the route calling the `back` function is using the `web` middleware group or has all of the session middleware applied:
 
-때때로, 전송된 form 양식이 유효하지 않은 경우와 같이 사용자를 이전 위치로 리다이렉트 시키고자 할 수 있습니다. 글로벌 `back` 헬퍼 함수를 사용하여 이렇게 할 수 있습니다. 이 기능은 [세션](/docs/{{version}}/session)을 사용하기 때문에 `back` 함수를 사용하는 라우트 호출은 `web` 미들웨어 그룹 안에 있거나 세션 미들웨어가 적용되어 있어야 합니다:
+때때로, 전송된 form 양식이 유효하지 않은 경우와 같이 사용자를 이전 위치로 리다이렉트 시키고자 할 수 있습니다. 글로벌 `back` 헬퍼 함수를 사용하여 그렇게 할 수 있습니다. 이 기능은 [세션](/docs/{{version}}/session)을 사용하기 때문에 `back` 함수를 사용하는 라우트 호출은 `web` 미들웨어 그룹 안에 있거나 세션 미들웨어가 적용되어 있어야 합니다:
 
     Route::post('user/profile', function () {
         // Validate the request...
@@ -63,7 +63,7 @@ Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트�
 
 If you would like to customize the value that is placed in the route parameter, you should override the `getRouteKey` method on your Eloquent model:
 
-만약 라우트 파라미터에 저장되는 값을 커스터마이징 하려면, Eloquent 모델의 `getRouteKey` 메소드를 오버라이드해야합니다:
+만약 라우트 파라미터에 위치한 값을 커스터마이징 하려면, Eloquent 모델의 `getRouteKey` 메소드를 오버라이드해야합니다:
 
     /**
      * Get the value of the model's route key.

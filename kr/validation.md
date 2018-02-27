@@ -552,7 +552,7 @@ In most cases, you will probably specify your custom messages in a language file
 
 If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
 유효성 검사 메세지의 `:attribute` 부분을 사용자 정의 속성 이름으로 교체하려면 `resources/lang/xx/validation.php`언어 파일의 `attributes` 배열에 사용자 정의 이름을 지정하면 됩니다:
- 
+
     'attributes' => [
         'email' => 'email address',
     ],

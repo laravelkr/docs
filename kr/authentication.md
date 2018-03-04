@@ -126,7 +126,7 @@ Now that you have routes and views setup for the included authentication control
 이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 어플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다! 기존 사용자를 인증하거나 새로운 사용자를 데이터베이스에 저장하는 (트레이트-trait를 통한) 로직은 이미 인증 컨트롤러에 포함되어 있으므로, 브라우저로 여러분의 어플리케이션에 접근하기만 하면 됩니다.
 
 #### Path Customization
-#### 경로 수정하기
+#### 리다이렉트 경로 수정하기
 
 When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect location by defining a `redirectTo` property on the `LoginController`, `RegisterController`, and `ResetPasswordController`:
 
@@ -134,8 +134,11 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
     protected $redirectTo = '/';
 
-If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
+Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` method to use your new URI when redirecting the user.
 
+그리고, 사용자가 리다이렉팅 될 때 사용하는 새로운 URI를 사용하도록 `RedirectIfAuthenticated` 미들웨어의 `handle` 메소드를 수정해야 합니다.
+
+If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
 
 리다이렉트 경로가 커스텀 생성 로직을 필요로 한다면 `redirectTo` 속성 대신 `redirectTo` 메소드를 정의할 수 있습니다 :
 
@@ -265,6 +268,26 @@ Of course, if you are using [controllers](/docs/{{version}}/controllers), you ma
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+#### Redirecting Unauthenticated Users
+#### 인증되지 않는 사용자 리다이렉팅하기
+
+When the `auth` middleware detects an unauthorized user, it will either return a JSON `401` response, or, if the request was not an AJAX request, redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes).
+
+사용자가 인증되지 않은 경우, `auth` 미들웨어에서 JSON `401` 응답-response를 반환하거나, AJAX 요청-request가 아닌경우 라면 `login` [이라는 이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) 으로 리다이렉트 됩니다.
+
+You may modify this behavior by defining an `unauthenticated` function in your `app/Exceptions/Handler.php` file:
+
+`app/Exceptions/Handler.php` 파일의 `unauthenticated` 함수를 정의하여 인증되지 않는 사용자처리 로직을 수정할 수 있습니다:
+
+    use Illuminate\Auth\AuthenticationException;
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+                    ? response()->json(['message' => $exception->getMessage()], 401)
+                    : redirect()->guest(route('login'));
     }
 
 #### Specifying A Guard

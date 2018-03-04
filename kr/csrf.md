@@ -18,7 +18,7 @@ Laravel makes it easy to protect your application from [cross-site request forge
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
 
-라라벨은 애플리케이션에 의해 관리되는 모든 활성화된 유저 세션마다 CSRF "토큰"을 자동으로 만듭니다. 이 토큰은 승인된 사용자가 애플리케이션에 요청을 할 수 있는 유일한 사람임을 확인하는데 사용됩니다.
+라라벨은 애플리케이션에 의해 관리되는 모든 활성화된 유저 세션마다 CSRF "토큰"을 자동으로 만듭니다. 이 토큰은 인증된 사용자가 애플리케이션에 요청을 할 수 있는 유일한 사람임을 확인하는데 사용됩니다.
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 

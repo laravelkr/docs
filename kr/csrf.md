@@ -72,6 +72,10 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
         ];
     }
 
+> {tip} The CSRF middleware is automatically disabled when [running tests](/docs/{{version}}/testing).
+
+> {tip} [테스트 실행](/docs/{{version}}/testing) 중에는, CSRF 미들웨어가 자동으로 비활성화 됩니다.
+
 <a name="csrf-x-csrf-token"></a>
 ## X-CSRF-TOKEN
 ## X-CSRF-TOKEN

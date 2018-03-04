@@ -84,7 +84,7 @@ POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하�
 
 Then, once you have created the `meta` tag, you can instruct a library like jQuery to automatically add the token to all request headers. This provides simple, convenient CSRF protection for your AJAX based applications:
 
-그리고나서, `meta` 태그를 만들고나면, jQeury와 같은 라이브러리를 사용하여 자동적으로 모든 헤더에 토큰을 추가할 수 있스빈다. 이러한 방식은 AJAX 기반 애플리케이션을 위한 간단하고 편리한 CSRF 보호 방법을 제공해줍니다.
+그리고나서, `meta` 태그를 만들고나면, jQeury와 같은 라이브러리를 사용하여 자동적으로 모든 헤더에 토큰을 추가할 수 있습니다. 이러한 방식은 AJAX 기반 애플리케이션을 위한 간단하고 편리한 CSRF 보호 방법을 제공해줍니다.
 
     $.ajaxSetup({
         headers: {

@@ -188,7 +188,7 @@ Sometimes you may need to pass additional data to a component. For this reason, 
 
 If your Blade components are stored in a sub-directory, you may wish to alias them for easier access. For example, imagine a Blade component that is stored at `resources/views/components/alert.blade.php`. You may use the `component` method to alias the component from `components.alert` to `alert`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
 
-블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 라는 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다.
+블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다:
 
     use Illuminate\Support\Facades\Blade;
 
@@ -275,7 +275,7 @@ However, instead of manually calling `json_encode`, you may use the `@json` Blad
 
 By default, Blade (and the Laravel `e` helper) will double encode HTML entities. If you would like to disable double encoding, call the `Blade::withoutDoubleEncoding` method from the `boot` method of your `AppServiceProvider`:
 
-기본적으로, 블레이드 (그리고 라라벨의 `e` 헬퍼)는 HTML 요소를 두번 인코딩을 합니다. 이중 인코딩을 비활성화 하고 싶을 때에는, `AppServiceProvider` 의 `boot` 메소드 안에 `Blade::withoutDoubleEncoding` 메소드를 호출하세요.
+기본적으로, 블레이드 (그리고 라라벨의 `e` 헬퍼)는 HTML 요소를 두번 인코딩을 합니다. 이중 인코딩을 비활성화 하고 싶을 때에는, `AppServiceProvider` 의 `boot` 메소드 안에 `Blade::withoutDoubleEncoding` 메소드를 호출하면 됩니다:
 
     <?php
 

@@ -34,7 +34,7 @@
     - [With Credit Card Up Front](#with-credit-card-up-front)
     - [신용카드 사전 등록](#with-credit-card-up-front)
     - [Without Credit Card Up Front](#without-credit-card-up-front)
-    - [신용카드 없이 가전 등록](#without-credit-card-up-front)
+    - [신용카드 없이 사전 등록](#without-credit-card-up-front)
 - [Handling Stripe Webhooks](#handling-stripe-webhooks)
 - [Stripe webook 처리하기](#handling-stripe-webhooks)
     - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)

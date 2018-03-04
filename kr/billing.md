@@ -167,9 +167,11 @@ First, add the Cashier package for Braintree to your dependencies:
 #### Service Provider
 #### 서비스 프로바이더
 
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file.
+Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file:
 
-다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다.
+다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다:
+
+    Laravel\Cashier\CashierServiceProvider::class
 
 #### Plan Credit Coupon
 #### Plan Credit 쿠폰
@@ -649,6 +651,15 @@ Cashier automatically handles subscription cancellation on failed charges, but i
         }
     }
 
+Next, define a route to your Cashier controller within your `routes/web.php` file:
+
+다음으로 `routes/web.php` 파일에서 캐셔 컨트롤러에 대한 라우트를 정의하십시오:
+
+    Route::post(
+        'stripe/webhook',
+        '\App\Http\Controllers\WebhookController@handleWebhook'
+    );
+
 <a name="handling-failed-subscriptions"></a>
 ### Failed Subscriptions
 ### 실패한 정기구독
@@ -803,6 +814,15 @@ The invoice will be charged immediately against the user's credit card. The `inv
     $user->invoiceFor('One Time Fee', 500, [
         'custom-option' => $value,
     ]);
+
+If you are using Braintree as your billing provider, you must include a `description` option when calling the `invoiceFor` method:
+
+Braintree 를 결제에 사용한다면, `invoiceFor` 메소드를 호출할 때 `description` 옵션을 반드시 포함시켜야 합니다:
+
+    $user->invoiceFor('One Time Fee', 500, [
+        'description' => 'your invoice description here',
+    ]);
+
 
 > {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
 

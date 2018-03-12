@@ -548,7 +548,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
 
 > {tip} If you are using AWS Elastic Load Balancing, your `$headers` value should be `Request::HEADER_X_FORWARDED_AWS_ELB`. For more information on the constants that may be used in the `$headers` property, check out Symfony's documentation on [trusting proxies](http://symfony.com/doc/current/deployment/proxies.html).
 
-> {tip} 만약 여러분이 AWS Elastic 로드 발란싱을 사용하고 있다면, 여러분의 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB`이 되어야 합니다. `$headers`에 사용될 수 있는 상수에 대한 다른 정보는, Symfony 문서의 [trusting proxies](http://symfony.com/doc/current/deployment/proxies.html)를 참고하십시오.
+> {팁} 만약 여러분이 AWS Elastic 로드 발란싱을 사용하고 있다면, 여러분의 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB`이 되어야 합니다. `$headers`에 사용될 수 있는 상수에 대한 다른 정보는, Symfony 문서의 [trusting proxies](http://symfony.com/doc/current/deployment/proxies.html)를 참고하십시오.
 
 #### Trusting All Proxies
 #### 모든 프록시 신뢰하기

@@ -551,8 +551,11 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
 > {tip} 만약 여러분이 AWS Elastic 로드 발란싱을 사용하고 있다면, 여러분의 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB`이 되어야 합니다. `$headers`에 사용될 수 있는 상수에 대한 다른 정보는, Symfony 문서의 [trusting proxies](http://symfony.com/doc/current/deployment/proxies.html)를 참고하십시오.
 
 #### Trusting All Proxies
+#### 모든 프록시 신뢰하기
 
 If you are using Amazon AWS or another "cloud" load balancer provider, you may not know the IP addresses of your actual balancers. In this case, you may use `**` to trust all proxies:
+
+아마존 AWS 또는 다른 "클라우드" 로드밸런서를 사용하는 경우에는, 실제 로드밸런서의 IP를 알 수가 없습니다. 이 경우, 모든 프록시를 신뢰할 수 있도록 하기 위해서 `**` 를 사용할 수 있습니다:
 
     /**
      * The trusted proxies for this application.

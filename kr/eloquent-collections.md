@@ -6,7 +6,7 @@
 - [Available Methods](#available-methods)
 - [사용 가능한 메소드들](#available-methods)
 - [Custom Collections](#custom-collections)
-- [사용자 지정 Collections](#custom-collections)
+- [커스텀-사용자 정의 Collections](#custom-collections)
 
 <a name="introduction"></a>
 ## Introduction
@@ -20,7 +20,7 @@ Of course, all collections also serve as iterators, allowing you to loop over th
 
 또한 당연하게도, 모든 컬렉션은 Iterators(반복자)이기 때문에, 간단한 PHP 배열과 같이 반복문 안에서 사용할 수도 있습니다: 
 
-    $users = App\User::where('active', 1)->get();
+    $users = App\User::all();
 
     foreach ($users as $user) {
         echo $user->name;
@@ -157,7 +157,7 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
 
 <a name="custom-collections"></a>
 ## Custom Collections
-## 사용자 정의 컬렉션
+## 커스텀-사용자 정의 컬렉션
 
 If you need to use a custom `Collection` object with your own extension methods, you may override the `newCollection` method on your model:
 

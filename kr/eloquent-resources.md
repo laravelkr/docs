@@ -34,9 +34,9 @@ API 를 작성할 때, 어플리케이션의 사용자에게 Eloquent 모델을 
 ## Generating Resources
 ## 리소스 클래스 생성하기
 
-To generate a resource class, you may use the `make:resource` Artisan command. By default, resources will be placed in the `app/Http/Resources` directory of your application. Resources extend the `Illuminate\Http\Resources\Json\Resource` class:
+To generate a resource class, you may use the `make:resource` Artisan command. By default, resources will be placed in the `app/Http/Resources` directory of your application. Resources extend the `Illuminate\Http\Resources\Json\JsonResource` class:
 
-리소스 클래스를 생성하기 위해서는 `make:resource` 아티즌 명령어를 사용하면 됩니다. 기본적으로 리소스 클래스는 어플리케이션의 `app/Http/Resources` 디렉토리에 생성됩니다. 모든 리소스 클래스는 `Illuminate\Http\Resources\Json\Resource` 클래스를 상속받습니다:
+리소스 클래스를 생성하기 위해서는 `make:resource` 아티즌 명령어를 사용하면 됩니다. 기본적으로 리소스 클래스는 어플리케이션의 `app/Http/Resources` 디렉토리에 생성됩니다. 모든 리소스 클래스는 `Illuminate\Http\Resources\Json\JsonResource` 클래스를 상속받습니다:
 
     php artisan make:resource UserResource
 
@@ -71,9 +71,9 @@ Before diving into all of the options available to you when writing resources, l
 
     namespace App\Http\Resources;
 
-    use Illuminate\Http\Resources\Json\Resource;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends Resource
+    class UserResource extends JsonResource
     {
         /**
          * Transform the resource into an array.
@@ -180,9 +180,9 @@ In essence, resources are simple. They only need to transform a given model into
 
     namespace App\Http\Resources;
 
-    use Illuminate\Http\Resources\Json\Resource;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends Resource
+    class UserResource extends JsonResource
     {
         /**
          * Transform the resource into an array.
@@ -232,7 +232,7 @@ If you would like to include related resources in your response, you may add the
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'posts' => Post::collection($this->posts),
+            'posts' => PostResource::collection($this->posts),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -728,9 +728,9 @@ Alternatively, you may define a `withResponse` method within the resource itself
 
     namespace App\Http\Resources;
 
-    use Illuminate\Http\Resources\Json\Resource;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends Resource
+    class UserResource extends JsonResource
     {
         /**
          * Transform the resource into an array.

@@ -538,6 +538,16 @@ This method will set the trial period ending date on the subscription record wit
 
 > {note} 트라이얼 기간 종료 이전에 고객이 구독을 취소하지 않으면 트라이얼 기간이 만료되는 즉시 요금이 부과되므로, 트라이얼의 종료일을 사용자에게 공지해야합니다.
 
+The `trialUntil` method allows you to provide a `DateTime` instance to specify when the trial period should end:
+
+`trialUntil` 메소드는 트라이얼 기간이 언제 종료되어야 하는지 지정하는 `DateTime` 인스턴스를 인자로 전달받습니다:
+
+    use Carbon\Carbon;
+
+    $user->newSubscription('main', 'monthly')
+                ->trialUntil(Carbon::now()->addDays(10))
+                ->create($stripeToken);
+
 You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
 
 사용자가 현재 트라이얼 기간 안에 있는지 확인하려면, 사용자 인스턴스에서 `onTrial` 메소드를 사용하거나, 구독 인스턴스에서 `onTrial` 메소드를 사용하면 됩니다. 다음의 두 예제는 동일합니다:

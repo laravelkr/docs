@@ -146,17 +146,19 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 #### Socket.IO
 #### Socket.IO
 
-If you are going to pair the Redis broadcaster with a Socket.IO server, you will need to include the Socket.IO JavaScript client library in your application's `head` HTML element. When the Socket.IO server is started, it will automatically expose the client JavaScript library at a standard URL. For example, if you are running the Socket.IO server on the same domain as your web application, you may access the client library like so:
+If you are going to pair the Redis broadcaster with a Socket.IO server, you will need to include the Socket.IO JavaScript client library in your application. You may install it via the NPM package manager:
 
-만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션의 `head`에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. Socket.IO 서버가 구동되면 자동으로 자바스크립트 라이브러리와 기본 URL을 가지게 됩니다. 예를 들어 Socket.IO서버가 웹 어플리케이션과 동일한 도메인을 가진다면, 클라이언트 라이브러리는 다음과 같이 엑세스 할 수 있습니다:
+만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. 이 라이브러리는 NPM 패키지 매니저를 사용해서 설치할 수 있습니다:
 
-    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+    npm install --save socket.io-client
 
 Next, you will need to instantiate Echo with the `socket.io` connector and a `host`.
 
 그리고나서, `socket.io` 커넥터와 `host`로 Echo를 초기화 시켜야 합니다.
 
     import Echo from "laravel-echo"
+
+    window.io = require('socket.io-client');
 
     window.Echo = new Echo({
         broadcaster: 'socket.io',

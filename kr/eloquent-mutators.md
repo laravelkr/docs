@@ -128,7 +128,7 @@ In this example, the `setFirstNameAttribute` function will be called with the va
 
 By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class to provide an assortment of helpful methods. You may customize which dates are automatically mutated, and even completely disable this mutation, by overriding the `$dates` property of your model:
 
-기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 유용한 메소드 모음을 가지고 있으며,  PHP `DateTime` 클래스의 확장인 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 사용자 정의 모델의 `$dates` 메소드를 재정의 하여 날짜가 자동으로 바뀌도록 활성화 또는 비활성화 할 수 있습니다.
+기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 가지고 있습니다. 이 컬럼은 유용한 메소드를 가지고 있으며,  PHP `DateTime` 클래스의 확장이기도한 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 사용자 정의 모델의 `$dates` 메소드를 재정의 하여 날짜가 자동으로 바뀌도록 활성화 또는 비활성화 할 수 있습니다.
 
     <?php
 

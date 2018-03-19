@@ -52,13 +52,15 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 ### Serializing To JSON
 ### JSON으로 Serializaing
 
-To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON:
+To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify JSON encoding options [supported by PHP](http://php.net/manual/en/function.json-encode.php):
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 와 같이 `toJson` 메소드는 재귀적이므로, 모든 속성과 관계 모델들은 JSON으로 변환될 것입니다:
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](http://php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
 
     $user = App\User::find(1);
 
     return $user->toJson();
+
+    return $user->toJson(JSON_PRETTY_PRINT);
 
 Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method on the model or collection:
 

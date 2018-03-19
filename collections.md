@@ -163,6 +163,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [whereStrict](#method-wherestrict)
 [whereIn](#method-wherein)
 [whereInStrict](#method-whereinstrict)
+[whereInstanceOf](#method-whereinstanceof)
 [whereNotIn](#method-wherenotin)
 [whereNotInStrict](#method-wherenotinstrict)
 [wrap](#method-wrap)
@@ -2020,6 +2021,19 @@ The `whereIn` method uses "loose" comparisons when checking item values, meaning
 
 This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "strict" comparisons.
 
+<a name="method-whereinstanceof"></a>
+#### `whereInstanceOf()` {#collection-method}
+
+The `whereInstanceOf` method filters the collection by a given class type:
+
+    $collection = collect([
+        new User,
+        new User,
+        new Post,
+    ]);
+
+    return $collection->whereInstanceOf(User::class);
+
 <a name="method-wherenotin"></a>
 #### `whereNotIn()` {#collection-method}
 
@@ -2089,7 +2103,7 @@ The `zip` method merges together the values of the given array with the values o
 <a name="higher-order-messages"></a>
 ## Higher Order Messages
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum`, and `unique`.
+Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `max`, `min`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum`, and `unique`.
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 

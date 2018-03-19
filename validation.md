@@ -509,8 +509,9 @@ Below is a list of all available validation rules and their function:
 [MIME Types](#rule-mimetypes)
 [MIME Type By File Extension](#rule-mimes)
 [Min](#rule-min)
-[Nullable](#rule-nullable)
 [Not In](#rule-not-in)
+[Not Regex](#rule-not-regex)
+[Nullable](#rule-nullable)
 [Numeric](#rule-numeric)
 [Present](#rule-present)
 [Regular Expression](#rule-regex)
@@ -786,11 +787,6 @@ A full listing of MIME types and their corresponding extensions may be found at 
 
 The field under validation must have a minimum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-<a name="rule-nullable"></a>
-#### nullable
-
-The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
-
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 
@@ -804,6 +800,18 @@ The field under validation must not be included in the given list of values. The
             Rule::notIn(['sprinkles', 'cherries']),
         ],
     ]);
+
+<a name="rule-not-regex"></a>
+#### not_regex:_pattern_
+
+The field under validation must not match the given regular expression.
+
+**Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+
+<a name="rule-nullable"></a>
+#### nullable
+
+The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
 
 <a name="rule-numeric"></a>
 #### numeric
@@ -820,7 +828,7 @@ The field under validation must be present in the input data but can be empty.
 
 The field under validation must match the given regular expression.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+**Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
 
 <a name="rule-required"></a>
 #### required

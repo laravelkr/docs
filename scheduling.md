@@ -82,6 +82,9 @@ The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues
 
     $schedule->job(new Heartbeat)->everyFiveMinutes();
 
+    // Dispatch the job to the "heartbeats" queue...
+    $schedule->job(new Heartbeat, 'heartbeats')->everyFiveMinutes();
+
 <a name="scheduling-shell-commands"></a>
 ### Scheduling Shell Commands
 

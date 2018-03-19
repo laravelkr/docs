@@ -55,7 +55,7 @@ However, you may extend Valet with your own [custom drivers](#custom-valet-drive
 
 As you may know, Laravel offers [Homestead](/docs/{{version}}/homestead), another local Laravel development environment. Homestead and Valet differ in regards to their intended audience and their approach to local development. Homestead offers an entire Ubuntu virtual machine with automated Nginx configuration. Homestead is a wonderful choice if you want a fully virtualized Linux development environment or are on Windows / Linux.
 
-Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](http://brew.sh/) with commands like `brew install php72` and `brew install mysql`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
+Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](http://brew.sh/) with commands like `brew install php` and `brew install mysql`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
 
 Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
@@ -66,7 +66,7 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 
 <div class="content-list" markdown="1">
 - Install or update [Homebrew](http://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.2 using Homebrew via `brew install homebrew/php/php72`.
+- Install PHP 7.2 using Homebrew via `brew install homebrew/php/php`.
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 </div>
@@ -175,7 +175,7 @@ Let's take a look at a sample implementation of each method your custom Valet dr
 
 The `serves` method should return `true` if your driver should handle the incoming request. Otherwise, the method should return `false`. So, within this method you should attempt to determine if the given `$sitePath` contains a project of the type you are trying to serve.
 
-For example, let's pretend we are writing a `WordPressValetDriver`. Our serve method might look something like this:
+For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves` method might look something like this:
 
     /**
      * Determine if the driver serves the request.

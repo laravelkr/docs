@@ -61,6 +61,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Mailhog
 - Elasticsearch (Optional)
 - ngrok
+- wp-cli
 </div>
 
 <a name="installation-and-setup"></a>
@@ -96,7 +97,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.1.2
+    git checkout v7.3.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -214,7 +215,7 @@ If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option 
 <a name="installing-elasticsearch"></a>
 ### Installing Elasticsearch
 
-To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml` file and specify a supported version. The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation:
+To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml` file and specify a supported version, which may be a major version or an exact version number (major.minor.patch). The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation:
 
     box: laravel/homestead
     ip: "192.168.10.10"

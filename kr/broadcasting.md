@@ -61,12 +61,15 @@
 ## 소개하기
 
 In many modern web applications, WebSockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a WebSocket connection to be handled by the client. This provides a more robust, efficient alternative to continually polling your application for changes.
+
 많은 현대적인 웹 어플리케이션들은 웹 소캣을 이용하여 실시간 어플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 웹 소캣 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 웹 소켓은 당신의 애플리케이션의 변화를 지속적으로 폴링하는 더 강력하고 효과적인 대안을 제공합니다.
 
 To assist you in building these types of applications, Laravel makes it easy to "broadcast" your [events](/docs/{{version}}/events) over a WebSocket connection. Broadcasting your Laravel events allows you to share the same event names between your server-side code and your client-side JavaScript application.
+
 이러한 류의 애플리케이션을 만드는걸 돕기 위해, 라라벨은 당신의 이벤트를 웹소켓 너머로 "브로드캐스트"하기 쉽게 만들었습니다. 라라벨 이벤트를 브로드캐스트하면 여러분의 서버 쪽 코드와 클라이언트 쪽 자바스크립트 프레임워크가 같은 이벤트 이름을 공유할 수 있습니다.
 
 > {tip} Before diving into event broadcasting, make sure you have read all of the documentation regarding Laravel [events and listeners](/docs/{{version}}/events).
+
 > {tip} 브로드캐스팅에 대해 더 알아보기 전에, 라라벨 [이벤트와 리스너](/docs/{{version}}/events)를 읽으세요.
 
 <a name="configuration"></a>
@@ -74,12 +77,14 @@ To assist you in building these types of applications, Laravel makes it easy to 
 ### 설정하기
 
 All of your application's event broadcasting configuration is stored in the `config/broadcasting.php` configuration file. Laravel supports several broadcast drivers out of the box: [Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), and a `log` driver for local development and debugging. Additionally, a `null` driver is included which allows you to totally disable broadcasting. A configuration example is included for each of these drivers in the `config/broadcasting.php` configuration file.
+
 모든 이벤트 브로드캐스팅 설정 옵션은 config/broadcasting.php 의 설정 파일에 저장되어 있습니다. 라라벨은 기본적으로 여러가지의 브로드캐스트 드라이버([Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), 그리고 디버깅 용도의 `log` 드라이버)를 지원합니다. 추가적으로 전체적으로 브로드캐스팅을 끌 수 있도록 해주는 `null` 드라이버도 제공됩니다. 각각의 드라이버의 설정 예제는 `config/broadcasting.php` 설정 파일에 있습니다.
 
 #### Broadcast Service Provider
 #### 브로드캐스트 서비스 프로바이더
 
 Before broadcasting any events, you will first need to register the `App\Providers\BroadcastServiceProvider`. In fresh Laravel applications, you only need to uncomment this provider in the `providers` array of your `config/app.php` configuration file. This provider will allow you to register the broadcast authorization routes and callbacks.
+
 어떤 이벤트던 브로드캐스팅하려면 그 전에, `App\Providers\BroadcastServiceProvider`를 등록해야 합니다. 최신 라라벨 애플리케이션에서는, `config/app.php` 설정 파일에 있는 `providers` 배열에서 이 프로바이더의 주석을 해제 해주기만 하면 됩니다. 이 프로바이더는 브로드캐스트 인증 라우트와 콜백을 등록할 수 있게 해줍니다.
 
 #### CSRF Token
@@ -107,7 +112,7 @@ If you are broadcasting your events over [Pusher](https://pusher.com), you shoul
 Next, you should configure your Pusher credentials in the `config/broadcasting.php` configuration file. An example Pusher configuration is already included in this file, allowing you to quickly specify your Pusher key, secret, and application ID. The `config/broadcasting.php` file's `pusher` configuration also allows you to specify additional `options` that are supported by Pusher, such as the cluster:
 
 다음으로, `config/broadcasting.php` 설정 파일에서 Puhser 암호를 설정해야 합니다. Pusher key, 비밀번호, 그리고 애플리케이션 ID를  빠르게 설정할 수 있도록 Puhser 설정 예제가 이미 이 파일에 포함되어 있습니다. `config/broadcasting.php` 파일의 `pusher` 설정을 이용하면, cluster와 같은 Pusher 에서 지원하는 추가적인 `options`을 지정할 수 있습니다.
- 
+
     'options' => [
         'cluster' => 'eu',
         'encrypted' => true
@@ -232,7 +237,7 @@ When a user is viewing one of their orders, we don't want them to have to refres
 
 The `ShouldBroadcast` interface requires our event to define a `broadcastOn` method. This method is responsible for returning the channels that the event should broadcast on. An empty stub of this method is already defined on generated event classes, so we only need to fill in its details. We only want the creator of the order to be able to view status updates, so we will broadcast the event on a private channel that is tied to the order:
 
-`ShouldBroadcast` 인터페이스는 `broadcastOn` 메소드를 정의하기 위해서 이벤트를 필요로 합니다. 이 메소드는 이벤트가 전송되어야 할 채널을 돌려주는 역할을 합니다. 생성된 이벤트 클래스에 비어있는 메소드가 이미 정의되어 있기 때문에, 구체적인 내용만 채워넣으면 됩니다. 우리는 주문을 생성한 사람들만이 갱신된 상태를 볼 수 있도록 하고 싶으므로, 이 주문과 관련된 채널들에만 비공개적으로 이벤트를 전송할 것입니다.  
+`ShouldBroadcast` 인터페이스는 `broadcastOn` 메소드를 정의하기 위해서 이벤트를 필요로 합니다. 이 메소드는 이벤트가 전송되어야 할 채널을 돌려주는 역할을 합니다. 생성된 이벤트 클래스에 비어있는 메소드가 이미 정의되어 있기 때문에, 구체적인 내용만 채워넣으면 됩니다. 우리는 주문을 생성한 사람들만이 갱신된 상태를 볼 수 있도록 하고 싶으므로, 이 주문과 관련된 채널들에만 비공개적으로 이벤트를 전송할 것입니다.
 
     /**
      * Get the channels the event should broadcast on.
@@ -257,7 +262,7 @@ Remember, users must be authorized to listen on private channels. We may define 
 
 The `channel` method accepts two arguments: the name of the channel and a callback which returns `true` or `false` indicating whether the user is authorized to listen on the channel.
 
-`channel` 메소드는 두 개의 인자(채널명과 사용자가 채널을 들을 수 있도록 인증되었는지를 나타내는 `true` 혹은 `false`를 되돌려주는 콜백)를 받습니다.  
+`channel` 메소드는 두 개의 인자(채널명과 사용자가 채널을 들을 수 있도록 인증되었는지를 나타내는 `true` 혹은 `false`를 되돌려주는 콜백)를 받습니다.
 
 All authorization callbacks receive the currently authenticated user as their first argument and any additional wildcard parameters as their subsequent arguments. In this example, we are using the `{orderId}` placeholder to indicate that the "ID" portion of the channel name is a wildcard.
 
@@ -336,7 +341,7 @@ Then, you only need to [fire the event](/docs/{{version}}/events) as you normall
 By default, Laravel will broadcast the event using the event's class name. However, you may customize the broadcast name by defining a `broadcastAs` method on the event:
 
 기본적으로, 라라벨은 이벤트의 클래스 이름을 사용하여 이벤트를 브로드캐스팅 합니다. 그렇지만 이벤트에 `broadcastAs` 메소드를 정의하여 브로드캐스트 이름을 변경할 수 있습니다:
-  
+
     /**
      * The event's broadcast name.
      *
@@ -349,7 +354,7 @@ By default, Laravel will broadcast the event using the event's class name. Howev
 
 If you customize the broadcast name using the `broadcastAs` method, you should make sure to register your listener with a leading `.` character. This will instruct Echo to not prepend the application's namespace to the event:
 
-`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 어플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다. 
+`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 어플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다.
 
     .listen('.server.created', function (e) {
         ....
@@ -402,7 +407,7 @@ By default, each broadcast event is placed on the default queue for the default 
 
 If you want to broadcast your event using the `sync` queue instead of the default queue driver, you can implement the `ShouldBroadcastNow` interface instead of `ShouldBroadcast`:
 
-기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:  
+기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:
 
     <?php
 
@@ -418,7 +423,7 @@ If you want to broadcast your event using the `sync` queue instead of the defaul
 
 Sometimes you want to broadcast your event only if a given condition is true. You may define these conditions by adding a `broadcastWhen` method to your event class:
 
-때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메서드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다: 
+때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메서드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다:
 
     /**
      * Determine if this event should broadcast.
@@ -508,7 +513,7 @@ Next, register your channel in your `routes/channels.php` file:
 
 Finally, you may place the authorization logic for your channel in the channel class' `join` method. This `join` method will house the same logic you would have typically placed in your channel authorization Closure. Of course, you may also take advantage of channel model binding:
 
-마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 물론, 채널 모델 바인딩을 활용할 수도 있습니다: 
+마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 물론, 채널 모델 바인딩을 활용할 수도 있습니다:
 
     <?php
 
@@ -786,7 +791,7 @@ You may listen for the join event via Echo's `listen` method:
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen. To broadcast client events, you may use Echo's `whisper` method:
 
-때로는 라라벨 어플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:   
+때로는 라라벨 어플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:
 
     Echo.private('chat')
         .whisper('typing', {
@@ -795,7 +800,7 @@ Sometimes you may wish to broadcast an event to other connected clients without 
 
 To listen for client events, you may use the `listenForWhisper` method:
 
-클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다: 
+클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다:
 
     Echo.private('chat')
         .listenForWhisper('typing', (e) => {

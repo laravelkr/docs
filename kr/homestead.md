@@ -96,6 +96,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Mailhog
 - Elasticsearch (Optional)
 - ngrok
+- wp-cli
 
 <a name="installation-and-setup"></a>
 ## Installation & Setup
@@ -116,7 +117,7 @@ VMware 프로바이더를 사용하려면 VMware Fusion / Workstation 과 [VMwar
 To use the Parallels provider, you will need to install [Parallels Vagrant plug-in](https://github.com/Parallels/vagrant-parallels). It is free of charge.
 
 Parallels 프로바이더를 사용하려면, [Parallels Vagrant 플러그인](https://github.com/Parallels/vagrant-parallels)을 설치해야 합니다. 이는 무료입니다.
- 
+
 Because of [Vagrant limitations](https://www.vagrantup.com/docs/hyperv/limitations.html), The Hyper-V provider ignores all networking settings.
 
 [Vagrant 제한사항](https://www.vagrantup.com/docs/hyperv/limitations.html)으로 인해서, Hyper-V 프로바이더에서는 모든 네트워크 설정이 무시됩니다.
@@ -150,7 +151,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.1.2
+    git checkout v7.3.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -313,9 +314,9 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
 ### Installing Elasticsearch
 ### Elasticsearch 설치하기
 
-To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml` file and specify a supported version. The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation:
+To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml` file and specify a supported version, which may be a major version or an exact version number (major.minor.patch). The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead machine has at least twice the Elasticsearch allocation:
 
-Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵션을 추가하고 지원버전을 지정해야 합니다. 기본설치는 `homestead` 이름으로 클러스터가 생성됩니다. Elasticsearch 에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch 헬당한 것의 두배 이상의 메모리가 있는지 확인하십시오:
+Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵션을 추가하고 지원버전을 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본설치는 `homestead` 이름으로 클러스터가 생성됩니다. Elasticsearch 에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch 헬당한 것의 두배 이상의 메모리가 있는지 확인하십시오:
 
     box: laravel/homestead
     ip: "192.168.10.10"

@@ -290,7 +290,7 @@ The `serves` method should return `true` if your driver should handle the incomi
 
 `serves` 메소드는 드라이버가 유입된 요청을 처리해야 할 경우 `true`를 반환합니다. 그렇지 않은 경우는 `false`를 반환합니다. 따라서 이 메소드 안에서 여러분은 주어진 `$sitePath` 가 동작시키고자 하는 유형의 프로젝트인지 확인도록 해야합니다.
 
-For example, let's pretend we are writing a `WordPressValetDriver`. Our serve method might look something like this:
+For example, let's pretend we are writing a `WordPressValetDriver`. Our `serve` method might look something like this:
 
 예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. serve 메소드는 다음과 같을 것입니다:
 

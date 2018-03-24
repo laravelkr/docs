@@ -168,7 +168,7 @@ The following dependencies are needed for the listed queue drivers:
 
 By default, all of the queueable jobs for your application are stored in the `app/Jobs` directory. If the `app/Jobs` directory doesn't exist, it will be created when you run the `make:job` Artisan command. You may generate a new queued job using the Artisan CLI:
 
-기본적으로, 어플리케이션을 위한 모든 큐 Job들은 `app/Jobs` 디렉토리에 저장됩니다. `app/Jobs` 디렉토리가 존재하지 않는다면, `make:job` 아티즌 명령어를 실행할 때 생성됩니다. 새로운 큐 Job 클래스는 아티즌 CLI를 통해서 생성할 수 있습니다: 
+기본적으로, 어플리케이션을 위한 모든 큐 Job들은 `app/Jobs` 디렉토리에 저장됩니다. `app/Jobs` 디렉토리가 존재하지 않는다면, `make:job` 아티즌 명령어를 실행할 때 생성됩니다. 새로운 큐 Job 클래스는 아티즌 CLI를 통해서 생성할 수 있습니다:
 
     php artisan make:job ProcessPodcast
 
@@ -182,7 +182,7 @@ The generated class will implement the `Illuminate\Contracts\Queue\ShouldQueue` 
 
 Job classes are very simple, normally containing only a `handle` method which is called when the job is processed by the queue. To get started, let's take a look at an example job class. In this example, we'll pretend we manage a podcast publishing service and need to process the uploaded podcast files before they are published:
 
-Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 처리하기 위해서 호출되는 `handle` 메소드만을 가지고 있습니다. 시작에 앞서, 다음 Job 클래스의 예제를 살펴봅시다. 이 예제에서 우리는 팟캐스트 배포 서비스를 관리하고 업로드된 팟캐스트 파일을 배포하기 전 처리해야 된다고 가정하겠습니다: 
+Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 처리하기 위해서 호출되는 `handle` 메소드만을 가지고 있습니다. 시작에 앞서, 다음 Job 클래스의 예제를 살펴봅시다. 이 예제에서 우리는 팟캐스트 배포 서비스를 관리하고 업로드된 팟캐스트 파일을 배포하기 전 처리해야 된다고 가정하겠습니다:
 
     <?php
 
@@ -231,11 +231,11 @@ In this example, note that we were able to pass an [Eloquent model](/docs/{{vers
 
 The `handle` method is called when the job is processed by the queue. Note that we are able to type-hint dependencies on the `handle` method of the job. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
 
-큐에 의해서 Job이 처리될 때에는 `handle` 메소드가 호출 됩니다. Job 클래스의 `handle` 메소드에 의존 객체들이 타입-힌트 될 수 있다는 것에 주의하십시오. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 의존 객체들을 주입해 줍니다. 
+큐에 의해서 Job이 처리될 때에는 `handle` 메소드가 호출 됩니다. Job 클래스의 `handle` 메소드에 의존 객체들이 타입-힌트 될 수 있다는 것에 주의하십시오. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 의존 객체들을 주입해 줍니다.
 
 > {note} Binary data, such as raw image contents, should be passed through the `base64_encode` function before being passed to a queued job. Otherwise, the job may not properly serialize to JSON when being placed on the queue.
 
-> {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다. 
+> {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
 
 <a name="dispatching-jobs"></a>
 ## Dispatching Jobs
@@ -305,7 +305,7 @@ If you would like to delay the execution of a queued job, you may use the `delay
 > {note} The Amazon SQS queue service has a maximum delay time of 15 minutes.
 
 > {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
- 
+
 <a name="job-chaining"></a>
 ### Job Chaining
 ### Job 체이닝
@@ -550,7 +550,7 @@ Laravel includes a queue worker that will process new jobs as they are pushed on
 
 > {tip} To keep the `queue:work` process running permanently in the background, you should use a process monitor such as [Supervisor](#supervisor-configuration) to ensure that the queue worker does not stop running.
 
-> {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않고 계속되는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다. 
+> {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않고 계속되는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
 
 Remember, queue workers are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment).
 
@@ -577,7 +577,7 @@ You may also specify which queue connection the worker should utilize. The conne
 You may customize your queue worker even further by only processing particular queues for a given connection. For example, if all of your emails are processed in an `emails` queue on your `redis` queue connection, you may issue the following command to start a worker that only processes only that queue:
 
 주어진 커넥션의 특정 queue만 처리되도록 queue-큐 worker를 커스터마이즈 할 수 있습니다. 예를 들어, 모든 이메일이 `redis` queue-큐 커넥션의 `emails` queue-큐에서 처리되도록 하고자 할경우, 다음의 명령어를 사용하여 하나의 queue-큐를 처리하는 worker를 시작할 수 있습니다:
- 
+
     php artisan queue:work redis --queue=emails
 
 #### Resource Considerations
@@ -585,7 +585,7 @@ You may customize your queue worker even further by only processing particular q
 
 Daemon queue workers do not "reboot" the framework before processing each job. Therefore, you should free any heavy resources after each job completes. For example, if you are doing image manipulation with the GD library, you should free the memory with `imagedestroy` when you are done.
 
-데몬 큐 worker는 각 job을 처리하기 전에 프레임워크를 "reboot"하지 않습니다. 따라서 각 job이 완료되면 사용된 리소스를 해제(free)해야 합니다. 예를 들어 GD 라이브러리로 이미지를 조작하는 경우, 작업이 완료되면 `imagedestroy`를 사용하여 메모리를 해제해야 합니다.   
+데몬 큐 worker는 각 job을 처리하기 전에 프레임워크를 "reboot"하지 않습니다. 따라서 각 job이 완료되면 사용된 리소스를 해제(free)해야 합니다. 예를 들어 GD 라이브러리로 이미지를 조작하는 경우, 작업이 완료되면 `imagedestroy`를 사용하여 메모리를 해제해야 합니다.
 
 <a name="queue-priorities"></a>
 ### Queue Priorities
@@ -658,7 +658,7 @@ The `retry_after` configuration option and the `--timeout` CLI option are differ
 
 When jobs are available on the queue, the worker will keep processing jobs with no delay in between them. However, the `sleep` option determines how long the worker will "sleep" if there are no new jobs available. While sleeping, the worker will not process any new jobs - the jobs will be processed after the worker wakes up again.
 
-job 이 큐에서 사용가능해지면, worker는 딜레이 없이 바로 job을 처리합니다. 그렇지만 `sleep` 옵션이 설정되면 worker는 새로운 job을 처리할 때 일정 시간 "잠자기 (sleep)" 하게 됩니다. 잠자기 동안에는 새로운 job을 처리하지 않습니다 - worker가 다시 깨어나면 job을 처리합니다. 
+job 이 큐에서 사용가능해지면, worker는 딜레이 없이 바로 job을 처리합니다. 그렇지만 `sleep` 옵션이 설정되면 worker는 새로운 job을 처리할 때 일정 시간 "잠자기 (sleep)" 하게 됩니다. 잠자기 동안에는 새로운 job을 처리하지 않습니다 - worker가 다시 깨어나면 job을 처리합니다.
 
     php artisan queue:work --sleep=3
 
@@ -671,7 +671,7 @@ job 이 큐에서 사용가능해지면, worker는 딜레이 없이 바로 job�
 
 Supervisor is a process monitor for the Linux operating system, and will automatically restart your `queue:work` process if it fails. To install Supervisor on Ubuntu, you may use the following command:
 
-Supervisor는 리눅스 OS를 위한 프로세스 모니터로, `queue:work` 프로세스가 종료된 경우 자동으로 이를 재시작 할 것입니다. 우분투에서 Supervisor를 설치하기 위해서는 다음의 명령어를 사용하면 됩니다: 
+Supervisor는 리눅스 OS를 위한 프로세스 모니터로, `queue:work` 프로세스가 종료된 경우 자동으로 이를 재시작 할 것입니다. 우분투에서 Supervisor를 설치하기 위해서는 다음의 명령어를 사용하면 됩니다:
 
     sudo apt-get install supervisor
 
@@ -684,7 +684,7 @@ Supervisor는 리눅스 OS를 위한 프로세스 모니터로, `queue:work` 프
 
 Supervisor configuration files are typically stored in the `/etc/supervisor/conf.d` directory. Within this directory, you may create any number of configuration files that instruct supervisor how your processes should be monitored. For example, let's create a `laravel-worker.conf` file that starts and monitors a `queue:work` process:
 
-Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 Supervisor가 어떻게 프로세스를 모니터링 할 것인지 지시하는 설정 파일을 원하는 수 만큼 생성할 수 있습니다. 예를 들어, `laravel-worker.conf` 파일을 만들고 `queue:work` 프로세스를 시작하고, 모니터링 해 보겠습니다: 
+Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 Supervisor가 어떻게 프로세스를 모니터링 할 것인지 지시하는 설정 파일을 원하는 수 만큼 생성할 수 있습니다. 예를 들어, `laravel-worker.conf` 파일을 만들고 `queue:work` 프로세스를 시작하고, 모니터링 해 보겠습니다:
 
     [program:laravel-worker]
     process_name=%(program_name)s_%(process_num)02d
@@ -705,7 +705,7 @@ In this example, the `numprocs` directive will instruct Supervisor to run 8 `que
 
 Once the configuration file has been created, you may update the Supervisor configuration and start the processes using the following commands:
 
-설정 파일을 생성하고 나면, 다음 명령어를 통해서 Supervisor 설정을 변경하고, 시작할 수 있습니다: 
+설정 파일을 생성하고 나면, 다음 명령어를 통해서 Supervisor 설정을 변경하고, 시작할 수 있습니다:
 
     sudo supervisorctl reread
 
@@ -731,7 +731,7 @@ Sometimes your queued jobs will fail. Don't worry, things don't always go as pla
 
 Then, when running your [queue worker](#running-the-queue-worker), you should specify the maximum number of times a job should be attempted using the `--tries` switch on the `queue:work` command. If you do not specify a value for the `--tries` option, jobs will be attempted indefinitely:
 
-그런 뒤에, [queue worker](#running-the-queue-worker)가 실행될 때, `queue:listen` 명령어의 `--tries` 스위치를 사용하여 Job이 재시도 되어야 할 최대 횟수를 지정해야합니다. `--tries` 옵션값을 지정하지 않는다면, job은 무한정 계속 시도됩니다:  
+그런 뒤에, [queue worker](#running-the-queue-worker)가 실행될 때, `queue:listen` 명령어의 `--tries` 스위치를 사용하여 Job이 재시도 되어야 할 최대 횟수를 지정해야합니다. `--tries` 옵션값을 지정하지 않는다면, job은 무한정 계속 시도됩니다:
 
     php artisan queue:work redis --tries=3
 
@@ -801,7 +801,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 
 If you would like to register an event that will be called when a job fails, you may use the `Queue::failing` method. This event is a great opportunity to notify your team via email or [Stride](https://www.stride.com). For example, we may attach a callback to this event from the `AppServiceProvider` that is included with Laravel:
 
-Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Stride](https://www.stride.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다. 
+Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Stride](https://www.stride.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다.
 
     <?php
 
@@ -851,7 +851,7 @@ To view all of your failed jobs that have been inserted into your `failed_jobs` 
 The `queue:failed` command will list the job ID, connection, queue, and failure time. The job ID may be used to retry the failed job. For instance, to retry a failed job that has an ID of `5`, issue the following command:
 
 `queue:failed` 명령은 Job의 ID, 커넥션, 큐, 그리고 실패 시간을 목록으로 보여줍니다. Job ID는 실패한 Job을 다시 시도하기 위해 사용될 수 있습니다. 예를 들어 `5`라는 ID를 가진 실패한 Job을 재시작할려면, 다음 명령어를 실행합니다:
- 
+
     php artisan queue:retry 5
 
 To retry all of your failed jobs, execute the `queue:retry` command and pass `all` as the ID:
@@ -876,11 +876,9 @@ To delete all of your failed jobs, you may use the `queue:flush` command:
 ## Job Events
 ## Job 이벤트
 
-Using the `before` and `after` methods on the `Queue` [facade](/docs/{{version}}/facades), you may specify callbacks to be executed before or after a queued job is processed. 
+Using the `before` and `after` methods on the `Queue` [facade](/docs/{{version}}/facades), you may specify callbacks to be executed before or after a queued job is processed. These callbacks are a great opportunity to perform additional logging or increment statistics for a dashboard. Typically, you should call these methods from a [service provider](/docs/{{version}}/providers). For example, we may use the `AppServiceProvider` that is included with Laravel:
 
-These callbacks are a great opportunity to perform additional logging or increment statistics for a dashboard. Typically, you should call these methods from a [service provider](/docs/{{version}}/providers). For example, we may use the `AppServiceProvider` that is included with Laravel:
-
-`Queue` [파사드](/docs/{{version}}/facades)의 `before` 와 `after` 메소드를 사용하여, 큐 Job이 실행되기 전 과 이후에 실행될 콜백을 지정할 수 있습니다. 이 콜백은 로깅이나 대시보드의 통계를 증가시키는것과 같은 추가적인 작업을 수행하기에 좋습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)에서 호출해야합니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에서 실행할 수 있습니다:  
+`Queue` [파사드](/docs/{{version}}/facades)의 `before` 와 `after` 메소드를 사용하여, 큐 Job이 실행되기 전 과 이후에 실행될 콜백을 지정할 수 있습니다. 이 콜백은 로깅이나 대시보드의 통계를 증가시키는것과 같은 추가적인 작업을 수행하기에 좋습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)에서 호출해야합니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에서 실행할 수 있습니다:
 
     <?php
 
@@ -926,7 +924,7 @@ These callbacks are a great opportunity to perform additional logging or increme
 
 Using the `looping` method on the `Queue` [facade](/docs/{{version}}/facades), you may specify callbacks that execute before the worker attempts to fetch a job from a queue. For example, you might register a Closure to rollback any transactions that were left open by a previously failed job:
 
-`Queue` [파사드](/docs/{{version}}/facades)의 `looping` 메소드를 사용할 때, worker가 큐에서 job을 처리하기 전에 실행할 콜백을 지정할 수 있습니다. 예를 들어, 이전에 실패한 작업이 남겨놓은 트랜젝션을 롤백하는 클로저를 등록할 수 있습니다: 
+`Queue` [파사드](/docs/{{version}}/facades)의 `looping` 메소드를 사용할 때, worker가 큐에서 job을 처리하기 전에 실행할 콜백을 지정할 수 있습니다. 예를 들어, 이전에 실패한 작업이 남겨놓은 트랜젝션을 롤백하는 클로저를 등록할 수 있습니다:
 
     Queue::looping(function () {
         while (DB::transactionLevel() > 0) {

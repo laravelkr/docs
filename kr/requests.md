@@ -1,12 +1,12 @@
 # HTTP Requests
-# HTTP Requests
+# HTTP Requests-요청
 
 - [Accessing The Request](#accessing-the-request)
-- [Request 엑세스 하기](#accessing-the-request)
+- [Request-요청 엑세스 하기](#accessing-the-request)
     - [Request Path & Method](#request-path-and-method)
-    - [Request 경로 & 메소드](#request-path-and-method)
+    - [Request-요청 경로 & 메소드](#request-path-and-method)
     - [PSR-7 Requests](#psr7-requests)
-    - [PSR-7 Requests](#psr7-requests)
+    - [PSR-7 Requests-요청](#psr7-requests)
 - [Input Trimming & Normalization](#input-trimming-and-normalization)
 - [입력값 Trim 처리 & 일반화처리](#input-trimming-and-normalization)
 - [Retrieving Input](#retrieving-input)
@@ -187,7 +187,7 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
 
 If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
 
-이 동작을 비활성화 시키려면, `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하면 됩니다. 
+이 동작을 비활성화 시키려면, `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하면 됩니다.
 
 <a name="retrieving-input"></a>
 ## Retrieving Input
@@ -219,7 +219,7 @@ You may pass a default value as the second argument to the `input` method. This 
 
 When working with forms that contain array inputs, use "dot" notation to access the arrays:
 
-배열 입력을 가진 폼에서 동작할 때에는, 배열에 접근하기 위하여 "점" 표기법을 사용할 수 있습니다: 
+배열 입력을 가진 폼에서 동작할 때에는, 배열에 접근하기 위하여 "점" 표기법을 사용할 수 있습니다:
 
     $name = $request->input('products.0.name');
 
@@ -485,7 +485,7 @@ There are a variety of other methods available on `UploadedFile` instances. Chec
 
 To store an uploaded file, you will typically use one of your configured [filesystems](/docs/{{version}}/filesystem). The `UploadedFile` class has a `store` method which will move an uploaded file to one of your disks, which may be a location on your local filesystem or even a cloud storage location like Amazon S3.
 
-업로드된 파일을 저장하려면, 일반적으로 설정된 [파일시스템](/docs/{{version}}/filesystem)중 하나를 사용합니다. `UploadedFile` 클래스는 업로드된 파일을 로컬 파일 시스템이나 아마존 S3 와 같은 클라우드 스토리지  디스크 중에 하나로 이동 시킬 수 있는 `store` 메소드를 가지고 있습니다. 
+업로드된 파일을 저장하려면, 일반적으로 설정된 [파일시스템](/docs/{{version}}/filesystem)중 하나를 사용합니다. `UploadedFile` 클래스는 업로드된 파일을 로컬 파일 시스템이나 아마존 S3 와 같은 클라우드 스토리지  디스크 중에 하나로 이동 시킬 수 있는 `store` 메소드를 가지고 있습니다.
 
 The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since a unique ID will automatically be generated to serve as the file name.
 
@@ -510,14 +510,15 @@ If you do not want a file name to be automatically generated, you may use the `s
 
 <a name="configuring-trusted-proxies"></a>
 ## Configuring Trusted Proxies
+## 신뢰할 수 있는 프록시 설정하기
 
 When running your applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
 
-TLS / SSL 인증서를 통과하는 로드 밸런서 뒤에서 어플리케이션을 실행할 때 어플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있을 수 있습니다. 일반적으로 이는 어플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치하며, 보안 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
+TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 어플리케이션을 실행할 때 어플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있습니다. 일반적으로 이는 어플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치해서, HTTPS 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
 
 To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the proxy `$headers` that should be trusted:
 
-이문제를 해결하기 위해서, 라라벨 어플리케이션에 포함되어 있는, 보다 빠르고 손쉽게 어플리케이션에서 신뢰할 수 있는 로드밸런서나 프록시를 설정하게 해주는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 나열해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다:
+이 문제를 해결하기 위해서, 라라벨 어플리케이션에는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 손쉽게 어플리케이션에서 신뢰할 수 있는 로드밸런서 또는 프록시를 설정할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 지정해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다:
 
     <?php
 
@@ -562,4 +563,4 @@ If you are using Amazon AWS or another "cloud" load balancer provider, you may n
      *
      * @var array
      */
-    protected $proxies = '**';
+    protected $proxies = '*';

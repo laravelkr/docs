@@ -47,7 +47,9 @@
 ## 기본적인 라우팅
 
 The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
+
 가장 기본적인 라라벨 라우트는 URI와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할수 있는 방법을 제공합니다:
+
     Route::get('foo', function () {
         return 'Hello World';
     });
@@ -59,9 +61,9 @@ All Laravel routes are defined in your route files, which are located in the `ro
 
 모든 라라벨의 라우트는 `route` 디렉토리 안에 들어 있는 라우트 파일에 정의되어 있습니다. 이 파일들은 프레임워크에 의해서 자동으로 로드됩니다. `routes/web.php` 파일은 웹 인터페이스를 위한 라우트들을 정의합니다. 이 라우트들에는 세션 상태와 CSRF 보호와 같은 기능을 제공하는 `web` 미들웨어 그룹이 할당되어 있습니다. `routes/api.php` 안에 들어 있는 라우트들은 stateless 하고 `api` 미들웨어 그룹이 할당되어 있습니다.
 
-For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.dev/user` in your browser:
+For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://your-app.test/user` in your browser:
 
-대부분의 어플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다. `routes/web.php` 에 정의된 라우트는 브라우저를 통해서 유입되는 라우트 URL을 정의하는데 사용됩니다. 예를 들어 브라우저에서 `http://your-app.dev/user`와 같이 접속하기 위해서 다음의 라우트를 정의할 수 있습니다:
+대부분의 어플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다. `routes/web.php` 에 정의된 라우트는 브라우저를 통해서 유입되는 라우트 URL을 정의하는데 사용됩니다. 예를 들어 브라우저에서 `http://your-app.test/user`와 같이 접속하기 위해서 다음의 라우트를 정의할 수 있습니다:
 
     Route::get('/user', 'UserController@index');
 
@@ -500,6 +502,7 @@ You may use the `@method` Blade directive to generate the `_method` input:
 
     <form action="/foo/bar" method="POST">
         @method('PUT')
+        @csrf
     </form>
 
 <a name="accessing-the-current-route"></a>

@@ -32,7 +32,7 @@ Before using Redis with Laravel, you will need to install the `predis/predis` pa
 
 Alternatively, you may install the [PhpRedis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install but may yield better performance for applications that make heavy use of Redis.
 
-이렇게 하는 대신에, PECL을 통해서 [PhpRedis](https://github.com/phpredis/phpredis) PHP extension을 설치할 수도 있습니다. 이 extension 은 좀 더 설치가 복잡하지만, Redis를 많이 사용하는 어플리케이션에서 보다 나은 성능을 보여줍니다. 
+이렇게 하는 대신에, PECL을 통해서 [PhpRedis](https://github.com/phpredis/phpredis) PHP extension을 설치할 수도 있습니다. 이 extension 은 좀 더 설치가 복잡하지만, Redis를 많이 사용하는 어플리케이션에서 보다 나은 성능을 보여줍니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -40,7 +40,7 @@ Alternatively, you may install the [PhpRedis](https://github.com/phpredis/phpred
 
 The Redis configuration for your application is located in the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
-어플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의 
+어플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의
 `redis` 배열이 어플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다:
 
     'redis' => [
@@ -112,7 +112,7 @@ The `cluster` option will instruct the Laravel Redis client to perform client-si
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:   
+`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -132,8 +132,8 @@ In addition to the default `host`, `port`, `database`, and `password` server con
 
 To utilize the PhpRedis extension, you should change the `client` option of your Redis configuration to `phpredis`. This option is found in your `config/database.php` configuration file:
 
-PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다: 
- 
+PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다:
+
     'redis' => [
 
         'client' => 'phpredis',
@@ -143,7 +143,7 @@ PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵�
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout` and `timeout`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다: 
+`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다:
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -211,7 +211,7 @@ This will give you an instance of the default Redis server. You may also pass th
 
 이 구문은 기본으로 설정된 레디스 서버의 인스턴스를 반환 합니다. 만약 클러스터링을 사용하지 않고 있으면서, 레디스 설정에서 정의되어 있는 특정 서버 인스턴스 혹은 클러스터를 가져오려면 미리 지정된 서버 또는 클러스터의 이름을 `connection` 메소드에 넘겨주면 됩니다:
 
-    $redis = Redis::connection('other');
+    $redis = Redis::connection('my-connection');
 
 <a name="pipelining-commands"></a>
 ### Pipelining Commands

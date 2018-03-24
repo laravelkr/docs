@@ -18,9 +18,9 @@
 ## Introduction
 ## 소개하기
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
+> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
 
-> {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 어플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.dev/register` 에 접속하거나 어플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
+> {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 어플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.test/register` 에 접속하거나 어플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
 
 Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
 

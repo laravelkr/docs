@@ -14,7 +14,7 @@
 
 Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a `phpunit.xml` file is already set up for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
 
-라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 어플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 어플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다. 
+라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 어플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 어플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다.
 
 By default, your application's `tests` directory contains two directories: `Feature` and `Unit`. Unit tests are tests that focus on a very small, isolated portion of your code. In fact, most unit tests probably focus on a single method. Feature tests may test a larger portion of your code, including how several objects interact with each other or even a full HTTP request to a JSON endpoint.
 
@@ -35,6 +35,10 @@ When running tests via `phpunit`, Laravel will automatically set the configurati
 You are free to define other testing environment configuration values as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
 
 여러분은 필요한 경우에 자유롭게 테스트 환경 설정 값들을 정의할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있습니다. 테스트를 실행 하기 전에 `config:clear` 아티즌 명령어를 실행하여 설정들에 대한 캐시를 지우는 것을 잊지 마십시오!
+
+In addition, you may create a `.env.testing` file in the root of your project. This file will override the `.env` file's variables when running PHPUnit tests or executing Artisan commands with the `--env=testing` switch.
+
+이에 더해, 프로젝트 루트 디렉토리에 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트가 실행되거나, 아티즌 명령어가 `--env=testing` 스위치 옵션과 함께 실행될때 `.env` 파일의 변수값을 오버라이드 하는데 사용됩니다.
 
 <a name="creating-and-running-tests"></a>
 ## Creating & Running Tests

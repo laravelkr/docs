@@ -11,6 +11,8 @@
     - [현재 URL 엑세스하기](#accessing-the-current-url)
 - [URLs For Named Routes](#urls-for-named-routes)
 - [이름이 지정된 라우트 URL](#urls-for-named-routes)
+    - [Signed URLs](#signed-urls)
+    - [Signed URLs](#signed-urls)
 - [URLs For Controller Actions](#urls-for-controller-actions)
 - [컨트롤러 액션 URL](#urls-for-controller-actions)
 - [Default Values](#default-values)
@@ -92,6 +94,72 @@ You will often be generating URLs using the primary key of [Eloquent models](/do
 여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 기본 키를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 기본 키를 추출하여 사용합니다:
 
     echo route('post.show', ['post' => $post]);
+
+<a name="signed-urls"></a>
+### Signed URLs
+### 서명이 적용된 (signed) URL
+
+Laravel allows you to easily create "signed" URLs to named routes. These URLs have a "signature" hash appended to the query string which allows Laravel to verify that the URL has not been modified since it was created. Signed URLs are especially useful for routes that are publicly accessible yet need a layer of protection against URL manipulation.
+
+라라벨에서는 이름이 지정된 라우트(named routed)에 "서명이 적용된(signed)" URL을 손쉽게 만들 수 있습니다. 이러한 URL에는 "서명이 적용된" 해쉬가 쿼리 스트링뒤에 추가되어 URL이 생성된 이후에 수정되지 않았음을 확인할 수 있게 합니다. 서명이 적용된 URL은 공개적으로 엑세스가 가능하지만 조작에 대한 보호 레이어가 필요한 라우트에 특별히 유용합니다
+
+For example, you might used signed URLs to implement a public "unsubscribe" link that is emailed to your customers. To create a signed URL to a named route, use the `signedRoute` method of the `URL` facade:
+
+예를 들어, 여러분은 서명이 적용된 URL을 고객들이 이메일을 보내는 공개된 "구독 취소" 링크를 구현하는데 사용할 수 있습니다. 이름이 지정된 라우트에 서명이 적용된 URL을 구성하려면, `URL` 파사드에 `signedRoute` 메소드를 사용하면 됩니다:
+
+    use Illuminate\Support\Facades\URL;
+
+    return URL::signedRoute('unsubscribe', ['user' => 1]);
+
+If you would like to generate a temporary signed route URL that expires, you may use the `temporarySignedRoute` method:
+
+여러분은 `temporarySignedRoute` 메소드를 사용하여, 임시적으로 생성되어 만료되는, 서명이 적용된 라우트 URL을 생성할 수 있습니다:
+
+    use Illuminate\Support\Facades\URL;
+
+    return URL::temporarySignedRoute(
+        'unsubscribe', now()->addMinutes(30), ['user' => 1]
+    );
+
+#### Validating Signed Route Requests
+#### 서명이 적용된 라우트 Request-요청 Validting-유효성검사하기
+
+To verify that an incoming request has a valid signature, you should call the `hasValidSignature` method on the incoming `Request`:
+
+유입되는 request-요청이 유효한 서명이 있는지 확인하기 위해서는 유입되는 `Request` 에 `hasValidSignature` 메소드를 호출해야 합니다:
+
+    use Illuminate\Http\Request;
+
+    Route::post('/unsubscribe/{user}', function (Request $request) {
+        if (! $request->hasValidSignature()) {
+            abort(401);
+        }
+
+        // ...
+    });
+
+Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` middleware to the route. If it is not already present, you should assign this middleware a key in your HTTP kernel's `routeMiddleware` array:
+
+또는, 라우트에 `Illuminate\Routing\Middleware\ValidateSignature` 미들웨어를 지정할 수도 있습니다. 이 미들웨어가 존재하지 않는다면, HTTP 커널의 `routeMiddleware` 배열에 이 미들웨어를 지정해야 합니다:
+
+    /**
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+    ];
+
+Once you have registered the middleware in your kernel, you may attach it to a route. If the incoming request does not have a valid signature, the middleware will automatically return a `401` error response:
+
+커널에 미들웨어를 등록한다음, 라우트에 이 미들웨어를 추가해야 합니다. 유입되는 request-요청에 유효한 서명이 없다면, 미들웨어는 자동으로 `401` 오류 response-응답을 반환합니다:
+
+    Route::post('/unsubscribe/{user}', function (Request $request) {
+        // ...
+    })->middleware('signed');
 
 <a name="urls-for-controller-actions"></a>
 ## URLs For Controller Actions

@@ -34,7 +34,7 @@
 - [Working With Error Messages](#working-with-error-messages)
 - [에러 메세지 작업하기](#working-with-error-messages)
     - [Custom Error Messages](#custom-error-messages)
-    - [사용자 정의 에러 메세지](#custom-error-messages)    
+    - [사용자 정의 에러 메세지](#custom-error-messages)
 - [Available Validation Rules](#available-validation-rules)
 - [사용가능한 유효성 검사 규칙](#available-validation-rules)
 - [Conditionally Adding Rules](#conditionally-adding-rules)
@@ -452,7 +452,7 @@ The validator also allows you to attach callbacks to be run after validation is 
 ## 에러 메시지 작업하기
 
 After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
-`Validator` 인스턴스의 `errors` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다, 이것은 오류메세지를 처리하기 위한 다양하고 편리한 메소드들을 가집니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다. 
+`Validator` 인스턴스의 `errors` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다, 이것은 오류메세지를 처리하기 위한 다양하고 편리한 메소드들을 가집니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다.
 
 #### Retrieving The First Error Message For A Field
 #### 하나의 필드에 대한 첫번째 에러 메시지 조회하기
@@ -612,8 +612,9 @@ Below is a list of all available validation rules and their function:
 [MIME Types](#rule-mimetypes)
 [MIME Type By File Extension](#rule-mimes)
 [Min](#rule-min)
-[Nullable](#rule-nullable)
 [Not In](#rule-not-in)
+[Not Regex](#rule-not-regex)
+[Nullable](#rule-nullable)
 [Numeric](#rule-numeric)
 [Present](#rule-present)
 [Regular Expression](#rule-regex)
@@ -960,6 +961,24 @@ The field under validation must not be included in the given list of values. The
         ],
     ]);
 
+<a name="rule-not-regex"></a>
+#### not_regex:_pattern_
+
+The field under validation must not match the given regular expression.
+
+필드의 값이 주어진 정규표현식과 매칭되지 않는 것을 확인합니다.
+
+**Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+
+**Note:** `regex` / `not_regex` 패턴을 사용할 때, 특히 정규표현식에 파이프 문자가 포함 된 경우, 파이프 구분자를 사용하는 대신에 배열에 룰을 지정해야 할 수 있습니다.
+
+<a name="rule-nullable"></a>
+#### nullable
+
+The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
+
+필드의 값이 `null` 일 수 있습니다. 이것은 특히 `null` 값을 포함 할 수 있는 문자열 및 정수형과 같은 프리미티브 타입의 유효성을 검사 할 때 유용합니다.
+
 <a name="rule-numeric"></a>
 #### numeric
 
@@ -978,8 +997,9 @@ The field under validation must be present in the input data but can be empty.
 The field under validation must match the given regular expression.
 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
-**참고:** `regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
+**Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
+
+**참고:** `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
 
 <a name="rule-required"></a>
 #### required
@@ -987,18 +1007,15 @@ The field under validation must match the given regular expression.
 The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
-<div class="content-list" markdown="1">
-
 - The value is `null`.
-- 값이 `null`인 경우.
 - The value is an empty string.
-- 값이 비어있는 문자열인 경우.
 - The value is an empty array or empty `Countable` object.
-- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우 
 - The value is an uploaded file with no path.
-- 값이 경로없이 업로드된 파일인 경우
 
-</div>
+- 값이 `null`인 경우.
+- 값이 비어있는 문자열인 경우.
+- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
+- 값이 경로없이 업로드된 파일인 경우
 
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...
@@ -1323,9 +1340,11 @@ Another method of registering custom validation rules is using the `extend` meth
     }
 
 The custom validator Closure receives four arguments: the name of the `$attribute` being validated, the `$value` of the attribute, an array of `$parameters` passed to the rule, and the `Validator` instance.
+
 커스텀 유효성 검사 클로저는 4개의 인자를 받습니다: 유효성 검사를 할 필드(`$attribute`)의 이름, 필드의 값(`$value`), 그리고 룰에 전달될 파라미터들(`$parameters`)의 배열, 그리고 `Validator` 인스턴스 입니다.
 
 You may also pass a class and method to the `extend` method instead of a Closure:
+
 또한 클로저 대신 클래스명과 메소드명을 `extend` 메소드로 전달할 수도 있습니다:
 
     Validator::extend('foo', 'FooValidator@validate');
@@ -1334,6 +1353,7 @@ You may also pass a class and method to the `extend` method instead of a Closure
 #### 에러 메세지 정의하기
 
 You will also need to define an error message for your custom rule. You can do so either using an inline custom message array or by adding an entry in the validation language file. This message should be placed in the first level of the array, not within the `custom` array, which is only for attribute-specific error messages:
+
 사용자 정의(커스텀) 규칙을 위한 에러 메세지 또한 정의해야 합니다. 인라인 사용자 정의(커스텀) 메세지 배열을 사용하거나 유효 검사 언어 파일에 엔트리를 추가하면 됩니다. 이 메세지는 `custom` 배열 안이 아닌 배열의 첫번째 레벨에 놓여야 합니다. `custom` 배열은 특정 속성에 따른 에러 메세지를 담당합니다:
 
     "foo" => "Your input was invalid!",
@@ -1343,6 +1363,7 @@ You will also need to define an error message for your custom rule. You can do s
     // The rest of the validation error messages...
 
 When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
+
 커스텀 유효 검사 룰을 생성할 때 종종 에러 메세지를 위한 커스텀 플레이스 홀더 대체제를 정의해야 할 수도 있습니다. 이전의 설명에 따라 커스텀 Validator를 생성하고 `Validator` 파사드에 `replacer` 메소드를 호출하십시오. 이는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 할 수 있습니다:
 
     /**
@@ -1363,6 +1384,7 @@ When creating a custom validation rule, you may sometimes need to define custom 
 #### 묵시적 확장
 
 By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
+
 기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 [`required`](#rule-required) 규칙의 정의에 따라 빈 값을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 `null` 값에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
 
     $rules = ['name' => 'unique'];
@@ -1372,6 +1394,7 @@ By default, when an attribute being validated is not present or contains an empt
     Validator::make($input, $rules)->passes(); // true
 
 For a rule to run even when an attribute is empty, the rule must imply that the attribute is required. To create such an "implicit" extension, use the `Validator::extendImplicit()` method:
+
 속성이 비었을 때도 규칙이 실행되기 위해서는 규칙에 속성이 필요하다는 것이 내포되어 있어야 합니다. 이런 "묵시적"인 확장을 만드려면 `Validator::extendImplicit()` 메소드를 사용하세요:
 
     Validator::extendImplicit('foo', function ($attribute, $value, $parameters, $validator) {
@@ -1379,4 +1402,5 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
     });
 
 > {note} An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+
 > {note} "묵시적" 확장은 단지 속성이 필요하다는 것을 _암시(내포)_합니다. 없거나 빈 속성의 유효성을 실제로 부정하는지는 여러분이 결정합니다.

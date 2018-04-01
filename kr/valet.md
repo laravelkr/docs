@@ -20,7 +20,7 @@
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
 - [Custom Valet Drivers](#custom-valet-drivers)
-- [사용자 정의 발렛 드라이버](#custom-valet-drivers)
+- [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
     - [로컬 드라이버](#local-drivers)
 - [Other Valet Commands](#other-valet-commands)
@@ -97,19 +97,15 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 
 **발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
-<div class="content-list" markdown="1">
 - Install or update [Homebrew](http://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.2 using Homebrew via `brew install homebrew/php/php72`.
+- Install PHP 7.2 using Homebrew via `brew install homebrew/php/php`.
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
-</div>
 
-<div class="content-list" markdown="1">
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install homebrew/php/php72` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
+- `brew install homebrew/php/php` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
-</div>
 
 
 Once Valet is installed, try pinging any `*.test` domain on your terminal using a command such as `ping foobar.test`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
@@ -229,6 +225,7 @@ To see a listing of all of your linked directories, run the `valet links` comman
 > {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오.
 
 <a name="securing-sites"></a>
+**Securing Sites With TLS**
 **TLS를 사용한 안전한 사이트**
 
 By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.test` domain, you should run the following command to secure it:
@@ -261,11 +258,11 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 > {note} `valet share` does not currently support sharing sites that have been secured using the `valet secure` command.
 
-> {note} 현재 `valet share`는 `valet secure` 명령어르 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
+> {note} 현재 `valet share`는 `valet secure` 명령어를 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers
-## 사용자 정의 발렛 드라이버
+## 사용자 정의-커스텀 발렛 드라이버
 
 You can write your own Valet "driver" to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a `~/.valet/Drivers` directory is created which contains a `SampleValetDriver.php` file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: `serves`, `isStaticFile`, and `frontControllerPath`.
 
@@ -290,9 +287,9 @@ The `serves` method should return `true` if your driver should handle the incomi
 
 `serves` 메소드는 드라이버가 유입된 요청을 처리해야 할 경우 `true`를 반환합니다. 그렇지 않은 경우는 `false`를 반환합니다. 따라서 이 메소드 안에서 여러분은 주어진 `$sitePath` 가 동작시키고자 하는 유형의 프로젝트인지 확인도록 해야합니다.
 
-For example, let's pretend we are writing a `WordPressValetDriver`. Our `serve` method might look something like this:
+For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves` method might look something like this:
 
-예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. serve 메소드는 다음과 같을 것입니다:
+예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. `serves` 메소드는 다음과 같을 것입니다:
 
     /**
      * Determine if the driver serves the request.

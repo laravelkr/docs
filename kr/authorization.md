@@ -46,9 +46,9 @@ Think of gates and policies like routes and controllers. Gates provide a simple,
 
 Gate와 policy를 라우트와 컨트롤러처럼 생각하십시오. Gate는 간단한, 클로저 기반의 접근 방식을 제공하고, 컨트롤러와 같은 역할을 하는 policy는 특정 모델이나 리소스에 대한 로직을 정리 한 것입니다. 먼저 gate를 살펴본 후 policy를 설명하겠습니다.
 
-It is important to not view gates and policies as mutually exclusive for your application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
+You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
 
-Gate와 policy는 어플리케이션에서 서로 반대되는 기능이라고 보지 않는 것이 중요합니다. 대부분의 어플리케이션에서 gate와 policy를 혼합하여 사용되며, 이렇게 사용해도 아무런 문제가 없습니다. 관리자 대시보드를 구성하는 것과 같이 모델과 리소스에 관련되지 않은 작업들은 주로 gate에 적합합니다. 이에 반해, policy는 특정 모델이나 리소스에 대한 작업 권한을 확인 할 때 사용해야합니다.
+어플리케이션을 구성할 때 gate 만을 사용하거나, policy 만을 사용하지 않아도 됩니다. 대부분의 어플리케이션에서 gate와 policy를 혼합하여 사용되며, 이렇게 사용해도 아무런 문제가 없습니다. 관리자 대시보드를 구성하는 것과 같이 모델과 리소스에 관련되지 않은 작업들은 주로 gate에 적합합니다. 이에 반해, policy는 특정 모델이나 리소스에 대한 작업 권한을 확인 할 때 사용해야합니다.
 
 <a name="gates"></a>
 ## Gates
@@ -123,12 +123,16 @@ By default, the `view`, `create`, `update`, and `delete` abilities will be defin
 ### Authorizing Actions
 ### 액션을 실행할 수 있는 권한 확인하기
 
-To authorize an action using gates, you should use the `allows` method. Note that you are not required to pass the currently authenticated user to the `allows` method. Laravel will automatically take care of passing the user into the gate Closure:
+To authorize an action using gates, you should use the `allows` or `denies` methods. Note that you are not required to pass the currently authenticated user to these methods. Laravel will automatically take care of passing the user into the gate Closure:
 
-Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 메소드를 사용해야 합니다. `allow` 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
+Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 또는 `denies`메소드를 사용해야 합니다. 이 두 개의 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
 
     if (Gate::allows('update-post', $post)) {
         // The current user can update the post...
+    }
+
+    if (Gate::denies('update-post', $post)) {
+        // The current user can't update the post...
     }
 
 If you would like to determine if a particular user is authorized to perform an action, you may use the `forUser` method on the `Gate` facade:
@@ -137,6 +141,10 @@ If you would like to determine if a particular user is authorized to perform an 
 
     if (Gate::forUser($user)->allows('update-post', $post)) {
         // The user can update the post...
+    }
+
+    if (Gate::forUser($user)->denies('update-post', $post)) {
+        // The user can't update the post...
     }
 
 <a name="creating-policies"></a>

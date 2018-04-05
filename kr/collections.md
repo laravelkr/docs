@@ -213,7 +213,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 
 The `all` method returns the underlying array represented by the collection:
 
-`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다: 
+`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다:
 
     collect([1, 2, 3])->all();
 
@@ -258,7 +258,7 @@ The `chunk` method breaks the collection into multiple, smaller collections of a
 
 This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/css/#grid). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
 
-이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다. 
+이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다.
 [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
 
     @foreach ($products->chunk(3) as $chunk)
@@ -358,7 +358,7 @@ Finally, you may also pass a callback to the `contains` method to perform your o
 
 The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
 
-`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오. 
+`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오.
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {#collection-method}
@@ -539,7 +539,7 @@ The `each` method iterates over the items in the collection and passes each item
 
 `each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 콜백에 각 아이템을 전달합니다:
 
-    $collection = $collection->each(function ($item, $key) {
+    $collection->each(function ($item, $key) {
         //
     });
 
@@ -547,7 +547,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 
 전체 항목에 대한 반복을 중지하려면, 콜백 안에서 `false` 를 반환하면 됩니다:
 
-    $collection = $collection->each(function ($item, $key) {
+    $collection->each(function ($item, $key) {
         if (/* some condition */) {
             return false;
         }
@@ -579,7 +579,7 @@ You may stop iterating through the items by returning `false` from the callback:
 
 The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
-`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다: 
+`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다:
 
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
@@ -1343,7 +1343,7 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 
 The `nth` method creates a new collection consisting of every n-th element:
 
-`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다: 
+`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다:
 
 (역자주: 첫번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
 
@@ -1512,7 +1512,7 @@ The `prepend` method adds an item to the beginning of the collection:
 
 You may also pass a second argument to set the key of the prepended item:
 
-또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다. 
+또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다.
 
     $collection = collect(['one' => 1, 'two' => 2]);
 
@@ -1559,7 +1559,7 @@ The `push` method appends an item to the end of the collection:
 
 The `put` method sets the given key and value in the collection:
 
-`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다: 
+`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다:
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -1591,6 +1591,10 @@ You may optionally pass an integer to `random` to specify how many items you wou
     $random->all();
 
     // [2, 4, 5] - (retrieved randomly)
+
+If the Collection has fewer items than requested, the method will throw an `InvalidArgumentException`.
+
+컬렉션이 요청된 것보다 더 적은 갯수의 아이템을 가지고 있다면, 메소드는 `InvalidArgumentException`을 던집니다.
 
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
@@ -2183,7 +2187,7 @@ The `unique` method uses "loose" comparisons when checking item values, meaning 
 
 This method has the same signature as the [`unique`](#method-unique) method; however, all values are compared using "strict" comparisons.
 
-이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다. 
+이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다.
 
 <a name="method-unless"></a>
 #### `unless()` {#collection-method}
@@ -2215,7 +2219,7 @@ For the inverse of `unless`, see the [`when`](#method-when) method.
 
 The static `unwrap` method returns the collection's underlying items from the given value when applicable:
 
-정적 메소드인 `unwrap` 메소드는 해당되는 경우, 컬렉션의 아이템을 컬렉션의 형태에서 해제하여 기본 타입 형태로 반환합니다: 
+정적 메소드인 `unwrap` 메소드는 해당되는 경우, 컬렉션의 아이템을 컬렉션의 형태에서 해제하여 기본 타입 형태로 반환합니다:
 
     Collection::unwrap(collect('John Doe'));
 
@@ -2393,7 +2397,7 @@ The `whereNotIn` method filters the collection by a given key / value not contai
 
 The `whereNotIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereNotInStrict`](#method-wherenotinstrict) method to filter using "strict" comparisons.
 
-`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.  
+`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.
 
 <a name="method-wherenotinstrict"></a>
 #### `whereNotInStrict()` {#collection-method}
@@ -2446,9 +2450,9 @@ The `zip` method merges together the values of the given array with the values o
 ## Higher Order Messages
 ## Higher Order Messages
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `max`, `min`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum`, and `unique`.
+Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), and [`unique`](#method-unique).
 
-컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `max`, `min`, `partition`, `reject`, `sortBy`, `sortByDesc`, `sum` 그리고 `unique` 입니다.
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), 그리고 [`unique`](#method-unique) 입니다.
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 

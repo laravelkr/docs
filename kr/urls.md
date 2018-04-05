@@ -103,7 +103,7 @@ Laravel allows you to easily create "signed" URLs to named routes. These URLs ha
 
 라라벨에서는 이름이 지정된 라우트(named routed)에 "서명이 적용된(signed)" URL을 손쉽게 만들 수 있습니다. 이러한 URL에는 "서명이 적용된" 해쉬가 쿼리 스트링뒤에 추가되어 URL이 생성된 이후에 수정되지 않았음을 확인할 수 있게 합니다. 서명이 적용된 URL은 공개적으로 엑세스가 가능하지만 조작에 대한 보호 레이어가 필요한 라우트에 특별히 유용합니다
 
-For example, you might used signed URLs to implement a public "unsubscribe" link that is emailed to your customers. To create a signed URL to a named route, use the `signedRoute` method of the `URL` facade:
+For example, you might use signed URLs to implement a public "unsubscribe" link that is emailed to your customers. To create a signed URL to a named route, use the `signedRoute` method of the `URL` facade:
 
 예를 들어, 여러분은 서명이 적용된 URL을 고객들이 이메일을 보내는 공개된 "구독 취소" 링크를 구현하는데 사용할 수 있습니다. 이름이 지정된 라우트에 서명이 적용된 URL을 구성하려면, `URL` 파사드에 `signedRoute` 메소드를 사용하면 됩니다:
 
@@ -130,13 +130,13 @@ To verify that an incoming request has a valid signature, you should call the `h
 
     use Illuminate\Http\Request;
 
-    Route::post('/unsubscribe/{user}', function (Request $request) {
+    Route::get('/unsubscribe/{user}', function (Request $request) {
         if (! $request->hasValidSignature()) {
             abort(401);
         }
 
         // ...
-    });
+    })->name('unsubscribe');
 
 Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` middleware to the route. If it is not already present, you should assign this middleware a key in your HTTP kernel's `routeMiddleware` array:
 
@@ -153,13 +153,13 @@ Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignatu
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
     ];
 
-Once you have registered the middleware in your kernel, you may attach it to a route. If the incoming request does not have a valid signature, the middleware will automatically return a `401` error response:
+Once you have registered the middleware in your kernel, you may attach it to a route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` error response:
 
-커널에 미들웨어를 등록한다음, 라우트에 이 미들웨어를 추가해야 합니다. 유입되는 request-요청에 유효한 서명이 없다면, 미들웨어는 자동으로 `401` 오류 response-응답을 반환합니다:
+커널에 미들웨어를 등록한다음, 라우트에 이 미들웨어를 추가해야 합니다. 유입되는 request-요청에 유효한 서명이 없다면, 미들웨어는 자동으로 `403` 오류 response-응답을 반환합니다:
 
     Route::post('/unsubscribe/{user}', function (Request $request) {
         // ...
-    })->middleware('signed');
+    })->name('unsubscribe')->middleware('signed');
 
 <a name="urls-for-controller-actions"></a>
 ## URLs For Controller Actions

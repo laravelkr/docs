@@ -574,17 +574,21 @@ Sometimes you may need to create more advanced where clauses such as "where exis
 
     DB::table('users')
                 ->where('name', '=', 'John')
-                ->orWhere(function ($query) {
+                ->where(function ($query) {
                     $query->where('votes', '>', 100)
-                          ->where('title', '<>', 'Admin');
+                          ->orWhere('title', '=', 'Admin');
                 })
                 ->get();
 
-As you can see, passing a `Closure` into the `orWhere` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
+As you can see, passing a `Closure` into the `where` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
 
-위에서 보시다 시피, `orWhere` 메소드에 전달된 하나의 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다:
+위에서 보시다 시피, `where` 메소드에 전달된 하나의 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다:
 
-    select * from users where name = 'John' or (votes > 100 and title <> 'Admin')
+    select * from users where name = 'John' and (votes > 100 or title = 'Admin')
+
+> {tip} You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
+
+> {tip} 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="where-exists-clauses"></a>
 ### Where Exists Clauses

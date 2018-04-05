@@ -9,6 +9,8 @@
     - [Gates 작성하기](#writing-gates)
     - [Authorizing Actions](#authorizing-actions-via-gates)
     - [액션을 수행할 수 있는 권한 확인하기](#authorizing-actions-via-gates)
+    - [Intercepting Gate Checks](#intercepting-gate-checks)
+    - [Gate 체크 로직의 후킹](#intercepting-gate-checks)
 - [Creating Policies](#creating-policies)
 - [Policy 생성하기](#creating-policies)
     - [Generating Policies](#generating-policies)
@@ -146,6 +148,31 @@ If you would like to determine if a particular user is authorized to perform an 
     if (Gate::forUser($user)->denies('update-post', $post)) {
         // The user can't update the post...
     }
+
+<a name="intercepting-gate-checks"></a>
+#### Gate 체크 로직의 후킹
+
+Sometimes, you may wish to grant all abilities to a specific user. You may use the `before` method to define a callback that is run before all other authorization checks:
+
+때로는 특정 사용자에게 모든 권한을 허용하고자 할 수도 있습니다. 권한을 확인하는 모든 체크 로직 앞에서 실행되는 콜백을 정의하기 위해서 `before` 메소드를 사용할 수 있습니다:
+
+    Gate::before(function ($user, $ability) {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    });
+
+If the `before` callback returns a non-null result that result will be considered the result of the check.
+
+`before` 콜백이 null이 아닌 값을 반환한다면, 이 값을 권한 확인의 결과 값으로 간주합니다.
+
+You may use the `after` method to define a callback to be executed after every authorization check. However, you may not modify the result of the authorization check from an `after` callback:
+
+권한을 확인하는 모든 체크 로직 뒤에 특정한 콜백을 실행하도록 `after` 메소드를 사용할 수 있습니다. 그렇지만 이 콜백이 권한 확인의 결과를 변경할 수는 없습니다:
+
+    Gate::after(function ($user, $ability, $result, $arguments) {
+        //
+    });
 
 <a name="creating-policies"></a>
 ## Creating Policies

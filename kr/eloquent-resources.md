@@ -494,27 +494,23 @@ Sometimes you may wish to only include an attribute in a resource response if a 
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'secret' => $this->when($this->isAdmin(), 'secret-value'),
+            'secret' => $this->when(Auth::user()->isAdmin(), 'secret-value'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
     }
 
-In this example, the `secret` key will only be returned in the final resource response if the `$this->isAdmin()` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response entirely before it is sent back to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
+In this example, the `secret` key will only be returned in the final resource response if the authenticated user's `isAdmin` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response entirely before it is sent back to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
 
-이 예제에서 `$this->isAdmin()` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메소드가 `false`를 반환하면, `secret` 키는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 사용하지 않고 명시적으로 리소스를 정의할 수 있습니다.
+이 예제에서 인증된 사용자의 `isAdmin` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메소드가 `false`를 반환하면, `secret` 키는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 사용하지 않고 명시적으로 리소스를 정의할 수 있습니다.
 
 The `when` method also accepts a Closure as its second argument, allowing you to calculate the resulting value only if the given condition is `true`:
 
 `when` 메소드는 두번째 인자로 클로저를 받을 수 있는데, 주어진 조건이 `true` 인 경우에 결과 값을 계산합니다:
 
-    'secret' => $this->when($this->isAdmin(), function () {
+    'secret' => $this->when(Auth::user()->isAdmin(), function () {
         return 'secret-value';
     }),
-
-> {tip} Remember, method calls on resources proxy down to the underlying model instance. So, in this case, the `isAdmin` method is proxying to the underlying Eloquent model that was originally given to the resource.
-
-> {팁} 유의할 것은, 리소스 프록시에서의 메소드 호출은 기본 모델 인스턴스까지 전달된다는 점입니다. 따라서 이 경우 `isAdmin` 메소드는 원래 리소스에 제공되는 기본 Eloquent 모델의 메소드로 프록시 전달됩니다.
 
 #### Merging Conditional Attributes
 #### 조건에 따라 속성값 포함시키기
@@ -535,7 +531,7 @@ Sometimes you may have several attributes that should only be included in the re
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            $this->mergeWhen($this->isAdmin(), [
+            $this->mergeWhen(Auth::user()->isAdmin(), [
                 'first-secret' => 'value',
                 'second-secret' => 'value',
             ]),
@@ -576,7 +572,7 @@ Ultimately, this makes it easier to avoid "N+1" query problems within your resou
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'posts' => Post::collection($this->whenLoaded('posts')),
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

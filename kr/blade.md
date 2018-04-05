@@ -162,7 +162,7 @@ Sometimes it is helpful to define multiple slots for a component. Let's modify o
 
 Now, we can inject content into the named slot using the `@slot` directive. Any content not within a `@slot` directive will be passed to the component in the `$slot` variable:
 
-그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다: 
+그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
 
     @component('alert')
         @slot('title')
@@ -665,6 +665,20 @@ You may push to a stack as many times as needed. To render the complete stack co
 
         @stack('scripts')
     </head>
+
+If you would like to prepend content onto the beginning of a stack, you should use the `@prepend` directive:
+
+스택이 시작하는 앞부분에 내용을 추가하고자 한다면, `@prepend` 지시어를 사용하면 됩니다:
+
+    @push('scripts')
+        This will be second...
+    @endpush
+
+    // Later...
+
+    @prepend('scripts')
+        This will be first...
+    @endprepend
 
 <a name="service-injection"></a>
 ## Service Injection

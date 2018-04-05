@@ -269,6 +269,9 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
     public function store(StoreBlogPost $request)
     {
         // The incoming request is valid...
+
+        // Retrieve the validated input data...
+        $validated = $request->validated();
     }
 
 If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an AJAX request, a HTTP response with a 422 status code will be returned to the user including a JSON representation of the validation errors.
@@ -585,6 +588,7 @@ Below is a list of all available validation rules and their function:
 [Alpha Dash](#rule-alpha-dash)
 [Alpha Numeric](#rule-alpha-num)
 [Array](#rule-array)
+[Bail](#rule-bail)
 [Before (Date)](#rule-before)
 [Before Or Equal (Date)](#rule-before-or-equal)
 [Between](#rule-between)
@@ -690,6 +694,12 @@ The field under validation must be entirely alpha-numeric characters.
 
 The field under validation must be a PHP `array`.
 필드의 값이 반드시 PHP 배열 형태이어야 합니다.
+
+<a name="rule-bail"></a>
+#### bail
+
+Stop running validation rules after the first validation failure.
+첫번째 유효성 검사 룰이 실패하면, 유효성 검사를 중단합니다.
 
 <a name="rule-before"></a>
 #### before:_date_
@@ -1277,7 +1287,7 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
     use App\Rules\Uppercase;
 
     $request->validate([
-        'name' => ['required', new Uppercase],
+        'name' => ['required', 'string', new Uppercase],
     ]);
 
 <a name="using-closures"></a>

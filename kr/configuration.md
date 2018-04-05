@@ -5,6 +5,8 @@
 - [소개하기](#introduction)
 - [Environment Configuration](#environment-configuration)
 - [구동환경 설정](#environment-configuration)
+    - [Environment Variable Types](#environment-variable-types)
+    - [환경 변수의 타입](#environment-variable-types)
     - [Retrieving Environment Configuration](#retrieving-environment-configuration)
     - [구동환경 조회하기](#retrieving-environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
@@ -47,6 +49,31 @@ If you are developing with a team, you may wish to continue including a `.env.ex
 > {tip} Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
 
 > {tip} `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
+
+<a name="environment-variable-types"></a>
+### Environment Variable Types
+### 환경 변수의 타입
+
+All variables in your `.env` files are parsed as strings, so some reserved values have been created to allow you to return a wider range of types from the `env()` function:
+
+`.env` 파일의 모든 변수들은 문자열로 파싱되기 때문에, 몇몇의 예약된 값들이 다른 타입의 값들을 표현할 수 있도록 추가되었습니다.
+
+`.env` Value  | `env()` Value
+------------- | -------------
+true | (bool) true
+(true) | (bool) true
+false | (bool) false
+(false) | (bool) false
+empty | (string) ''
+(empty) | (string) ''
+null | (null) null
+(null) | (null) null
+
+If you need to define an environment variable with a value that contains spaces, you may do so by enclosing the value in double quotes.
+
+공백이 포함 된 값으로 환경 변수를 정의해야하는 경우 값을 쌍따옴표로 묶어 환경 변수를 정의 할 수 있습니다.
+
+    APP_NAME="My Application"
 
 <a name="retrieving-environment-configuration"></a>
 ### Retrieving Environment Configuration
@@ -166,4 +193,4 @@ While your application is in maintenance mode, no [queued jobs](/docs/{{version}
 
 Since maintenance mode requires your application to have several seconds of downtime, consider alternatives like [Envoyer](https://envoyer.io) to accomplish zero-downtime deployment with Laravel.
 
-점검 모드 동안에는 어플리케이션이 얼마동안 완전히 다운되어 있게 되므로, 라라벨의 제로-타임 배포를 위해서 [Envoyer](https://envoyer.io)같은 대안을 고려할 수도 있습니다. 
+점검 모드 동안에는 어플리케이션이 얼마동안 완전히 다운되어 있게 되므로, 라라벨의 제로-타임 배포를 위해서 [Envoyer](https://envoyer.io)같은 대안을 고려할 수도 있습니다.

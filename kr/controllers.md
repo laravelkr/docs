@@ -253,13 +253,13 @@ When declaring a resource route, you may specify a subset of actions the control
 
 resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있습니다.
 
-    Route::resource('photos', 'PhotoController', ['only' => [
+    Route::resource('photos', 'PhotoController')->only([
         'index', 'show'
-    ]]);
+    ]);
 
-    Route::resource('photos', 'PhotoController', ['except' => [
+    Route::resource('photos', 'PhotoController')->except([
         'create', 'store', 'update', 'destroy'
-    ]]);
+    ]);
 
 #### API Resource Routes
 #### API 리소스 라우트
@@ -292,9 +292,9 @@ By default, all resource controller actions have a route name; however, you can 
 
 기본적으로 모든 리루스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 이름을 덮어씌울 수 있습니다.
 
-    Route::resource('photos', 'PhotoController', ['names' => [
+    Route::resource('photos', 'PhotoController')->names([
         'create' => 'photos.build'
-    ]]);
+    ]);
 
 <a name="restful-naming-resource-route-parameters"></a>
 ### Naming Resource Route Parameters
@@ -302,11 +302,11 @@ By default, all resource controller actions have a route name; however, you can 
 
 By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by passing `parameters` in the options array. The `parameters` array should be an associative array of resource names and parameter names:
 
-기본적으로 `Route::resource` 는 리소스 이름을 기반으로한 리소스 라우트들을 위한 라우트 파라미터들을 생성합니다. 여러분은 옵션 배열에 `parameters` 를 전달하여 손쉽게 각각의 리소스 마다 이를 덮어쓸 수 있습니다: 
+기본적으로 `Route::resource` 는 리소스 이름을 기반으로한 리소스 라우트들을 위한 라우트 파라미터들을 생성합니다. 여러분은 옵션 배열에 `parameters` 를 전달하여 손쉽게 각각의 리소스 마다 이를 덮어쓸 수 있습니다:
 
-    Route::resource('user', 'AdminUserController', ['parameters' => [
+    Route::resource('user', 'AdminUserController')->parameters([
         'user' => 'admin_user'
-    ]]);
+    ]);
 
  The example above generates the following URIs for the resource's `show` route:
 
@@ -320,7 +320,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
 By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
 
-기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다:   
+기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다:
 
     use Illuminate\Support\Facades\Route;
 
@@ -339,7 +339,7 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
 
 Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다: 
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다:
 
     /fotos/crear
 
@@ -412,7 +412,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;            
+    use Illuminate\Http\Request;
 
     class UserController extends Controller
     {

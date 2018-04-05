@@ -389,7 +389,7 @@ Mix는 간한한 Webpack설정을 오버라딩해서 병합하는데 사용할 �
 #### Custom Configuration Files
 #### 커스텀 설정 파일
 
-If you would like completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
+If you would like to completely customize your Webpack configuration, copy the `node_modules/laravel-mix/setup/webpack.config.js` file to your project's root directory. Next, point all of the `--config` references in your `package.json` file to the newly copied configuration file. If you choose to take this approach to customization, any future upstream updates to Mix's `webpack.config.js` must be manually merged into your customized file.
 
 Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/laravel-mix/setup/webpack.config.js` 파일을 프로젝트의 루트 디렉토리로 복사하십시오. 그다음에 `package.json` 파일의 `--config` 참조를 새로 복사한 설정 파일로 지정하도록 합니다. 이 경우에는 추후 업데이트되는 Mix 의 `webpack.config.js` 내역을 수동으로 커스텀 파일에 병합해야 합니다.
 

@@ -29,6 +29,10 @@
 - [HTTP 기본 인증](#http-basic-authentication)
     - [Stateless HTTP Basic Authentication](#stateless-http-basic-authentication)
     - [상태를 유지하지 않는 HTTP 기본 인증](#stateless-http-basic-authentication)
+- [Logging Out](#logging-out)
+- [로그아웃](#logging-out)
+    - [Invalidating Sessions On Other Devices](#invalidating-sessions-on-other-devices)
+    - [다른 디바이스의 세션 무효화](#invalidating-sessions-on-other-devices)
 - [Social Authentication](https://github.com/laravel/socialite)
 - [소셜 인증](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
@@ -528,6 +532,44 @@ Next, [register the route middleware](/docs/{{version}}/middleware#registering-m
         // Only authenticated users may enter...
     })->middleware('auth.basic.once');
 
+<a name="logging-out"></a>
+## Logging Out
+## 로그아웃
+
+To manually log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
+
+어플리케이션에서 사용자를 로그아웃 시키려면, `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 이렇게 하면 사용자 세션에서 인증 정보를 지웁니다:
+
+    use Illuminate\Support\Facades\Auth;
+
+    Auth::logout();
+
+<a name="invalidating-sessions-on-other-devices"></a>
+### Invalidating Sessions On Other Devices
+### 다른 디바이스의 세션 무효화
+
+Laravel also provides a mechanism for invalidating and "logging out" a user's sessions that are active on other devices without invalidating the session on their current device. Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is present and un-commented in your `app/Http/Kernel.php` class' `web` middleware group:
+
+라라벨은 현재 접속한 디바이스의 세션은 유지하면서 다른 디바이스의 사용자 세션을 무효화하고 "로그아웃" 시키는 기능을 제공합니다. 이를 위해서 `app/Http/Kernel.php` 클래스의 `web` 미들웨어 그룹의 코멘트가 해제되었는지 확인하십시오:
+
+    'web' => [
+        // ...
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        // ...
+    ],
+
+Then, you may use the `logoutOtherDevices` method on the `Auth` facade. This method requires the user to provide their current password, which your application should accept through an input form:
+
+이렇게 하면, `Auth` 파사드의 `logoutOtherDevices` 메소드를 사용할 수 있습니다. 이 메소드를 사용하려면 사용자가 입력폼을 통해서 패스워드를 입력하도록 해야합니다:
+
+    use Illuminate\Support\Facades\Auth;
+
+    Auth::logoutOtherDevices($password);
+
+> {note} When the `logoutOtherDevices` method is invoked, the user's other sessions will be invalidated entirely, meaning they will be "logged out" of all guards they were previously authenticated by.
+
+> {note} `logoutOtherDevices` 메소드가 호출될 때, 사용자의 다른 세션은 완전히 무효화됩니다. 이는, 이전에 인증되었던 모든 사용자 정보가 "로그아웃"됨을 의미합니다.
+
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards
 ## 사용자정의 Guard 추가
@@ -621,7 +663,7 @@ After you have registered the provider using the `provider` method, you may swit
 
 Finally, you may use this provider in your `guards` configuration:
 
-마지막으로, `guards` 설정 에서 이 프로바이더를 사용할 수 있습니다. 
+마지막으로, `guards` 설정 에서 이 프로바이더를 사용할 수 있습니다.
 
     'guards' => [
         'web' => [
@@ -640,7 +682,7 @@ The `Illuminate\Contracts\Auth\UserProvider` implementations are only responsibl
 
 Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
 
-`Illuminate\Contracts\Auth\UserProvider` contract를 살펴보겠습니다: 
+`Illuminate\Contracts\Auth\UserProvider` contract를 살펴보겠습니다:
 
     <?php
 

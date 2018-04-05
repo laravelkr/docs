@@ -493,6 +493,18 @@ You may push to a stack as many times as needed. To render the complete stack co
         @stack('scripts')
     </head>
 
+If you would like to prepend content onto the beginning of a stack, you should use the `@prepend` directive:
+
+    @push('scripts')
+        This will be second...
+    @endpush
+
+    // Later...
+
+    @prepend('scripts')
+        This will be first...
+    @endprepend
+
 <a name="service-injection"></a>
 ## Service Injection
 

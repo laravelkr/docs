@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 - [Environment Configuration](#environment-configuration)
+    - [Environment Variable Types](#environment-variable-types)
     - [Retrieving Environment Configuration](#retrieving-environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
 - [Accessing Configuration Values](#accessing-configuration-values)
@@ -25,6 +26,26 @@ Your `.env` file should not be committed to your application's source control, s
 If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting place-holder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application. You may also create a `.env.testing` file. This file will override the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
 
 > {tip} Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
+
+<a name="environment-variable-types"></a>
+### Environment Variable Types
+
+All variables in your `.env` files are parsed as strings, so some reserved values have been created to allow you to return a wider range of types from the `env()` function:
+
+`.env` Value  | `env()` Value
+------------- | -------------
+true | (bool) true
+(true) | (bool) true
+false | (bool) false
+(false) | (bool) false
+empty | (string) ''
+(empty) | (string) ''
+null | (null) null
+(null) | (null) null
+
+If you need to define an environment variable with a value that contains spaces, you may do so by enclosing the value in double quotes.
+
+    APP_NAME="My Application"
 
 <a name="retrieving-environment-configuration"></a>
 ### Retrieving Environment Configuration

@@ -131,6 +131,8 @@
 
 라라벨 5.3에서는 [이벤트 브로드캐스팅](/docs/{{version}}/broadcasting)에 대한 많은 개선이 있었습니다. `app/Providers` 디렉토리에 `BroadcastServiceProvider` 를 [GitHub에서 소스를 복사하여](https://raw.githubusercontent.com/laravel/laravel/5.3/app/Providers/BroadcastServiceProvider.php) 새로 추가해야합니다. 새로운 서비스 프로바이더를 정의하고 나면 `config/app.php` 설정 파일에서 `providers` 배열에 이를 추가해야 합니다.
 
+다음으로, `app/config` 디렉토리에 [GitHub 소스에서 복사한](https://raw.githubusercontent.com/laravel/laravel/5.3/config/broadcasting.php) `broadcasting.php` 설정 파일을 새로 추가하십시오.
+
 ### 캐시
 
 #### 클로저 바인딩 확장 & `$this`
@@ -539,7 +541,7 @@ form request 에서 유효성 검사가 실패하면, 라라벨은 `HttpExceptio
 
 배열, 블리언, 정수값, 숫자 그리고 문자열에 대한 유효성 검사를 할 때, `nullable` 규칙을 추가하지 않는 이상, `null` 은 더이상 유효한 값이라고 판단되지 않습니다:
 
-    Validate::make($request->all(), [
+    Validator::make($request->all(), [
         'field' => 'nullable|max:5',
     ]);
 
@@ -803,12 +805,12 @@ IronMQ 큐 드라이버가 별도의 고유 패키지로 이동되었으며, 코
 다음의 기능들은 5.2에서 사용을 권장하지 않는 기능들이 되었으며, 2016년 6월에 릴리즈되는 5.3에서는 제거될것입니다.
 
 - `Illuminate\Contracts\Bus\SelfHandling` contract 는 job 에서 삭제될 수 있습니다.
-- 컬렉션, 쿼리빌더 그리고 Eloquent 쿼리 빌더 객체에서 `lists` 메소드는 `pluck`으로 이름이 변경되었습니다. 메소드의 사용법은 동일합니다. 
-- `Route::controller`를 사용한 묵시적 컨트롤러 라우트는 사용을 권장하지 않게 되었습니다. 라우트 파일에서 명시적으로 라우트를 등록하십시오. 이 기능은 아마도 별도 패키지로 분리될 것입니다. 
-- `get`, `post` 그리고 다른 라우트 핼퍼 함수들은 제거되었습니다. 대신에 `Route` 파사드를 사용할 수 있습니다. 
-- 5.1의 `database` 세션 드라이버는 `legacy-database`으로 이름이 변경되었으며, 나중에는 제거될것입니다. 보다 자세한 내용은 "데이터베이스 세션 드라이버" 부분을 참고하십시오. 
-- `random_bytes` 네이티브 PHP 함수가 사용되도록 `Str::randomBytes` 함수는 더이상 사용을 권장하지 않습니다. 
-- `hash_equals` 네이티브 PHP 함수가 사용되도록 `Str::equals` 함수는 더이상 사용을 권장하지 않습니다. 
+- 컬렉션, 쿼리빌더 그리고 Eloquent 쿼리 빌더 객체에서 `lists` 메소드는 `pluck`으로 이름이 변경되었습니다. 메소드의 사용법은 동일합니다.
+- `Route::controller`를 사용한 묵시적 컨트롤러 라우트는 사용을 권장하지 않게 되었습니다. 라우트 파일에서 명시적으로 라우트를 등록하십시오. 이 기능은 아마도 별도 패키지로 분리될 것입니다.
+- `get`, `post` 그리고 다른 라우트 핼퍼 함수들은 제거되었습니다. 대신에 `Route` 파사드를 사용할 수 있습니다.
+- 5.1의 `database` 세션 드라이버는 `legacy-database`으로 이름이 변경되었으며, 나중에는 제거될것입니다. 보다 자세한 내용은 "데이터베이스 세션 드라이버" 부분을 참고하십시오.
+- `random_bytes` 네이티브 PHP 함수가 사용되도록 `Str::randomBytes` 함수는 더이상 사용을 권장하지 않습니다.
+- `hash_equals` 네이티브 PHP 함수가 사용되도록 `Str::equals` 함수는 더이상 사용을 권장하지 않습니다.
 - `Illuminate\Support\HtmlString` 가 사용되도록 `Illuminate\View\Expression`는 더이상 사용을 권장하지 않습니다.
 - `WincacheStore` 캐시 드라이버는 제거되었습니다.
 
@@ -1019,21 +1021,21 @@ AWS SQS 큐 드라이버나 AWS SES 이메일 드라이버를 사용중이라면
 
 다음의 기능들은 사용을 권장하지 않는 기능들이 되었으며, 2015년 12월에 릴리즈 되는 5.2 에서는 완전히 제거될것입니다.
 
-- 라우트 필터는 더이상 추천하지 않으며 [미들웨어](/docs/{{version}}/middleware)를 사용하십시오. 
-- `Illuminate\Contracts\Routing\Middleware` contract 는 더이상 사용하지 말기를 권장합니다. 미들웨어는 어떠한 필요사항도 존재하지 않습니다. 추가적으로 `TerminableMiddleware` contract 또한 권장하지 않습니다. 인터페이스를 구현하는 대신에, 미들웨어에 `terminate` 메소드를 정의하기만 하면 됩니다. 
+- 라우트 필터는 더이상 추천하지 않으며 [미들웨어](/docs/{{version}}/middleware)를 사용하십시오.
+- `Illuminate\Contracts\Routing\Middleware` contract 는 더이상 사용하지 말기를 권장합니다. 미들웨어는 어떠한 필요사항도 존재하지 않습니다. 추가적으로 `TerminableMiddleware` contract 또한 권장하지 않습니다. 인터페이스를 구현하는 대신에, 미들웨어에 `terminate` 메소드를 정의하기만 하면 됩니다.
 - The `Illuminate\Contracts\Queue\ShouldBeQueued` contract has been deprecated in favor of `Illuminate\Contracts\Queue\ShouldQueue`.
-- `Illuminate\Contracts\Queue\ShouldQueue`를 권장하며, `Illuminate\Contracts\Queue\ShouldBeQueued` contract 는 권장하지 않습니다. 
+- `Illuminate\Contracts\Queue\ShouldQueue`를 권장하며, `Illuminate\Contracts\Queue\ShouldBeQueued` contract 는 권장하지 않습니다.
 - Iron.io "push queues" have been deprecated in favor of typical Iron.io queues and [queue listeners](/docs/{{version}}/queues#running-the-queue-listener).
-- Iron.io 의 "push queues"는 더이상 권장하지 않고, 일반적인 Iron.io 큐 그리고 [queue listeners](/docs/{{version}}/queues#running-the-queue-listener)를 사용하십시오. 
+- Iron.io 의 "push queues"는 더이상 권장하지 않고, 일반적인 Iron.io 큐 그리고 [queue listeners](/docs/{{version}}/queues#running-the-queue-listener)를 사용하십시오.
 - The `Illuminate\Foundation\Bus\DispatchesCommands` trait has been deprecated and renamed to `Illuminate\Foundation\Bus\DispatchesJobs`.
-- `Illuminate\Foundation\Bus\DispatchesCommands` 트레이트-trait는 권장되지 않고, `Illuminate\Foundation\Bus\DispatchesJobs`으로 이름이 변경되었습니다. 
+- `Illuminate\Foundation\Bus\DispatchesCommands` 트레이트-trait는 권장되지 않고, `Illuminate\Foundation\Bus\DispatchesJobs`으로 이름이 변경되었습니다.
 - `Illuminate\Container\BindingResolutionException` has been moved to `Illuminate\Contracts\Container\BindingResolutionException`.
-- `Illuminate\Container\BindingResolutionException`이 `Illuminate\Contracts\Container\BindingResolutionException`으로 변경되었습니다. 
+- `Illuminate\Container\BindingResolutionException`이 `Illuminate\Contracts\Container\BindingResolutionException`으로 변경되었습니다.
 - 서비스 컨테이너의 `bindShared` 메소드는 `singleton` 메소드로 대신합니다.
 - Eloquent 와 쿼리 빌더의 `pluck` 메소드는 권장되지 않고, `value` 메소드로 이름이 변경되었습니다.
 - collection 의 `fetch` 메소드는 권장되지 않고, `pluck` 메소드를 사용하십시오. .
 - The `array_fetch` helper has been deprecated in favor of the `array_pluck` method.
-- `array_fetch` 헬퍼 메소드는 권장되지 않습니다. `array_pluck` 메소드를 사용하십시오. 
+- `array_fetch` 헬퍼 메소드는 권장되지 않습니다. `array_pluck` 메소드를 사용하십시오.
 
 <a name="upgrade-5.0.16"></a>
 ## 5.0.16으로 업그레이드
@@ -1206,7 +1208,7 @@ Move your views from `app/views` to the new `resources/views` directory.
 ```
 
 이렇게 하는 것이 편리한것만은 아니며 XSS 공격에 대해서 어플리케이션이 취약해질 수도 있습니다.
-또한 코멘트와 `{{--` 는 더이상 동작하지 않습니다. 
+또한 코멘트와 `{{--` 는 더이상 동작하지 않습니다.
 
 ### 다국어 파일
 
@@ -1404,7 +1406,7 @@ Iron.io 큐 드라이버를 사용하는 경우 큐 설정 파일에서 새롭�
 
 ### 패스워드 리마인더(알리미) 업데이트
 
-패스워드 리마인더는 유연성을 높이기 위해서 많은 변경이 있었습니다. `php artisan auth:reminders-controller` 아티즌 명령어를 실행하여 작성되는 새로운 컨트롤러를 살펴보십시오. 혹은 [변경 관련 문서](/docs/4.1/security#password-reminders-and-reset)를 확인하고 그에 따라 어플리케이션을 업데이트 하십시오. 
+패스워드 리마인더는 유연성을 높이기 위해서 많은 변경이 있었습니다. `php artisan auth:reminders-controller` 아티즌 명령어를 실행하여 작성되는 새로운 컨트롤러를 살펴보십시오. 혹은 [변경 관련 문서](/docs/4.1/security#password-reminders-and-reset)를 확인하고 그에 따라 어플리케이션을 업데이트 하십시오.
 
 `app/lang/en/reminders.php` 언어 파일을 [새로운 파일](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php)에 맞게 변경하십시오.
 

@@ -80,7 +80,7 @@ To get started, install Passport via the Composer package manager:
 
 컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
 
-    composer require laravel/passport
+    composer require laravel/passport=~4.0
 
 The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
 
@@ -177,7 +177,7 @@ Finally, in your `config/auth.php` configuration file, you should set the `drive
 
 Passport ships with a JSON API that you may use to allow your users to create clients and personal access tokens. However, it can be time consuming to code a frontend to interact with these APIs. So, Passport also includes pre-built [Vue](https://vuejs.org) components you may use as an example implementation or starting point for your own implementation.
 
-Passport 는 여러분의 사용자가 클라이언트와 개인용 엑세스 토큰을 생성하는 것을 가능하게 하는 JSON API를 제공합니다. 하지만 이런 API에 대한 프론트엔드를 구성하는데는 시간이 필요합니다. 그래서 Pssport는 여러분이 사용할 수 있는 구현 예제 또는 고유한 구현을 위한 참고가 될 수 있도록 사전에 작성해놓은 [Vue](https://vuejs.org) 컴포넌트를 포함하고 있습니다. 
+Passport 는 여러분의 사용자가 클라이언트와 개인용 엑세스 토큰을 생성하는 것을 가능하게 하는 JSON API를 제공합니다. 하지만 이런 API에 대한 프론트엔드를 구성하는데는 시간이 필요합니다. 그래서 Pssport는 여러분이 사용할 수 있는 구현 예제 또는 고유한 구현을 위한 참고가 될 수 있도록 사전에 작성해놓은 [Vue](https://vuejs.org) 컴포넌트를 포함하고 있습니다.
 
 To publish the Passport Vue components, use the `vendor:publish` Artisan command:
 
@@ -206,7 +206,7 @@ The published components will be placed in your `resources/assets/js/components`
 
 After registering the components, make sure to run `npm run dev` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
 
-컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `npm run dev`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
+컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `npm run dev`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
@@ -280,7 +280,7 @@ The simplest way to create a client is using the `passport:client` Artisan comma
 
 Since your users will not be able to utilize the `client` command, Passport provides a JSON API that you may use to create clients. This saves you the trouble of having to manually code controllers for creating, updating, and deleting clients.
 
-여러분의 사용자는 `client` 명령어를 사용할 수 없기 때문에, Passport 는 클라이언트를 생성하는데 사용할 수 있는 JSON API를 제공합니다. 이렇게 하면, 일일이 클라이언트를 생성하고, 수정하고, 삭제하는 컨트롤러 코드를 구성해야 하는 문제에서 벗어날 수 있습니다. 
+여러분의 사용자는 `client` 명령어를 사용할 수 없기 때문에, Passport 는 클라이언트를 생성하는데 사용할 수 있는 JSON API를 제공합니다. 이렇게 하면, 일일이 클라이언트를 생성하고, 수정하고, 삭제하는 컨트롤러 코드를 구성해야 하는 문제에서 벗어날 수 있습니다.
 
 However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
 
@@ -295,7 +295,7 @@ However, you will need to pair Passport's JSON API with your own frontend to pro
 
 This route returns all of the clients for the authenticated user. This is primarily useful for listing all of the user's clients so that they may edit or delete them:
 
-이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다: 
+이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다:
 
     axios.get('/oauth/clients')
         .then(response => {

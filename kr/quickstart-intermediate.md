@@ -56,11 +56,11 @@
 
 This quickstart guide provides an intermediate introduction to the Laravel framework and includes content on database migrations, the Eloquent ORM, routing, authentication, authorization, dependency injection, validation, views, and Blade templates. This is a great starting point if you are familiar with the basics of the Laravel framework or PHP frameworks in general.
 
-이 퀵스타트 가이드는 중급 이상의 사용자들을 위해서 라라벨 프레임워크에 대한 소개와 데이터베이스 마이그레이션, Eloquent ORM, 라우팅, validation-검증, views-뷰, 블레이드 템플릿과 관련한 내용을 포함하고 있습니다. 라라벨 프레임워크와 PHP 프레임워크에 대한 기본적인 지식을 가지고 있다면 좋은 출발점이 될 것입니다. 
+이 퀵스타트 가이드는 중급 이상의 사용자들을 위해서 라라벨 프레임워크에 대한 소개와 데이터베이스 마이그레이션, Eloquent ORM, 라우팅, validation-검증, views-뷰, 블레이드 템플릿과 관련한 내용을 포함하고 있습니다. 라라벨 프레임워크와 PHP 프레임워크에 대한 기본적인 지식을 가지고 있다면 좋은 출발점이 될 것입니다.
 
-To sample a basic selection of Laravel features, we will build a task list we can use to track all of the tasks we want to accomplish (the typical "to-do list" example). In contrast to the "basic" quickstart, this tutorial will allow users to create accounts and authenticate with the application. The complete, finished source code for this project is [available on GitHub](http://github.com/laravel/quickstart-intermediate).
+To sample a basic selection of Laravel features, we will build a task list we can use to track all of the tasks we want to accomplish (the typical "to-do list" example). In contrast to the "basic" quickstart, this tutorial will allow users to create accounts and authenticate with the application. The complete, finished source code for this project is [available on GitHub](https://github.com/laravel/quickstart-intermediate).
 
-라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. ("해야 할 일" 목록) "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 어플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](http://github.com/laravel/quickstart-intermediate).
+라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. ("해야 할 일" 목록) "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 어플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](https://github.com/laravel/quickstart-intermediate).
 
 <a name="installation"></a>
 ## Installation
@@ -95,14 +95,14 @@ For more complete documentation on building a local Laravel development environm
 
 First, let's use a migration to define a database table to hold all of our tasks. Laravel's database migrations provide an easy way to define your database table structure and modifications using fluent, expressive PHP code. Instead of telling your team members to manually add columns to their local copy of the database, your teammates can simply run the migrations you push into source control.
 
-먼저 마이그레이션을 이용하여 모든 할일 목록을 저장할 데이터베이스를 정의합니다. 라라벨의 데이터베이스 마이그레이션은 유연하고 다양한 표현이 가능한 PHP 코드를 사용하여 데이터베이스 테이블 구조를 정의하고, 또 수정하기에 용이합니다. 협업을 진행하는 팀 멤버들에게 데이터베이스의 복사본에 복사하여 수동으로 컬럼을 추가하라고 하는 대신에, 여러분이 소스 제어에 추가한 마이그레이션 파일을 그냥 실행하기만하면 됩니다. 
+먼저 마이그레이션을 이용하여 모든 할일 목록을 저장할 데이터베이스를 정의합니다. 라라벨의 데이터베이스 마이그레이션은 유연하고 다양한 표현이 가능한 PHP 코드를 사용하여 데이터베이스 테이블 구조를 정의하고, 또 수정하기에 용이합니다. 협업을 진행하는 팀 멤버들에게 데이터베이스의 복사본에 복사하여 수동으로 컬럼을 추가하라고 하는 대신에, 여러분이 소스 제어에 추가한 마이그레이션 파일을 그냥 실행하기만하면 됩니다.
 
 #### The `users` Table
 #### `users` 테이블
 
 Since we are going to allow users to create their accounts within the application, we will need a table to store all of our users. Thankfully, Laravel already ships with a migration to create a basic `users` table, so we do not need to manually generate one. The default migration for the `users` table is located in the `database/migrations` directory.
 
-사용자들이 어플리케이션 내에서 계정을 생성할 수 있도록 할 것이기 때문에, 모든 사용자 정보를 저장할 테이블이 필요합니다. 다행히 라라벨은 기본적인 `users` 테이블을 생성하는 마이그레이션 파일을 이미 가지고 있기 때문에, 수동으로 생성할 필요가 없습니다. `users` 테이블을 생성하기 위한 기본 마이그레이션은 `database/migrations` 디렉토리에서 찾을 수 있습니다. 
+사용자들이 어플리케이션 내에서 계정을 생성할 수 있도록 할 것이기 때문에, 모든 사용자 정보를 저장할 테이블이 필요합니다. 다행히 라라벨은 기본적인 `users` 테이블을 생성하는 마이그레이션 파일을 이미 가지고 있기 때문에, 수동으로 생성할 필요가 없습니다. `users` 테이블을 생성하기 위한 기본 마이그레이션은 `database/migrations` 디렉토리에서 찾을 수 있습니다.
 
 #### The `tasks` Table
 #### `tasks` 테이블
@@ -115,7 +115,7 @@ Next, let's build a database table that will hold all of our tasks. The [Artisan
 
 The migration will be placed in the `database/migrations` directory of your project. As you may have noticed, the `make:migration` command already added an auto-incrementing ID and timestamps to the migration file. Let's edit this file and add an additional `string` column for the name of our tasks, as well as a `user_id` column which will link our `tasks` and `users` tables:
 
-마이그레이션 파일은 프로젝트의 `database/migrations` 디렉토리에 놓일 것입니다. 이미 알고 있을 수도 있듯이 `make:migration` 커맨드는 마이그레이션 파일에 auto-increment ID와 타임스탬프를 추가하였습니다. 이 파일을 수정하여 추가적으로 해야할 일들의 이름을 위한 `string` 컬럼과 `tasks` 와 `users` 테이블을 연결하는 `user_id` 컬럼을 추가합시다. 
+마이그레이션 파일은 프로젝트의 `database/migrations` 디렉토리에 놓일 것입니다. 이미 알고 있을 수도 있듯이 `make:migration` 커맨드는 마이그레이션 파일에 auto-increment ID와 타임스탬프를 추가하였습니다. 이 파일을 수정하여 추가적으로 해야할 일들의 이름을 위한 `string` 컬럼과 `tasks` 와 `users` 테이블을 연결하는 `user_id` 컬럼을 추가합시다.
 
 	<?php
 
@@ -152,44 +152,44 @@ The migration will be placed in the `database/migrations` directory of your proj
 
 To run our migrations, we will use the `migrate` Artisan command. If you are using Homestead, you should run this command from within your virtual machine, since your host machine will not have direct access to the database:
 
-`migrate` 아티즌 커맨드를 이용하여 마이그레이션들을 실행합니다. 홈스테드를 이용하고 있다면 호스트 머신에서 데이터베이스에 직접 접속할 수 없기 때문에 홈스테드 가상 머신 안에서 커맨드를 실행해야 합니다. 
+`migrate` 아티즌 커맨드를 이용하여 마이그레이션들을 실행합니다. 홈스테드를 이용하고 있다면 호스트 머신에서 데이터베이스에 직접 접속할 수 없기 때문에 홈스테드 가상 머신 안에서 커맨드를 실행해야 합니다.
 
 	php artisan migrate
 
 This command will create all of our database tables. If you inspect the database tables using the database client of your choice, you should see new `tasks` and `users` tables which contains the columns defined in our migration. Next, we're ready to define our Eloquent ORM models!
 
-이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인하면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블과 `users` 테이블을 확인할 수 있을 것입니다. 이제 Eloquent ORM 모델을 정의할 수 있습니다. 
+이 커맨드는 모든 데이터베이스 테이블을 생성합니다. 특정 데이터베이스 클라이언트를 사용하여 데이터베이스를 확인하면 마이그레이션 테이블에 추가한 컬럼들을 포함한 새 `tasks` 테이블과 `users` 테이블을 확인할 수 있을 것입니다. 이제 Eloquent ORM 모델을 정의할 수 있습니다.
 
 <a name="eloquent-models"></a>
 ### Eloquent Models
 
 [Eloquent](/docs/{{version}}/eloquent) is Laravel's default ORM (object-relational mapper). Eloquent makes it painless to retrieve and store data in your database using clearly defined "models". Usually, each Eloquent model corresponds directly with a single database table.
 
-[Eloquent](/docs/{{version}}/eloquent)은 라라벨의 기본 ORM입니다. Eloquent를 사용하면 명료하게 정의된 "모델"들을 이용하여 데이터베이스에 데이터를 저장하고 조회하기 용이합니다. 보통 각 Eloquent 모델은 하나의 데이터베이스 테이블에 대응합니다. 
+[Eloquent](/docs/{{version}}/eloquent)은 라라벨의 기본 ORM입니다. Eloquent를 사용하면 명료하게 정의된 "모델"들을 이용하여 데이터베이스에 데이터를 저장하고 조회하기 용이합니다. 보통 각 Eloquent 모델은 하나의 데이터베이스 테이블에 대응합니다.
 
 #### The `User` Model
 #### `User` 모델
 
 First, we need a model that corresponds to our `users` database table. However, if you look in the `app` directory of your project, you will see that Laravel already ships with a `User` model, so we do not need to generate one manually.
 
-먼저 `users` 데이터베이스 테이블에 대응하는 모델이 필요합니다. 그러나, `app` 디렉토리를 확인해 보면면 라라벨이 이미 `User` 모델을 제공한다는 것을 알 수 있으며 그렇기 때문에 수동적으로 생성하지 않아도 됩니다. 
+먼저 `users` 데이터베이스 테이블에 대응하는 모델이 필요합니다. 그러나, `app` 디렉토리를 확인해 보면면 라라벨이 이미 `User` 모델을 제공한다는 것을 알 수 있으며 그렇기 때문에 수동적으로 생성하지 않아도 됩니다.
 
 #### The `Task` Model
 #### `Task` 모델
 
 So, let's define a `Task` model that corresponds to our `tasks` database table we just created. Again, we can use an Artisan command to generate this model. In this case, we'll use the `make:model` command:
 
-이제 방금 생성한 `tasks` 데이터베이스 테이블에 대응하는 `Task` 모델을 정의합니다. 이번에도 아티즌 커맨드를 통해 이 모델을 생성할 수 있습니다. 이 경우 `make:model` 명령어를 사용합니다: 
+이제 방금 생성한 `tasks` 데이터베이스 테이블에 대응하는 `Task` 모델을 정의합니다. 이번에도 아티즌 커맨드를 통해 이 모델을 생성할 수 있습니다. 이 경우 `make:model` 명령어를 사용합니다:
 
 	php artisan make:model Task
 
 The model will be placed in the `app` directory of your application. By default, the model class is empty. We do not have to explicitly tell the Eloquent model which table it corresponds to because it will assume the database table is the plural form of the model name. So, in this case, the `Task` model is assumed to correspond with the `tasks` database table.
 
-이 모델은 어플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요가 없습니다. 그렇기 때문에 이 경우 `Task` 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 추정됩니다. 아래는 빈 모델이 어떻게 나타나야 하는지 보여줍니다. 
+이 모델은 어플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요가 없습니다. 그렇기 때문에 이 경우 `Task` 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 추정됩니다. 아래는 빈 모델이 어떻게 나타나야 하는지 보여줍니다.
 
 Let's add a few things to this model. First, we will state that the `name` attribute on the model should be "mass-assignable":
 
-모델에 몇 가지를 추가해 보겠습니다. 먼저 모델의 `name` 속성을 "mass-assignable"이라고 명시합니다. 
+모델에 몇 가지를 추가해 보겠습니다. 먼저 모델의 `name` 속성을 "mass-assignable"이라고 명시합니다.
 
 	<?php
 
@@ -209,7 +209,7 @@ Let's add a few things to this model. First, we will state that the `name` attri
 
 We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
 
-모델을 어플리케이션에 라우트에 추가하는 것과 같이 Eloquent 모델의 사용법에 대해서 배워볼 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고 하십시오. 
+모델을 어플리케이션에 라우트에 추가하는 것과 같이 Eloquent 모델의 사용법에 대해서 배워볼 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고 하십시오.
 
 <a name="eloquent-relationships"></a>
 ### Eloquent Relationships
@@ -230,7 +230,7 @@ Now that our models are defined, we need to link them. For example, our `User` c
 
 First, let's define the `tasks` relationship on our `User` model. Eloquent relationships are defined as methods on models. Eloquent supports several different types of relationships, so be sure to consult the [full Eloquent documentation](/docs/{{version}}/eloquent-relationships) for more information. In this case, we will define a `tasks` function on the `User` model which calls the `hasMany` method provided by Eloquent:
 
-먼저 `User` 모델에 `tasks`과의 관계들을 정의해 보겠습니다. Eloquent 관계들은 모델에 대한 메소드로써 정의됩니다. Eloquent는 여러종류의 관계들을 표현할 수 있도록 지원하고 있으니 반드시 [Eloquent 문서](/docs/{{version}}/eloquent-relationships)에서 더 많은 정보를 확인하시기 바랍니다. 이 경우에서는, Eloquent가 제공하는 `hasMany` 메소드를 호출하는 `tasks` 함수를 `User` 모델에 정의할 것입니다: 
+먼저 `User` 모델에 `tasks`과의 관계들을 정의해 보겠습니다. Eloquent 관계들은 모델에 대한 메소드로써 정의됩니다. Eloquent는 여러종류의 관계들을 표현할 수 있도록 지원하고 있으니 반드시 [Eloquent 문서](/docs/{{version}}/eloquent-relationships)에서 더 많은 정보를 확인하시기 바랍니다. 이 경우에서는, Eloquent가 제공하는 `hasMany` 메소드를 호출하는 `tasks` 함수를 `User` 모델에 정의할 것입니다:
 
 	<?php
 
@@ -289,7 +289,7 @@ Next, let's define the `user` relationship on the `Task` model. Again, we will d
 
 Wonderful! Now that our relationships are defined, we can start building our controllers!
 
-좋습니다! 관계들이 정의되었으니, 이제 컨트롤러 구성을 시작할 수 있습니다. 
+좋습니다! 관계들이 정의되었으니, 이제 컨트롤러 구성을 시작할 수 있습니다.
 
 <a name="routing"></a>
 ## Routing
@@ -297,18 +297,18 @@ Wonderful! Now that our relationships are defined, we can start building our con
 
 In the [basic version](/docs/{{version}}/quickstart) of our task list application, we defined all of our logic using Closures within our `routes.php` file. For the majority of this application, we will use [controllers](/docs/{{version}}/controllers) to organize our routes. Controllers will allow us to break out HTTP request handling logic across multiple files for better organization.
 
-할일 목록 어플리케이션의 [기본 버전](/docs/{{version}}/quickstart)에서는 모든 로직을 `routes.php` 파일의 클로저들을 이용해 정의했습니다. 이 어플레케이션에서는 라우트를 생성할 때 거의 대부분 [컨트롤러](/docs/{{version}}/controllers)를 사용할 것입니다. 컨트롤러를 통해서 HTTP request-요청을 처리하는 로직을 여러개의 파일로 쪼갤 수 있기 때문에, 더 나은 체계를 가능하게 해줍니다. 
+할일 목록 어플리케이션의 [기본 버전](/docs/{{version}}/quickstart)에서는 모든 로직을 `routes.php` 파일의 클로저들을 이용해 정의했습니다. 이 어플레케이션에서는 라우트를 생성할 때 거의 대부분 [컨트롤러](/docs/{{version}}/controllers)를 사용할 것입니다. 컨트롤러를 통해서 HTTP request-요청을 처리하는 로직을 여러개의 파일로 쪼갤 수 있기 때문에, 더 나은 체계를 가능하게 해줍니다.
 
 <a name="displaying-a-view"></a>
 ### Displaying A View
 
 We will have a single route that uses a Closure: our `/` route, which will simply be a landing page for application guests. So, let's fill out our `/` route. From this route, we want to render an HTML template that contains the "welcome" page:
 
-`/`를 위한 라우트는 Closure를 사용하는 하나의 라우트로, 단순히 어플리케이션 방문자들의 랜딩 페이지가 될것입니다. 이제 `/` 라우트를 채우도록 하겠습니다. 이 라우트에서 "웰컴" 페이지를 가지는 HTML 템플릿을 렌더링할 수 있도록 합니다. 
+`/`를 위한 라우트는 Closure를 사용하는 하나의 라우트로, 단순히 어플리케이션 방문자들의 랜딩 페이지가 될것입니다. 이제 `/` 라우트를 채우도록 하겠습니다. 이 라우트에서 "웰컴" 페이지를 가지는 HTML 템플릿을 렌더링할 수 있도록 합니다.
 
 In Laravel, all HTML templates are stored in the `resources/views` directory, and we can use the `view` helper to return one of these templates from our route:
 
-라라벨에서는 `resources/views` 디렉토리에 모든 HTML 템플릿들이 저장되어 있으며 `view` 헬퍼를 통해 라우트에서 이 템플릿들을 반환할 수 있습니다: 
+라라벨에서는 `resources/views` 디렉토리에 모든 HTML 템플릿들이 저장되어 있으며 `view` 헬퍼를 통해 라우트에서 이 템플릿들을 반환할 수 있습니다:
 
 	Route::get('/', function () {
 		return view('welcome');
@@ -316,7 +316,7 @@ In Laravel, all HTML templates are stored in the `resources/views` directory, an
 
 Of course, we need to actually define this view. We'll do that in a bit!
 
-물론 먼저 이 뷰 파일을 실제로 정의해야 합니다. 조금 있다가 이것을 할것입니다. 
+물론 먼저 이 뷰 파일을 실제로 정의해야 합니다. 조금 있다가 이것을 할것입니다.
 
 <a name="authentication-routing"></a>
 ### Authentication
@@ -328,14 +328,14 @@ Remember, we also need to let users create accounts and login to our application
 
 First, notice that there is already a `app/Http/Controllers/Auth/AuthController` included in your Laravel application. This controller uses a special `AuthenticatesAndRegistersUsers` trait which contains all of the necessary logic to create and authenticate users.
 
-우선 라라벨 어플리케이션에 이미 `app/Http/Controllers/Auth/AuthController`가 포함된 것을 확인할 수 있습니다. 이 컨트롤러는 사용자의 계정을 생성하고 승인하는데 필요한 모든 로직을 포함한 `AuthenticatesAndRegistersUsers` 트레이트-trait 을 이용합니다. 
+우선 라라벨 어플리케이션에 이미 `app/Http/Controllers/Auth/AuthController`가 포함된 것을 확인할 수 있습니다. 이 컨트롤러는 사용자의 계정을 생성하고 승인하는데 필요한 모든 로직을 포함한 `AuthenticatesAndRegistersUsers` 트레이트-trait 을 이용합니다.
 
 #### Authentication Routes
 #### 인증 라우트
 
 So, what's left for us to do? Well, we still need to create the registration and login templates as well as define the routes to point to the authentication controller. First, let's add the routes we need to our `app/Http/routes.php` file:
 
-이제 남은 작업이 무엇일까요? 아직 사용자 등록과 로그인 템플릿을 생성하고 사용자 인증 컨트롤러를 위한 라우트를 정의해야 합니다. 먼저 `app/Http/routes.php` 파일에 필요한 라우트들을 추가해보겠습니다: 
+이제 남은 작업이 무엇일까요? 아직 사용자 등록과 로그인 템플릿을 생성하고 사용자 인증 컨트롤러를 위한 라우트를 정의해야 합니다. 먼저 `app/Http/routes.php` 파일에 필요한 라우트들을 추가해보겠습니다:
 
 	// Authentication Routes...
 	Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -351,11 +351,11 @@ So, what's left for us to do? Well, we still need to create the registration and
 
 Authentication requires us to create `login.blade.php` and `register.blade.php` within the `resources/views/auth` directory. Of course, the design and styling of these views is unimportant; however, they should at least contain some basic fields.
 
-사용자 인증을 위해서는 `resources/views/auth` 디렉토리 내에 `login.blade.php` 와 `register.blade.php`을 생성해야 합니다. 물론 이 뷰들의 디자인과 스타일은 중요하지 않습니다. 하지만 최소한 몇가지 기본적인 필드를 가지고 있어야만 합니다. 
+사용자 인증을 위해서는 `resources/views/auth` 디렉토리 내에 `login.blade.php` 와 `register.blade.php`을 생성해야 합니다. 물론 이 뷰들의 디자인과 스타일은 중요하지 않습니다. 하지만 최소한 몇가지 기본적인 필드를 가지고 있어야만 합니다.
 
 The `register.blade.php` file should contain a form that includes `name`, `email`, `password`, and `password_confirmation` fields and makes a `POST` request to the `/auth/register` route.
 
-`register.blade.php` 파일은 `name`, `email`, `password`, and `password_confirmation` 필드들을 포함하고 `/auth/register` 라트에 `POST` 요청을 하는 form을 가지고 있어야 합니다. 
+`register.blade.php` 파일은 `name`, `email`, `password`, and `password_confirmation` 필드들을 포함하고 `/auth/register` 라트에 `POST` 요청을 하는 form을 가지고 있어야 합니다.
 
 The `login.blade.php` file should contain a form that includes `email` and `password` fields and makes a `POST` request to `/auth/login`.
 
@@ -371,13 +371,13 @@ The `login.blade.php` file should contain a form that includes `email` and `pass
 
 Since we know we're going to need to retrieve and store tasks, let's create a `TaskController` using the Artisan CLI, which will place the new controller in the `app/Http/Controllers` directory:
 
-할일들을 획득하고 저장하기 위해서 아티즌 CLI를 이용해 `TaskController` 를 생성해야 하며 이를 통해 생성된 컨트롤러는 `app/Http/Controllers` 에 위치하게 됩니다. 
+할일들을 획득하고 저장하기 위해서 아티즌 CLI를 이용해 `TaskController` 를 생성해야 하며 이를 통해 생성된 컨트롤러는 `app/Http/Controllers` 에 위치하게 됩니다.
 
 	php artisan make:controller TaskController --plain
 
 Now that the controller has been generated, let's go ahead and stub out some routes in our `app/Http/routes.php` file to point to the controller:
 
-이제 컨트롤러가 생성되었으니 `app/Http/routes.php` 파일에 컨트롤러를 가리키는 라우트들을 생성해보겠습니다: 
+이제 컨트롤러가 생성되었으니 `app/Http/routes.php` 파일에 컨트롤러를 가리키는 라우트들을 생성해보겠습니다:
 
 	Route::get('/tasks', 'TaskController@index');
 	Route::post('/task', 'TaskController@store');
@@ -423,7 +423,7 @@ This application only has a single view which contains a form for adding new tas
 
 이 어플리케이션은 현재의 할일 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 가지고 있습니다. View를 시각화하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일을 적용한 완성된 어플리케이션의 스크린샷을 제공합니다:
 
-![Application Image](http://laravel.com/assets/img/quickstart/basic-overview.png)
+![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
 ### Defining The Layout
@@ -431,7 +431,7 @@ This application only has a single view which contains a form for adding new tas
 
 Almost all web applications share the same layout across pages. For example, this application has a top navigation bar that would be typically present on every page (if we had more than one). Laravel makes it easy to share these common features across every page using Blade **layouts**.
 
-거의 모든 웹어플리케이션은 모든 페이지에 동일한 레이아웃을 사용합니다. 예를 들어 이 어플리케이션은 모든 페이지 위에(페이지가 하나 이상일 경우) 탐색 바가 표시됩니다. 라라벨은 블레이드 **layouts**를 통해 이런 공통의 구성을 모든 페이지에 적용하기 쉽게 해줍니다. 
+거의 모든 웹어플리케이션은 모든 페이지에 동일한 레이아웃을 사용합니다. 예를 들어 이 어플리케이션은 모든 페이지 위에(페이지가 하나 이상일 경우) 탐색 바가 표시됩니다. 라라벨은 블레이드 **layouts**를 통해 이런 공통의 구성을 모든 페이지에 적용하기 쉽게 해줍니다.
 
 As we discussed earlier, all Laravel views are stored in `resources/views`. So, let's define a new layout view in `resources/views/layouts/app.blade.php`. The `.blade.php` extension instructs the framework to use the [Blade templating engine](/docs/{{version}}/blade) to render the view. Of course, you may use plain PHP templates with Laravel. However, Blade provides convenient short-cuts for writing cleaner, terse templates.
 
@@ -472,7 +472,7 @@ Note the `@yield('content')` portion of the layout. This is a special Blade dire
 
 Great, our application layout is finished. Next, we need to define a view that contains a form to create a new task as well as a table that lists all existing tasks. Let's define this view in `resources/views/tasks/index.blade.php`, which will correspond to the `index` method in our `TaskController`.
 
-이제 어플리케이션의 레이아웃이 완성되었습니다. 다음은 현재 할일 목록 테이블과 새로운 할일을 생성하는 form을 가진 뷰를 정의해야 합니다. `resources/views/tasks.blade.php`에서 뷰파일을 정의합니다. 
+이제 어플리케이션의 레이아웃이 완성되었습니다. 다음은 현재 할일 목록 테이블과 새로운 할일을 생성하는 form을 가진 뷰를 정의해야 합니다. `resources/views/tasks.blade.php`에서 뷰파일을 정의합니다.
 
 We'll skip over some of the Bootstrap CSS boilerplate and only focus on the things that matter. Remember, you can download the full source for this application on [GitHub](https://github.com/laravel/quickstart-intermediate):
 
@@ -518,7 +518,7 @@ We'll skip over some of the Bootstrap CSS boilerplate and only focus on the thin
 	@endsection
 
 #### A Few Notes Of Explanation
-#### 간단한 설명 
+#### 간단한 설명
 
 Before moving on, let's talk about this template a bit. First, the `@extends` directive informs Blade that we are using the layout we defined at `resources/views/layouts/app.blade.php`. All of the content between `@section('content')` and `@endsection` will be injected into the location of the `@yield('content')` directive within the `app.blade.php` layout.
 
@@ -526,7 +526,7 @@ Before moving on, let's talk about this template a bit. First, the `@extends` di
 
 Now we have defined a basic layout and view for our application. Let's go ahead and return this view from the `index` method of our `TaskController`:
 
-어플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이제 `TaskController`의 `index` 메소드에서 이 뷰를 반환합니다. 
+어플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이제 `TaskController`의 `index` 메소드에서 이 뷰를 반환합니다.
 
     /**
      * Display a list of all of the user's task.
@@ -557,11 +557,11 @@ Next, we're ready to add code to our `POST /task` route's controller method to h
 
 Now that we have a form in our view, we need to add code to our `TaskController@store` method to validate the incoming form input and create a new task. First, let's validate the input.
 
-이제 뷰에 form이 있으며 유입되는 form 입력값을 검증하고 새로운 할일를 생성하기 위해서 `POST /task` 라우트에 코드를 추가해야 합니다. 먼저 입력값을 검증하겠습니다. 
+이제 뷰에 form이 있으며 유입되는 form 입력값을 검증하고 새로운 할일를 생성하기 위해서 `POST /task` 라우트에 코드를 추가해야 합니다. 먼저 입력값을 검증하겠습니다.
 
 For this form, we will make the `name` field required and state that it must contain less than `255` characters. If the validation fails, we want to redirect the user back to the `/tasks` URL, as well as flash the old input and errors into the [session](/docs/{{version}}/session):
 
-이 form은 `name` 필드를 필수값으로 하고 `255` 자 미만이어야 한다는 내용을 담도록 할 것입니다. 입력값 검증이 실패 시에 사용자는 `/` URL로 리다이렉트 되며 이전에 입력한 값들과 에러는 [session](/docs/{{version}}/session)에 임시 저장합니다. 
+이 form은 `name` 필드를 필수값으로 하고 `255` 자 미만이어야 한다는 내용을 담도록 할 것입니다. 입력값 검증이 실패 시에 사용자는 `/` URL로 리다이렉트 되며 이전에 입력한 값들과 에러는 [session](/docs/{{version}}/session)에 임시 저장합니다.
 
     /**
      * Create a new task.
@@ -613,7 +613,7 @@ form의 입력값 검증 오류를 뷰 안에서 표현하기 위해 `@include('
 
 > **Note:** The `$errors` variable is available in **every** Laravel view. It will simply be an empty instance of `ViewErrorBag` if no validation errors are present.
 
-> **주의:** `$errors` 변수는 **모든** 라라벨 뷰에서 사용 가능합니다. 입력값 검증의 오류가 존재하지 않는 경우에는, 에러 변수는 단순히 `ViewErrorBag`의 비어 있는 인스턴스일 것입니다. 
+> **주의:** `$errors` 변수는 **모든** 라라벨 뷰에서 사용 가능합니다. 입력값 검증의 오류가 존재하지 않는 경우에는, 에러 변수는 단순히 `ViewErrorBag`의 비어 있는 인스턴스일 것입니다.
 
 <a name="creating-the-task"></a>
 ### Creating The Task
@@ -656,7 +656,7 @@ Great! We can now successfully create tasks. Next, let's continue adding to our 
 
 First, we need to edit our `TaskController@index` method to pass all of the existing tasks to the view. The `view` function accepts a second argument which is an array of data that will be made available to the view, where each key in the array will become a variable within the view. For example, we could do this:
 
-먼저 모든 할일들을 뷰에 전달하기 위해서 `TaskController@index` 메소드를 수정해야 합니다. `view` 함수는 두번째 인자로 뷰에서 사용되어질 데이터의 배열을 전달 받고,  배열의 각 키는 뷰에서 변수가 될것입니다. 예를 들어 다음처럼 할 수 있습니다: 
+먼저 모든 할일들을 뷰에 전달하기 위해서 `TaskController@index` 메소드를 수정해야 합니다. `view` 함수는 두번째 인자로 뷰에서 사용되어질 데이터의 배열을 전달 받고,  배열의 각 키는 뷰에서 변수가 될것입니다. 예를 들어 다음처럼 할 수 있습니다:
 
     /**
      * Display a list of all of the user's task.
@@ -675,7 +675,7 @@ First, we need to edit our `TaskController@index` method to pass all of the exis
 
 However, let's explore some of the dependency injection capabilities of Laravel to inject a `TaskRepository` into our `TaskController`, which we will use for all of our data access.
 
-하지만 그전에, `TaskController`에, 모든 데이터를 접근하기 위해서 사용될 `TaskRepository`를 주입하도록 라라벨의 의존성 주입에 대해서 알아보도록 하겠습니다. 
+하지만 그전에, `TaskController`에, 모든 데이터를 접근하기 위해서 사용될 `TaskRepository`를 주입하도록 라라벨의 의존성 주입에 대해서 알아보도록 하겠습니다.
 
 <a name="dependency-injection"></a>
 ### Dependency Injection
@@ -690,7 +690,7 @@ Laravel's [service container](/docs/{{version}}/container) is one of the most po
 
 As we mentioned earlier, we want to define a `TaskRepository` that holds all of our data access logic for the `Task` model. This will be especially useful if the application grows and you need to share some Eloquent queries across the application.
 
-앞서 이야기한것처럼, `Task` 모델의 모든 데이터에 엑세스 할 수 있는 로직을 포함하는 `TaskRepository`를 정의해야 합니다. 이렇게 하는 것은 어플리케이션의 규모가 커지거나, Eloqent 쿼리를 어플리케이션 전반 걸쳐서 공유해야 할 때 특히 유용합니다. 
+앞서 이야기한것처럼, `Task` 모델의 모든 데이터에 엑세스 할 수 있는 로직을 포함하는 `TaskRepository`를 정의해야 합니다. 이렇게 하는 것은 어플리케이션의 규모가 커지거나, Eloqent 쿼리를 어플리케이션 전반 걸쳐서 공유해야 할 때 특히 유용합니다.
 
 So, let's create an `app/Repositories` directory and add a `TaskRepository` class. Remember, all Laravel `app` folders are auto-loaded using the PSR-4 auto-loading standard, so you are free to create as many extra directories as needed:
 
@@ -724,7 +724,7 @@ So, let's create an `app/Repositories` directory and add a `TaskRepository` clas
 
 Once our repository is defined, we can simply "type-hint" it in the constructor of our `TaskController` and utilize it within our `index` route. Since Laravel uses the container to resolve all controllers, our dependencies will automatically be injected into the controller instance:
 
-Repository가 정의되었다면 이를 `TaskController` 의 컨트롤러에 단순히 "타입-힌트"하고 `index` 라우트 안에서 활용할 수 있습니다. 라라벨은 모든 컨트롤러의 의존성을 해결하기 위해서 컨테이너를 사용하기 때문에 의존 객체들은 컨트롤러 인스턴스에 자동으로 주입될 것입니다.: 
+Repository가 정의되었다면 이를 `TaskController` 의 컨트롤러에 단순히 "타입-힌트"하고 `index` 라우트 안에서 활용할 수 있습니다. 라라벨은 모든 컨트롤러의 의존성을 해결하기 위해서 컨테이너를 사용하기 때문에 의존 객체들은 컨트롤러 인스턴스에 자동으로 주입될 것입니다.:
 
 	<?php
 
@@ -778,7 +778,7 @@ Repository가 정의되었다면 이를 `TaskController` 의 컨트롤러에 단
 
 Once the data is passed, we can spin through the tasks in our `tasks/index.blade.php` view and display them in a table. The `@foreach` Blade construct allows us to write concise loops that compile down into blazing fast plain PHP code:
 
-데이터가 전달되고 나면 `tasks.blade.php` 뷰에 있는 할일들을 테이블에 나타낼 수 있습니다. `@foreach` 블레이드 지시어는 빠르고 단순한 PHP 코드로 컴파일되는 간결한 반복문을 사용할 수 있도록 해줍니다: 
+데이터가 전달되고 나면 `tasks.blade.php` 뷰에 있는 할일들을 테이블에 나타낼 수 있습니다. `@foreach` 블레이드 지시어는 빠르고 단순한 PHP 코드로 컴파일되는 간결한 반복문을 사용할 수 있도록 해줍니다:
 
 	@extends('layouts.app')
 
@@ -836,7 +836,7 @@ Our task application is almost complete. But, we have no way to delete our exist
 
 We left a "TODO" note in our code where our delete button is supposed to be. So, let's add a delete button to each row of our task listing within the `tasks/index.blade.php` view. We'll create a small single-button form for each task in the list. When the button is clicked, a `DELETE /task` request will be sent to the application which will trigger our `TaskController@destroy` method:
 
-코드에서 삭제 버튼이 있어야할 곳에 "TODO" 라고 표시해놓았었습니다. 이제, `tasks.blade.php` 뷰 안에 있는 할일 리스트의 각 열에 작은 삭제 버튼을 생성합니다. 목록의 각 할일에 작은 버튼 form을 만들 것입니다. 버튼을 클릭하면 `DELETE /task` request-요청이 어플리케이션에 전달되어 `TaskController@destroy` 메소드를 실행할 것입니다: 
+코드에서 삭제 버튼이 있어야할 곳에 "TODO" 라고 표시해놓았었습니다. 이제, `tasks.blade.php` 뷰 안에 있는 할일 리스트의 각 열에 작은 삭제 버튼을 생성합니다. 목록의 각 할일에 작은 버튼 form을 만들 것입니다. 버튼을 클릭하면 `DELETE /task` request-요청이 어플리케이션에 전달되어 `TaskController@destroy` 메소드를 실행할 것입니다:
 
     <tr>
         <!-- Task Name -->
@@ -861,11 +861,11 @@ We left a "TODO" note in our code where our delete button is supposed to be. So,
 
 Note that the delete button's form `method` is listed as `POST`, even though we are responding to the request using a `Route::delete` route. HTML forms only allow the `GET` and `POST` HTTP verbs, so we need a way to spoof a `DELETE` request from the form.
 
-`Route::delete` 라우트를 이용해서 request요청을 처리하지만, 삭제 버튼의 form `method`가 `POST`로 되어 있다는 것에 주의하십시오. HTML form은 단지 `GET` 과 `POST` HTTP 메소드만을 허용하기 때문에 form에 `DELETE` 요청을 흉내낼 수 있는 방법이 필요합니다. 
+`Route::delete` 라우트를 이용해서 request요청을 처리하지만, 삭제 버튼의 form `method`가 `POST`로 되어 있다는 것에 주의하십시오. HTML form은 단지 `GET` 과 `POST` HTTP 메소드만을 허용하기 때문에 form에 `DELETE` 요청을 흉내낼 수 있는 방법이 필요합니다.
 
 We can spoof a `DELETE` request by outputting the results of the `method_field('DELETE')` function within our form. This function generates a hidden form input that Laravel recognizes and will use to override the actual HTTP request method. The generated field will look like the following:
 
-form 안에서 `method_field('DELETE')` 함수의 결과를 출력하여 `DELETE` request-요청으로 흉내낼 수 있습니다. 이 기능은 hidden 형식의 input을 생성하고 라라벨은 이를 인식하여 실제 HTTP 요청 메소드를 대체할 것입니다. 생성된 필드는 다음과 같을 것입니다: 
+form 안에서 `method_field('DELETE')` 함수의 결과를 출력하여 `DELETE` request-요청으로 흉내낼 수 있습니다. 이 기능은 hidden 형식의 input을 생성하고 라라벨은 이를 인식하여 실제 HTTP 요청 메소드를 대체할 것입니다. 생성된 필드는 다음과 같을 것입니다:
 
 	<input type="hidden" name="_method" value="DELETE">
 
@@ -875,13 +875,13 @@ form 안에서 `method_field('DELETE')` 함수의 결과를 출력하여 `DELETE
 
 Now, we're almost ready to define the `destroy` method on our `TaskController`. But, first, let's revisit our route declaration for this route:
 
-이제 `TaskController` 에 `destroy` 를 정의할 준비가 거의 다 되었습니다. 하지만, 우선 이 라우트의 선언부분을 다시 확인해봅시다:  
+이제 `TaskController` 에 `destroy` 를 정의할 준비가 거의 다 되었습니다. 하지만, 우선 이 라우트의 선언부분을 다시 확인해봅시다:
 
 	Route::delete('/task/{task}', 'TaskController@destroy');
 
 Without adding any additional code, Laravel would inject the given task ID into the `TaskController@destroy` method, like so:
 
-아무런 코드의 추가 없이도, 라라벨은 `TaskController@destroy` 메소드에 주어진 할일의 ID를 다음과 같이 주입합니다:  
+아무런 코드의 추가 없이도, 라라벨은 `TaskController@destroy` 메소드에 주어진 할일의 ID를 다음과 같이 주입합니다:
     /**
      * Destroy the given task.
      *
@@ -896,17 +896,17 @@ Without adding any additional code, Laravel would inject the given task ID into 
 
 However, the very first thing we will need to do in this method is retrieve the `Task` instance from the database using the given ID. So, wouldn't it be nice if Laravel could just inject the `Task` instance that matches the ID in the first place? Let's make it happen!
 
-하지만, 이 메소드가 가장 우선적으로 하는 일은 주어진 ID를 이용해서 데이터베이스에서 `Task` 인스턴스를 찾는 것입니다. 이런 경우, 라라벨이 처음부터 ID에 맞는 `Task` 인스턴스를 주입하게 된다면 편리하지 않을까요? 이렇게 할 수 있습니다. 
+하지만, 이 메소드가 가장 우선적으로 하는 일은 주어진 ID를 이용해서 데이터베이스에서 `Task` 인스턴스를 찾는 것입니다. 이런 경우, 라라벨이 처음부터 ID에 맞는 `Task` 인스턴스를 주입하게 된다면 편리하지 않을까요? 이렇게 할 수 있습니다.
 
 In your `app/Providers/RouteServiceProvider.php` file's `boot` method, let's add the following line of code:
 
-`app/Providers/RouteServiceProvider.php` 파일의 `boot` 메소드에 다음 코드를 추가합니다: 
+`app/Providers/RouteServiceProvider.php` 파일의 `boot` 메소드에 다음 코드를 추가합니다:
 
 	$router->model('task', 'App\Task');
 
 This small line of code will instruct Laravel to retrieve the `Task` model that corresponds to a given ID whenever it sees `{task}` in a route declaration. Now we can define our destroy method like so:
 
-이 짧은 코드 라인의 추가는 라라벨이 라우트 선언부분에서 `{task}`를 확인할 때마다 주어진 ID에 상응하는 `Task` 모델을 찾도록 지시할 것입니다. 이제 다음과 같이 destroy 메소드를 정의할 수 있습니다: 
+이 짧은 코드 라인의 추가는 라라벨이 라우트 선언부분에서 `{task}`를 확인할 때마다 주어진 ID에 상응하는 `Task` 모델을 찾도록 지시할 것입니다. 이제 다음과 같이 destroy 메소드를 정의할 수 있습니다:
 
     /**
      * Destroy the given task.
@@ -926,7 +926,7 @@ This small line of code will instruct Laravel to retrieve the `Task` model that 
 
 Now, we have a `Task` instance injected into our `destroy` method; however, we have no guarantee that the authenticated user actually "owns" the given task. For example, a malicious request could have been concocted in an attempt to delete another user's tasks by passing a random task ID to the `/tasks/{task}` URL. So, we need to use Laravel's authorization capabilities to make sure the authenticated user actually owns the `Task` instance that was injected into the route.
 
-이제 `Task` 인스턴스가 `destroy`메소드에 됩니다: 하지만 인증된 사용자가 주어진 할일을 실제로 "소유" 하고 있는지에 대한 보장이 없습니다. 예를 들어, `/tasks/{task}` URL에 랜덤한 할일 ID를 전달하여 다른 사용자의 할일을 삭제하려는 악의적인 요청이 있었을 수도 있습니다. 그렇기 때문에 라라벨의 authorization-승인 기능을 사용하여 승인된 사용자가 실제로 라우트에 주입된 `Task` 인스턴스를 소유하고 있도록 보장해야 합니다. 
+이제 `Task` 인스턴스가 `destroy`메소드에 됩니다: 하지만 인증된 사용자가 주어진 할일을 실제로 "소유" 하고 있는지에 대한 보장이 없습니다. 예를 들어, `/tasks/{task}` URL에 랜덤한 할일 ID를 전달하여 다른 사용자의 할일을 삭제하려는 악의적인 요청이 있었을 수도 있습니다. 그렇기 때문에 라라벨의 authorization-승인 기능을 사용하여 승인된 사용자가 실제로 라우트에 주입된 `Task` 인스턴스를 소유하고 있도록 보장해야 합니다.
 
 #### Creating A Policy
 #### Policy 생성하기
@@ -968,7 +968,7 @@ Next, let's add a `destroy` method to the policy. This method will receive a `Us
 
 Finally, we need to associate our `Task` model with our `TaskPolicy`. We can do this by adding a line in the `app/Providers/AuthServiceProvider.php` file's `$policies` property. This will inform Laravel which policy should be used whenever we try to authorize an action on a `Task` instance:
 
-마지막으로 `Task` 모델을 `TaskPolicy`에 할당 해야합니다. 이 작업은 `app/Providers/AuthServiceProvider.php` 파일의 `$policies` 속성에 한 줄을 추가하는 것으로 할 수 있습니다. 이렇게 하면 `Task` 인스턴스에 동작을 authorize-승인할 때마다 라라벨이 어떤 policy-정책을 사용해야 하는지 알려줄 것입니다. 
+마지막으로 `Task` 모델을 `TaskPolicy`에 할당 해야합니다. 이 작업은 `app/Providers/AuthServiceProvider.php` 파일의 `$policies` 속성에 한 줄을 추가하는 것으로 할 수 있습니다. 이렇게 하면 `Task` 인스턴스에 동작을 authorize-승인할 때마다 라라벨이 어떤 policy-정책을 사용해야 하는지 알려줄 것입니다.
 
     /**
      * The policy mappings for the application.
@@ -985,7 +985,7 @@ Finally, we need to associate our `Task` model with our `TaskPolicy`. We can do 
 
 Now that our policy is written, let's use it in our `destroy` method. All Laravel controllers may call an `authorize` method, which is exposed by the `AuthorizesRequest` trait:
 
-이제 policy-정책을 작성하였으니, `destroy` 메소드를 사용해 보겠습니다. 모든 라라벨 컨트롤러는 `AuthorizesRequest` 트레이트-trait에 의해 제공되는 `authorize` 메소드를 호출할 수 있습니다. 
+이제 policy-정책을 작성하였으니, `destroy` 메소드를 사용해 보겠습니다. 모든 라라벨 컨트롤러는 `AuthorizesRequest` 트레이트-trait에 의해 제공되는 `authorize` 메소드를 호출할 수 있습니다.
 
     /**
      * Destroy the given task.
@@ -1003,11 +1003,11 @@ Now that our policy is written, let's use it in our `destroy` method. All Larave
 
 Let's examine this method call for a moment. The first argument passed to the `authorize` method is the name of the policy method we wish to call. The second argument is the model instance that is our current concern. Remember, we recently told Laravel that our `Task` model corresponds to our `TaskPolicy`, so the framework knows on which policy to fire the `destroy` method. The current user will automatically be sent to the policy method, so we do not need to manually pass it here.
 
-잠시 이 메소드의 호출에 대해 생각해보겠습니다. `authorize` 메소드에 전달된 첫번째 인자는 호출하고자 하는 policy-정책 메소드의 이름입니다. 두 번째 인자는 현재 다루어야 할 모델의 인스턴스입니다. 앞서 이미 라라벨에 `Task` 모델이 `TaskPolicy` 에 대응한다는 것을 알려주었기 때문에, 프레임워크는 `destroy` 메소드가 실행되어야 하는 policy-정책을 알고 있습니다. 현재 사용자는 자동으로 policy-정책 메소드로 전달되기 때문에 수동으로 전달할 필요가 없습니다. 
+잠시 이 메소드의 호출에 대해 생각해보겠습니다. `authorize` 메소드에 전달된 첫번째 인자는 호출하고자 하는 policy-정책 메소드의 이름입니다. 두 번째 인자는 현재 다루어야 할 모델의 인스턴스입니다. 앞서 이미 라라벨에 `Task` 모델이 `TaskPolicy` 에 대응한다는 것을 알려주었기 때문에, 프레임워크는 `destroy` 메소드가 실행되어야 하는 policy-정책을 알고 있습니다. 현재 사용자는 자동으로 policy-정책 메소드로 전달되기 때문에 수동으로 전달할 필요가 없습니다.
 
 If the action is authorized, our code will continue executing normally. However, if the action is not authorized (meaning the policy's `destroy` method returned `false`), a 403 exception will be thrown and an error page will be displayed to the user.
 
-액션이 승인되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 액션이 승인되지 않을 경우 (정책의 `destroy` 메소드가 `false` 를 반환한다면), 403 예외가 던져질 것이며 사용자는 에러 페이지를 보게 될 것입니다. 
+액션이 승인되면 코드는 계속해서 정상적으로 실행될 것입니다. 하지만 액션이 승인되지 않을 경우 (정책의 `destroy` 메소드가 `false` 를 반환한다면), 403 예외가 던져질 것이며 사용자는 에러 페이지를 보게 될 것입니다.
 
 > **Note:** There are several other ways to interact with the authorization services Laravel provides. Be sure to browse the complete [authorization documentation](/docs/{{version}}/authorization).
 

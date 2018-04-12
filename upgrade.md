@@ -133,6 +133,8 @@ Binding classes into the container with leading slashes is no longer supported. 
 
 The container's `make` method no longer accepts a second array of parameters. This feature typically indicates a code smell. Typically, you can always construct the object in another way that is more intuitive.
 
+If must continue to pass an array of parameters, you may use the `makeWith` method.
+
 #### Resolving Callbacks
 
 The container's `resolving` and `afterResolving` method now must be provided a class name or binding key as the first argument to the method:
@@ -160,6 +162,16 @@ The `share` method has been removed from the container. This was a legacy method
 If you are directly referencing the `Illuminate\Console\AppNamespaceDetectorTrait` trait, update your code to reference `Illuminate\Console\DetectsApplicationNamespace` instead.
 
 ### Database
+
+#### Array Argument to `orWhere`
+
+When passing an array as first argument to the `orWhere` method, the inner conditions now use `OR` between each array element:
+
+    $query->orWhere(['a' => 1, 'b' => 2])
+
+    OR (a = 1 AND b = 2) // Prior Behavior...
+
+    OR (a = 1 OR b = 2) // New Behavior...
 
 #### Custom Connections
 
@@ -194,7 +206,7 @@ If the foreign key is not explicitly specified when defining a relationship, Elo
         return $this->belongsTo(User::class);
     }
 
-Just like previous Laravel releases, this relationship will typically use `user_id` as the foreign key. However, the behavior could be different from previous releases if you are overriding the `getKeyName` method of the `User` model. For example:
+Just like previous Laravel releases, this relationship will typically use `user_id` as the foreign key. However, the behavior could be different from previous releases if you are overriding the `$primaryKey` property or `getKeyName` method of the `User` model. For example:
 
     public function getKeyName()
     {
@@ -510,7 +522,7 @@ The `Mail` fake has been greatly simplified for the Laravel 5.4 release. Instead
 If you are using the `{Inf}` placeholder for pluralizing your translation strings, you should update your translation strings to use the `*` character instead:
 
     {0} First Message|{1,*} Second Message
-    
+
 #### The `trans` Helpers
 
 The `trans` helper signature has been updated to remove the unnecessary `$domain` argument. The new signature is as follows:

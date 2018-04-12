@@ -1358,6 +1358,8 @@ If you want to stop executing the script after dumping the collection, use the [
 
     // [2, 4, 5] - (retrieved randomly)
 
+컬렉션이 요청받은 것보다 더 적은수의 아이템을 가지고 있다면 `InvalidArgumentException` 이 발생합니다.
+
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
 

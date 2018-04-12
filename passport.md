@@ -42,7 +42,7 @@
 
 컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
 
-    composer require laravel/passport
+    composer require laravel/passport=~4.0
 
 Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 서비스 프로바이더를 등록한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 어플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
 

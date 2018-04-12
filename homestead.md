@@ -21,6 +21,7 @@
     - [Sharing Your Environment](#sharing-your-environment)
     - [Multiple PHP Versions](#multiple-php-versions)
     - [Web Servers](#web-servers)
+    - [Mail](#mail)
 - [Network Interfaces](#network-interfaces)
 - [Updating Homestead](#updating-homestead)
 - [Provider Specific Settings](#provider-specific-settings)
@@ -62,6 +63,8 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Elasticsearch (Optional)
 - ngrok
 - wp-cli
+- Zend Z-Ray
+- Go
 </div>
 
 <a name="installation-and-setup"></a>
@@ -430,6 +433,11 @@ In addition, you may use any of the supported PHP versions via the CLI:
 Homestead uses the Nginx web server by default. However, it can install Apache if `apache` is specified as a site type. While both web servers can be installed at the same time, they cannot both be *running* at the same time. The `flip` shell command is available to ease the process of switching between web servers. The `flip` command automatically determines which web server is running, shuts it off, and then starts the other server. To use this command, SSH into your Homestead machine and run the command in your terminal:
 
     flip
+
+<a name="mail"></a>
+### Mail
+
+Homestead includes the Postfix mail transfer agent, which is listening on port `1025` by default. So, you may instruct your application to use the `smtp` mail driver on `localhost` port `1025`. Then, all sent mail will be handled by Postfix and caught by Mailhog. To view your sent emails, open [http://localhost:8025](http://localhost:8025) in your web browser.
 
 <a name="network-interfaces"></a>
 ## Network Interfaces

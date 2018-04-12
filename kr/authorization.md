@@ -101,20 +101,20 @@ You may also define multiple Gate abilities at once using the `resource` method:
 
 `resource` 메소드를 사용하여 여러개의 Gate를 한번에 정의할 수도 있습니다:
 
-    Gate::resource('posts', 'PostPolicy');
+    Gate::resource('posts', 'App\Policies\PostPolicy');
 
 This is identical to manually defining the following Gate definitions:
 
 이렇게 하면 다음의 Gate를  정의 한 것과 동일하게 적용됩니다:
 
-    Gate::define('posts.view', 'PostPolicy@view');
-    Gate::define('posts.create', 'PostPolicy@create');
-    Gate::define('posts.update', 'PostPolicy@update');
-    Gate::define('posts.delete', 'PostPolicy@delete');
+    Gate::define('posts.view', 'App\Policies\PostPolicy@view');
+    Gate::define('posts.create', 'App\Policies\PostPolicy@create');
+    Gate::define('posts.update', 'App\Policies\PostPolicy@update');
+    Gate::define('posts.delete', 'App\Policies\PostPolicy@delete');
 
-By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may override or add to the default abilities by passing an array as a third argument to the `resource` method. The keys of the array define the names of the abilities while the values define the method names. For example, the following code will create two new Gate definitions - `posts.image` and `posts.photo`:
+By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may override the default abilities by passing an array as a third argument to the `resource` method. The keys of the array define the names of the abilities while the values define the method names. For example, the following code will only create two new Gate definitions - `posts.image` and `posts.photo`:
 
-기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달해서, 기본 속성들을 재정의하거나 추가할 수 있습니다. 배열의 키는 Gate 액션의 이름을, 값은 메소드를 정의합니다. 예를 들어 다음의 코드는 `posts.image` 와 `posts.photo` 두개의 새로운 Gate 정의를 생성합니다:
+기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달해서, 기본 속성들을 재정의(오버라이드)할 수 있습니다. 배열의 키는 Gate 액션의 이름을, 값은 메소드를 정의합니다. 예를 들어 다음의 코드는 `posts.image` 와 `posts.photo` 단 두개의 새로운 Gate 정의를 생성합니다:
 
     Gate::resource('posts', 'PostPolicy', [
         'image' => 'updateImage',

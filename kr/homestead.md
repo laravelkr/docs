@@ -43,6 +43,8 @@
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
     - [Web Servers](#web-servers)
     - [웹서버](#web-servers)
+    - [Mail](#mail)
+    - [이메일](#mail)
 - [Network Interfaces](#network-interfaces)
 - [네트워크 인터페이스](#network-interfaces)
 - [Updating Homestead](#updating-homestead)
@@ -97,6 +99,8 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Elasticsearch (Optional)
 - ngrok
 - wp-cli
+- Zend Z-Ray
+- Go
 
 <a name="installation-and-setup"></a>
 ## Installation & Setup
@@ -617,6 +621,14 @@ Homestead uses the Nginx web server by default. However, it can install Apache i
 홈스테드는 기본적으로 Nginx를 웹서버로 사용합니다. 그렇지만, site 타입에 `apache`를 지정해서 아파치를 설치할 수 있습니다. 두 웹서버를 모두 설치할 수 있지만, 동시에 실행할 수는 없습니다. `flip` 쉘 명령어를 사용하여 웹서버를 쉽게 전환할 수 있습니다. `flip` 쉘 명령어는 자동으로 실행되는 웹서버를 멈추고 다른 서버를 구동합니다. 이 명령어을 사용하려면 홈스테드에 SSH 접속을 하고 터미널에 명령어를 실행하면 됩니다:
 
     flip
+
+<a name="mail"></a>
+### Mail
+### 이메일
+
+Homestead includes the Postfix mail transfer agent, which is listening on port `1025` by default. So, you may instruct your application to use the `smtp` mail driver on `localhost` port `1025`. Then, all sent mail will be handled by Postfix and caught by Mailhog. To view your sent emails, open [http://localhost:8025](http://localhost:8025) in your web browser.
+
+홈스테드는 기본적으로 `1025` 포트를 사용하는 Postfix 메일 전송 에이전트를 포함하고 있습니다. 따라서 어플리케이션에서 `smtp` 메일드라이버에 `localhost` 와 포트번호 `1025` 를 설정할 수 있습니다. 이렇게 하면 모든 메일은 Postfix로 처리되고 Mailhog 에 기록됩니다. 전달된 이메일을 확인하려면 브라우저에서 [http://localhost:8025](http://localhost:8025)를 열어보십시오.
 
 <a name="network-interfaces"></a>
 ## Network Interfaces

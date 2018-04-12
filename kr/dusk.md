@@ -770,6 +770,9 @@ Dusk는 어플리케이션에서 사용가능한 다양한 assertion을 제공�
 [assertQueryStringHas](#assert-query-string-has)
 [assertQueryStringHas](#assert-query-string-has)
 [assertQueryStringMissing](#assert-query-string-missing)
+[assertFragmentIs](#assert-fragment-is)
+[assertFragmentBeginsWith](#assert-fragment-begins-with)
+[assertFragmentIsNot](#assert-fragment-is-not)
 [assertHasCookie](#assert-has-cookie)
 [assertCookieMissing](#assert-cookie-missing)
 [assertCookieValue](#assert-cookie-value)
@@ -889,6 +892,34 @@ Assert the given query string parameter is missing:
 주어진 쿼리 스트링 파라미터가 없다는 것을 확인:
 
     $browser->assertQueryStringMissing($name);
+
+
+<a name="assert-fragment-is"></a>
+#### assertFragmentIs
+
+Assert the current fragment matches the given fragment:
+
+현재의 fragment 가 주어진 fragment와 일치하는지 확인:
+
+    $browser->assertFragmentIs('anchor');
+
+<a name="assert-fragment-begins-with"></a>
+#### assertFragmentBeginsWith
+
+Assert that the current fragment begins with given fragment:
+
+현재의 fragment 가 주어진 fragment로 시작하는지 확인:
+
+    $browser->assertFragmentBeginsWith('anchor');
+
+<a name="assert-fragment-is-not"></a>
+#### assertFragmentIsNot
+
+Assert the current fragment does not match the given fragment:
+
+현재의 fragment 가 주어진 fragment와 일치하지 않는 것을 확인:
+
+    $browser->assertFragmentIsNot('anchor');
 
 <a name="assert-has-cookie"></a>
 #### assertHasCookie

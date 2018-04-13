@@ -29,7 +29,7 @@ If it exists, you may delete the `bootstrap/cache/compiled.php` file. It is no l
 
 `bootstrap/cache/compiled.php`파일이 존재한다면 이 파일을 제거해야 합니다. 프레임워크는 더이상 이 파일을 사용하지 않습니다.
 
-`composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.0` 으로 업데이트 해야 합니다. 
+`composer.json`파일에 있는 `laravel/framework` 의존성을 `5.4.*` 로 변경합니다. 그리고 `phpunit/phpunit`을 `~5.0` 으로 업데이트 해야 합니다.
 
 #### Flushing The Cache
 #### 캐시 플러시
@@ -64,7 +64,7 @@ Laravel Scout `3.0.0` has been released to provide compatibility with Laravel 5.
 
 Laravel Socialite `3.0.0` has been released to provide compatibility with Laravel 5.4.
 
-라라벨 5.4와의 호환성을 위해서 라라벨 Socialite `3.0.0` 이 릴리즈되었습니다. 
+라라벨 5.4와의 호환성을 위해서 라라벨 Socialite `3.0.0` 이 릴리즈되었습니다.
 
 #### Laravel Tinker
 #### 라라벨 Tinker
@@ -206,6 +206,10 @@ The container's `make` method no longer accepts a second array of parameters. Th
 
 컨테이너의 `make` 메소드는 더이상 파라미터 배열을 두번째 인자로 받지 않습니다. 이 기능은 일반적으로 좋지 않은 코드를 나타냅니다. 일반적으로 더 직관적인 다른 방법으로 객체를 생성할 수 있습니다.
 
+If must continue to pass an array of parameters, you may use the `makeWith` method.
+
+만약 꼭 배열로된 파라미터를 전달해야한다면, `makeWith` 메소드를 사용하십시오.
+
 #### Resolving Callbacks
 #### 콜백을 통한 의존성 해결
 
@@ -244,6 +248,19 @@ If you are directly referencing the `Illuminate\Console\AppNamespaceDetectorTrai
 
 ### Database
 ### 데이터베이스
+
+#### Array Argument to `orWhere`
+#### `orWhere` 에 배열 인자 전달하기
+
+When passing an array as first argument to the `orWhere` method, the inner conditions now use `OR` between each array element:
+
+`orWhere` 메소드에 첫번째 인자를 배열로 전달할때 내부의 조건은 각각의 요소를 기준으로 `OR` 처리됩니다:
+
+    $query->orWhere(['a' => 1, 'b' => 2])
+
+    OR (a = 1 AND b = 2) // 이전버전까지...
+
+    OR (a = 1 OR b = 2) // 신규버전...
 
 #### Custom Connections
 #### 커스텀 커넥션
@@ -291,9 +308,9 @@ If the foreign key is not explicitly specified when defining a relationship, Elo
         return $this->belongsTo(User::class);
     }
 
-Just like previous Laravel releases, this relationship will typically use `user_id` as the foreign key. However, the behavior could be different from previous releases if you are overriding the `getKeyName` method of the `User` model. For example:
+Just like previous Laravel releases, this relationship will typically use `user_id` as the foreign key. However, the behavior could be different from previous releases if you are overriding the `$primaryKey` property or `getKeyName` method of the `User` model. For example:
 
-이전 버전의 라라벨과 마찬가지로 일반적으로 모델의 관계는 외래키로 `user_id` 를 사용했습니다. 만약 `User` 모델의 `getKeyName` 메소드를 오버라이딩 했다면 그 결과가 달라질 수 있습니다 예를 들면:    
+이전 버전의 라라벨과 마찬가지로 일반적으로 모델의 관계는 외래키로 `user_id` 를 사용했습니다. 만약 `User` 모델의 `$primaryKey` 속성값 또는 `getKeyName` 메소드를 오버라이딩 했다면 그 결과가 달라질 수 있습니다 예를 들면:
 
     public function getKeyName()
     {
@@ -302,7 +319,7 @@ Just like previous Laravel releases, this relationship will typically use `user_
 
 When this is the case, Laravel will now respect your customization and determine the foreign key column name is `user_key` instead of `user_id`.
 
-이 경우 라라벨은 커스텀 정의사항을 우선하여 외래키 컬럼이름을 `user_id` 대신 `user_key` 로 결정합니다. 
+이 경우 라라벨은 커스텀 정의사항을 우선하여 외래키 컬럼이름을 `user_id` 대신 `user_key` 로 결정합니다.
 
 #### BelongsToMany `setJoin`
 #### BelongsToMany `setJoin`
@@ -394,14 +411,14 @@ The `Model::hydrateRaw` method has been renamed to `fromQuery`. If you are passi
 
 The `whereKey($id)` method will now add a "where" clause for the given primary key value. Previously, this would fall into the dynamic "where" clause builder and add a "where" clause for the "key" column. If you used the `whereKey` method to dynamically add a condition for the `key` column you should now use `where('key', ...)` instead.
 
-`whereKey($id)`메소드는 이제 주어진 프라이머리 키 값에 "where" 절을 추가합니다 이전까지는 동적 "where" 절 빌더에서 "key" 컬럼에 "where" 절을 추가했었습니다. `whenKey` 메소드를 사용하여 `key` 컬럼에 대한 조건을 동적으로 추가한 경우 이제 `where('key', ...)`을 사용해야 합니다. 
+`whereKey($id)`메소드는 이제 주어진 프라이머리 키 값에 "where" 절을 추가합니다 이전까지는 동적 "where" 절 빌더에서 "key" 컬럼에 "where" 절을 추가했었습니다. `whenKey` 메소드를 사용하여 `key` 컬럼에 대한 조건을 동적으로 추가한 경우 이제 `where('key', ...)`을 사용해야 합니다.
 
 #### The `factory` Helper
 #### `factory` 헬퍼
 
 Calling `factory(User::class, 1)->make()` or `factory(User::class, 1)->create()` will now return a collection with one item. Previously, this would return a single model. This method will only return a single model if the amount is not supplied.
 
-`factory(User::class, 1)->make()` 또는 `factory(User::class, 1)->create()` 호출은 이제 하나의 아이템을 가지는 컬렉션을 반환합니다. 이전에는 단일 모델을 반환했었습니다. 이 메소드는 인자라 전달되지 않으면 단일 모델을 반환합니다. 
+`factory(User::class, 1)->make()` 또는 `factory(User::class, 1)->create()` 호출은 이제 하나의 아이템을 가지는 컬렉션을 반환합니다. 이전에는 단일 모델을 반환했었습니다. 이 메소드는 인자라 전달되지 않으면 단일 모델을 반환합니다.
 
 ### Events
 ### 이벤트
@@ -467,7 +484,7 @@ The `Illuminate\Http\Exception\HttpResponseException` has been renamed to `Illum
 
 Sending mail using `Class@method` syntax is no longer supported. For example:
 
-`Class@method` 문법을 사용하여 메일을 송신하는 기능은 더이상 지원되지 않습니다. 예를 들면: 
+`Class@method` 문법을 사용하여 메일을 송신하는 기능은 더이상 지원되지 않습니다. 예를 들면:
 
     Mail::send('view.name', $data, 'Class@send');
 
@@ -496,7 +513,7 @@ In order to provide support for Laravel 5.4's new Markdown mail components, you 
 
 In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Queuing mail using the `Mail::queue` and `Mail::later` methods no longer supports using Closures to configure the mail message. This feature required the use of special libraries to serialize Closures since PHP does not natively support this feature.
 
-큐를 통해서 메일을 보내라면, 이제 [mailable](/docs/{{version}}/mail)을 사용해야만 합니다. `Mail::queue` 와 `Mail::later` 메소드는 더이상 클로저를 통해서 메일을 큐로 보내는 것을 지원하지 않습니다. 이 기능은 PHP가 기본적으로 지원하지 않는 클로저의 serialize를 가능하게 하기 위해서 별도의 라이브러리를 사용해야만 했기 때문입니다. 
+큐를 통해서 메일을 보내라면, 이제 [mailable](/docs/{{version}}/mail)을 사용해야만 합니다. `Mail::queue` 와 `Mail::later` 메소드는 더이상 클로저를 통해서 메일을 큐로 보내는 것을 지원하지 않습니다. 이 기능은 PHP가 기본적으로 지원하지 않는 클로저의 serialize를 가능하게 하기 위해서 별도의 라이브러리를 사용해야만 했기 때문입니다.
 
 ### Queue
 ### 큐-Queue
@@ -556,8 +573,8 @@ The class `Illuminate\Foundation\Http\Middleware\VerifyPostSize` has been rename
 
 The `middleware` method of the `Illuminate\Routing\Router` class has been renamed to `aliasMiddleware()`. It is likely that most applications never call this method manually, as it is typically only called by the HTTP kernel to register route-level middleware defined in the `$routeMiddleware` array.
 
-`Illuminate\Routing\Router` 클래스의 `middleware` 메소드는 `aliasMiddleware()` 으로 이름이 변경되었습니다. 대부분의 어플리케이션에서는 이 메소드를 직접 호출하지 않습니다. 일반적으로 HTTP 커널에서 `$routeMiddleware` 배열에 정의된 라우트 레벨의 미들웨어를 등록하기 위해서 이 메소드를 호출합니다.  
- 
+`Illuminate\Routing\Router` 클래스의 `middleware` 메소드는 `aliasMiddleware()` 으로 이름이 변경되었습니다. 대부분의 어플리케이션에서는 이 메소드를 직접 호출하지 않습니다. 일반적으로 HTTP 커널에서 `$routeMiddleware` 배열에 정의된 라우트 레벨의 미들웨어를 등록하기 위해서 이 메소드를 호출합니다.
+
 #### `Route` Methods
 #### `Route` 메소드
 
@@ -589,7 +606,7 @@ Laravel's session handlers no longer implements Symfony's `SessionInterface`. Im
 
 All calls to the `->set()` method should be changed to `->put()`. Typically, Laravel applications would never call the `set` method since it has never been documented within the Laravel documentation. However, it is included here out of caution.
 
-모든 `->set()` 메소드 호출은 `->put()` 으로 변경해야 합니다. 일반적으로 라라벨 어플리케이션은 매뉴얼에 없는 메소드는 호출하지 않지만, 이는 예외적으로 주의해야될 부분입니다. 
+모든 `->set()` 메소드 호출은 `->put()` 으로 변경해야 합니다. 일반적으로 라라벨 어플리케이션은 매뉴얼에 없는 메소드는 호출하지 않지만, 이는 예외적으로 주의해야될 부분입니다.
 
 All calls to the `->getToken()` method should be changed to `->token()`.
 
@@ -625,7 +642,7 @@ First install the `laravel/browser-kit-testing` package:
 
 Once the package has been installed, create a copy of your `tests/TestCase.php` file and save it to your `tests` directory as `BrowserKitTestCase.php`. Then, modify the file to extend the `Laravel\BrowserKitTesting\TestCase` class. Once you have done this, you should have two base test classes in your `tests` directory: `TestCase.php` and `BrowserKitTestCase.php`. In order for your `BrowserKitTestCase` class to be properly loaded, you may need to add it to your `composer.json` file:
 
-패키지를 설치하고 나서는, `tests/TestCase.php` 파일을 복사하여 `tests` 디렉토리에 `BrowserKitTestCase.php` 파일로 저장하십시오. 그런 뒤에, 파일이 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 수정하십시오. 이 작업을 마치면 `tests` 디렉토리에는 `TestCase.php`와 `BrowserKitTestCase.php` 두개의 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTestCase` 클래스를 로드하기 위해서, `composer.json` 파일에 추가해야할 수도 있습니다:   
+패키지를 설치하고 나서는, `tests/TestCase.php` 파일을 복사하여 `tests` 디렉토리에 `BrowserKitTestCase.php` 파일로 저장하십시오. 그런 뒤에, 파일이 `Laravel\BrowserKitTesting\TestCase` 클래스를 상속하도록 수정하십시오. 이 작업을 마치면 `tests` 디렉토리에는 `TestCase.php`와 `BrowserKitTestCase.php` 두개의 베이스 테스트 클래스를 가지게 됩니다. `BrowserKitTestCase` 클래스를 로드하기 위해서, `composer.json` 파일에 추가해야할 수도 있습니다:
 
     "autoload-dev": {
         "psr-4": {
@@ -685,7 +702,7 @@ If you would like to install Laravel Dusk into an application that has been upgr
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
-그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 어플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다: 
+그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 어플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다:
 
     <?php
 
@@ -721,7 +738,7 @@ Once you have completed these preparatory steps, you can follow the normal [Dusk
 
 The Laravel 5.4 test class no longer manually forces `putenv('APP_ENV=testing')` for each test. Instead, the framework utilizes the `APP_ENV` variable from the loaded `.env` file.
 
-라라벨 5.4는 더이상 각각의 테스트 클래스에서 수동으로 `putenv('APP_ENV=testing')`를 지정하지 않습니다. 이 대신에 프레임워크는 `.env`파일에서 로딩된 `APP_ENV` 변수를 사용합니다. 
+라라벨 5.4는 더이상 각각의 테스트 클래스에서 수동으로 `putenv('APP_ENV=testing')`를 지정하지 않습니다. 이 대신에 프레임워크는 `.env`파일에서 로딩된 `APP_ENV` 변수를 사용합니다.
 
 #### Event Fake
 #### 이벤트 Fake
@@ -803,14 +820,14 @@ The `forceSchema` method of the `Illuminate\Routing\UrlGenerator` class has been
 
 Date format validation is now more strict and supports the placeholders present within the documentation for the PHP [date function](http://php.net/manual/en/function.date.php). In previous releases of Laravel, the timezone placeholder `P` would accept all timezone formats; however, in Laravel 5.4 each timezone format has a unique placeholder as per the PHP documentation.
 
-Date 포맷의 유효성 검사가 보다 엄격해지고 PHP [날짜 함수](http://php.net/manual/en/function.date.php) 문서에 있는 플레이스홀더 표현을 지원합니다. 이전 버전의 라라벨에서는 타임존 플레스홀더 `P` 는 모든 타임존 포맷을 받을 수 있었습니다만; 라라벨 5.4에서는 각각의 타임존 포맷은 PHP 문서에 따르는 고유한 플레스홀더를 가지게 됩니다. 
+Date 포맷의 유효성 검사가 보다 엄격해지고 PHP [날짜 함수](http://php.net/manual/en/function.date.php) 문서에 있는 플레이스홀더 표현을 지원합니다. 이전 버전의 라라벨에서는 타임존 플레스홀더 `P` 는 모든 타임존 포맷을 받을 수 있었습니다만; 라라벨 5.4에서는 각각의 타임존 포맷은 PHP 문서에 따르는 고유한 플레스홀더를 가지게 됩니다.
 
 #### Method Names
 #### 메소드 이름
 
 The `addError` method has been renamed to `addFailure`. In addition, the `doReplacements` method has been renamed to `makeReplacements`. Typically, these changes will only be relevant if you are extending the `Validator` class.
 
-`addError` 메소드는 `addFailure`으로 이름이 변경되었습니다. 또한 `doReplacements` 메소드는 `makeReplacements` 으로 이름이 변경되었습니다. 일반적으로 이 변경사항들은 `Validator` 클래스를 상속받아서 사용하는 경우에만 관련이 있습니다.  
+`addError` 메소드는 `addFailure`으로 이름이 변경되었습니다. 또한 `doReplacements` 메소드는 `makeReplacements` 으로 이름이 변경되었습니다. 일반적으로 이 변경사항들은 `Validator` 클래스를 상속받아서 사용하는 경우에만 관련이 있습니다.
 
 ### Miscellaneous
 ### 기타

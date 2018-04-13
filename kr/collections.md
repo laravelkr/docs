@@ -166,7 +166,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 
 The `all` method returns the underlying array represented by the collection:
 
-`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다: 
+`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다:
 
     collect([1, 2, 3])->all();
 
@@ -211,7 +211,7 @@ The `chunk` method breaks the collection into multiple, smaller collections of a
 
 This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/css/#grid). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
 
-이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다. 
+이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/css/#grid)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다.
 [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
 
     @foreach ($products->chunk(3) as $chunk)
@@ -311,7 +311,7 @@ Finally, you may also pass a callback to the `contains` method to perform your o
 
 The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
 
-`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오. 
+`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오.
 
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {#collection-method}
@@ -424,7 +424,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 
 The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
-`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다: 
+`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다:
 
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
@@ -1018,7 +1018,7 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 
 The `nth` method creates a new collection consisting of every n-th element:
 
-`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다: 
+`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다:
 
 (역자주: 첫번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
 
@@ -1145,7 +1145,7 @@ The `prepend` method adds an item to the beginning of the collection:
 
 You may also pass a second argument to set the key of the prepended item:
 
-또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다. 
+또한 두번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다.
 
     $collection = collect(['one' => 1, 'two' => 2]);
 
@@ -1192,7 +1192,7 @@ The `push` method appends an item to the end of the collection:
 
 The `put` method sets the given key and value in the collection:
 
-`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다: 
+`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다:
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -1224,6 +1224,10 @@ You may optionally pass an integer to `random` to specify how many items you wou
     $random->all();
 
     // [2, 4, 5] - (retrieved randomly)
+
+If the Collection has fewer items than requested, the method will throw an `InvalidArgumentException`.
+
+컬렉션이 요청받은 것보다 더 적은수의 아이템을 가지고 있다면 `InvalidArgumentException` 이 발생합니다.
 
 <a name="method-reduce"></a>
 #### `reduce()` {#collection-method}
@@ -1776,7 +1780,7 @@ The `unique` method uses "loose" comparisons when checking item values, meaning 
 
 This method has the same signature as the [`unique`](#method-unique) method; however, all values are compared using "strict" comparisons.
 
-이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다. 
+이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다.
 
 <a name="method-values"></a>
 #### `values()` {#collection-method}
@@ -1919,7 +1923,7 @@ The `whereNotIn` method filters the collection by a given key / value not contai
 
 The `whereNotIn` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`whereNotInStrict`](#method-wherenotinstrict) method to filter using "strict" comparisons.
 
-`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.  
+`whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.
 
 <a name="method-wherenotinstrict"></a>
 #### `whereNotInStrict()` {#collection-method}

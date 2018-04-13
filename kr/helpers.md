@@ -12,7 +12,7 @@
 
 Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
-라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 어플리케이션에도 자유롭게 사용하실 수 있습니다. 
+라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 어플리케이션에도 자유롭게 사용하실 수 있습니다.
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -226,7 +226,7 @@ The `array_first` function returns the first element of an array passing a given
 
 A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
-메소드에 세번째 파라미터로 기본 값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다: 
+메소드에 세번째 파라미터로 기본 값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다:
 
     $value = array_first($array, $callback, $default);
 
@@ -280,7 +280,7 @@ The `array_get` function also accepts a default value, which will be returned if
 
 The `array_has` function checks that a given item or items exists in an array using "dot" notation:
 
-`array_has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다: 
+`array_has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
 
     $array = ['product' => ['name' => 'desk', 'price' => 100]];
 
@@ -338,7 +338,7 @@ The `array_pluck` function will pluck a list of the given key / value pairs from
 
 You may also specify how you wish the resulting list to be keyed:
 
-리스트만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다: 
+리스트만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다:
 
     $array = array_pluck($array, 'developer.name', 'developer.id');
 
@@ -349,7 +349,7 @@ You may also specify how you wish the resulting list to be keyed:
 
 The `array_prepend` function will push an item onto the beginning of an array:
 
-`array_prepend` 함수는 배열의 시작부분에 아이템을 추가할 것입니다: 
+`array_prepend` 함수는 배열의 시작부분에 아이템을 추가할 것입니다:
 
     $array = ['one', 'two', 'three', 'four'];
 
@@ -377,7 +377,7 @@ The `array_pull` function returns and removes a key / value pair from the array:
 
 The `array_set` function sets a value within a deeply nested array using "dot" notation:
 
-`array_set` 함수는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다: 
+`array_set` 함수는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다:
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
@@ -413,7 +413,7 @@ The `array_sort` function sorts the array by the results of the given Closure:
 
 The `array_sort_recursive` function recursively sorts the array using the `sort` function:
 
-`array_sort_recursive` 함수는 `sort` 함수를 이용하여 반복적으로 배열을 정렬합니다: 
+`array_sort_recursive` 함수는 `sort` 함수를 이용하여 반복적으로 배열을 정렬합니다:
 
     $array = [
         [
@@ -450,7 +450,7 @@ The `array_sort_recursive` function recursively sorts the array using the `sort`
 
 The `array_where` function filters the array using the given Closure:
 
-`array_where` 함수는 주어진 클로져를 사용하여 배열을 필터링합니다: 
+`array_where` 함수는 주어진 클로져를 사용하여 배열을 필터링합니다:
 
     $array = [100, '200', 300, '400', 500];
 
@@ -531,7 +531,7 @@ The `base_path` function returns the fully qualified path to the project root. Y
 
 The `config_path` function returns the fully qualified path to the application configuration directory:
 
-`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다: 
+`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다:
 
     $path = config_path();
 
@@ -540,7 +540,7 @@ The `config_path` function returns the fully qualified path to the application c
 
 The `database_path` function returns the fully qualified path to the application's database directory:
 
-`database_path` 함수는 어플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다: 
+`database_path` 함수는 어플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다:
 
     $path = database_path();
 
@@ -549,7 +549,7 @@ The `database_path` function returns the fully qualified path to the application
 
 The `mix` function gets the path to a [versioned Mix file](/docs/{{version}}/mix):
 
-`mix` 함수는 [버전이 지정된 Mix](/docs/{{version}}/mix) 파일에 대한 경로를 반환합니다: 
+`mix` 함수는 [버전이 지정된 Mix](/docs/{{version}}/mix) 파일에 대한 경로를 반환합니다:
 
     mix($file);
 
@@ -558,7 +558,7 @@ The `mix` function gets the path to a [versioned Mix file](/docs/{{version}}/mix
 
 The `public_path` function returns the fully qualified path to the `public` directory:
 
-`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다: 
+`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다:
 
     $path = public_path();
 
@@ -578,7 +578,7 @@ The `resource_path` function returns the fully qualified path to the `resources`
 
 The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file relative to the storage directory:
 
-`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다: 
+`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 주어진 파일에 대한 경로를 생성할 수도 있습니다:
 
     $path = storage_path();
 
@@ -593,7 +593,7 @@ The `storage_path` function returns the fully qualified path to the `storage` di
 
 The `camel_case` function converts the given string to `camelCase`:
 
-`camel_case` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다: 
+`camel_case` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
 
     $camel = camel_case('foo_bar');
 
@@ -604,7 +604,7 @@ The `camel_case` function converts the given string to `camelCase`:
 
 The `class_basename` returns the class name of the given class with the class' namespace removed:
 
-`class_basename`은 클래스의 네임스페이스를 제거한 클래스의 클래스 명을 반환합니다: 
+`class_basename`은 클래스의 네임스페이스를 제거한 클래스의 클래스 명을 반환합니다:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -626,7 +626,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
 The `ends_with` function determines if the given string ends with the given value:
 
-`ends_with` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다: 
+`ends_with` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
 
     $value = ends_with('This is my name', 'name');
 
@@ -649,7 +649,7 @@ The `kebab_case` function converts the given string to `kebab-case`:
 
 The `snake_case` function converts the given string to `snake_case`:
 
-`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다: 
+`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
 
     $snake = snake_case('fooBar');
 
@@ -660,7 +660,7 @@ The `snake_case` function converts the given string to `snake_case`:
 
 The `str_limit` function limits the number of characters in a string. The function accepts a string as its first argument and the maximum number of resulting characters as its second argument:
 
-`str_limit` 함수는 문자열의 문자 수를 제한합니다. 함수는 문자열을 첫번째 인자로 받고 반환되는 최대 문자의 길이를 두번째 인자로 받습니다: 
+`str_limit` 함수는 문자열의 문자 수를 제한합니다. 함수는 문자열을 첫번째 인자로 받고 반환되는 최대 문자의 길이를 두번째 인자로 받습니다:
 
     $value = str_limit('The PHP framework for web artisans.', 7);
 
@@ -671,7 +671,7 @@ The `str_limit` function limits the number of characters in a string. The functi
 
 The `starts_with` function determines if the given string begins with the given value:
 
-`starts_with` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다: 
+`starts_with` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
 
     $value = starts_with('This is my name', 'This');
 
@@ -693,7 +693,7 @@ The `str_after` function returns everything after the given value in a string:
 
 The `str_contains` function determines if the given string contains the given value:
 
-`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다: 
+`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다:
 
     $value = str_contains('This is my name', 'my');
 
@@ -701,7 +701,7 @@ The `str_contains` function determines if the given string contains the given va
 
 You may also pass an array of values to determine if the given string contains any of the values:
 
-또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다: 
+또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다:
 
     $value = str_contains('This is my name', ['my', 'foo']);
 
@@ -725,7 +725,7 @@ The `str_finish` function adds a single instance of the given value to a string 
 
 The `str_is` function determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`str_is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다: 
+`str_is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
     $value = str_is('foo*', 'foobar');
 
@@ -740,7 +740,7 @@ The `str_is` function determines if a given string matches a given pattern. Aste
 
 The `str_plural` function converts a string to its plural form. This function currently only supports the English language:
 
-`str_plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다: 
+`str_plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
     $plural = str_plural('car');
 
@@ -752,7 +752,7 @@ The `str_plural` function converts a string to its plural form. This function cu
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
-문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다: 
+문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다:
 
     $plural = str_plural('child', 2);
 
@@ -776,7 +776,7 @@ The `str_random` function generates a random string of the specified length. Thi
 
 The `str_singular` function converts a string to its singular form. This function currently only supports the English language:
 
-`str_singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다: 
+`str_singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
     $singular = str_singular('cars');
 
@@ -787,7 +787,7 @@ The `str_singular` function converts a string to its singular form. This functio
 
 The `str_slug` function generates a URL friendly "slug" from the given string:
 
-`str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다: 
+`str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
 
     $title = str_slug('Laravel 5 Framework', '-');
 
@@ -798,7 +798,7 @@ The `str_slug` function generates a URL friendly "slug" from the given string:
 
 The `studly_case` function converts the given string to `StudlyCase`:
 
-`studly_case` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다: 
+`studly_case` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
     $value = studly_case('foo_bar');
 
@@ -829,7 +829,7 @@ The `trans` function translates the given language line using your [localization
 
 The `trans_choice` function translates the given language line with inflection:
 
-`trans_choice` 함수는 주어진, 수량(단수, 복수 처리)을 이용하여 주어진 언어를 번역합니다: 
+`trans_choice` 함수는 주어진, 수량(단수, 복수 처리)을 이용하여 주어진 언어를 번역합니다:
 
     $value = trans_choice('foo.bar', $count);
 
@@ -841,13 +841,13 @@ The `trans_choice` function translates the given language line with inflection:
 
 The `action` function generates a URL for the given controller action. You do not need to pass the full namespace to the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
-`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러는 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.: 
+`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러는 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
 
     $url = action('HomeController@getIndex');
 
 If the method accepts route parameters, you may pass them as the second argument to the method:
 
-메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오: 
+메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오:
 
     $url = action('UserController@profile', ['id' => 1]);
 
@@ -856,7 +856,7 @@ If the method accepts route parameters, you may pass them as the second argument
 
 Generate a URL for an asset using the current scheme of the request (HTTP or HTTPS):
 
-HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다: 
+HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
     $url = asset('img/photo.jpg');
 
@@ -865,22 +865,22 @@ HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기
 
 Generate a URL for an asset using HTTPS:
 
-HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다: 
+HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
-    echo secure_asset('foo/bar.zip', $title, $attributes = []);
+    echo secure_asset('foo/bar.zip');
 
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
 The `route` function generates a URL for the given named route:
 
-`route` 함수는 주어진 라우트 이름으로 URL을 생성합니다: 
+`route` 함수는 주어진 라우트 이름으로 URL을 생성합니다:
 
     $url = route('routeName');
 
 If the route accepts parameters, you may pass them as the second argument to the method:
 
-라우트가 파라미터를 가진다면 파라미터를 두번째 인자로 메소드에 전달하세요: 
+라우트가 파라미터를 가진다면 파라미터를 두번째 인자로 메소드에 전달하세요:
 
     $url = route('routeName', ['id' => 1]);
 
@@ -906,7 +906,7 @@ The `secure_url` function generates a fully qualified HTTPS URL to the given pat
 
 The `url` function generates a fully qualified URL to the given path:
 
-`url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다: 
+`url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다:
 
     echo url('user/profile');
 
@@ -944,7 +944,7 @@ exception 의 응답 텍스트를 제공할 수도 있습니다:
 
 The `abort_if` function throws an HTTP exception if a given boolean expression evaluates to `true`:
 
-`abort_if` 함수는 주어진 조건식이 `true` 일때 HTTP exception을 발생시킵니다: 
+`abort_if` 함수는 주어진 조건식이 `true` 일때 HTTP exception을 발생시킵니다:
 
     abort_if(! Auth::user()->isAdmin(), 403);
 
@@ -953,7 +953,7 @@ The `abort_if` function throws an HTTP exception if a given boolean expression e
 
 The `abort_unless` function throws an HTTP exception if a given boolean expression evaluates to `false`:
 
-`abort_unless` 함수는 주어진 조건식이 `false` 일때 HTTP exception 을 발생시킵니다: 
+`abort_unless` 함수는 주어진 조건식이 `false` 일때 HTTP exception 을 발생시킵니다:
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
@@ -962,7 +962,7 @@ The `abort_unless` function throws an HTTP exception if a given boolean expressi
 
 The `auth` function returns an authenticator instance. You may use it instead of the `Auth` facade for convenience:
 
-`auth` 함수는 authenticator 인스턴스를 반환합니다. 편의를 위하여 `Auth` 파사드 대신 이용할 수 있습니다: 
+`auth` 함수는 authenticator 인스턴스를 반환합니다. 편의를 위하여 `Auth` 파사드 대신 이용할 수 있습니다:
 
     $user = auth()->user();
 
@@ -971,7 +971,7 @@ The `auth` function returns an authenticator instance. You may use it instead of
 
 The `back()` function generates a redirect response to the user's previous location:
 
-`back()` 함수는 사용자의 이전 위치로 리다이렉트하는 응답을 생성합니다: 
+`back()` 함수는 사용자의 이전 위치로 리다이렉트하는 응답을 생성합니다:
 
     return back();
 
@@ -980,7 +980,7 @@ The `back()` function generates a redirect response to the user's previous locat
 
 The `bcrypt` function hashes the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
 
-`bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 해시 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다: 
+`bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 해시 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다:
 
     $password = bcrypt('my-secret-password');
 
@@ -1008,7 +1008,7 @@ You may add items to the cache by passing an array of key / value pairs to the f
 
 The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given array:
 
-`collect` 함수는 주어진 배열로부터 [collection](/docs/{{version}}/collections) 인스턴스를 생성합니다: 
+`collect` 함수는 주어진 배열로부터 [collection](/docs/{{version}}/collections) 인스턴스를 생성합니다:
 
     $collection = collect(['taylor', 'abigail']);
 
@@ -1017,7 +1017,7 @@ The `collect` function creates a [collection](/docs/{{version}}/collections) ins
 
 The `config` function gets the value of a configuration variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
 
-`config` 함수는 환경 설정 변수의 값을 가져옵니다. 설정 값은 파일명과 접근하고자 하는 옵션을 포함하는 "점(.)" 문법(syntax)를 사용하여 접근할 수 있습니다. 설정 옵션이 존재하지 않는다면 지정된 기본값이 반환됩니다: 
+`config` 함수는 환경 설정 변수의 값을 가져옵니다. 설정 값은 파일명과 접근하고자 하는 옵션을 포함하는 "점(.)" 문법(syntax)를 사용하여 접근할 수 있습니다. 설정 옵션이 존재하지 않는다면 지정된 기본값이 반환됩니다:
 
     $value = config('app.timezone');
 
@@ -1026,7 +1026,7 @@ The `config` function gets the value of a configuration variable. The configurat
 
 The `config` helper may also be used to set configuration variables at runtime by passing an array of key / value pairs:
 
-`config` 헬퍼는 키 / 값 쌍을 런타임에 전달하는 방법으로 설정 변수를 설정할 수도 있습니다: 
+`config` 헬퍼는 키 / 값 쌍을 런타임에 전달하는 방법으로 설정 변수를 설정할 수도 있습니다:
 
     config(['app.debug' => true]);
 
@@ -1035,7 +1035,7 @@ The `config` helper may also be used to set configuration variables at runtime b
 
 The `csrf_field` function generates an HTML `hidden` input field containing the value of the CSRF token. For example, using [Blade syntax](/docs/{{version}}/blade):
 
-`csrf_field` 함수는 CSRF 토큰 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다: 
+`csrf_field` 함수는 CSRF 토큰 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다:
 
     {{ csrf_field() }}
 
@@ -1044,7 +1044,7 @@ The `csrf_field` function generates an HTML `hidden` input field containing the 
 
 The `csrf_token` function retrieves the value of the current CSRF token:
 
-`csrf_token` 함수는 현재 CSRF 토큰의 값을 조회합니다: 
+`csrf_token` 함수는 현재 CSRF 토큰의 값을 조회합니다:
 
     $token = csrf_token();
 
@@ -1053,7 +1053,7 @@ The `csrf_token` function retrieves the value of the current CSRF token:
 
 The `dd` function dumps the given variables and ends execution of the script:
 
-`dd` 함수는 주어진 변수들을 Dump 처리하고 스크립트의 실행을 중단합니다: 
+`dd` 함수는 주어진 변수들을 Dump 처리하고 스크립트의 실행을 중단합니다:
 
     dd($value);
 
@@ -1070,7 +1070,7 @@ If you do not want to halt the execution of your script, use the `dump` function
 
 The `dispatch` function pushes a new job onto the Laravel [job queue](/docs/{{version}}/queues):
 
-`dispatch` 함수는 라라벨의 [job queue](/docs/{{version}}/queues)에 새로운 작업을 추가합니다: 
+`dispatch` 함수는 라라벨의 [job queue](/docs/{{version}}/queues)에 새로운 작업을 추가합니다:
 
     dispatch(new App\Jobs\SendEmails);
 
@@ -1079,7 +1079,7 @@ The `dispatch` function pushes a new job onto the Laravel [job queue](/docs/{{ve
 
 The `env` function gets the value of an environment variable or returns a default value:
 
-`env` 함수는 환경 변수의 값을 가져오거나 기본값을 반환합니다: 
+`env` 함수는 환경 변수의 값을 가져오거나 기본값을 반환합니다:
 
     $env = env('APP_ENV');
 
@@ -1091,7 +1091,7 @@ The `env` function gets the value of an environment variable or returns a defaul
 
 The `event` function dispatches the given [event](/docs/{{version}}/events) to its listeners:
 
-`event` 함수는 주어진 [event](/docs/{{version}}/events)를 리스너들에게 보냅니다: 
+`event` 함수는 주어진 [event](/docs/{{version}}/events)를 리스너들에게 보냅니다:
 
     event(new UserRegistered($user));
 
@@ -1100,7 +1100,7 @@ The `event` function dispatches the given [event](/docs/{{version}}/events) to i
 
 The `factory` function creates a model factory builder for a given class, name, and amount. It can be used while [testing](/docs/{{version}}/database-testing#writing-factories) or [seeding](/docs/{{version}}/seeding#using-model-factories):
 
-`factory` 함수는 주어진 클래스, 이름, 양을 위한 모델 팩토리 빌더를 생성합니다. [testing](/docs/{{version}}/database-testing#writing-factories)이나 [seeding](/docs/{{version}}/seeding#using-model-factories) 중에 이용할 수 있습니다: 
+`factory` 함수는 주어진 클래스, 이름, 양을 위한 모델 팩토리 빌더를 생성합니다. [testing](/docs/{{version}}/database-testing#writing-factories)이나 [seeding](/docs/{{version}}/seeding#using-model-factories) 중에 이용할 수 있습니다:
 
     $user = factory(App\User::class)->make();
 
@@ -1145,7 +1145,7 @@ A [logger](/docs/{{version}}/errors#logging) instance will be returned if no val
 
 The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
 
-`method_field` 함수는 HTTP 메소드 형식의 가짜(spoof) 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다: 
+`method_field` 함수는 HTTP 메소드 형식의 가짜(spoof) 값을 포함하는 HTML `hidden` Input 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용할 수 있습니다:
 
     <form method="POST">
         {{ method_field('DELETE') }}
@@ -1156,7 +1156,7 @@ The `method_field` function generates an HTML `hidden` input field containing th
 
 The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an old input value flashed into the session:
 
-`old` 함수는 세션에 저장된 오래된(flashed) 입력 값을 [조회](/docs/{{version}}/requests#retrieving-input)합니다: 
+`old` 함수는 세션에 저장된 오래된(flashed) 입력 값을 [조회](/docs/{{version}}/requests#retrieving-input)합니다:
     $value = old('value');
 
     $value = old('value', 'default');
@@ -1166,7 +1166,7 @@ The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an o
 
 The `redirect` function returns a redirect HTTP response, or returns the redirector instance if called with no arguments:
 
-`redirect` 함수는 HTTP 응답을 리다이렉션 처리 하거나, 인자 없이 호출되는 경우 리디렉터 인스턴스를 반환합니다: 
+`redirect` 함수는 HTTP 응답을 리다이렉션 처리 하거나, 인자 없이 호출되는 경우 리디렉터 인스턴스를 반환합니다:
 
     return redirect('/home');
 
@@ -1177,7 +1177,7 @@ The `redirect` function returns a redirect HTTP response, or returns the redirec
 
 The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input item:
 
-`request` 함수는 현재의 [요청](/docs/{{version}}/requests) 인스턴스를 반환하거나 입력 아이템을 가져옵니다: 
+`request` 함수는 현재의 [요청](/docs/{{version}}/requests) 인스턴스를 반환하거나 입력 아이템을 가져옵니다:
 
     $request = request();
 
@@ -1188,7 +1188,7 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 
 The `response` function creates a [response](/docs/{{version}}/responses) instance or obtains an instance of the response factory:
 
-`response` 함수는 [응답](/docs/{{version}}/responses) 인스턴스를 생성하거나 응답 팩토리의 인스턴스를 가져옵니다: 
+`response` 함수는 [응답](/docs/{{version}}/responses) 인스턴스를 생성하거나 응답 팩토리의 인스턴스를 가져옵니다:
 
     return response('Hello World', 200, $headers);
 
@@ -1211,19 +1211,19 @@ The `retry` function attempts to execute the given callback until the given maxi
 
 The `session` function may be used to get or set session values:
 
-`session` 함수는 세션 값을 얻거나 지정하는 데에 사용할 수 있습니다. 
+`session` 함수는 세션 값을 얻거나 지정하는 데에 사용할 수 있습니다.
 
     $value = session('key');
 
 You may set values by passing an array of key / value pairs to the function:
 
-키 / 값 쌍들의 배열을 함수로 전달하여 값을 설정할 수 있습니다: 
+키 / 값 쌍들의 배열을 함수로 전달하여 값을 설정할 수 있습니다:
 
     session(['chairs' => 7, 'instruments' => 3]);
 
 The session store will be returned if no value is passed to the function:
 
-함수에 아무런 값도 전달되지 않는다면 세션 스토어가 반환됩니다: 
+함수에 아무런 값도 전달되지 않는다면 세션 스토어가 반환됩니다:
 
     $value = session()->get('key');
 
@@ -1234,7 +1234,7 @@ The session store will be returned if no value is passed to the function:
 
 The `value` function's behavior will simply return the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
 
-`value` 함수의 행동은 단순히 자신에게 주어진 값을 반환합니다. 하지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다: 
+`value` 함수의 행동은 단순히 자신에게 주어진 값을 반환합니다. 하지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다:
 
     $value = value(function () {
         return 'bar';
@@ -1245,7 +1245,7 @@ The `value` function's behavior will simply return the value it is given. Howeve
 
 The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 
-`view` 함수는 [view](/docs/{{version}}/views) 인스턴스를 조회합니다: 
+`view` 함수는 [view](/docs/{{version}}/views) 인스턴스를 조회합니다:
 
     return view('auth.login');
 

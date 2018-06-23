@@ -219,7 +219,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 
 If you would just like to concatenate some plain CSS stylesheets into a single file, you may use the `styles` method.
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `styles` 메소드를 사용하면 됩니다.
 
     mix.styles([
         'public/css/vendor/normalize.css',

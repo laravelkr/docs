@@ -157,7 +157,7 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
 <a name="a-note-on-optional-fields"></a>
 ### 옵션 필드에 대한 주의사항
 
-기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으라면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으려면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',
@@ -235,7 +235,7 @@ form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를
 ### Form Requests 사용자 승인
 
 form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
- 
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -368,7 +368,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="working-with-error-messages"></a>
 ## 에러 메시지 사용하기
 
-`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다. 
+`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다.
 
 #### 하나의 필드에 대한 첫번째 에러 메시지 조회하기
 
@@ -817,7 +817,7 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
-- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우 
+- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
 - 값이 경로없이 업로드된 파일인 경우
 
 <a name="rule-required-if"></a>

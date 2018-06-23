@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-블레이드는 라라벨에서 제공하는 간단하지만 강력한 템플릿 엔진입니다. 다른 인지도 높은 PHP 템플릿 엔진들과는 달리 블레이드는 뷰에서 순수한 PHP 코드를 작성하는 것을 허용합니다. 실제로는, 모든 블레이드 뷰는 단순한 PHP 코드로 컴파일되고 변경되기 전까지 캐시 됩니다. 이는 블레이드가 어플리케이션에 아무런 부담을 주지 않는다는 것을 의미합니다. 블레이드 뷰 파일은 `.blade.php` 형식의 파일 확장를 사용하고 주로 `resources/views`에 저장됩니다.
+블레이드는 라라벨에서 제공하는 간단하지만 강력한 템플릿 엔진입니다. 다른 인지도 높은 PHP 템플릿 엔진들과는 달리 블레이드는 뷰에서 순수한 PHP 코드를 작성하는 것을 허용합니다. 실제로는, 모든 블레이드 뷰는 단순한 PHP 코드로 컴파일되고 변경되기 전까지 캐시 됩니다. 이는 블레이드가 어플리케이션에 아무런 부담을 주지 않는다는 것을 의미합니다. 블레이드 뷰 파일은 `.blade.php` 형식의 파일 확장자를 사용하고 주로 `resources/views`에 저장됩니다.
 
 <a name="template-inheritance"></a>
 ## 템플릿 상속
@@ -86,38 +86,38 @@
 
 <a name="components-and-slots"></a>
 ## 컴포넌트 & 슬롯
- 
+
 컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 먼저 어플리케이션에서 재사용이 가능한 "경고(alert)" 컴포넌트를 생각해 보겠습니다.
- 
+
     <!-- /resources/views/alert.blade.php -->
- 
+
     <div class="alert alert-danger">
         {{ $slot }}
     </div>
- 
+
 이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
- 
+
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
- 
+
 때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
- 
+
     <!-- /resources/views/alert.blade.php -->
- 
+
     <div class="alert alert-danger">
         <div class="alert-title">{{ $title }}</div>
- 
+
         {{ $slot }}
     </div>
- 
+
 그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
- 
+
      @component('alert')
          @slot('title')
              Forbidden
          @endslot
- 
+
          You are not allowed to access this resource!
      @endcomponent
 
@@ -201,7 +201,7 @@
         You are not signed in.
     @endunless
 
-추가적으로 `@isset` 와 `@empty` 지시어는 각각 대응되는 PHP 함수를 편리하게 사용할 수 있는 방법입니다:  
+추가적으로 `@isset` 와 `@empty` 지시어는 각각 대응되는 PHP 함수를 편리하게 사용할 수 있는 방법입니다:
 
     @isset($records)
         // $records is defined and is not null...

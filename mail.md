@@ -509,7 +509,7 @@ mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 �
 
 #### 기본을 큐로 발송하도록 설정하기
 
-mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래스에 `ShouldQueue` implement 를 추가하면 됩니다. 그러면 `send` 메소드가 호출되어 메일이 발송될 때 contract에 의해서 큐를 메일이 통해서 발송됩니다:
+mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래스에 `ShouldQueue` implement 를 추가하면 됩니다. 그러면 `send` 메소드가 호출되어 메일이 발송될 때 contract에 의해서 큐를 통해서 메일이 발송됩니다:
 
     use Illuminate\Contracts\Queue\ShouldQueue;
 

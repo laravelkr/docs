@@ -16,14 +16,14 @@
 
 While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
 
-라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다. 
+라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다.
 
 #### CSS
 #### CSS
 
 [Laravel Elixir](/docs/{{version}}/elixir) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable.
 
-[라라벨 Elixir](/docs/{{version}}/elixir)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 
+[라라벨 Elixir](/docs/{{version}}/elixir)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다.
 
 In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Elixir documentation](/docs/{{version}}/elixir) for more information on compiling SASS or Less.
 
@@ -34,7 +34,7 @@ In this document, we will briefly discuss CSS compilation in general; however, y
 
 Laravel does not require you to use a specific JavaScript framework or library to build your applications. In fact, you don't have to use JavaScript at all. However, Laravel does include some basic scaffolding to make it easier to get started writing modern JavaScript using the [Vue](https://vuejs.org) library. Vue provides an expressive API for building robust JavaScript applications using components.
 
-라라벨은 어플리케이션을 구성하기 위해서 지정된 자바스크립트 프레임워크나 라이브러리를 사용하는 것을 요구하지 않습니다. 사실, 모든 곳에 자바스크립트를 사용할 필요는 없습니다. 하지만 라라벨은 [Vue](https://vuejs.org)라이브러리르 사용하여 현대적인 자바스크립트를 작성하는 일을 시작하는 것을 보다 쉽게 만들어 주는 몇몇 기본적인 스캐폴딩을 포함하고 있습니다. Vue는 컴포넌트를 사용하여 자바스크립트 어플리케이션을 구성하는는데 풍부한 표현이 가능한 API를 제공합니다. 
+라라벨은 어플리케이션을 구성하기 위해서 지정된 자바스크립트 프레임워크나 라이브러리를 사용하는 것을 요구하지 않습니다. 사실, 모든 곳에 자바스크립트를 사용할 필요는 없습니다. 하지만 라라벨은 [Vue](https://vuejs.org)라이브러리르 사용하여 현대적인 자바스크립트를 작성하는 일을 시작하는 것을 보다 쉽게 만들어 주는 몇몇 기본적인 스캐폴딩을 포함하고 있습니다. Vue는 컴포넌트를 사용하여 자바스크립트 어플리케이션을 구성하는는데 풍부한 표현이 가능한 API를 제공합니다.
 
 <a name="writing-css"></a>
 ## Writing CSS
@@ -82,7 +82,7 @@ Once the packages are installed, you can use the `gulp` command to [compile your
 
 By default, the Laravel `gulpfile.js` file compiles your SASS and the `resources/assets/js/app.js` file. Within the `app.js` file you may register your Vue components or, if you prefer a different framework, configure your own JavaScript application. Your compiled JavaScript will typically be placed in the `public/js` directory.
 
-기본적으로 라라벨의 `gulpfile.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다. 
+기본적으로 라라벨의 `gulpfile.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다.
 
 > {tip} The `app.js` file will load the `resources/assets/js/bootstrap.js` file which bootstraps and configures Vue, Vue Resource, jQuery, and all other JavaScript dependencies. If you have additional JavaScript dependencies to configure, you may do so in this file.
 
@@ -114,4 +114,4 @@ To use the component in your application, you may simply drop it into one of you
 
 Of course, if you are interested in learning more about writing Vue components, you should read the [Vue documentation](https://vuejs.org/guide/), which provides a thorough, easy-to-read overview of the entire Vue framework.
 
-또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://vuejs.org/guide/)을 확인하길 바랍니다.
+또한, Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://kr.vuejs.org/v2/guide/index.html)을 확인하길 바랍니다.

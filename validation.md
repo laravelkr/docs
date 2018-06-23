@@ -31,7 +31,7 @@
 <a name="validation-quickstart"></a>
 ## Validation 퀵스타트
 
-라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해서, form을 확인한 뒤 사용자에게 에러 메세지를 보여주는 예제를 살펴보도록 하겠습니다. 
+라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해서, form을 확인한 뒤 사용자에게 에러 메세지를 보여주는 예제를 살펴보도록 하겠습니다.
 
 <a name="quick-defining-the-routes"></a>
 ### 라우트 정의하기
@@ -42,7 +42,7 @@
 
     Route::post('post', 'PostController@store');
 
-`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다. 
+`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
 
 <a name="quick-creating-the-controller"></a>
 ### 컨트롤러 생성하기
@@ -158,7 +158,7 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
 <a name="a-note-on-optional-fields"></a>
 ### 옵션 필드에 대한 주의사항
 
-기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으라면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으려면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -166,7 +166,7 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
         'publish_at' => 'nullable|date',
     ]);
 
-이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다. 
+이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다.
 
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### 임시저장된 에러의 포맷을 임의로 지정하기
@@ -263,7 +263,7 @@ form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를
 ### Form Requests 사용자 승인
 
 form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
- 
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -409,7 +409,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="working-with-error-messages"></a>
 ## 에러 메시지 사용하기
 
-`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다. 
+`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다.
 
 #### 하나의 필드에 대한 첫번째 에러 메시지 조회하기
 
@@ -583,7 +583,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
     'start_date' => 'required|date|after:tomorrow'
 
-`strtotime`에 의해 계산될 날짜 문자열을 전달하는 대신 날짜와 비교할 다른 필드를 명시할 수 있습니다: 
+`strtotime`에 의해 계산될 날짜 문자열을 전달하는 대신 날짜와 비교할 다른 필드를 명시할 수 있습니다:
 
     'finish_date' => 'required|date|after:start_date'
 
@@ -786,7 +786,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 <a name="rule-json"></a>
 #### json
 
-필드의 값이 유효한 JSON 문자열이어야 합니다. 
+필드의 값이 유효한 JSON 문자열이어야 합니다.
 
 <a name="rule-max"></a>
 #### max:_value_
@@ -800,7 +800,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 
-업로드 파일의 MIME 타입을 지정하고자 한다면, 프레임 워크는 파일의 내용을 읽어 들여 MIME 타입을 추측하게 되며 클라이언트가 제공하는 MIME 타입과 달라질 수 있습니다.  
+업로드 파일의 MIME 타입을 지정하고자 한다면, 프레임 워크는 파일의 내용을 읽어 들여 MIME 타입을 추측하게 되며 클라이언트가 제공하는 MIME 타입과 달라질 수 있습니다.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
@@ -859,11 +859,11 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 <a name="rule-required"></a>
 #### required
 
-입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다: 
+입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
-- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우 
+- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
 - 값이 경로없이 업로드된 파일인 경우
 
 <a name="rule-required-if"></a>
@@ -874,7 +874,7 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다. 
+_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
@@ -933,9 +933,9 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 **주어진 ID에 대해서 유니크 규칙을 무시하도록 강제하기:**
 
-때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다. 
+때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
 
-사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:  
+사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
 
     use Illuminate\Validation\Rule;
 

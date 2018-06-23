@@ -1352,6 +1352,12 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 
     {!! old('name', optional($user)->name) !!}
 
+`optional` 함수는 두번째 인자로 클로저를 받을 수 있습니다. 첫번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다:
+
+    return optional(User::find($id), function ($user) {
+        return new DummyUser;
+    });
+
 <a name="method-policy"></a>
 #### `policy()` {#collection-method}
 

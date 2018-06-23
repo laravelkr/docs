@@ -567,7 +567,6 @@ Dusk는 어플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertPathIsNot](#assert-path-is-not)
 - [assertRouteIs](#assert-route-is)
 - [assertQueryStringHas](#assert-query-string-has)
-- [assertQueryStringHas](#assert-query-string-has)
 - [assertQueryStringMissing](#assert-query-string-missing)
 - [assertFragmentIs](#assert-fragment-is)
 - [assertFragmentBeginsWith](#assert-fragment-begins-with)
@@ -597,10 +596,17 @@ Dusk는 어플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertSelectHasOption](#assert-select-has-option)
 - [assertValue](#assert-value)
 - [assertVisible](#assert-visible)
+- [assertPresent](#assert-present)
 - [assertMissing](#assert-missing)
 - [assertDialogOpened](#assert-dialog-opened)
+- [assertEnabled](#assert-enabled)
+- [assertDisabled](#assert-disabled)
+- [assertFocused](#assert-focused)
+- [assertNotFocused](#assert-not-focused)
 - [assertVue](#assert-vue)
 - [assertVueIsNot](#assert-vue-is-not)
+- [assertVueContains](#assert-vue-contains)
+- [assertVueDoesNotContain](#assert-vue-does-not-contain)
 
 <a name="assert-title"></a>
 #### assertTitle
@@ -657,9 +663,6 @@ Dusk는 어플리케이션에서 사용가능한 다양한 assertion을 제공�
 쿼리 스트링 파라미터가 존재하는지 확인:
 
     $browser->assertQueryStringHas($name);
-
-<a name="assert-query-string-has"></a>
-#### assertQueryStringHas
 
 쿼리 스트링 파라미터가 존재하고 주어진 값을 가지고 있는지 확인:
 
@@ -868,6 +871,13 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 
     $browser->assertVisible($selector);
 
+<a name="assert-present"></a>
+#### assertPresent
+
+주어진 selector 와 매칭되는 element가 존재하는지 확인:
+
+    $browser->assertPresent($selector);
+
 <a name="assert-missing"></a>
 #### assertMissing
 
@@ -882,6 +892,34 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 
     $browser->assertDialogOpened($message);
 
+<a name="assert-enabled"></a>
+#### assertEnabled
+
+주어진 필드가 사용가능한지 확인:
+
+    $browser->assertEnabled($field);
+
+<a name="assert-disabled"></a>
+#### assertDisabled
+
+주어진 필드가 사용 불가능한지 확인:
+
+    $browser->assertDisabled($field);
+
+<a name="assert-focused"></a>
+#### assertFocused
+
+주어진 필드에 포커스가 되었는지 확인:
+
+    $browser->assertFocused($field);
+
+<a name="assert-not-focused"></a>
+#### assertNotFocused
+
+주어진 필드에 포커스가 되지 않은 것을 확인:
+
+    $browser->assertNotFocused($field);
+
 <a name="assert-vue"></a>
 #### assertVue
 
@@ -895,6 +933,20 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 주어진 Vue 컴포넌트의 속성이 주어진 값과 일치하지 않는 것을 확인:
 
     $browser->assertVueIsNot($property, $value, $componentSelector = null);
+
+<a name="assert-vue-contains"></a>
+#### assertVueContains
+
+주어진 Vue 컴포넌트의 data 프로퍼티가 배열이고 주어진 값을 포함하는지 확인:
+
+    $browser->assertVueContains($property, $value, $componentSelector = null);
+
+<a name="assert-vue-does-not-contain"></a>
+#### assertVueDoesNotContain
+
+주어진 Vue 컴포넌트의 data 프로퍼티가 배열이고 주어진 값을 포함하지 않는 것을 확인:
+
+    $browser->assertVueDoesNotContain($property, $value, $componentSelector = null);
 
 <a name="pages"></a>
 ## Pages

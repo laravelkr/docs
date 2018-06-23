@@ -36,13 +36,13 @@
 
 모델 인스턴스를 생성하는 가장 쉬운 방법은 `make:model` [아티즌 커맨드](/docs/{{version}}/artisan)를 사용하는 것입니다:
 
-    php artisan make:model User
+    php artisan make:model Flight
 
 모델을 생성할 때 [데이터 마이그레이션](/docs/{{version}}/migrations)을 생성하고 싶다면 `--migration` 혹은 `-m` 옵션을 사용할 수 있습니다:
 
-    php artisan make:model User --migration
+    php artisan make:model Flight --migration
 
-    php artisan make:model User -m
+    php artisan make:model Flight -m
 
 <a name="eloquent-model-conventions"></a>
 ### Eloquent 모델 컨벤션

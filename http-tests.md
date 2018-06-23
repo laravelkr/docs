@@ -60,7 +60,7 @@
             ])->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertJson([
                     'created' => true,
                 ]);
@@ -126,7 +126,7 @@
             $response = $this->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertJson([
                     'created' => true,
                 ]);
@@ -154,7 +154,7 @@
             $response = $this->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertExactJson([
                     'created' => true,
                 ]);

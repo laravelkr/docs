@@ -60,7 +60,7 @@ Laravel provides several different approaches to validate your application's inc
 
 To learn about Laravel's powerful validation features, let's look at a complete example of validating a form and displaying the error messages back to the user.
 
-라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해서, form을 확인한 뒤 사용자에게 에러 메세지를 보여주는 예제를 살펴보도록 하겠습니다. 
+라라벨의 강력한 유효성 검사 기능에 대해 알아보기 위해서, form을 확인한 뒤 사용자에게 에러 메세지를 보여주는 예제를 살펴보도록 하겠습니다.
 
 <a name="quick-defining-the-routes"></a>
 ### Defining The Routes
@@ -76,7 +76,7 @@ First, let's assume we have the following routes defined in our `routes/web.php`
 
 Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
 
-`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다. 
+`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
 
 <a name="quick-creating-the-controller"></a>
 ### Creating The Controller
@@ -224,7 +224,7 @@ So, in our example, the user will be redirected to our controller's `create` met
 
 By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the stack by the `App\Http\Kernel` class. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
 
-기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으라면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
+기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은 것으로 간주하지 않으려면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
 
     $this->validate($request, [
         'title' => 'required|unique:posts|max:255',
@@ -234,7 +234,7 @@ By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` m
 
 In this example, we are specifying that the `publish_at` field may be either `null` or a valid date representation. If the `nullable` modifier is not added to the rule definition, the validator would consider `null` an invalid date.
 
-이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다. 
+이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다.
 
 <a name="quick-customizing-the-flashed-error-format"></a>
 #### Customizing The Flashed Error Format
@@ -353,7 +353,7 @@ form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를
 The form request class also contains an `authorize` method. Within this method, you may check if the authenticated user actually has the authority to update a given resource. For example, you may determine if a user actually owns a blog comment they are attempting to update:
 
 form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
- 
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -532,7 +532,7 @@ The validator also allows you to attach callbacks to be run after validation is 
 
 After calling the `errors` method on a `Validator` instance, you will receive an `Illuminate\Support\MessageBag` instance, which has a variety of convenient methods for working with error messages. The `$errors` variable that is automatically made available to all views is also an instance of the `MessageBag` class.
 
-`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다. 
+`Validator` 인스턴스의 `messages` 메소드를 호출하면, 에러 메시지를 편하게 사용할 수 있는 다양한 메소드를 가진 `MessageBag` 인스턴스를 받을 수 있습니다. `$errors` 변수는 자동으로 모든 뷰에서 `MessageBag` 클래스 인스턴스로써 사용가능합니다.
 
 #### Retrieving The First Error Message For A Field
 #### 하나의 필드에 대한 첫번째 에러 메시지 조회하기
@@ -745,7 +745,7 @@ The field under validation must be a value after a given date. The dates will be
 
 Instead of passing a date string to be evaluated by `strtotime`, you may specify another field to compare against the date:
 
-`strtotime`에 의해 계산될 날짜 문자열을 전달하는 대신 날짜와 비교할 다른 필드를 명시할 수 있습니다: 
+`strtotime`에 의해 계산될 날짜 문자열을 전달하는 대신 날짜와 비교할 다른 필드를 명시할 수 있습니다:
 
     'finish_date' => 'required|date|after:start_date'
 
@@ -817,7 +817,7 @@ The field under validation must be able to be cast as a boolean. Accepted input 
 <a name="rule-confirmed"></a>
 #### confirmed
 
-The field under validation must have a matching field of `foo_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input. 
+The field under validation must have a matching field of `foo_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
 
 필드의 값이 `foo_confirmation`의 매칭되는 필드를 가져야 합니다. 예를 들어 만약 필드가 `password`라면, `password_confirmation`라는 필드가 입력값 중에 있어야 합니다.
 
@@ -845,7 +845,7 @@ The field under validation must have a different value than _field_.
 <a name="rule-digits"></a>
 #### digits:_value_
 
-The field under validation must be _numeric_ and must have an exact length of _value_. 
+The field under validation must be _numeric_ and must have an exact length of _value_.
 
 필드의 값이 반드시 _숫자_여야 하고, 길이가 _value_이어야 합니다.
 
@@ -900,7 +900,7 @@ When working with arrays, the field under validation must not have any duplicate
 <a name="rule-email"></a>
 #### email
 
-The field under validation must be formatted as an e-mail address. 
+The field under validation must be formatted as an e-mail address.
 
 필드의 값이 이메일 주소 형식이어야 합니다.
 
@@ -911,12 +911,12 @@ The field under validation must exist on a given database table.
 
 필드의 값이 주어진 데이터베이스 테이블에 존재하는 값이어야 합니다.
 
-#### Basic Usage Of Exists Rule 
+#### Basic Usage Of Exists Rule
 #### exists 룰의 기본 사용법
 
     'state' => 'exists:states'
 
-#### Specifying A Custom Column Name 
+#### Specifying A Custom Column Name
 #### 특정 컬럼명 지정하기
 
     'state' => 'exists:states,abbreviation'
@@ -960,7 +960,7 @@ The field under validation must not be empty when it is present.
 <a name="rule-image"></a>
 #### image
 
-The file under validation must be an image (jpeg, png, bmp, gif, or svg) 
+The file under validation must be an image (jpeg, png, bmp, gif, or svg)
 
 이미지 파일(jpeg, png, bmp, gif, svg)이어야 합니다.
 
@@ -990,7 +990,7 @@ The field under validation must exist in _anotherfield_'s values.
 <a name="rule-integer"></a>
 #### integer
 
-The field under validation must have an integer value. 
+The field under validation must have an integer value.
 
 필드의 값이 정수여야 합니다.
 
@@ -1018,7 +1018,7 @@ The field under validation must be an IPv6 address.
 
 The field under validation must be a valid JSON string.
 
-필드의 값이 유효한 JSON 문자열이어야 합니다. 
+필드의 값이 유효한 JSON 문자열이어야 합니다.
 
 <a name="rule-max"></a>
 #### max:_value_
@@ -1038,7 +1038,7 @@ The file under validation must match one of the given MIME types:
 
 To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client provided MIME type.
 
-업로드 파일의 MIME 타입을 지정하고자 한다면, 프레임 워크는 파일의 내용을 읽어 들여 MIME 타입을 추측하게 되며 클라이언트가 제공하는 MIME 타입과 달라질 수 있습니다.  
+업로드 파일의 MIME 타입을 지정하고자 한다면, 프레임 워크는 파일의 내용을 읽어 들여 MIME 타입을 추측하게 되며 클라이언트가 제공하는 MIME 타입과 달라질 수 있습니다.
 
 <a name="rule-mimes"></a>
 #### mimes:_foo_,_bar_,...
@@ -1111,7 +1111,7 @@ The field under validation must match the given regular expression.
 
 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
-**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character. 
+**Note:** When using the `regex` pattern, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
 
 **참고:** `regex` 패턴을 사용할 때, 특히 정규 표현식에 파이프 문자열이 있다면, 파이프 구분자를 사용하는 대신 배열 형식을 사용하여 룰을 지정할 필요가 있습니다.
 
@@ -1120,7 +1120,7 @@ The field under validation must match the given regular expression.
 
 The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
 
-입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다: 
+입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
 - The value is `null`.
 - The value is an empty string.
@@ -1129,7 +1129,7 @@ The field under validation must be present in the input data and not empty. A fi
 
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
-- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우 
+- 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
 - 값이 경로없이 업로드된 파일인 경우
 
 <a name="rule-required-if"></a>
@@ -1144,7 +1144,7 @@ The field under validation must be present and not empty if the _anotherfield_ f
 
 The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
 
-_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다. 
+_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
@@ -1228,11 +1228,11 @@ Occasionally, you may need to set a custom connection for database queries made 
 
 Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
 
-때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다. 
+때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이베일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
 
 To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
-사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:  
+사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
 
     use Illuminate\Validation\Rule;
 

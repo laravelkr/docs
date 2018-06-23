@@ -10,7 +10,7 @@
     - [Serializing To JSON](#serializing-to-json)
     - [JSON 으로 Serializing](#serializing-to-json)
 - [Hiding Attributes From JSON](#hiding-attributes-from-json)
-- [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
+- [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [Appending Values To JSON](#appending-values-to-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 - [Date Serialization](#date-serialization)
@@ -42,7 +42,7 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
 You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays:
 
-또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다. 
+또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = App\User::all();
 
@@ -72,7 +72,7 @@ Alternatively, you may cast a model or collection to a string, which will automa
 
 Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers:
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. 
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();
@@ -80,7 +80,7 @@ Since models and collections are converted to JSON when cast to a string, you ca
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
-## JSON 변환시 속성값 숨시기
+## JSON 변환시 속성값 숨기기
 
 Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's array or JSON representation. To do so, add a `$hidden` property to your model:
 
@@ -127,7 +127,7 @@ Alternatively, you may use the `visible` property to define a white-list of attr
     }
 
 #### Temporarily Modifying Attribute Visibility
-#### 일시적으로 속성들의 노출 정도를 수정하기 
+#### 일시적으로 속성들의 노출 정도를 수정하기
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance for convenient method chaining:
 
@@ -170,7 +170,7 @@ Occasionally, when casting models to an array or JSON, you may wish to add attri
 
 After creating the accessor, add the attribute name to the `appends` property on the model. Note that attribute names are typically referenced in "snake case", even though the accessor is defined using "camel case":
 
-accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다: 
+accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다:
 
     <?php
 

@@ -161,7 +161,7 @@ Method  | Description
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyFiveMinutes();`  |  5분 간격으로 작업 실행
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
-`->everyFifteenMinutes();`  |  50분 간격으로 작업 실행
+`->everyFifteenMinutes();`  |  15분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행

@@ -400,8 +400,8 @@ If you already have a raw data string you wish to embed into an email template, 
 ### SwiftMailer 메세지 커스터마이징 하기
 
 The `withSwiftMessage` method of the `Mailable` base class allows you to register a callback which will be invoked with the raw SwiftMailer message instance before sending the message. This gives you an opportunity to customize the message before it is delivered:
-                      
-`Mailable` 기본 클래스의 `withSwiftMessage` 메소드를 사용하면 메세지를 보내기 전에, Raw SwiftMailer 인스턴스를 인자로 호출할 콜백을 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다:  
+
+`Mailable` 기본 클래스의 `withSwiftMessage` 메소드를 사용하면 메세지를 보내기 전에, Raw SwiftMailer 인스턴스를 인자로 호출할 콜백을 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다:
 
         /**
          * Build the message.
@@ -638,7 +638,7 @@ Since all mailable classes generated using the `make:mail` command make use of t
 
 If you have mailable classes that you want to always be queued, you may implement the `ShouldQueue` contract on the class. Now, even if you call the `send` method when mailing, the mailable will still be queued since it implements the contract:
 
-mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래스에 `ShouldQueue` implement 를 추가하면 됩니다. 그러면 `send` 메소드가 호출되어 메일이 발송될 때 contract에 의해서 큐를 메일이 통해서 발송됩니다:   
+mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래스에 `ShouldQueue` implement 를 추가하면 됩니다. 그러면 `send` 메소드가 호출되어 메일이 발송될 때 contract에 의해서 큐를 통해서 메일이 발송됩니다:
 
     use Illuminate\Contracts\Queue\ShouldQueue;
 

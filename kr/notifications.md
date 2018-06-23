@@ -271,7 +271,7 @@ When sending notifications via the `mail` channel, the notification system will 
 
 By default, the email's subject is the class name of the notification formatted to "title case". So, if your notification class is named `InvoicePaid`, the email's subject will be `Invoice Paid`. If you would like to specify an explicit subject for the message, you may call the `subject` method when building your message:
 
-기본적으로 이메일의 제목은 알림 클래스의 이름을 "title case"에 포맷한 결과입니다. (역자주 : 클래스 이름을 내장 헬퍼 함수 결과인 title case 형태로 구성하였다는 의미입니다) 따라서 여러분의 알림 클래스가 `InvoicePaid` 라면 이메일의 제목은 `Invoice Paid` 가 될 것입니다. 이메일의 제목을 명확하게 지정하고자 한다면, 메세제를 구성할 때 `subject` 메소드를 호출하면 됩니다:
+기본적으로 이메일의 제목은 알림 클래스의 이름을 "title case"에 포맷한 결과입니다. (역자주 : 클래스 이름을 내장 헬퍼 함수 결과인 title case 형태로 구성하였다는 의미입니다) 따라서 여러분의 알림 클래스가 `InvoicePaid` 라면 이메일의 제목은 `Invoice Paid` 가 될 것입니다. 이메일의 제목을 명확하게 지정하고자 한다면, 메세지를 구성할 때 `subject` 메소드를 호출하면 됩니다:
 
     /**
      * Get the mail representation of the notification.
@@ -332,7 +332,7 @@ The `database` notification channel stores the notification information in a dat
 
 You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `notifications:table` command to generate a migration with the proper table schema:
 
-어플리케이션의 사용자 인터페이스에 알림을 표시하기 위해서 테이블에 쿼리를 질의할 수 있습니다. 하지만, 이렇게 하기 전에 알림을 저장할 데이터베이스 테이믈을 생성할 필요가 있습니다. `notifications:table` 명령어를 사용하여 적절한 테이블 스키마를 구성하는 마이그레이션 파일을 생성할 수 있습니다:
+어플리케이션의 사용자 인터페이스에 알림을 표시하기 위해서 테이블에 쿼리를 질의할 수 있습니다. 하지만, 이렇게 하기 전에 알림을 저장할 데이터베이스 테이블을 생성할 필요가 있습니다. `notifications:table` 명령어를 사용하여 적절한 테이블 스키마를 구성하는 마이그레이션 파일을 생성할 수 있습니다:
 
     php artisan notifications:table
 
@@ -344,7 +344,7 @@ You can query the table to display the notifications in your application's user 
 
 If a notification supports being stored in a database table, you should define a `toDatabase` or `toArray` method on the notification class. This method will receive a `$notifiable` entity and should return a plain PHP array. The returned array will be encoded as JSON and stored in the `data` column of your `notifications` table. Let's take a look at an example `toArray` method:
 
-알림이 데이터베이스 테이믈에 저장하는 것을 지원하는 경우, 알림 클래스에 `toDatabase` 또는 `toArray` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable`를 전달 받고 순수 PHP 배열을 반환해야 합니다. 반환된 배열은 JSON 으로 인코딩 되어 `notification` 테이블의 `data` 컬럼에 저장될 것입니다. `toArray` 메소드에 대한 예제를 살펴보겠습니다:
+알림이 데이터베이스 테이블에 저장하는 것을 지원하는 경우, 알림 클래스에 `toDatabase` 또는 `toArray` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable`를 전달 받고 순수 PHP 배열을 반환해야 합니다. 반환된 배열은 JSON 으로 인코딩 되어 `notification` 테이블의 `data` 컬럼에 저장될 것입니다. `toArray` 메소드에 대한 예제를 살펴보겠습니다:
 
     /**
      * Get the array representation of the notification.
@@ -695,8 +695,8 @@ The example above will create a Slack message that looks like the following:
 
 You may use the `from` and `to` methods to customize the sender and recipient. The `from` method accepts a username and emoji identifier, while the `to` method accepts a channel or username:
 
-`from` 과 `to` 메소드를 사용하여 송신자와 수신자를 변경할 수 있습니다. `from` 메소드는 사용자 이름과 이모지 식별자를 인자로 받으며, `to` 메소드는 채널 또는 사용자 이름을 전달받습니다:  
-    
+`from` 과 `to` 메소드를 사용하여 송신자와 수신자를 변경할 수 있습니다. `from` 메소드는 사용자 이름과 이모지 식별자를 인자로 받으며, `to` 메소드는 채널 또는 사용자 이름을 전달받습니다:
+
     /**
      * Get the Slack representation of the notification.
      *

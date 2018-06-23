@@ -23,7 +23,7 @@
 
 Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application. Language strings are stored in files within the `resources/lang` directory. Within this directory there should be a subdirectory for each language supported by the application:
 
-라라벨의 다국어 기능은 어플리케이션이 다국어에 대앙하게 할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 어플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
+라라벨의 다국어 기능은 어플리케이션이 다국어에 대응 할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 어플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
 
     /resources
         /lang
@@ -111,7 +111,7 @@ All language files simply return an array of keyed strings. For example:
 
 For applications with heavy translation requirements, defining every string with a "short key" can become quickly confusing when referencing them in your views. For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key.
 
-다국어 변환이 많은 어플리케이션의 경우에는, 모든 문자를 "짧은 키"로 정의하면 뷰에서 참조할때 금방 복잡해 집니다. 따라서 라라벨은 변환 문자를 "기본" 다국어 문자를 키로 사용하여 다국어 변환 문자열을 정의할 수 있도록 지원하고 있습니다.  
+다국어 변환이 많은 어플리케이션의 경우에는, 모든 문자를 "짧은 키"로 정의하면 뷰에서 참조할때 금방 복잡해 집니다. 따라서 라라벨은 변환 문자를 "기본" 다국어 문자를 키로 사용하여 다국어 변환 문자열을 정의할 수 있도록 지원하고 있습니다.
 
 Translation files that use translation strings as keys are stored as JSON files in the `resources/lang` directory. For example, if your application has a Spanish translation, you should create a `resources/lang/es.json` file:
 
@@ -197,7 +197,7 @@ After defining a translation string that has pluralization options, you may use 
 
 Some packages may ship with their own language files. Instead of changing the package's core files to tweak these lines, you may override them by placing files in the `resources/lang/vendor/{package}/{locale}` directory.
 
-몇몇 패키지들은 고유한 언어 파일들을 제공합니다. 출력되는 문구를 수정하기 위해 패키지의 소스를 수정하는 대신에 `resources/lang/vendor/{locale}/{package}` 디렉토리에 파일을 추가하여 다국어를 재정의 할 수 있습니다. 
+몇몇 패키지들은 고유한 언어 파일들을 제공합니다. 출력되는 문구를 수정하기 위해 패키지의 소스를 수정하는 대신에 `resources/lang/vendor/{locale}/{package}` 디렉토리에 파일을 추가하여 다국어를 재정의 할 수 있습니다.
 
 So, for example, if you need to override the English translation strings in `messages.php` for a package named `skyrim/hearthfire`, you should place a language file at: `resources/lang/vendor/hearthfire/en/messages.php`. Within this file, you should only define the translation strings you wish to override. Any translation strings you don't override will still be loaded from the package's original language files.
 

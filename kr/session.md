@@ -213,7 +213,7 @@ To store data in the session, you will typically use the `put` method or the `se
 
 The `push` method may be used to push a new value onto a session value that is an array. For example, if the `user.teams` key contains an array of team names, you may push a new value onto the array like so:
 
-`push` 메소드는 세션에 들어 있는 배열에 새로운 값을 추가할 때 사용하라 수 있습니다. 예를 들어 어떤 팀의 이름들에 대한 배열을 나타내는 `user.teams` 키가 있을 때, 다음과 같이 값을 추가할 수 있습니다:
+`push` 메소드는 세션에 들어 있는 배열에 새로운 값을 추가할 때 사용할 수 있습니다. 예를 들어 어떤 팀의 이름들에 대한 배열을 나타내는 `user.teams` 키가 있을 때, 다음과 같이 값을 추가할 수 있습니다:
 
     $request->session()->push('user.teams', 'developers');
 

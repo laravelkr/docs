@@ -76,7 +76,7 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
 시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
-    composer require --dev laravel/dusk:^1.0
+    composer require --dev laravel/dusk:"^1.0"
 
 Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. You should register the provider within the `register` method of your `AppServiceProvider` in order to limit the environments in which Dusk is available, since it exposes the ability to log in as other users:
 
@@ -583,7 +583,7 @@ You may also wait until the given selector is missing from the page:
 
 Occasionally, you may wish to wait for a given selector and then interact with the element matching the selector. For example, you may wish to wait until a modal window is available and then press the "OK" button within the modal. The `whenAvailable` method may be used in this case. All element operations performed within the given callback will be scoped to the original selector:
 
-때로는, 주어진 selector 가 사용가능해지면, 매칭되는 selector에 작업을 수행하려고 할 수도 있습니다. 예를 들면, 모달 윈도우가 나타나기를 기다렸다가, 모달의 "OK" 버튼을 누른다고 해보겠습니다. 이런 경우 `whenAvailable` 메소를 사용하면 됩니다. 모든 element 작업은 원래의 selector 로 제한되어 주어진 콜백 안에서 수행됩니다 
+때로는, 주어진 selector 가 사용가능해지면, 매칭되는 selector에 작업을 수행하려고 할 수도 있습니다. 예를 들면, 모달 윈도우가 나타나기를 기다렸다가, 모달의 "OK" 버튼을 누른다고 해보겠습니다. 이런 경우 `whenAvailable` 메소를 사용하면 됩니다. 모든 element 작업은 원래의 selector 로 제한되어 주어진 콜백 안에서 수행됩니다
 
     $browser->whenAvailable('.modal', function ($modal) {
         $modal->assertSee('Hello World')
@@ -639,11 +639,11 @@ If you need to make assertions after a page has been reloaded, use the `waitForR
 #### Waiting On JavaScript Expressions
 #### 자바스크립트 표현식을 통해서 대기하기
 
-Sometimes you may wish to pause the execution of a test until a given JavaScript expression evaluates to `true`. 
+Sometimes you may wish to pause the execution of a test until a given JavaScript expression evaluates to `true`.
 
 You may easily accomplish this using the `waitUntil` method. When passing an expression to this method, you do not need to include the `return` keyword or an ending semi-colon:
 
-때로는 주어진 자바스크립트 표현식이 `true` 일 때까지 테스트 실행을 멈추고 있기를 원할 수도 있습니다. 이럴 때는 `waitUntil` 메소드를 사용하면 됩니다. 이 메소드에 표현식을 전달할 때에는 `return` 키워드나 종료 세미콜론을 포함할 필요가 없습니다:  
+때로는 주어진 자바스크립트 표현식이 `true` 일 때까지 테스트 실행을 멈추고 있기를 원할 수도 있습니다. 이럴 때는 `waitUntil` 메소드를 사용하면 됩니다. 이 메소드에 표현식을 전달할 때에는 `return` 키워드나 종료 세미콜론을 포함할 필요가 없습니다:
 
     // Wait a maximum of five seconds for the expression to be true...
     $browser->waitUntil('App.dataLoaded');
@@ -655,7 +655,7 @@ You may easily accomplish this using the `waitUntil` method. When passing an exp
 
 <a name="available-assertions"></a>
 ## Available Assertions
-## 사용 가능한 Assertions 
+## 사용 가능한 Assertions
 
 Dusk provides a variety of assertions that you may make against your application. All of the available assertions are documented in the table below:
 

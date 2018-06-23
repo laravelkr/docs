@@ -38,7 +38,7 @@ To generate a resource class, you may use the `make:resource` Artisan command. B
 
 리소스 클래스를 생성하기 위해서는 `make:resource` 아티즌 명령어를 사용하면 됩니다. 기본적으로 리소스 클래스는 어플리케이션의 `app/Http/Resources` 디렉토리에 생성됩니다. 모든 리소스 클래스는 `Illuminate\Http\Resources\Json\JsonResource` 클래스를 상속받습니다:
 
-    php artisan make:resource UserResource
+    php artisan make:resource User
 
 #### Resource Collections
 #### 리소스 컬렉션
@@ -63,9 +63,9 @@ To create a resource collection, you should use the `--collection` flag when cre
 
 > {tip} 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 개괄적인 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
 
-Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `UserResource` class:
+Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `User` resource class:
 
-리소스 클래스를 작성할 때 사용가능한 모든 옵션들을 살펴보기 전에, 먼저 라라벨에서 리소를 사용하는 방법을 개괄적으로 알아보겠습니다. 하나의 리소스 클래스는 JSON으로 변환하고자 하는 하나의 모델을 나타냅니다. 예를 들어 다음은 `UserResource` 에 대한 리소스 클래스 입니다:
+리소스 클래스를 작성할 때 사용가능한 모든 옵션들을 살펴보기 전에, 먼저 라라벨에서 리소를 사용하는 방법을 개괄적으로 알아보겠습니다. 하나의 리소스 클래스는 JSON으로 변환하고자 하는 하나의 모델을 나타냅니다. 예를 들어 다음은 `User` 리소스 클래스 입니다:
 
     <?php
 
@@ -73,7 +73,7 @@ Before diving into all of the options available to you when writing resources, l
 
     use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends JsonResource
+    class User extends JsonResource
     {
         /**
          * Transform the resource into an array.
@@ -98,7 +98,7 @@ Every resource class defines a `toArray` method which returns the array of attri
 모든 리소스 클래스는 응답-response를 내보낼 때 JSON으로 변환되어야 하는 속성 배열을 반환하는 `toArray` 메소드를 정의하고 있습니다. `$this` 변수를 통해서 모델에 직접 엑세스 할 수 있습니다. 이는 리소스 클래스가 자동으로 기본 모델에 대한 속성과 메소드에 엑세스 할 수 있게 프록시를 제공하기 때문입니다. 리소스 클래스를 정의하면, 이는 라우트 또는 컨트롤러에서 반환 할 수 있게됩니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -112,7 +112,7 @@ If you are returning a collection of resources or a paginated response, you may 
 리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -182,7 +182,7 @@ In essence, resources are simple. They only need to transform a given model into
 
     use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends JsonResource
+    class User extends JsonResource
     {
         /**
          * Transform the resource into an array.
@@ -207,7 +207,7 @@ Once a resource has been defined, it may be returned directly from a route or co
 리소스 클래스를 정의하고 나면, 라우트나 컨트롤러에서 바로 반환할 수 있습니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -250,7 +250,7 @@ While resources translate a single model into an array, resource collections tra
 리소스가 하나의 모델을 배열로 변환한다면, 리소스 컬렉션은 모델 컬렉션을 배열로 변환합니다. 모든 리소스 클래스는 "ad-hoc"을 생성하는 `collection` 메소드를 제공하고 있기 때문에, 모든 모델에 대해서 리소스 컬렉션 클래스를 정의할 필요는 없습니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -697,7 +697,7 @@ As you have already read, resources may be returned directly from routes and con
 앞서 확인한 것 처럼, 리소스는 라우트나 컨트롤러에서 바로 반환할 수 있습니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -708,7 +708,7 @@ However, sometimes you may need to customize the outgoing HTTP response before i
 그렇지만, 때때로 클라이언트에 HTTP 응답-response를 내보내기 전에 이를 커스터마이징 해야 할 때도 있습니다. 이 경우, 두가지 방법이 있는데, 먼저 리소스에 `response` 메소드를 체이닝 형태로 사용하면 됩니다. 이 메소드는 `Illuminate\Http\Response` 인스턴스를 반환하는데, 이를 사용하여 응답-response의 헤더를 조작할 수 있습니다:
 
     use App\User;
-    use App\Http\Resources\UserResource;
+    use App\Http\Resources\User as UserResource;
 
     Route::get('/user', function () {
         return (new UserResource(User::find(1)))
@@ -726,7 +726,7 @@ Alternatively, you may define a `withResponse` method within the resource itself
 
     use Illuminate\Http\Resources\Json\JsonResource;
 
-    class UserResource extends JsonResource
+    class User extends JsonResource
     {
         /**
          * Transform the resource into an array.

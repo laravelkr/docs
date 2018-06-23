@@ -77,7 +77,7 @@ You may use the `withHeaders` method to customize the request's headers before i
             ])->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertJson([
                     'created' => true,
                 ]);
@@ -155,7 +155,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
             $response = $this->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertJson([
                     'created' => true,
                 ]);
@@ -188,7 +188,7 @@ If you would like to verify that the given array is an **exact** match for the J
             $response = $this->json('POST', '/user', ['name' => 'Sally']);
 
             $response
-                ->assertStatus(200)
+                ->assertStatus(201)
                 ->assertExactJson([
                     'created' => true,
                 ]);

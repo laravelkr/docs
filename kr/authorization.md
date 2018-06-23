@@ -421,6 +421,7 @@ In addition to helpful methods provided to the `User` model, Laravel provides a 
          * @param  Request  $request
          * @param  Post  $post
          * @return Response
+         * @throws \Illuminate\Auth\Access\AuthorizationException
          */
         public function update(Request $request, Post $post)
         {
@@ -442,6 +443,7 @@ As previously discussed, some actions like `create` may not require a model inst
      *
      * @param  Request  $request
      * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request)
     {

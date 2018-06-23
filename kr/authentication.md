@@ -37,6 +37,8 @@
 - [소셜 인증](https://github.com/laravel/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
 - [사용자 정의 Guards 추가하기](#adding-custom-guards)
+    - [Closure Request Guards](#closure-request-guards)
+    - [클로저 형태의 Request Guards](#closure-request-guards)
 - [Adding Custom User Providers](#adding-custom-user-providers)
 - [사용자 정의 User 프로바이더 추가하기](#adding-custom-user-providers)
     - [The User Provider Contract](#the-user-provider-contract)
@@ -621,6 +623,46 @@ As you can see in the example above, the callback passed to the `extend` method 
         ],
     ],
 
+<a name="closure-request-guards"></a>
+### Closure Request Guards
+### 클로저 형태의 Request Guards
+
+The simplest way to implement a custom, HTTP request based authentication system is by using the `Auth::viaRequest` method. This method allows you to quickly define your authentication process using a single Closure.
+
+인증 시스템을 기반으로한 커스텀 HTTP request-요청을 구현하는 가장간단한 방법은 `Auth::viaRequest` 메소드를 사용하는 것 입니다. 이 메소드는 하나의 클로저를 사용하여 빠르기 인증을 정의할 수 있게 해줍니다.
+
+To get started, call the `Auth::viaRequest` method within the `boot` method of your `AuthServiceProvider`. The `viaRequest` method accepts a guard name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a Closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
+
+시작하려면, `AuthServiceProvider` 의 `boot` 메소드에서 `Auth::viaRequest` 메소드를 호출하면 됩니다. `viaRequest` 메소드는 guard 이름을 첫번째 인자로 전달 받습니다. 이 이름은 커스텀 guard를 표현하는 문자열이 될 수도 있습니다. 메소드에 전달되는 두번째 인자는 유입되는 HTTP request-요청을 전달받아 사용자 인스턴스를 반환하는 클로저여야하며, 인증에 실패한다면, `null` 을 반환해야 합니다:
+
+    use App\User;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
+
+    /**
+     * Register any application authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+
+        Auth::viaRequest('custom-token', function ($request) {
+            return User::where('token', $request->token)->first();
+        });
+    }
+
+Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
+
+커스텀 guard 를 정의했다면, `auth.php` 설정 파일의 `guards` 설정 안에서 사용할 수 있습니다:
+
+    'guards' => [
+        'api' => [
+            'driver' => 'custom-token',
+        ],
+    ],
+
 <a name="adding-custom-user-providers"></a>
 ## Adding Custom User Providers
 ## 사용자 정의 User 프로바이더 추가하기
@@ -728,9 +770,9 @@ The `validateCredentials` method should compare the given `$user` with the `$cre
 ### The Authenticatable Contract
 ### Authenticatable Contract 살펴보기
 
-Now that we have explored each of the methods on the `UserProvider`, let's take a look at the `Authenticatable` contract. Remember, the provider should return implementations of this interface from the `retrieveById` and `retrieveByCredentials` methods:
+Now that we have explored each of the methods on the `UserProvider`, let's take a look at the `Authenticatable` contract. Remember, the provider should return implementations of this interface from the `retrieveById`, `retrieveByToken`, and `retrieveByCredentials` methods:
 
-`UserProvider`의 각 메소드에 대해 알아보았으니 이제 `Authenticatable` contract를 살펴 보도록 하겠습니다. 프로바이더는 `retrieveById`와 `retrieveByCredentials` 메소드에서 이 인터페이스의 구현을 반환해야 한다는 것을 기억하십시오.:
+`UserProvider`의 각 메소드에 대해 알아보았으니 이제 `Authenticatable` contract를 살펴 보도록 하겠습니다. 프로바이더는 `retrieveById`, `retrieveByToken`, 그리고 `retrieveByCredentials` 메소드에서 이 인터페이스의 구현을 반환해야 한다는 것을 기억하십시오.:
 
     <?php
 

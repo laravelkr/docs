@@ -221,9 +221,9 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 ## Notifications
 ## 알림
 
-> **Note:** Before using notifications, you should add the `guzzlehttp/guzzle` Composer package to your project. When configuring Horizon to send SMS notifications, you should also review the [prerequisites for the Nexmo notification driver](https://laravel.com/docs/5.5/notifications#sms-notifications).
+> **Note:** Before using notifications, you should add the `guzzlehttp/guzzle` Composer package to your project. When configuring Horizon to send SMS notifications, you should also review the [prerequisites for the Nexmo notification driver](https://laravel.com/docs/5.6/notifications#sms-notifications).
 
-> **Note:** 알림을 사용하기 전에 프로젝트에 `guzzlehttp/guzzle` 컴포저(composer) 패키지를 등록 해야 합니다. SMS 알림을 보내도록 Horizon을 설정 하는 경우 이 링크를 참고하시기 바랍니다 [Nexmo 알림 드라이버 사전 준비사항](https://laravel.kr/docs/5.5/notifications#sms-notifications).
+> **Note:** 알림을 사용하기 전에 프로젝트에 `guzzlehttp/guzzle` 컴포저(composer) 패키지를 등록 해야 합니다. SMS 알림을 보내도록 Horizon을 설정 하는 경우 이 링크를 참고하시기 바랍니다 [Nexmo 알림 드라이버 사전 준비사항](https://laravel.kr/docs/5.6/notifications#sms-notifications).
 
 If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `AppServiceProvider`:
 

@@ -225,6 +225,12 @@ If you are installing Scout into an existing project, you may already have datab
 
     php artisan scout:import "App\Post"
 
+The `flush` command may be used to remove all of a model's records from your search indexes:
+
+`flush` 명령어는 검색 인덱스에서 모델의 모든 레코드를 삭제하는데 사용합니다:
+
+    php artisan scout:flush "App\Post"
+
 <a name="adding-records"></a>
 ### Adding Records
 ### 레코드 추가하기

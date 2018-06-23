@@ -265,14 +265,14 @@ The `whereRaw` and `orWhereRaw` methods can be used to inject a raw `where` clau
 
 #### `havingRaw / orHavingRaw`
 
-The `havingRaw` and `orHavingRaw` methods may be used to set a raw string as the value of the `having` clause:
+The `havingRaw` and `orHavingRaw` methods may be used to set a raw string as the value of the `having` clause. These methods accept an optional array of bindings as their second argument:
 
-`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다.
+`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다. 이 메소드는 두번째 인자로 (옵션값) 바인딩 배열을 받을 수 있습니다:
 
     $orders = DB::table('orders')
                     ->select('department', DB::raw('SUM(price) as total_sales'))
                     ->groupBy('department')
-                    ->havingRaw('SUM(price) > 2500')
+                    ->havingRaw('SUM(price) > ?', [2500])
                     ->get();
 
 #### `orderByRaw`
@@ -532,7 +532,7 @@ The `whereTime` method may be used to compare a column's value against a specifi
 `whereTime` 메소드는 컬럼의 값을 특정 시간과 비교하는데 사용할 수 있습니다:
 
     $users = DB::table('users')
-                    ->whereTime('created_at', '=', '11:20')
+                    ->whereTime('created_at', '=', '11:20:45')
                     ->get();
 
 **whereColumn**

@@ -11,6 +11,8 @@
     - [로컬 드라이버](#the-local-driver)
     - [Driver Prerequisites](#driver-prerequisites)
     - [드라이버 사용시 준비사항](#driver-prerequisites)
+    - [Caching](#caching)
+    - [캐싱](#caching)
 - [Obtaining Disk Instances](#obtaining-disk-instances)
 - [Disk 인스턴스 획득하기](#obtaining-disk-instances)
 - [Retrieving Files](#retrieving-files)
@@ -99,6 +101,12 @@ SFTP, S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해�
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
+An absolute must for performance is to use a cached adapter. You will need an additional package for this:
+
+캐싱된 어댑터를 사용하면 성능이 절대적으로 향상됩니다. 이 경우에는 추가 패키지를 필요로 합니다:
+
+- CachedAdapter: `league/flysystem-cached-adapter ~1.0`
+
 #### S3 Driver Configuration
 #### S3 드라이버 설정하기
 
@@ -165,6 +173,26 @@ Laravel's Flysystem integrations works great with Rackspace; however, a sample c
         'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
         'region'    => 'IAD',
         'url_type'  => 'publicURL',
+    ],
+
+<a name="caching"></a>
+### Caching
+### 캐싱
+
+To enable caching for a given disk, you may add a `cache` directive to the disk's configuration options. The `cache` option should be an array of caching options containing the `disk` name, the `expire` time in seconds, and the cache `prefix`:
+
+주어진 디스크의 캐싱을 활성화 하려면, 디스크의 설정 옵션에 `cache` 지시어를 추가하면 됩니다. `cache` 옵션은 `disk` 이름, `expire` 시간 (초) 그리고 캐시 `prefix`로 구성된 배열형태여야 합니다:
+
+    's3' => [
+        'driver' => 's3',
+
+        // Other Disk Options...
+
+        'cache' => [
+            'store' => 'memcached',
+            'expire' => 600,
+            'prefix' => 'cache-prefix',
+        ],
     ],
 
 <a name="obtaining-disk-instances"></a>
@@ -303,9 +331,9 @@ If you would like Laravel to automatically manage streaming a given file to your
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The file's extension will be determined by examining the file's MIME type. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
 
-`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. 파일의 확장자는 파일의 MIME 타입에 의해서 결정됩니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
 
@@ -366,9 +394,9 @@ In web applications, one of the most common use-cases for storing files is stori
         }
     }
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The file's extension will be determined by examining the file's MIME type. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
 
-이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. 파일의 확장자는 파일의 MIME 타입에 의해서 결정됩니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
 

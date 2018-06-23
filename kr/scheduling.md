@@ -149,6 +149,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->weekly();`  |  Run the task every week
+`->weeklyOn(1, '8:00');`  |  Run the task every week on Tuesday at 8:00
 `->monthly();`  |  Run the task every month
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
 `->quarterly();` |  Run the task every quarter
@@ -169,6 +170,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
+`->weeklyOn(1, '8:00');`  |  매주 화요일 8시에 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15::00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행

@@ -84,7 +84,7 @@ When deploying to production, make sure that you are optimizing Composer's class
 
 실 서버에 배포할 때 컴포저의 클래스 오토로딩 맵을 최적화 하여 컴포저가 주어진 클래스 파일을 빠르게 찾을 수 있도록 하십시오:
 
-    composer install --optimize-autoloader
+    composer install --optimize-autoloader --no-dev
 
 > {tip} In addition to optimizing the autoloader, you should always be sure to include a `composer.lock` file in your project's source control repository. Your project's dependencies can be installed much faster when a `composer.lock` file is present.
 

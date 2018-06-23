@@ -15,8 +15,12 @@
     - [프로젝트별 설치하기](#per-project-installation)
     - [Installing MariaDB](#installing-mariadb)
     - [MariaDB 설치하기](#installing-mariadb)
+    - [Installing MongoDB](#installing-mongodb)
+    - [MongoDB 설치하기](#installing-mongodb)
     - [Installing Elasticsearch](#installing-elasticsearch)
     - [Elasticsearch 설치하기](#installing-elasticsearch)
+    - [Installing Neo4j](#installing-neo4j)
+    - [Neo4j 설치하기](#installing-neo4j)
     - [Aliases](#aliases)
     - [별칭 설정](#aliases)
 - [Daily Usage](#daily-usage)
@@ -27,6 +31,8 @@
     - [SSH로 접속하기 ](#connecting-via-ssh)
     - [Connecting To Databases](#connecting-to-databases)
     - [데이터베이스에 접속하기](#connecting-to-databases)
+    - [Database Backups](#database-backups)
+    - [데이터베이스 백업하기Backups](#database-backups)
     - [Adding Additional Sites](#adding-additional-sites)
     - [사이트 추가하기](#adding-additional-sites)
     - [Environment Variables](#environment-variables)
@@ -35,6 +41,8 @@
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
     - [Mailhog 설정하기](#configuring-mailhog)
+    - [Configuring Minio](#configuring-minio)
+    - [Minio 설정하기](#configuring-minio)
     - [Ports](#ports)
     - [포트 지정](#ports)
     - [Sharing Your Environment](#sharing-your-environment)
@@ -78,7 +86,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### Included Software
 ### 포함된 소프트웨어
 
-- Ubuntu 16.04
+- Ubuntu 18.04
 - Git
 - PHP 7.2
 - PHP 7.1
@@ -101,6 +109,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - wp-cli
 - Zend Z-Ray
 - Go
+- Minio
 
 <a name="installation-and-setup"></a>
 ## Installation & Setup
@@ -155,7 +164,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.3.0
+    git checkout v7.8.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -314,6 +323,20 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
     provider: virtualbox
     mariadb: true
 
+<a name="installing-mongodb"></a>
+### Installing MongoDB
+### MongoDB 설치하기
+
+To install MongoDB Community Edition, update your `Homestead.yaml` file with the following configuration option:
+
+MongoDB 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정옵션을 추가해야합니다:
+
+    mongodb: true
+
+The default MongoDB installation will set the database username to `homestead` and the corresponding password to `secret`.
+
+기본 MonogoDB 설치에는 `homestead` 를 계정 이름으로, `secret`을 패스워드로 지정됩니다.
+
 <a name="installing-elasticsearch"></a>
 ### Installing Elasticsearch
 ### Elasticsearch 설치하기
@@ -332,6 +355,20 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
 > {tip} Check out the [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current) to learn how to customize your configuration.
 
 > {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
+
+<a name="installing-neo4j"></a>
+### Installing Neo4j
+### Neo4j 설치하기
+
+[Neo4j](https://neo4j.com/) is a graph database management system. To install Neo4j Community Edition, update your `Homestead.yaml` file with the following configuration option:
+
+[Neo4j](https://neo4j.com/)는 그래프 데이터베이스 시스템입니다. Neo4j 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정 옵션을 추가하면 됩니다:
+
+    neo4j: true
+
+The default Neo4j installation will set the database username to `homestead` and corresponding password to `secret`. To access the Neo4j browser, visit `http://homestead.test:7474` via your web browser. The ports `7687` (Bolt), `7474` (HTTP), and `7473` (HTTPS) are ready to serve requests from the Neo4j client.
+
+기본적인 Neo4j 설치에는 `homestead` 를 계정 이름으로 `secret`을 패스워드로 지정됩니다. Neo4j에 엑세스 하기 위해서는, 브라우저에서 `http://homestead.test:7474` 를 통해서 접근하면 됩니다. 포트 `7687` (Bolt), `7474` (HTTP), `7473` (HTTPS) 를 통해서 Neo4j 에 접근할 수 있습니다.
 
 <a name="aliases"></a>
 ### Aliases
@@ -421,6 +458,20 @@ To connect to your MySQL or PostgreSQL database from your host machine's databas
 
 > {note} 데이터베이스에 접속할 때는 이러한 표준이 아닌 포트를 사용해야 합니다. 라라벨이 가상 머신 _안에서_ 동작하고 있기 때문에 기본적인 3306 과 5432 포트는 라라벨 데이터베이스 설정 파일 안에서 사용할 수 있습니다.
 
+<a name="database-backups"></a>
+### Database Backups
+### 데이터베이스 백업하기
+
+Homestead can automatically backup your database when your Vagrant box is destroyed. To utilize this feature, you must be using Vagrant 2.1.0 or greater. Or, if you are using an older version of Vagrant, you must install the `vagrant-triggers` plug-in. To enable automatic database backups, add the following line to your `Homestead.yaml` file:
+
+홈스테드는 Vagrant box 가 종료될 때 자동으로 데이터베이스를 백업합니다. 이 기능을 사용하기 위해서는 Vagrant 2.1.0 이상 버전을 사용해야 합니다. 그 이전버전이라면, `vagrant-triggers` 플러그인을 설치해야 합니다. 자동으로 데이터베이스 백업을 활성화 하려면, 다음의 설정을 `Homestead.yaml` 파일에 추가하면 됩니다:
+
+    backup: true
+
+Once configured, Homestead will export your databases to `mysql_backup` and `postgres_backup` directories when the `vagrant destroy` command is executed. These directories can be found in the folder where you cloned Homestead or in the root of your project if you are using the [per project installation](#per-project-installation) method.
+
+설정을 하고나면, 홈스테드는 `vagrant destroy` 명령이 실행될 때 데이터베이스를 `mysql_backup` 과 `postgres_backup` 디렉토리로 백업을 내보냅니다. 이 디렉토리는 [프로젝트 별 설치](#per-project-installation)방법을 사용하는 경우에는 루트 디렉토리에, 홈스테드를 클론(복제) 한 경우에는 해당 디렉토리에서 찾을 수 있습니다.
+
 <a name="adding-additional-sites"></a>
 ### Adding Additional Sites
 ### 추가적인 사이트 지정하기
@@ -459,9 +510,9 @@ Homestead supports several types of sites which allow you to easily run projects
           to: /home/vagrant/code/Symfony/web
           type: "symfony2"
 
-The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, and `symfony4`.
+The available site types are: `apache`, `apigility`, `expressive`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, and `zf`.
 
-사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+사용가능한 사이트 타입에는 `apache`, `apigility`, `expressive`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, 그리고 `zf`가 있습니다.
 
 <a name="site-parameters"></a>
 #### Site Parameters
@@ -532,6 +583,39 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
 
+<a name="configuring-minio"></a>
+### Configuring Minio
+### Minio 설정하기
+
+Minio provides an S3 compatible storage layer on your Homestead machine via port 9600. To use Minio, update your `Homestead.yaml` file with the following configuration option:
+
+Minio 는 홈스테드 머신에 포트 9600번을 사용하여 S3와 호환되는 스토리지 레이어를 제공합니다. Minio를 사용하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
+
+    minio: true
+
+Next, you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You should add the `use_path_style_endpoint` option to the disk configuration, as well as update the `url` key to `endpoint`:
+
+다음으로 `config/filesystems.php` 설정 파일에 S3 디스크 설정을 구성해야 합니다. `url` 키를 `endpoint` 로 수정하고, `use_path_style_endpoint` 옵션을 디스크 설정 옵션에 추가해야 합니다:
+
+    's3' => [
+        'driver' => 's3',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'endpoint' => env('AWS_URL'),
+        'use_path_style_endpoint' => true
+    ]
+
+Finally, you should update your `.env` file with the proper `AWS_URL`:
+
+마지막으로, `.env` 파일에 `AWS_URL` 을 수정해야 합니다:
+
+    AWS_ACCESS_KEY_ID=homestead
+    AWS_SECRET_ACCESS_KEY=secretkey
+    AWS_DEFAULT_REGION=us-east-1
+    AWS_URL=http://homestead:9600
+
 <a name="ports"></a>
 ### Ports
 ### 포트지정하기
@@ -546,7 +630,9 @@ By default, the following ports are forwarded to your Homestead environment:
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **PostgreSQL:** 54320 &rarr; Forwards To 5432
+- **MongoDB:** 27017 &rarr; Forwards To 27017
 - **Mailhog:** 8025 &rarr; Forwards To 8025
+- **Minio:** 9600 &rarr; Forwards To 9600
 
 #### Forwarding Additional Ports
 #### 추가적인 포트 포워딩하기

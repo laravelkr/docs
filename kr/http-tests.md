@@ -273,6 +273,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 [assertCookie](#assert-cookie)
 [assertCookieExpired](#assert-cookie-expired)
+[assertCookieNotExpired](#assert-cookie-not-expired)
 [assertCookieMissing](#assert-cookie-missing)
 [assertDontSee](#assert-dont-see)
 [assertDontSeeText](#assert-dont-see-text)
@@ -281,12 +282,15 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertHeader](#assert-header)
 [assertHeaderMissing](#assert-header-missing)
 [assertJson](#assert-json)
+[assertJsonCount](#assert-json-count)
 [assertJsonFragment](#assert-json-fragment)
 [assertJsonMissing](#assert-json-missing)
 [assertJsonMissingExact](#assert-json-missing-exact)
 [assertJsonStructure](#assert-json-structure)
 [assertJsonValidationErrors](#assert-json-validation-errors)
+[assertLocation](#assert-location)
 [assertNotFound](#assert-not-found)
+[assertOk](#assert-ok)
 [assertPlainCookie](#assert-plain-cookie)
 [assertRedirect](#assert-redirect)
 [assertSee](#assert-see)
@@ -297,6 +301,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertSessionHasAll](#assert-session-has-all)
 [assertSessionHasErrors](#assert-session-has-errors)
 [assertSessionHasErrorsIn](#assert-session-has-errors-in)
+[assertSessionHasNoErrors](#assert-session-has-no-errors)
 [assertSessionMissing](#assert-session-missing)
 [assertStatus](#assert-status)
 [assertSuccessful](#assert-successful)
@@ -324,6 +329,15 @@ Assert that the response contains the given cookie and it is expired:
 response-응답에서 주어진 쿠키가 기간이 만료되었는지 확인:
 
     $response->assertCookieExpired($cookieName);
+
+<a name="assert-cookie-not-expired"></a>
+#### assertCookieNotExpired
+
+Assert that the response contains the given cookie and it is not expired:
+
+response-응답에서 주어진 쿠키가 기간이 만료되지 않은 것을 확인:
+
+    $response->assertCookieNotExpired($cookieName);
 
 <a name="assert-cookie-missing"></a>
 #### assertCookieMissing
@@ -397,6 +411,15 @@ response-응답에 주어진 JSON 데이터가 포함되어 있는지 확인:
 
     $response->assertJson(array $data);
 
+<a name="assert-json-count"></a>
+#### assertJsonCount
+
+Assert that the response JSON has an array with the expected number of items at the given key:
+
+response-응답 JSON 에 주어진 키에 해당되는 아이템 숫자의 배열을 가지고 있는지 확인:
+
+    $response->assertJsonCount($count, $key = null);
+
 <a name="assert-json-fragment"></a>
 #### assertJsonFragment
 
@@ -442,6 +465,15 @@ response-응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지
 
     $response->assertJsonValidationErrors($keys);
 
+<a name="assert-location"></a>
+#### assertLocation
+
+Assert that the response has the given URI value in the `Location` header:
+
+response-응답의 `Location` 헤더에 주어진 URI를 가지고 있는지 확인:
+
+    $response->assertLocation($uri);
+
 <a name="assert-not-found"></a>
 #### assertNotFound
 
@@ -450,6 +482,15 @@ Assert that the response has a not found status code:
 response-응답이 not found (404) 상태코드를 가지고 있는지 확인:
 
     $response->assertNotFound();
+
+<a name="assert-ok"></a>
+#### assertOk
+
+Assert that the response has a 200 status code:
+
+response-응답이 200 상태 코드를 가지고 있는지 확인:
+
+    $response->assertOk();
 
 <a name="assert-plain-cookie"></a>
 #### assertPlainCookie
@@ -540,6 +581,15 @@ Assert that the session has the given errors:
 세션이 주어진 에러를 가지고 있는지 확인:
 
     $response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);
+
+<a name="assert-session-has-no-errors"></a>
+#### assertSessionHasNoErrors
+
+Assert that the session has no errors:
+
+세션에 에러가 없는지 확인:
+
+    $response->assertSessionHasNoErrors();
 
 <a name="assert-session-missing"></a>
 #### assertSessionMissing

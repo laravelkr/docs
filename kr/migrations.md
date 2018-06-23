@@ -31,6 +31,8 @@
 - [인덱스](#indexes)
     - [Creating Indexes](#creating-indexes)
     - [인덱스 생성하기](#creating-indexes)
+    - [Renaming Indexes](#renaming-indexes)
+    - [인덱스 이름 변경하기](#renaming-indexes)
     - [Dropping Indexes](#dropping-indexes)
     - [인덱스 없애기](#dropping-indexes)
     - [Foreign Key Constraints](#foreign-key-constraints)
@@ -333,7 +335,7 @@ Command  |  Description
 `$table->mediumIncrements('id');`  |  Auto-incrementing UNSIGNED MEDIUMINT (primary key) equivalent column.
 `$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
-`$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED INTEGER and `taggable_type` VARCHAR equivalent columns.
+`$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED BIGINT and `taggable_type` VARCHAR equivalent columns.
 `$table->multiLineString('positions');`  |  MULTILINESTRING equivalent column.
 `$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
@@ -393,7 +395,7 @@ Command  |  Description
 `$table->mediumIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED MEDIUMINT (primary key) 컬럼.
 `$table->mediumInteger('votes');`  |  MEDIUMINT 컬럼.
 `$table->mediumText('description');`  |  MEDIUMTEXT 컬럼.
-`$table->morphs('taggable');`  |  UNSIGNED INTEGER 의 `taggable_id` 컬럼과 `taggable_type` VARCHAR 컬럼을 추가.
+`$table->morphs('taggable');`  |  UNSIGNED BIGINT 의 `taggable_id` 컬럼과 `taggable_type` VARCHAR 컬럼을 추가.
 `$table->multiLineString('positions');`  |  MULTILINESTRING 컬럼.
 `$table->multiPoint('positions');`  |  MULTIPOINT 컬럼.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
@@ -550,10 +552,6 @@ You may drop multiple columns from a table by passing an array of column names t
 #### Available Command Aliases
 #### 사용가능한 명령어 alias(별칭)
 
-Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s).
-
-각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
-
 Command  |  Description
 -------  |  -----------
 `$table->dropRememberToken();`  |  Drop the `remember_token` column.
@@ -605,6 +603,10 @@ Laravel will automatically generate a reasonable index name, but you may pass a 
 #### Available Index Types
 #### 사용가능한 인덱스 타입
 
+Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s).
+
+각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
+
 Command  |  Description
 -------  |  -----------
 `$table->primary('id');`  |  Adds a primary key.
@@ -643,6 +645,16 @@ Laravel uses the `utf8mb4` character set by default, which includes support for 
 Alternatively, you may enable the `innodb_large_prefix` option for your database. Refer to your database's documentation for instructions on how to properly enable this option.
 
 또는 데이터베이스에 `innodb_large_prefix` 옵션을 활성화 할 수도 있습니다. 이 옵션을 제대로 사용하는 방법은 데이터베이스 매뉴얼을 참고하십시오.
+
+<a name="renaming-indexes"></a>
+### Renaming Indexes
+### 인덱스 이름 변경하기
+
+To rename an index, you may use the `renameIndex` method. This method accepts the current index name as its first argument and the desired name as its second argument:
+
+인덱스의 이름을 변경하기 위해서는 `renameIndex` 메소드를 사용하면 됩니다. 이 메소드는 현재의 인덱스 이름을 첫번째 인자로, 변경하고자 하는 이름을 두번째 인자로 전달받습니다:
+
+    $table->renameIndex('from', 'to')
 
 <a name="dropping-indexes"></a>
 ### Dropping Indexes

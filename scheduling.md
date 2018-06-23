@@ -21,7 +21,7 @@
 
     * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
 
-이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다. 
+이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다.
 
 <a name="defining-schedules"></a>
 ## 스케줄 정의하기
@@ -61,7 +61,7 @@
         }
     }
 
-`Closure` 호출 외에도 [이트즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+`Closure` 호출 외에도 [아티즌 커맨드](/docs/{{version}}/artisan)와 os 커맨드도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
@@ -90,7 +90,7 @@
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
-`->monthlyOn(4, '15:00');`  |  매달 4일 15::00분에 작업 실행
+`->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행
 `->yearly();`  |  일년 간격으로 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
@@ -166,7 +166,7 @@
 <a name="maintenance-mode"></a>
 ### 공사중 모드
 
-라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다: 
+라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다:
 
     $schedule->command('emails:send')->evenInMaintenanceMode();
 
@@ -210,7 +210,7 @@
 
 #### URL Ping 실행
 
-`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료을 알리는 데 유용합니다:
+`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다:
 
     $schedule->command('emails:send')
              ->daily()

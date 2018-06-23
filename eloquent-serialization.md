@@ -4,7 +4,7 @@
 - [모델 & 컬렉션 Serializing](#serializing-models-and-collections)
     - [배열로 Serializing](#serializing-to-arrays)
     - [JSON 으로 Serializing](#serializing-to-json)
-- [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
+- [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 - [날짜 Serialization](#date-serialization)
 
@@ -53,7 +53,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
     });
 
 <a name="hiding-attributes-from-json"></a>
-## JSON 변환시 속성값 숨시기
+## JSON 변환시 속성값 숨기기
 
 때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 속성에 제한하고자 하는 필드를 추가하면 됩니다.
 

@@ -145,7 +145,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 <a name="plain-css"></a>
 ### 일반적인 CSS
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `styles` 메소드를 사용하면 됩니다.
 
     mix.styles([
         'public/css/vendor/normalize.css',

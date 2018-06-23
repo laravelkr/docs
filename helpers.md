@@ -1152,7 +1152,7 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 <a name="method-class-uses-recursive"></a>
 #### `class_uses_recursive()` {#collection-method}
 
-`class_uses_recursive` 함수는 자식클래스를 포함하여 클래스가 사용하는 모든 trait을 반환합니다:
+`class_uses_recursive` 함수는 모든 부모 클래스가 사용하는 trait를 포함하여 클래스가 사용하는 모든 trait을 반환합니다:
 
     $traits = class_uses_recursive(App\User::class);
 

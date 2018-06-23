@@ -147,7 +147,7 @@
 
 때로는 어플리케이션의 "사용자(User)"가 아닌 특정 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 메소드를 사용하여, 알림이 전달될 누군가의 정보를 지정할 수 있습니다:
 
-    Notification::route('mail', 'taylor@laravel.com')
+    Notification::route('mail', 'taylor@example.com')
                 ->route('nexmo', '5555555555')
                 ->notify(new InvoicePaid($invoice));
 

@@ -110,6 +110,10 @@ null | (null) null
 
     php artisan down --message="Upgrading Database" --retry=60
 
+점검 모드 중이지만, 지정된 IP나 네트워크 대역에 대해서는 어플리케이션에 접속할 수 있게 하고자 한다면, 명령어에 `allow` 옵션을 사용하면 됩니다:
+
+    php artisan down --allow=127.0.0.1 --allow=192.168.0.0/16
+
 점검 모드를 해제하려면 아티즌 명령어 `up`을 실행시키면 됩니다:
 
     php artisan up

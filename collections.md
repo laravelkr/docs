@@ -1212,6 +1212,14 @@
         return $i < 3;
     });
 
+    $underThree->all();
+
+    // [1, 2]
+
+    $aboveThree->all();
+
+    // [3, 4, 5, 6]
+
 <a name="method-pipe"></a>
 #### `pipe()` {#collection-method}
 

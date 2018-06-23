@@ -15,24 +15,24 @@
 
 ### 의존성 업데이트
 
-`composer.json` 파일에 있는 `laravel/framework` 의존성을 `5.6.*`으로 변경하고, `fideloper/proxy` 의존성을 `~4.0` 으로 업데이트 합니다.
+`composer.json` 파일에 있는 `laravel/framework` 의존성을 `5.6.*`으로 변경하고, `fideloper/proxy` 의존성을 `^4.0` 으로 업데이트 합니다.
 
 또한, 다양한 라라벨 추가 패키지들을 사용하고 있다면, 최신버전으로 업그레이드 해야 합니다:
 
-- Dusk (`~3.0`으로 업그레이드)
-- Passport (`~5.0` 으로 업그레이드)
-- Scout (`~4.0` 으로 업그레이드)
+- Dusk (`^3.0`으로 업그레이드)
+- Passport (`^5.0` 으로 업그레이드)
+- Scout (`^4.0` 으로 업그레이드)
 
 
 또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.6를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 #### Symfony 4
 
-라라벨에서 사용되는 모든 Symfony 컴포넌트가 `~4.0` 리리즈 시리즈로 업그레이드되었습니다. 어플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
+라라벨에서 사용되는 모든 Symfony 컴포넌트가 `^4.0` 리리즈 시리즈로 업그레이드되었습니다. 어플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
 
 #### PHPUnit
 
-`phpunit/phpunit`의존성을 `~7.0` 으로 업데이트 해야 합니다.
+`phpunit/phpunit`의존성을 `^7.0` 으로 업데이트 해야 합니다.
 
 ### 배열
 
@@ -100,7 +100,7 @@
 
 #### 새로운 설정 파일
 
-모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/develop/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
+모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
 
 ### 헬퍼
 
@@ -116,7 +116,7 @@
 
 #### 새로운 설정 파일
 
-로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/develop/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
+로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
 
 `config/app.php` 설정 파일의 `log` 와 `log_level` 설정 옵션은 제거되었습니다.
 
@@ -187,7 +187,7 @@ Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었�
     /**
      * The headers that should be used to detect proxies.
      *
-     * @var string
+     * @var int
      */
     protected $headers = Request::HEADER_X_FORWARDED_ALL;
 

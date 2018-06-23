@@ -492,12 +492,16 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 - [Exists (Database)](#rule-exists)
 - [File](#rule-file)
 - [Filled](#rule-filled)
+- [Greater Than](#rule-gt)
+- [Greater Than Or Equal](#rule-gte)
 - [Image (File)](#rule-image)
 - [In](#rule-in)
 - [In Array](#rule-in-array)
 - [Integer](#rule-integer)
 - [IP Address](#rule-ip)
 - [JSON](#rule-json)
+- [Less Than](#rule-lt)
+- [Less Than Or Equal](#rule-lte)
 - [Max](#rule-max)
 - [MIME Types](#rule-mimetypes)
 - [MIME Type By File Extension](#rule-mimes)
@@ -706,6 +710,16 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 
 필드가 존재하는 경우 값이 비어있으면 안됩니다.
 
+<a name="rule-gt"></a>
+#### gt:_field_
+
+필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
+
+<a name="rule-gte"></a>
+#### gte:_field_
+
+필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
+
 <a name="rule-image"></a>
 #### image
 
@@ -752,6 +766,20 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 #### json
 
 필드의 값이 유효한 JSON 문자열이어야 합니다.
+
+<a name="rule-lt"></a>
+#### lt:_field_
+
+The field under validation must be less than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+
+필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
+
+<a name="rule-lte"></a>
+#### lte:_field_
+
+The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+
+필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
 
 <a name="rule-max"></a>
 #### max:_value_

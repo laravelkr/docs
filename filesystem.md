@@ -5,6 +5,7 @@
     - [Public 디스크](#the-public-disk)
     - [로컬 드라이버](#the-local-driver)
     - [드라이버 사용시 준비사항](#driver-prerequisites)
+    - [캐싱](#caching)
 - [Disk 인스턴스 획득하기](#obtaining-disk-instances)
 - [파일 조회하기](#retrieving-files)
     - [파일 다운로드](#downloading-files)
@@ -60,6 +61,10 @@ SFTP, S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해�
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
+캐싱된 어댑터를 사용하면 성능이 절대적으로 향상됩니다. 이 경우에는 추가 패키지를 필요로 합니다:
+
+- CachedAdapter: `league/flysystem-cached-adapter ~1.0`
+
 #### S3 드라이버 설정하기
 
 S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 있습니다. 이 파일은 S3 드라이버 설정에 대한 예제 배열을 포함하고 있습니다. 여러분은 자유롭게 여러분의 S3 설정과 인증을 위해서 이 배열을 수정할 수 있습니다. 편의를 위해서, 이 환경설정값들은 AWS CLI를 사용하여 네이밍 컨벤션과 매칭됩니다.
@@ -114,6 +119,23 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
         'region'    => 'IAD',
         'url_type'  => 'publicURL',
+    ],
+
+<a name="caching"></a>
+### 캐싱
+
+주어진 디스크의 캐싱을 활성화 하려면, 디스크의 설정 옵션에 `cache` 지시어를 추가하면 됩니다. `cache` 옵션은 `disk` 이름, `expire` 시간 (초) 그리고 캐시 `prefix`로 구성된 배열형태여야 합니다:
+
+    's3' => [
+        'driver' => 's3',
+
+        // Other Disk Options...
+
+        'cache' => [
+            'store' => 'memcached',
+            'expire' => 600,
+            'prefix' => 'cache-prefix',
+        ],
     ],
 
 <a name="obtaining-disk-instances"></a>
@@ -217,7 +239,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. 파일의 확장자는 파일의 MIME 타입에 의해서 결정됩니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 `putFile` 과 `putFileAs` 메소드는 또한 저장되는 파일의 "visibility"를 지정하는 인자를 받아들입니다. 이는 특히 S3 와 같은 클라우드 디스크에 파일을 저장하고 파일의 접근 권한을 설정하고자 할 때 유용합니다:
 
@@ -267,7 +289,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         }
     }
 
-이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
+이 예제에서는 몇가지 중요한 사항들이 있습니다. 예제에서 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `store` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. 파일의 확장자는 파일의 MIME 타입에 의해서 결정됩니다. `store` 메소드에 의해서 파일의 경로가 반환 될 것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 또한 다음 예제와 같이 `Storage` 파사드의 `putFile` 메소드를 호출하여 동일한 파일 조작을 수행할 수 있습니다:
 

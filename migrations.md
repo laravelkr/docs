@@ -15,6 +15,7 @@
     - [컬럼 삭제하기](#dropping-columns)
 - [인덱스](#indexes)
     - [인덱스 생성하기](#creating-indexes)
+    - [인덱스 이름 변경하기](#renaming-indexes)
     - [인덱스 없애기](#dropping-indexes)
     - [외래키 제약](#foreign-key-constraints)
 
@@ -238,7 +239,7 @@
 `$table->mediumIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED MEDIUMINT (primary key) 컬럼.
 `$table->mediumInteger('votes');`  |  MEDIUMINT 컬럼.
 `$table->mediumText('description');`  |  MEDIUMTEXT 컬럼.
-`$table->morphs('taggable');`  |  UNSIGNED INTEGER 의 `taggable_id` 컬럼과 `taggable_type` VARCHAR 컬럼을 추가.
+`$table->morphs('taggable');`  |  UNSIGNED BIGINT 의 `taggable_id` 컬럼과 `taggable_type` VARCHAR 컬럼을 추가.
 `$table->multiLineString('positions');`  |  MULTILINESTRING 컬럼.
 `$table->multiPoint('positions');`  |  MULTIPOINT 컬럼.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
@@ -351,8 +352,6 @@ Modifier  | 설명
 
 #### 사용가능한 명령어 alias(별칭)
 
-각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
-
 명령어 |  설명
 -------  |  -----------
 `$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
@@ -385,6 +384,8 @@ Modifier  | 설명
 
 #### 사용가능한 인덱스 타입
 
+각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
+
 커맨드  | 설명
 -------  |  -----------
 `$table->primary('id');`  |  primary key 추가.
@@ -410,6 +411,13 @@ Modifier  | 설명
     }
 
 또는 데이터베이스에 `innodb_large_prefix` 옵션을 활성화 할 수도 있습니다. 이 옵션을 제대로 사용하는 방법은 데이터베이스 매뉴얼을 참고하십시오.
+
+<a name="renaming-indexes"></a>
+### 인덱스 이름 변경하기
+
+인덱스의 이름을 변경하기 위해서는 `renameIndex` 메소드를 사용하면 됩니다. 이 메소드는 현재의 인덱스 이름을 첫번째 인자로, 변경하고자 하는 이름을 두번째 인자로 전달받습니다:
+
+    $table->renameIndex('from', 'to')
 
 <a name="dropping-indexes"></a>
 ### 인덱스 삭제하기

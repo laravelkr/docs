@@ -33,7 +33,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 어플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Alex Bilbie에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 위에 구성되어 있습니다.
+라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 어플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Andy Millington 와 Simon Hamp에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 를 기반으로 구성되어 있습니다.
 
 > {note} 이 문서는 여러분이 OAuth2에 익숙하다고 전제하고 있습니다. OAuth2 대해 잘 모르겠다면, 문서를 읽기 전에 OAuth2에서 사용되는 일반적인 용어와 기능들을 숙지해 주십시오.
 

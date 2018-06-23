@@ -317,6 +317,7 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
          * @param  Request  $request
          * @param  Post  $post
          * @return Response
+         * @throws \Illuminate\Auth\Access\AuthorizationException
          */
         public function update(Request $request, Post $post)
         {
@@ -335,6 +336,7 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
      *
      * @param  Request  $request
      * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request)
     {

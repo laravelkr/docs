@@ -169,6 +169,10 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     php artisan scout:import "App\Post"
 
+`flush` 명령어는 검색 인덱스에서 모델의 모든 레코드를 삭제하는데 사용합니다:
+
+    php artisan scout:flush "App\Post"
+
 <a name="adding-records"></a>
 ### 레코드 추가하기
 

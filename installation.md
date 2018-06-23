@@ -10,7 +10,7 @@
 <a name="installation"></a>
 ## 설치하기
 
-> {video} 설치 영상을 확인하고 싶다면? 라라캐스트에서 프레임워크를 새롭게 배우는 사람들을 위한 [무료 라라벨 소개 영상](http://laravelfromscratch.com)을 제공하고 있습니다. 라라벨을 시작하는데 참고하시기 바랍니다.
+> {video} 라라캐스트에서 프레임워크를 새롭게 배우는 사람들을 위한 [무료 라라벨 소개 영상](http://laravelfromscratch.com)을 제공하고 있습니다. 라라벨을 시작하는데 참고하시기 바랍니다.
 
 <a name="server-requirements"></a>
 ### 서버 요구사항

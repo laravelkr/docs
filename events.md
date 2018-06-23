@@ -92,7 +92,7 @@
         /**
          * Create a new event instance.
          *
-         * @param  Order  $order
+         * @param  \App\Order  $order
          * @return void
          */
         public function __construct(Order $order)
@@ -129,7 +129,7 @@
         /**
          * Handle the event.
          *
-         * @param  OrderShipped  $event
+         * @param  \App\Events\OrderShipped  $event
          * @return void
          */
         public function handle(OrderShipped $event)
@@ -325,7 +325,7 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
         /**
          * Register the listeners for the subscriber.
          *
-         * @param  Illuminate\Events\Dispatcher  $events
+         * @param  \Illuminate\Events\Dispatcher  $events
          */
         public function subscribe($events)
         {

@@ -164,7 +164,7 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 <a name="notifications"></a>
 ## 알림
 
-> **Note:** 알림을 사용하기 전에 프로젝트에 `guzzlehttp/guzzle` 컴포저(composer) 패키지를 등록 해야 합니다. SMS 알림을 보내도록 Horizon을 설정 하는 경우 이 링크를 참고하시기 바랍니다 [Nexmo 알림 드라이버 사전 준비사항](https://laravel.kr/docs/5.5/notifications#sms-notifications).
+> **Note:** 알림을 사용하기 전에 프로젝트에 `guzzlehttp/guzzle` 컴포저(composer) 패키지를 등록 해야 합니다. SMS 알림을 보내도록 Horizon을 설정 하는 경우 이 링크를 참고하시기 바랍니다 [Nexmo 알림 드라이버 사전 준비사항](https://laravel.kr/docs/5.6/notifications#sms-notifications).
 
 대기 시간이 긴 Queue에 대한 알림을 받으려면 어플리케이션의 `AppServiceProvider`에서 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, 또는 `Horizon::routeSmsNotificationsTo` 메서드를 사용 하십시오:
 

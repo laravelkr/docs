@@ -7,16 +7,20 @@
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [프로젝트별 설치하기](#per-project-installation)
     - [MariaDB 설치하기](#installing-mariadb)
+    - [MongoDB 설치하기](#installing-mongodb)
     - [Elasticsearch 설치하기](#installing-elasticsearch)
+    - [Neo4j 설치하기](#installing-neo4j)
     - [별칭 설정](#aliases)
 - [사용 방법](#daily-usage)
     - [어디에서나 홈스테드 엑세스하기](#accessing-homestead-globally)
     - [SSH로 접속하기 ](#connecting-via-ssh)
     - [데이터베이스에 접속하기](#connecting-to-databases)
+    - [데이터베이스 백업하기](#database-backups)
     - [사이트 추가하기](#adding-additional-sites)
     - [시스템 ENV 환경 변수](#environment-variables)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Mailhog 설정하기](#configuring-mailhog)
+    - [Minio 설정하기](#configuring-minio)
     - [포트 지정](#ports)
     - [환경 공유하기](#sharing-your-environment)
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
@@ -41,7 +45,7 @@
 <a name="included-software"></a>
 ### 포함된 소프트웨어
 
-- Ubuntu 16.04
+- Ubuntu 18.04
 - Git
 - PHP 7.2
 - PHP 7.1
@@ -64,6 +68,7 @@
 - wp-cli
 - Zend Z-Ray
 - Go
+- Minio
 
 <a name="installation-and-setup"></a>
 ## 설치 & 구성하기
@@ -98,7 +103,7 @@ Git 저장소를 복제하여 홈스테드를 설치할 수 있습니다. 여러
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.3.0
+    git checkout v7.8.0
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -214,6 +219,15 @@ MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에
     provider: virtualbox
     mariadb: true
 
+<a name="installing-mongodb"></a>
+### MongoDB 설치하기
+
+MongoDB 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정옵션을 추가해야합니다:
+
+    mongodb: true
+
+기본 MonogoDB 설치에는 `homestead` 를 계정 이름으로, `secret`을 패스워드로 지정됩니다.
+
 <a name="installing-elasticsearch"></a>
 ### Elasticsearch 설치하기
 
@@ -227,6 +241,15 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
     elasticsearch: 6
 
 > {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
+
+<a name="installing-neo4j"></a>
+### Neo4j 설치하기
+
+[Neo4j](https://neo4j.com/)는 그래프 데이터베이스 시스템입니다. Neo4j 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정 옵션을 추가하면 됩니다:
+
+    neo4j: true
+
+기본적인 Neo4j 설치에는 `homestead` 를 계정 이름으로 `secret`을 패스워드로 지정됩니다. Neo4j에 엑세스 하기 위해서는, 브라우저에서 `http://homestead.test:7474` 를 통해서 접근하면 됩니다. 포트 `7687` (Bolt), `7474` (HTTP), `7473` (HTTPS) 를 통해서 Neo4j 에 접근할 수 있습니다.
 
 <a name="aliases"></a>
 ### 별칭 설정
@@ -289,6 +312,15 @@ Make sure to tweak the `~/Homestead` path in the function to the location of you
 
 > {note} 데이터베이스에 접속할 때는 이러한 표준이 아닌 포트를 사용해야 합니다. 라라벨이 가상 머신 _안에서_ 동작하고 있기 때문에 기본적인 3306 과 5432 포트는 라라벨 데이터베이스 설정 파일 안에서 사용할 수 있습니다.
 
+<a name="database-backups"></a>
+### 데이터베이스 백업하기
+
+홈스테드는 Vagrant box 가 종료될 때 자동으로 데이터베이스를 백업합니다. 이 기능을 사용하기 위해서는 Vagrant 2.1.0 이상 버전을 사용해야 합니다. 그 이전버전이라면, `vagrant-triggers` 플러그인을 설치해야 합니다. 자동으로 데이터베이스 백업을 활성화 하려면, 다음의 설정을 `Homestead.yaml` 파일에 추가하면 됩니다:
+
+    backup: true
+
+설정을 하고나면, 홈스테드는 `vagrant destroy` 명령이 실행될 때 데이터베이스를 `mysql_backup` 과 `postgres_backup` 디렉토리로 백업을 내보냅니다. 이 디렉토리는 [프로젝트 별 설치](#per-project-installation)방법을 사용하는 경우에는 루트 디렉토리에, 홈스테드를 클론(복제) 한 경우에는 해당 디렉토리에서 찾을 수 있습니다.
+
 <a name="adding-additional-sites"></a>
 ### 추가적인 사이트 지정하기
 
@@ -317,7 +349,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
           to: /home/vagrant/code/Symfony/web
           type: "symfony2"
 
-사용가능한 사이트 타입에는 `apache`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, 그리고 `symfony2`가 있습니다.
+사용가능한 사이트 타입에는 `apache`, `apigility`, `expressive`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, 그리고 `zf`가 있습니다.
 
 <a name="site-parameters"></a>
 #### 사이트 파라미터
@@ -370,6 +402,32 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
 
+<a name="configuring-minio"></a>
+### Minio 설정하기
+
+Minio 는 홈스테드 머신에 포트 9600번을 사용하여 S3와 호환되는 스토리지 레이어를 제공합니다. Minio를 사용하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
+
+    minio: true
+
+다음으로 `config/filesystems.php` 설정 파일에 S3 디스크 설정을 구성해야 합니다. `url` 키를 `endpoint` 로 수정하고, `use_path_style_endpoint` 옵션을 디스크 설정 옵션에 추가해야 합니다:
+
+    's3' => [
+        'driver' => 's3',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'endpoint' => env('AWS_URL'),
+        'use_path_style_endpoint' => true
+    ]
+
+마지막으로, `.env` 파일에 `AWS_URL` 을 수정해야 합니다:
+
+    AWS_ACCESS_KEY_ID=homestead
+    AWS_SECRET_ACCESS_KEY=secretkey
+    AWS_DEFAULT_REGION=us-east-1
+    AWS_URL=http://homestead:9600
+
 <a name="ports"></a>
 ### 포트지정하기
 
@@ -381,7 +439,9 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **PostgreSQL:** 54320 &rarr; Forwards To 5432
+- **MongoDB:** 27017 &rarr; Forwards To 27017
 - **Mailhog:** 8025 &rarr; Forwards To 8025
+- **Minio:** 9600 &rarr; Forwards To 9600
 
 #### 추가적인 포트 포워딩하기
 

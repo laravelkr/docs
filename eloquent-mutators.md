@@ -220,3 +220,17 @@ mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형
     $user->options = $options;
 
     $user->save();
+
+<a name="date-casting"></a>
+### 날짜 캐스팅
+
+`date` 또는 `datetime` 캐스트 타입을 사용할 때 날짜 포맷을 지정할 수 있습니다. 이 포맷은 [모델이 배열이나, JSON으로 serialize](/docs/{{version}}/eloquent-serialization) 될 때 사용됩니다:
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];

@@ -5,8 +5,10 @@
     - [로그 스택 구성하기](#building-log-stacks)
 - [로그 메세지 작성하기](#writing-log-messages)
     - [채널을 지정하여 로그 기록하기](#writing-to-specific-channels)
-- [채널에서 사용하는 Monolog 커스터마이징하기](#customizing-monolog-for-channels)
-- [커스텀 채널 생성하기](#creating-custom-channels)
+- [확장된 Monolog 채널 커스터마이징하기](#advanced-monolog-channel-customization)
+    - [채널에서 사용하는 Monolog 커스터마이징하기](#customizing-monolog-for-channels)
+    - [Monolog 핸들러 채널 생성하기](#creating-monolog-handler-channels)
+    - [팩토리를 사용하여 채널 생성하기](#creating-channels-via-factories)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -31,6 +33,21 @@
         'name' => 'channel-name',
         'channels' => ['single', 'slack'],
     ],
+
+#### 사용가능한 채널 드라이버
+
+이름 | 설명
+------------- | -------------
+`stack` | "다중 채널"을 생성할 수 있는 채널
+`single` | 하나의 파일이나 경로 기반 로거 채널(`StreamHandler`)
+`daily` | Monolog 드라이버를 기반으로 한 일별 로테이션을 하는 `RotatingFileHandler`
+`slack` | Monolog 드라이버를 기반으로 한 `SlackWebhookHandler`
+`syslog` | Monolog 드라이버를 기반으로 한 `SyslogHandler`
+`errorlog` | Monolog 드라이버를 기반으로한 `ErrorLogHandler`
+`monolog` | 지원가능한 Monolog 핸들러를 사용하는 Molog 팩토리 드라이버
+`custom` | 지정된 팩토리를 호출해서 채널을 생성하는 커스텀 드라이버
+
+> {tip} [고급 채널 커스터마이징](#advanced-monolog-channel-customization)에 대한 매뉴얼을 확인하여 `monolog` 와 `custom` 드라이버에 대해서 자세히 알아보십시오.
 
 #### 슬랙 채널 설정하기
 
@@ -132,8 +149,11 @@
 
     Log::stack(['single', 'slack'])->info('Something happened!');
 
+<a name="advanced-monolog-channel-customization"></a>
+## 확장된 Monolog 채널 커스터마이징하기
+
 <a name="customizing-monolog-for-channels"></a>
-## 채널에서 사용하는 Monolog 커스터마이징하기
+### 채널에서 사용하는 Monolog 커스터마이징하기
 
 때로는 채널에서 사용하는 Monolog를 제어할 필요가 있을 수도 있습니다. 예를 들어, 주어진 채널 핸들러에 대해서 `FormatterInterface` 구현을 커스터마이징 하기를 원할 수도 있습니다.
 
@@ -168,12 +188,49 @@
         }
     }
 
-> {tip} 모든 "tap" 크래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
+> {tip} 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
-<a name="creating-custom-channels"></a>
-## 커스텀 채널 생성하기
+<a name="creating-monolog-handler-channels"></a>
+### Monolog 핸들러 채널 생성하기
 
-Monolog 인스턴스와 설정을 완벽하게 제어할 수 있는 커스텀 채널을 정의하려면, `config/logging.php` 설정 파일에 `custom` 드라이버를 지정할 수 있습니다. 또한 설정에서는 Monolog 인스턴스를 생성하기 위해 호출해야하는 클래스를 지정하는 `via` 옵션이 포함되어 있어야 합니다:
+Monolog 는 다양한 [핸들러](https://github.com/Seldaek/monolog/tree/master/src/Monolog/Handler)를 가지고 있습니다. 몇 가지 경우에서, 생성하고자 하는 로거의 타입은 특정 핸들러 인스턴스를 가지는 Monolog 드라이버일 뿐입니다.
+
+`monolog` 드라이버를 사용할 때, `handler` 설정 옵션은 어떤 핸들러가 인스턴스화 되어야 하는지 지정하는데 사용합니다. 옵션으로, 특정 핸들러의 생성자 파라미터가 필요한 경우 `handler_with` 설정을 사용하여 필요한 옵션을 지정할 수 있습니다:
+
+    'logentries' => [
+        'driver'  => 'monolog',
+        'handler' => Monolog\Handler\SyslogUdpHandler::class,
+        'handler_with' => [
+            'host' => 'my.logentries.internal.datahubhost.company.com',
+            'port' => '10000',
+        ],
+    ],
+
+#### Monolog Formatters
+
+`monolog` 드라이버를 사용할 때, Monolog 의 `LineFormatter` 가 기본적인 포맷터로 사용됩니다. 그렇지만, 핸들러가 사용할 `formatter` 와 `formatter_with` 설정 옵션을 사용하여 포맷터의 타입을 커스터마이징 할 수 있습니다:
+
+    'browser' => [
+        'driver' => 'monolog',
+        'handler' => Monolog\Handler\BrowserConsoleHandler::class,
+        'formatter' => Monolog\Formatter\HtmlFormatter::class,
+        'formatter_with' => [
+            'dateFormat' => 'Y-m-d',
+        ],
+    ],
+
+고유한 formatter를 제공하는 Monolog 핸들러를 사용한다면, `formatter` 설정 옵션을 `default` 설정을 사용하면 됩니다:
+
+    'newrelic' => [
+        'driver' => 'monolog',
+        'handler' => Monolog\Handler\NewRelicHandler::class,
+        'formatter' => 'default',
+    ],
+
+<a name="creating-channels-via-factories"></a>
+### 팩토리를 사용하여 채널 생성하기
+
+Monolog 인스턴스와 설정을 완벽하게 제어할 수 있는 커스텀 채널을 정의하려면, `config/logging.php` 설정 파일에 `custom` 드라이버를 지정할 수 있습니다. 설정에서는 팩토리에서 Monolog 인스턴스를 생성하기 위해서 호출해야 하는 클래스를 지정하는 `via` 옵션을 포함해야 합니다:
 
     'channels' => [
         'custom' => [

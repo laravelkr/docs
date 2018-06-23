@@ -5,6 +5,7 @@
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [팩토리 작성하기](#writing-factories)
     - [팩토리 상태(States)](#factory-states)
+    - [팩토리 콜백](#factory-callbacks)
 - [팩토리 사용하기](#using-factories)
     - [모델 생성하기](#creating-models)
     - [모델 저장하기](#persisting-models)
@@ -138,6 +139,29 @@
         return [
             'address' => $faker->address,
         ];
+    });
+
+<a name="factory-callbacks"></a>
+### 팩토리 콜백
+
+팩토리 콜백은 `afterMaking` 와 `afterCreating` 메소드를 사용하여 등록합니다. 이는 모델을 생성할 때나 생성된 다음에 추가적인 작업을 수행할 수 있게 해줍니다. 예를 들어 콜백을 사용하여 생성된 모델과, 추가 모델을 서로 연결할 수 있습니다:
+
+    $factory->afterMaking(App\User::class, function ($user, $faker) {
+        // ...
+    });
+
+    $factory->afterCreating(App\User::class, function ($user, $faker) {
+        $user->accounts()->save(factory(App\Account::class)->make());
+    });
+
+또한 [팩토리 상태](#factory-states)에 대한 콜백을 정의할 수도 있습니다:
+
+    $factory->afterMakingState(App\User::class, 'delinquent', function ($user, $faker) {
+        // ...
+    });
+
+    $factory->afterCreatingState(App\User::class, 'delinquent', function ($user, $faker) {
+        // ...
     });
 
 <a name="using-factories"></a>

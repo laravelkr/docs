@@ -2,7 +2,7 @@
 
 - [소개](#introduction)
 - [기본적인 사용법](#basic-usage)
-- [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
+- [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 
 <a name="introduction"></a>
@@ -21,7 +21,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
     return $user->toArray();
 
-또한 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다. 
+또한 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = App\User::all();
 
@@ -29,28 +29,28 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
 #### 모델을 JSON으로 변환하기
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용하면 됩니다. `toArray` 와 같이 `toJson` 메소드는 재귀적이므로, 모든 속성과 관계 모델들은 JSON으로 변환될 것입니다. 
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용하면 됩니다. `toArray` 와 같이 `toJson` 메소드는 재귀적이므로, 모든 속성과 관계 모델들은 JSON으로 변환될 것입니다.
 
     $user = App\User::find(1);
 
     return $user->toJson();
 
-이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다. 
+이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
 
     $user = App\User::find(1);
 
     return (string) $user;
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. 
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();
     });
 
 <a name="hiding-attributes-from-json"></a>
-## JSON 변환시 속성값 숨시기
+## JSON 변환시 속성값 숨기기
 
-때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 값을 정의에 제한하고자 하는 속성을 추가하면 됩니다. 
+때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 값을 정의에 제한하고자 하는 속성을 추가하면 됩니다.
 
     <?php
 
@@ -130,4 +130,4 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
         protected $appends = ['is_admin'];
     }
 
-속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다. 
+속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다.

@@ -45,7 +45,7 @@ When using the scheduler, you only need to add the following Cron entry to your 
 
 This Cron will call the Laravel command scheduler every minute. When the `schedule:run` command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.
 
-이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다. 
+이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다.
 
 <a name="defining-schedules"></a>
 ## Defining Schedules
@@ -154,7 +154,7 @@ Method  | Description
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyFiveMinutes();`  |  5분 간격으로 작업 실행
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
-`->everyFifteenMinutes();`  |  50분 간격으로 작업 실행
+`->everyFifteenMinutes();`  |  15분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
@@ -282,7 +282,7 @@ If needed, you may specify how many minutes must pass before the "without overla
 
 Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the `evenInMaintenanceMode` method:
 
-라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다: 
+라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다:
 
     $schedule->command('emails:send')->evenInMaintenanceMode();
 

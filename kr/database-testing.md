@@ -231,7 +231,7 @@ If you would like to override some of the default values of your models, you may
 
 <a name="persisting-models"></a>
 ### Persisting Models
-### 모델 저장히기
+### 모델 저장하기
 
 The `create` method not only creates the model instances but also saves them to the database using Eloquent's `save` method:
 

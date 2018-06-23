@@ -317,7 +317,7 @@
 
 다음으로, `{user}` 파라미터를 포함한 라우트를 정의합니다:
 
-    Route::get('profile/{user}', function (App\User $user) {
+    Route::get('profile/{user}', function ($user) {
         //
     });
 

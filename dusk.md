@@ -46,7 +46,7 @@
 
 시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
 
-    composer require --dev laravel/dusk:^2.0
+    composer require --dev laravel/dusk:"^2.0"
 
 Dusk를 설치하고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 일반적으로는 이 작업은 라라벨의 자동 서비스 프로바이더 등록 기능이 알아서 해줍니다.
 

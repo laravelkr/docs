@@ -37,6 +37,10 @@ Update your `laravel/framework` dependency to `5.5.*` in your `composer.json` fi
         ],
     }
 
+If you are using the `laravel/browser-kit-testing` package, you should update the package to `2.*` in your `composer.json` file.
+
+만약 `laravel/browser-kit-testing` 패키지를 사용중이라면, `composer.json` 파일에서 이 패키지의 버전을 `2.*` 로 업데이트 해야합니다.
+
 Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.5 support.
 
 또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.

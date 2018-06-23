@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다. 
+라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 어플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다.
 
 #### CSS
 
@@ -46,7 +46,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
     npm run dev
 
-기본적으로 라라벨의 `webpack.mix.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다. 
+기본적으로 라라벨의 `webpack.mix.js` 파일은 SASS 와 `resources/assets/js/app.js`파일을 컴파일 합니다. `app.js` 파일 안에서 Vue 컴포넌트나, 다른 프레임워크를 좋아한다면, 고유한 자바스크립트 어플리케이션을 구성할 수 있습니다. 컴파일된 자바스크립트는 일반적으로 `public/js` 디렉토리 안에 위치할 것입니다.
 
 > {tip} `app.js` 파일은 `resources/assets/js/bootstrap.js`을 로드하여 Vue, Axios, jQuery 그리고 다른 모든 자바스크립트 의존성들을 설정하고 구동할 것입니다. 만약 추가적인 자바스크립트 의존성을 설정해야 한다면, 이 파일안에서 할 수 있습니다.
 
@@ -67,4 +67,4 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
 > {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `npm run dev` 명령어를 실행해야 한다는 것입니다. 또는 `npm run watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.
 
-또한, Vuew 컴포넌트를 작성하는데 관심이 있다면, 전체 Vuew 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://vuejs.org/guide/)을 확인하길 바랍니다.
+또한, Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://kr.vuejs.org/v2/guide/index.html)을 확인하길 바랍니다.

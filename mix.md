@@ -149,7 +149,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 <a name="plain-css"></a>
 ### 일반적인 CSS
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `styles` 메소드를 사용하면 됩니다.
 
     mix.styles([
         'public/css/vendor/normalize.css',
@@ -281,7 +281,7 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 
     mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
 
-디렉토리를 복사할 때, `copy` 메소드는 디렉토리 하위 구조를 하나의 형태로 구성합니다(flat 하게 만듭니다). 대신에 디렉토리의 원래 구조를 유지하려면 `copyDirectory` 메소드를 사용하십시오:  
+디렉토리를 복사할 때, `copy` 메소드는 디렉토리 하위 구조를 하나의 형태로 구성합니다(flat 하게 만듭니다). 대신에 디렉토리의 원래 구조를 유지하려면 `copyDirectory` 메소드를 사용하십시오:
 
     mix.copyDirectory('assets/img', 'public/img');
 
@@ -329,7 +329,7 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 
     MIX_SENTRY_DSN_PUBLIC=http://example.com
 
-`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:  
+`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:
 
     process.env.MIX_SENTRY_DSN_PUBLIC
 

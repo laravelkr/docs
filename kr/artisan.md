@@ -485,7 +485,7 @@ The `table` method makes it easy to correctly format multiple rows / columns of 
 
 For long running tasks, it could be helpful to show a progress indicator. Using the output object, we can start, advance and stop the Progress Bar. First, define the total number of steps the process will iterate through. Then, advance the Progress Bar after processing each item:
 
-시간이 로개 걸리는 작업의 경우, 진행 상황을 표시하는 것이 도움이 됩니다. 출력 객체를 사용하여 시작, 진행중, 정지를 표시 할 수 있습니다. 진행률 표시줄을 시작할 때 여러 단계를 정의해야만 각 단계마다 진행 표시줄이 이동합니다.
+시간이 오래 걸리는 작업의 경우, 진행 상황을 표시하는 것이 도움이 됩니다. 출력 객체를 사용하여 시작, 진행중, 정지를 표시 할 수 있습니다. 진행률 표시줄을 시작할 때 여러 단계를 정의해야만 각 단계마다 진행 표시줄이 이동합니다.
 
 
     $users = App\User::all();

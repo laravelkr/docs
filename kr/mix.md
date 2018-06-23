@@ -224,7 +224,7 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 
 If you would just like to concatenate some plain CSS stylesheets into a single file, you may use the `styles` method.
 
-일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `combine` 메소드를 사용하면 됩니다.
+일반적인 CSS 스타일시트 파일들을 하나의 파일로 연결해서 붙이려면 `styles` 메소드를 사용하면 됩니다.
 
     mix.styles([
         'public/css/vendor/normalize.css',
@@ -339,7 +339,7 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
 
 Mix can automatically install the Babel plug-ins necessary for React support. To get started, replace your `mix.js()` call with `mix.react()`:
 
-Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치합니다. 이렇게 하기 위해서는 `mix.js()` 호출을 `mix.react()`으로 변경하십시오:  
+Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치합니다. 이렇게 하기 위해서는 `mix.js()` 호출을 `mix.react()`으로 변경하십시오:
 
     mix.react('resources/assets/js/app.jsx', 'public/js');
 
@@ -410,7 +410,7 @@ The `copy` method may be used to copy files and directories to new locations. Th
 
 When copying a directory, the `copy` method will flatten the directory's structure. To maintain the directory's original structure, you should use the `copyDirectory` method instead:
 
-디렉토리를 복사할 때, `copy` 메소드는 디렉토리 하위 구조를 하나의 형태로 구성합니다(flat 하게 만듭니다). 대신에 디렉토리의 원래 구조를 유지하려면 `copyDirectory` 메소드를 사용하십시오:  
+디렉토리를 복사할 때, `copy` 메소드는 디렉토리 하위 구조를 하나의 형태로 구성합니다(flat 하게 만듭니다). 대신에 디렉토리의 원래 구조를 유지하려면 `copyDirectory` 메소드를 사용하십시오:
 
     mix.copyDirectory('assets/img', 'public/img');
 
@@ -451,7 +451,7 @@ Because versioned files are usually unnecessary in development, you may instruct
 
 [BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
 
-[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:  
+[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:
     mix.browserSync('my-domain.dev');
 
     // Or...
@@ -477,7 +477,7 @@ You may inject environment variables into Mix by prefixing a key in your `.env` 
 
 After the variable has been defined in your `.env` file, you may access via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
 
-`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:  
+`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:
 
     process.env.MIX_SENTRY_DSN_PUBLIC
 

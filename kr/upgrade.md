@@ -185,7 +185,7 @@ In Laravel 5.6, Blade and the `e` helper will double encode special characters b
 
 All logging configuration is now housed in its own `config/logging.php` configuration file. You should place a copy of the [default configuration file](https://github.com/laravel/laravel/blob/master/config/logging.php) in your own application and tweak the settings based on your application's needs.
 
-로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/develop/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
+로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
 
 The `log` and `log_level` configuration options may be removed from the `config/app.php` configuration file.
 

@@ -20,7 +20,7 @@
 
 In the past, developers have generated a Cron entry for each task they need to schedule. However, this is a headache. Your task schedule is no longer in source control, and you must SSH into your server to add the Cron entries. The Laravel command scheduler allows you to fluently and expressively define your command schedule within Laravel itself, and only a single Cron entry is needed on your server.
 
-이전까지, 개발자들은 스케줄링이 필요한 모든 작업들를 위해 Cron 엔트리를 생성했습니다. 하지만 이건 골치아픈 일입니다. 작업 스케줄은 더 이상 소스 컨트롤에 있지 않으며 Cron 엔트리를 추가하기 위해서는 서버에 SSH로 접속 해야만 합니다. 라라벨의 커맨트 스케줄러는 라라벨 내에 유연하고 다양한 표현이 가능한 커맨드 스케줄을 정의할 수 있도록 하며 서버에는 단 하나의 Cron 엔트리만이 필요합니다. 
+이전까지, 개발자들은 스케줄링이 필요한 모든 작업들를 위해 Cron 엔트리를 생성했습니다. 하지만 이건 골치아픈 일입니다. 작업 스케줄은 더 이상 소스 컨트롤에 있지 않으며 Cron 엔트리를 추가하기 위해서는 서버에 SSH로 접속 해야만 합니다. 라라벨의 커맨트 스케줄러는 라라벨 내에 유연하고 다양한 표현이 가능한 커맨드 스케줄을 정의할 수 있도록 하며 서버에는 단 하나의 Cron 엔트리만이 필요합니다.
 
 Your task schedule is defined in the `app/Console/Kernel.php` file's `schedule` method. To help you get started, a simple example is included with the method. You are free to add as many scheduled tasks as you wish to the `Schedule` object.
 
@@ -37,7 +37,7 @@ Here is the only Cron entry you need to add to your server:
 
 This Cron will call the Laravel command scheduler every minute. Then, Laravel evaluates your scheduled tasks and runs the tasks that are due.
 
-이 Cron은 1분마다 라라벨 커맨드 스케줄러를 호출할 것입니다. 이렇게 하면 라라벨은 스케줄된 작업들을 확인하고 맞춰진 시간에 따라 작업들을 실행합니다. 
+이 Cron은 1분마다 라라벨 커맨드 스케줄러를 호출할 것입니다. 이렇게 하면 라라벨은 스케줄된 작업들을 확인하고 맞춰진 시간에 따라 작업들을 실행합니다.
 
 <a name="defining-schedules"></a>
 ## Defining Schedules
@@ -88,7 +88,7 @@ In addition to scheduling `Closure` calls, you may also schedule [Artisan comman
 
 The `exec` command may be used to issue a command to the operating system:
 
-`exec` 커맨드는 os에 커맨드를 내리는 데에 쓰일 수 있습니다: 
+`exec` 커맨드는 os에 커맨드를 내리는 데에 쓰일 수 있습니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -102,7 +102,7 @@ Of course, there are a variety of schedules you may assign to your task:
 
 Method  | Description
 ------------- | -------------
-`->cron('* * * * * *');`  |  Run the task on a custom Cron schedule
+`->cron('* * * * *');`  |  Run the task on a custom Cron schedule
 `->everyMinute();`  |  Run the task every minute
 `->everyFiveMinutes();`  |  Run the task every five minutes
 `->everyTenMinutes();`  |  Run the task every ten minutes
@@ -131,14 +131,14 @@ Method  | Description
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
-`->monthlyOn(4, '15:00');`  |  매달 4일 15::00분에 작업 실행
+`->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행
 `->yearly();`  |  일년 간격으로 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:
 
-이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다: 
+이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다:
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
@@ -156,7 +156,7 @@ These methods may be combined with additional constraints to create even more fi
 
 Below is a list of the additional schedule constraints:
 
-아래는 추가적인 스케줄을 제한하는 옵션입니다: 
+아래는 추가적인 스케줄을 제한하는 옵션입니다:
 
 Method  | Description
 ------------- | -------------
@@ -188,7 +188,7 @@ Method  | Description
 
 The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given `Closure` returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
 
-`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, `Closure` 가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다: 
+`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, `Closure` 가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다:
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -204,7 +204,7 @@ The `skip` method may be seen as the inverse of `when`. If the `skip` method ret
 
 When using chained `when` methods, the scheduled command will only execute if all `when` conditions return `true`.
 
-연결된 구조로 `when` 메소드를 사용할 경우, 모든 `when` 조건이 `true`를 반환해야만 스케줄된 커맨드가 실행될 것입니다. 
+연결된 구조로 `when` 메소드를 사용할 경우, 모든 `when` 조건이 `true`를 반환해야만 스케줄된 커맨드가 실행될 것입니다.
 
 <a name="preventing-task-overlaps"></a>
 ### Preventing Task Overlaps
@@ -212,7 +212,7 @@ When using chained `when` methods, the scheduled command will only execute if al
 
 By default, scheduled tasks will be run even if the previous instance of the task is still running. To prevent this, you may use the `withoutOverlapping` method:
 
-기본적으로는 동일한 작업이 이미 실행되고 있어도 스케줄에 등록된 작업들은 다시 실행될 것입니다. 이를 방지하기 위해 `withoutOverlapping` 메소드를 사용할 수 있습니다: 
+기본적으로는 동일한 작업이 이미 실행되고 있어도 스케줄에 등록된 작업들은 다시 실행될 것입니다. 이를 방지하기 위해 `withoutOverlapping` 메소드를 사용할 수 있습니다:
 
     $schedule->command('emails:send')->withoutOverlapping();
 
@@ -226,7 +226,7 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 The Laravel scheduler provides several convenient methods for working with the output generated by scheduled tasks. First, using the `sendOutputTo` method, you may send the output to a file for later inspection:
 
-라라벨 스케줄러는 스케줄된 작업들의 출력을 다루는 편리한 여러 메소드들을 제공합니다. 우선 `sendOutputTo` 메소드를 사용하면 결과를 나중에 확인할 수 있도록 파일로 보낼 수 있습니다: 
+라라벨 스케줄러는 스케줄된 작업들의 출력을 다루는 편리한 여러 메소드들을 제공합니다. 우선 `sendOutputTo` 메소드를 사용하면 결과를 나중에 확인할 수 있도록 파일로 보낼 수 있습니다:
 
     $schedule->command('emails:send')
              ->daily()
@@ -251,7 +251,7 @@ Using the `emailOutputTo` method, you may e-mail the output to an e-mail address
 
 > **Note:** The `emailOutputTo` and `sendOutputTo` methods are exclusive to the `command` method and are not supported for `call`.
 
-> **참고:** `emailOutputTo` 와 `sendOutputTo` 메소드들은 `command` 메소드 전용이며 `call`에서는 지원되지 않습니다. 
+> **참고:** `emailOutputTo` 와 `sendOutputTo` 메소드들은 `command` 메소드 전용이며 `call`에서는 지원되지 않습니다.
 
 <a name="task-hooks"></a>
 ## Task Hooks
@@ -259,7 +259,7 @@ Using the `emailOutputTo` method, you may e-mail the output to an e-mail address
 
 Using the `before` and `after` methods, you may specify code to be executed before and after the scheduled task is complete:
 
-`before`와 `after` 메소드들을 이용하면 스케줄된 작업이 실행되기 전과 후에 지정한 코드가 실행되도록 설정할 수 있습니다. 
+`before`와 `after` 메소드들을 이용하면 스케줄된 작업이 실행되기 전과 후에 지정한 코드가 실행되도록 설정할 수 있습니다.
 
     $schedule->command('emails:send')
              ->daily()
@@ -275,7 +275,7 @@ Using the `before` and `after` methods, you may specify code to be executed befo
 
 Using the `pingBefore` and `thenPing` methods, the scheduler can automatically ping a given URL before or after a task is complete. This method is useful for notifying an external service, such as [Laravel Envoyer](https://envoyer.io), that your scheduled task is commencing or complete:
 
-`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료을 알리는 데 유용합니다. 
+`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다.
 
     $schedule->command('emails:send')
              ->daily()

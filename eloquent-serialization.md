@@ -4,7 +4,7 @@
 - [모델 & 컬렉션 Serializing](#serializing-models-and-collections)
     - [배열로 Serializing](#serializing-to-arrays)
     - [JSON 으로 Serializing](#serializing-to-json)
-- [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
+- [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 
 <a name="introduction"></a>
@@ -24,7 +24,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
     return $user->toArray();
 
-또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다. 
+또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = App\User::all();
 
@@ -45,14 +45,14 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
     return (string) $user;
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. 
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();
     });
 
 <a name="hiding-attributes-from-json"></a>
-## JSON 변환시 속성값 숨시기
+## JSON 변환시 속성값 숨기기
 
 때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 속성에 제한하고자 하는 필드를 추가하면 됩니다.
 
@@ -92,7 +92,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
         protected $visible = ['first_name', 'last_name'];
     }
 
-#### 일시적으로 속성들의 노출 정도를 수정하기 
+#### 일시적으로 속성들의 노출 정도를 수정하기
 
 주어진 모델 인스턴스에서 몇가지 일반적인 숨겨진 속성을 보이도록 만들고자 한다면, `makeVisible` 메소드를 사용하면 됩니다. `makeVisible` 메소드는 편리한 메소드 체이닝을 위해서 모델 인스턴스를 반환합니다:
 
@@ -126,7 +126,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
         }
     }
 
-accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다: 
+accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다:
 
     <?php
 

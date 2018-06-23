@@ -227,6 +227,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 [assertCookie](#assert-cookie)
 [assertCookieExpired](#assert-cookie-expired)
+[assertCookieNotExpired](#assert-cookie-not-expired)
 [assertCookieMissing](#assert-cookie-missing)
 [assertDontSee](#assert-dont-see)
 [assertDontSeeText](#assert-dont-see-text)
@@ -235,12 +236,15 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertHeader](#assert-header)
 [assertHeaderMissing](#assert-header-missing)
 [assertJson](#assert-json)
+[assertJsonCount](#assert-json-count)
 [assertJsonFragment](#assert-json-fragment)
 [assertJsonMissing](#assert-json-missing)
 [assertJsonMissingExact](#assert-json-missing-exact)
 [assertJsonStructure](#assert-json-structure)
 [assertJsonValidationErrors](#assert-json-validation-errors)
+[assertLocation](#assert-location)
 [assertNotFound](#assert-not-found)
+[assertOk](#assert-ok)
 [assertPlainCookie](#assert-plain-cookie)
 [assertRedirect](#assert-redirect)
 [assertSee](#assert-see)
@@ -251,6 +255,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertSessionHasAll](#assert-session-has-all)
 [assertSessionHasErrors](#assert-session-has-errors)
 [assertSessionHasErrorsIn](#assert-session-has-errors-in)
+[assertSessionHasNoErrors](#assert-session-has-no-errors)
 [assertSessionMissing](#assert-session-missing)
 [assertStatus](#assert-status)
 [assertSuccessful](#assert-successful)
@@ -274,6 +279,13 @@ Assert that the response contains the given cookie:
 Assert that the response contains the given cookie and it is expired:
 
     $response->assertCookieExpired($cookieName);
+
+<a name="assert-cookie-not-expired"></a>
+#### assertCookieNotExpired
+
+Assert that the response contains the given cookie and it is not expired:
+
+    $response->assertCookieNotExpired($cookieName);
 
 <a name="assert-cookie-missing"></a>
 #### assertCookieMissing
@@ -331,6 +343,13 @@ Assert that the response contains the given JSON data:
 
     $response->assertJson(array $data);
 
+<a name="assert-json-count"></a>
+#### assertJsonCount
+
+Assert that the response JSON has an array with the expected number of items at the given key:
+
+    $response->assertJsonCount($count, $key = null);
+
 <a name="assert-json-fragment"></a>
 #### assertJsonFragment
 
@@ -366,13 +385,27 @@ Assert that the response has the given JSON validation errors for the given keys
 
     $response->assertJsonValidationErrors($keys);
 
+<a name="assert-location"></a>
+#### assertLocation
+
+Assert that the response has the given URI value in the `Location` header:
+
+    $response->assertLocation($uri);
+
 <a name="assert-not-found"></a>
 #### assertNotFound
 
 Assert that the response has a not found status code:
 
     $response->assertNotFound();
-    
+
+<a name="assert-ok"></a>
+#### assertOk
+
+Assert that the response has a 200 status code:
+
+    $response->assertOk();
+
 <a name="assert-plain-cookie"></a>
 #### assertPlainCookie
 
@@ -442,6 +475,13 @@ Assert that the session contains an error for the given field:
 Assert that the session has the given errors:
 
     $response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);
+
+<a name="assert-session-has-no-errors"></a>
+#### assertSessionHasNoErrors
+
+Assert that the session has no errors:
+
+    $response->assertSessionHasNoErrors();
 
 <a name="assert-session-missing"></a>
 #### assertSessionMissing

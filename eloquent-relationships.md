@@ -189,7 +189,7 @@ Once the relationship has been defined, we can access the collection of comments
 
 Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
 
-    $comments = App\Post::find(1)->comments()->where('title', 'foo')->first();
+    $comment = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
 Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
 
@@ -723,6 +723,12 @@ If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesn
 
     $posts = App\Post::whereDoesntHave('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
+    })->get();
+
+You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts with comments from authors that are not banned:
+
+    $posts = App\Post::whereDoesntHave('comments.author', function ($query) {
+        $query->where('banned', 1);
     })->get();
 
 <a name="counting-related-models"></a>

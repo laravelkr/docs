@@ -15,6 +15,7 @@
     - [Dropping Columns](#dropping-columns)
 - [Indexes](#indexes)
     - [Creating Indexes](#creating-indexes)
+    - [Renaming Indexes](#renaming-indexes)
     - [Dropping Indexes](#dropping-indexes)
     - [Foreign Key Constraints](#foreign-key-constraints)
 
@@ -237,7 +238,7 @@ Command  |  Description
 `$table->mediumIncrements('id');`  |  Auto-incrementing UNSIGNED MEDIUMINT (primary key) equivalent column.
 `$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
-`$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED INTEGER and `taggable_type` VARCHAR equivalent columns.
+`$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED BIGINT and `taggable_type` VARCHAR equivalent columns.
 `$table->multiLineString('positions');`  |  MULTILINESTRING equivalent column.
 `$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
@@ -349,8 +350,6 @@ You may drop multiple columns from a table by passing an array of column names t
 
 #### Available Command Aliases
 
-Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s).
-
 Command  |  Description
 -------  |  -----------
 `$table->dropRememberToken();`  |  Drop the `remember_token` column.
@@ -383,6 +382,8 @@ Laravel will automatically generate a reasonable index name, but you may pass a 
 
 #### Available Index Types
 
+Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s).
+
 Command  |  Description
 -------  |  -----------
 `$table->primary('id');`  |  Adds a primary key.
@@ -408,6 +409,13 @@ Laravel uses the `utf8mb4` character set by default, which includes support for 
     }
 
 Alternatively, you may enable the `innodb_large_prefix` option for your database. Refer to your database's documentation for instructions on how to properly enable this option.
+
+<a name="renaming-indexes"></a>
+### Renaming Indexes
+
+To rename an index, you may use the `renameIndex` method. This method accepts the current index name as its first argument and the desired name as its second argument:
+
+    $table->renameIndex('from', 'to')
 
 <a name="dropping-indexes"></a>
 ### Dropping Indexes

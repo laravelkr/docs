@@ -87,6 +87,8 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
         }
     }
 
+> {note} After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
+
 <a name="mail-fake"></a>
 ## Mail Fake
 

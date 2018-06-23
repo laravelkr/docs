@@ -5,8 +5,10 @@
     - [Building Log Stacks](#building-log-stacks)
 - [Writing Log Messages](#writing-log-messages)
     - [Writing To Specific Channels](#writing-to-specific-channels)
-- [Customizing Monolog For Channels](#customizing-monolog-for-channels)
-- [Creating Custom Channels](#creating-custom-channels)
+- [Advanced Monolog Channel Customization](#advanced-monolog-channel-customization)
+    - [Customizing Monolog For Channels](#customizing-monolog-for-channels)
+    - [Creating Monolog Handler Channels](#creating-monolog-handler-channels)
+    - [Creating Channels Via Factories](#creating-channels-via-factories)
 
 <a name="introduction"></a>
 ## Introduction
@@ -31,6 +33,21 @@ By default, Monolog is instantiated with a "channel name" that matches the curre
         'name' => 'channel-name',
         'channels' => ['single', 'slack'],
     ],
+
+#### Available Channel Drivers
+
+Name | Description
+------------- | -------------
+`stack` | A wrapper to facilitate creating "multi-channel" channels
+`single` | A single file or path based logger channel (`StreamHandler`)
+`daily` | A `RotatingFileHandler` based Monolog driver which rotates daily
+`slack` | A `SlackWebhookHandler` based Monolog driver
+`syslog` | A `SyslogHandler` based Monolog driver
+`errorlog` | A `ErrorLogHandler` based Monolog driver
+`monolog` | A Monolog factory driver that may use any supported Monolog handler
+`custom` | A driver that calls a specified factory to create a channel
+
+> {tip} Check out the documentation on [advanced channel customization](#advanced-monolog-channel-customization) to learn more about the `monolog` and `custom` drivers.
 
 #### Configuring The Slack Channel
 
@@ -132,8 +149,12 @@ If you would like to create an on-demand logging stack consisting of multiple ch
 
     Log::stack(['single', 'slack'])->info('Something happened!');
 
+
+<a name="advanced-monolog-channel-customization"></a>
+## Advanced Monolog Channel Customization
+
 <a name="customizing-monolog-for-channels"></a>
-## Customizing Monolog For Channels
+### Customizing Monolog For Channels
 
 Sometimes you may need complete control over how Monolog is configured for an existing channel. For example, you may want to configure a custom Monolog `FormatterInterface` implementation for a given channel's handlers.
 
@@ -170,10 +191,47 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 
 > {tip} All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
 
-<a name="creating-custom-channels"></a>
-## Creating Custom Channels
+<a name="creating-monolog-handler-channels"></a>
+### Creating Monolog Handler Channels
 
-If you would like to define an entirely custom channel in which you have full control over Monolog's instantiation and configuration, you may specify a `custom` driver type in your `config/logging.php` configuration file. Additionally, your configuration should include a `via` option which specifies the class that should be invoked to create the Monolog instance:
+Monolog has a variety of [available handlers](https://github.com/Seldaek/monolog/tree/master/src/Monolog/Handler). In some cases, the type of logger you wish to create is merely a Monolog driver with an instance of a specific handler.  These channels can be created using the `monolog` driver.
+
+When using the `monolog` driver, the `handler` configuration option is used to specify which handler will be instantiated. Optionally, any constructor parameters the handler needs may be specified using the `handler_with` configuration option:
+
+    'logentries' => [
+        'driver'  => 'monolog',
+        'handler' => Monolog\Handler\SyslogUdpHandler::class,
+        'handler_with' => [
+            'host' => 'my.logentries.internal.datahubhost.company.com',
+            'port' => '10000',
+        ],
+    ],
+
+#### Monolog Formatters
+
+When using the `monolog` driver, the Monolog `LineFormatter` will be used as the default formatter. However, you may customize the type of formatter passed to the handler using the `formatter` and `formatter_with` configuration options:
+
+    'browser' => [
+        'driver' => 'monolog',
+        'handler' => Monolog\Handler\BrowserConsoleHandler::class,
+        'formatter' => Monolog\Formatter\HtmlFormatter::class,
+        'formatter_with' => [
+            'dateFormat' => 'Y-m-d',
+        ],
+    ],
+
+If you are using a Monolog handler that is capable of providing its own formatter, you may set the value of the `formatter` configuration option to `default`:
+
+    'newrelic' => [
+        'driver' => 'monolog',
+        'handler' => Monolog\Handler\NewRelicHandler::class,
+        'formatter' => 'default',
+    ],
+
+<a name="creating-channels-via-factories"></a>
+### Creating Channels Via Factories
+
+If you would like to define an entirely custom channel in which you have full control over Monolog's instantiation and configuration, you may specify a `custom` driver type in your `config/logging.php` configuration file. Your configuration should include a `via` option to point to the factory class which will be invoked to create the Monolog instance:
 
     'channels' => [
         'custom' => [

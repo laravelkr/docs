@@ -5,6 +5,7 @@
     - [The Public Disk](#the-public-disk)
     - [The Local Driver](#the-local-driver)
     - [Driver Prerequisites](#driver-prerequisites)
+    - [Caching](#caching)
 - [Obtaining Disk Instances](#obtaining-disk-instances)
 - [Retrieving Files](#retrieving-files)
     - [Downloading Files](#downloading-files)
@@ -60,6 +61,10 @@ Before using the SFTP, S3, or Rackspace drivers, you will need to install the ap
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
+An absolute must for performance is to use a cached adapter. You will need an additional package for this:
+
+- CachedAdapter: `league/flysystem-cached-adapter ~1.0`
+
 #### S3 Driver Configuration
 
 The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
@@ -114,6 +119,23 @@ Laravel's Flysystem integrations works great with Rackspace; however, a sample c
         'endpoint'  => 'https://identity.api.rackspacecloud.com/v2.0/',
         'region'    => 'IAD',
         'url_type'  => 'publicURL',
+    ],
+
+<a name="caching"></a>
+### Caching
+
+To enable caching for a given disk, you may add a `cache` directive to the disk's configuration options. The `cache` option should be an array of caching options containing the `disk` name, the `expire` time in seconds, and the cache `prefix`:
+
+    's3' => [
+        'driver' => 's3',
+
+        // Other Disk Options...
+
+        'cache' => [
+            'store' => 'memcached',
+            'expire' => 600,
+            'prefix' => 'cache-prefix',
+        ],
     ],
 
 <a name="obtaining-disk-instances"></a>
@@ -216,7 +238,7 @@ If you would like Laravel to automatically manage streaming a given file to your
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about the `putFile` method. Note that we only specified a directory name, not a file name. By default, the `putFile` method will generate a unique ID to serve as the file name. The file's extension will be determined by examining the file's MIME type. The path to the file will be returned by the `putFile` method so you can store the path, including the generated file name, in your database.
 
 The `putFile` and `putFileAs` methods also accept an argument to specify the "visibility" of the stored file. This is particularly useful if you are storing the file on a cloud disk such as S3 and would like the file to be publicly accessible:
 
@@ -266,7 +288,7 @@ In web applications, one of the most common use-cases for storing files is stori
         }
     }
 
-There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
+There are a few important things to note about this example. Note that we only specified a directory name, not a file name. By default, the `store` method will generate a unique ID to serve as the file name. The file's extension will be determined by examining the file's MIME type. The path to the file will be returned by the `store` method so you can store the path, including the generated file name, in your database.
 
 You may also call the `putFile` method on the `Storage` facade to perform the same file manipulation as the example above:
 

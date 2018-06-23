@@ -7,16 +7,20 @@
     - [Launching The Vagrant Box](#launching-the-vagrant-box)
     - [Per Project Installation](#per-project-installation)
     - [Installing MariaDB](#installing-mariadb)
+    - [Installing MongoDB](#installing-mongodb)
     - [Installing Elasticsearch](#installing-elasticsearch)
+    - [Installing Neo4j](#installing-neo4j)
     - [Aliases](#aliases)
 - [Daily Usage](#daily-usage)
     - [Accessing Homestead Globally](#accessing-homestead-globally)
     - [Connecting Via SSH](#connecting-via-ssh)
     - [Connecting To Databases](#connecting-to-databases)
+    - [Database Backups](#database-backups)
     - [Adding Additional Sites](#adding-additional-sites)
     - [Environment Variables](#environment-variables)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
+    - [Configuring Minio](#configuring-minio)
     - [Ports](#ports)
     - [Sharing Your Environment](#sharing-your-environment)
     - [Multiple PHP Versions](#multiple-php-versions)
@@ -42,7 +46,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### Included Software
 
 <div class="content-list" markdown="1">
-- Ubuntu 16.04
+- Ubuntu 18.04
 - Git
 - PHP 7.2
 - PHP 7.1
@@ -65,6 +69,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - wp-cli
 - Zend Z-Ray
 - Go
+- Minio
 </div>
 
 <a name="installation-and-setup"></a>
@@ -100,7 +105,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.3.0
+    git checkout v7.8.0
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -215,6 +220,15 @@ If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option 
     provider: virtualbox
     mariadb: true
 
+<a name="installing-mongodb"></a>
+### Installing MongoDB
+
+To install MongoDB Community Edition, update your `Homestead.yaml` file with the following configuration option:
+
+    mongodb: true
+
+The default MongoDB installation will set the database username to `homestead` and the corresponding password to `secret`.
+
 <a name="installing-elasticsearch"></a>
 ### Installing Elasticsearch
 
@@ -228,6 +242,15 @@ To install Elasticsearch, add the `elasticsearch` option to your `Homestead.yaml
     elasticsearch: 6
 
 > {tip} Check out the [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current) to learn how to customize your configuration.
+
+<a name="installing-neo4j"></a>
+### Installing Neo4j
+
+[Neo4j](https://neo4j.com/) is a graph database management system. To install Neo4j Community Edition, update your `Homestead.yaml` file with the following configuration option:
+
+    neo4j: true
+
+The default Neo4j installation will set the database username to `homestead` and corresponding password to `secret`. To access the Neo4j browser, visit `http://homestead.test:7474` via your web browser. The ports `7687` (Bolt), `7474` (HTTP), and `7473` (HTTPS) are ready to serve requests from the Neo4j client.
 
 <a name="aliases"></a>
 ### Aliases
@@ -288,6 +311,15 @@ To connect to your MySQL or PostgreSQL database from your host machine's databas
 
 > {note} You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel database configuration file since Laravel is running _within_ the virtual machine.
 
+<a name="database-backups"></a>
+### Database Backups
+
+Homestead can automatically backup your database when your Vagrant box is destroyed. To utilize this feature, you must be using Vagrant 2.1.0 or greater. Or, if you are using an older version of Vagrant, you must install the `vagrant-triggers` plug-in. To enable automatic database backups, add the following line to your `Homestead.yaml` file:
+
+    backup: true
+
+Once configured, Homestead will export your databases to `mysql_backup` and `postgres_backup` directories when the `vagrant destroy` command is executed. These directories can be found in the folder where you cloned Homestead or in the root of your project if you are using the [per project installation](#per-project-installation) method.
+
 <a name="adding-additional-sites"></a>
 ### Adding Additional Sites
 
@@ -316,7 +348,7 @@ Homestead supports several types of sites which allow you to easily run projects
           to: /home/vagrant/code/Symfony/web
           type: "symfony2"
 
-The available site types are: `apache`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, and `symfony4`.
+The available site types are: `apache`, `apigility`, `expressive`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, and `zf`.
 
 <a name="site-parameters"></a>
 #### Site Parameters
@@ -369,18 +401,48 @@ Mailhog allows you to easily catch your outgoing email and examine it without ac
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
 
+<a name="configuring-minio"></a>
+### Configuring Minio
+
+Minio provides an S3 compatible storage layer on your Homestead machine via port 9600. To use Minio, update your `Homestead.yaml` file with the following configuration option:
+
+    minio: true
+
+Next, you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You should add the `use_path_style_endpoint` option to the disk configuration, as well as update the `url` key to `endpoint`:
+
+    's3' => [
+        'driver' => 's3',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'endpoint' => env('AWS_URL'),
+        'use_path_style_endpoint' => true
+    ]
+
+Finally, you should update your `.env` file with the proper `AWS_URL`:
+
+    AWS_ACCESS_KEY_ID=homestead
+    AWS_SECRET_ACCESS_KEY=secretkey
+    AWS_DEFAULT_REGION=us-east-1
+    AWS_URL=http://homestead:9600
+
 <a name="ports"></a>
 ### Ports
 
 By default, the following ports are forwarded to your Homestead environment:
 
+<div class="content-list" markdown="1">
 - **SSH:** 2222 &rarr; Forwards To 22
 - **ngrok UI:** 4040 &rarr; Forwards To 4040
 - **HTTP:** 8000 &rarr; Forwards To 80
 - **HTTPS:** 44300 &rarr; Forwards To 443
 - **MySQL:** 33060 &rarr; Forwards To 3306
 - **PostgreSQL:** 54320 &rarr; Forwards To 5432
+- **MongoDB:** 27017 &rarr; Forwards To 27017
 - **Mailhog:** 8025 &rarr; Forwards To 8025
+- **Minio:** 9600 &rarr; Forwards To 9600
+</div>
 
 #### Forwarding Additional Ports
 

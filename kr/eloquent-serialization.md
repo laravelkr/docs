@@ -6,7 +6,7 @@
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
 - [Hiding Attributes From JSON](#hiding-attributes-from-json)
-- [JSON 변환시 속성값 숨시기](#hiding-attributes-from-json)
+- [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [Appending Values To JSON](#appending-values-to-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 
@@ -35,7 +35,7 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
 You may also convert [collections](/docs/{{version}}/eloquent-collections) to arrays:
 
-또한 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다. 
+또한 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = App\User::all();
 
@@ -46,7 +46,7 @@ You may also convert [collections](/docs/{{version}}/eloquent-collections) to ar
 
 To convert a model to JSON, you may use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON:
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용하면 됩니다. `toArray` 와 같이 `toJson` 메소드는 재귀적이므로, 모든 속성과 관계 모델들은 JSON으로 변환될 것입니다. 
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용하면 됩니다. `toArray` 와 같이 `toJson` 메소드는 재귀적이므로, 모든 속성과 관계 모델들은 JSON으로 변환될 것입니다.
 
     $user = App\User::find(1);
 
@@ -54,7 +54,7 @@ To convert a model to JSON, you may use the `toJson` method. Like `toArray`, the
 
 Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method:
 
-이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다. 
+이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
 
     $user = App\User::find(1);
 
@@ -62,7 +62,7 @@ Alternatively, you may cast a model or collection to a string, which will automa
 
 Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers:
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. 
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();
@@ -70,11 +70,11 @@ Since models and collections are converted to JSON when cast to a string, you ca
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
-## JSON 변환시 속성값 숨시기
+## JSON 변환시 속성값 숨기기
 
 Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's array or JSON representation. To do so, add a `$hidden` property definition to your model:
 
-때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 값을 정의에 제한하고자 하는 속성을 추가하면 됩니다. 
+때로는 패스워드와 같이, 모델이 배열 또는 JSON으로 재구성될 때 속성을 제한하고자 할 수도 있습니다. 이렇게 하기 위해서는 모델의 `$hidden` 값을 정의에 제한하고자 하는 속성을 추가하면 됩니다.
 
     <?php
 
@@ -165,5 +165,5 @@ Once you have created the accessor, add the attribute name to the `appends` prop
 
 Once the attribute has been added to the `appends` list, it will be included in both the model's array and JSON forms. Attributes in the `appends` array will also respect the `visible` and `hidden` settings configured on the model.
 
-속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다. 
+속성이 `appends` 리스트에 추가되고나면 모델이 배열이나 JSON 형태로 변환될 때 자동으로 포함될 것입니다 .`appends` 배열 안에 있는 속성들은 또한 모델에 정의된 `visible`와 `hidden`값에 영향을 받을 것입니다.
 

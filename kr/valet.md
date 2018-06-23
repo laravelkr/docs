@@ -30,15 +30,15 @@
 
 Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
-발렛은 Mac에서 가벼움을 선호하는 사람들을 위한 라라벨 개발 환경입니다. Vagrant도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._ 
+발렛은 Mac에서 가벼움을 선호하는 사람들을 위한 라라벨 개발 환경입니다. Vagrant도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._
 
 Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
 
-라라벨 발렛 설정은 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Nginx](https://www.nginx.com/)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.    
+라라벨 발렛 설정은 여러분의 Mac 머신이 시작할 때 백그라운드에서 항상 [Nginx](https://www.nginx.com/)가 실행되도록 설정합니다. 그러면 [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)를 사용하여 발렛은 `*.dev` 도메인에 대한 모든 요청을 여러분의 로컬 머신에 설치된 사이트로 지정되도록 프록시로 동작합니다.
 
 In other words, a blazing fast Laravel development environment that uses roughly 7 MB of RAM. Valet isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
-다시말해, 대략 7MB 의 RAM을 사용하는 매우 빠른 라라벨 개발 환경입니다. 발렛은 Vagrant 나 홈스테드를 완전히 대체하지는 않지만, 여러분이 유연하고, 속도를 중시하며, 또는 RAM 이 제한되어 있는 머신에서 동작시키는 데에는 훌륭한 대안입니다.   
+다시말해, 대략 7MB 의 RAM을 사용하는 매우 빠른 라라벨 개발 환경입니다. 발렛은 Vagrant 나 홈스테드를 완전히 대체하지는 않지만, 여러분이 유연하고, 속도를 중시하며, 또는 RAM 이 제한되어 있는 머신에서 동작시키는 데에는 훌륭한 대안입니다.
 
 Out of the box, Valet support includes, but is not limited to:
 
@@ -70,7 +70,7 @@ As you may know, Laravel offers [Homestead](/docs/{{version}}/homestead), anothe
 
 Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](http://brew.sh/) with commands like `brew install php71` and `brew install mariadb`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
 
-발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](http://brew.sh/)를 사용해서 `brew install php71` 그리고 `brew install mariadb`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.     
+발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](http://brew.sh/)를 사용해서 `brew install php71` 그리고 `brew install mariadb`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.
 
 Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
@@ -89,34 +89,34 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
 - `brew install homebrew/php/php71` Homebrew 명령어를 사용하여 PHP7.1을 설치하십시오.
-- `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.  
+- `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
 
 Once Valet is installed, try pinging any `*.dev` domain on your terminal using a command such as `ping foobar.dev`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
 
-발렛이 설치되고나면, 터미널에서 `ping foobar.dev` 와 같은 명령어를 사용하여 아무 `*.dev` 도메인으로 핑을 시도해보십시오. 발렛이 올바르게 설치되었다면 `127.0.0.1` 로 부터 응답을 확인할 수 있어야만 합니다. 
+발렛이 설치되고나면, 터미널에서 `ping foobar.dev` 와 같은 명령어를 사용하여 아무 `*.dev` 도메인으로 핑을 시도해보십시오. 발렛이 올바르게 설치되었다면 `127.0.0.1` 로 부터 응답을 확인할 수 있어야만 합니다.
 
 Valet will automatically start its daemon each time your machine boots. There is no need to run `valet start` or `valet install` ever again once the initial Valet installation is complete.
 
-발렛은 여러분의 머신이 매번 부팅될 때 자동적으로 데몬이 시작될 것입니다. 처음 발렛이 설치되어 완료되고 나면 별도의 `valet start` 나 `valet install` 을 실행할 필요가 없습니다.  
+발렛은 여러분의 머신이 매번 부팅될 때 자동적으로 데몬이 시작될 것입니다. 처음 발렛이 설치되어 완료되고 나면 별도의 `valet start` 나 `valet install` 을 실행할 필요가 없습니다.
 
 #### Using Another Domain
 #### 다른 도메인 사용하기
 
 By default, Valet serves your projects using the `.dev` TLD. If you'd like to use another domain, you can do so using the `valet domain tld-name` command.
 
-기본적으로 발렛은 프로젝트를 `.dev` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet domain tld-name` 명령어를 사용하면 됩니다. 
+기본적으로 발렛은 프로젝트를 `.dev` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet domain tld-name` 명령어를 사용하면 됩니다.
 
 For example, if you'd like to use `.app` instead of `.dev`, run `valet domain app` and Valet will start serving your projects at `*.app` automatically.
 
-예를 들어, `.dev` 대신에 `.app` 을 사용하고자 한다면 `valet domain app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.  
+예를 들어, `.dev` 대신에 `.app` 을 사용하고자 한다면 `valet domain app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
 
 #### Database
 #### 데이터베이스
 
 If you need a database, try MariaDB by running `brew install mariadb` on your command line. Once MariaDB has been installed, you may start it using the `brew services start mariadb` command. You can then connect to the database at `127.0.0.1` using the `root` username and an empty string for the password.
 
-데이터베이스가 필요하다면, 커맨드 라인에서 `brew install mariadb`를 실행하여 MariaDB를 설치해 보십시오. MariaDB가 설치되고 나면, `brew services start mariadb` 명령어를 통해서 서비스를 시작할 수 있습니다. 그렇게 하면 `127.0.0.1` 서버에 `root` 계정으로 패스워드 없이 접속 할 수 있습니다. 
+데이터베이스가 필요하다면, 커맨드 라인에서 `brew install mariadb`를 실행하여 MariaDB를 설치해 보십시오. MariaDB가 설치되고 나면, `brew services start mariadb` 명령어를 통해서 서비스를 시작할 수 있습니다. 그렇게 하면 `127.0.0.1` 서버에 `root` 계정으로 패스워드 없이 접속 할 수 있습니다.
 
 <a name="upgrading"></a>
 ### Upgrading
@@ -124,14 +124,14 @@ If you need a database, try MariaDB by running `brew install mariadb` on your co
 
 You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
-터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오. 
+터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오.
 
 #### Upgrading To Valet 2.0
 #### 발렛 2.0 으로 업그레이드 하기
 
 Valet 2.0 transitions Valet's underlying web server from Caddy to Nginx. Before upgrading to this version you should run the following commands to stop and uninstall the existing Caddy daemon:
 
-발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다: 
+발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다:
 
     valet stop
     valet uninstall
@@ -159,7 +159,7 @@ After upgrading, it may be necessary to re-park or re-link your sites.
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
 
-발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다: 
+발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다:
 
 <a name="the-park-command"></a>
 **The `park` Command**
@@ -183,7 +183,7 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 
-`link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다. 
+`link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
 
 - To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.valet/Sites` which points to your current working directory.
 - After running the `link` command, you can access the site in your browser at `http://app-name.dev`.
@@ -193,11 +193,11 @@ The `link` command may also be used to serve your Laravel sites. This command is
 
 To see a listing of all of your linked directories, run the `valet links` command. You may use `valet unlink app-name` to destroy the symbolic link.
 
-링크로 연결된 디렉토리들의 모든 목록을 확인하고자 한다면, `valet links` 명령어를 실행하십시오. `valet unlink app-name`는 디렉토리에 대한 심볼릭 링크를 제거하는데 사용할 수 있습니다. 
+링크로 연결된 디렉토리들의 모든 목록을 확인하고자 한다면, `valet links` 명령어를 실행하십시오. `valet unlink app-name`는 디렉토리에 대한 심볼릭 링크를 제거하는데 사용할 수 있습니다.
 
 > {tip} You can use `valet link` to serve the same project from multiple (sub)domains. To add a subdomain or another domain to your project run `valet link subdomain.app-name` from the project folder.
 
-> {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오. 
+> {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오.
 
 <a name="securing-sites"></a>
 **Securing Sites With TLS**
@@ -205,7 +205,7 @@ To see a listing of all of your linked directories, run the `valet links` comman
 
 By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.dev` domain, you should run the following command to secure it:
 
-기본적으로 발렛은 사이트를 일반적인 HTTP 를 통해서 제공합니다. 하지만 사이트를 HTTP/2 를 사용하여 TLS 암호화되어 제공하려면, `secure` 명령어를 사용하십시오. 예를 들어 `laravel.dev` 도메인을 발렛을 통해서 제공하고자 한다면, 다음 명령어를 통해서 안전하게 구동해야만 합니다:    
+기본적으로 발렛은 사이트를 일반적인 HTTP 를 통해서 제공합니다. 하지만 사이트를 HTTP/2 를 사용하여 TLS 암호화되어 제공하려면, `secure` 명령어를 사용하십시오. 예를 들어 `laravel.dev` 도메인을 발렛을 통해서 제공하고자 한다면, 다음 명령어를 통해서 안전하게 구동해야만 합니다:
 
     valet secure laravel
 
@@ -233,7 +233,7 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 > {note} `valet share` does not currently support sharing sites that have been secured using the `valet secure` command.
 
-> {note} 현재 `valet share`는 `valet secure` 명령어르 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
+> {note} 현재 `valet share`는 `valet secure` 명령어를 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers
@@ -241,15 +241,15 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 You can write your own Valet "driver" to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a `~/.valet/Drivers` directory is created which contains a `SampleValetDriver.php` file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: `serves`, `isStaticFile`, and `frontControllerPath`.
 
-여러분은 발렛에서 기본적으로 지원하고 있지 않은 다른 프레임워크나 CMS와 같은 PHP 어플리케이션을 제공하기 위해서 여러분의 고유한 발렛 "드라이버"를 작성할 수 있습니다. 발렛을 설치할 때 생성되는 `~/.valet/Drivers`에는 `SampleValetDriver.php` 파일이 들어 있습니다. 이 파일은 어떻게 사용자 정의 드라이버를 작성할 것인가에 대한 샘플 드라이버의 구현 코드입니다. 드라이버를 구현하는데 필요한 메소드는 `serves`, `isStaticFile`, 그리고 `frontControllerPath`의 3가지 입니다.      
+여러분은 발렛에서 기본적으로 지원하고 있지 않은 다른 프레임워크나 CMS와 같은 PHP 어플리케이션을 제공하기 위해서 여러분의 고유한 발렛 "드라이버"를 작성할 수 있습니다. 발렛을 설치할 때 생성되는 `~/.valet/Drivers`에는 `SampleValetDriver.php` 파일이 들어 있습니다. 이 파일은 어떻게 사용자 정의 드라이버를 작성할 것인가에 대한 샘플 드라이버의 구현 코드입니다. 드라이버를 구현하는데 필요한 메소드는 `serves`, `isStaticFile`, 그리고 `frontControllerPath`의 3가지 입니다.
 
 All three methods receive the `$sitePath`, `$siteName`, and `$uri` values as their arguments. The `$sitePath` is the fully qualified path to the site being served on your machine, such as `/Users/Lisa/Sites/my-project`. The `$siteName` is the "host" / "site name" portion of the domain (`my-project`). The `$uri` is the incoming request URI (`/foo/bar`).
 
-세가지 메소드들 모두 `$sitePath`, `$siteName`, 그리고 `$uri` 값을 인자로 받습니다. `$sitePath` 는 `/Users/Lisa/Sites/my-project`와 같은 여러분의 머신에서 사이트가 제공되기 할 전체 경로 입니다. `$siteName` 는 도메인의 "호스트" / "사이트 이름" 부분 입니다(`my-project`). `$uri` 는 유입되는 요청 URI 입니다(`/foo/bar`).   
+세가지 메소드들 모두 `$sitePath`, `$siteName`, 그리고 `$uri` 값을 인자로 받습니다. `$sitePath` 는 `/Users/Lisa/Sites/my-project`와 같은 여러분의 머신에서 사이트가 제공되기 할 전체 경로 입니다. `$siteName` 는 도메인의 "호스트" / "사이트 이름" 부분 입니다(`my-project`). `$uri` 는 유입되는 요청 URI 입니다(`/foo/bar`).
 
 Once you have completed your custom Valet driver, place it in the `~/.valet/Drivers` directory using the `FrameworkValetDriver.php` naming convention. For example, if you are writing a custom valet driver for WordPress, your file name should be `WordPressValetDriver.php`.
 
-여러분의 발렛 드라이버를 작성하고 나면, 이 파일을 `FrameworkValetDriver.php` 네이밍 컨벤션에 맞게 `~/.valet/Drivers` 디렉토리에 저장하십시오. 예를 들자면, 여러분이 워드프레스를 위한 발렛 드라이버를 작성하였다면 여러분의 파일 이름음 `WordPressValetDriver.php`가 되어야 합니다.     
+여러분의 발렛 드라이버를 작성하고 나면, 이 파일을 `FrameworkValetDriver.php` 네이밍 컨벤션에 맞게 `~/.valet/Drivers` 디렉토리에 저장하십시오. 예를 들자면, 여러분이 워드프레스를 위한 발렛 드라이버를 작성하였다면 여러분의 파일 이름음 `WordPressValetDriver.php`가 되어야 합니다.
 
 Let's take a look at a sample implementation of each method your custom Valet driver should implement.
 
@@ -260,11 +260,11 @@ Let's take a look at a sample implementation of each method your custom Valet dr
 
 The `serves` method should return `true` if your driver should handle the incoming request. Otherwise, the method should return `false`. So, within this method you should attempt to determine if the given `$sitePath` contains a project of the type you are trying to serve.
 
-`serves` 메소드는 드라이버가 유입된 요청을 처리해야 할 경우 `true`를 반환합니다. 그렇지 않은 경우는 `false`를 반환합니다. 따라서 이 메소드 안에서 여러분은 주어진 `$sitePath` 가 동작시키고자 하는 유형의 프로젝트인지 확인도록 해야합니다. 
+`serves` 메소드는 드라이버가 유입된 요청을 처리해야 할 경우 `true`를 반환합니다. 그렇지 않은 경우는 `false`를 반환합니다. 따라서 이 메소드 안에서 여러분은 주어진 `$sitePath` 가 동작시키고자 하는 유형의 프로젝트인지 확인도록 해야합니다.
 
 For example, let's pretend we are writing a `WordPressValetDriver`. Our serve method might look something like this:
 
-예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. serve 메소드는 다음과 같을 것입니다: 
+예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. serve 메소드는 다음과 같을 것입니다:
 
     /**
      * Determine if the driver serves the request.
@@ -284,7 +284,7 @@ For example, let's pretend we are writing a `WordPressValetDriver`. Our serve me
 
 The `isStaticFile` should determine if the incoming request is for a file that is "static", such as an image or a stylesheet. If the file is static, the method should return the fully qualified path to the static file on disk. If the incoming request is not for a static file, the method should return `false`:
 
-`isStaticFile` 는 유입된 요청이 이미지나 스타일 시트와 같은 "정적" 파일인지 판단합니다. 파일이 정적파일이라면 해당 파일이 존재하는 디스크의 전체 경로를 반환합니다. 유입된 요청이 정적 파일이 아니라면 `false` 를 반환해야 합니다:  
+`isStaticFile` 는 유입된 요청이 이미지나 스타일 시트와 같은 "정적" 파일인지 판단합니다. 파일이 정적파일이라면 해당 파일이 존재하는 디스크의 전체 경로를 반환합니다. 유입된 요청이 정적 파일이 아니라면 `false` 를 반환해야 합니다:
 
     /**
      * Determine if the incoming request is for a static file.
@@ -304,7 +304,7 @@ The `isStaticFile` should determine if the incoming request is for a file that i
     }
 
 > {note} The `isStaticFile` method will only be called if the `serves` method returns `true` for the incoming request and the request URI is not `/`.
- 
+
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 #### The `frontControllerPath` Method

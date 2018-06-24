@@ -20,7 +20,7 @@
 
 > **Note:** We attempt to provide a very comprehensive listing of every possible breaking change made to the framework. However, many of these changes may not apply to your own application.
 
-> **주의:** 프레임워크에 에러가 발생할만한 모든 포괄적인 목록을 제공하려고 합니다. 그렇지만 이러한 변경사항들의 대부분은 여러분의 어플리케이션에 적용되지 않을 수도 있습니다.
+> **주의:** 프레임워크에 에러가 발생할만한 모든 포괄적인 목록을 제공하려고 합니다. 그렇지만 이러한 변경사항들의 대부분은 여러분의 애플리케이션에 적용되지 않을 수도 있습니다.
 
 ### Updating Dependencies
 ### 패키지 의존성 업데이트
@@ -49,7 +49,7 @@ Once you have updated the file with a fresh copy, set your authentication config
 
 Take special note of the `passwords.users.email` configuration option in the new `auth.php` configuration file and verify that the view path matches the actual view path for your application, as the default path to this view was changed in Laravel 5.2. If the default value in the new configuration file does not match your existing view, update the configuration option.
 
-새로운 `auth.php` 설정 파일안에 있는 `passwords.users.email` 설정 옵션의 특별한 사항를 확인하고, 뷰 파일의 경로가 어플리케이션의 실제의 뷰 파일 경로와 일치하는지 확인하십시오. 라라벨 5.2에서 이 뷰에 대한 기본 경로가 변경되었습니다. 새로운 설정 파일의 기본 값이 가지고 있는 뷰의 경로와 일치하지 않는다면 설정 옵션을 변경하십시오. 
+새로운 `auth.php` 설정 파일안에 있는 `passwords.users.email` 설정 옵션의 특별한 사항를 확인하고, 뷰 파일의 경로가 애플리케이션의 실제의 뷰 파일 경로와 일치하는지 확인하십시오. 라라벨 5.2에서 이 뷰에 대한 기본 경로가 변경되었습니다. 새로운 설정 파일의 기본 값이 가지고 있는 뷰의 경로와 일치하지 않는다면 설정 옵션을 변경하십시오. 
 
 #### Contracts
 #### Contracts 
@@ -60,7 +60,7 @@ If you are implementing the `Illuminate\Contracts\Auth\Authenticatable` contract
 
 This is unlikely to affect your application unless you were manually implementing this interface.
 
-이 인터페이스를 구현하지 않았었다면, 어플리케이션에 영향을 미치지 않을 수 있습니다.
+이 인터페이스를 구현하지 않았었다면, 애플리케이션에 영향을 미치지 않을 수 있습니다.
 
 #### Custom Drivers
 #### 사용자 정의 드라이버
@@ -85,7 +85,7 @@ The `loginPath()` method has been removed from `Illuminate\Foundation\Auth\Authe
 
 The `Illuminate\Auth\Access\UnauthorizedException` has been renamed to `Illuminate\Auth\Access\AuthorizationException`. This is unlikely to affect your application if you are not manually catching this exception.
 
-`Illuminate\Auth\Access\UnauthorizedException`이 `Illuminate\Auth\Access\AuthorizationException`으로 이름이 변경되었습니다. 이 exception 을 수동으로 처리하도록 하지 않았었다면, 어플리케이션에 영향을 미치지 않을 수 있습니다. 
+`Illuminate\Auth\Access\UnauthorizedException`이 `Illuminate\Auth\Access\AuthorizationException`으로 이름이 변경되었습니다. 이 exception 을 수동으로 처리하도록 하지 않았었다면, 애플리케이션에 영향을 미치지 않을 수 있습니다. 
 
 ### Collections
 ### 컬렉션
@@ -109,7 +109,7 @@ The `slice`, `chunk`, and `reverse` methods now preserve keys on the collection.
 
 The `Illuminate\Foundation\Composer` class has been moved to `Illuminate\Support\Composer`. This is unlikely to affect your application if you were not manually using this class.
 
-`Illuminate\Foundation\Composer` 클래스는 `Illuminate\Support\Composer`으로 이동되었습니다. 수동으로 이 클래스를 사용하지 않았었다면, 어플리케이션에 영향을 미치지 않을 수 있습니다. 
+`Illuminate\Foundation\Composer` 클래스는 `Illuminate\Support\Composer`으로 이동되었습니다. 수동으로 이 클래스를 사용하지 않았었다면, 애플리케이션에 영향을 미치지 않을 수 있습니다. 
 
 ### Commands And Handlers
 ### 명령어와 핸들러
@@ -149,11 +149,11 @@ Add an `env` configuration option to your `app.php` configuration file that look
 
 If you are using the `config:cache` command during deployment, you **must** make sure that you are only calling the `env` function from within your configuration files, and not from anywhere else in your application.
 
-배포 진행중에 `config:cache`명령어를 사용한다면, 여러분은 **반드시** 어플리케이션의 다른 곳이 아닌, 설정 파일 안에서만 `env` 함수를 호출 하는 것을 확인해야 합니다. 
+배포 진행중에 `config:cache`명령어를 사용한다면, 여러분은 **반드시** 애플리케이션의 다른 곳이 아닌, 설정 파일 안에서만 `env` 함수를 호출 하는 것을 확인해야 합니다. 
 
 If you are calling `env` from within your application, it is strongly recommended you add proper configuration values to your configuration files and call `env` from that location instead, allowing you to convert your `env` calls to `config` calls.
 
-만약 어플리케이션에서 `env` 를 호출한다면, 여러분의 설정 파일에 해당 설정 값을 추가하고, 해당 위치에서는 `env` 를 호출하도록 하여 `env` 가 `config`를 호출하도록 변경할 것을 강력하게 권고합니다. 
+만약 애플리케이션에서 `env` 를 호출한다면, 여러분의 설정 파일에 해당 설정 값을 추가하고, 해당 위치에서는 `env` 를 호출하도록 하여 `env` 가 `config`를 호출하도록 변경할 것을 강력하게 권고합니다. 
 
 #### Compiled Classes
 #### 컴파일된 클래스들
@@ -174,7 +174,7 @@ Not doing so can trigger an error when running `php artisan optimize` if the ser
 
 CSRF verification is no longer automatically performed when running unit tests. This is unlikely to affect your application.
 
-단위 테스트가 실행중에 더이상 CSRF 확인이 자동으로 수행되지 않습니다. 이 변경사항은 어플리케이션에는 영향을 미치지 않을 수 있습니다.
+단위 테스트가 실행중에 더이상 CSRF 확인이 자동으로 수행되지 않습니다. 이 변경사항은 애플리케이션에는 영향을 미치지 않을 수 있습니다.
 
 ### Database
 ### 데이터베이스
@@ -364,7 +364,7 @@ The `pretend` mail configuration option has been removed. Instead, use the `log`
 
 To be consistent with other URLs generated by the framework, the paginator URLs no longer contain a trailing slash. This is unlikely to affect your application. 
 
-프레임워크에서 생성되는 다른 URL들과 동일한 URL을 생성하기 위해서 paginator URL은 더이상 마지막에 슬래쉬(/)를 포함하지 않습니다. 이 수정사항은 어플리케이션에 영향을 미치지 않을 수 있습니다. 
+프레임워크에서 생성되는 다른 URL들과 동일한 URL을 생성하기 위해서 paginator URL은 더이상 마지막에 슬래쉬(/)를 포함하지 않습니다. 이 수정사항은 애플리케이션에 영향을 미치지 않을 수 있습니다. 
 
 ### Service Providers
 ### 서비스 프로바이더
@@ -400,7 +400,7 @@ If you would like to use the new driver, you should add the `user_id (nullable i
 
 The "Stringy" library is no longer included with the framework. You may install it manually via Composer if you wish to use it in your application.
 
-프레임워크에 "Stringy" 라이브러리가 더이상 포함되지 않습니다. 어플리케이션에서 이를 사용하려면 Composer를 통해서 수동으로 설치하면 됩니다. 
+프레임워크에 "Stringy" 라이브러리가 더이상 포함되지 않습니다. 애플리케이션에서 이를 사용하려면 Composer를 통해서 수동으로 설치하면 됩니다. 
 
 ### Validation
 ### 유효성 검사
@@ -410,7 +410,7 @@ The "Stringy" library is no longer included with the framework. You may install 
 
 The `ValidatesRequests` trait now throws an instance of `Illuminate\Foundation\Validation\ValidationException` instead of throwing an instance of `Illuminate\Http\Exception\HttpResponseException`. This is unlikely to affect your application unless you were manually catching this exception.
 
-`ValidatesRequests` 트레이트-trait은 이제 `Illuminate\Http\Exception\HttpResponseException` 인스턴스 대신 `Illuminate\Foundation\Validation\ValidationException` 인스턴스를 예외로 던집니다. 이 exception을 수동으로 처리하지 않았었다면 어플리케이션에 영향을 끼치지 않을 수 있습니다. 
+`ValidatesRequests` 트레이트-trait은 이제 `Illuminate\Http\Exception\HttpResponseException` 인스턴스 대신 `Illuminate\Foundation\Validation\ValidationException` 인스턴스를 예외로 던집니다. 이 exception을 수동으로 처리하지 않았었다면 애플리케이션에 영향을 끼치지 않을 수 있습니다. 
 
 ### Deprecations
 ### 비추천 사항들
@@ -445,25 +445,25 @@ The following features are deprecated in 5.2 and will be removed in the 5.3 rele
 
 Laravel 5.1.11 includes support for [authorization](/docs/{{version}}/authorization) and [policies](/docs/{{version}}/authorization#policies). Incorporating these new features into your existing Laravel 5.1 applications is simple.
 
-라라벨 5.1.11 에서는 [authorization-승인](/docs/{{version}}/authorization) 과 [policies](/docs/{{version}}/authorization#policies)를 지원합니다. 새로운 기능들과 기존의 라라벨 5.1 어플리케이션은 손쉽게 통합됩니다. 
+라라벨 5.1.11 에서는 [authorization-승인](/docs/{{version}}/authorization) 과 [policies](/docs/{{version}}/authorization#policies)를 지원합니다. 새로운 기능들과 기존의 라라벨 5.1 애플리케이션은 손쉽게 통합됩니다. 
 
 > **Note:** These upgrades are **optional**, and ignoring them will not affect your application.
 
-> **참고:** 이러한 업그레이드는 **선택 사항**이기 때문에, 이 기능을 사용하지 않아도, 어플리케이션의 실행에는 영향을 주지 않습니다.
+> **참고:** 이러한 업그레이드는 **선택 사항**이기 때문에, 이 기능을 사용하지 않아도, 애플리케이션의 실행에는 영향을 주지 않습니다.
 
 #### Create The Policies Directory
 #### Policy-정책 디렉토리 생성하기
 
 First, create an empty `app/Policies` directory within your application.
 
-먼저 어플리케이션 안에 `app/Policies` 라는 빈 디렉토리를 생성합니다. 
+먼저 애플리케이션 안에 `app/Policies` 라는 빈 디렉토리를 생성합니다. 
 
 #### Create / Register The AuthServiceProvider & Gate Facade
 #### AuthServiceProvider 와 Gate 파사드를 생성하고 등록하기
 
 Create a `AuthServiceProvider` within your `app/Providers` directory. You may copy the contents of the default provider [from GitHub](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php). Remember to change the provider's namespace if your application is using a custom namespace. After creating the provider, be sure to register it in your `app.php` configuration file's `providers` array.
 
-`app/Providers` 디렉토리 안에 `AuthServiceProvider` 파일을 생성합니다. [GitHub 에서](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 파일을 복사할 수도 있습니다. 유의할 것은 프로바이더의 네임스페이스를 여러분의 어플리케이션에서 사용하는 네임스페이스로 변경해야 한다는 것입니다. 프로바이더를 생성한 뒤에, `app.php` 설정 파일의 `providers` 배열에 등록해야 합니다. 
+`app/Providers` 디렉토리 안에 `AuthServiceProvider` 파일을 생성합니다. [GitHub 에서](https://raw.githubusercontent.com/laravel/laravel/master/app/Providers/AuthServiceProvider.php) 파일을 복사할 수도 있습니다. 유의할 것은 프로바이더의 네임스페이스를 여러분의 애플리케이션에서 사용하는 네임스페이스로 변경해야 한다는 것입니다. 프로바이더를 생성한 뒤에, `app.php` 설정 파일의 `providers` 배열에 등록해야 합니다. 
 
 Also, you should register the `Gate` facade in your `app.php` configuration file's `aliases` array:
 
@@ -703,7 +703,7 @@ Likewise, the `app/Handlers` directory has been renamed to `app/Listeners` and n
 
 By providing backwards compatibility for the Laravel 5.0 folder structure, you may upgrade your applications to Laravel 5.1 and slowly upgrade your events and commands to their new locations when it is convenient for you or your team.
 
-라라벨 5.0의 폴더 구조와의 호환성을 제공하기 때문에, 편리한 시간에 이벤트들과 명령어들을 새로운 위치로 구성하고 어플리케이션을 5.1로 천천히 업그레이드 할 수 있습니다. 
+라라벨 5.0의 폴더 구조와의 호환성을 제공하기 때문에, 편리한 시간에 이벤트들과 명령어들을 새로운 위치로 구성하고 애플리케이션을 5.1로 천천히 업그레이드 할 수 있습니다. 
 
 ### Blade
 ### 블레이드
@@ -796,29 +796,29 @@ In your `bootstrap/autoload.php` file, update the `$compiledPath` variable to:
 
 The recommended method of upgrading is to create a new Laravel `5.0` install and then to copy your `4.2` site's unique application files into the new application. This would include controllers, routes, Eloquent models, Artisan commands, assets, and other code specific to your application.
 
-업그레이드에 대한 권장사항은 새롭게 라라벨 `5.0` 버전을 인스톨하고 `4.2` 버전의 사이트의 고유한 어플리케이션 파일들을 새로운 어플리케이션에 복사하라는 것입니다. 여기에는 컨트롤러, 라우트, 엘로퀀트 모델들, 아티즌 명령어들, asset 파일들 그리고 어플리케이션에 지정된 기타 코드들을 포함합니다.
+업그레이드에 대한 권장사항은 새롭게 라라벨 `5.0` 버전을 인스톨하고 `4.2` 버전의 사이트의 고유한 애플리케이션 파일들을 새로운 애플리케이션에 복사하라는 것입니다. 여기에는 컨트롤러, 라우트, 엘로퀀트 모델들, 아티즌 명령어들, asset 파일들 그리고 애플리케이션에 지정된 기타 코드들을 포함합니다.
 
 To start, [install a new Laravel 5.0 application](/docs/5.0/installation) into a fresh directory in your local environment.  Do not install any versions newer than 5.0 yet, since we need to complete the migration steps for 5.0 first.                       We'll discuss each piece of the migration process in further detail below.
 
-업그레이드를 시작하기 위해서 로컬 환경의 새로운 디렉토리에 [라라벨 5.0 어플리케이션을 설치](/docs/5.0/installation)합니다. 아직 5.0 이후 버전은 설치하지 마십시오. 먼저 5.0을 완전히 마이그레이션 해야합니다. 업그레이드를 위한 각 단계의 진행에 대해서 차근차근 알아보겠습니다. 
+업그레이드를 시작하기 위해서 로컬 환경의 새로운 디렉토리에 [라라벨 5.0 애플리케이션을 설치](/docs/5.0/installation)합니다. 아직 5.0 이후 버전은 설치하지 마십시오. 먼저 5.0을 완전히 마이그레이션 해야합니다. 업그레이드를 위한 각 단계의 진행에 대해서 차근차근 알아보겠습니다. 
 
 ### Composer Dependencies & Packages
 ### 컴포저 의존성 & 패키지
 
 Don't forget to copy any additional Composer dependencies into your 5.0 application. This includes third-party code such as SDKs.
 
-설치된 5.0 버전의 어플리케이션에 추가적인 컴포저 의존 패키지들을 복사해 넣는 것을 잊지 마십시오. 여기에는 SDK와 같은 서드 파티 코드도 포함됩니다.
+설치된 5.0 버전의 애플리케이션에 추가적인 컴포저 의존 패키지들을 복사해 넣는 것을 잊지 마십시오. 여기에는 SDK와 같은 서드 파티 코드도 포함됩니다.
 
 Some Laravel-specific packages may not be compatible with Laravel 5 on initial release. Check with your package's maintainer to determine the proper version of the package for Laravel 5. Once you have added any additional Composer dependencies your application needs, run `composer update`.
 
-라라벨5가 릴리즈 된 이후 바로는 라라벨과 연동되는 일부 패키지는 라라벨5와 호환이 되지 않는수도 있습니다. 패키지의 제작자에게 라라벨5 버전에 대한 대응계획을 확인합니다. 컴포저에 어플리케이션을 위한 추가적인 의존 패키지를 추가하였다면 `composer updata` 를 실행 해야 합니다. 
+라라벨5가 릴리즈 된 이후 바로는 라라벨과 연동되는 일부 패키지는 라라벨5와 호환이 되지 않는수도 있습니다. 패키지의 제작자에게 라라벨5 버전에 대한 대응계획을 확인합니다. 컴포저에 애플리케이션을 위한 추가적인 의존 패키지를 추가하였다면 `composer updata` 를 실행 해야 합니다. 
 
 ### Namespacing
 ### 네임스페이스
 
 By default, Laravel 4 applications did not utilize namespacing within your application code. So, for example, all Eloquent models and controllers simply lived in the "global" namespace. For a quicker migration, you can simply leave these classes in the global namespace in Laravel 5 as well.
 
-라라벨 4에서는 기본적으로 어플리케이션의 코드에 네임스페이스가 구성되어 있지 않았습니다. 그래서 예를 들면 모든 Eloquent 모델들과 컨트롤러는 "글로벌" 네임스페이스 영역에 해당되었습니다. 빠른 전환을 위해서는 라라벨5에서도 마찬가지로 글로벌 네임스페이스 안에 이 클래스들을 지정되도록 합니다. 
+라라벨 4에서는 기본적으로 애플리케이션의 코드에 네임스페이스가 구성되어 있지 않았습니다. 그래서 예를 들면 모든 Eloquent 모델들과 컨트롤러는 "글로벌" 네임스페이스 영역에 해당되었습니다. 빠른 전환을 위해서는 라라벨5에서도 마찬가지로 글로벌 네임스페이스 안에 이 클래스들을 지정되도록 합니다. 
 
 ### Configuration
 ### 설정
@@ -828,7 +828,7 @@ By default, Laravel 4 applications did not utilize namespacing within your appli
 
 Copy the new `.env.example` file to `.env`, which is the `5.0` equivalent of the old `.env.php` file. Set any appropriate values there, like your `APP_ENV` and `APP_KEY` (your encryption key), your database credentials, and your cache and session drivers.
 
-`.env.example` 파일을 복사하여 이전 버전에서 `.env.php` 파일과 동일한 역활을 하는 `5.0의 `.env` 파일을 생성합니다. `APP_ENV` 와 `APP_KEY` (암호화 키), 데이터 베이스 연결 정보, 캐시 그리고 세션 드라이버와 같은 어플리케이션에서 사용가능항 설정 값들을 지정할 수 있습니다. 
+`.env.example` 파일을 복사하여 이전 버전에서 `.env.php` 파일과 동일한 역활을 하는 `5.0의 `.env` 파일을 생성합니다. `APP_ENV` 와 `APP_KEY` (암호화 키), 데이터 베이스 연결 정보, 캐시 그리고 세션 드라이버와 같은 애플리케이션에서 사용가능항 설정 값들을 지정할 수 있습니다. 
 
 Additionally, copy any custom values you had in your old `.env.php` file and place them in both `.env` (the real value for your local environment) and `.env.example` (a sample instructional value for other team members).
 
@@ -840,7 +840,7 @@ For more information on environment configuration, view the [full documentation]
 
 > **Note:** You will need to place the appropriate `.env` file and values on your production server before deploying your Laravel 5 application.
 
-> **주의** 라라벨5 어플리케이션을 실제 제품 서버에 배포하기 전에 적절한 값을 지정한 `.env` 파일을 준비해 둘 필요가 있습니다.
+> **주의** 라라벨5 애플리케이션을 실제 제품 서버에 배포하기 전에 적절한 값을 지정한 `.env` 파일을 준비해 둘 필요가 있습니다.
 
 #### Configuration Files
 #### 설정 파일들
@@ -1029,7 +1029,7 @@ Move your views from `app/views` to the new `resources/views` directory.
 
 For better security by default, Laravel 5.0 escapes all output from both the `{{ }}` and `{{{ }}}` Blade directives. A new `{!! !!}` directive has been introduced to display raw, unescaped output. The most secure option when upgrading your application is to only use the new `{!! !!}` directive when you are **certain** that it is safe to display raw output.
 
-보안을 기본적으로 강화하기 위해서 라라벨5에서는 `{{ }}` 와 `{{{ }}}` 구문에서 모든 출력을 escape 합니다. 새로운 `{!! !!}` 구문이 escape 되지 않은 출력을 위해서 사용되어 집니다. 어플리케이션을 업데이트 할 때 가장 안전한 선택은 이전처럼 출력하기 위해서 기존 구문들을 `{!! !!}` 표기 방식으로 사용하는 것입니다. 
+보안을 기본적으로 강화하기 위해서 라라벨5에서는 `{{ }}` 와 `{{{ }}}` 구문에서 모든 출력을 escape 합니다. 새로운 `{!! !!}` 구문이 escape 되지 않은 출력을 위해서 사용되어 집니다. 애플리케이션을 업데이트 할 때 가장 안전한 선택은 이전처럼 출력하기 위해서 기존 구문들을 `{!! !!}` 표기 방식으로 사용하는 것입니다. 
 
 However, if you **must** use the old Blade syntax, add the following lines at the bottom of `AppServiceProvider@register`:
 
@@ -1043,7 +1043,7 @@ However, if you **must** use the old Blade syntax, add the following lines at th
 
 This should not be done lightly, and may make your application more vulnerable to XSS exploits. Also, comments with `{{--` will no longer work.
 
-이렇게 하는 것이 편리한것만은 아니며 XSS 공격에 대해서 어플리케이션이 취약해질 수도 있습니다. 
+이렇게 하는 것이 편리한것만은 아니며 XSS 공격에 대해서 애플리케이션이 취약해질 수도 있습니다. 
 또한 코멘트와 `{{--` 는 더이상 동작하지 않습니다. 
 
 ### Translation Files
@@ -1058,7 +1058,7 @@ Move your language files from `app/lang` to the new `resources/lang` directory.
 
 Copy your application's public assets from your `4.2` application's `public` directory to your new application's `public` directory. Be sure to keep the `5.0` version of `index.php`.
 
-`4.2` 어플리케이션의 `public` 디렉토리에 들어 있던 asset 파일들을 새로운 어플리케이션의 `public` 디렉토리로 복사해 넣습니다. `index.php`의 `5.0` 버전을 유지해야 합니다.
+`4.2` 애플리케이션의 `public` 디렉토리에 들어 있던 asset 파일들을 새로운 애플리케이션의 `public` 디렉토리로 복사해 넣습니다. `index.php`의 `5.0` 버전을 유지해야 합니다.
 
 ### Tests
 ### 테스트 파일
@@ -1106,7 +1106,7 @@ Next, add these lines to the 'aliases' array:
 ### 캐시매니저
 If your application code was injecting `Illuminate\Cache\CacheManager` to get a non-Facade version of Laravel's cache, inject `Illuminate\Contracts\Cache\Repository` instead.
 
-어플리케이션에서 라라벨 캐시를 파사드가 아닌 `Illuminate\Cache\CacheManager` 형태로 주입했었다면 이제는 그 대신에 `Illuminate\Contracts\Cache\Repository`를 주입하도록 합니다. 
+애플리케이션에서 라라벨 캐시를 파사드가 아닌 `Illuminate\Cache\CacheManager` 형태로 주입했었다면 이제는 그 대신에 `Illuminate\Contracts\Cache\Repository`를 주입하도록 합니다. 
 
 ### Pagination
 ### 페이지네이션
@@ -1236,7 +1236,7 @@ Iron.io 큐 드라이버를 사용하는 경우 큐 설정 파일에서 새롭�
 
 Laravel 4.1.29 improves the column quoting for all database drivers. This protects your application from some mass assignment vulnerabilities when **not** using the `fillable` property on models. If you are using the `fillable` property on your models to protect against mass assignment, your application is not vulnerable. However, if you are using `guarded` and are passing a user controlled array into an "update" or "save" type function, you should upgrade to `4.1.29` immediately as your application may be at risk of mass assignment.
 
-라라벨 4.1.29에서는 모든 데이터베이스 드라이버에 대한 컬럼 인용 부분이 향상되었습니다. 모델에서 `fillable` 속성을 사용하지 않은 경우 여러가지 컬럼의 대량 할당에 관한(msass assignment) 취약점으로 부터 어플리케이션을 보호할 수 있습니다. 모델에서 `fillable` 속성을 사용하여 데이터를 할당하는 경우 어플리케이션이 보다 안전해 집니다. 그러나 여러분이 `guarded` 속성을 사용하고 있고 사용자로 부터 전달된 배열을 “update” 나 “save” 유형의 기능에 전달하는 경우라면 어플리케이션이 mass assignment 위험에 노출되어 있으므로 즉시 4.1.29로 업그레이드 해야 합니다. 
+라라벨 4.1.29에서는 모든 데이터베이스 드라이버에 대한 컬럼 인용 부분이 향상되었습니다. 모델에서 `fillable` 속성을 사용하지 않은 경우 여러가지 컬럼의 대량 할당에 관한(msass assignment) 취약점으로 부터 애플리케이션을 보호할 수 있습니다. 모델에서 `fillable` 속성을 사용하여 데이터를 할당하는 경우 애플리케이션이 보다 안전해 집니다. 그러나 여러분이 `guarded` 속성을 사용하고 있고 사용자로 부터 전달된 배열을 “update” 나 “save” 유형의 기능에 전달하는 경우라면 애플리케이션이 mass assignment 위험에 노출되어 있으므로 즉시 4.1.29로 업그레이드 해야 합니다. 
 
 To upgrade to Laravel 4.1.29, simply `composer update`. No breaking changes are introduced in this release. 
 
@@ -1252,7 +1252,7 @@ Laravel 4.1.26 introduces security improvements for "remember me" cookies. Befor
 
 This change requires the addition of a new `remember_token` column to your `users` (or equivalent) database table. After this change, a fresh token will be assigned to the user each time they login to your application. The token will also be refreshed when the user logs out of the application. The implications of this change are: if a "remember me" cookie is hijacked, simply logging out of the application will invalidate the cookie.
 
-이번 변경사항에서는 `users` 테이블(또는 사용자 관리랄 위한 테이블)에 새로운 `remember_token` 컬럼을 추가해야 합니다. 이 변경으로 인해서 사용자가 어플리케이션에 로그인 할 때마다 새로운 토큰이 할당됩니다. 이 토큰은 사용자가 어플리케이션에서 로그아웃 할때마다 다시 생성됩니다. 이 구현은 만약 “remember me” 쿠키가 탈취 당하더라도 어플리케이션에서 로그아웃 하면 해당 쿠키는 사용할 수 없게 된다는 것을 의미합니다. 
+이번 변경사항에서는 `users` 테이블(또는 사용자 관리랄 위한 테이블)에 새로운 `remember_token` 컬럼을 추가해야 합니다. 이 변경으로 인해서 사용자가 애플리케이션에 로그인 할 때마다 새로운 토큰이 할당됩니다. 이 토큰은 사용자가 애플리케이션에서 로그아웃 할때마다 다시 생성됩니다. 이 구현은 만약 “remember me” 쿠키가 탈취 당하더라도 애플리케이션에서 로그아웃 하면 해당 쿠키는 사용할 수 없게 된다는 것을 의미합니다. 
 
 ### Upgrade Path
 ### 업그레이드 방법
@@ -1282,7 +1282,7 @@ Next, if you are using the Eloquent authentication driver, update your `User` cl
 
 > **Note:** All existing "remember me" sessions will be invalidated by this change, so all users will be forced to re-authenticate with your application.
 
-> **주의:** 이 변경으로 인해 현재 사용중인 "Remember me" 세션이 무효화되기 때문에 모든 사용자는 어플리케이션에 접속할 때 강제로 다시 인증을 해야되게 됩니다.
+> **주의:** 이 변경으로 인해 현재 사용중인 "Remember me" 세션이 무효화되기 때문에 모든 사용자는 애플리케이션에 접속할 때 강제로 다시 인증을 해야되게 됩니다.
 
 ### Package Maintainers
 ### 패키지 개발자에게
@@ -1308,7 +1308,7 @@ The `Illuminate\Auth\UserInterface` also received the three new methods describe
 
 To upgrade your application to Laravel 4.1, change your `laravel/framework` version to `4.1.*` in your `composer.json` file.
 
-라라벨 어플리케이션을 4.1로 업그레이드 하기 위해서는 `composer.json` 파일에서 `laravel/framework`의 버전을 `4.1.*`으로 변경해야 합니다. 
+라라벨 애플리케이션을 4.1로 업그레이드 하기 위해서는 `composer.json` 파일에서 `laravel/framework`의 버전을 `4.1.*`으로 변경해야 합니다. 
 
 ### Replacing Files
 ### 파일 교체
@@ -1360,7 +1360,7 @@ If `app/controllers/BaseController.php` has a `use` statement at the top, change
 
 Password reminders have been overhauled for greater flexibility. You may examine the new stub controller by running the `php artisan auth:reminders-controller` Artisan command. You may also browse the [updated documentation](/docs/4.1/security#password-reminders-and-reset) and update your application accordingly.
 
-패스워드 리마인더는 유연성을 높이기 위해서 많은 변경이 있었습니다. `php artisan auth:reminders-controller` 아티즌 명령어를 실행하여 작성되는 새로운 컨트롤러를 살펴보십시오. 혹은 [변경 관련 문서](/docs/4.1/security#password-reminders-and-reset)를 확인하고 그에 따라 어플리케이션을 업데이트 하십시오. 
+패스워드 리마인더는 유연성을 높이기 위해서 많은 변경이 있었습니다. `php artisan auth:reminders-controller` 아티즌 명령어를 실행하여 작성되는 새로운 컨트롤러를 살펴보십시오. 혹은 [변경 관련 문서](/docs/4.1/security#password-reminders-and-reset)를 확인하고 그에 따라 애플리케이션을 업데이트 하십시오. 
 
 Update your `app/lang/en/reminders.php` language file to match [this updated file](https://github.com/laravel/laravel/blob/v4.1.0/app/lang/en/reminders.php).
 
@@ -1371,7 +1371,7 @@ Update your `app/lang/en/reminders.php` language file to match [this updated fil
 
 For security reasons, URL domains may no longer be used to detect your application environment. These values are easily spoofable and allow attackers to modify the environment for a request. You should convert your environment detection to use machine host names (`hostname` command on Mac, Linux, and Windows).
 
-보안의 이유로 어플리케이션의 구동 환경을 감지 하기 위해서 URL 도메인은 더 이상 사용되지 않습니다. 이 값은 손쉽게 요청시에 변경이 가능하여 공격을 가능하게 합니다. 머신의 호스트 네임 (맥, 리눅스, 윈도우 에서 `hostname` 명령어를 사용하십시오) 을 사용하도록 구동 환경 감지 로직을 변경해야 합니다. 
+보안의 이유로 애플리케이션의 구동 환경을 감지 하기 위해서 URL 도메인은 더 이상 사용되지 않습니다. 이 값은 손쉽게 요청시에 변경이 가능하여 공격을 가능하게 합니다. 머신의 호스트 네임 (맥, 리눅스, 윈도우 에서 `hostname` 명령어를 사용하십시오) 을 사용하도록 구동 환경 감지 로직을 변경해야 합니다. 
 
 ### Simpler Log Files
 ### 로그 파일 간략화
@@ -1403,7 +1403,7 @@ The current route is now accessed via `Route::current()` instead of `Route::getC
 
 Once you have completed the changes above, you can run the `composer update` function to update your core application files! If you receive class load errors, try running the `update` command with the `--no-scripts` option enabled like so: `composer update --no-scripts`.
 
-변경사항 적용을 완료하면 `composer update` 를 실행하여 어플리케이션 코어 파일을 업데이트 할 수 있습니다. 로딩과 관련된 에러가 발생한다면 다음처럼 `--no-scripts` 옵션과 함께 `update` 명령어를 실행하십시오 `composer update --no-scripts`.
+변경사항 적용을 완료하면 `composer update` 를 실행하여 애플리케이션 코어 파일을 업데이트 할 수 있습니다. 로딩과 관련된 에러가 발생한다면 다음처럼 `--no-scripts` 옵션과 함께 `update` 명령어를 실행하십시오 `composer update --no-scripts`.
 
 ### Wildcard Event Listeners
 ### 와일드카드 이벤트 리스너

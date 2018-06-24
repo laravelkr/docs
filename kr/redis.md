@@ -24,7 +24,7 @@
 
 The Redis configuration for your application is located in the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers used by your application:
 
-어플리케이션에서 사용할 레디스의 설정은 `config/database.php` 설정 파일에서 위치해 있습니다. 파일 내부의 `redis` 배열이 어플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다. 
+애플리케이션에서 사용할 레디스의 설정은 `config/database.php` 설정 파일에서 위치해 있습니다. 파일 내부의 `redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다. 
 
     'redis' => [
 
@@ -138,7 +138,7 @@ Pipelining should be used when you need to send many commands to the server in o
 
 Laravel also provides a convenient interface to the Redis `publish` and `subscribe` commands. These Redis commands allow you to listen for messages on a given "channel". You may publish messages to the channel from another application, or even using another programming language, allowing easy communication between applications / processes.
 
-라라벨은 Redis 의 `publish` 와 `subscribe` 명령에 대한 편리한 인터페이스를 제공합니니다. 이러한 Redis 명령들은 주어진 "채널"에서  메시지를 수신 할 수 있도록 해줍니다. 다른 어플리케이션에서 또는 다른 프로그래밍 언어를 통해서 이 채널에 메시지를 게시할 수 있으며, 쉽게 통신 할 수 있습니다.
+라라벨은 Redis 의 `publish` 와 `subscribe` 명령에 대한 편리한 인터페이스를 제공합니니다. 이러한 Redis 명령들은 주어진 "채널"에서  메시지를 수신 할 수 있도록 해줍니다. 다른 애플리케이션에서 또는 다른 프로그래밍 언어를 통해서 이 채널에 메시지를 게시할 수 있으며, 쉽게 통신 할 수 있습니다.
 
 First, let's setup a listener on a channel via Redis using the `subscribe` method. We will place this method call within an [Artisan command](/docs/{{version}}/artisan) since calling the `subscribe` method begins a long-running process:
 

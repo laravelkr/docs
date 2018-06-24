@@ -4,9 +4,9 @@
 - [Introduction](#introduction)
 - [소개](#introduction)
 - [Application Testing](#application-testing)
-- [어플리케이션 테스팅](#application-testing)
+- [애플리케이션 테스팅](#application-testing)
     - [Interacting With Your Application](#interacting-with-your-application)
-    - [어플리케이션과 상호작용하기](#interacting-with-your-application)
+    - [애플리케이션과 상호작용하기](#interacting-with-your-application)
     - [Testing JSON APIs](#testing-json-apis)
     - [JSON API 테스트하기](#testing-json-apis)
     - [Sessions / Authentication](#sessions-and-authentication)
@@ -38,11 +38,11 @@
 
 Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box, and a `phpunit.xml` file is already setup for your application. The framework also ships with convenient helper methods allowing you to expressively test your applications.
 
-라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 어플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 어플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다. 
+라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 애플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 애플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다. 
 
 An `ExampleTest.php` file is provided in the `tests` directory. After installing a new Laravel application, simply run `phpunit` on the command line to run your tests.
 
-`tests` 디렉토리에는 테스트 예제 파일이 제공되어 있습니다. 새롭게 라라벨 어플리케이션을 설치한 후 커맨드 라인에서 그대로 `phpunit` 명령어를 실행하면 테스트를 수행할 수 있습니다. 
+`tests` 디렉토리에는 테스트 예제 파일이 제공되어 있습니다. 새롭게 라라벨 애플리케이션을 설치한 후 커맨드 라인에서 그대로 `phpunit` 명령어를 실행하면 테스트를 수행할 수 있습니다. 
 
 ### Test Environment 
 ### 테스트 환경
@@ -93,11 +93,11 @@ This command will place a new `UserTest` class within your `tests` directory. Yo
 
 <a name="application-testing"></a>
 ## Application Testing 
-## 어플리케이션 테스트하기
+## 애플리케이션 테스트하기
 
 Laravel provides a very fluent API for making HTTP requests to your application, examining the output, and even filling out forms. For example, take a look at the `ExampleTest.php` file included in your `tests` directory:
 
-라라벨은 어플리케이션에 HTTP request-요청을 하고, 결과을 검사하고, 또한 form을 채우는 매우 다양한 사용이 가능한 API를 제공합니다. 다음과 같이, `tests` 디렉토리의 `ExampleTest.php` 파일을 살펴보겠습니다: 
+라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과을 검사하고, 또한 form을 채우는 매우 다양한 사용이 가능한 API를 제공합니다. 다음과 같이, `tests` 디렉토리의 `ExampleTest.php` 파일을 살펴보겠습니다: 
 
     <?php
 
@@ -121,11 +121,11 @@ Laravel provides a very fluent API for making HTTP requests to your application,
 
 The `visit` method makes a `GET` request into the application. The `see` method asserts that we should see the given text in the response returned by the application. The `dontSee` method asserts that the given text is not returned in the application response. This is the most basic application test available in Laravel.
 
-`visit` 메소드는 어플리케이션에 `GET` request-요청을 만듭니다. `see` 메소드는 주어진 텍스트가 어플리케이션에서 반환된 reponse-응답에 있는지 확인 합니다. `dontSee` 메소드는 주어진 텍스트가 어플리케이션 response-응답으로 반환되지 않았다는 것을 확인합니다. 이것은 라라벨이 제공하는 가장 기본적인 어플리케이션 테스트입니다. 
+`visit` 메소드는 애플리케이션에 `GET` request-요청을 만듭니다. `see` 메소드는 주어진 텍스트가 애플리케이션에서 반환된 reponse-응답에 있는지 확인 합니다. `dontSee` 메소드는 주어진 텍스트가 애플리케이션 response-응답으로 반환되지 않았다는 것을 확인합니다. 이것은 라라벨이 제공하는 가장 기본적인 애플리케이션 테스트입니다. 
 
 <a name="interacting-with-your-application"></a>
 ### Interacting With Your Application 
-### 어플리케이션과 상호작용하기 
+### 애플리케이션과 상호작용하기 
 
 Of course, you can do much more than simply assert that text appears in a given response. Let's take a look at some examples of clicking links and filling out forms:
 
@@ -136,7 +136,7 @@ Of course, you can do much more than simply assert that text appears in a given 
 
 In this test, we will make a request to the application, "click" a link in the returned response, and then assert that we landed on a given URI. For example, let's assume there is a link in our response that has a text value of "About Us":
 
-이 테스트에서는 어플리케이션에 요청을 보내고, 응답으로 돌아온 링크를 "클릭"하여, 특정 URI에 이동된것을 확인할 것입니다. 예를 들어 응답으로 "About Us"이라는 텍스트 값을 가진 링크가 왔다고 가정해봅시다: 
+이 테스트에서는 애플리케이션에 요청을 보내고, 응답으로 돌아온 링크를 "클릭"하여, 특정 URI에 이동된것을 확인할 것입니다. 예를 들어 응답으로 "About Us"이라는 텍스트 값을 가진 링크가 왔다고 가정해봅시다: 
 
     <a href="/about-us">About Us</a>
 
@@ -156,7 +156,7 @@ Now, let's write a test that clicks the link and asserts the user lands on the c
 
 Laravel also provides several methods for testing forms. The `type`, `select`, `check`, `attach`, and `press` methods allow you to interact with all of your form's inputs. For example, let's imagine this form exists on the application's registration page:
 
-라라벨은 또한 form을 테스트하는 여러 메소드들을 제공합니다. `type`, `select`, `check`, `attach`, 그리고 `press` 메소드들은 form의 모든 input들과 상호작용할 수 있도록 해줍니다. 예를 들어 이 form이 어플리케이션의 등록 페이지에 존재한다고 가정해보겠습니다: 
+라라벨은 또한 form을 테스트하는 여러 메소드들을 제공합니다. `type`, `select`, `check`, `attach`, 그리고 `press` 메소드들은 form의 모든 input들과 상호작용할 수 있도록 해줍니다. 예를 들어 이 form이 애플리케이션의 등록 페이지에 존재한다고 가정해보겠습니다: 
 
     <form action="/register" method="POST">
         {{ csrf_field() }}
@@ -253,7 +253,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 
 The `seeJson` method converts the given array into JSON, and then verifies that the JSON fragment occurs **anywhere** within the entire JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
 
-`seeJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 어플리케이션이 반환하는 JSON 응답 중 **어느 한곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
+`seeJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 애플리케이션이 반환하는 JSON 응답 중 **어느 한곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
 
 <a name="verify-exact-json-match"></a>
 #### Verify Exact JSON Match
@@ -360,7 +360,7 @@ You may also nest the `*` notation. In this case, we will assert that each user 
 
 Laravel provides several helpers for working with the session during testing. First, you may set the session data to a given array using the `withSession` method. This is useful for loading the session with data before testing a request to your application:
 
-라라벨은 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼들을 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정 할 수 있습니다. 이것은 어플리케이션에 response-응답을 테스트해보기 전에 데이터를 세션에 로드하는 경우에 유용합니다:
+라라벨은 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼들을 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정 할 수 있습니다. 이것은 애플리케이션에 response-응답을 테스트해보기 전에 데이터를 세션에 로드하는 경우에 유용합니다:
 
     <?php
 
@@ -404,7 +404,7 @@ You may also specify which guard should be used to authenticate the given user b
 
 When testing your application, you may find it convenient to disable [middleware](/docs/{{version}}/middleware) for some of your tests. This will allow you to test your routes and controller in isolation from any middleware concerns. Laravel includes a simple `WithoutMiddleware` trait that you can use to automatically disable all middleware for the test class:
 
-어플리케이션을 테스트할 때 몇몇 테스트에서 [미들웨어](/docs/{{version}}/middleware)를 비활성화 하는 편리한 방법을 원할 수도 있습니다. 이는 어떤 미들웨어에도 관계 없이 라우트와 컨트롤러를 테스트할 수 있게 해줍니다. 라라벨은 자동으로 테스트 클래스의 모든 미들웨어를 비활성화할 수 있는 간단한 `WithoutMiddleware` 트레이트-trait을 포함하고 있습니다: 
+애플리케이션을 테스트할 때 몇몇 테스트에서 [미들웨어](/docs/{{version}}/middleware)를 비활성화 하는 편리한 방법을 원할 수도 있습니다. 이는 어떤 미들웨어에도 관계 없이 라우트와 컨트롤러를 테스트할 수 있게 해줍니다. 라라벨은 자동으로 테스트 클래스의 모든 미들웨어를 비활성화할 수 있는 간단한 `WithoutMiddleware` 트레이트-trait을 포함하고 있습니다: 
 
     <?php
 
@@ -446,7 +446,7 @@ If you would like to only disable middleware for a few test methods, you may cal
 
 If you would like to make a custom HTTP request into your application and get the full `Illuminate\Http\Response` object, you may use the `call` method:
 
-어플리케이션에 사용자 정의 HTTP request-요청을 하고 `Illuminate\Http\Response` 객체 전체를 가지고자 한다면 `call` 메소드를 이용하면 됩니다: 
+애플리케이션에 사용자 정의 HTTP request-요청을 하고 `Illuminate\Http\Response` 객체 전체를 가지고자 한다면 `call` 메소드를 이용하면 됩니다: 
 
     public function testApplication()
     {
@@ -507,7 +507,7 @@ Method  | Description
 
 Laravel also provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `seeInDatabase` helper to assert that data exists in the database matching a given set of criteria. For example, if we would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, we can do the following:
 
-라라벨은 또한 데이터베이스를 기반으로 하는 어플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `seeInDatabase` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다: 
+라라벨은 또한 데이터베이스를 기반으로 하는 애플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `seeInDatabase` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다: 
 
     public function testDatabase()
     {
@@ -596,7 +596,7 @@ Another option is to wrap every test case in a database transaction. Again, Lara
 
 When testing, it is common to need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your [Eloquent models](/docs/{{version}}/eloquent) using "factories". To get started, take a look at the `database/factories/ModelFactory.php` file in your application. Out of the box, this file contains one factory definition:
 
-테스트를 실행하기 전에 흔히 데이터베이스에 몇몇 레코드를 입력하는 것이 필요할 때가 있습니다. 이 테스트 데이터를 생성할 때 수동으로 각각의 컬럼의 값을 지정하는 대신에 라라벨은 "팩토리"를 사용하여 각각의 [Eloquent 모델](/docs/{{version}}/eloquent)을 위한 기본 속성의 세트를 정의하도록 해줍니다. 먼저 어플리케이션의 `database/factories/ModelFactory.php` 파일을 살펴보겠습니다. 이 파일은 바로 사용이 가능한 하나의 팩토리 정의를 가지고 있습니다. 
+테스트를 실행하기 전에 흔히 데이터베이스에 몇몇 레코드를 입력하는 것이 필요할 때가 있습니다. 이 테스트 데이터를 생성할 때 수동으로 각각의 컬럼의 값을 지정하는 대신에 라라벨은 "팩토리"를 사용하여 각각의 [Eloquent 모델](/docs/{{version}}/eloquent)을 위한 기본 속성의 세트를 정의하도록 해줍니다. 먼저 애플리케이션의 `database/factories/ModelFactory.php` 파일을 살펴보겠습니다. 이 파일은 바로 사용이 가능한 하나의 팩토리 정의를 가지고 있습니다. 
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         return [
@@ -814,7 +814,7 @@ If you would like to prevent all event handlers from running, you may use the `w
 
 Sometimes, you may wish to simply test that specific jobs are dispatched by your controllers when making requests to your application. This allows you to test your routes / controllers in isolation - set apart from your job's logic. Of course, you can then test the job itself in a separate test class.
 
-가끔은 어플리케이션에 요청했을 때 특정 작업이 컨트롤러에서 의해서 처리되는지 확인하는 테스트를 하고 싶을 수 있습니다. 이는 작업의 로직으로부터 라우트와 컨트롤러를 분리하여  테스트할 수 있게 해줍니다. 물론 그러고 나서 개별 테스트 클래스 에서 Job 자체에 대해서 테스트할 수 있습니다. 
+가끔은 애플리케이션에 요청했을 때 특정 작업이 컨트롤러에서 의해서 처리되는지 확인하는 테스트를 하고 싶을 수 있습니다. 이는 작업의 로직으로부터 라우트와 컨트롤러를 분리하여  테스트할 수 있게 해줍니다. 물론 그러고 나서 개별 테스트 클래스 에서 Job 자체에 대해서 테스트할 수 있습니다. 
 
 Laravel provides a convenient `expectsJobs` method that will verify that the expected jobs are dispatched, but the job itself will not be executed:
 

@@ -44,7 +44,7 @@
 
 Laravel Elixir provides a clean, fluent API for defining basic [Gulp](http://gulpjs.com) tasks for your Laravel application. Elixir supports several common CSS and JavaScript pre-processors, and even testing tools. Using method chaining, Elixir allows you to fluently define your asset pipeline. For example:
 
-라라벨 Elixir(엘릭서)는 여러분의 라라벨 어플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 몇가지 공통적인 CSS와 JavaScript 전처리 작업, 또한 테스팅 툴까지 제공합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
+라라벨 Elixir(엘릭서)는 여러분의 라라벨 애플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 몇가지 공통적인 CSS와 JavaScript 전처리 작업, 또한 테스팅 툴까지 제공합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
 
 ```javascript
 elixir(function(mix) {
@@ -55,7 +55,7 @@ elixir(function(mix) {
 
 If you've ever been confused about how to get started with Gulp and asset compilation, you will love Laravel Elixir. However, you are not required to use it while developing your application. You are free to use any asset pipeline tool you wish, or even none at all.
 
-만약 여러분이 Gulp 과 asset compilation를 어떻게 시작해야 되는지 어려워한 적이 있다면 라라벨 Elixir 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 이것이 꼭 필요한 것은 아닙니다. 어떠한 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Gulp 과 asset compilation를 어떻게 시작해야 되는지 어려워한 적이 있다면 라라벨 Elixir 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 이것이 꼭 필요한 것은 아닙니다. 어떠한 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## Installation & Setup
@@ -464,7 +464,7 @@ elixir(function(mix) {
 
 Once you run `gulp watch`, access your web application using port 3000 to enable browser syncing: `http://homestead.app:3000`. If you're using a domain other than `homestead.app` for local development, you may pass an array of [options](http://www.browsersync.io/docs/options/) as the first argument to the `browserSync` method:
 
-`gulp watch` 를 실행하고, 브라우저 동기화를 활성화 하기 위해서 웹 어플리케이션에 포트 3000으로 접속하십시오: `http://homestead.app:3000`. 로컬 개발 환경에서 `homestead.app` 이외에 다른 도메인을 사용한다면 `browserSync` 메소드의 첫번째 인자로 [옵션](http://www.browsersync.io/docs/options/)을 지정하여 전달 하십시오
+`gulp watch` 를 실행하고, 브라우저 동기화를 활성화 하기 위해서 웹 애플리케이션에 포트 3000으로 접속하십시오: `http://homestead.app:3000`. 로컬 개발 환경에서 `homestead.app` 이외에 다른 도메인을 사용한다면 `browserSync` 메소드의 첫번째 인자로 [옵션](http://www.browsersync.io/docs/options/)을 지정하여 전달 하십시오
 
 ```javascript
 elixir(function(mix) {

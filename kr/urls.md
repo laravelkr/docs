@@ -22,7 +22,7 @@
 
 Laravel provides several helpers to assist you in generating URLs for your application. Of course, these are mainly helpful when building links in your templates and API responses, or when generating redirect responses to another part of your application.
 
-라라벨은 어플리케이션에서 URL을 생성하는 것을 도와주는 몇가지 헬퍼 함수를 제공합니다. 당연하게도, 이는 템플릿 안에서 API 응답을 위한 링크를 생성하거나, 어플리케이션의 다른 곳으로 이동하는 리다이렉트 응답-response를 생성할 때 유용하게 사용됩니다.
+라라벨은 애플리케이션에서 URL을 생성하는 것을 도와주는 몇가지 헬퍼 함수를 제공합니다. 당연하게도, 이는 템플릿 안에서 API 응답을 위한 링크를 생성하거나, 애플리케이션의 다른 곳으로 이동하는 리다이렉트 응답-response를 생성할 때 유용하게 사용됩니다.
 
 <a name="the-basics"></a>
 ## The Basics
@@ -34,7 +34,7 @@ Laravel provides several helpers to assist you in generating URLs for your appli
 
 The `url` helper may be used to generate arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
 
-`url` 헬퍼는 어플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request 에서 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
+`url` 헬퍼는 애플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request 에서 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
 
     $post = App\Post::find(1);
 
@@ -73,7 +73,7 @@ Each of these methods may also be accessed via the `URL` [facade](/docs/{{versio
 
 The `route` helper may be used to generate URLs to named routes. Named routes allow you to generate URLs without being coupled to the actual URL defined on the route. Therefore, if the route's URL changes, no changes need to be made to your `route` function calls. For example, imagine your application contains a route defined like the following:
 
-`route` 헬퍼함수는 이름이 지정된 라우트에 대한 URL을 생성하는데 사용할 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 어플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
+`route` 헬퍼함수는 이름이 지정된 라우트에 대한 URL을 생성하는데 사용할 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 애플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
 
     Route::get('/post/{post}', function () {
         //
@@ -115,7 +115,7 @@ If the controller method accepts route parameters, you may pass them as the seco
 
 For some applications, you may wish to specify request-wide default values for certain URL parameters. For example, imagine many of your routes define a `{locale}` parameter:
 
-몇몇 어플리케이션에서는 특정 URL 파라미터에 대해 요청-reqeust 전의 기본값을 지정할 수 있습니다. 예를 들어, 다수의 라우트에서 `{locale}` 파라미터를 정의한다고 가정해보겠습니다:
+몇몇 애플리케이션에서는 특정 URL 파라미터에 대해 요청-reqeust 전의 기본값을 지정할 수 있습니다. 예를 들어, 다수의 라우트에서 `{locale}` 파라미터를 정의한다고 가정해보겠습니다:
 
     Route::get('/{locale}/posts', function () {
         //

@@ -20,7 +20,7 @@
 
 Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
 
-뷰는 어플리케이션과 에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 어플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다: 
+뷰는 애플리케이션과 에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 애플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다: 
 
     <!-- View stored in resources/views/greeting.blade.php -->
 
@@ -66,7 +66,7 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
 
 Using the `first` method, you may create the first view that exists in a given array of views. This is useful if your application or package allows views to be customized or overwritten:
 
-`first` 메소드를 사용하면, 주어진 배열에 있는 뷰 중에서 사용가능한 처음의 뷰를 사용 할 수 있습니다. 이는 어플리케이션 또는 패키지에서 뷰파일을 커스마이징 하거나, 덮어 쓸 필요가 있는 경우 유용합니다:
+`first` 메소드를 사용하면, 주어진 배열에 있는 뷰 중에서 사용가능한 처음의 뷰를 사용 할 수 있습니다. 이는 애플리케이션 또는 패키지에서 뷰파일을 커스마이징 하거나, 덮어 쓸 필요가 있는 경우 유용합니다:
 
     return view()->first(['custom.admin', 'admin'], $data);
 
@@ -100,7 +100,7 @@ When passing information in this manner, the data should be an array with key / 
 
 Occasionally, you may need to share a piece of data with all views that are rendered by your application. You may do so using the view facade's `share` method. Typically, you should place calls to `share` within a service provider's `boot` method. You are free to add them to the `AppServiceProvider` or generate a separate service provider to house them:
 
-때때로 어플리케이션에서 표시하는 모든 뷰에서 데이터를 공유할 필요가 있을 수도 있습니다. 여러분은 뷰 파사드의 `share` 메소드를 사용하면 됩니다. 일반적으로 이 코드는 서비스 프로바이더의 `boot` 메소드에 구성해 놓아야 합니다. 여러분은 `AppServiceProvider`에 이 코드를 구성해 놓거나, 다른 분리된 서비스 프로바이더를 생성할 수도 있습니다.
+때때로 애플리케이션에서 표시하는 모든 뷰에서 데이터를 공유할 필요가 있을 수도 있습니다. 여러분은 뷰 파사드의 `share` 메소드를 사용하면 됩니다. 일반적으로 이 코드는 서비스 프로바이더의 `boot` 메소드에 구성해 놓아야 합니다. 여러분은 `AppServiceProvider`에 이 코드를 구성해 놓거나, 다른 분리된 서비스 프로바이더를 생성할 수도 있습니다.
 
     <?php
 

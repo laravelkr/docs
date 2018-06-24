@@ -13,7 +13,7 @@
 
 > {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
 
-> {note} 가능한 모든 변경 내용을 기록하려고 했습니다. 그렇지만 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 어플리케이션에 영향을 끼칠 수도 있습니다.
+> {note} 가능한 모든 변경 내용을 기록하려고 했습니다. 그렇지만 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 애플리케이션에 영향을 끼칠 수도 있습니다.
 
 ### PHP
 ### PHP
@@ -43,7 +43,7 @@ If you are using the `laravel/browser-kit-testing` package, you should update th
 
 Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.5 support.
 
-또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
+또한, 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.5를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 #### Laravel Installer
 #### 라라벨 인스톨러
@@ -126,7 +126,7 @@ policy 클래스의 `before` 메소드는 클래스가 검사되는 ability 이�
 
 If you are using the database cache driver, you should run `php artisan cache:clear` when deploying your upgraded Laravel 5.5 application for the first time.
 
-데이터베이스 캐시 드라이버를 사용하고 있었다면, 라라벨 5.5으로 업그레이드한 어플리케이션을 배포하고 나서 처음 한번 `php artisan cache:clear` 메소드를 실행해야 합니다.
+데이터베이스 캐시 드라이버를 사용하고 있었다면, 라라벨 5.5으로 업그레이드한 애플리케이션을 배포하고 나서 처음 한번 `php artisan cache:clear` 메소드를 실행해야 합니다.
 
 ### Eloquent
 ### Eloquent
@@ -457,7 +457,7 @@ If you are using the `Mail` fake to determine if a mailable was **queued** durin
 
 Laravel Tinker now supports omitting namespaces when referring to your application classes. This feature requires an optimized Composer class-map, so you should add the `optimize-autoloader` directive to the `config` section of your `composer.json` file:
 
-라라벨 Tinker 는 이제 어플리케이션 클래스를 참조할 때 네임스페이스를 생략하는 기능을 지원합니다. 이 기능을 사용하려면 최적화된 컴포저 클래스 맵이 필요합니다. 따라서 `composer.json` 파일의 `config` 섹션에 `optimize-autoloader` 지시어를 추가하십시오:
+라라벨 Tinker 는 이제 애플리케이션 클래스를 참조할 때 네임스페이스를 생략하는 기능을 지원합니다. 이 기능을 사용하려면 최적화된 컴포저 클래스 맵이 필요합니다. 따라서 `composer.json` 파일의 `config` 섹션에 `optimize-autoloader` 지시어를 추가하십시오:
 
     "config": {
         ...
@@ -518,4 +518,4 @@ The `@php` blade directive no longer accepts inline tags. Instead, use the full 
 
 We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.4...master) and choose which updates are important to you.
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 어플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. GitHub 에서 Diff 툴을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. GitHub 에서 Diff 툴을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

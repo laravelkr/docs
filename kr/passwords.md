@@ -20,11 +20,11 @@
 
 > {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
 
-> {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 어플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.dev/register` 에 접속하거나 어플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
+> {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 애플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.dev/register` 에 접속하거나 애플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
 
 Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
 
-대부분의 웹 어플리케이션은 사용자가 그들이 잊어버린 패스워드를 재설정 할 수 있는 방법을 제공합니다. 각각의 어플리케이션에서 매번 이를 다시 구현하는 것을 대신해서 라라벨은 패스워드 분실 이메일을 보내고 패스워드 재설정을 수행할 수 있는 편리한 방법를 제공합니다.
+대부분의 웹 애플리케이션은 사용자가 그들이 잊어버린 패스워드를 재설정 할 수 있는 방법을 제공합니다. 각각의 애플리케이션에서 매번 이를 다시 구현하는 것을 대신해서 라라벨은 패스워드 분실 이메일을 보내고 패스워드 재설정을 수행할 수 있는 편리한 방법를 제공합니다.
 
 > {note} Before using the password reset features of Laravel, your user must use the `Illuminate\Notifications\Notifiable` trait.
 
@@ -63,7 +63,7 @@ Laravel includes `Auth\ForgotPasswordController` and `Auth\ResetPasswordControll
 
 Again, Laravel will generate all of the necessary views for password reset when the `make:auth` command is executed. These views are placed in `resources/views/auth/passwords`. You are free to customize them as needed for your application.
 
-다시한번, 라라벨은 `make:auth` 명령어가 실행될 때 패스워드를 재설정하는데 필요한 뷰 파일들을 생성할 것입니다. 이 뷰 파일들은 `resources/views/auth/passwords`에 들어 있습니다. 여러분의 어플리케이션에서 필요하다면 이 파일들을 자유롭게 수정할 수 있습니다.
+다시한번, 라라벨은 `make:auth` 명령어가 실행될 때 패스워드를 재설정하는데 필요한 뷰 파일들을 생성할 것입니다. 이 뷰 파일들은 `resources/views/auth/passwords`에 들어 있습니다. 여러분의 애플리케이션에서 필요하다면 이 파일들을 자유롭게 수정할 수 있습니다.
 
 <a name="after-resetting-passwords"></a>
 ## After Resetting Passwords
@@ -75,7 +75,7 @@ Once you have defined the routes and views to reset your user's passwords, you m
 
 After a password is reset, the user will automatically be logged into the application and redirected to `/home`. You can customize the post password reset redirect location by defining a `redirectTo` property on the `ResetPasswordController`:
 
-패스워드가 재설정 되고나면, 사용자는 자동으로 어플리케이션에 로드인되고, `/home` 으로 리다이렉션됩니다. 패스워드가 재설정되고 난 뒤에 이동되는 리다이렉션 경로를 수정하고자 한다면, `ResetPasswordController` 의 `redirectTo` 속성을 정의하면 됩니다:
+패스워드가 재설정 되고나면, 사용자는 자동으로 애플리케이션에 로드인되고, `/home` 으로 리다이렉션됩니다. 패스워드가 재설정되고 난 뒤에 이동되는 리다이렉션 경로를 수정하고자 한다면, `ResetPasswordController` 의 `redirectTo` 속성을 정의하면 됩니다:
 
     protected $redirectTo = '/dashboard';
 

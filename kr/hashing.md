@@ -12,7 +12,7 @@
 
 The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt hashing for storing user passwords. If you are using the built-in `LoginController` and `RegisterController` classes that are included with your Laravel application, they will automatically use Bcrypt for registration and authentication.
 
-라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt 해싱을 제공합니다. 만약 라라벨 어플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
+라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt 해싱을 제공합니다. 만약 라라벨 애플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
 
 > {tip} Bcrypt is a great choice for hashing passwords because its "work factor" is adjustable, which means that the time it takes to generate a hash can be increased as hardware power increases.
 
@@ -53,7 +53,7 @@ You may hash a password by calling the `make` method on the `Hash` facade:
 
 The `make` method also allows you to manage the work factor of the bcrypt hashing algorithm using the `rounds` option; however, the default is acceptable for most applications:
 
-`make` 메소드는 `rounds` 옵션을 사용하여 bcrypt 해싱 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 대부분의 어플리케이션에서는 기본값을 사용할 수 있습니다:
+`make` 메소드는 `rounds` 옵션을 사용하여 bcrypt 해싱 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
 
     $hashed = Hash::make('password', [
         'rounds' => 12

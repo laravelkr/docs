@@ -24,7 +24,7 @@
 
 When you're ready to deploy your Laravel application to production, there are some important things you can do to make sure your application is running as efficiently as possible. In this document, we'll cover some great starting points for making sure your Laravel application is deployed properly.
 
-여러분의 라라벨 어플리케이션이 실제 서비스에 배포할 준비가 되었다면, 가능한 한 효율적으로 어플리케이션이 구동되도록 하기 위해서 할 수 있는 몇가지 중요한 작업이 있습니다. 이 문서에서는 라라벨 어플리케이션이 제대로 배포되었는지 확인하기 위한 시발점에 대해서 설명합니다.
+여러분의 라라벨 애플리케이션이 실제 서비스에 배포할 준비가 되었다면, 가능한 한 효율적으로 애플리케이션이 구동되도록 하기 위해서 할 수 있는 몇가지 중요한 작업이 있습니다. 이 문서에서는 라라벨 애플리케이션이 제대로 배포되었는지 확인하기 위한 시발점에 대해서 설명합니다.
 
 <a name="server-configuration"></a>
 ## Server Configuration
@@ -36,7 +36,7 @@ When you're ready to deploy your Laravel application to production, there are so
 
 If you are deploying your application to a server that is running Nginx, you may use the following configuration file as a starting point for configuring your web server. Most likely, this file will need to be customized depending on your server's configuration. If you would like assistance in managing your server, consider using a service such as [Laravel Forge](https://forge.laravel.com):
 
-어플리케이션을 Nginx 가 동작하는 서버에 배포하는 경우 다음과 같은 설정 파일을 웹서버 설정으로 사용할 수 있습니다. 대부분의 경우 이 파일은 서버 설정에 따라서 사용자가 수정할 필요가 있습니다. 서버 관리에 도움이 필요하다면, [라라벨 Forge](https://forge.laravel.com)와 같은 서비스 사용을 고려해보십시오:
+애플리케이션을 Nginx 가 동작하는 서버에 배포하는 경우 다음과 같은 설정 파일을 웹서버 설정으로 사용할 수 있습니다. 대부분의 경우 이 파일은 서버 설정에 따라서 사용자가 수정할 필요가 있습니다. 서버 관리에 도움이 필요하다면, [라라벨 Forge](https://forge.laravel.com)와 같은 서비스 사용을 고려해보십시오:
 
     server {
         listen 80;
@@ -110,7 +110,7 @@ This command will combine all of Laravel's configuration files into a single, ca
 
 If you are building a large application with many routes, you should make sure that you are running the `route:cache` Artisan command during your deployment process:
 
-큰 어플리케이션과 같이 많은 라우트를 등록하는 경우에, 배포 프로세스에 `route:cache` 아티즌 명령어를 실행하도록 하십시오:
+큰 애플리케이션과 같이 많은 라우트를 등록하는 경우에, 배포 프로세스에 `route:cache` 아티즌 명령어를 실행하도록 하십시오:
 
     php artisan route:cache
 
@@ -128,8 +128,8 @@ This command reduces all of your route registrations into a single method call w
 
 If you aren't quite ready to manage your own server configuration or aren't comfortable configuring all of the various services needed to run a robust Laravel application, [Laravel Forge](https://forge.laravel.com) is a wonderful alternative.
 
-여러분이 서버 구성을 잘 관리할 준비가 되어 있지 않거나, 라라벨 어플리케이션을 실행하는데 필요한 여러 서비스들을 모두 구성하는게 어렵다면, 라라벨 Forge가 대안이 될 수 있습니다.
+여러분이 서버 구성을 잘 관리할 준비가 되어 있지 않거나, 라라벨 애플리케이션을 실행하는데 필요한 여러 서비스들을 모두 구성하는게 어렵다면, 라라벨 Forge가 대안이 될 수 있습니다.
 
 Laravel Forge can create servers on various infrastructure providers such as DigitalOcean, Linode, AWS, and more. In addition, Forge installs and manages all of the tools needed to build robust Laravel applications, such as Nginx, MySQL, Redis, Memcached, Beanstalk, and more.
 
-라라벨 Forge 는 DigitalOcean, Linode, AWS 와 같은 다양한 인프라를 제공하는 서비스 위에서 서버를 구성할 수 있습니다. 또한 Forge는 Nginx, MySQL, Redis, Memcached, Beanstalk 와 같은 라라벨 어플리케이션을 구축하는데 필요한 모든 툴들을 설치하고 관리해줍니다.
+라라벨 Forge 는 DigitalOcean, Linode, AWS 와 같은 다양한 인프라를 제공하는 서비스 위에서 서버를 구성할 수 있습니다. 또한 Forge는 Nginx, MySQL, Redis, Memcached, Beanstalk 와 같은 라라벨 애플리케이션을 구축하는데 필요한 모든 툴들을 설치하고 관리해줍니다.

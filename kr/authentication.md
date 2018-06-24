@@ -61,11 +61,11 @@ At its core, Laravel's authentication facilities are made up of "guards" and "pr
 
 Providers define how users are retrieved from your persistent storage. Laravel ships with support for retrieving users using Eloquent and the database query builder. However, you are free to define additional providers as needed for your application.
 
-프로바이더는 저장소에서 사용자를 어떻게 찾을 수 있는지 정의합니다. 라라벨은 Eloquent와 데이터베이스 쿼리 빌더를 사용하여 사용자를 찾을 수 있도록 지원합니다. 또한, 어플리케이션에서 필요로 하는 추가적인 프로바이더를 자유롭게 정의할 수 있습니다.
+프로바이더는 저장소에서 사용자를 어떻게 찾을 수 있는지 정의합니다. 라라벨은 Eloquent와 데이터베이스 쿼리 빌더를 사용하여 사용자를 찾을 수 있도록 지원합니다. 또한, 애플리케이션에서 필요로 하는 추가적인 프로바이더를 자유롭게 정의할 수 있습니다.
 
 Don't worry if this all sounds confusing now! Many applications will never need to modify the default authentication configuration.
 
-지금 이러한 이야기가 혼란스럽더라도 걱정하지 마십시오. 많은 어플리케이션은 기본 인증 설정을 변경할 필요가 전혀 없습니다.
+지금 이러한 이야기가 혼란스럽더라도 걱정하지 마십시오. 많은 애플리케이션은 기본 인증 설정을 변경할 필요가 전혀 없습니다.
 
 <a name="introduction-database-considerations"></a>
 ### Database Considerations
@@ -73,7 +73,7 @@ Don't worry if this all sounds confusing now! Many applications will never need 
 
 By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
 
-기본적으로 라라벨은 `app` 디렉토리에 `App\User` [Eloquent 모델](/docs/{{version}}/eloquent) 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 어플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다.
+기본적으로 라라벨은 `app` 디렉토리에 `App\User` [Eloquent 모델](/docs/{{version}}/eloquent) 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 애플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다.
 
 When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.
 
@@ -81,7 +81,7 @@ When building the database schema for the `App\User` model, make sure the passwo
 
 Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
 
-또한 `users` (또는 동일한) 테이블이 NULL을 허용하는 100자리 문자열의 `remember_token` 컬럼을 포함하고 있는지 확인하십시오. 이 컬럼은 어플리케이션에 로그인할 때 "remember me" 옵션을 선택한 사용자의 토큰을 저장하는 데 사용됩니다.
+또한 `users` (또는 동일한) 테이블이 NULL을 허용하는 100자리 문자열의 `remember_token` 컬럼을 포함하고 있는지 확인하십시오. 이 컬럼은 애플리케이션에 로그인할 때 "remember me" 옵션을 선택한 사용자의 토큰을 저장하는 데 사용됩니다.
 
 <a name="authentication-quickstart"></a>
 ## Authentication Quickstart
@@ -89,7 +89,7 @@ Also, you should verify that your `users` (or equivalent) table contains a nulla
 
 Laravel ships with several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
 
-라라벨은 별도의 설정 없이도 `App\Http\Controllers\Auth` 네임스페이스에 위치한 몇가지 인증 컨트롤러를 제공하고 있습니다. `RegisterController`는 새로운 사용자의 등록을, `LoginController`는 인증을 처리하고, `ForgotPasswordController`는 암호 재설정을 위한 링크 생성을, `ResetPasswordController`는 암호를 재설정하는 로직이 들어 있습니다. 각각의 컨트롤러는 필요한 메서드를 포함하기 위해 트레이트-trait를 사용합니다. 대부분의 어플리케이션에서 여러분은 이 컨트롤러들을 수정할 필요가 없을 것입니다.
+라라벨은 별도의 설정 없이도 `App\Http\Controllers\Auth` 네임스페이스에 위치한 몇가지 인증 컨트롤러를 제공하고 있습니다. `RegisterController`는 새로운 사용자의 등록을, `LoginController`는 인증을 처리하고, `ForgotPasswordController`는 암호 재설정을 위한 링크 생성을, `ResetPasswordController`는 암호를 재설정하는 로직이 들어 있습니다. 각각의 컨트롤러는 필요한 메서드를 포함하기 위해 트레이트-trait를 사용합니다. 대부분의 애플리케이션에서 여러분은 이 컨트롤러들을 수정할 필요가 없을 것입니다.
 
 <a name="included-routing"></a>
 ### Routing
@@ -103,7 +103,7 @@ Laravel provides a quick way to scaffold all of the routes and views you need fo
 
 This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
 
-이 명령어는 새로운 어플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
+이 명령어는 새로운 애플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
 
 <a name="included-views"></a>
 ### Views
@@ -115,7 +115,7 @@ As mentioned in the previous section, the `php artisan make:auth` command will c
 
 The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
 
-`make:auth` 명령어는 또한 어플리케이션의 베이스 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 생성할 것입니다. 이 모든 뷰 파일들은 Bootstrap CSS 프레임워크를 사용하지만, 여러분이 원하는 경우 자유롭게 변경할 수 있습니다.
+`make:auth` 명령어는 또한 애플리케이션의 베이스 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 생성할 것입니다. 이 모든 뷰 파일들은 Bootstrap CSS 프레임워크를 사용하지만, 여러분이 원하는 경우 자유롭게 변경할 수 있습니다.
 
 <a name="included-authenticating"></a>
 ### Authenticating
@@ -123,7 +123,7 @@ The `make:auth` command will also create a `resources/views/layouts` directory c
 
 Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
 
-이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 어플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다! 기존 사용자를 인증하거나 새로운 사용자를 데이터베이스에 저장하는 (트레이트-trait를 통한) 로직은 이미 인증 컨트롤러에 포함되어 있으므로, 브라우저로 여러분의 어플리케이션에 접근하기만 하면 됩니다.
+이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 애플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다! 기존 사용자를 인증하거나 새로운 사용자를 데이터베이스에 저장하는 (트레이트-trait를 통한) 로직은 이미 인증 컨트롤러에 포함되어 있으므로, 브라우저로 여러분의 애플리케이션에 접근하기만 하면 됩니다.
 
 #### Path Customization
 #### 경로 수정하기
@@ -179,11 +179,11 @@ You may also customize the "guard" that is used to authenticate and register use
 
 To modify the form fields that are required when a new user registers with your application, or to customize how new users are stored into your database, you may modify the `RegisterController` class. This class is responsible for validating and creating new users of your application.
 
-새로운 사용자를 등록할 때 필수로 입력해야 하는 form 항목을 변경하려면, 또는 새로운 사용자가 데이터베이스에 입력되는 방식을 커스터마이징 하려면, `RegisterController` 클래스를 수정하면 됩니다. 이 클래스는 어플리케이션에서 새로운 사용자를 검증하고 생성하는 역할을 합니다.
+새로운 사용자를 등록할 때 필수로 입력해야 하는 form 항목을 변경하려면, 또는 새로운 사용자가 데이터베이스에 입력되는 방식을 커스터마이징 하려면, `RegisterController` 클래스를 수정하면 됩니다. 이 클래스는 애플리케이션에서 새로운 사용자를 검증하고 생성하는 역할을 합니다.
 
 The `validator` method of the `RegisterController` contains the validation rules for new users of the application. You are free to modify this method as you wish.
 
-`RegisterController` 클래스의 `validator` 메소드는 어플리케이션의 새로운 사용자에 대한 폼 검증 규칙을 포함하고 있으며, 여러분은 원하는대로 이 메소드를 수정해도 됩니다.
+`RegisterController` 클래스의 `validator` 메소드는 애플리케이션의 새로운 사용자에 대한 폼 검증 규칙을 포함하고 있으며, 여러분은 원하는대로 이 메소드를 수정해도 됩니다.
 
 The `create` method of the `RegisterController` is responsible for creating new `App\User` records in your database using the [Eloquent ORM](/docs/{{version}}/eloquent). You are free to modify this method according to the needs of your database.
 
@@ -234,7 +234,7 @@ Alternatively, once a user is authenticated, you may access the authenticated us
 
 To determine if the user is already logged into your application, you may use the `check` method on the `Auth` facade, which will return `true` if the user is authenticated:
 
-사용자가 이미 어플리케이션에 로그인했는지 판별하려면, `Auth` 파사드의 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다:
+사용자가 이미 애플리케이션에 로그인했는지 판별하려면, `Auth` 파사드의 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다:
 
     use Illuminate\Support\Facades\Auth;
 
@@ -353,7 +353,7 @@ If you wish, you may also add extra conditions to the authentication query in ad
 
 You may specify which guard instance you would like to utilize using the `guard` method on the `Auth` facade. This allows you to manage authentication for separate parts of your application using entirely separate authenticatable models or user tables.
 
-여러분은 `Auth` 파사드에 `guard` 메소드를 사용하여 어떤 guard 인스턴스를 사용하고자 하는지 지정할 수 있습니다. 이것은 여러분이 완전히 분리된 인증 모델 또는 사용자 테이블을 사용하여 어플리케이션의 개별 파트에 대한 인증을 관리할 수 있도록 합니다.
+여러분은 `Auth` 파사드에 `guard` 메소드를 사용하여 어떤 guard 인스턴스를 사용하고자 하는지 지정할 수 있습니다. 이것은 여러분이 완전히 분리된 인증 모델 또는 사용자 테이블을 사용하여 애플리케이션의 개별 파트에 대한 인증을 관리할 수 있도록 합니다.
 
 The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
 
@@ -368,7 +368,7 @@ The guard name passed to the `guard` method should correspond to one of the guar
 
 To log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
 
-어플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다:
+애플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다:
 
     Auth::logout();
 
@@ -378,7 +378,7 @@ To log users out of your application, you may use the `logout` method on the `Au
 
 If you would like to provide "remember me" functionality in your application, you may pass a boolean value as the second argument to the `attempt` method, which will keep the user authenticated indefinitely, or until they manually logout. Of course, your `users` table must include the string `remember_token` column, which will be used to store the "remember me" token.
 
-여러분의 어플리케이션에 "기억하기" 기능을 제공하고자 한다면, `attempt` 메소드의 두번째 인자로 사용자의 인증을 무기한 계속 유지할지, 아니면 수동으로 로그아웃 할때까지 유지할지 결정하는 boolean 값을 전달하면 됩니다. 이를 위해서는 `users` 테이블은 "기억하기" 토근을 저장하는데 사용되는 `remember_token` 컬럼을 가지고 있어야만 합니다.
+여러분의 애플리케이션에 "기억하기" 기능을 제공하고자 한다면, `attempt` 메소드의 두번째 인자로 사용자의 인증을 무기한 계속 유지할지, 아니면 수동으로 로그아웃 할때까지 유지할지 결정하는 boolean 값을 전달하면 됩니다. 이를 위해서는 `users` 테이블은 "기억하기" 토근을 저장하는데 사용되는 `remember_token` 컬럼을 가지고 있어야만 합니다.
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // The user is being remembered...
@@ -423,7 +423,7 @@ Of course, you may specify the guard instance you would like to use:
 
 To log a user into the application by their ID, you may use the `loginUsingId` method. This method accepts the primary key of the user you wish to authenticate:
 
-사용자를 ID를 통해 어플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다:
+사용자를 ID를 통해 애플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다:
 
     Auth::loginUsingId(1);
 
@@ -447,7 +447,7 @@ You may use the `once` method to log a user into the application for a single re
 
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
 
-[HTTP 기본 인증](https://en.wikipedia.org/wiki/Basic_access_authentication)은 어플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다:
+[HTTP 기본 인증](https://en.wikipedia.org/wiki/Basic_access_authentication)은 애플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다:
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
@@ -648,7 +648,7 @@ The `updateRememberToken` method updates the `$user` field `remember_token` with
 
 The `retrieveByCredentials` method receives the array of credentials passed to the `Auth::attempt` method when attempting to sign into an application. The method should then "query" the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a "where" condition on `$credentials['username']`. The method should then return an implementation of `Authenticatable`. **This method should not attempt to do any password validation or authentication.**
 
-`retrieveByCredentials` 메소드는 어플리케이션에 로그인하려고 시도할 때 `Auth::attempt` 메소드로 전달되는 인증 정보 배열을 전달 받습니다. 그러면 메소드는 그 인증 정보에 맞는 사용자들을 기반에 있는 지속적 저장소(persistent storage)에서 "질의"해야 합니다. 일반적으로 이 메소드는 `$credentials['username']`에 맞는 "where" 쿼리를 실행할 것입니다. 그 뒤에 메소드는 `Authenticatable`의 구현체를 반환해야 합니다. **이 메소드는 패스워드 확인이나 인증을 시도해서는 안됩니다.**
+`retrieveByCredentials` 메소드는 애플리케이션에 로그인하려고 시도할 때 `Auth::attempt` 메소드로 전달되는 인증 정보 배열을 전달 받습니다. 그러면 메소드는 그 인증 정보에 맞는 사용자들을 기반에 있는 지속적 저장소(persistent storage)에서 "질의"해야 합니다. 일반적으로 이 메소드는 `$credentials['username']`에 맞는 "where" 쿼리를 실행할 것입니다. 그 뒤에 메소드는 `Authenticatable`의 구현체를 반환해야 합니다. **이 메소드는 패스워드 확인이나 인증을 시도해서는 안됩니다.**
 
 The `validateCredentials` method should compare the given `$user` with the `$credentials` to authenticate the user. For example, this method should probably use `Hash::check` to compare the value of `$user->getAuthPassword()` to the value of `$credentials['password']`. This method should return `true` or `false` indicating on whether the password is valid.
 

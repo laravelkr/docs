@@ -1,25 +1,25 @@
-# Application Structure  어플리케이션 구조
+# Application Structure  애플리케이션 구조
 
 - [Introduction 소개](#introduction)
 - [The Root Directory 루트 디렉토리](#the-root-directory)
 - [The App Directory App 디렉토리](#the-app-directory)
-- [Namespacing Your Application 어플리케이션에 네임스페이스 지정하기](#namespacing-your-application)
+- [Namespacing Your Application 애플리케이션에 네임스페이스 지정하기](#namespacing-your-application)
 
 <a name="introduction"></a>
 ## Introduction 소개
 
-The default Laravel application structure is intended to provide a great starting point for both large and small applications. 기본적인 라라벨 어플리케이션의 구조는 어플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. Of course, you are free to organize your application however you like. 당연히 어플리케이션을 원하는대로 구성해도 됩니다. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다. 
+The default Laravel application structure is intended to provide a great starting point for both large and small applications. 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. Of course, you are free to organize your application however you like. 당연히 애플리케이션을 원하는대로 구성해도 됩니다. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다. 
 
 <a name="the-root-directory"></a>
 ## The Root Directory 루트 디렉토리
 
 The root directory of a fresh Laravel installation contains a variety of folders: 새롭게 설치한 라라벨의 루트 디렉토리는 다양한 폴더를 가지고 있습니다. 
 
-The `app` directory, as you might expect, contains the core code of your application. We'll explore this folder in more detail soon. `app` 디렉토리는 예상하는바와 같이 어플리케이션의 핵심 코드들을 포함하고 있습니다. 더 자세한 내용은 뒤에서 살펴보겠습니다. 
+The `app` directory, as you might expect, contains the core code of your application. We'll explore this folder in more detail soon. `app` 디렉토리는 예상하는바와 같이 애플리케이션의 핵심 코드들을 포함하고 있습니다. 더 자세한 내용은 뒤에서 살펴보겠습니다. 
 
 The `bootstrap` folder contains a few files that bootstrap the framework and configure autoloading. `bootstrap` 폴더는 프레임워크가 부팅하고 오토로딩을 설정하는 몇몇 파일을 가지고 있습니다. 
 
-The `config` directory, as the name implies, contains all of your application's configuration files. `config` 디렉토리는 이름에서 알 수 있듯이 어플리케이션의 모든 설정파일을 가지고 있습니다. 
+The `config` directory, as the name implies, contains all of your application's configuration files. `config` 디렉토리는 이름에서 알 수 있듯이 애플리케이션의 모든 설정파일을 가지고 있습니다. 
 
 The `database` folder contains your database migration and seeds.
 `database` 폴더는 데이터베이스의 마이그레이션과 시드 파일들을 가지고 있습니다. 
@@ -40,10 +40,10 @@ The `vendor` directory contains your Composer dependencies.
 ## The App Directory 
 ## App 디렉토리
 
-The "meat" of your application lives in the `app` directory. 어플리케이션의 가장 핵심적인 부분은 `app` 디렉토리에 있습니다. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/). 기본적으로 이 디렉토리의 네임스페이스는 컴포저가 [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/)방식으로 오토로딩될 수 있게 설정된 `App` 으로 설정되어 있습니다.  **You may change this namespace using the `app:name` Artisan command**.
+The "meat" of your application lives in the `app` directory. 애플리케이션의 가장 핵심적인 부분은 `app` 디렉토리에 있습니다. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/). 기본적으로 이 디렉토리의 네임스페이스는 컴포저가 [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/)방식으로 오토로딩될 수 있게 설정된 `App` 으로 설정되어 있습니다.  **You may change this namespace using the `app:name` Artisan command**.
 ** `app:name` 아티즌 명령어를 통해서 네임스페이스를 변경할 수 있습니다**.
 
-The `app` directory ships with a variety of additional directories such as `Console`, `Http`, and `Providers`. `app` 디렉토리는 `Console`, `Http` 그리고 `Providers`와 같은 추가적인 디렉토리들을 가지고 있습니다. Think of the `Console` and `Http` directories as providing an API into the "core" of your application. `Console` 과 `Http` 디렉토리는 어플리케이션의 "코어"에 API를 제공한다고 생각합니다. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. HTTP 프로토콜 과 CLI 모두 모두 어플리케이션과 상호 관계 메커니즘이지만, 실제 어플리케이션 로직은 포함하지 않습니다. In other words, they are simply two ways of issuing commands to your application. 다시 말해 어플리케이션에 명령을 지시하는 두가지 방법이라는 것입니다. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, filters, and requests. `Console` 디렉토리는 모든 아티즌 명령어를 가지고 있으며 `Http` 디렉토리는 컨트롤러, 필터, 그리고 requests-요청들을 가지고 있습니다. 
+The `app` directory ships with a variety of additional directories such as `Console`, `Http`, and `Providers`. `app` 디렉토리는 `Console`, `Http` 그리고 `Providers`와 같은 추가적인 디렉토리들을 가지고 있습니다. Think of the `Console` and `Http` directories as providing an API into the "core" of your application. `Console` 과 `Http` 디렉토리는 애플리케이션의 "코어"에 API를 제공한다고 생각합니다. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. HTTP 프로토콜 과 CLI 모두 모두 애플리케이션과 상호 관계 메커니즘이지만, 실제 애플리케이션 로직은 포함하지 않습니다. In other words, they are simply two ways of issuing commands to your application. 다시 말해 애플리케이션에 명령을 지시하는 두가지 방법이라는 것입니다. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, filters, and requests. `Console` 디렉토리는 모든 아티즌 명령어를 가지고 있으며 `Http` 디렉토리는 컨트롤러, 필터, 그리고 requests-요청들을 가지고 있습니다. 
 
 The `Commands` directory, of course, houses the commands for your application. Commands represent jobs that can be queued by your application, as well as tasks that you can run synchronously within the current request lifecycle. `Commands` 디렉토리는 당연하게도, 응용 프로그램의 명령어들을 모아놓은 곳입니다. 각각의 명령어는 응용 프로그램이 큐에 삽입하는 작업을 나타내는 동시에 현재 요청에 대한 라이프 사이클 동안 수행 할 수있는 작업을 나타냅니다.
 
@@ -51,16 +51,16 @@ The `Events` directory, as you might expect, houses event classes. Of course, us
 
 The `Handlers` directory contains the handler classes for both commands and events. Handlers receive a command or event and perform logic in response to that command or event being fired. `Handlers` 디렉토리는 커맨드와 이벤트들을 처리하는 클래스들을 포함하고 있습니다.  핸들러는 커맨드 또는 이벤트를 받아서 해당 명령 또는 발생한 이벤트에 따라 수행 로직을 실행합니다.
 
-The `Services` directory contains various "helper" services your application needs to function. For example, the `Registrar` service included with Laravel is responsible for validating and creating new users of your application. Other examples might be services to interact with external APIs, metrics systems, or even services that aggregate data from your own application. `Services` 디렉토리는 어플리케이션에서 필요한 다양한 다양한 “헬퍼” 서비스들을 포함하고 있습니다. 예를 들어 라라벨에 포함된 `Registrar` 서비스는  어플리케이션에 새로운 사용자의 생성과 검증하는 역활을 수행합니다. 다른 예로는 서비스가 외부 API들과 연결하거나, 다른 시스템 또는 어플리케이션에서 필요한 통계 데이터들을 수집하는 역활을 수행할 수 있습니다. 
+The `Services` directory contains various "helper" services your application needs to function. For example, the `Registrar` service included with Laravel is responsible for validating and creating new users of your application. Other examples might be services to interact with external APIs, metrics systems, or even services that aggregate data from your own application. `Services` 디렉토리는 애플리케이션에서 필요한 다양한 다양한 “헬퍼” 서비스들을 포함하고 있습니다. 예를 들어 라라벨에 포함된 `Registrar` 서비스는  애플리케이션에 새로운 사용자의 생성과 검증하는 역활을 수행합니다. 다른 예로는 서비스가 외부 API들과 연결하거나, 다른 시스템 또는 애플리케이션에서 필요한 통계 데이터들을 수집하는 역활을 수행할 수 있습니다. 
 
-The `Exceptions` directory contains your application's exception handler and is also a good place to stick any exceptions thrown by your application. `Exceptions` 디렉토리는  어플리케이션의 예외 핸들러를 포함하고 있으며, 또한 응용프로그램에서 발생하는 예외들을 선언해 두기에 적당한 곳입니다.
+The `Exceptions` directory contains your application's exception handler and is also a good place to stick any exceptions thrown by your application. `Exceptions` 디렉토리는  애플리케이션의 예외 핸들러를 포함하고 있으며, 또한 응용프로그램에서 발생하는 예외들을 선언해 두기에 적당한 곳입니다.
 
 > **Note 참고:** Many of the classes in the `app` directory can be generated by Artisan via commands. To review the available commands, run the `php artisan list make` command in your terminal.  `app` 디렉토리 중에 많은 클래스들이 아티즌 명령어에 의해 생성되어 집니다. 사용 가능한 명령어들을 확인하려면 터미널에서 `php artisan list make` 명령을 실행하십시오.
 
 <a name="namespacing-your-application"></a>
 ## Namespacing Your Application 
-## 어플리케이션에 네임스페이스 지정하기
+## 애플리케이션에 네임스페이스 지정하기
 
-As discussed above, the default application namespace is `App`; 앞서 이야기한대로 어플리케이션의 네임스페이스는 기본값으로 `App`으로 지정되어 있습니다. however, you may change this namespace to match the name of your application, which is easily done via the `app:name` Artisan command. 하지만 이 네임스페이스를 여러분이 고유한 값으로 변경하고자 한다면 `app:name` 아티즌 명령어를 통해서 손쉽게 할 수 있습니다. For example, if your application is named "SocialNet", you would run the following command: 예를들어 어플리케이션이 “SocialNet”으로 이름을 지정하고자 한다면 다음과 같이 명령어를 실행하면 됩니다. 
+As discussed above, the default application namespace is `App`; 앞서 이야기한대로 애플리케이션의 네임스페이스는 기본값으로 `App`으로 지정되어 있습니다. however, you may change this namespace to match the name of your application, which is easily done via the `app:name` Artisan command. 하지만 이 네임스페이스를 여러분이 고유한 값으로 변경하고자 한다면 `app:name` 아티즌 명령어를 통해서 손쉽게 할 수 있습니다. For example, if your application is named "SocialNet", you would run the following command: 예를들어 애플리케이션이 “SocialNet”으로 이름을 지정하고자 한다면 다음과 같이 명령어를 실행하면 됩니다. 
 
 	php artisan app:name SocialNet

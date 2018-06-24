@@ -11,7 +11,7 @@
 ## Introduction
 ## 소개
 
-Migrations are a type of version control for your database. 마이그레이션은 데이터베이스용 버전 컨트롤러의 일종입니다. They allow a team to modify the database schema and stay up to date on the current schema state. 마이그레이션은 여러분의 팀이 데이터베이스 스키마를 수정하고 현재의 스키마 상태를 유지할 수 있도록 해줍니다. Migrations are typically paired with the [Schema Builder](/docs/{{version}}/schema) to easily manage your application's schema. 마이그레이션은 일반적으로 어플리케이션의 스키마를 쉽게 관리할 수 있는 [스키마 빌더](/docs/{{version}}/schema) 와 함께 사용되어 집니다.
+Migrations are a type of version control for your database. 마이그레이션은 데이터베이스용 버전 컨트롤러의 일종입니다. They allow a team to modify the database schema and stay up to date on the current schema state. 마이그레이션은 여러분의 팀이 데이터베이스 스키마를 수정하고 현재의 스키마 상태를 유지할 수 있도록 해줍니다. Migrations are typically paired with the [Schema Builder](/docs/{{version}}/schema) to easily manage your application's schema. 마이그레이션은 일반적으로 애플리케이션의 스키마를 쉽게 관리할 수 있는 [스키마 빌더](/docs/{{version}}/schema) 와 함께 사용되어 집니다.
 
 <a name="creating-migrations"></a>
 ## Creating Migrations

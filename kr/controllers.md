@@ -152,7 +152,7 @@ If you would like to "name" some of the routes on the controller, you may pass a
 ## RESTful Resource Controllers
 ## RESTful 리소스 컨트롤러
 
-Resource controllers make it easier to build RESTful controllers around resources. 리소스 컨트롤러는 리소스에 대한 RESTful 컨트롤러를 손쉽게 구성할 수 있게 해줍니다. For example, you may wish to create a controller that handles HTTP requests regarding "photos" stored by your application. 예를 들어 여러분은 어플리케이션에서 "photos" 를 처리하는 컨트롤러를 생성할 수 있습니다. Using the `make:controller` Artisan command, we can quickly create such a controller: `make:controller` 아티즌 명령어를 통해서 새로운 컨트롤러를 빠르게 생성할 수 있습니다. 
+Resource controllers make it easier to build RESTful controllers around resources. 리소스 컨트롤러는 리소스에 대한 RESTful 컨트롤러를 손쉽게 구성할 수 있게 해줍니다. For example, you may wish to create a controller that handles HTTP requests regarding "photos" stored by your application. 예를 들어 여러분은 애플리케이션에서 "photos" 를 처리하는 컨트롤러를 생성할 수 있습니다. Using the `make:controller` Artisan command, we can quickly create such a controller: `make:controller` 아티즌 명령어를 통해서 새로운 컨트롤러를 빠르게 생성할 수 있습니다. 
 
 	php artisan make:controller PhotoController
 
@@ -315,7 +315,7 @@ If your controller method is also expecting input from a route parameter, simply
 <a name="route-caching"></a>
 ## Route Caching 라우트 캐시
 
-If your application is exclusively using controller routes, you may take advantage of Laravel's route cache. 어플리케이션이 컨트롤러 라우트만을 사용하고 있다면 라라벨의 라우트 캐시의 이점을 가질 수 있습니다. Using the route cache will drastically decrease the amount of time it take to register all of your application's routes. 라우트 캐시를 사용하면 응용 프로그램의 전체 라우트를 등록하는 데 걸리는 시간의 양을 크게 감소합니다. In some cases, your route registration may even be up to 100x faster! 경우에 따라서는 라우트 등록이 100배나 빨라집니다! To generate a route cache, just execute the `route:cache` Artisan command: 라우트 캐시를 생성하기 위해서는 `route:cache` 아티즌 명령어를 실행하면 됩니다. 
+If your application is exclusively using controller routes, you may take advantage of Laravel's route cache. 애플리케이션이 컨트롤러 라우트만을 사용하고 있다면 라라벨의 라우트 캐시의 이점을 가질 수 있습니다. Using the route cache will drastically decrease the amount of time it take to register all of your application's routes. 라우트 캐시를 사용하면 응용 프로그램의 전체 라우트를 등록하는 데 걸리는 시간의 양을 크게 감소합니다. In some cases, your route registration may even be up to 100x faster! 경우에 따라서는 라우트 등록이 100배나 빨라집니다! To generate a route cache, just execute the `route:cache` Artisan command: 라우트 캐시를 생성하기 위해서는 `route:cache` 아티즌 명령어를 실행하면 됩니다. 
 
 	php artisan route:cache
 

@@ -19,7 +19,7 @@ Before using Redis with Laravel, you will need to install the `predis/predis` pa
 ## Configuration
 ## 설정
 
-The Redis configuration for your application is stored in the `config/database.php` file.  어플리케이션에서 사용할 레디스의 설정은 `config/database.php` 파일에서 지정할 수 있습니다. Within this file, you will see a `redis` array containing the Redis servers used by your application: 파일 내부의 `redis` 배열이 어플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다. 
+The Redis configuration for your application is stored in the `config/database.php` file.  애플리케이션에서 사용할 레디스의 설정은 `config/database.php` 파일에서 지정할 수 있습니다. Within this file, you will see a `redis` array containing the Redis servers used by your application: 파일 내부의 `redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다. 
 
 	'redis' => [
 

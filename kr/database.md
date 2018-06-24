@@ -139,7 +139,7 @@ If you need to disconnect from the given database due to exceeding the underlyin
 <a name="query-logging"></a>
 ## Query Logging 쿼리 로깅
 
-Laravel can optionally log in memory all queries that have been run for the current request. 라라벨은 선택적으로 현재 요청에 대해서 실행되는 모든 쿼리를 메모리에 로깅할 수 있습니다. Be aware that in some cases, such as when inserting a large number of rows, this can cause the application to use excess memory. 다수의 행을 삽입 하는 경우와 어플리케이션이 그 과도한 메모리를 사용할 수 있다는 점을 유의해야합니다. To enable the log, you may use the `enableQueryLog` method: 로깅을 활성화 하기 위해서는 `enableQueryLog` 메소드를 사용하면 됩니다. 
+Laravel can optionally log in memory all queries that have been run for the current request. 라라벨은 선택적으로 현재 요청에 대해서 실행되는 모든 쿼리를 메모리에 로깅할 수 있습니다. Be aware that in some cases, such as when inserting a large number of rows, this can cause the application to use excess memory. 다수의 행을 삽입 하는 경우와 애플리케이션이 그 과도한 메모리를 사용할 수 있다는 점을 유의해야합니다. To enable the log, you may use the `enableQueryLog` method: 로깅을 활성화 하기 위해서는 `enableQueryLog` 메소드를 사용하면 됩니다. 
 
 	DB::connection()->enableQueryLog();
 

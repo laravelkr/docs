@@ -248,7 +248,7 @@ There are a variety of other methods available on `UploadedFile` instances. 그 
 ## Other Request Information
 ## 기타 Request에 대한 정보
 
-The `Request` class provides many methods for examining the HTTP request for your application and extends the `Symfony\Component\HttpFoundation\Request` class. Here are some of the highlights. `Request` 클래스는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속하고 있으며 어플리케이션을 위한 HTTP request을 확인하는 많은 메소드를 제공하고 있습니다. 다음은 몇몇 예시들입니다. 
+The `Request` class provides many methods for examining the HTTP request for your application and extends the `Symfony\Component\HttpFoundation\Request` class. Here are some of the highlights. `Request` 클래스는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속하고 있으며 애플리케이션을 위한 HTTP request을 확인하는 많은 메소드를 제공하고 있습니다. 다음은 몇몇 예시들입니다. 
 
 #### Retrieving The Request URI
 #### Request URI 가져오기

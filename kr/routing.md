@@ -12,7 +12,7 @@
 <a name="basic-routing"></a>
 ## Basic Routing 기본적인 라우팅
 
-You will define most of the routes for your application in the `app/Http/routes.php` file, which is loaded by the `App\Providers\RouteServiceProvider` class. 어플리케이션에서 사용하는 대부분의 라우트는 `app/Http/routes.php` 파일안에 정의합니다. 이 파일은 `App\Providers\RouteServiceProvider` 클래스에 의해서 로딩됩니다. The most basic Laravel routes simply accept a URI and a `Closure`: 가장 기본적인 라라벨의 라우트는 URI와 `Closure` 하나로 지정됩니다. 
+You will define most of the routes for your application in the `app/Http/routes.php` file, which is loaded by the `App\Providers\RouteServiceProvider` class. 애플리케이션에서 사용하는 대부분의 라우트는 `app/Http/routes.php` 파일안에 정의합니다. 이 파일은 `App\Providers\RouteServiceProvider` 클래스에 의해서 로딩됩니다. The most basic Laravel routes simply accept a URI and a `Closure`: 가장 기본적인 라라벨의 라우트는 URI와 `Closure` 하나로 지정됩니다. 
 
 #### Basic GET Route 기본적인 GET 라우트
 
@@ -64,7 +64,7 @@ Often, you will need to generate URLs to your routes, you may do so using the `u
 
 Laravel makes it easy to protect your application from [cross-site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery). 라라벨은 크로스 사이트 요청 위조 [cross-site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery)에서 응용 프로그램을 쉽게 지킬 수 있도록 합니다. Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of the authenticated user. 크로스 사이트 요청 위조는 악의적인 공격의 하나이며 인증받은 사용자를 대신하여 허가 받지 않은 명령을 수행합니다. 
 
-Laravel automatically generates a CSRF "token" for each active user session managed by the application. 라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. This token is used to verify that the authenticated user is the one actually making the requests to the application. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
+Laravel automatically generates a CSRF "token" for each active user session managed by the application. 라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. This token is used to verify that the authenticated user is the one actually making the requests to the application. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
 
 #### Insert The CSRF Token Into A Form 
 #### Form 에 CSRF 토큰 삽입하기

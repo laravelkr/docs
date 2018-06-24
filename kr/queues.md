@@ -14,7 +14,7 @@
 ## 환경 설정
 
 The Laravel Queue component provides a unified API across a variety of different queue services. Queues allow you to defer the processing of a time consuming task, such as sending an e-mail, until a later time, thus drastically speeding up the web requests to your application.
-라라벨 큐 컴포넌트는 다양한 큐 서비스로부터 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 작업과 같이 시간이 소요되는 작업을 나중에 처리할 수 있습니다. 이렇게 작업을 나중에 처리함으로서 여러분의 어플리케이션은 웹 요청을 더 빠르게 처리할 수 있습니다.
+라라벨 큐 컴포넌트는 다양한 큐 서비스로부터 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 작업과 같이 시간이 소요되는 작업을 나중에 처리할 수 있습니다. 이렇게 작업을 나중에 처리함으로서 여러분의 애플리케이션은 웹 요청을 더 빠르게 처리할 수 있습니다.
 
 The queue configuration file is stored in `config/queue.php`. In this file you will find connection configurations for each of the queue drivers that are included with the framework, which includes a database, [Beanstalkd](http://kr.github.com/beanstalkd), [IronMQ](http://iron.io), [Amazon SQS](http://aws.amazon.com/sqs), [Redis](http://redis.io), null, and synchronous (for local use) driver. The `null` queue driver simply discards queued jobs so they are never run.
 
@@ -47,7 +47,7 @@ The following dependencies are needed for the listed queue drivers:
 #### 큐에 작업을 푸쉬(Push) 하는 방법
 
 All of the queueable jobs for your application are stored in the `App\Commands` directory. You may generate a new queued command using the Artisan CLI:
-어플리케이션에서 큐를 통해서 처리 할 수 있는 모든 작업들은 `App\Commands` 폴더 안에 저장됩니다. 큐를 통해서 처리할 새로운 작업을 생성하려면 아티즌 CLI를 사용하면 됩니다.
+애플리케이션에서 큐를 통해서 처리 할 수 있는 모든 작업들은 `App\Commands` 폴더 안에 저장됩니다. 큐를 통해서 처리할 새로운 작업을 생성하려면 아티즌 CLI를 사용하면 됩니다.
 
 	php artisan make:command SendEmail --queued
 
@@ -58,7 +58,7 @@ To push a new job onto the queue, use the `Queue::push` method:
 
 > **Note:** In this example, we are using the `Queue` facade directly; however, typically you would dispatch queued command via the [Command Bus](/docs/{{version}}/bus). We will continue to use the `Queue` facade throughout this page; however, familiarize with the command bus as well, since it is used to dispatch both queued and synchronous commands for your application.
 
-> **주의:** 이 예제에서는 `Queue` 파사드를 직접적으로 사용하고 있습니다. 그러나 일반적으로는 [Command Bus](/docs/{{version}}/bus)를 통해 큐에 작업을 보내게 됩니다. 이 페이지는 이후에도 계속 `Queue` 파사드를 사용하겠지만 어플리케이션에서 큐와 동기화 명령을 모두 실행 할 수 있으므로 커맨드 버스를 사용하는 것에도 익숙해져야 합니다.
+> **주의:** 이 예제에서는 `Queue` 파사드를 직접적으로 사용하고 있습니다. 그러나 일반적으로는 [Command Bus](/docs/{{version}}/bus)를 통해 큐에 작업을 보내게 됩니다. 이 페이지는 이후에도 계속 `Queue` 파사드를 사용하겠지만 애플리케이션에서 큐와 동기화 명령을 모두 실행 할 수 있으므로 커맨드 버스를 사용하는 것에도 익숙해져야 합니다.
 
 By default, the `make:command` Artisan command generates a "self-handling" command, meaning a `handle` method is added to the command itself. This method will be called when the job is executed by the queue. You may type-hint any dependencies you need on the `handle` method and the [service container](/docs/{{version}}/container) will automatically inject them:
 
@@ -128,7 +128,7 @@ When the job is actually handled, the queue system will automatically re-retriev
 
 It's all totally transparent to your application and prevents issues that can arise from serializing full Eloquent model instances.
 
-이러한 방법은 여러분의 어플리케이션에 대해 완전히 알기쉽게 하고 전체 Eloquent 모델 인스턴스를 직렬화(serializing) 하는데서 발생할 수 있는 이슈들을 방지합니다.
+이러한 방법은 여러분의 애플리케이션에 대해 완전히 알기쉽게 하고 전체 Eloquent 모델 인스턴스를 직렬화(serializing) 하는데서 발생할 수 있는 이슈들을 방지합니다.
 
 #### Deleting A Processed Job
 #### 처리된 작업 삭제하기
@@ -154,7 +154,7 @@ If you would like to `delete` or `release` the job manually, the `Illuminate\Que
 
 IF an exception is thrown while the job is being processed, it will automatically be released back onto the queue so it may be attempted again. 
 만약 작업이 진행하는동안 예외(Exception)가 발생한다면 이 작업은 자동으로 다시 시도될 수 있도록 큐에 다시 보내집니다. 
-The job will continue to be released until it has been attempted the maximum number of times allowed by your application. 다시 보내진 작업은 어플리케이션에서 설정된 최대 허용된 횟수까지 반복해서 재시도됩니다.  
+The job will continue to be released until it has been attempted the maximum number of times allowed by your application. 다시 보내진 작업은 애플리케이션에서 설정된 최대 허용된 횟수까지 반복해서 재시도됩니다.  
 The number of maximum attempts is defined by the `--tries` switch used on the `queue:listen` or `queue:work` Artisan commands.
  최대 시도 횟수는 `queue:listen` 혹은 `queue:work` 아티즌 명령에서 사용된 `--tries` 스위치에 의해 정의됩니다.
 
@@ -196,7 +196,7 @@ You may also push a Closure onto the queue. This is very convenient for quick, s
 
 When using Iron.io [push queues](#push-queues), you should take extra precaution queueing Closures. The end-point that receives your queue messages should check for a token to verify that the request is actually from Iron.io. For example, your push queue end-point should be something like: `https://yourapp.com/queue/receive?token=SecretToken`. You may then check the value of the secret token in your application before marshalling the queue request.
 
-Iron.io [push queues](#push-queues)를 이용하는 경우,  큐로 푸쉬하는 클로저에 추가 예방 조치를 취해야 합니다. 큐 메세지를 받는 부분에서 요청이 실제로 Iron.io에서 왔는지 검증하는 토큰을 체크해야합니다. 예를들어 푸쉬된 큐를 받는 URL은 `https://yourapp.com/queue/receive?token=SecretToken`와 같이 되어야 합니다.  그런 다음에는 큐 요청을 진행하기 전에 어플리케이션에서 비밀 토큰 값을 체크하도록 합니다. 
+Iron.io [push queues](#push-queues)를 이용하는 경우,  큐로 푸쉬하는 클로저에 추가 예방 조치를 취해야 합니다. 큐 메세지를 받는 부분에서 요청이 실제로 Iron.io에서 왔는지 검증하는 토큰을 체크해야합니다. 예를들어 푸쉬된 큐를 받는 URL은 `https://yourapp.com/queue/receive?token=SecretToken`와 같이 되어야 합니다.  그런 다음에는 큐 요청을 진행하기 전에 애플리케이션에서 비밀 토큰 값을 체크하도록 합니다. 
 
 <a name="running-the-queue-listener"></a>
 ## Running The Queue Listener
@@ -285,7 +285,7 @@ As you can see, the `queue:work` command supports most of the same options avail
 
 The simplest way to deploy an application using daemon queue workers is to put the application in maintenance mode at the beginning of your deployment. This can be done using the `php artisan down` command. Once the application is in maintenance mode, Laravel will not accept any new jobs off of the queue, but will continue to process existing jobs.
 
-데몬 queue worker 를 사용하여 어플리케이션을 deploy하기 위한 가장 쉬운 방법은 배포를 시작하는 시점에  `php artisan down` 명령을 사용하여 어플리케이션을 유지보수 모드로 변경하는 것입니다. 어플리케이션이 유지보수 모드에 들어가면 라라벨은 어떠한 새로운 작업들도 받아들이지 않을 것입니다. 다만 남아있던 작업들은 계속해서 진행됩니다.
+데몬 queue worker 를 사용하여 애플리케이션을 deploy하기 위한 가장 쉬운 방법은 배포를 시작하는 시점에  `php artisan down` 명령을 사용하여 애플리케이션을 유지보수 모드로 변경하는 것입니다. 애플리케이션이 유지보수 모드에 들어가면 라라벨은 어떠한 새로운 작업들도 받아들이지 않을 것입니다. 다만 남아있던 작업들은 계속해서 진행됩니다.
 
 The easiest way to restart your workers is to include the following command in your deployment script:
 여러분의 workers를 재시작 하는 가장 쉬운 방법은 배포 스크립트(deployment script)에 아래의 명령을 포함하는 것입니다,

@@ -12,13 +12,13 @@
 ## Introduction
 ## 소개 
 
-The Laravel `Lang` facade provides a convenient way of retrieving strings in various languages, allowing you to easily support multiple languages within your application. 라라벨의 `Lang` 파사드는 어플리케이션이 다국어에 대응하게 할 수 있도록 다양한 언어로 번역 된 문자열을 검색하는 방법을 제공합니다.
+The Laravel `Lang` facade provides a convenient way of retrieving strings in various languages, allowing you to easily support multiple languages within your application. 라라벨의 `Lang` 파사드는 애플리케이션이 다국어에 대응하게 할 수 있도록 다양한 언어로 번역 된 문자열을 검색하는 방법을 제공합니다.
 
 <a name="language-files"></a>
 ## Language Files
 ## 언어 파일들
 
-Language strings are stored in files within the `resources/lang` directory. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. Within this directory there should be a subdirectory for each language supported by the application. 이 디렉토리 안에서 어플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다. 
+Language strings are stored in files within the `resources/lang` directory. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. Within this directory there should be a subdirectory for each language supported by the application. 이 디렉토리 안에서 애플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다. 
 
 	/resources
 		/lang
@@ -42,7 +42,7 @@ Language files simply return an array of keyed strings. For example:
 #### Changing The Default Language At Runtime
 #### 실행중에 기본 언어 파일 변경하기
 
-The default language for your application is stored in the `config/app.php` configuration file. 어플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. You may change the active language at any time using the `App::setLocale` method: 언제라도 `App::setLocale` 메소드를 사용하여 원하는 언어로 설정을 변경할 수 있습니다. 
+The default language for your application is stored in the `config/app.php` configuration file. 애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. You may change the active language at any time using the `App::setLocale` method: 언제라도 `App::setLocale` 메소드를 사용하여 원하는 언어로 설정을 변경할 수 있습니다. 
 
 	App::setLocale('es');
 

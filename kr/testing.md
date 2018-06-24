@@ -8,7 +8,7 @@
 - [Mocking Facades 파사드 Mocking](#mocking-facades)
 - [Framework Assertions 프레임워크 Assertions](#framework-assertions)
 - [Helper Methods 헬퍼 메소드](#helper-methods)
-- [Refreshing The Application 어플리케이션 새로 고침](#refreshing-the-application)
+- [Refreshing The Application 애플리케이션 새로 고침](#refreshing-the-application)
 
 <a name="introduction"></a>
 ## Introduction
@@ -16,11 +16,11 @@
 
 Laravel is built with unit testing in mind. In fact, support for testing with PHPUnit is included out of the box, and a `phpunit.xml` file is already setup for your application.
 
-라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 어플리케이션을 위한 `phpunit.xml` 파일이  이미 설정되어 있습니다. 
+라라벨은 단위 테스트를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 애플리케이션을 위한 `phpunit.xml` 파일이  이미 설정되어 있습니다. 
 
 An example test file is provided in the `tests` directory. After installing a new Laravel application, simply run `phpunit` on the command line to run your tests.
 
-`tests` 디렉토리에는 테스트 예제 파일이 제공되어 있습니다. 새롭게 라라벨 어플리케이션을 설치한 후 커맨드 라인에서 그대로 `phpunit` 명령어를 실행하면 테스트를 수행할 수 있습니다. 
+`tests` 디렉토리에는 테스트 예제 파일이 제공되어 있습니다. 새롭게 라라벨 애플리케이션을 설치한 후 커맨드 라인에서 그대로 `phpunit` 명령어를 실행하면 테스트를 수행할 수 있습니다. 
 
 <a name="defining-and-running-tests"></a>
 ## Defining & Running Tests
@@ -44,7 +44,7 @@ To create a test case, simply create a new test file in the `tests` directory. T
 
 You may run all of the tests for your application by executing the `phpunit` command from your terminal.
 
-터미널에서 `phpunit` 명령어를 실행함으로써 어플리케이션의 모든 테스트를 실행할 수 있습니다. 
+터미널에서 `phpunit` 명령어를 실행함으로써 애플리케이션의 모든 테스트를 실행할 수 있습니다. 
 
 > **Note:** If you define your own `setUp` method, be sure to call `parent::setUp`.
 
@@ -226,7 +226,7 @@ Laravel ships with several `assert` methods to make testing a little easier:
 ## 헬퍼 메소드
 
 The `TestCase` class contains several helper methods to make testing your application easier.
-`TestCase` 클래스는 어플리케이션의 테스팅을 돕기 위한 몇가지의 헬퍼 메소드를 포함하고 있습니다. 
+`TestCase` 클래스는 애플리케이션의 테스팅을 돕기 위한 몇가지의 헬퍼 메소드를 포함하고 있습니다. 
 
 #### Setting And Flushing Sessions From Tests
 #### 테스트에서 세션을 설정하고 비우기
@@ -262,8 +262,8 @@ More information on creating seeds may be found in the [migrations and seeding](
 
 <a name="refreshing-the-application"></a>
 ## Refreshing The Application
-## 어플리케이션 새로 고침
+## 애플리케이션 새로 고침
 
 As you may already know, you can access your Application ([service container](/docs/{{version}}/container)) via `$this->app` from any test method. This service container instance is refreshed for each test class. If you wish to manually force the Application to be refreshed for a given method, you may use the `refreshApplication` method from your test method. This will reset any extra bindings, such as mocks, that have been placed in the IoC container since the test case started running.
 
-이미 알고 있다 시피 여러분은 테스트 메소드에서 `$this->app` 을 통해서 어플리케이션([서비스 컨테이너](/docs/{{version}}/container))에 엑세스 할 수 있습니다. 이 서비스 컨테이너 인스턴스는 각각의 테스트 클래스 마다 새로 고침됩니다. 만약 여러분이 수동으로 어플리케이션을 새로고침 하고 싶은 경우에는 테스트 메소드에서 `refreshApplication` 메소드를 사용하면 됩니다. 이렇게 하면 테스트 케이스가 실행을 시작한 이후 IoC 컨테이너에 등록된 mock 객체와 추가적인 바인딩을 재설정 할것입니다. 
+이미 알고 있다 시피 여러분은 테스트 메소드에서 `$this->app` 을 통해서 애플리케이션([서비스 컨테이너](/docs/{{version}}/container))에 엑세스 할 수 있습니다. 이 서비스 컨테이너 인스턴스는 각각의 테스트 클래스 마다 새로 고침됩니다. 만약 여러분이 수동으로 애플리케이션을 새로고침 하고 싶은 경우에는 테스트 메소드에서 `refreshApplication` 메소드를 사용하면 됩니다. 이렇게 하면 테스트 케이스가 실행을 시작한 이후 IoC 컨테이너에 등록된 mock 객체와 추가적인 바인딩을 재설정 할것입니다. 

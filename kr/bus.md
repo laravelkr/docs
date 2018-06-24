@@ -10,7 +10,7 @@
 ## Introduction
 ## 소개
 
-The Laravel command bus provides a convenient method of encapsulating tasks your application needs to perform into simple, easy to understand "commands". 라라벨의 커맨드 버스는 어플리케이션이 수행할 필요가 있는 작업들을 캡슐화 하는 편리한 방법을 제공합니다. To help us understand the purpose of commands, let's pretend we are building an application that allows users to purchase podcasts. 커맨드 목적의 이해를 돕기 위해서, 사용자가 팟캐스트를 구매 할 수 있는 어플리케이션을 만들고 있다고 가정해봅시다.
+The Laravel command bus provides a convenient method of encapsulating tasks your application needs to perform into simple, easy to understand "commands". 라라벨의 커맨드 버스는 애플리케이션이 수행할 필요가 있는 작업들을 캡슐화 하는 편리한 방법을 제공합니다. To help us understand the purpose of commands, let's pretend we are building an application that allows users to purchase podcasts. 커맨드 목적의 이해를 돕기 위해서, 사용자가 팟캐스트를 구매 할 수 있는 애플리케이션을 만들고 있다고 가정해봅시다.
 
 When a user purchases a podcast, there are a variety of things that need to happen. 사용자가 팟캐스트를 구매할 때 필요한 다양한 작업들이 있습니다. For example, we may need to charge the user's credit card, add a record to our database that represents the purchase, and send a confirmation e-mail of the purchase. 예를 들어, 사용자의 신용 카드로 요금 청구를 하고, 데이터베이스에 구매를 나타내는  레코드를 추가하고, 구매 확인 메일을 보내야 할 것 입니다. Perhaps we also need to perform some kind of validation as to whether the user is allowed to purchase podcasts. 어쩌면 우리는 사용자가 팟캐스트를 구매 할 수 있는지에 대해 어떠한 검증을 해야 할 수도 있습니다. 
 
@@ -75,7 +75,7 @@ The `handle` method may also type-hint dependencies, and they will be automatica
 
 So, once we have created a command, how do we dispatch it? 이제 커맨드를 생성하였드면 어떻게 처리할 까요? Of course, we could call the `handle` method directly; however, dispatching the command through the Laravel "command bus" has several advantages which we will discuss later. 물론 직접 `handle` 메소드를 호출할 수도 있지만, 라라벨의 “커맨드 버스”를 통해서 처리하면 앞으로 이야기할 몇몇 장점들이 있습니다. 
 
-If you glance at your application's base controller, you will see the `DispatchesCommands` trait. 만약 여러분이 어플리케이션의 베이스 컨트롤러를 살펴 본다면`DispatchesCommands` trait 를 볼 수 있습니다. This trait allows us to call the `dispatch` method from any of our controllers. For example: 이 trait 는 어느 컨트롤러에서라도 `dispatch` 메소드를 호출할 수 있게 해줍니다. 
+If you glance at your application's base controller, you will see the `DispatchesCommands` trait. 만약 여러분이 애플리케이션의 베이스 컨트롤러를 살펴 본다면`DispatchesCommands` trait 를 볼 수 있습니다. This trait allows us to call the `dispatch` method from any of our controllers. For example: 이 trait 는 어느 컨트롤러에서라도 `dispatch` 메소드를 호출할 수 있게 해줍니다. 
 
 	public function purchasePodcast($podcastId)
 	{

@@ -9,9 +9,9 @@
 <a name="configuration"></a>
 ## Configuration 설정
 
-Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. Laravel ships with a variety of session back-ends available for use through a clean, unified API. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
+Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. Laravel ships with a variety of session back-ends available for use through a clean, unified API. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다. 
 
-The session configuration is stored in `config/session.php`. 세션의 설정은 `config/session.php` 파일에 있습니다. Be sure to review the well documented options available to you in this file. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. By default, Laravel is configured to use the `file` session driver, which will work well for the majority of applications. 대부분의 어플리케이션에서 작동이 가능하도록 기본적으로 라라벨은 `file` 세션 드라이버를 사용합니다. 
+The session configuration is stored in `config/session.php`. 세션의 설정은 `config/session.php` 파일에 있습니다. Be sure to review the well documented options available to you in this file. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. By default, Laravel is configured to use the `file` session driver, which will work well for the majority of applications. 대부분의 애플리케이션에서 작동이 가능하도록 기본적으로 라라벨은 `file` 세션 드라이버를 사용합니다. 
 
 Before using Redis sessions with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer. 라라벨에서 Redis 세션을 사용하기 위해서는 컴포저를 통해서 `predis/predis` 패키지를 설치해야만 합니다. 
 
@@ -19,7 +19,7 @@ Before using Redis sessions with Laravel, you will need to install the `predis/p
 
 > **Note:** When using the `cookie` session driver, you should **never** remove the `EncryptCookie` middleware from your HTTP kernel. If you remove this middleware, your application will be vulnerable to remote code injection.
 
-> **주의** `cookie` 세션 드라이버를 사용할 때에는 HTTP 커널에서 **절대로** `EncryptCookie` 미들웨어를 제거해서는 안됩니다. 이 미들웨어를 제거하게 되면, 어플리케이션이 원격으로 부터 코드를 실행하는 취약점이 존재합니다.
+> **주의** `cookie` 세션 드라이버를 사용할 때에는 HTTP 커널에서 **절대로** `EncryptCookie` 미들웨어를 제거해서는 안됩니다. 이 미들웨어를 제거하게 되면, 애플리케이션이 원격으로 부터 코드를 실행하는 취약점이 존재합니다.
 
 #### Reserved Keys 
 #### 예약어 
@@ -143,7 +143,7 @@ The session "driver" defines where session data will be stored for each request.
 - `cookie` - sessions will be stored in secure, encrypted cookies.
 - `cookie` - 암호화된 쿠키를 사용하여 안전하게 세션을 저장할 것입니다. 
 - `database` - sessions will be stored in a database used by your application.
-- `database` - 세션은 어플리케이션에 의해서 데이터베이스에 저장됩니다. 
+- `database` - 세션은 애플리케이션에 의해서 데이터베이스에 저장됩니다. 
 - `memcached` / `redis` - sessions will be stored in one of these fast, cached based stores.
 - `memcached` / `redis` - 세션은 캐시 기반의 드라이버들에 의해 빠르게 저장됩니다. 
 - `array` - sessions will be stored in a simple PHP array and will not be persisted across requests.

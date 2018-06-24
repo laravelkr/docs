@@ -18,7 +18,7 @@ Laravel Homestead is an official, pre-packaged Vagrant "box" that provides you a
 
 Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 5.6, MySQL, Postgres, Redis, Memcached, and all of the other goodies you need to develop amazing Laravel applications.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP5.6, MySQL, Postgres, Redis, Memcached 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP5.6, MySQL, Postgres, Redis, Memcached 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > **Note 주의:** If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. 만약 윈도우를 사용하는 경우, 하드웨어 가상화 (VT-x)를 활성화해야합니다. 이 설정은 일반적으로 BIOS에서 사용할 수 있습니다.
 
@@ -186,7 +186,7 @@ To connect to your MySQL or Postgres database from your main machine via Navicat
 ### Adding Additional Sites
 ### 추가적인 사이트 지정하기
 
-Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. You can run as many Laravel installations as you wish on a single Homestead environment.  하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. There are two ways to do this: First, you may simply add the sites to your `Homestead.yaml` file and then run `vagrant provision` from your Homestead directory. 여기에는 두가지 방법이 있습니다: 첫번째 방법은 간단하게 `Homestead.yaml` 파일에 사이트를 추가하고 홈스테드 디렉토리에서 `vagrant provision` 을 실행하는 것입니다. 
+Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. 홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 애플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. You can run as many Laravel installations as you wish on a single Homestead environment.  하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. There are two ways to do this: First, you may simply add the sites to your `Homestead.yaml` file and then run `vagrant provision` from your Homestead directory. 여기에는 두가지 방법이 있습니다: 첫번째 방법은 간단하게 `Homestead.yaml` 파일에 사이트를 추가하고 홈스테드 디렉토리에서 `vagrant provision` 을 실행하는 것입니다. 
 
 > **Note 주의:** This process is destructive. When running the `provision` command, your existing databases will be destroyed and recreated. 이 명령어는 내부에 변경사항이 있습니다. `provision` 명령어가 실행되면 이미 존재하는 데이터베이스가 삭제되고 다시 생성됩니다. 
 
@@ -225,7 +225,7 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
 ## Blackfire Profiler
 ## Blackfire 프로파일러
 
-[Blackfire Profiler](https://blackfire.io) by SensioLabs automatically gathers data about your code's execution, such as RAM, CPU time, and disk I/O. SensioLabs 의 [Blackfire 프로파일러](https://blackfire.io)는 자동으로 여러분의 코드 수행시간, RAM, CPU 소요시간 그리고 disk I/O와 같은 정보들을 수집해 줍니다. Homestead makes it a breeze to use this profiler for your own applications. 홈스테드는 여러분의 어플리케이션에 이 프로파일러를 매우 쉽게 사용할 수 있습니다. 
+[Blackfire Profiler](https://blackfire.io) by SensioLabs automatically gathers data about your code's execution, such as RAM, CPU time, and disk I/O. SensioLabs 의 [Blackfire 프로파일러](https://blackfire.io)는 자동으로 여러분의 코드 수행시간, RAM, CPU 소요시간 그리고 disk I/O와 같은 정보들을 수집해 줍니다. Homestead makes it a breeze to use this profiler for your own applications. 홈스테드는 여러분의 애플리케이션에 이 프로파일러를 매우 쉽게 사용할 수 있습니다. 
 
 All of the proper packages have already been installed on your Homestead box, you simply need to set a Blackfire **Server** ID and token in your `Homestead.yaml` file: 필요한 패키지는 이미 Homestead Box에 설치되어 있기 때문에, `Homestead.yaml` 파일에 Blackfire의 **서버** ID와 토큰을 설정하면 됩니다.
 

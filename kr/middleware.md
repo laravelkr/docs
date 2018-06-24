@@ -8,9 +8,9 @@
 <a name="introduction"></a>
 ## Introduction 소개
 
-HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 어플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 어플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로,  인증된 사용자라면, 미들웨어는 어플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
+HTTP middleware provide a convenient mechanism for filtering HTTP requests entering your application. HTTP 미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. For example, Laravel includes a middleware that verifies the user of your application is authenticated. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. If the user is not authenticated, the middleware will redirect the user to the login screen. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. 반대로,  인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
 
-Of course, middleware can be written to perform a variety of tasks besides authentication. 물론, 미들웨어는 인증 이외에도 다양한 작업을 수행하도록 작성될 수 있습니다. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. CORS 미들웨어는 어플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가하는 역할을 담당할 수도 있습니다. A logging middleware might log all incoming requests to your application. 로깅 미들웨어는 어플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
+Of course, middleware can be written to perform a variety of tasks besides authentication. 물론, 미들웨어는 인증 이외에도 다양한 작업을 수행하도록 작성될 수 있습니다. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. CORS 미들웨어는 애플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가하는 역할을 담당할 수도 있습니다. A logging middleware might log all incoming requests to your application. 로깅 미들웨어는 애플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
 
 There are several middleware included in the Laravel framework, including middleware for maintenance, authentication, CSRF protection, and more. 라라벨 프레임워크에는 보수(maintenance), 인증(authentication), CSRF 보안 등을 위한 미들웨어들이 포함되어 있습니다. All of these middleware are located in the `app/Http/Middleware` directory. 그 미들웨어들은 모두  `app/Http/Middleware` 디렉토리 안에 위치하고 있습니다.
 
@@ -48,13 +48,13 @@ This command will place a new `OldMiddleware` class within your `app/Http/Middle
 
 	}
 
-As you can see, if the given `age` is less than `200`, the middleware will return an HTTP redirect to the client; 위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환할 것입니다; otherwise, the request will be passed further into the application. 그렇지 않으면 요청은 어플리케이션 안으로 더 깊이 전달될 것입니다. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.  (미들웨어가 "pass"를  허용하는) 요청을 어플리케이션 안으로 더 깊이 전달하기 원한다면, 간단하게 `$next` 콜백함수를 `$request`인자를 넣어 호출하면 됩니다.
+As you can see, if the given `age` is less than `200`, the middleware will return an HTTP redirect to the client; 위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환할 것입니다; otherwise, the request will be passed further into the application. 그렇지 않으면 요청은 애플리케이션 안으로 더 깊이 전달될 것입니다. To pass the request deeper into the application (allowing the middleware to "pass"), simply call the `$next` callback with the `$request`.  (미들웨어가 "pass"를  허용하는) 요청을 애플리케이션 안으로 더 깊이 전달하기 원한다면, 간단하게 `$next` 콜백함수를 `$request`인자를 넣어 호출하면 됩니다.
 
-It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. 미들웨어를 HTTP request들이 어플리케이션에 도달하기 전에 반드시 통과해야 하는 일련의 "레이어"라고 상상하는 것이 가장 좋습니다. Each layer can examine the request and even reject it entirely. 각각의 레이어는 요청을 검사할 수 있고 완벽하게 요청을 거절할 수도 있습니다.
+It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. 미들웨어를 HTTP request들이 애플리케이션에 도달하기 전에 반드시 통과해야 하는 일련의 "레이어"라고 상상하는 것이 가장 좋습니다. Each layer can examine the request and even reject it entirely. 각각의 레이어는 요청을 검사할 수 있고 완벽하게 요청을 거절할 수도 있습니다.
 
 ### *Before* / *After* Middleware  *Before* / *After* 미들웨어 
 
-Whether a middleware runs before or after a request depends on the middleware itself. 요청을 어플리케이션이 처리하기 전에 미들웨어가 실행될지 처리한 후에 미들웨어가 실행될지는 미들웨어 자신이 결정할 수 있습니다. This middleware would perform some task **before** the request is handled by the application: 아래의 경우, 미들웨어는 요청이 어플리케이션에 의해 처리되기 **전**에 실행될 것입니다.
+Whether a middleware runs before or after a request depends on the middleware itself. 요청을 애플리케이션이 처리하기 전에 미들웨어가 실행될지 처리한 후에 미들웨어가 실행될지는 미들웨어 자신이 결정할 수 있습니다. This middleware would perform some task **before** the request is handled by the application: 아래의 경우, 미들웨어는 요청이 애플리케이션에 의해 처리되기 **전**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -70,7 +70,7 @@ Whether a middleware runs before or after a request depends on the middleware it
 		}
 	}
 
-However, this middleware would perform its task **after** the request is handled by the application: 반대로, 아래의 경우에서 미들웨어는 요청이 어플리케이션에 의해 처리된 **후**에 실행될 것입니다.
+However, this middleware would perform its task **after** the request is handled by the application: 반대로, 아래의 경우에서 미들웨어는 요청이 애플리케이션에 의해 처리된 **후**에 실행될 것입니다.
 
 	<?php namespace App\Http\Middleware;
 
@@ -93,7 +93,7 @@ However, this middleware would perform its task **after** the request is handled
 
 ### Global Middleware 전역 미들웨어
 
-If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class. 만약 어플리케이션의 모든 HTTP 요청에 대하여 미들웨어가 작동되기를 원한다면,  `app/Http/Kernel.php` 클래스의 `$middleware` 프로퍼티에 미들웨어를 등록하시면 됩니다.
+If you want a middleware to be run during every HTTP request to your application, simply list the middleware class in the `$middleware` property of your `app/Http/Kernel.php` class. 만약 애플리케이션의 모든 HTTP 요청에 대하여 미들웨어가 작동되기를 원한다면,  `app/Http/Kernel.php` 클래스의 `$middleware` 프로퍼티에 미들웨어를 등록하시면 됩니다.
 
 ### Assigning Middleware To Routes 라우트에 미들웨어 할당하기
 

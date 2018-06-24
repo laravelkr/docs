@@ -1112,7 +1112,7 @@ In the loop above, only two queries will be executed:
 
 Wise use of eager loading can drastically increase the performance of your application.
 
-Eager 로딩의 적절한 사용은 여러분의 어플리케이션의 성능을 크게 향상 시킬 수 있습니다.
+Eager 로딩의 적절한 사용은 여러분의 애플리케이션의 성능을 크게 향상 시킬 수 있습니다.
 
 Of course, you may eager load multiple relationships at one time:
 
@@ -1649,7 +1649,7 @@ Your `EventServiceProvider` serves as a convenient place to register your model 
 
 	/**
 	 * Register any other events for your application.
-	 * 어플리케이션에 다른 이벤트를 등록합니다.
+	 * 애플리케이션에 다른 이벤트를 등록합니다.
 	 *
 	 * @param  \Illuminate\Contracts\Events\Dispatcher  $events
 	 * @return void

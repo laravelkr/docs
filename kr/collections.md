@@ -32,7 +32,7 @@ As mentioned above, the `collect` helper will return a new `Illuminate\Support\C
 
 	$collection = Collection::make([1, 2, 3]);
 
-Of course, collections of [Eloquent](/docs/{{version}}/eloquent) objects are always returned as `Collection` instances; 당연하게도 [Eloquent](/docs/{{version}}/eloquent)객체의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. however, you should feel free to use the `Collection` class wherever it is convenient for your application. 하지만 어플리케이션의 어디에서라도 편하게 `Collection`을 사용할 수 있습니다. 
+Of course, collections of [Eloquent](/docs/{{version}}/eloquent) objects are always returned as `Collection` instances; 당연하게도 [Eloquent](/docs/{{version}}/eloquent)객체의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. however, you should feel free to use the `Collection` class wherever it is convenient for your application. 하지만 애플리케이션의 어디에서라도 편하게 `Collection`을 사용할 수 있습니다. 
 
 #### Explore The Collection 컬렉션 둘러보기
 

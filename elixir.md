@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ## 소개
 
-라라벨 Elixir(엘릭서)는 여러분의 라라벨 어플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 몇 가지 공통적인 CSS와 JavaScript 전처리 작업, 또한, 테스팅 툴까지 제공합니다.
+라라벨 Elixir(엘릭서)는 여러분의 라라벨 애플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 몇 가지 공통적인 CSS와 JavaScript 전처리 작업, 또한, 테스팅 툴까지 제공합니다.
 
 만약 여러분이 Gulp과 asset compilation를 어떻게 시작해야 되는지 어려워한 적이 있다면 라라벨 Elixir를 좋아하게 될 것입니다!
 
@@ -221,7 +221,7 @@ elixir(function(mix) {
 
     <link rel="stylesheet" href="{{ elixir("css/all.css") }}">
 
-어플리케이션 내부에서 `elixir()`함수는 로드(include) 해야하는 해시된 파일의 이름을 결정합니다. 벌써 무거운 짐을 내려놓은 것 같지 않으신가요?
+애플리케이션 내부에서 `elixir()`함수는 로드(include) 해야하는 해시된 파일의 이름을 결정합니다. 벌써 무거운 짐을 내려놓은 것 같지 않으신가요?
 
 여러 파일들에 버전 지정을 위해 `version` 메소드에 배열을 전달할 수 있습니다.
 

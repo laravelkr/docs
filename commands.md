@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## 소개
 
-아티즌에서 제공하는 명령어에 추가로 어플리케이션에서 동작하는 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토로딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
+아티즌에서 제공하는 명령어에 추가로 애플리케이션에서 동작하는 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토로딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
 
 <!--chak-comment-아티즌-명령어-개발하기(Artisan-Development)-소개-->
 
@@ -65,7 +65,7 @@
 
 ### Retrieving Input 입력값 조회하기
 
-While your command is executing, you will obviously need to access the values for the arguments and options accepted by your application. 명령이 실행중일 때, 어플리케이션이 받은 인자 및 옵션의 값에 엑세스할 필요가 있습니다. To do so, you may use the `argument` and `option` methods: 이 경우 `argument`와 `option`메소드를 사용하면 됩니다.
+While your command is executing, you will obviously need to access the values for the arguments and options accepted by your application. 명령이 실행중일 때, 애플리케이션이 받은 인자 및 옵션의 값에 엑세스할 필요가 있습니다. To do so, you may use the `argument` and `option` methods: 이 경우 `argument`와 `option`메소드를 사용하면 됩니다.
 
 #### 명령어 인자 값 조회
 

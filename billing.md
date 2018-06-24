@@ -137,7 +137,7 @@
 <a name="no-card-up-front"></a>
 ## 신용카드 정보 없이 가입
 
-만약 여러분의 어플리케이션이 무료 평가기간(trial)을 신용카드 정보 없이 제공한다면 모델클래스에 `cardUpFront` 속성을 `false`로 지정하십시오. 
+만약 여러분의 애플리케이션이 무료 평가기간(trial)을 신용카드 정보 없이 제공한다면 모델클래스에 `cardUpFront` 속성을 `false`로 지정하십시오. 
 
 	protected $cardUpFront = false;
 
@@ -163,7 +163,7 @@
 <a name="subscription-quantity"></a>
 ## 구독 수량
 
-때로는 구독은 “수량”에 영향을 받을 수 있습니다. 예를 들어, 여러분의 어플리케이션에서 하나의 계정의 사용자마다 한 달에 10달러를 부과하고 있다고 한다면, `increment`와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
+때로는 구독은 “수량”에 영향을 받을 수 있습니다. 예를 들어, 여러분의 애플리케이션에서 하나의 계정의 사용자마다 한 달에 10달러를 부과하고 있다고 한다면, `increment`와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
 
 	$user = User::find(1);
 
@@ -218,7 +218,7 @@
 <a name="checking-subscription-status"></a>
 ## 가입 상태 확인
 
-사용자가 어플리케이션에 대해 구독 중인지 아닌지 확인하려면 `subscribed` 메소드를 사용하면 됩니다:
+사용자가 애플리케이션에 대해 구독 중인지 아닌지 확인하려면 `subscribed` 메소드를 사용하면 됩니다:
 
 	if ($user->subscribed())
 	{
@@ -258,7 +258,7 @@
 		//
 	}
 
-`everSubscribed` 메소드는 사용자가 어플리케이션을 한 번이라도 구독한 적이 없는지 확인하는 데 사용됩니다:
+`everSubscribed` 메소드는 사용자가 애플리케이션을 한 번이라도 구독한 적이 없는지 확인하는 데 사용됩니다:
 
 	if ($user->everSubscribed())
 	{

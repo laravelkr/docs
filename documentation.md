@@ -19,7 +19,7 @@
     - [Contracts](/docs/5.0/contracts)
     - [파사드](/docs/5.0/facades)
     - [Request 라이프사이클](/docs/5.0/lifecycle)
-    - [어플리케이션 구조](/docs/5.0/structure)
+    - [애플리케이션 구조](/docs/5.0/structure)
 - 제공되는 서비스들
     - [사용자 인증](/docs/5.0/authentication)
     - [결제-캐셔](/docs/5.0/billing)

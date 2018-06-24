@@ -33,7 +33,7 @@
 
 	$collection = Collection::make([1, 2, 3]);
 
-당연하게도 [Eloquent](/docs/5.0/eloquent)객체의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 하지만 어플리케이션의 어디에서라도 `Collection`을 편하게 사용할 수 있습니다.
+당연하게도 [Eloquent](/docs/5.0/eloquent)객체의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 하지만 애플리케이션의 어디에서라도 `Collection`을 편하게 사용할 수 있습니다.
 
 #### 컬렉션 둘러보기
 

@@ -94,7 +94,7 @@ Next, set the `driver` option in your `config/mail.php` configuration file to `s
 
 In Laravel, each type of email sent by your application is represented as a "mailable" class. These classes are stored in the `app/Mail` directory. Don't worry if you don't see this directory in your application, since it will be generated for you when you create your first mailable class using the `make:mail` command:
 
-라라벨에서, 어플리케이션에 의해서 발송되는 이메일의 각 타입들은 "mailable" 클래스로 표현할 수 있습니다. 이 클래스들은 `app/Mail` 디렉토리안에 들어 있습니다. 어플리케이션에서 이 디렉토리가 보이지 않더라도 걱정하지 마십시오. `make:mail` 명령어를 사용하여 첫번째 mailable 클래스를 생성하면 자동으로 생성됩니다:
+라라벨에서, 애플리케이션에 의해서 발송되는 이메일의 각 타입들은 "mailable" 클래스로 표현할 수 있습니다. 이 클래스들은 `app/Mail` 디렉토리안에 들어 있습니다. 애플리케이션에서 이 디렉토리가 보이지 않더라도 걱정하지 마십시오. `make:mail` 명령어를 사용하여 첫번째 mailable 클래스를 생성하면 자동으로 생성됩니다:
 
     php artisan make:mail OrderShipped
 
@@ -133,7 +133,7 @@ First, let's explore configuring the sender of the email. Or, in other words, wh
 
 However, if your application uses the same "from" address for all of its emails, it can become cumbersome to call the `from` method in each mailable class you generate. Instead, you may specify a global "from" address in your `config/mail.php` configuration file. This address will be used if no other "from" address is specified within the mailable class:
 
-하지만 어플리케이션이 이메일에서 사용하는 모든 "발송자" 주소가 동일하다면, 생성한 각각의 mailable 클래스 에서 매번 `from` 메소드를 호출하는 것은 번거로운 일입니다. 대신에, 글로벌 "발송자" 주소를 `config/mail.php` 설정 파일에서 지정할 수 있습니다. mailable 클래스 안에서 다른 "from" 주소를 지정하지 않는다면 이 글로벌 주소가 사용될 것입니다:
+하지만 애플리케이션이 이메일에서 사용하는 모든 "발송자" 주소가 동일하다면, 생성한 각각의 mailable 클래스 에서 매번 `from` 메소드를 호출하는 것은 번거로운 일입니다. 대신에, 글로벌 "발송자" 주소를 `config/mail.php` 설정 파일에서 지정할 수 있습니다. mailable 클래스 안에서 다른 "from" 주소를 지정하지 않는다면 이 글로벌 주소가 사용될 것입니다:
 
     'from' => ['address' => 'example@example.com', 'name' => 'App Name'],
 
@@ -436,7 +436,7 @@ Of course, you are not limited to just specifying the "to" recipients when sendi
 
 Since sending email messages can drastically lengthen the response time of your application, many developers choose to queue email messages for background sending. Laravel makes this easy using its built-in [unified queue API](/docs/{{version}}/queues). To queue a mail message, use the `queue` method on the `Mail` facade after specifying the message's recipients:
 
-메일을 송신하는 것은 어플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 넣어 처리하도록 합니다. 라라벨에서는 내장되어 있는 [일관된 큐 API](/docs/{{version}}/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. 이메일 메세지를 대기 큐에 넣기 위해서는 메세지의 수신자를 지정한 다음에, `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
+메일을 송신하는 것은 애플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 넣어 처리하도록 합니다. 라라벨에서는 내장되어 있는 [일관된 큐 API](/docs/{{version}}/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. 이메일 메세지를 대기 큐에 넣기 위해서는 메세지의 수신자를 지정한 다음에, `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -497,21 +497,21 @@ mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래�
 
 When developing an application that sends email, you probably don't want to actually send emails to live email addresses. Laravel provides several ways to "disable" the actual sending of emails during local development.
 
-이메일을 송신하는 어플리케이션을 개발 중이라면 실제로 이메일이 보내지기를 원하지는 않으실겁니다. 라라벨은 로컬 개발환경에서 이메일을 보내는 것은 "비활성화" 시킬 수 있는 몇가지 방법을 제공합니다.
+이메일을 송신하는 애플리케이션을 개발 중이라면 실제로 이메일이 보내지기를 원하지는 않으실겁니다. 라라벨은 로컬 개발환경에서 이메일을 보내는 것은 "비활성화" 시킬 수 있는 몇가지 방법을 제공합니다.
 
 #### Log Driver
 #### 로그 드라이버
 
 Instead of sending your emails, the `log` mail driver will write all email messages to your log files for inspection. For more information on configuring your application per environment, check out the [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
 
-이메일을 발송하는 대신, `log` 메일 드라이버는 모든 이메일 메세지를 확인하기 위해서 로그파일에 기록합니다. 보다 구동 환경별 어플리케이션을 설정하는 보다 자세한 정보는 [설정 매뉴얼](/docs/{{version}}/configuration#environment-configuration)을 확인하십시오.
+이메일을 발송하는 대신, `log` 메일 드라이버는 모든 이메일 메세지를 확인하기 위해서 로그파일에 기록합니다. 보다 구동 환경별 애플리케이션을 설정하는 보다 자세한 정보는 [설정 매뉴얼](/docs/{{version}}/configuration#environment-configuration)을 확인하십시오.
 
 #### Universal To
 #### 모든 메일의 수신자 고정하기
 
 Another solution provided by Laravel is to set a universal recipient of all emails sent by the framework. This way, all the emails generated by your application will be sent to a specific address, instead of the address actually specified when sending the message. This can be done via the `to` option in your `config/mail.php` configuration file:
 
-두번째 해결책은 프레임워크에서 보내는 모든 이메일의 수신자를 고정 시켜버리는 방법입니다. 이렇게 하면 어플리케이션에서 보내는 이메일들이 각자의 수신자에게 보내지는 대신에, 모두 하나의 지정된 주소로만 보내 질 것입니다. 이렇게 하려면 `config/mail.php` 설정 파일에서 `to` 옵션을 지정하면 됩니다:
+두번째 해결책은 프레임워크에서 보내는 모든 이메일의 수신자를 고정 시켜버리는 방법입니다. 이렇게 하면 애플리케이션에서 보내는 이메일들이 각자의 수신자에게 보내지는 대신에, 모두 하나의 지정된 주소로만 보내 질 것입니다. 이렇게 하려면 `config/mail.php` 설정 파일에서 `to` 옵션을 지정하면 됩니다:
 
     'to' => [
         'address' => 'example@example.com',

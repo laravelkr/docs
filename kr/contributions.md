@@ -37,7 +37,7 @@ The Laravel source code is managed on Github, and there are repositories for eac
 - [Laravel Framework](https://github.com/laravel/framework)
 - [라라벨 프레임워크](https://github.com/laravel/framework)
 - [Laravel Application](https://github.com/laravel/laravel)
-- [라라벨 어플리케이션](https://github.com/laravel/laravel)
+- [라라벨 애플리케이션](https://github.com/laravel/laravel)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [라라벨 매뉴얼](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)

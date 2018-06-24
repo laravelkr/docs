@@ -40,7 +40,7 @@
 
 Laravel Elixir provides a clean, fluent API for defining basic [Gulp](http://gulpjs.com) tasks for your Laravel application. Elixir supports common CSS and JavaScript pre-processors like [Sass](http://sass-lang.com) and [Webpack](https://webpack.github.io/). Using method chaining, Elixir allows you to fluently define your asset pipeline. For example:
 
-라라벨 Elixir(엘릭서)는 여러분의 라라벨 어플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 [Sass](http://sass-lang.com) 와  [Webpack](https://webpack.github.io/)과 같은 공통적인 CSS와 JavaScript 전처리 작업을 지원합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
+라라벨 Elixir(엘릭서)는 여러분의 라라벨 애플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 [Sass](http://sass-lang.com) 와  [Webpack](https://webpack.github.io/)과 같은 공통적인 CSS와 JavaScript 전처리 작업을 지원합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
 
 ```javascript
 elixir(function(mix) {
@@ -51,7 +51,7 @@ elixir(function(mix) {
 
 If you've ever been confused and overwhelmed about getting started with Gulp and asset compilation, you will love Laravel Elixir. However, you are not required to use it while developing your application. You are free to use any asset pipeline tool you wish, or even none at all.
 
-만약 여러분이 Gulp 과 asset 컴파일에 대해서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Elixir 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 이것이 꼭 필요한 것은 아닙니다. 어떠한 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Gulp 과 asset 컴파일에 대해서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Elixir 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 이것이 꼭 필요한 것은 아닙니다. 어떠한 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## Installation & Setup
@@ -275,7 +275,7 @@ In Elixir, source maps are enabled by default and provide better debugging infor
 
 If you do not want source maps generated for your application, you may disable them using the `sourcemaps` configuration option:
 
-만약 어플리케이션에서 소스맵이 생성되지 않길 원한다면, `sourcemaps` 설정옵션을 사용하여 비활성화 시킬 수 있습니다:
+만약 애플리케이션에서 소스맵이 생성되지 않길 원한다면, `sourcemaps` 설정옵션을 사용하여 비활성화 시킬 수 있습니다:
 
 ```javascript
 elixir.config.sourcemaps = false;
@@ -313,7 +313,7 @@ elixir(function(mix) {
 
 To choose a different output or base directory, simply specify your desired paths with a leading `.`. Then you may specify the paths relative to the root of your application. For example, to compile `app/assets/js/app.js` to `public/dist/app.js`:
 
-다른 출력이나 베이스 디렉토리를 선택하려면, 원하는 경로를 `.` 로부터 지정하면 됩니다. 이렇게 하면 어플리케이션의 루트로 부터 연관된 경로를 지정할 수 있습니다. 예를 들어, `app/assets/js/app.js` 를 `public/dist/app.js`으로 컴파일 하려면:
+다른 출력이나 베이스 디렉토리를 선택하려면, 원하는 경로를 `.` 로부터 지정하면 됩니다. 이렇게 하면 애플리케이션의 루트로 부터 연관된 경로를 지정할 수 있습니다. 예를 들어, `app/assets/js/app.js` 를 `public/dist/app.js`으로 컴파일 하려면:
 
 ```javascript
 elixir(function(mix) {
@@ -462,7 +462,7 @@ Once the files have been versioned, you may use the `elixir` helper function to 
 
 BrowserSync automatically refreshes your web browser after you make changes to your assets. The `browserSync` method accepts a JavaScript object with a `proxy` attribute containing the local URL for your application. Then, once you run `gulp watch` you may access your web application using port 3000 (`http://project.dev:3000`) to enjoy browser syncing:
 
-BrowserSync 는 여러분의 asset에 변경이 발생했을 때, 자동으로 웹 브라우저를 다시 로드 합니다. `browserSync` 메소드는 자바스크립트 객체와 어플리케이션을 위한 로컬 URL을 포함하는 `proxy` 를 전달 받습니다. 그런뒤에, `gulp watch` 를 실행하면, 여러분은 포트 3000을 사용하여 (`http://project.dev:3000`) 웹 어플리케이션에서 엑세스 할 수 있고 브라우저 싱크를 확인할 수 있습니다:
+BrowserSync 는 여러분의 asset에 변경이 발생했을 때, 자동으로 웹 브라우저를 다시 로드 합니다. `browserSync` 메소드는 자바스크립트 객체와 애플리케이션을 위한 로컬 URL을 포함하는 `proxy` 를 전달 받습니다. 그런뒤에, `gulp watch` 를 실행하면, 여러분은 포트 3000을 사용하여 (`http://project.dev:3000`) 웹 애플리케이션에서 엑세스 할 수 있고 브라우저 싱크를 확인할 수 있습니다:
 
 ```javascript
 elixir(function(mix) {

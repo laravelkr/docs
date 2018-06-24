@@ -103,7 +103,7 @@ You may also type-hint the `Illuminate\Http\Request` class on a route Closure. T
 
 The `Illuminate\Http\Request` instance provides a variety of methods for examining the HTTP request for your application and extends the `Symfony\Component\HttpFoundation\Request` class. We will discuss a few of the most important methods below.
 
-`Illuminate\Http\Request` 인스턴스는 어플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공하며 `Symfony\Component\HttpFoundation\Request` 클래스를 상속 받고 있습니다. 몇가지 가장 중요한 메소드를 알아보겠습니다:
+`Illuminate\Http\Request` 인스턴스는 애플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공하며 `Symfony\Component\HttpFoundation\Request` 클래스를 상속 받고 있습니다. 몇가지 가장 중요한 메소드를 알아보겠습니다:
 
 #### Retrieving The Request Path
 #### Request 경로 조회하기
@@ -214,7 +214,7 @@ When working with forms that contain array inputs, use "dot" notation to access 
 
 You may also access user input using dynamic properties on the `Illuminate\Http\Request` instance. For example, if one of your application's forms contains a `name` field, you may access the value of the field like so:
 
-`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에 엑세스할 수도 있습니다. 예를 들어 어플리케이션의 form 중에 하나가 `name` 필드를 가지고 있다면, 다음과 같이 필드의 값에 엑세스 할 수 있습니다:
+`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에 엑세스할 수도 있습니다. 예를 들어 애플리케이션의 form 중에 하나가 `name` 필드를 가지고 있다면, 다음과 같이 필드의 값에 엑세스 할 수 있습니다:
 
     $name = $request->name;
 
@@ -227,7 +227,7 @@ When using dynamic properties, Laravel will first look for the parameter's value
 
 When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to dig into JSON arrays:
 
-어플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열에 접근할 수도 있습니다.
+애플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열에 접근할 수도 있습니다.
 
     $name = $request->input('user.name');
 

@@ -28,7 +28,7 @@
 
 Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `seeInDatabase` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
 
-라라벨은 데이터베이스를 기반으로 하는 어플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `seeInDatabase` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
+라라벨은 데이터베이스를 기반으로 하는 애플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `seeInDatabase` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
 
     public function testDatabase()
     {
@@ -113,7 +113,7 @@ Another approach to resetting the database state is to wrap each test case in a 
 
 > {note} By default, this trait will only wrap the default database connection in a transaction. If your application is using multiple database connections, you should define a `$connectionsToTransact` property on your test class. This property should be an array of connection names to execute the transactions on.
 
-> {note} 기본적으로, 이 트레이트-trait은 트랜잭션의 기본 데이터베이스 커넥션만을 랩핑(wrap) 하게 됩니다. 만약 어플리케이션에서 여러개의 데이터베이스 커넥션을 사용중이라면, 테스트 클래스에 `$connectionsToTransact` 속성을 정의해야 합니다. 수동으로 이 커넥션들을 위한 트랙잭션 처리를 할 필요가 있을 것입니다. 이 속성은 트랜젝션이 실행될 커넥션 이름의 배열이어야 합니다.
+> {note} 기본적으로, 이 트레이트-trait은 트랜잭션의 기본 데이터베이스 커넥션만을 랩핑(wrap) 하게 됩니다. 만약 애플리케이션에서 여러개의 데이터베이스 커넥션을 사용중이라면, 테스트 클래스에 `$connectionsToTransact` 속성을 정의해야 합니다. 수동으로 이 커넥션들을 위한 트랙잭션 처리를 할 필요가 있을 것입니다. 이 속성은 트랜젝션이 실행될 커넥션 이름의 배열이어야 합니다.
 
 <a name="writing-factories"></a>
 ## Writing Factories
@@ -121,7 +121,7 @@ Another approach to resetting the database state is to wrap each test case in a 
 
 When testing, you may need to insert a few records into your database before executing your test. Instead of manually specifying the value of each column when you create this test data, Laravel allows you to define a default set of attributes for each of your [Eloquent models](/docs/{{version}}/eloquent) using model factories. To get started, take a look at the `database/factories/ModelFactory.php` file in your application. Out of the box, this file contains one factory definition:
 
-테스트를 할 때, 실행하기 전 데이터베이스에 몇몇 레코드를 입력하는 것이 필요할 수 있습니다. 이 테스트 데이터를 생성할 때 수동으로 각각의 컬럼의 값을 지정하는 대신에 라라벨은 모델 팩토리를 사용하여 각각의 [Eloquent 모델](/docs/{{version}}/eloquent)을 위한 기본 속성의 세트를 정의하도록 해줍니다. 먼저 어플리케이션의 `database/factories/ModelFactory.php` 파일을 살펴보겠습니다. 이 파일은 바로 사용이 가능한 하나의 팩토리 정의를 가지고 있습니다.
+테스트를 할 때, 실행하기 전 데이터베이스에 몇몇 레코드를 입력하는 것이 필요할 수 있습니다. 이 테스트 데이터를 생성할 때 수동으로 각각의 컬럼의 값을 지정하는 대신에 라라벨은 모델 팩토리를 사용하여 각각의 [Eloquent 모델](/docs/{{version}}/eloquent)을 위한 기본 속성의 세트를 정의하도록 해줍니다. 먼저 애플리케이션의 `database/factories/ModelFactory.php` 파일을 살펴보겠습니다. 이 파일은 바로 사용이 가능한 하나의 팩토리 정의를 가지고 있습니다.
 
     $factory->define(App\User::class, function (Faker\Generator $faker) {
         static $password;

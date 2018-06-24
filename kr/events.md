@@ -32,11 +32,11 @@
 
 Laravel's events provides a simple observer implementation, allowing you to subscribe and listen for various events that occur in your application. Event classes are typically stored in the `app/Events` directory, while their listeners are stored in `app/Listeners`. Don't worry if you don't see these directories in your application, since they will be created for you as you generate events and listeners using Artisan console commands.
 
-라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 어플리케이션에서 발행하는 다양한 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 여러분의 어플리케이션에 해당 디렉토리가 보이지 않더라도 걱정하지 마십시오. 아티즌 콘솔 명령어를 통해서 이벤트와 리스너를 생성하면 해당 디렉토리가 새롭게 생겨날 것입니다.
+라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 애플리케이션에서 발행하는 다양한 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 여러분의 애플리케이션에 해당 디렉토리가 보이지 않더라도 걱정하지 마십시오. 아티즌 콘솔 명령어를 통해서 이벤트와 리스너를 생성하면 해당 디렉토리가 새롭게 생겨날 것입니다.
 
 Events serve as a great way to decouple various aspects of your application, since a single event can have multiple listeners that do not depend on each other. For example, you may wish to send a Slack notification to your user each time an order has shipped. Instead of coupling your order processing code to your Slack notification code, you can simply raise an `OrderShipped` event, which a listener can receive and transform into a Slack notification.
 
-하나의 이벤트는 서로 의존하지 않는 여러개의 리스너를 가질 수 있으므로, 이를 통해서 어플리케이션의 다양한 레이어들이 서로 의존하지 않도록 만드는 멋진 방법을 제공할 수 있습니다. 예를 들어 주문에 대한 배송이 처리될 때마다 사용자에게 Slack으로 알림을 보내려고 할 수 있습니다. 슬랙에 알림을 보내는 코드를 주문 처리 부분에 결합하는 대신에, 간단하게 `OrderShipped` 이벤트를 발생시키고 리스너가 이를 받아 슬랙 알림으로 변환하도록 할 수 있습니다. 
+하나의 이벤트는 서로 의존하지 않는 여러개의 리스너를 가질 수 있으므로, 이를 통해서 애플리케이션의 다양한 레이어들이 서로 의존하지 않도록 만드는 멋진 방법을 제공할 수 있습니다. 예를 들어 주문에 대한 배송이 처리될 때마다 사용자에게 Slack으로 알림을 보내려고 할 수 있습니다. 슬랙에 알림을 보내는 코드를 주문 처리 부분에 결합하는 대신에, 간단하게 `OrderShipped` 이벤트를 발생시키고 리스너가 이를 받아 슬랙 알림으로 변환하도록 할 수 있습니다. 
 
 <a name="registering-events-and-listeners"></a>
 ## Registering Events & Listeners
@@ -44,7 +44,7 @@ Events serve as a great way to decouple various aspects of your application, sin
 
 The `EventServiceProvider` included with your Laravel application provides a convenient place to register all of your application's event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). Of course, you may add as many events to this array as your application requires. For example, let's add a `OrderShipped` event:
 
-라라벨 어플리케이션에 포함된 `EventServiceProvider`는 어플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 당연하게도, 어플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다:
+라라벨 애플리케이션에 포함된 `EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 당연하게도, 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다:
 
     /**
      * The event listener mappings for the application.
@@ -248,7 +248,7 @@ If you need to manually access the listener's underlying queue job's `delete` an
 
 To fire an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
 
-이벤트를 발생시키지 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 어플리케이션의 어느곳에서나 호출할 수 있습니다:
+이벤트를 발생시키지 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 애플리케이션의 어느곳에서나 호출할 수 있습니다:
 
     <?php
 

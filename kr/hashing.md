@@ -14,7 +14,7 @@
 
 The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt and Argon2 hashing for storing user passwords. If you are using the built-in `LoginController` and `RegisterController` classes that are included with your Laravel application, they will use Bcrypt for registration and authentication by default.
 
-라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt와 Argon2 해싱을 제공합니다. 만약 라라벨 어플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
+라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt와 Argon2 해싱을 제공합니다. 만약 라라벨 애플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
 
 > {tip} Bcrypt is a great choice for hashing passwords because its "work factor" is adjustable, which means that the time it takes to generate a hash can be increased as hardware power increases.
 
@@ -25,7 +25,7 @@ The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt an
 
 The default hashing driver for your application is configured in the `config/hashing.php` configuration file. There are currently two supported drivers: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) and [Argon2](https://en.wikipedia.org/wiki/Argon2).
 
-여러분의 어플리케이션을 위한 기본 해싱 드라이버는 `config/hashing.php` 구성 파일 안에 설정되어 있습니다. 현재 지원되는 두개의 드라이버: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2).
+여러분의 애플리케이션을 위한 기본 해싱 드라이버는 `config/hashing.php` 구성 파일 안에 설정되어 있습니다. 현재 지원되는 두개의 드라이버: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2).
 
 > {note} The Argon2 driver requires PHP 7.2.0 or greater.
 
@@ -69,7 +69,7 @@ You may hash a password by calling the `make` method on the `Hash` facade:
 
 If you are using the Bcrypt algorithm, the `make` method allows you to manage the work factor of the algorithm using the `rounds` option; however, the default is acceptable for most applications:
 
-만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 어플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
 
     $hashed = Hash::make('password', [
         'rounds' => 12
@@ -80,7 +80,7 @@ If you are using the Bcrypt algorithm, the `make` method allows you to manage th
 
 If you are using the Argon2 algorithm, the `make` method allows you to manage the work factor of the algorithm using the `memory`, `time`, and `threads` options; however, the defaults are acceptable for most applications:
 
-만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 어플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
 
     $hashed = Hash::make('password', [
         'memory' => 1024,

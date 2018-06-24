@@ -18,7 +18,7 @@ Laravel's versioning scheme maintains the following convention: `paradigm.major.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.5.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-어플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.5.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.5.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
 Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
 
@@ -95,11 +95,11 @@ In addition, it is now easier to customize existing log channels using the loggi
 
 > {note} To utilize this feature, your application must be using the `memcached` or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> {note} 이 기능을 사용하기 위해서는, 어플리케이션이 `memcached` 또는 `redis` 캐시 서버를 기본 캐시 서버로 사용하고 있어야 합니다. 또한, 모든 서버는 동일한 중앙 캐시 서버와 통신하고 있어야 합니다.
+> {note} 이 기능을 사용하기 위해서는, 애플리케이션이 `memcached` 또는 `redis` 캐시 서버를 기본 캐시 서버로 사용하고 있어야 합니다. 또한, 모든 서버는 동일한 중앙 캐시 서버와 통신하고 있어야 합니다.
 
 If your application is running on multiple servers, you may now limit a scheduled job to only execute on a single server. For instance, assume you have a scheduled task that generates a new report every Friday night. If the task scheduler is running on three worker servers, the scheduled task will run on all three servers and generate the report three times. Not good!
 
-어플리케이션이 여러개의 서버에서 동작중이라면, 특정 job을 하나의 단일 서버에서만 실행할 필요가 있을 수 있습니다. 예를 들어 매주 금요일 저녁 새로운 보고서를 생성하는 작업스케줄을 가지고 있다고 가정해 보겠습니다. 만약 세개의 서버가 있고, 스케줄 작업이 서버 모두에서 동작한다면, job은 세번 실행되고, 보고서는 세번 생성되버립니다. 이런건 좋지 않죠!
+애플리케이션이 여러개의 서버에서 동작중이라면, 특정 job을 하나의 단일 서버에서만 실행할 필요가 있을 수 있습니다. 예를 들어 매주 금요일 저녁 새로운 보고서를 생성하는 작업스케줄을 가지고 있다고 가정해 보겠습니다. 만약 세개의 서버가 있고, 스케줄 작업이 서버 모두에서 동작한다면, job은 세번 실행되고, 보고서는 세번 생성되버립니다. 이런건 좋지 않죠!
 
 To indicate that the task should run on only one server, you may use the `onOneServer` method when defining the scheduled task. The first server to obtain the task will secure an atomic lock on the job to prevent other servers from running the same task on the same Cron cycle:
 
@@ -138,7 +138,7 @@ In Laravel 5.6, you may specify a dynamic request maximum based on an attribute 
 
 If your application is consuming many different channels, your `routes/channels.php` file could become bulky. So, instead of using Closures to authorize channels, you may now use channel classes. To generate a channel class, use the `make:channel` Artisan command. This command will place a new channel class in the `App/Broadcasting` directory.
 
-어플리케이션에서 여러개의 다른 채널을 사용하고 있다면, `routes/channels.php` 파일이 매우 커져버릴 수 있습니다. 이때, 채널의 권한을 확인하기 위해서 클로저를 사용하는 대신, 채널 클래스를 사용할 수 있습니다. 채널 클래스를 생성하려면 `make:channel` 아티즌 명령어를 사용하면 됩니다. 이 명령어는 `App/Broadcasting` 디렉토리에 새로운 채널 클래스를 생성합니다.
+애플리케이션에서 여러개의 다른 채널을 사용하고 있다면, `routes/channels.php` 파일이 매우 커져버릴 수 있습니다. 이때, 채널의 권한을 확인하기 위해서 클로저를 사용하는 대신, 채널 클래스를 사용할 수 있습니다. 채널 클래스를 생성하려면 `make:channel` 아티즌 명령어를 사용하면 됩니다. 이 명령어는 `App/Broadcasting` 디렉토리에 새로운 채널 클래스를 생성합니다.
 
     php artisan make:channel OrderChannel
 
@@ -244,7 +244,7 @@ You may omit the component parameters if it has no additional slots:
 
 If you are building an application on PHP 7.2.0 or greater, Laravel now supports password hashing via the Argon2 algorithm. The default hash driver for your application is controlled by a new `config/hashing.php` configuration file.
 
-어플리케이션을 PHP 7.2.0 이상 환경에서 구성중이라면, 라라벨은 이제 Argon2 알고리즘을 사용한 패스워드 해싱을 지원합니다. 기존 해시 드라이버는 새로운 `config/hashing.php` 설정 파일에서 제어할 수 있습니다.
+애플리케이션을 PHP 7.2.0 이상 환경에서 구성중이라면, 라라벨은 이제 Argon2 알고리즘을 사용한 패스워드 해싱을 지원합니다. 기존 해시 드라이버는 새로운 `config/hashing.php` 설정 파일에서 제어할 수 있습니다.
 
 ### UUID Methods
 ### UUID Methods
@@ -264,7 +264,7 @@ Laravel 5.6 introduces two new methods for generating UUIDs: `Str::uuid` and `St
 
 The default `laravel/laravel` application now contains a `dev` Composer dependency for the [Collision](https://github.com/nunomaduro/collision) package maintained by Nuno Maduro. This packages provides beautiful error reporting when interacting with your Laravel application on the command line:
 
-`laravel/laravel` 어플리케이션에서는 이제 `dev` 컴포저 의존성으로 Nuno Maduro가 관리하는 [Collision](https://github.com/nunomaduro/collision) 패키지가 추가되었습니다. 이 패키지는 커맨드라인에서 라라벨 어플리케이션을 작동할 때 유용한 에러 리포팅 기능을 제공합니다:
+`laravel/laravel` 애플리케이션에서는 이제 `dev` 컴포저 의존성으로 Nuno Maduro가 관리하는 [Collision](https://github.com/nunomaduro/collision) 패키지가 추가되었습니다. 이 패키지는 커맨드라인에서 라라벨 애플리케이션을 작동할 때 유용한 에러 리포팅 기능을 제공합니다:
 
 <img src="https://raw.githubusercontent.com/nunomaduro/collision/stable/docs/example.png" width="600" height="388">
 

@@ -62,7 +62,7 @@
 
 In many modern web applications, WebSockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a WebSocket connection to be handled by the client. This provides a more robust, efficient alternative to continually polling your application for changes.
 
-많은 현대적인 웹 어플리케이션들은 웹 소캣을 이용하여 실시간 어플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 웹 소캣 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 웹 소켓은 당신의 애플리케이션의 변화를 지속적으로 폴링하는 더 강력하고 효과적인 대안을 제공합니다.
+많은 현대적인 웹 애플리케이션들은 웹 소캣을 이용하여 실시간 애플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 웹 소캣 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 웹 소켓은 당신의 애플리케이션의 변화를 지속적으로 폴링하는 더 강력하고 효과적인 대안을 제공합니다.
 
 To assist you in building these types of applications, Laravel makes it easy to "broadcast" your [events](/docs/{{version}}/events) over a WebSocket connection. Broadcasting your Laravel events allows you to share the same event names between your server-side code and your client-side JavaScript application.
 
@@ -92,7 +92,7 @@ Before broadcasting any events, you will first need to register the `App\Provide
 
 [Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. You should verify that your application's `head` HTML element defines a `meta` tag containing the CSRF token:
 
-현재 세션의 CSRF 토큰에 접근하기 위해서는 [라라벨 Echo](#installing-laravel-echo)가 필요합니다. 여러분은 어플리케이션의 `head` HTML 요소의 `meta` 테그가 CSRF 토큰을 포함하고 있는지 확인해야 합니다:
+현재 세션의 CSRF 토큰에 접근하기 위해서는 [라라벨 Echo](#installing-laravel-echo)가 필요합니다. 여러분은 애플리케이션의 `head` HTML 요소의 `meta` 테그가 CSRF 토큰을 포함하고 있는지 확인해야 합니다:
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -354,7 +354,7 @@ By default, Laravel will broadcast the event using the event's class name. Howev
 
 If you customize the broadcast name using the `broadcastAs` method, you should make sure to register your listener with a leading `.` character. This will instruct Echo to not prepend the application's namespace to the event:
 
-`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 어플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다.
+`broadcastAs` 메소드를 사용하여 브로드캐스트 이름을 커스터마이징 했다면, `.` 문자를 시작으로 하는 리스너를 등록해야합니다. 이를 통해서 Echo가 애플리케이션의 네임스페이스를 이벤트 앞에 추가하지 않도록 합니다.
 
     .listen('.server.created', function (e) {
         ....
@@ -466,7 +466,7 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 
 Next, we need to define the logic that will actually perform the channel authorization. This is done in the `routes/channels.php` file that is included with your application. In this file, you may use the `Broadcast::channel` method to register channel authorization callbacks:
 
-이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 어플리케이션의 `routes/channels.php` 파일에서 이를 정의할 수 있습니다. 이 파일에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다:
+이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 애플리케이션의 `routes/channels.php` 파일에서 이를 정의할 수 있습니다. 이 파일에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다:
 
     Broadcast::channel('order.{orderId}', function ($user, $orderId) {
         return $user->id === Order::findOrNew($orderId)->user_id;
@@ -499,7 +499,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
 If your application is consuming many different channels, your `routes/channels.php` file could become bulky. So, instead of using Closures to authorize channels, you may use channel classes. To generate a channel class, use the `make:channel` Artisan command. This command will place a new channel class in the `App/Broadcasting` directory.
 
-만약 여러분의 어플리케이션에서 다양한 채널들을 사용하고 있다면, `routes/channels.php` 파일의 규모가 커질 수 있습니다. 이런 경우, 채널 인증을 클로저 대신 채널 클래스로 사용 하실 수 있습니다. 채널 클래스를 생성하려면 Artisan `make:channel` 커맨드를 이용하시기 바랍니다. 해당 커맨드는 `App / Broadcasting` 디렉토리에 새로운 채널 클래스를 생성합니다.
+만약 여러분의 애플리케이션에서 다양한 채널들을 사용하고 있다면, `routes/channels.php` 파일의 규모가 커질 수 있습니다. 이런 경우, 채널 인증을 클로저 대신 채널 클래스로 사용 하실 수 있습니다. 채널 클래스를 생성하려면 Artisan `make:channel` 커맨드를 이용하시기 바랍니다. 해당 커맨드는 `App / Broadcasting` 디렉토리에 새로운 채널 클래스를 생성합니다.
 
     php artisan make:channel OrderChannel
 
@@ -791,7 +791,7 @@ You may listen for the join event via Echo's `listen` method:
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen. To broadcast client events, you may use Echo's `whisper` method:
 
-때로는 라라벨 어플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:
+때로는 라라벨 애플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:
 
     Echo.private('chat')
         .whisper('typing', {

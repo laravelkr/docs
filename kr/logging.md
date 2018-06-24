@@ -26,7 +26,7 @@
 
 To help you learn more about what's happening within your application, Laravel provides robust logging services that allow you to log messages to files, the system error log, and even to Slack to notify your entire team.
 
-어플리케이션에서 어떤일이 일어나고 있는지 알기 위해서, 라라벨은 편리한 로깅 서비스를 제공합니다. 이 로깅 서비스는 로그 메세지를 파일에 남기거나, 시스템 에러에 출력하거나 또는 팀 슬랙에 알림을 보낼 수 있도록 해줍니다.
+애플리케이션에서 어떤일이 일어나고 있는지 알기 위해서, 라라벨은 편리한 로깅 서비스를 제공합니다. 이 로깅 서비스는 로그 메세지를 파일에 남기거나, 시스템 에러에 출력하거나 또는 팀 슬랙에 알림을 보낼 수 있도록 해줍니다.
 
 Under the hood, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel makes it a cinch to configure these handlers, allowing you to mix and match them to customize your application's log handling.
 
@@ -38,7 +38,7 @@ Under the hood, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolo
 
 All of the configuration for your application's logging system is housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. Of course, we'll review a few common options below.
 
-어플리케이션의 로깅 시스템 설정은 `config/logging.php` 파일에 지정되어 있습니다. 이 파일을 통해서 어플리케이션의 로그 채널을 설정하기 때문에, 사용가능한 채널과 옵션을 살펴보도록 하십시오. 물란 다음의 몇가지 일반적인 옵션을 살펴보도록 하겠습니다.
+애플리케이션의 로깅 시스템 설정은 `config/logging.php` 파일에 지정되어 있습니다. 이 파일을 통해서 애플리케이션의 로그 채널을 설정하기 때문에, 사용가능한 채널과 옵션을 살펴보도록 하십시오. 물란 다음의 몇가지 일반적인 옵션을 살펴보도록 하겠습니다.
 
 By default, Laravel will use the `stack` channel when logging messages. The `stack` channel is used to aggregate multiple log channels into a single channel. For more information on building stacks, check out the [documentation below](#building-log-stacks).
 
@@ -99,7 +99,7 @@ The `slack` channel requires a `url` configuration option. This URL should match
 
 As previously mentioned, the `stack` driver allows you to combine multiple channels into a single log channel. To illustrate how to use log stacks, let's take a look at an example configuration that you might see in a production application:
 
-앞서 말한바와 같이, `stack` 드라이버는 여러개의 채널을 하나의 로그 채널로 묶어 줍니다. 로그 스택을 사용하는 방법을 설명하기 위해 프로덕션 어플리케이션에서 확인할 수 있는 설정 예를 살펴 보겠습니다:
+앞서 말한바와 같이, `stack` 드라이버는 여러개의 채널을 하나의 로그 채널로 묶어 줍니다. 로그 스택을 사용하는 방법을 설명하기 위해 프로덕션 애플리케이션에서 확인할 수 있는 설정 예를 살펴 보겠습니다:
 
     'channels' => [
         'stack' => [
@@ -204,7 +204,7 @@ An array of contextual data may also be passed to the log methods. This contextu
 
 Sometimes you may wish to log a message to a channel other than your application's default channel. You may use the `channel` method on the `Log` facade to retrieve and log to any channel defined in your configuration file:
 
-때로는 어플리케이션의 기본 채널이 아닌, 다른 채널을 지정하여 로그를 남기길 원할 수도 있습니다. `Log` 파사드의 ``channel` 메소드를 사용하면, 설정 파일에 정의된 채널을 찾아서 로그를 작성합니다:
+때로는 애플리케이션의 기본 채널이 아닌, 다른 채널을 지정하여 로그를 남기길 원할 수도 있습니다. `Log` 파사드의 ``channel` 메소드를 사용하면, 설정 파일에 정의된 채널을 찾아서 로그를 작성합니다:
 
     Log::channel('slack')->info('Something happened!');
 

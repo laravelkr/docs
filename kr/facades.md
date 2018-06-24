@@ -22,7 +22,7 @@
 
 Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades which provide access to almost all of Laravel's features. Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
 
-파사드는 어플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용가능한 클래스들에 대한 "정적" 인터페이스를 제공합니다. 라라벨은 대부분의 라라벨의 기능에 엑세스하는 많은 파사드들을 제공합니다. 라라벨의 파사드 는 서비스 컨테이너에 등록된 클래스들에 대한 일종의 "정적 프록시" 역할을 수행하는데, 이를 통해서 전통적인 정적 메소드 보다 간결한 문법과 테스트의 용이성 그리고 코드의 유연성을 유지하는 이점을 제공합니다.
+파사드는 애플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용가능한 클래스들에 대한 "정적" 인터페이스를 제공합니다. 라라벨은 대부분의 라라벨의 기능에 엑세스하는 많은 파사드들을 제공합니다. 라라벨의 파사드 는 서비스 컨테이너에 등록된 클래스들에 대한 일종의 "정적 프록시" 역할을 수행하는데, 이를 통해서 전통적인 정적 메소드 보다 간결한 문법과 테스트의 용이성 그리고 코드의 유연성을 유지하는 이점을 제공합니다.
 
 All of Laravel's facades are defined in the `Illuminate\Support\Facades` namespace. So, we can easily access a facade like so:
 
@@ -140,7 +140,7 @@ Under the hood, the `cache` helper is going to call the `get` method on the clas
 
 In a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the `Facade` class. Laravel's facades, and any custom facades you create, will extend the base `Illuminate\Support\Facades\Facade` class.
 
-라라벨 어플리케이션에서, 파사드는 컨테이너의 객체에 엑세스하는 방법을 제공하는 클래스라고 할 수 있습니다. 이 작업을 수행하는 주요 매커니즘이 파사드 클래스안에 있습니다. 라라벨의 파사드들과 여러분이 작성한 파사드들은 기본 `Illuminate\Support\Facades\Facade` 클래스를 상속받습니다.
+라라벨 애플리케이션에서, 파사드는 컨테이너의 객체에 엑세스하는 방법을 제공하는 클래스라고 할 수 있습니다. 이 작업을 수행하는 주요 매커니즘이 파사드 클래스안에 있습니다. 라라벨의 파사드들과 여러분이 작성한 파사드들은 기본 `Illuminate\Support\Facades\Facade` 클래스를 상속받습니다.
 
 The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to an object resolved from the container. In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method `get` is being called on the `Cache` class:
 
@@ -197,7 +197,7 @@ Instead, the `Cache` facade extends the base `Facade` class and defines the meth
 
 Using real-time facades, you may treat any class in your application as if it were a facade. To illustrate how this can be used, let's examine an alternative. For example, let's assume our `Podcast` model has a `publish` method. However, in order to publish the podcast, we need to inject a `Publisher` instance:
 
-실시간 파사드를 사용하여 어플리케이션의 모든 클래스를 파사드처럼 취급 할 수 있습니다. 어떻게 이를 사용할 수 있는지 알기 위해서, 다음의 경우를 살펴보겠습니다. 예를 들어 `Podcast` 모델이 `publish` 메소드를 가지고 있다고 가정해보겠습니다. 이때, podcast를 publish 하기 위해서는 `Publisher` 인스턴스를 주입해야 합니다:
+실시간 파사드를 사용하여 애플리케이션의 모든 클래스를 파사드처럼 취급 할 수 있습니다. 어떻게 이를 사용할 수 있는지 알기 위해서, 다음의 경우를 살펴보겠습니다. 예를 들어 `Podcast` 모델이 `publish` 메소드를 가지고 있다고 가정해보겠습니다. 이때, podcast를 publish 하기 위해서는 `Publisher` 인스턴스를 주입해야 합니다:
 
     <?php
 

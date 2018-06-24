@@ -106,7 +106,7 @@ response 인스턴스의 `cookie` 헬퍼 메소드는 response 에 쿠키를 손
 
 #### 쿠키 & 암호화
 
-기본적으로, 라라벨에서 생성되는 모든 쿠키는 암호화 되고, 서명이 적용되어 클리이언트에서는 수정하거나 확인할 수 없습니다. 만약 어플리케이션에서 생성하는 특정 쿠키를 암호화 처리 하지 않도록 하고자 한다면, `App\Http\Middleware\EncryptCookies` 미들웨어의 `$except` 속성을 사용하면 됩니다.
+기본적으로, 라라벨에서 생성되는 모든 쿠키는 암호화 되고, 서명이 적용되어 클리이언트에서는 수정하거나 확인할 수 없습니다. 만약 애플리케이션에서 생성하는 특정 쿠키를 암호화 처리 하지 않도록 하고자 한다면, `App\Http\Middleware\EncryptCookies` 미들웨어의 `$except` 속성을 사용하면 됩니다.
 
     /**
      * The names of the cookies that should not be encrypted.

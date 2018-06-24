@@ -23,7 +23,7 @@
 <a name="basic-routing"></a>
 ## 기본적인 라우팅
 
-기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 어플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
+기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 애플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -262,9 +262,9 @@
 
 라라벨은 크로스 사이트 요청 위조 [cross-site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) 공격으로 부터 응용 프로그램을 쉽게 지킬 수 있도록 합니다. 크로스 사이트 요청 위조는 악의적인 공격의 하나이며 인증받은 사용자를 대신하여 허가 받지 않은 명령을 수행합니다. 
 
-라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
+라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
 
-어플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다: 
+애플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다: 
 
     // Vanilla PHP
     <?php echo csrf_field(); ?>
@@ -310,7 +310,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 어플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
+`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 애플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
 
     $.ajaxSetup({
             headers: {

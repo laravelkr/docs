@@ -8,7 +8,7 @@
 <a name="configuration"></a>
 ## 설정
 
-어플리케이션의 로그 기능은 `Illuminate\Foundation\Bootstrap\ConfigureLogging` 부트스트랩 클래스에서 설정됩니다. 이 클래스는 `config/app.php` 설정 파일의 `log` 옵션을 참조합니다. 
+애플리케이션의 로그 기능은 `Illuminate\Foundation\Bootstrap\ConfigureLogging` 부트스트랩 클래스에서 설정됩니다. 이 클래스는 `config/app.php` 설정 파일의 `log` 옵션을 참조합니다. 
 
 기본적으로 로거는 일단위 로그 파일을 기록하도록 설정되어 있습니다만 필요한경우 이 주기를 변경할 수 있습니다. 라라벨은 인기있는 [Monolog](https://github.com/Seldaek/monolog) 로깅 라이브러리를 사용하고 있으므로, Monolog가 제공하는 다양한 핸들러를 이용할 수 있습니다. 
 
@@ -20,7 +20,7 @@
 
 ### 오류의 상세정보
 
-`config/app.php` 설정 파일의 `app.debug` 설정 옵션을 통해서 브라우저에 출력되는 어플리케이션의 오류 정보를 제어 할 수 있습니다. 기본적으로 이 옵션은 `.env` 파일에 설정되어있는 `APP_DEBUG` 환경 변수를 반영하도록 설정되어 있습니다.
+`config/app.php` 설정 파일의 `app.debug` 설정 옵션을 통해서 브라우저에 출력되는 애플리케이션의 오류 정보를 제어 할 수 있습니다. 기본적으로 이 옵션은 `.env` 파일에 설정되어있는 `APP_DEBUG` 환경 변수를 반영하도록 설정되어 있습니다.
 
 로컬 개발환경을 구성중이라면 `APP_DEBUG` 환경 변수를 `true`로 구성해야 할것입니다. 
 **실제 제품 구동 환경이라면, 이 값은 항상 `false`가 되어야 할것입니다. **
@@ -73,7 +73,7 @@
 
 ### 404 에러의 사용자 정의 페이지
 
-모든 404에러들을 위한 사용자 정의 뷰를 반환하기 위해서는 `resources/views/errors/404.blade.php` 파일을 만들어야 합니다. 이 뷰파일은 어플리케이션에 의해 발생하는 모든 404 에러에 사용됩니다.
+모든 404에러들을 위한 사용자 정의 뷰를 반환하기 위해서는 `resources/views/errors/404.blade.php` 파일을 만들어야 합니다. 이 뷰파일은 애플리케이션에 의해 발생하는 모든 404 에러에 사용됩니다.
 
 <!--chak-comment-에러와-로깅(Errors---Logging)-HTTP-예외-exceptions-->
 

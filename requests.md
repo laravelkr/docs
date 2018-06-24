@@ -229,7 +229,7 @@ _영원히는 실제로는 5년을 의미합니다._
 <a name="other-request-information"></a>
 ## 기타 Request에 대한 정보
 
-`Request` 클래스는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속하고 있으며 어플리케이션을 위한 HTTP request을 확인하는 많은 메소드를 제공하고 있습니다. 다음은 몇몇 예시들입니다.
+`Request` 클래스는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속하고 있으며 애플리케이션을 위한 HTTP request을 확인하는 많은 메소드를 제공하고 있습니다. 다음은 몇몇 예시들입니다.
 
 #### Request URI 가져오기
 

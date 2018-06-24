@@ -25,12 +25,12 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨 Mix(믹스)는 여러분의 라라벨 어플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
+라라벨 Mix(믹스)는 여러분의 라라벨 애플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
 
-만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 어플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## 설치하기 & 설정하기
@@ -134,7 +134,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 <a name="postcss"></a>
 ### PostCSS
 
-[PostCSS](http://postcss.org/)는 추가적인 작업없이도 라라벨 Mix에 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 어플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
+[PostCSS](http://postcss.org/)는 추가적인 작업없이도 라라벨 Mix에 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
     mix.sass('resources/assets/sass/app.scss', 'public/css')
        .options({
             postCss: [
@@ -207,9 +207,9 @@ Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기�
 <a name="vendor-extraction"></a>
 ### Vendor 분할
 
-모든 어플리케이셔녈 자바스크립트를 벤더 라이브러리와 함께 번들링 하는 것은 캐시를 하는데 있어서 잠재적으로 불리한 점입니다. 예를 들어 어플리케이션 코드를 한번 업데이트 하면 브라우저는 벤더 라이브러리가 변경되지 않았더라도, 전부다 다시 다운로드 받아야 합니다.
+모든 어플리케이셔녈 자바스크립트를 벤더 라이브러리와 함께 번들링 하는 것은 캐시를 하는데 있어서 잠재적으로 불리한 점입니다. 예를 들어 애플리케이션 코드를 한번 업데이트 하면 브라우저는 벤더 라이브러리가 변경되지 않았더라도, 전부다 다시 다운로드 받아야 합니다.
 
-어플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 어플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다:
+애플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 애플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .extract(['vue'])
@@ -252,7 +252,7 @@ Mix는 React 지원이 필요한경우 자동으로 Babel 플러그인을 설치
 <a name="custom-webpack-configuration"></a>
 ### 커스텀 Webpack 설정
 
-어플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
+애플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
 
 #### Merging 커스텀 설정
 

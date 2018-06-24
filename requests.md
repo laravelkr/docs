@@ -81,7 +81,7 @@
 <a name="request-path-and-method"></a>
 ### Request 경로 & 메소드
 
-`Illuminate\Http\Request` 인스턴스는 어플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공하며 `Symfony\Component\HttpFoundation\Request` 클래스를 상속 받고 있습니다. 몇가지 가장 중요한 메소드를 알아보겠습니다:
+`Illuminate\Http\Request` 인스턴스는 애플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공하며 `Symfony\Component\HttpFoundation\Request` 클래스를 상속 받고 있습니다. 몇가지 가장 중요한 메소드를 알아보겠습니다:
 
 #### Request 경로 조회하기
 
@@ -136,7 +136,7 @@
 <a name="input-trimming-and-normalization"></a>
 ## 입력값 Trim 처리 & 일반화처리
 
-기본적으로 라라벨은 어플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이 미들웨어는 request-요청에 유입되는 모든 문자 필드들을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 따라서 라우트와 컨트롤러에서 이러한 일반화 문제를 걱정할 필요가 없습니다.
+기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이 미들웨어는 request-요청에 유입되는 모든 문자 필드들을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 따라서 라우트와 컨트롤러에서 이러한 일반화 문제를 걱정할 필요가 없습니다.
 
 이 동작을 비활성화 시키려면, `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하면 됩니다.
 
@@ -181,7 +181,7 @@
 
 #### 동적 속성을 통한 입력값 조회하기
 
-`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에 엑세스할 수도 있습니다. 예를 들어 어플리케이션의 form 중에 하나가 `name` 필드를 가지고 있다면, 다음과 같이 필드의 값에 엑세스 할 수 있습니다:
+`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에 엑세스할 수도 있습니다. 예를 들어 애플리케이션의 form 중에 하나가 `name` 필드를 가지고 있다면, 다음과 같이 필드의 값에 엑세스 할 수 있습니다:
 
     $name = $request->name;
 
@@ -189,7 +189,7 @@
 
 #### JSON 입력 값 조회하기
 
-어플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열에 접근할 수도 있습니다.
+애플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열에 접근할 수도 있습니다.
 
     $name = $request->input('user.name');
 
@@ -293,7 +293,7 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
         'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
     );
 
-또는, `Cookie` 파사드를 어플리케이션의 응답에 쿠키를 추가하기 위해서 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 응답이 브라우저로 보내지기 전에 추가됩니다:
+또는, `Cookie` 파사드를 애플리케이션의 응답에 쿠키를 추가하기 위해서 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 응답이 브라우저로 보내지기 전에 추가됩니다:
 
     Cookie::queue(Cookie::make('name', 'value', $minutes));
 
@@ -368,9 +368,9 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
 <a name="configuring-trusted-proxies"></a>
 ## 신뢰할 수 있는 프록시 설정하기
 
-TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 어플리케이션을 실행할 때 어플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있습니다. 일반적으로 이는 어플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치해서, HTTPS 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
+TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션을 실행할 때 애플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있습니다. 일반적으로 이는 애플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치해서, HTTPS 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
 
-이 문제를 해결하기 위해서, 라라벨 어플리케이션에는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 손쉽게 어플리케이션에서 신뢰할 수 있는 로드밸런서 또는 프록시를 설정할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 지정해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다:
+이 문제를 해결하기 위해서, 라라벨 애플리케이션에는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 손쉽게 애플리케이션에서 신뢰할 수 있는 로드밸런서 또는 프록시를 설정할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 지정해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다:
 
     <?php
 

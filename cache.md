@@ -20,7 +20,7 @@
 <a name="configuration"></a>
 ## 설정하기
 
-라라벨은 다양한 캐시 시스템을 위해서 풍부한 표현이 가능한 통합 API를 제공합니다. 캐시 설정은 `config/cache.php` 파일에 있습니다. 이 파일에 전체 어플리케이션에서 기본적으로 사용할 캐시 드라이버를 지정할 수 있습니다. 라라벨은 [Memcached](https://memcached.org) 나 [Redis](https://redis.io) 와 같은 인기 있는 백엔드 캐시 시스템을 지원합니다.
+라라벨은 다양한 캐시 시스템을 위해서 풍부한 표현이 가능한 통합 API를 제공합니다. 캐시 설정은 `config/cache.php` 파일에 있습니다. 이 파일에 전체 애플리케이션에서 기본적으로 사용할 캐시 드라이버를 지정할 수 있습니다. 라라벨은 [Memcached](https://memcached.org) 나 [Redis](https://redis.io) 와 같은 인기 있는 백엔드 캐시 시스템을 지원합니다.
 
 캐시 설정 파일은 다양한 여러 옵션을 제공하고 있습니다. 각각의 옵션에 설명이 있으니 참고하시기 바랍니다. 라라벨의 기본 캐시 드라이버는 시리얼라이즈된 데이타를 파일 시스템에 저장하는 `file` 캐시 드라이버로 설정되어 있습니다. 보다 큰 응용프로그램은 Memcached 나 Redis 와 같이 보다 견고한 캐시 드라이버를 사용하기를 권장합니다. 동일한 드라이버를 위한 다수의 캐시 설정을 구성할 수도 있습니다.
 
@@ -73,7 +73,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 <a name="obtaining-a-cache-instance"></a>
 ### 캐시 인스턴스 획득하기
 
-`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 어플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체입니다.
+`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 애플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체입니다.
 
 하지만 언제라도 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다:
 
@@ -198,7 +198,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     Cache::flush();
 
-> {note} 모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 어플리케이션의 다른 부분에서 공유하는 캐시를 제거할 때에 주의하십시오.
+> {note} 모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 애플리케이션의 다른 부분에서 공유하는 캐시를 제거할 때에 주의하십시오.
 
 <a name="the-cache-helper"></a>
 ### 캐시 헬퍼 함수
@@ -282,12 +282,12 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
         return Cache::repository(new MongoStore);
     });
 
-> {tip} 만약 여러분이 구성한 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 어플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
+> {tip} 만약 여러분이 구성한 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
 
 <a name="registering-the-driver"></a>
 ### 드라이버 등록하기
 
-사용자 정의 캐시 드라이버를 라라벨에 등록하기 위해서, `Cache` 파사드의 `extend` 메소드를 사용할 것입니다. `Cache::extend` 호출은 라라벨 어플리케이션 설치시 제공되는 `App\Providers\AppServiceProvider`의 `boot` 메소드를 사용하거나, extension 을 제공하는 고유한 서비스 프로바이더를 생성해서 쓸 수 있습니다. - 프로바이더를 `config/app.php` 파일 안에 있는 프로바이더 배열에 등록하는 것을 잊지 마십시오:
+사용자 정의 캐시 드라이버를 라라벨에 등록하기 위해서, `Cache` 파사드의 `extend` 메소드를 사용할 것입니다. `Cache::extend` 호출은 라라벨 애플리케이션 설치시 제공되는 `App\Providers\AppServiceProvider`의 `boot` 메소드를 사용하거나, extension 을 제공하는 고유한 서비스 프로바이더를 생성해서 쓸 수 있습니다. - 프로바이더를 `config/app.php` 파일 안에 있는 프로바이더 배열에 등록하는 것을 잊지 마십시오:
 
     <?php
 

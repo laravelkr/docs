@@ -48,7 +48,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
     return (string) $user;
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 애플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();
@@ -171,7 +171,7 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
 
 #### Carbon을 통한 전역 커스터마이징
 
-라라벨은 Carbon의 JSON 시리얼라이즈 포맷을 편리하게 정의할 수 있도록 [Carbon](https://github.com/briannesbitt/Carbon) 날짜 라이브러리를 확장하고 있습니다. 어플리케이션에서 시리얼라이즈 되는 모든 Carbon 날짜를 커스터마이징 하려면 `Carbon::serializeUsing` 메소드를 사용하면 됩니다. `Carbon::serializeUsing` 메소드는 JSON 시리얼라이즈되는 날짜의 문자형식을 반환하는 클로저를 인자로 받습니다:
+라라벨은 Carbon의 JSON 시리얼라이즈 포맷을 편리하게 정의할 수 있도록 [Carbon](https://github.com/briannesbitt/Carbon) 날짜 라이브러리를 확장하고 있습니다. 애플리케이션에서 시리얼라이즈 되는 모든 Carbon 날짜를 커스터마이징 하려면 `Carbon::serializeUsing` 메소드를 사용하면 됩니다. `Carbon::serializeUsing` 메소드는 JSON 시리얼라이즈되는 날짜의 문자형식을 반환하는 클로저를 인자로 받습니다:
 
     <?php
 

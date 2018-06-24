@@ -42,7 +42,7 @@
 
 Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
 
-아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. 아티즌은 어플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. 실행가능한 아티즌 명령어 목록을 확인하려면 `list` 명령어를 다음과 같이 입력하면 됩니다.
+아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. 아티즌은 애플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. 실행가능한 아티즌 명령어 목록을 확인하려면 `list` 명령어를 다음과 같이 입력하면 됩니다.
 
     php artisan list
 
@@ -57,7 +57,7 @@ Every command also includes a "help" screen which displays and describes the com
 
 All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
 
-모든 라라벨 어플리케이션에는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 REPL 인 Tinker가 포함됩니다. Tinker를 사용하면 Eloquent ORM, Job, 이벤트 등 커맨드라인을 통해서 라라벨 어플리케이션을 조작할 수 있습니다. Tinker 환경에 진입하려면 `tinker` 아티즌 명령어를 실행하십시오:
+모든 라라벨 애플리케이션에는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 REPL 인 Tinker가 포함됩니다. Tinker를 사용하면 Eloquent ORM, Job, 이벤트 등 커맨드라인을 통해서 라라벨 애플리케이션을 조작할 수 있습니다. Tinker 환경에 진입하려면 `tinker` 아티즌 명령어를 실행하십시오:
 
     php artisan tinker
 
@@ -67,7 +67,7 @@ All Laravel applications include Tinker, a REPL powered by the [PsySH](https://g
 
 In addition to the commands provided with Artisan, you may also build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
 
-아티즌에서 제공하는 명령어들에 더하여 추가적으로 어플리케이션에서 동작하는 여러분 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 여러분들이 컴포저를 이용하여 소유한 저장소를 자유롭게 선택하여 사용할 수 있습니다.
+아티즌에서 제공하는 명령어들에 더하여 추가적으로 애플리케이션에서 동작하는 여러분 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 여러분들이 컴포저를 이용하여 소유한 저장소를 자유롭게 선택하여 사용할 수 있습니다.
 
 <a name="generating-commands"></a>
 ### Generating Commands
@@ -93,7 +93,7 @@ After generating your command, you should fill in the `signature` and `descripti
 
 > {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example below, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
 
-> {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 어플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
+> {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
 
 Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor:
 

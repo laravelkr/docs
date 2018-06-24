@@ -24,7 +24,7 @@ Laravel's versioning scheme maintains the following convention: `paradigm.minor.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.4.*`, since minor releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new minor release in one day or less.
 
-어플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 마이너 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.4.*` 와 같이 참조하도록 해야 합니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 마이너 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.4.*` 와 같이 참조하도록 해야 합니다.
 
 Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
 
@@ -61,11 +61,11 @@ For LTS releases, such as Laravel 5.1, bug fixes are provided for 2 years and se
 
 Laravel 5.4.22 patches a security vulnerability in the Laravel 5.4 release series that allows phishing attempts on users of the application. Using the password reset system, malicious users can attempt to trick your users into entering their login credentials into a separate application that they control. Since the password reset notification uses the host of the incoming request to build the password reset URL, the host of the password reset URL may be spoofed. If users do not notice that they are not on their intended application's domain, they may accidentally enter their login credentials into a malicious application.
 
-라라벨 5.4.22는 어플리케이션의 이용자에게 피싱시도가 가능한 5.4 릴리스의 보안 취약점을 패치하였습니다. 악의적인 ​​사용자가 패스워드 재설정 시스템을 악용하여 로그인을 통해서 어플리케이션에 진입하는 사용자를 자신이 제어하는 ​​별도의 어플리케이션으로 이동하도록 할 수 있습니다. 패스워드 재설정 알림은 유입된 요청의 호스트를 사용하여 패스워드 재설정 URL을 작성하기 때문에 패스워드 재설정 URL의 호스트가 스푸핑 될 수 있습니다. 개발자가 의도한 어플리케이션의 도메인이 사용되지 있다는 것을 확인하지 않으면, 이용자가 로그인 과정에서 악의적인 어플리케이션으로 이동 할 수 있습니다.
+라라벨 5.4.22는 애플리케이션의 이용자에게 피싱시도가 가능한 5.4 릴리스의 보안 취약점을 패치하였습니다. 악의적인 ​​사용자가 패스워드 재설정 시스템을 악용하여 로그인을 통해서 애플리케이션에 진입하는 사용자를 자신이 제어하는 ​​별도의 애플리케이션으로 이동하도록 할 수 있습니다. 패스워드 재설정 알림은 유입된 요청의 호스트를 사용하여 패스워드 재설정 URL을 작성하기 때문에 패스워드 재설정 URL의 호스트가 스푸핑 될 수 있습니다. 개발자가 의도한 애플리케이션의 도메인이 사용되지 있다는 것을 확인하지 않으면, 이용자가 로그인 과정에서 악의적인 애플리케이션으로 이동 할 수 있습니다.
 
 In Laravel 5.1 applications, the password reset notification is maintained by the developer, so this vulnerability may or may not be present. You should verify that your application generates an absolute URL for password reset links:
 
-라라벨 5.1 어플리케이션에서 패스워드 재설정 알림은 개발자가 구성 하므로 이 취약점이 존재할 수도 있고, 없을 수도 있습니다. 어플리케이션이 패스워드 재설정 링크를 위한 절대경로의 URL을 생성하는지 확인해야합니다:
+라라벨 5.1 애플리케이션에서 패스워드 재설정 알림은 개발자가 구성 하므로 이 취약점이 존재할 수도 있고, 없을 수도 있습니다. 애플리케이션이 패스워드 재설정 링크를 위한 절대경로의 URL을 생성하는지 확인해야합니다:
 
     {{ url('http://example.com/password/reset/'.$token) }}
 
@@ -122,7 +122,7 @@ To read more about Markdown mail and notifications, check out the full [mail](/d
 
 > {tip} You may export all of the Markdown mail components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag.
 
-> {tip} 어플리케이션에서 사용하는 모든 마크다운 메일 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다.
+> {tip} 애플리케이션에서 사용하는 모든 마크다운 메일 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다.
 
 ### Laravel Dusk
 ### 라라벨 Dusk
@@ -137,7 +137,7 @@ Laravel Dusk provides an expressive, easy-to-use browser automation and testing 
 
 Since Dusk operates using a real browser, you are able to easily test and interact with your applications that heavily use JavaScript:
 
-Dusk는 실제 브라우저를 사용하기 때문에, 자바스크립트를 많이 사용하는 어플리케이션이더라도 어플리케이션을 손쉽게 테스트하고 조작할 수 있습니다:
+Dusk는 실제 브라우저를 사용하기 때문에, 자바스크립트를 많이 사용하는 애플리케이션이더라도 애플리케이션을 손쉽게 테스트하고 조작할 수 있습니다:
 
     /**
      * A basic browser test example.
@@ -176,7 +176,7 @@ Dusk에 대한 보다 자세한 사항은 [Dusk 문서](/docs/5.4/dusk)를 참�
 
 Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based on Webpack instead of Gulp. Laravel Mix provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
 
-라라벨 Mix는 차세대 라라벨 Elixir 입니다. 이는 전적으로 Gulp 대신에 Webpack을 기반으로 합니다. 라라벨 Mix는 공통의 CSS 및 자바스크립트 프리프로세싱을 사용하는 라라벨 어플리케이션을 위해서 Webpack 빌드를 정의하는 유연한 API를 제공합니다. 메소드 체이닝이 가능하기 때문에, asset 파이프라인을 보다 손쉽게 정의할 수 있습니다. 예를 들면:
+라라벨 Mix는 차세대 라라벨 Elixir 입니다. 이는 전적으로 Gulp 대신에 Webpack을 기반으로 합니다. 라라벨 Mix는 공통의 CSS 및 자바스크립트 프리프로세싱을 사용하는 라라벨 애플리케이션을 위해서 Webpack 빌드를 정의하는 유연한 API를 제공합니다. 메소드 체이닝이 가능하기 때문에, asset 파이프라인을 보다 손쉽게 정의할 수 있습니다. 예를 들면:
 
     mix.js('resources/assets/js/app.js', 'public/js')
        .sass('resources/assets/sass/app.scss', 'public/css');
@@ -190,7 +190,7 @@ Laravel Mix is the spiritual successor of Laravel Elixir, and its entirely based
 
 Blade components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
 
-블레이드 컴포넌트 & 슬롯은 섹션 & 레이아웃과 비슷한 장점을 제공하지만, 컴포넌트와 슬롯의 개념보다 이해하기가 더 쉽습니다. 먼저 어플리케이션에서 재사용할 수 있는 "경고-alert" 컴포넌트를 생각해 보겠습니다:
+블레이드 컴포넌트 & 슬롯은 섹션 & 레이아웃과 비슷한 장점을 제공하지만, 컴포넌트와 슬롯의 개념보다 이해하기가 더 쉽습니다. 먼저 애플리케이션에서 재사용할 수 있는 "경고-alert" 컴포넌트를 생각해 보겠습니다:
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -372,7 +372,7 @@ Laravel 5.4 includes two new middleware in the default middleware stack: `TrimSt
 
 These middleware will automatically trim request input values and convert any empty strings to `null`. This helps you normalize the input for every request entering into your application and not have to worry about continually calling the `trim` function in every route and controller.
 
-이 미들웨어는 request-요청의 모든 입력값을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 이를 통해서 어플리케이션에 유입되는 모든 request의 입력값의 일반화 처리에 대해서 걱정할 필요가 없으며, 매번 라우트와 컨트롤러에서 `trim` 함수를 호출하지 않아도 됩니다. 
+이 미들웨어는 request-요청의 모든 입력값을 자동으로 trim 처리하고, 빈 문자필드는 `null`로 변환합니다. 이를 통해서 애플리케이션에 유입되는 모든 request의 입력값의 일반화 처리에 대해서 걱정할 필요가 없으며, 매번 라우트와 컨트롤러에서 `trim` 함수를 호출하지 않아도 됩니다. 
 
 ### "Realtime" Facades
 ### "Realtime" 파사드
@@ -383,7 +383,7 @@ These middleware will automatically trim request input values and convert any em
 
 Previously, only Laravel's own built-in services exposed [facades](/docs/5.4/facades), which provide quick, terse access to their methods via the service container. However, in Laravel 5.4, you may easily convert any of your application's classes into a facade in realtime simply by prefixing the imported class name with `Facades`. For example, imagine your application contains a class like the following:
 
-이전까지는, 라라벨의 고유한 내장 서비스만 [파사드](/docs/5.4/facades)로 노출되어 서비스 컨테이너를 통해서 메소드에 보다 빠르게 엑세스 할 수 있었습니다. 라라벨 5.4에서는 어플리케이션의 클래스앞에 `Facades`를 붙여서 import 함으로써 여러분의 고유한 클래스를 손쉽게 파사드로 변환할 수 있습니다. 예를 들어, 어플리케이션에 다음과 같은 클래스가 있다고 가정해보겠습니다:
+이전까지는, 라라벨의 고유한 내장 서비스만 [파사드](/docs/5.4/facades)로 노출되어 서비스 컨테이너를 통해서 메소드에 보다 빠르게 엑세스 할 수 있었습니다. 라라벨 5.4에서는 애플리케이션의 클래스앞에 `Facades`를 붙여서 import 함으로써 여러분의 고유한 클래스를 손쉽게 파사드로 변환할 수 있습니다. 예를 들어, 애플리케이션에 다음과 같은 클래스가 있다고 가정해보겠습니다:
 
     <?php
 
@@ -463,7 +463,7 @@ In Laravel 5.3, all "pivot" table models for `belongsToMany` relationships used 
 
 Previously, it was not possible to define Redis connections to single hosts and to clusters in the same application. In Laravel 5.4, you may now define Redis connections to multiple single hosts and multiple clusters within the same application. For more information on Redis in Laravel, please consult the full [Redis documentation](/docs/5.4/redis).
 
-이전버전까지, 동일한 어플리케이션에서 하나의 호스트 및 클러스터에 대한 Redis 커넥션을 정의할 수 없었습니다. 라라벨 5.4에서는 동일한 어플리케이션 안에서 여러개의 다수의 단일 호수트 및 다중 클러스터에 대한 Redis 커넥션을 정의할 수 있습니다. 라라벨의 Redis에 대한 보다 자세한 사항은 [Redis 문서](/docs/5.4/redis)를 참고하시기 바랍니다.
+이전버전까지, 동일한 애플리케이션에서 하나의 호스트 및 클러스터에 대한 Redis 커넥션을 정의할 수 없었습니다. 라라벨 5.4에서는 동일한 애플리케이션 안에서 여러개의 다수의 단일 호수트 및 다중 클러스터에 대한 Redis 커넥션을 정의할 수 있습니다. 라라벨의 Redis에 대한 보다 자세한 사항은 [Redis 문서](/docs/5.4/redis)를 참고하시기 바랍니다.
 
 <a name="utf8mb4"></a>
 ### Migration Default String Length
@@ -471,7 +471,7 @@ Previously, it was not possible to define Redis connections to single hosts and 
 
 Laravel 5.4 uses the `utf8mb4` character set by default, which includes support for storing "emojis" in the database. If you are upgrading your application from Laravel 5.3, you are not required to switch to this character set.
 
-라라벨 5.4는 기본적으로 "emojis"를 데이터베이스에 저장할 수 있는 `utf8mb4` 캐릭터셋을 사용합니다. 어플리케이션이 라라벨 5.3에서 업그레이드 되었다면, 이 캐릭터셋을 변경할 필요는 없습니다.
+라라벨 5.4는 기본적으로 "emojis"를 데이터베이스에 저장할 수 있는 `utf8mb4` 캐릭터셋을 사용합니다. 애플리케이션이 라라벨 5.3에서 업그레이드 되었다면, 이 캐릭터셋을 변경할 필요는 없습니다.
 
 If you choose to switch to this character set manually and are running a version of MySQL older than the 5.7.7 release, you may need to manually configure the default string length generated by migrations. You may configure this by calling the `Schema::defaultStringLength` method within your `AppServiceProvider`:
 
@@ -530,7 +530,7 @@ While event broadcasting existed in previous versions of Laravel, the Laravel 5.
 
 Laravel Echo, a new JavaScript package installable via NPM, has also been released to provide a simple, beautiful API for subscribing to channels and listening for your server-side events in your client-side JavaScript application. Echo includes support for [Pusher](https://pusher.com) and [Socket.io](http://socket.io):
 
-라라벨 Echo는 NPM을 통해서 설치할 수 있는 새로운 JavaSript 패키지이며, 클라이언트 측 JavaScript 어플리케이션에서 채널을 구독하고 서버 측 이벤트를 수신하리 위한 간단하고 아름다은 API를 제공합니다. Echo는 [Pusher](https://pusher.com) 와 [Socket.io](http://socket.io)도 지원하고 있습니다:
+라라벨 Echo는 NPM을 통해서 설치할 수 있는 새로운 JavaSript 패키지이며, 클라이언트 측 JavaScript 애플리케이션에서 채널을 구독하고 서버 측 이벤트를 수신하리 위한 간단하고 아름다은 API를 제공합니다. Echo는 [Pusher](https://pusher.com) 와 [Socket.io](http://socket.io)도 지원하고 있습니다:
 
     Echo.channel('orders.' + orderId)
         .listen('ShippingStatusUpdated', (e) => {
@@ -565,7 +565,7 @@ Echo 와 이벤트 브로드캐스트에 대한 보다 자세한 정보는 [전�
 
 Laravel 5.3 makes API authentication a breeze using [Laravel Passport](/docs/{{version}}/passport), which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Alex Bilbie.
 
-라라벨 5.3은 [라라벨 Passport](/docs/{{version}}/passport)를 사용하여 빠르게 여러분의 어플리케이션에 완전한 OAuth2 서버 구현을 제공하여 API 인증을 매우 용이하게 만들어 줍니다.Passport는 Alex Bilbie에 의해 관리되고있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server)위에 구축되어 있습니다.
+라라벨 5.3은 [라라벨 Passport](/docs/{{version}}/passport)를 사용하여 빠르게 여러분의 애플리케이션에 완전한 OAuth2 서버 구현을 제공하여 API 인증을 매우 용이하게 만들어 줍니다.Passport는 Alex Bilbie에 의해 관리되고있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server)위에 구축되어 있습니다.
 
 Passport makes it painless to issue access tokens via OAuth2 authorization codes. You may also allow your users to create "personal access tokens" via your web UI. To get you started quickly, Passport includes [Vue components](https://vuejs.org) that can serve as a starting point for your OAuth2 dashboard, allowing users to create clients, revoke access tokens, and more:
 
@@ -581,7 +581,7 @@ Vue 컴포넌트를 사용하지 않으려면 클라이언트 및 엑세스 토�
 
 Of course, Passport also makes it simple to define access token scopes that may be requested by application's consuming your API:
 
-물론 Passport는 어플리케이션이 API를 사용하여 요청하는 엑세스 토큰의 범위를 정의하는 것도 손쉽게 만들어 줍니다:
+물론 Passport는 애플리케이션이 API를 사용하여 요청하는 엑세스 토큰의 범위를 정의하는 것도 손쉽게 만들어 줍니다:
 
     Passport::tokensCan([
         'place-orders' => 'Place new orders',
@@ -598,7 +598,7 @@ In addition, Passport includes helpful middleware for verifying that an access t
 
 Lastly, Passport includes support for consuming your own API from your JavaScript application without worrying about passing access tokens. Passport achieves this through encrypted JWT cookies and synchronized CSRF tokens, allowing you to focus on what matters: your application. For more information on Passport, be sure to check out its [full documentation](/docs/5.3/passport).
 
-마지막으로, Passport는 여러분의 자바스크립트 어플리케이션에서 엑세스 토큰을 전달하는 것에 대한 걱정 없이도 여러분의 고유한 API를 사용할 수 있도록 지원하고 있습니다. Passport는 암호화된 JWT 쿠키와 동기화된 CSRF 토큰을 통해서 이를 달성하며 여러분이 보다 중요한 사항(여러분의 어플리케이션)에 초점을 맞출 수 있도록 해줍니다. Passport에 대한 보다 자세한 사항은 [전체 매뉴얼](/docs/5.3/passport)을 참고하시기 바랍니다.
+마지막으로, Passport는 여러분의 자바스크립트 애플리케이션에서 엑세스 토큰을 전달하는 것에 대한 걱정 없이도 여러분의 고유한 API를 사용할 수 있도록 지원하고 있습니다. Passport는 암호화된 JWT 쿠키와 동기화된 CSRF 토큰을 통해서 이를 달성하며 여러분이 보다 중요한 사항(여러분의 애플리케이션)에 초점을 맞출 수 있도록 해줍니다. Passport에 대한 보다 자세한 사항은 [전체 매뉴얼](/docs/5.3/passport)을 참고하시기 바랍니다.
 
 ### Search (Laravel Scout)
 ### 검색 (라라벨 Scout)
@@ -699,7 +699,7 @@ mailable 객체에 대한 보다 자세한 정보는 [메일 문서](/docs/5.3/m
 
 In web applications, one of the most common use-cases for storing files is storing user uploaded files such as profile pictures, photos, and documents. Laravel 5.3 makes it very easy to store uploaded files using the new `store` method on an uploaded file instance. Simply call the `store` method with the path at which you wish to store the uploaded file:
 
-웹 어플리케이션에서 파일을 저장하는 가장 공통적인 사용예 중 하나는 프로필 이미지, 사진, 그리고 문서와 같은 사용자가 업로드한 파일을 저장하는 것입니다. 라라벨 5.3은 업로드된 파일 인스턴스에서 새로운 `store` 메소드를 사용하여 업로드한 파일이 저장되는 것을 아주 쉽게 처리합니다. 간단하게 저장된 파일이 저장되고자 하는 경로를 넘겨주며 `store` 메소드를 호출하면 됩니다:
+웹 애플리케이션에서 파일을 저장하는 가장 공통적인 사용예 중 하나는 프로필 이미지, 사진, 그리고 문서와 같은 사용자가 업로드한 파일을 저장하는 것입니다. 라라벨 5.3은 업로드된 파일 인스턴스에서 새로운 `store` 메소드를 사용하여 업로드한 파일이 저장되는 것을 아주 쉽게 처리합니다. 간단하게 저장된 파일이 저장되고자 하는 경로를 넘겨주며 `store` 메소드를 호출하면 됩니다:
 
     /**
      * Update the avatar for the user.
@@ -747,21 +747,21 @@ In addition, support for single file [Vue components](https://vuejs.org) is now 
 
 This structure provides more guidance on how to begin developing modern, robust JavaScript applications, without requiring your application to use any given JavaScript or CSS framework. For more information on getting started with modern Laravel frontend development, check out the new [introductory frontend documentation](/docs/5.3/frontend).
 
-이 구조는 어플리케이션에 특정 자바스크립트 또는 CSS 프레임워크를 사용하지 않고도, 현대적이고 견고한 자바스크립트 개발을 시작할 것인가에 대한 가이드를 제공합니다. 모던한 라라벨 프론트 엔드 개발을 시작하는 방법에 대한 보다 자세한 정보는 [프론트 엔드 소개 문서](/docs/5.3/frontend)를 참고하십시오
+이 구조는 애플리케이션에 특정 자바스크립트 또는 CSS 프레임워크를 사용하지 않고도, 현대적이고 견고한 자바스크립트 개발을 시작할 것인가에 대한 가이드를 제공합니다. 모던한 라라벨 프론트 엔드 개발을 시작하는 방법에 대한 보다 자세한 정보는 [프론트 엔드 소개 문서](/docs/5.3/frontend)를 참고하십시오
 
 ### Routes Files
 ### 라우트 파일들
 
 By default, fresh Laravel 5.3 applications contain two HTTP route files in a new top-level `routes` directory. The `web` and `api` route files provide more explicit guidance in how to split the routes for your web interface and your API. The routes in the `api` route file are automatically assigned the `api` prefix by the `RouteServiceProvider`.
 
-기본적으로 새롭게 설치한 라라벨 5.3 어플리케이션에서는 새로운 탑레벨의 `routes` 디렉토리 안에 있는 두개의 HTTP 라우트 파일을 가지고 있습니다. `web` 과 `api` 라우트 파일은 웹 인터페이스와 API를 어떤 라우트로 나눌 것인가에 대해서 보다 명시적인 가이드를 제공합니다. `api` 라우트 파일안에 있는 라우트들은 `RouteServiceProvider` 에 의해서 자동으로 `api` prefix 가 지정됩니다. 
+기본적으로 새롭게 설치한 라라벨 5.3 애플리케이션에서는 새로운 탑레벨의 `routes` 디렉토리 안에 있는 두개의 HTTP 라우트 파일을 가지고 있습니다. `web` 과 `api` 라우트 파일은 웹 인터페이스와 API를 어떤 라우트로 나눌 것인가에 대해서 보다 명시적인 가이드를 제공합니다. `api` 라우트 파일안에 있는 라우트들은 `RouteServiceProvider` 에 의해서 자동으로 `api` prefix 가 지정됩니다. 
 
 ### Closure Console Commands
 ### 클로저 콘솔 명령어
 
 In addition to being defined as command classes, Artisan commands may now be defined as simple Closures in the `commands` method of your `app/Console/Kernel.php` file. In fresh Laravel 5.3 applications, the `commands` method loads a `routes/console.php` file which allows you to define your Console commands as route-like, Closure based entry points into your application:
 
-명령어 클래스를 정의하는 것에 더하여, 아티즌 명령어는 이제 `app/Console/Kernel.php` 파일의 `commands` 메소드 안에서 간단한 클로저로 정의할 수 있습니다. 새롭게 설치한 라라벨 5.3 어플리케이션에서는 여러분의 콜솔 명령어를 라우트처럼 어플리케이션을 가리키는 클로저를 기반으로 한 `routes/console.php`파일을 `commands` 메소드에서 로딩합니다.  
+명령어 클래스를 정의하는 것에 더하여, 아티즌 명령어는 이제 `app/Console/Kernel.php` 파일의 `commands` 메소드 안에서 간단한 클로저로 정의할 수 있습니다. 새롭게 설치한 라라벨 5.3 애플리케이션에서는 여러분의 콜솔 명령어를 라우트처럼 애플리케이션을 가리키는 클로저를 기반으로 한 `routes/console.php`파일을 `commands` 메소드에서 로딩합니다.  
 
     Artisan::command('build {project}', function ($project) {
         $this->info('Building project...');
@@ -811,11 +811,11 @@ Laravel 5.2 continues the improvements made in Laravel 5.1 by adding multiple au
 
 In previous versions of Laravel, only the default, session-based authentication driver was supported out of the box, and you could not have more than one authenticatable model instance per application.
 
-이번 버전의 라라벨에서는, 별다른 설정을 하지 않은경우, 오로지 기본으로 설정된 세션을 기반으로한 인증 드라이버만 지원되었고, 어플리케이션의 하나 이상의 인증 모델 인스턴스를 가질 수 없었습니다. 
+이번 버전의 라라벨에서는, 별다른 설정을 하지 않은경우, 오로지 기본으로 설정된 세션을 기반으로한 인증 드라이버만 지원되었고, 애플리케이션의 하나 이상의 인증 모델 인스턴스를 가질 수 없었습니다. 
 
 However, in Laravel 5.2, you may define additional authentication drivers as well define multiple authenticatable models or user tables, and control their authentication process separately from each other. For example, if your application has one database table for "admin" users and one database table for "student" users, you may now use the `Auth` methods to authenticate against each of these tables separately.
 
-하지만 라라벨 5.2에서는 사용자 모델 또는 사용자 테이블을 다중으로 정의하는 것처럼 추가적인 인증 드라이버를 정의하여 각각의 경우마다 다른 프로세스로 인증을 수행할 수 있습니다. 예를 들어 어플리케이션이 하나의 "admin" 사용자 테이블을 가지고 하나의 "student" 사용자 테이블을 가지는 경우, 각각의 테이블마다 별도로 `Auth` 메소드를 사용할 수 있습니다. 
+하지만 라라벨 5.2에서는 사용자 모델 또는 사용자 테이블을 다중으로 정의하는 것처럼 추가적인 인증 드라이버를 정의하여 각각의 경우마다 다른 프로세스로 인증을 수행할 수 있습니다. 예를 들어 애플리케이션이 하나의 "admin" 사용자 테이블을 가지고 하나의 "student" 사용자 테이블을 가지는 경우, 각각의 테이블마다 별도로 `Auth` 메소드를 사용할 수 있습니다. 
 
 ### Authentication Scaffolding
 ### 인증 스캐폴딩
@@ -832,7 +832,7 @@ This command will generate plain, Bootstrap compatible views for user login, reg
 
 > {note} This feature is only meant to be used on new applications, not during application upgrades.
 
-> {note} 이 기능은 어플리케이션의 업그레이드가 아니라 새로운 어플리케이션에서 사용되는 것을 의미합니다. 
+> {note} 이 기능은 애플리케이션의 업그레이드가 아니라 새로운 애플리케이션에서 사용되는 것을 의미합니다. 
 
 ### Implicit Model Binding
 ### 묵시적 모델 바인딩
@@ -860,11 +860,11 @@ Laravel will automatically inject the model when the route parameter segment (`{
 
 Middleware groups allow you to group several route middleware under a single, convenient key, allowing you to assign several middleware to a route at once. For example, this can be useful when building a web UI and an API within the same application. You may group the session and CSRF routes into a `web` group, and perhaps the rate limiter in the `api` group.
 
-미들웨어 그룹은 여러개의 라우트 미들웨어를 간단한 키를 사용하여 하나로 묶고, 이 미들웨어들을 한번에 라우트에 할당할 수 있게 해줍니다. 예를들어, 어플리케이션에서 웹 UI와 API를 구성할 때 유용 할 수 있습니다. 여러분은 세션과 CSRF 라우트 미들웨어를 `web` 그룹으로 묶을 수도 있고, `api` 그룹 안에서는 아마도 접근 속도 제한 미들웨어를 사용할 수도 있습니다. 
+미들웨어 그룹은 여러개의 라우트 미들웨어를 간단한 키를 사용하여 하나로 묶고, 이 미들웨어들을 한번에 라우트에 할당할 수 있게 해줍니다. 예를들어, 애플리케이션에서 웹 UI와 API를 구성할 때 유용 할 수 있습니다. 여러분은 세션과 CSRF 라우트 미들웨어를 `web` 그룹으로 묶을 수도 있고, `api` 그룹 안에서는 아마도 접근 속도 제한 미들웨어를 사용할 수도 있습니다. 
 
 In fact, the default Laravel 5.2 application structure takes exactly this approach. For example, in the default `App\Http\Kernel.php` file you will find the following:
 
-사실, 라라벨 5.2의 어플리케이션 구조에서는 기본적으로 이러한 기능을 이미 사용합니다. 예를 들어, `App\Http\Kernel.php`파일에는 기본적으로 다음과 같이 구성된 다음 내용을 확인할 수 있습니다:
+사실, 라라벨 5.2의 애플리케이션 구조에서는 기본적으로 이러한 기능을 이미 사용합니다. 예를 들어, `App\Http\Kernel.php`파일에는 기본적으로 다음과 같이 구성된 다음 내용을 확인할 수 있습니다:
 
     /**
      * The application's route middleware groups.
@@ -1012,11 +1012,11 @@ Every page of the Laravel documentation has been meticulously reviewed and drama
 
 In many modern web applications, web sockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a websocket connection to be handled by the client.
 
-많은 모던 Web 어플리케이션들에서, 실시간 처리와, 라이브 업데이트를 지원하는 사용자 인터페이스를 구현하기 위해서 웹 소켓을 사용하고 있습니다. 서버에서 데이터가 업데이트 되면, 메세지가 웹 소켓 커넥션을 통해서 클라이언트에서 처리되도록 전달됩니다. 
+많은 모던 Web 애플리케이션들에서, 실시간 처리와, 라이브 업데이트를 지원하는 사용자 인터페이스를 구현하기 위해서 웹 소켓을 사용하고 있습니다. 서버에서 데이터가 업데이트 되면, 메세지가 웹 소켓 커넥션을 통해서 클라이언트에서 처리되도록 전달됩니다. 
 
 To assist you in building these types of applications, Laravel makes it easy to "broadcast" your events over a websocket connection. Broadcasting your Laravel events allows you to share the same event names between your server-side code and your client-side JavaScript framework.
 
-이러한 유형의 어플리케이션을 구축하는 데 도움이 되도록 라라벨은 이벤트를 웹 소켓 연결 상에 쉽게 "브로드 캐스트"할 수 있도록 했습니다. 라라벨 이벤트를 브로드 캐스트하는 것은  같은 이벤트 이름을 서버 사이드의 코드와 클라이언트 사이드 JavaScript 프레임 워크와 공유 할 수 있게 해줍니다.
+이러한 유형의 애플리케이션을 구축하는 데 도움이 되도록 라라벨은 이벤트를 웹 소켓 연결 상에 쉽게 "브로드 캐스트"할 수 있도록 했습니다. 라라벨 이벤트를 브로드 캐스트하는 것은  같은 이벤트 이름을 서버 사이드의 코드와 클라이언트 사이드 JavaScript 프레임 워크와 공유 할 수 있게 해줍니다.
 
 To learn more about event broadcasting, check out the [event documentation](/docs/{{version}}/events#broadcasting-events).
 
@@ -1027,7 +1027,7 @@ To learn more about event broadcasting, check out the [event documentation](/doc
 
 Middleware can now receive additional custom parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `RoleMiddleware` that receives a role name as an additional argument:
 
-미들웨어는 이제, 추가적인 사용자 정의 파라미터를 받을 수 있습니다. 예를 들어 어플리케이션에서 인증된 사용자가 주어진 액션을 처리할 수 있는 "역할"을 가지고 있는지 확인할 필요가 있다면, 추가적인 인자로 롤의 이름을 전달받는 `RoleMiddleware`를 생성할 수 있습니다. 
+미들웨어는 이제, 추가적인 사용자 정의 파라미터를 받을 수 있습니다. 예를 들어 애플리케이션에서 인증된 사용자가 주어진 액션을 처리할 수 있는 "역할"을 가지고 있는지 확인할 필요가 있다면, 추가적인 인자로 롤의 이름을 전달받는 `RoleMiddleware`를 생성할 수 있습니다. 
 
     <?php
 
@@ -1073,7 +1073,7 @@ For more information on middleware, check out the [middleware documentation](/do
 
 The built-in testing capabilities of Laravel have been dramatically improved. A variety of new methods provide a fluent, expressive interface for interacting with your application and examining its responses. For example, check out the following test:
 
-라라벨에 내장된 테스팅 능력이 크게 향상되었습니다. 어플리케이션 그리고 관련된 응답을들 테스트 하기 위해서 유연하고 보다 풍부한 표현이 가능한 인터페이스를 제공하는 다양한 메소드들이 제공됩니다. 다음의 테스트를 확인해 보겠습니다.
+라라벨에 내장된 테스팅 능력이 크게 향상되었습니다. 애플리케이션 그리고 관련된 응답을들 테스트 하기 위해서 유연하고 보다 풍부한 표현이 가능한 인터페이스를 제공하는 다양한 메소드들이 제공됩니다. 다음의 테스트를 확인해 보겠습니다.
 
     public function testNewUserRegistration()
     {
@@ -1146,7 +1146,7 @@ In previous versions of Laravel, encryption was handled by the `mcrypt` PHP exte
 
 Laravel 5.0 introduces a fresh application structure to the default Laravel project. This new structure serves as a better foundation for building a robust application in Laravel, as well as embraces new auto-loading standards (PSR-4) throughout the application. First, let's examine some of the major changes:
 
-라라벨 5.0 에서는 완전히 새로운 어플리케이션 구조가 구성되었습니다. 이 새로운 구조는 라라벨이 보다 나은 어플리케이션을 구축하기 위한 좋은 기초가 되며, 어플리케이션에는 새로운 auto-loading 기준인 (PSR-4)가 적용되었습니다. 먼저 주요한 변경 사항들을 확인해 보겠습니다:
+라라벨 5.0 에서는 완전히 새로운 애플리케이션 구조가 구성되었습니다. 이 새로운 구조는 라라벨이 보다 나은 애플리케이션을 구축하기 위한 좋은 기초가 되며, 애플리케이션에는 새로운 auto-loading 기준인 (PSR-4)가 적용되었습니다. 먼저 주요한 변경 사항들을 확인해 보겠습니다:
 
 ### New Folder Structure
 ### 새로운 폴더 구조
@@ -1157,15 +1157,15 @@ The old `app/models` directory has been entirely removed. Instead, all of your c
 
 Controllers, middleware, and requests (a new type of class in Laravel 5.0) are now grouped under the `app/Http` directory, as they are all classes related to the HTTP transport layer of your application. Instead of a single, flat file of route filters, all middleware are now broken into their own class files.
 
-컨트롤러, 미들웨어, 그리고 request-요청 ( 라라벨 5.0 의 새로운 클래스 타입)은 어플리케이션의 HTTP 전송 계층과 관련된 클래스로, `app/Http` 디렉토리 아래에 위치합니다. 구조 없이 하나로 되어 있던 라우트 필터, 전체 미들웨어는 각각의 클래스 파일로 분할되었습니다. 
+컨트롤러, 미들웨어, 그리고 request-요청 ( 라라벨 5.0 의 새로운 클래스 타입)은 애플리케이션의 HTTP 전송 계층과 관련된 클래스로, `app/Http` 디렉토리 아래에 위치합니다. 구조 없이 하나로 되어 있던 라우트 필터, 전체 미들웨어는 각각의 클래스 파일로 분할되었습니다. 
 
 A new `app/Providers` directory replaces the `app/start` files from previous versions of Laravel 4.x. These service providers provide various bootstrapping functions to your application, such as error handling, logging, route loading, and more. Of course, you are free to create additional service providers for your application.
 
-이전의 라라벨 4.X 버전의 `app/start` 파일들이 새로운 `app/Providers` 디렉토리로 대체되었습니다. 이 서비스 프로바이더들은 에러 핸들링, 로깅, 라우트 로딩등의 어플리케이션의 부트스트래핑을 위한 다양한 기능을 제공합니다. 물론 어플리케이션에서 필요한 추가적인 서비스 프로바이더들을 자유롭게 추가할 수 있습니다. 
+이전의 라라벨 4.X 버전의 `app/start` 파일들이 새로운 `app/Providers` 디렉토리로 대체되었습니다. 이 서비스 프로바이더들은 에러 핸들링, 로깅, 라우트 로딩등의 애플리케이션의 부트스트래핑을 위한 다양한 기능을 제공합니다. 물론 애플리케이션에서 필요한 추가적인 서비스 프로바이더들을 자유롭게 추가할 수 있습니다. 
 
 Application language files and views have been moved to the `resources` directory.
 
-어플리케이션의 언어 파일과 뷰 파일들은 `resources` 디렉토리로 이동되었습니다. 
+애플리케이션의 언어 파일과 뷰 파일들은 `resources` 디렉토리로 이동되었습니다. 
 
 ### Contracts
 ### Contracts
@@ -1183,14 +1183,14 @@ contracts 에 관한 보다 자세한 내용은 [문서](/docs/{{version}}/contr
 
 If your application is made up entirely of controller routes, you may utilize the new `route:cache` Artisan command to drastically speed up the registration of your routes. This is primarily useful on applications with 100+ routes and will **drastically** speed up this portion of your application.
 
-어플리케이션이 컨트롤러의 라우트만으로 구성된 경우에, `route:cache` 아티즌 명령어를 사용하여, 라우트 등록 속도를 대대적으로 개선할 수 있습니다. 이 기능은 주로 어플리케이션에 100개 이상의 라우트가 있는 경우 유용하며, 어플리케이션의 라우트 부분을 **극적으로** 단축 할 수 있습니다. 
+애플리케이션이 컨트롤러의 라우트만으로 구성된 경우에, `route:cache` 아티즌 명령어를 사용하여, 라우트 등록 속도를 대대적으로 개선할 수 있습니다. 이 기능은 주로 애플리케이션에 100개 이상의 라우트가 있는 경우 유용하며, 애플리케이션의 라우트 부분을 **극적으로** 단축 할 수 있습니다. 
 
 ### Route Middleware
 ### 라우트 미들웨어
 
 In addition to Laravel 4 style route "filters", Laravel 5 now supports HTTP middleware, and the included authentication and CSRF "filters" have been converted to middleware. Middleware provides a single, consistent interface to replace all types of filters, allowing you to easily inspect, and even reject, requests before they enter your application.
 
-라라벨 4 스타일의 라우트 "필터"에 더하여, 라라벨 5 에서는 HTTP 미들웨어가 지원되고, 사용자 인증과 CSRF "필터"가 미들웨어로 변경되었습니다. 미들웨어는 request 가 어플리케이션에 진입하기 전에 손쉽게 확인하고, 거부할 수 있도록 모든 타입의 필터를 대체하기 위한 하나의 일관된 인터페이스를 제공합니다. 
+라라벨 4 스타일의 라우트 "필터"에 더하여, 라라벨 5 에서는 HTTP 미들웨어가 지원되고, 사용자 인증과 CSRF "필터"가 미들웨어로 변경되었습니다. 미들웨어는 request 가 애플리케이션에 진입하기 전에 손쉽게 확인하고, 거부할 수 있도록 모든 타입의 필터를 대체하기 위한 하나의 일관된 인터페이스를 제공합니다. 
 
 For more information on middleware, check out [the documentation](/docs/{{version}}/middleware).
 
@@ -1213,7 +1213,7 @@ In addition to the existing constructor injection, you may now type-hint depende
 
 User registration, authentication, and password reset controllers are now included out of the box, as well as simple corresponding views, which are located at `resources/views/auth`. In addition, a "users" table migration has been included with the framework. Including these simple resources allows rapid development of application ideas without bogging down on authentication boilerplate. The authentication views may be accessed on the `auth/login` and `auth/register` routes. The `App\Services\Auth\Registrar` service is responsible for user validation and creation.
 
-사용자의 등록, 인증, 암호 재설정 컨트롤러는 별다른 설정 없이도 포함되어 있습니다. 동시에, 이에 대응하는 간단한 뷰가 `resources/views/auth` 에 위치하고 있습니다. 이에 더해, "users" 테이블 마이그레이션 파일이 프레임워크에 포함되어 있습니다. 이러한 간단한 리소스가 포함되어 있어서, 인증과 관련된 번거로운 작업 없이도 어플리케이션을 빠르게 구성할 수 있습니다. 인증 뷰는 `auth/login` 와 `auth/register` 라우트를 통해서 엑세스 할 수 있습니다. `App\Services\Auth\Registrar` 서비스가 사용자 검증과 생성과 관련된 역할을 합니다. 
+사용자의 등록, 인증, 암호 재설정 컨트롤러는 별다른 설정 없이도 포함되어 있습니다. 동시에, 이에 대응하는 간단한 뷰가 `resources/views/auth` 에 위치하고 있습니다. 이에 더해, "users" 테이블 마이그레이션 파일이 프레임워크에 포함되어 있습니다. 이러한 간단한 리소스가 포함되어 있어서, 인증과 관련된 번거로운 작업 없이도 애플리케이션을 빠르게 구성할 수 있습니다. 인증 뷰는 `auth/login` 와 `auth/register` 라우트를 통해서 엑세스 할 수 있습니다. `App\Services\Auth\Registrar` 서비스가 사용자 검증과 생성과 관련된 역할을 합니다. 
 
 ### Event Objects
 ### 이벤트 객체
@@ -1305,7 +1305,7 @@ The base Laravel controller utilizes the new `DispatchesCommands` trait, allowin
 
 Of course, you may also use commands for tasks that are executed synchronously (are not queued). In fact, using commands is a great way to encapsulate complex tasks your application needs to perform. For more information, check out the [command bus](/docs/5.0/bus) documentation.
 
-물론 작업을 동기적으로(큐를 통하지 않고) 실행하는 명령어를 사용할 수도 있습니다. 실제로, 명령어를 사용하는 것 자체는, 어플리케이션에서 수행해야 하는 복잡한 작업을 캡슐화 하기 위한 좋은 방법입니다. 보다 자세한 사항은 [command bus](/docs/5.0/bus) 문서를 확이하십시오. 
+물론 작업을 동기적으로(큐를 통하지 않고) 실행하는 명령어를 사용할 수도 있습니다. 실제로, 명령어를 사용하는 것 자체는, 애플리케이션에서 수행해야 하는 복잡한 작업을 캡슐화 하기 위한 좋은 방법입니다. 보다 자세한 사항은 [command bus](/docs/5.0/bus) 문서를 확이하십시오. 
 
 ### Database Queue
 ### 데이터베이스 큐
@@ -1438,7 +1438,7 @@ When the Laravel service container identifies that the class it is injecting is 
 
 The Laravel 5 base controller now includes a `ValidatesRequests` trait. This trait provides a simple `validate` method to validate incoming requests. If `FormRequests` are a little too much for your application, check this out:
 
-이제 라라벨 5의 기본 컨트롤러는 `ValidatesRequests` 트레이트-trait을 포함하고 있습니다. 이 트레이트-trait은 유입되는 reqeust-요청을 검사할 수 있는 간단한 `validate` 메소드를 제공합니다. 어플리케이션의 `FormRequest` 가 너무 크다면 다음을 확인하십시오: 
+이제 라라벨 5의 기본 컨트롤러는 `ValidatesRequests` 트레이트-trait을 포함하고 있습니다. 이 트레이트-trait은 유입되는 reqeust-요청을 검사할 수 있는 간단한 `validate` 메소드를 제공합니다. 애플리케이션의 `FormRequest` 가 너무 크다면 다음을 확인하십시오: 
 
     public function createPost(Request $request)
     {
@@ -1461,7 +1461,7 @@ For more information on this new method, check out [the documentation](/docs/{{v
 
 To complement the new default application structure, new Artisan generator commands have been added to the framework. See `php artisan list` for more details.
 
-새로운 기본 어플리케이션의 구조를 구성하기 위한, 새로운 아티즌 generator 명령어가 프레임워크에 추가되었습니다. `php artisan list` 를 통해서 자세한 내용을 확인하십시오. 
+새로운 기본 애플리케이션의 구조를 구성하기 위한, 새로운 아티즌 generator 명령어가 프레임워크에 추가되었습니다. `php artisan list` 를 통해서 자세한 내용을 확인하십시오. 
 
 ### Configuration Cache
 ### 설정 캐시
@@ -1503,11 +1503,11 @@ Laravel 4.2 requires PHP 5.4 or greater. This upgraded PHP requirement allows us
 
 Laravel Forge, a new web based application, provides a simple way to create and manage PHP servers on the cloud of your choice, including Linode, DigitalOcean, Rackspace, and Amazon EC2. Supporting automated Nginx configuration, SSH key access, Cron job automation, server monitoring via NewRelic & Papertrail, "Push To Deploy", Laravel queue worker configuration, and more, Forge provides the simplest and most affordable way to launch all of your Laravel applications.
 
-라라벨 Forge 는 새로운 웹 기반의 어플리케이션으로 Linode, DigitalOcean, Rackspace, 그리고 아마존 EC2 와 같은 클라우드 에서 PHP 서버를 생성하고 관리하는 간단한 방법을 제공합니다. 자동화된 Nginx 설정, SSH key 엑세스, Cron 작업의 자동화, NewRelic & Papertrail 을 통한 서버 모니터링, "Push To Deploy", 라라벨 큐 worker 설정등 Forge 는 가장 간단하고, 가장 손쉬운 방법으로 라라벨 어플리케이션을 구동할 수 있도록 해줍니다. 
+라라벨 Forge 는 새로운 웹 기반의 애플리케이션으로 Linode, DigitalOcean, Rackspace, 그리고 아마존 EC2 와 같은 클라우드 에서 PHP 서버를 생성하고 관리하는 간단한 방법을 제공합니다. 자동화된 Nginx 설정, SSH key 엑세스, Cron 작업의 자동화, NewRelic & Papertrail 을 통한 서버 모니터링, "Push To Deploy", 라라벨 큐 worker 설정등 Forge 는 가장 간단하고, 가장 손쉬운 방법으로 라라벨 애플리케이션을 구동할 수 있도록 해줍니다. 
 
 The default Laravel 4.2 installation's `app/config/database.php` configuration file is now configured for Forge usage by default, allowing for more convenient deployment of fresh applications onto the platform.
 
-설치된 라라벨 4.2의 `app/config/database.php` 설정 파일은 보다 편리한 방법으로 어플리케이션을 플랫폼에 배포할 수 있도록 기본적으로 Forge 를 사용하도록 설정되어 있습니다. 
+설치된 라라벨 4.2의 `app/config/database.php` 설정 파일은 보다 편리한 방법으로 애플리케이션을 플랫폼에 배포할 수 있도록 기본적으로 Forge 를 사용하도록 설정되어 있습니다. 
 
 More information about Laravel Forge can be found on the [official Forge website](https://forge.laravel.com).
 
@@ -1518,9 +1518,9 @@ More information about Laravel Forge can be found on the [official Forge website
 
 Laravel Homestead is an official Vagrant environment for developing robust Laravel and PHP applications. The vast majority of the boxes' provisioning needs are handled before the box is packaged for distribution, allowing the box to boot extremely quickly. Homestead includes Nginx 1.6, PHP 5.6, MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt, & Bower. Homestead includes a simple `Homestead.yaml` configuration file for managing multiple Laravel applications on a single box.
 
-라라벨 홈스테드는 강력한 라라벨 및 PHP 어플리케이션을 배포하기 위한 공식 Vagrant 환경입니다. 박스의 프로비저닝의 거대한 다수는 필요는 처리하는 것 박스가 배포를 위해서 패킹되기 전에 필요로 하는 것 박스가 부트 되기 위해서 외부적으로 빠르게 
+라라벨 홈스테드는 강력한 라라벨 및 PHP 애플리케이션을 배포하기 위한 공식 Vagrant 환경입니다. 박스의 프로비저닝의 거대한 다수는 필요는 처리하는 것 박스가 배포를 위해서 패킹되기 전에 필요로 하는 것 박스가 부트 되기 위해서 외부적으로 빠르게 
 
-배포를 위해서 box가 pack 되기 전에 필요한 box의 준비 작업은 처리된 상태이기 때문에, 매우 빠르게 box를 시작할 수 있습니다. 홈스테드는 Nginx 1.6, PHP 5.6 MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt & Bower 를 포함하고 있습니다. 홈스테드는 하나의 box 에서 여러개의 라라벨 어플리케이션을 관리하기 위해서 하나의 `Homestead.yaml` 설정 파일을 가지고 있습니다. 
+배포를 위해서 box가 pack 되기 전에 필요한 box의 준비 작업은 처리된 상태이기 때문에, 매우 빠르게 box를 시작할 수 있습니다. 홈스테드는 Nginx 1.6, PHP 5.6 MySQL, Postgres, Redis, Memcached, Beanstalk, Node, Gulp, Grunt & Bower 를 포함하고 있습니다. 홈스테드는 하나의 box 에서 여러개의 라라벨 애플리케이션을 관리하기 위해서 하나의 `Homestead.yaml` 설정 파일을 가지고 있습니다. 
 
 The default Laravel 4.2 installation now includes an `app/config/local/database.php` configuration file that is configured to use the Homestead database out of the box, making Laravel initial installation and configuration more convenient.
 
@@ -1542,7 +1542,7 @@ Laravel Cashier is a simple, expressive library for managing subscription billin
 
 The Artisan `queue:work` command now supports a `--daemon` option to start a worker in "daemon mode", meaning the worker will continue to process jobs without ever re-booting the framework. This results in a significant reduction in CPU usage at the cost of a slightly more complex application deployment process.
 
-아티즌 `queue:work` 명령어는 이제 worker를 "데몬 모드"로 시작할 수 있는 `--daemon` 옵션을 지원합니다. 이는 worker 가 프레임워크를 재시작 하지 않고도 작업을 계속 처리 할 수 있다는 것을 의미합니다. 그 결과 CPU 사용율이 효과적으로 줄어들지만, 어플리케이션의 배포 프로세스가 다소 복잡해집니다. 
+아티즌 `queue:work` 명령어는 이제 worker를 "데몬 모드"로 시작할 수 있는 `--daemon` 옵션을 지원합니다. 이는 worker 가 프레임워크를 재시작 하지 않고도 작업을 계속 처리 할 수 있다는 것을 의미합니다. 그 결과 CPU 사용율이 효과적으로 줄어들지만, 애플리케이션의 배포 프로세스가 다소 복잡해집니다. 
 
 More information about daemon queue workers can be found in the [queue documentation](/docs/queues#daemon-queue-worker).
 
@@ -1553,7 +1553,7 @@ More information about daemon queue workers can be found in the [queue documenta
 
 Laravel 4.2 introduces new Mailgun and Mandrill API drivers for the `Mail` functions. For many applications, this provides a faster and more reliable method of sending e-mails than the SMTP options. The new drivers utilize the Guzzle 4 HTTP library.
 
-라라벨 4.2는 `Mail` 기능을 위해서 새로운 Mailgun 와 Mandrill API 드라이버를 도입했습니다. 이는 많은 어플리케이션에서 SMTP를 통한것 보다 빠르고, 신뢰할 수 있게 이메일을 보내는 기능을 제공합니다. 새로운 드라이버는 Guzzle 4 HTTP 라이브러리를 사용하고 있습니다.
+라라벨 4.2는 `Mail` 기능을 위해서 새로운 Mailgun 와 Mandrill API 드라이버를 도입했습니다. 이는 많은 애플리케이션에서 SMTP를 통한것 보다 빠르고, 신뢰할 수 있게 이메일을 보내는 기능을 제공합니다. 새로운 드라이버는 Guzzle 4 HTTP 라이브러리를 사용하고 있습니다.
 
 ### Soft Deleting Traits
 ### Soft 삭제 트레이트-Trait

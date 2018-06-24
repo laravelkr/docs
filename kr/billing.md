@@ -290,7 +290,7 @@ To create a subscription, first retrieve an instance of your billable model, whi
 
 The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
 
-`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 어플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
+`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
 
 The `create` method will begin the subscription as well as update your database with the customer ID and other relevant billing information.
 
@@ -389,7 +389,7 @@ You may also determine if a user has cancelled their subscription, but are still
 
 After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
 
-사용자가 어플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다:
+사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다:
 
     $user = App\User::find(1);
 
@@ -417,7 +417,7 @@ If you would like to swap plans and cancel any trial period the user is currentl
 
 Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `incrementQuantity` and `decrementQuantity` methods:
 
-때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 어플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `incrementQuantity` 와 `decrementQuantity` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
+때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 애플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `incrementQuantity` 와 `decrementQuantity` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
 
     $user = User::find(1);
 
@@ -598,7 +598,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
 Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
 
-Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'stripe/webhook',
@@ -675,7 +675,7 @@ That's it! Failed payments will be captured and handled by the controller. The c
 
 Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
 
-Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'braintree/webhook',
@@ -756,7 +756,7 @@ That's it! Failed payments will be captured and handled by the controller. The c
 
 > {note} When using Stripe, the `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. However, when using Braintree, you should pass the full dollar amount to the `charge` method:
 
-> {note} Stripe 를 사용중일 떄, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
+> {note} Stripe 를 사용중일 떄, `charge` 메소드는 청구하려는 **애플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
 
 If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
 

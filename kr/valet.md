@@ -252,7 +252,7 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 You can write your own Valet "driver" to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a `~/.valet/Drivers` directory is created which contains a `SampleValetDriver.php` file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: `serves`, `isStaticFile`, and `frontControllerPath`.
 
-여러분은 발렛에서 기본적으로 지원하고 있지 않은 다른 프레임워크나 CMS와 같은 PHP 어플리케이션을 제공하기 위해서 여러분의 고유한 발렛 "드라이버"를 작성할 수 있습니다. 발렛을 설치할 때 생성되는 `~/.valet/Drivers`에는 `SampleValetDriver.php` 파일이 들어 있습니다. 이 파일은 어떻게 사용자 정의 드라이버를 작성할 것인가에 대한 샘플 드라이버의 구현 코드입니다. 드라이버를 구현하는데 필요한 메소드는 `serves`, `isStaticFile`, 그리고 `frontControllerPath`의 3가지 입니다.
+여러분은 발렛에서 기본적으로 지원하고 있지 않은 다른 프레임워크나 CMS와 같은 PHP 애플리케이션을 제공하기 위해서 여러분의 고유한 발렛 "드라이버"를 작성할 수 있습니다. 발렛을 설치할 때 생성되는 `~/.valet/Drivers`에는 `SampleValetDriver.php` 파일이 들어 있습니다. 이 파일은 어떻게 사용자 정의 드라이버를 작성할 것인가에 대한 샘플 드라이버의 구현 코드입니다. 드라이버를 구현하는데 필요한 메소드는 `serves`, `isStaticFile`, 그리고 `frontControllerPath`의 3가지 입니다.
 
 All three methods receive the `$sitePath`, `$siteName`, and `$uri` values as their arguments. The `$sitePath` is the fully qualified path to the site being served on your machine, such as `/Users/Lisa/Sites/my-project`. The `$siteName` is the "host" / "site name" portion of the domain (`my-project`). The `$uri` is the incoming request URI (`/foo/bar`).
 
@@ -322,7 +322,7 @@ The `isStaticFile` should determine if the incoming request is for a file that i
 
 The `frontControllerPath` method should return the fully qualified path to your application's "front controller", which is typically your "index.php" file or equivalent:
 
-`frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 어플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다:
+`frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 애플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다:
 
     /**
      * Get the fully resolved path to the application's front controller.
@@ -343,7 +343,7 @@ The `frontControllerPath` method should return the fully qualified path to your 
 
 If you would like to define a custom Valet driver for a single application, create a `LocalValetDriver.php` in the application's root directory. Your custom driver may extend the base `ValetDriver` class or extend an existing application specific driver such as the `LaravelValetDriver`:
 
-하나의 어플리케이션을 위한 커스텀 Valet 드라이버를 정의하고자 한다면, 어플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 커스텀 드라이버는 베이스 `ValetDriver` 클래스를 상속받거나 `LaravelValetDriver`과 같은 기존 어플리케이션에서 지정한 드라이버를 상속해야합니다:
+하나의 애플리케이션을 위한 커스텀 Valet 드라이버를 정의하고자 한다면, 애플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 커스텀 드라이버는 베이스 `ValetDriver` 클래스를 상속받거나 `LaravelValetDriver`과 같은 기존 애플리케이션에서 지정한 드라이버를 상속해야합니다:
 
     class LocalValetDriver extends LaravelValetDriver
     {

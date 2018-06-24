@@ -196,7 +196,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
 
     $user->newSubscription('main', 'premium')->create($stripeToken);
 
-`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 어플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
+`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
 
 Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기 구독을 시작하며, 데이터베이스에 고객의 ID와 관련된 결제정보를 업데이트 합니다.
 
@@ -268,7 +268,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 <a name="changing-plans"></a>
 ### 정기 구독 유형 변경하기
 
-사용자가 어플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다:
+사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다:
 
     $user = App\User::find(1);
 
@@ -287,7 +287,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 
 > {note} 구독 수량은 캐셔의 Stripe 에서만 지원이 됩니다. Braintree 는 Stripe 의 "수량"과 동일한 기능을 가지고 있지 않습니다.
 
-때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 어플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `incrementQuantity` 와 `decrementQuantity` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
+때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 애플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `incrementQuantity` 와 `decrementQuantity` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다:
 
     $user = User::find(1);
 
@@ -420,7 +420,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 <a name="handling-stripe-webhooks"></a>
 ## Stripe webhook 처리하기
 
-Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'stripe/webhook',
@@ -479,7 +479,7 @@ Stripe webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회�
 <a name="handling-braintree-webhooks"></a>
 ## Braintree webhook 처리하기
 
-Stripe와 Braintree 모두 Webhook을 통해서 어플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'braintree/webhook',
@@ -541,7 +541,7 @@ Braintree webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우�
 
 ### 간단한 결제
 
-> {note} Stripe 를 사용중일 때, `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
+> {note} Stripe 를 사용중일 때, `charge` 메소드는 청구하려는 **애플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
 
 정기 구독하고 있는 고객의 신용 카드에 대해 "일회성 결제"를 하고 싶을 때에는 결제가 가능한 모델 인스턴스에 대해서 `charge` 메소드를 사용합니다.
 

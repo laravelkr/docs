@@ -80,7 +80,7 @@ response 인스턴스의 `cookie` 메소드는 response 에 쿠키를 손쉽게 
 <a name="cookies-and-encryption"></a>
 #### 쿠키 & 암호화
 
-기본적으로, 라라벨에서 생성되는 모든 쿠키는 암호화 되고, 서명이 적용되어 클리이언트에서는 수정하거나 확인할 수 없습니다. 어플리케이션에서 의해서 생성되는 쿠키의 일부분에서 암호화를 비활성화 하고자 한다면, `app/Http/Middleware` 디렉토리 안에 들어 있는 `App\Http\Middleware\EncryptCookies` 미들웨어의 `$except` 속성을 사용할 수 있습니다:
+기본적으로, 라라벨에서 생성되는 모든 쿠키는 암호화 되고, 서명이 적용되어 클리이언트에서는 수정하거나 확인할 수 없습니다. 애플리케이션에서 의해서 생성되는 쿠키의 일부분에서 암호화를 비활성화 하고자 한다면, `app/Http/Middleware` 디렉토리 안에 들어 있는 `App\Http\Middleware\EncryptCookies` 미들웨어의 `$except` 속성을 사용할 수 있습니다:
 
     /**
      * The names of the cookies that should not be encrypted.

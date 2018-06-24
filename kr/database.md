@@ -31,7 +31,7 @@ Laravel makes connecting with databases and running queries extremely simple acr
 
 Laravel makes connecting with databases and running queries extremely simple. The database configuration for your application is located at `config/database.php`. In this file you may define all of your database connections, as well as specify which connection should be used by default. Examples for all of the supported database systems are provided in this file.
 
-라라벨은 데이터베이스 연결과 쿼리 사용을 매우 쉽게 만들어줍니다. 어플리케이션을 위한 데이터베이스 설정 파일은 `config/database.php`에 위치하고 있습니다. 이 파일에서 모든 데이터베이스 커넥션에 대한 설정을 정의하고 기본적으로 사용할 커넥션을 지정할 수 있습니다. 이 파일에서는 모든 지원하는 데이터베이스 예제가 들어 있습니다.
+라라벨은 데이터베이스 연결과 쿼리 사용을 매우 쉽게 만들어줍니다. 애플리케이션을 위한 데이터베이스 설정 파일은 `config/database.php`에 위치하고 있습니다. 이 파일에서 모든 데이터베이스 커넥션에 대한 설정을 정의하고 기본적으로 사용할 커넥션을 지정할 수 있습니다. 이 파일에서는 모든 지원하는 데이터베이스 예제가 들어 있습니다.
 
 By default, Laravel's sample [environment configuration](/docs/{{version}}/installation#environment-configuration) is ready to use with [Laravel Homestead](/docs/{{version}}/homestead), which is a convenient virtual machine for doing Laravel development on your local machine. Of course, you are free to modify this configuration as needed for your local database.
 
@@ -173,7 +173,7 @@ Some database statements should not return any value. For these types of operati
 
 If you would like to receive each SQL query executed by your application, you may use the `listen` method. This method is useful for logging queries or debugging. You may register your query listener in a [service provider](/docs/{{version}}/providers):
 
-어플리케이션에서 실행되는 각각의 쿼리를 확인하고자 한다면 `listen` 메소드를 사용하면 됩니다. 이 메소드는 쿼리를 로그로 남기거나, 디버깅 할 때 유용합니다. [서비스 프로바이더](/docs/{{version}}/providers)에서 쿼리 리스너를 등록할 수 있습니다.
+애플리케이션에서 실행되는 각각의 쿼리를 확인하고자 한다면 `listen` 메소드를 사용하면 됩니다. 이 메소드는 쿼리를 로그로 남기거나, 디버깅 할 때 유용합니다. [서비스 프로바이더](/docs/{{version}}/providers)에서 쿼리 리스너를 등록할 수 있습니다.
 
     <?php
 

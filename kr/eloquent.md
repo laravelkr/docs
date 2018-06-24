@@ -164,7 +164,7 @@ Timestamp의 포맷을 변경하여야 한다면 모델에 `$dateFormat` 속성�
 
 By default, all Eloquent models will use the default database connection configured for your application. If you would like to specify a different connection for the model, use the `$connection` property:
 
-기본적으로 모든 Eloquent 모델은 어플리케이션에서 기본으로 셋팅되어 있는 커넥션을 사용합니다. 다른 커넥션을 지정하고 싶다면 `$connection` 속성을 이용하면 됩니다:
+기본적으로 모든 Eloquent 모델은 애플리케이션에서 기본으로 셋팅되어 있는 커넥션을 사용합니다. 다른 커넥션을 지정하고 싶다면 `$connection` 속성을 이용하면 됩니다:
 
     <?php
 
@@ -642,7 +642,7 @@ Sometimes you may need to truly remove a model from your database. To permanentl
 
 Scopes allow you to define common sets of constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, simply prefix an Eloquent model method with `scope`.
 
-스코프는 어플리케이션에서 손쉽게, 반복적으로 사용할 수 있는 공통의 범위 제한을 정의할 수 있게 해줍니다. 예로 들어 여러분은 종종 "인기가 높은" 것으로 생각되는 사용자를  조회해야 한다고 합시다. 스코프를 정의하기 위해서는 간단하게 Eloquent 메소드의 이름에 `scope` 를 접두어로 붙이면 됩니다.
+스코프는 애플리케이션에서 손쉽게, 반복적으로 사용할 수 있는 공통의 범위 제한을 정의할 수 있게 해줍니다. 예로 들어 여러분은 종종 "인기가 높은" 것으로 생각되는 사용자를  조회해야 한다고 합시다. 스코프를 정의하기 위해서는 간단하게 Eloquent 메소드의 이름에 `scope` 를 접두어로 붙이면 됩니다.
 
 Scopes should always return a query builder instance:
 

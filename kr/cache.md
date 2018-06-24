@@ -103,7 +103,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 The `Illuminate\Contracts\Cache\Factory` and `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) provide access to Laravel's cache services. The `Factory` contract provides access to all cache drivers defined for your application. The `Repository` contract is typically an implementation of the default cache driver for your application as specified by your `cache` configuration file.
 
-`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 어플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체에 입니다. 
+`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 애플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체에 입니다. 
 
 However, you may also use the `Cache` facade, which is what we will use throughout this documentation. The `Cache` facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts.
 
@@ -272,7 +272,7 @@ You may clear the entire cache using the `flush` method:
 
 Flushing the cache **does not** respect the cache prefix and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.
 
-모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 어플리케이션의 다른 부분에서 공유하는 캐시를 제거 할 때에 주의하십시오.
+모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 애플리케이션의 다른 부분에서 공유하는 캐시를 제거 할 때에 주의하십시오.
 
 <a name="adding-custom-cache-drivers"></a>
 ## Adding Custom Cache Drivers
@@ -325,7 +325,7 @@ The first argument passed to the `extend` method is the name of the driver. This
 
 The call to `Cache::extend` could be done in the `boot` method of the default `App\Providers\AppServiceProvider` that ships with fresh Laravel applications, or you may create your own service provider to house the extension - just don't forget to register the provider in the `config/app.php` provider array.
 
-확장된 기능을 사용하기 위해서는 설치된 라라벨 어플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오. 
+확장된 기능을 사용하기 위해서는 설치된 라라벨 애플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오. 
 
 To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) contract. So, our MongoDB cache implementation would look something like this:
 
@@ -361,7 +361,7 @@ Once your extension is complete, simply update your `config/cache.php` configura
 
 If you're wondering where to put your custom cache driver code, consider making it available on Packagist! Or, you could create an `Extensions` namespace within your `app` directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.
 
-여러분이 구성한 사용자 지정 캐시 드라이버의 코드를 어디에 놓아둘지 고민하고 있다면, Packagist에 공개하는것을 고려해보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 만들 수도 있습니다. 물론, 라라벨은 엄격한 어플리케이션 구조를 가지고 있지 않기 때문에, 어느곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있습니다.
+여러분이 구성한 사용자 지정 캐시 드라이버의 코드를 어디에 놓아둘지 고민하고 있다면, Packagist에 공개하는것을 고려해보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 만들 수도 있습니다. 물론, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있습니다.
 
 <a name="cache-tags"></a>
 ## Cache Tags

@@ -88,7 +88,7 @@ Or, you may even register a route that responds to all HTTP verbs using the `any
 
 You may generate URLs to your application's routes using the `url` helper:
 
-`url` 헬퍼를 사용하여 어플리케이션의 라우트에 대응하는 URL을 생성할 수 있습니다: 
+`url` 헬퍼를 사용하여 애플리케이션의 라우트에 대응하는 URL을 생성할 수 있습니다: 
 
     $url = url('foo');
 
@@ -356,7 +356,7 @@ Laravel makes it easy to protect your application from [cross-site request forge
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application. To generate a hidden input field `_token` containing the CSRF token, you may use the `csrf_field` helper function:
 
-라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. CSRF 토큰을 포함하는 hidden 입력 필드 _token을 생성하려면 csrf_field 헬퍼 함수를 사용하면 됩니다.
+라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. CSRF 토큰을 포함하는 hidden 입력 필드 _token을 생성하려면 csrf_field 헬퍼 함수를 사용하면 됩니다.
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application. CSRF 토큰을 포함하는 hidden 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다. 
 
@@ -420,7 +420,7 @@ In addition to checking for the CSRF token as a POST parameter, the Laravel `Ver
 
 Once you have created the `meta` tag, you can instruct a library like jQuery to add the token to all request headers. This provides simple, convenient CSRF protection for your AJAX based applications:
 
-`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 어플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
+`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 애플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
 
     $.ajaxSetup({
             headers: {

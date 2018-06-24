@@ -548,7 +548,7 @@ The `imageable` relation on the `Photo` model will return either a `Staff` or `P
 
 By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Like` may belong to a `Post` or a `Comment`, the default `likable_type` would be either `App\Post` or `App\Comment`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Eloquent to use the table name associated with each model instead of the class name:
 
-기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 예제에서 `Like` 는 하나의 `Post` 또는 하나의 `Comment` 에 지정되고, 기본적으로 `likeable_type` 의 각각 `App\Post` 또는 `App\Comment` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 어플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 테이블 이름을 Eloquent 에 지시할 수 있습니다. 
+기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 예제에서 `Like` 는 하나의 `Post` 또는 하나의 `Comment` 에 지정되고, 기본적으로 `likeable_type` 의 각각 `App\Post` 또는 `App\Comment` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 애플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 테이블 이름을 Eloquent 에 지시할 수 있습니다. 
 
     Relation::morphMap([
         App\Post::class,

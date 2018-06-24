@@ -157,4 +157,4 @@ If you need to use a custom `Collection` object with your own extension methods,
 
 Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent returns a `Collection` instance of that model. If you would like to use a custom collection for every model in your application, you should override the `newCollection` method on a base model class that is extended by all of your models.
 
-`newCollection` 메소드를 정의하고 나면, Eloquent가 모델에서 `Collection` 인스턴스를 반환할 때 언제나 여러분이 지정한 사용자 정의 컬렉션반환 할것입니다. 어플리케이션의 모든 모델에서 사용자 정의 컬렉션을 사용하기를 원한다면, 모든 모델 클래스들이 상속받는 베이스 모델 클래스에서 `newCollection` 메소드를 오버라이드 해야합니다. 
+`newCollection` 메소드를 정의하고 나면, Eloquent가 모델에서 `Collection` 인스턴스를 반환할 때 언제나 여러분이 지정한 사용자 정의 컬렉션반환 할것입니다. 애플리케이션의 모든 모델에서 사용자 정의 컬렉션을 사용하기를 원한다면, 모든 모델 클래스들이 상속받는 베이스 모델 클래스에서 `newCollection` 메소드를 오버라이드 해야합니다. 

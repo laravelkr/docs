@@ -16,14 +16,14 @@
 
 Since HTTP driven applications are stateless, sessions provide a way to store information about the user across requests. Laravel ships with a variety of session back-ends available for use through a clean, unified API. Support for popular back-ends such as [Memcached](http://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
 
-HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다.
+HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다.
 
 ### Configuration
 ### 설정하기
 
 The session configuration file is stored at `config/session.php`. Be sure to review the well documented options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
 
-세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. 많은 어플리케이션에서 작동이 가능하도록 라라벨에서는 기본적으로 `file` 세션 드라이버를 사용합니다. 실서비스용 어플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 나 `redis` 드라이버를 사용하는 것을 고려하십시오.
+세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에는 각각의 옵션에 대한 정리된 문서가 포함되어 있으므로 잘 확인하시기 바랍니다. 많은 애플리케이션에서 작동이 가능하도록 라라벨에서는 기본적으로 `file` 세션 드라이버를 사용합니다. 실서비스용 애플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 나 `redis` 드라이버를 사용하는 것을 고려하십시오.
 
 The session `driver` defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
 
@@ -37,7 +37,7 @@ The session `driver` defines where session data will be stored for each request.
 
 - `file` - `storage/framework/sessions` 디렉토리에 세션을 저장합니다.
 - `cookie` - 암호화된 쿠키를 사용하여 안전하게 세션을 저장할 것입니다.
-- `database` - 어플리케이션이 사용하는 데이터베이스에 저장합니다. .
+- `database` - 애플리케이션이 사용하는 데이터베이스에 저장합니다. .
 - `memcached` / `redis` - 빠르고, 캐시를 기반으로한 memcached, redis 에 저장합니다.
 - `array` - PHP 배열에 세션을 저장합니다. 이경우 세션이 요청에 대해서 지속적으로 유지 되지 않습니다.
 

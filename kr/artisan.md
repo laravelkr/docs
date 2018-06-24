@@ -28,7 +28,7 @@
 
 Artisan is the name of the command-line interface included with Laravel. It provides a number of helpful commands for your use while developing your application. It is driven by the powerful Symfony Console component. To view a list of all available Artisan commands, you may use the `list` command:
 
-아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. 아티즌은 어플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. 아티즌은 강력한 Symfony 콘솔 콤포넌트에서 동작합니다. 실행가능한 아티즌 명령어 목록을 확인하려면 `list` 명령어를 다음과 같이 입력하면 됩니다.
+아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. 아티즌은 애플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. 아티즌은 강력한 Symfony 콘솔 콤포넌트에서 동작합니다. 실행가능한 아티즌 명령어 목록을 확인하려면 `list` 명령어를 다음과 같이 입력하면 됩니다.
 
     php artisan list
 
@@ -44,7 +44,7 @@ Every command also includes a "help" screen which displays and describes the com
 
 In addition to the commands provided with Artisan, you may also build your own custom commands for working with your application.You may store your custom commands in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be autoloaded based on your `composer.json` settings.
 
-아티즌에서 제공하는 명령어들에 더하여 추가적으로 어플리케이션에서 동작하는 여러분 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토도딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
+아티즌에서 제공하는 명령어들에 더하여 추가적으로 애플리케이션에서 동작하는 여러분 자신의 고유한 명령어를 만들 수 있습니다. 여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토도딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
 
 To create a new command, you may use the `make:console` Artisan command, which will generate a command stub to help you get started:
 
@@ -72,7 +72,7 @@ The `handle` method will be called when your command is executed. You may place 
 
 Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor. For greater code reusability, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks.
 
-명령어 클래스의 생성자에서는 필요한 의존성 주입이 가능합니다. 라라벨의 [서비스 컨테이너](/docs/5.1/container) 는 자동으로 생성자에서 타입이 지정된 의존객체들을 주입해 줄 것입니다. 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 어플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다.
+명령어 클래스의 생성자에서는 필요한 의존성 주입이 가능합니다. 라라벨의 [서비스 컨테이너](/docs/5.1/container) 는 자동으로 생성자에서 타입이 지정된 의존객체들을 주입해 줄 것입니다. 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다.
 
     <?php
 

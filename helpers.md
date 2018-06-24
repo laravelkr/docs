@@ -6,7 +6,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 어플리케이션에도 자유롭게 사용하실 수 있습니다. 
+라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 애플리케이션에도 자유롭게 사용하실 수 있습니다. 
 
 <a name="available-methods"></a>
 ## 사용 가능한 메소드
@@ -426,7 +426,7 @@
 <a name="method-app-path"></a>
 #### `app_path()` {#collection-method}
 
-`app_path` 함수는 `app` 디렉토리에 대한 절대 경로를 반환합니다. `app_path` 함수를 사용하면 어플리케이션 디렉토리에서 특정 파일의 절대 경로를 생성할 수도 있습니다:
+`app_path` 함수는 `app` 디렉토리에 대한 절대 경로를 반환합니다. `app_path` 함수를 사용하면 애플리케이션 디렉토리에서 특정 파일의 절대 경로를 생성할 수도 있습니다:
 
     $path = app_path();
 
@@ -444,14 +444,14 @@
 <a name="method-config-path"></a>
 #### `config_path()` {#collection-method}
 
-`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다: 
+`config_path` 함수는 애플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다: 
 
     $path = config_path();
 
 <a name="method-database-path"></a>
 #### `database_path()` {#collection-method}
 
-`database_path` 함수는 어플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다: 
+`database_path` 함수는 애플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다: 
 
     $path = database_path();
 

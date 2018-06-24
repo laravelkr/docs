@@ -1,7 +1,7 @@
-# 어플리케이션 테스팅
+# 애플리케이션 테스팅
 
 - [소개하기](#introduction)
-- [어플리케이션과 상호작용하기](#interacting-with-your-application)
+- [애플리케이션과 상호작용하기](#interacting-with-your-application)
     - [링크를 통한 상호작용](#interacting-with-links)
     - [Form을 사용한 상호작용](#interacting-with-forms)
 - [JSON API 테스팅하기](#testing-json-apis)
@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨은 어플리케이션에 HTTP request-요청을 하고, 결과를 검사하고, 또한 form을 채우는 매우 다양한 사용이 가능한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다: 
+라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하고, 또한 form을 채우는 매우 다양한 사용이 가능한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다: 
 
     <?php
 
@@ -37,7 +37,7 @@
         }
     }
 
-`visit` 메소드는 어플리케이션에 `GET` request-요청을 만듭니다. `see` 메소드는 어플리케이션에서 반환된 reponse-응답에 주어진 텍스트가 있는지 확인합니다. `dontSee` 메소드는 주어진 텍스트가 어플리케이션 response-응답으로 반환되지 않았다는 것을 확인합니다. 이것은 라라벨이 제공하는 가장 기본적인 어플리케이션 테스트입니다. 
+`visit` 메소드는 애플리케이션에 `GET` request-요청을 만듭니다. `see` 메소드는 애플리케이션에서 반환된 reponse-응답에 주어진 텍스트가 있는지 확인합니다. `dontSee` 메소드는 주어진 텍스트가 애플리케이션 response-응답으로 반환되지 않았다는 것을 확인합니다. 이것은 라라벨이 제공하는 가장 기본적인 애플리케이션 테스트입니다. 
 
 또한 이름이 지정된 라우트에 대한 `GET` request를 만들기 위해서 `visitRoute` 메소드를 사용할 수 있습니다: 
 
@@ -46,14 +46,14 @@
     $this->visitRoute('profile', ['user' => 1]);
 
 <a name="interacting-with-your-application"></a>
-## 어플리케이션과 상호작용하기 
+## 애플리케이션과 상호작용하기 
 
 물론 단순하게 주어진 응답에 텍스트가 나타날지 확인하는 것 이상의 테스트가 가능합니다. 링크 클릭하는 것과 form을 채워넣는 예제들을 살펴보겠습니다:
 
 <a name="interacting-with-links"></a>
 ### 링크를 통한 상호작용
 
-이 테스트에서는 어플리케이션에 요청을 보내고, 응답으로 돌아온 링크를 "클릭"하여, 주어진 URI로 이동하도록 할 것입니다. 예를 들어 응답으로 "About Us"이라는 텍스트 값을 가진 링크가 왔다고 가정해봅시다: 
+이 테스트에서는 애플리케이션에 요청을 보내고, 응답으로 돌아온 링크를 "클릭"하여, 주어진 URI로 이동하도록 할 것입니다. 예를 들어 응답으로 "About Us"이라는 텍스트 값을 가진 링크가 왔다고 가정해봅시다: 
 
     <a href="/about-us">About Us</a>
 
@@ -73,7 +73,7 @@
 <a name="interacting-with-forms"></a>
 ### Form을 사용한 상호작용
 
-라라벨은 또한 form을 테스트하는 여러 메소드들을 제공합니다. `type`, `select`, `check`, `attach`, 그리고 `press` 메소드는 form의 모든 input들과 상호작용할 수 있도록 해줍니다. 예를 들어 이 form이 어플리케이션의 등록 페이지에 존재한다고 가정해보겠습니다:
+라라벨은 또한 form을 테스트하는 여러 메소드들을 제공합니다. `type`, `select`, `check`, `attach`, 그리고 `press` 메소드는 form의 모든 input들과 상호작용할 수 있도록 해줍니다. 예를 들어 이 form이 애플리케이션의 등록 페이지에 존재한다고 가정해보겠습니다:
 
     <form action="/register" method="POST">
         {{ csrf_field() }}
@@ -149,7 +149,7 @@ form이 `file` input을 가지고 있다면, `attach` 메소드를 이용하여 
         }
     }
 
-> {팁} `seeJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 어플리케이션이 반환하는 JSON 응답 중 **어느 한 곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
+> {팁} `seeJson` 메소드는 주어진 배열을 JSON으로 변환하고 변환된 JSON이 애플리케이션이 반환하는 JSON 응답 중 **어느 한 곳에** 존재하는 것을 확인합니다. 따라서 JSON response-응답이 다른 속성을 가지고 있어도 특정 부분이 있기만 하면 테스트는 통과할 것입니다. 
 
 <a name="verifying-exact-match"></a>
 ### 정확하게 일치하는지 확인하기
@@ -241,7 +241,7 @@ JSON 응답이 지정한 구조에 부합하는지 확인하는 것도 가능합
 <a name="sessions-and-authentication"></a>
 ### 세션 / 인증
 
-라라벨은 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼들을 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정할 수 있습니다. 이것은 어플리케이션에 response-응답을 전달하기 전에 데이터를 세션에 로드하는 경우에 유용합니다:
+라라벨은 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼들을 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정할 수 있습니다. 이것은 애플리케이션에 response-응답을 전달하기 전에 데이터를 세션에 로드하는 경우에 유용합니다:
 
     <?php
 
@@ -278,7 +278,7 @@ JSON 응답이 지정한 구조에 부합하는지 확인하는 것도 가능합
 <a name="disabling-middleware"></a>
 ### 미들웨어 비활성화 시키기 
 
-어플리케이션을 테스트할 때 일부 테스트에서 [미들웨어](/docs/{{version}}/middleware)를 비활성화 하는 편리한 방법을 원할 수도 있습니다. 이는 어떤 미들웨어에도 관계 없이 라우트와 컨트롤러를 테스트할 수 있게 해줍니다. 라라벨은 자동으로 테스트 클래스의 모든 미들웨어를 비활성화할 수 있는 간단한 `WithoutMiddleware` 트레이트-trait을 포함하고 있습니다: 
+애플리케이션을 테스트할 때 일부 테스트에서 [미들웨어](/docs/{{version}}/middleware)를 비활성화 하는 편리한 방법을 원할 수도 있습니다. 이는 어떤 미들웨어에도 관계 없이 라우트와 컨트롤러를 테스트할 수 있게 해줍니다. 라라벨은 자동으로 테스트 클래스의 모든 미들웨어를 비활성화할 수 있는 간단한 `WithoutMiddleware` 트레이트-trait을 포함하고 있습니다: 
 
     <?php
 
@@ -316,7 +316,7 @@ JSON 응답이 지정한 구조에 부합하는지 확인하는 것도 가능합
 <a name="custom-http-requests"></a>
 ### 사용자 정의 HTTP 요청
 
-어플리케이션에 사용자 정의 HTTP request-요청을 하고 `Illuminate\Http\Response` 객체 전체를 가져오려면 `call` 메소드를 이용하면 됩니다:
+애플리케이션에 사용자 정의 HTTP request-요청을 하고 `Illuminate\Http\Response` 객체 전체를 가져오려면 `call` 메소드를 이용하면 됩니다:
 
     public function testApplication()
     {

@@ -31,7 +31,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 어플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Alex Bilbie에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 위에 구성되어 있습니다.
+라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 애플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Alex Bilbie에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 위에 구성되어 있습니다.
 
 > {note} 이 문서는 여러분이 OAuth2에 익숙하다고 전제하고 있습니다. OAuth2 대해 잘 모르겠다면, 문서를 읽기 전에 OAuth2에서 사용되는 일반적인 용어와 기능들을 숙지해 주십시오.
 
@@ -46,7 +46,7 @@
 
     Laravel\Passport\PassportServiceProvider::class,
 
-Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 서비스 프로바이더를 등록한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 어플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
+Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 서비스 프로바이더를 등록한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 애플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
 
     php artisan migrate
 
@@ -103,7 +103,7 @@ Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레�
         }
     }
 
-마지막으로, `config/auth.php` 설정 파일에서 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 어플리케이션이 Passport의 `TokenGuard` 를 사용합니다:
+마지막으로, `config/auth.php` 설정 파일에서 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 애플리케이션이 Passport의 `TokenGuard` 를 사용합니다:
 
     'guards' => [
         'web' => [
@@ -145,7 +145,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
         require('./components/passport/PersonalAccessTokens.vue')
     );
 
-컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `gulp`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 어플리케이션의 템플릿에 다음 코드를 복사하십시오:  
+컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `gulp`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 애플리케이션의 템플릿에 다음 코드를 복사하십시오:  
 
     <passport-clients></passport-clients>
     <passport-authorized-clients></passport-authorized-clients>
@@ -180,12 +180,12 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 <a name="issuing-access-tokens"></a>
 ## 엑세스 토큰 발급하기
 
-승인 코드와 함께 OAuth2를 사용하는 것은 대부분의 개발자가 OAuth2를 사용하는 가장 익숙한 방법입니다. 승인 코드를 사용할 때, 클라이언트 어플리케이션은 사용자를 서버로 리다이렉션 시켜서, 클라이언트에 대한 엑세스 토큰을 발급하는 요청-request를 승인하거나, 거부하게 됩니다.
+승인 코드와 함께 OAuth2를 사용하는 것은 대부분의 개발자가 OAuth2를 사용하는 가장 익숙한 방법입니다. 승인 코드를 사용할 때, 클라이언트 애플리케이션은 사용자를 서버로 리다이렉션 시켜서, 클라이언트에 대한 엑세스 토큰을 발급하는 요청-request를 승인하거나, 거부하게 됩니다.
 
 <a name="managing-clients"></a>
 ### 클라이언트 관리
 
-먼저, 어플리케이션의 API와 인터렉션을 해야하는 어플리케이션을 작성하는 개발자는 하나의 "클라이언트"를 만들어 어플리케이션에 등록해야 합니다. 일반적으로 이것은 어플리케이션의 이름과 사용자가 reqeust을 승인한 뒤에 어플리케이션이 리다렉션 할 수 있는 URL을 제공하여 구성합니다.
+먼저, 애플리케이션의 API와 인터렉션을 해야하는 애플리케이션을 작성하는 개발자는 하나의 "클라이언트"를 만들어 애플리케이션에 등록해야 합니다. 일반적으로 이것은 애플리케이션의 이름과 사용자가 reqeust을 승인한 뒤에 애플리케이션이 리다렉션 할 수 있는 URL을 제공하여 구성합니다.
 
 #### `passport:client` 명령어
 
@@ -214,7 +214,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 
 이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다: 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다.
 
-클라이언트가 생성되면, 클라이언트의 ID 와 암호키가 발급됩니다. 이 정보들은 어플리케이션에서 엑세스 토큰을 요청할 때 사용됩니다. 클라이언트 생성 라우트는 그 결과로 새로운 클라이언트의 인스턴스를 반환합니다:
+클라이언트가 생성되면, 클라이언트의 ID 와 암호키가 발급됩니다. 이 정보들은 애플리케이션에서 엑세스 토큰을 요청할 때 사용됩니다. 클라이언트 생성 라우트는 그 결과로 새로운 클라이언트의 인스턴스를 반환합니다:
 
     const data = {
         name: 'Client Name',
@@ -260,7 +260,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 
 #### 권한승인을 위한 리다이렉팅
 
-클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를 사용하여 권한 승인을 요청하고 어플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 어플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청-request을 하도록 만들어야 합니다:
+클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를 사용하여 권한 승인을 요청하고 애플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 애플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청-request을 하도록 만들어야 합니다:
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -277,7 +277,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 
 #### Request-요청 승인
 
-권한 승인 요청을 받으면, Passport는 자동으로 사용자가 템플릿을 표시하여 승인 요청을 수락하거나 거부할 수 있게 합니다. 요청이 승인되면, 어플리케이션에 의해서 지정된 `redirect_uri`로 리다이렉션 됩니다. `redirect_uri`는 클라이언트가 생성될 때 지정되었던 `redirect` URL과 일치해야 합니다.
+권한 승인 요청을 받으면, Passport는 자동으로 사용자가 템플릿을 표시하여 승인 요청을 수락하거나 거부할 수 있게 합니다. 요청이 승인되면, 애플리케이션에 의해서 지정된 `redirect_uri`로 리다이렉션 됩니다. `redirect_uri`는 클라이언트가 생성될 때 지정되었던 `redirect` URL과 일치해야 합니다.
 
 권한 승인 화면을 커스터마이징 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport 뷰 파일을 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다. 이제 이를 수정하면 됩니다:
 
@@ -285,7 +285,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 
 #### 승인 코드를 엑세스 토큰으로 변환하기
 
-사용자가 승인 요청을 수락하면, 사용중인 어플리케이션으로 리다이렉션됩니다. 고객은 엑세스 토큰을 획득하기 위해서 여러분의 어플리케이션으로 `POST` 요청을 보내야 합니다. 요청-request에는 사용자의 승인 요청을 통해서 어플리케이션에서 발급된 승인코드가 포함되어 있어야 합니다. 이 예제에서 Guzzle Http 라이브러리를 사용하여 `POST` 요청-request를 만들어 보겠습니다:
+사용자가 승인 요청을 수락하면, 사용중인 애플리케이션으로 리다이렉션됩니다. 고객은 엑세스 토큰을 획득하기 위해서 여러분의 애플리케이션으로 `POST` 요청을 보내야 합니다. 요청-request에는 사용자의 승인 요청을 통해서 애플리케이션에서 발급된 승인코드가 포함되어 있어야 합니다. 이 예제에서 Guzzle Http 라이브러리를 사용하여 `POST` 요청-request를 만들어 보겠습니다:
 
     Route::get('/callback', function (Request $request) {
         $http = new GuzzleHttp\Client;
@@ -310,7 +310,7 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 <a name="refreshing-tokens"></a>
 ### 토큰 갱신하기
 
-어플리케이션에서 지속시간이 짧은 엑세스 토큰을 발급한다면, 사용자는 엑세스 토큰을 발급할 때 제공된 리프레쉬 토큰을 사용하여 엑세스 토큰을 새롭게 갱신해야 합니다. 이 예제에서 Guzzle HTTP 라이브러리르 사용하여 토큰을 갱신해보겠습니다:
+애플리케이션에서 지속시간이 짧은 엑세스 토큰을 발급한다면, 사용자는 엑세스 토큰을 발급할 때 제공된 리프레쉬 토큰을 사용하여 엑세스 토큰을 새롭게 갱신해야 합니다. 이 예제에서 Guzzle HTTP 라이브러리르 사용하여 토큰을 갱신해보겠습니다:
 
     $http = new GuzzleHttp\Client;
 
@@ -331,12 +331,12 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 <a name="password-grant-tokens"></a>
 ## 패스워드 Grant 토큰
 
-OAuth2 패스워드 grant는 모바일 어플리케이션과 같은 여러분의 다른 클라이언트가 이메일 주소와 / 사용자 이름 및 암호를 사용하여 엑세스 토큰을 획득할 수 있도록 해줍니다. 이를 통해 OAuth2의 승인 코드 리다이렉션 request를 필요로 하지 않고도 엑세스 토큰을 안전하게 발급할 수 있도록 해줍니다.
+OAuth2 패스워드 grant는 모바일 애플리케이션과 같은 여러분의 다른 클라이언트가 이메일 주소와 / 사용자 이름 및 암호를 사용하여 엑세스 토큰을 획득할 수 있도록 해줍니다. 이를 통해 OAuth2의 승인 코드 리다이렉션 request를 필요로 하지 않고도 엑세스 토큰을 안전하게 발급할 수 있도록 해줍니다.
 
 <a name="creating-a-password-grant-client"></a>
 ### 패스워드 Grant 클라이언트 생성하기
 
-패스워드 grant를 통해서 어플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `passport:client` 명령어에 `--password` 옵션을 지정하여 이를 생성할 수 있습니다. `passport:install` 명령어를 이미 실행했다면, 이 명령어를 실행할 필요는 없습니다:
+패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `passport:client` 명령어에 `--password` 옵션을 지정하여 이를 생성할 수 있습니다. `passport:install` 명령어를 이미 실행했다면, 이 명령어를 실행할 필요는 없습니다:
 
     php artisan passport:client --password
 
@@ -365,7 +365,7 @@ OAuth2 패스워드 grant는 모바일 어플리케이션과 같은 여러분의
 <a name="requesting-all-scopes"></a>
 ### 모든 Scope-범위에 대하여 요청하기
 
-패스워드 grant를 사용할 때, 여러분은 어플리케이션에서 지원하는 모든 범위의 사용이 가능한 토큰을 승인 하고자 할수 있습니다. 이렇하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 범위는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
+패스워드 grant를 사용할 때, 여러분은 애플리케이션에서 지원하는 모든 범위의 사용이 가능한 토큰을 승인 하고자 할수 있습니다. 이렇하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 범위는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -381,7 +381,7 @@ OAuth2 패스워드 grant는 모바일 어플리케이션과 같은 여러분의
 <a name="implicit-grant-tokens"></a>
 ## 묵시적 grant 토큰
 
-묵시적 grant는 승인 코드 grant와 비슷합니다. 그렇지만, 클라이언트에서 반환되는 토큰은 승인 코드를 교환하지 않습니다. 이 grant는 클라이언트 자격증명을 안전하게 저장할 수 없는 자바스크립트 또는 모바일 어플리케이션에서 가장 일반적으로 사용됩니다. grant를 활성화하려면, `AuthServiceProvider` 에서 `enableImplicitGrant` 메소드를 호출하면 됩니다:
+묵시적 grant는 승인 코드 grant와 비슷합니다. 그렇지만, 클라이언트에서 반환되는 토큰은 승인 코드를 교환하지 않습니다. 이 grant는 클라이언트 자격증명을 안전하게 저장할 수 없는 자바스크립트 또는 모바일 애플리케이션에서 가장 일반적으로 사용됩니다. grant를 활성화하려면, `AuthServiceProvider` 에서 `enableImplicitGrant` 메소드를 호출하면 됩니다:
 
     /**
      * Register any authentication / authorization services.
@@ -397,7 +397,7 @@ OAuth2 패스워드 grant는 모바일 어플리케이션과 같은 여러분의
         Passport::enableImplicitGrant();
     }
 
-grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 어플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 어플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다:
+grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 애플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 애플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다:
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -433,14 +433,14 @@ grant가 활성화 되면, 개발자는 어플리케이션에서 엑세스 토�
 <a name="personal-access-tokens"></a>
 ## 개인용 엑세스 토큰
 
-때로는, 사용자가 일반적인 승인 코드 리다이렉션 플로우를 거치지 않고 엑세스 토큰을 발급하기를 원할 수도 있습니다. 사용자가 어플리케이션의 UI를 통해 자신에게 토큰을 발행 할 수 있게 하면, 사용자가 API를 테스트해 볼 수도 있고, 일반적으로 액세스 토큰을 발행하기 위한 더 간단한 방법으로도 사용할 수 있습니다.
+때로는, 사용자가 일반적인 승인 코드 리다이렉션 플로우를 거치지 않고 엑세스 토큰을 발급하기를 원할 수도 있습니다. 사용자가 애플리케이션의 UI를 통해 자신에게 토큰을 발행 할 수 있게 하면, 사용자가 API를 테스트해 볼 수도 있고, 일반적으로 액세스 토큰을 발행하기 위한 더 간단한 방법으로도 사용할 수 있습니다.
 
 > {note} 개인용 엑세스 토큰은 기본적으로 오랜시간 지속됩니다. `tokensExpireIn` 또는 `refreshTokensExpireIn` 메소드를 사용하는 경우 지속시간이 수정되지 않습니다.
 
 <a name="creating-a-personal-access-client"></a>
 ### 개인용 엑세스 클라이언트 생성하기
 
-어플리케이션이 개인용 엑세스 토큰을 발급 할 수 있도록 하기 전에, 개인용 엑세스 클라이언트를 생성해야 합니다. 이렇게 하려면 `passport:client` 명령어에 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install`명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다:
+애플리케이션이 개인용 엑세스 토큰을 발급 할 수 있도록 하기 전에, 개인용 엑세스 클라이언트를 생성해야 합니다. 이렇게 하려면 `passport:client` 명령어에 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install`명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다:
 
     php artisan passport:client --personal
 
@@ -465,7 +465,7 @@ passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포�
 
 #### `GET /oauth/scopes`
 
-이 라우트는 어플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다:
+이 라우트는 애플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다:
 
     this.$http.get('/oauth/scopes')
         .then(response => {
@@ -519,7 +519,7 @@ Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증�
 <a name="passing-the-access-token"></a>
 ### 엑세스 토큰 전달하기
 
-Passport에 의해서 보호되는 라우트를 호출할 때, 어플리케이션의 API 사용자는 그들의 요청-request의 `Authorization` 헤더에 `Bearer` 토큰으로 엑세스 토큰을 지정해야 합니다. 예를 들어 Guzzle HTTP 라이브러리를 사용해보겠습니다:
+Passport에 의해서 보호되는 라우트를 호출할 때, 애플리케이션의 API 사용자는 그들의 요청-request의 `Authorization` 헤더에 `Bearer` 토큰으로 엑세스 토큰을 지정해야 합니다. 예를 들어 Guzzle HTTP 라이브러리를 사용해보겠습니다:
 
     $response = $client->request('GET', '/api/user', [
         'headers' => [
@@ -534,7 +534,7 @@ Passport에 의해서 보호되는 라우트를 호출할 때, 어플리케이�
 <a name="defining-scopes"></a>
 ### Scope-범위 정의하기
 
-Scope는 계정에 대한 엑세스 승인을 요청할 때, 여러분의 API 클라이언트가 제한된 권한을 지정하여 요청하도록 합니다. 예를 들어, e-커머스 어플리케이션을 구성한다면, 모든 API 사용자에게 주문을 할 수 있는 권한을 줄 필요는 없을것입니다. 대신에, 사용자에게 주문 배송상황에 엑세스 할 수 있는 권한을 주면 됩니다. 다시 말해 Scope는 여러분의 어플리케이션 사용자가 써드파티 어플리케이션을 통해서 실행할 수 있는 액션에 제한을 줄 수 있습니다.
+Scope는 계정에 대한 엑세스 승인을 요청할 때, 여러분의 API 클라이언트가 제한된 권한을 지정하여 요청하도록 합니다. 예를 들어, e-커머스 애플리케이션을 구성한다면, 모든 API 사용자에게 주문을 할 수 있는 권한을 줄 필요는 없을것입니다. 대신에, 사용자에게 주문 배송상황에 엑세스 할 수 있는 권한을 주면 됩니다. 다시 말해 Scope는 여러분의 애플리케이션 사용자가 써드파티 애플리케이션을 통해서 실행할 수 있는 액션에 제한을 줄 수 있습니다.
 
 API의 Scope-범위는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passport:tokensCan` 메소드를 사용하여 정의할 수 있습니다. `tokensCan` 메소드는 Scope-범위의 이름과, 설명(description)에 대한 배열을 인자로 받습니다. Scope-범위 설명은 권한 승인 페이지에서 사용자에게 보여주려는 어떠한 내용도 가능합니다:
 
@@ -595,7 +595,7 @@ Passport는 유입되는 request-요청이 주어진 코드에 의해서 권한�
 
 #### 토큰 인스턴스에서 scope-범위 확인하기
 
-엑세스 토큰이 인증된 request-요청이 어플리케이션에 전달되면, 인증된 `User` 인스턴스의 `tokenCan` 메소드를 사용하여 토큰이 주어진 scope에 해당하는지 확인할 수 있습니다:
+엑세스 토큰이 인증된 request-요청이 애플리케이션에 전달되면, 인증된 `User` 인스턴스의 `tokenCan` 메소드를 사용하여 토큰이 주어진 scope에 해당하는지 확인할 수 있습니다:
 
     use Illuminate\Http\Request;
 
@@ -608,16 +608,16 @@ Passport는 유입되는 request-요청이 주어진 코드에 의해서 권한�
 <a name="consuming-your-api-with-javascript"></a>
 ## 자바스크립트로 API 사용하기
 
-API를 구성할 때 자바스크립트 어플리케이션에서 여러분의 API를 사용할 수 있으면, 매우 편리합니다. 이런 API 개발 방식을 사용하면 여러분의 어플리케이션이 전세계로 공유되는 것과 동일한 API를 사용할 수 있게 됩니다. 웹 어플리케이션, 모바일 어플리케이션, 써드파티 어플리케이션 및 다양한 패키지 관리자를 통해 퍼블리싱 할 수 있는 SDK에서 동일한 API를 사용할 수 있습니다.
+API를 구성할 때 자바스크립트 애플리케이션에서 여러분의 API를 사용할 수 있으면, 매우 편리합니다. 이런 API 개발 방식을 사용하면 여러분의 애플리케이션이 전세계로 공유되는 것과 동일한 API를 사용할 수 있게 됩니다. 웹 애플리케이션, 모바일 애플리케이션, 써드파티 애플리케이션 및 다양한 패키지 관리자를 통해 퍼블리싱 할 수 있는 SDK에서 동일한 API를 사용할 수 있습니다.
 
-일반적으로, 여러분의 API를 자바스크립트 어플리케이션에서 사용하고자 한다면, 어플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 어플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
+일반적으로, 여러분의 API를 자바스크립트 애플리케이션에서 사용하고자 한다면, 애플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 애플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
 
     'web' => [
         // Other middleware...
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 어플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 어플리케이션에 API에 요청-request를 만들 수 있습니다:
+이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다:
 
     this.$http.get('/user')
         .then(response => {
@@ -637,7 +637,7 @@ API를 구성할 때 자바스크립트 어플리케이션에서 여러분의 AP
 <a name="events"></a>
 ## 이벤트
 
-Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 어플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다:
+Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 애플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다:
 
 
     /**

@@ -24,7 +24,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨의 Queue-큐는 Beanstalk, Amazone SQS, Redis 그리고 관계형 데이터베이스과 같은 다양한 큐 시스템을 위한 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 일과 같이 시간이 소요되는 Job을 나중에 처리할 수 있습니다. 이렇게 소모되는 작업들을 나중에 처리함으로써 여러분의 어플리케이션은 웹 요청-request을 더 빠르게 처리할 수 있습니다.
+라라벨의 Queue-큐는 Beanstalk, Amazone SQS, Redis 그리고 관계형 데이터베이스과 같은 다양한 큐 시스템을 위한 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 일과 같이 시간이 소요되는 Job을 나중에 처리할 수 있습니다. 이렇게 소모되는 작업들을 나중에 처리함으로써 여러분의 애플리케이션은 웹 요청-request을 더 빠르게 처리할 수 있습니다.
 
 큐의 환경 설정 파일은 `config/queue.php`에 위치하고 있습니다. 이 파일에서 프레임워크에 포함된 데이터베이스, [Beanstalkd](https://kr.github.com/beanstalkd), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](http://redis.io), 그리고 (로컬 사용을 위한) job을 즉시 실행하는 synchronous 의 큐 드라이버 설정을 확인할 수 있습니다. `null` 큐 드라이버는 큐 동작을 비활성화합니다.  
 
@@ -41,7 +41,7 @@
     // This job is sent to the "emails" queue...
     dispatch((new Job)->onQueue('emails'));
 
-일부 어플리케이션은 job을 여러개의 queu에 푸시 할 필요가 없으며 하나의 queue에 보내는것이 더 나을 수도 있습니다. 하지만, 여러 queue에 job을 보내는 것은 우선 순위를 부여하고자 한다거나, 혹은 job 처리를 분할하고자하는 어플리케이션에서는 특히나 유용합니다. 라라벨의 queue worker는 우선 순위별로 처리해야하는 queue을 지정할 수 있기 때문입니다. 예를 들어, job을 `high` queue로 푸시한다면, 이 job들을 높은 우선 순위를 부여하여 처리할 수 있습니다:
+일부 애플리케이션은 job을 여러개의 queu에 푸시 할 필요가 없으며 하나의 queue에 보내는것이 더 나을 수도 있습니다. 하지만, 여러 queue에 job을 보내는 것은 우선 순위를 부여하고자 한다거나, 혹은 job 처리를 분할하고자하는 애플리케이션에서는 특히나 유용합니다. 라라벨의 queue worker는 우선 순위별로 처리해야하는 queue을 지정할 수 있기 때문입니다. 예를 들어, job을 `high` queue로 푸시한다면, 이 job들을 높은 우선 순위를 부여하여 처리할 수 있습니다:
 
     php artisan queue:work --queue=high,default
 
@@ -83,7 +83,7 @@ Redis 큐 커넥션이 Redis 클러스터를 사용한다면, 큐 이름은 [key
 <a name="generating-job-classes"></a>
 ### Job 클래스 생성하기
 
-기본적으로, 어플리케이션을 위한 모든 큐 Job들은 `app/Jobs` 디렉토리에 저장됩니다. `app/Jobs` 디렉토리가 존재하지 않는다면, `make:job` 아티즌 명령어를 실행할 때 생성됩니다. 새로운 큐 Job 클래스는 아티즌 CLI를 통해서 생성할 수 있습니다: 
+기본적으로, 애플리케이션을 위한 모든 큐 Job들은 `app/Jobs` 디렉토리에 저장됩니다. `app/Jobs` 디렉토리가 존재하지 않는다면, `make:job` 아티즌 명령어를 실행할 때 생성됩니다. 새로운 큐 Job 클래스는 아티즌 CLI를 통해서 생성할 수 있습니다: 
 
     php artisan make:job SendReminderEmail
 
@@ -134,7 +134,7 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
         }
     }
 
-이 예제에서 큐 Job 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. Job 클래스에서 사용하는 SerializesModels 트레이트-trait에 의해 Eloquent 모델은 효과적으로 serialize 될것이며, Job이 처리 될 때 unserialize 됩니다. 큐에 저장된 Job이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. Job이 실제로 처리될 때 큐 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 어플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
+이 예제에서 큐 Job 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. Job 클래스에서 사용하는 SerializesModels 트레이트-trait에 의해 Eloquent 모델은 효과적으로 serialize 될것이며, Job이 처리 될 때 unserialize 됩니다. 큐에 저장된 Job이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. Job이 실제로 처리될 때 큐 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 애플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
 
 큐에 의해서 Job이 처리될 때에는 `handle` 메소드가 호출 됩니다. Job 클래스의 `handle` 메소드에 의존 객체들이 타입-힌트 될 수 있다는 것에 주의하십시오. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 의존 객체들을 주입해 줍니다. 
 
@@ -278,7 +278,7 @@ Queue-큐로 처리되는 job이 지연되어서 실행되도록 하고자 한�
 <a name="error-handling"></a>
 ### 에러 핸들
 
-job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 어플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
+job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 애플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
 
 <a name="running-the-queue-worker"></a>
 ## Queue-큐 worker 실행하기
@@ -289,7 +289,7 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 
 > {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않고 계속되는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다. 
 
-주의할점은 queue worker는 장시간 동안 살아 있는 프로세스로, 어플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
+주의할점은 queue worker는 장시간 동안 살아 있는 프로세스로, 애플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
 
 #### 커넥션 & queue-큐 지정하기
 
@@ -319,7 +319,7 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 <a name="queue-workers-and-deployment"></a>
 ### Queue worker & 배포
 
-queue worker는 장시간 동안 살아 있는 프로세스이기 때문에, 재시작하지 않으면, 코드 변경사항이 적용되지 않습니다. 따라서, queue worker를 사용하는 어플리케이션을 배포하는 가장 간단한 방법은 배포 프로세스 안에서 worker를 재시작하는 것입니다. `queue:restart` 명령어를 사용하여 모든 worker를 급작스런 중단없이 무난하게 재시작할 수 있습니다:
+queue worker는 장시간 동안 살아 있는 프로세스이기 때문에, 재시작하지 않으면, 코드 변경사항이 적용되지 않습니다. 따라서, queue worker를 사용하는 애플리케이션을 배포하는 가장 간단한 방법은 배포 프로세스 안에서 worker를 재시작하는 것입니다. `queue:restart` 명령어를 사용하여 모든 worker를 급작스런 중단없이 무난하게 재시작할 수 있습니다:
 
     php artisan queue:restart
 

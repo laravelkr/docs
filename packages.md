@@ -25,7 +25,7 @@
 <a name="a-note-on-facades"></a>
 ### 파사드 사용의 주의사항
 
-라라벨 어플리케이션을 작성하는 경우, contracts 또는 파사드의 어느 쪽을 사용해도 일반적으로는 테스트레벨에서 동일하게 문제가 없습니다. 그러나 패키지를 작성하는 경우, [facades](/docs/{{version}}/facades) 대신 [contracts](/docs/{{version}}/contracts)을 사용하는 것이 제일 좋습니다. 패키지는 라라벨의 테스트 헬퍼 모두에게 접근 할 수 없기 때문에, 파사드를 mocking 하는 것 보다 contract을 mock 하거나 stub 하는 것이 더 쉽습니다.
+라라벨 애플리케이션을 작성하는 경우, contracts 또는 파사드의 어느 쪽을 사용해도 일반적으로는 테스트레벨에서 동일하게 문제가 없습니다. 그러나 패키지를 작성하는 경우, [facades](/docs/{{version}}/facades) 대신 [contracts](/docs/{{version}}/contracts)을 사용하는 것이 제일 좋습니다. 패키지는 라라벨의 테스트 헬퍼 모두에게 접근 할 수 없기 때문에, 파사드를 mocking 하는 것 보다 contract을 mock 하거나 stub 하는 것이 더 쉽습니다.
 
 <a name="service-providers"></a>
 ## 서비스 프로바이더
@@ -37,7 +37,7 @@
 <a name="routing"></a>
 ## 라우팅
 
-패키지에서 사용할 라우트를 정의하려면 패키지의 서비스 프로바이더의 `boot` 메소드안에서 `loadRoutesFrom` 메소드에 라우트 파일을 지정하면 됩니다. 여러분이 지정한 라우트 파일 안에서는 라라벨의 일반적인 어플리케이션에서 사용된 것과 같이 `Illuminate\Support\Facades\Route` 파사드를 통해서 [라우트 등록](/docs/{{version}}/routing)을 할 수 있습니다: 
+패키지에서 사용할 라우트를 정의하려면 패키지의 서비스 프로바이더의 `boot` 메소드안에서 `loadRoutesFrom` 메소드에 라우트 파일을 지정하면 됩니다. 여러분이 지정한 라우트 파일 안에서는 라라벨의 일반적인 애플리케이션에서 사용된 것과 같이 `Illuminate\Support\Facades\Route` 파사드를 통해서 [라우트 등록](/docs/{{version}}/routing)을 할 수 있습니다: 
 
     /**
      * Perform post-registration booting of services.
@@ -55,7 +55,7 @@
 <a name="configuration"></a>
 ### 설정파일
 
-일반적으로 여러분은 패키지의 설정 파일을 어플리케이션의 `config` 디렉토리에 퍼블리싱 하는 것이 필요할 것입니다. 이것은 여러분의 패키지의 사용자가 패키지 설정 파일의 기본 옵션들을 손쉽게 수정할 수 있도록 해줍니다. 설정 파일들을 퍼블리싱 하도록 하기 위해서는 서비스 프로바이더의 `boot` 메소드에서 `publishes` 메소드를 사용하면 됩니다:
+일반적으로 여러분은 패키지의 설정 파일을 애플리케이션의 `config` 디렉토리에 퍼블리싱 하는 것이 필요할 것입니다. 이것은 여러분의 패키지의 사용자가 패키지 설정 파일의 기본 옵션들을 손쉽게 수정할 수 있도록 해줍니다. 설정 파일들을 퍼블리싱 하도록 하기 위해서는 서비스 프로바이더의 `boot` 메소드에서 `publishes` 메소드를 사용하면 됩니다:
 
     /**
      * Perform post-registration booting of services.
@@ -77,7 +77,7 @@
 
 #### 패키지 기본 설정
 
-여러분은 또한 패키지 설정 파일이 어플리케이션의 퍼블리싱된 설정 파일에 합쳐지도록 할 수도 있습니다. 이렇게 하면 여러분의 사용자가 퍼블리싱된 설정 파일의 복사본에서 실제로 오버라이딩 하기를 원하는 옵션만 정의하는 것 가능하게 합니다. 설정 파일을 합치려면 서비스 프로바이더의 `register` 메소드안에서 `mergeConfigFrom` 메소드를 사용하면 됩니다:
+여러분은 또한 패키지 설정 파일이 애플리케이션의 퍼블리싱된 설정 파일에 합쳐지도록 할 수도 있습니다. 이렇게 하면 여러분의 사용자가 퍼블리싱된 설정 파일의 복사본에서 실제로 오버라이딩 하기를 원하는 옵션만 정의하는 것 가능하게 합니다. 설정 파일을 합치려면 서비스 프로바이더의 `register` 메소드안에서 `mergeConfigFrom` 메소드를 사용하면 됩니다:
 
     /**
      * Register bindings in the container.
@@ -108,7 +108,7 @@
         $this->loadMigrationsFrom(__DIR__.'/path/to/migrations');
     }
 
-패키지의 마이그레이션 파일들이 등록되고 나면, `php artisan migrate` 명령어를 실행할 때 자동으로 이 파일들이 구동될 것입니다. 이 파일들을 어플리케이션의 메인 `database/migrations` 디렉토리에 복사할 필요가 없습니다.
+패키지의 마이그레이션 파일들이 등록되고 나면, `php artisan migrate` 명령어를 실행할 때 자동으로 이 파일들이 구동될 것입니다. 이 파일들을 애플리케이션의 메인 `database/migrations` 디렉토리에 복사할 필요가 없습니다.
 
 <a name="translations"></a>
 ### 언어 파일
@@ -131,7 +131,7 @@
 
 #### 언어 파일 퍼블리싱하기
 
-패키지의 언어파일을 어플리케이션의 `resources/lang/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 경로와 퍼블리싱 되기를 바라는 위치를 나타내는 배열을 인자로 전달 받습니다. 예를 들어 `courier` 패키지의 언어 파일을 퍼블리싱 하려면, 다음과 같이 할 수 있습니다:
+패키지의 언어파일을 애플리케이션의 `resources/lang/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 경로와 퍼블리싱 되기를 바라는 위치를 나타내는 배열을 인자로 전달 받습니다. 예를 들어 `courier` 패키지의 언어 파일을 퍼블리싱 하려면, 다음과 같이 할 수 있습니다:
 
     /**
      * Perform post-registration booting of services.
@@ -172,11 +172,11 @@
 
 #### 패키지 뷰-views 오버라이딩 하기
 
-`loadViewsFrom` 메소드를 사용할 때, 라라벨에서는 실질적으로 뷰파일을 로드하기 위한 두개의 경로를 등록합니다: 어플리케이션의 `resources/views/vendor` 디렉토리와 여러분이 지정하는 디렉토리 입니다. 따라서 `courier` 예제에서, 라라벨은 먼저 `resources/views/vendor/courier` 에서 개발자에 의해서 제공되는 뷰가 있는지 확인할 것입니다. 그결과 커스텀 뷰가 설정되어 있지 않다면, 라라벨은 `loadViewsFrom` 메소드를 통해서 지정된 패키지 뷰 디렉토리를 확인할 것입니다. 이러한 방법은 패키지 사용자가 여러분의 패키지 뷰를 수정하거나, 재정의 하기 쉽게 해줍니다.
+`loadViewsFrom` 메소드를 사용할 때, 라라벨에서는 실질적으로 뷰파일을 로드하기 위한 두개의 경로를 등록합니다: 애플리케이션의 `resources/views/vendor` 디렉토리와 여러분이 지정하는 디렉토리 입니다. 따라서 `courier` 예제에서, 라라벨은 먼저 `resources/views/vendor/courier` 에서 개발자에 의해서 제공되는 뷰가 있는지 확인할 것입니다. 그결과 커스텀 뷰가 설정되어 있지 않다면, 라라벨은 `loadViewsFrom` 메소드를 통해서 지정된 패키지 뷰 디렉토리를 확인할 것입니다. 이러한 방법은 패키지 사용자가 여러분의 패키지 뷰를 수정하거나, 재정의 하기 쉽게 해줍니다.
 
 #### 뷰-Views 퍼블리싱하기
 
-여러분의 뷰를 어플리케이션의 `resources/views/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 뷰의 경로와 퍼블리싱 되길 바라는 위치를 나타내는 배열을 인자로 전달 받습니다:
+여러분의 뷰를 애플리케이션의 `resources/views/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 뷰의 경로와 퍼블리싱 되길 바라는 위치를 나타내는 배열을 인자로 전달 받습니다:
 
     /**
      * Perform post-registration booting of services.
@@ -217,7 +217,7 @@
 <a name="public-assets"></a>
 ## Public Assets
 
-여러분의 패키지가 JavaScript, CSS 그리고 이미지 파일들 처럼 asset 파일들을 가지고 있을 수 있습니다. 이 파일들을 어플리케이션의 `public` 디렉토리로 퍼블리싱 하기 위해서는 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. 다음 예제에서는 연관된 asset 의 그룹을 퍼블리싱하는데 사용되는 "public" asset 그룹 태그를 추가로 지정하고 있습니다:
+여러분의 패키지가 JavaScript, CSS 그리고 이미지 파일들 처럼 asset 파일들을 가지고 있을 수 있습니다. 이 파일들을 애플리케이션의 `public` 디렉토리로 퍼블리싱 하기 위해서는 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. 다음 예제에서는 연관된 asset 의 그룹을 퍼블리싱하는데 사용되는 "public" asset 그룹 태그를 추가로 지정하고 있습니다:
 
     /**
      * Perform post-registration booting of services.

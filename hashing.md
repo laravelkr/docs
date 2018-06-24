@@ -7,14 +7,14 @@
 <a name="introduction"></a>
 ## 소개하기
 
-라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt와 Argon2 해싱을 제공합니다. 만약 라라벨 어플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
+라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt와 Argon2 해싱을 제공합니다. 만약 라라벨 애플리케이션에 포함되어 있는 `LoginController` 와 `RegisterController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
 
 > {tip} Bcrypt 는 "work factor"를 조정할 수 있기 때문에 암호 해시로는 좋은 선택이 됩니다. 이것이 의미하는 것은 즉 하드웨어의 성능이 증가하면 해시의 생성 시간을 빨리 할 수 있다는 것을 의미합니다.
 
 <a name="configuration"></a>
 ## 설정하기
 
-여러분의 어플리케이션을 위한 기본 해싱 드라이버는 `config/hashing.php` 구성 파일 안에 설정되어 있습니다. 현재 지원되는 두개의 드라이버: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2).
+여러분의 애플리케이션을 위한 기본 해싱 드라이버는 `config/hashing.php` 구성 파일 안에 설정되어 있습니다. 현재 지원되는 두개의 드라이버: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2).
 
 > {note} 아르곤2 드라이버는 PHP 7.2.0 이상의 버전을 요구합니다.
 
@@ -51,7 +51,7 @@
 
 #### Bcrypt Work Factor 조정하기
 
-만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 어플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
 
     $hashed = Hash::make('password', [
         'rounds' => 12
@@ -59,7 +59,7 @@
 
 #### Argon2 Work Factor 조정하기
 
-만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 어플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
 
     $hashed = Hash::make('password', [
         'memory' => 1024,

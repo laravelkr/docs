@@ -7,7 +7,7 @@
 
 #### 업그레이드 예상 시간 : 약 10-30분
 
-> {note} 가능한 모든 변경 내용을 기록하려고 했습니만, 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 어플리케이션에 영향을 끼칠 수도 있습니다.
+> {note} 가능한 모든 변경 내용을 기록하려고 했습니만, 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 애플리케이션에 영향을 끼칠 수도 있습니다.
 
 ### PHP
 
@@ -24,11 +24,11 @@
 - Scout (`^4.0` 으로 업그레이드)
 
 
-또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.6를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
+또한, 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.6를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 #### Symfony 4
 
-라라벨에서 사용되는 모든 Symfony 컴포넌트가 `^4.0` 리리즈 시리즈로 업그레이드되었습니다. 어플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
+라라벨에서 사용되는 모든 Symfony 컴포넌트가 `^4.0` 리리즈 시리즈로 업그레이드되었습니다. 애플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
 
 #### PHPUnit
 
@@ -84,7 +84,7 @@
 
 #### Index Order Of Morph Columns
 
-`morphs` 마이그레이션 메소드를 통해서 생성된 컬럼의 인덱스는 성능향상을 위해서 더는 인덱스를 생성하지 않게 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 어플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 어플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
+`morphs` 마이그레이션 메소드를 통해서 생성된 컬럼의 인덱스는 성능향상을 위해서 더는 인덱스를 생성하지 않게 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 애플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 애플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
 
 #### `MigrationRepositoryInterface` 메소드 추가
 
@@ -100,7 +100,7 @@
 
 #### 새로운 설정 파일
 
-모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
+모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 애플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
 
 ### 헬퍼
 
@@ -116,17 +116,17 @@
 
 #### 새로운 설정 파일
 
-로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
+로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 애플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
 
 `config/app.php` 설정 파일의 `log` 와 `log_level` 설정 옵션은 제거되었습니다.
 
 #### `configureMonologUsing` 메소드
 
-어플리케이션에서 Monolog 인스턴스를 커스터마이징 하기 위해서 `configureMonologUsing` 메소드를 사용했다면, `custom` 로그 채널을 생성하십시오. 커스텀 채널을 생성하기 위한 보다 자세한 내용은 [로깅 문서](/docs/5.6/logging#creating-custom-channels)를 참고하십시오.
+애플리케이션에서 Monolog 인스턴스를 커스터마이징 하기 위해서 `configureMonologUsing` 메소드를 사용했다면, `custom` 로그 채널을 생성하십시오. 커스텀 채널을 생성하기 위한 보다 자세한 내용은 [로깅 문서](/docs/5.6/logging#creating-custom-channels)를 참고하십시오.
 
 #### Log `Writer` 클래스
 
-`Illuminate\Log\Writer` 클래스는 `Illuminate\Log\Logger` 으로 이름이 변경되었습니다. 어플리케이션의 클래스중 하나에서 이 클래스를 의존하고 있었다면, 새로운 이름으로 변경해야 합니다. 또는, 대신에, `Psr\Log\LoggerInterface` 인터페이스를 사용하는 것을 고려해보십시오.
+`Illuminate\Log\Writer` 클래스는 `Illuminate\Log\Logger` 으로 이름이 변경되었습니다. 애플리케이션의 클래스중 하나에서 이 클래스를 의존하고 있었다면, 새로운 이름으로 변경해야 합니다. 또는, 대신에, `Psr\Log\LoggerInterface` 인터페이스를 사용하는 것을 고려해보십시오.
 
 #### `Illuminate\Contracts\Logging\Log` 인터페이스
 
@@ -174,11 +174,11 @@
 
 #### 새롭게 생성된 모델 반환하기
 
-새롭게 생성 된 Eloquent 모델을 라우트에서 직접 반환하게 되면 response-응답의 상태코드가 자동으로 `200` 대신 `201` 로 설정됩니다. 어플리케이션의 테스트에서 명시적으로 `200` response-응답을 기대하는 경우에 해당 테스트가 `201`을 예상하도록 수정해야합니다.
+새롭게 생성 된 Eloquent 모델을 라우트에서 직접 반환하게 되면 response-응답의 상태코드가 자동으로 `200` 대신 `201` 로 설정됩니다. 애플리케이션의 테스트에서 명시적으로 `200` response-응답을 기대하는 경우에 해당 테스트가 `201`을 예상하도록 수정해야합니다.
 
 ### 신뢰할 수 있는 프록시 설정
 
-Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었기 때문에, 어플리케이션의 `App\Http\Middleware\TrustProxies` 미들웨어를 조금 수정해야합니다.
+Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었기 때문에, 애플리케이션의 `App\Http\Middleware\TrustProxies` 미들웨어를 조금 수정해야합니다.
 
 이전버전에는 배열이었던 `$headers` 속성은 이제, 몇가지의 서로 다는 유형의 값을 지정가능합니다. 예를 들어 모든 헤더를 신뢰하려면 `$headers` 속성을 다음처럼 수정하면 됩니다:
 
@@ -201,4 +201,4 @@ Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었�
 
 ### 기타
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 어플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

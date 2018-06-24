@@ -351,7 +351,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
 #### 엔진 등록하기
 
-커스텀엔진을 작성했다면, 스카우트 엔진 매니저의 `extend` 메소드를 사용하여 그 엔진을 등록할 수 있습니다. 여러분은 이 `extend` 메소드를 `AppServiceProvider`나 여러분의 어플리케이션에서 사용되는 다른 서비스 프로바이더의 `boot` 메소드에서 호출해야 합니다. 예를 들어, 만약 여러분이 `MySqlSearchEngine`을 구현했다면, 다음과 같이 등록할 수 있습니다.
+커스텀엔진을 작성했다면, 스카우트 엔진 매니저의 `extend` 메소드를 사용하여 그 엔진을 등록할 수 있습니다. 여러분은 이 `extend` 메소드를 `AppServiceProvider`나 여러분의 애플리케이션에서 사용되는 다른 서비스 프로바이더의 `boot` 메소드에서 호출해야 합니다. 예를 들어, 만약 여러분이 `MySqlSearchEngine`을 구현했다면, 다음과 같이 등록할 수 있습니다.
 
     use Laravel\Scout\EngineManager;
 

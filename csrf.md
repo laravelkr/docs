@@ -23,7 +23,7 @@ HTML 폼을 정의할 때, CSRF 토큰을 hidden 필드로 포함시켜서, CSRF
 
 #### CSRF 토큰 & JavaScript
 
-자바스크립트를 기반으로한 어플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.
+자바스크립트를 기반으로한 애플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 를 사용하지 않는 경우 애플리케이션에 이 작업을 직접 구성하도록 해야합니다.
 
 <a name="csrf-excluding-uris"></a>
 ## CSRF 보호로 부터 특정 URI를 제외시키기
@@ -69,7 +69,7 @@ POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하�
         }
     });
 
-> {tip} 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 라이브러리를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.
+> {tip} 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 라이브러리를 사용하지 않는 경우 애플리케이션에 이 작업을 직접 구성하도록 해야합니다.
 
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN

@@ -173,7 +173,7 @@ If the charge is successful, the full Stripe response will be returned from the 
 
 If your application offers a free-trial with no credit-card up front, set the `cardUpFront` property on your model to `false`:
 
-만약 여러분의 어플리케이션이 무료 평가기간(trial) 을 신용카드 정보 없이 제공한다면 모델클래스에 `cardUpFront` 속성을 `false`로 지정하십시오. 
+만약 여러분의 애플리케이션이 무료 평가기간(trial) 을 신용카드 정보 없이 제공한다면 모델클래스에 `cardUpFront` 속성을 `false`로 지정하십시오. 
 
 	protected $cardUpFront = false;
 
@@ -203,7 +203,7 @@ If the user is on trial, the trial will be maintained as normal. Also, if a "qua
 
 Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month per user on an account. To easily increment or decrement your subscription quantity, use the `increment` and `decrement` methods:
 
-때로는 구독은 “수량”에 영향을 받을 수 있습니다.  예를 들어 여러분의 어플리케이션에서 하나의 계정의 사용자마다 한달에 10달러를 부과하고 있다고 한다면, `increment` 와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다. 
+때로는 구독은 “수량”에 영향을 받을 수 있습니다.  예를 들어 여러분의 애플리케이션에서 하나의 계정의 사용자마다 한달에 10달러를 부과하고 있다고 한다면, `increment` 와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다. 
 
 	$user = User::find(1);
 
@@ -260,7 +260,7 @@ If the user cancels a subscription and then resumes that subscription before the
 ## 가입 상태 확인
 
 To verify that a user is subscribed to your application, use the `subscribed` method:
-사용자가 어플리케이션에 대해 구독중인지 아닌지 확인하려면 `subscribed` 메소드를 사용하면 됩니다. 
+사용자가 애플리케이션에 대해 구독중인지 아닌지 확인하려면 `subscribed` 메소드를 사용하면 됩니다. 
 
 	if ($user->subscribed())
 	{
@@ -310,7 +310,7 @@ You may also determine if a user has cancelled their subscription, but are still
 
 The `everSubscribed` method may be used to determine if the user has ever subscribed to a plan in your application:
 
-`everSubscribed` 메소드는 사용자가 어플리케이션을 한번도 구독한적이 없는지 확인하는데 사용됩니다. 
+`everSubscribed` 메소드는 사용자가 애플리케이션을 한번도 구독한적이 없는지 확인하는데 사용됩니다. 
 
 	if ($user->everSubscribed())
 	{

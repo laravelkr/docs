@@ -7,7 +7,7 @@
 <a name="introduction"></a>
 ## Introduction 소개
 
-In addition to the commands provided with Artisan, you may also build your own custom commands for working with your application. 아티즌에서 제공하는 명령어에 추가적으로 어플리케이션에서 동작하는 자신의 고유한 명령어를 만들 수 있습니다. You may store your custom commands in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be autoloaded based on your `composer.json` settings.  여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토도딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
+In addition to the commands provided with Artisan, you may also build your own custom commands for working with your application. 아티즌에서 제공하는 명령어에 추가적으로 애플리케이션에서 동작하는 자신의 고유한 명령어를 만들 수 있습니다. You may store your custom commands in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be autoloaded based on your `composer.json` settings.  여러분의 고유한 명령어는 `app/Console/Commands` 디렉토리에 저장하면 됩니다만, 실제로는 명령어가 `composer.json` 세팅을 기반하여 오토도딩 될 수 있다면 어느 위치에 넣어도 상관없습니다.
 
 <a name="building-a-command"></a>
 ## Building A Command 명령어 만들기

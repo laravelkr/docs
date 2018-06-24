@@ -18,7 +18,7 @@ Remember, bug reports are created in the hope that others with the same problem 
 The Laravel source code is managed on Github, and there are repositories for each of the Laravel projects: 라라벨의 소스 코드는 GitHub에서 관리되며 각각의 라라벨 프로젝트의 저장소가 있습니다.
 
 - [Laravel Framework 라라벨 프레임워크](https://github.com/laravel/framework) 
-- [Laravel Application 라라벨 어플리케이션](https://github.com/laravel/laravel)
+- [Laravel Application 라라벨 애플리케이션](https://github.com/laravel/laravel)
 - [Laravel Documentation 라라벨 메뉴얼](https://github.com/laravel/docs)
 - [Laravel Cashier 라라벨 캐셔](https://github.com/laravel/cashier)
 - [Laravel Envoy 라라벨 Envoy](https://github.com/laravel/envoy)

@@ -5,7 +5,7 @@
 - [Binding Interfaces To Implementations 구현 객체에 인터페이스를 바인딩 하는 법](#binding-interfaces-to-implementations)
 - [Contextual Binding 상황에 맞는 바인딩](#contextual-binding)
 - [Tagging 태깅](#tagging)
-- [Practical Applications 실제 어플리케이션](#practical-applications)
+- [Practical Applications 실제 애플리케이션](#practical-applications)
 - [Container Events 컨테이너 이벤트](#container-events)
 
 <a name="introduction"></a>
@@ -53,7 +53,7 @@ Let's look at a simple example:
 
 	}
 
-In this example, the `PurchasePodcast` command handler needs to send e-mails when a podcast is purchased. 위의 예제에서 `PurchasePodcast` 명령어는 podcast 가 주문이 되면 이메일을 보내야 할 필요가 있습니다. So, we will **inject** a service that is able to send e-mails. 그래서 우리는 이메일을 보내기 위한 서비스를 **주입** 시킬것입니다. Since the service is injected, we are able to easily swap it out with another implementation. 서비스가 주입되었기 때문에 원하는 경우 쉽게 다른 구현 객체로 바꿀 수 있습니다. We are also able to easily "mock", or create a dummy implementation of the mailer when testing our application. 또한 어플리케이션을 테스팅 할 때 손쉽게 "목킹" 할수 있고 메일러의 더미 구현클래스를 만들수 있습니다. 
+In this example, the `PurchasePodcast` command handler needs to send e-mails when a podcast is purchased. 위의 예제에서 `PurchasePodcast` 명령어는 podcast 가 주문이 되면 이메일을 보내야 할 필요가 있습니다. So, we will **inject** a service that is able to send e-mails. 그래서 우리는 이메일을 보내기 위한 서비스를 **주입** 시킬것입니다. Since the service is injected, we are able to easily swap it out with another implementation. 서비스가 주입되었기 때문에 원하는 경우 쉽게 다른 구현 객체로 바꿀 수 있습니다. We are also able to easily "mock", or create a dummy implementation of the mailer when testing our application. 또한 애플리케이션을 테스팅 할 때 손쉽게 "목킹" 할수 있고 메일러의 더미 구현클래스를 만들수 있습니다. 
 
 A deep understanding of the Laravel service container is essential to building a powerful, large application, as well as for contributing to the Laravel core itself.
 라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 애플리케이션을 구축 할 때나 라라벨 코어에 공헌하기 위해서  중요한 부분입니다.
@@ -63,7 +63,7 @@ A deep understanding of the Laravel service container is essential to building a
 
 ### Binding 바인딩
 
-Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so all of these examples will demonstrate using the container in that context. 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. However, if you need an instance of the container elsewhere in your application, such as a factory, you may type-hint the `Illuminate\Contracts\Container\Container` contract and an instance of the container will be injected for you. 하지만 만약 팩토리와 같이 어플리케이션의 다른 곳에서 컨테이너의 인스턴스가 필요하다면 컨테이너의 인스턴스가 주입되도록 `Illuminate\Contracts\Container\Container` contract 를 타입힌트로 지정하면 됩니다. Alternatively, you may use the `App` facade to access the container.  다른 방법으로는 컨테이너에 액세스하기 위해`App` 파사드를 사용할 수 있습니다.
+Almost all of your service container bindings will be registered within [service providers](/docs/{{version}}/providers), so all of these examples will demonstrate using the container in that context. 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될것입니다. However, if you need an instance of the container elsewhere in your application, such as a factory, you may type-hint the `Illuminate\Contracts\Container\Container` contract and an instance of the container will be injected for you. 하지만 만약 팩토리와 같이 애플리케이션의 다른 곳에서 컨테이너의 인스턴스가 필요하다면 컨테이너의 인스턴스가 주입되도록 `Illuminate\Contracts\Container\Container` contract 를 타입힌트로 지정하면 됩니다. Alternatively, you may use the `App` facade to access the container.  다른 방법으로는 컨테이너에 액세스하기 위해`App` 파사드를 사용할 수 있습니다.
 
 #### Registering A Basic Resolver
 #### 기본적인 의존성 해결 등록하기
@@ -152,7 +152,7 @@ Lastly, but most importantly, you may simply "type-hint" the dependency in the c
 ### Injecting Concrete Dependencies
 ### 구현된 의존객체를 주입하기
 
-A very powerful features of the service container is its ability to bind an interface to a given implementation. 서비스 컨테이너의 강력한 기능중 하나는 주어진 구현 객체에 인터페이스를 바인딩 할 수 있다는 것입니다. For example, perhaps our application integrates with the [Pusher](https://pusher.com) web service for sending and receiving real-time events. 예를 들어, 어떤 어플리케이션이 실시간 이벤트를 주고 받는 [Pusher](https://pusher.com) 웹서비스와 연결되어 있다고 해봅시다. If we are using Pusher's PHP SDK, we could inject an instance of the Pusher client into a class: 만약 Pusher의 PHP SDK를 사용하고 있다면, Pusher 클라이언트의 인스턴스를 클래스로 주입 할 수 있습니다:
+A very powerful features of the service container is its ability to bind an interface to a given implementation. 서비스 컨테이너의 강력한 기능중 하나는 주어진 구현 객체에 인터페이스를 바인딩 할 수 있다는 것입니다. For example, perhaps our application integrates with the [Pusher](https://pusher.com) web service for sending and receiving real-time events. 예를 들어, 어떤 애플리케이션이 실시간 이벤트를 주고 받는 [Pusher](https://pusher.com) 웹서비스와 연결되어 있다고 해봅시다. If we are using Pusher's PHP SDK, we could inject an instance of the Pusher client into a class: 만약 Pusher의 PHP SDK를 사용하고 있다면, Pusher 클라이언트의 인스턴스를 클래스로 주입 할 수 있습니다:
 
 	<?php namespace App\Handlers\Commands;
 
@@ -266,9 +266,9 @@ Once the services have been tagged, you may easily resolve them all via the `tag
 
 <a name="practical-applications"></a>
 ## Practical Applications
-## 실용적 어플리케이션
+## 실용적 애플리케이션
 
-Laravel provides several opportunities to use the service container to increase the flexibility and testability of your application. 라라벨은 어플리케이션의 유연함과 테스트의 용이함을 높이기 위해서 서비스 컨테이너를 사용 할 수 있는 여러가지 기회를 제공합니다. One primary example is when resolving controllers. 주요한 한가지 예제는 컨트롤러에서의 의존성 해결 입니다. All controllers are resolved through the service container, meaning you can type-hint dependencies in a controller constructor, and they will automatically be injected. 모든 컨트롤러는 서비스 컨테이너에 의해서 의존성 해결이 가능합니다. 이것은 여러분이 컨트롤러의 생성자 안에서 타입힌트를 작성했다면 그에 해당하는 의존 객체들이 자동으로 주입된다는 것을 의미합니다. 
+Laravel provides several opportunities to use the service container to increase the flexibility and testability of your application. 라라벨은 애플리케이션의 유연함과 테스트의 용이함을 높이기 위해서 서비스 컨테이너를 사용 할 수 있는 여러가지 기회를 제공합니다. One primary example is when resolving controllers. 주요한 한가지 예제는 컨트롤러에서의 의존성 해결 입니다. All controllers are resolved through the service container, meaning you can type-hint dependencies in a controller constructor, and they will automatically be injected. 모든 컨트롤러는 서비스 컨테이너에 의해서 의존성 해결이 가능합니다. 이것은 여러분이 컨트롤러의 생성자 안에서 타입힌트를 작성했다면 그에 해당하는 의존 객체들이 자동으로 주입된다는 것을 의미합니다. 
 
 	<?php namespace App\Http\Controllers;
 

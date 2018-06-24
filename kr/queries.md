@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## Introduction 소개
 
-The database query builder provides a convenient, fluent interface to creating and running database queries. 데이터베이스 쿼리 빌더는 데이터베이스 쿼리들을 만들고 운영하는데 다양한 인터페이스의 편의기능를 제공합니다. It can be used to perform most database operations in your application, and works on all supported database systems. 여러분들의 어플리케이션에서 운영하는 대부분의 데이터베이스 시스템에서 잘 작동합니다.
+The database query builder provides a convenient, fluent interface to creating and running database queries. 데이터베이스 쿼리 빌더는 데이터베이스 쿼리들을 만들고 운영하는데 다양한 인터페이스의 편의기능를 제공합니다. It can be used to perform most database operations in your application, and works on all supported database systems. 여러분들의 애플리케이션에서 운영하는 대부분의 데이터베이스 시스템에서 잘 작동합니다.
 
 > **Note 참고:** The Laravel query builder uses PDO parameter binding throughout to protect your application against SQL injection attacks. 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다.  There is no need to clean strings being passed as bindings. 따라서 쿼리에 바인딩할 문자열들을 따로 정리하고 전달할 필요가 없습니다.
 

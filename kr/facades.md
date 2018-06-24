@@ -14,11 +14,11 @@
 
 Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades, and you have probably been using them without even knowing it! Laravel "facades" serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
 
-파사드는 어플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용가능한 클래스들에 대한 "정적" 인터페이스를 제공합니다. 라라벨은 많은 파사드를 가지고 있으며 여러분이 알지 못하는 사이에도 이미 사용하고 있을 것입니다. 라라벨 “파사드” 는 서비스 컨테이너에 등록된 클래스들에 대한 일종의 “정적 프록시” 역활을 수행하는데, 이를 통해서 전통적인 정적 메소드 보다 간결한 문법과 테스트의 용이성 그리고 코드의 유연성을 유지하는 이점을 제공합니다. 
+파사드는 애플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용가능한 클래스들에 대한 "정적" 인터페이스를 제공합니다. 라라벨은 많은 파사드를 가지고 있으며 여러분이 알지 못하는 사이에도 이미 사용하고 있을 것입니다. 라라벨 “파사드” 는 서비스 컨테이너에 등록된 클래스들에 대한 일종의 “정적 프록시” 역활을 수행하는데, 이를 통해서 전통적인 정적 메소드 보다 간결한 문법과 테스트의 용이성 그리고 코드의 유연성을 유지하는 이점을 제공합니다. 
 
 Occasionally, you may wish to create your own facades for your application's and packages, so let's explore the concept, development and usage of these classes.
 
-때로는 여러분의 어플리케이션이나 패키지에서도  파사드를 만들고 싶어질 것입니다. 따라서 파사드의 개념과 개발 방법, 이러한 클래스들의 사용방법에 대해서 알아보겠습니다. 
+때로는 여러분의 애플리케이션이나 패키지에서도  파사드를 만들고 싶어질 것입니다. 따라서 파사드의 개념과 개발 방법, 이러한 클래스들의 사용방법에 대해서 알아보겠습니다. 
 
 > **Note:** Before digging into facades, it is strongly recommended that you become very familiar with the Laravel [service container](/docs/{{version}}/container).
 
@@ -30,7 +30,7 @@ Occasionally, you may wish to create your own facades for your application's and
 
 In the context of a Laravel application, a facade is a class that provides access to an object from the container. The machinery that makes this work is in the `Facade` class. Laravel's facades, and any custom facades you create, will extend the base `Facade` class.
 
-라라벨 어플리케이션에의 전체 맥락에서 보자면 파사드는 컨테이너의 객체에 엑세스하는 방법을 제공하는 클래스라고 할 수 있습니다. 이 작업을 수행하는 주요 매커니즘이 파사드 클래스안에 있습니다. 라라벨의 파사드들과 여러분이 작성한 파사드들은 기본 `Facade` 클래스를 상속받습니다. 
+라라벨 애플리케이션에의 전체 맥락에서 보자면 파사드는 컨테이너의 객체에 엑세스하는 방법을 제공하는 클래스라고 할 수 있습니다. 이 작업을 수행하는 주요 매커니즘이 파사드 클래스안에 있습니다. 라라벨의 파사드들과 여러분이 작성한 파사드들은 기본 `Facade` 클래스를 상속받습니다. 
 
 Your facade class only needs to implement a single method: `getFacadeAccessor`. It's the `getFacadeAccessor` method's job to define what to resolve from the container. The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to the resolved object. 
 
@@ -111,7 +111,7 @@ Remember, if you are using a facade in a controller that is namespaced, you will
 ## 파사드 생성하기
 
 Creating a facade for your own application or package is simple. You only need 3 things:
-어플리케이션이나 패키지에 파사드를 생성하는 것은 어렵지 않습니다. 3가지만 기억하십시오. 
+애플리케이션이나 패키지에 파사드를 생성하는 것은 어렵지 않습니다. 3가지만 기억하십시오. 
 
 - A service container binding.
 - A facade class.

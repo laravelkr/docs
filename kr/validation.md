@@ -274,7 +274,7 @@ If the `authorize` method returns `false`, a HTTP response with a 403 status cod
 
 If you plan to have authorization logic in another part of your application, simply return `true` from the `authorize` method: 
 
-여러분이 어플리케이션의 다른 부분에 있는 인증로직을 사용할 계획이라면, 그냥 `authorize` 메소드에서 `true`를 리턴하면 됩니다.
+여러분이 애플리케이션의 다른 부분에 있는 인증로직을 사용할 계획이라면, 그냥 `authorize` 메소드에서 `true`를 리턴하면 됩니다.
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -847,7 +847,7 @@ Sometimes you may wish to require a given field only if another field has a grea
 
 Let's assume our web application is for game collectors. If a game collector registers with our application and they own more than 100 games, we want them to explain why they own so many games. For example, perhaps they run a game re-sell shop, or maybe they just enjoy collecting. To conditionally add this requirement, we can use the `sometimes` method on the `Validator` instance. 
 
-여러분의 웹 어플리케이션이 게임 수집가들을 위한 사이트라고 가정해봅시다. 만약 100개 이상의 게임을 소유하고 있는 게임 수집가가 우리 사이트에 가입을 한다면, 우리는 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명을 듣고 싶을수 있습니다. 아마 그들이 중고게임 판매점을 운영하거나, 단순히 수집을 취미로 할 수도 있습니다. 이런 요구사항을 조건부로 추가하기 위하여 `Validator` 인스턴스의 `sometimes` 메소드를 사용할 수 있습니다.
+여러분의 웹 애플리케이션이 게임 수집가들을 위한 사이트라고 가정해봅시다. 만약 100개 이상의 게임을 소유하고 있는 게임 수집가가 우리 사이트에 가입을 한다면, 우리는 그들이 왜 그렇게 많은 게임을 소유하고 있는지 설명을 듣고 싶을수 있습니다. 아마 그들이 중고게임 판매점을 운영하거나, 단순히 수집을 취미로 할 수도 있습니다. 이런 요구사항을 조건부로 추가하기 위하여 `Validator` 인스턴스의 `sometimes` 메소드를 사용할 수 있습니다.
 
 	$v->sometimes('reason', 'required|max:500', function($input)
 	{

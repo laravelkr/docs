@@ -48,7 +48,7 @@ Now you may load your package views using the following syntax:
 
 	return view('courier::view.name');
 
-When you use the `loadViewsFrom` method, Laravel actually registers **two** locations for your views: one in the application's `resources/views/vendor` directory and one in the directory you specify. 여러분이 `loadViewsFrom` 메소드를 사용할 때, 라라벨은 실제로 뷰을 위한 **두개의** 위치를 등록합니다. 하나는 어플리케이션의 `resources/views/vendor` 디렉토리 이고, 다른 하나는 여러분이 지정한 디렉토리 입니다. So, using our `courier` example: when requesting a package view, Laravel will first check if a custom version of the view has been provided by the developer in `resources/views/vendor/courier`. 앞의 `courier` 예제를 생각해 보면, 패키지의 뷰가 요청될 때 라라벨은 먼저 `resources/views/vendor/courier` 디렉토리에 파일이 준비되어 있는지 확인합니다. Then, if the view has not been customized, Laravel will search the package view directory you specified in your call to `loadViewsFrom`. 이때 뷰를 확인하지 못하면 여러분이 `loadViewsFrom`를 통해서 지정한 디렉토리에서 패키지 뷰를 찾게 될 것입니다. This makes it easy for end-users to customize / override your package's views. 이러한 방법은 사용자가 여러분의 패키지 뷰를 수정하거나, 재정의 하기 쉽게 해줍니다. 
+When you use the `loadViewsFrom` method, Laravel actually registers **two** locations for your views: one in the application's `resources/views/vendor` directory and one in the directory you specify. 여러분이 `loadViewsFrom` 메소드를 사용할 때, 라라벨은 실제로 뷰을 위한 **두개의** 위치를 등록합니다. 하나는 애플리케이션의 `resources/views/vendor` 디렉토리 이고, 다른 하나는 여러분이 지정한 디렉토리 입니다. So, using our `courier` example: when requesting a package view, Laravel will first check if a custom version of the view has been provided by the developer in `resources/views/vendor/courier`. 앞의 `courier` 예제를 생각해 보면, 패키지의 뷰가 요청될 때 라라벨은 먼저 `resources/views/vendor/courier` 디렉토리에 파일이 준비되어 있는지 확인합니다. Then, if the view has not been customized, Laravel will search the package view directory you specified in your call to `loadViewsFrom`. 이때 뷰를 확인하지 못하면 여러분이 `loadViewsFrom`를 통해서 지정한 디렉토리에서 패키지 뷰를 찾게 될 것입니다. This makes it easy for end-users to customize / override your package's views. 이러한 방법은 사용자가 여러분의 패키지 뷰를 수정하거나, 재정의 하기 쉽게 해줍니다. 
 
 #### Publishing Views
 #### 뷰 퍼블리싱
@@ -101,7 +101,7 @@ Now you may load your package translations using the following syntax:
 ## Configuration
 ## 설정
 
-Typically, you will want to publish your package's configuration file to the application's own `config` directory. This will allow users of your package to easily override your default configuration options. 일반적으로 여러분은 패키지의 설정 파일을 어플리케이션의 `config` 디렉토리에 퍼블리싱 하기를 원할 것입니다. 이것은 여러분의 패키지의 사용자가 패키지 설정 파일의 기본 옵션들을 손쉽게 수정할 수 있도록 해줍니다. 
+Typically, you will want to publish your package's configuration file to the application's own `config` directory. This will allow users of your package to easily override your default configuration options. 일반적으로 여러분은 패키지의 설정 파일을 애플리케이션의 `config` 디렉토리에 퍼블리싱 하기를 원할 것입니다. 이것은 여러분의 패키지의 사용자가 패키지 설정 파일의 기본 옵션들을 손쉽게 수정할 수 있도록 해줍니다. 
 
 To publish a configuration file, just use the `publishes` method from the `boot` method of your service provider: 설정 파일들을 퍼블리싱 하기 위해서는 서비스 프로바이더의 `boot` 메소드에서 `publishes` 메소드를 사용하면 됩니다. 
 
@@ -113,7 +113,7 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
 	$value = config('courier.option');
 
-You may also choose to merge your own package configuration file with the application's copy. 여러분은 또한 패키지 설정 파일이 어플리케이션의 설정 파일에 합쳐지도록 할 수도 있습니다. This allows your users to include only the options they actually want to override in the published copy of the configuration. 이렇게 하면 퍼블리싱된 설정 파일의 복사에서 사용자가 실제로 재 정의 하기를 원하는 옵션만을 포함 하도록 할 수 있습니다. To merge the configurations, use the `mergeConfigFrom` method within your service provider's `register` method: 설정 파일을 합치려면 서비스 프로바이더의 `register` 메소드안에서 `mergeConfigFrom` 메소드를 사용하면 됩니다. 
+You may also choose to merge your own package configuration file with the application's copy. 여러분은 또한 패키지 설정 파일이 애플리케이션의 설정 파일에 합쳐지도록 할 수도 있습니다. This allows your users to include only the options they actually want to override in the published copy of the configuration. 이렇게 하면 퍼블리싱된 설정 파일의 복사에서 사용자가 실제로 재 정의 하기를 원하는 옵션만을 포함 하도록 할 수 있습니다. To merge the configurations, use the `mergeConfigFrom` method within your service provider's `register` method: 설정 파일을 합치려면 서비스 프로바이더의 `register` 메소드안에서 `mergeConfigFrom` 메소드를 사용하면 됩니다. 
 
 	$this->mergeConfigFrom(
 		__DIR__.'/path/to/config/courier.php', 'courier'

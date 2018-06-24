@@ -13,7 +13,7 @@
 
 Laravel has several `Manager` classes that manage the creation of driver-based components. These include the cache, session, authentication, and queue components. The manager class is responsible for creating a particular driver implementation based on the application's configuration. For example, the `CacheManager` class can create APC, Memcached, File, and various other implementations of cache drivers.
 
-라라벨은 드라이버 기반의 컴포넌트 생성을 관리하는 여러 `Manager` 클래스를 가지고 있습니다. 캐시, 세션, 인증과 큐 컴포넌트들이 바로 이러한 것들입니다. 매니저 클래스는 어플리케이션의 설정에 따른 특정 드라이버 구현체의 생성에 대해서 책임을 가집니다. 예를 들어 `CacheManager` 클래스는 APC, Memcached, File, 그리고 다른 다양한 캐시 드라이버의 구현체를 생성할 수 있습니다.
+라라벨은 드라이버 기반의 컴포넌트 생성을 관리하는 여러 `Manager` 클래스를 가지고 있습니다. 캐시, 세션, 인증과 큐 컴포넌트들이 바로 이러한 것들입니다. 매니저 클래스는 애플리케이션의 설정에 따른 특정 드라이버 구현체의 생성에 대해서 책임을 가집니다. 예를 들어 `CacheManager` 클래스는 APC, Memcached, File, 그리고 다른 다양한 캐시 드라이버의 구현체를 생성할 수 있습니다.
 
 Each of these managers includes an `extend` method which may be used to easily inject new driver resolution functionality into the manager. We'll cover each of these managers below, with examples of how to inject custom driver support into each of them.
 
@@ -42,7 +42,7 @@ The first argument passed to the `extend` method is the name of the driver. This
 
 The call to `Cache::extend` could be done in the `boot` method of the default `App\Providers\AppServiceProvider` that ships with fresh Laravel applications, or you may create your own service provider to house the extension - just don't forget to register the provider in the `config/app.php` provider array.
 
-확장된 기능을 사용하기 위해서는 설치된 라라벨 어플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오.
+확장된 기능을 사용하기 위해서는 설치된 라라벨 애플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오.
 
 To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` contract. So, our MongoDB cache implementation would look something like this:
 여러분의 고유한 캐시 드라이버를 생성하기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` contract 의 구현체가 필요합니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
@@ -70,7 +70,7 @@ We just need to implement each of these methods using a MongoDB connection. Once
 
 If you're wondering where to put your custom cache driver code, consider making it available on Packagist! Or, you could create an `Extensions` namespace within your `app` directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.
 
-새롭게 지정한 캐시 드라이버 코드를 어디에 올려둘까 고민하고 있다면, Packagist에서 사용할 수 있도록 하는 것을 고려해 보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 생성할 수도 있습니다. 라라벨은 엄격한 어플리케이션 구조를 가지고 있지 않기 때문에, 원하는대로 편하게 구조를 결정하면 됩니다.
+새롭게 지정한 캐시 드라이버 코드를 어디에 올려둘까 고민하고 있다면, Packagist에서 사용할 수 있도록 하는 것을 고려해 보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 생성할 수도 있습니다. 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 원하는대로 편하게 구조를 결정하면 됩니다.
 
 <a name="session"></a>
 ## Session
@@ -183,7 +183,7 @@ The `updateRememberToken` method updates the `$user` field `remember_token` with
 
 The `retrieveByCredentials` method receives the array of credentials passed to the `Auth::attempt` method when attempting to sign into an application. The method should then "query" the underlying persistent storage for the user matching those credentials. Typically, this method will run a query with a "where" condition on `$credentials['username']`. The method should then return an implementation of `UserInterface`. **This method should not attempt to do any password validation or authentication.**
 
-`retrieveByCredentials` 메소드는 어플리케이션에 로그인하기 위해 `Auth::attempt` 메소드에게 전달된 로그인 정보의 배열을 받습니다. 이 메소드는 전달받은 사용자 정보와 일치하는 사용자가  스토리지에 존재하는지 확인하기 위해서 “쿼리-질의”를 수행해야 합니다. 이 방법은 일반적으로 "where" 조건에 `$credentials['username’]` 쿼리를 실행하는 것입니다. 이 메소드는 UserInterface 의 구현을 반환해야합니다. 이 메소드 중에서 암호 검증과 인증을 시도해서는 안됩니다.
+`retrieveByCredentials` 메소드는 애플리케이션에 로그인하기 위해 `Auth::attempt` 메소드에게 전달된 로그인 정보의 배열을 받습니다. 이 메소드는 전달받은 사용자 정보와 일치하는 사용자가  스토리지에 존재하는지 확인하기 위해서 “쿼리-질의”를 수행해야 합니다. 이 방법은 일반적으로 "where" 조건에 `$credentials['username’]` 쿼리를 실행하는 것입니다. 이 메소드는 UserInterface 의 구현을 반환해야합니다. 이 메소드 중에서 암호 검증과 인증을 시도해서는 안됩니다.
 
 The `validateCredentials` method should compare the given `$user` with the `$credentials` to authenticate the user. For example, this method might compare the `$user->getAuthPassword()` string to a `Hash::make` of `$credentials['password']`. This method should only validate the user's credentials and return boolean.
 
@@ -230,7 +230,7 @@ Almost every service provider included with the Laravel framework binds objects 
 
 For example, the `HashServiceProvider` binds a `hash` key into the service container, which resolves into a `Illuminate\Hashing\BcryptHasher` instance. You can easily extend and override this class within your own application by overriding this binding. For example:
 
-예를 들어 `HashServiceProvider` 는 `Illuminate\Hashing\BcryptHasher`인스턴스를 `hash` 키를 통해서 서비스 컨테이너에 등록합니다. 여러분은 어플리케이션에 바인딩을 재지정 함으로써 손쉽게 이 클래스를 확장하고 재정의 할 수 있습니다. 예를 들어 :
+예를 들어 `HashServiceProvider` 는 `Illuminate\Hashing\BcryptHasher`인스턴스를 `hash` 키를 통해서 서비스 컨테이너에 등록합니다. 여러분은 애플리케이션에 바인딩을 재지정 함으로써 손쉽게 이 클래스를 확장하고 재정의 할 수 있습니다. 예를 들어 :
 
 	<?php namespace App\Providers;
 

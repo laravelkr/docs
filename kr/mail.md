@@ -13,7 +13,7 @@ Laravel provides a clean, simple API over the popular [SwiftMailer](http://swift
 
 ### API Drivers API 드라이버
 
-Laravel also includes drivers for the Mailgun and Mandrill HTTP APIs. 라라벨은 또한 Mailgun 과 Mandrill의 HTTP API 드라이버들을 제공하고 있습니다. These APIs are often simpler and quicker than the SMTP servers. 이러한 API들은 대부분 SMTP 보다 간결하고 빠릅니다. Both of these drivers require that the Guzzle 5 HTTP library be installed into your application. 두가지의 드라이버를 사용하기 위해서는 어플리케이션에 Guzzle 5 HTTP 라이브러리를  설치해야 합니다. You can add Guzzle 5 to your project by adding the following line to your `composer.json` file: 다음과 같은 라인을 `composer.json` 파일에 추가하여 Guzzle 5 를 프로젝트에 추가할 수 있습니다. 
+Laravel also includes drivers for the Mailgun and Mandrill HTTP APIs. 라라벨은 또한 Mailgun 과 Mandrill의 HTTP API 드라이버들을 제공하고 있습니다. These APIs are often simpler and quicker than the SMTP servers. 이러한 API들은 대부분 SMTP 보다 간결하고 빠릅니다. Both of these drivers require that the Guzzle 5 HTTP library be installed into your application. 두가지의 드라이버를 사용하기 위해서는 애플리케이션에 Guzzle 5 HTTP 라이브러리를  설치해야 합니다. You can add Guzzle 5 to your project by adding the following line to your `composer.json` file: 다음과 같은 라인을 `composer.json` 파일에 추가하여 Guzzle 5 를 프로젝트에 추가할 수 있습니다. 
 
 	"guzzlehttp/guzzle": "~5.0"
 
@@ -117,7 +117,7 @@ Note that the `$message` variable is always passed to e-mail views by the `Mail`
 
 #### Queueing A Mail Message 이메일 메세지 큐잉 하기
 
-Since sending e-mail messages can drastically lengthen the response time of your application, many developers choose to queue e-mail messages for background sending. 메일을 송신하는 것은 어플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 두도록 합니다. Laravel makes this easy using its built-in [unified queue API](/docs/{{version}}/queues). 라라벨에서는 내장된 [일관된 큐 API](/docs/{{version}}/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. To queue a mail message, simply use the `queue` method on the `Mail` facade: 이메일 메세지를 대기 큐에 넣기 위해서는 간단하게 `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
+Since sending e-mail messages can drastically lengthen the response time of your application, many developers choose to queue e-mail messages for background sending. 메일을 송신하는 것은 애플리케이션의 응답 시간을 크게 저하시키기 때문에 많은 개발자들은 이메일 메세지를 백그라운드 에서 보낼 수 있도록 큐-대기행열에 두도록 합니다. Laravel makes this easy using its built-in [unified queue API](/docs/{{version}}/queues). 라라벨에서는 내장된 [일관된 큐 API](/docs/{{version}}/queues)를 통해서 이러한 작업을 손쉽게 수행할 수 있게 합니다. To queue a mail message, simply use the `queue` method on the `Mail` facade: 이메일 메세지를 대기 큐에 넣기 위해서는 간단하게 `Mail` 파사드의 `queue` 메소드를 호출하도록 하면 됩니다.
 
 	Mail::queue('emails.welcome', $data, function($message)
 	{
@@ -142,6 +142,6 @@ If you wish to specify a specific queue or “tube” on which to push the messa
 <a name="mail-and-local-development"></a>
 ## Mail & Local Development 로컬 개발에서의 메일
 
-When developing an application that sends e-mail, it’s usually desirable to disable the sending of messages from your local or development environment. 이메일을 송신하는 어플리케이션을 개발하는 경우에 로컬 또는 개발 환경이라면 메세지 전송을 비활성화 하는것이 바람직할 것입니다. To do so, you may either call the `Mail::pretend` method, or set the `pretend` option in the `config/mail.php` configuration file to `true`. 이를 지정하려면 `config/mail.php` 설정 파일에 `pretend` 옵션을 `true`로 설정하거나 `Mail::pretend`메소드를 호출하면 됩니다. When the mailer is in `pretend` mode, messages will be written to your application’s log files instead of being sent to the recipient. 메일러가 `pretend` 모드인 경우에는 이메일 메세지는 수신자에게 송신되는 대신에 어플리케이션의 로그 파일에 기록됩니다. 
+When developing an application that sends e-mail, it’s usually desirable to disable the sending of messages from your local or development environment. 이메일을 송신하는 애플리케이션을 개발하는 경우에 로컬 또는 개발 환경이라면 메세지 전송을 비활성화 하는것이 바람직할 것입니다. To do so, you may either call the `Mail::pretend` method, or set the `pretend` option in the `config/mail.php` configuration file to `true`. 이를 지정하려면 `config/mail.php` 설정 파일에 `pretend` 옵션을 `true`로 설정하거나 `Mail::pretend`메소드를 호출하면 됩니다. When the mailer is in `pretend` mode, messages will be written to your application’s log files instead of being sent to the recipient. 메일러가 `pretend` 모드인 경우에는 이메일 메세지는 수신자에게 송신되는 대신에 애플리케이션의 로그 파일에 기록됩니다. 
 
 If you would like to actually view the test e-mails, consider using a service like [MailTrap](https://mailtrap.io). 만약 실제로 이메일이 어떻게 보여지는지 확인하고자 한다면 [MailTrap](https://mailtrap.io)과 같은 서비스를 이용하는 것도 고려해보시기 바랍니다. 

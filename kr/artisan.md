@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## Introduction 소개
 
-Artisan is the name of the command-line interface included with Laravel. 아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. It provides a number of helpful commands for your use while developing your application. 아티즌은 어플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. It is driven by the powerful Symfony Console component. 아티즌은 강력한 Symfony 콘솔 콤포넌트에서 동작합니다.
+Artisan is the name of the command-line interface included with Laravel. 아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. It provides a number of helpful commands for your use while developing your application. 아티즌은 애플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. It is driven by the powerful Symfony Console component. 아티즌은 강력한 Symfony 콘솔 콤포넌트에서 동작합니다.
 
 <a name="usage"></a>
 ## Usage 사용법

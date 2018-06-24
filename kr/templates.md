@@ -85,7 +85,7 @@ If you don't want the data to be escaped, you may use the following syntax: 데�
 
 	Hello, {!! $name !!}.
 
-> **Note 주의:** Be very careful when echoing content that is supplied by users of your application. 어플리케이션의 사용자로부터 입력 된 내용을 표시 할 때에는 escape에 대한 주의가 필요합니다. Always use the double curly brace syntax to escape any HTML entities in the content. 컨텐츠의 HTML 엔티티를 escape 하기위해 항상 이중 중괄호 표기법을 사용하십시오.
+> **Note 주의:** Be very careful when echoing content that is supplied by users of your application. 애플리케이션의 사용자로부터 입력 된 내용을 표시 할 때에는 escape에 대한 주의가 필요합니다. Always use the double curly brace syntax to escape any HTML entities in the content. 컨텐츠의 HTML 엔티티를 escape 하기위해 항상 이중 중괄호 표기법을 사용하십시오.
 
 #### If Statements
 #### 조건문

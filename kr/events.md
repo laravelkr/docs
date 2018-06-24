@@ -9,7 +9,7 @@
 ## Basic Usage
 ## 기본적인 사용법
 
-The Laravel event facilities provides a simple observer implementation, allowing you to subscribe and listen for events in your application. 라라벨 이벤트 기능은 어플리케이션의 이벤트를 구독하고 수신 대기 할 수 있는 관찰자(옵저버) 구현을 제공합니다. Event classes are typically stored in the `app/Events` directory, while their handlers are stored in `app/Handlers/Events`. 일반적으로 이벤트 클래스는 `app/Events` 디렉토리에, 이벤트 핸들러는 `app/Handlers/Events` 디렉토리에 저장됩니다. 
+The Laravel event facilities provides a simple observer implementation, allowing you to subscribe and listen for events in your application. 라라벨 이벤트 기능은 애플리케이션의 이벤트를 구독하고 수신 대기 할 수 있는 관찰자(옵저버) 구현을 제공합니다. Event classes are typically stored in the `app/Events` directory, while their handlers are stored in `app/Handlers/Events`. 일반적으로 이벤트 클래스는 `app/Events` 디렉토리에, 이벤트 핸들러는 `app/Handlers/Events` 디렉토리에 저장됩니다. 
 
 You can generate a new event class using the Artisan CLI tool:
 아티즌 CLI 툴을 사용해서 새로운 이벤트 클래스를 생성할 수 있습니다. 
@@ -19,7 +19,7 @@ You can generate a new event class using the Artisan CLI tool:
 #### Subscribing To An Event
 #### 이벤트 구독하기
 
-The `EventServiceProvider` included with your Laravel application provides a convenient place to register all event handlers. 라라벨 어플리케이션에 포함되어 있는 `EventServiceProvider` 는 모든 이벤트 핸들러를 등록하는 편리한 방법을 제공합니다. The `listen` property contains an array of all events (keys) and their handlers (values). `listen` 프로퍼티는 이벤트(키)와 핸들러(값)으로 구성된 배열을 가지고 있습니다. Of course, you may add as many events to this array as your application requires. 여러분의 어플리케이션에서 필요로 하는 많은 이벤트들을 이 배열에 추가할 수 있습니다. For example, let's add our `PodcastWasPurchased` event: 예를 들어 `PodcastWasPurchased` 이벤트를 추가한다고 가정해 봅시다. 
+The `EventServiceProvider` included with your Laravel application provides a convenient place to register all event handlers. 라라벨 애플리케이션에 포함되어 있는 `EventServiceProvider` 는 모든 이벤트 핸들러를 등록하는 편리한 방법을 제공합니다. The `listen` property contains an array of all events (keys) and their handlers (values). `listen` 프로퍼티는 이벤트(키)와 핸들러(값)으로 구성된 배열을 가지고 있습니다. Of course, you may add as many events to this array as your application requires. 여러분의 애플리케이션에서 필요로 하는 많은 이벤트들을 이 배열에 추가할 수 있습니다. For example, let's add our `PodcastWasPurchased` event: 예를 들어 `PodcastWasPurchased` 이벤트를 추가한다고 가정해 봅시다. 
 
 	/**
 	 * The event handler mappings for the application.
@@ -48,7 +48,7 @@ Now we are ready to fire our event using the `Event` facade:
 
 	$response = Event::fire(new PodcastWasPurchased($podcast));
 
-The `fire` method returns an array of responses that you can use to control what happens next in your application. `fire` 메소드는 어플리케이션에서 다음에 일어날 일을 제어하는 데 사용할 수 있는 배열을 반환합니다.
+The `fire` method returns an array of responses that you can use to control what happens next in your application. `fire` 메소드는 애플리케이션에서 다음에 일어날 일을 제어하는 데 사용할 수 있는 배열을 반환합니다.
 
 You may also use the `event` helper to fire an event: 
 이벤트를 발생시키는데에는 `event` 핼퍼 함수를 사용할 수도 있습니다. 

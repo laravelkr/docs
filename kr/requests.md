@@ -85,7 +85,7 @@ You may still type-hint the `Illuminate\Http\Request` and access your route para
 
 The `Illuminate\Http\Request` instance provides a variety of methods for examining the HTTP request for your application. The Laravel `Illuminate\Http\Request` extends the `Symfony\Component\HttpFoundation\Request` class. Here are a few more of the useful methods available on this class:
 
-`Illuminate\Http\Request` 인스턴스는 어플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공합니다. 라라벨의 `Illuminate\Http\Request`는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속합니다. 다음은 이 클래스에 사용할 수 있는 몇몇 유용한 메소드입니다. 
+`Illuminate\Http\Request` 인스턴스는 애플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공합니다. 라라벨의 `Illuminate\Http\Request`는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속합니다. 다음은 이 클래스에 사용할 수 있는 몇몇 유용한 메소드입니다. 
 
 #### Retrieving The Request URI
 #### Request URI 조회하기
@@ -164,7 +164,7 @@ Using a few simple methods, you may access all user input from your `Illuminate\
 
 Alternatively, you may access user input using the properties of the `Illuminate\Http\Request` instance. For example, if one of your application's forms contains a `name` field, you may access the value of the posted field like so:
 
-대체적으로 `Illuminate\Http\Request` 인스턴스의 속성들을 사용하여 사용자 입력에 접근할 수 있습니다. 예를 들어, 어플리케이션 폼 중 하나가 `name` 필드를 포함한다면 다음과 같이 전달된 필드의 값에 접근할 수 있습니다: 
+대체적으로 `Illuminate\Http\Request` 인스턴스의 속성들을 사용하여 사용자 입력에 접근할 수 있습니다. 예를 들어, 애플리케이션 폼 중 하나가 `name` 필드를 포함한다면 다음과 같이 전달된 필드의 값에 접근할 수 있습니다: 
 
     $name = $request->name;
 

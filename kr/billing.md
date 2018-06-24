@@ -127,7 +127,7 @@ The `create` method will automatically create the Stripe subscription, as well a
 
 If you want to implement trial periods, but are managing the trials entirely within your application instead of defining them within Stripe, you must manually set the trial end date:
 
-만약 여러분이 무료 평가 기간(trial)을 Stripe 에서 정의하고 있는 것이 아니라, 어플리케이션에서 자체적으로 기간을 구현하려면 종료날짜를 직접 설정해야 합니다. 
+만약 여러분이 무료 평가 기간(trial)을 Stripe 에서 정의하고 있는 것이 아니라, 애플리케이션에서 자체적으로 기간을 구현하려면 종료날짜를 직접 설정해야 합니다. 
 
     $user->trial_ends_at = Carbon::now()->addDays(14);
 
@@ -222,7 +222,7 @@ You may also determine if a user has cancelled their subscription, but are still
 
 The `everSubscribed` method may be used to determine if the user has ever subscribed to a plan in your application:
 
-`everSubscribed` 메소드는 사용자가 어플리케이션을 한번도 구독한적이 없는지 확인하는데 사용됩니다. 
+`everSubscribed` 메소드는 사용자가 애플리케이션을 한번도 구독한적이 없는지 확인하는데 사용됩니다. 
 
     if ($user->everSubscribed()) {
         //
@@ -252,7 +252,7 @@ If the user is on trial, the trial period will be maintained. Also, if a "quanti
 
 Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `increment` and `decrement` methods:
 
-때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 어플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `increment` 와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다. 
+때로는 구독은 "수량"에 영향을 받을 수 있습니다. 예를 들어 여러분의 애플리케이션에서 하나의 계정의 **사용자마다** 한달에 10달러를 부과하고 있다고 한다면, `increment` 와 `decrement` 메소드를 사용하여 구독 수를 늘리거나 줄일 수 있습니다. 
 
     $user = User::find(1);
 
@@ -388,7 +388,7 @@ If you have additional Stripe webhook events you would like to handle, simply ex
 
 If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance. The `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. So, for example, the example above will charge 100 cents, or $1.00, against the user's credit card.
 
-정기 구독하고 있는 고객의 신용 카드에 대해 "일회성 청구"를 하고 싶을 때에는 청구가 가능한 모델 인스턴스에 대해서 `charge` 메서드를 사용합니다. `charge` 메소드는 청구하려는 **어플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인수로 받습니다. 따라서 위의 예제는 100 센트 또는 1 달러를 신용 카드로 결제합니다.
+정기 구독하고 있는 고객의 신용 카드에 대해 "일회성 청구"를 하고 싶을 때에는 청구가 가능한 모델 인스턴스에 대해서 `charge` 메서드를 사용합니다. `charge` 메소드는 청구하려는 **애플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인수로 받습니다. 따라서 위의 예제는 100 센트 또는 1 달러를 신용 카드로 결제합니다.
 
     $user->charge(100);
 

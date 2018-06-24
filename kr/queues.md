@@ -38,7 +38,7 @@
 
 The Laravel queue service provides a unified API across a variety of different queue back-ends. Queues allow you to defer the processing of a time consuming task, such as sending an e-mail, until a later time which drastically speeds up web requests to your application.
 
-라라벨 큐 서비스는 다양한 큐 시스템으로부터 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 작업과 같이 시간이 소요되는 작업을 나중에 처리할 수 있습니다. 이렇게 작업을 나중에 처리함으로서 여러분의 어플리케이션은 웹 요청을 더 빠르게 처리할 수 있습니다.
+라라벨 큐 서비스는 다양한 큐 시스템으로부터 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 작업과 같이 시간이 소요되는 작업을 나중에 처리할 수 있습니다. 이렇게 작업을 나중에 처리함으로서 여러분의 애플리케이션은 웹 요청을 더 빠르게 처리할 수 있습니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -88,7 +88,7 @@ The following dependencies are needed for the listed queue drivers:
 
 By default, all of the queueable jobs for your application are stored in the `app/Jobs` directory. You may generate a new queued job using the Artisan CLI:
 
-기본적으로, 어플리케이션을 위한 모든 큐 작업들은 `app/Jobs` 디렉토리에 저장됩니다. 새로운 큐 작업 클래스를 아티즌 CLI를 통해서 생성할 수 있습니다: 
+기본적으로, 애플리케이션을 위한 모든 큐 작업들은 `app/Jobs` 디렉토리에 저장됩니다. 새로운 큐 작업 클래스를 아티즌 CLI를 통해서 생성할 수 있습니다: 
 
     php artisan make:job SendReminderEmail --queued
 
@@ -151,7 +151,7 @@ Job classes are very simple, normally containing only a `handle` method which is
 
 In this example, note that we were able to pass an [Eloquent model](/docs/{{version}}/eloquent) directly into the queued job's constructor. Because of the `SerializesModels` trait that the job is using, Eloquent models will be gracefully serialized and unserialized when the job is processing. If your queued job accepts an Eloquent model in its constructor, only the identifier for the model will be serialized onto the queue. When the job is actually handled, the queue system will automatically re-retrieve the full model instance from the database. It's all totally transparent to your application and prevents issues that can arise from serializing full Eloquent model instances.
 
-이 예제에서 큐 작업 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. 작업 클래스에서 사용하는 SerializesModels 트레이트-trait에 의해 Eloquent 모델은 효과적으로 serialize 될것이며, 작업이 처리 될 때 unserialize 됩니다. 큐에 저장된 작업이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. 작업이 실제로 처리될 때 큐 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 어플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
+이 예제에서 큐 작업 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. 작업 클래스에서 사용하는 SerializesModels 트레이트-trait에 의해 Eloquent 모델은 효과적으로 serialize 될것이며, 작업이 처리 될 때 unserialize 됩니다. 큐에 저장된 작업이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. 작업이 실제로 처리될 때 큐 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 애플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
 
 The `handle` method is called when the job is processed by the queue. Note that we are able to type-hint dependencies on the `handle` method of the job. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
 
@@ -162,7 +162,7 @@ The `handle` method is called when the job is processed by the queue. Note that 
 
 If an exception is thrown while the job is being processed, it will automatically be released back onto the queue so it may be attempted again. The job will continue to be released until it has been attempted the maximum number of times allowed by your application. The number of maximum attempts is defined by the `--tries` switch used on the `queue:listen` or `queue:work` Artisan jobs. More information on running the queue listener [can be found below](#running-the-queue-listener).
 
-작업이 처리되는 동안 예외가 발생하면, 작업은 큐에 의해서 해제되어 자동으로 다시 처리 시도를 하게 됩니다. 작업은 어플리케이션에서 허용하는 최대 횟수만큼 다시 실행됩니다. 최대 실행 횟수는 `queue:listen` 또는 `queue:work` 아티즌 작업에 정의된 횟수입니다. 큐 listener 를 실행하는 보다 자세한 사항은 [이후](#running-the-queue-listener)에 살펴보겠습니다. 
+작업이 처리되는 동안 예외가 발생하면, 작업은 큐에 의해서 해제되어 자동으로 다시 처리 시도를 하게 됩니다. 작업은 애플리케이션에서 허용하는 최대 횟수만큼 다시 실행됩니다. 최대 실행 횟수는 `queue:listen` 또는 `queue:work` 아티즌 작업에 정의된 횟수입니다. 큐 listener 를 실행하는 보다 자세한 사항은 [이후](#running-the-queue-listener)에 살펴보겠습니다. 
 
 #### Manually Releasing Jobs
 #### 수동으로 작업 해제하기
@@ -228,7 +228,7 @@ The default Laravel controller located in `app/Http/Controllers/Controller.php` 
 
 Of course, sometimes you may wish to dispatch a job from somewhere in your application besides a route or controller. For that reason, you can include the `DispatchesJobs` trait on any of the classes in your application to gain access to its various dispatch methods. For example, here is a sample class that uses the trait:
 
-물론, 때로는 라우트나 컨트롤러가 아닌 어플리케이션의 어디선가에서 작업을 큐로 처리하고자 할 수도 있습니다. 이러한 이유로, 어플리케이션의 어떤 클래스에서도 `DispatchesJobs` 트레이트-trait를 포함시킬 수 있으며, 트레이트의 다양한 dispatch 메소드를 사용할 수 있습니다. 다음은 이 트레이트-trait를 사용하는 간단한 클래스 예제 입니다. 
+물론, 때로는 라우트나 컨트롤러가 아닌 애플리케이션의 어디선가에서 작업을 큐로 처리하고자 할 수도 있습니다. 이러한 이유로, 애플리케이션의 어떤 클래스에서도 `DispatchesJobs` 트레이트-trait를 포함시킬 수 있으며, 트레이트의 다양한 dispatch 메소드를 사용할 수 있습니다. 다음은 이 트레이트-trait를 사용하는 간단한 클래스 예제 입니다. 
 
     <?php
 
@@ -550,7 +550,7 @@ Similarly, your database connection may disconnect when being used by a long-run
 
 Since daemon queue workers are long-lived processes, they will not pick up changes in your code without being restarted. So, the simplest way to deploy an application using daemon queue workers is to restart the workers during your deployment script. You may gracefully restart all of the workers by including the following command in your deployment script:
 
-데몬 큐 worker는 장시간 유지되는 프로세스이기 때문에, 재시작하기 전에는 코드의 변경사항이 반영되지 않을 것입니다. 따라서, 데몬 큐 workder를 사용하는 어플리케이션을 배포하는 가장 간단한 방법은 스크립트를 배호하는 동안 workder를 재시작하는 것입니다. 여러분의 배포 스크립트에서 다음의 명령어를 통해서 손쉽게 모든 worker를 재시작 할 수 있습니다. 
+데몬 큐 worker는 장시간 유지되는 프로세스이기 때문에, 재시작하기 전에는 코드의 변경사항이 반영되지 않을 것입니다. 따라서, 데몬 큐 workder를 사용하는 애플리케이션을 배포하는 가장 간단한 방법은 스크립트를 배호하는 동안 workder를 재시작하는 것입니다. 여러분의 배포 스크립트에서 다음의 명령어를 통해서 손쉽게 모든 worker를 재시작 할 수 있습니다. 
 
     php artisan queue:restart
 

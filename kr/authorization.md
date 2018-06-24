@@ -50,7 +50,7 @@ Gate와 policy를 라우트와 컨트롤러처럼 생각하십시오. Gate는 �
 
 You do not need to choose between exclusively using gates or exclusively using policies when building an application. Most applications will most likely contain a mixture of gates and policies, and that is perfectly fine! Gates are most applicable to actions which are not related to any model or resource, such as viewing an administrator dashboard. In contrast, policies should be used when you wish to authorize an action for a particular model or resource.
 
-어플리케이션을 구성할 때 gate 만을 사용하거나, policy 만을 사용하지 않아도 됩니다. 대부분의 어플리케이션에서 gate와 policy를 혼합하여 사용되며, 이렇게 사용해도 아무런 문제가 없습니다. 관리자 대시보드를 구성하는 것과 같이 모델과 리소스에 관련되지 않은 작업들은 주로 gate에 적합합니다. 이에 반해, policy는 특정 모델이나 리소스에 대한 작업 권한을 확인 할 때 사용해야합니다.
+애플리케이션을 구성할 때 gate 만을 사용하거나, policy 만을 사용하지 않아도 됩니다. 대부분의 애플리케이션에서 gate와 policy를 혼합하여 사용되며, 이렇게 사용해도 아무런 문제가 없습니다. 관리자 대시보드를 구성하는 것과 같이 모델과 리소스에 관련되지 않은 작업들은 주로 gate에 적합합니다. 이에 반해, policy는 특정 모델이나 리소스에 대한 작업 권한을 확인 할 때 사용해야합니다.
 
 <a name="gates"></a>
 ## Gates
@@ -184,11 +184,11 @@ You may use the `after` method to define a callback to be executed after every a
 
 Policies are classes that organize authorization logic around a particular model or resource. For example, if your application is a blog, you may have a `Post` model and a corresponding `PostPolicy` to authorize user actions such as creating or updating posts.
 
-Policy는 특정 모델 또는 리소스에 대한 권한을 확인하는 방법을 클래스로 만든 것입니다. 예를 들어, 블로그 어플리케이션의 경우, `Post` 모델과 해당 포스트를 생성하거나 수정할 수 있는 액션을 허용하는 `PostPolicy`가 있을 수 있습니다.
+Policy는 특정 모델 또는 리소스에 대한 권한을 확인하는 방법을 클래스로 만든 것입니다. 예를 들어, 블로그 애플리케이션의 경우, `Post` 모델과 해당 포스트를 생성하거나 수정할 수 있는 액션을 허용하는 `PostPolicy`가 있을 수 있습니다.
 
 You may generate a policy using the `make:policy` [artisan command](/docs/{{version}}/artisan). The generated policy will be placed in the `app/Policies` directory. If this directory does not exist in your application, Laravel will create it for you:
 
-`make:policy` [아티즌 명령어](/docs/{{version}}/artisan)를 사용하여 policy 클래스를 생성할 수 있습니다. 생성된 policy는 `app/Policies` 디렉토리에 있습니다. 만약 어플리케이션에서 이 디렉토리가 존재하지 않더라도, 라라벨이 디렉토리를 생성해줍니다:
+`make:policy` [아티즌 명령어](/docs/{{version}}/artisan)를 사용하여 policy 클래스를 생성할 수 있습니다. 생성된 policy는 `app/Policies` 디렉토리에 있습니다. 만약 애플리케이션에서 이 디렉토리가 존재하지 않더라도, 라라벨이 디렉토리를 생성해줍니다:
 
     php artisan make:policy PostPolicy
 
@@ -208,7 +208,7 @@ The `make:policy` command will generate an empty policy class. If you would like
 
 Once the policy exists, it needs to be registered. The `AuthServiceProvider` included with fresh Laravel applications contains a `policies` property which maps your Eloquent models to their corresponding policies. Registering a policy will instruct Laravel which policy to utilize when authorizing actions against a given model:
 
-Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. 새롭게 설치한 라라벨 어플리케이션에 포함된 `AuthServiceProvider`는 Eloquent 모델과 해당 모델에 상응하는 policy에 매핑되는 `policies` 속성을 갖고 있습니다. Policy를 등록하는 것은 라라벨이 주어진 모델의 액션에 권한을 확인 할 때 어떤 policy를 사용 할 지 알려주게 됩니다:
+Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. 새롭게 설치한 라라벨 애플리케이션에 포함된 `AuthServiceProvider`는 Eloquent 모델과 해당 모델에 상응하는 policy에 매핑되는 `policies` 속성을 갖고 있습니다. Policy를 등록하는 것은 라라벨이 주어진 모델의 액션에 권한을 확인 할 때 어떤 policy를 사용 할 지 알려주게 됩니다:
 
     <?php
 
@@ -318,7 +318,7 @@ When defining policy methods that will not receive a model instance, such as a `
 
 For certain users, you may wish to authorize all actions within a given policy. To accomplish this, define a `before` method on the policy. The `before` method will be executed before any other methods on the policy, giving you an opportunity to authorize the action before the intended policy method is actually called. This feature is most commonly used for authorizing application administrators to perform any action:
 
-특정 사용자에게는, 주어진 policy 안의 모든 액션에 대해 권한을 가지고 있다고 처리하고 싶을 수도 있습니다. 이런 경우라면, policy에 `before` 메소드를 정의하면 됩니다. `before` 메소드는 policy에서 다른 메소드가 호출되기 전에 실행되는데, 원래의 policy 메소드가 실제로 호출되기 전에 해당 액션에 대한 권한을 확인합니다. 이 기능은 어플리케이션의 관리자가 어떤 액션이든 수행가능하도록 권한을 부여하는 데 가장 흔하게 사용됩니다:
+특정 사용자에게는, 주어진 policy 안의 모든 액션에 대해 권한을 가지고 있다고 처리하고 싶을 수도 있습니다. 이런 경우라면, policy에 `before` 메소드를 정의하면 됩니다. `before` 메소드는 policy에서 다른 메소드가 호출되기 전에 실행되는데, 원래의 policy 메소드가 실제로 호출되기 전에 해당 액션에 대한 권한을 확인합니다. 이 기능은 애플리케이션의 관리자가 어떤 액션이든 수행가능하도록 권한을 부여하는 데 가장 흔하게 사용됩니다:
 
     public function before($user, $ability)
     {
@@ -345,7 +345,7 @@ If you would like to deny all authorizations for a user you should return `false
 
 The `User` model that is included with your Laravel application includes two helpful methods for authorizing actions: `can` and `cant`. The `can` method receives the action you wish to authorize and the relevant model. For example, let's determine if a user is authorized to update a given `Post` model:
 
-라라벨 어플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다: `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다:
+라라벨 애플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다: `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다:
 
     if ($user->can('update', $post)) {
         //

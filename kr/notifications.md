@@ -88,7 +88,7 @@ In addition to support for [sending email](/docs/{{version}}/mail), Laravel prov
 
 Typically, notifications should be short, informational messages that notify users of something that occurred in your application. For example, if you are writing a billing application, you might send an "Invoice Paid" notification to your users via the email and SMS channels.
 
-일반적으로, 알림은 어플리케이션 안에서 발생한 어떤 사항을 사용자에게 전달하기 위한 짧은 정보를 담은 메세지입니다. 예를들어, 결제가 필요한 어플리케이션을 작성중이라면, "결제 완료" 알림을 이메일이나 SMS를 통해서 사용자에게 발송할 수 있습니다.
+일반적으로, 알림은 애플리케이션 안에서 발생한 어떤 사항을 사용자에게 전달하기 위한 짧은 정보를 담은 메세지입니다. 예를들어, 결제가 필요한 애플리케이션을 작성중이라면, "결제 완료" 알림을 이메일이나 SMS를 통해서 사용자에게 발송할 수 있습니다.
 
 <a name="creating-notifications"></a>
 ## Creating Notifications
@@ -96,7 +96,7 @@ Typically, notifications should be short, informational messages that notify use
 
 In Laravel, each notification is represented by a single class (typically stored in the `app/Notifications` directory). Don't worry if you don't see this directory in your application, it will be created for you when you run the `make:notification` Artisan command:
 
-라라벨에서 각각의 알림은 하나의 클래스로 표현할 수 있습니다. (일반적으로 `app/Notifications` 디렉토리에 저장된) 어플리케이션에서 이 디렉토리를 볼 수 없더라도 걱정하지 마십시오, `make:notification` 아티즌 명령어를 실행할 때 디렉토리가 생성됩니다:
+라라벨에서 각각의 알림은 하나의 클래스로 표현할 수 있습니다. (일반적으로 `app/Notifications` 디렉토리에 저장된) 애플리케이션에서 이 디렉토리를 볼 수 없더라도 걱정하지 마십시오, `make:notification` 아티즌 명령어를 실행할 때 디렉토리가 생성됩니다:
 
     php artisan make:notification InvoicePaid
 
@@ -187,7 +187,7 @@ The `via` method receives a `$notifiable` instance, which will be an instance of
 
 Sending notifications can take time, especially if the channel needs an external API call to deliver the notification. To speed up your application's response time, let your notification be queued by adding the `ShouldQueue` interface and `Queueable` trait to your class. The interface and trait are already imported for all notifications generated using `make:notification`, so you may immediately add them to your notification class:
 
-알림을 보내는데는 시간이 걸리는데, 특히 알림을 발송하기 위해서 채널이 외부 API를 호출하는 경우에 더욱 그러합니다. 어플리케이션의 응답 속도를 높이기 위해서는 `ShouldQueue` 인터페이스와 `Queueable` 트레이트를 여러분의 클래스에 추가하여 알림이 큐를 통해서 발송되도록 할 수 있습니다. `make:notification` 을 통해서 생성한 모든 알림 클래스에는 이 인터페이스와 트레이트를 바로 클래스에 추가할 수 있도록 import 되어 있습니다:
+알림을 보내는데는 시간이 걸리는데, 특히 알림을 발송하기 위해서 채널이 외부 API를 호출하는 경우에 더욱 그러합니다. 애플리케이션의 응답 속도를 높이기 위해서는 `ShouldQueue` 인터페이스와 `Queueable` 트레이트를 여러분의 클래스에 추가하여 알림이 큐를 통해서 발송되도록 할 수 있습니다. `make:notification` 을 통해서 생성한 모든 알림 클래스에는 이 인터페이스와 트레이트를 바로 클래스에 추가할 수 있도록 import 되어 있습니다:
 
     <?php
 
@@ -224,7 +224,7 @@ If you would like to delay the delivery of the notification, you may chain the `
 
 Sometimes you may need to send a notification to someone who is not stored as a "user" of your application. Using the `Notification::route` method, you may specify ad-hoc notification routing information before sending the notification:
 
-때로는 어플리케이션의 "사용자(User)"가 아닌 특정 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 메소드를 사용하여, 알림이 전달될 누군가의 정보를 지정할 수 있습니다:
+때로는 애플리케이션의 "사용자(User)"가 아닌 특정 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 메소드를 사용하여, 알림이 전달될 누군가의 정보를 지정할 수 있습니다:
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('nexmo', '5555555555')
@@ -494,7 +494,7 @@ The table component allows you to transform a Markdown table into an HTML table.
 
 You may export all of the Markdown notification components to your own application for customization. To export the components, use the `vendor:publish` Artisan command to publish the `laravel-mail` asset tag:
 
-어플리케이션에서 사용하는 모든 마크다운 알림 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다:
+애플리케이션에서 사용하는 모든 마크다운 알림 컴포넌트는 커스터마이징이 가능합니다. 먼저 컴포넌트를 내보내기 위해서 `vendor:publish` 아티즌 명령어를 사용하여 `laravel-mail` 애셋 태그를 지정합니다:
 
     php artisan vendor:publish --tag=laravel-mail
 
@@ -527,7 +527,7 @@ The `database` notification channel stores the notification information in a dat
 
 You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `notifications:table` command to generate a migration with the proper table schema:
 
-어플리케이션의 사용자 인터페이스에 알림을 표시하기 위해서 테이블에 쿼리를 질의할 수 있습니다. 하지만, 이렇게 하기 전에 알림을 저장할 데이터베이스 테이블을 생성할 필요가 있습니다. `notifications:table` 명령어를 사용하여 적절한 테이블 스키마를 구성하는 마이그레이션 파일을 생성할 수 있습니다:
+애플리케이션의 사용자 인터페이스에 알림을 표시하기 위해서 테이블에 쿼리를 질의할 수 있습니다. 하지만, 이렇게 하기 전에 알림을 저장할 데이터베이스 테이블을 생성할 필요가 있습니다. `notifications:table` 명령어를 사용하여 적절한 테이블 스키마를 구성하는 마이그레이션 파일을 생성할 수 있습니다:
 
     php artisan notifications:table
 
@@ -588,7 +588,7 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
 
 > {tip} To access your notifications from your JavaScript client, you should define a notification controller for your application which returns the notifications for a notifiable entity, such as the current user. You may then make an HTTP request to that controller's URI from your JavaScript client.
 
-> {tip} 자바스크립트 클라이언트에서 알림에 엑세스하려면, 어플리케이션에서 현재 사용자와 같은 알림이 가능한 엔티티에 대한 알림을 반환하는 알림 컨트롤러를 정의해야 합니다. 그런 다음 자바스크립트 클라이언트에서 해당 컨트롤러의 URI에 대한 HTTP 요청을 만들 수 있습니다.
+> {tip} 자바스크립트 클라이언트에서 알림에 엑세스하려면, 애플리케이션에서 현재 사용자와 같은 알림이 가능한 엔티티에 대한 알림을 반환하는 알림 컨트롤러를 정의해야 합니다. 그런 다음 자바스크립트 클라이언트에서 해당 컨트롤러의 URI에 대한 HTTP 요청을 만들 수 있습니다.
 
 <a name="marking-notifications-as-read"></a>
 ### Marking Notifications As Read
@@ -738,7 +738,7 @@ Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com
 
 The `sms_from` option is the phone number that your SMS messages will be sent from. You should generate a phone number for your application in the Nexmo control panel.
 
-`sms_from` 옵션은 SMS 메세지가 전송되는 전화번호 입니다. Nexmo 설정 패널에서 어플리케이션의 전화번호를 생성해야 합니다.
+`sms_from` 옵션은 SMS 메세지가 전송되는 전화번호 입니다. Nexmo 설정 패널에서 애플리케이션의 전화번호를 생성해야 합니다.
 
 <a name="formatting-sms-notifications"></a>
 ### Formatting SMS Notifications
@@ -921,7 +921,7 @@ You may also use an image as your logo instead of an emoji:
 
 You may also add "attachments" to Slack messages. Attachments provide richer formatting options than simple text messages. In this example, we will send an error notification about an exception that occurred in an application, including a link to view more details about the exception:
 
-또한 슬랙 메세지에 "첨부파일"을 추가할 수도 있습니다. 첨부파일은 간단한 텍스트 메세지보다 풍부한 포맷 옵션을 제공합니다. 다음 예제에서, 어플리케이션에서 발생한 예외-exception에 대한 에러 알림에 보다 자세한 정보를 표시하는 링크를 포함하여 전송할 것입니다:
+또한 슬랙 메세지에 "첨부파일"을 추가할 수도 있습니다. 첨부파일은 간단한 텍스트 메세지보다 풍부한 포맷 옵션을 제공합니다. 다음 예제에서, 애플리케이션에서 발생한 예외-exception에 대한 에러 알림에 보다 자세한 정보를 표시하는 링크를 포함하여 전송할 것입니다:
 
     /**
      * Get the Slack representation of the notification.

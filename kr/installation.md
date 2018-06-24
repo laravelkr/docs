@@ -87,7 +87,7 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
 
-로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 어플리케이션을 구동하고자 할 수 있는데, 이 경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다:
+로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 애플리케이션을 구동하고자 할 수 있는데, 이 경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다:
 
     php artisan serve
 
@@ -104,7 +104,7 @@ Of course, more robust local development options are available via [Homestead](/
 
 After installing Laravel, you should configure your web server's document / web root to be the `public` directory. The `index.php` in this directory serves as the front controller for all HTTP requests entering your application.
 
-라라벨을 설치후에 어플리케이션의 document / web 루트를 `public` 디렉토리로 설정해야 합니다. 이 디렉토리의 `index.php`는 어플리케이션의 모든 HTTP 요청에 대해서 프론트 컨트롤러로 작동합니다.
+라라벨을 설치후에 애플리케이션의 document / web 루트를 `public` 디렉토리로 설정해야 합니다. 이 디렉토리의 `index.php`는 애플리케이션의 모든 HTTP 요청에 대해서 프론트 컨트롤러로 작동합니다.
 
 #### Configuration Files
 #### 설정 파일
@@ -121,22 +121,22 @@ After installing Laravel, you may need to configure some permissions. Directorie
 라라벨을 설치한 뒤에, 몇몇 권한을 설정해야될 필요가 있습니다. `storage` 와 `bootstrap/cache` 디렉토리 안에 들어 있는 디렉토리들은 모두 웹 서버에 의해서 쓰기가 가능해야 합니다. 그렇지 않으면 라라벨이 실행되지 않습니다. [홈스테드](/docs/{{version}}/homestead)를 사용중이라면 이미 권한이 설정되어 있을 것입니다.
 
 #### Application Key
-#### 어플리케이션 키 설정
+#### 애플리케이션 키 설정
 
 The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command.
 
-라라벨 설치 후 해야할 일은 여러분의 어플리케이션 키를 랜덤한 문자열로 세팅하는 것입니다. 만약 라라벨이 Composer 를 통해서 설치되었다면 키는 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다.
+라라벨 설치 후 해야할 일은 여러분의 애플리케이션 키를 랜덤한 문자열로 세팅하는 것입니다. 만약 라라벨이 Composer 를 통해서 설치되었다면 키는 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다.
 
 Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
 
-일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 변경하지 않았다면 지금 변경합니다. **만약 어플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
+일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 변경하지 않았다면 지금 변경합니다. **만약 애플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
 
 #### Additional Configuration
 #### 추가적인 설정
 
 Laravel needs almost no other configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
 
-라라벨은 앞의 내용 이외의 다른 세팅은 거의 필요 하지 않습니다. 이제 편하게 개발을 시작하면 됩니다! 그러나 가급적 `config/app.php` 파일의 내용을 살펴보길 권장합니다. `timezone`과 `locale`과 같이 여러분의 어플리케이션을 따라 바꾸기를 원하는 몇가지 옵션들을 포함하고 있습니다.
+라라벨은 앞의 내용 이외의 다른 세팅은 거의 필요 하지 않습니다. 이제 편하게 개발을 시작하면 됩니다! 그러나 가급적 `config/app.php` 파일의 내용을 살펴보길 권장합니다. `timezone`과 `locale`과 같이 여러분의 애플리케이션을 따라 바꾸기를 원하는 몇가지 옵션들을 포함하고 있습니다.
 
 You may also want to configure a few additional components of Laravel, such as:
 

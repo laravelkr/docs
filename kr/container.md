@@ -82,11 +82,11 @@ Let's look at a simple example:
 
 In this example, the `UserController` needs to retrieve users from a data source. So, we will **inject** a service that is able to retrieve users. In this context, our `UserRepository` most likely uses [Eloquent](/docs/{{version}}/eloquent) to retrieve user information from the database. However, since the repository is injected, we are able to easily swap it out with another implementation. We are also able to easily "mock", or create a dummy implementation of the `UserRepository` when testing our application.
 
-이 예제에서 `UserController`는 데이터 소스로 부터 사용자를 조회할 필요가 있습니다. 따라서 우리는 사용자를 조회할 수 있는 서비스를 **주입** 할 것입니다. 여기에서는, `UserRepository` 가  [Eloquent](/docs/{{version}}/eloquent)를 사용하여 데이터 베이스로 부터 사용자 정보를 조회합니다. repository 가 주입되었기 때문에, 원하는 경우 손쉽게 다른 구현 객체로 변경할 수 있습니다. 또한 어플리케이션을 테스트 할 때 손쉽게 "목킹" 하거나, 더미 `UserRepository` 구현체를 생성할 수도 있습니다. 
+이 예제에서 `UserController`는 데이터 소스로 부터 사용자를 조회할 필요가 있습니다. 따라서 우리는 사용자를 조회할 수 있는 서비스를 **주입** 할 것입니다. 여기에서는, `UserRepository` 가  [Eloquent](/docs/{{version}}/eloquent)를 사용하여 데이터 베이스로 부터 사용자 정보를 조회합니다. repository 가 주입되었기 때문에, 원하는 경우 손쉽게 다른 구현 객체로 변경할 수 있습니다. 또한 애플리케이션을 테스트 할 때 손쉽게 "목킹" 하거나, 더미 `UserRepository` 구현체를 생성할 수도 있습니다. 
 
 A deep understanding of the Laravel service container is essential to building a powerful, large application, as well as for contributing to the Laravel core itself.
 
-라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 어플리케이션을 구축 할 때나 라라벨 코어에 공헌하기 위해서 아주 중요한 부분입니다.
+라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 애플리케이션을 구축 할 때나 라라벨 코어에 공헌하기 위해서 아주 중요한 부분입니다.
 
 <a name="binding"></a>
 ## Binding

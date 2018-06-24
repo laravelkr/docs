@@ -13,7 +13,7 @@
 
 > {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
 
-> {note} 가능한 모든 변경 내용을 기록하려고 했습니만, 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 어플리케이션에 영향을 끼칠 수도 있습니다.
+> {note} 가능한 모든 변경 내용을 기록하려고 했습니만, 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 애플리케이션에 영향을 끼칠 수도 있습니다.
 
 ### PHP
 ### PHP
@@ -44,14 +44,14 @@ In addition, if you are using the following first-party Laravel packages, you sh
 
 Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.6 support.
 
-또한, 어플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.6를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
+또한, 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.6를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 #### Symfony 4
 #### Symfony 4
 
 All of the underlying Symfony components used by Laravel have been upgraded to the Symfony `^4.0` release series. If you are directly interacting with Symfony components within your application, you should review the [Symfony change log](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md).
 
-라라벨에서 사용되는 모든 Symfony 컴포넌트가 `^4.0` 리리즈 시리즈로 업그레이드되었습니다. 어플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
+라라벨에서 사용되는 모든 Symfony 컴포넌트가 `^4.0` 리리즈 시리즈로 업그레이드되었습니다. 애플리케이션에서 Symfony 컴포넌트를 직접 다루는 경우 [Symfony 변경 사항](https://github.com/symfony/symfony/blob/master/UPGRADE-4.0.md)을 확인해야 합니다.
 
 #### PHPUnit
 #### PHPUnit
@@ -132,7 +132,7 @@ The unused `$decayMinutes` parameter was removed from this method's signature. I
 
 The indexing of the columns built by the `morphs` migration method has been reversed for better performance. If you are using the `morphs` method in one of your migrations, you may receive an error when attempting to run the migration's `down` method. If the application is still in development, you may use the `migrate:fresh` command to rebuild the database from scratch. If the application is in production, you should pass an explicit index name to the `morphs` method.
 
-`morphs` 마이그레이션 메소드를 통해서 생성된 컬럼의 인덱스는 성능향상을 위해서 더는 인덱스를 생성하지 않게 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 어플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 어플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
+`morphs` 마이그레이션 메소드를 통해서 생성된 컬럼의 인덱스는 성능향상을 위해서 더는 인덱스를 생성하지 않게 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 애플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 애플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
 
 #### `MigrationRepositoryInterface` Method Addition
 #### `MigrationRepositoryInterface` 메소드 추가
@@ -159,7 +159,7 @@ This `getDateFormat` method is now `public` instead of `protected`.
 
 All hashing configuration is now housed in its own `config/hashing.php` configuration file. You should place a copy of the [default configuration file](https://github.com/laravel/laravel/blob/master/config/hashing.php) in your own application. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
 
-모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
+모든 해싱 설정은 이제 `config/hashing.php` 설정 파일에 지정됩니다. 애플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/hashing.php)을 복사해서 넣으십시오. Most likely, you should maintain the `bcrypt` driver as your default driver. However, `argon` is also supported.
 
 ### Helpers
 ### 헬퍼
@@ -185,7 +185,7 @@ In Laravel 5.6, Blade and the `e` helper will double encode special characters b
 
 All logging configuration is now housed in its own `config/logging.php` configuration file. You should place a copy of the [default configuration file](https://github.com/laravel/laravel/blob/master/config/logging.php) in your own application and tweak the settings based on your application's needs.
 
-로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 어플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
+로깅과 관련된 모든 설정은 이제 `config/logging.php` 설정 파일에 지정됩니다. 애플리케이션에 [기본 설정 파일](https://github.com/laravel/laravel/blob/master/config/logging.php)을 복사해서 넣고, 필요한 설정을 구성하십시오.
 
 The `log` and `log_level` configuration options may be removed from the `config/app.php` configuration file.
 
@@ -196,14 +196,14 @@ The `log` and `log_level` configuration options may be removed from the `config/
 
 If you were using the `configureMonologUsing` method to customize the Monolog instance for your application, you should now create a `custom` Log channel. For more information on how to create custom channels, check out the [full logging documentation](/docs/5.6/logging#creating-custom-channels).
 
-어플리케이션에서 Monolog 인스턴스를 커스터마이징 하기 위해서 `configureMonologUsing` 메소드를 사용했다면, `custom` 로그 채널을 생성하십시오. 커스텀 채널을 생성하기 위한 보다 자세한 내용은 [로깅 문서](/docs/5.6/logging#creating-custom-channels)를 참고하십시오.
+애플리케이션에서 Monolog 인스턴스를 커스터마이징 하기 위해서 `configureMonologUsing` 메소드를 사용했다면, `custom` 로그 채널을 생성하십시오. 커스텀 채널을 생성하기 위한 보다 자세한 내용은 [로깅 문서](/docs/5.6/logging#creating-custom-channels)를 참고하십시오.
 
 #### The Log `Writer` Class
 #### Log `Writer` 클래스
 
 The `Illuminate\Log\Writer` class has been renamed to `Illuminate\Log\Logger`. If you were explicitly type-hinting this class as a dependency of one of your application's classes, you should update the class reference to the new name. Or, alternatively, you should strongly consider type-hinting the standardized `Psr\Log\LoggerInterface` interface instead.
 
-`Illuminate\Log\Writer` 클래스는 `Illuminate\Log\Logger` 으로 이름이 변경되었습니다. 어플리케이션의 클래스중 하나에서 이 클래스를 의존하고 있었다면, 새로운 이름으로 변경해야 합니다. 또는, 대신에, `Psr\Log\LoggerInterface` 인터페이스를 사용하는 것을 고려해보십시오.
+`Illuminate\Log\Writer` 클래스는 `Illuminate\Log\Logger` 으로 이름이 변경되었습니다. 애플리케이션의 클래스중 하나에서 이 클래스를 의존하고 있었다면, 새로운 이름으로 변경해야 합니다. 또는, 대신에, `Psr\Log\LoggerInterface` 인터페이스를 사용하는 것을 고려해보십시오.
 
 #### The `Illuminate\Contracts\Logging\Log` Interface
 #### `Illuminate\Contracts\Logging\Log` 인터페이스
@@ -270,14 +270,14 @@ The `original` property of [resource responses](/docs/5.6/eloquent-resources) is
 
 When returning a newly created Eloquent model directly from a route, the response status will now automatically be set to `201` instead of `200`. If any of your application's tests were explicitly expecting a `200` response, those tests should be updated to expect `201`.
 
-새롭게 생성 된 Eloquent 모델을 라우트에서 직접 반환하게 되면 response-응답의 상태코드가 자동으로 `200` 대신 `201` 로 설정됩니다. 어플리케이션의 테스트에서 명시적으로 `200` response-응답을 기대하는 경우에 해당 테스트가 `201`을 예상하도록 수정해야합니다.
+새롭게 생성 된 Eloquent 모델을 라우트에서 직접 반환하게 되면 response-응답의 상태코드가 자동으로 `200` 대신 `201` 로 설정됩니다. 애플리케이션의 테스트에서 명시적으로 `200` response-응답을 기대하는 경우에 해당 테스트가 `201`을 예상하도록 수정해야합니다.
 
 ### Trusted Proxies
 ### 신뢰할 수 있는 프록시 설정
 
 Due to underlying changes in the trusted proxy functionality of Symfony HttpFoundation, slight changes must be made to your application's `App\Http\Middleware\TrustProxies` middleware.
 
-Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었기 때문에, 어플리케이션의 `App\Http\Middleware\TrustProxies` 미들웨어를 조금 수정해야합니다.
+Symfony HttpFoundation의 신뢰할 수 있는 프록시 기능이 변경되었기 때문에, 애플리케이션의 `App\Http\Middleware\TrustProxies` 미들웨어를 조금 수정해야합니다.
 
 The `$headers` property, which was previously an array, is now a bit property that accepts several different values. For example, to trust all forwarded headers, you may update your `$headers` property to the following value:
 
@@ -311,4 +311,4 @@ The `validate` method of the `ValidatesWhenResolved` interface / trait has been 
 
 We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.5...master) and choose which updates are important to you.
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 어플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

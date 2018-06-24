@@ -38,7 +38,7 @@ The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is inclu
 
 When building JavaScript driven applications, it is convenient to have your JavaScript HTTP library automatically attach the CSRF token to every outgoing request. By default, the `resources/assets/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
 
-자바스크립트를 기반으로한 어플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.
+자바스크립트를 기반으로한 애플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 를 사용하지 않는 경우 애플리케이션에 이 작업을 직접 구성하도록 해야합니다.
 
 <a name="csrf-excluding-uris"></a>
 ## Excluding URIs From CSRF Protection
@@ -98,7 +98,7 @@ Then, once you have created the `meta` tag, you can instruct a library like jQue
 
 > {tip} By default, the `resources/assets/js/bootstrap.js` file registers the value of the `csrf-token` meta tag with the Axios HTTP library. If you are not using this library, you will need to manually configure this behavior for your application.
 
-> {tip} 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 라이브러리를 사용하지 않는 경우 어플리케이션에 이 작업을 직접 구성하도록 해야합니다.
+> {tip} 기본적으로 `resources/assets/js/bootstrap.js` 파일은 `csrf-token` 메타 태그 값을 Axios HTTP 라이브러리에 등록합니다. Axios 라이브러리를 사용하지 않는 경우 애플리케이션에 이 작업을 직접 구성하도록 해야합니다.
 
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN

@@ -46,7 +46,7 @@ Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에
 
 Before using Socialite, you will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your `config/services.php` configuration file, and should use the key `facebook`, `twitter`, `linkedin`, `google`, `github` or `bitbucket`, depending on the providers your application requires. For example:
 
-Socialite를 사용하기 전에, 어플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 어플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
+Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID

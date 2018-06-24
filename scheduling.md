@@ -67,7 +67,7 @@
 <a name="scheduling-artisan-commands"></a>
 ### 아티즌 명령어 스케줄링
 
-클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다름 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
     $schedule->command('emails:send --force')->daily();
 
@@ -231,7 +231,7 @@
 
 #### URL Ping 실행
 
-`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료을 알리는 데 유용합니다:
+`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다:
 
     $schedule->command('emails:send')
              ->daily()

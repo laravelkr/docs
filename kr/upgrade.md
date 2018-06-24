@@ -13,7 +13,7 @@
 
 > {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
 
-> {note} 가능한 모든 변경 내용을 기록하려고 했습니다. 그렇지만 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 어플리케이션에 영향을 끼칠 수도 있습니다.
+> {note} 가능한 모든 변경 내용을 기록하려고 했습니다. 그렇지만 변경 사항 중 일부는 프레임워크의 명확하지 않은 부분에서 이루어 지기 때문에 이중 일부가 실제 애플리케이션에 영향을 끼칠 수도 있습니다.
 
 ### Updating Dependencies
 ### 의존성 업데이트
@@ -50,7 +50,7 @@ Laravel Cashier is already compatible with Laravel 5.4.
 
 Laravel Passport `2.0.0` has been released to provide compatibility with Laravel 5.4 and the [Axios](https://github.com/mzabriskie/axios) JavaScript library. If you are upgrading from Laravel 5.3 and using the pre-built Passport Vue components, you should make sure the Axios library is globally available to your application as `axios`.
 
-라라벨 5.4 와 [Axios](https://github.com/mzabriskie/axios) 자바스크립트 라이브러리와의 호환성을 위해서 라라벨 Passport `2.0.0`가 릴리즈 되었습니다. 라라벨 5.3에서 업그레이드를 하고, 사전에 준비된 Passport Vue 컴포넌트를 사용하는 경우에는 Axios 라이브러리가 어플리케이션의 어디에서라도 사용가능한지 확인해야 합니다.
+라라벨 5.4 와 [Axios](https://github.com/mzabriskie/axios) 자바스크립트 라이브러리와의 호환성을 위해서 라라벨 Passport `2.0.0`가 릴리즈 되었습니다. 라라벨 5.3에서 업그레이드를 하고, 사전에 준비된 Passport Vue 컴포넌트를 사용하는 경우에는 Axios 라이브러리가 애플리케이션의 어디에서라도 사용가능한지 확인해야 합니다.
 
 #### Laravel Scout
 #### 라라벨 Scout
@@ -280,7 +280,7 @@ If you were previously binding a service container binding for a `db.connection.
 
 Laravel no longer includes the ability to customize the PDO "fetch mode" from your configuration files. Instead, `PDO::FETCH_OBJ` is always used. If you would still like to customize the fetch mode for your application you may listen for the new `Illuminate\Database\Events\StatementPrepared` event:
 
-라라벨은 더 이상 설정 파일에서 PDO의 "Fetch 모드"를 커스터마이징 할 수 있는 기능을 제공하지 않습니다. 대신에 `PDO::FETCH_OBJ`가 항상 사용됩니다. 계속 어플리케이션에서 Fetch 모드를 커스터마이징 하고자 하는 경우 `Illuminate\Database\Events\StatementPrepared` 이벤트를 리스닝 하면 됩니다:
+라라벨은 더 이상 설정 파일에서 PDO의 "Fetch 모드"를 커스터마이징 할 수 있는 기능을 제공하지 않습니다. 대신에 `PDO::FETCH_OBJ`가 항상 사용됩니다. 계속 애플리케이션에서 Fetch 모드를 커스터마이징 하고자 하는 경우 `Illuminate\Database\Events\StatementPrepared` 이벤트를 리스닝 하면 됩니다:
 
     Event::listen(StatementPrepared::class, function ($event) {
         $event->statement->setFetchMode(...);
@@ -301,7 +301,7 @@ The `date` cast now converts the column to a `Carbon` object and calls the `star
 
 If the foreign key is not explicitly specified when defining a relationship, Eloquent will now use the table name and primary key name for the related model to build the foreign key. For the vast majority of applications, this is not a change of behavior. For example:
 
-관계를 정의 할 때 외래 키가 명시적으로 지정되지 않은 경우에, Eloquent는 관련 모델의 테이블 이름과 기본 키 이름을 사용하여 외래 키를 추정합니다. 대부분의 어플리케이션에서 이는 별다른 변경사항이 아닙니다 예를 들면:
+관계를 정의 할 때 외래 키가 명시적으로 지정되지 않은 경우에, Eloquent는 관련 모델의 테이블 이름과 기본 키 이름을 사용하여 외래 키를 추정합니다. 대부분의 애플리케이션에서 이는 별다른 변경사항이 아닙니다 예를 들면:
 
     public function user()
     {
@@ -353,7 +353,7 @@ Related models will now use the same connection as the parent model. For example
 
 Eloquent will query the posts table on the `example` connection instead of the default database connection. If you want to read the `posts` relationship from the default connection, you should to explicitly set the model's connection to your application's default connection.
 
-Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 어플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
+Eloquent는 기본 데이터베이스 커넥션 대신에 `example` 커넥션에 posts 테이블을 질의합니다. 기본 커넥션에서 `posts` 관계를 읽으려면 모델의 커넥션을 애플리케이션의 디폴터 커넥션으로 명시적으로 설정해야 합니다.
 
 #### The `chunk` Method
 #### `chunk` 메소드
@@ -428,7 +428,7 @@ Calling `factory(User::class, 1)->make()` or `factory(User::class, 1)->create()`
 
 If you are manually implementing the `Illuminate\Contracts\Events\Dispatcher` interface in your application or package, you should rename the `fire` method to `dispatch`.
 
-어플리케이션이나 패키지에서 `Illuminate\Contracts\Events\Dispatcher` 인터페이스를 직접 구현했었다면, `fire` 메소드를 `dispatch` 메소드로 이름을 변경해야 합니다.
+애플리케이션이나 패키지에서 `Illuminate\Contracts\Events\Dispatcher` 인터페이스를 직접 구현했었다면, `fire` 메소드를 `dispatch` 메소드로 이름을 변경해야 합니다.
 
 #### Event Priority
 #### 이벤트 우선순위
@@ -523,7 +523,7 @@ In order to queue mail, you now must use a [mailable](/docs/{{version}}/mail). Q
 
 If your application contains a `failed_jobs` table, you should add an `exception` column to the table:
 
-어플리케이션에서 `failed_jobs` 테이블을 구성해놓고 있었다면, 테이블에 `exception` 컬럼을 추가해야 합니다:
+애플리케이션에서 `failed_jobs` 테이블을 구성해놓고 있었다면, 테이블에 `exception` 컬럼을 추가해야 합니다:
 
     $table->longText('exception')->after('payload');
 
@@ -573,7 +573,7 @@ The class `Illuminate\Foundation\Http\Middleware\VerifyPostSize` has been rename
 
 The `middleware` method of the `Illuminate\Routing\Router` class has been renamed to `aliasMiddleware()`. It is likely that most applications never call this method manually, as it is typically only called by the HTTP kernel to register route-level middleware defined in the `$routeMiddleware` array.
 
-`Illuminate\Routing\Router` 클래스의 `middleware` 메소드는 `aliasMiddleware()` 으로 이름이 변경되었습니다. 대부분의 어플리케이션에서는 이 메소드를 직접 호출하지 않습니다. 일반적으로 HTTP 커널에서 `$routeMiddleware` 배열에 정의된 라우트 레벨의 미들웨어를 등록하기 위해서 이 메소드를 호출합니다.
+`Illuminate\Routing\Router` 클래스의 `middleware` 메소드는 `aliasMiddleware()` 으로 이름이 변경되었습니다. 대부분의 애플리케이션에서는 이 메소드를 직접 호출하지 않습니다. 일반적으로 HTTP 커널에서 `$routeMiddleware` 배열에 정의된 라우트 레벨의 미들웨어를 등록하기 위해서 이 메소드를 호출합니다.
 
 #### `Route` Methods
 #### `Route` 메소드
@@ -606,7 +606,7 @@ Laravel's session handlers no longer implements Symfony's `SessionInterface`. Im
 
 All calls to the `->set()` method should be changed to `->put()`. Typically, Laravel applications would never call the `set` method since it has never been documented within the Laravel documentation. However, it is included here out of caution.
 
-모든 `->set()` 메소드 호출은 `->put()` 으로 변경해야 합니다. 일반적으로 라라벨 어플리케이션은 매뉴얼에 없는 메소드는 호출하지 않지만, 이는 예외적으로 주의해야될 부분입니다.
+모든 `->set()` 메소드 호출은 `->put()` 으로 변경해야 합니다. 일반적으로 라라벨 애플리케이션은 매뉴얼에 없는 메소드는 호출하지 않지만, 이는 예외적으로 주의해야될 부분입니다.
 
 All calls to the `->getToken()` method should be changed to `->token()`.
 
@@ -621,7 +621,7 @@ All calls to the `$request->setSession()` method should be changed to `setLarave
 
 Laravel 5.4's testing layer has been re-written to be simpler and lighter out of the box. If you would like to continue using the testing layer present in Laravel 5.3, you may install the `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing) into your application. This package provides full compatibility with the Laravel 5.3 testing layer. In fact, you can run the Laravel 5.4 testing layer side-by-side with the Laravel 5.3 testing layer.
 
-라라벨 5.4의 테스팅 레이어는 새롭게 작성되어 별다른 설정없이도 보다 간단하고 더 가벼워졌습니다. 라라벨 5.3의 테스팅 레이어를 계속 사용하고자 한다면 어플리케이션에 `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing)를 설치해야 합니다. 이 패키지는 라라벨 5.3 테스팅과 관련된 전체적인 호환성을 지원합니다. 사실, 라라벨 5.3의 테스트 레이어를 사용하면서 라라벨 5.4의 테스트 레이어를 같이 실행할 수 있습니다.
+라라벨 5.4의 테스팅 레이어는 새롭게 작성되어 별다른 설정없이도 보다 간단하고 더 가벼워졌습니다. 라라벨 5.3의 테스팅 레이어를 계속 사용하고자 한다면 애플리케이션에 `laravel/browser-kit-testing` [package](https://github.com/laravel/browser-kit-testing)를 설치해야 합니다. 이 패키지는 라라벨 5.3 테스팅과 관련된 전체적인 호환성을 지원합니다. 사실, 라라벨 5.3의 테스트 레이어를 사용하면서 라라벨 5.4의 테스트 레이어를 같이 실행할 수 있습니다.
 
 In order to allow Laravel to autoload any new tests you generate using the Laravel 5.4 test generators, you should add the `Tests` namespace to your `composer.json` file's `autoload-dev` block:
 
@@ -632,7 +632,7 @@ In order to allow Laravel to autoload any new tests you generate using the Larav
     }
 
 #### Running Laravel 5.3 & 5.4 Tests In A Single Application
-#### 하나의 어플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
+#### 하나의 애플리케이션에서 라라벨 5.3 & 5.4 테스트 실행하기
 
 First install the `laravel/browser-kit-testing` package:
 
@@ -692,17 +692,17 @@ Once you have created this class, make sure to update all of your tests to exten
 > {note} 새로운 테스트를 작성하고 라라벨 5.4 테스트 레이어를 사용하려면 `TestCase` 클래스를 상속받아야합니다.
 
 #### Installing Dusk In An Upgraded Application
-#### 업그레이드된 어플리케이션에서 Dusk 설치하기
+#### 업그레이드된 애플리케이션에서 Dusk 설치하기
 
 If you would like to install Laravel Dusk into an application that has been upgraded from Laravel 5.3, first install it via Composer:
 
-라라벨 5.3에서 업그레이드된 어플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
+라라벨 5.3에서 업그레이드된 애플리케이션에서 라라벨 Dusk 를 설치하려면, 먼저 컴포저를 통해서 인스톨 하십시오
 
     composer require --dev laravel/dusk "1.*"
 
 Next, you will need to create a `CreatesApplication` trait in your `tests` directory. This trait is responsible for creating fresh application instances for test cases. The trait should look like the following:
 
-그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 어플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다:
+그 다음 `tests` 디렉토리에 `CreatesApplication` 트레이트를 생성해야합니다. 이 트레이트는 테스트 케이스를 위한 새로운 애플리케이션 인스턴스를 생성하는 역할을 합니다. 이 트레이트는 다음과 같은 형태를 가지고 있습니다:
 
     <?php
 
@@ -834,4 +834,4 @@ The `addError` method has been renamed to `addFailure`. In addition, the `doRepl
 
 We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.3...5.4) and choose which updates are important to you.
 
-`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 어플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [GitHub 비교 도구](https://github.com/laravel/laravel/compare/5.3...5.4)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.
+`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항을 확인하는 것이 좋습니다. 많은 변경사항들이 모두 필요하지는 않지만, 애플리케이션을 이러한 변경파일들을 통해서 최신으로 유지할 수 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다뤄지지만 설정 파일이나 코멘트와 같은 사항은 다뤄지지 않습니다. [GitHub 비교 도구](https://github.com/laravel/laravel/compare/5.3...5.4)를 통해서 변경사항을 쉽게 확인하고 중요한 업데이트를 수행할 수 있습니다.

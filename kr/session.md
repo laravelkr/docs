@@ -32,7 +32,7 @@
 
 Since HTTP driven applications are stateless, sessions provide a way to store information about the user across multiple requests. Laravel ships with a variety of session backends that are accessed through an expressive, unified API. Support for popular backends such as [Memcached](https://memcached.org), [Redis](http://redis.io), and databases is included out of the box.
 
-HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 여러 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 풍부한 표현이 가능하며 일관된 API를 통해서 엑세스 되는 다양한 세션 백엔드를 제공합니다. 별다른 설정 없이도, 많이 알려진 [Memcached](https://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 지원합니다.
+HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HTTP 여러 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 풍부한 표현이 가능하며 일관된 API를 통해서 엑세스 되는 다양한 세션 백엔드를 제공합니다. 별다른 설정 없이도, 많이 알려진 [Memcached](https://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 지원합니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -40,7 +40,7 @@ HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HT
 
 The session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
 
-세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에서 사용 가능한 옵션을 잘 살펴보십시오. 기본적으로 라라벨은 대부분의 어플리케이션에서 잘 작동 할 수 있도록 `file` 세션 드라이버를 사용하도록 설정되어 있습니다. 실서비스용 어플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 또는 `redis` 드라이버를 사용하는 것을 고려하십시오.
+세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에서 사용 가능한 옵션을 잘 살펴보십시오. 기본적으로 라라벨은 대부분의 애플리케이션에서 잘 작동 할 수 있도록 `file` 세션 드라이버를 사용하도록 설정되어 있습니다. 실서비스용 애플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 또는 `redis` 드라이버를 사용하는 것을 고려하십시오.
 
 The session `driver` configuration option defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
 
@@ -262,7 +262,7 @@ The `forget` method will remove a piece of data from the session. If you would l
 
 Regenerating the session ID is often done in order to prevent malicious users from exploiting a [session fixation](https://en.wikipedia.org/wiki/Session_fixation) attack on your application.
 
-세션 ID를 다시 생성하는 것은 종종 악의적인 사용자의 어플리케이션에 대한 [세션 fixation](https://en.wikipedia.org/wiki/Session_fixation) 공격을 방지하기 위해서 수행합니다.
+세션 ID를 다시 생성하는 것은 종종 악의적인 사용자의 애플리케이션에 대한 [세션 fixation](https://en.wikipedia.org/wiki/Session_fixation) 공격을 방지하기 위해서 수행합니다.
 
 Laravel automatically regenerates the session ID during authentication if you are using the built-in `LoginController`; however, if you need to manually regenerate the session ID, you may use the `regenerate` method.
 

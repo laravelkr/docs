@@ -17,7 +17,7 @@
 
 Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application. Language strings are stored in files within the `resources/lang` directory. Within this directory there should be a subdirectory for each language supported by the application:
 
-라라벨의 다국어 기능은 어플리케이션이 다국어에 대앙하게 할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 어플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
+라라벨의 다국어 기능은 애플리케이션이 다국어에 대앙하게 할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 애플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
 
     /resources
         /lang
@@ -41,7 +41,7 @@ All language files simply return an array of keyed strings. For example:
 
 The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
 
-어플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 물론 여러분은 이 값들을 어플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다:
+애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 물론 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다:
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);

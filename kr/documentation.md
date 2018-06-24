@@ -135,7 +135,7 @@
     - [Getting Started](/docs/{{version}}/testing)
     - [시작하기](/docs/{{version}}/testing)
     - [Application Testing](/docs/{{version}}/application-testing)
-    - [어플리케이션 테스팅](/docs/{{version}}/application-testing)
+    - [애플리케이션 테스팅](/docs/{{version}}/application-testing)
     - [Database](/docs/{{version}}/database-testing)
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)

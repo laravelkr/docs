@@ -55,7 +55,7 @@ All Laravel routes are defined in your route files, which are located in the `ro
 
 For most applications, you will begin by defining routes in your `routes/web.php` file.
 
-대부분의 어플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다.
+대부분의 애플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다.
 
 #### Available Router Methods
 #### 가능한 라우터 메소드

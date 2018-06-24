@@ -68,7 +68,7 @@ Alternatively, you may cast a model or collection to a string, which will automa
 
 Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers:
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 어플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 애플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::all();

@@ -25,7 +25,7 @@
 
     $collection = collect([1, 2, 3]);
 
-기본적으로 [Eloquent](/docs/5.1/eloquent) 모델의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 꼭 여기가 아니더라도 어플리케이션의 어느곳이라도 편리하게 `Collection` 클래스를 이용할 수 있습니다.
+기본적으로 [Eloquent](/docs/5.1/eloquent) 모델의 컬렉션은 항상 `Collection` 인스턴스를 반환합니다. 꼭 여기가 아니더라도 애플리케이션의 어느곳이라도 편리하게 `Collection` 클래스를 이용할 수 있습니다.
 
 <a name="available-methods"></a>
 ## 사용가능한 메소드

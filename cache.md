@@ -68,7 +68,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 <a name="obtaining-a-cache-instance"></a>
 ### 캐시 인스턴스 획득하기
 
-`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 어플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체에 입니다. 
+`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 애플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체에 입니다. 
 
 하지만 언제라도 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다. 
 
@@ -193,7 +193,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     Cache::flush();
 
-모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 어플리케이션의 다른 부분에서 공유하는 캐시를 제거 할 때에 주의하십시오.
+모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 애플리케이션의 다른 부분에서 공유하는 캐시를 제거 할 때에 주의하십시오.
 
 <a name="adding-custom-cache-drivers"></a>
 ## 사용자 지정 캐시 드라이버 추가하기
@@ -237,7 +237,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 `extend` 메소드에 전달되는 첫번째 인자는 드라이버의 이름입니다. 이 이름은 `config/cache.php` 설정 파일의 `driver` 옵션에 해당합니다. 두번째 인자는 `Illuminate\Cache\Repository` 인스턴스를 반환하는 클로저가 됩니다. 클로저에는 `$app` 인스턴스가 전달되는데, 이 인자는 [서비스 컨테이너](/docs/{{version}}/container)의 인스턴스입니다. 
 
-확장된 기능을 사용하기 위해서는 설치된 라라벨 어플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오. 
+확장된 기능을 사용하기 위해서는 설치된 라라벨 애플리케이션에서 제공하는 `App\Providers\AppServiceProvider`의 `boot` 메소드 안에서 `Cache::extend`가 호출되어야만 합니다. 또는 별도의 서비스 프로바이더를 생성해야 합니다. - 이경우 프로바이더를 `config/app.php` 의 provider 배열에 추가하는 것을 잊지 마십시오. 
 
 여러분의 고유한 캐시 드라이버를 생성하기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 의 구현체가 필요합니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다. 
 
@@ -265,7 +265,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 캐시 확장이 완료되면 `config/cache.php` 설정 파일의 `driver` 옵션을 여러분이 구성한 확장 드라이버의 이름으로 수정 하십시오.
 
-여러분이 구성한 사용자 지정 캐시 드라이버의 코드를 어디에 놓아둘지 고민하고 있다면, Packagist에 공개하는것을 고려해보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 만들 수도 있습니다. 물론, 라라벨은 엄격한 어플리케이션 구조를 가지고 있지 않기 때문에, 어느곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있습니다.
+여러분이 구성한 사용자 지정 캐시 드라이버의 코드를 어디에 놓아둘지 고민하고 있다면, Packagist에 공개하는것을 고려해보십시오! 또는 `app` 디렉토리에 `Extensions` 네임스페이스를 만들 수도 있습니다. 물론, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있습니다.
 
 <a name="cache-tags"></a>
 ## 캐시 태그

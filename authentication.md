@@ -31,16 +31,16 @@
 <a name="introduction-database-considerations"></a>
 ### 데이터베이스 유의사항
 
-기본적으로 라라벨은 `app` 디렉토리에 `App\User` 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 어플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다. 
+기본적으로 라라벨은 `app` 디렉토리에 `App\User` 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 애플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다. 
 
 `App\User` 모델을 위한 데이터베이스 스키마를 구성할 때, 유의할 것은 패스워드 컬럼이 최소 60 자가 되어야 한다는 것입니다. 
 
-또한 `users` (또는 동일한) 테이블이 NULL을 허용하는 100자리 문자열의 `remember_token` 컬럼을 포함하고 있는지 확인하십시오. 이 컬럼은 어플리케이션에서 관리하는 "remember me" 세션의 토큰을 저장하는데 사용됩니다.  마이그레이션에서 $table->rememberToken();를 사용하면 추가 할 수 있습니다. 
+또한 `users` (또는 동일한) 테이블이 NULL을 허용하는 100자리 문자열의 `remember_token` 컬럼을 포함하고 있는지 확인하십시오. 이 컬럼은 애플리케이션에서 관리하는 "remember me" 세션의 토큰을 저장하는데 사용됩니다.  마이그레이션에서 $table->rememberToken();를 사용하면 추가 할 수 있습니다. 
 
 <a name="authentication-quickstart"></a>
 ## 빠르게 인증 살펴보기
 
-라라벨은 별도의 설정 없이도 `App\Http\Controllers\Auth` 네임스페이스에 위치한 두가지 인증 컨트롤러를 제공하고 있습니다. `AuthController`는 새로운 사용자의 등록과 로그인을 처리하고 `PasswordController`는 암호 분실시에 사용자 암호 재설정을 처리합니다. 각각의 컨트롤러는 필요한 메서드를 포함하기 위해 트레이트-trait를 사용합니다. 대부분의 어플리케이션에서 여러분은 이 컨트롤러들을 수정할 필요가 없을 것입니다. 
+라라벨은 별도의 설정 없이도 `App\Http\Controllers\Auth` 네임스페이스에 위치한 두가지 인증 컨트롤러를 제공하고 있습니다. `AuthController`는 새로운 사용자의 등록과 로그인을 처리하고 `PasswordController`는 암호 분실시에 사용자 암호 재설정을 처리합니다. 각각의 컨트롤러는 필요한 메서드를 포함하기 위해 트레이트-trait를 사용합니다. 대부분의 애플리케이션에서 여러분은 이 컨트롤러들을 수정할 필요가 없을 것입니다. 
 
 <a name="included-routing"></a>
 ### Routing-라우팅
@@ -122,7 +122,7 @@
 <a name="included-authenticating"></a>
 ### 인증하기
 
-이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 어플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다. 간단하게는 브라우저에서 정의된 라우트를 접근할 수 있습니다. 인증 컨트롤러는 존재하는 사용자를 인증하고 새로운 사용자를 데이터베이스에 저장하는 이미 로직을(트레이트-trait를 통해) 가지고 있습니다. 
+이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 애플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다. 간단하게는 브라우저에서 정의된 라우트를 접근할 수 있습니다. 인증 컨트롤러는 존재하는 사용자를 인증하고 새로운 사용자를 데이터베이스에 저장하는 이미 로직을(트레이트-trait를 통해) 가지고 있습니다. 
 
 사용자가 인증에 성공하면 `/home` URI로 리다이렉트될 것이며 이 URI는 라우트를 등록해야 이용할 수 있습니다. `AuthController`에 `redirectPath` 속성을 정의하면 사용자가 인증 후 옮겨지는 위치를 변경할 수 있습니다: 
 
@@ -136,9 +136,9 @@
 
 #### 사용자에 의한 수정
 
-새로운 사용자를 등록하는 폼의 필수 입력 항목들을 변경 하고자 하거나, 또는 새로운 레코드가 데이터베이스에 입력되는 방법을 변경하고자 한다면, `AuthController` 클래스를 수정하면 됩니다. 이 클래스는 어플리케이션에서 새로운 사용자를 검증하고 생성하는 역할을 합니다.
+새로운 사용자를 등록하는 폼의 필수 입력 항목들을 변경 하고자 하거나, 또는 새로운 레코드가 데이터베이스에 입력되는 방법을 변경하고자 한다면, `AuthController` 클래스를 수정하면 됩니다. 이 클래스는 애플리케이션에서 새로운 사용자를 검증하고 생성하는 역할을 합니다.
 
-`AuthController` 클래스의 `validator` 메소드는 어플리케이션의 새로운 사용자에 대한 폼 검증 규칙을 포함하고 있으며, 여러분은 원하는대로 이 메소드들을 수정해도 됩니다. 
+`AuthController` 클래스의 `validator` 메소드는 애플리케이션의 새로운 사용자에 대한 폼 검증 규칙을 포함하고 있으며, 여러분은 원하는대로 이 메소드들을 수정해도 됩니다. 
 
 `AuthController`의 `create` 메소드는 [Eloquent ORM](/docs/{{version}}/eloquent)을 이용하여 데이터베이스에 새 `App\User` 기록을 생성합니다. 데이터베이스의 필요에 따라 이 메소드를 수정할 수 있습니다. 
 
@@ -176,7 +176,7 @@
 
 #### 현재 사용자의 승인 여부 결정하기 
 
-사용자가 이미 어플리케이션에 로그인했는지 판별하려면, `Auth` 파사드에 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다: 
+사용자가 이미 애플리케이션에 로그인했는지 판별하려면, `Auth` 파사드에 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다: 
 
     if (Auth::check()) {
         // The user is logged in...
@@ -273,7 +273,7 @@
         // The user is active, not suspended, and exists.
     }
 
-어플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다: 
+애플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다: 
 
     Auth::logout();
 
@@ -282,7 +282,7 @@
 <a name="remembering-users"></a>
 ### 사용자 기억하기
 
-여러분의 어플리케이션에 "기억하기" 기능을 제공하고자 한다면, `attempt` 메소드의 두번째 인자로 사용자의 인증을 무기한 계속 유지할지, 아니면 수동으로 로그아웃 할때까지 유지할지 결정하는 boolean 값을 전달하면 됩니다. 이를 위해서는 `users` 테이블은 "기억하기" 토근을 저장하는데 사용되는 `remember_token` 컬럼을 가지고 있어야만 합니다. 
+여러분의 애플리케이션에 "기억하기" 기능을 제공하고자 한다면, `attempt` 메소드의 두번째 인자로 사용자의 인증을 무기한 계속 유지할지, 아니면 수동으로 로그아웃 할때까지 유지할지 결정하는 boolean 값을 전달하면 됩니다. 이를 위해서는 `users` 테이블은 "기억하기" 토근을 저장하는데 사용되는 `remember_token` 컬럼을 가지고 있어야만 합니다. 
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // The user is being remembered...
@@ -305,7 +305,7 @@
 
 #### Id를 기반으로 사용자 인증하기
 
-사용자 ID를 통하여 사용자를 어플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 단순히 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다: 
+사용자 ID를 통하여 사용자를 애플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 단순히 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다: 
 
     Auth::loginUsingId(1);
 
@@ -320,7 +320,7 @@
 <a name="http-basic-authentication"></a>
 ## HTTP 기본 인증
 
-[HTTP 기본 인증](http://en.wikipedia.org/wiki/Basic_access_authentication)은 어플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다: 
+[HTTP 기본 인증](http://en.wikipedia.org/wiki/Basic_access_authentication)은 애플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다: 
 
     Route::get('profile', ['middleware' => 'auth.basic', function() {
         // Only authenticated users may enter...
@@ -375,7 +375,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 <a name="resetting-database"></a>
 ### 데이터베이스 고려사항
 
-대부분의 웹 어플리케이션은 사용자가 잊어버린 패스워드를 재설정 하는 방법을 제공합니다. 라라벨은 각각의 어플리케이션에서 직접 이 기능을 다시 구현하는 하도록 하기 보다, 패스워드 알림을 보내고 패스워드를 재설정을 수행하는 편리한 메소드를 제공합니다.
+대부분의 웹 애플리케이션은 사용자가 잊어버린 패스워드를 재설정 하는 방법을 제공합니다. 라라벨은 각각의 애플리케이션에서 직접 이 기능을 다시 구현하는 하도록 하기 보다, 패스워드 알림을 보내고 패스워드를 재설정을 수행하는 편리한 메소드를 제공합니다.
 
 이를 이용하려면 `App\User` 모델이 `Illuminate\Contracts\Auth\CanResetPassword` contract을 구현하고 있는지 확인하십시오. 물론 프레임워크에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현하고 있으며, 인터페이스 구현에 필요한 메소드를 포함한 `Illuminate\Auth\Passwords\CanResetPassword` 트레이트-trait을 사용하고 있습니다.
 
@@ -485,7 +485,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
 사용자의 패스워드를 재설정하기 위해 라우트와 뷰를 정의하였다면, 이제 브라우저에서 간단히 라우트에 접근할 수 있습니다. 프레임워크에 포함된 `PasswordController`는 이미 패스워드 재설정 이메일을 보내고, 데이터베이스에 패스워드를 업데이트하는 로직을 가지고 있습니다.
 
-패스워드가 재설정 되고나면, 사용자는 자동으로 어플리케이션에 로그인 처리되고 `/home` 으로 리다이렉트 됩니다. 여러분은 `PasswordController`의 `redirectTo` 속성을 정의하여 사용자의 패스워드가 재설정 된 이후에 리다이렉트할 경로를 변경할 수 있습니다:
+패스워드가 재설정 되고나면, 사용자는 자동으로 애플리케이션에 로그인 처리되고 `/home` 으로 리다이렉트 됩니다. 여러분은 `PasswordController`의 `redirectTo` 속성을 정의하여 사용자의 패스워드가 재설정 된 이후에 리다이렉트할 경로를 변경할 수 있습니다:
 
     protected $redirectTo = '/dashboard';
 
@@ -514,7 +514,7 @@ Socialite 라이브러리를 설치한 후, `config/app.php` 설정 파일에 `L
 
     'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
-이제 어플리케이션에서 사용할 OAuth 서비스를 위한 인증 정보를 추가할 필요가 있습니다. 이 인증 정보들은 `config/services.php` 설정 파일에 지정되어야 하며, 어플리케이션이 필요로 하는 `facebook`, `twitter`,`linkedin`, `google`, `github` 또는 `bitbucket` 서비스에 맞게 키가 지정 되어야 합니다. 예를 들어:
+이제 애플리케이션에서 사용할 OAuth 서비스를 위한 인증 정보를 추가할 필요가 있습니다. 이 인증 정보들은 `config/services.php` 설정 파일에 지정되어야 하며, 애플리케이션이 필요로 하는 `facebook`, `twitter`,`linkedin`, `google`, `github` 또는 `bitbucket` 서비스에 맞게 키가 지정 되어야 합니다. 예를 들어:
 
     'github' => [
         'client_id' => 'your-github-app-id',
@@ -660,7 +660,7 @@ Socialite 라이브러리를 설치한 후, `config/app.php` 설정 파일에 `L
 
 `updateRememberToken` 메소드는 새로운 `$token`으로 `$user`의 `remember_token`필드를 업데이트합니다. 토큰의 값은 정상적으로 "remember me"을 통해서 로그인을 시도하기 위해서 할당된 새로운 값이거나, 아니면 사용자가 로그아웃되었을 때를 위한 null값일 수 있습니다. 
 
-`retrieveByCredentials` 메소드는 어플리케이션에 로그인하려고 시도할 때 `Auth::attempt` 메소드로 전달되는 인증 정보 배열을 전달 받습니다. 그러면 메소드는 그 인증 정보에 맞는 사용자들을 위한 기반에 있는 지속적 저장소(persistent storage)에 "질의"해야 합니다. 일반적으로 이 메소드는 `$credentials['username']`에 맞는 "where" 쿼리를 실행할 것입니다. 그뒤에 메소드는 `UserInterface`의 구현체를 반환해야 합니다. **이 메소드는 패스워드 확인이나 인증을 시도해서는 안됩니다.**
+`retrieveByCredentials` 메소드는 애플리케이션에 로그인하려고 시도할 때 `Auth::attempt` 메소드로 전달되는 인증 정보 배열을 전달 받습니다. 그러면 메소드는 그 인증 정보에 맞는 사용자들을 위한 기반에 있는 지속적 저장소(persistent storage)에 "질의"해야 합니다. 일반적으로 이 메소드는 `$credentials['username']`에 맞는 "where" 쿼리를 실행할 것입니다. 그뒤에 메소드는 `UserInterface`의 구현체를 반환해야 합니다. **이 메소드는 패스워드 확인이나 인증을 시도해서는 안됩니다.**
 
 `validateCredentials` 메소드는 사용자를 인증하기 위하여 `$user`와 `$credentials`를 비교해야 합니다. 예를 들어 이 메소드는 `$user->getAuthPassword()`의 문자열을 `$credentials['password']`의 `Hash::make`값과 비교할 수 있습니다. 이 메소드는 사용자의 인증 정보만 확인하고 boolean 값을 반환합니다.
 

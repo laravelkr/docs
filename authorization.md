@@ -21,7 +21,7 @@
 
 별다른 설정 없이도, [인증](/docs/{{version}}/authentication) 서비스 활용할 수 있는데에 더하여, 라라벨은 authorization-승인 로직을 처리하고 resources에 접근을 제어하도록 하는 간단한 방법을 제공합니다. authorization-승인 로직을 구성 하는데 다양한 메소드와 헬퍼들을 사용할 수 있으며 이 문서에서 하나씩 알아볼 것입니다. 
 
-> **참고:** authorization-승인은 Laravel 5.1.11에서 추가되었습니다. 이 기능들을 어플리케이션과 통합하기 전에 [업그레이드 가이드](/docs/{{version}}/upgrade)를 참고하시기 바랍니다. 
+> **참고:** authorization-승인은 Laravel 5.1.11에서 추가되었습니다. 이 기능들을 애플리케이션과 통합하기 전에 [업그레이드 가이드](/docs/{{version}}/upgrade)를 참고하시기 바랍니다. 
 
 <a name="defining-abilities"></a>
 ## Abilities 정의하기
@@ -349,7 +349,7 @@ Policy 메소드는 `Closure` 기반의 authorization-승인 콜백과 동일한
 
 #### User 모델을 통한 방법
 
-`User` 모델의 `can` 과 `cannot` 메소드 또한 주어진 인자들에 대해서 사용 가능한 policy가 있다면, 자동으로 사용합니다. 이 메소드들은 어플리케이션이 획득한 `User` 인스턴스에 대한 동작을 승인할 수 있는 편리한 방법을 제공합니다. 
+`User` 모델의 `can` 과 `cannot` 메소드 또한 주어진 인자들에 대해서 사용 가능한 policy가 있다면, 자동으로 사용합니다. 이 메소드들은 애플리케이션이 획득한 `User` 인스턴스에 대한 동작을 승인할 수 있는 편리한 방법을 제공합니다. 
 
 	if ($user->can('update', $post)) {
 		//

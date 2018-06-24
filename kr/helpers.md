@@ -12,7 +12,7 @@
 
 Laravel includes a variety of "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
-라라벨은 다양한 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 어플리케이션에도 자유롭게 사용하실 수 있습니다. 
+라라벨은 다양한 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 애플리케이션에도 자유롭게 사용하실 수 있습니다. 
 
 <a name="available-methods"></a>
 ## Available Methods 
@@ -471,7 +471,7 @@ The `app_path` function returns the fully qualified path to the `app` directory:
 
 You may also use the `app_path` function to generate a fully qualified path to a given file relative to the application directory:
 
-`app_path` 함수를 사용하면 어플리케이션 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다: 
+`app_path` 함수를 사용하면 애플리케이션 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다: 
 
     $path = app_path('Http/Controllers/Controller.php');
 
@@ -486,7 +486,7 @@ The `base_path` function returns the fully qualified path to the project root:
 
 You may also use the `base_path` function to generate a fully qualified path to a given file relative to the application directory:
 
-`base_path` 함수를 사용하여 어플리케이션 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다:
+`base_path` 함수를 사용하여 애플리케이션 디렉토리에 대한 특정 파일의 절대 경로를 생성할 수도 있습니다:
 
     $path = base_path('vendor/bin');
 
@@ -495,7 +495,7 @@ You may also use the `base_path` function to generate a fully qualified path to 
 
 The `config_path` function returns the fully qualified path to the application configuration directory:
 
-`config_path` 함수는 어플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다: 
+`config_path` 함수는 애플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다: 
 
     $path = config_path();
 
@@ -504,7 +504,7 @@ The `config_path` function returns the fully qualified path to the application c
 
 The `database_path` function returns the fully qualified path to the application's database directory:
 
-`database_path` 함수는 어플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다: 
+`database_path` 함수는 애플리케이션의 데이터베이스 디렉토리에 대한 절대 경로를 반환합니다: 
 
     $path = database_path();
 

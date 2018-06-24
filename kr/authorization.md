@@ -433,7 +433,7 @@ The `Gate` will automatically determine which policy to use by examining the cla
 
 The `User` model's `can` and `cannot` methods will also automatically utilize policies when they are available for the given arguments. These methods provide a convenient way to authorize actions for any `User` instance retrieved by your application:
 
-`User` 모델의 `can` 과 `cannot` 메소드 또한 주어진 인자들에 대해서 사용 가능한 policy가 있다면, 자동으로 사용합니다. 이 메소드들은 어플리케이션이 획득한 `User` 인스턴스에 대한 동작을 승인할 수 있는 편리한 방법을 제공합니다. 
+`User` 모델의 `can` 과 `cannot` 메소드 또한 주어진 인자들에 대해서 사용 가능한 policy가 있다면, 자동으로 사용합니다. 이 메소드들은 애플리케이션이 획득한 `User` 인스턴스에 대한 동작을 승인할 수 있는 편리한 방법을 제공합니다. 
 
     if ($user->can('update', $post)) {
         //

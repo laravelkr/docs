@@ -45,7 +45,7 @@
     - [Request Lifecycle](/docs/{{version}}/lifecycle)
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [Application Structure](/docs/{{version}}/structure)
-    - [어플리케이션 구조](/docs/{{version}}/structure)
+    - [애플리케이션 구조](/docs/{{version}}/structure)
     - [Service Providers](/docs/{{version}}/providers)
     - [서비스 프로바이더](/docs/{{version}}/providers)
     - [Service Container](/docs/{{version}}/container)

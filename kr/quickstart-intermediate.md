@@ -60,7 +60,7 @@ This quickstart guide provides an intermediate introduction to the Laravel frame
 
 To sample a basic selection of Laravel features, we will build a task list we can use to track all of the tasks we want to accomplish. In other words, the typical "to-do" list example. In contrast to the "basic" quickstart, this tutorial will allow users to create accounts and authenticate with the application. The complete, finished source code for this project is [available on GitHub](https://github.com/laravel/quickstart-intermediate).
 
-라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 어플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](https://github.com/laravel/quickstart-intermediate).
+라라벨의 기본 기능들에 대한 샘플을 확인하기 위해서 간단하게 할일 목록을 만들고, 진행하고자 하는 모든 할일들을 트래킹할 수 있게 할 것입니다. 다시말해 일반적인 "할일" 목록을 표시하는 예제입니다. "기본" 퀵스타트와 달리 이 튜토리얼은 사용자들이 계정을 생성하고 애플리케이션을 통해 인증을 할 수 있도록 할것입니다. 이 프로젝트의 완성된 소스 코드는 [Github 에 공개되어 있습니다](https://github.com/laravel/quickstart-intermediate).
 
 <a name="installation"></a>
 ## Installation
@@ -108,7 +108,7 @@ First, let's use a migration to define a database table to hold all of our tasks
 
 Since we are going to allow users to create their accounts within the application, we will need a table to store all of our users. Thankfully, Laravel already ships with a migration to create a basic `users` table, so we do not need to manually generate one. The default migration for the `users` table is located in the `database/migrations` directory.
 
-사용자들이 어플리케이션 내에서 계정을 생성할 수 있도록 할 것이기 때문에, 모든 사용자 정보를 저장할 테이블이 필요합니다. 다행히 라라벨은 기본적인 `users` 테이블을 생성하는 마이그레이션 파일을 이미 가지고 있기 때문에, 수동으로 생성할 필요가 없습니다. `users` 테이블을 생성하기 위한 기본 마이그레이션은 `database/migrations` 디렉토리에서 찾을 수 있습니다. 
+사용자들이 애플리케이션 내에서 계정을 생성할 수 있도록 할 것이기 때문에, 모든 사용자 정보를 저장할 테이블이 필요합니다. 다행히 라라벨은 기본적인 `users` 테이블을 생성하는 마이그레이션 파일을 이미 가지고 있기 때문에, 수동으로 생성할 필요가 없습니다. `users` 테이블을 생성하기 위한 기본 마이그레이션은 `database/migrations` 디렉토리에서 찾을 수 있습니다. 
 
 #### The `tasks` Table
 #### `tasks` 테이블
@@ -191,7 +191,7 @@ So, let's define a `Task` model that corresponds to our `tasks` database table w
 
 The model will be placed in the `app` directory of your application. By default, the model class is empty. We do not have to explicitly tell the Eloquent model which table it corresponds to because it will assume the database table is the plural form of the model name. So, in this case, the `Task` model is assumed to correspond with the `tasks` database table.
 
-이 모델은 어플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요가 없습니다. 그렇기 때문에 이 경우 `Task` 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 추정됩니다. 아래는 빈 모델이 어떻게 나타나야 하는지 보여줍니다. 
+이 모델은 애플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요가 없습니다. 그렇기 때문에 이 경우 `Task` 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 추정됩니다. 아래는 빈 모델이 어떻게 나타나야 하는지 보여줍니다. 
 
 Let's add a few things to this model. First, we will state that the `name` attribute on the model should be "mass-assignable". This will allow us to fill the `name` attribute when using Eloquent's `create` method:
 
@@ -215,7 +215,7 @@ Let's add a few things to this model. First, we will state that the `name` attri
 
 We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
 
-모델을 어플리케이션에 라우트에 추가하는 것과 같이 Eloquent 모델의 사용법에 대해서 배워볼 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고 하십시오. 
+모델을 애플리케이션에 라우트에 추가하는 것과 같이 Eloquent 모델의 사용법에 대해서 배워볼 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고 하십시오. 
 
 <a name="eloquent-relationships"></a>
 ### Eloquent Relationships
@@ -299,7 +299,7 @@ Wonderful! Now that our relationships are defined, we can start building our con
 
 In the [basic version](/docs/{{version}}/quickstart) of our task list application, we defined all of our logic using Closures within our `routes.php` file. For the majority of this application, we will use [controllers](/docs/{{version}}/controllers) to organize our routes. Controllers will allow us to break out HTTP request handling logic across multiple files for better organization.
 
-할일 목록 어플리케이션의 [기본 버전](/docs/{{version}}/quickstart)에서는 모든 로직을 `routes.php` 파일의 클로저들을 이용해 정의했습니다. 이 어플레케이션에서는 라우트를 생성할 때 거의 대부분 [컨트롤러](/docs/{{version}}/controllers)를 사용할 것입니다. 컨트롤러를 통해서 HTTP request-요청을 처리하는 로직을 여러개의 파일로 쪼갤 수 있기 때문에, 더 나은 체계를 가능하게 해줍니다. 
+할일 목록 애플리케이션의 [기본 버전](/docs/{{version}}/quickstart)에서는 모든 로직을 `routes.php` 파일의 클로저들을 이용해 정의했습니다. 이 어플레케이션에서는 라우트를 생성할 때 거의 대부분 [컨트롤러](/docs/{{version}}/controllers)를 사용할 것입니다. 컨트롤러를 통해서 HTTP request-요청을 처리하는 로직을 여러개의 파일로 쪼갤 수 있기 때문에, 더 나은 체계를 가능하게 해줍니다. 
 
 <a name="displaying-a-view"></a>
 ### Displaying A View
@@ -307,7 +307,7 @@ In the [basic version](/docs/{{version}}/quickstart) of our task list applicatio
 
 We will have a single route that uses a Closure: our `/` route, which will simply be a landing page for application guests. So, let's fill out our `/` route. From this route, we want to render an HTML template that contains the "welcome" page:
 
-`/`를 위한 라우트는 Closure를 사용하는 하나의 라우트로, 단순히 어플리케이션 방문자들의 랜딩 페이지가 될것입니다. 이제 `/` 라우트를 채우도록 하겠습니다. 이 라우트에서 "웰컴" 페이지를 가지는 HTML 템플릿을 렌더링할 수 있도록 합니다. 
+`/`를 위한 라우트는 Closure를 사용하는 하나의 라우트로, 단순히 애플리케이션 방문자들의 랜딩 페이지가 될것입니다. 이제 `/` 라우트를 채우도록 하겠습니다. 이 라우트에서 "웰컴" 페이지를 가지는 HTML 템플릿을 렌더링할 수 있도록 합니다. 
 
 In Laravel, all HTML templates are stored in the `resources/views` directory, and we can use the `view` helper to return one of these templates from our route:
 
@@ -327,11 +327,11 @@ Of course, we need to actually define this view. We'll do that in a bit!
 
 Remember, we also need to let users create accounts and login to our application. Typically, it can be a tedious task to build an entire authentication layer into a web application. However, since it is such a common need, Laravel attempts to make this procedure totally painless.
 
-사용자들이 계정을 생성하고 어플리케이션에 로그인할 수 있도록 하는 것 또한 필요합니다. 보통 인증 레이어 전체를 웹 어플리케이션에 구성하려면, 지겨운 과정을 거쳐야 합니다. 하지만 공통적으로 필요한 사항이기 때문에, 라라벨은 이러한 작업을 전혀 고통스럽지 않게 처리해줍니다.
+사용자들이 계정을 생성하고 애플리케이션에 로그인할 수 있도록 하는 것 또한 필요합니다. 보통 인증 레이어 전체를 웹 애플리케이션에 구성하려면, 지겨운 과정을 거쳐야 합니다. 하지만 공통적으로 필요한 사항이기 때문에, 라라벨은 이러한 작업을 전혀 고통스럽지 않게 처리해줍니다.
 
 First, notice that there is already a `app/Http/Controllers/Auth/AuthController` included in your Laravel application. This controller uses a special `AuthenticatesAndRegistersUsers` trait which contains all of the necessary logic to create and authenticate users.
 
-우선 라라벨 어플리케이션에 이미 `app/Http/Controllers/Auth/AuthController`가 포함된 것을 확인할 수 있습니다. 이 컨트롤러는 사용자의 계정을 생성하고 승인하는데 필요한 모든 로직을 포함한 `AuthenticatesAndRegistersUsers` 트레이트-trait 을 이용합니다. 
+우선 라라벨 애플리케이션에 이미 `app/Http/Controllers/Auth/AuthController`가 포함된 것을 확인할 수 있습니다. 이 컨트롤러는 사용자의 계정을 생성하고 승인하는데 필요한 모든 로직을 포함한 `AuthenticatesAndRegistersUsers` 트레이트-trait 을 이용합니다. 
 
 #### Authentication Routes & Views
 #### 인증 라우트 & 뷰
@@ -388,7 +388,7 @@ Now that the controller has been generated, let's go ahead and stub out some rou
 
 For this application, we want all of our task routes to require an authenticated user. In other words, the user must be "logged into" the application in order to create a task. So, we need to restrict access to our task routes to only authenticated users. Laravel makes this a cinch using [middleware](/docs/{{version}}/middleware).
 
-이 어플리케이션에서는 모든 할일 라우트들이 사용자들의 인증을 요구하도록 합니다. 즉, 할일를 생성하기 위해서, 사용자는 어플리케이션에 "로그인한" 상태여야만 합니다. 그렇기 때문에 승인된 사용자들에만 할일 라우트에 접근할 수 있도록 제한을 해야 합니다. 라라벨은 [미들웨어](/docs/{{version}}/middleware)을 통해 이 과정을 손쉽게 만듭니다.
+이 애플리케이션에서는 모든 할일 라우트들이 사용자들의 인증을 요구하도록 합니다. 즉, 할일를 생성하기 위해서, 사용자는 애플리케이션에 "로그인한" 상태여야만 합니다. 그렇기 때문에 승인된 사용자들에만 할일 라우트에 접근할 수 있도록 제한을 해야 합니다. 라라벨은 [미들웨어](/docs/{{version}}/middleware)을 통해 이 과정을 손쉽게 만듭니다.
 
 To require an authenticated users for all actions on the controller, we can add a call to the `middleware` method from the controller's constructor. All available route middleware are defined in the `app/Http/Kernel.php` file. In this case, we want to assign the `auth` middleware to all actions on the controller:
 
@@ -421,7 +421,7 @@ To require an authenticated users for all actions on the controller, we can add 
 
 The primary part of this application only has a single view which contains a form for adding new tasks as well as a listing of all current tasks. To help you visualize the view, here is a screenshot of the finished application with basic Bootstrap CSS styling applied:
 
-이 어플리케이션의 주요부분은 현재의 할일 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 가지고 있습니다. View를 시각화하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일을 적용한 완성된 어플리케이션의 스크린샷을 제공합니다:
+이 애플리케이션의 주요부분은 현재의 할일 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 가지고 있습니다. View를 시각화하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일을 적용한 완성된 애플리케이션의 스크린샷을 제공합니다:
 
 ![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
@@ -431,7 +431,7 @@ The primary part of this application only has a single view which contains a for
 
 Almost all web applications share the same layout across pages. For example, this application has a top navigation bar that would be typically present on every page (if we had more than one). Laravel makes it easy to share these common features across every page using Blade **layouts**.
 
-거의 모든 웹어플리케이션은 모든 페이지에 동일한 레이아웃을 사용합니다. 예를 들어 이 어플리케이션은 모든 페이지 위에(페이지가 하나 이상일 경우) 탐색 바가 표시됩니다. 라라벨은 블레이드 **layouts**를 통해 이런 공통의 구성을 모든 페이지에 적용하기 쉽게 해줍니다. 
+거의 모든 웹애플리케이션은 모든 페이지에 동일한 레이아웃을 사용합니다. 예를 들어 이 애플리케이션은 모든 페이지 위에(페이지가 하나 이상일 경우) 탐색 바가 표시됩니다. 라라벨은 블레이드 **layouts**를 통해 이런 공통의 구성을 모든 페이지에 적용하기 쉽게 해줍니다. 
 
 As we discussed earlier, all Laravel views are stored in `resources/views`. So, let's define a new layout view in `resources/views/layouts/app.blade.php`. The `.blade.php` extension instructs the framework to use the [Blade templating engine](/docs/{{version}}/blade) to render the view. Of course, you may use plain PHP templates with Laravel. However, Blade provides convenient short-cuts for writing cleaner, terse templates.
 
@@ -472,11 +472,11 @@ Note the `@yield('content')` portion of the layout. This is a special Blade dire
 
 Great, our application layout is finished. Next, we need to define a view that contains a form to create a new task as well as a table that lists all existing tasks. Let's define this view in `resources/views/tasks/index.blade.php`, which will correspond to the `index` method in our `TaskController`.
 
-이제 어플리케이션의 레이아웃이 완성되었습니다. 다음은 현재 할일 목록 테이블과 새로운 할일을 생성하는 form을 가진 뷰를 정의해야 합니다. `resources/views/tasks.blade.php`에서 뷰파일을 정의합니다. 
+이제 애플리케이션의 레이아웃이 완성되었습니다. 다음은 현재 할일 목록 테이블과 새로운 할일을 생성하는 form을 가진 뷰를 정의해야 합니다. `resources/views/tasks.blade.php`에서 뷰파일을 정의합니다. 
 
 We'll skip over some of the Bootstrap CSS boilerplate and only focus on the things that matter. Remember, you can download the full source for this application on [GitHub](https://github.com/laravel/quickstart-intermediate):
 
-몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중하겠습니다. [GitHub](https://github.com/laravel/quickstart-intermediate)에서 이 어플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
+몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중하겠습니다. [GitHub](https://github.com/laravel/quickstart-intermediate)에서 이 애플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
 
     <!-- resources/views/tasks/index.blade.php -->
 
@@ -530,7 +530,7 @@ The `@include('common.errors')` directive will load the template located at `res
 
 Now we have defined a basic layout and view for our application. Let's go ahead and return this view from the `index` method of our `TaskController`:
 
-어플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이제 `TaskController`의 `index` 메소드에서 이 뷰를 반환합니다. 
+애플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이제 `TaskController`의 `index` 메소드에서 이 뷰를 반환합니다. 
 
     /**
      * Display a list of all of the user's task.
@@ -690,7 +690,7 @@ Laravel's [service container](/docs/{{version}}/container) is one of the most po
 
 As we mentioned earlier, we want to define a `TaskRepository` that holds all of our data access logic for the `Task` model. This will be especially useful if the application grows and you need to share some Eloquent queries across the application.
 
-앞서 이야기한것처럼, `Task` 모델의 모든 데이터에 엑세스 할 수 있는 로직을 포함하는 `TaskRepository`를 정의해야 합니다. 이렇게 하는 것은 어플리케이션의 규모가 커지거나, Eloqent 쿼리를 어플리케이션 전반 걸쳐서 공유해야 할 때 특히 유용합니다. 
+앞서 이야기한것처럼, `Task` 모델의 모든 데이터에 엑세스 할 수 있는 로직을 포함하는 `TaskRepository`를 정의해야 합니다. 이렇게 하는 것은 애플리케이션의 규모가 커지거나, Eloqent 쿼리를 애플리케이션 전반 걸쳐서 공유해야 할 때 특히 유용합니다. 
 
 So, let's create an `app/Repositories` directory and add a `TaskRepository` class. Remember, all Laravel `app` folders are auto-loaded using the PSR-4 auto-loading standard, so you are free to create as many extra directories as needed:
 
@@ -823,7 +823,7 @@ Once the data is passed, we can spin through the tasks in our `tasks/index.blade
 
 Our task application is almost complete. But, we have no way to delete our existing tasks when they're done. Let's add that next!
 
-할일 관리 어플리케이션이 이제 거의 완성되었습니다. 하지만 할일이 완료된 후 삭제하는 방법이 아직 없습니다. 다음은 이를 추가합니다.
+할일 관리 애플리케이션이 이제 거의 완성되었습니다. 하지만 할일이 완료된 후 삭제하는 방법이 아직 없습니다. 다음은 이를 추가합니다.
 
 <a name="deleting-tasks"></a>
 ## Deleting Tasks
@@ -835,7 +835,7 @@ Our task application is almost complete. But, we have no way to delete our exist
 
 We left a "TODO" note in our code where our delete button is supposed to be. So, let's add a delete button to each row of our task listing within the `tasks/index.blade.php` view. We'll create a small single-button form for each task in the list. When the button is clicked, a `DELETE /task` request will be sent to the application which will trigger our `TaskController@destroy` method:
 
-코드에서 삭제 버튼이 있어야할 곳에 "TODO" 라고 표시해놓았었습니다. 이제, `tasks.blade.php` 뷰 안에 있는 할일 리스트의 각 열에 작은 삭제 버튼을 생성합니다. 목록의 각 할일에 작은 버튼 form을 만들 것입니다. 버튼을 클릭하면 `DELETE /task` request-요청이 어플리케이션에 전달되어 `TaskController@destroy` 메소드를 실행할 것입니다: 
+코드에서 삭제 버튼이 있어야할 곳에 "TODO" 라고 표시해놓았었습니다. 이제, `tasks.blade.php` 뷰 안에 있는 할일 리스트의 각 열에 작은 삭제 버튼을 생성합니다. 목록의 각 할일에 작은 버튼 form을 만들 것입니다. 버튼을 클릭하면 `DELETE /task` request-요청이 애플리케이션에 전달되어 `TaskController@destroy` 메소드를 실행할 것입니다: 
 
     <tr>
         <!-- Task Name -->

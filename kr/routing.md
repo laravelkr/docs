@@ -57,7 +57,7 @@ All Laravel routes are defined in the `app/Http/routes.php` file, which is autom
 
 The default `routes.php` file is loaded by the `RouteServiceProvider` and is automatically included in the `web` middleware group, which provides access to session state and CSRF protection. Most of the routes for your application will be defined within this file.
 
-기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 어플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
+기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 애플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
 
 #### Available Router Methods
 #### 사용가능한 라우터 메소드들
@@ -350,11 +350,11 @@ Laravel makes it easy to protect your application from [cross-site request forge
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
 
-라라벨은 어플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 어플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
+라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware will be able to validate the request. To generate a hidden input field `_token` containing the CSRF token, you may use the `csrf_field` helper function:
 
-어플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다: 
+애플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다: 
 
     // Vanilla PHP
     <?php echo csrf_field(); ?>
@@ -415,7 +415,7 @@ In addition to checking for the CSRF token as a POST parameter, the Laravel `Ver
 
 Once you have created the `meta` tag, you can instruct a library like jQuery to add the token to all request headers. This provides simple, convenient CSRF protection for your AJAX based applications:
 
-`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 어플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
+`meta` 태그를 생성하고, 이를 Jquery와 같은 라이브러릴 사용하여, 모든 request 헤더에 토큰을 추가하도록 설정할 수 있습니다. 이를 통해 AJAX 기반 애플리케이션에서 간단하고 편리한 CSRF 보호를 제공 할 수 있습니다.
 
     $.ajaxSetup({
             headers: {

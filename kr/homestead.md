@@ -46,7 +46,7 @@ Laravel Homestead is an official, pre-packaged Vagrant box that provides you a w
 
 Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.0, MySQL, Postgres, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.0, MySQL, Postgres, Redis, Memcached, Node 및 기타 라라벨 어플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.0, MySQL, Postgres, Redis, Memcached, Node 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > **Note:** If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
@@ -237,7 +237,7 @@ Next, run the `vagrant up` command in your terminal and access your project at `
 
 If you prefer to use MariaDB instead of MySQL, you may add the `mariadb` option to your `Homestead.yaml` file. This option will remove MySQL and install MariaDB. MariaDB serves as a drop-in replacement for MySQL so you should still use the `mysql` database driver in your application's database configuration:
 
-MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에 `mariadb` 옵션을 추가하면 됩니다. 이 옵션은 MySQL을 제거하고 MariaDB를 설치할 것입니다. MariaDB는 MySQL을 바로 대체가능하기 때문에, 어플리케이션에서 `mysql` 데이터베이스 드라이버를 그대로 사용할 수 있습니다.
+MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에 `mariadb` 옵션을 추가하면 됩니다. 이 옵션은 MySQL을 제거하고 MariaDB를 설치할 것입니다. MariaDB는 MySQL을 바로 대체가능하기 때문에, 애플리케이션에서 `mysql` 데이터베이스 드라이버를 그대로 사용할 수 있습니다.
 
     box: laravel/homestead
     ip: "192.168.20.20"
@@ -300,7 +300,7 @@ Navicat 나 Sequel Pro를 통해서 MySQL 또는 Postgres 데이터베이스에 
 
 Once your Homestead environment is provisioned and running, you may want to add additional Nginx sites for your Laravel applications. You can run as many Laravel installations as you wish on a single Homestead environment. To add an additional site, simply add the site to your `~/.homestead/Homestead.yaml` file and then run the `vagrant provision` terminal command from your Homestead directory.
 
-홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 어플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `~/.homestead/Homestead.yaml` 파일에 사이트를 추가하고 터미널에서 홈스테드 디렉토리로 이동한 뒤 `vagrant provision` 명령어를 실행하면 됩니다. 
+홈스테드 환경이 준비되어 구성되고 난 뒤에 라라벨 애플리케이션에 추가적인 Nginx 사이트를 구성하기를 원할 수도 있습니다. 하나의 홈스테드 환경 안에서 여러개의 라라벨을 설치하여 작동 시킬수도 있습니다. 추가적인 사이트를 지정하기 위해서, 간단하게 `~/.homestead/Homestead.yaml` 파일에 사이트를 추가하고 터미널에서 홈스테드 디렉토리로 이동한 뒤 `vagrant provision` 명령어를 실행하면 됩니다. 
 
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules

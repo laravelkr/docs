@@ -34,7 +34,7 @@
 
 Laravel's events provides a simple observer implementation, allowing you to subscribe and listen for events in your application. Event classes are typically stored in the `app/Events` directory, while their listeners are stored in `app/Listeners`.
 
-라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 어플리케이션을 구독하고 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 
+라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 애플리케이션을 구독하고 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 
 
 <a name="registering-events-and-listeners"></a>
 ## Registering Events / Listeners
@@ -42,7 +42,7 @@ Laravel's events provides a simple observer implementation, allowing you to subs
 
 The `EventServiceProvider` included with your Laravel application provides a convenient place to register all event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). Of course, you may add as many events to this array as your application requires. For example, let's add our `PodcastWasPurchased` event:
 
-라라벨 어플리케이션에 포함된 `EventServiceProvider`는 모든 이벤트 listener들을 등록하는 편리한 장소를 제공합니다. `listen` 속성은 모든 이벤트(키)와 listener들(값)의 배열을 가집니다. 당연하게도, 어플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `PodcastWasPurchased` 이벤트를 추가할 수 있습니다:
+라라벨 애플리케이션에 포함된 `EventServiceProvider`는 모든 이벤트 listener들을 등록하는 편리한 장소를 제공합니다. `listen` 속성은 모든 이벤트(키)와 listener들(값)의 배열을 가집니다. 당연하게도, 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `PodcastWasPurchased` 이벤트를 추가할 수 있습니다:
 
     /**
      * The event listener mappings for the application.
@@ -290,11 +290,11 @@ Alternatively, you may use the global `event` helper function to fire events:
 
 In many modern web applications, web sockets are used to implement real-time, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a websocket connection to be handled by the client.
 
-많은 현대적인 웹 어플리케이션들은 web socket을 이용하여 실시간 어플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 web socket 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 
+많은 현대적인 웹 애플리케이션들은 web socket을 이용하여 실시간 애플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 web socket 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 
 
 To assist you in building these types of applications, Laravel makes it easy to "broadcast" your events over a websocket connection. Broadcasting your Laravel events allows you to share the same event names between your server-side code and your client-side JavaScript framework.
 
-이런 어플리케이션을 구성하는데 도움을 주기 위해 라라벨은 websocket 커넥션에 이벤트를 "broadcast"하는 것을 손쉽게 할 수 있도록 해줍니다. 라라벨 이벤트를 broadcast하면 여러분의 서버 쪽 코드와 클라이언트 쪽 자바스크립트 프레임워크가 같은 이벤트 이름을 공유할 수 있습니다. 
+이런 애플리케이션을 구성하는데 도움을 주기 위해 라라벨은 websocket 커넥션에 이벤트를 "broadcast"하는 것을 손쉽게 할 수 있도록 해줍니다. 라라벨 이벤트를 broadcast하면 여러분의 서버 쪽 코드와 클라이언트 쪽 자바스크립트 프레임워크가 같은 이벤트 이름을 공유할 수 있습니다. 
 
 <a name="broadcast-configuration"></a>
 ### Configuration
@@ -319,7 +319,7 @@ The following dependencies are needed for event broadcasting:
 
 Before broadcasting events, you will also need to configure and run a [queue listener](/docs/{{version}}/queues). All event broadcasting is done via queued jobs so that the response time of your application is not seriously affected. 
 
-이벤트를 broadcast 하기 전에 [큐 listener](/docs/{{version}}/queues)를 설정하고 실행해야 합니다. 모든 이벤트 broadcast는 어플리케이션의 응답 시간에 큰 영향을 주지 않기 위해 큐에 저장된 작업을 통해 진행됩니다.
+이벤트를 broadcast 하기 전에 [큐 listener](/docs/{{version}}/queues)를 설정하고 실행해야 합니다. 모든 이벤트 broadcast는 애플리케이션의 응답 시간에 큰 영향을 주지 않기 위해 큐에 저장된 작업을 통해 진행됩니다.
 
 <a name="marking-events-for-broadcast"></a>
 ### Marking Events For Broadcast
@@ -375,7 +375,7 @@ Then, you only need to [fire the event](#firing-events) as you normally would. O
 
 When an event is broadcast, all of its `public` properties are automatically serialized and broadcast as the event's payload, allowing you to access any of its public data from your JavaScript application. So, for example, if your event has a single public `$user` property that contains an Eloquent model, the broadcast payload would be:
 
-이벤트가 broadcast 될 때 이벤트의 모든 `public` 속성은 자동으로 serialize되어 이벤트와 함께 broadcast 되며 자바스크립트 어플리케이션의 모든 public 데이터에 접근할 수 있게 해줍니다. 예를 들어, 이벤트가 Eloquent 모델을 가진 하나의 public `$user` 속성을 가지고 있다면 broadcast payload는 다음과 같을 것입니다: 
+이벤트가 broadcast 될 때 이벤트의 모든 `public` 속성은 자동으로 serialize되어 이벤트와 함께 broadcast 되며 자바스크립트 애플리케이션의 모든 public 데이터에 접근할 수 있게 해줍니다. 예를 들어, 이벤트가 Eloquent 모델을 가진 하나의 public `$user` 속성을 가지고 있다면 broadcast payload는 다음과 같을 것입니다: 
 
     {
         "user": {

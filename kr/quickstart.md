@@ -158,7 +158,7 @@ So, let's define a `Task` model that corresponds to our `tasks` database table w
 
 The model will be placed in the `app` directory of your application. By default, the model class is empty. We do not have to explicitly tell the Eloquent model which table it corresponds to because it will assume the database table is the plural form of the model name. So, in this case, the `Task` model is assumed to correspond with the `tasks` database table. Here is what our empty model should look like:
 
-이 모델은 어플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요는 없습니다. 따라서 이 경우 `Task` Eloquent 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 간주됩니다. 다음은 빈 모델이 어떻게 보여질지 예시 입니다:  
+이 모델은 애플리케이션의 `app` 디렉토리에 위치할 것입니다. 모델 클래스는 기본적으로 비어있습니다. Eloquent 모델은 데이터베이스 테이블이 모델 이름의 복수형태라 추정하기 때문에 직접적으로 어느 테이블에 대응하는지 명시할 필요는 없습니다. 따라서 이 경우 `Task` Eloquent 모델은 `tasks` 데이터베이스 테이블에 대응할 것으로 간주됩니다. 다음은 빈 모델이 어떻게 보여질지 예시 입니다:  
 
 	<?php
 
@@ -173,7 +173,7 @@ The model will be placed in the `app` directory of your application. By default,
 
 We'll learn more about how to use Eloquent models as we add routes to our application. Of course, feel free to consult the [complete Eloquent documentation](/docs/{{version}}/eloquent) for more information.
 
-Eloquent 모델의 사용법은 어플리케이션에 라우팅을 추가하면서 차차 알아가게 될 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고하십시오.
+Eloquent 모델의 사용법은 애플리케이션에 라우팅을 추가하면서 차차 알아가게 될 것입니다. 더 많은 정보를 얻고 싶으시다면 [Eloquent 문서](/docs/{{version}}/eloquent)를 참고하십시오.
 
 <a name="routing"></a>
 ## Routing
@@ -185,11 +185,11 @@ Eloquent 모델의 사용법은 어플리케이션에 라우팅을 추가하면�
 
 Next, we're ready to add a few routes to our application. Routes are used to point URLs to controllers or anonymous functions that should be executed when a user accesses a given page. By default, all Laravel routes are defined in the `app/Http/routes.php` file that is included in every new project.
 
-이제 어플리케이션에 몇개의 라우트(route)를 추가할 수 있습니다. 라우트는 사용자가 특정 페이지에 접속할 때 실행되어야 하는 컨트롤러나 익명함수에 대한 URL을 구성하는 역할을 합니다. 모든 라라벨 라우트들은 기본적으로 `app/Http/routes.php` 파일에 정의되어 있습니다. 
+이제 애플리케이션에 몇개의 라우트(route)를 추가할 수 있습니다. 라우트는 사용자가 특정 페이지에 접속할 때 실행되어야 하는 컨트롤러나 익명함수에 대한 URL을 구성하는 역할을 합니다. 모든 라라벨 라우트들은 기본적으로 `app/Http/routes.php` 파일에 정의되어 있습니다. 
 
 For this application, we know we will need at least three routes: a route to display a list of all of our tasks, a route to add new tasks, and a route to delete existing tasks. So, let's stub all of these routes in the `app/Http/routes.php` file:
 
-이 어플리케이션에서는 최소 3개의 라우트가 필요합니다: 모든 할일들을 목록화하는 라우트, 새로운 할일을 추가하는 라우트, 그리고 이미 존재하는 할일를 삭제하는 라우트입니다. 그럼 이 라우트들을 아래와 같이 `app/Http/routes.php` 파일에 구성합니다.
+이 애플리케이션에서는 최소 3개의 라우트가 필요합니다: 모든 할일들을 목록화하는 라우트, 새로운 할일을 추가하는 라우트, 그리고 이미 존재하는 할일를 삭제하는 라우트입니다. 그럼 이 라우트들을 아래와 같이 `app/Http/routes.php` 파일에 구성합니다.
 
 	<?php
 
@@ -219,7 +219,7 @@ For this application, we know we will need at least three routes: a route to dis
 
 > **Note**: If your copy of Laravel has a `RouteServiceProvider` that already includes the default routes file within the `web` middleware group, you do not need to manually add the group to your `routes.php` file.
 
-> **주의**: 만약 여러분의 어플리케이션에 있는 `RouteServiceProvider`가 이미 `web` 미들웨어 그룹 안에 있는 기본적인 라우트 파일들을 포함하고 있다면, 수동으로 `routes.php` 파일에 그룹을 추가해야만 합니다.     
+> **주의**: 만약 여러분의 애플리케이션에 있는 `RouteServiceProvider`가 이미 `web` 미들웨어 그룹 안에 있는 기본적인 라우트 파일들을 포함하고 있다면, 수동으로 `routes.php` 파일에 그룹을 추가해야만 합니다.     
 
 <a name="displaying-a-view"></a>
 ### Displaying A View
@@ -248,11 +248,11 @@ Passing `tasks` to the `view` function will create a View object instance that c
 
 This application only has a single view which contains a form for adding new tasks as well as a listing of all current tasks. To help you visualize the view, here is a screenshot of the finished application with basic Bootstrap CSS styling applied:
 
-이 어플리케이션에서는 현재 할일들의 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 구성합니다. 화면을 구성하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일링을 적용한 완성된 어플리케이션의 스크린샷을 제공합니다.  
+이 애플리케이션에서는 현재 할일들의 목록과 새 할일를 추가하는 형식을 가진 view를 하나만 구성합니다. 화면을 구성하는데 도움을 주기 위해 아래에 기본적인 부트스트랩 CSS 스타일링을 적용한 완성된 애플리케이션의 스크린샷을 제공합니다.  
 
 ![Application Image](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
-![완성된 어플리케이션 스크린샷](https://laravel.com/assets/img/quickstart/basic-overview.png)
+![완성된 애플리케이션 스크린샷](https://laravel.com/assets/img/quickstart/basic-overview.png)
 
 <a name="defining-the-layout"></a>
 ### Defining The Layout
@@ -305,7 +305,7 @@ Next, we need to define a view that contains a form to create a new task as well
 
 We'll skip over some of the Bootstrap CSS boilerplate and only focus on the things that matter. Remember, you can download the full source for this application on [GitHub](https://github.com/laravel/quickstart-basic):
 
-몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중할 것입니다. [GitHub](https://github.com/laravel/quickstart-basic)에서 이 어플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
+몇몇 부트스트랩 CSS 보일러플레이트는 넘어가고 중요한 부분에만 집중할 것입니다. [GitHub](https://github.com/laravel/quickstart-basic)에서 이 애플리케이션을 위한 전체 소스를 다운받으실 수 있습니다:
 
     <!-- resources/views/tasks.blade.php -->
 
@@ -359,7 +359,7 @@ The `@include('common.errors')` directive will load the template located at `res
 
 Now we have defined a basic layout and view for our application. Remember, we are returning this view from our `/` route like so:
 
-이제 어플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이 뷰는 다음과 같이 `/` 라우트에서 반환합니다:  
+이제 애플리케이션을 위한 기본적인 레이아웃과 뷰가 정의되었습니다. 이 뷰는 다음과 같이 `/` 라우트에서 반환합니다:  
 
 	Route::get('/', function () {
 		return view('tasks');
@@ -527,7 +527,7 @@ Once the data is passed, we can spin through the tasks in our `tasks.blade.php` 
 
 Our task application is almost complete. But, we have no way to delete our existing tasks when they're done. Let's add that next!
 
-할일 어플리케이션이 거의 완성되었습니다. 하지만 할일이 수행된 후 삭제하는 방법이 아직 없습니다. 다음은 이를 추가합니다. 
+할일 애플리케이션이 거의 완성되었습니다. 하지만 할일이 수행된 후 삭제하는 방법이 아직 없습니다. 다음은 이를 추가합니다. 
 
 <a name="deleting-tasks"></a>
 ## Deleting Tasks
@@ -539,7 +539,7 @@ Our task application is almost complete. But, we have no way to delete our exist
 
 We left a "TODO" note in our code where our delete button is supposed to be. So, let's add a delete button to each row of our task listing within the `tasks.blade.php` view. We'll create a small single-button form for each task in the list. When the button is clicked, a `DELETE /task` request will be sent to the application:
 
-"할일" 이 출력되는 곳 바로 옆에 삭제 버튼을 나타내는 코드를 구성할 것입니다. `tasks.blade.php` 뷰파일 안에 있는 할일 목록의 각 행에 삭제 버튼을 추가합니다. 각각의 할일 옆에 작은 버튼을 구성할 것입니다. 버튼을 누르면 `DELETE /task` 요청이 어플리케이션에 전달될 것입니다. 
+"할일" 이 출력되는 곳 바로 옆에 삭제 버튼을 나타내는 코드를 구성할 것입니다. `tasks.blade.php` 뷰파일 안에 있는 할일 목록의 각 행에 삭제 버튼을 추가합니다. 각각의 할일 옆에 작은 버튼을 구성할 것입니다. 버튼을 누르면 `DELETE /task` 요청이 애플리케이션에 전달될 것입니다. 
 
     <tr>
         <!-- Task Name -->

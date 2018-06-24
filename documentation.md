@@ -66,7 +66,7 @@
     - [작업 스케줄링](/docs/{{version}}/scheduling)
 - 테스팅
     - [시작하기](/docs/{{version}}/testing)
-    - [어플리케이션 테스팅](/docs/{{version}}/application-testing)
+    - [애플리케이션 테스팅](/docs/{{version}}/application-testing)
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)
 - Official Packages

@@ -67,7 +67,7 @@
 <a name="basic-request-information"></a>
 ### 기본적인 Request 정보
 
-`Illuminate\Http\Request` 인스턴스는 어플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공합니다. 라라벨의 `Illuminate\Http\Request`는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속합니다. 다음은 이 클래스에 사용할 수 있는 몇몇 유용한 메소드입니다. 
+`Illuminate\Http\Request` 인스턴스는 애플리케이션의 HTTP request를 검사할 수 있는 다양한 메소드를 제공합니다. 라라벨의 `Illuminate\Http\Request`는 `Symfony\Component\HttpFoundation\Request` 클래스를 상속합니다. 다음은 이 클래스에 사용할 수 있는 몇몇 유용한 메소드입니다. 
 
 #### Request URI 조회하기
 
@@ -123,7 +123,7 @@ PSR-7 표준은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터
 
     $name = $request->input('name');
 
-대체적으로 `Illuminate\Http\Request` 인스턴스의 속성들을 사용하여 사용자 입력에 접근할 수 있습니다. 예를 들어, 어플리케이션 폼 중 하나가 `name` 필드를 포함한다면 다음과 같이 전달된 필드의 값에 접근할 수 있습니다: 
+대체적으로 `Illuminate\Http\Request` 인스턴스의 속성들을 사용하여 사용자 입력에 접근할 수 있습니다. 예를 들어, 애플리케이션 폼 중 하나가 `name` 필드를 포함한다면 다음과 같이 전달된 필드의 값에 접근할 수 있습니다: 
 
     $name = $request->name;
 

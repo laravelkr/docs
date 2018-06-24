@@ -19,7 +19,7 @@
     - [블레이드 템플릿](/docs/{{version}}/blade)
 - 아키텍처 구성
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
-    - [어플리케이션 구조](/docs/{{version}}/structure)
+    - [애플리케이션 구조](/docs/{{version}}/structure)
     - [서비스 프로바이더](/docs/{{version}}/providers)
     - [서비스 컨테이너](/docs/{{version}}/container)
     - [Contracts](/docs/{{version}}/contracts)

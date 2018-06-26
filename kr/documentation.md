@@ -29,7 +29,7 @@
     - [Service Container](/docs/{{version}}/container)
     - [서비스 컨테이너](/docs/{{version}}/container)
     - [Service Providers](/docs/{{version}}/providers)
-    - [서비스 프로바이드](/docs/{{version}}/providers)
+    - [서비스 프로바이더](/docs/{{version}}/providers)
     - [Facades](/docs/{{version}}/facades)
     - [파사드](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)

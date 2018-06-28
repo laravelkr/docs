@@ -16,7 +16,7 @@
 
 Views contain the HTML served by your application and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory. A simple view might look something like this:
 
-뷰는 애플리케이션과 에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 애플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다: 
+뷰는 애플리케이션에서 제공하는 HTML 로 구성되어 있으며, 컨트롤러 / 애플리케이션 로직을 프리젠테이션 로직에서 분리하는 역할을 수행합니다. 뷰파일들은 `resources/views` 디렉토리에 위치합니다. 간단한 뷰의 경우 다음처럼 보일 것입니다:
 
     <!-- View stored in resources/views/greeting.blade.php -->
 
@@ -28,7 +28,7 @@ Views contain the HTML served by your application and separate your controller /
 
 Since this view is stored at `resources/views/greeting.blade.php`, we may return it using the global `view` helper like so:
 
-이 뷰파일이 `resources/views/greeting.blade.php`로 저장되어 있다면, 여러분은 `view` 헬퍼를 사용하여 반환할 수 있습니다. 
+이 뷰파일이 `resources/views/greeting.blade.php`로 저장되어 있다면, 여러분은 `view` 헬퍼를 사용하여 반환할 수 있습니다.
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'James']);
@@ -36,11 +36,11 @@ Since this view is stored at `resources/views/greeting.blade.php`, we may return
 
 As you can see, the first argument passed to the `view` helper corresponds to the name of the view file in the `resources/views` directory. The second argument is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using [Blade syntax](/docs/{{version}}/blade).
 
-보이는 바와 같이 `view` 헬퍼 함수에 전달하는 첫번째 인자는 `resources/views` 디렉토리에 있는 파일의 이름이 됩니다. 두번째 인자는 뷰에서 사용될 데이터의 배열입니다. 두번째 인자는 뷰에서 사용하기위한 데이터들의 배열입니다. 이 예제에서는 뷰에서 [블레이드 문법](/docs/{{version}}/blade)을 통해서 보여지게 될 `name` 변수를 전달하고 있습니다. 
+보이는 바와 같이 `view` 헬퍼 함수에 전달하는 첫번째 인자는 `resources/views` 디렉토리에 있는 파일의 이름이 됩니다. 두번째 인자는 뷰에서 사용될 데이터의 배열입니다. 이 예제에서는 뷰에서 [블레이드 문법](/docs/{{version}}/blade)을 통해서 보여지게 될 `name` 변수를 전달하고 있습니다.
 
 Of course, views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
 
-당연하게도 뷰는 `resources/views` 디렉토리의 중첩된 서브 디렉토리를 구성할 수 있습니다. 중첩된 뷰 파일을 참조하려면 "점"으로 구성된 표기법을 사용할 수 있습니다. 예를 들어 뷰파일이 `resources/views/admin/profile.blade.php` 처럼 저장되었다면 다음처럼 호출해야 합니다. 
+당연하게도 뷰는 `resources/views` 디렉토리의 중첩된 서브 디렉토리를 구성할 수 있습니다. 중첩된 뷰 파일을 참조하려면 "점"으로 구성된 표기법을 사용할 수 있습니다. 예를 들어 뷰파일이 `resources/views/admin/profile.blade.php` 처럼 저장되었다면 다음처럼 호출해야 합니다.
 
     return view('admin.profile', $data);
 
@@ -49,7 +49,7 @@ Of course, views may also be nested within sub-directories of the `resources/vie
 
 If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
 
-뷰파일이 존재하는지 확인해야 되는 경우, `View` 파사드를 사용할 수 있습니다. `exist` 메소드는 뷰 파일이 존재한다면 `true` 를 반환할 것입니다. 
+뷰파일이 존재하는지 확인해야 되는 경우, `View` 파사드를 사용할 수 있습니다. `exist` 메소드는 뷰 파일이 존재한다면 `true` 를 반환할 것입니다.
 
     use Illuminate\Support\Facades\View;
 
@@ -63,7 +63,7 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
 
 As you saw in the previous examples, you may pass an array of data to views:
 
-이전 예제에서 확인하였듯이, 뷰에 데이터의 배열을 전달할 수 있습니다. 
+이전 예제에서 확인하였듯이, 뷰에 데이터의 배열을 전달할 수 있습니다.
 
     return view('greetings', ['name' => 'Victoria']);
 
@@ -162,11 +162,11 @@ For this example, let's register the view composers within a [service provider](
 
 > {note} Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the `providers` array in the `config/app.php` configuration file.
 
-> {note} 기억할 것은 여러분이 뷰 컴포저를 등록하기 위한 새로운 서비스 프로바이더를 생성했다면, `config/app.php` 설정 파일의 `providers` 배열에 이 서비스 프로바이더를 추가해야 한다는 것입니다. 
+> {note} 기억할 것은 여러분이 뷰 컴포저를 등록하기 위한 새로운 서비스 프로바이더를 생성했다면, `config/app.php` 설정 파일의 `providers` 배열에 이 서비스 프로바이더를 추가해야 한다는 것입니다.
 
 Now that we have registered the composer, the `ProfileComposer@compose` method will be executed each time the `profile` view is being rendered. So, let's define the composer class:
 
-이제 뷰 컴포저를 등록했다면 `profile` 뷰가 렌더링 될 때마다 `ProfileComposer@compose` 메소드가 실행될 것입니다. 이제 컴포저 클래스를 정의해봅시다. 
+이제 뷰 컴포저를 등록했다면 `profile` 뷰가 렌더링 될 때마다 `ProfileComposer@compose` 메소드가 실행될 것입니다. 이제 컴포저 클래스를 정의해봅시다.
 
     <?php
 
@@ -210,18 +210,18 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
 
 Just before the view is rendered, the composer's `compose` method is called with the `Illuminate\View\View` instance. You may use the `with` method to bind data to the view.
 
-뷰가 렌더링되기 전에 뷰컴포저의 `composer` 메소드가 `Illuminate\View\View` 인스턴스와 함께 호출됩니다. 데이터를 전달하기 위해서 `with` 메소드를 사용할 수 있습니다. 
+뷰가 렌더링되기 전에 뷰컴포저의 `composer` 메소드가 `Illuminate\View\View` 인스턴스와 함께 호출됩니다. 데이터를 전달하기 위해서 `with` 메소드를 사용할 수 있습니다.
 
 > {tip} All view composers are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a composer's constructor.
 
-> {tip} 모든 뷰 컴포저의 의존성 주입은 [service container](/docs/{{version}}/container), 를 통해서 이루어 집니다. 그렇기 때문에 필요한 객체의 경우 뷰 컴포저의 생성자에서 타입힌트를 지정한 형태로 지정하면 됩니다. 
+> {tip} 모든 뷰 컴포저의 의존성 주입은 [service container](/docs/{{version}}/container)를 통해서 이루어 집니다. 그렇기 때문에 필요한 객체의 경우 뷰 컴포저의 생성자에서 타입힌트를 지정한 형태로 지정하면 됩니다.
 
 #### Attaching A Composer To Multiple Views
 #### 컴포저를 다수의 뷰에 적용하기
 
 You may attach a view composer to multiple views at once by passing an array of views as the first argument to the `composer` method:
 
-`composer` 메소드의 첫번째 인자로 뷰 파일들의 배열을 전달하여, 뷰 컴포저가 적용될 다수의 뷰 파일들을 지정할 수 있습니다. 
+`composer` 메소드의 첫번째 인자로 뷰 파일들의 배열을 전달하여, 뷰 컴포저가 적용될 다수의 뷰 파일들을 지정할 수 있습니다.
 
     View::composer(
         ['profile', 'dashboard'],
@@ -230,7 +230,7 @@ You may attach a view composer to multiple views at once by passing an array of 
 
 The `composer` method also accepts the `*` character as a wildcard, allowing you to attach a composer to all views:
 
-`composer` 메소드는 또한 `*` 와일드 캐릭터로 인자를 받을 수 있는데, 이렇게 하면 모든 뷰에 뷰컴포저를 지정하게 됩니다. 
+`composer` 메소드는 또한 `*` 와일드 캐릭터로 인자를 받을 수 있는데, 이렇게 하면 모든 뷰에 뷰컴포저를 지정하게 됩니다.
 
     View::composer('*', function ($view) {
         //
@@ -241,6 +241,6 @@ The `composer` method also accepts the `*` character as a wildcard, allowing you
 
 View **creators** are very similar to view composers; however, they are executed immediately after the view is instantiated instead of waiting until the view is about to render. To register a view creator, use the `creator` method:
 
-뷰 **크리에이터**는 뷰 컴포저와 거의 비슷하게 동작합니다; 하지만 뷰 크리에이터는 뷰가 렌터링 되기를 기다리는 대신 인스턴스화 된 다음에 바로 실행됩니다. 뷰 크리에이터를 등록하기 위해서는 `creator` 메소드를 사용하면 됩니다. 
+뷰 **크리에이터**는 뷰 컴포저와 거의 비슷하게 동작합니다. 하지만 뷰 크리에이터는 뷰가 렌더링 되기를 기다리는 대신 인스턴스화 된 다음에 바로 실행됩니다. 뷰 크리에이터를 등록하기 위해서는 `creator` 메소드를 사용하면 됩니다.
 
     View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');

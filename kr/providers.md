@@ -6,7 +6,7 @@
 - [Writing Service Providers](#writing-service-providers)
 - [서비스 프로바이더 작성하기](#writing-service-providers)
     - [The Register Method](#the-register-method)
-    - [서비스 프로바이더 작성하기](#writing-service-providers)
+    - [Register 메소드](#the-register-method)
     - [The Boot Method](#the-boot-method)
     - [Boot 메소드](#the-boot-method)
 - [Registering Providers](#registering-providers)
@@ -24,7 +24,7 @@ Service providers are the central place of all Laravel application bootstrapping
 
 But, what do we mean by "bootstrapped"? In general, we mean **registering** things, including registering service container bindings, event listeners, middleware, and even routes. Service providers are the central place to configure your application.
 
-그런데 "부트스트래핑" 이란 과련 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스터, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
+그런데 "부트스트래핑" 이란 과련 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스너, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
 
 If you open the `config/app.php` file included with Laravel, you will see a `providers` array. These are all of the service provider classes that will be loaded for your application. Of course, many of these are "deferred" providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
 
@@ -32,7 +32,7 @@ If you open the `config/app.php` file included with Laravel, you will see a `pro
 
 In this overview you will learn how to write your own service providers and register them with your Laravel application.
 
-여기에서는 서비스 프로바이더를 작성하는 방법과 라라벨 애플리케이션에 등록하는 방법을 배워봅시다. 
+여기에서는 서비스 프로바이더를 작성하는 방법과 라라벨 애플리케이션에 등록하는 방법을 배워봅시다.
 
 <a name="writing-service-providers"></a>
 ## Writing Service Providers
@@ -40,7 +40,7 @@ In this overview you will learn how to write your own service providers and regi
 
 All service providers extend the `Illuminate\Support\ServiceProvider` class. Most service providers contain a `register` and a `boot` method. Within the `register` method, you should **only bind things into the [service container](/docs/{{version}}/container)**. You should never attempt to register any event listeners, routes, or any other piece of functionality within the `register` method.
 
-모든 서비스 프로바이더는 `Illuminate\Support\ServiceProvider` 클래스를 상속받습니다. 대부분의 서비스 프로바이더는 `register` 와 `boot` 메소드를 가지고 있습니다. `register` 메소드 안에서는 **[서비스 컨테이너](/docs/{{version}}/container)에 등록만을 하도록 합니다**. `register` 메소드안에서는 다른 이벤트 리스너나 라우트 또는 기타 기능의 일부등을 등록하지 말아야 합니다. 
+모든 서비스 프로바이더는 `Illuminate\Support\ServiceProvider` 클래스를 상속받습니다. 대부분의 서비스 프로바이더는 `register` 와 `boot` 메소드를 가지고 있습니다. `register` 메소드 안에서는 **[서비스 컨테이너](/docs/{{version}}/container)에 등록만을 하도록 합니다**. `register` 메소드안에서는 다른 이벤트 리스너나 라우트 또는 기타 기능의 일부등을 등록하지 말아야 합니다.
 
 The Artisan CLI can generate a new provider via the `make:provider` command:
 

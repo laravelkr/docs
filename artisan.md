@@ -36,7 +36,7 @@
 <a name="generating-commands"></a>
 ### 명령어 생성하기
 
-새로운 명령어를 생성하기 위해, 아티즌 명령어 `make:console`을 사용합니다. 이 명령어는 `app/Console/Commands` 경로에 새로운 명령클래스를 생성할 것입니다. `make : command` 아티즌 명령을 처음 실행할 때 생성되기 때문에 이 경로가 애플리케이션에 존재하지 않는다고 걱정하지 마십시오. 생성 된 명령에는 모든 명령에있는 기본 등록 정보 및 함수 세트가 포함됩니다:
+새로운 명령어를 생성하기 위해, 아티즌 명령어 `make:command` 을 사용합니다. 이 명령어는 `app/Console/Commands` 경로에 새로운 명령클래스를 생성할 것입니다. `make:command` 아티즌 명령을 처음 실행할 때 생성되기 때문에 이 경로가 애플리케이션에 존재하지 않는다고 걱정하지 마십시오. 생성 된 명령에는 모든 명령에있는 기본 등록 정보 및 함수 세트가 포함됩니다:
 
     php artisan make:command SendEmails
 
@@ -49,7 +49,7 @@
 
 > {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
 
-예제 명령을 살펴 보겠습니다. 명령어 클래스의 생성자에서는 필요한 의존성 주입이 가능합니다. 라라벨의 [서비스 컨테이너] (/ docs / {{version}} / container)는 자동으로 생성자에서 타입이 지정된 의존객체들을 주입해 줄 것입니다.
+예제 명령을 살펴 보겠습니다. 명령어 클래스의 생성자에서는 필요한 의존성 주입이 가능합니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 자동으로 생성자에서 타입이 지정된 의존객체들을 주입해 줄 것입니다.
 
     <?php
 
@@ -109,7 +109,7 @@
 <a name="closure-commands"></a>
 ### 클로저 명령
 
-클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app / Console / Kernel.php` 파일의`commands` 함수 내에서 Laravel은`routes / console.php` 파일을 로드합니다. :
+클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의 `commands` 함수 내에서 라라벨은 `routes/console.php` 파일을 로드합니다:
 
     /**
      * Register the Closure based commands for the application.
@@ -121,7 +121,7 @@
         require base_path('routes/console.php');
     }
 
-이 파일은 HTTP 라우트를 정의하지 않지만 응용 프로그램에 콘솔 기반 진입 점 (라우트)을 정의합니다. 이 파일에서`Artisan :: command` 함수를 사용하여 클로저 기반 라우트를 모두 정의 할 수 있습니다. `command` 함수는 [command signature] (#defined-input-expectations)와 명령 인수와 옵션을받는 Closure라는 두 개의 인수를 받습니다. :
+이 파일은 HTTP 라우트를 정의하지 않지만 애플리케이션에 콘솔 기반의 진입점(entry-point-라우트)을 정의합니다. 이 파일에서 `Artisan::command` 함수를 사용하여 클로저 기반 라우트를 정의 할 수 있습니다. `command` 메소드는 [command signature](#defining-input-expectations), 그리고 명령어의 인자 및 옵션을 전달 받는 클로저의 총 두 개의 인자를 받습니다:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -131,7 +131,7 @@
 
 #### 타입-힌팅 종속성
 
-명령의 인수와 옵션을받는 것 외에도 명령 클로저는 [서비스 컨테이너] (/ docs / {{버전}} / 컨테이너)에서 해결할 추가 종속성을 입력 할 수 있습니다.
+명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다:
 
     use App\User;
     use App\DripEmailer;
@@ -192,7 +192,7 @@
 <a name="options-with-values"></a>
 #### 값에 의한 옵션들
 
-다음으로, 값을 예상하는 옵션을 살펴 보겠습니다. 사용자가 옵션 값을 지정해야하는 경우 옵션 이름에`= '기호를 붙이십시오.
+다음으로, 값을 예상하는 옵션을 살펴 보겠습니다. 사용자가 옵션 값을 지정해야하는 경우 옵션 이름에 `=` 기호를 붙이십시오.
 
     /**
      * The name and signature of the console command.

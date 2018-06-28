@@ -48,7 +48,7 @@
 
 The most basic Laravel routes accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
 
-가장 기본적인 라라벨 라우트는 URI와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할수 있는 방법을 제공합니다:
+가장 기본적인 라라벨 라우트는 URI와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할 수 있는 방법을 제공합니다:
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -157,7 +157,7 @@ You may define as many route parameters as required by your route:
 
 Route parameters are always encased within `{}` braces and should consist of alphabetic characters, and may not contain a `-` character. Instead of using the `-` character, use an underscore (`_`). Route parameters are injected into route callbacks / controllers based on their order - the names of the callback / controller arguments do not matter.
 
-라우트 파라미터는 항상 "{}"(중괄호)로 쌓여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자는 사용하기 보다는 대신 (`_`) 언어스코어를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
+라우트 파라미터는 항상 "{}"(중괄호)로 싸여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자를 사용하기 보다는 언더스코어 (`_`) 를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
 
 <a name="parameters-optional-parameters"></a>
 ### Optional Parameters
@@ -328,7 +328,7 @@ Another common use-case for route groups is assigning the same PHP namespace to 
 
 Remember, by default, the `RouteServiceProvider` includes your route files within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. So, you only need to specify the portion of the namespace that comes after the base `App\Http\Controllers` namespace.
 
-주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳지 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
+주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳이 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
 
 <a name="route-group-sub-domain-routing"></a>
 ### Sub-Domain Routing
@@ -393,14 +393,14 @@ Laravel automatically resolves Eloquent models defined in routes or controller a
 
 Since the `$user` variable is type-hinted as the `App\User` Eloquent model and the variable name matches the `{user}` URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
 
-`App\User` Eloquent 모델로 타입힌트된 ``$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 생성됩니다.
+`App\User` Eloquent 모델로 타입힌트된 `$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 가 생성됩니다.
 
 #### Customizing The Key Name
 #### 키의 이름을 변경하기
 
 If you would like model binding to use a database column other than `id` when retrieving a given model class, you may override the `getRouteKeyName` method on the Eloquent model:
 
-주어진 모델을 클래스를 찾을 때 `id` 와는 다른 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다:
+주어진 모델의 클래스를 찾을 때 `id` 와는 다른 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다:
 
     /**
      * Get the route key for the model.
@@ -464,7 +464,7 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 ## Rate 제한
 
 Laravel includes a [middleware](/docs/{{version}}/middleware) to rate limit access to routes within your application. To get started, assign the `throttle` middleware to a route or a group of routes. The `throttle` middleware accepts two parameters that determine the maximum number of requests that can be made in a given number of minutes. For example, let's specify that an authenticated user may access the following group of routes 60 times per minute:
-라라벨은 라우트 접속을 제한하는 [미들웨어](/docs/{{version}}/middleware) 을 포함하고 있습니다. 이를 시작하려면, `throttle` 미들웨어를 라우트나 라우트 그룹에 지정해야 합니다. `throttle` 미들웨어는 지정된 분 동안의 최대 리퀘스트 수를  정하는  2개의 파라메터를 받습니다. 예를 들어, 인증된 유저가 아래의 라우트 그룹에 1분 당 60번까지 접속을 제한할 수 습니다.
+라라벨은 라우트 접속을 제한하는 [미들웨어](/docs/{{version}}/middleware) 를 포함하고 있습니다. 이를 시작하려면, `throttle` 미들웨어를 라우트나 라우트 그룹에 지정해야 합니다. `throttle` 미들웨어는 지정된 분 동안의 최대 리퀘스트 수를 정하는 2개의 파라미터를 받습니다. 예를 들어, 인증된 유저가 아래의 라우트 그룹에 1분 당 60번까지 접속을 제한할 수 있습니다.
 
     Route::middleware('auth:api', 'throttle:60,1')->group(function () {
         Route::get('/user', function () {
@@ -486,11 +486,11 @@ You may specify a dynamic request maximum based on an attribute of the authentic
 
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing
-## Form 메소드 Spoofing-속이기
+## 폼 메소드 스푸핑
 
 HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
 
-HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 이나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다:
+HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다:
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">

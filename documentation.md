@@ -13,7 +13,7 @@
 - 설계 컨셉
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [서비스 컨테이너](/docs/{{version}}/container)
-    - [서비스 프로바이드](/docs/{{version}}/providers)
+    - [서비스 프로바이더](/docs/{{version}}/providers)
     - [파사드](/docs/{{version}}/facades)
     - [Contracts](/docs/{{version}}/contracts)
 - 기본적인 사항들

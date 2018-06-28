@@ -6,7 +6,7 @@
 - [Writing Service Providers](#writing-service-providers)
 - [서비스 프로바이더 작성하기](#writing-service-providers)
     - [The Register Method](#the-register-method)
-    - [서비스 프로바이더 작성하기](#writing-service-providers)
+    - [Register 메소드](#the-register-method)
     - [The Boot Method](#the-boot-method)
     - [Boot 메소드](#the-boot-method)
 - [Registering Providers](#registering-providers)
@@ -24,7 +24,7 @@ Service providers are the central place of all Laravel application bootstrapping
 
 But, what do we mean by "bootstrapped"? In general, we mean **registering** things, including registering service container bindings, event listeners, middleware, and even routes. Service providers are the central place to configure your application.
 
-그런데 "부트스트래핑" 이란 과연 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스터, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
+그런데 "부트스트래핑" 이란 과연 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스너, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
 
 If you open the `config/app.php` file included with Laravel, you will see a `providers` array. These are all of the service provider classes that will be loaded for your application. Of course, many of these are "deferred" providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
 

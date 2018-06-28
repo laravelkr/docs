@@ -170,7 +170,7 @@ Closure based commands provide an alternative to defining console commands as cl
 
 Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
 
-이 파일은 HTTP 라우트를 정의하지 않지만 응용 프로그램에 콘솔 기반 진입 점 (라우트)을 정의합니다. 이 파일에서`Artisan::command` 함수를 사용하여 클로저 기반 라우트를 모두 정의 할 수 있습니다. `command` 함수는 [command signature](#defining-input-expectations) 와 명령 인수와 옵션을받는 Closure라는 두 개의 인수를 받습니다. :
+이 파일은 HTTP 라우트를 정의하지 않지만 애플리케이션에 콘솔 기반의 진입점(entry-point-라우트)을 정의합니다. 이 파일에서 `Artisan::command` 함수를 사용하여 클로저 기반 라우트를 정의 할 수 있습니다. `command` 메소드는 [command signature](#defining-input-expectations), 그리고 명령어의 인자 및 옵션을 전달 받는 클로저의 총 두 개의 인자를 받습니다:
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -185,7 +185,7 @@ The Closure is bound to the underlying command instance, so you have full access
 
 In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
 
-명령의 인수와 옵션을받는 것 외에도 명령 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결할 추가 종속성을 입력 할 수 있습니다.
+명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다:
 
     use App\User;
     use App\DripEmailer;

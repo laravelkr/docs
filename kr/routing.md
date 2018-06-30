@@ -36,7 +36,7 @@
     - [Explicit Binding](#explicit-binding)
     - [묵시적 바인딩](#explicit-binding)
 - [Form Method Spoofing](#form-method-spoofing)
-- [폼 메소드 스푸핑](#form-method-spoofing)
+- [Form-폼 메소드 Spoofing-스푸핑](#form-method-spoofing)
 - [Accessing The Current Route](#accessing-the-current-route)
 - [현재 라우트에 엑세스하기](#accessing-the-current-route)
 
@@ -460,7 +460,7 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing
-## 폼 메소드 스푸핑
+## Form-폼 메소드 Spoofing-스푸핑
 
 HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
 

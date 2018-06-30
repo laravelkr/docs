@@ -18,13 +18,13 @@
     - [명시적 바인딩](#implicit-binding)
     - [묵시적 바인딩](#explicit-binding)
 - [Rate 제한](#rate-limiting)
-- [Form 메소드 Spoofing-속이기](#form-method-spoofing)
+- [Form-폼 메소드 Spoofing-스푸핑](#form-method-spoofing)
 - [현재 라우트에 엑세스하기](#accessing-the-current-route)
 
 <a name="basic-routing"></a>
 ## 기본적인 라우팅
 
-가장 기본적인 라라벨 라우트는 URI와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할수 있는 방법을 제공합니다:
+가장 기본적인 라라벨 라우트는 URI와 `클로저`를 전달 받아, 라우팅을 정의하는 간단하고 쉽게 이해할 수 있는 방법을 제공합니다:
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -104,7 +104,7 @@
         //
     });
 
-라우트 파라미터는 항상 "{}"(중괄호)로 쌓여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자는 사용하기 보다는 대신 (`_`) 언어스코어를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
+라우트 파라미터는 항상 "{}"(중괄호)로 싸여져 있고, `-` 문자를 포함하지 않은 알파벳 문자로 구성되어 있어야합니다. `-` 문자를 사용하기 보다는 언더스코어 (`_`) 를 사용하십시오. 라우트 파라미터는 라우트 콜백 / 컨트롤러에 주입되는데 이때 사용되는 콜백 / 컨트롤러 인자에서 문제가 되지 않는 이름이어야 합니다.
 
 <a name="parameters-optional-parameters"></a>
 ### 선택적 파라미터
@@ -239,7 +239,7 @@
         // Controllers Within The "App\Http\Controllers\Admin" Namespace
     });
 
-주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳지 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
+주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳이 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
 
 <a name="route-group-sub-domain-routing"></a>
 ### 서브 도메인 라우팅
@@ -288,11 +288,11 @@
         return $user->email;
     });
 
-`App\User` Eloquent 모델로 타입힌트된 ``$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 생성됩니다.
+`App\User` Eloquent 모델로 타입힌트된 `$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 가 생성됩니다.
 
 #### 키의 이름을 변경하기
 
-주어진 모델을 클래스를 찾을 때 `id` 와는 다른 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다:
+주어진 모델의 클래스를 찾을 때 `id` 와는 다른 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다:
 
     /**
      * Get the route key for the model.
@@ -342,7 +342,7 @@
 <a name="rate-limiting"></a>
 ## Rate 제한
 
-라라벨은 라우트 접속을 제한하는 [미들웨어](/docs/{{version}}/middleware) 을 포함하고 있습니다. 이를 시작하려면, `throttle` 미들웨어를 라우트나 라우트 그룹에 지정해야 합니다. `throttle` 미들웨어는 지정된 분 동안의 최대 리퀘스트 수를  정하는  2개의 파라메터를 받습니다. 예를 들어, 인증된 유저가 아래의 라우트 그룹에 1분 당 60번까지 접속을 제한할 수 습니다.
+라라벨은 라우트 접속을 제한하는 [미들웨어](/docs/{{version}}/middleware) 를 포함하고 있습니다. 이를 시작하려면, `throttle` 미들웨어를 라우트나 라우트 그룹에 지정해야 합니다. `throttle` 미들웨어는 지정된 분 동안의 최대 리퀘스트 수를 정하는 2개의 파라미터를 받습니다. 예를 들어, 인증된 유저가 아래의 라우트 그룹에 1분 당 60번까지 접속을 제한할 수 있습니다.
 
     Route::middleware('auth:api', 'throttle:60,1')->group(function () {
         Route::get('/user', function () {
@@ -361,9 +361,9 @@
     });
 
 <a name="form-method-spoofing"></a>
-## Form 메소드 Spoofing-속이기
+## Form-폼 메소드 Spoofing-스푸핑
 
-HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 이나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다:
+HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다:
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">

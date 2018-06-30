@@ -38,7 +38,7 @@
 - [Rate Limiting](#rate-limiting)
 - [Rate 제한](#rate-limiting)
 - [Form Method Spoofing](#form-method-spoofing)
-- [폼 메소드 스푸핑](#form-method-spoofing)
+- [Form-폼 메소드 Sppring-스푸핑](#form-method-spoofing)
 - [Accessing The Current Route](#accessing-the-current-route)
 - [현재 라우트에 엑세스하기](#accessing-the-current-route)
 
@@ -486,7 +486,7 @@ You may specify a dynamic request maximum based on an attribute of the authentic
 
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing
-## 폼 메소드 스푸핑
+## Form-폼 메소드 Sppring-스푸핑
 
 HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
 

@@ -46,7 +46,7 @@
 
 All Laravel routes are defined in the `app/Http/routes.php` file, which is automatically loaded by the framework. The most basic Laravel routes simply accept a URI and a `Closure`, providing a very simple and expressive method of defining routes:
 
-모든 라라벨의 라우트는 프레임워크에 의해서 자동으로 로딩되는 `app/Http/routes.php` 파일에 선언되어 있습니다. 가장 기본적인 라라벨 라우트는 하나의 URI를 받아들여 가장 간단하고 알기쉽게 정의된 `Closure` 라우트 입니다. 
+모든 라라벨의 라우트는 프레임워크에 의해서 자동으로 로딩되는 `app/Http/routes.php` 파일에 선언되어 있습니다. 가장 기본적인 라라벨 라우트는 하나의 URI를 받아들여 가장 간단하고 알기쉽게 정의된 `Closure` 라우트 입니다.
 
     Route::get('foo', function () {
         return 'Hello World';
@@ -57,7 +57,7 @@ All Laravel routes are defined in the `app/Http/routes.php` file, which is autom
 
 The default `routes.php` file is loaded by the `RouteServiceProvider` and is automatically included in the `web` middleware group, which provides access to session state and CSRF protection. Most of the routes for your application will be defined within this file.
 
-기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 애플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다. 
+기본적인 `routes.php` 파일은 `RouteServiceProvider` 에 의해서 로딩되어지고 자동으로 `web` 미들웨어 그룹에 포함되어 세션과 CSRF 보호 기능이 제공됩니다. 애플리케이션의 대부분의 라우트들은 이 파일에 정의되어 질 것입니다.
 
 #### Available Router Methods
 #### 사용가능한 라우터 메소드들
@@ -75,7 +75,7 @@ The router allows you to register routes that respond to any HTTP verb:
 
 Sometimes you may need to register a route that responds to multiple HTTP verbs. You may do so using the `match` method. Or, you may even register a route that responds to all HTTP verbs using the `any` method:
 
-때로는 여러개의 HTTP 메소드에 응답하는 라우트를 등록해야 할 수도 있습니다. 이경우 `match` 메소드를 사용하면 됩니다. 또는 `any` 메소드를 사용하여 모든 HTTP 메소드에 응답하는 라우트를 등록할 수도 있습니다. 
+때로는 여러개의 HTTP 메소드에 응답하는 라우트를 등록해야 할 수도 있습니다. 이경우 `match` 메소드를 사용하면 됩니다. 또는 `any` 메소드를 사용하여 모든 HTTP 메소드에 응답하는 라우트를 등록할 수도 있습니다.
 
     Route::match(['get', 'post'], '/', function () {
         //
@@ -95,7 +95,7 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
 
 Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
 
-라우트중에 URI 세그먼트를 필요로 할 수도 있습니다. 다음과 같이 URL 에서 사용자의 ID를 확인하고자 하는 경우 입니다. 이 경우 라우트 파라미터를 정의할 수 있습니다. 
+라우트중에 URI 세그먼트를 필요로 할 수도 있습니다. 다음과 같이 URL 에서 사용자의 ID를 확인하고자 하는 경우 입니다. 이 경우 라우트 파라미터를 정의할 수 있습니다.
 
     Route::get('user/{id}', function ($id) {
         return 'User '.$id;
@@ -103,7 +103,7 @@ Of course, sometimes you will need to capture segments of the URI within your ro
 
 You may define as many route parameters as required by your route:
 
-라우트에서는 여러개의 라우트 파라미터를 정의할 수도 있습니다: 
+라우트에서는 여러개의 라우트 파라미터를 정의할 수도 있습니다:
 
     Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
         //
@@ -111,11 +111,11 @@ You may define as many route parameters as required by your route:
 
 Route parameters are always encased within "curly" braces. The parameters will be passed into your route's `Closure` when the route is executed.
 
-라우트 파라미터는 항상 "중괄호"로 쌓여져 있습니다. 파라미터는 라우트가 실행될 때 `Closure`로 전달 될것입니다. 
+라우트 파라미터는 항상 "중괄호"로 싸여져 있습니다. 파라미터는 라우트가 실행될 때 `Closure`로 전달 될것입니다.
 
 > **Note:** Route parameters cannot contain the `-` character. Use an underscore (`_`) instead.
 
-> **주의:** 라우트 파라미터는 `-` 문자열을 포함할 수 없습니다. 언더스코어 (`_`)를 사용하십시오. 
+> **주의:** 라우트 파라미터는 `-` 문자열을 포함할 수 없습니다. 언더스코어 (`_`)를 사용하십시오.
 
 <a name="parameters-optional-parameters"></a>
 ### Optional Parameters
@@ -123,7 +123,7 @@ Route parameters are always encased within "curly" braces. The parameters will b
 
 Occasionally you may need to specify a route parameter, but make the presence of that route parameter optional. You may do so by placing a `?` mark after the parameter name. Make sure to give the route's corresponding variable a default value:
 
-때로는, 라우트 파라미터를 지정하긴 하지만, 파라미터가 선택적으로 존재하기를 원할수도 있습니다. 이 경우 파라미터 이름뒤에 `?` 를 표시하면 됩니다. 라우트 파라미터와 일치하는 변수가 기본값을 가지는지 확인하십시오: 
+때로는, 라우트 파라미터를 지정하긴 하지만, 파라미터가 선택적으로 존재하기를 원할수도 있습니다. 이 경우 파라미터 이름뒤에 `?` 를 표시하면 됩니다. 라우트 파라미터와 일치하는 변수가 기본값을 가지는지 확인하십시오:
 
     Route::get('user/{name?}', function ($name = null) {
         return $name;
@@ -158,7 +158,7 @@ You may constrain the format of your route parameters using the `where` method o
 
 <a name="parameters-global-constraints"></a>
 #### Global Constraints
-#### 글로벌 제약 
+#### 글로벌 제약
 
 If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your `RouteServiceProvider`:
 
@@ -191,7 +191,7 @@ Once the pattern has been defined, it is automatically applied to all routes usi
 
 Named routes allow you to conveniently generate URLs or redirects for a specific route. You may specify a name for a route using the `as` array key when defining the route:
 
-이름이 지정된 라우트는 지정된 라우트에 대한 URL 이나, 리다이렉트를 생성하기 편리합니다. 라우트에 이름을 지정하려면 라우트를 정의할 때 `as` 배열 키를 사용하면 됩니다. 
+이름이 지정된 라우트는 지정된 라우트에 대한 URL 이나, 리다이렉트를 생성하기 편리합니다. 라우트에 이름을 지정하려면 라우트를 정의할 때 `as` 배열 키를 사용하면 됩니다.
 
     Route::get('user/profile', ['as' => 'profile', function () {
         //
@@ -199,7 +199,7 @@ Named routes allow you to conveniently generate URLs or redirects for a specific
 
 You may also specify route names for controller actions:
 
-컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다. 
+컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다.
 
     Route::get('user/profile', [
         'as' => 'profile', 'uses' => 'UserController@showProfile'
@@ -216,7 +216,7 @@ Alternatively, instead of specifying the route name in the route array definitio
 
 If you are using [route groups](#route-groups), you may specify an `as` keyword in the route group attribute array, allowing you to set a common route name prefix for all routes within the group:
 
-[라우트 그룹](#route-groups)을 사용한다면, 라우트 그룹의 속성 배열에 `as` 키워드를 사용하여 그룹 안의 모든 라우트들이 공통으로 사용하는 라우트 prefix 이름을 설정할 수 있습니다. 
+[라우트 그룹](#route-groups)을 사용한다면, 라우트 그룹의 속성 배열에 `as` 키워드를 사용하여 그룹 안의 모든 라우트들이 공통으로 사용하는 라우트 prefix 이름을 설정할 수 있습니다.
 
     Route::group(['as' => 'admin::'], function () {
         Route::get('dashboard', ['as' => 'dashboard', function () {
@@ -229,7 +229,7 @@ If you are using [route groups](#route-groups), you may specify an `as` keyword 
 
 Once you have assigned a name to a given route, you may use the route's name when generating URLs or redirects via the global `route` function:
 
-주어진 라우트에 대한 이름이 할당되면, 전역 `route` 함수를 통해서 URL 또는 리다이렉션을 생성할 때 라우트 이름을 사용할 수 있습니다. 
+주어진 라우트에 대한 이름이 할당되면, 전역 `route` 함수를 통해서 URL 또는 리다이렉션을 생성할 때 라우트 이름을 사용할 수 있습니다.
 
     // Generating URLs...
     $url = route('profile');
@@ -253,11 +253,11 @@ If the named route defines parameters, you may pass the parameters as the second
 
 Route groups allow you to share route attributes, such as middleware or namespaces, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
 
-라우트 그룹을 사용하면 미들웨어나, 네임스페이스와 같은 라우트 속성을 공유할 수 있어, 많은 수의 라우트를 등록할 때 각각의 개별 라우트에 매번 속성들을 정의하지 않아도 되게 해줍니다. 공유하려는 속성은 배열 형식으로 지정되어 `Route::group` 메소드의 첫번째 인자로 전달됩니다. 
+라우트 그룹을 사용하면 미들웨어나, 네임스페이스와 같은 라우트 속성을 공유할 수 있어, 많은 수의 라우트를 등록할 때 각각의 개별 라우트에 매번 속성들을 정의하지 않아도 되게 해줍니다. 공유하려는 속성은 배열 형식으로 지정되어 `Route::group` 메소드의 첫번째 인자로 전달됩니다.
 
 To learn more about route groups, we'll walk through several common use-cases for the feature.
 
-라우트 그룹에 대해 상세하게 알아보기 위해서, 몇가지 공통적인 사용자 예시를 확인해 보겠습니다. 
+라우트 그룹에 대해 상세하게 알아보기 위해서, 몇가지 공통적인 사용자 예시를 확인해 보겠습니다.
 
 <a name="route-group-middleware"></a>
 ### Middleware
@@ -283,7 +283,7 @@ To assign middleware to all routes within a group, you may use the `middleware` 
 
 Another common use-case for route groups is assigning the same PHP namespace to a group of controllers. You may use the `namespace` parameter in your group attribute array to specify the namespace for all controllers within the group:
 
-라우트 그룹을 사용하는 다른 사용예로는 그룹의 컨트롤러의 그룹 안에 같은 PHP 네임스페이스를 할당하는 경우입니다. 그룹안에 있는 모든 컨트롤러에 네임스페이스를 지정하기 위해서 그룹 속성 배열에 `namespace` 파라미터를 사용하면 됩니다. 
+라우트 그룹을 사용하는 다른 사용예로는 그룹의 컨트롤러의 그룹 안에 같은 PHP 네임스페이스를 할당하는 경우입니다. 그룹안에 있는 모든 컨트롤러에 네임스페이스를 지정하기 위해서 그룹 속성 배열에 `namespace` 파라미터를 사용하면 됩니다.
 
     Route::group(['namespace' => 'Admin'], function()
     {
@@ -296,7 +296,7 @@ Another common use-case for route groups is assigning the same PHP namespace to 
 
 Remember, by default, the `RouteServiceProvider` includes your `routes.php` file within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. So, we only need to specify the portion of the namespace that comes after the base `App\Http\Controllers` namespace.
 
-주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳지 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 `routes.php` 파일을 로드한다는 것입니다. 따라서 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다. 
+주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳이 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 `routes.php` 파일을 로드한다는 것입니다. 따라서 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
 
 <a name="route-group-sub-domain-routing"></a>
 ### Sub-Domain Routing
@@ -346,15 +346,15 @@ You may also use the `prefix` parameter to specify common parameters for your gr
 
 Laravel makes it easy to protect your application from [cross-site request forgery](http://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) attacks. Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user.
 
-라라벨은 크로스 사이트 요청 위조 [cross-site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) 공격으로 부터 응용 프로그램을 쉽게 지킬 수 있도록 합니다. 크로스 사이트 요청 위조는 악의적인 공격의 하나이며 인증받은 사용자를 대신하여 허가 받지 않은 명령을 수행합니다. 
+라라벨은 크로스 사이트 요청 위조 [cross-site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) 공격으로 부터 응용 프로그램을 쉽게 지킬 수 있도록 합니다. 크로스 사이트 요청 위조는 악의적인 공격의 하나이며 인증받은 사용자를 대신하여 허가 받지 않은 명령을 수행합니다.
 
 Laravel automatically generates a CSRF "token" for each active user session managed by the application. This token is used to verify that the authenticated user is the one actually making the requests to the application.
 
-라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다. 
+라라벨은 애플리케이션에 의해서 관리되고 있는 각각의 사용자별 CSRF "토큰"을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에 요청을 보내고 있는지 식별하는데 사용됩니다.
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware will be able to validate the request. To generate a hidden input field `_token` containing the CSRF token, you may use the `csrf_field` helper function:
 
-애플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다: 
+애플리케이션에서 HTML form을 정의할 때는, form에서 이 숨겨진 CSRF 토큰 필드를 포함하도록 해야하고, 이에 따라서 CSRF 보호 미들웨어가 요청이 유효한지 확인할 것입니다. CSRF 토큰값을 가지는 `_token`라는 이름의 숨겨진 입력 필드를 생성하려면 `csrf_field` 헬퍼 함수를 사용하면 됩니다:
 
     // Vanilla PHP
     <?php echo csrf_field(); ?>
@@ -364,18 +364,18 @@ Anytime you define a HTML form in your application, you should include a hidden 
 
 The `csrf_field` helper function generates the following HTML:
 
-`csrf_field` 헬퍼 함수는 다음과 같은 HTML을 생성합니다: 
+`csrf_field` 헬퍼 함수는 다음과 같은 HTML을 생성합니다:
 
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
 
 You do not need to manually verify the CSRF token on POST, PUT, or DELETE requests. The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is included in the `web` middleware group, will automatically verify that the token in the request input matches the token stored in the session.
 
-일일이 수동으로 POST, PUT 또는 DELETE 요청에 대한 CSRF 토큰을 확인할 필요가 없습니다. `web` 미들웨어 그룹안에 포함되어 있는 `VerifyCsrfToken` [미들웨어](/docs/{{version}}/middleware)가 자동으로 요청중인 토큰이 세션에 저장되어 있는 토큰과 일치하는지 확인할 것입니다. 
+일일이 수동으로 POST, PUT 또는 DELETE 요청에 대한 CSRF 토큰을 확인할 필요가 없습니다. `web` 미들웨어 그룹안에 포함되어 있는 `VerifyCsrfToken` [미들웨어](/docs/{{version}}/middleware)가 자동으로 요청중인 토큰이 세션에 저장되어 있는 토큰과 일치하는지 확인할 것입니다.
 
 <a name="csrf-excluding-uris"></a>
 ### Excluding URIs From CSRF Protection
-### CSRF 보호로 부터 URI 제외하기 
+### CSRF 보호로 부터 URI 제외하기
 
 Sometimes you may wish to exclude a set of URIs from CSRF protection. For example, if you are using [Stripe](https://stripe.com) to process payments and are utilizing their webhook system, you will need to exclude your webhook handler route from Laravel's CSRF protection.
 
@@ -383,7 +383,7 @@ Sometimes you may wish to exclude a set of URIs from CSRF protection. For exampl
 
 You may exclude URIs by defining their routes outside of the `web` middleware group that is included in the default `routes.php` file, or by adding the URIs to the `$except` property of the `VerifyCsrfToken` middleware:
 
-여러분은 `routes.php` 파일 안에서 제외하고자 하는 URI를 선언한 라우트를 `web` 미들웨어 그룹의 밖에 선언하거나, `VerifyCsrfToken` 미들웨어의 `$except` 속성에 제외하고자 하는 URI들을 추가할 수 있습니다: 
+여러분은 `routes.php` 파일 안에서 제외하고자 하는 URI를 선언한 라우트를 `web` 미들웨어 그룹의 밖에 선언하거나, `VerifyCsrfToken` 미들웨어의 `$except` 속성에 제외하고자 하는 URI들을 추가할 수 있습니다:
 
     <?php
 
@@ -437,11 +437,11 @@ Laravel also stores the CSRF token in a `XSRF-TOKEN` cookie. You can use the coo
 
 Laravel route model binding provides a convenient way to inject model instances into your routes. For example, instead of injecting a user's ID, you can inject the entire `User` model instance that matches the given ID.
 
-라라벨의 라우트 모델 바인딩은 라우트에 모델 인스턴스를 주입할 수 있는 편리한 방법을 제공합니다. 예를 들어 사용자의 ID를 넘기는 대신에 주어진 ID에 해당하는 `User` 모델 인스턴스를 주입할 수 있습니다. 
+라라벨의 라우트 모델 바인딩은 라우트에 모델 인스턴스를 주입할 수 있는 편리한 방법을 제공합니다. 예를 들어 사용자의 ID를 넘기는 대신에 주어진 ID에 해당하는 `User` 모델 인스턴스를 주입할 수 있습니다.
 
 First, use the router's `model` method to specify the class for a given parameter. You should define your model bindings in the `RouteServiceProvider::boot` method:
 
-먼저 주어진 파라미터에 대한 클래스를 지정하기 위해서 라우트의 `model` 메소드를 사용하여야 합니다. 이 모델 바인딩은 `RouteServiceProvider::boot` 안에서 정의되어야 합니다. 
+먼저 주어진 파라미터에 대한 클래스를 지정하기 위해서 라우트의 `model` 메소드를 사용하여야 합니다. 이 모델 바인딩은 `RouteServiceProvider::boot` 안에서 정의되어야 합니다.
 
 ### Implicit Binding
 ### 묵시적 바인딩
@@ -456,11 +456,11 @@ Laravel will automatically resolve type-hinted Eloquent models defined in routes
 
 In this example, since the Eloquent type-hinted `$user` variable defined on the route matches the `{user}` segment in the route's URI, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI.
 
-이 예제에서, 라우트에 정의된 Eloquent 타입-힌트가 되어 있는 `$user` 변수가 라우트 URI의 `{user}` 세그먼트와 일치하면, 라라벨은 자동으로 요청된 URI에서 일치하는 ID 값에 대한 모델 인스턴스를 주입할 것입니다. 
+이 예제에서, 라우트에 정의된 Eloquent 타입-힌트가 되어 있는 `$user` 변수가 라우트 URI의 `{user}` 세그먼트와 일치하면, 라라벨은 자동으로 요청된 URI에서 일치하는 ID 값에 대한 모델 인스턴스를 주입할 것입니다.
 
 If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.
 
-데이터베이스에서 일치하는 모델 인스턴스를 찾지 못한다면, 404 HTTP 응답이 자동으로 생성됩니다. 
+데이터베이스에서 일치하는 모델 인스턴스를 찾지 못한다면, 404 HTTP 응답이 자동으로 생성됩니다.
 
 #### Customizing The Key Name
 #### 키의 이름을 변경하기
@@ -484,7 +484,7 @@ If you would like the implicit model binding to use a database column other than
 
 To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your model bindings in the `RouteServiceProvider::boot` method:
 
-명시적 바인딩을 등록하기 위해서, 주어진 파라미터에 대한 클래스를 지정하려면 라우터의 `model` 메소드를 사용하십시오. `RouteServiceProvider::boot` 메소드 안에서 모델 바인딩을 등록해야 합니다. 
+명시적 바인딩을 등록하기 위해서, 주어진 파라미터에 대한 클래스를 지정하려면 라우터의 `model` 메소드를 사용하십시오. `RouteServiceProvider::boot` 메소드 안에서 모델 바인딩을 등록해야 합니다.
 
 #### Binding A Parameter To A Model
 #### 모델과 파라미터 바인딩하기
@@ -498,7 +498,7 @@ To register an explicit binding, use the router's `model` method to specify the 
 
 Next, define a route that contains a `{user}` parameter:
 
-다음으로, `{user}` 파라미터를 포함한 라우트를 정의합니다. 
+다음으로, `{user}` 파라미터를 포함한 라우트를 정의합니다.
 
     $router->get('profile/{user}', function(App\User $user) {
         //
@@ -506,18 +506,18 @@ Next, define a route that contains a `{user}` parameter:
 
 Since we have bound the `{user}` parameter to the `App\User` model, a `User` instance will be injected into the route. So, for example, a request to `profile/1` will inject the `User` instance which has an ID of 1.
 
-`{user}` 파라미터와 `App\User` 모델이 바인딩되어 있기 때문에 라우트에는 `User` 인스턴스가 주입 될것입니다. 예를 들어 `profile/`으로 요청이 들어오면 ID가 1인 `User`의 인스턴스가 주입됩니다. 
+`{user}` 파라미터와 `App\User` 모델이 바인딩되어 있기 때문에 라우트에는 `User` 인스턴스가 주입 될것입니다. 예를 들어 `profile/`으로 요청이 들어오면 ID가 1인 `User`의 인스턴스가 주입됩니다.
 
 If a matching model instance is not found in the database, a 404 HTTP response will be automatically generated.
 
-만약 데이터베이스에서 일치하는 모델 인스턴스를 찾지 못하는 경우, 404 응답이 자동으로 생성될 것입니다. 
+만약 데이터베이스에서 일치하는 모델 인스턴스를 찾지 못하는 경우, 404 응답이 자동으로 생성될 것입니다.
 
 #### Customizing The Resolution Logic
 #### 의존성 해결 로직 커스터마이징하기
 
 If you wish to use your own resolution logic, you should use the `Route::bind` method. The `Closure` you pass to the `bind` method will receive the value of the URI segment, and should return an instance of the class you want to be injected into the route:
 
-만약 고유한 의존성 검색 로직을 사용하려면 `Route::bind` 메소드를 사용해야 합니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다. 
+만약 고유한 의존성 검색 로직을 사용하려면 `Route::bind` 메소드를 사용해야 합니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입할 클래스의 인스턴스를 반환해야 합니다.
 
     $router->bind('user', function ($value) {
         return App\User::where('name', $value)->first();
@@ -528,7 +528,7 @@ If you wish to use your own resolution logic, you should use the `Route::bind` m
 
 If you wish to specify your own "not found" behavior, pass a `Closure` as the third argument to the `model` method:
 
-만약 모델을 "찾지 못함"의 동작을 지정하고 싶다면 세번째 인자로 `클로저`를 전달하면 됩니다. 
+만약 모델을 "찾지 못함"의 동작을 지정하고 싶다면 세번째 인자로 `클로저`를 전달하면 됩니다.
 
     $router->model('user', 'App\User', function () {
         throw new NotFoundHttpException;
@@ -540,7 +540,7 @@ If you wish to specify your own "not found" behavior, pass a `Closure` as the th
 
 HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
 
-HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 이나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다. 
+HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. 따라서 `PUT`, `PATCH` 나 `DELETE` 로 지정된 라우트를 호출하는 HTML form을 정의한다면 `_method` 의 숨겨진 필드를 지정해야합니다. `_method` 필드로 보내진 값은 HTTP request 메소드를 판별하는데 사용됩니다:
 
     <form action="/foo/bar" method="POST">
         <input type="hidden" name="_method" value="PUT">
@@ -549,7 +549,7 @@ HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. �
 
 To generate the hidden input field `_method`, you may also use the `method_field` helper function:
 
-input hidden 의 `_method` 를 생성하기 위해서 `method_field` 헬퍼 함수를 사용할수도 있습니다. 
+input hidden 의 `_method` 를 생성하기 위해서 `method_field` 헬퍼 함수를 사용할수도 있습니다.
 
     <?php echo method_field('PUT'); ?>
 
@@ -558,14 +558,14 @@ Of course, using the Blade [templating engine](/docs/{{version}}/blade):
 [템플릿 엔진](/docs/{{version}}/blade)에서 사용은 다음처럼 하면 됩니다:
 
     {{ method_field('PUT') }}
-    
+
 <a name="accessing-the-current-route"></a>
 ## Accessing The Current Route
 ## 현재 라우트에 엑세스하기
 
 The `Route::current()` method will return the route handling the current HTTP request, allowing you to inspect the full `Illuminate\Routing\Route` instance:
 
-`Route::current()` 메소드는 현재 HTTP 요청에 대해서 처리되는 라우트를 반환하여, `Illuminate\Routing\Route` 인스턴스를 확인할 수 있도록 해줍니다: 
+`Route::current()` 메소드는 현재 HTTP 요청에 대해서 처리되는 라우트를 반환하여, `Illuminate\Routing\Route` 인스턴스를 확인할 수 있도록 해줍니다:
 
     $route = Route::current();
 
@@ -583,4 +583,4 @@ You may also use the `currentRouteName` and `currentRouteAction` helper methods 
 
 Please refer to the API documentation for both the [underlying class of the Route facade](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.
 
-모든 메소드를 확인하고자 한다면 [Route 파사드 뒤에서 동작하는 클래스](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 와 [Route 인스턴스](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) API 문서를 참고하십시오. 
+모든 메소드를 확인하고자 한다면 [Route 파사드 뒤에서 동작하는 클래스](http://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 와 [Route 인스턴스](http://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) API 문서를 참고하십시오.

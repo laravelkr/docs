@@ -179,7 +179,7 @@ Controllers also allow you to register middleware using a Closure. This provides
 
 <a name="resource-controllers"></a>
 ## Resource Controllers
-## 컨트롤러 자원
+## 리소스 컨트롤러
 
 Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
 

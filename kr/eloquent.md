@@ -39,6 +39,8 @@
     - [글로벌 스코프](#global-scopes)
     - [Local Scopes](#local-scopes)
     - [로컬 스코프](#local-scopes)
+- [Comparing Models](#comparing-models)
+- [모델의 비교](#comparing-models)
 - [Events](#events)
 - [이벤트](#events)
     - [Observers](#observers)
@@ -921,6 +923,18 @@ Now, you may pass the parameters when calling the scope:
 
     $users = App\User::ofType('admin')->get();
 
+<a name="comparing-models"></a>
+## Comparing Models
+## 모델의 비교
+
+Sometimes you may need to determine if two models are the "same". The `is` method may be used to quickly verify two models have same primary key, table, and database connection:
+
+때로는 두개의 모델이 "동일한지" 판단할 필요가 있을 수도 있습니다. `is` 메소드는 두개의 모델이 동일한 primary key, 테이블, 데이터베이스 커넥션을 가지고 있는지 확인하는데 사용할 수 있습니다:
+
+    if ($post->is($anotherPost)) {
+        //
+    }
+
 <a name="events"></a>
 ## Events
 ## 이벤트
@@ -965,9 +979,18 @@ To get started, define a `$dispatchesEvents` property on your Eloquent model tha
 ### Observers
 ### 옵저버
 
-If you are listening for many events on a given model, you may use observers to group all of your listeners into a single class. Observers classes have method names which reflect the Eloquent events you wish to listen for. Each of these methods receives the model as their only argument. Laravel does not include a default directory for observers, so you may create any directory you like to house your observer classes:
+#### Defining Observers
+#### 옵저버 객체 정의하기
 
-주어진 모델을 여러 이벤트들을 수신하고자 하는 경우, 옵저버를 사용하여 모든 리스너를 하나의 클래스로 구성할 수 있습니다. 옵저버 클래스는 수신하고자 하는 Eloquent 이벤트에 대항하는 메소드 이름을 가집니다. 각각의 이 메소드들은 인자로 모델을 전달 받습니다. 라라벨은 옵저버에대한 기본 디렉토리를 가지고 있지 않기 때문에, 옵저버 클래스를 위한 어떤 디렉토리도 생성할 수 있습니다:
+If you are listening for many events on a given model, you may use observers to group all of your listeners into a single class. Observers classes have method names which reflect the Eloquent events you wish to listen for. Each of these methods receives the model as their only argument. The `make:observer` Artisan command is the easiest way to create a new observer class:
+
+주어진 모델을 여러 이벤트들을 수신하고자 하는 경우, 옵저버를 사용하여 모든 리스너를 하나의 클래스로 구성할 수 있습니다. 옵저버 클래스는 수신하고자 하는 Eloquent 이벤트에 대항하는 메소드 이름을 가집니다. 각각의 이 메소드들은 인자로 모델을 전달 받습니다. `make:observer` 아티즌 명령어는 새로운 옵저버 클래스를 생성하는 가장 쉬운 방법입니다:
+
+    php artisan make:observer UserObserver --model=User
+
+This command will place the new observer in your `App/Observers` directory. If this directory does not exist, Artisan will create it for you. Your fresh observer will look like the following:
+
+이 명령어는 새로운 옵저버 클래스를 `App/Observers` 디렉토리에 생성합니다. 이 디렉토리가 존재하지 않는다면, 아티즌은 이 디렉토리를 자동으로 생성합니다. 새로운 옵저버 클래스는 다음과 같은 형태입니다:
 
     <?php
 
@@ -978,7 +1001,7 @@ If you are listening for many events on a given model, you may use observers to 
     class UserObserver
     {
         /**
-         * Listen to the User created event.
+         * Handle to the User "created" event.
          *
          * @param  \App\User  $user
          * @return void
@@ -989,12 +1012,23 @@ If you are listening for many events on a given model, you may use observers to 
         }
 
         /**
-         * Listen to the User deleting event.
+         * Handle the User "updated" event.
          *
          * @param  \App\User  $user
          * @return void
          */
-        public function deleting(User $user)
+        public function updated(User $user)
+        {
+            //
+        }
+
+        /**
+         * Handle the User "deleted" event.
+         *
+         * @param  \App\User  $user
+         * @return void
+         */
+        public function deleted(User $user)
         {
             //
         }

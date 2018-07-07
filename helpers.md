@@ -919,7 +919,7 @@
 
     // /this/string
 
-    $adjusted = str_start('/this/string/', '/');
+    $adjusted = str_start('/this/string', '/');
 
     // /this/string
 

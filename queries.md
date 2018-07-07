@@ -256,6 +256,20 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
             })
             ->get();
 
+#### 서브쿼리 조인
+
+쿼리와 서브쿼리의 조인을 위해서 `joinSub`, `leftJoinSub`, `rightJoinSub` 메소드를 사용할 수 있습니다. 각각의 메소드는 세개의 인자: 서브쿼리, 테이블의 별칭(alias), 연관된 컬럼을 정의하는 클로저를 전달받습니다:
+
+    $latestPosts = DB::table('posts')
+                       ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
+                       ->where('is_published', true)
+                       ->groupBy('user_id');
+
+    $users = DB::table('users')
+            ->joinSub($latestPosts, 'latest_posts', function($join) {
+                $join->on('users.id', '=', 'latest_posts.user_id');
+            })->get();
+
 <a name="unions"></a>
 ## Unions-유니온
 
@@ -533,7 +547,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
     $role = $request->input('role');
 
     $users = DB::table('users')
-                    ->when($role, function ($query) use ($role) {
+                    ->when($role, function ($query, $role) {
                         return $query->where('role_id', $role);
                     })
                     ->get();
@@ -545,7 +559,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
     $sortBy = null;
 
     $users = DB::table('users')
-                    ->when($sortBy, function ($query) use ($sortBy) {
+                    ->when($sortBy, function ($query, $sortBy) {
                         return $query->orderBy($sortBy);
                     }, function ($query) {
                         return $query->orderBy('name');

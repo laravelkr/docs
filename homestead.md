@@ -58,7 +58,8 @@
 - Sqlite3
 - PostgreSQL
 - Composer
-- Node (With Yarn, Bower, Grunt, and Gulp)
+- Node (With Yarn, B    git checkout v7.8.0
+ower, Grunt, and Gulp)
 - Redis
 - Memcached
 - Beanstalkd
@@ -105,7 +106,7 @@ Git 저장소를 복제하여 홈스테드를 설치할 수 있습니다. 여러
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.8.0
+    git checkout v7.9.0
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 

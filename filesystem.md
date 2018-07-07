@@ -103,7 +103,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     Storage::put('avatars/1', $fileContents);
 
-만약 여러분의 애플리케이션이 여러개의 디스크를 다룬다면, `Storage` 파사드의 `disk` 메소드를 사용하여 개별 디스크의 파일에 대해서 작업을 수행할 수 있습니다: 
+만약 여러분의 애플리케이션이 여러개의 디스크를 다룬다면, `Storage` 파사드의 `disk` 메소드를 사용하여 개별 디스크의 파일에 대해서 작업을 수행할 수 있습니다:
 
     Storage::disk('s3')->put('avatars/1', $fileContents);
 
@@ -175,7 +175,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
 #### 자동 스트리밍
 
-만약 주어진 파일이 여러분의 스토리지 위치에 자동적으로 스트리밍되도록 라라벨이 관리하기를 바란다면 `putFile` 이나 `putFileAs` 메소드를 사용하면 됩니다. 이 메소드는 `Illuminate\Http\File` 이나 `Illuminate\Http\UploadedFile` 인스턴스를 인자로 받아들이고 자동으로 명시한 위치에 파일을 스트림 처리할 것입니다. 
+만약 주어진 파일이 여러분의 스토리지 위치에 자동적으로 스트리밍되도록 라라벨이 관리하기를 바란다면 `putFile` 이나 `putFileAs` 메소드를 사용하면 됩니다. 이 메소드는 `Illuminate\Http\File` 이나 `Illuminate\Http\UploadedFile` 인스턴스를 인자로 받아들이고 자동으로 명시한 위치에 파일을 스트림 처리할 것입니다.
 
     use Illuminate\Http\File;
     use Illuminate\Support\Facades\Storage;
@@ -382,6 +382,6 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         }
     }
 
-`extens` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
+`extend` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
 
 확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystems.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다.

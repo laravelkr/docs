@@ -25,7 +25,7 @@
 
 #### Public 디스크
 
-`public` 디스크는 파일을 누구나 접근 가능하다는 것을 의미합니다. 기본적으로, `public` 디스크는 `local` 드라이버를 사용하고 파일들을 `storage/app/public` 에 저장합니다. 이것들을 웹에서 접근할 수 있도록 하려면, `public/storage` 를 `storage/app/public` 으로 심볼릭 링크를 생성해야 합니다. 이 방법으로 접근가능한 파일들은 [Envoyer](https://envoyer.io)로 무중단 배포를 사용하는 경우, 손쉽게 공유될 수 있습니다   
+`public` 디스크는 파일을 누구나 접근 가능하다는 것을 의미합니다. 기본적으로, `public` 디스크는 `local` 드라이버를 사용하고 파일들을 `storage/app/public` 에 저장합니다. 이것들을 웹에서 접근할 수 있도록 하려면, `public/storage` 를 `storage/app/public` 으로 심볼릭 링크를 생성해야 합니다. 이 방법으로 접근가능한 파일들은 [Envoyer](https://envoyer.io)로 무중단 배포를 사용하는 경우, 손쉽게 공유될 수 있습니다
 
 또한, 파일을 저장하고 심볼릭 링크가 생성되어 있다면, `asset` 헬퍼를 통해서 파일에 대한 URL을 생성할 수 있습니다:
 
@@ -39,14 +39,14 @@
 
 #### 다른 드라이버 사용시 준비사항
 
-S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하는 패키지를 컴포저를 통해서 설치해야 합니다. 
+S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하는 패키지를 컴포저를 통해서 설치해야 합니다.
 
 - Amazon S3: `league/flysystem-aws-s3-v3 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
 
 #### FTP 드라이버 설정
 
-라라벨의 파일시스템은 FTP를 통해서도 원활하게 동작합니다; 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 FTP 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다:  
+라라벨의 파일시스템은 FTP를 통해서도 원활하게 동작합니다; 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 FTP 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다:
 
     'ftp' => [
         'driver'   => 'ftp',
@@ -64,7 +64,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
 #### Rackspace 드라이버 설정
 
-라라벨의 파일 시스템은 Rackspace 를 통해서도 원활하게 동작합니다: 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 Rackspace 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다: 
+라라벨의 파일 시스템은 Rackspace 를 통해서도 원활하게 동작합니다: 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 Rackspace 파일 시스템 설정을 필요로 한다면, 다음과 같은 예제를 참고할 수 있습니다:
 
     'rackspace' => [
         'driver'    => 'rackspace',
@@ -82,7 +82,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 <a name="obtaining-disk-instances"></a>
 ### Disk 인스턴스 획득하기
 
-`Storage` 파사드를 사용하면 설정된 디스크에 대한 작업을 처리할 수 있습니다. 예를 들어 사용자 아바타 이미지를 기본으로 설정된 디스크에 저장하기 위해서 `put` 메소드르 사용할 수 있습니다. `Storage` 파사드에서 `disk` 메소드 호출이 없을 경우에는 메소드는 자동으로 기본으로 설정된 디스크에 대해서 실행됩니다. 
+`Storage` 파사드를 사용하면 설정된 디스크에 대한 작업을 처리할 수 있습니다. 예를 들어 사용자 아바타 이미지를 기본으로 설정된 디스크에 저장하기 위해서 `put` 메소드르 사용할 수 있습니다. `Storage` 파사드에서 `disk` 메소드 호출이 없을 경우에는 메소드는 자동으로 기본으로 설정된 디스크에 대해서 실행됩니다.
 
     <?php
 
@@ -112,7 +112,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
         }
     }
 
-다양한 디스크를 사용하는 경우에는 `Storage` 파사드의 `disk` 메소드를 사용하여 개별 디스크에 엑세스 할 수 있습니다. 당연하게도, 개별 디스크에서 메소드 체이닝 형태로 사용할 수도 있습니다. 
+다양한 디스크를 사용하는 경우에는 `Storage` 파사드의 `disk` 메소드를 사용하여 개별 디스크에 엑세스 할 수 있습니다. 당연하게도, 개별 디스크에서 메소드 체이닝 형태로 사용할 수도 있습니다.
 
     $disk = Storage::disk('s3');
 
@@ -131,7 +131,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
 ### 파일 URL들
 
-`local` 또는 `s3` 드라이버를 사용중일 때에는 주어진 파일에 대한 URL 을 얻기 위해서 `url` 메소드를 사용할 수 있습니다. `local` 드라이버를 사용중이라면 일반적으로 주어진 경로 앞에 `/storage` 를 덧붙여서 파일에 대한 URL이 반환됩니다. `s3` 드라이버를 사용중이라면 전체 URL이 반환됩니다.   
+`local` 또는 `s3` 드라이버를 사용중일 때에는 주어진 파일에 대한 URL 을 얻기 위해서 `url` 메소드를 사용할 수 있습니다. `local` 드라이버를 사용중이라면 일반적으로 주어진 경로 앞에 `/storage` 를 덧붙여서 파일에 대한 URL이 반환됩니다. `s3` 드라이버를 사용중이라면 전체 URL이 반환됩니다.
 
     $url = Storage::url('file1.jpg');
 
@@ -150,7 +150,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 <a name="storing-files"></a>
 ### 파일 저장하기
 
-`put` 메소드는 디스크에 파일을 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 큰 파일을 사용하는 경우 스트림을 사용하기를 권장합니다. 
+`put` 메소드는 디스크에 파일을 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 큰 파일을 사용하는 경우 스트림을 사용하기를 권장합니다.
 
     Storage::put('file.jpg', $contents);
 
@@ -160,7 +160,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
     Storage::copy('old/file1.jpg', 'new/file1.jpg');
 
-`move` 메소드는 존재하는 파일의 이름을 변경하거나 새로운 위치에 이동시키는데 사용됩니다. 
+`move` 메소드는 존재하는 파일의 이름을 변경하거나 새로운 위치에 이동시키는데 사용됩니다.
 
     Storage::move('old/file1.jpg', 'new/file1.jpg');
 
@@ -175,7 +175,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 <a name="file-visibility"></a>
 ### 파일 Visibility
 
-파일 Visibility는 `getVisibility` 과 `setVisibility` 메소드를 통해서 확인할 수 있습니다. Visibility는 다양한 플랫폼에서의 파일 퍼미션의 추상화된 사항입니다:  
+파일 Visibility는 `getVisibility` 과 `setVisibility` 메소드를 통해서 확인할 수 있습니다. Visibility는 다양한 플랫폼에서의 파일 퍼미션의 추상화된 사항입니다:
 
     Storage::getVisibility('file.jpg');
 
@@ -186,9 +186,9 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
     Storage::put('file.jpg', $contents, 'public');
 
 <a name="deleting-files"></a>
-### 파일 삭제하기 
+### 파일 삭제하기
 
-`delete` 메소드는 삭제할 하나의 파일 이름 또는 파일들의 배열을 인자로 받습니다. 
+`delete` 메소드는 삭제할 하나의 파일 이름 또는 파일들의 배열을 인자로 받습니다.
 
     Storage::delete('file.jpg');
 
@@ -231,7 +231,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
 라라벨의 통합 파일시스템은 처음부터 다양한 “드라이버”가 제공됩니다. 하지만 파일시스템은 이러한 드라이버에 제한적이지 않고, 다은 스토리지 시스템에도 적용할 수 있습니다. 여러분은 라라벨 애플리케이션에 적합한 스토리지 시스템에 대한 사용자 정의 드라이버를 생성할 수 있습니다.
 
-사용자 지정 파일 시스템을 구성하기 위해서는 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 할것입니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드 사용자 지정 드라이버를 지정하는데 사용할 수 있습니다 
+사용자 지정 파일 시스템을 구성하기 위해서는 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 할것입니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드 사용자 지정 드라이버를 지정하는데 사용할 수 있습니다
 
     <?php
 
@@ -272,6 +272,6 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
         }
     }
 
-`extens` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다. 
+`extend` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
 
-확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystem.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다. 
+확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystem.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다.

@@ -121,7 +121,7 @@ S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하�
 
 예를 들어, DropboxFilesystemServiceProvider 같은 만드는 사용자 정의 파일 시스템을 위해 서비스 제공자를 준비하십시오. 제공자의 boot 메소드 속으로, Illuminate \ Contracts \ Filesystem \ Factory 계약의 인스턴스를 주입하고 extend 메소드를 호출합니다. 혹은 Disk 외관 extend 메소드를 사용할 수 있습니다.
 
-`extens` 메소드의 첫 번째 인자는 드라이버의 이름이고, 두 번째는 `$app`과 `$config` 변수를 전달받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem`에 대한 인스턴스를 반환해야 합니다.
+`extend` 메소드의 첫 번째 인자는 드라이버의 이름이고, 두 번째는 `$app`과 `$config` 변수를 전달받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem`에 대한 인스턴스를 반환해야 합니다.
 
 > **참고** $config 변수는 지정된 디스크를 위한 `config/filesystems.php` 파일에 정의된 값을 포함할 것입니다.
 

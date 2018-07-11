@@ -116,7 +116,7 @@ In Laravel, each type of email sent by your application is represented as a "mai
 
 All of a mailable class' configuration is done in the `build` method. Within this method, you may call various methods such as `from`, `subject`, `view`, and `attach` to configure the email's presentation and delivery.
 
-모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 배송에 대해서 설정할 수 있는 다양한 메소드르르 사용할 수 있습니다.
+모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 발송에 대해서 설정할 수 있는 다양한 메소드를 사용할 수 있습니다.
 
 <a name="configuring-the-sender"></a>
 ### Configuring The Sender
@@ -254,7 +254,7 @@ Once the data has been set to a public property, it will automatically be availa
 
 If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view via the `with` method. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template. Then, when calling the `with` method, pass an array of data that you wish to make available to the template:
 
-만약 여러분이 이메일 데이터의 유형이 템플릿에 전달되기 전에 수정을 가하고 싶다면, `with` 메소드를 사용하여 수동으로 데이터를 뷰에 전달할 수 있습니다. 일반적으로, 이경우에도 여전히 데이터를 mailable 클래스의 생성자에 전달 될것입니다; 하지만 템플릿에서 자동으로 사용가능하지 않도록, 이 데이터를 `protected` 나 `private` 속성에 지정해야 합니다. 이제 템플릿에서 사용하고자 하는 데이터의 배열을 인자로 `with` 메소드를 호출 하십시오.
+만약 여러분이 이메일 데이터의 유형이 템플릿에 전달되기 전에 수정을 가하고 싶다면, `with` 메소드를 사용하여 수동으로 데이터를 뷰에 전달할 수 있습니다. 일반적으로, 이경우에도 여전히 데이터가 mailable 클래스의 생성자에 전달 될것입니다; 하지만 템플릿에서 자동으로 사용가능하지 않도록, 이 데이터를 `protected` 나 `private` 속성에 지정해야 합니다. 이제 템플릿에서 사용하고자 하는 데이터의 배열을 인자로 `with` 메소드를 호출 하십시오.
 
     <?php
 
@@ -541,7 +541,7 @@ After exporting the components, the `resources/views/vendor/mail/html/themes` di
 
 When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
 
-mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 결과를 미리볼 수 있는 것은 빠르고 편리한 방법입니다. 이런 이유로, 라라벨은 라우트 클로저나 컨트롤러에서 maiable 을 바로 반환할 수 있게 허용하고 있습니다. maiable 이 반환되면, 브라우저에서 보여 질 수 있또록 렌더링 되며, 실제 이메일이 어떤 형태로 보여지게 될지 빠르게 확인할 수 있습니다:
+mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 결과를 미리볼 수 있는 것은 빠르고 편리한 방법입니다. 이런 이유로, 라라벨은 라우트 클로저나 컨트롤러에서 mailable 을 바로 반환할 수 있게 허용하고 있습니다. mailable 이 반환되면, 브라우저에서 보여 질 수 있도록 렌더링 되며, 실제 이메일이 어떤 형태로 보여지게 될지 빠르게 확인할 수 있습니다:
 
     Route::get('/mailable', function () {
         $invoice = App\Invoice::find(1);
@@ -672,7 +672,7 @@ When developing an application that sends email, you probably don't want to actu
 
 Instead of sending your emails, the `log` mail driver will write all email messages to your log files for inspection. For more information on configuring your application per environment, check out the [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
 
-이메일을 발송하는 대신, `log` 메일 드라이버는 모든 이메일 메세지를 확인하기 위해서 로그파일에 기록합니다. 보다 구동 환경별 애플리케이션을 설정하는 보다 자세한 정보는 [설정 매뉴얼](/docs/{{version}}/configuration#environment-configuration)을 확인하십시오.
+이메일을 발송하는 대신, `log` 메일 드라이버는 모든 이메일 메세지를 확인하기 위해서 로그파일에 기록합니다. 구동 환경별 애플리케이션을 설정하는 보다 자세한 정보는 [설정 매뉴얼](/docs/{{version}}/configuration#environment-configuration)을 확인하십시오.
 
 #### Universal To
 #### 모든 메일의 수신자 고정하기

@@ -1,6 +1,6 @@
 # Eloquent: API Resources
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [리소스 클래스 생성하기](#generating-resources)
 - [컨셉 살펴보기](#concept-overview)
 - [리소스 클래스 작성하기](#writing-resources)
@@ -12,7 +12,7 @@
 - [리소스 응답](#resource-responses)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 JSON response로 전달해주기 위한 변환 레이어(transformation layer)가 필요할 수 있습니다. 라라벨의 리소스 클래스는 손쉽게 이 모델과 모델 컬렉션을 JSON으로 표현하도록 지원해줍니다.
 

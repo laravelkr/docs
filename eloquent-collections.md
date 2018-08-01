@@ -1,11 +1,11 @@
 # Eloquent: Collections
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [사용 가능한 메소드들](#available-methods)
 - [커스텀-사용자 정의 Collections](#custom-collections)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 `get` 메소드를 통하거나 하나의 `relationship-관계`를 통해서 Eloquent로 부터 반환되는 모든 멀티 레코드 결과는 `Illuminate\Database\Eloquent\Collection` 객체의 인스턴스가 됩니다. Eloquent 컬렉션 객체는 라라벨의 [base collection](/docs/{{version}}/collections)을 상속받기 때문에, 자연스럽게 ELoquent 모델에 대한 결과에서 다양하고 편리한 메소드들을 사용할 수 있습니다.
 

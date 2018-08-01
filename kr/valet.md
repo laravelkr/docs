@@ -2,7 +2,7 @@
 # 라라벨 발렛
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Valet Or Homestead](#valet-or-homestead)
     - [발렛 또는 홈스테드](#valet-or-homestead)
 - [Installation](#installation)
@@ -28,7 +28,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 

@@ -2,7 +2,7 @@
 # Validation-유효성 검사
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Validation Quickstart](#validation-quickstart)
 - [빠르게 유효성 검사 살펴보기](#validation-quickstart)
     - [Defining The Routes](#quick-defining-the-routes)
@@ -52,7 +52,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides several different approaches to validate your application's incoming data. By default, Laravel's base controller class uses a `ValidatesRequests` trait which provides a convenient method to validate incoming HTTP request with a variety of powerful validation rules.
 라라벨은 애플리케이션에 유입되는 데이터의 유효성을 검사하기 위한 다양한 방법을 제공합니다. 기본적으로, 라라벨의 베이스 콘트롤러 클래스는 다양하고 강력한 유효성 검사 규칙을 적용하여 유입되는 HTTP 요청의 유효성 검사를 위한 편리한 메소드를 제공하는 ValidatesRequests 트레이트-trait을 사용하고 있습니다.

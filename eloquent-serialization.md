@@ -1,6 +1,6 @@
 # Eloquent: Serialization
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [모델 & 컬렉션 Serializing](#serializing-models-and-collections)
     - [배열로 Serializing](#serializing-to-arrays)
     - [JSON 으로 Serializing](#serializing-to-json)
@@ -9,7 +9,7 @@
 - [날짜 Serialization](#date-serialization)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야될 필요가 있을 것입니다. Eloquent 는 serialization 에서 이러한 변환들과, 어떠한 속성들이 JSON에 포함되어야 하는지 제어할 수 있도록 편리한 메소드들을 가지고 있습니다.
 

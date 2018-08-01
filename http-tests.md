@@ -1,6 +1,6 @@
 # HTTP 테스트
 
-- [소개](#introduction)
+- [시작하기](#introduction)
     - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
 - [세션 / 인증](#session-and-authentication)
 - [JSON API 테스팅](#testing-json-apis)
@@ -10,7 +10,7 @@
     - [인증 Assertions](#authentication-assertions)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다:
 

@@ -24,7 +24,7 @@
 
 Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
 
-라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다: 
+라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다:
 
     <?php
 
@@ -51,7 +51,7 @@ Laravel provides a very fluent API for making HTTP requests to your application 
 
 The `get` method makes a `GET` request into the application, while the `assertStatus` method asserts that the returned response should have the given HTTP status code. In addition to this simple assertion, Laravel also contains a variety of assertions for inspecting the response headers, content, JSON structure, and more.
 
-`get` 메소드는 애플리케이션에 `GET` request-요청을 만들고, `assertStatus` 메소드는 반환된 response-응답이 주어진 HTTP 상태 코드와 일치하는지 확인합니다. 간단한 테스트에 더해, 라라벨은 response의 헤더값, 컨텐츠, JSON 구조 및 기타 확인을 할 수 있는 기능을 제공합니다.  
+`get` 메소드는 애플리케이션에 `GET` request-요청을 만들고, `assertStatus` 메소드는 반환된 response-응답이 주어진 HTTP 상태 코드와 일치하는지 확인합니다. 간단한 테스트에 더해, 라라벨은 response의 헤더값, 컨텐츠, JSON 구조 및 기타 확인을 할 수 있는 기능을 제공합니다.
 
 <a name="customizing-request-headers"></a>
 ### Customizing Request Headers
@@ -105,7 +105,7 @@ Laravel provides several helpers for working with the session during HTTP testin
 
 Of course, one common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
 
-물론 일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다: 
+물론 일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
 
     <?php
 
@@ -135,7 +135,7 @@ You may also specify which guard should be used to authenticate the given user b
 
 Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, and `delete` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
 
-라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, 그리고 `delete` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다: 
+라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, 그리고 `delete` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다:
 
     <?php
 
@@ -168,7 +168,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 
 If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `assertExactJson` method:
 
-주어진 배열이 반환된 JSON과 **정확히** 일치하는지 확인하고자 한다면, `assertExactJson` 메소드를 사용하면 됩니다: 
+주어진 배열이 반환된 JSON과 **정확히** 일치하는지 확인하고자 한다면, `assertExactJson` 메소드를 사용하면 됩니다:
 
     <?php
 
@@ -197,7 +197,7 @@ If you would like to verify that the given array is an **exact** match for the J
 
 The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be used to generate dummy files or images for testing. This, combined with the `Storage` facade's `fake` method greatly simplifies the testing of file uploads. For example, you may combine these two features to easily test an avatar upload form:
 
-`Illuminate\Http\UploadedFile` 클래스는 테스트를 위해서 더미 파일 또는 이미지를 생성하는 `fake` 메소드를 제공합니다. 이는 `Storage` 파사드의 `fake` 메소드와 함께 파일 업로드 테스팅을 간단하게 해줍니다. 예를 들어, 이 두기능을 통해서 프로필 이미지 업로드 폼을 손쉽게 테스트 할 수 있습니다. 
+`Illuminate\Http\UploadedFile` 클래스는 테스트를 위해서 더미 파일 또는 이미지를 생성하는 `fake` 메소드를 제공합니다. 이는 `Storage` 파사드의 `fake` 메소드와 함께 파일 업로드 테스팅을 간단하게 해줍니다. 예를 들어, 이 두기능을 통해서 프로필 이미지 업로드 폼을 손쉽게 테스트 할 수 있습니다.
 
     <?php
 
@@ -238,7 +238,7 @@ When creating files using the `fake` method, you may specify the width, height, 
 
 In addition to creating images, you may create files of any other type using the `create` method:
 
-이미지 타입 뿐만 아니라 `create` 메소드를 사용하여 다른 타입들의 파일도 생성할 수 있습니다: 
+이미지 타입 뿐만 아니라 `create` 메소드를 사용하여 다른 타입들의 파일도 생성할 수 있습니다:
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
 
@@ -252,7 +252,7 @@ In addition to creating images, you may create files of any other type using the
 
 Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
 
-라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다: 
+라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다:
 
 <style>
     .collection-method-list > p {
@@ -477,7 +477,7 @@ Assert that the session has a given list of values:
 
 세션에 주어진 목록의 값들이 포함되어 있는지 확인:
 
-    $response->assertSessionHasAll($key, $value = null);
+    $response->assertSessionHasAll(array $data);
 
 <a name="assert-session-has-errors"></a>
 #### assertSessionHasErrors

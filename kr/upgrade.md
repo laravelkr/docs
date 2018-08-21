@@ -1,8 +1,51 @@
 # Upgrade Guide
 # 업그레이드 가이드
 
+- [Upgrading To 5.5.42 From 5.5](#upgrade-5.5.42)
+- [5.5에서 5.5.42 으로 업그레이드 하기](#upgrade-5.5.42)
 - [Upgrading To 5.5.0 From 5.4](#upgrade-5.5.0)
 - [5.4에서 5.5.0 으로 업그레이드 하기](#upgrade-5.4.0)
+
+<a name="upgrade-5.5.42"></a>
+## Upgrading To 5.5.42 From 5.5 (Security Release)
+## 5.5에서 5.5.42 으로 업그레이드 하기 (보안패치 릴리즈)
+
+Laravel 5.5.42 is a security release of Laravel and is recommended as an immediate upgrade for all users. Laravel 5.5.42 also contains a breaking change to cookie encryption and serialization logic, so please read the following notes carefully when upgrading your application.
+
+라라벨 5.5.42 버전은 라라벨의 보안패치 릴리즈로 모든 사용자에게 즉각적인 업그레이드가 권장됩니다. 라라벨 5.5.42 는 또한 쿠키의 암호화와, 시리얼라이제이션 로직과 관련된 하위 버전과 호환되지 않는 변경사항을 포함하고 있습니다. 따라서 다음의 사항을 확인하고 신중하게 애플리케이션을 업그레이드 해주시기 바랍니다.
+
+**This vulnerability may only be exploited if your application encryption key (`APP_KEY` environment variable) has been accessed by a malicious user.** Typically, it is not possible for users of your application to gain access to this value. However, ex-employees that had access to the encryption key may be able to use the key to attack your applications. If you have any reason to believe your encryption key is in the hands of a malicious party, you should **always** rotate the key to a new value.
+
+**이 취약점은 악의적인 사용자가 애플리케이션의 암호화 키 ('APP_KEY` 환경 변수)에 엑세스 한 경우에만 악용 될 수 있습니다. ** 일반적으로 애플리케이션 사용자가 이 값에 접근 할 수는 없습니다. 그러나 암호화 키에 접근 할 수 있는 (전) 직원이 키를 사용하여 애플리케이션을 공격 할 수 있습니다. 여러분의 암호화 키가 악의적 인 공격자에게 알려졌다고 생각된다면, **항상** 새로운 값으로 키를 변경해야합니다.
+
+### Cookie Serialization
+### 쿠키 시리얼라이제이션
+
+Laravel 5.5.42 disables all serialization / unserialization of cookie values. Since all Laravel cookies are encrypted and signed, cookie values are typically considered safe from client tampering. **However, if your application's encryption key is in the hands of a malicious party, that party could craft cookie values using the encryption key and exploit vulnerabilities inherit to PHP object serialization / unserialization, such as calling arbitary class methods within your application.**
+
+라라벨 5.5.42 버전은 모든 쿠키값에 대한 시리얼라이제이션 / 언시리얼라이제이션을 비활성화 시킵니다. 모든 라라벨 쿠키는 암호화되어 서명되기 때문에 일반적으로 쿠키 값은 클라이언트의 변조로 부터 안전하다고 생각됩니다. **그러나, 애플리케이션의 암호화키가 악의적인 사용자에게 넘어갔다면 해당 사용자가 암호화 키를 사용하여 쿠키값을 생성하고 취약적을 이용하여 PHP 객체의 시리얼라이제이션 / 언시리얼라이제이션을 통해서 객체를 상속받아 애플리케이션에 임의의 클래스 메소드를 호출할 수도 있습니다.**
+
+Disabling serialization on all cookie values will invalidate all of your application's sessions and users will need to log into the application again. In addition, any other encrypted cookies your application is setting will have invalid values. For this reason, you may wish to add additional logic to your application to validate that your custom cookie values match an expected list of values you expect; otherwise, you should discard them.
+
+모든 쿠키 값에 대한 시리얼라이제이션을 비활성화하면 애플리케이션의 모든 세션이 유효하지 않게되므로 사용자는 애플리케이션에 다시 로그인을 해야 합니다. 또한 애플리케이션에서 설정한 다른 암호화 된 쿠키가 유효하지 않다고 판단됩니다. 이 때문에, 애플리케이션에 로직을 추가하여 사용자가 정의한 쿠키 값이 예상한 값의 리스트와 일치하는지 확인하도록 하십시오. 그렇지 않다면 이 값들은 무효처리 해야합니다.
+
+#### Configuring Cookie Serialization
+#### 쿠키 시리얼라이제이션 설정하기
+
+Since this vulnerability is not able to be exploited without access to your application's encryption key, we have chosen to provide a way to re-enable encrypted cookie serialization while you make your application compatible with these changes. To enable / disable cookie serialization, you may change the static `serialize` property of the `App\Http\Middleware\EncryptCookies` [middleware](https://github.com/laravel/laravel/blob/master/app/Http/Middleware/EncryptCookies.php):
+
+이 취약점은 애플리케이션의 암호화 키에 대한 접근 없이는 악용될 수 없으므로, 애플리케이션이 이러한 변경사항과 호환되도록 암호화된 쿠키의 시리얼라이제이션을 다시 활성화 하는 방법이 있습니다. 쿠키의 시리얼라이제이션 사용을 활성화 / 비활성화 하려면 `App\Http\Middleware\EncryptCookies` [미들웨어](https://github.com/laravel/laravel/blob/master/app/Http/Middleware/EncryptCookies.php)의 `serialize` 속성을 static 으로 변경하면 됩니다:
+
+    /**
+     * Indicates if cookies should be serialized.
+     *
+     * @var bool
+     */
+    protected static $serialize = true;
+
+> **Note:** When encrypted cookie serialization is enabled, your application will be vulnerable to attack if its encryption key is accessed by a malicious party. If you believe your key may be in the hands of a malicious party, you should rotate the key to a new value before enabling encrypted cookie serialization.
+
+> **Note:** 암호화된 쿠키의 시리얼라이제이션을 활성화 했을 때, 악의적인 사용자가 암호화 키에 접근할 수 있게 되면 애플리케이션은 공격 받기 쉽습니다. 키가 악의적인 사용자에게 노출되어 있다고 생각되면 암호화된 쿠키 시리얼라이제이션 기능을 사용하기 전에 키를 새로운 값으로 변경하십시오.
 
 <a name="upgrade-5.5.0"></a>
 ## Upgrading To 5.5.0 From 5.4

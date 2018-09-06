@@ -55,7 +55,7 @@ Laravel 5.5 continues the improvements made in Laravel 5.4 by adding package aut
 
 In addition, Laravel 5.5 coincides with the release of [Laravel Horizon](https://horizon.laravel.com), a beautiful new queue dashboard and configuration system for your Redis based Laravel queues.
 
-또한 라라벨 5.5는 Redis 기반의 라라벨 queue를 위한 새로운 큐-queue 대시보드및 설정 시스템인 [라라벨 Horizon] (https://horizon.laravel.com)와 함께 출시되었습니다.
+또한 라라벨 5.5는 Redis 기반의 라라벨 queue를 위한 새로운 큐-queue 대시보드및 설정 시스템인 [라라벨 Horizon](https://horizon.laravel.com)와 함께 출시되었습니다.
 
 > {tip} This documentation summarizes the most notable improvements to the framework; however, more thorough change logs are always available [on GitHub](https://github.com/laravel/framework/blob/5.5/CHANGELOG-5.5.md).
 

@@ -10,11 +10,11 @@
     - [Using Translation Strings As Keys](#using-translation-strings-as-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
 - [Retrieving Translation Strings](#retrieving-translation-strings)
-- [다국어 없어 문자열 가져오기](#retrieving-translation-strings)
+- [다국어 문자 조회하기](#retrieving-translation-strings)
     - [Replacing Parameters In Translation Strings](#replacing-parameters-in-translation-strings)
     - [다국어 문자열의 파라미터를 치환하기](#replacing-parameters-in-translation-strings)
     - [Pluralization](#pluralization)
-    - [복수 단어 표기](#pluralization)
+    - [복수 표기](#pluralization)
 - [Overriding Package Language Files](#overriding-package-language-files)
 - [패키지의 언어 파일 재정의하기](#overriding-package-language-files)
 
@@ -108,7 +108,7 @@ All language files return an array of keyed strings. For example:
 
 <a name="using-translation-strings-as-keys"></a>
 ### Using Translation Strings As Keys
-### 다국어 문자를 키로 사용하기
+### 다국어 문자열을 키로 사용하기
 
 For applications with heavy translation requirements, defining every string with a "short key" can become quickly confusing when referencing them in your views. For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key.
 
@@ -148,7 +148,7 @@ If the specified translation string does not exist, the `__` function will retur
 
 <a name="replacing-parameters-in-translation-strings"></a>
 ### Replacing Parameters In Translation Strings
-### 다국어 문자의 일부 교체하기
+### 다국어 문자열의 파라미터를 치환하기
 
 If you wish, you may define place-holders in your translation strings. All place-holders are prefixed with a `:`. For example, you may define a welcome message with a place-holder name:
 

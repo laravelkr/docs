@@ -4,9 +4,9 @@
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [짧은 키 사용하기](#using-short-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
-- [다국어 없어 문자열 가져오기](#retrieving-translation-strings)
+- [다국어 문자 조회하기](#retrieving-translation-strings)
     - [다국어 문자열의 파라미터를 치환하기](#replacing-parameters-in-translation-strings)
-    - [복수 단어 표기](#pluralization)
+    - [복수 표기](#pluralization)
 - [패키지의 언어 파일 재정의하기](#overriding-package-language-files)
 
 <a name="introduction"></a>
@@ -79,7 +79,7 @@
     ];
 
 <a name="using-translation-strings-as-keys"></a>
-### 다국어 문자를 키로 사용하기
+### 다국어 문자열을 키로 사용하기
 
 다국어 변환이 많은 애플리케이션의 경우에는, 모든 문자를 "짧은 키"로 정의하면 뷰에서 참조할때 금방 복잡해 집니다. 따라서 라라벨은 변환 문자를 "기본" 다국어 문자를 키로 사용하여 다국어 변환 문자열을 정의할 수 있도록 지원하고 있습니다.
 
@@ -107,7 +107,7 @@
 지정된 언어에 대한 다국어 문자를 찾을 수 없는 경우 `__` 함수는 다국어 문자 키를 반환할 것입니다. 따라서, 위의 예제에서 다국어 메세지가 없을 경우에 `__` 함수는 `message.welcome` 라는 값을 반환할 것입니다.
 
 <a name="replacing-parameters-in-translation-strings"></a>
-### 다국어 문자의 일부 교체하기
+### 다국어 문자열의 파라미터를 치환하기
 
 여러분은 다국어 문자에서 일부분을 특정하여 교체하기를(place-holder) 원할 수도 있습니다. 이런 모든 플레이스홀더 들은 `:` 으로 시작합니다. 예를들어 환영 메세지에 이름을 특정하게 표현하기를 원한다면 다음과 같이 하면 됩니다:
 

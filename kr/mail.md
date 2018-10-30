@@ -40,7 +40,7 @@
     - [Previewing Mailables In The Browser](#previewing-mailables-in-the-browser)
     - [브라우저에서 Mailable 객체 미리보기](#previewing-mailables-in-the-browser)
 - [Localizing Mailables](#localizing-mailables)
-- [Mailables 다국어 처리하기](#localizing-mailables)
+- [Mailables 현지화](#localizing-mailables)
 - [Mail & Local Development](#mail-and-local-development)
 - [메일 & 로컬 개발환경](#mail-and-local-development)
 - [Events](#events)
@@ -784,15 +784,15 @@ mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래�
 
 <a name="localizing-mailables"></a>
 ## Localizing Mailables
-## Mailables 다국어 처리하기
+## Mailables 현지화
 
 Laravel allows you to send mailables in a locale other than the current language, and will even remember this locale if the mail is queued.
 
-Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 보낼 수 있으며 메일이 대기중인 경우에도이 언어 설정을 기억할 수 있습니다.
+Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 보낼 수 있으며 메일이 대기중인 경우에도 이 언어를 기억할 수 있습니다.
 
 To accomplish this, the `Illuminate\Mail\Mailable` class offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
 
-이를 위해 `Illuminate\Mail\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. mailable이 만들어 질 때 어플리케이션이 이 언어로 변경되고 생성이 완료되면 이전 언어로 되돌립니다.
+이를 위해 `Illuminate\Mail\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 어플리케이션이 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 되돌립니다.
 
     Mail::to($request->user())->send(
         (new OrderShipped($order))->locale('es')
@@ -803,7 +803,7 @@ To accomplish this, the `Illuminate\Mail\Mailable` class offers a `locale` metho
 
 Sometimes, applications store each user's preferred locale. By implementing the `HasLocalePreference` contract on one or more of your models, you may instruct Laravel to use this stored locale when sending mail:
 
-때로는 어플리케이션마다 각 사용자의 기본 설정 언어가 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel에게 메일을 보낼 때 이 저장된 언어 설정을 사용하게 할 수 있습니다.
+때로는 어플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 메일을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
 
     use Illuminate\Contracts\Translation\HasLocalePreference;
 

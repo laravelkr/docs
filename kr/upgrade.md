@@ -56,7 +56,7 @@ The unused `options` argument of the `Illuminate\Foundation\Application` class' 
 ### Artisan
 
 #### Scheduled Job Connection & Queues
-#### Scheduled Job Connection & Queues
+#### 예약된 Job Connection 과 Queues
 
 **Likelihood Of Impact: Low**
 **영향 가능성 : 낮음**

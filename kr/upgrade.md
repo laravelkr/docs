@@ -67,7 +67,7 @@ The `$schedule->job` method now respects the `queue` and `connection` properties
 
 Generally, this should be considered a bug fix; however, it is listed as a breaking change out of caution. [Please let us know if you encounter any issues surrounding this change](https://github.com/laravel/framework/pull/25216).
 
-일반적으로 이것은 버그의 수정으로 봐야합니다. 그러나 주의해야 하는 변경사항으로 분류됩니다. [이 변경과 관련하여 문제가 발생하면 알려주십시오](https://github.com/laravel/framework/pull/25216).
+일반적으로 이것은 버그 수정으로 봐야하지만 주의해야 하는 변경사항으로 분류됩니다. [이 변경과 관련하여 문제가 발생하면 알려주십시오](https://github.com/laravel/framework/pull/25216).
 
 ### Assets
 ### Assets
@@ -162,7 +162,7 @@ The protected `sendResetLinkResponse` method of the `SendsPasswordResetEmails` t
     protected function sendResetLinkResponse(Request $request, $response)
 
 ### Authorization
-### 승인(Authorization)
+### 권한 부여(Authorization)
 
 #### The `Gate` Contract
 #### `Gate` Contract

@@ -1,4 +1,4 @@
-# Envyo 작업 실행관리자
+# Envoy 작업 실행관리자
 
 - [소개하기](#introduction)
     - [설치하기](#installation)

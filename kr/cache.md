@@ -415,7 +415,6 @@ In contrast, this statement would remove only caches tagged with `authors`, so `
 ### 드라이버 작성하기
 
 To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
-To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
 
 여러분의 고유한 캐시 드라이버를 생성하기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 을 구현할 필요가 있습니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
 

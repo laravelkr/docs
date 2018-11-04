@@ -1162,7 +1162,7 @@ In addition to the `save` and `saveMany` methods, you may also use the `create` 
 
 > {tip} Before using the `create` method, be sure to review the documentation on attribute [mass assignment](/docs/{{version}}/eloquent#mass-assignment).
 
-{팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
+> {팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
 
 You may use the `createMany` method to create multiple related models:
 

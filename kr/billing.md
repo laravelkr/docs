@@ -771,6 +771,8 @@ To secure your webhooks, you may use [Stripe's webhook signatures](https://strip
 
 To get started, ensure that the `stripe.webhook.secret` configuration value is set in your `services` configuration file. Once you have configured your webhook secret, you may attach the `VerifyWebhookSignature` middleware to the route:
 
+사용하려면 `stripe.webhook.secret` 설정 값이 `services` 설정 파일에 설정되어 있는지 확인하십시오. webhook의 secret 값을 설정하고 나면 라우트에 `VerifyWebhookSignature` 미들웨어를 추가 할 수 있습니다 :
+
     use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 
     Route::post(

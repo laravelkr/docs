@@ -1108,6 +1108,7 @@ If you need to save multiple related models, you may use the `saveMany` method:
 
 <a name="the-push-method"></a>
 #### Recursively Saving Models & Relationships
+#### 재귀적으로 모델 및 관계 저장
 
 If you would like to `save` your model and all of its associated relationships, you may use the `push` method:
 
@@ -1136,7 +1137,7 @@ In addition to the `save` and `saveMany` methods, you may also use the `create` 
 
 > {tip} Before using the `create` method, be sure to review the documentation on attribute [mass assignment](/docs/{{version}}/eloquent#mass-assignment).
 
-{팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
+> {팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
 
 You may use the `createMany` method to create multiple related models:
 
@@ -1181,6 +1182,7 @@ When removing a `belongsTo` relationship, you may use the `dissociate` method. T
 
 <a name="default-models"></a>
 #### Default Models
+#### 기본 모델
 
 The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
 

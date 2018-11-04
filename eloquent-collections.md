@@ -1,22 +1,13 @@
 # Eloquent: Collections
-# Eloquent: Collections
 
-- [Introduction](#introduction)
 - [소개](#introduction)
-- [Available Methods](#available-methods)
 - [사용 가능한 메소드들](#available-methods)
-- [Custom Collections](#custom-collections)
 - [커스텀-사용자 정의 Collections](#custom-collections)
 
 <a name="introduction"></a>
-## Introduction
 ## 소개
 
-All multi-result sets returned by Eloquent are instances of the `Illuminate\Database\Eloquent\Collection` object, including results retrieved via the `get` method or accessed via a relationship. The Eloquent collection object extends the Laravel [base collection](/docs/{{version}}/collections), so it naturally inherits dozens of methods used to fluently work with the underlying array of Eloquent models.
-
 `get` 메소드를 통하거나 하나의 `relationship-관계`를 통해서 Eloquent로 부터 반환되는 모든 멀티 레코드 결과는 `Illuminate\Database\Eloquent\Collection` 객체의 인스턴스가 됩니다. Eloquent 컬렉션 객체는 라라벨의 [base collection](/docs/{{version}}/collections)을 상속받기 때문에, 자연스럽게 ELoquent 모델에 대한 결과에서 다양하고 편리한 메소드들을 사용할 수 있습니다. 
-
-Of course, all collections also serve as iterators, allowing you to loop over them as if they were simple PHP arrays:
 
 또한 당연하게도, 모든 컬렉션은 Iterators(반복자)이기 때문에, 간단한 PHP 배열과 같이 반복문 안에서 사용할 수도 있습니다: 
 
@@ -25,8 +16,6 @@ Of course, all collections also serve as iterators, allowing you to loop over th
     foreach ($users as $user) {
         echo $user->name;
     }
-
-However, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, let's remove all inactive models and gather the first name for each remaining user:
 
 하지만, 컬렉션은 배열보다 강력하며, 직관적인 인터페이스를 사용하여 메소드 체인이 가능한 map / reduce 메소드를 사용 할 수 있습니다. 예를 들어 사용자 중에서 비활성화된 사용자를 제외하고 남은 사용자들의 이름을 확인하려면 다음과 같이 하면 됩니다:
 
@@ -39,18 +28,12 @@ However, collections are much more powerful than arrays and expose a variety of 
         return $user->name;
     });
 
-> {note} While most Eloquent collection methods return a new instance of an Eloquent collection, the `pluck`, `keys`, `zip`, `collapse`, `flatten` and `flip` methods return a [base collection](/docs/{{version}}/collections) instance. Likewise, if a `map` operation returns a collection that does not contain any Eloquent models, it will be automatically cast to a base collection.
-
 > {note} 대부분의 Eloquent 컬렉션 메소드는 새로운 Eloquent 컬렉션 인스턴스를 반환하고, `pluck`, `keys`, `zip`, `collapse`, `flatten` 그리고 `flip` 메소드는 [기본 컬렉션](/docs/{{version}}/collections) 인스턴스를 반환합니다. 또한 만약 `map` 실행이 Eloquent 모델을 포함하지 않는 컬렉션을 반환한다면, 자동으로 기본 컬렉션으로 캐스팅 될 것입니다.
 
 <a name="available-methods"></a>
-## Available Methods
 ## 사용가능한 메소드들 
 
-### The Base Collection
 ### 기본 컬렉션
-
-All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections) object; therefore, they inherit all of the powerful methods provided by the base collection class:
 
 모든 Eloquent 컬렉션은 [Laravel collection](/docs/{{version}}/collections) 객체를 상속받습니다; 따라서 라라벨의 기본 컬렉션 클래스의 모든 강력한 메소드들을 상속받습니다. 
 
@@ -156,10 +139,7 @@ All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/
 [zip](/docs/{{version}}/collections#method-zip)
 
 <a name="custom-collections"></a>
-## Custom Collections
 ## 커스텀-사용자 정의 컬렉션
-
-If you need to use a custom `Collection` object with your own extension methods, you may override the `newCollection` method on your model:
 
 만약 여러분이 고유한 `Collection` 객체를 사용하고자 한다면, 모델 클래스에서 `newCollection` 메소드를 오버라이드(재지정) 하면 됩니다:
 
@@ -183,7 +163,5 @@ If you need to use a custom `Collection` object with your own extension methods,
             return new CustomCollection($models);
         }
     }
-
-Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent returns a `Collection` instance of that model. If you would like to use a custom collection for every model in your application, you should override the `newCollection` method on a base model class that is extended by all of your models.
 
 `newCollection` 메소드를 정의하고 나면, Eloquent가 모델에서 `Collection` 인스턴스를 반환할 때 언제나 여러분이 지정한 사용자 정의 컬렉션을 반환할 것입니다. 애플리케이션의 모든 모델에서 사용자 정의 컬렉션을 사용하기를 원한다면, 모든 모델 클래스들이 상속받는 기본 Model 클래스에서 `newCollection` 메소드를 오버라이드 해야만합니다. 

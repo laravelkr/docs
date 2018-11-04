@@ -64,7 +64,7 @@
 **발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install php@7.2`` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
+- `brew install php@7.2` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
 - [Composer](https://getcomposer.org) 설치.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
@@ -212,6 +212,7 @@
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 #### The `frontControllerPath` Method
+#### `frontControllerPath` 메소드
 
 `frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 애플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다:
 

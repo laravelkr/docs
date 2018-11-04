@@ -215,7 +215,7 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
     php artisan make:controller API/PhotoController --api
 
 <a name="restful-naming-resource-routes"></a>
-### Naming Resource Routes
+### 리소스 라우트 이름 지정하기
 
 기본적으로 모든 리루스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 이름을 덮어씌울 수 있습니다.
 

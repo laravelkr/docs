@@ -222,7 +222,7 @@ Sometimes you may need to use a raw expression in a query. To create a raw expre
 
 > {note} Raw statements will be injected into the query as strings, so you should be extremely careful to not create SQL injection vulnerabilities.
 
-이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
+> {note} 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
 
 <a name="raw-methods"></a>
 ### Raw Methods

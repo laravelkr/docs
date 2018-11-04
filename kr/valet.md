@@ -103,7 +103,7 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install php@7.2`` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
+- `brew install php@7.2` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
 
@@ -333,6 +333,7 @@ The `isStaticFile` should determine if the incoming request is for a file that i
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 #### The `frontControllerPath` Method
+#### `frontControllerPath` 메소드
 
 The `frontControllerPath` method should return the fully qualified path to your application's "front controller", which is typically your "index.php" file or equivalent:
 

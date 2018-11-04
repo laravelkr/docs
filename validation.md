@@ -811,7 +811,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
 
-The file under validation must match one of the given MIME types:
+파일이 주어진 MIME 타입들 중 하나와 일치해야만 합니다.
 
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 

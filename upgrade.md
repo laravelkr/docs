@@ -36,13 +36,13 @@
 
 ### Artisan
 
-#### Scheduled Job Connection & Queues
+#### 예약된 Job Connection 과 Queues
 
 **영향 가능성 : 낮음**
 
 `$schedule->job` 메소드는 이제 커넥션과 작업이 명시적으로 `job` 메소드로 전달되지 않으면 작업 클래스의 `queue` 와 `connection` 속성을 우선합니다.
 
-일반적으로 이것은 버그의 수정으로 봐야합니다. 그러나 주의해야 하는 변경사항으로 분류됩니다. [이 변경과 관련하여 문제가 발생하면 알려주십시오](https://github.com/laravel/framework/pull/25216).
+일반적으로 이것은 버그 수정으로 봐야하지만 주의해야 하는 변경사항으로 분류됩니다. [이 변경과 관련하여 문제가 발생하면 알려주십시오](https://github.com/laravel/framework/pull/25216).
 
 ### Assets
 
@@ -111,7 +111,7 @@
      */
     protected function sendResetLinkResponse(Request $request, $response)
 
-### 승인(Authorization)
+### 권한 부여(Authorization)
 
 #### `Gate` Contract
 

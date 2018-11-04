@@ -966,6 +966,8 @@ The field under validation must be less than or equal to a maximum _value_. Stri
 
 The file under validation must match one of the given MIME types:
 
+파일이 주어진 MIME 타입들 중 하나와 일치해야만 합니다.
+
     'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime'
 
 To determine the MIME type of the uploaded file, the file's contents will be read and the framework will attempt to guess the MIME type, which may be different from the client provided MIME type.

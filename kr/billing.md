@@ -161,6 +161,10 @@ For many operations, the Stripe and Braintree implementations of Cashier functio
 - Braintree does not support the `increment` and `decrement` methods on subscriptions. This is a Braintree limitation, not a Cashier limitation.
 - Braintree does not support percentage based discounts. This is a Braintree limitation, not a Cashier limitation.
 
+- Braintree는 PayPal을 지원하지만 Stripe는 미지원.
+- Braintree는 구독에 대해 `increment` 와`decrement` 메소드 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
+- Braintree는 퍼센트 기반 할인을 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
+
 #### Composer
 #### 컴포저
 

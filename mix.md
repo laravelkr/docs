@@ -203,10 +203,12 @@ With this single line of code, you may now take advantage of:
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
 
 <div class="content-list" markdown="1">
+
 - ES2015 syntax.
 - Modules
 - Compilation of `.vue` files.
 - Minification for production environments.
+
 </div>
 
 <a name="vendor-extraction"></a>

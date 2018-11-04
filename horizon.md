@@ -1,4 +1,3 @@
-# Laravel Horizon
 # 라라벨 Horizon
 
 - [소개하기](#introduction)

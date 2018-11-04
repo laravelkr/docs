@@ -287,6 +287,7 @@ To quickly generate an API resource controller that does not include the `create
 
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes
+### 리소스 라우트 이름 지정하기
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 

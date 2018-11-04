@@ -620,7 +620,7 @@ JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 �
 <a name="via-middleware"></a>
 ### 미들웨어를 통해서
 
-Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증하는 [사용자 승인 guard]((/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하기만 하면 됩니다:
+Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증하는 [사용자 승인 guard](/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하기만 하면 됩니다:
 
     Route::get('/user', function () {
         //

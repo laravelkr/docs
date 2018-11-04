@@ -400,6 +400,8 @@ Markdown Mailable 템플릿에 사용되는 기본 테마 스타일을 커스터
 
 `QUEUE_DRIVER` 환경 변수의 이름이 `QUEUE_CONNECTION` 으로 변경되었습니다. `config/queue.php` 설정 파일을 Laravel 5.7과 일치하도록 고의적으로 수정하지 않는 한, 업그레이드하고있는 기존 어플리케이션에는 영향을 미치지 않습니다.
 
+(역자주: 이 옵션은 기본적으로 포함된 phpunit.xml과 .env.example에서도 변경되었습니다. 만약 변경된 내역을 일치하게 다 바꾸시고 싶으시다면 이 파일들도 확인해보시기 바랍니다 )
+
 ### 라우팅
 
 #### `Route::redirect` 메소드

@@ -543,7 +543,7 @@ Stripe webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회�
 
 안전한 webhook을 사용하기 위해 [Stripe's webhook signatures](https://stripe.com/docs/webhooks/signatures)를 사용할 수 있습니다.  Cashier에는 이것을 편하기 사용하기 위해 들어오는 Stripe webhook 요청의 유효성을 검사하는 미들웨어가 포함되어 있습니다.
 
-To get started, ensure that the `stripe.webhook.secret` configuration value is set in your `services` configuration file. Once you have configured your webhook secret, you may attach the `VerifyWebhookSignature` middleware to the route:
+사용하려면 `stripe.webhook.secret` 설정 값이 `services` 설정 파일에 설정되어 있는지 확인하십시오. webhook의 secret 값을 설정하고 나면 라우트에 `VerifyWebhookSignature` 미들웨어를 추가 할 수 있습니다 :
 
     use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 

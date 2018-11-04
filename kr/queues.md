@@ -581,8 +581,11 @@ The `--once` option may be used to instruct the worker to only process a single 
     php artisan queue:work --once
 
 #### Processing All Queued Jobs & Then Exiting
+#### 대기중인 모든 작업 처리 및 종료
 
  The `--stop-when-empty` option may be used to instruct the worker to process all jobs and then exit gracefully. This option can be useful when working Laravel queues within a Docker container if you wish to shutdown the container after the queue is empty:
+
+`--stop-when-empty` 옵션은 워커에게 모든 작업을 처리 한 다음 정상적으로 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 Docker 컨테이너에서 Laravel 큐가 동작 할 때 큐가 빈 후 컨테이너를 종료하려면 유용 할 수 있습니다.
 
      php artisan queue:work --stop-when-empty
 

@@ -20,7 +20,7 @@ Of course, all collections also serve as iterators, allowing you to loop over th
 
 또한 당연하게도, 모든 컬렉션은 Iterators(반복자)이기 때문에, 간단한 PHP 배열과 같이 반복문 안에서 사용할 수도 있습니다: 
 
-    $users = App\User::all();
+    $users = App\User::where('active', 1)->get();
 
     foreach ($users as $user) {
         echo $user->name;
@@ -30,7 +30,7 @@ However, collections are much more powerful than arrays and expose a variety of 
 
 하지만, 컬렉션은 배열보다 강력하며, 직관적인 인터페이스를 사용하여 메소드 체인이 가능한 map / reduce 메소드를 사용 할 수 있습니다. 예를 들어 사용자 중에서 비활성화된 사용자를 제외하고 남은 사용자들의 이름을 확인하려면 다음과 같이 하면 됩니다:
 
-    $users = App\User::where('active', 1)->get();
+    $users = App\User::all();
 
     $names = $users->reject(function ($user) {
         return $user->active === false;

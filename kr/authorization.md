@@ -152,6 +152,7 @@ If you would like to determine if a particular user is authorized to perform an 
     }
 
 <a name="intercepting-gate-checks"></a>
+#### Intercepting Gate Checks
 #### Gate 체크 로직의 후킹
 
 Sometimes, you may wish to grant all abilities to a specific user. You may use the `before` method to define a callback that is run before all other authorization checks:

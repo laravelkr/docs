@@ -398,6 +398,7 @@ The `Illuminate\Support\Debug\Dumper` and `Illuminate\Support\Debug\HtmlDumper` 
 ### Eloquent
 ### Eloquent
 
+#### The `latest` / `oldest` Methods
 #### `latest` / `oldest` 메소드
 
 **Likelihood Of Impact: Low**

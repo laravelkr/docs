@@ -104,6 +104,10 @@ This command will combine all of Laravel's configuration files into a single, ca
 
 이 명령어는 라라벨의 전체 설정 파일을 하나로 합쳐서, 캐시 파일을 만들고, 프레임워크가 설정파일을 로딩하기 위해서 여러개의 파일을 읽는 것을 줄여줍니다.
 
+> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
+
+> {note} 배포 과정에서 `config:cache` 명령을 실행하면 설정 파일 내에서 `env` 함수 만 호출해야합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않고, `env` 함수의 모든 호출은 `null` 를 돌려줍니다.
+
 <a name="optimizing-route-loading"></a>
 ### Optimizing Route Loading
 ### 라우트 로딩 최적화

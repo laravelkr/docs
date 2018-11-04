@@ -1071,15 +1071,23 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
+<div class="content-list" markdown="1">
+
 - The value is `null`.
 - The value is an empty string.
 - The value is an empty array or empty `Countable` object.
 - The value is an uploaded file with no path.
 
+</div>
+
+<div class="content-list" markdown="1">
+
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
 - 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
 - 값이 경로없이 업로드된 파일인 경우
+
+</div>
 
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...

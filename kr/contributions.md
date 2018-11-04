@@ -34,6 +34,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 
 라라벨의 소스 코드는 GitHub에서 관리되며 각각의 라라벨 프로젝트의 저장소가 있습니다.
 
+<div class="content-list" markdown="1">
 - [Laravel Application](https://github.com/laravel/laravel)
 - [라라벨 애플리케이션](https://github.com/laravel/laravel)
 - [Laravel Art](https://github.com/laravel/art)
@@ -62,6 +63,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [라라벨 Socialite](https://github.com/laravel/socialite)
 - [Laravel Website](https://github.com/laravel/laravel.com)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com)
+</div>
 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion

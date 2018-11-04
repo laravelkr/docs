@@ -33,7 +33,7 @@
 
 `public` 디스크는 파일을 누구나 접근 가능하다는 것을 의도합니다. 기본적으로, `public` 디스크는 `local` 드라이버를 사용하고 파일들을 `storage/app/public` 에 저장합니다. 이것들을 웹에서 접근할 수 있도록 하려면, `public/storage` 를 `storage/app/public` 으로 심볼릭 링크를 생성해야 합니다. 이 방법으로 접근가능한 파일들은 [Envoyer](https://envoyer.io)로 무중단 배포를 사용하는 경우, 손쉽게 공유될 수 있습니다.
 
-심볼릭 링크를 생성하기 위해서 `storage:link` 아티즌 명령어를 사용할 수 있습니다: 
+심볼릭 링크를 생성하기 위해서 `storage:link` 아티즌 명령어를 사용할 수 있습니다:
 
     php artisan storage:link
 
@@ -177,7 +177,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
     // Manually specify a file name...
     Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
 
-`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다. 
+`putFile` 메소드에는 몇가지 중요한 사항들이 있습니다. 파일 이름이 아니라 디렉토리 이름을 지정하는 것에 유의하십시오. 기본적으로 `putFile` 메소드는 파일이름을 기반으로 한 고유한 ID를 생성합니다. `putFile` 메소드에 의해서 파일의 경로가 반환 될것이기 때문에, 이 경로에 생성된 파일 이름을 포함하여 데이터베이스에 저장할 수 있습니다.
 
 `putFile` 과 `putFileAs` 메소드는 또한 저장되는 파일의 "visibility"를 지정하는 인자를 받아들입니다. 이는 특히 S3 와 같은 클라우드 디스크에 파일을 저장하고 파일의 접근 권한을 설정하고자 할 때 유용합니다:
 
@@ -193,7 +193,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
 #### 파일의 복사 & 이동
 
-`copy` 메소드는 존재하는 파일을 디스크의 새로운 위치에 복사하는데 사용되고, `move` 메소드는 존재하는 파일의 이름을 변경하거나 새로운 위치에 이동시키는데 사용됩니다. 
+`copy` 메소드는 존재하는 파일을 디스크의 새로운 위치에 복사하는데 사용되고, `move` 메소드는 존재하는 파일의 이름을 변경하거나 새로운 위치에 이동시키는데 사용됩니다.
 
     Storage::copy('old/file1.jpg', 'new/file1.jpg');
 
@@ -326,7 +326,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     composer require spatie/flysystem-dropbox
 
-그 다음에 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 합니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드를 사요하여 커스텀 드라이버를 정의할 수 있습니다: 
+그 다음에 `DropboxServiceProvider`와 같은 [서비스 프로바이더](/docs/{{version}}/providers)를 생성해야 합니다. 프로바이더의 `boot` 메소드에서 여러분은 `Storage` 파사드의 `extend` 메소드를 사요하여 커스텀 드라이버를 정의할 수 있습니다:
 
     <?php
 
@@ -367,6 +367,6 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         }
     }
 
-`extens` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
+`extend` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
 
 확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystems.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다.

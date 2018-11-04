@@ -865,7 +865,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
     ]);
 
 <a name="the-push-method"></a>
-#### Recursively Saving Models & Relationships
+#### 재귀적으로 모델 및 관계 저장
 
 모델과 관련된 모든 관계를 `save` 하고 싶다면 `push` 메소드를 사용할 수 있습니다 :
 
@@ -887,7 +887,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
         'message' => 'A new comment.',
     ]);
 
-{팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
+> {팁} `create` 메소드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
 
 `createMany` 메소드를 사용해서 여러 개의 관련된 모델을 만들 수 있습니다:
 
@@ -922,7 +922,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
     $user->save();
 
 <a name="default-models"></a>
-#### Default Models
+#### 기본 모델
 
 `belongsTo` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다 :
 

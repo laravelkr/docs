@@ -59,21 +59,21 @@ Gate는 또한 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자�
     {
         $this->registerPolicies();
 
-        Gate::define('update-post', 'PostPolicy@update');
+        Gate::define('update-post', 'App\Policies\PostPolicy@update');
     }
 
 #### 리소스 Gate
 
 `resource` 메소드를 사용하여 여러개의 Gate 액션을 정의할 수도 있습니다:
 
-    Gate::resource('posts', 'PostPolicy');
+    Gate::resource('posts', 'App\Policies\PostPolicy');
 
 이렇게 정의하면 직접 다음의 Gate 정의 한것과 동일하게 적용됩니다:
 
-    Gate::define('posts.view', 'PostPolicy@view');
-    Gate::define('posts.create', 'PostPolicy@create');
-    Gate::define('posts.update', 'PostPolicy@update');
-    Gate::define('posts.delete', 'PostPolicy@delete');
+    Gate::define('posts.view', 'App\Policies\PostPolicy@view');
+    Gate::define('posts.create', 'App\Policies\PostPolicy@create');
+    Gate::define('posts.update', 'App\Policies\PostPolicy@update');
+    Gate::define('posts.delete', 'App\Policies\PostPolicy@delete');
 
 기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달하여 기본 속성들을 재정의하거나 추가 있습니다. 배열의 키는 Gate 엑션의 이름을, 값은 메소드를 정의합니다. 예를 들어 다음의 코드는 `posts.image` 와 `posts.photo` 두개의 새로운 Gate 정의를 생성합니다:
 

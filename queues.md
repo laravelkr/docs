@@ -386,7 +386,7 @@ Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토�
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/worker.log
 
-이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. 당연히, `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 드라이버에 맞추도록 해야합니다.
+이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. 당연히, `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 큐 커넥션에 맞추도록 해야합니다.
 
 설정 파일이 생성되고 나면, 다음 명령어를 통해서 Supervisor 설정을 변경하고, 시작할 수 있습니다: 
 

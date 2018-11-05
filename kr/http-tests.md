@@ -271,7 +271,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
     }
 </style>
 
-<div class="collection-method-list" markdown="1">
+
 
 [assertCookie](#assert-cookie)
 [assertCookieExpired](#assert-cookie-expired)
@@ -312,7 +312,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertViewIs](#assert-view-is)
 [assertViewMissing](#assert-view-missing)
 
-</div>
+
 
 <a name="assert-cookie"></a>
 #### assertCookie

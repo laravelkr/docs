@@ -32,7 +32,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ### Arrays & Objects
 ### 배열 & 객체
 
-<div class="collection-method-list" markdown="1">
+
 
 [array_add](#method-array-add)
 [array_collapse](#method-array-collapse)
@@ -60,12 +60,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [data_set](#method-data-set)
 [head](#method-head)
 [last](#method-last)
-</div>
+
 
 ### Paths
 ### 경로
 
-<div class="collection-method-list" markdown="1">
+
 
 [app_path](#method-app-path)
 [base_path](#method-base-path)
@@ -76,12 +76,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [resource_path](#method-resource-path)
 [storage_path](#method-storage-path)
 
-</div>
+
 
 ### Strings
 ### 문자열
 
-<div class="collection-method-list" markdown="1">
+
 
 [\__](#method-__)
 [camel_case](#method-camel-case)
@@ -113,12 +113,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [trans_choice](#method-trans-choice)
 [Str::uuid](#method-str-uuid)
 
-</div>
+
 
 ### URLs
 ### URLs
 
-<div class="collection-method-list" markdown="1">
+
 
 [action](#method-action)
 [asset](#method-asset)
@@ -127,12 +127,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [secure_url](#method-secure-url)
 [url](#method-url)
 
-</div>
+
 
 ### Miscellaneous
 ### 기타
 
-<div class="collection-method-list" markdown="1">
+
 
 [abort](#method-abort)
 [abort_if](#method-abort-if)
@@ -186,7 +186,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [view](#method-view)
 [with](#method-with)
 
-</div>
+
 
 <a name="method-listing"></a>
 ## Method Listing

@@ -88,7 +88,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### Included Software
 ### 포함된 소프트웨어
 
-<div class="content-list" markdown="1">
+
 - Ubuntu 18.04
 - Git
 - PHP 7.3
@@ -116,7 +116,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - Zend Z-Ray
 - Go
 - Minio
-</div>
+
 
 <a name="installation-and-setup"></a>
 ## Installation & Setup
@@ -653,7 +653,7 @@ By default, the following ports are forwarded to your Homestead environment:
 
 기본적으로 다음의 포트들이 홈스테드 환경에서 포워딩 설정 되어 있습니다.
 
-<div class="content-list" markdown="1">
+
 - **SSH:** 2222 &rarr; Forwards To 22
 - **ngrok UI:** 4040 &rarr; Forwards To 4040
 - **HTTP:** 8000 &rarr; Forwards To 80
@@ -663,7 +663,7 @@ By default, the following ports are forwarded to your Homestead environment:
 - **MongoDB:** 27017 &rarr; Forwards To 27017
 - **Mailhog:** 8025 &rarr; Forwards To 8025
 - **Minio:** 9600 &rarr; Forwards To 9600
-</div>
+
 
 #### Forwarding Additional Ports
 #### 추가적인 포트 포워딩하기

@@ -293,12 +293,12 @@ With this single line of code, you may now take advantage of:
 
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
 
-<div class="content-list" markdown="1">
+
 - ES2015 syntax.
 - Modules
 - Compilation of `.vue` files.
 - Minification for production environments.
-</div>
+
 
 <a name="vendor-extraction"></a>
 ### Vendor Extraction
@@ -319,11 +319,11 @@ The `extract` method accepts an array of all libraries or modules that you wish 
 
 `extract` 메소드는 `vendor.js` 파일로 별도 구성(추출)하고자 하는 라이브러리 혹은 모듈의 배열을 전달 받습니다. 위의 예제를 살펴보자면 Mix는 다음과 같은 파일을 생성합니다:
 
-<div class="content-list" markdown="1">
+
 - `public/js/manifest.js`: *The Webpack manifest runtime*
 - `public/js/vendor.js`: *Your vendor libraries*
 - `public/js/app.js`: *Your application code*
-</div>
+
 
 To avoid JavaScript errors, be sure to load these files in the proper order:
 

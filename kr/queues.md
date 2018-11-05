@@ -154,11 +154,11 @@ The following dependencies are needed for the listed queue drivers:
 
 아래의 의존 패키지들은 앞서 이야기 했던 각각의 큐 드라이버들을 사용하는데 필요합니다:
 
-<div class="content-list" markdown="1">
+
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~3.0`
 - Redis: `predis/predis ~1.0`
-</div>
+
 
 <a name="creating-jobs"></a>
 ## Creating Jobs

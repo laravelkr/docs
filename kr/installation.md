@@ -34,7 +34,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 
 하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다:
 
-<div class="content-list" markdown="1">
+
 - PHP >= 7.1.3
 - OpenSSL PHP Extension
 - PDO PHP Extension
@@ -43,7 +43,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 - XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
-</div>
+
 
 <a name="installing-laravel"></a>
 ### Installing Laravel
@@ -66,10 +66,10 @@ Make sure to place composer's system-wide vendor bin directory in your `$PATH` s
 
 laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
 
-<div class="content-list" markdown="1">
+
 - macOS: `$HOME/.composer/vendor/bin`
 - GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
-</div>
+
 
 Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
 
@@ -146,11 +146,11 @@ You may also want to configure a few additional components of Laravel, such as:
 
 다음과 같은 라라벨의 컴포넌트들에 대한 몇가지 설정들을 해둘 수도 있습니다.
 
-<div class="content-list" markdown="1">
+
 - [Cache](/docs/{{version}}/cache#configuration)
 - [Database](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
-</div>
+
 
 <a name="web-server-configuration"></a>
 ## Web Server Configuration

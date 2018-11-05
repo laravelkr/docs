@@ -46,7 +46,7 @@
 <a name="included-software"></a>
 ### 포함된 소프트웨어
 
-<div class="content-list" markdown="1">
+
 - Ubuntu 18.04
 - Git
 - PHP 7.3
@@ -74,7 +74,7 @@
 - Zend Z-Ray
 - Go
 - Minio
-</div>
+
 
 <a name="installation-and-setup"></a>
 ## 설치 & 구성하기
@@ -450,7 +450,7 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
 
 기본적으로 다음의 포트들이 홈스테드 환경에서 포워딩 설정 되어 있습니다.
 
-<div class="content-list" markdown="1">
+
 - **SSH:** 2222 &rarr; Forwards To 22
 - **ngrok UI:** 4040 &rarr; Forwards To 4040
 - **HTTP:** 8000 &rarr; Forwards To 80
@@ -460,7 +460,7 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
 - **MongoDB:** 27017 &rarr; Forwards To 27017
 - **Mailhog:** 8025 &rarr; Forwards To 8025
 - **Minio:** 9600 &rarr; Forwards To 9600
-</div>
+
 
 #### 추가적인 포트 포워딩하기
 

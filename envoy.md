@@ -175,9 +175,9 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com
 
 채널 인자는 다음 중 하나를 지정할 수 있습니다:
 
-<div class="content-list" markdown="1">
+
 
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
 
-</div>
+

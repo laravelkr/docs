@@ -19,7 +19,7 @@
 
 하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다:
 
-<div class="content-list" markdown="1">
+
 - PHP >= 7.1.3
 - OpenSSL PHP Extension
 - PDO PHP Extension
@@ -28,7 +28,7 @@
 - XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
-</div>
+
 
 <a name="installing-laravel"></a>
 ### 라라벨 설치하기
@@ -43,10 +43,10 @@
 
 laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
 
-<div class="content-list" markdown="1">
+
 - macOS: `$HOME/.composer/vendor/bin`
 - GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
-</div>
+
 
 라라벨 인스톨러가 설치 된 후, `laravel new` 명령어를 입력하면 여러분이 입력한 폴더안에 깨끗한(fresh) 상태의 라라벨 파일을 생성할 것입니다. 예를들어 `laravel new blog` 명령어는 `blog`라는 폴더를 생성 할것이며 라라벨이 필요로 하는 모든 의존 패키지들의 설치와 함께 깨끗한(fresh) 상태의 라라벨 파일들을 이 폴더에 설치합니다.
 
@@ -93,11 +93,11 @@ laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시�
 
 다음과 같은 라라벨의 컴포넌트들에 대한 몇가지 설정들을 해둘 수도 있습니다.
 
-<div class="content-list" markdown="1">
+
 - [Cache](/docs/{{version}}/cache#configuration)
 - [Database](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
-</div>
+
 
 <a name="web-server-configuration"></a>
 ## 웹 서버 설정

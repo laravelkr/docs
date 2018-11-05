@@ -225,7 +225,6 @@
     }
 </style>
 
-<div class="collection-method-list" markdown="1">
 
 [assertCookie](#assert-cookie)
 [assertCookieExpired](#assert-cookie-expired)
@@ -266,7 +265,7 @@
 [assertViewIs](#assert-view-is)
 [assertViewMissing](#assert-view-missing)
 
-</div>
+
 
 <a name="assert-cookie"></a>
 #### assertCookie

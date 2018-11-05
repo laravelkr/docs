@@ -24,7 +24,7 @@
 
 별다른 설정 없이도, 발렛은 다음을 지원하지만, 이게 전부는 아닙니다:
 
-<div class="content-list" markdown="1">
+
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
 - [Bedrock](https://roots.io/bedrock/)
@@ -46,7 +46,7 @@
 - [Symfony](https://symfony.com)
 - [WordPress](https://wordpress.org)
 - [Zend](https://framework.zend.com)
-</div>
+
 
 
 여러분은 발렛을 고유한 [사용자 정의 드라이버](#custom-valet-drivers)를 통해서 확장할 수 있습니다.
@@ -63,7 +63,7 @@
 
 **발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
-<div class="content-list" markdown="1">
+
 
 - [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
 - `brew install php@7.2` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
@@ -71,7 +71,7 @@
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
 
-</div>
+
 
 발렛이 설치되고나면, 터미널에서 `ping foobar.test` 와 같은 명령어를 사용하여 아무 `*.test` 도메인으로 핑을 시도해보십시오. 발렛이 올바르게 설치되었다면 `127.0.0.1` 로 부터 응답을 확인할 수 있어야만 합니다.
 
@@ -118,11 +118,11 @@
 <a name="the-park-command"></a>
 **`park` 명령어**
 
-<div class="content-list" markdown="1">
+
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
 - 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다: `laravel new blog`.
 - 브라우저에서 `http://blog.test` 사이트를 열어서 확인합니다.
-</div>
+
 
 **여기까지가 전부 입니다.** 이제 여러분이 "parked(지정한)" 디렉토리 안에 생성된 라라벨 프로젝트는 자동으로 `http://folder-name.test` 형태로 접속할 수 있습니다.
 
@@ -131,10 +131,10 @@
 
 `link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
 
-<div class="content-list" markdown="1">
+
 - 명령어를 사용하기 위해서, 프로젝트 중 하나의 디렉토리에 대해서 터미널에서 `valet link app-name` 을 실행합니다. 발렛은 현재 작업 디렉토리를 `~/.config/valet/Sites`가 지정하도록 심볼릭 링크를 생성할 것입니다.
 - `link` 명령어를 실행한 다음에, 브라우저에서 `http://app-name.test` 로 접속할 수 있습니다.
-</div>
+
 
 링크로 연결된 디렉토리들의 모든 목록을 확인하고자 한다면, `valet links` 명령어를 실행하십시오. `valet unlink app-name`는 디렉토리에 대한 심볼릭 링크를 제거하는데 사용할 수 있습니다.
 

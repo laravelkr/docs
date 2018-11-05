@@ -579,7 +579,7 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
     }
 </style>
 
-<div class="collection-method-list" markdown="1">
+
 [assertTitle](#assert-title)
 [assertTitleContains](#assert-title-contains)
 [assertUrlIs](#assert-url-is)
@@ -634,7 +634,7 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 [assertVueIsNot](#assert-vue-is-not)
 [assertVueContains](#assert-vue-contains)
 [assertVueDoesNotContain](#assert-vue-does-not-contain)
-</div>
+
 
 <a name="assert-title"></a>
 #### assertTitle

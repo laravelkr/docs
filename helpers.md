@@ -24,7 +24,7 @@
 
 ### 배열 & 객체
 
-<div class="collection-method-list" markdown="1">
+
 
 [array_add](#method-array-add)
 [array_collapse](#method-array-collapse)
@@ -53,11 +53,11 @@
 [head](#method-head)
 [last](#method-last)
 
-</div>
+
 
 ### 경로
 
-<div class="collection-method-list" markdown="1">
+
 
 [app_path](#method-app-path)
 [base_path](#method-base-path)
@@ -68,11 +68,11 @@
 [resource_path](#method-resource-path)
 [storage_path](#method-storage-path)
 
-</div>
+
 
 ### 문자열
 
-<div class="collection-method-list" markdown="1">
+
 
 [\__](#method-__)
 [camel_case](#method-camel-case)
@@ -104,11 +104,11 @@
 [trans_choice](#method-trans-choice)
 [Str::uuid](#method-str-uuid)
 
-</div>
+
 
 ### URLs
 
-<div class="collection-method-list" markdown="1">
+
 
 [action](#method-action)
 [asset](#method-asset)
@@ -117,11 +117,11 @@
 [secure_url](#method-secure-url)
 [url](#method-url)
 
-</div>
+
 
 ### 기타
 
-<div class="collection-method-list" markdown="1">
+
 
 [abort](#method-abort)
 [abort_if](#method-abort-if)
@@ -175,7 +175,7 @@
 [view](#method-view)
 [with](#method-with)
 
-</div>
+
 
 <a name="method-listing"></a>
 ## 메소드 목록

@@ -104,7 +104,7 @@ In Laravel, each type of email sent by your application is represented as a "mai
 
 All of a mailable class' configuration is done in the `build` method. Within this method, you may call various methods such as `from`, `subject`, `view`, and `attach` to configure the email's presentation and delivery.
 
-모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 배송에 대해서 설정할 수 있는 다양한 메소드르르 사용할 수 있습니다.
+모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 배송에 대해서 설정할 수 있는 다양한 메소드를 사용할 수 있습니다.
 
 <a name="configuring-the-sender"></a>
 ### Configuring The Sender

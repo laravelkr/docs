@@ -161,7 +161,7 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 #### 리소스 모델 지정하기
 
-라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러르르 생성할 대 `--model` 옵션을 사용할 수 있습니다:
+라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다:
 
     php artisan make:controller PhotoController --resource --model=Photo
 

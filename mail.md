@@ -72,7 +72,7 @@ SparkPost 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `confi
 <a name="writing-mailables"></a>
 ## Mailables 작성하기
 
-모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 배송에 대해서 설정할 수 있는 다양한 메소드르르 사용할 수 있습니다.
+모든 mailable 클래스의 설정은 `build` 메소드에 들어 있습니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 배송에 대해서 설정할 수 있는 다양한 메소드를 사용할 수 있습니다.
 
 <a name="configuring-the-sender"></a>
 ### 발송자 설정하기

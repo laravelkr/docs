@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Defining Models](#defining-models)
     - [Eloquent Model Conventions](#eloquent-model-conventions)
+    - [Default Attribute Values](#default-attribute-values)
 - [Retrieving Models](#retrieving-models)
     - [Collections](#collections)
     - [Chunking Results](#chunking-results)
@@ -153,6 +154,29 @@ By default, all Eloquent models will use the default database connection configu
          * @var string
          */
         protected $connection = 'connection-name';
+    }
+
+<a name="default-attribute-values"></a>
+### Default Attribute Values
+
+If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Flight extends Model
+    {
+        /**
+         * The model's default values for attributes.
+         *
+         * @var array
+         */
+        protected $attributes = [
+            'delayed' => false,
+        ];
     }
 
 <a name="retrieving-models"></a>
@@ -720,8 +744,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
-         * @param mixed $type
+         * @param  \Illuminate\Database\Eloquent\Builder $query
+         * @param  mixed $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)

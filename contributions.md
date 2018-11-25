@@ -33,6 +33,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Passport](https://github.com/laravel/passport)
 - [Laravel Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
+- [Laravel Telescope](https://github.com/laravel/telescope)
 - [Laravel Website](https://github.com/laravel/laravel.com)
 </div>
 
@@ -76,6 +77,8 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
+     *
+     * @throws \Exception
      */
     public function bind($abstract, $concrete = null, $shared = false)
     {

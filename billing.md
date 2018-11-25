@@ -346,7 +346,7 @@ When changing the hard-coded value returned by the `taxPercentage` method, the t
 
 > {note} Modifying the subscription anchor date is only supported by the Stripe edition of Cashier.
 
-By default. the billing cycle anchor will is the date the subscription was created, or if a trial period is used, the date that the trial ends. If you would like to modify the billing anchor date, you may use the `anchorBillingCycleOn` method:
+By default, the billing cycle anchor is the date the subscription was created, or if a trial period is used, the date that the trial ends. If you would like to modify the billing anchor date, you may use the `anchorBillingCycleOn` method:
 
     use App\User;
     use Carbon\Carbon;
@@ -488,7 +488,7 @@ Both Stripe and Braintree can notify your application of a variety of events via
 
 > {note} Once you have registered your route, be sure to configure the webhook URL in your Stripe control panel settings.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings), customer updates, custom deletions, subscription updates, and credit card changes; however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings), customer updates, customer deletions, subscription updates, and credit card changes; however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
 #### Webhooks & CSRF Protection
 

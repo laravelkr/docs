@@ -11,6 +11,7 @@
     - [Creating Form Requests](#creating-form-requests)
     - [Authorizing Form Requests](#authorizing-form-requests)
     - [Customizing The Error Messages](#customizing-the-error-messages)
+    - [Customizing The Validation Attributes](#customizing-the-validation-attributes)
 - [Manually Creating Validators](#manually-creating-validators)
     - [Automatic Redirection](#automatic-redirection)
     - [Named Error Bags](#named-error-bags)
@@ -292,6 +293,23 @@ You may customize the error messages used by the form request by overriding the 
         ];
     }
 
+<a name="customizing-the-validation-attributes"></a>
+### Customizing The Validation Attributes
+
+If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom names by overriding the `attributes` method. This method should return an array of attribute / name pairs:
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'email' => 'email address',
+        ];
+    }
+
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 
@@ -438,7 +456,7 @@ In this example, the `:attribute` place-holder will be replaced by the actual na
 
 #### Specifying A Custom Message For A Given Attribute
 
-Sometimes you may wish to specify a custom error messages only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
+Sometimes you may wish to specify a custom error message only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
 
     $messages = [
         'email.required' => 'We need to know your e-mail address!',
@@ -462,6 +480,30 @@ If you would like the `:attribute` portion of your validation message to be repl
     'attributes' => [
         'email' => 'email address',
     ],
+
+#### Specifying Custom Values In Language Files
+
+Sometimes you may need the `:value` portion of your validation message to be replaced with a custom representation of the value. For example, consider the following rule that specifies that a credit card number is required if the `payment_type` has a value of `cc`:
+
+    $request->validate([
+        'credit_card_number' => 'required_if:payment_type,cc'
+    ]);
+
+If this validation rule fails, it will produce the following error message:
+
+    The credit card number field is required when payment type is cc.
+
+Instead of displaying `cc` as the payment type value, you may specify a custom value representation in your `validation` language file by defining a `values` array:
+
+    'values' => [
+        'payment_type' => [
+            'cc' => 'credit card'
+        ],
+    ],
+
+Now if the validation rule fails it will produce the following message:
+
+    The credit card number field is required when payment type is credit card.
 
 <a name="available-validation-rules"></a>
 ## Available Validation Rules
@@ -846,7 +888,7 @@ The field under validation must not be included in the given list of values. The
 
 The field under validation must not match the given regular expression.
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
+Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
 
 **Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
 
@@ -1203,11 +1245,11 @@ When creating a custom validation rule, you may sometimes need to define custom 
 
 #### Implicit Extensions
 
-By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
+By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
-    $rules = ['name' => 'unique'];
+    $rules = ['name' => 'unique:users,name'];
 
-    $input = ['name' => null];
+    $input = ['name' => ''];
 
     Validator::make($input, $rules)->passes(); // true
 

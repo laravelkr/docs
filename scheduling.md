@@ -67,7 +67,7 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling using Closures, you may also using [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+In addition to scheduling using Closures, you may also use [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
 
     $schedule->call(new DeleteRecentUsers)->daily();
 
@@ -142,6 +142,7 @@ Below is a list of the additional schedule constraints:
 Method  | Description
 ------------- | -------------
 `->weekdays();`  |  Limit the task to weekdays
+`->weekends();`  |  Limit the task to weekends
 `->sundays();`  |  Limit the task to Sunday
 `->mondays();`  |  Limit the task to Monday
 `->tuesdays();`  |  Limit the task to Tuesday

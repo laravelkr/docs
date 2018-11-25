@@ -49,8 +49,6 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
     composer require --dev laravel/dusk
 
-Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. Typically, this will be done automatically via Laravel's automatic service provider registration.
-
 > {note} If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
 
 After installing the Dusk package, run the `dusk:install` Artisan command:
@@ -1269,31 +1267,7 @@ Once the component has been defined, we can easily select a date within the date
 <a name="running-tests-on-circle-ci"></a>
 ### CircleCI
 
-#### CircleCI 1.0
-
-If you are using CircleCI 1.0 to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
-
-    dependencies:
-      pre:
-          - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          - sudo dpkg -i google-chrome.deb
-          - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-          - rm google-chrome.deb
-
-    test:
-        pre:
-            - "./vendor/laravel/dusk/bin/chromedriver-linux":
-                background: true
-            - cp .env.testing .env
-            - "php artisan serve":
-                background: true
-
-        override:
-            - php artisan dusk
-
-#### CircleCI 2.0
-
- If you are using CircleCI 2.0 to run your Dusk tests, you may add these steps to your build:
+If you are using CircleCI to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
      version: 2
      jobs:

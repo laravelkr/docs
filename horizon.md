@@ -3,7 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
     - [Configuration](#configuration)
-    - [Dashboard Authentication](#dashboard-authentication)
+    - [Dashboard Authorization](#dashboard-authorization)
 - [Running Horizon](#running-horizon)
     - [Deploying Horizon](#deploying-horizon)
 - [Tags](#tags)
@@ -17,18 +17,22 @@ Horizon provides a beautiful dashboard and code-driven configuration for your La
 
 All of your worker configuration is stored in a single, simple configuration file, allowing your configuration to stay in source control where your entire team can collaborate.
 
+<p align="center">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
+</p>
+
 <a name="installation"></a>
 ## Installation
 
-> {note} Due to its usage of async process signals, Horizon requires PHP 7.1+. Secondly, you should ensure that your queue driver is set to `redis` in your `queue` configuration file.
+> {note} You should ensure that your queue driver is set to `redis` in your `queue` configuration file.
 
 You may use Composer to install Horizon into your Laravel project:
 
     composer require laravel/horizon
 
-After installing Horizon, publish its assets using the `vendor:publish` Artisan command:
+After installing Horizon, publish its assets using the `horizon:install` Artisan command:
 
-    php artisan vendor:publish --provider="Laravel\Horizon\HorizonServiceProvider"
+    php artisan horizon:install
 
 <a name="configuration"></a>
 ### Configuration
@@ -52,14 +56,26 @@ The `horizon` configuration file allows you to configure how long recent and fai
         'failed' => 10080,
     ],
 
-<a name="dashboard-authentication"></a>
-### Dashboard Authentication
+<a name="dashboard-authorization"></a>
+### Dashboard Authorization
 
-Horizon exposes a dashboard at `/horizon`. By default, you will only be able to access this dashboard in the `local` environment. To define a more specific access policy for the dashboard, you should use the `Horizon::auth` method. The `auth` method accepts a callback which should return `true` or `false`, indicating whether the user should have access to the Horizon dashboard. Typically, you should call `Horizon::auth` in the `boot` method of your `AppServiceProvider`:
+Horizon exposes a dashboard at `/horizon`. By default, you will only be able to access this dashboard in the `local` environment. Within your `app/Providers/HorizonServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Horizon in **non-local** environments. You are free to modify this gate as needed to restrict access to your Horizon installation:
 
-    Horizon::auth(function ($request) {
-        // return true / false;
-    });
+    /**
+     * Register the Horizon gate.
+     *
+     * This gate determines who can access Horizon in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('viewHorizon', function ($user) {
+            return in_array($user->email, [
+                'taylor@laravel.com',
+            ]);
+        });
+    }
 
 <a name="running-horizon"></a>
 ## Running Horizon
@@ -175,7 +191,7 @@ If you would like to manually define the tags for one of your queueable objects,
 
 > **Note:** Before using notifications, you should add the `guzzlehttp/guzzle` Composer package to your project. When configuring Horizon to send SMS notifications, you should also review the [prerequisites for the Nexmo notification driver](https://laravel.com/docs/{{version}}/notifications#sms-notifications).
 
-If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `AppServiceProvider`:
+If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `HorizonServiceProvider`:
 
     Horizon::routeMailNotificationsTo('example@example.com');
     Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');

@@ -45,7 +45,7 @@ To get started, install Passport via the Composer package manager:
 
     composer require laravel/passport
 
-The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
+The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after installing the package. The Passport migrations will create the tables your application needs to store clients and access tokens:
 
     php artisan migrate
 
@@ -775,6 +775,10 @@ If needed, you can customize the `laravel_token` cookie's name using the `Passpo
 
 When using this method of authentication, the default Laravel JavaScript scaffolding instructs Axios to always send the `X-CSRF-TOKEN` and `X-Requested-With` headers. However, you should be sure to include your CSRF token in a [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token):
 
+    // In your application layout...
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    // Laravel's JavaScript scaffolding...
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
     };

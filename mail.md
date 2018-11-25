@@ -43,6 +43,14 @@ To use the Mailgun driver, first install Guzzle, then set the `driver` option in
         'secret' => 'your-mailgun-key',
     ],
 
+If you are not using the "US" [Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions), you may define your region's endpoint in the `services` configuration file:
+
+    'mailgun' => [
+        'domain' => 'your-mailgun-domain',
+        'secret' => 'your-mailgun-key',
+        'endpoint' => 'api.eu.mailgun.net',
+    ],
+
 #### SparkPost Driver
 
 To use the SparkPost driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `sparkpost`. Next, verify that your `config/services.php` configuration file contains the following options:
@@ -372,7 +380,7 @@ Embedding inline images into your emails is typically cumbersome; however, Larav
     <body>
         Here is an image:
 
-        <img src="{{ $message->embed($pathToFile) }}">
+        <img src="{{ $message->embed($pathToImage) }}">
     </body>
 
 > {note} `$message` variable is not available in markdown messages.

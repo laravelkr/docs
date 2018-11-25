@@ -332,6 +332,16 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 
     Broadcast::routes($attributes);
 
+#### Customizing The Authorization Endpoint
+
+By default, Echo will use the `/broadcasting/auth` endpoint to authorize channel access. However, you may specify your own authorization endpoint by passing the `authEndpoint` configuration option to your Echo instance:
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        authEndpoint: '/custom/endpoint/auth'
+    });
+
 <a name="defining-authorization-callbacks"></a>
 ### Defining Authorization Callbacks
 
@@ -469,6 +479,18 @@ When creating an Echo instance that uses the `pusher` connector, you may also sp
         encrypted: true
     });
 
+#### Using An Existing Client Instance
+
+If you already have a Pusher or Socket.io client instance that you would like Echo to utilize, you may pass it to Echo via the `client` configuration option:
+
+    const client = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        client: client
+    });
+
 <a name="listening-for-events"></a>
 ### Listening For Events
 
@@ -507,7 +529,7 @@ You may have noticed in the examples above that we did not specify the full name
 Alternatively, you may prefix event classes with a `.` when subscribing to them using Echo. This will allow you to always specify the fully-qualified class name:
 
     Echo.channel('orders')
-        .listen('.Namespace.Event.Class', (e) => {
+        .listen('.Namespace\\Event\\Class', (e) => {
             //
         });
 

@@ -32,6 +32,13 @@
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database.sqlite
 
+SQLite 연결에 외래 키 제약 조건을 사용하려면 `config/database.php` 설정 파일에 `foreign_key_constraints` 옵션을 추가해야합니다 :
+
+    'sqlite' => [
+        // ...
+        'foreign_key_constraints' => true,
+    ],
+
 <a name="read-and-write-connections"></a>
 ### 읽기 & 쓰기 커넥션
 

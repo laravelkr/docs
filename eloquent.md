@@ -3,6 +3,7 @@
 - [소개](#introduction)
 - [모델 정의하기](#defining-models)
     - [Eloquent 모델 컨벤션](#eloquent-model-conventions)
+    - [기본 속성 값](#default-attribute-values)
 - [모델 조회하기](#retrieving-models)
     - [컬렉션](#collections)
     - [결과 분할하기](#chunking-results)
@@ -155,6 +156,29 @@ Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다
         protected $connection = 'connection-name';
     }
 
+<a name="default-attribute-values"></a>
+### 기본 속성 값
+
+일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다 :
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Flight extends Model
+    {
+        /**
+         * The model's default values for attributes.
+         *
+         * @var array
+         */
+        protected $attributes = [
+            'delayed' => false,
+        ];
+    }
+    
 <a name="retrieving-models"></a>
 ## 모델 조회하기
 
@@ -724,8 +748,8 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
         /**
          * Scope a query to only include users of a given type.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
-         * @param mixed $type
+         * @param  \Illuminate\Database\Eloquent\Builder $query
+         * @param  mixed $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)

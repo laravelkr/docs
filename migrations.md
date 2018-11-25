@@ -472,4 +472,4 @@ Modifier  | 설명
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite는 외래 키 제약 조건이 기본적으로 비활성화되어있습니다. SQLite를 사용할 때는 마이그레이션에서 외래 키를 생성하기 전에 외래 키 기능을 활성화해야합니다.
+> {note} SQLite는 외래 키 제약 조건이 기본적으로 비활성화되어있습니다. SQLite를 사용할 때는 마이그레이션에서 외래 키를 생성하기 전에 [외래 키 기능을 활성화](/docs/{{version}}/database#configuration)해야합니다.

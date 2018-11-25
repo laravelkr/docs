@@ -6,6 +6,7 @@
     - [라우트 보호하기](#protecting-routes)
 - [뷰](#verification-views)
 - [이메일 검증 이후](#after-verifying-emails)
+- [이벤트](#events)
 
 <a name="introduction"></a>
 ## 소개하기
@@ -68,3 +69,19 @@ Laravel은 `make:auth` 명령이 실행될 때 필요한 모든 이메일 검증
 이메일 주소가 확인되면 사용자는 자동으로 `/home`으로 리디렉션됩니다. `VerificationController` 에 `redirectTo` 메소드 나 프로퍼티를 정의하여 post verification redirect 위치를 커스터마이징 할 수 있습니다 :
 
     protected $redirectTo = '/dashboard';
+
+<a name="events"></a>
+## 이벤트
+
+라라벨은 이메일 검증 과정에서 [이벤트](/docs/{{version}}/events)를 발생시킵니다. `EventServiceProvider` 에서 이 이벤트에 리스너를 붙일 수 있습니다.
+
+    /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Illuminate\Auth\Events\Verified' => [
+            'App\Listeners\LogVerifiedUser',
+        ],
+    ];

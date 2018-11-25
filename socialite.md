@@ -12,7 +12,7 @@
 <a name="introduction"></a>
 ## 소개하기
 
-일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
+일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 
 > {tip} 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.github.io/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
 
@@ -26,7 +26,7 @@ Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에
 <a name="configuration"></a>
 ## 설정하기
 
-Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
+Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github`, `gitlab` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID

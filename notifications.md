@@ -876,6 +876,7 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
         // $event->channel
         // $event->notifiable
         // $event->notification
+        // $event->response
     }
 
 <a name="custom-channels"></a>

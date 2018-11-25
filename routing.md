@@ -348,6 +348,8 @@
     Route::fallback(function () {
         //
     });
+    
+> {note} 대체 라우트는 항상 어플리케이션에서 등록한 마지막 라우트 여야합니다.
 
 <a name="rate-limiting"></a>
 ## Rate 제한

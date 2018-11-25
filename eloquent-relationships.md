@@ -357,6 +357,30 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
         //
     }
 
+물론, 중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Role extends Model
+    {
+        /**
+         * The users that belong to the role.
+         */
+        public function users()
+        {
+            return $this->belongsToMany('App\User')
+                            ->using('App\UserRole')
+                            ->withPivot([
+                                'created_by',
+                                'updated_by'
+                            ]);
+        }
+    }
+
 <a name="has-many-through"></a>
 ### 연결을 통한 다수를 가지는 관계 정의하기
 

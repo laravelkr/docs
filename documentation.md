@@ -84,3 +84,4 @@
     - [Passport-OAuth2](/docs/{{version}}/passport)
     - [Scout-검색](/docs/{{version}}/scout)
     - [Socialite-소셜로그인](/docs/{{version}}/socialite)
+    - [Telescope](/docs/{{version}}/telescope)

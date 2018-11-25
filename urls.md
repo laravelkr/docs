@@ -67,6 +67,16 @@
 
     echo route('post.show', ['post' => $post]);
 
+`route` 헬퍼는 여러개의 파라메터를 가진 라우트의 URL를 생성하는 데도 사용할 수 있습니다:
+
+    Route::get('/post/{post}/comment/{comment}', function () {
+        //
+    })->name('comment.show');
+
+    echo route('comment.show', ['post' => 1, 'comment' => 3]);
+
+    // http://example.com/post/1/comment/3
+    
 <a name="signed-urls"></a>
 ### 서명이 적용된 (signed) URL
 

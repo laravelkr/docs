@@ -62,8 +62,8 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
      */
     public function run()
     {
-        factory(App\User::class, 50)->create()->each(function ($u) {
-            $u->posts()->save(factory(App\Post::class)->make());
+        factory(App\User::class, 50)->create()->each(function ($user) {
+            $user->posts()->save(factory(App\Post::class)->make());
         });
     }
 

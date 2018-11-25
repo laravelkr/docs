@@ -331,6 +331,16 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 `Broadcast::routes` 메소드는 자동적으로 라우트를 `web` 미들웨어 그룹에 위치시킬 것입니다. 그렇지만 할당된 속성들을 커스터마이즈하기 위해서는 메소드에 라우트 속성 배열을 전달해줘야 합니다.
 
     Broadcast::routes($attributes);
+    
+#### Authorization Endpoint의 커스터마이징
+
+기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다 :
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        authEndpoint: '/custom/endpoint/auth'
+    });
 
 <a name="defining-authorization-callbacks"></a>
 ### 승인 콜백 정의하기
@@ -469,6 +479,18 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
         encrypted: true
     });
 
+#### 기존 클라이언트 인스턴스 사용
+
+Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+
+    const client = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        client: client
+    });
+    
 <a name="listening-for-events"></a>
 ### 이벤트 수신하기
 
@@ -507,7 +529,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 이 대신에, 에코를 이용하여 이벤트를 구독할 때 이벤트 클래스 앞에 `.`를 붙일 수 있습니다. 이렇게 하면 항상 정규화된 클래스명을 명시할 수 있습니다.
 
     Echo.channel('orders')
-        .listen('.Namespace.Event.Class', (e) => {
+        .listen('.Namespace\\Event\\Class', (e) => {
             //
         });
 

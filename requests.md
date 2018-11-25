@@ -165,6 +165,10 @@
 
     $names = $request->input('products.*.name');
 
+모든 입력 값을 연관 배열로 검색하기 위해 인자없이 `input` 메소드를 호출 할 수 있습니다 :
+
+    $input = $request->input();
+
 #### 쿼리 스트링에서 입력값 조회하기
 
 `input` 메소드가 요청-request 전체의 payload(쿼리 스트링을 포함하여)에서 값을 조회한다면, `query` 메소드는 쿼리 스트링에서만 값을 조회합니다:

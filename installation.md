@@ -28,6 +28,7 @@
 - XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
+- BCMath PHP Extension
 
 
 <a name="installing-laravel"></a>
@@ -39,7 +40,7 @@
 
 먼저, 라라벨 인스톨러를 컴포저를 사용하여 다운로드 합니다.
 
-    composer global require "laravel/installer"
+    composer global require laravel/installer
 
 laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
 

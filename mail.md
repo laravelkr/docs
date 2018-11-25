@@ -44,6 +44,14 @@ Mailgun 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/
         'secret' => 'your-mailgun-key',
     ],
 
+"US"[Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions)을 사용하지 않는 경우 지역(region)의 엔드포인트를 `services` 설정 파일에 정의 할 수 있습니다 :
+
+    'mailgun' => [
+        'domain' => 'your-mailgun-domain',
+        'secret' => 'your-mailgun-key',
+        'endpoint' => 'api.eu.mailgun.net',
+    ],
+
 #### SparkPost 드라이버
 
 SparkPost 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/mail.php` 설정파일에 `driver` 옵션을 `sparkpost`으로 설정하면 됩니다. 다음으로 `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
@@ -373,7 +381,7 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
     <body>
         Here is an image:
 
-        <img src="{{ $message->embed($pathToFile) }}">
+        <img src="{{ $message->embed($pathToImage) }}">
     </body>
 
 > {note} 마크다운 메세지에서는 `$message` 변수를 사용할 수 없습니다.

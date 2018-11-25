@@ -232,8 +232,8 @@
 
     $users = factory(App\User::class, 3)
                ->create()
-               ->each(function ($u) {
-                    $u->posts()->save(factory(App\Post::class)->make());
+               ->each(function ($user) {
+                    $user->posts()->save(factory(App\Post::class)->make());
                 });
 
 #### 관계 & 속성 클로저-Closures

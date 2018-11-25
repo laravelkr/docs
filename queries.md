@@ -112,13 +112,16 @@
         return false;
     });
 
-기본 키로 청크 결과를 요청하기 때문에 단축키로 `chunkById` 메소드를 사용할 수 있습니다 :
+결과를 청킹하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경 될 수 있습니다. 따라서 청킹 중 레코드를 업데이트 할 때는 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메서드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징합니다.
 
-    DB::table('users')->chunkById(100, function ($users) {
-        foreach ($users as $user) {
-            //
-        }
-    });
+    DB::table('users')->where('active', false)
+        ->chunkById(100, function ($users) {
+            foreach ($users as $user) {
+                DB::table('users')
+                    ->where('id', $user->id)
+                    ->update(['active' => true]);
+            }
+        });
 
 > {note} 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
 

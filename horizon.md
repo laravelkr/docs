@@ -3,7 +3,7 @@
 - [소개하기](#introduction)
 - [설치하기](#installation)
     - [설정하기](#configuration)
-    - [Dashboard 인증](#dashboard-authentication)
+    - [Dashboard 권한 부여](#dashboard-authorization)
 - [Horizon 실행하기](#running-horizon)
     - [Horizon 배포하기](#deploying-horizon)
 - [태그](#tags)
@@ -17,18 +17,22 @@ Horizon은 Redis Queue를 사용하는 라라벨을 위해서 아름다운 대�
 
 모든 worker의 설정은 하나의 간단한 설정 파일에 저장되기 때문에, 팀원 모두와 협업 할 수 있도록 소스 컨트롤에 보관 할 수 있습니다.
 
+<p align="center">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
+</p>
+
 <a name="installation"></a>
 ## 설치하기
 
-> {note} 비동기 프로세스를 사용하기 때문에 Horizon에는 PHP 7.1 이상이 필요합니다. 그리고 큐 드라이버가 `queue` 설정 파일에서 `redis` 로 설정되어 있는지 확인해야합니다.
+> {note} 큐 드라이버는 `queue` 설정 파일에서 `redis` 로 설정되어야합니다.
 
 컴포저-Composer를 사용하여 라라벨 프로젝트에 Horizon을 설치 합니다:
 
     composer require laravel/horizon
 
-Horizon을 설치 한 뒤에 `vendor:publish` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다:
+Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다:
 
-    php artisan vendor:publish --provider="Laravel\Horizon\HorizonServiceProvider"
+    php artisan horizon:install
 
 <a name="configuration"></a>
 ### 설정하기
@@ -52,14 +56,26 @@ Horizon은 `simple`, `auto`, `false` 세가지 밸런싱 방법을 선택 할 �
         'failed' => 10080,
     ],
 
-<a name="dashboard-authentication"></a>
-### Dashboard 인증
+<a name="dashboard-authorization"></a>
+### Dashboard 권한 부여
 
-Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. Dashboard에 대해 보다 더 구체적인 액세스 정책을 정의 하려면 `Horizon::auth` 메서드를 사용하면 됩니다. `auth` 메서드는 사용자가 Horizon Dashboard에 액세스 할 수 있는지 여부를 나타내는 `true` 또는 `false`을 리턴하는 callback을 인자로 받습니다. 일반적으로 `Horizon::auth`는 `AppServiceProvider`의 `boot`메서드 안에서 호출 해야 합니다
+Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. `app/Providers/HorizonServiceProvider.php` 파일 내에 `gate` 메소드가 있습니다. 이 인증 게이트는 **비 로컬** 환경에서 Horizon에 대한 액세스를 제어합니다. Horizon 대한 액세스를 제한하기 위해 필요에 따라 이 게이트를 자유롭게 수정할 수 있습니다.
 
-    Horizon::auth(function ($request) {
-        // return true / false;
-    });
+    /**
+     * Register the Horizon gate.
+     *
+     * This gate determines who can access Horizon in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('viewHorizon', function ($user) {
+            return in_array($user->email, [
+                'taylor@laravel.com',
+            ]);
+        });
+    }
 
 <a name="running-horizon"></a>
 ## Horizon 실행하기

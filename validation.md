@@ -11,6 +11,7 @@
     - [Form Requests 생성하기](#creating-form-requests)
     - [Form Requests 사용자 승인](#authorizing-form-requests)
     - [에러 메세지 사용자 정의하기](#customizing-the-error-messages)
+    - [유효성 검사 속성 사용자 정의하기](#customizing-the-validation-attributes)
 - [Validators 수동으로 생성하기](#manually-creating-validators)
     - [자동으로 리다이렉트하기](#automatic-redirection)
     - [이름이 지정된 Error Bags](#named-error-bags)
@@ -294,6 +295,23 @@ form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다
         ];
     }
 
+<a name="customizing-the-validation-attributes"></a>
+### 유효성 검사 속성 사용자 정의하기
+
+유효성 검사 메시지의 `:attribute` 부분을 커스텀 속성 이름으로 대체하기를 원할 경우, `attributes` 메소드를 오버라이드하여 커스텀 이름을 지정할 수 있습니다. 이 메소드는 속성 / 이름의 쌍을 가진 배열을 반환해야합니다.
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'email' => 'email address',
+        ];
+    }
+
 <a name="manually-creating-validators"></a>
 ## Validator 수동으로 생성하기
 
@@ -464,6 +482,30 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
     'attributes' => [
         'email' => 'email address',
     ],
+
+#### 언어 파일에서 사용자 값 지정
+
+때로는 유효성 검사 메시지의 `:value` 부분의 값을 사용자 정의 표현으로 대체해야 할 수도 있습니다. 예를 들어 다음과 같이 `payment_type` 의 값이 `cc` 인 경우 신용 카드 번호가 필요하다는 규칙을 생각해 보겠습니다.
+
+    $request->validate([
+        'credit_card_number' => 'required_if:payment_type,cc'
+    ]);
+
+이 유효성 검사 규칙이 실패하면 다음과 같은 오류 메시지가 나타납니다.
+
+    The credit card number field is required when payment type is cc.
+
+결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다 :
+
+    'values' => [
+        'payment_type' => [
+            'cc' => 'credit card'
+        ],
+    ],
+
+이제 유효성 검사 규칙이 실패하면 다음 메시지가 생성됩니다.
+
+    The credit card number field is required when payment type is credit card.
 
 <a name="available-validation-rules"></a>
 ## 사용가능한 유효성 검사 규칙

@@ -113,6 +113,7 @@
 - [shift](/docs/{{version}}/collections#method-shift)
 - [shuffle](/docs/{{version}}/collections#method-shuffle)
 - [slice](/docs/{{version}}/collections#method-slice)
+- [some](/docs/{{version}}/collections#method-some)
 - [sort](/docs/{{version}}/collections#method-sort)
 - [sortBy](/docs/{{version}}/collections#method-sortby)
 - [sortByDesc](/docs/{{version}}/collections#method-sortbydesc)

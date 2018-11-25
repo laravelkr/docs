@@ -34,6 +34,7 @@
 - [라라벨 패스포트(Passport)](https://github.com/laravel/passport)
 - [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
 - [라라벨 Socialite](https://github.com/laravel/socialite)
+- [라라벨 Telescope](https://github.com/laravel/telescope)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com)
 
 
@@ -78,6 +79,8 @@
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
+     *
+     * @throws \Exception
      */
     public function bind($abstract, $concrete = null, $shared = false)
     {

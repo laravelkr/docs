@@ -7,8 +7,8 @@
 - [설치하기](#installation)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
-    - [Dashboard Authentication](#dashboard-authentication)
-    - [Dashboard 인증](#dashboard-authentication)
+    - [Dashboard Authorization](#dashboard-authorization)
+    - [Dashboard 권한 부여](#dashboard-authorization)
 - [Running Horizon](#running-horizon)
 - [Horizon 실행하기](#running-horizon)
     - [Deploying Horizon](#deploying-horizon)
@@ -32,13 +32,17 @@ All of your worker configuration is stored in a single, simple configuration fil
 
 모든 worker의 설정은 하나의 간단한 설정 파일에 저장되기 때문에, 팀원 모두와 협업 할 수 있도록 소스 컨트롤에 보관 할 수 있습니다.
 
+<p align="center">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
+</p>
+
 <a name="installation"></a>
 ## Installation
 ## 설치하기
 
-> {note} Due to its usage of async process signals, Horizon requires PHP 7.1+. Secondly, you should ensure that your queue driver is set to `redis` in your `queue` configuration file.
+> {note} You should ensure that your queue driver is set to `redis` in your `queue` configuration file.
 
-> {note} 비동기 프로세스를 사용하기 때문에 Horizon에는 PHP 7.1 이상이 필요합니다. 그리고 큐 드라이버가 `queue` 설정 파일에서 `redis` 로 설정되어 있는지 확인해야합니다.
+> {note} 큐 드라이버는 `queue` 설정 파일에서 `redis` 로 설정되어야합니다.
 
 You may use Composer to install Horizon into your Laravel project:
 
@@ -46,11 +50,11 @@ You may use Composer to install Horizon into your Laravel project:
 
     composer require laravel/horizon
 
-After installing Horizon, publish its assets using the `vendor:publish` Artisan command:
+After installing Horizon, publish its assets using the `horizon:install` Artisan command:
 
-Horizon을 설치 한 뒤에 `vendor:publish` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다:
+Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다:
 
-    php artisan vendor:publish --provider="Laravel\Horizon\HorizonServiceProvider"
+    php artisan horizon:install
 
 <a name="configuration"></a>
 ### Configuration
@@ -86,17 +90,29 @@ The `horizon` configuration file allows you to configure how long recent and fai
         'failed' => 10080,
     ],
 
-<a name="dashboard-authentication"></a>
-### Dashboard Authentication
-### Dashboard 인증
+<a name="dashboard-authorization"></a>
+### Dashboard Authorization
+### Dashboard 권한 부여
 
-Horizon exposes a dashboard at `/horizon`. By default, you will only be able to access this dashboard in the `local` environment. To define a more specific access policy for the dashboard, you should use the `Horizon::auth` method. The `auth` method accepts a callback which should return `true` or `false`, indicating whether the user should have access to the Horizon dashboard. Typically, you should call `Horizon::auth` in the `boot` method of your `AppServiceProvider`:
+Horizon exposes a dashboard at `/horizon`. By default, you will only be able to access this dashboard in the `local` environment. Within your `app/Providers/HorizonServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Horizon in **non-local** environments. You are free to modify this gate as needed to restrict access to your Horizon installation:
 
-Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. Dashboard에 대해 보다 더 구체적인 액세스 정책을 정의 하려면 `Horizon::auth` 메서드를 사용하면 됩니다. `auth` 메서드는 사용자가 Horizon Dashboard에 액세스 할 수 있는지 여부를 나타내는 `true` 또는 `false`을 리턴하는 callback을 인자로 받습니다. 일반적으로 `Horizon::auth`는 `AppServiceProvider`의 `boot`메서드 안에서 호출 해야 합니다
+Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. `app/Providers/HorizonServiceProvider.php` 파일 내에 `gate` 메소드가 있습니다. 이 인증 게이트는 **비 로컬** 환경에서 Horizon에 대한 액세스를 제어합니다. Horizon 대한 액세스를 제한하기 위해 필요에 따라 이 게이트를 자유롭게 수정할 수 있습니다.
 
-    Horizon::auth(function ($request) {
-        // return true / false;
-    });
+    /**
+     * Register the Horizon gate.
+     *
+     * This gate determines who can access Horizon in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('viewHorizon', function ($user) {
+            return in_array($user->email, [
+                'taylor@laravel.com',
+            ]);
+        });
+    }
 
 <a name="running-horizon"></a>
 ## Running Horizon
@@ -238,7 +254,7 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 
 > **Note:** 알림을 사용하기 전에 프로젝트에 `guzzlehttp/guzzle` 컴포저(composer) 패키지를 등록 해야 합니다. SMS 알림을 보내도록 Horizon을 설정 하는 경우 이 링크를 참고하시기 바랍니다 [Nexmo 알림 드라이버 사전 준비사항](/docs/{{version}}/notifications#sms-notifications).
 
-If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `AppServiceProvider`:
+If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `HorizonServiceProvider`:
 
 대기 시간이 긴 Queue에 대한 알림을 받으려면 애플리케이션의 `AppServiceProvider`에서 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, 또는 `Horizon::routeSmsNotificationsTo` 메서드를 사용 하십시오:
 

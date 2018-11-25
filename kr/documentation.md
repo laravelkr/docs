@@ -170,3 +170,5 @@
     - [Scout-검색](/docs/{{version}}/scout)
     - [Socialite](/docs/{{version}}/socialite)
     - [Socialite-소셜로그인](/docs/{{version}}/socialite)
+    - [Telescope](/docs/{{version}}/telescope)
+    - [Telescope](/docs/{{version}}/telescope)

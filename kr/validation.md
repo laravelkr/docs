@@ -23,6 +23,8 @@
     - [Form Requests 사용자 승인](#authorizing-form-requests)
     - [Customizing The Error Messages](#customizing-the-error-messages)
     - [에러 메세지 사용자 정의하기](#customizing-the-error-messages)
+    - [Customizing The Validation Attributes](#customizing-the-validation-attributes)
+    - [유효성 검사 속성 사용자 정의하기](#customizing-the-validation-attributes)
 - [Manually Creating Validators](#manually-creating-validators)
 - [Validators 수동으로 생성하기](#manually-creating-validators)
     - [Automatic Redirection](#automatic-redirection)
@@ -366,6 +368,26 @@ You may customize the error messages used by the form request by overriding the 
         ];
     }
 
+<a name="customizing-the-validation-attributes"></a>
+### Customizing The Validation Attributes
+### 유효성 검사 속성 사용자 정의하기
+
+If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom names by overriding the `attributes` method. This method should return an array of attribute / name pairs:
+
+유효성 검사 메시지의 `:attribute` 부분을 커스텀 속성 이름으로 대체하기를 원할 경우, `attributes` 메소드를 오버라이드하여 커스텀 이름을 지정할 수 있습니다. 이 메소드는 속성 / 이름의 쌍을 가진 배열을 반환해야합니다.
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'email' => 'email address',
+        ];
+    }
+
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 ## Validator 수동으로 생성하기
@@ -538,7 +560,7 @@ In this example, the `:attribute` place-holder will be replaced by the actual na
 #### Specifying A Custom Message For A Given Attribute
 #### 주어진 속성에 대해 커스텀 메세지 지정하기
 
-Sometimes you may wish to specify a custom error messages only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
+Sometimes you may wish to specify a custom error message only for a specific field. You may do so using "dot" notation. Specify the attribute's name first, followed by the rule:
 종종 하나의 특정 필드에 대해서만 커스텀 오류 메세지를 지정해야 하는 경우가 있습니다. 이것은 ".(점)" 표기법을 통해서 할 수 있습니다. 속성의 이름을 먼저 지정하고, 규칙을 명시하면됩니다:
 
     $messages = [
@@ -567,6 +589,39 @@ If you would like the `:attribute` portion of your validation message to be repl
     'attributes' => [
         'email' => 'email address',
     ],
+
+#### Specifying Custom Values In Language Files
+#### 언어 파일에서 사용자 값 지정
+
+Sometimes you may need the `:value` portion of your validation message to be replaced with a custom representation of the value. For example, consider the following rule that specifies that a credit card number is required if the `payment_type` has a value of `cc`:
+
+때로는 유효성 검사 메시지의 `:value` 부분의 값을 사용자 정의 표현으로 대체해야 할 수도 있습니다. 예를 들어 다음과 같이 `payment_type` 의 값이 `cc` 인 경우 신용 카드 번호가 필요하다는 규칙을 생각해 보겠습니다.
+
+    $request->validate([
+        'credit_card_number' => 'required_if:payment_type,cc'
+    ]);
+
+If this validation rule fails, it will produce the following error message:
+
+이 유효성 검사 규칙이 실패하면 다음과 같은 오류 메시지가 나타납니다.
+
+    The credit card number field is required when payment type is cc.
+
+Instead of displaying `cc` as the payment type value, you may specify a custom value representation in your `validation` language file by defining a `values` array:
+
+결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다 :
+
+    'values' => [
+        'payment_type' => [
+            'cc' => 'credit card'
+        ],
+    ],
+
+Now if the validation rule fails it will produce the following message:
+
+이제 유효성 검사 규칙이 실패하면 다음 메시지가 생성됩니다.
+
+    The credit card number field is required when payment type is credit card.
 
 <a name="available-validation-rules"></a>
 ## Available Validation Rules
@@ -1024,9 +1079,9 @@ The field under validation must not match the given regular expression.
 
 필드의 값이 주어진 정규표현식과 매칭되지 않는 것을 확인합니다.
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
+Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
 
-이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
+이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
 
 **Note:** When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using pipe delimiters, especially if the regular expression contains a pipe character.
 
@@ -1461,13 +1516,13 @@ When creating a custom validation rule, you may sometimes need to define custom 
 #### Implicit Extensions
 #### 묵시적 확장
 
-By default, when an attribute being validated is not present or contains an empty value as defined by the [`required`](#rule-required) rule, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against a `null` value:
+By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
-기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 [`required`](#rule-required) 규칙의 정의에 따라 빈 값을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 `null` 값에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
+기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 빈 문자열을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 빈 문자열에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
 
-    $rules = ['name' => 'unique'];
+    $rules = ['name' => 'unique:users,name'];
 
-    $input = ['name' => null];
+    $input = ['name' => ''];
 
     Validator::make($input, $rules)->passes(); // true
 

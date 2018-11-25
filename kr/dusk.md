@@ -94,10 +94,6 @@ To get started, you should add the `laravel/dusk` Composer dependency to your pr
 
     composer require --dev laravel/dusk
 
-Once Dusk is installed, you should register the `Laravel\Dusk\DuskServiceProvider` service provider. Typically, this will be done automatically via Laravel's automatic service provider registration.
-
-Dusk를 설치하고 나면, `Laravel\Dusk\DuskServiceProvider` 서비스 프로바이더를 등록해야 합니다. 일반적으로는 이 작업은 라라벨의 자동 서비스 프로바이더 등록 기능이 알아서 해줍니다.
-
 > {note} If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
 
 > {note} 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
@@ -1589,37 +1585,7 @@ Once the component has been defined, we can easily select a date within the date
 ### CircleCI
 ### CircleCI
 
-#### CircleCI 1.0
-#### CircleCI 1.0
-
-If you are using CircleCI 1.0 to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
-
-Dusk 테스트를 수행하기 위해서 CircleCI 1.0를 사용한다면, 다음 설정 파일을 사용할 수 있습니다. TravisCI와 같이, PHP 내장 웹서버를 실행하기 위해서 `php artisan serve` 를 사용할 수 있습니다:
-
-    dependencies:
-      pre:
-          - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          - sudo dpkg -i google-chrome.deb
-          - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-          - rm google-chrome.deb
-
-    test:
-        pre:
-            - "./vendor/laravel/dusk/bin/chromedriver-linux":
-                background: true
-            - cp .env.testing .env
-            - "php artisan serve":
-                background: true
-
-        override:
-            - php artisan dusk
-
-#### CircleCI 2.0
-#### CircleCI 2.0
-
- If you are using CircleCI 2.0 to run your Dusk tests, you may add these steps to your build:
-
-Dusk 테스트를 수행하기 위해서 CircleCI 2.0를 사용한다면, 빌드를 위해서 다음을 추가하십시오:
+If you are using CircleCI to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
      version: 2
      jobs:

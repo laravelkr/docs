@@ -227,9 +227,9 @@ To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you onl
           to: /home/vagrant/code
           type: "nfs"
 
-> {note} When using NFS, you should consider installing the [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead box.
+> {note} When using NFS, you should consider installing the [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead box.
 
-> {note} NFS를 사용할 때에는, [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
+> {note} NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
 You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
 
@@ -787,7 +787,7 @@ Homestead를 커스터마이징 할 때, 우분투는 패키지의 원래 환경
 
     sudo apt-get -y \
         -o Dpkg::Options::="--force-confdef" \
-        -o pkg::Options::="--force-confold" \
+        -o Dpkg::Options::="--force-confold" \
         install your-package
 
 <a name="updating-homestead"></a>

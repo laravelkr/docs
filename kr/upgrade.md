@@ -187,6 +187,34 @@ If you are implementing this interface, you should add this method to your imple
 
 만약 이 인터페이스를 구현하는 경우 이 메소드를 구현체에 추가해야합니다.
 
+#### The `Login` Event
+#### `Login` 이벤트
+
+**Likelihood Of Impact: Very Low**
+**영향 가능성 : 매우 낮음**
+
+The `__construct` method of `Illuminate\Auth\Events\Login` event has a new `$guard` argument:
+
+`Illuminate\Auth\Events\Login` 이벤트의 `__construct` 메소드는 `$guard`를 새로운 인자로 가집니다.
+ 
+    /**
+     * Create a new event instance.
+     *
+     * @param  string  $guard
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  bool  $remember
+     * @return void
+     */
+    public function __construct($guard, $user, $remember)
+
+If you are dispatching this event manually within your application, you'll need to pass this new argument into the event's constructor. The following example passes the default framework guard to the Login event:
+
+어플리케이션에서 이 이벤트를 수동으로 전달한다면, 이벤트의 생성자에 새로운 인수를 추가해야 합니다. 다음은 기본 프레임워크 가드를 전달하는 로그인 이벤트의 예제입니다.
+
+    use Illuminate\Auth\Events\Login;
+
+    event(new Login(config('auth.defaults.guard'), $user, $remember))
+
 ### Blade
 ### 블레이드
 
@@ -656,6 +684,16 @@ The `validate` method [was added to the `Illuminate\Contracts\Validation\Validat
 If you are implementing this interface, you should add this method to your implementation.
 
 만약 이 인터페이스를 구현하는 경우 이 메소드를 구현체에 추가해야합니다.
+
+### Testing
+### 테스팅
+
+**Likelihood of Impact: Medium**
+**영향 가능성 : 보통**
+
+Laravel 5.7 introduces improved testing tools for Artisan commands. By default, Artisan command output is now mocked. If you are relying on the `artisan` method to run commands as part of your test, you should use `Artisan::call` or define `public $mockConsoleOutput = false` as a property in your test class.
+
+라라벨 5.7은 아티즌 커맨드를 위한 향상된 테스팅 툴을 제공합니다. 기본적으로 아티즌 커맨드의 출력은 mock 처리됩니다. 만약 테스트에서 `artisan` 메소드를 사용하여 커맨드를 실행 시킬 경우, 테스트 클래스에 `Artisan::call` 사용하거나 `public $mockConsoleOutput = false` 를 속성(property)에 정의해야 합니다. 
 
 ### Miscellaneous
 ### 기타

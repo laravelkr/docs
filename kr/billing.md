@@ -497,7 +497,7 @@ When changing the hard-coded value returned by the `taxPercentage` method, the t
 
 > {note} 정기 구독의 고정일을 변경 하는 것은 Cashier의 Stripe 버전에서만 지원합니다.
 
-By default. the billing cycle anchor will is the date the subscription was created, or if a trial period is used, the date that the trial ends. If you would like to modify the billing anchor date, you may use the `anchorBillingCycleOn` method:
+By default, the billing cycle anchor is the date the subscription was created, or if a trial period is used, the date that the trial ends. If you would like to modify the billing anchor date, you may use the `anchorBillingCycleOn` method:
 
 일반적으로 과금 주기의 고정일은 정기 구독이 시작 된 날짜 또는 평가 기간이 있는 경우 평가 기간이 종료되는 날짜입니다. 청구서의 고정일을 수정하려면 `anchorBillingCycleOn` 메소드를 사용할 수 있습니다 :
 
@@ -696,9 +696,9 @@ Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 
 
 > {note} 라우트를 등록하고나서, Stripe 설정 패널에서 webhook URL을 설정하십시오.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings), customer updates, custom deletions, subscription updates, and credit card changes; however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings), customer updates, customer deletions, subscription updates, and credit card changes; however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
-기본적으로, 이 컨트롤러는 결제 실패가 너무 많이 발행 할 경우 (Stripe 설정에서 정의한대로) 자동으로 구독을 취소, 고객 업데이트, 사용자 정의 삭제, 정기 구독 취소 및 신용카드를 변경 할 것입니다. 잠시후 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 살펴보겠습니다.
+기본적으로, 이 컨트롤러는 결제 실패가 너무 많이 발행 할 경우 (Stripe 설정에서 정의한대로) 자동으로 구독을 취소, 고객 업데이트, 고객 삭제, 정기 구독 취소 및 신용카드를 변경 할 것입니다. 잠시후 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 살펴보겠습니다.
 
 #### Webhooks & CSRF Protection
 #### Webhook & CSRF 보호

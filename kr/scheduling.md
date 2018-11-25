@@ -94,7 +94,7 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling using Closures, you may also using [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+In addition to scheduling using Closures, you may also use [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
 
 클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
 
@@ -208,6 +208,7 @@ Below is a list of the additional schedule constraints:
 Method  | Description
 ------------- | -------------
 `->weekdays();`  |  Limit the task to weekdays
+`->weekends();`  |  Limit the task to weekends
 `->sundays();`  |  Limit the task to Sunday
 `->mondays();`  |  Limit the task to Monday
 `->tuesdays();`  |  Limit the task to Tuesday
@@ -222,6 +223,7 @@ Method  | Description
 메소드  | 설명
 ------------- | -------------
 `->weekdays();`  |  평일로 제한
+`->weekends();`  |  주말로 제한
 `->sundays();`  |  일요일로 제한
 `->mondays();`  |  월요일로 제한
 `->tuesdays();`  |  화요일로 제한

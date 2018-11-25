@@ -115,7 +115,7 @@ When using the Algolia driver, you should configure your Algolia `id` and `secre
 
 Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보를 `config/scout.php` 설정 파일에 입력해야 합니다. 계정 정보를 설정한 다음에는, 컴포저를 통해 Algolia PHP SDK를 설치해야 합니다.
 
-    composer require algolia/algoliasearch-client-php
+    composer require algolia/algoliasearch-client-php:^1.27
 
 <a name="configuration"></a>
 ## Configuration

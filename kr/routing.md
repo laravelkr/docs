@@ -473,6 +473,10 @@ Using the `Route::fallback` method, you may define a route that will be executed
         //
     });
 
+> {note} The fallback route should always be the last route registered by your application.
+
+> {note} 대체 라우트는 항상 어플리케이션에서 등록한 마지막 라우트 여야합니다.
+
 <a name="rate-limiting"></a>
 ## Rate Limiting
 ## Rate 제한

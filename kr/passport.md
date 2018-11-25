@@ -80,9 +80,9 @@ To get started, install Passport via the Composer package manager:
 
     composer require laravel/passport
 
-The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after registering the provider. The Passport migrations will create the tables your application needs to store clients and access tokens:
+The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after installing the package. The Passport migrations will create the tables your application needs to store clients and access tokens:
 
-Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 서비스 프로바이더를 등록한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 애플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
+Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 패키지를 설치 한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 애플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
 
     php artisan migrate
 
@@ -1036,6 +1036,10 @@ When using this method of authentication, the default Laravel JavaScript scaffol
 
 이 인증 메소드를 사용할 때, 라라벨에서 기본적으로 제공하는 자바스크립트 스캐폴딩은 Axios가 항상 `X-CSRF-TOKEN`와  `X-Requested-With` 헤더를 전송하도록 합니다. 그렇지만, [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token)에 CSRF 토큰이 들어 있어야 합니다.
 
+    // In your application layout...
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    // Laravel's JavaScript scaffolding...
     window.axios.defaults.headers.common = {
         'X-Requested-With': 'XMLHttpRequest',
     };

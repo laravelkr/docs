@@ -500,9 +500,13 @@ However, you may also define the maximum number of seconds a job should be allow
 
 > {note} 이 기능을 사용하려면, 애플리케이션이 [Redis server](/docs/{{version}}/redis)에 연결되어 있어야 합니다.
 
-If your application interacts with Redis, you may throttle your queued jobs by time or concurrency. This feature can be of assistance when your queued jobs are interacting with APIs that are also rate limited. For example, using the `throttle` method, you may throttle a given type of job to only run 10 times every 60 seconds. If a lock can not be obtained, you should typically release the job back onto the queue so it can be retried later:
+If your application interacts with Redis, you may throttle your queued jobs by time or concurrency. This feature can be of assistance when your queued jobs are interacting with APIs that are also rate limited.
 
-애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다. 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
+애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다.
+
+For example, using the `throttle` method, you may throttle a given type of job to only run 10 times every 60 seconds. If a lock can not be obtained, you should typically release the job back onto the queue so it can be retried later:
+ 
+ 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
 
     Redis::throttle('key')->allow(10)->every(60)->then(function () {
         // Job logic...
@@ -515,6 +519,10 @@ If your application interacts with Redis, you may throttle your queued jobs by t
 > {tip} In the example above, the `key` may be any string that uniquely identifies the type of job you would like to rate limit. For example, you may wish to construct the key based on the class name of the job and the IDs of the Eloquent models it operates on.
 
 > {tip} 이 예제에서, `key` 는 속도제한을 시키고자 하는 job을 식별할 수 있는 고유한 문자열입니다. 예를 들면, 이 키는 job의 클래스 이름 그리고 Eloquent 모델의 id 값을 기반으로 구성할 수 있습니다.
+
+> {note}  Releasing a throttled job back onto the queue will still increment the job's total number of `attempts`.
+
+> {note} 스로틀 작업을 대기열로 다시 보낸다면 job의 총 시도 횟수가 증가합니다.
 
 Alternatively, you may specify the maximum number of workers that may simultaneously process a given job. This can be helpful when a queued job is modifying a resource that should only be modified by one job at a time. For example, using the `funnel` method, you may limit jobs of a given type to only be processed by one worker at a time:
 

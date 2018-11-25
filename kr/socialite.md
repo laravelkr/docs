@@ -22,9 +22,9 @@
 ## Introduction
 ## 소개하기
 
-In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication with Facebook, Twitter, LinkedIn, Google, GitHub and Bitbucket.
+In addition to typical, form based authentication, Laravel also provides a simple, convenient way to authenticate with OAuth providers using [Laravel Socialite](https://github.com/laravel/socialite). Socialite currently supports authentication with Facebook, Twitter, LinkedIn, Google, GitHub, GitLab and Bitbucket.
 
-일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
+일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 
 > {tip} Adapters for other platforms are listed at the community driven [Socialite Providers](https://socialiteproviders.github.io/) website.
 
@@ -44,9 +44,9 @@ Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에
 ## Configuration
 ## 설정하기
 
-Before using Socialite, you will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your `config/services.php` configuration file, and should use the key `facebook`, `twitter`, `linkedin`, `google`, `github` or `bitbucket`, depending on the providers your application requires. For example:
+Before using Socialite, you will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your `config/services.php` configuration file, and should use the key `facebook`, `twitter`, `linkedin`, `google`, `github`, `gitlab` or `bitbucket`, depending on the providers your application requires. For example:
 
-Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
+Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github`, `gitlab` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID

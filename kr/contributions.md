@@ -61,6 +61,8 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
 - [라라벨 Socialite](https://github.com/laravel/socialite)
+- [Laravel Telescope](https://github.com/laravel/telescope)
+- [라라벨 Telescope](https://github.com/laravel/telescope)
 - [Laravel Website](https://github.com/laravel/laravel.com)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com)
 
@@ -128,6 +130,8 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
+     *
+     * @throws \Exception
      */
     public function bind($abstract, $concrete = null, $shared = false)
     {

@@ -7,6 +7,8 @@
 - [모델 정의하기](#defining-models)
     - [Eloquent Model Conventions](#eloquent-model-conventions)
     - [Eloquent 모델 컨벤션](#eloquent-model-conventions)
+    - [Default Attribute Values](#default-attribute-values)
+    - [기본 속성 값](#default-attribute-values)
 - [Retrieving Models](#retrieving-models)
 - [모델 조회하기](#retrieving-models)
     - [Collections](#collections)
@@ -211,6 +213,32 @@ By default, all Eloquent models will use the default database connection configu
         protected $connection = 'connection-name';
     }
 
+<a name="default-attribute-values"></a>
+### Default Attribute Values
+### 기본 속성 값
+
+If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model:
+
+일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다 :
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Flight extends Model
+    {
+        /**
+         * The model's default values for attributes.
+         *
+         * @var array
+         */
+        protected $attributes = [
+            'delayed' => false,
+        ];
+    }
+    
 <a name="retrieving-models"></a>
 ## Retrieving Models
 ## 모델 조회하기
@@ -930,8 +958,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
-         * @param mixed $type
+         * @param  \Illuminate\Database\Eloquent\Builder $query
+         * @param  mixed $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)

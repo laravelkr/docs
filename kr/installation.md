@@ -43,6 +43,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 - XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
+- BCMath PHP Extension
 
 
 <a name="installing-laravel"></a>
@@ -60,7 +61,7 @@ First, download the Laravel installer using Composer:
 
 먼저, 라라벨 인스톨러를 컴포저를 사용하여 다운로드 합니다.
 
-    composer global require "laravel/installer"
+    composer global require laravel/installer
 
 Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
 

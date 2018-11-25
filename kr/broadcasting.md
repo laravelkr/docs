@@ -459,6 +459,20 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 `Broadcast::routes` 메소드는 자동적으로 라우트를 `web` 미들웨어 그룹에 위치시킬 것입니다. 그렇지만 할당된 속성들을 커스터마이즈하기 위해서는 메소드에 라우트 속성 배열을 전달해줘야 합니다.
 
     Broadcast::routes($attributes);
+    
+#### Customizing The Authorization Endpoint
+#### Authorization Endpoint의 커스터마이징
+
+By default, Echo will use the `/broadcasting/auth` endpoint to authorize channel access. However, you may specify your own authorization endpoint by passing the `authEndpoint` configuration option to your Echo instance:
+
+기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다 :
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        authEndpoint: '/custom/endpoint/auth'
+    });
+
 
 <a name="defining-authorization-callbacks"></a>
 ### Defining Authorization Callbacks
@@ -642,6 +656,22 @@ When creating an Echo instance that uses the `pusher` connector, you may also sp
         cluster: 'eu',
         encrypted: true
     });
+    
+#### Using An Existing Client Instance
+#### 기존 클라이언트 인스턴스 사용
+
+If you already have a Pusher or Socket.io client instance that you would like Echo to utilize, you may pass it to Echo via the `client` configuration option:
+
+Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+
+
+    const client = require('pusher-js');
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'your-pusher-key',
+        client: client
+    });
 
 <a name="listening-for-events"></a>
 ### Listening For Events
@@ -694,7 +724,7 @@ Alternatively, you may prefix event classes with a `.` when subscribing to them 
 이 대신에, 에코를 이용하여 이벤트를 구독할 때 이벤트 클래스 앞에 `.`를 붙일 수 있습니다. 이렇게 하면 항상 정규화된 클래스명을 명시할 수 있습니다.
 
     Echo.channel('orders')
-        .listen('.Namespace.Event.Class', (e) => {
+        .listen('.Namespace\\Event\\Class', (e) => {
             //
         });
 

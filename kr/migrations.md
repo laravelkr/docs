@@ -712,7 +712,7 @@ You may also specify the desired action for the "on delete" and "on update" prop
           ->references('id')->on('users')
           ->onDelete('cascade');
 
-To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "_foreign":
+To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "\_foreign":
 
 외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제한은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제한(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다:
 
@@ -732,6 +732,6 @@ You may enable or disable foreign key constraints within your migrations by usin
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to enable foreign key support before attempting to create them in your migrations.
+> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations.
 
-> {note} SQLite는 외래 키 제약 조건이 기본적으로 비활성화되어있습니다. SQLite를 사용할 때는 마이그레이션에서 외래 키를 생성하기 전에 외래 키 기능을 활성화해야합니다.
+> {note} SQLite는 외래 키 제약 조건이 기본적으로 비활성화되어있습니다. SQLite를 사용할 때는 마이그레이션에서 외래 키를 생성하기 전에 [외래 키 기능을 활성화](/docs/{{version}}/database#configuration)해야합니다.

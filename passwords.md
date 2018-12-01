@@ -1,6 +1,6 @@
 # 패스워드 재설정하기
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [데이터베이스 고려사항](#resetting-database)
 - [라우팅](#resetting-routing)
 - [뷰](#resetting-views)
@@ -8,7 +8,7 @@
 - [커스터마이징](#password-customization)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 > {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 애플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.test/register` 에 접속하거나 애플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
 

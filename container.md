@@ -1,6 +1,6 @@
 # 서비스 컨테이너
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [바인딩](#binding)
     - [기본적인 바인딩](#binding-basics)
     - [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations)
@@ -14,7 +14,7 @@
 - [PSR-11](#psr-11)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨의 서비스 컨테이너는 클래스의 의존성을 관리하고 의존성을 주입하는 강력한 도구 입니다. 의존성 주입이라는 멋진 말의 의미는 다음과 같습니다: 클래스간의 의존성은 클래스 생성될 때 또는 경우에 따라 "setter" 메소드에 의해서 "주입" 된다는 의미입니다.
 

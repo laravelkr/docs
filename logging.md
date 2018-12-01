@@ -1,6 +1,6 @@
 # 로깅
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설정하기](#configuration)
     - [로그 스택 구성하기](#building-log-stacks)
 - [로그 메세지 작성하기](#writing-log-messages)
@@ -11,7 +11,7 @@
     - [팩토리를 사용하여 채널 생성하기](#creating-channels-via-factories)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 애플리케이션에서 어떤일이 일어나고 있는지 알기 위해서, 라라벨은 편리한 로깅 서비스를 제공합니다. 이 로깅 서비스는 로그 메세지를 파일에 남기거나, 시스템 에러에 출력하거나 또는 팀 슬랙에 알림을 보낼 수 있도록 해줍니다.
 

@@ -1,6 +1,6 @@
 # 파일시스템 / 클라우드 스토리지
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설정](#configuration)
 - [기본적인 사용법](#basic-usage)
     - [Disk 인스턴스 획득하기](#obtaining-disk-instances)
@@ -11,7 +11,7 @@
 - [사용자 정의 파일 시스템](#custom-filesystems)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 Frank de Jonge가 만든 [Flysystem](https://github.com/thephpleague/flysystem) 패키지를 기반으로 하는 강력한 추상화된 파일 시스템을 제공합니다. 라라벨의 통합된 파일 시스템은 로컬, 아마존 S3 그리고 Rackspace 클라우드 스토리지를 드라이버들을 통해서 간단하게 사용할 수 있게 제공합니다. 더욱 놀라운 것은, 각각의 시스템에 대해 동일한 API를 사용하고 있기 때문에 스토리지를 매우 쉽게 변경할 수 있다는 것입니다.
 

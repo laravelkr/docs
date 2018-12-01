@@ -1,12 +1,12 @@
 # Contracts
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [왜 Contracts 인가?](#why-contracts)
 - [Contract 참조](#contract-reference)
 - [Contracts 사용법](#how-to-use-contracts)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨의 Contract는 프레임워크에서 제공하는 코어 서비스들을 정의한 인터페이스들의 모음입니다. 예를 들어, `Illuminate\Contracts\Queue\Queue` Contract에는 어떤 작업들을 큐에서 다룰때 필요한 메소드들이 정의되어 있고, `Illuminate\Contracts\Mail\Mailer` Contract에는 이메일을 보내기 위해 필요한 메소드들을 정의되어 있습니다.
 

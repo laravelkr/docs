@@ -1,10 +1,10 @@
 # 해시
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨의 `Hash` [파사드](/docs/{{version}}/facades)는 사용자의 암호를 저장하는데 필요한 안전한 Bcrypt 해싱을 제공합니다. 만약 라라벨 애플리케이션에 포함되어 있는 `AuthController`를 사용하고 있다면, 컨트롤러에서 자동으로 회원 가입과 인증에 자동으로 Bcrypt 방식을 사용하게 됩니다.
 

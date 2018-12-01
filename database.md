@@ -1,13 +1,13 @@
 # 데이터베이스 : 시작하기
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Raw SQL 쿼리 실행하기](#running-queries)
     - [쿼리 이벤트 리스닝](#listening-for-query-events)
 - [데이터베이스 트랙잭션](#database-transactions)
 - [다중 데이터베이스 커넥션 사용하기](#accessing-connections)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 직접 raw SQL을 사용할 때에도, [쿼리 빌더](/docs/{{version}}/queries)를 사용하거나 그리고 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용할 때에도 커넥션을 만들고 쿼리를 실행하는 이 매우 쉽도록 해줍니다. 현재 라라벨은 4가지 데이터베이스 시스템을 지원하고 있습니다.
 

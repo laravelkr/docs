@@ -1,6 +1,6 @@
 # 아티즌 콘솔
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [명령어 작성하기](#writing-commands)
     - [명령어의 구조](#command-structure)
 - [명령어 I/O](#command-io)
@@ -12,7 +12,7 @@
 - [코드 상에서 명령어 호출하기](#calling-commands-via-code)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 아티즌(Artisan)은 라라벨에 포함된 커맨드라인 인터페이스(CLI)의 이름입니다. 아티즌은 애플리케이션 개발에 도움을 주는 많은 명령어들을 제공합니다. 아티즌은 강력한 Symfony 콘솔 콤포넌트에서 동작합니다. 실행가능한 아티즌 명령어 목록을 확인하려면 `list` 명령어를 다음과 같이 입력하면 됩니다.
 

@@ -1,6 +1,6 @@
 # 데이터베이스: 마이그레이션
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [마이그레이션 파일 생성하기](#generating-migrations)
 - [마이그레이션의 구조](#migration-structure)
 - [마이그레이션 실행하기](#running-migrations)
@@ -16,7 +16,7 @@
     - [외래키 제약](#foreign-key-constraints)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 마이그레이션은 한 팀에서 손쉽게 애플리케이션의 데이터베이스를 수정하고 데이터베이스 스키마를 공유할 수 있도록 해주며 데이터베이스를 위한 버전 컨트롤과 같은 역할을 합니다. 마이그레이션은 보통 라라벨의 스키마 빌더와 쌍을 이루어 애플리케이션의 데이터베이스 스키마를 손쉽게 만들 수 있습니다. 
 

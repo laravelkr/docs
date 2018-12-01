@@ -1,6 +1,6 @@
 # 할일 목록 구성하기(중급)
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
 - [데이터베이스 준비사항](#prepping-the-database)
 	- [데이터베이스 마이그레이션](#database-migrations)

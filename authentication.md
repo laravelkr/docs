@@ -1,6 +1,6 @@
 # 인증
 
-- [소개](#introduction)
+- [시작하기](#introduction)
     - [데이터베이스 유의사항](#introduction-database-considerations)
 - [빠르게 인증 살펴보기](#authentication-quickstart)
     - [Routing-라우팅](#included-routing)
@@ -24,7 +24,7 @@
 - [이벤트](#events)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 인증기능을 구현하는 것을 매우 쉽게 해줍니다. 기본적으로 별도의 설정 없이도 대부분이 이미 준비되어 있습니다. 인증에 대한 설정 파일은 `config/auth.php` 으로 인증 서비스의 동작을 제어할 수 있는 옵션들이 자세한 설명과 함께 제공됩니다.
 

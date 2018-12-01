@@ -1,12 +1,12 @@
 # 세션
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)
     - [임시 데이터](#flash-data)
 - [사용자 정의 세션 드라이버 추가하기](#adding-custom-session-drivers)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HTTP 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 다양한 벡엔드 세션들에 관계없이 간결하고 통일된 API를 제공합니다. 많이 알려진  [Memcached](http://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 별다른 설정 없이 세션 시스템으로 사용할 수 있습니다.
 

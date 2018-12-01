@@ -1,6 +1,6 @@
 # Queues-큐
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [작업 클래스를 작성하기](#writing-job-classes)
     - [작업 클래스 생성하기](#generating-job-classes)
     - [작업 클래스 구조](#job-class-structure)
@@ -17,7 +17,7 @@
     - [실패한 작업 다시 시도하기](#retrying-failed-jobs)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨 큐 서비스는 다양한 큐 시스템으로부터 통일된 API를 제공합니다. 큐를 사용하면 이메일을 보내는 작업과 같이 시간이 소요되는 작업을 나중에 처리할 수 있습니다. 이렇게 작업을 나중에 처리함으로서 여러분의 애플리케이션은 웹 요청을 더 빠르게 처리할 수 있습니다.
 

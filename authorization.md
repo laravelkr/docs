@@ -1,6 +1,6 @@
 # Authorization-승인
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Abilities 정의하기](#defining-abilities)
 - [Abilities 체크하기](#checking-abilities)
 	- [Gate 파사드를 통한 방법](#via-the-gate-facade)
@@ -17,7 +17,7 @@
 - [컨트롤러에서 Authorization-승인하기](#controller-authorization)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 별다른 설정 없이도, [인증](/docs/{{version}}/authentication) 서비스 활용할 수 있는데에 더하여, 라라벨은 authorization-승인 로직을 처리하고 resources에 접근을 제어하도록 하는 간단한 방법을 제공합니다. authorization-승인 로직을 구성 하는데 다양한 메소드와 헬퍼들을 사용할 수 있으며 이 문서에서 하나씩 알아볼 것입니다. 
 

@@ -1,6 +1,6 @@
 # 테스팅
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [애플리케이션 테스팅](#application-testing)
     - [애플리케이션과 상호작용하기](#interacting-with-your-application)
     - [JSON API 테스트하기 ](#testing-json-apis)
@@ -17,7 +17,7 @@
     - [파사드 Mocking](#mocking-facades)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 단위 테스트(Unit Test)를 고려하여 구성되어 있습니다. 실제로는 PHPUnit을 통한 테스팅이 별다른 설정 없이도 지원되며 애플리케이션을 위한 `phpunit.xml` 파일이 이미 설정되어 있습니다. 또한 이 프레임워크는 다양한 표현을 통해서 애플리케이션을 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다. 
 

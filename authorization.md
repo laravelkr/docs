@@ -1,6 +1,6 @@
 # 권한 승인
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Gate](#gates)
     - [Gates 작성하기](#writing-gates)
     - [승인 액션](#authorizing-actions-via-gates)
@@ -18,7 +18,7 @@
     - [블레이드 템플릿을 통해서](#via-blade-templates)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 별다른 설정없이도 [인증](/docs/{{version}}/authentication) 기능을 제공하는 것에 더하여, 라라벨은 간단한 방법으로 주어진 리소스에 대한 사용자 액션의 권한을 승인하는 방법을 제공합니다. 사용자 인증과 같이 권한 승인에 대한 라라벨의 접근 방식은 간단하며, 액션에 대한 승인을 위한 두가지 기본 방법이 있습니다: Gate 와 Policy 입니다.
 

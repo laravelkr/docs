@@ -1,12 +1,12 @@
 # 컬렉션
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [컬렉션 생성하기](#creating-collections)
 - [사용 가능한 메소드](#available-methods)
 - [Higher Order Messages](#higher-order-messages)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 `Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 다음의 사용예제를 확인하십시오. `collect` 헬퍼 함수를 사용하여 배열에서 새로운 collection 인스턴스를 생성하고 모든 요소들을 대문자로 변경한 다음 비어있는 요소들을 제거하는 예제 입니다:
 

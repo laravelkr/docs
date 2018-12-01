@@ -1,12 +1,12 @@
 # CSRF 보호
 
-- [소개하기](#csrf-introduction)
+- [시작하기](#csrf-introduction)
 - [특정 URI 제외시키기](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
 
 <a name="csrf-introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 [크로스-사이트 요청 위조 공격](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF)으로부터 당신의 애플리케이션을 쉽게 보호할 수 있게 해줍니다. 사이트 간 요청 위조는 인증된 사용자를 대신해서 승인되지 않은 커맨드를 악의적으로 활용하는 것입니다.
 

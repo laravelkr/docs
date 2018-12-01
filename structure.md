@@ -1,6 +1,6 @@
 # 디렉토리 구조
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Root 디렉토리](#the-root-directory)
     - [`app` 디렉토리](#the-root-app-directory)
     - [`bootstrap` 디렉토리](#the-bootstrap-directory)
@@ -25,7 +25,7 @@
     - [`Providers` 디렉토리](#the-providers-directory)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 당연히 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
 

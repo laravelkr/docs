@@ -1,6 +1,6 @@
 # 라라벨 스카우트-Scout
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [큐 사용하기](#queueing)
     - [드라이버 준비사항](#driver-prerequisites)
@@ -19,7 +19,7 @@
 - [커스텀 엔진](#custom-engines)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨 스카우트는 [Eloquent 모델](/docs/{{version}}/eloquent)에 full-text 검색 기능을 장착할 수 있는 드라이버 기반의 단순한 솔루션을 제공합니다. 스카우트는 모델 옵저버를 사용하여 엘로퀀트 레코드와 동기화된 검색 인덱스를 자동으로 유지합니다.
 

@@ -1,6 +1,6 @@
 # Eloquent: Mutators
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Accessors & Mutators](#accessors-and-mutators)
     - [Accessor 정의하기](#defining-an-accessor)
     - [Mutator 정의하기](#defining-a-mutator)
@@ -9,7 +9,7 @@
     - [배열 & JSON 캐스팅](#array-and-json-casting)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 Accessors 와 mutators 는 Eloquent 모델에서 속성값을 찾을 때나 값을 설정할 때 포맷을 가능하게 합니다. 예를 들어 데이터베이스에서 값을 저장할 때, [라라벨 encrypter](/docs/{{version}}/encryption)을 사용하여 값을 암호화 하고, Eloquent 모델에서 값에 엑세스 할 때 자동으로 복호화 하기를 원할 수도 있습니다.
 

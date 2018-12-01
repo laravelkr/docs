@@ -1,6 +1,6 @@
 # HTTP 세션
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [설정하기](#configuration)
     - [드라이버 사전준비사항](#driver-prerequisites)
 - [세션 사용하기](#using-the-session)
@@ -14,7 +14,7 @@
     - [드라이버 등록하기](#registering-the-driver)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 HTTP 기반의 어플리케이션은 상태를 저장할수 없기 때문에, HTTP 여러 요청들에 관계없이 사용자의 정보를 저장하기위해서 세션이 사용됩니다. 라라벨은 풍부한 표현이 가능하며 일관된 API를 통해서 엑세스 되는 다양한 세션 백엔드를 제공합니다. 별다른 설정 없이도, 많이 알려진 [Memcached](https://memcached.org), [Redis](http://redis.io) 그리고 데이터베이스를 지원합니다.
 

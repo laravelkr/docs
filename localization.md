@@ -1,6 +1,6 @@
 # 지역화 (다국어)
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [짧은 키 사용하기](#using-short-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
@@ -10,7 +10,7 @@
 - [패키지의 언어 파일 재정의하기](#overriding-package-language-files)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨의 다국어 기능은 애플리케이션이 다국어에 대응할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 애플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
 

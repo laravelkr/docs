@@ -1,6 +1,6 @@
 # Queues-큐
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [커넥션 Vs. Queues-큐](#connections-vs-queues)
     - [드라이버 사전준비사항](#driver-prerequisites)
 - [Job 생성하기](#creating-jobs)
@@ -25,7 +25,7 @@
 - [Job 이벤트](#job-events)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 > {tip} 라라벨은 이제 Redis 큐-queue를 위한 멋진 대시보드와 설정 시스템을 제공하는 Horizon를 지원합니다. 보다 자세한 사항은 [Horizon 문서](/docs/{{version}}/horizon)를 참고하십시오.
 

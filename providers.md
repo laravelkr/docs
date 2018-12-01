@@ -1,6 +1,6 @@
 # 서비스 프로바이더
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [서비스 프로바이더 작성하기](#writing-service-providers)
     - [Register 메소드](#the-register-method)
     - [Boot 메소드](#the-boot-method)
@@ -8,7 +8,7 @@
 - [지연된 프로바이더](#deferred-providers)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 서비스 프로바이더는 라라벨 애플리케이션의 부팅(부트스트래핑)의 가장 핵심이라고 할 수 있습니다. 여러분의 애플리케이션과 마찬가지로 라라벨의 모든 코어 서비스는 서비스 프로바이더를 통해서 부트스트래핑 됩니다.
 

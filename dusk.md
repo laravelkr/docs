@@ -1,6 +1,6 @@
 # 브라우저 테스트 (라라벨 Dusk)
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [다른 브라우저 사용하기](#using-other-browsers)
 - [시작하기](#getting-started)
@@ -37,7 +37,7 @@
     - [Codeship](#running-tests-on-codeship)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨 Dusk는 구성과 사용이 쉬운 브라우저 자동화 및 테스팅 API를 제공합니다. 기본적으로 Dusk는 사용자 머신에 JDK 나 Selenium을 설치하도록 요구하지 않습니다. 대신에 Dusk는 독립적인 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)를 사용합니다. 그렇긴 하지만, 원하는 경우 다른 Selenium 호환 드라이버를 사용할 수도 있습니다.
 

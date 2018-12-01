@@ -1,6 +1,6 @@
 # 메일
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [드라이버 사전 준비사항](#driver-prerequisites)
 - [Mailables 생성하기](#generating-mailables)
 - [Mailables 작성하기](#writing-mailables)
@@ -21,7 +21,7 @@
 - [이벤트](#events)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES, PHP 내장 `mail` 함수 그리고 `sendmail` 드라이버를 제공합니다.
 

@@ -1,6 +1,6 @@
 # 에러와 로깅
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설정하기](#configuration)
     - [에러의 상세정보](#error-detail)
     - [로그 스토리지](#log-storage)
@@ -15,7 +15,7 @@
 - [로깅](#logging)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 새로운 라라벨 프로젝트가 시작될 때, 기본적인 오류 및 예외 처리는 모두 설정되어 있습니다. 애플리케이션에서 발생하는 모든 예외-exceptions 들은 `App\Exceptions\Handler` 클래스에 의해서 로그를 남기고 사용자에게 응답을 보여주게 됩니다. 이 문서에서는 이 클래스에 대해서 좀 더 자세히 알아보겠습니다.
 

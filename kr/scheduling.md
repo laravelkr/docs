@@ -2,7 +2,7 @@
 # 작업 스케줄링하기
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Defining Schedules](#defining-schedules)
 - [스케줄 정의하기](#defining-schedules)
     - [Scheduling Artisan Commands](#scheduling-artisan-commands)
@@ -28,7 +28,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries.
 

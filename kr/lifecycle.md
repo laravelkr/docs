@@ -2,7 +2,7 @@
 # Request-요청 라이프사이클
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Lifecycle Overview](#lifecycle-overview)
 - [라이프사이클 개요](#lifecycle-overview)
 - [Focus On Service Providers](#focus-on-service-providers)

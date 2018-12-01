@@ -2,7 +2,7 @@
 # Eloquent: API Resources
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Generating Resources](#generating-resources)
 - [리소스 클래스 생성하기](#generating-resources)
 - [Concept Overview](#concept-overview)
@@ -24,7 +24,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 When building an API, you may need a transformation layer that sits between your Eloquent models and the JSON responses that are actually returned to your application's users. Laravel's resource classes allow you to expressively and easily transform your models and model collections into JSON.
 

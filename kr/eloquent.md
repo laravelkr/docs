@@ -2,7 +2,7 @@
 # Eloquent: 시작하기
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Defining Models](#defining-models)
 - [모델 정의하기](#defining-models)
     - [Eloquent Model Conventions](#eloquent-model-conventions)
@@ -48,7 +48,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord implementation for working with your database. Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.
 

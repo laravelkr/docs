@@ -2,7 +2,7 @@
 # Assets 컴파일 하기 (라라벨 Mix)
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Installation & Setup](#installation)
 - [설치하기 & 설정하기](#installation)
 - [Running Mix](#running-mix)
@@ -46,7 +46,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 [Laravel Mix](https://github.com/JeffreyWay/laravel-mix) provides a fluent API for defining Webpack build steps for your Laravel application using several common CSS and JavaScript pre-processors. Through simple method chaining, you can fluently define your asset pipeline. For example:
 

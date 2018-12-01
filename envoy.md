@@ -1,6 +1,6 @@
 # Envoy Task Runner
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [작업 작성하기](#writing-tasks)
     - [작업 변수들](#task-variables)
     - [여러개의 서버](#envoy-multiple-servers)
@@ -11,7 +11,7 @@
     - [Slack](#slack)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 [라라벨 Envoy](https://github.com/laravel/envoy)는 원격 서버에서 정의된 공통의 작업을 수행하기 위한 깔끔하고 간결한 문법을 제공합니다. 블레이드 스타일의 문법을 사용하여 손쉽게 배포, 아티즌 명령어 등의 작업을 설정할 수 있습니다. 현재 Envoy 는 맥과 리눅스 OS를 지원하고 있습니다.
 

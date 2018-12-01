@@ -1,12 +1,12 @@
 # 지역화 (다국어)
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)
     - [복수 단어 표기](#pluralization)
 - [벤더의 언어 일파일 재정의하기](#overriding-vendor-language-files)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨의 다국어 기능은 애플리케이션이 다국어에 대응 할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다.
 

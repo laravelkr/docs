@@ -1,6 +1,6 @@
 # 할일 목록 구성하기(중급)
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
 - [데이터베이스 준비사항](#prepping-the-database)
     - [데이터베이스 마이그레이션](#database-migrations)
@@ -26,7 +26,7 @@
     - [할일 삭제하기](#deleting-the-task)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 이 퀵스타트 가이드는 중급 이상의 사용자들을 위해서 라라벨 프레임워크에 대한 소개와 데이터베이스 마이그레이션, Eloquent ORM, 라우팅, validation-검증, views-뷰, 블레이드 템플릿과 관련한 내용을 포함하고 있습니다. 라라벨 프레임워크와 PHP 프레임워크에 대한 기본적인 지식을 가지고 있다면 좋은 출발점이 될 것입니다. 
 

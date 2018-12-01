@@ -1,6 +1,6 @@
 # Events
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Event와 / Listener 등록하기](#registering-events-and-listeners)
 - [Event 정의하기](#defining-events)
 - [Listener 정의하기](#defining-listeners)

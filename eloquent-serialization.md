@@ -1,12 +1,12 @@
 # Eloquent: Serialization
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)
 - [JSON 변환시 속성값 숨기기](#hiding-attributes-from-json)
 - [JSON 변환시 특정 값 추가하기](#appending-values-to-json)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야될 필요가 있을 것입니다. Eloquent 는 serialization 에서 이러한 변환들과, 어떠한 속성들이 JSON에 포함되어야 하는지 제어할 수 있도록 편리한 메소드들을 가지고 있습니다.
 

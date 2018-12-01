@@ -1,6 +1,6 @@
 # 패키지 개발
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [서비스 프로바이더](#service-providers)
 - [라우팅](#routing)
 - [Resources](#resources)
@@ -11,7 +11,7 @@
 - [파일을 그룹단위로 퍼블리싱하기](#publishing-file-groups)
 
 <a name="introduction"></a>
-## 소개 
+## 시작하기
 
 패키지를 개발하는 것은 라라벨에 기능을 추가하는 주요한 방법입니다. 패키지는 예를 들어 날짜 라이브러리인 [Carbon](https://github.com/briannesbitt/Carbon)이나 BDD(행위 주도 개발) 테스트 프레임워크인 [Behat](https://github.com/Behat/Behat)과 같이 어느 것이든 될 수 있습니다. 
 

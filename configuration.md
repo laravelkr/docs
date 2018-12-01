@@ -1,6 +1,6 @@
 # 설정
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [구동환경 설정](#environment-configuration)
     - [현재 구동환경 결정하기](#determining-the-current-environment)
@@ -8,7 +8,7 @@
 - [점검(공사중) 모드](#maintenance-mode)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨의 모든 설정 파일은 `config` 디렉토리에 저장됩니다. 모든 파일에는 개별 옵션에 대한 설명이 들어 있으니 해당 옵션에 대해 이해하는데 도움을 받을 수 있습니다. 
 

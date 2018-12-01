@@ -1,6 +1,6 @@
 # 라라벨 Elixir
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설치 & 준비](#installation)
 - [Elixir 구동하기](#running-elixir)
 - [스타일시트 작업](#working-with-stylesheets)
@@ -20,7 +20,7 @@
 - [Elixir 확장 기능 작성하기](#writing-elixir-extensions)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨 Elixir(엘릭서)는 여러분의 라라벨 애플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 몇가지 공통적인 CSS와 JavaScript 전처리 작업, 또한 테스팅 툴까지 제공합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
 

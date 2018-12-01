@@ -1,6 +1,6 @@
 # HTTP 미들웨어 
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [미들웨어 정의하기](#defining-middleware)
 - [미들웨어 등록하기](#registering-middleware)
     - [글로벌-전역 미들웨어](#global-middleware)
@@ -10,7 +10,7 @@
 - [종료시 동작하는 미들웨어](#terminable-middleware)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 HTTP 미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. 만약 인증되지 않은 사용자라면, 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 시킬 것입니다. 반대로, 인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속해서 더 처리되도록 허용할 것입니다.
 

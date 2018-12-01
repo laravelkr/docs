@@ -1,6 +1,6 @@
 # Eloquent: 시작하기
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [모델 정의하기](#defining-models)
     - [Eloquent 모델 컨벤션](#eloquent-model-conventions)
 - [여러개의 모델 가져오기](#retrieving-multiple-models)
@@ -19,7 +19,7 @@
 - [이벤트](#events)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨에 포함된 Eloquent ORM은 여러분의 데이터베이스에서 동작하는 아름답고 심플한 액티브 레코드를 제공합니다. 각각의 데이터베이스 테이블은 이에 해당하는 "모델"을 가지고 있습니다.
 

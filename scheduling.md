@@ -1,6 +1,6 @@
 # 작업 스케줄링하기
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [스케줄 정의하기](#defining-schedules)
     - [스케줄링 주기 관련 옵션](#schedule-frequency-options)
     - [작업의 중복 방지](#preventing-task-overlaps)
@@ -8,7 +8,7 @@
 - [작업 후킹](#task-hooks)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 이전까지, 개발자들은 스케줄링이 필요한 모든 작업들를 위해 Cron 엔트리를 생성했습니다. 하지만 이건 골치아픈 일입니다. 작업 스케줄은 더 이상 소스 컨트롤에 있지 않으며 Cron 엔트리를 추가하기 위해서는 서버에 SSH로 접속 해야만 합니다. 라라벨의 커맨트 스케줄러는 라라벨 내에 유연하고 다양한 표현이 가능한 커맨드 스케줄을 정의할 수 있도록 하며 서버에는 단 하나의 Cron 엔트리만이 필요합니다.
 

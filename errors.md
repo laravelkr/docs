@@ -1,6 +1,6 @@
 # 에러와 로깅
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [설정하기](#configuration)
 - [Exception 핸들러](#the-exception-handler)
     - [Report 메소드](#report-method)
@@ -10,7 +10,7 @@
 - [로깅](#logging)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 새로운 라라벨 프로젝트가 시작되는 시점에서, 오류 및 예외 처리는 모두 설정되어 있습니다. 게다가 라라벨은 강력하고 다양한 로그 핸들러를 지원하는 [Monolog](https://github.com/Seldaek/monolog) 로그 라이브러리가 통합되어 있습니다. 
 

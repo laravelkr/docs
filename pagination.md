@@ -1,6 +1,6 @@
 # 페이지네이션
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)
     - [쿼리 빌더 결과를 페이징 하기](#paginating-query-builder-results)
     - [Eloquent 결과를 페이징 하기](#paginating-eloquent-results)
@@ -9,7 +9,7 @@
 - [JSON으로 변환하기](#converting-results-to-json)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 다른 프레임 워크에서는 페이지 출력 처리를 하는것은 굉장히 성가신 일입니다. 하지만 라라벨에서 페이징 처리는 식은 죽 먹기입니다. 라라벨에서는 현재 페이지를 기준으로 페이지 링크들의 "범위"를 빠르고 손쉽게 생성할 수 있으며, 생성된 HTML은 [Bootstrap CSS framework](http://getbootstrap.com/)와 호환되니다. 
 

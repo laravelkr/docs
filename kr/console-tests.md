@@ -7,7 +7,7 @@
 - [Input / Output 예상하기](#expecting-input-and-output)
 
 ## Introduction
-## 소개하기
+## 시작하기
 
 In addition to simplifying HTTP testing, Laravel provides a simple API for testing console applications that ask for user input.
 

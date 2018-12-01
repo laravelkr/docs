@@ -2,7 +2,7 @@
 # HTTP 테스트
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
     - [Customizing Request Headers](#customizing-request-headers)
     - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
 - [Session / Authentication](#session-and-authentication)
@@ -20,7 +20,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
 

@@ -2,7 +2,7 @@
 # 인증
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
     - [Database Considerations](#introduction-database-considerations)
     - [데이터베이스 유의사항](#introduction-database-considerations)
 - [Authentication Quickstart](#authentication-quickstart)
@@ -45,7 +45,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 > {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
 

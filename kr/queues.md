@@ -2,7 +2,7 @@
 # Queues-큐
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Connections Vs. Queues](#connections-vs-queues)
     - [커넥션 Vs. Queues-큐](#connections-vs-queues)
     - [Driver Prerequisites](#driver-prerequisites)
@@ -50,7 +50,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 > {tip} Laravel now offers Horizon, a beautiful dashboard and configuration system for your Redis powered queues. Check out the full [Horizon documentation](/docs/{{version}}/horizon) for more information.
 

@@ -1,6 +1,6 @@
 # Laravel Horizon
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [설정하기](#configuration)
     - [Dashboard 인증](#dashboard-authentication)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Horizon provides a beautiful dashboard and code-driven configuration for your Laravel powered Redis queues. Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.
 

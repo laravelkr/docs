@@ -2,7 +2,7 @@
 # Eloquent: Relationships - 관계
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Defining Relationships](#defining-relationships)
 - [관계 정의하기](#defining-relationships)
     - [One To One](#one-to-one)
@@ -50,7 +50,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy, and supports several different types of relationships:
 

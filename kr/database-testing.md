@@ -2,7 +2,7 @@
 # 데이터베이스 테스팅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Generating Factories](#generating-factories)
 - [팩토리 생성하기](#generating-factories)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
@@ -22,7 +22,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `assertDatabaseHas` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
 

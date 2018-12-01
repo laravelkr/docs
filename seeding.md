@@ -1,13 +1,13 @@
 # 데이터베이스: 시딩
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Seeders 작성하기](#writing-seeders)
     - [모델 팩토리 사용하기](#using-model-factories)
     - [추가적인 Seeder 호출하기](#calling-additional-seeders)
 - [Seeders 실행하기](#running-seeders)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨에서는 시드(seed) 클래스를 사용해서 테스트 데이터를 데이터베이스에 설정하는 간단한 메소드를 포함하고 있습니다. 모든 시드(Seed) 클래스는 `database/seeds` 디렉토리에 저장됩니다. 시드(Seed)클래스의 이름은 아무렇게나 작성할 수 있지만 가급적 `UsersTableSeeder`등과 같이 직관적인 이름 규칙을 따르는 것이 좋습니다. 기본값으로 `DatabaseSeeder`클래스가 정의 되어 있습니다. 이 클래스에서 `call` 메소드로 다른 시드(seed) 클래스를  호출해서 시딩(seeding) 순서를 조정 할 수 있습니다.
 

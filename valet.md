@@ -1,6 +1,6 @@
 # 라라벨 발렛
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [발렛 또는 홈스테드](#valet-or-homestead)
 - [설치하기](#installation)
     - [업그레이드하기](#upgrading)
@@ -13,7 +13,7 @@
 - [기타 발렛 명령어들](#other-valet-commands)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 발렛은 Mac에서 가벼움을 선호하는 사람들을 위한 라라벨 개발 환경입니다. Vagrant도, `/etc/hosts` 파일도 필요하지 않습니다. 심지어 로컬 터널을 사용하여 사이트를 공유할 수도 있습니다. _우린 이런걸 좋아합니다._
 

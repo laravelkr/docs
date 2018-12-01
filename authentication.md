@@ -1,6 +1,6 @@
 # 인증
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [데이터베이스 유의사항](#introduction-database-considerations)
 - [빠르게 인증 살펴보기](#authentication-quickstart)
     - [Routing-라우팅](#included-routing)
@@ -22,7 +22,7 @@
 - [이벤트](#events)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 > {tip} **빠르게 시작 하시는것을 원하십니까?** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make:auth`와 `php artisan migrate` 를 실행하십시오. 그 다음에, 브라우저를 `http://your-app.dev/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 

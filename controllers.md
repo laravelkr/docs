@@ -1,6 +1,6 @@
 # 컨트롤러
 
-- [소개하기](#introduction)                               
+- [시작하기](#introduction)                               
 - [기본적인 컨트롤서](#basic-controllers)
     - [컨트롤러 정의](#defining-controllers)
     - [컨트롤러 & 네임스페이스](#controllers-and-namespaces)
@@ -15,7 +15,7 @@
 - [라우트 캐싱](#route-caching)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 애플리케이션의 요청에 대한 모든 처리 로직을 하나의 `routes.php` 파일에 정의하는 것 보다 별도의 컨트롤러 클래스를 통해서 구성할 수도 있습니다. 컨트롤러는 클래스를 구성하여 HTTP 요청에 대한 그룹을 지정합니다. 컨트롤러는 `app/Http/Controllers` 디렉토리에 저장 됩니다.
 

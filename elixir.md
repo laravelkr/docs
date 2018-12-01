@@ -1,6 +1,6 @@
 # Assets 컴파일 하기 (라라벨 Elixir)
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기 & 설정하기](#installation)
 - [Elixir 실행하기](#running-elixir)
 - [스타일시트 작업하기](#working-with-stylesheets)
@@ -18,7 +18,7 @@
 - [BrowserSync](#browser-sync)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨 Elixir(엘릭서)는 여러분의 라라벨 애플리케이션에 기본적인 [Gulp](http://gulpjs.com) 작업들을 정의하기 위해 깔끔하고 편리한 API를 제공합니다. Elixir는 [Sass](http://sass-lang.com) 와  [Webpack](https://webpack.github.io/)과 같은 공통적인 CSS와 JavaScript 전처리 작업을 지원합니다. Elixir는 메소드 체이닝을 사용하여 여러분이 asset pipeline 을 손쉽게 정의 할 수 있게 해줍니다. 다음 예제를 확인하세요:
 

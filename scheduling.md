@@ -1,6 +1,6 @@
 # 작업 스케줄링하기
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [스케줄 정의하기](#defining-schedules)
     - [스케줄링 주기 관련 옵션](#schedule-frequency-options)
     - [스케줄 작업의 중복 방지](#preventing-task-overlaps)
@@ -9,7 +9,7 @@
 - [작업 후킹](#task-hooks)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 이전까지는, 여러분은 서버에서 스케줄링이 필요한 각각의 작업들을 위해서 Cron 항목를 생성해야 했습니다. 그러나 작업 스케줄은 소스 컨트롤로 관리되지도 않고, 서버에 SSH로 접속해서 Cron 항목을 추가해야 하기 때문에. 이 작업은 금방 어려워 집니다.
 

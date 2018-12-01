@@ -1,6 +1,6 @@
 # 데이터베이스: 쿼리 빌더
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [결과 조회하기](#retrieving-results)
     - [결과 분할하기](#chunking-results)
     - [Aggregates-집계문](#aggregates)
@@ -22,7 +22,7 @@
 - [Pessimistic Locking](#pessimistic-locking)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨의 데이터베이스 쿼리 빌더는 데이터베이스 쿼리들을 만들고 운영하는데 다양한 인터페이스의 편의기능를 제공합니다. 여러분들의 애플리케이션에서 운영하는 대부분의 데이터베이스 시스템에서 잘 작동합니다.
 

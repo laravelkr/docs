@@ -1,6 +1,6 @@
 # 이벤트 
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [이벤트 & 리스너 등록하기](#registering-events-and-listeners)
     - [이벤트 & 리스너 생성하기](#generating-events-and-listeners)
     - [수동으로 이벤트 등록하기](#manually-registering-events)
@@ -14,7 +14,7 @@
     - [이벤트 Subscribers 등록하기](#registering-event-subscribers)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨의 이벤트는 단순한 옵저버 구현을 제공하여, 애플리케이션에서 발행하는 다양한 이벤트에 대해 리스닝 할 수 있도록 해줍니다. 이벤트 클래스는 보통 `app/Events` 디렉토리에 저장되고 리스너 클래스들은 `app/Listeners`에 저장됩니다. 여러분의 애플리케이션에 해당 디렉토리가 보이지 않더라도 걱정하지 마십시오. 아티즌 콘솔 명령어를 통해서 이벤트와 리스너를 생성하면 해당 디렉토리가 새롭게 생겨날 것입니다.
 

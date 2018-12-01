@@ -1,12 +1,12 @@
 # 자바스크립트 & CSS
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [CSS 작성하기](#writing-css)
 - [JavaScript 작성하기](#writing-javascript)
     - [Vue 컴포넌트 작성하기](#writing-vue-components)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 애플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다.
 

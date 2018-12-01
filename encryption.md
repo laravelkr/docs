@@ -1,11 +1,11 @@
 # 암호화
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설정하기](#configuration)
 - [Encrypter 사용하기](#using-the-encrypter)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨의 encrypter AES-256 과 AES-128 암호화를 제공하기 위해서 OpelSSL을 사용합니다. 라라벨에 내장된 암호화 기능은 매우 강력합니다. 따라서 여러분의 "고유한" 암호화 알고리즘을 구성하지 않는 것이 좋습니다. 라라벨의 모든 암호화된 값은 (MAC) 메세지 인증 코드를 사용하여 서명되고, 따라서 한번 암호화 되면 값을 변경할 수 없습니다.
 

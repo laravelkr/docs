@@ -1,6 +1,6 @@
 # 애플리케이션 테스팅
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [애플리케이션과 상호작용하기](#interacting-with-your-application)
     - [링크를 통한 상호작용](#interacting-with-links)
     - [Form을 사용한 상호작용](#interacting-with-forms)
@@ -13,7 +13,7 @@
 - [PHPUnit Assertions](#phpunit-assertions)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하고, 또한 form을 채우는 매우 다양한 사용이 가능한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다: 
 

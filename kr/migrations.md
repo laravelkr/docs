@@ -2,7 +2,7 @@
 # 데이터베이스: 마이그레이션
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Generating Migrations](#generating-migrations)
 - [마이그레이션 파일 생성하기](#generating-migrations)
 - [Migration Structure](#migration-structure)
@@ -32,7 +32,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Migrations are like version control for your database, allowing a team to easily modify and share the application's database schema. Migrations are typically paired with Laravel's schema builder to easily build your application's database schema.
 

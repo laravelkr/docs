@@ -2,13 +2,13 @@
 # 헬퍼 함수들
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Available Methods](#available-methods)
 - [사용 가능한 메소드들](#available-methods)
 
 <a name="introduction"></a>
-## Introduction 
-## 소개
+## Introduction
+## 시작하기
 
 Laravel includes a variety of "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 

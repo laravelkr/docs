@@ -2,7 +2,7 @@
 # 데이터베이스 : 시작하기
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Running Raw SQL Queries](#running-queries)
 - [Raw SQL 쿼리 실행하기](#running-queries)
     - [Listening For Query Events](#listening-for-query-events)
@@ -14,7 +14,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel makes connecting with databases and running queries extremely simple across a variety of database back-ends using either raw SQL, the [fluent query builder](/docs/{{version}}/queries), and the [Eloquent ORM](/docs/{{version}}/eloquent). Currently, Laravel supports four database systems:
 

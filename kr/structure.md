@@ -2,7 +2,7 @@
 # 애플리케이션 구조
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [The Root Directory](#the-root-directory)
 - [Root 디렉토리](#the-root-directory)
 - [The App Directory](#the-app-directory)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 The default Laravel application structure is intended to provide a great starting point for both large and small applications. Of course, you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class. 
 

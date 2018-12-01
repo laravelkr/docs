@@ -2,7 +2,7 @@
 # Eloquent: Serialization
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
 - [Hiding Attributes From JSON](#hiding-attributes-from-json)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 When building JSON APIs, you will often need to convert your models and relationships to arrays or JSON. Eloquent includes convenient methods for making these conversions, as well as controlling which attributes are included in your serializations.
 

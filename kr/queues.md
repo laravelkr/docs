@@ -2,7 +2,7 @@
 # Queues-큐
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Writing Job Classes](#writing-job-classes)
 - [Writing Job Classes](#writing-job-classes)
     - [Generating Job Classes](#generating-job-classes)
@@ -34,7 +34,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 The Laravel queue service provides a unified API across a variety of different queue back-ends. Queues allow you to defer the processing of a time consuming task, such as sending an e-mail, until a later time which drastically speeds up web requests to your application.
 

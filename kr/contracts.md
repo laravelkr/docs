@@ -1,7 +1,7 @@
 # Contracts
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Why Contracts?](#why-contracts)
 - [왜 Contracts 인가?](#why-contracts)
 - [Contract Reference](#contract-reference)
@@ -11,7 +11,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel's Contracts are a set of interfaces that define the core services provided by the framework. For example, a `Illuminate\Contracts\Queue\Queue` contract defines the methods needed for queueing jobs, while the `Illuminate\Contracts\Mail\Mailer` contract defines the methods needed for sending e-mail.
 

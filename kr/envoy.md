@@ -1,7 +1,7 @@
 # Envoy Task Runner
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Writing Tasks](#writing-tasks)
 - [작업 작성하기](#writing-tasks)
     - [Task Variables](#task-variables)
@@ -21,7 +21,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 [Laravel Envoy](https://github.com/laravel/envoy) provides a clean, minimal syntax for defining common tasks you run on your remote servers. Using a Blade style syntax, you can easily setup tasks for deployment, Artisan commands, and more. Currently, Envoy only supports the Mac and Linux operating systems.
 

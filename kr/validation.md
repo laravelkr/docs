@@ -2,7 +2,7 @@
 # Validation-유효성검사
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Validation Quickstart](#validation-quickstart)
 - [Validation Quickstart](#validation-quickstart)
     - [Defining The Routes](#quick-defining-the-routes)

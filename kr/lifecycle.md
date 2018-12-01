@@ -2,7 +2,7 @@
 # 요청에 대한 라이프사이클
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Lifecycle Overview](#lifecycle-overview)
 - [라이프사이클 개요](#lifecycle-overview)
 - [Focus On Service Providers](#focus-on-service-providers)
@@ -10,7 +10,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 When using any tool in the "real world", you feel more confident if you understand how that tool works. Application development is no different. When you understand how your development tools function, you feel more comfortable and confident using them. 
 

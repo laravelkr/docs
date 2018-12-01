@@ -2,7 +2,7 @@
 # Eloquent: 시작하기
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Defining Models](#defining-models)
 - [모델 정의하기](#defining-models)
     - [Eloquent Model Conventions](#eloquent-model-conventions)

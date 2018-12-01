@@ -2,7 +2,7 @@
 # Eloquent: Mutators
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Accessors & Mutators](#accessors-and-mutators)
 - [Accessors & Mutators](#accessors-and-mutators)
 - [Date Mutators](#date-mutators)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Accessors and mutators allow you to format Eloquent attributes when retrieving them from a model or setting their value. For example, you may want to use the [Laravel encrypter](/docs/{{version}}/encryption) to encrypt a value while it is stored in the database, and then automatically decrypt the attribute when you access it on an Eloquent model.
 

@@ -2,7 +2,7 @@
 # 데이터베이스: 쿼리 빌더
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Retrieving Results](#retrieving-results)
 - [결과 질의](#retrieving-results)
     - [Aggregates](#aggregates)
@@ -34,7 +34,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 The database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application, and works on all supported database systems.
 

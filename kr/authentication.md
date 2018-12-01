@@ -2,7 +2,7 @@
 # 인증
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
     - [Database Considerations](#introduction-database-considerations)
     - [데이터베이스 유의사항](#introduction-database-considerations)
 - [Authentication Quickstart](#authentication-quickstart)
@@ -52,7 +52,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services. 
 

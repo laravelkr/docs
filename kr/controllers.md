@@ -2,7 +2,7 @@
 # HTTP 컨트롤러
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Basic Controllers](#basic-controllers)
 - [기본적인 컨트롤서](#basic-controllers)
 - [Controller Middleware](#controller-middleware)
@@ -24,7 +24,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Instead of defining all of your request handling logic in a single `routes.php` file, you may wish to organize this behavior using Controller classes. Controllers can group related HTTP request handling logic into a class. Controllers are stored in the `app/Http/Controllers` directory.
 

@@ -2,7 +2,7 @@
 # 에러와 로깅
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
 - [The Exception Handler](#the-exception-handler)
@@ -20,7 +20,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 When you start a new Laravel project, error and exception handling is already configured for you. In addition, Laravel is integrated with the [Monolog](https://github.com/Seldaek/monolog) logging library, which provides support for a variety of powerful log handlers.
 

@@ -2,7 +2,7 @@
 # 할일 목록 구성하기(중급)
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Installation](#installation)
 - [설치하기](#installation)
 - [Prepping The Database](#prepping-the-database)
@@ -52,7 +52,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 This quickstart guide provides an intermediate introduction to the Laravel framework and includes content on database migrations, the Eloquent ORM, routing, authentication, authorization, dependency injection, validation, views, and Blade templates. This is a great starting point if you are familiar with the basics of the Laravel framework or PHP frameworks in general.
 

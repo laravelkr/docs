@@ -2,7 +2,7 @@
 # Authorization-승인
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Defining Abilities](#defining-abilities)
 - [Abilities 정의하기](#defining-abilities)
 - [Checking Abilities](#checking-abilities)
@@ -28,7 +28,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to organize authorization logic and control access to resources. There are a variety of methods and helpers to assist you in organizing your authorization logic, and we'll cover each of them in this document.
 

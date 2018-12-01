@@ -2,7 +2,7 @@
 # 레디스
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
     - [Pipelining Commands](#pipelining-commands)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 [Redis](http://redis.io) is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain [strings](http://redis.io/topics/data-types#strings), [hashes](http://redis.io/topics/data-types#hashes), [lists](http://redis.io/topics/data-types#lists), [sets](http://redis.io/topics/data-types#sets), and [sorted sets](http://redis.io/topics/data-types#sorted-sets). Before using Redis with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer.
 

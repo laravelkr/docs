@@ -2,7 +2,7 @@
 # 페이지네이션
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
     - [Paginating Query Builder Results](#paginating-query-builder-results)
@@ -18,7 +18,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 In other frameworks, pagination can be very painful. Laravel makes it a breeze. Laravel can quickly generate an intelligent "range" of links based on the current page, and the generated HTML is compatible with the [Bootstrap CSS framework](http://getbootstrap.com/).
 

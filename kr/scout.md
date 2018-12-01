@@ -20,7 +20,7 @@
 
 # 라라벨 스카우트
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [큐 사용하기](#queueing)
     - [드라이버 준비사항](#driver-prerequisites)
@@ -40,7 +40,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel Scout provides a simple, driver based solution for adding full-text search to your [Eloquent models](/docs/{{version}}/eloquent). Using model observers, Scout will automatically keep your search indexes in sync with your Eloquent records.
 

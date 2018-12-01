@@ -2,7 +2,7 @@
 # 지역화 (다국어)
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Retrieving Language Lines](#retrieving-language-lines)
 - [다국어 언어값 가져오기](#retrieving-language-lines)
     - [Replacing Parameters In Language Lines](#replacing-parameters-in-language-lines)

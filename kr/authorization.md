@@ -2,7 +2,7 @@
 # 권한 승인
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Gates](#gates)
 - [Gate](#gates)
     - [Writing Gates](#writing-gates)
@@ -36,7 +36,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
 

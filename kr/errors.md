@@ -2,7 +2,7 @@
 # 에러와 로깅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
     - [Error Detail](#error-detail)

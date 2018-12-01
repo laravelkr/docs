@@ -2,7 +2,7 @@
 # 애플리케이션 테스팅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Interacting With Your Application](#interacting-with-your-application)
 - [애플리케이션과 상호작용하기](#interacting-with-your-application)
     - [Interacting With Links](#interacting-with-links)
@@ -26,7 +26,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides a very fluent API for making HTTP requests to your application, examining the output, and even filling out forms. For example, take a look at the test defined below:
 

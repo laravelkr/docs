@@ -2,7 +2,7 @@
 # Eloquent: Mutators
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Accessors & Mutators](#accessors-and-mutators)
 - [Accessors & Mutators](#accessors-and-mutators)
     - [Defining An Accessor](#defining-an-accessor)

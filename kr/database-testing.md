@@ -2,7 +2,7 @@
 # 데이터베이스 테스팅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
     - [Using Migrations](#using-migrations)
@@ -24,7 +24,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `seeInDatabase` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
 

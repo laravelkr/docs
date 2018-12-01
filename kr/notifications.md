@@ -2,7 +2,7 @@
 # Notifications-알림
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Creating Notifications](#creating-notifications)
 - [알림 생성하기](#creating-notifications)
 - [Sending Notifications](#sending-notifications)
@@ -70,7 +70,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 In addition to support for [sending email](/docs/{{version}}/mail), Laravel provides support for sending notifications across a variety of delivery channels, including mail, SMS (via [Nexmo](https://www.nexmo.com/)), and [Slack](https://slack.com). Notifications may also be stored in a database so they may be displayed in your web interface.
 

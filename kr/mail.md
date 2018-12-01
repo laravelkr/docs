@@ -2,7 +2,7 @@
 # 메일
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Driver Prerequisites](#driver-prerequisites)
     - [드라이버 사전 준비사항](#driver-prerequisites)
 - [Generating Mailables](#generating-mailables)
@@ -30,7 +30,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides a clean, simple API over the popular [SwiftMailer](http://swiftmailer.org) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, PHP's `mail` function, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 

@@ -2,7 +2,7 @@
 # Queues-큐
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Connections Vs. Queues](#connections-vs-queues)
     - [커넥션 Vs. Queues-큐](#connections-vs-queues)
     - [Driver Prerequisites](#driver-prerequisites)
@@ -44,7 +44,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel queues provide a unified API across a variety of different queue backends, such as Beanstalk, Amazon SQS, Redis, or even a relational database. Queues allow you to defer the processing of a time consuming task, such as sending an email, until a later time. Deferring these time consuming tasks drastically speeds up web requests to your application.
 

@@ -1,7 +1,7 @@
 # Console Commands
 # 콘솔 명령
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Writing Commands](#writing-commands)
 - [명령어 작성하기](#writing-commands)
     - [Generating Commands](#generating-commands)
@@ -37,7 +37,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Artisan is the command-line interface included with Laravel. It provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
 

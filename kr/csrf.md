@@ -2,7 +2,7 @@
 # CSRF 보호
 
 - [Introduction](#csrf-introduction)
-- [소개하기](#csrf-introduction)
+- [시작하기](#csrf-introduction)
 - [Excluding URIs](#csrf-excluding-uris)
 - [특정 URI 제외시키기](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
@@ -10,7 +10,7 @@
 
 <a name="csrf-introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel makes it easy to protect your application from [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) attacks. Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user.
 

@@ -2,7 +2,7 @@
 # 이벤트 브로드캐스팅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
     - [Driver Prerequisites](#driver-prerequisites)
@@ -52,7 +52,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 In many modern web applications, WebSockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a WebSocket connection to be handled by the client. This provides a more robust, efficient alternative to continually polling your application for changes.
 많은 현대적인 웹 애플리케이션들은 웹 소캣을 이용하여 실시간 애플리케이션을 구현하며 UI를 실시간으로 업데이트합니다. 일반적으로 서버에 데이터가 변경되면 메세지가 웹 소캣 연결로 보내져 클라이언트에 의해 처리될 수 있도록 합니다. 웹 소켓은 당신의 애플리케이션의 변화를 지속적으로 폴링하는 더 강력하고 효과적인 대안을 제공합니다.

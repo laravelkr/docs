@@ -2,7 +2,7 @@
 # 설정
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Environment Configuration](#environment-configuration)
 - [구동환경 설정](#environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
@@ -16,7 +16,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 All of the configuration files for the Laravel framework are stored in the `config` directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
 

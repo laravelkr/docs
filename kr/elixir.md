@@ -2,7 +2,7 @@
 # Assets 컴파일 하기 (라라벨 Elixir)
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Installation & Setup](#installation)
 - [설치하기 & 설정하기](#installation)
 - [Running Elixir](#running-elixir)
@@ -36,7 +36,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel Elixir provides a clean, fluent API for defining basic [Gulp](http://gulpjs.com) tasks for your Laravel application. Elixir supports common CSS and JavaScript pre-processors like [Sass](http://sass-lang.com) and [Webpack](https://webpack.github.io/). Using method chaining, Elixir allows you to fluently define your asset pipeline. For example:
 

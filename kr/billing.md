@@ -10,7 +10,7 @@
     - [Braintree](#braintree-configuration)
     - [Braintree](#braintree-configuration)
     - [Currency Configuration](#currency-configuration)
-    - [Currency Configuration](#currency-configuration)
+    - [화폐 설정하기](#currency-configuration)
 - [Subscriptions](#subscriptions)
 - [정기 구독 모델](#subscriptions)
     - [Creating Subscriptions](#creating-subscriptions)

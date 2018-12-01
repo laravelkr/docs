@@ -2,7 +2,7 @@
 # 지역화 (다국어)
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Defining Translation Strings](#defining-translation-strings)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [Using Short Keys](#using-short-keys)
@@ -20,7 +20,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application. Language strings are stored in files within the `resources/lang` directory. Within this directory there should be a subdirectory for each language supported by the application:
 

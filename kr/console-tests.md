@@ -2,7 +2,7 @@
 # 콘솔 테스트
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Expecting Input / Output](#expecting-input-and-output)
 - [Input / Output 예상하기](#expecting-input-and-output)
 

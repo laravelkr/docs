@@ -2,7 +2,7 @@
 # 서비스 프로바이더
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Writing Service Providers](#writing-service-providers)
 - [서비스 프로바이더 작성하기](#writing-service-providers)
     - [The Register Method](#the-register-method)
@@ -16,7 +16,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Service providers are the central place of all Laravel application bootstrapping. Your own application, as well as all of Laravel's core services are bootstrapped via service providers.
 

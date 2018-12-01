@@ -2,7 +2,7 @@
 # 이벤트
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Registering Events & Listeners](#registering-events-and-listeners)
 - [이벤트 & 리스너 등록하기](#registering-events-and-listeners)
     - [Generating Events & Listeners](#generating-events-and-listeners)
@@ -30,7 +30,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel's events provide a simple observer implementation, allowing you to subscribe and listen for various events that occur in your application. Event classes are typically stored in the `app/Events` directory, while their listeners are stored in `app/Listeners`. Don't worry if you don't see these directories in your application, since they will be created for you as you generate events and listeners using Artisan console commands.
 

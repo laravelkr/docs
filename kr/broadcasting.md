@@ -2,7 +2,7 @@
 # 브로드캐스팅
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
     - [Driver Prerequisites](#driver-prerequisites)
@@ -58,7 +58,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 In many modern web applications, WebSockets are used to implement realtime, live-updating user interfaces. When some data is updated on the server, a message is typically sent over a WebSocket connection to be handled by the client. This provides a more robust, efficient alternative to continually polling your application for changes.
 

@@ -2,7 +2,7 @@
 # 파사드
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [When To Use Facades](#when-to-use-facades)
 - [언제 파사드를 사용하는가](#when-to-use-facades)
     - [Facades Vs. Dependency Injection](#facades-vs-dependency-injection)
@@ -18,7 +18,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Facades provide a "static" interface to classes that are available in the application's [service container](/docs/{{version}}/container). Laravel ships with many facades which provide access to almost all of Laravel's features. Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
 

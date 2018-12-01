@@ -2,7 +2,7 @@
 # 이메일 검증
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Database Considerations](#verification-database)
 - [데이터베이스 고려사항](#verification-database)
 - [Routing](#verification-routing)
@@ -18,7 +18,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Many web applications require users to verify their email addresses before using the application. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending and verifying email verification requests.
 

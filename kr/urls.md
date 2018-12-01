@@ -2,7 +2,7 @@
 # URL 생성
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [The Basics](#the-basics)
 - [기본적인 내용](#the-basics)
     - [Generating Basic URLs](#generating-basic-urls)
@@ -20,7 +20,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Laravel provides several helpers to assist you in generating URLs for your application. Of course, these are mainly helpful when building links in your templates and API responses, or when generating redirect responses to another part of your application.
 

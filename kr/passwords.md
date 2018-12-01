@@ -2,7 +2,7 @@
 # 패스워드 재설정하기
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Database Considerations](#resetting-database)
 - [데이터베이스 고려사항](#resetting-database)
 - [Routing](#resetting-routing)
@@ -16,7 +16,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 > {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.dev/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
 

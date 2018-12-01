@@ -2,7 +2,7 @@
 # 패키지 개발
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [A Note On Facades](#a-note-on-facades)
     - [파사드 사용의 주의사항](#a-note-on-facades)
 - [Service Providers](#service-providers)
@@ -28,7 +28,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 Packages are the primary way of adding functionality to Laravel. Packages might be anything from a great way to work with dates like [Carbon](https://github.com/briannesbitt/Carbon), or an entire BDD testing framework like [Behat](https://github.com/Behat/Behat).
 

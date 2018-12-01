@@ -2,7 +2,7 @@
 # 자바스크립트 & CSS 스캐폴딩
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Writing CSS](#writing-css)
 - [CSS 작성하기](#writing-css)
 - [Writing JavaScript](#writing-javascript)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
 

@@ -2,7 +2,7 @@
 # 컬렉션
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
     - [Creating Collections](#creating-collections)
     - [컬렉션 생성하기](#creating-collections)
 - [Available Methods](#available-methods)
@@ -12,7 +12,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper for working with arrays of data. For example, check out the following code. We'll use the `collect` helper to create a new collection instance from the array, run the `strtoupper` function on each element, and then remove all empty elements:
 

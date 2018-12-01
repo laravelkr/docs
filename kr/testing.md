@@ -2,7 +2,7 @@
 # 테스팅 : 시작하기
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Environment](#environment)
 - [환경](#environment)
 - [Creating & Running Tests](#creating-and-running-tests)
@@ -10,7 +10,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel is built with testing in mind. In fact, support for testing with PHPUnit is included out of the box and a `phpunit.xml` file is already setup for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
 

@@ -2,7 +2,7 @@
 # HTTP 테스트
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Session / Authentication](#session-and-authentication)
 - [세션 / 인증](#session-and-authentication)
 - [Testing JSON APIs](#testing-json-apis)
@@ -14,7 +14,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
 

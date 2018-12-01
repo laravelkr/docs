@@ -2,13 +2,13 @@
 # 해시
 
 - [Introduction](#introduction)
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Basic Usage](#basic-usage)
 - [기본적인 사용법](#basic-usage)
 
 <a name="introduction"></a>
 ## Introduction
-## 소개하기
+## 시작하기
 
 The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt hashing for storing user passwords. If you are using the built-in `LoginController` and `RegisterController` classes that are included with your Laravel application, they will automatically use Bcrypt for registration and authentication.
 

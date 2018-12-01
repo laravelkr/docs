@@ -2,7 +2,7 @@
 # 라라벨 홈스테드
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [Installation & Setup](#installation-and-setup)
 - [인스톨 & 설정](#installation-and-setup)
     - [First Steps](#first-steps)
@@ -46,7 +46,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel strives to make the entire PHP development experience delightful, including your local development environment. [Vagrant](https://www.vagrantup.com) provides a simple, elegant way to manage and provision Virtual Machines.
 

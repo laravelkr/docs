@@ -1,6 +1,6 @@
 # 배포
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [서버 설정하기](#server-configuration)
     - [Nginx](#nginx)
 - [최적화](#optimization)
@@ -10,7 +10,7 @@
 - [Forge에서 배포하기](#deploying-with-forge)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 여러분의 라라벨 애플리케이션이 실제 서비스에 배포할 준비가 되었다면, 가능한 한 효율적으로 애플리케이션이 구동되도록 하기 위해서 할 수 있는 몇가지 중요한 작업이 있습니다. 이 문서에서는 라라벨 애플리케이션이 제대로 배포되었는지 확인하기 위한 시발점에 대해서 설명합니다.
 

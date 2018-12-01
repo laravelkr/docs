@@ -1,6 +1,6 @@
 # 이메일 검증
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [데이터베이스 고려사항](#verification-database)
 - [라우팅](#verification-routing)
     - [라우트 보호하기](#protecting-routes)
@@ -9,7 +9,7 @@
 - [이벤트](#events)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 많은 웹 어플리케이션에서 사용자는 어플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. Laravel은 각 어플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
 

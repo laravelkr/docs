@@ -1,6 +1,6 @@
 # 라라벨 소셜라이트(소셜로그인)
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
 - [설정하기](#configuration)
 - [라우팅](#routing)
@@ -10,7 +10,7 @@
 - [사용자 상세정보 조회하기](#retrieving-user-details)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 

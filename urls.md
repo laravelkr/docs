@@ -1,6 +1,6 @@
 # URL 생성
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [기본적인 내용](#the-basics)
     - [기본 URL 생성하기](#generating-basic-urls)
     - [현재 URL 엑세스하기](#accessing-the-current-url)
@@ -10,7 +10,7 @@
 - [기본값](#default-values)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 애플리케이션에서 URL을 생성하는 것을 도와주는 몇가지 헬퍼 함수를 제공합니다. 당연하게도, 이는 템플릿 안에서 API 응답을 위한 링크를 생성하거나, 애플리케이션의 다른 곳으로 이동하는 리다이렉트 응답-response를 생성할 때 유용하게 사용됩니다.
 

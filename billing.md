@@ -1,6 +1,6 @@
 # 라라벨 캐셔
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설정하기](#configuration)
     - [Stripe](#stripe-configuration)
     - [Braintree](#braintree-configuration)
@@ -35,7 +35,7 @@
     - [청구서 PDF로 생성하기](#generating-invoice-pdfs)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨 캐셔는 [Stripe](https://stripe.com)와 [Braintree](https://www.braintreepayments.com)에 의해서 제공되는 손쉽고 편리한 구독(정기 과금) 서비스를 위한 인터페이스를 제공합니다. 라라벨 캐셔는 여러분이 작성하는데 어려움을 겪는 구독을 위한 청구서에서 필요한 거의 모든 관용구문들을 다룹니다.  기본적인 구독 관리 외에도, 캐셔를 통해서 쿠폰 관리, 구독 변경, 구매 수량 변경, 취소 유예 기간, 그리고 청구서를 PDF로 생성할 수도 있습니다.
 

@@ -1,6 +1,6 @@
 # Assets 컴파일 하기 (Mix)
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기 & 설정하기](#installation)
 - [Mix 실행하기](#running-mix)
 - [스타일시트 작업하기](#working-with-stylesheets)
@@ -23,7 +23,7 @@
 - [Notifications-알림](#notifications)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 [라라벨 Mix(믹스)](https://github.com/JeffreyWay/laravel-mix)는 여러분의 라라벨 애플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
 

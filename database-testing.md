@@ -1,6 +1,6 @@
 # 데이터베이스 테스팅
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [팩토리 생성하기](#generating-factories)
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [팩토리 작성하기](#writing-factories)
@@ -13,7 +13,7 @@
 - [사용 가능한 Assertions](#available-assertions)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 데이터베이스를 기반으로 하는 애플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `assertDatabaseHas` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
 

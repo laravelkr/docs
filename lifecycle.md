@@ -1,6 +1,6 @@
 # Request-요청 라이프사이클
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [라이프사이클 개요](#lifecycle-overview)
 - [서비스 프로바이더](#focus-on-service-providers)
 

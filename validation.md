@@ -1,6 +1,6 @@
 # Validation-유효성 검사
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [빠르게 유효성 검사 살펴보기](#validation-quickstart)
     - [라우트 정의하기](#quick-defining-the-routes)
     - [컨트롤러 생성하기](#quick-creating-the-controller)
@@ -27,7 +27,7 @@
     - [확장기능 사용하기](#using-extensions)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨은 애플리케이션에 유입되는 데이터의 유효성을 검사하기 위한 다양한 방법을 제공합니다. 기본적으로, 라라벨의 베이스 콘트롤러 클래스는 다양하고 강력한 유효성 검사 규칙을 적용하여 유입되는 HTTP 요청의 유효성 검사를 위한 편리한 메소드를 제공하는 ValidatesRequests 트레이트-trait을 사용하고 있습니다.
 

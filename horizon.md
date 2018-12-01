@@ -1,6 +1,6 @@
 # 라라벨 Horizon
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [설정하기](#configuration)
     - [Dashboard 권한 부여](#dashboard-authorization)
@@ -11,7 +11,7 @@
 - [메트릭](#metrics)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 Horizon은 Redis Queue를 사용하는 라라벨을 위해서 아름다운 대시보드 와 코드를 기반으로한 설정기능을 제공합니다. Horizon을 사용하면 job의 처리량, 실행시간 및 실패한 job과 같은 Queue 시스템의 주요 메트릭을 손쉽게 모니터링 할 수 있습니다.
 

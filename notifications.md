@@ -1,6 +1,6 @@
 # Notifications-알림
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [알림 생성하기](#creating-notifications)
 - [알림 발송하기](#sending-notifications)
     - [Notifiable 트레이트-trait 사용하기](#using-the-notifiable-trait)
@@ -41,7 +41,7 @@
 - [사용자 정의(커스텀)채널](#custom-channels)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 [이메일 발송](/docs/{{version}}/mail)기능을 지원하는 것에 더해, 라라벨은 이메일을 포함해 SMS([Nexmo](https://www.nexmo.com/)를 통해서 제공), [슬랙](https://slack.com)등  다양한 드라이버 채널을 통해서 알림을 발송하는 기능을 제공합니다.
 

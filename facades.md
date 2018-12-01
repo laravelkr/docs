@@ -1,6 +1,6 @@
 # 파사드
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [언제 파사드를 사용하는가](#when-to-use-facades)
     - [파사드 Vs. 의존성 주입](#facades-vs-dependency-injection)
     - [파사드 Vs. 헬퍼 함수](#facades-vs-helper-functions)
@@ -9,7 +9,7 @@
 - [파사드 클래스 목록](#facade-class-reference)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 파사드는 애플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용가능한 클래스들에 대한 "정적" 인터페이스를 제공합니다. 라라벨은 대부분의 라라벨의 기능에 엑세스하는 많은 파사드들을 제공합니다. 라라벨의 파사드 는 서비스 컨테이너에 등록된 클래스들에 대한 일종의 "정적 프록시" 역할을 수행하는데, 이를 통해서 전통적인 정적 메소드 보다 간결한 문법과 테스트의 용이성 그리고 코드의 유연성을 유지하는 이점을 제공합니다.
 

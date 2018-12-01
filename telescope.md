@@ -1,13 +1,13 @@
 # 라라벨 Telescope
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [설치하기](#installation)
     - [환경설정](#configuration)
     - [데이터 정리](#data-pruning)
 - [Dashboard 권한 부여](#dashboard-authorization)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 어플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, 대기중인 작업, 메일, 알림, 캐시 작업, 예약 된 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 로컬 라라벨 개발 환경에 훌륭한 동반자입니다.
 

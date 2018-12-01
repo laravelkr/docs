@@ -1,6 +1,6 @@
 # 라라벨 홈스테드
 
-- [소개](#introduction)
+- [시작하기](#introduction)
 - [인스톨 & 설정](#installation-and-setup)
     - [첫번째 단계](#first-steps)
     - [홈스테드 설정](#configuring-homestead)
@@ -33,7 +33,7 @@
     - [VirtualBox](#provider-specific-virtualbox)
 
 <a name="introduction"></a>
-## 소개
+## 시작하기
 
 라라벨은 여러분의 로컬 개발 환경을 포함하여 전체 PHP 개발 경험을 유쾌하게 만들기 위해서 노력하고 있습니다. [Vagrant](https://www.vagrantup.com)은 간단하고 세련되게 가상 머신을 관리하고 준비할 수 있는 방법을 제공합니다.
 

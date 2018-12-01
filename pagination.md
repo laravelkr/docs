@@ -1,6 +1,6 @@
 # 데이터베이스 : 페이지네이션
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)-
     - [쿼리 빌더 결과를 페이징 하기](#paginating-query-builder-results)
     - [Eloquent 결과를 페이징 하기](#paginating-eloquent-results)
@@ -11,7 +11,7 @@
 - [페이지네이터 인스턴스 메소드](#paginator-instance-methods)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 다른 프레임 워크에서는 페이지 출력 처리를 하는것은 굉장히 성가신 일입니다. 라라벨의 페이지네이터는 별다른 설정없이도 [쿼리 빌더](/docs/{{version}}/queries) 와 [Eloquent ORM](/docs/{{version}}/eloquent)에 통합되어 있고, 간편하고 손쉽게 데이터베이스 결과를 페이지네이션 하는데 사용할 수 있습니다. 페이지네이터에 의해서 생성되는 HTML은 [부트스트랩 CSS 프레임워크](https://getbootstrap.com/)와 호환됩니다.
 

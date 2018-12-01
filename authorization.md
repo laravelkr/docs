@@ -1,6 +1,6 @@
 # 권한 확인
 
-- [소개하기](#introduction)
+- [시작하기](#introduction)
 - [Gate](#gates)
     - [Gates 작성하기](#writing-gates)
     - [액션을 수행할 수 있는 권한 확인하기](#authorizing-actions-via-gates)
@@ -20,7 +20,7 @@
     - [블레이드 템플릿을 통해서](#via-blade-templates)
 
 <a name="introduction"></a>
-## 소개하기
+## 시작하기
 
 별다른 설정 없이도 [인증-authentication](/docs/{{version}}/authentication) 기능을 제공하는 것에 더하여, 라라벨은 주어진 특정 리소스에 대하여 사용자가 액션을 수행할 수 있는지 권한을 확인하는(authorize) 간단한 방법을 제공합니다. 사용자 인증처럼, 권한 확인에 대한 라라벨의 접근 방식은 간단하며, 액션을 수행할 수 있는 권한을 확인하는 두가지 기본 방법이 있습니다: gate 와 policy 입니다.
 

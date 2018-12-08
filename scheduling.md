@@ -24,7 +24,7 @@ Laravel's command scheduler allows you to fluently and expressively define your 
 
 When using the scheduler, you only need to add the following Cron entry to your server. If you do not know how to add Cron entries to your server, consider using a service such as [Laravel Forge](https://forge.laravel.com) which can manage the Cron entries for you:
 
-    * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 
 This Cron will call the Laravel command scheduler every minute. When the `schedule:run` command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.
 
@@ -65,6 +65,10 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
             })->daily();
         }
     }
+
+In addition to scheduling using Closures, you may also using [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+
+    $schedule->call(new DeleteRecentUsers)->daily();
 
 <a name="scheduling-artisan-commands"></a>
 ### Scheduling Artisan Commands
@@ -111,7 +115,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->weekly();`  |  Run the task every week
-`->weeklyOn(1, '8:00');`  |  Run the task every week on Tuesday at 8:00
+`->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task every month
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
 `->quarterly();` |  Run the task every quarter

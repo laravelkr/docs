@@ -182,12 +182,14 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
         {
             Storage::fake('avatars');
 
+            $file = UploadedFile::fake()->image('avatar.jpg');
+
             $response = $this->json('POST', '/avatar', [
-                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+                'avatar' => $file,
             ]);
 
             // Assert the file was stored...
-            Storage::disk('avatars')->assertExists('avatar.jpg');
+            Storage::disk('avatars')->assertExists($file->hashName());
 
             // Assert a file does not exist...
             Storage::disk('avatars')->assertMissing('missing.jpg');
@@ -460,7 +462,7 @@ Assert that the session contains the given piece of data:
 
 Assert that the session has a given list of values:
 
-    $response->assertSessionHasAll($key, $value = null);
+    $response->assertSessionHasAll(array $data);
 
 <a name="assert-session-has-errors"></a>
 #### assertSessionHasErrors

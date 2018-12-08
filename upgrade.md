@@ -1,6 +1,41 @@
 # Upgrade Guide
 
+- [Upgrading To 5.6.30 From 5.6](#upgrade-5.6.30)
 - [Upgrading To 5.6.0 From 5.5](#upgrade-5.6.0)
+
+<a name="upgrade-5.6.30"></a>
+## Upgrading To 5.6.30 From 5.6 (Security Release)
+
+Laravel 5.6.30 is a security release of Laravel and is recommended as an immediate upgrade for all users. Laravel 5.6.30 also contains a breaking change to cookie encryption and serialization logic, so please read the following notes carefully when upgrading your application.
+
+**This vulnerability may only be exploited if your application encryption key (`APP_KEY` environment variable) has been accessed by a malicious user.** Typically, it is not possible for users of your application to gain access to this value. However, ex-employees that had access to the encryption key may be able to use the key to attack your applications. If you have any reason to believe your encryption key is in the hands of a malicious party, you should **always** rotate the key to a new value.
+
+### Cookie Serialization
+
+Laravel 5.6.30 disables all serialization / unserialization of cookie values. Since all Laravel cookies are encrypted and signed, cookie values are typically considered safe from client tampering. **However, if your application's encryption key is in the hands of a malicious party, that party could craft cookie values using the encryption key and exploit vulnerabilities inherent to PHP object serialization / unserialization, such as calling arbitrary class methods within your application.**
+
+Disabling serialization on all cookie values will invalidate all of your application's sessions and users will need to log into the application again (unless they have a `remember_token` set, in which case the user will be logged into a new session automatically). In addition, any other encrypted cookies your application is setting will have invalid values. For this reason, you may wish to add additional logic to your application to validate that your custom cookie values match an expected list of values; otherwise, you should discard them.
+
+#### Configuring Cookie Serialization
+
+Since this vulnerability is not able to be exploited without access to your application's encryption key, we have chosen to provide a way to re-enable encrypted cookie serialization while you make your application compatible with these changes. To enable / disable cookie serialization, you may change the static `serialize` property of the `App\Http\Middleware\EncryptCookies` [middleware](https://github.com/laravel/laravel/blob/master/app/Http/Middleware/EncryptCookies.php):
+
+    /**
+     * Indicates if cookies should be serialized.
+     *
+     * @var bool
+     */
+    protected static $serialize = true;
+
+> **Note:** When encrypted cookie serialization is enabled, your application will be vulnerable to attack if its encryption key is accessed by a malicious party. If you believe your key may be in the hands of a malicious party, you should rotate the key to a new value before enabling encrypted cookie serialization.
+
+### Dusk 4.0.0
+
+Dusk 4.0.0 has been released and does not serialize cookies. If you choose to enable cookie serialization, you should continue to use Dusk 3.0.0. Otherwise, you should upgrade to Dusk 4.0.0.
+
+### Passport 6.0.7
+
+Passport 6.0.7 has been released with a new `Laravel\Passport\Passport::withoutCookieSerialization()` method. Once you have disabled cookie serialization, you should call this method within your application's `AppServiceProvider`.
 
 <a name="upgrade-5.6.0"></a>
 ## Upgrading To 5.6.0 From 5.5
@@ -21,7 +56,7 @@ In addition, if you are using the following first-party Laravel packages, you sh
 
 <div class="content-list" markdown="1">
 - Dusk (Upgrade To `^3.0`)
-- Passport (Upgrade To `^5.0`)
+- Passport (Upgrade To `^6.0`)
 - Scout (Upgrade To `^4.0`)
 </div>
 
@@ -202,4 +237,4 @@ The `validate` method of the `ValidatesWhenResolved` interface / trait has been 
 
 ### Miscellaneous
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.5...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.5...5.6) and choose which updates are important to you.

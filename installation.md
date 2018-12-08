@@ -56,7 +56,7 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 
 Alternatively, you may also install Laravel by issuing the Composer `create-project` command in your terminal:
 
-    composer create-project --prefer-dist laravel/laravel blog
+    composer create-project --prefer-dist laravel/laravel blog "5.6.*"
 
 #### Local Development Server
 
@@ -111,7 +111,7 @@ Laravel includes a `public/.htaccess` file that is used to provide URLs without 
 
 If the `.htaccess` file that ships with Laravel does not work with your Apache installation, try this alternative:
 
-    Options +FollowSymLinks
+    Options +FollowSymLinks -Indexes
     RewriteEngine On
 
     RewriteCond %{REQUEST_FILENAME} !-d

@@ -166,7 +166,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.9.0
+    git checkout v7.16.1
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -589,15 +589,19 @@ Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내
 ### Configuring Minio
 ### Minio 설정하기
 
-Minio provides an S3 compatible storage layer on your Homestead machine via port 9600. To use Minio, update your `Homestead.yaml` file with the following configuration option:
+Minio is an open source object storage server with an Amazon S3 compatible API. To install Minio, update your `Homestead.yaml` file with the following configuration option:
 
-Minio 는 홈스테드 머신에 포트 9600번을 사용하여 S3와 호환되는 스토리지 레이어를 제공합니다. Minio를 사용하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
+Minio 는 Amazon S3 API와 호환되는 오픈소스 객체 스토리지 서버입니다. Minio를 설치하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
 
     minio: true
 
-Next, you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You should add the `use_path_style_endpoint` option to the disk configuration, as well as update the `url` key to `endpoint`:
+By default, Minio is available on port 9600. You may access the Minio control panel by visiting `http://homestead:9600/`. The default access key is `homestead`, while the default secret key is `secretkey`. When accessing Minio, you should always use region `us-east-1`.
 
-다음으로 `config/filesystems.php` 설정 파일에 S3 디스크 설정을 구성해야 합니다. `url` 키를 `endpoint` 로 수정하고, `use_path_style_endpoint` 옵션을 디스크 설정 옵션에 추가해야 합니다:
+기본적으로 Minio는 9600포트를 사용합니다. `http://homestead:9600/` 을 방문하여 Minio 제어판에 엑세스 할 수 있습니다. 기본 엑세스 키는 `homestead` 이고, 기본 비밀 키는 `secretkey` 입니다. Minio에 엑세스 할 때는 항상 `us-east-1` 리전을 사용해야합니다.
+
+In order to use Minio you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You will need to add the `use_path_style_endpoint` option to the disk configuration, as well as change the `url` key to `endpoint`:
+
+Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서 S3 디스크 설정을 수정해야합니다. 디스크 구성에 `use_path_style_endpoint` 옵션을 추가하고 `url` 키를 `endpoint` 로 변경해야합니다 :
 
     's3' => [
         'driver' => 's3',
@@ -609,9 +613,9 @@ Next, you will need to adjust the S3 disk configuration in your `config/filesyst
         'use_path_style_endpoint' => true
     ]
 
-Finally, you should update your `.env` file with the proper `AWS_URL`:
+Finally, ensure your `.env` file has the following options:
 
-마지막으로, `.env` 파일에 `AWS_URL` 을 수정해야 합니다:
+마지막으로 `.env` 파일에 다음 옵션이 있는지 확인하십시오 :
 
     AWS_ACCESS_KEY_ID=homestead
     AWS_SECRET_ACCESS_KEY=secretkey

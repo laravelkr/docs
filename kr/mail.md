@@ -85,6 +85,17 @@ SparkPost 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `confi
         'secret' => 'your-sparkpost-key',
     ],
 
+If necessary, you may also configure which [API endpoint](https://developers.sparkpost.com/api/#header-endpoints) should be used:
+
+필요한 경우 [API endpoint](https://developers.sparkpost.com/api/#header-endpoints)을 사용하기 위한 항목을 구성 할 수도 있습니다:
+
+    'sparkpost' => [
+        'secret' => 'your-sparkpost-key',
+        'options' => [
+            'endpoint' => 'https://api.eu.sparkpost.com/api/v1/transmissions',
+        ],
+    ],
+
 #### SES Driver
 #### SES 드라이버
 

@@ -418,18 +418,21 @@ Many developers suffix their compiled assets with a timestamp or unique token to
 
 많은 개발자들이 기본 코드 대신 새로운 assets 을 강제로 로드하게끔 하기 위해서 컴파일된 assets 에 timestamp 또는 고유한 토큰을 접미사로 추가합니다. Mix는 이러한 문제를 처리하기 위해 `version` 메소드를 사용합니다.
 
-The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
+The `version` method will generate unique hashes for all of your compiled files and use this hash when including the file from your templates. In other words, this provides a convenient, built-in "cache busting" mechanism:
 
-`version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다:
+`version` 메소드는 컴파일된 파일을 위한 고유한 해시를 생성하고 이 해시를 템플릿에서 포함할 때 사용합니다. 다시말해, 편리하게 내장된 "캐시 태우기" 기능을 제공합니다:
 
     mix.js('resources/assets/js/app.js', 'public/js')
+       .sass('resources/assets/sass/app.scss', 'public/css')
        .version();
 
-After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
+After generating the versioned file, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to generate the appropriately versioned asset URL:
 
-버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다:
+버전이 지정된 파일을 생성하고 나서, 여러분은 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 함수를 사용하여 버전이 지정된 assset URL을 적절하게 생성해낼 수 있습니다:
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
+
+    <script src="{{ mix('/js/app.js') }}"></script>
 
 Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run production`:
 

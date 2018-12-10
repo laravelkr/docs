@@ -54,6 +54,8 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [라라벨 홈스테드 빌드스크립트](https://github.com/laravel/settler)
 - [Laravel Horizon](https://github.com/laravel/horizon)
 - [라라벨 Horizon](https://github.com/laravel/horizon)
+- [Laravel Nova](https://github.com/laravel/nova-issues)
+- [라라벨 Nova](https://github.com/laravel/nova-issues)
 - [Laravel Passport](https://github.com/laravel/passport)
 - [라라벨 패스포트(Passport)](https://github.com/laravel/passport)
 - [Laravel Scout](https://github.com/laravel/scout)

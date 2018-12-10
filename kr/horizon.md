@@ -36,9 +36,9 @@ All of your worker configuration is stored in a single, simple configuration fil
 ## Installation
 ## 설치하기
 
-> {note} Due to its usage of async process signals, Horizon requires PHP 7.1+.
+> {note} Due to its usage of async process signals, Horizon requires PHP 7.1+. Secondly, you should ensure that your queue driver is set to `redis` in your `queue` configuration file.
 
-> {note} Horizon은 비동기 프로세스 시그널을 사용 하므로 PHP 7.1이상이 필요합니다.
+> {note} Horizon은 비동기 프로세스 시그널을 사용 하므로 PHP 7.1이상이 필요합니다. 또한, `queue` 설정 파일에 큐-queue 드라이버가 `redis` 로 되어 있어야 합니다.
 
 You may use Composer to install Horizon into your Laravel project:
 

@@ -64,6 +64,10 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
         }
     }
 
+> {tip} You may type-hint any dependencies you need within the `run` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
+
+> {tip} `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
+
 <a name="using-model-factories"></a>
 ### Using Model Factories
 ### 모델 팩토리 사용하기

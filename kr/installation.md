@@ -80,7 +80,7 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 그렇지 않으면, 터미널에서 컴포저의 `create-project` 커멘드를 사용하여 라라벨을 설치할 수도 있습니다
 
-    composer create-project --prefer-dist laravel/laravel blog
+    composer create-project --prefer-dist laravel/laravel blog "5.6.*"
 
 #### Local Development Server
 #### 로컬 개발 서버
@@ -165,7 +165,7 @@ If the `.htaccess` file that ships with Laravel does not work with your Apache i
 
 아파치에서 라라벨이 제공하는 `.htaccess` 파일이 동작하지 않는다면, 대신 다음의 코드를 시도해보십시오:
 
-    Options +FollowSymLinks
+    Options +FollowSymLinks -Indexes
     RewriteEngine On
 
     RewriteCond %{REQUEST_FILENAME} !-d

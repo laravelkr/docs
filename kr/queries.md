@@ -87,9 +87,9 @@ You may use the `table` method on the `DB` facade to begin a query. The `table` 
         }
     }
 
-The `get` method returns an `Illuminate\Support\Collection` containing the results where each result is an instance of the PHP `StdClass` object. You may access each column's value by accessing the column as a property of the object:
+The `get` method returns an `Illuminate\Support\Collection` containing the results where each result is an instance of the PHP `stdClass` object. You may access each column's value by accessing the column as a property of the object:
 
-`get` 메소드는 각각의 결과가 PHP `StdClass` 객체 인스턴스로 구성된 `Illuminate\Support\Collection` 을 반환합니다. 객체의 속성이 컬럼인것 처럼, 각각의 컬럼의 값에 엑세스 할 수 있습니다.
+`get` 메소드는 각각의 결과가 PHP `stdClass` 객체 인스턴스로 구성된 `Illuminate\Support\Collection` 을 반환합니다. 객체의 속성이 컬럼인것 처럼, 각각의 컬럼의 값에 엑세스 할 수 있습니다.
 
     foreach ($users as $user) {
         echo $user->name;
@@ -98,9 +98,9 @@ The `get` method returns an `Illuminate\Support\Collection` containing the resul
 #### Retrieving A Single Row / Column From A Table
 #### 테이블에서 하나의 결과 / 컬럼 가져오기
 
-If you just need to retrieve a single row from the database table, you may use the `first` method. This method will return a single `StdClass` object:
+If you just need to retrieve a single row from the database table, you may use the `first` method. This method will return a single `stdClass` object:
 
-데이터베이스 테이블에서 하나의 row을 가져오고자 한다면, `first` 메소드를 사용하면 됩니다. 이 메소드는 하나의 `StdClass` 객체를 반환할 것입니다:
+데이터베이스 테이블에서 하나의 row을 가져오고자 한다면, `first` 메소드를 사용하면 됩니다. 이 메소드는 하나의 `stdClass` 객체를 반환할 것입니다:
 
     $user = DB::table('users')->where('name', 'John')->first();
 
@@ -636,9 +636,9 @@ The query above will produce the following SQL:
 ### JSON Where Clauses
 ### JSON Where 절
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7 and PostgreSQL. To query a JSON column, use the `->` operator:
+Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7, PostgreSQL, SQL Server 2016, and SQLite 3.9.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
 
-라라벨은 또한 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입에 대한 쿼리를 지원합니다. 현재는 MySQL 5.7 그리고 PostgreSQL에 포함되어 있습니다. JSON 컬럼 질의를 하기 위해서는 `->` 연산자를 사용하십시오:
+라라벨은 또한 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입에 대한 쿼리를 지원합니다. 현재는 MySQL 5.7, PostgreSQL, SQL 서버 2016 그리고 SQLite 3.9.0 ([JSON1 extension](https://www.sqlite.org/json1.html)이 설치된) 에 포함되어 있습니다. JSON 컬럼 질의를 하기 위해서는 `->` 연산자를 사용하십시오:
 
     $users = DB::table('users')
                     ->where('options->language', 'en')
@@ -646,6 +646,22 @@ Laravel also supports querying JSON column types on databases that provide suppo
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
+                    ->get();
+
+You may use `whereJsonContains` to query JSON arrays (not supported on SQLite):
+
+JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다:
+
+    $users = DB::table('users')
+                    ->whereJsonContains('options->languages', 'en')
+                    ->get();
+
+MySQL and PostgreSQL support `whereJsonContains` with multiple values:
+
+MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다:
+
+    $users = DB::table('users')
+                    ->whereJsonContains('options->languages', ['en', 'de'])
                     ->get();
 
 <a name="ordering-grouping-limit-and-offset"></a>
@@ -813,9 +829,9 @@ Of course, in addition to inserting records into the database, the query builder
 ### Updating JSON Columns
 ### JSON 컬럼 업데이트
 
-When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is only supported on databases that support JSON columns:
+When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is only supported on MySQL 5.7+:
 
-JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 JSON 컬럼을 지원하는 데이터베이스에서만 지원합니다:
+JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상에서만 지원합니다:
 
     DB::table('users')
                 ->where('id', 1)

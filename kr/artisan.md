@@ -91,9 +91,9 @@ After generating your command, you should fill in the `signature` and `descripti
 
 > {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor:
+Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor or `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor or `handle` method:
 
-예제 명령을 살펴 보겠습니다. 명령어 클래스의 생성자에서는 필요한 의존성 주입이 가능합니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 자동으로 생성자에서 타입이 지정된 의존객체들을 주입해 줄 것입니다.
+예제 명령을 살펴 보겠습니다. 명령어 클래스는 생성자 또는 `handle` 메소드를 통해 필요한 의존성 주입을 할 수 있습니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 생성자 또는 `handle` 에 타입이 지정된 의존객체들을 자동으로 주입해 줄 것입니다.
 
     <?php
 
@@ -496,9 +496,9 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
 
     $bar->finish();
 
-For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html).
+For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html).
 
-보다 자세한 옵션에 대해서는 [Symfony 진행률 표시줄 구성 컴포넌트 문서](https://symfony.com/doc/2.7/components/console/helpers/progressbar.html)  확인하십시오.
+보다 자세한 옵션에 대해서는 [Symfony 진행률 표시줄 구성 컴포넌트 문서](https://symfony.com/doc/current/components/console/helpers/progressbar.html) 확인하십시오.
 
 <a name="registering-commands"></a>
 ## Registering Commands

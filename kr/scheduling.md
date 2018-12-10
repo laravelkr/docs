@@ -45,7 +45,7 @@ When using the scheduler, you only need to add the following Cron entry to your 
 
 스케줄러를 사용할 때에는, 다음의 Cron 항목을 서버에 추가하기만 하면 됩니다. 만약 여러분이 어떻게 Cron 항목을 서버에 추가하는지에 대해서 알지 못한다면, Cron 항목들을 관리해 줄 수 있는 [라라벨 Forge](https://forge.laravel.com)와 같은 서비스를 사용하는 것을 고려해 보십시오:
 
-    * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 
 This Cron will call the Laravel command scheduler every minute. When the `schedule:run` command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.
 
@@ -91,6 +91,12 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
             })->daily();
         }
     }
+
+In addition to scheduling using Closures, you may also using [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+
+클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
+
+    $schedule->call(new DeleteRecentUsers)->daily();
 
 <a name="scheduling-artisan-commands"></a>
 ### Scheduling Artisan Commands
@@ -149,7 +155,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->weekly();`  |  Run the task every week
-`->weeklyOn(1, '8:00');`  |  Run the task every week on Tuesday at 8:00
+`->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task every month
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
 `->quarterly();` |  Run the task every quarter
@@ -170,7 +176,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
-`->weeklyOn(1, '8:00');`  |  매주 화요일 8시에 작업 실행
+`->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행

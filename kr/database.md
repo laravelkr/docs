@@ -152,9 +152,9 @@ The first argument passed to the `select` method is the raw SQL query, while the
 
 `select` 메소드의 첫번째 인자는 raw SQL 쿼리이고, 두번째는 쿼리에 바이딩될 매개변수 입니다. 일반적으로 매개 변수들은 `where` 절을 위한 값들입니다. 매개변수 바인딩은 SQL 인젝션을 방지하기 위해 제공됩니다.
 
-The `select` method will always return an `array` of results. Each result within the array will be a PHP `StdClass` object, allowing you to access the values of the results:
+The `select` method will always return an `array` of results. Each result within the array will be a PHP `stdClass` object, allowing you to access the values of the results:
 
-`select` 메소드는 항상 결과를 `배열`로 반환합니다. 배열안의 값들은 PHP 의 `StdClass` 객체 형태로 다음과 같이 결과 값에 엑세스 할 수 있습니다.
+`select` 메소드는 항상 결과를 `배열`로 반환합니다. 배열안의 값들은 PHP 의 `stdClass` 객체 형태로 다음과 같이 결과 값에 엑세스 할 수 있습니다.
 
     foreach ($users as $user) {
         echo $user->name;

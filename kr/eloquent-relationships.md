@@ -174,46 +174,6 @@ If your parent model does not use `id` as its primary key, or you wish to join t
         return $this->belongsTo('App\User', 'foreign_key', 'other_key');
     }
 
-<a name="default-models"></a>
-#### Default Models
-#### 기본 모델
-
-The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
-
-`belongsTo` 관계에서 주어진 관계가 만약 `null` 인 경우에 반환할 기본모델을 정의할 수 있습니다. 이 패턴은 [Null 오브젝트 패턴](https://en.wikipedia.org/wiki/Null_Object_pattern) 이라고 하며 코드에서 조건식을 제거하는데 도움이 됩니다. 다음의 예제에서 `user` 관계는 포스트에 추가된 `user` 가 없는 경우 비어 있는 `App/User` 모델을 반환합니다:
-
-    /**
-     * Get the author of the post.
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\User')->withDefault();
-    }
-
-To populate the default model with attributes, you may pass an array or Closure to the `withDefault` method:
-
-기본 모델에 속성을 구성하려면, `withDefault` 메소드에 배열 또는 클로저를 전달하면 됩니다:
-
-    /**
-     * Get the author of the post.
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\User')->withDefault([
-            'name' => 'Guest Author',
-        ]);
-    }
-
-    /**
-     * Get the author of the post.
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\User')->withDefault(function ($user) {
-            $user->name = 'Guest Author';
-        });
-    }
-
 <a name="one-to-many"></a>
 ### One To Many
 ### 1:*(일대다) 관계 정의하기
@@ -300,9 +260,9 @@ Once the relationship has been defined, we can retrieve the `Post` model for a `
 
     echo $comment->post->title;
 
-In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with a `_` followed by the name of the primary key column. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
 
-위의 예에서 Eloqent는 `Comment` 모델의 `post_id`와 `Post` 모델의 `id`를 비교해볼 것입니다. Eloquent는 relationship 메소드의 이름을 검사하고 메소드 이름에 `_id`를 붙여서 외래 키의 기본 이름을 결정합니다. 하지만 `Comment` 모델의 외래 키가 `post_id`가 아니라면 커스텀 키 이름을 두번째 인자로 `belongsTo`에 전달하면 됩니다:
+위의 예에서 Eloqent는 `Comment` 모델의 `post_id`와 `Post` 모델의 `id`를 비교해볼 것입니다. Eloquent는 relationship 메소드의 이름을 검사하고 메소드 이름 뒤에 `_`와 기본 키 컬럼을 붙여서 외래 키의 기본 이름을 결정합니다. 하지만 `Comment` 모델의 외래 키가 `post_id`가 아니라면 커스텀 키 이름을 두번째 인자로 `belongsTo`에 전달하면 됩니다:
 
     /**
      * Get the post that owns the comment.
@@ -477,9 +437,9 @@ You can also filter the results returned by `belongsToMany` using the `wherePivo
 #### Defining Custom Intermediate Table Models
 #### 커스텀 중간 테이블 모델 정의하기
 
-If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship. All custom models used to represent intermediate tables of relationships must extend the `Illuminate\Database\Eloquent\Relations\Pivot` class. For example, we may define a `Role` which uses a custom `UserRole` pivot model:
+If you would like to define a custom model to represent the intermediate table of your relationship, you may call the `using` method when defining the relationship. Custom many-to-many pivot models should extend the `Illuminate\Database\Eloquent\Relations\Pivot` class while custom polymorphic many-to-many pivot models should extend the `Illuminate\Database\Eloquent\Relations\MorphPivot` class. For example, we may define a `Role` which uses a custom `UserRole` pivot model:
 
-관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관계를 정의할 때 `using` 메소드를 호출하면 됩니다. 관계의 중간 테이블을 나타내는 데 사용되는 모든 커스텀 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야합니다. 예를 들어, 커스텀 `UserRole` 피벗 모델을 사용하는 `Role` 을 정의할 수 있습니다.
+관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관계를 정의할 때 `using` 메소드를 호출하면 됩니다. 커스텀 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 확장해야하며 커스텀 다형성 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\MorphPivot` 클래스를 확장해야합니다. 예를 들어, 커스텀 `UserRole` 피벗 모델을 사용하는 `Role` 을 정의할 수 있습니다.
 
     <?php
 
@@ -1201,6 +1161,46 @@ When removing a `belongsTo` relationship, you may use the `dissociate` method. T
     $user->account()->dissociate();
 
     $user->save();
+
+<a name="default-models"></a>
+#### Default Models
+#### 기본 모델
+
+The `belongsTo` relationship allows you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
+
+`belongsTo` 관계에서 주어진 관계가 만약 `null` 인 경우에 반환할 기본모델을 정의할 수 있습니다. 이 패턴은 [Null 오브젝트 패턴](https://en.wikipedia.org/wiki/Null_Object_pattern) 이라고 하며 코드에서 조건식을 제거하는데 도움이 됩니다. 다음의 예제에서 `user` 관계는 포스트에 추가된 `user` 가 없는 경우 비어 있는 `App/User` 모델을 반환합니다:
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault();
+    }
+
+To populate the default model with attributes, you may pass an array or Closure to the `withDefault` method:
+
+기본 모델에 속성을 구성하려면, `withDefault` 메소드에 배열 또는 클로저를 전달하면 됩니다:
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault([
+            'name' => 'Guest Author',
+        ]);
+    }
+
+    /**
+     * Get the author of the post.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withDefault(function ($user) {
+            $user->name = 'Guest Author';
+        });
+    }
 
 <a name="updating-many-to-many-relationships"></a>
 ### Many To Many Relationships

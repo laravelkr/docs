@@ -1,8 +1,65 @@
 # Upgrade Guide
 # 업그레이드 가이드
 
+- [Upgrading To 5.6.30 From 5.6](#upgrade-5.6.30)
+- [5.6에서 5.6.30 으로 업그레이드 하기](#upgrade-5.6.30)
 - [Upgrading To 5.6.0 From 5.5](#upgrade-5.6.0)
 - [5.5에서 5.6.0 으로 업그레이드 하기](#upgrade-5.6.0)
+
+<a name="upgrade-5.6.30"></a>
+## Upgrading To 5.6.30 From 5.6 (Security Release)
+## 5.6에서 5.6.30 으로 업그레이드 하기 (보안 릴리즈)
+
+Laravel 5.6.30 is a security release of Laravel and is recommended as an immediate upgrade for all users. Laravel 5.6.30 also contains a breaking change to cookie encryption and serialization logic, so please read the following notes carefully when upgrading your application.
+
+라라벨 5.6.30은 모든 사용자가 즉시 업그레이드해야할 라라벨의 보안 릴리즈입니다. 라라벨 5.6.30은 또한 쿠키 암호화와 시리얼라이제이션과 관련된 하위호환되지 않는 변경사항을 포함하고 있습니다. 따라서 다음의 사항을 잘 확인하고 애플리케이션의 업그레이드에 주의를 기울이십시오.
+
+**This vulnerability may only be exploited if your application encryption key (`APP_KEY` environment variable) has been accessed by a malicious user.** Typically, it is not possible for users of your application to gain access to this value. However, ex-employees that had access to the encryption key may be able to use the key to attack your applications. If you have any reason to believe your encryption key is in the hands of a malicious party, you should **always** rotate the key to a new value.
+
+**이 취약점은 악의적인 사용자가 애플리케이션의 암호화 키 ('APP_KEY` 환경 변수)에 엑세스 한 경우에만 악용 될 수 있습니다. ** 일반적으로 애플리케이션 사용자가 이 값에 접근 할 수는 없습니다. 그러나 암호화 키에 접근 할 수 있는 (전) 직원이 키를 사용하여 애플리케이션을 공격 할 수 있습니다. 여러분의 암호화 키가 악의적 인 공격자에게 알려졌다고 생각된다면, **항상** 새로운 값으로 키를 변경해야합니다.
+
+### Cookie Serialization
+### 쿠키 시리얼라이제이션
+
+Laravel 5.6.30 disables all serialization / unserialization of cookie values. Since all Laravel cookies are encrypted and signed, cookie values are typically considered safe from client tampering. **However, if your application's encryption key is in the hands of a malicious party, that party could craft cookie values using the encryption key and exploit vulnerabilities inherent to PHP object serialization / unserialization, such as calling arbitrary class methods within your application.**
+
+라라벨 5.6.30 버전은 모든 쿠키값에 대한 시리얼라이제이션 / 언시리얼라이제이션을 비활성화 시킵니다. 모든 라라벨 쿠키는 암호화되어 서명되기 때문에 일반적으로 쿠키 값은 클라이언트의 변조로 부터 안전하다고 생각됩니다. **그러나, 애플리케이션의 암호화키가 악의적인 사용자에게 넘어갔다면 해당 사용자가 암호화 키를 사용하여 쿠키값을 생성하고 취약적을 이용하여 PHP 객체의 시리얼라이제이션 / 언시리얼라이제이션을 통해서 객체를 상속받아 애플리케이션에 임의의 클래스 메소드를 호출할 수도 있습니다.**
+
+Disabling serialization on all cookie values will invalidate all of your application's sessions and users will need to log into the application again (unless they have a `remember_token` set, in which case the user will be logged into a new session automatically). In addition, any other encrypted cookies your application is setting will have invalid values. For this reason, you may wish to add additional logic to your application to validate that your custom cookie values match an expected list of values; otherwise, you should discard them.
+
+모든 쿠키 값에 대한 시리얼라이제이션을 비활성화하면 애플리케이션의 모든 세션이 유효하지 않게 되므로 사용자는 (`remember_token` 을 설정하지 않은 경우라면) 애플리케이션에 다시 로그인해야합니다. (이 경우에는 사용자는 자동으로 새로운 세션으로 로그인합니다.) 또한 애플리케이션에서 설정한 다른 암호화 된 쿠키가 유효하지 않다고 판단됩니다. 이 때문에, 애플리케이션에 로직을 추가하여 사용자가 정의한 쿠키 값이 예상한 값의 리스트와 일치하는지 확인하도록 하십시오. 그렇지 않다면 이 값들은 무효처리 해야합니다.
+
+#### Configuring Cookie Serialization
+#### 쿠키 시리얼라이제이션 설정하기
+
+Since this vulnerability is not able to be exploited without access to your application's encryption key, we have chosen to provide a way to re-enable encrypted cookie serialization while you make your application compatible with these changes. To enable / disable cookie serialization, you may change the static `serialize` property of the `App\Http\Middleware\EncryptCookies` [middleware](https://github.com/laravel/laravel/blob/master/app/Http/Middleware/EncryptCookies.php):
+
+이 취약점은 애플리케이션의 암호화 키에 대한 접근 없이는 악용될 수 없으므로, 애플리케이션이 이러한 변경사항과 호환되도록 암호화된 쿠키의 시리얼라이제이션을 다시 활성화 하는 방법이 있습니다. 쿠키의 시리얼라이제이션 사용을 활성화 / 비활성화 하려면 `App\Http\Middleware\EncryptCookies` [미들웨어](https://github.com/laravel/laravel/blob/master/app/Http/Middleware/EncryptCookies.php)의 `serialize` 속성을 static 으로 변경하면 됩니다:
+
+    /**
+     * Indicates if cookies should be serialized.
+     *
+     * @var bool
+     */
+    protected static $serialize = true;
+
+> **Note:** When encrypted cookie serialization is enabled, your application will be vulnerable to attack if its encryption key is accessed by a malicious party. If you believe your key may be in the hands of a malicious party, you should rotate the key to a new value before enabling encrypted cookie serialization.
+
+> **Note:** 암호화된 쿠키의 시리얼라이제이션을 활성화 했을 때, 악의적인 사용자가 암호화 키에 접근할 수 있게 되면 애플리케이션은 공격 받기 쉽습니다. 키가 악의적인 사용자에게 노출되어 있다고 생각되면 암호화된 쿠키 시리얼라이제이션 기능을 사용하기 전에 키를 새로운 값으로 변경하십시오.
+
+### Dusk 4.0.0
+### Dusk 4.0.0
+
+Dusk 4.0.0 has been released and does not serialize cookies. If you choose to enable cookie serialization, you should continue to use Dusk 3.0.0. Otherwise, you should upgrade to Dusk 4.0.0.
+
+쿠키를 시리얼라즈 하지 않는 Dusk 4.0.0 가 릴리즈되었습니다. 쿠키 시리얼라이제이션을 활성화 하고자 한다면, Dusk 3.0.0 을 계속 사용하십시오. 그렇지 않다면 Dusk 4.0.0 으로 업그레이드 하십시오.
+
+### Passport 6.0.7
+### Passport 6.0.7
+
+Passport 6.0.7 has been released with a new `Laravel\Passport\Passport::withoutCookieSerialization()` method. Once you have disabled cookie serialization, you should call this method within your application's `AppServiceProvider`.
+
+새로운 `Laravel\Passport\Passport::withoutCookieSerialization()` 메소드를 제공하는 Passport 6.0.7 이 릴리즈 되었습니다. 이제 쿠키 시리얼라이제이션을 비활성화 한 뒤에, 이 메소드를 애플리케이션의 `AppServiceProvider` 안에서 호출해야 합니다.
 
 <a name="upgrade-5.6.0"></a>
 ## Upgrading To 5.6.0 From 5.5
@@ -34,11 +91,11 @@ In addition, if you are using the following first-party Laravel packages, you sh
 또한, 다양한 라라벨 추가 패키지들을 사용하고 있다면, 최신버전으로 업그레이드 해야 합니다:
 
 - Dusk (Upgrade To `^3.0`)
-- Passport (Upgrade To `^5.0`)
+- Passport (Upgrade To `^6.0`)
 - Scout (Upgrade To `^4.0`)
 
 - Dusk (`^3.0`으로 업그레이드)
-- Passport (`^5.0` 으로 업그레이드)
+- Passport (`^6.0` 으로 업그레이드)
 - Scout (`^4.0` 으로 업그레이드)
 
 
@@ -309,6 +366,6 @@ The `validate` method of the `ValidatesWhenResolved` interface / trait has been 
 ### Miscellaneous
 ### 기타
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.5...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.5...5.6) and choose which updates are important to you.
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.5...5.6)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

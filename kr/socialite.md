@@ -136,7 +136,7 @@ Before redirecting the user, you may also add additional "scopes" on the request
         ->scopes(['read:user', 'public_repo'])
         ->redirect();
 
-You can overwrite all exisiting scopes using the `setScopes` method:
+You can overwrite all existing scopes using the `setScopes` method:
 
 `setScopes` 메소드를 사용하면 기존에 존재하는 모든 스코프를 덮어 쓸 수 있습니다:
 

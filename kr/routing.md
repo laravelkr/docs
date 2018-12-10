@@ -35,6 +35,8 @@
     - [명시적 바인딩](#implicit-binding)
     - [Explicit Binding](#explicit-binding)
     - [묵시적 바인딩](#explicit-binding)
+- [Fallback Routes](#fallback-routes)
+- [대체 라우트](#fallback-routes)
 - [Rate Limiting](#rate-limiting)
 - [Rate 제한](#rate-limiting)
 - [Form Method Spoofing](#form-method-spoofing)
@@ -239,7 +241,7 @@ You may also specify route names for controller actions:
 
 컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다:
 
-    Route::get('user/profile', 'UserController@showProfile')->name('profile');
+    Route::get('user/profile', 'UserProfileController@show')->name('profile');
 
 #### Generating URLs To Named Routes
 #### 이름이 지정된 라우트들에 대한 URL 생성하기
@@ -458,6 +460,18 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
             return App\User::where('name', $value)->first() ?? abort(404);
         });
     }
+
+<a name="fallback-routes"></a>
+## Fallback Routes
+## 대체 라우트
+
+Using the `Route::fallback` method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a "404" page via your application's exception handler. However, since you may define the `fallback` route within your `routes/web.php` file, all middleware in the `web` middleware group will apply to the route. Of course, you are free to add additional middleware to this route as needed:
+
+`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 어플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다.  물론, 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
+
+    Route::fallback(function () {
+        //
+    });
 
 <a name="rate-limiting"></a>
 ## Rate Limiting

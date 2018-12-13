@@ -24,7 +24,7 @@
 
 스케줄러를 사용할 때에는, 다음의 Cron 항목을 서버에 추가하기만 하면 됩니다. 만약 여러분이 어떻게 Cron 항목을 서버에 추가하는지에 대해서 알지 못한다면, Cron 항목들을 관리해 줄 수 있는 [라라벨 Forge](https://forge.laravel.com)와 같은 서비스를 사용하는 것을 고려해 보십시오:
 
-    * * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 
 이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다.
 
@@ -65,6 +65,10 @@
             })->daily();
         }
     }
+
+클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
+
+    $schedule->call(new DeleteRecentUsers)->daily();
 
 <a name="scheduling-artisan-commands"></a>
 ### 아티즌 명령어 스케줄링
@@ -111,7 +115,7 @@
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
 `->weekly();`  |  일주일 간격으로 작업 실행
-`->weeklyOn(1, '8:00');`  |  매주 화요일 8시에 작업 실행
+`->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  한달 간격으로 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
 `->quarterly();` |  4분기 간격으로 작업 실행

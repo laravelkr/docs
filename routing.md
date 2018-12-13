@@ -17,6 +17,7 @@
 - [라우트 모델 바인딩](#route-model-binding)
     - [명시적 바인딩](#implicit-binding)
     - [묵시적 바인딩](#explicit-binding)
+- [대체 라우트](#fallback-routes)
 - [Rate 제한](#rate-limiting)
 - [Form-폼 메소드 Spoofing-스푸핑](#form-method-spoofing)
 - [현재 라우트에 엑세스하기](#accessing-the-current-route)
@@ -170,7 +171,7 @@
 
 컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다:
 
-    Route::get('user/profile', 'UserController@showProfile')->name('profile');
+    Route::get('user/profile', 'UserProfileController@show')->name('profile');
 
 #### 이름이 지정된 라우트들에 대한 URL 생성하기
 
@@ -338,6 +339,15 @@
             return App\User::where('name', $value)->first() ?? abort(404);
         });
     }
+
+<a name="fallback-routes"></a>
+## 대체 라우트
+
+`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 어플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다.  물론, 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
+
+    Route::fallback(function () {
+        //
+    });
 
 <a name="rate-limiting"></a>
 ## Rate 제한

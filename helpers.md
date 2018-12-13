@@ -1346,17 +1346,23 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 <a name="method-optional"></a>
 #### `optional()` {#collection-method}
 
-`optional` 함수는 인자를 전달받아 해당 객체의 프로퍼티에 엑세스 하거나, 메소드를 호출할 수 있도록 합니다. 지정된 객체가 `null` 이라면, 프로퍼티와 메소드는 에러를 유발하는 대신에 `null` 을 반환합니다:
+`optional` 함수는 인자를 전달받아 해당 객체의 프로퍼티에 엑세스 합니다. 지정된 객체가 `null` 이라면, 프로퍼티에 엑세스 할 때 에러를 유발하는 대신에 `null` 을 반환합니다:
 
     return optional($user->address)->street;
 
     {!! old('name', optional($user)->name) !!}
 
-`optional` 함수는 두번째 인자로 클로저를 받을 수 있습니다. 첫번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다:
+또한 반환받은 객체에 메소드를 호출할수도 있습니다. 프로퍼티에 엑세스 하는 것과 같이, 주어진 객체가 `null` 이라면, 메소드 호출은 에러를 유발하는 대신에 `null`을 반환합니다:
+
+    return optional($user)->getTwitterProfile();
+
+호출하려는 메소드가 객체에 실제로 존재하지 않는, 클로저를 `optional` 함수의 두번째 인자로 전달 할 수 있습니다:
 
     return optional(User::find($id), function ($user) {
-        return new DummyUser;
+        return TwitterApi::findUser($user->twitter_id);
     });
+
+주어진 객체가 `null`이 아니라면, 클로저가 호출되어 결과값을 반환합니다. 만약 주어진 객체가 실제로 `null` 이라면, 클로저는 호출되지 않고 `optional` 헬퍼함수는 에러를 유발하는 대신에 `null`을 반환합니다.
 
 <a name="method-policy"></a>
 #### `policy()` {#collection-method}

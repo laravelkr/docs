@@ -29,6 +29,7 @@
 - [라라벨 홈스테드](https://github.com/laravel/homestead)
 - [라라벨 홈스테드 빌드스크립트](https://github.com/laravel/settler)
 - [라라벨 Horizon](https://github.com/laravel/horizon)
+- [라라벨 Nova](https://github.com/laravel/nova-issues)
 - [라라벨 패스포트(Passport)](https://github.com/laravel/passport)
 - [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
 - [라라벨 Socialite](https://github.com/laravel/socialite)

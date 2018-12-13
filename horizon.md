@@ -20,7 +20,7 @@ Horizon은 Redis Queue를 사용하는 라라벨을 위해서 아름다운 대�
 <a name="installation"></a>
 ## 설치하기
 
-> {note} Horizon은 비동기 프로세스 시그널을 사용 하므로 PHP 7.1이상이 필요합니다.
+> {note} Horizon은 비동기 프로세스 시그널을 사용 하므로 PHP 7.1이상이 필요합니다. 또한, `queue` 설정 파일에 큐-queue 드라이버가 `redis` 로 되어 있어야 합니다.
 
 컴포저-Composer를 사용하여 라라벨 프로젝트에 Horizon을 설치 합니다:
 

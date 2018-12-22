@@ -1,6 +1,7 @@
 # Localization
 
 - [Introduction](#introduction)
+    - [Configuring The Locale](#configuring-the-locale)
 - [Defining Translation Strings](#defining-translation-strings)
     - [Using Short Keys](#using-short-keys)
     - [Using Translation Strings As Keys](#using-translation-strings-as-keys)
@@ -29,6 +30,7 @@ All language files return an array of keyed strings. For example:
         'welcome' => 'Welcome to our application'
     ];
 
+<a name="configuring-the-locale"></a>
 ### Configuring The Locale
 
 The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
@@ -111,15 +113,15 @@ If the specified translation string does not exist, the `__` function will retur
 <a name="replacing-parameters-in-translation-strings"></a>
 ### Replacing Parameters In Translation Strings
 
-If you wish, you may define place-holders in your translation strings. All place-holders are prefixed with a `:`. For example, you may define a welcome message with a place-holder name:
+If you wish, you may define placeholders in your translation strings. All placeholders are prefixed with a `:`. For example, you may define a welcome message with a placeholder name:
 
     'welcome' => 'Welcome, :name',
 
-To replace the place-holders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
+To replace the placeholders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
 
     echo __('messages.welcome', ['name' => 'dayle']);
 
-If your place-holder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+If your placeholder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
 
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
@@ -139,7 +141,7 @@ After defining a translation string that has pluralization options, you may use 
 
     echo trans_choice('messages.apples', 10);
 
-You may also define place-holder attributes in pluralization strings. These place-holders may be replaced by passing an array as the third argument to the `trans_choice` function:
+You may also define placeholder attributes in pluralization strings. These placeholders may be replaced by passing an array as the third argument to the `trans_choice` function:
 
     'minutes_ago' => '{1} :value minute ago|[2,*] :value minutes ago',
 

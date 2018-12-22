@@ -76,7 +76,15 @@ Any HTML forms pointing to `POST`, `PUT`, or `DELETE` routes that are defined in
 
 If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
 
+    Route::redirect('/here', '/there');
+
+By default, `Route::redirect` returns a `302` status code. You may customize the status code using the optional third parameter:
+
     Route::redirect('/here', '/there', 301);
+
+You may use the `Route::permananentRedirect` method to return a `301` status code:
+
+    Route::permanentRedirect('/here', '/there');
 
 <a name="view-routes"></a>
 ### View Routes
@@ -159,6 +167,17 @@ Once the pattern has been defined, it is automatically applied to all routes usi
     Route::get('user/{id}', function ($id) {
         // Only executed if {id} is numeric...
     });
+
+<a name="parameters-encoded-forward-slashes"></a>
+#### Encoded Forward Slashes
+
+The Laravel routing component allows all characters except `/`. You must explicitly allow `/` to be part of your placeholder using a `where` condition regular expression:
+
+    Route::get('search/{search}', function ($search) {
+        return $search;
+    })->where('search', '.*');
+
+> {note} Encoded forward slashes are only supported within the last route segment.
 
 <a name="named-routes"></a>
 ## Named Routes

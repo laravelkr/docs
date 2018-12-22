@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+    - [Tinker (REPL)](#tinker)
+    - [Tinker (REPL)](#tinker)
 - [Writing Commands](#writing-commands)
 - [명령어 작성하기](#writing-commands)
     - [Generating Commands](#generating-commands)
@@ -52,14 +54,43 @@ Every command also includes a "help" screen which displays and describes the com
 
     php artisan help migrate
 
-#### Laravel REPL
-#### 라라벨 REPL
+<a name="tinker"></a>
+### Tinker (REPL)
+### Tinker (REPL)
 
 All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
 
 모든 라라벨 애플리케이션에는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 REPL 인 Tinker가 포함됩니다. Tinker를 사용하면 Eloquent ORM, Job, 이벤트 등 커맨드라인을 통해서 라라벨 애플리케이션을 조작할 수 있습니다. Tinker 환경에 진입하려면 `tinker` 아티즌 명령어를 실행하십시오:
 
     php artisan tinker
+
+You can publish Tinker's configuration file using the `vendor:publish` command:
+
+`vendor:publish` 명령어를 사용하여 Tinker의 설정 파일을 구성할 수 있습니다:
+
+    php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
+
+#### Command Whitelist
+#### 명령어 화이트리스트
+
+Tinker utilizes a white-list to determine which Artisan commands are allowed to be run within its shell. By default, you may run the `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `optimize`, and `up` commands. If you would like to white-list more commands you may add them to the `commands` array in your `tinker.php` configuration file:
+
+Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있는지 화이트리스트를 구성합니다. 기본적으로 여러분은 `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `optimize` 그리고 `up` 명령어를 실행할 수 있습니다. 더 많은 명령어들을 화이트리스트에 추가하고자 한다면, `tinker.php` 설정 파일의 `commands` 배열에 추가 하면됩니다:
+
+    'commands' => [
+        // App\Console\Commands\ExampleCommand::class,
+    ],
+
+#### Alias Blacklist
+#### Alias Blacklist
+
+Typically, Tinker automatically aliases classes as you require them in Tinker. However, you may wish to never alias some classes. You may accomplish this by listing the classes in the `dont_alias` array of your `tinker.php` configuration file:
+
+일반적으로 Tinker는 필요한 클래스에 자동으로 별칭(alias)을 지정합니다. 하지만 일부 클래스틑 별칭을 지정하지 않을 수도 있습니다. `tinker.php` 설정 파일의 `dont_alias` 배열에 클래스를 추가하면 됩니다:
+
+    'dont_alias' => [
+        App\User::class,
+    ],
 
 <a name="writing-commands"></a>
 ## Writing Commands
@@ -487,7 +518,7 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
     $users = App\User::all();
 
     $bar = $this->output->createProgressBar(count($users));
-        
+
     $bar->start();
 
     foreach ($users as $user) {

@@ -111,6 +111,10 @@ This command should be used on fresh applications and will install a layout view
 
 이 명령어는 새로운 애플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
 
+> {tip} If your application doesn’t need registration, you may disable it by removing the newly created `RegisterController` and modifying your route declaration: `Auth::routes(['register' => false]);`.
+
+> {tip} 여러분의 애플리케이션에서 회원가입을 필요로 하지 않는다면, 새롭게 생성되는 `RegisterController` 파일을 삭제하고 라우트 정의 파일에서 `Auth::routes(['register' => false]);`를 수정하면 됩니다.
+
 <a name="included-views"></a>
 ### Views
 ### Views-뷰

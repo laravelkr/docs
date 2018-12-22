@@ -699,9 +699,15 @@ If you would like to listen for events on a private channel, use the `private` m
 ### Leaving A Channel
 ### 채널 나가기
 
-To leave a channel, you may call the `leave` method on your Echo instance:
+To leave a channel, you may call the `leaveChannel` method on your Echo instance:
 
-채널을 나가기 위해서는, 에코 인스턴스에서 `leave` 메소드를 호출하면 됩니다:
+채널을 나가기 위해서는, 에코 인스턴스에서 `leaveChannel` 메소드를 호출하면 됩니다:
+
+    Echo.leaveChannel('orders');
+
+If you would like to leave a channel and also its associated private and presence channels, you may call the `leave` method:
+
+채널을 나가면서 연관된 비공개 현재 채널 또한 나가려면, 다음과 같이 `leave` 메소드를 호출하면 됩니다:
 
     Echo.leave('orders');
 

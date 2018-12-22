@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Upgrading Cashier](#upgrading-cashier)
+- [Cashier 업그레이드 하기](#upgrading-cashier)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
     - [Stripe](#stripe-configuration)
@@ -29,8 +31,6 @@
     - [정기 구독 취소하기](#cancelling-subscriptions)
     - [Resuming Subscriptions](#resuming-subscriptions)
     - [정기 구독 재개](#resuming-subscriptions)
-    - [Updating Credit Cards](#updating-credit-cards)
-    - [신용카드 정보 업데이트](#updating-credit-cards)
 - [Subscription Trials](#subscription-trials)
 - [구독 트라이얼-trial](#subscription-trials)
     - [With Credit Card Up Front](#with-credit-card-up-front)
@@ -39,8 +39,18 @@
     - [신용카드 없이 사전 등록](#without-credit-card-up-front)
 - [Customers](#customers)
 - [고객](#customers)
-    - [Creating Customers](#create-customers)
-    - [고객 생성하기](#create-customers)
+    - [Creating Customers](#creating-customers)
+    - [고객 생성하기](#creating-customers)
+- [Cards](#cards)
+- [신용카드](#cards)
+    - [Retrieving Credit Cards](#retrieving-credit-cards)
+    - [신용카드 조회하기](#retrieving-credit-cards)
+    - [Determining If A Card Is On File](#determining-if-a-card-is-on-file)
+    - [Determining If A Card Is On File](#determining-if-a-card-is-on-file)
+    - [Updating Credit Cards](#updating-credit-cards)
+    - [Updating Credit Cards](#updating-credit-cards)
+    - [Deleting Credit Cards](#deleting-credit-cards)
+    - [Deleting Credit Cards](#deleting-credit-cards)
 - [Handling Stripe Webhooks](#handling-stripe-webhooks)
 - [Stripe webook 처리하기](#handling-stripe-webhooks)
     - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
@@ -79,6 +89,14 @@ Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://s
 > {note} If you're only performing "one-off" charges and do not offer subscriptions, you should not use Cashier. Instead, use the Stripe and Braintree SDKs directly.
 
 > {note} 만약 여러분이 "한번의 결제"만을 사용하고 정기 과금형태의 구독모델을 사용하지 않는다면, 캐셔를 사용할 필요가 없습니다. 대신에, Stripe 나 Braintree SDK를 직접 사용하면 됩니다.
+
+<a name="upgrading-cashier"></a>
+## Upgrading Cashier
+## Cashier 업그레이드 하기
+
+When upgrading to a new major version of the Cashier, it's important that you carefully review [the upgrade guide](https://github.com/laravel/cashier/blob/master/UPGRADE.md).
+
+새로운 메이저 버전의 캐셔를 업그레이드 할 때는, [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 꼭 확인하시기 바랍니다.
 
 <a name="configuration"></a>
 ## Configuration
@@ -558,16 +576,6 @@ If the user cancels a subscription and then resumes that subscription before the
 
 만약 사용자가 구독을 취소하고 다음 정기 구독을 재개하는 경우 그 등록의 만료일이 되기 전까지는 비용이 바로 부과되지는 않습니다. 대신, 사용자의 정기 구독은 재활성화 되며, 원래의 주기에 따라 과금됩니다.
 
-<a name="updating-credit-cards"></a>
-### Updating Credit Cards
-### 신용카드 정보 업데이트하기
-
-The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
-
-`updateCard` 메소드는 고객의 신용카드 정보를 업데이트 하는데 사용할 수 있습니다. 이 메소드는 Stripe 토큰을 인자로 받고, 새로운 신용카드 정보를 기본 결제 수단으로 지정합니다:
-
-    $user->updateCard($stripeToken);
-
 <a name="subscription-trials"></a>
 ## Subscription Trials
 ## 구독 트라이얼
@@ -669,7 +677,7 @@ Occasionally, you may wish to create a Stripe customer without beginning a subsc
 
 경우에 따라 구독을 시작하지 않고 Stripe 고객을 만들 수도 있습니다. 이 경우 `createAsStripeCustomer` 메소드를 사용하면 됩니다 :
 
-    $user->createAsStripeCustomer($stripeToken);
+    $user->createAsStripeCustomer();
 
 Of course, once the customer has been created in Stripe, you may begin a subscription at a later date.
 
@@ -678,6 +686,80 @@ Of course, once the customer has been created in Stripe, you may begin a subscri
 > {tip} The Braintree equivalent of this method is the `createAsBraintreeCustomer` method.
 
 > {tip} Braintree 에 해당하는 메소드는 `createAsBraintreeCustomer` 메소드입니다. `역자주 : Braintree는 Stripe 같은 회사입니다`
+
+<a name="cards"></a>
+## Cards
+## 신용카드
+
+<a name="retrieving-credit-cards"></a>
+### Retrieving Credit Cards
+### 신용 카드 조회하기
+
+The `cards` method on the billable model instance returns a collection of `Laravel\Cashier\Card` instances:
+
+청구가 가능한 모델 인스턴스에 `cards` 메소드를 호출하면 `Laravel\Cashier\Card` 의 컬렉션 인스턴스가 반환됩니다:
+
+    $cards = $user->cards();
+
+To retrieve the default card, the `defaultCard` method may be used;
+
+기존으로 설정된 카드 정보를 조회하려면 `defaultCard` 메소드를 사용하면 됩니다:
+
+    $card = $user->defaultCard();
+
+<a name="determining-if-a-card-is-on-file"></a>
+### Determining If A Card Is On File
+### 카드를 소유하고 있는것인지 확인
+
+You may check if a customer has a credit card attached to their account using the `hasCardOnFile` method:
+
+`hasCardOnFile` 메소드를 사용하여 신용카드가 해당 고객이 계정에 연결되어 있는 것인지 확인할 수 있습니다:
+
+    if ($user->hasCardOnFile()) {
+        //
+    }
+
+<a name="updating-credit-cards"></a>
+### Updating Credit Cards
+### 신용카드 정보 업데이트 하기
+
+The `updateCard` method may be used to update a customer's credit card information. This method accepts a Stripe token and will assign the new credit card as the default billing source:
+
+`updateCard` 메소드는 고객의 신용카드 정보를 수정하는데 사용합니다. 이 메소드는 Stripe 토큰을 받아서 새로운 신용카드를 기본적으로 청구하는데 사용하도록 지정합니다:
+
+    $user->updateCard($stripeToken);
+
+To sync your card information with the customer's default card information in Stripe, you may use the `updateCardFromStripe` method:
+
+Stripe 에서 카드 정보를 고객이 기본적으로 사용할 카드로 지정(sync)하려면 `updateCardFromStripe` 메소드를 사용하면 됩니다:
+
+    $user->updateCardFromStripe();
+
+<a name="deleting-credit-cards"></a>
+### Deleting Credit Cards
+### 신용카드 정보 삭제하기
+
+To delete a card, you should first retrieve the customer's cards with the `cards` method. Then, you may call the `delete` method on the card instance you wish to delete:
+
+등록된 카드 정보를 삭제하려면 먼저 `card` 메소드를 사용하여 고객의 카드를 조회해야합니다. 그다음에, 삭제하고자 하는 카드 인스턴스에 `delete` 메소드를 호출하면 됩니다:
+
+    foreach ($user->cards() as $card) {
+        $card->delete();
+    }
+
+> {note} If you delete the default card, please make sure that you sync the new default card with your database using the `updateCardFromStripe` method.
+
+> {note} 기본카드로 지정된 카드 정보를 삭제한다면, `updateCardFromStripe` 메소드를 사용하여 새로운 카드를 기본적으로 사용할 카드로 지정하도록 하십시오.
+
+The `deleteCards` method will delete all of the card information stored by your application:
+
+`deleteCards` 메소드는 애플리케이션에 저장된 모든 카드 정보를 삭제합니다:
+
+    $user->deleteCards();
+
+> {note} If the user has an active subscription, you should consider preventing them from deleting the last remaining payment source.
+
+> {note} 고객이 활성화된 구독을 보유하고 있다면, 마지막으로 남아 있는 지급수단이 삭제되지 않도록 방지하는 것을 고려하십시오.
 
 <a name="handling-stripe-webhooks"></a>
 ## Handling Stripe Webhooks
@@ -699,6 +781,10 @@ Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 
 By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings), customer updates, customer deletions, subscription updates, and credit card changes; however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
 
 기본적으로, 이 컨트롤러는 결제 실패가 너무 많이 발행 할 경우 (Stripe 설정에서 정의한대로) 자동으로 구독을 취소, 고객 업데이트, 고객 삭제, 정기 구독 취소 및 신용카드를 변경 할 것입니다. 잠시후 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 살펴보겠습니다.
+
+> {note} Make sure you protect incoming requests with Cashier's included [webhook signature verification](/docs/{{version}}/billing#verifying-webhook-signatures) middleware.
+
+> {note} 캐셔에 포함된 [웹훅 서명 확인](/docs/{{version}}/billing#verifying-webhook-signatures) 미들웨어를 사용하는 것을 확인하십시오.
 
 #### Webhooks & CSRF Protection
 #### Webhook & CSRF 보호
@@ -728,10 +814,10 @@ Cashier automatically handles subscription cancellation on failed charges, but i
     class WebhookController extends CashierController
     {
         /**
-         * Handle a Stripe webhook.
+         * Handle invoice payment succeeded.
          *
          * @param  array  $payload
-         * @return Response
+         * @return \Symfony\Component\HttpFoundation\Response
          */
         public function handleInvoicePaymentSucceeded($payload)
         {
@@ -769,20 +855,13 @@ That's it! Failed payments will be captured and handled by the controller. The c
 ### Verifying Webhook Signatures
 ### Webhook의 인증 확인
 
-To secure your webhooks, you may use [Stripe's webhook signatures](https://stripe.com/docs/webhooks/signatures). For convenience, Cashier includes a middleware that validates the incoming Stripe webhook request is valid.
+To secure your webhooks, you may use [Stripe's webhook signatures](https://stripe.com/docs/webhooks/signatures). For convenience, Cashier automatically includes a middleware which validates that the incoming Stripe webhook request is valid.
 
-안전한 webhook을 사용하기 위해 [Stripe's webhook signatures](https://stripe.com/docs/webhooks/signatures)를 사용할 수 있습니다.  Cashier에는 이것을 편하기 사용하기 위해 들어오는 Stripe webhook 요청의 유효성을 검사하는 미들웨어가 포함되어 있습니다.
+안전한 webhook을 사용하기 위해 [Stripe's webhook signatures](https://stripe.com/docs/webhooks/signatures)를 사용할 수 있습니다. Cashier에는 유입되는 Stripe webhook 요청이 유효한지 자동으로 확인하는 미들웨어를 포함하고 있습니다.
 
-To get started, ensure that the `stripe.webhook.secret` configuration value is set in your `services` configuration file. Once you have configured your webhook secret, you may attach the `VerifyWebhookSignature` middleware to the route:
+To enable webhook verification, ensure that the `stripe.webhook.secret` configuration value is set in your `services` configuration file. The webhook `secret` may be retrieved from your Stripe account dashboard.
 
-사용하려면 `stripe.webhook.secret` 설정 값이 `services` 설정 파일에 설정되어 있는지 확인하십시오. webhook의 secret 값을 설정하고 나면 라우트에 `VerifyWebhookSignature` 미들웨어를 추가 할 수 있습니다 :
-
-    use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
-
-    Route::post(
-        'stripe/webhook',
-        '\App\Http\Controllers\WebhookController@handleWebhook'
-    )->middleware(VerifyWebhookSignature::class);
+webhook 확인을 활성화 하려면, `stripe.webhook.secret` 설정 값이 `services` 설정 파일에 설정되어 있는지 확인하십시오. webhook 의 `secret` 은 Stripe 대쉬보드에서 조회할 수 있습니다.
 
 <a name="handling-braintree-webhooks"></a>
 ## Handling Braintree Webhooks
@@ -834,14 +913,14 @@ Cashier automatically handles subscription cancellation on failed charges, but i
     class WebhookController extends CashierController
     {
         /**
-         * Handle a Braintree webhook.
+         * Handle a new dispute.
          *
-         * @param  WebhookNotification  $webhook
-         * @return Response
+         * @param  \Braintree\WebhookNotification  $webhook
+         * @return \Symfony\Component\HttpFoundation\Responses
          */
-        public function handleDisputeOpened(WebhookNotification $notification)
+        public function handleDisputeOpened(WebhookNotification $webhook)
         {
-            // Handle The Event
+            // Handle The Webhook...
         }
     }
 
@@ -916,12 +995,14 @@ Sometimes you may need to make a one-time charge but also generate an invoice fo
     // Braintree Accepts Charges In Dollars...
     $user->invoiceFor('One Time Fee', 5);
 
-The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation:
+The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument. This array contains the billing options for the invoice item. The fourth argument accepted by the method is also an array. This final argument accepts the billing options for the invoice itself:
 
-청구서는 즉시 고객의 신용카드를 통해서 결제될 것입니다. `invoiceFor` 메소드는 또한 Stripe / Braintree 결제 옵션을 지정하기 위한 배열을 세번째 인자로 전달 받을 수 있습니다:
+청구서는 즉시 고객의 신용카드를 통해서 결제될 것입니다. `invoiceFor` 메소드는 배열을 세번째 인자로 전달 받을 수 있습니다. 이 배열은 제품을 청구서를 위한 결제 옵션을 담고 있습니다. 네번째 인자로는 청구서 자체에 대한 옵션 배열을 인자로 받습니다:
 
-    $user->invoiceFor('One Time Fee', 500, [
-        'custom-option' => $value,
+    $user->invoiceFor('Stickers', 500, [
+        'quantity' => 50,
+    ], [
+        'tax_percent' => 21,
     ]);
 
 If you are using Braintree as your billing provider, you must include a `description` option when calling the `invoiceFor` method:

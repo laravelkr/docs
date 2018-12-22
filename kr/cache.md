@@ -346,9 +346,9 @@ If you provide an array of key / value pairs and an expiration time to the funct
 
     cache(['key' => 'value'], now()->addSeconds(10));
 
-When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to all other caching methods:
+When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
 
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 사용할 수 있습니다 :
+`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출할 수 있습니다 :
 
     cache()->remember('users', $minutes, function () {
         return DB::table('users')->get();

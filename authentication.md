@@ -386,7 +386,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
     php artisan migrate
 
 <a name="resetting-routing"></a>
-### ROuting-라우팅
+### Routing-라우팅
 
 라라벨은 사용자 패스워드 재설정에 필요한 로직을 포함하는 `Auth\PasswordController`를 가지고 있습니다. 하지만 request-요청을 이 컨트롤러로 향하도록 하려면 라우트를 정의해야 합니다: 
 

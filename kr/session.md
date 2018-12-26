@@ -259,7 +259,11 @@ The `forget` method will remove a piece of data from the session. If you would l
 
 `forget` 메소드는 세션에서 데이터를 삭제합니다. 세션에서 모든 데이터를 삭제하기를 원한다면 `flush` 메소드를 사용하면 됩니다:
 
+    // Forget a single key...
     $request->session()->forget('key');
+
+    // Forget multiple keys...
+    $request->session()->forget(['key1', 'key2']);
 
     $request->session()->flush();
 

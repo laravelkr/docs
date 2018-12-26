@@ -449,7 +449,7 @@ Modifier  |  Description
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
 `->charset('utf8')`  |  Specify a character set for the column (MySQL)
 `->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/SQL Server)
-`->comment('my comment')`  |  Add a comment to a column (MySQL)
+`->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
 `->nullable($value = true)`  |  Allows (by default) NULL values to be inserted into the column
@@ -466,7 +466,7 @@ Modifier  | 설명
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정합니다
 `->charset('utf8')`  |  컬럼의 캐릭터셋을 지정합니다 (MySQL)
 `->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/SQL Server)
-`->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL)
+`->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL/PostgreSQL)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  컬럼을 테이블의 "맨 처음" 위치로 옮깁니다 (MySQL)
 `->nullable($value = true)`  |  컬럼에 NULL 값이 입력되는 것을 허용합니다(기본값)

@@ -139,9 +139,9 @@ View composers are callbacks or class methods that are called when a view is ren
 
 뷰 컴포저는 뷰가 렌더링 될 때 호출되는 콜백 또는 클래스 메소드입니다. 만약 뷰가 렌더링 될 때마다 뷰에 전달해야할 데이터를 가지고 있다면 뷰 컴포저는 해당 로직을 한곳에서 구성할수 있게 도와줄 수 있습니다.
 
-For this example, let's register the view composers within a [service provider](/docs/{{version}}/providers). We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation. Remember, Laravel does not include a default directory for view composers. You are free to organize them however you wish. For example, you could create an `app/Http/ViewComposers` directory:
+For this example, let's register the view composers within a [service provider](/docs/{{version}}/providers). We'll use the `View` facade to access the underlying `Illuminate\Contracts\View\Factory` contract implementation. Remember, Laravel does not include a default directory for view composers. You are free to organize them however you wish. For example, you could create an `app/Http/View/Composers` directory:
 
-예를 들어, 뷰 컴포저를 [서비스 프로바이더](/docs/{{version}}/providers)를 통해서 구성해 봅시다. `Illuminate\Contracts\View\Factory` contract 구현체에 엑세스 하기 위해서 `View` 파사드를 사용할 것입니다. 기억할 것은 라라벨은 뷰 컴포저를 위한 어떠한 기본적인 디렉토리도 포함하고 있지 않다는 것입니다. 여러분은 자유롭게 뷰 컴포저를 구성할 수 있습니다. 예를 들어 `app/Http/ViewComposers` 디렉토리를 새롭게 생성할 수 있습니다.
+예를 들어, 뷰 컴포저를 [서비스 프로바이더](/docs/{{version}}/providers)를 통해서 구성해 봅시다. `Illuminate\Contracts\View\Factory` contract 구현체에 엑세스 하기 위해서 `View` 파사드를 사용할 것입니다. 기억할 것은 라라벨은 뷰 컴포저를 위한 어떠한 기본적인 디렉토리도 포함하고 있지 않다는 것입니다. 여러분은 자유롭게 뷰 컴포저를 구성할 수 있습니다. 예를 들어 `app/Http/View/Composers` 디렉토리를 새롭게 생성할 수 있습니다.
 
     <?php
 
@@ -150,7 +150,7 @@ For this example, let's register the view composers within a [service provider](
     use Illuminate\Support\Facades\View;
     use Illuminate\Support\ServiceProvider;
 
-    class ComposerServiceProvider extends ServiceProvider
+    class ViewServiceProvider extends ServiceProvider
     {
         /**
          * Register bindings in the container.
@@ -161,7 +161,7 @@ For this example, let's register the view composers within a [service provider](
         {
             // Using class based composers...
             View::composer(
-                'profile', 'App\Http\ViewComposers\ProfileComposer'
+                'profile', 'App\Http\View\Composers\ProfileComposer'
             );
 
             // Using Closure based composers...
@@ -191,7 +191,7 @@ Now that we have registered the composer, the `ProfileComposer@compose` method w
 
     <?php
 
-    namespace App\Http\ViewComposers;
+    namespace App\Http\View\Composers;
 
     use Illuminate\View\View;
     use App\Repositories\UserRepository;
@@ -246,7 +246,7 @@ You may attach a view composer to multiple views at once by passing an array of 
 
     View::composer(
         ['profile', 'dashboard'],
-        'App\Http\ViewComposers\MyViewComposer'
+        'App\Http\View\Composers\MyViewComposer'
     );
 
 The `composer` method also accepts the `*` character as a wildcard, allowing you to attach a composer to all views:
@@ -264,4 +264,4 @@ View **creators** are very similar to view composers; however, they are executed
 
 뷰 **크리에이터**는 뷰 컴포저와 거의 비슷하게 동작합니다. 하지만 뷰 크리에이터는 뷰가 렌더링 되기를 기다리는 대신 인스턴스화 된 다음에 바로 실행됩니다. 뷰 크리에이터를 등록하기 위해서는 `creator` 메소드를 사용하면 됩니다.
 
-    View::creator('profile', 'App\Http\ViewCreators\ProfileCreator');
+    View::creator('profile', 'App\Http\View\Creators\ProfileCreator');

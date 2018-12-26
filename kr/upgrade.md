@@ -603,6 +603,15 @@ The `QUEUE_DRIVER` environment variable has been renamed to `QUEUE_CONNECTION`. 
 
 (역자주: 이 옵션은 기본적으로 포함된 phpunit.xml과 .env.example에서도 변경되었습니다. 만약 변경된 내역을 일치하게 다 바꾸시고 싶으시다면 이 파일들도 확인해보시기 바랍니다 )
 
+#### `WorkCommand` Options
+#### `WorkCommand` 옵션
+
+**영향 가능성 : 매우 낮음**
+
+The `stop-when-empty` option was added to the `WorkCommand`. If you extend this command, you need to add `stop-when-empty` to `$signature` property of your class.
+
+`WorkCommand` 에 `stop-when-empty` 옵션이 추가되었습니다. 이 명령어를 확장하려면 클래스의 `$signature` 속성에 `stop-when-empty` 를 추가해야합니다.
+
 ### Routing
 ### 라우팅
 

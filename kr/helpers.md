@@ -1638,9 +1638,9 @@ For the inverse of `filled`, see the [`blank`](#method-blank) method.
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
-The `info` function will write information to the [log](/docs/{{version}}/errors#logging):
+The `info` function will write information to the [log](/docs/{{version}}/logging):
 
-`info` 함수는 [로그](/docs/{{version}}/errors#logging)에 정보를 기록합니다:
+`info` 함수는 [로그](/docs/{{version}}/logging)에 정보를 기록합니다:
 
     info('Some helpful information!');
 
@@ -1653,9 +1653,9 @@ An array of contextual data may also be passed to the function:
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-The `logger` function can be used to write a `debug` level message to the [log](/docs/{{version}}/errors#logging):
+The `logger` function can be used to write a `debug` level message to the [log](/docs/{{version}}/logging):
 
-`logger` 함수는 [로그](/docs/{{version}}/errors#logging)에 `debug` 로그 레벨을 기록하는데 사용합니다:
+`logger` 함수는 [로그](/docs/{{version}}/logging)에 `debug` 로그 레벨을 기록하는데 사용합니다:
 
     logger('Debug message');
 

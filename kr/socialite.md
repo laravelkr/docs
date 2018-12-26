@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Upgrading Socialite](#upgrading-socialite)
+- [Socialite 업그레이드하기](#upgrading-socialite)
 - [Installation](#installation)
 - [설치하기](#installation)
 - [Configuration](#configuration)
@@ -30,6 +32,14 @@ In addition to typical, form based authentication, Laravel also provides a simpl
 
 > {tip} 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.github.io/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
 
+<a name="upgrading-socialite"></a>
+## Upgrading Socialite
+## Socialite 업그레이드하기
+
+When upgrading to a new major version of Socialite, it's important that you carefully review [the upgrade guide](https://github.com/laravel/socialite/blob/master/UPGRADE.md).
+
+새로운 메이저 버전의 Socialite 를 업그레이드 한다면, [업그레이드 가이드](https://github.com/laravel/socialite/blob/master/UPGRADE.md)를 꼭 확인하시기 바랍니다.
+
 <a name="installation"></a>
 ## Installation
 ## 설치하기
@@ -49,8 +59,8 @@ Before using Socialite, you will also need to add credentials for the OAuth serv
 Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비스의 인증 정보를 추가해야합니다. 이 인증 정보는 `config/services.php` 설정 파일에서 추가하면 되며, 애플리케이션에서 필요한 서비스에 따라서, `facebook`, `twitter`, `linkedin`, `google`, `github`, `gitlab` 그리고 `bitbucket` 처럼 사용되야 합니다. 다음의 예제를 보십시오:
 
     'github' => [
-        'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID
-        'client_secret' => env('GITHUB_CLIENT_SECRET'), // Your GitHub Client Secret
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => 'http://your-callback-url',
     ],
 

@@ -7,6 +7,8 @@
 - [코어 개발에 대한 논의](#core-development-discussion)
 - [Which Branch?](#which-branch)
 - [브랜치 선택?](#which-branch)
+- [Compiled Assets](#compiled-assets)
+- [컴파일된 Assets](#compiled-assets)
 - [Security Vulnerabilities](#security-vulnerabilities)
 - [보안 취약점](#security-vulnerabilities)
 - [Coding Style](#coding-style)
@@ -99,6 +101,14 @@ If you are unsure if your feature qualifies as a major or minor, please ask Tayl
 
 만약 당신의 새로운 기능이 메이저인지 마이너인지 명확하지 않으면 [Laravel Discord server](https://discordapp.com/invite/mPZNm7A) 의 `#internals` 채널에서 Taylor Otwell에 문의하십시오.
 
+<a name="compiled-assets"></a>
+## Compiled Assets
+## 컴파일된 Assets
+
+If you are submitting a change that will affect a compiled file, such as most of the files in `resources/sass` or `resources/js` of the `laravel/laravel` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
+
+`laravel/laravel` 저장소의 `resources/sass` 또는 `resources/js` 에있는 대부분의 파일과 같이 컴파일 된 Asset 파일에 영향을 주는 변경 사항을 제출하는 경우 컴파일 된 파일을 커밋하지 마십시오. 이 파일들은 크기가 크기 때문에 메인테이너가 실제로 검토 할 수 없습니다. 이러한 방법은 악성 코드를 라라벨에 삽입하는 방법으로 악용 될 소지가 있습니다. 이를 방지하기 위해 컴파일 된 모든 파일은 라라벨 관리자에 의해 생성되고 커밋됩니다.
+
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities
 ## 보안 취약점
@@ -130,7 +140,6 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
-     *
      * @throws \Exception
      */
     public function bind($abstract, $concrete = null, $shared = false)

@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+    - [Configuring The Locale](#configuring-the-locale)
+    - [Locale-로케일 설정하기](#configuring-the-locale)
 - [Defining Translation Strings](#defining-translation-strings)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [Using Short Keys](#using-short-keys)
@@ -43,6 +45,7 @@ All language files return an array of keyed strings. For example:
         'welcome' => 'Welcome to our application'
     ];
 
+<a name="configuring-the-locale"></a>
 ### Configuring The Locale
 ### 로케일 설정하기
 
@@ -154,19 +157,19 @@ If the specified translation string does not exist, the `__` function will retur
 ### Replacing Parameters In Translation Strings
 ### 다국어 문자열의 파라미터를 치환하기
 
-If you wish, you may define place-holders in your translation strings. All place-holders are prefixed with a `:`. For example, you may define a welcome message with a place-holder name:
+If you wish, you may define placeholders in your translation strings. All placeholders are prefixed with a `:`. For example, you may define a welcome message with a placeholder name:
 
-여러분은 다국어 문자에서 일부분을 특정하여 교체하기를(place-holder) 원할 수도 있습니다. 이런 모든 플레이스홀더 들은 `:` 으로 시작합니다. 예를들어 환영 메세지에 이름을 특정하게 표현하기를 원한다면 다음과 같이 하면 됩니다:
+여러분은 다국어 문자에서 일부분을 특정하여 교체하기를(placeholders) 원할 수도 있습니다. 이런 모든 플레이스홀더 들은 `:` 으로 시작합니다. 예를들어 환영 메세지에 이름을 특정하게 표현하기를 원한다면 다음과 같이 하면 됩니다:
 
     'welcome' => 'Welcome, :name',
 
-To replace the place-holders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
+To replace the placeholders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
 
 다국어 문자열에서 플레이스 홀더를 교체하려면 `__` 함수의 두번째 인자로 교체할 값의 배열을 전달하면 됩니다:
 
     echo __('messages.welcome', ['name' => 'dayle']);
 
-If your place-holder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+If your placeholder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
 
 플레이스 홀더가 모두 대문자이거나, 첫번째 문자가 대문자라면, 변환된 값또한 이에 따라 대문자로 표기될것 입니다:
 
@@ -196,7 +199,7 @@ After defining a translation string that has pluralization options, you may use 
 
     echo trans_choice('messages.apples', 10);
 
-You may also define place-holder attributes in pluralization strings. These place-holders may be replaced by passing an array as the third argument to the `trans_choice` function:
+You may also define placeholder attributes in pluralization strings. These placeholders may be replaced by passing an array as the third argument to the `trans_choice` function:
 
 복수형 문자를 위한 플레이스홀더 속성을 정의할 수 있습니다. 이 플레이스홀더는 `trans_choice` 함수에 전달되는 세번째 인자인 배열의 값으로 치환됩니다:
 

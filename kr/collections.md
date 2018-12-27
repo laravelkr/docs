@@ -181,11 +181,16 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [unique](#method-unique)
 - [uniqueStrict](#method-uniquestrict)
 - [unless](#method-unless)
+- [unlessEmpty](#method-unlessempty)
+- [unlessNotEmpty](#method-unlessnotempty)
 - [unwrap](#method-unwrap)
 - [values](#method-values)
 - [when](#method-when)
+- [whenEmpty](#method-whenempty)
+- [whenNotEmpty](#method-whennotempty)
 - [where](#method-where)
 - [whereStrict](#method-wherestrict)
+- [whereBetween](#method-wherebetween)
 - [whereIn](#method-wherein)
 - [whereInStrict](#method-whereinstrict)
 - [whereNotIn](#method-wherenotin)
@@ -2062,7 +2067,7 @@ This method can be useful when combined with factories to create [Eloquent](/doc
 이 메소드는 [Eloquent](/docs/{{version}}/eloquent) 모델을 생성하는 팩토리와 조합할 때 유용합니다.
 
     $categories = Collection::times(3, function ($number) {
-        return factory(Category::class)->create(['name' => 'Category #'.$number]);
+        return factory(Category::class)->create(['name' => "Category No. $number"]);
     });
 
     $categories->all();
@@ -2239,6 +2244,18 @@ For the inverse of `unless`, see the [`when`](#method-when) method.
 
 `unless` 메소드의 반대는 [`when`](#method-when) 메소드를 참고하십시오.
 
+<a name="method-unlessempty"></a>
+#### `unlessEmpty()` {#collection-method}
+
+Alias for the [`whenNotEmpty`](#method-whennotempty) method.
+
+[`whenNotEmpty`](#method-whennotempty) 메소드의 별칭입니다.
+
+<a name="method-unlessnotempty"></a>
+#### `unlessNotEmpty()` {#collection-method}
+
+[`whenEmpty`](#method-whenempty) 메소드의 별칭입니다.
+
 <a name="method-unwrap"></a>
 #### `unwrap()` {#collection-method}
 
@@ -2306,6 +2323,96 @@ For the inverse of `when`, see the [`unless`](#method-unless) method.
 
 `when` 메소드의 반대는, [`unless`](#method-unless) 메소드를 참고하십시오.
 
+<a name="method-whenempty"></a>
+#### `whenEmpty()` {#collection-method}
+
+The `whenEmpty` method will execute the given callback when the collection is empty:
+
+`whenEmpty` 메소드는 컬렉션이 비어 있을때 전달되는 콜백을 실행합니다:
+
+    $collection = collect(['michael', 'tom']);
+
+    $collection->whenEmpty(function ($collection) {
+        return $collection->push('adam');
+    });
+
+    $collection->all();
+
+    // ['michael', 'tom']
+
+
+    $collection = collect();
+
+    $collection->whenEmpty(function ($collection) {
+        return $collection->push('adam');
+    });
+
+    $collection->all();
+
+    // ['adam']
+
+
+    $collection = collect(['michael', 'tom']);
+
+    $collection->whenEmpty(function($collection) {
+        return $collection->push('adam');
+    }, function($collection) {
+        return $collection->push('taylor');
+    });
+
+    $collection->all();
+
+    // ['michael', 'tom', 'taylor']
+
+For the inverse of `whenEmpty`, see the [`whenNotEmpty`](#method-whennotempty) method.
+
+`whenEmpty`의 반대는, [`whenNotEmpty`](#method-whennotempty) 메소드를 확인하십시오.
+
+<a name="method-whennotempty"></a>
+#### `whenNotEmpty()` {#collection-method}
+
+The `whenNotEmpty` method will execute the given callback when the collection is not empty:
+
+`whenNotEmpty` 메소드는 컬렉션이 비어 있지 않을때, 전달되는 콜백을 실행합니다:
+
+    $collection = collect(['michael', 'tom']);
+
+    $collection->whenNotEmpty(function ($collection) {
+        return $collection->push('adam');
+    });
+
+    $collection->all();
+
+    // ['michael', 'tom', 'adam']
+
+
+    $collection = collect();
+
+    $collection->whenNotEmpty(function ($collection) {
+        return $collection->push('adam');
+    });
+
+    $collection->all();
+
+    // []
+
+
+    $collection = collect();
+
+    $collection->whenNotEmpty(function($collection) {
+        return $collection->push('adam');
+    }, function($collection) {
+        return $collection->push('taylor');
+    });
+
+    $collection->all();
+
+    // ['taylor']
+
+For the inverse of `whenNotEmpty`, see the [`whenEmpty`](#method-whenempty) method.
+
+`whenNotEmpty`의 반대는, [`whenEmpty`](#method-whenempty) 메소드를 확인하십시오.
+
 <a name="method-where"></a>
 #### `where()` {#collection-method}
 
@@ -2341,6 +2448,33 @@ The `where` method uses "loose" comparisons when checking item values, meaning a
 This method has the same signature as the [`where`](#method-where) method; however, all values are compared using "strict" comparisons.
 
 이 메소드는 [`where`](#method-where) 메소드와 동일한 사용법을 가지고 있습니다;하지만 모든 값이 "강력하게" 비교되어 집니다.(타입까지 일치하는지 체크합니다)
+
+<a name="method-wherebetween"></a>
+#### `whereBetween()` {#collection-method}
+
+The `whereBetween` method filters the collection within a given range:
+
+`whereBetween` 메소드는 컬렉션을 주어진 범위안에 해당되는 값으로만 필터링합니다:
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 80],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Pencil', 'price' => 30],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereBetween('price', [100, 200]);
+
+    $filtered->all();
+
+    /*
+        [
+            ['product' => 'Desk', 'price' => 200],
+            ['product' => 'Bookcase', 'price' => 150],
+            ['product' => 'Door', 'price' => 100],
+        ]
+    */
 
 <a name="method-wherein"></a>
 #### `whereIn()` {#collection-method}

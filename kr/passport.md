@@ -51,6 +51,8 @@
 - [Token Scopes](#token-scopes)
     - [Defining Scopes](#defining-scopes)
     - [Defining Scopes](#defining-scopes)
+    - [Default Scope](#default-scope)
+    - [Default Scope](#default-scope)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [Checking Scopes](#checking-scopes)
@@ -200,18 +202,22 @@ The published components will be placed in your `resources/js/components` direct
 
     Vue.component(
         'passport-clients',
-        require('./components/passport/Clients.vue')
+        require('./components/passport/Clients.vue').default
     );
 
     Vue.component(
         'passport-authorized-clients',
-        require('./components/passport/AuthorizedClients.vue')
+        require('./components/passport/AuthorizedClients.vue').default
     );
 
     Vue.component(
         'passport-personal-access-tokens',
-        require('./components/passport/PersonalAccessTokens.vue')
+        require('./components/passport/PersonalAccessTokens.vue').default
     );
+
+> {note} Prior to Laravel v5.7.19, appending `.default` when registering components results in a console error. An explanation for this change can be found in the [Laravel Mix v4.0.0 release notes](https://github.com/JeffreyWay/laravel-mix/releases/tag/v4.0.0).
+
+> {note} 라라벨 v5.7.19에 따라, 컴포넌트를 등록할때 `.default` 를 덧붙이는 것은 콘솔상에서 에러를 유발합니다. 이러한 변경사항에 대한 자세한 설명은 [라라벨 Mix v4.0.0 릴리즈 노트](https://github.com/JeffreyWay/laravel-mix/releases/tag/v4.0.0)를 참고해주십시오.
 
 After registering the components, make sure to run `npm run dev` to recompile your assets. Once you have recompiled your assets, you may drop the components into one of your application's templates to get started creating clients and personal access tokens:
 
@@ -356,7 +362,7 @@ However, you will need to pair Passport's JSON API with your own frontend to pro
 
 그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/mzabriskie/axios)를 사용하겠습니다.
 
-The JSON API is guarded by the `web` and `auth` middlewares; therefore, it may only be called from your own application. It is not able to be called from an external source.
+The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application. It is not able to be called from an external source.
 
 JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 어플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
 
@@ -758,7 +764,7 @@ Passport also includes a JSON API for managing personal access tokens. You may p
 
 passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포함하고 있습니다. 이 API와 함께 여러분의 고유한 프론트 엔드를 구성하여 사용자에게 개인용 엑세스 토큰을 관리할 수 있는 대시보드를 제공할 수 있습니다. 아래에서 개인용 엑세스 토큰을 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/mzabriskie/axios)를 사용하겠습니다.
 
-The JSON API is guarded by the `web` and `auth` middlewares; therefore, it may only be called from your own application. It is not able to be called from an external source.
+The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application. It is not able to be called from an external source.
 
 JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 어플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
 
@@ -871,6 +877,21 @@ API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passpo
     Passport::tokensCan([
         'place-orders' => 'Place orders',
         'check-status' => 'Check order status',
+    ]);
+
+<a name="default-scope"></a>
+### Default Scope
+### 기본 스코프
+
+If a client does not request any specific scopes, you may configure your Passport server to attach a default scope to the token using the `setDefaultScope` method. Typically, you should call this method from the `boot` method of your `AuthServiceProvider`:
+
+클라이언트가 특정한 스코프를 요청하지 않으면 `setDefaultScope` 메소드를 사용하여 토큰에 기본적인 스코프를 지저하도록 Passport 서버를 구성할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드 안에서 호출해야 합니다:
+
+    use Laravel\Passport\Passport;
+
+    Passport::setDefaultScope([
+        'check-status',
+        'place-orders',
     ]);
 
 <a name="assigning-scopes-to-tokens"></a>

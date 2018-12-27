@@ -130,9 +130,9 @@ In this example, the `setFirstNameAttribute` function will be called with the va
 ## Date Mutators
 ## 날짜 Mutators
 
-By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class to provide an assortment of helpful methods. You may customize which dates are automatically mutated, and even completely disable this mutation, by overriding the `$dates` property of your model:
+By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may add additional date attributes by setting the `$dates` property of your model:
 
-기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 가지고 있습니다. 이 컬럼은 유용한 메소드를 가지고 있으며,  PHP `DateTime` 클래스의 확장이기도한 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 사용자 정의 모델의 `$dates` 메소드를 재정의 하여 날짜가 자동으로 바뀌도록 활성화 또는 비활성화 할 수 있습니다.
+기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 가지고 있습니다. 이 컬럼은 유용한 메소드를 가지고 있으며,  PHP `DateTime` 클래스의 확장이기도한 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 모델의 `$dates` 속성을 설정하여 추가적인 날짜 속성을 추가할 수 있습니다:
 
     <?php
 
@@ -148,15 +148,17 @@ By default, Eloquent will convert the `created_at` and `updated_at` columns to i
          * @var array
          */
         protected $dates = [
-            'created_at',
-            'updated_at',
-            'deleted_at'
+            'seen_at',
         ];
     }
 
-When a column is considered a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, and of course a `DateTime` / `Carbon` instance, and the date's value will automatically be correctly stored in your database:
+> {tip} You may disable the default `created_at` and `updated_at` timestamps by setting the public `$timestamps` property of your model to `false`.
 
-컬럼이 날짜라고 추정되는 경우, 여러분은 이 값을 UNIX 타임스탬프 값, date(`Y-m-d`) 문자열 값, 날짜-시간에 대한 문자열 값, 그리고 `DateTime` / `Carbon` 클래스의 인스턴스 값으로 설정할 수 있고, 날짜는 자동으로 데이터베이스에 정확하게 저장될 것입니다:
+> {tip} 모델의 `$timestamp` 속성을 `false` 로 지정하여 기본적으로 활성화 되는 `created_at` 와 `updated_at` 타임스탬프 값을 사용하지 않을 수(비활성화) 있습니다.
+
+When a column is considered a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, and of course a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database:
+
+컬럼이 날짜라고 추정되는 경우, 여러분은 이 값을 UNIX 타임스탬프 값, date(`Y-m-d`) 문자열 값, 날짜-시간에 대한 문자열 값, 그리고 `DateTime` / `Carbon` 클래스의 인스턴스 값으로 설정할 수 있습니다. 날짜값은 데이터베이스에 일치하는 형태로 변환되어 저장됩니다:
 
     $user = App\User::find(1);
 

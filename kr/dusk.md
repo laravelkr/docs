@@ -17,6 +17,8 @@
     - [구동환경 처리](#environment-handling)
     - [Creating Browsers](#creating-browsers)
     - [브라우저 생성하기](#creating-browsers)
+    - [Browser Macros](#browser-macros)
+    - [브라우저 매크로](#browser-macros)
     - [Authentication](#authentication)
     - [인증](#authentication)
     - [Database Migrations](#migrations)
@@ -119,6 +121,10 @@ If you had test failures the last time you ran the `dusk` command, you may save 
 마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
 
     php artisan dusk:fails
+
+> {note} Dusk requires its `chromedriver` binaries to be executable. If you're having problems running Dusk, you can ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin`.
+
+> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능한지 확인해야 합니다: `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### Using Other Browsers
@@ -329,6 +335,48 @@ The `maximize` method may be used to maximize the browser window:
 `maximize` 메소드는 브라우저의 윈도우를 최대 크기로 조정하는데 사용합니다:
 
     $browser->maximize();
+
+<a name="browser-macros"></a>
+### Browser Macros
+### 브라우저 매크로
+
+If you would like to define a custom browser method that you can re-use in a variety of your tests, you may use the `macro` method on the `Browser` class. Typically, you should call this method from a [service provider's](/docs/{{version}}/providers) `boot` method:
+
+다양한 테스트에서 재사용할 수 있는 커스텀 브라우저 메소드를 정의한려고 한다면 `Browser` 클래스의 `macro` 메소드를 사용할 수 있습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 호출해야 합니다:
+
+    <?php
+
+    namespace App\Providers;
+
+    use Laravel\Dusk\Browser;
+    use Illuminate\Support\ServiceProvider;
+
+    class DuskServiceProvider extends ServiceProvider
+    {
+        /**
+         * Register the Dusk's browser macros.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Browser::macro('scrollToElement', function ($element = null) {
+                $this->script("$('html, body').animate({ scrollTop: $('$element').offset().top }, 0);");
+
+                return $this;
+            });
+        }
+    }
+
+The `macro` function accepts a name as its first argument, and a Closure as its second. The macro's Closure will be executed when calling the macro as a method on a `Browser` implementation:
+
+`macro` 함수는 첫번째 인자로 이름을, 두번째 인자로 클로저를 받습니다. 매크로의 클로저는 `Browser` 구현체에서 메소드를 호출할때 실행됩니다:
+
+    $this->browse(function ($browser) use ($user) {
+        $browser->visit('/pay')
+                ->scrollToElement('#credit-card-details')
+                ->assertSee('Enter Credit Card Details');
+    });
 
 <a name="authentication"></a>
 ### Authentication

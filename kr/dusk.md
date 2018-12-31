@@ -1577,10 +1577,10 @@ As shown above, a "date picker" is an example of a component that might exist th
          *
          * @param  \Laravel\Dusk\Browser  $browser
          * @param  int  $month
-         * @param  int  $year
+         * @param  int  $day
          * @return void
          */
-        public function selectDate($browser, $month, $year)
+        public function selectDate($browser, $month, $day)
         {
             $browser->click('@date-field')
                     ->within('@month-list', function ($browser) use ($month) {
@@ -1668,10 +1668,11 @@ To run Dusk tests on [Codeship](https://codeship.com), add the following command
 
 [Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 물론, 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다:
 
-    phpenv local 7.1
+    phpenv local 7.2
     cp .env.testing .env
-    composer install --no-interaction
-    nohup bash -c "./vendor/laravel/dusk/bin/chromedriver-linux 2>&1 &"
+    mkdir -p ./bootstrap/cache
+    composer install --no-interaction --prefer-dist
+    php artisan key:generate
     nohup bash -c "php artisan serve 2>&1 &" && sleep 5
     php artisan dusk
 

@@ -1185,8 +1185,8 @@ The `mapSpread` method iterates over the collection's items, passing each nested
 
     $chunks = $collection->chunk(2);
 
-    $sequence = $chunks->mapSpread(function ($odd, $even) {
-        return $odd + $even;
+    $sequence = $chunks->mapSpread(function ($even, $odd) {
+        return $even + $odd;
     });
 
     $sequence->all();

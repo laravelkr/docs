@@ -288,6 +288,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertJsonFragment](#assert-json-fragment)
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
+- [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertLocation](#assert-location)
@@ -448,6 +449,15 @@ Assert that the response does not contain the exact JSON fragment:
 response-응답에 주어진 JSON 내용이 정확하게 포함되어 있지 않은 것을 확인:
 
     $response->assertJsonMissingExact(array $data);
+
+<a name="assert-json-missing-validation-errors"></a>
+#### assertJsonMissingValidationErrors
+
+Assert that the response has no JSON validation errors for the given keys:
+
+response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함되어 있지 않은 것을 확인:
+
+    $response->assertJsonMissingValidationErrors($keys);
 
 <a name="assert-json-structure"></a>
 #### assertJsonStructure

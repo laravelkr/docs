@@ -99,6 +99,20 @@ Then, update any reference to the old directories in your `webpack.mix.js` file:
     mix.js('resources/js/app.js', 'public/js')
        .sass('resources/sass/app.scss', 'public/css');
 
+#### `svg` Directory Added
+#### `svg` 디렉토리 추가
+
+**Likelihood Of Impact: Very High**
+**영향 가능성: 매우 높음**
+
+A new directory, `svg`, was added to the `public` directory. It contains four svg files: `403.svg`, `404.svg`, `500.svg`, and `503.svg`, which are displayed on their respective error pages.
+
+`public` 디렉토리 안에 새로운 `svg` 디렉토리가 추가되었습니다. `403.svg`, `404.svg`, `500.svg`, `503.svg` 의 네가지 파일이 들어 있다면, 이 파일들이 에러 페이지를 구성하는데 사용됩니다.
+
+You may get the files [from GitHub](https://github.com/laravel/laravel/tree/master/public/svg).
+
+이 파일들은 [Github](https://github.com/laravel/laravel/tree/master/public/svg)에서 확인할 수 있습니다.
+
 ### Authentication
 ### 인증(Authentication)
 

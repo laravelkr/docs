@@ -15,10 +15,16 @@
     - [\*:*(다대다) 관계](#many-to-many)
     - [Has Many Through](#has-many-through)
     - [연결을 통한 다수를 가지는 관계](#has-many-through)
-    - [Polymorphic Relations](#polymorphic-relations)
-    - [다형성 관계](#polymorphic-relations)
-    - [Many To Many Polymorphic Relations](#many-to-many-polymorphic-relations)
-    - [다대다 다형성 관계](#many-to-many-polymorphic-relations)
+- [Polymorphic Relationships](#polymorphic-relationships)
+- [다형성 관계](#polymorphic-relationships)
+    - [One To One](#one-to-one-polymorphic-relations)
+    - [1:1(일대일) 관계](#one-to-one-polymorphic-relations)
+    - [One To Many](#one-to-many-polymorphic-relations)
+    - [1:*(일대다) 관계](#one-to-many-polymorphic-relations)
+    - [Many To Many](#many-to-many-polymorphic-relations)
+    - [\*:*(다대다) 관계](#many-to-many-polymorphic-relations)
+    - [Custom Polymorphic Types](#custom-polymorphic-types)
+    - [커스텀-사용자정의 다형성 타입](#custom-polymorphic-types)
 - [Querying Relations](#querying-relations)
 - [관계 쿼리 질의하기](#querying-relations)
     - [Relationship Methods Vs. Dynamic Properties](#relationship-methods-vs-dynamic-properties)
@@ -64,10 +70,12 @@ Database tables are often related to one another. For example, a blog post may h
 - [*:*(대다다) 관계](#many-to-many)
 - [Has Many Through](#has-many-through)
 - [연결을 통한 다수를 가지는 관계](#has-many-through)
-- [Polymorphic Relations](#polymorphic-relations)
-- [다형성 관계](#polymorphic-relations)
-- [Many To Many Polymorphic Relations](#many-to-many-polymorphic-relations)
-- [다대다 다형성 관계](#many-to-many-polymorphic-relations)
+- [One To One (Polymorphic)](#one-to-one-polymorphic-relations)
+- [1:1(일대일) (다형성)](#one-to-one-polymorphic-relations)
+- [One To Many (Polymorphic)](#one-to-many-polymorphic-relations)
+- [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
+- [Many To Many (Polymorphic)](#many-to-many-polymorphic-relations)
+- [*:*(대다다) (다형성)](#many-to-many-polymorphic-relations)
 
 <a name="defining-relationships"></a>
 ## Defining Relationships
@@ -178,9 +186,9 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 ### One To Many
 ### 1:*(일대다) 관계 정의하기
 
-A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+A one-to-many relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
 
-"일대다" relationship은 하나의 모델이 다른 모델의 어떤 부분이라도 소유할 경우의 relationship을 정의하는데 사용됩니다. 예를 들어, 한 블로그 게시물이 댓글을 무제한으로 가질 수 있습니다. 다른 모든 Eloquent relationship들과 같이, 일대다 relationship들은 Eloquent 모델에 함수를 통해서 정의됩니다:
+일대다 relationship은 하나의 모델이 다른 모델의 어떤 부분이라도 소유할 경우의 relationship을 정의하는데 사용됩니다. 예를 들어, 한 블로그 게시물이 댓글을 무제한으로 가질 수 있습니다. 다른 모든 Eloquent relationship들과 같이, 일대다 relationship들은 Eloquent 모델에 함수를 통해서 정의됩니다:
 
     <?php
 
@@ -569,16 +577,122 @@ Typical Eloquent foreign key conventions will be used when performing the relati
         }
     }
 
-<a name="polymorphic-relations"></a>
-### Polymorphic Relations
-### 다형성 관계
+<a name="polymorphic-relationships"></a>
+## Polymorphic Relationships
+## 다형성 관계
+
+A polymorphic relationship allows the target model to belong to more than one type of model using a single association.
+
+다형성 관계는 대상 모델이 하나 이상의 타입의 모델에 소속될 수 있도록 해줍니다.
+
+<a name="one-to-one-polymorphic-relations"></a>
+### One To One (Polymorphic)
+### 일대일 (다형성)
 
 #### Table Structure
 #### 테이블 구조
 
-Polymorphic relations allow a model to belong to more than one other model on a single association. For example, imagine users of your application can "comment" on both posts and videos. Using polymorphic relationships, you can use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+A one-to-one polymorphic relation is similar to a simple one-to-one relation; however, the target model can belong to more than one type of model on a single association. For example, a blog `Post` and a `User` may share a polymorphic relation to an `Image` model. Using a one-to-one polymorphic relation allows you to have a single list of unique images that are used for both blog posts and user accounts. First, let's examine the table structure:
 
-다형성 관계는 모델이 하나의 연관관계에 대해서 하나 이상의 모델에 소속될 수 있도록 해줍니다. 예를 들어 애플리케이션의 사용자가 게시글과 비디오 둘다 "댓글"를 달 수 있다고 생각해 보겠습니다. 다형성 관계를 이용하면 이 두 시나리오 모두 지원하는 하나의 `comments` 테이블을 사용할 수 있습니다. 먼저 이 관계를 구성하기 위해 필요한 테이블 구조를 살펴보겠습니다:
+일대일 다형성 관계는 기본적인 일대일 관계와 비슷합니다; 다만, 대상 모델은 하나의 연결에서 하나 이상의 모델에 소속될 수 있습니다. 예를 들자면, 블로그 `Post` 와 `User` 는 `Image` 모델에 다형성 관계를 서로 공유 할 수 있습니다. 일대일 다형성 관계를 사용한다면 블로그 포스트와 사용자에 소속되는 하나의 이미지를 구성할 수 있습니다. 먼저 테이블 구조를 살펴보겠습니다:
+
+    posts
+        id - integer
+        name - string
+
+    users
+        id - integer
+        name - string
+
+    images
+        id - integer
+        url - string
+        imageable_id - integer
+        imageable_type - string
+
+Take note of the `imageable_id` and `imageable_type` columns on the `images` table. The `imageable_id` column will contain the ID value of the post or user, while the `imageable_type` column will contain the class name of the parent model. The `imageable_type` column is used by Eloquent to determine which "type" of parent model to return when accessing the `imageable` relation.
+
+`images` 테이블에서 `imageable_id` 와 `imageable_type` 컬럼을 확인하십시오. `imageable_id` 컬럼은 포스트 또는 사용자의 ID 값이 저장되고, `imageable_type` 컬럼에는 상위 모델 클래스의 이름이 저장됩니다. `imageable_type` 컬럼은 Eloquent 가 `imageable` 관계에서 값을 반환할때 어떠한 "타입"과 연결해야 하는지 결정하는데 사용됩니다.
+
+#### Model Structure
+#### 모델 구조
+
+Next, let's examine the model definitions needed to build this relationship:
+
+다음으로, 이러한 관계를 형성하기 위해서 모델에서 필요한 정의사항을 살펴보겠습니다:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Image extends Model
+    {
+        /**
+         * Get all of the owning imageable models.
+         */
+        public function imageable()
+        {
+            return $this->morphTo();
+        }
+    }
+
+    class Post extends Model
+    {
+        /**
+         * Get the post's image.
+         */
+        public function image()
+        {
+            return $this->morphOne('App\Image', 'imageable');
+        }
+    }
+
+    class User extends Model
+    {
+        /**
+         * Get the user's image.
+         */
+        public function image()
+        {
+            return $this->morphOne('App\Image', 'imageable');
+        }
+    }
+
+#### Retrieving The Relationship
+#### 관계 조회하기
+
+Once your database table and models are defined, you may access the relationships via your models. For example, to retrieve the image for a post, we can use the `image` dynamic property:
+
+데이터베이스 테이블과 모델을 정의하고나면, 모델에서 관계 모델에 엑세스 할 수 있습니다. 예를들어 포스트의 이미지를 조회한다면, `image` 라는 동적 속성을 사용하면 됩니다:
+
+    $post = App\Post::find(1);
+
+    $image = $post->image;
+
+You may also retrieve the parent from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `imageable` method on the `Image` model. So, we will access that method as a dynamic property:
+
+`morphTo` 에 대한 호출을 실행하는 메소드의 이름에 엑세스해서 다형성 모델의 상위 모델을 조회 할 수도 있습니다. 이 경우에서는, `Image` 모델의 `imageable` 메소드가 됩니다. 따라서 다음과 같이 동적 속성을 사용해서 메소드에 접근합니다:
+
+    $image = App\Image::find(1);
+
+    $imageable = $image->imageable;
+
+The `imageable` relation on the `Image` model will return either a `Post` or `User` instance, depending on which type of model owns the image.
+
+`Image` 모델의 `imageable` 관계는 이미지를 소유한 모델의 타입에 따라서 `Post` 또는 `User` 인스턴스를 반환합니다.
+
+<a name="one-to-many-polymorphic-relations"></a>
+### One To Many (Polymorphic)
+### 1:* 일대다(다형성)
+
+#### Table Structure
+#### 테이블 구조
+
+A one-to-many polymorphic relation is similar to a simple one-to-many relation; however, the target model can belong to more than one type of model on a single association. For example, imagine users of your application can "comment" on both posts and videos. Using polymorphic relationships, you may use a single `comments` table for both of these scenarios. First, let's examine the table structure required to build this relationship:
+
+일대다 다형성 관계는 기본적인 일대다 관계와 비슷합니다; 다만, 대상 모델은 하나의 연결에서 하나 이상의 모델에 소속될 수 있습니다. 예를 들어 애플리케이션의 사용자가 게시글과 비디오 둘다 "댓글"를 달 수 있다고 생각해 보겠습니다. 다형성 관계를 이용하면 이 두 시나리오 모두 지원하는 하나의 `comments` 테이블을 사용할 수 있습니다. 먼저 이 관계를 구성하기 위해 필요한 테이블 구조를 살펴보겠습니다:
 
     posts
         id - integer
@@ -596,9 +710,6 @@ Polymorphic relations allow a model to belong to more than one other model on a 
         commentable_id - integer
         commentable_type - string
 
-Two important columns to note are the `commentable_id` and `commentable_type` columns on the `comments` table. The `commentable_id` column will contain the ID value of the post or video, while the `commentable_type` column will contain the class name of the owning model. The `commentable_type` column is how the ORM determines which "type" of owning model to return when accessing the `commentable` relation.
-
-유심히 살펴봐야할 중요한 두개의 컬럼은 `comments` 테이블의 `commentable_id`와 `commentable_type` 컬럼입니다. `commentable_id` 컬럼은 게시글과 비디오의 ID 값을 가지고, `commentable_type` 컬럼은 소유 모델의 클래스 이름을 가집니다. `commentable_type` 컬럼은 `likeable` 관계에 접근할 때 어떤 "유형"의 소유 모델을 반환할지 ORM이 결정하는 방법입니다.
 
 #### Model Structure
 #### 모델 구조
@@ -646,8 +757,8 @@ Next, let's examine the model definitions needed to build this relationship:
         }
     }
 
-#### Retrieving Polymorphic Relations
-#### 다형성 관계 조회하기
+#### Retrieving Relations
+#### 관계 조회하기
 
 Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can use the `comments` dynamic property:
 
@@ -671,34 +782,16 @@ The `commentable` relation on the `Comment` model will return either a `Post` or
 
 `Comment` 모델의 `commentabl` 관계는 댓글을 어느 모델이 소유하느냐에 따라 `Post`나 `Video` 인스턴스를 반환합니다.
 
-#### Custom Polymorphic Types
-#### 사용자 정의 다형성 타입
-
-By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the example above where a `Comment` may belong to a `Post` or a `Video`, the default `commentable_type` would be either `App\Post` or `App\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a relationship "morph map" to instruct Eloquent to use a custom name for each model instead of the class name:
-
-기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 예제에서 `Comment` 는 하나의 `Post` 또는 하나의 `Video` 에 지정되고, 기본적으로 `commentable_type` 의 각각 `App\Post` 또는 `App\Video` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 애플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 고유한 이름을 Eloquent 에 지시할 수 있습니다:
-
-    use Illuminate\Database\Eloquent\Relations\Relation;
-
-    Relation::morphMap([
-        'posts' => 'App\Post',
-        'videos' => 'App\Video',
-    ]);
-
-You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
-
-여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
-
 <a name="many-to-many-polymorphic-relations"></a>
-### Many To Many Polymorphic Relations
-### 다대다 다형성 관계 정의하기
+### Many To Many (Polymorphic)
+### 다대다 (다형성)
 
 #### Table Structure
 #### 테이블 구조
 
-In addition to traditional polymorphic relations, you may also define "many-to-many" polymorphic relations. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across blog posts and videos. First, let's examine the table structure:
+Many-to-many polymorphic relations are slightly more complicated than `morphOne` and `morphMany` relationships. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across blog posts and videos. First, let's examine the table structure:
 
-일반적인 다형성 관계 말고도 "다대다" 다형성 관계 또한 정의할 수 있습니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
+*:* 다대다 다형성 관계는 `morphOne` 와 `morphMany` 관계에 대해서 다소 복잡합니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
 
     posts
         id - integer
@@ -795,6 +888,26 @@ You may also retrieve the owner of a polymorphic relation from the polymorphic m
     foreach ($tag->videos as $video) {
         //
     }
+
+
+<a name="custom-polymorphic-types"></a>
+### Custom Polymorphic Types
+### 커스텀-사용자 정의 다형성 타입
+
+By default, Laravel will use the fully qualified class name to store the type of the related model. For instance, given the one-to-many example above where a `Comment` may belong to a `Post` or a `Video`, the default `commentable_type` would be either `App\Post` or `App\Video`, respectively. However, you may wish to decouple your database from your application's internal structure. In that case, you may define a "morph map" to instruct Eloquent to use a custom name for each model instead of the class name:
+
+기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 일대일 관계 예제에서 `Comment` 는 하나의 `Post` 또는 하나의 `Video` 에 지정되고, 기본적으로 `commentable_type` 의 각각 `App\Post` 또는 `App\Video` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 애플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 고유한 이름을 Eloquent 에 지시할 수 있습니다:
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    Relation::morphMap([
+        'posts' => 'App\Post',
+        'videos' => 'App\Video',
+    ]);
+
+You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
+
+여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
 
 <a name="querying-relations"></a>
 ## Querying Relations
@@ -954,6 +1067,16 @@ You may also alias the relationship count result, allowing multiple counts on th
     echo $posts[0]->comments_count;
 
     echo $posts[0]->pending_comments_count;
+
+If you're combining `withCount` with a `select` statement, ensure that you call `withCount` after the `select` method:
+
+`withCount` 와 `select` 구문을 조합한다면, `select` 메소드 뒤에 `withCount` 호출하도록 구성하십시오:
+
+    $query = App\Post::select(['title', 'body'])->withCount('comments');
+
+    echo $posts[0]->title;
+    echo $posts[0]->body;
+    echo $posts[0]->comments_count;
 
 <a name="eager-loading"></a>
 ## Eager Loading
@@ -1267,7 +1390,7 @@ When attaching a relationship to a model, you may also pass an array of addition
 
     $user->roles()->attach($roleId, ['expires' => $expires]);
 
-Of course, sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will remove the appropriate record out of the intermediate table; however, both models will remain in the database:
+Of course, sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will delete the appropriate record out of the intermediate table; however, both models will remain in the database:
 
 물론 경우에 따라 사용자에게서 역할을 분리하는 것이 필요할 수 있습니다. 다대다 관계 기록을 제거하려면 `detach` 메소드를 이용하면 됩니다. `detach` 메소드는 중간 테이블에서 적절한 기록을 삭제할 것입니다. 하지만 두 모델은 모두 데이터베이스에 남을 것입니다:
 

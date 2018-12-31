@@ -37,7 +37,7 @@
 
 Laravel Telescope is an elegant debug assistant for the Laravel framework. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps and more. Telescope makes a wonderful companion to your local Laravel development environment.
 
-라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 어플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, 대기중인 작업, 메일, 알림, 캐시 작업, 예약 된 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 로컬 라라벨 개발 환경에 훌륭한 동반자입니다.
+라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 어플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
 
 <p align="center">
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600" height="347">
@@ -48,6 +48,7 @@ Laravel Telescope is an elegant debug assistant for the Laravel framework. Teles
 ## 설치하기
 
 > {note} Telescope requires Laravel 5.7.7+.
+
 > {note} Telescope는 라라벨 5.7.7 이상을 필요로 합니다.
 
 You may use Composer to install Telescope into your Laravel project:
@@ -138,7 +139,7 @@ By default, all entries older than 24 hours will be pruned. You may use the `hou
 
 Telescope exposes a dashboard at `/telescope`. By default, you will only be able to access this dashboard in the `local` environment. Within your `app/Providers/TelescopeServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Telescope in **non-local** environments. You are free to modify this gate as needed to restrict access to your Telescope installation:
 
-Telescope Dashboard는 `/telescope` 으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. `app/Providers/TelescopeServiceProvider.php` 파일 내에 `gate` 메소드가 있습니다. 이 인증 게이트는 **비 로컬** 환경에서 Telescope에 대한 액세스를 제어합니다. Telescope 대한 액세스를 제한하기 위해 필요에 따라 이 게이트를 자유롭게 수정할 수 있습니다.
+Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으로 `local` 환경에서만 접근이 가능합니다. `app/Providers/TelescopeServiceProvider.php` 파일 내에 `gate` 메소드가 있습니다. 이 인증 게이트는 **비 로컬** 환경에서 Telescope에 대한 액세스를 제어합니다. Telescope 대한 액세스를 제한하기 위해 필요에 따라 이 게이트를 자유롭게 수정할 수 있습니다.
 
     /**
      * Register the Telescope gate.
@@ -158,11 +159,16 @@ Telescope Dashboard는 `/telescope` 으로 접속 가능하며, 기본적으로 
 
 <a name="filtering"></a>
 ## Filtering
+## 필터링
 
 <a name="filtering-entries"></a>
 ### Entries
+### Entries
 
 You may filter the data that is recorded by Telescope via the `filter` callback that is registered in your `TelescopeServiceProvider`. By default, this callback records all data in the `local` environment and exceptions, failed jobs, scheduled tasks, and data with monitored tags in all other environments:
+
+`TelescopeServiceProvider` 에서 `filter` 콜백을 등록하여 Telescope 에 등록되는 데이터를 필터링해서 기록할 수 있습니다. 기존적으로, 이 콜백은 데이터가 `local` 환경이거나, 그 이외의 환경에서는 exceptions-예외, 실패한 job, 스케줄링 작업, 모니터링 태깅된 데이터를 기록합니다:
+
 
     /**
      * Register any application services.
@@ -189,6 +195,8 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
 ### Batches
 
 While the `filter` callback filters data for individual entries, you may use the `filterBatch` method to register a callback that filters all data for a given request or console command. If the callback returns `true`, all of the entries are recorded by Telescope:
+
+`filter` 콜백이 개별 항목에 대한 데이터를 필터링하는 동안, `filterBatch` 메소드를 사용하여 주어진 요청 또는 콘솔 명령어에 대한 모든 데이터를 필터링 하는 콜백을 등록 할 수 있습니다. 콜백이 `true` 를 반환하면 모든 항목에 Telescope 에 기록됩니다:
 
     use Illuminate\Support\Collection;
 
@@ -217,8 +225,11 @@ While the `filter` callback filters data for individual entries, you may use the
 
 <a name="available-watchers"></a>
 ## Available Watchers
+## 사용가능한 와쳐
 
 Telescope watchers gather application data when a request or console command is executed. You may customize the list of watchers that you would like to enable within your `config/telescope.php` configuration file:
+
+Telescope 와쳐는 유입되는 request-요청이나 콘솔 명령어가 실행될때 애플리케이션 데이터를 수집합니다. `config/telescope.php` 설정 파일에서 활성화할 와처 리스트를 변경할 수 있습니다:
 
     'watchers' => [
         Watchers\CacheWatcher::class => true,
@@ -227,6 +238,8 @@ Telescope watchers gather application data when a request or console command is 
     ],
 
 Some watchers also allow you to provide additional customization options:
+
+일부 와처에는 추가적으로 지정할 수 있는 사용자 정의 옵션을 제공하기도 합니다:
 
     'watchers' => [
         Watchers\QueryWatcher::class => [
@@ -238,13 +251,19 @@ Some watchers also allow you to provide additional customization options:
 
 <a name="cache-watcher"></a>
 ### Cache Watcher
+### Cache Watcher
 
 The cache watcher records data when a cache key is hit, missed, updated and forgotten.
 
+캐시 와처는 캐시 키가 hit, miss, update, forget 할 때 데이터를 기록합니다.
+
 <a name="command-watcher"></a>
+### Command Watcher
 ### Command Watcher
 
 The command watcher records the arguments, options, exit code, and output whenever an Artisan command is executed. If you would like to exclude certain commands from being recorded by the watcher, you may specify the command in the `ignore` option in your `config/telescope.php` file:
+
+명령어 와처는 아티즌 명령어가 실행될 때 마다 인자, 옵션, exit code 및 출력사항을 기록합니다. 특정 명령어에 대해서는 와처에서 기록을 하지 않기를 원한다면 `config/telescope.php` 파일의 `ignore` 옵션에 해당 명령어를 지정하면 됩니다:
 
     'watchers' => [
         Watchers\CommandWatcher::class => [
@@ -256,23 +275,34 @@ The command watcher records the arguments, options, exit code, and output whenev
 
 <a name="dump-watcher"></a>
 ### Dump Watcher
+### Dump Watcher
 
 The dump watcher records and displays your variable dumps in Telescope. When using Laravel, variables may be dumped using the global `dump` function. The dump watcher tab must be open in a browser for the recording to occur, otherwise the dumps will be ignored by the watcher.
 
+덤프 와처는 변수를 dump 한것을 Telescope 에 기록하고 표시합니다. 라라벨을 사용할 때 글로벌 `dump` 함수를 사용하여 변수의 내용을 확인할 수 있습니다. 기록을 위해서 브라우저의 덤프 와처 탭을 열어두어야 합니다. 그렇지 않으면 덤프는 와처에 의해서 무시되버립니다.
+
 <a name="event-watcher"></a>
+### Event Watcher
 ### Event Watcher
 
 The event watcher records the payload, listeners, and broadcast data for any events dispatched by your application. The Laravel framework's internal events are ignored by the Event watcher.
+
+이벤트 와처는 애플리케이션에서 전달한 모든 이벤트에 대한 payload, listener, broadcast 데이터를 기록합니다. 라라벨 프레임워크의 내부 이벤트는 이벤트 와처에의해 무시됩니다.
 
 <a name="exception-watcher"></a>
 ### Exception Watcher
 
 The exception watcher records the data and stack trace for any reportable Exceptions that are thrown by your application.
 
+예외-exception 와처는 애플리케이션에서 발행하는 보고 가능한 예외에 대한 데이터와 스택 트레이스를 기록합니다.
+
 <a name="gate-watcher"></a>
+### Gate Watcher
 ### Gate Watcher
 
 The gate watcher records the data and result of gate and policy checks by your application. If you would like to exclude certain abilities from being recorded by the watcher, you may specify those in the `ignore_abilities` option in your `config/telescope.php` file:
+
+게이트 와처는 애플리케이션에서 게이트 및 정책(policy)의 결과 데이터를 기록합니다. 특정 기능을 실행하는지 기록히자 않으려면 `config/telescope.php` 설정 파일의 `ignore_abilities` 옵션을 확인하십시오:
 
     'watchers' => [
         Watchers\GateWatcher::class => [
@@ -284,23 +314,35 @@ The gate watcher records the data and result of gate and policy checks by your a
 
 <a name="job-watcher"></a>
 ### Job Watcher
+### Job Watcher
 
 The job watcher records the data and status of any jobs dispatched by your application.
 
+job 와처는 애플리케이션에서 job 이 처리되는 데이터와 상태를 기록합니다.
+
 <a name="log-watcher"></a>
+### Log Watcher
 ### Log Watcher
 
 The log watcher records the log data for any logs written by your application.
 
+로그 와처는 애플리케이션에서 작성하는 로그 데이터를 기록합니다.
+
 <a name="mail-watcher"></a>
+### Mail Watcher
 ### Mail Watcher
 
 The mail watcher allows you to view an in-browser preview of the emails along with their associated data. You may also download the email as an `.eml` file.
 
+메일 와처는 연결된 데이터를 통해서 작성되는 이메일을 브라우저에서 미리볼 수 있게 해줍니다. 이메일 내역을 `.eml` 파일로 다운로드 할 수도 있습니다.
+
 <a name="model-watcher"></a>
+### Model Watcher
 ### Model Watcher
 
 The model watcher records model changes whenever an Eloquent `created`, `updated`, `restored`, or `deleted` event is dispatched. You may specify which model events should be recorded via the watcher's `events` option:
+
+모델 와처는 Eloquent 의 `created`, `updated`, `restored`, 그리고 `deleted` 이벤트가 발생할 때 모델이 변경되는 내역을 기록합니다. 와처의 `event` 옵션을 통해서 어떤 이벤트가 기록되어야 하는지 지정할 수 있습니다:
 
     'watchers' => [
         Watchers\ModelWatcher::class => [
@@ -312,13 +354,18 @@ The model watcher records model changes whenever an Eloquent `created`, `updated
 
 <a name="notification-watcher"></a>
 ### Notification Watcher
+### Notification Watcher
 
 The notification watcher records all notifications sent by your application. If the notification triggers an email and you have the mail watcher enabled, the email will also be available for preview on the mail watcher screen.
+
+알림 와처는 애플리케이션에서 전달하는 모든 알림을 기록합니다. 알림이 이메일을 전송하고, 메일 와처가 활성화 되어 있다면, 이메일은 메일 와처를 통해서 내용을 확인할 수 있습니다.
 
 <a name="query-watcher"></a>
 ### Query Watcher
 
 The query watcher records the raw SQL, bindings, and execution time for all queries that are executed by your application. The watcher also tags any queries slower than 100ms as `slow`. You may customize the slow query threshold using the watcher's `slow` option:
+
+쿼리 와처는 애플리케이션에서 실행되는 모든 쿼리에 대한 raw SQL 과 바딩인 파라미터, 실행시각을 기록합니다. 와처는 쿼리가 100ms 이상 느려질때 `slow` 태그를 붙입니다. `slow` 옵션을 사용해서 슬로우 쿼리 기준 시각을 변경할 수 있습니다:
 
     'watchers' => [
         Watchers\QueryWatcher::class => [
@@ -333,12 +380,18 @@ The query watcher records the raw SQL, bindings, and execution time for all quer
 
 > {note} Redis events must be enabled for the Redis watcher to function. You may enable Redis events by calling `Redis::enableEvents()` in the `boot` method of your `app/Providers/AppServiceProvider.php` file.
 
+> {note} Redis 와처를 위해서 redis events 가 활성화 되어 있어야 합니다. `app/Providers/AppServiceProvider.php` 파일의 `boot` 메소드 안에서 `Redis::enableEvents()` 를 호출하면 됩니다.
+
 The Redis watcher records all Redis commands executed by your application. If you are using Redis for caching, cache commands will also be recorded by the Redis Watcher.
+
+redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록하빈다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
 
 <a name="request-watcher"></a>
 ### Request Watcher
 
 The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your response data via the `size_limit` (in KB) option:
+
+request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
 
     'watchers' => [
         Watchers\RequestWatcher::class => [
@@ -352,3 +405,5 @@ The request watcher records the request, headers, session, and response data ass
 ### Schedule Watcher
 
 The schedule watcher records the command and output of any scheduled tasks run by your application.
+
+스케줄러 와처는 애플리케이션에서 실행되는 스케줄링 작업의 명령어와 그 결과를 기록합니다.

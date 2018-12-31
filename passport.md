@@ -25,6 +25,7 @@
     - [Passing The Access Token](#passing-the-access-token)
 - [Token Scopes](#token-scopes)
     - [Defining Scopes](#defining-scopes)
+    - [Default Scope](#default-scope)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [Checking Scopes](#checking-scopes)
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
@@ -137,18 +138,20 @@ Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 
 
     Vue.component(
         'passport-clients',
-        require('./components/passport/Clients.vue')
+        require('./components/passport/Clients.vue').default
     );
 
     Vue.component(
         'passport-authorized-clients',
-        require('./components/passport/AuthorizedClients.vue')
+        require('./components/passport/AuthorizedClients.vue').default
     );
 
     Vue.component(
         'passport-personal-access-tokens',
-        require('./components/passport/PersonalAccessTokens.vue')
+        require('./components/passport/PersonalAccessTokens.vue').default
     );
+
+> {note} 라라벨 v5.7.19에 따라, 컴포넌트를 등록할때 `.default` 를 덧붙이는 것은 콘솔상에서 에러를 유발합니다. 이러한 변경사항에 대한 자세한 설명은 [라라벨 Mix v4.0.0 릴리즈 노트](https://github.com/JeffreyWay/laravel-mix/releases/tag/v4.0.0)를 참고해주십시오.
 
 컴포넌트를 등록하고 나서 asset을 컴파일 하기 위해서 `npm run dev`를 실행하십시오. asset을 컴파일 하고나면, 클라이언트와 개인용 엑세스 토큰을 생성하기 위해서 애플리케이션의 템플릿에 다음 코드를 복사하십시오:
 
@@ -653,6 +656,18 @@ API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passpo
     Passport::tokensCan([
         'place-orders' => 'Place orders',
         'check-status' => 'Check order status',
+    ]);
+
+<a name="default-scope"></a>
+### 기본 스코프
+
+클라이언트가 특정한 스코프를 요청하지 않으면 `setDefaultScope` 메소드를 사용하여 토큰에 기본적인 스코프를 지저하도록 Passport 서버를 구성할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드 안에서 호출해야 합니다:
+
+    use Laravel\Passport\Passport;
+
+    Passport::setDefaultScope([
+        'check-status',
+        'place-orders',
     ]);
 
 <a name="assigning-scopes-to-tokens"></a>

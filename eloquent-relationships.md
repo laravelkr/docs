@@ -7,8 +7,11 @@
     - [1:*(일대다) 역관계](#one-to-many)
     - [\*:*(다대다) 관계](#many-to-many)
     - [연결을 통한 다수를 가지는 관계](#has-many-through)
-    - [다형성 관계](#polymorphic-relations)
-    - [다대다 다형성 관계](#many-to-many-polymorphic-relations)
+- [다형성 관계](#polymorphic-relationships)
+    - [1:1(일대일) 관계](#one-to-one-polymorphic-relations)
+    - [1:*(일대다) 관계](#one-to-many-polymorphic-relations)
+    - [\*:*(다대다) 관계](#many-to-many-polymorphic-relations)
+    - [커스텀-사용자정의 다형성 타입](#custom-polymorphic-types)
 - [관계 쿼리 질의하기](#querying-relations)
     - [관계 메소드 Vs. 동적 속성](#relationship-methods-vs-dynamic-properties)
     - [존재하는 관계에 대한 쿼리 질의하기](#querying-relationship-existence)
@@ -33,8 +36,9 @@
 - [1:*(일대다) 관계](#one-to-many)
 - [*:*(대다다) 관계](#many-to-many)
 - [연결을 통한 다수를 가지는 관계](#has-many-through)
-- [다형성 관계](#polymorphic-relations)
-- [다대다 다형성 관계](#many-to-many-polymorphic-relations)
+- [1:1(일대일) (다형성)](#one-to-one-polymorphic-relations)
+- [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
+- [*:*(대다다) (다형성)](#many-to-many-polymorphic-relations)
 
 <a name="defining-relationships"></a>
 ## 관계 정의하기
@@ -123,7 +127,7 @@ Eloquent는 또한 외래 키가 부모의 `id` 컬럼(또는 사용자가 정�
 <a name="one-to-many"></a>
 ### 1:*(일대다) 관계 정의하기
 
-"일대다" relationship은 하나의 모델이 다른 모델의 어떤 부분이라도 소유할 경우의 relationship을 정의하는데 사용됩니다. 예를 들어, 한 블로그 게시물이 댓글을 무제한으로 가질 수 있습니다. 다른 모든 Eloquent relationship들과 같이, 일대다 relationship들은 Eloquent 모델에 함수를 통해서 정의됩니다:
+일대다 relationship은 하나의 모델이 다른 모델의 어떤 부분이라도 소유할 경우의 relationship을 정의하는데 사용됩니다. 예를 들어, 한 블로그 게시물이 댓글을 무제한으로 가질 수 있습니다. 다른 모든 Eloquent relationship들과 같이, 일대다 relationship들은 Eloquent 모델에 함수를 통해서 정의됩니다:
 
     <?php
 
@@ -440,12 +444,99 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
         }
     }
 
-<a name="polymorphic-relations"></a>
-### 다형성 관계
+<a name="polymorphic-relationships"></a>
+## 다형성 관계
+
+다형성 관계는 대상 모델이 하나 이상의 타입의 모델에 소속될 수 있도록 해줍니다.
+
+<a name="one-to-one-polymorphic-relations"></a>
+### 일대일 (다형성)
 
 #### 테이블 구조
 
-다형성 관계는 모델이 하나의 연관관계에 대해서 하나 이상의 모델에 소속될 수 있도록 해줍니다. 예를 들어 애플리케이션의 사용자가 게시글과 비디오 둘다 "댓글"를 달 수 있다고 생각해 보겠습니다. 다형성 관계를 이용하면 이 두 시나리오 모두 지원하는 하나의 `comments` 테이블을 사용할 수 있습니다. 먼저 이 관계를 구성하기 위해 필요한 테이블 구조를 살펴보겠습니다:
+일대일 다형성 관계는 기본적인 일대일 관계와 비슷합니다; 다만, 대상 모델은 하나의 연결에서 하나 이상의 모델에 소속될 수 있습니다. 예를 들자면, 블로그 `Post` 와 `User` 는 `Image` 모델에 다형성 관계를 서로 공유 할 수 있습니다. 일대일 다형성 관계를 사용한다면 블로그 포스트와 사용자에 소속되는 하나의 이미지를 구성할 수 있습니다. 먼저 테이블 구조를 살펴보겠습니다:
+
+    posts
+        id - integer
+        name - string
+
+    users
+        id - integer
+        name - string
+
+    images
+        id - integer
+        url - string
+        imageable_id - integer
+        imageable_type - string
+
+`images` 테이블에서 `imageable_id` 와 `imageable_type` 컬럼을 확인하십시오. `imageable_id` 컬럼은 포스트 또는 사용자의 ID 값이 저장되고, `imageable_type` 컬럼에는 상위 모델 클래스의 이름이 저장됩니다. `imageable_type` 컬럼은 Eloquent 가 `imageable` 관계에서 값을 반환할때 어떠한 "타입"과 연결해야 하는지 결정하는데 사용됩니다.
+
+#### 모델 구조
+
+다음으로, 이러한 관계를 형성하기 위해서 모델에서 필요한 정의사항을 살펴보겠습니다:
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Image extends Model
+    {
+        /**
+         * Get all of the owning imageable models.
+         */
+        public function imageable()
+        {
+            return $this->morphTo();
+        }
+    }
+
+    class Post extends Model
+    {
+        /**
+         * Get the post's image.
+         */
+        public function image()
+        {
+            return $this->morphOne('App\Image', 'imageable');
+        }
+    }
+
+    class User extends Model
+    {
+        /**
+         * Get the user's image.
+         */
+        public function image()
+        {
+            return $this->morphOne('App\Image', 'imageable');
+        }
+    }
+
+#### 관계 조회하기
+
+데이터베이스 테이블과 모델을 정의하고나면, 모델에서 관계 모델에 엑세스 할 수 있습니다. 예를들어 포스트의 이미지를 조회한다면, `image` 라는 동적 속성을 사용하면 됩니다:
+
+    $post = App\Post::find(1);
+
+    $image = $post->image;
+
+`morphTo` 에 대한 호출을 실행하는 메소드의 이름에 엑세스해서 다형성 모델의 상위 모델을 조회 할 수도 있습니다. 이 경우에서는, `Image` 모델의 `imageable` 메소드가 됩니다. 따라서 다음과 같이 동적 속성을 사용해서 메소드에 접근합니다:
+
+    $image = App\Image::find(1);
+
+    $imageable = $image->imageable;
+
+`Image` 모델의 `imageable` 관계는 이미지를 소유한 모델의 타입에 따라서 `Post` 또는 `User` 인스턴스를 반환합니다.
+
+<a name="one-to-many-polymorphic-relations"></a>
+### 1:* 일대다(다형성)
+
+#### 테이블 구조
+
+일대다 다형성 관계는 기본적인 일대다 관계와 비슷합니다; 다만, 대상 모델은 하나의 연결에서 하나 이상의 모델에 소속될 수 있습니다. 예를 들어 애플리케이션의 사용자가 게시글과 비디오 둘다 "댓글"를 달 수 있다고 생각해 보겠습니다. 다형성 관계를 이용하면 이 두 시나리오 모두 지원하는 하나의 `comments` 테이블을 사용할 수 있습니다. 먼저 이 관계를 구성하기 위해 필요한 테이블 구조를 살펴보겠습니다:
 
     posts
         id - integer
@@ -462,8 +553,6 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
         body - text
         commentable_id - integer
         commentable_type - string
-
-유심히 살펴봐야할 중요한 두개의 컬럼은 `comments` 테이블의 `commentable_id`와 `commentable_type` 컬럼입니다. `commentable_id` 컬럼은 게시글과 비디오의 ID 값을 가지고, `commentable_type` 컬럼은 소유 모델의 클래스 이름을 가집니다. `commentable_type` 컬럼은 `likeable` 관계에 접근할 때 어떤 "유형"의 소유 모델을 반환할지 ORM이 결정하는 방법입니다.
 
 #### 모델 구조
 
@@ -508,7 +597,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
         }
     }
 
-#### 다형성 관계 조회하기
+#### 관계 조회하기
 
 데이터베이스 테이블과 모델이 정의되었다면 모델들을 통해 관계들에 접근할 수 있습니다. 예를 들어, 게시글의 모든 댓글에 접근하기 위해서, `comments` 동적 속성을 사용할 수 있습니다:
 
@@ -526,25 +615,12 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
 
 `Comment` 모델의 `commentabl` 관계는 댓글을 어느 모델이 소유하느냐에 따라 `Post`나 `Video` 인스턴스를 반환합니다.
 
-#### 사용자 정의 다형성 타입
-
-기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 예제에서 `Comment` 는 하나의 `Post` 또는 하나의 `Video` 에 지정되고, 기본적으로 `commentable_type` 의 각각 `App\Post` 또는 `App\Video` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 애플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 고유한 이름을 Eloquent 에 지시할 수 있습니다:
-
-    use Illuminate\Database\Eloquent\Relations\Relation;
-
-    Relation::morphMap([
-        'posts' => 'App\Post',
-        'videos' => 'App\Video',
-    ]);
-
-여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
-
 <a name="many-to-many-polymorphic-relations"></a>
-### 다대다 다형성 관계 정의하기
+### 다대다 (다형성)
 
 #### 테이블 구조
 
-일반적인 다형성 관계 말고도 "다대다" 다형성 관계 또한 정의할 수 있습니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
+*:* 다대다 다형성 관계는 `morphOne` 와 `morphMany` 관계에 대해서 다소 복잡합니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
 
     posts
         id - integer
@@ -630,6 +706,20 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
     foreach ($tag->videos as $video) {
         //
     }
+
+<a name="custom-polymorphic-types"></a>
+### 커스텀-사용자 정의 다형성 타입
+
+기본적으로, 라라벨은 관련된 모델의 유형을 저장하기 위해서 전체 클래스 이름을 사용합니다. 예를 들어 위의 일대일 관계 예제에서 `Comment` 는 하나의 `Post` 또는 하나의 `Video` 에 지정되고, 기본적으로 `commentable_type` 의 각각 `App\Post` 또는 `App\Video` 이 될 수 있습니다. 그렇지만, 여러분은 데이터베이스와 애플리케이션의 내부 구조를 분리하고자 할 수 있습니다. 이 경우 여러분은 관계 설정을 위한 "morph map"을 정의하고 클래스 이름 대신 사용할 각각의 모델과 관련 있는 고유한 이름을 Eloquent 에 지시할 수 있습니다:
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    Relation::morphMap([
+        'posts' => 'App\Post',
+        'videos' => 'App\Video',
+    ]);
+
+여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
 
 <a name="querying-relations"></a>
 ## 관계 쿼리 질의하기
@@ -752,6 +842,14 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
     echo $posts[0]->comments_count;
 
     echo $posts[0]->pending_comments_count;
+
+`withCount` 와 `select` 구문을 조합한다면, `select` 메소드 뒤에 `withCount` 호출하도록 구성하십시오:
+
+    $query = App\Post::select(['title', 'body'])->withCount('comments');
+
+    echo $posts[0]->title;
+    echo $posts[0]->body;
+    echo $posts[0]->comments_count;
 
 <a name="eager-loading"></a>
 ## Eager 로딩

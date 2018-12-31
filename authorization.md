@@ -119,11 +119,15 @@ Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 �
 
 `before` 콜백이 null이 아닌 값을 반환한다면, 이 값을 권한 확인의 결과 값으로 간주합니다.
 
-권한을 확인하는 모든 체크 로직 뒤에 특정한 콜백을 실행하도록 `after` 메소드를 사용할 수 있습니다. 그렇지만 이 콜백이 권한 확인의 결과를 변경할 수는 없습니다:
+권한을 확인하는 다른 모든 체크 로직 뒤에 특정한 콜백을 실행하도록 `after` 메소드를 사용할 수 있습니다:
 
     Gate::after(function ($user, $ability, $result, $arguments) {
-        //
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
     });
+
+`before` 체크로직과 유사하게, `after` 콜백이 null이 아닌 값을 반환하면 그 값은 체크 로직의 결과 값으로 간주됩니다.
 
 <a name="creating-policies"></a>
 ## Policy 생성하기
@@ -371,6 +375,30 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
 
         // The current user can create blog posts...
     }
+
+#### 리소스 컨트롤러에서 권한 확인
+
+[리소스 컨트롤러](/docs/{{version}}/controllers##resource-controllers)를 사용한다면, 컨트롤러의 생성자 안에서 `authorizeResource` 메소드를 사용할 수 있습니다. 이 메소드는 `can` 미들웨어의 정의사항을 리소스 컨트롤러의 메소드에 추가하게 됩니다.
+
+`authorizeResource` 메소드는 모델의 클래스 이름을 첫번째 인자로, 해당 모델의 ID를 파라미터로 받는 라우트의 이름을 두번째 인자로 전달받습니다:
+
+    <?php
+
+    namespace App\Http\Controllers;
+
+    use App\Post;
+    use Illuminate\Http\Request;
+    use App\Http\Controllers\Controller;
+
+    class PostController extends Controller
+    {
+        public function __construct()
+        {
+            $this->authorizeResource(Post::class, 'post');
+        }
+    }
+
+> {tip} `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
 
 <a name="via-blade-templates"></a>
 ### 블레이드 템플릿을 통해서

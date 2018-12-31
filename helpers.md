@@ -1362,7 +1362,7 @@ The `encrypt` function encrypts the given value using Laravel's [encrypter](/doc
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
-`info` 함수는 [로그](/docs/{{version}}/errors#logging)에 정보를 기록합니다:
+`info` 함수는 [로그](/docs/{{version}}/logging)에 정보를 기록합니다:
 
     info('Some helpful information!');
 
@@ -1373,7 +1373,7 @@ The `encrypt` function encrypts the given value using Laravel's [encrypter](/doc
 <a name="method-logger"></a>
 #### `logger()` {#collection-method}
 
-`logger` 함수는 [로그](/docs/{{version}}/errors#logging)에 `debug` 로그 레벨을 기록하는데 사용합니다:
+`logger` 함수는 [로그](/docs/{{version}}/logging)에 `debug` 로그 레벨을 기록하는데 사용합니다:
 
     logger('Debug message');
 

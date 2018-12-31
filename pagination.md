@@ -179,9 +179,9 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 
     public function boot()
     {
-        Paginator::defaultView('pagination::view');
+        Paginator::defaultView('view-name');
 
-        Paginator::defaultSimpleView('pagination::view');
+        Paginator::defaultSimpleView('view-name');
     }
 
 <a name="paginator-instance-methods"></a>

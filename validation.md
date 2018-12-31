@@ -447,7 +447,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
     $validator = Validator::make($input, $rules, $messages);
 
-다음의 예에서 `:attribute` 플레이스 홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스 홀더들 또한 활용할 수 있습니다. 예를 들어:
+다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스홀더들 또한 활용할 수 있습니다. 예를 들어:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -935,14 +935,10 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
-
-
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
 - 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
 - 값이 경로없이 업로드된 파일인 경우
-
-
 
 <a name="rule-required-if"></a>
 #### required_if:_anotherfield_,_value_,...

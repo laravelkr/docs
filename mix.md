@@ -298,7 +298,7 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 
 버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다:
 
-    <script src="{{ mix('/assets/js/app.js') }}"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
 
 개발중에는 버저닝된 파일이 항상 필요하지는 않기 때문에, `npm run production` 일때만 버저닝 프로세스가 동작하도록 지시할 수 있습니다:
 

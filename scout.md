@@ -262,6 +262,20 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
         return $this->isPublished();
     }
 
+`shouldBeSearchable` 메소드는 `save` 메소드, 쿼리 또는 관계 모델을 통해서 모델을 조작한 경우에만 적용됩니다. `searchable` 메소드를 사용하여 모델 또는 컬렉션을 직접적으로 검색 가능하게 하면, `shouldBeSearchable` 메소드의 결과를 덮어씌게 됩니다:
+
+    // Will respect "shouldBeSearchable"...
+    App\Order::where('price', '>', 100)->searchable();
+
+    $user->orders()->searchable();
+
+    $order->save();
+
+    // Will override "shouldBeSearchable"...
+    $orders->searchable();
+
+    $order->searchable();
+
 <a name="searching"></a>
 ## 검색하기
 

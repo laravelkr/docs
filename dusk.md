@@ -8,6 +8,7 @@
     - [테스트 실행하기](#running-tests)
     - [구동환경 처리](#environment-handling)
     - [브라우저 생성하기](#creating-browsers)
+    - [브라우저 매크로](#browser-macros)
     - [인증](#authentication)
     - [데이터베이스 마이그레이션](#migrations)
 - [Element 조작하기](#interacting-with-elements)
@@ -65,6 +66,8 @@ Dusk 패키지를 설치하고 나서는 `dusk:install` 아티즌 명령어를 �
 마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
 
     php artisan dusk:fails
+
+> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능한지 확인해야 합니다: `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### 다른 브라우저 사용하기
@@ -232,6 +235,43 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 `maximize` 메소드는 브라우저의 윈도우를 최대 크기로 조정하는데 사용합니다:
 
     $browser->maximize();
+
+<a name="browser-macros"></a>
+### 브라우저 매크로
+
+다양한 테스트에서 재사용할 수 있는 커스텀 브라우저 메소드를 정의한려고 한다면 `Browser` 클래스의 `macro` 메소드를 사용할 수 있습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 호출해야 합니다:
+
+    <?php
+
+    namespace App\Providers;
+
+    use Laravel\Dusk\Browser;
+    use Illuminate\Support\ServiceProvider;
+
+    class DuskServiceProvider extends ServiceProvider
+    {
+        /**
+         * Register the Dusk's browser macros.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Browser::macro('scrollToElement', function ($element = null) {
+                $this->script("$('html, body').animate({ scrollTop: $('$element').offset().top }, 0);");
+
+                return $this;
+            });
+        }
+    }
+
+`macro` 함수는 첫번째 인자로 이름을, 두번째 인자로 클로저를 받습니다. 매크로의 클로저는 `Browser` 구현체에서 메소드를 호출할때 실행됩니다:
+
+    $this->browse(function ($browser) use ($user) {
+        $browser->visit('/pay')
+                ->scrollToElement('#credit-card-details')
+                ->assertSee('Enter Credit Card Details');
+    });
 
 <a name="authentication"></a>
 ### 인증

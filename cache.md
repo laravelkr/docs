@@ -242,7 +242,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     cache(['key' => 'value'], now()->addSeconds(10));
 
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 사용할 수 있습니다 :
+`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출할 수 있습니다 :
 
     cache()->remember('users', $minutes, function () {
         return DB::table('users')->get();

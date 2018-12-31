@@ -76,7 +76,15 @@
 
 다른 URI로 리다이렉트 시키는 라우트를 정의하려면, `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 간단한 리다이렉트를 위해서 복잡한 라우트나 컨트롤러 전체를 정의하지 않아도 되는 편리한 방법을 제공합니다.
 
+    Route::redirect('/here', '/there');
+
+기본적으로, `Route::redirect` 는 `302` 상태코드를 반환합니다. 만약 다른 상태코드를 반환하도록 커스터마이징 하고자 한다면, 세번째 인자를 옵션으로 전달하십시오:
+
     Route::redirect('/here', '/there', 301);
+
+`Route::permananentRedirect` 메소드는 `301` 상태코드를 반환합니다:
+
+    Route::permanentRedirect('/here', '/there');
 
 <a name="view-routes"></a>
 ### 뷰-View 라우트
@@ -159,6 +167,17 @@
     Route::get('user/{id}', function ($id) {
         // Only executed if {id} is numeric...
     });
+
+<a name="parameters-encoded-forward-slashes"></a>
+#### 인코딩된 슬래쉬 파라미터
+
+라라벨의 라우팅 컴포넌트는 `/` 문자를 제외한 모든 문자를 사용가능합니다. `/` 를 사용하려면, `where` 정규식 조건을 통해서 지정해야합니다:
+
+    Route::get('search/{search}', function ($search) {
+        return $search;
+    })->where('search', '.*');
+
+> {note} 인코딩된 슬래쉬 파라미터의 경우에는 가장 마지막 세그먼트에 대해서만 지원됩니다.
 
 <a name="named-routes"></a>
 ## 이름이 지정된 라우트

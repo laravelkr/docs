@@ -47,7 +47,7 @@
             //
         }
 
-        return parent::report($exception);
+        parent::report($exception);
     }
 
 > {tip} `report` 메소드 안에서 수많은 `instanceof` 체크를 하는 대신에 [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 사용하도록 하십시오.

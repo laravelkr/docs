@@ -511,7 +511,11 @@ Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미
 <a name="leaving-a-channel"></a>
 ### 채널 나가기
 
-채널을 나가기 위해서는, 에코 인스턴스에서 `leave` 메소드를 호출하면 됩니다:
+채널을 나가기 위해서는, 에코 인스턴스에서 `leaveChannel` 메소드를 호출하면 됩니다:
+
+    Echo.leaveChannel('orders');
+
+채널을 나가면서 연관된 비공개 현재 채널 또한 나가려면, 다음과 같이 `leave` 메소드를 호출하면 됩니다:
 
     Echo.leave('orders');
 

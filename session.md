@@ -181,7 +181,11 @@ HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HT
 
 `forget` 메소드는 세션에서 데이터를 삭제합니다. 세션에서 모든 데이터를 삭제하기를 원한다면 `flush` 메소드를 사용하면 됩니다:
 
+    // Forget a single key...
     $request->session()->forget('key');
+
+    // Forget multiple keys...
+    $request->session()->forget(['key1', 'key2']);
 
     $request->session()->flush();
 

@@ -167,6 +167,14 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
 
 큐에 의해서 Job이 처리될 때에는 `handle` 메소드가 호출 됩니다. Job 클래스의 `handle` 메소드에 의존 객체들이 타입-힌트 될 수 있다는 것에 주의하십시오. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 의존 객체들을 주입해 줍니다.
 
+`handle` 메소드에서 컨테이너가 의존 객체들을 어떻게 주입하는지에 대한 완전한 제어를 원한다면, 컨테이너의 `bindMethod` 메소드를 사용할 수 있습니다. `bindMethod` 메소드는 job 과 컨테이너를 인자로 받는 콜백은 인자로 받습니다. 콜백 안에서, 자유롭게 `handle` 메소드를 호출할 수 있습니다. 일반적으로 이는 [서비스 프로바이더](/docs/{{version}}/providers) 안에서 호출합니다.
+
+    use App\Jobs\ProcessPodcast;
+
+    $this->app->bindMethod(ProcessPodcast::class.'@handle', function ($job, $app) {
+        return $job->handle($app->make(AudioProcessor::class));
+    });
+
 > {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
 
 <a name="dispatching-jobs"></a>

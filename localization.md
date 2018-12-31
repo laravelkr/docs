@@ -1,6 +1,7 @@
 # 지역화 (다국어)
 
 - [시작하기](#introduction)
+    - [Locale-로케일 설정하기](#configuring-the-locale)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [짧은 키 사용하기](#using-short-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
@@ -29,6 +30,7 @@
         'welcome' => 'Welcome to our application'
     ];
 
+<a name="configuring-the-locale"></a>
 ### 로케일 설정하기
 
 애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 물론 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다:
@@ -111,7 +113,7 @@
 <a name="replacing-parameters-in-translation-strings"></a>
 ### 다국어 문자열의 파라미터를 치환하기
 
-여러분은 다국어 문자에서 일부분을 특정하여 교체하기를(place-holder) 원할 수도 있습니다. 이런 모든 플레이스홀더 들은 `:` 으로 시작합니다. 예를들어 환영 메세지에 이름을 특정하게 표현하기를 원한다면 다음과 같이 하면 됩니다:
+여러분은 다국어 문자에서 일부분을 특정하여 교체하기를(placeholders) 원할 수도 있습니다. 이런 모든 플레이스홀더 들은 `:` 으로 시작합니다. 예를들어 환영 메세지에 이름을 특정하게 표현하기를 원한다면 다음과 같이 하면 됩니다:
 
     'welcome' => 'Welcome, :name',
 

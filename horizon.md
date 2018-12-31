@@ -34,6 +34,12 @@ Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하�
 
     php artisan horizon:install
 
+[실패한 queue-큐 작업](/docs/{{version}}/queues#dealing-with-failed-jobs)을 저장하기 위한 `failed_job` 테이블을 생성해야합니다:
+
+    php artisan queue:failed-table
+
+    php artisan migrate
+
 <a name="configuration"></a>
 ### 설정하기
 

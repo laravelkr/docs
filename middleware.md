@@ -6,6 +6,7 @@
     - [글로벌-전역 미들웨어](#global-middleware)
     - [라우트에 미들웨어 지정하기](#assigning-middleware-to-routes)
     - [미들웨어 그룹](#middleware-groups)
+    - [미들웨어 순서](#sorting-middleware)
 - [미들웨어 파라미터](#middleware-parameters)
 - [종료시 동작하는 미들웨어](#terminable-middleware)
 
@@ -184,6 +185,27 @@
     });
 
 > {tip} 별다른 설정없이도, `web` 미들웨어 그룹이 자동으로 `RouteServiceProvider`의 `routes/web.php` 파일에 지정되어 있습니다.
+
+<a name="sorting-middleware"></a>
+### 미들웨어 순서
+
+드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다:
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * This forces non-global middleware to always be in the given order.
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+    ];
 
 <a name="middleware-parameters"></a>
 ## 미들웨어 파라미터

@@ -62,6 +62,14 @@ Then, update any reference to the old directories in your `webpack.mix.js` file:
     mix.js('resources/js/app.js', 'public/js')
        .sass('resources/sass/app.scss', 'public/css');
 
+#### `svg` Directory Added
+
+**Likelihood Of Impact: Very High**
+
+A new directory, `svg`, was added to the `public` directory. It contains four svg files: `403.svg`, `404.svg`, `500.svg`, and `503.svg`, which are displayed on their respective error pages.
+
+You may get the files [from GitHub](https://github.com/laravel/laravel/tree/master/public/svg).
+
 ### Authentication
 
 #### The `Authenticate` Middleware

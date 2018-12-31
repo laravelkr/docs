@@ -1253,10 +1253,10 @@ As shown above, a "date picker" is an example of a component that might exist th
          *
          * @param  \Laravel\Dusk\Browser  $browser
          * @param  int  $month
-         * @param  int  $year
+         * @param  int  $day
          * @return void
          */
-        public function selectDate($browser, $month, $year)
+        public function selectDate($browser, $month, $day)
         {
             $browser->click('@date-field')
                     ->within('@month-list', function ($browser) use ($month) {
@@ -1339,10 +1339,11 @@ If you are using CircleCI to run your Dusk tests, you may use this configuration
 
 To run Dusk tests on [Codeship](https://codeship.com), add the following commands to your Codeship project. Of course, these commands are a starting point and you are free to add additional commands as needed:
 
-    phpenv local 7.1
+    phpenv local 7.2
     cp .env.testing .env
-    composer install --no-interaction
-    nohup bash -c "./vendor/laravel/dusk/bin/chromedriver-linux 2>&1 &"
+    mkdir -p ./bootstrap/cache
+    composer install --no-interaction --prefer-dist
+    php artisan key:generate
     nohup bash -c "php artisan serve 2>&1 &" && sleep 5
     php artisan dusk
 

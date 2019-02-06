@@ -409,7 +409,7 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
 
     php artisan vendor:publish --tag=laravel-mail
 
-이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `markdown` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. 원하시는대로 이 컴포넌트를 커스터마이징 할 수 있습니다.
+이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `markdown` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. `html` 디렉토리의 컴포넌트는 메일의 HTML 버전을 생성하는 데 사용되며, `markdown` 디렉토리의 컴포넌트는 일반 텍스트 버전을 생성하는 데 사용됩니다. 원하시는대로 이 컴포넌트를 커스터마이징 할 수 있습니다.
 
 #### CSS 커스터마이징
 

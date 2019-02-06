@@ -109,10 +109,6 @@
 
     composer require "laravel/cashier-braintree":"~2.0"
 
-#### 서비스 프로바이더
-
-다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다.
-
 #### Plan Credit 쿠폰
 
 Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에서 `plan-credit` 할인을 정의할 필요가 있습니다. 이 할인은 월별 결제에서 년단위 결제로 변경하거나, 반대로 년단위 결제에서 월별 결제로 변경할 때 정확하게 비율을 배분하는데 사용될 것입니다.

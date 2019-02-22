@@ -75,31 +75,31 @@
 
 
 - [\__](#method-__)
-- [camel_case](#method-camel-case)
+- [Str::camel](#method-camel-case)
 - [class_basename](#method-class-basename)
 - [e](#method-e)
-- [ends_with](#method-ends-with)
-- [kebab_case](#method-kebab-case)
+- [Str::endsWith](#method-ends-with)
+- [Str::kebab](#method-kebab-case)
 - [preg_replace_array](#method-preg-replace-array)
-- [snake_case](#method-snake-case)
-- [starts_with](#method-starts-with)
-- [str_after](#method-str-after)
-- [str_before](#method-str-before)
-- [str_contains](#method-str-contains)
-- [str_finish](#method-str-finish)
-- [str_is](#method-str-is)
-- [str_limit](#method-str-limit)
+- [Str::snake](#method-snake-case)
+- [Str::startsWith](#method-starts-with)
+- [Str::after](#method-str-after)
+- [Str::before](#method-str-before)
+- [Str::contains](#method-str-contains)
+- [Str::finish](#method-str-finish)
+- [Str::is](#method-str-is)
+- [Str::limit](#method-str-limit)
 - [Str::orderedUuid](#method-str-ordered-uuid)
-- [str_plural](#method-str-plural)
-- [str_random](#method-str-random)
-- [str_replace_array](#method-str-replace-array)
-- [str_replace_first](#method-str-replace-first)
-- [str_replace_last](#method-str-replace-last)
-- [str_singular](#method-str-singular)
-- [str_slug](#method-str-slug)
-- [str_start](#method-str-start)
-- [studly_case](#method-studly-case)
-- [title_case](#method-title-case)
+- [Str::plural](#method-str-plural)
+- [Str::random](#method-str-random)
+- [Str::replace_array](#method-str-replace-array)
+- [Str::replace_first](#method-str-replace-first)
+- [Str::replace_last](#method-str-replace-last)
+- [Str::singular](#method-str-singular)
+- [Str::slug](#method-str-slug)
+- [Str::start](#method-str-start)
+- [Str::studly](#method-studly-case)
+- [Str::title](#method-title-case)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 - [Str::uuid](#method-str-uuid)
@@ -775,11 +775,13 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`를 그대로 반환합니다.
 
 <a name="method-camel-case"></a>
-#### `camel_case()` {#collection-method}
+#### `Str::camel()` {#collection-method}
 
-`camel_case` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
+`Str::camel` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
 
-    $converted = camel_case('foo_bar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::camel('foo_bar');
     
     // fooBar
 
@@ -802,21 +804,25 @@ The `Arr::only` function returns only the specified key / value pairs from the g
     // &lt;html&gt;foo&lt;/html&gt;
 
 <a name="method-ends-with"></a>
-#### `ends_with()` {#collection-method}
+#### `Str::endsWith()` {#collection-method}
 
-`ends_with` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
+`Str::endsWith` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
 
-    $result = ends_with('This is my name', 'name');
+    use Illuminate\Support\Str;
+
+    $result = Str::endsWith('This is my name', 'name');
     
     // true
 
 <a name="method-kebab-case"></a>
-#### `kebab_case()` {#collection-method}
+#### `Str::kebab()` {#collection-method}
 
-`kebab_case` 함수는 주어진 문자열을 `kebab-case`로 변환합니다:
+`Str::kebab` 함수는 주어진 문자열을 `kebab-case`로 변환합니다:
  (역자주 : 단어와 단어를 '-'로 연결한 형태)
 
-    $converted = kebab_case('fooBar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::kebab('fooBar');
     
     // foo-bar
 
@@ -832,95 +838,113 @@ The `Arr::only` function returns only the specified key / value pairs from the g
     // The event will take place between 8:30 and 9:00
 
 <a name="method-snake-case"></a>
-#### `snake_case()` {#collection-method}
+#### `Str::snake()` {#collection-method}
 
-`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
+`Str::snake` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
 
-    $converted = snake_case('fooBar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::snake('fooBar');
     
     // foo_bar
 
 <a name="method-starts-with"></a>
-#### `starts_with()` {#collection-method}
+#### `Str::startsWith()` {#collection-method}
 
-`starts_with` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
+`Str::startsWith` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
+
+    use Illuminate\Support\Str;
 
     $result = starts_with('This is my name', 'This');
     
     // true
 
 <a name="method-str-after"></a>
-#### `str_after()` {#collection-method}
+#### `Str::after()` {#collection-method}
 
-`str_after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
+`Str::after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
 
-    $slice = str_after('This is my name', 'This is');
+    use Illuminate\Support\Str;
+
+    $slice = Str::after('This is my name', 'This is');
     
     // ' my name'
 
 
 <a name="method-str-before"></a>
-#### `str_before()` {#collection-method}
+#### `Str::before()` {#collection-method}
 
-`str_before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
+`Str::before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
 
-    $slice = str_before('This is my name', 'my name');
+    use Illuminate\Support\Str;
+
+    $slice = Str::before('This is my name', 'my name');
     
     // 'This is '
 
 <a name="method-str-contains"></a>
-#### `str_contains()` {#collection-method}
+#### `Str::contains()` {#collection-method}
 
-`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
+`Str::contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
 
-    $contains = str_contains('This is my name', 'my');
+    use Illuminate\Support\Str;
+
+    $contains = Str::contains('This is my name', 'my');
     
     // true
 
 또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다:
 
-    $contains = str_contains('This is my name', ['my', 'foo']);
+    $contains = Str::contains('This is my name', ['my', 'foo']);
     
     // true
 
 <a name="method-str-finish"></a>
-#### `str_finish()` {#collection-method}
+#### `Str::finish()` {#collection-method}
 
-`str_finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
+`Str::finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
-    $adjusted = str_finish('this/string', '/');
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::finish('this/string', '/');
     
     // this/string/
     
-    $adjusted = str_finish('this/string/', '/');
+    $adjusted = Str::finish('this/string/', '/');
     
     // this/string/
 
 <a name="method-str-is"></a>
-#### `str_is()` {#collection-method}
+#### `Str::is()` {#collection-method}
 
-`str_is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
+`Str::is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
-    $matches = str_is('foo*', 'foobar');
+    use Illuminate\Support\Str;
+
+    $matches = Str::is('foo*', 'foobar');
     
     // true
     
-    $matches = str_is('baz*', 'foobar');
+    $matches = Str::is('baz*', 'foobar');
     
     // false
 
 <a name="method-str-limit"></a>
-#### `str_limit()` {#collection-method}
+#### `Str::limit()` {#collection-method}
 
-`str_limit` 함수는 주어진 문자열을 지정된 길이로 제한합니다:
+`Str::limit` 함수는 주어진 문자열을 지정된 길이로 제한합니다:
 
-    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20);
+    use Illuminate\Support\Str;
+
+    $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20);
     
     // The quick brown fox...
 
 변경될 문자열의 마지막에 덧붙일 문자열을 세번째 인자로 전달할 수도 있습니다:
 
-    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
+    use Illuminate\Support\Str;
+
+    $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
     
     // The quick brown fox (...)
 
@@ -936,114 +960,136 @@ The `Arr::only` function returns only the specified key / value pairs from the g
     return (string) Str::orderedUuid();
 
 <a name="method-str-plural"></a>
-#### `str_plural()` {#collection-method}
+#### `Str::plural()` {#collection-method}
 
-`str_plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
+`Str::plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
-    $plural = str_plural('car');
+    use Illuminate\Support\Str;
+
+    $plural = Str::plural('car');
     
     // cars
     
-    $plural = str_plural('child');
+    $plural = Str::plural('child');
     
     // children
 
 문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다:
 
-    $plural = str_plural('child', 2);
+    use Illuminate\Support\Str;
+
+    $plural = Str::plural('child', 2);
     
     // children
     
-    $plural = str_plural('child', 1);
+    $plural = Str::plural('child', 1);
     
     // child
 
 <a name="method-str-random"></a>
-#### `str_random()` {#collection-method}
+#### `Str::random()` {#collection-method}
 
-`str_random` 함수는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
+`Str::random` 함수는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
 
-    $random = str_random(40);
+    use Illuminate\Support\Str;
+
+    $random = Str::random(40);
 
 <a name="method-str-replace-array"></a>
-#### `str_replace_array()` {#collection-method}
+#### `Str::replace_array()` {#collection-method}
 
-`str_replace_array` 함수는 주어진 값을 순차적으로 배열값으로 치환합니다:
+`Str::replace_array` 함수는 주어진 값을 순차적으로 배열값으로 치환합니다:
+
+    use Illuminate\Support\Str;
 
     $string = 'The event will take place between ? and ?';
     
-    $replaced = str_replace_array('?', ['8:30', '9:00'], $string);
+    $replaced = Str::replace_array('?', ['8:30', '9:00'], $string);
     
     // The event will take place between 8:30 and 9:00
 
 <a name="method-str-replace-first"></a>
-#### `str_replace_first()` {#collection-method}
+#### `Str::replace_first()` {#collection-method}
 
-`str_replace_first` 함수는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
+`Str::replace_first` 함수는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
 
-    $replaced = str_replace_first('the', 'a', 'the quick brown fox jumps over the lazy dog');
+    use Illuminate\Support\Str;
+
+    $replaced = Str::replace_first('the', 'a', 'the quick brown fox jumps over the lazy dog');
     
     // a quick brown fox jumps over the lazy dog
 
 <a name="method-str-replace-last"></a>
-#### `str_replace_last()` {#collection-method}
+#### `Str::replace_last()` {#collection-method}
 
-`str_replace_last` 함수는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
+`Str::replace_last` 함수는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
 
-    $replaced = str_replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
+    use Illuminate\Support\Str;
+
+    $replaced = Str::replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
     
     // the quick brown fox jumps over a lazy dog
 
 <a name="method-str-singular"></a>
-#### `str_singular()` {#collection-method}
+#### `Str::singular()` {#collection-method}
 
-`str_singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
+`Str::singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
-    $singular = str_singular('cars');
+    use Illuminate\Support\Str;
+
+    $singular = Str::singular('cars');
     
     // car
     
-    $singular = str_singular('children');
+    $singular = Str::singular('children');
     
     // child
 
 <a name="method-str-slug"></a>
-#### `str_slug()` {#collection-method}
+#### `Str::slug()` {#collection-method}
 
-`str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
+`Str::slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
 
-    $slug = str_slug('Laravel 5 Framework', '-');
+    use Illuminate\Support\Str;
+
+    $slug = Str::slug('Laravel 5 Framework', '-');
     
     // laravel-5-framework
 
 <a name="method-str-start"></a>
-#### `str_start()` {#collection-method}
+#### `Str::start()` {#collection-method}
 
-`str_start` 함수는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
+`Str::start` 함수는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
 
-    $adjusted = str_start('this/string', '/');
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::start('this/string', '/');
     
     // /this/string
     
-    $adjusted = str_start('/this/string', '/');
+    $adjusted = Str::start('/this/string', '/');
     
     // /this/string
 
 <a name="method-studly-case"></a>
-#### `studly_case()` {#collection-method}
+#### `Str::studly()` {#collection-method}
 
-`studly_case` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
+`Str::studly` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
-    $converted = studly_case('foo_bar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::studly('foo_bar');
     
     // FooBar
 
 <a name="method-title-case"></a>
-#### `title_case()` {#collection-method}
+#### `Str::title()` {#collection-method}
 
-`title_case` 함수는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
+`Str::title` 함수는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
 
-    $converted = title_case('a nice title uses the correct case');
+    use Illuminate\Support\Str;
+
+    $converted = Str::title('a nice title uses the correct case');
     
     // A Nice Title Uses The Correct Case
 

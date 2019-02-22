@@ -199,7 +199,7 @@
 `Arr::add` 함수는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = Arr::add(['name' => 'Desk'], 'price', 100);
     
     // ['name' => 'Desk', 'price' => 100]
@@ -210,7 +210,7 @@
 `Arr::collapse` 함수는 배열들의 배열(여러개의 배열)을 하나의 배열로 통합합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = Arr::collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
     
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -221,7 +221,7 @@
 `Arr::divide` 함수는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
 
     use Illuminate\Support\Arr;
-
+    
     [$keys, $values] = Arr::divide(['name' => 'Desk']);
     
     // $keys: ['name']
@@ -234,7 +234,7 @@
 `Arr::dot` 함수는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['products' => ['desk' => ['price' => 100]]];
     
     $flattened = Arr::dot($array);
@@ -247,7 +247,7 @@
 `Arr::except` 메소드는 주어진 키 / 값 쌍을 배열에서 제거합니다.
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['name' => 'Desk', 'price' => 100];
     
     $filtered = Arr::except($array, ['price']);
@@ -260,7 +260,7 @@
 `Arr::first` 함수는 넘겨진 배열 중 주어진 조건을 만족하는 첫번째 요소를 반환합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [100, 200, 300];
     
     $first = Arr::first($array, function ($value, $key) {
@@ -281,7 +281,7 @@ A default value may also be passed as the third parameter to the method. This va
 `Arr::flatten` 함수는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
     
     $flattened = Arr::flatten($array);
@@ -294,7 +294,7 @@ A default value may also be passed as the third parameter to the method. This va
 `Arr::forget` 함수는 “점(.)”표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['products' => ['desk' => ['price' => 100]]];
     
     Arr::forget($array, 'products.desk');
@@ -307,7 +307,7 @@ A default value may also be passed as the third parameter to the method. This va
 `Arr::get` 함수는  “점(.)”표기법으로 중첩 배열로부터 주어진 값을 찾습니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['products' => ['desk' => ['price' => 100]]];
     
     $price = Arr::get($array, 'products.desk.price');
@@ -326,7 +326,7 @@ A default value may also be passed as the third parameter to the method. This va
 `Arr::has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['product' => ['name' => 'Desk', 'price' => 100]];
     
     $contains = Arr::has($array, 'product.name');
@@ -343,7 +343,7 @@ A default value may also be passed as the third parameter to the method. This va
 `Arr::last` 함수는 전달된 조건을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [100, 200, 300, 110];
     
     $last = Arr::last($array, function ($value, $key) {
@@ -364,7 +364,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::only` 함수는 특정한 키 / 값 쌍만을 배열로부터 반환합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
     
     $slice = Arr::only($array, ['name', 'price']);
@@ -377,7 +377,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::pluck` 함수는 배열로부터 주어진 키 / 값 쌍의 리스트를 조회합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
         ['developer' => ['id' => 2, 'name' => 'Abigail']],
@@ -399,7 +399,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::prepend` 함수는 배열의 시작부분에 아이템을 추가할 것입니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['one', 'two', 'three', 'four'];
     
     $array = Arr::prepend($array, 'zero');
@@ -420,7 +420,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::pull` 함수는 배열에서 주어진 키 / 값 쌍을 반환함과 동시에 제거합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['name' => 'Desk', 'price' => 100];
     
     $name = Arr::pull($array, 'name');
@@ -439,7 +439,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::random` 함수는 배열에서 임의의 값을 반환합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [1, 2, 3, 4, 5];
     
     $random = Arr::random($array);
@@ -458,7 +458,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::set` 함수는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['products' => ['desk' => ['price' => 100]]];
     
     Arr::set($array, 'products.desk.price', 200);
@@ -471,7 +471,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::sort` 함수는 값을 기반으로 정렬을 수행합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = ['Desk', 'Table', 'Chair'];
     
     $sorted = Arr::sort($array);
@@ -481,7 +481,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 또한 주어진 클로저의 결과 값으로 배열을 정렬 할 수 있습니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [
         ['name' => 'Desk'],
         ['name' => 'Table'],
@@ -508,7 +508,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::sort_recursive` 함수는 `sort` 함수를 이용하여 반복적으로 배열을 정렬합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [
         ['Roman', 'Taylor', 'Li'],
         ['PHP', 'Ruby', 'JavaScript'],
@@ -531,7 +531,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::where` 함수는 주어진 클로져를 사용하여 배열을 필터링합니다:
 
     use Illuminate\Support\Arr;
-
+    
     $array = [100, '200', 300, '400', 500];
     
     $filtered = Arr::where($array, function ($value, $key) {
@@ -546,7 +546,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Arr::wrap` 함수는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다:
 
     use Illuminate\Support\Arr;
-
+    
     $string = 'Laravel';
     
     $array = Arr::wrap($string);
@@ -556,7 +556,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 주어진 값이 null인 경우, 빈 배열이 반환됩니다:
 
     use Illuminate\Support\Arr;
-
+    
     $nothing = null;
     
     $array = Arr::wrap($nothing);
@@ -780,7 +780,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::camel` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $converted = Str::camel('foo_bar');
     
     // fooBar
@@ -809,7 +809,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::endsWith` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
 
     use Illuminate\Support\Str;
-
+    
     $result = Str::endsWith('This is my name', 'name');
     
     // true
@@ -821,7 +821,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
  (역자주 : 단어와 단어를 '-'로 연결한 형태)
 
     use Illuminate\Support\Str;
-
+    
     $converted = Str::kebab('fooBar');
     
     // foo-bar
@@ -843,7 +843,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::snake` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $converted = Str::snake('fooBar');
     
     // foo_bar
@@ -854,7 +854,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::startsWith` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
 
     use Illuminate\Support\Str;
-
+    
     $result = starts_with('This is my name', 'This');
     
     // true
@@ -865,7 +865,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $slice = Str::after('This is my name', 'This is');
     
     // ' my name'
@@ -877,7 +877,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $slice = Str::before('This is my name', 'my name');
     
     // 'This is '
@@ -888,7 +888,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
 
     use Illuminate\Support\Str;
-
+    
     $contains = Str::contains('This is my name', 'my');
     
     // true
@@ -905,7 +905,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
     use Illuminate\Support\Str;
-
+    
     $adjusted = Str::finish('this/string', '/');
     
     // this/string/
@@ -920,7 +920,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
     use Illuminate\Support\Str;
-
+    
     $matches = Str::is('foo*', 'foobar');
     
     // true
@@ -935,7 +935,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::limit` 함수는 주어진 문자열을 지정된 길이로 제한합니다:
 
     use Illuminate\Support\Str;
-
+    
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20);
     
     // The quick brown fox...
@@ -943,7 +943,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 변경될 문자열의 마지막에 덧붙일 문자열을 세번째 인자로 전달할 수도 있습니다:
 
     use Illuminate\Support\Str;
-
+    
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
     
     // The quick brown fox (...)
@@ -965,7 +965,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
     use Illuminate\Support\Str;
-
+    
     $plural = Str::plural('car');
     
     // cars
@@ -977,7 +977,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다:
 
     use Illuminate\Support\Str;
-
+    
     $plural = Str::plural('child', 2);
     
     // children
@@ -992,7 +992,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::random` 함수는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
 
     use Illuminate\Support\Str;
-
+    
     $random = Str::random(40);
 
 <a name="method-str-replace-array"></a>
@@ -1001,7 +1001,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::replace_array` 함수는 주어진 값을 순차적으로 배열값으로 치환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $string = 'The event will take place between ? and ?';
     
     $replaced = Str::replace_array('?', ['8:30', '9:00'], $string);
@@ -1014,7 +1014,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::replace_first` 함수는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
 
     use Illuminate\Support\Str;
-
+    
     $replaced = Str::replace_first('the', 'a', 'the quick brown fox jumps over the lazy dog');
     
     // a quick brown fox jumps over the lazy dog
@@ -1025,7 +1025,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::replace_last` 함수는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
 
     use Illuminate\Support\Str;
-
+    
     $replaced = Str::replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
     
     // the quick brown fox jumps over a lazy dog
@@ -1036,7 +1036,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
     use Illuminate\Support\Str;
-
+    
     $singular = Str::singular('cars');
     
     // car
@@ -1051,7 +1051,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
 
     use Illuminate\Support\Str;
-
+    
     $slug = Str::slug('Laravel 5 Framework', '-');
     
     // laravel-5-framework
@@ -1062,7 +1062,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::start` 함수는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
 
     use Illuminate\Support\Str;
-
+    
     $adjusted = Str::start('this/string', '/');
     
     // /this/string
@@ -1077,7 +1077,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::studly` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
     use Illuminate\Support\Str;
-
+    
     $converted = Str::studly('foo_bar');
     
     // FooBar
@@ -1088,7 +1088,7 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 `Str::title` 함수는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
 
     use Illuminate\Support\Str;
-
+    
     $converted = Str::title('a nice title uses the correct case');
     
     // A Nice Title Uses The Correct Case
@@ -1143,7 +1143,18 @@ The `Arr::only` function returns only the specified key / value pairs from the g
 
     $url = asset('img/photo.jpg');
 
+`.env`파일에 `ASSET_URL`변수를 설정해 에셋 URL 호스트를 구성 할 수 있습니다. 이는 아마존 S3와 같은 외부 서비스에서 에셋을 호스팅하는 경우 유용할 수 있습니다.
+
+```
+// ASSET_URL=http://example.com/assets
+
+$url = asset('img/photo.jpg');
+```
+
+
+
 <a name="method-secure-asset"></a>
+
 #### `secure_asset()` {#collection-method}
 
 `secure_asset` 함수는 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
@@ -1721,6 +1732,7 @@ The `encrypt` function encrypts the given value using Laravel's [encrypter](/doc
     return view('auth.login');
 
 <a name="method-with"></a>
+
 #### `with()` {#collection-method}
 
 `with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다:

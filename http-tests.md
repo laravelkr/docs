@@ -85,7 +85,7 @@ Laravel provides several helpers for working with the session during HTTP testin
         }
     }
 
-Of course, one common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
+One common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
 
     <?php
 
@@ -216,7 +216,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 <style>
     .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
 
@@ -259,6 +259,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 [assertSessionHasErrors](#assert-session-has-errors)
 [assertSessionHasErrorsIn](#assert-session-has-errors-in)
 [assertSessionHasNoErrors](#assert-session-has-no-errors)
+[assertSessionDoesntHaveErrors](#assert-session-doesnt-have-errors)
 [assertSessionMissing](#assert-session-missing)
 [assertStatus](#assert-status)
 [assertSuccessful](#assert-successful)
@@ -492,6 +493,13 @@ Assert that the session has the given errors:
 Assert that the session has no errors:
 
     $response->assertSessionHasNoErrors();
+    
+<a name="assert-session-doesnt-have-errors"></a>
+#### assertSessionDoesntHaveErrors
+
+Assert that the session has no errors for the given keys:
+
+    $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
 
 <a name="assert-session-missing"></a>
 #### assertSessionMissing

@@ -128,12 +128,6 @@ First, add the Cashier package for Braintree to your dependencies:
 
     composer require "laravel/cashier-braintree":"~2.0"
 
-#### Service Provider
-
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file:
-
-    Laravel\Cashier\CashierServiceProvider::class
-
 #### Plan Credit Coupon
 
 Before using Cashier with Braintree, you will need to define a `plan-credit` discount in your Braintree control panel. This discount will be used to properly prorate subscriptions that change from yearly to monthly billing, or from monthly to yearly billing.
@@ -475,7 +469,7 @@ Occasionally, you may wish to create a Stripe customer without beginning a subsc
 
     $user->createAsStripeCustomer();
 
-Of course, once the customer has been created in Stripe, you may begin a subscription at a later date.
+Once the customer has been created in Stripe, you may begin a subscription at a later date.
 
 > {tip} The Braintree equivalent of this method is the `createAsBraintreeCustomer` method.
 

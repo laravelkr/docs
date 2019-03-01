@@ -124,7 +124,7 @@ You may even pass a `Closure` as the default value. The result of the `Closure` 
 
 #### Checking For Item Existence
 
-The `has` method may be used to determine if an item exists in the cache. This method will return `false` if the value is `null` or `false`:
+The `has` method may be used to determine if an item exists in the cache. This method will return `false` if the value is `null`:
 
     if (Cache::has('key')) {
         //
@@ -222,8 +222,14 @@ The `get` method also accepts a Closure. After the Closure is executed, Laravel 
 
 If the lock is not available at the moment you request it, you may instruct Laravel to wait for a specified number of seconds. If the lock can not be acquired within the specified time limit, an `Illuminate\Contracts\Cache\LockTimeoutException` will be thrown:
 
-    if (Cache::lock('foo', 10)->block(5)) {
+    use Illuminate\Contracts\Cache\LockTimeoutException;
+
+    try {
+        Cache::lock('foo', 10)->block(5);
+
         // Lock acquired after waiting maximum of 5 seconds...
+    } catch (LockTimeoutException $e) {
+        // Unable to acquire lock...
     }
 
     Cache::lock('foo', 10)->block(5, function () {

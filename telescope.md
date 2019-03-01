@@ -4,6 +4,7 @@
 - [Installation](#installation)
     - [Configuration](#configuration)
     - [Data Pruning](#data-pruning)
+    - [Migration Customization](#migration-customization)
 - [Dashboard Authorization](#dashboard-authorization)
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
@@ -77,6 +78,11 @@ After running `telescope:install`, you should remove the `TelescopeServiceProvid
         }
     }
 
+<a name="migration-customization"></a>
+### Migration Customization
+
+If you are not going to use Telescope's default migrations, you should call the `Telescope::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using the `php artisan vendor:publish --tag=telescope-migrations` command.
+
 <a name="configuration"></a>
 ### Configuration
 
@@ -131,8 +137,8 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
@@ -145,7 +151,7 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
                 $entry->isScheduledTask() ||
                 $entry->hasMonitoredTag();
         });
-	}
+    }
 
 <a name="filtering-batches"></a>
 ### Batches
@@ -159,8 +165,8 @@ While the `filter` callback filters data for individual entries, you may use the
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filterBatch(function (Collection $entries) {
@@ -175,7 +181,7 @@ While the `filter` callback filters data for individual entries, you may use the
                     $entry->hasMonitoredTag();
                 });
         });
-	}
+    }
 
 <a name="available-watchers"></a>
 ## Available Watchers

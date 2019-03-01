@@ -285,32 +285,32 @@ Once the data has been passed to the `with` method, it will automatically be ava
 
 To add attachments to an email, use the `attach` method within the mailable class' `build` method. The `attach` method accepts the full path to the file as its first argument:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attach('/path/to/file');
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attach('/path/to/file');
+    }
 
 When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attach('/path/to/file', [
-                            'as' => 'name.pdf',
-                            'mime' => 'application/pdf',
-                        ]);
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attach('/path/to/file', [
+                        'as' => 'name.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
+    }
 
 #### Attaching Files from Disk
 
@@ -321,11 +321,11 @@ If you have stored a file on one of your [filesystem disks](/docs/{{version}}/fi
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorage('/path/to/file');
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorage('/path/to/file');
+    }
 
 If necessary, you may specify the file's attachment name and additional options using the second and third arguments to the `attachFromStorage` method:
 
@@ -334,13 +334,13 @@ If necessary, you may specify the file's attachment name and additional options 
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorage('/path/to/file', 'name.pdf', [
-                        'mime' => 'application/pdf'
-                    ]);
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorage('/path/to/file', 'name.pdf', [
+                       'mime' => 'application/pdf'
+                   ]);
+    }
 
 The `attachFromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
 
@@ -349,28 +349,28 @@ The `attachFromStorageDisk` method may be used if you need to specify a storage 
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorageDisk('s3', '/path/to/file');
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorageDisk('s3', '/path/to/file');
+    }
 
 #### Raw Data Attachments
 
 The `attachData` method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the email without writing it to disk. The `attachData` method accepts the raw data bytes as its first argument, the name of the file as its second argument, and an array of options as its third argument:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attachData($this->pdf, 'name.pdf', [
-                            'mime' => 'application/pdf',
-                        ]);
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attachData($this->pdf, 'name.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+    }
 
 <a name="inline-attachments"></a>
 ### Inline Attachments
@@ -400,20 +400,20 @@ If you already have a raw data string you wish to embed into an email template, 
 
 The `withSwiftMessage` method of the `Mailable` base class allows you to register a callback which will be invoked with the raw SwiftMailer message instance before sending the message. This gives you an opportunity to customize the message before it is delivered:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            $this->view('emails.orders.shipped');
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        $this->view('emails.orders.shipped');
 
-            $this->withSwiftMessage(function ($message) {
-                $message->getHeaders()
-                        ->addTextHeader('Custom-Header', 'HeaderValue');
-            });
-        }
+        $this->withSwiftMessage(function ($message) {
+            $message->getHeaders()
+                    ->addTextHeader('Custom-Header', 'HeaderValue');
+        });
+    }
 
 <a name="markdown-mailables"></a>
 ## Markdown Mailables
@@ -536,7 +536,7 @@ To send a message, use the `to` method on the `Mail` [facade](/docs/{{version}}/
         }
     }
 
-Of course, you are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients all within a single, chained method call:
+You are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients all within a single, chained method call:
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -557,7 +557,7 @@ Sometimes you may wish to capture the HTML content of a mailable without sending
 
 When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
 
-    Route::get('/mailable', function () {
+    Route::get('mailable', function () {
         $invoice = App\Invoice::find(1);
 
         return new App\Mail\InvoicePaid($invoice);
@@ -575,7 +575,7 @@ Since sending email messages can drastically lengthen the response time of your 
         ->bcc($evenMoreUsers)
         ->queue(new OrderShipped($order));
 
-This method will automatically take care of pushing a job onto the queue so the message is sent in the background. Of course, you will need to [configure your queues](/docs/{{version}}/queues) before using this feature.
+This method will automatically take care of pushing a job onto the queue so the message is sent in the background. You will need to [configure your queues](/docs/{{version}}/queues) before using this feature.
 
 #### Delayed Message Queueing
 
@@ -617,10 +617,10 @@ If you have mailable classes that you want to always be queued, you may implemen
 
 Laravel allows you to send mailables in a locale other than the current language, and will even remember this locale if the mail is queued.
 
-To accomplish this, the `Illuminate\Mail\Mailable` class offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
+To accomplish this, the `Mail` facade offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
 
-    Mail::to($request->user())->send(
-        (new OrderShipped($order))->locale('es')
+    Mail::to($request->user())->locale('es')->send(
+        new OrderShipped($order)
     );
 
 ### User Preferred Locales

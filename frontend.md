@@ -77,7 +77,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
 > {tip} 주의할 것은, Vue 컴포넌트가 바뀔 때 마다 `npm run dev` 명령어를 실행해야 한다는 것입니다. 또는 `npm run watch` 명령어를 실행하여 파일들이 변경될 때 이를 모니터링 하고 있다가 자동으로 다시 컴파일 하도록 할 수 있습니다.
 
-또한, Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://kr.vuejs.org/v2/guide/index.html)을 확인하길 바랍니다.
+Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워크에 대해서 개념을 손쉽게 읽을 수 있는 [Vue 매뉴얼](https://kr.vuejs.org/v2/guide/index.html)을 확인하길 바랍니다.
 
 <a name="using-react"></a>
 ### React 사용하기

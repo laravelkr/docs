@@ -134,7 +134,7 @@
 
     $price = DB::table('orders')->max('price');
 
-물론, 이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다:
+이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다:
 
     $price = DB::table('orders')
                     ->where('finalized', 1)
@@ -153,7 +153,7 @@
 
 #### Select문 지정하기
 
-당연하게도, 항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다:
+항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다:
 
     $users = DB::table('users')->select('name', 'email as user_email')->get();
 
@@ -226,7 +226,7 @@
 
 #### Inner Join
 
-쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 물론, 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다:
+쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다:
 
     $users = DB::table('users')
                 ->join('contacts', 'users.id', '=', 'contacts.user_id')
@@ -234,15 +234,19 @@
                 ->select('users.*', 'contacts.phone', 'orders.price')
                 ->get();
 
-#### Left 조인
+#### Left 조인 / Right 조인
 
-"inner join" 대신 "left join" 을 수행하고자 한다면, `leftJoin` 메소드를 사용하십시오. `leftJoin` 메소드는 `join` 메소드와 동일한 구성을 가집니다:
+"inner join" 대신 "left join" 또는 "right join" 을 수행하고자 한다면, `leftJoin` 또는 `rightJoin` 메소드를 사용하십시오. 이 메소드들은 `join` 메소드와 동일한 구성을 가집니다:
 
     $users = DB::table('users')
                 ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
                 ->get();
 
-#### Cross Join
+    $users = DB::table('users')
+                ->rightJoin('posts', 'users.id', '=', 'posts.user_id')
+                ->get();
+
+#### Cross Join Clause
 
 "Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다:
 
@@ -313,7 +317,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
 
     $users = DB::table('users')->where('votes', 100)->get();
 
-물론, `where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다:
+`where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다:
 
     $users = DB::table('users')
                     ->where('votes', '>=', 100)
@@ -635,6 +639,18 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
     DB::table('users')
                 ->where('id', 1)
                 ->update(['votes' => 1]);
+
+####  Updates-수정 또는 Inserts-삽입
+
+경우에 따라 데이터베이스의 기존 레코드를 업데이트하거나 일치하는 레코드가 없는 경우 레코드를 만들 수도 있습니다. 이 시나리오에서는 `updateOrInsert` 메소드를 사용할 수 있습니다. `updateOrInsert` 메소드는 두 개의 인수, 즉 레코드를 찾는 조건 배열과 업데이트 될 컬럼을 포함하는 컬럼과 값 쌍의 배열을 받아들입니다.
+
+`updateOrInsert` 메소드는 첫 번째 인자의 컬럼과 값의 쌍을 사용하여 일치하는 데이터베이스 레코드를 찾습니다. 레코드가 있으면 두 번째 인수의 값으로 업데이트됩니다. 레코드를 찾을 수 없으면 두 레코드의 병합 된 특성과 함께 새 레코드가 삽입됩니다.
+
+    DB::table('users')
+        ->updateOrInsert(
+            ['email' => 'john@example.com', 'name' => 'John'],
+            ['votes' => '2']
+        );
 
 <a name="updating-json-columns"></a>
 ### JSON 컬럼 업데이트

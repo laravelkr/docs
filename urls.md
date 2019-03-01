@@ -12,7 +12,7 @@
 <a name="introduction"></a>
 ## 시작하기
 
-라라벨은 애플리케이션에서 URL을 생성하는 것을 도와주는 몇가지 헬퍼 함수를 제공합니다. 당연하게도, 이는 템플릿 안에서 API 응답을 위한 링크를 생성하거나, 애플리케이션의 다른 곳으로 이동하는 리다이렉트 응답-response를 생성할 때 유용하게 사용됩니다.
+라라벨은 애플리케이션에서 URL을 생성하는 것을 도와주는 몇가지 헬퍼 함수를 제공합니다. 이는 템플릿 안에서 API 응답을 위한 링크를 생성하거나, 애플리케이션의 다른 곳으로 이동하는 리다이렉트 응답-response를 생성할 때 유용하게 사용됩니다.
 
 <a name="the-basics"></a>
 ## 기본적인 내용
@@ -76,7 +76,7 @@
     echo route('comment.show', ['post' => 1, 'comment' => 3]);
 
     // http://example.com/post/1/comment/3
-    
+
 <a name="signed-urls"></a>
 ### 서명이 적용된 (signed) URL
 

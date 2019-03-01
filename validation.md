@@ -45,7 +45,7 @@
 
     Route::post('post', 'PostController@store');
 
-당연히, `GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
+`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
 
 <a name="quick-creating-the-controller"></a>
 ### 컨트롤러 생성하기
@@ -447,7 +447,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
     $validator = Validator::make($input, $rules, $messages);
 
-다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스홀더들 또한 활용할 수 있습니다. 예를 들어:
+다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스 홀더들 또한 활용할 수 있습니다. 예를 들어:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -525,66 +525,67 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
 
 
-[Accepted](#rule-accepted)
-[Active URL](#rule-active-url)
-[After (Date)](#rule-after)
-[After Or Equal (Date)](#rule-after-or-equal)
-[Alpha](#rule-alpha)
-[Alpha Dash](#rule-alpha-dash)
-[Alpha Numeric](#rule-alpha-num)
-[Array](#rule-array)
-[Bail](#rule-bail)
-[Before (Date)](#rule-before)
-[Before Or Equal (Date)](#rule-before-or-equal)
-[Between](#rule-between)
-[Boolean](#rule-boolean)
-[Confirmed](#rule-confirmed)
-[Date](#rule-date)
-[Date Equals](#rule-date-equals)
-[Date Format](#rule-date-format)
-[Different](#rule-different)
-[Digits](#rule-digits)
-[Digits Between](#rule-digits-between)
-[Dimensions (Image Files)](#rule-dimensions)
-[Distinct](#rule-distinct)
-[E-Mail](#rule-email)
-[Exists (Database)](#rule-exists)
-[File](#rule-file)
-[Filled](#rule-filled)
-[Greater Than](#rule-gt)
-[Greater Than Or Equal](#rule-gte)
-[Image (File)](#rule-image)
-[In](#rule-in)
-[In Array](#rule-in-array)
-[Integer](#rule-integer)
-[IP Address](#rule-ip)
-[JSON](#rule-json)
-[Less Than](#rule-lt)
-[Less Than Or Equal](#rule-lte)
-[Max](#rule-max)
-[MIME Types](#rule-mimetypes)
-[MIME Type By File Extension](#rule-mimes)
-[Min](#rule-min)
-[Not In](#rule-not-in)
-[Not Regex](#rule-not-regex)
-[Nullable](#rule-nullable)
-[Numeric](#rule-numeric)
-[Present](#rule-present)
-[Regular Expression](#rule-regex)
-[Required](#rule-required)
-[Required If](#rule-required-if)
-[Required Unless](#rule-required-unless)
-[Required With](#rule-required-with)
-[Required With All](#rule-required-with-all)
-[Required Without](#rule-required-without)
-[Required Without All](#rule-required-without-all)
-[Same](#rule-same)
-[Size](#rule-size)
-[String](#rule-string)
-[Timezone](#rule-timezone)
-[Unique (Database)](#rule-unique)
-[URL](#rule-url)
-[UUID](#rule-uuid)
+- [Accepted](#rule-accepted)
+- [Active URL](#rule-active-url)
+- [After (Date)](#rule-after)
+- [After Or Equal (Date)](#rule-after-or-equal)
+- [Alpha](#rule-alpha)
+- [Alpha Dash](#rule-alpha-dash)
+- [Alpha Numeric](#rule-alpha-num)
+- [Array](#rule-array)
+- [Bail](#rule-bail)
+- [Before (Date)](#rule-before)
+- [Before Or Equal (Date)](#rule-before-or-equal)
+- [Between](#rule-between)
+- [Boolean](#rule-boolean)
+- [Confirmed](#rule-confirmed)
+- [Date](#rule-date)
+- [Date Equals](#rule-date-equals)
+- [Date Format](#rule-date-format)
+- [Different](#rule-different)
+- [Digits](#rule-digits)
+- [Digits Between](#rule-digits-between)
+- [Dimensions (Image Files)](#rule-dimensions)
+- [Distinct](#rule-distinct)
+- [E-Mail](#rule-email)
+- [Exists (Database)](#rule-exists)
+- [File](#rule-file)
+- [Filled](#rule-filled)
+- [Greater Than](#rule-gt)
+- [Greater Than Or Equal](#rule-gte)
+- [Image (File)](#rule-image)
+- [In](#rule-in)
+- [In Array](#rule-in-array)
+- [Integer](#rule-integer)
+- [IP Address](#rule-ip)
+- [JSON](#rule-json)
+- [Less Than](#rule-lt)
+- [Less Than Or Equal](#rule-lte)
+- [Max](#rule-max)
+- [MIME Types](#rule-mimetypes)
+- [MIME Type By File Extension](#rule-mimes)
+- [Min](#rule-min)
+- [Not In](#rule-not-in)
+- [Not Regex](#rule-not-regex)
+- [Nullable](#rule-nullable)
+- [Numeric](#rule-numeric)
+- [Present](#rule-present)
+- [Regular Expression](#rule-regex)
+- [Required](#rule-required)
+- [Required If](#rule-required-if)
+- [Required Unless](#rule-required-unless)
+- [Required With](#rule-required-with)
+- [Required With All](#rule-required-with-all)
+- [Required Without](#rule-required-without)
+- [Required Without All](#rule-required-without-all)
+- [Same](#rule-same)
+- [Size](#rule-size)
+- [Starts With](#rule-starts-with)
+- [String](#rule-string)
+- [Timezone](#rule-timezone)
+- [Unique (Database)](#rule-unique)
+- [URL](#rule-url)
+- [UUID](#rule-uuid)
 
 
 
@@ -669,7 +670,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-date"></a>
 #### date
 
-필드의 값이 `strtotime` PHP 함수에서 인식할 수 있는 올바른 날짜여야 합니다.
+유효성 검사중인 필드는 `strtotime` PHP 함수에 따라 유효한 비 상대(non-relative) 날짜 여야합니다.
 
 <a name="rule-date-equals"></a>
 #### date_equals:_date_
@@ -777,12 +778,10 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 <a name="rule-gt"></a>
 #### gt:_field_
 
-
 필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
 
 <a name="rule-gte"></a>
 #### gte:_field_
-
 
 필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
 
@@ -836,12 +835,10 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 <a name="rule-lt"></a>
 #### lt:_field_
 
-
 필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
 
 <a name="rule-lte"></a>
 #### lte:_field_
-
 
 필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 룰에 따라서 계산됩니다.
 
@@ -899,10 +896,9 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 <a name="rule-not-regex"></a>
 #### not_regex:_pattern_
 
-
 필드의 값이 주어진 정규표현식과 매칭되지 않는 것을 확인합니다.
 
-이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
+이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
 
 **Note:** `regex` / `not_regex` 패턴을 사용할 때, 특히 정규표현식에 파이프 문자가 포함 된 경우, 파이프 구분자를 사용하는 대신에 배열에 룰을 지정해야 할 수 있습니다.
 
@@ -945,6 +941,20 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 
 만약 _anotherfield_의 값이 _value_중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
 
+`required_if` 규칙에 대해 좀 더 복잡한 조건을 만들고 싶다면 `Rule::requiredIf` 메소드를 사용할 수 있습니다. 이 메소드는 boolean 또는 Closure를 허용합니다. Closure를 통과 할 때 클로저는 유효성 검사가 필요한 필드인지를 나타 내기 위해 true 또는 false를 반환해야합니다.
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::requiredIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::requiredIf(function () use ($request) {
+            return $request->user()->is_admin;
+        }),
+    ]);
+
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
@@ -980,6 +990,11 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 배열에서는 배열의 `count` 와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
 
+<a name="rule-starts-with"></a>
+#### starts_with:_foo_,_bar_,...
+
+유효성 검사중인 필드는 주어진 값 중 하나로 시작해야합니다.
+
 <a name="rule-string"></a>
 #### string
 
@@ -1007,7 +1022,7 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 **주어진 ID에 대해서 유니크 규칙을 무시하도록 강제하기:**
 
-때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
+때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 이메일 주소가 고유하다는 것을 확인하는 것이 좋습니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
 
 사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다:
 
@@ -1022,7 +1037,11 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면, `ignore` 메소드를 호출할 때 컬럼의 이름을 지정하면 됩니다:
 
-    'email' => Rule::unique('users')->ignore($user->id, 'user_id')
+    Rule::unique('users')->ignore($user->id, 'user_id')
+
+기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다 :
+
+    Rule::unique('users', 'email_address')->ignore($user->id),
 
 **추가적인 Where 구문 추가하기:**
 
@@ -1147,7 +1166,7 @@ rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 �
         }
     }
 
-당연하게도, 여러분이 언어 파일로부터 변환된 에러 메세지를 전달해주고자 한다면, `messgae` 메소드 안에서 `trans` 헬퍼 함수를 호출할 수 있습니다:
+여러분이 언어 파일로부터 변환된 에러 메세지를 전달해주고자 한다면, `messgae` 메소드 안에서 `trans` 헬퍼 함수를 호출할 수 있습니다:
 
     /**
      * Get the validation error message.
@@ -1238,7 +1257,7 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
     // The rest of the validation error messages...
 
-커스텀 유효 검사 룰을 생성할 때 종종 에러 메세지를 위한 커스텀 플레이스 홀더 대체제를 정의해야 할 수도 있습니다. 이전의 설명에 따라 커스텀 Validator를 생성하고 `Validator` 파사드에 `replacer` 메소드를 호출하십시오. 이는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 할 수 있습니다:
+커스텀 유효 검사 룰을 생성할 때 종종 에러 메세지를 위한 커스텀 플레이스홀더 대체제를 정의해야 할 수도 있습니다. 이전의 설명에 따라 커스텀 Validator를 생성하고 `Validator` 파사드에 `replacer` 메소드를 호출하십시오. 이는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 할 수 있습니다:
 
     /**
      * Bootstrap any application services.
@@ -1256,11 +1275,11 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
 #### 묵시적 확장
 
-기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 [`required`](#rule-required) 규칙의 정의에 따라 빈 값을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 `null` 값에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
+기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 빈 문자열을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 빈 문자열에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
 
-    $rules = ['name' => 'unique'];
+    $rules = ['name' => 'unique:users,name'];
 
-    $input = ['name' => null];
+    $input = ['name' => ''];
 
     Validator::make($input, $rules)->passes(); // true
 

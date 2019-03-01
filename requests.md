@@ -118,7 +118,7 @@
 <a name="psr7-requests"></a>
 ### PSR-7 Requests
 
-[PSR-7 표준](http://www.php-fig.org/psr/psr-7/)은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터페이스를 지정합니다. 라라벨의 request 대신 PSR-7 요청의 인스턴스를 획득하기 위해서는 우선 몇 개의 라이브러리를 설치해야 합니다. 라라벨은 *Symfony HTTP Message Bridge* 컴포넌트를 사용하여 일반적인 라라벨의 request-요청과 response-응답을 PSR-7에 맞는 구현체로 변환합니다:
+[PSR-7 표준](https://www.php-fig.org/psr/psr-7/)은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터페이스를 지정합니다. 라라벨의 request 대신 PSR-7 요청의 인스턴스를 획득하기 위해서는 우선 몇 개의 라이브러리를 설치해야 합니다. 라라벨은 *Symfony HTTP Message Bridge* 컴포넌트를 사용하여 일반적인 라라벨의 request-요청과 response-응답을 PSR-7에 맞는 구현체로 변환합니다:
 
     composer require symfony/psr-http-message-bridge
     composer require zendframework/zend-diactoros
@@ -347,7 +347,7 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
 
 #### 기타 파일 관련 메소드들
 
-`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html)을 확인해보십시오.
+`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](https://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html)을 확인해보십시오.
 
 <a name="storing-uploaded-files"></a>
 ### 업로드된 파일 저장하기
@@ -403,7 +403,7 @@ TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션�
         protected $headers = Request::HEADER_X_FORWARDED_ALL;
     }
 
-> {팁} 만약 여러분이 AWS Elastic 로드 발란싱을 사용하고 있다면, 여러분의 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB`이 되어야 합니다. `$headers`에 사용될 수 있는 상수에 대한 다른 정보는, Symfony 문서의 [trusting proxies](http://symfony.com/doc/current/deployment/proxies.html)를 참고하십시오.
+> {팁} 만약 여러분이 AWS Elastic 로드 발란싱을 사용하고 있다면, 여러분의 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB`이 되어야 합니다. `$headers`에 사용될 수 있는 상수에 대한 다른 정보는, Symfony 문서의 [trusting proxies](https://symfony.com/doc/current/deployment/proxies.html)를 참고하십시오.
 
 #### 모든 프록시 신뢰하기
 

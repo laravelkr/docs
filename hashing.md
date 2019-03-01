@@ -67,7 +67,7 @@
         'threads' => 2,
     ]);
 
-> {tip} 이 옵션들에 대한 더 많은 정보를 얻으려면, [공식 PHP 문서](http://php.net/manual/en/function.password-hash.php)를 확인하세요.
+> {tip} 이 옵션들에 대한 더 많은 정보를 얻으려면, [공식 PHP 문서](https://secure.php.net/manual/en/function.password-hash.php)를 확인하세요.
 
 #### 패스워드에 대한 해시 확인하기
 

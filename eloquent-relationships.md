@@ -11,7 +11,7 @@
     - [1:1(일대일) 관계](#one-to-one-polymorphic-relations)
     - [1:*(일대다) 관계](#one-to-many-polymorphic-relations)
     - [\*:*(다대다) 관계](#many-to-many-polymorphic-relations)
-    - [커스텀-사용자정의 다형성 타입](#custom-polymorphic-types)
+    - [사용자 정의 다형성 타입](#custom-polymorphic-types)
 - [관계 쿼리 질의하기](#querying-relations)
     - [관계 메소드 Vs. 동적 속성](#relationship-methods-vs-dynamic-properties)
     - [존재하는 관계에 대한 쿼리 질의하기](#querying-relationship-existence)
@@ -156,7 +156,7 @@ Eloquent는 또한 외래 키가 부모의 `id` 컬럼(또는 사용자가 정�
         //
     }
 
-물론 모든 관계들은 쿼리 빌더로도 역할하기 때문에 `comments` 메소드를 호출하고 쿼리에 조건들을 계속해서 체인하는 것을 통해 어떤 댓글들이 조회되는지에 대한 제한들을 추가할 수 있습니다:
+모든 관계들은 쿼리 빌더로도 역할하기 때문에 `comments` 메소드를 호출하고 쿼리에 조건들을 계속해서 체인하는 것을 통해 어떤 댓글들이 조회되는지에 대한 제한들을 추가할 수 있습니다:
 
     $comment = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
@@ -246,7 +246,7 @@ Eloquent는 또한 외래 키가 부모의 `id` 컬럼(또는 사용자가 정�
         //
     }
 
-물론 다른 모든 관계 타입과 같이 `roles` 메소드를 호출하여 관계에 대해서 쿼리 제한 조건들을 계속하여 체이닝 할 수 있습니다:
+다른 모든 관계 타입과 같이 `roles` 메소드를 호출하여 관계에 대해서 쿼리 제한 조건들을 계속하여 체이닝 할 수 있습니다:
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
 
@@ -361,7 +361,7 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
         //
     }
 
-물론, 중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
+중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
 
     <?php
 
@@ -450,7 +450,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
 다형성 관계는 대상 모델이 하나 이상의 타입의 모델에 소속될 수 있도록 해줍니다.
 
 <a name="one-to-one-polymorphic-relations"></a>
-### 일대일 (다형성)
+### 1:1(일대일) (다형성)
 
 #### 테이블 구조
 
@@ -532,7 +532,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
 `Image` 모델의 `imageable` 관계는 이미지를 소유한 모델의 타입에 따라서 `Post` 또는 `User` 인스턴스를 반환합니다.
 
 <a name="one-to-many-polymorphic-relations"></a>
-### 1:* 일대다(다형성)
+### 1:*(일대다) (다형성)
 
 #### 테이블 구조
 
@@ -594,69 +594,6 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
         public function comments()
         {
             return $this->morphMany('App\Comment', 'commentable');
-        }
-    }
-
-#### 관계 조회하기
-
-데이터베이스 테이블과 모델이 정의되었다면 모델들을 통해 관계들에 접근할 수 있습니다. 예를 들어, 게시글의 모든 댓글에 접근하기 위해서, `comments` 동적 속성을 사용할 수 있습니다:
-
-    $post = App\Post::find(1);
-
-    foreach ($post->comments as $comment) {
-        //
-    }
-
-또한 `morphTo`의 호출을 수행하는 메소드의 이름에 접근하여 다형성 모델에서 다형성 관계의 소유자를 조회할 수 있습니다. 이 경우, `Comment` 모델에 `commentable` 메소드를 사용합니다. 따라서 이 메소드를 동적 속성으로 접근할 것입니다:
-
-    $comment = App\Comment::find(1);
-
-    $commentable = $comment->commentable;
-
-`Comment` 모델의 `commentabl` 관계는 댓글을 어느 모델이 소유하느냐에 따라 `Post`나 `Video` 인스턴스를 반환합니다.
-
-<a name="many-to-many-polymorphic-relations"></a>
-### 다대다 (다형성)
-
-#### 테이블 구조
-
-*:* 다대다 다형성 관계는 `morphOne` 와 `morphMany` 관계에 대해서 다소 복잡합니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
-
-    posts
-        id - integer
-        name - string
-
-    videos
-        id - integer
-        name - string
-
-    tags
-        id - integer
-        name - string
-
-    taggables
-        tag_id - integer
-        taggable_id - integer
-        taggable_type - string
-
-#### 모델 구조
-
-이제 모델에 관계를 정의할 준비가 되었습니다. `Post`와 `Video` 모델은 둘 다 Eloquent 클래스에 `morphToMany` 메소드를 호출하는 `tags` 메소드를 가집니다:
-
-    <?php
-
-    namespace App;
-
-    use Illuminate\Database\Eloquent\Model;
-
-    class Post extends Model
-    {
-        /**
-         * Get all of the tags for the post.
-         */
-        public function tags()
-        {
-            return $this->morphToMany('App\Tag', 'taggable');
         }
     }
 
@@ -781,15 +718,20 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
 중첩된 `has` 구문(statement)은 "점(.)" 표기를 사용하여 구성될 수 있습니다. 예를 들어, 최소한 하나의 댓글과 좋아요(vote)를 가진 모든 게시물을 조회할 수 있습니다:
 
-    // Retrieve all posts that have at least one comment with votes...
+    // Retrieve posts that have at least one comment with votes...
     $posts = App\Post::has('comments.votes')->get();
 
 더 많은 권한이 필요하다면 `whereHas`와 `orWhereHas` 메소드를 사용하여 `has` 쿼리에 "where" 조건을 추가할 수 있습니다. 이 메소드들은 관계 제한에 댓글 컨텐츠 확인과 같은 사용자 정의된 제한들을 추가할 수 있게 해줍니다:
 
-    // Retrieve all posts with at least one comment containing words like foo%
+    // Retrieve posts with at least one comment containing words like foo%
     $posts = App\Post::whereHas('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
     })->get();
+
+    // Retrieve posts with at least ten comments containing words like foo%
+    $posts = App\Post::whereHas('comments', function ($query) {
+        $query->where('content', 'like', 'foo%');
+    }, '>=', 10)->get();
 
 <a name="querying-relationship-absence"></a>
 ### 관계된 모델이 존재하지 않는 것을 확인하며 질의하기
@@ -926,11 +868,13 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
         $query->where('title', 'like', '%first%');
     }])->get();
 
-이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 물론 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
+이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
 
     $users = App\User::with(['posts' => function ($query) {
         $query->orderBy('created_at', 'desc');
     }])->get();
+
+> {note} eager load를 제한 할 때 `limit`과 `take` 쿼리 빌더 메소드는 사용할 수 없습니다.
 
 <a name="lazy-eager-loading"></a>
 ### 지연 Eager 로딩
@@ -1093,7 +1037,7 @@ Eloquent는 또한 연관된 모델들을 다루는 데 편리한 몇 개의 헬
 
     $user->roles()->attach($roleId, ['expires' => $expires]);
 
-물론 경우에 따라 사용자에게서 역할을 분리하는 것이 필요할 수 있습니다. 다대다 관계 기록을 제거하려면 `detach` 메소드를 이용하면 됩니다. `detach` 메소드는 중간 테이블에서 적절한 기록을 삭제할 것입니다. 하지만 두 모델은 모두 데이터베이스에 남을 것입니다:
+경우에 따라 사용자에게서 역할을 분리하는 것이 필요할 수 있습니다. 다대다 관계 기록을 제거하려면 `detach` 메소드를 이용하면 됩니다. `detach` 메소드는 중간 테이블에서 적절한 기록을 삭제할 것입니다. 하지만 두 모델은 모두 데이터베이스에 남을 것입니다:
 
     // Detach a single role from the user...
     $user->roles()->detach($roleId);

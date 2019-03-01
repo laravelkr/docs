@@ -4,6 +4,7 @@
 - [설치하기](#installation)
     - [환경설정](#configuration)
     - [데이터 정리](#data-pruning)
+    - [사용자 정의 마이그레이션](#migration-customization)
 - [Dashboard 권한 부여](#dashboard-authorization)
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
@@ -77,6 +78,11 @@ Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해�
         }
     }
 
+<a name="migration-customization"></a>
+### 사용자 정의 마이그레이션
+
+Telescope의 기본 마이그레이션을 사용하지 않으려면, `AppServiceProvider`의 `register` 메소드에서 `Telescope::ignoreMigrations` 메소드를 호출해야합니다. `php artisan vendor:publish --tag=telescope-migrations` 명령을 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
+
 <a name="configuration"></a>
 ### 환경설정
 
@@ -118,7 +124,6 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
         });
     }
 
-
 <a name="filtering"></a>
 ## 필터링
 
@@ -132,8 +137,8 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
@@ -146,7 +151,7 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
                 $entry->isScheduledTask() ||
                 $entry->hasMonitoredTag();
         });
-	}
+    }
 
 <a name="filtering-batches"></a>
 ### Batches
@@ -160,8 +165,8 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filterBatch(function (Collection $entries) {
@@ -176,7 +181,7 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
                     $entry->hasMonitoredTag();
                 });
         });
-	}
+    }
 
 <a name="available-watchers"></a>
 ## 사용가능한 와쳐

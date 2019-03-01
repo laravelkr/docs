@@ -21,7 +21,7 @@
 <a name="paginating-query-builder-results"></a>
 ### 쿼리 빌더 결과를 페이징 하기
 
-데이터들의 페이징을 처리 할 수 있는 몇가지 방법이 있습니다. 가장 쉬운 방법은 `paginate` 메소드를 [쿼리 빌더](/docs/{{version}}/queries) 혹은 [Eloquent 쿼리](/docs/{{version}}/eloquent)에서 사용하는 것 입니다. `paginate` 메소드는 자동으로 사용자가 확인하고 있는 현재의 페이지를 기준으로 하여 limit 과 offset을 결정합니다. 기본적으로 현재의 페이지는 HTTP 요청의 `page` 쿼리 스트링 인자 값에 의해서 결정됩니다. 물론 이 값은 라라벨에 의해서 자동으로 확인되고, 또한 자동으로 paginator 에 의해서 생성되는 링크에 추가됩니다.
+데이터들의 페이징을 처리 할 수 있는 몇가지 방법이 있습니다. 가장 쉬운 방법은 `paginate` 메소드를 [쿼리 빌더](/docs/{{version}}/queries) 혹은 [Eloquent 쿼리](/docs/{{version}}/eloquent)에서 사용하는 것 입니다. `paginate` 메소드는 자동으로 사용자가 확인하고 있는 현재의 페이지를 기준으로 하여 limit 과 offset을 결정합니다. 기본적으로 현재의 페이지는 HTTP 요청의 `page` 쿼리 스트링 인자 값에 의해서 결정됩니다. 이 값은 라라벨에 의해서 자동으로 확인되고, 또한 자동으로 paginator 에 의해서 생성되는 링크에 추가됩니다.
 
 이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 갯수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
 
@@ -62,7 +62,7 @@
 
     $users = App\User::paginate(15);
 
-당연하게도, `where` 절과 같은 조건을 쿼리에 지정한 후 `paginate` 를 호출 할 수 있습니다:
+`where` 절과 같은 조건을 쿼리에 지정한 후 `paginate` 를 호출 할 수 있습니다:
 
     $users = User::where('votes', '>', 100)->paginate(15);
 
@@ -189,15 +189,19 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 
 각각의 페이지네이터 인스턴스는 다음의 메소드를 통해서 추가적인 페이지네이션 정보를 제공합니다:
 
-- `$results->count()`
-- `$results->currentPage()`
-- `$results->firstItem()`
-- `$results->hasMorePages()`
-- `$results->lastItem()`
-- `$results->lastPage() (Not available when using simplePaginate)`
-- `$results->nextPageUrl()`
-- `$results->onFirstPage()`
-- `$results->perPage()`
-- `$results->previousPageUrl()`
-- `$results->total() (Not available when using simplePaginate)`
-- `$results->url($page)`
+메소드  |  설명
+-------  |  -----------
+`$results->count()`  |  현재 페이지의 항목 수를 가져옵니다.
+`$results->currentPage()`  |  현재 페이지 번호를 가져옵니다.
+`$results->firstItem()`  |  결과에서 첫 번째 항목의 결과 번호를 가져옵니다.
+`$results->getOptions()`  |  페이지네이션의 옵션을 가져옵니다.
+`$results->getUrlRange($start, $end)`  |  다양한 페이지네이션 URL을 만듭니다.
+`$results->hasMorePages()`  |  여러 페이지로 분할하기에 충분한 항목이 있는지 확인합니다.
+`$results->lastItem()`  |  결과의 마지막 항목의 결과 번호를 가져옵니다.
+`$results->lastPage()`  |  마지막으로 사용 가능한 페이지의 페이지 번호를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
+`$results->nextPageUrl()`  |  다음 페이지의 URL을 가져옵니다.
+`$results->onFirstPage()`  |  페이지네이터가 첫 페이지에 있는지 확인합니다.
+`$results->perPage()`  |  페이지 당 표시 할 항목 수입니다.
+`$results->previousPageUrl()`  |  이전 페이지의 URL을 가져옵니다.
+`$results->total()`  |  데이터 저장소에서 일치하는 항목의 총 개수를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
+`$results->url($page)`  |  지정된 페이지 번호의 URL을 가져옵니다.

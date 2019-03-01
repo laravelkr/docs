@@ -49,7 +49,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
         // App\Console\Commands\ExampleCommand::class,
     ],
 
-#### 별칭(Alias) 블랙리스트
+#### 별칭 블랙리스트
 
 일반적으로 Tinker는 필요한 클래스에 자동으로 별칭(alias)을 지정합니다. 하지만 일부 클래스틑 별칭을 지정하지 않을 수도 있습니다. `tinker.php` 설정 파일의 `dont_alias` 배열에 클래스를 추가하면 됩니다:
 
@@ -76,7 +76,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
 > {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
 
-예제 명령을 살펴 보겠습니다. 명령어 클래스는 생성자 또는 `handle` 메소드를 통해 필요한 의존성 주입을 할 수 있습니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 생성자 또는 `handle` 에 타입이 지정된 의존객체들을 자동으로 주입해 줄 것입니다.
+예제 명령을 살펴 보겠습니다. 명령어 클래스는 `handle` 메소드를 통해 필요한 의존성 주입을 할 수 있습니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 `handle` 에 타입이 지정된 의존객체들을 자동으로 주입해 줄 것입니다.
 
     <?php
 
@@ -103,33 +103,24 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
         protected $description = 'Send drip e-mails to a user';
 
         /**
-         * The drip e-mail service.
-         *
-         * @var DripEmailer
-         */
-        protected $drip;
-
-        /**
          * Create a new command instance.
          *
-         * @param  DripEmailer  $drip
          * @return void
          */
-        public function __construct(DripEmailer $drip)
+        public function __construct()
         {
             parent::__construct();
-
-            $this->drip = $drip;
         }
 
         /**
          * Execute the console command.
          *
+         * @param  \App\DripEmailer  $drip
          * @return mixed
          */
-        public function handle()
+        public function handle(DripEmailer $drip)
         {
-            $this->drip->send(User::find($this->argument('user')));
+            $drip->send(User::find($this->argument('user')));
         }
     }
 
@@ -418,8 +409,6 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
         // ...
     }
-
-You may also manually register commands by adding its class name to the `$commands` property of your `app/Console/Kernel.php` file. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
 또한, `app/Console/Kernel.php` 파일의 `$commands` 속성에 클래스 이름을 추가하여 수동으로 명령어를 등록할 수도 있습니다. 아티즌이 부팅될 때, 이 속성에서 나열된 모든 명령어어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 자동으로 의존성이 해결되어 아티즌에 등록됩니다.
 

@@ -33,7 +33,7 @@
 - [Contao](https://contao.org/en/)
 - [Craft](https://craftcms.com)
 - [Drupal](https://www.drupal.org/)
-- [Jigsaw](http://jigsaw.tighten.co)
+- [Jigsaw](https://jigsaw.tighten.co)
 - [Joomla](https://www.joomla.org/)
 - [Katana](https://github.com/themsaid/katana)
 - [Kirby](https://getkirby.com/)
@@ -56,22 +56,20 @@
 
 이미 알고 있다시피, 라라벨은 또다른 라라벨 개발 환경인 [홈스테드](/docs/{{version}}/homestead)를 제공하고 있습니다. 홈스테드와 발렛은 이용자의 로컬 개발에 대한 목적과 방식이 다릅니다. 홈스테드는 자동화된 Nginx 설정과 함께 전체 우분투 가상 머신 환경을 제공합니다. 홈스테드는 리눅스 개발 환경에 대한 전체 가상화를 원하거나, 윈도우 / 리눅스 환경에서라면 아주 멋진 선택이 됩니다.
 
-발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](http://brew.sh/)를 사용해서 `brew install php` 그리고 `brew install mysql`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.
+발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](https://brew.sh/)를 사용해서 `brew install php` 그리고 `brew install mysql`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.
+
+Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
 <a name="installation"></a>
 ## 설치하기
 
-**발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
+**발렛은 maxOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
-
-
-- [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install php@7.2` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
+- [Homebrew](https://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
+- `brew install php` Homebrew 명령어를 사용하여 PHP7.3을 설치하십시오.
 - [Composer](https://getcomposer.org) 설치.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
-
-
 
 발렛이 설치되고나면, 터미널에서 `ping foobar.test` 와 같은 명령어를 사용하여 아무 `*.test` 도메인으로 핑을 시도해보십시오. 발렛이 올바르게 설치되었다면 `127.0.0.1` 로 부터 응답을 확인할 수 있어야만 합니다.
 
@@ -79,14 +77,22 @@
 
 #### 다른 도메인 사용하기
 
-기본적으로 발렛은 프로젝트를 `.test` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet domain tld-name` 명령어를 사용하면 됩니다.
+기본적으로 발렛은 프로젝트를 `.test` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet tld tld-name` 명령어를 사용하면 됩니다.
 
-예를 들어, `.test` 대신에 `.app` 을 사용하고자 한다면 `valet domain app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
+예를 들어, `.test` 대신에 `.app` 을 사용하고자 한다면 `valet tld app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
 
 #### 데이터베이스
 
 데이터베이스가 필요하다면, 커맨드 라인에서 `brew install mysql@5.7`를 실행하여 MySQL를 설치해 보십시오. MySQL가 설치되고 나면, `brew services start mysql@5.7` 명령어를 통해서 서비스를 시작할 수 있습니다. 그렇게 하면 `127.0.0.1` 서버에 `root` 계정으로 패스워드 없이 접속 할 수 있습니다.
 
+#### PHP 버전
+
+Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할 수있게합니다. Valet은 Brew를 통해 지정된 PHP 버전을 아직 설치하지 않은 경우 설치합니다.
+
+    valet use php@7.2
+    
+    valet use php
+    
 <a name="upgrading"></a>
 ### 업그레이드 하기
 
@@ -118,7 +124,6 @@
 <a name="the-park-command"></a>
 **`park` 명령어**
 
-
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
 - 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다: `laravel new blog`.
 - 브라우저에서 `http://blog.test` 사이트를 열어서 확인합니다.
@@ -130,7 +135,6 @@
 **`link` 명령어**
 
 `link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
-
 
 - 명령어를 사용하기 위해서, 프로젝트 중 하나의 디렉토리에 대해서 터미널에서 `valet link app-name` 을 실행합니다. 발렛은 현재 작업 디렉토리를 `~/.config/valet/Sites`가 지정하도록 심볼릭 링크를 생성할 것입니다.
 - `link` 명령어를 실행한 다음에, 브라우저에서 `http://app-name.test` 로 접속할 수 있습니다.
@@ -159,8 +163,6 @@
 사이트를 공유하기 위해서는, 터미널 상에서 사이트의 디렉토리로 이동한 뒤에 `valet share` 명령어를 입력하십시오. 공개된 접근가능한 URL 이 여러분의 클립보드에 복사되고 브라우저에서 직접 붙여넣을 수 있습니다. 이게 끝입니다.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
-
-> {note} 현재 `valet share`는 `valet secure` 명령어를 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
 
 <a name="custom-valet-drivers"></a>
 ## 사용자 정의-커스텀 발렛 드라이버
@@ -215,7 +217,6 @@
 
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
-#### The `frontControllerPath` Method
 #### `frontControllerPath` 메소드
 
 `frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 애플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다:

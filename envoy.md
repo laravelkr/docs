@@ -1,4 +1,4 @@
-# Envyo 작업 실행관리자
+# Laravel Envoy
 
 - [시작하기](#introduction)
     - [설치하기](#installation)
@@ -54,7 +54,7 @@
 <a name="setup"></a>
 ### 설정하기
 
-때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 ```@setup``` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다:
+때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 `@setup` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다:
 
     @setup
         $now = new DateTime();
@@ -77,7 +77,7 @@
 
     envoy run deploy --branch=master
 
-블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 또한 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
+블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
 
     @servers(['web' => '192.168.1.1'])
 
@@ -160,11 +160,9 @@ Envoy 는 여러분이 여러대의 서버에 서 손쉽게 작업이 실행할 
 
 <a name="notifications"></a>
 <a name="hipchat-notifications"></a>
-## Notifications
 ## 알림
 
 <a name="slack"></a>
-### Slack
 ### 슬랙
 
 Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com)을 통해서 알림을 보내는 작업을 지원합니다. `@slack` 지시어는 슬랙 Hook URL 과 채널 이름을 인자로 받습니다. Slack 의 설정 패널의 `Incoming WebHooks` 통합 페이지에서 후킹 URL을 생성하여 찾을 수 있습니다. 여러분은 전체 웹훅 URL 을 `@slack` 지시어에 전달하면 됩니다:
@@ -175,9 +173,5 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com
 
 채널 인자는 다음 중 하나를 지정할 수 있습니다:
 
-
-
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
-
-

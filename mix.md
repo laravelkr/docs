@@ -30,7 +30,7 @@
     mix.js('resources/js/app.js', 'public/js')
        .sass('resources/sass/app.scss', 'public/css');
 
-만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## 설치하기 & 설정하기
@@ -78,6 +78,7 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 
 <a name="less"></a>
 ### Less
+### Less
 
 `less` 메소드는 [Less](http://lesscss.org/)를 CSS로 컴파일하는데 사용됩니다. `app`.less` 파일을 `public/css/app.css` 로 컴파일 해보겠습니다.
 
@@ -101,7 +102,7 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 <a name="sass"></a>
 ### Sass
 
-`sass` 메소드는 [Sass](http://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다:
+`sass` 메소드는 [Sass](https://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다:
 
     mix.sass('resources/sass/app.scss', 'public/css');
 
@@ -134,7 +135,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 <a name="postcss"></a>
 ### PostCSS
 
-[PostCSS](http://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
+[PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
 
     mix.sass('resources/sass/app.scss', 'public/css')
        .options({
@@ -167,7 +168,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
 
     .example {
-      background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
+        background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
 
 이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다:
@@ -197,8 +198,6 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기능을 제공하는데, ECMAScript 2015 컴파일, 모듈 번들링, minification, 그리고 자바스크립트 파일 concatenating-연결등입니다. 더 나아가 이 모든 기능은 여러가지 설정을 할 필요없이 원활하게 동작합니다:
 
     mix.js('resources/js/app.js', 'public/js');
-
-With this single line of code, you may now take advantage of:
 
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
 

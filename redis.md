@@ -149,7 +149,7 @@ PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵�
         }
     }
 
-물론, 앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 매소드를 사용하여 명령어를 Redis 서버에 전달하기 때문에, Redis 명령어가 요구하는 인자도 전달 할 수 있습니다:
+앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 매소드를 사용하여 명령어를 Redis 서버에 전달하기 때문에, Redis 명령어가 요구하는 인자도 전달 할 수 있습니다:
 
     Redis::set('name', 'Taylor');
 

@@ -230,7 +230,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
         return $flight->cancelled;
     });
 
-물론 배열과 동일하게 또한 이 컬렉션을 반복문에서 사용 할 수 있습니다:
+배열과 동일하게 또한 이 컬렉션을 반복문에서 사용 할 수 있습니다:
 
     foreach ($flights as $flight) {
         echo $flight->name;
@@ -279,7 +279,6 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
     $model = App\Flight::findOrFail(1);
 
     $model = App\Flight::where('legs', '>', 100)->firstOrFail();
-
 
 예외를 처리하지 않는다면 `404` HTTP 응답이 자동으로 사용자에게 보내집니다. 이 메소드들을 사용할 때 `404` 응답을 반환하는 것을 명시적으로 선언할 필요는 없습니다.
 
@@ -392,7 +391,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 #### 속성들 보호하기
 
-`$fillable`는 대량 할당(mass assign)될 수 있는 속성들의 화이트 리스트로써 동작 하지만, `$guarded`를 사용할 수도 있습니다. `$guarded` 속성은 대량 할당(mass assign)하고 싶지 않은 속성들의 배열을 가지고 있을 것입니다. 이 배열에 포함되지 않은 모든 속성들은 대량 할당될 수 있을 것입니다. 따라서 `$guarded`는 블랙리스트와 같은 기능을 합니다. 물론 `$fillable`나 `$guarded` 둘 중 하나만을 사용해야 합니다. 다음 예제에서 **`price`**를 제외한 모든 속성들은 대량 할당이 가능합니다:
+`$fillable`는 대량 할당(mass assign)될 수 있는 속성들의 화이트 리스트로써 동작 하지만, `$guarded`를 사용할 수도 있습니다. `$guarded` 속성은 대량 할당(mass assign)하고 싶지 않은 속성들의 배열을 가지고 있을 것입니다. 이 배열에 포함되지 않은 모든 속성들은 대량 할당될 수 있을 것입니다. 따라서 `$guarded`는 블랙리스트와 같은 기능을 합니다. `$fillable`나 `$guarded` 둘 중 하나만을 사용해야 합니다. 다음 예제에서 **`price`**를 제외한 모든 속성들은 대량 할당이 가능합니다:
 
     <?php
 
@@ -478,11 +477,9 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 #### 쿼리를 통해서 모델 삭제하기
 
-물론 모델들에 대해서 삭제 구문을 실행할 수도 있습니다. 아래의 예제는 비활성으로 표시된 모든 항공편들을 삭제할 것입니다. 대량 수정과 같이 대량으로 삭제하는 것은 삭제된 모델에 대한 어떠한 모델 이벤트도 발생시키지 않을 것입니다:
+모델들에 대해서 삭제 구문을 실행할 수도 있습니다. 아래의 예제는 비활성으로 표시된 모든 항공편들을 삭제할 것입니다. 대량 수정과 같이 대량으로 삭제하는 것은 삭제된 모델에 대한 어떠한 모델 이벤트도 발생시키지 않을 것입니다:
 
     $deletedRows = App\Flight::where('active', 0)->delete();
-
-> {note} When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be fired for the deleted models. This is because the models are never actually retrieved when executing the delete statement.
 
 > {note} Eloquent 를 통해서 대량으로 삭제 구문을 실행할 때, 삭제되는 모델에 대한 `deleting` 및  `deleted` 모델 이벤트는 발생되지 않습니다. 이 이유는 삭제 구문을 실행할 때 실제로 모델이 조회 되는 것이 아니기 때문입니다.
 
@@ -510,7 +507,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
         protected $dates = ['deleted_at'];
     }
 
-물론 데이터베이스 테이블에 `deleted_at` 컬럼을 추가해야 합니다. 라라벨의 [스키마 빌더](/docs/{{version}}/migrations)는 이 컬럼을 생성하는 도우미 메소드를 가지고 있습니다:
+데이터베이스 테이블에 `deleted_at` 컬럼을 추가해야 합니다. 라라벨의 [스키마 빌더](/docs/{{version}}/migrations)는 이 컬럼을 생성하는 도우미 메소드를 가지고 있습니다:
 
     Schema::table('flights', function (Blueprint $table) {
         $table->softDeletes();
@@ -581,7 +578,6 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 글로벌 스코프는 주어진 모델의 모든 쿼리에 범위 제한을 추가할 수 있도록 해줍니다. 라라벨의 고유한 [소프트 삭제](#soft-deleting) 기능은 데이터베이스에서 "삭제되지 않은" 모델에 대해서 글로벌 스코프를 사용합니다. 여러분의 고유한 글로벌 스코프를 작성하는 것은 주어진 모델이 특정 제한을 전달 받을 수 있도록 모든 쿼리에 추가하는 보다 편리하고 손쉬운 방법을 제공할 수 있습니다.
 
-#### Writing Global Scopes
 #### 글로벌 스코프 작성하기
 
 글로벌 스코프를 작성하는 것은 쉽습니다. `Illuminate\Database\Eloquent\Scope` 인터페이스의 구현 클래스를 정의합니다. 이 인터페이스는 `apply` 메소드를 구현해야 합니다. `apply` 메소드는 필요한 `where` 조건을 쿼리에 추가할 수 있습니다:

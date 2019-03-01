@@ -124,7 +124,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 #### 아이템이 존재하는지 확인하기
 
-`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 만약 값이 `null` 이거나 `false`라면 이 메소드는 `false`를 반환합니다:
+`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 만약 값이 `null` 인 경우 이 메소드는 `false`를 반환합니다:
 
     if (Cache::has('key')) {
         //
@@ -222,8 +222,14 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 요청한 순간에 잠금 장치를 사용할 수없는 경우 Laravel에 지정된 시간 (초) 동안 대기하도록 지시 할 수 있습니다. 지정된 제한 시간 내에 잠금을 획득 할 수 없으면 `Illuminate\Contracts\Cache\LockTimeoutException` 이 발생합니다.
 
-    if (Cache::lock('foo', 10)->block(5)) {
+    use Illuminate\Contracts\Cache\LockTimeoutException;
+
+    try {
+        Cache::lock('foo', 10)->block(5);
+
         // Lock acquired after waiting maximum of 5 seconds...
+    } catch (LockTimeoutException $e) {
+        // Unable to acquire lock...
     }
 
     Cache::lock('foo', 10)->block(5, function () {
@@ -242,7 +248,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     cache(['key' => 'value'], now()->addSeconds(10));
 
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출할 수 있습니다 :
+`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다 :
 
     cache()->remember('users', $minutes, function () {
         return DB::table('users')->get();

@@ -34,7 +34,7 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 <a name="serializing-to-json"></a>
 ### JSON으로 Serializaing
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](http://php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
 
     $user = App\User::find(1);
 

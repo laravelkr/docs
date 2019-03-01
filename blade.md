@@ -169,7 +169,7 @@
 
 > {tip} 블레이드의 `{{ }}` 구문은 XSS 공격을 방지하기 위해서 자동으로 PHP의 `htmlspecialchars` 함수를 실행하게 됩니다.
 
-물론 뷰에는 전달된 변수들의 컨텐츠만 표시할 수 있는 것은 아닙니다. PHP 함수의 모든 결과는 출력될 수 있습니다. 블레이드에서는 출력되는 어떠한 PHP 코드도 넣을 수 있습니다:
+뷰에는 전달된 변수들의 컨텐츠만 표시할 수 있는 것은 아닙니다. PHP 함수의 모든 결과는 출력될 수 있습니다. 블레이드에서는 출력되는 어떠한 PHP 코드도 넣을 수 있습니다:
 
     The current UNIX timestamp is {{ time() }}.
 
@@ -295,6 +295,7 @@
     @guest('admin')
         // The user is not authenticated...
     @endguest
+
 #### 섹션 지시어
 
 `@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다:
@@ -430,8 +431,6 @@
         //
     @endphp
 
-> {tip} While Blade provides this feature, using it frequently may be a signal that you have too much logic embedded within your template.
-
 > {tip} 블레이드가 이 기능을 제공하지만, 이 기능을 너무 빈번하게 사용하는 것은 너무 많은 로직이 템플린 안에 포함되어 있다는 신호일 수 있습니다.
 
 <a name="forms"></a>
@@ -476,7 +475,7 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
 
     @include('view.name', ['some' => 'data'])
 
-당연하게도, `@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다:
+`@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다:
 
     @includeIf('view.name', ['some' => 'data'])
 
@@ -489,6 +488,22 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
     @includeFirst(['custom.admin', 'admin'], ['some' => 'data'])
 
 > {note} 블레이드 뷰에서 `__DIR__`와 `__FILE__` 를 사용하지 마십시오. 이를 사용하면 컴파일된 캐시 뷰의 경로가 반환됩니다.
+
+#### Include의 별칭 지정
+
+Blade Include가 하위 디렉토리에 저장되어있는 경우 쉽게 액세스 할 수 있도록 별칭을 지정할 수 있습니다. 예를 들어, 다음 내용으로 `resources/views/includes/input.blade.php`에 저장된 블레이드 포함 시키는 것을 생각해보십시오 :
+
+    <input type="{{ $type ?? 'text' }}">
+
+`include` 메소드를 사용하여 `input`을 `includes.input` 에 대한 include 별칭으로 지정할 수 있습니다. 일반적으로 이것은 `AppServiceProvider`의 `boot` 메소드에서 수행되어야합니다 :
+
+    use Illuminate\Support\Facades\Blade;
+
+    Blade::include('includes.input', 'input');
+
+include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 사용하여 렌더링 할 수 있습니다.
+
+    @input(['type' => 'email'])
 
 <a name="rendering-views-for-collections"></a>
 ### 컬렉션을 뷰에서 렌더링하기

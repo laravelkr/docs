@@ -1,4 +1,4 @@
-# 브라우저 테스트 (라라벨 Dusk)
+# 라라벨 Dusk
 
 - [시작하기](#introduction)
 - [설치하기](#installation)
@@ -19,6 +19,7 @@
     - [파일 첨부](#attaching-files)
     - [키보드 사용하기](#using-the-keyboard)
     - [마우스 사용하기](#using-the-mouse)
+    - [자바스크립트 대화상자](#javascript-dialogs)
     - [Scoping Selectors](#scoping-selectors)
     - [Waiting For Elements](#waiting-for-elements)
     - [Making Vue Assertions](#making-vue-assertions)
@@ -445,7 +446,6 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
 
     $browser->mouseover('.selector');
 
-#### Drag & Drop
 #### 드래그 & 드롭
 
 `drag` 메소드는 주어진 selector와 매칭되는 element를 다른 element로 드래그 하는데 사용합니다:
@@ -458,6 +458,28 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
     $browser->dragRight('.selector', 10);
     $browser->dragUp('.selector', 10);
     $browser->dragDown('.selector', 10);
+
+<a name="javascript-dialogs"></a>
+### 자바스크립트 대화상자
+
+Dusk은 JavaScript Dialogs와 상호 작용하는 다양한 메소드를 제공합니다.
+
+    // Wait for a dialog to appear:
+    $browser->waitForDialog($seconds = null);
+    
+    // Assert that a dialog has been displayed and that its message matches the given value:
+    $browser->assertDialogOpened('value');
+
+    // Type the given value in an open JavaScript prompt dialog:
+    $browser->typeInDialog('Hello World');
+
+열린 JavaScript 대화 상자를 닫으려면 확인 버튼을 클릭하십시오.
+
+    $browser->acceptDialog();
+
+열린 JavaScript 대화 상자를 닫으려면 취소 버튼을 클릭하십시오 (확인 대화 상자에만 해당).
+
+    $browser->dismissDialog();
 
 <a name="scoping-selectors"></a>
 ### Selector의 특정 범위를 제한하여 동작하기
@@ -555,6 +577,16 @@ If you need to make assertions after a page has been reloaded, use the `waitForR
     // Wait a maximum of one second for the expression to be true...
     $browser->waitUntil('App.data.servers.length > 0', 1);
 
+#### Vue 표현의 대기
+
+다음 메소드는 주어진 Vue 컴포넌트의 속성이 주어진 값을 가질 때까지 대기하는 데 사용될 수 있습니다.
+
+    // Wait until the component attribute contains the given value...
+    $browser->waitUntilVue('user.name', 'Taylor', '@user');
+
+    // Wait until the component attribute doesn't contain the given value...
+    $browser->waitUntilVueIsNot('user.name', null, '@user');
+
 #### Waiting With A Callback
 
 Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
@@ -602,7 +634,7 @@ You may assert on the state of the Vue component like so:
     }
 
 <a name="available-assertions"></a>
-## Available Assertions
+## 사용 가능한 Assertions
 
 Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 목록과 같습니다:
 
@@ -1257,10 +1289,10 @@ As shown above, a "date picker" is an example of a component that might exist th
          *
          * @param  \Laravel\Dusk\Browser  $browser
          * @param  int  $month
-         * @param  int  $year
+         * @param  int  $day
          * @return void
          */
-        public function selectDate($browser, $month, $year)
+        public function selectDate($browser, $month, $day)
         {
             $browser->click('@date-field')
                     ->within('@month-list', function ($browser) use ($month) {
@@ -1313,40 +1345,41 @@ Once the component has been defined, we can easily select a date within the date
 
 If you are using CircleCI to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
-     version: 2
-     jobs:
-         build:
-             steps:
+    version: 2
+    jobs:
+        build:
+            steps:
                 - run: sudo apt-get install -y libsqlite3-dev
                 - run: cp .env.testing .env
                 - run: composer install -n --ignore-platform-reqs
                 - run: npm install
                 - run: npm run production
                 - run: vendor/bin/phpunit
-
+       
                 - run:
-                   name: Start Chrome Driver
-                   command: ./vendor/laravel/dusk/bin/chromedriver-linux
-                   background: true
-
+                    name: Start Chrome Driver
+                    command: ./vendor/laravel/dusk/bin/chromedriver-linux
+                    background: true
+       
                 - run:
-                   name: Run Laravel Server
-                   command: php artisan serve
-                   background: true
-
+                    name: Run Laravel Server
+                    command: php artisan serve
+                    background: true
+       
                 - run:
-                   name: Run Laravel Dusk Tests
-                   command: php artisan dusk
+                    name: Run Laravel Dusk Tests
+                    command: php artisan dusk
 
 <a name="running-tests-on-codeship"></a>
 ### Codeship
 
-[Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 물론, 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다:
+[Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다:
 
-    phpenv local 7.1
+    phpenv local 7.2
     cp .env.testing .env
-    composer install --no-interaction
-    nohup bash -c "./vendor/laravel/dusk/bin/chromedriver-linux 2>&1 &"
+    mkdir -p ./bootstrap/cache
+    composer install --no-interaction --prefer-dist
+    php artisan key:generate
     nohup bash -c "php artisan serve 2>&1 &" && sleep 5
     php artisan dusk
 
@@ -1373,14 +1406,12 @@ If you are using CircleCI to run your Dusk tests, you may use this configuration
 <a name="running-tests-on-travis-ci"></a>
 ### Travis CI
 
-[Travis CI](https://travis-ci.org)에서 Dusk 테스트를 수행하기 위해서는 "sudo-enabled"가 가능한 우분투 14.04 (Trusty) 환경을 사용해야 합니다. Travis CI는 그래픽 환경이 아니기 때문에, 크롬 브라우저를 구동하기 위해서는 몇가지 별도의 작업을 필요로 합니다. 추가적으로 PHP 내장 브라우저를 구동하기 위해서 `php artisan serve`를 사용할 수 있습니다:
+[Travis CI](https://travis-ci.org)에서 Dusk 테스트를 수행하기 위해서는 아래에 나오는 `travis.yml` 설정을 사용하십시오. Travis CI는 그래픽 환경이 아니기 때문에, 크롬 브라우저를 구동하기 위해서는 몇가지 별도의 작업을 필요로 합니다. 추가적으로 PHP 내장 브라우저를 구동하기 위해서 `php artisan serve`를 사용할 수 있습니다:
 
     language: php
-    sudo: required
-    dist: trusty
 
     php:
-      - 7.2
+      - 7.3
 
     addons:
       chrome: stable

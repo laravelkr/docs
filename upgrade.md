@@ -15,7 +15,7 @@
 
 만약 Laravel Passport를 사용하고 있다면 `composer.json` 파일에 있는 `laravel/passport`의 의존성을 `^7.0`으로 업데이트 합니다
 
-또한, 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.7를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
+그리고 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.7를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 ### 어플리케이션
 
@@ -61,6 +61,14 @@
 
     mix.js('resources/js/app.js', 'public/js')
        .sass('resources/sass/app.scss', 'public/css');
+
+#### `svg` 디렉토리 추가
+
+**영향 가능성 : 매우 높음**
+
+`public` 디렉토리 안에 새로운 `svg` 디렉토리가 추가되었습니다. `403.svg`, `404.svg`, `500.svg`, `503.svg` 의 네가지 파일이 들어 있다면, 이 파일들이 에러 페이지를 구성하는데 사용됩니다.
+
+이 파일들은 [Github](https://github.com/laravel/laravel/tree/5.7/public/svg)에서 확인할 수 있습니다.
 
 ### 인증(Authentication)
 
@@ -129,7 +137,6 @@
     public function raw($ability, $arguments = []);
 
 만약 이 인터페이스를 구현하는 경우 이 메소드를 구현체에 추가해야합니다.
-
 
 #### `Login` 이벤트
 
@@ -326,7 +333,7 @@ Laravel 5.7에서 이 값들은 상응하는 PHP 상수 `INF`, `-INF`, `NAN`으�
 
 **영향의 가능성 : 선택사항**
 
-Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification)를 사용하기로 결정하였다면 어플리케이션의 추가 스캐폴딩을 추가해야합니다. 먼저 어플리케이션에 `VerificationController`를 추가하십시오 : [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/master/app/Http/Controllers/Auth/VerificationController.php).
+Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification)를 사용하기로 결정하였다면 어플리케이션의 추가 스캐폴딩을 추가해야합니다. 먼저 어플리케이션에 `VerificationController`를 추가하십시오 : [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/5.7/app/Http/Controllers/Auth/VerificationController.php).
 
 또한 `App\User` 모델을 수정하여 `MustVerifyEmail` contract를 구현해야합니다 :
 
@@ -365,7 +372,7 @@ Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification
 
     $table->timestamp('email_verified_at')->nullable();
 
-사용자가 등록 될 때 이메일을 보내려면 [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/master/app/Providers/EventServiceProvider.php) 클래스에 다음 이벤트 및 리스너를 등록해야합니다 :
+사용자가 등록 될 때 이메일을 보내려면 [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/5.7/app/Providers/EventServiceProvider.php) 클래스에 다음 이벤트 및 리스너를 등록해야합니다 :
 
     use Illuminate\Auth\Events\Registered;
     use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -405,7 +412,7 @@ Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification
 
 #### Mailable 동적 변수 캐스팅
 
-**영향 가능성 : 보통**
+**영향 가능성 : 낮음**
 
 동적으로 mailable 뷰에 전달 된 변수는 [자동으로 "camel cased"](https://github.com/laravel/framework/pull/24232)되어 동적 뷰 변수와 일치하는 동적 mailable 변수의 동작을 제공합니다. 동적인 mailable 변수는 문서화 된 Laravel 기능이 아니므로 어플리케이션에 미치는 영향의 가능성이 낮습니다.
 
@@ -429,7 +436,7 @@ Markdown Mailable 템플릿에 사용되는 기본 테마 스타일을 커스터
 
 **영향 가능성 : 매우 낮음**
 
-`WorkCommand` 에 `stop-when-empty` 옵션이 추가되었습니다. 이 명령어를 확장하려면 클래스의 `$signature` 속성에 `stop-when-empty` 를 추가해야합니다.
+`stop-when-empty` 옵션이 `WorkCommand`에 추가되었습니다. 이 커멘드를 확장하는 경우, 클래스의 `$signature` 프로퍼티에 `stop-when-empty`를 추가 할 필요가 있습니다.
 
 ### 라우팅
 
@@ -492,6 +499,12 @@ Markdown Mailable 템플릿에 사용되는 기본 테마 스타일을 커스터
 
 만약 이 인터페이스를 구현하는 경우 이 메소드를 구현체에 추가해야합니다.
 
+### 테스팅
+
+**영향 가능성 : 보통**
+
+라라벨 5.7은 아티즌 커맨드를 위한 향상된 테스팅 툴을 제공합니다. 기본적으로 아티즌 커맨드의 출력은 mock 처리됩니다. 만약 테스트에서 `artisan` 메소드를 사용하여 커맨드를 실행 시킬 경우, 테스트 클래스에 `Artisan::call` 사용하거나 `public $mockConsoleOutput = false` 를 속성(property)에 정의해야 합니다. 
+
 ### 기타
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.6...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.6...5.7)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

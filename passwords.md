@@ -19,7 +19,7 @@
 <a name="resetting-database"></a>
 ## 데이터베이스 고려사항
 
-시작하기에 앞서, 여러분의 `App\User` 모델이 `Illuminate\Contracts\Auth\CanResetPassword` contract를 구현하고 있는지 확인하십시오. 물론 라라벨에 포함되어 있는 `App\User` 모델은 이미 이 인터페이스를 구현하고 있으며 인터페이스 구현에 필요한 메소드를 포함하고 있는 `Illuminate\Auth\Passwords\CanResetPassword` 트레이트를 사용하고 있습니다.
+시작하기에 앞서, 여러분의 `App\User` 모델이 `Illuminate\Contracts\Auth\CanResetPassword` contract를 구현하고 있는지 확인하십시오. 라라벨에 포함되어 있는 `App\User` 모델은 이미 이 인터페이스를 구현하고 있으며 인터페이스 구현에 필요한 메소드를 포함하고 있는 `Illuminate\Auth\Passwords\CanResetPassword` 트레이트를 사용하고 있습니다.
 
 #### 재설정 토큰을 저장하는 테이블 마이그레이션 파일 생성하기
 
@@ -94,4 +94,3 @@
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-

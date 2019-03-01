@@ -147,7 +147,7 @@
         $table->increments('id');
     });
 
-물론 테이블을 생성할 때, 테이블의 컬럼을 정의하기 위하여 자유롭게 스키마 빌더의 [컬럼 메소드](#creating-columns)를 사용할 수 있습니다.
+테이블을 생성할 때, 테이블의 컬럼을 정의하기 위하여 자유롭게 스키마 빌더의 [컬럼 메소드](#creating-columns)를 사용할 수 있습니다.
 
 #### 테이블 / 컬럼이 존재하는지 확인하기
 
@@ -207,12 +207,9 @@
         $table->string('email');
     });
 
-#### Available Column Types
 #### 사용가능한 컬럼의 타입들
 
-Of course, the schema builder contains a variety of column types that you may specify when building your tables:
-
-당연하게도, 스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
+스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
 
 명령  | 설명
 ------------- | -------------
@@ -428,8 +425,8 @@ Modifier  | 설명
 
 인덱스를 삭제하기 위해서는 인덱스의 이름을 지정해야 합니다. 라라벨은 자동으로 인덱스에 합리적인 이름을 부여하도록 설정되어 있습니다. 테이블 이름, 인덱스된 컬럼의 이름, 그리고 인덱스 타입을 합친것입니다. 다음은 몇 개의 예제 입니다:
 
-]명령어  | 설명
-------------- | -------------
+명령어  | 설명
+-------  |  -----------
 `$table->dropPrimary('users_id_primary');`  |  "users" 테이블에서 프라이머리 키 지우기.
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기.

@@ -85,7 +85,7 @@
         }
     }
 
-물론 일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
+일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
 
     <?php
 
@@ -216,7 +216,7 @@
 
 <style>
     .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
 
@@ -241,6 +241,7 @@
 - [assertJsonFragment](#assert-json-fragment)
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
+- [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertLocation](#assert-location)
@@ -257,6 +258,7 @@
 - [assertSessionHasErrors](#assert-session-has-errors)
 - [assertSessionHasErrorsIn](#assert-session-has-errors-in)
 - [assertSessionHasNoErrors](#assert-session-has-no-errors)
+- [assertSessionDoesntHaveErrors](#assert-session-doesnt-have-errors)
 - [assertSessionMissing](#assert-session-missing)
 - [assertStatus](#assert-status)
 - [assertSuccessful](#assert-successful)
@@ -372,6 +374,13 @@ response-응답에 주어진 JSON 내용이 정확하게 포함되어 있지 않
 
     $response->assertJsonMissingExact(array $data);
 
+<a name="assert-json-missing-validation-errors"></a>
+#### assertJsonMissingValidationErrors
+
+response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함되어 있지 않은 것을 확인:
+
+    $response->assertJsonMissingValidationErrors($keys);
+
 <a name="assert-json-structure"></a>
 #### assertJsonStructure
 
@@ -484,6 +493,13 @@ response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함�
 
     $response->assertSessionHasNoErrors();
 
+<a name="assert-session-doesnt-have-errors"></a>
+#### assertSessionDoesntHaveErrors
+
+세션에 주어진 키에 대해 오류가 없는 지 확인.
+
+    $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
+    
 <a name="assert-session-missing"></a>
 #### assertSessionMissing
 

@@ -376,7 +376,6 @@
 
 컴포넌트를 내보내기(export) 한 이후에, `resources/views/vendor/mail/html/themes` 디렉토리를 보면 `default.css` 파일을 확인할 수 있습니다. 이 파일에서 CSS를 커스터마이징 할 수 있으며, 마크다운 알림의 HTML 표현에서 스타일이 자동으로 적용됩니다.
 
-
 > {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
 
 <a name="database-notifications"></a>
@@ -458,7 +457,7 @@
 
     $user->unreadNotifications()->update(['read_at' => now()]);
 
-물론, 여러분은 테이블 엔티티에서 알림을 삭제하기 위해서 `delete` 메소드를 사용할 수 있습니다:
+여러분은 테이블 엔티티에서 알림을 삭제하기 위해서 `delete` 메소드를 사용할 수 있습니다:
 
     $user->notifications()->delete();
 
@@ -819,6 +818,8 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
 이를 위해 `Illuminate\Notifications\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. 알림의 양식이 만들어 질 때 어플리케이션이 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 되돌립니다.
 
     $user->notify((new InvoicePaid($invoice))->locale('es'));
+
+Localization of multiple notifiable entries may also be achieved via the `Notification` facade:
 
     Notification::locale('es')->send($users, new InvoicePaid($invoice));
 

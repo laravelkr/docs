@@ -28,7 +28,7 @@
 <a name="introduction"></a>
 ## 시작하기
 
-> {tip} **빠르게 시작하길 원하십니까?** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make:auth`와 `php artisan migrate`를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
+> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make:auth`와 `php artisan migrate`를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 
 라라벨은 인증기능 구현을 매우 쉽게 해줍니다. 기본적으로 별도의 설정 없이도 대부분 이미 준비되어 있습니다. 인증에 대한 설정 파일은 `config/auth.php`으로 인증 서비스의 동작을 제어할 수 있는 옵션들이 자세한 설명과 함께 제공됩니다.
 
@@ -176,7 +176,7 @@
         // Only authenticated users may enter...
     })->middleware('auth');
 
-물론 [컨트롤러 클래스](/docs/{{version}}/controllers)를 사용하고 있다면, 라우트 정의 부분에 직접 추가하는 대신 컨트롤러의 생성자에서 `middleware` 메소드를 호출할 수 있습니다:
+만약 [컨트롤러 클래스](/docs/{{version}}/controllers)를 사용하고 있다면, 라우트 정의 부분에 직접 추가하는 대신 컨트롤러의 생성자에서 `middleware` 메소드를 호출할 수 있습니다:
 
     public function __construct()
     {
@@ -215,7 +215,7 @@
 <a name="authenticating-users"></a>
 ## 수동으로 사용자 인증하기
 
-물론 라라벨에 포함된 인증 컨트롤러를 꼭 써야하지는 않습니다. 이 컨트롤러들을 삭제한다면 라라벨의 인증 클래스를 사용하여 사용자 인증을 직접 관리해야 합니다. 아주 쉬우니까 걱정하지 마세요!
+라라벨에 포함된 인증 컨트롤러를 꼭 써야하지는 않습니다. 이 컨트롤러들을 삭제한다면 라라벨의 인증 클래스를 사용하여 사용자 인증을 직접 관리해야 합니다. 아주 쉬우니까 걱정하지 마세요!
 
 라라벨의 인증 서비스를 `Auth` [파사드](/docs/{{version}}/facades)를 통해 접근할 것이기 때문에 클래스의 가장 상단 부분에 `Auth` 파사드를 사용하도록 선언하는 것이 필수입니다. 다음은 `attempt` 메소드를 확인해 보겠습니다:
 
@@ -300,14 +300,14 @@
 
 #### 사용자 인스턴스를 통해서 인증하기
 
-애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 물론 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다:
+애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다:
 
     Auth::login($user);
 
     // Login and "remember" the given user...
     Auth::login($user, true);
 
-물론, 사용하자 하는 가드의 인스턴스를 지정할 수도 있습니다.
+사용하자 하는 가드 인스턴스를 지정할 수도 있습니다.
 
     Auth::guard('admin')->login($user);
 
@@ -349,7 +349,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 <a name="stateless-http-basic-authentication"></a>
 ### 상태를 유지하지 않는 HTTP 기본 인증
 
-여러분은 또한 API 인증에 유용한, 세션의 사용자 식별 쿠키가 없는 HTTP 기본 인증을 사용할 수도 있습니다. 이렇게 하기 위해서는 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의하면 됩니다. `onceBasic` 메소드가 아무런 응답을 반환하지 않는다면 이 요청은 애플리케이션 안에서 계속 진행될 것입니다:
+여러분은 또한 API 인증에 유용한, 세션의 사용자 식별 쿠키가 없는 HTTP 기본 인증을 사용할 수도 있습니다. 이렇게 하기 위해서는 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의하면 됩니다. `onceBasic` 메소드가 아무런 예외를 던지지 않는다면 이 요청은 애플리케이션 안에서 계속 진행될 것입니다:
 
     <?php
 

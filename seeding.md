@@ -26,6 +26,7 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
 
     <?php
 
+    use Illuminate\Support\Str;
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\DB;
 
@@ -39,8 +40,8 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
         public function run()
         {
             DB::table('users')->insert([
-                'name' => str_random(10),
-                'email' => str_random(10).'@gmail.com',
+                'name' => Str::random(10),
+                'email' => Str::random(10).'@gmail.com',
                 'password' => bcrypt('secret'),
             ]);
         }

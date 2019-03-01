@@ -167,6 +167,8 @@
 - [whereBetween](#method-wherebetween)
 - [whereIn](#method-wherein)
 - [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
+- [whereNotBetween](#method-wherenotbetween)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
 - [wrap](#method-wrap)
@@ -465,6 +467,8 @@
         }
     */
 
+If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
+
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 
@@ -509,6 +513,16 @@
     });
 
     // false
+
+콜렉션이 비어 있다면, `every`는 true를 리턴 할 것입니다 :
+
+    $collection = collect([]);
+
+    $collection->every(function($value, $key) {
+        return $value > 2;
+    });
+
+    // true
 
 <a name="method-except"></a>
 #### `except()` {#collection-method}
@@ -1020,8 +1034,8 @@
 
     $chunks = $collection->chunk(2);
 
-    $sequence = $chunks->mapSpread(function ($odd, $even) {
-        return $odd + $even;
+    $sequence = $chunks->mapSpread(function ($even, $odd) {
+        return $even + $odd;
     });
 
     $sequence->all();
@@ -1536,6 +1550,7 @@
 #### `some()` {#collection-method}
 
 [`contains`](#method-contains) 메소드의 별칭입니다.
+
 
 <a name="method-sort"></a>
 #### `sort()` {#collection-method}
@@ -2179,6 +2194,30 @@
 
     return $collection->whereInstanceOf(User::class);
 
+<a name="method-wherenotbetween"></a>
+#### `whereNotBetween()` {#collection-method}
+
+`whereNotBetween` 메소드는 주어진 범위 내에서 콜렉션을 필터링합니다 :
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 80],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Pencil', 'price' => 30],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereNotBetween('price', [100, 200]);
+
+    $filtered->all();
+
+    /*
+        [
+            ['product' => 'Chair', 'price' => 80],
+            ['product' => 'Pencil', 'price' => 30],
+        ]
+    */
+
 <a name="method-wherenotin"></a>
 #### `whereNotIn()` {#collection-method}
 
@@ -2246,6 +2285,7 @@
     // [['Chair', 100], ['Desk', 200]]
 
 <a name="higher-order-messages"></a>
+## Higher Order Messages
 ## Higher Order Messages
 
 컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), 그리고 [`unique`](#method-unique) 입니다.

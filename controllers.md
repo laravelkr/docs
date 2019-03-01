@@ -226,8 +226,6 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 <a name="restful-naming-resource-route-parameters"></a>
 ### 리소스 라우트 파리미터 이름 지정하기
 
-By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by using the `parameters` method. The array passed into the `parameters` method should be an associative array of resource names and parameter names:
-
 기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다 :
 
     Route::resource('users', 'AdminUserController')->parameters([
@@ -307,7 +305,7 @@ By default, `Route::resource` will create the route parameters for your resource
         }
     }
 
-당연하게도 [라라벨 contract](/docs/{{version}}/contracts)의 형태도 타입 힌트로 지정할 수 있습니다. 컨테이너가 의존성 해결을 할 수 있다면 타입 힌트에 지정할 수는 있습니다.
+[라라벨 contract](/docs/{{version}}/contracts)의 형태도 타입 힌트로 지정할 수 있습니다. 컨테이너가 의존성 해결을 할 수 있다면 타입 힌트에 지정할 수는 있습니다.
 
 #### 메소드 주입
 

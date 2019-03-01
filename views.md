@@ -28,7 +28,7 @@
 
 보이는 바와 같이 `view` 헬퍼 함수에 전달하는 첫번째 인자는 `resources/views` 디렉토리에 있는 파일의 이름이 됩니다. 두번째 인자는 뷰에서 사용될 데이터의 배열입니다. 이 예제에서는 뷰에서 [블레이드 문법](/docs/{{version}}/blade)을 통해서 보여지게 될 `name` 변수를 전달하고 있습니다.
 
-당연하게도 뷰는 `resources/views` 디렉토리의 중첩된 서브 디렉토리를 구성할 수 있습니다. 중첩된 뷰 파일을 참조하려면 "점"으로 구성된 표기법을 사용할 수 있습니다. 예를 들어 뷰파일이 `resources/views/admin/profile.blade.php` 처럼 저장되었다면 다음처럼 호출해야 합니다.
+뷰는 `resources/views` 디렉토리의 중첩된 서브 디렉토리를 구성할 수 있습니다. 중첩된 뷰 파일을 참조하려면 "점"으로 구성된 표기법을 사용할 수 있습니다. 예를 들어 뷰파일이 `resources/views/admin/profile.blade.php` 처럼 저장되었다면 다음처럼 호출해야 합니다.
 
     return view('admin.profile', $data);
 
@@ -48,7 +48,7 @@
 
     return view()->first(['custom.admin', 'admin'], $data);
 
-당연하게도, `View` [파사드](/docs/{{version}}/facades)를 통해서도 이 메소드를 호출할 수 있습니다:
+`View` [파사드](/docs/{{version}}/facades)를 통해서도 이 메소드를 호출할 수 있습니다:
 
     use Illuminate\Support\Facades\View;
 

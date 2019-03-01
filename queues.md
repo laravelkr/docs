@@ -8,20 +8,24 @@
     - [클래스 구조](#class-structure)
 - [Job 처리하기](#dispatching-jobs)
     - [지연시켜서 처리하기](#delayed-dispatching)
+    - [동기식 반환](#synchronous-dispatching)
     - [Job 체이닝](#job-chaining)
     - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
     - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
     - [실행 속도 제한](#rate-limiting)
     - [에러 핸들링](#error-handling)
+- [큐잉 클로저](#queueing-closures)
 - [Queue Worker 구동하기](#running-the-queue-worker)
     - [Queue 우선순위 지정하기](#queue-priorities)
     - [Queue Workers & 배포](#queue-workers-and-deployment)
-    - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
+    - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
 - [Supervisor 설정](#supervisor-configuration)
-- [Dealing With Failed Jobs](#dealing-with-failed-jobs)
+- [실패한 Job 처리하기](#dealing-with-failed-jobs)
+    - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
     - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
     - [실패한 Job 이벤트](#failed-job-events)
     - [실패한 Job 재시도하기](#retrying-failed-jobs)
+    - [누락 된 모델 무시하기](#ignoring-missing-models)
 - [Job 이벤트](#job-events)
 
 <a name="introduction"></a>
@@ -96,14 +100,9 @@ Redis 큐를 사용할 때,`block_for` 설정 옵션을 사용하여 드라이�
 
 아래의 의존 패키지들은 앞서 이야기 했던 각각의 큐 드라이버들을 사용하는데 필요합니다:
 
-
-
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~3.0`
 - Redis: `predis/predis ~1.0`
-
-
-
 
 <a name="creating-jobs"></a>
 ## Jobs 생성하기
@@ -238,6 +237,35 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
 
 > {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
 
+<a name="synchronous-dispatching"></a>
+### 동기식 반환
+
+작업을 즉시 (동기적으로) 반환하고 싶다면 `dispatchNow` 메소드를 사용할 수 있습니다. 이 방법을 사용하면 작업이 대기열에 저장되지 않고 현재 프로세스 내에서 즉시 실행됩니다.
+
+    <?php
+
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+    use App\Jobs\ProcessPodcast;
+    use App\Http\Controllers\Controller;
+
+    class PodcastController extends Controller
+    {
+        /**
+         * Store a new podcast.
+         *
+         * @param  Request  $request
+         * @return Response
+         */
+        public function store(Request $request)
+        {
+            // Create podcast...
+
+            ProcessPodcast::dispatchNow($podcast);
+        }
+    }
+
 <a name="job-chaining"></a>
 ### Job 체이닝
 
@@ -247,6 +275,8 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
         new OptimizePodcast,
         new ReleasePodcast
     ])->dispatch();
+
+> {note} `$this->delete()` 메소드를 사용하여 작업을 삭제한다고해서 연결된 작업이 처리되는 것을 막을 수는 없습니다. 체인의 작업이 실패하면 체인은 실행을 중지합니다.
 
 #### Connection과 Queue 체이닝
 
@@ -317,7 +347,7 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
         }
     }
 
-물론, job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를 체이닝하여 지정할 수도 있습니다:
+job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를 체이닝하여 지정할 수도 있습니다:
 
     ProcessPodcast::dispatch($podcast)
                   ->onConnection('sqs')
@@ -396,7 +426,7 @@ job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 �
 
 애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다.
 
-예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
+ 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
 
     Redis::throttle('key')->allow(10)->every(60)->then(function () {
         // Job logic...
@@ -407,6 +437,8 @@ job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 �
     });
 
 > {tip} 이 예제에서, `key` 는 속도제한을 시키고자 하는 job을 식별할 수 있는 고유한 문자열입니다. 예를 들면, 이 키는 job의 클래스 이름 그리고 Eloquent 모델의 id 값을 기반으로 구성할 수 있습니다.
+
+> {note} 스로틀 작업을 대기열로 다시 보낸다면 job의 총 시도 횟수가 증가합니다.
 
 이 대신에, 여러분은 주어진 job을 동시에 처리할 수 있는 worker의 최대 갯수를 지정할 수도 있습니다. 이는 queue에 들어 있는 job이 리소스를 수정하는 것과 같이, 한번에 하나씩 실행되어야 하는 경우 유용합니다. 예를 들자면, `funnel` 메소드를 사용하여, 한번에 하나의 worker를 통해서 처리되도록 하는 유형의 job에서 제한을 걸 수도 있습니다:
 
@@ -424,6 +456,19 @@ job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 �
 ### 에러 핸들
 
 job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 애플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. 재시도 횟수를 job클래스 자체에 정의할 수도 있습니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
+
+<a name="queueing-closures"></a>
+## 큐잉 클로저
+
+작업 클래스를 대기열로 보내지 않고 Closure를 보낼 수도 있습니다. 이는 현재 요청주기를 벗어나 실행해야하는 빠르고 간단한 작업에 유용합니다.
+
+    $podcast = App\Podcast::find(1);
+
+    dispatch(function () use ($podcast) {
+        $podcast->publish();
+    });
+
+클로저를 큐에 디스패치 할 때 Closure의 코드 내용은 암호화되어 서명되어 전송 중에 수정할 수 없습니다.
 
 <a name="running-the-queue-worker"></a>
 ## Queue-큐 worker 실행하기
@@ -456,7 +501,7 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 
 `--stop-when-empty` 옵션은 워커에게 모든 작업을 처리 한 다음 정상적으로 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 Docker 컨테이너에서 Laravel 큐가 동작 할 때 큐가 빈 후 컨테이너를 종료하려면 유용 할 수 있습니다.
 
-     php artisan queue:work --stop-when-empty
+    php artisan queue:work --stop-when-empty
 
 #### 리소스 고려사항
 
@@ -534,7 +579,7 @@ Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토�
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/worker.log
 
-이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. 당연히, `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 커넥션에 맞추도록 해야합니다.
+이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 커넥션에 맞추도록 해야합니다.
 
 #### Supervisor 시작하기
 
@@ -621,7 +666,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 <a name="failed-job-events"></a>
 ### 실패한 Job에 대한 이벤트
 
-Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Stride](https://www.stride.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다.
+Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Slack](https://www.slack.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다.
 
     <?php
 
@@ -680,6 +725,20 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
 실패한 모든 Job들을 삭제하기 위해서는 `queue:flush` 명령을 사용할 수 있습니다:
 
     php artisan queue:flush
+
+<a name="ignoring-missing-models"></a>
+### 누락 된 모델 무시하기
+
+Eloquent 모델을 작업에 주입 할 때 대기열에 배치되기 전에 자동으로 직렬화되고 작업이 처리 될 때 복원됩니다. 그러나 작업자가 작업을 처리하는 동안 모델이 삭제 된 경우 작업이 `ModelNotFoundException`으로 실패 할 수 있습니다.
+
+편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다 :
+
+    /**
+     * Delete the job if its models no longer exist.
+     *
+     * @var bool
+     */
+    public $deleteWhenMissingModels = true;
 
 <a name="job-events"></a>
 ## Job 이벤트

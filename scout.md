@@ -71,7 +71,7 @@
 
 Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보를 `config/scout.php` 설정 파일에 입력해야 합니다. 계정 정보를 설정한 다음에는, 컴포저를 통해 Algolia PHP SDK를 설치해야 합니다.
 
-    composer require algolia/algoliasearch-client-php:^1.27
+    composer require algolia/algoliasearch-client-php:^2.2
 
 <a name="configuration"></a>
 ## 환경 설정
@@ -351,9 +351,9 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
 엔진의 검색 동작을 커스터마이징 할 필요가있는 경우, 콜백을 `search` 메소드의 두 번째 인수로 전달할 수 있습니다. 예를 들어 검색어를 Algolia에 전달하기 전에 이 콜백을 사용하여 검색 옵션에 지리적 위치 데이터를 추가 할 수 있습니다.
 
-    use AlgoliaSearch\Index;
+    use Algolia\AlgoliaSearch\SearchIndex;
 
-    App\Order::search('Star Trek', function (Index $algolia, string $query, array $options) {
+    App\Order::search('Star Trek', function (SearchIndex $algolia, string $query, array $options) {
         $options['body']['query']['bool']['filter']['geo_distance'] = [
             'distance' => '1000km',
             'location' => ['lat' => 36, 'lon' => 111],
@@ -378,6 +378,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
     abstract public function mapIds($results);
     abstract public function map($results, $model);
     abstract public function getTotalCount($results);
+    abstract public function flush($model);
 
 `Laravel\Scout\Engines\AlgoliaEngine` 클래스에 구현된 그 메소드들을 살펴보는 것이 여러분에게 도움이 될 것입니다. 이 클래스는 여러분만의 엔진에 그 메소드를을 어떻게 구현해야 할지 배울 수 있는 좋은 출발점이 될 것입니다.
 

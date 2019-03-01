@@ -1,11 +1,11 @@
 # 라라벨 캐셔
 
 - [시작하기](#introduction)
-- [Cashier 업그레이드 하기](#upgrading-cashier)
+- [캐셔 업그레이드하기](#upgrading-cashier)
 - [설정하기](#configuration)
     - [Stripe](#stripe-configuration)
     - [Braintree](#braintree-configuration)
-    - [Currency Configuration](#currency-configuration)
+    - [화폐 설정하기](#currency-configuration)
 - [정기 구독 모델](#subscriptions)
     - [새로운 정기 구독 생성하기](#creating-subscriptions)
     - [정기 구독 상태 확인하기](#checking-subscription-status)
@@ -22,8 +22,8 @@
     - [고객 생성하기](#creating-customers)
 - [신용카드](#cards)
     - [신용카드 조회하기](#retrieving-credit-cards)
-    - [카드를 소유하고 있는것인지 확인](#determining-if-a-card-is-on-file)
-    - [신용카드 정보 업데이트하기](#updating-credit-cards)
+    - [카드를 소유하고 있는 것인지 확인](#determining-if-a-card-is-on-file)
+    - [신용카드 정보 업데이트 하기](#updating-credit-cards)
     - [신용카드 정보 삭제하기](#deleting-credit-cards)
 - [Stripe webook 처리하기](#handling-stripe-webhooks)
     - [webook 이벤트 핸들러 정의하기](#defining-webhook-event-handlers)
@@ -47,9 +47,9 @@
 > {note} 만약 여러분이 "한번의 결제"만을 사용하고 정기 과금형태의 구독모델을 사용하지 않는다면, 캐셔를 사용할 필요가 없습니다. 대신에, Stripe 나 Braintree SDK를 직접 사용하면 됩니다.
 
 <a name="upgrading-cashier"></a>
-## Cashier 업그레이드 하기
+## 캐셔 업그레이드하기
 
-새로운 메이저 버전의 캐셔를 업그레이드 할 때는, [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 꼭 확인하시기 바랍니다.
+캐셔의 새로운 메이저(major) 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 자세히 확인 해야합니다.
 
 <a name="configuration"></a>
 ## 설정하기
@@ -116,7 +116,6 @@
 
 대부분의 동작들에서, Stripe 와 Braintree 의 캐셔 함수의 구현부분은 동일합니다. 두개의 서비스 모두 신용카드에 대한 구독 청구를 지원합니다. 다른 점은 Braintree 는 페이팔과 같은 결제도 지원한다는 것입니다. 하지만 Braintree 는 Stripe 에서 지원하는 몇가지 기능들은 누락되어 있습니다. 여러분은 Stripe 과 Braintree 둘중에 어느 서비스를 사용할지 결정해야 합니다:
 
-
 - Braintree는 PayPal을 지원하지만 Stripe는 미지원.
 - Braintree는 구독에 대해 `increment` 와`decrement` 메소드 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
 - Braintree는 퍼센트 기반 할인을 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
@@ -127,12 +126,6 @@
 먼저 Braintree를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
     composer require "laravel/cashier-braintree":"~2.0"
-
-#### 서비스 프로바이더
-
-다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다:
-
-    Laravel\Cashier\CashierServiceProvider::class
 
 #### Plan Credit 쿠폰
 
@@ -248,7 +241,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
         //
     }
 
-`subscribed` 메소드는 라우트 미들웨어에 사용될수 있는 좋은 방법중 하나입니다: 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다:
+`subscribed` 메소드는 [라우트 미들웨어](/docs/{{version}}/middleware)에 사용될수 있는 좋은 방법중 하나입니다: 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다:
 
     public function handle($request, Closure $next)
     {
@@ -346,6 +339,8 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 > {note} `taxPercentage` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
 ###세금 비율 동기화
+
+When changing the hard-coded value returned by the `taxPercentage` method, the tax settings on any existing subscriptions for the user will remain the same. If you wish to update the tax value for existing subscriptions with the returned `taxPercentage` value, you should call the `syncTaxPercentage` method on the user's subscription instance:
 
     $user->subscription('main')->syncTaxPercentage();
 
@@ -473,7 +468,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
 
     $user->createAsStripeCustomer();
 
-물론 Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
+Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
 
 > {tip} Braintree 에 해당하는 메소드는 `createAsBraintreeCustomer` 메소드입니다. `역자주 : Braintree는 Stripe 같은 회사입니다`
 
@@ -492,7 +487,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
     $card = $user->defaultCard();
 
 <a name="determining-if-a-card-is-on-file"></a>
-### 카드를 소유하고 있는것인지 확인
+### 카드를 소유하고 있는 것인지 확인
 
 `hasCardOnFile` 메소드를 사용하여 신용카드가 해당 고객이 계정에 연결되어 있는 것인지 확인할 수 있습니다:
 
@@ -704,7 +699,7 @@ Braintree webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우�
     // Braintree Accepts Charges In Dollars...
     $user->invoiceFor('One Time Fee', 5);
 
-청구서는 즉시 고객의 신용카드를 통해서 결제될 것입니다. `invoiceFor` 메소드는 배열을 세번째 인자로 전달 받을 수 있습니다. 이 배열은 제품을 청구서를 위한 결제 옵션을 담고 있습니다. 네번째 인자로는 청구서 자체에 대한 옵션 배열을 인자로 받습니다:
+청구서는 사용자의 신용 카드에 즉시 청구됩니다. `invoiceFor` 메소드는 세번째 인자로 배열을 받습니다. 이 배열에는 송장 항목에 대한 청구 옵션이 있습니다. 메소드의 네 번째 인자는 배열이며 이 마지막 인자는 인보이스 자체에 대한 청구 옵션을 받습니다.
 
     $user->invoiceFor('Stickers', 500, [
         'quantity' => 50,
@@ -717,7 +712,6 @@ Braintree 를 결제에 사용한다면, `invoiceFor` 메소드를 호출할 때
     $user->invoiceFor('One Time Fee', 500, [
         'description' => 'your invoice description here',
     ]);
-
 
 > {note} `invoiceFor` 메소드는 결제 시도가 실패한 경우 이를 재시도하는 Stripe 청구서를 생성할 것입니다. 실패한 결제의 재시도를 위한 청구를 수행하지 않으려면, 결제 시도가 실패한 뒤에 Stripe API를 사용하여 청구서를 종료(close) 해야 합니다.
 

@@ -70,7 +70,7 @@
 
 Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
-    import Echo from "laravel-echo"
+    import Echo from "laravel-echo";
 
     window.Pusher = require('pusher-js');
 
@@ -378,7 +378,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
     Broadcast::channel('order.{order}', OrderChannel::class);
 
-마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 물론, 채널 모델 바인딩을 활용할 수도 있습니다:
+마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다:
 
     <?php
 
@@ -478,7 +478,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
         cluster: 'eu',
         encrypted: true
     });
-
+    
 #### 기존 클라이언트 인스턴스 사용
 
 Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
@@ -490,7 +490,7 @@ Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미
         key: 'your-pusher-key',
         client: client
     });
-    
+
 <a name="listening-for-events"></a>
 ### 이벤트 수신하기
 

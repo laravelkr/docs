@@ -63,6 +63,7 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
 
         Gate::define('update-post', 'App\Policies\PostPolicy@update');
     }
+
 #### 리소스 Gate
 
 `resource` 메소드를 사용하여 여러개의 Gate를 한번에 정의할 수도 있습니다:

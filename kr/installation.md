@@ -26,9 +26,9 @@
 ### Server Requirements
 ### 서버 요구사항
 
-The Laravel framework has a few system requirements. Of course, all of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
+The Laravel framework has a few system requirements. All of these requirements are satisfied by the [Laravel Homestead](/docs/{{version}}/homestead) virtual machine, so it's highly recommended that you use Homestead as your local Laravel development environment.
 
-라라벨은 몇가지 시스템 요구사항을 필요로 합니다. 물론, [라라벨 홈스테드](/docs/{{version}}/homestead)는 모든 요구사항을 만족합니다. 따라서 여러분의 로컬 라라벨 개발 환경에서 홈스테드를 사용할 것을 강력 권장합니다.
+라라벨은 몇가지 시스템 요구사항을 필요로 합니다. [라라벨 홈스테드](/docs/{{version}}/homestead)는 모든 요구사항을 만족합니다. 따라서 여러분의 로컬 라라벨 개발 환경에서 홈스테드를 사용할 것을 강력 권장합니다.
 
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 
@@ -85,7 +85,7 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 그렇지 않으면, 터미널에서 컴포저의 `create-project` 커멘드를 사용하여 라라벨을 설치할 수도 있습니다
 
-    composer create-project --prefer-dist laravel/laravel blog
+    composer create-project --prefer-dist laravel/laravel blog "5.7.*"
 
 #### Local Development Server
 #### 로컬 개발 서버
@@ -96,9 +96,9 @@ If you have PHP installed locally and you would like to use PHP's built-in devel
 
     php artisan serve
 
-Of course, more robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
+More robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
 
-물론, 보다 강력한 로컬 개발의 대안으로 [홈스테드](/docs/{{version}}/homestead) 와 [발렛](/docs/{{version}}/valet) 도 사용할 수 있습니다.
+보다 강력한 로컬 개발의 대안으로 [홈스테드](/docs/{{version}}/homestead) 와 [발렛](/docs/{{version}}/valet) 도 사용할 수 있습니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -193,6 +193,6 @@ Nginx 를 사용중이라면, 사이트 설정에 다음의 지시어를 설정�
         try_files $uri $uri/ /index.php?$query_string;
     }
 
-Of course, when using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
+When using [Homestead](/docs/{{version}}/homestead) or [Valet](/docs/{{version}}/valet), pretty URLs will be automatically configured.
 
-물론 [홈스테드](/docs/{{version}}/homestead) 또는 [발렛](/docs/{{version}}/valet)을 사용중이라면 pretty URL을 자동으로 설정되어 있습니다.
+[홈스테드](/docs/{{version}}/homestead) 또는 [발렛](/docs/{{version}}/valet)을 사용중이라면 pretty URL을 자동으로 설정되어 있습니다.

@@ -52,9 +52,9 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 ### Serializing To JSON
 ### JSON으로 Serializaing
 
-To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify JSON encoding options [supported by PHP](http://php.net/manual/en/function.json-encode.php):
+To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify JSON encoding options [supported by PHP](https://secure.php.net/manual/en/function.json-encode.php):
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](http://php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
 
     $user = App\User::find(1);
 
@@ -205,11 +205,9 @@ You may instruct a single model instance to append attributes using the `append`
 
 <a name="date-serialization"></a>
 ## Date Serialization
-
 ## 날짜 Serialization
 
 #### Customizing The Date Format Per Attribute
-
 #### 날짜 포맷의 속성을 커스터마이징 하기
 
 You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the [cast declaration](/docs/{{version}}/eloquent-mutators#attribute-casting):
@@ -222,7 +220,6 @@ You may customize the serialization format of individual Eloquent date attribute
     ];
 
 #### Global Customization Via Carbon
-
 #### Carbon을 통한 전역 커스터마이징
 
 Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date library in order to provide convenient customization of Carbon's JSON serialization format. To customize how all Carbon dates throughout your application are serialized, use the `Carbon::serializeUsing` method. The `serializeUsing` method accepts a Closure which returns a string representation of the date for JSON serialization:

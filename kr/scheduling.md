@@ -94,9 +94,9 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling using Closures, you may also use [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+In addition to scheduling using Closures, you may also use [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
 
-클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](http://php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
+클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
 
     $schedule->call(new DeleteRecentUsers)->daily();
 
@@ -139,9 +139,9 @@ The `exec` method may be used to issue a command to the operating system:
 ### Schedule Frequency Options
 ### 스케줄링 주기 관련 옵션
 
-Of course, there are a variety of schedules you may assign to your task:
+There are a variety of schedules you may assign to your task:
 
-당연하게도, 작업을 스케줄링 할 때 다양한 옵션을 부여할 수 있습니다:
+작업을 스케줄링 할 때 다양한 옵션을 부여할 수 있습니다:
 
 Method  | Description
 ------------- | -------------

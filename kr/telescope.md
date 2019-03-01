@@ -9,26 +9,47 @@
     - [환경설정](#configuration)
     - [Data Pruning](#data-pruning)
     - [데이터 정리](#data-pruning)
+    - [Migration Customization](#migration-customization)
+    - [사용자 정의 마이그레이션](#migration-customization)
 - [Dashboard Authorization](#dashboard-authorization)
 - [Dashboard 권한 부여](#dashboard-authorization)
 - [Filtering](#filtering)
+- [Filtering](#filtering)
+    - [Entries](#filtering-entries)
     - [Entries](#filtering-entries)
     - [Batches](#filtering-batches)
+    - [Batches](#filtering-batches)
+- [Available Watchers](#available-watchers)
 - [Available Watchers](#available-watchers)
     - [Cache Watcher](#cache-watcher)
+    - [Cache Watcher](#cache-watcher)
+    - [Command Watcher](#command-watcher)
     - [Command Watcher](#command-watcher)
     - [Dump Watcher](#dump-watcher)
+    - [Dump Watcher](#dump-watcher)
+    - [Event Watcher](#event-watcher)
     - [Event Watcher](#event-watcher)
     - [Exception Watcher](#exception-watcher)
+    - [Exception Watcher](#exception-watcher)
+    - [Gate Watcher](#gate-watcher)
     - [Gate Watcher](#gate-watcher)
     - [Job Watcher](#job-watcher)
+    - [Job Watcher](#job-watcher)
+    - [Log Watcher](#log-watcher)
     - [Log Watcher](#log-watcher)
     - [Mail Watcher](#mail-watcher)
+    - [Mail Watcher](#mail-watcher)
+    - [Model Watcher](#model-watcher)
     - [Model Watcher](#model-watcher)
     - [Notification Watcher](#notification-watcher)
+    - [Notification Watcher](#notification-watcher)
+    - [Query Watcher](#query-watcher)
     - [Query Watcher](#query-watcher)
     - [Redis Watcher](#redis-watcher)
+    - [Redis Watcher](#redis-watcher)
     - [Request Watcher](#request-watcher)
+    - [Request Watcher](#request-watcher)
+    - [Schedule Watcher](#schedule-watcher)
     - [Schedule Watcher](#schedule-watcher)
 
 <a name="introduction"></a>
@@ -102,6 +123,14 @@ After running `telescope:install`, you should remove the `TelescopeServiceProvid
         }
     }
 
+<a name="migration-customization"></a>
+### Migration Customization
+### 사용자 정의 마이그레이션
+
+If you are not going to use Telescope's default migrations, you should call the `Telescope::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using the `php artisan vendor:publish --tag=telescope-migrations` command.
+
+Telescope의 기본 마이그레이션을 사용하지 않으려면, `AppServiceProvider`의 `register` 메소드에서 `Telescope::ignoreMigrations` 메소드를 호출해야합니다. `php artisan vendor:publish --tag=telescope-migrations` 명령을 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
+
 <a name="configuration"></a>
 ### Configuration
 ### 환경설정
@@ -169,14 +198,13 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
 
 `TelescopeServiceProvider` 에서 `filter` 콜백을 등록하여 Telescope 에 등록되는 데이터를 필터링해서 기록할 수 있습니다. 기존적으로, 이 콜백은 데이터가 `local` 환경이거나, 그 이외의 환경에서는 exceptions-예외, 실패한 job, 스케줄링 작업, 모니터링 태깅된 데이터를 기록합니다:
 
-
     /**
      * Register any application services.
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
@@ -189,9 +217,10 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
                 $entry->isScheduledTask() ||
                 $entry->hasMonitoredTag();
         });
-	}
+    }
 
 <a name="filtering-batches"></a>
+### Batches
 ### Batches
 
 While the `filter` callback filters data for individual entries, you may use the `filterBatch` method to register a callback that filters all data for a given request or console command. If the callback returns `true`, all of the entries are recorded by Telescope:
@@ -205,8 +234,8 @@ While the `filter` callback filters data for individual entries, you may use the
      *
      * @return void
      */
-	public function register()
-	{
+    public function register()
+    {
         $this->hideSensitiveRequestDetails();
 
         Telescope::filterBatch(function (Collection $entries) {
@@ -221,7 +250,7 @@ While the `filter` callback filters data for individual entries, you may use the
                     $entry->hasMonitoredTag();
                 });
         });
-	}
+    }
 
 <a name="available-watchers"></a>
 ## Available Watchers
@@ -362,6 +391,7 @@ The notification watcher records all notifications sent by your application. If 
 
 <a name="query-watcher"></a>
 ### Query Watcher
+### Query Watcher
 
 The query watcher records the raw SQL, bindings, and execution time for all queries that are executed by your application. The watcher also tags any queries slower than 100ms as `slow`. You may customize the slow query threshold using the watcher's `slow` option:
 
@@ -377,6 +407,7 @@ The query watcher records the raw SQL, bindings, and execution time for all quer
 
 <a name="redis-watcher"></a>
 ### Redis Watcher
+### Redis Watcher
 
 > {note} Redis events must be enabled for the Redis watcher to function. You may enable Redis events by calling `Redis::enableEvents()` in the `boot` method of your `app/Providers/AppServiceProvider.php` file.
 
@@ -387,6 +418,7 @@ The Redis watcher records all Redis commands executed by your application. If yo
 redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록하빈다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
 
 <a name="request-watcher"></a>
+### Request Watcher
 ### Request Watcher
 
 The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your response data via the `size_limit` (in KB) option:
@@ -402,6 +434,7 @@ request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이�
     ],
 
 <a name="schedule-watcher"></a>
+### Schedule Watcher
 ### Schedule Watcher
 
 The schedule watcher records the command and output of any scheduled tasks run by your application.

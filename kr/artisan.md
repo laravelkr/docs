@@ -82,7 +82,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
     ],
 
 #### Alias Blacklist
-#### Alias Blacklist
+#### 별칭 블랙리스트
 
 Typically, Tinker automatically aliases classes as you require them in Tinker. However, you may wish to never alias some classes. You may accomplish this by listing the classes in the `dont_alias` array of your `tinker.php` configuration file:
 
@@ -122,9 +122,9 @@ After generating your command, you should fill in the `signature` and `descripti
 
 > {팁} 보다 나은 코드 재사용성을 위해, 콘솔 명령어를 가볍게 유지하고 애플리케이션 서비스들이 해당 작업을 수행할 수 있도록 하는 것이 좋습니다. 아래 예제에서 우리는 "대용량 전송" 메일 전송을 위해 서비스 클래스를 주입합니다.
 
-Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's constructor or `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies type-hinted in the constructor or `handle` method:
+Let's take a look at an example command. Note that we are able to inject any dependencies we need into the command's `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies that are type-hinted in this method's signature:
 
-예제 명령을 살펴 보겠습니다. 명령어 클래스는 생성자 또는 `handle` 메소드를 통해 필요한 의존성 주입을 할 수 있습니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 생성자 또는 `handle` 에 타입이 지정된 의존객체들을 자동으로 주입해 줄 것입니다.
+예제 명령을 살펴 보겠습니다. 명령어 클래스는 `handle` 메소드를 통해 필요한 의존성 주입을 할 수 있습니다. 라라벨의 [서비스 컨테이너](/docs/{{version}}/container) 는 `handle` 에 타입이 지정된 의존객체들을 자동으로 주입해 줄 것입니다.
 
     <?php
 
@@ -151,33 +151,24 @@ Let's take a look at an example command. Note that we are able to inject any dep
         protected $description = 'Send drip e-mails to a user';
 
         /**
-         * The drip e-mail service.
-         *
-         * @var DripEmailer
-         */
-        protected $drip;
-
-        /**
          * Create a new command instance.
          *
-         * @param  DripEmailer  $drip
          * @return void
          */
-        public function __construct(DripEmailer $drip)
+        public function __construct()
         {
             parent::__construct();
-
-            $this->drip = $drip;
         }
 
         /**
          * Execute the console command.
          *
+         * @param  \App\DripEmailer  $drip
          * @return mixed
          */
-        public function handle()
+        public function handle(DripEmailer $drip)
         {
-            $this->drip->send(User::find($this->argument('user')));
+            $drip->send(User::find($this->argument('user')));
         }
     }
 

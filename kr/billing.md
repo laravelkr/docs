@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
 - [Upgrading Cashier](#upgrading-cashier)
-- [Cashier 업그레이드 하기](#upgrading-cashier)
+- [캐셔 업그레이드하기](#upgrading-cashier)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
     - [Stripe](#stripe-configuration)
@@ -46,11 +46,11 @@
     - [Retrieving Credit Cards](#retrieving-credit-cards)
     - [신용카드 조회하기](#retrieving-credit-cards)
     - [Determining If A Card Is On File](#determining-if-a-card-is-on-file)
-    - [Determining If A Card Is On File](#determining-if-a-card-is-on-file)
+    - [카드를 소유하고 있는 것인지 확인](#determining-if-a-card-is-on-file)
     - [Updating Credit Cards](#updating-credit-cards)
-    - [Updating Credit Cards](#updating-credit-cards)
+    - [신용카드 정보 업데이트 하기](#updating-credit-cards)
     - [Deleting Credit Cards](#deleting-credit-cards)
-    - [Deleting Credit Cards](#deleting-credit-cards)
+    - [신용카드 정보 삭제하기](#deleting-credit-cards)
 - [Handling Stripe Webhooks](#handling-stripe-webhooks)
 - [Stripe webook 처리하기](#handling-stripe-webhooks)
     - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
@@ -92,11 +92,11 @@ Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://s
 
 <a name="upgrading-cashier"></a>
 ## Upgrading Cashier
-## Cashier 업그레이드 하기
+## 캐셔 업그레이드하기
 
 When upgrading to a new major version of the Cashier, it's important that you carefully review [the upgrade guide](https://github.com/laravel/cashier/blob/master/UPGRADE.md).
 
-새로운 메이저 버전의 캐셔를 업그레이드 할 때는, [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 꼭 확인하시기 바랍니다.
+캐셔의 새로운 메이저(major) 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 자세히 확인 해야합니다.
 
 <a name="configuration"></a>
 ## Configuration
@@ -203,15 +203,6 @@ First, add the Cashier package for Braintree to your dependencies:
 먼저 Braintree를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
     composer require "laravel/cashier-braintree":"~2.0"
-
-#### Service Provider
-#### 서비스 프로바이더
-
-Next, register the `Laravel\Cashier\CashierServiceProvider` [service provider](/docs/{{version}}/providers) in your `config/app.php` configuration file:
-
-다음으로 `config/app.php` 설정 파일에 `Laravel\Cashier\CashierServiceProvider` [서비스 프로바이더](/docs/{{version}}/providers)를 등록해야 합니다:
-
-    Laravel\Cashier\CashierServiceProvider::class
 
 #### Plan Credit Coupon
 #### Plan Credit 쿠폰
@@ -369,7 +360,7 @@ Once a user is subscribed to your application, you may easily check their subscr
 
 The `subscribed` method also makes a great candidate for a [route middleware](/docs/{{version}}/middleware), allowing you to filter access to routes and controllers based on the user's subscription status:
 
-`subscribed` 메소드는 라우트 미들웨어에 사용될수 있는 좋은 방법중 하나입니다: 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다:
+`subscribed` 메소드는 [라우트 미들웨어](/docs/{{version}}/middleware)에 사용될수 있는 좋은 방법중 하나입니다: 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다:
 
     public function handle($request, Closure $next)
     {
@@ -679,9 +670,9 @@ Occasionally, you may wish to create a Stripe customer without beginning a subsc
 
     $user->createAsStripeCustomer();
 
-Of course, once the customer has been created in Stripe, you may begin a subscription at a later date.
+Once the customer has been created in Stripe, you may begin a subscription at a later date.
 
-물론 Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
+Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
 
 > {tip} The Braintree equivalent of this method is the `createAsBraintreeCustomer` method.
 
@@ -709,7 +700,7 @@ To retrieve the default card, the `defaultCard` method may be used;
 
 <a name="determining-if-a-card-is-on-file"></a>
 ### Determining If A Card Is On File
-### 카드를 소유하고 있는것인지 확인
+### 카드를 소유하고 있는 것인지 확인
 
 You may check if a customer has a credit card attached to their account using the `hasCardOnFile` method:
 
@@ -997,7 +988,7 @@ Sometimes you may need to make a one-time charge but also generate an invoice fo
 
 The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument. This array contains the billing options for the invoice item. The fourth argument accepted by the method is also an array. This final argument accepts the billing options for the invoice itself:
 
-청구서는 즉시 고객의 신용카드를 통해서 결제될 것입니다. `invoiceFor` 메소드는 배열을 세번째 인자로 전달 받을 수 있습니다. 이 배열은 제품을 청구서를 위한 결제 옵션을 담고 있습니다. 네번째 인자로는 청구서 자체에 대한 옵션 배열을 인자로 받습니다:
+청구서는 사용자의 신용 카드에 즉시 청구됩니다. `invoiceFor` 메소드는 세번째 인자로 배열을 받습니다. 이 배열에는 송장 항목에 대한 청구 옵션이 있습니다. 메소드의 네 번째 인자는 배열이며 이 마지막 인자는 인보이스 자체에 대한 청구 옵션을 받습니다.
 
     $user->invoiceFor('Stickers', 500, [
         'quantity' => 50,
@@ -1012,7 +1003,6 @@ Braintree 를 결제에 사용한다면, `invoiceFor` 메소드를 호출할 때
     $user->invoiceFor('One Time Fee', 500, [
         'description' => 'your invoice description here',
     ]);
-
 
 > {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
 

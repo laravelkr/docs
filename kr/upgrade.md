@@ -26,9 +26,9 @@ If you are using Laravel Passport, you should update your `laravel/passport` dep
 
 만약 Laravel Passport를 사용하고 있다면 `composer.json` 파일에 있는 `laravel/passport`의 의존성을 `^7.0`으로 업데이트 합니다
 
-Of course, don't forget to examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.7 support.
+Next, examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 5.7 support.
 
-또한, 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.7를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
+그리고 애플리케이션에서 사용하는 써드파티 패키지를 확인하고 라라벨 5.7를 지원하는 적절한 버전을 사용하고 있는지 확인하십시오.
 
 ### Application
 ### 어플리케이션
@@ -103,15 +103,15 @@ Then, update any reference to the old directories in your `webpack.mix.js` file:
 #### `svg` 디렉토리 추가
 
 **Likelihood Of Impact: Very High**
-**영향 가능성: 매우 높음**
+**영향 가능성 : 매우 높음**
 
 A new directory, `svg`, was added to the `public` directory. It contains four svg files: `403.svg`, `404.svg`, `500.svg`, and `503.svg`, which are displayed on their respective error pages.
 
 `public` 디렉토리 안에 새로운 `svg` 디렉토리가 추가되었습니다. `403.svg`, `404.svg`, `500.svg`, `503.svg` 의 네가지 파일이 들어 있다면, 이 파일들이 에러 페이지를 구성하는데 사용됩니다.
 
-You may get the files [from GitHub](https://github.com/laravel/laravel/tree/master/public/svg).
+You may get the files [from GitHub](https://github.com/laravel/laravel/tree/5.7/public/svg).
 
-이 파일들은 [Github](https://github.com/laravel/laravel/tree/master/public/svg)에서 확인할 수 있습니다.
+이 파일들은 [Github](https://github.com/laravel/laravel/tree/5.7/public/svg)에서 확인할 수 있습니다.
 
 ### Authentication
 ### 인증(Authentication)
@@ -480,9 +480,9 @@ Laravel 5.7에서 이 값들은 상응하는 PHP 상수 `INF`, `-INF`, `NAN`으�
 **Likelihood Of Impact: Optional**
 **영향의 가능성 : 선택사항**
 
-If you choose to use Laravel's new [email verification services](/docs/{{version}}/verification), you will need to add additional scaffolding to your application. First, add the `VerificationController` to your application: [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/master/app/Http/Controllers/Auth/VerificationController.php).
+If you choose to use Laravel's new [email verification services](/docs/{{version}}/verification), you will need to add additional scaffolding to your application. First, add the `VerificationController` to your application: [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/5.7/app/Http/Controllers/Auth/VerificationController.php).
 
-Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification)를 사용하기로 결정하였다면 어플리케이션의 추가 스캐폴딩을 추가해야합니다. 먼저 어플리케이션에 `VerificationController`를 추가하십시오 : [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/master/app/Http/Controllers/Auth/VerificationController.php).
+Laravel의 새로운 [이메일 검증 서비스](/docs/{{version}}/verification)를 사용하기로 결정하였다면 어플리케이션의 추가 스캐폴딩을 추가해야합니다. 먼저 어플리케이션에 `VerificationController`를 추가하십시오 : [App\Http\Controllers\Auth\VerificationController](https://github.com/laravel/laravel/blob/5.7/app/Http/Controllers/Auth/VerificationController.php).
 
 You will also need to modify your `App\User` model to implement the `MustVerifyEmail` contract:
 
@@ -529,9 +529,9 @@ Next, your user table must contain an `email_verified_at` column to store the da
 
     $table->timestamp('email_verified_at')->nullable();
 
-In order to send the email when a user is registered, you should register following events and listeners in your [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/master/app/Providers/EventServiceProvider.php) class:
+In order to send the email when a user is registered, you should register following events and listeners in your [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/5.7/app/Providers/EventServiceProvider.php) class:
 
-사용자가 등록 될 때 이메일을 보내려면 [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/master/app/Providers/EventServiceProvider.php) 클래스에 다음 이벤트 및 리스너를 등록해야합니다 :
+사용자가 등록 될 때 이메일을 보내려면 [App\Providers\EventServiceProvider](https://github.com/laravel/laravel/blob/5.7/app/Providers/EventServiceProvider.php) 클래스에 다음 이벤트 및 리스너를 등록해야합니다 :
 
     use Illuminate\Auth\Events\Registered;
     use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -585,8 +585,8 @@ The `check` method now **optionally** checks if the algorithm of the hash matche
 #### Mailable Dynamic Variable Casing
 #### Mailable 동적 변수 캐스팅
 
-**Likelihood Of Impact: Medium**
-**영향 가능성 : 보통**
+**Likelihood Of Impact: Low**
+**영향 가능성 : 낮음**
 
 Variables that are dynamically passed to mailable views [are now automatically "camel cased"](https://github.com/laravel/framework/pull/24232), which makes mailable dynamic variable behavior consistent with dynamic view variables. Dynamic mailable variables are not a documented Laravel feature, so likelihood of impact to your application is low.
 
@@ -620,11 +620,12 @@ The `QUEUE_DRIVER` environment variable has been renamed to `QUEUE_CONNECTION`. 
 #### `WorkCommand` Options
 #### `WorkCommand` 옵션
 
+**Likelihood Of Impact: Very Low**
 **영향 가능성 : 매우 낮음**
 
 The `stop-when-empty` option was added to the `WorkCommand`. If you extend this command, you need to add `stop-when-empty` to `$signature` property of your class.
 
-`WorkCommand` 에 `stop-when-empty` 옵션이 추가되었습니다. 이 명령어를 확장하려면 클래스의 `$signature` 속성에 `stop-when-empty` 를 추가해야합니다.
+`stop-when-empty` 옵션이 `WorkCommand`에 추가되었습니다. 이 커멘드를 확장하는 경우, 클래스의 `$signature` 프로퍼티에 `stop-when-empty`를 추가 할 필요가 있습니다.
 
 ### Routing
 ### 라우팅
@@ -721,6 +722,6 @@ Laravel 5.7 introduces improved testing tools for Artisan commands. By default, 
 ### Miscellaneous
 ### 기타
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.6...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.6...5.7) and choose which updates are important to you.
 
-또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.6...master)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.
+또한 `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel) GitHub 저장소에서 변경사항을 확인하는 것이 좋습니다. 이러한 변경사항이 꼭 필요하지는 않지만, 여러분의 애플리케이션을 이 변경사항들에 맞추어 항상 최신의 상태로 유지하고자 할 수도 있습니다. 변경사항 중 일부는 이 업그레이드 가이드에서 다루지만, 설정 파일이나, 설명의 변경같은 경우 일부는 문서에서 기술하지 않을 수도 있습니다. [GitHub 에서 Diff 툴](https://github.com/laravel/laravel/compare/5.6...5.7)을 사용하여 변경사항을 보다 쉽게 확인하고, 필요한 업데이트를 적용할 수도 있습니다.

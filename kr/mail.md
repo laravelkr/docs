@@ -52,7 +52,7 @@
 
 Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
-라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES 그리고 `sendmail` 드라이버를 제공합니다.
+라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
@@ -369,34 +369,34 @@ To add attachments to an email, use the `attach` method within the mailable clas
 
 이메일에 파일을 첨부하려면, mailable 클래스의 `build` 메소드 안에서 `attach` 메소드를 사용하면 됩니다. `attach` 메소드는 파일의 전체 패스(full path)를 첫번째 인자로 전달 받습니다:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attach('/path/to/file');
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attach('/path/to/file');
+    }
 
 When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
 
 이메일에 파일이 첨부 될 때, `attach` 메소드의 두번째 인자로 첨부 파일의 표시되는 이름과 MIME 타입을 지정할 수 있는 `배열`을 지정할 수도 있습니다:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attach('/path/to/file', [
-                            'as' => 'name.pdf',
-                            'mime' => 'application/pdf',
-                        ]);
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attach('/path/to/file', [
+                        'as' => 'name.pdf',
+                        'mime' => 'application/pdf',
+                    ]);
+    }
 
 #### Attaching Files from Disk
 #### 디스크에 있는 파일 첨부하기
@@ -410,11 +410,11 @@ If you have stored a file on one of your [filesystem disks](/docs/{{version}}/fi
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorage('/path/to/file');
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorage('/path/to/file');
+    }
 
 If necessary, you may specify the file's attachment name and additional options using the second and third arguments to the `attachFromStorage` method:
 
@@ -425,13 +425,13 @@ If necessary, you may specify the file's attachment name and additional options 
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorage('/path/to/file', 'name.pdf', [
-                        'mime' => 'application/pdf'
-                    ]);
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorage('/path/to/file', 'name.pdf', [
+                       'mime' => 'application/pdf'
+                   ]);
+    }
 
 The `attachFromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
 
@@ -442,11 +442,11 @@ The `attachFromStorageDisk` method may be used if you need to specify a storage 
      *
      * @return $this
      */
-     public function build()
-     {
-        return $this->view('email.orders.shipped')
-                    ->attachFromStorageDisk('s3', '/path/to/file');
-     }
+    public function build()
+    {
+       return $this->view('email.orders.shipped')
+                   ->attachFromStorageDisk('s3', '/path/to/file');
+    }
 
 #### Raw Data Attachments
 #### Raw 데이터 첨부하기
@@ -455,18 +455,18 @@ The `attachData` method may be used to attach a raw string of bytes as an attach
 
 `attachData` 메소드는 raw string 의 바이트를 첨부하는데 사용됩니다. 예를 들어 메모리에서 PDF 파일을 생성하고 이 파일을 디스크에 저장하지 않고 바로 메일에 첨부하는 경우에 사용할 수 있습니다. `attachData` 메소드는 첫번째 인자로 raw 데이터 바이트를, 두번째 인자로 파일의 이름을, 그리고 세번째 인자로 옵션배열을 전달 받습니다:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            return $this->view('emails.orders.shipped')
-                        ->attachData($this->pdf, 'name.pdf', [
-                            'mime' => 'application/pdf',
-                        ]);
-        }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view('emails.orders.shipped')
+                    ->attachData($this->pdf, 'name.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+    }
 
 <a name="inline-attachments"></a>
 ### Inline Attachments
@@ -507,20 +507,20 @@ The `withSwiftMessage` method of the `Mailable` base class allows you to registe
 
 `Mailable` 기본 클래스의 `withSwiftMessage` 메소드를 사용하면 메세지를 보내기 전에, Raw SwiftMailer 인스턴스를 인자로 호출할 콜백을 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다:
 
-        /**
-         * Build the message.
-         *
-         * @return $this
-         */
-        public function build()
-        {
-            $this->view('emails.orders.shipped');
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        $this->view('emails.orders.shipped');
 
-            $this->withSwiftMessage(function ($message) {
-                $message->getHeaders()
-                        ->addTextHeader('Custom-Header', 'HeaderValue');
-            });
-        }
+        $this->withSwiftMessage(function ($message) {
+            $message->getHeaders()
+                    ->addTextHeader('Custom-Header', 'HeaderValue');
+        });
+    }
 
 <a name="markdown-mailables"></a>
 ## Markdown Mailables
@@ -693,9 +693,9 @@ To send a message, use the `to` method on the `Mail` [facade](/docs/{{version}}/
         }
     }
 
-Of course, you are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients all within a single, chained method call:
+You are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients all within a single, chained method call:
 
-물론 메일을 보낼 때 "to"에서 수신자를 지정하는데 제한이 있지는 않습니다. "to", "cc", "bcc" 를 사용한 수신자 설정을 하나의 체이닝된 호출로 사용할 수도 있습니다:
+메일을 보낼 때 "to"에서 수신자를 지정하는데 제한이 있지는 않습니다. "to", "cc", "bcc" 를 사용한 수신자 설정을 하나의 체이닝된 호출로 사용할 수도 있습니다:
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -722,7 +722,7 @@ When designing a mailable's template, it is convenient to quickly preview the re
 
 mailable 객체의 템플릿을 구성할 때 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 객체의 내용을 확인하는 것이 편합니다. 이러한 이유로 라라벨에서는 라우트 클로저나 컨트롤러에서 mailable 객체를 바로 반환할 수 있습니다. mailable 객체가 반환되면, 브라우저에서 바로 확인할 수 있도록 렌더링되어 실제 이메일을 보내지 않고도 내용을 미리 볼 수 있습니다:
 
-    Route::get('/mailable', function () {
+    Route::get('mailable', function () {
         $invoice = App\Invoice::find(1);
 
         return new App\Mail\InvoicePaid($invoice);
@@ -744,7 +744,7 @@ Since sending email messages can drastically lengthen the response time of your 
         ->bcc($evenMoreUsers)
         ->queue(new OrderShipped($order));
 
-This method will automatically take care of pushing a job onto the queue so the message is sent in the background. Of course, you will need to [configure your queues](/docs/{{version}}/queues) before using this feature.
+This method will automatically take care of pushing a job onto the queue so the message is sent in the background. You will need to [configure your queues](/docs/{{version}}/queues) before using this feature.
 
 이 메소드는 자동으로 큐에 작업을 추가하여 메세지가 백그라운드에서 보내지도록 할것입니다. 이 기능을 사용하기 위해서는 [큐 설정하기](/docs/{{version}}/queues)를 확인하셔야 합니다.
 
@@ -800,12 +800,12 @@ Laravel allows you to send mailables in a locale other than the current language
 
 Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 보낼 수 있으며 메일이 대기중인 경우에도 이 언어를 기억할 수 있습니다.
 
-To accomplish this, the `Illuminate\Mail\Mailable` class offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
+To accomplish this, the `Mail` facade offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
 
-이를 위해 `Illuminate\Mail\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 어플리케이션이 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 되돌립니다.
+이를 위해 `Mail` 파사드는 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 어플리케이션은 이 언어로 변경되고 포맷이 완료되면 이전 언어로 되돌립니다.
 
-    Mail::to($request->user())->send(
-        (new OrderShipped($order))->locale('es')
+    Mail::to($request->user())->locale('es')->send(
+        new OrderShipped($order)
     );
 
 ### User Preferred Locales

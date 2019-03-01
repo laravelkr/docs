@@ -204,3 +204,9 @@ Laravel makes it easy to display custom error pages for various HTTP status code
 라라벨에서는 HTTP 응답 코드에 따른 다양한 사용자 지정 에러 페이지를 표시할 수 있습니다. 예를 들어 404 HTTP 응답 코드에 대한 에러 페이지를 수정하고자 한다면, `resources/views/errors/404.blade.php` 파일을 생성하면 됩니다. 이 파일은 애플리케이션에서 404 에러가 발생했을 때 사용자에게 보여질 것입니다. 이 디렉토리안에 있는 뷰의 이름은 해당 HTTP 상태 코드와 일치해야 합니다. `abort` 함수에 의해서 발생한 `HttpException` 인스턴스는 뷰에 `$exception`변수로 전달될 것입니다.
 
     <h2>{{ $exception->getMessage() }}</h2>
+
+You may publish Laravel's error page templates using the `vendor:publish` Artisan command. Once the templates have been published, you may customize them to your liking:
+
+`vendor:publish` Artisan 명령을 사용하여 Laravel의 오류 페이지 템플릿을 퍼블리싱 할 수 있습니다. 템플릿이 퍼블리싱되면 원하는대로 사용자 정의 할 수 있습니다.
+
+    php artisan vendor:publish --tag=laravel-errors

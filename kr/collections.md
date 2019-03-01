@@ -193,6 +193,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [whereBetween](#method-wherebetween)
 - [whereIn](#method-wherein)
 - [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
+- [whereNotBetween](#method-wherenotbetween)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
 - [wrap](#method-wrap)
@@ -592,6 +594,18 @@ The `every` method may be used to verify that all elements of a collection pass 
     });
 
     // false
+
+If the collection is empty, `every` will return true:
+
+콜렉션이 비어 있다면, `every`는 true를 리턴 할 것입니다 :
+
+    $collection = collect([]);
+
+    $collection->every(function($value, $key) {
+        return $value > 2;
+    });
+
+    // true
 
 <a name="method-except"></a>
 #### `except()` {#collection-method}
@@ -2528,6 +2542,32 @@ The `whereInstanceOf` method filters the collection by a given class type:
     ]);
 
     return $collection->whereInstanceOf(User::class);
+
+<a name="method-wherenotbetween"></a>
+#### `whereNotBetween()` {#collection-method}
+
+The `whereNotBetween` method filters the collection within a given range:
+
+`whereNotBetween` 메소드는 주어진 범위 내에서 콜렉션을 필터링합니다 :
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 80],
+        ['product' => 'Bookcase', 'price' => 150],
+        ['product' => 'Pencil', 'price' => 30],
+        ['product' => 'Door', 'price' => 100],
+    ]);
+
+    $filtered = $collection->whereNotBetween('price', [100, 200]);
+
+    $filtered->all();
+
+    /*
+        [
+            ['product' => 'Chair', 'price' => 80],
+            ['product' => 'Pencil', 'price' => 30],
+        ]
+    */
 
 <a name="method-wherenotin"></a>
 #### `whereNotIn()` {#collection-method}

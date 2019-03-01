@@ -49,9 +49,9 @@ All language files return an array of keyed strings. For example:
 ### Configuring The Locale
 ### 로케일 설정하기
 
-The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
+The default language for your application is stored in the `config/app.php` configuration file. You may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
 
-애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 물론 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다:
+애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다:
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);
@@ -137,7 +137,7 @@ You may retrieve lines from language files using the `__` helper function. The `
 
     echo __('I love programming.');
 
-Of course if you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the translation string or use the `@lang` directive:
+If you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the translation string or use the `@lang` directive:
 
 [블레이드 템플릿 엔진](/docs/{{version}}/blade)을 사용한다면, `{{ }}` 구문 안에서 또는 `@lang` 지시어를 통해서 다국어 문자를 출력할 수 있습니다:
 

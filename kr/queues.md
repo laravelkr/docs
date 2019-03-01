@@ -17,6 +17,8 @@
 - [Job 처리하기](#dispatching-jobs)
     - [Delayed Dispatching](#delayed-dispatching)
     - [지연시켜서 처리하기](#delayed-dispatching)
+    - [Synchronous Dispatching](#synchronous-dispatching)
+    - [동기식 반환](#synchronous-dispatching)
     - [Job Chaining](#job-chaining)
     - [Job 체이닝](#job-chaining)
     - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
@@ -27,6 +29,8 @@
     - [실행 속도 제한](#rate-limiting)
     - [Error Handling](#error-handling)
     - [에러 핸들링](#error-handling)
+- [Queueing Closures](#queueing-closures)
+- [큐잉 클로저](#queueing-closures)
 - [Running The Queue Worker](#running-the-queue-worker)
 - [Queue Worker 구동하기](#running-the-queue-worker)
     - [Queue Priorities](#queue-priorities)
@@ -34,17 +38,19 @@
     - [Queue Workers & Deployment](#queue-workers-and-deployment)
     - [Queue Workers & 배포](#queue-workers-and-deployment)
     - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
-    - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
+    - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
 - [Supervisor Configuration](#supervisor-configuration)
 - [Supervisor 설정](#supervisor-configuration)
 - [Dealing With Failed Jobs](#dealing-with-failed-jobs)
-- [Dealing With Failed Jobs](#dealing-with-failed-jobs)
+- [실패한 Job 처리하기](#dealing-with-failed-jobs)
     - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
     - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
     - [Failed Job Events](#failed-job-events)
     - [실패한 Job 이벤트](#failed-job-events)
     - [Retrying Failed Jobs](#retrying-failed-jobs)
     - [실패한 Job 재시도하기](#retrying-failed-jobs)
+    - [Ignoring Missing Models](#ignoring-missing-models)
+    - [누락 된 모델 무시하기](#ignoring-missing-models)
 - [Job Events](#job-events)
 - [Job 이벤트](#job-events)
 
@@ -318,6 +324,38 @@ If you would like to delay the execution of a queued job, you may use the `delay
 
 > {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
 
+<a name="synchronous-dispatching"></a>
+### Synchronous Dispatching
+### 동기식 반환
+
+If you would like to dispatch a job immediately (synchronously), you may use the `dispatchNow` method. When using this method, the job will not be queued and will be run immediately within the current process:
+
+작업을 즉시 (동기적으로) 반환하고 싶다면 `dispatchNow` 메소드를 사용할 수 있습니다. 이 방법을 사용하면 작업이 대기열에 저장되지 않고 현재 프로세스 내에서 즉시 실행됩니다.
+
+    <?php
+
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+    use App\Jobs\ProcessPodcast;
+    use App\Http\Controllers\Controller;
+
+    class PodcastController extends Controller
+    {
+        /**
+         * Store a new podcast.
+         *
+         * @param  Request  $request
+         * @return Response
+         */
+        public function store(Request $request)
+        {
+            // Create podcast...
+
+            ProcessPodcast::dispatchNow($podcast);
+        }
+    }
+
 <a name="job-chaining"></a>
 ### Job Chaining
 ### Job 체이닝
@@ -330,6 +368,10 @@ Job 체이닝은 여러분이 queued 로 입력된 job이 순차적으로 실행
         new OptimizePodcast,
         new ReleasePodcast
     ])->dispatch();
+
+> {note} Deleting jobs using the `$this->delete()` method will not prevent chained jobs from being processed. The chain will only stop executing if a job in the chain fails.
+
+> {note} `$this->delete()` 메소드를 사용하여 작업을 삭제한다고해서 연결된 작업이 처리되는 것을 막을 수는 없습니다. 체인의 작업이 실패하면 체인은 실행을 중지합니다.
 
 #### Chain Connection & Queue
 #### Connection과 Queue 체이닝
@@ -410,9 +452,9 @@ If you are working with multiple queue connections, you may specify which connec
         }
     }
 
-Of course, you may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
+You may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
 
-물론, job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를 체이닝하여 지정할 수도 있습니다:
+job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를 체이닝하여 지정할 수도 있습니다:
 
     ProcessPodcast::dispatch($podcast)
                   ->onConnection('sqs')
@@ -558,6 +600,24 @@ If an exception is thrown while the job is being processed, the job will automat
 
 job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다시 실행되기 위해서 queue로 반환됩니다. job은 애플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 스위치를 사용하여 정의됩니다. 재시도 횟수를 job클래스 자체에 정의할 수도 있습니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
 
+<a name="queueing-closures"></a>
+## Queueing Closures
+## 큐잉 클로저
+
+Instead of dispatching a job class to the queue, you may also dispatch a Closure. This is great for quick, simple tasks that need to be executed outside of the current request cycle:
+
+작업 클래스를 대기열로 보내지 않고 Closure를 보낼 수도 있습니다. 이는 현재 요청주기를 벗어나 실행해야하는 빠르고 간단한 작업에 유용합니다.
+
+    $podcast = App\Podcast::find(1);
+
+    dispatch(function () use ($podcast) {
+        $podcast->publish();
+    });
+
+When dispatching Closures to the queue, the Closure's code contents is cryptographically signed so it can not be modified in transit.
+
+클로저를 큐에 디스패치 할 때 Closure의 코드 내용은 암호화되어 서명되어 전송 중에 수정할 수 없습니다.
+
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker
 ## Queue-큐 worker 실행하기
@@ -603,11 +663,11 @@ The `--once` option may be used to instruct the worker to only process a single 
 #### Processing All Queued Jobs & Then Exiting
 #### 대기중인 모든 작업 처리 및 종료
 
- The `--stop-when-empty` option may be used to instruct the worker to process all jobs and then exit gracefully. This option can be useful when working Laravel queues within a Docker container if you wish to shutdown the container after the queue is empty:
+The `--stop-when-empty` option may be used to instruct the worker to process all jobs and then exit gracefully. This option can be useful when working Laravel queues within a Docker container if you wish to shutdown the container after the queue is empty:
 
 `--stop-when-empty` 옵션은 워커에게 모든 작업을 처리 한 다음 정상적으로 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 Docker 컨테이너에서 Laravel 큐가 동작 할 때 큐가 빈 후 컨테이너를 종료하려면 유용 할 수 있습니다.
 
-     php artisan queue:work --stop-when-empty
+    php artisan queue:work --stop-when-empty
 
 #### Resource Considerations
 #### 리소스 고려사항
@@ -725,9 +785,9 @@ Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토�
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/worker.log
 
-In this example, the `numprocs` directive will instruct Supervisor to run 8 `queue:work` processes and monitor all of them, automatically restarting them if they fail. Of course, you should change the `queue:work sqs` portion of the `command` directive to reflect your desired queue connection.
+In this example, the `numprocs` directive will instruct Supervisor to run 8 `queue:work` processes and monitor all of them, automatically restarting them if they fail. You should change the `queue:work sqs` portion of the `command` directive to reflect your desired queue connection.
 
-이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. 당연히, `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 커넥션에 맞추도록 해야합니다.
+이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 커넥션에 맞추도록 해야합니다.
 
 #### Starting Supervisor
 #### Supervisor 시작하기
@@ -828,9 +888,9 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 ### Failed Job Events
 ### 실패한 Job에 대한 이벤트
 
-If you would like to register an event that will be called when a job fails, you may use the `Queue::failing` method. This event is a great opportunity to notify your team via email or [Stride](https://www.stride.com). For example, we may attach a callback to this event from the `AppServiceProvider` that is included with Laravel:
+If you would like to register an event that will be called when a job fails, you may use the `Queue::failing` method. This event is a great opportunity to notify your team via email or [Slack](https://www.slack.com). For example, we may attach a callback to this event from the `AppServiceProvider` that is included with Laravel:
 
-Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Stride](https://www.stride.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다.
+Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::failing` 메소드를 사용하면 됩니다. 이 이벤트는 여러분의 팀에게 이메일 또는 [Slack](https://www.slack.com)과 같이 알림을 보낼 수 있습니다. 예를 들어 라라벨에 포함되어 있는 `AppServiceProvider` 에 이 이벤트 콜백을 추가해 보겠습니다.
 
     <?php
 
@@ -900,6 +960,25 @@ To delete all of your failed jobs, you may use the `queue:flush` command:
 실패한 모든 Job들을 삭제하기 위해서는 `queue:flush` 명령을 사용할 수 있습니다:
 
     php artisan queue:flush
+
+<a name="ignoring-missing-models"></a>
+### Ignoring Missing Models
+### 누락 된 모델 무시하기
+
+When injecting an Eloquent model into a job, it is automatically serialized before being placed on the queue and restored when the job is processed. However, if the model has been deleted while the job was waiting to be processed by a worker, your job may fail with a `ModelNotFoundException`.
+
+Eloquent 모델을 작업에 주입 할 때 대기열에 배치되기 전에 자동으로 직렬화되고 작업이 처리 될 때 복원됩니다. 그러나 작업자가 작업을 처리하는 동안 모델이 삭제 된 경우 작업이 `ModelNotFoundException`으로 실패 할 수 있습니다.
+
+For convenience, you may choose to automatically delete jobs with missing models by setting your job's `deleteWhenMissingModels` property to `true`:
+
+편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다 :
+
+    /**
+     * Delete the job if its models no longer exist.
+     *
+     * @var bool
+     */
+    public $deleteWhenMissingModels = true;
 
 <a name="job-events"></a>
 ## Job Events

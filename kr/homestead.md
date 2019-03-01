@@ -76,9 +76,9 @@ Laravel Homestead is an official, pre-packaged Vagrant box that provides you a w
 
 라라벨 홈스테드는 공식적으로 여러분이 PHP, 웹서버, 기타 다른 서버 소프트웨어를 설치할 필요가 없는 사전에 준비된 Vagrant box이며 멋진 개발 환경을 제공합니다. 운영체제가 너저분 해지는 것을 걱정할 필요가 없습니다! Vagrant box는 완전히 일회용입니다. 만약 뭔가 잘 되지 않는다면, 여러분은 몇분안에 다시 box를 생성할 수 있습니다.
 
-Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.3, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
+Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web server, PHP 7.3, PHP 7.2, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other goodies you need to develop amazing Laravel applications.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.3, PHP 7.2, PHP 7.1, PHP 7.0, PHP 5.6, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.3, PHP 7.2, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > {note} If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
@@ -94,8 +94,6 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 - PHP 7.3
 - PHP 7.2
 - PHP 7.1
-- PHP 7.0
-- PHP 5.6
 - Nginx
 - Apache (Optional)
 - MySQL
@@ -126,9 +124,9 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 ### First Steps
 ### 첫번째 단계
 
-Before launching your Homestead environment, you must install [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), [Parallels](https://www.parallels.com/products/desktop/) or [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
+Before launching your Homestead environment, you must install [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com), [Parallels](https://www.parallels.com/products/desktop/) or [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) as well as [Vagrant](https://www.vagrantup.com/downloads.html). All of these software packages provide easy-to-use visual installers for all popular operating systems.
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 5.2](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/), [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/), [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
 
 To use the VMware provider, you will need to purchase both VMware Fusion / Workstation and the [VMware Vagrant plug-in](https://www.vagrantup.com/vmware). Though it is not free, VMware can provide faster shared folder performance out of the box.
 
@@ -171,7 +169,7 @@ You should check out a tagged version of Homestead since the `master` branch may
     cd ~/Homestead
 
     // Clone the desired release...
-    git checkout v7.18.0
+    git checkout v8.0.1
 
 Once you have cloned the Homestead repository, run the `bash init.sh` command from the Homestead directory to create the `Homestead.yaml` configuration file. The `Homestead.yaml` file will be placed in the Homestead directory:
 
@@ -252,7 +250,7 @@ Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/Laravel/public
+          to: /home/vagrant/code/my-project/public
 
 If you change the `sites` property after provisioning the Homestead box, you should re-run `vagrant reload --provision`  to update the Nginx configuration on the virtual machine.
 
@@ -489,7 +487,7 @@ Once your Homestead environment is provisioned and running, you may want to add 
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/Laravel/public
+          to: /home/vagrant/code/my-project/public
         - map: another.test
           to: /home/vagrant/code/another/public
 
@@ -514,7 +512,7 @@ Homestead supports several types of sites which allow you to easily run projects
 
     sites:
         - map: symfony2.test
-          to: /home/vagrant/code/Symfony/web
+          to: /home/vagrant/code/my-symfony-project/web
           type: "symfony2"
 
 The available site types are: `apache`, `apigility`, `expressive`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, and `zf`.
@@ -531,7 +529,7 @@ You may add additional Nginx `fastcgi_param` values to your site via the `params
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/Laravel/public
+          to: /home/vagrant/code/my-project/public
           params:
               - key: FOO
                 value: BAR
@@ -568,7 +566,7 @@ If you would like the `schedule:run` command to be run for a Homestead site, you
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/Laravel/public
+          to: /home/vagrant/code/my-project/public
           schedule: true
 
 The Cron job for the site will be defined in the `/etc/cron.d` folder of the virtual machine.
@@ -687,9 +685,9 @@ Sometimes you may wish to share what you're currently working on with coworkers 
 
 가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
 
-To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.test`. This will share the `homestead.test` site from your `Homestead.yaml` configuration file. Of course, you may substitute any of your other configured sites for `homestead.test`:
+To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.test`. This will share the `homestead.test` site from your `Homestead.yaml` configuration file. You may substitute any of your other configured sites for `homestead.test`:
 
-이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트는 물론 다른 사이트도 공유할 수 있습니다:
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트와 다른 사이트도 공유할 수 있습니다:
 
     share homestead.test
 
@@ -707,21 +705,19 @@ After running the command, you will see an Ngrok screen appear which contains th
 ### Multiple PHP Versions
 ### 여러 버전의 PHP 사용하기
 
-Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2" and "7.3" (the default):
+Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "7.1", "7.2" and "7.3" (the default):
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3"(기본) 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "7.1", "7.2", "7.3"(기본) 입니다:
 
     sites:
         - map: homestead.test
           to: /home/vagrant/code/Laravel/public
-          php: "5.6"
+          php: "7.1"
 
 In addition, you may use any of the supported PHP versions via the CLI:
 
 추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다:
 
-    php5.6 artisan list
-    php7.0 artisan list
     php7.1 artisan list
     php7.2 artisan list
     php7.3 artisan list
@@ -794,21 +790,38 @@ Homestead를 커스터마이징 할 때, 우분투는 패키지의 원래 환경
 ## Updating Homestead
 ## 홈스테드 업데이트하기
 
-You can update Homestead in two simple steps. First, you should update the Vagrant box using the `vagrant box update` command:
+You can update Homestead in a few simple steps. First, you should update the Vagrant box using the `vagrant box update` command:
 
-두가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
+몇가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
 
     vagrant box update
 
-Next, you need to update the Homestead source code. If you cloned the repository you can `git pull origin master` at the location you originally cloned the repository.
 
-그 다음으로 홈스테드 소스 코드를 업데이트 해야 합니다. 저장소를 복제했었다면 복제한 디렉토리에서 `git pull origin master` 를 사용할 수 있습니다.
+Next, you need to update the Homestead source code. If you cloned the repository you can run the following commands at the location you originally cloned the repository:
 
-If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^7"` and update your dependencies:
+다음으로 Homestead 소스 코드를 업데이트해야합니다. 저장소를 복제 한 경우 원래 저장소를 복제 한 위치에서 다음 명령을 실행할 수 있습니다.
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^7"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
+    git fetch
+
+    git checkout v8.0.1
+    
+These commands pull the latest Homestead code from the GitHub repository, fetches the latest tags, and then checks out the latest tagged release. You can find the latest stable release version on the [GitHub releases page](https://github.com/laravel/homestead/releases).
+
+이 명령은 Homestead 코드를 GitHub 저장소에서 가져 와서 최신 태그를 가져온 다음 최신 태그 릴리스를 체크 아웃합니다. 최신 안정 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾을 수 있습니다.
+
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^8"` and update your dependencies:
+
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^8"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
+
+Finally, you will need to destroy and regenerate your Homestead box to utilize the latest Vagrant installation. To accomplish this, run the following commands in your Homestead directory:
+
+마지막으로 Homestead 박스를 제거하고 재생성하여 최신 Vagrant 설치를 활용해야합니다. 이를 수행하려면 Homestead 디렉토리에서 다음 명령을 실행하십시오.
+
+    vagrant destroy
+
+    vagrant up
 
 <a name="provider-specific-settings"></a>
 ## Provider Specific Settings

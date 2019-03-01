@@ -12,53 +12,53 @@
 - [Configuration](#configuration)
 - [설정하기](#configuration)
     - [Token Lifetimes](#token-lifetimes)
-    - [Token Lifetimes](#token-lifetimes)
+    - [토큰 지속시간](#token-lifetimes)
     - [Overriding Default Models](#overriding-default-models)
     - [기본모델 덮어쓰기](#overriding-default-models)
 - [Issuing Access Tokens](#issuing-access-tokens)
-- [Issuing Access Tokens](#issuing-access-tokens)
+- [엑세스 토큰 발급하기](#issuing-access-tokens)
     - [Managing Clients](#managing-clients)
-    - [Managing Clients](#managing-clients)
+    - [클라이언트 관리](#managing-clients)
     - [Requesting Tokens](#requesting-tokens)
-    - [Requesting Tokens](#requesting-tokens)
+    - [토큰 요청](#requesting-tokens)
     - [Refreshing Tokens](#refreshing-tokens)
-    - [Refreshing Tokens](#refreshing-tokens)
+    - [토큰 갱신하기](#refreshing-tokens)
 - [Password Grant Tokens](#password-grant-tokens)
-- [Password Grant Tokens](#password-grant-tokens)
+- [패스워드 Grant 토큰](#password-grant-tokens)
     - [Creating A Password Grant Client](#creating-a-password-grant-client)
-    - [Creating A Password Grant Client](#creating-a-password-grant-client)
+    - [패스워드 Grant 클라이언트 생성하기](#creating-a-password-grant-client)
     - [Requesting Tokens](#requesting-password-grant-tokens)
-    - [Requesting Tokens](#requesting-password-grant-tokens)
+    - [토큰 요청](#requesting-password-grant-tokens)
     - [Requesting All Scopes](#requesting-all-scopes)
-    - [Requesting All Scopes](#requesting-all-scopes)
+    - [모든 범위에 대하여 요청하기](#requesting-all-scopes)
+    - [Customizing The Username Field](#customizing-the-username-field)
+    - [사용자 이름 필드 사용자 정의하기](#customizing-the-username-field)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
-- [Implicit Grant Tokens](#implicit-grant-tokens)
+- [묵시적 grant 토큰](#implicit-grant-tokens)
 - [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
-- [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
+- [클라이언트의 자격증명을 위한 Grant 토큰](#client-credentials-grant-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
-- [Personal Access Tokens](#personal-access-tokens)
+- [개인용 엑세스 토큰](#personal-access-tokens)
     - [Creating A Personal Access Client](#creating-a-personal-access-client)
-    - [Creating A Personal Access Client](#creating-a-personal-access-client)
+    - [개인용 엑세스 클라이언트 생성하기](#creating-a-personal-access-client)
     - [Managing Personal Access Tokens](#managing-personal-access-tokens)
-    - [Managing Personal Access Tokens](#managing-personal-access-tokens)
+    - [개인용 엑세스 토큰 관리하기](#managing-personal-access-tokens)
 - [Protecting Routes](#protecting-routes)
-- [Protecting Routes](#protecting-routes)
+- [라우트 보호하기](#protecting-routes)
     - [Via Middleware](#via-middleware)
-    - [Via Middleware](#via-middleware)
+    - [미들웨어를 통해서](#via-middleware)
     - [Passing The Access Token](#passing-the-access-token)
-    - [Passing The Access Token](#passing-the-access-token)
+    - [엑세스 토큰 전달하기](#passing-the-access-token)
 - [Token Scopes](#token-scopes)
-- [Token Scopes](#token-scopes)
+- [토큰 스코프(범위)](#token-scopes)
     - [Defining Scopes](#defining-scopes)
-    - [Defining Scopes](#defining-scopes)
-    - [Default Scope](#default-scope)
-    - [Default Scope](#default-scope)
+    - [스코프 정의하기](#defining-scopes)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
-    - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
+    - [토큰에 스코프 할당하기](#assigning-scopes-to-tokens)
     - [Checking Scopes](#checking-scopes)
-    - [Checking Scopes](#checking-scopes)
+    - [Scope 확인하기](#checking-scopes)
 - [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
-- [Consuming Your API With JavaScript](#consuming-your-api-with-javascript)
+- [자바스크립트로 API 사용하기](#consuming-your-api-with-javascript)
 - [Events](#events)
 - [이벤트](#events)
 - [Testing](#testing)
@@ -71,6 +71,10 @@
 Laravel already makes it easy to perform authentication via traditional login forms, but what about APIs? APIs typically use tokens to authenticate users and do not maintain session state between requests. Laravel makes API authentication a breeze using Laravel Passport, which provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Andy Millington and Simon Hamp.
 
 라라벨은 이미 전통적인 로그인 폼을 통한 사용자 인증을 손쉽게 사용할 수 있는 방법을 가지고 있습니다. 하지만 API의 경우에는 어떨까요? API는 일반적으로 사용자 인증을 위해서 토큰을 사용하고 request-요청에서는 세션을 사용하지 않습니다. 라라벨은 애플리케이션에 Full OAuth2 서버 구현을 제공하는 Passport를 사용하여 API 인증을 용이하게 합니다. Passport 는 Andy Millington 와 Simon Hamp에 의해서 관리되고 있는 [League OAuth2 server](https://github.com/thephpleague/oauth2-server) 를 기반으로 구성되어 있습니다.
+
+> {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general [terminology](https://oauth2.thephpleague.com/terminology/) and features of OAuth2 before continuing.
+
+> {note} 이 문서는 귀하가 이미 OAuth2에 익숙하다고 가정합니다. OAuth2에 대해 잘 모르는 경우 계속하기 전에 일반 [용어](https://oauth2.thephpleague.com/terminology/) 및 OAuth2의 기능을 숙지하십시오.
 
 <a name="installation"></a>
 ## Installation
@@ -583,9 +587,9 @@ Once you have created a password grant client, you may request an access token b
 ### Requesting All Scopes
 ### 모든 범위에 대하여 요청하기
 
-When using the password grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` grant:
+When using the password grant or client credentials grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` or `client_credentials` grant:
 
-패스워드 grant를 사용할 때, 여러분은 애플리케이션에서 지원하는 모든 범위의 사용이 가능한 토큰을 승인 하고자 할수 있습니다. 이렇하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 범위는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
+패스워드 grant 또는 client 자격증명 grant를 사용할 때, 여러분은 애플리케이션에서 지원하는 모든 범위의 토큰을 승인 하고자 할수 있습니다. 이렇게 하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 스코프는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -597,6 +601,38 @@ When using the password grant, you may wish to authorize the token for all of th
             'scope' => '*',
         ],
     ]);
+
+<a name="customizing-the-username-field"></a>
+### Customizing The Username Field
+### 사용자 이름 필드 사용자 정의하기
+
+When authenticating using the password grant, Passport will use the `email` attribute of your model as the "username". However, you may customize this behavior by defining a `findForPassport` method on your model:
+
+암호를 사용하여 인증 할 때 Passport는 모델의 `email` 속성을 "username"으로 사용합니다. 그러나 모델에서 `findForPassport` 메소드를 정의함으로써 이 동작을 커스터마이징 할 수 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use Laravel\Passport\HasApiTokens;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use HasApiTokens, Notifiable;
+
+        /**
+         * Find the user instance for the given username.
+         *
+         * @param  string  $username
+         * @return \App\User
+         */
+        public function findForPassport($username)
+        {
+            return $this->where('username', $username)->first();
+        }
+    }
 
 <a name="implicit-grant-tokens"></a>
 ## Implicit Grant Tokens
@@ -1073,22 +1109,20 @@ Passport raises events when issuing access tokens and refresh tokens. You may us
 
 Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 애플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다:
 
-```php
-/**
- * The event listener mappings for the application.
- *
- * @var array
- */
-protected $listen = [
-    'Laravel\Passport\Events\AccessTokenCreated' => [
-        'App\Listeners\RevokeOldTokens',
-    ],
+    /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Laravel\Passport\Events\AccessTokenCreated' => [
+            'App\Listeners\RevokeOldTokens',
+        ],
 
-    'Laravel\Passport\Events\RefreshTokenCreated' => [
-        'App\Listeners\PruneOldTokens',
-    ],
-];
-```
+        'Laravel\Passport\Events\RefreshTokenCreated' => [
+            'App\Listeners\PruneOldTokens',
+        ],
+    ];
 
 <a name="testing"></a>
 ## Testing

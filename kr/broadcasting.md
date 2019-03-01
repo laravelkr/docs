@@ -122,7 +122,7 @@ When using Pusher and [Laravel Echo](#installing-laravel-echo), you should speci
 
 Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
-    import Echo from "laravel-echo"
+    import Echo from "laravel-echo";
 
     window.Pusher = require('pusher-js');
 
@@ -525,9 +525,9 @@ Next, register your channel in your `routes/channels.php` file:
 
     Broadcast::channel('order.{order}', OrderChannel::class);
 
-Finally, you may place the authorization logic for your channel in the channel class' `join` method. This `join` method will house the same logic you would have typically placed in your channel authorization Closure. Of course, you may also take advantage of channel model binding:
+Finally, you may place the authorization logic for your channel in the channel class' `join` method. This `join` method will house the same logic you would have typically placed in your channel authorization Closure. You may also take advantage of channel model binding:
 
-마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 물론, 채널 모델 바인딩을 활용할 수도 있습니다:
+마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다:
 
     <?php
 

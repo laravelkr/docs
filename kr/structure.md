@@ -56,9 +56,9 @@
 ## Introduction
 ## 시작하기
 
-The default Laravel application structure is intended to provide a great starting point for both large and small applications. Of course, you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class.
+The default Laravel application structure is intended to provide a great starting point for both large and small applications. But you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class.
 
-기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 당연히 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
+기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
 
 #### Where Is The Models Directory?
 #### 모델 디렉토리는 어디에 있나요?
@@ -79,9 +79,9 @@ For this reason, we choose to place Eloquent models in the `app` directory by de
 #### The App Directory
 #### App 디렉토리
 
-The `app` directory, as you might expect, contains the core code of your application. We'll explore this directory in more detail soon; however, almost all of the classes in your application will be in this directory.
+The `app` directory contains the core code of your application. We'll explore this directory in more detail soon; however, almost all of the classes in your application will be in this directory.
 
-`app` 디렉토리는 예상하는바와 같이 애플리케이션의 핵심 코드들을 포함하고 있습니다. 이 디렉토리에 대한 보다 자세한 내용은 뒤에서 살펴보겠습니다. 그렇지만 애플리케이션에 들어 있는 대부분의 클래스들은 이 디렉토리 안에 들어 있습니다.
+`app` 디렉토리에는 어플리케이션의 핵심 코드가 들어 있습니다. 우리는 이 디렉토리를 더 자세히 살펴볼 것입니다. 어플리케이션의 거의 모든 클래스가 이 디렉토리에 있습니다.
 
 <a name="the-bootstrap-directory"></a>
 #### The Bootstrap Directory
@@ -163,9 +163,9 @@ The `storage/app/public` directory may be used to store user-generated files, su
 #### The Tests Directory
 #### Tests 디렉토리
 
-The `tests` directory contains your automated tests. An example [PHPUnit](https://phpunit.de/) is provided out of the box. Each test class should be suffixed with the word `Test`. You may run your tests using the `phpunit` or `php vendor/bin/phpunit` commands.
+The `tests` directory contains your automated tests. An example [PHPUnit](https://phpunit.de/) test is provided out of the box. Each test class should be suffixed with the word `Test`. You may run your tests using the `phpunit` or `php vendor/bin/phpunit` commands.
 
-`tests` 디렉토리는 자동화된 테스트가 포함되어 있습니다. 별다른 설정 없이도 [PHPUnit](https://phpunit.de/) 예제가 제공됩니다. 각각의 테스트 클래스는 `Test` 라는 단어가 붙어 있어야 합니다. `phpunit` 또는 `php vendor/bin/phpunit` 명령어를 통해서 테스트를 실행할 수 있습니다.
+`tests` 디렉토리는 자동화된 테스트가 포함되어 있습니다. 별다른 설정 없이도 [PHPUnit](https://phpunit.de/) 테스트의 예제가 제공됩니다. 각각의 테스트 클래스는 `Test` 라는 단어가 붙어 있어야 합니다. `phpunit` 또는 `php vendor/bin/phpunit` 명령어를 통해서 테스트를 실행할 수 있습니다.
 
 <a name="the-vendor-directory"></a>
 #### The Vendor Directory
@@ -179,9 +179,9 @@ The `vendor` directory contains your [Composer](https://getcomposer.org) depende
 ## The App Directory
 ## App 디렉토리
 
-The majority of your application is housed in the `app` directory. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](http://www.php-fig.org/psr/psr-4/).
+The majority of your application is housed in the `app` directory. By default, this directory is namespaced under `App` and is autoloaded by Composer using the [PSR-4 autoloading standard](https://www.php-fig.org/psr/psr-4/).
 
-애플리케이션의 대부분의 파일들은 `app` 디렉토리 안에 보관됩니다. 기본적으로 이 디렉토리는 [PSR-4 오토로딩 표준](http://www.php-fig.org/psr/psr-4/)를 사용하는 컴포저에 의해서 `App` 이라는 네임스페이스를 통해서 오토로딩됩니다.
+애플리케이션의 대부분의 파일들은 `app` 디렉토리 안에 보관됩니다. 기본적으로 이 디렉토리는 [PSR-4 오토로딩 표준](https://www.php-fig.org/psr/psr-4/)를 사용하는 컴포저에 의해서 `App` 이라는 네임스페이스를 통해서 오토로딩됩니다.
 
 The `app` directory contains a variety of additional directories such as `Console`, `Http`, and `Providers`. Think of the `Console` and `Http` directories as providing an API into the core of your application. The HTTP protocol and CLI are both mechanisms to interact with your application, but do not actually contain application logic. In other words, they are two ways of issuing commands to your application. The `Console` directory contains all of your Artisan commands, while the `Http` directory contains your controllers, middleware, and requests.
 
@@ -215,9 +215,9 @@ The `Console` directory contains all of the custom Artisan commands for your app
 #### The Events Directory
 #### Events 디렉토리
 
-This directory does not exist by default, but will be created for you by the `event:generate` and `make:event` Artisan commands. The `Events` directory, as you might expect, houses [event classes](/docs/{{version}}/events). Events may be used to alert other parts of your application that a given action has occurred, providing a great deal of flexibility and decoupling.
+This directory does not exist by default, but will be created for you by the `event:generate` and `make:event` Artisan commands. The `Events` directory houses [event classes](/docs/{{version}}/events). Events may be used to alert other parts of your application that a given action has occurred, providing a great deal of flexibility and decoupling.
 
-이 디렉토리는 기본적으로 존재하지 않지만, `event:generate` 와 `make:event` 아티즌 명령어를 통해서 생성될 수 있습니다. `Events` 디렉토리는 예상할 수 있듯이 [이벤트 클래스](/docs/{{version}}/events)가 저장되는 곳입니다. 이벤트는 애플리케이션에서 주어진 액션이 일어 났음을 알리는데 사용되며, 프로그램에 유연성과 디커플링을 제공합니다.
+이 디렉토리는 기본적으로 존재하지 않지만 `event:generate`와 `make:event` 아티즌 명령으로 생성됩니다. `Events` 디렉토리에는 [events classes](/docs/{{version}}/events)가 있습니다. 이벤트는 어플리케이션의 다른 부분에 주어진 동작이 발생했음을 알리는 데 사용되며 많은 유연성과 디커플링을 제공합니다.
 
 <a name="the-exceptions-directory"></a>
 #### The Exceptions Directory

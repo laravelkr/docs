@@ -127,9 +127,9 @@ By default, `Route::redirect` returns a `302` status code. You may customize the
 
     Route::redirect('/here', '/there', 301);
 
-You may use the `Route::permananentRedirect` method to return a `301` status code:
+You may use the `Route::permanentRedirect` method to return a `301` status code:
 
-`Route::permananentRedirect` 메소드는 `301` 상태코드를 반환합니다:
+`Route::permanentRedirect` 메서드를 사용하여 `301` 상태 코드를 반환 할 수 있습니다 :
 
     Route::permanentRedirect('/here', '/there');
 
@@ -153,7 +153,7 @@ If your route only needs to return a view, you may use the `Route::view` method.
 ### Required Parameters
 ### 필수 파라미터
 
-Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
+Sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
 
 라우트중에 URI 세그먼트를 필요로 할 수도 있습니다. 다음과 같이 URL 에서 사용자의 ID를 확인하고자 하는 경우 입니다. 이 경우 라우트 파라미터를 정의할 수 있습니다:
 
@@ -239,11 +239,13 @@ Once the pattern has been defined, it is automatically applied to all routes usi
 
 <a name="parameters-encoded-forward-slashes"></a>
 #### Encoded Forward Slashes
-#### 인코딩된 슬래쉬 파라미터
+#### 인코딩 된 슬래시
+
 
 The Laravel routing component allows all characters except `/`. You must explicitly allow `/` to be part of your placeholder using a `where` condition regular expression:
 
-라라벨의 라우팅 컴포넌트는 `/` 문자를 제외한 모든 문자를 사용가능합니다. `/` 를 사용하려면, `where` 정규식 조건을 통해서 지정해야합니다:
+Laravel 라우팅 구성 요소는 `/`를 제외한 모든 문자를 허용합니다. `where` 조건 정규식을 사용하여 `/`를 명시적으로 플레이스홀더의 일부로 허용해야합니다.
+
 
     Route::get('search/{search}', function ($search) {
         return $search;
@@ -251,7 +253,7 @@ The Laravel routing component allows all characters except `/`. You must explici
 
 > {note} Encoded forward slashes are only supported within the last route segment.
 
-> {note} 인코딩된 슬래쉬 파라미터의 경우에는 가장 마지막 세그먼트에 대해서만 지원됩니다.
+> {note} 인코딩 된 슬래시는 마지막 경로 세그먼트 내에서만 지원됩니다.
 
 <a name="named-routes"></a>
 ## Named Routes
@@ -328,7 +330,7 @@ Route groups allow you to share route attributes, such as middleware or namespac
 
 Nested groups attempt to intelligently "merge" attributes with their parent group. Middleware and `where` conditions are merged while names, namespaces, and prefixes are appended. Namespace delimiters and slashes in URI prefixes are automatically added where appropriate.
 
-중첩된 라우트 그룹은 상위 그룹과 속성값을 영리하게 "병합-머지" 합니다. 그룹의 이름, 네임스페이스 및 prefix 가 추가되며 미들웨어와 `where` 조건은 병합됩니다. 적절하게 URI prefix 의 네임스페이스 구분자로 슬래쉬가 자동으로 추가됩니다.
+중첩 된 그룹은 속성을 상위 그룹과 지능적으로 "병합"합니다. 미들웨어와 이름, 네임 스페이스 및 접두사가 추가되는 동안 `where` 조건이 병합됩니다. 적절한 경우 URI 접두사의 네임 스페이스 구분 기호와 슬래시가 자동으로 추가됩니다.
 
 <a name="route-group-middleware"></a>
 ### Middleware
@@ -484,6 +486,11 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 
 만약 여러분의 고유한 의존성 해결 로직을 사용하려면 `Route::bind` 메소드를 사용할 수 있습니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입되어야 하는 클래스의 인스턴스를 반환해야 합니다:
 
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
     public function boot()
     {
         parent::boot();
@@ -493,13 +500,28 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
         });
     }
 
+Alternatively, you may override the `resolveRouteBinding` method on your Eloquent model. This method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:
+
+또는 Eloquent 모델에서 `resolveRouteBinding` 메소드를 오버라이드 할 수 있습니다. 이 메소드는 URI 세그먼트의 값을 받고 라우트에 삽입되어야하는 클래스의 인스턴스를 리턴해야한다.
+
+    /**
+     * Retrieve the model for a bound value.
+     *
+     * @param  mixed  $value
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value)
+    {
+        return $this->where('name', $value)->first() ?? abort(404);
+    }
+
 <a name="fallback-routes"></a>
 ## Fallback Routes
 ## 대체 라우트
 
-Using the `Route::fallback` method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a "404" page via your application's exception handler. However, since you may define the `fallback` route within your `routes/web.php` file, all middleware in the `web` middleware group will apply to the route. Of course, you are free to add additional middleware to this route as needed:
+Using the `Route::fallback` method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a "404" page via your application's exception handler. However, since you may define the `fallback` route within your `routes/web.php` file, all middleware in the `web` middleware group will apply to the route. You are free to add additional middleware to this route as needed:
 
-`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 어플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다.  물론, 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
+`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 어플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다. 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
 
     Route::fallback(function () {
         //

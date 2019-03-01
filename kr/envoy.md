@@ -1,5 +1,5 @@
-# Envoy Task Runner
-# Envoy 작업 실행관리자
+# Laravel Envoy
+# Laravel Envoy
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
@@ -87,9 +87,9 @@ You can force a script to run locally by specifying the server's IP address as `
 ### Setup
 ### 설정하기
 
-Sometimes, you may need to execute some PHP code before executing your Envoy tasks. You may use the ```@setup``` directive to declare variables and do other general PHP work before any of your other tasks are executed:
+Sometimes, you may need to execute some PHP code before executing your Envoy tasks. You may use the `@setup` directive to declare variables and do other general PHP work before any of your other tasks are executed:
 
-때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 ```@setup``` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다:
+때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 `@setup` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다:
 
     @setup
         $now = new DateTime();
@@ -117,9 +117,9 @@ If needed, you may pass option values into Envoy tasks using the command line:
 
     envoy run deploy --branch=master
 
-You may access the options in your tasks via Blade's "echo" syntax. Of course, you may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
+You may access the options in your tasks via Blade's "echo" syntax. You may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
 
-블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 또한 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
+블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
 
     @servers(['web' => '192.168.1.1'])
 

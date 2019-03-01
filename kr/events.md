@@ -44,9 +44,9 @@ Events serve as a great way to decouple various aspects of your application, sin
 ## Registering Events & Listeners
 ## 이벤트 & 리스너 등록하기
 
-The `EventServiceProvider` included with your Laravel application provides a convenient place to register all of your application's event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). Of course, you may add as many events to this array as your application requires. For example, let's add a `OrderShipped` event:
+The `EventServiceProvider` included with your Laravel application provides a convenient place to register all of your application's event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). You may add as many events to this array as your application requires. For example, let's add a `OrderShipped` event:
 
-라라벨 애플리케이션에 포함된 `EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 당연하게도, 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다:
+라라벨 애플리케이션에 포함된 `EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다:
 
     /**
      * The event listener mappings for the application.
@@ -63,9 +63,9 @@ The `EventServiceProvider` included with your Laravel application provides a con
 ### Generating Events & Listeners
 ### 이벤트 & 리스너 생성하기
 
-Of course, manually creating the files for each event and listener is cumbersome. Instead, add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Of course, events and listeners that already exist will be left untouched:
+Of course, manually creating the files for each event and listener is cumbersome. Instead, add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Events and listeners that already exist will be left untouched:
 
-물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 물론 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다:
+물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다:
 
     php artisan event:generate
 
@@ -219,9 +219,9 @@ That's it! Now, when this listener is called for an event, it will be automatica
 #### Customizing The Queue Connection & Queue Name
 #### Queue-큐 커넥션과 Queue-큐 이름 커스터마이징 하기
 
-If you would like to customize the queue connection and queue name used by an event listener, you may define `$connection` and `$queue` properties on your listener class:
+If you would like to customize the queue connection, queue name, or queue delay time of an event listener, you may define the `$connection`, `$queue`, or `$delay` properties on your listener class:
 
-이벤트 리스너에서 사용되는 Queue-큐 커넥션과 Queue-큐의 이름을 커스터마이징 하려면, 리스너 클래스에 `$connection` 와 `$queue` 속성을 정의하면 됩니다:
+이벤트 리스너에서 사용되는 Queue-큐 커넥션과 Queue-큐의 이름을 커스터마이징 하려면, 리스너 클래스에 `$connection`, `$queue` 또는 `$delay` 속성을 정의하면 됩니다:
 
     <?php
 
@@ -245,6 +245,13 @@ If you would like to customize the queue connection and queue name used by an ev
          * @var string|null
          */
         public $queue = 'listeners';
+
+        /**
+         * The time (seconds) before the job should be processed.
+         *
+         * @var int
+         */
+        public $delay = 60;
     }
 
 <a name="manually-accessing-the-queue"></a>

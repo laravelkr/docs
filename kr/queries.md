@@ -188,9 +188,9 @@ The query builder also provides a variety of aggregate methods such as `count`, 
 
     $price = DB::table('orders')->max('price');
 
-Of course, you may combine these methods with other clauses:
+You may combine these methods with other clauses:
 
-물론, 이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다:
+이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다:
 
     $price = DB::table('orders')
                     ->where('finalized', 1)
@@ -214,9 +214,9 @@ Instead of using the `count` method to determine if any records exist that match
 #### Specifying A Select Clause
 #### Select문 지정하기
 
-Of course, you may not always want to select all columns from a database table. Using the `select` method, you can specify a custom `select` clause for the query:
+You may not always want to select all columns from a database table. Using the `select` method, you can specify a custom `select` clause for the query:
 
-당연하게도, 항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다:
+항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다:
 
     $users = DB::table('users')->select('name', 'email as user_email')->get();
 
@@ -311,9 +311,9 @@ The `orderByRaw` method may be used to set a raw string as the value of the `ord
 #### Inner Join Clause
 #### Inner Join
 
-The query builder may also be used to write join statements. To perform a basic "inner join", you may use the `join` method on a query builder instance. The first argument passed to the `join` method is the name of the table you need to join to, while the remaining arguments specify the column constraints for the join. Of course, as you can see, you can join to multiple tables in a single query:
+The query builder may also be used to write join statements. To perform a basic "inner join", you may use the `join` method on a query builder instance. The first argument passed to the `join` method is the name of the table you need to join to, while the remaining arguments specify the column constraints for the join. You can even join to multiple tables in a single query:
 
-쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 물론, 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다:
+쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다:
 
     $users = DB::table('users')
                 ->join('contacts', 'users.id', '=', 'contacts.user_id')
@@ -321,15 +321,19 @@ The query builder may also be used to write join statements. To perform a basic 
                 ->select('users.*', 'contacts.phone', 'orders.price')
                 ->get();
 
-#### Left Join Clause
-#### Left 조인
+#### Left Join / Right Join Clause
+#### Left 조인 / Right 조인
 
-If you would like to perform a "left join" instead of an "inner join", use the `leftJoin` method. The `leftJoin` method has the same signature as the `join` method:
+If you would like to perform a "left join" or "right join" instead of an "inner join", use the `leftJoin` or `rightJoin` methods. These methods have the same signature as the `join` method:
 
-"inner join" 대신 "left join" 을 수행하고자 한다면, `leftJoin` 메소드를 사용하십시오. `leftJoin` 메소드는 `join` 메소드와 동일한 구성을 가집니다:
+"inner join" 대신 "left join" 또는 "right join" 을 수행하고자 한다면, `leftJoin` 또는 `rightJoin` 메소드를 사용하십시오. 이 메소드들은 `join` 메소드와 동일한 구성을 가집니다:
 
     $users = DB::table('users')
                 ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+                ->get();
+
+    $users = DB::table('users')
+                ->rightJoin('posts', 'users.id', '=', 'posts.user_id')
                 ->get();
 
 #### Cross Join Clause
@@ -427,9 +431,9 @@ For convenience, if you want to verify that a column is equal to a given value, 
 
     $users = DB::table('users')->where('votes', 100)->get();
 
-Of course, you may use a variety of other operators when writing a `where` clause:
+You may use a variety of other operators when writing a `where` clause:
 
-물론, `where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다:
+`where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다:
 
     $users = DB::table('users')
                     ->where('votes', '>=', 100)
@@ -846,13 +850,30 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
 ## Updates
 ## Updates-수정
 
-Of course, in addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs containing the columns to be updated. You may constrain the `update` query using `where` clauses:
+In addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs containing the columns to be updated. You may constrain the `update` query using `where` clauses:
 
 데이터베이스에 레코드를 삽입하는 것에 더해서 쿼리 빌더는 당연히 이미 존재하는 레코드를 `update` 메소드를 사용하여 변경할 수 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로, 업데이트 하기 위한 컬럼과 컬럼에 대한 값의 쌍으로 이루어진 배열을 인자로 전달받습니다. `update` 쿼리에 `where` 구문을 사용하여 범위를 제한할 수도 있습니다:
 
     DB::table('users')
                 ->where('id', 1)
                 ->update(['votes' => 1]);
+
+#### Update Or Insert
+####  Updates-수정 또는 Inserts-삽입
+
+Sometimes you may want to update an existing record in the database or create it if no matching record exists. In this scenario, the `updateOrInsert` method may be used. The `updateOrInsert` method accepts two arguments: an array of conditions by which to find the record, and an array of column and value pairs containing the columns to be updated.
+
+경우에 따라 데이터베이스의 기존 레코드를 업데이트하거나 일치하는 레코드가 없는 경우 레코드를 만들 수도 있습니다. 이 시나리오에서는 `updateOrInsert` 메소드를 사용할 수 있습니다. `updateOrInsert` 메소드는 두 개의 인수, 즉 레코드를 찾는 조건 배열과 업데이트 될 컬럼을 포함하는 컬럼과 값 쌍의 배열을 받아들입니다.
+
+The `updateOrInsert` method will first attempt to locate a matching database record using the first argument's column and value pairs. If the record exists, it will be updated with the values in the second argument. If the record can not be found, a new record will be inserted with the merged attributes of both arguments:
+
+`updateOrInsert` 메소드는 첫 번째 인자의 컬럼과 값의 쌍을 사용하여 일치하는 데이터베이스 레코드를 찾습니다. 레코드가 있으면 두 번째 인수의 값으로 업데이트됩니다. 레코드를 찾을 수 없으면 두 레코드의 병합 된 특성과 함께 새 레코드가 삽입됩니다.
+
+    DB::table('users')
+        ->updateOrInsert(
+            ['email' => 'john@example.com', 'name' => 'John'],
+            ['votes' => '2']
+        );
 
 <a name="updating-json-columns"></a>
 ### Updating JSON Columns

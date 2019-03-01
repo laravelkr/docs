@@ -55,9 +55,9 @@
     mix.js('resources/js/app.js', 'public/js')
        .sass('resources/sass/app.scss', 'public/css');
 
-If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application. Of course, you are free to use any asset pipeline tool you wish, or even none at all.
+If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application; you are free to use any asset pipeline tool you wish, or even none at all.
 
-만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 당연하게도, 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
+만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
 <a name="installation"></a>
 ## Installation & Setup
@@ -158,9 +158,9 @@ If you need to override the [underlying Less plug-in options](https://github.com
 ### Sass
 ### Sass
 
-The `sass` method allows you to compile [Sass](http://sass-lang.com/) into CSS. You may use the method like so:
+The `sass` method allows you to compile [Sass](https://sass-lang.com/) into CSS. You may use the method like so:
 
-`sass` 메소드는 [Sass](http://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다:
+`sass` 메소드는 [Sass](https://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다:
 
     mix.sass('resources/sass/app.scss', 'public/css');
 
@@ -203,9 +203,9 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 ### PostCSS
 ### PostCSS
 
-[PostCSS](http://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
+[PostCSS](https://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application. First, install the desired plug-in through NPM and then reference it in your `webpack.mix.js` file:
 
-[PostCSS](http://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
+[PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
 
     mix.sass('resources/sass/app.scss', 'public/css')
        .options({
@@ -248,7 +248,7 @@ By default, Laravel Mix and Webpack will find `example.png`, copy it to your `pu
 기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
 
     .example {
-      background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
+        background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
     }
 
 As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:

@@ -212,9 +212,9 @@ To create a new database table, use the `create` method on the `Schema` facade. 
         $table->increments('id');
     });
 
-Of course, when creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
+When creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
 
-물론 테이블을 생성할 때, 테이블의 컬럼을 정의하기 위하여 자유롭게 스키마 빌더의 [컬럼 메소드](#creating-columns)를 사용할 수 있습니다.
+테이블을 생성할 때, 테이블의 컬럼을 정의하기 위하여 자유롭게 스키마 빌더의 [컬럼 메소드](#creating-columns)를 사용할 수 있습니다.
 
 #### Checking For Table / Column Existence
 #### 테이블 / 컬럼이 존재하는지 확인하기
@@ -304,9 +304,9 @@ The `table` method on the `Schema` facade may be used to update existing tables.
 #### Available Column Types
 #### 사용가능한 컬럼의 타입들
 
-Of course, the schema builder contains a variety of column types that you may specify when building your tables:
+The schema builder contains a variety of column types that you may specify when building your tables:
 
-당연하게도, 스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
+스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
 
 Command  |  Description
 -------  |  -----------

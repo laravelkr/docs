@@ -28,9 +28,9 @@ Paradigm shifting releases are separated by many years and represent fundamental
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 5.5, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year.
+For LTS releases, such as Laravel 5.5, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes.
 
-라라벨 5.5과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다.
+라라벨 5.5과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을받습니다.
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
@@ -65,9 +65,9 @@ Laravel 5.7은 [라라벨 노바](https://nova.laravel.com)를 도입하고, 인
 ### Laravel Nova
 ### Laravel Nova
 
-[Laravel Nova](https://nova.laravel.com) is a beautiful, best-in-class administration dashboard for Laravel applications. Of course, the primary feature of Nova is the ability to administer your underlying database records using Eloquent. Additionally, Nova offers support for filters, lenses, actions, queued actions, metrics, authorization, custom tools, custom cards, custom fields, and more.
+[Laravel Nova](https://nova.laravel.com) is a beautiful, best-in-class administration dashboard for Laravel applications. The primary feature of Nova is the ability to administer your underlying database records using Eloquent. Additionally, Nova offers support for filters, lenses, actions, queued actions, metrics, authorization, custom tools, custom cards, custom fields, and more.
 
-[라라벨 노바](https://nova.laravel.com)는 Laravel을 위한 최상의 관리자 대시보드입니다. 물론 Nova의 핵심 기능은 Eloquent를 사용하여 기본 데이터베이스 레코드를 관리 할 수 있는 것입니다. 또한 Nova는 필터, 렌즈, 작업, 대기중인 작업, 메트릭, 권한 부여, 커스텀 도구, 커스텀 카드, 커스텀 필드 등을 지원합니다.
+[라라벨 노바](https://nova.laravel.com)는 Laravel을 위한 최상의 관리자 대시보드입니다. Nova의 핵심 기능은 Eloquent를 사용하여 기본 데이터베이스 레코드를 관리 할 수 있는 것입니다. 또한 Nova는 필터, 렌즈, 작업, 대기중인 작업, 메트릭, 권한 부여, 커스텀 도구, 커스텀 카드, 커스텀 필드 등을 지원합니다.
 
 To learn more about Laravel Nova, check out the [Nova website](https://nova.laravel.com).
 

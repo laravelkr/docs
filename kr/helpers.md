@@ -34,27 +34,27 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 
 
-- [array_add](#method-array-add)
-- [array_collapse](#method-array-collapse)
-- [array_divide](#method-array-divide)
-- [array_dot](#method-array-dot)
-- [array_except](#method-array-except)
-- [array_first](#method-array-first)
-- [array_flatten](#method-array-flatten)
-- [array_forget](#method-array-forget)
-- [array_get](#method-array-get)
-- [array_has](#method-array-has)
-- [array_last](#method-array-last)
-- [array_only](#method-array-only)
-- [array_pluck](#method-array-pluck)
-- [array_prepend](#method-array-prepend)
-- [array_pull](#method-array-pull)
-- [array_random](#method-array-random)
-- [array_set](#method-array-set)
-- [array_sort](#method-array-sort)
-- [array_sort_recursive](#method-array-sort-recursive)
-- [array_where](#method-array-where)
-- [array_wrap](#method-array-wrap)
+- [Arr::add](#method-array-add)
+- [Arr::collapse](#method-array-collapse)
+- [Arr::divide](#method-array-divide)
+- [Arr::dot](#method-array-dot)
+- [Arr::except](#method-array-except)
+- [Arr::first](#method-array-first)
+- [Arr::flatten](#method-array-flatten)
+- [Arr::forget](#method-array-forget)
+- [Arr::get](#method-array-get)
+- [Arr::has](#method-array-has)
+- [Arr::last](#method-array-last)
+- [Arr::only](#method-array-only)
+- [Arr::pluck](#method-array-pluck)
+- [Arr::prepend](#method-array-prepend)
+- [Arr::pull](#method-array-pull)
+- [Arr::random](#method-array-random)
+- [Arr::set](#method-array-set)
+- [Arr::sort](#method-array-sort)
+- [Arr::sortRecursive](#method-array-sort-recursive)
+- [Arr::where](#method-array-where)
+- [Arr::wrap](#method-array-wrap)
 - [data_fill](#method-data-fill)
 - [data_get](#method-data-get)
 - [data_set](#method-data-set)
@@ -84,31 +84,31 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 
 - [\__](#method-__)
-- [camel_case](#method-camel-case)
+- [Str::camel](#method-camel-case)
 - [class_basename](#method-class-basename)
 - [e](#method-e)
-- [ends_with](#method-ends-with)
-- [kebab_case](#method-kebab-case)
+- [Str::endsWith](#method-ends-with)
+- [Str::kebab](#method-kebab-case)
 - [preg_replace_array](#method-preg-replace-array)
-- [snake_case](#method-snake-case)
-- [starts_with](#method-starts-with)
-- [str_after](#method-str-after)
-- [str_before](#method-str-before)
-- [str_contains](#method-str-contains)
-- [str_finish](#method-str-finish)
-- [str_is](#method-str-is)
-- [str_limit](#method-str-limit)
+- [Str::snake](#method-snake-case)
+- [Str::startsWith](#method-starts-with)
+- [Str::after](#method-str-after)
+- [Str::before](#method-str-before)
+- [Str::contains](#method-str-contains)
+- [Str::finish](#method-str-finish)
+- [Str::is](#method-str-is)
+- [Str::limit](#method-str-limit)
 - [Str::orderedUuid](#method-str-ordered-uuid)
-- [str_plural](#method-str-plural)
-- [str_random](#method-str-random)
-- [str_replace_array](#method-str-replace-array)
-- [str_replace_first](#method-str-replace-first)
-- [str_replace_last](#method-str-replace-last)
-- [str_singular](#method-str-singular)
-- [str_slug](#method-str-slug)
-- [str_start](#method-str-start)
-- [studly_case](#method-studly-case)
-- [title_case](#method-title-case)
+- [Str::plural](#method-str-plural)
+- [Str::random](#method-str-random)
+- [Str::replaceArray](#method-str-replace-array)
+- [Str::replaceFirst](#method-str-replace-first)
+- [Str::replaceLast](#method-str-replace-last)
+- [Str::singular](#method-str-singular)
+- [Str::slug](#method-str-slug)
+- [Str::start](#method-str-start)
+- [Str::studly](#method-studly-case)
+- [Str::title](#method-title-case)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 - [Str::uuid](#method-str-uuid)
@@ -207,76 +207,88 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ## 배열 & 객체
 
 <a name="method-array-add"></a>
-#### `array_add()` {#collection-method .first-collection-method}
+#### `Arr::add()` {#collection-method .first-collection-method}
 
-The `array_add` function adds a given key / value pair to an array if the given key doesn't already exist in the array:
+The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array:
 
-`array_add` 함수는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다:
+`Arr::add` 메소드는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다:
 
-    $array = array_add(['name' => 'Desk'], 'price', 100);
+    use Illuminate\Support\Arr;
+
+    $array = Arr::add(['name' => 'Desk'], 'price', 100);
 
     // ['name' => 'Desk', 'price' => 100]
 
 <a name="method-array-collapse"></a>
-#### `array_collapse()` {#collection-method}
+#### `Arr::collapse()` {#collection-method}
 
-The `array_collapse` function collapses an array of arrays into a single array:
+The `Arr::collapse` method collapses an array of arrays into a single array:
 
-`array_collapse` 함수는 배열들의 배열(여러개의 배열)을 하나의 배열로 통합합니다:
+`Arr::collapse` 메소드는 배열들의 배열(여러개의 배열)을 하나의 배열로 통합합니다:
 
-    $array = array_collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    use Illuminate\Support\Arr;
+
+    $array = Arr::collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 <a name="method-array-divide"></a>
-#### `array_divide()` {#collection-method}
+#### `Arr::divide()` {#collection-method}
 
-The `array_divide` function returns two arrays, one containing the keys, and the other containing the values of the given array:
+The `Arr::divide` method returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`array_divide` 함수는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
+`Arr::divide` 메소드는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
 
-    [$keys, $values] = array_divide(['name' => 'Desk']);
+    use Illuminate\Support\Arr;
+
+    [$keys, $values] = Arr::divide(['name' => 'Desk']);
 
     // $keys: ['name']
 
     // $values: ['Desk']
 
 <a name="method-array-dot"></a>
-#### `array_dot()` {#collection-method}
+#### `Arr::dot()` {#collection-method}
 
-The `array_dot` function flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
+The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
-`array_dot` 함수는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다:
+`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    $flattened = array_dot($array);
+    $flattened = Arr::dot($array);
 
     // ['products.desk.price' => 100]
 
 <a name="method-array-except"></a>
-#### `array_except()` {#collection-method}
+#### `Arr::except()` {#collection-method}
 
-The `array_except` function removes the given key / value pairs from an array:
+The `Arr::except` method removes the given key / value pairs from an array:
 
-`array_except` 메소드는 주어진 키 / 값 쌍을 배열에서 제거합니다.
+`Arr::except` 메소드는 주어진 키 / 값 쌍을 배열에서 제거합니다.
+
+    use Illuminate\Support\Arr;
 
     $array = ['name' => 'Desk', 'price' => 100];
 
-    $filtered = array_except($array, ['price']);
+    $filtered = Arr::except($array, ['price']);
 
     // ['name' => 'Desk']
 
 <a name="method-array-first"></a>
-#### `array_first()` {#collection-method}
+#### `Arr::first()` {#collection-method}
 
-The `array_first` function returns the first element of an array passing a given truth test:
+The `Arr::first` method returns the first element of an array passing a given truth test:
 
-`array_first` 함수는 넘겨진 배열 중 주어진 조건을 만족하는 첫번째 요소를 반환합니다:
+`Arr::first` 메소드는 넘겨진 배열 중 주어진 조건을 만족하는 첫번째 요소를 반환합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = [100, 200, 300];
 
-    $first = array_first($array, function ($value, $key) {
+    $first = Arr::first($array, function ($value, $key) {
         return $value >= 150;
     });
 
@@ -286,82 +298,94 @@ A default value may also be passed as the third parameter to the method. This va
 
 메소드에 세번째 파라미터로 기본 값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다:
 
-    $first = array_first($array, $callback, $default);
+    use Illuminate\Support\Arr;
+
+    $first = Arr::first($array, $callback, $default);
 
 <a name="method-array-flatten"></a>
-#### `array_flatten()` {#collection-method}
+#### `Arr::flatten()` {#collection-method}
 
-The `array_flatten` function flattens a multi-dimensional array into a single level array:
+The `Arr::flatten` method flattens a multi-dimensional array into a single level array:
 
-`array_flatten` 함수는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다:
+`Arr::flatten` 메소드는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['name' => 'Joe', 'languages' => ['PHP', 'Ruby']];
 
-    $flattened = array_flatten($array);
+    $flattened = Arr::flatten($array);
 
     // ['Joe', 'PHP', 'Ruby']
 
 <a name="method-array-forget"></a>
-#### `array_forget()` {#collection-method}
+#### `Arr::forget()` {#collection-method}
 
-The `array_forget` function removes a given key / value pair from a deeply nested array using "dot" notation:
+The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
 
-`array_forget` 함수는 “점(.)”표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다:
+`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    array_forget($array, 'products.desk');
+    Arr::forget($array, 'products.desk');
 
     // ['products' => []]
 
 <a name="method-array-get"></a>
-#### `array_get()` {#collection-method}
+#### `Arr::get()` {#collection-method}
 
-The `array_get` function retrieves a value from a deeply nested array using "dot" notation:
+The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation:
 
-`array_get` 함수는  “점(.)”표기법으로 중첩 배열로부터 주어진 값을 찾습니다:
+`Arr::get` 메소드는  “점(.)”표기법으로 중첩 배열로부터 주어진 값을 찾습니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    $price = array_get($array, 'products.desk.price');
+    $price = Arr::get($array, 'products.desk.price');
 
     // 100
 
-The `array_get` function also accepts a default value, which will be returned if the specific key is not found:
+The `Arr::get` method also accepts a default value, which will be returned if the specific key is not found:
 
-`array_get` 함수는 특정 키를 찾지 못한 경우 반환되는 기본값을 지정할 수도 있습니다.
+`Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 지정할 수도 있습니다.
 
-    $discount = array_get($array, 'products.desk.discount', 0);
+    $discount = Arr::get($array, 'products.desk.discount', 0);
 
     // 0
 
 <a name="method-array-has"></a>
-#### `array_has()` {#collection-method}
+#### `Arr::has()` {#collection-method}
 
-The `array_has` function checks whether a given item or items exists in an array using "dot" notation:
+The `Arr::has` method checks whether a given item or items exists in an array using "dot" notation:
 
-`array_has` 함수는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
+`Arr::has` 메소드는 "점(.)" 표기를 이용하여 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['product' => ['name' => 'Desk', 'price' => 100]];
 
-    $contains = array_has($array, 'product.name');
+    $contains = Arr::has($array, 'product.name');
 
     // true
 
-    $contains = array_has($array, ['product.price', 'product.discount']);
+    $contains = Arr::has($array, ['product.price', 'product.discount']);
 
     // false
 
 <a name="method-array-last"></a>
-#### `array_last()` {#collection-method}
+#### `Arr::last()` {#collection-method}
 
-The `array_last` function returns the last element of an array passing a given truth test:
+The `Arr::last` method returns the last element of an array passing a given truth test:
 
-`array_last` 함수는 전달된 조건을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
+`Arr::last` 메소드는 전달된 조건을 통과하는 아이템의 가장 마지막 요소를 반환합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = [100, 200, 300, 110];
 
-    $last = array_last($array, function ($value, $key) {
+    $last = Arr::last($array, function ($value, $key) {
         return $value >= 150;
     });
 
@@ -371,34 +395,40 @@ A default value may be passed as the third argument to the method. This value wi
 
 메소드의 세번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다:
 
-    $last = array_last($array, $callback, $default);
+    use Illuminate\Support\Arr;
+
+    $last = Arr::last($array, $callback, $default);
 
 <a name="method-array-only"></a>
-#### `array_only()` {#collection-method}
+#### `Arr::only()` {#collection-method}
 
-The `array_only` function returns only the specified key / value pairs from the given array:
+The `Arr::only` method returns only the specified key / value pairs from the given array:
 
-`array_only` 함수는 특정한 키 / 값 쌍만을 배열로부터 반환합니다:
+`Arr::only` 메소드는 특정한 키 / 값 쌍만을 배열로부터 반환합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['name' => 'Desk', 'price' => 100, 'orders' => 10];
 
-    $slice = array_only($array, ['name', 'price']);
+    $slice = Arr::only($array, ['name', 'price']);
 
     // ['name' => 'Desk', 'price' => 100]
 
 <a name="method-array-pluck"></a>
-#### `array_pluck()` {#collection-method}
+#### `Arr::pluck()` {#collection-method}
 
-The `array_pluck` function retrieves all of the values for a given key from an array:
+The `Arr::pluck` method retrieves all of the values for a given key from an array:
 
-`array_pluck` 함수는 배열로부터 주어진 키 / 값 쌍의 리스트를 조회합니다:
+`Arr::pluck` 메소드는 배열로부터 주어진 키 / 값 쌍의 리스트를 조회합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = [
         ['developer' => ['id' => 1, 'name' => 'Taylor']],
         ['developer' => ['id' => 2, 'name' => 'Abigail']],
     ];
 
-    $names = array_pluck($array, 'developer.name');
+    $names = Arr::pluck($array, 'developer.name');
 
     // ['Taylor', 'Abigail']
 
@@ -406,20 +436,24 @@ You may also specify how you wish the resulting list to be keyed:
 
 리스트만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다:
 
-    $names = array_pluck($array, 'developer.name', 'developer.id');
+    use Illuminate\Support\Arr;
+
+    $names = Arr::pluck($array, 'developer.name', 'developer.id');
 
     // [1 => 'Taylor', 2 => 'Abigail']
 
 <a name="method-array-prepend"></a>
-#### `array_prepend()` {#collection-method}
+#### `Arr::prepend()` {#collection-method}
 
-The `array_prepend` function will push an item onto the beginning of an array:
+The `Arr::prepend` method will push an item onto the beginning of an array:
 
-`array_prepend` 함수는 배열의 시작부분에 아이템을 추가할 것입니다:
+`Arr::prepend` 메소드는 배열의 시작부분에 아이템을 추가할 것입니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['one', 'two', 'three', 'four'];
 
-    $array = array_prepend($array, 'zero');
+    $array = Arr::prepend($array, 'zero');
 
     // ['zero', 'one', 'two', 'three', 'four']
 
@@ -427,22 +461,26 @@ If needed, you may specify the key that should be used for the value:
 
 필요한 경우, 아이템의 키를 지정할 수도 있습니다:
 
+    use Illuminate\Support\Arr;
+
     $array = ['price' => 100];
 
-    $array = array_prepend($array, 'Desk', 'name');
+    $array = Arr::prepend($array, 'Desk', 'name');
 
     // ['name' => 'Desk', 'price' => 100]
 
 <a name="method-array-pull"></a>
-#### `array_pull()` {#collection-method}
+#### `Arr::pull()` {#collection-method}
 
-The `array_pull` function returns and removes a key / value pair from an array:
+The `Arr::pull` method returns and removes a key / value pair from an array:
 
-`array_pull` 함수는 배열에서 주어진 키 / 값 쌍을 반환함과 동시에 제거합니다:
+`Arr::pull` 메소드는 배열에서 주어진 키 / 값 쌍을 반환함과 동시에 제거합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['name' => 'Desk', 'price' => 100];
 
-    $name = array_pull($array, 'name');
+    $name = Arr::pull($array, 'name');
 
     // $name: Desk
 
@@ -452,18 +490,22 @@ A default value may be passed as the third argument to the method. This value wi
 
 메소드의 세번째 인자로 기본값을 전달 할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다:
 
-    $value = array_pull($array, $key, $default);
+    use Illuminate\Support\Arr;
+
+    $value = Arr::pull($array, $key, $default);
 
 <a name="method-array-random"></a>
-#### `array_random()` {#collection-method}
+#### `Arr::random()` {#collection-method}
 
-The `array_random` function returns a random value from an array:
+The `Arr::random` method returns a random value from an array:
 
-`array_random` 함수는 배열에서 임의의 값을 반환합니다:
+`Arr::random` 메소드는 배열에서 임의의 값을 반환합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = [1, 2, 3, 4, 5];
 
-    $random = array_random($array);
+    $random = Arr::random($array);
 
     // 4 - (retrieved randomly)
 
@@ -471,33 +513,39 @@ You may also specify the number of items to return as an optional second argumen
 
 두번째 인자로 몇개의 아이템을 반환할지 값을 지정할 수 있습니다. 이 인자를 지정하면, 하나의 아이템이 포함되더라도 배열이 반환 됩니다:
 
-    $items = array_random($array, 2);
+    use Illuminate\Support\Arr;
+
+    $items = Arr::random($array, 2);
 
     // [2, 5] - (retrieved randomly)
 
 <a name="method-array-set"></a>
-#### `array_set()` {#collection-method}
+#### `Arr::set()` {#collection-method}
 
-The `array_set` function sets a value within a deeply nested array using "dot" notation:
+The `Arr::set` method sets a value within a deeply nested array using "dot" notation:
 
-`array_set` 함수는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다:
+`Arr::set` 메소드는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['products' => ['desk' => ['price' => 100]]];
 
-    array_set($array, 'products.desk.price', 200);
+    Arr::set($array, 'products.desk.price', 200);
 
     // ['products' => ['desk' => ['price' => 200]]]
 
 <a name="method-array-sort"></a>
-#### `array_sort()` {#collection-method}
+#### `Arr::sort()` {#collection-method}
 
-The `array_sort` function sorts an array by its values:
+The `Arr::sort` method sorts an array by its values:
 
-`array_sort` 함수는 값을 기반으로 정렬을 수행합니다:
+`Arr::sort` 메소드는 값을 기반으로 정렬을 수행합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = ['Desk', 'Table', 'Chair'];
 
-    $sorted = array_sort($array);
+    $sorted = Arr::sort($array);
 
     // ['Chair', 'Desk', 'Table']
 
@@ -505,13 +553,15 @@ You may also sort the array by the results of the given Closure:
 
 또한 주어진 클로저의 결과 값으로 배열을 정렬 할 수 있습니다:
 
+    use Illuminate\Support\Arr;
+
     $array = [
         ['name' => 'Desk'],
         ['name' => 'Table'],
         ['name' => 'Chair'],
     ];
 
-    $sorted = array_values(array_sort($array, function ($value) {
+    $sorted = array_values(Arr::sort($array, function ($value) {
         return $value['name'];
     }));
 
@@ -524,13 +574,13 @@ You may also sort the array by the results of the given Closure:
     */
 
 <a name="method-array-sort-recursive"></a>
-#### `array_sort_recursive()` {#collection-method}
+#### `Arr::sortRecursive()` {#collection-method}
 
-The `array_sort_recursive` function recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
+The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
 
-`array_sort_recursive` 함수는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다 :
+`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다 :
 
-`array_sort_recursive` 함수는 `sort` 함수를 이용하여 반복적으로 배열을 정렬합니다:
+    use Illuminate\Support\Arr;
 
     $array = [
         ['Roman', 'Taylor', 'Li'],
@@ -538,7 +588,7 @@ The `array_sort_recursive` function recursively sorts an array using the `sort` 
         ['one' => 1, 'two' => 2, 'three' => 3],
     ];
 
-    $sorted = array_sort_recursive($array);
+    $sorted = Arr::sortRecursive($array);
 
     /*
         [
@@ -549,30 +599,34 @@ The `array_sort_recursive` function recursively sorts an array using the `sort` 
     */
 
 <a name="method-array-where"></a>
-#### `array_where()` {#collection-method}
+#### `Arr::where()` {#collection-method}
 
-The `array_where` function filters an array using the given Closure:
+The `Arr::where` method filters an array using the given Closure:
 
-`array_where` 함수는 주어진 클로져를 사용하여 배열을 필터링합니다:
+`Arr::where` 메소드는 주어진 클로져를 사용하여 배열을 필터링합니다:
+
+    use Illuminate\Support\Arr;
 
     $array = [100, '200', 300, '400', 500];
 
-    $filtered = array_where($array, function ($value, $key) {
+    $filtered = Arr::where($array, function ($value, $key) {
         return is_string($value);
     });
 
     // [1 => '200', 3 => '400']
 
 <a name="method-array-wrap"></a>
-#### `array_wrap()` {#collection-method}
+#### `Arr::wrap()` {#collection-method}
 
-The `array_wrap` function wraps the given value in an array. If the given value is already an array it will not be changed:
+The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`array_wrap` 함수는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다:
+`Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다:
+
+    use Illuminate\Support\Arr;
 
     $string = 'Laravel';
 
-    $array = array_wrap($string);
+    $array = Arr::wrap($string);
 
     // ['Laravel']
 
@@ -580,9 +634,11 @@ If the given value is null, an empty array will be returned:
 
 주어진 값이 null인 경우, 빈 배열이 반환됩니다:
 
+    use Illuminate\Support\Arr;
+
     $nothing = null;
 
-    $array = array_wrap($nothing);
+    $array = Arr::wrap($nothing);
 
     // []
 
@@ -841,22 +897,24 @@ If the specified translation string or key does not exist, the `__` function wil
 지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`를 그대로 반환합니다.
 
 <a name="method-camel-case"></a>
-#### `camel_case()` {#collection-method}
+#### `Str::camel()` {#collection-method}
 
-The `camel_case` function converts the given string to `camelCase`:
+The `Str::camel` method converts the given string to `camelCase`:
 
-`camel_case` 함수는 주어진 문자열을 `camelCase` 형태로 변환합니다:
+`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다:
 
-    $converted = camel_case('foo_bar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::camel('foo_bar');
 
     // fooBar
 
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
-The `class_basename` returns the class name of the given class with the class' namespace removed:
+The `class_basename` function returns the class name of the given class with the class' namespace removed:
 
-`class_basename`은 클래스의 네임스페이스를 제거한 클래스의 클래스 명을 반환합니다:
+`class_basename` 함수는 클래스의 네임스페이스를 제거한 클래스의 클래스 명을 반환합니다:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -874,25 +932,27 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
     // &lt;html&gt;foo&lt;/html&gt;
 
 <a name="method-ends-with"></a>
-#### `ends_with()` {#collection-method}
+#### `Str::endsWith()` {#collection-method}
 
-The `ends_with` function determines if the given string ends with the given value:
+The `Str::endsWith` method determines if the given string ends with the given value:
 
-`ends_with` 함수는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
+`Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
 
-    $result = ends_with('This is my name', 'name');
+    $result = Str::endsWith('This is my name', 'name');
 
     // true
 
 <a name="method-kebab-case"></a>
-#### `kebab_case()` {#collection-method}
+#### `Str::kebab()` {#collection-method}
 
-The `kebab_case` function converts the given string to `kebab-case`:
+The `Str::kebab` method converts the given string to `kebab-case`:
 
-`kebab_case` 함수는 주어진 문자열을 `kebab-case`로 변환합니다:
+`Str::kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다:
  (역자주 : 단어와 단어를 '-'로 연결한 형태)
 
-    $converted = kebab_case('fooBar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::kebab('fooBar');
 
     // foo-bar
 
@@ -910,58 +970,66 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
     // The event will take place between 8:30 and 9:00
 
 <a name="method-snake-case"></a>
-#### `snake_case()` {#collection-method}
+#### `Str::snake()` {#collection-method}
 
-The `snake_case` function converts the given string to `snake_case`:
+The `Str::snake` method converts the given string to `Str::snake`:
 
-`snake_case` 함수는 주어진 문자열을 `snake_case` 형태로 변환합니다:
+`Str::snake` 메소드는 주어진 문자열을 `Str::snake` 형태로 변환합니다:
 
-    $converted = snake_case('fooBar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::snake('fooBar');
 
     // foo_bar
 
 <a name="method-starts-with"></a>
-#### `starts_with()` {#collection-method}
+#### `Str::startsWith()` {#collection-method}
 
-The `starts_with` function determines if the given string begins with the given value:
+The `Str::startsWith` method determines if the given string begins with the given value:
 
-`starts_with` 함수는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
+`Str::startsWith` 메소드는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
 
-    $result = starts_with('This is my name', 'This');
+    use Illuminate\Support\Str;
+
+    $result = Str::startsWith('This is my name', 'This');
 
     // true
 
 <a name="method-str-after"></a>
-#### `str_after()` {#collection-method}
+#### `Str::after()` {#collection-method}
 
-The `str_after` function returns everything after the given value in a string:
+The `Str::after` method returns everything after the given value in a string:
 
-`str_after` 함수는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
+`Str::after` 메소드는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다:
 
-    $slice = str_after('This is my name', 'This is');
+    use Illuminate\Support\Str;
+
+    $slice = Str::after('This is my name', 'This is');
 
     // ' my name'
 
 
 <a name="method-str-before"></a>
-#### `str_before()` {#collection-method}
+#### `Str::before()` {#collection-method}
 
-The `str_before` function returns everything before the given value in a string:
+The `Str::before` method returns everything before the given value in a string:
 
-`str_before` 함수는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
+`Str::before` 메소드는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다:
 
-    $slice = str_before('This is my name', 'my name');
+    use Illuminate\Support\Str;
+
+    $slice = Str::before('This is my name', 'my name');
 
     // 'This is '
 
 <a name="method-str-contains"></a>
-#### `str_contains()` {#collection-method}
+#### `Str::contains()` {#collection-method}
 
-The `str_contains` function determines if the given string contains the given value (case sensitive):
+The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
-`str_contains` 함수는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
+`Str::contains` 메소드는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
 
-    $contains = str_contains('This is my name', 'my');
+    $contains = Str::contains('This is my name', 'my');
 
     // true
 
@@ -969,48 +1037,56 @@ You may also pass an array of values to determine if the given string contains a
 
 또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다:
 
-    $contains = str_contains('This is my name', ['my', 'foo']);
+    use Illuminate\Support\Str;
+
+    $contains = Str::contains('This is my name', ['my', 'foo']);
 
     // true
 
 <a name="method-str-finish"></a>
-#### `str_finish()` {#collection-method}
+#### `Str::finish()` {#collection-method}
 
-The `str_finish` function adds a single instance of the given value to a string if it does not already end with the value:
+The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
-`str_finish` 함수는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
+`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다:
 
-    $adjusted = str_finish('this/string', '/');
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::finish('this/string', '/');
 
     // this/string/
 
-    $adjusted = str_finish('this/string/', '/');
+    $adjusted = Str::finish('this/string/', '/');
 
     // this/string/
 
 <a name="method-str-is"></a>
-#### `str_is()` {#collection-method}
+#### `Str::is()` {#collection-method}
 
-The `str_is` function determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
+The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`str_is` 함수는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
-    $matches = str_is('foo*', 'foobar');
+    use Illuminate\Support\Str;
+
+    $matches = Str::is('foo*', 'foobar');
 
     // true
 
-    $matches = str_is('baz*', 'foobar');
+    $matches = Str::is('baz*', 'foobar');
 
     // false
 
 <a name="method-str-limit"></a>
-#### `str_limit()` {#collection-method}
+#### `Str::limit()` {#collection-method}
 
-The `str_limit` function truncates the given string at the specified length:
+The `Str::limit` method truncates the given string at the specified length:
 
-`str_limit` 함수는 주어진 문자열을 지정된 길이로 제한합니다:
+`Str::limit` 메소드는 주어진 문자열을 지정된 길이로 제한합니다:
 
-    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20);
+    use Illuminate\Support\Str;
+
+    $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20);
 
     // The quick brown fox...
 
@@ -1018,7 +1094,9 @@ You may also pass a third argument to change the string that will be appended to
 
 변경될 문자열의 마지막에 덧붙일 문자열을 세번째 인자로 전달할 수도 있습니다:
 
-    $truncated = str_limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
+    use Illuminate\Support\Str;
+
+    $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
 
     // The quick brown fox (...)
 
@@ -1029,24 +1107,26 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 `Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프와 같은 정렬이 가능한" UUID를 생성합니다:
 
-(역자주 : 이 헬퍼함수의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
+(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
 
     use Illuminate\Support\Str;
 
     return (string) Str::orderedUuid();
 
 <a name="method-str-plural"></a>
-#### `str_plural()` {#collection-method}
+#### `Str::plural()` {#collection-method}
 
-The `str_plural` function converts a string to its plural form. This function currently only supports the English language:
+The `Str::plural` method converts a string to its plural form. This function currently only supports the English language:
 
-`str_plural` 함수는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
+`Str::plural` 메소드는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
 
-    $plural = str_plural('car');
+    use Illuminate\Support\Str;
+
+    $plural = Str::plural('car');
 
     // cars
 
-    $plural = str_plural('child');
+    $plural = Str::plural('child');
 
     // children
 
@@ -1054,118 +1134,138 @@ You may provide an integer as a second argument to the function to retrieve the 
 
 문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다:
 
-    $plural = str_plural('child', 2);
+    use Illuminate\Support\Str;
+
+    $plural = Str::plural('child', 2);
 
     // children
 
-    $plural = str_plural('child', 1);
+    $plural = Str::plural('child', 1);
 
     // child
 
 <a name="method-str-random"></a>
-#### `str_random()` {#collection-method}
+#### `Str::random()` {#collection-method}
 
-The `str_random` function generates a random string of the specified length. This function uses PHP's `random_bytes` function:
+The `Str::random` method generates a random string of the specified length. This function uses PHP's `random_bytes` function:
 
-`str_random` 함수는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
+`Str::random` 메소드는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
 
-    $random = str_random(40);
+    use Illuminate\Support\Str;
+
+    $random = Str::random(40);
 
 <a name="method-str-replace-array"></a>
-#### `str_replace_array()` {#collection-method}
+#### `Str::replaceArray()` {#collection-method}
 
-The `str_replace_array` function replaces a given value in the string sequentially using an array:
+The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
 
-`str_replace_array` 함수는 주어진 값을 순차적으로 배열값으로 치환합니다:
+`Str::replaceArray` 메소드는 주어진 값을 순차적으로 배열값으로 치환합니다:
+
+    use Illuminate\Support\Str;
 
     $string = 'The event will take place between ? and ?';
 
-    $replaced = str_replace_array('?', ['8:30', '9:00'], $string);
+    $replaced = Str::replaceArray('?', ['8:30', '9:00'], $string);
 
     // The event will take place between 8:30 and 9:00
 
 <a name="method-str-replace-first"></a>
-#### `str_replace_first()` {#collection-method}
+#### `Str::replaceFirst()` {#collection-method}
 
-The `str_replace_first` function replaces the first occurrence of a given value in a string:
+The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
-`str_replace_first` 함수는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
 
-    $replaced = str_replace_first('the', 'a', 'the quick brown fox jumps over the lazy dog');
+    use Illuminate\Support\Str;
+
+    $replaced = Str::replaceFirst('the', 'a', 'the quick brown fox jumps over the lazy dog');
 
     // a quick brown fox jumps over the lazy dog
 
 <a name="method-str-replace-last"></a>
-#### `str_replace_last()` {#collection-method}
+#### `Str::replaceLast()` {#collection-method}
 
-The `str_replace_last` function replaces the last occurrence of a given value in a string:
+The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
-`str_replace_last` 함수는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
+`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
 
-    $replaced = str_replace_last('the', 'a', 'the quick brown fox jumps over the lazy dog');
+    use Illuminate\Support\Str;
+
+    $replaced = Str::replaceLast('the', 'a', 'the quick brown fox jumps over the lazy dog');
 
     // the quick brown fox jumps over a lazy dog
 
 <a name="method-str-singular"></a>
-#### `str_singular()` {#collection-method}
+#### `Str::singular()` {#collection-method}
 
-The `str_singular` function converts a string to its singular form. This function currently only supports the English language:
+The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
 
-`str_singular` 함수는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다:
+`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 기능는 현재 영어에만 적용 가능합니다:
 
-    $singular = str_singular('cars');
+    use Illuminate\Support\Str;
+
+    $singular = Str::singular('cars');
 
     // car
 
-    $singular = str_singular('children');
+    $singular = Str::singular('children');
 
     // child
 
 <a name="method-str-slug"></a>
-#### `str_slug()` {#collection-method}
+#### `Str::slug()` {#collection-method}
 
-The `str_slug` function generates a URL friendly "slug" from the given string:
+The `Str::slug` method generates a URL friendly "slug" from the given string:
 
-`str_slug` 함수는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
+`Str::slug` 메소드는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
 
-    $slug = str_slug('Laravel 5 Framework', '-');
+    use Illuminate\Support\Str;
+
+    $slug = Str::slug('Laravel 5 Framework', '-');
 
     // laravel-5-framework
 
 <a name="method-str-start"></a>
-#### `str_start()` {#collection-method}
+#### `Str::start()` {#collection-method}
 
-The `str_start` function adds a single instance of the given value to a string if it does not already start with the value:
+The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`str_start` 함수는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
+`Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다:
 
-    $adjusted = str_start('this/string', '/');
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::start('this/string', '/');
 
     // /this/string
 
-    $adjusted = str_start('/this/string', '/');
+    $adjusted = Str::start('/this/string', '/');
 
     // /this/string
 
 <a name="method-studly-case"></a>
-#### `studly_case()` {#collection-method}
+#### `Str::studly()` {#collection-method}
 
-The `studly_case` function converts the given string to `StudlyCase`:
+The `Str::studly` method converts the given string to `StudlyCase`:
 
-`studly_case` 함수는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
+`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
-    $converted = studly_case('foo_bar');
+    use Illuminate\Support\Str;
+
+    $converted = Str::studly('foo_bar');
 
     // FooBar
 
 <a name="method-title-case"></a>
-#### `title_case()` {#collection-method}
+#### `Str::title()` {#collection-method}
 
-The `title_case` function converts the given string to `Title Case`:
+The `Str::title` method converts the given string to `Title Case`:
 
-`title_case` 함수는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
+`Str::title` 메소드는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
 
-    $converted = title_case('a nice title uses the correct case');
+    use Illuminate\Support\Str;
+
+    $converted = Str::title('a nice title uses the correct case');
 
     // A Nice Title Uses The Correct Case
 
@@ -1234,6 +1334,14 @@ The `asset` function generates a URL for an asset using the current scheme of th
 `asset` 함수는 HTTP요청의 현재 scheme(HTTP나 HTTPS)을 이용하여 asset을 사용하기 위한 URL을 생성합니다:
 
     $url = asset('img/photo.jpg');
+
+You can configure the asset URL host by setting the `ASSET_URL` variable in your `.env` file. This can be useful if you host your assets on an external service like Amazon S3:
+
+`.env` 파일에 `ASSET_URL` 변수를 설정하여 asset의 URL 호스트를 설정할 수 있습니다. 이는 Amazon S3와 같은 외부 서비스에서 asset을 호스팅하는 경우 유용 할 수 있습니다.
+
+    // ASSET_URL=http://example.com/assets
+
+    $url = asset('img/photo.jpg'); // http://example.com/assets/img/photo.jpg
 
 <a name="method-secure-asset"></a>
 #### `secure_asset()` {#collection-method}

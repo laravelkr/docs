@@ -115,7 +115,7 @@ When using the Algolia driver, you should configure your Algolia `id` and `secre
 
 Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보를 `config/scout.php` 설정 파일에 입력해야 합니다. 계정 정보를 설정한 다음에는, 컴포저를 통해 Algolia PHP SDK를 설치해야 합니다.
 
-    composer require algolia/algoliasearch-client-php:^1.27
+    composer require algolia/algoliasearch-client-php:^2.2
 
 <a name="configuration"></a>
 ## Configuration
@@ -467,9 +467,9 @@ If you need to customize the search behavior of an engine you may pass a callbac
 
 엔진의 검색 동작을 커스터마이징 할 필요가있는 경우, 콜백을 `search` 메소드의 두 번째 인수로 전달할 수 있습니다. 예를 들어 검색어를 Algolia에 전달하기 전에 이 콜백을 사용하여 검색 옵션에 지리적 위치 데이터를 추가 할 수 있습니다.
 
-    use AlgoliaSearch\Index;
+    use Algolia\AlgoliaSearch\SearchIndex;
 
-    App\Order::search('Star Trek', function (Index $algolia, string $query, array $options) {
+    App\Order::search('Star Trek', function (SearchIndex $algolia, string $query, array $options) {
         $options['body']['query']['bool']['filter']['geo_distance'] = [
             'distance' => '1000km',
             'location' => ['lat' => 36, 'lon' => 111],
@@ -498,6 +498,7 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
     abstract public function mapIds($results);
     abstract public function map($results, $model);
     abstract public function getTotalCount($results);
+    abstract public function flush($model);
 
 You may find it helpful to review the implementations of these methods on the `Laravel\Scout\Engines\AlgoliaEngine` class. This class will provide you with a good starting point for learning how to implement each of these methods in your own engine.
 

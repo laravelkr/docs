@@ -36,9 +36,9 @@ Under the hood, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolo
 ## Configuration
 ## 설정하기
 
-All of the configuration for your application's logging system is housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. Of course, we'll review a few common options below.
+All of the configuration for your application's logging system is housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
 
-애플리케이션의 로깅 시스템 설정은 `config/logging.php` 파일에 지정되어 있습니다. 이 파일을 통해서 애플리케이션의 로그 채널을 설정하기 때문에, 사용가능한 채널과 옵션을 살펴보도록 하십시오. 물란 다음의 몇가지 일반적인 옵션을 살펴보도록 하겠습니다.
+애플리케이션의 로깅 시스템 설정은 `config/logging.php` 파일에 지정되어 있습니다. 이 파일을 통해서 애플리케이션의 로그 채널을 설정하기 때문에, 사용가능한 채널과 옵션을 살펴보도록 하십시오. 다음의 몇가지 일반적인 옵션을 살펴보도록 하겠습니다.
 
 By default, Laravel will use the `stack` channel when logging messages. The `stack` channel is used to aggregate multiple log channels into a single channel. For more information on building stacks, check out the [documentation below](#building-log-stacks).
 
@@ -85,6 +85,26 @@ Name | Description
 > {tip} Check out the documentation on [advanced channel customization](#advanced-monolog-channel-customization) to learn more about the `monolog` and `custom` drivers.
 
 > {tip} [고급 채널 커스터마이징](#advanced-monolog-channel-customization)에 대한 매뉴얼을 확인하여 `monolog` 와 `custom` 드라이버에 대해서 자세히 알아보십시오.
+
+#### Configuring The Single and Daily Channels
+#### 단일 및 데일리 채널 구성
+
+The `single` and `daily` channels have three optional configuration options: `bubble`, `permission`, and `locking`.
+
+`single`과 `daily` 채널은 `bubble`, `permission`, `locking`의 세 가지 옵션 설정 옵션을 가지고 있습니다.
+
+Name | Description | Default
+------------- | ------------- | -------------
+`bubble` | Indicates if messages should bubble up to other channels after being handled | `true`
+`permission` | The log file's permissions | `644`
+`locking` | Attempt to lock the log file before writing to it | `false`
+
+이름 | 설명 | 기본값
+------------- | ------------- | -------------
+`bubble`| 처리 된 후에 메시지가 다른 채널로 버블링되어야하는지 나타냅니다. | `true`
+`permission`| 로그 파일의 사용 권한 | `644`
+`locking`| 기록하기 전에 로그 파일을 잠그십시오. | `거짓`
+
 
 #### Configuring The Slack Channel
 #### 슬랙 채널 설정하기

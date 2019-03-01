@@ -24,7 +24,7 @@
     - [Many To Many](#many-to-many-polymorphic-relations)
     - [\*:*(다대다) 관계](#many-to-many-polymorphic-relations)
     - [Custom Polymorphic Types](#custom-polymorphic-types)
-    - [커스텀-사용자정의 다형성 타입](#custom-polymorphic-types)
+    - [사용자 정의 다형성 타입](#custom-polymorphic-types)
 - [Querying Relations](#querying-relations)
 - [관계 쿼리 질의하기](#querying-relations)
     - [Relationship Methods Vs. Dynamic Properties](#relationship-methods-vs-dynamic-properties)
@@ -221,9 +221,9 @@ Once the relationship has been defined, we can access the collection of comments
         //
     }
 
-Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+Since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
 
-물론 모든 관계들은 쿼리 빌더로도 역할하기 때문에 `comments` 메소드를 호출하고 쿼리에 조건들을 계속해서 체인하는 것을 통해 어떤 댓글들이 조회되는지에 대한 제한들을 추가할 수 있습니다:
+모든 관계들은 쿼리 빌더로도 역할하기 때문에 `comments` 메소드를 호출하고 쿼리에 조건들을 계속해서 체인하는 것을 통해 어떤 댓글들이 조회되는지에 대한 제한들을 추가할 수 있습니다:
 
     $comment = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
@@ -331,9 +331,9 @@ Once the relationship is defined, you may access the user's roles using the `rol
         //
     }
 
-Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
+Like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
 
-물론 다른 모든 관계 타입과 같이 `roles` 메소드를 호출하여 관계에 대해서 쿼리 제한 조건들을 계속하여 체이닝 할 수 있습니다:
+다른 모든 관계 타입과 같이 `roles` 메소드를 호출하여 관계에 대해서 쿼리 제한 조건들을 계속하여 체이닝 할 수 있습니다:
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
 
@@ -481,9 +481,9 @@ When defining the `UserRole` model, we will extend the `Pivot` class:
         //
     }
 
-Of course, you can combine `using` and `withPivot` in order to retrieve columns from the intermediate table. For example, you may retrieve the `created_by` and `updated_by` columns from the `UserRole` pivot table by passing the column names to the `withPivot` method:
+You can combine `using` and `withPivot` in order to retrieve columns from the intermediate table. For example, you may retrieve the `created_by` and `updated_by` columns from the `UserRole` pivot table by passing the column names to the `withPivot` method:
 
-물론, 중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
+중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
 
     <?php
 
@@ -587,7 +587,7 @@ A polymorphic relationship allows the target model to belong to more than one ty
 
 <a name="one-to-one-polymorphic-relations"></a>
 ### One To One (Polymorphic)
-### 일대일 (다형성)
+### 1:1(일대일) (다형성)
 
 #### Table Structure
 #### 테이블 구조
@@ -685,7 +685,7 @@ The `imageable` relation on the `Image` model will return either a `Post` or `Us
 
 <a name="one-to-many-polymorphic-relations"></a>
 ### One To Many (Polymorphic)
-### 1:* 일대다(다형성)
+### 1:*(일대다) (다형성)
 
 #### Table Structure
 #### 테이블 구조
@@ -709,7 +709,6 @@ A one-to-many polymorphic relation is similar to a simple one-to-many relation; 
         body - text
         commentable_id - integer
         commentable_type - string
-
 
 #### Model Structure
 #### 모델 구조
@@ -754,83 +753,6 @@ Next, let's examine the model definitions needed to build this relationship:
         public function comments()
         {
             return $this->morphMany('App\Comment', 'commentable');
-        }
-    }
-
-#### Retrieving Relations
-#### 관계 조회하기
-
-Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can use the `comments` dynamic property:
-
-데이터베이스 테이블과 모델이 정의되었다면 모델들을 통해 관계들에 접근할 수 있습니다. 예를 들어, 게시글의 모든 댓글에 접근하기 위해서, `comments` 동적 속성을 사용할 수 있습니다:
-
-    $post = App\Post::find(1);
-
-    foreach ($post->comments as $comment) {
-        //
-    }
-
-You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `commentable` method on the `Comment` model. So, we will access that method as a dynamic property:
-
-또한 `morphTo`의 호출을 수행하는 메소드의 이름에 접근하여 다형성 모델에서 다형성 관계의 소유자를 조회할 수 있습니다. 이 경우, `Comment` 모델에 `commentable` 메소드를 사용합니다. 따라서 이 메소드를 동적 속성으로 접근할 것입니다:
-
-    $comment = App\Comment::find(1);
-
-    $commentable = $comment->commentable;
-
-The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
-
-`Comment` 모델의 `commentabl` 관계는 댓글을 어느 모델이 소유하느냐에 따라 `Post`나 `Video` 인스턴스를 반환합니다.
-
-<a name="many-to-many-polymorphic-relations"></a>
-### Many To Many (Polymorphic)
-### 다대다 (다형성)
-
-#### Table Structure
-#### 테이블 구조
-
-Many-to-many polymorphic relations are slightly more complicated than `morphOne` and `morphMany` relationships. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across blog posts and videos. First, let's examine the table structure:
-
-*:* 다대다 다형성 관계는 `morphOne` 와 `morphMany` 관계에 대해서 다소 복잡합니다. 예를 들어, 블로그 `Post`와 `Video` 모델은 `Tag` 모델과 다형성 관계를 공유할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오를 아울러 공유되는 고유의 태그를 하나의 목록으로 만들어줍니다. 우선 테이블 구조를 살펴보겠습니다:
-
-    posts
-        id - integer
-        name - string
-
-    videos
-        id - integer
-        name - string
-
-    tags
-        id - integer
-        name - string
-
-    taggables
-        tag_id - integer
-        taggable_id - integer
-        taggable_type - string
-
-#### Model Structure
-#### 모델 구조
-
-Next, we're ready to define the relationships on the model. The `Post` and `Video` models will both have a `tags` method that calls the `morphToMany` method on the base Eloquent class:
-
-이제 모델에 관계를 정의할 준비가 되었습니다. `Post`와 `Video` 모델은 둘 다 Eloquent 클래스에 `morphToMany` 메소드를 호출하는 `tags` 메소드를 가집니다:
-
-    <?php
-
-    namespace App;
-
-    use Illuminate\Database\Eloquent\Model;
-
-    class Post extends Model
-    {
-        /**
-         * Get all of the tags for the post.
-         */
-        public function tags()
-        {
-            return $this->morphToMany('App\Tag', 'taggable');
         }
     }
 
@@ -888,7 +810,6 @@ You may also retrieve the owner of a polymorphic relation from the polymorphic m
     foreach ($tag->videos as $video) {
         //
     }
-
 
 <a name="custom-polymorphic-types"></a>
 ### Custom Polymorphic Types
@@ -990,17 +911,22 @@ Nested `has` statements may also be constructed using "dot" notation. For exampl
 
 중첩된 `has` 구문(statement)은 "점(.)" 표기를 사용하여 구성될 수 있습니다. 예를 들어, 최소한 하나의 댓글과 좋아요(vote)를 가진 모든 게시물을 조회할 수 있습니다:
 
-    // Retrieve all posts that have at least one comment with votes...
+    // Retrieve posts that have at least one comment with votes...
     $posts = App\Post::has('comments.votes')->get();
 
 If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your `has` queries. These methods allow you to add customized constraints to a relationship constraint, such as checking the content of a comment:
 
 더 많은 권한이 필요하다면 `whereHas`와 `orWhereHas` 메소드를 사용하여 `has` 쿼리에 "where" 조건을 추가할 수 있습니다. 이 메소드들은 관계 제한에 댓글 컨텐츠 확인과 같은 사용자 정의된 제한들을 추가할 수 있게 해줍니다:
 
-    // Retrieve all posts with at least one comment containing words like foo%
+    // Retrieve posts with at least one comment containing words like foo%
     $posts = App\Post::whereHas('comments', function ($query) {
         $query->where('content', 'like', 'foo%');
     })->get();
+
+    // Retrieve posts with at least ten comments containing words like foo%
+    $posts = App\Post::whereHas('comments', function ($query) {
+        $query->where('content', 'like', 'foo%');
+    }, '>=', 10)->get();
 
 <a name="querying-relationship-absence"></a>
 ### Querying Relationship Absence
@@ -1170,7 +1096,7 @@ You may not always need every column from the relationships you are retrieving. 
 ### Constraining Eager Loads
 ### Eager 로딩에서 조건을 통해 질의 제한하기
 
-Sometimes you may wish to eager load a relationship, but also specify additional query constraints for the eager loading query. Here's an example:
+Sometimes you may wish to eager load a relationship, but also specify additional query conditions for the eager loading query. Here's an example:
 
 때로는 관계를 eager 로드하면서 eager 로딩 쿼리에 추가적인 쿼리 제한들을 지정하고 싶을 수 있습니다. 다음은 그 예제입니다:
 
@@ -1178,13 +1104,17 @@ Sometimes you may wish to eager load a relationship, but also specify additional
         $query->where('title', 'like', '%first%');
     }])->get();
 
-In this example, Eloquent will only eager load posts where the post's `title` column contains the word `first`. Of course, you may call other [query builder](/docs/{{version}}/queries) methods to further customize the eager loading operation:
+In this example, Eloquent will only eager load posts where the post's `title` column contains the word `first`. You may call other [query builder](/docs/{{version}}/queries) methods to further customize the eager loading operation:
 
-이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 물론 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
+이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
 
     $users = App\User::with(['posts' => function ($query) {
         $query->orderBy('created_at', 'desc');
     }])->get();
+
+> {note} The `limit` and `take` query builder methods may not be used when constraining eager loads.
+
+> {note} eager load를 제한 할 때 `limit`과 `take` 쿼리 빌더 메소드는 사용할 수 없습니다.
 
 <a name="lazy-eager-loading"></a>
 ### Lazy Eager Loading
@@ -1390,9 +1320,9 @@ When attaching a relationship to a model, you may also pass an array of addition
 
     $user->roles()->attach($roleId, ['expires' => $expires]);
 
-Of course, sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will delete the appropriate record out of the intermediate table; however, both models will remain in the database:
+Sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will delete the appropriate record out of the intermediate table; however, both models will remain in the database:
 
-물론 경우에 따라 사용자에게서 역할을 분리하는 것이 필요할 수 있습니다. 다대다 관계 기록을 제거하려면 `detach` 메소드를 이용하면 됩니다. `detach` 메소드는 중간 테이블에서 적절한 기록을 삭제할 것입니다. 하지만 두 모델은 모두 데이터베이스에 남을 것입니다:
+경우에 따라 사용자에게서 역할을 분리하는 것이 필요할 수 있습니다. 다대다 관계 기록을 제거하려면 `detach` 메소드를 이용하면 됩니다. `detach` 메소드는 중간 테이블에서 적절한 기록을 삭제할 것입니다. 하지만 두 모델은 모두 데이터베이스에 남을 것입니다:
 
     // Detach a single role from the user...
     $user->roles()->detach($roleId);

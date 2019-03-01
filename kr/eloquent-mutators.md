@@ -68,9 +68,9 @@ As you can see, the original value of the column is passed to the accessor, allo
 
     $firstName = $user->first_name;
 
-Of course, you may also use accessors to return new, computed values from existing attributes:
+You may also use accessors to return new, computed values from existing attributes:
 
-물론 이미 존재하는 속성값의 새롭게 변경하는데에도 accessor 를 사용할 수 있습니다:
+이미 존재하는 속성값의 새롭게 변경하는데에도 accessor 를 사용할 수 있습니다:
 
     /**
      * Get the user's full name.
@@ -156,9 +156,9 @@ By default, Eloquent will convert the `created_at` and `updated_at` columns to i
 
 > {tip} 모델의 `$timestamp` 속성을 `false` 로 지정하여 기본적으로 활성화 되는 `created_at` 와 `updated_at` 타임스탬프 값을 사용하지 않을 수(비활성화) 있습니다.
 
-When a column is considered a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, and of course a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database:
+When a column is considered a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, or a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database:
 
-컬럼이 날짜라고 추정되는 경우, 여러분은 이 값을 UNIX 타임스탬프 값, date(`Y-m-d`) 문자열 값, 날짜-시간에 대한 문자열 값, 그리고 `DateTime` / `Carbon` 클래스의 인스턴스 값으로 설정할 수 있습니다. 날짜값은 데이터베이스에 일치하는 형태로 변환되어 저장됩니다:
+컬럼이 날짜라고 추정되는 경우, 이 값을 UNIX 타임스탬프, 날짜 문자열(`Y-m-d`), 날짜-시간에 대한 문자열, 또는 `DateTime` / `Carbon` 클래스의 인스턴스 값으로 설정할 수 있고, 날짜는 올바르게 변환되어 데이터베이스에 저장됩니다.
 
     $user = App\User::find(1);
 

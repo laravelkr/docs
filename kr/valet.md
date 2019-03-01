@@ -55,7 +55,7 @@ Out of the box, Valet support includes, but is not limited to:
 - [Contao](https://contao.org/en/)
 - [Craft](https://craftcms.com)
 - [Drupal](https://www.drupal.org/)
-- [Jigsaw](http://jigsaw.tighten.co)
+- [Jigsaw](https://jigsaw.tighten.co)
 - [Joomla](https://www.joomla.org/)
 - [Katana](https://github.com/themsaid/katana)
 - [Kirby](https://getkirby.com/)
@@ -83,9 +83,9 @@ As you may know, Laravel offers [Homestead](/docs/{{version}}/homestead), anothe
 
 이미 알고 있다시피, 라라벨은 또다른 라라벨 개발 환경인 [홈스테드](/docs/{{version}}/homestead)를 제공하고 있습니다. 홈스테드와 발렛은 이용자의 로컬 개발에 대한 목적과 방식이 다릅니다. 홈스테드는 자동화된 Nginx 설정과 함께 전체 우분투 가상 머신 환경을 제공합니다. 홈스테드는 리눅스 개발 환경에 대한 전체 가상화를 원하거나, 윈도우 / 리눅스 환경에서라면 아주 멋진 선택이 됩니다.
 
-Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](http://brew.sh/) with commands like `brew install php` and `brew install mysql`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
+Valet only supports Mac, and requires you to install PHP and a database server directly onto your local machine. This is easily achieved by using [Homebrew](https://brew.sh/) with commands like `brew install php` and `brew install mysql`. Valet provides a blazing fast local development environment with minimal resource consumption, so it's great for developers who only require PHP / MySQL and do not need a fully virtualized development environment.
 
-발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](http://brew.sh/)를 사용해서 `brew install php` 그리고 `brew install mysql`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.
+발렛은 Mac 만을 지원하고, 그리고 여러분의 로컬 머신에 직접 PHP 와 데이터베이스 서버를 설치할 필요가 있습니다. [Homebrew](https://brew.sh/)를 사용해서 `brew install php` 그리고 `brew install mysql`와 같은 명령어를 실행하면 손쉽게 설치가 가능합니다. 발렛은 최소한의 리소스를 사용하여 매우 빠른 로컬 개발 환경을 제공합니다, 따라서 단지 PHP / MySQL 그리고 전체 가상 개발 환경이 필요하지 않은 개발자에게 적합합니다.
 
 Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
@@ -93,21 +93,21 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 ## Installation
 ## 설치하기
 
-**Valet requires macOS and [Homebrew](http://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.**
+**Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.**
 
-**발렛은 maxOS와 [Homebrew](http://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
+**발렛은 maxOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 
-- Install or update [Homebrew](http://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.2 using Homebrew via `brew install php@7.2`.
+- Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
+- Install PHP 7.3 using Homebrew via `brew install php`.
 - Install [Composer](https://getcomposer.org).
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 
 
 
-- [Homebrew](http://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install php@7.2` Homebrew 명령어를 사용하여 PHP7.2을 설치하십시오.
+- [Homebrew](https://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
+- `brew install php` Homebrew 명령어를 사용하여 PHP7.3을 설치하십시오.
 - [Composer](https://getcomposer.org) 설치.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
@@ -124,13 +124,13 @@ Valet will automatically start its daemon each time your machine boots. There is
 #### Using Another Domain
 #### 다른 도메인 사용하기
 
-By default, Valet serves your projects using the `.test` TLD. If you'd like to use another domain, you can do so using the `valet domain tld-name` command.
+By default, Valet serves your projects using the `.test` TLD. If you'd like to use another domain, you can do so using the `valet tld tld-name` command.
 
-기본적으로 발렛은 프로젝트를 `.test` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet domain tld-name` 명령어를 사용하면 됩니다.
+기본적으로 발렛은 프로젝트를 `.test` TLD(Top Level Domain)를 프로젝트 에 제공합니다. 다른 도메인을 사용하고자 한다면, `valet tld tld-name` 명령어를 사용하면 됩니다.
 
-For example, if you'd like to use `.app` instead of `.test`, run `valet domain app` and Valet will start serving your projects at `*.app` automatically.
+For example, if you'd like to use `.app` instead of `.test`, run `valet tld app` and Valet will start serving your projects at `*.app` automatically.
 
-예를 들어, `.test` 대신에 `.app` 을 사용하고자 한다면 `valet domain app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
+예를 들어, `.test` 대신에 `.app` 을 사용하고자 한다면 `valet tld app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
 
 #### Database
 #### 데이터베이스
@@ -139,6 +139,17 @@ If you need a database, try MySQL by running `brew install mysql@5.7` on your co
 
 데이터베이스가 필요하다면, 커맨드 라인에서 `brew install mysql@5.7`를 실행하여 MySQL를 설치해 보십시오. MySQL가 설치되고 나면, `brew services start mysql@5.7` 명령어를 통해서 서비스를 시작할 수 있습니다. 그렇게 하면 `127.0.0.1` 서버에 `root` 계정으로 패스워드 없이 접속 할 수 있습니다.
 
+#### PHP Versions
+#### PHP 버전
+
+Valet allows you to switch PHP versions using the `valet use php@version` command. Valet will install the specified PHP version via Brew if it is not already installed:
+
+Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할 수있게합니다. Valet은 Brew를 통해 지정된 PHP 버전을 아직 설치하지 않은 경우 설치합니다.
+
+    valet use php@7.2
+    
+    valet use php
+    
 <a name="upgrading"></a>
 ### Upgrading
 ### 업그레이드 하기
@@ -258,10 +269,6 @@ To share a site, navigate to the site's directory in your terminal and run the `
 To stop sharing your site, hit `Control + C` to cancel the process.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
-
-> {note} `valet share` does not currently support sharing sites that have been secured using the `valet secure` command.
-
-> {note} 현재 `valet share`는 `valet secure` 명령어를 사용한 암호화된 사이트에 대한 공유는 지원하지 않습니다.
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers

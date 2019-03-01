@@ -620,9 +620,9 @@ You may also use a mass-update query to mark all of the notifications as read wi
 
     $user->unreadNotifications()->update(['read_at' => now()]);
 
-Of course, you may `delete` the notifications to remove them from the table entirely:
+You may `delete` the notifications to remove them from the table entirely:
 
-물론, 여러분은 테이블 엔티티에서 알림을 삭제하기 위해서 `delete` 메소드를 사용할 수 있습니다:
+여러분은 테이블 엔티티에서 알림을 삭제하기 위해서 `delete` 메소드를 사용할 수 있습니다:
 
     $user->notifications()->delete();
 

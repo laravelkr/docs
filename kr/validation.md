@@ -80,9 +80,9 @@ First, let's assume we have the following routes defined in our `routes/web.php`
 
     Route::post('post', 'PostController@store');
 
-Of course, the `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
+The `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
 
-당연히, `GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
+`GET` 라우트는 사용자가 새로운 블로그 포스트를 생성하기 위한 form을 나타낼 것이고, `POST` 라우트는 데이터베이스에 새로운 블로그 포스트를 저장할 것입니다.
 
 <a name="quick-creating-the-controller"></a>
 ### Creating The Controller
@@ -591,7 +591,7 @@ If needed, you may use custom error messages for validation instead of the defau
 
 In this example, the `:attribute` placeholder will be replaced by the actual name of the field under validation. You may also utilize other placeholders in validation messages. For example:
 
-다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스홀더들 또한 활용할 수 있습니다. 예를 들어:
+다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스 홀더들 또한 활용할 수 있습니다. 예를 들어:
 
     $messages = [
         'same'    => 'The :attribute and :other must match.',
@@ -745,6 +745,7 @@ Below is a list of all available validation rules and their function:
 - [Required Without All](#rule-required-without-all)
 - [Same](#rule-same)
 - [Size](#rule-size)
+- [Starts With](#rule-starts-with)
 - [String](#rule-string)
 - [Timezone](#rule-timezone)
 - [Unique (Database)](#rule-unique)
@@ -864,9 +865,9 @@ The field under validation must have a matching field of `foo_confirmation`. For
 <a name="rule-date"></a>
 #### date
 
-The field under validation must be a valid date according to the `strtotime` PHP function.
+The field under validation must be a valid, non-relative date according to the `strtotime` PHP function.
 
-필드의 값이 `strtotime` PHP 함수에서 인식할 수 있는 올바른 날짜여야 합니다.
+유효성 검사중인 필드는 `strtotime` PHP 함수에 따라 유효한 비 상대(non-relative) 날짜 여야합니다.
 
 <a name="rule-date-equals"></a>
 #### date_equals:_date_
@@ -1240,6 +1241,22 @@ The field under validation must be present and not empty if the _anotherfield_ f
 
 만약 _anotherfield_의 값이 _value_중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
 
+If you would like to construct a more complex condition for the `required_if` rule, you may use the `Rule::requiredIf` method. This methods accepts a boolean or a Closure. When passed a Closure, the Closure should return `true` or `false` to indicate if the field under validation is required:
+
+`required_if` 규칙에 대해 좀 더 복잡한 조건을 만들고 싶다면 `Rule::requiredIf` 메소드를 사용할 수 있습니다. 이 메소드는 boolean 또는 Closure를 허용합니다. Closure를 통과 할 때 클로저는 유효성 검사가 필요한 필드인지를 나타 내기 위해 true 또는 false를 반환해야합니다.
+
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::requiredIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::requiredIf(function () use ($request) {
+            return $request->user()->is_admin;
+        }),
+    ]);
+
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
@@ -1289,6 +1306,13 @@ The field under validation must have a size matching the given _value_. For stri
 
 필드의 값이 주어진 _value_와 일치하는 크기를 가져야 합니다. 문자열 데이터에서는 문자의 개수가 _value_와 일치해야 합니다. 숫자형식의 데이터에서는 주어진 정수값이 _value_와 일치해야 합니다. 배열에서는 배열의 `count` 와 일치해야 합니다. 파일에서는 킬로바이트 형식의 파일 사이즈가 _size_와 일치해야 합니다.
 
+<a name="rule-starts-with"></a>
+#### starts_with:_foo_,_bar_,...
+
+The field under validation must start with one of the given values.
+
+유효성 검사중인 필드는 주어진 값 중 하나로 시작해야합니다.
+
 <a name="rule-string"></a>
 #### string
 
@@ -1327,9 +1351,9 @@ Occasionally, you may need to set a custom connection for database queries made 
 **Forcing A Unique Rule To Ignore A Given ID:**
 **주어진 ID에 대해서 유니크 규칙을 무시하도록 강제하기:**
 
-Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. Of course, you will want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
+Sometimes, you may wish to ignore a given ID during the unique check. For example, consider an "update profile" screen that includes the user's name, e-mail address, and location. You will probably want to verify that the e-mail address is unique. However, if the user only changes the name field and not the e-mail field, you do not want a validation error to be thrown because the user is already the owner of the e-mail address.
 
-때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 물론 이메일 주소가 고유하다는 것을 확인하고 싶을 것입니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
+때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 이메일 주소가 고유하다는 것을 확인하는 것이 좋습니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
 
 To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
@@ -1348,7 +1372,13 @@ If your table uses a primary key column name other than `id`, you may specify th
 
 테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면, `ignore` 메소드를 호출할 때 컬럼의 이름을 지정하면 됩니다:
 
-    'email' => Rule::unique('users')->ignore($user->id, 'user_id')
+    Rule::unique('users')->ignore($user->id, 'user_id')
+
+By default, the `unique` rule will check the uniqueness of the column matching the name of the attribute being validated. However, you may pass a different column name as the second argument to the `unique` method:
+
+기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다 :
+
+    Rule::unique('users', 'email_address')->ignore($user->id),
 
 **Adding Additional Where Clauses:**
 **추가적인 Where 구문 추가하기:**
@@ -1510,9 +1540,9 @@ rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 �
         }
     }
 
-Of course, you may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
+You may call the `trans` helper from your `message` method if you would like to return an error message from your translation files:
 
-당연하게도, 여러분이 언어 파일로부터 변환된 에러 메세지를 전달해주고자 한다면, `messgae` 메소드 안에서 `trans` 헬퍼 함수를 호출할 수 있습니다:
+여러분이 언어 파일로부터 변환된 에러 메세지를 전달해주고자 한다면, `messgae` 메소드 안에서 `trans` 헬퍼 함수를 호출할 수 있습니다:
 
     /**
      * Get the validation error message.
@@ -1618,9 +1648,9 @@ You will also need to define an error message for your custom rule. You can do s
 
     // The rest of the validation error messages...
 
-When creating a custom validation rule, you may sometimes need to define custom place-holder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
+When creating a custom validation rule, you may sometimes need to define custom placeholder replacements for error messages. You may do so by creating a custom Validator as described above then making a call to the `replacer` method on the `Validator` facade. You may do this within the `boot` method of a [service provider](/docs/{{version}}/providers):
 
-커스텀 유효 검사 룰을 생성할 때 종종 에러 메세지를 위한 커스텀 플레이스 홀더 대체제를 정의해야 할 수도 있습니다. 이전의 설명에 따라 커스텀 Validator를 생성하고 `Validator` 파사드에 `replacer` 메소드를 호출하십시오. 이는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 할 수 있습니다:
+커스텀 유효 검사 룰을 생성할 때 종종 에러 메세지를 위한 커스텀 플레이스홀더 대체제를 정의해야 할 수도 있습니다. 이전의 설명에 따라 커스텀 Validator를 생성하고 `Validator` 파사드에 `replacer` 메소드를 호출하십시오. 이는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 할 수 있습니다:
 
     /**
      * Bootstrap any application services.

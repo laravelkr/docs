@@ -37,9 +37,9 @@ The database configuration for your application is located at `config/database.p
 
 애플리케이션을 위한 데이터베이스 설정 파일은 `config/database.php`에 있습니다. 이 파일에서 모든 데이터베이스 커넥션에 대한 설정을 정의하고 기본적으로 사용할 커넥션을 지정할 수 있습니다. 이 파일에서는 지원하는 대부분의 데이터베이스 예제가 들어 있습니다.
 
-By default, Laravel's sample [environment configuration](/docs/{{version}}/configuration#environment-configuration) is ready to use with [Laravel Homestead](/docs/{{version}}/homestead), which is a convenient virtual machine for doing Laravel development on your local machine. Of course, you are free to modify this configuration as needed for your local database.
+By default, Laravel's sample [environment configuration](/docs/{{version}}/configuration#environment-configuration) is ready to use with [Laravel Homestead](/docs/{{version}}/homestead), which is a convenient virtual machine for doing Laravel development on your local machine. You are free to modify this configuration as needed for your local database.
 
-기본적으로 라라벨의 샘플 [환경 설정](/docs/{{version}}/configuration#environment-configuration)은 여러분의 로컬 머신에서 라라벨 개발 환경을 구축할 수 있는 편리한 방법을 제공하는 [라라벨 홈스테드](/docs/{{version}}/homestead)에 맞춰져 있습니다. 물론 로컬 데이터베이스에 맞게 변경하시면 됩니다.
+기본적으로 라라벨의 샘플 [환경 설정](/docs/{{version}}/configuration#environment-configuration)은 여러분의 로컬 머신에서 라라벨 개발 환경을 구축할 수 있는 편리한 방법을 제공하는 [라라벨 홈스테드](/docs/{{version}}/homestead)에 맞춰져 있습니다. 로컬 데이터베이스에 맞게 변경하시면 됩니다.
 
 #### SQLite Configuration
 #### SQLite 설정하기

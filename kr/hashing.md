@@ -88,9 +88,9 @@ If you are using the Argon2 algorithm, the `make` method allows you to manage th
         'threads' => 2,
     ]);
 
-> {tip} For more information on these options, check out the [official PHP documentation](http://php.net/manual/en/function.password-hash.php).
+> {tip} For more information on these options, check out the [official PHP documentation](https://secure.php.net/manual/en/function.password-hash.php).
 
-> {tip} 이 옵션들에 대한 더 많은 정보를 얻으려면, [공식 PHP 문서](http://php.net/manual/en/function.password-hash.php)를 확인하세요.
+> {tip} 이 옵션들에 대한 더 많은 정보를 얻으려면, [공식 PHP 문서](https://secure.php.net/manual/en/function.password-hash.php)를 확인하세요.
 
 #### Verifying A Password Against A Hash
 #### 패스워드에 대한 해시 확인하기

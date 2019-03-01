@@ -111,9 +111,9 @@ The `redirect` method takes care of sending the user to the OAuth provider, whil
 
 `redirect` 메소드는 사용자를 OAuth 서비스로 이동시키고, `user` 메소드는 유입되는 request를 읽어들여, 사용자 정보를 조회합니다.
 
-Of course, you will need to define routes to your controller methods:
+You will need to define routes to your controller methods:
 
-물론, 다음처럼 컨트롤러 메소드를 위한 라우를 정의해야 합니다:
+다음처럼 컨트롤러 메소드를 위한 라우를 정의해야 합니다:
 
     Route::get('login/github', 'Auth\LoginController@redirectToProvider');
     Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');

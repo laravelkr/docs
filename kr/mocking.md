@@ -28,9 +28,9 @@ When testing Laravel applications, you may wish to "mock" certain aspects of you
 
 라라벨 애플리케이션을 테스팅할 때, 애플리케이션의 특정 부분을 "mock"하여 주어진 테스트가 진행될 때 실제로 실행되지 않도록 할 수 있습니다. 예를 들어 이벤트를 발생시키는 컨트롤러를 테스트 할 때, 이벤트 리스너가 테스트 중에 실제로 실행되지 않도록 mock할 수 있습니다. 이렇게하면 여러분은 이벤트 리스너는 자체 테스트 케이스에서 테스트 할 수 있고, 따라서 이벤트 리스너가 실행될것에 대한 걱정을 하지 않고, 컨트롤러의 HTTP response-응답만 테스트할 수 있습니다.
 
-Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. Of course, you are free to use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
+Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. You can also use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
 
-라라벨은 기본적으로 이벤트, job 그리고 파사드에 대한 mock 헬퍼를 제공합니다. 이 헬퍼들은 주로 Mockery에서 작동하는 편리한 레이어를 제공하고 있기 때문에, 수동으로 복잡한 Mockery 메소드를 호출할 필요가 없습니다. 물론, 여러분의 고유한 mock 이나 spy 객체를 만드는데 자유롭게 [Mockery](http://docs.mockery.io/en/latest/)나 PHPUnit을 사용할 수 있습니다.
+라라벨은 기본적으로 이벤트, job 그리고 파사드에 대한 mock 헬퍼를 제공합니다. 이 헬퍼들은 주로 Mockery에서 작동하는 편리한 레이어를 제공하고 있기 때문에, 수동으로 복잡한 Mockery 메소드를 호출할 필요가 없습니다. 여러분의 고유한 mock 이나 spy 객체를 만드는데 자유롭게 [Mockery](http://docs.mockery.io/en/latest/)나 PHPUnit을 사용할 수 있습니다.
 
 <a name="bus-fake"></a>
 ## Bus Fake
@@ -199,6 +199,9 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
         public function testOrderShipping()
         {
             Mail::fake();
+            
+            // Assert that no mailables were sent...
+            Mail::assertNothingSent();
 
             // Perform order shipping...
 
@@ -252,6 +255,9 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
         public function testOrderShipping()
         {
             Notification::fake();
+            
+            // Assert that no notifications were sent...
+            Notification::assertNothingSent();
 
             // Perform order shipping...
 
@@ -303,6 +309,9 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
         public function testOrderShipping()
         {
             Queue::fake();
+            
+            // Assert that no jobs were pushed...
+            Queue::assertNothingPushed();
 
             // Perform order shipping...
 

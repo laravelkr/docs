@@ -107,9 +107,9 @@ Laravel provides several helpers for working with the session during HTTP testin
         }
     }
 
-Of course, one common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
+One common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
 
-물론 일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
+일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
 
     <?php
 
@@ -262,7 +262,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 <style>
     .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
 
@@ -305,6 +305,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertSessionHasErrors](#assert-session-has-errors)
 - [assertSessionHasErrorsIn](#assert-session-has-errors-in)
 - [assertSessionHasNoErrors](#assert-session-has-no-errors)
+- [assertSessionDoesntHaveErrors](#assert-session-doesnt-have-errors)
 - [assertSessionMissing](#assert-session-missing)
 - [assertStatus](#assert-status)
 - [assertSuccessful](#assert-successful)
@@ -603,6 +604,15 @@ Assert that the session has no errors:
 
     $response->assertSessionHasNoErrors();
 
+<a name="assert-session-doesnt-have-errors"></a>
+#### assertSessionDoesntHaveErrors
+
+Assert that the session has no errors for the given keys:
+
+세션에 주어진 키에 대해 오류가 없는 지 확인.
+
+    $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
+    
 <a name="assert-session-missing"></a>
 #### assertSessionMissing
 

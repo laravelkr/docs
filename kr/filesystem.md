@@ -52,9 +52,9 @@ The filesystem configuration file is located at `config/filesystems.php`. Within
 
 파일시스템의 설정 파일은 `config/filesystems.php` 파일에 위치하고 있습니다. 이 파일 안에서 여러분은 여러분의 모든 “디스크”에 대해 설정할 수 있습니다. 각각의 디스크는 개별 스토리지 드라이버와 스토리지의 위치를 나타냅니다. 설정 파일에는 각각 지원하고 있는 드라이버에 대한 예제 설정이 들어 있습니다. 따라서 스토리지 구성 및 인증정보를 반영하도록 설정을 수정할 수 있습니다.
 
-Of course, you may configure as many disks as you like, and may even have multiple disks that use the same driver.
+You may configure as many disks as you like, and may even have multiple disks that use the same driver.
 
-물론 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
+여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
 
 <a name="the-public-disk"></a>
 ### The Public Disk
@@ -70,9 +70,9 @@ To create the symbolic link, you may use the `storage:link` Artisan command:
 
     php artisan storage:link
 
-Of course, once a file has been stored and the symbolic link has been created, you can create a URL to the files using the `asset` helper:
+Once a file has been stored and the symbolic link has been created, you can create a URL to the files using the `asset` helper:
 
-또한, 파일을 저장하고 심볼릭 링크가 생성되어 있다면, `asset` 헬퍼를 통해서 파일에 대한 URL을 생성할 수 있습니다:
+파일을 저장하고 심볼릭 링크가 생성되어 있다면, `asset` 헬퍼를 통해서 파일에 대한 URL을 생성할 수 있습니다:
 
     echo asset('storage/file.txt');
 
@@ -415,9 +415,9 @@ If you would not like a file name to be automatically assigned to your stored fi
         'avatars', $request->user()->id
     );
 
-Of course, you may also use the `putFileAs` method on the `Storage` facade, which will perform the same file manipulation as the example above:
+You may also use the `putFileAs` method on the `Storage` facade, which will perform the same file manipulation as the example above:
 
-물론, 다음의 예제와 같이 동일하게 `Storage` 파사드의 `putFileAs` 메소드를 사용하여 파일 조작을 수행할 수도 있습니다.
+다음의 예제와 같이 동일하게 `Storage` 파사드의 `putFileAs` 메소드를 사용하여 파일 조작을 수행할 수도 있습니다.
 
     $path = Storage::putFileAs(
         'avatars', $request->file('avatar'), $request->user()->id
@@ -588,6 +588,15 @@ The first argument of the `extend` method is the name of the driver and the seco
 
 `extend` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. `$config` 변수는 `config/filesystems.php` 파일 안에 정의된 디스크 값을 가지고 있습니다.
 
-Once you have created the service provider to register the extension, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.
+Next, register the service provider in your `config/app.php` configuration file:
 
-확장된 드라이버를 등록하는 서비스 프로바이더를 생성한 뒤에, `config/filesystems.php` 설정 파일 안에서 `dropbox` 드라이버를 사용할 수 있습니다.
+다음으로 `config/app.php` 설정 파일에 서비스 프로바이더를 등록하십시오 :
+    
+    'providers' => [
+        // ...
+        App\Providers\DropboxServiceProvider::class,
+    ];
+
+Once you have created and registered the extension's service provider, you may use the `dropbox` driver in your `config/filesystems.php` configuration file.
+
+확장 기능의 서비스 프로바이더를 만들고 등록한 후 `config/filesystems.php` 설정 파일에서 `dropbox` 드라이버를 사용할 수 있습니다.

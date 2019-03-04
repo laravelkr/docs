@@ -8,7 +8,6 @@
 
 [php 프레임워크 트렌드 살펴보기](https://www.google.com/trends/explore?q=codeigniter,laravel,cakephp)
 
-<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/744_RC08/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"codeigniter","geo":"","time":"today 5-y"},{"keyword":"laravel","geo":"","time":"today 5-y"},{"keyword":"cakephp","geo":"","time":"today 5-y"}],"category":0,"property":""}, {}); </script>
 
 ## 매뉴얼 현황
  * [라라벨 5.0](https://laravel.kr/docs/5.0)
@@ -20,17 +19,42 @@
  * [라라벨 5.6](https://laravel.kr/docs/5.6)
  * [라라벨 5.7](https://laravel.kr/docs/5.7)
 
-## 한국어 문서의 번역
+## 기여방법
 
 라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 [laravel@laravel.kr](mailto:laravel@laravel.kr)에 문의주시거나 [Github](https://github.com/laravelkr/docs) 에서 [Pull Request](https://github.com/laravelkr/docs/pulls) 를 보내주시면 검토후 반영됩니다.
 
-## 기여방법
 
-한국어 매뉴얼 번역 및 수정사항에 대해서 기여하고자 한다면, [Github](https://github.com/laravelkr/docs) 을 통해서 [PR(Pull Request)](https://github.com/laravelkr/docs/pulls)를 보내주시기 바랍니다. PR을 보낼 때에는 가급적 각 버전에 맞는 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.6) 브랜치에 보내주셔야 합니다.
+### 깃허브 이슈 등록 
 
-### PR 브랜치
+[이슈](https://github.com/laravelkr/docs/issues/new) 에 수정 요청사항을 등록해주시면 됩니다
 
-예를 들어 5.7 버전에 대한 PR인 경우에는 [pre-kr-5.7 브랜치](https://github.com/laravelkr/docs/tree/pre-kr-5.7)에서 작업후 보내야 합니다. 각각의 pre-kr-5.x 브랜치에는 kr 디렉토리가 존재하고, 디렉토리 안의 파일들에는 영어와 한국어가 함께 기록되어 있습니다. 이는 검수 이전의 번역의 편의를 위한것입니다. 따라서 가급적 [pre-kr-5.x](https://github.com/laravelkr/docs/tree/pre-kr-5.7) 브랜치에서 PR 작업을 보내주시기 바랍니다.
+### Pull Request 
+
+풀리퀘스트의 경우 아래의 작업룰에 따라 등록을 해주셔야 합니다
+기본 작업 가이드는 아래와 같으며 자세한 사항은 [WIKI](https://github.com/laravelkr/docs/wiki)를 참조해 주시기 바랍니다
+
+#### 오타 및 표현의 오류 수정
+
+- 해당하는 버전에 맞는 pre-kr-{version}의 브랜치에 pull request를 해주시면 됩니다
+- pre-kr 브랜치의 경우 반드시 kr 폴더 내에 있는 파일만 수정하시고 커밋을 하셔야합니다 
+- kr-{version} 브랜치의 경우 실제 매뉴얼을 서비스하기 위한 문서 파일 이므로 관리자가 직접 수정하고 있습니다
+- kr-{버전} 브랜치의 pr도 같이 주신다면 문서의 반영이 조금 더 빠르게 됩니다 
+
+#### 영어 원문의 업데이트
+
+- 원문의 수정사항을 업데이트 할 경우 pre-kr 브랜치에 [원문 레포](https://github.com/laravel/docs)의 해당하는 버전에 맞는 브랜치의 커밋을 merge 합니다
+  - 즉 최상위 폴더에 있는 md파일의 경우 원본의 커밋히스토리와 merge 히스토리만이 존재해야합니다
+- 이후 merge 전의 내용과 비교하여 수정된 내용을 kr 폴더의 영어 부분에 모두 업데이트 해 줍니다
+  - 이 작업은 현재 수기로 모두 원문을 체크해서 진행하고 있습니다
+  - 이 과정을 위해 merge한 내용은 반드시 한번에 모두 번역한 이후 PR을 요청하셔야 합니다
+- 위의 과정이 종료된 이후 kr폴더내의 내용 검수가 끝나면 영어 부분을 모두 삭제한 이후 한글 부분만 남기고 kr브랜치의 md파일에 업데이트 합니다
+
+
+
+### 기여자 보상
+- 현재 pre-kr의 kr 폴더내 파일에 커밋한 이력을 기준으로 매뉴얼 사이트에서 문서 하단에 기여자분들의 깃헙 정보를 추가해드리고 있습니다
+  - 향후 issue 등록에 대한 기여보상 방식을 추가예정입니다
+
 
 ## 라이센스 및 상업적 이용
 

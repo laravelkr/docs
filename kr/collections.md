@@ -540,6 +540,8 @@ The `dump` method dumps the collection's items:
 
 If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
 
+컬렌션을 덤프 한 후 스크립트의 실행을 멈추고 싶다면, [`dd`](#method-dd) 메소드를 사용하십시오.
+
 <a name="method-each"></a>
 #### `each()` {#collection-method}
 

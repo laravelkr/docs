@@ -89,6 +89,8 @@ Valet only supports Mac, and requires you to install PHP and a database server d
 
 Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
+Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭한 선택입니다. 선택은 개인적인 취향과 팀의 필요에 따라 달라질 것입니다.
+
 <a name="installation"></a>
 ## Installation
 ## 설치하기

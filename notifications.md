@@ -819,7 +819,7 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
 
     $user->notify((new InvoicePaid($invoice))->locale('es'));
 
-Localization of multiple notifiable entries may also be achieved via the `Notification` facade:
+알림이 가능한 항목들의 현지화를 `알림(Notification)` 파사드로 처리 할 수도 있습니다.
 
     Notification::locale('es')->send($users, new InvoicePaid($invoice));
 

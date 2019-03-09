@@ -1058,6 +1058,8 @@ To accomplish this, the `Illuminate\Notifications\Notification` class offers a `
 
 Localization of multiple notifiable entries may also be achieved via the `Notification` facade:
 
+알림이 가능한 항목들의 현지화를 `알림(Notification)` 파사드로 처리 할 수도 있습니다.
+
     Notification::locale('es')->send($users, new InvoicePaid($invoice));
 
 ### User Preferred Locales

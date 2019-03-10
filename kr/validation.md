@@ -1368,6 +1368,12 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
         ],
     ]);
 
+Instead of passing the model key's value to the `ignore` method, you may pass the entire model instance. Laravel will automatically extract the key from the model:
+
+모델 키의 값을 `ignore` 메소드에 전달하는 대신 전체 모델 인스턴스를 전달할 수 있습니다. Laravel은 자동으로 모델에서 키를 추출 할 것입니다.
+
+    Rule::unique('users')->ignore($user)
+
 If your table uses a primary key column name other than `id`, you may specify the name of the column when calling the `ignore` method:
 
 테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면, `ignore` 메소드를 호출할 때 컬럼의 이름을 지정하면 됩니다:

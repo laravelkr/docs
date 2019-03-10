@@ -699,7 +699,7 @@ Laravel also provides support for creating foreign key constraints, which are us
 라라벨은 데이터베이스에서 또한 참조 무결성을 강제하는 외래 키 제한을 생성하는 것을 제공합니다. 예를 들어 `users` 테이블의 `id` 컬럼을 참조하는 `posts` 테이블에 `user_id` 컬럼을 정의해보겠습니다:
 
     Schema::table('posts', function (Blueprint $table) {
-        $table->unsignedInteger('user_id');
+        $table->unsignedBigInteger('user_id');
 
         $table->foreign('user_id')->references('id')->on('users');
     });

@@ -199,9 +199,9 @@ Laravel compiles and stores a list of all of the services supplied by deferred s
 
 라라벨은 지연된 서비스 프로바이더가 제공하는 모든 서비스 목록과 해당 서비스 프로바이더 클래스 이름을 컴파일하고 저장합니다. 그런 다음 이러한 서비스들 중 하나를 의존성 해결하려고 할 때에만, 라라벨이 서비스 프로바이더를 로드합니다.
 
-To defer the loading of a provider, set the `defer` property to `true` and define a `provides` method. The `provides` method should return the service container bindings registered by the provider:
+To defer the loading of a provider, implement the `\Illuminate\Contracts\Support\DeferrableProvider` interface and define a `provides` method. The `provides` method should return the service container bindings registered by the provider:
 
-프로바이더를 지연(defer) 로딩 하려면 프로바이더의 `defer` 프로퍼티를 `true`로 설정하고 `provides` 메소드를 정의하면 됩니다. `provides` 메소드는 프로바이더에 의해서 바인딩이 등록된 서비스 컨테이너를 리턴해야 합니다:
+프로바이더를 지연(defer) 로딩 하려면, `\Illuminate\Contracts\Support\DeferrableProvider` 인터페이스를 구현하고 `provides` 메소드를 정의하면 됩니다. `provides` 메소드는 프로바이더에 의해서 바인딩이 등록된 서비스 컨테이너를 리턴해야 합니다:
 
     <?php
 
@@ -209,16 +209,10 @@ To defer the loading of a provider, set the `defer` property to `true` and defin
 
     use Riak\Connection;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Contracts\Support\DeferrableProvider;
 
-    class RiakServiceProvider extends ServiceProvider
+    class RiakServiceProvider extends ServiceProvider implements DeferrableProvider
     {
-        /**
-         * Indicates if loading of the provider is deferred.
-         *
-         * @var bool
-         */
-        protected $defer = true;
-
         /**
          * Register the service provider.
          *

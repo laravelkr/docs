@@ -1,5 +1,5 @@
-# API Authentication (Passport)
-# API 인증(Passport)
+# Laravel Passport
+# 라라벨 Passpor
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
@@ -289,15 +289,15 @@ By default, Passport issues long-lived access tokens that expire after one year.
 
 <a name="overriding-default-models"></a>
 ### Overriding Default Models
-### 기본모델 덮어쓰기
+### 기본모델 오버라이딩
 
 You are free to extend the models used internally by Passport. Then, you may instruct Passport to use your custom models via the `Passport` class:
 
 Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다. 그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다 :
 
     use App\Models\Passport\Client;
+    use App\Models\Passport\Token;
     use App\Models\Passport\AuthCode;
-    use App\Models\Passport\TokenModel;
     use App\Models\Passport\PersonalAccessClient;
 
     /**
@@ -311,8 +311,8 @@ Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 �
 
         Passport::routes();
 
+        Passport::useTokenModel(Token::class);
         Passport::useClientModel(Client::class);
-        Passport::useTokenModel(TokenModel::class);
         Passport::useAuthCodeModel(AuthCode::class);
         Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
     }

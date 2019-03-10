@@ -84,19 +84,17 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 
 - [\__](#method-__)
-- [Str::camel](#method-camel-case)
 - [class_basename](#method-class-basename)
 - [e](#method-e)
-- [Str::endsWith](#method-ends-with)
-- [Str::kebab](#method-kebab-case)
 - [preg_replace_array](#method-preg-replace-array)
-- [Str::snake](#method-snake-case)
-- [Str::startsWith](#method-starts-with)
 - [Str::after](#method-str-after)
 - [Str::before](#method-str-before)
+- [Str::camel](#method-camel-case)
 - [Str::contains](#method-str-contains)
+- [Str::endsWith](#method-ends-with)
 - [Str::finish](#method-str-finish)
 - [Str::is](#method-str-is)
+- [Str::kebab](#method-kebab-case)
 - [Str::limit](#method-str-limit)
 - [Str::orderedUuid](#method-str-ordered-uuid)
 - [Str::plural](#method-str-plural)
@@ -106,12 +104,14 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::replaceLast](#method-str-replace-last)
 - [Str::singular](#method-str-singular)
 - [Str::slug](#method-str-slug)
+- [Str::snake](#method-snake-case)
 - [Str::start](#method-str-start)
+- [Str::startsWith](#method-starts-with)
 - [Str::studly](#method-studly-case)
 - [Str::title](#method-title-case)
+- [Str::uuid](#method-str-uuid)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
-- [Str::uuid](#method-str-uuid)
 
 
 
@@ -122,8 +122,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 - [action](#method-action)
 - [asset](#method-asset)
-- [secure_asset](#method-secure-asset)
 - [route](#method-route)
+- [secure_asset](#method-secure-asset)
 - [secure_url](#method-secure-url)
 - [url](#method-url)
 
@@ -176,9 +176,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [retry](#method-retry)
 - [session](#method-session)
 - [tap](#method-tap)
-- [today](#method-today)
 - [throw_if](#method-throw-if)
 - [throw_unless](#method-throw-unless)
+- [today](#method-today)
 - [trait_uses_recursive](#method-trait-uses-recursive)
 - [transform](#method-transform)
 - [validator](#method-validator)
@@ -896,19 +896,6 @@ If the specified translation string or key does not exist, the `__` function wil
 
 지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`를 그대로 반환합니다.
 
-<a name="method-camel-case"></a>
-#### `Str::camel()` {#collection-method}
-
-The `Str::camel` method converts the given string to `camelCase`:
-
-`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다:
-
-    use Illuminate\Support\Str;
-
-    $converted = Str::camel('foo_bar');
-
-    // fooBar
-
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
@@ -931,31 +918,6 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
     // &lt;html&gt;foo&lt;/html&gt;
 
-<a name="method-ends-with"></a>
-#### `Str::endsWith()` {#collection-method}
-
-The `Str::endsWith` method determines if the given string ends with the given value:
-
-`Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
-
-    $result = Str::endsWith('This is my name', 'name');
-
-    // true
-
-<a name="method-kebab-case"></a>
-#### `Str::kebab()` {#collection-method}
-
-The `Str::kebab` method converts the given string to `kebab-case`:
-
-`Str::kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다:
- (역자주 : 단어와 단어를 '-'로 연결한 형태)
-
-    use Illuminate\Support\Str;
-
-    $converted = Str::kebab('fooBar');
-
-    // foo-bar
-
 <a name="method-preg-replace-array"></a>
 #### `preg_replace_array()` {#collection-method}
 
@@ -968,32 +930,6 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
     $replaced = preg_replace_array('/:[a-z_]+/', ['8:30', '9:00'], $string);
 
     // The event will take place between 8:30 and 9:00
-
-<a name="method-snake-case"></a>
-#### `Str::snake()` {#collection-method}
-
-The `Str::snake` method converts the given string to `Str::snake`:
-
-`Str::snake` 메소드는 주어진 문자열을 `Str::snake` 형태로 변환합니다:
-
-    use Illuminate\Support\Str;
-
-    $converted = Str::snake('fooBar');
-
-    // foo_bar
-
-<a name="method-starts-with"></a>
-#### `Str::startsWith()` {#collection-method}
-
-The `Str::startsWith` method determines if the given string begins with the given value:
-
-`Str::startsWith` 메소드는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
-
-    use Illuminate\Support\Str;
-
-    $result = Str::startsWith('This is my name', 'This');
-
-    // true
 
 <a name="method-str-after"></a>
 #### `Str::after()` {#collection-method}
@@ -1022,6 +958,19 @@ The `Str::before` method returns everything before the given value in a string:
 
     // 'This is '
 
+<a name="method-camel-case"></a>
+#### `Str::camel()` {#collection-method}
+
+The `Str::camel` method converts the given string to `camelCase`:
+
+`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::camel('foo_bar');
+
+    // fooBar
+
 <a name="method-str-contains"></a>
 #### `Str::contains()` {#collection-method}
 
@@ -1040,6 +989,17 @@ You may also pass an array of values to determine if the given string contains a
     use Illuminate\Support\Str;
 
     $contains = Str::contains('This is my name', ['my', 'foo']);
+
+    // true
+
+<a name="method-ends-with"></a>
+#### `Str::endsWith()` {#collection-method}
+
+The `Str::endsWith` method determines if the given string ends with the given value:
+
+`Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다:
+
+    $result = Str::endsWith('This is my name', 'name');
 
     // true
 
@@ -1076,6 +1036,20 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
     $matches = Str::is('baz*', 'foobar');
 
     // false
+
+<a name="method-kebab-case"></a>
+#### `Str::kebab()` {#collection-method}
+
+The `Str::kebab` method converts the given string to `kebab-case`:
+
+`Str::kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다:
+ (역자주 : 단어와 단어를 '-'로 연결한 형태)
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::kebab('fooBar');
+
+    // foo-bar
 
 <a name="method-str-limit"></a>
 #### `Str::limit()` {#collection-method}
@@ -1226,6 +1200,19 @@ The `Str::slug` method generates a URL friendly "slug" from the given string:
 
     // laravel-5-framework
 
+<a name="method-snake-case"></a>
+#### `Str::snake()` {#collection-method}
+
+The `Str::snake` method converts the given string to `snake_case`:
+
+`Str::snake` 메소드는 주어진 문자열을 `snake_case` 형태로 변환합니다:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::snake('fooBar');
+
+    // foo_bar
+
 <a name="method-str-start"></a>
 #### `Str::start()` {#collection-method}
 
@@ -1242,6 +1229,19 @@ The `Str::start` method adds a single instance of the given value to a string if
     $adjusted = Str::start('/this/string', '/');
 
     // /this/string
+
+<a name="method-starts-with"></a>
+#### `Str::startsWith()` {#collection-method}
+
+The `Str::startsWith` method determines if the given string begins with the given value:
+
+`Str::startsWith` 메소드는 문자열이 주어진 문자열으로 시작하는지 판별합니다:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::startsWith('This is my name', 'This');
+
+    // true
 
 <a name="method-studly-case"></a>
 #### `Str::studly()` {#collection-method}
@@ -1269,6 +1269,17 @@ The `Str::title` method converts the given string to `Title Case`:
 
     // A Nice Title Uses The Correct Case
 
+<a name="method-str-uuid"></a>
+#### `Str::uuid()` {#collection-method}
+
+The `Str::uuid` method generates a UUID (version 4):
+
+`Str::uuid` 메소드는 UUID (version 4)를 생성합니다:
+
+    use Illuminate\Support\Str;
+
+    return (string) Str::uuid();
+
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
@@ -1294,17 +1305,6 @@ The `trans_choice` function translates the given translation key with inflection
 If the specified translation key does not exist, the `trans_choice` function will return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
 
 지정된 다국어 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 그대로 반환합니다.
-
-<a name="method-str-uuid"></a>
-#### `Str::uuid()` {#collection-method}
-
-The `Str::uuid` method generates a UUID (version 4):
-
-`Str::uuid` 메소드는 UUID (version 4)를 생성합니다:
-
-    use Illuminate\Support\Str;
-
-    return (string) Str::uuid();
 
 <a name="urls"></a>
 ## URLs
@@ -1343,15 +1343,6 @@ You can configure the asset URL host by setting the `ASSET_URL` variable in your
 
     $url = asset('img/photo.jpg'); // http://example.com/assets/img/photo.jpg
 
-<a name="method-secure-asset"></a>
-#### `secure_asset()` {#collection-method}
-
-The `secure_asset` function generates a URL for an asset using HTTPS:
-
-`secure_asset` 함수는 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
-
-    $url = secure_asset('img/photo.jpg');
-
 <a name="method-route"></a>
 #### `route()` {#collection-method}
 
@@ -1372,6 +1363,15 @@ By default, the `route` function generates an absolute URL. If you wish to gener
 기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다:
 
     $url = route('routeName', ['id' => 1], false);
+
+<a name="method-secure-asset"></a>
+#### `secure_asset()` {#collection-method}
+
+The `secure_asset` function generates a URL for an asset using HTTPS:
+
+`secure_asset` 함수는 HTTPS를 이용하여 asset을 사용하기 위한 URL을 생성합니다:
+
+    $url = secure_asset('img/photo.jpg');
 
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}
@@ -1500,15 +1500,6 @@ The `bcrypt` function [hashes](/docs/{{version}}/hashing) the given value using 
 
     $password = bcrypt('my-secret-password');
 
-<a name="method-broadcast"></a>
-#### `broadcast()` {#collection-method}
-
-The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given [event](/docs/{{version}}/events) to its listeners:
-
-`broadcast` 함수는 주어진 [이벤트](/docs/{{version}}/events)를 리스너들에게 [broadcasts](/docs/{{version}}/broadcasting) 합니다:
-
-    broadcast(new UserRegistered($user));
-
 <a name="method-blank"></a>
 #### `blank()` {#collection-method}
 
@@ -1532,6 +1523,15 @@ The `blank` function returns whether the given value is "blank":
 For the inverse of `blank`, see the [`filled`](#method-filled) method.
 
 `blank`의 반대는, [`filled`](#method-filled) 메소드를 참고하십시오.
+
+<a name="method-broadcast"></a>
+#### `broadcast()` {#collection-method}
+
+The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given [event](/docs/{{version}}/events) to its listeners:
+
+`broadcast` 함수는 주어진 [이벤트](/docs/{{version}}/events)를 리스너들에게 [broadcasts](/docs/{{version}}/broadcasting) 합니다:
+
+    broadcast(new UserRegistered($user));
 
 <a name="method-cache"></a>
 #### `cache()` {#collection-method}
@@ -1972,15 +1972,6 @@ If no Closure is passed to the `tap` function, you may call any method on the gi
         'email' => $email,
     ]);
 
-<a name="method-today"></a>
-#### `today()` {#collection-method}
-
-The `today` function creates a new `Illuminate\Support\Carbon` instance for the current date:
-
-`today` 함수는 현재 날짜를 기준으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
-
-    $today = today();
-
 <a name="method-throw-if"></a>
 #### `throw_if()` {#collection-method}
 
@@ -2010,6 +2001,15 @@ The `throw_unless` function throws the given exception if a given boolean expres
         AuthorizationException::class,
         'You are not allowed to access this page'
     );
+
+<a name="method-today"></a>
+#### `today()` {#collection-method}
+
+The `today` function creates a new `Illuminate\Support\Carbon` instance for the current date:
+
+`today` 함수는 현재 날짜를 기준으로한 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
+    $today = today();
 
 <a name="method-trait-uses-recursive"></a>
 #### `trait_uses_recursive()` {#collection-method}

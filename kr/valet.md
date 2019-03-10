@@ -19,6 +19,8 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
+- [Site Specific Environment Variables](#site-specific-environment-variables)
+- [사이트 별 환경 변수](#site-specific-environment-variables)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
@@ -271,6 +273,20 @@ To share a site, navigate to the site's directory in your terminal and run the `
 To stop sharing your site, hit `Control + C` to cancel the process.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
+
+<a name="site-specific-environment-variables"></a>
+## Site Specific Environment Variables
+## 사이트 별 환경변수
+
+Some applications using other frameworks may depend on server environment variables but do not provide a way for those variables to be configured within your project. Valet allows you to configure site specific environment variables by adding a `.valet-env.php` file within the root of your project. These variables will be added to the `$_SERVER` global array:
+
+다른 프레임워크를 사용하는 일부 애플리케이션은 서버 환경 변수에 의존 할 수 있지만 이 변수를 프로젝트 내에 추가하는 방법을 제공하지는 않습니다. Valet을 사용하면 프로젝트의 루트 내에 `.valet-env.php` 파일을 추가하여 사이트 별 환경 변수를 구성 할 수 있습니다. 이 변수들은 `$_SERVER` 전역 변수의 배열에 추가 될 것입니다 :
+
+    <?php
+
+    return [
+        'WEBSITE_NAME' => 'My Blog',
+    ];
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers

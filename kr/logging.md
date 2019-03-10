@@ -293,14 +293,14 @@ Monolog has a variety of [available handlers](https://github.com/Seldaek/monolog
 
 Monolog 는 다양한 [핸들러](https://github.com/Seldaek/monolog/tree/master/src/Monolog/Handler)를 가지고 있습니다. 몇 가지 경우에서, 생성하고자 하는 로거의 타입은 특정 핸들러 인스턴스를 가지는 Monolog 드라이버일 뿐입니다.
 
-When using the `monolog` driver, the `handler` configuration option is used to specify which handler will be instantiated. Optionally, any constructor parameters the handler needs may be specified using the `handler_with` configuration option:
+When using the `monolog` driver, the `handler` configuration option is used to specify which handler will be instantiated. Optionally, any constructor parameters the handler needs may be specified using the `with` configuration option:
 
-`monolog` 드라이버를 사용할 때, `handler` 설정 옵션은 어떤 핸들러가 인스턴스화 되어야 하는지 지정하는데 사용합니다. 옵션으로, 특정 핸들러의 생성자 파라미터가 필요한 경우 `handler_with` 설정을 사용하여 필요한 옵션을 지정할 수 있습니다:
+`monolog` 드라이버를 사용할 때, `handler` 설정 옵션은 어떤 핸들러가 인스턴스화 되어야 하는지 지정하는데 사용합니다. 옵션으로, 특정 핸들러의 생성자 파라미터가 필요한 경우 `with` 설정을 사용하여 필요한 옵션을 지정할 수 있습니다:
 
     'logentries' => [
         'driver'  => 'monolog',
         'handler' => Monolog\Handler\SyslogUdpHandler::class,
-        'handler_with' => [
+        'with' => [
             'host' => 'my.logentries.internal.datahubhost.company.com',
             'port' => '10000',
         ],

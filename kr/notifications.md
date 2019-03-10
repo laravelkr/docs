@@ -728,9 +728,15 @@ If you would like to customize which channels a notifiable entity receives its b
 ### Prerequisites
 ### 사전 준비사항
 
-Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com/). Before you can send notifications via Nexmo, you need to install the `nexmo/client` Composer package and add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com/). Before you can send notifications via Nexmo, you need to install the `laravel/nexmo-notification-channel` Composer package:
 
-라라벨에서 SMS 알림 전송은 [Nexmo](https://www.nexmo.com/)를 사용합니다. Nexmo를 통해서 알림을 전송할 수 있도록 하기 전에, `nexmo/client` 컴포저 패키지를 설치하고 `config/services.php` 설정 파일에 몇가지 옵션들을 추가해야합니다. 시작하려면, 다음의 예제 설정을 복사할 수 있습니다:
+라라벨에서 SMS 알림 전송은 [Nexmo](https://www.nexmo.com/)를 사용합니다. Nexmo를 통해서 알림을 전송할 수 있도록, 먼저 `laravel/nexmo-notification-channel` 컴포저 패키지를 설치해야 합니다:
+
+    composer require laravel/nexmo-notification-channel
+
+Next, you will need to add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+
+그 다음, `config/services.php` 설정 파일에 몇가지 옵션들을 추가해야합니다. 이 옵션은 다음의 예제와 같은 모양입니다. 복사해서 사용하십시오:
 
     'nexmo' => [
         'key' => env('NEXMO_KEY'),
@@ -842,11 +848,11 @@ When sending notifications via the `nexmo` channel, the notification system will
 ### Prerequisites
 ### 사전 준비사항
 
-Before you can send notifications via Slack, you must install the Guzzle HTTP library via Composer:
+Before you can send notifications via Slack, you must install the notification channel via Composer:
 
-슬랙을 통해서 알림을 보내기 전에, 컴포저를 통해서 Guzzle HTTP 라이브러리를 설치해야 합니다:
+슬랙을 통해서 알림을 보내기 전에, 컴포저를 통해서 슬랙 알림 채널 패키지를 설치해야 합니다:
 
-    composer require guzzlehttp/guzzle
+    composer require laravel/slack-notification-channel
 
 You will also need to configure an ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
 

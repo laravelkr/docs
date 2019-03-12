@@ -108,9 +108,9 @@ In addition to scheduling Closure calls, you may also schedule [Artisan commands
 
 클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
 
-    $schedule->command('emails:send --force')->daily();
+    $schedule->command('emails:send Taylor --force')->daily();
 
-    $schedule->command(EmailsCommand::class, ['--force'])->daily();
+    $schedule->command(EmailsCommand::class, ['Taylor', '--force'])->daily();
 
 <a name="scheduling-queued-jobs"></a>
 ### Scheduling Queued Jobs
@@ -299,6 +299,20 @@ Using the `timezone` method, you may specify that a scheduled task's time should
     $schedule->command('report:generate')
              ->timezone('America/New_York')
              ->at('02:00')
+
+If you are assigning the same timezone to all of your scheduled tasks, you may wish to define a `scheduleTimezone` method in your `app/Console/Kernel.php` file. This method should return the default timezone that should be assigned to all scheduled tasks:
+
+만약, 모든 스케줄링 작업에 동일한 타임존을 지정하고자 한다면, `app/Console/Kernel.php` 파일에 `scheduleTimezone` 메소드를 정의하면 됩니다. 이 메소드는 스케줄링 작업들에 할당하고자 하는 기본 타임존을 반환해야 합니다:
+
+    /**
+     * Get the timezone that should be used by default for scheduled events.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    protected function scheduleTimezone()
+    {
+        return 'America/Chicago';
+    }
 
 > {note} Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
 

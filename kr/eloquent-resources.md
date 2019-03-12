@@ -7,6 +7,8 @@
 - [리소스 클래스 생성하기](#generating-resources)
 - [Concept Overview](#concept-overview)
 - [컨셉 살펴보기](#concept-overview)
+    - [Resource Collections](#resource-collections)
+    - [리소스 컬렉션](#resource-collections)
 - [Writing Resources](#writing-resources)
 - [리소스 클래스 작성하기](#writing-resources)
     - [Data Wrapping](#data-wrapping)
@@ -162,6 +164,40 @@ After defining your resource collection, it may be returned from a route or cont
 
     Route::get('/users', function () {
         return new UserCollection(User::all());
+    });
+
+#### Preserving Collection Keys
+#### 컬렉션 키 유지하기
+
+When returning a resource collection from a route, Laravel resets the collection's keys so that they are in simple numerical order. However, you may add a `preserveKeys` property to your resource class indicating if collection keys should be preserved:
+
+라우트에서 리소스 컬렉션을 리턴할 때, 라라벨은 컬렉션의 키를 숫자의 순서 형태로 재지정합니다. 컬렉션 키를 유지하고자 할 경우, `preserveKeys` 속성을 리소스 클래스에 추가해서 컬렉션의 키를 유지할 수 있습니다:
+
+    <?php
+
+    namespace App\Http\Resources;
+
+    use Illuminate\Http\Resources\Json\JsonResource;
+
+    class User extends JsonResource
+    {
+        /**
+         * Indicates if the resource's collection keys should be preserved.
+         *
+         * @var bool
+         */
+        public $preserveKeys = true;
+    }
+
+When the `preserveKeys` property is set to `true`, collection keys will be preserved:
+
+`preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다:
+
+    use App\User;
+    use App\Http\Resources\User as UserResource;
+
+    Route::get('/user', function () {
+        return UserResource::collection(User::all()->keyBy->id);
     });
 
 #### Customizing The Underlying Resource Class

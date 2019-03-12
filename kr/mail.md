@@ -50,17 +50,17 @@
 ## Introduction
 ## 시작하기
 
-Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, SparkPost, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, Postmark, SparkPost, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
-라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, SparkPost, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
+라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, Postmark, SparkPost, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
 ### 드라이버 사전준비사항
 
-The API based drivers such as Mailgun and SparkPost are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
+The API based drivers such as Mailgun, SparkPost, and Postmark are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
 
-API를 기반으로한 Mailgun 과 SparkPost 드라이버의 경우 대게 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
+API를 기반으로한 Mailgun, SparkPost 그리고 Postmark 드라이버의 경우 대게 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
 
     composer require guzzlehttp/guzzle
 
@@ -84,6 +84,23 @@ If you are not using the "US" [Mailgun region](https://documentation.mailgun.com
         'domain' => 'your-mailgun-domain',
         'secret' => 'your-mailgun-key',
         'endpoint' => 'api.eu.mailgun.net',
+    ],
+
+#### Postmark Driver
+#### Postmark 드라이버
+
+To use the Postmark driver, install Postmark's SwiftMailer transport via Composer:
+
+Postmark 드라이버를 사용하려면, 컴포저를 사용해서 Postmark 의 SwiftMailer transport 를 설치해야 합니다:
+
+    composer require wildbit/swiftmailer-postmark
+
+Next, install Guzzle and set the `driver` option in your `config/mail.php` configuration file to `postmark`. Finally, verify that your `config/services.php` configuration file contains the following options:
+
+다음으로, Guzzle을 설치하고, `config/mail.php` 설정 파일에 `driver` 옵션을 `postmark`으로 설정하면 됩니다. 마지막으로, `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
+
+    'postmark' => [
+        'token' => 'your-postmark-token',
     ],
 
 #### SparkPost Driver
@@ -482,9 +499,9 @@ Embedding inline images into your emails is typically cumbersome; however, Larav
         <img src="{{ $message->embed($pathToImage) }}">
     </body>
 
-> {note} `$message` variable is not available in markdown messages.
+> {note} `$message` variable is not available in plain-text messages since plain-text messages do not utilize inline attachments.
 
-> {note} 마크다운 메세지에서는 `$message` 변수를 사용할 수 없습니다.
+> {note} 플레인-텍스트 메세지는 인파인 첨부파일이 동작하지 않으므로, 플레인-텍스트 메세지에서는 `$message` 변수를 사용할 수 없습니다.
 
 #### Embedding Raw Data Attachments
 #### Raw 데이터를 첨부하는 방법
@@ -627,9 +644,9 @@ You may export all of the Markdown mail components to your own application for c
 
     php artisan vendor:publish --tag=laravel-mail
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `markdown` directory, each containing their respective representations of every available component. The components in the `html` directory are used to generate the HTML version of your email, and their counterparts in the `markdown` directory are used to generate the plain-text version. You are free to customize these components however you like.
+This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `text` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
 
-이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `markdown` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. `html` 디렉토리에 있는 컴포넌트는 메일의 HTML 버전을 생성하는데 사용되고, `markdown` 디렉토리에 있는 컴포넌트는 기본 텍스트 버전의 메일을 생성하는데 사용됩니다. 원하시는대로 이 컴포넌트를 커스터마이징 할 수 있습니다.
+이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `text` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. 원한다면 이 컴포넌트를 커스터마이징 할 수 있습니다.
 
 #### Customizing The CSS
 #### CSS 커스터마이징

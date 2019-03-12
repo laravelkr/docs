@@ -79,6 +79,25 @@ For example, if you need to report different types of exceptions in different wa
 
 > {tip} `report` 메소드 안에서 수많은 `instanceof` 체크를 하는 대신에 [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 사용하도록 하십시오.
 
+#### Global Log Context
+#### 글로벌 로그 컨텍스트
+
+If available, Laravel automatically adds the current user's ID to every exception's log message as contextual data. You may define your own global contextual data by overriding the `context` method of your application's `App\Exceptions\Handler` class. This information will be included in every exception's log message written by your application:
+
+가능한경우, 라라벨은 현재의 사용자 ID를 자동으로 모든 exception 로그 메세지에 컨텍스트 데이터로 추가합니다. 어플리케이션의 `App\Exceptions\Handler` 클래스에 `context` 메소드를 오버라이딩 해서 글로벌에서 추가하고자 하는 고유한 컨텍스트 데이터를 정의할 수 있습낟. 이 정보는 어플리케이션에서 기록되는 모든 exception 로그에 포함됩니다:
+
+    /**
+     * Get the default context variables for logging.
+     *
+     * @return array
+     */
+    protected function context()
+    {
+        return array_merge(parent::context(), [
+            'foo' => 'bar',
+        ]);
+    }
+
 #### The `report` Helper
 #### `report` 헬퍼 함수
 
@@ -178,6 +197,10 @@ Exception 핸들러의 `report` 그리고 `render` 메소드에서 exception의 
             return response(...);
         }
     }
+
+> {tip} You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
+
+> {tip} `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
 
 <a name="http-exceptions"></a>
 ## HTTP Exceptions

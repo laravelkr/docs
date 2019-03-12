@@ -5,8 +5,8 @@
 - [버전 관리 체계](#versioning-scheme)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
-- [Laravel 5.7](#laravel-5.7)
-- [라라벨 5.7](#laravel-5.7)
+- [Laravel 5.8](#laravel-5.8)
+- [Laravel 5.8](#laravel-5.8)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
@@ -42,184 +42,286 @@ For LTS releases, such as Laravel 5.5, bug fixes are provided for 2 years and se
 | 5.5 (LTS) | August 30th, 2017 | August 30th, 2019 | August 30th, 2020 |
 | 5.6 | February 7th, 2018 | August 7th, 2018 | February 7th, 2019 |
 | 5.7 | September 4th, 2018 | March 4th, 2019 | September 4th, 2019 |
+| 5.8 | February 26th, 2019 | August 26th, 2019 | February 26th, 2020 |
 
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간|
 | --- | --- | --- | --- |
-| 5.0 | 2015 년 2 월 4 일 | 2015 년 8 월 4 일 | 2016 년 2 월 4 일 |
-| 5.1 (LTS) | 2015 년 6 월 9 일 | 2017 년 6 월 9 일 | 2018 년 6 월 9 일 |
-| 5.2 | 2015 년 12 월 21 일 | 2016 년 6 월 21 일 | 2016 년 12 월 21 일 |
-| 5.3 | 2016 년 8 월 23 일 | 2017 년 2 월 23 일 | 2017 년 8 월 23 일 |
-| 5.4 | 2017 년 1 월 24 일 | 2017 년 7 월 24 일 | 2018 년 1 월 24 일 |
-| 5.5 (LTS) | 2017 년 8 월 30 일 | 2019 년 8 월 30 일  | 2020 년 8 월 30 일 |
-| 5.6 | 2018 년 2 월 7 일 | 2018 년 8 월 7 일 | 2019 년 2 월 7 일 |
+| 5.0 | 2015년 2월 4일 | 2015년 8월 4일 | 2016년 2월 4일 |
+| 5.1 (LTS) | 2015년 6월 9일 | 2017년 6월 9일 | 2018년 6월 9일 |
+| 5.2 | 2015년 12월 21일 | 2016년 6월 21일 | 2016년 12월 21일 |
+| 5.3 | 2016년 8월 23일 | 2017년 2월 23일 | 2017년 8월 23일 |
+| 5.4 | 2017년 1월 24일 | 2017년 7월 24일 | 2018년 1월 24일 |
+| 5.5 (LTS) | 2017년 8월 30일 | 2019년 8월 30일  | 2020년 8월 30일 |
+| 5.6 | 2018년 2월 7일 | 2018년 8월 7일 | 2019년 2월 7일 |
 | 5.7 | 2018년 9월 4일 | 2019년 3월 4일 | 2019년 9월 4일 |
+| 5.8 | 2019년 2월 26일 | 2019년 8월 26일 | 2020년 2월 26일 |
 
-<a name="laravel-5.7"></a>
-## Laravel 5.7
-## 라라벨 5.7
+<a name="laravel-5.8"></a>
+## Laravel 5.8
+## 라라벨 5.8
 
-Laravel 5.7 continues the improvements made in Laravel 5.6 by introducing [Laravel Nova](https://nova.laravel.com), optional email verification to the authentication scaffolding, support for guest users in authorization gates and policies, console testing improvements, Symfony `dump-server` integration, localizable notifications, and a variety of other bug fixes and usability improvements.
+Laravel 5.8 continues the improvements made in Laravel 5.7 by introducing has-one-through Eloquent relationships, improved email validation, convention based automatic registration of authorization policies, DynamoDB cache and session drivers, improved scheduler timezone configuration, support for assigning multiple authentication guards to broadcast channels, PSR-16 cache driver compliance, improvements to the `artisan serve` command, PHPUnit 8.0 support, Carbon 2.0 support, Pheanstalk 4.0 support, and a variety of other bug fixes and usability improvements.
 
-Laravel 5.7은 [라라벨 노바](https://nova.laravel.com)를 도입하고, 인증 스캐폴딩에 이메일 검증 (옵션), 인증 게이트 및 Policy의 게스트 사용자 지원, 콘솔 테스트 개선, Symfony `dump-server` 통합, 현지화 가능한 알림, 다양한 버그 수정 및 유용성 개선 등이 포함됩니다.
+Laravel 5.8은 일대일 Eloquent 관계, 향상된 이메일 유효성 검증, 컨벤션 기반 권한 부여 정책 자동 등록, DynamoDB 캐시 및 세션 드라이버, 향상된 스케줄러 시간대 구성, 브로드캐스트에 여러 인증 가드 할당 지원, PSR-16 캐시 드라이버 준수, `artisan serve` 커맨드 개선, PHPUnit 8.0 지원, Carbon 2.0 지원, Pheanstalk 4.0 지원 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨5.7의 향상된 기능을 지속적으로 제공합니다.
 
-### Laravel Nova
-### Laravel Nova
+### Eloquent `HasOneThrough` Relationship
+### Eloquent`HasOneThrough` 관계
 
-[Laravel Nova](https://nova.laravel.com) is a beautiful, best-in-class administration dashboard for Laravel applications. The primary feature of Nova is the ability to administer your underlying database records using Eloquent. Additionally, Nova offers support for filters, lenses, actions, queued actions, metrics, authorization, custom tools, custom cards, custom fields, and more.
+Eloquent now provides support for the `hasOneThrough` relationship type. For example, imagine a Supplier model `hasOne` Account model, and an Account model has one AccountHistory model. You may use a `hasOneThrough` relationship to access a supplier's account history through the account model:
 
-[라라벨 노바](https://nova.laravel.com)는 Laravel을 위한 최상의 관리자 대시보드입니다. Nova의 핵심 기능은 Eloquent를 사용하여 기본 데이터베이스 레코드를 관리 할 수 있는 것입니다. 또한 Nova는 필터, 렌즈, 작업, 대기중인 작업, 메트릭, 권한 부여, 커스텀 도구, 커스텀 카드, 커스텀 필드 등을 지원합니다.
+Eloquent는 이제 `hasOneThrough` 관계 타입을 지원합니다. 예를 들어 Supplier 모델의 `hasOne` 관계인 Account 모델을 상상해보십시오. 그리고 Account 모델에는 AccountHistory 모델이 하나 있습니다. 이때 `hasOneThrough` 관계를 사용하여 Account 모델을 통해 Supplier는 AccountHistory에 접근 할 수 있습니다.
 
-To learn more about Laravel Nova, check out the [Nova website](https://nova.laravel.com).
+    /**
+     * Get the account history for the supplier.
+     */
+    public function accountHistory()
+    {
+        return $this->hasOneThrough(AccountHistory::class, Account::class);
+    }
 
-Laravel Nova에 대한 자세한 내용은 [Nova 웹 사이트](https://nova.laravel.com)를 확인하십시오.
+### Auto-Discovery Of Model Policies
+### 모델 정책-Policies의 자동 발견
 
-### Email Verification
-### 이메일 검증
+When using Laravel 5.7, each model's corresponding [authorization policy](/docs/{{version}}/authorization#creating-policies) needed to be explicitly registered in your application's `AuthServiceProvider`:
 
-Laravel 5.7 introduces optional email verification to the authentication scaffolding included with the framework. To accommodate this feature, an `email_verified_at` timestamp column has been added to the default `users` table migration that is included with the framework.
+Laravel 5.7을 사용할 때는 각 모델의 해당 [인증 정책](/docs/{{version}}/authorization#creating-policies)을 애플리케이션의 `AuthServiceProvider`에 명시적으로 등록해야했습니다.
 
-Laravel 5.7에서는 프레임워크에 포함 된 인증 스캐폴딩에 이메일 검증 옵션을 도입했습니다. 이 기능을 추가하기 위해 `email_verified_at` 타임스탬프 컬럼이 프레임워크에 포함 된 기본 `users` 테이블 마이그레이션에 추가되었습니다.
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        'App\User' => 'App\Policies\UserPolicy',
+    ];
 
-To prompt newly registered users to verify their email, the `User` model should be marked with the `MustVerifyEmail` interface:
+Laravel 5.8 introduces auto-discovery of model policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory below the directory that contains the models. So, for example, the models may be placed in the `app` directory while the policies may be placed in the `app/Policies` directory. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
 
-새로 가입한 사용자에게 자신의 이메일을 검증하게하려면, `User` 모델은 `MustVerifyEmail` 인터페이스를 추가해야합니다 :
+Laravel 5.8은 모델과 정책이 표준 Laravel 명명 규칙을 따를 경우 모델 정책을 자동 발견하게 됩니다. 이럴 경우 정책은 모델이 포함 된 디렉토리 아래의 `Policies` 디렉토리에 있어야합니다. 예를 들어, 모델은 `app` 디렉토리에 존재한다면, 정책은 `app/Policies` 디렉토리에 존재해야 합니다. 또한 정책 이름은 모델 이름과 일치해야하며 `Policy` 접미사가 있어야합니다. 즉 `User` 모델은 `UserPolicy` 클래스가 되어야 합니다.
+
+If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from your application's `AuthServiceProvider`:
+
+자신만의 정책 발견 로직을 만들고 싶다면 `Gate::guessPolicyNamesUsing` 메소드를 사용하여 커스텀 콜백을 등록 할 수있습니다. 일반적으로 이 메소드는 애플리케이션의 `AuthServiceProvider`에서 호출해야합니다.
+
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::guessPolicyNamesUsing(function ($modelClass) {
+        // return policy class name...
+    });
+
+> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potential auto-discovered policies.
+
+> {note} `AuthServiceProvider`에 명시적으로 매핑 된 정책은 자동 발견 된 모든 정책보다 우선합니다.
+
+### PSR-16 Cache Compliance
+### PSR-16 캐시 규약 준수
+
+In order to allow a more granular expiration time when storing items and provide compliance with the PSR-16 caching standard, the cache item time-to-live has changed from minutes to seconds. The `put`, `putMany`, `add`, `remember` and `setDefaultCacheTime` methods of the `Illuminate\Cache\Repository` class and its extended classes, as well as the `put` method of each cache store were updated with this changed behavior. See [the related PR](https://github.com/laravel/framework/pull/27276) for more info.
+
+아이템을 저장할 때보다 정밀한 만료 시간을 허용하고 PSR-16 캐싱 표준을 준수하기 위해 캐시 아이템 수명이 몇 분에서 몇 초로 변경되었습니다. `Illuminate\Cache\Repository` 클래스와 확장 클래스의 `put`, `putMany`, `add`, `remember`, `setDefaultCacheTime` 메소드와 각 캐시 스토어의 `put` 메소드가 업데이트되고 동작이 변경되었습니다. 자세한 내용은 [관련 PR](https://github.com/laravel/framework/pull/27276)을 참조하십시오.
+
+If you are passing an integer to any of these methods, you should update your code to ensure you are now passing the number of seconds you wish the item to remain in the cache. Alternatively, you may pass a `DateTime` instance indicating when the item should expire:
+
+이 메소드들에게 정수를 전달하는 경우, 캐시에 보관할 시간(초단위)을 전달하도록 코드를 업데이트해야합니다. 또는 항목이 만료되어야하는 시점를 나타내는 `DateTime` 인스턴스를 전달할 수도 있습니다.
+
+    // Laravel 5.7 - Store item for 30 minutes...
+    Cache::put('foo', 'bar', 30);
+
+    // Laravel 5.8 - Store item for 30 seconds...
+    Cache::put('foo', 'bar', 30);
+
+    // Laravel 5.7 / 5.8 - Store item for 30 seconds...
+    Cache::put('foo', 'bar', now()->addSeconds(30));
+
+### Multiple Broadcast Authentication Guards
+### 다중 브로드 캐스트 인증 가드
+
+In previous releases of Laravel, private and presence broadcast channels authenticated the user via your application's default authentication guard. Beginning in Laravel 5.8, you may now assign multiple guards that should authenticate the incoming request:
+
+Laravel의 이전 릴리스에서 개인 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 사용자를 인증했습니다. Laravel 5.8부터 들어오는 요청을 인증해야 가드를 여러개 지정할 수 있습니다.
+
+    Broadcast::channel('channel', function() {
+        // ...
+    }, ['guards' => ['web', 'admin']])
+
+### Token Guard Token Hashing
+### 토큰 가드 토큰 해싱
+
+Laravel's `token` guard, which provides basic API authentication, now supports storing API tokens as SHA-256 hashes. This provides improved security over storing plain-text tokens. To learn more about hashed tokens, please review the full [API authentication documentation](/docs/{{version}}/api-authentication).
+
+기본적인 API 인증을 제공하는 Laravel의 `token` 가드는 이제 SHA-256 해시처럼 API 토큰을 저장하는 것을 지원합니다. 이는 일반 텍스트 토큰을 저장하는 것보다 향상된 보안을 제공합니다. 해시 토큰에 대한 자세한 내용은 전체 [API 인증 문서](/docs/{{version}}/api-authentication)을 참조하십시오.
+
+> **Note:** While Laravel ships with a simple, token based authentication guard, we strongly recommend you consider using [Laravel Passport](/docs/{{version}}/passport) for robust, production applications that offer API authentication.
+
+> **참고:** Laravel은 간단한 토큰 기반 인증 위젯과 함께 제공되지만 API 인증을 제공하는 강력한 프로덕션 애플리케이션의 경우 [Laravel Passport](/docs/{{version}}/passport)를 사용하는 것이 좋습니다 .
+
+### Improved Email Validation
+### 향상된 이메일 검증
+
+Laravel 5.8 introduces improvements to the validator's underlying email validation logic by adopting the `egulias/email-validator` package utilized by SwiftMailer. Laravel's previous email validation logic occasionally considered valid emails, such as `example@bär.se`, to be invalid.
+
+Laravel 5.8은 SwiftMailer가 사용하는 `egulias/email-validator` 패키지를 채택하여 유효성 검사기의 기본 이메일 유효성 검사 로직를 향상시켰습니다. Laravel의 이전 이메일 검증 로직에서 가끔 `example@bär.se`와 같은 유효한 이메일을 유효하지 않은 것으로 판별하였습니다.
+
+### Default Scheduler Timezone
+### 스케줄러 기본 타임존-Timezone
+
+Laravel allows you to customize the timezone of a scheduled task using the `timezone` method:
+
+Laravel을 사용하면 `timezone` 메소드를 사용하여 예약 된 작업의 시간대를 커스터마이징 할 수 있습니다.
+
+    $schedule->command('inspire')
+             ->hourly()
+             ->timezone('America/Chicago');
+
+However, this can become cumbersome and repetitive if you are specifying the same timezone for all of your scheduled tasks. For that reason, you may now define a `scheduleTimezone` method in your `app/Console/Kernel.php` file. This method should return the default timezone that should be assigned to all scheduled tasks:
+
+그러나 예약 된 모든 작업에 동일한 시간대를 지정 할 경우 이 작업이 번거로운 반복적 작업이 될 수 있습니다. 이럴 떈 `app/Console/Kernel.php` 파일에 `scheduleTimezone` 메소드를 정의 하면 됩니다. 이 메소드는 모든 예약 된 작업에 할당될 기본 표준 시간대를 반환해야합니다.
+
+    /**
+     * Get the timezone that should be used by default for scheduled events.
+     *
+     * @return \DateTimeZone|string|null
+     */
+    protected function scheduleTimezone()
+    {
+        return 'America/Chicago';
+    }
+
+### Intermediate Table / Pivot Model Events
+### 중간 테이블 / 피벗 모델 이벤트
+
+In previous versions of Laravel, Eloquent model events were not dispatched when attaching, detaching, or syncing custom intermediate table / "pivot" models of a many-to-many relationship. When using [custom intermediate table models](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models) in Laravel 5.8, these events will now be dispatched.
+
+이전 버전의 Laravel에서는 다 대다 관계의 커스텀 중간 테이블 / "피벗"모델을 연결, 분리 또는 동기화 할 때 Eloquent 모델 이벤트가 전달되지 않았습니다. Laravel 5.8에서 [custom intermediate table models](/docs/{{version}}/eloquent-relationships#define-custom-intermediate-table-models)를 사용하면 이러한 이벤트가 전달됩니다.
+
+### Artisan Call Improvements
+### 아티잔 요청 개선
+
+Laravel allows you to invoke Artisan via the `Artisan::call` method. In previous releases of Laravel, the command's options are passed via an array as the second argument to the method:
+
+Laravel은 `Artisan::call` 메소드를 통해 Artisan을 호출 할 수있게 해줍니다. Laravel의 이전 릴리스에서는 명령의 옵션이 배열의 두 번째 인수로 전달되었습니다.
+
+    use Illuminate\Support\Facades\Artisan;
+
+    Artisan::call('migrate:install', ['database' => 'foo']);
+
+However, Laravel 5.8 allows you to pass the entire command, including options, as the first string argument to the method:
+
+그러나 Laravel 5.8을 사용하면 옵션을 포함한 전체 명령을 메서드의 첫 번째 문자열 인수로 전달할 수 있습니다.
+
+    Artisan::call('migrate:install --database=foo');
+
+### Mock / Spy Testing Helper Methods
+### 목-Mock / 스파이 테스트 헬퍼 메소드
+
+In order to make mocking objects more convenient, new `mock` and `spy` methods have been added to the base Laravel test case class. These methods automatically bind the mocked class into the container. For example:
+
+모킹(mocking)하는 객체를 더욱 편리하게 만들기 위해 새로운 `mock` 과 `spy`메소드가 기본 Laravel 테스트 케이스 클래스에 추가되었습니다. 이러한 메소드는 자동으로 모킹 된 클래스를 컨테이너에 바인딩합니다. 예 :
+
+    // Laravel 5.7
+    $this->instance(Service::class, Mockery::mock(Service::class, function ($mock) {
+        $mock->shouldReceive('process')->once();
+    }));
+
+    // Laravel 5.8
+    $this->mock(Service::class, function ($mock) {
+        $mock->shouldReceive('process')->once();
+    });
+
+### Eloquent Resource Key Preservation
+### Eloquent Resource Key 보존
+
+When returning an [Eloquent resource collection](/docs/{{version}}/eloquent-resources) from a route, Laravel resets the collection's keys so that they are in simple numerical order:
+
+라우트에서 [Eloquent resource collection](/docs/{{version}}/eloquent-resources)을 반환할 때, Laravel은 콜렉션의 키를 간단한 숫자 순서로 재설정합니다.
+
+    use App\User;
+    use App\Http\Resources\User as UserResource;
+
+    Route::get('/user', function () {
+        return UserResource::collection(User::all());
+    });
+
+When using Laravel 5.8, you may now add a `preserveKeys` property to your resource class indicating if collection keys should be preserved. By default, and to maintain consistency with previous Laravel releases, the keys will be reset by default:
+
+Laravel 5.8을 사용할 경우, 리소스 클래스에 `preserveKeys` 속성을 추가하여 콜렉션 키를 보존해야하는지 여부를 나타낼 수 있습니다. 이전 Laravel 릴리스와의 일관성을 유지하기 위해 키는 기본적으로 재설정해줘야 합니다.
 
     <?php
 
-    namespace App;
+    namespace App\Http\Resources;
 
-    use Illuminate\Notifications\Notifiable;
-    use Illuminate\Contracts\Auth\MustVerifyEmail;
-    use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
-    class User extends Authenticatable implements MustVerifyEmail
+    class User extends JsonResource
     {
-        // ...
+        /**
+         * Indicates if the resource's collection keys should be preserved.
+         *
+         * @var bool
+         */
+        public $preserveKeys = true;
     }
 
-Once the `User` model is marked with the `MustVerifyEmail` interface, newly registered users will receive an email containing a signed verification link. Once this link has been clicked, Laravel will automatically record the verification time in the database and redirect users to a location of your choosing.
+When the `preserveKeys` property is set to `true`, collection keys will be preserved:
 
-`User` 모델에 `MustVerifyEmail` 인터페이스를 추가하면, 새로 가입한 사용자는 검증 링크가 포함 된 이메일을 받게됩니다. 이 링크를 클릭하면 Laravel에서 자동으로 데이터베이스에 확인 시간을 기록하고 사용자를 원하는 위치로 리디렉션합니다.
+`preserveKeys` 속성이 `true`로 설정되면, 콜렉션 키가 보존됩니다 :
 
+    use App\User;
+    use App\Http\Resources\User as UserResource;
 
-A `verified` middleware has been added to the default application's HTTP kernel. This middleware may be attached to routes that should only allow verified users:
-
-기본 어플리케이션의 HTTP 커널에 `verified` 미들웨어가 추가되었습니다. 이 미들웨어는 확인된 사용자만 허용하는 경로에 추가 할 수 있습니다.
-
-    'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-
-> {tip} To learn more about email verification, check out the [complete documentation](/docs/{{version}}/verification).
-
-> {tip} 이메일 검증에 대해 더 자세히 알아 보려면 [전체 문서](/docs/{{version}}/verification)를 확인하세요.
-
-### Guest User Gates / Policies
-### 게스트 사용자의 Gates / Policies
-
-In previous versions of Laravel, authorization gates and policies automatically returned `false` for unauthenticated visitors to your application. However, you may now allow guests to pass through authorization checks by declaring an "optional" type-hint or supplying a `null` default value for the user argument definition:
-
-이전 버전에서는 권한 부여 Gate 및 Policy가 인증되지 않은 게스트 사용자에게 `false` 를 자동으로 반환했습니다. 그러나 이제는 "옵션(optional)"유형의 타입힌트를 선언하거나 사용자 인수에 대한 `null` 기본값을 제공하여 권한 부여 검사를 통과 할 수 있습니다.
-
-    Gate::define('update-post', function (?User $user, Post $post) {
-        // ...
+    Route::get('/user', function () {
+        return UserResource::collection(User::all()->keyBy->id);
     });
 
-### Symfony Dump Server
-### Symfony Dump Server
+### Higher Order `orWhere` Eloquent Method
+### `orWhere` Eloquent의 고차(Higher Order) 메서드 
 
-Laravel 5.7 offers integration with Symfony's `dump-server` command via [a package by Marcel Pociot](https://github.com/beyondcode/laravel-dump-server). To get started, run the `dump-server` Artisan command:
+In previous releases of Laravel, combining multiple Eloquent model scopes via an `or` query operator required the use of Closure callbacks:
 
-Laravel 5.7은 Symfony의 `dump-server` 커맨드와 [Marcel Pociot 패키지](https://github.com/beyondcode/laravel-dump-server)을 통합합니다. 시작하려면 `dump-server` Artisan 커맨드를 실행하세오 :
+Laravel의 이전 릴리스에서는 `or`쿼리 연산자를 통해 여러 가지 Eloquent 모델 범위를 결합하려면 Closure 콜백을 사용해야했습니다.
 
-    php artisan dump-server
+    // scopePopular and scopeActive methods defined on the User model...
+    $users = App\User::popular()->orWhere(function (Builder $query) {
+        $query->active();
+    })->get();
 
-Once the server has started, all calls to `dump` will be displayed in the `dump-server` console window instead of in your browser, allowing you to inspect the values without mangling your HTTP response output.
+Laravel 5.8 introduces a "higher order" `orWhere` method that allows you to fluently chain these scopes together without the use of Closures:
 
-서버가 시작되면 `dump` 에 대한 모든 요청은 브라우저 대신 `dump-server` 콘솔 창에 표시되어 HTTP 응답 출력을 mangling 하지 않고 값을 확인 할 수 있습니다.
+Laravel 5.8에서는 클로저를 사용하지 않고 이러한 범위를 유연하게 연결할 수있는 "고차" `orWhere` 메서드를 도입했습니다.
 
-### Notification Localization
-### 알림 현지화
+    $users = App\User::popular()->orWhere->active()->get();
 
-Laravel now allows you to send notifications in a locale other than the current language, and will even remember this locale if the notification is queued.
+### Artisan Serve Improvements
+### 향상된 Artisan의 Serve
 
-이제 Laravel을 사용하면 현재 언어가 아닌 언어로 알림을 보낼 수 있으며 알림이 대기중인 경우에도 이 언어를 기억할 수 있습니다.
+In previous releases of Laravel, Artisan's `serve` command would serve your application on port `8000`. If another `serve` command process was already listening on this port, an attempt to serve a second application via `serve` would fail. Beginning in Laravel 5.8, `serve` will now scan for available ports up to port `8009`, allowing you to serve multiple applications at once.
 
-To accomplish this, the `Illuminate\Notifications\Notification` class now offers a `locale` method to set the desired language. The application will change into this locale when the notification is being formatted and then revert back to the previous locale when formatting is complete:
+Laravel의 이전 릴리스에서는 Artisan의 `serve` 명령이 `8000`번 포트에서 애플리케이션의 실행했습니다. 이때 만약 다른 `serve` 명령 프로세스가 이 포트에서 이미 실행 중이면 `serve`를 통해 두 번째 애플리케이션을 실행하려는 시도가 실패하였니다. Laravel 5.8부터 `serve`는 이제 사용 가능한 포트를 `8009`번 포트까지 스캔하며, 한 번에 여러 애플리케이션을 실행 할 수 있습니다.
 
-이를 위해 `Illuminate\Notifications\Notification` 클래스가 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. 알림의 양식이 생성 될 때 어플리케이션은 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 돌아갑니다.
+### Blade File Mapping
+### Blade 파일 매핑
 
-    $user->notify((new InvoicePaid($invoice))->locale('es'));
+When compiling Blade templates, Laravel now adds a comment to the top of the compiled file which contains the path to the original Blade template.
 
-Localization of multiple notifiable entries may also be achieved via the `Notification` facade:
+Blade 템플릿을 컴파일 할 때, Laravel은 컴파일 된 파일의 맨 위에 원래 Blade 템플릿에 대한 경로가 포함 된 주석을 추가합니다.
 
-알림 가능한 여러 항목의 현지화는 `Notification` 파사드를 통해 이루어질 수도 있습니다.
+### DynamoDB Cache / Session Drivers
+### DynamoDB 캐시 / 세션 드라이버
 
-    Notification::locale('es')->send($users, new InvoicePaid($invoice));
+Laravel 5.8 introduces [DynamoDB](https://aws.amazon.com/dynamodb/) cache and session drivers. DynamoDB is a serverless NoSQL database provided by Amazon Web Services. The default configuration for the `dynamodb` cache driver can be found in the Laravel 5.8 [cache configuration file](https://github.com/laravel/laravel/blob/master/config/cache.php).
 
-### Console Testing
-### 콘솔 테스팅
+Laravel 5.8에서는 [DynamoDB](https://aws.amazon.com/dynamodb/) 캐시 및 세션 드라이버를 제공합니다. DynamoDB는 Amazon Web Services에서 제공하는 서버가 없는 NoSQL 데이터베이스입니다. `dynamodb` 캐시 드라이버의 기본 설정은 Laravel 5.8 [캐시 설정 파일](https://github.com/laravel/laravel/blob/master/config/cache.php)에서 확인 할 수 있습니다.
 
-Laravel 5.7 allows you to easily "mock" user input for your console commands using the `expectsQuestion` method. In addition, you may specify the exit code and text that you expect to be output by the console command using the `assertExitCode` and `expectsOutput` methods. For example, consider the following console command:
+### Carbon 2.0 Support
+### Carbon 2.0 지원
 
-Laravel 5.7에서는 `expectsQuestion` 메소드를 사용하여 콘솔 명령에 대한 사용자 입력을 쉽게 "모킹" 할 수 있습니다. 또한 `assertExitCode` 및 `expectsOutput` 메소드를 사용하여 콘솔 명령으로 출력 할 것으로 예상되는 종료 코드와 텍스트를 지정할 수 있습니다. 예를 들어 다음과 같은 console 명령을 생각해보십시오 :
+Laravel 5.8 provides support for the `~2.0` release of the Carbon date manipulation library.
+ 
+Laravel 5.8은 Carbon 날짜 조작 라이브러리의 `~ 2.0` 릴리스에 대한 지원을 제공합니다.
 
+### Pheanstalk 4.0 Support
+### Pheanstalk 4.0 지원
 
-    Artisan::command('question', function () {
-        $name = $this->ask('What is your name?');
+Laravel 5.8 provides support for the `~4.0` release of the Pheanstalk queue library. If you are using Pheanstalk library in your application, please upgrade your library to the `~4.0` release via Composer.
 
-        $language = $this->choice('Which language do you program in?', [
-            'PHP',
-            'Ruby',
-            'Python',
-        ]);
-
-        $this->line('Your name is '.$name.' and you program in '.$language.'.');
-    });
-
-You may test this command with the following test which utilizes the `expectsQuestion`, `expectsOutput`, and `assertExitCode` methods:
-
-이 명령을 다음 테스트와 같이 `expectsQuestion`,`expectsOutput` 및`assertExitCode` 메소드를 사용하여 테스트 할 수 있습니다 :
-
-    /**
-     * Test a console command.
-     *
-     * @return void
-     */
-    public function test_console_command()
-    {
-        $this->artisan('question')
-             ->expectsQuestion('What is your name?', 'Taylor Otwell')
-             ->expectsQuestion('Which language do you program in?', 'PHP')
-             ->expectsOutput('Your name is Taylor Otwell and you program in PHP.')
-             ->assertExitCode(0);
-    }
-
-### URL Generator & Callable Syntax
-### URL 생성기 및 호출 가능한 구문
-
-Instead of only accepting strings, Laravel's URL generator now accepts "callable" syntax when generating URLs to controller actions:
-
-Laravel의 URL 생성기는 컨트롤러 동작에 대한 URL을 생성 할 때 문자열만 받아들이는 대신 "호출 가능한(callable)" 구문을 허용합니다.
-
-    action([UserController::class, 'index']);
-
-### Paginator Links
-### Paginator Links
-
-Laravel 5.7 allows you to control how many additional links are displayed on each side of the paginator's URL "window". By default, three links are displayed on each side of the primary paginator links. However, you may control this number using the `onEachSide` method:
-
-Laravel 5.7에서는 paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 변경 할 수 있습니다. 기본적으로 세 개의 링크는 기본 paginator 링크의 각 사이드에 표시됩니다. 그러나 `onEachSide` 메소드를 사용하여 이 숫자를 변경 할 수 있습니다 :
-
-
-    {{ $paginator->onEachSide(5)->links() }}
-
-### Filesystem Read / Write Streams
-### 파일시스템의 Read / Write 스트림
-
-Laravel's Flysystem integration now offers `readStream` and `writeStream` methods:
-
-Laravel의 통합 파일시스템은 이제 `readStream` 과 `writeStream` 메소드를 제공합니다 :
-
-    Storage::disk('s3')->writeStream(
-        'remote-file.zip',
-        Storage::disk('local')->readStream('local-file.zip')
-    );
+Laravel 5.8은 Pheanstalk 큐 라이브러리의 `~4.0` 버전에 대해 지원합니다. 애플리케이션에 Pheanstalk 라이브러리를 사용하고 있다면, Composer를 통해 라이브러리를 `~4.0` 버전으로 업그레이드하십시오.

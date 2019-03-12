@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Mocking Objects](#mocking-objects)
+- [Mocking 객체](#mocking-objects)
 - [Bus Fake](#bus-fake)
 - [Bus Fake](#bus-fake)
 - [Event Fake](#event-fake)
@@ -31,6 +33,31 @@ When testing Laravel applications, you may wish to "mock" certain aspects of you
 Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. You can also use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
 
 라라벨은 기본적으로 이벤트, job 그리고 파사드에 대한 mock 헬퍼를 제공합니다. 이 헬퍼들은 주로 Mockery에서 작동하는 편리한 레이어를 제공하고 있기 때문에, 수동으로 복잡한 Mockery 메소드를 호출할 필요가 없습니다. 여러분의 고유한 mock 이나 spy 객체를 만드는데 자유롭게 [Mockery](http://docs.mockery.io/en/latest/)나 PHPUnit을 사용할 수 있습니다.
+
+<a name="mocking-objects"></a>
+## Mocking Objects
+## Mocking 객체
+
+When mocking an object that is going to be injected into your application via Laravel's service container, you will need to bind your mocked instance into the container as an `instance` binding. This will instruct the container to use your mocked instance of the object instead of constructing the object itself:
+
+라라벨 서비스 컨테이너를 통하여 여러분의 어플리케이션에 주입되는 객체를 moking할 때, 하나의 `instance` 바인딩으로써 컨테이너에 mocking한 인스턴스를 바인드할 필요가 있습니다.
+
+    use Mockery;
+    use App\Service;
+
+    $this->instance(Service::class, Mockery::mock(Service::class, function ($mock) {
+        $mock->shouldReceive('process')->once();
+    }));
+
+In order to make this more convenient, you may use the `mock` method, which is provided by Laravel's base test case class:
+
+더 편하게 설정하기 위해, 라라벨의 기본 테스트 케이스 클래스가 제공하는 `mock`메소드를 사용할 수 있습니다.
+
+    use App\Service;
+
+    $this->mock(Service::class, function ($mock) {
+        $mock->shouldReceive('process')->once();
+    });
 
 <a name="bus-fake"></a>
 ## Bus Fake

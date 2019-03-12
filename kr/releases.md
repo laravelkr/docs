@@ -6,7 +6,7 @@
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
 - [Laravel 5.8](#laravel-5.8)
-- [Laravel 5.8](#laravel-5.8)
+- [라라벨 5.8](#laravel-5.8)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme

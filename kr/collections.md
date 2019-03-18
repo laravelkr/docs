@@ -102,6 +102,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [contains](#method-contains)
 - [containsStrict](#method-containsstrict)
 - [count](#method-count)
+- [countBy](#method-countBy)
 - [crossJoin](#method-crossjoin)
 - [dd](#method-dd)
 - [diff](#method-diff)
@@ -387,6 +388,31 @@ The `count` method returns the total number of items in the collection:
     $collection->count();
 
     // 4
+
+<a name="method-countBy"></a>
+#### `countBy()` {#collection-method}
+
+The `countBy` method counts the occurences of values in the collection. By default, the method counts the occurrences of every element:
+
+`countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다:
+
+    $collection = collect([1, 2, 2, 2, 3]);
+    
+    $collection->countBy();
+    
+    // collect([1 => 1, 2 => 3, 3 => 1])
+
+However, you pass a callback to the `countBy` method to count all items by a custom value:
+
+`countBy` 메소드에 특정 값으로 모든 아이템을 계산하는 콜백을 인자로 전달할 수도 있습니다.
+
+    $collection = collect(['alice@gmail.com', 'bob@yahoo.com', 'carlos@gmail.com']);
+
+    $collection->countBy(function ($email) {
+        return substr(strrchr($email, "@"), 1);
+    });
+
+    // collect(['gmail.com' => 2, 'yahoo.com' => 1])
 
 <a name="method-crossjoin"></a>
 #### `crossJoin()` {#collection-method}
@@ -688,7 +714,7 @@ The `firstWhere` method returns the first element in the collection with the giv
 `firstWhere` 메소드는 주어진 키 /값에 해당하는 첫번째 요소를 반환합니다:
 
     $collection = collect([
-        ['name' => 'Regena', 'age' => 12],
+        ['name' => 'Regena', 'age' => null],
         ['name' => 'Linda', 'age' => 14],
         ['name' => 'Diego', 'age' => 23],
         ['name' => 'Linda', 'age' => 84],
@@ -705,6 +731,14 @@ You may also call the `firstWhere` method with an operator:
     $collection->firstWhere('age', '>=', 18);
 
     // ['name' => 'Diego', 'age' => 23]
+
+Like the [where](#method-where) method, you may pass one argument to the `firstWhere` method. In this scenario, the `firstWhere` method will return the first item where the given item key's value is "truthy":
+
+[where](#method-where) 메소드와 같이, `firstWhere` 메소드에 인자 한 개를 전달할 수 있습니다. 이러한 경우에는 `firstWhere` 메소드는 주어진 아이템 키의 값이 참이 되는 첫 번째 아이템을 반환합니다.
+
+    $collection->firstWhere('age');
+
+    // ['name' => 'Linda', 'age' => 14]
 
 <a name="method-flatmap"></a>
 #### `flatMap()` {#collection-method}
@@ -2113,9 +2147,9 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
         ]
     */
 
-> {note} `toArray` also converts all of the collection's nested objects to an array. If you want to get the raw underlying array, use the [`all`](#method-all) method instead.
+> {note} `toArray` also converts all of the collection's nested objects that are an instance of `Arrayable` to an array. If you want to get the raw underlying array, use the [`all`](#method-all) method instead.
 
-> {note} `toArray` 는 또한 모든 컬렉션의 중첩된 객체도 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
+> {note} 또한 `toArray`는 컬렉션 내의 `Arrayable` 인스턴스인 모든 중첩된 객체를 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
 
 <a name="method-tojson"></a>
 #### `toJson()` {#collection-method}

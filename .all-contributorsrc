@@ -1,0 +1,23 @@
+{
+  "projectName": "docs",
+  "projectOwner": "laravelkr",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "getsolaris",
+      "name": "Mingeun Kim",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/19664237?v=4",
+      "profile": "https://mingeun.com",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

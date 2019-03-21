@@ -1,0 +1,23 @@
+{
+  "projectName": "docs",
+  "projectOwner": "laravelkr",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "whdckszxxx",
+      "name": "Jong Chan Park",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/14170948?v=4",
+      "profile": "https://github.com/whdckszxxx",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

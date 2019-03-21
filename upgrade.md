@@ -8,6 +8,7 @@
 <div class="content-list" markdown="1">
 - [Cache TTL In Seconds](#cache-ttl-in-seconds)
 - [Cache Lock Safety Improvements](#cache-lock-safety-improvements)
+- [Environment Variable Parsing](#environment-variable-parsing)
 - [Markdown File Directory Change](#markdown-file-directory-change)
 - [Nexmo / Slack Notification Channels](#nexmo-slack-notification-channels)
 </div>
@@ -127,7 +128,7 @@ The `KeyWritten` event [was also updated](https://github.com/laravel/framework/p
 
 In Laravel 5.7 and prior versions of Laravel, the "atomic lock" feature provided by some cache drivers could have unexpected behavior leading to the early release of locks.
 
-For example: **client A** acquires lock `foo` with a 10 second expiration. **Client A** actually takes 20 seconds to finish its task. The lock is released automatically by the cache system 10 seconds into **Client A's** processing time. **Client B** acquires lock `foo`. **Client A** finally finishes its task and releases lock `foo`, inadvertently releasing **Client B's** hold on the lock. **Client C** is now able to acquire the lock.
+For example: **Client A** acquires lock `foo` with a 10 second expiration. **Client A** actually takes 20 seconds to finish its task. The lock is released automatically by the cache system 10 seconds into **Client A's** processing time. **Client B** acquires lock `foo`. **Client A** finally finishes its task and releases lock `foo`, inadvertently releasing **Client B's** hold on the lock. **Client C** is now able to acquire the lock.
 
 In order to mitigate this scenario, locks are now generated with an embedded "scope token" which allows the framework to ensure that, under normal circumstances, only the proper owner of a lock can release a lock.
 
@@ -170,6 +171,14 @@ In order to be fully compliant with `PSR-16` the return values of the `put` and 
 
 <a name="collections"></a>
 ### Collections
+
+#### The `add` Method
+
+**Likelihood Of Impact: Very Low**
+
+The `add` method [has been moved](https://github.com/laravel/framework/pull/27082) from the Eloquent collection class to the base collection class. If you are extending `Illuminate\Support\Collection` and your extended class has an `add` method, make sure the method signature matches its parent:
+
+    public function add($item);
 
 #### The `firstWhere` Method
 
@@ -268,7 +277,7 @@ As of Laravel 5.8 the [oldest supported SQLite version](https://github.com/larav
 <a name="model-names-ending-with-irregular-plurals"></a>
 #### Model Names Ending With Irregular Plurals
 
-**Likelihood of Impact: Medium**
+**Likelihood Of Impact: Medium**
 
 As of Laravel 5.8, multi-word model names ending in a word with an irregular plural [are now correctly pluralized](https://github.com/laravel/framework/pull/26421).
 
@@ -321,15 +330,16 @@ The `deleted_at` property [will now be automatically casted](https://github.com/
 
     protected $casts = ['deleted_at' => 'string'];
 
-#### BelongsTo `getForeignKey` Method
+#### BelongsTo `getForeignKey` & `getOwnerKey` Methods
 
 **Likelihood Of Impact: Low**
 
-The `getForeignKey` and `getQualifiedForeignKey` methods of the `BelongsTo` relationship have been renamed to `getForeignKeyName` and `getQualifiedForeignKeyName` respectively, making the method names consistent with the other relationships offered by Laravel.
+The `getForeignKey`, `getQualifiedForeignKey`, and `getOwnerKey` methods of the `BelongsTo` relationship have been renamed to `getForeignKeyName`, `getQualifiedForeignKeyName`, and `getOwnerKeyName` respectively, making the method names consistent with the other relationships offered by Laravel.
 
-### Environment
+<a name="environment-variable-parsing"></a>
+### Environment Variable Parsing
 
-**Likelihood Of Impact: Low**
+**Likelihood Of Impact: High**
 
 The [phpdotenv](https://github.com/vlucas/phpdotenv) package that is used to parse `.env` files has released a new major version, which may impact the results returned from the `env` helper. Specifically, the `#` character in an unquoted value will now be considered a comment instead of part of the value:
 
@@ -583,7 +593,7 @@ The `getPresenceVerifierFor` method of the `Illuminate\Validation\Validator` cla
 
 **Likelihood Of Impact: Very Low**
 
-The email validation rule now checks if the email is [RFC5630](https://tools.ietf.org/html/rfc6530) compliant, making the validation logic consistent with the logic used by SwiftMailer. In Laravel `5.7`, the `email` rule only verified that the email was [RFC822](https://tools.ietf.org/html/rfc822) compliant.
+The email validation rule now checks if the email is [RFC6530](https://tools.ietf.org/html/rfc6530) compliant, making the validation logic consistent with the logic used by SwiftMailer. In Laravel `5.7`, the `email` rule only verified that the email was [RFC822](https://tools.ietf.org/html/rfc822) compliant.
 
 Therefore, when using Laravel 5.8, emails that were previously incorrectly considered invalid will now be considered valid (e.g `hej@bär.se`).  Generally, this should be considered a bug fix; however, it is listed as a breaking change out of caution. [Please let us know if you encounter any issues surrounding this change](https://github.com/laravel/framework/pull/26503).
 

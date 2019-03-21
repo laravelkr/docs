@@ -1,4 +1,5 @@
 # 라라벨 한국어 매뉴얼
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 이 문서는 라라벨 공식 매뉴얼을 한국어로 번역하여 제공합니다. 라라벨을 이해하고 프레임워크를 사용하는데 영어라는 장벽으로 인해서 겪는 문제점들을 해소하기 위해서 마련되었습니다.
 
@@ -72,5 +73,10 @@
 
 ## Contributors
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://yupmin.net/"><img src="https://avatars1.githubusercontent.com/u/880878?v=4" width="100px;" alt="yun young-jin"/><br /><sub><b>yun young-jin</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=yupmin" title="Documentation">📖</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 - [XpressEngine](https://xpressengine.io)
 - [ModernPHP](http://www.modernpug.org/)

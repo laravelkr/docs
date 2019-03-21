@@ -1,0 +1,23 @@
+{
+  "projectName": "docs",
+  "projectOwner": "laravelkr",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Hann",
+      "name": "Jinsoo Han",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/718811?v=4",
+      "profile": "https://github.com/Hann",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

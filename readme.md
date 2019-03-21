@@ -70,6 +70,7 @@
 
 채팅에 참여하려면 [슬랙](https://modernpug.slack.com)으로 [참가하기](http://slack-invite.modernpug.org/)를 신청하면 됩니다. 채널은 `#laravel`에서 이야기 하고 있습니다.
 
-## 지원
+## Contributors
 
-라라벨 한국어 매뉴얼은 [XpressEngine](https://xpressengine.io)과 [ModernPHP](http://www.modernpug.org/)의 지원을 받았습니다.
+- [XpressEngine](https://xpressengine.io)
+- [ModernPHP](http://www.modernpug.org/)

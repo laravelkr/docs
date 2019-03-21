@@ -1,0 +1,23 @@
+{
+  "projectName": "docs",
+  "projectOwner": "laravelkr",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "lastgleam",
+      "name": "Donghee KIM",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/18328030?v=4",
+      "profile": "https://lastgleam.github.io",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

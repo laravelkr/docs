@@ -18,7 +18,6 @@
         "doc"
       ]
     },
-
     {
       "login": "kkame",
       "name": "KKAME",
@@ -28,7 +27,6 @@
         "doc"
       ]
     },
-
     {
       "login": "natz92",
       "name": "Natz",
@@ -205,6 +203,24 @@
       "name": "GoodGoodMan",
       "avatar_url": "https://avatars3.githubusercontent.com/u/8029093?v=4",
       "profile": "https://github.com/GoodGoodJM",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "ModernPug",
+      "name": "Modern PHP User Group",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8666157?v=4",
+      "profile": "http://modernpug.org",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "XpressEngine",
+      "name": "XpressEngine",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1429259?v=4",
+      "profile": "https://www.xpressengine.io/",
       "contributions": [
         "doc"
       ]

@@ -149,9 +149,6 @@ Adjusting this value based on your queue load can be more efficient than continu
         'block_for' => 5,
     ],
 
-> {note} Blocking pop is an experimental feature. There is a small chance that a queued job could be lost if the Redis server or worker crashes at the same time the job is retrieved.
-
-> {note} 큐에서 꺼내는 것을 막는 건 실험적인 기능입니다. Redis 서버 또는 워커가 job을 꺼내는 동시에 문제가 생겼을 경우 대기열에 있는 job이 없어질 작은 가능성이 있습니다.
 
 #### Other Driver Prerequisites
 #### 다른 큐 드라이버의 사전준비 사항들
@@ -162,7 +159,7 @@ The following dependencies are needed for the listed queue drivers:
 
 
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
-- Beanstalkd: `pda/pheanstalk ~3.0`
+- Beanstalkd: `pda/pheanstalk ~4.0`
 - Redis: `predis/predis ~1.0`
 
 
@@ -903,6 +900,16 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register the service provider.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+        
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -914,16 +921,6 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
                 // $event->job
                 // $event->exception
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

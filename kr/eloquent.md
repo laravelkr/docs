@@ -567,17 +567,19 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
     // Retrieve flight by name, or create it if it doesn't exist...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
 
-    // Retrieve flight by name, or create it with the name and delayed attributes...
+    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes..
     $flight = App\Flight::firstOrCreate(
-        ['name' => 'Flight 10'], ['delayed' => 1]
+        ['name' => 'Flight 10'], 
+        ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
     // Retrieve by name, or instantiate...
     $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
 
-    // Retrieve by name, or instantiate with the name and delayed attributes...
+    // Retrieve by name, or instantiate with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrNew(
-        ['name' => 'Flight 10'], ['delayed' => 1]
+        ['name' => 'Flight 10'], 
+        ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
 #### `updateOrCreate`
@@ -591,7 +593,7 @@ You may also come across situations where you want to update an existing model o
     // If no matching model exists, create one.
     $flight = App\Flight::updateOrCreate(
         ['departure' => 'Oakland', 'destination' => 'San Diego'],
-        ['price' => 99]
+        ['price' => 99, 'discounted' => 1]
     );
 
 <a name="deleting-models"></a>
@@ -638,9 +640,9 @@ You can also run a delete statement on a set of models. In this example, we will
 ### Soft Deleting
 ### 소프트 삭제하기
 
-In addition to actually removing records from your database, Eloquent can also "soft delete" models. When models are soft deleted, they are not actually removed from your database. Instead, a `deleted_at` attribute is set on the model and inserted into the database. If a model has a non-null `deleted_at` value, the model has been soft deleted. To enable soft deletes for a model, use the `Illuminate\Database\Eloquent\SoftDeletes` trait on the model and add the `deleted_at` column to your `$dates` property:
+In addition to actually removing records from your database, Eloquent can also "soft delete" models. When models are soft deleted, they are not actually removed from your database. Instead, a `deleted_at` attribute is set on the model and inserted into the database. If a model has a non-null `deleted_at` value, the model has been soft deleted. To enable soft deletes for a model, use the `Illuminate\Database\Eloquent\SoftDeletes` trait on the model:
 
-실제로 데이터베이스에서 기록을 삭제하는 것 외에도 Eloquent는 모델을 "소프트 삭제(일종의 임시 삭제)"할 수 있습니다. 소프트 삭제된 모델은 실제로 데이터베이스에서 삭제된 것은 아닙니다. 대신 모델에 `deleted_at` 속성이 지정되어 데이터베이스에 입력됩니다. 모델이 null이 아닌 `deleted_at` 값을 가진다면 그 모델은 소프트 삭제된 것입니다. 모델이 소프트 삭제되는 것을 허용하기 위해 모델에 `Illuminate\Database\Eloquent\SoftDeletes` 속성을 이용하고 `$dates` 속성에 `deleted_at` 컬럼을 추가하세요:
+실제로 데이터베이스에서 기록을 삭제하는 것 외에도 Eloquent는 모델을 "소프트 삭제(일종의 임시 삭제)"할 수 있습니다. 소프트 삭제된 모델은 실제로 데이터베이스에서 삭제된 것은 아닙니다. 대신 모델에 `deleted_at` 속성이 지정되어 데이터베이스에 입력됩니다. 모델이 null이 아닌 `deleted_at` 값을 가진다면 그 모델은 소프트 삭제된 것입니다. 모델이 소프트 삭제되는 것을 허용하기 위해 모델에 `Illuminate\Database\Eloquent\SoftDeletes` 속성을 사용하세요:
 
     <?php
 
@@ -652,14 +654,11 @@ In addition to actually removing records from your database, Eloquent can also "
     class Flight extends Model
     {
         use SoftDeletes;
-
-        /**
-         * The attributes that should be mutated to dates.
-         *
-         * @var array
-         */
-        protected $dates = ['deleted_at'];
     }
+
+> {tip} The `SoftDeletes` trait will automatically cast the `deleted_at` attribute to a `DateTime` / `Carbon` instance for you.
+
+> {tip} `소프트 삭제` 의 특성은 자동으로 `deleted_at` 의 속성을 `DateTime` / `Carbon` 인스턴스에 반영됩니다.
 
 You should also add the `deleted_at` column to your database table. The Laravel [schema builder](/docs/{{version}}/migrations) contains a helper method to create this column:
 
@@ -939,6 +938,21 @@ Once the scope has been defined, you may call the scope methods when querying th
 스코프가 정의되면 모델을 질의할 때 스코프 메소드를 호출할 수 있습니다. 하지만 메소드를 호출할 때는 `scope` 접두어를 포함하면 안됩니다. 또한 다음의 예에서 볼 수 있듯이 다양한 스코프를 연결하여 호출할 수도 있습니다:
 
     $users = App\User::popular()->active()->orderBy('created_at')->get();
+
+Combining multiple Eloquent model scopes via an `or` query operator may require the use of Closure callbacks:
+
+`or` 쿼리 연산자를 통해 여러개의 Eloquent 모델 범위를 결합하려면 다음과 같은 클로져 콜백을 사용합니다:
+
+    $users = App\User::popular()->orWhere(function (Builder $query) {
+        $query->active();
+    })->get();
+
+However, since this can be cumbersome, Laravel provides a "higher order" `orWhere` method that allows you to fluently chain these scopes together without the use of Closures:
+
+그러나, 이것은 번거로울 수 있기 때문에, 라라벨은 클로져를 사용하지 않고도 이러한 스코프를 함께 유용하게 사용할 수 있는 `orWhere` 메서드를 제공합니다:
+
+    $users = App\User::popular()->orWhere->active()->get();
+
 
 #### Dynamic Scopes
 #### 다이나믹 스코프

@@ -58,7 +58,7 @@ The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord
 
 Before getting started, be sure to configure a database connection in `config/database.php`. For more information on configuring your database, check out [the documentation](/docs/{{version}}/database#configuration).
 
-시작하기에 앞서 `config/database.php` 에 데이터베이스 커넥션이 설정되어 있는지 확인하십시오. 데이터베이스 구성에 대한 자세한 내용은 [문서](/docs/{{version}}/database#configuration)를 확인합니다.
+시작하기에 앞서 `config/database.php` 에 데이터베이스 커넥션이 설정되어 있는지 확인하십시오. 데이터베이스 설정에 대한 자세한 내용은 [문서](/docs/{{version}}/database#configuration)를 확인합니다.
 
 <a name="defining-models"></a>
 ## Defining Models

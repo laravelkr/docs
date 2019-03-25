@@ -61,6 +61,8 @@
     - [webook 이벤트 핸들러 정의하기](#defining-webhook-event-handlers)
     - [Failed Subscriptions](#handling-failed-subscriptions)
     - [실패한 정기구독](#handling-failed-subscriptions)
+    - [Verifying Webhook Signatures](#verifying-webhook-signatures)
+    - [Webhook의 인증 확인](#verifying-webhook-signatures)
 - [Single Charges](#single-charges)
 - [한번만 결제하기](#single-charges)
     - [Simple Charge](#simple-charge)

@@ -507,6 +507,17 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
         return $user->id === $order->user_id;
     });
 
+#### Authorization Callback Authentication
+#### 인증 권한 부여 콜백
+
+Private and presence broadcast channels authenticate the current user via your application's default authentication guard. If the user is not authenticated, channel authorization is automatically denied and the authorization callback is never executed. However, you may assign multiple, custom guards that should authenticate the incoming request if necessary:
+
+사설 및 현재 브로드캐스트 채널은 어플리케이션의 기본 인증 가드를 통해 현재 사용자를 인증합니다. 사용자가 인증되지 않으면 채널 권한이 자동으로 거부되고 권한 콜백이 실행되지 않습니다. 그러나 필요한 경우 들어오는 Request에 인증해야하는 사용자 지정 가드를 여러 개 지정할 수 있습니다.
+
+    Broadcast::channel('channel', function() {
+        // ...
+    }, ['guards' => ['web', 'admin']])
+
 <a name="defining-channel-classes"></a>
 ### Defining Channel Classes
 ### 채널 클래스 정의하기

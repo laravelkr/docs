@@ -23,6 +23,8 @@
 - [알림](#notifications)
     - [Slack](#slack)
     - [슬랙](#slack)
+    - [Discord](#discord)
+    - [디스코드](#discord)
 
 <a name="introduction"></a>
 ## Introduction
@@ -201,7 +203,7 @@ To run a task or story that is defined in your `Envoy.blade.php` file, execute E
 
 `Envoy.blade.php` 파일에 정의되어 있는 작업이나 스토리를 실행하려면 실행하고자 하는 작업 또는 스토리의 이름을 Envoy의 `run` 명령어를 전달하여 실행하면 됩니다. Envoy 는 작업을 실행하고 작업이 실행된 서버에서 그 결과를 표시할 것입니다:
 
-    envoy run task
+    envoy run deploy
 
 <a name="confirming-task-execution"></a>
 ### Confirming Task Execution
@@ -246,3 +248,16 @@ You may provide one of the following as the channel argument:
 
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
+
+
+<a name="discord"></a>
+### Discord
+### 디스코드
+
+Envoy also supports sending notifications to [Discord](https://discord.com) after each task is executed. The `@discord` directive accepts a Discord hook URL and a message. You may retreive your webhook URL by creating a "Webhook" in your Server Settings and choosing which channel the webhook should post to. You should pass the entire Webhook URL into the `@discord` directive:
+
+Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다:
+
+    @finished
+        @discord('discord-webhook-url')
+    @endfinished

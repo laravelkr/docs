@@ -74,8 +74,8 @@
 - 보안
     - [Authentication](/docs/{{version}}/authentication)
     - [인증](/docs/{{version}}/authentication)
-    - [API Authentication](/docs/{{version}}/passport)
-    - [API 인증](/docs/{{version}}/passport)
+    - [API Authentication](/docs/{{version}}/api-authentication)
+    - [API 인증](/docs/{{version}}/api-authentication)
     - [Authorization](/docs/{{version}}/authorization)
     - [Authorization-권한승인](/docs/{{version}}/authorization)
     - [Email Verification](/docs/{{version}}/verification)

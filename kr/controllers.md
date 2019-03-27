@@ -79,7 +79,7 @@ You can define a route to this controller action like so:
 
 Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. The route parameters will also be passed to the method.
 
-이제 사용자의 요청이 지정된 라우트의 URI와 일치할 때 `UserController` 클래스의 `showProfile` 메소드가 실행될것입니다. 이때, 라우트의 파라미터들 또한 메소드에 전달될 것입니다.
+이제 사용자의 요청이 지정된 라우트의 URI와 일치할 때 `UserController` 클래스의 `show` 메소드가 실행될것입니다. 이때, 라우트의 파라미터들 또한 메소드에 전달될 것입니다.
 
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
 
@@ -296,7 +296,7 @@ To quickly generate an API resource controller that does not include the `create
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
-기본적으로 모든 리루스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 이름을 덮어씌울 수 있습니다.
+기본적으로 모든 리소스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 이름을 덮어씌울 수 있습니다.
 
     Route::resource('photos', 'PhotoController')->names([
         'create' => 'photos.build'

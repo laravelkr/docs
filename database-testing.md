@@ -271,10 +271,6 @@
 
 라라벨은 [PHPUnit](https://phpunit.de/) 테스트에서 사용가능한 데이터데이스 assertion을 제공합니다:
 
-Method  | Description
-------------- | -------------
-`$this->assertDatabaseHas($table, array $data);`  |  Assert that a table in the database contains the given data.
-`$this->assertDatabaseMissing($table, array $data);`  |  Assert that a table in the database does not contain the given data.
 메소드 | 설명
 ------------- | -------------
 `$this->assertDatabaseHas($table, array $data);`  |  데이터베이스에서 테이블에 주어진 데이터가 존재하는지 확인.

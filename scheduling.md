@@ -102,25 +102,6 @@
 
 작업을 스케줄링 할 때 다양한 옵션을 부여할 수 있습니다:
 
-Method  | Description
-------------- | -------------
-`->cron('* * * * *');`  |  Run the task on a custom Cron schedule
-`->everyMinute();`  |  Run the task every minute
-`->everyFiveMinutes();`  |  Run the task every five minutes
-`->everyTenMinutes();`  |  Run the task every ten minutes
-`->everyFifteenMinutes();`  |  Run the task every fifteen minutes
-`->everyThirtyMinutes();`  |  Run the task every thirty minutes
-`->hourly();`  |  Run the task every hour
-`->hourlyAt(17);`  |  Run the task every hour at 17 mins past the hour
-`->daily();`  |  Run the task every day at midnight
-`->dailyAt('13:00');`  |  Run the task every day at 13:00
-`->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
-`->weekly();`  |  Run the task every week
-`->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
-`->monthly();`  |  Run the task every month
-`->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
-`->quarterly();` |  Run the task every quarter
-`->yearly();`  |  Run the task every year
 메소드  | 설명
 ------------- | -------------
 `->cron('* * * * *');`  |  지정한 Cron 형태로 작업 실행
@@ -158,19 +139,6 @@ Method  | Description
 
 아래는 추가적인 스케줄을 제한하는 옵션입니다:
 
-Method  | Description
-------------- | -------------
-`->weekdays();`  |  Limit the task to weekdays
-`->weekends();`  |  Limit the task to weekends
-`->sundays();`  |  Limit the task to Sunday
-`->mondays();`  |  Limit the task to Monday
-`->tuesdays();`  |  Limit the task to Tuesday
-`->wednesdays();`  |  Limit the task to Wednesday
-`->thursdays();`  |  Limit the task to Thursday
-`->fridays();`  |  Limit the task to Friday
-`->saturdays();`  |  Limit the task to Saturday
-`->between($start, $end);`  |  Limit the task to run between start and end times
-`->when(Closure);`  |  Limit the task based on a truth test
 메소드  | 설명
 ------------- | -------------
 `->weekdays();`  |  평일로 제한

@@ -18,16 +18,6 @@
 
 라라벨 5.5과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을받습니다.
 
-| Version | Release | Bug Fixes Until | Security Fixes Until |
-| --- | --- | --- | --- |
-| 5.0 | February 4th, 2015 | August 4th, 2015 | February 4th, 2016 |
-| 5.1 (LTS) | June 9th, 2015 | June 9th, 2017 | June 9th, 2018 |
-| 5.2 | December 21st, 2015 | June 21st, 2016 | December 21st, 2016 |
-| 5.3 | August 23rd, 2016 | February 23rd, 2017 | August 23rd, 2017 |
-| 5.4 | January 24th, 2017 | July 24th, 2017 | January 24th, 2018 |
-| 5.5 (LTS) | August 30th, 2017 | August 30th, 2019 | August 30th, 2020 |
-| 5.6 | February 7th, 2018 | August 7th, 2018 | February 7th, 2019 |
-| 5.7 | September 4th, 2018 | March 4th, 2019 | September 4th, 2019 |
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간|
 | --- | --- | --- | --- |
 | 5.0 | 2015년 2월 4일 | 2015년 8월 4일 | 2016년 2월 4일 |

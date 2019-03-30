@@ -214,38 +214,46 @@
 
 라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다:
 
-<style>
-    .collection-method-list > p {
-        column-count: 2; -moz-column-count: 2; -webkit-column-count: 2;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
 
-    .collection-method-list a {
-        display: block;
-    }
-</style>
-
-
-
+- [assertCookie](#assert-cookie)
 - [assertCookieExpired](#assert-cookie-expired)
+- [assertCookieNotExpired](#assert-cookie-not-expired)
 - [assertCookieMissing](#assert-cookie-missing)
+- [assertDontSee](#assert-dont-see)
 - [assertDontSeeText](#assert-dont-see-text)
+- [assertExactJson](#assert-exact-json)
 - [assertForbidden](#assert-forbidden)
+- [assertHeader](#assert-header)
 - [assertHeaderMissing](#assert-header-missing)
+- [assertJson](#assert-json)
 - [assertJsonCount](#assert-json-count)
+- [assertJsonFragment](#assert-json-fragment)
 - [assertJsonMissing](#assert-json-missing)
+- [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
+- [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
+- [assertLocation](#assert-location)
 - [assertNotFound](#assert-not-found)
+- [assertOk](#assert-ok)
 - [assertPlainCookie](#assert-plain-cookie)
+- [assertRedirect](#assert-redirect)
 - [assertSee](#assert-see)
+- [assertSeeInOrder](#assert-see-in-order)
 - [assertSeeText](#assert-see-text)
+- [assertSeeTextInOrder](#assert-see-text-in-order)
 - [assertSessionHas](#assert-session-has)
+- [assertSessionHasAll](#assert-session-has-all)
 - [assertSessionHasErrors](#assert-session-has-errors)
+- [assertSessionHasErrorsIn](#assert-session-has-errors-in)
 - [assertSessionHasNoErrors](#assert-session-has-no-errors)
+- [assertSessionDoesntHaveErrors](#assert-session-doesnt-have-errors)
 - [assertSessionMissing](#assert-session-missing)
+- [assertStatus](#assert-status)
 - [assertSuccessful](#assert-successful)
+- [assertViewHas](#assert-view-has)
 - [assertViewHasAll](#assert-view-has-all)
+- [assertViewIs](#assert-view-is)
 - [assertViewMissing](#assert-view-missing)
 
 
@@ -541,10 +549,3 @@ Method  | Description
 `$this->assertGuest($guard = null);`  |  Assert that the user is not authenticated.
 `$this->assertAuthenticatedAs($user, $guard = null);`  |  Assert that the given user is authenticated.
 `$this->assertCredentials(array $credentials, $guard = null);`  |  Assert that the given credentials are valid.
-메소드  | 설명
-------------- | -------------
-`$this->assertAuthenticated($guard = null);`  |  사용자가 인증되었는지 확인.
-`$this->assertGuest($guard = null);`  |  사용자가 인증되지 않은 것을 확인.
-`$this->assertAuthenticatedAs($user, $guard = null);`  |  주어진 사용자가 인증되었는지 확인.
-`$this->assertCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효한지 확인.
-`$this->assertInvalidCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효하지 않은 것을 확인.

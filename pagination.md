@@ -189,21 +189,6 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 
 각각의 페이지네이터 인스턴스는 다음의 메소드를 통해서 추가적인 페이지네이션 정보를 제공합니다:
 
-Method  |  Description
--------  |  -----------
-`$results->count()`  |  Get the number of items for the current page.
-`$results->currentPage()`  |  Get the current page number.
-`$results->firstItem()`  |  Get the result number of the first item in the results.
-`$results->getOptions()`  |  Get the paginator options.
-`$results->getUrlRange($start, $end)`  |  Create a range of pagination URLs.
-`$results->hasMorePages()`  |  Determine if there are enough items to split into multiple pages.
-`$results->lastItem()`  |  Get the result number of the last item in the results.
-`$results->lastPage()`  |  Get the page number of the last available page. (Not available when using `simplePaginate`).
-`$results->nextPageUrl()`  |  Get the URL for the next page.
-`$results->onFirstPage()`  |  Determine if the paginator is on the first page.
-`$results->perPage()`  |  The number of items to be shown per page.
-`$results->previousPageUrl()`  |  Get the URL for the previous page.
-`$results->total()`  |  Determine the total number of matching items in the data store. (Not available when using `simplePaginate`).
 메소드  |  설명
 -------  |  -----------
 `$results->count()`  |  현재 페이지의 항목 수를 가져옵니다.

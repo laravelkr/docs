@@ -171,11 +171,6 @@
 
 테이블 옵션을 정의하기 위해서 스키마 빌더의 다음 명령어를 사용할 수 있습니다:
 
-Command  |  Description
--------  |  -----------
-`$table->engine = 'InnoDB';`  |  Specify the table storage engine (MySQL).
-`$table->charset = 'utf8';`  |  Specify a default character set for the table (MySQL).
-`$table->collation = 'utf8_unicode_ci';`  |  Specify a default collation for the table (MySQL).
 명령어 | 설명
 -------  |  -----------
 `$table->engine = 'InnoDB';`  |  테이블 엔진을 지정합니다.(MySQL).
@@ -216,64 +211,6 @@ Command  |  Description
 
 스키마 빌더는 테이블을 만들 때 이를 지정할 수 있는 다양한 컬럼 타입들을 가지고 있습니다:
 
-Command  |  Description
--------  |  -----------
-`$table->bigIncrements('id');`  |  Auto-incrementing UNSIGNED BIGINT (primary key) equivalent column.
-`$table->bigInteger('votes');`  |  BIGINT equivalent column.
-`$table->binary('data');`  |  BLOB equivalent column.
-`$table->boolean('confirmed');`  |  BOOLEAN equivalent column.
-`$table->char('name', 100);`  |  CHAR equivalent column with an optional length.
-`$table->date('created_at');`  |  DATE equivalent column.
-`$table->dateTime('created_at');`  |  DATETIME equivalent column.
-`$table->dateTimeTz('created_at');`  |  DATETIME (with timezone) equivalent column.
-`$table->decimal('amount', 8, 2);`  |  DECIMAL equivalent column with a precision (total digits) and scale (decimal digits).
-`$table->double('amount', 8, 2);`  |  DOUBLE equivalent column with a precision (total digits) and scale (decimal digits).
-`$table->enum('level', ['easy', 'hard']);`  |  ENUM equivalent column.
-`$table->float('amount', 8, 2);`  |  FLOAT equivalent column with a precision (total digits) and scale (decimal digits).
-`$table->geometry('positions');`  |  GEOMETRY equivalent column.
-`$table->geometryCollection('positions');`  |  GEOMETRYCOLLECTION equivalent column.
-`$table->increments('id');`  |  Auto-incrementing UNSIGNED INTEGER (primary key) equivalent column.
-`$table->integer('votes');`  |  INTEGER equivalent column.
-`$table->ipAddress('visitor');`  |  IP address equivalent column.
-`$table->json('options');`  |  JSON equivalent column.
-`$table->jsonb('options');`  |  JSONB equivalent column.
-`$table->lineString('positions');`  |  LINESTRING equivalent column.
-`$table->longText('description');`  |  LONGTEXT equivalent column.
-`$table->macAddress('device');`  |  MAC address equivalent column.
-`$table->mediumIncrements('id');`  |  Auto-incrementing UNSIGNED MEDIUMINT (primary key) equivalent column.
-`$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
-`$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
-`$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED BIGINT and `taggable_type` VARCHAR equivalent columns.
-`$table->multiLineString('positions');`  |  MULTILINESTRING equivalent column.
-`$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
-`$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
-`$table->nullableMorphs('taggable');`  |  Adds nullable versions of `morphs()` columns.
-`$table->nullableTimestamps();`  |  Alias of `timestamps()` method.
-`$table->point('position');`  |  POINT equivalent column.
-`$table->polygon('positions');`  |  POLYGON equivalent column.
-`$table->rememberToken();`  |  Adds a nullable `remember_token` VARCHAR(100) equivalent column.
-`$table->smallIncrements('id');`  |  Auto-incrementing UNSIGNED SMALLINT (primary key) equivalent column.
-`$table->smallInteger('votes');`  |  SMALLINT equivalent column.
-`$table->softDeletes();`  |  Adds a nullable `deleted_at` TIMESTAMP equivalent column for soft deletes.
-`$table->softDeletesTz();`  |  Adds a nullable `deleted_at` TIMESTAMP (with timezone) equivalent column for soft deletes.
-`$table->string('name', 100);`  |  VARCHAR equivalent column with a optional length.
-`$table->text('description');`  |  TEXT equivalent column.
-`$table->time('sunrise');`  |  TIME equivalent column.
-`$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent column.
-`$table->timestamp('added_on');`  |  TIMESTAMP equivalent column.
-`$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent column.
-`$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP equivalent columns.
-`$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP (with timezone) equivalent columns.
-`$table->tinyIncrements('id');`  |  Auto-incrementing UNSIGNED TINYINT (primary key) equivalent column.
-`$table->tinyInteger('votes');`  |  TINYINT equivalent column.
-`$table->unsignedBigInteger('votes');`  |  UNSIGNED BIGINT equivalent column.
-`$table->unsignedDecimal('amount', 8, 2);`  |  UNSIGNED DECIMAL equivalent column with a precision (total digits) and scale (decimal digits).
-`$table->unsignedInteger('votes');`  |  UNSIGNED INTEGER equivalent column.
-`$table->unsignedMediumInteger('votes');`  |  UNSIGNED MEDIUMINT equivalent column.
-`$table->unsignedSmallInteger('votes');`  |  UNSIGNED SMALLINT equivalent column.
-`$table->unsignedTinyInteger('votes');`  |  UNSIGNED TINYINT equivalent column.
-`$table->uuid('id');`  |  UUID equivalent column.
-`$table->year('birth_year');`  |  YEAR equivalent column.
 명령  | 설명
 ------------- | -------------
 `$table->bigIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED BIGINT (primary key) 컬럼.
@@ -344,21 +281,6 @@ Command  |  Description
 
 아래는 사용 가능한 모든 컬럼 Modifier의 목록입니다. 이 목록은 [인덱스 modifiers](#creating-indexes)를 포함하지 않습니다:
 
-Modifier  |  Description
---------  |  -----------
-`->after('column')`  |  Place the column "after" another column (MySQL)
-`->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
-`->charset('utf8')`  |  Specify a character set for the column (MySQL)
-`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/SQL Server)
-`->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
-`->default($value)`  |  Specify a "default" value for the column
-`->first()`  |  Place the column "first" in the table (MySQL)
-`->nullable($value = true)`  |  Allows (by default) NULL values to be inserted into the column
-`->storedAs($expression)`  |  Create a stored generated column (MySQL)
-`->unsigned()`  |  Set INTEGER columns as UNSIGNED (MySQL)
-`->useCurrent()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP as default value
-`->virtualAs($expression)`  |  Create a virtual generated column (MySQL)
-`->generatedAs($expression)`  |  Create an identity column with specified sequence options (PostgreSQL)
 Modifier  | 설명
 --------  |  -----------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮깁니다 (MySQL)
@@ -373,7 +295,9 @@ Modifier  | 설명
 `->unsigned()`  |  INTEGER 컬럼을 UNSIGNED 으로 지정 (MySQL)
 `->virtualAs($expression)`  |  virtual generated 컬럼 생성하기 (MySQL)
 `->generatedAs($expression)`  |  지정한 시퀀스 옵션을 사용하여 ID 컬럼 만들기 (PostgreSQL)
-`->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다(역자주 : generated column (virtual/stored) 는 mysql 5.7 부터 가능한 컬럼 유형으로 자세한 내용은 [mysql 공식 매뉴얼](https://dev.mysql.com/doc/refman/5.7/en/create-table-generated-columns.html)을 참고하십시오)
+`->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다 (PostgreSQL)
+
+(역자주 : generated column (virtual/stored) 는 mysql 5.7 부터 가능한 컬럼 유형으로 자세한 내용은 [mysql 공식 매뉴얼](https://dev.mysql.com/doc/refman/5.7/en/create-table-generated-columns.html)을 참고하십시오)
 
 <a name="modifying-columns"></a>
 ### 컬럼 수정하기
@@ -429,12 +353,6 @@ Modifier  | 설명
 
 #### 사용가능한 명령어 alias(별칭)
 
-Command  |  Description
--------  |  -----------
-`$table->dropRememberToken();`  |  Drop the `remember_token` column.
-`$table->dropSoftDeletes();`  |  Drop the `deleted_at` column.
-`$table->dropSoftDeletesTz();`  |  Alias of `dropSoftDeletes()` method.
-`$table->dropTimestamps();`  |  Drop the `created_at` and `updated_at` columns.
 명령어 |  설명
 -------  |  -----------
 `$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
@@ -469,12 +387,6 @@ Command  |  Description
 
 각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
 
-Command  |  Description
--------  |  -----------
-`$table->primary('id');`  |  Adds a primary key.
-`$table->primary(['id', 'parent_id']);`  |  Adds composite keys.
-`$table->unique('email');`  |  Adds a unique index.
-`$table->index('state');`  |  Adds a plain index.
 커맨드  | 설명
 -------  |  -----------
 `$table->primary('id');`  |  primary key 추가.
@@ -513,11 +425,6 @@ Command  |  Description
 
 인덱스를 삭제하기 위해서는 인덱스의 이름을 지정해야 합니다. 라라벨은 자동으로 인덱스에 합리적인 이름을 부여하도록 설정되어 있습니다. 테이블 이름, 인덱스된 컬럼의 이름, 그리고 인덱스 타입을 합친것입니다. 다음은 몇 개의 예제 입니다:
 
-Command  |  Description
--------  |  -----------
-`$table->dropPrimary('users_id_primary');`  |  Drop a primary key from the "users" table.
-`$table->dropUnique('users_email_unique');`  |  Drop a unique index from the "users" table.
-`$table->dropIndex('geo_state_index');`  |  Drop a basic index from the "geo" table.
 명령어  | 설명
 ------------- | -------------
 `$table->dropPrimary('users_id_primary');`  |  "users" 테이블에서 프라이머리 키 지우기.

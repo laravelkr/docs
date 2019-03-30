@@ -311,8 +311,6 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 
 Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
 
-Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
-
     // HTML...
 
     <button>Login</button>
@@ -320,8 +318,6 @@ Choosing good CSS selectors for interacting with elements is one of the hardest 
     // Test...
 
     $browser->click('.login-page .container div > button');
-
-Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
 
 Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
 
@@ -593,8 +589,6 @@ If you need to make assertions after a page has been reloaded, use the `waitForR
 
 Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
 
-Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
-
     $browser->waitUsing(10, 1, function () use ($something) {
         return $something->isReady();
     }, "Something wasn't ready in time.");
@@ -654,32 +648,59 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 </style>
 
 
+- [assertTitle](#assert-title)
 - [assertTitleContains](#assert-title-contains)
+- [assertUrlIs](#assert-url-is)
 - [assertSchemeIs](#assert-scheme-is)
+- [assertSchemeIsNot](#assert-scheme-is-not)
 - [assertHostIs](#assert-host-is)
+- [assertHostIsNot](#assert-host-is-not)
 - [assertPortIs](#assert-port-is)
+- [assertPortIsNot](#assert-port-is-not)
 - [assertPathBeginsWith](#assert-path-begins-with)
+- [assertPathIs](#assert-path-is)
 - [assertPathIsNot](#assert-path-is-not)
+- [assertRouteIs](#assert-route-is)
 - [assertQueryStringHas](#assert-query-string-has)
+- [assertQueryStringMissing](#assert-query-string-missing)
 - [assertFragmentIs](#assert-fragment-is)
+- [assertFragmentBeginsWith](#assert-fragment-begins-with)
 - [assertFragmentIsNot](#assert-fragment-is-not)
+- [assertHasCookie](#assert-has-cookie)
 - [assertCookieMissing](#assert-cookie-missing)
+- [assertCookieValue](#assert-cookie-value)
 - [assertPlainCookieValue](#assert-plain-cookie-value)
+- [assertSee](#assert-see)
 - [assertDontSee](#assert-dont-see)
+- [assertSeeIn](#assert-see-in)
 - [assertDontSeeIn](#assert-dont-see-in)
+- [assertSourceHas](#assert-source-has)
 - [assertSourceMissing](#assert-source-missing)
+- [assertSeeLink](#assert-see-link)
 - [assertDontSeeLink](#assert-dont-see-link)
+- [assertInputValue](#assert-input-value)
 - [assertInputValueIsNot](#assert-input-value-is-not)
+- [assertChecked](#assert-checked)
 - [assertNotChecked](#assert-not-checked)
+- [assertRadioSelected](#assert-radio-selected)
 - [assertRadioNotSelected](#assert-radio-not-selected)
+- [assertSelected](#assert-selected)
 - [assertNotSelected](#assert-not-selected)
+- [assertSelectHasOptions](#assert-select-has-options)
 - [assertSelectMissingOptions](#assert-select-missing-options)
+- [assertSelectHasOption](#assert-select-has-option)
 - [assertValue](#assert-value)
+- [assertVisible](#assert-visible)
 - [assertPresent](#assert-present)
+- [assertMissing](#assert-missing)
 - [assertDialogOpened](#assert-dialog-opened)
+- [assertEnabled](#assert-enabled)
 - [assertDisabled](#assert-disabled)
+- [assertFocused](#assert-focused)
 - [assertNotFocused](#assert-not-focused)
+- [assertVue](#assert-vue)
 - [assertVueIsNot](#assert-vue-is-not)
+- [assertVueContains](#assert-vue-contains)
 - [assertVueDoesNotContain](#assert-vue-does-not-contain)
 
 

@@ -58,12 +58,6 @@ Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭�
 **발렛은 maxOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 
-- Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.3 using Homebrew via `brew install php`.
-- Install [Composer](https://getcomposer.org).
-- Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
-- Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
-
 - [Homebrew](https://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
 - `brew install php` Homebrew 명령어를 사용하여 PHP7.3을 설치하십시오.
 - [Composer](https://getcomposer.org) 설치.
@@ -122,13 +116,7 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다:
 
 <a name="the-park-command"></a>
-**The `park` Command**
 **`park` 명령어**
-
-
-- Create a new directory on your Mac by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
-- Next, create a new Laravel site within this directory: `laravel new blog`.
-- Open `http://blog.test` in your browser.
 
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
 - 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다: `laravel new blog`.
@@ -139,14 +127,9 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 **여기까지가 전부 입니다.** 이제 여러분이 "parked(지정한)" 디렉토리 안에 생성된 라라벨 프로젝트는 자동으로 `http://folder-name.test` 형태로 접속할 수 있습니다.
 
 <a name="the-link-command"></a>
-**The `link` Command**
 **`link` 명령어**
 
 `link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
-
-
-- To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.config/valet/Sites` which points to your current working directory.
-- After running the `link` command, you can access the site in your browser at `http://app-name.test`.
 
 - 명령어를 사용하기 위해서, 프로젝트 중 하나의 디렉토리에 대해서 터미널에서 `valet link app-name` 을 실행합니다. 발렛은 현재 작업 디렉토리를 `~/.config/valet/Sites`가 지정하도록 심볼릭 링크를 생성할 것입니다.
 - `link` 명령어를 실행한 다음에, 브라우저에서 `http://app-name.test` 로 접속할 수 있습니다.
@@ -157,7 +140,6 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 > {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오.
 
 <a name="securing-sites"></a>
-**Securing Sites With TLS**
 **TLS를 사용한 안전한 사이트**
 
 기본적으로 발렛은 사이트를 일반적인 HTTP 를 통해서 제공합니다. 하지만 사이트를 HTTP/2 를 사용하여 TLS 암호화되어 제공하려면, `secure` 명령어를 사용하십시오. 예를 들어 `laravel.test` 도메인을 발렛을 통해서 제공하고자 한다면, 다음 명령어를 통해서 안전하게 구동해야만 합니다:
@@ -295,13 +277,6 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 <a name="other-valet-commands"></a>
 ## 기타 발렛 명령어들
 
-Command  | Description
-------------- | -------------
-`valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
-`valet paths` | View all of your "parked" paths.
-`valet restart` | Restart the Valet daemon.
-`valet start` | Start the Valet daemon.
-`valet stop` | Stop the Valet daemon.
 명령어 | 설명
 ------------- | -------------
 `valet forget` | parked 디렉토리 목록에서 디렉토리를 제거하기 위해서는 "parked" 된 디렉토리에서 이 명령어를 실행하십시오.

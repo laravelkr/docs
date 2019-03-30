@@ -96,6 +96,7 @@ laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시�
 다음과 같은 라라벨의 컴포넌트들에 대한 몇가지 설정들을 해둘 수도 있습니다.
 
 
+- [Cache](/docs/{{version}}/cache#configuration)
 - [Database](/docs/{{version}}/database#configuration)
 - [Session](/docs/{{version}}/session#configuration)
 

@@ -350,14 +350,12 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
 #### 추가적인 Where 구문
 
 **whereBetween**
-**whereBetween**
 
 `whereBetween` 메소드는 컬럼의 값이 두개의 값 사이의 값인지 확인합니다:
 
     $users = DB::table('users')
                         ->whereBetween('votes', [1, 100])->get();
 
-**whereNotBetween**
 **whereNotBetween**
 
 `whereNotBetween` 메소드는 컬럼의 값이 두개의 값 사이가 아닌지 확인합니다:
@@ -366,7 +364,6 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
-**whereIn / whereNotIn**
 **whereIn / whereNotIn**
 
 `whereIn`메소드는 주어진 컬럼의 값이 주어진 배열안에 값에 속해 있는지 확인합니다:
@@ -382,7 +379,6 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                         ->get();
 
 **whereNull / whereNotNull**
-**whereNull / whereNotNull**
 
 `whereNull`메소드는 주어진 컬럼의 값이 `NULL` 인지 확인합니다:
 
@@ -396,7 +392,6 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                         ->whereNotNull('updated_at')
                         ->get();
 
-**whereDate / whereMonth / whereDay / whereYear / whereTime**
 **whereDate / whereMonth / whereDay / whereYear / whereTime**
 
 `whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다:
@@ -429,7 +424,6 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                     ->whereTime('created_at', '=', '11:20:45')
                     ->get();
 
-**whereColumn**
 **whereColumn**
 
 `whereColumn` 메소드는 두개의 컬럼이 동일하는 것을 확인하는데 사용할 수 있습니다:

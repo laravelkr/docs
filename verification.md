@@ -15,7 +15,6 @@
 
 ### 모델 준비사항
 
-To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
 시작하려면 `App\User` 모델이 `Illuminate\Contracts\Auth\MustVerifyEmail` contract을 구현하는지 확인하십시오 :
 
 

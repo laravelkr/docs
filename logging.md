@@ -36,15 +36,6 @@
 
 #### 사용가능한 채널 드라이버
 
-Name | Description
-------------- | -------------
-`stack` | A wrapper to facilitate creating "multi-channel" channels
-`single` | A single file or path based logger channel (`StreamHandler`)
-`daily` | A `RotatingFileHandler` based Monolog driver which rotates daily
-`slack` | A `SlackWebhookHandler` based Monolog driver
-`syslog` | A `SyslogHandler` based Monolog driver
-`errorlog` | A `ErrorLogHandler` based Monolog driver
-`monolog` | A Monolog factory driver that may use any supported Monolog handler
 이름 | 설명
 ------------- | -------------
 `stack` | "다중 채널"을 생성할 수 있는 채널
@@ -62,10 +53,6 @@ Name | Description
 
 `single`과 `daily` 채널은 `bubble`, `permission`, `locking`의 세 가지 옵션 설정 옵션을 가지고 있습니다.
 
-Name | Description | Default
-------------- | ------------- | -------------
-`bubble` | Indicates if messages should bubble up to other channels after being handled | `true`
-`permission` | The log file's permissions | `644`
 이름 | 설명 | 기본값
 ------------- | ------------- | -------------
 `bubble`| 처리 된 후에 메시지가 다른 채널로 버블링되어야하는지 나타냅니다. | `true`

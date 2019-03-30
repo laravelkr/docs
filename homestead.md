@@ -64,6 +64,7 @@
 - Memcached
 - Beanstalkd
 - Mailhog
+- Neo4j (Optional)
 - MongoDB (Optional)
 - Elasticsearch (Optional)
 - ngrok

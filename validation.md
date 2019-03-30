@@ -525,35 +525,65 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
 
 
+- [Accepted](#rule-accepted)
 - [Active URL](#rule-active-url)
+- [After (Date)](#rule-after)
 - [After Or Equal (Date)](#rule-after-or-equal)
+- [Alpha](#rule-alpha)
 - [Alpha Dash](#rule-alpha-dash)
+- [Alpha Numeric](#rule-alpha-num)
 - [Array](#rule-array)
+- [Bail](#rule-bail)
 - [Before (Date)](#rule-before)
+- [Before Or Equal (Date)](#rule-before-or-equal)
 - [Between](#rule-between)
+- [Boolean](#rule-boolean)
 - [Confirmed](#rule-confirmed)
+- [Date](#rule-date)
 - [Date Equals](#rule-date-equals)
+- [Date Format](#rule-date-format)
 - [Different](#rule-different)
+- [Digits](#rule-digits)
 - [Digits Between](#rule-digits-between)
+- [Dimensions (Image Files)](#rule-dimensions)
 - [Distinct](#rule-distinct)
+- [E-Mail](#rule-email)
 - [Exists (Database)](#rule-exists)
+- [File](#rule-file)
 - [Filled](#rule-filled)
+- [Greater Than](#rule-gt)
 - [Greater Than Or Equal](#rule-gte)
+- [Image (File)](#rule-image)
 - [In](#rule-in)
+- [In Array](#rule-in-array)
 - [Integer](#rule-integer)
+- [IP Address](#rule-ip)
 - [JSON](#rule-json)
+- [Less Than](#rule-lt)
 - [Less Than Or Equal](#rule-lte)
+- [Max](#rule-max)
 - [MIME Types](#rule-mimetypes)
+- [MIME Type By File Extension](#rule-mimes)
 - [Min](#rule-min)
+- [Not In](#rule-not-in)
 - [Not Regex](#rule-not-regex)
+- [Nullable](#rule-nullable)
 - [Numeric](#rule-numeric)
+- [Present](#rule-present)
 - [Regular Expression](#rule-regex)
+- [Required](#rule-required)
 - [Required If](#rule-required-if)
+- [Required Unless](#rule-required-unless)
 - [Required With](#rule-required-with)
+- [Required With All](#rule-required-with-all)
 - [Required Without](#rule-required-without)
+- [Required Without All](#rule-required-without-all)
 - [Same](#rule-same)
+- [Size](#rule-size)
 - [Starts With](#rule-starts-with)
+- [String](#rule-string)
 - [Timezone](#rule-timezone)
+- [Unique (Database)](#rule-unique)
 - [URL](#rule-url)
 - [UUID](#rule-uuid)
 
@@ -878,19 +908,16 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 <a name="rule-numeric"></a>
 #### numeric
 
-The field under validation must be numeric.
 필드의 값이 숫자여야 합니다.
 
 <a name="rule-present"></a>
 #### present
 
-The field under validation must be present in the input data but can be empty.
 필드가 존재하고 있는지 확인하지만, 값이 비어있을 수 있습니다.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
-The field under validation must match the given regular expression.
 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
@@ -902,9 +929,6 @@ The field under validation must match the given regular expression.
 
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다:
 
-- The value is `null`.
-- The value is an empty string.
-- The value is an empty array or empty `Countable` object.
 - 값이 `null`인 경우.
 - 값이 비어있는 문자열인 경우.
 - 값이 비어있는 배열이거나, 비어있는 `Countable` 객체인경우
@@ -984,19 +1008,16 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 필드의 값이 주어진 데이터베이스 테이블에서 고유한 값이어야 합니다. 만약 `column`이 지정돼 있지 않다면 필드의 이름이 사용됩니다.
 
-**Specifying A Custom Column Name:**
 **특정 컬럼명 지정하기:**
 
     'email' => 'unique:users,email_address'
 
-**Custom Database Connection**
 **특정 데이터베이스 커넥션**
 
 때때로, 여러분은 Validator에 의해서 생성되는 데이터베이스 쿼리에 사용자가 지정한 커넥션을 필요로 할지도 모릅니다. 위에서의 검증 규칙 `unique:users` 에서는 데이터베이스를 쿼리하기 위해 기본 데이터 베이스 커넥션이 사용됩니다. 이를 오버라이드 하려면 테이블 이름 후에 "." 표기법으로 커넥션을 지정하십시오:
 
     'email' => 'unique:connection.users,email_address'
 
-**Forcing A Unique Rule To Ignore A Given ID:**
 **주어진 ID에 대해서 유니크 규칙을 무시하도록 강제하기:**
 
 때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 이메일 주소가 고유하다는 것을 확인하는 것이 좋습니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
@@ -1024,7 +1045,6 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
     Rule::unique('users', 'email_address')->ignore($user->id),
 
-**Adding Additional Where Clauses:**
 **추가적인 Where 구문 추가하기:**
 
 `where` 메소드를 사용하여 쿼리를 커스터마이징하는 추가 제약을 지정할 수 있습니다. 예를 들어, `account_id`이 `1`인지 확인하는 제약 조건을 추가해 보겠습니다:

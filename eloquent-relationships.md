@@ -403,7 +403,6 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 <a name="has-one-through"></a>
 ### 연결을 통한 단일 관계
 
-The "has-one-through" relationship links models through a single intermediate relation.
 "연결을 통한" 관계는 하나의 중간 테이블을 통해 연결합니다.
 예를 들어 각 공급자(suppliers)가 한 명의 사용자(users)를 가지고 있고 각 사용자가 한 개의 사용자 이력(history) 레코드와 연결된 경우 공급자 모델은 사용자의 기록을 통해 접근할 수 있습니다. 이 관계를 정의하는 데 필요한 데이터베이스 테이블을 살펴보겠습니다:
 

@@ -54,10 +54,6 @@
 
 <a name="installation"></a>
 ## 설치하기
-
-First, require the Cashier package for Stripe with Composer:
-
-    composer require laravel/cashier
     
 먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
@@ -195,10 +191,6 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
         //
     }
 
-The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trail period:
-
-    if ($user->subscription('main')->recurring()) {
-        //
 `recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 trail 기간에 속해 있지 않은지를 확인할 때 사용될 수 있습니다. 
 
 	if ($user->subscription('main')->recurring()) {
@@ -219,11 +211,6 @@ The `recurring` method may be used to determine if the user is currently subscri
         //
     }
 
-To determine if the user has cancelled their subscription is no longer within their "grace period", you may use the `ended` method:
-
-    if ($user->subscription('main')->ended()) {
-        //
-    }
     
 사용자가 취소한 구독이 더이상 "grace period" 내에 있지 않다는 것을 확인하려면, `ended` 메소드를 사용할 수 있습니다.
 
@@ -289,9 +276,9 @@ To determine if the user has cancelled their subscription is no longer within th
 
 > {note} `taxPercentage` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
-###세금 비율 동기화
+### 세금 비율 동기화
 
-When changing the hard-coded value returned by the `taxPercentage` method, the tax settings on any existing subscriptions for the user will remain the same. If you wish to update the tax value for existing subscriptions with the returned `taxPercentage` value, you should call the `syncTaxPercentage` method on the user's subscription instance:
+`taxPercentage` 메소드에 의해 반환 된 하드 코딩 된 값을 변경할 때, 사용자를 위한 기존 구독에 대한 세금 설정은 동일하게 유지됩니다. 기존의 구독에 대한 세금 값을 반환 된 `taxPercentage` 값으로 업데이트하려면 사용자의 구독 인스턴스에서 `syncTaxPercentage` 메소드를 호출해야합니다.
 
     $user->subscription('main')->syncTaxPercentage();
 

@@ -846,7 +846,6 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
         }
     }
 
-Once you have implemented the interface, Laravel will automatically use the preferred locale when sending notifications and mailables to the model. Therefore, there is no need to call the `locale` method when using this interface:
 일단 인터페이스를 구현하면 Laravel은 알림 및 모델을 모델로 전송할 때 자동으로 기본 설정 언어를 사용합니다. 따라서 이 인터페이스를 사용할 때는 `locale` 메소드를 호출 할 필요가 없습니다 :
 
     $user->notify(new InvoicePaid($invoice));

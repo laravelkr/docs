@@ -54,7 +54,7 @@
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
-### 종속성 업데이트
+### 의존성 업데이트
 
 Update your `laravel/framework` dependency to `5.8.*` in your `composer.json` file.
 

@@ -203,7 +203,7 @@ The Closure is bound to the underlying command instance, so you have full access
 클로저는 기본 명령 인스턴스에 바인딩되므로 일반적으로 전체 명령 클래스에서 액세스 할 수있는 모든 헬퍼 함수에 대한 전체 액세스 권한을 갖습니다.
 
 #### Type-Hinting Dependencies
-#### 타입-힌팅 종속성
+#### 타입-힌팅 의존성
 
 In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
 

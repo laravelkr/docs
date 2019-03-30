@@ -80,5 +80,4 @@ Once the test has been generated, you may define test methods as you normally wo
 
 > {note} If you define your own `setUp` / `tearDown` methods within a test class, be sure to call the respective `parent::setUp()` / `parent::tearDown()` methods on the parent class.
 
-
 > {note} 테스트 클래스 내에서 여러분만의 `setUp`이나 `tearDown` 메소드를 정의한다면 반드시 부모 클래스의 `parent::setUp()`이나 `parent::tearDown()`을 호출하십시오.

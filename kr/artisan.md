@@ -251,6 +251,7 @@ All user supplied arguments and options are wrapped in curly braces. In the foll
     protected $signature = 'email:send {user}';
 
 You may also make arguments optional and define default values for arguments:
+
 또한 다음처럼 인자를 선택적으로 입력 받을 수 있도록 정의할 수도 있습니다.
 
     // Optional argument...

@@ -347,6 +347,7 @@ When defining policy methods that will not receive a model instance, such as a `
 ### 게스트 사용자
 
 By default, all gates and policies automatically return `false` if the incoming HTTP request was not initiated by an authenticated user. However, you may allow these authorization checks to pass through to your gates and policies by declaring an "optional" type-hint or supplying a `null` default value for the user argument definition:
+
 기본적으로, 들어오는 HTTP 요청이 인증 된 사용자에 의해 시작되지 않으면 모든 Gate와 Policy는 자동으로 `false` 를 반환합니다. 그러나 "optional" 타입 힌트를 선언하거나 User 인수에 대한 `null`을 기본값으로 제공하여 이러한 권한 검사가 Gate 및 Policy에 전달되도록 허용 할 수 있습니다.
 
     <?php

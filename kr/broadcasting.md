@@ -759,7 +759,7 @@ Presence channels build on the security of private channels while exposing the a
 
 All presence channels are also private channels; therefore, users must be [authorized to access them](#authorizing-channels). However, when defining authorization callbacks for presence channels, you will not return `true` if the user is authorized to join the channel. Instead, you should return an array of data about the user.
 
-모든 프레젠스 채널은 비공개 채널이기도 합니다. 그러므로 사용자는 당연히 프레젠스에 접근하기 위해 승인을 받아야 합니다[authorized to access them](#authorizing-channels). 그렇지만, 프레젠스 채널을 위한 승인 콜백을 정의할 때, 채널에 들어오는 것을 승인하기 위해 `true`를 되돌려주도록 하는 대신 사용자의 데이터 배열을 되돌려 주어야 합니다.
+모든 프레젠스 채널은 비공개 채널이기도 합니다. 그러므로 사용자는 당연히 프레젠스에 접근하기 위해 [승인을 받아야 합니다](#authorizing-channels). 그렇지만, 프레젠스 채널을 위한 승인 콜백을 정의할 때, 채널에 들어오는 것을 승인하기 위해 `true`를 되돌려주도록 하는 대신 사용자의 데이터 배열을 되돌려 주어야 합니다.
 
 The data returned by the authorization callback will be made available to the presence channel event listeners in your JavaScript application. If the user is not authorized to join the presence channel, you should return `false` or `null`:
 
@@ -837,7 +837,8 @@ You may listen for the join event via Echo's `listen` method:
 ## 클라이언트 이벤트
 
 > {tip} When using [Pusher](https://pusher.com), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
-> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [응용 프로그램 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+
+> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [어플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen.
 

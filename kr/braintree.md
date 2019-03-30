@@ -301,7 +301,7 @@ The `subscribedToPlan` method may be used to determine if the user is subscribed
 
 The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trail period:
 
-`recurring` 메소드는 사용자가 현재 가입되어 있고 더 이상 트레일 기간 내에 있지 않은지를 확인하는 데 사용할 수 있습니다 :
+`recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 trail 기간에 속해 있지 않은지를 확인할 때 사용될 수 있습니다. 
 
     if ($user->subscription('main')->recurring()) {
         //

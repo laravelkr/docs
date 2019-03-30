@@ -1195,18 +1195,21 @@ The field under validation may be `null`. This is particularly useful when valid
 #### numeric
 
 The field under validation must be numeric.
+
 필드의 값이 숫자여야 합니다.
 
 <a name="rule-present"></a>
 #### present
 
 The field under validation must be present in the input data but can be empty.
+
 필드가 존재하고 있는지 확인하지만, 값이 비어있을 수 있습니다.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
 
 The field under validation must match the given regular expression.
+
 필드의 값이 주어진 정규식 표현과 일치해야 합니다.
 
 Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.

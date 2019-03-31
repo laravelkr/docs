@@ -512,7 +512,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
 Private and presence broadcast channels authenticate the current user via your application's default authentication guard. If the user is not authenticated, channel authorization is automatically denied and the authorization callback is never executed. However, you may assign multiple, custom guards that should authenticate the incoming request if necessary:
 
-사설 및 현재 브로드캐스트 채널은 어플리케이션의 기본 인증 가드를 통해 현재 사용자를 인증합니다. 사용자가 인증되지 않으면 채널 권한이 자동으로 거부되고 권한 콜백이 실행되지 않습니다. 그러나 필요한 경우 들어오는 Request에 인증해야하는 사용자 지정 가드를 여러 개 지정할 수 있습니다.
+사설 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 현재 사용자를 인증합니다. 사용자가 인증되지 않으면 채널 권한이 자동으로 거부되고 권한 콜백이 실행되지 않습니다. 그러나 필요한 경우 들어오는 Request에 인증해야하는 사용자 지정 가드를 여러 개 지정할 수 있습니다.
 
     Broadcast::channel('channel', function() {
         // ...
@@ -838,7 +838,7 @@ You may listen for the join event via Echo's `listen` method:
 
 > {tip} When using [Pusher](https://pusher.com), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
 
-> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [어플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen.
 

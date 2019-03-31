@@ -261,7 +261,7 @@ Instead of manually registering model policies, Laravel can auto-discover polici
 
 If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AuthServiceProvider`:
 
-만약 자신만의 Policy Discovery 로직을 사용하고 싶다면, `Gate::guessPolicyNamesUsing` 메소드를 커스텀 콜백을 등록 할 수 있습니다. 일반적으로, 이 메소드는 어플리케이션의 `AuthServiceProvider` 의 `boot` 메소드로 부터 불려집니다. 
+만약 자신만의 Policy Discovery 로직을 사용하고 싶다면, `Gate::guessPolicyNamesUsing` 메소드를 커스텀 콜백을 등록 할 수 있습니다. 일반적으로, 이 메소드는 애플리케이션의 `AuthServiceProvider` 의 `boot` 메소드로 부터 불려집니다. 
 
     use Illuminate\Support\Facades\Gate;
 

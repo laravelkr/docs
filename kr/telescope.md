@@ -58,7 +58,7 @@
 
 Laravel Telescope is an elegant debug assistant for the Laravel framework. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps and more. Telescope makes a wonderful companion to your local Laravel development environment.
 
-라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 어플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
+라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 애플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
 
 <p align="center">
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600" height="347">

@@ -180,7 +180,7 @@ Passport의 기본 마이그레이션을 사용하지 않으려면, `AppServiceP
 
 By default, Passport uses an integer column to store the `user_id`. If your application uses a different column type to identify users (for example: UUIDs), you should modify the default Passport migrations after publishing them.
 
-기본적으로 Passport는 정수 컬럼을 사용하여 `user_id` 를 저장합니다. 어플리케이션이 사용자를 구별하기 위해 다른 유형의 컬럼 (예 : UUID)을 사용하는 경우 기본 Passport 마이그레이션을 가져온 후 수정해야합니다.
+기본적으로 Passport는 정수 컬럼을 사용하여 `user_id` 를 저장합니다. 애플리케이션이 사용자를 구별하기 위해 다른 유형의 컬럼 (예 : UUID)을 사용하는 경우 기본 Passport 마이그레이션을 가져온 후 수정해야합니다.
 
 <a name="frontend-quickstart"></a>
 ### Frontend Quickstart
@@ -368,7 +368,7 @@ However, you will need to pair Passport's JSON API with your own frontend to pro
 
 The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application. It is not able to be called from an external source.
 
-JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 어플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
+JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 애플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
 
 > {tip} If you don't want to implement the entire client management frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 
@@ -686,7 +686,7 @@ The client credentials grant is suitable for machine-to-machine authentication. 
  
 Before your application can issue tokens via the client credentials grant, you will need to create a client credentials grant client. You may do this using the `--client` option of the `passport:client` command:
 
-어플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다 :
+애플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다 :
 
     php artisan passport:client --client
 
@@ -802,7 +802,7 @@ passport는 이미 개인용 엑세스 토큰을 관리하는 JSON APIf를 포�
 
 The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application. It is not able to be called from an external source.
 
-JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 어플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
+JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 애플리케이션에서만 호출 할 수 있습니다. 외부 소스에서는 호출 할 수 없습니다.
 
 > {tip} If you don't want to implement the personal access token frontend yourself, you can use the [frontend quickstart](#frontend-quickstart) to have a fully functional frontend in a matter of minutes.
 

@@ -81,7 +81,7 @@ For this reason, we choose to place Eloquent models in the `app` directory by de
 
 The `app` directory contains the core code of your application. We'll explore this directory in more detail soon; however, almost all of the classes in your application will be in this directory.
 
-`app` 디렉토리에는 어플리케이션의 핵심 코드가 들어 있습니다. 우리는 이 디렉토리를 더 자세히 살펴볼 것입니다. 어플리케이션의 거의 모든 클래스가 이 디렉토리에 있습니다.
+`app` 디렉토리에는 애플리케이션의 핵심 코드가 들어 있습니다. 우리는 이 디렉토리를 더 자세히 살펴볼 것입니다. 애플리케이션의 거의 모든 클래스가 이 디렉토리에 있습니다.
 
 <a name="the-bootstrap-directory"></a>
 #### The Bootstrap Directory
@@ -217,7 +217,7 @@ The `Console` directory contains all of the custom Artisan commands for your app
 
 This directory does not exist by default, but will be created for you by the `event:generate` and `make:event` Artisan commands. The `Events` directory houses [event classes](/docs/{{version}}/events). Events may be used to alert other parts of your application that a given action has occurred, providing a great deal of flexibility and decoupling.
 
-이 디렉토리는 기본적으로 존재하지 않지만 `event:generate`와 `make:event` 아티즌 명령으로 생성됩니다. `Events` 디렉토리에는 [events classes](/docs/{{version}}/events)가 있습니다. 이벤트는 어플리케이션의 다른 부분에 주어진 동작이 발생했음을 알리는 데 사용되며 많은 유연성과 디커플링을 제공합니다.
+이 디렉토리는 기본적으로 존재하지 않지만 `event:generate`와 `make:event` 아티즌 명령으로 생성됩니다. `Events` 디렉토리에는 [events classes](/docs/{{version}}/events)가 있습니다. 이벤트는 애플리케이션의 다른 부분에 주어진 동작이 발생했음을 알리는 데 사용되며 많은 유연성과 디커플링을 제공합니다.
 
 <a name="the-exceptions-directory"></a>
 #### The Exceptions Directory

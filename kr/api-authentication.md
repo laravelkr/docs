@@ -22,11 +22,11 @@
 
 By default, Laravel ships with a simple solution to API authentication via a random token assigned to each user of your application. In your `config/auth.php` configuration file, an `api` guard is already defined and utilizes a `token` driver. This driver is responsible for inspecting the API token on the incoming request and verifying that it matches the user's assigned token in the database.
 
-기본적으로, 라라벨은 어플리케이션의 각 유저에 할당된 랜덤(무작위)토큰을 통하여 API 인증을 간단한 솔루션으로 제공합니다. `config/auth.php` 설정 파일에서, `api` 가드는 이미 정의되어있고 `token` 드라이버를 사용합니다. 이 드라이버는 request 요청이 들어오지마자 API 토큰을 확인하고, 데이터베이스에 유저의 할당된 토큰이 맞는지 API 토큰을 확인하는 작업을 합니다.
+기본적으로, 라라벨은 애플리케이션의 각 유저에 할당된 랜덤(무작위)토큰을 통하여 API 인증을 간단한 솔루션으로 제공합니다. `config/auth.php` 설정 파일에서, `api` 가드는 이미 정의되어있고 `token` 드라이버를 사용합니다. 이 드라이버는 request 요청이 들어오지마자 API 토큰을 확인하고, 데이터베이스에 유저의 할당된 토큰이 맞는지 API 토큰을 확인하는 작업을 합니다.
 
 > **Note:** While Laravel ships with a simple, token based authentication guard, we strongly recommend you consider using [Laravel Passport](/docs/{{version}}/passport) for robust, production applications that offer API authentication.
 
-> **Note:** 라라벨은 간단한 토큰 기반 인증 가드를 제공하지만, 우리는 API 인증을 제공하는 강력하고 생산적인 어플리케이션에는 [Laravel Passport](/docs/{{version}}/passport)을 사용하는걸 적극 추천합니다. 
+> **Note:** 라라벨은 간단한 토큰 기반 인증 가드를 제공하지만, 우리는 API 인증을 제공하는 강력하고 생산적인 애플리케이션에는 [Laravel Passport](/docs/{{version}}/passport)을 사용하는걸 적극 추천합니다. 
 
 <a name="configuration"></a>
 ## Configuration
@@ -57,7 +57,7 @@ Once the migration has been created, run the `migrate` Artisan command.
 
 Once the `api_token` column has been added to your `users` table, you are ready to assign random API tokens to each user that registers with your application. You should assign these tokens when a `User` model is created for the user during registration. When using the [authentication scaffolding](/docs/{{version}}/authentication#authentication-quickstart) provided by the `make:auth` Artisan command, this may be done in the `create` method of the `RegisterController`:
 
-`api_token` 컬럼이 `users` 테이블에 추가되었다면, 여러분의 어플리케이션에 등록하는 유저들에게 랜덤(무작위) API 토큰을 할당할 준비가 되었습니다. 유저등록을 위해서 `User` 모델이 생성 될 때 여러분은 토큰을 할당해야합니다. `make:auth` 아티즌 명령어를 통해서 [authentication scaffolding-인증 스케폴딩](/docs/{{version}}/authentication#authentication-quickstart) 을 이용했다면, `RegisterController` 의 `create` 메소드에서 api_token을 사용 할 수 있습니다. :
+`api_token` 컬럼이 `users` 테이블에 추가되었다면, 여러분의 애플리케이션에 등록하는 유저들에게 랜덤(무작위) API 토큰을 할당할 준비가 되었습니다. 유저등록을 위해서 `User` 모델이 생성 될 때 여러분은 토큰을 할당해야합니다. `make:auth` 아티즌 명령어를 통해서 [authentication scaffolding-인증 스케폴딩](/docs/{{version}}/authentication#authentication-quickstart) 을 이용했다면, `RegisterController` 의 `create` 메소드에서 api_token을 사용 할 수 있습니다. :
 
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Hash;
@@ -97,7 +97,7 @@ In the examples above, API tokens are stored in your database as plain-text. If 
 
 When using hashed API tokens, you should not generate your API tokens during user registration. Instead, you will need to implement your own API token management page within your application. This page should allow users to initialize and refresh their API token. When a user makes a request to initialize or refresh their token, you should store a hashed copy of the token in the database, and return the plain-text copy of token to the view / frontend client for one-time display.
 
-해싱된 API 토큰을 이용할 때, 유저 등록이 진행되는 동안에 당신의 API 토큰 생성하면 안됩니다. 대신에, 어플리케이션 내에 여러분의 API 토큰 관리 페이지를 구현할 필요가 있습니다. 이 페이지는 유저들이 그들의 API 토큰을 초기화하거나 갱신을 해주어야합니다. 유저가 그들의 토큰을 초기화하거나 갱신을 요청할 때, 여러분은 데이터베이스에 해싱된 토큰 복제본을 저장해야하며, 평문의 토큰 복제본을 화면단(뷰-view / frontend client for on-time display)에 반환합니다. 
+해싱된 API 토큰을 이용할 때, 유저 등록이 진행되는 동안에 당신의 API 토큰 생성하면 안됩니다. 대신에, 애플리케이션 내에 여러분의 API 토큰 관리 페이지를 구현할 필요가 있습니다. 이 페이지는 유저들이 그들의 API 토큰을 초기화하거나 갱신을 해주어야합니다. 유저가 그들의 토큰을 초기화하거나 갱신을 요청할 때, 여러분은 데이터베이스에 해싱된 토큰 복제본을 저장해야하며, 평문의 토큰 복제본을 화면단(뷰-view / frontend client for on-time display)에 반환합니다. 
 
 For example, a controller method that initializes / refreshes the token for a given user and returns the plain-text token as a JSON response might look like the following:
 
@@ -154,14 +154,14 @@ Laravel includes an [authentication guard](/docs/{{version}}/authentication#addi
 
 There are several ways of passing the API token to your application. We'll discuss each of these approaches while using the Guzzle HTTP library to demonstrate their usage. You may choose any of these approaches based on the needs of your application.
 
-어플리케이션에 API 토큰을 전달하는 몇가지 방법이 있습니다. 우리는 Guzzle HTTP 라이브러리를 사용하여 이들의 사용법에 대해서 논의해봅시다. 여러분은 당신의 어플리케이션의 필요에 따라 사용법들 중 필요한 것을 선택해서 사용할 수 있습니다. 
+애플리케이션에 API 토큰을 전달하는 몇가지 방법이 있습니다. 우리는 Guzzle HTTP 라이브러리를 사용하여 이들의 사용법에 대해서 논의해봅시다. 여러분은 당신의 애플리케이션의 필요에 따라 사용법들 중 필요한 것을 선택해서 사용할 수 있습니다. 
 
 #### Query String
 #### 쿼리 스트링
 
 Your application's API consumers may specify their token as an `api_token` query string value:
 
-여러분의 어플리케이션의 API 사용자들은 `api_token` 을 쿼리스트링 값으로써 토큰을 명시할 수 있습니다.:
+여러분의 애플리케이션의 API 사용자들은 `api_token` 을 쿼리스트링 값으로써 토큰을 명시할 수 있습니다.:
 
     $response = $client->request('GET', '/api/user?api_token='.$token);
 
@@ -170,7 +170,7 @@ Your application's API consumers may specify their token as an `api_token` query
 
 Your application's API consumers may include their API token in the request's form parameters as an `api_token`:
 
-여러분의 어플리케이션의 API 사용자들은 `api_token`을 폼 파라미터의 요청안에 API 토큰을 포함할 수 있습니다.:
+여러분의 애플리케이션의 API 사용자들은 `api_token`을 폼 파라미터의 요청안에 API 토큰을 포함할 수 있습니다.:
 
     $response = $client->request('POST', '/api/user', [
         'headers' => [
@@ -186,7 +186,7 @@ Your application's API consumers may include their API token in the request's fo
 
 Your application's API consumers may provide their API token as a `Bearer` token in the `Authorization` header of the request:
 
-어플리케이션의 API 사용자들은 `Authorization` 요청헤더에 `Bearer` 토큰으로 API 토큰을 제공할 수 있습니다.:
+애플리케이션의 API 사용자들은 `Authorization` 요청헤더에 `Bearer` 토큰으로 API 토큰을 제공할 수 있습니다.:
 
     $response = $client->request('POST', '/api/user', [
         'headers' => [

@@ -40,7 +40,7 @@ Laravel provides helpers for mocking events, jobs, and facades out of the box. T
 
 When mocking an object that is going to be injected into your application via Laravel's service container, you will need to bind your mocked instance into the container as an `instance` binding. This will instruct the container to use your mocked instance of the object instead of constructing the object itself:
 
-라라벨 서비스 컨테이너를 통하여 여러분의 어플리케이션에 주입되는 객체를 moking할 때에는, 컨테이너의 `instance` 바인딩을 사용해서 mocking한 인스턴스를 등록할 필요가 있습니다. 이는 컨테이너에 객체를 생성하는 대신에 mocking 된 객체를 사용하도록 알려줍니다:
+라라벨 서비스 컨테이너를 통하여 여러분의 애플리케이션에 주입되는 객체를 moking할 때에는, 컨테이너의 `instance` 바인딩을 사용해서 mocking한 인스턴스를 등록할 필요가 있습니다. 이는 컨테이너에 객체를 생성하는 대신에 mocking 된 객체를 사용하도록 알려줍니다:
 
     use Mockery;
     use App\Service;

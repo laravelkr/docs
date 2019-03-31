@@ -84,7 +84,7 @@ For example, if you need to report different types of exceptions in different wa
 
 If available, Laravel automatically adds the current user's ID to every exception's log message as contextual data. You may define your own global contextual data by overriding the `context` method of your application's `App\Exceptions\Handler` class. This information will be included in every exception's log message written by your application:
 
-가능한경우, 라라벨은 현재의 사용자 ID를 자동으로 모든 exception 로그 메세지에 컨텍스트 데이터로 추가합니다. 어플리케이션의 `App\Exceptions\Handler` 클래스에 `context` 메소드를 오버라이딩 해서 글로벌에서 추가하고자 하는 고유한 컨텍스트 데이터를 정의할 수 있습낟. 이 정보는 어플리케이션에서 기록되는 모든 exception 로그에 포함됩니다:
+가능한경우, 라라벨은 현재의 사용자 ID를 자동으로 모든 exception 로그 메세지에 컨텍스트 데이터로 추가합니다. 애플리케이션의 `App\Exceptions\Handler` 클래스에 `context` 메소드를 오버라이딩 해서 글로벌에서 추가하고자 하는 고유한 컨텍스트 데이터를 정의할 수 있습낟. 이 정보는 애플리케이션에서 기록되는 모든 exception 로그에 포함됩니다:
 
     /**
      * Get the default context variables for logging.

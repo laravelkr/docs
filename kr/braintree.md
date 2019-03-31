@@ -539,7 +539,7 @@ The `updateCard` method may be used to update a customer's credit card informati
 
 Braintree can notify your application of a variety of events via webhooks. To handle webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
 
-Braintree는 webhooks를 통해 다양한 이벤트를 어플리케이션에 알릴 수 있습니다. Webhook을 처리하려면 캐셔의 Webhook 컨트롤러를 가리키는 라우트를 정의하십시오. 이 컨트롤러는 들어오는 모든 webhook 요청을 처리하고 이를 적절한 컨트롤러 메소드에 전달합니다.
+Braintree는 webhooks를 통해 다양한 이벤트를 애플리케이션에 알릴 수 있습니다. Webhook을 처리하려면 캐셔의 Webhook 컨트롤러를 가리키는 라우트를 정의하십시오. 이 컨트롤러는 들어오는 모든 webhook 요청을 처리하고 이를 적절한 컨트롤러 메소드에 전달합니다.
 
     Route::post(
         'braintree/webhook',

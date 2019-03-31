@@ -642,7 +642,7 @@ mailable 클래스가 항상 큐를 통해서 처리되도록 하려면, 클래�
 
 Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 보낼 수 있으며 메일이 대기중인 경우에도 이 언어를 기억할 수 있습니다.
 
-이를 위해 `Mail` 파사드는 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 어플리케이션은 이 언어로 변경되고 포맷이 완료되면 이전 언어로 되돌립니다.
+이를 위해 `Mail` 파사드는 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 애플리케이션은 이 언어로 변경되고 포맷이 완료되면 이전 언어로 되돌립니다.
 
     Mail::to($request->user())->locale('es')->send(
         new OrderShipped($order)
@@ -650,7 +650,7 @@ Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 �
 
 ### 사용자 선호 언어
 
-때로는 어플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 메일을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
+때로는 애플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 메일을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
 
     use Illuminate\Contracts\Translation\HasLocalePreference;
 

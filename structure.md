@@ -43,7 +43,7 @@
 <a name="the-root-app-directory"></a>
 #### App 디렉토리
 
-`app` 디렉토리에는 어플리케이션의 핵심 코드가 들어 있습니다. 우리는 이 디렉토리를 더 자세히 살펴볼 것입니다. 어플리케이션의 거의 모든 클래스가 이 디렉토리에 있습니다.
+`app` 디렉토리에는 애플리케이션의 핵심 코드가 들어 있습니다. 우리는 이 디렉토리를 더 자세히 살펴볼 것입니다. 애플리케이션의 거의 모든 클래스가 이 디렉토리에 있습니다.
 
 <a name="the-bootstrap-directory"></a>
 #### Bootstrap 디렉토리
@@ -124,7 +124,7 @@
 <a name="the-events-directory"></a>
 #### Events 디렉토리
 
-이 디렉토리는 기본적으로 존재하지 않지만 `event:generate`와 `make:event` 아티즌 명령으로 생성됩니다. `Events` 디렉토리에는 [events classes](/docs/{{version}}/events)가 있습니다. 이벤트는 어플리케이션의 다른 부분에 주어진 동작이 발생했음을 알리는 데 사용되며 많은 유연성과 디커플링을 제공합니다.
+이 디렉토리는 기본적으로 존재하지 않지만 `event:generate`와 `make:event` 아티즌 명령으로 생성됩니다. `Events` 디렉토리에는 [events classes](/docs/{{version}}/events)가 있습니다. 이벤트는 애플리케이션의 다른 부분에 주어진 동작이 발생했음을 알리는 데 사용되며 많은 유연성과 디커플링을 제공합니다.
 
 <a name="the-exceptions-directory"></a>
 #### Exceptions 디렉토리

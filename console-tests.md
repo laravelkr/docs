@@ -5,7 +5,7 @@
 
 ## 시작하기
 
-Laravel은 HTTP 테스트를 단순하게 할 뿐 아니라 사용자 입력을 요구하는 콘솔 어플리케이션을 테스트하기위한 간단한 API를 제공합니다.
+Laravel은 HTTP 테스트를 단순하게 할 뿐 아니라 사용자 입력을 요구하는 콘솔 애플리케이션을 테스트하기위한 간단한 API를 제공합니다.
 
 <a name="expecting-input-and-output"></a>
 ## Input / Output 예상하기

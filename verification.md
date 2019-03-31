@@ -11,7 +11,7 @@
 <a name="introduction"></a>
 ## 시작하기
 
-많은 웹 어플리케이션에서 사용자는 어플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. Laravel은 각 어플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
+많은 웹 애플리케이션에서 사용자는 애플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. Laravel은 각 애플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
 
 ### 모델 준비사항
 
@@ -52,7 +52,7 @@ Laravel은 확인 링크를 보내고 이메일을 확인하는 데 필요한 �
 <a name="protecting-routes"></a>
 ### 라우트 보호하기
 
-[Route middleware](/docs/{{version}}/middleware)는 검증 된 사용자만 주어진 경로에 액세스 할 수있게 허용합니다. Laravel은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified` 에 정의되어 있습니다. 이 미들웨어는 이미 어플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다.
+[Route middleware](/docs/{{version}}/middleware)는 검증 된 사용자만 주어진 경로에 액세스 할 수있게 허용합니다. Laravel은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified` 에 정의되어 있습니다. 이 미들웨어는 이미 애플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다.
 
     Route::get('profile', function () {
         // Only verified users may enter...

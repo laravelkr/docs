@@ -819,7 +819,7 @@ SMS 메세지에 유니코드 문자가 포함되어 있다면, `NexmoMessage` �
 
 Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 수 있으며 알림이 대기중인 경우에도 이 언어을 기억할 수 있습니다.
 
-이를 위해 `Illuminate\Notifications\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. 알림의 양식이 만들어 질 때 어플리케이션이 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 되돌립니다.
+이를 위해 `Illuminate\Notifications\Mailable` 클래스는 원하는 언어를 지정하는 `locale` 메소드를 제공합니다. 알림의 양식이 만들어 질 때 애플리케이션이 이 언어로 변경되고 양식의 생성이 완료되면 이전 언어로 되돌립니다.
 
     $user->notify((new InvoicePaid($invoice))->locale('es'));
 
@@ -829,7 +829,7 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
 
 ### 사용자 선호 언어
 
-때로는 어플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 알림을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
+때로는 애플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 알림을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
 
     use Illuminate\Contracts\Translation\HasLocalePreference;
 

@@ -55,18 +55,6 @@
 
 이 문서의 나머지 부분에서는 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다.
 
-<style>
-    #collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    #collection-method-list a {
-        display: block;
-    }
-</style>
-
-<div id="collection-method-list" markdown="1">
 
 - [average](#method-average)
 - [chunk](#method-chunk)
@@ -123,7 +111,6 @@
 - [whereNotInStrict](#method-wherenotinstrict)
 - [zip](#method-zip)
 
-</div>
 
 <a name="method-listing"></a>
 ## 메소드 목록

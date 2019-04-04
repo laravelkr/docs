@@ -423,7 +423,7 @@ redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 
 
 The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your response data via the `size_limit` (in KB) option:
 
-request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
+request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 `size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
 
     'watchers' => [
         Watchers\RequestWatcher::class => [

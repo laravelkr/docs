@@ -189,7 +189,7 @@ The unused `$decayMinutes` parameter was removed from this method's signature. I
 
 The indexing of the columns built by the `morphs` migration method has been reversed for better performance. If you are using the `morphs` method in one of your migrations, you may receive an error when attempting to run the migration's `down` method. If the application is still in development, you may use the `migrate:fresh` command to rebuild the database from scratch. If the application is in production, you should pass an explicit index name to the `morphs` method.
 
-`morphs` 마이그레이션 메소드를 통해서 생성된 컬럼의 인덱스는 성능향상을 위해서 더는 인덱스를 생성하지 않게 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 애플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 애플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
+성능향상을 위해서 `morphs` 마이그레이션 메소드를 통해 생성되는 인덱스 내 컬럼 순서가 변경 되었습니다. 데이터베이스 마이그레이션 도중에 `morphs` 메소드를 사용하는 경우, 마이그레이션의 `down` 메소드를 실행하도록 시도하면 에러가 확인됩니다. 애플리케이션이 아직 개발중이라면, `migrate:fresh` 명령어를 사용하여 데이터베이스의 스키마를 새롭게 구성할 수 있습니다. 애플리케이션이 프로덕션 환경에 있다면, `morphs` 메소드에 명시적으로 인덱스 이름을 전달해야 합니다.
 
 #### `MigrationRepositoryInterface` Method Addition
 #### `MigrationRepositoryInterface` 메소드 추가

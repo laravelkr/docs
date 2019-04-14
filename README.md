@@ -86,7 +86,6 @@
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+## Acknowledgments
 
-## Sponsors
-
-- [Jetbrains](https://www.jetbrains.com/)
+Thanks to [JetBrains](https://www.jetbrains.com) for supporting us with a [free Open Source License](https://www.jetbrains.com/buy/opensource).

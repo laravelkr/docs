@@ -74,7 +74,7 @@ Socialite를 사용하기 전에, 애플리케이션에서 사용할 OAuth서비
 
 Next, you are ready to authenticate users! You will need two routes: one for redirecting the user to the OAuth provider, and another for receiving the callback from the provider after authentication. We will access Socialite using the `Socialite` facade:
 
-이제 사용자를 인증할 준비가 되었습니다! 이제 두개의 라우트가 필요합니다: 하나는 사용자를 OAuth 서비로 리다이렉팅 하는 라우팅이고, 다른 하나는 인증후 받는 콜백입니다. `Socialite` 파사드를 사용하여 Socialite에 엑세스할 수 있습니다:
+이제 사용자를 인증할 준비가 되었습니다! 이제 두개의 라우트가 필요합니다. 하나는 사용자를 OAuth 서비스로 리다이렉팅 하는 라우팅이고, 다른 하나는 인증후 받는 콜백입니다. `Socialite` 파사드를 사용하여 Socialite에 엑세스할 수 있습니다.
 
     <?php
 

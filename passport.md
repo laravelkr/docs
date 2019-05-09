@@ -1,4 +1,4 @@
-# 라라벨 Passpor
+# 라라벨 Passport
 
 - [시작하기](#introduction)
 - [설치하기](#installation)

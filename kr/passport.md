@@ -1,5 +1,5 @@
 # Laravel Passport
-# 라라벨 Passpor
+# 라라벨 Passport
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)

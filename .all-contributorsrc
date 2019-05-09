@@ -242,6 +242,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "meteopark",
+      "name": "meteopark",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8869584?v=4",
+      "profile": "https://blog.meteopark.dev",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

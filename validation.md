@@ -241,7 +241,7 @@ form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를
 <a name="authorizing-form-requests"></a>
 ### Form Requests 사용자 승인
 
-form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
+form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 댓글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -448,7 +448,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="localization"></a>
 #### 언어 파일에 커스텀 메세지 지정하기
 
-대부분의 경우에서, `Validator`에 직접 메세지를 전달하는 대신, 언어 파일의 커스텀 메세지를 지정하기 원할 수 있습니다. 이렇게 하기 위해서는 `resources/lang/xx/validation.php` 언어 파일의 `custom` 배열에 메제지를 추가하면 됩니다.
+대부분의 경우에서, `Validator`에 직접 메세지를 전달하는 대신, 언어 파일의 커스텀 메세지를 지정하기 원할 수 있습니다. 이렇게 하기 위해서는 `resources/lang/xx/validation.php` 언어 파일의 `custom` 배열에 메세지를 추가하면 됩니다.
 
     'custom' => [
         'email' => [

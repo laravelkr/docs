@@ -20,6 +20,7 @@
     - [Increment & Decrement](#increment-and-decrement)
 - [Deletes](#deletes)
 - [Pessimistic Locking](#pessimistic-locking)
+- [Debugging](#debugging)
 
 <a name="introduction"></a>
 ## Introduction
@@ -27,6 +28,8 @@
 Laravel's database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works on all supported database systems.
 
 The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
+
+> {note} PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns, etc. If you must allow the user to select certain columns to query against, always validate the column names against a white-list of allowed columns.
 
 <a name="retrieving-results"></a>
 ## Retrieving Results
@@ -74,6 +77,10 @@ If you just need to retrieve a single row from the database table, you may use t
 If you don't even need an entire row, you may extract a single value from a record using the `value` method. This method will return the value of the column directly:
 
     $email = DB::table('users')->where('name', 'John')->value('email');
+
+To retrieve a single row by its `id` column value, use the `find` method:
+
+    $user = DB::table('users')->find(3);
 
 #### Retrieving A List Of Column Values
 
@@ -347,14 +354,14 @@ You may chain where constraints together as well as add `or` clauses to the quer
 
 #### Additional Where Clauses
 
-**whereBetween**
+**whereBetween / orWhereBetween**
 
 The `whereBetween` method verifies that a column's value is between two values:
 
     $users = DB::table('users')
                         ->whereBetween('votes', [1, 100])->get();
 
-**whereNotBetween**
+**whereNotBetween / orWhereNotBetween**
 
 The `whereNotBetween` method verifies that a column's value lies outside of two values:
 
@@ -362,7 +369,7 @@ The `whereNotBetween` method verifies that a column's value lies outside of two 
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
-**whereIn / whereNotIn**
+**whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 
 The `whereIn` method verifies that a given column's value is contained within the given array:
 
@@ -376,7 +383,7 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-**whereNull / whereNotNull**
+**whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 
 The `whereNull` method verifies that the value of the given column is `NULL`:
 
@@ -422,7 +429,7 @@ The `whereTime` method may be used to compare a column's value against a specifi
                     ->whereTime('created_at', '=', '11:20:45')
                     ->get();
 
-**whereColumn**
+**whereColumn / orWhereColumn**
 
 The `whereColumn` method may be used to verify that two columns are equal:
 
@@ -653,7 +660,7 @@ The `updateOrInsert` method will first attempt to locate a matching database rec
 <a name="updating-json-columns"></a>
 ### Updating JSON Columns
 
-When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is only supported on MySQL 5.7+:
+When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
 
     DB::table('users')
                 ->where('id', 1)
@@ -701,3 +708,12 @@ The query builder also includes a few functions to help you do "pessimistic lock
 Alternatively, you may use the `lockForUpdate` method. A "for update" lock prevents the rows from being modified or from being selected with another shared lock:
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
+
+<a name="debugging"></a>
+## Debugging
+
+You may use the `dd` or `dump` methods while building a query to dump the query bindings and SQL. The `dd` method will display the debug information and then stop executing the request. The `dump` method will display the debug information but allow the request to keep executing:
+
+    DB::table('users')->where('votes', '>', 100)->dd();
+
+    DB::table('users')->where('votes', '>', 100)->dump();

@@ -8,6 +8,7 @@
     - [Billable Model](#billable-model)
     - [API Keys](#api-keys)
     - [Currency Configuration](#currency-configuration)
+    - [Webhooks](#webhooks)
 - [Subscriptions](#subscriptions)
     - [Creating Subscriptions](#creating-subscriptions)
     - [Checking Subscription Status](#checking-subscription-status)
@@ -43,8 +44,6 @@
 
 Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
 
-> {note} This documentation is for Cashier's Stripe integration. If you are using Braintree, please consult the [Braintree integration documentation](/docs/{{version}}/braintree).
-
 > {note} If you're only performing "one-off" charges and do not offer subscriptions, you should not use Cashier. Instead, use the Stripe SDK directly.
 
 <a name="upgrading-cashier"></a>
@@ -67,16 +66,16 @@ First, require the Cashier package for Stripe with Composer:
 
 Before using Cashier, we'll also need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('stripe_id')->nullable()->collation('utf8mb4_bin');
         $table->string('card_brand')->nullable();
         $table->string('card_last_four', 4)->nullable();
         $table->timestamp('trial_ends_at')->nullable();
     });
 
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->unsignedInteger('user_id');
+    Schema::create('subscriptions', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->unsignedBigInteger('user_id');
         $table->string('name');
         $table->string('stripe_id')->collation('utf8mb4_bin');
         $table->string('stripe_plan');
@@ -106,7 +105,7 @@ Next, add the `Billable` trait to your model definition. This trait provides var
 Finally, you should configure your Stripe key in your `services.php` configuration file. You can retrieve your Stripe API keys from the Stripe control panel:
 
     'stripe' => [
-        'model'  => App\User::class,
+        'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'webhook' => [
@@ -123,6 +122,11 @@ The default Cashier currency is United States Dollars (USD). You can change the 
     use Laravel\Cashier\Cashier;
 
     Cashier::useCurrency('eur', '€');
+
+<a name="webhooks"></a>
+### Webhooks
+
+To make sure Cashier properly handles all Stripe events, we strongly recommend [setting up Cashier's webhook handling](#handling-stripe-webhooks).
 
 <a name="subscriptions"></a>
 ## Subscriptions
@@ -191,7 +195,7 @@ The `subscribedToPlan` method may be used to determine if the user is subscribed
         //
     }
 
-The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trail period:
+The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trial period:
 
     if ($user->subscription('main')->recurring()) {
         //
@@ -211,7 +215,7 @@ You may also determine if a user has cancelled their subscription, but are still
         //
     }
 
-To determine if the user has cancelled their subscription is no longer within their "grace period", you may use the `ended` method:
+To determine if the user has cancelled their subscription and is no longer within their "grace period", you may use the `ended` method:
 
     if ($user->subscription('main')->ended()) {
         //
@@ -343,7 +347,7 @@ If you would like to offer trial periods to your customers while still collectin
                 ->trialDays(10)
                 ->create($token);
 
-This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe to not begin billing the customer until after this date.
+This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe to not begin billing the customer until after this date. When using the `trialDays` method, Cashier will overwrite any default trial period configured for the plan in Stripe.
 
 > {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
 

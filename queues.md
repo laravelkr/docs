@@ -350,6 +350,22 @@ You may chain the `onConnection` and `onQueue` methods to specify the connection
     ProcessPodcast::dispatch($podcast)
                   ->onConnection('sqs')
                   ->onQueue('processing');
+                  
+Alternatively, you may specify the `connection` as a property on the job class:
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The queue connection that should handle the job.
+         *
+         * @var string
+         */
+        public $connection = 'sqs';
+    }
 
 <a name="max-job-attempts-and-timeout"></a>
 ### Specifying Max Job Attempts / Timeout Values
@@ -479,6 +495,10 @@ Laravel includes a queue worker that will process new jobs as they are pushed on
 
 Remember, queue workers are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment).
 
+Alternatively, you may run the `queue:listen` command. When using the `queue:listen` command, you don't have to manually restart the worker after your code is changed; however, this command is not as efficient as `queue:work`:
+
+    php artisan queue:listen
+
 #### Specifying The Connection & Queue
 
 You may also specify which queue connection the worker should utilize. The connection name passed to the `work` command should correspond to one of the connections defined in your `config/queue.php` configuration file:
@@ -604,6 +624,19 @@ Then, when running your [queue worker](#running-the-queue-worker), you should sp
 
     php artisan queue:work redis --tries=3
 
+In addition, you may specify how many seconds Laravel should wait before retrying a job that has failed using the `--delay` option. By default, a job is retried immediately:
+
+    php artisan queue:work redis --tries=3 --delay=3
+
+If you would like to configure the failed job retry delay on a per-job basis, you may do so by defining a `retryAfter` property on your queued job class:
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $retryAfter = 3;
+
 <a name="cleaning-up-after-failed-jobs"></a>
 ### Cleaning Up After Failed Jobs
 
@@ -677,7 +710,7 @@ If you would like to register an event that will be called when a job fails, you
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Register the service provider.
+         * Register any application services.
          *
          * @return void
          */
@@ -755,6 +788,16 @@ Using the `before` and `after` methods on the `Queue` [facade](/docs/{{version}}
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -772,16 +815,6 @@ Using the `before` and `after` methods on the `Queue` [facade](/docs/{{version}}
                 // $event->job
                 // $event->job->payload()
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

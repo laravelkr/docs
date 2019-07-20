@@ -11,6 +11,7 @@
 - [Environment Variable Parsing](#environment-variable-parsing)
 - [Markdown File Directory Change](#markdown-file-directory-change)
 - [Nexmo / Slack Notification Channels](#nexmo-slack-notification-channels)
+- [New Default Password Length](#new-default-password-length)
 </div>
 
 <a name="medium-impact-changes"></a>
@@ -48,7 +49,7 @@ Next, examine any 3rd party packages consumed by your application and verify you
 
 **Likelihood Of Impact: Very Low**
 
-The `environment` method signature of the `Illuminate/Contracts/Foundation/Application` contract [has changed](https://github.com/laravel/framework/pull/26296). If you are implementing this contract in your application, you should update the method signature:
+The `environment` method signature of the `Illuminate\Contracts\Foundation\Application` contract [has changed](https://github.com/laravel/framework/pull/26296). If you are implementing this contract in your application, you should update the method signature:
 
     /**
      * Get or check the current application environment.
@@ -62,7 +63,7 @@ The `environment` method signature of the `Illuminate/Contracts/Foundation/Appli
 
 **Likelihood Of Impact: Very Low**
 
-The `bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` and `terminate`  methods [were added to the `Illuminate/Contracts/Foundation/Application` contract](https://github.com/laravel/framework/pull/26477).
+The `bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` and `terminate`  methods [were added to the `Illuminate\Contracts\Foundation\Application` contract](https://github.com/laravel/framework/pull/26477).
 
 In the very unlikely event you are implementing this interface, you should add these methods to your implementation.
 
@@ -83,11 +84,14 @@ When using Laravel 5.8, the token is passed to the `route` helper as an explicit
 
 Therefore, if you are defining your own `password.reset` route, you should ensure that it contains a `{token}` parameter in its URI.
 
+<a name="new-default-password-length"></a>
 #### New Default Password Length
 
-**Likelihood Of Impact: Low**
+**Likelihood Of Impact: High**
 
-The required password length when choosing or resetting a password was [changed to at least eight characters](https://github.com/laravel/framework/pull/25957).
+The required password length when choosing or resetting a password was [changed to eight characters](https://github.com/laravel/framework/pull/25957). You should update any validation rules or logic within your application to match this new eight character default.
+
+If you need to preserve the previous six character length or a different length, you may extend the `Illuminate\Auth\Passwords\PasswordBroker` class and overwrite the `validatePasswordWithDefaults` method with custom logic.
 
 <a name="cache"></a>
 ### Cache
@@ -140,7 +144,7 @@ If you are using the `Cache::lock()->get(Closure)` method of interacting with lo
 
 However, if you are manually calling `Cache::lock()->release()`, you must update your code to maintain an instance of the lock. Then, after you are done performing your task, you may call the `release` method on **the same lock instance**. For example:
 
-    if ($lock = Cache::lock('foo', 10)->get()) {
+    if (($lock = Cache::lock('foo', 10))->get()) {
         // Perform task...
 
         $lock->release();
@@ -151,7 +155,7 @@ Sometimes, you may wish to acquire a lock in one process and release it in anoth
     // Within Controller...
     $podcast = Podcast::find(1);
 
-    if ($lock = Cache::lock('foo', 120)->get()) {
+    if (($lock = Cache::lock('foo', 120))->get()) {
         ProcessPodcast::dispatch($podcast, $lock->owner());
     }
 
@@ -203,7 +207,7 @@ The `firstWhere` method signature [has changed](https://github.com/laravel/frame
 
 **Likelihood Of Impact: Very Low**
 
-The `terminate` method [has been added to the `Illuminate/Contracts/Console/Kernel` contract](https://github.com/laravel/framework/pull/26393). If you are implementing this interface, you should add this method to your implementation.
+The `terminate` method [has been added to the `Illuminate\Contracts\Console\Kernel` contract](https://github.com/laravel/framework/pull/26393). If you are implementing this interface, you should add this method to your implementation.
 
 <a name="container"></a>
 ### Container
@@ -270,6 +274,14 @@ As a result, the `->>` operator is no longer supported or necessary.
 **Likelihood Of Impact: Medium**
 
 As of Laravel 5.8 the [oldest supported SQLite version](https://github.com/laravel/framework/pull/25995) is SQLite 3.7.11. If you are using an older SQLite version, you should update it (SQLite 3.8.8+ is recommended).
+
+#### Migrations & `bigIncrements`
+
+**Likelihood Of Impact: None**
+
+[As of Laravel 5.8](https://github.com/laravel/framework/pull/26472), migration stubs use the `bigIncrements` method on ID columns by default. Previously, ID columns were created using the `increments` method.
+
+This will not affect any existing code in your project; however, be aware that foreign key columns must be of the same type. Therefore, a column created using the `increments` method can not reference a column created using the `bigIncrements` method.
 
 <a name="eloquent"></a>
 ### Eloquent
@@ -369,7 +381,7 @@ For more information, please refer to the [phpdotenv upgrade guide](https://gith
 
 **Likelihood Of Impact: Low**
 
-The `fire` method (which was deprecated in Laravel 5.4) of the `Illuminate/Events/Dispatcher` class [has been removed](https://github.com/laravel/framework/pull/26392).
+The `fire` method (which was deprecated in Laravel 5.4) of the `Illuminate\Events\Dispatcher` class [has been removed](https://github.com/laravel/framework/pull/26392).
 You should use the `dispatch` method instead.
 
 <a name="exception-handling"></a>
@@ -481,11 +493,11 @@ The `transform` method of the `Illuminate\Foundation\Http\Middleware\TransformsR
 
 The `previous` method [has been added to the `Illuminate\Contracts\Routing\UrlGenerator` contract](https://github.com/laravel/framework/pull/25616). If you are implementing this interface, you should add this method to your implementation.
 
-#### The `cachedSchema` Property Of `Illuminate/Routing/UrlGenerator`
+#### The `cachedSchema` Property Of `Illuminate\Routing\UrlGenerator`
 
 **Likelihood Of Impact: Very Low**
 
-The `$cachedSchema` property name (which has been deprecated in Laravel `5.7`) of `Illuminate/Routing/UrlGenerator` [has been changed to](https://github.com/laravel/framework/pull/26728) `$cachedScheme`.
+The `$cachedSchema` property name (which has been deprecated in Laravel `5.7`) of `Illuminate\Routing\UrlGenerator` [has been changed to](https://github.com/laravel/framework/pull/26728) `$cachedScheme`.
 
 <a name="sessions"></a>
 ### Sessions

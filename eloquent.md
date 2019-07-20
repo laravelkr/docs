@@ -84,9 +84,51 @@ Note that we did not tell Eloquent which table to use for our `Flight` model. By
 
 #### Primary Keys
 
-Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention.
+Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention:
 
-In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`. If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`.
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Flight extends Model
+    {
+        /**
+         * The primary key associated with the table.
+         *
+         * @var string
+         */
+        protected $primaryKey = 'flight_id';
+    }
+
+In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will automatically be cast to an `int`. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`:
+
+    <?php
+
+    class Flight extends Model
+    {
+        /**
+         * Indicates if the IDs are auto-incrementing.
+         *
+         * @var bool
+         */
+        public $incrementing = false;
+    }
+
+If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`:
+
+    <?php
+
+    class Flight extends Model
+    {
+        /**
+         * The "type" of the auto-incrementing ID.
+         *
+         * @var string
+         */
+        protected $keyType = 'string';
+    }
 
 #### Timestamps
 
@@ -354,7 +396,7 @@ Updates can also be performed against any number of models that match a given qu
 
 The `update` method expects an array of column and value pairs representing the columns that should be updated.
 
-> {note} When issuing a mass update via Eloquent, the `saved` and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
+> {note} When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
 
 <a name="mass-assignment"></a>
 ### Mass Assignment
@@ -432,7 +474,7 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrCreate(
-        ['name' => 'Flight 10'], 
+        ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
@@ -441,7 +483,7 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve by name, or instantiate with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrNew(
-        ['name' => 'Flight 10'], 
+        ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
@@ -700,7 +742,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include popular users.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopePopular($query)
@@ -711,7 +753,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include active users.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeActive($query)
@@ -751,8 +793,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
-         * @param  \Illuminate\Database\Eloquent\Builder $query
-         * @param  mixed $type
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
+         * @param  mixed  $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)
@@ -877,6 +919,16 @@ To register an observer, use the `observe` method on the model you wish to obser
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -884,15 +936,5 @@ To register an observer, use the `observe` method on the model you wish to obser
         public function boot()
         {
             User::observe(UserObserver::class);
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }

@@ -25,6 +25,7 @@
     - [Using Rule Objects](#using-rule-objects)
     - [Using Closures](#using-closures)
     - [Using Extensions](#using-extensions)
+    - [Implicit Extensions](#implicit-extensions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -155,6 +156,20 @@ So, in our example, the user will be redirected to our controller's `create` met
     @endif
 
     <!-- Create Post Form -->
+
+#### The `@error` Directive
+
+You may also use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly check if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="a-note-on-optional-fields"></a>
 ### A Note On Optional Fields
@@ -319,9 +334,9 @@ If you do not want to use the `validate` method on the request, you may create a
 
     namespace App\Http\Controllers;
 
-    use Validator;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
     {
@@ -546,6 +561,7 @@ Below is a list of all available validation rules and their function:
 [Dimensions (Image Files)](#rule-dimensions)
 [Distinct](#rule-distinct)
 [E-Mail](#rule-email)
+[Ends With](#rule-ends-with)
 [Exists (Database)](#rule-exists)
 [File](#rule-file)
 [Filled](#rule-filled)
@@ -578,6 +594,7 @@ Below is a list of all available validation rules and their function:
 [Required Without All](#rule-required-without-all)
 [Same](#rule-same)
 [Size](#rule-size)
+[Sometimes](#conditionally-adding-rules)
 [Starts With](#rule-starts-with)
 [String](#rule-string)
 [Timezone](#rule-timezone)
@@ -728,6 +745,11 @@ When working with arrays, the field under validation must not have any duplicate
 #### email
 
 The field under validation must be formatted as an e-mail address.
+
+<a name="rule-ends-with"></a>
+#### ends_with:_foo_,_bar_,...
+
+The field under validation must end with one of the given values.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -1003,9 +1025,11 @@ The field under validation must be a valid timezone identifier according to the 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-The field under validation must be unique in a given database table. If the `column` option is not specified, the field name will be used.
+The field under validation must not exist within the given database table.
 
 **Specifying A Custom Column Name:**
+
+The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the field name will be used.
 
     'email' => 'unique:users,email_address'
 
@@ -1219,6 +1243,16 @@ Another method of registering custom validation rules is using the `extend` meth
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -1228,16 +1262,6 @@ Another method of registering custom validation rules is using the `extend` meth
             Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -1273,7 +1297,8 @@ When creating a custom validation rule, you may sometimes need to define custom 
         });
     }
 
-#### Implicit Extensions
+<a name="implicit-extensions"></a>
+### Implicit Extensions
 
 By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
@@ -1290,3 +1315,7 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
     });
 
 > {note} An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+
+#### Implicit Rule Objects
+
+If you would like a rule object to run when an attribute is empty, you should implement the `Illuminate\Contracts\Validation\ImplicitRule` interface. This interface serves as a "marker interface" for the validator; therefore, it does not contain any methods you need to implement.

@@ -16,6 +16,7 @@
     - [Requesting Tokens](#requesting-password-grant-tokens)
     - [Requesting All Scopes](#requesting-all-scopes)
     - [Customizing The Username Field](#customizing-the-username-field)
+    - [Customizing The Password Validation](#customizing-the-password-validation)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
 - [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
 - [Personal Access Tokens](#personal-access-tokens)
@@ -183,13 +184,18 @@ If necessary, you may define the path where Passport's keys should be loaded fro
         Passport::loadKeysFrom('/secret-keys/oauth');
     }
 
+Additionally, you may load the keys from environment variables:
+
+    PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n<private key here>\n-----END RSA PRIVATE KEY-----"
+    PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<public key here>\n-----END PUBLIC KEY-----\n"
+
 <a name="configuration"></a>
 ## Configuration
 
 <a name="token-lifetimes"></a>
 ### Token Lifetimes
 
-By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn`, `refreshTokensExpireIn`, and `personalAccessTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
 
     /**
      * Register any authentication / authorization services.
@@ -205,6 +211,8 @@ By default, Passport issues long-lived access tokens that expire after one year.
         Passport::tokensExpireIn(now()->addDays(15));
 
         Passport::refreshTokensExpireIn(now()->addDays(30));
+
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
     }
 
 <a name="overriding-default-models"></a>
@@ -350,6 +358,27 @@ If you would like to customize the authorization approval screen, you may publis
 
     php artisan vendor:publish --tag=passport-views
 
+Sometimes you may wish to skip the authorization prompt, such as when authorizing a first-party client. You may accomplish this by defining a `skipsAuthorization` method on the client model. If `skipsAuthorization` returns `true` the client will be approved and the user will be redirected back to the `redirect_uri` immediately:
+
+    <?php
+
+    namespace App\Models\Passport;
+
+    use Laravel\Passport\Client as BaseClient;
+
+    class Client extends BaseClient
+    {
+        /**
+         * Determine if the client should skip the authorization prompt.
+         *
+         * @return bool
+         */
+        public function skipsAuthorization()
+        {
+            return $this->first_party;
+        }
+    }
+
 #### Converting Authorization Codes To Access Tokens
 
 If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should then issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
@@ -474,6 +503,36 @@ When authenticating using the password grant, Passport will use the `email` attr
         }
     }
 
+<a name="customizing-the-password-validation"></a>
+### Customizing The Password Validation
+
+When authenticating using the password grant, Passport will use the `password` attribute of your model to validate the given password. If your model does not have a `password` attribute or you wish to customize the password validation logic, you can define a `validateForPassportPasswordGrant` method on your model:
+
+    <?php
+
+    namespace App;
+
+    use Laravel\Passport\HasApiTokens;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use HasApiTokens, Notifiable;
+
+        /**
+        * Validate the password of the user for the Passport password grant.
+        *
+        * @param  string $password
+        * @return bool
+        */
+        public function validateForPassportPasswordGrant($password)
+        {
+            return Hash::check($password, $this->password);
+        }
+    }
+
 <a name="implicit-grant-tokens"></a>
 ## Implicit Grant Tokens
 
@@ -558,8 +617,6 @@ To retrieve a token using this grant type, make a request to the `oauth/token` e
 ## Personal Access Tokens
 
 Sometimes, your users may want to issue access tokens to themselves without going through the typical authorization code redirect flow. Allowing users to issue tokens to themselves via your application's UI can be useful for allowing users to experiment with your API or may serve as a simpler approach to issuing access tokens in general.
-
-> {note} Personal access tokens are always long-lived. Their lifetime is not modified when using the `tokensExpireIn` or `refreshTokensExpireIn` methods.
 
 <a name="creating-a-personal-access-client"></a>
 ### Creating A Personal Access Client

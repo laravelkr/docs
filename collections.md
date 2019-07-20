@@ -85,6 +85,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 [diffAssoc](#method-diffassoc)
 [diffKeys](#method-diffkeys)
 [dump](#method-dump)
+[duplicates](#method-duplicates)
+[duplicatesStrict](#method-duplicatesstrict)
 [each](#method-each)
 [eachSpread](#method-eachspread)
 [every](#method-every)
@@ -119,6 +121,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 [max](#method-max)
 [median](#method-median)
 [merge](#method-merge)
+[mergeRecursive](#method-mergerecursive)
 [min](#method-min)
 [mode](#method-mode)
 [nth](#method-nth)
@@ -135,6 +138,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 [random](#method-random)
 [reduce](#method-reduce)
 [reject](#method-reject)
+[replace](#method-replace)
+[replaceRecursive](#method-replacerecursive)
 [reverse](#method-reverse)
 [search](#method-search)
 [shift](#method-shift)
@@ -339,7 +344,7 @@ The `count` method returns the total number of items in the collection:
 <a name="method-countBy"></a>
 #### `countBy()` {#collection-method}
 
-The `countBy` method counts the occurences of values in the collection. By default, the method counts the occurrences of every element:
+The `countBy` method counts the occurrences of values in the collection. By default, the method counts the occurrences of every element:
 
     $collection = collect([1, 2, 2, 2, 3]);
 
@@ -498,6 +503,34 @@ The `dump` method dumps the collection's items:
     */
 
 If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
+
+<a name="method-duplicates"></a>
+#### `duplicates()` {#collection-method}
+
+The `duplicates` method retrieves and returns duplicate values from the collection:
+
+    $collection = collect(['a', 'b', 'a', 'c', 'b']);
+
+    $collection->duplicates();
+
+    // [2 => 'a', 4 => 'b']
+
+If the collection contains arrays or objects, you can pass the key of the attributes that you wish to check for duplicate values:
+
+    $employees = collect([
+        ['email' => 'abigail@example.com', 'position' => 'Developer'],
+        ['email' => 'james@example.com', 'position' => 'Designer'],
+        ['email' => 'victoria@example.com', 'position' => 'Developer'],
+    ])
+
+    $employees->duplicates('position');
+
+    // [2 => 'Developer']
+
+<a name="method-duplicatesstrict"></a>
+#### `duplicatesStrict()` {#collection-method}
+
+This method has the same signature as the [`duplicates`](#method-duplicates) method; however, all values are compared using "strict" comparisons.
 
 <a name="method-each"></a>
 #### `each()` {#collection-method}
@@ -1206,6 +1239,19 @@ If the given items's keys are numeric, the values will be appended to the end of
 
     // ['Desk', 'Chair', 'Bookcase', 'Door']
 
+<a name="method-mergerecursive"></a>
+#### `mergeRecursive()` {#collection-method}
+
+The `mergeRecursive` method merges the given array or collection recursively with the original collection. If a string key in the given items matches a string key in the original collection, then the values for these keys are merged together into an array, and this is done recursively:
+
+    $collection = collect(['product_id' => 1, 'price' => 100]);
+
+    $merged = $collection->mergeRecursive(['product_id' => 2, 'price' => 200, 'discount' => false]);
+
+    $merged->all();
+
+    // ['product_id' => [1, 2], 'price' => [100, 200], 'discount' => false]
+
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
@@ -1493,6 +1539,32 @@ The `reject` method filters the collection using the given callback. The callbac
     // [1, 2]
 
 For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
+
+<a name="method-replace"></a>
+#### `replace()` {#collection-method}
+
+The `replace` method behaves similarly to `merge`; however, in addition to overwriting matching items with string keys, the `replace` method will also overwrite items in the collection that have matching numeric keys:
+
+    $collection = collect(['Taylor', 'Abigail', 'James']);
+
+    $replaced = $collection->replace([1 => 'Victoria', 3 => 'Finn']);
+
+    $replaced->all();
+
+    // ['Taylor', 'Victoria', 'James', 'Finn']
+
+<a name="method-replacerecursive"></a>
+#### `replaceRecursive()` {#collection-method}
+
+This method works like `replace`, but it will recurse into arrays and apply the same replacement process to the inner values:
+
+    $collection = collect(['Taylor', 'Abigail', ['James', 'Victoria', 'Finn']]);
+
+    $replaced = $collection->replaceRecursive(['Charlie', 2 => [1 => 'King']]);
+
+    $replaced->all();
+
+    // ['Charlie', 'Abigail', ['James', 'King', 'Finn']]
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}

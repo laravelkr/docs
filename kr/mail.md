@@ -557,7 +557,7 @@ To generate a mailable with a corresponding Markdown template, you may use the `
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
-Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` methods accepts the name of the Markdown template and an optional array of data to make available to the template:
+Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` method accepts the name of the Markdown template and an optional array of data to make available to the template:
 
 그런다음, `build` 메소드 안에서 mailable을 설정할 때 `view` 메소드 대신에 `markdown` 메소드를 호출합니다. `markdown` 메소드는 마크다운 템플릿의 이름과 선택적으로 사용할 수 있는 데이터 배열을 인자로 받습니다:
 

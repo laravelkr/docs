@@ -76,9 +76,9 @@ To assist you in building these types of applications, Laravel makes it easy to 
 ### Configuration
 ### 설정하기
 
-All of your application's event broadcasting configuration is stored in the `config/broadcasting.php` configuration file. Laravel supports several broadcast drivers out of the box: [Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), and a `log` driver for local development and debugging. Additionally, a `null` driver is included which allows you to totally disable broadcasting. A configuration example is included for each of these drivers in the `config/broadcasting.php` configuration file.
+All of your application's event broadcasting configuration is stored in the `config/broadcasting.php` configuration file. Laravel supports several broadcast drivers out of the box: [Pusher Channels](https://pusher.com/channels), [Redis](/docs/{{version}}/redis), and a `log` driver for local development and debugging. Additionally, a `null` driver is included which allows you to totally disable broadcasting. A configuration example is included for each of these drivers in the `config/broadcasting.php` configuration file.
 
-모든 이벤트 브로드캐스팅 설정 옵션은 config/broadcasting.php 의 설정 파일에 저장되어 있습니다. 라라벨은 기본적으로 여러가지의 브로드캐스트 드라이버([Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), 그리고 디버깅 용도의 `log` 드라이버)를 지원합니다. 추가적으로 전체적으로 브로드캐스팅을 끌 수 있도록 해주는 `null` 드라이버도 제공됩니다. 각각의 드라이버의 설정 예제는 `config/broadcasting.php` 설정 파일에 있습니다.
+모든 이벤트 브로드캐스팅 설정 옵션은 config/broadcasting.php 의 설정 파일에 저장되어 있습니다. 라라벨은 기본적으로 여러가지의 브로드캐스트 드라이버([Pusher Channels](https://pusher.com/channels), [Redis](/docs/{{version}}/redis), 그리고 디버깅 용도의 `log` 드라이버)를 지원합니다. 추가적으로 전체적으로 브로드캐스팅을 끌 수 있도록 해주는 `null` 드라이버도 제공됩니다. 각각의 드라이버의 설정 예제는 `config/broadcasting.php` 설정 파일에 있습니다.
 
 #### Broadcast Service Provider
 #### 브로드캐스트 서비스 프로바이더
@@ -100,27 +100,27 @@ Before broadcasting any events, you will first need to register the `App\Provide
 ### Driver Prerequisites
 ### 드라이버 사전준비사항
 
-#### Pusher
-#### Pusher
+#### Pusher Channels
+#### Pusher Channels
 
-If you are broadcasting your events over [Pusher](https://pusher.com), you should install the Pusher PHP SDK using the Composer package manager:
+If you are broadcasting your events over [Pusher Channels](https://pusher.com/channels), you should install the Pusher Channels PHP SDK using the Composer package manager:
 
-만약 [Pusher](https://pusher.com) 를 이용해서 이벤트를 브로드캐스팅한다면, 컴포저 패키지 매니저를 사용해 Pusher PHP SDK를 설치해야 합니다.
+만약 [Pusher Channels](https://pusher.com/channels)를 이용해서 이벤트를 브로드캐스팅한다면, 컴포저 패키지 매니저를 사용해 Pusher PHP SDK를 설치해야 합니다.
 
-    composer require pusher/pusher-php-server "~3.0"
+    composer require pusher/pusher-php-server "~4.0"
 
-Next, you should configure your Pusher credentials in the `config/broadcasting.php` configuration file. An example Pusher configuration is already included in this file, allowing you to quickly specify your Pusher key, secret, and application ID. The `config/broadcasting.php` file's `pusher` configuration also allows you to specify additional `options` that are supported by Pusher, such as the cluster:
+Next, you should configure your Channels credentials in the `config/broadcasting.php` configuration file. An example Channels configuration is already included in this file, allowing you to quickly specify your Channels key, secret, and application ID. The `config/broadcasting.php` file's `pusher` configuration also allows you to specify additional `options` that are supported by Channels, such as the cluster:
 
-다음으로, `config/broadcasting.php` 설정 파일에서 Puhser 암호를 설정해야 합니다. Pusher key, 비밀번호, 그리고 애플리케이션 ID를  빠르게 설정할 수 있도록 Puhser 설정 예제가 이미 이 파일에 포함되어 있습니다. `config/broadcasting.php` 파일의 `pusher` 설정을 이용하면, cluster와 같은 Pusher 에서 지원하는 추가적인 `options`을 지정할 수 있습니다.
+다음으로, `config/broadcasting.php` 설정 파일에서 Channels 인증정보를 설정해야 합니다. 이미 이 파일에는 Channels을 빠르게 설정할 수 있도록 Channels key, 비밀번호, 그리고 애플리케이션 ID의 예제가 포함되어 있습니다. `config/broadcasting.php` 파일의 `pusher` 설정을 이용하면, cluster와 같은 Pusher 에서 지원하는 추가적인 `options`을 지정할 수 있습니다.
 
     'options' => [
         'cluster' => 'eu',
-        'encrypted' => true
+        'useTLS' => true
     ],
 
-When using Pusher and [Laravel Echo](#installing-laravel-echo), you should specify `pusher` as your desired broadcaster when instantiating the Echo instance in your `resources/js/bootstrap.js` file:
+When using Channels and [Laravel Echo](#installing-laravel-echo), you should specify `pusher` as your desired broadcaster when instantiating the Echo instance in your `resources/js/bootstrap.js` file:
 
-Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
+Channels 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
     import Echo from "laravel-echo";
 
@@ -128,7 +128,7 @@ Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/j
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key'
+        key: 'your-pusher-channels-key'
     });
 
 #### Redis
@@ -185,9 +185,9 @@ Before broadcasting events, you will also need to configure and run a [queue lis
 ## Concept Overview
 ## 컨셉 개요
 
-Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher](https://pusher.com) and Redis drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#installing-laravel-echo) Javascript package.
+Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher Channels](https://pusher.com/channels) and Redis drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#installing-laravel-echo) Javascript package.
 
-라라벨의 이벤트 브로드캐스팅은 웹소캣에 드라이버 기반 접근법을 사용하여 서버측의 라라벨 이벤트를 클라이언트측의 자바스크립트 애플리케이션에 전송할 수 있도록 해줍니다. 현재 라라벨은 [Pusher](https://pusher.com)와 Redis 드라이버를 제공합니다. 이벤트는 클라이언트단에서 [Laravel Echo](#installing-laravel-echo)라는 자바스크립트 패키지를 통해 손쉽게 사용할 수 있습니다.
+라라벨의 이벤트 브로드캐스팅은 웹소캣에 드라이버 기반 접근법을 사용하여 서버측의 라라벨 이벤트를 클라이언트측의 자바스크립트 애플리케이션에 전송할 수 있도록 해줍니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels)와 Redis 드라이버를 제공합니다. 이벤트는 클라이언트단에서 [Laravel Echo](#installing-laravel-echo)라는 자바스크립트 패키지를 통해 손쉽게 사용할 수 있습니다.
 
 Events are broadcast over "channels", which may be specified as public or private. Any visitor to your application may subscribe to a public channel without any authentication or authorization; however, in order to subscribe to a private channel, a user must be authenticated and authorized to listen on that channel.
 
@@ -197,9 +197,9 @@ Events are broadcast over "channels", which may be specified as public or privat
 ### Using An Example Application
 ### 예제 애플리케이션 사용하기
 
-Before diving into each component of event broadcasting, let's take a high level overview using an e-commerce store as an example. We won't discuss the details of configuring [Pusher](https://pusher.com) or [Laravel Echo](#installing-laravel-echo) since that will be discussed in detail in other sections of this documentation.
+Before diving into each component of event broadcasting, let's take a high level overview using an e-commerce store as an example. We won't discuss the details of configuring [Pusher Channels](https://pusher.com/channels) or [Laravel Echo](#installing-laravel-echo) since that will be discussed in detail in other sections of this documentation.
 
-이벤트 브로드캐스팅의 각 구성요소에 대해 깊게 들어가기 전에, 전자상거래 상점을 예로들어 전반적인 내용을 둘러보도록 하겠습니다. 이 문서의 다른 부분에서 따로 자세하게 다룰 것이기 때문에 [Pusher](https://pusher.com) 나 [Laravel Echo](#installing-laravel-echo) 설정에 대한 자세한 내용은 다루지 않습니다.
+이벤트 브로드캐스팅의 각 구성요소에 대해 깊게 들어가기 전에, 전자상거래 상점을 예로들어 전반적인 내용을 둘러보도록 하겠습니다. 이 문서의 다른 부분에서 따로 자세하게 다룰 것이기 때문에 [Pusher Channels](https://pusher.com/channels) 나 [Laravel Echo](#installing-laravel-echo) 설정에 대한 자세한 내용은 다루지 않습니다.
 
 In our application, let's assume we have a page that allows users to view the shipping status for their orders. Let's also assume that a `ShippingStatusUpdated` event is fired when a shipping status update is processed by the application:
 
@@ -242,7 +242,7 @@ The `ShouldBroadcast` interface requires our event to define a `broadcastOn` met
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return \Illuminate\Broadcasting\PrivateChannel
      */
     public function broadcastOn()
     {
@@ -296,6 +296,7 @@ The `ShouldBroadcast` interface requires you to implement a single method: `broa
 
     namespace App\Events;
 
+    use App\User;
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Broadcasting\PrivateChannel;
@@ -469,7 +470,7 @@ By default, Echo will use the `/broadcasting/auth` endpoint to authorize channel
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         authEndpoint: '/custom/endpoint/auth'
     });
 
@@ -516,7 +517,7 @@ Private and presence broadcast channels authenticate the current user via your a
 
     Broadcast::channel('channel', function() {
         // ...
-    }, ['guards' => ['web', 'admin']])
+    }, ['guards' => ['web', 'admin']]);
 
 <a name="defining-channel-classes"></a>
 ### Defining Channel Classes
@@ -640,9 +641,9 @@ If you are not using Vue and Axios, you will need to manually configure your Jav
 ### Installing Laravel Echo
 ### 라라벨 에코 설치하기
 
-Laravel Echo is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by Laravel. You may install Echo via the NPM package manager. In this example, we will also install the `pusher-js` package since we will be using the Pusher broadcaster:
+Laravel Echo is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by Laravel. You may install Echo via the NPM package manager. In this example, we will also install the `pusher-js` package since we will be using the Pusher Channels broadcaster:
 
-라라벨 에코는 채널을 구독하고 라라벨에 의해 브로드캐스트되는 이벤트를 수신하기 쉽게 해주는 자바스크립트 라이브러리입니다. NPM 패키지 매니저로 에코를 설치할 수 있습니다. 이 예제에서는 Pusher 브로드캐스터를 사용할 것이기 때문에 `pusher-js`도 설치할 것입니다.
+라라벨 에코는 채널을 구독하고 라라벨에 의해 브로드캐스트되는 이벤트를 수신하기 쉽게 해주는 자바스크립트 라이브러리입니다. NPM 패키지 매니저로 에코를 설치할 수 있습니다. 이 예제에서는 Pusher Channels 브로드캐스터를 사용할 것이기 때문에 `pusher-js`도 설치할 것입니다.
 
     npm install --save laravel-echo pusher-js
 
@@ -654,33 +655,33 @@ Once Echo is installed, you are ready to create a fresh Echo instance in your ap
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key'
+        key: 'your-pusher-channels-key'
     });
 
-When creating an Echo instance that uses the `pusher` connector, you may also specify a `cluster` as well as whether the connection should be encrypted:
+When creating an Echo instance that uses the `pusher` connector, you may also specify a `cluster` as well as whether the connection must be made over TLS (by default, when `forceTLS` is `false`, a non-TLS connection will be made if the page was loaded over HTTP, or as a fallback if a TLS connection fails):
 
-`pusher` 커넥터를 사용하는 에코 인스턴스를 만들 때에는, `cluster`와 커넥션이 암호화 되어야 하는지 여부도 명시할 수 있습니다.
+`pusher` 커넥터를 사용하는 Echo 인스턴스를 생성 할 때, TLS를 통해 연결해야하는지 여부뿐만 아니라 `cluster`도 지정할 수 있습니다. (기본적으로 `forceTLS`가 `false` 일 때, 페이지가 HTTP를 통해 로드되면 TLS가 아닌 연결이 되거나 TLS 연결이 실패하면 폴백이 됩니다).
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         cluster: 'eu',
-        encrypted: true
+        forceTLS: true
     });
     
 #### Using An Existing Client Instance
 #### 기존 클라이언트 인스턴스 사용
 
-If you already have a Pusher or Socket.io client instance that you would like Echo to utilize, you may pass it to Echo via the `client` configuration option:
+If you already have a Pusher Channels or Socket.io client instance that you would like Echo to utilize, you may pass it to Echo via the `client` configuration option:
 
-Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
 
 
     const client = require('pusher-js');
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         client: client
     });
 
@@ -732,7 +733,7 @@ You may have noticed in the examples above that we did not specify the full name
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         namespace: 'App.Other.Namespace'
     });
 
@@ -836,9 +837,9 @@ You may listen for the join event via Echo's `listen` method:
 ## Client Events
 ## 클라이언트 이벤트
 
-> {tip} When using [Pusher](https://pusher.com), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
+> {tip} When using [Pusher Channels](https://pusher.com/channels), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
 
-> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+> {tip} [Pusher Channels](https://pusher.com/channels)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen.
 

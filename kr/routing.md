@@ -95,7 +95,7 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
         //
     });
 
-    Route::any('foo', function () {
+    Route::any('/', function () {
         //
     });
 
@@ -379,6 +379,10 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
             //
         });
     });
+
+> {note} In order to ensure your sub-domain routes are reachable, you should register sub-domain routes before registering root domain routes. This will prevent root domain routes from overwriting sub-domain routes which have the same URI path.
+
+> {note} 서브 도메인 라우트가 동작하도록하려면 루트 도메인 라우트를 등록하기 전에 서브 도메인 라우트를 등록해야합니다. 이렇게하면 루트 도메인 라우트가 동일한 URI 라우트를 가진 서브 도메인 라우트를 덮어 쓰지 않습니다.
 
 <a name="route-group-prefixes"></a>
 ### Route Prefixes

@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Upgrading Horizon](#upgrading)
+- [Horizon 업그레이드](#upgrading)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Configuration](#configuration)
@@ -64,6 +66,20 @@ You should also create the `failed_jobs` table which Laravel will use to store a
 
     php artisan migrate
 
+<a name="upgrading"></a>
+#### Upgrading Horizon
+#### Horizon 업그레이드
+
+When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
+
+Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
+
+In addition, you should re-publish Horizon's assets:
+
+또한 Horizon의 자산-asssets을 다시 게시해야합니다.
+
+    php artisan horizon:assets
+
 <a name="configuration"></a>
 ### Configuration
 ### 설정하기
@@ -71,6 +87,10 @@ You should also create the `failed_jobs` table which Laravel will use to store a
 After publishing Horizon's assets, its primary configuration file will be located at `config/horizon.php`. This configuration file allows you to configure your worker options and each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
 
 퍼블리싱을 완료하고 나면 `config/horizon.php`라는 주요 설정파일이 복사됩니다. 이 파일을 통해서 worker의 옵션을 설정 할 수 있습니다. 각각 설정 옵션에는 용도에 대한 설명이 주석으로 표시 되어있으므로 내용을 자세히 확인 하시기 바랍니다.
+
+> {note} You should ensure that the `environments` portion of your `horizon` configuration file contains an entry for each environment on which you plan to run Horizon.
+
+> {note} `horizon` 설정 파일의 `environments` 부분에는 Horizon을 실행할 각 환경에 대한 엔트리가 포함되어 있어야합니다.
 
 #### Balance Options
 #### 밸런스 옵션
@@ -258,9 +278,9 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 ## Notifications
 ## 알림
 
-> **Note:** When configuring Horizon to send Slack or SMS notifications, you should review the [prerequisites for the relevant notification driver](https://laravel.com/docs/{{version}}/notifications).
+> **Note:** When configuring Horizon to send Slack or SMS notifications, you should review the [prerequisites for the relevant notification driver](/docs/{{version}}/notifications).
 
-> **Note:** Horizon 을 사용해서 슬랙이나 SMS 알림을 보내도록 설정할 때에는, [알림 드라이버와 연결된 사전 준비사항](https://laravel.com/docs/{{version}}/notifications)을 확인해야 합니다.
+> **Note:** Horizon 을 사용해서 슬랙이나 SMS 알림을 보내도록 설정할 때에는, [알림 드라이버와 연결된 사전 준비사항](/docs/{{version}}/notifications)을 확인해야 합니다.
 
 If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from your application's `HorizonServiceProvider`:
 

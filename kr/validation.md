@@ -51,6 +51,8 @@
     - [클로저 사용하기](#using-closures)
     - [Using Extensions](#using-extensions)
     - [확장기능 사용하기](#using-extensions)
+    - [Implicit Extensions](#implicit-extensions)
+    - [묵시적 확장기능](#implicit-extensions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -219,6 +221,23 @@ So, in our example, the user will be redirected to our controller's `create` met
     @endif
 
     <!-- Create Post Form -->
+
+#### The `@error` Directive
+#### `@error` 지시어
+
+You may also use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly check if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+
+`@error` [Blade](/docs/{{version}}/blade) 지시어를 사용하여 주어진 속성에 대해 유효성 검사 오류 메시지가 있는지 빠르게 확인할 수도 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo하여 에러 메시지를 표시 할 수 있습니다.
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="a-note-on-optional-fields"></a>
 ### A Note On Optional Fields
@@ -428,9 +447,9 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 
     namespace App\Http\Controllers;
 
-    use Validator;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
     {
@@ -713,6 +732,7 @@ Below is a list of all available validation rules and their function:
 - [Dimensions (Image Files)](#rule-dimensions)
 - [Distinct](#rule-distinct)
 - [E-Mail](#rule-email)
+- [Ends With](#rule-ends-with)
 - [Exists (Database)](#rule-exists)
 - [File](#rule-file)
 - [Filled](#rule-filled)
@@ -745,6 +765,7 @@ Below is a list of all available validation rules and their function:
 - [Required Without All](#rule-required-without-all)
 - [Same](#rule-same)
 - [Size](#rule-size)
+- [Sometimes](#conditionally-adding-rules)
 - [Starts With](#rule-starts-with)
 - [String](#rule-string)
 - [Timezone](#rule-timezone)
@@ -951,6 +972,13 @@ When working with arrays, the field under validation must not have any duplicate
 The field under validation must be formatted as an e-mail address.
 
 필드의 값이 이메일 주소 형식이어야 합니다.
+
+<a name="rule-ends-with"></a>
+#### ends_with:_foo_,_bar_,...
+
+The field under validation must end with one of the given values.
+
+필드의 값이 주어진 값 중 하나로 끝나야합니다.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -1333,12 +1361,16 @@ The field under validation must be a valid timezone identifier according to the 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-The field under validation must be unique in a given database table. If the `column` option is not specified, the field name will be used.
+The field under validation must not exist within the given database table.
 
 필드의 값이 주어진 데이터베이스 테이블에서 고유한 값이어야 합니다. 만약 `column`이 지정돼 있지 않다면 필드의 이름이 사용됩니다.
 
 **Specifying A Custom Column Name:**
 **특정 컬럼명 지정하기:**
+
+The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the field name will be used.
+
+`column` 옵션은 필드의 해당 데이터베이스 컬럼을 지정하는 데 사용될 수 있습니다. `column` 옵션을 지정하지 않으면 필드 이름이 사용됩니다.
 
     'email' => 'unique:users,email_address'
 
@@ -1612,6 +1644,16 @@ Another method of registering custom validation rules is using the `extend` meth
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -1621,16 +1663,6 @@ Another method of registering custom validation rules is using the `extend` meth
             Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -1675,8 +1707,9 @@ When creating a custom validation rule, you may sometimes need to define custom 
         });
     }
 
-#### Implicit Extensions
-#### 묵시적 확장
+<a name="implicit-extensions"></a>
+### Implicit Extensions
+### 묵시적 확장
 
 By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
@@ -1699,3 +1732,10 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
 > {note} An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
 
 > {note} "묵시적" 확장은 단지 속성이 필요하다는 것을 _암시(내포)_합니다. 없거나 빈 속성의 유효성을 실제로 부정하는지는 여러분이 결정합니다.
+
+#### Implicit Rule Objects
+#### 묵시적 규칙 객체
+
+If you would like a rule object to run when an attribute is empty, you should implement the `Illuminate\Contracts\Validation\ImplicitRule` interface. This interface serves as a "marker interface" for the validator; therefore, it does not contain any methods you need to implement.
+
+속성이 비어있을 때 규칙 객체를 실행하려면 `Illuminate\Contracts\Validation\ImplicitRule` 인터페이스를 구현해야 합니다. 이 인터페이스는 유효성 검사기의 "marker interface" 역할을 합니다. 따라서 구현해야 하는 메소드가 포함되어 있지 않습니다.

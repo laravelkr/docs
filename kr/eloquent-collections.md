@@ -47,114 +47,146 @@ However, collections are much more powerful than arrays and expose a variety of 
 ## Available Methods
 ## 사용가능한 메소드들 
 
-### The Base Collection
-### 기본 컬렉션
+All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
-All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections) object; therefore, they inherit all of the powerful methods provided by the base collection class:
+모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메서드를 상속받습니다.
 
-모든 Eloquent 컬렉션은 [Laravel collection](/docs/{{version}}/collections) 객체를 상속받습니다; 따라서 라라벨의 기본 컬렉션 클래스의 모든 강력한 메소드들을 상속받습니다. 
+In addition, the `Illuminate\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Illuminate\Database\Eloquent\Collection` instances; however, some methods return a base `Illuminate\Support\Collection` instance.
 
-<style>
-    #collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
+또한 `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 슈퍼셋을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환하지만 일부 메소드는 기본 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
 
-    #collection-method-list a {
-        display: block;
-    }
-</style>
+#### `contains($key, $operator = null, $value = null)`
+#### `contains($key, $operator = null, $value = null)`
 
-- [all](/docs/{{version}}/collections#method-all)
-- [average](/docs/{{version}}/collections#method-average)
-- [avg](/docs/{{version}}/collections#method-avg)
-- [chunk](/docs/{{version}}/collections#method-chunk)
-- [collapse](/docs/{{version}}/collections#method-collapse)
-- [combine](/docs/{{version}}/collections#method-combine)
-- [concat](/docs/{{version}}/collections#method-concat)
-- [contains](/docs/{{version}}/collections#method-contains)
-- [containsStrict](/docs/{{version}}/collections#method-containsstrict)
-- [count](/docs/{{version}}/collections#method-count)
-- [crossJoin](/docs/{{version}}/collections#method-crossjoin)
-- [dd](/docs/{{version}}/collections#method-dd)
-- [diff](/docs/{{version}}/collections#method-diff)
-- [diffKeys](/docs/{{version}}/collections#method-diffkeys)
-- [dump](/docs/{{version}}/collections#method-dump)
-- [each](/docs/{{version}}/collections#method-each)
-- [eachSpread](/docs/{{version}}/collections#method-eachspread)
-- [every](/docs/{{version}}/collections#method-every)
-- [except](/docs/{{version}}/collections#method-except)
-- [filter](/docs/{{version}}/collections#method-filter)
-- [first](/docs/{{version}}/collections#method-first)
-- [flatMap](/docs/{{version}}/collections#method-flatmap)
-- [flatten](/docs/{{version}}/collections#method-flatten)
-- [flip](/docs/{{version}}/collections#method-flip)
-- [forget](/docs/{{version}}/collections#method-forget)
-- [forPage](/docs/{{version}}/collections#method-forpage)
-- [get](/docs/{{version}}/collections#method-get)
-- [groupBy](/docs/{{version}}/collections#method-groupby)
-- [has](/docs/{{version}}/collections#method-has)
-- [implode](/docs/{{version}}/collections#method-implode)
-- [intersect](/docs/{{version}}/collections#method-intersect)
-- [isEmpty](/docs/{{version}}/collections#method-isempty)
-- [isNotEmpty](/docs/{{version}}/collections#method-isnotempty)
-- [keyBy](/docs/{{version}}/collections#method-keyby)
-- [keys](/docs/{{version}}/collections#method-keys)
-- [last](/docs/{{version}}/collections#method-last)
-- [map](/docs/{{version}}/collections#method-map)
-- [mapInto](/docs/{{version}}/collections#method-mapinto)
-- [mapSpread](/docs/{{version}}/collections#method-mapspread)
-- [mapToGroups](/docs/{{version}}/collections#method-maptogroups)
-- [mapWithKeys](/docs/{{version}}/collections#method-mapwithkeys)
-- [max](/docs/{{version}}/collections#method-max)
-- [median](/docs/{{version}}/collections#method-median)
-- [merge](/docs/{{version}}/collections#method-merge)
-- [min](/docs/{{version}}/collections#method-min)
-- [mode](/docs/{{version}}/collections#method-mode)
-- [nth](/docs/{{version}}/collections#method-nth)
-- [only](/docs/{{version}}/collections#method-only)
-- [pad](/docs/{{version}}/collections#method-pad)
-- [partition](/docs/{{version}}/collections#method-partition)
-- [pipe](/docs/{{version}}/collections#method-pipe)
-- [pluck](/docs/{{version}}/collections#method-pluck)
-- [pop](/docs/{{version}}/collections#method-pop)
-- [prepend](/docs/{{version}}/collections#method-prepend)
-- [pull](/docs/{{version}}/collections#method-pull)
-- [push](/docs/{{version}}/collections#method-push)
-- [put](/docs/{{version}}/collections#method-put)
-- [random](/docs/{{version}}/collections#method-random)
-- [reduce](/docs/{{version}}/collections#method-reduce)
-- [reject](/docs/{{version}}/collections#method-reject)
-- [reverse](/docs/{{version}}/collections#method-reverse)
-- [search](/docs/{{version}}/collections#method-search)
-- [shift](/docs/{{version}}/collections#method-shift)
-- [shuffle](/docs/{{version}}/collections#method-shuffle)
-- [slice](/docs/{{version}}/collections#method-slice)
-- [some](/docs/{{version}}/collections#method-some)
-- [sort](/docs/{{version}}/collections#method-sort)
-- [sortBy](/docs/{{version}}/collections#method-sortby)
-- [sortByDesc](/docs/{{version}}/collections#method-sortbydesc)
-- [splice](/docs/{{version}}/collections#method-splice)
-- [split](/docs/{{version}}/collections#method-split)
-- [sum](/docs/{{version}}/collections#method-sum)
-- [take](/docs/{{version}}/collections#method-take)
-- [tap](/docs/{{version}}/collections#method-tap)
-- [toArray](/docs/{{version}}/collections#method-toarray)
-- [toJson](/docs/{{version}}/collections#method-tojson)
-- [transform](/docs/{{version}}/collections#method-transform)
-- [union](/docs/{{version}}/collections#method-union)
-- [unique](/docs/{{version}}/collections#method-unique)
-- [uniqueStrict](/docs/{{version}}/collections#method-uniquestrict)
-- [unless](/docs/{{version}}/collections#method-unless)
-- [values](/docs/{{version}}/collections#method-values)
-- [when](/docs/{{version}}/collections#method-when)
-- [where](/docs/{{version}}/collections#method-where)
-- [whereStrict](/docs/{{version}}/collections#method-wherestrict)
-- [whereIn](/docs/{{version}}/collections#method-wherein)
-- [whereInStrict](/docs/{{version}}/collections#method-whereinstrict)
-- [whereNotIn](/docs/{{version}}/collections#method-wherenotin)
-- [whereNotInStrict](/docs/{{version}}/collections#method-wherenotinstrict)
-- [zip](/docs/{{version}}/collections#method-zip)
+The `contains` method may be used to determine if a given model instance is contained by the collection. This method accepts a primary key or a model instance:
+
+`contains` 메소드는 주어진 모델 인스턴스가 콜렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
+
+    $users->contains(1);
+    
+    $users->contains(User::find(1));
+
+#### `diff($items)`
+#### `diff($items)`
+
+The `diff` method returns all of the models that are not present in the given collection:
+
+`diff` 메소드는 주어진 콜렉션에 존재하지 않는 모든 모델을 리턴합니다.
+
+    use App\User;
+
+    $users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
+
+#### `except($keys)`
+#### `except($keys)`
+
+The `except` method returns all of the models that do not have the given primary keys:
+
+`except` 메소드는 주어진 기본-primary 키를 가지고 있지 않은 모든 모델을 반환합니다.
+
+    $users = $users->except([1, 2, 3]);
+
+#### `find($key)` {#collection-method .first-collection-method}
+#### `find($key)` {#collection-method .first-collection-method}
+
+The `find` method finds a model that has a given primary key. If `$key` is a model instance, `find` will attempt to return a model matching the primary key. If `$key` is an array of keys, `find` will return all models which match the `$keys` using `whereIn()`:
+
+`find` 메소드는 주어진 기본-primary 키를 가진 모델을 찾습니다. `$key`가 모델 인스턴스라면, `find`는 기본-primary 키와 일치하는 모델을 반환하려고 시도 할 것입니다. `$key`가 키 배열이면,`find`는`$ keys`와 일치하는 모든 모델을`whereIn ()`을 사용하여 돌려줍니다.
+
+    $users = User::all();
+
+    $user = $users->find(1);
+
+#### `fresh($with = [])`
+#### `fresh($with = [])`
+
+The `fresh` method retrieves a fresh instance of each model in the collection from the database. In addition, any specified relationships will be eager loaded:
+
+`fresh` 메소드는 데이터베이스에서 콜렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
+
+    $users = $users->fresh();
+
+    $users = $users->fresh('comments');
+
+#### `intersect($items)`
+#### `intersect($items)`
+
+The `intersect` method returns all of the models that are also present in the given collection:
+
+`intersect` 메소드는 주어진 콜렉션에 존재하는 모든 모델을 반환합니다.
+
+    use App\User;
+
+    $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
+
+#### `load($relations)`
+#### `load($relations)`
+
+The `load` method eager loads the given relationships for all models in the collection:
+
+`load` 메소드는 컬렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
+
+    $users->load('comments', 'posts');
+
+    $users->load('comments.author');
+
+#### `loadMissing($relations)`
+#### `loadMissing($relations)`
+
+The `loadMissing` method eager loads the given relationships for all models in the collection if the relationships are not already loaded:
+
+`loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 콜렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
+
+    $users->loadMissing('comments', 'posts');
+
+    $users->loadMissing('comments.author');
+
+#### `modelKeys()`
+#### `modelKeys()`
+
+The `modelKeys` method returns the primary keys for all models in the collection:
+
+`modelKeys` 메소드는 콜렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
+
+    $users->modelKeys();
+
+    // [1, 2, 3, 4, 5]
+    
+#### `makeVisible($attributes)`
+#### `makeVisible($attributes)`
+
+The `makeVisible` method makes visible attributes that are typically "hidden" on each model in the collection:
+
+`makeVisible` 메소드는 콜렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
+
+    $users = $users->makeVisible(['address', 'phone_number']);
+
+#### `makeHidden($attributes)`
+#### `makeHidden($attributes)`
+
+The `makeHidden` method hides attributes that are typically "visible" on each model in the collection:
+
+`makeHidden` 메소드는 콜렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
+
+    $users = $users->makeHidden(['address', 'phone_number']);
+
+#### `only($keys)`
+#### `only($keys)`
+
+The `only` method returns all of the models that have the given primary keys:
+
+`only` 메소드는 주어진 기본-primary 키를 가진 모든 모델을 반환합니다.
+
+    $users = $users->only([1, 2, 3]);
+
+#### `unique($key = null, $strict = false)`
+#### `unique($key = null, $strict = false)`
+
+The `unique` method returns all of the unique models in the collection. Any models of the same type with the same primary key as another model in the collection are removed.
+
+`unique` 메소드는 콜렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.
+
+    $users = $users->unique();
 
 <a name="custom-collections"></a>
 ## Custom Collections

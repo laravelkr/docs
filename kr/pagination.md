@@ -270,6 +270,7 @@ Method  |  Description
 `$results->getOptions()`  |  Get the paginator options.
 `$results->getUrlRange($start, $end)`  |  Create a range of pagination URLs.
 `$results->hasMorePages()`  |  Determine if there are enough items to split into multiple pages.
+`$results->items()`  |  Get the items for the current page.
 `$results->lastItem()`  |  Get the result number of the last item in the results.
 `$results->lastPage()`  |  Get the page number of the last available page. (Not available when using `simplePaginate`).
 `$results->nextPageUrl()`  |  Get the URL for the next page.
@@ -287,6 +288,7 @@ Method  |  Description
 `$results->getOptions()`  |  페이지네이션의 옵션을 가져옵니다.
 `$results->getUrlRange($start, $end)`  |  다양한 페이지네이션 URL을 만듭니다.
 `$results->hasMorePages()`  |  여러 페이지로 분할하기에 충분한 항목이 있는지 확인합니다.
+`$results->items()`  |  현재 페이지의 항목을 가져옵니다.
 `$results->lastItem()`  |  결과의 마지막 항목의 결과 번호를 가져옵니다.
 `$results->lastPage()`  |  마지막으로 사용 가능한 페이지의 페이지 번호를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
 `$results->nextPageUrl()`  |  다음 페이지의 URL을 가져옵니다.

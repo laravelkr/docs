@@ -131,7 +131,7 @@ Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/mig
 
 캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('braintree_id')->nullable();
         $table->string('paypal_email')->nullable();
         $table->string('card_brand')->nullable();
@@ -139,7 +139,7 @@ Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/mig
         $table->timestamp('trial_ends_at')->nullable();
     });
 
-    Schema::create('subscriptions', function ($table) {
+    Schema::create('subscriptions', function (Blueprint $table) {
         $table->increments('id');
         $table->unsignedInteger('user_id');
         $table->string('name');

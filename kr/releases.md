@@ -16,9 +16,9 @@ Laravel's versioning scheme maintains the following convention: `paradigm.major.
 
 라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다: `paradigm.major.minor`. 메이저 프레임워크 릴리즈는 6 개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.7.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.8.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.7.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.8.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
 Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
 
@@ -190,9 +190,9 @@ However, this can become cumbersome and repetitive if you are specifying the sam
 ### Intermediate Table / Pivot Model Events
 ### 중간 테이블 / 피벗 모델 이벤트
 
-In previous versions of Laravel, Eloquent model events were not dispatched when attaching, detaching, or syncing custom intermediate table / "pivot" models of a many-to-many relationship. When using [custom intermediate table models](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models) in Laravel 5.8, these events will now be dispatched.
+In previous versions of Laravel, [Eloquent model events](/docs/{{version}}/eloquent#events) were not dispatched when attaching, detaching, or syncing custom intermediate table / "pivot" models of a many-to-many relationship. When using [custom intermediate table models](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models) in Laravel 5.8, the applicable model events will now be dispatched.
 
-이전 버전의 라라벨에서는 다 대다(*:*) 관계의 커스텀 중간 테이블 / "피벗"모델을 연결, 분리 또는 동기화 할 때 Eloquent 모델 이벤트가 전달되지 않았습니다. 라라벨 5.8에서 [custom intermediate table models](/docs/{{version}}/eloquent-relationships#define-custom-intermediate-table-models)를 사용하면 이러한 이벤트가 전달됩니다.
+이전 버전의 라라벨에서는 다 대다(*:*) 관계의 커스텀 중간 테이블 / "피벗"모델을 연결, 분리 또는 동기화 할 때 [Eloquent 모델 이벤트](/docs/{{version}}/eloquent#events)가 전달되지 않았습니다. 라라벨 5.8에서 [custom intermediate table models](/docs/{{version}}/eloquent-relationships#define-custom-intermediate-table-models)를 사용하면 애플리케이션 모델 이벤트가 전달됩니다.
 
 ### Artisan Call Improvements
 ### 아티즌 요청 개선

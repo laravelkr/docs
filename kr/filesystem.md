@@ -207,7 +207,7 @@ The `Storage` facade may be used to interact with any of your configured disks. 
 
     Storage::put('avatars/1', $fileContents);
 
-If your applications interacts with multiple disks, you may use the `disk` method on the `Storage` facade to work with files on a particular disk:
+If your application interacts with multiple disks, you may use the `disk` method on the `Storage` facade to work with files on a particular disk:
 
 만약 여러분의 애플리케이션이 여러개의 디스크를 다룬다면, `Storage` 파사드의 `disk` 메소드를 사용하여 개별 디스크의 파일에 대해서 작업을 수행할 수 있습니다:
 
@@ -266,6 +266,16 @@ For files stored using the `s3` or `rackspace` driver, you may create a temporar
 
     $url = Storage::temporaryUrl(
         'file.jpg', now()->addMinutes(5)
+    );
+
+If you need to specify additional [S3 request parameters](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests), you may pass the array of request parameters as the third argument to the `temporaryUrl` method:
+
+추가 [S3 요청 파라메터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라메터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라메터로 전달할 수 있습니다 :
+
+    $url = Storage::temporaryUrl(
+        'file.jpg', 
+        now()->addMinutes(5), 
+        ['ResponseContentType' => 'application/octet-stream'],
     );
 
 #### Local URL Host Customization
@@ -521,9 +531,9 @@ The `makeDirectory` method will create the given directory, including any needed
 #### Delete A Directory
 #### 디렉토리 삭제하기
 
-Finally, the `deleteDirectory` may be used to remove a directory and all of its files:
+Finally, the `deleteDirectory` method may be used to remove a directory and all of its files:
 
-마지막으로 `deleteDirectory` 는 디렉토리와 포함 된 모든 파일을 삭제하는 데 사용됩니다.
+마지막으로 `deleteDirectory`메소드는 디렉토리와 포함 된 모든 파일을 삭제하는 데 사용됩니다.
 
     Storage::deleteDirectory($directory);
 
@@ -558,7 +568,17 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -571,16 +591,6 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
 
                 return new Filesystem(new DropboxAdapter($client));
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

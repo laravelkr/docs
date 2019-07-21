@@ -91,6 +91,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::before](#method-str-before)
 - [Str::camel](#method-camel-case)
 - [Str::contains](#method-str-contains)
+- [Str::containsAll](#method-str-contains-all)
 - [Str::endsWith](#method-ends-with)
 - [Str::finish](#method-str-finish)
 - [Str::is](#method-str-is)
@@ -992,6 +993,20 @@ You may also pass an array of values to determine if the given string contains a
 
     // true
 
+<a name="method-str-contains-all"></a>
+#### `Str::containsAll()` {#collection-method}
+
+The `Str::containsAll` method determines if the given string contains all array values:
+
+`Str::containsAll` 메소드는 주어진 모든 문자열이 배열 값에 포함되어 있는지를 확인합니다.
+
+
+    use Illuminate\Support\Str;
+
+    $containsAll = Str::containsAll('This is my name', ['my', 'name']);
+
+    // true
+
 <a name="method-ends-with"></a>
 #### `Str::endsWith()` {#collection-method}
 
@@ -1544,11 +1559,11 @@ The `cache` function may be used to get values from the [cache](/docs/{{version}
 
     $value = cache('key', 'default');
 
-You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of minutes or duration the cached value should be considered valid:
+You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of seconds or duration the cached value should be considered valid:
 
-함수에 키 / 값으로 된 배열을 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시에 값이 얼마나 유지되어야 하는지에 대한 시간(분)을 숫자로 전달할 수도 있습니다.
+함수에 키 / 값으로 된 배열을 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시에 값이 얼마나 유지되어야 하는지에 대한 시간(초)을 숫자로 전달할 수도 있습니다.
 
-    cache(['key' => 'value'], 5);
+    cache(['key' => 'value'], 300);
 
     cache(['key' => 'value'], now()->addSeconds(10));
 
@@ -1971,6 +1986,14 @@ If no Closure is passed to the `tap` function, you may call any method on the gi
         'name' => $name,
         'email' => $email,
     ]);
+
+To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tappable` trait to the class. The `tap` method of this trait accepts a Closure as its only argument. The object instance itself will be passed to the Closure and then be returned by the `tap` method:
+
+클래스에 `tap` 메소드를 추가하기 위해서는 `Illuminate\Support\Traits\Tappable` Trait을 클래스에 추가하면됩니다. 이 Trait의 `tap` 메소드는 Closure만 인수로 받아들입니다. 객체 인스턴스 자체는 Closure에 전달되고 `tap` 메소드에 의해 반환됩니다.
+
+    return $user->tap(function ($user) {
+        //
+    });
 
 <a name="method-throw-if"></a>
 #### `throw_if()` {#collection-method}

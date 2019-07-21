@@ -315,9 +315,9 @@ Middleware parameters may be specified when defining the route by separating the
 ## Terminable Middleware
 ## 종료시 동작하는 미들웨어
 
-Sometimes a middleware may need to do some work after the HTTP response has been prepared. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been fully prepared. If you define a `terminate` method on your middleware, it will automatically be called after the response is ready to be sent to the browser.
+Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been sent to the browser. If you define a `terminate` method on your middleware and your web server is using FastCGI, the `terminate` method will automatically be called after the response is sent to the browser.
 
-때로는 미들웨어는 HTTP response-응답이 준비된 이 후에 어떤 작업을 수행할 필요가 있을지도 모릅니다. 예를 들어, 라라벨에 내장된 "session" 미들웨어는 response-응답이 완전히 준비된 이후에 세션데이터를 저장소에 저장합니다. 만약 미들웨어에 `terminate` 메소드를 정의했다면, response-응답이 준비된 뒤에 자동으로 호출될 것입니다.
+때로는 미들웨어가 HTTP 응답이 브라우저로 전송 된 후 일부 작업을 수행해야 할 수도 있습니다. 예를 들어 Laravel에 포함 된 "세션"미들웨어는 응답이 브라우저로 전송 된 후 세션 데이터를 저장소에 기록합니다. 미들웨어에서 `terminate` 메소드를 정의하고 웹 서버가 FastCGI를 사용한다면, 응답이 브라우저로 보내진 후 `terminate` 메소드가 자동으로 호출됩니다.
 
     <?php
 

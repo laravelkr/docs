@@ -11,8 +11,8 @@
     - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
 - [Running Raw SQL Queries](#running-queries)
 - [Raw SQL 쿼리 실행하기](#running-queries)
-    - [Listening For Query Events](#listening-for-query-events)
-    - [쿼리 이벤트 리스닝](#listening-for-query-events)
+- [Listening For Query Events](#listening-for-query-events)
+- [쿼리 이벤트 리스닝](#listening-for-query-events)
 - [Database Transactions](#database-transactions)
 - [데이터베이스 트랙잭션](#database-transactions)
 
@@ -60,6 +60,29 @@ SQLite 연결에 외래 키 제약 조건을 사용하려면 `config/database.ph
         'foreign_key_constraints' => true,
     ],
 
+#### Configuration Using URLs
+#### URL을 사용하여 구성
+
+Typically, database connections are configured using multiple configuration values such as `host`, `database`, `username`, `password`, etc. Each of these configuration values has its own corresponding environment variable. This means that when configuring your database connection information on a production server, you need to manage several environment variables.
+
+일반적으로 데이터베이스 연결은 `host`, `database`, `username`, `password` 등과 같은 여러가지 설정 값을 사용하여 구성됩니다. 이러한 구성 값 각각은 해당 환경 변수를 갖습니다. 즉, 프로덕션 서버에서 데이터베이스 연결 정보를 구성 할 때 여러 환경 변수를 관리해야합니다.
+
+Some managed database providers such as Heroku provide a single database "URL" that contains all of the connection information for the database in a single string. An example database URL may look something like the following:
+
+Heroku와 같은 일부 관리 데이터베이스 공급자는 단일 문자열에서 데이터베이스의 모든 연결 정보를 포함하는 단일 데이터베이스 "URL"을 제공합니다. 데이터베이스 URL의 예는 다음과 같습니다.
+
+    mysql://root:password@127.0.0.1/forge?charset=UTF-8
+
+These URLs typically follow a standard schema convention:
+
+이러한 URL은 일반적으로 표준 스키마 규칙을 따릅니다.
+
+    driver://username:password@host:port/database?options
+
+For convenience, Laravel supports these URLs as an alternative to configuring your database with multiple configuration options. If the `url` (or corresponding `DATABASE_URL` environment variable) configuration option is present, it will be used to extract the database connection and credential information.
+
+편의상 Laravel은 여러 구성 옵션으로 데이터베이스를 구성하는 대신 이러한 URL을 지원합니다. `url` (또는 대응하는`DATABASE_URL` 환경 변수) 설정 옵션이 존재하면, 데이터베이스 연결과 인증 정보를 추출하는데 사용됩니다.
+
 <a name="read-and-write-connections"></a>
 ### Read & Write Connections
 ### 읽기 & 쓰기 커넥션
@@ -74,10 +97,15 @@ To see how read / write connections should be configured, let's look at this exa
 
     'mysql' => [
         'read' => [
-            'host' => ['192.168.1.1'],
+            'host' => [
+                '192.168.1.1',
+                '196.168.1.2',
+            ],
         ],
         'write' => [
-            'host' => ['196.168.1.2'],
+            'host' => [
+                '196.168.1.3',
+             ],
         ],
         'sticky'    => true,
         'driver'    => 'mysql',
@@ -93,9 +121,9 @@ Note that three keys have been added to the configuration array: `read`, `write`
 
 설정 배열에 `read`, `write` 그리고 `sticky` 세개의 키가 추가 된것을 참고하십시오. `read` 와 `write` 키는 `host`라는 하나의 키를 포함하는 배열 값입니다: `read` 와 `write` 의 나머지 데이터베이스 옵션 값은 기본 `mysql` 배열에서 합쳐(merge)집니다.
 
-You only need to place items in the `read` and `write` arrays if you wish to override the values from the main array. So, in this case, `192.168.1.1` will be used as the host for the "read" connection, while `192.168.1.2` will be used for the "write" connection. The database credentials, prefix, character set, and all other options in the main `mysql` array will be shared across both connections.
+You only need to place items in the `read` and `write` arrays if you wish to override the values from the main array. So, in this case, `192.168.1.1` will be used as the host for the "read" connection, while `192.168.1.3` will be used for the "write" connection. The database credentials, prefix, character set, and all other options in the main `mysql` array will be shared across both connections.
 
-따라서 메인 배열에서 재정의하고자하는 값들을 `read`와 `write` 배열에 입력하기만 하면 됩니다. 위의 경우에서는 `192.168.1.1`는 "read(읽기용)" 커넥션에 대한 호스트로 사용되고, `192.168.1.2`는  "write(쓰기용)" 커넥션에 대한  호스트로 사용될 것입니다. 메인 `mysql`설정 배열에 포함된 데이터베이스 연결정보, 프리픽스, 캐릭터 셋 등 다른 모든 옵션들은 양쪽연결에서 모두 공유될 것입니다.
+따라서 메인 배열에서 재정의하고자하는 값들을 `read`와 `write` 배열에 입력하기만 하면 됩니다. 위의 경우에서는 `192.168.1.1`는 "read(읽기용)" 커넥션에 대한 호스트로 사용되고, `192.168.1.3`는  "write(쓰기용)" 커넥션에 대한  호스트로 사용될 것입니다. 메인 `mysql`설정 배열에 포함된 데이터베이스 연결정보, 프리픽스, 캐릭터 셋 등 다른 모든 옵션들은 양쪽연결에서 모두 공유될 것입니다.
 
 #### The `sticky` Option
 #### `sticky` 옵션
@@ -216,8 +244,8 @@ Some database statements do not return any value. For these types of operations,
     DB::statement('drop table users');
 
 <a name="listening-for-query-events"></a>
-### Listening For Query Events
-### 쿼리 이벤트 리스닝
+## Listening For Query Events
+## 쿼리 이벤트 리스닝
 
 If you would like to receive each SQL query executed by your application, you may use the `listen` method. This method is useful for logging queries or debugging. You may register your query listener in a [service provider](/docs/{{version}}/providers):
 
@@ -233,6 +261,16 @@ If you would like to receive each SQL query executed by your application, you ma
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -244,16 +282,6 @@ If you would like to receive each SQL query executed by your application, you ma
                 // $query->bindings
                 // $query->time
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

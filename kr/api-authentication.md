@@ -51,6 +51,10 @@ Once the migration has been created, run the `migrate` Artisan command.
 
 마이그레이션을 만들게 되면, `migrate` 아티즌 명령어를 실행하세요.
 
+> {tip} If you choose to use a different column name, be sure to update your API's `storage_key` configuration option within the `config/auth.php` configuration file.
+
+> {tip} 다른 컬럼명을 사용하려면 `config/auth.php` 설정 파일에서 API의 `storage_key`를 변경해야합니다.
+
 <a name="generating-tokens"></a>
 ## Generating Tokens
 ## Generating Tokens-토큰 생성하기

@@ -40,6 +40,14 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
     return $user->toArray();
 
+To convert only a model's attributes to an array, use the `attributesToArray` method:
+
+모델의 속성만을 배열로 변환하려면 `attributesToArray` 메소드를 사용하십시오.
+
+    $user = App\User::first();
+
+    return $user->attributesToArray();
+
 You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays:
 
 또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
@@ -77,6 +85,13 @@ Since models and collections are converted to JSON when cast to a string, you ca
     Route::get('users', function () {
         return App\User::all();
     });
+
+#### Relationships
+#### 관계-Relationships
+
+When an Eloquent model is converted to JSON, its loaded relationships will automatically be included as attributes on the JSON object. Also, though Eloquent relationship methods are defined using "camel case", a relationship's JSON attribute will be "snake case".
+
+Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메소드는 "camel case"를 사용하여 정의되지만 관계의 JSON 속성은 "snake case"가됩니다.
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
@@ -236,7 +251,17 @@ Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date librar
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -245,15 +270,5 @@ Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date librar
             Carbon::serializeUsing(function ($carbon) {
                 return $carbon->format('U');
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }

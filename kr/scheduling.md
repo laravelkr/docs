@@ -371,6 +371,10 @@ By default, multiple commands scheduled at the same time will execute sequential
              ->daily()
              ->runInBackground();
 
+> {note} The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
+
+> {note} `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
+
 <a name="maintenance-mode"></a>
 ### Maintenance Mode
 ### 공사중 모드
@@ -410,9 +414,17 @@ Using the `emailOutputTo` method, you may e-mail the output to an e-mail address
              ->sendOutputTo($filePath)
              ->emailOutputTo('foo@example.com');
 
-> {note} The `emailOutputTo`, `sendOutputTo` and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
+If you only want to e-mail the output if the command fails, use the `emailOutputOnFailure` method:
 
-> {note} `emailOutputTo`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `call` 메소드에서만 사용가능합니다.
+명령이 실패 할 경우에만 출력을 메일로 보내려면 `emailOutputOnFailure` 메소드를 사용하십시오.
+
+    $schedule->command('foo')
+             ->daily()
+             ->emailOutputOnFailure('foo@example.com');
+
+> {note} The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
+
+> {note} `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>
 ## Task Hooks
@@ -429,6 +441,19 @@ Using the `before` and `after` methods, you may specify code to be executed befo
              })
              ->after(function () {
                  // Task is complete...
+             });
+
+The `onSuccess` and `onFailure` methods allow you to specify code to be executed if the scheduled task succeeds or fails:
+
+`onSuccess`와 `onFailure` 메소드로 예약 된 작업이 성공하거나 실패 할 경우 실행될 코드를 지정할 수 있습니다.
+
+    $schedule->command('emails:send')
+             ->daily()
+             ->onSuccess(function () {
+                 // The task succeeded...
+             })
+             ->onFailure(function () {
+                 // The task failed...
              });
 
 #### Pinging URLs
@@ -451,6 +476,15 @@ The `pingBeforeIf` and `thenPingIf` methods may be used to ping a given URL only
              ->daily()
              ->pingBeforeIf($condition, $url)
              ->thenPingIf($condition, $url);
+
+The `pingOnSuccess` and `pingOnFailure` methods may be used to ping a given URL only if the task succeeds or fails:
+
+`pingOnSuccess`와 `pingOnFailure` 메소드는 작업이 성공하거나 실패 할 때 주어진 URL을 ping하는데 사용할 수 있습니다.
+
+    $schedule->command('emails:send')
+             ->daily()
+             ->pingOnSuccess($successUrl)
+             ->pingOnFailure($failureUrl);
 
 All of the ping methods require the Guzzle HTTP library. You can add Guzzle to your project using the Composer package manager:
 

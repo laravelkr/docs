@@ -33,6 +33,8 @@
     - [모든 범위에 대하여 요청하기](#requesting-all-scopes)
     - [Customizing The Username Field](#customizing-the-username-field)
     - [사용자 이름 필드 사용자 정의하기](#customizing-the-username-field)
+    - [Customizing The Password Validation](#customizing-the-password-validation)
+    - [패스워드 유효성 검사 커스터마이징](#customizing-the-password-validation)
 - [Implicit Grant Tokens](#implicit-grant-tokens)
 - [묵시적 grant 토큰](#implicit-grant-tokens)
 - [Client Credentials Grant Tokens](#client-credentials-grant-tokens)
@@ -259,6 +261,13 @@ If necessary, you may define the path where Passport's keys should be loaded fro
         Passport::loadKeysFrom('/secret-keys/oauth');
     }
 
+Additionally, you may load the keys from environment variables:
+
+또한 환경 변수에서 키를 로드 할 수 있습니다.
+
+    PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n<private key here>\n-----END RSA PRIVATE KEY-----"
+    PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<public key here>\n-----END PUBLIC KEY-----\n"
+
 <a name="configuration"></a>
 ## Configuration
 ## 설정하기
@@ -267,9 +276,9 @@ If necessary, you may define the path where Passport's keys should be loaded fro
 ### Token Lifetimes
 ### 토큰 지속시간
 
-By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn` and `refreshTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
+By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn`, `refreshTokensExpireIn`, and `personalAccessTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
 
-기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 / 줄이려면  `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
+기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 줄이려면  `tokensExpireIn`, `refreshTokensExpireIn` 그리고 `personalAccessTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
 
     /**
      * Register any authentication / authorization services.
@@ -481,6 +490,29 @@ If you would like to customize the authorization approval screen, you may publis
 
     php artisan vendor:publish --tag=passport-views
 
+Sometimes you may wish to skip the authorization prompt, such as when authorizing a first-party client. You may accomplish this by defining a `skipsAuthorization` method on the client model. If `skipsAuthorization` returns `true` the client will be approved and the user will be redirected back to the `redirect_uri` immediately:
+
+때로는 자체 클라이언트에 권한 부여 할 때와 같이 권한 부여 입력창를 건너 뛰고 싶을 수 있습니다. 클라이언트 모델에서 `skipsAuthorization` 메소드를 정의하여 이를 수행 할 수 있습니다. `skipsAuthorization`가 `true`를 반환하면 클라이언트는 승인되고 즉시 `redirect_uri`로 리디렉션됩니다.
+
+    <?php
+
+    namespace App\Models\Passport;
+
+    use Laravel\Passport\Client as BaseClient;
+
+    class Client extends BaseClient
+    {
+        /**
+         * Determine if the client should skip the authorization prompt.
+         *
+         * @return bool
+         */
+        public function skipsAuthorization()
+        {
+            return $this->first_party;
+        }
+    }
+
 #### Converting Authorization Codes To Access Tokens
 #### 승인 코드를 엑세스 토큰으로 변환하기
 
@@ -634,6 +666,39 @@ When authenticating using the password grant, Passport will use the `email` attr
         }
     }
 
+<a name="customizing-the-password-validation"></a>
+### Customizing The Password Validation
+### 패스워드 유효성 검사 커스터마이징
+
+When authenticating using the password grant, Passport will use the `password` attribute of your model to validate the given password. If your model does not have a `password` attribute or you wish to customize the password validation logic, you can define a `validateForPassportPasswordGrant` method on your model:
+
+패스워드를 사용하여 인증 할 때 Passport는 모델의 `password` 속성을 사용하여 주어진 패스워드의 유효성을 검사합니다. 모델에 `password` 속성이 없거나 패스워드 유효성 검사 로직을 커스터마이징 하고자 하는 경우 모델에 `validateForPassportPasswordGrant` 메소드를 정의 할 수 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use Laravel\Passport\HasApiTokens;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use HasApiTokens, Notifiable;
+
+        /**
+        * Validate the password of the user for the Passport password grant.
+        *
+        * @param  string $password
+        * @return bool
+        */
+        public function validateForPassportPasswordGrant($password)
+        {
+            return Hash::check($password, $this->password);
+        }
+    }
+
 <a name="implicit-grant-tokens"></a>
 ## Implicit Grant Tokens
 ## 묵시적 grant 토큰
@@ -744,10 +809,6 @@ To retrieve a token using this grant type, make a request to the `oauth/token` e
 Sometimes, your users may want to issue access tokens to themselves without going through the typical authorization code redirect flow. Allowing users to issue tokens to themselves via your application's UI can be useful for allowing users to experiment with your API or may serve as a simpler approach to issuing access tokens in general.
 
 때로는, 사용자가 일반적인 승인 코드 리다이렉션 플로우를 거치지 않고 엑세스 토큰을 발급하기를 원할 수도 있습니다. 사용자가 애플리케이션의 UI를 통해 자신에게 토큰을 발행 할 수 있게 하면, 사용자가 API를 테스트해 볼 수도 있고, 일반적으로 액세스 토큰을 발행하기 위한 더 간단한 방법으로도 사용할 수 있습니다.
-
-> {note} Personal access tokens are always long-lived. Their lifetime is not modified when using the `tokensExpireIn` or `refreshTokensExpireIn` methods.
-
-> {note} 개인용 엑세스 토큰은 기본적으로 오랜시간 지속됩니다. `tokensExpireIn` 또는 `refreshTokensExpireIn` 메소드를 사용하는 경우 지속시간이 수정되지 않습니다.
 
 <a name="creating-a-personal-access-client"></a>
 ### Creating A Personal Access Client

@@ -127,13 +127,57 @@ Note that we did not tell Eloquent which table to use for our `Flight` model. By
 #### Primary Keys
 #### Primary Keys
 
-Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention.
+Eloquent will also assume that each table has a primary key column named `id`. You may define a protected `$primaryKey` property to override this convention:
 
 Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다. protected `$primaryKey` 속성을 통해서 이 컬럼명을 재정의할 수 있습니다.
 
-In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will be cast to an `int` automatically. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`. If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`.
+    <?php
 
-추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오.
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Flight extends Model
+    {
+        /**
+         * The primary key associated with the table.
+         *
+         * @var string
+         */
+        protected $primaryKey = 'flight_id';
+    }
+
+In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will automatically be cast to an `int`. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`:
+
+추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오. 증가하지 않거나 숫자가 아닌 기본 키를 사용하려면 모델의 공개 `$incrementing` 속성을 `false`로 설정해야합니다 :
+
+    <?php
+
+    class Flight extends Model
+    {
+        /**
+         * Indicates if the IDs are auto-incrementing.
+         *
+         * @var bool
+         */
+        public $incrementing = false;
+    }
+
+If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`:
+
+기본 키가 정수가 아닌 경우 모델의 protected `$keyType` 속성을 `string`으로 설정해야합니다 :
+
+    <?php
+
+    class Flight extends Model
+    {
+        /**
+         * The "type" of the auto-incrementing ID.
+         *
+         * @var string
+         */
+        protected $keyType = 'string';
+    }
 
 #### Timestamps
 #### 타임스탬프
@@ -467,9 +511,9 @@ The `update` method expects an array of column and value pairs representing the 
 
 `update` 메소드는 컬럼의 정렬과 업데이트 될 컬럼을 대표하는 값의 배열을 필요로 합니다.
 
-> {note} When issuing a mass update via Eloquent, the `saved` and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
+> {note} When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
 
-> {note} Eloquent를 통해서 여러개의 모델을 업데이트 할 때, 변경되는 모델에 대한 `saved` 및 `updated` 모델 이벤트는 발생되지 않습니다. 이 이유는 여러개의 모델을 업데이트 할 때 실제로 모델이 조회되는 것이 아니기 때문입니다.
+> {note} Eloquent를 통해서 여러개의 모델을 업데이트 할 때, 변경되는 모델에 대한 `saving`, `saved`, `updating` 및 `updated` 모델 이벤트는 발생되지 않습니다. 이 이유는 여러개의 모델을 업데이트 할 때 실제로 모델이 조회되는 것이 아니기 때문입니다.
 
 <a name="mass-assignment"></a>
 ### Mass Assignment
@@ -569,7 +613,7 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes..
     $flight = App\Flight::firstOrCreate(
-        ['name' => 'Flight 10'], 
+        ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
@@ -578,7 +622,7 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
 
     // Retrieve by name, or instantiate with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrNew(
-        ['name' => 'Flight 10'], 
+        ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']
     );
 
@@ -910,7 +954,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include popular users.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopePopular($query)
@@ -921,7 +965,7 @@ Scopes should always return a query builder instance:
         /**
          * Scope a query to only include active users.
          *
-         * @param \Illuminate\Database\Eloquent\Builder $query
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeActive($query)
@@ -972,8 +1016,8 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
         /**
          * Scope a query to only include users of a given type.
          *
-         * @param  \Illuminate\Database\Eloquent\Builder $query
-         * @param  mixed $type
+         * @param  \Illuminate\Database\Eloquent\Builder  $query
+         * @param  mixed  $type
          * @return \Illuminate\Database\Eloquent\Builder
          */
         public function scopeOfType($query, $type)
@@ -1122,6 +1166,16 @@ To register an observer, use the `observe` method on the model you wish to obser
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -1129,15 +1183,5 @@ To register an observer, use the `observe` method on the model you wish to obser
         public function boot()
         {
             User::observe(UserObserver::class);
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }

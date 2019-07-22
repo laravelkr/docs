@@ -323,16 +323,6 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
-         *
-         * @return void
-         */
-        public function boot()
-        {
-            Resource::withoutWrapping();
-        }
-
-        /**
          * Register bindings in the container.
          *
          * @return void
@@ -340,6 +330,16 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
         public function register()
         {
             //
+        }
+
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Resource::withoutWrapping();
         }
     }
 

@@ -68,6 +68,7 @@
 
     use App\Contracts\ServerProvider;
     use App\Contracts\DowntimeNotifier;
+    use App\Services\ServerToolsProvider;
     use Illuminate\Support\ServiceProvider;
     use App\Services\PingdomDowntimeNotifier;
     use App\Services\DigitalOceanServerProvider;
@@ -90,6 +91,7 @@
          */
         public $singletons = [
             DowntimeNotifier::class => PingdomDowntimeNotifier::class,
+            ServerToolsProvider::class => ServerToolsProvider::class,
         ];
     }
 
@@ -165,7 +167,7 @@
     class RiakServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         /**
-         * Register the service provider.
+         * Register any application services.
          *
          * @return void
          */

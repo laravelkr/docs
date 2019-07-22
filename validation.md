@@ -25,6 +25,7 @@
     - [Rule 객체 사용하기](#using-rule-objects)
     - [클로저 사용하기](#using-closures)
     - [확장기능 사용하기](#using-extensions)
+    - [묵시적 확장기능](#implicit-extensions)
 
 <a name="introduction"></a>
 ## 시작하기
@@ -155,6 +156,20 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
     @endif
 
     <!-- Create Post Form -->
+
+#### `@error` 지시어
+
+`@error` [Blade](/docs/{{version}}/blade) 지시어를 사용하여 주어진 속성에 대해 유효성 검사 오류 메시지가 있는지 빠르게 확인할 수도 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo하여 에러 메시지를 표시 할 수 있습니다.
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="a-note-on-optional-fields"></a>
 ### 옵션 필드에 대한 주의사항
@@ -321,9 +336,9 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 
     namespace App\Http\Controllers;
 
-    use Validator;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
     {
@@ -510,20 +525,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="available-validation-rules"></a>
 ## 사용가능한 유효성 검사 규칙
 
-다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다:
-
-<style>
-    .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    .collection-method-list a {
-        display: block;
-    }
-</style>
-
-
+다음은 사용 가능한 모든 유효성 검사 규칙과 그 기능의 목록입니다.
 
 - [Accepted](#rule-accepted)
 - [Active URL](#rule-active-url)
@@ -548,6 +550,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 - [Dimensions (Image Files)](#rule-dimensions)
 - [Distinct](#rule-distinct)
 - [E-Mail](#rule-email)
+- [Ends With](#rule-ends-with)
 - [Exists (Database)](#rule-exists)
 - [File](#rule-file)
 - [Filled](#rule-filled)
@@ -580,6 +583,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 - [Required Without All](#rule-required-without-all)
 - [Same](#rule-same)
 - [Size](#rule-size)
+- [Sometimes](#conditionally-adding-rules)
 - [Starts With](#rule-starts-with)
 - [String](#rule-string)
 - [Timezone](#rule-timezone)
@@ -618,7 +622,9 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-alpha"></a>
 #### alpha
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
+필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.
+
+(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
@@ -730,6 +736,11 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 #### email
 
 필드의 값이 이메일 주소 형식이어야 합니다.
+
+<a name="rule-ends-with"></a>
+#### ends_with:_foo_,_bar_,...
+
+필드의 값이 주어진 값 중 하나로 끝나야합니다.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -1010,7 +1021,7 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 **특정 컬럼명 지정하기:**
 
-    'email' => 'unique:users,email_address'
+`column` 옵션은 필드의 해당 데이터베이스 컬럼을 지정하는 데 사용될 수 있습니다. `column` 옵션을 지정하지 않으면 필드 이름이 사용됩니다.
 
 **특정 데이터베이스 커넥션**
 
@@ -1221,6 +1232,16 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -1230,16 +1251,6 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
             Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -1275,7 +1286,8 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
         });
     }
 
-#### 묵시적 확장
+<a name="implicit-extensions"></a>
+### 묵시적 확장
 
 기본적으로 유효성 검사를 받는 속성이 존재하지 않거나 빈 문자열을 가지고 있다면, 사용자 정의(커스텀) 확장을 포함한 정상적인 유효성 검사 규칙은 실행되지 않을 것입니다. 예를 들어 빈 문자열에는 [`unique`](#rule-unique) 룰이 실행되지 않을 것입니다:
 
@@ -1292,3 +1304,7 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
     });
 
 > {note} "묵시적" 확장은 단지 속성이 필요하다는 것을 _암시(내포)_합니다. 없거나 빈 속성의 유효성을 실제로 부정하는지는 여러분이 결정합니다.
+
+#### 묵시적 규칙 객체
+
+속성이 비어있을 때 규칙 객체를 실행하려면 `Illuminate\Contracts\Validation\ImplicitRule` 인터페이스를 구현해야 합니다. 이 인터페이스는 유효성 검사기의 "marker interface" 역할을 합니다. 따라서 구현해야 하는 메소드가 포함되어 있지 않습니다.

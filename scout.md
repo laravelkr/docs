@@ -339,10 +339,10 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 이 설정 값이 `true` 인 경우, Scout-스카우트는 소프트 삭제된 모델을 검색 인덱스에서 삭제 하지 않습니다. 대신에, 인덱스된 레코드에 `__soft_deleted` 라는 숨겨진 속성을 설정합니다. 그러면 검색할 때 `withTrashed` 또는 `onlyTrashed` 메소드를 사용하여 소프트 삭제된 레코드를 조회할 수 있습니다:
 
     // Include trashed records when retrieving results...
-    $orders = App\Order::withTrashed()->search('Star Trek')->get();
+    $orders = App\Order::search('Star Trek')->withTrashed()->get();
 
     // Only include trashed records when retrieving results...
-    $orders = App\Order::onlyTrashed()->search('Star Trek')->get();
+    $orders = App\Order::search('Star Trek')->onlyTrashed()->get();
 
 > {tip} `forceDelete` 메소드를 사용하여 소프트 삭제된 모델을 완전히 삭제할 때, Scout-스카우트는 검색 인덱스에서 자동으로 이를 제거합니다.
 

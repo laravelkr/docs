@@ -74,7 +74,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
 
 캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('braintree_id')->nullable();
         $table->string('paypal_email')->nullable();
         $table->string('card_brand')->nullable();
@@ -82,7 +82,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
         $table->timestamp('trial_ends_at')->nullable();
     });
 
-    Schema::create('subscriptions', function ($table) {
+    Schema::create('subscriptions', function (Blueprint $table) {
         $table->increments('id');
         $table->unsignedInteger('user_id');
         $table->string('name');
@@ -204,7 +204,7 @@ Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에�
         //
     }
 
-`recurring` 메소드는 사용자가 현재 가입되어 있고 더 이상 트레일 기간 내에 있지 않은지를 확인하는 데 사용할 수 있습니다 :
+`recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 trail 기간에 속해 있지 않은지를 확인할 때 사용될 수 있습니다. 
 
     if ($user->subscription('main')->recurring()) {
         //
@@ -383,8 +383,6 @@ Braintree는 webhooks를 통해 다양한 이벤트를 애플리케이션에 알
 > {note} 라우트를 등록한 후에는 Braintree 제어판에서 webhook URL을 설정하십시오.
 
 기본적으로, 이 컨트롤러는 결제 실패가 너무 많이 발행 할 경우 (Braintree 설정에서 정의한대로) 자동으로 구독을 취소 할 것입니다. 잠시후 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 살펴보겠습니다.
-
-
 #### Webhooks 과 CSRF 보호
 
 webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하기 때문에, `VerifyCsrfToken` 미들웨어에서 예외 URI를 등록하거나, 라우트를 `web` 미들웨어 그룹 외부에 정의하십시오:
@@ -421,6 +419,8 @@ webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하
 
 <a name="handling-failed-subscriptions"></a>
 ### 실패한 정기구독
+
+What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. Just point a route to the controller:
 
 만약 사용자의 신용카드가 만료 되었다면? 걱정하지 마십시오 - 캐셔는 사용자의 구독을 쉽게 취소할 수 있는 Webhook 컨트롤러를 포함하고 있습니다. 앞서 이야기 한것 처럼, 컨트롤러에 대한 경로를 지정하기만 하면됩니다.
 

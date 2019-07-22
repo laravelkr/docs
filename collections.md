@@ -18,7 +18,7 @@
         return empty($name);
     });
 
-보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공하빈다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
+보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### 컬렉션 생성하기
@@ -56,74 +56,123 @@
 이 문서의 나머지 부분에서는 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다.
 
 
+- [all](#method-all)
 - [average](#method-average)
+- [avg](#method-avg)
 - [chunk](#method-chunk)
+- [collapse](#method-collapse)
 - [combine](#method-combine)
+- [concat](#method-concat)
 - [contains](#method-contains)
+- [containsStrict](#method-containsstrict)
 - [count](#method-count)
+- [countBy](#method-countBy)
 - [crossJoin](#method-crossjoin)
+- [dd](#method-dd)
 - [diff](#method-diff)
+- [diffAssoc](#method-diffassoc)
 - [diffKeys](#method-diffkeys)
+- [dump](#method-dump)
+- [duplicates](#method-duplicates)
+- [duplicatesStrict](#method-duplicatesstrict)
 - [each](#method-each)
+- [eachSpread](#method-eachspread)
 - [every](#method-every)
+- [except](#method-except)
 - [filter](#method-filter)
+- [first](#method-first)
 - [firstWhere](#method-first-where)
+- [flatMap](#method-flatmap)
 - [flatten](#method-flatten)
+- [flip](#method-flip)
 - [forget](#method-forget)
+- [forPage](#method-forpage)
 - [get](#method-get)
+- [groupBy](#method-groupby)
 - [has](#method-has)
+- [implode](#method-implode)
 - [intersect](#method-intersect)
+- [intersectByKeys](#method-intersectbykeys)
 - [isEmpty](#method-isempty)
+- [isNotEmpty](#method-isnotempty)
 - [keyBy](#method-keyby)
+- [keys](#method-keys)
 - [last](#method-last)
+- [macro](#method-macro)
 - [make](#method-make)
+- [map](#method-map)
 - [mapInto](#method-mapinto)
+- [mapSpread](#method-mapspread)
 - [mapToGroups](#method-maptogroups)
+- [mapWithKeys](#method-mapwithkeys)
 - [max](#method-max)
+- [median](#method-median)
 - [merge](#method-merge)
+- [mergeRecursive](#method-mergerecursive)
+- [min](#method-min)
 - [mode](#method-mode)
+- [nth](#method-nth)
 - [only](#method-only)
+- [pad](#method-pad)
 - [partition](#method-partition)
+- [pipe](#method-pipe)
 - [pluck](#method-pluck)
+- [pop](#method-pop)
 - [prepend](#method-prepend)
+- [pull](#method-pull)
 - [push](#method-push)
+- [put](#method-put)
 - [random](#method-random)
+- [reduce](#method-reduce)
 - [reject](#method-reject)
+- [replace](#method-replace)
+- [replaceRecursive](#method-replacerecursive)
+- [reverse](#method-reverse)
 - [search](#method-search)
+- [shift](#method-shift)
 - [shuffle](#method-shuffle)
+- [slice](#method-slice)
 - [some](#method-some)
+- [sort](#method-sort)
 - [sortBy](#method-sortby)
+- [sortByDesc](#method-sortbydesc)
 - [sortKeys](#method-sortkeys)
+- [sortKeysDesc](#method-sortkeysdesc)
 - [splice](#method-splice)
+- [split](#method-split)
 - [sum](#method-sum)
+- [take](#method-take)
 - [tap](#method-tap)
+- [times](#method-times)
 - [toArray](#method-toarray)
+- [toJson](#method-tojson)
 - [transform](#method-transform)
+- [union](#method-union)
 - [unique](#method-unique)
+- [uniqueStrict](#method-uniquestrict)
 - [unless](#method-unless)
+- [unlessEmpty](#method-unlessempty)
 - [unlessNotEmpty](#method-unlessnotempty)
+- [unwrap](#method-unwrap)
 - [values](#method-values)
+- [when](#method-when)
 - [whenEmpty](#method-whenempty)
+- [whenNotEmpty](#method-whennotempty)
 - [where](#method-where)
+- [whereStrict](#method-wherestrict)
 - [whereBetween](#method-wherebetween)
+- [whereIn](#method-wherein)
 - [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
 - [whereNotBetween](#method-wherenotbetween)
+- [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
+- [wrap](#method-wrap)
 - [zip](#method-zip)
 
 
 <a name="method-listing"></a>
 ## 메소드 목록
-
-<style>
-    #collection-method code {
-        font-size: 14px;
-    }
-
-    #collection-method:not(.first-collection-method) {
-        margin-top: 50px;
-    }
-</style>
 
 <a name="method-all"></a>
 #### `all()` {#collection-method .first-collection-method}
@@ -427,6 +476,34 @@
     */
 
 컬렉션을 덤프한 후 스크립트의 실행을 멈추고 싶다면, [`dd`](#method-dd) 메소드를 사용하십시오.
+
+<a name="method-duplicates"></a>
+#### `duplicates()` {#collection-method}
+
+`duplicates` 메소드는 컬렉션으로부터 중복 된 값을 받아서 반환합니다.
+
+    $collection = collect(['a', 'b', 'a', 'c', 'b']);
+
+    $collection->duplicates();
+
+    // [2 => 'a', 4 => 'b']
+
+컬렉션에 배열이나 객체가 포함되어 있으면 중복 값을 확인하려는 속성의 키를 전달할 수 있습니다.
+
+    $employees = collect([
+        ['email' => 'abigail@example.com', 'position' => 'Developer'],
+        ['email' => 'james@example.com', 'position' => 'Designer'],
+        ['email' => 'victoria@example.com', 'position' => 'Developer'],
+    ])
+
+    $employees->duplicates('position');
+
+    // [2 => 'Developer']
+
+<a name="method-duplicatesstrict"></a>
+#### `duplicatesStrict()` {#collection-method}
+
+이 메소드는 [`duplicates`](#method-duplicates) 메소드와 사용법이 같습니다. 그러나 모든 값은 "엄격한-strict"비교를 사용하여 비교됩니다.
 
 <a name="method-each"></a>
 #### `each()` {#collection-method}
@@ -1124,6 +1201,19 @@
 
     // ['Desk', 'Chair', 'Bookcase', 'Door']
 
+<a name="method-mergerecursive"></a>
+#### `mergeRecursive()` {#collection-method}
+
+`mergeRecursive` 메소드는 주어진 배열이나 콜렉션을 재귀적으로 원래 콜렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
+
+    $collection = collect(['product_id' => 1, 'price' => 100]);
+
+    $merged = $collection->mergeRecursive(['product_id' => 2, 'price' => 200, 'discount' => false]);
+
+    $merged->all();
+
+    // ['product_id' => [1, 2], 'price' => [100, 200], 'discount' => false]
+
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
@@ -1153,7 +1243,9 @@
 <a name="method-nth"></a>
 #### `nth()` {#collection-method}
 
-`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다:(역자주: 첫 번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
+`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다.
+
+(역자주: 첫 번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
 
     $collection = collect(['a', 'b', 'c', 'd', 'e', 'f']);
 
@@ -1411,6 +1503,32 @@
     // [1, 2]
 
 `reject` 메소드의 반대는, [`filter`](#method-filter)메소드를 확인하십시오.
+
+<a name="method-replace"></a>
+#### `replace()` {#collection-method}
+
+`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 콜렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
+
+    $collection = collect(['Taylor', 'Abigail', 'James']);
+
+    $replaced = $collection->replace([1 => 'Victoria', 3 => 'Finn']);
+
+    $replaced->all();
+
+    // ['Taylor', 'Victoria', 'James', 'Finn']
+
+<a name="method-replacerecursive"></a>
+#### `replaceRecursive()` {#collection-method}
+
+이 메소드는 `replace`처럼 동작하지만, 재귀적 배열로 반복되어 내부 값에 동일한 대체 프로세스를 적용합니다.
+
+    $collection = collect(['Taylor', 'Abigail', ['James', 'Victoria', 'Finn']]);
+
+    $replaced = $collection->replaceRecursive(['Charlie', 2 => [1 => 'King']]);
+
+    $replaced->all();
+
+    // ['Charlie', 'Abigail', ['James', 'King', 'Finn']]
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}
@@ -2138,7 +2256,9 @@
 <a name="method-whereinstrict"></a>
 #### `whereInStrict()` {#collection-method}
 
-이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "엄격한" 비교를 진행합니다.(역자주 : 느슨한 비교와 엄격한 비교는 `==`와 `===`의 차이처럼 타입과 값이 모두 일치하는지 비교하는 정도를 나타냅니다)
+이 메소드는 [`whereIn`](#method-wherein) 와 동일합니다만, 모든 값들은 "엄격한" 비교를 진행합니다.
+
+(역자주 : 느슨한 비교와 엄격한 비교는 `==`와 `===`의 차이처럼 타입과 값이 모두 일치하는지 비교하는 정도를 나타냅니다)
 
 <a name="method-whereinstanceof"></a>
 #### `whereInstanceOf()` {#collection-method}

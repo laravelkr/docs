@@ -45,6 +45,10 @@ Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한�
     {
         $this->registerPolicies();
 
+        Gate::define('edit-settings', function ($user) {
+            return $user->isAdmin;
+        });
+
         Gate::define('update-post', function ($user, $post) {
             return $user->id == $post->user_id;
         });
@@ -64,30 +68,14 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
         Gate::define('update-post', 'App\Policies\PostPolicy@update');
     }
 
-#### 리소스 Gate
-
-`resource` 메소드를 사용하여 여러개의 Gate를 한번에 정의할 수도 있습니다:
-
-    Gate::resource('posts', 'App\Policies\PostPolicy');
-
-이렇게 하면 다음의 Gate를  정의 한 것과 동일하게 적용됩니다:
-
-    Gate::define('posts.view', 'App\Policies\PostPolicy@view');
-    Gate::define('posts.create', 'App\Policies\PostPolicy@create');
-    Gate::define('posts.update', 'App\Policies\PostPolicy@update');
-    Gate::define('posts.delete', 'App\Policies\PostPolicy@delete');
-
-기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달해서, 기본 속성들을 재정의(오버라이드)할 수 있습니다. 배열의 키는 Gate 액션의 이름을, 값은 메소드를 정의합니다. 예를 들어 다음의 코드는 `posts.image` 와 `posts.photo` 단 두개의 새로운 Gate 정의를 생성합니다:
-
-    Gate::resource('posts', 'PostPolicy', [
-        'image' => 'updateImage',
-        'photo' => 'updatePhoto',
-    ]);
-
 <a name="authorizing-actions-via-gates"></a>
 ### 액션을 실행할 수 있는 권한 확인하기
 
 Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 또는 `denies`메소드를 사용해야 합니다. 이 두 개의 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
+
+    if (Gate::allows('edit-settings')) {
+        // The current user can edit settings
+    }
 
     if (Gate::allows('update-post', $post)) {
         // The current user can update the post...
@@ -105,6 +93,16 @@ Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 �
 
     if (Gate::forUser($user)->denies('update-post', $post)) {
         // The user can't update the post...
+    }
+
+`any` 또는 `none` 메소드로 한 번에 여러 액션을 인증 할 수 있습니다 :
+
+    if (Gate::any(['update-post', 'delete-post'], $post)) {
+        // The user can update or delete the post
+    }
+
+    if (Gate::none(['update-post', 'delete-post'], $post)) {
+        // The user cannot update or delete the post
     }
 
 <a name="intercepting-gate-checks"></a>
@@ -313,7 +311,7 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
 
 #### 모델을 인자로 전달 받지 않는 액션
 
-`create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않는 다는 것을 기억하십시오. 이러한 경우에는 `can` 메소드에는 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
+이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
 
     use App\Post;
 
@@ -412,6 +410,17 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
             $this->authorizeResource(Post::class, 'post');
         }
     }
+
+다음 컨트롤러 메소드는 해당 policy 메소드에 맵핑됩니다.
+
+| Controller Method | Policy Method |
+| --- | --- |
+| show | view |
+| create | create |
+| store | create |
+| edit | update |
+| update | update |
+| destroy | delete |
 
 > {tip} `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
 

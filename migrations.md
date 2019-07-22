@@ -66,7 +66,7 @@
         public function up()
         {
             Schema::create('flights', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('name');
                 $table->string('airline');
                 $table->timestamps();
@@ -144,7 +144,7 @@
 새로운 데이터베이스 테이블을 생성하려면 `Schema` 파사드에 `create` 메소드를 사용하면 됩니다. `create` 메소드는 두개의 인자를 전달 받습니다. 첫번째 인자는 테이블의 이름이고, 두번째 인자는 새로운 테이블을 정의하는 사용되는 `Blueprint` 객체를 받는 `Closure`입니다:
 
     Schema::create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 테이블을 생성할 때, 테이블의 컬럼을 정의하기 위하여 자유롭게 스키마 빌더의 [컬럼 메소드](#creating-columns)를 사용할 수 있습니다.
@@ -166,7 +166,7 @@
 기본 커넥션-connection이 아닌 다른 데이터베이스 커넥션-connection에 스키마 작업을 수행하려면 `connection` 메소드를 사용하면 됩니다:
 
     Schema::connection('foo')->create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 테이블 옵션을 정의하기 위해서 스키마 빌더의 다음 명령어를 사용할 수 있습니다:
@@ -247,6 +247,7 @@
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.
 `$table->rememberToken();`  |  nullable (null 값이 허용되는) `remember_token` VARCHAR(100) 컬럼.
+`$table->set('flavors', ['strawberry', 'vanilla']);`  |  동일한 컬럼으로 지정.
 `$table->smallIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED SMALLINT (primary key) 컬럼.
 `$table->smallInteger('votes');`  |  SMALLINT 컬럼.
 `$table->softDeletes();`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` TIMESTAMP 컬럼.
@@ -286,7 +287,7 @@ Modifier  | 설명
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮깁니다 (MySQL)
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정합니다
 `->charset('utf8')`  |  컬럼의 캐릭터셋을 지정합니다 (MySQL)
-`->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/SQL Server)
+`->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL/PostgreSQL)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  컬럼을 테이블의 "맨 처음" 위치로 옮깁니다 (MySQL)
@@ -355,6 +356,7 @@ Modifier  | 설명
 
 명령어 |  설명
 -------  |  -----------
+`$table->dropMorphs('morphable');`  | `morphable_id` 와 `morphable_type` 컬럼 drop.
 `$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
 `$table->dropSoftDeletes();`  |  `deleted_at` 컬럼 drop.
 `$table->dropSoftDeletesTz();`  |  `dropSoftDeletes()` 메소드의 alias.

@@ -190,6 +190,12 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         'file.jpg', now()->addMinutes(5)
     );
 
+추가 [S3 요청 파라메터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라메터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라메터로 전달할 수 있습니다 :
+
+    $url = Storage::temporaryUrl(
+        'file.jpg', 
+        now()->addMinutes(5), 
+        ['ResponseContentType' => 'application/octet-stream'],
 #### 로컬 URL 호스트 커스터마이징
 
 `local` 드라이버를 사용하여 디스크에 저장된 파일을 위한 호스트를 미리 정의하고자 한다면, 디스크 설정 배열에 `url` 옵션을 추가하면 됩니다:
@@ -381,7 +387,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
 #### 디렉토리 삭제하기
 
-마지막으로 `deleteDirectory` 는 디렉토리와 포함 된 모든 파일을 삭제하는 데 사용됩니다.
+마지막으로 `deleteDirectory`메소드는 디렉토리와 포함 된 모든 파일을 삭제하는 데 사용됩니다.
 
     Storage::deleteDirectory($directory);
 
@@ -409,7 +415,17 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -422,16 +438,6 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
                 return new Filesystem(new DropboxAdapter($client));
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

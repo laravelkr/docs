@@ -25,6 +25,12 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
 
     return $user->toArray();
 
+모델의 속성만을 배열로 변환하려면 `attributesToArray` 메소드를 사용하십시오.
+
+    $user = App\User::first();
+
+    return $user->attributesToArray();
+
 또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = App\User::all();
@@ -53,6 +59,10 @@ JSON API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모�
     Route::get('users', function () {
         return App\User::all();
     });
+
+#### 관계-Relationships
+
+Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메소드는 "camel case"를 사용하여 정의되지만 관계의 JSON 속성은 "snake case"가됩니다.
 
 <a name="hiding-attributes-from-json"></a>
 ## JSON 변환시 속성값 숨기기
@@ -183,7 +193,17 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -192,15 +212,5 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
             Carbon::serializeUsing(function ($carbon) {
                 return $carbon->format('U');
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }

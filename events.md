@@ -4,6 +4,7 @@
 - [이벤트 & 리스너 등록하기](#registering-events-and-listeners)
     - [이벤트 & 리스너 생성하기](#generating-events-and-listeners)
     - [수동으로 이벤트 등록하기](#manually-registering-events)
+    - [이벤트 Discovery](#event-discovery)
 - [이벤트 정의하기](#defining-events)
 - [리스너 정의하기](#defining-listeners)
 - [Queue-큐로 처리하는 이벤트 리스너](#queued-event-listeners)
@@ -70,6 +71,61 @@
     Event::listen('event.*', function ($eventName, array $data) {
         //
     });
+
+<a name="event-discovery"></a>
+### 이벤트 Discovery
+
+> {note} 이벤트 Discovery는 Laravel 5.8.9 이상에서 사용할 수 있습니다.
+
+`EventServiceProvider`의 `$listen` 배열에 이벤트와 리스너를 수동으로 등록하는 대신, 자동으로 이벤트 Discovery를 가능하게 할 수 있습니다. 이벤트 검색이 활성화되면 Laravel은 애플리케이션의 Listeners 디렉터리를 검색하여 이벤트와 리스너를 자동으로 찾아 등록합니다. 또한 `EventServiceProvider`에 명시적으로 정의 된 이벤트는 여전히 등록됩니다.
+
+Laravel은 리퍼러를 사용하여 리스너 클래스를 검색하여 이벤트 리스너를 찾습니다. Laravel이 `handle`로 시작하는 리스너 클래스 메소드를 발견하면, Laravel은 메소드의 시그니처에 타입 힌트 된 이벤트에 대한 이벤트 리스너로 해당 메소드를 등록합니다.
+
+    use App\Events\PodcastProcessed;
+
+    class SendPodcastProcessedNotification
+    {
+        /**
+         * Handle the given event.
+         *
+         * @param  \App\Events\PodcastProcessed
+         * @return void
+         */
+        public function handle(PodcastProcessed $event)
+        {
+            //
+        }
+    }
+
+이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다 :
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
+    }
+
+기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다 :
+
+    /**
+     * Get the listener directories that should be used to discover events.
+     *
+     * @return array
+     */
+    protected function discoverEventsWithin()
+    {
+        return [
+            $this->app->path('Listeners'),
+        ];
+    }
+
+프로덕션 환경에서는 프레임워크가 모든 요청에 대해 모든 리스너를 검색하지 않도록 할 가능성이 높습니다. 그러므로 배포 프로세스 중에 `event:cache` Artisan 명령을 실행하여 모든 애플리케이션 이벤트와 리스너의 목록을 캐시해야합니다. 이 매니페스트는 프레임워크에서 이벤트 등록 프로세스의 속도를 높이기 위해 사용됩니다. 캐시를 제거하기 위해 `event:clear` 명령을 사용할 수 있습니다.
+
+> {tip}`event : list` 명령은 애플리케이션에 등록 된 모든 이벤트와 리스너의 목록을 표시하는 데 사용될 수 있습니다.
 
 <a name="defining-events"></a>
 ## 이벤트 정의하기
@@ -200,6 +256,42 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
         public $delay = 60;
     }
 
+#### 조건부 대기열-Queueing 리스너
+
+때로는 런타임에만 사용 가능한 일부 데이터를 기반으로 대기열-Queueing에 대기해야 하는지 여부를 결정해야 할 수도 있습니다. 이것을 달성하기 위해서, 리스너에 `shouldQueue` 메소드를 추가해, 리스너를 큐에 넣고 동기 실행해야 할 지 어떨지를 판단 할 수 있습니다.
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderPlaced;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class RewardGiftCard implements ShouldQueue
+    {
+        /**
+         * Reward a gift card to the customer.
+         *
+         * @param  \App\Events\OrderPlaced  $event
+         * @return void
+         */
+        public function handle(OrderPlaced $event)
+        {
+            //
+        }
+
+        /**
+         * Determine whether the listener should be queued.
+         *
+         * @param  \App\Events\OrderPlaced  $event
+         * @return bool
+         */
+        public function shouldQueue(OrderPlaced $event)
+        {
+            return $event->order->subtotal >= 5000;
+        }
+    }
+
 <a name="manually-accessing-the-queue"></a>
 ### 수동으로 Queue-큐에 엑세스하기
 
@@ -322,12 +414,12 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
         /**
          * Handle user login events.
          */
-        public function onUserLogin($event) {}
+        public function handleUserLogin($event) {}
 
         /**
          * Handle user logout events.
          */
-        public function onUserLogout($event) {}
+        public function handleUserLogout($event) {}
 
         /**
          * Register the listeners for the subscriber.
@@ -338,12 +430,12 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
         {
             $events->listen(
                 'Illuminate\Auth\Events\Login',
-                'App\Listeners\UserEventSubscriber@onUserLogin'
+                'App\Listeners\UserEventSubscriber@handleUserLogin'
             );
 
             $events->listen(
                 'Illuminate\Auth\Events\Logout',
-                'App\Listeners\UserEventSubscriber@onUserLogout'
+                'App\Listeners\UserEventSubscriber@handleUserLogout'
             );
         }
     }

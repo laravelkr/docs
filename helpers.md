@@ -11,17 +11,6 @@
 <a name="available-methods"></a>
 ## 사용 가능한 메소드
 
-<style>
-    .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    .collection-method-list a {
-        display: block;
-    }
-</style>
-
 ### 배열 & 객체
 
 
@@ -178,16 +167,6 @@
 
 <a name="method-listing"></a>
 ## 메소드 목록
-
-<style>
-    #collection-method code {
-        font-size: 14px;
-    }
-
-    #collection-method:not(.first-collection-method) {
-        margin-top: 50px;
-    }
-</style>
 
 <a name="arrays"></a>
 ## 배열 & 객체
@@ -859,6 +838,17 @@
 
     // true
 
+<a name="method-str-contains-all"></a>
+#### `Str::containsAll()` {#collection-method}
+
+`Str::containsAll` 메소드는 주어진 모든 문자열이 배열 값에 포함되어 있는지를 확인합니다.
+
+    use Illuminate\Support\Str;
+
+    $containsAll = Str::containsAll('This is my name', ['my', 'name']);
+
+    // true
+
 <a name="method-ends-with"></a>
 #### `Str::endsWith()` {#collection-method}
 
@@ -932,7 +922,9 @@
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {#collection-method}
 
-`Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프와 같은 정렬이 가능한" UUID를 생성합니다:(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
+`Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프와 같은 정렬이 가능한" UUID를 생성합니다.
+
+(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
 
     use Illuminate\Support\Str;
 
@@ -1304,9 +1296,9 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
 
     $value = cache('key', 'default');
 
-함수에 키 / 값으로 된 배열을 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시에 값이 얼마나 유지되어야 하는지에 대한 시간(분)을 숫자로 전달할 수도 있습니다.
+함수에 키 / 값으로 된 배열을 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시에 값이 얼마나 유지되어야 하는지에 대한 시간(초)을 숫자로 전달할 수도 있습니다.
 
-    cache(['key' => 'value'], 5);
+    cache(['key' => 'value'], 300);
 
     cache(['key' => 'value'], now()->addSeconds(10));
 
@@ -1637,6 +1629,12 @@ exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할
         'name' => $name,
         'email' => $email,
     ]);
+
+클래스에 `tap` 메소드를 추가하기 위해서는 `Illuminate\Support\Traits\Tappable` Trait을 클래스에 추가하면됩니다. 이 Trait의 `tap` 메소드는 Closure만 인수로 받아들입니다. 객체 인스턴스 자체는 Closure에 전달되고 `tap` 메소드에 의해 반환됩니다.
+
+    return $user->tap(function ($user) {
+        //
+    });
 
 <a name="method-throw-if"></a>
 #### `throw_if()` {#collection-method}

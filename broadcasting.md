@@ -40,7 +40,7 @@
 <a name="configuration"></a>
 ### 설정하기
 
-모든 이벤트 브로드캐스팅 설정 옵션은 config/broadcasting.php 의 설정 파일에 저장되어 있습니다. 라라벨은 기본적으로 여러가지의 브로드캐스트 드라이버([Pusher](https://pusher.com), [Redis](/docs/{{version}}/redis), 그리고 디버깅 용도의 `log` 드라이버)를 지원합니다. 추가적으로 전체적으로 브로드캐스팅을 끌 수 있도록 해주는 `null` 드라이버도 제공됩니다. 각각의 드라이버의 설정 예제는 `config/broadcasting.php` 설정 파일에 있습니다.
+모든 이벤트 브로드캐스팅 설정 옵션은 config/broadcasting.php 의 설정 파일에 저장되어 있습니다. 라라벨은 기본적으로 여러가지의 브로드캐스트 드라이버([Pusher Channels](https://pusher.com/channels), [Redis](/docs/{{version}}/redis), 그리고 디버깅 용도의 `log` 드라이버)를 지원합니다. 추가적으로 전체적으로 브로드캐스팅을 끌 수 있도록 해주는 `null` 드라이버도 제공됩니다. 각각의 드라이버의 설정 예제는 `config/broadcasting.php` 설정 파일에 있습니다.
 
 #### 브로드캐스트 서비스 프로바이더
 
@@ -55,20 +55,20 @@
 <a name="driver-prerequisites"></a>
 ### 드라이버 사전준비사항
 
-#### Pusher
+#### Pusher Channels
 
-만약 [Pusher](https://pusher.com) 를 이용해서 이벤트를 브로드캐스팅한다면, 컴포저 패키지 매니저를 사용해 Pusher PHP SDK를 설치해야 합니다.
+만약 [Pusher Channels](https://pusher.com/channels)를 이용해서 이벤트를 브로드캐스팅한다면, 컴포저 패키지 매니저를 사용해 Pusher PHP SDK를 설치해야 합니다.
 
-    composer require pusher/pusher-php-server "~3.0"
+    composer require pusher/pusher-php-server "~4.0"
 
-다음으로, `config/broadcasting.php` 설정 파일에서 Puhser 암호를 설정해야 합니다. Pusher key, 비밀번호, 그리고 애플리케이션 ID를  빠르게 설정할 수 있도록 Puhser 설정 예제가 이미 이 파일에 포함되어 있습니다. `config/broadcasting.php` 파일의 `pusher` 설정을 이용하면, cluster와 같은 Pusher 에서 지원하는 추가적인 `options`을 지정할 수 있습니다.
+다음으로, `config/broadcasting.php` 설정 파일에서 Channels 인증정보를 설정해야 합니다. 이미 이 파일에는 Channels을 빠르게 설정할 수 있도록 Channels key, 비밀번호, 그리고 애플리케이션 ID의 예제가 포함되어 있습니다. `config/broadcasting.php` 파일의 `pusher` 설정을 이용하면, cluster와 같은 Pusher 에서 지원하는 추가적인 `options`을 지정할 수 있습니다.
 
     'options' => [
         'cluster' => 'eu',
-        'encrypted' => true
+        'useTLS' => true
     ],
 
-Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
+Channels 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/js/bootstrap.js` 파일에서 Echo 인스턴스를 초기화할 때 `pusher`를 브로드캐스터로 지정해주어야 합니다.
 
     import Echo from "laravel-echo";
 
@@ -76,7 +76,7 @@ Pusher 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources/j
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key'
+        key: 'your-pusher-channels-key'
     });
 
 #### Redis
@@ -115,14 +115,14 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 <a name="concept-overview"></a>
 ## 컨셉 개요
 
-라라벨의 이벤트 브로드캐스팅은 웹소캣에 드라이버 기반 접근법을 사용하여 서버측의 라라벨 이벤트를 클라이언트측의 자바스크립트 애플리케이션에 전송할 수 있도록 해줍니다. 현재 라라벨은 [Pusher](https://pusher.com)와 Redis 드라이버를 제공합니다. 이벤트는 클라이언트단에서 [Laravel Echo](#installing-laravel-echo)라는 자바스크립트 패키지를 통해 손쉽게 사용할 수 있습니다.
+라라벨의 이벤트 브로드캐스팅은 웹소캣에 드라이버 기반 접근법을 사용하여 서버측의 라라벨 이벤트를 클라이언트측의 자바스크립트 애플리케이션에 전송할 수 있도록 해줍니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels)와 Redis 드라이버를 제공합니다. 이벤트는 클라이언트단에서 [Laravel Echo](#installing-laravel-echo)라는 자바스크립트 패키지를 통해 손쉽게 사용할 수 있습니다.
 
 이벤트는 공개적이거나 비공개적이라고 명시된 "채널"을 통해 브로드캐스트 됩니다. 모든 방문자는 인증이나 승인 없이도 공개 채널을 구독할 수 있습니다. 하지만 비공개 채널을 구독하기 위해서는 반드시 인증과 승인을 받아야 합니다.
 
 <a name="using-example-application"></a>
 ### 예제 애플리케이션 사용하기
 
-이벤트 브로드캐스팅의 각 구성요소에 대해 깊게 들어가기 전에, 전자상거래 상점을 예로들어 전반적인 내용을 둘러보도록 하겠습니다. 이 문서의 다른 부분에서 따로 자세하게 다룰 것이기 때문에 [Pusher](https://pusher.com) 나 [Laravel Echo](#installing-laravel-echo) 설정에 대한 자세한 내용은 다루지 않습니다.
+이벤트 브로드캐스팅의 각 구성요소에 대해 깊게 들어가기 전에, 전자상거래 상점을 예로들어 전반적인 내용을 둘러보도록 하겠습니다. 이 문서의 다른 부분에서 따로 자세하게 다룰 것이기 때문에 [Pusher Channels](https://pusher.com/channels) 나 [Laravel Echo](#installing-laravel-echo) 설정에 대한 자세한 내용은 다루지 않습니다.
 
 애플리케이션에 사용자들이 자신의 주문에 대해 배송상태를 확인할 수 있는 페이지가 있다고 생각해봅시다. 그리고 애플리케이션에 의해 배송 상태가 업데이트 되면 `ShippingStatusUpdated` 라는 이벤트가 발생한다고 가정해봅시다.
 
@@ -158,7 +158,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return \Illuminate\Broadcasting\PrivateChannel
      */
     public function broadcastOn()
     {
@@ -197,6 +197,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 
     namespace App\Events;
 
+    use App\User;
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Queue\SerializesModels;
     use Illuminate\Broadcasting\PrivateChannel;
@@ -338,7 +339,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         authEndpoint: '/custom/endpoint/auth'
     });
 
@@ -372,7 +373,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
     Broadcast::channel('channel', function() {
         // ...
-    }, ['guards' => ['web', 'admin']])
+    }, ['guards' => ['web', 'admin']]);
 
 <a name="defining-channel-classes"></a>
 ### 채널 클래스 정의하기
@@ -466,7 +467,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 <a name="installing-laravel-echo"></a>
 ### 라라벨 에코 설치하기
 
-라라벨 에코는 채널을 구독하고 라라벨에 의해 브로드캐스트되는 이벤트를 수신하기 쉽게 해주는 자바스크립트 라이브러리입니다. NPM 패키지 매니저로 에코를 설치할 수 있습니다. 이 예제에서는 Pusher 브로드캐스터를 사용할 것이기 때문에 `pusher-js`도 설치할 것입니다.
+라라벨 에코는 채널을 구독하고 라라벨에 의해 브로드캐스트되는 이벤트를 수신하기 쉽게 해주는 자바스크립트 라이브러리입니다. NPM 패키지 매니저로 에코를 설치할 수 있습니다. 이 예제에서는 Pusher Channels 브로드캐스터를 사용할 것이기 때문에 `pusher-js`도 설치할 것입니다.
 
     npm install --save laravel-echo pusher-js
 
@@ -476,28 +477,28 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key'
+        key: 'your-pusher-channels-key'
     });
 
-`pusher` 커넥터를 사용하는 에코 인스턴스를 만들 때에는, `cluster`와 커넥션이 암호화 되어야 하는지 여부도 명시할 수 있습니다.
+`pusher` 커넥터를 사용하는 Echo 인스턴스를 생성 할 때, TLS를 통해 연결해야하는지 여부뿐만 아니라 `cluster`도 지정할 수 있습니다. (기본적으로 `forceTLS`가 `false` 일 때, 페이지가 HTTP를 통해 로드되면 TLS가 아닌 연결이 되거나 TLS 연결이 실패하면 폴백이 됩니다).
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         cluster: 'eu',
-        encrypted: true
+        forceTLS: true
     });
     
 #### 기존 클라이언트 인스턴스 사용
 
-Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
 
 
     const client = require('pusher-js');
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         client: client
     });
 
@@ -536,7 +537,7 @@ Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: 'your-pusher-key',
+        key: 'your-pusher-channels-key',
         namespace: 'App.Other.Namespace'
     });
 
@@ -617,7 +618,7 @@ Echo가 활용할 Pusher 또는 Socket.io 클라이언트 인스턴스가 이미
 <a name="client-events"></a>
 ## 클라이언트 이벤트
 
-> {tip} [Pusher](https://pusher.com)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+> {tip} [Pusher Channels](https://pusher.com/channels)를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/)의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 때로는 라라벨 애플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 
 

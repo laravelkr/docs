@@ -103,3 +103,10 @@ seeder 클래스를 작성하고 나면, `dump-autoload` 명령어를 사용해�
 `migrate:refresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 마이그레이션들을 롤백한 다음 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다: 
 
     php artisan migrate:refresh --seed
+
+<a name="forcing-seeding-production"></a>
+#### 프로덕션 환경에서 강제 시딩
+
+일부 시드 작업으로 인해 데이터가 변경되거나 손실 될 수 있습니다. 프로덕션 데이터베이스에 대해 시드 명령을 실행하지 못하도록하기 위해 시드를 실행하기 전에 확인 메시지가 나타납니다. 시드를 프롬프트없이 실행하게하려면 `--force` 플래그를 사용하십시오.
+
+    php artisan db:seed --force

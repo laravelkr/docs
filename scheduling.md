@@ -251,6 +251,8 @@
              ->daily()
              ->runInBackground();
 
+> {note} `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
+
 <a name="maintenance-mode"></a>
 ### 공사중 모드
 
@@ -280,7 +282,13 @@
              ->sendOutputTo($filePath)
              ->emailOutputTo('foo@example.com');
 
-> {note} `emailOutputTo`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `call` 메소드에서만 사용가능합니다.
+명령이 실패 할 경우에만 출력을 메일로 보내려면 `emailOutputOnFailure` 메소드를 사용하십시오.
+
+    $schedule->command('foo')
+             ->daily()
+             ->emailOutputOnFailure('foo@example.com');
+
+> {note} `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>
 ## 작업 후킹
@@ -296,6 +304,15 @@
                  // Task is complete...
              });
 
+`onSuccess`와 `onFailure` 메소드로 예약 된 작업이 성공하거나 실패 할 경우 실행될 코드를 지정할 수 있습니다.
+
+    $schedule->command('emails:send')
+             ->daily()
+             ->onSuccess(function () {
+                 // The task succeeded...
+             })
+             ->onFailure(function () {
+                 // The task failed...
 #### URL Ping 실행
 
 `pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다:
@@ -311,6 +328,13 @@
              ->daily()
              ->pingBeforeIf($condition, $url)
              ->thenPingIf($condition, $url);
+
+`pingOnSuccess`와 `pingOnFailure` 메소드는 작업이 성공하거나 실패 할 때 주어진 URL을 ping하는데 사용할 수 있습니다.
+
+    $schedule->command('emails:send')
+             ->daily()
+             ->pingOnSuccess($successUrl)
+             ->pingOnFailure($failureUrl);
 
 모든 ping 메소드에는 Guzzle HTTP 라이브러리가 필요합니다. Composer 패키지 매니저를 사용하여 Guzzle을 프로젝트에 추가 할 수 있습니다.
 

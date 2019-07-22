@@ -16,6 +16,7 @@
     - [토큰 요청](#requesting-password-grant-tokens)
     - [모든 범위에 대하여 요청하기](#requesting-all-scopes)
     - [사용자 이름 필드 사용자 정의하기](#customizing-the-username-field)
+    - [패스워드 유효성 검사 커스터마이징](#customizing-the-password-validation)
 - [묵시적 grant 토큰](#implicit-grant-tokens)
 - [클라이언트의 자격증명을 위한 Grant 토큰](#client-credentials-grant-tokens)
 - [개인용 엑세스 토큰](#personal-access-tokens)
@@ -184,13 +185,18 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
         Passport::loadKeysFrom('/secret-keys/oauth');
     }
 
+또한 환경 변수에서 키를 로드 할 수 있습니다.
+
+    PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n<private key here>\n-----END RSA PRIVATE KEY-----"
+    PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<public key here>\n-----END PUBLIC KEY-----\n"
+
 <a name="configuration"></a>
 ## 설정하기
 
 <a name="token-lifetimes"></a>
 ### 토큰 지속시간
 
-기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 / 줄이려면  `tokensExpireIn` 그리고 `refreshTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
+기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 줄이려면  `tokensExpireIn`, `refreshTokensExpireIn` 그리고 `personalAccessTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
 
     /**
      * Register any authentication / authorization services.
@@ -351,6 +357,25 @@ JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 �
 
     php artisan vendor:publish --tag=passport-views
 
+때로는 자체 클라이언트에 권한 부여 할 때와 같이 권한 부여 입력창를 건너 뛰고 싶을 수 있습니다. 클라이언트 모델에서 `skipsAuthorization` 메소드를 정의하여 이를 수행 할 수 있습니다. `skipsAuthorization`가 `true`를 반환하면 클라이언트는 승인되고 즉시 `redirect_uri`로 리디렉션됩니다.
+
+    <?php
+
+    namespace App\Models\Passport;
+
+    use Laravel\Passport\Client as BaseClient;
+
+    class Client extends BaseClient
+    {
+        /**
+         * Determine if the client should skip the authorization prompt.
+         *
+         * @return bool
+         */
+        public function skipsAuthorization()
+        {
+            return $this->first_party;
+        }
 #### 승인 코드를 엑세스 토큰으로 변환하기
 
 사용자가 승인 요청을 수락하면, 사용중인 애플리케이션으로 리다이렉션됩니다. 고객은 엑세스 토큰을 획득하기 위해서 여러분의 애플리케이션으로 `POST` 요청을 보내야 합니다. 요청-request에는 사용자의 승인 요청을 통해서 애플리케이션에서 발급된 승인코드가 포함되어 있어야 합니다. 이 예제에서 Guzzle Http 라이브러리를 사용하여 `POST` 요청-request를 만들어 보겠습니다:
@@ -475,6 +500,36 @@ OAuth2 패스워드 그랜트는 모바일 애플리케이션과 같은 여러�
         }
     }
 
+<a name="customizing-the-password-validation"></a>
+### 패스워드 유효성 검사 커스터마이징
+
+패스워드를 사용하여 인증 할 때 Passport는 모델의 `password` 속성을 사용하여 주어진 패스워드의 유효성을 검사합니다. 모델에 `password` 속성이 없거나 패스워드 유효성 검사 로직을 커스터마이징 하고자 하는 경우 모델에 `validateForPassportPasswordGrant` 메소드를 정의 할 수 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use Laravel\Passport\HasApiTokens;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+
+    class User extends Authenticatable
+    {
+        use HasApiTokens, Notifiable;
+
+        /**
+        * Validate the password of the user for the Passport password grant.
+        *
+        * @param  string $password
+        * @return bool
+        */
+        public function validateForPassportPasswordGrant($password)
+        {
+            return Hash::check($password, $this->password);
+        }
+    }
+
 <a name="implicit-grant-tokens"></a>
 ## 묵시적 grant 토큰
 
@@ -561,8 +616,6 @@ grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토�
 ## 개인용 엑세스 토큰
 
 때로는, 사용자가 일반적인 승인 코드 리다이렉션 플로우를 거치지 않고 엑세스 토큰을 발급하기를 원할 수도 있습니다. 사용자가 애플리케이션의 UI를 통해 자신에게 토큰을 발행 할 수 있게 하면, 사용자가 API를 테스트해 볼 수도 있고, 일반적으로 액세스 토큰을 발행하기 위한 더 간단한 방법으로도 사용할 수 있습니다.
-
-> {note} 개인용 엑세스 토큰은 기본적으로 오랜시간 지속됩니다. `tokensExpireIn` 또는 `refreshTokensExpireIn` 메소드를 사용하는 경우 지속시간이 수정되지 않습니다.
 
 <a name="creating-a-personal-access-client"></a>
 ### 개인용 엑세스 클라이언트 생성하기

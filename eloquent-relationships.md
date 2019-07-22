@@ -18,6 +18,7 @@
     - [관계 메소드 Vs. 동적 속성](#relationship-methods-vs-dynamic-properties)
     - [존재하는 관계에 대한 쿼리 질의하기](#querying-relationship-existence)
     - [관계된 모델이 존재하지 않는 것을 확인하며 질의하기](#querying-relationship-absence)
+    - [다형성 관계 쿼리](#querying-polymorphic-relationships)
     - [연관된 모델 수량 확인하기-카운트](#counting-related-models)
 - [Eager 로딩](#eager-loading)
     - [Eager 로딩 조건 제한하기](#constraining-eager-loads)
@@ -333,7 +334,7 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 <a name="defining-custom-intermediate-table-models"></a>
 ### 커스텀 중간 테이블 모델 정의하기
 
-관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관계를 정의할 때 `using` 메소드를 호출하면 됩니다. 커스텀 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 확장해야하며 커스텀 다형성 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\MorphPivot` 클래스를 확장해야합니다. 예를 들어, 커스텀 `UserRole` 피벗 모델을 사용하는 `Role` 을 정의할 수 있습니다.
+관계의 중간 테이블을 표현하기 위해서 커스텀 모델을 정의하려면, 관계를 정의할 때 `using` 메소드를 호출하면 됩니다. 커스텀 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 확장해야하며 커스텀 다형성 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\MorphPivot` 클래스를 확장해야합니다. 예를 들어, 커스텀 `RoleUser` 피벗 모델을 사용하는 `Role` 을 정의할 수 있습니다.
 
     <?php
 
@@ -348,11 +349,11 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
          */
         public function users()
         {
-            return $this->belongsToMany('App\User')->using('App\UserRole');
+            return $this->belongsToMany('App\User')->using('App\RoleUser');
         }
     }
 
-`UserRole` 모델을 정의할 때에는 `Pivot` 클래스를 상속합니다:
+`RoleUser` 모델을 정의할 때에는 `Pivot` 클래스를 상속합니다.
 
     <?php
 
@@ -360,12 +361,12 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 
     use Illuminate\Database\Eloquent\Relations\Pivot;
 
-    class UserRole extends Pivot
+    class RoleUser extends Pivot
     {
         //
     }
 
-중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `UserRole` 피벗 테이블에서 검색 할 수 있습니다 :
+중간 테이블에서 열을 검색하기 위해 `using` 과 `withPivot` 을 결합 할 수 있습니다. 예를 들어, 컬럼 이름을 `withPivot` 메소드에 전달함으로써 `created_by` 와 `updated_by` 컬럼을 `RoleUser` 피벗 테이블에서 검색 할 수 있습니다.
 
     <?php
 
@@ -381,13 +382,15 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
         public function users()
         {
             return $this->belongsToMany('App\User')
-                            ->using('App\UserRole')
+                            ->using('App\RoleUser')
                             ->withPivot([
                                 'created_by',
                                 'updated_by'
                             ]);
         }
     }
+
+> **Note:** 피벗 모델은 `SoftDeletes` 특성을 사용할 수 없습니다. 피벗 레코드를 소프트 삭제해야하는 경우 피벗 모델을 실제 Eloquent 모델로 변환하는 것이 좋습니다.
 
 #### 커스텀 피벗 모델 및 Incrementing IDs
 
@@ -558,7 +561,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
     class Image extends Model
     {
         /**
-         * Get all of the owning imageable models.
+         * Get the owning imageable model.
          */
         public function imageable()
         {
@@ -640,7 +643,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
     class Comment extends Model
     {
         /**
-         * Get all of the owning commentable models.
+         * Get the owning commentable model.
          */
         public function commentable()
         {
@@ -731,6 +734,8 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
 
 여러분은 `AppServiceProvider` 의 `boot` 안에서 `morphMap` 를 등록 하거나, 원한다면 분리된 서비스 프로바이더를 만들 수도 있을 것입니다.
 
+> {note} 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
+
 <a name="querying-relations"></a>
 ## 관계 쿼리 질의하기
 
@@ -762,6 +767,32 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
     $user->posts()->where('active', 1)->get();
 
 관계에 대해서 어떠한 [쿼리 빌더](/docs/{{version}}/queries) 메소드도 사용 가능하기 때문에, 가능한 메소드들에 대해서 확인하려면 쿼리 빌더에 대한 문서를 확인하시기 바랍니다.
+
+#### 관계 정립 후에 `orWhere` 절 연결하기
+
+위 예에서 설명한 것처럼 쿼리 할 때 관계에 제약 조건을 추가 할 수 있습니다. 그러나 `orWhere` 절이 관계 제약 조건과 같은 수준으로 논리적으로 그룹화되므로 `orWhere` 절을 관계에 연결하는 경우 주의해야합니다.
+
+    $user->posts()
+            ->where('active', 1)
+            ->orWhere('votes', '>=', 100)
+            ->get();
+
+    // select * from posts 
+    // where user_id = ? and active = 1 or votes >= 100
+
+대부분의 상황에서 [제약조건 그룹](/docs/{{version}}/queries#parameter-grouping)을 사용하여 괄호 사이에 조건부 검사를 논리적으로 그룹화합니다.
+
+    use Illuminate\Database\Eloquent\Builder;
+
+    $user->posts()
+            ->where(function (Builder $query) {
+                return $query->where('active', 1)
+                             ->orWhere('votes', '>=', 100);
+            })
+            ->get();
+
+    // select * from posts 
+    // where user_id = ? and (active = 1 or votes >= 100)
 
 <a name="relationship-methods-vs-dynamic-properties"></a>
 ### 관계 메소드 Vs. 동적 속성
@@ -799,12 +830,12 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
     use Illuminate\Database\Eloquent\Builder;
 
     // Retrieve posts with at least one comment containing words like foo%...
-    $posts = App\Post::whereHas('comments', function ($query) {
+    $posts = App\Post::whereHas('comments', function (Builder $query) {
         $query->where('content', 'like', 'foo%');
     })->get();
 
     // Retrieve posts with at least ten comments containing words like foo%...
-    $posts = App\Post::whereHas('comments', function ($query) {
+    $posts = App\Post::whereHas('comments', function (Builder $query) {
         $query->where('content', 'like', 'foo%');
     }, '>=', 10)->get();
 
@@ -831,6 +862,55 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
         $query->where('banned', 1);
     })->get();
 
+<a name="querying-polymorphic-relationships"></a>
+### 다형성 관계 쿼리
+
+`MorphTo` 관계의 존재를 쿼리하기 위해서 `whereHasMorph` 메소드와 그것에 상응하는 메소드를 사용할 수 있습니다.
+
+    use Illuminate\Database\Eloquent\Builder;
+
+    // Retrieve comments associated to posts or videos with a title like foo%...
+    $comments = App\Comment::whereHasMorph(
+        'commentable', 
+        ['App\Post', 'App\Video'], 
+        function (Builder $query) {
+            $query->where('title', 'like', 'foo%');
+        }
+    )->get();
+
+    // Retrieve comments associated to posts with a title not like foo%...
+    $comments = App\Comment::whereDoesntHaveMorph(
+        'commentable', 
+        'App\Post', 
+        function (Builder $query) {
+            $query->where('title', 'like', 'foo%');
+        }
+    )->get();    
+    
+`$type` 파라메터를 사용하여 관련 모델에 따라 다른 제약 조건을 추가 할 수 있습니다.
+
+    use Illuminate\Database\Eloquent\Builder;
+
+    $comments = App\Comment::whereHasMorph(
+        'commentable', 
+        ['App\Post', 'App\Video'], 
+        function (Builder $query, $type) {
+            $query->where('title', 'like', 'foo%');
+    
+            if ($type === 'App\Post') {
+                $query->orWhere('content', 'like', 'foo%');
+            }
+        }
+    )->get();
+    
+가능한 다형성 모델 배열을 전달하는 대신에 `*`를 와일드 카드로 제공하고 Laravel로 하여금 가능한 모든 다형성 타입을 데이터베이스에서 검색하도록 할 수 있습니다. Laravel은 이 작업을 수행하기 위해 추가 쿼리를 실행합니다.
+
+    use Illuminate\Database\Eloquent\Builder;
+
+    $comments = App\Comment::whereHasMorph('commentable', '*', function (Builder $query) {
+        $query->where('title', 'like', 'foo%');
+    })->get();
+
 <a name="counting-related-models"></a>
 ### 연관된 모델의 갯수 확인하기-카운팅
 
@@ -844,7 +924,9 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
 다수의 관계에 대해서도 쿼리에 제약을 추가하여 "갯수"를 조회할 수 있습니다.
 
-    $posts = App\Post::withCount(['votes', 'comments' => function ($query) {
+    use Illuminate\Database\Eloquent\Builder;
+
+    $posts = App\Post::withCount(['votes', 'comments' => function (Builder $query) {
         $query->where('content', 'like', 'foo%');
     }])->get();
 
@@ -853,9 +935,11 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
 동일한 관계에 대하여 여러번 카운트를 수행하기 위해서 카운트 결과에 별칭(alias)를 부여할 수도 있습니다:
 
+    use Illuminate\Database\Eloquent\Builder;
+
     $posts = App\Post::withCount([
         'comments',
-        'comments as pending_comments_count' => function ($query) {
+        'comments as pending_comments_count' => function (Builder $query) {
             $query->where('approved', false);
         }
     ])->get();
@@ -866,7 +950,7 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
 `withCount` 와 `select` 구문을 조합한다면, `select` 메소드 뒤에 `withCount` 호출하도록 구성하십시오:
 
-    $query = App\Post::select(['title', 'body'])->withCount('comments');
+    $posts = App\Post::select(['title', 'body'])->withCount('comments')->get();
 
     echo $posts[0]->title;
     echo $posts[0]->body;
@@ -928,32 +1012,100 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
 
 "점" 구문을 이용하면 중첩된 관계들을 eager 로드할 수 있습니다. 예를 들어, 하나의 Eloquent 구문(statement)에서 책의 모든 저자들과 저자들의 모든 연락처를 eager 로드해보겠습니다:
 
-    $books = App\Book::with('author.contacts')->get();
+#### 중첩 된 `morphTo` 관계의 Eager Loading
+
+`morphTo` 관계뿐만 아니라 그 관계에 의해 리턴 될 수있는 다양한 엔티티들에 중첩 된 관계를 eager 로드 하고 싶다면, `morph` 관계의 `morphWith` 메소드와 함께 `with` 메소드를 사용할 수 있습니다. 이 방법을 설명하기 위해 다음 모델을 고려해 보겠습니다.
+
+    <?php
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class ActivityFeed extends Model
+    {
+        /**
+         * Get the parent of the activity feed record.
+         */
+        public function parentable()
+        {
+            return $this->morphTo();
+        }
+    }
+
+이 예제에서 `Event`,`Photo`,`Post` 모델이 `ActivityFeed` 모델을 생성한다고 가정합시다. 또한 `Event`모델이 `Calendar`모델에 속하고, `Photo`모델이 `Tag`모델과 관련이 있고 `Post`모델이 `Author`모델에 속한다고 가정 해 보겠습니다.
+
+이 모델 정의와 관계를 사용하여 우리는 `ActivityFeed` 모델 인스턴스를 검색 할 수 있으며 모든 `parentable`모델과 각각의 중첩 관계를 eager 로드 할 수 있습니다 :
+
+    use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+    $activities = ActivityFeed::query()
+        ->with(['parentable' => function (MorphTo $morphTo) {
+            $morphTo->morphWith([
+                Event::class => ['calendar'],
+                Photo::class => ['tags'],
+                Post::class => ['author'],
+            ]);
+        }])->get();
 
 #### Eager 로딩에서 컬럼 지정하기
 
 조회하고자 하는 관계에서 항상 모든 컬럼이 필요한 것은 아닙니다. 이 경우, Eloquent 는 조회하고자 하는 관계에 컬럼을 지정할 수 있습니다:
 
-    $users = App\Book::with('author:id,name')->get();
+    $books = App\Book::with('author:id,name')->get();
 
-> {note} 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼이 포함되어 있어야 합니다.
+> {note} 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼과 관련 외래 키 컬럼이 포함되어 있어야 합니다.
+
+#### 기본적으로 Eager Loading 하기
+
+때로는 모델을 검색 할 때 항상 일부 관계를 로드하려고 할 수 있습니다. 이를 위해 모델에 `$with` 속성을 정의 할 수 있습니다 :
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Book extends Model
+    {
+        /**
+         * The relationships that should always be loaded.
+         *
+         * @var array
+         */
+        protected $with = ['author'];
+
+        /**
+         * Get the author that wrote the book.
+         */
+        public function author()
+        {
+            return $this->belongsTo('App\Author');
+        }
+    }
+   
+단일 쿼리에 대한 `$with` 속성에서 항목을 제거하려면 `without` 메소드를 사용할 수 있습니다.
+
+    $books = App\Book::without('author')->get();
 
 <a name="constraining-eager-loads"></a>
 ### Eager 로딩에서 조건을 통해 질의 제한하기
 
 때로는 관계를 eager 로드하면서 eager 로딩 쿼리에 추가적인 쿼리 제한들을 지정하고 싶을 수 있습니다. 다음은 그 예제입니다:
 
-    $users = App\User::with(['posts' => function ($query) {
+    use Illuminate\Database\Eloquent\Builder;
+
+    $users = App\User::with(['posts' => function (Builder $query) {
         $query->where('title', 'like', '%first%');
     }])->get();
 
 이 예제에서 Eloquent는 게시물의 `title` 컬럼이 `first`라는 단어를 포함할 때만 게시물을 eager 로드할 것입니다. 다른 [쿼리 빌더](/docs/{{version}}/queries)메소드를 호출하여 계속하여서 eager 로딩 작업을 커스터마이즈할 수 있습니다:
 
-    $users = App\User::with(['posts' => function ($query) {
+    use Illuminate\Database\Eloquent\Builder;
+
+    $users = App\User::with(['posts' => function (Builder $query) {
         $query->orderBy('created_at', 'desc');
     }])->get();
 
-> {note} eager load를 제한 할 때 `limit`과 `take` 쿼리 빌더 메소드는 사용할 수 없습니다.
+> {note} eager 로드를 제한 할 때 `limit`과 `take` 쿼리 빌더 메소드는 사용할 수 없습니다.
 
 <a name="lazy-eager-loading"></a>
 ### 지연 Eager 로딩
@@ -968,7 +1120,9 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
 
 Eager 로딩 쿼리에 추가적인 쿼리 제한을 지정해야 할 경우, `load` 메소드에 로그하고자 하는 관계에 대한 키로 구성된 배열을 전달할 수 있습니다. 이 배열의 값은 쿼리 인스턴스를 인자로 받아들이는 `Closure`이어야만 합니다:
 
-    $books->load(['author' => function ($query) {
+    use Illuminate\Database\Eloquent\Builder;
+
+    $books->load(['author' => function (Builder $query) {
         $query->orderBy('published_date', 'asc');
     }]);
 
@@ -1102,7 +1256,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
 <a name="default-models"></a>
 #### 기본 모델
 
-`belongsTo` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다 :
+`belongsTo`, `hasOne`, `hasOneThrough`, 와 `morphOne` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다 :
 
     /**
      * Get the author of the post.

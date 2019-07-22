@@ -280,8 +280,9 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 명령어 | 설명
 ------------- | -------------
 `valet forget` | parked 디렉토리 목록에서 디렉토리를 제거하기 위해서는 "parked" 된 디렉토리에서 이 명령어를 실행하십시오.
+`valet log` | Valet의 서비스가 작성한 로그 목록보기.
 `valet paths` | "parked" 된 모든 경로를 확인합니다.
 `valet restart` | 발렛 데몬을 재시작 합니다.
 `valet start` | 발렛 데몬을 시작합니다.
 `valet stop` | 발렛 데몬을 중지합니다.
-`valet uninstall` | 발렛 데몬을 완전히 삭제합니다.
+`valet uninstall` | Valet 데몬 제거.

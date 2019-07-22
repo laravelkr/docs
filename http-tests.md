@@ -2,6 +2,7 @@
 
 - [시작하기](#introduction)
     - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
+    - [응답 디버깅](#debugging-responses)
 - [세션 / 인증](#session-and-authentication)
 - [JSON API 테스팅](#testing-json-apis)
 - [파일 업로드 테스트하기](#testing-file-uploads)
@@ -68,6 +69,36 @@
     }
 
 > {tip} 테스트가 실행되는 동안 CSRF 미들웨어는 자동으로 비활성화 됩니다.
+
+<a name="debugging-responses"></a>
+### 응답 디버깅
+
+애플리케이션에 테스트 요청을 한 후에는 `dump` 및 `dumpHeaders` 메소드를 사용하여 응답 내용을 검사하고 디버그 할 수 있습니다.
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic test example.
+         *
+         * @return void
+         */
+        public function testBasicTest()
+        {
+            $response = $this->get('/');
+
+            $response->dumpHeaders();
+
+            $response->dump();
+        }
+    }
 
 <a name="session-and-authentication"></a>
 ## 세션 / 인증
@@ -380,9 +411,9 @@ response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
 <a name="assert-json-validation-errors"></a>
 #### assertJsonValidationErrors
 
-response-응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지고 있는지 확인:
+response-응답이 JSON 유효성 에러를 가지고 있는지 확인:
 
-    $response->assertJsonValidationErrors($keys);
+    $response->assertJsonValidationErrors(array $data);
 
 <a name="assert-location"></a>
 #### assertLocation
@@ -506,9 +537,16 @@ response-응답이 주어진 코드를 가지고 있는지 확인:
 <a name="assert-successful"></a>
 #### assertSuccessful
 
-response-응답이 성공적인 상태코드를 가지고 있는지 확인:
+response-응답이 성공적인 상태코드(200)를 가지고 있는지 확인:
 
     $response->assertSuccessful();
+
+<a name="assert-unauthorized"></a>
+#### assertUnauthorized
+
+response-응답이 unauthorized 상태코드(401)를 가지고 있는지 확인:
+
+    $response->assertUnauthorized();
 
 <a name="assert-view-has"></a>
 #### assertViewHas
@@ -543,9 +581,10 @@ response-응답 뷰가 주어진 데이터가 아닌것을 확인:
 
 라라벨은 또한 [PHPUnit](https://phpunit.de/) 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다:
 
-Method  | Description
+메소드  | 설명
 ------------- | -------------
-`$this->assertAuthenticated($guard = null);`  |  Assert that the user is authenticated.
-`$this->assertGuest($guard = null);`  |  Assert that the user is not authenticated.
-`$this->assertAuthenticatedAs($user, $guard = null);`  |  Assert that the given user is authenticated.
-`$this->assertCredentials(array $credentials, $guard = null);`  |  Assert that the given credentials are valid.
+`$this->assertAuthenticated($guard = null);`  |  사용자가 인증되었는지 확인.
+`$this->assertGuest($guard = null);`  |  사용자가 인증되지 않은 것을 확인.
+`$this->assertAuthenticatedAs($user, $guard = null);`  |  주어진 사용자가 인증되었는지 확인.
+`$this->assertCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효한지 확인.
+`$this->assertInvalidCredentials(array $credentials, $guard = null);`  |  주어진 인증정보가 유효하지 않은 것을 확인.

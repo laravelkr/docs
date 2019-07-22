@@ -5,7 +5,7 @@
     - [읽기 & 쓰기 커넥션](#read-and-write-connections)
     - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
 - [Raw SQL 쿼리 실행하기](#running-queries)
-    - [쿼리 이벤트 리스닝](#listening-for-query-events)
+- [쿼리 이벤트 리스닝](#listening-for-query-events)
 - [데이터베이스 트랙잭션](#database-transactions)
 
 <a name="introduction"></a>
@@ -37,7 +37,19 @@ SQLite 연결에 외래 키 제약 조건을 사용하려면 `config/database.ph
     'sqlite' => [
         // ...
         'foreign_key_constraints' => true,
-    ],
+#### URL을 사용하여 구성
+
+일반적으로 데이터베이스 연결은 `host`, `database`, `username`, `password` 등과 같은 여러가지 설정 값을 사용하여 구성됩니다. 이러한 구성 값 각각은 해당 환경 변수를 갖습니다. 즉, 프로덕션 서버에서 데이터베이스 연결 정보를 구성 할 때 여러 환경 변수를 관리해야합니다.
+
+Heroku와 같은 일부 관리 데이터베이스 공급자는 단일 문자열에서 데이터베이스의 모든 연결 정보를 포함하는 단일 데이터베이스 "URL"을 제공합니다. 데이터베이스 URL의 예는 다음과 같습니다.
+
+    mysql://root:password@127.0.0.1/forge?charset=UTF-8
+
+이러한 URL은 일반적으로 표준 스키마 규칙을 따릅니다.
+
+    driver://username:password@host:port/database?options
+
+편의상 Laravel은 여러 구성 옵션으로 데이터베이스를 구성하는 대신 이러한 URL을 지원합니다. `url` (또는 대응하는`DATABASE_URL` 환경 변수) 설정 옵션이 존재하면, 데이터베이스 연결과 인증 정보를 추출하는데 사용됩니다.
 
 <a name="read-and-write-connections"></a>
 ### 읽기 & 쓰기 커넥션
@@ -48,10 +60,15 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
     'mysql' => [
         'read' => [
-            'host' => ['192.168.1.1'],
+            'host' => [
+                '192.168.1.1',
+                '196.168.1.2',
+            ],
         ],
         'write' => [
-            'host' => ['196.168.1.2'],
+            'host' => [
+                '196.168.1.3',
+             ],
         ],
         'sticky'    => true,
         'driver'    => 'mysql',
@@ -65,7 +82,7 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
 설정 배열에 `read`, `write` 그리고 `sticky` 세개의 키가 추가 된것을 참고하십시오. `read` 와 `write` 키는 `host`라는 하나의 키를 포함하는 배열 값입니다: `read` 와 `write` 의 나머지 데이터베이스 옵션 값은 기본 `mysql` 배열에서 합쳐(merge)집니다.
 
-따라서 메인 배열에서 재정의하고자하는 값들을 `read`와 `write` 배열에 입력하기만 하면 됩니다. 위의 경우에서는 `192.168.1.1`는 "read(읽기용)" 커넥션에 대한 호스트로 사용되고, `192.168.1.2`는  "write(쓰기용)" 커넥션에 대한  호스트로 사용될 것입니다. 메인 `mysql`설정 배열에 포함된 데이터베이스 연결정보, 프리픽스, 캐릭터 셋 등 다른 모든 옵션들은 양쪽연결에서 모두 공유될 것입니다.
+따라서 메인 배열에서 재정의하고자하는 값들을 `read`와 `write` 배열에 입력하기만 하면 됩니다. 위의 경우에서는 `192.168.1.1`는 "read(읽기용)" 커넥션에 대한 호스트로 사용되고, `192.168.1.3`는  "write(쓰기용)" 커넥션에 대한  호스트로 사용될 것입니다. 메인 `mysql`설정 배열에 포함된 데이터베이스 연결정보, 프리픽스, 캐릭터 셋 등 다른 모든 옵션들은 양쪽연결에서 모두 공유될 것입니다.
 
 #### `sticky` 옵션
 
@@ -152,7 +169,7 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
     DB::statement('drop table users');
 
 <a name="listening-for-query-events"></a>
-### 쿼리 이벤트 리스닝
+## 쿼리 이벤트 리스닝
 
 애플리케이션에서 실행되는 각각의 쿼리를 확인하고자 한다면 `listen` 메소드를 사용하면 됩니다. 이 메소드는 쿼리를 로그로 남기거나, 디버깅 할 때 유용합니다. [서비스 프로바이더](/docs/{{version}}/providers)에서 쿼리 리스너를 등록할 수 있습니다:
 
@@ -166,6 +183,16 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -177,16 +204,6 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
                 // $query->bindings
                 // $query->time
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -210,7 +227,6 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
         DB::table('posts')->delete();
     }, 5);
-
 
 #### 수동으로 트랙잭션 사용하기
 

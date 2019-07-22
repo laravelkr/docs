@@ -9,6 +9,7 @@
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
     - [Batches](#filtering-batches)
+- [Tagging](#tagging)
 - [Available Watchers](#available-watchers)
     - [Cache Watcher](#cache-watcher)
     - [Command Watcher](#command-watcher)
@@ -38,8 +39,6 @@
 <a name="installation"></a>
 ## 설치하기
 
-> {note} Telescope는 라라벨 5.7.7 이상을 필요로 합니다.
-
 컴포저를 이용해서 라라벨 프로젝트에 Telescope를 설치 할 수 있습니다:
 
     composer require laravel/telescope
@@ -59,13 +58,13 @@ Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해�
 
 ### 특정 환경에서만 설치
 
-로컬 개발에서만 Telescope를 사용할 계획이라면 `--dev` 플래그를 사용하여 Telescope를 설치할 수 있습니다 :
+로컬 개발에서만 Telescope를 사용할 계획이라면 `--dev` 플래그를 사용하여 Telescope를 설치할 수 있습니다.
 
     composer require laravel/telescope --dev
 
 `telescope:install` 을 실행 한 후 `app` 설정 파일에서 `TelescopeServiceProvider` 서비스 프로바이더 등록을 제거해야합니다. 대신 직접 `AppServiceProvider` 의 `register` 메소드에 서비스 프로바이더를 등록하십시오 :
 
-    use Laravel\Telescope\TelescopeServiceProvider;
+    use App\Providers\TelescopeServiceProvider;
 
     /**
      * Register any application services.
@@ -185,6 +184,31 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
         });
     }
 
+<a name="tagging"></a>
+## Tagging
+
+Telescope로 "태그"로 항목을 검색 할 수 있습니다. 종종 태그는 Eloquent 모델 클래스 이름이거나 Telescope가 항목에 자동으로 추가하는 인증 된 사용자 ID입니다. 경우에 따라 사용자 정의 태그를 항목에 첨부 할 수 있습니다. 이를 위해서 `Telescope::tag` 메소드를 사용할 수 있습니다. `tag` 메소드는 태그의 배열을 리턴해야하는 콜백을 받아들입니다. 콜백에 의해 반환 된 태그는 Telescope가 자동으로 항목에 첨부 하는 태그와 합쳐집니다. `TelescopeServiceProvider` 내에서 `tag` 메소드를 호출해야합니다.
+
+    use Laravel\Telescope\Telescope;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->hideSensitiveRequestDetails();
+
+        Telescope::tag(function (IncomingEntry $entry) {
+            if ($entry->type === 'request') {
+                return ['status:'.$entry->content['response_status']];
+            }
+
+            return [];
+        });
+     }
+
 <a name="available-watchers"></a>
 ## 사용가능한 와쳐
 
@@ -303,12 +327,12 @@ job 와처는 애플리케이션에서 job 이 처리되는 데이터와 상태�
 
 > {note} Redis 와처를 위해서 redis events 가 활성화 되어 있어야 합니다. `app/Providers/AppServiceProvider.php` 파일의 `boot` 메소드 안에서 `Redis::enableEvents()` 를 호출하면 됩니다.
 
-redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록하빈다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
+redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록합니다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
 
 <a name="request-watcher"></a>
 ### Request Watcher
 
-request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
+request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 `size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
 
     'watchers' => [
         Watchers\RequestWatcher::class => [

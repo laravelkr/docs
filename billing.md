@@ -8,6 +8,7 @@
     - [Billable 모델](#billable-model)
     - [API Keys](#api-keys)
     - [화폐 설정하기](#currency-configuration)
+    - [Webhooks](#webhooks)
 - [정기 구독 모델](#subscriptions)
     - [새로운 정기 구독 생성하기](#creating-subscriptions)
     - [정기 구독 상태 확인하기](#checking-subscription-status)
@@ -43,8 +44,6 @@
 
 라라벨 캐셔는 [Stripe](https://stripe.com)에 의해서 제공되는 손쉽고 편리한 구독(정기 과금) 서비스를 위한 인터페이스를 제공합니다. 라라벨 캐셔는 여러분이 작성하는데 어려움을 겪는 구독을 위한 청구서에서 필요한 거의 모든 관용구문들을 다룹니다.  기본적인 구독 관리 외에도, 캐셔를 통해서 쿠폰 관리, 구독 변경, 구매 수량 변경, 취소 유예 기간, 그리고 청구서를 PDF로 생성할 수도 있습니다.
 
-> {note} 본 문서는 캐셔의 Stripe 연동을 위한 것입니다. Braintree를 사용하신다면, [Braintree 연동 문서](/docs/{{version}}/braintree)를 확인하시기 바랍니다.
-
 > {note} 만약 여러분이 "한번의 결제"만을 사용하고 정기 과금형태의 구독모델을 사용하지 않는다면, 캐셔를 사용할 필요가 없습니다. 대신에, Stripe SDK를 직접 사용하면 됩니다.
 
 <a name="upgrading-cashier"></a>
@@ -54,7 +53,7 @@
 
 <a name="installation"></a>
 ## 설치하기
-    
+
 먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
 
     composer require laravel/cashier
@@ -67,16 +66,16 @@
 
 캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('stripe_id')->nullable()->collation('utf8mb4_bin');
         $table->string('card_brand')->nullable();
         $table->string('card_last_four', 4)->nullable();
         $table->timestamp('trial_ends_at')->nullable();
     });
 
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->unsignedInteger('user_id');
+    Schema::create('subscriptions', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->unsignedBigInteger('user_id');
         $table->string('name');
         $table->string('stripe_id')->collation('utf8mb4_bin');
         $table->string('stripe_plan');
@@ -106,7 +105,7 @@
 마지막으로 `services.php` 설정 파일에 Stripe 키를 지정해야 합니다: Stripe API key는 Stripe 설정 패널에서 확인할 수 있습니다:
 
     'stripe' => [
-        'model'  => App\User::class,
+        'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
         'webhook' => [
@@ -123,6 +122,11 @@
     use Laravel\Cashier\Cashier;
 
     Cashier::useCurrency('eur', '€');
+
+<a name="webhooks"></a>
+### Webhooks
+
+캐셔가 모든 Stripe 이벤트를 제대로 처리하게 하려면 [캐셔 Webhook의 동작을 설정](#handling-stripe-webhooks) 하시길 강력히 권장합니다.
 
 <a name="subscriptions"></a>
 ## 정기 구독 모델
@@ -191,7 +195,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
         //
     }
 
-`recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 trail 기간에 속해 있지 않은지를 확인할 때 사용될 수 있습니다. 
+`recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 평가 기간에 속해 있지 않은지를 확인할 때 사용 할 수 있습니다. 
 
 	if ($user->subscription('main')->recurring()) {
         //
@@ -211,8 +215,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
         //
     }
 
-    
-사용자가 취소한 구독이 더이상 "grace period" 내에 있지 않다는 것을 확인하려면, `ended` 메소드를 사용할 수 있습니다.
+사용자가 구독을 취소했으며 더 이상 "유예 기간"내에 있지 않은지 확인하려면 `ended` 메소드를 사용할 수 있습니다 :
 
     if ($user->subscription('main')->ended()) {
         //
@@ -344,7 +347,7 @@ Stripe 신용카드 / 소스 토큰을 전달받아 `create` 메소드는 정기
                 ->trialDays(10)
                 ->create($token);
 
-이 메소드는 데이터베이스 안의 구독 레코드에 트라이얼 기간의 종료일을 설정하고, Stripe 에게 이 기간이 지나기 전까지 고객에게 청구하지 않도록 지시합니다.
+이 메소드는 데이터베이스 안의 구독 레코드에 트라이얼 기간의 종료일을 설정하고, Stripe 에게 이 기간이 지나기 전까지 고객에게 청구하지 않도록 지시합니다. `trialDays` 메소드를 사용할 때 캐셔는 Stripe의 정책에 의해 설정된 기본 평가 기간을 덮어 씁니다.
 
 > {note} 트라이얼 기간 종료 이전에 고객이 구독을 취소하지 않으면 트라이얼 기간이 만료되는 즉시 요금이 부과되므로, 트라이얼의 종료일을 사용자에게 공지해야합니다.
 

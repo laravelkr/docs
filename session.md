@@ -245,7 +245,17 @@ HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HT
     class SessionServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -255,16 +265,6 @@ HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HT
                 // Return implementation of SessionHandlerInterface...
                 return new MongoSessionHandler;
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

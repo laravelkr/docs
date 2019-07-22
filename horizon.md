@@ -1,6 +1,7 @@
 # 라라벨 Horizon
 
 - [시작하기](#introduction)
+- [Horizon 업그레이드](#upgrading)
 - [설치하기](#installation)
     - [설정하기](#configuration)
     - [Dashboard 권한 부여](#dashboard-authorization)
@@ -40,10 +41,21 @@ Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하�
 
     php artisan migrate
 
+<a name="upgrading"></a>
+#### Horizon 업그레이드
+
+Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
+
+또한 Horizon의 자산-asssets을 다시 게시해야합니다.
+
+    php artisan horizon:assets
+
 <a name="configuration"></a>
 ### 설정하기
 
 퍼블리싱을 완료하고 나면 `config/horizon.php`라는 주요 설정파일이 복사됩니다. 이 파일을 통해서 worker의 옵션을 설정 할 수 있습니다. 각각 설정 옵션에는 용도에 대한 설명이 주석으로 표시 되어있으므로 내용을 자세히 확인 하시기 바랍니다.
+
+> {note} `horizon` 설정 파일의 `environments` 부분에는 Horizon을 실행할 각 환경에 대한 엔트리가 포함되어 있어야합니다.
 
 #### 밸런스 옵션
 
@@ -196,7 +208,7 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 <a name="notifications"></a>
 ## 알림
 
-> **Note:** Horizon 을 사용해서 슬랙이나 SMS 알림을 보내도록 설정할 때에는, [알림 드라이버와 연결된 사전 준비사항](https://laravel.com/docs/{{version}}/notifications)을 확인해야 합니다.
+> **Note:** Horizon 을 사용해서 슬랙이나 SMS 알림을 보내도록 설정할 때에는, [알림 드라이버와 연결된 사전 준비사항](/docs/{{version}}/notifications)을 확인해야 합니다.
 
 대기 시간이 긴 Queue에 대한 알림을 받으려면 애플리케이션의 `AppServiceProvider`에서 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, 또는 `Horizon::routeSmsNotificationsTo` 메서드를 사용 하십시오:
 

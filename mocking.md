@@ -38,6 +38,14 @@
         $mock->shouldReceive('process')->once();
     });
 
+비슷하게, 객체를 감시하고 싶다면 Laravel의 기본 테스트 케이스 클래스는 `Mockery::spy` 메소드를 둘러싼 편리한 래퍼로서 `spy` 메소드를 제공합니다.
+
+    use App\Service;
+
+    $this->spy(Service::class, function ($mock) {
+        $mock->shouldHaveReceived('process');
+    });
+
 <a name="bus-fake"></a>
 ## Bus Fake
 
@@ -334,19 +342,22 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     class ExampleTest extends TestCase
     {
-        public function testAvatarUpload()
+        public function testAlbumUpload()
         {
-            Storage::fake('avatars');
+            Storage::fake('photos');
 
-            $response = $this->json('POST', '/avatar', [
-                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            $response = $this->json('POST', '/photos', [
+                UploadedFile::fake()->image('photo1.jpg'),
+                UploadedFile::fake()->image('photo2.jpg')
             ]);
 
-            // Assert the file was stored...
-            Storage::disk('avatars')->assertExists('avatar.jpg');
+            // Assert one or more files were stored...
+            Storage::disk('photos')->assertExists('photo1.jpg');
+            Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-            // Assert a file does not exist...
-            Storage::disk('avatars')->assertMissing('missing.jpg');
+            // Assert one or more files were not stored...
+            Storage::disk('photos')->assertMissing('missing.jpg');
+            Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
         }
     }
 

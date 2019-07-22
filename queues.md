@@ -352,6 +352,22 @@ job을 처리하는 queue에 대해서 `onConnection` 과 `onQueue` 메소드를
     ProcessPodcast::dispatch($podcast)
                   ->onConnection('sqs')
                   ->onQueue('processing');
+                  
+또는 작업 클래스에서 `connection`을 속성으로 지정할 수 있습니다.
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The queue connection that should handle the job.
+         *
+         * @var string
+         */
+        public $connection = 'sqs';
+    }
 
 <a name="max-job-attempts-and-timeout"></a>
 ### 최대 재시도 횟수 / 타임아웃 시간 지정하기
@@ -426,7 +442,7 @@ job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 �
 
 애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다.
 
- 예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
+예를들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 릴리즈 하여 나중에 다시 시도하도록 할 수 있습니다:
 
     Redis::throttle('key')->allow(10)->every(60)->then(function () {
         // Job logic...
@@ -480,6 +496,8 @@ job이 처리되는 동안에 exception이 발생하면, job은 자동으로 다
 > {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않고 계속되는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
 
 주의할 점은 queue worker는 장시간 동안 살아 있는 프로세스로, 애플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
+
+또는 `queue:listen` 명령을 실행할 수도 있습니다. `queue:listen` 명령을 사용할 때 코드가 변경된 후에는 worker를 수동으로 다시 시작할 필요가 없습니다. 그러나 이 명령은 `queue:work`만큼 효율적이지 않습니다.
 
 #### 커넥션 & queue-큐 지정하기
 
@@ -606,6 +624,19 @@ Supervisor에 대한 보다 자세한 정보는 [Supervisor 문서](http://super
 
     php artisan queue:work redis --tries=3
 
+또한 `--delay` 옵션을 사용하여 실패한 작업을 다시 시도하기 전에 Laravel이 기다려야하는 시간을 지정할 수 있습니다. 기본적으로 Job은 즉시 재시도됩니다.
+
+    php artisan queue:work redis --tries=3 --delay=3
+
+Job 마다 실패한 Job의 재시도 지연을 설정하려면 대기중인 Job 클래스에 `retryAfter` 속성을 정의하면됩니다.
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $retryAfter = 3;
+
 <a name="cleaning-up-after-failed-jobs"></a>
 ### 실패한 Job 정리하기
 
@@ -679,7 +710,7 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Register the service provider.
+         * Register any application services.
          *
          * @return void
          */
@@ -757,6 +788,16 @@ Eloquent 모델을 작업에 주입 할 때 대기열에 배치되기 전에 자
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -774,16 +815,6 @@ Eloquent 모델을 작업에 주입 할 때 대기열에 배치되기 전에 자
                 // $event->job
                 // $event->job->payload()
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

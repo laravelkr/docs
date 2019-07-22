@@ -17,6 +17,7 @@
 - [폼](#forms)
     - [CSRF 필드](#csrf-field)
     - [메소드 필드](#method-field)
+    - [유효성 검증 실패](#validation-errors)
 - [하위 뷰파일 포함시키기](#including-sub-views)
     - [컬렉션을 뷰에서 렌더링하기](#rendering-views-for-collections)
 - [스택](#stacks)
@@ -83,6 +84,10 @@
 
 > {tip} 이전 예제와는 다르게, `sidebar` 섹션은 `@show` 대신에 `@endsection` 으로 끝납니다. `@endsection` 지시어는 섹션 만을 정의하고, `@show`는 정의하는 **즉시 섹션을 생성** 합니다.
 
+또한 `@yield` 지시어는 두 번째 매개 변수를 통해 기본값을 입력받습니다. 해당 섹션이 정의되지 않을 경우 이 값이 렌더링됩니다.
+
+    @yield('content', View::make('view.name'))
+
 블레이드 뷰도 글로벌 `view` 헬퍼를 사용하여 라우트에서 반환될 수 있습니다:
 
     Route::get('blade', function () {
@@ -103,6 +108,12 @@
 이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
 
     @component('alert')
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent
+    
+Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다 :
+
+    @componentFirst(['custom.alert', 'alert'])
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
 
@@ -189,11 +200,21 @@
         var app = <?php echo json_encode($array); ?>;
     </script>
 
-직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다:
+직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다. `@json` 지시어는 PHP의 `json_encode` 함수와 같은 인수를 받아들입니다.
 
     <script>
         var app = @json($array);
+
+        var app = @json($array, JSON_PRETTY_PRINT);
     </script>
+
+> {note} 기존 변수를 JSON으로 렌더링하려면 `@json` 지시어 만 사용해야합니다. Blade 템플릿은 정규 표현식을 기반으로하며 지시어에 복잡한 표현식을 전달하려고하면 예상치 못한 오류가 발생할 수 있습니다.
+
+또한 `@json` 지시어는 Vue 컴포넌트 나 `data-*` 속성을 시딩하는데 유용합니다 :
+
+    <example-component :some-prop='@json($array)'></example-component>
+
+> {note} 엘리먼츠의 속성에서 `@json`을 사용하려면 홑따옴표로 묶어야합니다.
 
 #### HTML Entity 인코딩
 
@@ -272,8 +293,6 @@
 
     @empty($records)
         // $records is "empty"...
-    @endempty
-
 #### 인증 관련 지시어
 
 `@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다:
@@ -294,8 +313,6 @@
 
     @guest('admin')
         // The user is not authenticated...
-    @endguest
-
 #### 섹션 지시어
 
 `@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다:
@@ -404,6 +421,16 @@
 
 `$loop` 변수는 그 밖에도 여러가지 유용한 속성을 가지고 있습니다:
 
+Property  | Description
+------------- | -------------
+`$loop->index`  |  The index of the current loop iteration (starts at 0).
+`$loop->iteration`  |  The current loop iteration (starts at 1).
+`$loop->remaining`  |  The iterations remaining in the loop.
+`$loop->count`  |  The total number of items in the array being iterated.
+`$loop->first`  |  Whether this is the first iteration through the loop.
+`$loop->last`  |  Whether this is the last iteration through the loop.
+`$loop->depth`  |  The nesting level of the current loop.
+`$loop->parent`  |  When in a nested loop, the parent's loop variable.
 속성 | 설명
 ------------- | -------------
 `$loop->index`  |  현재 반복문의 인덱스(0 부터 시작).
@@ -457,6 +484,21 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
 
         ...
     </form>
+
+<a name="validation-errors"></a>
+### 유효성 검증 실패
+
+`@error` 지시어는 주어진 속성에 대해 [유효성 검증 실패 메세지](/docs/{{version}}/validation#quick-displaying-the-validation-errors) 가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo 하여 에러 메시지를 표시 할 수 있습니다 :
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="including-sub-views"></a>
 ## 하위 뷰 포함하기

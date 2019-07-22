@@ -6,16 +6,13 @@
     - [홈스테드 설정](#configuring-homestead)
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [프로젝트별 설치하기](#per-project-installation)
-    - [MariaDB 설치하기](#installing-mariadb)
-    - [MongoDB 설치하기](#installing-mongodb)
-    - [Elasticsearch 설치하기](#installing-elasticsearch)
-    - [Neo4j 설치하기](#installing-neo4j)
     - [별칭 설정](#aliases)
 - [사용 방법](#daily-usage)
     - [어디에서나 홈스테드 엑세스하기](#accessing-homestead-globally)
     - [SSH로 접속하기 ](#connecting-via-ssh)
     - [데이터베이스에 접속하기](#connecting-to-databases)
     - [데이터베이스 백업하기Backups](#database-backups)
+    - [데이터베이스 스냅샷](#database-snapshots)
     - [사이트 추가하기](#adding-additional-sites)
     - [시스템 ENV 환경 변수](#environment-variables)
     - [Cron 설정하기](#configuring-cron-schedules)
@@ -26,6 +23,10 @@
     - [여러 버전의 PHP 사용하기](#multiple-php-versions)
     - [웹서버](#web-servers)
     - [이메일](#mail)
+- [디버깅과 프로파일링](#debugging-and-profiling)
+    - [Xdebug로 웹 요청 디버깅](#debugging-web-requests)
+    - [CLI 애플리케이션 디버깅](#debugging-cli-applications)
+    - [Blackfire로 애플리케이션 프로파일링](#profiling-applications-with-blackfire)
 - [네트워크 인터페이스](#network-interfaces)
 - [홈스테드 확장하기](#extending-homestead)
 - [홈스테드 업데이트하기](#updating-homestead)
@@ -39,7 +40,7 @@
 
 라라벨 홈스테드는 공식적으로 여러분이 PHP, 웹서버, 기타 다른 서버 소프트웨어를 설치할 필요가 없는 사전에 준비된 Vagrant box이며 멋진 개발 환경을 제공합니다. 운영체제가 너저분 해지는 것을 걱정할 필요가 없습니다! Vagrant box는 완전히 일회용입니다. 만약 뭔가 잘 되지 않는다면, 여러분은 몇분안에 다시 box를 생성할 수 있습니다.
 
-홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx 웹 서버, PHP 7.3, PHP 7.2, PHP 7.1, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
+홈스테드는 Windows, Mac 그리고 Linux 시스템에서 실행할 수 있으며 Nginx, PHP, MySQL, PostgreSQL, Redis, Memcached, Node 및 기타 라라벨 애플리케이션 개발에 필요한 멋진 도구들을 모두 포함하고 있습니다. .
 
 > {note} 만약 윈도우를 사용하는 경우, 하드웨어 가상화 (VT-x)를 활성화해야합니다. 이 설정은 일반적으로 BIOS에서 사용할 수 있습니다. 만약 UEFI 시스템에서 Hyper-V 를 사용중이라면 추가적으로 VT-x에 액세스하기 위해 Hyper-V를 비활성화 해야합니다.
 
@@ -52,10 +53,11 @@
 - PHP 7.3
 - PHP 7.2
 - PHP 7.1
+- PHP 7.0
+- PHP 5.6
 - Nginx
-- Apache (Optional)
 - MySQL
-- MariaDB (Optional)
+- lmm for MySQL or MariaDB database snapshots
 - Sqlite3
 - PostgreSQL
 - Composer
@@ -64,15 +66,41 @@
 - Memcached
 - Beanstalkd
 - Mailhog
-- Neo4j (Optional)
-- MongoDB (Optional)
-- Elasticsearch (Optional)
+- avahi
 - ngrok
+- Xdebug
+- XHProf / Tideways / XHGui
 - wp-cli
-- Zend Z-Ray
-- Go
 - Minio
 
+
+<a name="optional-software"></a>
+### Optional Software
+
+- Apache
+- Blackfire
+- Cassandra
+- Chronograf
+- CouchDB
+- Crystal & Lucky Framework
+- Docker
+- Elasticsearch
+- Gearman
+- Go
+- Grafana
+- InfluxDB
+- MariaDB
+- MinIO
+- MongoDB
+- MySQL 8
+- Neo4j
+- Oh My Zsh
+- Open Resty
+- PM2
+- Python
+- RabbitMQ
+- Solr
+- Webdriver & Laravel Dusk Utilities
 
 <a name="installation-and-setup"></a>
 ## 설치 & 구성하기
@@ -80,7 +108,7 @@
 <a name="first-steps"></a>
 ### 첫번째 단계
 
-라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/), [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
+라라벨 홈스테드를 구동하기 전에 여러분은 반드시 [VirtualBox 6.x](https://www.virtualbox.org/wiki/Downloads), [VMWare](https://www.vmware.com) 또는 [Parallels](https://www.parallels.com/products/desktop/), [Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 그리고 [Vagrant](https://www.vagrantup.com/downloads.html)를 설치해야 합니다. 이 소프트웨어 패키지들은 모든 운영체제에서 손쉽게 설치할 수 있는 인스톨러 프로그램을 제공합니다.
 
 VMware 프로바이더를 사용하려면 VMware Fusion / Workstation 과 [VMware Vagrant plug-in](https://www.vagrantup.com/vmware)을 구매해야 합니다. 무료는 아니지만, VMware 의 경우 추가적인 설정 없이도 더 빠른 공유폴더의 퍼포먼스를 제공합니다.
 
@@ -102,12 +130,11 @@ Git 저장소를 작업하는 머신에 복제하여 홈스테드를 설치할 �
 
     git clone https://github.com/laravel/homestead.git ~/Homestead
 
-`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다:
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다. 또는 항상 최신 안정 릴리즈가 포함 된 `release` 브랜치를 체크 아웃 할 수 있습니다 :
 
     cd ~/Homestead
 
-    // Clone the desired release...
-    git checkout v8.0.1
+    git checkout release
 
 홈스테드 저장소를 복제한 뒤에, 홈스테드 디렉토리에서 `bash init.sh` 명령어를 통해서 `Homestead.yaml` 설정 파일을 생성할 수 있습니다. 홈스테드 디렉토리에 `Homestead.yaml` 파일이 생성될 것입니다.
 
@@ -131,32 +158,36 @@ Git 저장소를 작업하는 머신에 복제하여 홈스테드를 설치할 �
 `Homestead.yaml` 파일의 `folders` 속성은 홈스테드 환경과 공유하고자 하는 모든 폴더가 나열되어 있습니다. 여러분의 로컬 머신과 홈스테드 환경사이에서 동기화된 이 폴더 안의 파일들이 변경되면  변경사항이 서로 유지됩니다. 필요한 만큼 공유 폴더를 설정하십시오:
 
     folders:
-        - map: ~/code
-          to: /home/vagrant/code
+        - map: ~/code/project1
+          to: /home/vagrant/project1
 
-몇개의 사이트만을 생성할 때에는 일반적인 맵핑으로도 충분합니다. 그렇지만, 사이트 수가 계속 증가하는 경우, 성능 문제를 겪을 수도 있습니다. 이 문제는 머신의 성능이 좋지 않거나, 프로젝트의 파일이 많은 경우에 아주 고통스럽습니다. 이러한 문제를 겪는다면, 프로젝트를 개별 Vagrant 폴더에 맵핑하십시오:
+> {note} Windows 사용자는 `~/`경로 구문을 사용하지 말고 대신 `C:\Users\user\Code\project1`와 같은 프로젝트의 전체 경로를 사용해야 합니다.
+
+`~/code` 폴더 전체를 매핑하는 대신 개별 프로젝트를 항상 자신의 폴더 매핑에 매핑해야합니다. 폴더를 매핑 할 때 가상머신은 폴더의 **모든** 파일에 대한 모든 디스크 IO를 추적해야합니다. 폴더에 많은 수의 파일이있는 경우 성능 문제가 발생합니다.
 
     folders:
         - map: ~/code/project1
-          to: /home/vagrant/code/project1
+          to: /home/vagrant/project1
 
         - map: ~/code/project2
-          to: /home/vagrant/code/project2
+          to: /home/vagrant/project2
+
+> {note} Homestead를 사용할 때는 `.` (현재 디렉토리)를 마운트하지 마십시오. 이로 인해 Vagrant는 현재 폴더를 `/vagrant`로 매핑하지 않으며 옵션 기능을 중단하고 프로비저닝하는 동안 예상치 못한 결과를 초래합니다.
 
 [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
 
     folders:
-        - map: ~/code
-          to: /home/vagrant/code
+        - map: ~/code/project1
+          to: /home/vagrant/project1
           type: "nfs"
 
-> {note} NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
+> {note} 윈도우에서 NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 box안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
 `options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다:
 
     folders:
-        - map: ~/code
-          to: /home/vagrant/code
+        - map: ~/code/project1
+          to: /home/vagrant/project1
           type: "rsync"
           options:
               rsync__args: ["--verbose", "--archive", "--delete", "-zz"]
@@ -168,13 +199,18 @@ Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/my-project/public
+          to: /home/vagrant/project1/public
 
 홈스테드 박스가 프로비저닝 된 이후에 `sites` 속성을 변경한다면, 가상머신의 Nginx 설정을 갱신하기 위해서 `vagrant reload --provision` 을 다시 실행시켜야만 합니다.
 
-#### Hosts 파일
+> {note} Homestead 스크립트는 가능한 한 멱등성을 유지하도록 만들어졌습니다. 그러나 프로비저닝 중에 문제가 발생하는 경우, `vagrant destroy && vagrant up`를 통해 가상머신을 제거하고 재구성해야합니다.
 
-여러분은 Nginx 사이트에 설정한 "도메인"을 로컬 머신의 `hosts` 파일에 추가해야 합니다. `hosts` 파일은 여러분의 홈스테드 사이트에 대한 요청을 홈스테드 머신으로 리다이렉트 시킬 것 입니다. 맥과 리눅스에서는 `/etc/hosts`, 윈도우에서는 `C:\Windows\System32\drivers\etc\hosts`에 파일이 있습니다. 다음과 같이 도메인을 추가하십시오.
+<a name="hostname-resolution"></a>
+#### Hostname 해결
+
+Homestead는 자동 호스트 해결을 위해 `mDNS`를 통해 hostname을 발행합니다. `Homestead.yaml` 파일에 `hostname:homestead`를 설정하면 `homestead.local`로 호스트를 사용할 수 있습니다. MacOS, iOS 및 Linux 데스크탑 배포판에는 기본적으로 `mDNS`지원이 포함되어 있습니다. Windows에서 [Windows 용 Bonjour Print Services](https://support.apple.com/kb/DL999?viewlocale=en_US&locale=ko_KR)를 설치해야합니다.
+
+자동 hostname 사용은 Homestead의 "프로젝트 별"설치에 가장 적합합니다. Homestead 인스턴스 하나에 여러 사이트를 호스팅하는 경우 웹 사이트의 "도메인"을 컴퓨터의 `hosts` 파일에 추가 할 수 있습니다. `hosts` 파일은 여러분의 홈스테드 사이트에 대한 요청을 홈스테드 머신으로 리다이렉트 시킬 것 입니다. 맥과 리눅스에서는 `/etc/hosts`, 윈도우에서는 `C:\Windows\System32\drivers\etc\hosts`에 파일이 있습니다. 이 파일에 추가하는 행은 다음과 같습니다.
 
     192.168.10.10  homestead.test
 
@@ -208,49 +244,58 @@ Windows:
 
     vendor\\bin\\homestead make
 
-다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.test` 프로젝트에 엑세스 하십시오. 유의할 것은 `/etc/hosts` 파일에 `homestead.test` 또는 선택한 도메인을 추가할 필요가 있다는 것입니다.
+다음으로 터미널에서 `vagrant up` 명령어를 실행하고 브라우저에서 `http://homestead.test` 프로젝트에 엑세스 하십시오. 자동화된 [hostname 해결](#hostname-resolution)을 사용하지 않는다면, `homestead.test` 또는 선택한 도메인을 `/etc/hosts` 파일에 추가 할 필요가 있다는 것을 기억하십시오.
 
-<a name="installing-mariadb"></a>
-### MariaDB 설치하기
+<a name="installing-optional-features"></a>
+### 옵션 기능 설치
 
-MySQL 대신에 MariaDB를 사용하고자 한다면, `Homestead.yaml` 파일에 `mariadb` 옵션을 추가하면 됩니다. 이 옵션은 MySQL을 제거하고 MariaDB를 설치할 것입니다. MariaDB는 MySQL을 바로 대체가능하기 때문에, 애플리케이션에서 `mysql` 데이터베이스 드라이버를 그대로 사용할 수 있습니다.
+선택적인 소프트웨어는 Homestead 설정 파일의 "features"설정을 사용하여 설치합니다. boolean 값으로 대부분의 기능을 활성화 또는 비활성화 할 수 있으며 일부 기능은 여러 옵션 설정이 가능합니다.
 
-    box: laravel/homestead
-    ip: "192.168.10.10"
-    memory: 2048
-    cpus: 4
-    provider: virtualbox
-    mariadb: true
+    features:
+        - blackfire:
+            server_id: "server_id"
+            server_token: "server_value"
+            client_id: "client_id"
+            client_token: "client_value"
+        - cassandra: true
+        - chronograf: true
+        - couchdb: true
+        - crystal: true
+        - docker: true
+        - elasticsearch:
+            version: 7
+        - gearman: true
+        - golang: true
+        - grafana: true
+        - influxdb: true
+        - mariadb: true
+        - minio: true
+        - mongodb: true
+        - mysql8: true
+        - neo4j: true
+        - ohmyzsh: true
+        - openresty: true
+        - pm2: true
+        - python: true
+        - rabbitmq: true
+        - solr: true
+        - webdriver: true
 
-<a name="installing-mongodb"></a>
-### MongoDB 설치하기
+#### MariaDB
 
-MongoDB 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정옵션을 추가해야합니다:
+MariaDB를 활성화하면 MySQL이 제거되고 MariaDB가 설치됩니다. MariaDB는 MySQL의 상위호환 대체품이기 때문에 애플리케이션의 데이터베이스 구성에서 mysql 데이터베이스 드라이버를 사용해야합니다.
 
-    mongodb: true
+#### MongoDB
 
 기본 MonogoDB 설치에는 `homestead` 를 계정 이름으로, `secret`을 패스워드로 지정됩니다.
 
-<a name="installing-elasticsearch"></a>
-### Elasticsearch 설치하기
+#### Elasticsearch
 
-Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵션을 추가하고 지원버전을 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본설치는 `homestead` 이름으로 클러스터가 생성됩니다. Elasticsearch 에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch 헬당한 것의 두배 이상의 메모리가 있는지 확인하십시오:
-
-    box: laravel/homestead
-    ip: "192.168.10.10"
-    memory: 4096
-    cpus: 4
-    provider: virtualbox
-    elasticsearch: 6
+Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본 설치는 'homestead'라는 이름으로 클러스터가 생성됩니다. Elasticsearch에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch에 할당한 것의 두배 이상의 메모리가 있는지 확인하십시오.
 
 > {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
 
-<a name="installing-neo4j"></a>
-### Neo4j 설치하기
-
-[Neo4j](https://neo4j.com/)는 그래프 데이터베이스 시스템입니다. Neo4j 커뮤니티 에디션을 설치하기 위해서는, `Homestead.yaml` 파일에 다음의 설정 옵션을 추가하면 됩니다:
-
-    neo4j: true
+#### Neo4j
 
 기본적인 Neo4j 설치에는 `homestead` 를 계정 이름으로 `secret`을 패스워드로 지정됩니다. Neo4j에 엑세스 하기 위해서는, 브라우저에서 `http://homestead.test:7474` 를 통해서 접근하면 됩니다. 포트 `7687` (Bolt), `7474` (HTTP), `7473` (HTTPS) 를 통해서 Neo4j 에 접근할 수 있습니다.
 
@@ -322,6 +367,21 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
 
 설정을 하고나면, 홈스테드는 `vagrant destroy` 명령이 실행될 때 데이터베이스를 `mysql_backup` 과 `postgres_backup` 디렉토리로 백업을 내보냅니다. 이 디렉토리는 [프로젝트 별 설치](#per-project-installation)방법을 사용하는 경우에는 루트 디렉토리에, 홈스테드를 클론(복제) 한 경우에는 해당 디렉토리에서 찾을 수 있습니다.
 
+<a name="database-snapshots"></a>
+### 데이터베이스 스냅샷
+
+Homestead는 MySQL 및 MariaDB 데이터베이스의 상태를 고정시키고 [Logical MySQL Manager](https://github.com/Lullabot/lmm)를 사용하여 이들 사이를 분기하는 것을 지원합니다. 예를 들어, 수 기가 바이트 데이터베이스가 있는 사이트에서 작업하는 것을 상상해보십시오. 데이터베이스를 가져 와서 스냅 샷을 만들 수 있습니다. 일부 작업을 수행하고 일부 테스트 컨텐츠를 로컬로 작성한 후 신속하게 원래 상태로 복원 할 수 있습니다.
+
+내부적으로 LMM은 LVM의 씬-thin 스냅 샷 기능을 사용하여 쓰기 중 복사를 지원합니다. 실제로 이는 테이블의 단일 행을 변경하면 디스크에 변경 사항 만 기록하여 복원 중 상당한 시간과 디스크 공간을 절약 할 수 있음을 의미합니다.
+
+`lmm`은 LVM과 상호 작용하기 때문에 `root`로 실행되어야 합니다. 사용 가능한 모든 명령을 보려면, 당신의 Vagrant 박스 안에 `sudo lmm`을 실행하십시오. 일반적인 작업순서는 다음과 같습니다.
+
+1. 디폴트 `master` lmm 브랜치로 데이터베이스를 임포트하십시오.
+1. `sudo lmm branch prod-YYYY-MM-DD`를 사용하여 변경되지 않은 데이터베이스의 스냅 샷을 저장하십시오.
+1. 데이터베이스를 수정하십시오.
+1. `sudo lmm merge prod -YYYY-MM-DD`를 실행하여 모든 변경 사항을 취소하십시오.
+1. `sudo lmm delete <branch>`를 실행하여 필요없는 브랜치를 삭제하십시오. 
+
 <a name="adding-additional-sites"></a>
 ### 추가적인 사이트 지정하기
 
@@ -329,9 +389,9 @@ Elasticsearch를 설치하려면 `Homestead.yaml` 파일에 `elasticsearch` 옵�
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/my-project/public
+          to: /home/vagrant/project1/public
         - map: another.test
-          to: /home/vagrant/code/another/public
+          to: /home/vagrant/project2/public
 
 Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다:
 
@@ -347,7 +407,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: symfony2.test
-          to: /home/vagrant/code/my-symfony-project/web
+          to: /home/vagrant/my-symfony-project/web
           type: "symfony2"
 
 사용가능한 사이트 타입에는 `apache`, `apigility`, `expressive`, `laravel` (기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, 그리고 `zf`가 있습니다.
@@ -359,7 +419,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/my-project/public
+          to: /home/vagrant/project1/public
           params:
               - key: FOO
                 value: BAR
@@ -386,7 +446,7 @@ Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/my-project/public
+          to: /home/vagrant/project1/public
           schedule: true
 
 사이트를 위한 Cron 작업은 가상 머신의 `/etc/cron.d` 폴더에 정의됩니다.
@@ -489,15 +549,17 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
 <a name="multiple-php-versions"></a>
 ### 여러 버전의 PHP 사용하기
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "7.1", "7.2", "7.3"(기본) 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3"(기본) 입니다:
 
     sites:
         - map: homestead.test
-          to: /home/vagrant/code/Laravel/public
+          to: /home/vagrant/project1/public
           php: "7.1"
 
 추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다:
 
+    php5.6 artisan list
+    php7.0 artisan list
     php7.1 artisan list
     php7.2 artisan list
     php7.3 artisan list
@@ -513,6 +575,81 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
 ### 이메일
 
 홈스테드는 기본적으로 `1025` 포트를 사용하는 Postfix 메일 전송 에이전트를 포함하고 있습니다. 따라서 애플리케이션에서 `smtp` 메일드라이버에 `localhost` 와 포트번호 `1025` 를 설정할 수 있습니다. 이렇게 하면 모든 메일은 Postfix로 처리되고 Mailhog 에 기록됩니다. 전달된 이메일을 확인하려면 브라우저에서 [http://localhost:8025](http://localhost:8025)를 열어보십시오.
+
+<a name="debugging-and-profiling"></a>
+## 디버깅과 프로파일링
+
+<a name="debugging-web-requests"></a>
+### Xdebug로 웹 요청 디버깅
+
+Homestead는 [Xdebug](https://xdebug.org)를 사용하여 단계별 디버깅을 지원합니다. 예를 들어 브라우저에서 웹 페이지를 로드 할 수 있으며, PHP는 IDE에 연결하여 실행중인 코드를 검사하고 수정할 수 있습니다.
+
+디버깅을 사용하려면 Vagrant 박스에서 다음 명령을 실행합니다.
+
+    sudo phpenmod xdebug
+
+    # Update this command to match your PHP version...
+    sudo systemctl restart php7.3-fpm
+
+그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 Xdebug와 함께 확장 프로그램이나 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/)이 실행되도록 브라우저를 구성합니다.
+
+> {note} Xdebug를 사용하면 PHP가 상당히 느리게 실행됩니다. Xdebug를 비활성화하려면, Vagrant 상자에서 `sudo phpdismod xdebug`를 실행하고 FPM 서비스를 다시 시작하십시오.
+
+<a name="debugging-cli-applications"></a>
+### CLI 애플리케이션 디버깅
+
+PHP CLI 애플리케이션을 디버깅하려면, Vagrant 박스 안에 `xphp` 쉘 별칭을 사용하십시오.
+
+#### Xdebug 자동시작
+
+웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7./fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
+
+    ; If Homestead.yml contains a different subnet for the IP address, this address may be different...
+    xdebug.remote_host = 192.168.10.1
+    xdebug.remote_autostart = 1
+
+<a name="profiling-applications-with-blackfire"></a>
+### Blackfire로 애플리케이션 프로파일링
+
+[Blackfire](https://blackfire.io/docs/introduction)는 웹 요청 및 CLI 애플리케이션 및 쓰기 성능 assertion을 프로파일링하는 SaaS 서비스입니다. 콜 그래프 및 타임 라인에 프로필 데이터를 표시하는 대화 형 사용자 인터페이스를 제공합니다. 이는 개발, 스테이징 및 프로덕션에서 사용하기 위해 제작되었으며 최종 사용자에게는 오버 헤드가 없습니다. 코드와 `php.ini` 설정 값에 대한 성능, 품질, 보안 검사를 제공합니다.
+
+[Blackfire Player](https://blackfire.io/docs/player/index)는 프로파일링 시나리오를 스크립팅하기 위해 Blackfire와 공동으로 작업 할 수있는 오픈 소스 웹 크롤링, 웹 테스트 및 웹 스크래핑 애플리케이션입니다.
+
+Blackfire를 사용하려면 Homestead 설정 파일에서 "features"설정을 사용하십시오.
+
+    features:
+        - blackfire:
+            server_id: "server_id"
+            server_token: "server_value"
+            client_id: "client_id"
+            client_token: "client_value"
+
+Blackfire 서버 인증 및 클라이언트 인증은 [사용자 계정이 필요합니다](https://blackfire.io/signup). Blackfire는 CLI 도구 및 브라우저 확장을 포함하여 애플리케이션을 프로파일링하기위한 다양한 옵션을 제공합니다. [자세한 내용은 Blackfire 설명서를 검토하십시오](https://blackfire.io/docs/cookbooks/index).
+
+### XHGui를 사용하여 PHP 성능 프로파일링
+
+[XHGui](https://www.github.com/perftools/xhgui)는 PHP 애플리케이션의 성능을 탐색 할 수있는 사용자 인터페이스입니다. XHGui를 활성화하려면 사이트 설정에 `xhgui:'true'`를 추가하십시오.
+
+    sites:
+        -
+            map: your-site.test
+            to: /home/vagrant/your-site/public
+            type: "apache"
+            xhgui: 'true'
+
+사이트가 이미 존재하는 경우 설정을 업데이트 한 후 `vagrant provision`을 실행하십시오.
+
+웹 요청을 프로파일링하려면 쿼리 파라메터로 `xhgui=on`을 요청에 추가하십시오. XHGui는 응답에 쿠키를 자동으로 첨부하여 이후 요청에는 쿼리 문자열 값이 필요하지 않습니다. `http://your-site.test/xhgui`로 이동하여 애플리케이션 프로필 결과를 볼 수 있습니다.
+
+XHGui를 사용하여 CLI 요청을 프로파일링하려면 명령 앞에 `XHGUI=on`을 추가하십시오 :
+
+    XHGUI=on path/to/script
+
+CLI 프로파일 결과는 웹 프로파일 결과와 동일한 방법으로 볼 수 있습니다.
+
+프로파일링을하면 스크립트 실행 속도가 느려지고 절대 시간은 실제 요청보다 두 배나 늘어 날 수 있습니다. 따라서 절대 값이 아닌 항상 개선율을 비교하십시오. 또한 실행 시간에는 디버거에서 일시 중지 한 시간이 포함됩니다.
+
+성능 프로파일은 상당한 디스크 공간을 차지하므로 며칠 후에 자동으로 삭제됩니다.
 
 <a name="network-interfaces"></a>
 ## 네트워크 인터페이스
@@ -548,8 +685,14 @@ Homestead를 커스터마이징 할 때, 우분투는 패키지의 원래 환경
         -o Dpkg::Options::="--force-confold" \
         install your-package
 
+### 개인 커스터마이징
+
+Homestead를 팀 환경에서 사용할 때 개인 개발 스타일에 더 잘 적응할 수 있도록 Homestead를 조정할 수 있습니다. Homestead 디렉토리의 루트 (`Homestead.yaml`이 들어있는 동일한 디렉토리)에 `user-customizations.sh` 파일을 만들 수 있습니다. 이 파일 내에서 원하는대로 커스터마이징 할 수 있습니다. 그러나 `user-customizations.sh`는 버전 관리가 되어서는 안됩니다.
+
 <a name="updating-homestead"></a>
 ## 홈스테드 업데이트하기
+
+Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 가상 머신을 제거하십시오. 그런 다음 `vagrant box update` 명령을 사용하여 Vagrant 박스를 업데이트해야합니다.
 
 몇가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
 
@@ -560,11 +703,11 @@ Homestead를 커스터마이징 할 때, 우분투는 패키지의 원래 환경
 
     git fetch
 
-    git checkout v8.0.1
+    git pull origin release
     
 이 명령은 Homestead 코드를 GitHub 저장소에서 가져 와서 최신 태그를 가져온 다음 최신 태그 릴리스를 체크 아웃합니다. 최신 안정 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾을 수 있습니다.
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^8"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^9"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
 

@@ -262,7 +262,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     $lock = Cache::lock('foo', 120);
 
-    if ($lock = $lock->get()) {
+    if ($result = $lock->get()) {
         ProcessPodcast::dispatch($podcast, $lock->owner());
     }
 
@@ -379,7 +379,17 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
     class CacheServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -388,16 +398,6 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
             Cache::extend('mongo', function ($app) {
                 return Cache::repository(new MongoStore);
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

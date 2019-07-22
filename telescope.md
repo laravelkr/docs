@@ -301,7 +301,7 @@ job 와처는 애플리케이션에서 job 이 처리되는 데이터와 상태�
 
 > {note} Redis 와처를 위해서 redis events 가 활성화 되어 있어야 합니다. `app/Providers/AppServiceProvider.php` 파일의 `boot` 메소드 안에서 `Redis::enableEvents()` 를 호출하면 됩니다.
 
-redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록하빈다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
+redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록합니다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
 
 <a name="request-watcher"></a>
 ### Request Watcher

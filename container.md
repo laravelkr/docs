@@ -180,8 +180,6 @@
 <a name="extending-bindings"></a>
 ### 바인딩 확장하기
 
-The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a Closure, which should return the modified service, as its only argument:
-
 `extend` 메소드를 사용하여 의존성이 해결된 서비스를 변경할 수 있습니다. 예를 들어, 서비스가 의존성 해결되었을 때, 서비스 객체를 설정하기 위해서 추가적인 코드를 실행할 수 있습니다. `extend` 메소드는 클로저를 인자로 전달 받는데, 변경되는 서비스를 반환해야 합니다:
 
     $this->app->extend(Service::class, function($service) {

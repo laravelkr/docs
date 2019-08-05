@@ -110,7 +110,7 @@ In this class, the code is tightly coupled to a given cache implementation. It i
 
 Likewise, if we want to replace our underlying cache technology (Memcached) with another technology (Redis), we again will have to modify our repository. Our repository should not have so much knowledge regarding who is providing them data or how they are providing it.
 
-또한, 코드가 사용하는 캐시(Memcached)를 다른 것(Redia)으로 변경하고자 하는 경우, 역시나 Repository 클래스를 다시 수정해야만 할 것입니다. 저장소 클래스는 누가 어떻게 데이터를 제공하는지에 대한 정보를 너무 많이 가지고 있어서는 안 됩니다.
+또한, 코드가 사용하는 캐시(Memcached)를 다른 것(Redis)으로 변경하고자 하는 경우, 역시나 Repository 클래스를 다시 수정해야만 할 것입니다. 저장소 클래스는 누가 어떻게 데이터를 제공하는지에 대한 정보를 너무 많이 가지고 있어서는 안 됩니다.
 
 **Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:**
 

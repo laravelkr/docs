@@ -60,7 +60,7 @@ Laravel provides a clean, simple API over the popular [SwiftMailer](https://swif
 
 The API based drivers such as Mailgun and Postmark are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
 
-API를 기반으로한 Mailgun 그리고 Postmark 드라이버의 경우 대게 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
+API를 기반으로한 Mailgun 그리고 Postmark 드라이버의 경우 대개 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
 
     composer require guzzlehttp/guzzle
 

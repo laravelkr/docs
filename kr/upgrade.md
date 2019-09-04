@@ -365,40 +365,54 @@ In addition, please ensure your application's database contains a `failed_jobs` 
     php artisan queue:failed-table
 
 ### Requests
+### 리퀘스트
 
 <a name="the-input-facade"></a>
 #### The `Input` Facade
+#### `Input` 파사드
 
 **Likelihood Of Impact: Medium**
-
+**영향 가능성: 중간**
 The `Input` facade, which was primarily a duplicate of the `Request` facade, has been removed. If you are using the `Input::get` method, you should now call the `Request::input` method. All other calls to the `Input` facade may simply be updated to use the `Request` facade.
+`Request` 파사드와 중복되었던 `Input` 파사드가 삭제되었습니다. 만약 `Input::get` 메소드를 사용중이라면 `Request::input` 메소드를 호출하도록 변경해야 합니다. `Input` 파사드의 다른 메소드들은 그냥 `Request` 파사드를 사용하도록 변경하면 됩니다.
 
 ### Scheduling
+### 스케줄링
 
 #### The `between` Method
+#### `between` 메소드
 
 **Likelihood Of Impact: Low**
-
+**영향 가능성: 낮음**
 In previous releases of Laravel, the scheduler's `between` method exhibited confusing behavior across date boundaries. For example:
+라라벨의 이전 버전에서는 스케줄러의 `between` 메소드가 날짜 형식을 다루는데에 있어 혼란스럽게 동작했습니다. 예를 들면:
 
     $schedule->command('list')->between('23:00', '4:00');
 
 For most users, the expected behavior of this method would be to run the `list` command every minute for all minutes between 23:00 and 4:00. However, in previous releases of Laravel, the scheduler ran the `list` command every minute between 4:00 and 23:00, essentially swapping the time thresholds. In Laravel 6.0, this behavior has been corrected.
+대부분의 사용자는 이 메소드가 23시와 4시 사이의 매 분마다 `list` 커맨드를 실행할 거라고 예상합니다. 하지만 라라벨의 이전 버전에서 이 스케줄러는 4시와 23시 사이의 매 분마다라 `list` 함수를 호출했습니다. 이는 본질적으로 지정한 시간이 뒤바뀌는 것입니다. 라라벨 6.0 버전에서는 이 동작이 수정되었습니다.
 
 ### Storage
+### 스토리지
 
 <a name="rackspace-storage-driver"></a>
 #### Rackspace Storage Driver Removed
+#### Rackspace 스토리지 드라이버 삭제
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 The `rackspace` storage driver has been removed. If you would like to continue using Rackspace as a storage provider, we encourage you to adopt a community maintained package of your choice that provides this driver.
+`rackspace` 스토리지 드라이버가 삭제되었습니다. Rackspace를 스토리지 프로바이더로 계속 사용하려면 커뮤니티에서 개발되는 패키지들 중 이 드라이버를 제공하는 것을 사용하길 권합니다.
 
 ### URL Generation
+### URL 생성
 
 #### Route URL Generation & Extra Parameters
+#### 라우트 URL 생성 & 추가 파라미터
 
 In previous releases of Laravel, passing associative array parameters to the `route` helper or `URL::route` method would occasionally use these parameters as URI values when generating URLs for routes with optional parameters, even if the parameter value had no matching key within the route path. Beginning in Laravel 6.0, these values will be attached to the query string instead. For example, consider the following route:
+이전 버전의 라라벨에서는 `route` 헬퍼나 `URL::route` 메소드에 연관 배열 파라미터가 때때로 선택적 path 파라미터를 가진 라우트의 URL을 생성할 때 URI 값으로 사용되었습니다. 심지어 파라미터 값이 라우트 경로에 일치하는 키가 없는 경우에도요. 라라벨 6.0 부터는 이 값들은 쿼리 스트링에 붙도록 처리됩니다. 예를 들면, 다음의 라우터를 생각해보세요:
 
     Route::get('/profile/{location?}', function ($location = null) {
         //
@@ -412,5 +426,7 @@ In previous releases of Laravel, passing associative array parameters to the `ro
 
 <a name="miscellaneous"></a>
 ### Miscellaneous
+### 기타
 
 We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.8...master) and choose which updates are important to you.
+`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항들을 확인해보시길 권합니다. 변경사항들 중 많은 부분들은 필수는 아니지만, 업데이트 된 파일들을 여러분의 어플리케이션에 동기화 해두는게 좋습니다. 변경사항들 중 일부는 이 업그레이드 가이드에서 설명되었지만 설정 파일이나 코멘트같은 다른 변경사항들은 그렇지 않았습니다. [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.8...master)을 이용해 변경사항들을 쉽게 살펴보고 어떤 변경사항이 여러분에게 중요한지 살펴보세요.

@@ -6,18 +6,18 @@
 ## High Impact Changes
 ## 매우 중요한 변경사항
 
-<div class="content-list" markdown="1">
+<!-- <div class="content-list" markdown="1"> -->
 - [Authorized Resources & `viewAny`](#authorized-resources)
 - [String & Array Helpers](#helpers)
 - [리소스 인가와 `viewAny`](#authorized-resources)
 - [문자열 & 배열 헬퍼](#helpers)
-</div>
+<!-- </div> -->
 
-<a name="medium-impact-changes"></a>
+<!-- <a name="medium-impact-changes"></a> -->
 ## Medium Impact Changes
 ## 중요한 변경사항
 
-<div class="content-list" markdown="1">
+<!-- <div class="content-list" markdown="1"> -->
 - [Authentication `RegisterController`](#the-register-controller)
 - [Carbon 1.x No Longer Supported](#carbon-support)
 - [Database `Capsule::table` Method](#capsule-table)
@@ -40,7 +40,7 @@
 - [큐 재시도 횟수 제한](#queue-retry-limit)
 - [이메일 인증 재발송 라우트](#email-verification-route)
 - [`Input` 파사드](#the-input-facade)
-</div>
+<!-- </div> -->
 
 <a name="upgrade-6.0"></a>
 ## Upgrading To 6.0 From 5.8

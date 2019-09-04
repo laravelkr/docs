@@ -239,11 +239,12 @@ Laravel 6.0 has received [performance optimizations](https://github.com/laravel/
 <a name="email-verification-route"></a>
 #### Resend Verification Route HTTP Method
 #### 이메일 인증 재전송 Route HTTP 메소드
-<!-- todo here -->
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 To prevent possible CSRF attacks, the `email/resend` route registered by the router when using Laravel's built-in email verification has been updated from a `GET` route to a `POST` route. Therefore, you will need to update your frontend to send the proper request type to this route. For example, if you are using the built-in email verification template scaffolding:
+가능한 CSRF 공격을 방지하기 위하여 라라벨의 내장된 이메일 인증 기능의 `email/resend` 라우트가 `GET` 라우트에서 `POST` 라우트로 변경되었습니다. 
 
     {{ __('Before proceeding, please check your email for a verification link.') }}
     {{ __('If you did not receive the email') }},
@@ -258,76 +259,108 @@ To prevent possible CSRF attacks, the `email/resend` route registered by the rou
 
 <a name="mustverifyemail-contract"></a>
 #### The `MustVerifyEmail` Contract
+#### `MustVerifyEmail` 인터페이스
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 A new `getEmailForVerification` method has been added to the `Illuminate\Contracts\Auth\MustVerifyEmail` contract. If you are manually implementing this contract, you should implement this method. This method should return the object's associated email address. If your `App\User` model is using the `Illuminate\Auth\MustVerifyEmail` trait, no changes are required, as this trait implements this method for you.
+새로운 `getEmailForVerification` 메소드가 `Illuminate\Contracts\Auth\MustVerifyEmail` 인터페이스에 추가되었습니다. 만약 이 인터페이스를 직접 구현해서 사용하고 있다면, 이 메소드도 구현해야 합니다. 만약 `App\User` 모델이 `Illuminate\Auth\MustVerifyEmail` trait을 사용중이라면 이 trait이 앞서 언급한 메소드를 구현하고 있기 때문에 별도의 수정사항이 필요하지 않습니다.
 
 <a name="helpers"></a>
 ### Helpers
+### 헬퍼들
 
 #### String & Array Helpers Package
+#### 문자열 & 배열 헬퍼 패키지
 
 **Likelihood Of Impact: High**
+**영향 가능성: 높음**
 
 All `str_` and `array_` helpers have been moved to the new `laravel/helpers` Composer package and removed from the framework. If desired, you may update all calls to these helpers to use the `Illuminate\Support\Str` and `Illuminate\Support\Arr` classes. Alternatively, you can add the new `laravel/helpers` package to your application to continue using these helpers:
+모든 `str_` 과 `array_` 헬퍼들이 새로운 `laravel/helpers` 컴포저 패키지로 이동되었고 프레임워크에서는 제거되었습니다. 원한다면 이 헬퍼들에 대한 호출을 `Illuminate\Support\Str`과 `Illuminate\Support\Arr` 클래스로 변경해도 됩니다. 아니면 `laravel/helpers` 패키지를 어플리케이션에 추가하고 헬퍼들을 게속 사용 할 수 있습니다.
 
     composer require laravel/helpers
 
 ### Localization
+### 다국어
 
 <a name="trans-and-trans-choice"></a>
 #### The `Lang::trans` & `Lang::transChoice` Methods
+#### `Lang::trans` & `Lang::transChoice` 메소드들
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 The `Lang::trans` and `Lang::transChoice` methods of the translator have been renamed to `Lang::get` and `Lang::choice`.
+번역 기능의 `Lang::trans` 와 `Lang::transChoice` 메소드의 이름이 `Lang::get` 과 `Lang::choice` 로 변경되었습니다.
 
 In addition, if you are manually implementing the `Illuminate\Contracts\Translation\Translator` contract, you should update your implementation's `trans` and `transChoice` methods to `get` and `choice`.
+또한, 만약 `Illuminate\Contracts\Translation\Translator` 인터페이스를 직접 구현해서 사용중이라면 구현체의 `trans` 와 `transChoice` 메소드의 이름을 `get` 과 `choice`로 변경해주세요.
 
 <a name="get-from-json"></a>
 #### The `Lang::getFromJson` Method
+#### `Lang::getFromJson` 메소드
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 The `Lang::get` and `Lang::getFromJson` methods have been consolidated. Calls to the `Lang::getFromJson` method should be updated to call `Lang::get`.
+`Lang::get` 과 `Lang::getFromJson` 메소드가 통합되었습니다. `Lang::getFromJson` 메소드를 호출하는 부분은 모두 `Lang::get` 를 호출하도록 변경되어야 합니다.
 
 ### Mail
+### 메일
 
 #### Mandrill & SparkPost Drivers Removed
+#### Mandrill & SpartPost 드라이버 삭제
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 The `mandrill` and `sparkpost` mail drivers have been removed. If you would like to continue using either of these drivers, we encourage you to adopt a community maintained package of your choice that provides the driver.
+`mandrill` 과 `sparkpost` 메일 드라이버들이 삭제되었습니다. 만약 이 드라이버들을 계속 사용하고 싶다면 해당 드라이버들을 제공하는 커뮤니티 기반의 패키지를 사용하길 권합니다.
 
 ### Notifications
+### 알림
 
 #### Nexmo Routing Removed
+#### Nexmo 라우팅 삭제
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 A lingering part of the Nexmo notification channel was removed from the core of the framework. If you're relying on routing Nexmo notifications you should manually implement the `routeNotificationForNexmo` method on your notifiable entity [as described in the documentation](/docs/{{version}}/notifications#routing-sms-notifications).
+Nexmo 알림 채널이 마침내 프레임워크의 코어에서 제거되었습니다. 만약 Nexmo 라우팅에 의존하고 있다면 `routeNotificationForNexmo` 메소드를 [문서에 설명된 대로](/docs/{{version}}/notifications#routing-sms-notifications) notifiable entity에 구현하세요.
 
 ### Password Reset
+### 비밀번호 초기화
 
 #### Password Validation
+#### 비밀번호 검증
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 The `PasswordBroker` no longer restricts or validates passwords. Password validation was already being handled by the `ResetPasswordController` class, making the broker's validations redundant and impossible to customize. If you are manually using the `PasswordBroker` (or `Password` facade) outside of the built-in `ResetPasswordController`, you should validate all passwords before passing them to the broker.
+`PasswordBroker`는 이제 비밀번호를 검증하지 않습니다. `ResetPasswordController`가 이미 비밀번호 검증을 처리해주기 때문에, 브로커의 검증과정은 중복이며 커스터마이징이 불가능합니다. 만약 내장된 `ResetPasswordController` 와는 별도로 `PasswordBroker` (혹은 `Password` 파사드)를 사용하고 있다면 브로커로 넘기기 전에 검증해야 합니다.
 
 ### Queues
+### 큐
 
 <a name="queue-retry-limit"></a>
 #### Queue Retry Limit
+#### 큐 재시도 횟수 제한
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 In previous releases of Laravel, the `php artisan queue:work` command would retry jobs indefinitely. Beginning with Laravel 6.0, this command will now try a job one time by default. If you would like to force jobs to be tried indefinitely, you may pass `0` to the `--tries` option:
+라라벨의 이전 릴리즈에서는, `php artisan queue:work` 명령어가 Job 처리를 무제한으로 재시도했습니다. 라라벨 6.0 부터는 Job 처리를 한번만 시도합니다. 만약 무제한으로 재시도 하도록 강제하고 싶다면 `--tries` 옵션에 `0` 을 넣으세요:
 
     php artisan queue:work --tries=0
 
 In addition, please ensure your application's database contains a `failed_jobs` table. You can generate a migration for this table using the `queue:failed-table` Artisan command:
+또한, 어플리케이션의 데이터베이스에 `failed_jobs` 테이블이 있는지 확인하세요. 이 테이블에 대한 마이그레이션은 `queue:failed-table` 아티즌 커맨드로 생성할 수 있습니다.
 
     php artisan queue:failed-table
 

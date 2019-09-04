@@ -131,24 +131,33 @@ Carbon 1.x [is no longer supported](https://github.com/laravel/framework/pull/28
 Carbon 1.x 버전의 지원 기간이 종료되었기 때문에 [더 이상 지원되지 않습니다](https://github.com/laravel/framework/pull/28683). 어플리케이션을 Carbon 2.0 버전을 사용하도록 업그레이드 하세요.
 
 ### Configuration
+### 설정
 
 #### The `AWS_REGION` Environment Variable
+#### `AWS_REGION` 환경 변수
 
 **Likelihood Of Impact: Optional**
+**영향 가능성: 선택적**
 
 If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update all occurrences of `AWS_REGION` within your `config` directory to `AWS_DEFAULT_REGION`. In addition, you should update this environment variable's name in your `.env` file.
+만약 [라라벨 Vapor](https://vapor.laravel.com)를 사용하려 한다면 `config` 디렉토리의 모든 `AWS_REGION` 문자열을 `AWS_DEFAULT_REGION` 으로 변경해야 합니다. 또한, `.env` 파일의 이 환경변수 이름을 변경해야 합니다.
 
 ### Database
+### 데이터베이스
 
 <a name="capsule-table"></a>
 #### The Capsule `table` Method
+#### Capsule `table` 메소드
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 > {note} This change only applies to non-Laravel applications that are using `illuminate/database` as a dependency.
+> {note} 이 변경사항은 `illuminate/database` 패키지를 라라벨과 별개로 사용중인 어플리케이션에만 해당됩니다.
 
 The signature of the `Illuminate\Database\Capsule\Manager` class' `table` method has 
 updated to accept a table alias as its second argument. If you are using `illuminate/database` outside of a Laravel application, you should update any calls to this method accordingly:
+`Illuminate\Database\Capsule\Manager` 클래스의 `table` 메소드가 두번째 인자로 테이블의 alias를 받도록 변경되었습니다. 만약 `illuminate/database` 패키지를 라라벨과 별개로 사용중이라면 이 메소드를 호출하는 부분들을 따라 수정해야 합니다.
 
     /**
      * Get a fluent query builder instance.
@@ -161,10 +170,13 @@ updated to accept a table alias as its second argument. If you are using `illumi
     public static function table($table, $as = null, $connection = null)
 
 #### The `cursor` Method
+#### `cursor` 메소드
 
 **Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
 The `cursor` method now returns an instance of `Illuminate\Support\LazyCollection` instead of a `Generator` The `LazyCollection` may be iterated just like a generator:
+`cursor` 메소드는 이제 `Generator` 객체 대신 `Illuminate\Support\LazyCollection` 객체를 리턴합니다. `LazyCollection` 은 기존의 제너레이터와 동일하게 반복할 수 있습니다.
 
     $users = App\User::cursor();
 
@@ -174,15 +186,20 @@ The `cursor` method now returns an instance of `Illuminate\Support\LazyCollectio
 
 <a name="eloquent"></a>
 ### Eloquent
+### Eloquent
 
 <a name="belongs-to-update"></a>
 #### The `BelongsTo::update` Method
+#### `BelongsTo::update` 메소드
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 For consistency, the `update` method of the `BelongsTo` relationship now functions as an ad-hoc update query, meaning it does not provide mass assignment protection or fire Eloquent events. This makes the relationship consistent with the `update` methods on all other types of relationships.
+통일성을 위해 `BelongsTo` 관계의 `update` 메소드는 ad-hoc 업데이트 쿼리로 작동합니다. 즉 이제 더 이상 대량할당으로부터 보호되거나, 엘로퀀트 이벤트를 발생시키지 않는다는 것을 의미합니다. 이 변경사항은 다른 타입의 관계들의 `update` 메소드와 동일하게 동작하도록 만듭니다.
 
 If you would like to update a model attached via a `BelongsTo` relationship and receive mass assignment update protection and events, you should call the `update` method on the model itself:
+만약 `BelongsTo` 관계에 있는 모델을 업데이트 하면서 대량 할당 보호 기능, 엘로퀀트 이벤트 기능을 사용하고 싶다면 모델 자체의 `update` 메소드를 호출해야 합니다.
 
     // Ad-hoc query... no mass assignment protection or events...
     $post->user()->update(['foo' => 'bar']);
@@ -192,17 +209,22 @@ If you would like to update a model attached via a `BelongsTo` relationship and 
 
 <a name="eloquent-to-array"></a>
 #### Arrayable & `toArray`
+#### Arrayable & `toArray`
 
 **Likelihood Of Impact: Medium**
-
+**영향 가능성: 중간**
 The Eloquent model's `toArray` method will now cast any attributes that implement `Illuminate\Contracts\Support\Arrayable` to an array.
+엘로퀀트 모델의 `toArray` 메소드는 이제 `Illuminate\Contracts\Support\Arrayable` 를 구현하는 속성을 모두 배열로 캐스팅합니다.
 
 <a name="eloquent-primary-key-type"></a>
 #### Declaration Of Primary Key Type
+#### Primary Key 타입 정의
 
 **Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 Laravel 6.0 has received [performance optimizations](https://github.com/laravel/framework/pull/28153) for integer key types. If you are using a string as your model's primary key, you should declare the key type using the `$keyType` property on your model:
+라라벨 6.0에는 integer 키 타입을 위한 [성능 향상](https://github.com/laravel/framework/pull/28153)이 추가되었습니다. 만약 모델의 Primary Key로 문자열 타입을 사용중이라면, `$keyType` 프로퍼티를 모델에 선언해 주어야 합니다.
 
     /**
      * The "type" of the primary key ID.
@@ -212,9 +234,12 @@ Laravel 6.0 has received [performance optimizations](https://github.com/laravel/
     protected $keyType = 'string';
 
 ### Email Verification
+### 이메일 인증
 
 <a name="email-verification-route"></a>
 #### Resend Verification Route HTTP Method
+#### 이메일 인증 재전송 Route HTTP 메소드
+<!-- todo here -->
 
 **Likelihood Of Impact: Medium**
 

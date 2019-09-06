@@ -25,6 +25,12 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
     return $user->toArray();
 
+To convert only a model's attributes to an array, use the `attributesToArray` method:
+
+    $user = App\User::first();
+
+    return $user->attributesToArray();
+
 You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays:
 
     $users = App\User::all();
@@ -53,6 +59,10 @@ Since models and collections are converted to JSON when cast to a string, you ca
     Route::get('users', function () {
         return App\User::all();
     });
+
+#### Relationships
+
+When an Eloquent model is converted to JSON, its loaded relationships will automatically be included as attributes on the JSON object. Also, though Eloquent relationship methods are defined using "camel case", a relationship's JSON attribute will be "snake case".
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
@@ -125,7 +135,7 @@ Occasionally, when casting models to an array or JSON, you may wish to add attri
          */
         public function getIsAdminAttribute()
         {
-            return $this->attributes['admin'] == 'yes';
+            return $this->attributes['admin'] === 'yes';
         }
     }
 
@@ -183,7 +193,17 @@ Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date librar
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -192,15 +212,5 @@ Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date librar
             Carbon::serializeUsing(function ($carbon) {
                 return $carbon->format('U');
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }

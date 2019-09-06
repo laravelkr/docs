@@ -42,7 +42,7 @@ There are different types of packages. Some packages are stand-alone, meaning th
 
 On the other hand, other packages are specifically intended for use with Laravel. These packages may have routes, controllers, views, and configuration specifically intended to enhance a Laravel application. This guide primarily covers the development of those packages that are Laravel specific.
 
-반대로, 라라벨 프레임워크에만 사용할 수 있는 패키지들도 있습니다. 이러한 패키지들은 라라벨 응용 프로그램의 기능을 사용하는 라우트, 컨트롤러, 뷰, 설정들을 가질 것입니다. 이 가이드는 라라벨에 특화된 패키지의 개발을 주로 설명합니다.
+반대로, 라라벨 프레임워크에만 사용할 수 있는 패키지들도 있습니다. 이러한 패키지들은 라라벨 애플리케이션의 기능을 사용하는 라우트, 컨트롤러, 뷰, 설정들을 가질 것입니다. 이 가이드는 라라벨에 특화된 패키지의 개발을 주로 설명합니다.
 
 <a name="a-note-on-facades"></a>
 ### A Note On Facades
@@ -127,7 +127,7 @@ Typically, you will need to publish your package's configuration file to the app
 일반적으로 여러분은 패키지의 설정 파일을 애플리케이션의 `config` 디렉토리에 퍼블리싱 하는 것이 필요할 것입니다. 이것은 여러분의 패키지의 사용자가 패키지 설정 파일의 기본 옵션들을 손쉽게 수정할 수 있도록 해줍니다. 설정 파일들을 퍼블리싱 하도록 하기 위해서는 서비스 프로바이더의 `boot` 메소드에서 `publishes` 메소드를 사용하면 됩니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -180,7 +180,7 @@ If your package contains routes, you may load them using the `loadRoutesFrom` me
 패키지가 라우트를 포함하고 있다면, `loadRoutesForm` 메소드를 사용하여 이를 로딩해야 합니다. 이 메소드는 애플리케이션의 라우트가 캐싱되어 있는지를 자동으로 확인하여, 라우트가 이미 캐싱되어 있는 경우에는 라우트를 로딩하지 않습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -198,7 +198,7 @@ If your package contains [database migrations](/docs/{{version}}/migrations), yo
 패키지가 [데이터베이스 마이그레이션 파일들](/docs/{{version}}/migrations)을 가지고 있다면, 라라벨에게 이를 어떻게 로딩할 수 있도록 알려주는데 `loadMigrationsFrom` 메소드를 사용할 수 있습니다. `loadMigrationsFrom` 메소드는 여러분의 패키지에서 마이그레이션이 있는 위치를 유일한 인자로 전달받습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -220,7 +220,7 @@ If your package contains [translation files](/docs/{{version}}/localization), yo
 패키지가 [언어 파일](/docs/{{version}}/localization)을 가지고 있다면, `loadTranslationsFrom` 메소드를 사용하여 라라벨이 이를 로드할 수 있게 할 수 있습니다. 예를 들어 패키지 이름이 `courier` 라면, 다음처럼 서비스 프로바이더의 `boot` 메소드에 다음 라인을 추가해야 합니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -243,7 +243,7 @@ If you would like to publish your package's translations to the application's `r
 패키지의 언어파일을 애플리케이션의 `resources/lang/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 경로와 퍼블리싱 되기를 바라는 위치를 나타내는 배열을 인자로 전달 받습니다. 예를 들어 `courier` 패키지의 언어 파일을 퍼블리싱 하려면, 다음과 같이 할 수 있습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -269,7 +269,7 @@ To register your package's [views](/docs/{{version}}/views) with Laravel, you ne
 라라벨에 패키지의 [뷰-views](/docs/{{version}}/views)를 등록하기 위해서는 뷰 파일이 어디에 위치하고 있는지 라라벨에 알려줄 필요가 있습니다. 이를 위해서는 서비스 프로바이더의 `loadViewsForm` 메소드를 사용하면 됩니다. `loadViewsFrom` 메소드는 두개의 인자를 받아 들이는데: 뷰 템플릿의 패스와, 패키지의 이름입니다. 예를 들어 패키지 이름이 `courier`라면, 다음의 서비스 프로바이더 `boot` 메소드 처럼 추가하면 됩니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -301,7 +301,7 @@ If you would like to make your views available for publishing to the application
 여러분의 뷰를 애플리케이션의 `resources/views/vendor` 디렉토리로 퍼블리싱하려면 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. `publishes` 메소드는 패키지 뷰의 경로와 퍼블리싱 되길 바라는 위치를 나타내는 배열을 인자로 전달 받습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -350,7 +350,7 @@ Your package may have assets such as JavaScript, CSS, and images. To publish the
 여러분의 패키지가 JavaScript, CSS 그리고 이미지 파일들 처럼 asset 파일들을 가지고 있을 수 있습니다. 이 파일들을 애플리케이션의 `public` 디렉토리로 퍼블리싱 하기 위해서는 서비스 프로바이더의 `publishes` 메소드를 사용하면 됩니다. 다음 예제에서는 연관된 asset 의 그룹을 퍼블리싱하는데 사용되는 "public" asset 그룹 태그를 추가로 지정하고 있습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */
@@ -376,7 +376,7 @@ You may want to publish groups of package assets and resources separately. For i
 패키지의 asset들과 resources 파일들을 그룹별로 분할하여 퍼블리싱 할 수도 있습니다. 예를 들어, asset 파일들을 퍼블리싱하지 않고, 설정 파일들을 퍼블리싱하는 것이 가능하도록 하고자 할 수도 있습니다. 이렇게 하려면 패키지의 서비스 프로바이더에서 `publishes` 메소드가 호출 될 때 "태그를 지정"을 하여 할 수 있습니다. 예를 들어 패키지의 서비스 프로바이더의 `boot` 메소드에서 두개의 퍼블리싱 그룹을 정의하는데 태그를 사용해 보겠습니다:
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */

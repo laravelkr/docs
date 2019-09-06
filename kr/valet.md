@@ -99,7 +99,7 @@ Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭�
 
 **Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.**
 
-**발렛은 maxOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
+**발렛은 macOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
 
 - Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
@@ -424,17 +424,19 @@ If you would like to define a custom Valet driver for a single application, crea
 Command  | Description
 ------------- | -------------
 `valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
+`valet log` | View a list of logs which are written by Valet's services.
 `valet paths` | View all of your "parked" paths.
 `valet restart` | Restart the Valet daemon.
 `valet start` | Start the Valet daemon.
 `valet stop` | Stop the Valet daemon.
-`valet uninstall` | Uninstall the Valet daemon entirely.
+`valet uninstall` | Uninstall the Valet daemon.
 
 명령어 | 설명
 ------------- | -------------
 `valet forget` | parked 디렉토리 목록에서 디렉토리를 제거하기 위해서는 "parked" 된 디렉토리에서 이 명령어를 실행하십시오.
+`valet log` | Valet의 서비스가 작성한 로그 목록보기.
 `valet paths` | "parked" 된 모든 경로를 확인합니다.
 `valet restart` | 발렛 데몬을 재시작 합니다.
 `valet start` | 발렛 데몬을 시작합니다.
 `valet stop` | 발렛 데몬을 중지합니다.
-`valet uninstall` | 발렛 데몬을 완전히 삭제합니다.
+`valet uninstall` | Valet 데몬 제거.

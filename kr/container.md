@@ -275,9 +275,9 @@ If some of your class' dependencies are not resolvable via the container, you ma
 #### Automatic Injection
 #### 자동 주입
 
-Alternatively, and importantly, you may "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [middleware](/docs/{{version}}/middleware), and more. In practice, this is how most of your objects should be resolved by the container.
+Alternatively, and importantly, you may "type-hint" the dependency in the constructor of a class that is resolved by the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [middleware](/docs/{{version}}/middleware), and more. Additionally, you may type-hint dependencies in the `handle` method of [queued jobs](/docs/{{version}}/queues). In practice, this is how most of your objects should be resolved by the container.
 
-앞서 이야기한 방법과 다르게, 그리고 가장 중요한 방법은 [컨트롤러](/docs/{{version}}/controllers), [이벤트 리스너](/docs/{{version}}/events), [queue jobs](/docs/{{version}}/queues), [미들웨어](/docs/{{version}}/middleware) 그리고 다른 곳에서도 클래스의 생성자에 "타입-힌트" 를 선언함으로써 컨테이너가 의존성을 해결할 수 있도록 하는 것입니다. 실제로는 이 방법이 개발에서 컨테이너에 의해서 객체의 의존성을 해결되어야 하는 데 가장 많이 사용되는 방법입니다.
+앞서 이야기한 방법과 다르게, 그리고 가장 중요한 것은 [컨트롤러](/docs/{{version}}/controllers), [이벤트 리스너](/docs/{{version}}/events), [미들웨어](/docs/{{version}}/middleware) 등 을 포함하여 클래스의 생성자에 "타입-힌트" 를 선언함으로써 컨테이너가 의존성을 해결할 수 있도록 하는 것입니다. 또한 [queued jobs](/docs/{{version}}/queues)의 `handle` 메소드에도 종속성을 입력 할 수 있습니다. 실제로 이 방법이 개발에서 컨테이너에 의해서 객체의 의존성을 해결할 때 가장 많이 사용되는 방법입니다.
 
 For example, you may type-hint a repository defined by your application in a controller's constructor. The repository will automatically be resolved and injected into the class:
 

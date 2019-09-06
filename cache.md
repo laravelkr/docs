@@ -64,7 +64,7 @@ You may also set the `host` option to a UNIX socket path. If you do this, the `p
 
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the `predis/predis` package (~1.0) via Composer or install the PhpRedis PHP extension via PECL.
+Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer .
 
 For more information on configuring Redis, consult its [Laravel documentation page](/docs/{{version}}/redis#configuration).
 
@@ -261,7 +261,7 @@ Sometimes, you may wish to acquire a lock in one process and release it in anoth
 
     $lock = Cache::lock('foo', 120);
 
-    if ($lock = $lock->get()) {
+    if ($result = $lock->get()) {
         ProcessPodcast::dispatch($podcast, $lock->owner());
     }
 
@@ -344,9 +344,9 @@ To create our custom cache driver, we first need to implement the `Illuminate\Co
     class MongoStore implements Store
     {
         public function get($key) {}
-        public function many(array $keys);
+        public function many(array $keys) {}
         public function put($key, $value, $seconds) {}
-        public function putMany(array $values, $seconds);
+        public function putMany(array $values, $seconds) {}
         public function increment($key, $value = 1) {}
         public function decrement($key, $value = 1) {}
         public function forever($key, $value) {}
@@ -379,7 +379,17 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     class CacheServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -388,16 +398,6 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
             Cache::extend('mongo', function ($app) {
                 return Cache::repository(new MongoStore);
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

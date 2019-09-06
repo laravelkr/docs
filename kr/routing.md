@@ -95,7 +95,7 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
         //
     });
 
-    Route::any('foo', function () {
+    Route::any('/', function () {
         //
     });
 
@@ -380,6 +380,10 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
         });
     });
 
+> {note} In order to ensure your sub-domain routes are reachable, you should register sub-domain routes before registering root domain routes. This will prevent root domain routes from overwriting sub-domain routes which have the same URI path.
+
+> {note} 서브 도메인 라우트가 동작하도록하려면 루트 도메인 라우트를 등록하기 전에 서브 도메인 라우트를 등록해야합니다. 이렇게하면 루트 도메인 라우트가 동일한 URI 라우트를 가진 서브 도메인 라우트를 덮어 쓰지 않습니다.
+
 <a name="route-group-prefixes"></a>
 ### Route Prefixes
 ### 라우트 Prefix
@@ -399,6 +403,7 @@ The `prefix` method may be used to prefix each route in the group with a given U
 ### 라우트 이름 접두사
 
 The `name` method may be used to prefix each route name in the group with a given string. For example, you may want to prefix all of the grouped route's names with `admin`. The given string is prefixed to the route name exactly as it is specified, so we will be sure to provide the trailing `.` character in the prefix:
+
 `name` 메소드는 주어진 문자열을 가진 그룹 내의 각각의 라우트 이름에 접두사를 붙이는데 사용됩니다. 예를 들어, 그룹화 된 라우트들 전부에 `admin` 접두사를 붙일 수 있습니다. 전달된 문자열 그대로 라우트 이름 앞에 붙기 때문에, 접두사는 뒤에 `.` 문자를 포함하여 전달해야하는 것을 잊지말아야 합니다.
 
     Route::name('admin.')->group(function () {
@@ -521,7 +526,7 @@ Alternatively, you may override the `resolveRouteBinding` method on your Eloquen
 
 Using the `Route::fallback` method, you may define a route that will be executed when no other route matches the incoming request. Typically, unhandled requests will automatically render a "404" page via your application's exception handler. However, since you may define the `fallback` route within your `routes/web.php` file, all middleware in the `web` middleware group will apply to the route. You are free to add additional middleware to this route as needed:
 
-`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 어플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다. 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
+`Route::fallback` 메소드를 사용하면 들어오는 요청과 일치하는 라우트가 없을 때 실행 할 라우트를 정의 할 수 있습니다. 일반적으로 처리하지 못한 요청은 애플리케이션의 exception 핸들러를 통해 자동으로 "404" 페이지를 렌더링합니다. 그러나 `routes/web.php` 파일에서 `fallback` 라우트를 정의 할 경우 `web` 미들웨어 그룹의 모든 미들웨어가 라우트에 적용됩니다. 필요할 경우 얼마든지 이 라우트에 미들웨어를 추가 할 수 있습니다 :
 
     Route::fallback(function () {
         //
@@ -529,13 +534,14 @@ Using the `Route::fallback` method, you may define a route that will be executed
 
 > {note} The fallback route should always be the last route registered by your application.
 
-> {note} 대체 라우트는 항상 어플리케이션에서 등록한 마지막 라우트 여야합니다.
+> {note} 대체 라우트는 항상 애플리케이션에서 등록한 마지막 라우트 여야합니다.
 
 <a name="rate-limiting"></a>
 ## Rate Limiting
 ## Rate 제한
 
 Laravel includes a [middleware](/docs/{{version}}/middleware) to rate limit access to routes within your application. To get started, assign the `throttle` middleware to a route or a group of routes. The `throttle` middleware accepts two parameters that determine the maximum number of requests that can be made in a given number of minutes. For example, let's specify that an authenticated user may access the following group of routes 60 times per minute:
+
 라라벨은 라우트 접속을 제한하는 [미들웨어](/docs/{{version}}/middleware) 를 포함하고 있습니다. 이를 시작하려면, `throttle` 미들웨어를 라우트나 라우트 그룹에 지정해야 합니다. `throttle` 미들웨어는 지정된 분 동안의 최대 리퀘스트 수를 정하는 2개의 파라미터를 받습니다. 예를 들어, 인증된 유저가 아래의 라우트 그룹에 1분 당 60번까지 접속을 제한할 수 있습니다.
 
     Route::middleware('auth:api', 'throttle:60,1')->group(function () {
@@ -548,6 +554,7 @@ Laravel includes a [middleware](/docs/{{version}}/middleware) to rate limit acce
 #### 동적인 Rate 제한
 
 You may specify a dynamic request maximum based on an attribute of the authenticated `User` model. For example, if your `User` model contains a `rate_limit` attribute, you may pass the name of the attribute to the `throttle` middleware so that it is used to calculate the maximum request count:
+
 인증된 `User` 모델의 attribute 를 기반으로 동적인 Request-요청의 최대치를 정할 수 있습니다. 예를 들어, `User` 모델이 `rate_limit` 라는 attribute 를 가지고 있다고 할 때, 최대 request-요청 수를 계산하기 위해  attribute 의 이름을 `throttle` 미들웨어에 전달 할 수 있습니다.
 
     Route::middleware('auth:api', 'throttle:rate_limit,1')->group(function () {
@@ -570,6 +577,7 @@ HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. �
     </form>
 
 You may use the `@method` Blade directive to generate the `_method` input:
+
 `_method` 입력을 생성하기 위해서 `@method` 블레이드 지시어를 사용할 수 있습니다:
 
     <form action="/foo/bar" method="POST">

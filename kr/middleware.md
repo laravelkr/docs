@@ -270,7 +270,7 @@ Rarely, you may need your middleware to execute in a specific order but not have
 
 Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `CheckRole` middleware that receives a role name as an additional argument.
 
-미들웨어에서는 추가적으로 파라미터를 전달 받을 수 있습니다. 예를 들어 애플리케이션이 인증된 사용자인지 확인하기 위해서 사용자의 주어진 "역할(role)"을 가진 인증 된 사용자인지 응용 프로그램에서 확인해야하는 경우 역할의 이름을 추가 인자로 전달 받는 `CheckRole` 을 만들 수 있습니다.
+미들웨어에서는 추가적으로 파라미터를 전달 받을 수 있습니다. 예를 들어 애플리케이션이 인증된 사용자인지 확인하기 위해서 사용자의 주어진 "역할(role)"을 가진 인증 된 사용자인지 애플리케이션에서 확인해야하는 경우 역할의 이름을 추가 인자로 전달 받는 `CheckRole` 을 만들 수 있습니다.
 
 Additional middleware parameters will be passed to the middleware after the `$next` argument:
 
@@ -315,9 +315,9 @@ Middleware parameters may be specified when defining the route by separating the
 ## Terminable Middleware
 ## 종료시 동작하는 미들웨어
 
-Sometimes a middleware may need to do some work after the HTTP response has been prepared. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been fully prepared. If you define a `terminate` method on your middleware, it will automatically be called after the response is ready to be sent to the browser.
+Sometimes a middleware may need to do some work after the HTTP response has been sent to the browser. For example, the "session" middleware included with Laravel writes the session data to storage after the response has been sent to the browser. If you define a `terminate` method on your middleware and your web server is using FastCGI, the `terminate` method will automatically be called after the response is sent to the browser.
 
-때로는 미들웨어는 HTTP response-응답이 준비된 이 후에 어떤 작업을 수행할 필요가 있을지도 모릅니다. 예를 들어, 라라벨에 내장된 "session" 미들웨어는 response-응답이 완전히 준비된 이후에 세션데이터를 저장소에 저장합니다. 만약 미들웨어에 `terminate` 메소드를 정의했다면, response-응답이 준비된 뒤에 자동으로 호출될 것입니다.
+때로는 미들웨어가 HTTP 응답이 브라우저로 전송 된 후 일부 작업을 수행해야 할 수도 있습니다. 예를 들어 Laravel에 포함 된 "세션"미들웨어는 응답이 브라우저로 전송 된 후 세션 데이터를 저장소에 기록합니다. 미들웨어에서 `terminate` 메소드를 정의하고 웹 서버가 FastCGI를 사용한다면, 응답이 브라우저로 보내진 후 `terminate` 메소드가 자동으로 호출됩니다.
 
     <?php
 

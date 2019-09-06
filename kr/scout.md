@@ -450,10 +450,10 @@ When this configuration option is `true`, Scout will not remove soft deleted mod
 이 설정 값이 `true` 인 경우, Scout-스카우트는 소프트 삭제된 모델을 검색 인덱스에서 삭제 하지 않습니다. 대신에, 인덱스된 레코드에 `__soft_deleted` 라는 숨겨진 속성을 설정합니다. 그러면 검색할 때 `withTrashed` 또는 `onlyTrashed` 메소드를 사용하여 소프트 삭제된 레코드를 조회할 수 있습니다:
 
     // Include trashed records when retrieving results...
-    $orders = App\Order::withTrashed()->search('Star Trek')->get();
+    $orders = App\Order::search('Star Trek')->withTrashed()->get();
 
     // Only include trashed records when retrieving results...
-    $orders = App\Order::onlyTrashed()->search('Star Trek')->get();
+    $orders = App\Order::search('Star Trek')->onlyTrashed()->get();
 
 > {tip} When a soft deleted model is permanently deleted using `forceDelete`, Scout will remove it from the search index automatically.
 
@@ -485,7 +485,7 @@ If you need to customize the search behavior of an engine you may pass a callbac
 #### Writing The Engine
 #### 엔진 구현하기
 
-If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains seven methods your custom engine must implement:
+If one of the built-in Scout search engines doesn't fit your needs, you may write your own custom engine and register it with Scout. Your engine should extend the `Laravel\Scout\Engines\Engine` abstract class. This abstract class contains eight methods your custom engine must implement:
 
 만약 내장된 스카우트 검색 엔진들 중 하나도 여러분의 요구사항을 충족하지 못한다면, 여러분은 여러분만의 커스텀 엔진을 구현하고 스카우트에 등록할 수 있습니다. 여러분이 구현하는 엔진은 `Laravel\Scout\Engines\Engine` 추상클래스를 상속받아야 합니다. 이 추상클래스는 반드시 구현해야하는 7개의 메소드를 포함하고 있습니다.
 

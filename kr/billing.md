@@ -5,14 +5,20 @@
 - [시작하기](#introduction)
 - [Upgrading Cashier](#upgrading-cashier)
 - [캐셔 업그레이드하기](#upgrading-cashier)
+- [Installation](#installation)
+- [설치하기](#installation)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
-    - [Stripe](#stripe-configuration)
-    - [Stripe](#stripe-configuration)
-    - [Braintree](#braintree-configuration)
-    - [Braintree](#braintree-configuration)
+    - [Database Migrations](#database-migrations)
+    - [데이터베이스 이관](#database-migrations)
+    - [Billable Model](#billable-model)
+    - [Billable 모델](#billable-model)
+    - [API Keys](#api-keys)
+    - [API Keys](#api-keys)
     - [Currency Configuration](#currency-configuration)
     - [화폐 설정하기](#currency-configuration)
+    - [Webhooks](#webhooks)
+    - [Webhooks](#webhooks)
 - [Subscriptions](#subscriptions)
 - [정기 구독 모델](#subscriptions)
     - [Creating Subscriptions](#creating-subscriptions)
@@ -57,12 +63,6 @@
     - [webook 이벤트 핸들러 정의하기](#defining-webhook-event-handlers)
     - [Failed Subscriptions](#handling-failed-subscriptions)
     - [실패한 정기구독](#handling-failed-subscriptions)
-- [Handling Braintree Webhooks](#handling-braintree-webhooks)
-- [Braintree webook 처리하기](#handling-braintree-webhooks)
-    - [Defining Webhook Event Handlers](#defining-braintree-webhook-event-handlers)
-    - [webook 이벤트 핸들러 정의하기](#defining-braintree-webhook-event-handlers)
-    - [Failed Subscriptions](#handling-braintree-failed-subscriptions)
-    - [실패한 정기구독](#handling-braintree-failed-subscriptions)
     - [Verifying Webhook Signatures](#verifying-webhook-signatures)
     - [Webhook의 인증 확인](#verifying-webhook-signatures)
 - [Single Charges](#single-charges)
@@ -82,13 +82,13 @@
 ## Introduction
 ## 시작하기
 
-Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) and [Braintree's](https://www.braintreepayments.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
+Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://stripe.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
 
-라라벨 캐셔는 [Stripe](https://stripe.com)와 [Braintree](https://www.braintreepayments.com)에 의해서 제공되는 손쉽고 편리한 구독(정기 과금) 서비스를 위한 인터페이스를 제공합니다. 라라벨 캐셔는 여러분이 작성하는데 어려움을 겪는 구독을 위한 청구서에서 필요한 거의 모든 관용구문들을 다룹니다.  기본적인 구독 관리 외에도, 캐셔를 통해서 쿠폰 관리, 구독 변경, 구매 수량 변경, 취소 유예 기간, 그리고 청구서를 PDF로 생성할 수도 있습니다.
+라라벨 캐셔는 [Stripe](https://stripe.com)에 의해서 제공되는 손쉽고 편리한 구독(정기 과금) 서비스를 위한 인터페이스를 제공합니다. 라라벨 캐셔는 여러분이 작성하는데 어려움을 겪는 구독을 위한 청구서에서 필요한 거의 모든 관용구문들을 다룹니다.  기본적인 구독 관리 외에도, 캐셔를 통해서 쿠폰 관리, 구독 변경, 구매 수량 변경, 취소 유예 기간, 그리고 청구서를 PDF로 생성할 수도 있습니다.
 
-> {note} If you're only performing "one-off" charges and do not offer subscriptions, you should not use Cashier. Instead, use the Stripe and Braintree SDKs directly.
+> {note} If you're only performing "one-off" charges and do not offer subscriptions, you should not use Cashier. Instead, use the Stripe SDK directly.
 
-> {note} 만약 여러분이 "한번의 결제"만을 사용하고 정기 과금형태의 구독모델을 사용하지 않는다면, 캐셔를 사용할 필요가 없습니다. 대신에, Stripe 나 Braintree SDK를 직접 사용하면 됩니다.
+> {note} 만약 여러분이 "한번의 결제"만을 사용하고 정기 과금형태의 구독모델을 사용하지 않는다면, 캐셔를 사용할 필요가 없습니다. 대신에, Stripe SDK를 직접 사용하면 됩니다.
 
 <a name="upgrading-cashier"></a>
 ## Upgrading Cashier
@@ -98,40 +98,38 @@ When upgrading to a new major version of the Cashier, it's important that you ca
 
 캐셔의 새로운 메이저(major) 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 자세히 확인 해야합니다.
 
+<a name="installation"></a>
+## Installation
+## 설치하기
+
+First, require the Cashier package for Stripe with Composer:
+    
+먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
+
+    composer require laravel/cashier
+    
 <a name="configuration"></a>
 ## Configuration
 ## 설정하기
 
-<a name="stripe-configuration"></a>
-### Stripe
-### Stripe
-
-#### Composer
-#### 컴포저
-
-First, add the Cashier package for Stripe to your dependencies:
-
-먼저 Stripe를 위한 캐셔 패키지를 의존성에 추가하십시오:
-
-    composer require laravel/cashier
-
-#### Database Migrations
-#### 데이터베이스 마이그레이션
+<a name="database-migrations"></a>
+### Database Migrations
+### 데이터베이스 마이그레이션
 
 Before using Cashier, we'll also need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
 
 캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
 
-    Schema::table('users', function ($table) {
+    Schema::table('users', function (Blueprint $table) {
         $table->string('stripe_id')->nullable()->collation('utf8mb4_bin');
         $table->string('card_brand')->nullable();
         $table->string('card_last_four', 4)->nullable();
         $table->timestamp('trial_ends_at')->nullable();
     });
 
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->unsignedInteger('user_id');
+    Schema::create('subscriptions', function (Blueprint $table) {
+        $table->bigIncrements('id');
+        $table->unsignedBigInteger('user_id');
         $table->string('name');
         $table->string('stripe_id')->collation('utf8mb4_bin');
         $table->string('stripe_plan');
@@ -145,8 +143,9 @@ Once the migrations have been created, run the `migrate` Artisan command.
 
 마이그레이션들이 생성되면 `migrate` 아티즌 명령어를 실행하십시오.
 
-#### Billable Model
-#### Billable 모델
+<a name="billable-model"></a>
+### Billable Model
+### Billable 모델
 
 Next, add the `Billable` trait to your model definition. This trait provides various methods to allow you to perform common billing tasks, such as creating subscriptions, applying coupons, and updating credit card information:
 
@@ -159,130 +158,23 @@ Next, add the `Billable` trait to your model definition. This trait provides var
         use Billable;
     }
 
-#### API Keys
-#### API Key
+<a name="api-keys"></a>
+### API Keys
+### API Key
 
 Finally, you should configure your Stripe key in your `services.php` configuration file. You can retrieve your Stripe API keys from the Stripe control panel:
 
 마지막으로 `services.php` 설정 파일에 Stripe 키를 지정해야 합니다: Stripe API key는 Stripe 설정 패널에서 확인할 수 있습니다:
 
     'stripe' => [
-        'model'  => App\User::class,
+        'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'webhook' => [
+            'secret' => env('STRIPE_WEBHOOK_SECRET'),
+            'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
+        ],
     ],
-
-<a name="braintree-configuration"></a>
-### Braintree
-### Braintree
-
-#### Braintree Caveats
-#### Braintree Caveats
-
-For many operations, the Stripe and Braintree implementations of Cashier function the same. Both services provide subscription billing with credit cards but Braintree also supports payments via PayPal. However, Braintree also lacks some features that are supported by Stripe. You should keep the following in mind when deciding to use Stripe or Braintree:
-
-대부분의 동작들에서, Stripe 와 Braintree 의 캐셔 함수의 구현부분은 동일합니다. 두개의 서비스 모두 신용카드에 대한 구독 청구를 지원합니다. 다른 점은 Braintree 는 페이팔과 같은 결제도 지원한다는 것입니다. 하지만 Braintree 는 Stripe 에서 지원하는 몇가지 기능들은 누락되어 있습니다. 여러분은 Stripe 과 Braintree 둘중에 어느 서비스를 사용할지 결정해야 합니다:
-
-
-- Braintree supports PayPal while Stripe does not.
-- Braintree does not support the `increment` and `decrement` methods on subscriptions. This is a Braintree limitation, not a Cashier limitation.
-- Braintree does not support percentage based discounts. This is a Braintree limitation, not a Cashier limitation.
-
-
-
-- Braintree는 PayPal을 지원하지만 Stripe는 미지원.
-- Braintree는 구독에 대해 `increment` 와`decrement` 메소드 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
-- Braintree는 퍼센트 기반 할인을 지원하지 않습니다. 이것은 Braintree 의 제한 사항으로, Cashier 에서 제한하는 것은 아닙니다.
-
-
-#### Composer
-#### 컴포저
-
-First, add the Cashier package for Braintree to your dependencies:
-
-먼저 Braintree를 위한 캐셔 패키지를 의존성에 추가하십시오:
-
-    composer require "laravel/cashier-braintree":"~2.0"
-
-#### Plan Credit Coupon
-#### Plan Credit 쿠폰
-
-Before using Cashier with Braintree, you will need to define a `plan-credit` discount in your Braintree control panel. This discount will be used to properly prorate subscriptions that change from yearly to monthly billing, or from monthly to yearly billing.
-
-Braintree를 통해서 캐셔를 사용하기 전에 Braintree 설정 패널에서 `plan-credit` 할인을 정의할 필요가 있습니다. 이 할인은 월별 결제에서 년단위 결제로 변경하거나, 반대로 년단위 결제에서 월별 결제로 변경할 때 정확하게 비율을 배분하는데 사용될 것입니다.
-
-The discount amount configured in the Braintree control panel can be any value you wish, as Cashier will override the defined amount with our own custom amount each time we apply the coupon. This coupon is needed since Braintree does not natively support prorating subscriptions across subscription frequencies.
-
-이 할인율은 Braintree 설정 패널에서 여러분이 원하는 값으로 설정할 수 있으며 고객이 쿠폰을 적용한 경우 캐셔는 정의된 값을 대체합니다. Braintree는 가입 기간에 비례한 비율을 지원하지 않기 때문에 이 쿠폰이 필요합니다.
-
-#### Database Migrations
-#### 데이터베이스 마이그레이션
-
-Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
-
-캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
-
-    Schema::table('users', function ($table) {
-        $table->string('braintree_id')->nullable();
-        $table->string('paypal_email')->nullable();
-        $table->string('card_brand')->nullable();
-        $table->string('card_last_four')->nullable();
-        $table->timestamp('trial_ends_at')->nullable();
-    });
-
-    Schema::create('subscriptions', function ($table) {
-        $table->increments('id');
-        $table->unsignedInteger('user_id');
-        $table->string('name');
-        $table->string('braintree_id');
-        $table->string('braintree_plan');
-        $table->integer('quantity');
-        $table->timestamp('trial_ends_at')->nullable();
-        $table->timestamp('ends_at')->nullable();
-        $table->timestamps();
-    });
-
-Once the migrations have been created, run the `migrate` Artisan command.
-
-마이그레이션들이 생성되면 `migrate` 아티즌 명령어를 실행하십시오.
-
-#### Billable Model
-#### Billable 모델
-
-Next, add the `Billable` trait to your model definition:
-
-다음으로 `Billable` 트레이트-trait을 모델에 추가합니다:
-
-    use Laravel\Cashier\Billable;
-
-    class User extends Authenticatable
-    {
-        use Billable;
-    }
-
-#### API Keys
-#### API Key
-
-Next, you should configure the following options in your `services.php` file:
-
-다음으로 `services.php`에 다음의 옵션값들을 설정해야 합니다:
-
-    'braintree' => [
-        'model'  => App\User::class,
-        'environment' => env('BRAINTREE_ENV'),
-        'merchant_id' => env('BRAINTREE_MERCHANT_ID'),
-        'public_key' => env('BRAINTREE_PUBLIC_KEY'),
-        'private_key' => env('BRAINTREE_PRIVATE_KEY'),
-    ],
-
-Then you should add the following Braintree SDK calls to your `AppServiceProvider` service provider's `boot` method:
-
-그리고 다음의 Braintree SDK 호출을 `AppServiceProvider` 서비스 프로바이더의 `boot` 메소드에 추가해야 합니다:
-
-    \Braintree_Configuration::environment(config('services.braintree.environment'));
-    \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
-    \Braintree_Configuration::publicKey(config('services.braintree.public_key'));
-    \Braintree_Configuration::privateKey(config('services.braintree.private_key'));
 
 <a name="currency-configuration"></a>
 ### Currency Configuration
@@ -295,6 +187,14 @@ The default Cashier currency is United States Dollars (USD). You can change the 
     use Laravel\Cashier\Cashier;
 
     Cashier::useCurrency('eur', '€');
+
+<a name="webhooks"></a>
+### Webhooks
+### Webhooks
+
+To make sure Cashier properly handles all Stripe events, we strongly recommend [setting up Cashier's webhook handling](#handling-stripe-webhooks).
+
+캐셔가 모든 Stripe 이벤트를 제대로 처리하게 하려면 [캐셔 Webhook의 동작을 설정](#handling-stripe-webhooks) 하시길 강력히 권장합니다.
 
 <a name="subscriptions"></a>
 ## Subscriptions
@@ -310,11 +210,11 @@ To create a subscription, first retrieve an instance of your billable model, whi
 
     $user = User::find(1);
 
-    $user->newSubscription('main', 'premium')->create($stripeToken);
+    $user->newSubscription('main', 'premium')->create($token);
 
-The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific Stripe / Braintree plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe or Braintree.
+The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `main` or `primary`. The second argument is the specific plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe.
 
-`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 Stripe / Braintree plan입니다. 이 값은 Stripe 또는 Braintree 의 plan 식별자와 일치해야 합니다.
+`newSubscription` 메소드에 전달되는 첫번째 인자는 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `main` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 plan입니다. 이 값은 Stripe의 plan 식별자와 일치해야 합니다.
 
 The `create` method, which accepts a Stripe credit card / source token, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
 
@@ -327,13 +227,13 @@ If you would like to specify additional customer details, you may do so by passi
 
 만약 여러분이 추가적인 사용자 정보를 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째 인자로 전달하면 됩니다:
 
-    $user->newSubscription('main', 'monthly')->create($stripeToken, [
+    $user->newSubscription('main', 'monthly')->create($token, [
         'email' => $email,
     ]);
 
-To learn more about the additional fields supported by Stripe or Braintree, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer) or the corresponding [Braintree documentation](https://developers.braintreepayments.com/reference/request/customer/create/php).
+To learn more about the additional fields supported by Stripe, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer).
 
-추가적인 필드에 대한 Stripe 또는 Braintree의 지원정보를 확인하고자 한다면 Stripe의 [고객 생성에 관한 문서](https://stripe.com/docs/api#create_customer) 또는  [Braintree 매뉴얼](https://developers.braintreepayments.com/reference/request/customer/create/php)을 참고하십시오.
+추가적인 필드에 대한 Stripe의 지원정보를 확인하고자 한다면 Stripe의 [고객 생성에 관한 문서](https://stripe.com/docs/api#create_customer).
 
 #### Coupons
 #### 쿠폰
@@ -344,7 +244,7 @@ If you would like to apply a coupon when creating the subscription, you may use 
 
     $user->newSubscription('main', 'monthly')
          ->withCoupon('code')
-         ->create($stripeToken);
+         ->create($token);
 
 <a name="checking-subscription-status"></a>
 ### Checking Subscription Status
@@ -380,11 +280,19 @@ If you would like to determine if a user is still within their trial period, you
         //
     }
 
-The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe / Braintree plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
+The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
 
-`subscribedToPlan` 메소드는 사용자가 주어진 Stripe / Braintree plan ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `main` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다:
+`subscribedToPlan` 메소드는 사용자가 주어진 Stripe plan ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `main` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다:
 
     if ($user->subscribedToPlan('monthly', 'main')) {
+        //
+    }
+
+The `recurring` method may be used to determine if the user is currently subscribed and is no longer within their trial period:
+
+`recurring` 메소드는 사용자가 현재 구독 중인지 아니면 더이상 평가 기간에 속해 있지 않은지를 확인할 때 사용 할 수 있습니다. 
+
+	if ($user->subscription('main')->recurring()) {
         //
     }
 
@@ -404,6 +312,14 @@ You may also determine if a user has cancelled their subscription, but are still
 또한 사용자가 구독을 취소하고 있지만 아직 완전히 만료 되기 전의 "유예 기간" 중인지를 확인할 수 있습니다. 예를 들어, 사용자가 3 월 5 일에 구독을 취소하고 3 월 10 일에 만료 될 경우, 해당 사용자는 3 월 10 일까지가 "유예 기간”입니다. `subscribed` 메소드는 이 기간 동안 여전히 `true` 를 반환하는 것에 유의하십시오:
 
     if ($user->subscription('main')->onGracePeriod()) {
+        //
+    }
+
+To determine if the user has cancelled their subscription and is no longer within their "grace period", you may use the `ended` method:
+
+사용자가 구독을 취소했으며 더 이상 "유예 기간"내에 있지 않은지 확인하려면 `ended` 메소드를 사용할 수 있습니다 :
+
+    if ($user->subscription('main')->ended()) {
         //
     }
 
@@ -434,10 +350,6 @@ If you would like to swap plans and cancel any trial period the user is currentl
 <a name="subscription-quantity"></a>
 ### Subscription Quantity
 ### 정기 구독 수량 변경하기
-
-> {note} Subscription quantities are only supported by the Stripe edition of Cashier. Braintree does not have a feature that corresponds to Stripe's "quantity".
-
-> {note} 구독 수량은 캐셔의 Stripe 에서만 지원이 됩니다. Braintree 는 Stripe 의 "수량"과 동일한 기능을 가지고 있지 않습니다.
 
 Sometimes subscriptions are affected by "quantity". For example, your application might charge $10 per month **per user** on an account. To easily increment or decrement your subscription quantity, use the `incrementQuantity` and `decrementQuantity` methods:
 
@@ -479,7 +391,8 @@ To specify the tax percentage a user pays on a subscription, implement the `taxP
 
 고객이 구매를 진행할 때 세금에 대한 퍼센트를 지정하려면 청구가 가능한 모델에 `taxPercentage` 메소드를 사용하여 구현 소수점 자릿수가 2 자리 이내에서 0에서 100 사이의 숫자를 반환하면 됩니다.
 
-    public function taxPercentage() {
+    public function taxPercentage()
+    {
         return 20;
     }
 
@@ -492,9 +405,11 @@ The `taxPercentage` method enables you to apply a tax rate on a model-by-model b
 > {note} `taxPercentage` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
 #### Syncing Tax Percentages
-###세금 비율 동기화
+### 세금 비율 동기화
 
 When changing the hard-coded value returned by the `taxPercentage` method, the tax settings on any existing subscriptions for the user will remain the same. If you wish to update the tax value for existing subscriptions with the returned `taxPercentage` value, you should call the `syncTaxPercentage` method on the user's subscription instance:
+
+`taxPercentage` 메소드에 의해 반환 된 하드 코딩 된 값을 변경할 때, 사용자를 위한 기존 구독에 대한 세금 설정은 동일하게 유지됩니다. 기존의 구독에 대한 세금 값을 반환 된 `taxPercentage` 값으로 업데이트하려면 사용자의 구독 인스턴스에서 `syncTaxPercentage` 메소드를 호출해야합니다.
 
     $user->subscription('main')->syncTaxPercentage();
 
@@ -519,7 +434,7 @@ By default, the billing cycle anchor is the date the subscription was created, o
 
     $user->newSubscription('main', 'premium')
                 ->anchorBillingCycleOn($anchor->startOfDay())
-                ->create($stripeToken);
+                ->create($token);
 
 For more information on managing subscription billing cycles, consult the [Stripe billing cycle documentation](https://stripe.com/docs/billing/subscriptions/billing-cycle)
 
@@ -583,11 +498,11 @@ If you would like to offer trial periods to your customers while still collectin
 
     $user->newSubscription('main', 'monthly')
                 ->trialDays(10)
-                ->create($stripeToken);
+                ->create($token);
 
-This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe / Braintree to not begin billing the customer until after this date.
+This method will set the trial period ending date on the subscription record within the database, as well as instruct Stripe to not begin billing the customer until after this date. When using the `trialDays` method, Cashier will overwrite any default trial period configured for the plan in Stripe.
 
-이 메소드는 데이터베이스 안의 구독 레코드에 트라이얼 기간의 종료일을 설정하고, Stripe / Braintree 에게 이 기간이 지나기 전까지 고객에게 청구하지 않도록 지시합니다.
+이 메소드는 데이터베이스 안의 구독 레코드에 트라이얼 기간의 종료일을 설정하고, Stripe 에게 이 기간이 지나기 전까지 고객에게 청구하지 않도록 지시합니다. `trialDays` 메소드를 사용할 때 캐셔는 Stripe의 정책에 의해 설정된 기본 평가 기간을 덮어 씁니다.
 
 > {note} If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
 
@@ -601,7 +516,7 @@ The `trialUntil` method allows you to provide a `DateTime` instance to specify w
 
     $user->newSubscription('main', 'monthly')
                 ->trialUntil(Carbon::now()->addDays(10))
-                ->create($stripeToken);
+                ->create($token);
 
 You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
 
@@ -654,7 +569,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
     $user = User::find(1);
 
-    $user->newSubscription('main', 'monthly')->create($stripeToken);
+    $user->newSubscription('main', 'monthly')->create($token);
 
 <a name="customers"></a>
 ## Customers
@@ -673,10 +588,6 @@ Occasionally, you may wish to create a Stripe customer without beginning a subsc
 Once the customer has been created in Stripe, you may begin a subscription at a later date.
 
 Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
-
-> {tip} The Braintree equivalent of this method is the `createAsBraintreeCustomer` method.
-
-> {tip} Braintree 에 해당하는 메소드는 `createAsBraintreeCustomer` 메소드입니다. `역자주 : Braintree는 Stripe 같은 회사입니다`
 
 <a name="cards"></a>
 ## Cards
@@ -718,7 +629,7 @@ The `updateCard` method may be used to update a customer's credit card informati
 
 `updateCard` 메소드는 고객의 신용카드 정보를 수정하는데 사용합니다. 이 메소드는 Stripe 토큰을 받아서 새로운 신용카드를 기본적으로 청구하는데 사용하도록 지정합니다:
 
-    $user->updateCard($stripeToken);
+    $user->updateCard($token);
 
 To sync your card information with the customer's default card information in Stripe, you may use the `updateCardFromStripe` method:
 
@@ -756,9 +667,9 @@ The `deleteCards` method will delete all of the card information stored by your 
 ## Handling Stripe Webhooks
 ## Stripe webhook 처리하기
 
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Stripe webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
+Stripe can notify your application of a variety of events via webhooks. To handle webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
 
-Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Stripe의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
+Stripe는 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
 
     Route::post(
         'stripe/webhook',
@@ -792,9 +703,9 @@ Stripe webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회�
 ### Defining Webhook Event Handlers
 ### Webhook 이벤트 핸들러 정의하기
 
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Stripe webhook events you would like to handle, extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Stripe webhook you wish to handle. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
+Cashier automatically handles subscription cancellation on failed charges, but if you have additional webhook events you would like to handle, extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the webhook you wish to handle. For example, if you wish to handle the `invoice.payment_succeeded` webhook, you should add a `handleInvoicePaymentSucceeded` method to the controller:
 
-캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 Stripe webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 Stripe webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `invoice.payment_succeeded` webhook을 처리하고자 한다면, 컨트롤러에 `handleInvoicePaymentSucceeded` 메소드를 추가해야 합니다:
+캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `invoice.payment_succeeded` webhook을 처리하고자 한다면, 컨트롤러에 `handleInvoicePaymentSucceeded` 메소드를 추가해야 합니다:
 
     <?php
 
@@ -854,84 +765,6 @@ To enable webhook verification, ensure that the `stripe.webhook.secret` configur
 
 webhook 확인을 활성화 하려면, `stripe.webhook.secret` 설정 값이 `services` 설정 파일에 설정되어 있는지 확인하십시오. webhook 의 `secret` 은 Stripe 대쉬보드에서 조회할 수 있습니다.
 
-<a name="handling-braintree-webhooks"></a>
-## Handling Braintree Webhooks
-## Braintree webhook 처리하기
-
-Both Stripe and Braintree can notify your application of a variety of events via webhooks. To handle Braintree webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
-
-Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. Braintree의 webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다:
-
-    Route::post(
-        'braintree/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
-
-> {note} Once you have registered your route, be sure to configure the webhook URL in your Braintree control panel settings.
-
-> {note} 라우트를 등록하고나서, Braintree 설정 패널에서 webhook URL을 설정하십시오.
-
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Braintree settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
-
-기본적으로, 이 컨트롤러는 결제 실패가 너무 많은 경우(Braintree 설정에서 정의된) 자동으로 구독을 취소처리 합니다. 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 곧 살펴보겠습니다.
-
-#### Webhooks & CSRF Protection
-#### Webhook & CSRF 보호
-
-Since Braintree webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
-
-Braintree webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하기 때문에, `VerifyCsrfToken` 미들웨어에서 예외 URI를 등록하거나, 라우트를 `web` 미들웨어 그룹 외부에 정의하십시오:
-
-    protected $except = [
-        'braintree/*',
-    ];
-
-<a name="defining-braintree-webhook-event-handlers"></a>
-### Defining Webhook Event Handlers
-### webhook 이벤트 핸들러 정의하기
-
-Cashier automatically handles subscription cancellation on failed charges, but if you have additional Braintree webhook events you would like to handle, extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the Braintree webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
-
-캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 Braintree webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 Braintree webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `dispute_opened` webhook을 처리하고자 한다면, 컨트롤러에 `handleDisputeOpened` 메소드를 추가해야 합니다:
-
-    <?php
-
-    namespace App\Http\Controllers;
-
-    use Braintree\WebhookNotification;
-    use Laravel\Cashier\Http\Controllers\WebhookController as CashierController;
-
-    class WebhookController extends CashierController
-    {
-        /**
-         * Handle a new dispute.
-         *
-         * @param  \Braintree\WebhookNotification  $webhook
-         * @return \Symfony\Component\HttpFoundation\Responses
-         */
-        public function handleDisputeOpened(WebhookNotification $webhook)
-        {
-            // Handle The Webhook...
-        }
-    }
-
-<a name="handling-braintree-failed-subscriptions"></a>
-### Failed Subscriptions
-### 실패한 정기구독
-
-What if a customer's credit card expires? No worries - Cashier includes a Webhook controller that can easily cancel the customer's subscription for you. Just point a route to the controller:
-
-만약 고객의 신용카드가 만료되었다면? 걱정하지 마십시오. 캐셔에는 고객의 정기구독을 손쉽게 취소할 수 있는 Webhook 컨트롤러를 포함하고 있습니다. 라우트가 해당 컨트롤러 메소드를 가리키도록 지정하면 됩니다:
-
-    Route::post(
-        'braintree/webhook',
-        '\Laravel\Cashier\Http\Controllers\WebhookController@handleWebhook'
-    );
-
-That's it! Failed payments will be captured and handled by the controller. The controller will cancel the customer's subscription when Braintree determines the subscription has failed (normally after three failed payment attempts). Don't forget: you will need to configure the webhook URI in your Braintree control panel settings.
-
-이제 다 됬습니다. 실패한 결제에 대해서는 컨트롤러가 확인하여 처리할 것입니다. 컨트롤러는 Braintree가 정기구독이 실패했다고 판단하면(일반적으로 세번의 결제 시도 이후에) 고객의 정기구독을 취소합니다. 잊지말아야 할 것은: Braintree 설정 패널에서 webhook URI를 설정해야 한다는 것입니다.
-
 <a name="single-charges"></a>
 ## Single Charges
 ## 한번만 결제하기
@@ -940,9 +773,9 @@ That's it! Failed payments will be captured and handled by the controller. The c
 ### Simple Charge
 ### 간단한 결제
 
-> {note} When using Stripe, the `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**. However, when using Braintree, you should pass the full dollar amount to the `charge` method:
+> {note} When `charge` method accepts the amount you would like to charge in the **lowest denominator of the currency used by your application**.
 
-> {note} Stripe 를 사용중일 때, `charge` 메소드는 청구하려는 **애플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다. 하지만 Braintree를 사용중이라면 `charge` 메소드에 전체 금액을 전달해야만 합니다:
+> {note} `charge` 메소드는 청구하려는 **애플리케이션에서 사용하는 통화의 가장 낮은 기준 금액**을 인자로 받습니다.
 
 If you would like to make a "one off" charge against a subscribed customer's credit card, you may use the `charge` method on a billable model instance.
 
@@ -951,20 +784,17 @@ If you would like to make a "one off" charge against a subscribed customer's cre
     // Stripe Accepts Charges In Cents...
     $stripeCharge = $user->charge(100);
 
-    // Braintree Accepts Charges In Dollars...
-    $user->charge(1);
+The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe charge creation. Consult the Stripe documentation regarding the options available to you when creating charges:
 
-The `charge` method accepts an array as its second argument, allowing you to pass any options you wish to the underlying Stripe / Braintree charge creation. Consult the Stripe or Braintree documentation regarding the options available to you when creating charges:
-
-`charge` 메소드는 두번째 인자로 Stripe / Braintree 청구에 사용할 수 있는 옵션에 대한 배열을 전달 받습니다. 결제 할 때 사용할 수 있는 옵션에 대해서는 Stripe 또는 Braintree 문서를 확인하십시오:
+`charge` 메소드는 두번째 인자로 Stripe 청구에 사용할 수 있는 옵션에 대한 배열을 전달 받습니다. 결제 할 때 사용할 수 있는 옵션에 대해서는 Stripe 문서를 확인하십시오:
 
     $user->charge(100, [
         'custom_option' => $value,
     ]);
 
-The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Stripe / Braintree response will be returned from the method:
+The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Stripe response will be returned from the method:
 
-`charge` 메소드는 결제가 실패했을 경우에 예외-exception을 발생시킵니다. 결제가 성공적으로 완료되었다면 메소드에서는 Stripe / Braintree 응답 객체가 반환됩니다:
+`charge` 메소드는 결제가 실패했을 경우에 예외-exception을 발생시킵니다. 결제가 성공적으로 완료되었다면 메소드에서는 Stripe 응답 객체가 반환됩니다:
 
     try {
         $response = $user->charge(100);
@@ -983,9 +813,6 @@ Sometimes you may need to make a one-time charge but also generate an invoice fo
     // Stripe Accepts Charges In Cents...
     $user->invoiceFor('One Time Fee', 500);
 
-    // Braintree Accepts Charges In Dollars...
-    $user->invoiceFor('One Time Fee', 5);
-
 The invoice will be charged immediately against the user's credit card. The `invoiceFor` method also accepts an array as its third argument. This array contains the billing options for the invoice item. The fourth argument accepted by the method is also an array. This final argument accepts the billing options for the invoice itself:
 
 청구서는 사용자의 신용 카드에 즉시 청구됩니다. `invoiceFor` 메소드는 세번째 인자로 배열을 받습니다. 이 배열에는 송장 항목에 대한 청구 옵션이 있습니다. 메소드의 네 번째 인자는 배열이며 이 마지막 인자는 인보이스 자체에 대한 청구 옵션을 받습니다.
@@ -994,14 +821,6 @@ The invoice will be charged immediately against the user's credit card. The `inv
         'quantity' => 50,
     ], [
         'tax_percent' => 21,
-    ]);
-
-If you are using Braintree as your billing provider, you must include a `description` option when calling the `invoiceFor` method:
-
-Braintree 를 결제에 사용한다면, `invoiceFor` 메소드를 호출할 때 `description` 옵션을 반드시 포함시켜야 합니다:
-
-    $user->invoiceFor('One Time Fee', 500, [
-        'description' => 'your invoice description here',
     ]);
 
 > {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.

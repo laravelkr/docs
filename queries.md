@@ -20,6 +20,7 @@
     - [Increment & Decrement](#increment-and-decrement)
 - [Deletes](#deletes)
 - [Pessimistic Locking](#pessimistic-locking)
+- [Debugging](#debugging)
 
 <a name="introduction"></a>
 ## Introduction
@@ -27,6 +28,8 @@
 Laravel's database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works on all supported database systems.
 
 The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
+
+> {note} PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns, etc. If you must allow the user to select certain columns to query against, always validate the column names against a white-list of allowed columns.
 
 <a name="retrieving-results"></a>
 ## Retrieving Results
@@ -74,6 +77,10 @@ If you just need to retrieve a single row from the database table, you may use t
 If you don't even need an entire row, you may extract a single value from a record using the `value` method. This method will return the value of the column directly:
 
     $email = DB::table('users')->where('name', 'John')->value('email');
+
+To retrieve a single row by its `id` column value, use the `find` method:
+
+    $user = DB::table('users')->find(3);
 
 #### Retrieving A List Of Column Values
 
@@ -347,14 +354,15 @@ You may chain where constraints together as well as add `or` clauses to the quer
 
 #### Additional Where Clauses
 
-**whereBetween**
+**whereBetween / orWhereBetween**
 
 The `whereBetween` method verifies that a column's value is between two values:
 
     $users = DB::table('users')
-                        ->whereBetween('votes', [1, 100])->get();
+               ->whereBetween('votes', [1, 100])
+               ->get();
 
-**whereNotBetween**
+**whereNotBetween / orWhereNotBetween**
 
 The `whereNotBetween` method verifies that a column's value lies outside of two values:
 
@@ -362,7 +370,7 @@ The `whereNotBetween` method verifies that a column's value lies outside of two 
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
-**whereIn / whereNotIn**
+**whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 
 The `whereIn` method verifies that a given column's value is contained within the given array:
 
@@ -376,7 +384,7 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-**whereNull / whereNotNull**
+**whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 
 The `whereNull` method verifies that the value of the given column is `NULL`:
 
@@ -422,7 +430,7 @@ The `whereTime` method may be used to compare a column's value against a specifi
                     ->whereTime('created_at', '=', '11:20:45')
                     ->get();
 
-**whereColumn**
+**whereColumn / orWhereColumn**
 
 The `whereColumn` method may be used to verify that two columns are equal:
 
@@ -441,7 +449,7 @@ The `whereColumn` method can also be passed an array of multiple conditions. The
     $users = DB::table('users')
                     ->whereColumn([
                         ['first_name', '=', 'last_name'],
-                        ['updated_at', '>', 'created_at']
+                        ['updated_at', '>', 'created_at'],
                     ])->get();
 
 <a name="parameter-grouping"></a>
@@ -449,13 +457,13 @@ The `whereColumn` method can also be passed an array of multiple conditions. The
 
 Sometimes you may need to create more advanced where clauses such as "where exists" clauses or nested parameter groupings. The Laravel query builder can handle these as well. To get started, let's look at an example of grouping constraints within parenthesis:
 
-    DB::table('users')
-                ->where('name', '=', 'John')
-                ->where(function ($query) {
-                    $query->where('votes', '>', 100)
-                          ->orWhere('title', '=', 'Admin');
-                })
-                ->get();
+    $users = DB::table('users')
+               ->where('name', '=', 'John')
+               ->where(function ($query) {
+                   $query->where('votes', '>', 100)
+                         ->orWhere('title', '=', 'Admin');
+               })
+               ->get();
 
 As you can see, passing a `Closure` into the `where` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
 
@@ -468,13 +476,13 @@ As you can see, passing a `Closure` into the `where` method instructs the query 
 
 The `whereExists` method allows you to write `where exists` SQL clauses. The `whereExists` method accepts a `Closure` argument, which will receive a query builder instance allowing you to define the query that should be placed inside of the "exists" clause:
 
-    DB::table('users')
-                ->whereExists(function ($query) {
-                    $query->select(DB::raw(1))
-                          ->from('orders')
-                          ->whereRaw('orders.user_id = users.id');
-                })
-                ->get();
+    $users = DB::table('users')
+               ->whereExists(function ($query) {
+                   $query->select(DB::raw(1))
+                         ->from('orders')
+                         ->whereRaw('orders.user_id = users.id');
+               })
+               ->get();
 
 The query above will produce the following SQL:
 
@@ -619,6 +627,13 @@ You may even insert several records into the table with a single call to `insert
         ['email' => 'dayle@example.com', 'votes' => 0]
     ]);
 
+The `insertOrIgnore` method will ignore duplicate record errors while inserting records into the database:
+
+    DB::table('users')->insertOrIgnore([
+        ['id' => 1, 'email' => 'taylor@example.com'],
+        ['id' => 2, 'email' => 'dayle@example.com']
+    ]);
+
 #### Auto-Incrementing IDs
 
 If the table has an auto-incrementing id, use the `insertGetId` method to insert a record and then retrieve the ID:
@@ -634,9 +649,9 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
 
 In addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs containing the columns to be updated. You may constrain the `update` query using `where` clauses:
 
-    DB::table('users')
-                ->where('id', 1)
-                ->update(['votes' => 1]);
+    $affected = DB::table('users')
+                  ->where('id', 1)
+                  ->update(['votes' => 1]);
 
 #### Update Or Insert
 
@@ -653,11 +668,11 @@ The `updateOrInsert` method will first attempt to locate a matching database rec
 <a name="updating-json-columns"></a>
 ### Updating JSON Columns
 
-When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is only supported on MySQL 5.7+:
+When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
 
-    DB::table('users')
-                ->where('id', 1)
-                ->update(['options->enabled' => true]);
+    $affected = DB::table('users')
+                  ->where('id', 1)
+                  ->update(['options->enabled' => true]);
 
 <a name="increment-and-decrement"></a>
 ### Increment & Decrement
@@ -701,3 +716,12 @@ The query builder also includes a few functions to help you do "pessimistic lock
 Alternatively, you may use the `lockForUpdate` method. A "for update" lock prevents the rows from being modified or from being selected with another shared lock:
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
+
+<a name="debugging"></a>
+## Debugging
+
+You may use the `dd` or `dump` methods while building a query to dump the query bindings and SQL. The `dd` method will display the debug information and then stop executing the request. The `dump` method will display the debug information but allow the request to keep executing:
+
+    DB::table('users')->where('votes', '>', 100)->dd();
+
+    DB::table('users')->where('votes', '>', 100)->dump();

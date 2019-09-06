@@ -12,11 +12,13 @@
 - [Cache Lock Safety Improvements](#cache-lock-safety-improvements)
 - [Markdown File Directory Change](#markdown-file-directory-change)
 - [Nexmo / Slack Notification Channels](#nexmo-slack-notification-channels)
+- [New Default Password Length](#new-default-password-length)
 
 - [초단위의 Cache TTL](#cache-ttl-in-seconds)
 - [Cache Lock 안정성 개선](#cache-lock-safety-improvements)
 - [Markdown File 디렉토리 변경](#markdown-file-directory-change)
 - [Nexmo / Slack Notification Channels](#nexmo-slack-notification-channels)
+- [새로운 기본 패스워드 길이](#new-default-password-length)
 
 
 <a name="medium-impact-changes"></a>
@@ -54,7 +56,7 @@
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
-### 종속성 업데이트
+### 의존성 업데이트
 
 Update your `laravel/framework` dependency to `5.8.*` in your `composer.json` file.
 
@@ -74,9 +76,9 @@ Next, examine any 3rd party packages consumed by your application and verify you
 **Likelihood Of Impact: Very Low**
 **영향 가능성 : 매우 낮음**
 
-The `environment` method signature of the `Illuminate/Contracts/Foundation/Application` contract [has changed](https://github.com/laravel/framework/pull/26296). If you are implementing this contract in your application, you should update the method signature:
+The `environment` method signature of the `Illuminate\Contracts\Foundation\Application` contract [has changed](https://github.com/laravel/framework/pull/26296). If you are implementing this contract in your application, you should update the method signature:
 
-`Illuminate/Contracts/Foundation/Application` contract의 `environment` 메소드의 사용법이 [변경되었습니다](https://github.com/laravel/framework/pull/26296). 애플리케이션에서 이 contract를 구현하는 경우 메소드를 수정해야합니다.
+`Illuminate\Contracts\Foundation\Application` contract의 `environment` 메소드의 사용법이 [변경되었습니다](https://github.com/laravel/framework/pull/26296). 애플리케이션에서 이 contract를 구현하는 경우 메소드를 수정해야합니다.
 
     /**
      * Get or check the current application environment.
@@ -92,9 +94,9 @@ The `environment` method signature of the `Illuminate/Contracts/Foundation/Appli
 **Likelihood Of Impact: Very Low**
 **영향 가능성 : 매우 낮음**
 
-The `bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` and `terminate`  methods [were added to the `Illuminate/Contracts/Foundation/Application` contract](https://github.com/laravel/framework/pull/26477).
+The `bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` and `terminate`  methods [were added to the `Illuminate\Contracts\Foundation\Application` contract](https://github.com/laravel/framework/pull/26477).
 
-`bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` 그리고 `terminate`  메소드가 [`Illuminate/Contracts/Foundation/Application` contract에 추가되었습니다](https://github.com/laravel/framework/pull/26477).
+`bootstrapPath`, `configPath`, `databasePath`, `environmentPath`, `resourcePath`, `storagePath`, `resolveProvider`, `bootstrapWith`, `configurationIsCached`, `detectEnvironment`, `environmentFile`, `environmentFilePath`, `getCachedConfigPath`, `getCachedRoutesPath`, `getLocale`, `getNamespace`, `getProviders`, `hasBeenBootstrapped`, `loadDeferredProviders`, `loadEnvironmentFrom`, `routesAreCached`, `setLocale`, `shouldSkipMiddleware` 그리고 `terminate`  메소드가 [`Illuminate\Contracts\Foundation\Application` contract에 추가되었습니다](https://github.com/laravel/framework/pull/26477).
 
 In the very unlikely event you are implementing this interface, you should add these methods to your implementation.
 
@@ -126,16 +128,20 @@ Therefore, if you are defining your own `password.reset` route, you should ensur
 
 그러므로 자신만의 `password.reset` 라우트를 정의할 경우 URI에 `{token}` 파라메터가 들어 있는지 확인해야합니다.
 
-
+<a name="new-default-password-length"></a>
 #### New Default Password Length
 #### 새로운 기본 비밀번호 길이
 
-**Likelihood Of Impact: Low**
-**영향 가능성 : 낮음**
+**Likelihood Of Impact: High**
+**영향 가능성 : 높음**
 
-The required password length when choosing or resetting a password was [changed to at least eight characters](https://github.com/laravel/framework/pull/25957).
+The required password length when choosing or resetting a password was [changed to eight characters](https://github.com/laravel/framework/pull/25957). You should update any validation rules or logic within your application to match this new eight character default.
 
-비밀번호를 선택하거나 재설정 할 때 필요한 비밀번호 길이는 [최소 8 자 이상으로 변경되었습니다](https://github.com/laravel/framework/pull/25957).
+비밀번호를 선택하거나 재설정 할 때 필요한 비밀번호 길이는 [8글자로 변경되었습니다](https://github.com/laravel/framework/pull/25957). 이 새로운 기본값인 8글자와 일치하도록 애플리케이션 내의 모든 유효성 검증 룰 또는 로직을 변경해야합니다.
+
+If you need to preserve the previous six character length or a different length, you may extend the `Illuminate\Auth\Passwords\PasswordBroker` class and overwrite the `validatePasswordWithDefaults` method with custom logic.
+
+이전 6글자 길이 또는 다른 길이를 보존해야한다면 `Illuminate\Auth\Passwords\PasswordBroker` 클래스를 확장하고 `validatePasswordWithDefaults` 메소드를 커스텀 로직으로 덮어 쓸 수 있습니다.
 
 <a name="cache"></a>
 ### Cache
@@ -216,7 +222,7 @@ However, if you are manually calling `Cache::lock()->release()`, you must update
 
 그러나 수동으로 `Cache::lock()->release()`를 호출하는 경우 Lock 인스턴스를 유지하도록 코드를 업데이트해야합니다. 그런 다음 작업 수행을 마친 후에 **동일한 Lock 인스턴스**에 대해`release` 메소드를 호출 할 수 있습니다. 예 :
 
-    if ($lock = Cache::lock('foo', 10)->get()) {
+    if (($lock = Cache::lock('foo', 10))->get()) {
         // Perform task...
 
         $lock->release();
@@ -229,7 +235,7 @@ Sometimes, you may wish to acquire a lock in one process and release it in anoth
     // Within Controller...
     $podcast = Podcast::find(1);
 
-    if ($lock = Cache::lock('foo', 120)->get()) {
+    if (($lock = Cache::lock('foo', 120))->get()) {
         ProcessPodcast::dispatch($podcast, $lock->owner());
     }
 
@@ -286,9 +292,9 @@ The `firstWhere` method signature [has changed](https://github.com/laravel/frame
 **Likelihood Of Impact: Very Low**
 **영향 가능성 : 매우 낮음**
 
-The `terminate` method [has been added to the `Illuminate/Contracts/Console/Kernel` contract](https://github.com/laravel/framework/pull/26393). If you are implementing this interface, you should add this method to your implementation.
+The `terminate` method [has been added to the `Illuminate\Contracts\Console\Kernel` contract](https://github.com/laravel/framework/pull/26393). If you are implementing this interface, you should add this method to your implementation.
 
-`terminate` 메소드가 [`Illuminate/Contracts/Console/Kernel` 계약에 추가되었습니다](https://github.com/laravel/framework/pull/26393). 이 인터페이스를 구현하는 경우이 메소드를 구현에 추가해야합니다.
+`terminate` 메소드가 [`Illuminate\Contracts\Console\Kernel` 계약에 추가되었습니다](https://github.com/laravel/framework/pull/26393). 이 인터페이스를 구현하는 경우이 메소드를 구현에 추가해야합니다.
 
 <a name="container"></a>
 ### Container
@@ -391,6 +397,20 @@ As a result, the `->>` operator is no longer supported or necessary.
 As of Laravel 5.8 the [oldest supported SQLite version](https://github.com/laravel/framework/pull/25995) is SQLite 3.7.11. If you are using an older SQLite version, you should update it (SQLite 3.8.8+ is recommended).
 
 Laravel 5.8부터 [지원하는 가장 오래된 SQLite 버전](https://github.com/laravel/framework/pull/25995)은 SQLite 3.7.11입니다. 이전 SQLite 버전을 사용하는 경우 SQLite 버전을 업데이트해야합니다 (SQLite 3.8.8 이상 권장).
+
+#### Migrations & `bigIncrements`
+#### 마이그레이션과 `bigIncrements`
+
+**Likelihood Of Impact: None**
+**영향 가능성 : 보통**
+
+[As of Laravel 5.8](https://github.com/laravel/framework/pull/26472), migration stubs use the `bigIncrements` method on ID columns by default. Previously, ID columns were created using the `increments` method.
+
+[Laravel 5.8 현재](https://github.com/laravel/framework/pull/26472), 마이그레이션 스텁은 기본적으로 ID 열에 대해 `bigIncrements` 메소드를 사용합니다. 이전에는 `incrementments` 메소드를 사용하여 ID 열을 만들었습니다.
+
+This will not affect any existing code in your project; however, be aware that foreign key columns must be of the same type. Therefore, a column created using the `increments` method can not reference a column created using the `bigIncrements` method.
+
+프로젝트의 기존 코드에는 영향을주지 않습니다. 그러나 외래 키 열은 동일한 유형이어야 하므로 `incrementments` 메소드를 사용하여 생성 된 컬럼은 `bigIncrements` 메소드를 사용하여 생성 된 컬럼을 참조 할 수 없습니다.
 
 <a name="eloquent"></a>
 ### Eloquent
@@ -530,9 +550,10 @@ For more information, please refer to the [phpdotenv upgrade guide](https://gith
 **Likelihood Of Impact: Low**
 **영향 가능성 : 낮음**
 
-The `fire` method (which was deprecated in Laravel 5.4) of the `Illuminate/Events/Dispatcher` class [has been removed](https://github.com/laravel/framework/pull/26392). You should use the `dispatch` method instead.
+The `fire` method (which was deprecated in Laravel 5.4) of the `Illuminate\Events\Dispatcher` class [has been removed](https://github.com/laravel/framework/pull/26392).
+You should use the `dispatch` method instead.
 
-`Illuminate/Events/Dispatcher` 클래스의 `fire` 메소드 (Laravel 5.4부터 deprecated되었습니다)가 [삭제되었습니다](https://github.com/laravel/framework/pull/26392). 대신에 `dispatch` 메소드를 사용해야합니다.
+`Illuminate\Events\Dispatcher` 클래스의 `fire` 메소드 (Laravel 5.4부터 deprecated되었습니다)가 [삭제되었습니다](https://github.com/laravel/framework/pull/26392). 대신에 `dispatch` 메소드를 사용해야합니다.
 
 <a name="exception-handling"></a>
 ### Exception Handling

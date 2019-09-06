@@ -41,6 +41,8 @@
 - [Deletes-삭제](#deletes)
 - [Pessimistic Locking](#pessimistic-locking)
 - [Pessimistic Locking](#pessimistic-locking)
+- [Debugging](#debugging)
+- [디버깅](#debugging)
 
 <a name="introduction"></a>
 ## Introduction
@@ -53,6 +55,10 @@ Laravel's database query builder provides a convenient, fluent interface to crea
 The Laravel query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
 
 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다. 따라서 쿼리에 바인딩할 문자열들을 따로 정리하고 전달할 필요가 없습니다.
+
+> {note} PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns, etc. If you must allow the user to select certain columns to query against, always validate the column names against a white-list of allowed columns.
+
+> {note} PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다. 사용자가 쿼리 할 특정 컬럼을 선택하도록 허용해야 하는 경우 항상 허용 된 컬럼의 화이트리스트를 통해 컬럼 이름의 유효성을 검사하십시오.
 
 <a name="retrieving-results"></a>
 ## Retrieving Results
@@ -111,6 +117,12 @@ If you don't even need an entire row, you may extract a single value from a reco
 전체 row 가 필요하지 않다면, `value` 메소드를 사용하여 레코드에서 하나의 값만 추출할 수 있습니다. 메소드는 컬럼의 직접적인 값을 반환할 것입니다:
 
     $email = DB::table('users')->where('name', 'John')->value('email');
+
+To retrieve a single row by its `id` column value, use the `find` method:
+
+`id` 컬럼 값으로 단일 행을 검색하려면 `find` 메소드를 사용하십시오.
+
+    $user = DB::table('users')->find(3);
 
 #### Retrieving A List Of Column Values
 #### 컬럼 값의 목록 조회하기
@@ -471,8 +483,8 @@ You may chain where constraints together as well as add `or` clauses to the quer
 #### Additional Where Clauses
 #### 추가적인 Where 구문
 
-**whereBetween**
-**whereBetween**
+**whereBetween / orWhereBetween**
+**whereBetween / orWhereBetween**
 
 The `whereBetween` method verifies that a column's value is between two values:
 
@@ -481,8 +493,8 @@ The `whereBetween` method verifies that a column's value is between two values:
     $users = DB::table('users')
                         ->whereBetween('votes', [1, 100])->get();
 
-**whereNotBetween**
-**whereNotBetween**
+**whereNotBetween / orWhereNotBetween**
+**whereNotBetween / orWhereNotBetween**
 
 The `whereNotBetween` method verifies that a column's value lies outside of two values:
 
@@ -492,8 +504,8 @@ The `whereNotBetween` method verifies that a column's value lies outside of two 
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
-**whereIn / whereNotIn**
-**whereIn / whereNotIn**
+**whereIn / whereNotIn / orWhereIn / orWhereNotIn**
+**whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 
 The `whereIn` method verifies that a given column's value is contained within the given array:
 
@@ -511,8 +523,8 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-**whereNull / whereNotNull**
-**whereNull / whereNotNull**
+**whereNull / whereNotNull / orWhereNull / orWhereNotNull**
+**whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 
 The `whereNull` method verifies that the value of the given column is `NULL`:
 
@@ -573,8 +585,8 @@ The `whereTime` method may be used to compare a column's value against a specifi
                     ->whereTime('created_at', '=', '11:20:45')
                     ->get();
 
-**whereColumn**
-**whereColumn**
+**whereColumn / orWhereColumn**
+**whereColumn / orWhereColumn**
 
 The `whereColumn` method may be used to verify that two columns are equal:
 
@@ -879,9 +891,9 @@ The `updateOrInsert` method will first attempt to locate a matching database rec
 ### Updating JSON Columns
 ### JSON 컬럼 업데이트
 
-When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is only supported on MySQL 5.7+:
+When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
 
-JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상에서만 지원합니다:
+JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상, PostgreSQL 9.5 이상 에서만 지원합니다:
 
     DB::table('users')
                 ->where('id', 1)
@@ -946,3 +958,15 @@ Alternatively, you may use the `lockForUpdate` method. A "for update" lock preve
 이대신에, `lockForUpdate` 메소드를 사용할 수 있습니다. "수정을 위한" lock 은 row 가 수정되는 것 또는 다른 공유 lock 에 의해서 선택되는 것을 방지합니다:
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
+
+<a name="debugging"></a>
+## Debugging
+## 디버깅
+
+You may use the `dd` or `dump` methods while building a query to dump the query bindings and SQL. The `dd` method will display the debug information and then stop executing the request. The `dump` method will display the debug information but allow the request to keep executing:
+
+쿼리를 작성하는 동안 쿼리 바인딩과 SQL을 출력하기 위해 `dd` 또는 `dump` 메소드를 사용 할 수 있습니다. `dd` 메소드는 디버그 정보를 표시하고 요청 실행을 중단합니다. `dump` 메소드는 디버그 정보를 보여 주지만 요청이 계속 실행되도록합니다.
+
+    DB::table('users')->where('votes', '>', 100)->dd();
+
+    DB::table('users')->where('votes', '>', 100)->dump();

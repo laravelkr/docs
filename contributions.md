@@ -25,7 +25,6 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Art](https://github.com/laravel/art)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [Laravel Cashier](https://github.com/laravel/cashier)
-- [Laravel Cashier for Braintree](https://github.com/laravel/cashier-braintree)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [Laravel Framework](https://github.com/laravel/framework)
 - [Laravel Homestead](https://github.com/laravel/homestead)
@@ -35,7 +34,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
 - [Laravel Telescope](https://github.com/laravel/telescope)
-- [Laravel Website](https://github.com/laravel/laravel.com)
+- [Laravel Website](https://github.com/laravel/laravel.com-next)
 </div>
 
 <a name="core-development-discussion"></a>
@@ -50,9 +49,9 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 **All** bug fixes should be sent to the latest stable branch or to the [current LTS branch](/docs/{{version}}/releases#support-policy). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch.
+**Minor** features that are **fully backwards compatible** with the current release may be sent to the latest stable branch.
 
-**Major** new features should always be sent to the `master` branch, which contains the upcoming Laravel release.
+**Major** new features should always be sent to the `master` branch, which contains the upcoming release.
 
 If you are unsure if your feature qualifies as a major or minor, please ask Taylor Otwell in the `#internals` channel of the [Laravel Discord server](https://discordapp.com/invite/mPZNm7A).
 
@@ -83,6 +82,7 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
      * @param  \Closure|string|null  $concrete
      * @param  bool  $shared
      * @return void
+     *
      * @throws \Exception
      */
     public function bind($abstract, $concrete = null, $shared = false)

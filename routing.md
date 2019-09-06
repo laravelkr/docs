@@ -58,7 +58,7 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
         //
     });
 
-    Route::any('foo', function () {
+    Route::any('/', function () {
         //
     });
 
@@ -274,6 +274,8 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
         });
     });
 
+> {note} In order to ensure your sub-domain routes are reachable, you should register sub-domain routes before registering root domain routes. This will prevent root domain routes from overwriting sub-domain routes which have the same URI path.
+
 <a name="route-group-prefixes"></a>
 ### Route Prefixes
 
@@ -406,6 +408,22 @@ Laravel includes a [middleware](/docs/{{version}}/middleware) to rate limit acce
 You may specify a dynamic request maximum based on an attribute of the authenticated `User` model. For example, if your `User` model contains a `rate_limit` attribute, you may pass the name of the attribute to the `throttle` middleware so that it is used to calculate the maximum request count:
 
     Route::middleware('auth:api', 'throttle:rate_limit,1')->group(function () {
+        Route::get('/user', function () {
+            //
+        });
+    });
+
+#### Distinct Guest & Authenticated User Rate Limits
+
+You may specify different rate limits for guest and authenticated users. For example, you may specify a maximum of `10` requests per minute for guests `60` for authenticated users:
+
+    Route::middleware('throttle:10|60,1')->group(function () {
+        //
+    });
+
+You may also combine this functionality with dynamic rate limits. For example, if your `User` model contains a `rate_limit` attribute, you may pass the name of the attribute to the `throttle` middleware so that it is used to calculate the maximum request count for authenticated users:
+
+    Route::middleware('auth:api', 'throttle:10|rate_limit,1')->group(function () {
         Route::get('/user', function () {
             //
         });

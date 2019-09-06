@@ -5,6 +5,8 @@
 - [시작하기](#introduction)
     - [Customizing Request Headers](#customizing-request-headers)
     - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
+    - [Debugging Responses](#debugging-responses)
+    - [응답 디버깅](#debugging-responses)
 - [Session / Authentication](#session-and-authentication)
 - [세션 / 인증](#session-and-authentication)
 - [Testing JSON APIs](#testing-json-apis)
@@ -87,6 +89,40 @@ You may use the `withHeaders` method to customize the request's headers before i
 > {tip} The CSRF middleware is automatically disabled when running tests.
 
 > {tip} 테스트가 실행되는 동안 CSRF 미들웨어는 자동으로 비활성화 됩니다.
+
+<a name="debugging-responses"></a>
+### Debugging Responses
+### 응답 디버깅
+
+After making a test request to your application, the `dump` and `dumpHeaders` methods may be used to examine and debug the response contents:
+
+애플리케이션에 테스트 요청을 한 후에는 `dump` 및 `dumpHeaders` 메소드를 사용하여 응답 내용을 검사하고 디버그 할 수 있습니다.
+
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic test example.
+         *
+         * @return void
+         */
+        public function testBasicTest()
+        {
+            $response = $this->get('/');
+
+            $response->dumpHeaders();
+
+            $response->dump();
+        }
+    }
 
 <a name="session-and-authentication"></a>
 ## Session / Authentication
@@ -309,6 +345,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertSessionMissing](#assert-session-missing)
 - [assertStatus](#assert-status)
 - [assertSuccessful](#assert-successful)
+- [assertUnauthorized](#assert-unauthorized)
 - [assertViewHas](#assert-view-has)
 - [assertViewHasAll](#assert-view-has-all)
 - [assertViewIs](#assert-view-is)
@@ -472,11 +509,11 @@ response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
 <a name="assert-json-validation-errors"></a>
 #### assertJsonValidationErrors
 
-Assert that the response has the given JSON validation errors for the given keys:
+Assert that the response has the given JSON validation errors:
 
-response-응답에 주어진 키에 해당하는 JSON 유효성 에러를 가지고 있는지 확인:
+response-응답이 JSON 유효성 에러를 가지고 있는지 확인:
 
-    $response->assertJsonValidationErrors($keys);
+    $response->assertJsonValidationErrors(array $data);
 
 <a name="assert-location"></a>
 #### assertLocation
@@ -634,11 +671,20 @@ response-응답이 주어진 코드를 가지고 있는지 확인:
 <a name="assert-successful"></a>
 #### assertSuccessful
 
-Assert that the response has a successful status code:
+Assert that the response has a successful (200) status code:
 
-response-응답이 성공적인 상태코드를 가지고 있는지 확인:
+response-응답이 성공적인 상태코드(200)를 가지고 있는지 확인:
 
     $response->assertSuccessful();
+
+<a name="assert-unauthorized"></a>
+#### assertUnauthorized
+
+Assert that the response has an unauthorized (401) status code:
+
+response-응답이 unauthorized 상태코드(401)를 가지고 있는지 확인:
+
+    $response->assertUnauthorized();
 
 <a name="assert-view-has"></a>
 #### assertViewHas

@@ -96,13 +96,13 @@ The `single` and `daily` channels have three optional configuration options: `bu
 Name | Description | Default
 ------------- | ------------- | -------------
 `bubble` | Indicates if messages should bubble up to other channels after being handled | `true`
-`permission` | The log file's permissions | `644`
+`permission` | The log file's permissions | `0644`
 `locking` | Attempt to lock the log file before writing to it | `false`
 
 이름 | 설명 | 기본값
 ------------- | ------------- | -------------
 `bubble`| 처리 된 후에 메시지가 다른 채널로 버블링되어야하는지 나타냅니다. | `true`
-`permission`| 로그 파일의 사용 권한 | `644`
+`permission`| 로그 파일의 사용 권한 | `0644`
 `locking`| 기록하기 전에 로그 파일을 잠그십시오. | `거짓`
 
 

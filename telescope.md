@@ -9,6 +9,7 @@
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
     - [Batches](#filtering-batches)
+- [Tagging](#tagging)
 - [Available Watchers](#available-watchers)
     - [Cache Watcher](#cache-watcher)
     - [Command Watcher](#command-watcher)
@@ -32,13 +33,11 @@
 Laravel Telescope is an elegant debug assistant for the Laravel framework. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps and more. Telescope makes a wonderful companion to your local Laravel development environment.
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600" height="347">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600">
 </p>
 
 <a name="installation"></a>
 ## Installation
-
-> {note} Telescope requires Laravel 5.7.7+.
 
 You may use Composer to install Telescope into your Laravel project:
 
@@ -58,13 +57,11 @@ When updating Telescope, you should re-publish Telescope's assets:
 
 ### Installing Only In Specific Environments
 
-If you plan to only use Telescope to assist your local development. You may install Telescope using the `--dev` flag:
+If you plan to only use Telescope to assist your local development, you may install Telescope using the `--dev` flag:
 
     composer require laravel/telescope --dev
 
 After running `telescope:install`, you should remove the `TelescopeServiceProvider` service provider registration from your `app` configuration file. Instead, manually register the service provider in the `register` method of your `AppServiceProvider`:
-
-    use Laravel\Telescope\TelescopeServiceProvider;
 
     /**
      * Register any application services.
@@ -182,6 +179,31 @@ While the `filter` callback filters data for individual entries, you may use the
                 });
         });
     }
+
+<a name="tagging"></a>
+## Tagging
+
+Telescope allows you to search entries by "tag". Often, tags are Eloquent model class names or authenticated user IDs which Telescope automatically adds to entries. Occasionally, you may want to attach your own custom tags to entries. To accomplish this, you may use the `Telescope::tag` method. The `tag` method accepts a callback which should return an array of tags. The tags returned by the callback will be merged with any tags Telescope would automatically attach to the entry. You should call the `tag` method within your `TelescopeServiceProvider`:
+
+    use Laravel\Telescope\Telescope;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->hideSensitiveRequestDetails();
+
+        Telescope::tag(function (IncomingEntry $entry) {
+            if ($entry->type === 'request') {
+                return ['status:'.$entry->content['response_status']];
+            }
+
+            return [];
+        });
+     }
 
 <a name="available-watchers"></a>
 ## Available Watchers

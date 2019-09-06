@@ -557,7 +557,7 @@ To generate a mailable with a corresponding Markdown template, you may use the `
 
     php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 
-Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` methods accepts the name of the Markdown template and an optional array of data to make available to the template:
+Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` method accepts the name of the Markdown template and an optional array of data to make available to the template:
 
 그런다음, `build` 메소드 안에서 mailable을 설정할 때 `view` 메소드 대신에 `markdown` 메소드를 호출합니다. `markdown` 메소드는 마크다운 템플릿의 이름과 선택적으로 사용할 수 있는 데이터 배열을 인자로 받습니다:
 
@@ -819,7 +819,7 @@ Laravel을 사용하면 현재 언어가 아닌 다른 언어로도 메일을 �
 
 To accomplish this, the `Mail` facade offers a `locale` method to set the desired language. The application will change into this locale when the mailable is being formatted and then revert back to the previous locale when formatting is complete:
 
-이를 위해 `Mail` 파사드는 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 어플리케이션은 이 언어로 변경되고 포맷이 완료되면 이전 언어로 되돌립니다.
+이를 위해 `Mail` 파사드는 원하는 언어를 설정하는 `locale` 메소드를 제공합니다. mailable의 양식이 만들어 질 때 애플리케이션은 이 언어로 변경되고 포맷이 완료되면 이전 언어로 되돌립니다.
 
     Mail::to($request->user())->locale('es')->send(
         new OrderShipped($order)
@@ -830,7 +830,7 @@ To accomplish this, the `Mail` facade offers a `locale` method to set the desire
 
 Sometimes, applications store each user's preferred locale. By implementing the `HasLocalePreference` contract on one or more of your models, you may instruct Laravel to use this stored locale when sending mail:
 
-때로는 어플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 메일을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
+때로는 애플리케이션의 각 사용자 마다 기본 언어설정이 저장됩니다. 하나 이상의 모델에 `HasLocalePreference` contract을 구현하면 Laravel이 메일을 보낼 때 이 저장된 언어를 사용하게 할 수 있습니다.
 
     use Illuminate\Contracts\Translation\HasLocalePreference;
 

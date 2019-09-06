@@ -9,6 +9,8 @@
     - [이벤트 & 리스너 생성하기](#generating-events-and-listeners)
     - [Manually Registering Events](#manually-registering-events)
     - [수동으로 이벤트 등록하기](#manually-registering-events)
+    - [Event Discovery](#event-discovery)
+    - [이벤트 Discovery](#event-discovery)
 - [Defining Events](#defining-events)
 - [이벤트 정의하기](#defining-events)
 - [Defining Listeners](#defining-listeners)
@@ -101,6 +103,76 @@ You may even register listeners using the `*` as a wildcard parameter, allowing 
     Event::listen('event.*', function ($eventName, array $data) {
         //
     });
+
+<a name="event-discovery"></a>
+### Event Discovery
+### 이벤트 Discovery
+
+> {note} Event Discovery is available for Laravel 5.8.9 or later.
+
+> {note} 이벤트 Discovery는 Laravel 5.8.9 이상에서 사용할 수 있습니다.
+
+Instead of registering events and listeners manually in the `$listen` array of the `EventServiceProvider`, you can enable automatic event discovery. When event discovery is enabled, Laravel will automatically find and register your events and listeners by scanning your application's `Listeners` directory. In addition, any explicitly defined events listed in the `EventServiceProvider` will still be registered.
+
+`EventServiceProvider`의 `$listen` 배열에 이벤트와 리스너를 수동으로 등록하는 대신, 자동으로 이벤트 Discovery를 가능하게 할 수 있습니다. 이벤트 검색이 활성화되면 Laravel은 애플리케이션의 Listeners 디렉터리를 검색하여 이벤트와 리스너를 자동으로 찾아 등록합니다. 또한 `EventServiceProvider`에 명시적으로 정의 된 이벤트는 여전히 등록됩니다.
+
+Laravel finds event listeners by scanning the listener classes using reflection. When Laravel finds any listener class method that begins with `handle`, Laravel will register those methods as event listeners for the event that is type-hinted in the method's signature:
+
+Laravel은 리퍼러를 사용하여 리스너 클래스를 검색하여 이벤트 리스너를 찾습니다. Laravel이 `handle`로 시작하는 리스너 클래스 메소드를 발견하면, Laravel은 메소드의 시그니처에 타입 힌트 된 이벤트에 대한 이벤트 리스너로 해당 메소드를 등록합니다.
+
+    use App\Events\PodcastProcessed;
+
+    class SendPodcastProcessedNotification
+    {
+        /**
+         * Handle the given event.
+         *
+         * @param  \App\Events\PodcastProcessed
+         * @return void
+         */
+        public function handle(PodcastProcessed $event)
+        {
+            //
+        }
+    }
+
+Event discovery is disabled by default, but you can enable it by overriding the `shouldDiscoverEvents` method of your application's `EventServiceProvider`:
+
+이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다 :
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
+    }
+
+By default, all listeners within your application's Listeners directory will be scanned. If you would like to define additional directories to scan, you may override the `discoverEventsWithin` method in your `EventServiceProvider`:
+
+기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다 :
+
+    /**
+     * Get the listener directories that should be used to discover events.
+     *
+     * @return array
+     */
+    protected function discoverEventsWithin()
+    {
+        return [
+            $this->app->path('Listeners'),
+        ];
+    }
+
+In production, you likely do not want the framework to scan all of your listeners on every request. Therefore, during your deployment process, you should run the `event:cache` Artisan command to cache a manifest of all of your application's events and listeners. This manifest will be used by the framework to speed up the event registration process. The `event:clear` command may be used to destroy the cache.
+
+프로덕션 환경에서는 프레임워크가 모든 요청에 대해 모든 리스너를 검색하지 않도록 할 가능성이 높습니다. 그러므로 배포 프로세스 중에 `event:cache` Artisan 명령을 실행하여 모든 애플리케이션 이벤트와 리스너의 목록을 캐시해야합니다. 이 매니페스트는 프레임워크에서 이벤트 등록 프로세스의 속도를 높이기 위해 사용됩니다. 캐시를 제거하기 위해 `event:clear` 명령을 사용할 수 있습니다.
+
+> {tip} The `event:list` command may be used to display a list of all events and listeners registered by your application.
+
+> {tip}`event : list` 명령은 애플리케이션에 등록 된 모든 이벤트와 리스너의 목록을 표시하는 데 사용될 수 있습니다.
 
 <a name="defining-events"></a>
 ## Defining Events
@@ -254,6 +326,45 @@ If you would like to customize the queue connection, queue name, or queue delay 
         public $delay = 60;
     }
 
+#### Conditionally Queueing Listeners
+#### 조건부 대기열-Queueing 리스너
+
+Sometimes, you may need to determine whether a listener should be queued based on some data that's only available at runtime. To accomplish this, a `shouldQueue` method may be added to a listener to determine whether the listener should be queued and executed synchronously:
+
+때로는 런타임에만 사용 가능한 일부 데이터를 기반으로 대기열-Queueing에 대기해야 하는지 여부를 결정해야 할 수도 있습니다. 이것을 달성하기 위해서, 리스너에 `shouldQueue` 메소드를 추가해, 리스너를 큐에 넣고 동기 실행해야 할 지 어떨지를 판단 할 수 있습니다.
+
+    <?php
+
+    namespace App\Listeners;
+
+    use App\Events\OrderPlaced;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+
+    class RewardGiftCard implements ShouldQueue
+    {
+        /**
+         * Reward a gift card to the customer.
+         *
+         * @param  \App\Events\OrderPlaced  $event
+         * @return void
+         */
+        public function handle(OrderPlaced $event)
+        {
+            //
+        }
+
+        /**
+         * Determine whether the listener should be queued.
+         *
+         * @param  \App\Events\OrderPlaced  $event
+         * @return bool
+         */
+        public function shouldQueue(OrderPlaced $event)
+        {
+            return $event->order->subtotal >= 5000;
+        }
+    }
+
 <a name="manually-accessing-the-queue"></a>
 ### Manually Accessing The Queue
 ### 수동으로 Queue-큐에 엑세스하기
@@ -391,12 +502,12 @@ Event subscribers are classes that may subscribe to multiple events from within 
         /**
          * Handle user login events.
          */
-        public function onUserLogin($event) {}
+        public function handleUserLogin($event) {}
 
         /**
          * Handle user logout events.
          */
-        public function onUserLogout($event) {}
+        public function handleUserLogout($event) {}
 
         /**
          * Register the listeners for the subscriber.
@@ -407,12 +518,12 @@ Event subscribers are classes that may subscribe to multiple events from within 
         {
             $events->listen(
                 'Illuminate\Auth\Events\Login',
-                'App\Listeners\UserEventSubscriber@onUserLogin'
+                'App\Listeners\UserEventSubscriber@handleUserLogin'
             );
 
             $events->listen(
                 'Illuminate\Auth\Events\Logout',
-                'App\Listeners\UserEventSubscriber@onUserLogout'
+                'App\Listeners\UserEventSubscriber@handleUserLogout'
             );
         }
     }
@@ -422,6 +533,7 @@ Event subscribers are classes that may subscribe to multiple events from within 
 ### 이벤트 Subscriber 등록하기
 
 After writing the subscriber, you are ready to register it with the event dispatcher. You may register subscribers using the `$subscribe` property on the `EventServiceProvider`. For example, let's add the `UserEventSubscriber` to the list:
+
 subscriber가 작성되었다면 이벤트 dispatcher와 함께 등록할 준비가 되었습니다. `EventServiceProvider`에 `$subscribe` 속성을 사용하여 subscriber를 등록할 수 있습니다. 예를 들어 리스트에 `UserEventListener`를 추가해 보겠습니다:
 
     <?php

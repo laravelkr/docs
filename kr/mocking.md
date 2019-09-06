@@ -40,7 +40,7 @@ Laravel provides helpers for mocking events, jobs, and facades out of the box. T
 
 When mocking an object that is going to be injected into your application via Laravel's service container, you will need to bind your mocked instance into the container as an `instance` binding. This will instruct the container to use your mocked instance of the object instead of constructing the object itself:
 
-라라벨 서비스 컨테이너를 통하여 여러분의 어플리케이션에 주입되는 객체를 moking할 때에는, 컨테이너의 `instance` 바인딩을 사용해서 mocking한 인스턴스를 등록할 필요가 있습니다. 이는 컨테이너에 객체를 생성하는 대신에 mocking 된 객체를 사용하도록 알려줍니다:
+라라벨 서비스 컨테이너를 통하여 여러분의 애플리케이션에 주입되는 객체를 moking할 때에는, 컨테이너의 `instance` 바인딩을 사용해서 mocking한 인스턴스를 등록할 필요가 있습니다. 이는 컨테이너에 객체를 생성하는 대신에 mocking 된 객체를 사용하도록 알려줍니다:
 
     use Mockery;
     use App\Service;
@@ -57,6 +57,16 @@ In order to make this more convenient, you may use the `mock` method, which is p
 
     $this->mock(Service::class, function ($mock) {
         $mock->shouldReceive('process')->once();
+    });
+
+Similarly, if you want to spy on an object, Laravel's base test case class offers a `spy` method as a convenient wrapper around the `Mockery::spy` method:
+
+비슷하게, 객체를 감시하고 싶다면 Laravel의 기본 테스트 케이스 클래스는 `Mockery::spy` 메소드를 둘러싼 편리한 래퍼로서 `spy` 메소드를 제공합니다.
+
+    use App\Service;
+
+    $this->spy(Service::class, function ($mock) {
+        $mock->shouldHaveReceived('process');
     });
 
 <a name="bus-fake"></a>
@@ -383,19 +393,22 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
 
     class ExampleTest extends TestCase
     {
-        public function testAvatarUpload()
+        public function testAlbumUpload()
         {
-            Storage::fake('avatars');
+            Storage::fake('photos');
 
-            $response = $this->json('POST', '/avatar', [
-                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            $response = $this->json('POST', '/photos', [
+                UploadedFile::fake()->image('photo1.jpg'),
+                UploadedFile::fake()->image('photo2.jpg')
             ]);
 
-            // Assert the file was stored...
-            Storage::disk('avatars')->assertExists('avatar.jpg');
+            // Assert one or more files were stored...
+            Storage::disk('photos')->assertExists('photo1.jpg');
+            Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-            // Assert a file does not exist...
-            Storage::disk('avatars')->assertMissing('missing.jpg');
+            // Assert one or more files were not stored...
+            Storage::disk('photos')->assertMissing('missing.jpg');
+            Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
         }
     }
 

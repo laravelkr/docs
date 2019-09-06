@@ -55,7 +55,7 @@
 
 > {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
 
-> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 응용 프로그램에서 `php artisan make:auth`와 `php artisan migrate`를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
+> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에서 `php artisan make:auth`와 `php artisan migrate`를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 

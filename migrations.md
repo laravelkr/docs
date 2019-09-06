@@ -66,7 +66,7 @@ Within both of these methods you may use the Laravel schema builder to expressiv
         public function up()
         {
             Schema::create('flights', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('name');
                 $table->string('airline');
                 $table->timestamps();
@@ -144,7 +144,7 @@ The `migrate:fresh` command will drop all tables from the database and then exec
 To create a new database table, use the `create` method on the `Schema` facade. The `create` method accepts two arguments. The first is the name of the table, while the second is a `Closure` which receives a `Blueprint` object that may be used to define the new table:
 
     Schema::create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 When creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
@@ -166,7 +166,7 @@ You may easily check for the existence of a table or column using the `hasTable`
 If you want to perform a schema operation on a database connection that is not your default connection, use the `connection` method:
 
     Schema::connection('foo')->create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 You may use the following commands on the schema builder to define the table's options:
@@ -239,14 +239,17 @@ Command  |  Description
 `$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
 `$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED BIGINT and `taggable_type` VARCHAR equivalent columns.
+`$table->uuidMorphs('taggable');`  |  Adds `taggable_id` CHAR(36) and `taggable_type` VARCHAR(255) UUID equivalent columns.
 `$table->multiLineString('positions');`  |  MULTILINESTRING equivalent column.
 `$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
 `$table->nullableMorphs('taggable');`  |  Adds nullable versions of `morphs()` columns.
+`$table->nullableUuidMorphs('taggable');`  |  Adds nullable versions of `uuidMorphs()` columns.
 `$table->nullableTimestamps();`  |  Alias of `timestamps()` method.
 `$table->point('position');`  |  POINT equivalent column.
 `$table->polygon('positions');`  |  POLYGON equivalent column.
 `$table->rememberToken();`  |  Adds a nullable `remember_token` VARCHAR(100) equivalent column.
+`$table->set('flavors', ['strawberry', 'vanilla']);`  |  SET equivalent column.
 `$table->smallIncrements('id');`  |  Auto-incrementing UNSIGNED SMALLINT (primary key) equivalent column.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent column.
 `$table->softDeletes();`  |  Adds a nullable `deleted_at` TIMESTAMP equivalent column for soft deletes.
@@ -286,7 +289,7 @@ Modifier  |  Description
 `->after('column')`  |  Place the column "after" another column (MySQL)
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
 `->charset('utf8')`  |  Specify a character set for the column (MySQL)
-`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/SQL Server)
+`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
@@ -354,6 +357,7 @@ You may drop multiple columns from a table by passing an array of column names t
 
 Command  |  Description
 -------  |  -----------
+`$table->dropMorphs('morphable');`  |  Drop the `morphable_id` and `morphable_type` columns.
 `$table->dropRememberToken();`  |  Drop the `remember_token` column.
 `$table->dropSoftDeletes();`  |  Drop the `deleted_at` column.
 `$table->dropSoftDeletesTz();`  |  Alias of `dropSoftDeletes()` method.

@@ -25,6 +25,7 @@
     - [Using Rule Objects](#using-rule-objects)
     - [Using Closures](#using-closures)
     - [Using Extensions](#using-extensions)
+    - [Implicit Extensions](#implicit-extensions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -108,6 +109,13 @@ To get a better understanding of the `validate` method, let's jump back into the
 
 As you can see, we pass the desired validation rules into the `validate` method. Again, if the validation fails, the proper response will automatically be generated. If the validation passes, our controller will continue executing normally.
 
+Alternatively, validation rules may be specified as arrays of rules instead of a single `|` delimited string:
+
+    $validatedData = $request->validate([
+        'title' => ['required', 'unique:posts', 'max:255'],
+        'body' => ['required'],
+    ]);
+
 #### Stopping On First Validation Failure
 
 Sometimes you may wish to stop running validation rules on an attribute after the first validation failure. To do so, assign the `bail` rule to the attribute:
@@ -155,6 +163,20 @@ So, in our example, the user will be redirected to our controller's `create` met
     @endif
 
     <!-- Create Post Form -->
+
+#### The `@error` Directive
+
+You may also use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly check if validation error messages exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="a-note-on-optional-fields"></a>
 ### A Note On Optional Fields
@@ -319,9 +341,9 @@ If you do not want to use the `validate` method on the request, you may create a
 
     namespace App\Http\Controllers;
 
-    use Validator;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
     {
@@ -546,6 +568,7 @@ Below is a list of all available validation rules and their function:
 [Dimensions (Image Files)](#rule-dimensions)
 [Distinct](#rule-distinct)
 [E-Mail](#rule-email)
+[Ends With](#rule-ends-with)
 [Exists (Database)](#rule-exists)
 [File](#rule-file)
 [Filled](#rule-filled)
@@ -578,6 +601,7 @@ Below is a list of all available validation rules and their function:
 [Required Without All](#rule-required-without-all)
 [Same](#rule-same)
 [Size](#rule-size)
+[Sometimes](#conditionally-adding-rules)
 [Starts With](#rule-starts-with)
 [String](#rule-string)
 [Timezone](#rule-timezone)
@@ -676,7 +700,7 @@ The field under validation must be equal to the given date. The dates will be pa
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both.
+The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/es/class.datetime.php) class.
 
 <a name="rule-different"></a>
 #### different:_field_
@@ -727,7 +751,26 @@ When working with arrays, the field under validation must not have any duplicate
 <a name="rule-email"></a>
 #### email
 
-The field under validation must be formatted as an e-mail address.
+The field under validation must be formatted as an e-mail address. Under the hood, this validation rule makes use of the [`egulias/email-validator`](https://github.com/egulias/EmailValidator) package for validating the email address. By default the `RFCValidation` validator is applied, but you can apply other validation styles as well:
+
+    'email' => 'email:rfc,dns'
+
+The example above will apply the `RFCValidation` and `DNSCheckValidation` validations. Here's a full list of validation styles you can apply:
+
+<div class="content-list" markdown="1">
+- `rfc`: `RFCValidation`
+- `strict`: `NoRFCWarningsValidation`
+- `dns`: `DNSCheckValidation`
+- `spoof`: `SpoofCheckValidation`
+- `filter`: `FilterEmailValidation`
+</div>
+
+The `filter` validator, which uses PHP's `filter_var` function under the hood, ships with Laravel and is Laravel's pre-5.8 behavior.
+
+<a name="rule-ends-with"></a>
+#### ends_with:_foo_,_bar_,...
+
+The field under validation must end with one of the given values.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -784,7 +827,7 @@ The field under validation must be greater than or equal to the given _field_. T
 <a name="rule-image"></a>
 #### image
 
-The file under validation must be an image (jpeg, png, bmp, gif, or svg)
+The file under validation must be an image (jpeg, png, bmp, gif, svg, or webp)
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...
@@ -809,6 +852,8 @@ The field under validation must exist in _anotherfield_'s values.
 #### integer
 
 The field under validation must be an integer.
+
+> {note} This validation rule does not verify that the input is of the "integer" variable type, only that the input is a string or numeric value that contains an integer.
 
 <a name="rule-ip"></a>
 #### ip
@@ -1003,9 +1048,11 @@ The field under validation must be a valid timezone identifier according to the 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_,_except_,_idColumn_
 
-The field under validation must be unique in a given database table. If the `column` option is not specified, the field name will be used.
+The field under validation must not exist within the given database table.
 
 **Specifying A Custom Column Name:**
+
+The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the field name will be used.
 
     'email' => 'unique:users,email_address'
 
@@ -1029,6 +1076,8 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
             Rule::unique('users')->ignore($user->id),
         ],
     ]);
+
+> {note} You should never pass any user controlled request input into the `ignore` method. Instead, you should only pass a system generated unique ID such as an auto-incrementing ID or UUID from an Eloquent model instance. Otherwise, your application will be vulnerable to an SQL injection attack.
 
 Instead of passing the model key's value to the `ignore` method, you may pass the entire model instance. Laravel will automatically extract the key from the model:
 
@@ -1217,6 +1266,16 @@ Another method of registering custom validation rules is using the `extend` meth
     class AppServiceProvider extends ServiceProvider
     {
         /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
          * Bootstrap any application services.
          *
          * @return void
@@ -1226,16 +1285,6 @@ Another method of registering custom validation rules is using the `extend` meth
             Validator::extend('foo', function ($attribute, $value, $parameters, $validator) {
                 return $value == 'foo';
             });
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -1271,7 +1320,8 @@ When creating a custom validation rule, you may sometimes need to define custom 
         });
     }
 
-#### Implicit Extensions
+<a name="implicit-extensions"></a>
+### Implicit Extensions
 
 By default, when an attribute being validated is not present or contains an empty string, normal validation rules, including custom extensions, are not run. For example, the [`unique`](#rule-unique) rule will not be run against an empty string:
 
@@ -1288,3 +1338,7 @@ For a rule to run even when an attribute is empty, the rule must imply that the 
     });
 
 > {note} An "implicit" extension only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+
+#### Implicit Rule Objects
+
+If you would like a rule object to run when an attribute is empty, you should implement the `Illuminate\Contracts\Validation\ImplicitRule` interface. This interface serves as a "marker interface" for the validator; therefore, it does not contain any methods you need to implement.

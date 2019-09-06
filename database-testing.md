@@ -10,6 +10,7 @@
     - [Creating Models](#creating-models)
     - [Persisting Models](#persisting-models)
     - [Relationships](#relationships)
+- [Using Seeds](#using-seeds)
 - [Available Assertions](#available-assertions)
 
 <a name="introduction"></a>
@@ -22,7 +23,7 @@ Laravel provides a variety of helpful tools to make it easier to test your datab
         // Make call to application...
 
         $this->assertDatabaseHas('users', [
-            'email' => 'sally@example.com'
+            'email' => 'sally@example.com',
         ]);
     }
 
@@ -173,6 +174,8 @@ If you would like to override some of the default values of your models, you may
         'name' => 'Abigail',
     ]);
 
+> {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled when creating models using factories.
+
 <a name="persisting-models"></a>
 ### Persisting Models
 
@@ -205,6 +208,12 @@ In this example, we'll attach a relation to some created models. When using the 
                ->each(function ($user) {
                     $user->posts()->save(factory(App\Post::class)->make());
                 });
+                
+You may use the `createMany` method to create multiple related models:
+
+    $user->posts()->createMany(
+        factory(App\Post::class, 3)->make()->toArray()
+    );
 
 #### Relations & Attribute Closures
 
@@ -216,7 +225,7 @@ You may also attach relationships to models using Closure attributes in your fac
             'content' => $faker->paragraph,
             'user_id' => function () {
                 return factory(App\User::class)->create()->id;
-            }
+            },
         ];
     });
 
@@ -231,9 +240,44 @@ These Closures also receive the evaluated attribute array of the factory that de
             },
             'user_type' => function (array $post) {
                 return App\User::find($post['user_id'])->type;
-            }
+            },
         ];
     });
+
+<a name="using-seeds"></a>
+## Using Seeds
+
+If you would like to use [database seeders](/docs/{{version}}/seeding) to populate your database during a test, you may use the `seed` method. By default, the `seed` method will return the `DatabaseSeeder`, which should execute all of your other seeders. Alternatively, you pass a specific seeder class name to the `seed` method:
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Tests\TestCase;
+    use OrderStatusesTableSeeder;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+
+    class ExampleTest extends TestCase
+    {
+        use RefreshDatabase;
+
+        /**
+         * Test creating a new order.
+         *
+         * @return void
+         */
+        public function testCreatingANewOrder()
+        {
+            // Run the DatabaseSeeder...
+            $this->seed();
+
+            // Run a single seeder...
+            $this->seed(OrderStatusesTableSeeder::class);
+
+            // ...
+        }
+    }
 
 <a name="available-assertions"></a>
 ## Available Assertions

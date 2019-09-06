@@ -25,7 +25,14 @@ In other words, a blazing fast Laravel development environment that uses roughly
 
 Out of the box, Valet support includes, but is not limited to:
 
-<div class="content-list" markdown="1">
+<style>
+    #valet-support > ul {
+        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        line-height: 1.9;
+    }
+</style>
+
+<div id="valet-support" markdown="1">
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
 - [Bedrock](https://roots.io/bedrock/)
@@ -289,8 +296,10 @@ If you would like to define a custom Valet driver for a single application, crea
 Command  | Description
 ------------- | -------------
 `valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
+`valet log` | View a list of logs which are written by Valet's services.
 `valet paths` | View all of your "parked" paths.
 `valet restart` | Restart the Valet daemon.
 `valet start` | Start the Valet daemon.
 `valet stop` | Stop the Valet daemon.
-`valet uninstall` | Uninstall the Valet daemon entirely.
+`valet trust` | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.
+`valet uninstall` | Uninstall the Valet daemon.

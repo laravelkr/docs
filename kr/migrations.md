@@ -104,7 +104,7 @@ Within both of these methods you may use the Laravel schema builder to expressiv
         public function up()
         {
             Schema::create('flights', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('name');
                 $table->string('airline');
                 $table->timestamps();
@@ -209,7 +209,7 @@ To create a new database table, use the `create` method on the `Schema` facade. 
 새로운 데이터베이스 테이블을 생성하려면 `Schema` 파사드에 `create` 메소드를 사용하면 됩니다. `create` 메소드는 두개의 인자를 전달 받습니다. 첫번째 인자는 테이블의 이름이고, 두번째 인자는 새로운 테이블을 정의하는 사용되는 `Blueprint` 객체를 받는 `Closure`입니다:
 
     Schema::create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 When creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
@@ -239,7 +239,7 @@ If you want to perform a schema operation on a database connection that is not y
 기본 커넥션-connection이 아닌 다른 데이터베이스 커넥션-connection에 스키마 작업을 수행하려면 `connection` 메소드를 사용하면 됩니다:
 
     Schema::connection('foo')->create('users', function (Blueprint $table) {
-        $table->increments('id');
+        $table->bigIncrements('id');
     });
 
 You may use the following commands on the schema builder to define the table's options:
@@ -344,6 +344,7 @@ Command  |  Description
 `$table->point('position');`  |  POINT equivalent column.
 `$table->polygon('positions');`  |  POLYGON equivalent column.
 `$table->rememberToken();`  |  Adds a nullable `remember_token` VARCHAR(100) equivalent column.
+`$table->set('flavors', ['strawberry', 'vanilla']);`  |  SET equivalent column.
 `$table->smallIncrements('id');`  |  Auto-incrementing UNSIGNED SMALLINT (primary key) equivalent column.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent column.
 `$table->softDeletes();`  |  Adds a nullable `deleted_at` TIMESTAMP equivalent column for soft deletes.
@@ -404,6 +405,7 @@ Command  |  Description
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.
 `$table->rememberToken();`  |  nullable (null 값이 허용되는) `remember_token` VARCHAR(100) 컬럼.
+`$table->set('flavors', ['strawberry', 'vanilla']);`  |  동일한 컬럼으로 지정.
 `$table->smallIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED SMALLINT (primary key) 컬럼.
 `$table->smallInteger('votes');`  |  SMALLINT 컬럼.
 `$table->softDeletes();`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` TIMESTAMP 컬럼.
@@ -448,7 +450,7 @@ Modifier  |  Description
 `->after('column')`  |  Place the column "after" another column (MySQL)
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
 `->charset('utf8')`  |  Specify a character set for the column (MySQL)
-`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/SQL Server)
+`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
@@ -465,7 +467,7 @@ Modifier  | 설명
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮깁니다 (MySQL)
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정합니다
 `->charset('utf8')`  |  컬럼의 캐릭터셋을 지정합니다 (MySQL)
-`->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/SQL Server)
+`->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL/PostgreSQL)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  컬럼을 테이블의 "맨 처음" 위치로 옮깁니다 (MySQL)
@@ -558,6 +560,7 @@ You may drop multiple columns from a table by passing an array of column names t
 
 Command  |  Description
 -------  |  -----------
+`$table->dropMorphs('morphable');`  |  Drop the `morphable_id` and `morphable_type` columns.
 `$table->dropRememberToken();`  |  Drop the `remember_token` column.
 `$table->dropSoftDeletes();`  |  Drop the `deleted_at` column.
 `$table->dropSoftDeletesTz();`  |  Alias of `dropSoftDeletes()` method.
@@ -566,6 +569,7 @@ Command  |  Description
 
 명령어 |  설명
 -------  |  -----------
+`$table->dropMorphs('morphable');`  | `morphable_id` 와 `morphable_type` 컬럼 drop.
 `$table->dropRememberToken();`  |  `remember_token` 컬럼 drop.
 `$table->dropSoftDeletes();`  |  `deleted_at` 컬럼 drop.
 `$table->dropSoftDeletesTz();`  |  `dropSoftDeletes()` 메소드의 alias.

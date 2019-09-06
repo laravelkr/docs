@@ -5,6 +5,8 @@
 - [시작하기](#introduction)
 - [Installation](#installation)
 - [설치하기](#installation)
+    - [Managing ChromeDriver Installations](#managing-chromedriver-installations)
+        - [크롬 드라이버 설치 관리](#managing-chromedriver-installations)
     - [Using Other Browsers](#using-other-browsers)
     - [다른 브라우저 사용하기](#using-other-browsers)
 - [Getting Started](#getting-started)
@@ -26,7 +28,7 @@
 - [Interacting With Elements](#interacting-with-elements)
 - [Element 조작하기](#interacting-with-elements)
     - [Dusk Selectors](#dusk-selectors)
-    - [Dusk Selectors](#dusk-selectors)
+    - [Dusk 선택자](#dusk-selectors)
     - [Clicking Links](#clicking-links)
     - [링크 클릭](#clicking-links)
     - [Text, Values, & Attributes](#text-values-and-attributes)
@@ -44,29 +46,29 @@
     - [Scoping Selectors](#scoping-selectors)
     - [Scoping Selectors](#scoping-selectors)
     - [Waiting For Elements](#waiting-for-elements)
-    - [Waiting For Elements](#waiting-for-elements)
+    - [Elements 기다리기](#waiting-for-elements)
     - [Making Vue Assertions](#making-vue-assertions)
-    - [Making Vue Assertions](#making-vue-assertions)
+    - [Vue Assertions 만들기](#making-vue-assertions)
 - [Available Assertions](#available-assertions)
 - [Available Assertions](#available-assertions)
 - [Pages](#pages)
-- [Pages](#pages)
+- [페이지-Pages](#pages)
     - [Generating Pages](#generating-pages)
-    - [Generating Pages](#generating-pages)
+    - [페이지 생성하기](#generating-pages)
     - [Configuring Pages](#configuring-pages)
-    - [Configuring Pages](#configuring-pages)
+    - [페이지 설정하기](#configuring-pages)
     - [Navigating To Pages](#navigating-to-pages)
-    - [Navigating To Pages](#navigating-to-pages)
+    - [페이지 탐색](#navigating-to-pages)
     - [Shorthand Selectors](#shorthand-selectors)
-    - [Shorthand Selectors](#shorthand-selectors)
+    - [단축 셀렉터](#shorthand-selectors)
     - [Page Methods](#page-methods)
-    - [Page Methods](#page-methods)
+    - [페이지 메소드](#page-methods)
 - [Components](#components)
-- [Components](#components)
+- [컴포넌트](#components)
     - [Generating Components](#generating-components)
-    - [Generating Components](#generating-components)
+    - [컴포넌트 생성하기](#generating-components)
     - [Using Components](#using-components)
-    - [Using Components](#using-components)
+    - [컴포넌트 사용하기](#using-components)
 - [Continuous Integration](#continuous-integration)
 - [CI - 지속적 통합](#continuous-integration)
     - [Travis CI](#running-tests-on-travis-ci)
@@ -124,9 +126,26 @@ If you had test failures the last time you ran the `dusk` command, you may save 
 
     php artisan dusk:fails
 
-> {note} Dusk requires its `chromedriver` binaries to be executable. If you're having problems running Dusk, you can ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin`.
+<a name="managing-chromedriver-installations"></a>
+### Managing ChromeDriver Installations
+### 크롬 드라이버 설치 관리
 
-> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능한지 확인해야 합니다: `chmod -R 0755 vendor/laravel/dusk/bin`.
+If you would like to install a different version of ChromeDriver than what is included with Laravel Dusk, you may use the `dusk:chrome-driver` command:
+
+Laravel Dusk에 포함 된 것과 다른 버전의 ChromeDriver를 설치하려면 `dusk:chrome-driver` 명령을 사용할 수 있습니다.
+
+    # Install the latest version of ChromeDriver for your OS...
+    php artisan dusk:chrome-driver
+
+    # Install a given version of ChromeDriver for your OS...
+    php artisan dusk:chrome-driver 74
+
+    # Install a given version of ChromeDriver for all supported OSs...
+    php artisan dusk:chrome-driver --all
+
+> {note} Dusk requires the `chromedriver` binaries to be executable. If you're having problems running Dusk, you should ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin/`.
+
+> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다: `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### Using Other Browsers
@@ -425,11 +444,11 @@ When your test requires migrations, like the authentication example above, you s
 
 <a name="dusk-selectors"></a>
 ### Dusk Selectors
-### Dusk Selectors
+### Dusk 선택자
 
 Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
 
-Choosing good CSS selectors for interacting with elements is one of the hardest parts of writing Dusk tests. Over time, frontend changes can cause CSS selectors like the following to break your tests:
+엘리먼츠와 상호 작용할 수있는 좋은 CSS 선택자를 선택하는 것은 Dusk 테스트를 작성하면서 가장 어려운 부분 중 하나입니다. 시간이 지나면 프론트엔드 변경으로 인해 다음과 같은 CSS 선택자가 테스트를 중단시킬 수 있습니다.
 
     // HTML...
 
@@ -441,7 +460,7 @@ Choosing good CSS selectors for interacting with elements is one of the hardest 
 
 Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
 
-Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, prefix the selector with `@` to manipulate the attached element within a Dusk test:
+Dusk 선택자를 사용하면 CSS 선택자를 기억하는 것보다 효과적인 테스트를 작성하는 데 집중할 수 있습니다. 선택자를 정의하려면 HTML 요소에 `dusk` 속성-attribute을 추가하십시오. 그런 다음 선택자 앞에 `@` 접두어를 붙이면 Dusk 테스트에서 첨부 된 엘리먼츠를 조작합니다.
 
     // HTML...
 
@@ -758,25 +777,33 @@ The `waitForLink` method may be used to wait until the given link text is displa
     $browser->waitForLink('Create', 1);
 
 #### Waiting On The Page Location
+#### 페이지 경로를 기다리기
 
 When making a path assertion such as `$browser->assertPathIs('/home')`, the assertion can fail if `window.location.pathname` is being updated asynchronously. You may use the `waitForLocation` method to wait for the location to be a given value:
+
+`$browser->assertPathIs('/home')`와 같은 경로 assertion을 만들 때 `window.location.pathname`이 비동기적으로 업데이트되면 assertion이 실패 할 수 있습니다. location이 주어진 값이 될 때까지 기다리기 위해서 `waitForLocation` 메소드를 사용할 수 있습니다 :
 
     $browser->waitForLocation('/secret');
 
 You may also wait for a named route's location:
 
+이름이 지정된 라우트의 경로도 기다릴 수 있습니다.
+
     $browser->waitForRoute($routeName, $parameters);
 
 #### Waiting for Page Reloads
+#### 페이지 새로고침 기다리기
 
 If you need to make assertions after a page has been reloaded, use the `waitForReload` method:
+
+페이지가 새로고침 된 후에 assertion을 해야한다면 `waitForReload` 메소드를 사용하십시오.
 
     $browser->click('.some-action')
             ->waitForReload()
             ->assertSee('something');
 
 #### Waiting On JavaScript Expressions
-#### 자바스크립트 표현식을 통해서 대기하기
+#### 자바스크립트 표현식을 통해서 기다리기
 
 Sometimes you may wish to pause the execution of a test until a given JavaScript expression evaluates to `true`. You may easily accomplish this using the `waitUntil` method. When passing an expression to this method, you do not need to include the `return` keyword or an ending semi-colon:
 
@@ -791,7 +818,7 @@ Sometimes you may wish to pause the execution of a test until a given JavaScript
     $browser->waitUntil('App.data.servers.length > 0', 1);
 
 #### Waiting On Vue Expressions
-#### Vue 표현의 대기
+#### Vue의 표현을 기다리기
 
 The following methods may be used to wait until a given Vue component attribute has a given value:
 
@@ -804,11 +831,11 @@ The following methods may be used to wait until a given Vue component attribute 
     $browser->waitUntilVueIsNot('user.name', null, '@user');
 
 #### Waiting With A Callback
-#### Waiting With A Callback
+#### 콜백 기다리기
 
 Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
 
-Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
+Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존합니다. 이 메소드를 사용하면 지정된 콜백이 `true`를 돌려주는 것을 기다릴 수가 있습니다. `waitUsing` 메소드는 대기 할 최대 초 수, Closure가 검증되는 간격, Closure 및 선택적 실패 메시지를 입력받습니다 :
 
     $browser->waitUsing(10, 1, function () use ($something) {
         return $something->isReady();
@@ -816,8 +843,11 @@ Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. Yo
 
 <a name="making-vue-assertions"></a>
 ### Making Vue Assertions
+### Vue Assertions 만들기
 
 Dusk even allows you to make assertions on the state of [Vue](https://vuejs.org) component data. For example, imagine your application contains the following Vue component:
+
+Dusk마저도 [Vue](https://vuejs.org) 컴포넌트 데이터의 상태에 대한 assertion을 할 수 있습니다. 예를 들어, 애플리케이션에 아래와 같은 Vue 컴포넌트가 있다고 가정합니다.
 
     // HTML...
 
@@ -839,6 +869,8 @@ Dusk even allows you to make assertions on the state of [Vue](https://vuejs.org)
 
 You may assert on the state of the Vue component like so:
 
+다음과 같이 Vue 컴포넌트의 상태를 assert 할 수 있습니다.
+
     /**
      * A basic Vue test example.
      *
@@ -859,18 +891,6 @@ You may assert on the state of the Vue component like so:
 Dusk provides a variety of assertions that you may make against your application. All of the available assertions are documented in the list below:
 
 Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 목록과 같습니다:
-
-<style>
-    .collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    .collection-method-list a {
-        display: block;
-    }
-</style>
-
 
 - [assertTitle](#assert-title)
 - [assertTitleContains](#assert-title-contains)
@@ -930,6 +950,7 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 
 <a name="assert-title"></a>
 #### assertTitle
+#### assertTitle
 
 Assert that the page title matches the given text:
 
@@ -938,6 +959,7 @@ Assert that the page title matches the given text:
     $browser->assertTitle($title);
 
 <a name="assert-title-contains"></a>
+#### assertTitleContains
 #### assertTitleContains
 
 Assert that the page title contains the given text:
@@ -948,6 +970,7 @@ Assert that the page title contains the given text:
 
 <a name="assert-url-is"></a>
 #### assertUrlIs
+#### assertUrlIs
 
 Assert that the current URL (without the query string) matches the given string:
 
@@ -956,6 +979,7 @@ Assert that the current URL (without the query string) matches the given string:
     $browser->assertUrlIs($url);
 
 <a name="assert-scheme-is"></a>
+#### assertSchemeIs
 #### assertSchemeIs
 
 Assert that the current URL scheme matches the given scheme:
@@ -966,6 +990,7 @@ Assert that the current URL scheme matches the given scheme:
 
 <a name="assert-scheme-is-not"></a>
 #### assertSchemeIsNot
+#### assertSchemeIsNot
 
 Assert that the current URL scheme does not match the given scheme:
 
@@ -974,6 +999,7 @@ Assert that the current URL scheme does not match the given scheme:
     $browser->assertSchemeIsNot($scheme);
 
 <a name="assert-host-is"></a>
+#### assertHostIs
 #### assertHostIs
 
 Assert that the current URL host matches the given host:
@@ -984,6 +1010,7 @@ Assert that the current URL host matches the given host:
 
 <a name="assert-host-is-not"></a>
 #### assertHostIsNot
+#### assertHostIsNot
 
 Assert that the current URL host does not match the given host:
 
@@ -992,6 +1019,7 @@ Assert that the current URL host does not match the given host:
     $browser->assertHostIsNot($host);
 
 <a name="assert-port-is"></a>
+#### assertPortIs
 #### assertPortIs
 
 Assert that the current URL port matches the given port:
@@ -1002,6 +1030,7 @@ Assert that the current URL port matches the given port:
 
 <a name="assert-port-is-not"></a>
 #### assertPortIsNot
+#### assertPortIsNot
 
 Assert that the current URL port does not match the given port:
 
@@ -1010,6 +1039,7 @@ Assert that the current URL port does not match the given port:
     $browser->assertPortIsNot($port);
 
 <a name="assert-path-begins-with"></a>
+#### assertPathBeginsWith
 #### assertPathBeginsWith
 
 Assert that the current URL path begins with the given path:
@@ -1020,6 +1050,7 @@ Assert that the current URL path begins with the given path:
 
 <a name="assert-path-is"></a>
 #### assertPathIs
+#### assertPathIs
 
 Assert that the current path matches the given path:
 
@@ -1028,6 +1059,7 @@ Assert that the current path matches the given path:
     $browser->assertPathIs('/home');
 
 <a name="assert-path-is-not"></a>
+#### assertPathIsNot
 #### assertPathIsNot
 
 Assert that the current path does not match the given path:
@@ -1038,6 +1070,7 @@ Assert that the current path does not match the given path:
 
 <a name="assert-route-is"></a>
 #### assertRouteIs
+#### assertRouteIs
 
 Assert that the current URL matches the given named route's URL:
 
@@ -1046,6 +1079,7 @@ Assert that the current URL matches the given named route's URL:
     $browser->assertRouteIs($name, $parameters);
 
 <a name="assert-query-string-has"></a>
+#### assertQueryStringHas
 #### assertQueryStringHas
 
 Assert that the given query string parameter is present:
@@ -1062,6 +1096,7 @@ Assert that the given query string parameter is present and has a given value:
 
 <a name="assert-query-string-missing"></a>
 #### assertQueryStringMissing
+#### assertQueryStringMissing
 
 Assert that the given query string parameter is missing:
 
@@ -1070,6 +1105,7 @@ Assert that the given query string parameter is missing:
     $browser->assertQueryStringMissing($name);
 
 <a name="assert-fragment-is"></a>
+#### assertFragmentIs
 #### assertFragmentIs
 
 Assert that the current fragment matches the given fragment:
@@ -1080,6 +1116,7 @@ Assert that the current fragment matches the given fragment:
 
 <a name="assert-fragment-begins-with"></a>
 #### assertFragmentBeginsWith
+#### assertFragmentBeginsWith
 
 Assert that the current fragment begins with the given fragment:
 
@@ -1088,6 +1125,7 @@ Assert that the current fragment begins with the given fragment:
     $browser->assertFragmentBeginsWith('anchor');
 
 <a name="assert-fragment-is-not"></a>
+#### assertFragmentIsNot
 #### assertFragmentIsNot
 
 Assert that the current fragment does not match the given fragment:
@@ -1098,6 +1136,7 @@ Assert that the current fragment does not match the given fragment:
 
 <a name="assert-has-cookie"></a>
 #### assertHasCookie
+#### assertHasCookie
 
 Assert that the given cookie is present:
 
@@ -1106,6 +1145,7 @@ Assert that the given cookie is present:
     $browser->assertHasCookie($name);
 
 <a name="assert-cookie-missing"></a>
+#### assertCookieMissing
 #### assertCookieMissing
 
 Assert that the given cookie is not present:
@@ -1116,6 +1156,7 @@ Assert that the given cookie is not present:
 
 <a name="assert-cookie-value"></a>
 #### assertCookieValue
+#### assertCookieValue
 
 Assert that a cookie has a given value:
 
@@ -1124,6 +1165,7 @@ Assert that a cookie has a given value:
     $browser->assertCookieValue($name, $value);
 
 <a name="assert-plain-cookie-value"></a>
+#### assertPlainCookieValue
 #### assertPlainCookieValue
 
 Assert that an unencrypted cookie has a given value:
@@ -1134,6 +1176,7 @@ Assert that an unencrypted cookie has a given value:
 
 <a name="assert-see"></a>
 #### assertSee
+#### assertSee
 
 Assert that the given text is present on the page:
 
@@ -1142,6 +1185,7 @@ Assert that the given text is present on the page:
     $browser->assertSee($text);
 
 <a name="assert-dont-see"></a>
+#### assertDontSee
 #### assertDontSee
 
 Assert that the given text is not present on the page:
@@ -1152,6 +1196,7 @@ Assert that the given text is not present on the page:
 
 <a name="assert-see-in"></a>
 #### assertSeeIn
+#### assertSeeIn
 
 Assert that the given text is present within the selector:
 
@@ -1160,6 +1205,7 @@ selector 안에서 주어진 텍스트가 존재하는지 확인:
     $browser->assertSeeIn($selector, $text);
 
 <a name="assert-dont-see-in"></a>
+#### assertDontSeeIn
 #### assertDontSeeIn
 
 Assert that the given text is not present within the selector:
@@ -1170,6 +1216,7 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 
 <a name="assert-source-has"></a>
 #### assertSourceHas
+#### assertSourceHas
 
 Assert that the given source code is present on the page:
 
@@ -1178,6 +1225,7 @@ Assert that the given source code is present on the page:
     $browser->assertSourceHas($code);
 
 <a name="assert-source-missing"></a>
+#### assertSourceMissing
 #### assertSourceMissing
 
 Assert that the given source code is not present on the page:
@@ -1188,6 +1236,7 @@ Assert that the given source code is not present on the page:
 
 <a name="assert-see-link"></a>
 #### assertSeeLink
+#### assertSeeLink
 
 Assert that the given link is present on the page:
 
@@ -1196,6 +1245,7 @@ Assert that the given link is present on the page:
     $browser->assertSeeLink($linkText);
 
 <a name="assert-dont-see-link"></a>
+#### assertDontSeeLink
 #### assertDontSeeLink
 
 Assert that the given link is not present on the page:
@@ -1206,6 +1256,7 @@ Assert that the given link is not present on the page:
 
 <a name="assert-input-value"></a>
 #### assertInputValue
+#### assertInputValue
 
 Assert that the given input field has the given value:
 
@@ -1214,6 +1265,7 @@ Assert that the given input field has the given value:
     $browser->assertInputValue($field, $value);
 
 <a name="assert-input-value-is-not"></a>
+#### assertInputValueIsNot
 #### assertInputValueIsNot
 
 Assert that the given input field does not have the given value:
@@ -1224,6 +1276,7 @@ Assert that the given input field does not have the given value:
 
 <a name="assert-checked"></a>
 #### assertChecked
+#### assertChecked
 
 Assert that the given checkbox is checked:
 
@@ -1232,6 +1285,7 @@ Assert that the given checkbox is checked:
     $browser->assertChecked($field);
 
 <a name="assert-not-checked"></a>
+#### assertNotChecked
 #### assertNotChecked
 
 Assert that the given checkbox is not checked:
@@ -1242,6 +1296,7 @@ Assert that the given checkbox is not checked:
 
 <a name="assert-radio-selected"></a>
 #### assertRadioSelected
+#### assertRadioSelected
 
 Assert that the given radio field is selected:
 
@@ -1250,6 +1305,7 @@ Assert that the given radio field is selected:
     $browser->assertRadioSelected($field, $value);
 
 <a name="assert-radio-not-selected"></a>
+#### assertRadioNotSelected
 #### assertRadioNotSelected
 
 Assert that the given radio field is not selected:
@@ -1260,6 +1316,7 @@ Assert that the given radio field is not selected:
 
 <a name="assert-selected"></a>
 #### assertSelected
+#### assertSelected
 
 Assert that the given dropdown has the given value selected:
 
@@ -1268,6 +1325,7 @@ Assert that the given dropdown has the given value selected:
     $browser->assertSelected($field, $value);
 
 <a name="assert-not-selected"></a>
+#### assertNotSelected
 #### assertNotSelected
 
 Assert that the given dropdown does not have the given value selected:
@@ -1278,6 +1336,7 @@ Assert that the given dropdown does not have the given value selected:
 
 <a name="assert-select-has-options"></a>
 #### assertSelectHasOptions
+#### assertSelectHasOptions
 
 Assert that the given array of values are available to be selected:
 
@@ -1286,6 +1345,7 @@ Assert that the given array of values are available to be selected:
     $browser->assertSelectHasOptions($field, $values);
 
 <a name="assert-select-missing-options"></a>
+#### assertSelectMissingOptions
 #### assertSelectMissingOptions
 
 Assert that the given array of values are not available to be selected:
@@ -1296,6 +1356,7 @@ Assert that the given array of values are not available to be selected:
 
 <a name="assert-select-has-option"></a>
 #### assertSelectHasOption
+#### assertSelectHasOption
 
 Assert that the given value is available to be selected on the given field:
 
@@ -1304,6 +1365,7 @@ Assert that the given value is available to be selected on the given field:
     $browser->assertSelectHasOption($field, $value);
 
 <a name="assert-value"></a>
+#### assertValue
 #### assertValue
 
 Assert that the element matching the given selector has the given value:
@@ -1314,6 +1376,7 @@ Assert that the element matching the given selector has the given value:
 
 <a name="assert-visible"></a>
 #### assertVisible
+#### assertVisible
 
 Assert that the element matching the given selector is visible:
 
@@ -1322,6 +1385,7 @@ Assert that the element matching the given selector is visible:
     $browser->assertVisible($selector);
 
 <a name="assert-present"></a>
+#### assertPresent
 #### assertPresent
 
 Assert that the element matching the given selector is present:
@@ -1332,6 +1396,7 @@ Assert that the element matching the given selector is present:
 
 <a name="assert-missing"></a>
 #### assertMissing
+#### assertMissing
 
 Assert that the element matching the given selector is not visible:
 
@@ -1340,6 +1405,7 @@ Assert that the element matching the given selector is not visible:
     $browser->assertMissing($selector);
 
 <a name="assert-dialog-opened"></a>
+#### assertDialogOpened
 #### assertDialogOpened
 
 Assert that a JavaScript dialog with the given message has been opened:
@@ -1350,6 +1416,7 @@ Assert that a JavaScript dialog with the given message has been opened:
 
 <a name="assert-enabled"></a>
 #### assertEnabled
+#### assertEnabled
 
 Assert that the given field is enabled:
 
@@ -1358,6 +1425,7 @@ Assert that the given field is enabled:
     $browser->assertEnabled($field);
 
 <a name="assert-disabled"></a>
+#### assertDisabled
 #### assertDisabled
 
 Assert that the given field is disabled:
@@ -1368,6 +1436,7 @@ Assert that the given field is disabled:
 
 <a name="assert-focused"></a>
 #### assertFocused
+#### assertFocused
 
 Assert that the given field is focused:
 
@@ -1376,6 +1445,7 @@ Assert that the given field is focused:
     $browser->assertFocused($field);
 
 <a name="assert-not-focused"></a>
+#### assertNotFocused
 #### assertNotFocused
 
 Assert that the given field is not focused:
@@ -1386,6 +1456,7 @@ Assert that the given field is not focused:
 
 <a name="assert-vue"></a>
 #### assertVue
+#### assertVue
 
 Assert that a given Vue component data property matches the given value:
 
@@ -1394,6 +1465,7 @@ Assert that a given Vue component data property matches the given value:
     $browser->assertVue($property, $value, $componentSelector = null);
 
 <a name="assert-vue-is-not"></a>
+#### assertVueIsNot
 #### assertVueIsNot
 
 Assert that a given Vue component data property does not match the given value:
@@ -1404,6 +1476,7 @@ Assert that a given Vue component data property does not match the given value:
 
 <a name="assert-vue-contains"></a>
 #### assertVueContains
+#### assertVueContains
 
 Assert that a given Vue component data property is an array and contains the given value:
 
@@ -1412,6 +1485,7 @@ Assert that a given Vue component data property is an array and contains the giv
     $browser->assertVueContains($property, $value, $componentSelector = null);
 
 <a name="assert-vue-does-not-contain"></a>
+#### assertVueDoesNotContain
 #### assertVueDoesNotContain
 
 Assert that a given Vue component data property is an array and does not contain the given value:
@@ -1422,24 +1496,36 @@ Assert that a given Vue component data property is an array and does not contain
 
 <a name="pages"></a>
 ## Pages
+## 페이지-Pages
 
 Sometimes, tests require several complicated actions to be performed in sequence. This can make your tests harder to read and understand. Pages allow you to define expressive actions that may then be performed on a given page using a single method. Pages also allow you to define short-cuts to common selectors for your application or a single page.
 
+때로는 여러 차례의 복잡한 작업을 순서대로 수행해야합니다. 이렇게하면 테스트를 읽고 이해하기가 어려워 질 수 있습니다. 페이지를 사용하면 단일 메소드를 사용하여 주어진 페이지에서 수행 할 수있는 표현 작업을 정의 할 수 있습니다. 또한 페이지를 사용하면 애플리케이션 또는 단일 페이지의 공통 선택자에 대한 단축키를 정의 할 수 있습니다.
+
 <a name="generating-pages"></a>
 ### Generating Pages
+### 페이지 생성하기
 
 To generate a page object, use the `dusk:page` Artisan command. All page objects will be placed in the `tests/Browser/Pages` directory:
+
+페이지 객체를 생성하려면 `dusk:page` Artisan 명령을 사용하십시오. 모든 페이지 객체는 `tests/Browser/Pages` 디렉토리에 있습니다.
 
     php artisan dusk:page Login
 
 <a name="configuring-pages"></a>
 ### Configuring Pages
+### 페이지 설정하기
 
 By default, pages have three methods: `url`, `assert`, and `elements`. We will discuss the `url` and `assert` methods now. The `elements` method will be [discussed in more detail below](#shorthand-selectors).
 
+기본적으로, 페이지는 `url`, `assert`, `elements`의 세 가지 메소드를 가집니다. 우리는 이제 `url`과 `assert` 메소드에 대해서 논의 할 것입니다. `elements` 메소드는 [아래에서 자세히 논의 할 것입니다](#shorthand-selectors)
+
 #### The `url` Method
+#### `url` 메소드
 
 The `url` method should return the path of the URL that represents the page. Dusk will use this URL when navigating to the page in the browser:
+
+`url` 메서드는 페이지를 나타내는 URL의 경로를 반환해야합니다. Dusk는 브라우저의 페이지로 이동할 때 이 URL을 사용합니다.
 
     /**
      * Get the URL for the page.
@@ -1452,8 +1538,11 @@ The `url` method should return the path of the URL that represents the page. Dus
     }
 
 #### The `assert` Method
+#### `assert` 메소드
 
 The `assert` method may make any assertions necessary to verify that the browser is actually on the given page. Completing this method is not necessary; however, you are free to make these assertions if you wish. These assertions will be run automatically when navigating to the page:
+
+`assert` 메소드는 브라우저가 주어진 페이지에 실제로 접속해 있는지 확인하는 데 필요한 assertion을 만들 수 있습니다. 반드시 이 메서드는 작성할 필요는 없습니다. 그러나 원할 경우 자유롭게 이러한 assertion을 할 수 있습니다. 이러한 assertion은 페이지 탐색시 자동으로 실행됩니다.
 
     /**
      * Assert that the browser is on the page.
@@ -1467,14 +1556,19 @@ The `assert` method may make any assertions necessary to verify that the browser
 
 <a name="navigating-to-pages"></a>
 ### Navigating To Pages
+### 페이지 탐색
 
 Once a page has been configured, you may navigate to it using the `visit` method:
+
+페이지가 설정되면 `visit` 메소드를 사용하여 페이지 탐색 할 수 있습니다.
 
     use Tests\Browser\Pages\Login;
 
     $browser->visit(new Login);
 
 Sometimes you may already be on a given page and need to "load" the page's selectors and methods into the current test context. This is common when pressing a button and being redirected to a given page without explicitly navigating to it. In this situation, you may use the `on` method to load the page:
+
+때로는 이미 주어진 페이지에 접속 해 있을 수 있으며 페이지의 선택자와 메소드를 현재 테스트 컨텍스트에 "로드"해야 할 때가 있습니다. 이는 버튼을 누르고 명시적으로 탐색하지 않고 지정된 페이지로 리디렉션 될 때 일반적입니다. 이 상황에서, 당신은 페이지를 로드하기 위해 `on` 메소드를 사용할 수 있습니다 :
 
     use Tests\Browser\Pages\CreatePlaylist;
 
@@ -1485,8 +1579,11 @@ Sometimes you may already be on a given page and need to "load" the page's selec
 
 <a name="shorthand-selectors"></a>
 ### Shorthand Selectors
+### 단축 셀렉터
 
 The `elements` method of pages allows you to define quick, easy-to-remember shortcuts for any CSS selector on your page. For example, let's define a shortcut for the "email" input field of the application's login page:
+
+페이지의 `elements` 메소드는 페이지의 모든 CSS 선택자에 대한 단축키를 빠르고 쉽게 정의 할 수 있도록합니다. 예를 들어, 애플리케이션 로그인 페이지의 "email" 입력 필드에 대한 바로 가기를 정의해보겠습니다.
 
     /**
      * Get the element shortcuts for the page.
@@ -1502,11 +1599,16 @@ The `elements` method of pages allows you to define quick, easy-to-remember shor
 
 Now, you may use this shorthand selector anywhere you would use a full CSS selector:
 
+이제 전체 CSS 셀렉터를 사용할 수있는 곳에서 이 단축 셀렉터를 사용할 수 있습니다.
+
     $browser->type('@email', 'taylor@laravel.com');
 
 #### Global Shorthand Selectors
+#### 전역 단축 셀렉터
 
 After installing Dusk, a base `Page` class will be placed in your `tests/Browser/Pages` directory. This class contains a `siteElements` method which may be used to define global shorthand selectors that should be available on every page throughout your application:
+
+Dusk을 설치 한 후, 기본 `Page` 클래스는 `tests/Browser/Pages` 디렉토리에 있을 것 입니다. 이 클래스는 애플리케이션 전체의 모든 페이지에서 사용할 수있는 전역 단축 셀렉터를 정의하는 데 사용할 수있는 `siteElements` 메소드를 포함하고 있습니다.
 
     /**
      * Get the global element shortcuts for the site.
@@ -1522,8 +1624,11 @@ After installing Dusk, a base `Page` class will be placed in your `tests/Browser
 
 <a name="page-methods"></a>
 ### Page Methods
+### 페이지 메소드
 
 In addition to the default methods defined on pages, you may define additional methods which may be used throughout your tests. For example, let's imagine we are building a music management application. A common action for one page of the application might be to create a playlist. Instead of re-writing the logic to create a playlist in each test, you may define a `createPlaylist` method on a page class:
+
+페이지에 정의 된 기본 메소드 외에도 테스트를 통해 사용할 수있는 추가 메소드를 정의 할 수 있습니다. 예를 들어 음악 관리 애플리케이션을 제작하고 있다고 가정 해 봅시다. 애플리케이션의 한 페이지에 대한 공통적인 동작은 재생 목록을 만드는 것입니다. 각 테스트에서 재생 목록을 생성하는 로직을 다시 작성하는 대신 페이지 클래스에 `createPlaylist` 메소드를 정의 할 수 있습니다.
 
     <?php
 
@@ -1552,6 +1657,8 @@ In addition to the default methods defined on pages, you may define additional m
 
 Once the method has been defined, you may use it within any test that utilizes the page. The browser instance will automatically be passed to the page method:
 
+메소드가 정의되면 페이지를 사용하는 테스트 내에서 메소드를 사용할 수 있습니다. 브라우저 인스턴스가 자동으로 페이지 메서드에 전달됩니다.
+
     use Tests\Browser\Pages\Dashboard;
 
     $browser->visit(new Dashboard)
@@ -1560,17 +1667,25 @@ Once the method has been defined, you may use it within any test that utilizes t
 
 <a name="components"></a>
 ## Components
+## 컴포넌트
 
 Components are similar to Dusk’s “page objects”, but are intended for pieces of UI and functionality that are re-used throughout your application, such as a navigation bar or notification window. As such, components are not bound to specific URLs.
 
+컴포넌트는 Dusk의 "페이지 개체-objects"와 유사하지만 네비게이션바 또는 알림 창과 같이 애플리케이션 전체에서 다시 사용되는 UI 및 기능에 사용됩니다. 따라서 컴포넌트는 특정 URL에 바인딩되지 않습니다.
+
 <a name="generating-components"></a>
 ### Generating Components
+### 컴포넌트 생성하기
 
 To generate a component, use the `dusk:component` Artisan command. New components are placed in the `test/Browser/Components` directory:
+
+컴포넌트를 생성하려면 `dusk:component` Artisan 명령을 사용하십시오. 새로운 컴포넌트는 `test/Browser/Components` 디렉토리에 존재합니다.
 
     php artisan dusk:component DatePicker
 
 As shown above, a "date picker" is an example of a component that might exist throughout your application on a variety of pages. It can become cumbersome to manually write the browser automation logic to select a date in dozens of tests throughout your test suite. Instead, we can define a Dusk component to represent the date picker, allowing us to encapsulate that logic within the component:
+
+위에 표시된 것처럼 "날짜 선택 도구"는 다양한 페이지에서 애플리케이션 전체에 존재할 수있는 컴포넌트의 예입니다. 테스트 스위트-suite 전체에서 수십 가지 테스트 날짜를 선택하기 위해 수동으로 브라우저 자동화 로직을 작성하는 것은 번거로울 수 있습니다. 대신 Dusk 컴포넌트를 정의하여 날짜 선택 도구를 나타낼 수 있으므로 컴포넌트 내에 해당 논리를 캡슐화 할 수 있습니다.
 
     <?php
 
@@ -1638,8 +1753,11 @@ As shown above, a "date picker" is an example of a component that might exist th
 
 <a name="using-components"></a>
 ### Using Components
+### 컴포넌트 사용하기
 
 Once the component has been defined, we can easily select a date within the date picker from any test. And, if the logic necessary to select a date changes, we only need to update the component:
+
+컴포넌트가 정의되면 모든 테스트에서 날짜 선택 도구 내의 날짜를 쉽게 선택할 수 있습니다. 그리고 날짜를 선택하는 데 필요한 로직이 변경되면 컴포넌트만 업데이트하면 됩니다.
 
     <?php
 
@@ -1678,6 +1796,8 @@ Once the component has been defined, we can easily select a date within the date
 ### CircleCI
 
 If you are using CircleCI to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
+
+CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일을 시작점으로 사용할 수 있습니다. TravisCI와 마찬가지로 우리는 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
 
     version: 2
     jobs:

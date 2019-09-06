@@ -17,6 +17,7 @@
 - [Forms](#forms)
     - [CSRF Field](#csrf-field)
     - [Method Field](#method-field)
+    - [Validation Errors](#validation-errors)
 - [Including Sub-Views](#including-sub-views)
     - [Rendering Views For Collections](#rendering-views-for-collections)
 - [Stacks](#stacks)
@@ -83,6 +84,10 @@ In this example, the `sidebar` section is utilizing the `@@parent` directive to 
 
 > {tip} Contrary to the previous example, this `sidebar` section ends with `@endsection` instead of `@show`. The `@endsection` directive will only define a section while `@show` will define and **immediately yield** the section.
 
+The `@yield` directive also accepts a default value as its second parameter. This value will be rendered if the section being yielded is undefined:
+
+    @yield('content', View::make('view.name'))
+
 Blade views may be returned from routes using the global `view` helper:
 
     Route::get('blade', function () {
@@ -103,6 +108,12 @@ Components and slots provide similar benefits to sections and layouts; however, 
 The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
 
     @component('alert')
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent
+
+To instruct Laravel to load the first view that exists from a given array of possible views for the component, you may use the `componentFirst` directive:
+
+    @componentFirst(['custom.alert', 'alert'])
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
 
@@ -189,11 +200,21 @@ Sometimes you may pass an array to your view with the intention of rendering it 
         var app = <?php echo json_encode($array); ?>;
     </script>
 
-However, instead of manually calling `json_encode`, you may use the `@json` Blade directive:
+However, instead of manually calling `json_encode`, you may use the `@json` Blade directive. The `@json` directive accepts the same arguments as PHP's `json_encode` function:
 
     <script>
         var app = @json($array);
+
+        var app = @json($array, JSON_PRETTY_PRINT);
     </script>
+
+> {note} You should only use the `@json` directive to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
+
+The `@json` directive is also useful for seeding Vue components or `data-*` attributes:
+
+    <example-component :some-prop='@json($array)'></example-component>
+
+> {note} Using `@json` in element attributes requires that it be surrounded by single quotes.
 
 #### HTML Entity Encoding
 
@@ -412,6 +433,8 @@ Property  | Description
 `$loop->count`  |  The total number of items in the array being iterated.
 `$loop->first`  |  Whether this is the first iteration through the loop.
 `$loop->last`  |  Whether this is the last iteration through the loop.
+`$loop->even`  |  Whether this is an even iteration through the loop.
+`$loop->odd`  |  Whether this is an odd iteration through the loop.
 `$loop->depth`  |  The nesting level of the current loop.
 `$loop->parent`  |  When in a nested loop, the parent's loop variable.
 
@@ -439,7 +462,7 @@ In some situations, it's useful to embed PHP code into your views. You can use t
 <a name="csrf-field"></a>
 ### CSRF Field
 
-Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
+Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
     <form method="POST" action="/profile">
         @csrf
@@ -457,6 +480,33 @@ Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need 
 
         ...
     </form>
+
+<a name="validation-errors"></a>
+### Validation Errors
+
+The `@error` directive may be used to quickly check if [validation error messages](/docs/{{version}}/validation#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+
+You may pass [the name of a specific error bag](/docs/{{version}}/validation#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
+
+    <!-- /resources/views/auth.blade.php -->
+
+    <label for="email">Email address</label>
+
+    <input id="email" type="email" class="@error('email', 'login') is-invalid @enderror">
+
+    @error('email', 'login')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="including-sub-views"></a>
 ## Including Sub-Views
@@ -577,7 +627,17 @@ The following example creates a `@datetime($var)` directive which formats a give
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -586,16 +646,6 @@ The following example creates a `@datetime($var)` directive which formats a give
             Blade::directive('datetime', function ($expression) {
                 return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -613,7 +663,7 @@ Programming a custom directive is sometimes more complex than necessary when def
     use Illuminate\Support\Facades\Blade;
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */

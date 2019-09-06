@@ -203,7 +203,7 @@ The Closure is bound to the underlying command instance, so you have full access
 클로저는 기본 명령 인스턴스에 바인딩되므로 일반적으로 전체 명령 클래스에서 액세스 할 수있는 모든 헬퍼 함수에 대한 전체 액세스 권한을 갖습니다.
 
 #### Type-Hinting Dependencies
-#### 타입-힌팅 종속성
+#### 타입-힌팅 의존성
 
 In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
 
@@ -251,6 +251,7 @@ All user supplied arguments and options are wrapped in curly braces. In the foll
     protected $signature = 'email:send {user}';
 
 You may also make arguments optional and define default values for arguments:
+
 또한 다음처럼 인자를 선택적으로 입력 받을 수 있도록 정의할 수도 있습니다.
 
     // Optional argument...
@@ -461,7 +462,7 @@ If you need to give the user a predefined set of choices, you may use the `choic
 
 To send output to the console, use the `line`, `info`, `comment`, `question` and `error` methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the `info` method will display in the console as green text:
 
-콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `error` 메소드를 사용합니다. 각각의 이름이 나타내는 목적에 맞게 사용되고 각각 적당한 ANSI 컬러로 표시됩니다.
+콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `error` 메소드를 사용합니다. 각각의 이름이 나타내는 목적에 맞게 사용되고 각각 적당한 ANSI 컬러로 표시됩니다. 사용자에게 정보 메시지를 알리는 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다. 
 
     /**
      * Execute the console command.
@@ -475,7 +476,7 @@ To send output to the console, use the `line`, `info`, `comment`, `question` and
 
 To display an error message, use the `error` method. Error message text is typically displayed in red:
 
-사용자에게 정보 메시지를 알리는 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다.
+에러 메시지 출력을 원하면, 일반적으로 빨간색으로 출력이 되는 `error` 메소드를 사용하면 됩니다.
 
     $this->error('Something went wrong!');
 
@@ -569,9 +570,15 @@ CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 
         //
     });
 
+Alternatively, you may pass the entire Artisan command to the `call` method as a string:
+
+또한, 아티즌 명령어를 전달하고자 할 경우  `call` 메소드를 이용합니다.
+
+    Artisan::call('email:send 1 --queue=default');
+
 Using the `queue` method on the `Artisan` facade, you may even queue Artisan commands so they are processed in the background by your [queue workers](/docs/{{version}}/queues). Before using this method, make sure you have configured your queue and are running a queue listener:
 
-`Artisan` 파사드에서 `queue` 메소드를 호출하는 경우 [queue workers](/docs/{{version}}/queues)를 통해서 아티즌 명령어가 백그라운드로 실행됩니다.
+`Artisan` 파사드에서 `queue` 메소드를 호출하는 경우 [queue workers](/docs/{{version}}/queues)를 통해서 아티즌 명령어가 백그라운드로 실행됩니다.  이 메소드를 사용하기 전에 큐를 설정하고, 큐 리스너가 실행상태여야 합니다.
 
     Route::get('/foo', function () {
         Artisan::queue('email:send', [

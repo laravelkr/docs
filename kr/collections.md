@@ -29,7 +29,7 @@ The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper 
 
 As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, collections are immutable, meaning every `Collection` method returns an entirely new `Collection` instance.
 
-보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공하빈다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
+보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### Creating Collections
@@ -109,6 +109,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [diffAssoc](#method-diffassoc)
 - [diffKeys](#method-diffkeys)
 - [dump](#method-dump)
+- [duplicates](#method-duplicates)
+- [duplicatesStrict](#method-duplicatesstrict)
 - [each](#method-each)
 - [eachSpread](#method-eachspread)
 - [every](#method-every)
@@ -142,6 +144,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [max](#method-max)
 - [median](#method-median)
 - [merge](#method-merge)
+- [mergeRecursive](#method-mergerecursive)
 - [min](#method-min)
 - [mode](#method-mode)
 - [nth](#method-nth)
@@ -158,6 +161,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [random](#method-random)
 - [reduce](#method-reduce)
 - [reject](#method-reject)
+- [replace](#method-replace)
+- [replaceRecursive](#method-replacerecursive)
 - [reverse](#method-reverse)
 - [search](#method-search)
 - [shift](#method-shift)
@@ -392,7 +397,7 @@ The `count` method returns the total number of items in the collection:
 <a name="method-countBy"></a>
 #### `countBy()` {#collection-method}
 
-The `countBy` method counts the occurences of values in the collection. By default, the method counts the occurrences of every element:
+The `countBy` method counts the occurrences of values in the collection. By default, the method counts the occurrences of every element:
 
 `countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다:
 
@@ -567,6 +572,40 @@ The `dump` method dumps the collection's items:
 If you want to stop executing the script after dumping the collection, use the [`dd`](#method-dd) method instead.
 
 컬렉션을 덤프한 후 스크립트의 실행을 멈추고 싶다면, [`dd`](#method-dd) 메소드를 사용하십시오.
+
+<a name="method-duplicates"></a>
+#### `duplicates()` {#collection-method}
+
+The `duplicates` method retrieves and returns duplicate values from the collection:
+
+`duplicates` 메소드는 컬렉션으로부터 중복 된 값을 받아서 반환합니다.
+
+    $collection = collect(['a', 'b', 'a', 'c', 'b']);
+
+    $collection->duplicates();
+
+    // [2 => 'a', 4 => 'b']
+
+If the collection contains arrays or objects, you can pass the key of the attributes that you wish to check for duplicate values:
+
+컬렉션에 배열이나 객체가 포함되어 있으면 중복 값을 확인하려는 속성의 키를 전달할 수 있습니다.
+
+    $employees = collect([
+        ['email' => 'abigail@example.com', 'position' => 'Developer'],
+        ['email' => 'james@example.com', 'position' => 'Designer'],
+        ['email' => 'victoria@example.com', 'position' => 'Developer'],
+    ])
+
+    $employees->duplicates('position');
+
+    // [2 => 'Developer']
+
+<a name="method-duplicatesstrict"></a>
+#### `duplicatesStrict()` {#collection-method}
+
+This method has the same signature as the [`duplicates`](#method-duplicates) method; however, all values are compared using "strict" comparisons.
+
+이 메소드는 [`duplicates`](#method-duplicates) 메소드와 사용법이 같습니다. 그러나 모든 값은 "엄격한-strict"비교를 사용하여 비교됩니다.
 
 <a name="method-each"></a>
 #### `each()` {#collection-method}
@@ -1372,6 +1411,21 @@ If the given items's keys are numeric, the values will be appended to the end of
 
     // ['Desk', 'Chair', 'Bookcase', 'Door']
 
+<a name="method-mergerecursive"></a>
+#### `mergeRecursive()` {#collection-method}
+
+The `mergeRecursive` method merges the given array or collection recursively with the original collection. If a string key in the given items matches a string key in the original collection, then the values for these keys are merged together into an array, and this is done recursively:
+
+`mergeRecursive` 메소드는 주어진 배열이나 콜렉션을 재귀적으로 원래 콜렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
+
+    $collection = collect(['product_id' => 1, 'price' => 100]);
+
+    $merged = $collection->mergeRecursive(['product_id' => 2, 'price' => 200, 'discount' => false]);
+
+    $merged->all();
+
+    // ['product_id' => [1, 2], 'price' => [100, 200], 'discount' => false]
+
 <a name="method-min"></a>
 #### `min()` {#collection-method}
 
@@ -1713,6 +1767,36 @@ The `reject` method filters the collection using the given callback. The callbac
 For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
 
 `reject` 메소드의 반대는, [`filter`](#method-filter)메소드를 확인하십시오.
+
+<a name="method-replace"></a>
+#### `replace()` {#collection-method}
+
+The `replace` method behaves similarly to `merge`; however, in addition to overwriting matching items with string keys, the `replace` method will also overwrite items in the collection that have matching numeric keys:
+
+`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 콜렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
+
+    $collection = collect(['Taylor', 'Abigail', 'James']);
+
+    $replaced = $collection->replace([1 => 'Victoria', 3 => 'Finn']);
+
+    $replaced->all();
+
+    // ['Taylor', 'Victoria', 'James', 'Finn']
+
+<a name="method-replacerecursive"></a>
+#### `replaceRecursive()` {#collection-method}
+
+This method works like `replace`, but it will recurse into arrays and apply the same replacement process to the inner values:
+
+이 메소드는 `replace`처럼 동작하지만, 재귀적 배열로 반복되어 내부 값에 동일한 대체 프로세스를 적용합니다.
+
+    $collection = collect(['Taylor', 'Abigail', ['James', 'Victoria', 'Finn']]);
+
+    $replaced = $collection->replaceRecursive(['Charlie', 2 => [1 => 'King']]);
+
+    $replaced->all();
+
+    // ['Charlie', 'Abigail', ['James', 'King', 'Finn']]
 
 <a name="method-reverse"></a>
 #### `reverse()` {#collection-method}

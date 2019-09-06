@@ -35,6 +35,8 @@
     - [CSRF 필드](#csrf-field)
     - [Method Field](#method-field)
     - [메소드 필드](#method-field)
+    - [Validation Errors](#validation-errors)
+    - [유효성 검증 실패](#validation-errors)
 - [Including Sub-Views](#including-sub-views)
 - [하위 뷰파일 포함시키기](#including-sub-views)
     - [Rendering Views For Collections](#rendering-views-for-collections)
@@ -125,6 +127,12 @@ In this example, the `sidebar` section is utilizing the `@@parent` directive to 
 
 > {tip} 이전 예제와는 다르게, `sidebar` 섹션은 `@show` 대신에 `@endsection` 으로 끝납니다. `@endsection` 지시어는 섹션 만을 정의하고, `@show`는 정의하는 **즉시 섹션을 생성** 합니다.
 
+The `@yield` directive also accepts a default value as its second parameter. This value will be rendered if the section being yielded is undefined:
+
+또한 `@yield` 지시어는 두 번째 매개 변수를 통해 기본값을 입력받습니다. 해당 섹션이 정의되지 않을 경우 이 값이 렌더링됩니다.
+
+    @yield('content', View::make('view.name'))
+
 Blade views may be returned from routes using the global `view` helper:
 
 블레이드 뷰도 글로벌 `view` 헬퍼를 사용하여 라우트에서 반환될 수 있습니다:
@@ -154,8 +162,17 @@ The `{{ $slot }}` variable will contain the content we wish to inject into the c
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
+    
+To instruct Laravel to load the first view that exists from a given array of possible views for the component, you may use the `componentFirst` directive:
+
+Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다 :
+
+    @componentFirst(['custom.alert', 'alert'])
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent
 
 Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by "echoing" the variable that matches their name:
+
 때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
 
     <!-- /resources/views/alert.blade.php -->
@@ -268,13 +285,29 @@ Sometimes you may pass an array to your view with the intention of rendering it 
         var app = <?php echo json_encode($array); ?>;
     </script>
 
-However, instead of manually calling `json_encode`, you may use the `@json` Blade directive:
+However, instead of manually calling `json_encode`, you may use the `@json` Blade directive. The `@json` directive accepts the same arguments as PHP's `json_encode` function:
 
-직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다:
+직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다. `@json` 지시어는 PHP의 `json_encode` 함수와 같은 인수를 받아들입니다.
 
     <script>
         var app = @json($array);
+
+        var app = @json($array, JSON_PRETTY_PRINT);
     </script>
+
+> {note} You should only use the `@json` directive to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
+
+> {note} 기존 변수를 JSON으로 렌더링하려면 `@json` 지시어 만 사용해야합니다. Blade 템플릿은 정규 표현식을 기반으로하며 지시어에 복잡한 표현식을 전달하려고하면 예상치 못한 오류가 발생할 수 있습니다.
+
+The `@json` directive is also useful for seeding Vue components or `data-*` attributes:
+
+또한 `@json` 지시어는 Vue 컴포넌트 나 `data-*` 속성을 시딩하는데 유용합니다 :
+
+    <example-component :some-prop='@json($array)'></example-component>
+
+> {note} Using `@json` in element attributes requires that it be surrounded by single quotes.
+
+> {note} 엘리먼츠의 속성에서 `@json`을 사용하려면 홑따옴표로 묶어야합니다.
 
 #### HTML Entity Encoding
 #### HTML Entity 인코딩
@@ -613,6 +646,24 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
 
         ...
     </form>
+
+<a name="validation-errors"></a>
+### Validation Errors
+### 유효성 검증 실패
+
+The `@error` directive may be used to quickly check if [validation error messages](/docs/{{version}}/validation#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
+
+`@error` 지시어는 주어진 속성에 대해 [유효성 검증 실패 메세지](/docs/{{version}}/validation#quick-displaying-the-validation-errors) 가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo 하여 에러 메시지를 표시 할 수 있습니다 :
+
+    <!-- /resources/views/post/create.blade.php -->
+
+    <label for="title">Post Title</label>
+
+    <input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
 <a name="including-sub-views"></a>
 ## Including Sub-Views

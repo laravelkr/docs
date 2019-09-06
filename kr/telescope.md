@@ -19,6 +19,8 @@
     - [Entries](#filtering-entries)
     - [Batches](#filtering-batches)
     - [Batches](#filtering-batches)
+- [Tagging](#tagging)
+- [Tagging](#tagging)
 - [Available Watchers](#available-watchers)
 - [Available Watchers](#available-watchers)
     - [Cache Watcher](#cache-watcher)
@@ -58,7 +60,7 @@
 
 Laravel Telescope is an elegant debug assistant for the Laravel framework. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps and more. Telescope makes a wonderful companion to your local Laravel development environment.
 
-라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 어플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
+라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 애플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
 
 <p align="center">
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600" height="347">
@@ -67,10 +69,6 @@ Laravel Telescope is an elegant debug assistant for the Laravel framework. Teles
 <a name="installation"></a>
 ## Installation
 ## 설치하기
-
-> {note} Telescope requires Laravel 5.7.7+.
-
-> {note} Telescope는 라라벨 5.7.7 이상을 필요로 합니다.
 
 You may use Composer to install Telescope into your Laravel project:
 
@@ -99,9 +97,9 @@ Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해�
 ### Installing Only In Specific Environments
 ### 특정 환경에서만 설치
 
-If you plan to only use Telescope to assist your local development. You may install Telescope using the `--dev` flag:
+If you plan to only use Telescope to assist your local development, you may install Telescope using the `--dev` flag:
 
-로컬 개발에서만 Telescope를 사용할 계획이라면 `--dev` 플래그를 사용하여 Telescope를 설치할 수 있습니다 :
+로컬 개발에서만 Telescope를 사용할 계획이라면 `--dev` 플래그를 사용하여 Telescope를 설치할 수 있습니다.
 
     composer require laravel/telescope --dev
 
@@ -109,7 +107,7 @@ After running `telescope:install`, you should remove the `TelescopeServiceProvid
 
 `telescope:install` 을 실행 한 후 `app` 설정 파일에서 `TelescopeServiceProvider` 서비스 프로바이더 등록을 제거해야합니다. 대신 직접 `AppServiceProvider` 의 `register` 메소드에 서비스 프로바이더를 등록하십시오 :
 
-    use Laravel\Telescope\TelescopeServiceProvider;
+    use App\Providers\TelescopeServiceProvider;
 
     /**
      * Register any application services.
@@ -251,6 +249,34 @@ While the `filter` callback filters data for individual entries, you may use the
                 });
         });
     }
+
+<a name="tagging"></a>
+## Tagging
+## Tagging
+
+Telescope allows you to search entries by "tag". Often, tags are Eloquent model class names or authenticated user IDs which Telescope automatically adds to entries. Occasionally, you may want to attach your own custom tags to entries. To accomplish this, you may use the `Telescope::tag` method. The `tag` method accepts a callback which should return an array of tags. The tags returned by the callback will be merged with any tags Telescope would automatically attach to the entry. You should call the `tag` method within your `TelescopeServiceProvider`:
+
+Telescope로 "태그"로 항목을 검색 할 수 있습니다. 종종 태그는 Eloquent 모델 클래스 이름이거나 Telescope가 항목에 자동으로 추가하는 인증 된 사용자 ID입니다. 경우에 따라 사용자 정의 태그를 항목에 첨부 할 수 있습니다. 이를 위해서 `Telescope::tag` 메소드를 사용할 수 있습니다. `tag` 메소드는 태그의 배열을 리턴해야하는 콜백을 받아들입니다. 콜백에 의해 반환 된 태그는 Telescope가 자동으로 항목에 첨부 하는 태그와 합쳐집니다. `TelescopeServiceProvider` 내에서 `tag` 메소드를 호출해야합니다.
+
+    use Laravel\Telescope\Telescope;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->hideSensitiveRequestDetails();
+
+        Telescope::tag(function (IncomingEntry $entry) {
+            if ($entry->type === 'request') {
+                return ['status:'.$entry->content['response_status']];
+            }
+
+            return [];
+        });
+     }
 
 <a name="available-watchers"></a>
 ## Available Watchers
@@ -415,7 +441,7 @@ The query watcher records the raw SQL, bindings, and execution time for all quer
 
 The Redis watcher records all Redis commands executed by your application. If you are using Redis for caching, cache commands will also be recorded by the Redis Watcher.
 
-redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록하빈다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
+redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 기록합니다. 캐시를 위해서 redis 를 사용중이라면 캐시 명령어 또한 와처에 의해서 기록합니다.
 
 <a name="request-watcher"></a>
 ### Request Watcher
@@ -423,7 +449,7 @@ redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 
 
 The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your response data via the `size_limit` (in KB) option:
 
-request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
+request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 `size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
 
     'watchers' => [
         Watchers\RequestWatcher::class => [

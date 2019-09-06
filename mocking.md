@@ -38,6 +38,14 @@ In order to make this more convenient, you may use the `mock` method, which is p
         $mock->shouldReceive('process')->once();
     });
 
+Similarly, if you want to spy on an object, Laravel's base test case class offers a `spy` method as a convenient wrapper around the `Mockery::spy` method:
+
+    use App\Service;
+
+    $this->spy(Service::class, function ($mock) {
+        $mock->shouldHaveReceived('process');
+    });
+
 <a name="bus-fake"></a>
 ## Bus Fake
 
@@ -334,19 +342,22 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
 
     class ExampleTest extends TestCase
     {
-        public function testAvatarUpload()
+        public function testAlbumUpload()
         {
-            Storage::fake('avatars');
+            Storage::fake('photos');
 
-            $response = $this->json('POST', '/avatar', [
-                'avatar' => UploadedFile::fake()->image('avatar.jpg')
+            $response = $this->json('POST', '/photos', [
+                UploadedFile::fake()->image('photo1.jpg'),
+                UploadedFile::fake()->image('photo2.jpg')
             ]);
 
-            // Assert the file was stored...
-            Storage::disk('avatars')->assertExists('avatar.jpg');
+            // Assert one or more files were stored...
+            Storage::disk('photos')->assertExists('photo1.jpg');
+            Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-            // Assert a file does not exist...
-            Storage::disk('avatars')->assertMissing('missing.jpg');
+            // Assert one or more files were not stored...
+            Storage::disk('photos')->assertMissing('missing.jpg');
+            Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
         }
     }
 

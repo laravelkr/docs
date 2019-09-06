@@ -254,7 +254,7 @@ You may provide one of the following as the channel argument:
 ### Discord
 ### 디스코드
 
-Envoy also supports sending notifications to [Discord](https://discord.com) after each task is executed. The `@discord` directive accepts a Discord hook URL and a message. You may retreive your webhook URL by creating a "Webhook" in your Server Settings and choosing which channel the webhook should post to. You should pass the entire Webhook URL into the `@discord` directive:
+Envoy also supports sending notifications to [Discord](https://discord.com) after each task is executed. The `@discord` directive accepts a Discord hook URL and a message. You may retrieve your webhook URL by creating a "Webhook" in your Server Settings and choosing which channel the webhook should post to. You should pass the entire Webhook URL into the `@discord` directive:
 
 Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다:
 

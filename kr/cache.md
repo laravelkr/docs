@@ -153,7 +153,7 @@ Using the `Cache` facade, you may access various cache stores via the `store` me
 
     $value = Cache::store('file')->get('foo');
 
-    Cache::store('redis')->put('bar', 'baz', 10);
+    Cache::store('redis')->put('bar', 'baz', 600); // 10 Minutes
 
 <a name="retrieving-items-from-the-cache"></a>
 ### Retrieving Items From The Cache
@@ -206,7 +206,7 @@ Sometimes you may wish to retrieve an item from the cache, but also store a defa
 
 때로는 캐시로부터 아이템을 찾는 것 뿐만 아니라, 찾으려는 아이템이 존재하지 않는 경우 기본값을 저장하고자 할 수도 있습니다. 예를 들어 캐시에서 모든 사용자를 찾으려 할 때 아무 것도 없다면, 데이터베이스로부터 정보를 획득하여 캐시에 추가하고자 할 수도 있습니다. 이 경우에 `Cache::remember` 메소드를 사용하면 됩니다.
 
-    $value = Cache::remember('users', $minutes, function () {
+    $value = Cache::remember('users', $seconds, function () {
         return DB::table('users')->get();
     });
 
@@ -235,19 +235,23 @@ If you need to retrieve an item from the cache and then delete the item, you may
 ### Storing Items In The Cache
 ### 캐시에 아이템 저장하기
 
-You may use the `put` method on the `Cache` facade to store items in the cache. When you place an item in the cache, you need to specify the number of minutes for which the value should be cached:
+You may use the `put` method on the `Cache` facade to store items in the cache:
 
-`Cache` 파사드의 `put` 메소드를 사용하여 캐시에 아이템을 저장할 수 있습니다. 캐시에 아이템을 저장할 때에는, 몇 분 동안 저장해야 할지 지정해야 합니다.
+`Cache` 파사드의 `put` 메소드를 사용하여 캐시에 아이템을 저장할 수 있습니다.
 
-    Cache::put('key', 'value', $minutes);
+    Cache::put('key', 'value', $seconds);
 
-Instead of passing the number of minutes as an integer, you may also pass a `DateTime` instance representing the expiration time of the cached item:
+If the storage time is not passed to the `put` method, the item will be stored indefinitely:
 
-몇 분동안 저장해야 할지 정수형의 숫자를 전달하는 대신에, 캐시된 아이템의 유효 기간을 나타내는 `DateTime` 인스턴스를 전달할 수 있습니다.
+저장 시간이 `put` 메소드에 전달되지 않으면 그 아이템은 무기한 저장 될 것입니다 :
 
-    $expiresAt = now()->addMinutes(10);
+    Cache::put('key', 'value');
 
-    Cache::put('key', 'value', $expiresAt);
+Instead of passing the number of seconds as an integer, you may also pass a `DateTime` instance representing the expiration time of the cached item:
+
+정수로 초를 전달하는 대신 캐시 된 항목의 만료 시점을 나타내는 `DateTime` 인스턴스를 전달할 수도 있습니다.
+
+    Cache::put('key', 'value', now()->addMinutes(10));
 
 #### Store If Not Present
 #### 존재하지 않으면 저장하기
@@ -256,7 +260,7 @@ The `add` method will only add the item to the cache if it does not already exis
 
 `add` 메소드는 캐시에 아이템이 이미 존재하지 않는 경우에만 아이템을 저장합니다. 캐시에 아이템이 잘 저장되었다면 메소드가 `true`를 반환할 것입니다. 그렇지 않은 경우 `false` 를 반환할 것입니다.
 
-    Cache::add('key', 'value', $minutes);
+    Cache::add('key', 'value', $seconds);
 
 #### Storing Items Forever
 #### 아이템들을 영구적으로 저장하기
@@ -281,6 +285,14 @@ You may remove items from the cache using the `forget` method:
 
     Cache::forget('key');
 
+You may also remove items by providing a zero or negative TTL:
+
+0 또는 음수로 TTL을 입력하여 아이템을 제거 할 수도 있습니다.
+
+    Cache::put('key', 'value', 0);
+
+    Cache::put('key', 'value', -5);
+
 You may clear the entire cache using the `flush` method:
 
 `flush` 메소드를 사용하면 전체 캐시를 삭제합니다.
@@ -295,18 +307,22 @@ You may clear the entire cache using the `flush` method:
 ### Atomic Locks
 ### 원자 잠금장치(Atomic-locks)
 
-> {note} To utilize this feature, your application must be using the `memcached` or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+> {note} To utilize this feature, your application must be using the `memcached`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
+> {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
 원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다 :
 
-    if (Cache::lock('foo', 10)->get()) {
+    use Illuminate\Support\Facades\Cache;
+
+    $lock = Cache::lock('foo', 10);
+
+    if ($lock->get()) {
         // Lock acquired for 10 seconds...
 
-        Cache::lock('foo')->release();
+        $lock->release();
     }
 
 The `get` method also accepts a Closure. After the Closure is executed, Laravel will automatically release the lock:
@@ -323,17 +339,46 @@ If the lock is not available at the moment you request it, you may instruct Lara
 
     use Illuminate\Contracts\Cache\LockTimeoutException;
 
+    $lock = Cache::lock('foo', 10);
+
     try {
-        Cache::lock('foo', 10)->block(5);
+        $lock->block(5);
 
         // Lock acquired after waiting maximum of 5 seconds...
     } catch (LockTimeoutException $e) {
         // Unable to acquire lock...
+    } finally {
+             optional($lock)->release();
     }
 
     Cache::lock('foo', 10)->block(5, function () {
         // Lock acquired after waiting maximum of 5 seconds...
     });
+
+#### Managing Locks Across Processes
+#### 프로세스 간 잠금 관리
+
+Sometimes, you may wish to acquire a lock in one process and release it in another process. For example, you may acquire a lock during a web request and wish to release the lock at the end of a queued job that is triggered by that request. In this scenario, you should pass the lock's scoped "owner token" to the queued job so that the job can re-instantiate the lock using the given token:
+
+때로는 한 프로세스에서 잠금을 획득하고 다른 프로세스에서 잠금을 해제하고자 할 수 있습니다. 예를 들어, 웹 요청 중에 잠금을 획득하고 해당 요청으로 인해 대기중인 작업이 끝날 때 잠금을 해제하고자 할 수 있습니다. 이 시나리오에서는 잠금 범위가 지정된 "소유자 토큰"을 대기중인 작업에 전달하여 작업이 주어진 토큰을 사용하여 잠금을 다시 인스턴스화 할 수 있도록해야합니다.
+
+    // Within Controller...
+    $podcast = Podcast::find($id);
+
+    $lock = Cache::lock('foo', 120);
+
+    if ($result = $lock->get()) {
+        ProcessPodcast::dispatch($podcast, $lock->owner());
+    }
+
+    // Within ProcessPodcast Job...
+    Cache::restoreLock('foo', $this->owner)->release();
+
+If you would like to release a lock without respecting its current owner, you may use the `forceRelease` method:
+
+현재 소유자를 무시하고 잠금을 해제하려면 `forceRelease` 메소드를 사용할 수 있습니다.
+
+    Cache::lock('foo')->forceRelease();
 
 <a name="the-cache-helper"></a>
 ### The Cache Helper
@@ -348,15 +393,15 @@ If you provide an array of key / value pairs and an expiration time to the funct
 
 키와 값으로된 배열과 유효시간을 함수에 전달하면, 지정된 기간동안 캐시에 값을 저장하고 있습니다:
 
-    cache(['key' => 'value'], $minutes);
+    cache(['key' => 'value'], $seconds);
 
-    cache(['key' => 'value'], now()->addSeconds(10));
+    cache(['key' => 'value'], now()->addMinutes(10));
 
 When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
 
 `cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다 :
 
-    cache()->remember('users', $minutes, function () {
+    cache()->remember('users', $seconds, function () {
         return DB::table('users')->get();
     });
 
@@ -380,9 +425,9 @@ Cache tags allow you to tag related items in the cache and then flush all cached
 
 캐시 태그는 캐시에 있는 관련된 아이템들을 태그할 수 있도록 해주고, 주어진 태그가 지정된 전체 캐시 항목을 삭제할 수도 있게 해줍니다. 여러분은 순서대로 태그 이름의 배열을 전달하여 태그가 추가된 캐시 아이템에 엑세스할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 엑세스하여, 값을 `저장(put)` 해 보겠습니다.
 
-    Cache::tags(['people', 'artists'])->put('John', $john, $minutes);
+    Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
 
-    Cache::tags(['people', 'authors'])->put('Anne', $anne, $minutes);
+    Cache::tags(['people', 'authors'])->put('Anne', $anne, $seconds);
 
 <a name="accessing-tagged-cache-items"></a>
 ### Accessing Tagged Cache Items
@@ -434,8 +479,8 @@ To create our custom cache driver, we first need to implement the `Illuminate\Co
     {
         public function get($key) {}
         public function many(array $keys);
-        public function put($key, $value, $minutes) {}
-        public function putMany(array $values, $minutes);
+        public function put($key, $value, $seconds) {}
+        public function putMany(array $values, $seconds);
         public function increment($key, $value = 1) {}
         public function decrement($key, $value = 1) {}
         public function forever($key, $value) {}
@@ -475,7 +520,17 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     class CacheServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register bindings in the container.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
          *
          * @return void
          */
@@ -484,16 +539,6 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
             Cache::extend('mongo', function ($app) {
                 return Cache::repository(new MongoStore);
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 

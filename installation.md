@@ -10,8 +10,6 @@
 <a name="installation"></a>
 ## Installation
 
-> {video} Laracasts provides a [free, thorough introduction to Laravel](http://laravelfromscratch.com) for newcomers to the framework. It's a great place to start your journey.
-
 <a name="server-requirements"></a>
 ### Server Requirements
 
@@ -20,15 +18,15 @@ The Laravel framework has a few system requirements. All of these requirements a
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 
 <div class="content-list" markdown="1">
-- PHP >= 7.1.3
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
-- Tokenizer PHP Extension
-- XML PHP Extension
+- PHP >= 7.2.0
+- BCMath PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
-- BCMath PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
 </div>
 
 <a name="installing-laravel"></a>
@@ -42,11 +40,10 @@ First, download the Laravel installer using Composer:
 
     composer global require laravel/installer
 
-Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
+Make sure to place Composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
 
 <div class="content-list" markdown="1">
-- macOS: `$HOME/.composer/vendor/bin`
-- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
+- macOS and GNU / Linux Distributions: `$HOME/.composer/vendor/bin`
 - Windows: `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin`
 </div>
 

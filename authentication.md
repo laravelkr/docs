@@ -27,7 +27,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Install the `laravel/ui` Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These commands will take care of scaffolding your entire authentication system!
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -54,9 +54,11 @@ Laravel ships with several pre-built authentication controllers, which are locat
 <a name="included-routing"></a>
 ### Routing
 
-Laravel provides a quick way to scaffold all of the routes and views you need for authentication using one simple command:
+Laravel's `laravel/ui` package provides a quick way to scaffold all of the routes and views you need for authentication using a few simple commands:
 
-    php artisan make:auth
+    composer require laravel/ui
+
+    php artisan ui vue --auth
 
 This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
 
@@ -65,9 +67,9 @@ This command should be used on fresh applications and will install a layout view
 <a name="included-views"></a>
 ### Views
 
-As mentioned in the previous section, the `php artisan make:auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+As mentioned in the previous section, the `laravel/ui` package's `php artisan ui vue --auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
 
-The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
+The `ui` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
 
 <a name="included-authenticating"></a>
 ### Authenticating
@@ -89,7 +91,7 @@ If the redirect path needs custom generation logic you may define a `redirectTo`
         return '/path';
     }
 
-> {tip} The `redirectTo` method will take precedence over the `redirectTo` attribute.
+> {tip} The `redirectTo` method will take precedence over the `redirectTo` property.
 
 #### Username Customization
 
@@ -452,7 +454,7 @@ As you can see in the example above, the callback passed to the `extend` method 
 
 The simplest way to implement a custom, HTTP request based authentication system is by using the `Auth::viaRequest` method. This method allows you to quickly define your authentication process using a single Closure.
 
-To get started, call the `Auth::viaRequest` method within the `boot` method of your `AuthServiceProvider`. The `viaRequest` method accepts a guard name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a Closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
+To get started, call the `Auth::viaRequest` method within the `boot` method of your `AuthServiceProvider`. The `viaRequest` method accepts an authentication driver name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a Closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
 
     use App\User;
     use Illuminate\Http\Request;
@@ -472,7 +474,7 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
         });
     }
 
-Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
+Once your custom authentication driver has been defined, you use it as a driver within `guards` configuration of your `auth.php` configuration file:
 
     'guards' => [
         'api' => [

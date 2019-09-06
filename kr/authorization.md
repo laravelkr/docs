@@ -75,6 +75,10 @@ Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한�
     {
         $this->registerPolicies();
 
+        Gate::define('edit-settings', function ($user) {
+            return $user->isAdmin;
+        });
+
         Gate::define('update-post', function ($user, $post) {
             return $user->id == $post->user_id;
         });
@@ -96,33 +100,6 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
         Gate::define('update-post', 'App\Policies\PostPolicy@update');
     }
 
-#### Resource Gates
-#### 리소스 Gate
-
-You may also define multiple Gate abilities at once using the `resource` method:
-
-`resource` 메소드를 사용하여 여러개의 Gate를 한번에 정의할 수도 있습니다:
-
-    Gate::resource('posts', 'App\Policies\PostPolicy');
-
-This is identical to manually defining the following Gate definitions:
-
-이렇게 하면 다음의 Gate를  정의 한 것과 동일하게 적용됩니다:
-
-    Gate::define('posts.view', 'App\Policies\PostPolicy@view');
-    Gate::define('posts.create', 'App\Policies\PostPolicy@create');
-    Gate::define('posts.update', 'App\Policies\PostPolicy@update');
-    Gate::define('posts.delete', 'App\Policies\PostPolicy@delete');
-
-By default, the `view`, `create`, `update`, and `delete` abilities will be defined. You may override the default abilities by passing an array as a third argument to the `resource` method. The keys of the array define the names of the abilities while the values define the method names. For example, the following code will only create two new Gate definitions - `posts.image` and `posts.photo`:
-
-기본적으로 `view`, `create`, `update` 그리고 `delete` 이 정의됩니다. `resource` 메소드에 세번째 인자로 배열을 전달해서, 기본 속성들을 재정의(오버라이드)할 수 있습니다. 배열의 키는 Gate 액션의 이름을, 값은 메소드를 정의합니다. 예를 들어 다음의 코드는 `posts.image` 와 `posts.photo` 단 두개의 새로운 Gate 정의를 생성합니다:
-
-    Gate::resource('posts', 'PostPolicy', [
-        'image' => 'updateImage',
-        'photo' => 'updatePhoto',
-    ]);
-
 <a name="authorizing-actions-via-gates"></a>
 ### Authorizing Actions
 ### 액션을 실행할 수 있는 권한 확인하기
@@ -130,6 +107,10 @@ By default, the `view`, `create`, `update`, and `delete` abilities will be defin
 To authorize an action using gates, you should use the `allows` or `denies` methods. Note that you are not required to pass the currently authenticated user to these methods. Laravel will automatically take care of passing the user into the gate Closure:
 
 Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 또는 `denies`메소드를 사용해야 합니다. 이 두 개의 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
+
+    if (Gate::allows('edit-settings')) {
+        // The current user can edit settings
+    }
 
     if (Gate::allows('update-post', $post)) {
         // The current user can update the post...
@@ -149,6 +130,18 @@ If you would like to determine if a particular user is authorized to perform an 
 
     if (Gate::forUser($user)->denies('update-post', $post)) {
         // The user can't update the post...
+    }
+
+You may authorize multiple actions at a time with the `any` or `none` methods:
+
+`any` 또는 `none` 메소드로 한 번에 여러 액션을 인증 할 수 있습니다 :
+
+    if (Gate::any(['update-post', 'delete-post'], $post)) {
+        // The user can update or delete the post
+    }
+
+    if (Gate::none(['update-post', 'delete-post'], $post)) {
+        // The user cannot update or delete the post
     }
 
 <a name="intercepting-gate-checks"></a>
@@ -252,6 +245,27 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
         }
     }
 
+#### Policy Auto-Discovery
+#### Policy Auto-Discovery
+
+Instead of manually registering model policies, Laravel can auto-discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory below the directory that contains the models. So, for example, the models may be placed in the `app` directory while the policies may be placed in the `app/Policies` directory. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
+
+직접 Policy모델을 등록하는 대신에, 라라벨은 모델과 Policy이 표준 라라벨 네이밍 규칙을 따른다면 auto-discover Policy을 사용할 수 있습니다. 분명하게, Policy는 models-모델을 포함하는 디렉토리의 아래로 `Policies` 디렉토리를 위치해야합니다. 예를들어, models-모델은 `app` 디렉토리 아래에 위치한다면, Policy 는 `app/Policies` 디렉토리에 위치할 수 있습니다. 또한, Policy 이름은 model-모델 이름과 매칭되어야되며, `Policy` 접미사를 써야합니다. 예를들어, 모델 이름이 `User` 이라면 Policy는 `UserPolicy` 클래스의 이름으로 이용하면 됩니다.    
+
+If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AuthServiceProvider`:
+
+만약 자신만의 Policy Discovery 로직을 사용하고 싶다면, `Gate::guessPolicyNamesUsing` 메소드를 커스텀 콜백을 등록 할 수 있습니다. 일반적으로, 이 메소드는 애플리케이션의 `AuthServiceProvider` 의 `boot` 메소드로 부터 불려집니다. 
+
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::guessPolicyNamesUsing(function ($modelClass) {
+        // return policy class name...
+    });
+
+> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potential auto-discovered policies.
+
+> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 Policy는 모든 잠재적인 auto-discovered Policy 보다 우선됩니다. 
+
 <a name="writing-policies"></a>
 ## Writing Policies
 ## Policy 작성하기
@@ -326,6 +340,7 @@ When defining policy methods that will not receive a model instance, such as a `
 ### 게스트 사용자
 
 By default, all gates and policies automatically return `false` if the incoming HTTP request was not initiated by an authenticated user. However, you may allow these authorization checks to pass through to your gates and policies by declaring an "optional" type-hint or supplying a `null` default value for the user argument definition:
+
 기본적으로, 들어오는 HTTP 요청이 인증 된 사용자에 의해 시작되지 않으면 모든 Gate와 Policy는 자동으로 `false` 를 반환합니다. 그러나 "optional" 타입 힌트를 선언하거나 User 인수에 대한 `null`을 기본값으로 제공하여 이러한 권한 검사가 Gate 및 Policy에 전달되도록 허용 할 수 있습니다.
 
     <?php
@@ -396,9 +411,9 @@ If a [policy is registered](#registering-policies) for the given model, the `can
 #### Actions That Don't Require Models
 #### 모델을 인자로 전달 받지 않는 액션
 
-Remember, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the `can` method. The class name will be used to determine which policy to use when authorizing the action:
+As previously discussed, some actions like `create` may not require a model instance. In these situations, you should pass a class name to the `authorize` method. The class name will be used to determine which policy to use when authorizing the action:
 
-`create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않는 다는 것을 기억하십시오. 이러한 경우에는 `can` 메소드에는 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
+이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
 
     use App\Post;
 
@@ -472,7 +487,7 @@ In addition to helpful methods provided to the `User` model, Laravel provides a 
 #### Actions That Don't Require Models
 #### 모델을 필요로 하지 않는 액션
 
-As previously discussed, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the `authorize` method. The class name will be used to determine which policy to use when authorizing the action:
+As previously discussed, some actions like `create` may not require a model instance. In these situations, you should pass a class name to the `authorize` method. The class name will be used to determine which policy to use when authorizing the action:
 
 앞서 계속해서 이야기한 바와 같이, `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션의 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
 
@@ -516,6 +531,19 @@ The `authorizeResource` method accepts the model's class name as its first argum
             $this->authorizeResource(Post::class, 'post');
         }
     }
+
+The following controller methods will be mapped to their corresponding policy method:
+
+다음 컨트롤러 메소드는 해당 policy 메소드에 맵핑됩니다.
+
+| Controller Method | Policy Method |
+| --- | --- |
+| show | view |
+| create | create |
+| store | create |
+| edit | update |
+| update | update |
+| destroy | delete |
 
 > {tip} You may use the `make:policy` command with the `--model` option to quickly generate a policy class for a given model: `php artisan make:policy PostPolicy --model=Post`.
 

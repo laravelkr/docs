@@ -5,7 +5,7 @@
 - [시작하기](#introduction)
 - [Available Methods](#available-methods)
 - [사용 가능한 메소드들](#available-methods)
-사
+
 <a name="introduction"></a>
 ## Introduction
 ## 시작하기
@@ -815,7 +815,7 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 
 The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
-`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된 파일의 절대 경로를 생성할 수도 있습니다
+`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된 해당 파일에 대한 절대 경로를 생성할 수도 있습니다
 
     $path = base_path();
 
@@ -826,7 +826,7 @@ The `base_path` function returns the fully qualified path to the project root. Y
 
 The `config_path` function returns the fully qualified path to the `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
 
-`config_path` 함수는 애플리케이션의 `config` 디렉토리의 절대 경로를 반환합니다. `config_path` 함수를 사용하여 애플리케이션의 설정 디렉토리 내에서 파일의 절대 경로를 생성할 수도 있습니다
+`config_path` 함수는 애플리케이션의 `config` 디렉토리의 절대 경로를 반환합니다. `config_path` 함수를 사용하여 애플리케이션의 설정 디렉토리 내에 해당 파일에 대한 절대 경로를 생성할 수도 있습니다
 
     $path = config_path();
 
@@ -837,6 +837,8 @@ The `config_path` function returns the fully qualified path to the `config` dire
 
 The `database_path` function returns the fully qualified path to the `database` directory. You may also use the `database_path` function to generate a fully qualified path to a given file within the database directory:
 
+`database_path` 함수는 `database` 디렉토리의 절대 경로를 반환합니다. `database_path` 함수를 사용하여 데이터베이스 디렉토리 내에 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+
     $path = database_path();
 
     $path = database_path('factories/UserFactory.php');
@@ -846,12 +848,17 @@ The `database_path` function returns the fully qualified path to the `database` 
 
 The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/mix):
 
+`mix` 함수는 [버전이 지정된 Mix 파일](/docs/{{version}}/mix)에 대한 경로를 반환합니다:
+
     $path = mix('css/app.css');
 
 <a name="method-public-path"></a>
 #### `public_path()` {#collection-method}
 
 The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
+
+`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여 public 디렉토리 안에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+
 
     $path = public_path();
 
@@ -862,6 +869,9 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
 The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
 
+`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 내에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+
+
     $path = resource_path();
 
     $path = resource_path('sass/app.scss');
@@ -871,17 +881,22 @@ The `resource_path` function returns the fully qualified path to the `resources`
 
 The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
 
+`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 내에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+
     $path = storage_path();
 
     $path = storage_path('app/file.txt');
 
 <a name="strings"></a>
 ## Strings
+## 문자열
 
 <a name="method-__"></a>
 #### `__()` {#collection-method}
 
 The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
+
+`__` 함수는 [현지화 파일](/docs/{{version}}/localization)을 사용하여 주어진 번역 문자열이나 번역 키로 변환합니다:
 
     echo __('Welcome to our application');
 
@@ -889,10 +904,14 @@ The `__` function translates the given translation string or translation key usi
 
 If the specified translation string or key does not exist, the `__` function will return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
 
+지정된 번역 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 반환합니다. 따라서 위 예제에서 번역 키가 존재하지 않는다면 `__` 함수는 `messages.welcome`를 반환합니다.
+
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
 The `class_basename` function returns the class name of the given class with the class' namespace removed:
+
+`class_basename` 함수는 클래스의 네임스페이스를 제거한, 해당 클래스의 클래스 명을 반환합니다:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -903,6 +922,8 @@ The `class_basename` function returns the class name of the given class with the
 
 The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
 
+`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `duuble_encode` 옵션이 기본적으로 `true` 값으로 설정하여 실행합니다:
+
     echo e('<html>foo</html>');
 
     // &lt;html&gt;foo&lt;/html&gt;
@@ -911,6 +932,8 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 #### `preg_replace_array()` {#collection-method}
 
 The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
+
+`preg_replace_array` 함수는 배열을 이용하여 문자열 내에 주어진 패턴을 순차적으로 교체합니다:
 
     $string = 'The event will take place between :start and :end';
 
@@ -923,6 +946,8 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 
 The `Str::after` method returns everything after the given value in a string:
 
+`Str::after` 메소드는 문자열 내에서 주어진 값 다음의 모든 것을 반환합니다:
+
     use Illuminate\Support\Str;
 
     $slice = Str::after('This is my name', 'This is');
@@ -933,6 +958,8 @@ The `Str::after` method returns everything after the given value in a string:
 #### `Str::before()` {#collection-method}
 
 The `Str::before` method returns everything before the given value in a string:
+
+`Str::before` 메소드는 문자열 내에서 주어진 값 이전의 모든 것을 반환합니다:
 
     use Illuminate\Support\Str;
 
@@ -945,6 +972,8 @@ The `Str::before` method returns everything before the given value in a string:
 
 The `Str::camel` method converts the given string to `camelCase`:
 
+`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다:
+
     use Illuminate\Support\Str;
 
     $converted = Str::camel('foo_bar');
@@ -956,6 +985,8 @@ The `Str::camel` method converts the given string to `camelCase`:
 
 The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
+`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하고 있는지 확인합니다 (대소문자 구분):
+
     use Illuminate\Support\Str;
 
     $contains = Str::contains('This is my name', 'my');
@@ -963,6 +994,8 @@ The `Str::contains` method determines if the given string contains the given val
     // true
 
 You may also pass an array of values to determine if the given string contains any of the values:
+
+주어진 문자열에 특정 값을 포함하고 있는지 판별하기 위한 값들의 배열을 전달할 수도 있습니다:
 
     use Illuminate\Support\Str;
 
@@ -975,6 +1008,9 @@ You may also pass an array of values to determine if the given string contains a
 
 The `Str::containsAll` method determines if the given string contains all array values:
 
+`Str::containsAll` 메소드는 주어진 문자열이 모든 배열 값들을 포함하고  있는지 확인합니다.
+
+
     use Illuminate\Support\Str;
 
     $containsAll = Str::containsAll('This is my name', ['my', 'name']);
@@ -986,6 +1022,8 @@ The `Str::containsAll` method determines if the given string contains all array 
 
 The `Str::endsWith` method determines if the given string ends with the given value:
 
+`Str::endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다:
+
     use Illuminate\Support\Str;
 
     $result = Str::endsWith('This is my name', 'name');
@@ -996,6 +1034,8 @@ The `Str::endsWith` method determines if the given string ends with the given va
 #### `Str::finish()` {#collection-method}
 
 The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
+
+`Str::finish` 메소드는 주어진 값의 단일 인스턴스를, 그 값으로 끝나지 않는 문자열에 추가합니다:
 
     use Illuminate\Support\Str;
 
@@ -1011,6 +1051,8 @@ The `Str::finish` method adds a single instance of the given value to a string i
 #### `Str::is()` {#collection-method}
 
 The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
+
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
     use Illuminate\Support\Str;
 
@@ -1038,6 +1080,8 @@ The `Str::kebab` method converts the given string to `kebab-case`:
 
 The `Str::limit` method truncates the given string at the specified length:
 
+`Str::limit` 메소드는 주어진 문자열을 지정된 길이로 잘라냅니다:
+
     use Illuminate\Support\Str;
 
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20);
@@ -1045,6 +1089,8 @@ The `Str::limit` method truncates the given string at the specified length:
     // The quick brown fox...
 
 You may also pass a third argument to change the string that will be appended to the end:
+
+변경될 문자열의 끝에 추가할 문자열을 세번째 인자로 전달할 수도 있습니다:
 
     use Illuminate\Support\Str;
 
@@ -1057,6 +1103,10 @@ You may also pass a third argument to change the string that will be appended to
 
 The `Str::orderedUuid` method generates a "timestamp first" UUID that may be efficiently stored in an indexed database column:
 
+`Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프 우선" UUID를 생성합니다:
+
+(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
+
     use Illuminate\Support\Str;
 
     return (string) Str::orderedUuid();
@@ -1065,6 +1115,8 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 #### `Str::plural()` {#collection-method}
 
 The `Str::plural` method converts a string to its plural form. This function currently only supports the English language:
+
+`Str::plural` 메소드는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어만 지원합니다:
 
     use Illuminate\Support\Str;
 
@@ -1077,6 +1129,8 @@ The `Str::plural` method converts a string to its plural form. This function cur
     // children
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+
+문자열의 단수 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 제공할 수 있습니다:
 
     use Illuminate\Support\Str;
 
@@ -1093,6 +1147,8 @@ You may provide an integer as a second argument to the function to retrieve the 
 
 The `Str::random` method generates a random string of the specified length. This function uses PHP's `random_bytes` function:
 
+`Str::random` 메소드는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
+
     use Illuminate\Support\Str;
 
     $random = Str::random(40);
@@ -1101,6 +1157,8 @@ The `Str::random` method generates a random string of the specified length. This
 #### `Str::replaceArray()` {#collection-method}
 
 The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
+
+`Str::replaceArray` 메소드는 배열을 이용하여 문자열 안에서 주어진 값을 순차적으로 변환합니다:
 
     use Illuminate\Support\Str;
 
@@ -1115,6 +1173,8 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 
 The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
+
     use Illuminate\Support\Str;
 
     $replaced = Str::replaceFirst('the', 'a', 'the quick brown fox jumps over the lazy dog');
@@ -1126,6 +1186,8 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 
 The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
+`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
+
     use Illuminate\Support\Str;
 
     $replaced = Str::replaceLast('the', 'a', 'the quick brown fox jumps over the lazy dog');
@@ -1136,6 +1198,8 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 #### `Str::singular()` {#collection-method}
 
 The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
+
+`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어만 지원합니다:
 
     use Illuminate\Support\Str;
 
@@ -1152,6 +1216,8 @@ The `Str::singular` method converts a string to its singular form. This function
 
 The `Str::slug` method generates a URL friendly "slug" from the given string:
 
+`Str::slug` 메소드는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
+
     use Illuminate\Support\Str;
 
     $slug = Str::slug('Laravel 5 Framework', '-');
@@ -1163,6 +1229,8 @@ The `Str::slug` method generates a URL friendly "slug" from the given string:
 
 The `Str::snake` method converts the given string to `snake_case`:
 
+`Str::snake` 메소드는 주어진 문자열을 `snake_case` 형태로 변환합니다:
+
     use Illuminate\Support\Str;
 
     $converted = Str::snake('fooBar');
@@ -1173,6 +1241,8 @@ The `Str::snake` method converts the given string to `snake_case`:
 #### `Str::start()` {#collection-method}
 
 The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
+
+`Str::start` 메소드는 주어진 값의 단일 인스턴스를, 그 값으로 시작하지 않는 문자열에 추가합니다:
 
     use Illuminate\Support\Str;
 
@@ -1189,6 +1259,8 @@ The `Str::start` method adds a single instance of the given value to a string if
 
 The `Str::startsWith` method determines if the given string begins with the given value:
 
+`Str::startsWith` 메소드는 주어진 문자열이 주어진 값으로 시작하는지 확인합니다:
+
     use Illuminate\Support\Str;
 
     $result = Str::startsWith('This is my name', 'This');
@@ -1199,6 +1271,8 @@ The `Str::startsWith` method determines if the given string begins with the give
 #### `Str::studly()` {#collection-method}
 
 The `Str::studly` method converts the given string to `StudlyCase`:
+
+`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
 
     use Illuminate\Support\Str;
 
@@ -1211,6 +1285,8 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
 The `Str::title` method converts the given string to `Title Case`:
 
+`Str::title` 메소드는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
+
     use Illuminate\Support\Str;
 
     $converted = Str::title('a nice title uses the correct case');
@@ -1222,6 +1298,8 @@ The `Str::title` method converts the given string to `Title Case`:
 
 The `Str::uuid` method generates a UUID (version 4):
 
+`Str::uuid` 메소드는 UUID (version 4)를 생성합니다:
+
     use Illuminate\Support\Str;
 
     return (string) Str::uuid();
@@ -1230,6 +1308,8 @@ The `Str::uuid` method generates a UUID (version 4):
 #### `Str::words()` {#collection-method}
 
 The `Str::words` method limits the number of words in a string:
+
+`Str::words` 메소드는 문자열의 단어 수를 제한합니다.
 
     use Illuminate\Support\Str;
 
@@ -1242,18 +1322,26 @@ The `Str::words` method limits the number of words in a string:
 
 The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
 
+`trans` 함수는 [현지화 파일](/docs/{{version}}/localization)을 이용하여 주어진 번역 키를 번역합니다:
+
     echo trans('messages.welcome');
 
 If the specified translation key does not exist, the `trans` function will return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
+
+지정된 번역 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 위 예제를 사용하면, 번역 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
 The `trans_choice` function translates the given translation key with inflection:
 
+`trans_choice` 함수는 변곡된 번역 키를 번역합니다:
+
     echo trans_choice('messages.notifications', $unreadCount);
 
 If the specified translation key does not exist, the `trans_choice` function will return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
+
+지정된 번역 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 위 예제에서, 번역 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 반환합니다.
 
 <a name="urls"></a>
 ## URLs
@@ -1263,11 +1351,15 @@ If the specified translation key does not exist, the `trans_choice` function wil
 
 The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
+`action` 함수는 주어진 컨트롤러 실행으로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 연관된 컨트롤러 클래스 이름을 전달합니다.:
+
     $url = action('HomeController@index');
 
     $url = action([HomeController::class, 'index']);
 
 If the method accepts route parameters, you may pass them as the second argument to the method:
+
+메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오:
 
     $url = action('UserController@profile', ['id' => 1]);
 

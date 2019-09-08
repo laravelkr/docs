@@ -3,6 +3,7 @@
 - [시작하기](#introduction)
 - [Bus Fake](#bus-fake)
 - [Event Fake](#event-fake)
+    - [Scoped Event Fakes](#scoped-event-fakes)
 - [Mail Fake](#mail-fake)
 - [Notification Fake](#notification-fake)
 - [Queue Fake](#queue-fake)
@@ -88,6 +89,42 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
     }
 
 > {note} `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않게됩니다. 따라서 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 테스트의 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
+
+<a name="scoped-event-fakes"></a>
+### Scoped Event Fakes
+
+테스트의 일부분 만 이벤트 리스너에게 fake 시키고 싶다면 `fakeFor` 메소드를 사용할 수 있습니다:
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use App\Order;
+    use Tests\TestCase;
+    use App\Events\OrderCreated;
+    use Illuminate\Support\Facades\Event;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * Test order process.
+         */
+        public function testOrderProcess()
+        {
+            $order = Event::fakeFor(function () {
+                $order = factory(Order::class)->create();
+
+                Event::assertDispatched(OrderCreated::class);
+
+                return $order;
+            });
+
+            // Events are dispatched as normal and observers will run ...
+            $order->update([...]);
+        }
+    }
 
 <a name="mail-fake"></a>
 ## Mail Fake

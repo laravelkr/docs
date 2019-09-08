@@ -144,6 +144,10 @@
 
     echo trans_choice('time.minutes_ago', 5, ['value' => 5]);
 
+`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다 :
+
+    'apples' => '{0} There are none|{1} There is one|[2,*] There are :count',
+
 <a name="overriding-package-language-files"></a>
 ## 패키지의 언어 파일 재정의하기
 

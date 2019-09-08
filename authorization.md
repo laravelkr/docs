@@ -60,7 +60,7 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
     {
         $this->registerPolicies();
 
-        Gate::define('update-post', 'PostPolicy@update');
+        Gate::define('update-post', 'App\Policies\PostPolicy@update');
     }
 
 #### 리소스 Gate

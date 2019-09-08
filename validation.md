@@ -160,7 +160,6 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
 
 기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `TrimStrings` 그리고 `ConvertEmptyStringsToNull` 미들웨어를 포함하고 있습니다. 이 미들웨어는 `App\Http\Kernel` 클래스의 미들웨어 스택에 나열되어 있습니다. 이때문에, 유효성 검사에서 `null`이 유효하지 않은것으로 간주하지 않으려면 "선택적-optional" request-요청 필드를 `nullable`로 표시할 필요도 있습니다. 예를들면:
 
-
     $request->validate([
         'title' => 'required|unique:posts|max:255',
         'body' => 'required',
@@ -199,6 +198,8 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
             'body' => 'required',
         ];
     }
+
+> {tip} `rules` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
 
 그렇다면 유효성 검사 규칙은 어떻게 실행할까요? 여러분이 해야할일은 컨트롤러 메소드에 request 를 타입-힌트 하는 것입니다. 유입된 form request 는 컨트롤러 메소드가 호출되기 전에 유효성 검사를 수행합니다. 즉 컨트롤러에 유효성 검사 로직을 포함시키지 않아도 됩니다.
 
@@ -240,7 +241,7 @@ form request 에 "after" 후킹을 추가하려면, `withValidator` 메소드를
 <a name="authorizing-form-requests"></a>
 ### Form Requests 사용자 승인
 
-form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 탯글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
+form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다. 이 메소드 안에서 여러분은 인증된 사용자가 주어진 리소스에 대해서 수정할 수 있는 권한이 있는지 확인할 수 있습니다. 예를 들어, 사용자가 블로그 포스트의 댓글을 수정하려고 시도할 때, 그 본인의 코멘트인지 확인할 수 있습니다:
 
     /**
      * Determine if the user is authorized to make this request.
@@ -271,6 +272,8 @@ form request 클래스는 또한 `authorize` 메소드를 가지고 있습니다
     {
         return true;
     }
+
+> {tip} `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
 
 <a name="customizing-the-error-messages"></a>
 ### 에러 메세지를 사용자 정의하기(커스터마이징하기)
@@ -445,7 +448,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="localization"></a>
 #### 언어 파일에 커스텀 메세지 지정하기
 
-대부분의 경우에서, `Validator`에 직접 메세지를 전달하는 대신, 언어 파일의 커스텀 메세지를 지정하기 원할 수 있습니다. 이렇게 하기 위해서는 `resources/lang/xx/validation.php` 언어 파일의 `custom` 배열에 메제지를 추가하면 됩니다.
+대부분의 경우에서, `Validator`에 직접 메세지를 전달하는 대신, 언어 파일의 커스텀 메세지를 지정하기 원할 수 있습니다. 이렇게 하기 위해서는 `resources/lang/xx/validation.php` 언어 파일의 `custom` 배열에 메세지를 추가하면 됩니다.
 
     'custom' => [
         'email' => [
@@ -678,6 +681,8 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 #### exists 룰의 기본 사용법
 
     'state' => 'exists:states'
+
+`column` 옵션을 지정하지 않으면 필드 이름이 사용됩니다.
 
 #### 특정 컬럼명 지정하기
 
@@ -950,6 +955,10 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
             Rule::unique('users')->ignore($user->id),
         ],
     ]);
+
+또한 `unique` 메소드의 두번째 파라미터를 사용하여 유효성 검사를 진행할 컬럼의 이름을 지정할 수 있습니다. 그렇지 않다면, 유효성 검사 룰의 속성 이름이 컬럼의 이름으로 사용됩니다:
+
+    'email' => Rule::unique('users', 'email_address')
 
 테이블이 `id`가 아닌 primary 키 컬럼 이름을 사용한다면, `ignore` 메소드를 호출할 때 컬럼의 이름을 지정하면 됩니다:
 

@@ -126,12 +126,6 @@
 
     $url = action('HomeController@index');
 
-"callable" 배열 문법을 통해서 액션을 참조하도록 할 수 있습니다:
-
-    use App\Http\Controllers\HomeController;
-
-    $url = action([HomeController::class, 'index']);
-
 컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다:
 
     $url = action('UserController@profile', ['id' => 1]);

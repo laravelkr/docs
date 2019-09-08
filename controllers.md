@@ -96,6 +96,10 @@
 
     Route::get('user/{id}', 'ShowProfile');
 
+Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호출 가능한 컨트롤러를 생성 할 수 있습니다 :
+
+    php artisan make:controller ShowProfile --invokable
+
 <a name="controller-middleware"></a>
 ## 컨트롤러 미들웨어
 
@@ -222,15 +226,15 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 <a name="restful-naming-resource-route-parameters"></a>
 ### 리소스 라우트 파리미터 이름 지정하기
 
-기본적으로 `Route::resource` 는 리소스 이름을 기반으로한 리소스 라우트들을 위한 라우트 파라미터들을 생성합니다. 여러분은 옵션 배열에 `parameters` 를 전달하여 손쉽게 각각의 리소스 마다 이를 덮어쓸 수 있습니다:
+기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다 :
 
-    Route::resource('user', 'AdminUserController')->parameters([
-        'user' => 'admin_user'
+    Route::resource('users', 'AdminUserController')->parameters([
+        'users' => 'admin_user'
     ]);
 
 위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다:
 
-    /user/{admin_user}
+    /users/{admin_user}
 
 <a name="restful-localizing-resource-uris"></a>
 ### 리소스 URI의 지역화(다국어 동사처리)

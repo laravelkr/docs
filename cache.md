@@ -7,6 +7,7 @@
     - [캐시에서 아이템 찾기](#retrieving-items-from-the-cache)
     - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
     - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
+    - [원자 잠금장치](#atomic-locks
     - [캐시 헬퍼 함수](#the-cache-helper)
 - [캐시 태그](#cache-tags)
     - [태그가 추가된 캐시 아이템 저장하기](#storing-tagged-cache-items)
@@ -199,6 +200,35 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
     Cache::flush();
 
 > {note} 모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 애플리케이션의 다른 부분에서 공유하는 캐시를 제거할 때에 주의하십시오.
+
+<a name="atomic-locks"></a>
+### 원자 잠금장치
+
+> {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
+
+원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다 :
+
+    if (Cache::lock('foo', 10)->get()) {
+        // Lock acquired for 10 seconds...
+
+        Cache::lock('foo')->release();
+    }
+
+`get` 메소드는 Closure를 사용할 수 있습니다. Closure가 실행 된 후 Laravel은 자동으로 잠금장치(lock)을 해제합니다.
+
+    Cache::lock('foo')->get(function () {
+        // Lock acquired indefinitely and automatically released...
+    });
+
+요청한 순간에 잠금 장치를 사용할 수없는 경우 라라벨에 지정된 시간 (초) 동안 대기하도록 지시 할 수 있습니다. 지정된 제한 시간 내에 잠금을 획득 할 수 없으면 `Illuminate\Contracts\Cache\LockTimeoutException` 이 발생합니다.
+
+    if (Cache::lock('foo', 10)->block(5)) {
+        // Lock acquired after waiting maximum of 5 seconds...
+    }
+
+    Cache::lock('foo', 10)->block(5, function () {
+        // Lock acquired after waiting maximum of 5 seconds...
+    });
 
 <a name="the-cache-helper"></a>
 ### 캐시 헬퍼 함수

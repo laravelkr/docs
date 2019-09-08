@@ -46,6 +46,8 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
         }
     }
 
+> {tip} `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
+
 <a name="using-model-factories"></a>
 ### 모델 팩토리 사용하기
 

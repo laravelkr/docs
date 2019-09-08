@@ -190,6 +190,7 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 - `$results->lastItem()`
 - `$results->lastPage() (Not available when using simplePaginate)`
 - `$results->nextPageUrl()`
+- `$results->onFirstPage()`
 - `$results->perPage()`
 - `$results->previousPageUrl()`
 - `$results->total() (Not available when using simplePaginate)`

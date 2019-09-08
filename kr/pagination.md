@@ -42,7 +42,7 @@ There are several ways to paginate items. The simplest is by using the `paginate
 
 In this example, the only argument passed to the `paginate` method is the number of items you would like displayed "per page". In this case, let's specify that we would like to display `15` items per page:
 
-이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 갯수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
+이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 개수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
 
     <?php
 
@@ -68,14 +68,14 @@ In this example, the only argument passed to the `paginate` method is the number
 
 > {note} Currently, pagination operations that use a `groupBy` statement cannot be executed efficiently by Laravel. If you need to use a `groupBy` with a paginated result set, it is recommended that you query the database and create a paginator manually.
 
-> {note} 현재, 라라벨에서 `groupBy` 구문을 사용한 경우, pagination 이 효과적으로 실행될 수 없습니다. 만약 `groupBy`와 함께 paginate 를 사용해야 한다면, 수동으로 paginator 을 생성하여 쿼리를 질의하는것을 권장합니다.
+> {note} 현재, 라라벨에서 `groupBy` 구문을 사용하는 쿼리의 pagination 이 효과적으로 실행될 수 없습니다. 만약 `groupBy`와 함께 paginate 를 사용해야 한다면, 수동으로 paginator 을 생성하여 쿼리를 질의하는것을 권장합니다.
 
 #### "Simple Pagination"
 #### "간단한 페이징 작업"
 
 If you only need to display simple "Next" and "Previous" links in your pagination view, you may use the `simplePaginate` method to perform a more efficient query. This is very useful for large datasets when you do not need to display a link for each page number when rendering your view:
 
-만약 "다음" 과 "이전" 링크 만을 페이징 된 화면에서 보여주고자 한다면, 더 효율적으로 쿼리를 수행하는 `simplePaginate` 메소드를 사용할 수 있습니다. 이 메소드는 뷰를 렌더링 할 때 각 페이지 링크를 보여줄 필요가 없는 큰 규모의 데이터 셋을 처리할 때 유용합니다:
+만약 "다음(Next)" 과 "이전(Prev)" 링크 만을 페이징 된 화면에서 보여주고자 한다면, 더 효율적으로 쿼리를 수행하는 `simplePaginate` 메소드를 사용할 수 있습니다. 이 메소드는 뷰를 렌더링 할 때 각 페이지 링크를 보여줄 필요가 없는 큰 규모의 데이터 셋을 처리할 때 유용합니다:
 
     $users = DB::table('users')->simplePaginate(15);
 
@@ -127,7 +127,7 @@ In other words, the `Paginator` corresponds to the `simplePaginate` method on th
 
 When calling the `paginate` method, you will receive an instance of `Illuminate\Pagination\LengthAwarePaginator`. When calling the `simplePaginate` method, you will receive an instance of `Illuminate\Pagination\Paginator`. These objects provide several methods that describe the result set. In addition to these helpers methods, the paginator instances are iterators and may be looped as an array. So, once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade):
 
-`paginate` 메소드를 호출하면, 여러분은 `Illuminate\Pagination\LengthAwarePaginator` 인스턴스를 받을 수 있습니다. `simplePaginate` 메소드를 호출 할 때에는 `Illuminate\Pagination\Paginator`의 인스턴스를 받습니다. 이러한 객체들은 결과 셋을 나타내는 다양한 방법을 제공합니다. 추가적으로 이러한 헬퍼 함수들 안에서 paginator 인스턴스는 iterators 이며 배열처럼 반복문에서 사용할 수 있습니다. 따라서 결과를 얻은 뒤에, 그 결과와 페이지 링크를 [Blade](/docs/{{version}}/blade)에서 사용할 수 있습니다:
+`paginate` 메소드를 호출하면, 여러분은 `Illuminate\Pagination\LengthAwarePaginator` 인스턴스를 전달 받습니다. `simplePaginate` 메소드를 호출 할 때에는 `Illuminate\Pagination\Paginator`의 인스턴스를 전달 받습니다. 이러한 인스턴스들은 결과 셋을 나타내는 다양한 메소드를 제공합니다. 이러한 헬퍼 메소드를 제공하는 것 외에도 paginator 인스턴스는 iterators 이며 배열처럼 반복문에서 사용할 수 있습니다. 따라서 결과를 얻은 뒤에, 그 결과와 페이지 링크를 [Blade](/docs/{{version}}/blade)에서 사용할 수 있습니다:
 
     <div class="container">
         @foreach ($users as $user)
@@ -146,7 +146,7 @@ The `links` method will render the links to the rest of the pages in the result 
 
 The `withPath` method allows you to customize the URI used by the paginator when generating links. For example, if you want the paginator to generate links like `http://example.com/custom/url?page=N`, you should pass `custom/url` to the `withPath` method:
 
-`withPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `withPath` 메소드에 `custom/url` 을 전달해야 합니다:
+`withPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `withPath` 메소드 인자에 `custom/url` 을 전달해야 합니다:
 
     Route::get('users', function () {
         $users = App\User::paginate(15);
@@ -186,7 +186,7 @@ paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 
 
 The Laravel paginator result classes implement the `Illuminate\Contracts\Support\Jsonable` Interface contract and expose the `toJson` method, so it's very easy to convert your pagination results to JSON. You may also convert a paginator instance to JSON by returning it from a route or controller action:
 
-라라벨의 paginator 결과 클래스는 `Illuminate\Contracts\Support\Jsonable` 인터페이스 contract을 구현하고 `toJson` 메소드를 제공하고 있어서, pagination 결과를 JSON으로 변환하는 것은 아주 쉽습니다. 또한 라우트나 컨트롤러 액션에서 paginator 인스턴스를 JSON으로 변환할 수도 있습니다:
+라라벨의 paginator 결과 클래스는 `Illuminate\Contracts\Support\Jsonable` 인터페이스 contract을 구현하고 `toJson` 메소드를 제공하고 있어서, pagination 결과를 JSON으로 아주 쉽게 변환할 수 있습니다. 또한 라우트나 컨트롤러 액션에서 paginator 인스턴스를 JSON으로 변환할 수도 있습니다:
 
     Route::get('users', function () {
         return App\User::paginate();

@@ -2131,7 +2131,7 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 
 The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed and its result will be returned:
 
-`with` 함수는 주어진 값을 반환합니다. 만약 함수에 두번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다:
+`with` 함수는 주어진 값을 반환합니다. `Closure` 가 함수에 두번째 인자로 전달된다면, `Closure` 가 실행되어 그 결과를 반환합니다:
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

@@ -74,6 +74,8 @@ Similarly, if you want to spy on an object, Laravel's base test case class offer
 
 As an alternative to mocking, you may use the `Bus` facade's `fake` method to prevent jobs from being dispatched. When using fakes, assertions are made after the code under test is executed:
 
+mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실제 job이 처리되는 것을 방지할 수 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
+
     <?php
 
     namespace Tests\Feature;
@@ -103,8 +105,11 @@ As an alternative to mocking, you may use the `Bus` facade's `fake` method to pr
 
 <a name="event-fake"></a>
 ## Event Fake
+## Event Fake
 
 As an alternative to mocking, you may use the `Event` facade's `fake` method to prevent all event listeners from executing. You may then assert that events were dispatched and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+
+ mocking 하는 대신에, `Event` 파사드의 `fake` 메소드를 사용하여 모든 이벤트 리스너가 실행되는 것을 방지할 수 있습니다. 이벤트가 처리되었는지 확인하고 수신받은 데이터를 검사할 수도 있습니다. fake를 사용하는 경우, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
 
     <?php
 
@@ -142,9 +147,14 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
 
 > {note} After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
 
+> {note} `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않습니다. 따라서 테스트가 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
+
 #### Faking A Subset Of Events
+#### 이벤트의 일부를 Fake 시키기
 
 If you only want to fake event listeners for a specific set of events, you may pass them to the `fake` or `fakeFor` method:
+
+특정 이벤트에 대한 이벤트 리스너만 fake로 만들고 싶다면, `fake` 또는 `fakeFor` 메소드로 전달할 수 있습니다 :
 
     /**
      * Test order process.
@@ -165,8 +175,11 @@ If you only want to fake event listeners for a specific set of events, you may p
 
 <a name="scoped-event-fakes"></a>
 ### Scoped Event Fakes
+### Scoped Event Fakes
 
 If you only want to fake event listeners for a portion of your test, you may use the `fakeFor` method:
+
+테스트의 일부만 이벤트 리스너로 fake 시키고 싶다면,  `fakeFor` 메소드를 사용할 수 있습니다:
 
     <?php
 
@@ -201,8 +214,11 @@ If you only want to fake event listeners for a portion of your test, you may use
 
 <a name="mail-fake"></a>
 ## Mail Fake
+## Mail Fake
 
 You may use the `Mail` facade's `fake` method to prevent mail from being sent. You may then assert that [mailables](/docs/{{version}}/mail) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+
+메일이 발송되는 것을 방지하기 위해서 `Mail` 파사드의 `fake` 메소드를 사용할 수 있습니다. 그런 다음 [mailable](/docs/{{version}}/mail)이 사용자에게 보내졌는지 검증하고 수신받은 데이터를 검사할 수도 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
 
     <?php
 
@@ -246,13 +262,18 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
 
 If you are queueing mailables for delivery in the background, you should use the `assertQueued` method instead of `assertSent`:
 
+백그라운드에서 메일을 보내기 위해서 queue를 사용했다면, `assertSent` 대신에 `assertQueued` 메소드를 사용해야 합니다:
+
     Mail::assertQueued(...);
     Mail::assertNotQueued(...);
 
 <a name="notification-fake"></a>
 ## Notification Fake
+## Notification Fake
 
 You may use the `Notification` facade's `fake` method to prevent notifications from being sent. You may then assert that [notifications](/docs/{{version}}/notifications) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+
+공지가 발송되는 것을 방지하기 위해서 `Notification ` 파사드의 `fake` 메소드를 사용할 수 있습니다.  [공지(notification)](/docs/{{version}}/notifications)이 사용자에게 보내졌는지 검증하고 수신된 데이터를 검사할 수 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
 
     <?php
 
@@ -303,8 +324,11 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
 
 <a name="queue-fake"></a>
 ## Queue Fake
+## Queue Fake
 
 As an alternative to mocking, you may use the `Queue` facade's `fake` method to prevent jobs from being queued. You may then assert that jobs were pushed to the queue and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
+
+큐를 통해서 job이 실행되는 것을 방지하기 위해서 mocking 을 사용하는 대신, `Queue ` 파사드의 `fake` 메소드를 사용할 수 있습니다. job이 큐에 추가되었는지 검증하고 수신된 데이터를 검사할 수 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
 
     <?php
 
@@ -350,8 +374,11 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
 
 <a name="storage-fake"></a>
 ## Storage Fake
+## Storage Fake
 
 The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+
+`Storage` 파사드의 `fake` 메소드를 사용하면 `UploadedFile` 클래스의 파일 생성 유틸리티와 결합된 가짜 디스크를 쉽게 생성할 수 있어, 파일 업로드 테스트가 크게 단순화됩니다. 예를 들면:
 
     <?php
 
@@ -386,10 +413,15 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
 
 > {tip} By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead.
 
+> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일 삭제합니다. 이 파일들을 유지하고자 한다면, "persistentFake" 메소드를 대신 사용할 수 있습니다.
+
 <a name="mocking-facades"></a>
 ## Facades
+## 파사드
 
 Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may be mocked. This provides a great advantage over traditional static methods and grants you the same testability you would have if you were using dependency injection. When testing, you may often want to mock a call to a Laravel facade in one of your controllers. For example, consider the following controller action:
+
+전통적인 스태틱 메소드의 호출과 다르게, [파사드](/docs/{{version}}/facades)는 mock을 할 수 있습니다. 기존의 전통적인 스태틱 메소드보다 큰 이점을 제공하며, 의존성 주입을 사용하는 경우와 동일한 테스트 가능성을 가질 수 있습니다. 테스트할 때 종종 컨트롤러 중 하나에서 라라벨 파사드에 대한 호출을 mock하고 싶을 것입니다. 예를 들어 다음의 컨트롤러 액션을 고려하십시오:
 
     <?php
 
@@ -413,6 +445,8 @@ Unlike traditional static method calls, [facades](/docs/{{version}}/facades) may
     }
 
 We can mock the call to the `Cache` facade by using the `shouldReceive` method, which will return an instance of a [Mockery](https://github.com/padraic/mockery) mock. Since facades are actually resolved and managed by the Laravel [service container](/docs/{{version}}/container), they have much more testability than a typical static class. For example, let's mock our call to the `Cache` facade's `get` method:
+
+[Mockery](https://github.com/padraic/mockery) mock의 인스턴스를 반환하는 `shouldReceive` 메소드를 사용하여 `Cache` 파사드 호출을 mock 할 수 있습니다. 파사드는 실제로 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 해결되고 관리된 이후로, 일반적인 스태틱 클래스보다 테스트 가능성이 훨씬 높습니다. 예를 들어, `Cache` 파사드의 `get` 메소드에 대한 호출을 mocking 해 봅시다:
 
     <?php
 
@@ -439,3 +473,5 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
     }
 
 > {note} You should not mock the `Request` facade. Instead, pass the input you desire into the HTTP helper methods such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, call the `Config::set` method in your tests.
+
+> {note} `Request` 파사드를 mock 해서는 안됩니다. 대신에, 테스트를 실행할 때 원하는 입력을 `get` 과 `post` 와 같은 HTTP 헬퍼 메소드에 전달하십시오. 마찬가지로, `Config` 파사드를 mocking 하는 대신에, 테스트에서 `Config::set` 메소드를 호출하십시오.

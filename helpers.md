@@ -1368,9 +1368,13 @@ If the method accepts route parameters, you may pass them as the second argument
 
 The `asset` function generates a URL for an asset using the current scheme of the request (HTTP or HTTPS):
 
+`asset` 함수는 (HTTP나 HTTPS) 요청의 현재 체계(scheme)를 이용하여 asset에 대한 URL을 생성합니다:
+
     $url = asset('img/photo.jpg');
 
 You can configure the asset URL host by setting the `ASSET_URL` variable in your `.env` file. This can be useful if you host your assets on an external service like Amazon S3:
+
+`.env` 파일에 `ASSET_URL` 변수를 설정하여 asset의 URL 호스트를 설정할 수 있습니다. 이것은 Amazon S3와 같은 외부 서비스에서 asset을 호스팅하는 경우 유용할 수 있습니다.
 
     // ASSET_URL=http://example.com/assets
 
@@ -1381,13 +1385,19 @@ You can configure the asset URL host by setting the `ASSET_URL` variable in your
 
 The `route` function generates a URL for the given named route:
 
+`route` 함수는 주어진 라우트 이름으로 URL을 생성합니다:
+
     $url = route('routeName');
 
 If the route accepts parameters, you may pass them as the second argument to the method:
 
+라우트가 파라미터들을 갖는다면, 메소드에 두번째 인자로 전달합니다:
+
     $url = route('routeName', ['id' => 1]);
 
 By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third argument:
+
+기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로 URL을 생성하려면, 세번째 인자값으로 `false`로 전달합니다:
 
     $url = route('routeName', ['id' => 1], false);
 
@@ -1396,12 +1406,17 @@ By default, the `route` function generates an absolute URL. If you wish to gener
 
 The `secure_asset` function generates a URL for an asset using HTTPS:
 
+`secure_asset` 함수는 HTTPS를 이용하여 asset에 대한 URL을 생성합니다:
+
+
     $url = secure_asset('img/photo.jpg');
 
 <a name="method-secure-url"></a>
 #### `secure_url()` {#collection-method}
 
 The `secure_url` function generates a fully qualified HTTPS URL to the given path:
+
+`secure_url` 함수는 주어진 경로에 대한 전체 HTTPS URL을 생성합니다:
 
     $url = secure_url('user/profile');
 
@@ -1412,11 +1427,15 @@ The `secure_url` function generates a fully qualified HTTPS URL to the given pat
 
 The `url` function generates a fully qualified URL to the given path:
 
+`url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다:
+
     $url = url('user/profile');
 
     $url = url('user/profile', [1]);
 
 If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned:
+
+경로를 전달하지 않으면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환됩니다:
 
     $current = url()->current();
 
@@ -1426,15 +1445,20 @@ If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned
 
 <a name="miscellaneous"></a>
 ## Miscellaneous
+## 기타 함수들
 
 <a name="method-abort"></a>
 #### `abort()` {#collection-method}
 
 The `abort` function throws [an HTTP exception](/docs/{{version}}/errors#http-exceptions) which will be rendered by the [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
+`abort` 함수는 [Exception 핸들러](/docs/{{version}}/errors#the-exception-handler)에 의해서 렌더링되는 [HTTP 예외처리](/docs/{{version}}/errors#http-exceptions)을 발생시킵니다:
+
     abort(403);
 
 You may also provide the exception's response text and custom response headers:
+
+예외처리의 응답 텍스트를 제공하거나, 사용저 정의 응답 헤더들을 전달할 수도 있습니다:
 
     abort(403, 'Unauthorized.', $headers);
 
@@ -1443,27 +1467,39 @@ You may also provide the exception's response text and custom response headers:
 
 The `abort_if` function throws an HTTP exception if a given boolean expression evaluates to `true`:
 
+`abort_if` 함수는 주어진 boolean 표현식이 `true` 일때 HTTP 예외처리를 발생시킵니다:
+
     abort_if(! Auth::user()->isAdmin(), 403);
 
 Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument.
+
+`abort` 메소드와 같이, 예외처리의 응답 텍스트를 세번째 인자로, 사용자 정의 응답 헤더들을 네번째 인자로 전달할 수도 있습니다.
 
 <a name="method-abort-unless"></a>
 #### `abort_unless()` {#collection-method}
 
 The `abort_unless` function throws an HTTP exception if a given boolean expression evaluates to `false`:
 
+`abort_unless` 함수는 주어진 불린(boolean) 표현식이 `false` 일때 HTTP 예외처리를 발생시킵니다:
+
     abort_unless(Auth::user()->isAdmin(), 403);
 
 Like the `abort` method, you may also provide the exception's response text as the third argument and an array of custom response headers as the fourth argument.
+
+`abort` 메소드와 같이, 예외처리의 응답 텍스트를 세번째 인자로, 사용자 정의 응답 헤더를 네번째 인자로 전달할 수도 있습니다.
 
 <a name="method-app"></a>
 #### `app()` {#collection-method}
 
 The `app` function returns the [service container](/docs/{{version}}/container) instance:
 
+`app` 함수는 [서비스 컨테이너](/docs/{{version}}/container) 인스턴스를 반환합니다:
+
     $container = app();
 
 You may pass a class or interface name to resolve it from the container:
+
+컨테이너의 의존성을 해결하고자 하는 클래스나 인터페이스의 이름을 전달할 수도 있습니다:
 
     $api = app('HelpSpot\API');
 
@@ -1472,9 +1508,13 @@ You may pass a class or interface name to resolve it from the container:
 
 The `auth` function returns an [authenticator](/docs/{{version}}/authentication) instance. You may use it instead of the `Auth` facade for convenience:
 
+`auth` 함수는 [authenticator](/docs/{{version}}/authentication) 인스턴스를 반환합니다. 편의를 위하여 `Auth` 파사드 대신 이용할 수 있습니다:
+
     $user = auth()->user();
 
 If needed, you may specify which guard instance you would like to access:
+
+필요한 경우, 접근하고자 하는 guard 인스턴스를 지정할 수 있습니다:
 
     $user = auth('admin')->user();
 
@@ -1482,6 +1522,8 @@ If needed, you may specify which guard instance you would like to access:
 #### `back()` {#collection-method}
 
 The `back` function generates a [redirect HTTP response](/docs/{{version}}/responses#redirects) to the user's previous location:
+
+`back()` 함수는 사용자의 이전 위치에 대해 [HTTP 응답 재지시(redirect)](/docs/{{version}}/responses#redirects)을 생성합니다:
 
     return back($status = 302, $headers = [], $fallback = false);
 
@@ -1492,12 +1534,16 @@ The `back` function generates a [redirect HTTP response](/docs/{{version}}/respo
 
 The `bcrypt` function [hashes](/docs/{{version}}/hashing) the given value using Bcrypt. You may use it as an alternative to the `Hash` facade:
 
+`bcrypt` 함수는 Bcrypt를 이용하여 주어진 값을 [해시](/docs/{{version}}/hashing) 처리합니다. `Hash` 파사드 대신 사용할 수 있습니다:
+
     $password = bcrypt('my-secret-password');
 
 <a name="method-blank"></a>
 #### `blank()` {#collection-method}
 
 The `blank` function returns whether the given value is "blank":
+
+`blank` 함수는 주어진 값이 "빈값"인지 아닌지를 반환합니다:
 
     blank('');
     blank('   ');
@@ -1514,10 +1560,14 @@ The `blank` function returns whether the given value is "blank":
 
 For the inverse of `blank`, see the [`filled`](#method-filled) method.
 
+`blank`의 반대는, [`filled`](#method-filled) 메소드를 참고하십시오.
+
 <a name="method-broadcast"></a>
 #### `broadcast()` {#collection-method}
 
 The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given [event](/docs/{{version}}/events) to its listeners:
+
+`broadcast` 함수는 주어진 [이벤트](/docs/{{version}}/events)를 리스너들에게 [송출(방송, broadcasts)](/docs/{{version}}/broadcasting) 합니다:
 
     broadcast(new UserRegistered($user));
 
@@ -1526,11 +1576,16 @@ The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given 
 
 The `cache` function may be used to get values from the [cache](/docs/{{version}}/cache). If the given key does not exist in the cache, an optional default value will be returned:
 
+`cache` 함수는 [캐시](/docs/{{version}}/cache)로 부터 값을 가져오는데 사용합니다. 주어진 키가 캐시에 존재하지 않는 경우, 선택적인 기본값(an optional default 두번째 인자)이 반환됩니다
+
+
     $value = cache('key');
 
     $value = cache('key', 'default');
 
 You may add items to the cache by passing an array of key / value pairs to the function. You should also pass the number of seconds or duration the cached value should be considered valid:
+
+키 / 값 쌍의 배열을 함수에 전달하여 캐시에 아이템을 추가할 수 있습니다. 또한 캐시된 값이 유효한 것으로 간주될 수 있는 시간(초) 또는 기간을 숫자로 전달해야 합니다:
 
     cache(['key' => 'value'], 300);
 
@@ -1541,12 +1596,16 @@ You may add items to the cache by passing an array of key / value pairs to the f
 
 The `class_uses_recursive` function returns all traits used by a class, including traits used by all of its parent classes:
 
+`class_uses_recursive` 함수는, 모든 부모 클래스가 사용하는 trait를 포함하여, 클래스가 사용하는 모든 trait을 반환합니다:
+
     $traits = class_uses_recursive(App\User::class);
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
 
 The `collect` function creates a [collection](/docs/{{version}}/collections) instance from the given value:
+
+`collect` 함수는 주어진 값으로부터 [collection](/docs/{{version}}/collections) 인스턴스를 생성합니다:
 
     $collection = collect(['taylor', 'abigail']);
 
@@ -1555,11 +1614,15 @@ The `collect` function creates a [collection](/docs/{{version}}/collections) ins
 
 The `config` function gets the value of a [configuration](/docs/{{version}}/configuration) variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
 
+`config` 함수는 [설정](/docs/{{version}}/configuration) 변수의 값을 가져옵니다. 설정 값은 접근하고자 하는 파일과 옵션의 이름을 포함한 "점(.)" 문법(syntax)를 사용하여 접근알 수 있습니다. 설정 옵션이 존재하지 않는다면 지정한 기본값이 반환됩니다:
+
     $value = config('app.timezone');
 
     $value = config('app.timezone', $default);
 
 You may set configuration variables at runtime by passing an array of key / value pairs:
+
+런타임에 키 / 값 쌍의 배열로 전달하여 설정 변수를 지정할 수 있습니다:
 
     config(['app.debug' => true]);
 
@@ -1568,12 +1631,16 @@ You may set configuration variables at runtime by passing an array of key / valu
 
 The `cookie` function creates a new [cookie](/docs/{{version}}/requests#cookies) instance:
 
+`cookie` 함수는 새로운 [쿠키](/docs/{{version}}/requests#cookies) 인스턴스를 생성합니다:
+
     $cookie = cookie('name', 'value', $minutes);
 
 <a name="method-csrf-field"></a>
 #### `csrf_field()` {#collection-method}
 
 The `csrf_field` function generates an HTML `hidden` input field containing the value of the CSRF token. For example, using [Blade syntax](/docs/{{version}}/blade):
+
+`csrf_field` 함수는 CSRF 토큰 값을 포함하는 HTML `숨겨진(hidden)` 입력 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용합니다:
 
     {{ csrf_field() }}
 
@@ -1582,6 +1649,8 @@ The `csrf_field` function generates an HTML `hidden` input field containing the 
 
 The `csrf_token` function retrieves the value of the current CSRF token:
 
+`csrf_token` 함수는 현재 CSRF 토큰의 값을 조회합니다:
+
     $token = csrf_token();
 
 <a name="method-dd"></a>
@@ -1589,16 +1658,22 @@ The `csrf_token` function retrieves the value of the current CSRF token:
 
 The `dd` function dumps the given variables and ends execution of the script:
 
+`dd` 함수는 주어진 변수들을 Dump 처리하고 스크립트의 실행을 종료합니다:
+
     dd($value);
 
     dd($value1, $value2, $value3, ...);
 
 If you do not want to halt the execution of your script, use the [`dump`](#method-dump) function instead.
 
+스크립트 실행을 중단하고 싶지 않다면, [`dump`](#method-dump) 함수를 사용하십시오:
+
 <a name="method-decrypt"></a>
 #### `decrypt()` {#collection-method}
 
 The `decrypt` function decrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
+
+`decrypt` 함수는 라라벨의 [encrypter](/docs/{{version}}/encryption)를 사용하여 주어진 값을 복호화 합니다:
 
     $decrypted = decrypt($encrypted_value);
 
@@ -1607,12 +1682,16 @@ The `decrypt` function decrypts the given value using Laravel's [encrypter](/doc
 
 The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating-jobs) onto the Laravel [job queue](/docs/{{version}}/queues):
 
+`dispatch` 함수는 라라벨의 [job queue](/docs/{{version}}/queues)에 주어진 [job](/docs/{{version}}/queues#creating-jobs)을 추가합니다:
+
     dispatch(new App\Jobs\SendEmails);
 
 <a name="method-dispatch-now"></a>
 #### `dispatch_now()` {#collection-method}
 
 The `dispatch_now` function runs the given [job](/docs/{{version}}/queues#creating-jobs) immediately and returns the value from its `handle` method:
+
+`dispatch_now` 함수는 주어진 [job](/docs/{{version}}/queues#creating-jobs)을 즉시 실행하고 `handle` 메소드의 값을 반환합니다:
 
     $result = dispatch_now(new App\Jobs\SendEmails);
 
@@ -1621,18 +1700,26 @@ The `dispatch_now` function runs the given [job](/docs/{{version}}/queues#creati
 
 The `dump` function dumps the given variables:
 
+`dump` 함수는 주어진 변수들을 덤프하여 표시합니다:
+
     dump($value);
 
     dump($value1, $value2, $value3, ...);
 
 If you want to stop executing the script after dumping the variables, use the [`dd`](#method-dd) function instead.
 
+변수들을 덤프하여 표시한 후 스크립트의 실행을 멈추고자 한다면, [`dd`](#method-dd)함수를 사용하십시오.
+
 > {tip} You may use Artisan's `dump-server` command to intercept all `dump` calls and display them in your console window instead of your browser.
+
+> {tip} 모든 `dump` 호출을 가로채서 브라우저 대신 콘솔 창에 표시하려면 Artisan의 `dump-server` 명령을 사용합니다.
 
 <a name="method-encrypt"></a>
 #### `encrypt()` {#collection-method}
 
 The `encrypt` function encrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
+
+`encrypt` 함수는 라라벨의 [encrypter](/docs/{{version}}/encryption)를 사용하여 주어진 값을 암호화합니다:
 
     $encrypted = encrypt($unencrypted_value);
 
@@ -1641,6 +1728,8 @@ The `encrypt` function encrypts the given value using Laravel's [encrypter](/doc
 
 The `env` function retrieves the value of an [environment variable](/docs/{{version}}/configuration#environment-configuration) or returns a default value:
 
+`env` 함수는 [환경변수](/docs/{{version}}/configuration#environment-configuration)의 값을 조회하거나 기본값을 반환합니다:
+
     $env = env('APP_ENV');
 
     // Returns 'production' if APP_ENV is not set...
@@ -1648,10 +1737,14 @@ The `env` function retrieves the value of an [environment variable](/docs/{{vers
 
 > {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
 
+> {note} 배포 단계 중에 `config:cache` 명령어를 실행했다면, 설정 파일 안에서 `env` 함수를 호출한 부분이 있는지 확인해야 합니다. 설정이 캐싱되고 나면, `.env` 파일은 로드되지 않고, `env` 함수에 대한 모든 호출은 `null`을 반환합니다.
+
 <a name="method-event"></a>
 #### `event()` {#collection-method}
 
 The `event` function dispatches the given [event](/docs/{{version}}/events) to its listeners:
+
+`event` 함수는 주어진 [event](/docs/{{version}}/events)를 리스너들에게 보냅니다:
 
     event(new UserRegistered($user));
 
@@ -1660,12 +1753,16 @@ The `event` function dispatches the given [event](/docs/{{version}}/events) to i
 
 The `factory` function creates a model factory builder for a given class, name, and amount. It can be used while [testing](/docs/{{version}}/database-testing#writing-factories) or [seeding](/docs/{{version}}/seeding#using-model-factories):
 
+`factory` 함수는 주어진 클래스, 이름, 양을 위한 모델 팩토리 빌더를 생성합니다. [testing](/docs/{{version}}/database-testing#writing-factories)이나 [seeding](/docs/{{version}}/seeding#using-model-factories) 중에 이용할 수 있습니다:
+
     $user = factory(App\User::class)->make();
 
 <a name="method-filled"></a>
 #### `filled()` {#collection-method}
 
 The `filled` function returns whether the given value is not "blank":
+
+`filled` 함수는 주어진 값이 "빈값"이 아닌지 여부를 반환합니다:
 
     filled(0);
     filled(true);
@@ -1682,14 +1779,20 @@ The `filled` function returns whether the given value is not "blank":
 
 For the inverse of `filled`, see the [`blank`](#method-blank) method.
 
+`filled`의 반대는, [`blank`](#method-blank) 메소드를 확인하십시오.
+
 <a name="method-info"></a>
 #### `info()` {#collection-method}
 
 The `info` function will write information to the [log](/docs/{{version}}/logging):
 
+`info` 함수는 [로그](/docs/{{version}}/logging)에 정보를 기록합니다:
+
     info('Some helpful information!');
 
 An array of contextual data may also be passed to the function:
+
+상황에 맞는 데이터 배열이 함수에 전달될 수도 있습니다:
 
     info('User login attempt failed.', ['id' => $user->id]);
 
@@ -1698,13 +1801,19 @@ An array of contextual data may also be passed to the function:
 
 The `logger` function can be used to write a `debug` level message to the [log](/docs/{{version}}/logging):
 
+`logger` 함수는 `debug` 레벨 메시지를 [로그](/docs/{{version}}/logging)에 기록하는데 사용될 수 있습니다:
+
     logger('Debug message');
 
 An array of contextual data may also be passed to the function:
 
+상황에 맞는 데이터 배열이 함수에 전달될 수도 있습니다:
+
     logger('User has logged in.', ['id' => $user->id]);
 
 A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
+
+함수에 전달되는 값이 없으면 [logger](/docs/{{version}}/errors#logging) 인스턴스가 반환됩니다:
 
     logger()->error('You are not allowed here.');
 
@@ -1712,6 +1821,8 @@ A [logger](/docs/{{version}}/errors#logging) instance will be returned if no val
 #### `method_field()` {#collection-method}
 
 The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
+
+`method_field` 함수는 HTTP 형식의 가짜(spoof) 값을 포함하는 HTML `숨겨진(hidden)` 입력 필드를 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용합니다:
 
     <form method="POST">
         {{ method_field('DELETE') }}
@@ -1722,12 +1833,16 @@ The `method_field` function generates an HTML `hidden` input field containing th
 
 The `now` function creates a new `Illuminate\Support\Carbon` instance for the current time:
 
+`now` 함수는 현재 시간에 대한 새로운 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
     $now = now();
 
 <a name="method-old"></a>
 #### `old()` {#collection-method}
 
 The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [old input](/docs/{{version}}/requests#old-input) value flashed into the session:
+
+`old` 함수는 세션에 저장된(flashed) [이전 입력값](/docs/{{version}}/requests#old-input)을 [조회](/docs/{{version}}/requests#retrieving-input)합니다:
 
     $value = old('value');
 
@@ -1738,11 +1853,15 @@ The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [
 
 The `optional` function accepts any argument and allows you to access properties or call methods on that object. If the given object is `null`, properties and methods will return `null` instead of causing an error:
 
+`optional` 함수는 모든 인자를 허용하고 그 객체의 속성에 접근하거나 메소드들을 호출 할 수 있습니다. 지정된 객체가 `null` 이면, 프로퍼티와 메소드는 에러를 유발하는 대신에 `null` 을 반환합니다:
+
     return optional($user->address)->street;
 
     {!! old('name', optional($user)->name) !!}
 
 The `optional` function also accepts a Closure as its second argument. The Closure will be invoked if the value provided as the first argument is not null:
+
+`optional` 함수는 두번째 인자로 클로저를 받을 수도 있습니다. 첫번째 인자로 `null`이 아닌 값이 제공된다면, 클로저가 호출됩니다:
 
     return optional(User::find($id), function ($user) {
         return new DummyUser;
@@ -1753,12 +1872,17 @@ The `optional` function also accepts a Closure as its second argument. The Closu
 
 The `policy` method retrieves a [policy](/docs/{{version}}/authorization#creating-policies) instance for a given class:
 
+`policy` 메소드는 주어진 클래스에 대한 [policy](/docs/{{version}}/authorization#creating-policies) 인스턴스를 조회합니다:
+
     $policy = policy(App\User::class);
 
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
 
 The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/responses#redirects), or returns the redirector instance if called with no arguments:
+
+`redirect` 함수는 [HTTP 응답의 재지정된 값(redirect)](/docs/{{version}}/responses#redirects)을 반환하거나, 인자 없이 호출되는 경우 리디렉터 인스턴스를 반환합니다:
+
 
     return redirect($to = null, $status = 302, $headers = [], $secure = null);
 
@@ -1771,12 +1895,16 @@ The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/res
 
 The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method:
 
+`report` 함수는 [예외처리 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드를 사용하여 예외처리(exception)를 보고합니다:
+
     report($e);
 
 <a name="method-request"></a>
 #### `request()` {#collection-method}
 
 The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input item:
+
+`request` 함수는 현재의 [요청](/docs/{{version}}/requests) 인스턴스를 반환하거나 입력 아이템을 가져옵니다:
 
     $request = request();
 
@@ -1787,11 +1915,15 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 
 The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method; however, the request will continue processing:
 
+`rescue` 함수는 주어진 클로저를 실행하고, 실행 중 발생하는 예외처리들을 잡아냅니다. 잡아낸 모든 예외처리들은 [예외처리 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드로 전달되지만, 요청은 계속 처리됩니다:
+
     return rescue(function () {
         return $this->method();
     });
 
 You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the Closure:
+
+`rescue` 함수에 두번째 인자를 전달 할 수 있습니다. 이 인자는 클로저를 실행하는 동안 예외처리가 발생하면 반환할 "기본값" 입니다:
 
     return rescue(function () {
         return $this->method();
@@ -1808,12 +1940,16 @@ You may also pass a second argument to the `rescue` function. This argument will
 
 The `resolve` function resolves a given class or interface name to its instance using the [service container](/docs/{{version}}/container):
 
+`resolve` 함수는 [서비스 컨테이너](/docs/{{version}}/container)를 사용하여 인스턴스에 대해 주어진 클래스나 인터페이스 이름을 결정합니다:
+
     $api = resolve('HelpSpot\API');
 
 <a name="method-response"></a>
 #### `response()` {#collection-method}
 
 The `response` function creates a [response](/docs/{{version}}/responses) instance or obtains an instance of the response factory:
+
+`response` 함수는 [응답](/docs/{{version}}/responses) 인스턴스를 생성하거나 응답 팩토리의 인스턴스를 가져옵니다:
 
     return response('Hello World', 200, $headers);
 
@@ -1824,6 +1960,8 @@ The `response` function creates a [response](/docs/{{version}}/responses) instan
 
 The `retry` function attempts to execute the given callback until the given maximum attempt threshold is met. If the callback does not throw an exception, its return value will be returned. If the callback throws an exception, it will automatically be retried. If the maximum attempt count is exceeded, the exception will be thrown:
 
+`retry` 함수는 주어진 최대 횟수가 될 때까지 주어진 콜백을 실행하려고 시도합니다. 콜백이 예외처리가 발생하지 않는다면, 결과 값이 반환됩니다. 콜백이 예외처리가 발생하면 자동으로 다시 시도됩니다. 최대 재시도 횟수를 초과하면 예외처리가 발생합니다.
+
     return retry(5, function () {
         // Attempt 5 times while resting 100ms in between attempts...
     }, 100);
@@ -1833,13 +1971,20 @@ The `retry` function attempts to execute the given callback until the given maxi
 
 The `session` function may be used to get or set [session](/docs/{{version}}/session) values:
 
+`session` 함수는 [세션](/docs/{{version}}/session) 값을 얻거나 지정하는 데에 사용됩니다.
+
     $value = session('key');
 
 You may set values by passing an array of key / value pairs to the function:
 
+키 / 값 쌍들의 배열을 함수로 전달하여 값을 지정할 수 있습니다:
+
+
     session(['chairs' => 7, 'instruments' => 3]);
 
 The session store will be returned if no value is passed to the function:
+
+함수에 전달되는 값이 없다면 세션 스토어가 반환됩니다:
 
     $value = session()->get('key');
 
@@ -1850,6 +1995,8 @@ The session store will be returned if no value is passed to the function:
 
 The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. The `$value` will be passed to the Closure and then be returned by the `tap` function. The return value of the Closure is irrelevant:
 
+`tap` 함수는 임의의 `$value` 와 클로저 개의 인자를 허용합니다. `$value` 는 클로저에 전달되고 `tap` 함수에 의해서 반환됩니다. 클로저의 반환되는 값과는 관련이 없습니다:
+
     $user = tap(User::first(), function ($user) {
         $user->name = 'taylor';
 
@@ -1858,12 +2005,16 @@ The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. T
 
 If no Closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
 
+`tap` 함수에 전달되는 클로저가 없다면, 주어진 `$value` 에 모든 메소드를 호출할 수 있습니다. 호출된 메소드의 반환 값은 메소드가 정의해서 실제 반환하는 것과 상관없이 항상 `$value` 가 됩니다. 예를 들어 Eloquent `update` 메소드는 일반적으로 정수값을 반환하지만, `tap` 메소드를 통해서 `update` 메소드를 연결하여 호출하면 메소드가 모델 그 자체를 강제로 반환하도록 할 수 있습니다:
+
     $user = tap($user)->update([
         'name' => $name,
         'email' => $email,
     ]);
 
 To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tappable` trait to the class. The `tap` method of this trait accepts a Closure as its only argument. The object instance itself will be passed to the Closure and then be returned by the `tap` method:
+
+클래스에 `tap` 메소드를 추가하려면, 클래스에 `Illuminate\Support\Traits\Tappable` Trait을 추가하면 됩니다. 이 Trait의 `tap` 메소드는 인수로만 Closure를 허용합니다. 객체 인스턴스 자체는 Closure에 전달되고 나서 `tap` 메소드에 의해 반환됩니다.
 
     return $user->tap(function ($user) {
         //
@@ -1873,6 +2024,8 @@ To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tap
 #### `throw_if()` {#collection-method}
 
 The `throw_if` function throws the given exception if a given boolean expression evaluates to `true`:
+
+`throw_if` 함수는 주어진 boolean 표현식이 `true` 인 경우에 주어진 예외처리가 발생합니다:
 
     throw_if(! Auth::user()->isAdmin(), AuthorizationException::class);
 
@@ -1887,6 +2040,8 @@ The `throw_if` function throws the given exception if a given boolean expression
 
 The `throw_unless` function throws the given exception if a given boolean expression evaluates to `false`:
 
+`throw_unless` 함수는 주어진 boolean 표현식이 `false` 인 경우에 주어진 예외처리가 발생합니다:
+
     throw_unless(Auth::user()->isAdmin(), AuthorizationException::class);
 
     throw_unless(
@@ -1900,6 +2055,8 @@ The `throw_unless` function throws the given exception if a given boolean expres
 
 The `today` function creates a new `Illuminate\Support\Carbon` instance for the current date:
 
+`today` 함수는 현재 날짜에 대한 새로운 `Illuminate\Support\Carbon` 인스턴스를 생성합니다:
+
     $today = today();
 
 <a name="method-trait-uses-recursive"></a>
@@ -1907,12 +2064,16 @@ The `today` function creates a new `Illuminate\Support\Carbon` instance for the 
 
 The `trait_uses_recursive` function returns all traits used by a trait:
 
+`trait_uses_recursive` 함수는 trait에서 사용된 모든 trait을 반환합니다:
+
     $traits = trait_uses_recursive(\Illuminate\Notifications\Notifiable::class);
 
 <a name="method-transform"></a>
 #### `transform()` {#collection-method}
 
 The `transform` function executes a `Closure` on a given value if the value is not [blank](#method-blank) and returns the result of the `Closure`:
+
+`transform` 함수는 주어진 값이 [빈값](#method-blank)이 아닌 경우에 `Closure`를 실행하고 `Closure`의 결과를 반환합니다:
 
     $callback = function ($value) {
         return $value * 2;
@@ -1924,6 +2085,8 @@ The `transform` function executes a `Closure` on a given value if the value is n
 
 A default value or `Closure` may also be passed as the third parameter to the method. This value will be returned if the given value is blank:
 
+기본값 또는 `Closure` 가 세번째 인자로 메소드에 전달될 수도 있습니다. 이 값은 첫번째 인자가 빈값인 경우 반환됩니다:
+
     $result = transform(null, $callback, 'The value is blank');
 
     // The value is blank
@@ -1933,12 +2096,16 @@ A default value or `Closure` may also be passed as the third parameter to the me
 
 The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it instead of the `Validator` facade for convenience:
 
+`validator` 함수는 주어진 인자와 함께 새로운 [validator](/docs/{{version}}/validation) 인스턴스를 생성합니다. 편의를 위해 `Validator` 파사드 대신에 사용할 수 있습니다:
+
     $validator = validator($data, $rules, $messages);
 
 <a name="method-value"></a>
 #### `value()` {#collection-method}
 
 The `value` function returns the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
+
+`value` 함수는 주어진 값을 반환하지만, 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과가 반환됩니다:
 
     $result = value(true);
 
@@ -1955,12 +2122,16 @@ The `value` function returns the value it is given. However, if you pass a `Clos
 
 The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 
+`view` 함수는 [view](/docs/{{version}}/views) 인스턴스를 조회합니다:
+
     return view('auth.login');
 
 <a name="method-with"></a>
 #### `with()` {#collection-method}
 
 The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed and its result will be returned:
+
+`with` 함수는 주어진 값을 반환합니다. 만약 함수에 두번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다:
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

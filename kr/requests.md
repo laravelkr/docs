@@ -417,7 +417,7 @@ The `cookie` method also accepts a few more arguments which are used less freque
 
 Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment to the outgoing response from your application. The `queue` method accepts a `Cookie` instance or the arguments needed to create a `Cookie` instance. These cookies will be attached to the outgoing response before it is sent to the browser:
 
-또는, `Cookie` 파사드를 이용하여 애플리케이션의 응답에 추가할 쿠키를 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 응답이 브라우저로 보내지기 전에 추가됩니다:
+또는, 애플리케이션의 response에 쿠키를 추가하기 위해 `Cookie` 파사드를 이용하여 "queue" 할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 response가 브라우저로 보내지기 전에 추가됩니다:
 
     Cookie::queue(Cookie::make('name', 'value', $minutes));
 
@@ -428,7 +428,7 @@ Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment
 
 If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instance that can be given to a response instance at a later time, you may use the global `cookie` helper. This cookie will not be sent back to the client unless it is attached to a response instance:
 
-나중에 response 인스턴스에 넣을 수 있는 `Symfony\Component\HttpFoundation\Cookie`인스턴스를 생성하려면, 글로벌 `cookie` 헬퍼 함수를 사용할 수 있습니다. 이 쿠키는 response 인스턴스에 첨부하지 않는 한  클라이언트에게 다시 보내지지 않습니다:
+나중에 response 인스턴스에 넣을 수 있는 `Symfony\Component\HttpFoundation\Cookie`인스턴스를 생성하려면, 글로벌 `cookie` 헬퍼 함수를 사용할 수 있습니다. 이 쿠키는 response 인스턴스에 첨부하지 않는 한 클라이언트에게 다시 보내지지 않습니다:
 
     $cookie = cookie('name', 'value', $minutes);
 

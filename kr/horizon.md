@@ -107,7 +107,7 @@ The `auto` strategy adjusts the number of worker processes per queue based on th
 
 When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to:	
 
-`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon의 최소, 최대 프로세스를 제어 할 수 있습니다.
+`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다.
 
     'environments' => [
         'production' => [

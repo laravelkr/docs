@@ -65,7 +65,7 @@ If your controller method is also expecting input from a route parameter you sho
 
 You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method as follows:
 
-다음과 같이 컨트롤러 메소드를 정의하면 `Illuminate\Http\Request`를 타입힌트하고 라우트 파라미터 `id`에 접근할 수 있습니다:
+다음과 같이 컨트롤러 메소드를 정의하여 `Illuminate\Http\Request`를 타입힌트하면서 동시에 라우트 파라미터 `id`에 접근할 수 있습니다:
 
     <?php
 
@@ -417,7 +417,7 @@ The `cookie` method also accepts a few more arguments which are used less freque
 
 Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment to the outgoing response from your application. The `queue` method accepts a `Cookie` instance or the arguments needed to create a `Cookie` instance. These cookies will be attached to the outgoing response before it is sent to the browser:
 
-또는, 애플리케이션의 response에 쿠키를 추가하기 위해 `Cookie` 파사드를 이용하여 "queue" 할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 response가 브라우저로 보내지기 전에 추가됩니다:
+또는, 애플리케이션의 response에 쿠키를 추가하기 위해 `Cookie` 파사드를 이용하여 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 response가 브라우저로 전달되기 전에 추가됩니다:
 
     Cookie::queue(Cookie::make('name', 'value', $minutes));
 

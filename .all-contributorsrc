@@ -260,6 +260,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "horace-velmont",
+      "name": "HoraceVelmont",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3744320?v=4",
+      "profile": "http://velmont.cafe24.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

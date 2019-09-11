@@ -168,7 +168,7 @@ The `migrate:reset` command will roll back all of your application's migrations:
     php artisan migrate:reset
 
 #### Rollback & Migrate In Single Command
-#### 하나의 명령어로 롤백과와 마이그레이트 함께 실행 하기
+#### 하나의 명령어로 롤백과 마이그레이트 함께 실행 하기
 
 The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command effectively re-creates your entire database:
 
@@ -283,7 +283,7 @@ To drop an existing table, you may use the `drop` or `dropIfExists` methods:
 
 Before renaming a table, you should verify that any foreign key constraints on the table have an explicit name in your migration files instead of letting Laravel assign a convention based name. Otherwise, the foreign key constraint name will refer to the old table name.
 
-테이블의 이름 변경하기 전에, 마이그레이션 파일에서 라라벨의 규약에 따르는 기본 이름으로 지정되지 않고 고유한 이름을 붙인 외래 키 제약 조건이 존재하지 않는지 확인하십시오. 그렇지 않다면 외래 키 제약의 이름이 기존 테이블 이름을 참고하게 됩니다.
+테이블의 이름 변경하기 전에, 마이그레이션 파일에서 라라벨의 규약(Convention)에 따르는 기본 이름으로 지정되지 않고 고유한 이름을 붙인 외래 키 제약 조건이 존재하지 않는지 확인하십시오. 그렇지 않다면 외래 키 제약의 이름이 기존 테이블 이름을 참고하게 됩니다.
 
 <a name="columns"></a>
 ## Columns
@@ -431,7 +431,7 @@ Command  |  Description
 
 <a name="column-modifiers"></a>
 ### Column Modifiers
-### 컬럼 Modifiers
+### 컬럼 수정자(modifiers)
 
 In addition to the column types listed above, there are several column "modifiers" you may use while adding a column to a database table. For example, to make the column "nullable", you may use the `nullable` method:
 
@@ -598,7 +598,7 @@ Alternatively, you may create the index after defining the column. For example:
 
 You may even pass an array of columns to an index method to create a compound (or composite) index:
 
-인덱스 메소드에 컬럼의 배열을 전달하여 복합 인덱스를 생성할 수도 있습니다:
+인덱스 메소드에 컬럼의 배열을 전달하여 결합(복합) 인덱스를 생성할 수도 있습니다:
 
     $table->index(['account_id', 'created_at']);
 
@@ -696,11 +696,11 @@ If you pass an array of columns into a method that drops indexes, the convention
 
 <a name="foreign-key-constraints"></a>
 ### Foreign Key Constraints
-### 외래키 제한
+### 외래키 제약조건(Constraints)
 
 Laravel also provides support for creating foreign key constraints, which are used to force referential integrity at the database level. For example, let's define a `user_id` column on the `posts` table that references the `id` column on a `users` table:
 
-라라벨은 데이터베이스에서 또한 참조 무결성을 강제하는 외래 키 제한을 생성하는 것을 제공합니다. 예를 들어 `users` 테이블의 `id` 컬럼을 참조하는 `posts` 테이블에 `user_id` 컬럼을 정의해보겠습니다:
+라라벨은 데이터베이스에서 또한 참조 무결성을 강제하는 외래 키 제약조건을 생성하는 것을 제공합니다. 예를 들어 `users` 테이블의 `id` 컬럼을 참조하는 `posts` 테이블에 `user_id` 컬럼을 정의해보겠습니다:
 
     Schema::table('posts', function (Blueprint $table) {
         $table->unsignedBigInteger('user_id');
@@ -710,7 +710,7 @@ Laravel also provides support for creating foreign key constraints, which are us
 
 You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
 
-제한(constraint)의 "on delete"와 "on update" 속성에 원하는 동작을 지정할 수도 있습니다:
+제약조건(constraint)의 "on delete"와 "on update" 속성에 원하는 동작을 지정할 수도 있습니다:
 
     $table->foreign('user_id')
           ->references('id')->on('users')
@@ -718,19 +718,19 @@ You may also specify the desired action for the "on delete" and "on update" prop
 
 To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "\_foreign":
 
-외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제한은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제한(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다:
+외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제약조건(constraint)은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제약조건(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다:
 
     $table->dropForeign('posts_user_id_foreign');
 
 Or, you may pass an array value which will automatically use the conventional constraint name when dropping:
 
-또는 배열 값을 전달하면 삭제시 자동으로 컨벤션 규칙에 따르는 이름이 사용됩니다:
+또는 인자에 배열 값을 전달하면 삭제시 자동으로 제약조건 컨벤션 규칙에 따르는 이름이 사용됩니다:
 
     $table->dropForeign(['user_id']);
 
 You may enable or disable foreign key constraints within your migrations by using the following methods:
 
-마이그레이션에서 다음의 메소드들을 사용하여 외래키 제약을 활성/비활성 할 수 있습니다:
+마이그레이션에서 다음의 메소드들을 사용하여 외래키 제약조건을 활성/비활성 할 수 있습니다:
 
     Schema::enableForeignKeyConstraints();
 

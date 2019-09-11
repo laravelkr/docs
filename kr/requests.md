@@ -65,7 +65,7 @@ If your controller method is also expecting input from a route parameter you sho
 
 You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method as follows:
 
-다음과 같이 컨트롤러 메소드를 정의하면 `Illuminate\Http\Request`를 타입힌트하여 라우트 파라미터 `id`에 접근할 수 있습니다:
+다음과 같이 컨트롤러 메소드를 정의하여 `Illuminate\Http\Request`를 타입힌트하면서 동시에 라우트 파라미터 `id`에 접근할 수 있습니다:
 
     <?php
 
@@ -352,7 +352,7 @@ You may also use the `flashOnly` and `flashExcept` methods to flash a subset of 
 
 Since you often will want to flash input to the session and then redirect to the previous page, you may easily chain input flashing onto a redirect using the `withInput` method:
 
-대부분 입력값을 세션에 임시 저장 하고 이전 페이지로 리다이렉트 하기를 원하기 때문에, 이를 위해 리다이렉트와 함께 입력값 임시 저장을 메소드 체이닝으로 사용할 수 있습니다.
+종종 입력값을 세션에 임시 저장 하고 이전 페이지로 리다이렉트 하기를 원할 수 있는데, `withInput` 메소드를 이용하여 리다이렉트시 입력값 임시 저장이 되도록 간단하게 메소드 체이닝할 수 있습니다.
 
     return redirect('form')->withInput();
 
@@ -384,13 +384,15 @@ Laravel also provides a global `old` helper. If you are displaying old input wit
 
 All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, use the `cookie` method on a `Illuminate\Http\Request` instance:
 
-라라벨 프레임워크에서 생성된 모든 쿠키는 인증 코드와 함께 암호화 됩니다. 이 것은 클라이언트가 변경되었을 때는, 쿠키가 유효하지 않다는 것을 의미합니다. Request에서 쿠키 값을 가져오기 위해서는 `Illuminate\Http\Request` 인스턴스에서 `cookie` 메소드를 사용하십시오:
+라라벨 프레임워크에서 생성된 모든 쿠키는 인증 코드와 함께 암호화 됩니다. 이것은 쿠키 정보가 클라이언트에 의해 변경되었을 경우 유효하지 않은 것으로 간주됨을 의미합니다. Request에서 쿠키 값을 가져오기 위해서는 `Illuminate\Http\Request` 인스턴스에서 `cookie` 메소드를 사용하십시오:
 
     $value = $request->cookie('name');
 
 Alternatively, you may use the `Cookie` facade to access cookie values:
 
 또한, 쿠키에 엑세스 하기 위해서 `Cookie` 파사드를 사용할 수 있습니다:
+
+    use Illuminate\Support\Facades\Cookie;
 
     $value = Cookie::get('name');
 
@@ -415,7 +417,7 @@ The `cookie` method also accepts a few more arguments which are used less freque
 
 Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment to the outgoing response from your application. The `queue` method accepts a `Cookie` instance or the arguments needed to create a `Cookie` instance. These cookies will be attached to the outgoing response before it is sent to the browser:
 
-또는, `Cookie` 파사드를 애플리케이션의 응답에 쿠키를 추가하기 위해서 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 응답이 브라우저로 보내지기 전에 추가됩니다:
+또는, 애플리케이션의 response에 쿠키를 추가하기 위해 `Cookie` 파사드를 이용하여 "queue"할 수 있습니다. `queue` 메소드는 `Cookie` 인스턴스나 `Cookie` 인스턴스를 생성하는데 필요한 인자를 받습니다. 이 쿠키는 response가 브라우저로 전달되기 전에 추가됩니다:
 
     Cookie::queue(Cookie::make('name', 'value', $minutes));
 
@@ -426,7 +428,7 @@ Alternatively, you can use the `Cookie` facade to "queue" cookies for attachment
 
 If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instance that can be given to a response instance at a later time, you may use the global `cookie` helper. This cookie will not be sent back to the client unless it is attached to a response instance:
 
-나중에 response 인스턴스에 넣을 수 있는 `Symfony\Component\HttpFoundation\Cookie`인스턴스를 생성하려면, 글로벌 `cookie` 헬퍼 함수를 사용할 수 있습니다. 이 쿠키는 response 인스턴스에 첨부하지 않는 한  클라이언트에게 다시 보내지지 않습니다:
+나중에 response 인스턴스에 넣을 수 있는 `Symfony\Component\HttpFoundation\Cookie`인스턴스를 생성하려면, 글로벌 `cookie` 헬퍼 함수를 사용할 수 있습니다. 이 쿠키는 response 인스턴스에 첨부하지 않는 한 클라이언트에게 다시 보내지지 않습니다:
 
     $cookie = cookie('name', 'value', $minutes);
 
@@ -472,7 +474,7 @@ In addition to checking if the file is present, you may verify that there were n
 
 The `UploadedFile` class also contains methods for accessing the file's fully-qualified path and its extension. The `extension` method will attempt to guess the file's extension based on its contents. This extension may be different from the extension that was supplied by the client:
 
-`UploadedFile` 클래스는 파일의 전체 경로와 확장자에 엑세스 할 수 있는 메소드를 가지고 있습니다. `extension` 메소드는 그 내용에 따라 파일의 확장자를 추측하려고 시도합니다. 이 확장자는 클라이언트가 제공 한 확장자와는 다를 수 있습니다:
+`UploadedFile` 클래스는 파일의 전체 경로와 확장자에 엑세스 할 수 있는 메소드를 가지고 있습니다. `extension` 메소드는 그 내용에 따라 파일의 확장자를 추측하려고 시도합니다. 이 확장자는 클라이언트가 제공한 확장자와는 다를 수 있습니다:
 
     $path = $request->photo->path();
 
@@ -491,7 +493,7 @@ There are a variety of other methods available on `UploadedFile` instances. Chec
 
 To store an uploaded file, you will typically use one of your configured [filesystems](/docs/{{version}}/filesystem). The `UploadedFile` class has a `store` method which will move an uploaded file to one of your disks, which may be a location on your local filesystem or even a cloud storage location like Amazon S3.
 
-업로드된 파일을 저장하려면, 일반적으로 설정된 [파일시스템](/docs/{{version}}/filesystem)중 하나를 사용합니다. `UploadedFile` 클래스는 업로드된 파일을 로컬 파일 시스템이나 아마존 S3 와 같은 클라우드 스토리지  디스크 중에 하나로 이동 시킬 수 있는 `store` 메소드를 가지고 있습니다.
+업로드된 파일을 저장하려면, 일반적으로 설정된 [파일시스템](/docs/{{version}}/filesystem)중 하나를 사용합니다. `UploadedFile` 클래스는 업로드된 파일을 로컬 파일 시스템이나 아마존 S3 와 같은 클라우드 스토리지 디스크 중에 하나로 이동 시킬 수 있는 `store` 메소드를 가지고 있습니다.
 
 The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a file name, since a unique ID will automatically be generated to serve as the file name.
 
@@ -499,7 +501,7 @@ The `store` method accepts the path where the file should be stored relative to 
 
 The `store` method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk's root:
 
-`store` 메소드는 선택적으로 파일이 저장되는데 사용될 디스크 이름을 두번째 인자로 전달 받습니다. 메소드는 디스크의 루트를 기준으로 파일의 경로를 반환합니다:
+`store` 메소드는 파일이 저장되는데 사용될 디스크 이름을 두 번째 선택 인자로 허용합니다. 메소드는 디스크의 루트를 기준으로 파일의 경로를 반환합니다:
 
     $path = $request->photo->store('images');
 
@@ -520,7 +522,7 @@ If you do not want a file name to be automatically generated, you may use the `s
 
 When running your applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
 
-TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션을 실행할 때 애플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있습니다. 일반적으로 이는 애플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽뒤에 위치해서, HTTPS 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
+TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션을 실행할 때 애플리케이션에서 HTTPS 링크가 생성되지 않는 경우가 있습니다. 일반적으로 이는 애플리케이션이 포트 80의 로드 밸런서에서 전송되는 트래픽 뒤에 위치해서, HTTPS 링크를 생성해야 한다는 것을 알지 못하기 때문입니다.
 
 To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the proxy `$headers` that should be trusted:
 

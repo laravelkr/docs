@@ -1,6 +1,6 @@
 # 라라벨 한국어 매뉴얼
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
 ![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)
@@ -118,6 +118,9 @@
     <td align="center"><a href="https://github.com/strawoo"><img src="https://avatars0.githubusercontent.com/u/11594582?v=4" width="100px;" alt="WooHyunPark"/><br /><sub><b>WooHyunPark</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=strawoo" title="Documentation">📖</a></td>
     <td align="center"><a href="https://blog.meteopark.dev"><img src="https://avatars1.githubusercontent.com/u/8869584?v=4" width="100px;" alt="meteopark"/><br /><sub><b>meteopark</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=meteopark" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/anym0re"><img src="https://avatars3.githubusercontent.com/u/9912065?v=4" width="100px;" alt="danlee"/><br /><sub><b>danlee</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=anym0re" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://velmont.cafe24.com"><img src="https://avatars3.githubusercontent.com/u/3744320?v=4" width="100px;" alt="HoraceVelmont"/><br /><sub><b>HoraceVelmont</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=horace-velmont" title="Documentation">📖</a></td>
   </tr>
 </table>
 

@@ -12,7 +12,7 @@
 
 Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
-라라벨은 다양한 전역(global) "헬퍼" PHP 함수들을 포함하고 있습니다. 이 많은 기능들 대부분은 프레임워크 자체에서 사용하지만, 편리하다고 생각되면, 여러분의 애플리케이션에도 자유롭게 사용할 수 있습니다
+라라벨은 다양한 전역(global) "헬퍼" PHP 함수들을 포함하고 있습니다. 이 이 많은 함수들은 프레임워크 자체에서 사용하지만, 편리한 것들을 찾는다면, 애플리케이션에 자유롭게 사용할 수 있습니다.
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -213,7 +213,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
-`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`로 설정된 경우, 주어진 key/value 쌍을 배열에 추가합니다:
+`Arr::add` 메소드는 배열 내에 주어진 키가 존재하지 않거나 `null` 인 경우, 주어진 key/value 쌍을 배열에 추가합니다:
 
     use Illuminate\Support\Arr;
 
@@ -244,7 +244,7 @@ The `Arr::collapse` method collapses an array of arrays into a single array:
 
 The `Arr::divide` method returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`Arr::divide` 메소드는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다:
+`Arr::divide` 메소드는 주어진 배열의 키(key)들과 값(value)들, 2개의 배열들을 반환합니다:
 
     use Illuminate\Support\Arr;
 
@@ -259,7 +259,7 @@ The `Arr::divide` method returns two arrays, one containing the keys, and the ot
 
 The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
-`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다:
+`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’표기범을 사용하여 깊이를 나타내는 단일 레벨 배열로 평면화 합니다:
 
     use Illuminate\Support\Arr;
 
@@ -274,7 +274,7 @@ The `Arr::dot` method flattens a multi-dimensional array into a single level arr
 
 The `Arr::except` method removes the given key / value pairs from an array:
 
-`Arr::except` 메소드는 주어진 키 / 값 쌍을 배열에서 제거합니다
+`Arr::except` 메소드는 배열에서 주어진 키 / 값 쌍을 제거합니다
 
     use Illuminate\Support\Arr;
 
@@ -289,7 +289,7 @@ The `Arr::except` method removes the given key / value pairs from an array:
 
 The `Arr::first` method returns the first element of an array passing a given truth test:
 
-`Arr::first` 메소드는 넘겨진 배열 중 주어진 조건을 만족하는 첫번째 요소를 반환합니다:
+`Arr::first` 메소드는 주어진 조건을 만족하는 배열의 첫번째 요소를 반환합니다:
 
     use Illuminate\Support\Arr;
 
@@ -303,7 +303,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
 A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
-메소드에 세번째 인자가 기본 값으로 전달될 수 있습니다. 어떠한 값도 주어진 조건을 통과하지 못했을 때 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달할 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다:
 
     use Illuminate\Support\Arr;
 
@@ -314,7 +314,7 @@ A default value may also be passed as the third parameter to the method. This va
 
 The `Arr::flatten` method flattens a multi-dimensional array into a single level array:
 
-`Arr::flatten` 메소드는 다차원 배열을 단일 레벨의 1차원 배열로 만듭니다:
+`Arr::flatten` 메소드는 다차원 배열을 단일 레벨 배열로 평면화합니다:
 
     use Illuminate\Support\Arr;
 
@@ -329,7 +329,7 @@ The `Arr::flatten` method flattens a multi-dimensional array into a single level
 
 The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
 
-`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다:
+`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 주어진 키/ 값 쌍을 제거합니다:
 
     use Illuminate\Support\Arr;
 
@@ -340,11 +340,11 @@ The `Arr::forget` method removes a given key / value pair from a deeply nested a
     // ['products' => []]
 
 <a name="method-array-get"></a>
-#### `Arr::get()` {#collection-method}
+#### `Arr::get()` {#collection-method된
 
-The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation:
+The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation합
 
-`Arr::get` 메소드는  “점(.)”표기법으로 중첩 배열로부터 주어진 값을 찾습니다:
+`Arr::get` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 값을 검색합니다:
 
     use Illuminate\Support\Arr;
 
@@ -356,7 +356,7 @@ The `Arr::get` method retrieves a value from a deeply nested array using "dot" n
 
 The `Arr::get` method also accepts a default value, which will be returned if the specific key is not found:
 
-`Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 지정할 수도 있습니다.
+`Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 받을 수도 있습니다:
 
     use Illuminate\Support\Arr;
 
@@ -388,7 +388,7 @@ The `Arr::has` method checks whether a given item or items exists in an array us
 
 The `Arr::last` method returns the last element of an array passing a given truth test:
 
-`Arr::last` 메소드는 넘겨진 배열 중 주어진 조건을 만족하는  마지막 요소를 반환합니다:
+`Arr::last` 메소드는 주어진 조건을 만족하는 배열의 마지막 요소를 반환합니다:
 
     use Illuminate\Support\Arr;
 
@@ -402,7 +402,7 @@ The `Arr::last` method returns the last element of an array passing a given trut
 
 A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
 
-메소드에 세번째 인자가 기본 값으로 전달될 수 있습니다. 어떠한 값도 주어진 조건을 통과하지 못했을 때 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다:
 
     use Illuminate\Support\Arr;
 
@@ -428,7 +428,7 @@ The `Arr::only` method returns only the specified key / value pairs from the giv
 
 The `Arr::pluck` method retrieves all of the values for a given key from an array:
 
-`Arr::pluck` 메소드는 배열로부터 주어진 키에 대한 모든 값들을 찾습니다.
+`Arr::pluck` 메소드는 주어진 키에 대한 모든 값들을 배열에서 검색합니다.
 
     use Illuminate\Support\Arr;
 
@@ -443,7 +443,7 @@ The `Arr::pluck` method retrieves all of the values for a given key from an arra
 
 You may also specify how you wish the resulting list to be keyed:
 
-원하는 결과 목록을 어떻게 키로 지정할 것인지 지정할 수도 있습니다:
+결과 목록을 키로 지정할 수도 있습니다:
 
     use Illuminate\Support\Arr;
 
@@ -456,7 +456,7 @@ You may also specify how you wish the resulting list to be keyed:
 
 The `Arr::prepend` method will push an item onto the beginning of an array:
 
-`Arr::prepend` 메소드는 배열의 시작부분에 아이템을 추가할 것입니다:
+`Arr::prepend` 메소드는 배열의 시작 부분에 아이템을 추가합니다:
 
     use Illuminate\Support\Arr;
 
@@ -483,7 +483,7 @@ If needed, you may specify the key that should be used for the value:
 
 The `Arr::pull` method returns and removes a key / value pair from an array:
 
-`Arr::pull` 메소드는 배열에서 주어진 키 / 값 쌍을 반환함과 동시에 제거합니다:
+`Arr::pull` 메소드는 배열에서 주어진 키 / 값 쌍을 반환하고 삭제합니다:
 
     use Illuminate\Support\Arr;
 
@@ -497,7 +497,7 @@ The `Arr::pull` method returns and removes a key / value pair from an array:
 
 A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
 
-메소드에 세번째 인자가 기본 값으로 전달될 수 있습니다. 어떠한 값도 주어진 조건을 통과하지 못했을 때 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 키가 존재하지 않는 다면 이 값이 반환됩니다:
 
     use Illuminate\Support\Arr;
 
@@ -508,7 +508,8 @@ A default value may be passed as the third argument to the method. This value wi
 
 The `Arr::random` method returns a random value from an array:
 
-`Arr::random` 메소드는 배열에서 임의의 값을 반환합니다:
+`Arr::random` 메소드는 배열에서 임의의(random) 값을 반환합니다:
+
 
     use Illuminate\Support\Arr;
 
@@ -520,7 +521,7 @@ The `Arr::random` method returns a random value from an array:
 
 You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array, even if only one item is desired:
 
-두번째 선택 인자로 반환할 아이템 수를 지정할 수 있습니다. 이 인자를 지정하면, 아이템 하나만 원할지라도 배열이 반환 됩니다:
+선택적으로 두번째 인자에 반환할 아이템 수를 지정할 수 있습니다. 이 인자를 제공하면, 하나 항목만 필요하더라도 배열을 반환합니다:
 
     use Illuminate\Support\Arr;
 
@@ -533,7 +534,7 @@ You may also specify the number of items to return as an optional second argumen
 
 The `Arr::set` method sets a value within a deeply nested array using "dot" notation:
 
-`Arr::set` 메소드는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다:
+`Arr::set` 메소드는 "점(.)" 표기법을 이용하여 깊게 중첩된 배열 내에 값을 설정합니다:
 
     use Illuminate\Support\Arr;
 
@@ -560,7 +561,7 @@ The `Arr::sort` method sorts an array by its values:
 
 You may also sort the array by the results of the given Closure:
 
-또한 주어진 클로저의 결과 값으로 배열을 정렬 할 수 있습니다:
+주어진 클로저의 결과들로 배열을 정렬할 수도 있습니다:
 
     use Illuminate\Support\Arr;
 
@@ -629,7 +630,7 @@ The `Arr::where` method filters an array using the given Closure:
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`Arr::wrap` 메소드는 배열에 주어진 값을 넣습니다. 만약 배열에 주어진 값이 있다면 배열은 변경되지 않습니다:
+`Arr::wrap` 메소드는 배열에 주어진 값을 감쌉니다(wraps). 만약 배열에 주어진 값이 이미 있다면 변경되지 않습니다:
 
     use Illuminate\Support\Arr;
 
@@ -641,7 +642,7 @@ The `Arr::wrap` method wraps the given value in an array. If the given value is 
 
 If the given value is null, an empty array will be returned:
 
-주어진 값이 null인 경우, 빈 배열이 반환됩니다:
+주어진 값이 null이라면, 빈 배열이 반환됩니다:
 
     use Illuminate\Support\Arr;
 
@@ -670,7 +671,7 @@ The `data_fill` function sets a missing value within a nested array or object us
 
 This function also accepts asterisks as wildcards and will fill the target accordingly:
 
-이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 채워넣습니다:
+이 함수는 또한 와일드카드로 별표(asterisks)를 허용하고, 그에 따라 대상을 채워넣습니다:
 
     $data = [
         'products' => [
@@ -695,7 +696,7 @@ This function also accepts asterisks as wildcards and will fill the target accor
 
 The `data_get` function retrieves a value from a nested array or object using "dot" notation:
 
-`data_get` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체에서 값을 찾습니다:
+`data_get` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 이나 객체에서 값을 찾습니다:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -705,7 +706,7 @@ The `data_get` function retrieves a value from a nested array or object using "d
 
 The `data_get` function also accepts a default value, which will be returned if the specified key is not found:
 
-`data_get` 함수는 또한 지정된 키를 찾을 수 없는 경우 반환될 기본값을 인자로 받습니다:
+`data_get` 함수는 지정된 키를 찾을 수 없는 경우 반환될 기본값을 허용할 수도 있습니다:
 
     $discount = data_get($data, 'products.desk.discount', 0);
 
@@ -713,7 +714,7 @@ The `data_get` function also accepts a default value, which will be returned if 
 
 The function also accepts wildcards using asterisks, which may target any key of the array or object:
 
-이 함수는 배열이나 객체의 키를 대상으로 별표를 이용한 와일드 카드도 허용합니다.
+이 함수는 배열이나 객체의 모든 키를 대상으로 할 수 있는, 별표를 이용한 와일드카드도 허용합니다:
 
     $data = [
         'product-one' => ['name' => 'Desk 1', 'price' => 100],
@@ -729,7 +730,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 
 The `data_set` function sets a value within a nested array or object using "dot" notation:
 
-`data_set` 함수는 "dot" 표기법을 사용하여 중첩된 배열 또는 객체 안에 값을 설정합니다:
+`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안에 값을 설정합니다:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -739,7 +740,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
 This function also accepts wildcards and will set values on the target accordingly:
 
-이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 설정합니다:
+이 함수는 와일드카드로 허용하여, 그에 따른 대상에 값들을 설정합니다:
 
     $data = [
         'products' => [
@@ -761,7 +762,7 @@ This function also accepts wildcards and will set values on the target according
 
 By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
 
-기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만 값을 설정하고자 한다면, 네번째 인자로 `false`를 전달하면 됩니다:
+기본적으로 기존 값들은 덮어 씁니다. 값이 없을 때만 설정하려면, 네번째 인자로 `false`를 전달하면 됩니다:
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -774,7 +775,7 @@ By default, any existing values are overwritten. If you wish to only set a value
 
 The `head` function returns the first element in the given array:
 
-`head` 함수는 주어진 배열의 첫번째 요소를 반환합니다:
+`head` 함수는 배열의 첫번째 요소를 반환합니다:
 
     $array = [100, 200, 300];
 
@@ -787,7 +788,7 @@ The `head` function returns the first element in the given array:
 
 The `last` function returns the last element in the given array:
 
-`last` 함수는 주어진 배열의 마지막 요소를 반환합니다
+`last` 함수는 배열의 마지막 요소를 반환합니다
 
     $array = [100, 200, 300];
 

@@ -564,14 +564,19 @@ You may specify a dynamic request maximum based on an attribute of the authentic
     });
 
 #### Distinct Guest & Authenticated User Rate Limits
+#### 게스트 사용자와 인증 된 사용자의 각 다른 Rate 제한
 
 You may specify different rate limits for guest and authenticated users. For example, you may specify a maximum of `10` requests per minute for guests `60` for authenticated users:
+
+게스트 사용자와 인증된 사용자들을 위해 다른 rate 제한을 명시할 수 있습니다. 예를 들어, 게스트 사용자에게는 분당 최대 `10` 번의 요청, 그리고 인증된 사용자에겐 `60` 번의 요청을 제한할 수 있습니다.
 
     Route::middleware('throttle:10|60,1')->group(function () {
         //
     });
    
 You may also combine this functionality with dynamic rate limits. For example, if your User model contains a rate_limit attribute, you may pass the name of the attribute to the throttle middleware so that it is used to calculate the maximum request count for authenticated users:
+
+또한 이 기능과 동적 rate 제한을 함께 사용할 수 있습니다. 예를 들어, User 모델이 rate_limit 속성을 포함하고 있다면, 인증 된 사용자의 최대 요청 수를 계산 하는 미들웨어에 속성의 이름을 전달해줄 수 있습니다.
 
     Route::middleware('auth:api', 'throttle:10|rate_limit,1')->group(function () {
         Route::get('/user', function () {

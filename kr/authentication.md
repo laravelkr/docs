@@ -53,9 +53,9 @@
 ## Introduction
 ## 시작하기
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` and `php artisan migrate` in a fresh Laravel application. Then, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These two commands will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Install the `laravel/ui` Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These commands will take care of scaffolding your entire authentication system!
 
-> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에서 `php artisan make:auth`와 `php artisan migrate`를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 두개의 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
+> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에 `laravel/ui` 컴포저 패키지를 설치하고 `php artisan ui vue --auth` 명령어를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -101,11 +101,13 @@ Laravel ships with several pre-built authentication controllers, which are locat
 ### Routing
 ### Routing-라우팅
 
-Laravel provides a quick way to scaffold all of the routes and views you need for authentication using one simple command:
+Laravel's `laravel/ui` package provides a quick way to scaffold all of the routes and views you need for authentication using a few simple commands:
 
-라라벨은 다음의 간단한 명령어를 통해서 인증에서 필요한 모든 라우트와 뷰파일을 손쉽게 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다:
+라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
 
-    php artisan make:auth
+    composer require laravel/ui
+
+    php artisan ui vue --auth
 
 This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
 
@@ -150,14 +152,14 @@ Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` meth
 
 If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
 
-리다이렉트 경로가 커스텀 생성 로직을 필요로 한다면 `redirectTo` 속성 대신 `redirectTo` 메소드를 정의할 수 있습니다 :
+리다이렉트 경로가 커스텀 생성 로직을 필요로 한다면 `redirectTo` 속성 대신 `redirectTo` 메소드를 정의할 수 있습니다.
 
     protected function redirectTo()
     {
         return '/path';
     }
 
-> {tip} The `redirectTo` method will take precedence over the `redirectTo` attribute.
+> {tip} The `redirectTo` method will take precedence over the `redirectTo` property.
 
 > {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선합니다.
 
@@ -166,7 +168,7 @@ If the redirect path needs custom generation logic you may define a `redirectTo`
 
 By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
 
-기본적으로 라라벨은 인증에 `email` 필드를 사용합니다. 이를 커스터마이징 하려면, `LoginController`의 `username` 메소드를 정의하면 됩니다:
+기본적으로 라라벨은 인증에 `email` 필드를 사용합니다. 이를 커스터마이징 하려면, `LoginController`의 `username` 메소드를 정의하면 됩니다.
 
     public function username()
     {
@@ -178,7 +180,7 @@ By default, Laravel uses the `email` field for authentication. If you would like
 
 You may also customize the "guard" that is used to authenticate and register users. To get started, define a `guard` method on your `LoginController`, `RegisterController`, and `ResetPasswordController`. The method should return a guard instance:
 
-또한 여러분은 사용자 인증과 등록에 사용되는 "guard"를 커스터마이징 할 수 있습니다. 시작하기에 앞서, `LoginController`, `RegisterController`, 그리고 `ResetPasswordController`에 `guard` 메소드를 정의하시기 바랍니다. 이 메소드는 guard 인스턴스를 리턴해야만 합니다:
+또한 여러분은 사용자 인증과 등록에 사용되는 "guard"를 커스터마이징 할 수 있습니다. 시작하기에 앞서, `LoginController`, `RegisterController`, 그리고 `ResetPasswordController`에 `guard` 메소드를 정의하시기 바랍니다. 이 메소드는 guard 인스턴스를 리턴해야만 합니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -208,7 +210,7 @@ The `create` method of the `RegisterController` is responsible for creating new 
 
 You may access the authenticated user via the `Auth` facade:
 
-`Auth` 파사드를 통해 인증된 사용자에게 접근할 수 있습니다:
+`Auth` 파사드를 통해 인증된 사용자에게 접근할 수 있습니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -220,7 +222,7 @@ You may access the authenticated user via the `Auth` facade:
 
 Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
 
-또는, 사용자가 인증되면, `Illuminate\Http\Request` 인스턴스를 통해 인증된 사용자에게 접근할 수 있습니다. 타입힌트된 클래스는 컨트롤러 메소드에 자동으로 주입된다는 것을 기억하십시오:
+또는, 사용자가 인증되면, `Illuminate\Http\Request` 인스턴스를 통해 인증된 사용자에게 접근할 수 있습니다. 타입힌트된 클래스는 컨트롤러 메소드에 자동으로 주입된다는 것을 기억하십시오.
 
     <?php
 
@@ -247,7 +249,7 @@ Alternatively, once a user is authenticated, you may access the authenticated us
 
 To determine if the user is already logged into your application, you may use the `check` method on the `Auth` facade, which will return `true` if the user is authenticated:
 
-사용자가 이미 애플리케이션에 로그인했는지 판별하려면, `Auth` 파사드의 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다:
+사용자가 이미 애플리케이션에 로그인했는지 판별하려면, `Auth` 파사드의 `check` 메소드를 사용할 수 있습니다. 사용자가 인증되었다면 `true`를 반환합니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -265,7 +267,7 @@ To determine if the user is already logged into your application, you may use th
 
 [Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which is defined at `Illuminate\Auth\Middleware\Authenticate`. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:
 
-[라우트 미들웨어](/docs/{{version}}/middleware)는 인증된 사용자에게만 주어진 라우트에 접근하도록 허용하는데 사용될 수 있습니다. 라라벨은 `Illuminate\Auth\Middleware\Authenticate`에 정의된 `auth` 미들웨어를 제공하고 있습니다. 이제 여러분이 할 일은 라우트가 정의된 부분에 미들웨어를 추가하는 것 뿐입니다:
+[라우트 미들웨어](/docs/{{version}}/middleware)는 인증된 사용자에게만 주어진 라우트에 접근하도록 허용하는데 사용될 수 있습니다. 라라벨은 `Illuminate\Auth\Middleware\Authenticate`에 정의된 `auth` 미들웨어를 제공하고 있습니다. 이제 여러분이 할 일은 라우트가 정의된 부분에 미들웨어를 추가하는 것 뿐입니다.
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
@@ -273,7 +275,7 @@ To determine if the user is already logged into your application, you may use th
 
 If you are using [controllers](/docs/{{version}}/controllers), you may call the `middleware` method from the controller's constructor instead of attaching it in the route definition directly:
 
-만약 [컨트롤러 클래스](/docs/{{version}}/controllers)를 사용하고 있다면, 라우트 정의 부분에 직접 추가하는 대신 컨트롤러의 생성자에서 `middleware` 메소드를 호출할 수 있습니다:
+만약 [컨트롤러 클래스](/docs/{{version}}/controllers)를 사용하고 있다면, 라우트 정의 부분에 직접 추가하는 대신 컨트롤러의 생성자에서 `middleware` 메소드를 호출할 수 있습니다.
 
     public function __construct()
     {
@@ -285,7 +287,7 @@ If you are using [controllers](/docs/{{version}}/controllers), you may call the 
 
 When the `auth` middleware detects an unauthorized user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior by updating the `redirectTo` function in your `app/Http/Middleware/Authenticate.php` file:
 
-사용자가 인증되지 않은 경우, `auth` 미들웨어는 `login` [이라는 이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) 으로 사용자를 리다이렉트 됩니다. `app/Http/Middleware/Authenticate.php` 파일의 `redirectTo` 함수를 수정해서 이 동작을 변경 할 수 있습니다: 
+사용자가 인증되지 않은 경우, `auth` 미들웨어는 `login` [이라는 이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) 으로 사용자를 리다이렉트 됩니다. `app/Http/Middleware/Authenticate.php` 파일의 `redirectTo` 함수를 수정해서 이 동작을 변경 할 수 있습니다.
 
     /**
      * Get the path the user should be redirected to.
@@ -303,7 +305,7 @@ When the `auth` middleware detects an unauthorized user, it will redirect the us
 
 When attaching the `auth` middleware to a route, you may also specify which guard should be used to authenticate the user. The guard specified should correspond to one of the keys in the `guards` array of your `auth.php` configuration file:
 
-`auth` 미들웨어를 라우트에 추가할 때, 여러분은 또한 어떤 guard가 인증에 사용되어야 하는지 지정할 수 있습니다. 지정된 guard는 `auth.php` 설정 파일의 `guards` 배열에 있는 키 중 하나와 일치해야 합니다:
+`auth` 미들웨어를 라우트에 추가할 때, 여러분은 또한 어떤 guard가 인증에 사용되어야 하는지 지정할 수 있습니다. 지정된 guard는 `auth.php` 설정 파일의 `guards` 배열에 있는 키 중 하나와 일치해야 합니다.
 
     public function __construct()
     {
@@ -328,7 +330,7 @@ Note that you are not required to use the authentication controllers included wi
 
 We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method:
 
-라라벨의 인증 서비스를 `Auth` [파사드](/docs/{{version}}/facades)를 통해 접근할 것이기 때문에 클래스의 가장 상단 부분에 `Auth` 파사드를 사용하도록 선언하는 것이 필수입니다. 다음은 `attempt` 메소드를 확인해 보겠습니다:
+라라벨의 인증 서비스를 `Auth` [파사드](/docs/{{version}}/facades)를 통해 접근할 것이기 때문에 클래스의 가장 상단 부분에 `Auth` 파사드를 사용하도록 선언하는 것이 필수입니다. 다음은 `attempt` 메소드를 확인해 보겠습니다.
 
     <?php
 
@@ -374,7 +376,7 @@ The `intended` method on the redirector will redirect the user to the URL they w
 
 If you wish, you may also add extra conditions to the authentication query in addition to the user's e-mail and password. For example, we may verify that user is marked as "active":
 
-원한다면, 사용자의 이메일과 패스워드 외에도 부가적인 조건들을 인증 쿼리에 추가할 수 있습니다. 예를 들어 사용자가 "활성화"로 표시되어있는지 확인할 수 있습니다:
+원한다면, 사용자의 이메일과 패스워드 외에도 부가적인 조건들을 인증 쿼리에 추가할 수 있습니다. 예를 들어 사용자가 "활성화"로 표시되어있는지 확인할 수 있습니다.
 
     if (Auth::attempt(['email' => $email, 'password' => $password, 'active' => 1])) {
         // The user is active, not suspended, and exists.
@@ -393,7 +395,7 @@ You may specify which guard instance you would like to utilize using the `guard`
 
 The guard name passed to the `guard` method should correspond to one of the guards configured in your `auth.php` configuration file:
 
-`guard` 메소드에 전달되는 guard의 이름은 `auth.php` 설정 파일에 설정된 guard 중 하나와 일치 해야합니다:
+`guard` 메소드에 전달되는 guard의 이름은 `auth.php` 설정 파일에 설정된 guard 중 하나와 일치 해야합니다.
 
     if (Auth::guard('admin')->attempt($credentials)) {
         //
@@ -404,7 +406,7 @@ The guard name passed to the `guard` method should correspond to one of the guar
 
 To log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
 
-애플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다:
+애플리케이션에서 사용자를 로그아웃 시키려면 `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 그러면 사용자 세션에서 인증 정보가 제거될 것입니다.
 
     Auth::logout();
 
@@ -426,7 +428,7 @@ If you would like to provide "remember me" functionality in your application, yo
 
 If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
 
-여러분이 "remember"하는 사용자라면, `viaRemember` 메소드를 통해 해당 사용자가 "remember me" 쿠키로 인증이 되었는 지 확인 할 수 있습니다:
+여러분이 "remember"하는 사용자라면, `viaRemember` 메소드를 통해 해당 사용자가 "remember me" 쿠키로 인증이 되었는 지 확인 할 수 있습니다.
 
     if (Auth::viaRemember()) {
         //
@@ -441,7 +443,7 @@ If you are "remembering" users, you may use the `viaRemember` method to determin
 
 If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). The `App\User` model included with Laravel already implements this interface:
 
-애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다:
+애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다.
 
     Auth::login($user);
 
@@ -450,7 +452,7 @@ If you need to log an existing user instance into your application, you may call
 
 You may specify the guard instance you would like to use:
 
-사용하자 하는 가드 인스턴스를 지정할 수도 있습니다.
+사용하고자 하는 가드 인스턴스를 지정할 수도 있습니다.
 
     Auth::guard('admin')->login($user);
 
@@ -459,7 +461,7 @@ You may specify the guard instance you would like to use:
 
 To log a user into the application by their ID, you may use the `loginUsingId` method. This method accepts the primary key of the user you wish to authenticate:
 
-사용자를 ID를 통해 애플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다:
+사용자를 ID를 통해 애플리케이션에 로그인 시키려면, `loginUsingId` 메소드를 사용하면 됩니다. 이 메소드는 인증하고자 하는 사용자의 프라이머리 키를 전달 받습니다.
 
     Auth::loginUsingId(1);
 
@@ -483,7 +485,7 @@ You may use the `once` method to log a user into the application for a single re
 
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) provides a quick way to authenticate users of your application without setting up a dedicated "login" page. To get started, attach the `auth.basic` [middleware](/docs/{{version}}/middleware) to your route. The `auth.basic` middleware is included with the Laravel framework, so you do not need to define it:
 
-[HTTP 기본 인증](https://en.wikipedia.org/wiki/Basic_access_authentication)은 애플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다:
+[HTTP 기본 인증](https://en.wikipedia.org/wiki/Basic_access_authentication)은 애플리케이션에 별도의 "login" 페이지 설정없이도 사용자 인증을 할 수 있는 손쉬운 방법을 제공합니다. 이를 위해서는 `auth.basic` [미들웨어](/docs/{{version}}/middleware)를 라우트에 추가하면 됩니다. `auth.basic` 미들웨어는 라라벨에 포함되어 있기 때문에 따로 정의할 필요가 없습니다.
 
     Route::get('profile', function () {
         // Only authenticated users may enter...
@@ -498,7 +500,7 @@ Once the middleware has been attached to the route, you will automatically be pr
 
 If you are using PHP FastCGI, HTTP Basic authentication may not work correctly out of the box. The following lines should be added to your `.htaccess` file:
 
-PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지 않을 것입니다. 다음을 `.htaccess` 파일에 추가하십시오:
+PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지 않을 것입니다. 다음을 `.htaccess` 파일에 추가하십시오.
 
     RewriteCond %{HTTP:Authorization} ^(.+)$
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -509,7 +511,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
 You may also use HTTP Basic Authentication without setting a user identifier cookie in the session, which is particularly useful for API authentication. To do so, [define a middleware](/docs/{{version}}/middleware) that calls the `onceBasic` method. If no exception is thrown by the `onceBasic` method, the request may be passed further into the application:
 
-여러분은 또한 API 인증에 유용한, 세션의 사용자 식별 쿠키가 없는 HTTP 기본 인증을 사용할 수도 있습니다. 이렇게 하기 위해서는 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의하면 됩니다. `onceBasic` 메소드가 아무런 예외를 던지지 않는다면 이 요청은 애플리케이션 안에서 계속 진행될 것입니다:
+여러분은 또한 API 인증에 유용한, 세션의 사용자 식별 쿠키가 없는 HTTP 기본 인증을 사용할 수도 있습니다. 이렇게 하기 위해서는 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의하면 됩니다. `onceBasic` 메소드가 아무런 예외를 던지지 않는다면 이 요청은 애플리케이션 안에서 계속 진행될 것입니다.
 
     <?php
 
@@ -535,7 +537,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
 Next, [register the route middleware](/docs/{{version}}/middleware#registering-middleware) and attach it to a route:
 
-다음으로, [라우트 미들웨어를 등록하고](/docs/{{version}}/middleware#registering-middleware) 그것을 라우트에 추가하십시오:
+다음으로, [라우트 미들웨어를 등록하고](/docs/{{version}}/middleware#registering-middleware) 이를 라우트에 추가하십시오.
 
     Route::get('api/user', function () {
         // Only authenticated users may enter...
@@ -547,7 +549,7 @@ Next, [register the route middleware](/docs/{{version}}/middleware#registering-m
 
 To manually log users out of your application, you may use the `logout` method on the `Auth` facade. This will clear the authentication information in the user's session:
 
-애플리케이션에서 사용자를 로그아웃 시키려면, `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 이렇게 하면 사용자 세션에서 인증 정보를 지웁니다:
+애플리케이션에서 사용자를 로그아웃 시키려면, `Auth` 파사드의 `logout` 메소드를 사용하면 됩니다. 이 메소드는 사용자의 세션에서 인증 정보를 삭제할 것입니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -559,7 +561,7 @@ To manually log users out of your application, you may use the `logout` method o
 
 Laravel also provides a mechanism for invalidating and "logging out" a user's sessions that are active on other devices without invalidating the session on their current device. Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is present and un-commented in your `app/Http/Kernel.php` class' `web` middleware group:
 
-라라벨은 현재 접속한 디바이스의 세션은 유지하면서 다른 디바이스의 사용자 세션을 무효화하고 "로그아웃" 시키는 기능을 제공합니다. 이를 위해서 `app/Http/Kernel.php` 클래스의 `web` 미들웨어 그룹의 코멘트가 해제되었는지 확인하십시오:
+라라벨은 현재 접속한 디바이스의 세션은 유지하면서 다른 디바이스의 사용자 세션을 무효화하고 "로그아웃" 시키는 기능을 제공합니다. 이를 위해서 `app/Http/Kernel.php` 클래스의 `web` 미들웨어 그룹의 코멘트가 해제되었는지 확인하십시오.
 
     'web' => [
         // ...
@@ -569,7 +571,7 @@ Laravel also provides a mechanism for invalidating and "logging out" a user's se
 
 Then, you may use the `logoutOtherDevices` method on the `Auth` facade. This method requires the user to provide their current password, which your application should accept through an input form:
 
-이렇게 하면, `Auth` 파사드의 `logoutOtherDevices` 메소드를 사용할 수 있습니다. 이 메소드를 사용하려면 사용자가 입력폼을 통해서 패스워드를 입력하도록 해야합니다:
+이렇게 하면, `Auth` 파사드의 `logoutOtherDevices` 메소드를 사용할 수 있습니다. 이 메소드를 사용하려면 사용자가 입력폼을 통해서 패스워드를 입력하도록 해야합니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -616,7 +618,7 @@ You may define your own authentication guards using the `extend` method on the `
 
 As you can see in the example above, the callback passed to the `extend` method should return an implementation of `Illuminate\Contracts\Auth\Guard`. This interface contains a few methods you will need to implement to define a custom guard. Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
 
-이 예제에서 볼 수 있듯이, `extend` 메소드에 전달된 콜백은 `Illuminate\Contracts\Auth\Guard` 구현체를 반환해야 합니다. 이 인터페이스는 사용자 정의 guard를 구현하는데 필요한 몇가지 메소드를 가지고 있습니다. 사용자 정의 guard를 정의하고나면, `guards` 설정에서 정의한 guard 를 사용할 수 있습니다:
+이 예제에서 볼 수 있듯이, `extend` 메소드에 전달된 콜백은 `Illuminate\Contracts\Auth\Guard` 구현체를 반환해야 합니다. 이 인터페이스는 사용자 정의 guard를 구현하는데 필요한 몇가지 메소드를 가지고 있습니다. 사용자 정의 guard를 정의하고나면, `guards` 설정에서 정의한 guard 를 사용할 수 있습니다.
 
     'guards' => [
         'api' => [
@@ -633,9 +635,9 @@ The simplest way to implement a custom, HTTP request based authentication system
 
 인증 시스템을 기반으로한 커스텀 HTTP request-요청을 구현하는 가장간단한 방법은 `Auth::viaRequest` 메소드를 사용하는 것 입니다. 이 메소드는 하나의 클로저를 사용하여 빠르기 인증을 정의할 수 있게 해줍니다.
 
-To get started, call the `Auth::viaRequest` method within the `boot` method of your `AuthServiceProvider`. The `viaRequest` method accepts a guard name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a Closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
+To get started, call the `Auth::viaRequest` method within the `boot` method of your `AuthServiceProvider`. The `viaRequest` method accepts an authentication driver name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a Closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
 
-시작하려면, `AuthServiceProvider` 의 `boot` 메소드에서 `Auth::viaRequest` 메소드를 호출하면 됩니다. `viaRequest` 메소드는 guard 이름을 첫번째 인자로 전달 받습니다. 이 이름은 커스텀 guard를 표현하는 문자열이 될 수도 있습니다. 메소드에 전달되는 두번째 인자는 유입되는 HTTP request-요청을 전달받아 사용자 인스턴스를 반환하는 클로저여야하며, 인증에 실패한다면, `null` 을 반환해야 합니다:
+시작하려면, `AuthServiceProvider` 의 `boot` 메소드에서 `Auth::viaRequest` 메소드를 호출하면 됩니다. `viaRequest` 메소드는 인증 드라이버 이름을 첫번째 인자로 전달 받습니다. 이 이름은 커스텀 guard를 표현하는 문자열이 될 수도 있습니다. 메소드에 전달되는 두번째 인자는 유입되는 HTTP request-요청을 전달받아 사용자 인스턴스를 반환하는 클로저여야하며, 인증에 실패한다면, `null` 을 반환해야 합니다.
 
     use App\User;
     use Illuminate\Http\Request;
@@ -655,9 +657,9 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
         });
     }
 
-Once your custom guard has been defined, you may use this guard in the `guards` configuration of your `auth.php` configuration file:
+Once your custom authentication driver has been defined, you use it as a driver within `guards` configuration of your `auth.php` configuration file:
 
-커스텀 guard 를 정의했다면, `auth.php` 설정 파일의 `guards` 설정 안에서 사용할 수 있습니다:
+커스텀 인증 드라이버 를 정의했다면, `auth.php` 설정 파일의 `guards` 설정 안에서 사용할 수 있습니다.
 
     'guards' => [
         'api' => [
@@ -731,7 +733,7 @@ The `Illuminate\Contracts\Auth\UserProvider` implementations are only responsibl
 
 Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
 
-`Illuminate\Contracts\Auth\UserProvider` contract를 살펴보겠습니다:
+`Illuminate\Contracts\Auth\UserProvider` contract를 살펴보겠습니다.
 
     <?php
 
@@ -773,7 +775,7 @@ The `validateCredentials` method should compare the given `$user` with the `$cre
 
 Now that we have explored each of the methods on the `UserProvider`, let's take a look at the `Authenticatable` contract. Remember, the provider should return implementations of this interface from the `retrieveById`, `retrieveByToken`, and `retrieveByCredentials` methods:
 
-`UserProvider`의 각 메소드에 대해 알아보았으니 이제 `Authenticatable` contract를 살펴 보도록 하겠습니다. 프로바이더는 `retrieveById`, `retrieveByToken`, 그리고 `retrieveByCredentials` 메소드에서 이 인터페이스의 구현을 반환해야 한다는 것을 기억하십시오.:
+`UserProvider`의 각 메소드에 대해 알아보았으니 이제 `Authenticatable` contract를 살펴 보도록 하겠습니다. 프로바이더는 `retrieveById`, `retrieveByToken`, 그리고 `retrieveByCredentials` 메소드에서 이 인터페이스의 구현을 반환해야 한다는 것을 기억하십시오..
 
     <?php
 
@@ -800,7 +802,7 @@ This interface is simple. The `getAuthIdentifierName` method should return the n
 
 Laravel raises a variety of [events](/docs/{{version}}/events) during the authentication process. You may attach listeners to these events in your `EventServiceProvider`:
 
-라라벨은 인증 과정 중에 다양한 [이벤트](/docs/{{version}}/events)들을 발생시킵니다. `EventServiceProvider`에서 이 이벤트들을 위한 listener를 추가할 수 있습니다:
+라라벨은 인증 과정 중에 다양한 [이벤트](/docs/{{version}}/events)들을 발생시킵니다. `EventServiceProvider`에서 이 이벤트들을 위한 listener를 추가할 수 있습니다.
 
     /**
      * The event listener mappings for the application.

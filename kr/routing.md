@@ -564,7 +564,7 @@ You may specify a dynamic request maximum based on an attribute of the authentic
     });
 
 #### Distinct Guest & Authenticated User Rate Limits
-#### 게스트 사용자와 인증 된 사용자의 각 다른 Rate 제한
+#### 게스트 사용자와 인증 된 사용자의 다른 Rate 제한
 
 You may specify different rate limits for guest and authenticated users. For example, you may specify a maximum of `10` requests per minute for guests `60` for authenticated users:
 

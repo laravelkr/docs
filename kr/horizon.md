@@ -42,9 +42,9 @@ All of your worker configuration is stored in a single, simple configuration fil
 ## Installation
 ## 설치하기
 
-> {note} You should ensure that your queue driver is set to `redis` in your `queue` configuration file.
+> {note} You should ensure that your queue connection is set to `redis` in your `queue` configuration file.
 
-> {note} 큐 드라이버는 `queue` 설정 파일에서 `redis` 로 설정되어야합니다.
+> {note} 큐 연결은 `queue` 설정 파일에서 `redis` 로 설정되어야합니다.
 
 You may use Composer to install Horizon into your Laravel project:
 
@@ -105,6 +105,23 @@ The `auto` strategy adjusts the number of worker processes per queue based on th
 
 `auto`는 queue의 현재 작업 부하량을 기준으로 queue당 worker 프로세스를 조절 합니다. 예를들어 `notifications` queue에 1000개의 작업이 대기중인데, `render` queue는 비어있는 경우라면, Horizon은 `notifications` queue가 비게 될때까지 더 많은 worker를 notification queue에 배정 합니다. 밸런스 옵션이 `false`일 경우에는, 라라벨 기본 동작으로 설정에 나열된 순서 대로 queue를 처리합니다.
 
+When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to:	
+
+`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다.
+
+    'environments' => [
+        'production' => [
+            'supervisor-1' => [
+                'connection' => 'redis',
+                'queue' => ['default'],
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
+                'tries' => 3,
+            ],
+        ],
+    ],
+    
 #### Job Trimming
 #### 작업 트리밍
 
@@ -141,6 +158,10 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
             ]);
         });
     }
+    
+> {note} Remember that Laravel injects the *authenticated* user to the Gate automatically. If your app is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` above to `function ($user = null)` to force Laravel to not require authentication.		
+
+> {note} 라라벨은 *인증된* 사용자를 게이트에 자동으로 주입합니다. IP 제한과 같이 다른 방법으로 Horizon 보안을 제공한다면 사용자는 `로그인`이 필요하지 않을 수 있습니다. 따라서 라라벨이 인증을 요구하지 않게 하려면 위의`function ($user)` `function ($user = null)` 변경해야 합니다.
 
 <a name="running-horizon"></a>
 ## Running Horizon

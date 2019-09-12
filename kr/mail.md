@@ -50,17 +50,17 @@
 ## Introduction
 ## 시작하기
 
-Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, Postmark, SparkPost, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Laravel provides a clean, simple API over the popular [SwiftMailer](https://swiftmailer.symfony.com/) library with drivers for SMTP, Mailgun, Postmark, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
-라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, Postmark, SparkPost, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
+라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, Postmark, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
 ### 드라이버 사전준비사항
 
-The API based drivers such as Mailgun, SparkPost, and Postmark are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
+The API based drivers such as Mailgun and Postmark are often simpler and faster than SMTP servers. If possible, you should use one of these drivers. All of the API drivers require the Guzzle HTTP library, which may be installed via the Composer package manager:
 
-API를 기반으로한 Mailgun, SparkPost 그리고 Postmark 드라이버의 경우 대게 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
+API를 기반으로한 Mailgun 그리고 Postmark 드라이버의 경우 대개 SMTP 서버 보다 빠르고 간편합니다. 가능하다면, 이 드라이버들 중 하나를 사용하길 바랍니다. 모든 API 드라이버는 컴포저 패키지 매니저를 통해서 설치할 수 있는 Guzzle HTTP 라이브러리를 필요로 합니다:
 
     composer require guzzlehttp/guzzle
 
@@ -101,28 +101,6 @@ Next, install Guzzle and set the `driver` option in your `config/mail.php` confi
 
     'postmark' => [
         'token' => 'your-postmark-token',
-    ],
-
-#### SparkPost Driver
-#### SparkPost 드라이버
-
-To use the SparkPost driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `sparkpost`. Next, verify that your `config/services.php` configuration file contains the following options:
-
-SparkPost 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/mail.php` 설정파일에 `driver` 옵션을 `sparkpost`으로 설정하면 됩니다. 다음으로 `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
-
-    'sparkpost' => [
-        'secret' => 'your-sparkpost-key',
-    ],
-
-If necessary, you may also configure which [API endpoint](https://developers.sparkpost.com/api/#header-endpoints) should be used:
-
-필요한 경우 [API endpoint](https://developers.sparkpost.com/api/#header-endpoints)을 사용하기 위한 항목을 구성 할 수도 있습니다.
-
-    'sparkpost' => [
-        'secret' => 'your-sparkpost-key',
-        'options' => [
-            'endpoint' => 'https://api.eu.sparkpost.com/api/v1/transmissions',
-        ],
     ],
 
 #### SES Driver

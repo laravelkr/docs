@@ -9,6 +9,8 @@
     - [Gates 작성하기](#writing-gates)
     - [Authorizing Actions](#authorizing-actions-via-gates)
     - [액션을 수행할 수 있는 권한 확인하기](#authorizing-actions-via-gates)
+    - [Gate Responses](#gate-responses)
+    - [게이트 응답](#gate-responses)
     - [Intercepting Gate Checks](#intercepting-gate-checks)
     - [Gate 체크 로직의 후킹](#intercepting-gate-checks)
 - [Creating Policies](#creating-policies)
@@ -21,6 +23,8 @@
 - [Policies 작성하기](#writing-policies)
     - [Policy Methods](#policy-methods)
     - [Policy 메소드](#policy-methods)
+    - [Policy Responses](#policy-responses)
+    - [Policy 응답](#policy-responses)
     - [Methods Without Models](#methods-without-models)
     - [모델없는 메소드](#methods-without-models)
     - [Guest Users](#guest-users)
@@ -37,6 +41,8 @@
     - [컨트롤러 헬퍼를 통해서](#via-controller-helpers)
     - [Via Blade Templates](#via-blade-templates)
     - [블레이드 템플릿을 통해서](#via-blade-templates)
+    - [Supplying Additional Context](#supplying-additional-context)
+    - [추가 컨텍스트 제공하기](#supplying-additional-context)
 
 <a name="introduction"></a>
 ## Introduction
@@ -64,7 +70,7 @@ You do not need to choose between exclusively using gates or exclusively using p
 
 Gates are Closures that determine if a user is authorized to perform a given action and are typically defined in the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument, and may optionally receive additional arguments such as a relevant Eloquent model:
 
-Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한이 있는지 없는지 확인하는 클로저로, 일반적으로 `App\Providers\AuthServiceProvider` 클래스에서 `Gate` 파사드를 사용하여 정의됩니다. Gate는 항상 사용자 인스턴스를 첫번째 인자로 받고, 관련된 Eloquent 모델과 같은 추가적인 인자들을 선택적으로 전달 받습니다:
+Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한이 있는지 없는지 확인하는 클로저로, 일반적으로 `App\Providers\AuthServiceProvider` 클래스에서 `Gate` 파사드를 사용하여 정의됩니다. Gate는 항상 사용자 인스턴스를 첫번째 인자로 받고, 관련된 Eloquent 모델과 같은 추가적인 인자들을 선택적으로 전달 받습니다.
 
     /**
      * Register any authentication / authorization services.
@@ -80,13 +86,13 @@ Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한�
         });
 
         Gate::define('update-post', function ($user, $post) {
-            return $user->id == $post->user_id;
+            return $user->id === $post->user_id;
         });
     }
 
 Gates may also be defined using a `Class@method` style callback string, like controllers:
 
-Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형태로 정의할 수 있습니다:
+Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형태로 정의할 수 있습니다.
 
     /**
      * Register any authentication / authorization services.
@@ -106,7 +112,7 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
 
 To authorize an action using gates, you should use the `allows` or `denies` methods. Note that you are not required to pass the currently authenticated user to these methods. Laravel will automatically take care of passing the user into the gate Closure:
 
-Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 또는 `denies`메소드를 사용해야 합니다. 이 두 개의 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다:
+Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 가지고 있는지 확인하려면, `allows` 또는 `denies`메소드를 사용해야 합니다. 이 두 개의 메소드에 현재 인증된 사용자를 전달할 필요는 없습니다. 라라벨이 자동으로 Gate 클로저에 사용자를 전달합니다.
 
     if (Gate::allows('edit-settings')) {
         // The current user can edit settings
@@ -122,7 +128,7 @@ Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 �
 
 If you would like to determine if a particular user is authorized to perform an action, you may use the `forUser` method on the `Gate` facade:
 
-특정 사용자를 지정하여 액션을 수행 할 수 있는 권한이 있는지 확인하려는 경우, `Gate` 파사드의 `forUser` 메소드를 사용할 수 있습니다:
+특정 사용자를 지정하여 액션을 수행 할 수 있는 권한이 있는지 확인하려는 경우, `Gate` 파사드의 `forUser` 메소드를 사용할 수 있습니다.
 
     if (Gate::forUser($user)->allows('update-post', $post)) {
         // The user can update the post...
@@ -134,7 +140,7 @@ If you would like to determine if a particular user is authorized to perform an 
 
 You may authorize multiple actions at a time with the `any` or `none` methods:
 
-`any` 또는 `none` 메소드로 한 번에 여러 액션을 인증 할 수 있습니다 :
+`any` 또는 `none` 메소드로 한 번에 여러 액션을 인증 할 수 있습니다.
 
     if (Gate::any(['update-post', 'delete-post'], $post)) {
         // The user can update or delete the post
@@ -144,13 +150,76 @@ You may authorize multiple actions at a time with the `any` or `none` methods:
         // The user cannot update or delete the post
     }
 
+#### Authorizing Or Throwing Exceptions
+#### 권한 확인 혹은 예외 처리
+
+If you would like to attempt to authorize an action and automatically throw an `Illuminate\Auth\Access\AuthorizationException` if the user is not allowed to perform the given action, you may use the `Gate::authorize` method. Instances of `AuthorizationException` are automatically converted to `403` HTTP response:
+
+액션의 권한을 확인한 뒤 유저가 해당 액션을 수행할 권한이 없을 때, 자동으로 `Illuminate\Auth\Access\AuthorizationException` 예외를 처리하고 싶다면, `Gate::authorize` 메소드를 사용할 수 있습니다. `AuthorizationException` 인스턴스는 자동으로 `403` HTTP 응답으로 변환됩니다.
+
+    Gate::authorize('update-post', $post);
+
+    // The action is authorized...
+
+#### Supplying Additional Context
+#### 추가 컨텍스트 제공하기
+
+The gate methods for authorizing abilities (`allows`, `denies`, `check`, `any`, `none`, `authorize`, `can`, `cannot`) and the authorization [Blade directives](#via-blade-templates) (`@can`, `@cannot`, `@canany`) can receive an array as the second argument. These array elements are passed as parameters to gate, and can be used for additional context when making authorization decisions:
+
+권한을 확인하는 게이트 메소드(`allows`, `denies`, `check`, `any`, `none`, `authorize`, `can`, `cannot`)와 [Blade directives](#via-blade-templates) (`@can`, `@cannot`, `@canany`)는 두 번째 인자로 배열을 전달받을 수 있습니다. 배열의 원소들은 파라미터로서 게이트로 전달되고 권한 결정을 내릴 때 추가 컨텍스트로 활용될 수 있습니다.
+
+    Gate::define('create-post', function ($user, $category, $extraFlag) {
+        return $category->group > 3 && $extraFlag === true;
+    });
+
+    if (Gate::check('create-post', [$category, $extraFlag])) {
+        // The user can create the post...
+    }
+
+<a name="gate-responses"></a>
+### Gate Responses
+### 게이트 응답
+
+So far, we have only examined gates that return simple boolean values. However, sometimes you may wish to return a more detail response, including an error message. To do so, you may return a `Illuminate\Auth\Access\Response` from your gate:
+
+지금까지 우리는 단순한 Boolean값을 반환하는 게이트만 살펴보았습니다. 그러나 때로는 에러 메시지를 포함한 더욱 자세한 응답을 반환해야 할 때도 있습니다. 이때 게이트에서 `Illuminate\Auth\Access\Response`를 반환할 수 있습니다.
+
+    use Illuminate\Support\Facades\Gate;
+    use Illuminate\Auth\Access\Response;
+
+    Gate::define('edit-settings', function ($user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::deny('You must be a super administrator.');
+    });
+
+When returning an authorization response from your gate, the `Gate::allows` method will still return a simple boolean value; however, you may use use the `Gate::inspect` method to get the full authorization response returned by the gate:
+
+게이트에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 여전히 단순한 Boolean 값을 반환합니다. 그러나 `Gate::inspect` 메소드를 이용하면 전체 권한 확인 응답을 반환할 수 있습니다.
+
+    $response = Gate::inspect('edit-settings', $post);
+
+    if ($response->allowed()) {
+        // The action is authorized...
+    } else {
+        echo $response->message();
+    }
+
+Of course, when using the `Gate::authorize` method to throw an `AuthorizationException` if the action is not authorized, the error message provided by the authorization response will be propagated to the HTTP response:
+
+물론, 액션 수행에 권한이 없을 때 `AuthorizationException` 예외를 실행하도록 `Gate::authorize` 메소드를 사용한다면, 권한 확인 응답의 에러 메시지는 HTTP 응답으로 전달됩니다.
+
+    Gate::authorize('edit-settings', $post);
+
+    // The action is authorized...
+
 <a name="intercepting-gate-checks"></a>
 #### Intercepting Gate Checks
 #### Gate 체크 로직의 후킹
 
 Sometimes, you may wish to grant all abilities to a specific user. You may use the `before` method to define a callback that is run before all other authorization checks:
 
-때로는 특정 사용자에게 모든 권한을 허용하고자 할 수도 있습니다. 권한을 확인하는 모든 체크 로직 앞에서 실행되는 콜백을 정의하기 위해서 `before` 메소드를 사용할 수 있습니다:
+때로는 특정 사용자에게 모든 권한을 허용하고자 할 수도 있습니다. 권한을 확인하는 모든 체크 로직 앞에서 실행되는 콜백을 정의하기 위해서 `before` 메소드를 사용할 수 있습니다.
 
     Gate::before(function ($user, $ability) {
         if ($user->isSuperAdmin()) {
@@ -164,7 +233,7 @@ If the `before` callback returns a non-null result that result will be considere
 
 You may use the `after` method to define a callback to be executed after all other authorization checks:
 
-권한을 확인하는 다른 모든 체크 로직 뒤에 특정한 콜백을 실행하도록 `after` 메소드를 사용할 수 있습니다:
+권한을 확인하는 다른 모든 체크 로직 뒤에 특정한 콜백을 실행하도록 `after` 메소드를 사용할 수 있습니다.
 
     Gate::after(function ($user, $ability, $result, $arguments) {
         if ($user->isSuperAdmin()) {
@@ -190,7 +259,7 @@ Policy는 특정 모델 또는 리소스에 대한 권한을 확인하는 방법
 
 You may generate a policy using the `make:policy` [artisan command](/docs/{{version}}/artisan). The generated policy will be placed in the `app/Policies` directory. If this directory does not exist in your application, Laravel will create it for you:
 
-`make:policy` [아티즌 명령어](/docs/{{version}}/artisan)를 사용하여 policy 클래스를 생성할 수 있습니다. 생성된 policy는 `app/Policies` 디렉토리에 있습니다. 만약 애플리케이션에서 이 디렉토리가 존재하지 않더라도, 라라벨이 디렉토리를 생성해줍니다:
+`make:policy` [아티즌 명령어](/docs/{{version}}/artisan)를 사용하여 policy 클래스를 생성할 수 있습니다. 생성된 policy는 `app/Policies` 디렉토리에 있습니다. 만약 애플리케이션에서 이 디렉토리가 존재하지 않더라도, 라라벨이 디렉토리를 생성해줍니다.
 
     php artisan make:policy PostPolicy
 
@@ -210,7 +279,7 @@ The `make:policy` command will generate an empty policy class. If you would like
 
 Once the policy exists, it needs to be registered. The `AuthServiceProvider` included with fresh Laravel applications contains a `policies` property which maps your Eloquent models to their corresponding policies. Registering a policy will instruct Laravel which policy to utilize when authorizing actions against a given model:
 
-Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. 새롭게 설치한 라라벨 애플리케이션에 포함된 `AuthServiceProvider`는 Eloquent 모델과 해당 모델에 상응하는 policy에 매핑되는 `policies` 속성을 갖고 있습니다. Policy를 등록하는 것은 라라벨이 주어진 모델의 액션에 권한을 확인 할 때 어떤 policy를 사용 할 지 알려주게 됩니다:
+Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. 새롭게 설치한 라라벨 애플리케이션에 포함된 `AuthServiceProvider`는 Eloquent 모델과 해당 모델에 상응하는 policy에 매핑되는 `policies` 속성을 갖고 있습니다. Policy를 등록하는 것은 라라벨이 주어진 모델의 액션에 권한을 확인 할 때 어떤 policy를 사용 할 지 알려주게 됩니다.
 
     <?php
 
@@ -250,11 +319,11 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
 
 Instead of manually registering model policies, Laravel can auto-discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory below the directory that contains the models. So, for example, the models may be placed in the `app` directory while the policies may be placed in the `app/Policies` directory. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
 
-직접 Policy모델을 등록하는 대신에, 라라벨은 모델과 Policy이 표준 라라벨 네이밍 규칙을 따른다면 auto-discover Policy을 사용할 수 있습니다. 분명하게, Policy는 models-모델을 포함하는 디렉토리의 아래로 `Policies` 디렉토리를 위치해야합니다. 예를들어, models-모델은 `app` 디렉토리 아래에 위치한다면, Policy 는 `app/Policies` 디렉토리에 위치할 수 있습니다. 또한, Policy 이름은 model-모델 이름과 매칭되어야되며, `Policy` 접미사를 써야합니다. 예를들어, 모델 이름이 `User` 이라면 Policy는 `UserPolicy` 클래스의 이름으로 이용하면 됩니다.    
+직접 Policy모델을 등록하는 대신에, 라라벨은 모델과 Policy이 표준 라라벨 네이밍 규칙을 따른다면 auto-discover Policy을 사용할 수 있습니다. 분명하게, Policy는 models-모델을 포함하는 디렉토리의 아래로 `Policies` 디렉토리를 위치해야합니다. 예를들어, models-모델은 `app` 디렉토리 아래에 위치한다면, Policy 는 `app/Policies` 디렉토리에 위치할 수 있습니다. 또한, Policy 이름은 model-모델 이름과 매칭되어야되며, `Policy` 접미사를 써야합니다. 예를들어, 모델 이름이 `User` 이라면 Policy는 `UserPolicy` 클래스의 이름으로 이용하면 됩니다.
 
 If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AuthServiceProvider`:
 
-만약 자신만의 Policy Discovery 로직을 사용하고 싶다면, `Gate::guessPolicyNamesUsing` 메소드를 커스텀 콜백을 등록 할 수 있습니다. 일반적으로, 이 메소드는 애플리케이션의 `AuthServiceProvider` 의 `boot` 메소드로 부터 불려집니다. 
+만약 자신만의 Policy Discovery 로직을 사용하고 싶다면, `Gate::guessPolicyNamesUsing` 메소드를 커스텀 콜백을 등록 할 수 있습니다. 일반적으로, 이 메소드는 애플리케이션의 `AuthServiceProvider` 의 `boot` 메소드로 부터 불려집니다.
 
     use Illuminate\Support\Facades\Gate;
 
@@ -264,7 +333,7 @@ If you would like to provide your own policy discovery logic, you may register a
 
 > {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potential auto-discovered policies.
 
-> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 Policy는 모든 잠재적인 auto-discovered Policy 보다 우선됩니다. 
+> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 Policy는 모든 잠재적인 auto-discovered Policy 보다 우선됩니다.
 
 <a name="writing-policies"></a>
 ## Writing Policies
@@ -280,7 +349,7 @@ Policy를 등록하고 나면, 권한을 확인 하고자 하는 각 액션에 �
 
 The `update` method will receive a `User` and a `Post` instance as its arguments, and should return `true` or `false` indicating whether the user is authorized to update the given `Post`. So, for this example, let's verify that the user's `id` matches the `user_id` on the post:
 
-`update` 메소드는 한개의 `User` 와 한개의 `Post` 인스턴스를 인자로 받고, 해당 사용자가 주어진 `Post`를 수정할 수 있는 권한이 가지고 있는지 결과를 `true` 또는 `false`를 반환해야합니다. 따라서 이 예제에서는, post의 `user_id`가 user의 `id` 와 일치하는지 확인 해보겠습니다:
+`update` 메소드는 한개의 `User` 와 한개의 `Post` 인스턴스를 인자로 받고, 해당 사용자가 주어진 `Post`를 수정할 수 있는 권한이 가지고 있는지 결과를 `true` 또는 `false`를 반환해야합니다. 따라서 이 예제에서는, post의 `user_id`가 user의 `id` 와 일치하는지 확인 해보겠습니다.
 
     <?php
 
@@ -312,6 +381,50 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
 
 > {tip} 만약 아티즌 명령어를 통해 Policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
 
+<a name="policy-responses"></a>
+### Policy Responses
+### Policy 응답
+
+So far, we have only examined policy methods that return simple boolean values. However, sometimes you may wish to return a more detail response, including an error message. To do so, you may return a `Illuminate\Auth\Access\Response` from your policy method:
+
+지금까지 우리는 단순한 Boolean값을 반환하는 Policy 메소드만 살펴보았습니다. 그러나 때로는 에러 메시지를 포함한 더욱 자세한 응답을 반환해야 할 때도 있습니다. 이때 Policy 메소드에서 `Illuminate\Auth\Access\Response`를 반환할 수 있습니다.
+
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Post  $post
+     * @return bool
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::deny('You do not own this post.');
+    }
+
+When returning an authorization response from your policy, the `Gate::allows` method will still return a simple boolean value; however, you may use use the `Gate::inspect` method to get the full authorization response returned by the gate:
+
+Policy에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 여전히 단순한 Boolean 값을 반환합니다. 그러나 `Gate::inspect` 메소드를 이용하면 전체 권한 확인 응답을 반환할 수 있습니다.
+
+    $response = Gate::inspect('update', $post);
+
+    if ($response->allowed()) {
+        // The action is authorized...
+    } else {
+        echo $response->message();
+    }
+
+Of course, when using the `Gate::authorize` method to throw an `AuthorizationException` if the action is not authorized, the error message provided by the authorization response will be propagated to the HTTP response:
+
+물론, 액션 수행에 권한이 없을 때 `AuthorizationException` 예외를 실행하도록 `Gate::authorize` 메소드를 사용한다면, 권한 확인 응답의 에러 메시지는 HTTP 응답으로 전달됩니다.
+
+    Gate::authorize('update', $post);
+
+    // The action is authorized...
+
 <a name="methods-without-models"></a>
 ### Methods Without Models
 ### 모델없는 메소드
@@ -322,7 +435,7 @@ Some policy methods only receive the currently authenticated user and not an ins
 
 When defining policy methods that will not receive a model instance, such as a `create` method, it will not receive a model instance. Instead, you should define the method as only expecting the authenticated user:
 
-`create` 메소드와 같은 policy 메소드를 정의할 때는, 모델을 전달 받지 않습니다. 대신에, 인증된 사용자를 받는 메소드로 정의해야 합니다:
+`create` 메소드와 같은 policy 메소드를 정의할 때는, 모델을 전달 받지 않습니다. 대신에, 인증된 사용자를 받는 메소드로 정의해야 합니다.
 
     /**
      * Determine if the given user can create posts.
@@ -371,7 +484,7 @@ By default, all gates and policies automatically return `false` if the incoming 
 
 For certain users, you may wish to authorize all actions within a given policy. To accomplish this, define a `before` method on the policy. The `before` method will be executed before any other methods on the policy, giving you an opportunity to authorize the action before the intended policy method is actually called. This feature is most commonly used for authorizing application administrators to perform any action:
 
-특정 사용자에게는, 주어진 policy 안의 모든 액션에 대해 권한을 가지고 있다고 처리하고 싶을 수도 있습니다. 이런 경우라면, policy에 `before` 메소드를 정의하면 됩니다. `before` 메소드는 policy에서 다른 메소드가 호출되기 전에 실행되는데, 원래의 policy 메소드가 실제로 호출되기 전에 해당 액션에 대한 권한을 확인합니다. 이 기능은 애플리케이션의 관리자가 어떤 액션이든 수행가능하도록 권한을 부여하는 데 가장 흔하게 사용됩니다:
+특정 사용자에게는, 주어진 policy 안의 모든 액션에 대해 권한을 가지고 있다고 처리하고 싶을 수도 있습니다. 이런 경우라면, policy에 `before` 메소드를 정의하면 됩니다. `before` 메소드는 policy에서 다른 메소드가 호출되기 전에 실행되는데, 원래의 policy 메소드가 실제로 호출되기 전에 해당 액션에 대한 권한을 확인합니다. 이 기능은 애플리케이션의 관리자가 어떤 액션이든 수행가능하도록 권한을 부여하는 데 가장 흔하게 사용됩니다.
 
     public function before($user, $ability)
     {
@@ -398,7 +511,7 @@ If you would like to deny all authorizations for a user you should return `false
 
 The `User` model that is included with your Laravel application includes two helpful methods for authorizing actions: `can` and `cant`. The `can` method receives the action you wish to authorize and the relevant model. For example, let's determine if a user is authorized to update a given `Post` model:
 
-라라벨 애플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다: `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다:
+라라벨 애플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다: `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다.
 
     if ($user->can('update', $post)) {
         //
@@ -411,9 +524,9 @@ If a [policy is registered](#registering-policies) for the given model, the `can
 #### Actions That Don't Require Models
 #### 모델을 인자로 전달 받지 않는 액션
 
-As previously discussed, some actions like `create` may not require a model instance. In these situations, you should pass a class name to the `authorize` method. The class name will be used to determine which policy to use when authorizing the action:
+Remenber, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the `can` method. The class name will be used to determine which policy to use when authorizing the action:
 
-이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
+이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `can` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다.
 
     use App\Post;
 
@@ -427,7 +540,7 @@ As previously discussed, some actions like `create` may not require a model inst
 
 Laravel includes a middleware that can authorize actions before the incoming request even reaches your routes or controllers. By default, the `Illuminate\Auth\Middleware\Authorize` middleware is assigned the `can` key in your `App\Http\Kernel` class. Let's explore an example of using the `can` middleware to authorize that a user can update a blog post:
 
-라라벨에는 유입되는 Request-요청이 라우트 또는 컨트롤러에 도달하기도 전에 권한을 검사할 수 있는 미들웨어가 포함되어 있습니다. 기본적으로 `App\Http\Kernel` 클래스의 `can` 키에는 `Illuminate\Auth\Middleware\Authorize` 미들웨어가 할당되어 있습니다. 사용자가 블로그 포스트를 수정할 권한을 부여하는 `can` 미들웨어를 사용하는 예제를 살펴보겠습니다:
+라라벨에는 유입되는 Request-요청이 라우트 또는 컨트롤러에 도달하기도 전에 권한을 검사할 수 있는 미들웨어가 포함되어 있습니다. 기본적으로 `App\Http\Kernel` 클래스의 `can` 키에는 `Illuminate\Auth\Middleware\Authorize` 미들웨어가 할당되어 있습니다. 사용자가 블로그 포스트를 수정할 권한을 부여하는 `can` 미들웨어를 사용하는 예제를 살펴보겠습니다.
 
     use App\Post;
 
@@ -444,7 +557,7 @@ In this example, we're passing the `can` middleware two arguments. The first is 
 
 Again, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the middleware. The class name will be used to determine which policy to use when authorizing the action:
 
-다시 한번 이야기 하지만, `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 미들웨어에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
+다시 한번 이야기 하지만, `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 미들웨어에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다.
 
     Route::post('/post', function () {
         // The current user may create posts...
@@ -456,7 +569,7 @@ Again, some actions like `create` may not require a model instance. In these sit
 
 In addition to helpful methods provided to the `User` model, Laravel provides a helpful `authorize` method to any of your controllers which extend the `App\Http\Controllers\Controller` base class. Like the `can` method, this method accepts the name of the action you wish to authorize and the relevant model. If the action is not authorized, the `authorize` method will throw an `Illuminate\Auth\Access\AuthorizationException`, which the default Laravel exception handler will convert to an HTTP response with a `403` status code:
 
-`User` 모델에서 제공하는 유용한 메소드에 더해, 라라벨에서는 `App\Http\Controllers\Controller`라는 베이스 클래스를 상속받는 컨트롤러에서 사용할 수 있도록 `authorize` 메소드를 제공합니다. `can` 메소드와 같이, 이 메소드는 권한을 확인 하고자 하는 액션의 이름과, 관련된 모델을 인자로 받습니다. 만약 액션이 허용되지 않는 다면, `authorize` 메소드는 라라벨의 exception 핸들러에 의해서 `403` 상태코드를 가진 HTTP 응답-response로 변환되는 `Illuminate\Auth\Access\AuthorizationException`를 발생시킵니다:
+`User` 모델에서 제공하는 유용한 메소드에 더해, 라라벨에서는 `App\Http\Controllers\Controller`라는 베이스 클래스를 상속받는 컨트롤러에서 사용할 수 있도록 `authorize` 메소드를 제공합니다. `can` 메소드와 같이, 이 메소드는 권한을 확인 하고자 하는 액션의 이름과, 관련된 모델을 인자로 받습니다. 만약 액션이 허용되지 않는 다면, `authorize` 메소드는 라라벨의 exception 핸들러에 의해서 `403` 상태코드를 가진 HTTP 응답-response로 변환되는 `Illuminate\Auth\Access\AuthorizationException`를 발생시킵니다.
 
     <?php
 
@@ -489,7 +602,7 @@ In addition to helpful methods provided to the `User` model, Laravel provides a 
 
 As previously discussed, some actions like `create` may not require a model instance. In these situations, you should pass a class name to the `authorize` method. The class name will be used to determine which policy to use when authorizing the action:
 
-앞서 계속해서 이야기한 바와 같이, `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션의 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다:
+앞서 계속해서 이야기한 바와 같이, `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우 `authorize` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션의 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다.
 
     /**
      * Create a new blog post.
@@ -508,13 +621,13 @@ As previously discussed, some actions like `create` may not require a model inst
 #### Authorizing Resource Controllers
 #### 리소스 컨트롤러에서 권한 확인
 
-If you are utilizing [resource controllers](/docs/{{version}}/controllers##resource-controllers), you may make use of the `authorizeResource` method in the controller's constructor. This method will attach the appropriate `can` middleware definition to the resource controller's methods.
+If you are utilizing [resource controllers](/docs/{{version}}/controllers#resource-controllers), you may make use of the `authorizeResource` method in the controller's constructor. This method will attach the appropriate `can` middleware definitions to the resource controller's methods.
 
 [리소스 컨트롤러](/docs/{{version}}/controllers##resource-controllers)를 사용한다면, 컨트롤러의 생성자 안에서 `authorizeResource` 메소드를 사용할 수 있습니다. 이 메소드는 `can` 미들웨어의 정의사항을 리소스 컨트롤러의 메소드에 추가하게 됩니다.
 
 The `authorizeResource` method accepts the model's class name as its first argument, and the name of the route / request parameter that will contain the model's ID as its second argument:
 
-`authorizeResource` 메소드는 모델의 클래스 이름을 첫번째 인자로, 해당 모델의 ID를 파라미터로 받는 라우트의 이름을 두번째 인자로 전달받습니다:
+`authorizeResource` 메소드는 모델의 클래스 이름을 첫번째 인자로, 해당 모델의 ID를 파라미터로 받는 라우트의 이름을 두번째 인자로 전달받습니다.
 
     <?php
 
@@ -538,6 +651,7 @@ The following controller methods will be mapped to their corresponding policy me
 
 | Controller Method | Policy Method |
 | --- | --- |
+| index | viewAny |
 | show | view |
 | create | create |
 | store | create |
@@ -555,7 +669,7 @@ The following controller methods will be mapped to their corresponding policy me
 
 When writing Blade templates, you may wish to display a portion of the page only if the user is authorized to perform a given action. For example, you may wish to show an update form for a blog post only if the user can actually update the post. In this situation, you may use the `@can` and `@cannot` family of directives:
 
-블레이드 템플릿을 작성할 때, 사용자가 주어진 액션을 수행 할 권한이 있는 경우에만 페이지를 일부를 보여주고자 할 수 있습니다. 예를 들어, 사용자가 실제로 블로그 포스트를 수정할 권한이 있는 경우에만 업데이트 버튼을 보여주고자 하는 경우가 그렇습니다. 이런 경우, `@can` 과 `@cannot` 지시어를 사용할 수 있습니다:
+블레이드 템플릿을 작성할 때, 사용자가 주어진 액션을 수행 할 권한이 있는 경우에만 페이지를 일부를 보여주고자 할 수 있습니다. 예를 들어, 사용자가 실제로 블로그 포스트를 수정할 권한이 있는 경우에만 업데이트 버튼을 보여주고자 하는 경우가 그렇습니다. 이런 경우, `@can` 과 `@cannot` 지시어를 사용할 수 있습니다.
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
@@ -571,7 +685,7 @@ When writing Blade templates, you may wish to display a portion of the page only
 
 These directives are convenient shortcuts for writing `@if` and `@unless` statements. The `@can` and `@cannot` statements above respectively translate to the following statements:
 
-이 지시어는 `@if` 와 `@unless` 를 작성하는 편리한 단축키와 같습니다. `@can` and `@cant` 구문은 다음의 구문으로 변환됩니다:
+이 지시어는 `@if` 와 `@unless` 를 작성하는 편리한 단축키와 같습니다. `@can` and `@cant` 구문은 다음의 구문으로 변환됩니다.
 
     @if (Auth::user()->can('update', $post))
         <!-- The Current User Can Update The Post -->
@@ -581,12 +695,22 @@ These directives are convenient shortcuts for writing `@if` and `@unless` statem
         <!-- The Current User Can't Update The Post -->
     @endunless
 
+You may also determine if a user has any authorization ability from a given list of abilities. To accomplish this, use the `@canany` directive:
+
+또한 제시된 권한 리스트를 통해 해당 유저가 권한이 있는지 확인할 수 있습니다. 그러기 위해서는 `@canany` 지시어를 사용하십시오.
+
+    @canany(['update', 'view', 'delete'], $post)
+        // The current user can update, view, or delete the post
+    @elsecanany(['create'], \App\Post::class)
+        // The current user can create a post
+    @endcanany
+
 #### Actions That Don't Require Models
 #### 모델을 필요로 하지 않는 액션
 
 Like most of the other authorization methods, you may pass a class name to the `@can` and `@cannot` directives if the action does not require a model instance:
 
-다른 권한을 확인하는 메소드 대부분과 동일하게, 확인하고자 하는 액션이 모델을 필요로 하지 않는 경우 `@can` 과 `@cannot` 지시어에 클래스 이름을 전달할 수 있습니다:
+다른 권한을 확인하는 메소드 대부분과 동일하게, 확인하고자 하는 액션이 모델을 필요로 하지 않는 경우 `@can` 과 `@cannot` 지시어에 클래스 이름을 전달할 수 있습니다.
 
     @can('create', App\Post::class)
         <!-- The Current User Can Create Posts -->
@@ -595,3 +719,44 @@ Like most of the other authorization methods, you may pass a class name to the `
     @cannot('create', App\Post::class)
         <!-- The Current User Can't Create Posts -->
     @endcannot
+
+<a name="supplying-additional-context"></a>
+### Supplying Additional Context
+### 추가 컨텍스트 제공하기
+
+When authorizing actions using policies, you may pass an array as the second argument to the various authorization functions and helpers. The first element in the array will be used to determine which policy should be invoked, while the rest of the array elements are passed as parameters to the policy method and can be used for additional context when making authorization decisions. For example, consider the following `PostPolicy` method definition which contains an additional `$category` parameter:
+
+Policy를 이용하여 액션에 대한 권한을 확인 할 때, 다양한 권한 확인 함수와 헬퍼 함수의 두 번째 인자로서 배열을 전달할 수 있습니다. 배열의 첫 번째 원소는 실행할 Policy룰 결정하고, 나머지 원소들은 Policy 메소드의 파라미터로 전달되며 권한 확인 결정을 내릴 때 추가 컨텍스트로 이용될 수 있습니다. 예를 들어 아래의 `PostPolicy` 메소드의 정의는 추가로 `$category` 파라미터를 포함하고 있습니다.
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Post  $post
+     * @param  int  $category
+     * @return bool
+     */
+    public function update(User $user, Post $post, int $category)
+    {
+        return $user->id === $post->user_id &&
+               $category > 3;
+    }
+
+When attempting to determine if the authenticated user can update a given post, we can invoke this policy method like so:
+
+유저가 해당 포스트를 수정할 권한이 있는지 확인 할 때 Policy 메소드를 다음과 같이 불러올 수 있습니다.
+
+    /**
+     * Update the given blog post.
+     *
+     * @param  Request  $request
+     * @param  Post  $post
+     * @return Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function update(Request $request, Post $post)
+    {
+        $this->authorize('update', [$post, $request->input('category')]);
+
+        // The current user can update the blog post...
+    }

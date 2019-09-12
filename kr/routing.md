@@ -26,7 +26,7 @@
     - [Sub-Domain Routing](#route-group-sub-domain-routing)
     - [서브 도메인 라우팅](#route-group-sub-domain-routing)
     - [Route Prefixes](#route-group-prefixes)
-    - [라우트 Prefixes](#route-group-prefixes)
+    - [라우트 접두사](#route-group-prefixes)
     - [Route Name Prefixes](#route-group-name-prefixes)
     - [라우트 이름 접두사](#route-group-name-prefixes)
 - [Route Model Binding](#route-model-binding)
@@ -261,7 +261,7 @@ Laravel 라우팅 구성 요소는 `/`를 제외한 모든 문자를 허용합�
 
 Named routes allow the convenient generation of URLs or redirects for specific routes. You may specify a name for a route by chaining the `name` method onto the route definition:
 
-이름이 지정된 라우트는 URL 이나 지정된 라우트로의 리다이렉션을 손쉽게 생성하기 편리하게 해줍니다. 라우트 정의에 `name` 메소드를 체이닝 하여 라우트에 이름을 지정할 수 있습니다:
+이름이 지정된 라우트는 URL의 생성이나 지정된 라우트로의 리다이렉션을 편리하게 해줍니다. 라우트 정의에 `name` 메소드를 체이닝 하여 라우트에 이름을 지정할 수 있습니다:
 
     Route::get('user/profile', function () {
         //
@@ -507,7 +507,7 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 
 Alternatively, you may override the `resolveRouteBinding` method on your Eloquent model. This method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:
 
-또는 Eloquent 모델에서 `resolveRouteBinding` 메소드를 오버라이드 할 수 있습니다. 이 메소드는 URI 세그먼트의 값을 받고 라우트에 삽입되어야하는 클래스의 인스턴스를 리턴해야한다.
+또는 Eloquent 모델에서 `resolveRouteBinding` 메소드를 오버라이드 할 수 있습니다. 이 메소드는 URI 세그먼트의 값을 받고 라우트에 삽입되어야하는 클래스의 인스턴스를 리턴해야 합니다.
 
     /**
      * Retrieve the model for a bound value.

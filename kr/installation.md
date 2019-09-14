@@ -18,10 +18,6 @@
 ## Installation
 ## 설치하기
 
-> {video} Laracasts provides a [free, thorough introduction to Laravel](http://laravelfromscratch.com) for newcomers to the framework. It's a great place to start your journey.
-
-> {video} 라라캐스트에서 프레임워크를 새롭게 배우는 사람들을 위한 [무료 라라벨 소개 영상](http://laravelfromscratch.com)을 제공하고 있습니다. 라라벨을 시작하는데 참고하시기 바랍니다.
-
 <a name="server-requirements"></a>
 ### Server Requirements
 ### 서버 요구사항
@@ -35,7 +31,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다:
 
 
-- PHP >= 7.1.3
+- PHP >= 7.2.0
 - BCMath PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
@@ -63,13 +59,12 @@ First, download the Laravel installer using Composer:
 
     composer global require laravel/installer
 
-Make sure to place composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
+Make sure to place Composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
 
 laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
 
 
-- macOS: `$HOME/.composer/vendor/bin`
-- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin`
+- macOS and GNU / Linux Distributions: `$HOME/.composer/vendor/bin`
 - Windows: `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin`
 
 

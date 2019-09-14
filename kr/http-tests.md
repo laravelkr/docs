@@ -173,9 +173,9 @@ You may also specify which guard should be used to authenticate the given user b
 ## Testing JSON APIs
 ## JSON API 테스팅하기
 
-Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, and `delete` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
+Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, `delete`, and `option` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
 
-라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, 그리고 `delete` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다:
+라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, `delete`, 그리고 `option` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다:
 
     <?php
 
@@ -337,6 +337,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertSeeText](#assert-see-text)
 - [assertSeeTextInOrder](#assert-see-text-in-order)
 - [assertSessionHas](#assert-session-has)
+- [assertSessionHasInput](#assert-session-has-input)
 - [assertSessionHasAll](#assert-session-has-all)
 - [assertSessionHasErrors](#assert-session-has-errors)
 - [assertSessionHasErrorsIn](#assert-session-has-errors-in)
@@ -604,6 +605,15 @@ Assert that the session contains the given piece of data:
 세션에 주어진 데이터가 포함되어 있는지 확인:
 
     $response->assertSessionHas($key, $value = null);
+
+<a name="assert-session-has-input"></a>
+#### assertSessionHasInput
+
+Assert that the session has a given value in the flashed input array:
+
+세션에 임시저장(flashed) 된 입력 배열에 주어진 값이 있는지 확인:
+
+    $response->assertSessionHasInput($key, $value = null);
 
 <a name="assert-session-has-all"></a>
 #### assertSessionHasAll

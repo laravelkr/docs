@@ -491,7 +491,8 @@ The `whereBetween` method verifies that a column's value is between two values:
 `whereBetween` 메소드는 컬럼의 값이 두개의 값 사이의 값인지 확인합니다:
 
     $users = DB::table('users')
-                        ->whereBetween('votes', [1, 100])->get();
+               ->whereBetween('votes', [1, 100])
+               ->get();
 
 **whereNotBetween / orWhereNotBetween**
 **whereNotBetween / orWhereNotBetween**
@@ -611,7 +612,7 @@ The `whereColumn` method can also be passed an array of multiple conditions. The
     $users = DB::table('users')
                     ->whereColumn([
                         ['first_name', '=', 'last_name'],
-                        ['updated_at', '>', 'created_at']
+                        ['updated_at', '>', 'created_at'],
                     ])->get();
 
 <a name="parameter-grouping"></a>
@@ -622,13 +623,13 @@ Sometimes you may need to create more advanced where clauses such as "where exis
 
 가끔은 "where exists" 절이나 중첩된 파라미터를 그룹으로 묶어서 수행하는것과 같이, 복잡한 조건문을 사용해야 할 필요가 있습니다. 라라벨의 쿼리 빌더는 이 경우 다음과 같이 사용할 수 있습니다. 다음의 괄호 안에 제약조건을 그룹으로 묶는 예제를 살펴보겠습니다:
 
-    DB::table('users')
-                ->where('name', '=', 'John')
-                ->where(function ($query) {
-                    $query->where('votes', '>', 100)
-                          ->orWhere('title', '=', 'Admin');
-                })
-                ->get();
+    $users = DB::table('users')
+               ->where('name', '=', 'John')
+               ->where(function ($query) {
+                   $query->where('votes', '>', 100)
+                         ->orWhere('title', '=', 'Admin');
+               })
+               ->get();
 
 As you can see, passing a `Closure` into the `where` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
 
@@ -648,13 +649,13 @@ The `whereExists` method allows you to write `where exists` SQL clauses. The `wh
 
 `whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다:
 
-    DB::table('users')
-                ->whereExists(function ($query) {
-                    $query->select(DB::raw(1))
-                          ->from('orders')
-                          ->whereRaw('orders.user_id = users.id');
-                })
-                ->get();
+    $users = DB::table('users')
+               ->whereExists(function ($query) {
+                   $query->select(DB::raw(1))
+                         ->from('orders')
+                         ->whereRaw('orders.user_id = users.id');
+               })
+               ->get();
 
 The query above will produce the following SQL:
 
@@ -843,6 +844,15 @@ You may even insert several records into the table with a single call to `insert
         ['email' => 'dayle@example.com', 'votes' => 0]
     ]);
 
+The `insertOrIgnore` method will ignore duplicate record errors while inserting records into the database:
+
+`insertOrIgnore` 메소드는 데이터베이스에 레코드를 삽입하는 동안 중복 레코드 오류를 무시합니다.
+
+    DB::table('users')->insertOrIgnore([
+        ['id' => 1, 'email' => 'taylor@example.com'],
+        ['id' => 2, 'email' => 'dayle@example.com']
+    ]);
+
 #### Auto-Incrementing IDs
 #### Auto-Incrementing IDs
 
@@ -866,9 +876,9 @@ In addition to inserting records into the database, the query builder can also u
 
 데이터베이스에 레코드를 삽입하는 것에 더해서 쿼리 빌더는 당연히 이미 존재하는 레코드를 `update` 메소드를 사용하여 변경할 수 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로, 업데이트 하기 위한 컬럼과 컬럼에 대한 값의 쌍으로 이루어진 배열을 인자로 전달받습니다. `update` 쿼리에 `where` 구문을 사용하여 범위를 제한할 수도 있습니다:
 
-    DB::table('users')
-                ->where('id', 1)
-                ->update(['votes' => 1]);
+    $affected = DB::table('users')
+                  ->where('id', 1)
+                  ->update(['votes' => 1]);
 
 #### Update Or Insert
 ####  Updates-수정 또는 Inserts-삽입
@@ -895,9 +905,9 @@ When updating a JSON column, you should use `->` syntax to access the appropriat
 
 JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상, PostgreSQL 9.5 이상 에서만 지원합니다:
 
-    DB::table('users')
-                ->where('id', 1)
-                ->update(['options->enabled' => true]);
+    $affected = DB::table('users')
+                  ->where('id', 1)
+                  ->update(['options->enabled' => true]);
 
 <a name="increment-and-decrement"></a>
 ### Increment & Decrement

@@ -429,6 +429,7 @@ Command  | Description
 `valet restart` | Restart the Valet daemon.
 `valet start` | Start the Valet daemon.
 `valet stop` | Stop the Valet daemon.
+`valet trust` | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.
 `valet uninstall` | Uninstall the Valet daemon.
 
 명령어 | 설명
@@ -439,4 +440,5 @@ Command  | Description
 `valet restart` | 발렛 데몬을 재시작 합니다.
 `valet start` | 발렛 데몬을 시작합니다.
 `valet stop` | 발렛 데몬을 중지합니다.
+`valet trust` | 암호를 묻지 않고 Valet 명령을 실행할 수 있도록 Brew와 Valet을 sudoers에 추가합니다.
 `valet uninstall` | Valet 데몬 제거.

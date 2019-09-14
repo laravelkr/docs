@@ -6,8 +6,8 @@
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [Contribution Guide](/docs/{{version}}/contributions)
     - [기여 가이드](/docs/{{version}}/contributions)
-    - [API Documentation](/api/{{version}})
-    - [API 문서](/api/{{version}})
+    - [API Documentation](/api/6.x)
+    - [API 문서](/api/6.x)
 - Getting Started
 - 시작하기
     - [Installation](/docs/{{version}}/installation)

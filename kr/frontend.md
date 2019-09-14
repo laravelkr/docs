@@ -20,6 +20,24 @@ While Laravel does not dictate which JavaScript or CSS pre-processors you use, i
 
 라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 애플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다.
 
+The Bootstrap and Vue scaffolding provided by Laravel is located in the `laravel/ui` Composer package, which may be installed using Composer:
+
+라라벨에서 제공하는 부트스트랩 및 Vue 스캐폴딩은 `laravel/ui` Composer 패키지에 있으며 Composer를 사용하여 설치할 수 있습니다.
+
+    composer require laravel/ui
+
+Once the `laravel/ui` package has been installed, you may install the frontend scaffolding using the `ui` Artisan command:
+
+`laravel/ui` 패키지가 설치되면 `ui` Artisan 명령을 사용하여 프론트엔드 스캐폴딩을 설치할 수 있습니다.
+
+    // Generate basic scaffolding...
+    php artisan ui vue
+    php artisan ui react
+
+    // Generate login / registration scaffolding...
+    php artisan ui vue --auth
+    php artisan ui react --auth
+
 #### CSS
 #### CSS
 
@@ -105,7 +123,7 @@ By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue com
 
     Vue.component(
         'example-component',
-        require('./components/ExampleComponent.vue')
+        require('./components/ExampleComponent.vue').default
     );
 
 To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:

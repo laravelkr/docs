@@ -18,9 +18,9 @@
 ## Introduction
 ## 시작하기
 
-> {tip} **Want to get started fast?** Just run `php artisan make:auth` in a fresh Laravel application and navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
+> {tip} **Want to get started fast?** Install the `laravel/ui` Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. This single command will take care of scaffolding your entire authentication system, including resetting passwords!
 
-> {tip} **바로 확인하시겠습니까?** 그렇다면 새로 설치한 라라벨 애플리케이션에서 `php artisan make:auth` 을 실행하고 여러분의 브라우저에서 `http://your-app.test/register` 에 접속하거나 애플리케이션에서 할당한 다른 URL을 조회해보십시오. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
+> {tip} **빠르게 시작해보시겠습니까?** 그렇다면 새로 설치한 라라벨 애플리케이션에서 `laravel/ui` 컴포저 패키지를 설치하고 `php artisan ui vue --auth`를 실행하십시오. 그리고 데이터베이스를 마이그레이션 한 후, 브라우저에서 `http://your-app.test/register` 또는 자신의 어플리케이션 URL로 접속해보세요. 이 한줄의 명령어는 패스워드 재설정을 포함한 전체 인증 시스템을 위한 스캐폴딩을 지원합니다!
 
 Most web applications provide a way for users to reset their forgotten passwords. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending password reminders and performing password resets.
 
@@ -51,19 +51,29 @@ Next, a table must be created to store the password reset tokens. The migration 
 ## Routing
 ## 라우팅
 
-Laravel includes `Auth\ForgotPasswordController` and `Auth\ResetPasswordController` classes that contains the logic necessary to e-mail password reset links and reset user passwords. All of the routes needed to perform password resets may be generated using the `make:auth` Artisan command:
+Laravel includes `Auth\ForgotPasswordController` and `Auth\ResetPasswordController` classes that contains the logic necessary to e-mail password reset links and reset user passwords. All of the routes needed to perform password resets may be generated using the `laravel/ui` Composer package:
 
-라라벨에서는 패스워드 재설정 링크 이메일을 보내고 사용자의 패스워드를 재설정하는데 필요한 로직을 가지고 있는 `Auth\ForgotPasswordController` 그리고 `Auth\ResetPasswordController` 클래스를 포함하고 있습니다. 패스워드 재설정에 필요한 모든 라우트는 `make:auth` 아티즌 명령어를 사용하여 생성할 수 있습니다:
+라라벨에서는 패스워드 재설정 링크 이메일을 보내고 사용자의 패스워드를 재설정하는데 필요한 로직을 가지고 있는 `Auth\ForgotPasswordController` 그리고 `Auth\ResetPasswordController` 클래스를 포함하고 있습니다. 패스워드 재설정에 필요한 모든 라우트는 `laravel/ui` 컴포저 패키지를 사용하여 생성할 수 있습니다.
 
-    php artisan make:auth
+    composer require laravel/ui
+
+    php artisan ui vue --auth
 
 <a name="resetting-views"></a>
 ## Views
 ## 뷰
 
-Again, Laravel will generate all of the necessary views for password reset when the `make:auth` command is executed. These views are placed in `resources/views/auth/passwords`. You are free to customize them as needed for your application.
+To generate all of the necessary view for resetting passwords, you may use the `laravel/ui` Composer package:
 
-다시한번, 라라벨은 `make:auth` 명령어가 실행될 때 패스워드를 재설정하는데 필요한 뷰 파일들을 생성할 것입니다. 이 뷰 파일들은 `resources/views/auth/passwords`에 들어 있습니다. 여러분의 애플리케이션에서 필요하다면 이 파일들을 자유롭게 수정할 수 있습니다.
+패스워드 재설정에 필요한 모든 뷰 파일을 생성하기 위해 `laravel/ui` 컴포저 패키지를 사용할 수 있습니다.
+
+    composer require laravel/ui
+
+    php artisan ui vue --auth
+
+These views are placed in `resources/views/auth/passwords`. You are free to customize them as needed for your application.
+
+이 뷰 파일들은 `resources/views/auth/passwords`에 생성되며 애플리케이션에 필요한대로 자유롭게 커스터마이징 할 수 있습니다.
 
 <a name="after-resetting-passwords"></a>
 ## After Resetting Passwords

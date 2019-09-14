@@ -26,10 +26,6 @@ When you start a new Laravel project, error and exception handling is already co
 
 새로운 라라벨 프로젝트가 시작될 때, 기본적인 오류 및 예외 처리는 모두 설정되어 있습니다. 애플리케이션에서 발생하는 모든 예외-exceptions 들은 `App\Exceptions\Handler` 클래스에 의해서 로그를 남기고 사용자에게 응답을 보여주게 됩니다. 이 문서에서는 이 클래스에 대해서 좀 더 자세히 알아보겠습니다.
 
-For logging, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolog) library, which provides support for a variety of powerful log handlers. Laravel configures several of these handlers for you, allowing you to choose between a single log file, rotating log files, or writing error information to the system log.
-
-라라벨은 로그를 남기기 위해서 강력하고 다양한 로그 핸들러를 지원하는 [Monolog](https://github.com/Seldaek/monolog) 라이브러리를 사용합니다. 라라벨은 하나의 파일에 로그를 남기거나, 로그 파일을 일정 주기에 따라서 바꾸는, 또는 시스템 로그에 에러를 기록하도록 하는 여러 핸들러를 설정할 수 있습니다.
-
 <a name="configuration"></a>
 ## Configuration
 ## 설정하기
@@ -84,7 +80,7 @@ For example, if you need to report different types of exceptions in different wa
 
 If available, Laravel automatically adds the current user's ID to every exception's log message as contextual data. You may define your own global contextual data by overriding the `context` method of your application's `App\Exceptions\Handler` class. This information will be included in every exception's log message written by your application:
 
-가능한경우, 라라벨은 현재의 사용자 ID를 자동으로 모든 exception 로그 메세지에 컨텍스트 데이터로 추가합니다. 애플리케이션의 `App\Exceptions\Handler` 클래스에 `context` 메소드를 오버라이딩 해서 글로벌에서 추가하고자 하는 고유한 컨텍스트 데이터를 정의할 수 있습낟. 이 정보는 애플리케이션에서 기록되는 모든 exception 로그에 포함됩니다:
+가능한경우, 라라벨은 현재의 사용자 ID를 자동으로 모든 exception 로그 메세지에 컨텍스트 데이터로 추가합니다. 애플리케이션의 `App\Exceptions\Handler` 클래스에 `context` 메소드를 오버라이딩 해서 글로벌에서 추가하고자 하는 고유한 컨텍스트 데이터를 정의할 수 있습니다. 이 정보는 애플리케이션에서 기록되는 모든 exception 로그에 포함됩니다:
 
     /**
      * Get the default context variables for logging.

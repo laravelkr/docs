@@ -24,15 +24,19 @@
 
 [레디스](https://redis.io) 는 키-밸류 기반의 오픈소스 저장소 입니다. 레디스는 키에 [문자열](https://redis.io/topics/data-types#strings), [해쉬](https://redis.io/topics/data-types#hashes), [리스트](https://redis.io/topics/data-types#lists), [세트](https://redis.io/topics/data-types#sets), 그리고 [정렬 세트](https://redis.io/topics/data-types#sorted-sets)를 사용할 수 있기 때문에 데이터 구조 서버로 자주 거론되고 있습니다.
 
-Before using Redis with Laravel, you will need to install the `predis/predis` package via Composer:
+Before using Redis with Laravel, we encorage you to install and use the [PhpRedis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install but may yield better performance for applications that make heavy use of Redis.
 
-라라벨에서 레디스를 사용하기 전에 여러분은 Composer 를 통해서 `predis/predis` 패키지를 설치할 필요가 있습니다:
+라라벨에서 Redis를 사용하기 전에, PECL를 통하여 [PhpRedis](https://github.com/phpredis/phpredis) PHP extension를 설치하고 사용하는 것을 권장합니다. 이 PHP 확장(PHP Extension)은 설치가 좀 더 복잡하지만 Redis를 많이 사용하는 어플리케이션에 보다 나은 성능을 보여줍니다.
+
+Alternatively, you can install the `predis/predis` package via Composer:
+
+또는 Composer를 사용하여 `predis/predis` 패키지를 설치할 수 있습니다.
 
     composer require predis/predis
 
-Alternatively, you may install the [PhpRedis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install but may yield better performance for applications that make heavy use of Redis.
+> {note} Predis has been abandoned by the package's original author and may be removed from Laravel in a future release.
 
-이렇게 하는 대신에, PECL을 통해서 [PhpRedis](https://github.com/phpredis/phpredis) PHP extension을 설치할 수도 있습니다. 이 extension 은 좀 더 설치가 복잡하지만, Redis를 많이 사용하는 애플리케이션에서 보다 나은 성능을 보여줍니다.
+> {note} Predis는 패키지 원작자에 의해 버려졌습니다. 이후 라라벨 release에서 제거될 수 있습니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -40,12 +44,11 @@ Alternatively, you may install the [PhpRedis](https://github.com/phpredis/phpred
 
 The Redis configuration for your application is located in the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
-애플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의
-`redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다:
+애플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의 `redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다:
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
@@ -65,7 +68,7 @@ The Redis configuration for your application is located in the `config/database.
 
 The default server configuration should suffice for development. However, you are free to modify this array based on your environment. Each Redis server defined in your configuration file is required to have a name, host, and port.
 
-기본적으로 설정된 서버는 개발시에는 충분할 수 있습니다. 하지만 환경에 맞게 이 배열을 변경할 수도 있습니다. 설정 파일 안에서 정의된 각각의 레디스 서버는 이름과 호스트 그리고 포트를 필요로 합니다.
+개발중에 기본 서버 설정은 충분할 수 있습니다. 하지만 환경에 맞게 이 배열을 변경할 수도 있습니다. 설정 파일 안에서 정의된 각각의 레디스 서버는 이름, 호스트, 포트를 필요로 합니다.
 
 #### Configuring Clusters
 #### 클러스터 설정하기
@@ -76,7 +79,7 @@ If your application is utilizing a cluster of Redis servers, you should define t
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'clusters' => [
             'default' => [
@@ -93,14 +96,14 @@ If your application is utilizing a cluster of Redis servers, you should define t
 
 By default, clusters will perform client-side sharding across your nodes, allowing you to pool nodes and create a large amount of available RAM. However, note that client-side sharding does not handle failover; therefore, is primarily suited for cached data that is available from another primary data store. If you would like to use native Redis clustering, you should specify this in the `options` key of your Redis configuration:
 
-기본적으로, 클러스터는 클라이언트-사이드 샤딩을 수행하므로, 노드를 풀링하고 RAM을 가능한 많이 사용할 수 있도록 만듭니다. 하지만 클라이언트-사이드 샤딩은 페일오버-failover를 처리하지 않으므로, 다른 기본 데이터 저장소로 부터 데이터를 캐시하는데 적합합니다. 네이티브 Redis 클러스터링을 사용하려면, Redis 설정의 `options` 키에 다음의 설정을 지정해야합니다:
+기본적으로, 클러스터는 클라이언트-사이드 샤딩(분산 저장)을 수행하므로, 노드를 풀링하고 RAM을 가능한 많이 사용할 수 있도록 만듭니다. 하지만 클라이언트-사이드 샤딩은 페일 오버(Fail over)를 처리하지 않습니다. 사용 가능한 다른 주 데이터 저장소로부터 데이터를 캐시하는데 적합합니다. 네이티브 Redis 클러스터링을 사용하려면, Redis 설정의 `options` 키에 다음의 설정을 지정해야합니다:
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
-            'cluster' => 'redis',
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
         ],
 
         'clusters' => [
@@ -109,17 +112,24 @@ By default, clusters will perform client-side sharding across your nodes, allowi
 
     ],
 
-The `cluster` option will instruct the Laravel Redis client to perform client-side sharding across your Redis nodes, allowing you to pool nodes and create a large amount of available RAM. However, note that client-side sharding does not handle failover; therefore, is primarily suited for cached data that is available from another primary data store.
-
-`cluster` 옵션은 라라벨 레디스 클라이언트에게 레디스 노드에 클라이언트 측 샤딩을 수행 할 수 있도록 지시하여 노드를 풀링하고 사용가능한 RAM 을 가능한 많이 생성할 수 있도록 합니다. 하지만 클라이언트 샤딩은 페일오버를 처리하지는 않기 때문에 다른 기본 저장소를 위해 사용할 캐시 데이터를 취급하는데 주로 적합합니다.
-
 <a name="predis"></a>
 ### Predis
 ### Predis
 
+To utilize the Predis extension, you should change the `REDIS_CLIENT` environment variable from `phpredis` to `predis`:
+
+Predis 확장(extension)을 사용하려면 `REDIS_CLIENT` 환경 변수를 `phpredis` 에서 `predis`로 수정해야 합니다.
+
+    'redis' => [
+
+        'client' => env('REDIS_CLIENT', 'predis'),
+
+        // Rest of Redis configuration...
+    ],
+
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:
+`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 추가적으로, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -133,20 +143,26 @@ In addition to the default `host`, `port`, `database`, and `password` server con
 ### PhpRedis
 ### PhpRedis
 
-To utilize the PhpRedis extension, you should change the `client` option of your Redis configuration to `phpredis`. This option is found in your `config/database.php` configuration file:
+The PhpRedis extension is configured as default at `REDIS_CLIENT` env and in your `config/database.php`:
 
-PhpRedis extension을 구성하려면, `phpredis` Redis 설정의 `client` 옵션을 변경해야합니다. 이 옵션은 `config/database.php` 설정 파일에서 찾을 수 있습니다:
+PhpRedis 확장(extension)은 기본적으로 `REDIS_CLIENT`라는 환경 변수 `config/database.php` 파일에 설정되어 있습니다.
 
     'redis' => [
 
-        'client' => 'phpredis',
+        'client' => env('REDIS_CLIENT', 'phpredis'),
 
         // Rest of Redis configuration...
     ],
 
+If you plan to use PhpRedis extension along with the `Redis` Facade alias, you should rename it to something else, like `RedisManager`, to avoid a collision with the Redis class. You can do that in the aliases section of your `app.php` config file.
+
+`Redis` 파사드 별칭(alias)와 함께 PhpRedis 확장(extendsion)를 사용하려면, Redis 클래스와 충돌하지 않기 위해 `RedisManager`과 같은 이름으로 재지정(Renaming)해야 합니다. 이름 재정의는 `app.php` 설정 파일의 aliases 섹션에서 할 수 있습니다.
+
+    'RedisManager' => Illuminate\Support\Facades\Redis::class,
+
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout` and `timeout`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다:
+`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다:
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -155,6 +171,13 @@ In addition to the default `host`, `port`, `database`, and `password` server con
         'database' => 0,
         'read_timeout' => 60,
     ],
+
+#### The Redis Facade
+#### Redis 파사드
+
+To avoid class naming collisions with the Redis PHP extension itself, you will need to delete or rename the `Illuminate\Support\Facades\Redis` facade alias from your `app` configuration file's `aliases` array. Generally, you should remove this alias entirely and only reference the facade by its fully qualified class name while using the Redis PHP extension.
+
+Redis PHP 확장(Extension)과 클래스 이름 충돌을 피하기 위해 `app` 설정 파일의 `aliases` 배열에서 `Illuminate\Support\Facades\Redis` 파사드 별칭(alias)를 삭제하거나 이름을 재정의해야 합니다. 일반적으로 이 별칭(alias)을 완전히 제거하고 Redis PHP 확장(extension)을 사용하는 동안 완전 한정(fully qualified) 클래스 이름으로만 파사드를 참조해야합니다.
 
 <a name="interacting-with-redis"></a>
 ## Interacting With Redis

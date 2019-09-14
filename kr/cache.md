@@ -99,9 +99,9 @@ You may also set the `host` option to a UNIX socket path. If you do this, the `p
 #### Redis
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the `predis/predis` package (~1.0) via Composer or install the PhpRedis PHP extension via PECL.
+Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer .
 
-라라벨에서 Redis 캐스를 사용하기 전에, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치하거나, PECL을 통해서 PhpRedis PHP Extension을 설치해야 합니다.
+라라벨에서 Redis 캐스를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
 
 For more information on configuring Redis, consult its [Laravel documentation page](/docs/{{version}}/redis#configuration).
 
@@ -478,9 +478,9 @@ To create our custom cache driver, we first need to implement the `Illuminate\Co
     class MongoStore implements Store
     {
         public function get($key) {}
-        public function many(array $keys);
+        public function many(array $keys) {}
         public function put($key, $value, $seconds) {}
-        public function putMany(array $values, $seconds);
+        public function putMany(array $values, $seconds) {}
         public function increment($key, $value = 1) {}
         public function decrement($key, $value = 1) {}
         public function forever($key, $value) {}

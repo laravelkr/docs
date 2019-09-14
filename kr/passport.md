@@ -261,12 +261,18 @@ If necessary, you may define the path where Passport's keys should be loaded fro
         Passport::loadKeysFrom('/secret-keys/oauth');
     }
 
-Additionally, you may load the keys from environment variables:
 
-또한 환경 변수에서 키를 로드 할 수 있습니다.
+Additionally, you may publish Passport's configuration file using `php artisan vendor:publish --tag=passport-config`, which will then provide the option to load the encryption keys from your environment variables:
 
-    PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n<private key here>\n-----END RSA PRIVATE KEY-----"
-    PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\n<public key here>\n-----END PUBLIC KEY-----\n"
+또한 `php artisan vendor:publish --tag=passport-config`를 사용하여 Passport의 설정 파일을 내보낼 수 있습니다. 그러면 환경 변수에서 암호화 키를 로드하는 옵션이 제공됩니다.
+
+    PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
+    <private key here>
+    -----END RSA PRIVATE KEY-----"
+
+    PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
+    <public key here>
+    -----END PUBLIC KEY-----"
 
 <a name="configuration"></a>
 ## Configuration
@@ -371,9 +377,9 @@ Since your users will not be able to utilize the `client` command, Passport prov
 
 여러분의 사용자는 `client` 명령어를 사용할 수 없기 때문에, Passport 는 클라이언트를 생성하는데 사용할 수 있는 JSON API를 제공합니다. 이렇게 하면, 일일이 클라이언트를 생성하고, 수정하고, 삭제하는 컨트롤러 코드를 구성해야 하는 문제에서 벗어날 수 있습니다.
 
-However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints.
+However, you will need to pair Passport's JSON API with your own frontend to provide a dashboard for your users to manage their clients. Below, we'll review all of the API endpoints for managing clients. For convenience, we'll use [Axios](https://github.com/axios/axios) to demonstrate making HTTP requests to the endpoints.
 
-그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/mzabriskie/axios)를 사용하겠습니다.
+그렇지만, Passport JSON API에 대응하는 대시보드를 통해서 사용자가 클라이언트를 관리할 수 있도록 프론트 엔드를 구성해야 합니다. 아래에서, 클라이언트를 관리하는 모든 API 엔드포인트를 확인해보겠습니다. 편의를 위해서, 엔드 포인트에 대한 HTTP request-요청을 만드는 데모에는 [Axios](https://github.com/axios/axios)를 사용하겠습니다.
 
 The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application. It is not able to be called from an external source.
 
@@ -462,12 +468,15 @@ Once a client has been created, developers may use their client ID and secret to
 
 클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를를 사용하여 권한 승인을 요청하고 애플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 애플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청을 하도록 만들어야 합니다:
 
-    Route::get('/redirect', function () {
+    Route::get('/redirect', function (Request $request) {
+        $request->session()->put('state', $state = Str::random(40));
+
         $query = http_build_query([
             'client_id' => 'client-id',
             'redirect_uri' => 'http://example.com/callback',
             'response_type' => 'code',
             'scope' => '',
+            'state' => $state,
         ]);
 
         return redirect('http://your-app.com/oauth/authorize?'.$query);
@@ -509,18 +518,27 @@ Sometimes you may wish to skip the authorization prompt, such as when authorizin
          */
         public function skipsAuthorization()
         {
-            return $this->first_party;
+            return $this->firstParty();
         }
     }
 
 #### Converting Authorization Codes To Access Tokens
 #### 승인 코드를 엑세스 토큰으로 변환하기
 
-If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should then issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
+If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should first verify the `state` parameter against the value that was stored prior to the redirect. If the state parameter matches the consumer should issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
 
-사용자가 승인 요청을 수락하면, 사용중인 애플리케이션으로 리다이렉션됩니다. 고객은 엑세스 토큰을 획득하기 위해서 여러분의 애플리케이션으로 `POST` 요청을 보내야 합니다. 요청-request에는 사용자의 승인 요청을 통해서 애플리케이션에서 발급된 승인코드가 포함되어 있어야 합니다. 이 예제에서 Guzzle Http 라이브러리를 사용하여 `POST` 요청-request를 만들어 보겠습니다:
+사용자가 인증 요청을 승인하면, 해당 인증을 사용 할 애플리케이션으로 리다이렉션됩니다. 인증을 사용할 어플리케이션은 리다이렉션으로 자신에게 돌아오면, 다른 경로로 이동하기 전에 `state` 파라메터에 저장된 값을 확인해야합니다. state 파라메터가 사용자와 일치하면 애플리케이션에 `POST`로 액세스 토큰을 요청해야합니다. 이 요청에는 사용자가 인증 요청을 승인 할 때 애플리케이션에서 발행 한 승인 코드를 포함해야합니다. 이 예제에서는 Guzzle HTTP 라이브러리를 사용하여 `POST`로 요청합니다.
+
+(역자주: 원문을 직역하면 너무 이상한 듯 하여 이해하기 쉽도록 의역을 많이 하였습니다. 문장이 이상하다고 느껴지신다면 원문을 참고 바랍니다)
 
     Route::get('/callback', function (Request $request) {
+        $state = $request->session()->pull('state');
+
+        throw_unless(
+            strlen($state) > 0 && $state === $request->state,
+            InvalidArgumentException::class
+        );
+
         $http = new GuzzleHttp\Client;
 
         $response = $http->post('http://your-app.com/oauth/token', [
@@ -725,12 +743,15 @@ Once a grant has been enabled, developers may use their client ID to request an 
 
 grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 애플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 애플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다:
 
-    Route::get('/redirect', function () {
+    Route::get('/redirect', function (Request $request) {
+        $request->session()->put('state', $state = Str::random(40));
+
         $query = http_build_query([
             'client_id' => 'client-id',
             'redirect_uri' => 'http://example.com/callback',
             'response_type' => 'token',
             'scope' => '',
+            'state' => $state,
         ]);
 
         return redirect('http://your-app.com/oauth/authorize?'.$query);
@@ -1150,17 +1171,13 @@ If needed, you can customize the `laravel_token` cookie's name using the `Passpo
 
 #### CSRF Protection
 
-When using this method of authentication, the default Laravel JavaScript scaffolding instructs Axios to always send the `X-CSRF-TOKEN` and `X-Requested-With` headers. However, you should be sure to include your CSRF token in a [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token):
+When using this method of authentication, you will need to ensure a valid CSRF token header is included in your requests. The default Laravel JavaScript scaffolding includes an Axios instance, which will automatically use the encrypted `XSRF-TOKEN` cookie value to send a `X-XSRF-TOKEN` header on same-origin requests.
 
-이 인증 메소드를 사용할 때, 라라벨에서 기본적으로 제공하는 자바스크립트 스캐폴딩은 Axios가 항상 `X-CSRF-TOKEN`와  `X-Requested-With` 헤더를 전송하도록 합니다. 그렇지만, [HTML meta tag](/docs/{{version}}/csrf#csrf-x-csrf-token)에 CSRF 토큰이 들어 있어야 합니다.
+이 인증 메소드를 사용할 때는 유효한 CSRF 토큰 헤더가 요청-request에 포함되어 있는지 확인해야합니다. 라라벨의 기본 자바스크립트 스캐폴딩은 Axios 인스턴스를 포함하는데, Axios 인스턴스는 자동으로 암호화 된 `XSRF-TOKEN` 쿠키의 값을 사용하여 same-origin 요청에 대해 `X-XSRF-TOKEN` 헤더를 포함하여 보냅니다.
 
-    // In your application layout...
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+> {tip} If you choose to send the `X-CSRF-TOKEN` header instead of `X-XSRF-TOKEN`, you will need to use the unencrypted token provided by `csrf_token()`.
 
-    // Laravel's JavaScript scaffolding...
-    window.axios.defaults.headers.common = {
-        'X-Requested-With': 'XMLHttpRequest',
-    };
+> {tip} `X-XSRF-TOKEN` 대신 `X-CSRF-TOKEN` 헤더를 보내려면 `csrf_token()`에서 제공한 암호화되지 않은 토큰을 사용해야합니다.
 
 <a name="events"></a>
 ## Events

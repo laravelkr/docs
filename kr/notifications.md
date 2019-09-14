@@ -273,7 +273,7 @@ In this example, we register a greeting, a line of text, a call to action, and t
 
 이 예제에서는 인사말, 텍스트 한줄, 액션 호출 그리고 다른 텍스트 몇줄을 등록합니다. `MailMessage` 객체에서 제공되는 이 메소드들은 간단한 이메일을 쉽고 빠르게 포맷팅할 수 있습니다. 메일 채널은 메세지 컴포넌트를 일반 텍스트로 된 멋진 반응형 HTML 이메일 템플릿으로 변환합니다. 다음은 `mail` 채널에 의해서 생성된 이메일의 예제입니다.
 
-<img src="https://laravel.com/assets/img/notification-example.png" width="551" height="596">
+<img src="https://laravel.com/img/docs/notification-example.png" width="551" height="596">
 
 > {tip} When sending mail notifications, be sure to set the `name` value in your `config/app.php` configuration file. This value will be used in the header and footer of your mail notification messages.
 
@@ -551,9 +551,27 @@ After exporting the components, the `resources/views/vendor/mail/html/themes` di
 
 컴포넌트를 내보내기(export) 한 이후에, `resources/views/vendor/mail/html/themes` 디렉토리를 보면 `default.css` 파일을 확인할 수 있습니다. 이 파일에서 CSS를 커스터마이징 할 수 있으며, 마크다운 알림의 HTML 표현에서 스타일이 자동으로 적용됩니다.
 
-> {tip} If you would like to build an entirely new theme for the Markdown components, write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+If you would like to build an entirely new theme for Laravel's Markdown components, you may place a CSS file within the `html/themes` directory. After naming and saving your CSS file, update the `theme` option of the `mail` configuration file to match the name of your new theme.
 
-> {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
+Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축하려면 `html/themes` 디렉토리에 CSS 파일을 추가 할 수 있습니다. CSS 파일의 이름을 지정하고 저장 한 후, `mail` 컴포넌트의 `theme` 옵션을 새 테마의 이름과 동일하도록 수정하십시오.
+
+To customize the theme for an individual notification, you may call the `theme` method while building the notification's mail message. The `theme` method accepts the name of the theme that should be used when sending the notification:
+
+알림 메일 메시지를 작성하는 동안 개별 알림에 대한 테마를 커스터마이징하기 위해 `theme`메소드를 사용 할 수 있습니다. `theme` 메소드는 알림을 보낼 때 사용해야하는 테마의 이름을 입력받습니다.
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->theme('invoice')
+                    ->subject('Invoice Paid')
+                    ->markdown('mail.invoice.paid', ['url' => $url]);
+    }
 
 <a name="database-notifications"></a>
 ## Database Notifications
@@ -853,9 +871,9 @@ If you would like to send some notifications from a phone number that is differe
 ### Routing SMS Notifications
 ### SMS 알림 라우팅(수신자 지정)
 
-When sending notifications via the `nexmo` channel, the notification system will automatically look for a `phone_number` attribute on the notifiable entity. If you would like to customize the phone number the notification is delivered to, define a `routeNotificationForNexmo` method on the entity:
+To route Nexmo notifications to the proper phone number, define a `routeNotificationForNexmo` method on your notifiable entity:
 
-`nexmo` 채널을 통해서 알림을 전송할 때, 알림 시스템은 자동으로 알림 엔티티의 `phone_number` 속성을 찾습니다. 만약 알림이 누구에게 발송될지 수신자 번호를 지정하고자 한다면 엔티티에서 `routeNotificationForNexmo` 메소드를 정의하면 됩니다:
+Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔터티에 `routeNotificationForNexmo` 메소드를 정의하십시오.
 
     <?php
 
@@ -876,7 +894,7 @@ When sending notifications via the `nexmo` channel, the notification system will
          */
         public function routeNotificationForNexmo($notification)
         {
-            return $this->phone;
+            return $this->phone_number;
         }
     }
 
@@ -922,7 +940,7 @@ In this example we are just sending a single line of text to Slack, which will c
 
 이 예제에서는 슬랙에 하나의 텍스트 라인을 전송하였고, 다음과 같은 메세지가 생성됩니다:
 
-<img src="https://laravel.com/assets/img/basic-slack-notification.png">
+<img src="https://laravel.com/img/docs/basic-slack-notification.png">
 
 #### Customizing The Sender & Recipient
 #### 발신자 & 수신자 설정하기
@@ -994,7 +1012,7 @@ The example above will generate a Slack message that looks like the following:
 
 이 예제는 다음과 같이 보여지는 슬랙 메세지를 생성할 것입니다:
 
-<img src="https://laravel.com/assets/img/basic-slack-attachment.png">
+<img src="https://laravel.com/img/docs/basic-slack-attachment.png">
 
 Attachments also allow you to specify an array of data that should be presented to the user. The given data will be presented in a table-style format for easy reading:
 
@@ -1028,7 +1046,7 @@ The example above will create a Slack message that looks like the following:
 
 이 예제는 다음과 같이 보여지는 슬랙 메세지를 생성할 것입니다:
 
-<img src="https://laravel.com/assets/img/slack-fields-attachment.png">
+<img src="https://laravel.com/img/docs/slack-fields-attachment.png">
 
 #### Markdown Attachment Content
 #### 마크다운에 첨부파일 표시하기

@@ -114,7 +114,6 @@ Homestead runs on any Windows, Mac, or Linux system, and includes Nginx, PHP, My
 - Xdebug
 - XHProf / Tideways / XHGui
 - wp-cli
-- Minio
 
 
 <a name="optional-software"></a>
@@ -181,6 +180,10 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 If this command fails, make sure your Vagrant installation is up to date.
 
 이 명령어가 실패하면, Vagrant 설치가 최신버전인지 확인하십시오.
+
+> {note} Periodically Homestead will issue Alpha or Beta boxes for testing. These versions *will* interfere with the `vagrant box add` command. If you are having issues running this command you can safely skip this for now and the correct base box will be downloaded the first time you run `vagrant up`.
+
+> {note} Homestead는 정기적으로 테스트를 위해 알파 또는 베타 버전의 상자를 발행합니다. 이 버전들은 `vagrant box add` 명령을 *방해합니다*. 이 명령을 실행하는 데 문제가 있는 경우 안전하게 지금 이 단계를 건너뛰고 `vagrant up`을 처음 실행할 때 올바른 기본 상자가 다운로드됩니다.
 
 #### Installing Homestead
 #### 홈스테드 설치하기
@@ -763,7 +766,7 @@ If you wish, you may forward additional ports to the Vagrant box, as well as spe
 ### Sharing Your Environment
 ### 환경 공유하기
 
-Sometimes you may wish to share what you're currently working on with coworkers or a  client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
+Sometimes you may wish to share what you're currently working on with coworkers or a client. Vagrant has a built-in way to support this via `vagrant share`; however, this will not work if you have multiple sites configured in your `Homestead.yaml` file.
 
 가끔씩, 현재 작업하고 있는 환경을 동료들이나, 다른 사람들과 공유하고 싶을 수도 있습니다. Vagrant는 이를 위해서 `vagrant share`를 통해서 환경을 공유할 수 있는 내장 기능이 지원됩니다; 그렇지만, `Homestead.yaml` 파일에 여러개의 사이트가 설정된 경우에는 동작이 원하는대로 작동하지 않습니다.
 
@@ -836,18 +839,9 @@ Homestead includes support for step debugging using [Xdebug](https://xdebug.org)
 
 Homestead는 [Xdebug](https://xdebug.org)를 사용하여 단계별 디버깅을 지원합니다. 예를 들어 브라우저에서 웹 페이지를 로드 할 수 있으며, PHP는 IDE에 연결하여 실행중인 코드를 검사하고 수정할 수 있습니다.
 
-To enable debugging, run the following commands inside your Vagrant box:
+By default Xdebug is already running and ready to accept connections. If you need to enable Xdebug on the CLI run the `sudo phpenmod xdebug` command within your Vagrant box. Next, follow your IDE's instructions to enable debugging. Finally, configure your browser to trigger Xdebug with an extension or [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/).
 
-디버깅을 사용하려면 Vagrant 박스에서 다음 명령을 실행합니다.
-
-    sudo phpenmod xdebug
-
-    # Update this command to match your PHP version...
-    sudo systemctl restart php7.3-fpm
-
-Next, follow your IDE's instructions to enable debugging. Finally, configure your browser to trigger Xdebug with an extension or [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/).
-
-그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 Xdebug와 함께 확장 프로그램이나 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/)이 실행되도록 브라우저를 구성합니다.
+기본적으로 Xdebug는 이미 실행 중이며 연결을 수락 할 준비가 되어 있습니다. CLI에서 Xdebug를 활성화하려면 Vagrant 박스 안에서 `sudo phpenmod xdebug` 커맨드를 실행하십시오. 그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 Xdebug와 함께 확장 프로그램이나 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/)이 실행되도록 브라우저를 구성합니다.
 
 > {note} Xdebug causes PHP to run significantly slower. To disable Xdebug, run `sudo phpdismod xdebug` within your Vagrant box and restart the FPM service.
 
@@ -998,14 +992,11 @@ Homestead를 팀 환경에서 사용할 때 개인 개발 스타일에 더 잘 �
 ## Updating Homestead
 ## 홈스테드 업데이트하기
 
-Before you begin updating Homestead ensure you run `vagrant destroy` to remove your current virtual machine. Then, you should update the Vagrant box using the `vagrant box update` command:
+Before you begin updating Homestead ensure you run `vagrant destroy` to remove your current virtual machine. 
 
-Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 가상 머신을 제거하십시오. 그런 다음 `vagrant box update` 명령을 사용하여 Vagrant 박스를 업데이트해야합니다.
+Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 가상 머신을 제거하십시오. 
 
-몇가지 간단한 동작으로 홈스테드를 업데이트 할 수 있습니다. 먼저 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다:
-
-    vagrant box update
-
+    vagrant destroy
 
 Next, you need to update the Homestead source code. If you cloned the repository you can run the following commands at the location you originally cloned the repository:
 
@@ -1024,6 +1015,12 @@ If you have installed Homestead via your project's `composer.json` file, you sho
 프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^9"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
 
     composer update
+
+Then, you should update the Vagrant box using the `vagrant box update` command:
+
+그런 다음 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다.
+
+    vagrant box update
 
 Finally, you will need to destroy and regenerate your Homestead box to utilize the latest Vagrant installation. To accomplish this, run the following commands in your Homestead directory:
 

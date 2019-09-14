@@ -1,6 +1,6 @@
 # 라라벨 한국어 매뉴얼
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-31-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
 ![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)
@@ -123,6 +123,7 @@
     <td align="center"><a href="http://velmont.cafe24.com"><img src="https://avatars3.githubusercontent.com/u/3744320?v=4" width="100px;" alt="HoraceVelmont"/><br /><sub><b>HoraceVelmont</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=horace-velmont" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/KangPilGyu"><img src="https://avatars3.githubusercontent.com/u/39696372?v=4" width="100px;" alt="eiffeltop"/><br /><sub><b>eiffeltop</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=KangPilGyu" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/jungmyungzZ"><img src="https://avatars0.githubusercontent.com/u/42092924?v=4" width="100px;" alt="Kim Jungmyung"/><br /><sub><b>Kim Jungmyung</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=jungmyungzZ" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/cherryred5959"><img src="https://avatars2.githubusercontent.com/u/32331576?v=4" width="100px;" alt="cherry"/><br /><sub><b>cherry</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=cherryred5959" title="Documentation">📖</a></td>
   </tr>
 </table>
 

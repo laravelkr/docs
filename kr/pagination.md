@@ -68,7 +68,7 @@ In this example, the only argument passed to the `paginate` method is the number
 
 > {note} Currently, pagination operations that use a `groupBy` statement cannot be executed efficiently by Laravel. If you need to use a `groupBy` with a paginated result set, it is recommended that you query the database and create a paginator manually.
 
-> {note} 현재, 라라벨에서 `groupBy` 구문을 사용하는 쿼리의 pagination 이 효과적으로 실행될 수 없습니다. 만약 `groupBy`와 함께 paginate 를 사용해야 한다면, 수동으로 paginator 을 생성하여 쿼리를 질의하는것을 권장합니다.
+> {note} 현재, 라라벨에서 groupBy 문을 사용하는 쿼리는 pagination 이 효율적으로 실행되지 않습니다. 만약 `groupBy`와 함께 paginate 를 사용해야 한다면, 수동으로 paginator 을 생성하여 쿼리를 질의하는것을 권장합니다.
 
 #### "Simple Pagination"
 #### "간단한 페이징 작업"

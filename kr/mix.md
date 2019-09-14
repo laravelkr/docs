@@ -279,6 +279,18 @@ Though disabled by default, source maps may be activated by calling the `mix.sou
     mix.js('resources/js/app.js', 'public/js')
        .sourceMaps();
 
+#### Style Of Source Mapping
+#### 소스 매핑 스타일
+
+Webpack offers a variety of [source mapping styles](https://webpack.js.org/configuration/devtool/#devtool). By default, Mix's source mapping style is set to `eval-source-map`, which provides a fast rebuild time. If you want to change the mapping style, you may do so using the `sourceMaps` method:
+
+Webpack은 다양한 [소스 매핑 스타일](https://webpack.js.org/configuration/devtool/#devtool)을 제공합니다. 기본적으로 Mix의 소스 매핑 스타일은 `eval-source-map`으로 설정되어있어 빠른 rebuild를 제공합니다. 매핑 스타일을 변경하려면 `sourceMaps` 메소드를 사용하십시오.
+
+    let productionSourceMaps = false;
+
+    mix.js('resources/js/app.js', 'public/js')
+       .sourceMaps(productionSourceMaps, 'source-map');
+
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
 ## 자바스크립트 작업하기

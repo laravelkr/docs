@@ -443,7 +443,7 @@ The `Arr::pluck` method retrieves all of the values for a given key from an arra
 
 You may also specify how you wish the resulting list to be keyed:
 
-결과 목록을 키로 지정할 수도 있습니다.
+결과 목록을 원하는 키로 지정할 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -630,7 +630,7 @@ The `Arr::where` method filters an array using the given Closure:
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`Arr::wrap` 메소드는 배열에 주어진 값을 감쌉니다(wraps). 만약 배열에 주어진 값이 이미 있다면 변경되지 않습니다.
+`Arr::wrap` 메소드는 주어진 값을 배열로 감쌉니다(wraps). 주어진 값이 이미 배열이라면 변경되지 않습니다.
 
     use Illuminate\Support\Arr;
 
@@ -730,7 +730,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 
 The `data_set` function sets a value within a nested array or object using "dot" notation:
 
-`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안에 값을 설정합니다.
+`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 이나 객체 안의 값을 설정합니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -816,7 +816,7 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 
 The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
-`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된 해당 파일의 절대 경로를 생성할 수도 있습니다.
+`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된, 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = base_path();
 
@@ -858,7 +858,7 @@ The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/
 
 The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
 
-`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여 public 디렉토리 안에 있는 해당 파일의 절대 경로를 생성할 수도 있습니다:
+`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여 public 디렉토리 안에 있는 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
 
     $path = public_path();
@@ -923,7 +923,7 @@ The `class_basename` function returns the class name of the given class with the
 
 The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
 
-`e` 함수는 PHP의 `duuble_encode` 옵션이 기본 `true` 값으로 설정하여  `htmlspecialchars` 함수를 실행합니다.
+`e` 함수는 PHP의 `duuble_encode` 옵션을 기본 `true` 로 설정하여  `htmlspecialchars` 함수를 실행합니다.
 
     echo e('<html>foo</html>');
 
@@ -986,7 +986,7 @@ The `Str::camel` method converts the given string to `camelCase`:
 
 The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
-`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하고 있는지 확인합니다 (대소문자 구분).
+`Str::contains` 메소드는 주어진 값이 주어진 문자열에 포함되어 있는지를 확인합니다 (대소문자 구분).
 
     use Illuminate\Support\Str;
 
@@ -996,7 +996,7 @@ The `Str::contains` method determines if the given string contains the given val
 
 You may also pass an array of values to determine if the given string contains any of the values:
 
-주어진 문자열에 특정 값을 포함하고 있는지 판별하기 위한 값들의 배열을 전달할 수도 있습니다:
+주어진 문자열에 값들이 포함되어 있는지 확인하기 위해 값 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1009,7 +1009,7 @@ You may also pass an array of values to determine if the given string contains a
 
 The `Str::containsAll` method determines if the given string contains all array values:
 
-`Str::containsAll` 메소드는 주어진 문자열이 모든 배열 값들을 포함하고  있는지 확인합니다.
+`Str::containsAll` 메소드는 모든 배열 값에 주어진 문자열이 포함되어 있는지 확인합니다.
 
 
     use Illuminate\Support\Str;
@@ -1023,7 +1023,7 @@ The `Str::containsAll` method determines if the given string contains all array 
 
 The `Str::endsWith` method determines if the given string ends with the given value:
 
-`Str::endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다:
+`Str::endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1036,7 +1036,7 @@ The `Str::endsWith` method determines if the given string ends with the given va
 
 The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
-`Str::finish` 메소드는 주어진 값의 단일 인스턴스를, 그 값으로 끝나지 않는 문자열에 추가합니다:
+`Str::finish` 메소드는 그 값으로 끝나지 않는 문자열에 주어진 값의 단일 인스턴스를 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1053,7 +1053,7 @@ The `Str::finish` method adds a single instance of the given value to a string i
 
 The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다:
 
     use Illuminate\Support\Str;
 
@@ -1070,6 +1070,8 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
 
 The `Str::kebab` method converts the given string to `kebab-case`:
 
+`Str::kebab` 메소드는 주어진 문자열을 `kebab-case` 형태로 변환합니다.
+
     use Illuminate\Support\Str;
 
     $converted = Str::kebab('fooBar');
@@ -1081,7 +1083,7 @@ The `Str::kebab` method converts the given string to `kebab-case`:
 
 The `Str::limit` method truncates the given string at the specified length:
 
-`Str::limit` 메소드는 주어진 문자열을 지정된 길이로 잘라냅니다:
+`Str::limit` 메소드는 주어진 문자열을 지정된 길이에서 잘라냅니다.
 
     use Illuminate\Support\Str;
 
@@ -1091,7 +1093,7 @@ The `Str::limit` method truncates the given string at the specified length:
 
 You may also pass a third argument to change the string that will be appended to the end:
 
-변경될 문자열의 끝에 추가할 문자열을 세번째 인자로 전달할 수도 있습니다:
+끝에 추가해서 문자열을 변경하려면, 세번째 인자로 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1104,7 +1106,7 @@ You may also pass a third argument to change the string that will be appended to
 
 The `Str::orderedUuid` method generates a "timestamp first" UUID that may be efficiently stored in an indexed database column:
 
-`Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프 우선" UUID를 생성합니다:
+`Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프 우선" UUID를 생성합니다.
 
 (역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
 
@@ -1117,7 +1119,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 The `Str::plural` method converts a string to its plural form. This function currently only supports the English language:
 
-`Str::plural` 메소드는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어만 지원합니다:
+`Str::plural` 메소드는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1131,7 +1133,7 @@ The `Str::plural` method converts a string to its plural form. This function cur
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
-문자열의 단수 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 제공할 수 있습니다:
+문자열의 단수 혹은 복수 형태를 검색하기 위해서, 함수의 두번째 인자로 정수를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1148,7 +1150,7 @@ You may provide an integer as a second argument to the function to retrieve the 
 
 The `Str::random` method generates a random string of the specified length. This function uses PHP's `random_bytes` function:
 
-`Str::random` 메소드는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다:
+`Str::random` 메소드는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다.
 
     use Illuminate\Support\Str;
 
@@ -1159,7 +1161,7 @@ The `Str::random` method generates a random string of the specified length. This
 
 The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
 
-`Str::replaceArray` 메소드는 배열을 이용하여 문자열 안에서 주어진 값을 순차적으로 변환합니다:
+`Str::replaceArray` 메소드는 배열을 이용하여 문자열의 주어진 값을 순차적으로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1174,7 +1176,7 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 
 The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
-`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다:
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 처음으로 발견된 것을 교체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1187,7 +1189,7 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 
 The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
-`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다:
+`Str::replaceLast` 메소드는 문자열에서 주어진 값이 마지막으로 발견된 것을 교체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1200,7 +1202,7 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 
 The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
 
-`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어만 지원합니다:
+`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1217,7 +1219,7 @@ The `Str::singular` method converts a string to its singular form. This function
 
 The `Str::slug` method generates a URL friendly "slug" from the given string:
 
-`Str::slug` 메소드는 주어진 문자열로부터 URL에 알맞은 "slug"를 생성합니다:
+`Str::slug` 메소드는 주어진 문자열을 URL에 알맞은 "slug"를 생성합니다.
 
     use Illuminate\Support\Str;
 
@@ -1230,7 +1232,7 @@ The `Str::slug` method generates a URL friendly "slug" from the given string:
 
 The `Str::snake` method converts the given string to `snake_case`:
 
-`Str::snake` 메소드는 주어진 문자열을 `snake_case` 형태로 변환합니다:
+`Str::snake` 메소드는 주어진 문자열을 `snake_case` 형태로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1243,7 +1245,7 @@ The `Str::snake` method converts the given string to `snake_case`:
 
 The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`Str::start` 메소드는 주어진 값의 단일 인스턴스를, 그 값으로 시작하지 않는 문자열에 추가합니다:
+`Str::start` 메소드는 그 값으로 시작하지 않는 문자열에 주어진 값의 단일 인스턴스를 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1260,7 +1262,7 @@ The `Str::start` method adds a single instance of the given value to a string if
 
 The `Str::startsWith` method determines if the given string begins with the given value:
 
-`Str::startsWith` 메소드는 주어진 문자열이 주어진 값으로 시작하는지 확인합니다:
+`Str::startsWith` 메소드는 주어진 문자열이 주어진 값으로 시작하는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1273,7 +1275,7 @@ The `Str::startsWith` method determines if the given string begins with the give
 
 The `Str::studly` method converts the given string to `StudlyCase`:
 
-`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다:
+`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1286,7 +1288,7 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
 The `Str::title` method converts the given string to `Title Case`:
 
-`Str::title` 메소드는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
+`Str::title` 메소드는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이에 공백이 포함되는 형태).
 
     use Illuminate\Support\Str;
 
@@ -1299,7 +1301,7 @@ The `Str::title` method converts the given string to `Title Case`:
 
 The `Str::uuid` method generates a UUID (version 4):
 
-`Str::uuid` 메소드는 UUID (version 4)를 생성합니다:
+`Str::uuid` 메소드는 UUID (version 4)를 생성합니다.
 
     use Illuminate\Support\Str;
 
@@ -1329,14 +1331,14 @@ The `trans` function translates the given translation key using your [localizati
 
 If the specified translation key does not exist, the `trans` function will return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
 
-지정된 번역 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 위 예제를 사용하면, 번역 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
+지정된 번역 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 위 예제에서 번역 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
 The `trans_choice` function translates the given translation key with inflection:
 
-`trans_choice` 함수는 변곡된 번역 키를 번역합니다:
+`trans_choice` 함수는 변곡된 번역 키를 번역합니다.
 
     echo trans_choice('messages.notifications', $unreadCount);
 

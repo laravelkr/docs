@@ -213,7 +213,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
-`Arr::add` 메소드는 배열 내에 주어진 키가 존재하지 않거나 `null` 인 경우, 주어진 key/value 쌍을 배열에 추가합니다:
+`Arr::add` 메소드는 배열 내에 주어진 키가 존재하지 않거나 `null` 인 경우, 주어진 key/value 쌍을 배열에 추가합니다.
 
     use Illuminate\Support\Arr;
 
@@ -231,7 +231,7 @@ The `Arr::add` method adds a given key / value pair to an array if the given key
 
 The `Arr::collapse` method collapses an array of arrays into a single array:
 
-`Arr::collapse` 메소드는 배열들의 배열(여러 개의 배열)을 하나의 배열로 통합합니다:
+`Arr::collapse` 메소드는 배열들의 배열(여러 개의 배열)을 하나의 배열로 통합합니다.
 
     use Illuminate\Support\Arr;
 
@@ -244,7 +244,7 @@ The `Arr::collapse` method collapses an array of arrays into a single array:
 
 The `Arr::divide` method returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`Arr::divide` 메소드는 주어진 배열의 키(key)들과 값(value)들, 2개의 배열들을 반환합니다:
+`Arr::divide` 메소드는 주어진 배열의 키(key)들과 값(value)들, 2개의 배열들을 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -259,7 +259,7 @@ The `Arr::divide` method returns two arrays, one containing the keys, and the ot
 
 The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
-`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’표기범을 사용하여 깊이를 나타내는 단일 레벨 배열로 평면화 합니다:
+`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’표기범을 사용하여 깊이를 나타내는 단일 레벨 배열로 평면화 합니다.
 
     use Illuminate\Support\Arr;
 
@@ -274,7 +274,7 @@ The `Arr::dot` method flattens a multi-dimensional array into a single level arr
 
 The `Arr::except` method removes the given key / value pairs from an array:
 
-`Arr::except` 메소드는 배열에서 주어진 키 / 값 쌍을 제거합니다
+`Arr::except` 메소드는 배열에서 주어진 키 / 값 쌍을 제거합니다.
 
     use Illuminate\Support\Arr;
 
@@ -289,7 +289,7 @@ The `Arr::except` method removes the given key / value pairs from an array:
 
 The `Arr::first` method returns the first element of an array passing a given truth test:
 
-`Arr::first` 메소드는 주어진 조건을 만족하는 배열의 첫번째 요소를 반환합니다:
+`Arr::first` 메소드는 주어진 조건을 만족하는 배열의 첫번째 요소를 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -303,7 +303,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
 A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
-기본 값은 메소드에 세번째 인자로 전달할 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달할 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -314,7 +314,7 @@ A default value may also be passed as the third parameter to the method. This va
 
 The `Arr::flatten` method flattens a multi-dimensional array into a single level array:
 
-`Arr::flatten` 메소드는 다차원 배열을 단일 레벨 배열로 평면화합니다:
+`Arr::flatten` 메소드는 다차원 배열을 단일 레벨 배열로 평면화합니다.
 
     use Illuminate\Support\Arr;
 
@@ -329,7 +329,7 @@ The `Arr::flatten` method flattens a multi-dimensional array into a single level
 
 The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
 
-`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 주어진 키/ 값 쌍을 제거합니다:
+`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 주어진 키/ 값 쌍을 제거합니다.
 
     use Illuminate\Support\Arr;
 
@@ -342,9 +342,9 @@ The `Arr::forget` method removes a given key / value pair from a deeply nested a
 <a name="method-array-get"></a>
 #### `Arr::get()` {#collection-method된
 
-The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation합
+The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation:
 
-`Arr::get` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 값을 검색합니다:
+`Arr::get` 메소드는 “점(.)”표기법을 사용하여 깊게 중첩된 배열에서 값을 검색합니다.
 
     use Illuminate\Support\Arr;
 
@@ -356,7 +356,7 @@ The `Arr::get` method retrieves a value from a deeply nested array using "dot" n
 
 The `Arr::get` method also accepts a default value, which will be returned if the specific key is not found:
 
-`Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 받을 수도 있습니다:
+`Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 받을 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -369,7 +369,7 @@ The `Arr::get` method also accepts a default value, which will be returned if th
 
 The `Arr::has` method checks whether a given item or items exists in an array using "dot" notation:
 
-`Arr::has` 메소드는 "점(.)" 표기법으로 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다:
+`Arr::has` 메소드는 "점(.)" 표기법으로 배열에 주어진 아이템 또는 아이템들이 존재하는지 확인합니다.
 
     use Illuminate\Support\Arr;
 
@@ -388,7 +388,7 @@ The `Arr::has` method checks whether a given item or items exists in an array us
 
 The `Arr::last` method returns the last element of an array passing a given truth test:
 
-`Arr::last` 메소드는 주어진 조건을 만족하는 배열의 마지막 요소를 반환합니다:
+`Arr::last` 메소드는 주어진 조건을 만족하는 배열의 마지막 요소를 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -402,7 +402,7 @@ The `Arr::last` method returns the last element of an array passing a given trut
 
 A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
 
-기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 조건을 통과한 값이 없다면 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -413,7 +413,7 @@ A default value may be passed as the third argument to the method. This value wi
 
 The `Arr::only` method returns only the specified key / value pairs from the given array:
 
-`Arr::only` 메소드는 특정한 키 / 값 쌍만을 배열로부터 반환합니다:
+`Arr::only` 메소드는 특정한 키 / 값 쌍만을 배열로부터 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -443,7 +443,7 @@ The `Arr::pluck` method retrieves all of the values for a given key from an arra
 
 You may also specify how you wish the resulting list to be keyed:
 
-결과 목록을 키로 지정할 수도 있습니다:
+결과 목록을 키로 지정할 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -456,7 +456,7 @@ You may also specify how you wish the resulting list to be keyed:
 
 The `Arr::prepend` method will push an item onto the beginning of an array:
 
-`Arr::prepend` 메소드는 배열의 시작 부분에 아이템을 추가합니다:
+`Arr::prepend` 메소드는 배열의 시작 부분에 아이템을 추가합니다.
 
     use Illuminate\Support\Arr;
 
@@ -468,7 +468,7 @@ The `Arr::prepend` method will push an item onto the beginning of an array:
 
 If needed, you may specify the key that should be used for the value:
 
-필요한 경우, 사용하려는 값에 키를 지정할 수도 있습니다:
+필요한 경우, 사용하려는 값에 키를 지정할 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -483,7 +483,7 @@ If needed, you may specify the key that should be used for the value:
 
 The `Arr::pull` method returns and removes a key / value pair from an array:
 
-`Arr::pull` 메소드는 배열에서 주어진 키 / 값 쌍을 반환하고 삭제합니다:
+`Arr::pull` 메소드는 배열에서 주어진 키 / 값 쌍을 반환하고 삭제합니다.
 
     use Illuminate\Support\Arr;
 
@@ -497,7 +497,7 @@ The `Arr::pull` method returns and removes a key / value pair from an array:
 
 A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
 
-기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 키가 존재하지 않는 다면 이 값이 반환됩니다:
+기본 값은 메소드에 세번째 인자로 전달될 수 있습니다. 키가 존재하지 않는 다면 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -508,7 +508,7 @@ A default value may be passed as the third argument to the method. This value wi
 
 The `Arr::random` method returns a random value from an array:
 
-`Arr::random` 메소드는 배열에서 임의의(random) 값을 반환합니다:
+`Arr::random` 메소드는 배열에서 임의의(random) 값을 반환합니다.
 
 
     use Illuminate\Support\Arr;
@@ -521,7 +521,7 @@ The `Arr::random` method returns a random value from an array:
 
 You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array, even if only one item is desired:
 
-선택적으로 두번째 인자에 반환할 아이템 수를 지정할 수 있습니다. 이 인자를 제공하면, 하나 항목만 필요하더라도 배열을 반환합니다:
+선택적으로 두번째 인자에 반환할 아이템 수를 지정할 수 있습니다. 이 인자를 제공하면, 하나 항목만 필요하더라도 배열을 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -534,7 +534,7 @@ You may also specify the number of items to return as an optional second argumen
 
 The `Arr::set` method sets a value within a deeply nested array using "dot" notation:
 
-`Arr::set` 메소드는 "점(.)" 표기법을 이용하여 깊게 중첩된 배열 내에 값을 설정합니다:
+`Arr::set` 메소드는 "점(.)" 표기법을 이용하여 깊게 중첩된 배열 내에 값을 설정합니다.
 
     use Illuminate\Support\Arr;
 
@@ -549,7 +549,7 @@ The `Arr::set` method sets a value within a deeply nested array using "dot" nota
 
 The `Arr::sort` method sorts an array by its values:
 
-`Arr::sort` 메소드는 값을 기반으로 배열을 정렬합니다:
+`Arr::sort` 메소드는 값을 기반으로 배열을 정렬합니다.
 
     use Illuminate\Support\Arr;
 
@@ -561,7 +561,7 @@ The `Arr::sort` method sorts an array by its values:
 
 You may also sort the array by the results of the given Closure:
 
-주어진 클로저의 결과들로 배열을 정렬할 수도 있습니다:
+주어진 클로저의 결과들로 배열을 정렬할 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -588,7 +588,7 @@ You may also sort the array by the results of the given Closure:
 
 The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
 
-`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을 위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다:
+`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을 위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
 
     use Illuminate\Support\Arr;
 
@@ -613,7 +613,7 @@ The `Arr::sortRecursive` method recursively sorts an array using the `sort` func
 
 The `Arr::where` method filters an array using the given Closure:
 
-`Arr::where` 메소드는 주어진 클로져를 사용하여 배열을 필터링합니다:
+`Arr::where` 메소드는 주어진 클로져를 사용하여 배열을 필터링합니다.
 
     use Illuminate\Support\Arr;
 
@@ -630,7 +630,7 @@ The `Arr::where` method filters an array using the given Closure:
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`Arr::wrap` 메소드는 배열에 주어진 값을 감쌉니다(wraps). 만약 배열에 주어진 값이 이미 있다면 변경되지 않습니다:
+`Arr::wrap` 메소드는 배열에 주어진 값을 감쌉니다(wraps). 만약 배열에 주어진 값이 이미 있다면 변경되지 않습니다.
 
     use Illuminate\Support\Arr;
 
@@ -642,7 +642,7 @@ The `Arr::wrap` method wraps the given value in an array. If the given value is 
 
 If the given value is null, an empty array will be returned:
 
-주어진 값이 null이라면, 빈 배열이 반환됩니다:
+주어진 값이 null이라면, 빈 배열이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -657,7 +657,7 @@ If the given value is null, an empty array will be returned:
 
 The `data_fill` function sets a missing value within a nested array or object using "dot" notation:
 
-`data_fill` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 내부에 빠진 값을 채워넣습니다
+`data_fill` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 내부에 빠진 값을 채워넣습니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -671,7 +671,7 @@ The `data_fill` function sets a missing value within a nested array or object us
 
 This function also accepts asterisks as wildcards and will fill the target accordingly:
 
-이 함수는 또한 와일드카드로 별표(asterisks)를 허용하고, 그에 따라 대상을 채워넣습니다:
+이 함수는 또한 와일드카드로 별표(asterisks)를 허용하고, 그에 따라 대상을 채워넣습니다.
 
     $data = [
         'products' => [
@@ -696,7 +696,7 @@ This function also accepts asterisks as wildcards and will fill the target accor
 
 The `data_get` function retrieves a value from a nested array or object using "dot" notation:
 
-`data_get` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 이나 객체에서 값을 찾습니다:
+`data_get` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 이나 객체에서 값을 찾습니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -706,7 +706,7 @@ The `data_get` function retrieves a value from a nested array or object using "d
 
 The `data_get` function also accepts a default value, which will be returned if the specified key is not found:
 
-`data_get` 함수는 지정된 키를 찾을 수 없는 경우 반환될 기본값을 허용할 수도 있습니다:
+`data_get` 함수는 지정된 키를 찾을 수 없는 경우 반환될 기본값을 허용할 수도 있습니다.
 
     $discount = data_get($data, 'products.desk.discount', 0);
 
@@ -714,7 +714,7 @@ The `data_get` function also accepts a default value, which will be returned if 
 
 The function also accepts wildcards using asterisks, which may target any key of the array or object:
 
-이 함수는 배열이나 객체의 모든 키를 대상으로 할 수 있는, 별표를 이용한 와일드카드도 허용합니다:
+이 함수는 배열이나 객체의 모든 키를 대상으로 별표를 이용한 와일드카드도 허용합니다.
 
     $data = [
         'product-one' => ['name' => 'Desk 1', 'price' => 100],
@@ -730,7 +730,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 
 The `data_set` function sets a value within a nested array or object using "dot" notation:
 
-`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안에 값을 설정합니다:
+`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안에 값을 설정합니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -740,7 +740,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
 This function also accepts wildcards and will set values on the target accordingly:
 
-이 함수는 와일드카드로 허용하여, 그에 따른 대상에 값들을 설정합니다:
+이 함수는 와일드카드를 허용하여, 그에 따른 대상에 값들을 설정합니다.
 
     $data = [
         'products' => [
@@ -762,7 +762,7 @@ This function also accepts wildcards and will set values on the target according
 
 By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
 
-기본적으로 기존 값들은 덮어 씁니다. 값이 없을 때만 설정하려면, 네번째 인자로 `false`를 전달하면 됩니다:
+기본적으로 기존 값들은 덮어 씁니다. 값이 없을 때만 설정하려면, 네번째 인자로 `false`를 전달하면 됩니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -775,7 +775,7 @@ By default, any existing values are overwritten. If you wish to only set a value
 
 The `head` function returns the first element in the given array:
 
-`head` 함수는 배열의 첫번째 요소를 반환합니다:
+`head` 함수는 배열의 첫번째 요소를 반환합니다.
 
     $array = [100, 200, 300];
 
@@ -788,7 +788,7 @@ The `head` function returns the first element in the given array:
 
 The `last` function returns the last element in the given array:
 
-`last` 함수는 배열의 마지막 요소를 반환합니다
+`last` 함수는 배열의 마지막 요소를 반환합니다.
 
     $array = [100, 200, 300];
 
@@ -804,7 +804,7 @@ The `last` function returns the last element in the given array:
 
 The `app_path` function returns the fully qualified path to the `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
 
-`app_path` 함수는 `app` 디렉토리의 절대 경로를 반환합니다. `app_path` 함수를 사용하여 애플리케이션 디렉토리에 관련된 파일의 절대 경로를 생성할 수도 있습니다:
+`app_path` 함수는 `app` 디렉토리의 절대 경로를 반환합니다. `app_path` 함수를 사용하여 애플리케이션 디렉토리에 관련된 파일의 절대 경로를 생성할 수도 있습니다.
 
 
     $path = app_path();
@@ -816,7 +816,7 @@ The `app_path` function returns the fully qualified path to the `app` directory.
 
 The `base_path` function returns the fully qualified path to the project root. You may also use the `base_path` function to generate a fully qualified path to a given file relative to the project root directory:
 
-`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된 해당 파일에 대한 절대 경로를 생성할 수도 있습니다
+`base_path` 함수는 프로젝트의 루트 디렉토리의 절대 경로를 반환합니다. `base_path` 함수를 사용하여 프로젝트 루트 디렉토리에 관련된 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = base_path();
 
@@ -827,7 +827,7 @@ The `base_path` function returns the fully qualified path to the project root. Y
 
 The `config_path` function returns the fully qualified path to the `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
 
-`config_path` 함수는 애플리케이션의 `config` 디렉토리의 절대 경로를 반환합니다. `config_path` 함수를 사용하여 애플리케이션의 설정 디렉토리 내에 해당 파일에 대한 절대 경로를 생성할 수도 있습니다
+`config_path` 함수는 애플리케이션의 `config` 디렉토리의 절대 경로를 반환합니다. `config_path` 함수를 사용하여 애플리케이션의 설정 디렉토리 내에 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = config_path();
 
@@ -838,7 +838,7 @@ The `config_path` function returns the fully qualified path to the `config` dire
 
 The `database_path` function returns the fully qualified path to the `database` directory. You may also use the `database_path` function to generate a fully qualified path to a given file within the database directory:
 
-`database_path` 함수는 `database` 디렉토리의 절대 경로를 반환합니다. `database_path` 함수를 사용하여 데이터베이스 디렉토리 내에 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+`database_path` 함수는 `database` 디렉토리의 절대 경로를 반환합니다. `database_path` 함수를 사용하여 데이터베이스 디렉토리 내에 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = database_path();
 
@@ -849,7 +849,7 @@ The `database_path` function returns the fully qualified path to the `database` 
 
 The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/mix):
 
-`mix` 함수는 [버전이 지정된 Mix 파일](/docs/{{version}}/mix)에 대한 경로를 반환합니다:
+`mix` 함수는 [버전이 지정된 Mix 파일](/docs/{{version}}/mix)의 경로를 반환합니다.
 
     $path = mix('css/app.css');
 
@@ -858,7 +858,7 @@ The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/
 
 The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
 
-`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여 public 디렉토리 안에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여 public 디렉토리 안에 있는 해당 파일의 절대 경로를 생성할 수도 있습니다:
 
 
     $path = public_path();
@@ -870,7 +870,7 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
 The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
 
-`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 내에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 내에 있는 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
 
     $path = resource_path();
@@ -882,7 +882,7 @@ The `resource_path` function returns the fully qualified path to the `resources`
 
 The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
 
-`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 내에 있는 해당 파일에 대한 절대 경로를 생성할 수도 있습니다:
+`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 내에 있는 해당 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = storage_path();
 
@@ -897,7 +897,7 @@ The `storage_path` function returns the fully qualified path to the `storage` di
 
 The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
 
-`__` 함수는 [현지화 파일](/docs/{{version}}/localization)을 사용하여 주어진 번역 문자열이나 번역 키로 변환합니다:
+`__` 함수는 [현지화 파일](/docs/{{version}}/localization)을 사용하여 주어진 번역 문자열이나 번역 키로 번역합니다.
 
     echo __('Welcome to our application');
 
@@ -905,14 +905,14 @@ The `__` function translates the given translation string or translation key usi
 
 If the specified translation string or key does not exist, the `__` function will return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
 
-지정된 번역 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 반환합니다. 따라서 위 예제에서 번역 키가 존재하지 않는다면 `__` 함수는 `messages.welcome`를 반환합니다.
+지정된 번역 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 반환합니다. 따라서 위 예제에서, 번역 키가 존재하지 않는다면 `__` 함수는 `messages.welcome`를 반환합니다.
 
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
 The `class_basename` function returns the class name of the given class with the class' namespace removed:
 
-`class_basename` 함수는 클래스의 네임스페이스를 제거한, 해당 클래스의 클래스 명을 반환합니다:
+`class_basename` 함수는 클래스의 네임스페이스가 제거된 해당 클래스의 클래스 명을 반환합니다.
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -923,7 +923,7 @@ The `class_basename` function returns the class name of the given class with the
 
 The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
 
-`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `duuble_encode` 옵션이 기본적으로 `true` 값으로 설정하여 실행합니다:
+`e` 함수는 PHP의 `duuble_encode` 옵션이 기본 `true` 값으로 설정하여  `htmlspecialchars` 함수를 실행합니다.
 
     echo e('<html>foo</html>');
 
@@ -934,7 +934,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
 The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
 
-`preg_replace_array` 함수는 배열을 이용하여 문자열 내에 주어진 패턴을 순차적으로 교체합니다:
+`preg_replace_array` 함수는 배열을 이용하여 문자열 내에 주어진 패턴을 순차적으로 교체합니다.
 
     $string = 'The event will take place between :start and :end';
 
@@ -947,7 +947,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 
 The `Str::after` method returns everything after the given value in a string:
 
-`Str::after` 메소드는 문자열 내에서 주어진 값 다음의 모든 것을 반환합니다:
+`Str::after` 메소드는 문자열 내에서 주어진 값 다음의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -960,7 +960,7 @@ The `Str::after` method returns everything after the given value in a string:
 
 The `Str::before` method returns everything before the given value in a string:
 
-`Str::before` 메소드는 문자열 내에서 주어진 값 이전의 모든 것을 반환합니다:
+`Str::before` 메소드는 문자열 내에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -973,7 +973,7 @@ The `Str::before` method returns everything before the given value in a string:
 
 The `Str::camel` method converts the given string to `camelCase`:
 
-`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다:
+`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -986,7 +986,7 @@ The `Str::camel` method converts the given string to `camelCase`:
 
 The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
-`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하고 있는지 확인합니다 (대소문자 구분):
+`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하고 있는지 확인합니다 (대소문자 구분).
 
     use Illuminate\Support\Str;
 

@@ -86,9 +86,17 @@ Laravel은 확인 링크를 보내고 이메일을 확인하는 데 필요한 �
 ## Views
 ## 뷰
 
-Laravel will generate all of the necessary email verification views when the `make:auth` command is executed. This view is placed in `resources/views/auth/verify.blade.php`. You are free to customize this view as needed for your application.
+To generate all of the necessary view for email verification, you may use the laravel/ui Composer package:
 
-Laravel은 `make:auth` 명령이 실행될 때 필요한 모든 이메일 검증 뷰를 생성합니다. 이 뷰는 `resources/views/auth/verify.blade.php` 에 있습니다. 필요에 따라 이 뷰를 자유롭게 커스터마이징 할 수 있습니다.
+`laravel/ui` Composer 패키지를 이용하면 이메일 검증에 필요한 뷰를 생성할 수 있습니다.
+
+    composer require laravel/ui --dev
+    
+    php artisan ui vue --auth
+    
+The email verification view is placed in resources/views/auth/verify.blade.php. You are free to customize this view as needed for your application.
+
+이메일 검증 뷰는 `resources/views/auth/verify.blade.php`에 있습니다. 필요에 따라 자유롭게 수정할 수 있습니다.
 
 <a name="after-verifying-emails"></a>
 ## After Verifying Emails

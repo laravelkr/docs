@@ -28,7 +28,7 @@
 
 When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that dispatches an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners, since the event listeners can be tested in their own test case.
 
-라라벨 애플리케이션을 테스트할 때, 주어진 테스트가 진행되는 동안 실제로 실행되지 않도록 애플리케이션의 특정 부분을 "mock" 할 수 있습니다. 예를 들어 이벤트를 전달하는 컨트롤러를 테스트 할 때, 테스트 중에 이벤트 리스너가 실제로 실행되지 않도록 mock할 수 있습니다. 이벤트 리스너는 자체 테스트 케이스에서 테스트 할 수 있어서 이벤트 리스너가 실행될 것에 대한 걱정없이 컨트롤러의 HTTP 응답만 테스트할 수 있습니다.
+라라벨 애플리케이션을 테스트할 때, 주어진 테스트가 진행되는 동안 실제로 실행되지 않도록 애플리케이션의 특정 부분을 "mock" 하는 것을 원할 겁니다. 예를 들어 이벤트를 전달하는 컨트롤러를 테스트 할 때, 테스트 중에 이벤트 리스너가 실제로 실행되지 않도록 mock 하는 것을 원할 수 있습니다. 이벤트 리스너는 자체 테스트 케이스에서 테스트 할 수 있어서 이벤트 리스너가 실행될 것에 대한 걱정없이 컨트롤러의 HTTP 응답만 테스트할 수 있습니다.
 
 Laravel provides helpers for mocking events, jobs, and facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls. You can also use [Mockery](http://docs.mockery.io/en/latest/) or PHPUnit to create your own mocks or spies.
 

@@ -1,6 +1,6 @@
 # 라라벨 한국어 매뉴얼
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-35-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-36-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
 ![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)
@@ -127,6 +127,9 @@
     <td align="center"><a href="https://github.com/lucyholic"><img src="https://avatars3.githubusercontent.com/u/37027571?v=4" width="100px;" alt="Lucy Kim"/><br /><sub><b>Lucy Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=lucyholic" title="Documentation">📖</a></td>
     <td align="center"><a href="http://jaedong.kim"><img src="https://avatars0.githubusercontent.com/u/978944?v=4" width="100px;" alt="Jaedong Kim"/><br /><sub><b>Jaedong Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=jdssem" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/fwang-laralabs"><img src="https://avatars1.githubusercontent.com/u/26479627?v=4" width="100px;" alt="fwang-laralabs"/><br /><sub><b>fwang-laralabs</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=fwang-laralabs" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/dhtmdgkr123"><img src="https://avatars1.githubusercontent.com/u/27611405?v=4" width="100px;" alt="dhtmdgkr123"/><br /><sub><b>dhtmdgkr123</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=dhtmdgkr123" title="Documentation">📖</a></td>
   </tr>
 </table>
 

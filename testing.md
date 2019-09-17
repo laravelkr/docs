@@ -22,7 +22,7 @@ By default, your application's `tests` directory contains two directories: `Feat
 
 An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, run `phpunit` on the command line to run your tests.
 
-`ExampleTest.php` 파일은 `Feature` 와 `Unit` 테스트 디렉토리에 모두 제공됩니다. 새로운 라라벨 애플리케이션을 설치한 뒤에, 커맨드 라인에서 `phpunit` 명령어를 실행하여 테스트를 실행하십시오.
+`ExampleTest.php` 파일은 `Feature` 와 `Unit` 테스트 디렉토리에 모두 제공됩니다. 새로운 라라벨 애플리케이션을 설치한 후, 테스트를 실행하려면 커맨드 라인에서 `phpunit`을 실행하십시오.
 
 <a name="environment"></a>
 ## Environment
@@ -30,15 +30,15 @@ An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test dire
 
 When running tests via `phpunit`, Laravel will automatically set the configuration environment to `testing` because of the environment variables defined in the `phpunit.xml` file. Laravel also automatically configures the session and cache to the `array` driver while testing, meaning no session or cache data will be persisted while testing.
 
-`phpunit`을 통해서 테스트를 실행할 때, 라라벨은 `phpunit.xml`에 정의된 환경변수 때문에, 설정 환경을 `testing`으로 자동 설정합니다. 라라벨은 테스팅 하는 동안은 세션과 캐시는 `array` 드라이버에 자동 설정합니다. 이것은 테스팅 하는 동안 세션과 캐시 데이터는 유지되지 않습니다. 
+`phpunit`을 통해서 테스트를 실행할 때, 라라벨은 `phpunit.xml`에 정의된 환경변수 때문에, 설정 환경을 `testing`으로 자동 설정합니다. 라라벨은 테스팅 하는 동안은 `array` 드라이버에 세션과 캐시를 자동 설정합니다. 이것은 테스트 하는 동안 세션과 캐시 데이터는 유지되지 않음을 의미합니다. 
 
 You are free to define other testing environment configuration values as necessary. The `testing` environment variables may be configured in the `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
 
-필요한 경우에 테스트 환경 설정 값들을 자유롭게 정의할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있지만, 테스트를 실행 하기 전에 `config:clear` 아티즌 명령을 이용하여 설정된 캐시를 지우십시오!
+필요한 다른 테스트 환경 설정 값들을 자유롭게 정의할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있지만, 테스트를 실행 하기 전에 `config:clear` 아티즌 명령을 이용하여 설정된 캐시를 지우십시오!
 
 In addition, you may create a `.env.testing` file in the root of your project. This file will override the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
 
-추가로, 프로젝트의 루트에 `.env.testing` 파일을 생성할 수도 있습니다. 이 파일은 PHPUnit 테스트가 실행되거나, `--env=testing` 옵션으로 아티즌 명령을 실행할때 `.env` 파일보다 우선합니다.
+추가로, 프로젝트의 루트에 `.env.testing` 파일을 생성할 수도 있습니다. 이 파일은 PHPUnit 테스트가 실행될 때나 `--env=testing` 옵션으로 아티즌 명령을 실행할때 `.env` 파일을 오버라이드합니다.
 
 <a name="creating-and-running-tests"></a>
 ## Creating & Running Tests
@@ -46,7 +46,7 @@ In addition, you may create a `.env.testing` file in the root of your project. T
 
 To create a new test case, use the `make:test` Artisan command:
 
-새로운 테스트 케이스를 생성하려면 `make:test` 아티즌 명령어를 이용하십시오:
+새로운 테스트 케이스를 생성하려면 `make:test` 아티즌 명령어를 이용하십시오.
 
     // Create a test in the Feature directory...
     php artisan make:test UserTest
@@ -56,7 +56,7 @@ To create a new test case, use the `make:test` Artisan command:
 
 Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, execute the `phpunit` command from your terminal:
 
-테스트 파일이 생성되면, 보통 PHPUnit을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `phpunit` 커맨드를 실행하십시오:
+테스트 파일이 생성되면, 보통 PHPUnit을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `phpunit` 커맨드를 실행하십시오.
 
     <?php
 

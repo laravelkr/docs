@@ -1006,7 +1006,7 @@ You may also pass an array of values to determine if the given string contains a
 
 The `Str::containsAll` method determines if the given string contains all array values:
 
-`Str::containsAll` 메소드는 주어진 문자열이 모든 배열 값을 포함하고 있는지 확인합니다.
+`Str::containsAll` 메소드는 주어진 문자열이 모든 배열의 값을 포함하고 있는지 확인합니다.
 
 
     use Illuminate\Support\Str;
@@ -1033,7 +1033,7 @@ The `Str::endsWith` method determines if the given string ends with the given va
 
 The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
-`Str::finish` 메소드는 그 값으로 끝나지 않는다면, 문자열에 주어진 값의 단일 인스턴스를 추가합니다.
+`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않는다면, 문자열에 그 값의 단일 인스턴스를 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1090,7 +1090,7 @@ The `Str::limit` method truncates the given string at the specified length:
 
 You may also pass a third argument to change the string that will be appended to the end:
 
-문자열 끝에 추가해서 문자열을 변경하기 위해 세번째 인자로 전달할 수도 있습니다.
+문자열 끝에 추가하려면 세번째 인자를 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1116,7 +1116,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 The `Str::plural` method converts a string to its plural form. This function currently only supports the English language:
 
-`Str::plural` 메소드는 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
+`Str::plural` 메소드는 문자열의 복수형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1130,7 +1130,7 @@ The `Str::plural` method converts a string to its plural form. This function cur
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
-문자열의 단수 혹은 복수 형태를 검색하기 위해서, 함수의 두번째 인자로 정수를 제공할 수 있습니다.
+문자열의 단수 혹은 복수 형태를 검색하기 위해서, 함수에 두번째 인자로 정수를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1147,7 +1147,7 @@ You may provide an integer as a second argument to the function to retrieve the 
 
 The `Str::random` method generates a random string of the specified length. This function uses PHP's `random_bytes` function:
 
-`Str::random` 메소드는 지정된 길이의 문자열을 무작위로 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다.
+`Str::random` 메소드는 지정된 길이의 무작위 문자열을 생성합니다. 이 함수는 PHP의 `random_bytes` 함수를 사용합니다.
 
     use Illuminate\Support\Str;
 
@@ -1158,7 +1158,7 @@ The `Str::random` method generates a random string of the specified length. This
 
 The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
 
-`Str::replaceArray` 메소드는 배열을 이용하여 문자열의 주어진 값을 순차적으로 변환합니다.
+`Str::replaceArray` 메소드는 배열을 이용하여 문자열 안에 주어진 값을 순차적으로 교체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1173,7 +1173,7 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 
 The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
-`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 처음으로 발견된 것을 교체합니다.
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값으로 처음 발견된 것을 교체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1186,7 +1186,7 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 
 The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
-`Str::replaceLast` 메소드는 문자열에서 주어진 값이 마지막으로 발견된 것을 교체합니다.
+`Str::replaceLast` 메소드는 문자열에서 주어진 값으로 마지막 발견된 것을 교체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1199,7 +1199,7 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 
 The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
 
-`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
+`Str::singular` 메소드는 문자열의 단수 형태로 변환합니다. 이 함수는 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1216,7 +1216,7 @@ The `Str::singular` method converts a string to its singular form. This function
 
 The `Str::slug` method generates a URL friendly "slug" from the given string:
 
-`Str::slug` 메소드는 주어진 문자열을 URL에 알맞은 "slug"를 생성합니다.
+`Str::slug` 메소드는 주어진 문자열에서 URL에 친화적인 "slug"를 생성합니다.
 
     use Illuminate\Support\Str;
 
@@ -1242,7 +1242,7 @@ The `Str::snake` method converts the given string to `snake_case`:
 
 The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`Str::start` 메소드는 그 값으로 시작하지 않는 문자열에 주어진 값의 단일 인스턴스를 추가합니다.
+`Str::start` 메소드는 주어진 값으로 시작하지 않는 문자열에 그 값의 단일 인스턴스를 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1328,20 +1328,20 @@ The `trans` function translates the given translation key using your [localizati
 
 If the specified translation key does not exist, the `trans` function will return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
 
-지정된 번역 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 위 예제에서, 번역 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 반환합니다.
+지정된 번역 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 위 예제를 사용하면, `trans` 함수는 번역 키가 존재하지 않는다면 `messages.welcome`를 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
 
 The `trans_choice` function translates the given translation key with inflection:
 
-`trans_choice` 함수는 변곡된 번역 키를 번역합니다.
+`trans_choice` 함수는 주어진 번역 키를 변곡하여 번역합니다.
 
     echo trans_choice('messages.notifications', $unreadCount);
 
 If the specified translation key does not exist, the `trans_choice` function will return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
 
-지정된 번역 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 위 예제에서, 번역 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 반환합니다.
+지정된 번역 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 위 예제를 사용하면, `trans_choice` 함수는 번역 키가 존재하지 않는다면 `messages.notifications`를 반환합니다.
 
 <a name="urls"></a>
 ## URLs
@@ -1351,7 +1351,7 @@ If the specified translation key does not exist, the `trans_choice` function wil
 
 The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
 
-`action` 함수는 주어진 컨트롤러 실행을 위해 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 연관된 컨트롤러 클래스 이름을 전달합니다.
+`action` 함수는 주어진 컨트롤러 실행을 위한 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 연관된 컨트롤러 클래스 이름을 전달합니다.
 
     $url = action('HomeController@index');
 
@@ -1359,7 +1359,7 @@ The `action` function generates a URL for the given controller action. You do no
 
 If the method accepts route parameters, you may pass them as the second argument to the method:
 
-메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오.
+메소드가 라우트 파라미터를 허용한다면, 메소드에 두번째 인자로 전달합니다.
 
     $url = action('UserController@profile', ['id' => 1]);
 
@@ -1374,7 +1374,7 @@ The `asset` function generates a URL for an asset using the current scheme of th
 
 You can configure the asset URL host by setting the `ASSET_URL` variable in your `.env` file. This can be useful if you host your assets on an external service like Amazon S3:
 
-`.env` 파일에 `ASSET_URL` 변수를 설정하여 asset의 URL 호스트를 설정할 수 있습니다. 이것은 Amazon S3와 같은 외부 서비스에서 asset을 호스팅하는 경우 유용합니다.
+`.env` 파일에 `ASSET_URL` 변수를 설정하여 asset의 URL 호스트를 설정할 수 있습니다. 이것은 Amazon S3와 같은 외부 서비스에서 asset을 호스팅한다면 유용합니다.
 
     // ASSET_URL=http://example.com/assets
 
@@ -1385,19 +1385,19 @@ You can configure the asset URL host by setting the `ASSET_URL` variable in your
 
 The `route` function generates a URL for the given named route:
 
-`route` 함수는 주어진 라우트 이름으로 URL을 생성합니다.
+`route` 함수는 라우트 이름으로 URL을 생성합니다.
 
     $url = route('routeName');
 
 If the route accepts parameters, you may pass them as the second argument to the method:
 
-라우트가 파라미터를 갖게 하려면, 메소드에 두번째 인자로 전달합니다.
+라우트가 파라미터를 허용한다면, 메소드에 두번째 인자로 전달합니다.
 
     $url = route('routeName', ['id' => 1]);
 
 By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third argument:
 
-기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로 URL을 생성하려면, 세번째 인자값으로 `false`로 전달합니다.
+기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로 URL을 생성하려면, 세번째 인자값으로 `false`를 전달합니다.
 
     $url = route('routeName', ['id' => 1], false);
 
@@ -1406,7 +1406,7 @@ By default, the `route` function generates an absolute URL. If you wish to gener
 
 The `secure_asset` function generates a URL for an asset using HTTPS:
 
-`secure_asset` 함수는 HTTPS를 이용하여 asset의 URL을 생성합니다:
+`secure_asset` 함수는 HTTPS를 이용하여 asset의 URL을 생성합니다.
 
 
     $url = secure_asset('img/photo.jpg');
@@ -1427,7 +1427,7 @@ The `secure_url` function generates a fully qualified HTTPS URL to the given pat
 
 The `url` function generates a fully qualified URL to the given path:
 
-`url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다:
+`url` 함수는 주어진 경로에 대한 전체 URL을 생성합니다.
 
     $url = url('user/profile');
 
@@ -1435,7 +1435,7 @@ The `url` function generates a fully qualified URL to the given path:
 
 If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned:
 
-제공되는 경로가 없다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환됩니다:
+제공되는 경로가 없다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환됩니다.
 
     $current = url()->current();
 
@@ -1452,13 +1452,13 @@ If no path is provided, a `Illuminate\Routing\UrlGenerator` instance is returned
 
 The `abort` function throws [an HTTP exception](/docs/{{version}}/errors#http-exceptions) which will be rendered by the [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
-`abort` 함수는 [Exception 핸들러](/docs/{{version}}/errors#the-exception-handler)로 렌더링되는 [HTTP 예외처리](/docs/{{version}}/errors#http-exceptions)을 발생시킵니다:
+`abort` 함수는 [Exception 핸들러](/docs/{{version}}/errors#the-exception-handler)로 렌더링되는 [HTTP 예외처리](/docs/{{version}}/errors#http-exceptions)을 발생시킵니다.
 
     abort(403);
 
 You may also provide the exception's response text and custom response headers:
 
-예외처리의 응답 문자와 사용자 정의 응답 헤더들을 제공할 수도 있습니다:
+예외처리의 응답 문자와 사용자 정의 응답 헤더들을 제공할 수도 있습니다.
 
     abort(403, 'Unauthorized.', $headers);
 
@@ -1467,7 +1467,7 @@ You may also provide the exception's response text and custom response headers:
 
 The `abort_if` function throws an HTTP exception if a given boolean expression evaluates to `true`:
 
-`abort_if` 함수는 주어진 boolean 표현식이 `true` 일때 HTTP 예외처리를 발생시킵니다.
+`abort_if` 함수는 주어진 boolean 표현식이 `true` 일 때 HTTP 예외처리를 발생시킵니다.
 
     abort_if(! Auth::user()->isAdmin(), 403);
 
@@ -1480,7 +1480,7 @@ Like the `abort` method, you may also provide the exception's response text as t
 
 The `abort_unless` function throws an HTTP exception if a given boolean expression evaluates to `false`:
 
-`abort_unless` 함수는 주어진 boolean 표현식이 `false` 일때 HTTP 예외처리를 발생시킵니다:
+`abort_unless` 함수는 주어진 boolean 표현식이 `false` 일때 HTTP 예외처리를 발생시킵니다.
 
     abort_unless(Auth::user()->isAdmin(), 403);
 
@@ -1514,7 +1514,7 @@ The `auth` function returns an [authenticator](/docs/{{version}}/authentication)
 
 If needed, you may specify which guard instance you would like to access:
 
-필요하다면, 접근하고자 하는 guard 인스턴스를 지정할 수 있습니다.
+필요하다면, 접근하고자 하는 guard 인스턴스를 지정합니다.
 
     $user = auth('admin')->user();
 
@@ -1576,7 +1576,7 @@ The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given 
 
 The `cache` function may be used to get values from the [cache](/docs/{{version}}/cache). If the given key does not exist in the cache, an optional default value will be returned:
 
-`cache` 함수는 [캐시](/docs/{{version}}/cache)에서 값들을 가져오는데 사용합니다. 주어진 키가 캐시에 존재하지 않는다면, 선택적 기본값(an optional default, 두번째 인자)이 반환됩니다.
+`cache` 함수는 [캐시](/docs/{{version}}/cache)에서 값들을 가져 옵니다. 주어진 키가 캐시에 존재하지 않는다면, 선택적 기본값(an optional default, 두번째 인자)이 반환됩니다.
 
 
     $value = cache('key');
@@ -1614,7 +1614,7 @@ The `collect` function creates a [collection](/docs/{{version}}/collections) ins
 
 The `config` function gets the value of a [configuration](/docs/{{version}}/configuration) variable. The configuration values may be accessed using "dot" syntax, which includes the name of the file and the option you wish to access. A default value may be specified and is returned if the configuration option does not exist:
 
-`config` 함수는 [설정](/docs/{{version}}/configuration) 변수의 값을 가져옵니다. 설정 값은 접근하고자 하는 파일과 옵션의 이름을 포함한 "점(.)" 문법(syntax)를 사용하여 접근알 수 있습니다. 설정 옵션이 존재하지 않는다면 지정한 기본값이 반환됩니다.
+`config` 함수는 [설정](/docs/{{version}}/configuration) 변수의 값을 가져 옵니다. 설정 값들은 접근하고자 하는 파일과 옵션의 이름을 포함한 "점(.)" 문법(syntax)를 사용하여 접근합니다. 설정 옵션이 존재하지 않는다면 지정한 기본값이 반환됩니다.
 
     $value = config('app.timezone');
 

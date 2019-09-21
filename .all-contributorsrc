@@ -332,6 +332,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "picory",
+      "name": "picory",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3766114?v=4",
+      "profile": "https://github.com/picory",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -1322,7 +1322,7 @@ The `Str::words` method limits the number of words in a string:
 
 The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
 
-`trans` 함수는 [현지화 파일](/docs/{{version}}/localization)을 이용하여 주어진 번역 키를 번역합니다:
+`trans` 함수는 [현지화 파일](/docs/{{version}}/localization)을 이용하여 주어진 번역 키를 번역합니다.
 
     echo trans('messages.welcome');
 

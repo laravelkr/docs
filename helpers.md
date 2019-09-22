@@ -1322,7 +1322,7 @@ The `Str::words` method limits the number of words in a string:
 
 The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
 
-`trans` 함수는 [현지화 파일](/docs/{{version}}/localization)을 이용하여 주어진 번역 키를 번역합니다:
+`trans` 함수는 [현지화 파일](/docs/{{version}}/localization)을 이용하여 주어진 번역 키를 번역합니다.
 
     echo trans('messages.welcome');
 
@@ -1762,7 +1762,7 @@ The `factory` function creates a model factory builder for a given class, name, 
 
 The `filled` function returns whether the given value is not "blank":
 
-`filled` 함수는 주어진 값이 "빈값(blank)"가 아닌지를 반환합니다.
+`filled` 함수는 주어진 값이 "빈값(blank)"이 아닌지를 반환합니다.
 
     filled(0);
     filled(true);
@@ -1779,7 +1779,7 @@ The `filled` function returns whether the given value is not "blank":
 
 For the inverse of `filled`, see the [`blank`](#method-blank) method.
 
-`filled`의 반대는, [`blank`](#method-blank) 메소드를 확인하십시오.
+`filled`의 반대는 [`blank`](#method-blank) 메소드를 확인하십시오.
 
 <a name="method-info"></a>
 #### `info()` {#collection-method}
@@ -1807,13 +1807,13 @@ The `logger` function can be used to write a `debug` level message to the [log](
 
 An array of contextual data may also be passed to the function:
 
-상황에 맞는 데이터 배열이 함수에 전달될 수도 있습니다:
+상황에 맞는 데이터 배열이 함수에 전달될 수도 있습니다.
 
     logger('User has logged in.', ['id' => $user->id]);
 
 A [logger](/docs/{{version}}/errors#logging) instance will be returned if no value is passed to the function:
 
-함수에 전달되는 값이 없으면 [logger](/docs/{{version}}/errors#logging) 인스턴스가 반환됩니다:
+함수에 전달되는 값이 없으면 [logger](/docs/{{version}}/errors#logging) 인스턴스가 반환됩니다.
 
     logger()->error('You are not allowed here.');
 
@@ -1822,7 +1822,7 @@ A [logger](/docs/{{version}}/errors#logging) instance will be returned if no val
 
 The `method_field` function generates an HTML `hidden` input field containing the spoofed value of the form's HTTP verb. For example, using [Blade syntax](/docs/{{version}}/blade):
 
-`method_field` 함수는 HTTP 형식의 가짜(spoof) 값을 포함하는 `숨겨진(hidden)` 입력 필드 HTML을 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용합니다.
+`method_field` 함수는 HTTP 형식의 가짜(spoof) 값을 포함하는 `hidden` 입력 필드 HTML을 생성합니다. 예를 들어 [Blade syntax](/docs/{{version}}/blade)에서 사용합니다.
 
     <form method="POST">
         {{ method_field('DELETE') }}
@@ -1853,7 +1853,7 @@ The `old` function [retrieves](/docs/{{version}}/requests#retrieving-input) an [
 
 The `optional` function accepts any argument and allows you to access properties or call methods on that object. If the given object is `null`, properties and methods will return `null` instead of causing an error:
 
-`optional` 함수는 모든 인자를 허용하고 그 객체의 속성에 접근하거나 메소드들을 호출 할 수 있습니다. 주어진 객체가 `null` 이면, 속성과 메소드는 에러 대신에 `null` 을 반환합니다.
+`optional` 함수는 모든 인자를 허용하고 그 객체의 속성에 접근하거나 메소드들을 호출 할 수 있습니다. 주어진 객체가 `null` 이면, 속성과 메소드는 에러 발생 대신에 `null` 을 반환합니다.
 
     return optional($user->address)->street;
 
@@ -1861,7 +1861,7 @@ The `optional` function accepts any argument and allows you to access properties
 
 The `optional` function also accepts a Closure as its second argument. The Closure will be invoked if the value provided as the first argument is not null:
 
-`optional` 함수는 두번째 인자로 클로저를 받을 수도 있습니다. `null`이 아닌 첫번째 인자값이  제공된다면, 클로저가 호출됩니다.
+`optional` 함수는 두번째 인자로 클로저를 허용합니다. 첫번째 인자값이 null이 아닌 경우 클로저가 호출됩니다.
 
     return optional(User::find($id), function ($user) {
         return new DummyUser;
@@ -1923,7 +1923,7 @@ The `rescue` function executes the given Closure and catches any exceptions that
 
 You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the Closure:
 
-`rescue` 함수에 두번째 인자를 전달 할 수 있습니다. 이 인자는 클로저를 실행하는 동안 예외처리가 발생하면 반환할 "기본값" 입니다.
+`rescue` 함수에 두번째 인자를 전달할 수 있습니다. 이 인자는 클로저를 실행하는 동안 예외처리가 발생하면 반환할 "기본값" 입니다.
 
     return rescue(function () {
         return $this->method();
@@ -1940,7 +1940,7 @@ You may also pass a second argument to the `rescue` function. This argument will
 
 The `resolve` function resolves a given class or interface name to its instance using the [service container](/docs/{{version}}/container):
 
-`resolve` 함수는 [서비스 컨테이너](/docs/{{version}}/container)를 사용하여 인스턴스에 대해 주어진 클래스나 인터페이스 이름을 해석합니다.
+`resolve` 함수는 [서비스 컨테이너](/docs/{{version}}/container)를 사용하여 인스턴스에 주어진 클래스나 인터페이스 이름을 해석합니다.
 
     $api = resolve('HelpSpot\API');
 
@@ -1977,7 +1977,7 @@ The `session` function may be used to get or set [session](/docs/{{version}}/ses
 
 You may set values by passing an array of key / value pairs to the function:
 
-키 / 값 쌍의 배열을 함수에 전달하여 값을 지정할 수 있습니다:
+키 / 값 쌍의 배열을 함수에 전달하여 값을 지정할 수 있습니다.
 
 
     session(['chairs' => 7, 'instruments' => 3]);
@@ -2005,7 +2005,7 @@ The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. T
 
 If no Closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
 
-`tap` 함수에 전달되는 클로저가 없다면, 주어진 `$value` 에 모든 메소드를 호출할 수 있습니다. 호출된 메소드의 반환 값은, 메소드가 정의해서 실제 반환하는 것과 상관없이 항상 `$value` 가 됩니다. 예를 들어 Eloquent `update` 메소드는 일반적으로 정수값을 반환하지만, `tap` 메소드를 통해 `update` 메소드를 연결하여 호출하면 메소드가 모델 자체를 반환하도록 강제 할 수 있습니다.
+`tap` 함수에 전달되는 클로저가 없다면, 주어진 `$value` 에서 모든 메소드를 호출할 수 있습니다. 호출된 메소드의 반환 값은, 메소드가 정의해서 실제 반환하는 것과 상관없이 항상 `$value` 가 됩니다. 예를 들어 Eloquent `update` 메소드는 일반적으로 정수값을 반환하지만, `tap` 메소드를 통해 `update` 메소드를 연결하여 호출하면 메소드가 모델 자체를 반환하도록 강제 할 수 있습니다.
 
     $user = tap($user)->update([
         'name' => $name,

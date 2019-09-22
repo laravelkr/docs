@@ -74,7 +74,7 @@ Similarly, if you want to spy on an object, Laravel's base test case class offer
 
 As an alternative to mocking, you may use the `Bus` facade's `fake` method to prevent jobs from being dispatched. When using fakes, assertions are made after the code under test is executed:
 
-mocking의 대안으로, `Bus` 파사드의 `fake` 메소드를 사용하여 작업이 실행되는 것을 방지할 수 있습니다. fake를 사용하면 테스트 중인 코드가 실행 된 후 검증(assertion)이 작성됩니다.
+mocking의 대안으로, `Bus` 파사드의 `fake` 메소드를 사용하여 작업이 실행되는 것을 방지할 수 있습니다. fake를 사용하면 테스트 중인 코드가 실행 된 후 검증(assertion)이 수행됩니다.
 
     <?php
 
@@ -109,7 +109,7 @@ mocking의 대안으로, `Bus` 파사드의 `fake` 메소드를 사용하여 작
 
 As an alternative to mocking, you may use the `Event` facade's `fake` method to prevent all event listeners from executing. You may then assert that events were dispatched and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
 
- mocking의 대안으로, `Event` 파사드의 `fake` 메소드를 사용하여 모든 이벤트 리스너가 실행되는 것을 방지할 수 있습니다. 이벤트가 처리되었는지 확인하고 수신받은 데이터를 검사할 수도 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 작성됩니다:
+ mocking의 대안으로, `Event` 파사드의 `fake` 메소드를 사용하여 모든 이벤트 리스너가 실행되는 것을 방지할 수 있습니다. 이벤트가 처리되었는지 확인하고 수신받은 데이터를 검사할 수도 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증이(assertions) 수행됩니다.
 
     <?php
 
@@ -273,7 +273,7 @@ If you are queueing mailables for delivery in the background, you should use the
 
 You may use the `Notification` facade's `fake` method to prevent notifications from being sent. You may then assert that [notifications](/docs/{{version}}/notifications) were sent to users and even inspect the data they received. When using fakes, assertions are made after the code under test is executed:
 
-공지가 발송되는 것을 방지하기 위해서 `Notification ` 파사드의 `fake` 메소드를 사용할 수 있습니다.  [공지(notification)](/docs/{{version}}/notifications)가 사용자에게 보내졌는지 검증하고 수신된 데이터를 검사할 수 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증(assertions)이 수행됩니다.
+공지가 발송되는 것을 방지하기 위해서 `Notification ` 파사드의 `fake` 메소드를 사용할 수 있습니다. [공지(notification)](/docs/{{version}}/notifications)가 사용자에게 보내졌는지 검증하고 수신된 데이터를 검사할 수 있습니다. fake를 사용하면, 테스트 중인 코드가 실행된 뒤에 검증(assertions)이 수행됩니다.
 
     <?php
 

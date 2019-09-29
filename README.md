@@ -1,6 +1,6 @@
 # 라라벨 한국어 매뉴얼
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-37-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
 ![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)
@@ -131,6 +131,7 @@
   <tr>
     <td align="center"><a href="https://github.com/dhtmdgkr123"><img src="https://avatars1.githubusercontent.com/u/27611405?v=4" width="100px;" alt="dhtmdgkr123"/><br /><sub><b>dhtmdgkr123</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=dhtmdgkr123" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/picory"><img src="https://avatars3.githubusercontent.com/u/3766114?v=4" width="100px;" alt="picory"/><br /><sub><b>picory</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=picory" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://devseok.github.io/"><img src="https://avatars3.githubusercontent.com/u/33000980?v=4" width="100px;" alt="ohjinseok"/><br /><sub><b>ohjinseok</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=devSeok" title="Documentation">📖</a></td>
   </tr>
 </table>
 

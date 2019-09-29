@@ -38,7 +38,7 @@ The `VerifyCsrfToken` [middleware](/docs/{{version}}/middleware), which is inclu
 
 When building JavaScript driven applications, it is convenient to have your JavaScript HTTP library automatically attach the CSRF token to every outgoing request. By default, the Axios HTTP library provided in the `resources/js/bootstrap.js` file automatically sends an `X-XSRF-TOKEN` header using the value of the encrypted `XSRF-TOKEN` cookie. If you are not using this library, you will need to manually configure this behavior for your application.
 
-자바스크립트를 기반으로한 애플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/js/bootstrap.js`  파일에 제공된 Axios HTTP 라이브러리는 암호화된 `XSRF-TOKEN` 쿠키의 값을 사용하여 `X-XSRF-TOKEN` 헤더를 자동으로 전송한다. 이 라이브러리를 사용하지 않는 경우 응용 프로그램에 대해 직접 구동해야 한다.
+자바스크립트를 기반으로한 애플리케이션을 구성할 때는, 자바스크립트 HTTP 라이브러리에서 모든 서버 request-요청에 CSRF 토큰을 자동으로 추가해주도록 하면 편리합니다. 기본적으로 `resources/js/bootstrap.js`  파일에 제공된 Axios HTTP 라이브러리는 암호화된 `XSRF-TOKEN` 쿠키의 값을 사용하여 `X-XSRF-TOKEN` 헤더를 자동으로 전송합니다. 이 라이브러리를 사용하지 않는 경우 애플리케이션에 대해 직접 구동해야 합니다.
 
 <a name="csrf-excluding-uris"></a>
 ## Excluding URIs From CSRF Protection
@@ -106,8 +106,8 @@ Laravel stores the current CSRF token in a `XSRF-TOKEN` cookie that is included 
 
 This cookie is primarily sent as a convenience since some JavaScript frameworks and libraries, like Angular and Axios, automatically place its value in the `X-XSRF-TOKEN` header on same-origin requests
 
-이 쿠키는 주로 편의를 위해 보내집니다. 왜냐하면 Angular 와 Axios 같은 자바스크립트 프레임워크나 라이브러리는 그 값을 `X-XSRF-TOKEN` 헤더에 자동으로 설정하기 때문에 주로 편의상 발송된다.
+이 쿠키는 주로 편의를 위해 보내집니다. 왜냐하면 Angular 와 Axios 같은 자바스크립트 프레임워크나 라이브러리는 그 값을 `X-XSRF-TOKEN` 헤더에 자동으로 설정하기 때문에 주로 편의상 발송됩니다.
 
 > {tip} By default, `the resources/js/bootstrap.js` file includes the Axios HTTP library which will automatically send this for you.
 
-> {tip} 기본적으로 `/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있다.
+> {tip} 기본적으로 `/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.

@@ -341,6 +341,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "devSeok",
+      "name": "ohjinseok",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/33000980?v=4",
+      "profile": "https://devseok.github.io/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

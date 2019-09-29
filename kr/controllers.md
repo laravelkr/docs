@@ -48,7 +48,7 @@ Instead of defining all of your request handling logic as Closures in route file
 
 Below is an example of a basic controller class. Note that the controller extends the base controller class included with Laravel. The base class provides a few convenience methods such as the `middleware` method, which may be used to attach middleware to controller actions:
 
-아래는 기본 컨트롤러 클래스의 예입니다. 컨트롤러는 Laravel에 포함 된 기본 컨트롤러 클래스들을 확장합니다. 기본 클래스는 미들웨어를 컨트롤러 액션에 연결하는 데 사용할 수있는 'middleware'메소드와 같은 몇 가지 편리한 메소드를 제공합니다.
+아래는 기본 컨트롤러 클래스의 예입니다. 컨트롤러는 Laravel에 포함 된 기본 컨트롤러 클래스들을 확장합니다. 기본 클래스는 미들웨어를 컨트롤러 액션에 연결하는 데 사용할 수 있는 `middleware`메소드와 같은 몇 가지 편리한 메소드를 제공합니다.
 
     <?php
 

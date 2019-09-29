@@ -424,7 +424,7 @@ If you would like to provide "remember me" functionality in your application, yo
 
 > {tip} If you are using the built-in `LoginController` that is shipped with Laravel, the proper logic to "remember" users is already implemented by the traits used by the controller.
 
-> {tip} Laravel에 기본 제공되는 'LoginController'를 사용하는 경우, "remember"하는 사용자를 처리하는 적절한 로직은 이미 컨트롤러에서 사용하는 트레이트-trait에 구현되어 있습니다.
+> {tip} Laravel에 기본 제공되는 `LoginController`를 사용하는 경우, "remember"하는 사용자를 처리하는 적절한 로직은 이미 컨트롤러에서 사용하는 트레이트-trait에 구현되어 있습니다.
 
 If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
 
@@ -767,7 +767,7 @@ The `retrieveByCredentials` method receives the array of credentials passed to t
 
 The `validateCredentials` method should compare the given `$user` with the `$credentials` to authenticate the user. For example, this method should probably use `Hash::check` to compare the value of `$user->getAuthPassword()` to the value of `$credentials['password']`. This method should return `true` or `false` indicating on whether the password is valid.
 
-`validateCredentials` 메소드는 사용자를 인증하기 위하여 주어진 `$user`를 `$credentials`에 비교해야 합니다. 예를 들자면, 이 메소드는 `$user->getAuthPassword()`의 값을 `$credentials['password']`와 비교하기 위해 `Hash::check`를 사용하게 될 것 입니다. 이 메소드는 패스워드가 유효한 지를 나타내는 'true' 혹은 'false' 값을 반환합니다.
+`validateCredentials` 메소드는 사용자를 인증하기 위하여 주어진 `$user`를 `$credentials`에 비교해야 합니다. 예를 들자면, 이 메소드는 `$user->getAuthPassword()`의 값을 `$credentials['password']`와 비교하기 위해 `Hash::check`를 사용하게 될 것 입니다. 이 메소드는 패스워드가 유효한 지를 나타내는 `true` 혹은 `false` 값을 반환합니다.
 
 <a name="the-authenticatable-contract"></a>
 ### The Authenticatable Contract

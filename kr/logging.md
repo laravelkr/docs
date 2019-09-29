@@ -49,7 +49,7 @@ By default, Laravel will use the `stack` channel when logging messages. The `sta
 
 By default, Monolog is instantiated with a "channel name" that matches the current environment, such as `production` or `local`. To change this value, add a `name` option to your channel's configuration:
 
-기본적으로 Monolog는 현재의 환경과 일치하는 `production` 또는 `local` 과 같은 이름의 "채널 이름"으로 인스턴스가 생성됩니다. 이 값을 변경하려면, 채널 설정에서 `name` 옵션을 추가하면 됩니다:
+기본적으로 Monolog는 현재의 환경과 일치하는 `production` 또는 `local` 과 같은 이름의 "채널 이름"으로 인스턴스가 생성됩니다. 이 값을 변경하려면, 채널 설정에서 `name` 옵션을 추가하면 됩니다.
 
     'stack' => [
         'driver' => 'stack',
@@ -119,7 +119,7 @@ The `slack` channel requires a `url` configuration option. This URL should match
 
 As previously mentioned, the `stack` driver allows you to combine multiple channels into a single log channel. To illustrate how to use log stacks, let's take a look at an example configuration that you might see in a production application:
 
-앞서 말한바와 같이, `stack` 드라이버는 여러개의 채널을 하나의 로그 채널로 묶어 줍니다. 로그 스택을 사용하는 방법을 설명하기 위해 프로덕션 애플리케이션에서 확인할 수 있는 설정 예를 살펴 보겠습니다:
+앞서 말한바와 같이, `stack` 드라이버는 여러개의 채널을 하나의 로그 채널로 묶어 줍니다. 로그 스택을 사용하는 방법을 설명하기 위해 프로덕션 애플리케이션에서 확인할 수 있는 설정 예를 살펴 보겠습니다.
 
     'channels' => [
         'stack' => [
@@ -154,13 +154,13 @@ Take note of the `level` configuration option present on the `syslog` and `slack
 
 So, imagine we log a message using the `debug` method:
 
-따라서, `debug` 메소드를 사용하여 로그를 기록하는 것을 생각해 보겠습니다: :
+따라서, `debug` 메소드를 사용하여 로그를 기록하는 것을 생각해 보겠습니다.
 
     Log::debug('An informational message.');
 
 Given our configuration, the `syslog` channel will write the message to the system log; however, since the error message is not `critical` or above, it will not be sent to Slack. However, if we log an `emergency` message, it will be sent to both the system log and Slack since the `emergency` level is above our minimum level threshold for both channels:
 
-주어진 설정에 따라서 `syslog` 채널은 전달된 메세지를 시스템 로그파일에 기록합니다. 그렇지만 슬랙 채널에는 에러 메세지가 `critical` 이상으로 설정되어 있기 때문에, 메세지가 전달되지 않습니다. `emergency` 메세지를 로깅 하려고 할때에는, 두 채널에 설정된 최소 로그 레벨이 `emergency` 레벨 보다 낮기 때문에, 두 채널 모두에서 메세지가 전달됩니다:
+주어진 설정에 따라서 `syslog` 채널은 전달된 메세지를 시스템 로그파일에 기록합니다. 그렇지만 슬랙 채널에는 에러 메세지가 `critical` 이상으로 설정되어 있기 때문에, 메세지가 전달되지 않습니다. `emergency` 메세지를 로깅 하려고 할때에는, 두 채널에 설정된 최소 로그 레벨이 `emergency` 레벨 보다 낮기 때문에, 두 채널 모두에서 메세지가 전달됩니다.
 
     Log::emergency('The system is down!');
 
@@ -170,7 +170,7 @@ Given our configuration, the `syslog` channel will write the message to the syst
 
 You may write information to the logs using the `Log` [facade](/docs/{{version}}/facades). As previously mentioned, the logger provides the eight logging levels defined in the [RFC 5424 specification](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info** and **debug**:
 
-`Log` [파사드](/docs/{{version}}/facades)를 사용하여 로그 메세지를 작성할 수 있습니다. 앞에서 언급했듯이, 로그는 [RFC 5424 스펙](https://tools.ietf.org/html/rfc5424)에 정의된 8가지 로그 레벨 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 을 제공합니다:
+`Log` [파사드](/docs/{{version}}/facades)를 사용하여 로그 메세지를 작성할 수 있습니다. 앞에서 언급했듯이, 로그는 [RFC 5424 스펙](https://tools.ietf.org/html/rfc5424)에 정의된 8가지 로그 레벨 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 을 제공합니다.
 
     Log::emergency($message);
     Log::alert($message);
@@ -183,7 +183,7 @@ You may write information to the logs using the `Log` [facade](/docs/{{version}}
 
 So, you may call any of these methods to log a message for the corresponding level. By default, the message will be written to the default log channel as configured by your `config/logging.php` configuration file:
 
-따라서 로그 메세지 기록할 때 일치하는 레벨에 맞는 메소드를 호출하면 됩니다. 기본적으로 메세지는 `config/logging.php` 설정 파일에 정의된 로그 채널로 기록됩니다:
+따라서 로그 메세지 기록할 때 일치하는 레벨에 맞는 메소드를 호출하면 됩니다. 기본적으로 메세지는 `config/logging.php` 설정 파일에 정의된 로그 채널로 기록됩니다.
 
     <?php
 
@@ -214,7 +214,7 @@ So, you may call any of these methods to log a message for the corresponding lev
 
 An array of contextual data may also be passed to the log methods. This contextual data will be formatted and displayed with the log message:
 
-로그 메소드에 원하는 상태 정보를 배열로 전달할 수 있습니다. 이 데이터는 로그 메세지와 함께 출력됩니다:
+로그 메소드에 원하는 상태 정보를 배열로 전달할 수 있습니다. 이 데이터는 로그 메세지와 함께 출력됩니다.
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
@@ -224,13 +224,13 @@ An array of contextual data may also be passed to the log methods. This contextu
 
 Sometimes you may wish to log a message to a channel other than your application's default channel. You may use the `channel` method on the `Log` facade to retrieve and log to any channel defined in your configuration file:
 
-때로는 애플리케이션의 기본 채널이 아닌, 다른 채널을 지정하여 로그를 남기길 원할 수도 있습니다. `Log` 파사드의 ``channel` 메소드를 사용하면, 설정 파일에 정의된 채널을 찾아서 로그를 작성합니다:
+때로는 애플리케이션의 기본 채널이 아닌, 다른 채널을 지정하여 로그를 남기길 원할 수도 있습니다. `Log` 파사드의 ``channel` 메소드를 사용하면, 설정 파일에 정의된 채널을 찾아서 로그를 작성합니다.
 
     Log::channel('slack')->info('Something happened!');
 
 If you would like to create an on-demand logging stack consisting of multiple channels, you may use the `stack` method:
 
-로그를 작성할 때 임시로 여러 채널을 묶은 로그 스택을 구성하려면 다음과 같이 `stack` 메소드를 사용하면 됩니다:
+로그를 작성할 때 임시로 여러 채널을 묶은 로그 스택을 구성하려면 다음과 같이 `stack` 메소드를 사용하면 됩니다.
 
     Log::stack(['single', 'slack'])->info('Something happened!');
 
@@ -248,7 +248,7 @@ Sometimes you may need complete control over how Monolog is configured for an ex
 
 To get started, define a `tap` array on the channel's configuration. The `tap` array should contain a list of classes that should have an opportunity to customize (or "tap" into) the Monolog instance after it is created:
 
-이렇게 하기 위해서 먼저 채널 설정 배열에 `tap` 속성을 정의하면 됩니다. `tap` 배열은 생성 된 Monolog 인스턴스를 커스터마이징 할 수 있는 클래스의 리스트로 구성되어 있어야 합니다:
+이렇게 하기 위해서 먼저 채널 설정 배열에 `tap` 속성을 정의하면 됩니다. `tap` 배열은 생성 된 Monolog 인스턴스를 커스터마이징 할 수 있는 클래스의 리스트로 구성되어 있어야 합니다.
 
     'single' => [
         'driver' => 'single',
@@ -295,7 +295,7 @@ Monolog 는 다양한 [핸들러](https://github.com/Seldaek/monolog/tree/master
 
 When using the `monolog` driver, the `handler` configuration option is used to specify which handler will be instantiated. Optionally, any constructor parameters the handler needs may be specified using the `with` configuration option:
 
-`monolog` 드라이버를 사용할 때, `handler` 설정 옵션은 어떤 핸들러가 인스턴스화 되어야 하는지 지정하는데 사용합니다. 옵션으로, 특정 핸들러의 생성자 파라미터가 필요한 경우 `with` 설정을 사용하여 필요한 옵션을 지정할 수 있습니다:
+`monolog` 드라이버를 사용할 때, `handler` 설정 옵션은 어떤 핸들러가 인스턴스화 되어야 하는지 지정하는데 사용합니다. 옵션으로, 특정 핸들러의 생성자 파라미터가 필요한 경우 `with` 설정을 사용하여 필요한 옵션을 지정할 수 있습니다.
 
     'logentries' => [
         'driver'  => 'monolog',
@@ -311,7 +311,7 @@ When using the `monolog` driver, the `handler` configuration option is used to s
 
 When using the `monolog` driver, the Monolog `LineFormatter` will be used as the default formatter. However, you may customize the type of formatter passed to the handler using the `formatter` and `formatter_with` configuration options:
 
-`monolog` 드라이버를 사용할 때, Monolog 의 `LineFormatter` 가 기본적인 포맷터로 사용됩니다. 그렇지만, 핸들러가 사용할 `formatter` 와 `formatter_with` 설정 옵션을 사용하여 포맷터의 타입을 커스터마이징 할 수 있습니다:
+`monolog` 드라이버를 사용할 때, Monolog 의 `LineFormatter` 가 기본적인 포맷터로 사용됩니다. 그렇지만, 핸들러가 사용할 `formatter` 와 `formatter_with` 설정 옵션을 사용하여 포맷터의 타입을 커스터마이징 할 수 있습니다.
 
     'browser' => [
         'driver' => 'monolog',
@@ -324,7 +324,7 @@ When using the `monolog` driver, the Monolog `LineFormatter` will be used as the
 
 If you are using a Monolog handler that is capable of providing its own formatter, you may set the value of the `formatter` configuration option to `default`:
 
-고유한 formatter를 제공하는 Monolog 핸들러를 사용한다면, `formatter` 설정 옵션을 `default` 설정을 사용하면 됩니다:
+고유한 formatter를 제공하는 Monolog 핸들러를 사용한다면, `formatter` 설정 옵션을 `default` 설정을 사용하면 됩니다.
 
     'newrelic' => [
         'driver' => 'monolog',
@@ -338,7 +338,7 @@ If you are using a Monolog handler that is capable of providing its own formatte
 
 If you would like to define an entirely custom channel in which you have full control over Monolog's instantiation and configuration, you may specify a `custom` driver type in your `config/logging.php` configuration file. Your configuration should include a `via` option to point to the factory class which will be invoked to create the Monolog instance:
 
-Monolog 인스턴스와 설정을 완벽하게 제어할 수 있는 커스텀 채널을 정의하려면, `config/logging.php` 설정 파일에 `custom` 드라이버를 지정할 수 있습니다. 설정에서는 팩토리에서 Monolog 인스턴스를 생성하기 위해서 호출해야 하는 클래스를 지정하는 `via` 옵션을 포함해야 합니다:
+Monolog 인스턴스와 설정을 완벽하게 제어할 수 있는 커스텀 채널을 정의하려면, `config/logging.php` 설정 파일에 `custom` 드라이버를 지정할 수 있습니다. 설정에서는 팩토리에서 Monolog 인스턴스를 생성하기 위해서 호출해야 하는 클래스를 지정하는 `via` 옵션을 포함해야 합니다.
 
     'channels' => [
         'custom' => [
@@ -349,7 +349,7 @@ Monolog 인스턴스와 설정을 완벽하게 제어할 수 있는 커스텀 �
 
 Once you have configured the `custom` channel, you're ready to define the class that will create your Monolog instance. This class only needs a single method: `__invoke`, which should return the Monolog instance:
 
-`custom` 채널을 설정한 다음에, Monolog 인스턴스를 생성하는 클래스를 정의하면 됩니다. 이 클래스에서는 Monolog 인스턴스를 반환하는 `__invoke` 메소드를 정의할 필요가 있습니다:
+`custom` 채널을 설정한 다음에, Monolog 인스턴스를 생성하는 클래스를 정의하면 됩니다. 이 클래스에서는 Monolog 인스턴스를 반환하는 `__invoke` 메소드를 정의할 필요가 있습니다.
 
     <?php
 

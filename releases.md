@@ -84,7 +84,7 @@ _개선된 권한 응답은 [Gary Green](https://github.com/garygreen)에 의해
 
 In previous releases of Laravel, it was difficult to retrieve and expose custom authorization messages to end users. This made it difficult to explain to end-users exactly why a particular request was denied. In Laravel 6.0, this is now much easier using authorization response messages and the new `Gate::inspect` method. For example, given the following policy method:
 
-라라벨의 이전 릴리즈에서는 엔드유저에게 커스텀 권한 메시지 노출하거나 검색하는 것에 어려움이 있었습니다. 이것은 엔드유저에게 특정 리퀘스트가 어떠한 이유로 거부되었는지 설명하기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능하게 합니다. 예와 같이 다음의 정책 메소드를 봅시다:
+라라벨의 이전 릴리즈에서는 엔드유저에게 커스텀 권한 메시지 노출하거나 검색하는 것에 어려움이 있었습니다. 이것은 엔드유저에게 특정 리퀘스트가 어떠한 이유로 거부되었는지 설명하기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능하게 합니다. 예와 같이 다음의 정책 메소드를 봅시다.
 
     /**
      * Determine if the user can view the given flight.
@@ -100,7 +100,7 @@ In previous releases of Laravel, it was difficult to retrieve and expose custom 
 
 The authorization policy's response and message may be easily retrieved using the `Gate::inspect` method:
 
-승인 정책 응답과 메세지는 `Gate::inspcet` 메소드를 이용해서 쉽게 검색됩니다:
+승인 정책 응답과 메세지는 `Gate::inspcet` 메소드를 이용해서 쉽게 검색됩니다.
 
     $response = Gate::inspect('view', $flight);
 
@@ -125,7 +125,7 @@ _Job 미들웨어는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 
 
 Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, in previous releases of Laravel, you may have wrapped the logic of a job's `handle` method within a rate-limited callback:
 
-Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸는 커스텀 로직을 추가할 수 있게 도와줍니다. 예를 들자면, 당신은 라라벨 이전 버젼에서 실행속도 제한(rated-limited) 콜백에서 그 job 의 `handle` 메소드의 로직 전후를 감쌌어야 했습니다:
+Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸는 커스텀 로직을 추가할 수 있게 도와줍니다. 예를 들자면, 당신은 라라벨 이전 버젼에서 실행속도 제한(rated-limited) 콜백에서 그 job 의 `handle` 메소드의 로직 전후를 감쌌어야 했습니다.
 
     /**
      * Execute the job.
@@ -147,7 +147,7 @@ Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸�
 
 In Laravel 6.0, this logic may be extracted into a job middleware, allowing you to keep your job's `handle` method free of any rate limiting responsibilities:
 
-라라벨 6.0 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다:
+라라벨 6.0 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
 
     <?php
 
@@ -182,7 +182,7 @@ In Laravel 6.0, this logic may be extracted into a job middleware, allowing you 
 
 After creating middleware, they may be attached to a job by returning them from the job's `middleware` method:
 
-job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그것들은 그 job 에 추가될 것입니다:
+job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그것들은 그 job 에 추가될 것입니다.
 
     use App\Jobs\Middleware\RateLimited;
 
@@ -208,7 +208,7 @@ Many developers already enjoy Laravel's powerful [Collection methods](https://la
 
 For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
 
-예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. Lazy 콜렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다:
+예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. Lazy 콜렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;
@@ -230,7 +230,7 @@ For example, imagine your application needs to process a multi-gigabyte log file
 
 Or, imagine you need to iterate through 10,000 Eloquent models. When using traditional Laravel collections, all 10,000 Eloquent models must be loaded into memory at the same time:
 
-혹은 당신이 만개의 엘로퀜트 모델을 순회할 때를 가정해봅시다. 기존의 라라벨 콜렉션을 이용했다면 전체 만개의 엘로퀜트 모델을 매번 메모리에 읽어와야 할 것입니다:
+혹은 당신이 만개의 엘로퀜트 모델을 순회할 때를 가정해봅시다. 기존의 라라벨 콜렉션을 이용했다면 전체 만개의 엘로퀜트 모델을 매번 메모리에 읽어와야 할 것입니다.
 
     $users = App\User::all()->filter(function ($user) {
         return $user->id > 500;
@@ -238,7 +238,7 @@ Or, imagine you need to iterate through 10,000 Eloquent models. When using tradi
 
 However, beginning in Laravel 6.0, the query builder's `cursor` method has been updated to return a `LazyCollection` instance. This allows you to still only run a single query against the database but also only keep one Eloquent model loaded in memory at a time. In this example, the `filter` callback is not executed until we actually iterate over each user individually, allowing for a drastic reduction in memory usage:
 
-그러나 라라벨 6.0 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다:
+그러나 라라벨 6.0 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
 
     $users = App\User::cursor()->filter(function ($user) {
         return $user->id > 500;
@@ -261,7 +261,7 @@ Laravel 6.0 introduces several new enhancements and improvements to database sub
 
 Using the new subquery select functionality in Laravel 6.0, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
 
-라라벨 6.0 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다:
+라라벨 6.0 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
 
     return Destination::addSelect(['last_flight' => Flight::select('name')
         ->whereColumn('destination_id', 'destinations.id')
@@ -271,7 +271,7 @@ Using the new subquery select functionality in Laravel 6.0, we can select all of
 
 In addition, we can use new subquery features added to the query builder's `orderBy` function to sort all destinations based on when the last flight arrived at that destination. Again, this may be done while executing a single query against the database:
 
-더해서, 해당 목적지에 도착한 마지막 비행 순서를 기준으로 모든 도착지를 정렬할 수 있는 기능을 쿼리빌더의 `orderBy`에 추가하는, 이러한 새로운 서브쿼리 기능을 사용할 수도 있습니다:
+더해서, 해당 목적지에 도착한 마지막 비행 순서를 기준으로 모든 도착지를 정렬할 수 있는 기능을 쿼리빌더의 `orderBy`에 추가하는, 이러한 새로운 서브쿼리 기능을 사용할 수도 있습니다.
 
     return Destination::orderByDesc(
         Flight::select('arrived_at')

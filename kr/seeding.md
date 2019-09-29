@@ -40,7 +40,7 @@ seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가�
 
 As an example, let's modify the default `DatabaseSeeder` class and add a database insert statement to the `run` method:
 
-다음 예제에서, `DatabaseSeeder` 클래스를 수정해서 `run` 메소드에 입력 구문을 추가해보겠습니다: 
+다음 예제에서, `DatabaseSeeder` 클래스를 수정해서 `run` 메소드에 입력 구문을 추가해보겠습니다. 
 
     <?php
 
@@ -79,7 +79,7 @@ Of course, manually specifying the attributes for each model seed is cumbersome.
 
 For example, let's create 50 users and attach a relationship to each user:
 
-예를 들어, 50 개의 레코드를 생성하고 각각의 사용자에 관계 모델을 추가해 봅시다:
+예를 들어, 50 개의 레코드를 생성하고 각각의 사용자에 관계 모델을 추가해 봅시다.
 
     /**
      * Run the database seeds.
@@ -121,13 +121,13 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
 
 Once you have written your seeder, you may need to regenerate Composer's autoloader using the `dump-autoload` command:
 
-seeder 클래스를 작성하고 나면, `dump-autoload` 명령어를 사용해서 컴포저의 오토로더를 다시 생성할 필요가 있습니다:
+seeder 클래스를 작성하고 나면, `dump-autoload` 명령어를 사용해서 컴포저의 오토로더를 다시 생성할 필요가 있습니다.
 
     composer dump-autoload
 
 Now you may use the `db:seed` Artisan command to seed your database. By default, the `db:seed` command runs the `DatabaseSeeder` class, which may be used to call other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
 
-이제, `db:seed` 아티즌 명령어를 통해서 데이터베이스에 데이터를 입력할 수 있습니다. 기본적으로 `db:seed` 명령어는 다른 시드(seed) 클래스들을 호출하는 `DatabaseSeeder`클래스를 실행합니다. 하지만 `--class`옵션을 사용해서 특정 시더(seeder) 클래스가 개별적으로 실행되도록 지정할 수 있습니다:
+이제, `db:seed` 아티즌 명령어를 통해서 데이터베이스에 데이터를 입력할 수 있습니다. 기본적으로 `db:seed` 명령어는 다른 시드(seed) 클래스들을 호출하는 `DatabaseSeeder`클래스를 실행합니다. 하지만 `--class`옵션을 사용해서 특정 시더(seeder) 클래스가 개별적으로 실행되도록 지정할 수 있습니다.
 
     php artisan db:seed
 
@@ -135,7 +135,7 @@ Now you may use the `db:seed` Artisan command to seed your database. By default,
 
 You may also seed your database using the `migrate:refresh` command, which will also rollback and re-run all of your migrations. This command is useful for completely re-building your database:
 
-`migrate:refresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 마이그레이션들을 롤백한 다음 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다: 
+`migrate:refresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 마이그레이션들을 롤백한 다음 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다. 
 
     php artisan migrate:refresh --seed
 

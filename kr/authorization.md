@@ -50,7 +50,7 @@
 
 In addition to providing [authentication](/docs/{{version}}/authentication) services out of the box, Laravel also provides a simple way to authorize user actions against a given resource. Like authentication, Laravel's approach to authorization is simple, and there are two primary ways of authorizing actions: gates and policies.
 
-별다른 설정 없이도 [인증-authentication](/docs/{{version}}/authentication) 기능을 제공하는 것에 더하여, 라라벨은 주어진 특정 리소스에 대하여 사용자가 액션을 수행할 수 있는지 권한을 확인하는(authorize) 간단한 방법을 제공합니다. 사용자 인증처럼, 권한 확인에 대한 라라벨의 접근 방식은 간단하며, 액션을 수행할 수 있는 권한을 확인하는 두가지 기본 방법이 있습니다: gate 와 policy 입니다.
+별다른 설정 없이도 [인증-authentication](/docs/{{version}}/authentication) 기능을 제공하는 것에 더하여, 라라벨은 주어진 특정 리소스에 대하여 사용자가 액션을 수행할 수 있는지 권한을 확인하는(authorize) 간단한 방법을 제공합니다. 사용자 인증처럼, 권한 확인에 대한 라라벨의 접근 방식은 간단하며, 액션을 수행할 수 있는 권한을 확인하는 두가지 기본 방법이 있습니다. gate 와 policy 입니다.
 
 Think of gates and policies like routes and controllers. Gates provide a simple, Closure based approach to authorization while policies, like controllers, group their logic around a particular model or resource. We'll explore gates first and then examine policies.
 
@@ -511,7 +511,7 @@ If you would like to deny all authorizations for a user you should return `false
 
 The `User` model that is included with your Laravel application includes two helpful methods for authorizing actions: `can` and `cant`. The `can` method receives the action you wish to authorize and the relevant model. For example, let's determine if a user is authorized to update a given `Post` model:
 
-라라벨 애플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다: `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다.
+라라벨 애플리케이션에 포함되어 있는 `User` 모델은 액션을 수행할 수 있는지에 대한 권한을 확인하는데 사용가능한 두가지 유용한 메소드를 갖고 있습니다. `can` 과 `cant` 입니다. `can` 메소드는 권한을 확인 하고자 하는 액션, 그리고 연관된 모델을 인자로 받습니다. 예를 들어 사용자에게 주어진 `Post` 모델을 수정할 권한이 있는지 확인해보겠습니다.
 
     if ($user->can('update', $post)) {
         //

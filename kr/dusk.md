@@ -96,7 +96,7 @@ Laravel Dusk provides an expressive, easy-to-use browser automation and testing 
 
 To get started, you should add the `laravel/dusk` Composer dependency to your project:
 
-시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다:
+시작하기 위해서, 컴포저 의존성에 `laravel/dusk`을 추가해야 합니다.
 
     composer require --dev laravel/dusk
 
@@ -116,7 +116,7 @@ A `Browser` directory will be created within your `tests` directory and will con
 
 To run your tests, use the `dusk` Artisan command. The `dusk` command accepts any argument that is also accepted by the `phpunit` command:
 
-테스트를 실행하기 위해서는 `dusk` 아티즌 명령어를 사용합니다. `dusk` 명령어는 `phpunit` 명령어에 전달할 수 있는 모든 인자를 받을 수 있습니다:
+테스트를 실행하기 위해서는 `dusk` 아티즌 명령어를 사용합니다. `dusk` 명령어는 `phpunit` 명령어에 전달할 수 있는 모든 인자를 받을 수 있습니다.
 
     php artisan dusk
 
@@ -145,7 +145,7 @@ Laravel Dusk에 포함 된 것과 다른 버전의 ChromeDriver를 설치하려�
 
 > {note} Dusk requires the `chromedriver` binaries to be executable. If you're having problems running Dusk, you should ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin/`.
 
-> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다: `chmod -R 0755 vendor/laravel/dusk/bin`.
+> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### Using Other Browsers
@@ -157,7 +157,7 @@ By default, Dusk uses Google Chrome and a standalone [ChromeDriver](https://site
 
 To get started, open your `tests/DuskTestCase.php` file, which is the base Dusk test case for your application. Within this file, you can remove the call to the `startChromeDriver` method. This will stop Dusk from automatically starting the ChromeDriver:
 
-다른 브라우저를 사용하기 위해서는, 애플리케이션의 베이스 Dusk 테스트 케이스가 되는 `tests/DuskTestCase.php` 파일을 엽니다. 이 파일안에 있는 `startChromeDriver`을 제거하면 됩니다. 이렇게 하면 Dusk가 자동으로 ChromeDriver를 시작하지 않게 됩니다:
+다른 브라우저를 사용하기 위해서는, 애플리케이션의 베이스 Dusk 테스트 케이스가 되는 `tests/DuskTestCase.php` 파일을 엽니다. 이 파일안에 있는 `startChromeDriver`을 제거하면 됩니다. 이렇게 하면 Dusk가 자동으로 ChromeDriver를 시작하지 않게 됩니다.
 
     /**
      * Prepare for Dusk test execution.
@@ -198,7 +198,7 @@ Next, you may modify the `driver` method to connect to the URL and port of your 
 
 To generate a Dusk test, use the `dusk:make` Artisan command. The generated test will be placed in the `tests/Browser` directory:
 
-Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 사용합니다. 생성된 테스트 파일은 `tests/Browser` 디렉토리에 저장됩니다:
+Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 사용합니다. 생성된 테스트 파일은 `tests/Browser` 디렉토리에 저장됩니다.
 
     php artisan dusk:make LoginTest
 
@@ -229,7 +229,7 @@ The `dusk` command accepts any argument that is normally accepted by the PHPUnit
 
 By default, Dusk will automatically attempt to start ChromeDriver. If this does not work for your particular system, you may manually start ChromeDriver before running the `dusk` command. If you choose to start ChromeDriver manually, you should comment out the following line of your `tests/DuskTestCase.php` file:
 
-기본적으로는 Dusk가 자동으로 ChromeDriver를 시작합니다. 만약 특정 시스템에서 ChromeDriver가 동작하지 않으면 `dusk` 명령어를 실행하기 전에 수동으로 ChromeDriver를 시작해야 합니다. 수동으로 ChromeDriver를 시작하려면, `tests/DuskTestCase.php` 파일의 다음 라인을 주석으로 표시해야합니다:
+기본적으로는 Dusk가 자동으로 ChromeDriver를 시작합니다. 만약 특정 시스템에서 ChromeDriver가 동작하지 않으면 `dusk` 명령어를 실행하기 전에 수동으로 ChromeDriver를 시작해야 합니다. 수동으로 ChromeDriver를 시작하려면, `tests/DuskTestCase.php` 파일의 다음 라인을 주석으로 표시해야합니다.
 
     /**
      * Prepare for Dusk test execution.
@@ -244,7 +244,7 @@ By default, Dusk will automatically attempt to start ChromeDriver. If this does 
 
 In addition, if you start ChromeDriver on a port other than 9515, you should modify the `driver` method of the same class:
 
-또한, ChromeDriver가 9515포트가 아닌 다른 포트를 사용한다면, 이 클래스의 `driver` 메소드를 수정해야합니다:
+또한, ChromeDriver가 9515포트가 아닌 다른 포트를 사용한다면, 이 클래스의 `driver` 메소드를 수정해야합니다.
 
     /**
      * Create the RemoteWebDriver instance.
@@ -276,7 +276,7 @@ When running tests, Dusk will back-up your `.env` file and rename your Dusk envi
 
 To get started, let's write a test that verifies we can log into our application. After generating a test, we can modify it to navigate to the login page, enter some credentials, and click the "Login" button. To create a browser instance, call the `browse` method:
 
-시작하기 위해서, 애플리케이션에 로그인할 수 있는지 확인하는 테스트를 작성해 보겠습니다. 테스트 파일을 생성한 다음에, 이를 수정하여 로그인 페이지로 이동하고, 인증 정보를 입력한다음, "Login" 버튼을 클릭해 보겠습니다. 브라우저 인스턴스를 생성하기 위해서는 `browse` 메소드를 호출하면 됩니다:
+시작하기 위해서, 애플리케이션에 로그인할 수 있는지 확인하는 테스트를 작성해 보겠습니다. 테스트 파일을 생성한 다음에, 이를 수정하여 로그인 페이지로 이동하고, 인증 정보를 입력한다음, "Login" 버튼을 클릭해 보겠습니다. 브라우저 인스턴스를 생성하기 위해서는 `browse` 메소드를 호출하면 됩니다.
 
     <?php
 
@@ -321,7 +321,7 @@ As you can see in the example above, the `browse` method accepts a callback. A b
 
 Sometimes you may need multiple browsers in order to properly carry out a test. For example, multiple browsers may be needed to test a chat screen that interacts with websockets. To create multiple browsers, "ask" for more than one browser in the signature of the callback given to the `browse` method:
 
-경우에 따라 테스트를 제대로 수행하기 위해서 여러개의 브라우저가 필요할 수도 있습니다. 예를 들어 웹 소켓과 상호작용하는 채팅 화면을 테스트 하는 경우 여러개의 브라우저가 필요합니다. 여러개의 브라우저 인스턴스를 생성하기 위해서는 주어진 `browser` 메소드에 하나 이상의 브라우저를 표시한 콜백을 "요청"하면 됩니다:
+경우에 따라 테스트를 제대로 수행하기 위해서 여러개의 브라우저가 필요할 수도 있습니다. 예를 들어 웹 소켓과 상호작용하는 채팅 화면을 테스트 하는 경우 여러개의 브라우저가 필요합니다. 여러개의 브라우저 인스턴스를 생성하기 위해서는 주어진 `browser` 메소드에 하나 이상의 브라우저를 표시한 콜백을 "요청"하면 됩니다.
 
     $this->browse(function ($first, $second) {
         $first->loginAs(User::find(1))
@@ -343,13 +343,13 @@ Sometimes you may need multiple browsers in order to properly carry out a test. 
 
 You may use the `resize` method to adjust the size of the browser window:
 
-브라우저의 윈도우 사이즈를 조정하려면 `resize` 메소드를 사용하면 됩니다:
+브라우저의 윈도우 사이즈를 조정하려면 `resize` 메소드를 사용하면 됩니다.
 
     $browser->resize(1920, 1080);
 
 The `maximize` method may be used to maximize the browser window:
 
-`maximize` 메소드는 브라우저의 윈도우를 최대 크기로 조정하는데 사용합니다:
+`maximize` 메소드는 브라우저의 윈도우를 최대 크기로 조정하는데 사용합니다.
 
     $browser->maximize();
 
@@ -359,7 +359,7 @@ The `maximize` method may be used to maximize the browser window:
 
 If you would like to define a custom browser method that you can re-use in a variety of your tests, you may use the `macro` method on the `Browser` class. Typically, you should call this method from a [service provider's](/docs/{{version}}/providers) `boot` method:
 
-다양한 테스트에서 재사용할 수 있는 커스텀 브라우저 메소드를 정의한려고 한다면 `Browser` 클래스의 `macro` 메소드를 사용할 수 있습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 호출해야 합니다:
+다양한 테스트에서 재사용할 수 있는 커스텀 브라우저 메소드를 정의한려고 한다면 `Browser` 클래스의 `macro` 메소드를 사용할 수 있습니다. 일반적으로 이 메소드는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드 안에서 호출해야 합니다.
 
     <?php
 
@@ -387,7 +387,7 @@ If you would like to define a custom browser method that you can re-use in a var
 
 The `macro` function accepts a name as its first argument, and a Closure as its second. The macro's Closure will be executed when calling the macro as a method on a `Browser` implementation:
 
-`macro` 함수는 첫번째 인자로 이름을, 두번째 인자로 클로저를 받습니다. 매크로의 클로저는 `Browser` 구현체에서 메소드를 호출할때 실행됩니다:
+`macro` 함수는 첫번째 인자로 이름을, 두번째 인자로 클로저를 받습니다. 매크로의 클로저는 `Browser` 구현체에서 메소드를 호출할때 실행됩니다.
 
     $this->browse(function ($browser) use ($user) {
         $browser->visit('/pay')
@@ -401,7 +401,7 @@ The `macro` function accepts a name as its first argument, and a Closure as its 
 
 Often, you will be testing pages that require authentication. You can use Dusk's `loginAs` method in order to avoid interacting with the login screen during every test. The `loginAs` method accepts a user ID or user model instance:
 
-종종, 인증이 필요한 페이지를 테스트 할 수도 있습니다. 모든 테스트에서 로그인 화면에서의 인터렉션을 하지 않아도 되게끔, Dusk의 `loginAs` 메소드를 사용할 수 있습니다. `loginAs` 메소드는 사용자 ID 또는 모델 인스턴스를 전달받습니다:
+종종, 인증이 필요한 페이지를 테스트 할 수도 있습니다. 모든 테스트에서 로그인 화면에서의 인터렉션을 하지 않아도 되게끔, Dusk의 `loginAs` 메소드를 사용할 수 있습니다. `loginAs` 메소드는 사용자 ID 또는 모델 인스턴스를 전달받습니다.
 
     $this->browse(function ($first, $second) {
         $first->loginAs(User::find(1))
@@ -472,7 +472,7 @@ Dusk 선택자를 사용하면 CSS 선택자를 기억하는 것보다 효과적
 
 To click a link, you may use the `clickLink` method on the browser instance. The `clickLink` method will click the link that has the given display text:
 
-링크를 클릭하기 위해서는 브라우저 인스턴스에서 `clickLink` 메소드를 사용하면 됩니다. `clickLink` 메소드는 주어진 텍스트에 해당하는 링크를 클릭합니다:
+링크를 클릭하기 위해서는 브라우저 인스턴스에서 `clickLink` 메소드를 사용하면 됩니다. `clickLink` 메소드는 주어진 텍스트에 해당하는 링크를 클릭합니다.
 
     $browser->clickLink($linkText);
 
@@ -489,7 +489,7 @@ To click a link, you may use the `clickLink` method on the browser instance. The
 
 Dusk provides several methods for interacting with the current display text, value, and attributes of elements on the page. For example, to get the "value" of an element that matches a given selector, use the `value` method:
 
-Dusk 는 페이지에 현재 표시된 텍스트, 입력값 그리고 속성들에 대해서 처리할 수 있는 다양한 메소드를 제공합니다. 예를 들어 주어진 selector 와 매칭되는 Element의 "value"를 얻고자 한다면 `value` 메소드를 사용하면 됩니다:
+Dusk 는 페이지에 현재 표시된 텍스트, 입력값 그리고 속성들에 대해서 처리할 수 있는 다양한 메소드를 제공합니다. 예를 들어 주어진 selector 와 매칭되는 Element의 "value"를 얻고자 한다면 `value` 메소드를 사용하면 됩니다.
 
     // Retrieve the value...
     $value = $browser->value('selector');
@@ -502,7 +502,7 @@ Dusk 는 페이지에 현재 표시된 텍스트, 입력값 그리고 속성들�
 
 The `text` method may be used to retrieve the display text of an element that matches the given selector:
 
-`text` 메소드는 주어진 selector 와 매칭되는 element의 텍스트를 조회하는데 사용됩니다:
+`text` 메소드는 주어진 selector 와 매칭되는 element의 텍스트를 조회하는데 사용됩니다.
 
     $text = $browser->text('selector');
 
@@ -511,7 +511,7 @@ The `text` method may be used to retrieve the display text of an element that ma
 
 Finally, the `attribute` method may be used to retrieve an attribute of an element matching the given selector:
 
-`attribute` 메소드는 주어진 selector와 매칭되는 element의 속성을 조회하는데 사용됩니다:
+`attribute` 메소드는 주어진 selector와 매칭되는 element의 속성을 조회하는데 사용됩니다.
 
     $attribute = $browser->attribute('selector', 'value');
 
@@ -524,7 +524,7 @@ Finally, the `attribute` method may be used to retrieve an attribute of an eleme
 
 Dusk provides a variety of methods for interacting with forms and input elements. First, let's take a look at an example of typing text into an input field:
 
-Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 제공합니다. 먼저, input 필드에 값을 입력하는 예쩨를 살펴보겠습니다:
+Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 제공합니다. 먼저, input 필드에 값을 입력하는 예쩨를 살펴보겠습니다.
 
     $browser->type('email', 'taylor@laravel.com');
 
@@ -534,14 +534,14 @@ Note that, although the method accepts one if necessary, we are not required to 
 
 To append text to a field without clearing its content, you may use the `append` method:
 
-필드의 내용을 유지한채로 문자를 추가하려면 `append` 메소드를 사용하면 됩니다:
+필드의 내용을 유지한채로 문자를 추가하려면 `append` 메소드를 사용하면 됩니다.
 
     $browser->type('tags', 'foo')
             ->append('tags', ', bar, baz');
 
 You may clear the value of an input using the `clear` method:
 
-`clear` 메소드를 통해서 input 필드의 값을 비울 수 있습니다:
+`clear` 메소드를 통해서 input 필드의 값을 비울 수 있습니다.
 
     $browser->clear('email');
 
@@ -556,7 +556,7 @@ dropdown 셀렉트 박스에서 값을 선택하려면, `select` 메소드를 �
 
 You may select a random option by omitting the second parameter:
 
-두번째 인자를 생략하면 랜덤한 값을 선택하게 됩니다:
+두번째 인자를 생략하면 랜덤한 값을 선택하게 됩니다.
 
     $browser->select('size');
 
@@ -565,7 +565,7 @@ You may select a random option by omitting the second parameter:
 
 To "check" a checkbox field, you may use the `check` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a checkbox with a matching `name` attribute:
 
-체크박스 필드를 "체크" 처리하려면 `check` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면 Dusk는 `name` 속성을 기준으로 매칭되는 체크박스를 찾습니다:
+체크박스 필드를 "체크" 처리하려면 `check` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면 Dusk는 `name` 속성을 기준으로 매칭되는 체크박스를 찾습니다.
 
     $browser->check('terms');
 
@@ -576,7 +576,7 @@ To "check" a checkbox field, you may use the `check` method. Like many other inp
 
 To "select" a radio button option, you may use the `radio` method. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a radio with matching `name` and `value` attributes:
 
-라디오 버튼의 옵션을 "선택" 하려면, `radio` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 과 `value` 속성을 기준으로 매칭되는 라디오를 찾습니다:
+라디오 버튼의 옵션을 "선택" 하려면, `radio` 메소드를 사용하면 됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 과 `value` 속성을 기준으로 매칭되는 라디오를 찾습니다.
 
     $browser->radio('version', 'php7');
 
@@ -586,7 +586,7 @@ To "select" a radio button option, you may use the `radio` method. Like many oth
 
 The `attach` method may be used to attach a file to a `file` input element. Like many other input related methods, a full CSS selector is not required. If an exact selector match can't be found, Dusk will search for a file input with matching `name` attribute:
 
-`file` input element 에 파일을 첨부하는데에는 `attach` 메소드가 사용됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 속성을 기준으로 매칭되는 file input을 찾습니다:
+`file` input element 에 파일을 첨부하는데에는 `attach` 메소드가 사용됩니다. 다른 input 관련 메소드와 같이, 완전한 CSS selector는 필요하지 않습니다. 완전히 일치하는 selector를 찾을 수 없다면, Dusk는 `name` 속성을 기준으로 매칭되는 file input을 찾습니다.
 
     $browser->attach('photo', __DIR__.'/photos/me.png');
 
@@ -600,13 +600,13 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
 The `keys` method allows you to provide more complex input sequences to a given element than normally allowed by the `type` method. For example, you may hold modifier keys entering values. In this example, the `shift` key will be held while `taylor` is entered into the element matching the given selector. After `taylor` is typed, `otwell` will be typed without any modifier keys:
 
-`keys` 메소드는 `type` 메소드가 제공하는 것 보다 더 복잡한 작업들을 처리할 수 있습니다. 예를 들어, 특수 키를 값을 입력하는 동안 유지할 수 있습니다. 이 예제에서는 주어진 selector에 매칭되는 element에 `taylor`를 입력하는 동안 `shift` 키를 누르고 있는상태로 유지됩니다. `taylor` 가 입력된 후에, `otwell` 이 입력될 때는 특수키를 유지하지 않습니다:
+`keys` 메소드는 `type` 메소드가 제공하는 것 보다 더 복잡한 작업들을 처리할 수 있습니다. 예를 들어, 특수 키를 값을 입력하는 동안 유지할 수 있습니다. 이 예제에서는 주어진 selector에 매칭되는 element에 `taylor`를 입력하는 동안 `shift` 키를 누르고 있는상태로 유지됩니다. `taylor` 가 입력된 후에, `otwell` 이 입력될 때는 특수키를 유지하지 않습니다.
 
     $browser->keys('selector', ['{shift}', 'taylor'], 'otwell');
 
 You may even send a "hot key" to the primary CSS selector that contains your application:
 
-애플리케이션에 포함된 기본 CSS selector에서 "단축키"를 전달 할 수도 있습니다:
+애플리케이션에 포함된 기본 CSS selector에서 "단축키"를 전달 할 수도 있습니다.
 
     $browser->keys('.app', ['{command}', 'j']);
 
@@ -623,7 +623,7 @@ You may even send a "hot key" to the primary CSS selector that contains your app
 
 The `click` method may be used to "click" on an element matching the given selector:
 
-`click` 메소드는 주어진 selector에 매칭되는 element를 "클릭"하는데 사용합니다:
+`click` 메소드는 주어진 selector에 매칭되는 element를 "클릭"하는데 사용합니다.
 
     $browser->click('.selector');
 
@@ -632,7 +632,7 @@ The `click` method may be used to "click" on an element matching the given selec
 
 The `mouseover` method may be used when you need to move the mouse over an element matching the given selector:
 
-`mouseover` 메소드는 주어진 selector에 매칭되는 element에 마우스를 이동하여 올려놓는 작업이 필요할 때 사용합니다:
+`mouseover` 메소드는 주어진 selector에 매칭되는 element에 마우스를 이동하여 올려놓는 작업이 필요할 때 사용합니다.
 
     $browser->mouseover('.selector');
 
@@ -641,13 +641,13 @@ The `mouseover` method may be used when you need to move the mouse over an eleme
 
 The `drag` method may be used to drag an element matching the given selector to another element:
 
-`drag` 메소드는 주어진 selector와 매칭되는 element를 다른 element로 드래그 하는데 사용합니다:
+`drag` 메소드는 주어진 selector와 매칭되는 element를 다른 element로 드래그 하는데 사용합니다.
 
     $browser->drag('.from-selector', '.to-selector');
 
 Or, you may drag an element in a single direction:
 
-또는, element를 어느 한 방향으로 드래그 할 수 있습니다:
+또는, element를 어느 한 방향으로 드래그 할 수 있습니다.
 
     $browser->dragLeft('.selector', 10);
     $browser->dragRight('.selector', 10);
@@ -689,7 +689,7 @@ To close an opened JavaScript Dialog, clicking the Cancel button (for a confirma
 
 Sometimes you may wish to perform several operations while scoping all of the operations within a given selector. For example, you may wish to assert that some text exists only within a table and then click a button within that table. You may use the `with` method to accomplish this. All operations performed within the callback given to the `with` method will be scoped to the original selector:
 
-때로는 주어진 selector안에서 특정 범위를 지정하여 동작을 수행하기을 원할 수도 있습니다. 예를 들어, 테이블 안에 있는 텍스트를 확인하고, 버튼을 클릭하고자 할 수 있습니다. 이 경우 `with`메소드를 사용하면 됩니다. `with` 메소드에 주어진 콜백안에서 수행되는 모든 동작들은 원래의 selector 에서 범위가 제한됩니다:
+때로는 주어진 selector안에서 특정 범위를 지정하여 동작을 수행하기을 원할 수도 있습니다. 예를 들어, 테이블 안에 있는 텍스트를 확인하고, 버튼을 클릭하고자 할 수 있습니다. 이 경우 `with`메소드를 사용하면 됩니다. `with` 메소드에 주어진 콜백안에서 수행되는 모든 동작들은 원래의 selector 에서 범위가 제한됩니다.
 
     $browser->with('.table', function ($table) {
         $table->assertSee('Hello World')
@@ -709,7 +709,7 @@ When testing applications that use JavaScript extensively, it often becomes nece
 
 If you need to pause the test for a given number of milliseconds, use the `pause` method:
 
-주어진 milliseconde 동안 테스트를 일시 정지하려면 `pause` 메소드를 사용합니다:
+주어진 milliseconde 동안 테스트를 일시 정지하려면 `pause` 메소드를 사용합니다.
 
     $browser->pause(1000);
 
@@ -718,7 +718,7 @@ If you need to pause the test for a given number of milliseconds, use the `pause
 
 The `waitFor` method may be used to pause the execution of the test until the element matching the given CSS selector is displayed on the page. By default, this will pause the test for a maximum of five seconds before throwing an exception. If necessary, you may pass a custom timeout threshold as the second argument to the method:
 
-`waitFor` 메소드는 주어진 CSS selector 에 해당하는 element가 페이지에 표시될 때까지 테스트 실행을 일시 정지하는데 사용합니다. 기본적으로 이 동작은 exception이 발생하기 전까지 최대 5초동안 테스트를 일시 정지합니다. 필요하다면, 두번재 인자로 커스텀 타임아웃 값을 전달 할 수 있습니다:
+`waitFor` 메소드는 주어진 CSS selector 에 해당하는 element가 페이지에 표시될 때까지 테스트 실행을 일시 정지하는데 사용합니다. 기본적으로 이 동작은 exception이 발생하기 전까지 최대 5초동안 테스트를 일시 정지합니다. 필요하다면, 두번재 인자로 커스텀 타임아웃 값을 전달 할 수 있습니다.
 
     // Wait a maximum of five seconds for the selector...
     $browser->waitFor('.selector');
@@ -728,7 +728,7 @@ The `waitFor` method may be used to pause the execution of the test until the el
 
 You may also wait until the given selector is missing from the page:
 
-또한 주어진 selector가 페이지에서 사라질 때까지 일시 정지할 수도 있습니다:
+또한 주어진 selector가 페이지에서 사라질 때까지 일시 정지할 수도 있습니다.
 
     $browser->waitUntilMissing('.selector');
 
@@ -751,7 +751,7 @@ Occasionally, you may wish to wait for a given selector and then interact with t
 
 The `waitForText` method may be used to wait until the given text is displayed on the page:
 
-`waitForText` 메소드는 페이지에서 주어진 텍스트가 나타날때 까지 기다릴 때 사용됩니다:
+`waitForText` 메소드는 페이지에서 주어진 텍스트가 나타날때 까지 기다릴 때 사용됩니다.
 
     // Wait a maximum of five seconds for the text...
     $browser->waitForText('Hello World');
@@ -764,7 +764,7 @@ The `waitForText` method may be used to wait until the given text is displayed o
 
 The `waitForLink` method may be used to wait until the given link text is displayed on the page:
 
-`waitForLink` 메소드는 페이지에서 주어진 링크가 나타날때 까지 기다릴 때 사용됩니다:
+`waitForLink` 메소드는 페이지에서 주어진 링크가 나타날때 까지 기다릴 때 사용됩니다.
 
     // Wait a maximum of five seconds for the link...
     $browser->waitForLink('Create');
@@ -803,7 +803,7 @@ If you need to make assertions after a page has been reloaded, use the `waitForR
 
 Sometimes you may wish to pause the execution of a test until a given JavaScript expression evaluates to `true`. You may easily accomplish this using the `waitUntil` method. When passing an expression to this method, you do not need to include the `return` keyword or an ending semi-colon:
 
-때로는 주어진 자바스크립트 표현식이 `true` 일 때까지 테스트 실행을 멈추고 있기를 원할 수도 있습니다. 이럴 때는 `waitUntil` 메소드를 사용하면 됩니다. 이 메소드에 표현식을 전달할 때에는 `return` 키워드나 종료 세미콜론을 포함할 필요가 없습니다:
+때로는 주어진 자바스크립트 표현식이 `true` 일 때까지 테스트 실행을 멈추고 있기를 원할 수도 있습니다. 이럴 때는 `waitUntil` 메소드를 사용하면 됩니다. 이 메소드에 표현식을 전달할 때에는 `return` 키워드나 종료 세미콜론을 포함할 필요가 없습니다.
 
     // Wait a maximum of five seconds for the expression to be true...
     $browser->waitUntil('App.dataLoaded');
@@ -886,7 +886,7 @@ You may assert on the state of the Vue component like so:
 
 Dusk provides a variety of assertions that you may make against your application. All of the available assertions are documented in the list below:
 
-Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 목록과 같습니다:
+Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 목록과 같습니다.
 
 - [assertTitle](#assert-title)
 - [assertTitleContains](#assert-title-contains)
@@ -1829,7 +1829,7 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
 
 To run Dusk tests on [Codeship](https://codeship.com), add the following commands to your Codeship project. These commands are just a starting point and you are free to add additional commands as needed:
 
-[Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다:
+[Codeship](https://codeship.com)에서 Dusk 테스트를 실행하려면, 다음의 명령어들을 Codeship 프로젝트에 추가하십시오. 이 명령어들은 기본적인 명령어들이며, 필요한 경우 자유롭게 추가할 수 있습니다.
 
     phpenv local 7.2
     cp .env.testing .env
@@ -1868,7 +1868,7 @@ To run Dusk tests on [Heroku CI](https://www.heroku.com/continuous-integration),
 
 To run your Dusk tests on [Travis CI](https://travis-ci.org), use the following `.travis.yml` configuration. Since Travis CI is not a graphical environment, we will need to take some extra steps in order to launch a Chrome browser. In addition, we will use `php artisan serve` to launch PHP's built-in web server:
 
-[Travis CI](https://travis-ci.org)에서 Dusk 테스트를 수행하기 위해서는 아래에 나오는 `travis.yml` 설정을 사용하십시오. Travis CI는 그래픽 환경이 아니기 때문에, 크롬 브라우저를 구동하기 위해서는 몇가지 별도의 작업을 필요로 합니다. 추가적으로 PHP 내장 브라우저를 구동하기 위해서 `php artisan serve`를 사용할 수 있습니다:
+[Travis CI](https://travis-ci.org)에서 Dusk 테스트를 수행하기 위해서는 아래에 나오는 `travis.yml` 설정을 사용하십시오. Travis CI는 그래픽 환경이 아니기 때문에, 크롬 브라우저를 구동하기 위해서는 몇가지 별도의 작업을 필요로 합니다. 추가적으로 PHP 내장 브라우저를 구동하기 위해서 `php artisan serve`를 사용할 수 있습니다.
 
     language: php
 

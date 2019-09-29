@@ -28,7 +28,7 @@ The Laravel framework has a few system requirements. All of these requirements a
 
 However, if you are not using Homestead, you will need to make sure your server meets the following requirements:
 
-하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다:
+하지만, 홈스테드를 사용하지 않는 경우, 서버에서 다음의 요구사항을 만족하는지 확인해야합니다.
 
 
 - PHP >= 7.2.0
@@ -61,7 +61,7 @@ First, download the Laravel installer using Composer:
 
 Make sure to place Composer's system-wide vendor bin directory in your `$PATH` so the laravel executable can be located by your system. This directory exists in different locations based on your operating system; however, some common locations include:
 
-laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다:
+laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다.
 
 
 - macOS and GNU / Linux Distributions: `$HOME/.composer/vendor/bin`
@@ -88,7 +88,7 @@ Alternatively, you may also install Laravel by issuing the Composer `create-proj
 
 If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the `serve` Artisan command. This command will start a development server at `http://localhost:8000`:
 
-로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 애플리케이션을 구동하고자 할 수 있는데, 이 경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다:
+로컬환경에 PHP가 설치되어 있다면 PHP의 내장 개발 서버를 사용하여 애플리케이션을 구동하고자 할 수 있는데, 이 경우 `serve` 아티즌 명령어를 사용할 수 있습니다. 이 명령어는 개발서버를 `http://localhost:8000`으로 시작할 것입니다.
 
     php artisan serve
 

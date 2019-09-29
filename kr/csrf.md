@@ -22,7 +22,7 @@ Laravel automatically generates a CSRF "token" for each active user session mana
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that the CSRF protection middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
-HTML 폼을 정의할 때, CSRF 토큰을 hidden 필드로 포함시켜서, CSRF 보호 미들웨어가 request-요청을 검증(validate)할 수 있도록 해야합니다. 토큰 필드를 생성하기 위해 `@csrf` 블레이드 지시어를 사용할 수 있습니다:
+HTML 폼을 정의할 때, CSRF 토큰을 hidden 필드로 포함시켜서, CSRF 보호 미들웨어가 request-요청을 검증(validate)할 수 있도록 해야합니다. 토큰 필드를 생성하기 위해 `@csrf` 블레이드 지시어를 사용할 수 있습니다.
 
     <form method="POST" action="/profile">
         @csrf
@@ -82,7 +82,7 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
 
 In addition to checking for the CSRF token as a POST parameter, the `VerifyCsrfToken` middleware will also check for the `X-CSRF-TOKEN` request header. You could, for example, store the token in a HTML `meta` tag:
 
-POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하여, `VerifyCsrfToken` 미들웨어는 `X-CSRF-TOKEN` request-요청 헤더 또한 확인합니다. 예를들자면, HTML `meta` 태그에 토큰을 저장할 수 있습니다:
+POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하여, `VerifyCsrfToken` 미들웨어는 `X-CSRF-TOKEN` request-요청 헤더 또한 확인합니다. 예를들자면, HTML `meta` 태그에 토큰을 저장할 수 있습니다.
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

@@ -70,7 +70,7 @@ As you can see, the original value of the column is passed to the accessor, allo
 
 You may also use accessors to return new, computed values from existing attributes:
 
-이미 존재하는 속성값의 새롭게 변경하는데에도 accessor 를 사용할 수 있습니다:
+이미 존재하는 속성값의 새롭게 변경하는데에도 accessor 를 사용할 수 있습니다.
 
     /**
      * Get the user's full name.
@@ -132,7 +132,7 @@ In this example, the `setFirstNameAttribute` function will be called with the va
 
 By default, Eloquent will convert the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may add additional date attributes by setting the `$dates` property of your model:
 
-기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 가지고 있습니다. 이 컬럼은 유용한 메소드를 가지고 있으며,  PHP `DateTime` 클래스의 확장이기도한 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 모델의 `$dates` 속성을 설정하여 추가적인 날짜 속성을 추가할 수 있습니다:
+기본적으로 Eloquent는 `created_at` 컬럼과 `updated_at` 컬럼을 가지고 있습니다. 이 컬럼은 유용한 메소드를 가지고 있으며,  PHP `DateTime` 클래스의 확장이기도한 [Carbon](https://github.com/briannesbitt/Carbon) 클래스의 인스턴스로 변환해줍니다. 모델의 `$dates` 속성을 설정하여 추가적인 날짜 속성을 추가할 수 있습니다.
 
     <?php
 
@@ -168,7 +168,7 @@ When a column is considered a date, you may set its value to a UNIX timestamp, d
 
 As noted above, when retrieving attributes that are listed in your `$dates` property, they will automatically be cast to [Carbon](https://github.com/briannesbitt/Carbon) instances, allowing you to use any of Carbon's methods on your attributes:
 
-위에서 보다시피, `$dates` 속성에 나열된 값을 가져오려고 하는 경우, 이 값은 자동으로 [Carbon](https://github.com/briannesbitt/Carbon)인스턴스로 캐스팅 될것이기 때문에, 속성에 대해서 Carbon의 메소드를 아무거나 사용할 수 있습니다:
+위에서 보다시피, `$dates` 속성에 나열된 값을 가져오려고 하는 경우, 이 값은 자동으로 [Carbon](https://github.com/briannesbitt/Carbon)인스턴스로 캐스팅 될것이기 때문에, 속성에 대해서 Carbon의 메소드를 아무거나 사용할 수 있습니다.
 
     $user = App\User::find(1);
 
@@ -179,7 +179,7 @@ As noted above, when retrieving attributes that are listed in your `$dates` prop
 
 By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customize the timestamp format, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database, as well as their format when the model is serialized to an array or JSON:
 
-기본적으로, 타임스탬프 형식은 `'Y-m-d H:i:s'` 입니다. 타임 스탬프 형식을 별도로 지정할 필요가 있다면, 모델에서 `$dateFormat` 속성을 설정하면 됩니다. 이 속성은 데이터베이스에서 날짜 속성이 어떻게 저장되어야 하는지, 그리고 모델이 배열 또는 JSON 형태로 serialize 될 때의 형식을 결정합니다:
+기본적으로, 타임스탬프 형식은 `'Y-m-d H:i:s'` 입니다. 타임 스탬프 형식을 별도로 지정할 필요가 있다면, 모델에서 `$dateFormat` 속성을 설정하면 됩니다. 이 속성은 데이터베이스에서 날짜 속성이 어떻게 저장되어야 하는지, 그리고 모델이 배열 또는 JSON 형태로 serialize 될 때의 형식을 결정합니다.
 
     <?php
 
@@ -207,7 +207,7 @@ The `$casts` property on your model provides a convenient method of converting a
 
 For example, let's cast the `is_admin` attribute, which is stored in our database as an integer (`0` or `1`) to a boolean value:
 
-예를 들어, 데이터베이스에 정수형으로 저장된 `is_admin` 속성을 boolean 값으로 캐스팅 해 봅시다:
+예를 들어, 데이터베이스에 정수형으로 저장된 `is_admin` 속성을 boolean 값으로 캐스팅 해 봅시다.
 
     <?php
 
@@ -229,7 +229,7 @@ For example, let's cast the `is_admin` attribute, which is stored in our databas
 
 Now the `is_admin` attribute will always be cast to a boolean when you access it, even if the underlying value is stored in the database as an integer:
 
-이제 사용자가 액세스 할 때 데이터베이스에 정수형 값으로 저장되어있는 경우에도 `is_admin` 속성은 항상 boolean으로 캐스팅됩니다:
+이제 사용자가 액세스 할 때 데이터베이스에 정수형 값으로 저장되어있는 경우에도 `is_admin` 속성은 항상 boolean으로 캐스팅됩니다.
 
     $user = App\User::find(1);
 
@@ -243,7 +243,7 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
 
 The `array` cast type is particularly useful when working with columns that are stored as serialized JSON. For example, if your database has a `JSON` or `TEXT` field type that contains serialized JSON, adding the `array` cast to that attribute will automatically deserialize the attribute to a PHP array when you access it on your Eloquent model:
 
-`array` 타입 캐스팅은 직렬화 된 JSON으로 컬럼에 저장하는 작업을 할 때 특히 유용합니다. 예를 들어, 데이터베이스에 직렬화 된 JSON을 포함하는 `JSON` 또는 `TEXT` 필드가있는 경우, `array` 캐스팅을 해당 속성에 추가하면 Eloquent 사용자 정의 모델에 접근할 때 자동으로 역 직렬화 된 PHP 배열 값이 해당 속성 값으로 들어갑니다:
+`array` 타입 캐스팅은 직렬화 된 JSON으로 컬럼에 저장하는 작업을 할 때 특히 유용합니다. 예를 들어, 데이터베이스에 직렬화 된 JSON을 포함하는 `JSON` 또는 `TEXT` 필드가있는 경우, `array` 캐스팅을 해당 속성에 추가하면 Eloquent 사용자 정의 모델에 접근할 때 자동으로 역 직렬화 된 PHP 배열 값이 해당 속성 값으로 들어갑니다.
 
     <?php
 
@@ -265,7 +265,7 @@ The `array` cast type is particularly useful when working with columns that are 
 
 Once the cast is defined, you may access the `options` attribute and it will automatically be deserialized from JSON into a PHP array. When you set the value of the `options` attribute, the given array will automatically be serialized back into JSON for storage:
 
-캐스팅이 정의하고 나서, `options` 속성에 액세스하면 자동으로 JSON 이 PHP 배열로 deserialize 될 것입니다. `options` 속성에 값을 설정하면, 주어진 배열은 자동으로 JSON으로 serialize 될 것입니다:
+캐스팅이 정의하고 나서, `options` 속성에 액세스하면 자동으로 JSON 이 PHP 배열로 deserialize 될 것입니다. `options` 속성에 값을 설정하면, 주어진 배열은 자동으로 JSON으로 serialize 될 것입니다.
 
     $user = App\User::find(1);
 
@@ -283,7 +283,7 @@ Once the cast is defined, you may access the `options` attribute and it will aut
 
 When using the `date` or `datetime` cast type, you may specify the date's format. This format will be used when the [model is serialized to an array or JSON](/docs/{{version}}/eloquent-serialization):
 
-`date` 또는 `datetime` 캐스트 타입을 사용할 때 날짜 포맷을 지정할 수 있습니다. 이 포맷은 [모델이 배열이나, JSON으로 serialize](/docs/{{version}}/eloquent-serialization) 될 때 사용됩니다:
+`date` 또는 `datetime` 캐스트 타입을 사용할 때 날짜 포맷을 지정할 수 있습니다. 이 포맷은 [모델이 배열이나, JSON으로 serialize](/docs/{{version}}/eloquent-serialization) 될 때 사용됩니다.
 
     /**
      * The attributes that should be cast to native types.

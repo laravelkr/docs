@@ -14,7 +14,7 @@
 
 Laravel's versioning scheme maintains the following convention: `paradigm.major.minor`. Major framework releases are released every six months (February and August), while minor releases may be released as often as every week. Minor releases should **never** contain breaking changes.
 
-라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다: `paradigm.major.minor`. 메이저 프레임워크 릴리즈는 6 개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다. `paradigm.major.minor`. 메이저 프레임워크 릴리즈는 6 개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.8.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
@@ -138,7 +138,7 @@ If you are passing an integer to any of these methods, you should update your co
 
 In previous releases of Laravel, private and presence broadcast channels authenticated the user via your application's default authentication guard. Beginning in Laravel 5.8, you may now assign multiple guards that should authenticate the incoming request:
 
-라라벨의 이전 릴리스에서 개인 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 사용자를 인증했습니다. 라라벨 5.8부터 유입되는 요청을 인증해야만 여러개의 가드를 지정할 수 있습니다:
+라라벨의 이전 릴리스에서 개인 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 사용자를 인증했습니다. 라라벨 5.8부터 유입되는 요청을 인증해야만 여러개의 가드를 지정할 수 있습니다.
 
     Broadcast::channel('channel', function() {
         // ...
@@ -167,7 +167,7 @@ Laravel 5.8 introduces improvements to the validator's underlying email validati
 
 Laravel allows you to customize the timezone of a scheduled task using the `timezone` method:
 
-라라벨을 사용하면 `timezone` 메소드를 사용하여 예약 된 작업의 시간대를 커스터마이징 할 수 있습니다:
+라라벨을 사용하면 `timezone` 메소드를 사용하여 예약 된 작업의 시간대를 커스터마이징 할 수 있습니다.
 
     $schedule->command('inspire')
              ->hourly()
@@ -244,7 +244,7 @@ When returning an [Eloquent resource collection](/docs/{{version}}/eloquent-reso
 
 When using Laravel 5.8, you may now add a `preserveKeys` property to your resource class indicating if collection keys should be preserved. By default, and to maintain consistency with previous Laravel releases, the keys will be reset by default:
 
-라라벨 5.8을 사용할 경우, 리소스 클래스에 `preserveKeys` 속성을 추가하여 콜렉션 키를 보존해야하는지 여부를 나타낼 수 있습니다. 이전 라라벨 릴리스와의 일관성을 유지하기 위해 키는 기본적으로 재설정해줘야 합니다:
+라라벨 5.8을 사용할 경우, 리소스 클래스에 `preserveKeys` 속성을 추가하여 콜렉션 키를 보존해야하는지 여부를 나타낼 수 있습니다. 이전 라라벨 릴리스와의 일관성을 유지하기 위해 키는 기본적으로 재설정해줘야 합니다.
 
     <?php
 
@@ -264,7 +264,7 @@ When using Laravel 5.8, you may now add a `preserveKeys` property to your resour
 
 When the `preserveKeys` property is set to `true`, collection keys will be preserved:
 
-`preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다:
+`preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다.
 
     use App\User;
     use App\Http\Resources\User as UserResource;
@@ -278,7 +278,7 @@ When the `preserveKeys` property is set to `true`, collection keys will be prese
 
 In previous releases of Laravel, combining multiple Eloquent model scopes via an `or` query operator required the use of Closure callbacks:
 
-라라벨의 이전 릴리스에서는 `or` 쿼리 연산자를 통해 여러 가지 Eloquent 모델 범위를 결합하려면 Closure 콜백을 사용해야했습니다:
+라라벨의 이전 릴리스에서는 `or` 쿼리 연산자를 통해 여러 가지 Eloquent 모델 범위를 결합하려면 Closure 콜백을 사용해야했습니다.
 
     // scopePopular and scopeActive methods defined on the User model...
     $users = App\User::popular()->orWhere(function (Builder $query) {
@@ -287,7 +287,7 @@ In previous releases of Laravel, combining multiple Eloquent model scopes via an
 
 Laravel 5.8 introduces a "higher order" `orWhere` method that allows you to fluently chain these scopes together without the use of Closures:
 
-라라벨 5.8에서는 클로저를 사용하지 않고 이러한 범위를 유연하게 연결할 수있는 "higher order-고차" `orWhere` 메서드를 도입했습니다:
+라라벨 5.8에서는 클로저를 사용하지 않고 이러한 범위를 유연하게 연결할 수있는 "higher order-고차" `orWhere` 메서드를 도입했습니다.
 
     $users = App\User::popular()->orWhere->active()->get();
 

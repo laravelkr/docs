@@ -59,7 +59,7 @@ This Cron will call the Laravel command scheduler every minute. When the `schedu
 
 You may define all of your scheduled tasks in the `schedule` method of the `App\Console\Kernel` class. To get started, let's look at an example of scheduling a task. In this example, we will schedule a `Closure` to be called every day at midnight. Within the `Closure` we will execute a database query to clear a table:
 
-`App\Console\Kernel` 의 `schedule` 메소드에서 모든 스케줄된 작업들을 정의할 수 있습니다. 시작하기 전에 작업을 스케줄하는 예제 하나를 보겠습니다. 이 예제에서는 `Closure`가 매일밤 자정에 호출되도록 스케줄을 지정합니다. `Closure` 내에 테이블을 정리할 데이터베이스 쿼리를 실행합니다:
+`App\Console\Kernel` 의 `schedule` 메소드에서 모든 스케줄된 작업들을 정의할 수 있습니다. 시작하기 전에 작업을 스케줄하는 예제 하나를 보겠습니다. 이 예제에서는 `Closure`가 매일밤 자정에 호출되도록 스케줄을 지정합니다. `Closure` 내에 테이블을 정리할 데이터베이스 쿼리를 실행합니다.
 
     <?php
 
@@ -106,7 +106,7 @@ In addition to scheduling using Closures, you may also use [invokable objects](h
 
 In addition to scheduling Closure calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
 
-클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다:
+클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다.
 
     $schedule->command('emails:send Taylor --force')->daily();
 
@@ -118,7 +118,7 @@ In addition to scheduling Closure calls, you may also schedule [Artisan commands
 
 The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues). This method provides a convenient way to schedule jobs without using the `call` method to manually create Closures to queue the job:
 
-`job` 메소드는 [queued job](/docs/{{version}}/queues)을 스케줄링 하는데 사용됩니다. 이 메소드는 queue job 을 위한 클로저를 직접 생성하고 `call` 메소드를 사용하지 않고도 job을 스케줄링 할 수 있도록 하는 편리한 방법을 제공합니다:
+`job` 메소드는 [queued job](/docs/{{version}}/queues)을 스케줄링 하는데 사용됩니다. 이 메소드는 queue job 을 위한 클로저를 직접 생성하고 `call` 메소드를 사용하지 않고도 job을 스케줄링 할 수 있도록 하는 편리한 방법을 제공합니다.
 
     $schedule->job(new Heartbeat)->everyFiveMinutes();
 
@@ -131,7 +131,7 @@ The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues
 
 The `exec` method may be used to issue a command to the operating system:
 
-`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다:
+`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다.
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -141,7 +141,7 @@ The `exec` method may be used to issue a command to the operating system:
 
 There are a variety of schedules you may assign to your task:
 
-작업을 스케줄링 할 때 다양한 옵션을 부여할 수 있습니다:
+작업을 스케줄링 할 때 다양한 옵션을 부여할 수 있습니다.
 
 Method  | Description
 ------------- | -------------
@@ -187,7 +187,7 @@ Method  | Description
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:
 
-이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다:
+이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다.
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
@@ -203,7 +203,7 @@ These methods may be combined with additional constraints to create even more fi
 
 Below is a list of the additional schedule constraints:
 
-아래는 추가적인 스케줄을 제한하는 옵션입니다:
+아래는 추가적인 스케줄을 제한하는 옵션입니다.
 
 Method  | Description
 ------------- | -------------
@@ -240,7 +240,7 @@ Method  | Description
 
 The `between` method may be used to limit the execution of a task based on the time of day:
 
-`between` 메소드는 하루중에 시간에 따라 실행 시간을 제한하기 위해 사용될 수 있습니다:
+`between` 메소드는 하루중에 시간에 따라 실행 시간을 제한하기 위해 사용될 수 있습니다.
 
     $schedule->command('reminders:send')
                         ->hourly()
@@ -248,7 +248,7 @@ The `between` method may be used to limit the execution of a task based on the t
 
 Similarly, the `unlessBetween` method can be used to exclude the execution of a task for a period of time:
 
-마찬가지로, `unlessBetween` 메소드는 해당 기간 동안의 작업 실행을 제외하는데 사용될 수 있습니다:
+마찬가지로, `unlessBetween` 메소드는 해당 기간 동안의 작업 실행을 제외하는데 사용될 수 있습니다.
 
     $schedule->command('reminders:send')
                         ->hourly()
@@ -259,7 +259,7 @@ Similarly, the `unlessBetween` method can be used to exclude the execution of a 
 
 The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given `Closure` returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
 
-`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, `Closure` 가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다:
+`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, `Closure` 가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다.
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -267,7 +267,7 @@ The `when` method may be used to limit the execution of a task based on the resu
 
 The `skip` method may be seen as the inverse of `when`. If the `skip` method returns `true`, the scheduled task will not be executed:
 
-`skip` 메소드는 `when`의 반대입니다. `skip` 메소드가 `true`를 반환하면, 스케줄링 작업은 실행되지 않을 것입니다:
+`skip` 메소드는 `when`의 반대입니다. `skip` 메소드가 `true`를 반환하면, 스케줄링 작업은 실행되지 않을 것입니다.
 
     $schedule->command('emails:send')->daily()->skip(function () {
         return true;
@@ -294,7 +294,7 @@ The `environments` method may be used to execute tasks only on the given environ
 
 Using the `timezone` method, you may specify that a scheduled task's time should be interpreted within a given timezone:
 
-`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 안에서 실행 되도록 지정할 수 있습니다:
+`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 안에서 실행 되도록 지정할 수 있습니다.
 
     $schedule->command('report:generate')
              ->timezone('America/New_York')
@@ -302,7 +302,7 @@ Using the `timezone` method, you may specify that a scheduled task's time should
 
 If you are assigning the same timezone to all of your scheduled tasks, you may wish to define a `scheduleTimezone` method in your `app/Console/Kernel.php` file. This method should return the default timezone that should be assigned to all scheduled tasks:
 
-만약, 모든 스케줄링 작업에 동일한 타임존을 지정하고자 한다면, `app/Console/Kernel.php` 파일에 `scheduleTimezone` 메소드를 정의하면 됩니다. 이 메소드는 스케줄링 작업들에 할당하고자 하는 기본 타임존을 반환해야 합니다:
+만약, 모든 스케줄링 작업에 동일한 타임존을 지정하고자 한다면, `app/Console/Kernel.php` 파일에 `scheduleTimezone` 메소드를 정의하면 됩니다. 이 메소드는 스케줄링 작업들에 할당하고자 하는 기본 타임존을 반환해야 합니다.
 
     /**
      * Get the timezone that should be used by default for scheduled events.
@@ -324,7 +324,7 @@ If you are assigning the same timezone to all of your scheduled tasks, you may w
 
 By default, scheduled tasks will be run even if the previous instance of the task is still running. To prevent this, you may use the `withoutOverlapping` method:
 
-기본적으로는 동일한 작업이 이미 실행되고 있어도 스케줄에 등록된 작업들은 다시 실행될 것입니다. 이를 방지하기 위해 `withoutOverlapping` 메소드를 사용할 수 있습니다:
+기본적으로는 동일한 작업이 이미 실행되고 있어도 스케줄에 등록된 작업들은 다시 실행될 것입니다. 이를 방지하기 위해 `withoutOverlapping` 메소드를 사용할 수 있습니다.
 
     $schedule->command('emails:send')->withoutOverlapping();
 
@@ -334,7 +334,7 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 If needed, you may specify how many minutes must pass before the "without overlapping" lock expires. By default, the lock will expire after 24 hours:
 
-필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다:
+필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다.
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
@@ -352,7 +352,7 @@ If your application is running on multiple servers, you may limit a scheduled jo
 
 To indicate that the task should run on only one server, use the `onOneServer` method when defining the scheduled task. The first server to obtain the task will secure an atomic lock on the job to prevent other servers from running the same task at the same time:
 
-작업이 하나의 서버에서만 실행되도록 하려면, 예약된 작업을 정의할 때 `onOneServer` 메소드를 사용하면 됩니다. 작업을 수행하는 첫번째 서버는 다른 서버가 동일한 작업을 동시에 실행하지 못하도록 lock을 통해서 보호하게 됩니다:
+작업이 하나의 서버에서만 실행되도록 하려면, 예약된 작업을 정의할 때 `onOneServer` 메소드를 사용하면 됩니다. 작업을 수행하는 첫번째 서버는 다른 서버가 동일한 작업을 동시에 실행하지 못하도록 lock을 통해서 보호하게 됩니다.
 
     $schedule->command('report:generate')
                     ->fridays()
@@ -381,7 +381,7 @@ By default, multiple commands scheduled at the same time will execute sequential
 
 Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may use the `evenInMaintenanceMode` method:
 
-라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다:
+라라벨에서 스케줄링되는 작업들은 라라벨이 [공사중 모드](/docs/{{version}}/configuration#maintenance-mode)일 때는 실행되지 않습니다. 유지 보수가 완료되지 않는 공사중인 서버에서 작업이 실행되지 않게 하기 위해서입니다. 그렇지만 공사중 모드에서도 실행이 되도록 강제하려면 `evenInMaintenanceMode` 사용하면 됩니다.
 
     $schedule->command('emails:send')->evenInMaintenanceMode();
 
@@ -391,7 +391,7 @@ Laravel's scheduled tasks will not run when Laravel is in [maintenance mode](/do
 
 The Laravel scheduler provides several convenient methods for working with the output generated by scheduled tasks. First, using the `sendOutputTo` method, you may send the output to a file for later inspection:
 
-라라벨 스케줄러는 스케줄된 작업들의 출력을 다루는 편리한 여러 메소드들을 제공합니다. 우선 `sendOutputTo` 메소드를 사용하면 결과를 나중에 확인할 수 있도록 파일로 보낼 수 있습니다:
+라라벨 스케줄러는 스케줄된 작업들의 출력을 다루는 편리한 여러 메소드들을 제공합니다. 우선 `sendOutputTo` 메소드를 사용하면 결과를 나중에 확인할 수 있도록 파일로 보낼 수 있습니다.
 
     $schedule->command('emails:send')
              ->daily()
@@ -399,7 +399,7 @@ The Laravel scheduler provides several convenient methods for working with the o
 
 If you would like to append the output to a given file, you may use the `appendOutputTo` method:
 
-특정 파일에 출력을 더하는 형태로 저장하기 위해서는 `appendOutputTo` 메소드를 사용하면 됩니다:
+특정 파일에 출력을 더하는 형태로 저장하기 위해서는 `appendOutputTo` 메소드를 사용하면 됩니다.
 
     $schedule->command('emails:send')
              ->daily()
@@ -407,7 +407,7 @@ If you would like to append the output to a given file, you may use the `appendO
 
 Using the `emailOutputTo` method, you may e-mail the output to an e-mail address of your choice. Before e-mailing the output of a task, you should configure Laravel's [e-mail services](/docs/{{version}}/mail):
 
-`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/{{version}}/mail)를 설정해 놓아야만 합니다:
+`emailOutputTo` 메소드를 사용하면 원하는 이메일 주소로 출력을 전달할 수 있습니다. 작업의 출력을 이메일로 보내기 전에 라라벨의 [이메일 서비스](/docs/{{version}}/mail)를 설정해 놓아야만 합니다.
 
     $schedule->command('foo')
              ->daily()
@@ -432,7 +432,7 @@ If you only want to e-mail the output if the command fails, use the `emailOutput
 
 Using the `before` and `after` methods, you may specify code to be executed before and after the scheduled task is complete:
 
-`before`와 `after` 메소드들을 이용하면 스케줄된 작업이 실행되기 전과 후에 지정한 코드가 실행되도록 설정할 수 있습니다:
+`before`와 `after` 메소드들을 이용하면 스케줄된 작업이 실행되기 전과 후에 지정한 코드가 실행되도록 설정할 수 있습니다.
 
     $schedule->command('emails:send')
              ->daily()
@@ -461,7 +461,7 @@ The `onSuccess` and `onFailure` methods allow you to specify code to be executed
 
 Using the `pingBefore` and `thenPing` methods, the scheduler can automatically ping a given URL before or after a task is complete. This method is useful for notifying an external service, such as [Laravel Envoyer](https://envoyer.io), that your scheduled task is commencing or has finished execution:
 
-`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다:
+`pingBefore`와 `thenPing` 메소드들을 이용하면 작업이 완료되기 전이나 후에 스케줄러가 URL을 ping할 수 있습니다. 이 메소드는 [Laravel Envoyer](https://envoyer.io)와 같은 외부 서비스에 스케줄된 작업의 시작이나 완료를 알리는 데 유용합니다.
 
     $schedule->command('emails:send')
              ->daily()

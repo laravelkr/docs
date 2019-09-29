@@ -68,7 +68,7 @@ Blade is the simple, yet powerful templating engine provided with Laravel. Unlik
 
 Two of the primary benefits of using Blade are _template inheritance_ and _sections_. To get started, let's take a look at a simple example. First, we will examine a "master" page layout. Since most web applications maintain the same general layout across various pages, it's convenient to define this layout as a single Blade view:
 
-블레이드의 가장 주요한 두가지 장점은 _템플릿 상속_ 과 _섹션_ 입니다. 먼저 간단한 예를 살펴보겠습니다. 우선 "마스터" 페이지 레이아웃을 구성할 것입니다. 대부분의 웹 애플리케이션이 다양한 페이지에서 동일한 레이아웃을 유지하기 때문에 이 레이아웃을 하나의 블레이드 뷰로 정의하는 것이 편리합니다:
+블레이드의 가장 주요한 두가지 장점은 _템플릿 상속_ 과 _섹션_ 입니다. 먼저 간단한 예를 살펴보겠습니다. 우선 "마스터" 페이지 레이아웃을 구성할 것입니다. 대부분의 웹 애플리케이션이 다양한 페이지에서 동일한 레이아웃을 유지하기 때문에 이 레이아웃을 하나의 블레이드 뷰로 정의하는 것이 편리합니다.
 
     <!-- Stored in resources/views/layouts/app.blade.php -->
 
@@ -101,7 +101,7 @@ Now that we have defined a layout for our application, let's define a child page
 
 When defining a child view, use the Blade `@extends` directive to specify which layout the child view should "inherit". Views which extend a Blade layout may inject content into the layout's sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
 
-하위 뷰를 정의할 때 블레이드 `@extends` 지시어을 사용해 하위 페이지가 어느 레이아웃을 "상속" 받을지 명시할 수 있습니다. 블레이드 레이아웃을 상속 받는 뷰는 `@section` 지시어를 이용해 레이아웃의 섹션에 컨텐츠를 삽입할 수 있습니다. 위의 예제에서 본 것처럼 이 섹션들의 컨텐츠는 `@yield`를 통해 레이아웃에 명시됩니다:
+하위 뷰를 정의할 때 블레이드 `@extends` 지시어을 사용해 하위 페이지가 어느 레이아웃을 "상속" 받을지 명시할 수 있습니다. 블레이드 레이아웃을 상속 받는 뷰는 `@section` 지시어를 이용해 레이아웃의 섹션에 컨텐츠를 삽입할 수 있습니다. 위의 예제에서 본 것처럼 이 섹션들의 컨텐츠는 `@yield`를 통해 레이아웃에 명시됩니다.
 
     <!-- Stored in resources/views/child.blade.php -->
 
@@ -135,7 +135,7 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 
 Blade views may be returned from routes using the global `view` helper:
 
-블레이드 뷰도 글로벌 `view` 헬퍼를 사용하여 라우트에서 반환될 수 있습니다:
+블레이드 뷰도 글로벌 `view` 헬퍼를 사용하여 라우트에서 반환될 수 있습니다.
 
     Route::get('blade', function () {
         return view('child');
@@ -157,7 +157,7 @@ Components and slots provide similar benefits to sections and layouts; however, 
 
 The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
 
-이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다:
+이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다.
 
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
@@ -173,7 +173,7 @@ Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 �
 
 Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by "echoing" the variable that matches their name:
 
-때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다:
+때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다.
 
     <!-- /resources/views/alert.blade.php -->
 
@@ -185,7 +185,7 @@ Sometimes it is helpful to define multiple slots for a component. Let's modify o
 
 Now, we can inject content into the named slot using the `@slot` directive. Any content not within a `@slot` directive will be passed to the component in the `$slot` variable:
 
-그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다:
+그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다.
 
     @component('alert')
         @slot('title')
@@ -200,7 +200,7 @@ Now, we can inject content into the named slot using the `@slot` directive. Any 
 
 Sometimes you may need to pass additional data to a component. For this reason, you can pass an array of data as the second argument to the `@component` directive. All of the data will be made available to the component template as variables:
 
-컴포넌트로 추가적인 데이터를 전달할 필요가 있는 경우, `@component` 지시어의 두번째 인자로 데이터 배열을 전달하면 됩니다. 전달된 데이터는 컴포넌트 템플릿 에서 변수로 사용 가능합니다:
+컴포넌트로 추가적인 데이터를 전달할 필요가 있는 경우, `@component` 지시어의 두번째 인자로 데이터 배열을 전달하면 됩니다. 전달된 데이터는 컴포넌트 템플릿 에서 변수로 사용 가능합니다.
 
     @component('alert', ['foo' => 'bar'])
         ...
@@ -211,7 +211,7 @@ Sometimes you may need to pass additional data to a component. For this reason, 
 
 If your Blade components are stored in a sub-directory, you may wish to alias them for easier access. For example, imagine a Blade component that is stored at `resources/views/components/alert.blade.php`. You may use the `component` method to alias the component from `components.alert` to `alert`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
 
-블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다:
+블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다.
 
     use Illuminate\Support\Facades\Blade;
 
@@ -219,7 +219,7 @@ If your Blade components are stored in a sub-directory, you may wish to alias th
 
 Once the component has been aliased, you may render it using a directive:
 
-해당 컴포넌트에 별칭이 지정되면, 지시어를 사용해서 이를 렌더링할 수 있습니다:
+해당 컴포넌트에 별칭이 지정되면, 지시어를 사용해서 이를 렌더링할 수 있습니다.
 
     @alert(['type' => 'danger'])
         You are not allowed to access this resource!
@@ -227,7 +227,7 @@ Once the component has been aliased, you may render it using a directive:
 
 You may omit the component parameters if it has no additional slots:
 
-컴포넌트에 추가 슬롯이 없는 경우, 컴포넌트 파라미터를 생략할 수 있습니다:
+컴포넌트에 추가 슬롯이 없는 경우, 컴포넌트 파라미터를 생략할 수 있습니다.
 
     @alert
         You are not allowed to access this resource!
@@ -239,7 +239,7 @@ You may omit the component parameters if it has no additional slots:
 
 You may display data passed to your Blade views by wrapping the variable in curly braces. For example, given the following route:
 
-블레이드 뷰로 전달된 데이터를 표시하기 위해 중괄호로 쌓인 변수를 전달할 수 있습니다. 예로 들어 다음의 라우트를 볼 수 있습니다:
+블레이드 뷰로 전달된 데이터를 표시하기 위해 중괄호로 쌓인 변수를 전달할 수 있습니다. 예로 들어 다음의 라우트를 볼 수 있습니다.
 
     Route::get('greeting', function () {
         return view('welcome', ['name' => 'Samantha']);
@@ -247,7 +247,7 @@ You may display data passed to your Blade views by wrapping the variable in curl
 
 You may display the contents of the `name` variable like so:
 
-다음과 같이 컨텐츠의 `name` 변수를 표시할 수 있습니다:
+다음과 같이 컨텐츠의 `name` 변수를 표시할 수 있습니다.
 
     Hello, {{ $name }}.
 
@@ -257,7 +257,7 @@ You may display the contents of the `name` variable like so:
 
 You are not limited to displaying the contents of the variables passed to the view. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Blade echo statement:
 
-뷰에는 전달된 변수들의 컨텐츠만 표시할 수 있는 것은 아닙니다. PHP 함수의 모든 결과는 출력될 수 있습니다. 블레이드에서는 출력되는 어떠한 PHP 코드도 넣을 수 있습니다:
+뷰에는 전달된 변수들의 컨텐츠만 표시할 수 있는 것은 아닙니다. PHP 함수의 모든 결과는 출력될 수 있습니다. 블레이드에서는 출력되는 어떠한 PHP 코드도 넣을 수 있습니다.
 
     The current UNIX timestamp is {{ time() }}.
 
@@ -266,7 +266,7 @@ You are not limited to displaying the contents of the variables passed to the vi
 
 By default, Blade `{{ }}` statements are automatically sent through PHP's `htmlspecialchars` function to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:
 
-기본적으로 블레이드 `{{ }}` 문장은 XSS 공격을 방지하기 위해 PHP의 `htmlspecialchars` 함수를 통과합니다. 데이터를 escape 처리를 하지 않으려면 다음과 같이 작성하면 됩니다:
+기본적으로 블레이드 `{{ }}` 문장은 XSS 공격을 방지하기 위해 PHP의 `htmlspecialchars` 함수를 통과합니다. 데이터를 escape 처리를 하지 않으려면 다음과 같이 작성하면 됩니다.
 
     Hello, {!! $name !!}.
 
@@ -279,7 +279,7 @@ By default, Blade `{{ }}` statements are automatically sent through PHP's `htmls
 
 Sometimes you may pass an array to your view with the intention of rendering it as JSON in order to initialize a JavaScript variable. For example:
 
-때로는 다음의 예와 같이, 자바스크립트 변수를 초기화하는데 사용하기 위해서 뷰에 배열을 전달하여 json으로 렌더링하기를 원할수도 있습니다:
+때로는 다음의 예와 같이, 자바스크립트 변수를 초기화하는데 사용하기 위해서 뷰에 배열을 전달하여 json으로 렌더링하기를 원할수도 있습니다.
 
     <script>
         var app = <?php echo json_encode($array); ?>;
@@ -314,7 +314,7 @@ The `@json` directive is also useful for seeding Vue components or `data-*` attr
 
 By default, Blade (and the Laravel `e` helper) will double encode HTML entities. If you would like to disable double encoding, call the `Blade::withoutDoubleEncoding` method from the `boot` method of your `AppServiceProvider`:
 
-기본적으로, 블레이드 (그리고 라라벨의 `e` 헬퍼)는 HTML 요소를 두번 인코딩을 합니다. 이중 인코딩을 비활성화 하고 싶을 때에는, `AppServiceProvider` 의 `boot` 메소드 안에 `Blade::withoutDoubleEncoding` 메소드를 호출하면 됩니다:
+기본적으로, 블레이드 (그리고 라라벨의 `e` 헬퍼)는 HTML 요소를 두번 인코딩을 합니다. 이중 인코딩을 비활성화 하고 싶을 때에는, `AppServiceProvider` 의 `boot` 메소드 안에 `Blade::withoutDoubleEncoding` 메소드를 호출하면 됩니다.
 
     <?php
 
@@ -357,7 +357,7 @@ In this example, the `@` symbol will be removed by Blade; however, `{{ name }}` 
 
 If you are displaying JavaScript variables in a large portion of your template, you may wrap the HTML in the `@verbatim` directive so that you do not have to prefix each Blade echo statement with an `@` symbol:
 
-여러분이 템플릿의 많은 부분에서 자바스크립트 변수를 표시하는 경우라면, HTML을 `@verbatim` 지시어로 둘러쌓여 있게 할 수 있습니다. 이렇게 하면 여러분은 각각의 블레이드 출력 구문에 `@` 심볼을 매번 붙이지 않아도 됩니다:
+여러분이 템플릿의 많은 부분에서 자바스크립트 변수를 표시하는 경우라면, HTML을 `@verbatim` 지시어로 둘러쌓여 있게 할 수 있습니다. 이렇게 하면 여러분은 각각의 블레이드 출력 구문에 `@` 심볼을 매번 붙이지 않아도 됩니다.
 
     @verbatim
         <div class="container">
@@ -391,7 +391,7 @@ You may construct `if` statements using the `@if`, `@elseif`, `@else`, and `@end
 
 For convenience, Blade also provides an `@unless` directive:
 
-보다 편리하게 블레이드는 `@unless` 지시어을 제공합니다:
+보다 편리하게 블레이드는 `@unless` 지시어을 제공합니다.
 
     @unless (Auth::check())
         You are not signed in.
@@ -399,7 +399,7 @@ For convenience, Blade also provides an `@unless` directive:
 
 In addition to the conditional directives already discussed, the `@isset` and `@empty` directives may be used as convenient shortcuts for their respective PHP functions:
 
-추가적으로 `@isset` 와 `@empty` 지시어는 각각 대응되는 PHP 함수를 편리하게 사용할 수 있는 방법입니다:
+추가적으로 `@isset` 와 `@empty` 지시어는 각각 대응되는 PHP 함수를 편리하게 사용할 수 있는 방법입니다.
 
     @isset($records)
         // $records is defined and is not null...
@@ -414,7 +414,7 @@ In addition to the conditional directives already discussed, the `@isset` and `@
 
 The `@auth` and `@guest` directives may be used to quickly determine if the current user is authenticated or is a guest:
 
-`@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다:
+`@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다.
 
     @auth
         // The user is authenticated...
@@ -426,7 +426,7 @@ The `@auth` and `@guest` directives may be used to quickly determine if the curr
 
 If needed, you may specify the [authentication guard](/docs/{{version}}/authentication) that should be checked when using the `@auth` and `@guest` directives:
 
-필요한 경우, `@auth` 와 `@guest` 지시어에 체크하고자 하는 [인증 guard](/docs/{{version}}/authentication)를 지정할 수 있습니다:
+필요한 경우, `@auth` 와 `@guest` 지시어에 체크하고자 하는 [인증 guard](/docs/{{version}}/authentication)를 지정할 수 있습니다.
 
     @auth('admin')
         // The user is authenticated...
@@ -441,7 +441,7 @@ If needed, you may specify the [authentication guard](/docs/{{version}}/authenti
 
 You may check if a section has content using the `@hasSection` directive:
 
-`@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다:
+`@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다.
 
     @hasSection('navigation')
         <div class="pull-right">
@@ -457,7 +457,7 @@ You may check if a section has content using the `@hasSection` directive:
 
 Switch statements can be constructed using the `@switch`, `@case`, `@break`, `@default` and `@endswitch` directives:
 
-스위치 구문은 `@switch`, `@case`, `@break`, `@default` 그리고 `@endswitch` 지시어로 구성됩니다:
+스위치 구문은 `@switch`, `@case`, `@break`, `@default` 그리고 `@endswitch` 지시어로 구성됩니다.
 
     @switch($i)
         @case(1)
@@ -478,7 +478,7 @@ Switch statements can be constructed using the `@switch`, `@case`, `@break`, `@d
 
 In addition to conditional statements, Blade provides simple directives for working with PHP's loop structures. Again, each of these directives functions identically to their PHP counterparts:
 
-조건문 외에도 블레이드는 PHP의 반복 구조를 위한 단순한 지시어들을 제공합니다. 이 지시어들 또한 대응하는 PHP 문장들과 동일하게 동작합니다:
+조건문 외에도 블레이드는 PHP의 반복 구조를 위한 단순한 지시어들을 제공합니다. 이 지시어들 또한 대응하는 PHP 문장들과 동일하게 동작합니다.
 
     @for ($i = 0; $i < 10; $i++)
         The current value is {{ $i }}
@@ -504,7 +504,7 @@ In addition to conditional statements, Blade provides simple directives for work
 
 When using loops you may also end the loop or skip the current iteration:
 
-반복문을 사용할 때에는 반복문의 중료 또는 현재 반복의 중단을 표시할 필요가 있습니다:
+반복문을 사용할 때에는 반복문의 중료 또는 현재 반복의 중단을 표시할 필요가 있습니다.
 
     @foreach ($users as $user)
         @if ($user->type == 1)
@@ -520,7 +520,7 @@ When using loops you may also end the loop or skip the current iteration:
 
 You may also include the condition with the directive declaration in one line:
 
-또한 하나의 라인으로 표현되는 조건식을 포함할 수도 있습니다:
+또한 하나의 라인으로 표현되는 조건식을 포함할 수도 있습니다.
 
     @foreach ($users as $user)
         @continue($user->type == 1)
@@ -536,7 +536,7 @@ You may also include the condition with the directive declaration in one line:
 
 When looping, a `$loop` variable will be available inside of your loop. This variable provides access to some useful bits of information such as the current loop index and whether this is the first or last iteration through the loop:
 
-반복문을 사용할 때, 반복문 안에서 `$loop` 변수를 사용할 수 있습니다. 이 변수는 현재의 반복문의 인덱스와 반복문이 첫 번째 또는 마지막 인지 알 수 있는 것과 같은 유용한 정보에 엑세스할 수 있습니다:
+반복문을 사용할 때, 반복문 안에서 `$loop` 변수를 사용할 수 있습니다. 이 변수는 현재의 반복문의 인덱스와 반복문이 첫 번째 또는 마지막 인지 알 수 있는 것과 같은 유용한 정보에 엑세스할 수 있습니다.
 
     @foreach ($users as $user)
         @if ($loop->first)
@@ -552,7 +552,7 @@ When looping, a `$loop` variable will be available inside of your loop. This var
 
 If you are in a nested loop, you may access the parent loop's `$loop` variable via the `parent` property:
 
-반복문이 중첩된 경우라면, 상위 반복문의 `$loop` 변수에 `parent` 속성을 통해서 액세스 할 수 있습니다:
+반복문이 중첩된 경우라면, 상위 반복문의 `$loop` 변수에 `parent` 속성을 통해서 액세스 할 수 있습니다.
 
     @foreach ($users as $user)
         @foreach ($user->posts as $post)
@@ -564,7 +564,7 @@ If you are in a nested loop, you may access the parent loop's `$loop` variable v
 
 The `$loop` variable also contains a variety of other useful properties:
 
-`$loop` 변수는 그 밖에도 여러가지 유용한 속성을 가지고 있습니다:
+`$loop` 변수는 그 밖에도 여러가지 유용한 속성을 가지고 있습니다.
 
 Property  | Description
 ------------- | -------------
@@ -595,7 +595,7 @@ Property  | Description
 
 Blade also allows you to define comments in your views. However, unlike HTML comments, Blade comments are not included in the HTML returned by your application:
 
-블레이드는 또한 뷰에 주석을 정의할 수 있습니다. 하지만 HTML 주석과는 다르게 블레이드 주석은 애플리케이션이 반환하는 HTML에 포함되어 있지 않습니다:
+블레이드는 또한 뷰에 주석을 정의할 수 있습니다. 하지만 HTML 주석과는 다르게 블레이드 주석은 애플리케이션이 반환하는 HTML에 포함되어 있지 않습니다.
 
     {{-- This comment will not be present in the rendered HTML --}}
 
@@ -605,7 +605,7 @@ Blade also allows you to define comments in your views. However, unlike HTML com
 
 In some situations, it's useful to embed PHP code into your views. You can use the Blade `@php` directive to execute a block of plain PHP within your template:
 
-상황에 따라서, 뷰에서 PHP 코드 자체를 삽입하는 것이 유용할 수도 있습니다. 템플릿 안에서 블레이드의 `@php` 지시어를 사용하여 해당 블럭의 PHP를 실행 할 수 있습니다:
+상황에 따라서, 뷰에서 PHP 코드 자체를 삽입하는 것이 유용할 수도 있습니다. 템플릿 안에서 블레이드의 `@php` 지시어를 사용하여 해당 블럭의 PHP를 실행 할 수 있습니다.
 
     @php
         //
@@ -671,7 +671,7 @@ The `@error` directive may be used to quickly check if [validation error message
 
 Blade's `@include` directive allows you to include a Blade view from within another view. All variables that are available to the parent view will be made available to the included view:
 
-블레이드의 `@include` 지시어는 뷰 파일 안에 다른 블레이드 뷰를 포함할 수 있도록 해줍니다. 부모 뷰에서 사용가능한 모든 변수들은 하위 뷰에도 사용가능합니다:
+블레이드의 `@include` 지시어는 뷰 파일 안에 다른 블레이드 뷰를 포함할 수 있도록 해줍니다. 부모 뷰에서 사용가능한 모든 변수들은 하위 뷰에도 사용가능합니다.
 
     <div>
         @include('shared.errors')
@@ -683,25 +683,25 @@ Blade's `@include` directive allows you to include a Blade view from within anot
 
 Even though the included view will inherit all data available in the parent view, you may also pass an array of extra data to the included view:
 
-하위에 포함하게 될 뷰는 부모 뷰의 모든 데이터를 상속하게 되지만, 하위 뷰에 데이터 배열을 직접 전달할 수도 있습니다:
+하위에 포함하게 될 뷰는 부모 뷰의 모든 데이터를 상속하게 되지만, 하위 뷰에 데이터 배열을 직접 전달할 수도 있습니다.
 
     @include('view.name', ['some' => 'data'])
 
 If you attempt to `@include` a view which does not exist, Laravel will throw an error. If you would like to include a view that may or may not be present, you should use the `@includeIf` directive:
 
-`@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다:
+`@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다.
 
     @includeIf('view.name', ['some' => 'data'])
 
 If you would like to `@include` a view depending on a given boolean condition, you may use the `@includeWhen` directive:
 
-조건값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다:
+조건값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다.
 
     @includeWhen($boolean, 'view.name', ['some' => 'data'])
 
 To include the first view that exists from a given array of views, you may use the `includeFirst` directive:
 
-주어진 배열에서 존재하는 것이 확인된 첫번째 뷰를 포함하도록 하려면, `includeFirst` 지시어를 사용하면 됩니다:
+주어진 배열에서 존재하는 것이 확인된 첫번째 뷰를 포함하도록 하려면, `includeFirst` 지시어를 사용하면 됩니다.
 
     @includeFirst(['custom.admin', 'admin'], ['some' => 'data'])
 
@@ -738,7 +738,7 @@ include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 
 
 You may combine loops and includes into one line with Blade's `@each` directive:
 
-블레이드의 `@each` 지시어을 사용하면 반복문을 하나의 줄로 구성할 수 있습니다:
+블레이드의 `@each` 지시어을 사용하면 반복문을 하나의 줄로 구성할 수 있습니다.
 
     @each('view.name', $jobs, 'job')
 
@@ -762,7 +762,7 @@ You may also pass a fourth argument to the `@each` directive. This argument dete
 
 Blade allows you to push to named stacks which can be rendered somewhere else in another view or layout. This can be particularly useful for specifying any JavaScript libraries required by your child views:
 
-블레이드는 또한 다른 뷰 또는 레이아웃에서 렌더링 할 수 있도록 이름이 지정된 스택에 푸시 할 수 있습니다. 이는 특히 하위 뷰에 필요한 JavaScript 라이브러리를 지정하는 데 유용합니다:
+블레이드는 또한 다른 뷰 또는 레이아웃에서 렌더링 할 수 있도록 이름이 지정된 스택에 푸시 할 수 있습니다. 이는 특히 하위 뷰에 필요한 JavaScript 라이브러리를 지정하는 데 유용합니다.
 
     @push('scripts')
         <script src="/example.js"></script>
@@ -770,7 +770,7 @@ Blade allows you to push to named stacks which can be rendered somewhere else in
 
 You may push to a stack as many times as needed. To render the complete stack contents, pass the name of the stack to the `@stack` directive:
 
-필요한 경우 여러번 스택에 푸쉬할 수 있습니다. 전체 스택 컨텐츠를 렌더링 하려면, 스택 이름을 `@stack` 지시어에 전달하면 됩니다:
+필요한 경우 여러번 스택에 푸쉬할 수 있습니다. 전체 스택 컨텐츠를 렌더링 하려면, 스택 이름을 `@stack` 지시어에 전달하면 됩니다.
 
     <head>
         <!-- Head Contents -->
@@ -780,7 +780,7 @@ You may push to a stack as many times as needed. To render the complete stack co
 
 If you would like to prepend content onto the beginning of a stack, you should use the `@prepend` directive:
 
-스택이 시작하는 앞부분에 내용을 추가하고자 한다면, `@prepend` 지시어를 사용하면 됩니다:
+스택이 시작하는 앞부분에 내용을 추가하고자 한다면, `@prepend` 지시어를 사용하면 됩니다.
 
     @push('scripts')
         This will be second...
@@ -798,7 +798,7 @@ If you would like to prepend content onto the beginning of a stack, you should u
 
 The `@inject` directive may be used to retrieve a service from the Laravel [service container](/docs/{{version}}/container). The first argument passed to `@inject` is the name of the variable the service will be placed into, while the second argument is the class or interface name of the service you wish to resolve:
 
-`@inject` 지시어는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에서 서비스를 반환하는 데 사용할 수 있습니다. `@inject` 지시어에 전달하는 첫번째 인자는 서비스를 할당할 변수의 이름이고, 두번째는 의존성을 해결하려는 서비스 클래스 또는 인터페이스의 이름입니다:
+`@inject` 지시어는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에서 서비스를 반환하는 데 사용할 수 있습니다. `@inject` 지시어에 전달하는 첫번째 인자는 서비스를 할당할 변수의 이름이고, 두번째는 의존성을 해결하려는 서비스 클래스 또는 인터페이스의 이름입니다.
 
     @inject('metrics', 'App\Services\MetricsService')
 
@@ -816,7 +816,7 @@ Blade allows you to define your own custom directives using the `directive` meth
 
 The following example creates a `@datetime($var)` directive which formats a given `$var`, which should be an instance of `DateTime`:
 
-다음의 예제는 전달된 `DateTime` 인스턴스인 `$var`의 포맷을 변경하는 `@datetime($var)` 지시어을 생성합니다:
+다음의 예제는 전달된 `DateTime` 인스턴스인 `$var`의 포맷을 변경하는 `@datetime($var)` 지시어을 생성합니다.
 
     <?php
 
@@ -852,7 +852,7 @@ The following example creates a `@datetime($var)` directive which formats a give
 
 As you can see, we will chain the `format` method onto whatever expression is passed into the directive. So, in this example, the final PHP generated by this directive will be:
 
-예제에서 볼 수 있듯이 이 지시어에 어떤 것이든 전달된 표현식에서 `format` 메소드를 체이닝합니다. 따라서 이 예제의 지시어의 경우에는 최종적으로 생성되는 PHP 코드는 다음과 같습니다:
+예제에서 볼 수 있듯이 이 지시어에 어떤 것이든 전달된 표현식에서 `format` 메소드를 체이닝합니다. 따라서 이 예제의 지시어의 경우에는 최종적으로 생성되는 PHP 코드는 다음과 같습니다.
 
     <?php echo ($var)->format('m/d/Y H:i'); ?>
 
@@ -866,7 +866,7 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 
 Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
 
-커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 애플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다:
+커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 애플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Blade;
 
@@ -884,7 +884,7 @@ Programming a custom directive is sometimes more complex than necessary when def
 
 Once the custom conditional has been defined, we can easily use it on our templates:
 
-커스텀 조건을 정의한 뒤에는, 템플릿에서 손쉽게 사용할 수 있습니다:
+커스텀 조건을 정의한 뒤에는, 템플릿에서 손쉽게 사용할 수 있습니다.
 
     @env('local')
         // The application is in the local environment...

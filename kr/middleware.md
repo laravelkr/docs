@@ -246,7 +246,7 @@ Middleware groups may be assigned to routes and controller actions using the sam
 
 Rarely, you may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file:
 
-드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다:
+드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다.
 
     /**
      * The priority-sorted list of middleware.

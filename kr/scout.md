@@ -70,7 +70,7 @@ First, install Scout via the Composer package manager:
 
 After installing Scout, you should publish the Scout configuration using the `vendor:publish` Artisan command. This command will publish the `scout.php` configuration file to your `config` directory:
 
-스카우트를 설치한 다음, `vendor:publish` 아티즌 명령어를 사용하여 스카우트 설정 파일을 퍼블리싱 해야합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성됩니다:
+스카우트를 설치한 다음, `vendor:publish` 아티즌 명령어를 사용하여 스카우트 설정 파일을 퍼블리싱 해야합니다. 이 명령을 실행하면 `config` 디렉토리에 `scout.php` 설정파일이 생성됩니다.
 
     php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
 
@@ -127,7 +127,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
 Each Eloquent model is synced with a given search "index", which contains all of the searchable records for that model. In other words, you can think of each index like a MySQL table. By default, each model will be persisted to an index matching the model's typical "table" name. Typically, this is the plural form of the model name; however, you are free to customize the model's index by overriding the `searchableAs` method on the model:
 
-각각의 Eloquent 모델은 해당 모델에 대한 모든 검색 레코드를 가지고 있는 검색 "인덱스"와 동기화 됩니다. 다시 말해, 여러분은 각각의 인덱스를 Mysql 테이블처럼 생각할 수 있습니다. 기본적으로, 각각의 모델은 모들의 "테이블" 명과 매칭되는 인덱스에 저장됩니다. 일반적으로, 인덱스 명은 모델 이름의 복수형입니다; 그렇치만 모델의 `searchableAs` 메소드를 오버라이드 해서 인덱스명을 자유롭게 변경할 수 있습니다:
+각각의 Eloquent 모델은 해당 모델에 대한 모든 검색 레코드를 가지고 있는 검색 "인덱스"와 동기화 됩니다. 다시 말해, 여러분은 각각의 인덱스를 Mysql 테이블처럼 생각할 수 있습니다. 기본적으로, 각각의 모델은 모들의 "테이블" 명과 매칭되는 인덱스에 저장됩니다. 일반적으로, 인덱스 명은 모델 이름의 복수형입니다; 그렇치만 모델의 `searchableAs` 메소드를 오버라이드 해서 인덱스명을 자유롭게 변경할 수 있습니다.
 
     <?php
 
@@ -191,7 +191,7 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 
 By default, Scout will use the primary key of the model as the unique ID stored in the search index. If you need to customize this behavior, you may override the `getScoutKey` method on the model:
 
-기본적으로 Scout-스카우트는 모델의 primary 키를 검색 인덱스에 저장되는 고유한 ID로 사용합니다. 이 동작을 커스터마이징 하고자 한다면, 모들의 `getScoutKey` 메소드를 오버라이드 하면 됩니다:
+기본적으로 Scout-스카우트는 모델의 primary 키를 검색 인덱스에 저장되는 고유한 ID로 사용합니다. 이 동작을 커스터마이징 하고자 한다면, 모들의 `getScoutKey` 메소드를 오버라이드 하면 됩니다.
 
     <?php
 
@@ -231,7 +231,7 @@ If you are installing Scout into an existing project, you may already have datab
 
 The `flush` command may be used to remove all of a model's records from your search indexes:
 
-`flush` 명령어는 검색 인덱스에서 모델의 모든 레코드를 삭제하는데 사용합니다:
+`flush` 명령어는 검색 인덱스에서 모델의 모든 레코드를 삭제하는데 사용합니다.
 
     php artisan scout:flush "App\Post"
 
@@ -339,7 +339,7 @@ Sometimes you may need to perform a batch of Eloquent operations on a model with
 
 Sometimes you may need to only make a model searchable under certain conditions. For example, imagine you have `App\Post` model that may be in one of two states: "draft" and "published". You may only want to allow "published" posts to be searchable. To accomplish this, you may define a `shouldBeSearchable` method on your model:
 
-때로는 특정한 조건에 맞는 경우에만 모델을 검색되도록 만들 수도 있습니다. 예를 들어, `App\Post` 모델이 "작업중" 과 "발행됨" 두가지 상태를 가지는 경우를 생각해 보겠습니다. "발행됨" 상태의 글만 검색이 가능하기를 원할 수 있습니다. 이를 위해서는, 모델에 `shouldBeSearchable` 메소드를 정의하면 됩니다:
+때로는 특정한 조건에 맞는 경우에만 모델을 검색되도록 만들 수도 있습니다. 예를 들어, `App\Post` 모델이 "작업중" 과 "발행됨" 두가지 상태를 가지는 경우를 생각해 보겠습니다. "발행됨" 상태의 글만 검색이 가능하기를 원할 수 있습니다. 이를 위해서는, 모델에 `shouldBeSearchable` 메소드를 정의하면 됩니다.
 
     public function shouldBeSearchable()
     {
@@ -348,7 +348,7 @@ Sometimes you may need to only make a model searchable under certain conditions.
 
 The `shouldBeSearchable` method is only applied when manipulating models through the `save` method, queries, or relationships. Directly making models or collections searchable using the `searchable` method will override the result of the `shouldBeSearchable` method:
 
-`shouldBeSearchable` 메소드는 `save` 메소드, 쿼리 또는 관계 모델을 통해서 모델을 조작한 경우에만 적용됩니다. `searchable` 메소드를 사용하여 모델 또는 컬렉션을 직접적으로 검색 가능하게 하면, `shouldBeSearchable` 메소드의 결과를 덮어씌게 됩니다:
+`shouldBeSearchable` 메소드는 `save` 메소드, 쿼리 또는 관계 모델을 통해서 모델을 조작한 경우에만 적용됩니다. `searchable` 메소드를 사용하여 모델 또는 컬렉션을 직접적으로 검색 가능하게 하면, `shouldBeSearchable` 메소드의 결과를 덮어씌게 됩니다.
 
     // Will respect "shouldBeSearchable"...
     App\Order::where('price', '>', 100)->searchable();
@@ -390,7 +390,7 @@ If you would like to get the raw results before they are converted to Eloquent m
 
 Search queries will typically be performed on the index specified by the model's [`searchableAs`](#configuring-model-indexes) method. However, you may use the `within` method to specify a custom index that should be searched instead:
 
-검색 쿼리는 일반적으로 모델의 [`searchableAs`](#configuring-model-indexes) 메소드에 의한 인덱스가 지정되어 실행됩니다. 대신에 `within` 메소드를 사용하여 검색하고자 하는 커스텀 인덱스를 지정할 수 있습니다:
+검색 쿼리는 일반적으로 모델의 [`searchableAs`](#configuring-model-indexes) 메소드에 의한 인덱스가 지정되어 실행됩니다. 대신에 `within` 메소드를 사용하여 검색하고자 하는 커스텀 인덱스를 지정할 수 있습니다.
 
     $orders = App\Order::search('Star Trek')
         ->within('tv_shows_popularity_desc')
@@ -441,13 +441,13 @@ Once you have retrieved the results, you may display the results and render the 
 
 If your indexed models are [soft deleting](/docs/{{version}}/eloquent#soft-deleting) and you need to search your soft deleted models, set the `soft_delete` option of the `config/scout.php` configuration file to `true`:
 
-인덱싱되는 모델이 [소프트 삭제](/docs/{{version}}/eloquent#soft-deleting)된 상태이고, 소프트 삭제된 모델을 검색할 필요가 있다면, `config/scout.php` 설정 파일의 `soft_delete` 옵션을 `true`로 지정하면 됩니다:
+인덱싱되는 모델이 [소프트 삭제](/docs/{{version}}/eloquent#soft-deleting)된 상태이고, 소프트 삭제된 모델을 검색할 필요가 있다면, `config/scout.php` 설정 파일의 `soft_delete` 옵션을 `true`로 지정하면 됩니다.
 
     'soft_delete' => true,
 
 When this configuration option is `true`, Scout will not remove soft deleted models from the search index. Instead, it will set a hidden `__soft_deleted` attribute on the indexed record. Then, you may use the `withTrashed` or `onlyTrashed` methods to retrieve the soft deleted records when searching:
 
-이 설정 값이 `true` 인 경우, Scout-스카우트는 소프트 삭제된 모델을 검색 인덱스에서 삭제 하지 않습니다. 대신에, 인덱스된 레코드에 `__soft_deleted` 라는 숨겨진 속성을 설정합니다. 그러면 검색할 때 `withTrashed` 또는 `onlyTrashed` 메소드를 사용하여 소프트 삭제된 레코드를 조회할 수 있습니다:
+이 설정 값이 `true` 인 경우, Scout-스카우트는 소프트 삭제된 모델을 검색 인덱스에서 삭제 하지 않습니다. 대신에, 인덱스된 레코드에 `__soft_deleted` 라는 숨겨진 속성을 설정합니다. 그러면 검색할 때 `withTrashed` 또는 `onlyTrashed` 메소드를 사용하여 소프트 삭제된 레코드를 조회할 수 있습니다.
 
     // Include trashed records when retrieving results...
     $orders = App\Order::search('Star Trek')->withTrashed()->get();

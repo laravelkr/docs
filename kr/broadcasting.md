@@ -92,7 +92,7 @@ Before broadcasting any events, you will first need to register the `App\Provide
 
 [Laravel Echo](#installing-laravel-echo) will need access to the current session's CSRF token. You should verify that your application's `head` HTML element defines a `meta` tag containing the CSRF token:
 
-현재 세션의 CSRF 토큰에 접근하기 위해서는 [라라벨 Echo](#installing-laravel-echo)가 필요합니다. 여러분은 애플리케이션의 `head` HTML 요소의 `meta` 테그가 CSRF 토큰을 포함하고 있는지 확인해야 합니다:
+현재 세션의 CSRF 토큰에 접근하기 위해서는 [라라벨 Echo](#installing-laravel-echo)가 필요합니다. 여러분은 애플리케이션의 `head` HTML 요소의 `meta` 테그가 CSRF 토큰을 포함하고 있는지 확인해야 합니다.
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -153,7 +153,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 
 If you are going to pair the Redis broadcaster with a Socket.IO server, you will need to include the Socket.IO JavaScript client library in your application. You may install it via the NPM package manager:
 
-만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. 이 라이브러리는 NPM 패키지 매니저를 사용해서 설치할 수 있습니다:
+만약 Redis 브로드캐스터와 Socket.IO 서버를 페어링 하고자 한다면, 애플리케이션에 Socket.IO 자바스크립트 클라이언트 라이브리를 인클루드 해야 합니다. 이 라이브러리는 NPM 패키지 매니저를 사용해서 설치할 수 있습니다.
 
     npm install --save socket.io-client
 
@@ -341,7 +341,7 @@ Then, you only need to [fire the event](/docs/{{version}}/events) as you normall
 
 By default, Laravel will broadcast the event using the event's class name. However, you may customize the broadcast name by defining a `broadcastAs` method on the event:
 
-기본적으로, 라라벨은 이벤트의 클래스 이름을 사용하여 이벤트를 브로드캐스팅 합니다. 그렇지만 이벤트에 `broadcastAs` 메소드를 정의하여 브로드캐스트 이름을 변경할 수 있습니다:
+기본적으로, 라라벨은 이벤트의 클래스 이름을 사용하여 이벤트를 브로드캐스팅 합니다. 그렇지만 이벤트에 `broadcastAs` 메소드를 정의하여 브로드캐스트 이름을 변경할 수 있습니다.
 
     /**
      * The event's broadcast name.
@@ -408,7 +408,7 @@ By default, each broadcast event is placed on the default queue for the default 
 
 If you want to broadcast your event using the `sync` queue instead of the default queue driver, you can implement the `ShouldBroadcastNow` interface instead of `ShouldBroadcast`:
 
-기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다:
+기본 큐 드라이버 대신에 `sync` 큐 를 사용하여 이벤트를 브로드캐스팅하려면, `ShouldBroadcast` 대신에 `ShouldBroadcastNow` 인터페이스를 구현해야 하면 됩니다.
 
     <?php
 
@@ -424,7 +424,7 @@ If you want to broadcast your event using the `sync` queue instead of the defaul
 
 Sometimes you want to broadcast your event only if a given condition is true. You may define these conditions by adding a `broadcastWhen` method to your event class:
 
-때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메서드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다:
+때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메서드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다.
 
     /**
      * Determine if this event should broadcast.
@@ -481,7 +481,7 @@ By default, Echo will use the `/broadcasting/auth` endpoint to authorize channel
 
 Next, we need to define the logic that will actually perform the channel authorization. This is done in the `routes/channels.php` file that is included with your application. In this file, you may use the `Broadcast::channel` method to register channel authorization callbacks:
 
-이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 애플리케이션의 `routes/channels.php` 파일에서 이를 정의할 수 있습니다. 이 파일에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다:
+이제 실제로 채널 승인을 수행하는 로직을 정의하는 일이 남았습니다. 애플리케이션의 `routes/channels.php` 파일에서 이를 정의할 수 있습니다. 이 파일에서 채널 승인 콜백을 등록하기 위해 `Broadcast::channel` 을 사용할 수 있습니다.
 
     Broadcast::channel('order.{orderId}', function ($user, $orderId) {
         return $user->id === Order::findOrNew($orderId)->user_id;
@@ -500,7 +500,7 @@ All authorization callbacks receive the currently authenticated user as their fi
 
 Just like HTTP routes, channel routes may also take advantage of implicit and explicit [route model binding](/docs/{{version}}/routing#route-model-binding). For example, instead of receiving the string or numeric order ID, you may request an actual `Order` model instance:
 
-HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다:
+HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다.
 
     use App\Order;
 
@@ -531,7 +531,7 @@ If your application is consuming many different channels, your `routes/channels.
 
 Next, register your channel in your `routes/channels.php` file:
 
-그 다음, `routes/channels.php` 파일에 생성된 채널을 등록할 수 있습니다:
+그 다음, `routes/channels.php` 파일에 생성된 채널을 등록할 수 있습니다.
 
     use App\Broadcasting\OrderChannel;
 
@@ -539,7 +539,7 @@ Next, register your channel in your `routes/channels.php` file:
 
 Finally, you may place the authorization logic for your channel in the channel class' `join` method. This `join` method will house the same logic you would have typically placed in your channel authorization Closure. You may also take advantage of channel model binding:
 
-마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다:
+마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다.
 
     <?php
 
@@ -629,7 +629,7 @@ When you initialize a Laravel Echo instance, a socket ID is assigned to the conn
 
 If you are not using Vue and Axios, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header. You may retrieve the socket ID using the `Echo.socketId` method:
 
-만일 Vue와 Axios를 사용하지 않는다면, `X-Socket-ID` 헤더를 전송하기 위해 자바스크립트 애플리케이션을 수동으로 설정해주어야 합니다. `Echo.socketId` 메소드를 이용하여 소켓 ID를 받을 수 있습니다:
+만일 Vue와 Axios를 사용하지 않는다면, `X-Socket-ID` 헤더를 전송하기 위해 자바스크립트 애플리케이션을 수동으로 설정해주어야 합니다. `Echo.socketId` 메소드를 이용하여 소켓 ID를 받을 수 있습니다.
 
     var socketId = Echo.socketId();
 
@@ -713,13 +713,13 @@ If you would like to listen for events on a private channel, use the `private` m
 
 To leave a channel, you may call the `leaveChannel` method on your Echo instance:
 
-채널을 나가기 위해서는, 에코 인스턴스에서 `leaveChannel` 메소드를 호출하면 됩니다:
+채널을 나가기 위해서는, 에코 인스턴스에서 `leaveChannel` 메소드를 호출하면 됩니다.
 
     Echo.leaveChannel('orders');
 
 If you would like to leave a channel and also its associated private and presence channels, you may call the `leave` method:
 
-채널을 나가면서 연관된 비공개 현재 채널 또한 나가려면, 다음과 같이 `leave` 메소드를 호출하면 됩니다:
+채널을 나가면서 연관된 비공개 현재 채널 또한 나가려면, 다음과 같이 `leave` 메소드를 호출하면 됩니다.
 
     Echo.leave('orders');
 
@@ -847,7 +847,7 @@ Sometimes you may wish to broadcast an event to other connected clients without 
 
 To broadcast client events, you may use Echo's `whisper` method:
 
-클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다:
+클라이언트 이벤트를 브로드 캐스트하려면, Echo의 `whisper` 메소드를 사용하면 됩니다.
 
     Echo.private('chat')
         .whisper('typing', {
@@ -856,7 +856,7 @@ To broadcast client events, you may use Echo's `whisper` method:
 
 To listen for client events, you may use the `listenForWhisper` method:
 
-클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다:
+클라이언트 이벤트를 수신하려면, `listenForWhisper` 메소드를 사용하면 됩니다.
 
     Echo.private('chat')
         .listenForWhisper('typing', (e) => {

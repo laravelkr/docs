@@ -36,7 +36,7 @@ Laravel provides several helpers to assist you in generating URLs for your appli
 
 The `url` helper may be used to generate arbitrary URLs for your application. The generated URL will automatically use the scheme (HTTP or HTTPS) and host from the current request:
 
-`url` 헬퍼는 애플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request의 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다:
+`url` 헬퍼는 애플리케이션에서 사용하는 임의의 URL을 생성하는데 사용합니다. 생성된 URL은 자동으로 현재 요청-request의 (HTTP 또는 HTTPS) 스키마와 호스트를 사용합니다.
 
     $post = App\Post::find(1);
 
@@ -50,7 +50,7 @@ The `url` helper may be used to generate arbitrary URLs for your application. Th
 
 If no path is provided to the `url` helper, a `Illuminate\Routing\UrlGenerator` instance is returned, allowing you to access information about the current URL:
 
-`url` 헬퍼에 아무런 경로를 지정하지 않는다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환되며, 현재 URL에 대한 정보에 엑세스 할 수 있습니다:
+`url` 헬퍼에 아무런 경로를 지정하지 않는다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환되며, 현재 URL에 대한 정보에 엑세스 할 수 있습니다.
 
     // Get the current URL without the query string...
     echo url()->current();
@@ -63,7 +63,7 @@ If no path is provided to the `url` helper, a `Illuminate\Routing\UrlGenerator` 
 
 Each of these methods may also be accessed via the `URL` [facade](/docs/{{version}}/facades):
 
-각각의 메소드는 `URL` [파사드](/docs/{{version}}/facades)를 통해서도 엑세스 할 수 있습니다:
+각각의 메소드는 `URL` [파사드](/docs/{{version}}/facades)를 통해서도 엑세스 할 수 있습니다.
 
     use Illuminate\Support\Facades\URL;
 
@@ -83,7 +83,7 @@ The `route` helper may be used to generate URLs to named routes. Named routes al
 
 To generate a URL to this route, you may use the `route` helper like so:
 
-이 라우트에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다:
+이 라우트에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다.
 
     echo route('post.show', ['post' => 1]);
 
@@ -91,13 +91,13 @@ To generate a URL to this route, you may use the `route` helper like so:
 
 You will often be generating URLs using the primary key of [Eloquent models](/docs/{{version}}/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's primary key:
 
-여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 기본 키를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 기본 키를 추출하여 사용합니다:
+여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 기본 키를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 기본 키를 추출하여 사용합니다.
 
     echo route('post.show', ['post' => $post]);
 
 The `route` helper may also be used to generate URLs for routes with multiple parameters:
 
-`route` 헬퍼는 여러개의 파라메터를 가진 라우트의 URL를 생성하는 데도 사용할 수 있습니다:
+`route` 헬퍼는 여러개의 파라메터를 가진 라우트의 URL를 생성하는 데도 사용할 수 있습니다.
 
     Route::get('/post/{post}/comment/{comment}', function () {
         //
@@ -117,7 +117,7 @@ Laravel allows you to easily create "signed" URLs to named routes. These URLs ha
 
 For example, you might use signed URLs to implement a public "unsubscribe" link that is emailed to your customers. To create a signed URL to a named route, use the `signedRoute` method of the `URL` facade:
 
-예를 들어, 여러분은 서명이 적용된 URL을 고객들이 이메일을 보내는 공개된 "구독 취소" 링크를 구현하는데 사용할 수 있습니다. 이름이 지정된 라우트에 서명이 적용된 URL을 구성하려면, `URL` 파사드에 `signedRoute` 메소드를 사용하면 됩니다:
+예를 들어, 여러분은 서명이 적용된 URL을 고객들이 이메일을 보내는 공개된 "구독 취소" 링크를 구현하는데 사용할 수 있습니다. 이름이 지정된 라우트에 서명이 적용된 URL을 구성하려면, `URL` 파사드에 `signedRoute` 메소드를 사용하면 됩니다.
 
     use Illuminate\Support\Facades\URL;
 
@@ -125,7 +125,7 @@ For example, you might use signed URLs to implement a public "unsubscribe" link 
 
 If you would like to generate a temporary signed route URL that expires, you may use the `temporarySignedRoute` method:
 
-여러분은 `temporarySignedRoute` 메소드를 사용하여, 임시적으로 생성되어 만료되는, 서명이 적용된 라우트 URL을 생성할 수 있습니다:
+여러분은 `temporarySignedRoute` 메소드를 사용하여, 임시적으로 생성되어 만료되는, 서명이 적용된 라우트 URL을 생성할 수 있습니다.
 
     use Illuminate\Support\Facades\URL;
 
@@ -138,7 +138,7 @@ If you would like to generate a temporary signed route URL that expires, you may
 
 To verify that an incoming request has a valid signature, you should call the `hasValidSignature` method on the incoming `Request`:
 
-유입되는 request-요청이 유효한 서명이 있는지 확인하기 위해서는 유입되는 `Request` 에 `hasValidSignature` 메소드를 호출해야 합니다:
+유입되는 request-요청이 유효한 서명이 있는지 확인하기 위해서는 유입되는 `Request` 에 `hasValidSignature` 메소드를 호출해야 합니다.
 
     use Illuminate\Http\Request;
 
@@ -152,7 +152,7 @@ To verify that an incoming request has a valid signature, you should call the `h
 
 Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignature` middleware to the route. If it is not already present, you should assign this middleware a key in your HTTP kernel's `routeMiddleware` array:
 
-또는, 라우트에 `Illuminate\Routing\Middleware\ValidateSignature` 미들웨어를 지정할 수도 있습니다. 이 미들웨어가 존재하지 않는다면, HTTP 커널의 `routeMiddleware` 배열에 이 미들웨어를 지정해야 합니다:
+또는, 라우트에 `Illuminate\Routing\Middleware\ValidateSignature` 미들웨어를 지정할 수도 있습니다. 이 미들웨어가 존재하지 않는다면, HTTP 커널의 `routeMiddleware` 배열에 이 미들웨어를 지정해야 합니다.
 
     /**
      * The application's route middleware.
@@ -167,7 +167,7 @@ Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignatu
 
 Once you have registered the middleware in your kernel, you may attach it to a route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` error response:
 
-커널에 미들웨어를 등록한다음, 라우트에 이 미들웨어를 추가해야 합니다. 유입되는 request-요청에 유효한 서명이 없다면, 미들웨어는 자동으로 `403` 오류 response-응답을 반환합니다:
+커널에 미들웨어를 등록한다음, 라우트에 이 미들웨어를 추가해야 합니다. 유입되는 request-요청에 유효한 서명이 없다면, 미들웨어는 자동으로 `403` 오류 response-응답을 반환합니다.
 
     Route::post('/unsubscribe/{user}', function (Request $request) {
         // ...
@@ -185,7 +185,7 @@ The `action` function generates a URL for the given controller action. You do no
 
 You may also reference actions with a "callable" array syntax:
 
-"callable" 배열 문법을 통해서 액션을 참조하도록 할 수 있습니다:
+"callable" 배열 문법을 통해서 액션을 참조하도록 할 수 있습니다.
 
     use App\Http\Controllers\HomeController;
 
@@ -193,7 +193,7 @@ You may also reference actions with a "callable" array syntax:
 
 If the controller method accepts route parameters, you may pass them as the second argument to the function:
 
-컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다:
+컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다.
 
     $url = action('UserController@profile', ['id' => 1]);
 
@@ -203,7 +203,7 @@ If the controller method accepts route parameters, you may pass them as the seco
 
 For some applications, you may wish to specify request-wide default values for certain URL parameters. For example, imagine many of your routes define a `{locale}` parameter:
 
-몇몇 애플리케이션에서는 특정 URL 파라미터에 대해 요청-reqeust 전의 기본값을 지정할 수 있습니다. 예를 들어, 다수의 라우트에서 `{locale}` 파라미터를 정의한다고 가정해보겠습니다:
+몇몇 애플리케이션에서는 특정 URL 파라미터에 대해 요청-reqeust 전의 기본값을 지정할 수 있습니다. 예를 들어, 다수의 라우트에서 `{locale}` 파라미터를 정의한다고 가정해보겠습니다.
 
     Route::get('/{locale}/posts', function () {
         //
@@ -211,7 +211,7 @@ For some applications, you may wish to specify request-wide default values for c
 
 It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/docs/{{version}}/middleware#assigning-middleware-to-routes) so that you have access to the current request:
 
-`route` 헬퍼를 호출할 때마다 `locale` 을 전달해야 하는 것은 번거로운 일일 수 있습니다. 따라서 `URL::defaults` 메소드를 사용하여 현재 요청-request 중에서 항상 적용될 파라미터의 기본값을 정의 할 수 있습니다. 라우트 미들웨어에서 이 메소드를 호출하여 현재의 요청-request에 엑세스 할 수 있습니다:
+`route` 헬퍼를 호출할 때마다 `locale` 을 전달해야 하는 것은 번거로운 일일 수 있습니다. 따라서 `URL::defaults` 메소드를 사용하여 현재 요청-request 중에서 항상 적용될 파라미터의 기본값을 정의 할 수 있습니다. 라우트 미들웨어에서 이 메소드를 호출하여 현재의 요청-request에 엑세스 할 수 있습니다.
 
     <?php
 

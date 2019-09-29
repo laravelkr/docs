@@ -87,7 +87,7 @@ Laravel Cashier Braintree provides an expressive, fluent interface to [Braintree
 
 For many operations, the Stripe and Braintree implementations of Cashier function the same. Both services provide subscription billing with credit cards but Braintree also supports payments via PayPal. However, Braintree also lacks some features that are supported by Stripe. You should keep the following in mind when deciding to use Stripe or Braintree:
 
-대부분의 동작들에서, Stripe 와 Braintree 의 캐셔 함수의 구현부분은 동일합니다. 두개의 서비스 모두 신용카드에 대한 구독 청구를 지원합니다. 다른 점은 Braintree 는 페이팔과 같은 결제도 지원한다는 것입니다. 하지만 Braintree 는 Stripe 에서 지원하는 몇가지 기능들은 누락되어 있습니다. 여러분은 Stripe 과 Braintree 둘중에 어느 서비스를 사용할지 결정해야 합니다:
+대부분의 동작들에서, Stripe 와 Braintree 의 캐셔 함수의 구현부분은 동일합니다. 두개의 서비스 모두 신용카드에 대한 구독 청구를 지원합니다. 다른 점은 Braintree 는 페이팔과 같은 결제도 지원한다는 것입니다. 하지만 Braintree 는 Stripe 에서 지원하는 몇가지 기능들은 누락되어 있습니다. 여러분은 Stripe 과 Braintree 둘중에 어느 서비스를 사용할지 결정해야 합니다.
 
 - Braintree supports PayPal while Stripe does not.
 - Braintree does not support the `increment` and `decrement` methods on subscriptions. This is a Braintree limitation, not a Cashier limitation.
@@ -129,7 +129,7 @@ The discount amount configured in the Braintree control panel can be any value y
 
 Before using Cashier, we'll need to [prepare the database](/docs/{{version}}/migrations). We need to add several columns to your `users` table and create a new `subscriptions` table to hold all of our customer's subscriptions:
 
-캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다:
+캐셔를 바로 사용하기 전에, [데이터베이스를 준비](/docs/{{version}}/migrations)해야 합니다. 몇개의 컬럼을 `users` 테이블에 추가하고, 사용자의 구독 정보를 저장할 새로운 `subscriptions` 테이블을 생성해야 합니다.
 
     Schema::table('users', function (Blueprint $table) {
         $table->string('braintree_id')->nullable();
@@ -161,7 +161,7 @@ Once the migrations have been created, run the `migrate` Artisan command.
 
 Next, add the `Billable` trait to your model definition:
 
-다음으로 `Billable` 트레이트-trait을 모델에 추가합니다:
+다음으로 `Billable` 트레이트-trait을 모델에 추가합니다.
 
     use Laravel\Cashier\Billable;
 
@@ -176,7 +176,7 @@ Next, add the `Billable` trait to your model definition:
 
 Next, you should configure the following options in your `services.php` file:
 
-다음으로 `services.php`에 다음의 옵션값들을 설정해야 합니다:
+다음으로 `services.php`에 다음의 옵션값들을 설정해야 합니다.
 
     'braintree' => [
         'model'  => App\User::class,
@@ -188,7 +188,7 @@ Next, you should configure the following options in your `services.php` file:
 
 Then you should add the following Braintree SDK calls to your `AppServiceProvider` service provider's `boot` method:
 
-그리고 다음의 Braintree SDK 호출을 `AppServiceProvider` 서비스 프로바이더의 `boot` 메소드에 추가해야 합니다:
+그리고 다음의 Braintree SDK 호출을 `AppServiceProvider` 서비스 프로바이더의 `boot` 메소드에 추가해야 합니다.
 
     \Braintree_Configuration::environment(config('services.braintree.environment'));
     \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
@@ -201,7 +201,7 @@ Then you should add the following Braintree SDK calls to your `AppServiceProvide
 
 The default Cashier currency is United States Dollars (USD). You can change the default currency by calling the `Cashier::useCurrency` method from within the `boot` method of one of your service providers. The `useCurrency` method accepts two string parameters: the currency and the currency's symbol:
 
-캐셔의 기본 화폐는 미국달러(USD)입니다. 여러분의 서비스 프로바이더 중 한곳의 `boot` 메소드 안에서 `Cashier::useCurrency` 메소드를 호출하면, 기본화폐를 변경할 수 있습니다. `useCurrency` 메소드는 두개의 문자형 인자를 받습니다: 화폐의 이름과 화폐의 기호입니다:
+캐셔의 기본 화폐는 미국달러(USD)입니다. 여러분의 서비스 프로바이더 중 한곳의 `boot` 메소드 안에서 `Cashier::useCurrency` 메소드를 호출하면, 기본화폐를 변경할 수 있습니다. `useCurrency` 메소드는 두개의 문자형 인자를 받습니다. 화폐의 이름과 화폐의 기호입니다.
 
     use Laravel\Cashier\Cashier;
 
@@ -217,7 +217,7 @@ The default Cashier currency is United States Dollars (USD). You can change the 
 
 To create a subscription, first retrieve an instance of your billable model, which typically will be an instance of `App\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
 
-새로운 정기 구독을 생성하려면, 먼저 청구가 가능한 (일반적으로 `App\User`가 되는 ) 모델 인스턴스를 찾아야 합니다. 모델 인스턴스를 찾으면, 모델에 대한 정기 구독을 생성하기 위해 `newSubscription` 메소드를 사용할 수 있습니다:
+새로운 정기 구독을 생성하려면, 먼저 청구가 가능한 (일반적으로 `App\User`가 되는 ) 모델 인스턴스를 찾아야 합니다. 모델 인스턴스를 찾으면, 모델에 대한 정기 구독을 생성하기 위해 `newSubscription` 메소드를 사용할 수 있습니다.
 
     $user = User::find(1);
 
@@ -236,7 +236,7 @@ The `create` method, which accepts a credit card / source token, will begin the 
 
 If you would like to specify additional customer details, you may do so by passing them as the second argument to the `create` method:
 
-만약 여러분이 추가적인 사용자 정보를 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째 인자로 전달하면 됩니다:
+만약 여러분이 추가적인 사용자 정보를 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째 인자로 전달하면 됩니다.
 
     $user->newSubscription('main', 'monthly')->create($token, [
         'email' => $email,
@@ -251,7 +251,7 @@ To learn more about the additional fields supported by Braintree, check out the 
 
 If you would like to apply a coupon when creating the subscription, you may use the `withCoupon` method:
 
-새로운 구독을 생성 할 때 쿠폰을 적용할 수 있게 하려면 `withCoupon` 메소드를 사용하면 됩니다:
+새로운 구독을 생성 할 때 쿠폰을 적용할 수 있게 하려면 `withCoupon` 메소드를 사용하면 됩니다.
 
     $user->newSubscription('main', 'monthly')
          ->withCoupon('code')
@@ -263,7 +263,7 @@ If you would like to apply a coupon when creating the subscription, you may use 
 
 Once a user is subscribed to your application, you may easily check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has an active subscription, even if the subscription is currently within its trial period:
 
-사용자가 정기 구독을 시작하고 난 뒤에, 이에 대한 정보를 확인하는 것은 메소드 하나로 손쉽게 확인이 가능합니다. 먼저 `subscribed` 메소드가 `true` 를 반환한다면 사용자의 정기구독 가입 상태는 무료 평가 기간을 포함하여, 활성화 되어 있다는 것을 의미합니다:
+사용자가 정기 구독을 시작하고 난 뒤에, 이에 대한 정보를 확인하는 것은 메소드 하나로 손쉽게 확인이 가능합니다. 먼저 `subscribed` 메소드가 `true` 를 반환한다면 사용자의 정기구독 가입 상태는 무료 평가 기간을 포함하여, 활성화 되어 있다는 것을 의미합니다.
 
     if ($user->subscribed('main')) {
         //
@@ -271,7 +271,7 @@ Once a user is subscribed to your application, you may easily check their subscr
 
 The `subscribed` method also makes a great candidate for a [route middleware](/docs/{{version}}/middleware), allowing you to filter access to routes and controllers based on the user's subscription status:
 
-`subscribed` 메소드는 [라우트 미들웨어](/docs/{{version}}/middleware)에 사용될수 있는 좋은 방법중 하나입니다: 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다:
+`subscribed` 메소드는 [라우트 미들웨어](/docs/{{version}}/middleware)에 사용될수 있는 좋은 방법중 하나입니다. 사용자의 구독 상태에 따라서, 라우트 및 컨트롤러에 대한 액세스를 제한할 할 수 있습니다.
 
     public function handle($request, Closure $next)
     {
@@ -285,7 +285,7 @@ The `subscribed` method also makes a great candidate for a [route middleware](/d
 
 If you would like to determine if a user is still within their trial period, you may use the `onTrial` method. This method can be useful for displaying a warning to the user that they are still on their trial period:
 
-사용자가 현재 무료 평가 기간(trial) 을 통해서 이용중인지 아닌지 확인하고자 한다면, `onTrial` 메소드를 사용하면 됩니다. 이 메소드는 사용자들에게 그들이 현재 무료 평가 기간을 이용중이라는 정보를 표시하는데 유용하게 사용될 수 있습니다:
+사용자가 현재 무료 평가 기간(trial) 을 통해서 이용중인지 아닌지 확인하고자 한다면, `onTrial` 메소드를 사용하면 됩니다. 이 메소드는 사용자들에게 그들이 현재 무료 평가 기간을 이용중이라는 정보를 표시하는데 유용하게 사용될 수 있습니다.
 
     if ($user->subscription('main')->onTrial()) {
         //
@@ -293,7 +293,7 @@ If you would like to determine if a user is still within their trial period, you
 
 The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given plan ID. In this example, we will determine if the user's `main` subscription is actively subscribed to the `monthly` plan:
 
-`subscribedToPlan` 메소드는 사용자가 주어진 plan ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `main` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다:
+`subscribedToPlan` 메소드는 사용자가 주어진 plan ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `main` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다.
 
     if ($user->subscribedToPlan('monthly', 'main')) {
         //
@@ -312,7 +312,7 @@ The `recurring` method may be used to determine if the user is currently subscri
 
 To determine if the user was once an active subscriber, but has cancelled their subscription, you may use the `cancelled` method:
 
-사용자가 이전에 한번 구독 후, 취소 했는지를 확인 하기 위해서 `cancelled` 메소드를 사용할 수 있습니다:
+사용자가 이전에 한번 구독 후, 취소 했는지를 확인 하기 위해서 `cancelled` 메소드를 사용할 수 있습니다.
 
     if ($user->subscription('main')->cancelled()) {
         //
@@ -340,7 +340,7 @@ To determine if the user has cancelled their subscription is no longer within th
 
 After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
 
-사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다:
+사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다.
 
 
     $user = App\User::find(1);
@@ -353,7 +353,7 @@ If the user is on trial, the trial period will be maintained. Also, if a "quanti
 
 If you would like to swap plans and cancel any trial period the user is currently on, you may use the `skipTrial` method:
 
-구독 유형을 변경하고 사영자의 현재 구독 트라이얼 기간을 취소하려면 `skipTrial` 메소드를 하용하면 됩니다:
+구독 유형을 변경하고 사영자의 현재 구독 트라이얼 기간을 취소하려면 `skipTrial` 메소드를 하용하면 됩니다.
 
     $user->subscription('main')
             ->skipTrial()
@@ -386,7 +386,7 @@ The `taxPercentage` method enables you to apply a tax rate on a model-by-model b
 
 To cancel a subscription, call the `cancel` method on the user's subscription:
 
-정기구독을 취소하기 위해서는, 사용자의 정기구독에 대해서 `cancle` 메소드를 호출하면 됩니다:
+정기구독을 취소하기 위해서는, 사용자의 정기구독에 대해서 `cancle` 메소드를 호출하면 됩니다.
 
     $user->subscription('main')->cancel();
 
@@ -396,7 +396,7 @@ When a subscription is cancelled, Cashier will automatically set the `ends_at` c
 
 You may determine if a user has cancelled their subscription but are still on their "grace period" using the `onGracePeriod` method:
 
-사용자가 구독을 취소했지만 아직 "유예 기간"이 남아 있는지 확인하고자 한다면, `onGracePeriod` 메소드를 사용하면 됩니다:
+사용자가 구독을 취소했지만 아직 "유예 기간"이 남아 있는지 확인하고자 한다면, `onGracePeriod` 메소드를 사용하면 됩니다.
 
     if ($user->subscription('main')->onGracePeriod()) {
         //
@@ -404,7 +404,7 @@ You may determine if a user has cancelled their subscription but are still on th
 
 If you wish to cancel a subscription immediately, call the `cancelNow` method on the user's subscription:
 
-정기구독을 즉시 취소하고자 한다면, 사용자의 정기구독 에서 `cancelNow` 메소드를 호출하면 됩니다:
+정기구독을 즉시 취소하고자 한다면, 사용자의 정기구독 에서 `cancelNow` 메소드를 호출하면 됩니다.
 
     $user->subscription('main')->cancelNow();
 
@@ -414,7 +414,7 @@ If you wish to cancel a subscription immediately, call the `cancelNow` method on
 
 If a user has cancelled their subscription and you wish to resume it, use the `resume` method. The user **must** still be on their grace period in order to resume a subscription:
 
-만약 사용자가 취소한 구독을 재개하려면, `resume` 메소드를 사용하면 됩니다. 사용자는 구독을 재개하기 위해 **반드시** 자신의 유예 기간에 내에 있어야 합니다:
+만약 사용자가 취소한 구독을 재개하려면, `resume` 메소드를 사용하면 됩니다. 사용자는 구독을 재개하기 위해 **반드시** 자신의 유예 기간에 내에 있어야 합니다.
 
     $user->subscription('main')->resume();
 
@@ -432,7 +432,7 @@ If the user cancels a subscription and then resumes that subscription before the
 
 If you would like to offer trial periods to your customers while still collecting payment method information up front, you should use the `trialDays` method when creating your subscriptions:
 
-고객에게 트라이얼 기간을 제공하고, 결제 정보를 사전에 등록 해달라고 요청하고자 한다면, 구독을 생성할 때 `trialDays` 메소드를 해야합니다:
+고객에게 트라이얼 기간을 제공하고, 결제 정보를 사전에 등록 해달라고 요청하고자 한다면, 구독을 생성할 때 `trialDays` 메소드를 해야합니다.
 
     $user = User::find(1);
 
@@ -450,7 +450,7 @@ This method will set the trial period ending date on the subscription record wit
 
 You may determine if the user is within their trial period using either the `onTrial` method of the user instance, or the `onTrial` method of the subscription instance. The two examples below are identical:
 
-사용자가 현재 트라이얼 기간 안에 있는지 확인하려면, 사용자 인스턴스에서 `onTrial` 메소드를 사용하거나, 구독 인스턴스에서 `onTrial` 메소드를 사용하면 됩니다. 다음의 두 예제는 동일합니다:
+사용자가 현재 트라이얼 기간 안에 있는지 확인하려면, 사용자 인스턴스에서 `onTrial` 메소드를 사용하거나, 구독 인스턴스에서 `onTrial` 메소드를 사용하면 됩니다. 다음의 두 예제는 동일합니다.
 
     if ($user->onTrial('main')) {
         //
@@ -466,7 +466,7 @@ You may determine if the user is within their trial period using either the `onT
 
 If you would like to offer trial periods without collecting the user's payment method information up front, you may set the `trial_ends_at` column on the user record to your desired trial ending date. This is typically done during user registration:
 
-고객에게 신용카드에 대한 결제 정보의 사전등록 없이 트라이얼 기간을 부여하고자 한다면, 사용자의 `trial_ends_at` 컬럼에 트리이얼 종료기간을 설정하면 됩니다. 이는 일반적으로 사용자를 등록할 때 설정하게 됩니다:
+고객에게 신용카드에 대한 결제 정보의 사전등록 없이 트라이얼 기간을 부여하고자 한다면, 사용자의 `trial_ends_at` 컬럼에 트리이얼 종료기간을 설정하면 됩니다. 이는 일반적으로 사용자를 등록할 때 설정하게 됩니다.
 
     $user = User::create([
         // Populate other user properties...
@@ -479,7 +479,7 @@ If you would like to offer trial periods without collecting the user's payment m
 
 Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the `User` instance will return `true` if the current date is not past the value of `trial_ends_at`:
 
-기존 구독에 연결되는 것이 아니기 때문에, Cashier에서는 이 타입의 트라이얼을 "포괄적 시험기간(generic trial)"이라고 지칭하고 있습니다. `User` 인스턴스의 `onTrial` 메소드는 만약 현재 시간이 아직 `trial_ends_at`을 넘기지 않은 경우에 `true`를 반환합니다:
+기존 구독에 연결되는 것이 아니기 때문에, Cashier에서는 이 타입의 트라이얼을 "포괄적 시험기간(generic trial)"이라고 지칭하고 있습니다. `User` 인스턴스의 `onTrial` 메소드는 만약 현재 시간이 아직 `trial_ends_at`을 넘기지 않은 경우에 `true`를 반환합니다.
 
     if ($user->onTrial()) {
         // User is within their trial period...
@@ -487,7 +487,7 @@ Cashier refers to this type of trial as a "generic trial", since it is not attac
 
 You may also use the `onGenericTrial` method if you wish to know specifically that the user is within their "generic" trial period and has not created an actual subscription yet:
 
-또한 특별히 사용자가 현재 "포괄적" 시험기간 중이며 아직 실제 구독을 생성하지 않았는지 알고자 한다면 `onGenericTrial` 메소드를 사용할 수 있습니다:
+또한 특별히 사용자가 현재 "포괄적" 시험기간 중이며 아직 실제 구독을 생성하지 않았는지 알고자 한다면 `onGenericTrial` 메소드를 사용할 수 있습니다.
 
     if ($user->onGenericTrial()) {
         // User is within their "generic" trial period...
@@ -495,7 +495,7 @@ You may also use the `onGenericTrial` method if you wish to know specifically th
 
 Once you are ready to create an actual subscription for the user, you may use the `newSubscription` method as usual:
 
-사용자에게 실제 구독을 생성할 준비가 되면, 일반적으로 `newSubscription` 메소드를 사용할 수 있습니다:
+사용자에게 실제 구독을 생성할 준비가 되면, 일반적으로 `newSubscription` 메소드를 사용할 수 있습니다.
 
     $user = User::find(1);
 
@@ -529,7 +529,7 @@ Braintree에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 �
 
 The `updateCard` method may be used to update a customer's credit card information. This method accepts a Braintree token and will assign the new credit card as the default billing source:
 
-`updateCard` 메소드는 고객의 신용카드 정보를 수정하는데 사용합니다. 이 메소드는 Braintree 토큰을 받아서 새로운 신용카드를 기본적으로 청구하는데 사용하도록 지정합니다:
+`updateCard` 메소드는 고객의 신용카드 정보를 수정하는데 사용합니다. 이 메소드는 Braintree 토큰을 받아서 새로운 신용카드를 기본적으로 청구하는데 사용하도록 지정합니다.
 
     $user->updateCard($token);
 
@@ -572,7 +572,7 @@ webhook은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하
 
 Cashier automatically handles subscription cancellation on failed charges, but if you have additional webhook events you would like to handle, extend the Webhook controller. Your method names should correspond to Cashier's expected convention, specifically, methods should be prefixed with `handle` and the "camel case" name of the webhook you wish to handle. For example, if you wish to handle the `dispute_opened` webhook, you should add a `handleDisputeOpened` method to the controller:
 
-캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `dispute_opened` webhook을 처리하고자 한다면, 컨트롤러에 `handleDisputeOpened` 메소드를 추가해야 합니다:
+캐셔는 결제가 실패하면 자동으로 구독을 취소처리하지만, 처리하고자 하는 추가적인 webhook을 가지고 있다면, Webhook 컨트롤러를 확장하면 됩니다. 메소드 이름은 캐셔의 컨벤션과 일치해야 하고, 특히 메소드는 `handle` 로 시작해야하며 처리하고자 하는 webhook을 "카멜 케이스"로 된 이름이어야 합니다. 예를 들어 `dispute_opened` webhook을 처리하고자 한다면, 컨트롤러에 `handleDisputeOpened` 메소드를 추가해야 합니다.
 
     <?php
 
@@ -642,7 +642,7 @@ The `charge` method accepts an array as its second argument, allowing you to pas
 
 The `charge` method will throw an exception if the charge fails. If the charge is successful, the full Braintree response will be returned from the method:
 
-`charge` 메소드는 결제가 실패했을 경우에 예외-exception을 발생시킵니다. 결제가 성공적으로 완료되었다면 메소드에서는 Braintree 응답 객체가 반환됩니다:
+`charge` 메소드는 결제가 실패했을 경우에 예외-exception을 발생시킵니다. 결제가 성공적으로 완료되었다면 메소드에서는 Braintree 응답 객체가 반환됩니다.
 
     try {
         $response = $user->charge(1);
@@ -656,7 +656,7 @@ The `charge` method will throw an exception if the charge fails. If the charge i
 
 Sometimes you may need to make a one-time charge but also generate an invoice for the charge so that you may offer a PDF receipt to your customer. The `invoiceFor` method lets you do just that. For example, let's invoice the customer $5.00 for a "One Time Fee":
 
-때로는 한 번만 결제를 진행하면서 고객에게 PDF 영수증을 발행하고자 할 수도 있습니다. `invoiceFor` 메소드는 바로 이경우 사용합니다. 예를 들어, 고객에게 "한번의 요금"을 위해서 5달러를 청구해 보겠습니다:
+때로는 한 번만 결제를 진행하면서 고객에게 PDF 영수증을 발행하고자 할 수도 있습니다. `invoiceFor` 메소드는 바로 이경우 사용합니다. 예를 들어, 고객에게 "한번의 요금"을 위해서 5달러를 청구해 보겠습니다.
 
     $user->invoiceFor('One Time Fee', 5);
 
@@ -674,7 +674,7 @@ The invoice will be charged immediately against the user's credit card. The `inv
 
 You may easily retrieve an array of a billable model's invoices using the `invoices` method:
 
-`invoices` 메소드를 사용하여 청구가 가능한 모델의 청구서를 손쉽게 배열 형태로 조회 할 수 있습니다:
+`invoices` 메소드를 사용하여 청구가 가능한 모델의 청구서를 손쉽게 배열 형태로 조회 할 수 있습니다.
 
     $invoices = $user->invoices();
 
@@ -683,7 +683,7 @@ You may easily retrieve an array of a billable model's invoices using the `invoi
 
 When listing the invoices for the customer, you may use the invoice's helper methods to display the relevant invoice information. For example, you may wish to list every invoice in a table, allowing the user to easily download any of them:
 
-사용자의 청구서를 나열하는 경우, 청구서 관련 정보를 표시하기 위해서 청구서의 헬퍼 함수를 사용할 수 있습니다. 예를 들어 사용자가 쉽게 다운로드 할 수 있도록 테이블 내의 모든 청구서를 목록으로 보여주고자 할 수도 있습니다:
+사용자의 청구서를 나열하는 경우, 청구서 관련 정보를 표시하기 위해서 청구서의 헬퍼 함수를 사용할 수 있습니다. 예를 들어 사용자가 쉽게 다운로드 할 수 있도록 테이블 내의 모든 청구서를 목록으로 보여주고자 할 수도 있습니다.
 
     <table>
         @foreach ($invoices as $invoice)
@@ -701,7 +701,7 @@ When listing the invoices for the customer, you may use the invoice's helper met
 
 From within a route or controller, use the `downloadInvoice` method to generate a PDF download of the invoice. This method will automatically generate the proper HTTP response to send the download to the browser:
 
-라우트 또는 컨트롤러 안에서 `downloadInvoice` 메소드를 사용하여 청구서를 PDF 로 생성하고 다운로드 할 수 있습니다. 이 메소드는 자동으로 브라우저서 다운로드 할 수 있는 HTTP 응답을 생성합니다:
+라우트 또는 컨트롤러 안에서 `downloadInvoice` 메소드를 사용하여 청구서를 PDF 로 생성하고 다운로드 할 수 있습니다. 이 메소드는 자동으로 브라우저서 다운로드 할 수 있는 HTTP 응답을 생성합니다.
 
     use Illuminate\Http\Request;
 

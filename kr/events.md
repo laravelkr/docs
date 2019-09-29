@@ -48,7 +48,7 @@ Events serve as a great way to decouple various aspects of your application, sin
 
 The `EventServiceProvider` included with your Laravel application provides a convenient place to register all of your application's event listeners. The `listen` property contains an array of all events (keys) and their listeners (values). You may add as many events to this array as your application requires. For example, let's add a `OrderShipped` event:
 
-라라벨 애플리케이션에 포함된 `EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다:
+라라벨 애플리케이션에 포함된 `EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다.
 
     /**
      * The event listener mappings for the application.
@@ -67,7 +67,7 @@ The `EventServiceProvider` included with your Laravel application provides a con
 
 Of course, manually creating the files for each event and listener is cumbersome. Instead, add listeners and events to your `EventServiceProvider` and use the `event:generate` command. This command will generate any events or listeners that are listed in your `EventServiceProvider`. Events and listeners that already exist will be left untouched:
 
-물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다:
+물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다.
 
     php artisan event:generate
 
@@ -77,7 +77,7 @@ Of course, manually creating the files for each event and listener is cumbersome
 
 Typically, events should be registered via the `EventServiceProvider` `$listen` array; however, you may also register Closure based events manually in the `boot` method of your `EventServiceProvider`:
 
-이벤트는 보통 `EventServiceProvider`의 `$listen` 배열을 통해 등록됩니다. 하지만 `EventServiceProvider`의 `boot` 메소드 안에서 클로저 기반의 이벤트를 수동으로 등록할 수도 있습니다:
+이벤트는 보통 `EventServiceProvider`의 `$listen` 배열을 통해 등록됩니다. 하지만 `EventServiceProvider`의 `boot` 메소드 안에서 클로저 기반의 이벤트를 수동으로 등록할 수도 있습니다.
 
     /**
      * Register any other events for your application.
@@ -98,7 +98,7 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
 
 You may even register listeners using the `*` as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument, and the entire event data array as their second argument:
 
-`*`를 와일드카드 파라미터로 사용하여 리스너를 등록하면 동일한 리스너 에서 여러 개의 이벤트에 대응 할 수 있습니다. 와일드카드 리스너는 이벤트 이름을 첫번째 인자로, 전체 이벤트 데이터 배열을 두번째 인자로 받습니다:
+`*`를 와일드카드 파라미터로 사용하여 리스너를 등록하면 동일한 리스너 에서 여러 개의 이벤트에 대응 할 수 있습니다. 와일드카드 리스너는 이벤트 이름을 첫번째 인자로, 전체 이벤트 데이터 배열을 두번째 인자로 받습니다.
 
     Event::listen('event.*', function ($eventName, array $data) {
         //
@@ -180,7 +180,7 @@ In production, you likely do not want the framework to scan all of your listener
 
 An event class is a data container which holds the information related to the event. For example, let's assume our generated `OrderShipped` event receives an [Eloquent ORM](/docs/{{version}}/eloquent) object:
 
-이벤트 클래스는 이벤트와 관련된 정보를 가지고 있는 데이터 컨테이너입니다. 예를 들어 `OrderShipped` 이벤트가 [Eloquent ORM](/docs/{{version}}/eloquent) 객체를 를 받는다고 해보겠습니다:
+이벤트 클래스는 이벤트와 관련된 정보를 가지고 있는 데이터 컨테이너입니다. 예를 들어 `OrderShipped` 이벤트가 [Eloquent ORM](/docs/{{version}}/eloquent) 객체를 를 받는다고 해보겠습니다.
 
     <?php
 
@@ -217,7 +217,7 @@ As you can see, this event class contains no logic. It is a container for the `O
 
 Next, let's take a look at the listener for our example event. Event listeners receive the event instance in their `handle` method. The `event:generate` command will automatically import the proper event class and type-hint the event on the `handle` method. Within the `handle` method, you may perform any actions necessary to respond to the event:
 
-다음으로, 이벤트 예제에 대한 리스너를 살펴보겠습니다. 이벤트 리스너는 `handle` 메소드에서 이벤트 인스턴스를 전달 받습니다. `event:generate` 커맨드는 자동으로 적절한 이벤트 클래스를 가져오고 `handle` 메소드에 이벤트를 타입힌트로 추가할 것입니다. `handle` 메소드 내에서는 이벤트에 대응하기 위한 그 어떤 액션이라도 구성할 수 있습니다:
+다음으로, 이벤트 예제에 대한 리스너를 살펴보겠습니다. 이벤트 리스너는 `handle` 메소드에서 이벤트 인스턴스를 전달 받습니다. `event:generate` 커맨드는 자동으로 적절한 이벤트 클래스를 가져오고 `handle` 메소드에 이벤트를 타입힌트로 추가할 것입니다. `handle` 메소드 내에서는 이벤트에 대응하기 위한 그 어떤 액션이라도 구성할 수 있습니다.
 
     <?php
 
@@ -251,7 +251,7 @@ Next, let's take a look at the listener for our example event. Event listeners r
 
 > {tip} Your event listeners may also type-hint any dependencies they need on their constructors. All event listeners are resolved via the Laravel [service container](/docs/{{version}}/container), so dependencies will be injected automatically.
 
-> {tip} 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다:
+> {tip} 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다.
 
 #### Stopping The Propagation Of An Event
 #### 이벤트 전달 중단하기
@@ -270,7 +270,7 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
 
 To specify that a listener should be queued, add the `ShouldQueue` interface to the listener class. Listeners generated by the `event:generate` Artisan command already have this interface imported into the current namespace, so you can use it immediately:
 
-리스너를 큐로 처리하도록 지정하기 위해서는, 리스너 클래스에 `ShouldQueue` 인터페이스를 추가하면 됩니다. `event:generate` 아티즌 명령어를 통해서 생성된 리스너라면 이미 이 인터페이스가 현재의 네임 스페이스 아래에 삽입되어 있기 때문에 즉시 사용할 수 있습니다:
+리스너를 큐로 처리하도록 지정하기 위해서는, 리스너 클래스에 `ShouldQueue` 인터페이스를 추가하면 됩니다. `event:generate` 아티즌 명령어를 통해서 생성된 리스너라면 이미 이 인터페이스가 현재의 네임 스페이스 아래에 삽입되어 있기 때문에 즉시 사용할 수 있습니다.
 
     <?php
 
@@ -293,7 +293,7 @@ That's it! Now, when this listener is called for an event, it will be automatica
 
 If you would like to customize the queue connection, queue name, or queue delay time of an event listener, you may define the `$connection`, `$queue`, or `$delay` properties on your listener class:
 
-이벤트 리스너에서 사용되는 Queue-큐 커넥션과 Queue-큐의 이름을 커스터마이징 하려면, 리스너 클래스에 `$connection`, `$queue` 또는 `$delay` 속성을 정의하면 됩니다:
+이벤트 리스너에서 사용되는 Queue-큐 커넥션과 Queue-큐의 이름을 커스터마이징 하려면, 리스너 클래스에 `$connection`, `$queue` 또는 `$delay` 속성을 정의하면 됩니다.
 
     <?php
 
@@ -371,7 +371,7 @@ Sometimes, you may need to determine whether a listener should be queued based o
 
 If you need to manually access the listener's underlying queue job's `delete` and `release` methods, you may do so using the `Illuminate\Queue\InteractsWithQueue` trait. This trait is imported by default on generated listeners and provides access to these methods:
 
-리스너에 의해서 실행되는 Queue-큐 작업의 `delete` 와 `release` 메소드에 수동으로 엑세스할 필요가 있다면, `Illuminate\Queue\InteractsWithQueue` 트레이트를 사용할 수 있습니다. 이 트레이트는 리스너에서 기본적으로 사용이 선언되어(imported) 있으며 다음의 메소드에 엑세스 할 수 있게 해줍니다:
+리스너에 의해서 실행되는 Queue-큐 작업의 `delete` 와 `release` 메소드에 수동으로 엑세스할 필요가 있다면, `Illuminate\Queue\InteractsWithQueue` 트레이트를 사용할 수 있습니다. 이 트레이트는 리스너에서 기본적으로 사용이 선언되어(imported) 있으며 다음의 메소드에 엑세스 할 수 있게 해줍니다.
 
     <?php
 
@@ -405,7 +405,7 @@ If you need to manually access the listener's underlying queue job's `delete` an
 
 Sometimes your queued event listeners may fail. If queued listener exceeds the maximum number of attempts as defined by your queue worker, the `failed` method will be called on your listener. The `failed` method receives the event instance and the exception that caused the failure:
 
-때때로 큐를 통한 이벤트 리스너가 실패할 수도 있습니다. 큐를 통한 리스너가 큐 워커에 정의된 재시도 횟수를 넘게 되면, 리스너 클래스의 `failed` 메소드가 호출됩니다. `failed` 메소드는 이벤트 인스턴스와 실패를 발생시킨 예외-exception를 인자로 받습니다:
+때때로 큐를 통한 이벤트 리스너가 실패할 수도 있습니다. 큐를 통한 리스너가 큐 워커에 정의된 재시도 횟수를 넘게 되면, 리스너 클래스의 `failed` 메소드가 호출됩니다. `failed` 메소드는 이벤트 인스턴스와 실패를 발생시킨 예외-exception를 인자로 받습니다.
 
     <?php
 
@@ -449,7 +449,7 @@ Sometimes your queued event listeners may fail. If queued listener exceeds the m
 
 To dispatch an event, you may pass an instance of the event to the `event` helper. The helper will dispatch the event to all of its registered listeners. Since the `event` helper is globally available, you may call it from anywhere in your application:
 
-이벤트를 처리하기 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 애플리케이션의 어느곳에서나 호출할 수 있습니다:
+이벤트를 처리하기 위해서는 `event` 헬퍼 함수에 이벤트의 인스턴스를 전달하면 됩니다. 이 헬퍼는 이 이벤트를 수신하고 있는 리스너들에게 자동으로 전달될 것입니다. `event` 헬퍼함수는 글로벌 영역에서 사용할 수 있기 때문에, 애플리케이션의 어느곳에서나 호출할 수 있습니다.
 
     <?php
 
@@ -491,7 +491,7 @@ To dispatch an event, you may pass an instance of the event to the `event` helpe
 
 Event subscribers are classes that may subscribe to multiple events from within the class itself, allowing you to define several event handlers within a single class. Subscribers should define a `subscribe` method, which will be passed an event dispatcher instance. You may call the `listen` method on the given dispatcher to register event listeners:
 
-이벤트 Subscriber는 클래스 안에서 다수의 이벤트에 대한 subscribe를 처리할 수 있는 클래스이며, 하나의 클래스 안에서 여러 개의 이벤트 핸들러를 정의할 수 있습니다. Subscriber는 `subscribe` 메소드를 이용하여 이벤트 dispatcher 인스턴스를 전달받도록 정의되어야 합니다. 이벤트 리스너를 등록하기 위해서 주어진 dispatcher 에서 `listen` 메소드를 호출 할 수 있습니다:
+이벤트 Subscriber는 클래스 안에서 다수의 이벤트에 대한 subscribe를 처리할 수 있는 클래스이며, 하나의 클래스 안에서 여러 개의 이벤트 핸들러를 정의할 수 있습니다. Subscriber는 `subscribe` 메소드를 이용하여 이벤트 dispatcher 인스턴스를 전달받도록 정의되어야 합니다. 이벤트 리스너를 등록하기 위해서 주어진 dispatcher 에서 `listen` 메소드를 호출 할 수 있습니다.
 
     <?php
 
@@ -534,7 +534,7 @@ Event subscribers are classes that may subscribe to multiple events from within 
 
 After writing the subscriber, you are ready to register it with the event dispatcher. You may register subscribers using the `$subscribe` property on the `EventServiceProvider`. For example, let's add the `UserEventSubscriber` to the list:
 
-subscriber가 작성되었다면 이벤트 dispatcher와 함께 등록할 준비가 되었습니다. `EventServiceProvider`에 `$subscribe` 속성을 사용하여 subscriber를 등록할 수 있습니다. 예를 들어 리스트에 `UserEventListener`를 추가해 보겠습니다:
+subscriber가 작성되었다면 이벤트 dispatcher와 함께 등록할 준비가 되었습니다. `EventServiceProvider`에 `$subscribe` 속성을 사용하여 subscriber를 등록할 수 있습니다. 예를 들어 리스트에 `UserEventListener`를 추가해 보겠습니다.
 
     <?php
 

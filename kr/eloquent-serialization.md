@@ -62,7 +62,7 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 
 To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify JSON encoding options [supported by PHP](https://secure.php.net/manual/en/function.json-encode.php):
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다:
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다.
 
     $user = App\User::find(1);
 
@@ -146,7 +146,7 @@ Alternatively, you may use the `visible` property to define a white-list of attr
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance for convenient method chaining:
 
-주어진 모델 인스턴스에서 몇가지 일반적인 숨겨진 속성을 보이도록 만들고자 한다면, `makeVisible` 메소드를 사용하면 됩니다. `makeVisible` 메소드는 편리한 메소드 체이닝을 위해서 모델 인스턴스를 반환합니다:
+주어진 모델 인스턴스에서 몇가지 일반적인 숨겨진 속성을 보이도록 만들고자 한다면, `makeVisible` 메소드를 사용하면 됩니다. `makeVisible` 메소드는 편리한 메소드 체이닝을 위해서 모델 인스턴스를 반환합니다.
 
     return $user->makeVisible('attribute')->toArray();
 
@@ -162,7 +162,7 @@ Likewise, if you would like to make some typically visible attributes hidden on 
 
 Occasionally, when casting models to an array or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/docs/{{version}}/eloquent-mutators) for the value:
 
-때때로, 모델이 배열이나 JSON으로 캐스팅 될 때, 데이터베이스의 컬럼에 일치하지 않는 속성들을 추가하기를 원할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 [accessor](/docs/{{version}}/eloquent-mutators)를 정의하면 됩니다:
+때때로, 모델이 배열이나 JSON으로 캐스팅 될 때, 데이터베이스의 컬럼에 일치하지 않는 속성들을 추가하기를 원할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 [accessor](/docs/{{version}}/eloquent-mutators)를 정의하면 됩니다.
 
     <?php
 
@@ -185,7 +185,7 @@ Occasionally, when casting models to an array or JSON, you may wish to add attri
 
 After creating the accessor, add the attribute name to the `appends` property on the model. Note that attribute names are typically referenced in "snake case", even though the accessor is defined using "camel case":
 
-accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다:
+accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 "카멜 케이스"로 정의되어 있더라도, 속성 이름은 정상적으로 "스네이크 케이스"로 엑세스 됩니다.
 
     <?php
 
@@ -212,7 +212,7 @@ Once the attribute has been added to the `appends` list, it will be included in 
 
 You may instruct a single model instance to append attributes using the `append` method. Or, you may use the `setAppends` method to override the entire array of appended properties for a given model instance:
 
-`append` 메소드를 사용해서 하나의 모델 인스턴스에 속성을 추가할 수도 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 추가된 속성들의 전체 배열을 오버라이드 할 수 있습니다:
+`append` 메소드를 사용해서 하나의 모델 인스턴스에 속성을 추가할 수도 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 추가된 속성들의 전체 배열을 오버라이드 할 수 있습니다.
 
     return $user->append('is_admin')->toArray();
 
@@ -227,7 +227,7 @@ You may instruct a single model instance to append attributes using the `append`
 
 You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the [cast declaration](/docs/{{version}}/eloquent-mutators#attribute-casting):
 
-만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 [cast declaration](/docs/{{version}}/eloquent-mutators#attribute-casting) 에 자세하게 명시되어 있습니다:
+만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 [cast declaration](/docs/{{version}}/eloquent-mutators#attribute-casting) 에 자세하게 명시되어 있습니다.
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
@@ -239,7 +239,7 @@ You may customize the serialization format of individual Eloquent date attribute
 
 Laravel extends the [Carbon](https://github.com/briannesbitt/Carbon) date library in order to provide convenient customization of Carbon's JSON serialization format. To customize how all Carbon dates throughout your application are serialized, use the `Carbon::serializeUsing` method. The `serializeUsing` method accepts a Closure which returns a string representation of the date for JSON serialization:
 
-라라벨은 Carbon의 JSON 시리얼라이즈 포맷을 편리하게 정의할 수 있도록 [Carbon](https://github.com/briannesbitt/Carbon) 날짜 라이브러리를 확장하고 있습니다. 애플리케이션에서 시리얼라이즈 되는 모든 Carbon 날짜를 커스터마이징 하려면 `Carbon::serializeUsing` 메소드를 사용하면 됩니다. `Carbon::serializeUsing` 메소드는 JSON 시리얼라이즈되는 날짜의 문자형식을 반환하는 클로저를 인자로 받습니다:
+라라벨은 Carbon의 JSON 시리얼라이즈 포맷을 편리하게 정의할 수 있도록 [Carbon](https://github.com/briannesbitt/Carbon) 날짜 라이브러리를 확장하고 있습니다. 애플리케이션에서 시리얼라이즈 되는 모든 Carbon 날짜를 커스터마이징 하려면 `Carbon::serializeUsing` 메소드를 사용하면 됩니다. `Carbon::serializeUsing` 메소드는 JSON 시리얼라이즈되는 날짜의 문자형식을 반환하는 클로저를 인자로 받습니다.
 
     <?php
 

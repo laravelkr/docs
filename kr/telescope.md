@@ -72,7 +72,7 @@ Laravel Telescope is an elegant debug assistant for the Laravel framework. Teles
 
 You may use Composer to install Telescope into your Laravel project:
 
-컴포저를 이용해서 라라벨 프로젝트에 Telescope를 설치 할 수 있습니다:
+컴포저를 이용해서 라라벨 프로젝트에 Telescope를 설치 할 수 있습니다.
 
     composer require laravel/telescope
 
@@ -192,7 +192,7 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
 
 You may filter the data that is recorded by Telescope via the `filter` callback that is registered in your `TelescopeServiceProvider`. By default, this callback records all data in the `local` environment and exceptions, failed jobs, scheduled tasks, and data with monitored tags in all other environments:
 
-`TelescopeServiceProvider` 에서 `filter` 콜백을 등록하여 Telescope 에 등록되는 데이터를 필터링해서 기록할 수 있습니다. 기존적으로, 이 콜백은 데이터가 `local` 환경이거나, 그 이외의 환경에서는 exceptions-예외, 실패한 job, 스케줄링 작업, 모니터링 태깅된 데이터를 기록합니다:
+`TelescopeServiceProvider` 에서 `filter` 콜백을 등록하여 Telescope 에 등록되는 데이터를 필터링해서 기록할 수 있습니다. 기존적으로, 이 콜백은 데이터가 `local` 환경이거나, 그 이외의 환경에서는 exceptions-예외, 실패한 job, 스케줄링 작업, 모니터링 태깅된 데이터를 기록합니다.
 
     /**
      * Register any application services.
@@ -221,7 +221,7 @@ You may filter the data that is recorded by Telescope via the `filter` callback 
 
 While the `filter` callback filters data for individual entries, you may use the `filterBatch` method to register a callback that filters all data for a given request or console command. If the callback returns `true`, all of the entries are recorded by Telescope:
 
-`filter` 콜백이 개별 항목에 대한 데이터를 필터링하는 동안, `filterBatch` 메소드를 사용하여 주어진 요청 또는 콘솔 명령어에 대한 모든 데이터를 필터링 하는 콜백을 등록 할 수 있습니다. 콜백이 `true` 를 반환하면 모든 항목에 Telescope 에 기록됩니다:
+`filter` 콜백이 개별 항목에 대한 데이터를 필터링하는 동안, `filterBatch` 메소드를 사용하여 주어진 요청 또는 콘솔 명령어에 대한 모든 데이터를 필터링 하는 콜백을 등록 할 수 있습니다. 콜백이 `true` 를 반환하면 모든 항목에 Telescope 에 기록됩니다.
 
     use Illuminate\Support\Collection;
 
@@ -282,7 +282,7 @@ Telescope로 "태그"로 항목을 검색 할 수 있습니다. 종종 태그는
 
 Telescope watchers gather application data when a request or console command is executed. You may customize the list of watchers that you would like to enable within your `config/telescope.php` configuration file:
 
-Telescope 와쳐는 유입되는 request-요청이나 콘솔 명령어가 실행될때 애플리케이션 데이터를 수집합니다. `config/telescope.php` 설정 파일에서 활성화할 와처 리스트를 변경할 수 있습니다:
+Telescope 와쳐는 유입되는 request-요청이나 콘솔 명령어가 실행될때 애플리케이션 데이터를 수집합니다. `config/telescope.php` 설정 파일에서 활성화할 와처 리스트를 변경할 수 있습니다.
 
     'watchers' => [
         Watchers\CacheWatcher::class => true,
@@ -292,7 +292,7 @@ Telescope 와쳐는 유입되는 request-요청이나 콘솔 명령어가 실행
 
 Some watchers also allow you to provide additional customization options:
 
-일부 와처에는 추가적으로 지정할 수 있는 사용자 정의 옵션을 제공하기도 합니다:
+일부 와처에는 추가적으로 지정할 수 있는 사용자 정의 옵션을 제공하기도 합니다.
 
     'watchers' => [
         Watchers\QueryWatcher::class => [
@@ -316,7 +316,7 @@ The cache watcher records data when a cache key is hit, missed, updated and forg
 
 The command watcher records the arguments, options, exit code, and output whenever an Artisan command is executed. If you would like to exclude certain commands from being recorded by the watcher, you may specify the command in the `ignore` option in your `config/telescope.php` file:
 
-명령어 와처는 아티즌 명령어가 실행될 때 마다 인자, 옵션, exit code 및 출력사항을 기록합니다. 특정 명령어에 대해서는 와처에서 기록을 하지 않기를 원한다면 `config/telescope.php` 파일의 `ignore` 옵션에 해당 명령어를 지정하면 됩니다:
+명령어 와처는 아티즌 명령어가 실행될 때 마다 인자, 옵션, exit code 및 출력사항을 기록합니다. 특정 명령어에 대해서는 와처에서 기록을 하지 않기를 원한다면 `config/telescope.php` 파일의 `ignore` 옵션에 해당 명령어를 지정하면 됩니다.
 
     'watchers' => [
         Watchers\CommandWatcher::class => [
@@ -395,7 +395,7 @@ The mail watcher allows you to view an in-browser preview of the emails along wi
 
 The model watcher records model changes whenever an Eloquent `created`, `updated`, `restored`, or `deleted` event is dispatched. You may specify which model events should be recorded via the watcher's `events` option:
 
-모델 와처는 Eloquent 의 `created`, `updated`, `restored`, 그리고 `deleted` 이벤트가 발생할 때 모델이 변경되는 내역을 기록합니다. 와처의 `event` 옵션을 통해서 어떤 이벤트가 기록되어야 하는지 지정할 수 있습니다:
+모델 와처는 Eloquent 의 `created`, `updated`, `restored`, 그리고 `deleted` 이벤트가 발생할 때 모델이 변경되는 내역을 기록합니다. 와처의 `event` 옵션을 통해서 어떤 이벤트가 기록되어야 하는지 지정할 수 있습니다.
 
     'watchers' => [
         Watchers\ModelWatcher::class => [
@@ -419,7 +419,7 @@ The notification watcher records all notifications sent by your application. If 
 
 The query watcher records the raw SQL, bindings, and execution time for all queries that are executed by your application. The watcher also tags any queries slower than 100ms as `slow`. You may customize the slow query threshold using the watcher's `slow` option:
 
-쿼리 와처는 애플리케이션에서 실행되는 모든 쿼리에 대한 raw SQL 과 바딩인 파라미터, 실행시각을 기록합니다. 와처는 쿼리가 100ms 이상 느려질때 `slow` 태그를 붙입니다. `slow` 옵션을 사용해서 슬로우 쿼리 기준 시각을 변경할 수 있습니다:
+쿼리 와처는 애플리케이션에서 실행되는 모든 쿼리에 대한 raw SQL 과 바딩인 파라미터, 실행시각을 기록합니다. 와처는 쿼리가 100ms 이상 느려질때 `slow` 태그를 붙입니다. `slow` 옵션을 사용해서 슬로우 쿼리 기준 시각을 변경할 수 있습니다.
 
     'watchers' => [
         Watchers\QueryWatcher::class => [
@@ -447,7 +447,7 @@ redis 와처는 애플리케이션에서 실행되는 모든 redis 명령어를 
 
 The request watcher records the request, headers, session, and response data associated with any requests handled by the application. You may limit your response data via the `size_limit` (in KB) option:
 
-request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 `size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다:
+request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이터를 기록합니다. 또한 `size_limit` (in KB) 옵션을 통해서 응답 데이터 사이즈를 제한할 수 있습니다.
 
     'watchers' => [
         Watchers\RequestWatcher::class => [

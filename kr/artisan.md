@@ -66,7 +66,7 @@ All Laravel applications include Tinker, a REPL powered by the [PsySH](https://g
 
 You can publish Tinker's configuration file using the `vendor:publish` command:
 
-`vendor:publish` 명령어를 사용하여 Tinker의 설정 파일을 구성할 수 있습니다:
+`vendor:publish` 명령어를 사용하여 Tinker의 설정 파일을 구성할 수 있습니다.
 
     php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 
@@ -75,7 +75,7 @@ You can publish Tinker's configuration file using the `vendor:publish` command:
 
 Tinker utilizes a white-list to determine which Artisan commands are allowed to be run within its shell. By default, you may run the `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `optimize`, and `up` commands. If you would like to white-list more commands you may add them to the `commands` array in your `tinker.php` configuration file:
 
-Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있는지 화이트리스트를 구성합니다. 기본적으로 여러분은 `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `optimize` 그리고 `up` 명령어를 실행할 수 있습니다. 더 많은 명령어들을 화이트리스트에 추가하고자 한다면, `tinker.php` 설정 파일의 `commands` 배열에 추가 하면됩니다:
+Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있는지 화이트리스트를 구성합니다. 기본적으로 여러분은 `clear-compiled`, `down`, `env`, `inspire`, `migrate`, `optimize` 그리고 `up` 명령어를 실행할 수 있습니다. 더 많은 명령어들을 화이트리스트에 추가하고자 한다면, `tinker.php` 설정 파일의 `commands` 배열에 추가 하면됩니다.
 
     'commands' => [
         // App\Console\Commands\ExampleCommand::class,
@@ -86,7 +86,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
 Typically, Tinker automatically aliases classes as you require them in Tinker. However, you may wish to never alias some classes. You may accomplish this by listing the classes in the `dont_alias` array of your `tinker.php` configuration file:
 
-일반적으로 Tinker는 필요한 클래스에 자동으로 별칭(alias)을 지정합니다. 하지만 일부 클래스틑 별칭을 지정하지 않을 수도 있습니다. `tinker.php` 설정 파일의 `dont_alias` 배열에 클래스를 추가하면 됩니다:
+일반적으로 Tinker는 필요한 클래스에 자동으로 별칭(alias)을 지정합니다. 하지만 일부 클래스틑 별칭을 지정하지 않을 수도 있습니다. `tinker.php` 설정 파일의 `dont_alias` 배열에 클래스를 추가하면 됩니다.
 
     'dont_alias' => [
         App\User::class,
@@ -106,7 +106,7 @@ In addition to the commands provided with Artisan, you may also build your own c
 
 To create a new command, use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application, since it will be created the first time you run the `make:command` Artisan command. The generated command will include the default set of properties and methods that are present on all commands:
 
-새로운 명령어를 생성하기 위해, 아티즌 명령어 `make:command` 을 사용합니다. 이 명령어는 `app/Console/Commands` 경로에 새로운 명령클래스를 생성할 것입니다. `make:command` 아티즌 명령을 처음 실행할 때 생성되기 때문에 이 경로가 애플리케이션에 존재하지 않는다고 걱정하지 마십시오. 생성 된 명령에는 모든 명령에있는 기본 등록 정보 및 함수 세트가 포함됩니다:
+새로운 명령어를 생성하기 위해, 아티즌 명령어 `make:command` 을 사용합니다. 이 명령어는 `app/Console/Commands` 경로에 새로운 명령클래스를 생성할 것입니다. `make:command` 아티즌 명령을 처음 실행할 때 생성되기 때문에 이 경로가 애플리케이션에 존재하지 않는다고 걱정하지 마십시오. 생성 된 명령에는 모든 명령에있는 기본 등록 정보 및 함수 세트가 포함됩니다.
 
     php artisan make:command SendEmails
 
@@ -192,7 +192,7 @@ Closure based commands provide an alternative to defining console commands as cl
 
 Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your Closure based routes using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a Closure which receives the commands arguments and options:
 
-이 파일은 HTTP 라우트를 정의하지 않지만 애플리케이션에 콘솔 기반의 진입점(entry-point-라우트)을 정의합니다. 이 파일에서 `Artisan::command` 함수를 사용하여 클로저 기반 라우트를 정의 할 수 있습니다. `command` 메소드는 [command signature](#defining-input-expectations), 그리고 명령어의 인자 및 옵션을 전달 받는 클로저의 총 두 개의 인자를 받습니다:
+이 파일은 HTTP 라우트를 정의하지 않지만 애플리케이션에 콘솔 기반의 진입점(entry-point-라우트)을 정의합니다. 이 파일에서 `Artisan::command` 함수를 사용하여 클로저 기반 라우트를 정의 할 수 있습니다. `command` 메소드는 [command signature](#defining-input-expectations), 그리고 명령어의 인자 및 옵션을 전달 받는 클로저의 총 두 개의 인자를 받습니다.
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -207,7 +207,7 @@ The Closure is bound to the underlying command instance, so you have full access
 
 In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
 
-명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다:
+명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다.
 
     use App\User;
     use App\DripEmailer;
@@ -241,7 +241,7 @@ When writing console commands, it is common to gather input from the user throug
 
 All user supplied arguments and options are wrapped in curly braces. In the following example, the command defines one **required** argument: `user`:
 
-사용자로 부터 전달받을 인자 및 옵션은 모두 대괄호로 묶여져 있어야합니다. 다음 예제의 경우 **필수적으로** `user` 인자가 명령어에 필요하다고 정의하고 있습니다:
+사용자로 부터 전달받을 인자 및 옵션은 모두 대괄호로 묶여져 있어야합니다. 다음 예제의 경우 **필수적으로** `user` 인자가 명령어에 필요하다고 정의하고 있습니다.
 
     /**
      * The name and signature of the console command.
@@ -324,7 +324,7 @@ To assign a shortcut when defining an option, you may specify it before the opti
 
 If you would like to define arguments or options to expect array inputs, you may use the `*` character. First, let's take a look at an example that specifies an array argument:
 
-인자나 옵션을 배열형태로 입력받기도록 정의하고자 한다면, `*` 문자를 사용하면 됩니다:
+인자나 옵션을 배열형태로 입력받기도록 정의하고자 한다면, `*` 문자를 사용하면 됩니다.
 
     email:send {user*}
 
@@ -531,7 +531,7 @@ For more advanced options, check out the [Symfony Progress Bar component documen
 
 Because of the `load` method call in your console kernel's `commands` method, all commands within the `app/Console/Commands` directory will automatically be registered with Artisan. In fact, you are free to make additional calls to the `load` method to scan other directories for Artisan commands:
 
-콘솔 커널의 `commands` 메소드가 `load` 메소드를 호출하기 때문에, `app/Console/Commands` 디렉토리안에 들어 있는 모든 명령어들은 아티즌에 자동으로 등록됩니다. 또한, 아티즌 명령어들을 스캔하기 위한 다른 디렉토리를 `load` 메소드에서 자유롭게 추가할 수도 있습니다:
+콘솔 커널의 `commands` 메소드가 `load` 메소드를 호출하기 때문에, `app/Console/Commands` 디렉토리안에 들어 있는 모든 명령어들은 아티즌에 자동으로 등록됩니다. 또한, 아티즌 명령어들을 스캔하기 위한 다른 디렉토리를 `load` 메소드에서 자유롭게 추가할 수도 있습니다.
 
     /**
      * Register the commands for the application.
@@ -560,7 +560,7 @@ You may also manually register commands by adding its class name to the `$comman
 
 Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to fire an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts either the command's name or class as the first argument, and an array of command parameters as the second argument. The exit code will be returned:
 
-CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 있을 수 있습니다. 예를 들어 라우트 또는 컨트롤러에서 아티즌 명령어를 수행하기를 원할 수도 있습니다. 이 경우 `Artisan` 파사드의 `call` 메소드를 호출하면 됩니다. `call` 메소드는 첫번째 인자로 명령어 이름 또는 클래스를 인자로 받고, 명령어의 파라미터들로 구성된 배열을 두번째 인자로 전달받습니다. 결과 코드가 반환될 것입니다:
+CLI 가 아니더라도 아티즌 명령어를 실행하고자 하는 경우가 있을 수 있습니다. 예를 들어 라우트 또는 컨트롤러에서 아티즌 명령어를 수행하기를 원할 수도 있습니다. 이 경우 `Artisan` 파사드의 `call` 메소드를 호출하면 됩니다. `call` 메소드는 첫번째 인자로 명령어 이름 또는 클래스를 인자로 받고, 명령어의 파라미터들로 구성된 배열을 두번째 인자로 전달받습니다. 결과 코드가 반환될 것입니다.
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [
@@ -590,7 +590,7 @@ Using the `queue` method on the `Artisan` facade, you may even queue Artisan com
 
 You may also specify the connection or queue the Artisan command should be dispatched to:
 
-또한 Artisan 명령어가 어떻게 처리되어야 하는지 커넥션 또는 큐를 지정할 수도 있습니다:
+또한 Artisan 명령어가 어떻게 처리되어야 하는지 커넥션 또는 큐를 지정할 수도 있습니다.
 
     Artisan::queue('email:send', [
         'user' => 1, '--queue' => 'default'
@@ -601,7 +601,7 @@ You may also specify the connection or queue the Artisan command should be dispa
 
 If your command defines an option that accepts an array, you may pass an array of values to that option:
 
-명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다:
+명령어가 옵셥값으로 배열을 받도록 정의되어 있다면, 다음과 같이 배열 값을 전달 할 수 있습니다.
 
     Route::get('/foo', function () {
         $exitCode = Artisan::call('email:send', [

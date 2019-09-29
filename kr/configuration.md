@@ -101,7 +101,7 @@ Your `.env` file should not be committed to your application's source control, s
 
 The current application environment is determined via the `APP_ENV` variable from your `.env` file. You may access this value via the `environment` method on the `App` [facade](/docs/{{version}}/facades):
 
-현재의 애플리케이션 구동 환경은 `.env` 파일의 `APP_ENV` 변수를 통해서 결정됩니다. `App` [파사드](/docs/{{version}}/facades)의 `environment` 메소드를 통해서 이 값에 접근 할 수 있습니다:
+현재의 애플리케이션 구동 환경은 `.env` 파일의 `APP_ENV` 변수를 통해서 결정됩니다. `App` [파사드](/docs/{{version}}/facades)의 `environment` 메소드를 통해서 이 값에 접근 할 수 있습니다.
 
     $environment = App::environment();
 
@@ -196,7 +196,7 @@ When your application is in maintenance mode, a custom view will be displayed fo
 
 To enable maintenance mode, execute the `down` Artisan command:
 
-점검 모드를 활성화 하려면 아티즌 명령어 `down`을 실행시키면 됩니다:
+점검 모드를 활성화 하려면 아티즌 명령어 `down`을 실행시키면 됩니다.
 
     php artisan down
 
@@ -208,13 +208,13 @@ You may also provide `message` and `retry` options to the `down` command. The `m
 
 Even while in maintenance mode, specific IP addresses or networks may be allowed to access the application using the command's `allow` option:
 
-점검 모드 중이지만, 지정된 IP나 네트워크 대역에 대해서는 애플리케이션에 접속할 수 있게 하고자 한다면, 명령어에 `allow` 옵션을 사용하면 됩니다:
+점검 모드 중이지만, 지정된 IP나 네트워크 대역에 대해서는 애플리케이션에 접속할 수 있게 하고자 한다면, 명령어에 `allow` 옵션을 사용하면 됩니다.
 
     php artisan down --allow=127.0.0.1 --allow=192.168.0.0/16
 
 To disable maintenance mode, use the `up` command:
 
-점검 모드를 해제하려면 아티즌 명령어 `up`을 실행시키면 됩니다:
+점검 모드를 해제하려면 아티즌 명령어 `up`을 실행시키면 됩니다.
 
     php artisan up
 

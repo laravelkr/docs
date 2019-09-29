@@ -22,7 +22,7 @@
 
 Laravel makes interacting with databases extremely simple across a variety of database backends using either raw SQL, the [fluent query builder](/docs/{{version}}/queries), and the [Eloquent ORM](/docs/{{version}}/eloquent). Currently, Laravel supports four databases:
 
-라라벨은 직접 raw SQL을 사용할 때에도, [쿼리 빌더](/docs/{{version}}/queries)를 사용하거나 그리고 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용할 때에도 데이터베이스를 처리하는 것이 쉽도록 해줍니다. 현재 라라벨은 4가지 데이터베이스를 지원하고 있습니다:
+라라벨은 직접 raw SQL을 사용할 때에도, [쿼리 빌더](/docs/{{version}}/queries)를 사용하거나 그리고 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용할 때에도 데이터베이스를 처리하는 것이 쉽도록 해줍니다. 현재 라라벨은 4가지 데이터베이스를 지원하고 있습니다.
 
 - MySQL
 - PostgreSQL
@@ -46,7 +46,7 @@ By default, Laravel's sample [environment configuration](/docs/{{version}}/confi
 
 After creating a new SQLite database using a command such as `touch database/database.sqlite`, you can easily configure your environment variables to point to this newly created database by using the database's absolute path:
 
-`touch database/database.sqlite` 와 같은 명령어를 사용하여 SQLite 데이터베이스를 새롭게 생성한 뒤에, 데이터베이스의 절대 경로를 사용하여 새롭게 생성된 데이터베이스를 지정하는 환경 설정을 손쉽게 추가할 수 있습니다:
+`touch database/database.sqlite` 와 같은 명령어를 사용하여 SQLite 데이터베이스를 새롭게 생성한 뒤에, 데이터베이스의 절대 경로를 사용하여 새롭게 생성된 데이터베이스를 지정하는 환경 설정을 손쉽게 추가할 수 있습니다.
 
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database.sqlite
@@ -93,7 +93,7 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
 To see how read / write connections should be configured, let's look at this example:
 
-다음은 어떻게 read / write 커넥션을 설정하는지에 대한 예제 입니다:
+다음은 어떻게 read / write 커넥션을 설정하는지에 대한 예제 입니다.
 
     'mysql' => [
         'read' => [
@@ -119,7 +119,7 @@ To see how read / write connections should be configured, let's look at this exa
 
 Note that three keys have been added to the configuration array: `read`, `write` and `sticky`. The `read` and `write` keys have array values containing a single key: `host`. The rest of the database options for the `read` and `write` connections will be merged from the main `mysql` array.
 
-설정 배열에 `read`, `write` 그리고 `sticky` 세개의 키가 추가 된것을 참고하십시오. `read` 와 `write` 키는 `host`라는 하나의 키를 포함하는 배열 값입니다: `read` 와 `write` 의 나머지 데이터베이스 옵션 값은 기본 `mysql` 배열에서 합쳐(merge)집니다.
+설정 배열에 `read`, `write` 그리고 `sticky` 세개의 키가 추가 된것을 참고하십시오. `read` 와 `write` 키는 `host`라는 하나의 키를 포함하는 배열 값입니다. `read` 와 `write` 의 나머지 데이터베이스 옵션 값은 기본 `mysql` 배열에서 합쳐(merge)집니다.
 
 You only need to place items in the `read` and `write` arrays if you wish to override the values from the main array. So, in this case, `192.168.1.1` will be used as the host for the "read" connection, while `192.168.1.3` will be used for the "write" connection. The database credentials, prefix, character set, and all other options in the main `mysql` array will be shared across both connections.
 
@@ -138,13 +138,13 @@ The `sticky` option is an *optional* value that can be used to allow the immedia
 
 When using multiple connections, you may access each connection via the `connection` method on the `DB` facade. The `name` passed to the `connection` method should correspond to one of the connections listed in your `config/database.php` configuration file:
 
-여러개의 커넥션을 사용하는 경우, `DB` 파사드의 `connection` 메소드를 통해 각각의 커넥션에 액세스 할 수 있습니다. `connection` 메소드에 전달되는 `name`은 `config/database.php` 설정 파일에 나열되어 있는 이름이어야 합니다:
+여러개의 커넥션을 사용하는 경우, `DB` 파사드의 `connection` 메소드를 통해 각각의 커넥션에 액세스 할 수 있습니다. `connection` 메소드에 전달되는 `name`은 `config/database.php` 설정 파일에 나열되어 있는 이름이어야 합니다.
 
     $users = DB::connection('foo')->select(...);
 
 You may also access the raw, underlying PDO instance using the `getPdo` method on a connection instance:
 
-또한 커넥션 인스턴스에서 `getPdo` 메소드를 사용하여 PDO 인스턴스로 액세스 할 수 있습니다:
+또한 커넥션 인스턴스에서 `getPdo` 메소드를 사용하여 PDO 인스턴스로 액세스 할 수 있습니다.
 
     $pdo = DB::connection()->getPdo();
 
@@ -161,7 +161,7 @@ Once you have configured your database connection, you may run queries using the
 
 To run a basic query, you may use the `select` method on the `DB` facade:
 
-기본적인 쿼리를 실행하기 위해서 `DB` 파사드의 `select` 메소드를 사용할 수 있습니다:
+기본적인 쿼리를 실행하기 위해서 `DB` 파사드의 `select` 메소드를 사용할 수 있습니다.
 
     <?php
 
@@ -203,7 +203,7 @@ The `select` method will always return an `array` of results. Each result within
 
 Instead of using `?` to represent your parameter bindings, you may execute a query using named bindings:
 
-`?` 를 사용하는 매개변수 바인딩 대신에, 이름을 지정한 바인딩을 사용한 쿼리를 실행시킬 수 있습니다:
+`?` 를 사용하는 매개변수 바인딩 대신에, 이름을 지정한 바인딩을 사용한 쿼리를 실행시킬 수 있습니다.
 
     $results = DB::select('select * from users where id = :id', ['id' => 1]);
 
@@ -212,7 +212,7 @@ Instead of using `?` to represent your parameter bindings, you may execute a que
 
 To execute an `insert` statement, you may use the `insert` method on the `DB` facade. Like `select`, this method takes the raw SQL query as its first argument and bindings as its second argument:
 
-`insert` 쿼리문을 실행하기 위해서는 `DB` 파사드의 `insert` 메소드를 사용하면 됩니다. `select` 메소드와 마찬가지로, 이 메소드는 첫번째 인자로 raw SQL 쿼리를, 두번째로 바인딩할 인자들을 전달 받습니다:
+`insert` 쿼리문을 실행하기 위해서는 `DB` 파사드의 `insert` 메소드를 사용하면 됩니다. `select` 메소드와 마찬가지로, 이 메소드는 첫번째 인자로 raw SQL 쿼리를, 두번째로 바인딩할 인자들을 전달 받습니다.
 
     DB::insert('insert into users (id, name) values (?, ?)', [1, 'Dayle']);
 
@@ -221,7 +221,7 @@ To execute an `insert` statement, you may use the `insert` method on the `DB` fa
 
 The `update` method should be used to update existing records in the database. The number of rows affected by the statement will be returned:
 
-`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 갯수가 반환될 것입니다:
+`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 갯수가 반환될 것입니다.
 
     $affected = DB::update('update users set votes = 100 where name = ?', ['John']);
 
@@ -230,7 +230,7 @@ The `update` method should be used to update existing records in the database. T
 
 The `delete` method should be used to delete records from the database. Like `update`, the number of rows affected will be returned:
 
-`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다:
+`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다.
 
     $deleted = DB::delete('delete from users');
 
@@ -239,7 +239,7 @@ The `delete` method should be used to delete records from the database. Like `up
 
 Some database statements do not return any value. For these types of operations, you may use the `statement` method on the `DB` facade:
 
-몇몇 데이터베이스 구문은 값을 반환하지 않습니다. 이러한 유형의 작업들을 위해서는 `DB` 파사드의 `statement` 메소드를 사용할 수 있습니다:
+몇몇 데이터베이스 구문은 값을 반환하지 않습니다. 이러한 유형의 작업들을 위해서는 `DB` 파사드의 `statement` 메소드를 사용할 수 있습니다.
 
     DB::statement('drop table users');
 
@@ -249,7 +249,7 @@ Some database statements do not return any value. For these types of operations,
 
 If you would like to receive each SQL query executed by your application, you may use the `listen` method. This method is useful for logging queries or debugging. You may register your query listener in a [service provider](/docs/{{version}}/providers):
 
-애플리케이션에서 실행되는 각각의 쿼리를 확인하고자 한다면 `listen` 메소드를 사용하면 됩니다. 이 메소드는 쿼리를 로그로 남기거나, 디버깅 할 때 유용합니다. [서비스 프로바이더](/docs/{{version}}/providers)에서 쿼리 리스너를 등록할 수 있습니다:
+애플리케이션에서 실행되는 각각의 쿼리를 확인하고자 한다면 `listen` 메소드를 사용하면 됩니다. 이 메소드는 쿼리를 로그로 남기거나, 디버깅 할 때 유용합니다. [서비스 프로바이더](/docs/{{version}}/providers)에서 쿼리 리스너를 등록할 수 있습니다.
 
     <?php
 
@@ -291,7 +291,7 @@ If you would like to receive each SQL query executed by your application, you ma
 
 You may use the `transaction` method on the `DB` facade to run a set of operations within a database transaction. If an exception is thrown within the transaction `Closure`, the transaction will automatically be rolled back. If the `Closure` executes successfully, the transaction will automatically be committed. You don't need to worry about manually rolling back or committing while using the `transaction` method:
 
-일련의 쿼리들을 하나의 데이터베이스 트랜잭션으로 실행시키기 위해서 `DB` 파사드의 `transaction`메소드를 사용할 수 있습니다. 트랜잭션 메소드에 전달된 `Closure` 안에서 예외-exception 이 발생하게 되면 트랜잭션은 자동으로 롤백됩니다. `Closure`가 성공적으로 실행되면 트랜잭션은 자동으로 커밋됩니다. `transaction` 메소드를 사용하게 되면 일일이 롤백과 커밋에 대해서 걱정할 필요가 없습니다:
+일련의 쿼리들을 하나의 데이터베이스 트랜잭션으로 실행시키기 위해서 `DB` 파사드의 `transaction`메소드를 사용할 수 있습니다. 트랜잭션 메소드에 전달된 `Closure` 안에서 예외-exception 이 발생하게 되면 트랜잭션은 자동으로 롤백됩니다. `Closure`가 성공적으로 실행되면 트랜잭션은 자동으로 커밋됩니다. `transaction` 메소드를 사용하게 되면 일일이 롤백과 커밋에 대해서 걱정할 필요가 없습니다.
 
     DB::transaction(function () {
         DB::table('users')->update(['votes' => 1]);
@@ -304,7 +304,7 @@ You may use the `transaction` method on the `DB` facade to run a set of operatio
 
 The `transaction` method accepts an optional second argument which defines the number of times a transaction should be reattempted when a deadlock occurs. Once these attempts have been exhausted, an exception will be thrown:
 
-`transaction` 메소드는 데드락이 발생하면 트랜젝션을 재시도 해야 하는 횟수를 정의하는 두번째 인자를 선택적으로 받아들입니다. 이러한 시도가 모두 종료되면, exception이 발생합니다:
+`transaction` 메소드는 데드락이 발생하면 트랜젝션을 재시도 해야 하는 횟수를 정의하는 두번째 인자를 선택적으로 받아들입니다. 이러한 시도가 모두 종료되면, exception이 발생합니다.
 
     DB::transaction(function () {
         DB::table('users')->update(['votes' => 1]);
@@ -318,19 +318,19 @@ The `transaction` method accepts an optional second argument which defines the n
 
 If you would like to begin a transaction manually and have complete control over rollbacks and commits, you may use the `beginTransaction` method on the `DB` facade:
 
-트랜잭션을 직접 시작하고 롤백과 커밋을 제어하고 싶은 경우는 `DB` 파사드의 `beginTransaction` 메소드를 사용하면 됩니다:
+트랜잭션을 직접 시작하고 롤백과 커밋을 제어하고 싶은 경우는 `DB` 파사드의 `beginTransaction` 메소드를 사용하면 됩니다.
 
     DB::beginTransaction();
 
 You can rollback the transaction via the `rollBack` method:
 
-`rollBack` 메소드는 트랜잭션을 롤백 할 수 있습니다:
+`rollBack` 메소드는 트랜잭션을 롤백 할 수 있습니다.
 
     DB::rollBack();
 
 Lastly, you can commit a transaction via the `commit` method:
 
-마지막으로 `commit` 메소드는 트랜잭션을 커밋 할 수 있습니다:
+마지막으로 `commit` 메소드는 트랜잭션을 커밋 할 수 있습니다.
 
     DB::commit();
 

@@ -42,7 +42,7 @@ There are several ways to paginate items. The simplest is by using the `paginate
 
 In this example, the only argument passed to the `paginate` method is the number of items you would like displayed "per page". In this case, let's specify that we would like to display `15` items per page:
 
-이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 개수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
+이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 개수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다.
 
     <?php
 
@@ -75,7 +75,7 @@ In this example, the only argument passed to the `paginate` method is the number
 
 If you only need to display simple "Next" and "Previous" links in your pagination view, you may use the `simplePaginate` method to perform a more efficient query. This is very useful for large datasets when you do not need to display a link for each page number when rendering your view:
 
-만약 "다음(Next)" 과 "이전(Prev)" 링크 만을 페이징 된 화면에서 보여주고자 한다면, 더 효율적으로 쿼리를 수행하는 `simplePaginate` 메소드를 사용할 수 있습니다. 이 메소드는 뷰를 렌더링 할 때 각 페이지 링크를 보여줄 필요가 없는 큰 규모의 데이터 셋을 처리할 때 유용합니다:
+만약 "다음(Next)" 과 "이전(Prev)" 링크 만을 페이징 된 화면에서 보여주고자 한다면, 더 효율적으로 쿼리를 수행하는 `simplePaginate` 메소드를 사용할 수 있습니다. 이 메소드는 뷰를 렌더링 할 때 각 페이지 링크를 보여줄 필요가 없는 큰 규모의 데이터 셋을 처리할 때 유용합니다.
 
     $users = DB::table('users')->simplePaginate(15);
 
@@ -85,19 +85,19 @@ If you only need to display simple "Next" and "Previous" links in your paginatio
 
 You may also paginate [Eloquent](/docs/{{version}}/eloquent) queries. In this example, we will paginate the `User` model with `15` items per page. As you can see, the syntax is nearly identical to paginating query builder results:
 
-또한 여러분은 [Eloquent](/docs/{{version}}/eloquent) 쿼리 에서도 페이징 처리를 할 수 있습니다. 다음 예제에서는 `User` 모델을 페이지 별로 `15`개로 페이지를 나누어 보여줄 것입니다. 보시다 시피 문법은 쿼리 빌더 결과를 페이징 하는 것과 같이 직관적입니다:
+또한 여러분은 [Eloquent](/docs/{{version}}/eloquent) 쿼리 에서도 페이징 처리를 할 수 있습니다. 다음 예제에서는 `User` 모델을 페이지 별로 `15`개로 페이지를 나누어 보여줄 것입니다. 보시다 시피 문법은 쿼리 빌더 결과를 페이징 하는 것과 같이 직관적입니다.
 
     $users = App\User::paginate(15);
 
 You may call `paginate` after setting other constraints on the query, such as `where` clauses:
 
-`where` 절과 같은 조건을 쿼리에 지정한 후 `paginate` 를 호출 할 수 있습니다:
+`where` 절과 같은 조건을 쿼리에 지정한 후 `paginate` 를 호출 할 수 있습니다.
 
     $users = User::where('votes', '>', 100)->paginate(15);
 
 You may also use the `simplePaginate` method when paginating Eloquent models:
 
-또한 Elqouent 모델에 대해서 페이지를 구성할 때에도, `simplePaginate` 메소드를 사용할 수 있습니다:
+또한 Elqouent 모델에 대해서 페이지를 구성할 때에도, `simplePaginate` 메소드를 사용할 수 있습니다.
 
     $users = User::where('votes', '>', 100)->simplePaginate(15);
 
@@ -127,7 +127,7 @@ In other words, the `Paginator` corresponds to the `simplePaginate` method on th
 
 When calling the `paginate` method, you will receive an instance of `Illuminate\Pagination\LengthAwarePaginator`. When calling the `simplePaginate` method, you will receive an instance of `Illuminate\Pagination\Paginator`. These objects provide several methods that describe the result set. In addition to these helpers methods, the paginator instances are iterators and may be looped as an array. So, once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade):
 
-`paginate` 메소드를 호출하면, 여러분은 `Illuminate\Pagination\LengthAwarePaginator` 인스턴스를 전달 받습니다. `simplePaginate` 메소드를 호출 할 때에는 `Illuminate\Pagination\Paginator`의 인스턴스를 전달 받습니다. 이러한 인스턴스들은 결과 셋을 나타내는 다양한 메소드를 제공합니다. 이러한 헬퍼 메소드를 제공하는 것 외에도 paginator 인스턴스는 iterators 이며 배열처럼 반복문에서 사용할 수 있습니다. 따라서 결과를 얻은 뒤에, 그 결과와 페이지 링크를 [Blade](/docs/{{version}}/blade)에서 사용할 수 있습니다:
+`paginate` 메소드를 호출하면, 여러분은 `Illuminate\Pagination\LengthAwarePaginator` 인스턴스를 전달 받습니다. `simplePaginate` 메소드를 호출 할 때에는 `Illuminate\Pagination\Paginator`의 인스턴스를 전달 받습니다. 이러한 인스턴스들은 결과 셋을 나타내는 다양한 메소드를 제공합니다. 이러한 헬퍼 메소드를 제공하는 것 외에도 paginator 인스턴스는 iterators 이며 배열처럼 반복문에서 사용할 수 있습니다. 따라서 결과를 얻은 뒤에, 그 결과와 페이지 링크를 [Blade](/docs/{{version}}/blade)에서 사용할 수 있습니다.
 
     <div class="container">
         @foreach ($users as $user)
@@ -146,7 +146,7 @@ The `links` method will render the links to the rest of the pages in the result 
 
 The `withPath` method allows you to customize the URI used by the paginator when generating links. For example, if you want the paginator to generate links like `http://example.com/custom/url?page=N`, you should pass `custom/url` to the `withPath` method:
 
-`withPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `withPath` 메소드 인자에 `custom/url` 을 전달해야 합니다:
+`withPath` 메소드는 paginator 가 링크를 생성할 때 사용자가 지정한 URI를 구성할 수 있게 해줍니다. 예를 들어 paginator 가 `http://example.com/custom/url?page=N`와 같은 링크를 생성하게 하려면 `withPath` 메소드 인자에 `custom/url` 을 전달해야 합니다.
 
     Route::get('users', function () {
         $users = App\User::paginate(15);
@@ -161,13 +161,13 @@ The `withPath` method allows you to customize the URI used by the paginator when
 
 You may append to the query string of pagination links using the `appends` method. For example, to append `sort=votes` to each pagination link, you should make the following call to `appends`:
 
-`appends` 메소드를 사용하면 페이지 링크에 쿼리 스트링을 추가할 수 있습니다. 예를 들어, 각각의 페이지 링크에 `&sort=votes`를 추가하려면, 다음과 같이 `appends` 를 호출해야 합니다:
+`appends` 메소드를 사용하면 페이지 링크에 쿼리 스트링을 추가할 수 있습니다. 예를 들어, 각각의 페이지 링크에 `&sort=votes`를 추가하려면, 다음과 같이 `appends` 를 호출해야 합니다.
 
     {{ $users->appends(['sort' => 'votes'])->links() }}
 
 If you wish to append a "hash fragment" to the paginator's URLs, you may use the `fragment` method. For example, to append `#foo` to the end of each pagination link, make the following call to the `fragment` method:
 
-만약 "hash fragment"를 페이지 번호의 링크에 추가하고 싶다면 `fragment` 메소드를 사용하면 됩니다. 예를 들어 각각의 페이지 링크에 `#foo`를 추가하고자 한다면, 다음과 같이 `fragment` 메소드를 호출하면 됩니다:
+만약 "hash fragment"를 페이지 번호의 링크에 추가하고 싶다면 `fragment` 메소드를 사용하면 됩니다. 예를 들어 각각의 페이지 링크에 `#foo`를 추가하고자 한다면, 다음과 같이 `fragment` 메소드를 호출하면 됩니다.
 
     {{ $users->fragment('foo')->links() }}
 
@@ -186,7 +186,7 @@ paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 
 
 The Laravel paginator result classes implement the `Illuminate\Contracts\Support\Jsonable` Interface contract and expose the `toJson` method, so it's very easy to convert your pagination results to JSON. You may also convert a paginator instance to JSON by returning it from a route or controller action:
 
-라라벨의 paginator 결과 클래스는 `Illuminate\Contracts\Support\Jsonable` 인터페이스 contract을 구현하고 `toJson` 메소드를 제공하고 있어서, pagination 결과를 JSON으로 아주 쉽게 변환할 수 있습니다. 또한 라우트나 컨트롤러 액션에서 paginator 인스턴스를 JSON으로 변환할 수도 있습니다:
+라라벨의 paginator 결과 클래스는 `Illuminate\Contracts\Support\Jsonable` 인터페이스 contract을 구현하고 `toJson` 메소드를 제공하고 있어서, pagination 결과를 JSON으로 아주 쉽게 변환할 수 있습니다. 또한 라우트나 컨트롤러 액션에서 paginator 인스턴스를 JSON으로 변환할 수도 있습니다.
 
     Route::get('users', function () {
         return App\User::paginate();
@@ -194,7 +194,7 @@ The Laravel paginator result classes implement the `Illuminate\Contracts\Support
 
 The JSON from the paginator will include meta information such as `total`, `current_page`, `last_page`, and more. The actual result objects will be available via the `data` key in the JSON array. Here is an example of the JSON created by returning a paginator instance from a route:
 
-paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 여러가지의 메타정보를 포함하고 있을 것입니다. 실제 결과 객체는 JSON 배열의 `data` 키를 통해서 사용이 가능합니다. 다음은 라우트에서 paginator 인스턴스를 반환하여 생성된 JSON 의 예제 입니다:
+paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 여러가지의 메타정보를 포함하고 있을 것입니다. 실제 결과 객체는 JSON 배열의 `data` 키를 통해서 사용이 가능합니다. 다음은 라우트에서 paginator 인스턴스를 반환하여 생성된 JSON 의 예제 입니다.
 
     {
        "total": 50,
@@ -224,7 +224,7 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 
 By default, the views rendered to display the pagination links are compatible with the Bootstrap CSS framework. However, if you are not using Bootstrap, you are free to define your own views to render these links. When calling the `links` method on a paginator instance, pass the view name as the first argument to the method:
 
-기본적으로 페이지네이션 링크를 출력하기 위해서 렌더링 하는 뷰파일들은 부트스트랩 CSS 프레임워크와 호환됩니다. 하지만 부트스트랩을 사용하지 않는다면, 이 링크들을 렌더링 하기 위한 고유한 뷰파일을 자유롭게  정의할 수 있습니다. 페이지네이터 인스턴스에서 `links` 메소드를 호출할 때, 메소드의 첫번째 인자로 뷰파일의 이름을 전달하면 됩니다:
+기본적으로 페이지네이션 링크를 출력하기 위해서 렌더링 하는 뷰파일들은 부트스트랩 CSS 프레임워크와 호환됩니다. 하지만 부트스트랩을 사용하지 않는다면, 이 링크들을 렌더링 하기 위한 고유한 뷰파일을 자유롭게  정의할 수 있습니다. 페이지네이터 인스턴스에서 `links` 메소드를 호출할 때, 메소드의 첫번째 인자로 뷰파일의 이름을 전달하면 됩니다.
 
     {{ $paginator->links('view.name') }}
 
@@ -233,7 +233,7 @@ By default, the views rendered to display the pagination links are compatible wi
 
 However, the easiest way to customize the pagination views is by exporting them to your `resources/views/vendor` directory using the `vendor:publish` command:
 
-하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령어를 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다:
+하지만 페이지네이션 뷰를 수정하는데 보다 손쉬운 방법은 뷰파일들을 `vendor:publish` 명령어를 사용하여 `resources/views/vendor` 디렉토리로 내보내는 것입니다.
 
     php artisan vendor:publish --tag=laravel-pagination
 
@@ -243,7 +243,7 @@ This command will place the views in the `resources/views/vendor/pagination` dir
 
 If you would like to designate a different file as the default pagination view, you may use the paginator's `defaultView` and `defaultSimpleView` methods within your `AppServiceProvider`:
 
-다른 파일을 기본 페이지네이션 뷰로 사용하고자 한다면, `AppServiceProvider` 파일안에서 페이지네이터의 `defaultView` 그리고 `defaultSimpleView`메소드를 사용하면 됩니다:
+다른 파일을 기본 페이지네이션 뷰로 사용하고자 한다면, `AppServiceProvider` 파일안에서 페이지네이터의 `defaultView` 그리고 `defaultSimpleView`메소드를 사용하면 됩니다.
 
     use Illuminate\Pagination\Paginator;
 
@@ -260,7 +260,7 @@ If you would like to designate a different file as the default pagination view, 
 
 Each paginator instance provides additional pagination information via the following methods:
 
-각각의 페이지네이터 인스턴스는 다음의 메소드를 통해서 추가적인 페이지네이션 정보를 제공합니다:
+각각의 페이지네이터 인스턴스는 다음의 메소드를 통해서 추가적인 페이지네이션 정보를 제공합니다.
 
 Method  |  Description
 -------  |  -----------

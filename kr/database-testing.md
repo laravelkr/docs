@@ -32,7 +32,7 @@
 
 Laravel provides a variety of helpful tools to make it easier to test your database driven applications. First, you may use the `assertDatabaseHas` helper to assert that data exists in the database matching a given set of criteria. For example, if you would like to verify that there is a record in the `users` table with the `email` value of `sally@example.com`, you can do the following:
 
-라라벨은 데이터베이스를 기반으로 하는 애플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `assertDatabaseHas` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다:
+라라벨은 데이터베이스를 기반으로 하는 애플리케이션을 손쉽게 테스트 할수 있도록 도와주는 다양한 툴을 제공합니다. 우선 `assertDatabaseHas` 헬퍼를 이용하여 데이터베이스 안에 특정 조건을 만족하는 데이터가 존재하는지 확인할 수 있습니다. 예를 들어, `users` 테이블에 `sally@example.com`의 `email` 값을 가진 레코드가 존재하는지 확인하기 위해 다음과 같이 할 수 있습니다.
 
     public function testDatabase()
     {
@@ -57,7 +57,7 @@ The `assertDatabaseHas` method and other helpers like it are for convenience. Yo
 
 To create a factory, use the `make:factory` [Artisan command](/docs/{{version}}/artisan):
 
-팩토리 클래스를 생성하기 위해서는 `make:factory` [아티즌 명령어](/docs/{{version}}/artisan)를 사용합니다:
+팩토리 클래스를 생성하기 위해서는 `make:factory` [아티즌 명령어](/docs/{{version}}/artisan)를 사용합니다.
 
     php artisan make:factory PostFactory
 
@@ -67,7 +67,7 @@ The new factory will be placed in your `database/factories` directory.
 
 The `--model` option may be used to indicate the name of the model created by the factory. This option will pre-fill the generated factory file with the given model:
 
-팩토리에 의해서 생성될 모델의 이름을 지정하고자 한다면 `--model` 옵션을 사용하면 됩니다. 이 옵션은 생성된 팩토리 파일을 주어진 모델로 미리 채워둡니다:
+팩토리에 의해서 생성될 모델의 이름을 지정하고자 한다면 `--model` 옵션을 사용하면 됩니다. 이 옵션은 생성된 팩토리 파일을 주어진 모델로 미리 채워둡니다.
 
     php artisan make:factory PostFactory --model=Post
 
@@ -77,7 +77,7 @@ The `--model` option may be used to indicate the name of the model created by th
 
 It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests. The `RefreshDatabase` trait takes the most optimal approach to migrating your test database depending on if you are using an in-memory database or a traditional database. Use the trait on your test class and everything will be handled for you:
 
-종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 막기 위해 각각의 테스트가 끝난 뒤에 데이터베이스를 재설정하는 것이 유용합니다. `RefreshDatabase` 트레이트-trait 은 전통적인 데이터베이스 또는 in-memory 데이터베이스를 사용하는 경우 여러분의 테스트 데이터베이스를 마이그레이션 하는데 가장 적합한 방법입니다. 테스트 클래스에 트레이트-trait를 사용하면 손쉽게 처리됩니다:
+종종 이전의 테스트를 위한 데이터가 다음에 이어지는 테스트들을 방해하는 것을 막기 위해 각각의 테스트가 끝난 뒤에 데이터베이스를 재설정하는 것이 유용합니다. `RefreshDatabase` 트레이트-trait 은 전통적인 데이터베이스 또는 in-memory 데이터베이스를 사용하는 경우 여러분의 테스트 데이터베이스를 마이그레이션 하는데 가장 적합한 방법입니다. 테스트 클래스에 트레이트-trait를 사용하면 손쉽게 처리됩니다.
 
     <?php
 
@@ -110,7 +110,7 @@ It is often useful to reset your database after each test so that data from a pr
 
 Another approach to resetting the database state is to wrap each test case in a database transaction. Again, Laravel provides a convenient `DatabaseTransactions` trait that will automatically handle this for you:
 
-데이터베이스를 재설정하는 다른 방법으로는 데이터베이스 트랜잭션으로 모든 테스트 케이스를 감싸는 것입니다. 이 때에도 라라벨은 편리하게 `DatabaseTransactions` 트레이트-trait을 제공하여 이것이 자동으로 처리되도록 합니다:
+데이터베이스를 재설정하는 다른 방법으로는 데이터베이스 트랜잭션으로 모든 테스트 케이스를 감싸는 것입니다. 이 때에도 라라벨은 편리하게 `DatabaseTransactions` 트레이트-trait을 제공하여 이것이 자동으로 처리되도록 합니다.
 
     <?php
 
@@ -177,7 +177,7 @@ You may also create additional factory files for each model for better organizat
 
 States allow you to define discrete modifications that can be applied to your model factories in any combination. For example, your `User` model might have a `delinquent` state that modifies one of its default attribute values. You may define your state transformations using the `state` method. For simple states, you may pass an array of attribute modifications:
 
-상태를 통하면, 모델 팩토리에서 적용 할 수 있는 개별 수정사항을 정의 할 수 있습니다. 예를 들어, `User` 모델이 기본 속성 값 중에 하나를 변경하는 `delinquent` 상태를 가지고 있다고 가정해보겠습니다. 여러분은 `state` 메소드를 사용하여 상태 변경을 정의할 수 있습니다. 간단한 상태를 정의한다면, 속성값들의 변경사항을 배열로 전달 할 수 있습니다:
+상태를 통하면, 모델 팩토리에서 적용 할 수 있는 개별 수정사항을 정의 할 수 있습니다. 예를 들어, `User` 모델이 기본 속성 값 중에 하나를 변경하는 `delinquent` 상태를 가지고 있다고 가정해보겠습니다. 여러분은 `state` 메소드를 사용하여 상태 변경을 정의할 수 있습니다. 간단한 상태를 정의한다면, 속성값들의 변경사항을 배열로 전달 할 수 있습니다.
 
     $factory->state(App\User::class, 'delinquent', [
         'account_status' => 'delinquent',
@@ -185,7 +185,7 @@ States allow you to define discrete modifications that can be applied to your mo
 
 If your state requires calculation or a `$faker` instance, you may use a Closure to calculate the state's attribute modifications:
 
-상태에 `$faker` 인스턴스가 필요한 경우라면, Closure를 사용하여 상태의 속성에 대한 변경사항을 지정할 수 있습니다:
+상태에 `$faker` 인스턴스가 필요한 경우라면, Closure를 사용하여 상태의 속성에 대한 변경사항을 지정할 수 있습니다.
 
     $factory->state(App\User::class, 'address', function ($faker) {
         return [
@@ -199,7 +199,7 @@ If your state requires calculation or a `$faker` instance, you may use a Closure
 
 Factory callbacks are registered using the `afterMaking` and `afterCreating` methods, and allow you to perform additional tasks after making or creating a model. For example, you may use callbacks to relate additional models to the created model:
 
-팩토리 콜백은 `afterMaking` 와 `afterCreating` 메소드를 사용하여 등록합니다. 이는 모델을 생성할 때나 생성된 다음에 추가적인 작업을 수행할 수 있게 해줍니다. 예를 들어 콜백을 사용하여 생성된 모델과, 추가 모델을 서로 연결할 수 있습니다:
+팩토리 콜백은 `afterMaking` 와 `afterCreating` 메소드를 사용하여 등록합니다. 이는 모델을 생성할 때나 생성된 다음에 추가적인 작업을 수행할 수 있게 해줍니다. 예를 들어 콜백을 사용하여 생성된 모델과, 추가 모델을 서로 연결할 수 있습니다.
 
     $factory->afterMaking(App\User::class, function ($user, $faker) {
         // ...
@@ -211,7 +211,7 @@ Factory callbacks are registered using the `afterMaking` and `afterCreating` met
 
 You may also define callbacks for [factory states](#factory-states):
 
-또한 [팩토리 상태](#factory-states)에 대한 콜백을 정의할 수도 있습니다:
+또한 [팩토리 상태](#factory-states)에 대한 콜백을 정의할 수도 있습니다.
 
     $factory->afterMakingState(App\User::class, 'delinquent', function ($user, $faker) {
         // ...
@@ -231,7 +231,7 @@ You may also define callbacks for [factory states](#factory-states):
 
 Once you have defined your factories, you may use the global `factory` function in your tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the `make` method to create models but not save them to the database:
 
-팩토리를 정의한 뒤에는, 테스트파일 에서나 모델 인스턴스를 생성하기 위한 시드 파일안에서 글로벌 `factory` 함수를 사용할 수 있습니다. 그럼 모델들을 생성하는 몇몇의 예제를 살펴보겠습니다. 우선 모델을 생성하지만 데이터베이스에 저장하지는 않는, `make` 메소드를 사용할 것입니다:
+팩토리를 정의한 뒤에는, 테스트파일 에서나 모델 인스턴스를 생성하기 위한 시드 파일안에서 글로벌 `factory` 함수를 사용할 수 있습니다. 그럼 모델들을 생성하는 몇몇의 예제를 살펴보겠습니다. 우선 모델을 생성하지만 데이터베이스에 저장하지는 않는, `make` 메소드를 사용할 것입니다.
 
     public function testDatabase()
     {
@@ -242,7 +242,7 @@ Once you have defined your factories, you may use the global `factory` function 
 
 You may also create a Collection of many models or create models of a given type:
 
-또한 여러 모델의 컬렉션을 생성하거나 주어진 타입의 모델을 생성할 수도 있습니다:
+또한 여러 모델의 컬렉션을 생성하거나 주어진 타입의 모델을 생성할 수도 있습니다.
 
     // Create three App\User instances...
     $users = factory(App\User::class, 3)->make();
@@ -252,7 +252,7 @@ You may also create a Collection of many models or create models of a given type
 
 You may also apply any of your [states](#factory-states) to the models. If you would like to apply multiple state transformations to the models, you should specify the name of each state you would like to apply:
 
-어떤 모델이라도 [팩토리 상태(states)](#factory-states)를 적용할 수 있습니다. 모델에 여러개의 팩토리 상태(state) 변경을 지정하고자 한다면, 다음과 같이 각각의 팩토리 상태(state)들의 이름을 지정하면 됩니다:
+어떤 모델이라도 [팩토리 상태(states)](#factory-states)를 적용할 수 있습니다. 모델에 여러개의 팩토리 상태(state) 변경을 지정하고자 한다면, 다음과 같이 각각의 팩토리 상태(state)들의 이름을 지정하면 됩니다.
 
     $users = factory(App\User::class, 5)->states('delinquent')->make();
 
@@ -277,7 +277,7 @@ If you would like to override some of the default values of your models, you may
 
 The `create` method not only creates the model instances but also saves them to the database using Eloquent's `save` method:
 
-`create` 메소드는 모델 인스턴스를 단지 생성하기만 하기 때문에 데이터베이스에 저장하려면, Eloquent의 `save` 메소드를 사용하면 됩니다:
+`create` 메소드는 모델 인스턴스를 단지 생성하기만 하기 때문에 데이터베이스에 저장하려면, Eloquent의 `save` 메소드를 사용하면 됩니다.
 
     public function testDatabase()
     {
@@ -292,7 +292,7 @@ The `create` method not only creates the model instances but also saves them to 
 
 You may override attributes on the model by passing an array to the `create` method:
 
-`create` 메소드에 배열을 전달하여 모델의 속성들을 재지정 할 수 있습니다:
+`create` 메소드에 배열을 전달하여 모델의 속성들을 재지정 할 수 있습니다.
 
     $user = factory(App\User::class)->create([
         'name' => 'Abigail',
@@ -304,7 +304,7 @@ You may override attributes on the model by passing an array to the `create` met
 
 In this example, we'll attach a relation to some created models. When using the `create` method to create multiple models, an Eloquent [collection instance](/docs/{{version}}/eloquent-collections) is returned, allowing you to use any of the convenient functions provided by the collection, such as `each`:
 
-이 예제에서는, 생성된 몇몇의 모델에 관계를 추가할 것입니다. 여러 모델을 생성하기 위해서 `create` 메소드를 사용할 때 Eloquent [컬렉션 인스턴스](/docs/{{version}}/eloquent-collections)가 반환되어 `each`와 같이 컬렉션이 제공하는 편리한 함수들을 이용할 수 있도록 해줍니다:
+이 예제에서는, 생성된 몇몇의 모델에 관계를 추가할 것입니다. 여러 모델을 생성하기 위해서 `create` 메소드를 사용할 때 Eloquent [컬렉션 인스턴스](/docs/{{version}}/eloquent-collections)가 반환되어 `each`와 같이 컬렉션이 제공하는 편리한 함수들을 이용할 수 있도록 해줍니다.
 
     $users = factory(App\User::class, 3)
                ->create()
@@ -323,7 +323,7 @@ You may use the `createMany` method to create multiple related models:
 
 You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
 
-팩토리 정의안에서 클로저를 속성으로 사용하여 모델에 관계를 추가할 수도 있습니다. 예를 들어 `Post` 가 생성될 때 `User` 인스턴스를 생성하고자 한다면, 다음처럼 하면 됩니다:
+팩토리 정의안에서 클로저를 속성으로 사용하여 모델에 관계를 추가할 수도 있습니다. 예를 들어 `Post` 가 생성될 때 `User` 인스턴스를 생성하고자 한다면, 다음처럼 하면 됩니다.
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -337,7 +337,7 @@ You may also attach relationships to models using Closure attributes in your fac
 
 These Closures also receive the evaluated attribute array of the factory that defines them:
 
-이 클로저는 그것들을 정의하는 팩토리의 계산된 속성 배열을 받을 수도 있습니다:
+이 클로저는 그것들을 정의하는 팩토리의 계산된 속성 배열을 받을 수도 있습니다.
 
     $factory->define(App\Post::class, function ($faker) {
         return [
@@ -396,7 +396,7 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
 
 Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) tests:
 
-라라벨은 [PHPUnit](https://phpunit.de/) 테스트에서 사용가능한 데이터데이스 assertion을 제공합니다:
+라라벨은 [PHPUnit](https://phpunit.de/) 테스트에서 사용가능한 데이터데이스 assertion을 제공합니다.
 
 Method  | Description
 ------------- | -------------

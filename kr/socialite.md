@@ -113,7 +113,7 @@ The `redirect` method takes care of sending the user to the OAuth provider, whil
 
 You will need to define routes to your controller methods:
 
-다음처럼 컨트롤러 메소드를 위한 라우를 정의해야 합니다:
+다음처럼 컨트롤러 메소드를 위한 라우를 정의해야 합니다.
 
     Route::get('login/github', 'Auth\LoginController@redirectToProvider');
     Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
@@ -124,7 +124,7 @@ You will need to define routes to your controller methods:
 
 A number of OAuth providers support optional parameters in the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
 
-몇몇 OAuth 프로바이더는 리다이렉트 요청에서 옵션 파라미터를 지원합니다. request에 옵션 파라미터를 포함하도록 하려면, 연관된 값을 배열로 `with` 메소드와 함께 호출하면 됩니다:
+몇몇 OAuth 프로바이더는 리다이렉트 요청에서 옵션 파라미터를 지원합니다. request에 옵션 파라미터를 포함하도록 하려면, 연관된 값을 배열로 `with` 메소드와 함께 호출하면 됩니다.
 
     return Socialite::driver('google')
         ->with(['hd' => 'example.com'])
@@ -140,7 +140,7 @@ A number of OAuth providers support optional parameters in the redirect request.
 
 Before redirecting the user, you may also add additional "scopes" on the request using the `scopes` method. This method will merge all existing scopes with the ones you supply:
 
-사용자를 리다이렉팅하기 전에, `scopes` 메소드를 사용하여 request 에 "스코프"를 추가할 수 있습니다. 이 메소드는 기존에 존재하는 모든 스코프를 사용자가 제공하는 스코프와 머지(merge)합니다:
+사용자를 리다이렉팅하기 전에, `scopes` 메소드를 사용하여 request 에 "스코프"를 추가할 수 있습니다. 이 메소드는 기존에 존재하는 모든 스코프를 사용자가 제공하는 스코프와 머지(merge)합니다.
 
     return Socialite::driver('github')
         ->scopes(['read:user', 'public_repo'])
@@ -148,7 +148,7 @@ Before redirecting the user, you may also add additional "scopes" on the request
 
 You can overwrite all existing scopes using the `setScopes` method:
 
-`setScopes` 메소드를 사용하면 기존에 존재하는 모든 스코프를 덮어 쓸 수 있습니다:
+`setScopes` 메소드를 사용하면 기존에 존재하는 모든 스코프를 덮어 쓸 수 있습니다.
 
     return Socialite::driver('github')
         ->setScopes(['read:user', 'public_repo'])
@@ -160,7 +160,7 @@ You can overwrite all existing scopes using the `setScopes` method:
 
 The `stateless` method may be used to disable session state verification. This is useful when adding social authentication to an API:
 
-`stateless` 메소드는 세션의 상태를 확인하지 않게 하도록 하기 위해 사용될 수 있습니다. 이는 소셜 로그인을 API에 추가할 때 유용합니다:
+`stateless` 메소드는 세션의 상태를 확인하지 않게 하도록 하기 위해 사용될 수 있습니다. 이는 소셜 로그인을 API에 추가할 때 유용합니다.
 
     return Socialite::driver('google')->stateless()->user();
 
@@ -170,7 +170,7 @@ The `stateless` method may be used to disable session state verification. This i
 
 Once you have a user instance, you can grab a few more details about the user:
 
-사용자 인스턴스를 획득하고 나면, 여기에서 몇가지 상세 정보를 획득할 수 있습니다:
+사용자 인스턴스를 획득하고 나면, 여기에서 몇가지 상세 정보를 획득할 수 있습니다.
 
     $user = Socialite::driver('github')->user();
 
@@ -195,7 +195,7 @@ Once you have a user instance, you can grab a few more details about the user:
 
 If you already have a valid access token for a user, you can retrieve their details using the `userFromToken` method:
 
-사용자에 대한 유요한 엑세스 토큰을 가지고 있는 경우 `userFromToken` 메소드를 사용하여 상세 정보를 조회할 수 있습니다:
+사용자에 대한 유요한 엑세스 토큰을 가지고 있는 경우 `userFromToken` 메소드를 사용하여 상세 정보를 조회할 수 있습니다.
 
     $user = Socialite::driver('github')->userFromToken($token);
 
@@ -204,6 +204,6 @@ If you already have a valid access token for a user, you can retrieve their deta
 
 If you already have a valid pair of token / secret for a user, you can retrieve their details using the `userFromTokenAndSecret` method:
 
-사용자의 유효한 토큰과 비밀번호를 가지고 있다면, `userFromTokenAndSecret` 메소드를 사용하여 사용자 정보를 조회할 수 있습니다:
+사용자의 유효한 토큰과 비밀번호를 가지고 있다면, `userFromTokenAndSecret` 메소드를 사용하여 사용자 정보를 조회할 수 있습니다.
 
     $user = Socialite::driver('twitter')->userFromTokenAndSecret($token, $secret);

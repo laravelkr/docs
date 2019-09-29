@@ -311,7 +311,7 @@ In addition to reading and writing files, Laravel can also provide information a
 
 The `lastModified` method returns the UNIX timestamp of the last time the file was modified:
 
-`lastModified` 메소드는 마지막에 파일이 업데이트되었을 때의 UNIX 타임 스탬프값을 반환합니다:
+`lastModified` 메소드는 마지막에 파일이 업데이트되었을 때의 UNIX 타임 스탬프값을 반환합니다.
 
     $time = Storage::lastModified('file.jpg');
 
@@ -470,7 +470,7 @@ You can set the visibility when setting the file via the `put` method:
 
 If the file has already been stored, its visibility can be retrieved and set via the `getVisibility` and `setVisibility` methods:
 
-만약 파일이 이미 저장되어 있다면, 이 파일의 visibility 는 `getVisibility` 와 `setVisibility`를 통해서 조회하고 설정할 수 있습니다:
+만약 파일이 이미 저장되어 있다면, 이 파일의 visibility 는 `getVisibility` 와 `setVisibility`를 통해서 조회하고 설정할 수 있습니다.
 
     $visibility = Storage::getVisibility('file.jpg');
 

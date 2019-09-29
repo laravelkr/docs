@@ -43,7 +43,7 @@ Once the `laravel/ui` package has been installed, you may install the frontend s
 
 [Laravel Mix](/docs/{{version}}/mix) provides a clean, expressive API over compiling SASS or Less, which are extensions of plain CSS that add variables, mixins, and other powerful features that make working with CSS much more enjoyable. In this document, we will briefly discuss CSS compilation in general; however, you should consult the full [Laravel Mix documentation](/docs/{{version}}/mix) for more information on compiling SASS or Less.
 
-[라라벨 Mix](/docs/{{version}}/mix)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Mix 문서](/docs/{{version}}/mix)에서 확인할 수 있습니다:
+[라라벨 Mix](/docs/{{version}}/mix)는 순수 CSS에 변수를 추가하고 mixin 그리고 다른 강력한 기능을 추가하여 CSS를 보다 즐겁게 만들 수 있는 SASS 나 Less 를 컴파일 하는 깔끔하고, 풍부한 표현이 가능한 API를 제공합니다. 이 문서에서 CSS 컴파일 전반에 대해서 간단하게 다룰 것입니다; 하지만 SASS 나 Less 를 컴파일하는데에 대한 보다 자세한 내용을 [라라벨 Mix 문서](/docs/{{version}}/mix)에서 확인할 수 있습니다.
 
 #### JavaScript
 #### 자바스크립트
@@ -77,7 +77,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
 Once the dependencies have been installed using `npm install`, you can compile your SASS files to plain CSS using [Laravel Mix](/docs/{{version}}/mix#working-with-stylesheets). The `npm run dev` command will process the instructions in your `webpack.mix.js` file. Typically, your compiled CSS will be placed in the `public/css` directory:
 
-`npm install` 을 사용하여 의존성을 설치하고 나면, [라라벨 Mix](/docs/{{version}}/mix#working-with-stylesheets)를 사용하여 SASS 파일을 순수 CSS 로 컴파일 할 수 있습니다. `npm run dev` 명령어는 `webpack.mix.js` 파일 안에 있는 명령들을 처리할 것입니다. 일반적으로 컴파일된 CSS 파일은 `public/css` 디렉토리에 위치할 것입니다:
+`npm install` 을 사용하여 의존성을 설치하고 나면, [라라벨 Mix](/docs/{{version}}/mix#working-with-stylesheets)를 사용하여 SASS 파일을 순수 CSS 로 컴파일 할 수 있습니다. `npm run dev` 명령어는 `webpack.mix.js` 파일 안에 있는 명령들을 처리할 것입니다. 일반적으로 컴파일된 CSS 파일은 `public/css` 디렉토리에 위치할 것입니다.
 
     npm run dev
 
@@ -91,7 +91,7 @@ The default `webpack.mix.js` included with Laravel will compile the `resources/s
 
 All of the JavaScript dependencies required by your application can be found in the `package.json` file in the project's root directory. This file is similar to a `composer.json` file except it specifies JavaScript dependencies instead of PHP dependencies. You can install these dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
 
-애플리케이션에 필요한 모든 자바스크립트 의존성들은 프로젝트 루트 디렉토리 안에 있는 `package.json` 파일 안에서 찾을 수 있습니다. 이 파일은 PHP 의존성 대신 자바스크립트 의존성이 지정되어 있다는 점을 제외하면 `composer.json` 파일과 비슷합니다. [Node 패키지 매니저 (NPM)](https://www.npmjs.org)을 사용하여 이 의존성들을 설치할 수 있습니다:
+애플리케이션에 필요한 모든 자바스크립트 의존성들은 프로젝트 루트 디렉토리 안에 있는 `package.json` 파일 안에서 찾을 수 있습니다. 이 파일은 PHP 의존성 대신 자바스크립트 의존성이 지정되어 있다는 점을 제외하면 `composer.json` 파일과 비슷합니다. [Node 패키지 매니저 (NPM)](https://www.npmjs.org)을 사용하여 이 의존성들을 설치할 수 있습니다.
 
     npm install
 
@@ -101,7 +101,7 @@ All of the JavaScript dependencies required by your application can be found in 
 
 Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
 
-패키지들이 설치되고 나면, `npm run dev` 명령어를 사용하여 [asset 을 컴파일](/docs/{{version}}/mix) 할 수 있습니다. Webpack은 현대적인 자바스크립트 애플리케이션을 위한 모듈 번들러 입니다. `npm run dev` 명령어를 실행하면, Webpack 는 `webpack.mix.js` 파일안에 있는 명령어들을 실행할 것입니다:
+패키지들이 설치되고 나면, `npm run dev` 명령어를 사용하여 [asset 을 컴파일](/docs/{{version}}/mix) 할 수 있습니다. Webpack은 현대적인 자바스크립트 애플리케이션을 위한 모듈 번들러 입니다. `npm run dev` 명령어를 실행하면, Webpack 는 `webpack.mix.js` 파일안에 있는 명령어들을 실행할 것입니다.
 
     npm run dev
 
@@ -119,7 +119,7 @@ By default, the Laravel `webpack.mix.js` file compiles your SASS and the `resour
 
 By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue component located in the `resources/js/components` directory. The `ExampleComponent.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
 
-기본적으로 새로 설치한 라라벨 애플리케이션은 `resources/js/components` 디렉토리에 `ExampleComponent.vue` 뷰 컴포넌트를 포함하고 있습니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다:
+기본적으로 새로 설치한 라라벨 애플리케이션은 `resources/js/components` 디렉토리에 `ExampleComponent.vue` 뷰 컴포넌트를 포함하고 있습니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다.
 
     Vue.component(
         'example-component',
@@ -128,7 +128,7 @@ By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue com
 
 To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
 
-애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플린 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다:
+애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플린 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
 
     @extends('layouts.app')
 
@@ -150,7 +150,7 @@ Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워
 
 If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding. On any fresh Laravel application, you may use the `preset` command with the `react` option:
 
-자바스크립트 애플리케이션을 구성하는데 React를 선호한다면, 라라벨에서는 Vue 스캐폴딩을 React 스캐폴딩으로 바꾸는 것이 아주 쉽습니다. 새롭게 라라벨 애플리케이션을 설치했다면, `preset` 명령어에 `react` 옵션을 지정하여 사용할 수 있습니다:
+자바스크립트 애플리케이션을 구성하는데 React를 선호한다면, 라라벨에서는 Vue 스캐폴딩을 React 스캐폴딩으로 바꾸는 것이 아주 쉽습니다. 새롭게 라라벨 애플리케이션을 설치했다면, `preset` 명령어에 `react` 옵션을 지정하여 사용할 수 있습니다.
 
     php artisan preset react
 

@@ -57,7 +57,7 @@ Since global Composer libraries can sometimes cause package version conflicts, y
 
 You may also use Composer to keep your Envoy installation up to date. Issuing the `composer global update` command will update all of your globally installed Composer packages:
 
-설치 한 Envoy를 업데이트 할 때도 Composer를 사용합니다. `composer global update` 명령어는 설치된 글로벌 Composer 패키지를 업데이트 할 것입니다:
+설치 한 Envoy를 업데이트 할 때도 Composer를 사용합니다. `composer global update` 명령어는 설치된 글로벌 Composer 패키지를 업데이트 할 것입니다.
 
     composer global update
 
@@ -81,7 +81,7 @@ As you can see, an array of `@servers` is defined at the top of the file, allowi
 
 You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
 
-로컬에서 실행될 스크립트는 서버의 IP 주소를 `127.0.0.1` 로 지정할 수 있습니다:
+로컬에서 실행될 스크립트는 서버의 IP 주소를 `127.0.0.1` 로 지정할 수 있습니다.
 
     @servers(['localhost' => '127.0.0.1'])
 
@@ -91,7 +91,7 @@ You can force a script to run locally by specifying the server's IP address as `
 
 Sometimes, you may need to execute some PHP code before executing your Envoy tasks. You may use the `@setup` directive to declare variables and do other general PHP work before any of your other tasks are executed:
 
-때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 `@setup` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다:
+때로는 Envoy 작업이 실행되기 전에 어떤 PHP 코드를 실행시켜야 될 필요가 있을 수 있습니다. 이 경우 다른 작업들이 실해되기 전에 `@setup` 지시어를 통해서 변수를 선언하고 다른 일반적인 PHP 작업을 실행할 수 있습니다.
 
     @setup
         $now = new DateTime();
@@ -101,7 +101,7 @@ Sometimes, you may need to execute some PHP code before executing your Envoy tas
 
 If you need to require other PHP files before your task is executed, you may use the `@include` directive at the top of your `Envoy.blade.php` file:
 
-만약 작업이 실행되기 전에 다른 PHP 파일을 포함시켜야할 필요가 있다면, `Envoy.blade.php` 파일의 상단에 `@include` 지시어를 사용할 수 있습니다:
+만약 작업이 실행되기 전에 다른 PHP 파일을 포함시켜야할 필요가 있다면, `Envoy.blade.php` 파일의 상단에 `@include` 지시어를 사용할 수 있습니다.
 
     @include('vendor/autoload.php')
 
@@ -115,13 +115,13 @@ If you need to require other PHP files before your task is executed, you may use
 
 If needed, you may pass option values into Envoy tasks using the command line:
 
-필요한 경우 커맨드라인을 사용하여 Envoy 작업에 옵션 값을 전달할 수 있습니다:
+필요한 경우 커맨드라인을 사용하여 Envoy 작업에 옵션 값을 전달할 수 있습니다.
 
     envoy run deploy --branch=master
 
 You may access the options in your tasks via Blade's "echo" syntax. You may also use `if` statements and loops within your tasks. For example, let's verify the presence of the `$branch` variable before executing the `git pull` command:
 
-블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다:
+블래이드의 "echo" 문법을 통해서 작업의 옵션에 엑세스가 가능합니다. 작업의 반복문 안에서 `if` 구문을 사용할 수도 있습니다. 예를 들어 `git pull` 명령을 실행하기 전에 `$branch` 변수가 존재하는지 확인해 보겠습니다.
 
     @servers(['web' => '192.168.1.1'])
 
@@ -141,7 +141,7 @@ You may access the options in your tasks via Blade's "echo" syntax. You may also
 
 Stories group a set of tasks under a single, convenient name, allowing you to group small, focused tasks into large tasks. For instance, a `deploy` story may run the `git` and `composer` tasks by listing the task names within its definition:
 
-스토리는 하나의 편리한 이름으로 그룹을 묶어 작고 개별적인 작업들을 큰 작업을 구성합니다. 하나의 예제로, `deploy` 스토리는 그 정의 안에서 작업의 이름들을 나열함으로써 `git` 과 `composer` 작업들을 실행할 수 있습니다:
+스토리는 하나의 편리한 이름으로 그룹을 묶어 작고 개별적인 작업들을 큰 작업을 구성합니다. 하나의 예제로, `deploy` 스토리는 그 정의 안에서 작업의 이름들을 나열함으로써 `git` 과 `composer` 작업들을 실행할 수 있습니다.
 
     @servers(['web' => '192.168.1.1'])
 
@@ -160,7 +160,7 @@ Stories group a set of tasks under a single, convenient name, allowing you to gr
 
 Once the story has been written, you may run it just like a typical task:
 
-스토리가 작성되고 나면, 일반적인 작업처럼 실행할 수 있습니다:
+스토리가 작성되고 나면, 일반적인 작업처럼 실행할 수 있습니다.
 
     envoy run deploy
 
@@ -170,7 +170,7 @@ Once the story has been written, you may run it just like a typical task:
 
 Envoy allows you to easily run a task across multiple servers. First, add additional servers to your `@servers` declaration. Each server should be assigned a unique name. Once you have defined your additional servers, list each of the servers in the task's `on` array:
 
-Envoy 는 여러분이 여러대의 서버에 서 손쉽게 작업이 실행할 수 있게 해줍니다. 먼저 `@servers` 선언부분에 추가 서버를 더합니다. 각각의 서버는 고유한 이름을 가져야 합니다. 추가적인 서버들을 정의하고 나면, 작업의 `on` 배열안에서 각각의 서버들을 나열하면 됩니다:
+Envoy 는 여러분이 여러대의 서버에 서 손쉽게 작업이 실행할 수 있게 해줍니다. 먼저 `@servers` 선언부분에 추가 서버를 더합니다. 각각의 서버는 고유한 이름을 가져야 합니다. 추가적인 서버들을 정의하고 나면, 작업의 `on` 배열안에서 각각의 서버들을 나열하면 됩니다.
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -185,7 +185,7 @@ Envoy 는 여러분이 여러대의 서버에 서 손쉽게 작업이 실행할 
 
 By default, tasks will be executed on each server serially. In other words, a task will finish running on the first server before proceeding to execute on the second server. If you would like to run a task across multiple servers in parallel, add the `parallel` option to your task declaration:
 
-기본적으로, 작업들은 각각의 서버에서 순차적으로 실행될 것입니다. 다시말해 첫번째 서버에서 하나의 작업이 실행을 마치면, 두번째 서버에서 실행이 됩니다. 만약 여러대의 서버에서 작업들을 병렬로 실행되게 하려면 작업 선언 부분에 `parallel` 옵션을 추가하면 됩니다:
+기본적으로, 작업들은 각각의 서버에서 순차적으로 실행될 것입니다. 다시말해 첫번째 서버에서 하나의 작업이 실행을 마치면, 두번째 서버에서 실행이 됩니다. 만약 여러대의 서버에서 작업들을 병렬로 실행되게 하려면 작업 선언 부분에 `parallel` 옵션을 추가하면 됩니다.
 
     @servers(['web-1' => '192.168.1.1', 'web-2' => '192.168.1.2'])
 
@@ -201,7 +201,7 @@ By default, tasks will be executed on each server serially. In other words, a ta
 
 To run a task or story that is defined in your `Envoy.blade.php` file, execute Envoy's `run` command, passing the name of the task or story you would like to execute. Envoy will run the task and display the output from the servers as the task is running:
 
-`Envoy.blade.php` 파일에 정의되어 있는 작업이나 스토리를 실행하려면 실행하고자 하는 작업 또는 스토리의 이름을 Envoy의 `run` 명령어를 전달하여 실행하면 됩니다. Envoy 는 작업을 실행하고 작업이 실행된 서버에서 그 결과를 표시할 것입니다:
+`Envoy.blade.php` 파일에 정의되어 있는 작업이나 스토리를 실행하려면 실행하고자 하는 작업 또는 스토리의 이름을 Envoy의 `run` 명령어를 전달하여 실행하면 됩니다. Envoy 는 작업을 실행하고 작업이 실행된 서버에서 그 결과를 표시할 것입니다.
 
     envoy run deploy
 
@@ -211,7 +211,7 @@ To run a task or story that is defined in your `Envoy.blade.php` file, execute E
 
 If you would like to be prompted for confirmation before running a given task on your servers, you should add the `confirm` directive to your task declaration. This option is particularly useful for destructive operations:
 
-서버에 특정 작업을 실행하기 전에 확인 메시지를 추가하고 싶은 경우에는, 작업 실행 부분에 `confirm` 지시어를 사용할 수 있습니다. 이 옵션은 위험한 작업을 할 경우에 특히 유용합니다:
+서버에 특정 작업을 실행하기 전에 확인 메시지를 추가하고 싶은 경우에는, 작업 실행 부분에 `confirm` 지시어를 사용할 수 있습니다. 이 옵션은 위험한 작업을 할 경우에 특히 유용합니다.
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site
@@ -230,7 +230,7 @@ If you would like to be prompted for confirmation before running a given task on
 
 Envoy also supports sending notifications to [Slack](https://slack.com) after each task is executed. The `@slack` directive accepts a Slack hook URL and a channel name. You may retrieve your webhook URL by creating an "Incoming WebHooks" integration in your Slack control panel. You should pass the entire webhook URL into the `@slack` directive:
 
-Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com)을 통해서 알림을 보내는 작업을 지원합니다. `@slack` 지시어는 슬랙 Hook URL 과 채널 이름을 인자로 받습니다. Slack 의 설정 패널의 `Incoming WebHooks` 통합 페이지에서 후킹 URL을 생성하여 찾을 수 있습니다. 여러분은 전체 웹훅 URL 을 `@slack` 지시어에 전달하면 됩니다:
+Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com)을 통해서 알림을 보내는 작업을 지원합니다. `@slack` 지시어는 슬랙 Hook URL 과 채널 이름을 인자로 받습니다. Slack 의 설정 패널의 `Incoming WebHooks` 통합 페이지에서 후킹 URL을 생성하여 찾을 수 있습니다. 여러분은 전체 웹훅 URL 을 `@slack` 지시어에 전달하면 됩니다.
 
     @finished
         @slack('webhook-url', '#bots')
@@ -238,7 +238,7 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com
 
 You may provide one of the following as the channel argument:
 
-채널 인자는 다음 중 하나를 지정할 수 있습니다:
+채널 인자는 다음 중 하나를 지정할 수 있습니다.
 
 
 - To send the notification to a channel: `#channel`
@@ -256,7 +256,7 @@ You may provide one of the following as the channel argument:
 
 Envoy also supports sending notifications to [Discord](https://discord.com) after each task is executed. The `@discord` directive accepts a Discord hook URL and a message. You may retrieve your webhook URL by creating a "Webhook" in your Server Settings and choosing which channel the webhook should post to. You should pass the entire Webhook URL into the `@discord` directive:
 
-Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다:
+Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다.
 
     @finished
         @discord('discord-webhook-url')

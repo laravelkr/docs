@@ -121,7 +121,7 @@ The `Illuminate\Contracts\Cache\Factory` and `Illuminate\Contracts\Cache\Reposit
 
 However, you may also use the `Cache` facade, which is what we will use throughout this documentation. The `Cache` facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts:
 
-하지만 언제라도 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다:
+하지만 언제라도 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다.
 
     <?php
 
@@ -181,7 +181,7 @@ You may even pass a `Closure` as the default value. The result of the `Closure` 
 
 The `has` method may be used to determine if an item exists in the cache. This method will return `false` if the value is `null`:
 
-`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 만약 값이 `null` 인 경우 이 메소드는 `false`를 반환합니다:
+`has` 메소드는 캐시에 아이템이 존재하는지 확인하는데 사용됩니다. 만약 값이 `null` 인 경우 이 메소드는 `false`를 반환합니다.
 
     if (Cache::has('key')) {
         //
@@ -216,7 +216,7 @@ If the item does not exist in the cache, the `Closure` passed to the `remember` 
 
 You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
 
-어떤 아이템을 조회하고 이를 영원히 기억하도록 `rememberForever` 메소드를 사용할 수 있습니다:
+어떤 아이템을 조회하고 이를 영원히 기억하도록 `rememberForever` 메소드를 사용할 수 있습니다.
 
     $value = Cache::rememberForever('users', function () {
         return DB::table('users')->get();
@@ -281,7 +281,7 @@ The `forever` method may be used to store an item in the cache permanently. Sinc
 
 You may remove items from the cache using the `forget` method:
 
-`forget` 메소드를 사용하여 캐시에서 아이템을 삭제할 수 있습니다:
+`forget` 메소드를 사용하여 캐시에서 아이템을 삭제할 수 있습니다.
 
     Cache::forget('key');
 
@@ -386,12 +386,12 @@ If you would like to release a lock without respecting its current owner, you ma
 
 In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
 
-`Cache` 파사드나 [캐시 contract](/docs/{{version}}/contracts)를 사용하는것에 더하여, 글로벌 `cache` 함수를 사용하여 캐시에서 데이터를 조회하거나 저장할 수 있습니다. `cache` 함수에 인자가 하나의 문자열일 때는, 주어진 키에 대한 값을 반환합니다:
+`Cache` 파사드나 [캐시 contract](/docs/{{version}}/contracts)를 사용하는것에 더하여, 글로벌 `cache` 함수를 사용하여 캐시에서 데이터를 조회하거나 저장할 수 있습니다. `cache` 함수에 인자가 하나의 문자열일 때는, 주어진 키에 대한 값을 반환합니다.
     $value = cache('key');
 
 If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
 
-키와 값으로된 배열과 유효시간을 함수에 전달하면, 지정된 기간동안 캐시에 값을 저장하고 있습니다:
+키와 값으로된 배열과 유효시간을 함수에 전달하면, 지정된 기간동안 캐시에 값을 저장하고 있습니다.
 
     cache(['key' => 'value'], $seconds);
 
@@ -447,13 +447,13 @@ To retrieve a tagged cache item, pass the same ordered list of tags to the `tags
 
 You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
 
-태그 또는 태그 목록이 지정된 아이템을 모두 지울 수 있습니다. 예를 들어 다음 코드는 `people` 또는 `authors` 또는 둘 모두에 태그가 지정된 모든 캐시된 항목이 삭제됩니다. 그러므로 "Anne"과 "John" 두 아이템은 캐시에서 제거됩니다:
+태그 또는 태그 목록이 지정된 아이템을 모두 지울 수 있습니다. 예를 들어 다음 코드는 `people` 또는 `authors` 또는 둘 모두에 태그가 지정된 모든 캐시된 항목이 삭제됩니다. 그러므로 "Anne"과 "John" 두 아이템은 캐시에서 제거됩니다.
 
     Cache::tags(['people', 'authors'])->flush();
 
 In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
 
-한편, 다음 코드에서는 `authors` 태그된 캐시만 삭제되기 때문에 `Anne`은 삭제되지만 `John`는 남아 있습니다:
+한편, 다음 코드에서는 `authors` 태그된 캐시만 삭제되기 때문에 `Anne`은 삭제되지만 `John`는 남아 있습니다.
 
     Cache::tags('authors')->flush();
 

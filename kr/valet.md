@@ -46,7 +46,7 @@ In other words, a blazing fast Laravel development environment that uses roughly
 
 Out of the box, Valet support includes, but is not limited to:
 
-별다른 설정 없이도, 발렛은 다음을 지원하지만, 이게 전부는 아닙니다:
+별다른 설정 없이도, 발렛은 다음을 지원하지만, 이게 전부는 아닙니다.
 
 
 - [Laravel](https://laravel.com)
@@ -167,20 +167,20 @@ You may update your Valet installation using the `composer global update` comman
 
 Valet 2.0 transitions Valet's underlying web server from Caddy to Nginx. Before upgrading to this version you should run the following commands to stop and uninstall the existing Caddy daemon:
 
-발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다:
+발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다.
 
     valet stop
     valet uninstall
 
 Next, you should upgrade to the latest version of Valet. Depending on how you installed Valet, this is typically done through Git or Composer. If you installed Valet via Composer, you should use the following command to update to the latest major version:
 
-그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 컴포저를 통해서 발렛을 설치했다면, 최신버전을 설치하기 위해서 다음 명령어를 사용해야합니다:
+그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 컴포저를 통해서 발렛을 설치했다면, 최신버전을 설치하기 위해서 다음 명령어를 사용해야합니다.
 
     composer global require laravel/valet
 
 Once the fresh Valet source code has been downloaded, you should run the `install` command:
 
-일단 새로운 발렛 소스 코드가 다운로드 되고나서,`install` 명령을 실행해야합니다:
+일단 새로운 발렛 소스 코드가 다운로드 되고나서,`install` 명령을 실행해야합니다.
 
     valet install
     valet restart
@@ -195,7 +195,7 @@ After upgrading, it may be necessary to re-park or re-link your sites.
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
 
-발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다:
+발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다.
 
 <a name="the-park-command"></a>
 **The `park` Command**
@@ -209,7 +209,7 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
-- 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다: `laravel new blog`.
+- 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다. `laravel new blog`.
 - 브라우저에서 `http://blog.test` 사이트를 열어서 확인합니다.
 
 
@@ -248,13 +248,13 @@ To see a listing of all of your linked directories, run the `valet links` comman
 
 By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.test` domain, you should run the following command to secure it:
 
-기본적으로 발렛은 사이트를 일반적인 HTTP 를 통해서 제공합니다. 하지만 사이트를 HTTP/2 를 사용하여 TLS 암호화되어 제공하려면, `secure` 명령어를 사용하십시오. 예를 들어 `laravel.test` 도메인을 발렛을 통해서 제공하고자 한다면, 다음 명령어를 통해서 안전하게 구동해야만 합니다:
+기본적으로 발렛은 사이트를 일반적인 HTTP 를 통해서 제공합니다. 하지만 사이트를 HTTP/2 를 사용하여 TLS 암호화되어 제공하려면, `secure` 명령어를 사용하십시오. 예를 들어 `laravel.test` 도메인을 발렛을 통해서 제공하고자 한다면, 다음 명령어를 통해서 안전하게 구동해야만 합니다.
 
     valet secure laravel
 
 To "unsecure" a site and revert back to serving its traffic over plain HTTP, use the `unsecure` command. Like the `secure` command, this command accepts the host name that you wish to unsecure:
 
-사이트를 "안전하지 않게" 되돌리고 일반적인 HTTP 로 통신하게 하려면 `unsecure` 명령어를 사용하십시오. `secure` 명령어 같이, 이 명령어는 안전한 통신을 그만두고자 하는 호스트의 이름을 전달 받습니다:
+사이트를 "안전하지 않게" 되돌리고 일반적인 HTTP 로 통신하게 하려면 `unsecure` 명령어를 사용하십시오. `secure` 명령어 같이, 이 명령어는 안전한 통신을 그만두고자 하는 호스트의 이름을 전달 받습니다.
 
     valet unsecure laravel
 
@@ -317,7 +317,7 @@ The `serves` method should return `true` if your driver should handle the incomi
 
 For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves` method might look something like this:
 
-예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. `serves` 메소드는 다음과 같을 것입니다:
+예를 들어, `WordPressValetDriver`를 작성한다고 가정해 봅시다. `serves` 메소드는 다음과 같을 것입니다.
 
     /**
      * Determine if the driver serves the request.
@@ -337,7 +337,7 @@ For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves`
 
 The `isStaticFile` should determine if the incoming request is for a file that is "static", such as an image or a stylesheet. If the file is static, the method should return the fully qualified path to the static file on disk. If the incoming request is not for a static file, the method should return `false`:
 
-`isStaticFile` 는 유입된 요청이 이미지나 스타일 시트와 같은 "정적" 파일인지 판단합니다. 파일이 정적파일이라면 해당 파일이 존재하는 디스크의 전체 경로를 반환합니다. 유입된 요청이 정적 파일이 아니라면 `false` 를 반환해야 합니다:
+`isStaticFile` 는 유입된 요청이 이미지나 스타일 시트와 같은 "정적" 파일인지 판단합니다. 파일이 정적파일이라면 해당 파일이 존재하는 디스크의 전체 경로를 반환합니다. 유입된 요청이 정적 파일이 아니라면 `false` 를 반환해야 합니다.
 
     /**
      * Determine if the incoming request is for a static file.
@@ -365,7 +365,7 @@ The `isStaticFile` should determine if the incoming request is for a file that i
 
 The `frontControllerPath` method should return the fully qualified path to your application's "front controller", which is typically your "index.php" file or equivalent:
 
-`frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 애플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다:
+`frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 유사한 파일이 되는 애플리케이션의 "프론트 컨트롤러"에 대한 전체 경로를 반환합니다.
 
     /**
      * Get the fully resolved path to the application's front controller.
@@ -386,7 +386,7 @@ The `frontControllerPath` method should return the fully qualified path to your 
 
 If you would like to define a custom Valet driver for a single application, create a `LocalValetDriver.php` in the application's root directory. Your custom driver may extend the base `ValetDriver` class or extend an existing application specific driver such as the `LaravelValetDriver`:
 
-하나의 애플리케이션을 위한 커스텀 Valet 드라이버를 정의하고자 한다면, 애플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 커스텀 드라이버는 베이스 `ValetDriver` 클래스를 상속받거나 `LaravelValetDriver`과 같은 기존 애플리케이션에서 지정한 드라이버를 상속해야합니다:
+하나의 애플리케이션을 위한 커스텀 Valet 드라이버를 정의하고자 한다면, 애플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 커스텀 드라이버는 베이스 `ValetDriver` 클래스를 상속받거나 `LaravelValetDriver`과 같은 기존 애플리케이션에서 지정한 드라이버를 상속해야합니다.
 
     class LocalValetDriver extends LaravelValetDriver
     {

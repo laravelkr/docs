@@ -258,7 +258,7 @@ You should always map individual projects to their own folder mapping instead of
 
 To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you only need to add a simple flag to your synced folder configuration:
 
-[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다:
+[NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html)를 사용하기 위해서는 동기화 폴더 설정에 플래그를 더해주면 됩니다.
 
     folders:
         - map: ~/code/project1
@@ -271,7 +271,7 @@ To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you onl
 
 You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
 
-`options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다:
+`options` 키 아래 Vagrant의 [동기화 폴더](https://www.vagrantup.com/docs/synced-folders/basic_usage.html)옵션을 나열식으로 전달할 수 있습니다.
 
     folders:
         - map: ~/code/project1
@@ -286,7 +286,7 @@ You may also pass any options supported by Vagrant's [Synced Folders](https://ww
 
 Not familiar with Nginx? No problem. The `sites` property allows you to easily map a "domain" to a folder on your Homestead environment. A sample site configuration is included in the `Homestead.yaml` file. Again, you may add as many sites to your Homestead environment as necessary. Homestead can serve as a convenient, virtualized environment for every Laravel project you are working on:
 
-Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통해 홈스테드 환경의 폴더와 "도메인"을 쉽게 매핑 할 수 있습니다. 사이트 샘플이 `Homestead.yaml` 파일에 포함되어 있습니다. 여기에서도 여러분의 홈스테드 환경에 필요한만큼 사이트를 추가할 수 있습니다. 홈스테드는 편리하게, 여러분이 작업을 수행하는 모든 라라벨 프로젝트를 위한 가상 환경을 제공합니다:
+Nginx에 익숙하지 않으신가요? 문제없습니다. `sites` 속성을 통해 홈스테드 환경의 폴더와 "도메인"을 쉽게 매핑 할 수 있습니다. 사이트 샘플이 `Homestead.yaml` 파일에 포함되어 있습니다. 여기에서도 여러분의 홈스테드 환경에 필요한만큼 사이트를 추가할 수 있습니다. 홈스테드는 편리하게, 여러분이 작업을 수행하는 모든 라라벨 프로젝트를 위한 가상 환경을 제공합니다.
 
     sites:
         - map: homestead.test
@@ -316,7 +316,7 @@ Using automatic hostnames works best for "per project" installations of Homestea
 
 Make sure the IP address listed is the one set in your `Homestead.yaml` file. Once you have added the domain to your `hosts` file and launched the Vagrant box you will be able to access the site via your web browser:
 
-입력한 IP 주소가 여러분의 `Homestead.yaml` 파일에 설정된 목록중 하나인지 확인하십시오. `hosts` 파일에 도메인을 추가 하고 Vagrant box를 구동하면 웹브라우저를 통해서 사이트에 액세스 할 수 있습니다:
+입력한 IP 주소가 여러분의 `Homestead.yaml` 파일에 설정된 목록중 하나인지 확인하십시오. `hosts` 파일에 도메인을 추가 하고 Vagrant box를 구동하면 웹브라우저를 통해서 사이트에 액세스 할 수 있습니다.
 
     http://homestead.test
 
@@ -438,7 +438,7 @@ The default Neo4j installation will set the database username to `homestead` and
 
 You may add Bash aliases to your Homestead machine by modifying the `aliases` file within your Homestead directory:
 
-홈스테드 디렉토리에 있는 `aliases` 파일을 수정하여 홈스테드 머신에 Bash 별칭을 추가할 수 있습니다:
+홈스테드 디렉토리에 있는 `aliases` 파일을 수정하여 홈스테드 머신에 Bash 별칭을 추가할 수 있습니다.
 
     alias c='clear'
     alias ..='cd ..'
@@ -475,7 +475,7 @@ Make sure to tweak the `~/Homestead` path in the function to the location of you
 
 Create a `homestead.bat` batch file anywhere on your machine with the following contents:
 
-다음 내용을 가지는 `homestead.bat` 배치 파일을 원하는 곳에다가 생성합니다:
+다음 내용을 가지는 `homestead.bat` 배치 파일을 원하는 곳에다가 생성합니다.
 
     @echo off
 
@@ -526,7 +526,7 @@ To connect to your MySQL or PostgreSQL database from your host machine's databas
 
 Homestead can automatically backup your database when your Vagrant box is destroyed. To utilize this feature, you must be using Vagrant 2.1.0 or greater. Or, if you are using an older version of Vagrant, you must install the `vagrant-triggers` plug-in. To enable automatic database backups, add the following line to your `Homestead.yaml` file:
 
-홈스테드는 Vagrant box 가 종료될 때 자동으로 데이터베이스를 백업합니다. 이 기능을 사용하기 위해서는 Vagrant 2.1.0 이상 버전을 사용해야 합니다. 그 이전버전이라면, `vagrant-triggers` 플러그인을 설치해야 합니다. 자동으로 데이터베이스 백업을 활성화 하려면, 다음의 설정을 `Homestead.yaml` 파일에 추가하면 됩니다:
+홈스테드는 Vagrant box 가 종료될 때 자동으로 데이터베이스를 백업합니다. 이 기능을 사용하기 위해서는 Vagrant 2.1.0 이상 버전을 사용해야 합니다. 그 이전버전이라면, `vagrant-triggers` 플러그인을 설치해야 합니다. 자동으로 데이터베이스 백업을 활성화 하려면, 다음의 설정을 `Homestead.yaml` 파일에 추가하면 됩니다.
 
     backup: true
 
@@ -578,7 +578,7 @@ Once your Homestead environment is provisioned and running, you may want to add 
 
 If Vagrant is not automatically managing your "hosts" file, you may need to add the new site to that file as well:
 
-Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다:
+Vagrant 가 자동으로 "hosts" 파일을 관리하지 않는다면, 직접 다음의 사이트를 호스트 파일에 추가해야합니다.
 
     192.168.10.10  homestead.test
     192.168.10.10  another.test
@@ -593,7 +593,7 @@ Once the site has been added, run the `vagrant reload --provision` command from 
 
 Homestead supports several types of sites which allow you to easily run projects that are not based on Laravel. For example, we may easily add a Symfony application to Homestead using the `symfony2` site type:
 
-홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 애플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다:
+홈스테드는 라라벨이 아닌 프로젝트를 손쉽게 구동할 수 있는 몇가지 사이트 타입을 지원합니다. 예를 들자면, `symfony2` 사이트 타입은 Synfony 애플리케이션을 홈스테드에서 추가할 수 있도록 해줍니다.
 
     sites:
         - map: symfony2.test
@@ -610,7 +610,7 @@ The available site types are: `apache`, `apigility`, `expressive`, `laravel` (th
 
 You may add additional Nginx `fastcgi_param` values to your site via the `params` site directive. For example, we'll add a `FOO` parameter with a value of `BAR`:
 
-추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다:
+추가적인 Nginx `fastcgi_param` 값을 사이트에 설정하려면 `params` 사이트 지시어를 사용하면 됩니다. 예를 들어 `BAR` 라는 값을 가지는 `FOO` 파라미터를 추가해보겠습니다.
 
     sites:
         - map: homestead.test
@@ -625,7 +625,7 @@ You may add additional Nginx `fastcgi_param` values to your site via the `params
 
 You can set global environment variables by adding them to your `Homestead.yaml` file:
 
-`Homestead.yaml` 파일에 시스템 ENV 변수를 지정할 수 있습니다:
+`Homestead.yaml` 파일에 시스템 ENV 변수를 지정할 수 있습니다.
 
     variables:
         - key: APP_ENV
@@ -753,7 +753,7 @@ By default, the following ports are forwarded to your Homestead environment:
 
 If you wish, you may forward additional ports to the Vagrant box, as well as specify their protocol:
 
-원한다면 포트뿐만 아니라 프로토콜을 추가로 Vagrant Box에 포워딩하도록 지정 할 수 있습니다:
+원한다면 포트뿐만 아니라 프로토콜을 추가로 Vagrant Box에 포워딩하도록 지정 할 수 있습니다.
 
     ports:
         - send: 50000
@@ -772,13 +772,13 @@ Sometimes you may wish to share what you're currently working on with coworkers 
 
 To solve this problem, Homestead includes its own `share` command. To get started, SSH into your Homestead machine via `vagrant ssh` and run `share homestead.test`. This will share the `homestead.test` site from your `Homestead.yaml` configuration file. You may substitute any of your other configured sites for `homestead.test`:
 
-이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트와 다른 사이트도 공유할 수 있습니다:
+이 문제를 극복하기 위해서, 홈스테드에 `share` 명령어가 포함되었습니다. 이렇게 하기 위해서 `vagrant ssh` 명령어를 통해서 홈스테드 머신에 SSH 접속을 한 다음 `share homestead.test` 을 실행하십시오. 이렇게 하면 여러분의 `Homestead.yaml` 설정에 있는 `homestead.test` 사이트와 다른 사이트도 공유할 수 있습니다.
 
     share homestead.test
 
 After running the command, you will see an Ngrok screen appear which contains the activity log and the publicly accessible URLs for the shared site. If you would like to specify a custom region, subdomain, or other Ngrok runtime option, you may add them to your `share` command:
 
-이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다. 커스텀 리전, 서브도메인, Ngrok 실행 옵션을 지정하고자 한다면 `share` 명령어에 이를 추가하면됩니다:
+이 명령어를 실행하면, 여러분은 Ngrok 스크린에서 activity log와 함께 공유한 사이트에 접속할 수 있는 public URL을 확인할 수 있습니다. 커스텀 리전, 서브도메인, Ngrok 실행 옵션을 지정하고자 한다면 `share` 명령어에 이를 추가하면됩니다.
 
     share homestead.test -region=eu -subdomain=laravel
 
@@ -792,7 +792,7 @@ After running the command, you will see an Ngrok screen appear which contains th
 
 Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2" and "7.3" (the default):
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3"(기본) 입니다:
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3"(기본) 입니다.
 
     sites:
         - map: homestead.test
@@ -801,7 +801,7 @@ Homestead 6 introduced support for multiple versions of PHP on the same virtual 
 
 In addition, you may use any of the supported PHP versions via the CLI:
 
-추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다:
+추가적으로 CLI를 통해서 지원되는 PHP 버전들은 다음과 같이 사용할 수 있습니다.
 
     php5.6 artisan list
     php7.0 artisan list
@@ -815,7 +815,7 @@ In addition, you may use any of the supported PHP versions via the CLI:
 
 Homestead uses the Nginx web server by default. However, it can install Apache if `apache` is specified as a site type. While both web servers can be installed at the same time, they cannot both be *running* at the same time. The `flip` shell command is available to ease the process of switching between web servers. The `flip` command automatically determines which web server is running, shuts it off, and then starts the other server. To use this command, SSH into your Homestead machine and run the command in your terminal:
 
-홈스테드는 기본적으로 Nginx를 웹서버로 사용합니다. 그렇지만, site 타입에 `apache`를 지정해서 아파치를 설치할 수 있습니다. 두 웹서버를 모두 설치할 수 있지만, 동시에 실행할 수는 없습니다. `flip` 쉘 명령어를 사용하여 웹서버를 쉽게 전환할 수 있습니다. `flip` 쉘 명령어는 자동으로 실행되는 웹서버를 멈추고 다른 서버를 구동합니다. 이 명령어을 사용하려면 홈스테드에 SSH 접속을 하고 터미널에 명령어를 실행하면 됩니다:
+홈스테드는 기본적으로 Nginx를 웹서버로 사용합니다. 그렇지만, site 타입에 `apache`를 지정해서 아파치를 설치할 수 있습니다. 두 웹서버를 모두 설치할 수 있지만, 동시에 실행할 수는 없습니다. `flip` 쉘 명령어를 사용하여 웹서버를 쉽게 전환할 수 있습니다. `flip` 쉘 명령어는 자동으로 실행되는 웹서버를 멈추고 다른 서버를 구동합니다. 이 명령어을 사용하려면 홈스테드에 SSH 접속을 하고 터미널에 명령어를 실행하면 됩니다.
 
     flip
 
@@ -941,7 +941,7 @@ Since performance profiles take up significant disk space, they are deleted auto
 
 The `networks` property of the `Homestead.yaml` configures network interfaces for your Homestead environment. You may configure as many interfaces as necessary:
 
-`Homestead.yaml` 설정의 `networks` 속성은 홈스테드 환경의 네트워크 인터페이스 설정에 관련된 것입니다. 필요한 경우 여러개의 인터페이스를 설정할 수 있습니다:
+`Homestead.yaml` 설정의 `networks` 속성은 홈스테드 환경의 네트워크 인터페이스 설정에 관련된 것입니다. 필요한 경우 여러개의 인터페이스를 설정할 수 있습니다.
 
     networks:
         - type: "private_network"
@@ -949,7 +949,7 @@ The `networks` property of the `Homestead.yaml` configures network interfaces fo
 
 To enable a [bridged](https://www.vagrantup.com/docs/networking/public_network.html) interface, configure a `bridge` setting and change the network type to `public_network`:
 
-[bridged](https://www.vagrantup.com/docs/networking/public_network.html) 인터페이스를 활성화 하기 위해서는, `bridge` 옵션을 설정하고 네트워크 타입을 `public_network`로 변경해야 합니다:
+[bridged](https://www.vagrantup.com/docs/networking/public_network.html) 인터페이스를 활성화 하기 위해서는, `bridge` 옵션을 설정하고 네트워크 타입을 `public_network`로 변경해야 합니다.
 
     networks:
         - type: "public_network"
@@ -958,7 +958,7 @@ To enable a [bridged](https://www.vagrantup.com/docs/networking/public_network.h
 
 To enable [DHCP](https://www.vagrantup.com/docs/networking/public_network.html), just remove the `ip` option from your configuration:
 
-[DHCP](https://www.vagrantup.com/docs/networking/public_network.html)를 활성화하기 위해서는, 설정에서 간단하게 `ip` 옵션을 제거하면 됩니다:
+[DHCP](https://www.vagrantup.com/docs/networking/public_network.html)를 활성화하기 위해서는, 설정에서 간단하게 `ip` 옵션을 제거하면 됩니다.
 
     networks:
         - type: "public_network"
@@ -1012,7 +1012,7 @@ These commands pull the latest Homestead code from the GitHub repository, fetche
 
 If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^9"` and update your dependencies:
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^9"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다:
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^9"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다.
 
     composer update
 

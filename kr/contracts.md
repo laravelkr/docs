@@ -114,7 +114,7 @@ Likewise, if we want to replace our underlying cache technology (Memcached) with
 
 **Instead of this approach, we can improve our code by depending on a simple, vendor agnostic interface:**
 
-**이렇게 접근하는 대신, 특정 벤더에 구속되지 않고 단순한 인터페이스에 의존하도록 하여 코드를 개선할 수 있습니다:**
+**이렇게 접근하는 대신, 특정 벤더에 구속되지 않고 단순한 인터페이스에 의존하도록 하여 코드를 개선할 수 있습니다.**
 
     <?php
 

@@ -92,7 +92,7 @@ The only remaining step is to install Laravel Mix. Within a fresh installation o
 
 Mix is a configuration layer on top of [Webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that is included with the default Laravel `package.json` file:
 
-Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이어로, Mix 작업을 실행하려면 라라벨에 기본적으로 포함되어 있는 `package.json` 파일과 함께 NPM 스크립트를 실행하기만 하면 됩니다:
+Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이어로, Mix 작업을 실행하려면 라라벨에 기본적으로 포함되어 있는 `package.json` 파일과 함께 NPM 스크립트를 실행하기만 하면 됩니다.
 
     // Run all Mix tasks...
     npm run dev
@@ -105,7 +105,7 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 
 The `npm run watch` command will continue running in your terminal and watch all relevant files for changes. Webpack will then automatically recompile your assets when it detects a change:
 
-`npm run watch` 명령어는 터미널에서 계속 실행되면서 모든 관련된 파일의 변경사항을 감시합니다. Webpack은 변경사항이 감지되면 자동으로 이를 다시 컴파일 합니다:
+`npm run watch` 명령어는 터미널에서 계속 실행되면서 모든 관련된 파일의 변경사항을 감시합니다. Webpack은 변경사항이 감지되면 자동으로 이를 다시 컴파일 합니다.
 
     npm run watch
 
@@ -135,20 +135,20 @@ The `less` method may be used to compile [Less](http://lesscss.org/) into CSS. L
 
 Multiple calls to the `less` method may be used to compile multiple files:
 
-여러개의 파일을 컴파일 하기 위해서 `less` 메소드를 여러번 호출할 수도 있습니다:
+여러개의 파일을 컴파일 하기 위해서 `less` 메소드를 여러번 호출할 수도 있습니다.
 
     mix.less('resources/less/app.less', 'public/css')
        .less('resources/less/admin.less', 'public/css');
 
 If you wish to customize the file name of the compiled CSS, you may pass a full file path as the second argument to the `less` method:
 
-컴파일된 CSS 파일의 이름을 변경하고 싶다면, `less` 메소드의 두번째 인자로 전체 경로를 전달하면 됩니다:
+컴파일된 CSS 파일의 이름을 변경하고 싶다면, `less` 메소드의 두번째 인자로 전체 경로를 전달하면 됩니다.
 
     mix.less('resources/less/app.less', 'public/stylesheets/styles.css');
 
 If you need to override the [underlying Less plug-in options](https://github.com/webpack-contrib/less-loader#options), you may pass an object as the third argument to `mix.less()`:
 
-[기본적인 Less 플러그인 옵션](https://github.com/webpack-contrib/less-loader#options)을 오버라이드 하려면, `mix.less()` 메소드의 세번째 인자로 이를 전달할 수 있습니다:
+[기본적인 Less 플러그인 옵션](https://github.com/webpack-contrib/less-loader#options)을 오버라이드 하려면, `mix.less()` 메소드의 세번째 인자로 이를 전달할 수 있습니다.
 
     mix.less('resources/less/app.less', 'public/css', {
         strictMath: true
@@ -160,20 +160,20 @@ If you need to override the [underlying Less plug-in options](https://github.com
 
 The `sass` method allows you to compile [Sass](https://sass-lang.com/) into CSS. You may use the method like so:
 
-`sass` 메소드는 [Sass](https://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다:
+`sass` 메소드는 [Sass](https://sass-lang.com/)파일을 CSS 파일로 컴파일해줍니다. 이 메소드는 다음과 같이 사용할 수 있습니다.
 
     mix.sass('resources/sass/app.scss', 'public/css');
 
 Again, like the `less` method, you may compile multiple Sass files into their own respective CSS files and even customize the output directory of the resulting CSS:
 
-`less` 메소드처럼, 여러개의 Sass 파일을 대응하는 CSS파일로 컴파일 할 수 있으며, CSS 결과 파일의 위치를 커스터마이징 할 수 있습니다:
+`less` 메소드처럼, 여러개의 Sass 파일을 대응하는 CSS파일로 컴파일 할 수 있으며, CSS 결과 파일의 위치를 커스터마이징 할 수 있습니다.
 
     mix.sass('resources/sass/app.sass', 'public/css')
        .sass('resources/sass/admin.sass', 'public/css/admin');
 
 Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
 
-추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다:
+추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다.
 
     mix.sass('resources/sass/app.sass', 'public/css', {
         precision: 5
@@ -185,7 +185,7 @@ Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options
 
 Similar to Less and Sass, the `stylus` method allows you to compile [Stylus](http://stylus-lang.com/) into CSS:
 
-Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://stylus-lang.com/)를 CSS로 컴파일 하는데 사용합니다:
+Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://stylus-lang.com/)를 CSS로 컴파일 하는데 사용합니다.
 
     mix.stylus('resources/stylus/app.styl', 'public/css');
 
@@ -233,7 +233,7 @@ If you would just like to concatenate some plain CSS stylesheets into a single f
 
 Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
 
-라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 스타일 시트 안에서 `url()`호출을 재작성하고 최적화합니다. 처음에는 이상해보일수도 있지만, 이것은 매우 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass를 컴파일하려고 한다고 생각해보겠습니다:
+라라벨 Mix는 Webpack을 기반으로 하여 구성되었기 때문에, Webpack의 개념을 이해하고 있는 것이 중요합니다. CSS 컴파일에서 Webpack은 스타일 시트 안에서 `url()`호출을 재작성하고 최적화합니다. 처음에는 이상해보일수도 있지만, 이것은 매우 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass를 컴파일하려고 한다고 생각해보겠습니다.
 
     .example {
         background: url('../images/example.png');
@@ -245,7 +245,7 @@ Because Laravel Mix is built on top of Webpack, it's important to understand a f
 
 By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
 
-기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다:
+기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일 시트 안에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다.
 
     .example {
         background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
@@ -253,7 +253,7 @@ By default, Laravel Mix and Webpack will find `example.png`, copy it to your `pu
 
 As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
 
-이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다:
+이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다.
 
     mix.sass('resources/app/app.scss', 'public/css')
        .options({
@@ -262,7 +262,7 @@ As useful as this feature may be, it's possible that your existing folder struct
 
 With this addition to your `webpack.mix.js` file, Mix will no longer match any `url()` or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
 
-`webpack.mix.js`파일에 재작성 동작을 비활성화하도록 추가하면, Mix는 더이상 `url()`을 위한 asset을 public 디렉토리로 복사하지 않습니다. 다시말해서 컴파일된 CSS는 원래 입력한것과 같이 보여집니다:
+`webpack.mix.js`파일에 재작성 동작을 비활성화하도록 추가하면, Mix는 더이상 `url()`을 위한 asset을 public 디렉토리로 복사하지 않습니다. 다시말해서 컴파일된 CSS는 원래 입력한것과 같이 보여집니다.
 
     .example {
         background: url("../images/thing.png");
@@ -297,13 +297,13 @@ Webpack은 다양한 [소스 매핑 스타일](https://webpack.js.org/configurat
 
 Mix provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
 
-Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기능을 제공하는데, ECMAScript 2015 컴파일, 모듈 번들링, minification, 그리고 자바스크립트 파일 concatenating-연결등입니다. 더 나아가 이 모든 기능은 여러가지 설정을 할 필요없이 원활하게 동작합니다:
+Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기능을 제공하는데, ECMAScript 2015 컴파일, 모듈 번들링, minification, 그리고 자바스크립트 파일 concatenating-연결등입니다. 더 나아가 이 모든 기능은 여러가지 설정을 할 필요없이 원활하게 동작합니다.
 
     mix.js('resources/js/app.js', 'public/js');
 
 With this single line of code, you may now take advantage of:
 
-이 한줄의 코드로 다음의 기능들을 취할 수 있습니다:
+이 한줄의 코드로 다음의 기능들을 취할 수 있습니다.
 
 
 - ES2015 syntax.
@@ -322,14 +322,14 @@ One potential downside to bundling all application-specific JavaScript with your
 
 If you intend to make frequent updates to your application's JavaScript, you should consider extracting all of your vendor libraries into their own file. This way, a change to your application code will not affect the caching of your large `vendor.js` file. Mix's `extract` method makes this a breeze:
 
-애플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 애플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다:
+애플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 애플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다.
 
     mix.js('resources/js/app.js', 'public/js')
        .extract(['vue'])
 
 The `extract` method accepts an array of all libraries or modules that you wish to extract into a `vendor.js` file. Using the above snippet as an example, Mix will generate the following files:
 
-`extract` 메소드는 `vendor.js` 파일로 별도 구성(추출)하고자 하는 라이브러리 혹은 모듈의 배열을 전달 받습니다. 위의 예제를 살펴보자면 Mix는 다음과 같은 파일을 생성합니다:
+`extract` 메소드는 `vendor.js` 파일로 별도 구성(추출)하고자 하는 라이브러리 혹은 모듈의 배열을 전달 받습니다. 위의 예제를 살펴보자면 Mix는 다음과 같은 파일을 생성합니다.
 
 
 - `public/js/manifest.js`: *The Webpack manifest runtime*
@@ -339,7 +339,7 @@ The `extract` method accepts an array of all libraries or modules that you wish 
 
 To avoid JavaScript errors, be sure to load these files in the proper order:
 
-자바 스크립트 오류를 ​​방지하려면 적절한 순서로 다음 파일들을 로드해야합니다:
+자바 스크립트 오류를 ​​방지하려면 적절한 순서로 다음 파일들을 로드해야합니다.
 
     <script src="/js/manifest.js"></script>
     <script src="/js/vendor.js"></script>
@@ -365,7 +365,7 @@ Behind the scenes, Mix will download and include the appropriate `babel-preset-r
 
 Similar to combining stylesheets with `mix.styles()`, you may also combine and minify any number of JavaScript files with the `scripts()` method:
 
-스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 바닐라 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다:
+스타일시트 파일들을 `mix.styles()`를 통해서 합치는 것과 비슷하게, `scripts()` 메소드를 사용하여 바닐라 자바스크립트 파일들도 하나로 합치고 minify를 적용할 수 있습니다.
 
     mix.scripts([
         'public/js/admin.js',
@@ -386,7 +386,7 @@ This option is particularly useful for legacy projects where you don't require W
 
 Behind the scenes, Laravel Mix references a pre-configured `webpack.config.js` file to get you up and running as quickly as possible. Occasionally, you may need to manually modify this file. You might have a special loader or plug-in that needs to be referenced, or maybe you prefer to use Stylus instead of Sass. In such instances, you have two choices:
 
-애플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다:
+애플리케이션의 뒤에서 라라벨 Mix 는 미리 설정된 `webpack.config.js` 파일을 참조하여 가능한 빠르게 실행되도록 합니다. 경우에 따라서 이 파일을 직접 수정해야 할 수도 있습니다. 참조해야할 특정 로더 또는 플러그인이 있거나 아니면 Sass 대신 Stylus를 사용할 수 있습니다. 이러한 경우라면 두가지 선택 사항이 있습니다.
 
 #### Merging Custom Configuration
 #### 커스텀 설정 Merging(병합)-합치기
@@ -436,20 +436,20 @@ Many developers suffix their compiled assets with a timestamp or unique token to
 
 The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
 
-`version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다:
+`version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다.
 
     mix.js('resources/js/app.js', 'public/js')
        .version();
 
 After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
 
-버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다:
+버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다.
 
     <script src="{{ mix('/js/app.js') }}"></script>
 
 Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run production`:
 
-개발중에는 버저닝된 파일이 항상 필요하지는 않기 때문에, `npm run production` 일때만 버저닝 프로세스가 동작하도록 지시할 수 있습니다:
+개발중에는 버저닝된 파일이 항상 필요하지는 않기 때문에, `npm run production` 일때만 버저닝 프로세스가 동작하도록 지시할 수 있습니다.
 
     mix.js('resources/js/app.js', 'public/js');
 
@@ -463,7 +463,7 @@ Because versioned files are usually unnecessary in development, you may instruct
 
 [BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support by calling the `mix.browserSync()` method:
 
-[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다:
+[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 지원사항을 활성화 시킬 수 있습니다.
 
     mix.browserSync('my-domain.test');
 
@@ -484,13 +484,13 @@ You may pass either a string (proxy) or object (BrowserSync settings) to this me
 
 You may inject environment variables into Mix by prefixing a key in your `.env` file with `MIX_`:
 
-`.env` 파일에 `MIX_` 로 시작하는 키를 사용하면 환경변수를 Mix에 지정할 수 있습니다:
+`.env` 파일에 `MIX_` 로 시작하는 키를 사용하면 환경변수를 Mix에 지정할 수 있습니다.
 
     MIX_SENTRY_DSN_PUBLIC=http://example.com
 
 After the variable has been defined in your `.env` file, you may access via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
 
-`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다:
+`.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다.
 
     process.env.MIX_SENTRY_DSN_PUBLIC
 

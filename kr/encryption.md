@@ -67,7 +67,7 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
 
 Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
 
-암호화를 진행하는 동안 암호화된 값은 `serialize`를 통해서 전달되어 객체와 배열의 암호화를 가능하게 합니다. 따라서 PHP가 아닌 클라이언트에서 암호화된 값을 받으면 데이터를 `unserialize` 해야 합니다. 만약 serialize 없이 값을 암호화하고 이를 복호화하려면 Cyprt 파사드의 `encryptString` 과 `decryptString` 메소드를 하용하면 됩니다:
+암호화를 진행하는 동안 암호화된 값은 `serialize`를 통해서 전달되어 객체와 배열의 암호화를 가능하게 합니다. 따라서 PHP가 아닌 클라이언트에서 암호화된 값을 받으면 데이터를 `unserialize` 해야 합니다. 만약 serialize 없이 값을 암호화하고 이를 복호화하려면 Cyprt 파사드의 `encryptString` 과 `decryptString` 메소드를 하용하면 됩니다.
 
     use Illuminate\Support\Facades\Crypt;
 

@@ -130,7 +130,7 @@ If you would like to define a controller that only handles a single action, you 
 
 When registering routes for single action controllers, you do not need to specify a method:
 
-단일 액션 컨트롤러에 대한 경로를 등록 할 때 함수를 지정할 필요가 없습니다:
+단일 액션 컨트롤러에 대한 경로를 등록 할 때 함수를 지정할 필요가 없습니다.
 
     Route::get('user/{id}', 'ShowProfile');
 
@@ -173,7 +173,7 @@ However, it is more convenient to specify middleware within your controller's co
 
 Controllers also allow you to register middleware using a Closure. This provides a convenient way to define a middleware for a single controller without defining an entire middleware class:
 
-컨트롤러를 사용하면 Closure를 사용하여 미들웨어를 등록 할 수 있습니다. 이는 전체 미들웨어 클래스를 정의하지 않고 단일 컨트롤러에 대한 미들웨어를 정의하는 편리한 방법을 제공합니다:
+컨트롤러를 사용하면 Closure를 사용하여 미들웨어를 등록 할 수 있습니다. 이는 전체 미들웨어 클래스를 정의하지 않고 단일 컨트롤러에 대한 미들웨어를 정의하는 편리한 방법을 제공합니다.
 
     $this->middleware(function ($request, $next) {
         // ...
@@ -211,7 +211,7 @@ This single route declaration creates multiple routes to handle a variety of act
 
 You may register many resource controllers at once by passing an array to the `resources` method:
 
-`resources` 메소드에 배열을 전달하여 한번에 여러개의 리소스 컨트롤러를 등록할 수 있습니다:
+`resources` 메소드에 배열을 전달하여 한번에 여러개의 리소스 컨트롤러를 등록할 수 있습니다.
 
     Route::resources([
         'photos' => 'PhotoController',
@@ -236,7 +236,7 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 If you are using route model binding and would like the resource controller's methods to type-hint a model instance, you may use the `--model` option when generating the controller:
 
-라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다:
+라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다.
 
     php artisan make:controller PhotoController --resource --model=Photo
 
@@ -272,13 +272,13 @@ resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있
 
 When declaring resource routes that will be consumed by APIs, you will commonly want to exclude routes that present HTML templates such as `create` and `edit`. For convenience, you may use the `apiResource` method to automatically exclude these two routes:
 
-API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 `create`, `edit`와 같은 HTML 템플릿을 표시하는 라우트는 제외하기를 원합니다. 편의를 위해서 `apiResource`를 사용하면 이 두가지의 라우트를 제외할 수 있습니다:
+API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 `create`, `edit`와 같은 HTML 템플릿을 표시하는 라우트는 제외하기를 원합니다. 편의를 위해서 `apiResource`를 사용하면 이 두가지의 라우트를 제외할 수 있습니다.
 
     Route::apiResource('photos', 'PhotoController');
 
 You may register many API resource controllers at once by passing an array to the `apiResources` method:
 
-`apiResources` 메소드에 배열형태의 API 리소스 컨트롤러를 전달하여 여러개를 한번에 등록할 수 있습니다:
+`apiResources` 메소드에 배열형태의 API 리소스 컨트롤러를 전달하여 여러개를 한번에 등록할 수 있습니다.
 
     Route::apiResources([
         'photos' => 'PhotoController',
@@ -287,7 +287,7 @@ You may register many API resource controllers at once by passing an array to th
 
 To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` switch when executing the `make:controller` command:
 
-빠르게 `create` 혹은 `edit` 메서드들을 포함하지 않는 API 리소스 컨트롤러 생성을 원하신다면, `make:controller` 커맨드 명령에 `--api` 옵션을 사용하시면 됩니다:
+빠르게 `create` 혹은 `edit` 메서드들을 포함하지 않는 API 리소스 컨트롤러 생성을 원하신다면, `make:controller` 커맨드 명령에 `--api` 옵션을 사용하시면 됩니다.
 
     php artisan make:controller API/PhotoController --api
 
@@ -316,7 +316,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
  The example above generates the following URIs for the resource's `show` route:
 
- 위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다:
+ 위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다.
 
     /users/{admin_user}
 
@@ -326,7 +326,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
 By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
 
-기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다:
+기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다.
 
     use Illuminate\Support\Facades\Route;
 
@@ -345,7 +345,7 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
 
 Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다:
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다.
 
     /fotos/crear
 

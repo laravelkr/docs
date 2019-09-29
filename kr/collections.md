@@ -26,7 +26,7 @@
 
 The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper for working with arrays of data. For example, check out the following code. We'll use the `collect` helper to create a new collection instance from the array, run the `strtoupper` function on each element, and then remove all empty elements:
 
-`Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 다음의 사용예제를 확인하십시오. `collect` 헬퍼 함수를 사용하여 배열에서 새로운 collection 인스턴스를 생성하고 모든 요소들을 대문자로 변경한 다음 비어있는 요소들을 제거하는 예제 입니다:
+`Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 다음의 사용예제를 확인하십시오. `collect` 헬퍼 함수를 사용하여 배열에서 새로운 collection 인스턴스를 생성하고 모든 요소들을 대문자로 변경한 다음 비어있는 요소들을 제거하는 예제 입니다.
 
     $collection = collect(['taylor', 'abigail', null])->map(function ($name) {
         return strtoupper($name);
@@ -59,7 +59,7 @@ As mentioned above, the `collect` helper returns a new `Illuminate\Support\Colle
 
 Collections are "macroable", which allows you to add additional methods to the `Collection` class at run time. For example, the following code adds a `toUpper` method to the `Collection` class:
 
-컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다:
+컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -238,7 +238,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 
 The `all` method returns the underlying array represented by the collection:
 
-`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다:
+`all` 메소드는 주어진 배열을 컬렉션으로 되돌려 줍니다.
 
     collect([1, 2, 3])->all();
 
@@ -258,7 +258,7 @@ Alias for the [`avg`](#method-avg) method.
 
 The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Average) of a given key:
 
-`avg` 메소드는 주어진 키의 [평균값](https://en.wikipedia.org/wiki/Average)을 반환합니다:
+`avg` 메소드는 주어진 키의 [평균값](https://en.wikipedia.org/wiki/Average)을 반환합니다.
 
     $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
 
@@ -274,7 +274,7 @@ The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Avera
 
 The `chunk` method breaks the collection into multiple, smaller collections of a given size:
 
-`chunk` 메소드는 컬렉션을 주어진 사이즈의 더 작은 여러 개로 분할합니다:
+`chunk` 메소드는 컬렉션을 주어진 사이즈의 더 작은 여러 개로 분할합니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7]);
 
@@ -303,7 +303,7 @@ This method is especially useful in [views](/docs/{{version}}/views) when workin
 
 The `collapse` method collapses a collection of arrays into a single, flat collection:
 
-`collapse` 메소드는 배열의 컬렉션을 하나의 평면적인 컬렉션으로 만듭니다:
+`collapse` 메소드는 배열의 컬렉션을 하나의 평면적인 컬렉션으로 만듭니다.
 
     $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
@@ -319,7 +319,7 @@ The `collapse` method collapses a collection of arrays into a single, flat colle
 
 The `combine` method combines the values of the collection, as keys, with the values of another array or collection:
 
-`combine` 메소드는 컬렉션의 값들을 키로 다른 배열 또는 컬렉션의 값을 결합합니다:
+`combine` 메소드는 컬렉션의 값들을 키로 다른 배열 또는 컬렉션의 값을 결합합니다.
 
     $collection = collect(['name', 'age']);
 
@@ -375,7 +375,7 @@ The `collect` method is primarily useful for converting [lazy collections](#lazy
 
 The `concat` method appends the given `array` or collection values onto the end of the collection:
 
-`concat` 메소드는 주어진 `배열` 또는 컬렉션 값을 컬렉션의 마지막에 추가합니다:
+`concat` 메소드는 주어진 `배열` 또는 컬렉션 값을 컬렉션의 마지막에 추가합니다.
 
     $collection = collect(['John Doe']);
 
@@ -391,7 +391,7 @@ The `concat` method appends the given `array` or collection values onto the end 
 
 The `contains` method determines whether the collection contains a given item:
 
-`contains` 메소드는 컬렉션에 주어진 아이템을 포함하고 있는지 알려줍니다:
+`contains` 메소드는 컬렉션에 주어진 아이템을 포함하고 있는지 알려줍니다.
 
     $collection = collect(['name' => 'Desk', 'price' => 100]);
 
@@ -405,7 +405,7 @@ The `contains` method determines whether the collection contains a given item:
 
 You may also pass a key / value pair to the `contains` method, which will determine if the given pair exists in the collection:
 
-또한 주어진 키/값 쌍이 컬렉션 안에 존재하는지 확인할 수 있도록 `contains` 메소드에 키/값 쌍을 인자로 전달할 수도 있습니다:
+또한 주어진 키/값 쌍이 컬렉션 안에 존재하는지 확인할 수 있도록 `contains` 메소드에 키/값 쌍을 인자로 전달할 수도 있습니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -418,7 +418,7 @@ You may also pass a key / value pair to the `contains` method, which will determ
 
 Finally, you may also pass a callback to the `contains` method to perform your own truth test:
 
-마지막으로, `contains` 메소드에 주어진 조건을 판별할 수 있는 콜백을 인자로 전달할 수도 있습니다:
+마지막으로, `contains` 메소드에 주어진 조건을 판별할 수 있는 콜백을 인자로 전달할 수도 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -446,7 +446,7 @@ This method has the same signature as the [`contains`](#method-contains) method;
 
 The `count` method returns the total number of items in the collection:
 
-`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 갯수를 반환합니다:
+`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 갯수를 반환합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -460,7 +460,7 @@ The `count` method returns the total number of items in the collection:
 
 The `countBy` method counts the occurrences of values in the collection. By default, the method counts the occurrences of every element:
 
-`countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다:
+`countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다.
 
     $collection = collect([1, 2, 2, 2, 3]);
     
@@ -486,7 +486,7 @@ However, you pass a callback to the `countBy` method to count all items by a cus
 
 The `crossJoin` method cross joins the collection's values among the given arrays or collections, returning a Cartesian product with all possible permutations:
 
-`crossJoin` 메소드는 컬렉션의 값을 주어진 배열 또는 컬렉션을 사용하여 크로스 조인(cross join)하여 합성 가능한 모든 순열을 가지는 데카르트 곱(직교 값)을 반환합니다:
+`crossJoin` 메소드는 컬렉션의 값을 주어진 배열 또는 컬렉션을 사용하여 크로스 조인(cross join)하여 합성 가능한 모든 순열을 가지는 데카르트 곱(직교 값)을 반환합니다.
 
     $collection = collect([1, 2]);
 
@@ -528,7 +528,7 @@ The `crossJoin` method cross joins the collection's values among the given array
 
 The `dd` method dumps the collection's items and ends execution of the script:
 
-`dd` 메소드는 컬렉션의 아이템을 덤프하여 표시하고 스크립트를 종료합니다:
+`dd` 메소드는 컬렉션의 아이템을 덤프하여 표시하고 스크립트를 종료합니다.
 
     $collection = collect(['John Doe', 'Jane Doe']);
 
@@ -553,7 +553,7 @@ If you do not want to stop executing the script, use the [`dump`](#method-dump) 
 
 The `diff` method compares the collection against another collection or a plain PHP `array` based on its values. This method will return the values in the original collection that are not present in the given collection:
 
-`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP `배열`의 값을 기준으로 비교합니다. 이 메소드는 주어진 컬렉션 안에는 없고, 원래의 컬렉션 안에는 있는 값을 반환합니다:
+`diff` 메소드는 컬렉션을 다른 컬렉션 또는 일반적인 PHP `배열`의 값을 기준으로 비교합니다. 이 메소드는 주어진 컬렉션 안에는 없고, 원래의 컬렉션 안에는 있는 값을 반환합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -569,7 +569,7 @@ The `diff` method compares the collection against another collection or a plain 
 
 The `diffAssoc` method compares the collection against another collection or a plain PHP `array` based on its keys and values. This method will return the key / value pairs in the original collection that are not present in the given collection:
 
-`diffAssoc` 메소드는 컬렉션을 키와 값을 기준으로 하여 다른 컬렉션 또는 PHP `배열`과 비교합니다. 이 메소드는 주어진 컬렉션에는 있지만 원래의 컬렉션에서는 존재하지 않는 키/값 쌍을 반환합니다:
+`diffAssoc` 메소드는 컬렉션을 키와 값을 기준으로 하여 다른 컬렉션 또는 PHP `배열`과 비교합니다. 이 메소드는 주어진 컬렉션에는 있지만 원래의 컬렉션에서는 존재하지 않는 키/값 쌍을 반환합니다.
 
     $collection = collect([
         'color' => 'orange',
@@ -594,7 +594,7 @@ The `diffAssoc` method compares the collection against another collection or a p
 
 The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys. This method will return the key / value pairs in the original collection that are not present in the given collection:
 
-`diffKeys` 메소드는 컬렉션과 다른 컬렉션의 키를 기준으로 `배열`을 비교합니다. 이 메소드는 주어진 컬렉션 안에 들어 있지 않은 원래의 컬렉션 안에 있는 키/값 쌍을 반환합니다:
+`diffKeys` 메소드는 컬렉션과 다른 컬렉션의 키를 기준으로 `배열`을 비교합니다. 이 메소드는 주어진 컬렉션 안에 들어 있지 않은 원래의 컬렉션 안에 있는 키/값 쌍을 반환합니다.
 
     $collection = collect([
         'one' => 10,
@@ -621,7 +621,7 @@ The `diffKeys` method compares the collection against another collection or a pl
 
 The `dump` method dumps the collection's items:
 
-`dump` 메소드는 컬렉션의 아이템을 덤프하여 표시합니다:
+`dump` 메소드는 컬렉션의 아이템을 덤프하여 표시합니다.
 
     $collection = collect(['John Doe', 'Jane Doe']);
 
@@ -682,7 +682,7 @@ This method has the same signature as the [`duplicates`](#method-duplicates) met
 
 The `each` method iterates over the items in the collection and passes each item to a callback:
 
-`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 콜백에 각 아이템을 전달합니다:
+`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 콜백에 각 아이템을 전달합니다.
 
     $collection->each(function ($item, $key) {
         //
@@ -690,7 +690,7 @@ The `each` method iterates over the items in the collection and passes each item
 
 If you would like to stop iterating through the items, you may return `false` from your callback:
 
-전체 항목에 대한 반복을 중지하려면, 콜백 안에서 `false` 를 반환하면 됩니다:
+전체 항목에 대한 반복을 중지하려면, 콜백 안에서 `false` 를 반환하면 됩니다.
 
     $collection->each(function ($item, $key) {
         if (/* some condition */) {
@@ -704,7 +704,7 @@ If you would like to stop iterating through the items, you may return `false` fr
 
 The `eachSpread` method iterates over the collection's items, passing each nested item value into the given callback:
 
-`eachSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다:
+`eachSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다.
 
     $collection = collect([['John Doe', 35], ['Jane Doe', 33]]);
 
@@ -714,7 +714,7 @@ The `eachSpread` method iterates over the collection's items, passing each neste
 
 You may stop iterating through the items by returning `false` from the callback:
 
-반복을 멈추고자 한다면, 콜백안에서 `false` 를 반환하면 됩니다:
+반복을 멈추고자 한다면, 콜백안에서 `false` 를 반환하면 됩니다.
 
     $collection->eachSpread(function ($name, $age) {
         return false;
@@ -726,7 +726,7 @@ You may stop iterating through the items by returning `false` from the callback:
 
 The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
-`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다:
+`every` 메소드는 컬렉션의 모든 요소들이 전달된 조건을 충족하는지 확인하는데 사용할 수 있습니다.
 
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
@@ -752,7 +752,7 @@ If the collection is empty, `every` will return true:
 
 The `except` method returns all items in the collection except for those with the specified keys:
 
-`except` 메소드는 지정된 키에 대한 아이템을 제외한 컬렉션의 모든 아이템을 반환합니다:
+`except` 메소드는 지정된 키에 대한 아이템을 제외한 컬렉션의 모든 아이템을 반환합니다.
 
     $collection = collect(['product_id' => 1, 'price' => 100, 'discount' => false]);
 
@@ -772,7 +772,7 @@ For the inverse of `except`, see the [only](#method-only) method.
 
 The `filter` method filters the collection using the given callback, keeping only those items that pass a given truth test:
 
-`filter` 메소드는 주어진 콜백 컬렉션을 사용하여 필터링을 하고, 주어진 테스트에 true를 반환하는 항목 만 남게 됩니다:
+`filter` 메소드는 주어진 콜백 컬렉션을 사용하여 필터링을 하고, 주어진 테스트에 true를 반환하는 항목 만 남게 됩니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -786,7 +786,7 @@ The `filter` method filters the collection using the given callback, keeping onl
 
 If no callback is supplied, all entries of the collection that are equivalent to `false` will be removed:
 
-콜백이 전달되지 않는다면, 모든 컬렉션의 엔트리 중에서 `false` 로 인식되는 값들은 제거됩니다:
+콜백이 전달되지 않는다면, 모든 컬렉션의 엔트리 중에서 `false` 로 인식되는 값들은 제거됩니다.
 
     $collection = collect([1, 2, 3, null, false, '', 0, []]);
 
@@ -804,7 +804,7 @@ For the inverse of `filter`, see the [reject](#method-reject) method.
 
 The `first` method returns the first element in the collection that passes a given truth test:
 
-`first` 메소드는 주어진 테스트를 통과하는 컬렉션의 첫 번째 요소를 반환합니다:
+`first` 메소드는 주어진 테스트를 통과하는 컬렉션의 첫 번째 요소를 반환합니다.
 
     collect([1, 2, 3, 4])->first(function ($value, $key) {
         return $value > 2;
@@ -814,7 +814,7 @@ The `first` method returns the first element in the collection that passes a giv
 
 You may also call the `first` method with no arguments to get the first element in the collection. If the collection is empty, `null` is returned:
 
-`first` 메소드를 아무런 인자 없이 호출하여 컬렉션의 첫 번째 요소를 획득할 수 있습니다. 만약 컬렉션이 비어 있다면 `null`이 반환됩니다:
+`first` 메소드를 아무런 인자 없이 호출하여 컬렉션의 첫 번째 요소를 획득할 수 있습니다. 만약 컬렉션이 비어 있다면 `null`이 반환됩니다.
 
     collect([1, 2, 3, 4])->first();
 
@@ -826,7 +826,7 @@ You may also call the `first` method with no arguments to get the first element 
 
 The `firstWhere` method returns the first element in the collection with the given key / value pair:
 
-`firstWhere` 메소드는 주어진 키 /값에 해당하는 첫 번째 요소를 반환합니다:
+`firstWhere` 메소드는 주어진 키 /값에 해당하는 첫 번째 요소를 반환합니다.
 
     $collection = collect([
         ['name' => 'Regena', 'age' => null],
@@ -841,7 +841,7 @@ The `firstWhere` method returns the first element in the collection with the giv
 
 You may also call the `firstWhere` method with an operator:
 
-또한 `firstWhere` 메소드에 연산자를 지정할 수도 있습니다:
+또한 `firstWhere` 메소드에 연산자를 지정할 수도 있습니다.
 
     $collection->firstWhere('age', '>=', 18);
 
@@ -861,7 +861,7 @@ Like the [where](#method-where) method, you may pass one argument to the `firstW
 
 The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
 
-`flatMap` 메소드는 각각의 컬렉션을 반복하며 각자의 값을 주어진 콜백에 전달합니다. 콜백은 자유롭게 이 값을 변경하고 돌려주며 이를 통해서 수정된 값을 기반으로 새로운 컬렉션을 만듭니다. 이 배열은 일차원이 됩니다:
+`flatMap` 메소드는 각각의 컬렉션을 반복하며 각자의 값을 주어진 콜백에 전달합니다. 콜백은 자유롭게 이 값을 변경하고 돌려주며 이를 통해서 수정된 값을 기반으로 새로운 컬렉션을 만듭니다. 이 배열은 일차원이 됩니다.
 
     $collection = collect([
         ['name' => 'Sally'],
@@ -883,7 +883,7 @@ The `flatMap` method iterates through the collection and passes each value to th
 
 The `flatten` method flattens a multi-dimensional collection into a single dimension:
 
-`flatten` 메소드는 다차원으로 구성된 컬렉션을 한 차원으로 변경시킵니다:
+`flatten` 메소드는 다차원으로 구성된 컬렉션을 한 차원으로 변경시킵니다.
 
     $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
 
@@ -895,7 +895,7 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
 
 You may optionally pass the function a "depth" argument:
 
-여러분은 선택적으로 함수에 "깊이" 인자를 전달할 수 있습니다:
+여러분은 선택적으로 함수에 "깊이" 인자를 전달할 수 있습니다.
 
     $collection = collect([
         'Apple' => [
@@ -927,7 +927,7 @@ In this example, calling `flatten` without providing the depth would have also f
 
 The `flip` method swaps the collection's keys with their corresponding values:
 
-`flip` 메소드는 컬렉션의 키와 대응하는 값을 바꿉니다:
+`flip` 메소드는 컬렉션의 키와 대응하는 값을 바꿉니다.
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -943,7 +943,7 @@ The `flip` method swaps the collection's keys with their corresponding values:
 
 The `forget` method removes an item from the collection by its key:
 
-`forget` 메소드는 키에 해당하는 컬렉션의 아이템을 삭제합니다:
+`forget` 메소드는 키에 해당하는 컬렉션의 아이템을 삭제합니다.
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -963,7 +963,7 @@ The `forget` method removes an item from the collection by its key:
 
 The `forPage` method returns a new collection containing the items that would be present on a given page number. The method accepts the page number as its first argument and the number of items to show per page as its second argument:
 
-`forPage` 메소드는 주어진 페이지 넘버에 해당하는 아이템을 가지고 있는 새로운 컬렉션을 반환합니다. 이 메소드는 페이지 번호를 첫 번째 인자로 페이지 별로 보여주고자 하는 아이템의 개수를 두 번째 인자로 받아들입니다:
+`forPage` 메소드는 주어진 페이지 넘버에 해당하는 아이템을 가지고 있는 새로운 컬렉션을 반환합니다. 이 메소드는 페이지 번호를 첫 번째 인자로 페이지 별로 보여주고자 하는 아이템의 개수를 두 번째 인자로 받아들입니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -979,7 +979,7 @@ The `forPage` method returns a new collection containing the items that would be
 
 The `get` method returns the item at a given key. If the key does not exist, `null` is returned:
 
-`get` 메소드는 주어진 키에 대한 아이템을 반환합니다. 키가 존재하지 않다면, `null`이 반환됩니다:
+`get` 메소드는 주어진 키에 대한 아이템을 반환합니다. 키가 존재하지 않다면, `null`이 반환됩니다.
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -989,7 +989,7 @@ The `get` method returns the item at a given key. If the key does not exist, `nu
 
 You may optionally pass a default value as the second argument:
 
-두 번째 인자로 기본값을 전달할 수도 있습니다:
+두 번째 인자로 기본값을 전달할 수도 있습니다.
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -999,7 +999,7 @@ You may optionally pass a default value as the second argument:
 
 You may even pass a callback as the default value. The result of the callback will be returned if the specified key does not exist:
 
-기본값을 결정하는 콜백을 전달할 수도 있습니다. 지정된 키가 존재하지 않는 경우에 콜백의 결과가 반환될 것입니다:
+기본값을 결정하는 콜백을 전달할 수도 있습니다. 지정된 키가 존재하지 않는 경우에 콜백의 결과가 반환될 것입니다.
 
     $collection->get('email', function () {
         return 'default-value';
@@ -1013,7 +1013,7 @@ You may even pass a callback as the default value. The result of the callback wi
 
 The `groupBy` method groups the collection's items by a given key:
 
-`groupBy` 메소드는 주어진 키를 기준으로한 컬렉션의 아이템을 그룹을 지정합니다:
+`groupBy` 메소드는 주어진 키를 기준으로한 컬렉션의 아이템을 그룹을 지정합니다.
 
     $collection = collect([
         ['account_id' => 'account-x10', 'product' => 'Chair'],
@@ -1039,7 +1039,7 @@ The `groupBy` method groups the collection's items by a given key:
 
 Instead of passing a string `key`, you may pass a callback. The callback should return the value you wish to key the group by:
 
-문자로 된 `key` 를 전달하는 대신 콜백을 전달할 수 있습니다. 콜백은 그룹으로 지정할 키를 반환해야 합니다:
+문자로 된 `key` 를 전달하는 대신 콜백을 전달할 수 있습니다. 콜백은 그룹으로 지정할 키를 반환해야 합니다.
 
     $grouped = $collection->groupBy(function ($item, $key) {
         return substr($item['account_id'], -3);
@@ -1061,7 +1061,7 @@ Instead of passing a string `key`, you may pass a callback. The callback should 
 
 Multiple grouping criteria may be passed as an array. Each array element will be applied to the corresponding level within a multi-dimensional array:
 
-다중 그룹 처리를 위해 배열을 넘길 수 있습니다. 각 배열 요소들은 다차원 배열에 맞는 단계로 그룹 처리 되어 적용됩니다:
+다중 그룹 처리를 위해 배열을 넘길 수 있습니다. 각 배열 요소들은 다차원 배열에 맞는 단계로 그룹 처리 되어 적용됩니다.
 
     $data = new Collection([
         10 => ['user' => 1, 'skill' => 1, 'roles' => ['Role_1', 'Role_3']],
@@ -1108,7 +1108,7 @@ Multiple grouping criteria may be passed as an array. Each array element will be
 
 The `has` method determines if a given key exists in the collection:
 
-`has` 메소드는 주어진 키가 컬렉션 안에 존재하는지 알려줍니다:
+`has` 메소드는 주어진 키가 컬렉션 안에 존재하는지 알려줍니다.
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk', 'amount' => 5]);
 
@@ -1130,7 +1130,7 @@ The `has` method determines if a given key exists in the collection:
 
 The `implode` method joins the items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values:
 
-`implode` 메소드는 컬렉션 안의 아이템들을 합쳐줍니다. 이 메소드의 인자는 컬렉션 안에 있는 아이템들의 타입에 의존합니다. 컬렉션이 배열 또는 객체를 가지고 있다면, 합치고자 하는 속성의 키와 값들 사이에 끼워 넣고자 하는 "glue" 문자열을 전달해야 합니다:
+`implode` 메소드는 컬렉션 안의 아이템들을 합쳐줍니다. 이 메소드의 인자는 컬렉션 안에 있는 아이템들의 타입에 의존합니다. 컬렉션이 배열 또는 객체를 가지고 있다면, 합치고자 하는 속성의 키와 값들 사이에 끼워 넣고자 하는 "glue" 문자열을 전달해야 합니다.
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],
@@ -1143,7 +1143,7 @@ The `implode` method joins the items in a collection. Its arguments depend on th
 
 If the collection contains simple strings or numeric values, pass the "glue" as the only argument to the method:
 
-컬렉션이 간단한 문자열 또는 숫자값을 가지고 있다면, 간단하게 "glue" 를 첫 번째 인자로 전달하면 됩니다:
+컬렉션이 간단한 문자열 또는 숫자값을 가지고 있다면, 간단하게 "glue" 를 첫 번째 인자로 전달하면 됩니다.
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -1155,7 +1155,7 @@ If the collection contains simple strings or numeric values, pass the "glue" as 
 
 The `intersect` method removes any values from the original collection that are not present in the given `array` or collection. The resulting collection will preserve the original collection's keys:
 
-`intersect` 메소드는 원래의 컬렉션에서 주어진 배열 또는 컬렉션에 존재하지 않는 값을 제거합니다. 메소드를 호출한 뒤에도 원래 컬렉션의 키 값은 보존됩니다:
+`intersect` 메소드는 원래의 컬렉션에서 주어진 배열 또는 컬렉션에 존재하지 않는 값을 제거합니다. 메소드를 호출한 뒤에도 원래 컬렉션의 키 값은 보존됩니다.
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -1171,7 +1171,7 @@ The `intersect` method removes any values from the original collection that are 
 
 The `intersectByKeys` method removes any keys from the original collection that are not present in the given `array` or collection:
 
-`intersectByKeys` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다:
+`intersectByKeys` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다.
 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
@@ -1191,7 +1191,7 @@ The `intersectByKeys` method removes any keys from the original collection that 
 
 The `isEmpty` method returns `true` if the collection is empty; otherwise, `false` is returned:
 
-`isEmpty` 메소드는 컬렉션이 비어 있는 경우 `true`를 반환하고, 그렇지 않은 경우 `false`를 반환합니다:
+`isEmpty` 메소드는 컬렉션이 비어 있는 경우 `true`를 반환하고, 그렇지 않은 경우 `false`를 반환합니다.
 
     collect([])->isEmpty();
 
@@ -1203,7 +1203,7 @@ The `isEmpty` method returns `true` if the collection is empty; otherwise, `fals
 
 The `isNotEmpty` method returns `true` if the collection is not empty; otherwise, `false` is returned:
 
-`isNotEmpty` 메소드는 컬렉션이 비어 있지 않은 경우 `true`를 반환하고, 그렇지 않은 경우 `false`를 반환합니다:
+`isNotEmpty` 메소드는 컬렉션이 비어 있지 않은 경우 `true`를 반환하고, 그렇지 않은 경우 `false`를 반환합니다.
 
     collect([])->isNotEmpty();
 
@@ -1215,7 +1215,7 @@ The `isNotEmpty` method returns `true` if the collection is not empty; otherwise
 
 The `keyBy` method keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection:
 
-`keyBy` 메소드는 주어진 키를 기준으로 컬렉션을 다시 구성합니다. 여러 아이템이 같은 키를 가지고 있다면, 새로운 컬렉션에서는 마지막 항목만 나타납니다:
+`keyBy` 메소드는 주어진 키를 기준으로 컬렉션을 다시 구성합니다. 여러 아이템이 같은 키를 가지고 있다면, 새로운 컬렉션에서는 마지막 항목만 나타납니다.
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -1235,7 +1235,7 @@ The `keyBy` method keys the collection by the given key. If multiple items have 
 
 You may also pass a callback to the method. The callback should return the value to key the collection by:
 
-메소드에 콜백은 전달할 수도 있습니다. 콜백은 컬렉션의 키 값을 반환해야합니다:
+메소드에 콜백은 전달할 수도 있습니다. 콜백은 컬렉션의 키 값을 반환해야합니다.
 
     $keyed = $collection->keyBy(function ($item) {
         return strtoupper($item['product_id']);
@@ -1256,7 +1256,7 @@ You may also pass a callback to the method. The callback should return the value
 
 The `keys` method returns all of the collection's keys:
 
-`keys` 메소드는 컬렉션의 모든 키를 반환합니다:
+`keys` 메소드는 컬렉션의 모든 키를 반환합니다.
 
     $collection = collect([
         'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -1275,7 +1275,7 @@ The `keys` method returns all of the collection's keys:
 
 The `last` method returns the last element in the collection that passes a given truth test:
 
-`last` 메소드는 주어진 콜백에서 참이 되는 값 중에 가장 마지막 값을 반환합니다:
+`last` 메소드는 주어진 콜백에서 참이 되는 값 중에 가장 마지막 값을 반환합니다.
 
     collect([1, 2, 3, 4])->last(function ($value, $key) {
         return $value < 3;
@@ -1285,7 +1285,7 @@ The `last` method returns the last element in the collection that passes a given
 
 You may also call the `last` method with no arguments to get the last element in the collection. If the collection is empty, `null` is returned:
 
-`last` 메소드를 인자 없이 호출하여 컬렉션의 가장 마지막 값을 획득할 수도 있습니다. 컬렉션이 비어 있다면, `null`이 반환됩니다:
+`last` 메소드를 인자 없이 호출하여 컬렉션의 가장 마지막 값을 획득할 수도 있습니다. 컬렉션이 비어 있다면, `null`이 반환됩니다.
 
     collect([1, 2, 3, 4])->last();
 
@@ -1313,7 +1313,7 @@ The static `make` method creates a new collection instance. See the [Creating Co
 
 The `map` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items:
 
-`map` 메소드는 컬렉션 전체를 반복하여 주어진 콜백에 각각의 값을 전달합니다. 콜백은 자유롭게 아이템을 변경하고 반환하여, 변경된 아이템으로 구성된 새로운 컬렉션이 만들어 집니다:
+`map` 메소드는 컬렉션 전체를 반복하여 주어진 콜백에 각각의 값을 전달합니다. 콜백은 자유롭게 아이템을 변경하고 반환하여, 변경된 아이템으로 구성된 새로운 컬렉션이 만들어 집니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1335,7 +1335,7 @@ The `map` method iterates through the collection and passes each value to the gi
 
 The `mapInto()` method iterates over the collection, creating a new instance of the given class by passing the value into the constructor:
 
-`mapInto()` 메소드는 컬렉션의 아이템을 반복하면서 전달된 클래스의 생성자에 주어진 값을 전달하여 새로운 인스턴스를 생성합니다:
+`mapInto()` 메소드는 컬렉션의 아이템을 반복하면서 전달된 클래스의 생성자에 주어진 값을 전달하여 새로운 인스턴스를 생성합니다.
 
     class Currency
     {
@@ -1365,7 +1365,7 @@ The `mapInto()` method iterates over the collection, creating a new instance of 
 
 The `mapSpread` method iterates over the collection's items, passing each nested item value into the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items:
 
-`mapSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다. 콜백에서는 자유롭게 아이템을 수정하고 반환할 수 있으며, 그 결과 수정된 아이템으로 구성된 새로운 컬렉션을 반환합니다:
+`mapSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다. 콜백에서는 자유롭게 아이템을 수정하고 반환할 수 있으며, 그 결과 수정된 아이템으로 구성된 새로운 컬렉션을 반환합니다.
 
     $collection = collect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -1385,7 +1385,7 @@ The `mapSpread` method iterates over the collection's items, passing each nested
 
 The `mapToGroups` method groups the collection's items by the given callback. The callback should return an associative array containing a single key / value pair, thus forming a new collection of grouped values:
 
-`mapToGroups` 메소드는 컬렉션의 항목을 지정된 콜백 별로 그룹화합니다. 콜백은 하나의 키/값 쌍을 포함하는 그룹화 된 값으로 구성된 새로운 컬렉션을 반환합니다:
+`mapToGroups` 메소드는 컬렉션의 항목을 지정된 콜백 별로 그룹화합니다. 콜백은 하나의 키/값 쌍을 포함하는 그룹화 된 값으로 구성된 새로운 컬렉션을 반환합니다.
 
     $collection = collect([
         [
@@ -1425,7 +1425,7 @@ The `mapToGroups` method groups the collection's items by the given callback. Th
 
 The `mapWithKeys` method iterates through the collection and passes each value to the given callback. The callback should return an associative array containing a single key / value pair:
 
-`mapWithKeys` 메소드는 컬렉션 전체를 반복하며 각각의 값을 주어진 콜백에 전달합니다 콜백은 하나의 키/값 쌍을 포함하는 연관 배열을 반환합니다:
+`mapWithKeys` 메소드는 컬렉션 전체를 반복하며 각각의 값을 주어진 콜백에 전달합니다 콜백은 하나의 키/값 쌍을 포함하는 연관 배열을 반환합니다.
 
     $collection = collect([
         [
@@ -1459,7 +1459,7 @@ The `mapWithKeys` method iterates through the collection and passes each value t
 
 The `max` method returns the maximum value of a given key:
 
-`max` 메소드는 주어진 키에 해당하는 최대값을 반환합니다:
+`max` 메소드는 주어진 키에 해당하는 최대값을 반환합니다.
 
     $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
 
@@ -1491,7 +1491,7 @@ The `median` method returns the [median value](https://en.wikipedia.org/wiki/Med
 
 The `merge` method merges the given array or collection with the original collection. If a string key in the given items matches a string key in the original collection, the given items's value will overwrite the value in the original collection:
 
-`merge` 메소드는 주어진 배열 또는 컬렉션을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 쓸 것입니다:
+`merge` 메소드는 주어진 배열 또는 컬렉션을 원래의 컬렉션과 합칩니다. 배열 안에 들어 있는 키가 컬렉션에 들어 있는 키와 일치한다면, 주어진 배열의 값이 원래의 컬렉션 안의 값을 덮어 쓸 것입니다.
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
@@ -1503,7 +1503,7 @@ The `merge` method merges the given array or collection with the original collec
 
 If the given items's keys are numeric, the values will be appended to the end of the collection:
 
-만약 주어진 아이템의 키가 숫자라면, 이 값들은 컬렉션의 가장 마지막에 추가됩니다:
+만약 주어진 아이템의 키가 숫자라면, 이 값들은 컬렉션의 가장 마지막에 추가됩니다.
 
     $collection = collect(['Desk', 'Chair']);
 
@@ -1535,7 +1535,7 @@ The `mergeRecursive` method merges the given array or collection recursively wit
 
 The `min` method returns the minimum value of a given key:
 
-`min` 메소드는 주어진 키에 대한 최소 값을 반환합니다:
+`min` 메소드는 주어진 키에 대한 최소 값을 반환합니다.
 
     $min = collect([['foo' => 10], ['foo' => 20]])->min('foo');
 
@@ -1551,7 +1551,7 @@ The `min` method returns the minimum value of a given key:
 
 The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(statistics)) of a given key:
 
-`mode` 메소드는 [확률분포에서의 중앙값](https://en.wikipedia.org/wiki/Mode_(statistics))을 반환합니다:
+`mode` 메소드는 [확률분포에서의 중앙값](https://en.wikipedia.org/wiki/Mode_(statistics))을 반환합니다.
 
     $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
 
@@ -1567,7 +1567,7 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 
 The `nth` method creates a new collection consisting of every n-th element:
 
-`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다:
+`nth` 메소드는 매 n 번째 존재하는 요소로 구성된 새로운 컬렉션을 생성합니다.
 
 (역자주: 첫 번째 인자로 주어진 숫자로 나누어 나머지가 0인 경우의 아이템들로 구성된 컬렉션이 반환됩니다. 인덱스는 0부터 시작)
 
@@ -1579,7 +1579,7 @@ The `nth` method creates a new collection consisting of every n-th element:
 
 You may optionally pass an offset as the second argument:
 
-두 번째 인자로 offset을 전달할 수도 있습니다:
+두 번째 인자로 offset을 전달할 수도 있습니다.
 
     $collection->nth(4, 1);
 
@@ -1591,7 +1591,7 @@ You may optionally pass an offset as the second argument:
 
 The `only` method returns the items in the collection with the specified keys:
 
-`only` 메소드는 컬렉션 안에서 지정된 키에 대한 아이템 만을 반환합니다:
+`only` 메소드는 컬렉션 안에서 지정된 키에 대한 아이템 만을 반환합니다.
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
 
@@ -1637,7 +1637,7 @@ To pad to the left, you should specify a negative size. No padding will take pla
 
 The `partition` method may be combined with the `list` PHP function to separate elements that pass a given truth test from those that do not:
 
-`partition` 메소드는 PHP의 `list` 함수와 함께 사용되어 주어진 조건식을 만족하는, 그리고 만족하지 못하는 두 개의 요소들로 나누는데 사용할 수 있습니다:
+`partition` 메소드는 PHP의 `list` 함수와 함께 사용되어 주어진 조건식을 만족하는, 그리고 만족하지 못하는 두 개의 요소들로 나누는데 사용할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6]);
 
@@ -1659,7 +1659,7 @@ The `partition` method may be combined with the `list` PHP function to separate 
 
 The `pipe` method passes the collection to the given callback and returns the result:
 
-`pipe` 메소드는 컬렉션을 주어진 콜백에 전달하고 그 결과를 반환합니다:
+`pipe` 메소드는 컬렉션을 주어진 콜백에 전달하고 그 결과를 반환합니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -1675,7 +1675,7 @@ The `pipe` method passes the collection to the given callback and returns the re
 
 The `pluck` method retrieves all of the values for a given key:
 
-`pluck` 메소드는 주어진 키에 대한 모든 값을 반환합니다:
+`pluck` 메소드는 주어진 키에 대한 모든 값을 반환합니다.
 
     $collection = collect([
         ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -1690,7 +1690,7 @@ The `pluck` method retrieves all of the values for a given key:
 
 You may also specify how you wish the resulting collection to be keyed:
 
-또한 컬렉션에서 반환되는 결과의 키로 지정하고자 하는 값을 지정할 수도 있습니다:
+또한 컬렉션에서 반환되는 결과의 키로 지정하고자 하는 값을 지정할 수도 있습니다.
 
     $plucked = $collection->pluck('name', 'product_id');
 
@@ -1700,7 +1700,7 @@ You may also specify how you wish the resulting collection to be keyed:
 
 If duplicate keys exist, the last matching element will be inserted into the plucked collection:
 
-중복되는 키가 존재한다면, 마지막에 매칭되는 요소가 pluck 결과 컬렉션에 추가됩니다:
+중복되는 키가 존재한다면, 마지막에 매칭되는 요소가 pluck 결과 컬렉션에 추가됩니다.
 
     $collection = collect([
         ['brand' => 'Tesla',  'color' => 'red'],
@@ -1721,7 +1721,7 @@ If duplicate keys exist, the last matching element will be inserted into the plu
 
 The `pop` method removes and returns the last item from the collection:
 
-`pop` 메소드는 컬렉션의 마지막 값을 반환하고 제거합니다:
+`pop` 메소드는 컬렉션의 마지막 값을 반환하고 제거합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1739,7 +1739,7 @@ The `pop` method removes and returns the last item from the collection:
 
 The `prepend` method adds an item to the beginning of the collection:
 
-`prepend` 메소드는 컬렉션의 앞 부분에 아이템을 추가합니다:
+`prepend` 메소드는 컬렉션의 앞 부분에 아이템을 추가합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1767,7 +1767,7 @@ You may also pass a second argument to set the key of the prepended item:
 
 The `pull` method removes and returns an item from the collection by its key:
 
-`pull` 메소드는 주어진 키에 해당하는 아이템을 반환하고 삭제합니다:
+`pull` 메소드는 주어진 키에 해당하는 아이템을 반환하고 삭제합니다.
 
     $collection = collect(['product_id' => 'prod-100', 'name' => 'Desk']);
 
@@ -1785,7 +1785,7 @@ The `pull` method removes and returns an item from the collection by its key:
 
 The `push` method appends an item to the end of the collection:
 
-`push` 메소드는 컬렉션의 마지막에 아이템을 추가합니다:
+`push` 메소드는 컬렉션의 마지막에 아이템을 추가합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1801,7 +1801,7 @@ The `push` method appends an item to the end of the collection:
 
 The `put` method sets the given key and value in the collection:
 
-`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다:
+`put` 메소드는 주어진 키와 값을 컬렉션에 추가합니다.
 
     $collection = collect(['product_id' => 1, 'name' => 'Desk']);
 
@@ -1817,7 +1817,7 @@ The `put` method sets the given key and value in the collection:
 
 The `random` method returns a random item from the collection:
 
-`random` 메소드는 컬렉션의 아이템 중 하나를 랜덤하게 반환합니다:
+`random` 메소드는 컬렉션의 아이템 중 하나를 랜덤하게 반환합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1827,7 +1827,7 @@ The `random` method returns a random item from the collection:
 
 You may optionally pass an integer to `random` to specify how many items you would like to randomly retrieve. A collection of items is always returned when explicitly passing the number of items you wish to receive:
 
-얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 수신할 아이템의 수를 명시적으로 전달하면 아이템 컬렉션이 반환됩니다:
+얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 수신할 아이템의 수를 명시적으로 전달하면 아이템 컬렉션이 반환됩니다.
 
     $random = $collection->random(3);
 
@@ -1845,7 +1845,7 @@ If the Collection has fewer items than requested, the method will throw an `Inva
 
 The `reduce` method reduces the collection to a single value, passing the result of each iteration into the subsequent iteration:
 
-`reduce` 메소드는 각각의 인자를 반복하여 다음 반복에 결과를 전달하면서 컬렉션을 하나의 값으로 줄입니다:
+`reduce` 메소드는 각각의 인자를 반복하여 다음 반복에 결과를 전달하면서 컬렉션을 하나의 값으로 줄입니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -1857,7 +1857,7 @@ The `reduce` method reduces the collection to a single value, passing the result
 
 The value for `$carry` on the first iteration is `null`; however, you may specify its initial value by passing a second argument to `reduce`:
 
-첫 번째 반복에서 `$carry`의 값은 `null`입니다; 그러나 초기값을 지정하고자 하는 경우에 `reduce`의 두 번째 인자로 전달할 수 있습니다:
+첫 번째 반복에서 `$carry`의 값은 `null`입니다; 그러나 초기값을 지정하고자 하는 경우에 `reduce`의 두 번째 인자로 전달할 수 있습니다.
 
     $collection->reduce(function ($carry, $item) {
         return $carry + $item;
@@ -1871,7 +1871,7 @@ The value for `$carry` on the first iteration is `null`; however, you may specif
 
 The `reject` method filters the collection using the given callback. The callback should return `true` if the item should be removed from the resulting collection:
 
-`reject` 메소드는 컬렉션에서 지정된 콜백을 사용하여 필터링을 합니다. 콜백은 결과 컬렉션에서 제거되어야 하는 아이템의 경우 `true`를 반환해야 합니다:
+`reject` 메소드는 컬렉션에서 지정된 콜백을 사용하여 필터링을 합니다. 콜백은 결과 컬렉션에서 제거되어야 하는 아이템의 경우 `true`를 반환해야 합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1925,7 +1925,7 @@ This method works like `replace`, but it will recurse into arrays and apply the 
 
 The `reverse` method reverses the order of the collection's items, preserving the original keys:
 
-`reverse` 메소드는 컬렉션의 원래의 키는 유지하면서 아이템의 순서를 반대가 되게 합니다:
+`reverse` 메소드는 컬렉션의 원래의 키는 유지하면서 아이템의 순서를 반대가 되게 합니다.
 
     $collection = collect(['a', 'b', 'c', 'd', 'e']);
 
@@ -1959,7 +1959,7 @@ The `search` method searches the collection for the given value and returns its 
 
 The search is done using a "loose" comparison, meaning a string with an integer value will be considered equal to an integer of the same value. To use "strict" comparison, pass `true` as the second argument to the method:
 
-검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 "엄격한" 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다:
+검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 "엄격한" 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다.
 
     $collection->search('4', true);
 
@@ -1967,7 +1967,7 @@ The search is done using a "loose" comparison, meaning a string with an integer 
 
 Alternatively, you may pass in your own callback to search for the first item that passes your truth test:
 
-다른 방법으로, 검색 콜백을 전달하여 콜백을 통과 하는 첫 번째 아이템을 획득할 수도 있습니다:
+다른 방법으로, 검색 콜백을 전달하여 콜백을 통과 하는 첫 번째 아이템을 획득할 수도 있습니다.
 
     $collection->search(function ($item, $key) {
         return $item > 5;
@@ -1981,7 +1981,7 @@ Alternatively, you may pass in your own callback to search for the first item th
 
 The `shift` method removes and returns the first item from the collection:
 
-`shift` 메소드는 컬렉션에서 첫 번째 아이템을 제거하고 해당 값을 반환합니다:
+`shift` 메소드는 컬렉션에서 첫 번째 아이템을 제거하고 해당 값을 반환합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -1999,7 +1999,7 @@ The `shift` method removes and returns the first item from the collection:
 
 The `shuffle` method randomly shuffles the items in the collection:
 
-`shuffle` 메소드는 컬렉션의 아이템을 랜덤하게 섞어버립니다:
+`shuffle` 메소드는 컬렉션의 아이템을 랜덤하게 섞어버립니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2031,7 +2031,7 @@ The `skip` method returns a new collection, without the first given amount of it
 
 The `slice` method returns a slice of the collection starting at the given index:
 
-`slice` 메소드는 주어진 인덱스에서 시작하는 컬렉션으로 잘라냅니다:
+`slice` 메소드는 주어진 인덱스에서 시작하는 컬렉션으로 잘라냅니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
@@ -2043,7 +2043,7 @@ The `slice` method returns a slice of the collection starting at the given index
 
 If you would like to limit the size of the returned slice, pass the desired size as the second argument to the method:
 
-만약 반환되는 컬렉션의 사이즈를 제한하고자 한다면, 메소드의 두 번째 인자로 사이즈를 전달하면 됩니다:
+만약 반환되는 컬렉션의 사이즈를 제한하고자 한다면, 메소드의 두 번째 인자로 사이즈를 전달하면 됩니다.
 
     $slice = $collection->slice(4, 2);
 
@@ -2070,7 +2070,7 @@ Alias for the [`contains`](#method-contains) method.
 
 The `sort` method sorts the collection. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
-`sort` 메소드는 컬렉션을 정렬합니다. 정렬된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다:
+`sort` 메소드는 컬렉션을 정렬합니다. 정렬된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
     $collection = collect([5, 3, 1, 2, 4]);
 
@@ -2094,7 +2094,7 @@ If your sorting needs are more advanced, you may pass a callback to `sort` with 
 
 The `sortBy` method sorts the collection by the given key. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
-`sortBy` 메소드는 주어진 키에 의한 정렬을 수행합니다. 정렬된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다:
+`sortBy` 메소드는 주어진 키에 의한 정렬을 수행합니다. 정렬된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
     $collection = collect([
         ['name' => 'Desk', 'price' => 200],
@@ -2116,7 +2116,7 @@ The `sortBy` method sorts the collection by the given key. The sorted collection
 
 You can also pass your own callback to determine how to sort the collection values:
 
-컬렉션의 값을 어떻게 정렬하는지를 결정하기 위해 콜백을 전달할 수도 있습니다:
+컬렉션의 값을 어떻게 정렬하는지를 결정하기 위해 콜백을 전달할 수도 있습니다.
 
     $collection = collect([
         ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
@@ -2186,7 +2186,7 @@ This method has the same signature as the [`sortKeys`](#method-sortkeys) method,
 
 The `splice` method removes and returns a slice of items starting at the specified index:
 
-`splice` 메소드는 지정된 인덱스에서 시작하여 아이템을 잘라내고 제거하여 반환합니다:
+`splice` 메소드는 지정된 인덱스에서 시작하여 아이템을 잘라내고 제거하여 반환합니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2202,7 +2202,7 @@ The `splice` method removes and returns a slice of items starting at the specifi
 
 You may pass a second argument to limit the size of the resulting chunk:
 
-반환되는 결과의 사이즈를 제한하기 위해서 두 번째 인자로 전달할 수 있습니다:
+반환되는 결과의 사이즈를 제한하기 위해서 두 번째 인자로 전달할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2218,7 +2218,7 @@ You may pass a second argument to limit the size of the resulting chunk:
 
 In addition, you can pass a third argument containing the new items to replace the items removed from the collection:
 
-추가적으로, 컬렉션에서 아이템을 제거하고, 대체할 새로운 아이템을 세 번째 인자로 전달할 수 있습니다:
+추가적으로, 컬렉션에서 아이템을 제거하고, 대체할 새로운 아이템을 세 번째 인자로 전달할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2238,7 +2238,7 @@ In addition, you can pass a third argument containing the new items to replace t
 
 The `split` method breaks a collection into the given number of groups:
 
-`split` 메소드는 컬렉션을 주어진 개수의 그룹으로 나눕니다:
+`split` 메소드는 컬렉션을 주어진 개수의 그룹으로 나눕니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2254,7 +2254,7 @@ The `split` method breaks a collection into the given number of groups:
 
 The `sum` method returns the sum of all items in the collection:
 
-`sum` 메소드는 컬렉션 안에 있는 모든 아이템들의 합을 반환합니다:
+`sum` 메소드는 컬렉션 안에 있는 모든 아이템들의 합을 반환합니다.
 
     collect([1, 2, 3, 4, 5])->sum();
 
@@ -2262,7 +2262,7 @@ The `sum` method returns the sum of all items in the collection:
 
 If the collection contains nested arrays or objects, you should pass a key to use for determining which values to sum:
 
-컬렉션이 중첩된 배열이나 객체를 가지고 있다면, 어떤 값을 더해야할지 결정하는 키를 전달해야 합니다:
+컬렉션이 중첩된 배열이나 객체를 가지고 있다면, 어떤 값을 더해야할지 결정하는 키를 전달해야 합니다.
 
     $collection = collect([
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
@@ -2275,7 +2275,7 @@ If the collection contains nested arrays or objects, you should pass a key to us
 
 In addition, you may pass your own callback to determine which values of the collection to sum:
 
-추가적으로, 컬렉션의 어떤 값을 더해야 할지 결정하는 콜백을 전달할 수도 있습니다:
+추가적으로, 컬렉션의 어떤 값을 더해야 할지 결정하는 콜백을 전달할 수도 있습니다.
 
     $collection = collect([
         ['name' => 'Chair', 'colors' => ['Black']],
@@ -2295,7 +2295,7 @@ In addition, you may pass your own callback to determine which values of the col
 
 The `take` method returns a new collection with the specified number of items:
 
-`take` 메소드는 지정된 숫자의 아이템으로 이루어진 새로운 컬렉션을 반환합니다:
+`take` 메소드는 지정된 숫자의 아이템으로 이루어진 새로운 컬렉션을 반환합니다.
 
     $collection = collect([0, 1, 2, 3, 4, 5]);
 
@@ -2307,7 +2307,7 @@ The `take` method returns a new collection with the specified number of items:
 
 You may also pass a negative integer to take the specified amount of items from the end of the collection:
 
-컬렉션의 끝에서부터 가져올 아이템의 개수를 지정하기 위해서 음수를 전달할 수도 있습니다:
+컬렉션의 끝에서부터 가져올 아이템의 개수를 지정하기 위해서 음수를 전달할 수도 있습니다.
 
     $collection = collect([0, 1, 2, 3, 4, 5]);
 
@@ -2323,7 +2323,7 @@ You may also pass a negative integer to take the specified amount of items from 
 
 The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself:
 
-`tap` 메소드는 컬렉션에 콜백과 함께 전달되며, 원래의 컬렉션에 영향을 주지 않고 특정 지점에 대해서 어떤 작업을 수행하고자 할 때 사용됩니다:
+`tap` 메소드는 컬렉션에 콜백과 함께 전달되며, 원래의 컬렉션에 영향을 주지 않고 특정 지점에 대해서 어떤 작업을 수행하고자 할 때 사용됩니다.
 
     collect([2, 4, 3, 1, 5])
         ->sort()
@@ -2340,7 +2340,7 @@ The `tap` method passes the collection to the given callback, allowing you to "t
 
 The static `times` method creates a new collection by invoking the callback a given amount of times:
 
-`times` 메소드는 주어진 양의 횟수만큼 콜백을 수행한 결과로 새로운 컬렉션을 생성합니다:
+`times` 메소드는 주어진 양의 횟수만큼 콜백을 수행한 결과로 새로운 컬렉션을 생성합니다.
 
     $collection = Collection::times(10, function ($number) {
         return $number * 9;
@@ -2374,7 +2374,7 @@ This method can be useful when combined with factories to create [Eloquent](/doc
 
 The `toArray` method converts the collection into a plain PHP `array`. If the collection's values are [Eloquent](/docs/{{version}}/eloquent) models, the models will also be converted to arrays:
 
-`toArray` 메소드는 컬렉션을 PHP `배열`로 변환합니다. 컬렉션의 값이 [Eloquent](/docs/{{version}}/eloquent) 라면, 이 모델 또한 배열로 변환될 것입니다:
+`toArray` 메소드는 컬렉션을 PHP `배열`로 변환합니다. 컬렉션의 값이 [Eloquent](/docs/{{version}}/eloquent) 라면, 이 모델 또한 배열로 변환될 것입니다.
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -2396,7 +2396,7 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
 
 The `toJson` method converts the collection into a JSON serialized string:
 
-`toJson` 메소드는 모든 컬렉션을 JSON serialized 문자열로 변환합니다:
+`toJson` 메소드는 모든 컬렉션을 JSON serialized 문자열로 변환합니다.
 
     $collection = collect(['name' => 'Desk', 'price' => 200]);
 
@@ -2410,7 +2410,7 @@ The `toJson` method converts the collection into a JSON serialized string:
 
 The `transform` method iterates over the collection and calls the given callback with each item in the collection. The items in the collection will be replaced by the values returned by the callback:
 
-`transform` 메소드는 컬렉션을 반복하여 컬렉션의 각각의 아이템에 대해서 주어진 콜백을 호출합니다. 컬렉션 안에 있는 아이템들은 자동으로 콜백의 결과로 대체될 것입니다:
+`transform` 메소드는 컬렉션을 반복하여 컬렉션의 각각의 아이템에 대해서 주어진 콜백을 호출합니다. 컬렉션 안에 있는 아이템들은 자동으로 콜백의 결과로 대체될 것입니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2432,7 +2432,7 @@ The `transform` method iterates over the collection and calls the given callback
 
 The `union` method adds the given array to the collection. If the given array contains keys that are already in the original collection, the original collection's values will be preferred:
 
-`union` 메소드는 주어진 배열을 컬렉션에 추가합니다. 만약 원래의 컬렉션에서 이미 가지고 있는 키를 주어진 배열에서 가지고 있다면, 원래의 컬렉션 값이 우선합니다:
+`union` 메소드는 주어진 배열을 컬렉션에 추가합니다. 만약 원래의 컬렉션에서 이미 가지고 있는 키를 주어진 배열에서 가지고 있다면, 원래의 컬렉션 값이 우선합니다.
 
     $collection = collect([1 => ['a'], 2 => ['b']]);
 
@@ -2448,7 +2448,7 @@ The `union` method adds the given array to the collection. If the given array co
 
 The `unique` method returns all of the unique items in the collection. The returned collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
-`unique` 메소드는 컬렉션 안에서 유니크한 모든 아이템들을 반환합니다. 반환된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다:
+`unique` 메소드는 컬렉션 안에서 유니크한 모든 아이템들을 반환합니다. 반환된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
     $collection = collect([1, 1, 2, 2, 3, 4, 2]);
 
@@ -2460,7 +2460,7 @@ The `unique` method returns all of the unique items in the collection. The retur
 
 When dealing with nested arrays or objects, you may specify the key used to determine uniqueness:
 
-중첩된 배열이나 객체를 다룰 때에는, 유니크 여부를 결정할 키를 지정할 수 있습니다:
+중첩된 배열이나 객체를 다룰 때에는, 유니크 여부를 결정할 키를 지정할 수 있습니다.
 
     $collection = collect([
         ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -2483,7 +2483,7 @@ When dealing with nested arrays or objects, you may specify the key used to dete
 
 You may also pass your own callback to determine item uniqueness:
 
-또한 아이템이 유니크한지 결정하기 위한 콜백을 전달할 수도 있습니다:
+또한 아이템이 유니크한지 결정하기 위한 콜백을 전달할 수도 있습니다.
 
 
     $unique = $collection->unique(function ($item) {
@@ -2519,7 +2519,7 @@ This method has the same signature as the [`unique`](#method-unique) method; how
 
 The `unless` method will execute the given callback unless the first argument given to the method evaluates to `true`:
 
-`unless` 메소드는 메소드에 주어진 첫 번째 인자값이 `true`가 아닐 때 두 번째 인자로 전달되는 콜백을 실행합니다:
+`unless` 메소드는 메소드에 주어진 첫 번째 인자값이 `true`가 아닐 때 두 번째 인자로 전달되는 콜백을 실행합니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -2559,7 +2559,7 @@ Alias for the [`whenNotEmpty`](#method-whennotempty) method.
 
 The static `unwrap` method returns the collection's underlying items from the given value when applicable:
 
-정적 메소드인 `unwrap` 메소드는 해당되는 경우, 컬렉션의 아이템을 컬렉션의 형태에서 해제하여 기본 타입 형태로 반환합니다:
+정적 메소드인 `unwrap` 메소드는 해당되는 경우, 컬렉션의 아이템을 컬렉션의 형태에서 해제하여 기본 타입 형태로 반환합니다.
 
     Collection::unwrap(collect('John Doe'));
 
@@ -2579,7 +2579,7 @@ The static `unwrap` method returns the collection's underlying items from the gi
 
 The `values` method returns a new collection with the keys reset to consecutive integers:
 
-`values` 메소드는 키를 리셋하고 연속적인 정수를 키로 하는 새로운 컬렉션을 반환합니다:
+`values` 메소드는 키를 리셋하고 연속적인 정수를 키로 하는 새로운 컬렉션을 반환합니다.
 
     $collection = collect([
         10 => ['product' => 'Desk', 'price' => 200],
@@ -2603,7 +2603,7 @@ The `values` method returns a new collection with the keys reset to consecutive 
 
 The `when` method will execute the given callback when the first argument given to the method evaluates to `true`:
 
-`when` 메소드는 when 메소드에 주어진 첫 번째 인자가 `true`로 판정 될 때 두 번째 인자로 전달되는 콜백을 실행합니다:
+`when` 메소드는 when 메소드에 주어진 첫 번째 인자가 `true`로 판정 될 때 두 번째 인자로 전달되는 콜백을 실행합니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -2629,7 +2629,7 @@ For the inverse of `when`, see the [`unless`](#method-unless) method.
 
 The `whenEmpty` method will execute the given callback when the collection is empty:
 
-`whenEmpty` 메소드는 컬렉션이 비어 있을때 전달되는 콜백을 실행합니다:
+`whenEmpty` 메소드는 컬렉션이 비어 있을때 전달되는 콜백을 실행합니다.
 
     $collection = collect(['michael', 'tom']);
 
@@ -2675,7 +2675,7 @@ For the inverse of `whenEmpty`, see the [`whenNotEmpty`](#method-whennotempty) m
 
 The `whenNotEmpty` method will execute the given callback when the collection is not empty:
 
-`whenNotEmpty` 메소드는 컬렉션이 비어 있지 않을 때, 주어진 콜백을 실행합니다:
+`whenNotEmpty` 메소드는 컬렉션이 비어 있지 않을 때, 주어진 콜백을 실행합니다.
 
     $collection = collect(['michael', 'tom']);
 
@@ -2721,7 +2721,7 @@ For the inverse of `whenNotEmpty`, see the [`whenEmpty`](#method-whenempty) meth
 
 The `where` method filters the collection by a given key / value pair:
 
-`where` 메소드는 주어진 키/값 쌍에 대해서 컬렉션을 필터링합니다:
+`where` 메소드는 주어진 키/값 쌍에 대해서 컬렉션을 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -2780,7 +2780,7 @@ This method has the same signature as the [`where`](#method-where) method; howev
 
 The `whereBetween` method filters the collection within a given range:
 
-`whereBetween` 메소드는 컬렉션을 주어진 범위안에 해당되는 값으로만 필터링합니다:
+`whereBetween` 메소드는 컬렉션을 주어진 범위안에 해당되는 값으로만 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -2808,7 +2808,7 @@ The `whereBetween` method filters the collection within a given range:
 
 The `whereIn` method filters the collection by a given key / value contained within the given array:
 
-`whereIn` 메소드는 주어진 배열 안에 포함된 주어진 키/값을 사용하여 컬렉션을 필터링합니다:
+`whereIn` 메소드는 주어진 배열 안에 포함된 주어진 키/값을 사용하여 컬렉션을 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -2848,7 +2848,7 @@ This method has the same signature as the [`whereIn`](#method-wherein) method; h
 
 The `whereInstanceOf` method filters the collection by a given class type:
 
-`whereInstanceOf` 메소드는 컬렉션을 주어진 클래스 타입으로 필터링합니다:
+`whereInstanceOf` 메소드는 컬렉션을 주어진 클래스 타입으로 필터링합니다.
 
     $collection = collect([
         new User,
@@ -2891,7 +2891,7 @@ The `whereNotBetween` method filters the collection within a given range:
 
 The `whereNotIn` method filters the collection by a given key / value not contained within the given array:
 
-`whereNotIn` 메소드는 컬렉션 안에 주어진 키/값을 포함하지 않은 값들을 필터링합니다:
+`whereNotIn` 메소드는 컬렉션 안에 주어진 키/값을 포함하지 않은 값들을 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -2929,7 +2929,7 @@ This method has the same signature as the [`whereNotIn`](#method-wherenotin) met
 
 The static `wrap` method wraps the given value in a collection when applicable:
 
-정적 메소드인 `wrap` 메소드는 가능한 경우, 주어진 값을 컬렉션으로 감쌉니다:
+정적 메소드인 `wrap` 메소드는 가능한 경우, 주어진 값을 컬렉션으로 감쌉니다.
 
     $collection = Collection::wrap('John Doe');
 
@@ -2955,7 +2955,7 @@ The static `wrap` method wraps the given value in a collection when applicable:
 
 The `zip` method merges together the values of the given array with the values of the original collection at the corresponding index:
 
-`zip` 메소드는 해당 인덱스의 원래 컬렉션의 값으로 주어진 배열의 값을 함께 합칩니다:
+`zip` 메소드는 해당 인덱스의 원래 컬렉션의 값으로 주어진 배열의 값을 함께 합칩니다.
 
     $collection = collect(['Chair', 'Desk']);
 
@@ -2975,7 +2975,7 @@ Collections also provide support for "higher order messages", which are short-cu
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 
-각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다:
+각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다.
 
     $users = User::where('votes', '>', 500)->get();
 
@@ -2983,7 +2983,7 @@ Each higher order message can be accessed as a dynamic property on a collection 
 
 Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
 
-마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 전체 "투표" 수를 확인할 수 있습니다:
+마찬가지로 `sum` higher order message를 사용하여 사용자 컬렉션의 전체 "투표" 수를 확인할 수 있습니다.
 
     $users = User::where('group', 'Development')->get();
 

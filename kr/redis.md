@@ -44,7 +44,7 @@ Alternatively, you can install the `predis/predis` package via Composer:
 
 The Redis configuration for your application is located in the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
-애플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의 `redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다:
+애플리케이션의 Redis 설정은 `config/database.php` 설정 파일에 담겨져 있습니다. 이 파일 내부의 `redis` 배열이 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다.
 
     'redis' => [
 
@@ -75,7 +75,7 @@ The default server configuration should suffice for development. However, you ar
 
 If your application is utilizing a cluster of Redis servers, you should define these clusters within a `clusters` key of your Redis configuration:
 
-애플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `clusters` 키 안에 클러스터를 정의해야 합니다:
+애플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `clusters` 키 안에 클러스터를 정의해야 합니다.
 
     'redis' => [
 
@@ -96,7 +96,7 @@ If your application is utilizing a cluster of Redis servers, you should define t
 
 By default, clusters will perform client-side sharding across your nodes, allowing you to pool nodes and create a large amount of available RAM. However, note that client-side sharding does not handle failover; therefore, is primarily suited for cached data that is available from another primary data store. If you would like to use native Redis clustering, you should specify this in the `options` key of your Redis configuration:
 
-기본적으로, 클러스터는 클라이언트-사이드 샤딩(분산 저장)을 수행하므로, 노드를 풀링하고 RAM을 가능한 많이 사용할 수 있도록 만듭니다. 하지만 클라이언트-사이드 샤딩은 페일 오버(Fail over)를 처리하지 않습니다. 사용 가능한 다른 주 데이터 저장소로부터 데이터를 캐시하는데 적합합니다. 네이티브 Redis 클러스터링을 사용하려면, Redis 설정의 `options` 키에 다음의 설정을 지정해야합니다:
+기본적으로, 클러스터는 클라이언트-사이드 샤딩(분산 저장)을 수행하므로, 노드를 풀링하고 RAM을 가능한 많이 사용할 수 있도록 만듭니다. 하지만 클라이언트-사이드 샤딩은 페일 오버(Fail over)를 처리하지 않습니다. 사용 가능한 다른 주 데이터 저장소로부터 데이터를 캐시하는데 적합합니다. 네이티브 Redis 클러스터링을 사용하려면, Redis 설정의 `options` 키에 다음의 설정을 지정해야합니다.
 
     'redis' => [
 
@@ -129,7 +129,7 @@ Predis 확장(extension)을 사용하려면 `REDIS_CLIENT` 환경 변수를 `php
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 추가적으로, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다:
+`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 추가적으로, Predis 는 각각의 Redis 서버에 대해 정의할 수 있는 추가적인 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 구성하려면, `config/database.php` 설정 파일에 해당 설정 옵션들을 Redis 서버 설정 부분에 추가하기만 하면 됩니다.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -162,7 +162,7 @@ If you plan to use PhpRedis extension along with the `Redis` Facade alias, you s
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout` and `timeout`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다: `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다:
+`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -212,7 +212,7 @@ You may interact with Redis by calling various methods on the `Redis` [facade](/
 
 As mentioned above, you may call any of the Redis commands on the `Redis` facade. Laravel uses magic methods to pass the commands to the Redis server, so pass the arguments the Redis command expects:
 
-앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 매소드를 사용하여 명령어를 Redis 서버에 전달하기 때문에, Redis 명령어가 요구하는 인자도 전달 할 수 있습니다:
+앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 매소드를 사용하여 명령어를 Redis 서버에 전달하기 때문에, Redis 명령어가 요구하는 인자도 전달 할 수 있습니다.
 
     Redis::set('name', 'Taylor');
 
@@ -220,7 +220,7 @@ As mentioned above, you may call any of the Redis commands on the `Redis` facade
 
 Alternatively, you may also pass commands to the server using the `command` method, which accepts the name of the command as its first argument, and an array of values as its second argument:
 
-이렇게 하는 대신에, `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다:
+이렇게 하는 대신에, `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다.
 
     $values = Redis::command('lrange', ['name', 5, 10]);
 
@@ -229,13 +229,13 @@ Alternatively, you may also pass commands to the server using the `command` meth
 
 You may get a Redis instance by calling the `Redis::connection` method:
 
-`Redis::connection` 메소드를 호출하여 레디스 인스턴스를 가져올 수 있습니다:
+`Redis::connection` 메소드를 호출하여 레디스 인스턴스를 가져올 수 있습니다.
 
     $redis = Redis::connection();
 
 This will give you an instance of the default Redis server. You may also pass the connection or cluster name to the `connection` method to get a specific server or cluster as defined in your Redis configuration:
 
-이 구문은 기본으로 설정된 레디스 서버의 인스턴스를 반환 합니다. 만약 클러스터링을 사용하지 않고 있으면서, 레디스 설정에서 정의되어 있는 특정 서버 인스턴스 혹은 클러스터를 가져오려면 미리 지정된 서버 또는 클러스터의 이름을 `connection` 메소드에 넘겨주면 됩니다:
+이 구문은 기본으로 설정된 레디스 서버의 인스턴스를 반환 합니다. 만약 클러스터링을 사용하지 않고 있으면서, 레디스 설정에서 정의되어 있는 특정 서버 인스턴스 혹은 클러스터를 가져오려면 미리 지정된 서버 또는 클러스터의 이름을 `connection` 메소드에 넘겨주면 됩니다.
 
     $redis = Redis::connection('my-connection');
 
@@ -245,7 +245,7 @@ This will give you an instance of the default Redis server. You may also pass th
 
 Pipelining should be used when you need to send many commands to the server in one operation. The `pipeline` method accepts one argument: a `Closure` that receives a Redis instance. You may issue all of your commands to this Redis instance and they will all be executed within a single operation:
 
-파이프라이닝은 다수의 명령어들을 한번에 서버로 보내야 할 때 사용되어집니다. `pipeline` 메소드는 Redis 인스턴스를 전달받는 하나의 `Closure`를 하나의 인자로 전달 받습니다. 이 Redis 인스턴스에 모든 명령을 내리 수 있으며 모든 명령은 단일 작업 내에서 실행됩니다:
+파이프라이닝은 다수의 명령어들을 한번에 서버로 보내야 할 때 사용되어집니다. `pipeline` 메소드는 Redis 인스턴스를 전달받는 하나의 `Closure`를 하나의 인자로 전달 받습니다. 이 Redis 인스턴스에 모든 명령을 내리 수 있으며 모든 명령은 단일 작업 내에서 실행됩니다.
 
     Redis::pipeline(function ($pipe) {
         for ($i = 0; $i < 1000; $i++) {
@@ -263,7 +263,7 @@ Laravel provides a convenient interface to the Redis `publish` and `subscribe` c
 
 First, let's setup a channel listener using the `subscribe` method. We'll place this method call within an [Artisan command](/docs/{{version}}/artisan) since calling the `subscribe` method begins a long-running process:
 
-먼저 `subscribe` 메소드를 사용하여 채널에 리스너를 설정해 보겠습니다. `subscribe` 메소드는 긴 시간동안 실행되는 프로세스로 동작하기 때문에 이 메소드는 [아티즌 명령어](/docs/{{version}}/artisan)에서 호출하겠습니다:
+먼저 `subscribe` 메소드를 사용하여 채널에 리스너를 설정해 보겠습니다. `subscribe` 메소드는 긴 시간동안 실행되는 프로세스로 동작하기 때문에 이 메소드는 [아티즌 명령어](/docs/{{version}}/artisan)에서 호출하겠습니다.
 
     <?php
 
@@ -303,7 +303,7 @@ First, let's setup a channel listener using the `subscribe` method. We'll place 
 
 Now we may publish messages to the channel using the `publish` method:
 
-이제 `publish` 메소드를 사용하여 채널에 메세지를 표시할 수 있습니다:
+이제 `publish` 메소드를 사용하여 채널에 메세지를 표시할 수 있습니다.
 
     Route::get('publish', function () {
         // Route logic...
@@ -316,7 +316,7 @@ Now we may publish messages to the channel using the `publish` method:
 
 Using the `psubscribe` method, you may subscribe to a wildcard channel, which may be useful for catching all messages on all channels. The `$channel` name will be passed as the second argument to the provided callback `Closure`:
 
-`psubscribe` 메소드를 사용하여, 전체 채널에서 모든 메세지를 수신하는데 유용한 와일드 카드 채널을 subscribe 할 수 있습니다. `$channel`의 이름은 콜백 `Closure` 의 두번째 인자로 전달 될 것입니다:
+`psubscribe` 메소드를 사용하여, 전체 채널에서 모든 메세지를 수신하는데 유용한 와일드 카드 채널을 subscribe 할 수 있습니다. `$channel`의 이름은 콜백 `Closure` 의 두번째 인자로 전달 될 것입니다.
 
     Redis::psubscribe(['*'], function ($message, $channel) {
         echo $message;

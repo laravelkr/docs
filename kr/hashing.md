@@ -69,7 +69,7 @@ You may hash a password by calling the `make` method on the `Hash` facade:
 
 If you are using the Bcrypt algorithm, the `make` method allows you to manage the work factor of the algorithm using the `rounds` option; however, the default is acceptable for most applications:
 
-만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 `rounds` 옵션을 사용하여 Bcrypt 알고리즘에서 사용하는 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다.
 
     $hashed = Hash::make('password', [
         'rounds' => 12
@@ -80,7 +80,7 @@ If you are using the Bcrypt algorithm, the `make` method allows you to manage th
 
 If you are using the Argon2 algorithm, the `make` method allows you to manage the work factor of the algorithm using the `memory`, `time`, and `threads` options; however, the defaults are acceptable for most applications:
 
-만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다:
+만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다; 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다.
 
     $hashed = Hash::make('password', [
         'memory' => 1024,

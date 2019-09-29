@@ -48,19 +48,19 @@ All of your worker configuration is stored in a single, simple configuration fil
 
 You may use Composer to install Horizon into your Laravel project:
 
-컴포저-Composer를 사용하여 라라벨 프로젝트에 Horizon을 설치 합니다:
+컴포저-Composer를 사용하여 라라벨 프로젝트에 Horizon을 설치 합니다.
 
     composer require laravel/horizon
 
 After installing Horizon, publish its assets using the `horizon:install` Artisan command:
 
-Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다:
+Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다.
 
     php artisan horizon:install
 
 You should also create the `failed_jobs` table which Laravel will use to store any [failed queue jobs](/docs/{{version}}/queues#dealing-with-failed-jobs):
 
-[실패한 queue-큐 작업](/docs/{{version}}/queues#dealing-with-failed-jobs)을 저장하기 위한 `failed_job` 테이블을 생성해야합니다:
+[실패한 queue-큐 작업](/docs/{{version}}/queues#dealing-with-failed-jobs)을 저장하기 위한 `failed_job` 테이블을 생성해야합니다.
 
     php artisan queue:failed-table
 
@@ -97,7 +97,7 @@ After publishing Horizon's assets, its primary configuration file will be locate
 
 Horizon allows you to choose from three balancing strategies: `simple`, `auto`, and `false`. The `simple` strategy, which is the configuration file's default, splits incoming jobs evenly between processes:
 
-Horizon은 `simple`, `auto`, `false` 세가지 밸런싱 방법을 선택 할 수 있습니다. 환경설정 파일의 기본 값인 `simple`은 요청되는 job을 프로세스간에 균등하게 나눕니다:
+Horizon은 `simple`, `auto`, `false` 세가지 밸런싱 방법을 선택 할 수 있습니다. 환경설정 파일의 기본 값인 `simple`은 요청되는 job을 프로세스간에 균등하게 나눕니다.
 
     'balance' => 'simple',
 
@@ -169,13 +169,13 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
 
 Once you have configured your workers in the `config/horizon.php` configuration file, you may start Horizon using the `horizon` Artisan command. This single command will start all of your configured workers:
 
-`config/horizon.php` 파일에서 worker의 설정을 구성한 뒤에 `horizon` 아티즌 명령어를 사용하여 horizon를 시작 할 수 있습니다. 이 하나의 명령어를 실행하면 모든 worker들이 시작됩니다:
+`config/horizon.php` 파일에서 worker의 설정을 구성한 뒤에 `horizon` 아티즌 명령어를 사용하여 horizon를 시작 할 수 있습니다. 이 하나의 명령어를 실행하면 모든 worker들이 시작됩니다.
 
     php artisan horizon
 
 You may pause the Horizon process and instruct it to continue processing jobs using the `horizon:pause` and `horizon:continue` Artisan commands:
 
-`horizon:pause` 와 `horizon:continue` 아티즌 명령어를 사용하여 Horizon 프로세스를 일시 정지하고 계속 진행 시킬 수 있습니다:
+`horizon:pause` 와 `horizon:continue` 아티즌 명령어를 사용하여 Horizon 프로세스를 일시 정지하고 계속 진행 시킬 수 있습니다.
 
     php artisan horizon:pause
 
@@ -183,7 +183,7 @@ You may pause the Horizon process and instruct it to continue processing jobs us
 
 You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Any jobs that Horizon is currently processing will be completed and then Horizon will exit:
 
-`horizon:terminate` 아티즌 명령어를 사용하여 마스터 Horizon 프로세스를 안전하게(gracefully) 종료 할 수 있습니다. 이렇게 하면 Horizon이 현재 처리 중인 모든 작업이 완료되나서 프로세스가 종료됩니다:
+`horizon:terminate` 아티즌 명령어를 사용하여 마스터 Horizon 프로세스를 안전하게(gracefully) 종료 할 수 있습니다. 이렇게 하면 Horizon이 현재 처리 중인 모든 작업이 완료되나서 프로세스가 종료됩니다.
 
     php artisan horizon:terminate
 
@@ -200,7 +200,7 @@ If you are deploying Horizon to a live server, you should configure a process mo
 
 If you are using the Supervisor process monitor to manage your `horizon` process, the following configuration file should suffice:
 
-`horizon` 프로세스를 감시하는 프로세스 모니터로 Supervisor를 사용 하려는 경우, 아래의 설정 파일을 사용하면 충분합니다:
+`horizon` 프로세스를 감시하는 프로세스 모니터로 Supervisor를 사용 하려는 경우, 아래의 설정 파일을 사용하면 충분합니다.
 
     [program:horizon]
     process_name=%(program_name)s
@@ -221,7 +221,7 @@ If you are using the Supervisor process monitor to manage your `horizon` process
 
 Horizon allows you to assign “tags” to jobs, including mailables, event broadcasts, notifications, and queued event listeners. In fact, Horizon will intelligently and automatically tag most jobs depending on the Eloquent models that are attached to the job. For example, take a look at the following job:
 
-Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued event listeners 작업에 "태그"를 할당할 수 있습니다. 실제로 Horizon은 job에 연결된 Eloguent 모델에 따라 대부분의 job을 지능적이고 자동으로 태그 처리합니다. 예를 들어 아래의 작업을 살펴 봅시다:
+Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued event listeners 작업에 "태그"를 할당할 수 있습니다. 실제로 Horizon은 job에 연결된 Eloguent 모델에 따라 대부분의 job을 지능적이고 자동으로 태그 처리합니다. 예를 들어 아래의 작업을 살펴 봅시다.
 
     <?php
 
@@ -269,7 +269,7 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
 
 If this job is queued with an `App\Video` instance that has an `id` of `1`, it will automatically receive the tag `App\Video:1`. This is because Horizon will examine the job's properties for any Eloquent models. If Eloquent models are found, Horizon will intelligently tag the job using the model's class name and primary key:
 
-`id`가 `1`인 `App\Video`인스턴스가 queue에 있는 job에 있는 경우 자동으로 `App\Video:1` 태그를 할당 받게됩니다. Horizon은 모든 Eloquent 모델의 job 속성을 확인하기 때문입니다. Eloquent 모델이 발견되면 Horizon은 모델의 클래스 이름과 기본 키를 사용하여 job에 알아서 태그를 지정합니다:
+`id`가 `1`인 `App\Video`인스턴스가 queue에 있는 job에 있는 경우 자동으로 `App\Video:1` 태그를 할당 받게됩니다. Horizon은 모든 Eloquent 모델의 job 속성을 확인하기 때문입니다. Eloquent 모델이 발견되면 Horizon은 모델의 클래스 이름과 기본 키를 사용하여 job에 알아서 태그를 지정합니다.
 
     $video = App\Video::find(1);
 
@@ -280,7 +280,7 @@ If this job is queued with an `App\Video` instance that has an `id` of `1`, it w
 
 If you would like to manually define the tags for one of your queueable objects, you may define a `tags` method on the class:
 
-queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의 `tags` 메서드를 정의 하면 됩니다:
+queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의 `tags` 메서드를 정의 하면 됩니다.
 
     class RenderVideo implements ShouldQueue
     {
@@ -328,7 +328,7 @@ You may configure how many seconds are considered a "long wait" within your `con
 
 Horizon includes a metrics dashboard which provides information on your job and queue wait times and throughput. In order to populate this dashboard, you should configure Horizon's `snapshot` Artisan command to run every five minutes via your application's [scheduler](/docs/{{version}}/scheduling):
 
-Horizon에는 job 및 queue의 대기 시간과 처리량에 대한 정보를 제공하는 메트릭 dashboard가 포함되어 있습니다. 이 dashboard에 정보를 제공하려면 애플리케이션의 [scheduler](/docs/{{version}}/scheduling)를 통해 Horizon의 `snapshot` 아티즌 커맨드를 5분마다 실행 하도록 설정해야 합니다:
+Horizon에는 job 및 queue의 대기 시간과 처리량에 대한 정보를 제공하는 메트릭 dashboard가 포함되어 있습니다. 이 dashboard에 정보를 제공하려면 애플리케이션의 [scheduler](/docs/{{version}}/scheduling)를 통해 Horizon의 `snapshot` 아티즌 커맨드를 5분마다 실행 하도록 설정해야 합니다.
 
     /**
      * Define the application's command schedule.

@@ -84,13 +84,13 @@ Laravel already makes it easy to perform authentication via traditional login fo
 
 To get started, install Passport via the Composer package manager:
 
-컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다:
+컴포저를 통해서 Passport를 설치하는 것부터 시작해보겠습니다.
 
     composer require laravel/passport
 
 The Passport service provider registers its own database migration directory with the framework, so you should migrate your database after installing the package. The Passport migrations will create the tables your application needs to store clients and access tokens:
 
-Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 패키지를 설치 한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 애플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다:
+Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레이션 디렉토리를 등록하기 때문에, 패키지를 설치 한 뒤에 데이터베이스 마이그레이션을 실행해야 합니다. Passport 마이그레이션을 실행하면 애플리케이션에서 필요한 클라이언트와 엑세스 토큰을 저장하는 테이블이 생성됩니다.
 
     php artisan migrate
 
@@ -100,13 +100,13 @@ Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레�
 
 Next, you should run the `passport:install` command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
 
-다음으로, `passport:install` 명령어를 실행해야합니다. 이 명령어는 안전한 엑세스 토큰을 생성하는데 필요한 암호화 키를 생성합니다. 추가적으로, 명령어는 엑세스 토큰을 생성하는데 사용되는 "personal access" 그리고 "password grant" 클라이언트를 생성합니다:
+다음으로, `passport:install` 명령어를 실행해야합니다. 이 명령어는 안전한 엑세스 토큰을 생성하는데 필요한 암호화 키를 생성합니다. 추가적으로, 명령어는 엑세스 토큰을 생성하는데 사용되는 "personal access" 그리고 "password grant" 클라이언트를 생성합니다.
 
     php artisan passport:install
 
 After running this command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
 
-이 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다:
+이 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다.
 
     <?php
 
@@ -123,7 +123,7 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
 
 Next, you should call the `Passport::routes` method within the `boot` method of your `AuthServiceProvider`. This method will register the routes necessary to issue access tokens and revoke access tokens, clients, and personal access tokens:
 
-다음으로, `AuthServiceProvider` 의 `boot` 메소드에서 `Passport::routes` 메소드를 호출해야 합니다. 이 메소드는 엑세스 토큰을 발급하는 라우트와 엑세스 토큰, 클라이언트 그리고 개인용 엑세스 토큰을 해제하는 라우트를 등록합니다:
+다음으로, `AuthServiceProvider` 의 `boot` 메소드에서 `Passport::routes` 메소드를 호출해야 합니다. 이 메소드는 엑세스 토큰을 발급하는 라우트와 엑세스 토큰, 클라이언트 그리고 개인용 엑세스 토큰을 해제하는 라우트를 등록합니다.
 
     <?php
 
@@ -159,7 +159,7 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
 
 Finally, in your `config/auth.php` configuration file, you should set the `driver` option of the `api` authentication guard to `passport`. This will instruct your application to use Passport's `TokenGuard` when authenticating incoming API requests:
 
-마지막으로, `config/auth.php` 설정 파일에서 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 애플리케이션이 Passport의 `TokenGuard` 를 사용합니다:
+마지막으로, `config/auth.php` 설정 파일에서 guard `api` 인증 `driver` 옵션을 `passport` 로 변경해야 합니다. 이렇게 하면, 인증 API request이 유입될 때 애플리케이션이 Passport의 `TokenGuard` 를 사용합니다.
 
     'guards' => [
         'web' => [
@@ -198,13 +198,13 @@ Passport 는 여러분의 사용자가 클라이언트와 개인용 엑세스 �
 
 To publish the Passport Vue components, use the `vendor:publish` Artisan command:
 
-Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 명령어를 사용하면 됩니다:
+Passport Vue 컴포넌트를 퍼블리싱 하려면, `vendor:publish` 아티즌 명령어를 사용하면 됩니다.
 
     php artisan vendor:publish --tag=passport-components
 
 The published components will be placed in your `resources/js/components` directory. Once the components have been published, you should register them in your `resources/js/app.js` file:
 
-퍼블리싱이 끝난 컴포넌트는 `resources/js/components` 디렉토리에 설치됩니다. 컴포넌트가 퍼블리싱되고 나면, `resources/js/app.js` 파일에 등록해야합니다:
+퍼블리싱이 끝난 컴포넌트는 `resources/js/components` 디렉토리에 설치됩니다. 컴포넌트가 퍼블리싱되고 나면, `resources/js/app.js` 파일에 등록해야합니다.
 
     Vue.component(
         'passport-clients',
@@ -239,7 +239,7 @@ After registering the components, make sure to run `npm run dev` to recompile yo
 
 When deploying Passport to your production servers for the first time, you will likely need to run the `passport:keys` command. This command generates the encryption keys Passport needs in order to generate access token. The generated keys are not typically kept in source control:
 
-Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가 필요할 수 있습니다. 이 명령어는 액세스 토큰을 생성하기 위해 Passport에서 필요한 암호화된 키를 생성합니다. 생성 된 키는 일반적으로 소스 컨트롤에 유지되지 않습니다:
+Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가 필요할 수 있습니다. 이 명령어는 액세스 토큰을 생성하기 위해 Passport에서 필요한 암호화된 키를 생성합니다. 생성 된 키는 일반적으로 소스 컨트롤에 유지되지 않습니다.
 
     php artisan passport:keys
 
@@ -284,7 +284,7 @@ Additionally, you may publish Passport's configuration file using `php artisan v
 
 By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn`, `refreshTokensExpireIn`, and `personalAccessTokensExpireIn` methods. These methods should be called from the `boot` method of your `AuthServiceProvider`:
 
-기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 줄이려면  `tokensExpireIn`, `refreshTokensExpireIn` 그리고 `personalAccessTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다:
+기본적으로 Passport는 엑세스 토큰을 오랫동안 유지합니다.(일년 후에 만료됩니다) 토큰의 지속시간을 늘리거나 줄이려면  `tokensExpireIn`, `refreshTokensExpireIn` 그리고 `personalAccessTokensExpireIn` 메소드를 사용하면 됩니다. 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야 합니다.
 
     /**
      * Register any authentication / authorization services.
@@ -353,7 +353,7 @@ First, developers building applications that need to interact with your applicat
 
 The simplest way to create a client is using the `passport:client` Artisan command. This command may be used to create your own clients for testing your OAuth2 functionality. When you run the `client` command, Passport will prompt you for more information about your client and will provide you with a client ID and secret:
 
-클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티즌 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다:
+클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티즌 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다.
 
     php artisan passport:client
 
@@ -394,7 +394,7 @@ JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 �
 
 This route returns all of the clients for the authenticated user. This is primarily useful for listing all of the user's clients so that they may edit or delete them:
 
-이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다:
+이 라우트는 인증된 사용자의 모든 클라이언트들을 반환합니다. 이는 주로 사용자의 모든 클라이언트 목록을 표시하고 수정이나 삭제하고자 할 때 유용합니다.
 
     axios.get('/oauth/clients')
         .then(response => {
@@ -406,11 +406,11 @@ This route returns all of the clients for the authenticated user. This is primar
 
 This route is used to create new clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization.
 
-이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다: 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다.
+이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다. 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다.
 
 When a client is created, it will be issued a client ID and client secret. These values will be used when requesting access tokens from your application. The client creation route will return the new client instance:
 
-클라이언트가 생성되면, 클라이언트의 ID 와 암호키가 발급됩니다. 이 정보들은 애플리케이션에서 엑세스 토큰을 요청할 때 사용됩니다. 클라이언트 생성 라우트는 그 결과로 새로운 클라이언트의 인스턴스를 반환합니다:
+클라이언트가 생성되면, 클라이언트의 ID 와 암호키가 발급됩니다. 이 정보들은 애플리케이션에서 엑세스 토큰을 요청할 때 사용됩니다. 클라이언트 생성 라우트는 그 결과로 새로운 클라이언트의 인스턴스를 반환합니다.
 
     const data = {
         name: 'Client Name',
@@ -430,7 +430,7 @@ When a client is created, it will be issued a client ID and client secret. These
 
 This route is used to update clients. It requires two pieces of data: the client's `name` and a `redirect` URL. The `redirect` URL is where the user will be redirected after approving or denying a request for authorization. The route will return the updated client instance:
 
-이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다: 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다. 이 라우트는 수정된 클라이언트의 인스턴스를 반환합니다:
+이 라우트는 새로운 클라이언트를 생성하는데 사용됩니다. 여기에는 두개의 데이터가 필요합니다. 클라이언트의 `name`과 한개의 `redirect` URL입니다. `redirect` URL은 request-요청에 대한 접근이 승인 또는 거부된 뒤에 사용자가 리다이렉션 되는 곳입니다. 이 라우트는 수정된 클라이언트의 인스턴스를 반환합니다.
 
     const data = {
         name: 'New Client Name',
@@ -450,7 +450,7 @@ This route is used to update clients. It requires two pieces of data: the client
 
 This route is used to delete clients:
 
-이 라우트는 클라이언트를 삭제할 때 사용됩니다:
+이 라우트는 클라이언트를 삭제할 때 사용됩니다.
 
     axios.delete('/oauth/clients/' + clientId)
         .then(response => {
@@ -466,7 +466,7 @@ This route is used to delete clients:
 
 Once a client has been created, developers may use their client ID and secret to request an authorization code and access token from your application. First, the consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
 
-클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를를 사용하여 권한 승인을 요청하고 애플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 애플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청을 하도록 만들어야 합니다:
+클라이언트가 생성되고 나서, 개발자는 클라이언트 ID와 암호키를를 사용하여 권한 승인을 요청하고 애플리케이션의 토큰에 엑세스 할 수 있습니다. 먼저 API를 사용하는 애플리케이션이 다음의 `/oauth/authorize` 라우트로 리다이렉트 요청을 하도록 만들어야 합니다.
 
     Route::get('/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
@@ -495,7 +495,7 @@ When receiving authorization requests, Passport will automatically display a tem
 
 If you would like to customize the authorization approval screen, you may publish Passport's views using the `vendor:publish` Artisan command. The published views will be placed in `resources/views/vendor/passport`:
 
-권한 승인 화면을 커스터마이징 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport 뷰 파일을 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다. 이제 이를 수정하면 됩니다:
+권한 승인 화면을 커스터마이징 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport 뷰 파일을 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다. 이제 이를 수정하면 됩니다.
 
     php artisan vendor:publish --tag=passport-views
 
@@ -568,7 +568,7 @@ This `/oauth/token` route will return a JSON response containing `access_token`,
 
 If your application issues short-lived access tokens, users will need to refresh their access tokens via the refresh token that was provided to them when the access token was issued. In this example, we'll use the Guzzle HTTP library to refresh the token:
 
-애플리케이션에서 사용기간이 짧은 엑세스 토큰을 발급한다면, 사용자는 엑세스 토큰을 발급할 때 제공된 리프레쉬 토큰을 사용하여 엑세스 토큰을 새롭게 갱신해야 합니다. 이 예제에서 Guzzle HTTP 라이브러리르 사용하여 토큰을 갱신해보겠습니다:
+애플리케이션에서 사용기간이 짧은 엑세스 토큰을 발급한다면, 사용자는 엑세스 토큰을 발급할 때 제공된 리프레쉬 토큰을 사용하여 엑세스 토큰을 새롭게 갱신해야 합니다. 이 예제에서 Guzzle HTTP 라이브러리르 사용하여 토큰을 갱신해보겠습니다.
 
     $http = new GuzzleHttp\Client;
 
@@ -602,7 +602,7 @@ OAuth2 패스워드 그랜트는 모바일 애플리케이션과 같은 여러�
 
 Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` command with the `--password` option. If you have already run the `passport:install` command, you do not need to run this command:
 
-패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `passport:client` 명령어에 `--password` 옵션을 지정하여 이를 생성할 수 있습니다. `passport:install` 명령어를 이미 실행했다면, 이 명령어를 실행할 필요는 없습니다:
+패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `passport:client` 명령어에 `--password` 옵션을 지정하여 이를 생성할 수 있습니다. `passport:install` 명령어를 이미 실행했다면, 이 명령어를 실행할 필요는 없습니다.
 
     php artisan passport:client --password
 
@@ -612,7 +612,7 @@ Before your application can issue tokens via the password grant, you will need t
 
 Once you have created a password grant client, you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's email address and password. Remember, this route is already registered by the `Passport::routes` method so there is no need to define it manually. If the request is successful, you will receive an `access_token` and `refresh_token` in the JSON response from the server:
 
-패스워드 grant 클라이언트가 생성되면, 사용자의 이메일과 패스워드와 함께 `/oauth/token` 라우트에 엑세스 토큰 발급 `POST` request-요청을 보낼 수 있습니다. 기억할점은, 이 라우트는 `Passport::routes`메소드에 의해서 이미 등록되어 있기 때문에, 직접 라우트를 등록할 필요가 없다는 것입니다. 요청-request가 성공적이라면, 서버로 부터 `access_token` 과 `refresh_token` 가 담긴 JSON 응답-response를 받습니다:
+패스워드 grant 클라이언트가 생성되면, 사용자의 이메일과 패스워드와 함께 `/oauth/token` 라우트에 엑세스 토큰 발급 `POST` request-요청을 보낼 수 있습니다. 기억할점은, 이 라우트는 `Passport::routes`메소드에 의해서 이미 등록되어 있기 때문에, 직접 라우트를 등록할 필요가 없다는 것입니다. 요청-request가 성공적이라면, 서버로 부터 `access_token` 과 `refresh_token` 가 담긴 JSON 응답-response를 받습니다.
 
     $http = new GuzzleHttp\Client;
 
@@ -639,7 +639,7 @@ Once you have created a password grant client, you may request an access token b
 
 When using the password grant or client credentials grant, you may wish to authorize the token for all of the scopes supported by your application. You can do this by requesting the `*` scope. If you request the `*` scope, the `can` method on the token instance will always return `true`. This scope may only be assigned to a token that is issued using the `password` or `client_credentials` grant:
 
-패스워드 grant 또는 client 자격증명 grant를 사용할 때, 여러분은 애플리케이션에서 지원하는 모든 범위의 토큰을 승인 하고자 할수 있습니다. 이렇게 하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 스코프는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다:
+패스워드 grant 또는 client 자격증명 grant를 사용할 때, 여러분은 애플리케이션에서 지원하는 모든 범위의 토큰을 승인 하고자 할수 있습니다. 이렇게 하려면 `*` 범위로 요청하면 됩니다. `*` 범위를 요청하면 토큰 인스턴스의 `can` 메소드가 항상 `true` 를 반환할 것입니다. 이 스코프는 `password` grant를 통해 발행 된 토큰에만 할당하는 것이 좋습니다.
 
     $response = $http->post('http://your-app.com/oauth/token', [
         'form_params' => [
@@ -723,7 +723,7 @@ When authenticating using the password grant, Passport will use the `password` a
 
 The implicit grant is similar to the authorization code grant; however, the token is returned to the client without exchanging an authorization code. This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. To enable the grant, call the `enableImplicitGrant` method in your `AuthServiceProvider`:
 
-묵시적 grant는 승인 코드 grant와 비슷합니다. 그렇지만, 클라이언트에서 반환되는 토큰은 승인 코드를 교환하지 않습니다. 이 grant는 클라이언트 자격증명을 안전하게 저장할 수 없는 자바스크립트 또는 모바일 애플리케이션에서 가장 일반적으로 사용됩니다. grant를 활성화하려면, `AuthServiceProvider` 에서 `enableImplicitGrant` 메소드를 호출하면 됩니다:
+묵시적 grant는 승인 코드 grant와 비슷합니다. 그렇지만, 클라이언트에서 반환되는 토큰은 승인 코드를 교환하지 않습니다. 이 grant는 클라이언트 자격증명을 안전하게 저장할 수 없는 자바스크립트 또는 모바일 애플리케이션에서 가장 일반적으로 사용됩니다. grant를 활성화하려면, `AuthServiceProvider` 에서 `enableImplicitGrant` 메소드를 호출하면 됩니다.
 
     /**
      * Register any authentication / authorization services.
@@ -741,7 +741,7 @@ The implicit grant is similar to the authorization code grant; however, the toke
 
 Once a grant has been enabled, developers may use their client ID to request an access token from your application. The consuming application should make a redirect request to your application's `/oauth/authorize` route like so:
 
-grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 애플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 애플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다:
+grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토큰을 요청하는데 클라이언트 ID를 사용할 수 있습니다. 이를 처리하는 애플리케이션은 다음처럼 리다이렉트 요청-request를 여러분의 애플리케이션의 `/oauth/authorize` 라우트로 보내야 합니다.
 
     Route::get('/redirect', function (Request $request) {
         $request->session()->put('state', $state = Str::random(40));
@@ -837,7 +837,7 @@ Sometimes, your users may want to issue access tokens to themselves without goin
 
 Before your application can issue personal access tokens, you will need to create a personal access client. You may do this using the `passport:client` command with the `--personal` option. If you have already run the `passport:install` command, you do not need to run this command:
 
-애플리케이션이 개인용 엑세스 토큰을 발급 할 수 있도록 하기 전에, 개인용 엑세스 클라이언트를 생성해야 합니다. 이렇게 하려면 `passport:client` 명령어에 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install`명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다:
+애플리케이션이 개인용 엑세스 토큰을 발급 할 수 있도록 하기 전에, 개인용 엑세스 클라이언트를 생성해야 합니다. 이렇게 하려면 `passport:client` 명령어에 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install`명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다.
 
     php artisan passport:client --personal
 
@@ -895,7 +895,7 @@ JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 �
 
 This route returns all of the [scopes](#token-scopes) defined for your application. You may use this route to list the scopes a user may assign to a personal access token:
 
-이 라우트는 애플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다:
+이 라우트는 애플리케이션에서 정의된 모든 [스코프-범위](#token-scopes)를 반환합니다. 이 라우트를 사용자가 개인용 엑세스 토큰에 할당된 범위를 나열하는데 사용할 수 있습니다.
 
     axios.get('/oauth/scopes')
         .then(response => {
@@ -907,7 +907,7 @@ This route returns all of the [scopes](#token-scopes) defined for your applicati
 
 This route returns all of the personal access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they may edit or delete them:
 
-이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 삭제할 수 있습니다:
+이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 삭제할 수 있습니다.
 
     axios.get('/oauth/personal-access-tokens')
         .then(response => {
@@ -919,7 +919,7 @@ This route returns all of the personal access tokens that the authenticated user
 
 This route creates new personal access tokens. It requires two pieces of data: the token's `name` and the `scopes` that should be assigned to the token:
 
-이 라우트는 새로운 개인용 엑세스 토큰을 생성합니다. 여기에는 두개의 데이터가 필요합니다: 토큰의 `name` 과 토큰에 할당되는 `scopes` 입니다:
+이 라우트는 새로운 개인용 엑세스 토큰을 생성합니다. 여기에는 두개의 데이터가 필요합니다. 토큰의 `name` 과 토큰에 할당되는 `scopes` 입니다.
 
     const data = {
         name: 'Token Name',
@@ -939,7 +939,7 @@ This route creates new personal access tokens. It requires two pieces of data: t
 
 This route may be used to delete personal access tokens:
 
-이 라우트는 개인용 엑세스 토큰을 삭제하는데 사용됩니다:
+이 라우트는 개인용 엑세스 토큰을 삭제하는데 사용됩니다.
 
     axios.delete('/oauth/personal-access-tokens/' + tokenId);
 
@@ -953,7 +953,7 @@ This route may be used to delete personal access tokens:
 
 Passport includes an [authentication guard](/docs/{{version}}/authentication#adding-custom-guards) that will validate access tokens on incoming requests. Once you have configured the `api` guard to use the `passport` driver, you only need to specify the `auth:api` middleware on any routes that require a valid access token:
 
-Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증하는 [사용자 승인 guard](/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하기만 하면 됩니다:
+Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증하는 [사용자 승인 guard](/docs/{{version}}/authentication#adding-custom-guards)를 포함하고 있습니다. `api` guard가 `passport` 드라이버를 사용하도록 설정하였다면, 엑세스 토큰 검사가 필요한 라우트에 `auth:api` 미들웨어를 지정하기만 하면 됩니다.
 
     Route::get('/user', function () {
         //
@@ -965,7 +965,7 @@ Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증�
 
 When calling routes that are protected by Passport, your application's API consumers should specify their access token as a `Bearer` token in the `Authorization` header of their request. For example, when using the Guzzle HTTP library:
 
-Passport에 의해서 보호되는 라우트를 호출할 때, 애플리케이션의 API 사용자는 그들의 요청-request의 `Authorization` 헤더에 `Bearer` 토큰으로 엑세스 토큰을 지정해야 합니다. 예를 들어 Guzzle HTTP 라이브러리를 사용해보겠습니다:
+Passport에 의해서 보호되는 라우트를 호출할 때, 애플리케이션의 API 사용자는 그들의 요청-request의 `Authorization` 헤더에 `Bearer` 토큰으로 엑세스 토큰을 지정해야 합니다. 예를 들어 Guzzle HTTP 라이브러리를 사용해보겠습니다.
 
     $response = $client->request('GET', '/api/user', [
         'headers' => [
@@ -988,7 +988,7 @@ Scopes allow your API clients to request a specific set of permissions when requ
 
 You may define your API's scopes using the `Passport::tokensCan` method in the `boot` method of your `AuthServiceProvider`. The `tokensCan` method accepts an array of scope names and scope descriptions. The scope description may be anything you wish and will be displayed to users on the authorization approval screen:
 
-API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passport:tokensCan` 메소드를 사용하여 정의할 수 있습니다. `tokensCan` 메소드는 스코프의 이름과, 설명에 대한 배열을 인자로 받습니다. 스코프 설명은 권한 승인 페이지에서 사용자에게 보여주려는 어떠한 내용도 가능합니다:
+API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passport:tokensCan` 메소드를 사용하여 정의할 수 있습니다. `tokensCan` 메소드는 스코프의 이름과, 설명에 대한 배열을 인자로 받습니다. 스코프 설명은 권한 승인 페이지에서 사용자에게 보여주려는 어떠한 내용도 가능합니다.
 
     use Laravel\Passport\Passport;
 
@@ -1003,7 +1003,7 @@ API의 범위(scope)는 `AuthServiceProvider` 의 `boot` 메소드에서 `Passpo
 
 If a client does not request any specific scopes, you may configure your Passport server to attach a default scope to the token using the `setDefaultScope` method. Typically, you should call this method from the `boot` method of your `AuthServiceProvider`:
 
-클라이언트가 특정한 스코프를 요청하지 않으면 `setDefaultScope` 메소드를 사용하여 토큰에 기본적인 스코프를 지저하도록 Passport 서버를 구성할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드 안에서 호출해야 합니다:
+클라이언트가 특정한 스코프를 요청하지 않으면 `setDefaultScope` 메소드를 사용하여 토큰에 기본적인 스코프를 지저하도록 Passport 서버를 구성할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드 안에서 호출해야 합니다.
 
     use Laravel\Passport\Passport;
 
@@ -1021,7 +1021,7 @@ If a client does not request any specific scopes, you may configure your Passpor
 
 When requesting an access token using the authorization code grant, consumers should specify their desired scopes as the `scope` query string parameter. The `scope` parameter should be a space-delimited list of scopes:
 
-승인 코드 grant를 사용하여 엑세스 토큰을 요청할 때, 사용자는 `scope` 쿼리 스트링 인자를 통해서 원하는 scope-범위를 지정해야 합니다. `scope` 파라미터는 scope-범위의 목록들을 공백으로 구분한 내용이어야 합니다:
+승인 코드 grant를 사용하여 엑세스 토큰을 요청할 때, 사용자는 `scope` 쿼리 스트링 인자를 통해서 원하는 scope-범위를 지정해야 합니다. `scope` 파라미터는 scope-범위의 목록들을 공백으로 구분한 내용이어야 합니다.
 
     Route::get('/redirect', function () {
         $query = http_build_query([
@@ -1039,7 +1039,7 @@ When requesting an access token using the authorization code grant, consumers sh
 
 If you are issuing personal access tokens using the `User` model's `createToken` method, you may pass the array of desired scopes as the second argument to the method:
 
-`User` 모델의 `createToken` 메소드를 사용하여 개인용 엑세스 토큰을 발급하고자 한다면, 메소드의 두번째 인자로 원하는 scope를 배열로 전달할 수 있습니다:
+`User` 모델의 `createToken` 메소드를 사용하여 개인용 엑세스 토큰을 발급하고자 한다면, 메소드의 두번째 인자로 원하는 scope를 배열로 전달할 수 있습니다.
 
     $token = $user->createToken('My Token', ['place-orders'])->accessToken;
 
@@ -1049,7 +1049,7 @@ If you are issuing personal access tokens using the `User` model's `createToken`
 
 Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
 
-Passport 는 유입되는 request-요청이 주어진 코드에 의해서 권한이 확인된 토큰에 의해서 승인되었는지 확인할 수 있는 두개의 미들웨어를 포함하고 있습니다. 이를 사용하려면 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 속성에 다음과 같이 정의해야 합니다:
+Passport 는 유입되는 request-요청이 주어진 코드에 의해서 권한이 확인된 토큰에 의해서 승인되었는지 확인할 수 있는 두개의 미들웨어를 포함하고 있습니다. 이를 사용하려면 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 속성에 다음과 같이 정의해야 합니다.
 
     'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
@@ -1059,7 +1059,7 @@ Passport 는 유입되는 request-요청이 주어진 코드에 의해서 권한
 
 The `scopes` middleware may be assigned to a route to verify that the incoming request's access token has *all* of the listed scopes:
 
-`scopes` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *전체* scope인지 확인하는데 사용할 수 있습니다:
+`scopes` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *전체* scope인지 확인하는데 사용할 수 있습니다.
 
     Route::get('/orders', function () {
         // Access token has both "check-status" and "place-orders" scopes...
@@ -1070,7 +1070,7 @@ The `scopes` middleware may be assigned to a route to verify that the incoming r
 
 The `scope` middleware may be assigned to a route to verify that the incoming request's access token has *at least one* of the listed scopes:
 
-`scope` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *최소한 하나*의 scope에 해당하는지 확인하는데 사용할 수 있습니다:
+`scope` 미들웨어는 라우트에 할당하여 유입되는 request-요청의 엑세스 토큰이 *최소한 하나*의 scope에 해당하는지 확인하는데 사용할 수 있습니다.
 
     Route::get('/orders', function () {
         // Access token has either "check-status" or "place-orders" scope...
@@ -1081,7 +1081,7 @@ The `scope` middleware may be assigned to a route to verify that the incoming re
 
 Once an access token authenticated request has entered your application, you may still check if the token has a given scope using the `tokenCan` method on the authenticated `User` instance:
 
-엑세스 토큰이 인증된 request-요청이 애플리케이션에 전달되면, 인증된 `User` 인스턴스의 `tokenCan` 메소드를 사용하여 토큰이 주어진 scope에 해당하는지 확인할 수 있습니다:
+엑세스 토큰이 인증된 request-요청이 애플리케이션에 전달되면, 인증된 `User` 인스턴스의 `tokenCan` 메소드를 사용하여 토큰이 주어진 scope에 해당하는지 확인할 수 있습니다.
 
     use Illuminate\Http\Request;
 
@@ -1128,7 +1128,7 @@ API를 구성할 때 자바스크립트 애플리케이션에서 여러분의 AP
 
 Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group in your `app/Http/Kernel.php` file:
 
-일반적으로, 여러분의 API를 자바스크립트 애플리케이션에서 사용하고자 한다면, 애플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 애플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `app/Http/Kernel.php` 파일의 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다:
+일반적으로, 여러분의 API를 자바스크립트 애플리케이션에서 사용하고자 한다면, 애플리케이션에 엑세스 토큰을 수동으로 보내고, 매번 애플리케이션에 요청-request 할때 마다 이 토큰을 전달해야 합니다. 그렇지만 Passport는 이미 이를 처리하는 미들웨어를 포함하고 있습니다. 여러분에게 필요한 것은 `app/Http/Kernel.php` 파일의 `web` 미들웨어 그룹에 `CreateFreshApiToken` 미들웨어를 추가하는 것 뿐입니다.
 
     'web' => [
         // Other middleware...
@@ -1141,7 +1141,7 @@ Typically, if you want to consume your API from your JavaScript application, you
 
 This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
 
-이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다:
+이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다.
 
     axios.get('/api/user')
         .then(response => {
@@ -1185,7 +1185,7 @@ When using this method of authentication, you will need to ensure a valid CSRF t
 
 Passport raises events when issuing access tokens and refresh tokens. You may use these events to prune or revoke other access tokens in your database. You may attach listeners to these events in your application's `EventServiceProvider`:
 
-Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 애플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다:
+Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트를 발생시킵니다. 이 이벤트를 사용하여 데이터베이스의 다른 액세스 토큰을 제거하거나 취소 할 수 있습니다. 여러분의 애플리케이션의 `EventServiceProvider` 안에서 이벤트 리스너를 추가할 수 있습니다.
 
     /**
      * The event listener mappings for the application.
@@ -1208,7 +1208,7 @@ Passport 는 엑세스 토큰과 리프레쉬 토큰을 발급할 때 이벤트�
 
 Passport's `actingAs` method may be used to specify the currently authenticated user as well as its scopes. The first argument given to the `actingAs` method is the user instance and the second is an array of scopes that should be granted to the user's token:
 
-Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는데 사용할 수 있습니다. `actionAs` 메소드에 전달되는 첫번째 인자는 사용자 인스턴스이고, 두번째 인자는 사용자의 토큰에 허용된 스코프 배열입니다:
+Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는데 사용할 수 있습니다. `actionAs` 메소드에 전달되는 첫번째 인자는 사용자 인스턴스이고, 두번째 인자는 사용자의 토큰에 허용된 스코프 배열입니다.
 
     use App\User;
     use Laravel\Passport\Passport;

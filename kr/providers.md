@@ -44,7 +44,7 @@ All service providers extend the `Illuminate\Support\ServiceProvider` class. Mos
 
 The Artisan CLI can generate a new provider via the `make:provider` command:
 
-아티즌 CLI에서는 `make:provider` 명령어를 통해서 새로운 프로바이더를 생성할 수 있습니다:
+아티즌 CLI에서는 `make:provider` 명령어를 통해서 새로운 프로바이더를 생성할 수 있습니다.
 
     php artisan make:provider RiakServiceProvider
 
@@ -58,7 +58,7 @@ As mentioned previously, within the `register` method, you should only bind thin
 
 Let's take a look at a basic service provider. Within any of your service provider methods, you always have access to the `$app` property which provides access to the service container:
 
-기본적인 서비스 프로바이더를 살펴보겠습니다. 서비스 프로바이더의 메소드 안에서 언제든지 `$app` 속성을 사용할 수 있으며, 이를 통해 서비스 컨테이너에 접근할 수 있습니다:
+기본적인 서비스 프로바이더를 살펴보겠습니다. 서비스 프로바이더의 메소드 안에서 언제든지 `$app` 속성을 사용할 수 있으며, 이를 통해 서비스 컨테이너에 접근할 수 있습니다.
 
     <?php
 
@@ -91,7 +91,7 @@ This service provider only defines a `register` method, and uses that method to 
 
 If your service provider registers many simple bindings, you may wish to use the `bindings` and `singletons` properties instead of manually registering each container binding. When the service provider is loaded by the framework, it will automatically check for these properties and register their bindings:
 
-서비스 프로바이더가 동일한 (simple) 바인딩 여러개를 등록한다면, 각각의 컨테이너 바인딩을 일일이 등록하는 대신에 `bindings` 와 `singletons` 속성을 사용할 수 있습니다. 프레임워크에서 서비스 프로바이더가 로드 될 때, 이 속성들을 자동으로 체크하고 바인딩을 등록합니다:
+서비스 프로바이더가 동일한 (simple) 바인딩 여러개를 등록한다면, 각각의 컨테이너 바인딩을 일일이 등록하는 대신에 `bindings` 와 `singletons` 속성을 사용할 수 있습니다. 프레임워크에서 서비스 프로바이더가 로드 될 때, 이 속성들을 자동으로 체크하고 바인딩을 등록합니다.
 
     <?php
 
@@ -132,7 +132,7 @@ If your service provider registers many simple bindings, you may wish to use the
 
 So, what if we need to register a [view composer](/docs/{{version}}/views#view-composers) within our service provider? This should be done within the `boot` method. **This method is called after all other service providers have been registered**, meaning you have access to all other services that have been registered by the framework:
 
-그럼 이제 서비스 프로바이더 안에서 [뷰 컴포저](/docs/{{version}}/views#view-composers)를 등록할 필요가 있다면 어떻게 해야 할까요? 그런 작업은 `boot` 메소드 안에서 해야합니다. **이 메소드는 모든 다른 서비스 프로바이더들이 등록된 이후에 호출됩니다** 즉, 프레임 워크에 의해 등록된 다른 모든 서비스들에 액세스 할 수 있다는 것을 의미합니다:
+그럼 이제 서비스 프로바이더 안에서 [뷰 컴포저](/docs/{{version}}/views#view-composers)를 등록할 필요가 있다면 어떻게 해야 할까요? 그런 작업은 `boot` 메소드 안에서 해야합니다. **이 메소드는 모든 다른 서비스 프로바이더들이 등록된 이후에 호출됩니다** 즉, 프레임 워크에 의해 등록된 다른 모든 서비스들에 액세스 할 수 있다는 것을 의미합니다.
 
     <?php
 
@@ -160,7 +160,7 @@ So, what if we need to register a [view composer](/docs/{{version}}/views#view-c
 
 You may type-hint dependencies for your service provider's `boot` method. The [service container](/docs/{{version}}/container) will automatically inject any dependencies you need:
 
-여러분은 서비스 프로바이더의 `boot` 메소드에서 의존성 주입을 위해서 타입 힌트를 사용할 수 있습니다. [서비스 컨테이너](/docs/{{version}}/container)는 자동으로 필요한 의존 객체를 주입할 것입니다:
+여러분은 서비스 프로바이더의 `boot` 메소드에서 의존성 주입을 위해서 타입 힌트를 사용할 수 있습니다. [서비스 컨테이너](/docs/{{version}}/container)는 자동으로 필요한 의존 객체를 주입할 것입니다.
 
     use Illuminate\Contracts\Routing\ResponseFactory;
 
@@ -181,7 +181,7 @@ All service providers are registered in the `config/app.php` configuration file.
 
 To register your provider, add it to the array:
 
-여러분의 프로바이더들을 등록하려면 이 배열에 추가 하면 됩니다:
+여러분의 프로바이더들을 등록하려면 이 배열에 추가 하면 됩니다.
 
     'providers' => [
         // Other Service Providers
@@ -203,7 +203,7 @@ Laravel compiles and stores a list of all of the services supplied by deferred s
 
 To defer the loading of a provider, implement the `\Illuminate\Contracts\Support\DeferrableProvider` interface and define a `provides` method. The `provides` method should return the service container bindings registered by the provider:
 
-프로바이더를 지연(defer) 로딩 하려면, `\Illuminate\Contracts\Support\DeferrableProvider` 인터페이스를 구현하고 `provides` 메소드를 정의하면 됩니다. `provides` 메소드는 프로바이더에 의해서 바인딩이 등록된 서비스 컨테이너를 리턴해야 합니다:
+프로바이더를 지연(defer) 로딩 하려면, `\Illuminate\Contracts\Support\DeferrableProvider` 인터페이스를 구현하고 `provides` 메소드를 정의하면 됩니다. `provides` 메소드는 프로바이더에 의해서 바인딩이 등록된 서비스 컨테이너를 리턴해야 합니다.
 
     <?php
 

@@ -26,7 +26,7 @@
 
 Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
 
-라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다:
+라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다.
 
     <?php
 
@@ -61,7 +61,7 @@ The `get` method makes a `GET` request into the application, while the `assertSt
 
 You may use the `withHeaders` method to customize the request's headers before it is sent to the application. This allows you to add any custom headers you would like to the request:
 
-`withHeaders` 메소드를 사용하여 요청-requestr가 애플리케이션에 전달되기 전에 헤더를 커스터마이징 할 수 있습니다. 이를 통해 요청-request에 커스텀 헤더를 추가 할 수 있습니다:
+`withHeaders` 메소드를 사용하여 요청-requestr가 애플리케이션에 전달되기 전에 헤더를 커스터마이징 할 수 있습니다. 이를 통해 요청-request에 커스텀 헤더를 추가 할 수 있습니다.
 
     <?php
 
@@ -130,7 +130,7 @@ After making a test request to your application, the `dump` and `dumpHeaders` me
 
 Laravel provides several helpers for working with the session during HTTP testing. First, you may set the session data to a given array using the `withSession` method. This is useful for loading the session with data before issuing a request to your application:
 
-라라벨은 HTTP 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼 메소드를 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정할 수 있습니다. 이것은 애플리케이션에 response-응답을 전달하기 전에 데이터를 세션에 로드하는 경우에 유용합니다:
+라라벨은 HTTP 테스팅 중 세션 작업을 하는 데 필요한 여러 헬퍼 메소드를 제공합니다. 먼저, `withSession` 메소드를 이용하여 주어진 배열을 세션 데이터로 설정할 수 있습니다. 이것은 애플리케이션에 response-응답을 전달하기 전에 데이터를 세션에 로드하는 경우에 유용합니다.
 
     <?php
 
@@ -145,7 +145,7 @@ Laravel provides several helpers for working with the session during HTTP testin
 
 One common use of the session is for maintaining state for the authenticated user. The `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
 
-일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다:
+일반적인 세션의 이용법 중 하나는 인증된 사용자를 위해서 상태를 유지하는 것입니다. `actingAs` 헬퍼 메소드는 특정 사용자를 현재 사용자로 인증하는 단순한 방법을 제공합니다. 예를 들어, 사용자를 생성하고 인증하기 위해 [model factory](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다.
 
     <?php
 
@@ -165,7 +165,7 @@ One common use of the session is for maintaining state for the authenticated use
 
 You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method:
 
-또한 `actingAs` 메소드의 두 번째 인자로 주어진 사용자에 대한 인증에 어떤 guard를 사용해야 하는지 지정하도록 guard 이름을 전달 할 수도 있습니다:
+또한 `actingAs` 메소드의 두 번째 인자로 주어진 사용자에 대한 인증에 어떤 guard를 사용해야 하는지 지정하도록 guard 이름을 전달 할 수도 있습니다.
 
     $this->actingAs($user, 'api')
 
@@ -175,7 +175,7 @@ You may also specify which guard should be used to authenticate the given user b
 
 Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, `delete`, and `option` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
 
-라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, `delete`, 그리고 `option` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다:
+라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, `delete`, 그리고 `option` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다.
 
     <?php
 
@@ -208,7 +208,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 
 If you would like to verify that the given array is an **exact** match for the JSON returned by the application, you should use the `assertExactJson` method:
 
-주어진 배열이 반환된 JSON과 **정확히** 일치하는지 확인하고자 한다면, `assertExactJson` 메소드를 사용하면 됩니다:
+주어진 배열이 반환된 JSON과 **정확히** 일치하는지 확인하고자 한다면, `assertExactJson` 메소드를 사용하면 됩니다.
 
     <?php
 
@@ -274,13 +274,13 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
 
 When creating files using the `fake` method, you may specify the width, height, and size of the image in order to better test your validation rules:
 
-`fake` 메소드를 사용하여 파일을 생성할 때, 유효성 검사 테스트를 위해서 파일의 가로, 세로 및 파일 사이즈를 지정할 수 있습니다:
+`fake` 메소드를 사용하여 파일을 생성할 때, 유효성 검사 테스트를 위해서 파일의 가로, 세로 및 파일 사이즈를 지정할 수 있습니다.
 
     UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100);
 
 In addition to creating images, you may create files of any other type using the `create` method:
 
-이미지 타입 뿐만 아니라 `create` 메소드를 사용하여 다른 타입들의 파일도 생성할 수 있습니다:
+이미지 타입 뿐만 아니라 `create` 메소드를 사용하여 다른 타입들의 파일도 생성할 수 있습니다.
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
 
@@ -294,7 +294,7 @@ In addition to creating images, you may create files of any other type using the
 
 Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
 
-라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다:
+라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다.
 
 <style>
     .collection-method-list > p {
@@ -738,7 +738,7 @@ response-응답 뷰가 주어진 데이터가 아닌것을 확인:
 
 Laravel also provides a variety of authentication related assertions for your [PHPUnit](https://phpunit.de/) tests:
 
-라라벨은 또한 [PHPUnit](https://phpunit.de/) 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다:
+라라벨은 또한 [PHPUnit](https://phpunit.de/) 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다.
 
 Method  | Description
 ------------- | -------------

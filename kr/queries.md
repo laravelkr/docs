@@ -69,7 +69,7 @@ The Laravel query builder uses PDO parameter binding to protect your application
 
 You may use the `table` method on the `DB` facade to begin a query. The `table` method returns a fluent query builder instance for the given table, allowing you to chain more constraints onto the query and then finally get the results using the `get` method:
 
-`DB` 파사드의 `table` 메소드를 사용하여 쿼리를 시작할 수 있습니다. `table` 메소드는 주어진 테이블에 대한 쿼리빌더 인스턴스를 반환하고, 다양한 제약을 메소드 체이닝 형태로 구성할 수 있으며, 마지막으로 `get` 메소드를 사용하여 결과를 가져올 수 있습니다:
+`DB` 파사드의 `table` 메소드를 사용하여 쿼리를 시작할 수 있습니다. `table` 메소드는 주어진 테이블에 대한 쿼리빌더 인스턴스를 반환하고, 다양한 제약을 메소드 체이닝 형태로 구성할 수 있으며, 마지막으로 `get` 메소드를 사용하여 결과를 가져올 수 있습니다.
 
     <?php
 
@@ -106,7 +106,7 @@ The `get` method returns an `Illuminate\Support\Collection` containing the resul
 
 If you just need to retrieve a single row from the database table, you may use the `first` method. This method will return a single `stdClass` object:
 
-데이터베이스 테이블에서 하나의 row을 가져오고자 한다면, `first` 메소드를 사용하면 됩니다. 이 메소드는 하나의 `stdClass` 객체를 반환할 것입니다:
+데이터베이스 테이블에서 하나의 row을 가져오고자 한다면, `first` 메소드를 사용하면 됩니다. 이 메소드는 하나의 `stdClass` 객체를 반환할 것입니다.
 
     $user = DB::table('users')->where('name', 'John')->first();
 
@@ -114,7 +114,7 @@ If you just need to retrieve a single row from the database table, you may use t
 
 If you don't even need an entire row, you may extract a single value from a record using the `value` method. This method will return the value of the column directly:
 
-전체 row 가 필요하지 않다면, `value` 메소드를 사용하여 레코드에서 하나의 값만 추출할 수 있습니다. 메소드는 컬럼의 직접적인 값을 반환할 것입니다:
+전체 row 가 필요하지 않다면, `value` 메소드를 사용하여 레코드에서 하나의 값만 추출할 수 있습니다. 메소드는 컬럼의 직접적인 값을 반환할 것입니다.
 
     $email = DB::table('users')->where('name', 'John')->value('email');
 
@@ -129,7 +129,7 @@ To retrieve a single row by its `id` column value, use the `find` method:
 
 If you would like to retrieve a Collection containing the values of a single column, you may use the `pluck` method. In this example, we'll retrieve a Collection of role titles:
 
-한개의 컬럼의 값들을 포함하고 있는 컬렉션을 조회하고자 한다면, `pluck` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 컬렉션을 조회할 것입니다:
+한개의 컬럼의 값들을 포함하고 있는 컬렉션을 조회하고자 한다면, `pluck` 메소드를 사용할 수 있습니다. 이 예제에서는 사용자의 역할의 이름의 컬렉션을 조회할 것입니다.
 
     $titles = DB::table('roles')->pluck('title');
 
@@ -139,7 +139,7 @@ If you would like to retrieve a Collection containing the values of a single col
 
  You may also specify a custom key column for the returned Collection:
 
- 반환될 컬렉션에서 사용될 특정한 컬럼 키를 지정할 수도 있습니다:
+ 반환될 컬렉션에서 사용될 특정한 컬럼 키를 지정할 수도 있습니다.
 
     $roles = DB::table('roles')->pluck('title', 'name');
 
@@ -153,7 +153,7 @@ If you would like to retrieve a Collection containing the values of a single col
 
 If you need to work with thousands of database records, consider using the `chunk` method. This method retrieves a small chunk of the results at a time and feeds each chunk into a `Closure` for processing. This method is very useful for writing [Artisan commands](/docs/{{version}}/artisan) that process thousands of records. For example, let's work with the entire `users` table in chunks of 100 records at a time:
 
-데이터베이스 레코드가 많은 작업을 수행해야 한다면, `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 chunk 를 획득하고, 각각의 chunk를 `Closure` 를 통해서 처리합니다. 이 메소드는 다수의 레코드를 처리하는 [아티즌 명령어](/docs/{{version}}/artisan)를 작성하는데 유용합니다. 예를 들어, 전체 `users` 테이블에서 한번에 100개의 레코드를 가져온다고 해보겠습니다:
+데이터베이스 레코드가 많은 작업을 수행해야 한다면, `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 chunk 를 획득하고, 각각의 chunk를 `Closure` 를 통해서 처리합니다. 이 메소드는 다수의 레코드를 처리하는 [아티즌 명령어](/docs/{{version}}/artisan)를 작성하는데 유용합니다. 예를 들어, 전체 `users` 테이블에서 한번에 100개의 레코드를 가져온다고 해보겠습니다.
 
     DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         foreach ($users as $user) {
@@ -163,7 +163,7 @@ If you need to work with thousands of database records, consider using the `chun
 
 You may stop further chunks from being processed by returning `false` from the `Closure`:
 
-`Closure` 에서 `false`를 반환하여, 더이상의 chunk를 처리하지 않도록 중단할 수 있습니다:
+`Closure` 에서 `false`를 반환하여, 더이상의 chunk를 처리하지 않도록 중단할 수 있습니다.
 
     DB::table('users')->orderBy('id')->chunk(100, function ($users) {
         // Process the records...
@@ -194,7 +194,7 @@ If you are updating database records while chunking results, your chunk results 
 
 The query builder also provides a variety of aggregate methods such as `count`, `max`, `min`, `avg`, and `sum`. You may call any of these methods after constructing your query:
 
-쿼리빌더는 또한 `count`, `max`, `min`, `avg` 그리고 `sum` 과 같은 다양한 집계 관련 메소드를 제공합니다. 이 메소드들은 쿼리를 생성한 뒤에 호출하면 됩니다:
+쿼리빌더는 또한 `count`, `max`, `min`, `avg` 그리고 `sum` 과 같은 다양한 집계 관련 메소드를 제공합니다. 이 메소드들은 쿼리를 생성한 뒤에 호출하면 됩니다.
 
     $users = DB::table('users')->count();
 
@@ -202,7 +202,7 @@ The query builder also provides a variety of aggregate methods such as `count`, 
 
 You may combine these methods with other clauses:
 
-이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다:
+이 메소드들과 다른 구문을 조합하여 사용할 수 있습니다.
 
     $price = DB::table('orders')
                     ->where('finalized', 1)
@@ -213,7 +213,7 @@ You may combine these methods with other clauses:
 
 Instead of using the `count` method to determine if any records exist that match your query's constraints, you may use the `exists` and `doesntExist` methods:
 
-쿼리 조건에 맞는 레코드가 존재하는지 확인하기 위해서 `count` 메소드를 사용하는 대신에, `exists` 와 `doesntExist` 메소드를 사용할 수 있습니다:
+쿼리 조건에 맞는 레코드가 존재하는지 확인하기 위해서 `count` 메소드를 사용하는 대신에, `exists` 와 `doesntExist` 메소드를 사용할 수 있습니다.
 
     return DB::table('orders')->where('finalized', 1)->exists();
 
@@ -228,19 +228,19 @@ Instead of using the `count` method to determine if any records exist that match
 
 You may not always want to select all columns from a database table. Using the `select` method, you can specify a custom `select` clause for the query:
 
-항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다:
+항상 데이터베이스의 테이블에서 모든 컬럼을 조회하고자 하지는 않을 것입니다. `select` 메소드를 사용하여, 쿼리에서 `select` 문을 위한 지정을 할 수 있습니다.
 
     $users = DB::table('users')->select('name', 'email as user_email')->get();
 
 The `distinct` method allows you to force the query to return distinct results:
 
-`distinct` 메소드는 쿼리가 고유한 결과를 반환하도록 강제할 수 있습니다:
+`distinct` 메소드는 쿼리가 고유한 결과를 반환하도록 강제할 수 있습니다.
 
     $users = DB::table('users')->distinct()->get();
 
 If you already have a query builder instance and you wish to add a column to its existing select clause, you may use the `addSelect` method:
 
-이미 쿼리빌더 인스턴스를 가지고 있고, 존재하는 select 구문에 선택할 컬럼을 추가하고자 한다면, `addSelect` 메소드를 사용할 수 있습니다:
+이미 쿼리빌더 인스턴스를 가지고 있고, 존재하는 select 구문에 선택할 컬럼을 추가하고자 한다면, `addSelect` 메소드를 사용할 수 있습니다.
 
     $query = DB::table('users')->select('name');
 
@@ -252,7 +252,7 @@ If you already have a query builder instance and you wish to add a column to its
 
 Sometimes you may need to use a raw expression in a query. To create a raw expression, you may use the `DB::raw` method:
 
-때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다:
+때로는, 쿼리에서 Raw Expressions를 사용하고자 할 수도 있습니다. raw expression 을 생성하기 위해서는 `DB::raw` 메소드를 사용할 수 있습니다.
 
     $users = DB::table('users')
                          ->select(DB::raw('count(*) as user_count, status'))
@@ -276,7 +276,7 @@ Instead of using `DB::raw`, you may also use the following methods to insert a r
 
 The `selectRaw` method can be used in place of `select(DB::raw(...))`. This method accepts an optional array of bindings as its second argument:
 
-`selectRaw` 메소드는 `select(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다:
+`selectRaw` 메소드는 `select(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])
@@ -286,7 +286,7 @@ The `selectRaw` method can be used in place of `select(DB::raw(...))`. This meth
 
 The `whereRaw` and `orWhereRaw` methods can be used to inject a raw `where` clause into your query. These methods accept an optional array of bindings as their second argument:
 
-`whereRaw` 와 `orWhereRaw` 메소드는 쿼리의 `where` 절에 raw 한 구문을 삽입하는데 사용할 수 있습니다. 이 메소드도 옵션 배열을 두번째 인자로 받습니다:
+`whereRaw` 와 `orWhereRaw` 메소드는 쿼리의 `where` 절에 raw 한 구문을 삽입하는데 사용할 수 있습니다. 이 메소드도 옵션 배열을 두번째 인자로 받습니다.
 
     $orders = DB::table('orders')
                     ->whereRaw('price > IF(state = "TX", ?, 100)', [200])
@@ -296,7 +296,7 @@ The `whereRaw` and `orWhereRaw` methods can be used to inject a raw `where` clau
 
 The `havingRaw` and `orHavingRaw` methods may be used to set a raw string as the value of the `having` clause. These methods accept an optional array of bindings as their second argument:
 
-`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다. 이 메소드는 두번째 인자로 (옵션값) 바인딩 배열을 받을 수 있습니다:
+`havingRaw` 와 `orHavingRaw` 메소드는 `having` 절의 값으로 raw 문자열을 설정하는데 사용됩니다. 이 메소드는 두번째 인자로 (옵션값) 바인딩 배열을 받을 수 있습니다.
 
     $orders = DB::table('orders')
                     ->select('department', DB::raw('SUM(price) as total_sales'))
@@ -308,7 +308,7 @@ The `havingRaw` and `orHavingRaw` methods may be used to set a raw string as the
 
 The `orderByRaw` method may be used to set a raw string as the value of the `order by` clause:
 
-`orderByRaw` 메소드는 `order by` 절의 값을 raw 한 문자열로 설정하는데 사용합니다:
+`orderByRaw` 메소드는 `order by` 절의 값을 raw 한 문자열로 설정하는데 사용합니다.
 
     $orders = DB::table('orders')
                     ->orderByRaw('updated_at - created_at DESC')
@@ -325,7 +325,7 @@ The `orderByRaw` method may be used to set a raw string as the value of the `ord
 
 The query builder may also be used to write join statements. To perform a basic "inner join", you may use the `join` method on a query builder instance. The first argument passed to the `join` method is the name of the table you need to join to, while the remaining arguments specify the column constraints for the join. You can even join to multiple tables in a single query:
 
-쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다:
+쿼리 빌더를 사용해서 조인문(join statement)을 만들수 있습니다. 기본적인 "inner join" 을 수행하기 위해서는 쿼리 빌더 인스턴스에 `join` 메소드를 사용하면 됩니다. `join` 메소드에 전달되는 첫번째 인자는 join을 수행할 테이블의 이름이며, 구 이후는 join 을 실행할 때 컬럼의 제약 조건입니다. 다음과 같이 하나의 쿼리에서 여러 테이블을 join 할 수도 있습니다.
 
     $users = DB::table('users')
                 ->join('contacts', 'users.id', '=', 'contacts.user_id')
@@ -338,7 +338,7 @@ The query builder may also be used to write join statements. To perform a basic 
 
 If you would like to perform a "left join" or "right join" instead of an "inner join", use the `leftJoin` or `rightJoin` methods. These methods have the same signature as the `join` method:
 
-"inner join" 대신 "left join" 또는 "right join" 을 수행하고자 한다면, `leftJoin` 또는 `rightJoin` 메소드를 사용하십시오. 이 메소드들은 `join` 메소드와 동일한 구성을 가집니다:
+"inner join" 대신 "left join" 또는 "right join" 을 수행하고자 한다면, `leftJoin` 또는 `rightJoin` 메소드를 사용하십시오. 이 메소드들은 `join` 메소드와 동일한 구성을 가집니다.
 
     $users = DB::table('users')
                 ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
@@ -353,7 +353,7 @@ If you would like to perform a "left join" or "right join" instead of an "inner 
 
 To perform a "cross join" use the `crossJoin` method with the name of the table you wish to cross join to. Cross joins generate a cartesian product between the first table and the joined table:
 
-"Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다:
+"Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다.
 
     $users = DB::table('sizes')
                 ->crossJoin('colours')
@@ -374,7 +374,7 @@ You may also specify more advanced join clauses. To get started, pass a `Closure
 
 If you would like to use a "where" style clause on your joins, you may use the `where` and `orWhere` methods on a join. Instead of comparing two columns, these methods will compare the column against a value:
 
-join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhere` 메소드를 사용하면 됩니다. 두개의 컬럼을 비교하는 대신 이러한 메소드들은 값과 컬럼을 비교합니다:
+join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhere` 메소드를 사용하면 됩니다. 두개의 컬럼을 비교하는 대신 이러한 메소드들은 값과 컬럼을 비교합니다.
 
     DB::table('users')
             ->join('contacts', function ($join) {
@@ -388,7 +388,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
 
 You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a query to a sub-query. Each of these methods receive three arguments: the sub-query, its table alias, and a Closure that defines the related columns:
 
-쿼리와 서브쿼리의 조인을 위해서 `joinSub`, `leftJoinSub`, `rightJoinSub` 메소드를 사용할 수 있습니다. 각각의 메소드는 세개의 인자: 서브쿼리, 테이블의 별칭(alias), 연관된 컬럼을 정의하는 클로저를 전달받습니다:
+쿼리와 서브쿼리의 조인을 위해서 `joinSub`, `leftJoinSub`, `rightJoinSub` 메소드를 사용할 수 있습니다. 각각의 메소드는 세개의 인자: 서브쿼리, 테이블의 별칭(alias), 연관된 컬럼을 정의하는 클로저를 전달받습니다.
 
     $latestPosts = DB::table('posts')
                        ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
@@ -406,7 +406,7 @@ You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a q
 
 The query builder also provides a quick way to "union" two queries together. For example, you may create an initial query and use the `union` method to union it with a second query:
 
-쿼리 빌더는 두 개의 쿼리를 "union" 하는 간편한 방법을 제공합니다. 다음과 같이 초기화한 쿼리를 생성하고 두 번째 쿼리를 결합하기 위하여 `union` 메소드를 사용할 수 있습니다:
+쿼리 빌더는 두 개의 쿼리를 "union" 하는 간편한 방법을 제공합니다. 다음과 같이 초기화한 쿼리를 생성하고 두 번째 쿼리를 결합하기 위하여 `union` 메소드를 사용할 수 있습니다.
 
     $first = DB::table('users')
                 ->whereNull('first_name');
@@ -433,19 +433,19 @@ You may use the `where` method on a query builder instance to add `where` clause
 
 For example, here is a query that verifies the value of the "votes" column is equal to 100:
 
-다음과 같이 "votes" 컬럼이 100과 일치하는 값을 가진 쿼리를 수행합니다:
+다음과 같이 "votes" 컬럼이 100과 일치하는 값을 가진 쿼리를 수행합니다.
 
     $users = DB::table('users')->where('votes', '=', 100)->get();
 
 For convenience, if you want to verify that a column is equal to a given value, you may pass the value directly as the second argument to the `where` method:
 
-보다 편리하게 사용하기 위해서, 컬럼이 주어진 값과 동일한가를 확인하고자 한다면, `where` 메소드의 두번째 인자로 바로 값을 전달할 수도 있습니다:
+보다 편리하게 사용하기 위해서, 컬럼이 주어진 값과 동일한가를 확인하고자 한다면, `where` 메소드의 두번째 인자로 바로 값을 전달할 수도 있습니다.
 
     $users = DB::table('users')->where('votes', 100)->get();
 
 You may use a variety of other operators when writing a `where` clause:
 
-`where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다:
+`where`절을 작성할 때 다양한 다른 연산자를 사용할 수 있습니다.
 
     $users = DB::table('users')
                     ->where('votes', '>=', 100)
@@ -461,7 +461,7 @@ You may use a variety of other operators when writing a `where` clause:
 
 You may also pass an array of conditions to the `where` function:
 
-또한 `where` 함수에 조건에 대한 배열을 전달 할 수도 있습니다:
+또한 `where` 함수에 조건에 대한 배열을 전달 할 수도 있습니다.
 
     $users = DB::table('users')->where([
         ['status', '=', '1'],
@@ -473,7 +473,7 @@ You may also pass an array of conditions to the `where` function:
 
 You may chain where constraints together as well as add `or` clauses to the query. The `orWhere` method accepts the same arguments as the `where` method:
 
-쿼리에 `or` 절을 추가하는 것과 같이 where 제약에 더해서 체이닝 형태로 사용할 수 있습니다. `orWhere` 메소드는 `where` 메소드와 동일한 인자를 전달 받습니다:
+쿼리에 `or` 절을 추가하는 것과 같이 where 제약에 더해서 체이닝 형태로 사용할 수 있습니다. `orWhere` 메소드는 `where` 메소드와 동일한 인자를 전달 받습니다.
 
     $users = DB::table('users')
                         ->where('votes', '>', 100)
@@ -488,7 +488,7 @@ You may chain where constraints together as well as add `or` clauses to the quer
 
 The `whereBetween` method verifies that a column's value is between two values:
 
-`whereBetween` 메소드는 컬럼의 값이 두개의 값 사이의 값인지 확인합니다:
+`whereBetween` 메소드는 컬럼의 값이 두개의 값 사이의 값인지 확인합니다.
 
     $users = DB::table('users')
                ->whereBetween('votes', [1, 100])
@@ -499,7 +499,7 @@ The `whereBetween` method verifies that a column's value is between two values:
 
 The `whereNotBetween` method verifies that a column's value lies outside of two values:
 
-`whereNotBetween` 메소드는 컬럼의 값이 두개의 값 사이가 아닌지 확인합니다:
+`whereNotBetween` 메소드는 컬럼의 값이 두개의 값 사이가 아닌지 확인합니다.
 
     $users = DB::table('users')
                         ->whereNotBetween('votes', [1, 100])
@@ -510,7 +510,7 @@ The `whereNotBetween` method verifies that a column's value lies outside of two 
 
 The `whereIn` method verifies that a given column's value is contained within the given array:
 
-`whereIn`메소드는 주어진 컬럼의 값이 주어진 배열안에 값에 속해 있는지 확인합니다:
+`whereIn`메소드는 주어진 컬럼의 값이 주어진 배열안에 값에 속해 있는지 확인합니다.
 
     $users = DB::table('users')
                         ->whereIn('id', [1, 2, 3])
@@ -518,7 +518,7 @@ The `whereIn` method verifies that a given column's value is contained within th
 
 The `whereNotIn` method verifies that the given column's value is **not** contained in the given array:
 
-`whereNotIn` 메소드는 주어진 컬럼의 값이 주어진 배열안에 포함되어 있지 **않은지** 확인합니다:
+`whereNotIn` 메소드는 주어진 컬럼의 값이 주어진 배열안에 포함되어 있지 **않은지** 확인합니다.
 
     $users = DB::table('users')
                         ->whereNotIn('id', [1, 2, 3])
@@ -529,7 +529,7 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
 
 The `whereNull` method verifies that the value of the given column is `NULL`:
 
-`whereNull`메소드는 주어진 컬럼의 값이 `NULL` 인지 확인합니다:
+`whereNull`메소드는 주어진 컬럼의 값이 `NULL` 인지 확인합니다.
 
     $users = DB::table('users')
                         ->whereNull('updated_at')
@@ -537,7 +537,7 @@ The `whereNull` method verifies that the value of the given column is `NULL`:
 
 The `whereNotNull` method verifies that the column's value is not `NULL`:
 
-`whereNotNull`메소드는 주어진 컬럼의 값이 `NULL`이 아닌지 확인합니다:
+`whereNotNull`메소드는 주어진 컬럼의 값이 `NULL`이 아닌지 확인합니다.
 
     $users = DB::table('users')
                         ->whereNotNull('updated_at')
@@ -548,7 +548,7 @@ The `whereNotNull` method verifies that the column's value is not `NULL`:
 
 The `whereDate` method may be used to compare a column's value against a date:
 
-`whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다:
+`whereDate` 메소드는 컬럼의 값이 date 값인지 비교하는데 사용됩니다.
 
     $users = DB::table('users')
                     ->whereDate('created_at', '2016-12-31')
@@ -556,7 +556,7 @@ The `whereDate` method may be used to compare a column's value against a date:
 
 The `whereMonth` method may be used to compare a column's value against a specific month of a year:
 
-`whereMonth` 메소드는 컬럼의 값이 한해의 지정된 달과 같은지 비교하는데 사용됩니다:
+`whereMonth` 메소드는 컬럼의 값이 한해의 지정된 달과 같은지 비교하는데 사용됩니다.
 
     $users = DB::table('users')
                     ->whereMonth('created_at', '12')
@@ -564,7 +564,7 @@ The `whereMonth` method may be used to compare a column's value against a specif
 
 The `whereDay` method may be used to compare a column's value against a specific day of a month:
 
-`whereDay` 메소드는 컬럼의 값이 한달의 지정된 일과 같은지 비교하는데 사용됩니다:
+`whereDay` 메소드는 컬럼의 값이 한달의 지정된 일과 같은지 비교하는데 사용됩니다.
 
     $users = DB::table('users')
                     ->whereDay('created_at', '31')
@@ -572,7 +572,7 @@ The `whereDay` method may be used to compare a column's value against a specific
 
 The `whereYear` method may be used to compare a column's value against a specific year:
 
-`whereYear` 메소드는 컬럼의 값이 지정된 년도와 같은지 비교하는데 사용됩니다:
+`whereYear` 메소드는 컬럼의 값이 지정된 년도와 같은지 비교하는데 사용됩니다.
 
     $users = DB::table('users')
                     ->whereYear('created_at', '2016')
@@ -580,7 +580,7 @@ The `whereYear` method may be used to compare a column's value against a specifi
 
 The `whereTime` method may be used to compare a column's value against a specific time:
 
-`whereTime` 메소드는 컬럼의 값을 특정 시간과 비교하는데 사용할 수 있습니다:
+`whereTime` 메소드는 컬럼의 값을 특정 시간과 비교하는데 사용할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereTime('created_at', '=', '11:20:45')
@@ -591,7 +591,7 @@ The `whereTime` method may be used to compare a column's value against a specifi
 
 The `whereColumn` method may be used to verify that two columns are equal:
 
-`whereColumn` 메소드는 두개의 컬럼이 동일하는 것을 확인하는데 사용할 수 있습니다:
+`whereColumn` 메소드는 두개의 컬럼이 동일하는 것을 확인하는데 사용할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereColumn('first_name', 'last_name')
@@ -599,7 +599,7 @@ The `whereColumn` method may be used to verify that two columns are equal:
 
 You may also pass a comparison operator to the method:
 
-또한 비교 연산자를 메소드에 전달할 수도 있습니다:
+또한 비교 연산자를 메소드에 전달할 수도 있습니다.
 
     $users = DB::table('users')
                     ->whereColumn('updated_at', '>', 'created_at')
@@ -607,7 +607,7 @@ You may also pass a comparison operator to the method:
 
 The `whereColumn` method can also be passed an array of multiple conditions. These conditions will be joined using the `and` operator:
 
-`whereColumn`메소드는 또한 다수의 조건 배열을 전달 받을 수도 있습니다. 이 조건들은 `and` 연산자를 사용하여 연결됩니다:
+`whereColumn`메소드는 또한 다수의 조건 배열을 전달 받을 수도 있습니다. 이 조건들은 `and` 연산자를 사용하여 연결됩니다.
 
     $users = DB::table('users')
                     ->whereColumn([
@@ -621,7 +621,7 @@ The `whereColumn` method can also be passed an array of multiple conditions. The
 
 Sometimes you may need to create more advanced where clauses such as "where exists" clauses or nested parameter groupings. The Laravel query builder can handle these as well. To get started, let's look at an example of grouping constraints within parenthesis:
 
-가끔은 "where exists" 절이나 중첩된 파라미터를 그룹으로 묶어서 수행하는것과 같이, 복잡한 조건문을 사용해야 할 필요가 있습니다. 라라벨의 쿼리 빌더는 이 경우 다음과 같이 사용할 수 있습니다. 다음의 괄호 안에 제약조건을 그룹으로 묶는 예제를 살펴보겠습니다:
+가끔은 "where exists" 절이나 중첩된 파라미터를 그룹으로 묶어서 수행하는것과 같이, 복잡한 조건문을 사용해야 할 필요가 있습니다. 라라벨의 쿼리 빌더는 이 경우 다음과 같이 사용할 수 있습니다. 다음의 괄호 안에 제약조건을 그룹으로 묶는 예제를 살펴보겠습니다.
 
     $users = DB::table('users')
                ->where('name', '=', 'John')
@@ -633,7 +633,7 @@ Sometimes you may need to create more advanced where clauses such as "where exis
 
 As you can see, passing a `Closure` into the `where` method instructs the query builder to begin a constraint group. The `Closure` will receive a query builder instance which you can use to set the constraints that should be contained within the parenthesis group. The example above will produce the following SQL:
 
-위에서 보시다 시피, `where` 메소드에 전달된 하나의 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다:
+위에서 보시다 시피, `where` 메소드에 전달된 하나의 `Closure`가 쿼리빌더의 제약조건을 그룹으로 묶고 있습니다. 이 `Closure`는 괄호로 포함된 제약조건을 설정하는데 사용할 쿼리빌더 인스턴스를 전달받습니다. 이 예제는 다음과 같은 SQL을 생성할 것입니다.
 
     select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 
@@ -647,7 +647,7 @@ As you can see, passing a `Closure` into the `where` method instructs the query 
 
 The `whereExists` method allows you to write `where exists` SQL clauses. The `whereExists` method accepts a `Closure` argument, which will receive a query builder instance allowing you to define the query that should be placed inside of the "exists" clause:
 
-`whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다:
+`whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다.
 
     $users = DB::table('users')
                ->whereExists(function ($query) {
@@ -659,7 +659,7 @@ The `whereExists` method allows you to write `where exists` SQL clauses. The `wh
 
 The query above will produce the following SQL:
 
-위의 쿼리는 다음과 같은 SQL을 생성합니다:
+위의 쿼리는 다음과 같은 SQL을 생성합니다.
 
     select * from users
     where exists (
@@ -719,7 +719,7 @@ You may use `whereJsonLength` to query JSON arrays by their length:
 
 The `orderBy` method allows you to sort the result of the query by a given column. The first argument to the `orderBy` method should be the column you wish to sort by, while the second argument controls the direction of the sort and may be either `asc` or `desc`:
 
-`orderBy` 메소드는 주어진 컬럼에 대한 쿼리의 결과를 정렬합니다. `orderBy` 메소드의 첫번째 인자는 정렬하고자 하는 컬럼이며, 두번째 인자는 `asc` 또는 `desc`의 정렬 방식을 제어하는 인자가 됩니다:
+`orderBy` 메소드는 주어진 컬럼에 대한 쿼리의 결과를 정렬합니다. `orderBy` 메소드의 첫번째 인자는 정렬하고자 하는 컬럼이며, 두번째 인자는 `asc` 또는 `desc`의 정렬 방식을 제어하는 인자가 됩니다.
 
     $users = DB::table('users')
                     ->orderBy('name', 'desc')
@@ -730,7 +730,7 @@ The `orderBy` method allows you to sort the result of the query by a given colum
 
 The `latest` and `oldest` methods allow you to easily order results by date. By default, result will be ordered by the `created_at` column. Or, you may pass the column name that you wish to sort by:
 
-`latest` 와`oldest` 메소드는 여러준이 손쉽게 날짜를 기반으로 결과를 정렬할 수 있게 해줍니다. 기본적으로 결과는 `created_at` 컬럼을 기준으로 정렬됩니다. 또는 정렬에 기준이 되는 컬럼이름을 전달할 수 있습니다:
+`latest` 와`oldest` 메소드는 여러준이 손쉽게 날짜를 기반으로 결과를 정렬할 수 있게 해줍니다. 기본적으로 결과는 `created_at` 컬럼을 기준으로 정렬됩니다. 또는 정렬에 기준이 되는 컬럼이름을 전달할 수 있습니다.
 
     $user = DB::table('users')
                     ->latest()
@@ -741,7 +741,7 @@ The `latest` and `oldest` methods allow you to easily order results by date. By 
 
 The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
 
-`inRandomOrder` 메소드는 쿼리 결과를 랜덤하게 정렬하고자 할때 사용할 수 있습니다. 예를 들어, 사용자를 랜덤하게 가져올 때 사용할 수 있습니다:
+`inRandomOrder` 메소드는 쿼리 결과를 랜덤하게 정렬하고자 할때 사용할 수 있습니다. 예를 들어, 사용자를 랜덤하게 가져올 때 사용할 수 있습니다.
 
     $randomUser = DB::table('users')
                     ->inRandomOrder()
@@ -752,7 +752,7 @@ The `inRandomOrder` method may be used to sort the query results randomly. For e
 
 The `groupBy` and `having` methods may be used to group the query results. The `having` method's signature is similar to that of the `where` method:
 
-`groupBy` 와 `hanving` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다:
+`groupBy` 와 `hanving` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다.
 
     $users = DB::table('users')
                     ->groupBy('account_id')
@@ -761,7 +761,7 @@ The `groupBy` and `having` methods may be used to group the query results. The `
 
 You may pass multiple arguments to the `groupBy` method to group by multiple columns:
 
-멀티 컬럼 groupBy를 위해서 `groupBy` 메소드에 여러개의 인자를 전달 할 수 있습니다:
+멀티 컬럼 groupBy를 위해서 `groupBy` 메소드에 여러개의 인자를 전달 할 수 있습니다.
 
     $users = DB::table('users')
                     ->groupBy('first_name', 'status')
@@ -776,13 +776,13 @@ For more advanced `having` statements, see the [`havingRaw`](#raw-methods) metho
 
 To limit the number of results returned from the query, or to skip a given number of results in the query, you may use the `skip` and `take` methods:
 
-쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다:
+쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다.
 
     $users = DB::table('users')->skip(10)->take(5)->get();
 
 Alternatively, you may use the `limit` and `offset` methods:
 
-대신에, `limit` 과 `offset` 메소드를 사용할 수도 있습니다:
+대신에, `limit` 과 `offset` 메소드를 사용할 수도 있습니다.
 
     $users = DB::table('users')
                     ->offset(10)
@@ -795,7 +795,7 @@ Alternatively, you may use the `limit` and `offset` methods:
 
 Sometimes you may want clauses to apply to a query only when something else is true. For instance you may only want to apply a `where` statement if a given input value is present on the incoming request. You may accomplish this using the `when` method:
 
-때로는 어떠한 조건이 참일 때만 해당 where 절이 쿼리에 적용되는 것을 원할 수도 있습니다. 예를 들어, 현재의 요청에서 주어진 입력값이 존재할 때에만 `where` 구문을 적용하고 싶을 수도 있습니다. 이 경우 `when` 메소드를 사용할 수 있습니다:
+때로는 어떠한 조건이 참일 때만 해당 where 절이 쿼리에 적용되는 것을 원할 수도 있습니다. 예를 들어, 현재의 요청에서 주어진 입력값이 존재할 때에만 `where` 구문을 적용하고 싶을 수도 있습니다. 이 경우 `when` 메소드를 사용할 수 있습니다.
 
     $role = $request->input('role');
 
@@ -812,7 +812,7 @@ The `when` method only executes the given Closure when the first parameter is `t
 
 You may pass another Closure as the third parameter to the `when` method. This Closure will execute if the first parameter evaluates as `false`. To illustrate how this feature may be used, we will use it to configure the default sorting of a query:
 
-`when` 메소드의 세번째 파라미터로 또다른 클로저를 전달할 수 있습니다. 이 클로저는 첫번째 파라미터가 `false` 일때 실행됩니다. 다음은 이 기능을 어떻게 사용하는지 보여주기 위한 예로, 쿼리의 기본 정렬을 구성한 것입니다:
+`when` 메소드의 세번째 파라미터로 또다른 클로저를 전달할 수 있습니다. 이 클로저는 첫번째 파라미터가 `false` 일때 실행됩니다. 다음은 이 기능을 어떻게 사용하는지 보여주기 위한 예로, 쿼리의 기본 정렬을 구성한 것입니다.
     $sortBy = null;
 
     $users = DB::table('users')
@@ -829,7 +829,7 @@ You may pass another Closure as the third parameter to the `when` method. This C
 
 The query builder also provides an `insert` method for inserting records into the database table. The `insert` method accepts an array of column names and values:
 
-쿼리 빌더는 데이터베이스 테이블에 레코드를 추가하는 `insert` 메소드를 제공합니다. `insert` 메소드는 컬럼의 이름과 값으로 이루어진 배열을 인자로 전달받습니다:
+쿼리 빌더는 데이터베이스 테이블에 레코드를 추가하는 `insert` 메소드를 제공합니다. `insert` 메소드는 컬럼의 이름과 값으로 이루어진 배열을 인자로 전달받습니다.
 
     DB::table('users')->insert(
         ['email' => 'john@example.com', 'votes' => 0]
@@ -837,7 +837,7 @@ The query builder also provides an `insert` method for inserting records into th
 
 You may even insert several records into the table with a single call to `insert` by passing an array of arrays. Each array represents a row to be inserted into the table:
 
-또한 한번의 `insert` 메소드 호출로 테이블에 여러 레코드를 추가하기 위해서 배열의 배열을 전달 할 수도 있습니다. 각각의 배열은 테이블에 추가되고자 하는 row 를 나타냅니다:
+또한 한번의 `insert` 메소드 호출로 테이블에 여러 레코드를 추가하기 위해서 배열의 배열을 전달 할 수도 있습니다. 각각의 배열은 테이블에 추가되고자 하는 row 를 나타냅니다.
 
     DB::table('users')->insert([
         ['email' => 'taylor@example.com', 'votes' => 0],
@@ -858,7 +858,7 @@ The `insertOrIgnore` method will ignore duplicate record errors while inserting 
 
 If the table has an auto-incrementing id, use the `insertGetId` method to insert a record and then retrieve the ID:
 
-테이블이 auto-incrementing id를 가지고 있다면 `insertGetId` 메소드를 사용하여 레코드를 추가하고, 추가된 ID를 획득할 수 있습니다:
+테이블이 auto-incrementing id를 가지고 있다면 `insertGetId` 메소드를 사용하여 레코드를 추가하고, 추가된 ID를 획득할 수 있습니다.
 
     $id = DB::table('users')->insertGetId(
         ['email' => 'john@example.com', 'votes' => 0]
@@ -874,7 +874,7 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
 
 In addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs containing the columns to be updated. You may constrain the `update` query using `where` clauses:
 
-데이터베이스에 레코드를 삽입하는 것에 더해서 쿼리 빌더는 당연히 이미 존재하는 레코드를 `update` 메소드를 사용하여 변경할 수 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로, 업데이트 하기 위한 컬럼과 컬럼에 대한 값의 쌍으로 이루어진 배열을 인자로 전달받습니다. `update` 쿼리에 `where` 구문을 사용하여 범위를 제한할 수도 있습니다:
+데이터베이스에 레코드를 삽입하는 것에 더해서 쿼리 빌더는 당연히 이미 존재하는 레코드를 `update` 메소드를 사용하여 변경할 수 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로, 업데이트 하기 위한 컬럼과 컬럼에 대한 값의 쌍으로 이루어진 배열을 인자로 전달받습니다. `update` 쿼리에 `where` 구문을 사용하여 범위를 제한할 수도 있습니다.
 
     $affected = DB::table('users')
                   ->where('id', 1)
@@ -903,7 +903,7 @@ The `updateOrInsert` method will first attempt to locate a matching database rec
 
 When updating a JSON column, you should use `->` syntax to access the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
 
-JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상, PostgreSQL 9.5 이상 에서만 지원합니다:
+JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스하기 위해서 `->` 문법을 사용해야 합니다. 이 작업은 MySQL 5.7 이상, PostgreSQL 9.5 이상 에서만 지원합니다.
 
     $affected = DB::table('users')
                   ->where('id', 1)
@@ -919,7 +919,7 @@ The query builder also provides convenient methods for incrementing or decrement
 
 Both of these methods accept at least one argument: the column to modify. A second argument may optionally be passed to control the amount by which the column should be incremented or decremented:
 
-이 두개의 메소드는 최소한 하나의 인자를 전달 받습니다: 수정하고자 하는 컬럼. 두번째 인자는 선택적으로 전달되며, 컬럼이 증가되어야할 또는 감소되어야할 양을 나타냅니다.
+이 두개의 메소드는 최소한 하나의 인자를 전달 받습니다. 수정하고자 하는 컬럼. 두번째 인자는 선택적으로 전달되며, 컬럼이 증가되어야할 또는 감소되어야할 양을 나타냅니다.
 
     DB::table('users')->increment('votes');
 
@@ -931,7 +931,7 @@ Both of these methods accept at least one argument: the column to modify. A seco
 
 You may also specify additional columns to update during the operation:
 
-또한 이 작업을 수행동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다:
+또한 이 작업을 수행동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다.
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
 
@@ -941,7 +941,7 @@ You may also specify additional columns to update during the operation:
 
 The query builder may also be used to delete records from the table via the `delete` method. You may constrain `delete` statements by adding `where` clauses before calling the `delete` method:
 
-쿼리빌더는 테이블에서 레코드를 삭제하는데 `delete` 메소드를 사용할 수 있습니다. `delete` 구문에서는 `delete` 메소드를 호출하기 전에 `where` 절을 추가하여 제약사항을 설정할 수 있습니다:
+쿼리빌더는 테이블에서 레코드를 삭제하는데 `delete` 메소드를 사용할 수 있습니다. `delete` 구문에서는 `delete` 메소드를 호출하기 전에 `where` 절을 추가하여 제약사항을 설정할 수 있습니다.
 
     DB::table('users')->delete();
 
@@ -949,7 +949,7 @@ The query builder may also be used to delete records from the table via the `del
 
 If you wish to truncate the entire table, which will remove all rows and reset the auto-incrementing ID to zero, you may use the `truncate` method:
 
-모든 데이터를 삭제하고 auto-incrementing ID를 0으로 초기화 하는 것과 같이, 테이블 전체를 비우고자 한다면 `truncate` 메소드를 사용할 수 있습니다:
+모든 데이터를 삭제하고 auto-incrementing ID를 0으로 초기화 하는 것과 같이, 테이블 전체를 비우고자 한다면 `truncate` 메소드를 사용할 수 있습니다.
 
     DB::table('users')->truncate();
 
@@ -959,13 +959,13 @@ If you wish to truncate the entire table, which will remove all rows and reset t
 
 The query builder also includes a few functions to help you do "pessimistic locking" on your `select` statements. To run the statement with a "shared lock", you may use the `sharedLock` method on a query. A shared lock prevents the selected rows from being modified until your transaction commits:
 
-쿼리빌더는 또한 여러분이 `select` 구문에 “Pessimistic Locking-배타적 잠금”을 설정을 할 수 있도록 도와주는 몇가지 기능을 포함하고 있습니다. "공유 lock"과 함께 구문을 실행하기 위해서, 쿼리에 `sharedLock` 메소드를 사용할 수 있습니다. 공유 lock 은 선택된 row 가 트랜젝션이 커밋되기 전까지 수정되는 것을 방지합니다:
+쿼리빌더는 또한 여러분이 `select` 구문에 “Pessimistic Locking-배타적 잠금”을 설정을 할 수 있도록 도와주는 몇가지 기능을 포함하고 있습니다. "공유 lock"과 함께 구문을 실행하기 위해서, 쿼리에 `sharedLock` 메소드를 사용할 수 있습니다. 공유 lock 은 선택된 row 가 트랜젝션이 커밋되기 전까지 수정되는 것을 방지합니다.
 
     DB::table('users')->where('votes', '>', 100)->sharedLock()->get();
 
 Alternatively, you may use the `lockForUpdate` method. A "for update" lock prevents the rows from being modified or from being selected with another shared lock:
 
-이대신에, `lockForUpdate` 메소드를 사용할 수 있습니다. "수정을 위한" lock 은 row 가 수정되는 것 또는 다른 공유 lock 에 의해서 선택되는 것을 방지합니다:
+이대신에, `lockForUpdate` 메소드를 사용할 수 있습니다. "수정을 위한" lock 은 row 가 수정되는 것 또는 다른 공유 lock 에 의해서 선택되는 것을 방지합니다.
 
     DB::table('users')->where('votes', '>', 100)->lockForUpdate()->get();
 

@@ -13,7 +13,7 @@
 
 Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every six months (February and August), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨과 다른 자체 제작 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 6개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 6개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^6.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
@@ -50,19 +50,20 @@ For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and se
 
 Laravel 6.0 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
 
-라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, lazy 콜렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8 의 만들어져서 지속적으로 개선해 나갈 것 입니다.
+라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, lazy 콜렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
 ### Semantic Versioning
 ### 유의적 버젼
 
 The Laravel framework (`laravel/framework`) package now follows the [semantic versioning](https://semver.org/) standard. This makes the framework consistent with the other first-party Laravel packages which already followed this versioning standard. The Laravel release cycle will remain unchanged.
 
-라라벨 프레임워크 (`laravel/framework`) 패키지는 [유의적 버젼](https://semver.org/lang/ko/) 표준을 따릅니다. 이것은 이 버젼 표준을 따른 다른 자체 제작 패키지들와 함께 프레임워크 일관성을 만듭니다. 라라벨 릴리즈 사이클은 변경되지 않을 것입니다.
+라라벨 프레임워크 (`laravel/framework`) 패키지는 [유의적 버젼](https://semver.org/lang/ko/)의 표준을 따릅니다. 이것은 이 버젼관리 표준을 따르는 그외 자체 제공하는 패키지들과 함께 프레임워크의 일관성을 만듭니다. 라라벨 릴리즈 사이클은 변경되지 않을 것입니다.
 
 ### Laravel Vapor Compatibility
 ### 라라벨 Vapor 호환성
 
 _Laravel Vapor was built by [Taylor Otwell](https://github.com/taylorotwell)_.
+
 _라라벨 Vapor 는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
 
 Laravel 6.0 provides compatibility with [Laravel Vapor](https://vapor.laravel.com), an auto-scaling serverless deployment platform for Laravel. Vapor abstracts the complexity of managing Laravel applications on AWS Lambda, as well as interfacing those applications with SQS queues, databases, Redis clusters, networks, CloudFront CDN, and more.
@@ -80,11 +81,12 @@ Laravel 6.0 ships with [Ignition](https://github.com/facade/ignition), a new ope
 ### 개선된 권한 응답
 
 _Improved authorization responses were implemented by [Gary Green](https://github.com/garygreen)_.
+
 _개선된 권한 응답은 [Gary Green](https://github.com/garygreen)에 의해 구현되었습니다_.
 
 In previous releases of Laravel, it was difficult to retrieve and expose custom authorization messages to end users. This made it difficult to explain to end-users exactly why a particular request was denied. In Laravel 6.0, this is now much easier using authorization response messages and the new `Gate::inspect` method. For example, given the following policy method:
 
-라라벨의 이전 릴리즈에서는 엔드유저에게 커스텀 권한 메시지 노출하거나 검색하는 것에 어려움이 있었습니다. 이것은 엔드유저에게 특정 리퀘스트가 어떠한 이유로 거부되었는지 설명하기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능하게 합니다. 예와 같이 다음의 정책 메소드를 봅시다.
+라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
 
     /**
      * Determine if the user can view the given flight.
@@ -121,6 +123,7 @@ In addition, these custom messages will automatically be returned to your fronte
 ### Job 미들웨어
 
 _Job middleware were implemented by [Taylor Otwell](https://github.com/taylorotwell)_.
+
 _Job 미들웨어는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 구현되었습니다_.
 
 Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, in previous releases of Laravel, you may have wrapped the logic of a job's `handle` method within a rate-limited callback:
@@ -200,6 +203,7 @@ job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그
 ### Lazy 콜렉션
 
 _Lazy collections were implemented by [Joseph Silber](https://github.com/JosephSilber)_.
+
 _Lazy 콜렉션은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
 
 Many developers already enjoy Laravel's powerful [Collection methods](https://laravel.com/docs/collections). To supplement the already powerful `Collection` class, Laravel 6.0 introduces a `LazyCollection`, which leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
@@ -252,12 +256,12 @@ However, beginning in Laravel 6.0, the query builder's `cursor` method has been 
 ### 엘로퀜트 서브쿼리 확장
 
 _Eloquent subquery enhancements were implemented by [Jonathan Reinink](https://github.com/reinink)_.
+
 _엘로퀜트 서브쿼리 확장은 [Jonathan Reinink](https://github.com/reinink)에 의해 구현되었습니다_.
 
 Laravel 6.0 introduces several new enhancements and improvements to database subquery support. For example, let's imagine that we have a table of flight `destinations` and a table of `flights` to destinations. The `flights` table contains an `arrived_at` column which indicates when the flight arrived at the destination.
 
-라라벨 6.0 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다.
-`flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
+라라벨 6.0 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
 
 Using the new subquery select functionality in Laravel 6.0, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
 
@@ -285,7 +289,7 @@ In addition, we can use new subquery features added to the query builder's `orde
 
 The frontend scaffolding typically provided with previous releases of Laravel has been extracted into a `laravel/ui` Composer package. This allows the first-party UI scaffolding to be developed and versioned separately from the primary framework. As a result of this change, no Bootstrap or Vue code is present in default framework scaffolding, and the `make:auth` command has been extracted from the framework as well.
 
-라라벨 전 릴리즈에 제공되었던 전통적인 프론트엔드 스캐폴딩이 `laravel\ui` 컴포저 패키지로 추출되었습니다. 이 것은 주 프레임웍으로부터 개발 분리 될 자체 제작 UI 스캐폴딩이 될 것입니다. 이 같은 변화의 결과로 bootstrap, vue 코드가 기본 프레임웍 스캐폴딩에서 제공되지 않고, `make:auth` 명령어도 프레임웍에서 추출되었습니다.
+라라벨 전 릴리즈에 제공되었던 전통적인 프론트엔드 스캐폴딩이 `laravel\ui` 컴포저 패키지로 추출되었습니다. 이 것은 주 프레임웍으로부터 개발과 버전관리가 분리 된 자체적으로 제공하는 UI의 스캐폴딩이 될 것입니다. 이 같은 변화의 결과로 bootstrap, vue 코드가 기본 프레임웍 스캐폴딩에서 제공되지 않고, `make:auth` 명령어도 프레임웍에서 추출되었습니다.
 
 In order to restore the traditional Vue / Bootstrap scaffolding present in previous releases of Laravel, you may install the `laravel/ui` package and use the `ui` Artisan command to install the frontend scaffolding:
 

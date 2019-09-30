@@ -1,327 +1,300 @@
 # Release Notes
-# 릴리즈 노트
 
 - [Versioning Scheme](#versioning-scheme)
 - [버전 관리 체계](#versioning-scheme)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
-- [Laravel 5.8](#laravel-5.8)
-- [라라벨 5.8](#laravel-5.8)
+- [Laravel 6.0](#laravel-6.0)
+- [라라벨 6.0](#laravel-6.0)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
 ## 버전 관리 체계
 
-Laravel's versioning scheme maintains the following convention: `paradigm.major.minor`. Major framework releases are released every six months (February and August), while minor releases may be released as often as every week. Minor releases should **never** contain breaking changes.
+Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every six months (February and August), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨의 버전 관리 체계는 다음의 컨벤션을 유지합니다. `paradigm.major.minor`. 메이저 프레임워크 릴리즈는 6 개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 6개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `5.8.*`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^6.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `5.8.*` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
-
-Paradigm shifting releases are separated by many years and represent fundamental shifts in the framework's architecture and conventions. Currently, there is no paradigm shifting release under development.
-
-패러다임 변경 릴리즈는 몇년간 구분되어 있으며, 프레임워크의 아키텍처와 컨벤션에 대한 근본적인 변경을 나타냅니다. 현재까지는 개발중인 버전에 대한 변경 발표는 없습니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `^6.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
 <a name="support-policy"></a>
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 5.5, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes.
+For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes.
 
-라라벨 5.5과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을받습니다.
+라라벨 6.0과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
-| 5.0 | February 4th, 2015 | August 4th, 2015 | February 4th, 2016 |
-| 5.1 (LTS) | June 9th, 2015 | June 9th, 2017 | June 9th, 2018 |
-| 5.2 | December 21st, 2015 | June 21st, 2016 | December 21st, 2016 |
-| 5.3 | August 23rd, 2016 | February 23rd, 2017 | August 23rd, 2017 |
-| 5.4 | January 24th, 2017 | July 24th, 2017 | January 24th, 2018 |
 | 5.5 (LTS) | August 30th, 2017 | August 30th, 2019 | August 30th, 2020 |
 | 5.6 | February 7th, 2018 | August 7th, 2018 | February 7th, 2019 |
 | 5.7 | September 4th, 2018 | March 4th, 2019 | September 4th, 2019 |
 | 5.8 | February 26th, 2019 | August 26th, 2019 | February 26th, 2020 |
+| 6.0 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
 
-| 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간|
+| 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
 | --- | --- | --- | --- |
-| 5.0 | 2015년 2월 4일 | 2015년 8월 4일 | 2016년 2월 4일 |
-| 5.1 (LTS) | 2015년 6월 9일 | 2017년 6월 9일 | 2018년 6월 9일 |
-| 5.2 | 2015년 12월 21일 | 2016년 6월 21일 | 2016년 12월 21일 |
-| 5.3 | 2016년 8월 23일 | 2017년 2월 23일 | 2017년 8월 23일 |
-| 5.4 | 2017년 1월 24일 | 2017년 7월 24일 | 2018년 1월 24일 |
 | 5.5 (LTS) | 2017년 8월 30일 | 2019년 8월 30일  | 2020년 8월 30일 |
 | 5.6 | 2018년 2월 7일 | 2018년 8월 7일 | 2019년 2월 7일 |
 | 5.7 | 2018년 9월 4일 | 2019년 3월 4일 | 2019년 9월 4일 |
 | 5.8 | 2019년 2월 26일 | 2019년 8월 26일 | 2020년 2월 26일 |
+| 6.0 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
 
-<a name="laravel-5.8"></a>
-## Laravel 5.8
-## 라라벨 5.8
 
-Laravel 5.8 continues the improvements made in Laravel 5.7 by introducing has-one-through Eloquent relationships, improved email validation, convention based automatic registration of authorization policies, DynamoDB cache and session drivers, improved scheduler timezone configuration, support for assigning multiple authentication guards to broadcast channels, PSR-16 cache driver compliance, improvements to the `artisan serve` command, PHPUnit 8.0 support, Carbon 2.0 support, Pheanstalk 4.0 support, and a variety of other bug fixes and usability improvements.
+<a name="laravel-6.0"></a>
+## Laravel 6.0
+## 라라벨 6.0
 
-라라벨 5.8은 일대일 Eloquent 관계, 향상된 이메일 유효성 검증, 컨벤션 기반 권한 부여 정책 자동 등록, DynamoDB 캐시 및 세션 드라이버, 향상된 스케줄러 시간대 구성, 브로드캐스트에 여러 인증 가드 할당 지원, PSR-16 캐시 드라이버 준수, `artisan serve` 커맨드 개선, PHPUnit 8.0 지원, Carbon 2.0 지원, Pheanstalk 4.0 지원 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨5.7의 향상된 기능을 지속적으로 제공합니다.
+Laravel 6.0 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
 
-### Eloquent `HasOneThrough` Relationship
-### Eloquent `HasOneThrough` 관계
+라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, lazy 콜렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
-Eloquent now provides support for the `hasOneThrough` relationship type. For example, imagine a Supplier model `hasOne` Account model, and an Account model has one AccountHistory model. You may use a `hasOneThrough` relationship to access a supplier's account history through the account model:
+### Semantic Versioning
+### 유의적 버젼
 
-Eloquent는 이제 `hasOneThrough` 관계 타입을 지원합니다. 예를 들어 Supplier 모델의 `hasOne` 관계인 Account 모델을 상상해보십시오. 그리고 Account 모델에는 AccountHistory 모델이 하나 있습니다. 이때 Supplier는 Account 모델을 통한 `hasOneThrough` 관계를 사용하여 AccountHistory에 접근 할 수 있습니다.
+The Laravel framework (`laravel/framework`) package now follows the [semantic versioning](https://semver.org/) standard. This makes the framework consistent with the other first-party Laravel packages which already followed this versioning standard. The Laravel release cycle will remain unchanged.
+
+라라벨 프레임워크 (`laravel/framework`) 패키지는 [유의적 버젼](https://semver.org/lang/ko/)의 표준을 따릅니다. 이것은 이 버젼관리 표준을 따르는 그외 자체 제공하는 패키지들과 함께 프레임워크의 일관성을 만듭니다. 라라벨 릴리즈 사이클은 변경되지 않을 것입니다.
+
+### Laravel Vapor Compatibility
+### 라라벨 Vapor 호환성
+
+_Laravel Vapor was built by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_라라벨 Vapor 는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
+
+Laravel 6.0 provides compatibility with [Laravel Vapor](https://vapor.laravel.com), an auto-scaling serverless deployment platform for Laravel. Vapor abstracts the complexity of managing Laravel applications on AWS Lambda, as well as interfacing those applications with SQS queues, databases, Redis clusters, networks, CloudFront CDN, and more.
+
+라라벨 6.0 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
+
+### Improved Exceptions Via Ignition
+### Ignition 을 통한 개선된 예외상황들
+
+Laravel 6.0 ships with [Ignition](https://github.com/facade/ignition), a new open source exception detail page created by Freek Van der Herten and Marcel Pociot. Ignition offers many benefits over previous releases, such as improved Blade error file and line number handling, runnable solutions for common problems, code editing, exception sharing, and an improved UX.
+
+라라벨 6.0은 Freek Van der Herten 과 Marcel Pociot 가 만든 새로운 오픈소스 예외상황 상세 페이지인 [Ignition](https://github.com/facade/ignition)을 장착하였습니다. Ignition 은 블레이드 에러 파일과 줄번호 관리, 일반적 문제에 대한 실행 가능한 해결책, 코드 수정, 예외상황 공유, 개선된 UX 등 이전 버전에 비해 개선된 이점을 제공합니다.
+
+### Improved Authorization Responses
+### 개선된 권한 응답
+
+_Improved authorization responses were implemented by [Gary Green](https://github.com/garygreen)_.
+
+_개선된 권한 응답은 [Gary Green](https://github.com/garygreen)에 의해 구현되었습니다_.
+
+In previous releases of Laravel, it was difficult to retrieve and expose custom authorization messages to end users. This made it difficult to explain to end-users exactly why a particular request was denied. In Laravel 6.0, this is now much easier using authorization response messages and the new `Gate::inspect` method. For example, given the following policy method:
+
+라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
 
     /**
-     * Get the account history for the supplier.
+     * Determine if the user can view the given flight.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Flight  $flight
+     * @return mixed
      */
-    public function accountHistory()
+    public function view(User $user, Flight $flight)
     {
-        return $this->hasOneThrough(AccountHistory::class, Account::class);
+        return $this->deny('Explanation of denial.');
     }
 
-### Auto-Discovery Of Model Policies
-### 모델 정책-Policies의 자동 발견
+The authorization policy's response and message may be easily retrieved using the `Gate::inspect` method:
 
-When using Laravel 5.7, each model's corresponding [authorization policy](/docs/{{version}}/authorization#creating-policies) needed to be explicitly registered in your application's `AuthServiceProvider`:
+승인 정책 응답과 메세지는 `Gate::inspcet` 메소드를 이용해서 쉽게 검색됩니다.
 
-라라벨 5.7을 사용할 때는 각각 모델의 [승인 정책-policy](/docs/{{version}}/authorization#creating-policies)을 애플리케이션의 `AuthServiceProvider`에 명시적으로 등록해야했습니다.
+    $response = Gate::inspect('view', $flight);
 
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
-    protected $policies = [
-        'App\User' => 'App\Policies\UserPolicy',
-    ];
-
-Laravel 5.8 introduces auto-discovery of model policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory below the directory that contains the models. So, for example, the models may be placed in the `app` directory while the policies may be placed in the `app/Policies` directory. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
-
-라라벨 5.8에서는 모델과 정책-policy이 라라벨의 표준 네이밍 컨벤션을 따르는 경우 모델 정책-policy를 자동 찾아주게 됩니다. 이 경우를 위해 정채-policy 클래스는 모델이 포함되어 있는 디렉토리 하위의 `Policies` 디렉토리 안에 있어야합니다. 예를 들어, 모델이 `app` 디렉토리에 존재한다면, 정책-policy는 `app/Policies` 디렉토리에 존재해야 합니다. 또한 정책 이름은 모델 이름과 일치해야하고 `Policy`라는 접미사가 있어야합니다. 즉 `User` 모델을 위한 `UserPolicy` 클래스가 되어야 합니다.
-
-If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from your application's `AuthServiceProvider`:
-
-여러분의 고유한 정책-policy 발견 로직을 만들고자 한다면 `Gate::guessPolicyNamesUsing` 메소드를 사용하여 커스텀 콜백을 등록 할 수 있습니다. 일반적으로 이 메소드는 애플리케이션의 `AuthServiceProvider`에서 호출해야합니다.
-
-    use Illuminate\Support\Facades\Gate;
-
-    Gate::guessPolicyNamesUsing(function ($modelClass) {
-        // return policy class name...
-    });
-
-> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potential auto-discovered policies.
-
-> {note} `AuthServiceProvider`에 명시적으로 매핑 된 정책-policy는 자동으로 발견 된 모든 정책-policy보다 우선합니다.
-
-### PSR-16 Cache Compliance
-### PSR-16 캐시 규약 준수
-
-In order to allow a more granular expiration time when storing items and provide compliance with the PSR-16 caching standard, the cache item time-to-live has changed from minutes to seconds. The `put`, `putMany`, `add`, `remember` and `setDefaultCacheTime` methods of the `Illuminate\Cache\Repository` class and its extended classes, as well as the `put` method of each cache store were updated with this changed behavior. See [the related PR](https://github.com/laravel/framework/pull/27276) for more info.
-
-아이템을 저장할 때보다 보다 세밀한 캐시 만료 시간을 가능하게 하고, PSR-16 캐싱 표준을 준수하기 위해 캐시 아이템의 유효시간이 분단위 에서 초단위로 변경되었습니다. `Illuminate\Cache\Repository` 클래스와 확장 클래스의 `put`, `putMany`, `add`, `remember`, `setDefaultCacheTime` 메소드와 각 캐시 스토어의 `put` 메소드가 수정되고 동작이 변경되었습니다. 자세한 내용은 [관련 PR](https://github.com/laravel/framework/pull/27276)을 참조하십시오.
-
-If you are passing an integer to any of these methods, you should update your code to ensure you are now passing the number of seconds you wish the item to remain in the cache. Alternatively, you may pass a `DateTime` instance indicating when the item should expire:
-
-이 메소드들에게 정수값을 전달하는 경우, 캐시에 보관할 시간(초단위)을 전달하도록 코드를 업데이트해야합니다. 또는 캐시 아이템이 만료되어야하는 시점를 나타내는 `DateTime` 인스턴스를 전달할 수도 있습니다.
-
-    // Laravel 5.7 - Store item for 30 minutes...
-    Cache::put('foo', 'bar', 30);
-
-    // Laravel 5.8 - Store item for 30 seconds...
-    Cache::put('foo', 'bar', 30);
-
-    // Laravel 5.7 / 5.8 - Store item for 30 seconds...
-    Cache::put('foo', 'bar', now()->addSeconds(30));
-
-### Multiple Broadcast Authentication Guards
-### 다중 브로드 캐스트 인증 가드
-
-In previous releases of Laravel, private and presence broadcast channels authenticated the user via your application's default authentication guard. Beginning in Laravel 5.8, you may now assign multiple guards that should authenticate the incoming request:
-
-라라벨의 이전 릴리스에서 개인 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 사용자를 인증했습니다. 라라벨 5.8부터 유입되는 요청을 인증해야만 여러개의 가드를 지정할 수 있습니다.
-
-    Broadcast::channel('channel', function() {
-        // ...
-    }, ['guards' => ['web', 'admin']])
-
-### Token Guard Token Hashing
-### 토큰 가드 토큰 해싱
-
-Laravel's `token` guard, which provides basic API authentication, now supports storing API tokens as SHA-256 hashes. This provides improved security over storing plain-text tokens. To learn more about hashed tokens, please review the full [API authentication documentation](/docs/{{version}}/api-authentication).
-
-기본적인 API 인증을 제공하는 라라벨의 `token` 가드는 이제 SHA-256 해시처럼 API 토큰을 저장하는 것을 지원합니다. 이는 일반 텍스트 토큰을 저장하는 것보다 향상된 보안을 제공합니다. 해시 토큰에 대한 자세한 내용은 전체 [API 인증 문서](/docs/{{version}}/api-authentication)을 참조하십시오.
-
-> **Note:** While Laravel ships with a simple, token based authentication guard, we strongly recommend you consider using [Laravel Passport](/docs/{{version}}/passport) for robust, production applications that offer API authentication.
-
-> **참고:** 라라벨은 간단한 토큰 기반 인증 위젯과 함께 제공되지만 API 인증을 제공하는 강력한 프로덕션 애플리케이션의 경우 [Laravel Passport](/docs/{{version}}/passport)를 사용하는 것이 좋습니다 .
-
-### Improved Email Validation
-### 향상된 이메일 검증
-
-Laravel 5.8 introduces improvements to the validator's underlying email validation logic by adopting the `egulias/email-validator` package utilized by SwiftMailer. Laravel's previous email validation logic occasionally considered valid emails, such as `example@bär.se`, to be invalid.
-
-라라벨 5.8은 SwiftMailer가 사용하는 `egulias/email-validator` 패키지를 적용하여 유효성 검사기의 기본 이메일 유효성 검사 로직를 개선했습니다. 라라벨의 이전 이메일 검증 로직에서는 이따금씩 `example@bär.se`와 같은 유효한 이메일을 유효하지 않은 것으로 판별하였습니다.
-
-### Default Scheduler Timezone
-### 스케줄러 기본 타임존-Timezone
-
-Laravel allows you to customize the timezone of a scheduled task using the `timezone` method:
-
-라라벨을 사용하면 `timezone` 메소드를 사용하여 예약 된 작업의 시간대를 커스터마이징 할 수 있습니다.
-
-    $schedule->command('inspire')
-             ->hourly()
-             ->timezone('America/Chicago');
-
-However, this can become cumbersome and repetitive if you are specifying the same timezone for all of your scheduled tasks. For that reason, you may now define a `scheduleTimezone` method in your `app/Console/Kernel.php` file. This method should return the default timezone that should be assigned to all scheduled tasks:
-
-그러나 예약 된 모든 작업에 동일한 시간대를 지정 할 경우 이 작업이 번거로운 반복적 작업이 될 수 있습니다. 이럴 떈 `app/Console/Kernel.php` 파일에 `scheduleTimezone` 메소드를 정의 하면 됩니다. 이 메소드는 모든 예약 된 작업에 할당될 기본 표준 시간대를 반환해야합니다.
-
-    /**
-     * Get the timezone that should be used by default for scheduled events.
-     *
-     * @return \DateTimeZone|string|null
-     */
-    protected function scheduleTimezone()
-    {
-        return 'America/Chicago';
+    if ($response->allowed()) {
+        // User is authorized to view the flight...
     }
 
-### Intermediate Table / Pivot Model Events
-### 중간 테이블 / 피벗 모델 이벤트
+    if ($response->denied()) {
+        echo $response->message();
+    }
 
-In previous versions of Laravel, [Eloquent model events](/docs/{{version}}/eloquent#events) were not dispatched when attaching, detaching, or syncing custom intermediate table / "pivot" models of a many-to-many relationship. When using [custom intermediate table models](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models) in Laravel 5.8, the applicable model events will now be dispatched.
+In addition, these custom messages will automatically be returned to your frontend when using helper methods such as `$this->authorize` or `Gate::authorize` from your routes or controllers.
 
-이전 버전의 라라벨에서는 다 대다(*:*) 관계의 커스텀 중간 테이블 / "피벗"모델을 연결, 분리 또는 동기화 할 때 [Eloquent 모델 이벤트](/docs/{{version}}/eloquent#events)가 전달되지 않았습니다. 라라벨 5.8에서 [custom intermediate table models](/docs/{{version}}/eloquent-relationships#define-custom-intermediate-table-models)를 사용하면 애플리케이션 모델 이벤트가 전달됩니다.
+더해서 당신의 라우트와 컨트롤러로부터 `$this->authorize`, `Gate:authorize` 같은 헬퍼 메소드을 이용할 때, 이러한 커스텀 메세지들은 당신의 프론트엔드에게 자동으로 반환될 것입니다.
 
-### Artisan Call Improvements
-### 아티즌 요청 개선
 
-Laravel allows you to invoke Artisan via the `Artisan::call` method. In previous releases of Laravel, the command's options are passed via an array as the second argument to the method:
+### Job Middleware
+### Job 미들웨어
 
-라라벨은 `Artisan::call` 메소드를 통해 Artisan을 호출 할 수있게 해줍니다. 라라벨의 이전 릴리스에서는 명령의 옵션이 배열의 두 번째 인수로 전달되었습니다.
+_Job middleware were implemented by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-    use Illuminate\Support\Facades\Artisan;
+_Job 미들웨어는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 구현되었습니다_.
 
-    Artisan::call('migrate:install', ['database' => 'foo']);
+Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, in previous releases of Laravel, you may have wrapped the logic of a job's `handle` method within a rate-limited callback:
 
-However, Laravel 5.8 allows you to pass the entire command, including options, as the first string argument to the method:
+Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸는 커스텀 로직을 추가할 수 있게 도와줍니다. 예를 들자면, 당신은 라라벨 이전 버젼에서 실행속도 제한(rated-limited) 콜백에서 그 job 의 `handle` 메소드의 로직 전후를 감쌌어야 했습니다.
 
-그러나 라라벨 5.8을 사용하면 옵션을 포함한 전체 명령을 메서드의 첫 번째 문자열 인수로 전달할 수 있습니다.
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Redis::throttle('key')->block(0)->allow(1)->every(5)->then(function () {
+            info('Lock obtained...');
 
-    Artisan::call('migrate:install --database=foo');
+            // Handle job...
+        }, function () {
+            // Could not obtain lock...
 
-### Mock / Spy Testing Helper Methods
-### 목-Mock / 스파이 테스트 헬퍼 메소드
+            return $this->release(5);
+        });
+    }
 
-In order to make mocking objects more convenient, new `mock` and `spy` methods have been added to the base Laravel test case class. These methods automatically bind the mocked class into the container. For example:
+In Laravel 6.0, this logic may be extracted into a job middleware, allowing you to keep your job's `handle` method free of any rate limiting responsibilities:
 
-모킹(mocking)하는 객체를 더욱 편리하게 만들기 위해 새로운 `mock` 과 `spy`메소드가 기본 라라벨의 테스트 케이스 클래스에 추가되었습니다. 이러한 메소드는 자동으로 모킹 된 클래스를 컨테이너에 바인딩합니다. 예 :
-
-    // Laravel 5.7
-    $this->instance(Service::class, Mockery::mock(Service::class, function ($mock) {
-        $mock->shouldReceive('process')->once();
-    }));
-
-    // Laravel 5.8
-    $this->mock(Service::class, function ($mock) {
-        $mock->shouldReceive('process')->once();
-    });
-
-### Eloquent Resource Key Preservation
-### Eloquent Resource Key 보존
-
-When returning an [Eloquent resource collection](/docs/{{version}}/eloquent-resources) from a route, Laravel resets the collection's keys so that they are in simple numerical order:
-
-라우트에서 [Eloquent resource collection](/docs/{{version}}/eloquent-resources)을 반환할 때, 라라벨은 컬렉션의 키를 숫자의 순서 형태로 재지정합니다.
-
-    use App\User;
-    use App\Http\Resources\User as UserResource;
-
-    Route::get('/user', function () {
-        return UserResource::collection(User::all());
-    });
-
-When using Laravel 5.8, you may now add a `preserveKeys` property to your resource class indicating if collection keys should be preserved. By default, and to maintain consistency with previous Laravel releases, the keys will be reset by default:
-
-라라벨 5.8을 사용할 경우, 리소스 클래스에 `preserveKeys` 속성을 추가하여 콜렉션 키를 보존해야하는지 여부를 나타낼 수 있습니다. 이전 라라벨 릴리스와의 일관성을 유지하기 위해 키는 기본적으로 재설정해줘야 합니다.
+라라벨 6.0 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
 
     <?php
 
-    namespace App\Http\Resources;
+    namespace App\Jobs\Middleware;
 
-    use Illuminate\Http\Resources\Json\JsonResource;
+    use Illuminate\Support\Facades\Redis;
 
-    class User extends JsonResource
+    class RateLimited
     {
         /**
-         * Indicates if the resource's collection keys should be preserved.
+         * Process the queued job.
          *
-         * @var bool
+         * @param  mixed  $job
+         * @param  callable  $next
+         * @return mixed
          */
-        public $preserveKeys = true;
+        public function handle($job, $next)
+        {
+            Redis::throttle('key')
+                    ->block(0)->allow(1)->every(5)
+                    ->then(function () use ($job, $next) {
+                        // Lock obtained...
+
+                        $next($job);
+                    }, function () use ($job) {
+                        // Could not obtain lock...
+
+                        $job->release(5);
+                    });
+        }
     }
 
-When the `preserveKeys` property is set to `true`, collection keys will be preserved:
+After creating middleware, they may be attached to a job by returning them from the job's `middleware` method:
 
-`preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다.
+job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그것들은 그 job 에 추가될 것입니다.
 
-    use App\User;
-    use App\Http\Resources\User as UserResource;
+    use App\Jobs\Middleware\RateLimited;
 
-    Route::get('/user', function () {
-        return UserResource::collection(User::all()->keyBy->id);
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [new RateLimited];
+    }
+
+### Lazy Collections
+### Lazy 콜렉션
+
+_Lazy collections were implemented by [Joseph Silber](https://github.com/JosephSilber)_.
+
+_Lazy 콜렉션은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
+
+Many developers already enjoy Laravel's powerful [Collection methods](https://laravel.com/docs/collections). To supplement the already powerful `Collection` class, Laravel 6.0 introduces a `LazyCollection`, which leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
+
+많은 개발자들은 이미 라라벨의 강력한 [콜렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 Lazy 콜렉션을 도입했습니다. 
+
+For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
+
+예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. Lazy 콜렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
+
+    use App\LogEntry;
+    use Illuminate\Support\LazyCollection;
+
+    LazyCollection::make(function () {
+        $handle = fopen('log.txt', 'r');
+
+        while (($line = fgets($handle)) !== false) {
+            yield $line;
+        }
+    })
+    ->chunk(4)
+    ->map(function ($lines) {
+        return LogEntry::fromLines($lines);
+    })
+    ->each(function (LogEntry $logEntry) {
+        // Process the log entry...
     });
 
-### Higher Order `orWhere` Eloquent Method
-### `orWhere` Eloquent의 고차(Higher Order) 메서드 
+Or, imagine you need to iterate through 10,000 Eloquent models. When using traditional Laravel collections, all 10,000 Eloquent models must be loaded into memory at the same time:
 
-In previous releases of Laravel, combining multiple Eloquent model scopes via an `or` query operator required the use of Closure callbacks:
+혹은 당신이 만개의 엘로퀜트 모델을 순회할 때를 가정해봅시다. 기존의 라라벨 콜렉션을 이용했다면 전체 만개의 엘로퀜트 모델을 매번 메모리에 읽어와야 할 것입니다.
 
-라라벨의 이전 릴리스에서는 `or` 쿼리 연산자를 통해 여러 가지 Eloquent 모델 범위를 결합하려면 Closure 콜백을 사용해야했습니다.
+    $users = App\User::all()->filter(function ($user) {
+        return $user->id > 500;
+    });
 
-    // scopePopular and scopeActive methods defined on the User model...
-    $users = App\User::popular()->orWhere(function (Builder $query) {
-        $query->active();
-    })->get();
+However, beginning in Laravel 6.0, the query builder's `cursor` method has been updated to return a `LazyCollection` instance. This allows you to still only run a single query against the database but also only keep one Eloquent model loaded in memory at a time. In this example, the `filter` callback is not executed until we actually iterate over each user individually, allowing for a drastic reduction in memory usage:
 
-Laravel 5.8 introduces a "higher order" `orWhere` method that allows you to fluently chain these scopes together without the use of Closures:
+그러나 라라벨 6.0 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
 
-라라벨 5.8에서는 클로저를 사용하지 않고 이러한 범위를 유연하게 연결할 수있는 "higher order-고차" `orWhere` 메서드를 도입했습니다.
+    $users = App\User::cursor()->filter(function ($user) {
+        return $user->id > 500;
+    });
 
-    $users = App\User::popular()->orWhere->active()->get();
+    foreach ($users as $user) {
+        echo $user->id;
+    }
 
-### Artisan Serve Improvements
-### 향상된 Artisan의 Serve
+### Eloquent Subquery Enhancements
+### 엘로퀜트 서브쿼리 확장
 
-In previous releases of Laravel, Artisan's `serve` command would serve your application on port `8000`. If another `serve` command process was already listening on this port, an attempt to serve a second application via `serve` would fail. Beginning in Laravel 5.8, `serve` will now scan for available ports up to port `8009`, allowing you to serve multiple applications at once.
+_Eloquent subquery enhancements were implemented by [Jonathan Reinink](https://github.com/reinink)_.
 
-라라벨 이전 릴리스에서는 Artisan의 `serve` 명령이 `8000`번 포트에서 애플리케이션의 실행했습니다. 이때 만약 다른 `serve` 명령 프로세스가 이 포트에서 이미 실행 중이면 `serve`를 통해 두 번째 애플리케이션을 실행하려는 시도가 실패하였니다. 라라벨 5.8부터 `serve`는 이제 사용 가능한 포트를 `8009`번 포트까지 스캔하며, 한 번에 여러 애플리케이션을 실행 할 수 있습니다.
+_엘로퀜트 서브쿼리 확장은 [Jonathan Reinink](https://github.com/reinink)에 의해 구현되었습니다_.
 
-### Blade File Mapping
-### Blade 파일 매핑
+Laravel 6.0 introduces several new enhancements and improvements to database subquery support. For example, let's imagine that we have a table of flight `destinations` and a table of `flights` to destinations. The `flights` table contains an `arrived_at` column which indicates when the flight arrived at the destination.
 
-When compiling Blade templates, Laravel now adds a comment to the top of the compiled file which contains the path to the original Blade template.
+라라벨 6.0 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
 
-Blade 템플릿을 컴파일 할 때, 라라벨은 컴파일 된 파일의 맨 위에 원래 Blade 템플릿에 대한 경로가 포함 된 주석을 추가합니다.
+Using the new subquery select functionality in Laravel 6.0, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
 
-### DynamoDB Cache / Session Drivers
-### DynamoDB 캐시 / 세션 드라이버
+라라벨 6.0 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
 
-Laravel 5.8 introduces [DynamoDB](https://aws.amazon.com/dynamodb/) cache and session drivers. DynamoDB is a serverless NoSQL database provided by Amazon Web Services. The default configuration for the `dynamodb` cache driver can be found in the Laravel 5.8 [cache configuration file](https://github.com/laravel/laravel/blob/master/config/cache.php).
+    return Destination::addSelect(['last_flight' => Flight::select('name')
+        ->whereColumn('destination_id', 'destinations.id')
+        ->orderBy('arrived_at', 'desc')
+        ->limit(1)
+    ])->get();
 
-라라벨 5.8에서는 [DynamoDB](https://aws.amazon.com/dynamodb/) 캐시 및 세션 드라이버를 제공합니다. DynamoDB는 Amazon Web Services에서 제공하는 서버가 없는 NoSQL 데이터베이스입니다. `dynamodb` 캐시 드라이버의 기본 설정은 라라벨 5.8 [캐시 설정 파일](https://github.com/laravel/laravel/blob/master/config/cache.php)에서 확인 할 수 있습니다.
+In addition, we can use new subquery features added to the query builder's `orderBy` function to sort all destinations based on when the last flight arrived at that destination. Again, this may be done while executing a single query against the database:
 
-### Carbon 2.0 Support
-### Carbon 2.0 지원
+더해서, 해당 목적지에 도착한 마지막 비행 순서를 기준으로 모든 도착지를 정렬할 수 있는 기능을 쿼리빌더의 `orderBy`에 추가하는, 이러한 새로운 서브쿼리 기능을 사용할 수도 있습니다.
 
-Laravel 5.8 provides support for the `~2.0` release of the Carbon date manipulation library.
- 
-라라벨 5.8은 Carbon 날짜 조작 라이브러리의 `~ 2.0` 릴리스에 대한 지원을 제공합니다.
+    return Destination::orderByDesc(
+        Flight::select('arrived_at')
+            ->whereColumn('destination_id', 'destinations.id')
+            ->orderBy('arrived_at', 'desc')
+            ->limit(1)
+    )->get();
 
-### Pheanstalk 4.0 Support
-### Pheanstalk 4.0 지원
+### Laravel UI
+### 라라벨 UI
 
-Laravel 5.8 provides support for the `~4.0` release of the Pheanstalk queue library. If you are using Pheanstalk library in your application, please upgrade your library to the `~4.0` release via Composer.
+The frontend scaffolding typically provided with previous releases of Laravel has been extracted into a `laravel/ui` Composer package. This allows the first-party UI scaffolding to be developed and versioned separately from the primary framework. As a result of this change, no Bootstrap or Vue code is present in default framework scaffolding, and the `make:auth` command has been extracted from the framework as well.
 
-라라벨 5.8은 Pheanstalk 큐 라이브러리의 `~4.0` 버전에 대해 지원합니다. 애플리케이션에 Pheanstalk 라이브러리를 사용하고 있다면, Composer를 통해 라이브러리를 `~4.0` 버전으로 업그레이드하십시오.
+라라벨 전 릴리즈에 제공되었던 전통적인 프론트엔드 스캐폴딩이 `laravel\ui` 컴포저 패키지로 추출되었습니다. 이 것은 주 프레임웍으로부터 개발과 버전관리가 분리 된 자체적으로 제공하는 UI의 스캐폴딩이 될 것입니다. 이 같은 변화의 결과로 bootstrap, vue 코드가 기본 프레임웍 스캐폴딩에서 제공되지 않고, `make:auth` 명령어도 프레임웍에서 추출되었습니다.
+
+In order to restore the traditional Vue / Bootstrap scaffolding present in previous releases of Laravel, you may install the `laravel/ui` package and use the `ui` Artisan command to install the frontend scaffolding:
+
+이전 릴리즈의 라라벨에서 제공된 전통적인 vue / bootstrap 스캐폴딩을 복원하는 순서로, 아마 당신은 `laravel\ui` 패키지를 설치하고, `ui` 아티산 커멘드로 프론트엔드 스캐폴딩을 설치해야 할 것입니다.
+
+    composer require laravel/ui
+
+    php artisan ui vue --auth

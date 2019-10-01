@@ -155,7 +155,7 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
 
 If you only want to fake event listeners for a specific set of events, you may pass them to the `fake` or `fakeFor` method:
 
-특정 이벤트에 대한 이벤트 리스너만 fake로 만들고 싶다면, 그것들을 `fake` 또는 `fakeFor` 메소드에 전달할 수 있습니다 :
+특정 이벤트에 대한 이벤트 리스너만 fake로 만들고 싶다면, 그것들을 `fake` 또는 `fakeFor` 메소드에 전달할 수 있습니다.
 
     /**
      * Test order process.
@@ -180,7 +180,7 @@ If you only want to fake event listeners for a specific set of events, you may p
 
 If you only want to fake event listeners for a portion of your test, you may use the `fakeFor` method:
 
-테스트의 일부분 만 이벤트 리스너에게 fake 시키고 싶다면 `fakeFor` 메소드를 사용할 수 있습니다 :
+테스트의 일부분 만 이벤트 리스너에게 fake 시키고 싶다면 `fakeFor` 메소드를 사용할 수 있습니다.
 
     <?php
 

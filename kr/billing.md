@@ -317,7 +317,7 @@ You may also determine if a user has cancelled their subscription, but are still
 
 To determine if the user has cancelled their subscription and is no longer within their "grace period", you may use the `ended` method:
 
-사용자가 구독을 취소했으며 더 이상 "유예 기간"내에 있지 않은지 확인하려면 `ended` 메소드를 사용할 수 있습니다 :
+사용자가 구독을 취소했으며 더 이상 "유예 기간"내에 있지 않은지 확인하려면 `ended` 메소드를 사용할 수 있습니다.
 
     if ($user->subscription('main')->ended()) {
         //
@@ -423,7 +423,7 @@ When changing the hard-coded value returned by the `taxPercentage` method, the t
 
 By default, the billing cycle anchor is the date the subscription was created, or if a trial period is used, the date that the trial ends. If you would like to modify the billing anchor date, you may use the `anchorBillingCycleOn` method:
 
-일반적으로 과금 주기의 고정일은 정기 구독이 시작 된 날짜 또는 평가 기간이 있는 경우 평가 기간이 종료되는 날짜입니다. 청구서의 고정일을 수정하려면 `anchorBillingCycleOn` 메소드를 사용할 수 있습니다 :
+일반적으로 과금 주기의 고정일은 정기 구독이 시작 된 날짜 또는 평가 기간이 있는 경우 평가 기간이 종료되는 날짜입니다. 청구서의 고정일을 수정하려면 `anchorBillingCycleOn` 메소드를 사용할 수 있습니다.
 
     use App\User;
     use Carbon\Carbon;
@@ -581,7 +581,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
 Occasionally, you may wish to create a Stripe customer without beginning a subscription. You may accomplish this using the `createAsStripeCustomer` method:
 
-경우에 따라 구독을 시작하지 않고 Stripe 고객을 만들 수도 있습니다. 이 경우 `createAsStripeCustomer` 메소드를 사용하면 됩니다 :
+경우에 따라 구독을 시작하지 않고 Stripe 고객을 만들 수도 있습니다. 이 경우 `createAsStripeCustomer` 메소드를 사용하면 됩니다.
 
     $user->createAsStripeCustomer();
 

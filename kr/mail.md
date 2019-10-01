@@ -78,7 +78,7 @@ Mailgun 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/
 
 If you are not using the "US" [Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions), you may define your region's endpoint in the `services` configuration file:
 
-"US"[Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions)을 사용하지 않는 경우 지역(region)의 엔드포인트를 `services` 설정 파일에 정의 할 수 있습니다 :
+"US"[Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions)을 사용하지 않는 경우 지역(region)의 엔드포인트를 `services` 설정 파일에 정의 할 수 있습니다.
 
     'mailgun' => [
         'domain' => 'your-mailgun-domain',
@@ -124,7 +124,7 @@ Next, set the `driver` option in your `config/mail.php` configuration file to `s
 
 If you need to include [additional options](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html#sendrawemail) when executing the SES `SendRawEmail` request, you may define an `options` array within your `ses` configuration:
 
-SES의 `SendRawEmail` 요청을 실행할 때 [추가 옵션](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html#sendrawemail)을 추가해야한다면 `ses` 설정 내에서 `options` 배열에 정의 할 수 있습니다 :
+SES의 `SendRawEmail` 요청을 실행할 때 [추가 옵션](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2010-12-01.html#sendrawemail)을 추가해야한다면 `ses` 설정 내에서 `options` 배열에 정의 할 수 있습니다.
 
     'ses' => [
         'key' => 'your-ses-key',
@@ -192,7 +192,7 @@ However, if your application uses the same "from" address for all of its emails,
 
 In addition, you may define a global "reply_to" address within your `config/mail.php` configuration file:
 
-또한 `config/mail.php` 설정 파일 내에서 글로벌 "reply_to"주소를 설정 할 수 있습니다 :
+또한 `config/mail.php` 설정 파일 내에서 글로벌 "reply_to"주소를 설정 할 수 있습니다.
 
     'reply_to' => ['address' => 'example@example.com', 'name' => 'App Name'],
 
@@ -398,7 +398,7 @@ When attaching files to a message, you may also specify the display name and / o
 
 If you have stored a file on one of your [filesystem disks](/docs/{{version}}/filesystem), you may attach it to the email using the `attachFromStorage` method:
 
-[filesystem disks](/docs/{{version}}/filesystem) 중 하나에 파일을 저장했다면, `attachFromStorage` 메소드를 사용하여 이메일에 첨부 할 수 있습니다 :
+[filesystem disks](/docs/{{version}}/filesystem) 중 하나에 파일을 저장했다면, `attachFromStorage` 메소드를 사용하여 이메일에 첨부 할 수 있습니다.
 
     /**
      * Build the message.
@@ -413,7 +413,7 @@ If you have stored a file on one of your [filesystem disks](/docs/{{version}}/fi
 
 If necessary, you may specify the file's attachment name and additional options using the second and third arguments to the `attachFromStorage` method:
 
-필요하다면 `attachFromStorage` 메소드의 두번째와 세번째 인자를 사용하여 파일의 첨부 파일 이름과 추가 옵션을 지정할 수 있습니다 :
+필요하다면 `attachFromStorage` 메소드의 두번째와 세번째 인자를 사용하여 파일의 첨부 파일 이름과 추가 옵션을 지정할 수 있습니다.
 
     /**
      * Build the message.
@@ -430,7 +430,7 @@ If necessary, you may specify the file's attachment name and additional options 
 
 The `attachFromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
 
-`attachFromStorageDisk` 메소드는 기본 디스크가 아닌 다른 스토리지 디스크를 지정해야 할 때 사용할 수 있습니다 :
+`attachFromStorageDisk` 메소드는 기본 디스크가 아닌 다른 스토리지 디스크를 지정해야 할 때 사용할 수 있습니다.
 
     /**
      * Build the message.
@@ -827,7 +827,7 @@ Sometimes, applications store each user's preferred locale. By implementing the 
 
 Once you have implemented the interface, Laravel will automatically use the preferred locale when sending mailables and notifications to the model. Therefore, there is no need to call the `locale` method when using this interface:
 
-일단 인터페이스를 구현하면 Laravel은 메일 및 알림을 모델로 전송할 때 자동으로 기본 설정 언어를 사용합니다. 따라서 이 인터페이스를 사용할 때는 `locale` 메소드를 호출 할 필요가 없습니다 :
+일단 인터페이스를 구현하면 Laravel은 메일 및 알림을 모델로 전송할 때 자동으로 기본 설정 언어를 사용합니다. 따라서 이 인터페이스를 사용할 때는 `locale` 메소드를 호출 할 필요가 없습니다.
 
     Mail::to($request->user())->send(new OrderShipped($order));
 

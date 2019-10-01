@@ -221,7 +221,7 @@ In addition to receiving your command's arguments and options, command Closures 
 
 When defining a Closure based command, you may use the `describe` method to add a description to the command. This description will be displayed when you run the `php artisan list` or `php artisan help` commands:
 
-클로저 기반 명령을 정의 할 때`describe` 메소드를 사용하여 명령에 설명을 추가 할 수 있습니다. 이 설명은`php artisan list` 또는`php artisan help` 명령을 실행할 때 표시됩니다 :
+클로저 기반 명령을 정의 할 때`describe` 메소드를 사용하여 명령에 설명을 추가 할 수 있습니다. 이 설명은`php artisan list` 또는`php artisan help` 명령을 실행할 때 표시됩니다.
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");

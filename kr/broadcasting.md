@@ -466,7 +466,7 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 
 By default, Echo will use the `/broadcasting/auth` endpoint to authorize channel access. However, you may specify your own authorization endpoint by passing the `authEndpoint` configuration option to your Echo instance:
 
-기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다 :
+기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다.
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
@@ -674,7 +674,7 @@ When creating an Echo instance that uses the `pusher` connector, you may also sp
 
 If you already have a Pusher Channels or Socket.io client instance that you would like Echo to utilize, you may pass it to Echo via the `client` configuration option:
 
-Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다.
 
 
     const client = require('pusher-js');

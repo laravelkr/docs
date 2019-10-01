@@ -105,7 +105,7 @@ If you choose to nest your controllers deeper into the `App\Http\Controllers` di
 
 If you would like to define a controller that only handles a single action, you may place a single `__invoke` method on the controller:
 
-단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의`__invoke` 메소드를 넣을 수 있습니다 :
+단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의`__invoke` 메소드를 넣을 수 있습니다.
 
     <?php
 
@@ -136,7 +136,7 @@ When registering routes for single action controllers, you do not need to specif
 
 You may generate an invokable controller by using the `--invokable` option of the `make:controller` Artisan command:
 
-Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호출 가능한 컨트롤러를 생성 할 수 있습니다 :
+Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호출 가능한 컨트롤러를 생성 할 수 있습니다.
 
     php artisan make:controller ShowProfile --invokable
 
@@ -191,7 +191,7 @@ Controllers also allow you to register middleware using a Closure. This provides
 
 Laravel resource routing assigns the typical "CRUD" routes to a controller with a single line of code. For example, you may wish to create a controller that handles all HTTP requests for "photos" stored by your application. Using the `make:controller` Artisan command, we can quickly create such a controller:
 
-Laravel 리소스 라우팅은 일반적인 "CRUD" 경로를 한 줄의 코드로 컨트롤러에 할당합니다. 예를 들어, 애플리케이션에서 저장 한 "사진"에 대한 모든 HTTP 요청을 처리하는 컨트롤러를 만들 수 있습니다. `make:controller` Artisan 명령을 사용하여, 우리는 그러한 컨트롤러를 빠르게 만들 수 있습니다 :
+Laravel 리소스 라우팅은 일반적인 "CRUD" 경로를 한 줄의 코드로 컨트롤러에 할당합니다. 예를 들어, 애플리케이션에서 저장 한 "사진"에 대한 모든 HTTP 요청을 처리하는 컨트롤러를 만들 수 있습니다. `make:controller` Artisan 명령을 사용하여, 우리는 그러한 컨트롤러를 빠르게 만들 수 있습니다.
 
     php artisan make:controller PhotoController --resource
 
@@ -308,7 +308,7 @@ By default, all resource controller actions have a route name; however, you can 
 
 By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis by using the `parameters` method. The array passed into the `parameters` method should be an associative array of resource names and parameter names:
 
-기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다 :
+기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다.
 
     Route::resource('users', 'AdminUserController')->parameters([
         'users' => 'admin_user'

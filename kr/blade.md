@@ -165,7 +165,7 @@ The `{{ $slot }}` variable will contain the content we wish to inject into the c
     
 To instruct Laravel to load the first view that exists from a given array of possible views for the component, you may use the `componentFirst` directive:
 
-Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다 :
+Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다.
 
     @componentFirst(['custom.alert', 'alert'])
         <strong>Whoops!</strong> Something went wrong!
@@ -301,7 +301,7 @@ However, instead of manually calling `json_encode`, you may use the `@json` Blad
 
 The `@json` directive is also useful for seeding Vue components or `data-*` attributes:
 
-또한 `@json` 지시어는 Vue 컴포넌트 나 `data-*` 속성을 시딩하는데 유용합니다 :
+또한 `@json` 지시어는 Vue 컴포넌트 나 `data-*` 속성을 시딩하는데 유용합니다.
 
     <example-component :some-prop='@json($array)'></example-component>
 
@@ -625,7 +625,7 @@ In some situations, it's useful to embed PHP code into your views. You can use t
 
 Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
-애플리케이션에서 HTML 폼을 만들 할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 요청에 대한 유효성 검사를 할 수 있도록 폼에 숨겨진 CSRF 토큰 필드를 포함해야합니다. Blade의 `@csrf` 지시어를 사용하여 토큰 필드를 생성 할 수 있습니다 :
+애플리케이션에서 HTML 폼을 만들 할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 요청에 대한 유효성 검사를 할 수 있도록 폼에 숨겨진 CSRF 토큰 필드를 포함해야합니다. Blade의 `@csrf` 지시어를 사용하여 토큰 필드를 생성 할 수 있습니다.
 
     <form method="POST" action="/profile">
         @csrf
@@ -639,7 +639,7 @@ Anytime you define a HTML form in your application, you should include a hidden 
 
 Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `@method` Blade directive can create this field for you:
 
-HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 숨겨진 `_method` 필드를 추가하여 HTTP 동작을 속여합니다. Blade의 `@method` 지시어로 이 필드를 생성 할 수 있습니다 :
+HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 숨겨진 `_method` 필드를 추가하여 HTTP 동작을 속여합니다. Blade의 `@method` 지시어로 이 필드를 생성 할 수 있습니다.
 
     <form action="/foo/bar" method="POST">
         @method('PUT')
@@ -653,7 +653,7 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
 
 The `@error` directive may be used to quickly check if [validation error messages](/docs/{{version}}/validation#quick-displaying-the-validation-errors) exist for a given attribute. Within an `@error` directive, you may echo the `$message` variable to display the error message:
 
-`@error` 지시어는 주어진 속성에 대해 [유효성 검증 실패 메세지](/docs/{{version}}/validation#quick-displaying-the-validation-errors) 가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo 하여 에러 메시지를 표시 할 수 있습니다 :
+`@error` 지시어는 주어진 속성에 대해 [유효성 검증 실패 메세지](/docs/{{version}}/validation#quick-displaying-the-validation-errors) 가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo 하여 에러 메시지를 표시 할 수 있습니다.
 
     <!-- /resources/views/post/create.blade.php -->
 
@@ -720,7 +720,7 @@ Blade Include가 하위 디렉토리에 저장되어있는 경우 쉽게 액세�
 
 You may use the `include` method to alias the include from `includes.input` to `input`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
 
-`include` 메소드를 사용하여 `input`을 `includes.input` 에 대한 include 별칭으로 지정할 수 있습니다. 일반적으로 이것은 `AppServiceProvider`의 `boot` 메소드에서 수행되어야합니다 :
+`include` 메소드를 사용하여 `input`을 `includes.input` 에 대한 include 별칭으로 지정할 수 있습니다. 일반적으로 이것은 `AppServiceProvider`의 `boot` 메소드에서 수행되어야합니다.
 
     use Illuminate\Support\Facades\Blade;
 

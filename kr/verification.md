@@ -66,7 +66,7 @@ Next, your `user` table must contain an `email_verified_at` column to store the 
 
 Laravel includes the `Auth\VerificationController` class that contains the necessary logic to send verification links and verify emails. To register the necessary routes for this controller, pass the `verify` option to the `Auth::routes` method:
 
-라라벨에 포함된 `Auth\VerificationController` 클래스는 검증 링크를 보내고 이메일을 확인합니다. 이 컨트롤러에 사용하기 위해 필요한 라우트를 등록하려면 `Auth::routes` 메소드에 `verify` 옵션을 넘깁니다 :
+라라벨에 포함된 `Auth\VerificationController` 클래스는 검증 링크를 보내고 이메일을 확인합니다. 이 컨트롤러에 사용하기 위해 필요한 라우트를 등록하려면 `Auth::routes` 메소드에 `verify` 옵션을 넘깁니다.
 
     Auth::routes(['verify' => true]);
 

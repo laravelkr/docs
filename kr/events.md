@@ -138,7 +138,7 @@ Laravel은 리퍼러를 사용하여 리스너 클래스를 검색하여 이벤�
 
 Event discovery is disabled by default, but you can enable it by overriding the `shouldDiscoverEvents` method of your application's `EventServiceProvider`:
 
-이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다 :
+이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다.
 
     /**
      * Determine if events and listeners should be automatically discovered.
@@ -152,7 +152,7 @@ Event discovery is disabled by default, but you can enable it by overriding the 
 
 By default, all listeners within your application's Listeners directory will be scanned. If you would like to define additional directories to scan, you may override the `discoverEventsWithin` method in your `EventServiceProvider`:
 
-기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다 :
+기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다.
 
     /**
      * Get the listener directories that should be used to discover events.

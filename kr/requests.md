@@ -227,7 +227,7 @@ When working with forms that contain array inputs, use "dot" notation to access 
 
 You may call the `input` method without any arguments in order to retrieve all of the input values as an associative array:
 
-모든 입력 값을 연관 배열로 검색하기 위해 인자없이 `input` 메소드를 호출 할 수 있습니다 :
+모든 입력 값을 연관 배열로 검색하기 위해 인자없이 `input` 메소드를 호출 할 수 있습니다.
 
     $input = $request->input();
 

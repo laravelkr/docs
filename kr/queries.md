@@ -684,7 +684,7 @@ Laravel also supports querying JSON column types on databases that provide suppo
 
 You may use `whereJsonContains` to query JSON arrays (not supported on SQLite):
 
-JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다 :
+JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', 'en')
@@ -692,7 +692,7 @@ JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJ
 
 MySQL and PostgreSQL support `whereJsonContains` with multiple values:
 
-MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 :
+MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', ['en', 'de'])
@@ -700,7 +700,7 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
 
 You may use `whereJsonLength` to query JSON arrays by their length:
 
-`whereJsonLength` 를 사용하여 JSON 배열을 길이에 따라 쿼리 할 수 있습니다 :
+`whereJsonLength` 를 사용하여 JSON 배열을 길이에 따라 쿼리 할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereJsonLength('options->languages', 0)

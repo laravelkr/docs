@@ -209,7 +209,7 @@ Typically, the `$this->collection` property of a resource collection is automati
 
 For example, `UserCollection` will attempt to map the given user instances into the `User` resource. To customize this behavior, you may override the `$collects` property of your resource collection:
 
-예를 들어 `UserCollection` 는 주어진 사용자 인스턴스를 `User` 리소스로 매핑하려고 시도 할 것입니다. 이 행동을 커스터마이징하려면 리소스 컬렉션의 `$collects` 속성을 오버라이드를 하면 됩니다 :
+예를 들어 `UserCollection` 는 주어진 사용자 인스턴스를 `User` 리소스로 매핑하려고 시도 할 것입니다. 이 행동을 커스터마이징하려면 리소스 컬렉션의 `$collects` 속성을 오버라이드를 하면 됩니다.
 
     <?php
 
@@ -671,7 +671,7 @@ In addition to conditionally including relationship information in your resource
 
 If your intermediate table is using an accessor other than `pivot`, you may use the `whenPivotLoadedAs` method:
 
-중간 테이블이 `pivot` 이외의 접근자를 사용한다면 `whenPivotLoadedAs` 메소드를 사용할 수 있습니다 :
+중간 테이블이 `pivot` 이외의 접근자를 사용한다면 `whenPivotLoadedAs` 메소드를 사용할 수 있습니다.
 
     /**
      * Transform the resource into an array.

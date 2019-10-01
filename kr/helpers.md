@@ -579,7 +579,7 @@ You may also sort the array by the results of the given Closure:
 
 The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
 
-`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다 :
+`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
 
     use Illuminate\Support\Arr;
 

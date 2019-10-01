@@ -736,7 +736,7 @@ The `every` method may be used to verify that all elements of a collection pass 
 
 If the collection is empty, `every` will return true:
 
-컬렉션이 비어 있다면, `every`는 true를 반환할 것입니다 :
+컬렉션이 비어 있다면, `every`는 true를 반환할 것입니다.
 
     $collection = collect([]);
 
@@ -2864,7 +2864,7 @@ The `whereInstanceOf` method filters the collection by a given class type:
 
 The `whereNotBetween` method filters the collection within a given range:
 
-`whereNotBetween` 메소드는 주어진 범위 내에서 컬렉션을 필터링합니다 :
+`whereNotBetween` 메소드는 주어진 범위 내에서 컬렉션을 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],

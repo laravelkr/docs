@@ -1305,7 +1305,7 @@ In this example, let's assume `Event`, `Photo`, and `Post` models may create `Ac
 
 Using these model definitions and relationships, we may retrieve `ActivityFeed` model instances and eager load all `parentable` models and their respective nested relationships:
 
-이 모델 정의와 관계를 사용하여 우리는 `ActivityFeed` 모델 인스턴스를 검색 할 수 있으며 모든 `parentable`모델과 각각의 중첩 관계를 eager 로드 할 수 있습니다 :
+이 모델 정의와 관계를 사용하여 우리는 `ActivityFeed` 모델 인스턴스를 검색 할 수 있으며 모든 `parentable`모델과 각각의 중첩 관계를 eager 로드 할 수 있습니다.
 
     use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -1336,7 +1336,7 @@ You may not always need every column from the relationships you are retrieving. 
 
 Sometimes you might want to always load some relationships when retrieving a model. To accomplish this, you may define a `$with` property on the model:
 
-때로는 모델을 검색 할 때 항상 일부 관계를 로드하려고 할 수 있습니다. 이를 위해 모델에 `$with` 속성을 정의 할 수 있습니다 :
+때로는 모델을 검색 할 때 항상 일부 관계를 로드하려고 할 수 있습니다. 이를 위해 모델에 `$with` 속성을 정의 할 수 있습니다.
 
     <?php
 
@@ -1513,7 +1513,7 @@ If you need to save multiple related models, you may use the `saveMany` method:
 
 If you would like to `save` your model and all of its associated relationships, you may use the `push` method:
 
-모델과 관련된 모든 관계를 `save` 하고 싶다면 `push` 메소드를 사용할 수 있습니다 :
+모델과 관련된 모든 관계를 `save` 하고 싶다면 `push` 메소드를 사용할 수 있습니다.
 
     $post = App\Post::find(1);
 
@@ -1587,7 +1587,7 @@ When removing a `belongsTo` relationship, you may use the `dissociate` method. T
 
 The `belongsTo`, `hasOne`, `hasOneThrough`, and `morphOne` relationships allow you to define a default model that will be returned if the given relationship is `null`. This pattern is often referred to as the [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern) and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `App\User` model if no `user` is attached to the post:
 
-`belongsTo`, `hasOne`, `hasOneThrough`, 와 `morphOne` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다 :
+`belongsTo`, `hasOne`, `hasOneThrough`, 와 `morphOne` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다.
 
     /**
      * Get the author of the post.
@@ -1599,7 +1599,7 @@ The `belongsTo`, `hasOne`, `hasOneThrough`, and `morphOne` relationships allow y
 
 To populate the default model with attributes, you may pass an array or Closure to the `withDefault` method:
 
-속성을 가진 기본 모델을 채우려면 배열이나 Closure 를 `withDefault` 메소드에 넘길 수 있습니다 :
+속성을 가진 기본 모델을 채우려면 배열이나 Closure 를 `withDefault` 메소드에 넘길 수 있습니다.
 
     /**
      * Get the author of the post.

@@ -196,7 +196,7 @@ Git 저장소를 작업하는 머신에 복제하여 홈스테드를 설치할 �
 
 You should check out a tagged version of Homestead since the `master` branch may not always be stable. You can find the latest stable version on the [GitHub Release Page](https://github.com/laravel/homestead/releases). Alternatively, you may checkout the `release` branch which always contains the latest stable release:
 
-`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다. 또는 항상 최신 안정 릴리즈가 포함 된 `release` 브랜치를 체크 아웃 할 수 있습니다 :
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다. 또는 항상 최신 안정 릴리즈가 포함 된 `release` 브랜치를 체크 아웃 할 수 있습니다.
 
     cd ~/Homestead
 
@@ -693,7 +693,7 @@ By default, Minio is available on port 9600. You may access the Minio control pa
 
 In order to use Minio you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You will need to add the `use_path_style_endpoint` option to the disk configuration, as well as change the `url` key to `endpoint`:
 
-Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서 S3 디스크 설정을 수정해야합니다. 디스크 구성에 `use_path_style_endpoint` 옵션을 추가하고 `url` 키를 `endpoint` 로 변경해야합니다 :
+Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서 S3 디스크 설정을 수정해야합니다. 디스크 구성에 `use_path_style_endpoint` 옵션을 추가하고 `url` 키를 `endpoint` 로 변경해야합니다.
 
     's3' => [
         'driver' => 's3',

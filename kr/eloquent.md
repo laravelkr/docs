@@ -151,7 +151,7 @@ Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다
 
 In addition, Eloquent assumes that the primary key is an incrementing integer value, which means that by default the primary key will automatically be cast to an `int`. If you wish to use a non-incrementing or a non-numeric primary key you must set the public `$incrementing` property on your model to `false`:
 
-추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오. 증가하지 않거나 숫자가 아닌 기본 키를 사용하려면 모델의 공개 `$incrementing` 속성을 `false`로 설정해야합니다 :
+추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오. 증가하지 않거나 숫자가 아닌 기본 키를 사용하려면 모델의 공개 `$incrementing` 속성을 `false`로 설정해야합니다.
 
     <?php
 
@@ -167,7 +167,7 @@ In addition, Eloquent assumes that the primary key is an incrementing integer va
 
 If your primary key is not an integer, you should set the protected `$keyType` property on your model to `string`:
 
-기본 키가 정수가 아닌 경우 모델의 protected `$keyType` 속성을 `string`으로 설정해야합니다 :
+기본 키가 정수가 아닌 경우 모델의 protected `$keyType` 속성을 `string`으로 설정해야합니다.
 
     <?php
 
@@ -265,7 +265,7 @@ By default, all Eloquent models will use the default database connection configu
 
 If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model:
 
-일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다 :
+일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다.
 
     <?php
 

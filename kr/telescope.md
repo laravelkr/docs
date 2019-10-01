@@ -78,7 +78,7 @@ You may use Composer to install Telescope into your Laravel project:
 
 After installing Telescope, publish its assets using the `telescope:install` Artisan command. After installing Telescope, you should also run the `migrate` command:
 
-Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여 assets을 퍼블리싱합니다. Telescope를 설치 한 후에 `migrate` 명령 또한 실행해야합니다 :
+Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여 assets을 퍼블리싱합니다. Telescope를 설치 한 후에 `migrate` 명령 또한 실행해야합니다.
 
 
     php artisan telescope:install
@@ -90,7 +90,7 @@ Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여
 
 When updating Telescope, you should re-publish Telescope's assets:
 
-Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해야합니다 :
+Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해야합니다.
 
     php artisan telescope:publish
 
@@ -137,7 +137,7 @@ Telescope의 assets을 퍼블리싱하면 기본 설정 파일 `config/telescope
 
 If desired, you may disable Telescope's data collection entirely using the `enabled` configuration option:
 
-원하는 경우, `enabled` 설정 옵션을 사용하여 Telescope의 데이터 수집을 완전히 비활성화 할 수 있습니다 :
+원하는 경우, `enabled` 설정 옵션을 사용하여 Telescope의 데이터 수집을 완전히 비활성화 할 수 있습니다.
 
 
     'enabled' => env('TELESCOPE_ENABLED', true),
@@ -148,7 +148,7 @@ If desired, you may disable Telescope's data collection entirely using the `enab
 
 Without pruning, the `telescope_entries` table can accumulate records very quickly. To mitigate this, you should schedule the `telescope:prune` Artisan command to run daily:
 
-데이터 정리를 하지 않는 다면, `telescope_entries` 테이블은 레코드가 매우 빨리 누적 될 수 있습니다. 이것을 줄이기 위해 `telescope:prune` 아티즌 명령을 매일 실행하도록 예약해야합니다 :
+데이터 정리를 하지 않는 다면, `telescope_entries` 테이블은 레코드가 매우 빨리 누적 될 수 있습니다. 이것을 줄이기 위해 `telescope:prune` 아티즌 명령을 매일 실행하도록 예약해야합니다.
 
     $schedule->command('telescope:prune')->daily();
 

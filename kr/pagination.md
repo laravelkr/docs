@@ -176,7 +176,7 @@ If you wish to append a "hash fragment" to the paginator's URLs, you may use the
 
 You may control how many additional links are displayed on each side of the paginator's URL "window". By default, three links are displayed on each side of the primary paginator links. However, you may control this number using the `onEachSide` method:
 
-paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 변경 할 수 있습니다. 기본적으로 세 개의 링크가 기본 paginator 링크의 각 사이드에 표시됩니다. 그러나 `onEachSide` 메소드를 사용하여 이 숫자를 변경 할 수 있습니다 :
+paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 변경 할 수 있습니다. 기본적으로 세 개의 링크가 기본 paginator 링크의 각 사이드에 표시됩니다. 그러나 `onEachSide` 메소드를 사용하여 이 숫자를 변경 할 수 있습니다.
 
     {{ $users->onEachSide(5)->links() }}
 

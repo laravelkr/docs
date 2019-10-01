@@ -243,7 +243,7 @@ You may use the `put` method on the `Cache` facade to store items in the cache:
 
 If the storage time is not passed to the `put` method, the item will be stored indefinitely:
 
-저장 시간이 `put` 메소드에 전달되지 않으면 그 아이템은 무기한 저장 될 것입니다 :
+저장 시간이 `put` 메소드에 전달되지 않으면 그 아이템은 무기한 저장 될 것입니다.
 
     Cache::put('key', 'value');
 
@@ -313,7 +313,7 @@ You may clear the entire cache using the `flush` method:
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
-원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다 :
+원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
 
     use Illuminate\Support\Facades\Cache;
 
@@ -399,7 +399,7 @@ If you provide an array of key / value pairs and an expiration time to the funct
 
 When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
 
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다 :
+`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다.
 
     cache()->remember('users', $seconds, function () {
         return DB::table('users')->get();

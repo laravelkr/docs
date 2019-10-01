@@ -566,6 +566,6 @@ If you would like to define a custom builder method, you may use the `macro` met
 
 The `macro` function accepts a name as its first argument, and a Closure as its second. The macro's Closure will be executed when calling the macro name from a `Laravel\Scout\Builder` implementation:
 
-`macro` 함수는 첫 번째 인수로 이름을 받아들입니다. 두 번째 인수는 Closure입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다 :
+`macro` 함수는 첫 번째 인수로 이름을 받아들입니다. 두 번째 인수는 Closure입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다.
 
     App\Order::search('Star Trek')->count();

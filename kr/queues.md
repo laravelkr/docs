@@ -1006,7 +1006,7 @@ Eloquent 모델을 작업에 주입 할 때 queue에 배치되기 전에 자동�
 
 For convenience, you may choose to automatically delete jobs with missing models by setting your job's `deleteWhenMissingModels` property to `true`:
 
-편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다 :
+편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다.
 
     /**
      * Delete the job if its models no longer exist.

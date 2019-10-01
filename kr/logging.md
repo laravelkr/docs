@@ -259,7 +259,7 @@ To get started, define a `tap` array on the channel's configuration. The `tap` a
 
 Once you have configured the `tap` option on your channel, you're ready to define the class that will customize your Monolog instance. This class only needs a single method: `__invoke`, which receives an `Illuminate\Log\Logger` instance. The `Illuminate\Log\Logger` instance proxies all method calls to the underlying Monolog instance:
 
-채널에 `tap` 옵션을 설정했다면, Monolog 인스턴스를 커스터마이징 하는 클래스를 정의하면 됩니다. 이 클래스에서는 `Illuminate\Log\Logger` 인스턴스를 전달받는 `__invoke` 메소드 하나만 있으면 됩니다. `Illuminate\Log\Logger` 인스턴스는 기본 Monolog 인스턴스에 대한 모든 메소드 호출을 프록시합니다 :
+채널에 `tap` 옵션을 설정했다면, Monolog 인스턴스를 커스터마이징 하는 클래스를 정의하면 됩니다. 이 클래스에서는 `Illuminate\Log\Logger` 인스턴스를 전달받는 `__invoke` 메소드 하나만 있으면 됩니다. `Illuminate\Log\Logger` 인스턴스는 기본 Monolog 인스턴스에 대한 모든 메소드 호출을 프록시합니다.
 
     <?php
 

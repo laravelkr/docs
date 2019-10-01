@@ -683,7 +683,7 @@ If this validation rule fails, it will produce the following error message:
 
 Instead of displaying `cc` as the payment type value, you may specify a custom value representation in your `validation` language file by defining a `values` array:
 
-결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다 :
+결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다.
 
     'values' => [
         'payment_type' => [
@@ -1454,7 +1454,7 @@ If your table uses a primary key column name other than `id`, you may specify th
 
 By default, the `unique` rule will check the uniqueness of the column matching the name of the attribute being validated. However, you may pass a different column name as the second argument to the `unique` method:
 
-기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다 :
+기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
 
     Rule::unique('users', 'email_address')->ignore($user->id),
 

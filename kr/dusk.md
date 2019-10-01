@@ -122,7 +122,7 @@ To run your tests, use the `dusk` Artisan command. The `dusk` command accepts an
 
 If you had test failures the last time you ran the `dusk` command, you may save time by re-running the failing tests first using the `dusk:fails` command:
 
-마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
+마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다.
 
     php artisan dusk:fails
 
@@ -214,7 +214,7 @@ To run your browser tests, use the `dusk` Artisan command:
 
 If you had test failures the last time you ran the `dusk` command, you may save time by re-running the failing tests first using the `dusk:fails` command:
 
-마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
+마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다.
 
     php artisan dusk:fails
 
@@ -777,7 +777,7 @@ The `waitForLink` method may be used to wait until the given link text is displa
 
 When making a path assertion such as `$browser->assertPathIs('/home')`, the assertion can fail if `window.location.pathname` is being updated asynchronously. You may use the `waitForLocation` method to wait for the location to be a given value:
 
-`$browser->assertPathIs('/home')`와 같은 경로 assertion을 만들 때 `window.location.pathname`이 비동기적으로 업데이트되면 assertion이 실패 할 수 있습니다. location이 주어진 값이 될 때까지 기다리기 위해서 `waitForLocation` 메소드를 사용할 수 있습니다 :
+`$browser->assertPathIs('/home')`와 같은 경로 assertion을 만들 때 `window.location.pathname`이 비동기적으로 업데이트되면 assertion이 실패 할 수 있습니다. location이 주어진 값이 될 때까지 기다리기 위해서 `waitForLocation` 메소드를 사용할 수 있습니다.
 
     $browser->waitForLocation('/secret');
 
@@ -831,7 +831,7 @@ The following methods may be used to wait until a given Vue component attribute 
 
 Many of the "wait" methods in Dusk rely on the underlying `waitUsing` method. You may use this method directly to wait for a given callback to return `true`. The `waitUsing` method accepts the maximum number of seconds to wait, the interval at which the Closure should be evaluated, the Closure, and an optional failure message:
 
-Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존합니다. 이 메소드를 사용하면 지정된 콜백이 `true`를 돌려주는 것을 기다릴 수가 있습니다. `waitUsing` 메소드는 대기 할 최대 초 수, Closure가 검증되는 간격, Closure 및 선택적 실패 메시지를 입력받습니다 :
+Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존합니다. 이 메소드를 사용하면 지정된 콜백이 `true`를 돌려주는 것을 기다릴 수가 있습니다. `waitUsing` 메소드는 대기 할 최대 초 수, Closure가 검증되는 간격, Closure 및 선택적 실패 메시지를 입력받습니다.
 
     $browser->waitUsing(10, 1, function () use ($something) {
         return $something->isReady();
@@ -1564,7 +1564,7 @@ Once a page has been configured, you may navigate to it using the `visit` method
 
 Sometimes you may already be on a given page and need to "load" the page's selectors and methods into the current test context. This is common when pressing a button and being redirected to a given page without explicitly navigating to it. In this situation, you may use the `on` method to load the page:
 
-때로는 이미 주어진 페이지에 접속 해 있을 수 있으며 페이지의 선택자와 메소드를 현재 테스트 컨텍스트에 "로드"해야 할 때가 있습니다. 이는 버튼을 누르고 명시적으로 탐색하지 않고 지정된 페이지로 리디렉션 될 때 일반적입니다. 이 상황에서, 당신은 페이지를 로드하기 위해 `on` 메소드를 사용할 수 있습니다 :
+때로는 이미 주어진 페이지에 접속 해 있을 수 있으며 페이지의 선택자와 메소드를 현재 테스트 컨텍스트에 "로드"해야 할 때가 있습니다. 이는 버튼을 누르고 명시적으로 탐색하지 않고 지정된 페이지로 리디렉션 될 때 일반적입니다. 이 상황에서, 당신은 페이지를 로드하기 위해 `on` 메소드를 사용할 수 있습니다.
 
     use Tests\Browser\Pages\CreatePlaylist;
 

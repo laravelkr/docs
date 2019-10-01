@@ -209,7 +209,7 @@ You may also define placeholder attributes in pluralization strings. These place
 
 If you would like to display the integer value that was passed to the `trans_choice` function, you may use the `:count` placeholder:
 
-`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다 :
+`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다.
 
     'apples' => '{0} There are none|{1} There is one|[2,*] There are :count',
 

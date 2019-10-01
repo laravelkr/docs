@@ -245,7 +245,7 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
 
 If necessary, you may define the path where Passport's keys should be loaded from. You may use the `Passport::loadKeysFrom` method to accomplish this:
 
-필요한 경우 Passport의 키를 로드해야 하는 경로를 정의 할 수 있습니다. 이를 위해 `Passport::loadKeysFrom` 메소드를 사용할 수 있습니다 :
+필요한 경우 Passport의 키를 로드해야 하는 경로를 정의 할 수 있습니다. 이를 위해 `Passport::loadKeysFrom` 메소드를 사용할 수 있습니다.
 
     /**
      * Register any authentication / authorization services.
@@ -308,7 +308,7 @@ By default, Passport issues long-lived access tokens that expire after one year.
 
 You are free to extend the models used internally by Passport. Then, you may instruct Passport to use your custom models via the `Passport` class:
 
-Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다. 그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다 :
+Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다. 그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다.
 
     use App\Models\Passport\Client;
     use App\Models\Passport\Token;
@@ -772,13 +772,13 @@ The client credentials grant is suitable for machine-to-machine authentication. 
  
 Before your application can issue tokens via the client credentials grant, you will need to create a client credentials grant client. You may do this using the `--client` option of the `passport:client` command:
 
-애플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다 :
+애플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다.
 
     php artisan passport:client --client
 
 Next, to use this grant type, you need to add the `CheckClientCredentials` middleware to the `$routeMiddleware` property of your `app/Http/Kernel.php` file:
 
-다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 프로퍼티에 추가해야합니다 :
+다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 프로퍼티에 추가해야합니다.
 
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials;
@@ -843,7 +843,7 @@ Before your application can issue personal access tokens, you will need to creat
 
 If you have already defined a personal access client, you may instruct Passport to use it using the `personalAccessClientId` method. Typically, this method should be called from the `boot` method of your `AuthServiceProvider`:
 
-이미 개인 액세스 클라이언트를 정의한 경우 Passport가 `personalAccessClientId` 메소드를 사용하여 이것를 사용 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다 :
+이미 개인 액세스 클라이언트를 정의한 경우 Passport가 `personalAccessClientId` 메소드를 사용하여 이것를 사용 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다.
 
     /**
      * Register any authentication / authorization services.
@@ -1096,25 +1096,25 @@ Once an access token authenticated request has entered your application, you may
 
 The `scopeIds` method will be return an array of all defined IDs / names:
 
-`scopeIds` 메소드는 정의 된 모든 ID / 이름의 배열을 반환합니다 :
+`scopeIds` 메소드는 정의 된 모든 ID / 이름의 배열을 반환합니다.
 
     Laravel\Passport\Passport::scopeIds();
 
 The `scopes` method will return an array of all defined scopes as instances of `Laravel\Passport\Scope`:
 
-`scopes` 메소드는 정의 된 모든 범위의 배열을 `Laravel\Passport\Scope` 의 인스턴스로 반환합니다 :
+`scopes` 메소드는 정의 된 모든 범위의 배열을 `Laravel\Passport\Scope` 의 인스턴스로 반환합니다.
 
     Laravel\Passport\Passport::scopes();
 
 The `scopesFor` method will return an array of `Laravel\Passport\Scope` instances matching the given IDs / names:
 
-`scopesFor` 메소드는 주어진 ID / 이름과 일치하는 `Laravel\Passport\Scope` 인스턴스의 배열을 반환합니다 :
+`scopesFor` 메소드는 주어진 ID / 이름과 일치하는 `Laravel\Passport\Scope` 인스턴스의 배열을 반환합니다.
 
     Laravel\Passport\Passport::scopesFor(['place-orders', 'check-status']);
 
 You may determine if a given scope has been defined using the `hasScope` method:
 
-`hasScope` 메소드를 사용하여 주어진 스코프가 정의되었는지를 확인 할 수 있습니다 :
+`hasScope` 메소드를 사용하여 주어진 스코프가 정의되었는지를 확인 할 수 있습니다.
 
     Laravel\Passport\Passport::hasScope('place-orders');
 
@@ -1153,7 +1153,7 @@ This Passport middleware will attach a `laravel_token` cookie to your outgoing r
 
 If needed, you can customize the `laravel_token` cookie's name using the `Passport::cookie` method. Typically, this method should be called from the `boot` method of your `AuthServiceProvider`:
 
-필요하다면 `Passport::Cookie` 메소드를 사용하여 `laravel_token` 쿠키 이름을 커스터마이징 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다 :
+필요하다면 `Passport::Cookie` 메소드를 사용하여 `laravel_token` 쿠키 이름을 커스터마이징 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다.
 
     /**
      * Register any authentication / authorization services.

@@ -172,6 +172,7 @@ If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should up
 **영향 가능성: 중간**
 
 > {note} This change only applies to non-Laravel applications that are using `illuminate/database` as a dependency.
+
 > {note} 이 변경사항은 `illuminate/database` 패키지를 라라벨과 별개로 사용중인 어플리케이션에만 해당됩니다.
 
 The signature of the `Illuminate\Database\Capsule\Manager` class' `table` method has 

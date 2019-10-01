@@ -240,7 +240,7 @@
                     $user->posts()->save(factory(App\Post::class)->make());
                 });
 
-You may use the `createMany` method to create multiple related models:
+`createMany` 메소드를 사용하여 여러개의 연관 모델을 작성할 수 있습니다.
 
     $user->posts()->createMany(
         factory(App\Post::class, 3)->make()->toArray()

@@ -61,8 +61,6 @@
 
     return view('greetings', ['name' => 'Victoria']);
 
-When passing information in this manner, the data should be an array with key / value pairs. Inside your view, you can then access each value using its corresponding key, such as `<?php echo $key; ?>`. As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view:
-
 이러한 방식으로 정보를 전달할 때, 데이터는 키/값으로 구성된 배열이어야 합니다. 뷰 안에서 여러분은 `<?php echo $key; ?>` 와 같이 각각의 키에 해당하는 값에 엑세스 할 수 있습니다. 데이터를 `view` 헬퍼 함수에 전달하는 대신 `with` 메소드를 사용하여 뷰에 전달할 데이터를 개별적으로 추가 할 수도 있습니다.
 
     return view('greeting')->with('name', 'Victoria');

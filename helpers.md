@@ -752,7 +752,7 @@
 <a name="method-e"></a>
 #### `e()` {#collection-method}
 
-`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `duuble_encode` 옵션이 기본적으로 `true` 인 형태로 실행한 결과를 반환합니다.
+`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `double_encode` 옵션이 기본적으로 `true` 인 형태로 실행한 결과를 반환합니다.
 
     echo e('<html>foo</html>');
 

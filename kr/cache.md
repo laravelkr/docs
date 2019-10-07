@@ -101,7 +101,7 @@ You may also set the `host` option to a UNIX socket path. If you do this, the `p
 
 Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer .
 
-라라벨에서 Redis 캐스를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
+라라벨에서 Redis 캐시를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
 
 For more information on configuring Redis, consult its [Laravel documentation page](/docs/{{version}}/redis#configuration).
 
@@ -170,7 +170,7 @@ The `get` method on the `Cache` facade is used to retrieve items from the cache.
 
 You may even pass a `Closure` as the default value. The result of the `Closure` will be returned if the specified item does not exist in the cache. Passing a Closure allows you to defer the retrieval of default values from a database or other external service:
 
-기본값을 `클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
+기본값을 `Closure`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
 
     $value = Cache::get('key', function () {
         return DB::table(...)->get();
@@ -212,7 +212,7 @@ Sometimes you may wish to retrieve an item from the cache, but also store a defa
 
 If the item does not exist in the cache, the `Closure` passed to the `remember` method will be executed and its result will be placed in the cache.
 
-캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `클로저` 가 실행되어 캐시에 값을 저장하게 됩니다.
+캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `Closure` 가 실행되어 캐시에 값을 저장하게 됩니다.
 
 You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
 
@@ -556,7 +556,7 @@ extension이 등록되고 나면, `config/cache.php` 설정 파일의 `driver` �
 
 To execute code on every cache operation, you may listen for the [events](/docs/{{version}}/events) fired by the cache. Typically, you should place these event listeners within your `EventServiceProvider`:
 
-캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 이벤트 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 `EventServiceProvider`안에 구성합니다.
+캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 [이벤트](/docs/{{version}}/events) 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 `EventServiceProvider`안에 구성합니다.
 
     /**
      * The event listener mappings for the application.

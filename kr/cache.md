@@ -170,7 +170,7 @@ The `get` method on the `Cache` facade is used to retrieve items from the cache.
 
 You may even pass a `Closure` as the default value. The result of the `Closure` will be returned if the specified item does not exist in the cache. Passing a Closure allows you to defer the retrieval of default values from a database or other external service:
 
-기본값을 `Closure`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
+기본값을 `Closure-클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure-클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
 
     $value = Cache::get('key', function () {
         return DB::table(...)->get();

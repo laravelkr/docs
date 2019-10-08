@@ -212,7 +212,7 @@ Sometimes you may wish to retrieve an item from the cache, but also store a defa
 
 If the item does not exist in the cache, the `Closure` passed to the `remember` method will be executed and its result will be placed in the cache.
 
-캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `Closure` 가 실행되어 캐시에 값을 저장하게 됩니다.
+캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `Closure-클로저` 가 실행되어 캐시에 값을 저장하게 됩니다.
 
 You may use the `rememberForever` method to retrieve an item from the cache or store it forever:
 

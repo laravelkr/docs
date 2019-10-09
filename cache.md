@@ -64,8 +64,6 @@ Memcached 드라이버를 사용하려면 [Memcached PECL 패키지](https://pec
 
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer .
-
 라라벨에서 Redis 캐스를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
 
 Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/docs/{{version}}/redis#configuration)를 참고하십시오.

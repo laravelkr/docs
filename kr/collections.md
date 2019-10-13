@@ -2991,7 +2991,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 <a name="lazy-collections"></a>
 ## Lazy Collections
-## 지연 컬렉션-Lazy Collections
+## 지연 컬렉션
 
 <a name="lazy-collection-introduction"></a>
 ### Introduction
@@ -2999,7 +2999,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 > {note} Before learning more about Laravel's lazy collections, take some time to familiarize yourself with [PHP generators](https://www.php.net/manual/en/language.generators.overview.php).
 
-라라벨 지연 컬렉션-lazy collection에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
+라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
 
 To supplement the already powerful `Collection` class, the `LazyCollection` class leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
 
@@ -3007,7 +3007,7 @@ To supplement the already powerful `Collection` class, the `LazyCollection` clas
 
 For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
 
-예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션-lazy collection을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
+예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;
@@ -3046,11 +3046,11 @@ However, the query builder's `cursor` method returns a `LazyCollection` instance
 
 <a name="creating-lazy-collections"></a>
 ### Creating Lazy Collections
-### 지연 컬렉션-Lazy Collections 생성하기
+### 지연 컬렉션 생성하기
 
 To create a lazy collection instance, you should pass a PHP generator function to the collection's `make` method:
 
-지연 컬렉션-lazy collection 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
+지연 컬렉션 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
 
     use Illuminate\Support\LazyCollection;
 
@@ -3188,7 +3188,7 @@ Almost all methods available on the `Collection` class are also available on the
 
 <a name="lazy-collection-methods"></a>
 ### Lazy Collection Methods
-### Lazy Collection 메소드
+### 지연 컬렉션 메소드
 
 In addition to the methods defined in the `Enumerable` contract, the `LazyCollection` class contains the following methods:
 

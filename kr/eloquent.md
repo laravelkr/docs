@@ -1116,7 +1116,7 @@ The `retrieved` event will fire when an existing model is retrieved from the dat
 
 To get started, define a `$dispatchesEvents` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 
-이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 맵핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
+이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 매핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
 
     <?php
 

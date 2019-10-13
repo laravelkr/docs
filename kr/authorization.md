@@ -647,7 +647,7 @@ The `authorizeResource` method accepts the model's class name as its first argum
 
 The following controller methods will be mapped to their corresponding policy method:
 
-다음 컨트롤러 메소드는 해당 policy 메소드에 맵핑됩니다.
+다음 컨트롤러 메소드는 해당 policy 메소드에 매핑됩니다.
 
 | Controller Method | Policy Method |
 | --- | --- |

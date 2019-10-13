@@ -37,7 +37,7 @@ The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper 
 
 As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, collections are immutable, meaning every `Collection` method returns an entirely new `Collection` instance.
 
-보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
+보시는 바와 같이 `Collection` 클래스는 편리한 매핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### Creating Collections

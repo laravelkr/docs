@@ -148,13 +148,13 @@ job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그
         return [new RateLimited];
     }
 
-### Lazy 콜렉션
+### 지연 컬렉션
 
-_Lazy 콜렉션은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
+_지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
 
-많은 개발자들은 이미 라라벨의 강력한 [콜렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 Lazy 콜렉션을 도입했습니다. 
+많은 개발자들은 이미 라라벨의 강력한 [콜렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
 
-예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. Lazy 콜렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
+예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. 지연 컬렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;

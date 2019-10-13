@@ -2452,16 +2452,16 @@
     return $users->sum->votes;
 
 <a name="lazy-collections"></a>
-## 지연 컬렉션-Lazy Collections
+## 지연 컬렉션
 
 <a name="lazy-collection-introduction"></a>
 ### 시작하기
 
-라라벨 지연 컬렉션-lazy collection에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
+라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
 
 이미 강력한 `컬렉션` 클래스를 보완하기 위해 `LazyCollection`은 PHP의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용해 메모리 사용량을 적게 유지하면서도 매우 큰 데이터 셋을 처리할 수 있게 해줍니다.
 
-예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션-lazy collection을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
+예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;
@@ -2495,9 +2495,9 @@
     }
 
 <a name="creating-lazy-collections"></a>
-### 지연 컬렉션-Lazy Collections 생성하기
+### 지연 컬렉션 생성하기
 
-지연 컬렉션-lazy collection 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
+지연 컬렉션 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
 
     use Illuminate\Support\LazyCollection;
 
@@ -2625,7 +2625,7 @@
 > {note} `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
 
 <a name="lazy-collection-methods"></a>
-### Lazy Collection 메소드
+### 지연 컬렉션 메소드
 
 `Enumerable` contract에 정의된 메소드 외에, `LazyCollection` 클래스는 추가적으로 다음 메소드를 포함합니다.
 

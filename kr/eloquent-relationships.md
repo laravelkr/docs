@@ -1120,7 +1120,7 @@ To query the existence of `MorphTo` relationships, you may use the `whereHasMorp
     
 You may use the `$type` parameter to add different constraints depending on the related model:
 
-`$type` 파라메터를 사용하여 관련 모델에 따라 다른 제약 조건을 추가 할 수 있습니다.
+`$type` 파라미터를 사용하여 관련 모델에 따라 다른 제약 조건을 추가 할 수 있습니다.
 
     use Illuminate\Database\Eloquent\Builder;
 

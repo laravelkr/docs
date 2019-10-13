@@ -97,7 +97,7 @@ You will often be generating URLs using the primary key of [Eloquent models](/do
 
 The `route` helper may also be used to generate URLs for routes with multiple parameters:
 
-`route` 헬퍼는 여러개의 파라메터를 가진 라우트의 URL를 생성하는 데도 사용할 수 있습니다.
+`route` 헬퍼는 여러개의 파라미터를 가진 라우트의 URL를 생성하는 데도 사용할 수 있습니다.
 
     Route::get('/post/{post}/comment/{comment}', function () {
         //

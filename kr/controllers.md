@@ -444,7 +444,7 @@ If your controller method is also expecting input from a route parameter, list y
 
 You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
 
-아래와 같이 `Illuminate\Http\Request` 를 타입힌트 하면서, 컨트롤러 메소드에서 정의하고있는 `id`에 해당하는 라우트 매개 변수에 액세스 할 수도 있습니다.
+아래와 같이 `Illuminate\Http\Request` 를 타입힌트 하면서, 컨트롤러 메소드에서 정의하고있는 `id`에 해당하는 라우트 파라미터에 액세스 할 수도 있습니다.
 
     <?php
 

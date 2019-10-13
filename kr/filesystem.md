@@ -274,7 +274,7 @@ For files stored using the `s3` you may create a temporary URL to a given file u
 
 If you need to specify additional [S3 request parameters](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests), you may pass the array of request parameters as the third argument to the `temporaryUrl` method:
 
-추가 [S3 요청 파라메터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라메터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라메터로 전달할 수 있습니다.
+추가 [S3 요청 파라미터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라미터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라미터로 전달할 수 있습니다.
 
     $url = Storage::temporaryUrl(
         'file.jpg',

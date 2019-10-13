@@ -527,7 +527,7 @@ Sometimes you may wish to skip the authorization prompt, such as when authorizin
 
 If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should first verify the `state` parameter against the value that was stored prior to the redirect. If the state parameter matches the consumer should issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request. In this example, we'll use the Guzzle HTTP library to make the `POST` request:
 
-사용자가 인증 요청을 승인하면, 해당 인증을 사용 할 애플리케이션으로 리다이렉션됩니다. 인증을 사용할 어플리케이션은 리다이렉션으로 자신에게 돌아오면, 다른 경로로 이동하기 전에 `state` 파라메터에 저장된 값을 확인해야합니다. state 파라메터가 사용자와 일치하면 애플리케이션에 `POST`로 액세스 토큰을 요청해야합니다. 이 요청에는 사용자가 인증 요청을 승인 할 때 애플리케이션에서 발행 한 승인 코드를 포함해야합니다. 이 예제에서는 Guzzle HTTP 라이브러리를 사용하여 `POST`로 요청합니다.
+사용자가 인증 요청을 승인하면, 해당 인증을 사용 할 애플리케이션으로 리다이렉션됩니다. 인증을 사용할 어플리케이션은 리다이렉션으로 자신에게 돌아오면, 다른 경로로 이동하기 전에 `state` 파라미터에 저장된 값을 확인해야합니다. state 파라미터가 사용자와 일치하면 애플리케이션에 `POST`로 액세스 토큰을 요청해야합니다. 이 요청에는 사용자가 인증 요청을 승인 할 때 애플리케이션에서 발행 한 승인 코드를 포함해야합니다. 이 예제에서는 Guzzle HTTP 라이브러리를 사용하여 `POST`로 요청합니다.
 
 (역자주: 원문을 직역하면 너무 이상한 듯 하여 이해하기 쉽도록 의역을 많이 하였습니다. 문장이 이상하다고 느껴지신다면 원문을 참고 바랍니다)
 

@@ -2497,7 +2497,7 @@
 <a name="creating-lazy-collections"></a>
 ### 지연 컬렉션 생성하기
 
-지연 컬렉션 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
+지연 컬렉션 인스턴스를 생성하기 위해서는 PHP 제너레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
 
     use Illuminate\Support\LazyCollection;
 

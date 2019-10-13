@@ -1032,7 +1032,7 @@ When accessing the records for a model, you may wish to limit your results based
 
 You may also specify an operator and count to further customize the query:
 
-또한 메소드에서 사용할 수 있는 연산자와 카운트 갯수를 지정하여 쿼리를 계속하여 커스터마이즈할 수 있습니다.
+또한 메소드에서 사용할 수 있는 연산자와 카운트 개수를 지정하여 쿼리를 계속하여 커스터마이즈할 수 있습니다.
 
     // Retrieve all posts that have three or more comments...
     $posts = App\Post::has('comments', '>=', 3)->get();
@@ -1148,11 +1148,11 @@ Instead of passing an array of possible polymorphic models, you may provide `*` 
 
 <a name="counting-related-models"></a>
 ### Counting Related Models
-### 연관된 모델의 갯수 확인하기-카운팅
+### 연관된 모델의 개수 확인하기-카운팅
 
 If you want to count the number of results from a relationship without actually loading them you may use the `withCount` method, which will place a `{relation}_count` column on your resulting models. For example:
 
-관계 결과의 갯수를 실제 레코드를 로딩하지 않고 알고자 한다면, `withCount` 메소드를 사용하여 건수는 결과 모델의 `{관계}_count` 컬럼에 위치하도록 할 수 있습니다. 예를 들어:
+관계 결과의 개수를 실제 레코드를 로딩하지 않고 알고자 한다면, `withCount` 메소드를 사용하여 건수는 결과 모델의 `{관계}_count` 컬럼에 위치하도록 할 수 있습니다. 예를 들어:
 
     $posts = App\Post::withCount('comments')->get();
 
@@ -1162,7 +1162,7 @@ If you want to count the number of results from a relationship without actually 
 
 You may add the "counts" for multiple relations as well as add constraints to the queries:
 
-다수의 관계에 대해서도 쿼리에 제약을 추가하여 "갯수"를 조회할 수 있습니다.
+다수의 관계에 대해서도 쿼리에 제약을 추가하여 "개수"를 조회할 수 있습니다.
 
     use Illuminate\Database\Eloquent\Builder;
 

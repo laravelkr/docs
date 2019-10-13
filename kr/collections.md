@@ -446,7 +446,7 @@ This method has the same signature as the [`contains`](#method-contains) method;
 
 The `count` method returns the total number of items in the collection:
 
-`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 갯수를 반환합니다.
+`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 개수를 반환합니다.
 
     $collection = collect([1, 2, 3, 4]);
 

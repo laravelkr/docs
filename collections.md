@@ -1242,7 +1242,7 @@
 <a name="method-mergerecursive"></a>
 #### `mergeRecursive()` {#collection-method}
 
-`mergeRecursive` 메소드는 주어진 배열이나 콜렉션을 재귀적으로 원래 콜렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
+`mergeRecursive` 메소드는 주어진 배열이나 컬렉션을 재귀적으로 원래 컬렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
@@ -1545,7 +1545,7 @@
 <a name="method-replace"></a>
 #### `replace()` {#collection-method}
 
-`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 콜렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
+`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 컬렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
 
     $collection = collect(['Taylor', 'Abigail', 'James']);
 

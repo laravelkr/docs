@@ -39,7 +39,7 @@
 
 #### `contains($key, $operator = null, $value = null)`
 
-`contains` 메소드는 주어진 모델 인스턴스가 콜렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
+`contains` 메소드는 주어진 모델 인스턴스가 컬렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
 
     $users->contains(1);
     
@@ -47,7 +47,7 @@
 
 #### `diff($items)`
 
-`diff` 메소드는 주어진 콜렉션에 존재하지 않는 모든 모델을 리턴합니다.
+`diff` 메소드는 주어진 컬렉션에 존재하지 않는 모든 모델을 리턴합니다.
 
     use App\User;
 
@@ -69,7 +69,7 @@
 
 #### `fresh($with = [])`
 
-`fresh` 메소드는 데이터베이스에서 콜렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
+`fresh` 메소드는 데이터베이스에서 컬렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
 
     $users = $users->fresh();
 
@@ -77,7 +77,7 @@
 
 #### `intersect($items)`
 
-`intersect` 메소드는 주어진 콜렉션에 존재하는 모든 모델을 반환합니다.
+`intersect` 메소드는 주어진 컬렉션에 존재하는 모든 모델을 반환합니다.
 
     use App\User;
 
@@ -93,7 +93,7 @@
 
 #### `loadMissing($relations)`
 
-`loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 콜렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
+`loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 컬렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
 
     $users->loadMissing('comments', 'posts');
 
@@ -101,7 +101,7 @@
 
 #### `modelKeys()`
 
-`modelKeys` 메소드는 콜렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
+`modelKeys` 메소드는 컬렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
 
     $users->modelKeys();
 
@@ -109,13 +109,13 @@
     
 #### `makeVisible($attributes)`
 
-`makeVisible` 메소드는 콜렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
+`makeVisible` 메소드는 컬렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
 
     $users = $users->makeVisible(['address', 'phone_number']);
 
 #### `makeHidden($attributes)`
 
-`makeHidden` 메소드는 콜렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
+`makeHidden` 메소드는 컬렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
 
     $users = $users->makeHidden(['address', 'phone_number']);
 
@@ -127,7 +127,7 @@
 
 #### `unique($key = null, $strict = false)`
 
-`unique` 메소드는 콜렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.
+`unique` 메소드는 컬렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.
 
     $users = $users->unique();
 

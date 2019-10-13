@@ -210,7 +210,7 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
         'posts' => 'PostController'
     ]);
 
-빠르게 `create` 혹은 `edit` 메서드들을 포함하지 않는 API 리소스 컨트롤러 생성을 원하신다면, `make:controller` 커맨드 명령에 `--api` 옵션을 사용하시면 됩니다.
+빠르게 `create` 혹은 `edit` 메소드들을 포함하지 않는 API 리소스 컨트롤러 생성을 원하신다면, `make:controller` 커맨드 명령에 `--api` 옵션을 사용하시면 됩니다.
 
     php artisan make:controller API/PhotoController --api
 

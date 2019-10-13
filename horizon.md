@@ -206,7 +206,7 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
 
 #### 수동으로 태그 지정하기
 
-queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의 `tags` 메서드를 정의 하면 됩니다.
+queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의 `tags` 메소드를 정의 하면 됩니다.
 
     class RenderVideo implements ShouldQueue
     {
@@ -226,7 +226,7 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 
 > **Note:** Horizon 을 사용해서 슬랙이나 SMS 알림을 보내도록 설정할 때에는, [알림 드라이버와 연결된 사전 준비사항](/docs/{{version}}/notifications)을 확인해야 합니다.
 
-대기 시간이 긴 Queue에 대한 알림을 받으려면 애플리케이션의 `AppServiceProvider`에서 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, 또는 `Horizon::routeSmsNotificationsTo` 메서드를 사용 하십시오:
+대기 시간이 긴 Queue에 대한 알림을 받으려면 애플리케이션의 `AppServiceProvider`에서 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, 또는 `Horizon::routeSmsNotificationsTo` 메소드를 사용 하십시오:
 
     Horizon::routeMailNotificationsTo('example@example.com');
     Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');

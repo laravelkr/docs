@@ -577,7 +577,7 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
 
 #### skip / take
 
-쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다.
+쿼리에서 반환되는 결과의 개수를 제한하거나, 주어진 개수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다.
 
     $users = DB::table('users')->skip(10)->take(5)->get();
 

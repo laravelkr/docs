@@ -74,7 +74,7 @@
 
 때로는 여러분은 항목들의 배열을 전달하면서 수동으로 pagination 인스턴스를 생성하고자 할 수도 있습니다. 필요에 따라 `Illuminate\Pagination\Paginator` 또는  `Illuminate\Pagination\LengthAwarePaginator` 인스턴스를 생성하여 구성할 수 있습니다.
 
-`Paginator` 클래스는 결과 셋에 설정되어있는 항목의 총수를 알 필요는 없습니다. 따라서 클래스 마지막 페이지의 인덱스를 가져오는 메소드를 가지고 있지 않습니다. 그에 반해서 `LengthAwarePaginator` 는 `Paginator` 과 거의 같은 인자를 전달 받지만, 결과 셋에 설정되어있는 전체 항목의 갯수를 필요로 합니다.
+`Paginator` 클래스는 결과 셋에 설정되어있는 항목의 총수를 알 필요는 없습니다. 따라서 클래스 마지막 페이지의 인덱스를 가져오는 메소드를 가지고 있지 않습니다. 그에 반해서 `LengthAwarePaginator` 는 `Paginator` 과 거의 같은 인자를 전달 받지만, 결과 셋에 설정되어있는 전체 항목의 개수를 필요로 합니다.
 
 다시 말해, `Paginator` 는 쿼리 빌더와 Eloquent에 대한 `simplePaginate` 메소드에 대응 되고, `LengthAwarePaginator` 는 paginate 에 대응하고 있습니다.
 

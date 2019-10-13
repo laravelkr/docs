@@ -868,7 +868,7 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
 
 > {note} Eloquent를 통해 대량 업데이트를 할 때 업데이트 된 모델의 `saved` 및 `updated` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
 
-이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 맵핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
+이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 매핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
 
     <?php
 

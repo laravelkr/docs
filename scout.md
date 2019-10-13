@@ -279,7 +279,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 <a name="searching"></a>
 ## 검색하기
 
-`search` 메소드를 사용하여 모델을 검색할 수 있습니다. search 메소드는 모델을 검색할 때 사용될 단일 스트링을 파라메터로 가집니다. 그런 다음, 주어진 검색 쿼리와 일치하는 엘로퀀트 모델을 조회하기 위하여 `get` 메소드를 연결해서 사용해야 합니다.
+`search` 메소드를 사용하여 모델을 검색할 수 있습니다. search 메소드는 모델을 검색할 때 사용될 단일 스트링을 파라미터로 가집니다. 그런 다음, 주어진 검색 쿼리와 일치하는 엘로퀀트 모델을 조회하기 위하여 `get` 메소드를 연결해서 사용해야 합니다.
 
     $orders = App\Order::search('Star Trek')->get();
 
@@ -315,7 +315,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     $orders = App\Order::search('Star Trek')->paginate();
 
-`paginate` 메소드의 첫번째 파라메터를 사용하여 한 페이지에 검색할 모델의 수량을 지정할 수도 있습니다.
+`paginate` 메소드의 첫번째 파라미터를 사용하여 한 페이지에 검색할 모델의 수량을 지정할 수도 있습니다.
 
     $orders = App\Order::search('Star Trek')->paginate(15);
 

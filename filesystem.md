@@ -194,7 +194,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
         'file.jpg', now()->addMinutes(5)
     );
 
-추가 [S3 요청 파라메터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라메터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라메터로 전달할 수 있습니다.
+추가 [S3 요청 파라미터](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)를 지정해야하는 경우 요청 파라미터 배열을 `temporaryUrl` 메소드의 인수의 세 번째 파라미터로 전달할 수 있습니다.
 
     $url = Storage::temporaryUrl(
         'file.jpg',

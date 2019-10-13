@@ -375,7 +375,7 @@ The `update` method will receive a `User` and a `Post` instance as its arguments
 
 You may continue to define additional methods on the policy as needed for the various actions it authorizes. For example, you might define `view` or `delete` methods to authorize various `Post` actions, but remember you are free to give your policy methods any name you like.
 
-Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메서드를 policy 클래스에 계속해서 정의하면 됩니다. 예를 들어 `Post`에 권한을 확인하는 `view`나 `delete` 메소드를 정의할 수도 있습니다. Policy의 이름은 여러분이 원하는 대로 자유롭게 작성할 수 있습니다.
+Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메소드를 policy 클래스에 계속해서 정의하면 됩니다. 예를 들어 `Post`에 권한을 확인하는 `view`나 `delete` 메소드를 정의할 수도 있습니다. Policy의 이름은 여러분이 원하는 대로 자유롭게 작성할 수 있습니다.
 
 > {tip} If you used the `--model` option when generating your policy via the Artisan console, it will already contain methods for the `view`, `create`, `update`, `delete`, `restore`, and `forceDelete` actions.
 

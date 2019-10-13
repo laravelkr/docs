@@ -1521,7 +1521,7 @@ By default, pages have three methods: `url`, `assert`, and `elements`. We will d
 
 The `url` method should return the path of the URL that represents the page. Dusk will use this URL when navigating to the page in the browser:
 
-`url` 메서드는 페이지를 나타내는 URL의 경로를 반환해야합니다. Dusk는 브라우저의 페이지로 이동할 때 이 URL을 사용합니다.
+`url` 메소드는 페이지를 나타내는 URL의 경로를 반환해야합니다. Dusk는 브라우저의 페이지로 이동할 때 이 URL을 사용합니다.
 
     /**
      * Get the URL for the page.
@@ -1538,7 +1538,7 @@ The `url` method should return the path of the URL that represents the page. Dus
 
 The `assert` method may make any assertions necessary to verify that the browser is actually on the given page. Completing this method is not necessary; however, you are free to make these assertions if you wish. These assertions will be run automatically when navigating to the page:
 
-`assert` 메소드는 브라우저가 주어진 페이지에 실제로 접속해 있는지 확인하는 데 필요한 assertion을 만들 수 있습니다. 반드시 이 메서드는 작성할 필요는 없습니다. 그러나 원할 경우 자유롭게 이러한 assertion을 할 수 있습니다. 이러한 assertion은 페이지 탐색시 자동으로 실행됩니다.
+`assert` 메소드는 브라우저가 주어진 페이지에 실제로 접속해 있는지 확인하는 데 필요한 assertion을 만들 수 있습니다. 반드시 이 메소드는 작성할 필요는 없습니다. 그러나 원할 경우 자유롭게 이러한 assertion을 할 수 있습니다. 이러한 assertion은 페이지 탐색시 자동으로 실행됩니다.
 
     /**
      * Assert that the browser is on the page.
@@ -1653,7 +1653,7 @@ In addition to the default methods defined on pages, you may define additional m
 
 Once the method has been defined, you may use it within any test that utilizes the page. The browser instance will automatically be passed to the page method:
 
-메소드가 정의되면 페이지를 사용하는 테스트 내에서 메소드를 사용할 수 있습니다. 브라우저 인스턴스가 자동으로 페이지 메서드에 전달됩니다.
+메소드가 정의되면 페이지를 사용하는 테스트 내에서 메소드를 사용할 수 있습니다. 브라우저 인스턴스가 자동으로 페이지 메소드에 전달됩니다.
 
     use Tests\Browser\Pages\Dashboard;
 

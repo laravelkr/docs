@@ -173,7 +173,7 @@ You may stop further chunks from being processed by returning `false` from the `
 
 If you are updating database records while chunking results, your chunk results could change in unexpected ways. So, when updating records while chunking, it is always best to use the `chunkById` method instead. This method will automatically paginate the results based on the record's primary key:
 
-결과를 청킹하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경 될 수 있습니다. 따라서 청킹 중 레코드를 업데이트 할 때는 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메서드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징합니다.
+결과를 청킹하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경 될 수 있습니다. 따라서 청킹 중 레코드를 업데이트 할 때는 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메소드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징합니다.
 
     DB::table('users')->where('active', false)
         ->chunkById(100, function ($users) {
@@ -866,7 +866,7 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
 
 > {note} When using PostgreSQL the `insertGetId` method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the column name as the second parameter to the `insertGetId` method.
 
-> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 컬름 이름을 전달 하십시오.
+> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬름 이름을 전달 하십시오.
 
 <a name="updates"></a>
 ## Updates

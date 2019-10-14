@@ -439,7 +439,7 @@ Stripe와 Braintree 모두 Webhook을 통해서 애플리케이션에 다양한 
 
 > {note} 라우트를 등록하고나서, Stripe 설정 패널에서 webhook URL을 설정하십시오.
 
-By default, this controller will automatically handle cancelling subscriptions that have too many failed charges (as defined by your Stripe settings); however, as we'll soon discover, you can extend this controller to handle any webhook event you like.
+기본적으로, 이 컨트롤러는 결제 실패가 너무 많은 경우(Stripe 설정에서 정의된) 자동으로 구독을 취소처리 합니다. 이 컨트롤러를 확장하여 원하는 webhook 이벤트를 처리하는 것을 곧 살펴보겠습니다.
 
 #### Webhook & CSRF 보호
 

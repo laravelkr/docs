@@ -122,6 +122,7 @@ This command should be used on fresh applications and will install a layout view
 ### Views-뷰
 
 As mentioned in the previous section, the `laravel/ui` package's `php artisan ui vue --auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+
 앞서 언급하였듯이, `laravel/ui` 패키지의  `php artisan ui vue --auth` 명령어는 인증에서 필요로 하는 모든 뷰를 생성하여 `resources/views/auth` 디렉토리에 위치시킬 것입니다.
 
 The `ui` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.

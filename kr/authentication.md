@@ -121,13 +121,12 @@ This command should be used on fresh applications and will install a layout view
 ### Views
 ### Views-뷰
 
-As mentioned in the previous section, the `php artisan make:auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+As mentioned in the previous section, the `laravel/ui` package's `php artisan ui vue --auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+앞서 언급하였듯이, `laravel/ui` 패키지의  `php artisan ui vue --auth` 명령어는 인증에서 필요로 하는 모든 뷰를 생성하여 `resources/views/auth` 디렉토리에 위치시킬 것입니다.
 
-앞서 언급하였듯이, `php artisan make:auth` 명령어는 인증에서 필요로 하는 모든 뷰를 생성하여 `resources/views/auth` 디렉토리에 위치시킬 것입니다.
+The `ui` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
 
-The `make:auth` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
-
-`make:auth` 명령어는 또한 애플리케이션의 베이스 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 생성할 것입니다. 이 모든 뷰 파일들은 Bootstrap CSS 프레임워크를 사용하지만, 여러분이 원하는 경우 자유롭게 변경할 수 있습니다.
+`ui` 명령어는 또한 애플리케이션의 베이스 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 생성할 것입니다. 이 모든 뷰 파일들은 Bootstrap CSS 프레임워크를 사용하지만, 여러분이 원하는 경우 자유롭게 변경할 수 있습니다.
 
 <a name="included-authenticating"></a>
 ### Authenticating

@@ -67,7 +67,7 @@ Database tables are often related to one another. For example, a blog post may h
 - [One To Many](#one-to-many)
 - [1:*(일대다) 관계](#one-to-many)
 - [Many To Many](#many-to-many)
-- [*:*(대다다) 관계](#many-to-many)
+- [\*:*(다대다) 관계](#many-to-many)
 - [Has Many Through](#has-many-through)
 - [연결을 통한 다수를 가지는 관계](#has-many-through)
 - [One To One (Polymorphic)](#one-to-one-polymorphic-relations)
@@ -75,7 +75,7 @@ Database tables are often related to one another. For example, a blog post may h
 - [One To Many (Polymorphic)](#one-to-many-polymorphic-relations)
 - [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
 - [Many To Many (Polymorphic)](#many-to-many-polymorphic-relations)
-- [*:*(대다다) (다형성)](#many-to-many-polymorphic-relations)
+- [\*:*(다대다) (다형성)](#many-to-many-polymorphic-relations)
 
 <a name="defining-relationships"></a>
 ## Defining Relationships

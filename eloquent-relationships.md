@@ -31,7 +31,7 @@
 
 - [1:1(일대일) 관계](#one-to-one)
 - [1:*(일대다) 관계](#one-to-many)
-- [*:*(대다다) 관계](#many-to-many)
+- [\*:*(다대다) 관계](#many-to-many)
 - [연결을 통한 다수를 가지는 관계](#has-many-through)
 - [다형성 관계](#polymorphic-relations)
 - [다대다 다형성 관계](#many-to-many-polymorphic-relations)

@@ -56,7 +56,7 @@ URI를 CSRF 보호에서 제외시키고 싶을 때가 있습니다. 예를 들�
 <a name="csrf-x-csrf-token"></a>
 ## X-CSRF-TOKEN
 
-POST 파라메터으로 넘어오는 CSRF 토큰을 체크하는 것에 더하여, `VerifyCsrfToken` 미들웨어는 `X-CSRF-TOKEN` request-요청 헤더 또한 확인합니다. 예를들자면, HTML `meta` 태그에 토큰을 저장할 수 있습니다.
+POST 파라미터로 넘어오는 CSRF 토큰을 체크하는 것에 더하여, `VerifyCsrfToken` 미들웨어는 `X-CSRF-TOKEN` request-요청 헤더 또한 확인합니다. 예를들자면, HTML `meta` 태그에 토큰을 저장할 수 있습니다.
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

@@ -290,7 +290,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
         }
     });
 
-메소드의 첫번째 인자는 "chunk" 메소드에서 받아 들일 레코드의 갯수 입니다. 두번째 인자는 클로저로 데이터베이스로 부터 분할된 데이터들을 전달 받습니다. 데이터베이스 쿼리는 각가의 분할된 레코드들을 조회하여 클로저에 전달하도록 실행될 것입니다.
+메소드의 첫번째 인자는 "chunk" 메소드에서 받아 들일 레코드의 개수 입니다. 두번째 인자는 클로저로 데이터베이스로 부터 분할된 데이터들을 전달 받습니다. 데이터베이스 쿼리는 각가의 분할된 레코드들을 조회하여 클로저에 전달하도록 실행될 것입니다.
 
 #### 커서 사용하기
 
@@ -300,7 +300,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
         //
     }
 
-`cursor` 는 `Illuminate\Support\LazyCollection` 인스턴스를 반환합니다. [Lazy collections](/docs/{{version}}/collections#lazy-collections) 을 사용하면 하나의 모델을 메모리에 불러오는동안 일반적인 많은 라라벨 컬렉션 메서드를 사용할 수 있습니다.
+`cursor` 는 `Illuminate\Support\LazyCollection` 인스턴스를 반환합니다. [Lazy collections](/docs/{{version}}/collections#lazy-collections) 을 사용하면 하나의 모델을 메모리에 불러오는동안 일반적인 많은 라라벨 컬렉션 메소드를 사용할 수 있습니다.
 
     $users = App\User::cursor()->filter(function ($user) {
         return $user->id > 500;
@@ -317,7 +317,7 @@ Eloquent의 `all` 메소드는 모델의 테이블에서 모든 결과를 반환
 
 Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 관련 테이블에 있는 정보를 가져올 수 있습니다. 예를 들어, 우리는 목적지까지 가기 위해 `destinations` 테이블과 `flights` 테이블이 있다고 가정 해봅시다. `flights` 테이블에는 항공편이 목적지에 도착한 시점을 나타내는 `arrived_at` 열이 있습니다.
 
-서브쿼리 메서드중에 `select` 와 `addSelect` 는 단일 쿼리를 사용하여 가장 최근에 목적지에 도착한 항공편의 이름과 목적지를 모두 선택할 수 있습니다.
+서브쿼리 메소드 중에 `select` 와 `addSelect` 는 단일 쿼리를 사용하여 가장 최근에 목적지에 도착한 항공편의 이름과 목적지를 모두 선택할 수 있습니다.
 
     use App\Flight;
     use App\Destination;
@@ -816,7 +816,7 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
         $query->active();
     })->get();
 
-그러나, 이것은 번거로울 수 있기 때문에, 라라벨은 클로져를 사용하지 않고도 이러한 스코프를 함께 유용하게 사용할 수 있는 `orWhere` 메서드를 제공합니다.
+그러나, 이것은 번거로울 수 있기 때문에, 라라벨은 클로져를 사용하지 않고도 이러한 스코프를 함께 유용하게 사용할 수 있는 `orWhere` 메소드를 제공합니다.
 
     $users = App\User::popular()->orWhere->active()->get();
 
@@ -868,7 +868,7 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
 
 > {note} Eloquent를 통해 대량 업데이트를 할 때 업데이트 된 모델의 `saved` 및 `updated` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
 
-이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 맵핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
+이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 매핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
 
     <?php
 

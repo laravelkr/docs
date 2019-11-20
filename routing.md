@@ -82,7 +82,7 @@
 
     Route::redirect('/here', '/there', 301);
 
-`Route::permanentRedirect` 메서드를 사용하여 `301` 상태 코드를 반환 할 수 있습니다.
+`Route::permanentRedirect` 메소드를 사용하여 `301` 상태 코드를 반환 할 수 있습니다.
 
     Route::permanentRedirect('/here', '/there');
 

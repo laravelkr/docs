@@ -142,7 +142,7 @@ response 인스턴스의 `cookie` 메소드는 response 에 쿠키를 손쉽게 
 
     return redirect()->route('profile', ['id' => 1]);
 
-#### Eloquent 모델을 통한 매개 변수 채우기
+#### Eloquent 모델을 통한 파라미터 채우기
 
 Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 모델 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다.
 

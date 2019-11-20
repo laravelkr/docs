@@ -121,7 +121,7 @@
         return false;
     });
 
-결과를 청킹하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경 될 수 있습니다. 따라서 청킹 중 레코드를 업데이트 할 때는 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메서드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징합니다.
+결과를 청킹하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경 될 수 있습니다. 따라서 청킹 중 레코드를 업데이트 할 때는 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메소드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징합니다.
 
     DB::table('users')->where('active', false)
         ->chunkById(100, function ($users) {
@@ -577,7 +577,7 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
 
 #### skip / take
 
-쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다.
+쿼리에서 반환되는 결과의 개수를 제한하거나, 주어진 개수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다.
 
     $users = DB::table('users')->skip(10)->take(5)->get();
 
@@ -645,7 +645,7 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메서드의 두 번째 인자로 컬름 이름을 전달 하십시오.
+> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬름 이름을 전달 하십시오.
 
 <a name="updates"></a>
 ## Updates-수정

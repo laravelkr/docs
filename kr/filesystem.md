@@ -20,11 +20,11 @@ Laravel provides a wonderful filesystem abstraction thanks to the [Flysystem](ht
 
 The filesystem configuration file is located at `config/filesystems.php`. Within this file you may configure all of your "disks". Each disk represents a particular storage driver and storage location. Example configurations for each supported driver is included in the configuration file. So, simply modify the configuration to reflect your storage preferences and credentials!
 
-파일시스템의 설정 파일은 `config/filesystems.php` 파일에 위치하고 있습니다. 이 파일 안에서 여러분은 여러분의 모든 “디스크”에 대해 설정할 수 있습니다. 각각의 디스크는 개별 스토리지 드라이버와 스토리지의 위치를 나타냅니다. 설정 파일에는 각각 지원하고 있는 드라이버에 대한 예제 설정이 들어 있습니다. 따라서 스토리지 구성 및 인증정보를 반영하도록 간단하게 설정을 수정할 수 있습니다. 
+파일시스템의 설정 파일은 `config/filesystems.php` 파일에 위치하고 있습니다. 이 파일 안에서 여러분은 여러분의 모든 “디스크”에 대해 설정할 수 있습니다. 각각의 디스크는 개별 스토리지 드라이버와 스토리지의 위치를 나타냅니다. 설정 파일에는 각각 지원하고 있는 드라이버에 대한 예제 설정이 들어 있습니다. 따라서 스토리지 구성 및 인증정보를 반영하도록 간단하게 설정을 수정할 수 있습니다.
 
 Before using the S3 or Rackspace drivers, you will need to install the appropriate package via Composer:
 
-S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하는 패키지를 컴포저를 통해서 설치해야 합니다. 
+S3 또는 Rackspace 드라이버를 사용하기 전에 여러분은 해당하는 패키지를 컴포저를 통해서 설치해야 합니다.
 
 - Amazon S3: `league/flysystem-aws-s3-v2 ~1.0`
 - Rackspace: `league/flysystem-rackspace ~1.0`
@@ -45,7 +45,7 @@ When using the `local` driver, note that all file operations are relative to the
 
 The `Storage` facade may be used to interact with any of your configured disks. Alternatively, you may type-hint the `Illuminate\Contracts\Filesystem\Factory` contract on any class that is resolved via the Laravel [service container](/docs/{{version}}/container).
 
-`Storage` 파사드를 사용하여 설정된 디스크에 대한 작업을 처리할 수 있습니다. 또한 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결될 수 있도록 `Illuminate\Contracts\Filesystem\Factory` contract를 타입힌트에 사용할 수도 있습니다. 
+`Storage` 파사드를 사용하여 설정된 디스크에 대한 작업을 처리할 수 있습니다. 또한 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결될 수 있도록 `Illuminate\Contracts\Filesystem\Factory` contract를 타입힌트에 사용할 수도 있습니다.
 
 #### Retrieving A Particular Disk
 #### 지정된 디스크 객체 반환하기
@@ -146,7 +146,7 @@ The `Storage` facade may be used to interact with any of your configured disks. 
 
 Laravel's Flysystem integration provides drivers for several "drivers" out of the box; however, Flysystem is not limited to these and has adapters for many other storage systems. You can create a custom driver if you want to use one of these additional adapters in your Laravel application. Don't worry, it's not too hard!
 
-라라벨의 통합 파일시스템은 처음부터 다양한 “드라이버”가 제공됩니다. 하지만 파일시스템은 이러한 드라이버에 제한적이지 않고, 다은 스토리지 시스템에도 적용할 수 있습니다. 여러분은 라라벨 애플리케이션에 적합한 스토리지 시스템에 대한 사용자 정의 드라이버를 생성할 수 있습니다. 걱정마십시오. 그렇게 어렵지 않습니다. 
+라라벨의 통합 파일시스템은 처음부터 다양한 “드라이버”가 제공됩니다. 하지만 파일시스템은 이러한 드라이버에 제한적이지 않고, 다은 스토리지 시스템에도 적용할 수 있습니다. 여러분은 라라벨 애플리케이션에 적합한 스토리지 시스템에 대한 사용자 정의 드라이버를 생성할 수 있습니다. 걱정마십시오. 그렇게 어렵지 않습니다.
 
 In order to set up the custom filesystem you will need to create a service provider such as `DropboxFilesystemServiceProvider`. In the provider's `boot` method, you can inject an instance of the `Illuminate\Contracts\Filesystem\Factory` contract and call the `extend` method of the injected instance. Alternatively, you may use the `Disk` facade's `extend` method.
 
@@ -154,11 +154,11 @@ In order to set up the custom filesystem you will need to create a service provi
 
 The first argument of the `extend` method is the name of the driver and the second is a Closure that receives the `$app` and `$config` variables. The resolver Closure must return an instance of `League\Flysystem\Filesystem`.
 
-`extens` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다. 
+`extend` 메소드의 첫번째 인자는 드라이버의 이름이고, 두번째는 `$app` 과 `$config` 변수를 전달 받는 클로저가 됩니다. 이 클로저는 `League\Flysystem\Filesystem` 에 대한 인스턴스를 반환해야 합니다.
 
 > **Note:** The $config variable will already contain the values defined in `config/filesystems.php` for the specified disk.
 
-> **참고** $config 변수는 지정된 디스크를 위한 `config/filesystems.php` 파일에 정의된 값을 포함할 것입니다. 
+> **참고** $config 변수는 지정된 디스크를 위한 `config/filesystems.php` 파일에 정의된 값을 포함할 것입니다.
 
 #### Dropbox Example
 #### 드랍박스 예제

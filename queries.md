@@ -451,7 +451,7 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
 <a name="where-exists-clauses"></a>
 ### 존재여부를 판단하는(Exists) where 절
 
-`whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 저으이할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다:
+`whereExists` 메소드는 SQL 쿼리에 `where exists` 를 작성할 수 있도록 합니다. `whereExists` 메소드는 쿼리에 "exist" 구문을 정의할 수 있도록 쿼리 빌더를 인자로 받아들이는 `Closure`를 인자로 받아들입니다:
 
     DB::table('users')
                 ->whereExists(function ($query) {

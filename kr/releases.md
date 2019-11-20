@@ -50,7 +50,7 @@ For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and se
 
 Laravel 6.0 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
 
-라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, lazy 콜렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
 ### Semantic Versioning
 ### 유의적 버젼
@@ -200,19 +200,19 @@ job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그
     }
 
 ### Lazy Collections
-### Lazy 콜렉션
+### 지연 컬렉션
 
 _Lazy collections were implemented by [Joseph Silber](https://github.com/JosephSilber)_.
 
-_Lazy 콜렉션은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
+_지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
 
 Many developers already enjoy Laravel's powerful [Collection methods](https://laravel.com/docs/collections). To supplement the already powerful `Collection` class, Laravel 6.0 introduces a `LazyCollection`, which leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
 
-많은 개발자들은 이미 라라벨의 강력한 [콜렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 Lazy 콜렉션을 도입했습니다. 
+많은 개발자들은 이미 라라벨의 강력한 [컬렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
 
 For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
 
-예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 콜렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. Lazy 콜렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
+예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 컬렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. 지연 컬렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;
@@ -234,7 +234,7 @@ For example, imagine your application needs to process a multi-gigabyte log file
 
 Or, imagine you need to iterate through 10,000 Eloquent models. When using traditional Laravel collections, all 10,000 Eloquent models must be loaded into memory at the same time:
 
-혹은 당신이 만개의 엘로퀜트 모델을 순회할 때를 가정해봅시다. 기존의 라라벨 콜렉션을 이용했다면 전체 만개의 엘로퀜트 모델을 매번 메모리에 읽어와야 할 것입니다.
+혹은 당신이 만개의 엘로퀜트 모델을 순회할 때를 가정해봅시다. 기존의 라라벨 컬렉션을 이용했다면 전체 만개의 엘로퀜트 모델을 매번 메모리에 읽어와야 할 것입니다.
 
     $users = App\User::all()->filter(function ($user) {
         return $user->id > 500;

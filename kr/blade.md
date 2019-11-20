@@ -129,7 +129,7 @@ In this example, the `sidebar` section is utilizing the `@@parent` directive to 
 
 The `@yield` directive also accepts a default value as its second parameter. This value will be rendered if the section being yielded is undefined:
 
-또한 `@yield` 지시어는 두 번째 매개 변수를 통해 기본값을 입력받습니다. 해당 섹션이 정의되지 않을 경우 이 값이 렌더링됩니다.
+또한 `@yield` 지시어는 두 번째 파라미터를 통해 기본값을 입력받습니다. 해당 섹션이 정의되지 않을 경우 이 값이 렌더링됩니다.
 
     @yield('content', View::make('view.name'))
 

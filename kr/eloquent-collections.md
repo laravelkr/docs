@@ -49,7 +49,7 @@ However, collections are much more powerful than arrays and expose a variety of 
 
 All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
-모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메서드를 상속받습니다.
+모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
 
 In addition, the `Illuminate\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Illuminate\Database\Eloquent\Collection` instances; however, some methods return a base `Illuminate\Support\Collection` instance.
 
@@ -60,7 +60,7 @@ In addition, the `Illuminate\Database\Eloquent\Collection` class provides a supe
 
 The `contains` method may be used to determine if a given model instance is contained by the collection. This method accepts a primary key or a model instance:
 
-`contains` 메소드는 주어진 모델 인스턴스가 콜렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
+`contains` 메소드는 주어진 모델 인스턴스가 컬렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
 
     $users->contains(1);
     
@@ -71,7 +71,7 @@ The `contains` method may be used to determine if a given model instance is cont
 
 The `diff` method returns all of the models that are not present in the given collection:
 
-`diff` 메소드는 주어진 콜렉션에 존재하지 않는 모든 모델을 리턴합니다.
+`diff` 메소드는 주어진 컬렉션에 존재하지 않는 모든 모델을 리턴합니다.
 
     use App\User;
 
@@ -102,7 +102,7 @@ The `find` method finds a model that has a given primary key. If `$key` is a mod
 
 The `fresh` method retrieves a fresh instance of each model in the collection from the database. In addition, any specified relationships will be eager loaded:
 
-`fresh` 메소드는 데이터베이스에서 콜렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
+`fresh` 메소드는 데이터베이스에서 컬렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
 
     $users = $users->fresh();
 
@@ -113,7 +113,7 @@ The `fresh` method retrieves a fresh instance of each model in the collection fr
 
 The `intersect` method returns all of the models that are also present in the given collection:
 
-`intersect` 메소드는 주어진 콜렉션에 존재하는 모든 모델을 반환합니다.
+`intersect` 메소드는 주어진 컬렉션에 존재하는 모든 모델을 반환합니다.
 
     use App\User;
 
@@ -135,7 +135,7 @@ The `load` method eager loads the given relationships for all models in the coll
 
 The `loadMissing` method eager loads the given relationships for all models in the collection if the relationships are not already loaded:
 
-`loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 콜렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
+`loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 컬렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
 
     $users->loadMissing('comments', 'posts');
 
@@ -146,7 +146,7 @@ The `loadMissing` method eager loads the given relationships for all models in t
 
 The `modelKeys` method returns the primary keys for all models in the collection:
 
-`modelKeys` 메소드는 콜렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
+`modelKeys` 메소드는 컬렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
 
     $users->modelKeys();
 
@@ -157,7 +157,7 @@ The `modelKeys` method returns the primary keys for all models in the collection
 
 The `makeVisible` method makes visible attributes that are typically "hidden" on each model in the collection:
 
-`makeVisible` 메소드는 콜렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
+`makeVisible` 메소드는 컬렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
 
     $users = $users->makeVisible(['address', 'phone_number']);
 
@@ -166,7 +166,7 @@ The `makeVisible` method makes visible attributes that are typically "hidden" on
 
 The `makeHidden` method hides attributes that are typically "visible" on each model in the collection:
 
-`makeHidden` 메소드는 콜렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
+`makeHidden` 메소드는 컬렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
 
     $users = $users->makeHidden(['address', 'phone_number']);
 
@@ -184,7 +184,7 @@ The `only` method returns all of the models that have the given primary keys:
 
 The `unique` method returns all of the unique models in the collection. Any models of the same type with the same primary key as another model in the collection are removed.
 
-`unique` 메소드는 콜렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.
+`unique` 메소드는 컬렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.
 
     $users = $users->unique();
 

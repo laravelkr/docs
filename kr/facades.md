@@ -144,7 +144,7 @@ In a Laravel application, a facade is a class that provides access to an object 
 
 The `Facade` base class makes use of the `__callStatic()` magic-method to defer calls from your facade to an object resolved from the container. In the example below, a call is made to the Laravel cache system. By glancing at this code, one might assume that the static method `get` is being called on the `Cache` class:
 
-`Facade` 기본 클래스는 `__callStatic()` 매직 매소드를 사용하여 여러분이 작성한 파사드에 대한 호출을 컨테이너에서 의존성이 해결된 객체로 전달합니다. 다음의 예제에서 라라벨의 캐시 시스템을 호출합니다. 이 코드를 보자면, 아마 `Cache` 클래스의 `get` static 메소드를 호출한다고 생각할 수 있습니다.
+`Facade` 기본 클래스는 `__callStatic()` 매직 메소드를 사용하여 여러분이 작성한 파사드에 대한 호출을 컨테이너에서 의존성이 해결된 객체로 전달합니다. 다음의 예제에서 라라벨의 캐시 시스템을 호출합니다. 이 코드를 보자면, 아마 `Cache` 클래스의 `get` static 메소드를 호출한다고 생각할 수 있습니다.
 
     <?php
 

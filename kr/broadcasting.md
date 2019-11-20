@@ -424,7 +424,7 @@ If you want to broadcast your event using the `sync` queue instead of the defaul
 
 Sometimes you want to broadcast your event only if a given condition is true. You may define these conditions by adding a `broadcastWhen` method to your event class:
 
-때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메서드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다.
+때로는 특정 조건이 참일 경우만 이벤트를 브로드캐스팅하고 싶은 경우가 있습니다. 이러한 경우 이벤트 클래스에 `broadcastWhen` 메소드를 추가하여 브로드캐스팅을 실행 시키는 조건을 정의 할 수 있습니다.
 
     /**
      * Determine if this event should broadcast.
@@ -539,7 +539,7 @@ Next, register your channel in your `routes/channels.php` file:
 
 Finally, you may place the authorization logic for your channel in the channel class' `join` method. This `join` method will house the same logic you would have typically placed in your channel authorization Closure. You may also take advantage of channel model binding:
 
-마지막으로, 채널 클래스의 `join` 메서드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메서드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다.
+마지막으로, 채널 클래스의 `join` 메소드에 해당 채널 인증에 관련된 로직을 작성 할 수 있습니다. `join` 메소드는 일반적으로 채널 승인 클로저에 작성하던 로직과 동일한 로직이 작성됩니다. 채널 모델 바인딩을 활용할 수도 있습니다.
 
     <?php
 
@@ -618,7 +618,7 @@ However, remember that we also broadcast the task's creation. If your JavaScript
 
 > {note} Your event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
 
-> {note} `toOthers` 메서드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
+> {note} `toOthers` 메소드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
 
 #### Configuration
 #### 설정

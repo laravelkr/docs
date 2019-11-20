@@ -187,7 +187,7 @@ To run a basic query, you may use the `select` method on the `DB` facade:
 
 The first argument passed to the `select` method is the raw SQL query, while the second argument is any parameter bindings that need to be bound to the query. Typically, these are the values of the `where` clause constraints. Parameter binding provides protection against SQL injection.
 
-`select` 메소드의 첫번째 인자는 raw SQL 쿼리이고, 두번째는 쿼리에 바이딩될 매개변수 입니다. 일반적으로 매개 변수들은 `where` 절을 위한 값들입니다. 매개변수 바인딩은 SQL 인젝션을 방지하기 위해 제공됩니다.
+`select` 메소드의 첫번째 인자는 raw SQL 쿼리이고, 두번째는 쿼리에 바이딩될 파라미터 입니다. 일반적으로 파라미터들은 `where` 절을 위한 값들입니다. 파라미터 바인딩은 SQL 인젝션을 방지하기 위해 제공됩니다.
 
 The `select` method will always return an `array` of results. Each result within the array will be a PHP `stdClass` object, allowing you to access the values of the results:
 
@@ -203,7 +203,7 @@ The `select` method will always return an `array` of results. Each result within
 
 Instead of using `?` to represent your parameter bindings, you may execute a query using named bindings:
 
-`?` 를 사용하는 매개변수 바인딩 대신에, 이름을 지정한 바인딩을 사용한 쿼리를 실행시킬 수 있습니다.
+`?` 를 사용하는 파라미터 바인딩 대신에, 이름을 지정한 바인딩을 사용한 쿼리를 실행시킬 수 있습니다.
 
     $results = DB::select('select * from users where id = :id', ['id' => 1]);
 
@@ -221,7 +221,7 @@ To execute an `insert` statement, you may use the `insert` method on the `DB` fa
 
 The `update` method should be used to update existing records in the database. The number of rows affected by the statement will be returned:
 
-`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 갯수가 반환될 것입니다.
+`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 개수가 반환될 것입니다.
 
     $affected = DB::update('update users set votes = 100 where name = ?', ['John']);
 
@@ -230,7 +230,7 @@ The `update` method should be used to update existing records in the database. T
 
 The `delete` method should be used to delete records from the database. Like `update`, the number of rows affected will be returned:
 
-`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다.
+`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 개수가 반환됩니다.
 
     $deleted = DB::delete('delete from users');
 

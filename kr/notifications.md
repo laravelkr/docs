@@ -456,7 +456,7 @@ To generate a notification with a corresponding Markdown template, you may use t
 
 Like all other mail notifications, notifications that use Markdown templates should define a `toMail` method on their notification class. However, instead of using the `line` and `action` methods to construct the notification, use the `markdown` method to specify the name of the Markdown template that should be used:
 
-기타 메일 알림과 마찬가지로, 마크다운 템플릿을 사용하는 알림 클래스는 `toMail` 메소드를 정의해야 합니다. 하지만, `line` 과 `action` 메소드를 사용하여 알림을 만드는 대신에, 사용할 마크다운 템플릿 이름을 지정하기 위해서 `markdown` 메서드를 사용합니다.
+기타 메일 알림과 마찬가지로, 마크다운 템플릿을 사용하는 알림 클래스는 `toMail` 메소드를 정의해야 합니다. 하지만, `line` 과 `action` 메소드를 사용하여 알림을 만드는 대신에, 사용할 마크다운 템플릿 이름을 지정하기 위해서 `markdown` 메소드를 사용합니다.
 
     /**
      * Get the mail representation of the notification.

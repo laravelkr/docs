@@ -915,7 +915,7 @@ If the site already exists, make sure to run `vagrant provision` after updating 
 
 To profile a web request, add `xhgui=on` as a query parameter to a request. XHGui will automatically attach a cookie to the response so that subsequent requests do not need the query string value. You may view your application profile results by browsing to `http://your-site.test/xhgui`.
 
-웹 요청을 프로파일링하려면 쿼리 파라메터로 `xhgui=on`을 요청에 추가하십시오. XHGui는 응답에 쿠키를 자동으로 첨부하여 이후 요청에는 쿼리 문자열 값이 필요하지 않습니다. `http://your-site.test/xhgui`로 이동하여 애플리케이션 프로필 결과를 볼 수 있습니다.
+웹 요청을 프로파일링하려면 쿼리 파라미터로 `xhgui=on`을 요청에 추가하십시오. XHGui는 응답에 쿠키를 자동으로 첨부하여 이후 요청에는 쿼리 문자열 값이 필요하지 않습니다. `http://your-site.test/xhgui`로 이동하여 애플리케이션 프로필 결과를 볼 수 있습니다.
 
 To profile a CLI request using XHGui, prefix the command with `XHGUI=on`:
 

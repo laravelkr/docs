@@ -37,7 +37,7 @@ The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper 
 
 As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, collections are immutable, meaning every `Collection` method returns an entirely new `Collection` instance.
 
-보시는 바와 같이 `Collection` 클래스는 편리한 맵핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 변경이 불가능(immutable)하고, 모든 `Collection`의 메소드는 새로운 `Collection`의 인스턴스를 반환합니다.
+보시는 바와 같이 `Collection` 클래스는 편리한 매핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 변경이 불가능(immutable)하고, 모든 `Collection`의 메소드는 새로운 `Collection`의 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### Creating Collections
@@ -446,7 +446,7 @@ This method has the same signature as the [`contains`](#method-contains) method;
 
 The `count` method returns the total number of items in the collection:
 
-`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 갯수를 반환합니다.
+`count` 메소드는 컬렉션안에 존재하는 아이템의 전체 개수를 반환합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1519,7 +1519,7 @@ If the given items's keys are numeric, the values will be appended to the end of
 
 The `mergeRecursive` method merges the given array or collection recursively with the original collection. If a string key in the given items matches a string key in the original collection, then the values for these keys are merged together into an array, and this is done recursively:
 
-`mergeRecursive` 메소드는 주어진 배열이나 콜렉션을 재귀적으로 원래 콜렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
+`mergeRecursive` 메소드는 주어진 배열이나 컬렉션을 재귀적으로 원래 컬렉션과 병합합니다. 지정된 항목의 문자열 키가 원래 모음의 문자열 키와 일치하면이 키의 값이 배열로 함께 병합되며 이는 재귀적으로 수행됩니다.
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
@@ -1893,7 +1893,7 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 
 The `replace` method behaves similarly to `merge`; however, in addition to overwriting matching items with string keys, the `replace` method will also overwrite items in the collection that have matching numeric keys:
 
-`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 콜렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
+`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 컬렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
 
     $collection = collect(['Taylor', 'Abigail', 'James']);
 
@@ -2991,7 +2991,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 <a name="lazy-collections"></a>
 ## Lazy Collections
-## 지연 컬렉션-Lazy Collections
+## 지연 컬렉션
 
 <a name="lazy-collection-introduction"></a>
 ### Introduction
@@ -2999,7 +2999,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 
 > {note} Before learning more about Laravel's lazy collections, take some time to familiarize yourself with [PHP generators](https://www.php.net/manual/en/language.generators.overview.php).
 
-라라벨 지연 컬렉션-lazy collection에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
+라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
 
 To supplement the already powerful `Collection` class, the `LazyCollection` class leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
 
@@ -3007,7 +3007,7 @@ To supplement the already powerful `Collection` class, the `LazyCollection` clas
 
 For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
 
-예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션-lazy collection을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
+예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
 
     use App\LogEntry;
     use Illuminate\Support\LazyCollection;
@@ -3046,11 +3046,11 @@ However, the query builder's `cursor` method returns a `LazyCollection` instance
 
 <a name="creating-lazy-collections"></a>
 ### Creating Lazy Collections
-### 지연 컬렉션-Lazy Collections 생성하기
+### 지연 컬렉션 생성하기
 
 To create a lazy collection instance, you should pass a PHP generator function to the collection's `make` method:
 
-지연 컬렉션-lazy collection 인스턴스를 생성하기 위해서는 PHP 제네레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
+지연 컬렉션 인스턴스를 생성하기 위해서는 PHP 제너레이터 함수를 컬렉션의 `make` 메소드에 전달해야 합니다.
 
     use Illuminate\Support\LazyCollection;
 
@@ -3072,113 +3072,113 @@ Almost all methods available on the `Collection` class are also available on the
 
 <div id="collection-method-list" markdown="1">
 
-[all](#method-all)
-[average](#method-average)
-[avg](#method-avg)
-[chunk](#method-chunk)
-[collapse](#method-collapse)
-[collect](#method-collect)
-[combine](#method-combine)
-[concat](#method-concat)
-[contains](#method-contains)
-[containsStrict](#method-containsstrict)
-[count](#method-count)
-[countBy](#method-countBy)
-[crossJoin](#method-crossjoin)
-[dd](#method-dd)
-[diff](#method-diff)
-[diffAssoc](#method-diffassoc)
-[diffKeys](#method-diffkeys)
-[dump](#method-dump)
-[duplicates](#method-duplicates)
-[duplicatesStrict](#method-duplicatesstrict)
-[each](#method-each)
-[eachSpread](#method-eachspread)
-[every](#method-every)
-[except](#method-except)
-[filter](#method-filter)
-[first](#method-first)
-[firstWhere](#method-first-where)
-[flatMap](#method-flatmap)
-[flatten](#method-flatten)
-[flip](#method-flip)
-[forPage](#method-forpage)
-[get](#method-get)
-[groupBy](#method-groupby)
-[has](#method-has)
-[implode](#method-implode)
-[intersect](#method-intersect)
-[intersectByKeys](#method-intersectbykeys)
-[isEmpty](#method-isempty)
-[isNotEmpty](#method-isnotempty)
-[join](#method-join)
-[keyBy](#method-keyby)
-[keys](#method-keys)
-[last](#method-last)
-[macro](#method-macro)
-[make](#method-make)
-[map](#method-map)
-[mapInto](#method-mapinto)
-[mapSpread](#method-mapspread)
-[mapToGroups](#method-maptogroups)
-[mapWithKeys](#method-mapwithkeys)
-[max](#method-max)
-[median](#method-median)
-[merge](#method-merge)
-[mergeRecursive](#method-mergerecursive)
-[min](#method-min)
-[mode](#method-mode)
-[nth](#method-nth)
-[only](#method-only)
-[pad](#method-pad)
-[partition](#method-partition)
-[pipe](#method-pipe)
-[pluck](#method-pluck)
-[random](#method-random)
-[reduce](#method-reduce)
-[reject](#method-reject)
-[replace](#method-replace)
-[replaceRecursive](#method-replacerecursive)
-[reverse](#method-reverse)
-[search](#method-search)
-[shuffle](#method-shuffle)
-[skip](#method-skip)
-[slice](#method-slice)
-[some](#method-some)
-[sort](#method-sort)
-[sortBy](#method-sortby)
-[sortByDesc](#method-sortbydesc)
-[sortKeys](#method-sortkeys)
-[sortKeysDesc](#method-sortkeysdesc)
-[split](#method-split)
-[sum](#method-sum)
-[take](#method-take)
-[tap](#method-tap)
-[times](#method-times)
-[toArray](#method-toarray)
-[toJson](#method-tojson)
-[union](#method-union)
-[unique](#method-unique)
-[uniqueStrict](#method-uniquestrict)
-[unless](#method-unless)
-[unlessEmpty](#method-unlessempty)
-[unlessNotEmpty](#method-unlessnotempty)
-[unwrap](#method-unwrap)
-[values](#method-values)
-[when](#method-when)
-[whenEmpty](#method-whenempty)
-[whenNotEmpty](#method-whennotempty)
-[where](#method-where)
-[whereStrict](#method-wherestrict)
-[whereBetween](#method-wherebetween)
-[whereIn](#method-wherein)
-[whereInStrict](#method-whereinstrict)
-[whereInstanceOf](#method-whereinstanceof)
-[whereNotBetween](#method-wherenotbetween)
-[whereNotIn](#method-wherenotin)
-[whereNotInStrict](#method-wherenotinstrict)
-[wrap](#method-wrap)
-[zip](#method-zip)
+- [all](#method-all)
+- [average](#method-average)
+- [avg](#method-avg)
+- [chunk](#method-chunk)
+- [collapse](#method-collapse)
+- [collect](#method-collect)
+- [combine](#method-combine)
+- [concat](#method-concat)
+- [contains](#method-contains)
+- [containsStrict](#method-containsstrict)
+- [count](#method-count)
+- [countBy](#method-countBy)
+- [crossJoin](#method-crossjoin)
+- [dd](#method-dd)
+- [diff](#method-diff)
+- [diffAssoc](#method-diffassoc)
+- [diffKeys](#method-diffkeys)
+- [dump](#method-dump)
+- [duplicates](#method-duplicates)
+- [duplicatesStrict](#method-duplicatesstrict)
+- [each](#method-each)
+- [eachSpread](#method-eachspread)
+- [every](#method-every)
+- [except](#method-except)
+- [filter](#method-filter)
+- [first](#method-first)
+- [firstWhere](#method-first-where)
+- [flatMap](#method-flatmap)
+- [flatten](#method-flatten)
+- [flip](#method-flip)
+- [forPage](#method-forpage)
+- [get](#method-get)
+- [groupBy](#method-groupby)
+- [has](#method-has)
+- [implode](#method-implode)
+- [intersect](#method-intersect)
+- [intersectByKeys](#method-intersectbykeys)
+- [isEmpty](#method-isempty)
+- [isNotEmpty](#method-isnotempty)
+- [join](#method-join)
+- [keyBy](#method-keyby)
+- [keys](#method-keys)
+- [last](#method-last)
+- [macro](#method-macro)
+- [make](#method-make)
+- [map](#method-map)
+- [mapInto](#method-mapinto)
+- [mapSpread](#method-mapspread)
+- [mapToGroups](#method-maptogroups)
+- [mapWithKeys](#method-mapwithkeys)
+- [max](#method-max)
+- [median](#method-median)
+- [merge](#method-merge)
+- [mergeRecursive](#method-mergerecursive)
+- [min](#method-min)
+- [mode](#method-mode)
+- [nth](#method-nth)
+- [only](#method-only)
+- [pad](#method-pad)
+- [partition](#method-partition)
+- [pipe](#method-pipe)
+- [pluck](#method-pluck)
+- [random](#method-random)
+- [reduce](#method-reduce)
+- [reject](#method-reject)
+- [replace](#method-replace)
+- [replaceRecursive](#method-replacerecursive)
+- [reverse](#method-reverse)
+- [search](#method-search)
+- [shuffle](#method-shuffle)
+- [skip](#method-skip)
+- [slice](#method-slice)
+- [some](#method-some)
+- [sort](#method-sort)
+- [sortBy](#method-sortby)
+- [sortByDesc](#method-sortbydesc)
+- [sortKeys](#method-sortkeys)
+- [sortKeysDesc](#method-sortkeysdesc)
+- [split](#method-split)
+- [sum](#method-sum)
+- [take](#method-take)
+- [tap](#method-tap)
+- [times](#method-times)
+- [toArray](#method-toarray)
+- [toJson](#method-tojson)
+- [union](#method-union)
+- [unique](#method-unique)
+- [uniqueStrict](#method-uniquestrict)
+- [unless](#method-unless)
+- [unlessEmpty](#method-unlessempty)
+- [unlessNotEmpty](#method-unlessnotempty)
+- [unwrap](#method-unwrap)
+- [values](#method-values)
+- [when](#method-when)
+- [whenEmpty](#method-whenempty)
+- [whenNotEmpty](#method-whennotempty)
+- [where](#method-where)
+- [whereStrict](#method-wherestrict)
+- [whereBetween](#method-wherebetween)
+- [whereIn](#method-wherein)
+- [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
+- [whereNotBetween](#method-wherenotbetween)
+- [whereNotIn](#method-wherenotin)
+- [whereNotInStrict](#method-wherenotinstrict)
+- [wrap](#method-wrap)
+- [zip](#method-zip)
 
 </div>
 
@@ -3188,7 +3188,7 @@ Almost all methods available on the `Collection` class are also available on the
 
 <a name="lazy-collection-methods"></a>
 ### Lazy Collection Methods
-### Lazy Collection 메소드
+### 지연 컬렉션 메소드
 
 In addition to the methods defined in the `Enumerable` contract, the `LazyCollection` class contains the following methods:
 

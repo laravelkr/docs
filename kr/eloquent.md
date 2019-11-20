@@ -1379,7 +1379,7 @@ Sometimes you may need to update your pivot table, but not detach it. If you wis
 
 Laravel also allows you to define a custom Pivot model. To define a custom model, first create your own "Base" model class that extends `Eloquent`. In your other Eloquent models, extend this custom base model instead of the default `Eloquent` base. In your base model, add the following function that returns an instance of your custom Pivot model:
 
-라라벨은 사용자 정의 피벗 모델을 정의하는 것을 할 수 있게 해줍니다. 이러한 커스텀 모델을 정의하려면, 첫번째로 `Eloquent` 를 상속한 여러분의 고유한 “Base” 모델을 만들어야 합니다. 그런 다음에 `Eloquent` 기본 모델 대신에 상속한 사용자 정의 모델을 여러분의 다른 Eloquent 모델에서 상속하도록 합니다. 여러분의 기본 모델에서, 다음과 같이 사용자 저으이 피벗 모델의 인스턴스를 반환하는 함수를 추가하면 됩니다:
+라라벨은 사용자 정의 피벗 모델을 정의하는 것을 할 수 있게 해줍니다. 이러한 커스텀 모델을 정의하려면, 첫번째로 `Eloquent` 를 상속한 여러분의 고유한 “Base” 모델을 만들어야 합니다. 그런 다음에 `Eloquent` 기본 모델 대신에 상속한 사용자 정의 모델을 여러분의 다른 Eloquent 모델에서 상속하도록 합니다. 여러분의 기본 모델에서, 다음과 같이 사용자 정의 피벗 모델의 인스턴스를 반환하는 함수를 추가하면 됩니다:
 
 	public function newPivot(Model $parent, array $attributes, $table, $exists)
 	{

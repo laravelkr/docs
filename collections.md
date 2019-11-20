@@ -22,7 +22,7 @@
         return empty($name);
     });
 
-보시는 바와 같이 `Collection` 클래스는 편리한 매핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 immutable-불편하고 모든 `Collection`의 메소드는 `Collection`의 인스턴스를 반환합니다.
+보시는 바와 같이 `Collection` 클래스는 편리한 매핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 변경이 불가능(immutable)하고, 모든 `Collection`의 메소드는 새로운 `Collection`의 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### 컬렉션 생성하기
@@ -219,7 +219,7 @@
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-이 메소드는 특히 [뷰](/docs/{{version}}/views) 안에서 [부트스트랩 프레임워크](https://getbootstrap.com/docs/4.1/layout/grid/)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다.
+이 메소드는 특히 [views-뷰](/docs/{{version}}/views) 안에서 [Bootstrap-부트스트랩](https://getbootstrap.com/docs/4.1/layout/grid/)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다.
 [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
 
     @foreach ($products->chunk(3) as $chunk)
@@ -588,7 +588,7 @@
 
     // false
 
-컬렉션이 비어 있다면, `every`는 true를 반환할 것입니다 :
+컬렉션이 비어 있다면, `every`는 true를 반환할 것입니다.
 
     $collection = collect([]);
 
@@ -2347,7 +2347,7 @@
 <a name="method-wherenotbetween"></a>
 #### `whereNotBetween()` {#collection-method}
 
-`whereNotBetween` 메소드는 주어진 범위 내에서 컬렉션을 필터링합니다 :
+`whereNotBetween` 메소드는 주어진 범위 내에서 컬렉션을 필터링합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],

@@ -37,17 +37,17 @@
 
 - [1:1(일대일) 관계](#one-to-one)
 - [1:*(일대다) 관계](#one-to-many)
-- [*:*(대다다) 관계](#many-to-many)
+- [\*:*(대다다) 관계](#many-to-many)
 - [연결을 통한 단일 관계](#has-one-through)
 - [연결을 통한 다수를 가지는 관계](#has-many-through)
 - [1:1(일대일) (다형성)](#one-to-one-polymorphic-relations)
 - [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
-- [*:*(대다다) (다형성)](#many-to-many-polymorphic-relations)
+- [\*:*(대다다) (다형성)](#many-to-many-polymorphic-relations)
 
 <a name="defining-relationships"></a>
 ## 관계 정의하기
 
-Eloquent relationship들은 Eloquent 모델 클래스에 메소드로 정의되어 있습니다. Eloquent 모델들과 같이 relationships-관계를 정의한 것은 강력한 [쿼리 빌더](/docs/{{version}}/queries)로써의 기능으로도 작동하기 때문에 relationships-관계를 메소드로 정의하는 것은 강력한 메소드 체이닝과 쿼리 능력을 제공하게됩니다. 예를 들어 다음의 `post` 관계에 대해서 추가적인 제약조건을 체이닝할 수도 있습니다.:
+Eloquent relationship들은 Eloquent 모델 클래스에 메소드로 정의되어 있습니다. Eloquent 모델들과 같이 relationships-관계를 정의한 것은 강력한 [쿼리 빌더](/docs/{{version}}/queries)로써의 기능으로도 작동하기 때문에 relationships-관계를 메소드로 정의하는 것은 강력한 메소드 체이닝과 쿼리 능력을 제공하게됩니다. 예를 들어 다음의 `post` 관계에 대해서 추가적인 제약조건을 체이닝할 수도 있습니다.
 
     $user->posts()->where('active', 1)->get();
 
@@ -406,9 +406,8 @@ Pivot 테이블이 자동으로 유지되는 `created_at`와 `updated_at` 타임
 <a name="has-one-through"></a>
 ### 연결을 통한 단일 관계
 
-The "has-one-through" relationship links models through a single intermediate relation.
-
 "연결을 통한" 관계는 하나의 중간 테이블을 통해 연결합니다.
+
 예를 들어 각 공급자(suppliers)가 한 명의 사용자(users)를 가지고 있고 각 사용자가 한 개의 사용자 이력(history) 레코드와 연결된 경우 공급자 모델은 사용자의 기록을 통해 접근할 수 있습니다. 이 관계를 정의하는 데 필요한 데이터베이스 테이블을 살펴보겠습니다.
 
     users
@@ -1039,7 +1038,7 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
 
 이 예제에서 `Event`,`Photo`,`Post` 모델이 `ActivityFeed` 모델을 생성한다고 가정합시다. 또한 `Event`모델이 `Calendar`모델에 속하고, `Photo`모델이 `Tag`모델과 관련이 있고 `Post`모델이 `Author`모델에 속한다고 가정 해 보겠습니다.
 
-이 모델 정의와 관계를 사용하여 우리는 `ActivityFeed` 모델 인스턴스를 검색 할 수 있으며 모든 `parentable`모델과 각각의 중첩 관계를 eager 로드 할 수 있습니다 :
+이 모델 정의와 관계를 사용하여 우리는 `ActivityFeed` 모델 인스턴스를 검색 할 수 있으며 모든 `parentable`모델과 각각의 중첩 관계를 eager 로드 할 수 있습니다.
 
     use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -1062,7 +1061,7 @@ Eloquent 관계들을 속성으로 접근할 때 관계 데이터는 "지연 로
 
 #### 기본적으로 Eager Loading 하기
 
-때로는 모델을 검색 할 때 항상 일부 관계를 로드하려고 할 수 있습니다. 이를 위해 모델에 `$with` 속성을 정의 할 수 있습니다 :
+때로는 모델을 검색 할 때 항상 일부 관계를 로드하려고 할 수 있습니다. 이를 위해 모델에 `$with` 속성을 정의 할 수 있습니다.
 
     <?php
 
@@ -1203,7 +1202,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
 <a name="the-push-method"></a>
 #### 재귀적으로 모델 및 관계 저장
 
-모델과 관련된 모든 관계를 `save` 하고 싶다면 `push` 메소드를 사용할 수 있습니다 :
+모델과 관련된 모든 관계를 `save` 하고 싶다면 `push` 메소드를 사용할 수 있습니다.
 
     $post = App\Post::find(1);
 
@@ -1260,7 +1259,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
 <a name="default-models"></a>
 #### 기본 모델
 
-`belongsTo`, `hasOne`, `hasOneThrough`, 와 `morphOne` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다 :
+`belongsTo`, `hasOne`, `hasOneThrough`, 와 `morphOne` 관계는 주어진 관계가 `null` 일 때 리턴 될 기본 모델을 정의하게합니다. 이 패턴은 [Null Object pattern](https://en.wikipedia.org/wiki/Null_Object_pattern)이라고도하며 코드에서 조건부 검사를 제거하는 데 도움이 될 수 있습니다. 다음 예제에서 `user` 관계가 작성된 글에 포함되어 있지 않으면 `user` 관계는 빈 `App\User` 모델을 반환합니다.
 
     /**
      * Get the author of the post.
@@ -1270,7 +1269,7 @@ Eloquentsms 관계에 새로운 모델을 추가하는 편리한 메소드들을
         return $this->belongsTo('App\User')->withDefault();
     }
 
-속성을 가진 기본 모델을 채우려면 배열이나 Closure 를 `withDefault` 메소드에 넘길 수 있습니다 :
+속성을 가진 기본 모델을 채우려면 배열이나 Closure 를 `withDefault` 메소드에 넘길 수 있습니다.
 
     /**
      * Get the author of the post.

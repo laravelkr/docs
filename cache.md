@@ -64,7 +64,7 @@ Memcached 드라이버를 사용하려면 [Memcached PECL 패키지](https://pec
 
 #### Redis
 
-라라벨에서 Redis 캐스를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
+라라벨에서 Redis 캐시를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
 
 Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/docs/{{version}}/redis#configuration)를 참고하십시오.
 
@@ -116,7 +116,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     $value = Cache::get('key', 'default');
 
-기본값을 `클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
+기본값을 `Closure-클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure-클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
 
     $value = Cache::get('key', function () {
         return DB::table(...)->get();
@@ -147,7 +147,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
         return DB::table('users')->get();
     });
 
-캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `클로저` 가 실행되어 캐시에 값을 저장하게 됩니다.
+캐시에 아이템이 존재하지 않는 경우, `remember` 메소드에 전달된 `Closure-클로저` 가 실행되어 캐시에 값을 저장하게 됩니다.
 
 어떤 아이템을 조회하고 이를 영원히 기억하도록 `rememberForever` 메소드를 사용할 수 있습니다.
 
@@ -168,7 +168,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     Cache::put('key', 'value', $seconds);
 
-저장 시간이 `put` 메소드에 전달되지 않으면 그 아이템은 무기한 저장 될 것입니다 :
+저장 시간이 `put` 메소드에 전달되지 않으면 그 아이템은 무기한 저장 될 것입니다.
 
     Cache::put('key', 'value');
 
@@ -214,7 +214,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 > {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
-원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다 :
+원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
 
     use Illuminate\Support\Facades\Cache;
 
@@ -284,7 +284,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
     cache(['key' => 'value'], now()->addMinutes(10));
 
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다 :
+`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다.
 
     cache()->remember('users', $seconds, function () {
         return DB::table('users')->get();
@@ -407,7 +407,7 @@ extension이 등록되고 나면, `config/cache.php` 설정 파일의 `driver` �
 <a name="events"></a>
 ## 이벤트
 
-캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 이벤트 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 `EventServiceProvider`안에 구성합니다.
+캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 [이벤트](/docs/{{version}}/events) 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 `EventServiceProvider`안에 구성합니다.
 
     /**
      * The event listener mappings for the application.

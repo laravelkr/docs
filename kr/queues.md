@@ -165,7 +165,7 @@ The following dependencies are needed for the listed queue drivers:
 
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~4.0`
-- Redis: `predis/predis ~1.0` or phpredis PHP extension
+- Redis: `predis/predis ~1.0` 또는 phpredis PHP 확장 모듈
 
 
 <a name="creating-jobs"></a>
@@ -177,6 +177,7 @@ The following dependencies are needed for the listed queue drivers:
 ### Job 클래스 생성하기
 
 By default, all of the queueable jobs for your application are stored in the `app/Jobs` directory. If the `app/Jobs` directory doesn't exist, it will be created when you run the `make:job` Artisan command. You may generate a new queued job using the Artisan CLI:
+
 기본적으로, 애플리케이션을 위한 모든 queue Job들은 `app/Jobs` 디렉토리에 저장됩니다. `app/Jobs` 디렉토리가 존재하지 않는다면, `make:job` 아티즌 명령어를 실행할 때 생성됩니다. 새로운 queue Job 클래스는 아티즌 CLI를 통해서 생성할 수 있습니다.
 
     php artisan make:job ProcessPodcast

@@ -1021,7 +1021,7 @@ To enable webhook verification, ensure that the `STRIPE_WEBHOOK_SECRET` environm
 
 If you would like to make a "one off" charge against a subscribed customer's payment method, you may use the `charge` method on a billable model instance. You'll need to [provide a payment method identifier](#storing-payment-methods) as the second argument:
 
-가입 한 고객의 지불 방법에 대해 "일회성"청구를하려면 청구 가능 모델 인스턴스에서 'charge'방법을 사용할 수 있습니다. 두 번째 인수로 [결제 수단 식별자] (# storing-payment-methods)를 제공해야합니다.
+가입한 고객의 지불 수단에 대해 "일회성"청구를하려면 청구 가능 모델 인스턴스에서 `charge` 메소드를 사용할 수 있습니다. 두 번째 인수로 [결제 수단 식별자](#storing-payment-methods)를 제공해야합니다.
 
     // Stripe Accepts Charges In Cents...
     $stripeCharge = $user->charge(100, $paymentMethod);
@@ -1036,7 +1036,7 @@ The `charge` method accepts an array as its third argument, allowing you to pass
 
 The `charge` method will throw an exception if the charge fails. If the charge is successful, an instance of `Laravel\Cashier\Payment` will be returned from the method:
 
-충전이 실패하면`charge` 메소드에서 예외가 발생합니다. 청구가 성공하면 'Laravel \ Cashier \ Payment'인스턴스가 메소드에서 리턴됩니다.
+충전이 실패하면 `charge` 메소드에서 예외가 발생합니다. 청구가 성공하면 `Laravel\Cashier\Payment` 인스턴스가 메소드에서 리턴됩니다.
 
     try {
         $payment = $user->charge(100, $paymentMethod);

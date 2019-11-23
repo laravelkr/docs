@@ -97,7 +97,7 @@ It is very important to note that we did not need to specify the full controller
 
 If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
 
-컨트롤러를 `App \ Http \ Controllers` 디렉토리내에 위치시키려면 `App \ Http \ Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다. :
+컨트롤러를 `App\Http\Controllers` 디렉토리내에 위치시키려면 `App\Http\Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다.
 
     Route::get('foo', 'Photos\AdminController@method');
 
@@ -107,7 +107,7 @@ If you choose to nest your controllers deeper into the `App\Http\Controllers` di
 
 If you would like to define a controller that only handles a single action, you may place a single `__invoke` method on the controller:
 
-단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의`__invoke` 메소드를 넣을 수 있습니다.
+단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의 `__invoke` 메소드를 넣을 수 있습니다.
 
     <?php
 
@@ -247,7 +247,7 @@ If you are using route model binding and would like the resource controller's me
 
 Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `@method` Blade directive can create this field for you:
 
-HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨겨진 `_method` 필드를 추가하여 이들 HTTP 문법을 인용해야합니다. `@method` 블레이드 디렉티브로 필드를 생성 할 수 있습니다. :
+HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨겨진 `_method` 필드를 추가하여 이들 HTTP 문법을 인용해야합니다. `@method` 블레이드 디렉티브로 필드를 생성 할 수 있습니다.
 
     <form action="/foo/bar" method="POST">
         @method('PUT')

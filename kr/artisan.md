@@ -178,7 +178,7 @@ Let's take a look at an example command. Note that we are able to inject any dep
 
 Closure based commands provide an alternative to defining console commands as classes. In the same way that route Closures are an alternative to controllers, think of command Closures as an alternative to command classes. Within the `commands` method of your `app/Console/Kernel.php` file, Laravel loads the `routes/console.php` file:
 
-클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의`commands` 함수 내에서 Laravel은`routes/console.php` 파일을 로드합니다. :
+클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의 `commands` 함수 내에서 Laravel은 `routes/console.php` 파일을 로드합니다.
 
     /**
      * Register the Closure based commands for the application.
@@ -330,7 +330,7 @@ If you would like to define arguments or options to expect array inputs, you may
 
 When calling this method, the `user` arguments may be passed in order to the command line. For example, the following command will set the value of `user` to `['foo', 'bar']`:
 
-이 함수를 호출 할 때`user` 인자는 명령 행에 순서대로 전달 될 수 있습니다. 예를 들어, 다음 명령은 `user`의 값을`[ 'foo', 'bar']`로 설정합니다. :
+이 함수를 호출 할 때 `user` 인자는 명령 행에 순서대로 전달 될 수 있습니다. 예를 들어, 다음 명령은 `user`의 값을 `[ 'foo', 'bar']`로 설정합니다.
 
     php artisan email:send foo bar
 
@@ -490,7 +490,7 @@ To display an error message, use the `error` method. Error message text is typic
 
 If you would like to display plain, uncolored console output, use the `line` method:
 
-무색 콘솔 출력을 원하면 `line` 메소드를 사용하면 됩니다. :
+무색 콘솔 출력을 원하면 `line` 메소드를 사용하면 됩니다.
 
     $this->line('Display this on the screen');
 

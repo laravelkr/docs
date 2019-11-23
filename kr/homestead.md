@@ -1036,6 +1036,7 @@ Finally, you will need to destroy and regenerate your Homestead box to utilize t
 
 <a name="provider-specific-virtualbox"></a>
 ### VirtualBox
+### VirtualBox
 
 #### `natdnshostresolver`
 #### `natdnshostresolver`

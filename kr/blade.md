@@ -701,7 +701,7 @@ If you would like to `@include` a view if a given boolean expression evaluates t
 
 If you would like to `@include` a view if a given boolean expression evaluates to `false`, you may use the `@includeUnless` directive:
 
-주어진 부울식이 `false`일때 뷰를 `@include`하고 싶다면 `@includeUnless` 지시어를 사용할 수 있습니다.
+주어진 Boolean 표현식이 `false`일때 뷰를 `@include`하고 싶다면 `@includeUnless` 지시어를 사용할 수 있습니다.
 
     @includeUnless($boolean, 'view.name', ['some' => 'data'])
 

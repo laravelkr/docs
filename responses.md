@@ -274,8 +274,8 @@ JSONP response 를 생성하고자 한다면, `json` 메소드와 `setCallback`�
 
     namespace App\Providers;
 
-    use Illuminate\Support\ServiceProvider;
     use Illuminate\Support\Facades\Response;
+    use Illuminate\Support\ServiceProvider;
 
     class ResponseMacroServiceProvider extends ServiceProvider
     {

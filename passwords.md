@@ -32,7 +32,7 @@
 
 라라벨에서는 패스워드 재설정 링크 이메일을 보내고 사용자의 패스워드를 재설정하는데 필요한 로직을 가지고 있는 `Auth\ForgotPasswordController` 그리고 `Auth\ResetPasswordController` 클래스를 포함하고 있습니다. 패스워드 재설정에 필요한 모든 라우트는 `laravel/ui` 컴포저 패키지를 사용하여 생성할 수 있습니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth
 
@@ -41,7 +41,7 @@
 
 패스워드 재설정에 필요한 모든 뷰 파일을 생성하기 위해 `laravel/ui` 컴포저 패키지를 사용할 수 있습니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth
 

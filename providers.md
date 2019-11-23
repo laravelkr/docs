@@ -38,13 +38,13 @@
 
     namespace App\Providers;
 
-    use Riak\Connection;
     use Illuminate\Support\ServiceProvider;
+    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */
@@ -66,12 +66,12 @@
 
     namespace App\Providers;
 
-    use App\Contracts\ServerProvider;
     use App\Contracts\DowntimeNotifier;
+    use App\Contracts\ServerProvider;
+    use App\Services\DigitalOceanServerProvider;
+    use App\Services\PingdomDowntimeNotifier;
     use App\Services\ServerToolsProvider;
     use Illuminate\Support\ServiceProvider;
-    use App\Services\PingdomDowntimeNotifier;
-    use App\Services\DigitalOceanServerProvider;
 
     class AppServiceProvider extends ServiceProvider
     {
@@ -160,9 +160,9 @@
 
     namespace App\Providers;
 
-    use Riak\Connection;
-    use Illuminate\Support\ServiceProvider;
     use Illuminate\Contracts\Support\DeferrableProvider;
+    use Illuminate\Support\ServiceProvider;
+    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider implements DeferrableProvider
     {

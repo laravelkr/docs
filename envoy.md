@@ -71,6 +71,10 @@
         # ...
     @endtask
 
+다른 Envoy 파일을 가져 와서 스토리와 작업을 추가 할 수도 있습니다. 파일을 가져온 후에는 마치 자신이 정의한 것처럼 해당 파일에서 작업을 실행할 수 있습니다. Envoy.blade.php 파일 상단에 `@import` 지시문을 사용해야 합니다.
+
+    @import('package/Envoy.blade.php')
+
 <a name="variables"></a>
 ### 변수들
 
@@ -180,12 +184,31 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
 
+또한 특정 작업에 대해 Slack에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@slack` 지시문을 추가하면 됩니다.
+
+    @task('deploy', ['on' => 'web', 'confirm' => true])
+        cd site
+        git pull origin {{ $branch }}
+        php artisan migrate
+
+        @slack('webhook-url', '#deployments')
+    @endtask
 
 <a name="discord"></a>
 ### 디스코드
 
-Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다.
+Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다. `@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다.
 
     @finished
         @discord('discord-webhook-url')
     @endfinished
+
+또한 특정 작업에 대해 Discord에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@discord` 지시문을 추가하면됩니다.
+
+    @task('deploy', ['on' => 'web', 'confirm' => true])
+        cd site
+        git pull origin {{ $branch }}
+        php artisan migrate
+
+        @discord('discord-webhook-url')
+    @endtask

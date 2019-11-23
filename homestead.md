@@ -47,7 +47,6 @@
 <a name="included-software"></a>
 ### 포함된 소프트웨어
 
-
 - Ubuntu 18.04
 - Git
 - PHP 7.3
@@ -131,7 +130,7 @@ Git 저장소를 작업하는 머신에 복제하여 홈스테드를 설치할 �
 
     git clone https://github.com/laravel/homestead.git ~/Homestead
 
-`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다. 또는 항상 최신 안정 릴리즈가 포함 된 `release` 브랜치를 체크 아웃 할 수 있습니다 :
+`master` 브랜치는 개발중이라 안정적이지 않을 수도 있기 때문에, 태그를 지정한 버전을 체크아웃 해야합니다. 안정적인 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾으실 수 있습니다. 또는 항상 최신 안정 릴리즈가 포함 된 `release` 브랜치를 체크 아웃 할 수 있습니다.
 
     cd ~/Homestead
 
@@ -292,7 +291,7 @@ MariaDB를 활성화하면 MySQL이 제거되고 MariaDB가 설치됩니다. Mar
 
 #### Elasticsearch
 
-Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본 설치는 'homestead'라는 이름으로 클러스터가 생성됩니다. Elasticsearch에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch에 할당한 것의 두배 이상의 메모리가 있는지 확인하십시오.
+Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본 설치는 `homestead`라는 이름으로 클러스터가 생성됩니다. Elasticsearch에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch에 할당한 것의 두배 이상의 메모리가 있는지 확인하십시오.
 
 > {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
 
@@ -469,13 +468,13 @@ Mailhog이 구성되면 `http://localhost:8025` 로 Mailhog 대시 보드에 액
 <a name="configuring-minio"></a>
 ### Minio 설정하기
 
-Minio 는 Amazon S3 API와 호환되는 오픈소스 객체 스토리지 서버입니다. Minio를 설치하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
+Minio 는 Amazon S3 API와 호환되는 오픈소스 객체 스토리지 서버입니다. Minio를 설치하려면 `Homestead.yaml` 파일의 [features](#installing-optional-features)섹션에 다음의 설정 내용을 추가하십시오.
 
     minio: true
 
-기본적으로 Minio는 9600포트를 사용합니다. `http://homestead:9600/` 을 방문하여 Minio 제어판에 엑세스 할 수 있습니다. 기본 엑세스 키는 `homestead` 이고, 기본 비밀 키는 `secretkey` 입니다. Minio에 엑세스 할 때는 항상 `us-east-1` 리전을 사용해야합니다.
+기본적으로 Minio는 9600포트를 사용합니다. `http://localhost:9600/` 을 방문하여 Minio 제어판에 엑세스 할 수 있습니다. 기본 엑세스 키는 `homestead` 이고, 기본 비밀 키는 `secretkey` 입니다. Minio에 엑세스 할 때는 항상 `us-east-1` 리전을 사용해야합니다.
 
-Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서 S3 디스크 설정을 수정해야합니다. 디스크 구성에 `use_path_style_endpoint` 옵션을 추가하고 `url` 키를 `endpoint` 로 변경해야합니다 :
+Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서 S3 디스크 설정을 수정해야합니다. 디스크 구성에 `use_path_style_endpoint` 옵션을 추가하고 `url` 키를 `endpoint` 로 변경해야합니다.
 
     's3' => [
         'driver' => 's3',
@@ -492,7 +491,7 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
     AWS_ACCESS_KEY_ID=homestead
     AWS_SECRET_ACCESS_KEY=secretkey
     AWS_DEFAULT_REGION=us-east-1
-    AWS_URL=http://homestead:9600
+    AWS_URL=http://localhost:9600
 
 버킷을 프로비저닝하려면 Homestead 환경설정 파일에 `buckets` 지시문을 추가하십시오.
 
@@ -598,7 +597,7 @@ PHP CLI 애플리케이션을 디버깅하려면, Vagrant 박스 안에 `xphp` �
 
 #### Xdebug 자동시작
 
-웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7./fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
+웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7.x/fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
 
     ; If Homestead.yml contains a different subnet for the IP address, this address may be different...
     xdebug.remote_host = 192.168.10.1

@@ -30,6 +30,8 @@
         'welcome' => 'Welcome to our application'
     ];
 
+> {note} 지역별로 다른 언어를 사용하는 경우 ISO 15897에 따라 구분되는 언어의 명칭을 지정해야합니다. 예를 들어 "en-GB" 대신 영국 영어에는 "en_GB"를 사용해야합니다.
+
 <a name="configuring-the-locale"></a>
 ### 로케일 설정하기
 
@@ -148,7 +150,7 @@
 
     echo trans_choice('time.minutes_ago', 5, ['value' => 5]);
 
-`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다 :
+`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다.
 
     'apples' => '{0} There are none|{1} There is one|[2,*] There are :count',
 

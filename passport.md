@@ -1,6 +1,7 @@
 # 라라벨 Passport
 
 - [시작하기](#introduction)
+- [Passport 업그레이드](#upgrading)
 - [설치하기](#installation)
     - [프론트 엔드 빠른시작](#frontend-quickstart)
     - [Passport 배포하기](#deploying-passport)
@@ -40,6 +41,11 @@
 
 > {note} 이 문서는 귀하가 이미 OAuth2에 익숙하다고 가정합니다. OAuth2에 대해 잘 모르는 경우 계속하기 전에 일반 [용어](https://oauth2.thephpleague.com/terminology/) 및 OAuth2의 기능을 숙지하십시오.
 
+<a name="upgrading"></a>
+## Passport 업그레이드
+
+새로운 메이저 버전의 Passport로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/passport/blob/master/UPGRADE.md)를 신중하게 검토해야합니다.
+
 <a name="installation"></a>
 ## 설치하기
 
@@ -63,9 +69,9 @@ Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레�
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -78,9 +84,9 @@ Passport 서비스 프로바이더는 고유한 데이터베이스 마이그레�
 
     namespace App\Providers;
 
-    use Laravel\Passport\Passport;
-    use Illuminate\Support\Facades\Gate;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Gate;
+    use Laravel\Passport\Passport;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -169,7 +175,7 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
 
     php artisan passport:keys
 
-필요한 경우 Passport의 키를 로드해야 하는 경로를 정의 할 수 있습니다. 이를 위해 `Passport::loadKeysFrom` 메소드를 사용할 수 있습니다 :
+필요한 경우 Passport의 키를 로드해야 하는 경로를 정의 할 수 있습니다. 이를 위해 `Passport::loadKeysFrom` 메소드를 사용할 수 있습니다.
 
     /**
      * Register any authentication / authorization services.
@@ -222,12 +228,21 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
 <a name="overriding-default-models"></a>
 ### 기본모델 오버라이딩
 
-Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다. 그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다 :
+Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다.
 
-    use App\Models\Passport\Client;
-    use App\Models\Passport\Token;
+    use App\Models\Passport\Client as PassportClient;
+
+    class Client extends PassportClient
+    {
+        // ...
+    }
+
+그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다.
+ 
     use App\Models\Passport\AuthCode;
+    use App\Models\Passport\Client;
     use App\Models\Passport\PersonalAccessClient;
+    use App\Models\Passport\Token;
 
     /**
      * Register any authentication / authorization services.
@@ -499,9 +514,9 @@ OAuth2 패스워드 그랜트는 모바일 애플리케이션과 같은 여러�
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -528,21 +543,21 @@ OAuth2 패스워드 그랜트는 모바일 애플리케이션과 같은 여러�
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Support\Facades\Hash;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Support\Facades\Hash;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
         use HasApiTokens, Notifiable;
 
         /**
-        * Validate the password of the user for the Passport password grant.
-        *
-        * @param  string $password
-        * @return bool
-        */
+         * Validate the password of the user for the Passport password grant.
+         *
+         * @param  string  $password
+         * @return bool
+         */
         public function validateForPassportPasswordGrant($password)
         {
             return Hash::check($password, $this->password);
@@ -591,11 +606,11 @@ grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토�
 
 클라이언트의 자격증명을 위한 Grant 는 시스템간의 인증에 적합합니다. 예를 들어, API를 통해서 관리 작업을 수행하도록 예약된 스케줄링 job에서 이 grant를 사용할 수 있습니다.
 
-애플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다 :
+애플리케이션이 클라이언트의 자격증명 권한 인증를 통해 토큰을 발행하기 전에, 사용자는 클라이언트의 자격증명 인증 클라이언트를 생성해야합니다. `passport:client` 명령의 `--client` 옵션을 사용하면 됩니다.
 
     php artisan passport:client --client
 
-다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 프로퍼티에 추가해야합니다 :
+다음으로, 이 권한 유형을 사용하려면 `CheckClientCredentials` 미들웨어를 `app/Http/Kernel.php` 파일의 `$routeMiddleware` 프로퍼티에 추가해야합니다.
 
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials;
@@ -645,7 +660,7 @@ grant가 활성화 되면, 개발자는 애플리케이션에서 엑세스 토�
 
     php artisan passport:client --personal
 
-이미 개인 액세스 클라이언트를 정의한 경우 Passport가 `personalAccessClientId` 메소드를 사용하여 이것를 사용 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다 :
+이미 개인 액세스 클라이언트를 정의한 경우 Passport가 `personalAccessClientId` 메소드를 사용하여 이것를 사용 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다.
 
     /**
      * Register any authentication / authorization services.
@@ -838,19 +853,19 @@ Passport 는 유입되는 request-요청이 주어진 코드에 의해서 권한
 
 #### 추가 스코프 메소드
 
-`scopeIds` 메소드는 정의 된 모든 ID / 이름의 배열을 반환합니다 :
+`scopeIds` 메소드는 정의 된 모든 ID / 이름의 배열을 반환합니다.
 
     Laravel\Passport\Passport::scopeIds();
 
-`scopes` 메소드는 정의 된 모든 범위의 배열을 `Laravel\Passport\Scope` 의 인스턴스로 반환합니다 :
+`scopes` 메소드는 정의 된 모든 범위의 배열을 `Laravel\Passport\Scope` 의 인스턴스로 반환합니다.
 
     Laravel\Passport\Passport::scopes();
 
-`scopesFor` 메소드는 주어진 ID / 이름과 일치하는 `Laravel\Passport\Scope` 인스턴스의 배열을 반환합니다 :
+`scopesFor` 메소드는 주어진 ID / 이름과 일치하는 `Laravel\Passport\Scope` 인스턴스의 배열을 반환합니다.
 
     Laravel\Passport\Passport::scopesFor(['place-orders', 'check-status']);
 
-`hasScope` 메소드를 사용하여 주어진 스코프가 정의되었는지를 확인 할 수 있습니다 :
+`hasScope` 메소드를 사용하여 주어진 스코프가 정의되었는지를 확인 할 수 있습니다.
 
     Laravel\Passport\Passport::hasScope('place-orders');
 
@@ -866,7 +881,7 @@ API를 구성할 때 자바스크립트 애플리케이션에서 여러분의 AP
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-> {note} 미들웨어 스택에서 `CreateFreshApiToken` 미들웨어가 나오기 전에 `EncryptCookies` 미들웨어가 있는지 확인해야합니다.
+> {note} `CreateFreshApiToken` 미들웨어가 미들웨어 스택에 나열된 마지막 미들웨어인지 확인해야합니다.
 
 이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다.
 
@@ -877,7 +892,7 @@ API를 구성할 때 자바스크립트 애플리케이션에서 여러분의 AP
 
 #### 쿠키 이름의 커스터마이징
 
-필요하다면 `Passport::Cookie` 메소드를 사용하여 `laravel_token` 쿠키 이름을 커스터마이징 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다 :
+필요하다면 `Passport::Cookie` 메소드를 사용하여 `laravel_token` 쿠키 이름을 커스터마이징 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다.
 
     /**
      * Register any authentication / authorization services.
@@ -937,4 +952,21 @@ Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는�
         $response = $this->post('/api/create-server');
 
         $response->assertStatus(201);
+    }
+
+Passport의 `actingAsClient` 메소드를 사용하여 현재 인증 된 클라이언트와 해당 범위를 지정할 수 있습니다. `actingAsClient` 메소드에 주어진 첫 번째 인수는 클라이언트 인스턴스이고 두 번째 인수는 클라이언트의 토큰에 부여해야하는 스코프의 배열입니다.
+
+    use Laravel\Passport\Client;
+    use Laravel\Passport\Passport;
+
+    public function testGetOrders()
+    {
+        Passport::actingAsClient(
+            factory(Client::class)->create(),
+            ['check-status']
+        );
+
+        $response = $this->get('/api/orders');
+
+        $response->assertStatus(200);
     }

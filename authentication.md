@@ -8,6 +8,7 @@
     - [인증하기](#included-authenticating)
     - [승인된 사용자 조회하기](#retrieving-the-authenticated-user)
     - [라우트 보호하기](#protecting-routes)
+    - [비밀번호 확인](#password-confirmation)
     - [로그인 횟수 제한](#login-throttling)
 - [수동으로 사용자 인증하기](#authenticating-users)
     - [사용자 기억하기](#remembering-users)
@@ -57,13 +58,19 @@
 
 라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth
 
 이 명령어는 새로운 애플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
 
 > {tip} 여러분의 애플리케이션에서 회원가입을 필요로 하지 않는다면, 새롭게 생성되는 `RegisterController` 파일을 삭제하고 라우트 정의 파일에서 `Auth::routes(['register' => false]);`를 수정하면 됩니다.
+
+#### 인증을 포함한 애플리케이션 만들기
+
+새로운 애플리케이션을 만들때 인증 스캐폴딩을 포함하려면 `--auth`을 사용하면 됩니다. 이 명령은 모든 인증 스캐폴딩을 컴파일하고 설치하여 새 애플리케이션을 만듭니다.
+
+    laravel new blog --auth
 
 <a name="included-views"></a>
 ### Views-뷰
@@ -208,6 +215,19 @@
     {
         $this->middleware('auth:api');
     }
+
+<a name="password-confirmation"></a>
+### 비밀번호 확인
+
+때로는 애플리케이션의 특정 영역에 액세스하기 전에 사용자에게 암호를 입력하도록 요청할 수 있습니다. 예를 들어, 사용자가 애플리케이션 내에서 결제 설정을 변경하는 곳에서 사용할 수 있습니다.
+
+이를 위해 라라벨은 `password.confirm` 미들웨어를 제공합니다. `password.confirm` 미들웨어를 라우트에 연결하면 사용자가 계속 진행하기 전에 비밀번호를 확인해야하는 화면으로 사용자를 리디렉션합니다.
+
+    Route::get('/settings/security', function () {
+        // Users must confirm their password before continuing...
+    })->middleware(['auth', 'password.confirm']);
+
+사용자가 자신의 암호를 확인하면 원래 접근하려는 경로로 다시 돌아갑니다. 기본적으로 비밀번호를 확인한 후 사용자는 3시간 동안 비밀번호를 다시 확인 할 필요가 없습니다. `auth.password_timeout` 설정 옵션을 사용하여 사용자가 비밀번호를 다시 확인해야하는 시간을 자유롭게 변경 할 수 있습니다.
 
 <a name="login-throttling"></a>
 ### 로그인 횟수 제한
@@ -419,8 +439,8 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
     namespace App\Providers;
 
     use App\Services\Auth\JwtGuard;
-    use Illuminate\Support\Facades\Auth;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -492,9 +512,9 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
     namespace App\Providers;
 
-    use Illuminate\Support\Facades\Auth;
     use App\Extensions\RiakUserProvider;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -543,14 +563,13 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
     namespace Illuminate\Contracts\Auth;
 
-    interface UserProvider {
-
+    interface UserProvider
+    {
         public function retrieveById($identifier);
         public function retrieveByToken($identifier, $token);
         public function updateRememberToken(Authenticatable $user, $token);
         public function retrieveByCredentials(array $credentials);
         public function validateCredentials(Authenticatable $user, array $credentials);
-
     }
 
 `retrieveById` 함수는 일반적으로 MySQL 데이터베이스의 자동 증가 ID와 같은 사용자를 대표하는 키를 전달 받습니다. ID에 상응하는 `Authenticatable` 구현체가 조회되고 그 메소드를 통해 반환됩니다.
@@ -572,15 +591,14 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 
     namespace Illuminate\Contracts\Auth;
 
-    interface Authenticatable {
-
+    interface Authenticatable
+    {
         public function getAuthIdentifierName();
         public function getAuthIdentifier();
         public function getAuthPassword();
         public function getRememberToken();
         public function setRememberToken($value);
         public function getRememberTokenName();
-
     }
 
 이 인터페이스는 간단합니다. `getAuthIdentifierName` 메소드는 사용자의 "프라이머리 키" 필드의 이름을 반환해야하며 `getAuthIdentifier` 메소드는 사용자의 "프라이머리 키"를 반환합니다. MySQL의 경우 auto-incrementing primary key에 해당합니다. `getAuthPassword`는 사용자의 해시된 패스워드를 반환합니다. 이 인터페이스는 어떤 ORM 혹은 저장소 추상화 계층을 사용하든지에 상관없이 인증 시스템이 어떤 사용자 클래스에도 적용 될수 있도록 해줍니다. 라라벨은 기본적으로 이 인터페이스를 구현하는 `app` 디렉토리에 `User` 클래스를 포함하기 때문에 구현된 예를 보기 위해 이 클래스를 이용면 됩니다.

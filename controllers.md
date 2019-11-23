@@ -8,6 +8,7 @@
 - [컨트롤러 미들웨어](#controller-middleware)
 - [리소스 컨트롤러](#resource-controllers)
     - [Resource 라우트의 일부만 지정하기](#restful-partial-resource-routes)
+    - [중첩된 Resources](#restful-nested-resources)
     - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
     - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
     - [리소스 URI의 지역화(다국어 동사처리)](#restful-localizing-resource-uris)
@@ -32,8 +33,8 @@
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class UserController extends Controller
     {
@@ -62,21 +63,21 @@
 
 컨트롤러에 대응하는 라우트를 정의 할 때 전체 컨트롤러의 전체 네임 스페이스를 지정할 필요가 없다는 점에 유의해야합니다. `RouteServiceProvider`는 네임 스페이스를 포함하는 라우트 그룹 내에서 라우트 파일을 로드하기 때문에 네임 스페이스의 `App\Http\Controllers` 부분의 뒤에 오는 클래스 이름부분만 지정했습니다.
 
-컨트롤러를 `App \ Http \ Controllers` 디렉토리내에 위치시키려면 `App \ Http \ Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다. :
+컨트롤러를 `App\Http\Controllers` 디렉토리내에 위치시키려면 `App\Http\Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다.
 
     Route::get('foo', 'Photos\AdminController@method');
 
 <a name="single-action-controllers"></a>
 ### 단일 동작 컨트롤러
 
-단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의`__invoke` 메소드를 넣을 수 있습니다 :
+단일 액션만을 처리하는 컨트롤러를 정의하고 싶다면 컨트롤러에 하나의`__invoke` 메소드를 넣을 수 있습니다.
 
     <?php
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class ShowProfile extends Controller
     {
@@ -96,7 +97,7 @@
 
     Route::get('user/{id}', 'ShowProfile');
 
-Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호출 가능한 컨트롤러를 생성 할 수 있습니다 :
+Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호출 가능한 컨트롤러를 생성 할 수 있습니다.
 
     php artisan make:controller ShowProfile --invokable
 
@@ -139,7 +140,7 @@ Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호
 <a name="resource-controllers"></a>
 ## 리소스 컨트롤러
 
-Laravel 리소스 라우팅은 일반적인 "CRUD" 경로를 한 줄의 코드로 컨트롤러에 할당합니다. 예를 들어, 애플리케이션에서 저장 한 "사진"에 대한 모든 HTTP 요청을 처리하는 컨트롤러를 만들 수 있습니다. `make:controller` Artisan 명령을 사용하여, 우리는 그러한 컨트롤러를 빠르게 만들 수 있습니다 :
+Laravel 리소스 라우팅은 일반적인 "CRUD" 경로를 한 줄의 코드로 컨트롤러에 할당합니다. 예를 들어, 애플리케이션에서 저장 한 "사진"에 대한 모든 HTTP 요청을 처리하는 컨트롤러를 만들 수 있습니다. `make:controller` Artisan 명령을 사용하여, 우리는 그러한 컨트롤러를 빠르게 만들 수 있습니다.
 
     php artisan make:controller PhotoController --resource
 
@@ -168,7 +169,6 @@ POST      | `/photos`              | store        | photos.store
 GET       | `/photos/{photo}`      | show         | photos.show
 GET       | `/photos/{photo}/edit` | edit         | photos.edit
 PUT/PATCH | `/photos/{photo}`      | update       | photos.update
-DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 #### 리소스 모델 지정하기
 
@@ -178,7 +178,7 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 #### 스푸핑 폼 함수
 
-HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨겨진 `_method` 필드를 추가하여 이들 HTTP 문법을 인용해야합니다. `@method` 블레이드 디렉티브로 필드를 생성 할 수 있습니다. :
+HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨겨진 `_method` 필드를 추가하여 이들 HTTP 문법을 인용해야합니다. `@method` 블레이드 디렉티브로 필드를 생성 할 수 있습니다.
 
     <form action="/foo/bar" method="POST">
         @method('PUT')
@@ -214,6 +214,15 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 
     php artisan make:controller API/PhotoController --api
 
+<a name="restful-nested-resources"></a>
+### 중첩된 Resources
+
+때때로 "중첩 된" 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 사진 리소스는 사진에 첨부 될 수있는 다수의 "코멘트"를 가질 수 있습니다. 리소스 컨트롤러를 "중첩"하려면 경로 선언에서 "점-dot"표기법을 사용하십시오.
+
+    Route::resource('photos.comments', 'PhotoCommentController');
+
+이 라우트는 photos/{photos}/comments/{comments}와 같은 URL로 액세스 할 수있는 "중첩 된" 리소스를 등록합니다.
+
 <a name="restful-naming-resource-routes"></a>
 ### 리소스 라우트 이름 지정하기
 
@@ -226,7 +235,7 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 <a name="restful-naming-resource-route-parameters"></a>
 ### 리소스 라우트 파리미터 이름 지정하기
 
-기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다 :
+기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다.
 
     Route::resource('users', 'AdminUserController')->parameters([
         'users' => 'admin_user'
@@ -371,7 +380,7 @@ API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 
 
     php artisan route:cache
 
-이 명령을 실행하면 캐시 된 경로 파일이 모든 요청에로드됩니다. 새로운 경로를 추가하는 경우 새로운 경로 캐시를 생성해야합니다. 이 때문에 프로젝트 배포 중에`route : cache` 명령 만 실행하면됩니다.
+이 명령을 실행하면 캐시 된 라우트 파일이 모든 요청에 로드됩니다. 새로운 라우트를 추가하는 경우 새로운 라우트 캐시를 생성해야합니다. 이 때문에 프로젝트 배포 중에 `route:cache` 명령 만 실행하면 됩니다.
 
 캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다. 캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다.
 

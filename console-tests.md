@@ -24,14 +24,14 @@ Laravel을 사용하면 `expectsQuestion` 메소드를 사용하여 콘솔 명�
         $this->line('Your name is '.$name.' and you program in '.$language.'.');
     });
 
-`expectsQuestion` , `expectsOutput` 및 `assertExitCode` 메소드를 사용하는 다음 테스트로 이 명령을 테스트 할 수 있습니다 :
+`expectsQuestion` , `expectsOutput` 및 `assertExitCode` 메소드를 사용하는 다음 테스트로 이 명령을 테스트 할 수 있습니다.
 
     /**
      * Test a console command.
      *
      * @return void
      */
-    public function test_console_command()
+    public function testConsoleCommand()
     {
         $this->artisan('question')
              ->expectsQuestion('What is your name?', 'Taylor Otwell')

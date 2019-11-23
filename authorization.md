@@ -133,8 +133,8 @@ Gate를 사용하여 현재 사용자가 지정된 액션에 대한 권한을 �
 
 지금까지 우리는 단순한 Boolean값을 반환하는 게이트만 살펴보았습니다. 그러나 때로는 에러 메시지를 포함한 더욱 자세한 응답을 반환해야 할 때도 있습니다. 이때 게이트에서 `Illuminate\Auth\Access\Response`를 반환할 수 있습니다.
 
-    use Illuminate\Support\Facades\Gate;
     use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
 
     Gate::define('edit-settings', function ($user) {
         return $user->isAdmin
@@ -208,10 +208,10 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
 
     namespace App\Providers;
 
-    use App\Post;
     use App\Policies\PostPolicy;
-    use Illuminate\Support\Facades\Gate;
+    use App\Post;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Gate;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -265,8 +265,8 @@ Policy를 등록하고 나면, 권한을 확인 하고자 하는 각 액션에 �
 
     namespace App\Policies;
 
-    use App\User;
     use App\Post;
+    use App\User;
 
     class PostPolicy
     {
@@ -299,7 +299,7 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
      *
      * @param  \App\User  $user
      * @param  \App\Post  $post
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response
      */
     public function update(User $user, Post $post)
     {
@@ -351,8 +351,8 @@ Policy에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 �
 
     namespace App\Policies;
 
-    use App\User;
     use App\Post;
+    use App\User;
 
     class PostPolicy
     {
@@ -439,9 +439,9 @@ Policy에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 �
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Post;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PostController extends Controller
     {
@@ -489,9 +489,9 @@ Policy에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 �
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Post;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PostController extends Controller
     {

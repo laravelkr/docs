@@ -82,8 +82,8 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
     namespace App\Console\Commands;
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
     use Illuminate\Console\Command;
 
     class SendEmails extends Command
@@ -127,7 +127,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 <a name="closure-commands"></a>
 ### 클로저 명령
 
-클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의`commands` 함수 내에서 Laravel은`routes/console.php` 파일을 로드합니다. :
+클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의`commands` 함수 내에서 Laravel은`routes/console.php` 파일을 로드합니다.
 
     /**
      * Register the Closure based commands for the application.
@@ -151,8 +151,8 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
 명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다.
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
 
     Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
         $drip->send(User::find($user));
@@ -160,7 +160,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 
 #### 클로저 명령 설명 추가
 
-클로저 기반 명령을 정의 할 때`describe` 메소드를 사용하여 명령에 설명을 추가 할 수 있습니다. 이 설명은`php artisan list` 또는`php artisan help` 명령을 실행할 때 표시됩니다 :
+클로저 기반 명령을 정의 할 때 `describe` 메소드를 사용하여 명령에 설명을 추가 할 수 있습니다. 이 설명은 `php artisan list` 또는 `php artisan help` 명령을 실행할 때 표시됩니다.
 
     Artisan::command('build {project}', function ($project) {
         $this->info("Building {$project}!");
@@ -230,8 +230,6 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 <a name="option-shortcuts"></a>
 #### 옵션의 짧은 표현
 
-To assign a shortcut when defining an option, you may specify it before the option name and use a | delimiter to separate the shortcut from the full option name:
-
 옵션을 정의 할 때 단축키를 지정하려면 전체 옵션 이름 앞에 |로 구분하여 단축키를 지정하면 됩니다.
 
     email:send {user} {--Q|queue}
@@ -243,7 +241,7 @@ To assign a shortcut when defining an option, you may specify it before the opti
 
     email:send {user*}
 
-이 함수를 호출 할 때`user` 인자는 명령 행에 순서대로 전달 될 수 있습니다. 예를 들어, 다음 명령은 `user`의 값을`[ 'foo', 'bar']`로 설정합니다. :
+이 함수를 호출 할 때 `user` 인자는 명령 행에 순서대로 전달 될 수 있습니다. 예를 들어, 다음 명령은 `user`의 값을 `[ 'foo', 'bar']`로 설정합니다.
 
     php artisan email:send foo bar
 
@@ -333,6 +331,12 @@ To assign a shortcut when defining an option, you may specify it before the opti
 `anticipate` 메소드는 입력가능한 값들에 대한 자동완성 기능을 제공합니다. 사용자는 자동완성되는 결과에 개의치 않고, 어떤 대답도 입력 할 수 있습니다.
 
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
+
+또는 `anticipate`메소드의 두 번째 인자로 클로저를 전달할 수도 있습니다. 사용자가 문자를 입력 할 때마다 클로저가 호출됩니다. 클로저는 사용자의 지금까지 입력한 값을 문자열 파라메터로 입력받고 자동 완성을 위한 옵션 배열을 반환해야합니다.
+
+    $name = $this->anticipate('What is your name?', function ($input) {
+        // Return auto-completion options...
+    });
 
 #### 여러개의 선택지
 

@@ -182,6 +182,10 @@
     Route::group(['middleware' => ['web']], function () {
         //
     });
+    
+    Route::middleware(['web', 'subscribed'])->group(function () { 
+        //
+    });
 
 > {tip} 별다른 설정없이도, `web` 미들웨어 그룹이 자동으로 `RouteServiceProvider`의 `routes/web.php` 파일에 지정되어 있습니다.
 
@@ -249,7 +253,8 @@
 <a name="terminable-middleware"></a>
 ## 종료시 동작하는 미들웨어
 
-때로는 미들웨어가 HTTP 응답이 브라우저로 전송 된 후 일부 작업을 수행해야 할 수도 있습니다. 예를 들어 Laravel에 포함 된 "세션" 미들웨어는 응답이 브라우저로 전송 된 후 세션 데이터를 저장소에 기록합니다. 미들웨어에서 `terminate` 메소드를 정의하고 웹 서버가 FastCGI를 사용한다면, 응답이 브라우저로 보내진 후 `terminate` 메소드가 자동으로 호출됩니다.
+때로는 미들웨어가 HTTP 응답이 브라우저로 전송 된 후 일부 작업을 수행해야 할 수도 있습니다. 미들웨어에서 `terminate` 메소드를 정의하고 웹 서버가 FastCGI를 사용하는 경우 응답이 브라우저로 전송 된 후 `terminate` 메소드가 자동으로 호출됩니다.
+
 
     <?php
 

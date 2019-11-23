@@ -57,8 +57,8 @@
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class PostController extends Controller
     {
@@ -343,8 +343,8 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
@@ -517,7 +517,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 
     The credit card number field is required when payment type is cc.
 
-결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다 :
+결제 유형 값으로 `cc` 를 표시하는 대신 `values` 배열을 정의하여 `validation` 언어 파일에 사용자 정의 값 표현을 지정할 수 있습니다.
 
     'values' => [
         'payment_type' => [
@@ -580,6 +580,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 - [Not Regex](#rule-not-regex)
 - [Nullable](#rule-nullable)
 - [Numeric](#rule-numeric)
+- [Password](#rule-password)
 - [Present](#rule-present)
 - [Regular Expression](#rule-regex)
 - [Required](#rule-required)
@@ -607,7 +608,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-active-url"></a>
 #### active_url
 
-필드의 값이 PHP 함수 `dns_get_record`에서 확인 가능한 올바른 A 또는 AAAA 레코드여야 합니다.
+검증중인 필드는 `dns_get_record` PHP 함수에 따라 유효한 A 또는 AAAA 레코드를 가져야합니다. 제공된 URL의 호스트 이름은 `pars_url` PHP 함수를 사용하여 추출되어 `dns_get_record`에 전달됩니다.
 
 <a name="rule-after"></a>
 #### after:_date_
@@ -690,7 +691,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/es/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
+필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
 
 <a name="rule-different"></a>
 #### different:_field_
@@ -705,7 +706,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-필드의 값이 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
+필드의 값이 반드시 _숫자_ 여야 하고, 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -753,7 +754,7 @@ _ratio_ 제약은 가로를 세로로 나눈 비율을 표현해야합니다. �
 - `spoof`: `SpoofCheckValidation`
 - `filter`: `FilterEmailValidation`
 
-PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 포함되어 있으며 5.8 이전 버전의 동작입니다.
+PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 포함되어 있으며 5.8 이전 버전의 동작입니다. `dns`와 `spoof` 유효성 검사에는 PHP `intl` 확장모듈이 필요합니다.
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
@@ -805,12 +806,12 @@ PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 �
 <a name="rule-gt"></a>
 #### gt:_field_
 
-필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-gte"></a>
 #### gte:_field_
 
-필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-image"></a>
 #### image
@@ -864,12 +865,12 @@ PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 �
 <a name="rule-lt"></a>
 #### lt:_field_
 
-필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-lte"></a>
 #### lte:_field_
 
-필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-max"></a>
 #### max:_value_
@@ -940,6 +941,13 @@ MIME 타입과 그에 상응하는 확장의 전체 목록은 다음의 위치�
 #### numeric
 
 필드의 값이 숫자여야 합니다.
+
+<a name="rule-password"></a>
+#### password
+
+필드의 값이 인증 된 사용자의 비밀번호와 일치해야합니다. 규칙의 첫 번째 파라메터를 사용하여 인증 가드를 지정할 수 있습니다.
+
+    'password' => 'password:api'
 
 <a name="rule-present"></a>
 #### present
@@ -1055,8 +1063,6 @@ _anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필�
 
 때때로 유니크 검사를 할 때 특정 ID를 무시하고자 할 수 있습니다. 예를 들어 사용자 이름, 이메일 주소 그리고 위치를 포함하는 "프로필 업데이트" 화면이 있습니다. 이메일 주소가 고유하다는 것을 확인하는 것이 좋습니다. 하지만 사용자가 이름 필드만 바꾸고 이메일 필드를 바꾸지 않는다면 사용자가 이미 이메일 주소의 주인이기 때문에 유효 검사 오류가 던져지지 않아야 합니다.
 
-To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
-
 사용자 ID를 무시하도록 지시하려면, 규칙을 유연하게 정의할 수 있는 `Rule` 클래스를 사용하면 됩니다. 다음 예제에서 규칙을 `|` 문자를 구분자로 사용하는 대신에 유효성 검사 규칙을 배열로 지정하고 있습니다.
 
     use Illuminate\Validation\Rule;
@@ -1078,7 +1084,7 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
 
     Rule::unique('users')->ignore($user->id, 'user_id')
 
-기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다 :
+기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
 
     Rule::unique('users', 'email_address')->ignore($user->id),
 

@@ -47,8 +47,8 @@
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -85,8 +85,8 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -112,8 +112,8 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -143,8 +143,8 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class User extends Model
     {
@@ -158,6 +158,16 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
         public function getScoutKey()
         {
             return $this->email;
+        }
+        
+         /**
+         * Get the key name used to index the model.
+         *
+         * @return mixed
+         */
+        public function getScoutKeyName()
+        {
+            return 'email';
         }
     }
 
@@ -376,7 +386,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
     abstract public function search(Builder $builder);
     abstract public function paginate(Builder $builder, $perPage, $page);
     abstract public function mapIds($results);
-    abstract public function map($results, $model);
+    abstract public function map(Builder $builder, $results, $model);
     abstract public function getTotalCount($results);
     abstract public function flush($model);
 
@@ -413,9 +423,9 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 
     namespace App\Providers;
 
-    use Laravel\Scout\Builder;
-    use Illuminate\Support\ServiceProvider;
     use Illuminate\Support\Facades\Response;
+    use Illuminate\Support\ServiceProvider;
+    use Laravel\Scout\Builder;
 
     class ScoutMacroServiceProvider extends ServiceProvider
     {
@@ -434,6 +444,6 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
         }
     }
 
-`macro` 함수는 첫 번째 인수로 이름을 받아들입니다. 두 번째 인수는 Closure입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다 :
+`macro` 함수는 첫 번째 인수로 이름을 받아들입니다. 두 번째 인수는 Closure입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다.
 
     App\Order::search('Star Trek')->count();

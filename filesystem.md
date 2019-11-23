@@ -166,6 +166,10 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     $exists = Storage::disk('s3')->exists('file.jpg');
 
+`missing` 메소드는 파일이 디스크에서 누락되었는지 판별하는 데 사용될 수 있습니다.
+
+    $missing = Storage::disk('s3')->missing('file.jpg');
+
 <a name="downloading-files"></a>
 ### 파일 다운로드
 
@@ -230,7 +234,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 <a name="storing-files"></a>
 ## 파일 저장하기
 
-`put` 메소드는 파일의 내용을 디스크에 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 큰 파일을 사용하는 경우 스트림을 사용하기를 권장합니다.
+`put` 메소드는 파일의 내용을 디스크에 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 모든 파일 경로는 디스크에 대해 구성된 "root" 위치를 기준으로 지정해야합니다.
 
     use Illuminate\Support\Facades\Storage;
 
@@ -282,8 +286,8 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class UserAvatarController extends Controller
     {
@@ -346,7 +350,7 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     $visibility = Storage::getVisibility('file.jpg');
 
-    Storage::setVisibility('file.jpg', 'public')
+    Storage::setVisibility('file.jpg', 'public');
 
 <a name="deleting-files"></a>
 ## 파일 삭제하기
@@ -414,16 +418,16 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 
     namespace App\Providers;
 
-    use Storage;
-    use League\Flysystem\Filesystem;
     use Illuminate\Support\ServiceProvider;
+    use League\Flysystem\Filesystem;
     use Spatie\Dropbox\Client as DropboxClient;
     use Spatie\FlysystemDropbox\DropboxAdapter;
+    use Storage;
 
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */

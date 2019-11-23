@@ -2,7 +2,7 @@
 
 - [버전 관리 체계](#versioning-scheme)
 - [지원 정책](#support-policy)
-- [라라벨 6.0](#laravel-6.0)
+- [라라벨 6](#laravel-6)
 
 <a name="versioning-scheme"></a>
 ## 버전 관리 체계
@@ -14,7 +14,7 @@
 <a name="support-policy"></a>
 ## 지원 정책
 
-라라벨 6.0과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
+라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
 
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
 | --- | --- | --- | --- |
@@ -22,13 +22,13 @@
 | 5.6 | 2018년 2월 7일 | 2018년 8월 7일 | 2019년 2월 7일 |
 | 5.7 | 2018년 9월 4일 | 2019년 3월 4일 | 2019년 9월 4일 |
 | 5.8 | 2019년 2월 26일 | 2019년 8월 26일 | 2020년 2월 26일 |
-| 6.0 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
+| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
 
 
-<a name="laravel-6.0"></a>
-## 라라벨 6.0
+<a name="laravel-6"></a>
+## 라라벨 6
 
-라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 6 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
 ### 유의적 버젼
 
@@ -38,17 +38,17 @@
 
 _라라벨 Vapor 는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
 
-라라벨 6.0 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
+라라벨 6 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
 
 ### Ignition 을 통한 개선된 예외상황들
 
-라라벨 6.0은 Freek Van der Herten 과 Marcel Pociot 가 만든 새로운 오픈소스 예외상황 상세 페이지인 [Ignition](https://github.com/facade/ignition)을 장착하였습니다. Ignition 은 블레이드 에러 파일과 줄번호 관리, 일반적 문제에 대한 실행 가능한 해결책, 코드 수정, 예외상황 공유, 개선된 UX 등 이전 버전에 비해 개선된 이점을 제공합니다.
+라라벨 6은 Freek Van der Herten 과 Marcel Pociot 가 만든 새로운 오픈소스 예외상황 상세 페이지인 [Ignition](https://github.com/facade/ignition)을 장착하였습니다. Ignition 은 블레이드 에러 파일과 줄번호 관리, 일반적 문제에 대한 실행 가능한 해결책, 코드 수정, 예외상황 공유, 개선된 UX 등 이전 버전에 비해 개선된 이점을 제공합니다.
 
 ### 개선된 권한 응답
 
 _개선된 권한 응답은 [Gary Green](https://github.com/garygreen)에 의해 구현되었습니다_.
 
-라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
+라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
 
     /**
      * Determine if the user can view the given flight.
@@ -101,7 +101,7 @@ Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸�
         });
     }
 
-라라벨 6.0 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
+라라벨 6 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
 
     <?php
 
@@ -152,7 +152,7 @@ job 의 `middleware` 메소드로부터 만든 미들웨어를 반환받고, 그
 
 _지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
 
-많은 개발자들은 이미 라라벨의 강력한 [컬렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
+많은 개발자들은 이미 라라벨의 강력한 [컬렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
 
 예를 들자면, 당신의 애플리케이션이 로그를 파싱하기위해 라라벨의 컬렉션 메소드를 이용함으로써 얻는 이익도 있겠지만, 몇 기가바이트 단위의 로그 파일을 처리해야할 때를 생각한다면 비효율 적입니다. 지연 컬렉션은 파일 전체를 메모리 안으로 한번에 불러오는 대신, 요청한 시간에 파일의 일부분만 메모리로 읽어 올 것입니다.
 
@@ -180,7 +180,7 @@ _지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephS
         return $user->id > 500;
     });
 
-그러나 라라벨 6.0 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
+그러나 라라벨 6 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
 
     $users = App\User::cursor()->filter(function ($user) {
         return $user->id > 500;
@@ -194,9 +194,9 @@ _지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephS
 
 _엘로퀜트 서브쿼리 확장은 [Jonathan Reinink](https://github.com/reinink)에 의해 구현되었습니다_.
 
-라라벨 6.0 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
+라라벨 6 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
 
-라라벨 6.0 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
+라라벨 6 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
 
     return Destination::addSelect(['last_flight' => Flight::select('name')
         ->whereColumn('destination_id', 'destinations.id')
@@ -219,6 +219,6 @@ _엘로퀜트 서브쿼리 확장은 [Jonathan Reinink](https://github.com/reini
 
 이전 릴리즈의 라라벨에서 제공된 전통적인 vue / bootstrap 스캐폴딩을 복원하는 순서로, 아마 당신은 `laravel\ui` 패키지를 설치하고, `ui` 아티산 커멘드로 프론트엔드 스캐폴딩을 설치해야 할 것입니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth

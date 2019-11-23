@@ -1,4 +1,5 @@
 # 데이터베이스 : 페이지네이션
+
 - [시작하기](#introduction)
 - [기본적인 사용법](#basic-usage)-
     - [쿼리 빌더 결과를 페이징 하기](#paginating-query-builder-results)
@@ -28,8 +29,8 @@
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {
@@ -119,7 +120,7 @@
 
 #### 페이지네이션 링크 창 조정하기
 
-paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 변경 할 수 있습니다. 기본적으로 세 개의 링크가 기본 paginator 링크의 각 사이드에 표시됩니다. 그러나 `onEachSide` 메소드를 사용하여 이 숫자를 변경 할 수 있습니다 :
+paginator가 URL "창"의 각 사이드에 표시하는 추가 링크의 수를 변경 할 수 있습니다. 기본적으로 세 개의 링크가 기본 paginator 링크의 각 사이드에 표시됩니다. 그러나 `onEachSide` 메소드를 사용하여 이 숫자를 변경 할 수 있습니다.
 
     {{ $users->onEachSide(5)->links() }}
 
@@ -205,3 +206,5 @@ paginator로 부터 변환된 JSON은 `total`, `current_page`, `last_page` 및 �
 `$results->previousPageUrl()`  |  이전 페이지의 URL을 가져옵니다.
 `$results->total()`  |  데이터 저장소에서 일치하는 항목의 총 개수를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
 `$results->url($page)`  |  지정된 페이지 번호의 URL을 가져옵니다.
+`$results->getPageName()`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 가져옵니다.
+`$results->setPageName($name)`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 설정합니다.

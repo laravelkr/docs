@@ -103,7 +103,7 @@ Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다
         protected $primaryKey = 'flight_id';
     }
 
-추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오. 증가하지 않거나 숫자가 아닌 기본 키를 사용하려면 모델의 공개 `$incrementing` 속성을 `false`로 설정해야합니다 :
+추가적으로, Eloquent 는 primary key가 증가하는 정수값(incrementing)이라고 추정합니다. 이는 기본적으로 primary key를 `int`로 자동 캐스팅 한다는 것을 의미합니다. 증가하지 않는(non-incrementing) 또는 숫자형이 아닌 primary key를 사용하고자 한다면, 모델의 public `$incrementing` 속성을 `false` 로 설정해야 합니다. primary key가 정수값(integer)이 아니라면, 모델의 protected `$keyType` 속성을 `string`으로 지정하십시오. 증가하지 않거나 숫자가 아닌 기본 키를 사용하려면 모델의 공개 `$incrementing` 속성을 `false`로 설정해야합니다.
 
     <?php
 
@@ -117,7 +117,7 @@ Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다
         public $incrementing = false;
     }
 
-기본 키가 정수가 아닌 경우 모델의 protected `$keyType` 속성을 `string`으로 설정해야합니다 :
+기본 키가 정수가 아닌 경우 모델의 protected `$keyType` 속성을 `string`으로 설정해야합니다.
 
     <?php
 
@@ -202,7 +202,7 @@ Eloquent는 테이블의 primary key 컬럼의 이름을 `id`로 추정합니다
 <a name="default-attribute-values"></a>
 ### 기본 속성 값
 
-일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다 :
+일부 모델의 속성에 대한 기본값을 정의하고 싶다면 모델의 `$attributes`에 속성을 정의 할 수 있습니다.
 
     <?php
 
@@ -319,13 +319,12 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
 
 서브쿼리 메소드 중에 `select` 와 `addSelect` 는 단일 쿼리를 사용하여 가장 최근에 목적지에 도착한 항공편의 이름과 목적지를 모두 선택할 수 있습니다.
 
-    use App\Flight;
     use App\Destination;
+    use App\Flight;
 
     return Destination::addSelect(['last_flight' => Flight::select('name')
         ->whereColumn('destination_id', 'destinations.id')
         ->orderBy('arrived_at', 'desc')
-        ->latest()
         ->limit(1)
     ])->get();
 
@@ -337,7 +336,6 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
         Flight::select('arrived_at')
             ->whereColumn('destination_id', 'destinations.id')
             ->orderBy('arrived_at', 'desc')
-            ->latest()
             ->limit(1)
     )->get();
 
@@ -391,9 +389,9 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Flight;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class FlightController extends Controller
     {
@@ -667,9 +665,9 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
 
     namespace App\Scopes;
 
-    use Illuminate\Database\Eloquent\Scope;
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Scope;
 
     class AgeScope implements Scope
     {
@@ -726,8 +724,8 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
 
     namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
     {
@@ -866,7 +864,7 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
 
 데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생합니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
 
-> {note} Eloquent를 통해 대량 업데이트를 할 때 업데이트 된 모델의 `saved` 및 `updated` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
+> {note} Eloquent를 통해 대량 업데이트 또는 삭제를 할 때 변경된 된 모델의 `saved`, `updated`, `deleting` 및 `deleted` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
 
 이렇게 하기 위해서, Eloquent 모델의 라이프사이클의 다양한 지점을 고유한 이벤트 클래스에 매핑하는 `$dispatchesEvents` 속성을 Eloquent 모델에 정의하면 됩니다.
 
@@ -874,9 +872,8 @@ Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이
 
     namespace App;
 
-    use App\Events\UserSaved;
     use App\Events\UserDeleted;
-    use Illuminate\Notifications\Notifiable;
+    use App\Events\UserSaved;
     use Illuminate\Foundation\Auth\User as Authenticatable;
 
     class User extends Authenticatable
@@ -955,8 +952,8 @@ Eloquent 이벤트를 정의하고 매핑 한 후 [이벤트 리스너](/docs/{{
 
     namespace App\Providers;
 
-    use App\User;
     use App\Observers\UserObserver;
+    use App\User;
     use Illuminate\Support\ServiceProvider;
 
     class AppServiceProvider extends ServiceProvider

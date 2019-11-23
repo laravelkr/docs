@@ -33,6 +33,14 @@
 <a name="available-methods"></a>
 ## 사용가능한 메소드들 
 
+- [diff](#method-diff)
+- [find](#method-find)
+- [intersect](#method-intersect)
+- [loadMissing](#method-loadMissing)
+- [makeVisible](#method-makeVisible)
+- [only](#method-only)
+- [unique](#method-unique)
+
 모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
 
 또한 `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 슈퍼셋을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환하지만 일부 메소드는 기본 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
@@ -45,6 +53,7 @@
     
     $users->contains(User::find(1));
 
+<a name="method-diff"></a>
 #### `diff($items)`
 
 `diff` 메소드는 주어진 컬렉션에 존재하지 않는 모든 모델을 리턴합니다.
@@ -53,12 +62,14 @@
 
     $users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
 
+<a name="method-except"></a>
 #### `except($keys)`
 
 `except` 메소드는 주어진 기본-primary 키를 가지고 있지 않은 모든 모델을 반환합니다.
 
     $users = $users->except([1, 2, 3]);
 
+<a name="method-find"></a>
 #### `find($key)` {#collection-method .first-collection-method}
 
 `find` 메소드는 주어진 기본-primary 키를 가진 모델을 찾습니다. `$key`가 모델 인스턴스라면, `find`는 기본-primary 키와 일치하는 모델을 반환하려고 시도 할 것입니다. `$key`가 키 배열이면,`find`는`$ keys`와 일치하는 모든 모델을`whereIn ()`을 사용하여 돌려줍니다.
@@ -67,6 +78,7 @@
 
     $user = $users->find(1);
 
+<a name="method-fresh"></a>
 #### `fresh($with = [])`
 
 `fresh` 메소드는 데이터베이스에서 컬렉션의 각 모델의 새로운 인스턴스를 가져옵니다. 또한 지정된 모든 관계가 eager 로드됩니다.
@@ -75,6 +87,7 @@
 
     $users = $users->fresh('comments');
 
+<a name="method-intersect"></a>
 #### `intersect($items)`
 
 `intersect` 메소드는 주어진 컬렉션에 존재하는 모든 모델을 반환합니다.
@@ -83,6 +96,7 @@
 
     $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
 
+<a name="method-load"></a>
 #### `load($relations)`
 
 `load` 메소드는 컬렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
@@ -91,6 +105,7 @@
 
     $users->load('comments.author');
 
+<a name="method-loadMissing"></a>
 #### `loadMissing($relations)`
 
 `loadMissing` 메소드는 관계가 아직 로드되지 않은 경우 컬렉션의 모든 모델에 대해 주어진 관계를 로드합니다.
@@ -99,6 +114,7 @@
 
     $users->loadMissing('comments.author');
 
+<a name="method-modelKeys"></a>
 #### `modelKeys()`
 
 `modelKeys` 메소드는 컬렉션 내의 모든 모델에 대한 기본-primary 키를 반환합니다.
@@ -106,25 +122,29 @@
     $users->modelKeys();
 
     // [1, 2, 3, 4, 5]
-    
+
+<a name="method-makeVisible"></a>
 #### `makeVisible($attributes)`
 
 `makeVisible` 메소드는 컬렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
 
     $users = $users->makeVisible(['address', 'phone_number']);
 
+<a name="method-makeHidden"></a>
 #### `makeHidden($attributes)`
 
 `makeHidden` 메소드는 컬렉션의 각 모델에 일반적으로 "가시적-visible"인 속성을 숨깁니다.
 
     $users = $users->makeHidden(['address', 'phone_number']);
 
+<a name="method-only"></a>
 #### `only($keys)`
 
 `only` 메소드는 주어진 기본-primary 키를 가진 모든 모델을 반환합니다.
 
     $users = $users->only([1, 2, 3]);
 
+<a name="method-unique"></a>
 #### `unique($key = null, $strict = false)`
 
 `unique` 메소드는 컬렉션 내의 모든 유일한 모델들을 반환합니다. 컬렉션의 다른 모델과 동일한 기본-primary 키가 있는 동일한 유형의 모델은 제거됩니다.

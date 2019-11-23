@@ -23,6 +23,7 @@
 - [Arr::forget](#method-array-forget)
 - [Arr::get](#method-array-get)
 - [Arr::has](#method-array-has)
+- [Arr::isAssoc](#method-array-isassoc)
 - [Arr::last](#method-array-last)
 - [Arr::only](#method-array-only)
 - [Arr::pluck](#method-array-pluck)
@@ -58,7 +59,9 @@
 - [e](#method-e)
 - [preg_replace_array](#method-preg-replace-array)
 - [Str::after](#method-str-after)
+- [Str::afterLast](#method-str-after-last)
 - [Str::before](#method-str-before)
+- [Str::beforeLast](#method-str-before-last)
 - [Str::camel](#method-camel-case)
 - [Str::contains](#method-str-contains)
 - [Str::containsAll](#method-str-contains-all)
@@ -81,6 +84,7 @@
 - [Str::studly](#method-studly-case)
 - [Str::title](#method-title-case)
 - [Str::uuid](#method-str-uuid)
+- [Str::words](#method-str-words)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 
@@ -297,6 +301,21 @@
 
     // false
 
+<a name="method-array-isassoc"></a>
+#### `Arr::isAssoc()` {#collection-method}
+
+주어진 배열이 연관 배열이면 `Arr::isAssoc`은 `true`를 반환합니다. 배열은 0으로 시작하는 순차적 숫자 키가없는 경우 "연관-associative"으로 간주됩니다.
+
+    use Illuminate\Support\Arr;
+
+    $isAssoc = Arr::isAssoc(['product' => ['name' => 'Desk', 'price' => 100]]);
+
+    // true
+
+    $isAssoc = Arr::isAssoc([1, 2, 3]);
+
+    // false
+
 <a name="method-array-last"></a>
 #### `Arr::last()` {#collection-method}
 
@@ -471,7 +490,7 @@
 <a name="method-array-sort-recursive"></a>
 #### `Arr::sortRecursive()` {#collection-method}
 
-`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다 :
+`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
 
     use Illuminate\Support\Arr;
 
@@ -780,6 +799,16 @@
 
     // ' my name'
 
+<a name="method-str-after-last"></a>
+#### `Str::afterLast()` {#collection-method}
+
+`Str::afterLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타난 후 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::afterLast('App\Http\Controllers\Controller', '\\');
+
+    // 'Controller'
 
 <a name="method-str-before"></a>
 #### `Str::before()` {#collection-method}
@@ -791,6 +820,17 @@
     $slice = Str::before('This is my name', 'my name');
 
     // 'This is '
+
+<a name="method-str-before-last"></a>
+#### `Str::beforeLast()` {#collection-method}
+
+`Str::beforeLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타나기 전에 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::beforeLast('This is my name', 'is');
+
+    // 'This '
 
 <a name="method-camel-case"></a>
 #### `Str::camel()` {#collection-method}
@@ -840,6 +880,18 @@
     $result = Str::endsWith('This is my name', 'name');
 
     // true
+
+주어진 문자열이 주어진 값으로 끝나는 지 확인하기 위해 값 배열을 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+
+    $result = Str::endsWith('This is my name', ['name', 'foo']);
+
+    // true
+    
+    $result = Str::endsWith('This is my name', ['this', 'foo']);
+    
+    // false
 
 <a name="method-str-finish"></a>
 #### `Str::finish()` {#collection-method}
@@ -1078,6 +1130,17 @@
 
     return (string) Str::uuid();
 
+<a name="method-str-words"></a>
+#### `Str::words()` {#collection-method}
+
+`Str::words` 메소드는 문자열의 단어 수를 제한합니다.
+
+    use Illuminate\Support\Str;
+
+    return Str::words('Perfectly balanced, as all things should be.', 3, ' >>>');
+    
+    // Perfectly balanced, as >>>
+
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}
 
@@ -1102,7 +1165,7 @@
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.:
+`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.
 
     $url = action('HomeController@index');
 

@@ -97,7 +97,7 @@ Laravel은 리퍼러를 사용하여 리스너 클래스를 검색하여 이벤�
         }
     }
 
-이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다 :
+이벤트 discovery는 기본적으로 비활성화되어 있지만, 애플리케이션의 `EventServiceProvider`의 `shouldDiscoverEvents` 메소드를 오버라이드하여 활성화시킬 수 있습니다.
 
     /**
      * Determine if events and listeners should be automatically discovered.
@@ -109,7 +109,7 @@ Laravel은 리퍼러를 사용하여 리스너 클래스를 검색하여 이벤�
         return true;
     }
 
-기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다 :
+기본적으로 애플리케이션의 Listeners 디렉토리에 있는 모든 리스너가 검사됩니다. 검사 할 디렉토리를 추가로 정의하고 싶다면, `EventServiceProvider`에서 `discoverEventsWithin` 메소드를 오버라이드 할 수 있습니다.
 
     /**
      * Get the listener directories that should be used to discover events.
@@ -302,8 +302,8 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
     namespace App\Listeners;
 
     use App\Events\OrderShipped;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Queue\InteractsWithQueue;
 
     class SendShipmentNotification implements ShouldQueue
     {
@@ -333,8 +333,8 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
     namespace App\Listeners;
 
     use App\Events\OrderShipped;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Queue\InteractsWithQueue;
 
     class SendShipmentNotification implements ShouldQueue
     {
@@ -373,9 +373,9 @@ Queue-큐를 통해서 처리하는 리스너는 만약 여러분의 리스너�
 
     namespace App\Http\Controllers;
 
-    use App\Order;
     use App\Events\OrderShipped;
     use App\Http\Controllers\Controller;
+    use App\Order;
 
     class OrderController extends Controller
     {

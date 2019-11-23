@@ -165,7 +165,7 @@
 
     $names = $request->input('products.*.name');
 
-모든 입력 값을 연관 배열로 검색하기 위해 인자없이 `input` 메소드를 호출 할 수 있습니다 :
+모든 입력 값을 연관 배열로 검색하기 위해 인자없이 `input` 메소드를 호출 할 수 있습니다.
 
     $input = $request->input();
 
@@ -227,9 +227,21 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
         //
     }
 
+`hasAny` 메소드는 지정된 값이 존재하면 `true`를 반환합니다.
+
+    if ($request->hasAny(['name', 'email'])) {
+        //
+    }
+
 주어진 변수값이 현재 request 에 존재하고 비어 있지 않은 것을 확인하려면 `filled` 메소드를 사용하면 됩니다.
 
     if ($request->filled('name')) {
+        //
+    }
+
+주어진 키가 request 에 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다.
+
+    if ($request->missing('name')) {
         //
     }
 
@@ -382,8 +394,8 @@ TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션�
 
     namespace App\Http\Middleware;
 
-    use Illuminate\Http\Request;
     use Fideloper\Proxy\TrustProxies as Middleware;
+    use Illuminate\Http\Request;
 
     class TrustProxies extends Middleware
     {

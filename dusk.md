@@ -24,7 +24,7 @@
     - [Scoping Selectors](#scoping-selectors)
     - [Elements 기다리기](#waiting-for-elements)
     - [Vue Assertions 만들기](#making-vue-assertions)
-- [Available Assertions](#available-assertions)
+- [사용 가능한 Assertions](#available-assertions)
 - [페이지-Pages](#pages)
     - [페이지 생성하기](#generating-pages)
     - [페이지 설정하기](#configuring-pages)
@@ -35,11 +35,11 @@
     - [컴포넌트 생성하기](#generating-components)
     - [컴포넌트 사용하기](#using-components)
 - [CI - 지속적 통합](#continuous-integration)
-    - [Travis CI](#running-tests-on-travis-ci)
     - [CircleCI](#running-tests-on-circle-ci)
     - [Codeship](#running-tests-on-codeship)
     - [Heroku CI](#running-tests-on-heroku-ci)
     - [Travis CI](#running-tests-on-travis-ci)
+    - [GitHub Actions](#running-tests-on-github-actions)
 
 <a name="introduction"></a>
 ## 시작하기
@@ -65,7 +65,7 @@ Dusk 패키지를 설치하고 나서는 `dusk:install` 아티즌 명령어를 �
 
     php artisan dusk
 
-마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
+마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다.
 
     php artisan dusk:fails
 
@@ -136,7 +136,7 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 
     php artisan dusk
 
-마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다 :
+마지막으로 `dusk` 명령을 실행했을 때 테스트가 실패했었다면, `dusk:fails` 명령을 사용하여 먼저 실패한 테스트를 다시 실행하여 시간을 아낄 수 있습니다.
 
     php artisan dusk:fails
 
@@ -479,7 +479,7 @@ Dusk은 JavaScript Dialogs와 상호 작용하는 다양한 메소드를 제공�
 
     // Wait for a dialog to appear:
     $browser->waitForDialog($seconds = null);
-    
+
     // Assert that a dialog has been displayed and that its message matches the given value:
     $browser->assertDialogOpened('value');
 
@@ -562,7 +562,7 @@ Dusk은 JavaScript Dialogs와 상호 작용하는 다양한 메소드를 제공�
 
 #### 페이지 경로를 기다리기
 
-`$browser->assertPathIs('/home')`와 같은 경로 assertion을 만들 때 `window.location.pathname`이 비동기적으로 업데이트되면 assertion이 실패 할 수 있습니다. location이 주어진 값이 될 때까지 기다리기 위해서 `waitForLocation` 메소드를 사용할 수 있습니다 :
+`$browser->assertPathIs('/home')`와 같은 경로 assertion을 만들 때 `window.location.pathname`이 비동기적으로 업데이트되면 assertion이 실패 할 수 있습니다. location이 주어진 값이 될 때까지 기다리기 위해서 `waitForLocation` 메소드를 사용할 수 있습니다.
 
     $browser->waitForLocation('/secret');
 
@@ -602,7 +602,7 @@ Dusk은 JavaScript Dialogs와 상호 작용하는 다양한 메소드를 제공�
 
 #### 콜백 기다리기
 
-Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존합니다. 이 메소드를 사용하면 지정된 콜백이 `true`를 돌려주는 것을 기다릴 수가 있습니다. `waitUsing` 메소드는 대기 할 최대 초 수, Closure가 검증되는 간격, Closure 및 선택적 실패 메시지를 입력받습니다 :
+Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존합니다. 이 메소드를 사용하면 지정된 콜백이 `true`를 돌려주는 것을 기다릴 수가 있습니다. `waitUsing` 메소드는 대기 할 최대 초 수, Closure가 검증되는 간격, Closure 및 선택적 실패 메시지를 입력받습니다.
 
     $browser->waitUsing(10, 1, function () use ($something) {
         return $something->isReady();
@@ -699,6 +699,8 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertDialogOpened](#assert-dialog-opened)
 - [assertEnabled](#assert-enabled)
 - [assertDisabled](#assert-disabled)
+- [assertButtonEnabled](#assert-button-enabled)
+- [assertButtonDisabled](#assert-button-disabled)
 - [assertFocused](#assert-focused)
 - [assertNotFocused](#assert-not-focused)
 - [assertVue](#assert-vue)
@@ -1046,6 +1048,20 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 
     $browser->assertDisabled($field);
 
+<a name="assert-button-enabled"></a>
+#### assertButtonEnabled
+
+주어진 버튼이 활성화되어 있는지 확인:
+
+    $browser->assertButtonEnabled($button);
+
+<a name="assert-button-disabled"></a>
+#### assertButtonDisabled
+
+주어진 버튼이 비활성화되어 있는지 확인:
+
+    $browser->assertButtonDisabled($button);
+
 <a name="assert-focused"></a>
 #### assertFocused
 
@@ -1142,7 +1158,7 @@ selector 안에서 주어진 텍스트가 존재하지 않는 것을 확인:
 
     $browser->visit(new Login);
 
-때로는 이미 주어진 페이지에 접속 해 있을 수 있으며 페이지의 선택자와 메소드를 현재 테스트 컨텍스트에 "로드"해야 할 때가 있습니다. 이는 버튼을 누르고 명시적으로 탐색하지 않고 지정된 페이지로 리디렉션 될 때 일반적입니다. 이 상황에서, 당신은 페이지를 로드하기 위해 `on` 메소드를 사용할 수 있습니다 :
+때로는 이미 주어진 페이지에 접속 해 있을 수 있으며 페이지의 선택자와 메소드를 현재 테스트 컨텍스트에 "로드"해야 할 때가 있습니다. 이는 버튼을 누르고 명시적으로 탐색하지 않고 지정된 페이지로 리디렉션 될 때 일반적입니다. 이 상황에서, 당신은 페이지를 로드하기 위해 `on` 메소드를 사용할 수 있습니다.
 
     use Tests\Browser\Pages\CreatePlaylist;
 
@@ -1281,6 +1297,7 @@ Components are similar to Dusk’s “page objects”, but are intended for piec
         {
             return [
                 '@date-field' => 'input.datepicker-input',
+                '@year-list' => 'div > div.datepicker-years',
                 '@month-list' => 'div > div.datepicker-months',
                 '@day-list' => 'div > div.datepicker-days',
             ];
@@ -1290,13 +1307,17 @@ Components are similar to Dusk’s “page objects”, but are intended for piec
          * Select the given date.
          *
          * @param  \Laravel\Dusk\Browser  $browser
+         * @param  int  $year
          * @param  int  $month
          * @param  int  $day
          * @return void
          */
-        public function selectDate($browser, $month, $day)
+        public function selectDate($browser, $year, $month, $day)
         {
             $browser->click('@date-field')
+                    ->within('@year-list', function ($browser) use ($year) {
+                        $browser->click($year);
+                    });
                     ->within('@month-list', function ($browser) use ($month) {
                         $browser->click($month);
                     })
@@ -1332,7 +1353,7 @@ Components are similar to Dusk’s “page objects”, but are intended for piec
             $this->browse(function (Browser $browser) {
                 $browser->visit('/')
                         ->within(new DatePicker, function ($browser) {
-                            $browser->selectDate(1, 2018);
+                            $browser->selectDate(2019, 1, 30);
                         })
                         ->assertSee('January');
             });
@@ -1341,6 +1362,8 @@ Components are similar to Dusk’s “page objects”, but are intended for piec
 
 <a name="continuous-integration"></a>
 ## CI - 지속적 통합
+
+> {note} continous integration 설정 파일을 추가하기 전에 `.env.testing` 파일에 인 `APP_URL` 항목의 값이 `http://127.0.0.1:8000`으로 포함되어 있는지 확인하십시오.
 
 <a name="running-tests-on-circle-ci"></a>
 ### CircleCI
@@ -1354,27 +1377,30 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
                 - run: sudo apt-get install -y libsqlite3-dev
                 - run: cp .env.testing .env
                 - run: composer install -n --ignore-platform-reqs
+                - run: php artisan key:generate
+                - run: php artisan dusk:chrome-driver
                 - run: npm install
                 - run: npm run production
                 - run: vendor/bin/phpunit
-       
+
                 - run:
                     name: Start Chrome Driver
                     command: ./vendor/laravel/dusk/bin/chromedriver-linux
                     background: true
-       
+
                 - run:
                     name: Run Laravel Server
                     command: php artisan serve
                     background: true
-       
+
                 - run:
                     name: Run Laravel Dusk Tests
                     command: php artisan dusk
 
                 - store_artifacts:
                     path: tests/Browser/screenshots
-                    
+
+
 <a name="running-tests-on-codeship"></a>
 ### Codeship
 
@@ -1385,6 +1411,7 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
     mkdir -p ./bootstrap/cache
     composer install --no-interaction --prefer-dist
     php artisan key:generate
+    php artisan dusk:chrome-driver
     nohup bash -c "php artisan serve 2>&1 &" && sleep 5
     php artisan dusk
 
@@ -1425,6 +1452,7 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
       - cp .env.testing .env
       - travis_retry composer install --no-interaction --prefer-dist --no-suggest
       - php artisan key:generate
+      - php artisan dusk:chrome-driver
 
     before_script:
       - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
@@ -1433,6 +1461,32 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
     script:
       - php artisan dusk
 
-`.env.testing` 파일에서 `APP_URL` 의 값을 조정하십시오 :
+<a name="running-tests-on-github-actions"></a>
+### GitHub Actions
 
-    APP_URL=http://127.0.0.1:8000
+[Github Actions](https://github.com/features/actions)를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일을 시작포인트로 사용할 수 있습니다. TravisCI와 마찬가지로, 우리는 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
+
+    name: CI
+    on: [push]
+    jobs:
+
+      dusk-php:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v1
+          - name: Prepare The Environment
+            run: cp .env.example .env
+          - name: Create Database
+            run: mysql --user="root" --password="root" -e "CREATE DATABASE my-database character set UTF8mb4 collate utf8mb4_bin;"
+          - name: Install Composer Dependencies
+            run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          - name: Generate Application Key
+            run: php artisan key:generate
+          - name: Upgrade Chrome Driver
+            run: php artisan dusk:chrome-driver
+          - name: Start Chrome Driver
+            run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+          - name: Run Laravel Server
+            run: php artisan serve > /dev/null 2>&1 &
+          - name: Run Dusk Tests
+            run: php artisan dusk

@@ -69,8 +69,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 모든 리소스 클래스는 응답-response를 내보낼 때 JSON으로 변환되어야 하는 속성 배열을 반환하는 `toArray` 메소드를 정의하고 있습니다. `$this` 변수를 통해서 모델에 직접 엑세스 할 수 있습니다. 이는 리소스 클래스가 자동으로 기본 모델에 대한 속성과 메소드에 엑세스 할 수 있게 프록시를 제공하기 때문입니다. 리소스 클래스를 정의하면, 이는 라우트 또는 컨트롤러에서 반환 할 수 있게됩니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -80,8 +80,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -120,8 +120,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 리소스 컬렉션 클래스를 정의하고 나면, 라우트나 컨트롤러에서 이를 반환할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\UserCollection;
+    use App\User;
 
     Route::get('/users', function () {
         return new UserCollection(User::all());
@@ -149,8 +149,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 `preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all()->keyBy->id);
@@ -160,7 +160,7 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 일반적으로 리소스 컬렉션의 `$this->collection` 속성은 자동으로 컬렉션에 해당하는 단일 리소스 클래스를 매핑한 결과물들로 채워집니다. 단일 리소스 클래스의 이름은 뒤에 붙은 컬렉션 클래스에서 `Collection` 문자열을 제거한 이름으로 간주합니다.
 
-예를 들어 `UserCollection` 는 주어진 사용자 인스턴스를 `User` 리소스로 매핑하려고 시도 할 것입니다. 이 행동을 커스터마이징하려면 리소스 컬렉션의 `$collects` 속성을 오버라이드를 하면 됩니다 :
+예를 들어 `UserCollection` 는 주어진 사용자 인스턴스를 `User` 리소스로 매핑하려고 시도 할 것입니다. 이 행동을 커스터마이징하려면 리소스 컬렉션의 `$collects` 속성을 오버라이드를 하면 됩니다.
 
     <?php
 
@@ -213,8 +213,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 리소스 클래스를 정의하고 나면, 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -248,8 +248,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 리소스가 하나의 모델을 배열로 변환한다면, 리소스 컬렉션은 모델 컬렉션을 배열로 변환합니다. 모든 리소스 클래스는 "ad-hoc"을 생성하는 `collection` 메소드를 제공하고 있기 때문에, 모든 모델에 대해서 리소스 컬렉션 클래스를 정의할 필요는 없습니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -284,8 +284,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 단일 리소스와 같이, 리소스 컬렉션은 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
+    use App\Http\Resources\User as UserResource;
     use App\User;
-    use App\Http\Resources\UserCollection;
 
     Route::get('/users', function () {
         return new UserCollection(User::all());
@@ -317,13 +317,13 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
     namespace App\Providers;
 
-    use Illuminate\Support\ServiceProvider;
-    use Illuminate\Http\Resources\Json\Resource;
+    use App\Http\Resources\User as UserResource;
+    use App\User;
 
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */
@@ -410,8 +410,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 커스텀 리소스 컬렉션이나 리소스의 `collection` 메소드에 페이지네이터의 인스턴스를 전달할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\UserCollection;
+    use App\User;
 
     Route::get('/users', function () {
         return new UserCollection(User::paginate());
@@ -557,7 +557,7 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
         ];
     }
 
-중간 테이블이 `pivot` 이외의 접근자를 사용한다면 `whenPivotLoadedAs` 메소드를 사용할 수 있습니다 :
+중간 테이블이 `pivot` 이외의 접근자를 사용한다면 `whenPivotLoadedAs` 메소드를 사용할 수 있습니다.
 
     /**
      * Transform the resource into an array.
@@ -652,8 +652,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 앞서 확인한 것 처럼, 리소스는 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -661,8 +661,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 그렇지만, 때때로 클라이언트에 HTTP 응답-response를 내보내기 전에 이를 커스터마이징 해야 할 때도 있습니다. 이 경우, 두가지 방법이 있는데, 먼저 리소스에 `response` 메소드를 체이닝 형태로 사용하면 됩니다. 이 메소드는 `Illuminate\Http\Response` 인스턴스를 반환하는데, 이를 사용하여 응답-response의 헤더를 조작할 수 있습니다.
 
-    use App\User;
     use App\Http\Resources\User as UserResource;
+    use App\User;
 
     Route::get('/user', function () {
         return (new UserResource(User::find(1)))

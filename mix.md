@@ -28,7 +28,7 @@
 [라라벨 Mix(믹스)](https://github.com/JeffreyWay/laravel-mix)는 여러분의 라라벨 애플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
 
     mix.js('resources/js/app.js', 'public/js')
-       .sass('resources/sass/app.scss', 'public/css');
+        .sass('resources/sass/app.scss', 'public/css');
 
 만약 여러분이 Webpack 과 asset 컴파일에서 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix 를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 원하는 그 어떤 asset pipeline 툴을 사용해도, 또 사용하지 않아도 괜찮습니다.
 
@@ -86,7 +86,7 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 여러개의 파일을 컴파일 하기 위해서 `less` 메소드를 여러번 호출할 수도 있습니다.
 
     mix.less('resources/less/app.less', 'public/css')
-       .less('resources/less/admin.less', 'public/css');
+        .less('resources/less/admin.less', 'public/css');
 
 컴파일된 CSS 파일의 이름을 변경하고 싶다면, `less` 메소드의 두번째 인자로 전체 경로를 전달하면 됩니다.
 
@@ -108,7 +108,7 @@ Mix 는 [Webpack](https://webpack.js.org)을 기반으로 하는 설정 레이�
 `less` 메소드처럼, 여러개의 Sass 파일을 대응하는 CSS파일로 컴파일 할 수 있으며, CSS 결과 파일의 위치를 커스터마이징 할 수 있습니다.
 
     mix.sass('resources/sass/app.sass', 'public/css')
-       .sass('resources/sass/admin.sass', 'public/css/admin');
+        .sass('resources/sass/admin.sass', 'public/css/admin');
 
 추가적인 [Node-Sass 플러그인 옵션은](https://github.com/sass/node-sass#options) 세번째 인자로 전달하면 됩니다.
 
@@ -137,11 +137,11 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 [PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
 
     mix.sass('resources/sass/app.scss', 'public/css')
-       .options({
+        .options({
             postCss: [
                 require('postcss-css-variables')()
             ]
-       });
+        });
 
 <a name="plain-css"></a>
 ### 일반적인 CSS
@@ -173,9 +173,9 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다.
 
     mix.sass('resources/app/app.scss', 'public/css')
-       .options({
-          processCssUrls: false
-       });
+        .options({
+            processCssUrls: false
+        });
 
 `webpack.mix.js`파일에 재작성 동작을 비활성화하도록 추가하면, Mix는 더이상 `url()`을 위한 asset을 public 디렉토리로 복사하지 않습니다. 다시말해서 컴파일된 CSS는 원래 입력한것과 같이 보여집니다.
 
@@ -189,7 +189,7 @@ Less 와 Sass 의 경우와 비슷하게 `stylus` 메소드는 [Stylus](http://s
 기본적으로는 비활성화 되어 있지만, `webpack.mix.js` 파일에서 `mix.sourceMaps()`을 호출하여 소스 맵을 활성화 시킬 수 있습니다. 컴파일하는데 성능상의 비용이 들지만, 컴파일 된 asset을 사용하면 브라우저의 개발자 도구에서 추가적인 디버깅 정보를 확인할 수 있습니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .sourceMaps();
+        .sourceMaps();
 
 #### 소스 매핑 스타일
 
@@ -198,7 +198,7 @@ Webpack은 다양한 [소스 매핑 스타일](https://webpack.js.org/configurat
     let productionSourceMaps = false;
 
     mix.js('resources/js/app.js', 'public/js')
-       .sourceMaps(productionSourceMaps, 'source-map');
+        .sourceMaps(productionSourceMaps, 'source-map');
 
 <a name="working-with-scripts"></a>
 ## 자바스크립트 작업하기
@@ -224,7 +224,7 @@ Mix는 자바스크립트 작업을 하는데 도움이 될만한 몇가지 기�
 애플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 애플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .extract(['vue'])
+        .extract(['vue'])
 
 `extract` 메소드는 `vendor.js` 파일로 별도 구성(추출)하고자 하는 라이브러리 혹은 모듈의 배열을 전달 받습니다. 위의 예제를 살펴보자면 Mix는 다음과 같은 파일을 생성합니다.
 
@@ -302,7 +302,7 @@ Webpack 설정을 완전히 커스텀하게 지정하려면 `node_modules/larave
 `version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .version();
+        .version();
 
 버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일이름을 결정합니다.
 

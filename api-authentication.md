@@ -2,7 +2,7 @@
 
 - [시작하기](#introduction)
 - [설정하기](#configuration)
-    - [데이터베이스 준비사항](#database-preparation)
+    - [데이터베이스 사전준비](#database-preparation)
 - [Generating Tokens-토큰 생성하기](#generating-tokens)
     - [Hashing Tokens-토큰 해싱하기](#hashing-tokens)
 - [라우트 보호하기](#protecting-routes)
@@ -19,7 +19,7 @@
 ## 설정하기
 
 <a name="database-preparation"></a>
-### 데이터베이스 준비사항
+### 데이터베이스 사전준비
 
 `token` 드라이버 사용하기 전에, `users` 테이블에 `api_token` 컬럼을 추가하기 위해서는 [마이그레이션 생성하기](/docs/{{version}}/migrations) 를 이용하면 됩니다.
 
@@ -39,8 +39,8 @@
 
 `api_token` 컬럼이 `users` 테이블에 추가되었다면, 여러분의 애플리케이션에 등록하는 유저들에게 랜덤(무작위) API 토큰을 할당할 준비가 되었습니다. 유저등록을 위해서 `User` 모델이 생성 될 때 여러분은 토큰을 할당해야합니다. `laravel/ui` 컴포저 패키지를 통해서 [authentication scaffolding-인증 스케폴딩](/docs/{{version}}/authentication#authentication-quickstart) 을 이용했다면, `RegisterController` 의 `create` 메소드에서 api_token을 사용 할 수 있습니다.
 
-    use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Hash;
+    use Illuminate\Support\Str;
 
     /**
      * Create a new user instance after a valid registration.
@@ -50,11 +50,11 @@
      */
     protected function create(array $data)
     {
-        return User::create([
+        return User::forceCreate([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'api_token' => Str::random(60),
+            'api_token' => Str::random(80),
         ]);
     }
 
@@ -79,8 +79,8 @@
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Str;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Str;
 
     class ApiTokenController extends Controller
     {
@@ -92,7 +92,7 @@
          */
         public function update(Request $request)
         {
-            $token = Str::random(60);
+            $token = Str::random(80);
 
             $request->user()->forceFill([
                 'api_token' => hash('sha256', $token),

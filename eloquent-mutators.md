@@ -7,6 +7,7 @@
 - [날짜 Mutators](#date-mutators)
 - [속성(Attribute) 캐스팅](#attribute-casting)
     - [배열 & JSON 캐스팅](#array-and-json-casting)
+    - [날짜 캐스팅](#date-casting)
 
 <a name="introduction"></a>
 ## 시작하기

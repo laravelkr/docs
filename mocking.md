@@ -23,8 +23,8 @@
 
 라라벨 서비스 컨테이너를 통하여 여러분의 애플리케이션에 주입되는 객체를 moking할 때에는, 컨테이너의 `instance` 바인딩을 사용해서 mocking한 인스턴스를 등록할 필요가 있습니다. 이는 컨테이너에 객체를 생성하는 대신에 mocking 된 객체를 사용하도록 알려줍니다.
 
-    use Mockery;
     use App\Service;
+    use Mockery;
 
     $this->instance(Service::class, Mockery::mock(Service::class, function ($mock) {
         $mock->shouldReceive('process')->once();
@@ -35,6 +35,14 @@
     use App\Service;
 
     $this->mock(Service::class, function ($mock) {
+        $mock->shouldReceive('process')->once();
+    });
+
+객체의 몇 가지 메소드만 mocking해야 할 때 `partialMock` 메소드를 사용할 수 있습니다. mocking되지 않은 메소드는 다음과 같이 호출 될 때 정상적으로 실행됩니다.
+
+    use App\Service;
+
+    $this->partialMock(Service::class, function ($mock) {
         $mock->shouldReceive('process')->once();
     });
 
@@ -55,11 +63,11 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use App\Jobs\ShipOrder;
-    use Illuminate\Support\Facades\Bus;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Support\Facades\Bus;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -87,12 +95,12 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use App\Events\OrderShipped;
     use App\Events\OrderFailedToShip;
-    use Illuminate\Support\Facades\Event;
+    use App\Events\OrderShipped;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Support\Facades\Event;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -121,7 +129,7 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
 #### 이벤트의 일부를 Fake 시키기
 
-특정 이벤트에 대한 이벤트 리스너만 fake로 만들고 싶다면, 그것들을 `fake` 또는 `fakeFor` 메소드에 전달할 수 있습니다 :
+특정 이벤트에 대한 이벤트 리스너만 fake로 만들고 싶다면, 그것들을 `fake` 또는 `fakeFor` 메소드에 전달할 수 있습니다.
 
     /**
      * Test order process.
@@ -143,18 +151,18 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 <a name="scoped-event-fakes"></a>
 ### Scoped Event Fakes
 
-테스트의 일부분 만 이벤트 리스너에게 fake 시키고 싶다면 `fakeFor` 메소드를 사용할 수 있습니다 :
+테스트의 일부분 만 이벤트 리스너에게 fake 시키고 싶다면 `fakeFor` 메소드를 사용할 수 있습니다.
 
     <?php
 
     namespace Tests\Feature;
 
-    use App\Order;
-    use Tests\TestCase;
     use App\Events\OrderCreated;
-    use Illuminate\Support\Facades\Event;
+    use App\Order;
     use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Illuminate\Support\Facades\Event;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -185,11 +193,11 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use App\Mail\OrderShipped;
-    use Illuminate\Support\Facades\Mail;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Support\Facades\Mail;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -235,12 +243,12 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use App\Notifications\OrderShipped;
-    use Illuminate\Support\Facades\Notification;
-    use Illuminate\Notifications\AnonymousNotifiable;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Notifications\AnonymousNotifiable;
+    use Illuminate\Support\Facades\Notification;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -274,7 +282,16 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
             // Assert a notification was sent via Notification::route() method...
             Notification::assertSentTo(
                 new AnonymousNotifiable, OrderShipped::class
-            );            
+            );
+
+            // Assert Notification::route() method sent notification to the correct user...
+            Notification::assertSentTo(
+                new AnonymousNotifiable,
+                OrderShipped::class,
+                function ($notification, $channels, $notifiable) use ($user) {
+                    return $notifiable->routes['mail'] === $user->email;
+                }
+            );
         }
     }
 
@@ -287,11 +304,11 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use App\Jobs\ShipOrder;
-    use Illuminate\Support\Facades\Queue;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Support\Facades\Queue;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -334,11 +351,11 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use Illuminate\Http\UploadedFile;
-    use Illuminate\Support\Facades\Storage;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -395,10 +412,10 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use Illuminate\Support\Facades\Cache;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Support\Facades\Cache;
+    use Tests\TestCase;
 
     class UserControllerTest extends TestCase
     {

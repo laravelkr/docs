@@ -99,6 +99,7 @@
 - [intersectByKeys](#method-intersectbykeys)
 - [isEmpty](#method-isempty)
 - [isNotEmpty](#method-isnotempty)
+- [join](#method-join)
 - [keyBy](#method-keyby)
 - [keys](#method-keys)
 - [last](#method-last)
@@ -2336,13 +2337,20 @@
 
 `whereInstanceOf` 메소드는 컬렉션을 주어진 클래스 타입으로 필터링합니다.
 
+    use App\User;
+    use App\Post;
+
     $collection = collect([
         new User,
         new User,
         new Post,
     ]);
 
-    return $collection->whereInstanceOf(User::class);
+    $filtered = $collection->whereInstanceOf(User::class);
+
+    $filtered->all();
+
+    // [App\User, App\User]
 
 <a name="method-wherenotbetween"></a>
 #### `whereNotBetween()` {#collection-method}
@@ -2645,3 +2653,20 @@
     // 1
     // 2
     // 3
+
+<a name="method-remember"></a>
+#### `remember()` {#collection-method}
+
+`remember` 메소드는 이미 열거 된 값을 기억하고 콜렉션이 다시 열거 될 때 다시 검색하지 않는 새로운 지연 컬렉션-Lazy Collections을 리턴합니다.
+
+    $users = User::cursor()->remember();
+
+    // No query has been executed yet...
+
+    $users->take(5)->all();
+
+    // The query has been executed and the first 5 users have been hydrated from the database...
+
+    $users->take(20)->all();
+
+    // First 5 users come from the collection's cache... The rest are hydrated from the database...

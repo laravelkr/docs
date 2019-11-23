@@ -5,23 +5,26 @@
 - [JavaScript 작성하기](#writing-javascript)
     - [Vue 컴포넌트 작성하기](#writing-vue-components)
     - [React 사용하기](#using-react)
+- [프리셋-Presets 추가하기](#adding-presets)
 
 <a name="introduction"></a>
 ## 시작하기
 
-라라벨이 자바스크립트 또는 CSS 전처리기 사용을 지시하지는 않지만, 많은 애플리케이션에서 유용할 수 있는 [Bootstrap](https://getbootstrap.com) 과 [Vue](https://vuejs.org)을 사용하여 기본적인 시작점을 제공합니다. 기본적으로 라라벨은 이 두개의 프론트 엔드 패키지를 설치하기 위해서 [NPM](https://www.npmjs.org)을 사용합니다.
+Laravel은 사용하는 JavaScript 또는 CSS 전처리기를 제한하지 않지만 [Bootstrap](https://getbootstrap.com/), [React](https://reactjs.org/) 또는 [Vue](https://vuejs.org/)는 사용하여 기본적인 시작점을 제공합니다. 이것은 많은 애플리케이션에 도움이됩니다. 기본적으로 Laravel은 [NPM](https://www.npmjs.org)을 사용하여 이러한 프런트 엔드 패키지를 모두 설치합니다.
 
 라라벨에서 제공하는 부트스트랩 및 Vue 스캐폴딩은 `laravel/ui` Composer 패키지에 있으며 Composer를 사용하여 설치할 수 있습니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
 `laravel/ui` 패키지가 설치되면 `ui` Artisan 명령을 사용하여 프론트엔드 스캐폴딩을 설치할 수 있습니다.
 
     // Generate basic scaffolding...
+    php artisan ui bootstrap
     php artisan ui vue
     php artisan ui react
 
     // Generate login / registration scaffolding...
+    php artisan ui bootstrap --auth
     php artisan ui vue --auth
     php artisan ui react --auth
 
@@ -96,8 +99,26 @@ Vue 컴포넌트를 작성하는데 관심이 있다면, 전체 Vue 프레임워
 <a name="using-react"></a>
 ### React 사용하기
 
-자바스크립트 애플리케이션을 구성하는데 React를 선호한다면, 라라벨에서는 Vue 스캐폴딩을 React 스캐폴딩으로 바꾸는 것이 아주 쉽습니다. 새롭게 라라벨 애플리케이션을 설치했다면, `preset` 명령어에 `react` 옵션을 지정하여 사용할 수 있습니다.
+React를 사용하여 JavaScript 애플리케이션을 빌드하려는 경우 Laravel은 Vue 스캐폴딩을 React 스캐폴딩으로 교체 할 수 있습니다.
 
-    php artisan preset react
+    composer require laravel/ui --dev
 
-이 한줄의 명령어는 Vue 스캐폴딩을 제거하고, 간단한 예제 컴포넌트가 들어 있는 React 스캐폴딩으로 교체합니다.
+    php artisan ui react
+
+    // Generate login / registration scaffolding...
+    php artisan ui react --auth
+
+<a name="adding-presets"></a>
+## 프리셋-Presets 추가하기
+
+프리셋-Presets은 "macroable"하여 런타임에 `UiCommand` 클래스에 메소드를 추가 할 수 있습니다. 예를 들어, 다음 코드는 `nextjs` 메소드를 `UiCommand` 클래스에 추가합니다. 일반적으로 [서비스 프로바이더](/docs/{{version}}/providers)에서 프리셋 매크로를 선언해야합니다.
+
+    use Laravel\Ui\UiCommand;
+
+    UiCommand::macro('nextjs', function (UiCommand $command) {
+        // Scaffold your frontend...
+    });
+
+그런 다음 `ui` 명령을 통해 새로운 프리셋을 호출 할 수 있습니다.
+
+    php artisan ui nextjs

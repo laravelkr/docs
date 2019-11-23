@@ -203,9 +203,9 @@
     namespace Tests\Feature;
 
     use App\Podcast;
-    use Tests\TestCase;
     use Facades\App\Contracts\Publisher;
     use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Tests\TestCase;
 
     class PodcastTest extends TestCase
     {

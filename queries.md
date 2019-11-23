@@ -12,7 +12,7 @@
     - [파라미터 그룹](#parameter-grouping)
     - [존재여부를 판단하는 Where 절](#where-exists-clauses)
     - [JSON Where 절](#json-where-clauses)
-- [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
+- [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
 - [Conditional-조건적 구문](#conditional-clauses)
 - [Inserts-삽입](#inserts)
 - [Updates-수정](#updates)
@@ -42,8 +42,8 @@
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {
@@ -508,19 +508,19 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
                     ->where('preferences->dining->meal', 'salad')
                     ->get();
 
-JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다 :
+JSON 배열 (SQLite에서는 지원되지 않음)을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', 'en')
                     ->get();
 
-MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 :
+MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', ['en', 'de'])
                     ->get();
 
-`whereJsonLength` 를 사용하여 JSON 배열을 길이에 따라 쿼리 할 수 있습니다 :
+`whereJsonLength` 를 사용하여 JSON 배열을 길이에 따라 쿼리 할 수 있습니다.
 
     $users = DB::table('users')
                     ->whereJsonLength('options->languages', 0)
@@ -531,7 +531,6 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다 
                     ->get();
 
 <a name="ordering-grouping-limit-and-offset"></a>
-## Ordering, Grouping, Limit, & Offset
 
 #### orderBy 정렬
 

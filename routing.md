@@ -211,6 +211,16 @@ Laravel 라우팅 구성 요소는 `/`를 제외한 모든 문자를 허용합�
 
     $url = route('profile', ['id' => 1]);
 
+배열에 추가 파라메터를 전달하면 해당하는 키/값의 쌍이 생성된 URL의 쿼리 문자열에 자동으로 추가됩니다.
+
+    Route::get('user/{id}/profile', function ($id) {
+        //
+    })->name('profile');
+
+    $url = route('profile', ['id' => 1, 'photos' => 'yes']);
+
+    // /user/1/profile?photos=yes
+
 #### 현재의 라우트 검사하기
 
 현재의 request 가 주어진 이름의 라우트가 맞는지 확인하고자 한다면, Route 인스턴스의 `named` 메소드를 사용하면 됩니다. 예를 들어 라우트 미들웨어에서 현재 라우트의 이름을 확인할 수 있습니다.
@@ -365,7 +375,7 @@ Laravel 라우팅 구성 요소는 `/`를 제외한 모든 문자를 허용합�
         parent::boot();
 
         Route::bind('user', function ($value) {
-            return App\User::where('name', $value)->first() ?? abort(404);
+            return App\User::where('name', $value)->firstOrFail();
         });
     }
 
@@ -379,7 +389,7 @@ Laravel 라우팅 구성 요소는 `/`를 제외한 모든 문자를 허용합�
      */
     public function resolveRouteBinding($value)
     {
-        return $this->where('name', $value)->first() ?? abort(404);
+        return $this->where('name', $value)->firstOrFail();
     }
 
 <a name="fallback-routes"></a>

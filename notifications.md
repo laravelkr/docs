@@ -31,6 +31,7 @@
 - [SMS 알림](#sms-notifications)
     - [사전준비사항](#sms-prerequisites)
     - [SMS 알림 포맷 지정하기](#formatting-sms-notifications)
+    - [Shortcode 알림 포맷 지정하기](#formatting-shortcode-notifications)
     - [발신자 번호 수정하기](#customizing-the-from-number)
     - [SMS 알림 라우팅](#routing-sms-notifications)
 - [슬랙-Slack 알림](#slack-notifications)
@@ -70,8 +71,8 @@
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -125,8 +126,8 @@
     namespace App\Notifications;
 
     use Illuminate\Bus\Queueable;
-    use Illuminate\Notifications\Notification;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Notification;
 
     class InvoicePaid extends Notification implements ShouldQueue
     {
@@ -152,6 +153,7 @@
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('nexmo', '5555555555')
+                ->route('slack', 'https://hooks.slack.com/services/...')
                 ->notify(new InvoicePaid($invoice));
 
 <a name="mail-notifications"></a>
@@ -265,8 +267,8 @@
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -566,9 +568,9 @@ Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축�
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -595,11 +597,11 @@ Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축�
 
     composer require laravel/nexmo-notification-channel
 
-그 다음, `config/services.php` 설정 파일에 몇가지 옵션들을 추가해야합니다. 이 옵션은 다음의 예제와 같은 모양입니다. 복사해서 사용하십시오:
+[`nexmo/laravel`](https://github.com/Nexmo/nexmo-laravel) 패키지도 설치됩니다. 이 패키지에는 [자체 설정 파일](https://github.com/Nexmo/nexmo-laravel/blob/master/config/nexmo.php)이 포함되어 있습니다. `NEXMO_KEY` 및 `NEXMO_SECRET` 환경 변수를 사용하여 Nexmo 공개 및 비밀 키를 설정할 수 있습니다.
+
+다음으로 `config/services.php` 설정 파일에 설정 옵션을 추가해야합니다. 아래 예제 구성을 복사하여 시작할 수 있습니다.
 
     'nexmo' => [
-        'key' => env('NEXMO_KEY'),
-        'secret' => env('NEXMO_SECRET'),
         'sms_from' => '15556666666',
     ],
 
@@ -621,6 +623,29 @@ Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축�
         return (new NexmoMessage)
                     ->content('Your SMS message content');
     }
+
+<a name="formatting-shortcode-notifications"></a>
+### Shortcode 알림 포맷 지정하기
+
+Laravel은 Nexmo 계정에서 미리 정의 된 메시지 템플릿 인 shortcode 알림 전송도 지원합니다. 템플릿을 채울 사용자 정의 값 뿐만 아니라 알림 유형 (`alert`, `2fa` 또는 `marketing`)을 지정할 수 있습니다.
+
+    /**
+     * Get the Nexmo / Shortcode representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toShortcode($notifiable)
+    {
+        return [
+            'type' => 'alert',
+            'custom' => [
+                'code' => 'ABC123',
+            ];
+        ];
+    }
+
+> {tip} [SMS 알림 라우팅](#routing-sms-notifications)과 같이 알림 가능한 모델에 `routeNotificationForShortcode` 메소드를 구현해야합니다.
 
 #### 유니코드 컨텐츠
 
@@ -666,8 +691,8 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -716,8 +741,6 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
 이 예제에서는 슬랙에 하나의 텍스트 라인을 전송하였고, 다음과 같은 메세지가 생성됩니다.
 
-<img src="https://laravel.com/img/docs/basic-slack-notification.png">
-
 #### 발신자 & 수신자 설정하기
 
 `from` 과 `to` 메소드를 사용하여 발신자와 수신자를 변경할 수 있습니다. `from` 메소드는 사용자 이름과 이모지 식별자를 인자로 받으며, `to` 메소드는 채널 또는 사용자 이름을 전달받습니다.
@@ -748,7 +771,7 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
     {
         return (new SlackMessage)
                     ->from('Laravel')
-                    ->image('https://laravel.com/favicon.png')
+                    ->image('https://laravel.com/img/favicon/favicon.ico')
                     ->content('This will display the Laravel logo next to the message');
     }
 
@@ -808,8 +831,6 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
 이 예제는 다음과 같이 보여지는 슬랙 메세지를 생성할 것입니다.
 
-<img src="https://laravel.com/img/docs/slack-fields-attachment.png">
-
 #### 마크다운에 첨부파일 표시하기
 
 첨부 파일 필드 중 일부가 마크다운이 포함되어 있는 경우 `markdown` 메소드를 사용하여 슬랙에 주어진 마크다운 텍스트를 파싱하여 첨부파일이 표시하도록 할 수 있습니다.
@@ -843,8 +864,8 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -894,7 +915,7 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
         }
     }
 
-일단 인터페이스를 구현하면 Laravel은 알림 및 모델을 모델로 전송할 때 자동으로 기본 설정 언어를 사용합니다. 따라서 이 인터페이스를 사용할 때는 `locale` 메소드를 호출 할 필요가 없습니다 :
+일단 인터페이스를 구현하면 Laravel은 알림 및 모델을 모델로 전송할 때 자동으로 기본 설정 언어를 사용합니다. 따라서 이 인터페이스를 사용할 때는 `locale` 메소드를 호출 할 필요가 없습니다.
 
     $user->notify(new InvoicePaid($invoice));
 
@@ -966,11 +987,11 @@ Laravel을 사용하면 현재 언어가 아닌 언어로도 알림을 보낼 �
 
     namespace App\Notifications;
 
-    use Illuminate\Bus\Queueable;
-    use App\Channels\VoiceChannel;
     use App\Channels\Messages\VoiceMessage;
-    use Illuminate\Notifications\Notification;
+    use App\Channels\VoiceChannel;
+    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Notification;
 
     class InvoicePaid extends Notification
     {

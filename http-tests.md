@@ -19,9 +19,9 @@
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -80,9 +80,9 @@
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -142,7 +142,7 @@
 <a name="testing-json-apis"></a>
 ## JSON API 테스팅하기
 
-라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, `delete`, 그리고 `option` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다.
+라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `getJson`, `postJson`, `putJson`, `patchJson`, `deleteJson`, 그리고 `optionsJson` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다.
 
     <?php
 
@@ -155,7 +155,7 @@
          */
         public function testBasicExample()
         {
-            $response = $this->json('POST', '/user', ['name' => 'Sally']);
+            $response = $this->postJson('/user', ['name' => 'Sally']);
 
             $response
                 ->assertStatus(201)
@@ -193,6 +193,30 @@
         }
     }
 
+<a name="verifying-json-paths"></a>
+###  JSON Path 검증하기
+
+JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지 확인하려면 `assertJsonPath` 메소드를 사용해야합니다.
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $response = $this->json('POST', '/user', ['name' => 'Sally']);
+
+            $response
+                ->assertStatus(201)
+                ->assertJsonPath('team.owner.name', 'foo')
+        }
+    }
+
 <a name="testing-file-uploads"></a>
 ## 파일 업로드 테스트하기
 
@@ -202,11 +226,11 @@
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use Illuminate\Http\UploadedFile;
-    use Illuminate\Support\Facades\Storage;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -250,6 +274,7 @@
 - [assertCookieExpired](#assert-cookie-expired)
 - [assertCookieNotExpired](#assert-cookie-not-expired)
 - [assertCookieMissing](#assert-cookie-missing)
+- [assertCreated](#assert-created)
 - [assertDontSee](#assert-dont-see)
 - [assertDontSeeText](#assert-dont-see-text)
 - [assertExactJson](#assert-exact-json)
@@ -262,9 +287,11 @@
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
+- [assertJsonPath](#assert-json-path)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertLocation](#assert-location)
+- [assertNoContent](#assert-no-content)
 - [assertNotFound](#assert-not-found)
 - [assertOk](#assert-ok)
 - [assertPlainCookie](#assert-plain-cookie)
@@ -319,6 +346,13 @@ response-응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확�
 
     $response->assertCookieMissing($cookieName);
 
+<a name="assert-created"></a>
+#### assertCreated
+
+response-응답에  201 상태 코드가 있는 지 확인:
+
+    $response->assertCreated();
+
 <a name="assert-dont-see"></a>
 #### assertDontSee
 
@@ -366,7 +400,7 @@ response-응답에서 주어진 헤더가 존재하는 않는 것을 확인:
 
 response-응답에 주어진 JSON 데이터가 포함되어 있는지 확인:
 
-    $response->assertJson(array $data);
+    $response->assertJson(array $data, $strict = false);
 
 <a name="assert-json-count"></a>
 #### assertJsonCount
@@ -410,6 +444,13 @@ response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
 
     $response->assertJsonStructure(array $structure);
 
+<a name="assert-json-path"></a>
+#### assertJsonPath
+
+response-응답에 지정된 경로와 지정된 데이터가 포함되어 있는지 확인:
+
+    $response->assertJsonPath($path, array $data, $strict = false);
+
 <a name="assert-json-validation-errors"></a>
 #### assertJsonValidationErrors
 
@@ -423,6 +464,13 @@ response-응답이 JSON 유효성 에러를 가지고 있는지 확인:
 response-응답의 `Location` 헤더에 주어진 URI를 가지고 있는지 확인:
 
     $response->assertLocation($uri);
+
+<a name="assert-no-content"></a>
+#### assertNoContent
+
+response-응답에 주어진 상태 코드가 있고 내용이 없는지 확인:
+
+    $response->assertNoContent($status = 204);
 
 <a name="assert-not-found"></a>
 #### assertNotFound
@@ -504,14 +552,14 @@ response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함�
 <a name="assert-session-has-errors"></a>
 #### assertSessionHasErrors
 
-세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인:
+세션에 주어진 `$keys`에 대한 에러가 포함되어 있는지 확인. `$keys`가 연관 배열 인 경우 세션에 각 필드 (키)에 대한 특정 오류 메시지 (값)가 포함되어 있는지 확인:
 
     $response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');
 
 <a name="assert-session-has-errors-in"></a>
 #### assertSessionHasErrorsIn
 
-세션이 주어진 에러를 가지고 있는지 확인:
+세션에 특정 error bag 내에서 주어진 `$keys`에 대한 오류가 포함되어 있는지 확인. `$keys`가 연관 배열 인 경우, 세션에 error bag 내의 각 필드 (키)에 대한 특정 오류 메시지 (값)가 포함되어 있는지 확인:
 
     $response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);
 
@@ -546,7 +594,7 @@ response-응답이 주어진 코드를 가지고 있는지 확인:
 <a name="assert-successful"></a>
 #### assertSuccessful
 
-response-응답이 성공적인 상태코드(200)를 가지고 있는지 확인:
+response-응답이 성공적인 상태코드(>= 200 and < 300)를 가지고 있는지 확인:
 
     $response->assertSuccessful();
 

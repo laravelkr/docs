@@ -38,9 +38,9 @@
 
     namespace App\Console;
 
-    use Illuminate\Support\Facades\DB;
     use Illuminate\Console\Scheduling\Schedule;
     use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+    use Illuminate\Support\Facades\DB;
 
     class Kernel extends ConsoleKernel
     {
@@ -67,7 +67,7 @@
         }
     }
 
-클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다 :
+클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다.
 
     $schedule->call(new DeleteRecentUsers)->daily();
 
@@ -115,12 +115,12 @@
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
-`->weekly();`  |  일주일 간격으로 작업 실행
+`->weekly();`  |  매주 일요일 00:00 에 작업 실행
 `->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
-`->monthly();`  |  한달 간격으로 작업 실행
+`->monthly();`  |  매달 1일 00:00 에 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
-`->quarterly();` |  4분기 간격으로 작업 실행
-`->yearly();`  |  일년 간격으로 작업 실행
+`->quarterly();` |  분기변 첫번째 날 00:00 에 작업 실행
+`->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
 
 이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다.
@@ -186,7 +186,7 @@
 
 #### 환경 제약
 
-`environments` 메소드는 주어진 환경에서만 태스크를 실행하는 데 사용될 수 있습니다 :
+`environments` 메소드는 주어진 환경에서만 태스크를 실행하는 데 사용될 수 있습니다.
 
     $schedule->command('emails:send')
                 ->daily()
@@ -245,7 +245,7 @@
 <a name="background-tasks"></a>
 ### 백그라운드 작업
 
-기본적으로, 동시에 예약 된 여러 명령은 순차적으로 실행됩니다. 장시간 실행되는 명령을 사용하면 뒤에 실행되는 명령이 예상보다 늦게 시작될 수 있습니다. 백그라운드에서 명령을 실행하여 모든 명령이 동시에 실행되게 하려면 `runInBackground` 메소드를 사용할 수 있습니다 :
+기본적으로, 동시에 예약 된 여러 명령은 순차적으로 실행됩니다. 장시간 실행되는 명령을 사용하면 뒤에 실행되는 명령이 예상보다 늦게 시작될 수 있습니다. 백그라운드에서 명령을 실행하여 모든 명령이 동시에 실행되게 하려면 `runInBackground` 메소드를 사용할 수 있습니다.
 
     $schedule->command('analytics:report')
              ->daily()
@@ -324,7 +324,7 @@
              ->pingBefore($url)
              ->thenPing($url);
 
-`pingBeforeIf` 와 `thenPingIf` 메소드는 주어진 조건이 `true` 일 때만 주어진 URL에 ping을 보내는하는데 사용할 수 있습니다 :
+`pingBeforeIf` 와 `thenPingIf` 메소드는 주어진 조건이 `true` 일 때만 주어진 URL에 ping을 보내는하는데 사용할 수 있습니다.
 
     $schedule->command('emails:send')
              ->daily()

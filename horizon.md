@@ -22,6 +22,15 @@ Horizon은 Redis Queue를 사용하는 라라벨을 위해서 아름다운 대�
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
 </p>
 
+<a name="upgrading"></a>
+#### Horizon 업그레이드
+
+Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
+
+또한 Horizon의 자산-asssets을 다시 게시해야합니다.
+
+    php artisan horizon:assets
+
 <a name="installation"></a>
 ## 설치하기
 
@@ -40,15 +49,6 @@ Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하�
     php artisan queue:failed-table
 
     php artisan migrate
-
-<a name="upgrading"></a>
-#### Horizon 업그레이드
-
-Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
-
-또한 Horizon의 자산-asssets을 다시 게시해야합니다.
-
-    php artisan horizon:assets
 
 <a name="configuration"></a>
 ### 설정하기
@@ -134,9 +134,17 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
 
 라이브서버에 Horizon을 배포하는 경우 `php artisan horizon` 커맨드가 계속 실행되는지 프로세스 모니터를 구성하여 예기치 않게 종료되면 다시 시작해야합니다. 서버에 새로운 코드를 배포하는 경우 변경된 새로운 코드를 받은 뒤에, 프로세스 모니터가 다시 프로세스를 실행 할 수 있도록 메인 Horizon 프로세스를 종료해야합니다.
 
+#### Supervisor 설치
+
+Supervisor는 Linux 운영 체제의 프로세스 모니터이며, `horizon`프로세스가 종료되면 자동으로 다시 시작합니다. Ubuntu에 Supervisor를 설치하려면 다음 명령을 사용할 수 있습니다.
+
+    sudo apt-get install supervisor
+
+> {tip} Supervisor를 직접 구성하는 것이 어렵게 들린다면 [Laravel Forge](https://forge.laravel.com)를 사용해보십시오. 그러면 Laravel 프로젝트에 대해 Supervisor가 자동으로 설치 및 구성됩니다.
+
 #### Supervisor 설정하기
 
-`horizon` 프로세스를 감시하는 프로세스 모니터로 Supervisor를 사용 하려는 경우, 아래의 설정 파일을 사용하면 충분합니다.
+수퍼바이저 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토리에 저장됩니다. 이 디렉토리 내에서 수퍼바이저에게 프로세스 모니터링 방법을 지시하는 여러 설정 파일을 작성할 수 있습니다. 예를 들어, `horizon`프로세스를 시작하고 모니터링하는`horizon.conf` 파일을 만들어 봅시다.
 
     [program:horizon]
     process_name=%(program_name)s
@@ -147,7 +155,18 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/horizon.log
 
-> {tip} 직접 서버를 관리하는게 힘들다면, [라라벨 Forge](https://forge.laravel.com) 사용을 고려 해보십시오. Forge는 Horizon을 통해 모던하고 강력한 라라벨 애플리케이션을 실행하는 데 필요한 모든 기능을 갖춘 PHP7+ 서버를 제공합니다.
+
+#### Supervisor 시작하기
+
+설정 파일이 작성하고나면 Supervisor 다음 명령을 사용하여 설정을 업데이트하고 프로세스를 시작할 수 있습니다.
+
+    sudo supervisorctl reread
+
+    sudo supervisorctl update
+
+    sudo supervisorctl start horizon
+
+Supervisor에 대한 자세한 내용은 [Supervisor documentation](http://supervisord.org/index.html)을 참조하십시오.
 
 <a name="tags"></a>
 ## 태그
@@ -160,10 +179,10 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
 
     use App\Video;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class RenderVideo implements ShouldQueue
     {
@@ -234,7 +253,7 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 
 #### 알림 대기 시간의 임계값 설정하기
 
-`config/horizon.php` 설정 파일에 "긴 대기시간"으로 간주하는 기준 시간을 설정 할 수 있습니다. 파일 내의 `waits` 설정 옵션에서 각 연결/queue 조합에 대한 긴 대기 임계값을 제어 할 수 있습니다 :
+`config/horizon.php` 설정 파일에 "긴 대기시간"으로 간주하는 기준 시간을 설정 할 수 있습니다. 파일 내의 `waits` 설정 옵션에서 각 연결/queue 조합에 대한 긴 대기 임계값을 제어 할 수 있습니다.
 
     'waits' => [
         'redis:default' => 60,

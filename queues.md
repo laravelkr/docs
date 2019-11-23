@@ -6,6 +6,7 @@
 - [Job 생성하기](#creating-jobs)
     - [Job 클래스 생성하기](#generating-job-classes)
     - [클래스 구조](#class-structure)
+    - [Job 미들웨어](#job-middleware)
 - [Job 처리하기](#dispatching-jobs)
     - [지연시켜서 처리하기](#delayed-dispatching)
     - [동기식 반환](#synchronous-dispatching)
@@ -93,6 +94,7 @@ Redis queue를 사용할 때,`block_for` 설정 옵션을 사용하여 드라이
         'block_for' => 5,
     ],
 
+> {note} `block_for`를 `0`으로 설정하면 작업을 사용할 수있을 때까지 큐 작업자가 무기한으로 대기됩니다. 이렇게하면 다음 작업이 처리 될 때까지 `SIGTERM`과 같은 신호가 처리되지 않습니다.
 
 #### 다른 큐 드라이버의 사전준비 사항들
 
@@ -101,7 +103,7 @@ Redis queue를 사용할 때,`block_for` 설정 옵션을 사용하여 드라이
 
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~4.0`
-- Redis: `predis/predis ~1.0`
+- Redis: `predis/predis ~1.0` 또는 phpredis PHP 확장 모듈
 
 
 <a name="creating-jobs"></a>
@@ -125,13 +127,13 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
 
     namespace App\Jobs;
 
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -176,6 +178,80 @@ queue에 의해서 Job이 처리될 때에는 `handle` 메소드가 호출 됩�
 
 > {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
 
+<a name="job-middleware"></a>
+### Job 미들웨어
+
+Job 미들웨어를 사용하면 대기중인 Job 실행을 중심으로 커스텀 로직을 래핑하여 Job 자체의 중복코드를 줄일 수 있습니다. 예를 들어, 5 초마다 한 Job 만 처리 하기위해 Laravel의 Redis 속도 제한 기능을 활용하는 다음 `handle` 메소드를 생각해보십시오.
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Redis::throttle('key')->block(0)->allow(1)->every(5)->then(function () {
+            info('Lock obtained...');
+
+            // Handle job...
+        }, function () {
+            // Could not obtain lock...
+
+            return $this->release(5);
+        });
+    }
+
+이 코드는 동작은 하지만, `handle` 메소드의 구조는 Redis 속도 제한 로직으로 지저분해집니다. 또한 이 속도 제한 로직은 속도를 제한하려는 다른 Job에 복제해야합니다.
+
+handle 메소드에서 속도 제한을 직접 처리하는 대신 속도 제한을 하는 Job 미들웨어를 정의 할 수 있습니다. Laravel에는 Job 미들웨어의 기본 위치가 없으므로 Job 미들웨어를 애플리케이션의 어디든 배치 할 수 있습니다. 이 예제에서는 미들웨어를 `app/Jobs/Middleware` 디렉토리에 넣습니다.
+
+    <?php
+
+    namespace App\Jobs\Middleware;
+
+    use Illuminate\Support\Facades\Redis;
+
+    class RateLimited
+    {
+        /**
+         * Process the queued job.
+         *
+         * @param  mixed  $job
+         * @param  callable  $next
+         * @return mixed
+         */
+        public function handle($job, $next)
+        {
+            Redis::throttle('key')
+                    ->block(0)->allow(1)->every(5)
+                    ->then(function () use ($job, $next) {
+                        // Lock obtained...
+
+                        $next($job);
+                    }, function () use ($job) {
+                        // Could not obtain lock...
+
+                        $job->release(5);
+                    });
+        }
+    }
+
+보시다시피 [route 미들웨어](/docs/{{version}}/middleware)와 같이 Job 미들웨어는 처리중인 Job과 Job 처리를 계속하기 위해 호출해야하는 콜백을 받습니다.
+
+Job 미들웨어를 작성한 후에는 Job의 `middleware`메소드에서 리턴받아 Job에 추가 할 수 있습니다. 이 메소드는 `make:job` 아티즌 명령으로 생성된 된 Job에는 존재하지 않으므로 직접 Job 클래스에 추가해야합니다.
+
+    use App\Jobs\Middleware\RateLimited;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [new RateLimited];
+    }
+
 <a name="dispatching-jobs"></a>
 ## Job 처리하기
 
@@ -185,9 +261,9 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -214,9 +290,9 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -246,9 +322,9 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
-    use App\Jobs\ProcessPodcast;
     use App\Http\Controllers\Controller;
+    use App\Jobs\ProcessPodcast;
+    use Illuminate\Http\Request;
 
     class PodcastController extends Controller
     {
@@ -299,9 +375,9 @@ Job 체이닝은 여러분이 대기열에 입력된 job이 순차적으로 실�
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -327,9 +403,9 @@ Job 체이닝은 여러분이 대기열에 입력된 job이 순차적으로 실�
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -347,6 +423,7 @@ Job 체이닝은 여러분이 대기열에 입력된 job이 순차적으로 실�
         }
     }
 
+You may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
 job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnection` 과 `onQueue` 메소드를 체이닝하여 사용할 수도 있습니다.
 
     ProcessPodcast::dispatch($podcast)
@@ -648,13 +725,13 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 
     namespace App\Jobs;
 
-    use Exception;
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
+    use Exception;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -706,8 +783,8 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
     namespace App\Providers;
 
     use Illuminate\Support\Facades\Queue;
-    use Illuminate\Queue\Events\JobFailed;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Queue\Events\JobFailed;
 
     class AppServiceProvider extends ServiceProvider
     {
@@ -764,7 +841,7 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
 
 Eloquent 모델을 작업에 주입 할 때 queue에 배치되기 전에 자동으로 직렬화되고 작업이 처리 될 때 복원됩니다. 그러나 작업자가 작업을 처리하는 동안 모델이 삭제 된 경우 작업이 `ModelNotFoundException`으로 실패 할 수 있습니다.
 
-편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다 :
+편의상 `deleteWhenMissingModels` 속성을 `true`로 설정하여 누락 된 모델이있는 작업을 자동으로 삭제하도록 선택할 수 있습니다.
 
     /**
      * Delete the job if its models no longer exist.

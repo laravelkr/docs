@@ -43,7 +43,7 @@
 
     composer require laravel/telescope
 
-Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여 assets을 퍼블리싱합니다. Telescope를 설치 한 후에 `migrate` 명령 또한 실행해야합니다 :
+Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여 assets을 퍼블리싱합니다. Telescope를 설치 한 후에 `migrate` 명령 또한 실행해야합니다.
 
 
     php artisan telescope:install
@@ -52,7 +52,7 @@ Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여
 
 #### Telescope 업데이트
 
-Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해야합니다 :
+Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해야합니다.
 
     php artisan telescope:publish
 
@@ -86,7 +86,7 @@ Telescope의 기본 마이그레이션을 사용하지 않으려면, `AppService
 
 Telescope의 assets을 퍼블리싱하면 기본 설정 파일 `config/telescope.php` 이 생성됩니다. 이 설정 파일을 사용하면 감시자(watcher) 옵션을 변경 할 수 있으며 각 설정 옵션에는 용도에 대한 설명이 포함되므로 이 파일을 철저히 확인하십시오.
 
-원하는 경우, `enabled` 설정 옵션을 사용하여 Telescope의 데이터 수집을 완전히 비활성화 할 수 있습니다 :
+원하는 경우, `enabled` 설정 옵션을 사용하여 Telescope의 데이터 수집을 완전히 비활성화 할 수 있습니다.
 
 
     'enabled' => env('TELESCOPE_ENABLED', true),
@@ -94,7 +94,7 @@ Telescope의 assets을 퍼블리싱하면 기본 설정 파일 `config/telescope
 <a name="data-pruning"></a>
 ### 데이터 정리
 
-데이터 정리를 하지 않는 다면, `telescope_entries` 테이블은 레코드가 매우 빨리 누적 될 수 있습니다. 이것을 줄이기 위해 `telescope:prune` 아티즌 명령을 매일 실행하도록 예약해야합니다 :
+데이터 정리를 하지 않는 다면, `telescope_entries` 테이블은 레코드가 매우 빨리 누적 될 수 있습니다. 이것을 줄이기 위해 `telescope:prune` 아티즌 명령을 매일 실행하도록 예약해야합니다.
 
     $schedule->command('telescope:prune')->daily();
 

@@ -81,7 +81,7 @@ Channels 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources
 
 #### Redis
 
-만약 Redis 브로드캐스터를 사용한다면, Predis 라이브러리를 설치해야 합니다.
+Redis 브로드캐스터를 사용하는 경우 PECL을 통해 phpredis PHP 확장모듈을 설치하거나 Composer를 통해 Predis 라이브러리를 설치해야합니다.
 
     composer require predis/predis
 
@@ -137,11 +137,11 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
     namespace App\Events;
 
     use Illuminate\Broadcasting\Channel;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Broadcasting\PrivateChannel;
-    use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
+    use Illuminate\Broadcasting\PresenceChannel;
+    use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+    use Illuminate\Queue\SerializesModels;
 
     class ShippingStatusUpdated implements ShouldBroadcast
     {
@@ -199,11 +199,11 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
 
     use App\User;
     use Illuminate\Broadcasting\Channel;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Broadcasting\PrivateChannel;
-    use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
+    use Illuminate\Broadcasting\PresenceChannel;
+    use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+    use Illuminate\Queue\SerializesModels;
 
     class ServerCreated implements ShouldBroadcast
     {
@@ -335,7 +335,7 @@ Redis 브로드캐스터가 이벤트를 발행하면, 이벤트는 이벤트에
     
 #### Authorization Endpoint의 커스터마이징
 
-기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다 :
+기본적으로 Echo는 `/broadcast/auth` 라는 엔드포인트를 사용하여 채널 액세스 권한을 부여합니다. 그러나 Echo 인스턴스에 `authEndpoint` 설정 옵션을 전달하여 여러분 만의 인증 엔드포인트를 지정할 수 있습니다.
 
     window.Echo = new Echo({
         broadcaster: 'pusher',
@@ -394,8 +394,8 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
 
     namespace App\Broadcasting;
 
-    use App\User;
     use App\Order;
+    use App\User;
 
     class OrderChannel
     {
@@ -491,7 +491,7 @@ HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라�
     
 #### 기존 클라이언트 인스턴스 사용
 
-Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다 :
+Echo가 활용할 Pusher Channels 또는 Socket.io 클라이언트 인스턴스가 이미있는 경우, `client` 설정 옵션을 통해 이것을 Echo에 전달할 수 있습니다.
 
 
     const client = require('pusher-js');

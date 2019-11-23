@@ -123,9 +123,9 @@
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\User;
     use Illuminate\Support\Facades\Log;
-    use App\Http\Controllers\Controller;
 
     class UserController extends Controller
     {
@@ -177,7 +177,7 @@
         'level' => 'debug',
     ],
 
-채널에 `tap` 옵션을 설정했다면, Monolog 인스턴스를 커스터마이징 하는 클래스를 정의하면 됩니다. 이 클래스에서는 `Illuminate\Log\Logger` 인스턴스를 전달받는 `__invoke` 메소드 하나만 있으면 됩니다. `Illuminate\Log\Logger` 인스턴스는 기본 Monolog 인스턴스에 대한 모든 메소드 호출을 프록시합니다 :
+채널에 `tap` 옵션을 설정했다면, Monolog 인스턴스를 커스터마이징 하는 클래스를 정의하면 됩니다. 이 클래스에서는 `Illuminate\Log\Logger` 인스턴스를 전달받는 `__invoke` 메소드 하나만 있으면 됩니다. `Illuminate\Log\Logger` 인스턴스는 기본 Monolog 인스턴스에 대한 모든 메소드 호출을 프록시합니다.
 
     <?php
 

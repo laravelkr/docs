@@ -696,8 +696,6 @@ Assert that the session contains an error for the given `$keys`, within a specif
 
 세션에 특정 error bag 내에서 주어진 `$keys`에 대한 오류가 포함되어 있는지 확인. `$keys`가 연관 배열 인 경우, 세션에 error bag 내의 각 필드 (키)에 대한 특정 오류 메시지 (값)가 포함되어 있는지 확인:
 
-세션이 주어진 에러를 가지고 있는지 확인:
-
     $response->assertSessionHasErrorsIn($errorBag, $keys = [], $format = null);
 
 <a name="assert-session-has-no-errors"></a>

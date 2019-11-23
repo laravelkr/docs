@@ -24,10 +24,10 @@ Laravel makes interacting with databases extremely simple across a variety of da
 
 라라벨은 직접 raw SQL을 사용할 때에도, [쿼리 빌더](/docs/{{version}}/queries)를 사용하거나 그리고 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용할 때에도 데이터베이스를 처리하는 것이 쉽도록 해줍니다. 현재 라라벨은 4가지 데이터베이스를 지원하고 있습니다.
 
-- MySQL
-- PostgreSQL
-- SQLite
-- SQL Server
+- MySQL 5.6+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
+- PostgreSQL 9.4+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- SQLite 3.8.8+
+- SQL Server 2017+ ([Version Policy](https://support.microsoft.com/en-us/lifecycle/search))
 
 <a name="configuration"></a>
 ### Configuration
@@ -51,14 +51,11 @@ After creating a new SQLite database using a command such as `touch database/dat
     DB_CONNECTION=sqlite
     DB_DATABASE=/absolute/path/to/database.sqlite
 
-To enable foreign key constraints for SQLite connections, you should add the `foreign_key_constraints` option to your `config/database.php` configuration file:
+To enable foreign key constraints for SQLite connections, you should set the `DB_FOREIGN_KEYS` environment variable to `true`:
 
-SQLite 연결에 외래 키 제약 조건을 사용하려면 `config/database.php` 설정 파일에 `foreign_key_constraints` 옵션을 추가해야합니다.
+SQLite 연결에 외래 키 제약 조건을 사용하려면 `DB_FOREIGN_KEYS` 환경 변수를 `true`로 설정해야합니다.
 
-    'sqlite' => [
-        // ...
-        'foreign_key_constraints' => true,
-    ],
+    DB_FOREIGN_KEYS=true
 
 #### Configuration Using URLs
 #### URL을 사용하여 구성
@@ -167,8 +164,8 @@ To run a basic query, you may use the `select` method on the `DB` facade:
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {

@@ -47,6 +47,20 @@ However, collections are much more powerful than arrays and expose a variety of 
 ## Available Methods
 ## 사용가능한 메소드들 
 
+- [contains](#method-contains)
+- [diff](#method-diff)
+- [except](#method-except)
+- [find](#method-find)
+- [fresh](#method-fresh)
+- [intersect](#method-intersect)
+- [load](#method-load)
+- [loadMissing](#method-loadMissing)
+- [modelKeys](#method-modelKeys)
+- [makeVisible](#method-makeVisible)
+- [makeHidden](#method-makeHidden)
+- [only](#method-only)
+- [unique](#method-unique)
+
 All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
 
 모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
@@ -66,6 +80,7 @@ The `contains` method may be used to determine if a given model instance is cont
     
     $users->contains(User::find(1));
 
+<a name="method-diff"></a>
 #### `diff($items)`
 #### `diff($items)`
 
@@ -77,6 +92,7 @@ The `diff` method returns all of the models that are not present in the given co
 
     $users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
 
+<a name="method-except"></a>
 #### `except($keys)`
 #### `except($keys)`
 
@@ -86,6 +102,7 @@ The `except` method returns all of the models that do not have the given primary
 
     $users = $users->except([1, 2, 3]);
 
+<a name="method-find"></a>
 #### `find($key)` {#collection-method .first-collection-method}
 #### `find($key)` {#collection-method .first-collection-method}
 
@@ -97,6 +114,7 @@ The `find` method finds a model that has a given primary key. If `$key` is a mod
 
     $user = $users->find(1);
 
+<a name="method-fresh"></a>
 #### `fresh($with = [])`
 #### `fresh($with = [])`
 
@@ -108,6 +126,7 @@ The `fresh` method retrieves a fresh instance of each model in the collection fr
 
     $users = $users->fresh('comments');
 
+<a name="method-intersect"></a>
 #### `intersect($items)`
 #### `intersect($items)`
 
@@ -119,6 +138,7 @@ The `intersect` method returns all of the models that are also present in the gi
 
     $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
 
+<a name="method-load"></a>
 #### `load($relations)`
 #### `load($relations)`
 
@@ -130,6 +150,7 @@ The `load` method eager loads the given relationships for all models in the coll
 
     $users->load('comments.author');
 
+<a name="method-loadMissing"></a>
 #### `loadMissing($relations)`
 #### `loadMissing($relations)`
 
@@ -141,6 +162,7 @@ The `loadMissing` method eager loads the given relationships for all models in t
 
     $users->loadMissing('comments.author');
 
+<a name="method-modelKeys"></a>
 #### `modelKeys()`
 #### `modelKeys()`
 
@@ -151,7 +173,8 @@ The `modelKeys` method returns the primary keys for all models in the collection
     $users->modelKeys();
 
     // [1, 2, 3, 4, 5]
-    
+
+<a name="method-makeVisible"></a>
 #### `makeVisible($attributes)`
 #### `makeVisible($attributes)`
 
@@ -161,6 +184,7 @@ The `makeVisible` method makes visible attributes that are typically "hidden" on
 
     $users = $users->makeVisible(['address', 'phone_number']);
 
+<a name="method-makeHidden"></a>
 #### `makeHidden($attributes)`
 #### `makeHidden($attributes)`
 
@@ -170,6 +194,7 @@ The `makeHidden` method hides attributes that are typically "visible" on each mo
 
     $users = $users->makeHidden(['address', 'phone_number']);
 
+<a name="method-only"></a>
 #### `only($keys)`
 #### `only($keys)`
 
@@ -179,6 +204,7 @@ The `only` method returns all of the models that have the given primary keys:
 
     $users = $users->only([1, 2, 3]);
 
+<a name="method-unique"></a>
 #### `unique($key = null, $strict = false)`
 #### `unique($key = null, $strict = false)`
 

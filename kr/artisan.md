@@ -130,8 +130,8 @@ Let's take a look at an example command. Note that we are able to inject any dep
 
     namespace App\Console\Commands;
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
     use Illuminate\Console\Command;
 
     class SendEmails extends Command
@@ -209,8 +209,8 @@ In addition to receiving your command's arguments and options, command Closures 
 
 명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다.
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
 
     Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
         $drip->send(User::find($user));
@@ -446,6 +446,14 @@ The `anticipate` method can be used to provide auto-completion for possible choi
 `anticipate` 메소드는 입력가능한 값들에 대한 자동완성 기능을 제공합니다. 사용자는 자동완성되는 결과에 개의치 않고, 어떤 대답도 입력 할 수 있습니다.
 
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
+
+Alternatively, you may pass a Closure as the second argument to the `anticipate` method. The Closure will be called each time the user types an input character. The Closure should accept a string parameter containing the user's input so far, and return an array of options for auto-completion:
+
+또는 `anticipate`메소드의 두 번째 인자로 클로저를 전달할 수도 있습니다. 사용자가 문자를 입력 할 때마다 클로저가 호출됩니다. 클로저는 사용자의 지금까지 입력한 값을 문자열 파라메터로 입력받고 자동 완성을 위한 옵션 배열을 반환해야합니다.
+
+    $name = $this->anticipate('What is your name?', function ($input) {
+        // Return auto-completion options...
+    });
 
 #### Multiple Choice Questions
 #### 여러개의 선택지

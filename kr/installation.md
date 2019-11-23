@@ -11,6 +11,8 @@
     - [설정하기](#configuration)
 - [Web Server Configuration](#web-server-configuration)
 - [웹 서버 설정](#web-server-configuration)
+    - [Directory Configuration](#directory-configuration)
+    - [Directory 설정](#directory-configuration)
     - [Pretty URLs](#pretty-urls)
     - [Pretty URLs](#pretty-urls)
 
@@ -128,9 +130,9 @@ The next thing you should do after installing Laravel is set your application ke
 
 라라벨 설치 후 해야할 일은 여러분의 애플리케이션 키를 랜덤한 문자열로 세팅하는 것입니다. 만약 라라벨이 Composer 를 통해서 설치되었다면 키는 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다.
 
-Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not renamed the `.env.example` file to `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
+Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not copied the `.env.example` file to a new file named `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
 
-일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 변경하지 않았다면 지금 변경합니다. **만약 애플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
+일반적으로, 이 키는 32자리의 문자열입니다. 이 키는 `.env` 환경설정 파일에서 세팅할 수 있습니다. 아직 `.env.example` 파일을 `.env` 로 복사하지 않았다면 지금 복사합니다. **만약 애플리케이션 키가 세팅되어있지 않다면, 여러분의 사용자 세션과 그밖의 암호화된 데이터들이 안전하지 않습니다!**
 
 #### Additional Configuration
 #### 추가적인 설정
@@ -152,6 +154,14 @@ You may also want to configure a few additional components of Laravel, such as:
 <a name="web-server-configuration"></a>
 ## Web Server Configuration
 ## 웹 서버 설정
+
+<a name="directory-configuration"></a>
+### Directory Configuration
+### Directory 설정
+
+Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a sub-directory of the "web directory". Attempting to do so could expose sensitive files present within your application.
+
+Laravel은 항상 웹 서버용으로 구성된 "웹 디렉토리"의 루트에서 제공되어야합니다. "웹 디렉토리"의 하위 디렉토리에서 Laravel 애플리케이션을 제공하려고 시도해서는 안됩니다. 이렇게하면 애플리케이션 내에 민감한 파일이 노출 될 수 있습니다.
 
 <a name="pretty-urls"></a>
 ### Pretty URLs

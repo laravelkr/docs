@@ -48,8 +48,8 @@ In this example, the only argument passed to the `paginate` method is the number
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {
@@ -279,6 +279,8 @@ Method  |  Description
 `$results->previousPageUrl()`  |  Get the URL for the previous page.
 `$results->total()`  |  Determine the total number of matching items in the data store. (Not available when using `simplePaginate`).
 `$results->url($page)`  |  Get the URL for a given page number.
+`$results->getPageName()`  |  Get the query string variable used to store the page.
+`$results->setPageName($name)`  |  Set the query string variable used to store the page.
 
 메소드  |  설명
 -------  |  -----------
@@ -297,3 +299,5 @@ Method  |  Description
 `$results->previousPageUrl()`  |  이전 페이지의 URL을 가져옵니다.
 `$results->total()`  |  데이터 저장소에서 일치하는 항목의 총 개수를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
 `$results->url($page)`  |  지정된 페이지 번호의 URL을 가져옵니다.
+`$results->getPageName()`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 가져옵니다.
+`$results->setPageName($name)`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 설정합니다.

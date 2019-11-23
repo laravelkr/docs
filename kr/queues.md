@@ -13,6 +13,8 @@
     - [Job 클래스 생성하기](#generating-job-classes)
     - [Class Structure](#class-structure)
     - [클래스 구조](#class-structure)
+    - [Job Middleware](#job-middleware)
+    - [Job 미들웨어](#job-middleware)
 - [Dispatching Jobs](#dispatching-jobs)
 - [Job 처리하기](#dispatching-jobs)
     - [Delayed Dispatching](#delayed-dispatching)
@@ -148,6 +150,9 @@ Adjusting this value based on your queue load can be more efficient than continu
         'block_for' => 5,
     ],
 
+> {note} Setting `block_for` to `0` will cause queue workers to block indefinitely until a job is available. This will also prevent signals such as `SIGTERM` from being handled until the next job has been processed.
+   
+> {note} `block_for`를 `0`으로 설정하면 작업을 사용할 수있을 때까지 큐 작업자가 무기한으로 대기됩니다. 이렇게하면 다음 작업이 처리 될 때까지 `SIGTERM`과 같은 신호가 처리되지 않습니다.
 
 #### Other Driver Prerequisites
 #### 다른 큐 드라이버의 사전준비 사항들
@@ -159,7 +164,7 @@ The following dependencies are needed for the listed queue drivers:
 
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~4.0`
-- Redis: `predis/predis ~1.0`
+- Redis: `predis/predis ~1.0` or phpredis PHP extension
 
 
 <a name="creating-jobs"></a>
@@ -191,13 +196,13 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
 
     namespace App\Jobs;
 
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -250,6 +255,91 @@ If you would like to take total control over how the container injects dependenc
 
 > {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
 
+<a name="job-middleware"></a>
+### Job Middleware
+### Job 미들웨어
+
+Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, consider the following `handle` method which leverages Laravel's Redis rate limiting features to allow only one job to process every five seconds:
+
+Job 미들웨어를 사용하면 대기중인 Job 실행을 중심으로 커스텀 로직을 래핑하여 Job 자체의 중복코드를 줄일 수 있습니다. 예를 들어, 5 초마다 한 Job 만 처리 하기위해 Laravel의 Redis 속도 제한 기능을 활용하는 다음 `handle` 메소드를 생각해보십시오.
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        Redis::throttle('key')->block(0)->allow(1)->every(5)->then(function () {
+            info('Lock obtained...');
+
+            // Handle job...
+        }, function () {
+            // Could not obtain lock...
+
+            return $this->release(5);
+        });
+    }
+
+While this code is valid, the structure of the `handle` method becomes noisy since it is cluttered with Redis rate limiting logic. In addition, this rate limiting logic must be duplicated for any other jobs that we want to rate limit.
+
+이 코드는 동작은 하지만, `handle` 메소드의 구조는 Redis 속도 제한 로직으로 지저분해집니다. 또한 이 속도 제한 로직은 속도를 제한하려는 다른 Job에 복제해야합니다.
+
+Instead of rate limiting in the handle method, we could define a job middleware that handles rate limiting. Laravel does not have a default location for job middleware, so you are welcome to place job middleware anywhere in your application. In this example, we will place the middleware in a `app/Jobs/Middleware` directory:
+
+handle 메소드에서 속도 제한을 직접 처리하는 대신 속도 제한을 하는 Job 미들웨어를 정의 할 수 있습니다. Laravel에는 Job 미들웨어의 기본 위치가 없으므로 Job 미들웨어를 애플리케이션의 어디든 배치 할 수 있습니다. 이 예제에서는 미들웨어를 `app/Jobs/Middleware` 디렉토리에 넣습니다.
+
+    <?php
+
+    namespace App\Jobs\Middleware;
+
+    use Illuminate\Support\Facades\Redis;
+
+    class RateLimited
+    {
+        /**
+         * Process the queued job.
+         *
+         * @param  mixed  $job
+         * @param  callable  $next
+         * @return mixed
+         */
+        public function handle($job, $next)
+        {
+            Redis::throttle('key')
+                    ->block(0)->allow(1)->every(5)
+                    ->then(function () use ($job, $next) {
+                        // Lock obtained...
+
+                        $next($job);
+                    }, function () use ($job) {
+                        // Could not obtain lock...
+
+                        $job->release(5);
+                    });
+        }
+    }
+
+As you can see, like [route middleware](/docs/{{version}}/middleware), job middleware receive the job being processed and a callback that should be invoked to continue processing the job.
+
+보시다시피 [route 미들웨어](/docs/{{version}}/middleware)와 같이 Job 미들웨어는 처리중인 Job과 Job 처리를 계속하기 위해 호출해야하는 콜백을 받습니다.
+
+After creating job middleware, they may be attached to a job by returning them from the job's `middleware` method. This method does not exist on jobs scaffolded by the `make:job` Artisan command, so you will need to add it to your own job class definition:
+
+Job 미들웨어를 작성한 후에는 Job의 `middleware`메소드에서 리턴받아 Job에 추가 할 수 있습니다. 이 메소드는 `make:job` 아티즌 명령으로 생성된 된 Job에는 존재하지 않으므로 직접 Job 클래스에 추가해야합니다.
+
+    use App\Jobs\Middleware\RateLimited;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [new RateLimited];
+    }
+
 <a name="dispatching-jobs"></a>
 ## Dispatching Jobs
 ## Job 처리하기
@@ -262,9 +352,9 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -294,9 +384,9 @@ If you would like to delay the execution of a queued job, you may use the `delay
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -331,9 +421,9 @@ If you would like to dispatch a job immediately (synchronously), you may use the
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
-    use App\Jobs\ProcessPodcast;
     use App\Http\Controllers\Controller;
+    use App\Jobs\ProcessPodcast;
+    use Illuminate\Http\Request;
 
     class PodcastController extends Controller
     {
@@ -396,9 +486,9 @@ By pushing jobs to different queues, you may "categorize" your queued jobs and e
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -427,9 +517,9 @@ If you are working with multiple queue connections, you may specify which connec
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -871,13 +961,13 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 
     namespace App\Jobs;
 
-    use Exception;
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
+    use Exception;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -932,8 +1022,8 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
     namespace App\Providers;
 
     use Illuminate\Support\Facades\Queue;
-    use Illuminate\Queue\Events\JobFailed;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Queue\Events\JobFailed;
 
     class AppServiceProvider extends ServiceProvider
     {

@@ -97,9 +97,13 @@ You may use the `session:table` Artisan command to generate this migration:
 #### Redis
 #### Redis
 
-Before using Redis sessions with Laravel, you will need to install the `predis/predis` package (~1.0) via Composer. You may configure your Redis connections in the `database` configuration file. In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
+Before using Redis sessions with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer. For more information on configuring Redis, consult its [Laravel documentation page](/docs/{{version}}/redis#configuration).
 
-라라벨에서 Redis 세션을 사용하기 전에, Composer 를 통해서 `predis/predis` 패키지 (~1.0)을 설치할 필요가 있습니다. `database` 설정 파일 안에서 Redis 커넥션을 설정할 수 있습니다. `session` 설정 파일에서 `connection` 옵션은 세션이 어떤 Redis 커넥션을 사용할지 지정하는데 사용될 수 있습니다.
+Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PHP 확장모듈을 설치하거나 Composer를 통해 `predis/predis` 패키지 (~ 1.0)를 설치해야합니다. Redis 설정에 대한 자세한 내용은 [Laravel의 Redis 설정](/docs/{{version}}/redis#configuration)을 참조하십시오.
+
+> {tip} In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
+
+> {tip} `session` 설정 파일에서 `connection` 옵션을 사용하여 세션에서 어떤 Redis 연결을 사용할지 지정할 수 있습니다.
 
 <a name="using-the-session"></a>
 ## Using The Session
@@ -117,8 +121,8 @@ There are two primary ways of working with session data in Laravel: the global `
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class UserController extends Controller
     {
@@ -233,9 +237,9 @@ The `pull` method will retrieve and delete an item from the session in a single 
 ### Flash Data
 ### 데이터 임시저장하기
 
-Sometimes you may wish to store items in the session only for the next request. You may do so using the `flash` method. Data stored in the session using this method will only be available during the subsequent HTTP request, and then will be deleted. Flash data is primarily useful for short-lived status messages:
+Sometimes you may wish to store items in the session only for the next request. You may do so using the `flash` method. Data stored in the session using this method will be available immediately and during the subsequent HTTP request. After the subsequent HTTP request, the flashed data will be deleted. Flash data is primarily useful for short-lived status messages:
 
-때로는 바로 다음번의 요청에서만 사용하기 위해서 세션에 아이템을 저장할 수 있습니다. 바로 `flash` 메소드를 사용하는 것입니다. 이 메소드를 사용하여 세션에 저장된 데이터는 바로 이어지는 HTTP 요청에 대해서만 사용이 가능하고, 이후에는 삭제됩니다. 임시 데이터는 주로 상태 메세지등 잠깐동안 사용하데 유용합니다.
+때때로 다음 요청에서만 사용하기 위한 값을 세션에 저장하고자 할 수 있습니다.  이럴때는 `flash` 메소드를 사용하면 됩니다. 이 메소드을 사용하여 세션에 저장된 데이터는 즉시 및 후속 HTTP 요청에서만 사용할 수 있고 후속 HTTP 요청이 완료 후 플래시 된 데이터는 삭제됩니다. 플래시 데이터는 주로 단기 상태 메시지에 유용합니다.
 
     $request->session()->flash('status', 'Task was successful!');
 
@@ -348,7 +352,7 @@ Once your driver has been implemented, you are ready to register it with the fra
     class SessionServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */

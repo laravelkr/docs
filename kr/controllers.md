@@ -17,6 +17,8 @@
 - [리소스 컨트롤러](#resource-controllers)
     - [Partial Resource Routes](#restful-partial-resource-routes)
     - [Resource 라우트의 일부만 지정하기](#restful-partial-resource-routes)
+    - [Nested Resources](#restful-nested-resources)
+    - [중첩된 Resources](#restful-nested-resources)
     - [Naming Resource Routes](#restful-naming-resource-routes)
     - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
     - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
@@ -54,8 +56,8 @@ Below is an example of a basic controller class. Note that the controller extend
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class UserController extends Controller
     {
@@ -111,8 +113,8 @@ If you would like to define a controller that only handles a single action, you 
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class ShowProfile extends Controller
     {
@@ -290,6 +292,20 @@ To quickly generate an API resource controller that does not include the `create
 빠르게 `create` 혹은 `edit` 메소드들을 포함하지 않는 API 리소스 컨트롤러 생성을 원하신다면, `make:controller` 커맨드 명령에 `--api` 옵션을 사용하시면 됩니다.
 
     php artisan make:controller API/PhotoController --api
+
+<a name="restful-nested-resources"></a>
+### Nested Resources
+### 중첩된 Resources
+
+Sometimes you may need to define routes to a "nested" resource. For example, a photo resource may have multiple "comments" that may be attached to the photo. To "nest" resource controllers, use "dot" notation in your route declaration:
+
+때때로 "중첩 된" 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 사진 리소스는 사진에 첨부 될 수있는 다수의 "코멘트"를 가질 수 있습니다. 리소스 컨트롤러를 "중첩"하려면 경로 선언에서 "점-dot"표기법을 사용하십시오.
+
+    Route::resource('photos.comments', 'PhotoCommentController');
+
+This route will register a "nested" resource that may be accessed with URLs like the following: photos/{photos}/comments/{comments}.
+
+이 라우트는 photos/{photos}/comments/{comments}와 같은 URL로 액세스 할 수있는 "중첩 된" 리소스를 등록합니다.
 
 <a name="restful-naming-resource-routes"></a>
 ### 리소스 라우트 이름 지정하기
@@ -483,7 +499,7 @@ If your application is exclusively using controller based routes, you should tak
 
 After running this command, your cached routes file will be loaded on every request. Remember, if you add any new routes you will need to generate a fresh route cache. Because of this, you should only run the `route:cache` command during your project's deployment.
 
-이 명령을 실행하면 캐시 된 경로 파일이 모든 요청에로드됩니다. 새로운 경로를 추가하는 경우 새로운 경로 캐시를 생성해야합니다. 이 때문에 프로젝트 배포 중에`route : cache` 명령 만 실행하면됩니다.
+이 명령을 실행하면 캐시 된 라우트 파일이 모든 요청에 로드됩니다. 새로운 라우트를 추가하는 경우 새로운 라우트 캐시를 생성해야합니다. 이 때문에 프로젝트 배포 중에 `route:cache` 명령 만 실행하면 됩니다.
 
 You may use the `route:clear` command to clear the route cache:
 

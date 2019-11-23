@@ -25,8 +25,8 @@
     - [존재여부를 판단하는 Where 절](#where-exists-clauses)
     - [JSON Where Clauses](#json-where-clauses)
     - [JSON Where 절](#json-where-clauses)
-- [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
-- [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
+- [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
+- [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
 - [Conditional Clauses](#conditional-clauses)
 - [Conditional-조건적 구문](#conditional-clauses)
 - [Inserts](#inserts)
@@ -75,8 +75,8 @@ You may use the `table` method on the `DB` facade to begin a query. The `table` 
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {
@@ -711,8 +711,8 @@ You may use `whereJsonLength` to query JSON arrays by their length:
                     ->get();
 
 <a name="ordering-grouping-limit-and-offset"></a>
-## Ordering, Grouping, Limit, & Offset
-## Ordering, Grouping, Limit, & Offset
+## Ordering, Grouping, Limit & Offset
+## Ordering, Grouping, Limit & Offset
 
 #### orderBy
 #### orderBy 정렬

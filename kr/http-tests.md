@@ -32,9 +32,9 @@ Laravel provides a very fluent API for making HTTP requests to your application 
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -103,9 +103,9 @@ After making a test request to your application, the `dump` and `dumpHeaders` me
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -173,9 +173,9 @@ You may also specify which guard should be used to authenticate the given user b
 ## Testing JSON APIs
 ## JSON API 테스팅하기
 
-Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `get`, `post`, `put`, `patch`, `delete`, and `option` methods may be used to issue requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
+Laravel also provides several helpers for testing JSON APIs and their responses. For example, the `json`, `getJson`, `postJson`, `putJson`, `patchJson`, `deleteJson`, and `optionsJson` methods may be used to issue JSON requests with various HTTP verbs. You may also easily pass data and headers to these methods. To get started, let's write a test to make a `POST` request to `/user` and assert that the expected data was returned:
 
-라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `get`, `post`, `put`, `patch`, `delete`, 그리고 `option` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다.
+라라벨은 또한 JSON API와 그 결과를 테스트하기 위해 여러 헬퍼들을 제공합니다. 예를 들어, `json`, `getJson`, `postJson`, `putJson`, `patchJson`, `deleteJson`, 그리고 `optionsJson` 메소드들을 이용하여 다양한 HTTP verb를 가진 request-요청을 할 수 있습니다. 이 메소드들에 손쉽게 데이터와 헤더를 전달할 수도 있습니다. 이를 위해 `/user`에 `POST` request-요청을 하고 원하는 데이터가 반환되는지 확인하는 테스트를 작성해보겠습니다.
 
     <?php
 
@@ -188,7 +188,7 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
          */
         public function testBasicExample()
         {
-            $response = $this->json('POST', '/user', ['name' => 'Sally']);
+            $response = $this->postJson('/user', ['name' => 'Sally']);
 
             $response
                 ->assertStatus(201)
@@ -231,6 +231,33 @@ If you would like to verify that the given array is an **exact** match for the J
         }
     }
 
+<a name="verifying-json-paths"></a>
+### Verifying JSON Paths
+###  JSON Path 검증하기
+
+If you would like to verify that the JSON response contains some given data at a specified path, you should use the `assertJsonPath` method:
+
+JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지 확인하려면 `assertJsonPath` 메소드를 사용해야합니다.
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic functional test example.
+         *
+         * @return void
+         */
+        public function testBasicExample()
+        {
+            $response = $this->json('POST', '/user', ['name' => 'Sally']);
+
+            $response
+                ->assertStatus(201)
+                ->assertJsonPath('team.owner.name', 'foo')
+        }
+    }
+
 <a name="testing-file-uploads"></a>
 ## Testing File Uploads
 ## 파일 업로드 테스트하기
@@ -243,11 +270,11 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use Illuminate\Http\UploadedFile;
-    use Illuminate\Support\Facades\Storage;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -313,6 +340,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertCookieExpired](#assert-cookie-expired)
 - [assertCookieNotExpired](#assert-cookie-not-expired)
 - [assertCookieMissing](#assert-cookie-missing)
+- [assertCreated](#assert-created)
 - [assertDontSee](#assert-dont-see)
 - [assertDontSeeText](#assert-dont-see-text)
 - [assertExactJson](#assert-exact-json)
@@ -325,6 +353,7 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
+- [assertJsonPath](#assert-json-path)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertLocation](#assert-location)
@@ -390,6 +419,15 @@ response-응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확�
 
     $response->assertCookieMissing($cookieName);
 
+<a name="assert-created"></a>
+#### assertCreated
+
+Assert that the response has a 201 status code:
+
+response-응답에  201 상태 코드가 있는 지 확인:
+
+    $response->assertCreated();
+
 <a name="assert-dont-see"></a>
 #### assertDontSee
 
@@ -451,7 +489,7 @@ Assert that the response contains the given JSON data:
 
 response-응답에 주어진 JSON 데이터가 포함되어 있는지 확인:
 
-    $response->assertJson(array $data);
+    $response->assertJson(array $data, $strict = false);
 
 <a name="assert-json-count"></a>
 #### assertJsonCount
@@ -507,6 +545,15 @@ response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
 
     $response->assertJsonStructure(array $structure);
 
+<a name="assert-json-path"></a>
+#### assertJsonPath
+
+Assert that the response contains the given data at the specified path:
+
+response-응답에 지정된 경로와 지정된 데이터가 포함되어 있는지 확인:
+
+    $response->assertJsonPath($path, array $data, $strict = false);
+
 <a name="assert-json-validation-errors"></a>
 #### assertJsonValidationErrors
 
@@ -524,6 +571,15 @@ Assert that the response has the given URI value in the `Location` header:
 response-응답의 `Location` 헤더에 주어진 URI를 가지고 있는지 확인:
 
     $response->assertLocation($uri);
+
+<a name="assert-no-content"></a>
+#### assertNoContent
+
+Assert that the response has the given status code and no content.
+
+response-응답에 주어진 상태 코드가 있고 내용이 없는지 확인:
+
+    $response->assertNoContent($status = 204);
 
 <a name="assert-not-found"></a>
 #### assertNotFound
@@ -627,16 +683,18 @@ Assert that the session has a given list of values:
 <a name="assert-session-has-errors"></a>
 #### assertSessionHasErrors
 
-Assert that the session contains an error for the given field:
+Assert that the session contains an error for the given `$keys`. If `$keys` is an associative array, assert that the session contains a specific error message (value) for each field (key):
 
-세션에 주어진 필드에 대한 에러가 포함되어 있는지 확인:
+세션에 주어진 `$keys`에 대한 에러가 포함되어 있는지 확인. `$keys`가 연관 배열 인 경우 세션에 각 필드 (키)에 대한 특정 오류 메시지 (값)가 포함되어 있는지 확인:
 
     $response->assertSessionHasErrors(array $keys, $format = null, $errorBag = 'default');
 
 <a name="assert-session-has-errors-in"></a>
 #### assertSessionHasErrorsIn
 
-Assert that the session has the given errors:
+Assert that the session contains an error for the given `$keys`, within a specific error bag. If `$keys` is an associative array, assert that the session contains a specific error message (value) for each field (key), within the error bag:
+
+세션에 특정 error bag 내에서 주어진 `$keys`에 대한 오류가 포함되어 있는지 확인. `$keys`가 연관 배열 인 경우, 세션에 error bag 내의 각 필드 (키)에 대한 특정 오류 메시지 (값)가 포함되어 있는지 확인:
 
 세션이 주어진 에러를 가지고 있는지 확인:
 
@@ -681,9 +739,9 @@ response-응답이 주어진 코드를 가지고 있는지 확인:
 <a name="assert-successful"></a>
 #### assertSuccessful
 
-Assert that the response has a successful (200) status code:
+Assert that the response has a successful (>= 200 and < 300) status code:
 
-response-응답이 성공적인 상태코드(200)를 가지고 있는지 확인:
+response-응답이 성공적인 상태코드(>= 200 and < 300)를 가지고 있는지 확인:
 
     $response->assertSuccessful();
 

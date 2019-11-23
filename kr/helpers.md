@@ -44,6 +44,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Arr::forget](#method-array-forget)
 - [Arr::get](#method-array-get)
 - [Arr::has](#method-array-has)
+- [Arr::isAssoc](#method-array-isassoc)
 - [Arr::last](#method-array-last)
 - [Arr::only](#method-array-only)
 - [Arr::pluck](#method-array-pluck)
@@ -88,7 +89,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [e](#method-e)
 - [preg_replace_array](#method-preg-replace-array)
 - [Str::after](#method-str-after)
+- [Str::afterLast](#method-str-after-last)
 - [Str::before](#method-str-before)
+- [Str::beforeLast](#method-str-before-last)
 - [Str::camel](#method-camel-case)
 - [Str::contains](#method-str-contains)
 - [Str::containsAll](#method-str-contains-all)
@@ -372,6 +375,23 @@ The `Arr::has` method checks whether a given item or items exists in an array us
     // true
 
     $contains = Arr::has($array, ['product.price', 'product.discount']);
+
+    // false
+
+<a name="method-array-isassoc"></a>
+#### `Arr::isAssoc()` {#collection-method}
+
+The `Arr::isAssoc` returns `true` if the given array is an associative array. An array is considered "associative" if it doesn't have sequential numerical keys beginning with zero:
+
+주어진 배열이 연관 배열이면 `Arr::isAssoc`은 `true`를 반환합니다. 배열은 0으로 시작하는 순차적 숫자 키가없는 경우 "연관-associative"으로 간주됩니다.
+
+    use Illuminate\Support\Arr;
+
+    $isAssoc = Arr::isAssoc(['product' => ['name' => 'Desk', 'price' => 100]]);
+
+    // true
+
+    $isAssoc = Arr::isAssoc([1, 2, 3]);
 
     // false
 
@@ -945,6 +965,18 @@ The `Str::after` method returns everything after the given value in a string:
 
     // ' my name'
 
+<a name="method-str-after-last"></a>
+#### `Str::afterLast()` {#collection-method}
+
+The `Str::afterLast` method returns everything after the last occurrence of the given value in a string:
+
+`Str::afterLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타난 후 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::afterLast('App\Http\Controllers\Controller', '\\');
+
+    // 'Controller'
 
 <a name="method-str-before"></a>
 #### `Str::before()` {#collection-method}
@@ -958,6 +990,19 @@ The `Str::before` method returns everything before the given value in a string:
     $slice = Str::before('This is my name', 'my name');
 
     // 'This is '
+
+<a name="method-str-before-last"></a>
+#### `Str::beforeLast()` {#collection-method}
+
+The `Str::beforeLast` method returns everything before the last occurrence of the given value in a string:
+
+`Str::beforeLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타나기 전에 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::beforeLast('This is my name', 'is');
+
+    // 'This '
 
 <a name="method-camel-case"></a>
 #### `Str::camel()` {#collection-method}
@@ -1017,6 +1062,21 @@ The `Str::endsWith` method determines if the given string ends with the given va
     $result = Str::endsWith('This is my name', 'name');
 
     // true
+
+
+You may also pass an array of values to determine if the given string ends with any of the given values:
+
+주어진 문자열이 주어진 값으로 끝나는 지 확인하기 위해 값 배열을 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+
+    $result = Str::endsWith('This is my name', ['name', 'foo']);
+
+    // true
+    
+    $result = Str::endsWith('This is my name', ['this', 'foo']);
+    
+    // false
 
 <a name="method-str-finish"></a>
 #### `Str::finish()` {#collection-method}

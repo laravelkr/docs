@@ -20,8 +20,8 @@
 ## 중요한 변경사항
 
 <!-- <div class="content-list" markdown="1"> -->
-- [Authentication `RegisterController`](#the-register-controller)
 - [Carbon 1.x No Longer Supported](#carbon-support)
+- [Redis Default Client](#redis-default-client)
 - [Database `Capsule::table` Method](#capsule-table)
 - [Eloquent Arrayable & `toArray`](#eloquent-to-array)
 - [Eloquent `BelongsTo::update` Method](#belongs-to-update)
@@ -30,9 +30,11 @@
 - [Localization `Lang::getFromJson` Method](#get-from-json)
 - [Queue Retry Limit](#queue-retry-limit)
 - [Resend Email Verification Route](#email-verification-route)
+- [Email Verification Route Change](#email-verification-route-change)
 - [The `Input` Facade](#the-input-facade)
-- [인증 `RegisterController`](#the-register-controller)
+
 - [Carbon 1.x 지원 종료](#carbon-support)
+- [Redis 기본 클라이언트](#redis-default-client)
 - [데이터베이스 `Capsule::table` 메소드](#capsule-table)
 - [Eloquent Arrayable & `toArray`](#eloquent-to-array)
 - [Eloquent `BelongsTo::update` Method](#belongs-to-update)
@@ -41,6 +43,7 @@
 - [Localization `Lang::getFromJson` 메소드](#get-from-json)
 - [큐 재시도 횟수 제한](#queue-retry-limit)
 - [이메일 인증 재발송 라우트](#email-verification-route)
+- [Email 확인 경로 변경](#email-verification-route-change)
 - [`Input` 파사드](#the-input-facade)
 <!-- </div> -->
 
@@ -91,18 +94,6 @@ Authorization policies attached to controllers using the `authorizeResource` met
 
 `authorizeResource` 함수를 사용해 컨트롤러에 붙여진 인가 정책은 이제 `viewAny` 메소드를 정의해야만 합니다. 이 메소드는 유저가 컨트롤러의 `index` 메소드에 접근할 때 호출됩니다. 이 메소드를 정의하지 않으면, 컨트롤러의 `index` 메소드에 대한 호출이 거부되거나 비인가 처리됩니다. 
 
-
-<a name="the-register-controller"></a>
-#### The `RegisterController` Controller
-#### `RegisterController` 컨트롤러
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-If you are overriding the `register` or `registered` methods of Laravel's built-in `RegisterController`, you should ensure that you are calling `parent::register` and `parent::registered` from within your respective methods. The dispatching of the `Illuminate\Auth\Events\Registered` event and the logging in of the newly registered user has been moved to the `registered` method, so if you are overriding this method and not calling the parent method, the user registration process will fail.
-
-만약 라라벨에 내장된 `RegisterController` 의 `register` 혹은 `registered` 메소드를 오버라이딩 해서 사용하고 있다면 상속받은 함수에서 `parent::register` 와 `parent::registered` 메소드를 호출하는지 확인해야 합니다. `Illuminate\Auth\Events\Registered` 이벤트를 발생시키는 부분과 새로 등록한 유저을 로그인 처리하는 부분을 `registered` 메소드로 옮겼기 때문에, 이 메소드를 오버라이딩 해서 사용할 때 부모 메소드를 호출해주지 않으면 유저 등록이 실패하게 됩니다.
-
 #### Authorization Responses
 #### Authorization Response 클래스
 
@@ -123,10 +114,29 @@ The constructor signature of the `Illuminate\Auth\Access\Response` class has cha
      */
     public function __construct($allowed, $message = '', $code = null)
 
+#### Returning "Deny" Responses
+#### "Deny" 응답 반환
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+In previous releases of Laravel, you did not need to return the value of the `deny` method from your policy methods since an exception was thrown immediately. However, in accordance with the Laravel documentation, you must now return the value of the `deny` method from your policies:
+
+Laravel의 이전 릴리스에서는 예외가 즉시 발생했기 때문에 정책-policy 메소드에서 `deny` 메소드의 값을 반환 할 필요가 없었습니다. 그러나 Laravel 문서에 따라 이제 정책-policy에서 `deny` 메소드의 값을 반환해야합니다.
+
+    public function update(User $user, Post $post)
+    {
+        if (! $user->role->isEditor()) {
+            return $this->deny("You must be an editor to edit this post.")
+        }
+
+        return $user->id === $post->user_id;
+    }
 
 <a name="auth-access-gate-contract"></a>
 #### The `Illuminate\Contracts\Auth\Access\Gate` Contract
 #### `Illuminate\Contracts\Auth\Access\Gate` 인터페이스
+
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
@@ -160,6 +170,17 @@ Carbon 1.x 버전의 지원 기간이 종료되었기 때문에 [더 이상 지�
 If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update all occurrences of `AWS_REGION` within your `config` directory to `AWS_DEFAULT_REGION`. In addition, you should update this environment variable's name in your `.env` file.
 
 만약 [라라벨 Vapor](https://vapor.laravel.com)를 사용하려 한다면 `config` 디렉토리의 모든 `AWS_REGION` 문자열을 `AWS_DEFAULT_REGION` 으로 변경해야 합니다. 또한, `.env` 파일의 이 환경변수 이름을 변경해야 합니다.
+
+<a name="redis-default-client"></a>
+#### Redis Default Client
+#### Redis 기본 클라이언트
+
+**Likelihood Of Impact: Medium**
+**Likelihood Of Impact: Medium**
+
+The default Redis client has changed from `predis` to `phpredis`. In order to keep using `predis`, ensure the `redis.client` configuration option is set to `predis` in your `config/database.php` configuration file.
+
+Redis 기본 클라이언트가 `predis`에서 `phpredis`로 변경되었습니다. `predis`를 계속 사용하려면 `config/database.php` 설정 파일에서 `redis.client` 설정 옵션이 `predis`로 되어 있는지 확인하십시오.
 
 ### Database
 ### 데이터베이스
@@ -296,6 +317,17 @@ A new `getEmailForVerification` method has been added to the `Illuminate\Contrac
 
 새로운 `getEmailForVerification` 메소드가 `Illuminate\Contracts\Auth\MustVerifyEmail` 인터페이스에 추가되었습니다. 만약 이 인터페이스를 직접 구현해서 사용하고 있다면, 이 메소드도 구현해야 합니다. 만약 `App\User` 모델이 `Illuminate\Auth\MustVerifyEmail` trait을 사용중이라면 이 trait이 앞서 언급한 메소드를 구현하고 있기 때문에 별도의 수정사항이 필요하지 않습니다.
 
+<a name="email-verification-route-change"></a>
+#### Email Verification Route Change
+#### Email 확인 경로 변경
+
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
+
+The route path for verifying emails has changed from `/email/verify/{id}` to `/email/verify/{id}/{hash}`. Any email verification emails that were sent prior to upgrading to Laravel 6.x will not longer be valid and will display a 404 page. If you wish, you may define a route matching the old verification URL path and display an informative message for your users that asks them to re-verify their email address.
+
+이메일 확인 경로가 `/email/verify/{id}`에서 `/email/verify/{id}/{hash}`로 변경되었습니다. Laravel 6.x로 업그레이드하기 전에 전송 된 이메일 확인 이메일은 더 이상 유효하지 않으며 404 페이지를 표시합니다. 원하는 경우 이전 확인 URL 경로와 일치하는 경로를 정의하고 사용자에게 이메일 주소를 다시 확인하도록 요청하는 정보 메시지를 표시 할 수 있습니다.
+
 <a name="helpers"></a>
 ### Helpers
 ### 헬퍼들
@@ -340,6 +372,10 @@ In addition, if you are manually implementing the `Illuminate\Contracts\Translat
 The `Lang::get` and `Lang::getFromJson` methods have been consolidated. Calls to the `Lang::getFromJson` method should be updated to call `Lang::get`.
 
 `Lang::get` 과 `Lang::getFromJson` 메소드가 통합되었습니다. `Lang::getFromJson` 메소드를 호출하는 부분은 모두 `Lang::get` 를 호출하도록 변경되어야 합니다.
+
+> {note} You should run the `php artisan view:clear` Artisan command to avoid Blade errors related to the removal of `Lang::transChoice`, `Lang::trans`, and `Lang::getFromJson`.
+
+> {note} `Lang::transChoice`, `Lang::trans` 및 `Lang::getFromJson` 제거와 관련된 블레이드 오류를 피하려면 `php artisan view:clear` 아티즌 명령을 실행해야합니다.
 
 ### Mail
 ### 메일
@@ -455,11 +491,11 @@ The `rackspace` storage driver has been removed. If you would like to continue u
 #### Route URL Generation & Extra Parameters
 #### 라우트 URL 생성 & 추가 파라미터
 
-In previous releases of Laravel, passing associative array parameters to the `route` helper or `URL::route` method would occasionally use these parameters as URI values when generating URLs for routes with optional parameters, even if the parameter value had no matching key within the route path. Beginning in Laravel 6.0, these values will be attached to the query string instead. For example, consider the following route:
+In previous releases of Laravel, passing associative array parameters to the `route` helper or `URL::route` method would occasionally use these parameters as URI values when generating URLs for routes, even if the parameter value had no matching key within the route path. Beginning in Laravel 6.0, these values will be attached to the query string instead. For example, consider the following route:
 
-이전 버전의 라라벨에서는 `route` 헬퍼나 `URL::route` 메소드에 연관 배열 파라미터가 때때로 선택적 path 파라미터를 가진 라우트의 URL을 생성할 때 URI 값으로 사용되었습니다. 심지어 파라미터 값이 라우트 경로에 일치하는 키가 없는 경우에도요. 라라벨 6.0 부터는 이 값들은 쿼리 스트링에 붙도록 처리됩니다. 예를 들면, 다음의 라우터를 생각해보세요:
+라라벨의 이전 릴리스에서는 연관 배열 파라메터를 `route` 헬퍼 또는 `URL::route` 메소드에 전달하면 파라메터 값에 라우트 내에 일치하는 키가 없는 경우에도 라우트에 대한 URL을 생성 할 때 이러한 파라메터를 URI 값으로 사용하는 경우가 있었습니다. Laravel 6.0부터는 이러한 값이 대신 쿼리 문자열에 첨부됩니다. 예를 들어 다음 경로를 고려하십시오.
 
-    Route::get('/profile/{location?}', function ($location = null) {
+    Route::get('/profile/{location}', function ($location = null) {
         //
     })->name('profile');
 
@@ -468,6 +504,30 @@ In previous releases of Laravel, passing associative array parameters to the `ro
 
     // Laravel 6.0: http://example.com/profile?status=active
     echo route('profile', ['status' => 'active']);    
+
+The `action` helper and `URL::action` method are also affected by this change:
+
+`action` 헬퍼와 `URL::action` 메소드도 이 변경의 영향을 받습니다.
+
+    Route::get('/profile/{id}', 'ProfileController@show');
+
+    // Laravel 5.8: http://example.com/profile/1
+    echo action('ProfileController@show', ['profile' => 1]);
+
+    // Laravel 6.0: http://example.com/profile?profile=1
+    echo action('ProfileController@show', ['profile' => 1]);   
+
+### Validation
+### 검증
+
+#### FormRequest `validationData` Method
+#### FormRequest `validationData` 메소드
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The form request's `validationData` method was changed from `protected` to `public`. If you are overriding this method in your implementation, you should update the visibility to `public`.
+The form request's `validationData` method was changed from `protected` to `public`. If you are overriding this method in your implementation, you should update the visibility to `public`.
 
 <a name="miscellaneous"></a>
 ### Miscellaneous

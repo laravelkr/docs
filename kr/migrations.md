@@ -90,9 +90,9 @@ Within both of these methods you may use the Laravel schema builder to expressiv
 
     <?php
 
-    use Illuminate\Support\Facades\Schema;
-    use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
 
     class CreateFlightsTable extends Migration
     {
@@ -479,6 +479,41 @@ Modifier  | 설명
 `->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다 (PostgreSQL)
 
 (역자주 : generated column (virtual/stored) 는 mysql 5.7 부터 가능한 컬럼 유형으로 자세한 내용은 [mysql 공식 매뉴얼](https://dev.mysql.com/doc/refman/5.7/en/create-table-generated-columns.html)을 참고하십시오)
+
+#### Default Expressions
+#### 기본 표현식
+
+The `default` modifier accepts a value or an `\Illuminate\Database\Query\Expression` instance. Using an `Expression` instance will prevent wrapping the value in quotes and allow you to use database specific functions. One situation where this is particularly useful is assigning default values to JSON columns:
+
+`default` 수정자-modifier는 값 또는 `\Illuminate\Database\Query\Expression` 인스턴스를 허용합니다. `Expression` 인스턴스를 사용하면 값을 따옴표로 묶는 것을 방지하고 데이터베이스 별 함수를 사용할 수 있습니다. 이것이 특히 유용한 상황 중 하나는 JSON 열에 기본값을 할당하는 것입니다.
+
+    <?php
+
+    use Illuminate\Support\Facades\Schema;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Database\Query\Expression;
+    use Illuminate\Database\Migrations\Migration;
+
+    class CreateFlightsTable extends Migration
+    {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
+        public function up()
+        {
+            Schema::create('flights', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->json('movies')->default(new Expression('(JSON_ARRAY())'));
+                $table->timestamps();
+            });
+        }
+    }
+
+> {note} Support for default expressions depends on your database driver, database version, and the field type. Please refer to the appropriate documentation for compatibility. Also note that using database specific functions may tightly couple you to a specific driver.
+
+> {note} 기본 표현식의 지원은 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 호환성에 대해서는 관련 문서를 참조하십시오. 또한 데이터베이스 특정 기능을 사용하면 특정 드라이버에 밀접하게 연관될 수 있습니다.
 
 <a name="modifying-columns"></a>
 ### Modifying Columns

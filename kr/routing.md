@@ -296,6 +296,18 @@ If the named route defines parameters, you may pass the parameters as the second
 
     $url = route('profile', ['id' => 1]);
 
+If you pass additional parameters in the array, those key / value pairs will automatically be added to the generated URL's query string:
+
+배열에 추가 파라메터를 전달하면 해당하는 키/값의 쌍이 생성된 URL의 쿼리 문자열에 자동으로 추가됩니다.
+
+    Route::get('user/{id}/profile', function ($id) {
+        //
+    })->name('profile');
+
+    $url = route('profile', ['id' => 1, 'photos' => 'yes']);
+
+    // /user/1/profile?photos=yes
+
 #### Inspecting The Current Route
 
 #### 현재의 라우트 검사하기
@@ -501,7 +513,7 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
         parent::boot();
 
         Route::bind('user', function ($value) {
-            return App\User::where('name', $value)->first() ?? abort(404);
+            return App\User::where('name', $value)->firstOrFail();
         });
     }
 
@@ -517,7 +529,7 @@ Alternatively, you may override the `resolveRouteBinding` method on your Eloquen
      */
     public function resolveRouteBinding($value)
     {
-        return $this->where('name', $value)->first() ?? abort(404);
+        return $this->where('name', $value)->firstOrFail();
     }
 
 <a name="fallback-routes"></a>

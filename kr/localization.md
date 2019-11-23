@@ -45,6 +45,10 @@ All language files return an array of keyed strings. For example:
         'welcome' => 'Welcome to our application'
     ];
 
+> {note} For languages that differ by territory, you should name the language directories according to the ISO 15897. For example, "en_GB" should be used for British English rather than "en-gb".
+
+> {note} 지역별로 다른 언어를 사용하는 경우 ISO 15897에 따라 구분되는 언어의 명칭을 지정해야합니다. 예를 들어 "en-GB" 대신 영국 영어에는 "en_GB"를 사용해야합니다.
+
 <a name="configuring-the-locale"></a>
 ### Configuring The Locale
 ### 로케일 설정하기

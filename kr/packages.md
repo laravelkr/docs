@@ -156,7 +156,7 @@ You may also merge your own package configuration file with the application's pu
 여러분은 또한 패키지 설정 파일이 애플리케이션의 퍼블리싱된 설정 파일에 합쳐지도록 할 수도 있습니다. 이렇게 하면 여러분의 사용자가 퍼블리싱된 설정 파일의 복사본에서 실제로 오버라이딩 하기를 원하는 옵션만 정의하는 것 가능하게 합니다. 설정 파일을 합치려면 서비스 프로바이더의 `register` 메소드안에서 `mergeConfigFrom` 메소드를 사용하면 됩니다.
 
     /**
-     * Register bindings in the container.
+     * Register any application services.
      *
      * @return void
      */

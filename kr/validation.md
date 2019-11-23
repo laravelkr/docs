@@ -98,8 +98,8 @@ Next, let's take a look at a simple controller that handles these routes. We'll 
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class PostController extends Controller
     {
@@ -456,8 +456,8 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Validator;
 
     class PostController extends Controller
@@ -497,7 +497,7 @@ request-요청이 유효성 검사에 실패하였는지 확인한 후에 `withE
 ### Automatic Redirection
 ### 자동으로 리다이렉트하기
 
-If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the requests's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
+If you would like to create a validator instance manually but still take advantage of the automatic redirection offered by the request's `validate` method, you may call the `validate` method on an existing validator instance. If validation fails, the user will automatically be redirected or, in the case of an AJAX request, a JSON response will be returned:
 
 수동으로 validator 인스턴스를 생성하더라도, request의 `validate` 메소드에 의해서 자동으로 리다이렉트 되는 이점을 유지하고 싶다면, validator 인스턴스에 `validate` 메소드를 호출하면 됩니다. 유효성 검사가 실패하는 경우, 사용자는 자동으로 리다이렉트 되거나, 또는 AJAX 요청인 경우, JSON이 반환됩니다.
 
@@ -764,6 +764,7 @@ Below is a list of all available validation rules and their function:
 - [Not Regex](#rule-not-regex)
 - [Nullable](#rule-nullable)
 - [Numeric](#rule-numeric)
+- [Password](#rule-password)
 - [Present](#rule-present)
 - [Regular Expression](#rule-regex)
 - [Required](#rule-required)
@@ -796,9 +797,9 @@ The field under validation must be _yes_, _on_, _1_, or _true_. This is useful f
 <a name="rule-active-url"></a>
 #### active_url
 
-The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function.
+The field under validation must have a valid A or AAAA record according to the `dns_get_record` PHP function. The hostname of the provided URL is extracted using the `parse_url` PHP function before being passed to `dns_get_record`.
 
-필드의 값이 PHP 함수 `dns_get_record`에서 확인 가능한 올바른 A 또는 AAAA 레코드여야 합니다.
+검증중인 필드는 `dns_get_record` PHP 함수에 따라 유효한 A 또는 AAAA 레코드를 가져야합니다. 제공된 URL의 호스트 이름은 `pars_url` PHP 함수를 사용하여 추출되어 `dns_get_record`에 전달됩니다.
 
 <a name="rule-after"></a>
 #### after:_date_
@@ -911,9 +912,9 @@ The field under validation must be equal to the given date. The dates will be pa
 <a name="rule-date-format"></a>
 #### date_format:_format_
 
-The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/es/class.datetime.php) class.
+The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
-필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/es/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
+필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
 
 <a name="rule-different"></a>
 #### different:_field_
@@ -932,9 +933,9 @@ The field under validation must be _numeric_ and must have an exact length of _v
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-The field under validation must have a length between the given _min_ and _max_.
+The field under validation must be _numeric_ and must have a length between the given _min_ and _max_.
 
-필드의 값이 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
+필드의 값이 반드시 _숫자_ 여야 하고, 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -998,9 +999,9 @@ The example above will apply the `RFCValidation` and `DNSCheckValidation` valida
 - `filter`: `FilterEmailValidation`
 </div>
 
-The `filter` validator, which uses PHP's `filter_var` function under the hood, ships with Laravel and is Laravel's pre-5.8 behavior.
+The `filter` validator, which uses PHP's `filter_var` function under the hood, ships with Laravel and is Laravel's pre-5.8 behavior. The `dns` and `spoof` validators require the PHP `intl` extension.
 
-PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 포함되어 있으며 5.8 이전 버전의 동작입니다.
+PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 포함되어 있으며 5.8 이전 버전의 동작입니다. `dns`와 `spoof` 유효성 검사에는 PHP `intl` 확장모듈이 필요합니다.
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
@@ -1068,16 +1069,16 @@ The field under validation must not be empty when it is present.
 <a name="rule-gt"></a>
 #### gt:_field_
 
-The field under validation must be greater than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+The field under validation must be greater than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 커야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-gte"></a>
 #### gte:_field_
 
-The field under validation must be greater than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+The field under validation must be greater than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 크거나 같아야합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-image"></a>
 #### image
@@ -1149,16 +1150,16 @@ The field under validation must be a valid JSON string.
 <a name="rule-lt"></a>
 #### lt:_field_
 
-The field under validation must be less than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+The field under validation must be less than the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 작아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-lte"></a>
 #### lte:_field_
 
-The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the `size` rule.
+The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
-필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 `size` 규칙에 따라서 계산됩니다.
+필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-max"></a>
 #### max:_value_
@@ -1258,6 +1259,15 @@ The field under validation may be `null`. This is particularly useful when valid
 The field under validation must be numeric.
 
 필드의 값이 숫자여야 합니다.
+
+<a name="rule-password"></a>
+#### password
+
+The field under validation must match the authenticated user's password. You may specify an authentication guard using the rule's first parameter:
+
+필드의 값이 인증 된 사용자의 비밀번호와 일치해야합니다. 규칙의 첫 번째 파라메터를 사용하여 인증 가드를 지정할 수 있습니다.
+
+    'password' => 'password:api'
 
 <a name="rule-present"></a>
 #### present

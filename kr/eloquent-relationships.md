@@ -1202,6 +1202,22 @@ If you're combining `withCount` with a `select` statement, ensure that you call 
     echo $posts[0]->body;
     echo $posts[0]->comments_count;
 
+In addition, using the `loadCount` method, you may load a relationship count after the parent model has already been retrieved:
+
+또한 `loadCount` 메소드를 사용하여 상위 모델이 이미 처리된 후에도 관계의 수를 로드 할 수 있습니다.
+
+    $book = App\Book::first();
+
+    $book->loadCount('genres');
+
+If you need to set additional query constraints on the eager loading query, you may pass an array keyed by the relationships you wish to load. The array values should be `Closure` instances which receive the query builder instance:
+
+eager loading 쿼리에 쿼리 제약 조건을 추가 설정해야하는 경우 로드하려는 관계에 키에 배열을 전달할 수 있습니다. 배열의 값은 쿼리 빌더 인스턴스를 받는 `Closure` 인스턴스 여야합니다.
+
+    $book->loadCount(['reviews' => function ($query) {
+        $query->where('rating', 5);
+    }])
+
 <a name="eager-loading"></a>
 ## Eager Loading
 ## Eager 로딩
@@ -1412,9 +1428,7 @@ If you need to set additional query constraints on the eager loading query, you 
 
 Eager 로딩 쿼리에 추가적인 쿼리 제한을 지정해야 할 경우, `load` 메소드에 로그하고자 하는 관계에 대한 키로 구성된 배열을 전달할 수 있습니다. 이 배열의 값은 쿼리 인스턴스를 인자로 받아들이는 `Closure`이어야만 합니다.
 
-    use Illuminate\Database\Eloquent\Builder;
-
-    $books->load(['author' => function (Builder $query) {
+    $author->load(['books' => function ($query) {
         $query->orderBy('published_date', 'asc');
     }]);
 

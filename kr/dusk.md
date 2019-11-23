@@ -6,7 +6,7 @@
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Managing ChromeDriver Installations](#managing-chromedriver-installations)
-        - [크롬 드라이버 설치 관리](#managing-chromedriver-installations)
+    - [크롬 드라이버 설치 관리](#managing-chromedriver-installations)
     - [Using Other Browsers](#using-other-browsers)
     - [다른 브라우저 사용하기](#using-other-browsers)
 - [Getting Started](#getting-started)
@@ -50,7 +50,7 @@
     - [Making Vue Assertions](#making-vue-assertions)
     - [Vue Assertions 만들기](#making-vue-assertions)
 - [Available Assertions](#available-assertions)
-- [Available Assertions](#available-assertions)
+- [사용 가능한 Assertions](#available-assertions)
 - [Pages](#pages)
 - [페이지-Pages](#pages)
     - [Generating Pages](#generating-pages)
@@ -71,8 +71,6 @@
     - [컴포넌트 사용하기](#using-components)
 - [Continuous Integration](#continuous-integration)
 - [CI - 지속적 통합](#continuous-integration)
-    - [Travis CI](#running-tests-on-travis-ci)
-    - [Travis CI](#running-tests-on-travis-ci)
     - [CircleCI](#running-tests-on-circle-ci)
     - [CircleCI](#running-tests-on-circle-ci)
     - [Codeship](#running-tests-on-codeship)
@@ -81,6 +79,7 @@
     - [Heroku CI](#running-tests-on-heroku-ci)
     - [Travis CI](#running-tests-on-travis-ci)
     - [Travis CI](#running-tests-on-travis-ci)
+    - [GitHub Actions](#running-tests-on-github-actions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -664,7 +663,7 @@ Dusk은 JavaScript Dialogs와 상호 작용하는 다양한 메소드를 제공�
 
     // Wait for a dialog to appear:
     $browser->waitForDialog($seconds = null);
-    
+
     // Assert that a dialog has been displayed and that its message matches the given value:
     $browser->assertDialogOpened('value');
 
@@ -1722,6 +1721,7 @@ As shown above, a "date picker" is an example of a component that might exist th
         {
             return [
                 '@date-field' => 'input.datepicker-input',
+                '@year-list' => 'div > div.datepicker-years',
                 '@month-list' => 'div > div.datepicker-months',
                 '@day-list' => 'div > div.datepicker-days',
             ];
@@ -1731,13 +1731,17 @@ As shown above, a "date picker" is an example of a component that might exist th
          * Select the given date.
          *
          * @param  \Laravel\Dusk\Browser  $browser
+         * @param  int  $year
          * @param  int  $month
          * @param  int  $day
          * @return void
          */
-        public function selectDate($browser, $month, $day)
+        public function selectDate($browser, $year, $month, $day)
         {
             $browser->click('@date-field')
+                    ->within('@year-list', function ($browser) use ($year) {
+                        $browser->click($year);
+                    });
                     ->within('@month-list', function ($browser) use ($month) {
                         $browser->click($month);
                     })
@@ -1776,7 +1780,7 @@ Once the component has been defined, we can easily select a date within the date
             $this->browse(function (Browser $browser) {
                 $browser->visit('/')
                         ->within(new DatePicker, function ($browser) {
-                            $browser->selectDate(1, 2018);
+                            $browser->selectDate(2019, 1, 30);
                         })
                         ->assertSee('January');
             });
@@ -1786,6 +1790,10 @@ Once the component has been defined, we can easily select a date within the date
 <a name="continuous-integration"></a>
 ## Continuous Integration
 ## CI - 지속적 통합
+
+> {note} Before adding a continous integration configuration file, ensure that your `.env.testing` file contains an `APP_URL` entry with a value of `http://127.0.0.1:8000`.
+
+> {note} continous integration 설정 파일을 추가하기 전에 `.env.testing` 파일에 인 `APP_URL` 항목의 값이 `http://127.0.0.1:8000`으로 포함되어 있는지 확인하십시오.
 
 <a name="running-tests-on-circle-ci"></a>
 ### CircleCI
@@ -1802,27 +1810,30 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
                 - run: sudo apt-get install -y libsqlite3-dev
                 - run: cp .env.testing .env
                 - run: composer install -n --ignore-platform-reqs
+                - run: php artisan key:generate
+                - run: php artisan dusk:chrome-driver
                 - run: npm install
                 - run: npm run production
                 - run: vendor/bin/phpunit
-       
+
                 - run:
                     name: Start Chrome Driver
                     command: ./vendor/laravel/dusk/bin/chromedriver-linux
                     background: true
-       
+
                 - run:
                     name: Run Laravel Server
                     command: php artisan serve
                     background: true
-       
+
                 - run:
                     name: Run Laravel Dusk Tests
                     command: php artisan dusk
 
                 - store_artifacts:
                     path: tests/Browser/screenshots
-                    
+
+
 <a name="running-tests-on-codeship"></a>
 ### Codeship
 ### Codeship
@@ -1836,6 +1847,7 @@ To run Dusk tests on [Codeship](https://codeship.com), add the following command
     mkdir -p ./bootstrap/cache
     composer install --no-interaction --prefer-dist
     php artisan key:generate
+    php artisan dusk:chrome-driver
     nohup bash -c "php artisan serve 2>&1 &" && sleep 5
     php artisan dusk
 
@@ -1882,6 +1894,7 @@ To run your Dusk tests on [Travis CI](https://travis-ci.org), use the following 
       - cp .env.testing .env
       - travis_retry composer install --no-interaction --prefer-dist --no-suggest
       - php artisan key:generate
+      - php artisan dusk:chrome-driver
 
     before_script:
       - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
@@ -1890,8 +1903,35 @@ To run your Dusk tests on [Travis CI](https://travis-ci.org), use the following 
     script:
       - php artisan dusk
 
-In your `.env.testing` file, adjust the value of `APP_URL`:
+<a name="running-tests-on-github-actions"></a>
+### GitHub Actions
+### GitHub Actions
 
-`.env.testing` 파일에서 `APP_URL` 의 값을 조정하십시오 :
+If you are using [Github Actions](https://github.com/features/actions) to run your Dusk tests, you may use this configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
-    APP_URL=http://127.0.0.1:8000
+[Github Actions](https://github.com/features/actions)를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일을 시작포인트로 사용할 수 있습니다. TravisCI와 마찬가지로, 우리는 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
+
+    name: CI
+    on: [push]
+    jobs:
+
+      dusk-php:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v1
+          - name: Prepare The Environment
+            run: cp .env.example .env
+          - name: Create Database
+            run: mysql --user="root" --password="root" -e "CREATE DATABASE my-database character set UTF8mb4 collate utf8mb4_bin;"
+          - name: Install Composer Dependencies
+            run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          - name: Generate Application Key
+            run: php artisan key:generate
+          - name: Upgrade Chrome Driver
+            run: php artisan dusk:chrome-driver
+          - name: Start Chrome Driver
+            run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+          - name: Run Laravel Server
+            run: php artisan serve > /dev/null 2>&1 &
+          - name: Run Dusk Tests
+            run: php artisan dusk

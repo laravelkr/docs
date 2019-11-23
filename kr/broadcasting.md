@@ -134,9 +134,9 @@ Channels 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources
 #### Redis
 #### Redis
 
-If you are using the Redis broadcaster, you should install the Predis library:
+If you are using the Redis broadcaster, you should either install the phpredis PHP extension via PECL or install the Predis library via Composer:
 
-만약 Redis 브로드캐스터를 사용한다면, Predis 라이브러리를 설치해야 합니다.
+Redis 브로드캐스터를 사용하는 경우 PECL을 통해 phpredis PHP 확장모듈을 설치하거나 Composer를 통해 Predis 라이브러리를 설치해야합니다.
 
     composer require predis/predis
 
@@ -219,11 +219,11 @@ When a user is viewing one of their orders, we don't want them to have to refres
     namespace App\Events;
 
     use Illuminate\Broadcasting\Channel;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Broadcasting\PrivateChannel;
-    use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
+    use Illuminate\Broadcasting\PresenceChannel;
+    use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+    use Illuminate\Queue\SerializesModels;
 
     class ShippingStatusUpdated implements ShouldBroadcast
     {
@@ -298,11 +298,11 @@ The `ShouldBroadcast` interface requires you to implement a single method: `broa
 
     use App\User;
     use Illuminate\Broadcasting\Channel;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Broadcasting\PrivateChannel;
-    use Illuminate\Broadcasting\PresenceChannel;
     use Illuminate\Broadcasting\InteractsWithSockets;
+    use Illuminate\Broadcasting\PresenceChannel;
+    use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+    use Illuminate\Queue\SerializesModels;
 
     class ServerCreated implements ShouldBroadcast
     {
@@ -545,8 +545,8 @@ Finally, you may place the authorization logic for your channel in the channel c
 
     namespace App\Broadcasting;
 
-    use App\User;
     use App\Order;
+    use App\User;
 
     class OrderChannel
     {

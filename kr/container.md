@@ -42,9 +42,9 @@ Let's look at a simple example:
 
     namespace App\Http\Controllers;
 
-    use App\User;
-    use App\Repositories\UserRepository;
     use App\Http\Controllers\Controller;
+    use App\Repositories\UserRepository;
+    use App\User;
 
     class UserController extends Controller
     {
@@ -190,10 +190,11 @@ Sometimes you may have two classes that utilize the same interface, but you wish
 
 때때로 동일한 인터페이스에 대한 2가지 구현 객체가 있고, 각각의 클래스마다 다른 구현 객체를 전달하고자 할 수도 있습니다. 예를 들어 각각의 컨트롤러가 다른 `Illuminate\Contracts\Filesystem\Filesystem` [contract](/docs/{{version}}/contracts) 구현체에 의존한다면, 라라벨은 간단하고 유연한 인터페이스를 통해서 다음 행동을 정의합니다. 
 
-    use Illuminate\Support\Facades\Storage;
     use App\Http\Controllers\PhotoController;
+    use App\Http\Controllers\UploadController;
     use App\Http\Controllers\VideoController;
     use Illuminate\Contracts\Filesystem\Filesystem;
+    use Illuminate\Support\Facades\Storage;
 
     $this->app->when(PhotoController::class)
               ->needs(Filesystem::class)
@@ -237,11 +238,11 @@ Once the services have been tagged, you may easily resolve them all via the `tag
 ### Extending Bindings
 ### 바인딩 확장
 
-The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a Closure, which should return the modified service, as its only argument:
+The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a Closure, which should return the modified service, as its only argument. The Closure receives the service being resolved and the container instance:
 
-`extend` 메소드로 서비스의 의존성을 수정할 수 있습니다. 예를 들어, 서비스의 의존성이 해결되었을 때, 서비스를 꾸미거나(decorate) 혹은 설정하는 위한 추가 코드를 실행할 수 있습니다.    
+`extend` 메소드로 서비스의 의존성을 수정할 수 있습니다. 예를 들어, 서비스의 의존성이 해결되었을 때, 서비스를 꾸미거나(decorate) 혹은 설정하는 위한 추가 코드를 실행할 수 있습니다. 클로저는 해결중인 서비스와 컨테이너 인스턴스를 입력 받습니다.    
 
-    $this->app->extend(Service::class, function ($service) {
+    $this->app->extend(Service::class, function ($service, $app) {
         return new DecoratedService($service);
     });
 

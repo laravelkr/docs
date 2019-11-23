@@ -416,13 +416,12 @@ Using the subquery functionality available to the `select` and `addSelect` metho
 
 서브쿼리 메소드 중에 `select` 와 `addSelect` 는 단일 쿼리를 사용하여 가장 최근에 목적지에 도착한 항공편의 이름과 목적지를 모두 선택할 수 있습니다.
 
-    use App\Flight;
     use App\Destination;
+    use App\Flight;
 
     return Destination::addSelect(['last_flight' => Flight::select('name')
         ->whereColumn('destination_id', 'destinations.id')
         ->orderBy('arrived_at', 'desc')
-        ->latest()
         ->limit(1)
     ])->get();
 
@@ -437,7 +436,6 @@ In addition, the query builder's `orderBy` function supports subqueries. We may 
         Flight::select('arrived_at')
             ->whereColumn('destination_id', 'destinations.id')
             ->orderBy('arrived_at', 'desc')
-            ->latest()
             ->limit(1)
     )->get();
 
@@ -508,9 +506,9 @@ To create a new record in the database, create a new model instance, set attribu
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Flight;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class FlightController extends Controller
     {
@@ -869,9 +867,9 @@ Writing a global scope is simple. Define a class that implements the `Illuminate
 
     namespace App\Scopes;
 
-    use Illuminate\Database\Eloquent\Scope;
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Scope;
 
     class AgeScope implements Scope
     {
@@ -938,8 +936,8 @@ Eloquent는 또한 별도의 분리된 클래스로 구성하지 않아도 될�
 
     namespace App;
 
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
     {
@@ -1110,9 +1108,9 @@ The `retrieved` event will fire when an existing model is retrieved from the dat
 
 데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생합니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
 
-> {note} When issuing a mass update via Eloquent, the `saved` and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
+> {note} When issuing a mass update or delete via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be fired for the affected models. This is because the models are never actually retrieved when issuing a mass update or delete.
 
-> {note} Eloquent를 통해 대량 업데이트를 할 때 업데이트 된 모델의 `saved` 및 `updated` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
+> {note} Eloquent를 통해 대량 업데이트 또는 삭제를 할 때 변경된 된 모델의 `saved`, `updated`, `deleting` 및 `deleted` 모델 이벤트는 실행되지 않습니다. 이것은 대량 업데이트를 발행 할 때 모델이 실제로 검색되지 않기 때문입니다.
 
 To get started, define a `$dispatchesEvents` property on your Eloquent model that maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events):
 
@@ -1122,9 +1120,8 @@ To get started, define a `$dispatchesEvents` property on your Eloquent model tha
 
     namespace App;
 
-    use App\Events\UserSaved;
     use App\Events\UserDeleted;
-    use Illuminate\Notifications\Notifiable;
+    use App\Events\UserSaved;
     use Illuminate\Foundation\Auth\User as Authenticatable;
 
     class User extends Authenticatable
@@ -1213,8 +1210,8 @@ To register an observer, use the `observe` method on the model you wish to obser
 
     namespace App\Providers;
 
-    use App\User;
     use App\Observers\UserObserver;
+    use App\User;
     use Illuminate\Support\ServiceProvider;
 
     class AppServiceProvider extends ServiceProvider

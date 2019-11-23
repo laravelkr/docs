@@ -99,7 +99,7 @@ You may also set the `host` option to a UNIX socket path. If you do this, the `p
 #### Redis
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer .
+Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~1.0) via Composer.
 
 라라벨에서 Redis 캐시를 사용하기 전에, PECL을 통해서 PhpRedis PHP Extension을 설치하거나, 컴포저를 통해서 `predis/predis` 패키지(~1.0)를 설치해야 합니다.
 
@@ -520,7 +520,7 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     class CacheServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */

@@ -15,6 +15,8 @@
 - [속성(Attribute) 캐스팅](#attribute-casting)
     - [Array & JSON Casting](#array-and-json-casting)
     - [배열 & JSON 캐스팅](#array-and-json-casting)
+    - [Date Casting](#date-casting)
+    - [날짜 캐스팅](#date-casting)
 
 <a name="introduction"></a>
 ## Introduction

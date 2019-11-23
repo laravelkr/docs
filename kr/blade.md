@@ -169,7 +169,7 @@ Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 �
 
     @componentFirst(['custom.alert', 'alert'])
         <strong>Whoops!</strong> Something went wrong!
-    @endcomponent
+    @endcomponentfirst
 
 Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by "echoing" the variable that matches their name:
 
@@ -693,11 +693,17 @@ If you attempt to `@include` a view which does not exist, Laravel will throw an 
 
     @includeIf('view.name', ['some' => 'data'])
 
-If you would like to `@include` a view depending on a given boolean condition, you may use the `@includeWhen` directive:
+If you would like to `@include` a view if a given boolean expression evaluates to `true`, you may use the `@includeWhen` directive:
 
-조건값에 따라서 뷰 파일을 `@include` 하기를 원한다면 `@includeWhen` 지시어를 사용하면 됩니다.
+주어진 Boolean 표현식이 `true`일때 뷰를 `@include`하고 싶다면 `@includeWhen` 지시어를 사용할 수 있습니다.
 
     @includeWhen($boolean, 'view.name', ['some' => 'data'])
+
+If you would like to `@include` a view if a given boolean expression evaluates to `false`, you may use the `@includeUnless` directive:
+
+주어진 부울식이 `false`일때 뷰를 `@include`하고 싶다면 `@includeUnless` 지시어를 사용할 수 있습니다.
+
+    @includeUnless($boolean, 'view.name', ['some' => 'data'])
 
 To include the first view that exists from a given array of views, you may use the `includeFirst` directive:
 
@@ -828,7 +834,7 @@ The following example creates a `@datetime($var)` directive which formats a give
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Perform post-registration booting of services.
+         * Register any application services.
          *
          * @return void
          */
@@ -892,4 +898,8 @@ Once the custom conditional has been defined, we can easily use it on our templa
         // The application is in the testing environment...
     @else
         // The application is not in the local or testing environment...
+    @endenv
+
+    @unlessenv('production')
+        // The application is not in the production environment...
     @endenv

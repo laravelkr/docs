@@ -53,7 +53,7 @@
 [라라벨 Mix(믹스)](https://github.com/JeffreyWay/laravel-mix)는 여러분의 라라벨 애플리케이션에 몇가지 공통적인 CSS 및 자바스크립트 전처리를 위한 Webpack 빌드를 위한 편리한 API를 제공합니다. 간단한 메소드 체이닝을 통해서, 간편하게 asset 파이프라인을 정의할 수 있습니다. 예를 들어:
 
     mix.js('resources/js/app.js', 'public/js')
-       .sass('resources/sass/app.scss', 'public/css');
+        .sass('resources/sass/app.scss', 'public/css');
 
 If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application; you are free to use any asset pipeline tool you wish, or even none at all.
 
@@ -138,7 +138,7 @@ Multiple calls to the `less` method may be used to compile multiple files:
 여러개의 파일을 컴파일 하기 위해서 `less` 메소드를 여러번 호출할 수도 있습니다.
 
     mix.less('resources/less/app.less', 'public/css')
-       .less('resources/less/admin.less', 'public/css');
+        .less('resources/less/admin.less', 'public/css');
 
 If you wish to customize the file name of the compiled CSS, you may pass a full file path as the second argument to the `less` method:
 
@@ -169,7 +169,7 @@ Again, like the `less` method, you may compile multiple Sass files into their ow
 `less` 메소드처럼, 여러개의 Sass 파일을 대응하는 CSS파일로 컴파일 할 수 있으며, CSS 결과 파일의 위치를 커스터마이징 할 수 있습니다.
 
     mix.sass('resources/sass/app.sass', 'public/css')
-       .sass('resources/sass/admin.sass', 'public/css/admin');
+        .sass('resources/sass/admin.sass', 'public/css/admin');
 
 Additional [Node-Sass plug-in options](https://github.com/sass/node-sass#options) may be provided as the third argument:
 
@@ -208,11 +208,11 @@ You may also install additional Stylus plug-ins, such as [Rupture](https://githu
 [PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 벤더 prefix를 자동으로 적용합니다. 애플리케이션에 적합한 플러그인을 추가할 수도 있습니다. 먼저 NPM을 통해서 사용하고자 하는 플러그인을 설치한다음 `webpack.mix.js` 파일에서 참조할 수 있도록 하십시오.
 
     mix.sass('resources/sass/app.scss', 'public/css')
-       .options({
+        .options({
             postCss: [
                 require('postcss-css-variables')()
             ]
-       });
+        });
 
 <a name="plain-css"></a>
 ### Plain CSS
@@ -256,9 +256,9 @@ As useful as this feature may be, it's possible that your existing folder struct
 이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다.
 
     mix.sass('resources/app/app.scss', 'public/css')
-       .options({
-          processCssUrls: false
-       });
+        .options({
+            processCssUrls: false
+        });
 
 With this addition to your `webpack.mix.js` file, Mix will no longer match any `url()` or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
 
@@ -277,7 +277,7 @@ Though disabled by default, source maps may be activated by calling the `mix.sou
 기본적으로는 비활성화 되어 있지만, `webpack.mix.js` 파일에서 `mix.sourceMaps()`을 호출하여 소스 맵을 활성화 시킬 수 있습니다. 컴파일하는데 성능상의 비용이 들지만, 컴파일 된 asset을 사용하면 브라우저의 개발자 도구에서 추가적인 디버깅 정보를 확인할 수 있습니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .sourceMaps();
+        .sourceMaps();
 
 #### Style Of Source Mapping
 #### 소스 매핑 스타일
@@ -289,7 +289,7 @@ Webpack은 다양한 [소스 매핑 스타일](https://webpack.js.org/configurat
     let productionSourceMaps = false;
 
     mix.js('resources/js/app.js', 'public/js')
-       .sourceMaps(productionSourceMaps, 'source-map');
+        .sourceMaps(productionSourceMaps, 'source-map');
 
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
@@ -325,7 +325,7 @@ If you intend to make frequent updates to your application's JavaScript, you sho
 애플리케이션의 자바스크립트를 자주 업데이트 한다면, 벤더 라이브러리를 별도로 구성하는 것을 고려해야 합니다 이렇게 하면 애플리케이션의 코드가 변경되더라도 `vendor.js` 파일의 캐싱에는 영향을 주지 않습니다. Mix의 `extract` 메소드는 다음과 같이 처리합니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .extract(['vue'])
+        .extract(['vue'])
 
 The `extract` method accepts an array of all libraries or modules that you wish to extract into a `vendor.js` file. Using the above snippet as an example, Mix will generate the following files:
 
@@ -439,7 +439,7 @@ The `version` method will automatically append a unique hash to the filenames of
 `version` 메소드는 자동으로 컴파일된 파일이름 뒤에 고유한 hash 를 덧붙여, 편리하게 캐시를 날릴 수 있도록 합니다.
 
     mix.js('resources/js/app.js', 'public/js')
-       .version();
+        .version();
 
 After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
 

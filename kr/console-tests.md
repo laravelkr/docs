@@ -42,7 +42,7 @@ You may test this command with the following test which utilizes the `expectsQue
      *
      * @return void
      */
-    public function test_console_command()
+    public function testConsoleCommand()
     {
         $this->artisan('question')
              ->expectsQuestion('What is your name?', 'Taylor Otwell')

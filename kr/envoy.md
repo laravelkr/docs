@@ -109,6 +109,12 @@ If you need to require other PHP files before your task is executed, you may use
         # ...
     @endtask
 
+You may also import other Envoy files so their stories and tasks are added to yours. After they have been imported, you may execute the tasks in those files as if they were defined in your own. You should use the `@import` directive at the top of your `Envoy.blade.php` file:
+
+다른 Envoy 파일을 가져 와서 스토리와 작업을 추가 할 수도 있습니다. 파일을 가져온 후에는 마치 자신이 정의한 것처럼 해당 파일에서 작업을 실행할 수 있습니다. Envoy.blade.php 파일 상단에 `@import` 지시문을 사용해야 합니다.
+
+    @import('package/Envoy.blade.php')
+
 <a name="variables"></a>
 ### Variables
 ### 변수들
@@ -250,6 +256,18 @@ You may provide one of the following as the channel argument:
 - 유저에게 알림을 보낼 때: `@유저`
 
 
+In addition you can also send Slack updates for specific tasks so you get the context of which task was run. You can do this by adding the `@slack` directive inside the `@task` directive:
+
+또한 특정 작업에 대해 Slack에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@slack` 지시문을 추가하면 됩니다.
+
+    @task('deploy', ['on' => 'web', 'confirm' => true])
+        cd site
+        git pull origin {{ $branch }}
+        php artisan migrate
+
+        @slack('webhook-url', '#deployments')
+    @endtask
+
 <a name="discord"></a>
 ### Discord
 ### 디스코드
@@ -261,3 +279,15 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://dis
     @finished
         @discord('discord-webhook-url')
     @endfinished
+
+In addition you can also send Discord updates for specific tasks so you get the context of which task was run. You can do this by adding the `@discord` directive inside the `@task` directive:
+
+또한 특정 작업에 대해 Discord에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@discord` 지시문을 추가하면됩니다 :
+
+    @task('deploy', ['on' => 'web', 'confirm' => true])
+        cd site
+        git pull origin {{ $branch }}
+        php artisan migrate
+
+        @discord('discord-webhook-url')
+    @endtask

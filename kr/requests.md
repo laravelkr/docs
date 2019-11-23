@@ -314,11 +314,27 @@ When given an array, the `has` method will determine if all of the specified val
         //
     }
 
+The `hasAny` method returns `true` if any of the specified values are present:
+
+`hasAny` 메소드는 지정된 값이 존재하면 `true`를 반환합니다.
+
+    if ($request->hasAny(['name', 'email'])) {
+        //
+    }
+
 If you would like to determine if a value is present on the request and is not empty, you may use the `filled` method:
 
 주어진 변수값이 현재 request 에 존재하고 비어 있지 않은 것을 확인하려면 `filled` 메소드를 사용하면 됩니다.
 
     if ($request->filled('name')) {
+        //
+    }
+
+To determine if a given key is absent from the request, you may use the `missing` method:
+
+주어진 키가 request 에 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다.
+
+    if ($request->missing('name')) {
         //
     }
 
@@ -532,8 +548,8 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
 
     namespace App\Http\Middleware;
 
-    use Illuminate\Http\Request;
     use Fideloper\Proxy\TrustProxies as Middleware;
+    use Illuminate\Http\Request;
 
     class TrustProxies extends Middleware
     {

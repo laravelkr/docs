@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Upgrading Passport](#upgrading)
+- [Passport 업그레이드](#upgrading)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Frontend Quickstart](#frontend-quickstart)
@@ -78,6 +80,14 @@ Laravel already makes it easy to perform authentication via traditional login fo
 
 > {note} 이 문서는 귀하가 이미 OAuth2에 익숙하다고 가정합니다. OAuth2에 대해 잘 모르는 경우 계속하기 전에 일반 [용어](https://oauth2.thephpleague.com/terminology/) 및 OAuth2의 기능을 숙지하십시오.
 
+<a name="upgrading"></a>
+## Upgrading Passport
+## Passport 업그레이드
+
+When upgrading to a new major version of Passport, it's important that you carefully review [the upgrade guide](https://github.com/laravel/passport/blob/master/UPGRADE.md).
+
+새로운 메이저 버전의 Passport로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/passport/blob/master/UPGRADE.md)를 신중하게 검토해야합니다.
+
 <a name="installation"></a>
 ## Installation
 ## 설치하기
@@ -112,9 +122,9 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -129,9 +139,9 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
 
     namespace App\Providers;
 
-    use Laravel\Passport\Passport;
-    use Illuminate\Support\Facades\Gate;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Gate;
+    use Laravel\Passport\Passport;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -306,14 +316,25 @@ By default, Passport issues long-lived access tokens that expire after one year.
 ### Overriding Default Models
 ### 기본모델 오버라이딩
 
-You are free to extend the models used internally by Passport. Then, you may instruct Passport to use your custom models via the `Passport` class:
+You are free to extend the models used internally by Passport:
 
-Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다. 그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다.
+Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다.
 
-    use App\Models\Passport\Client;
-    use App\Models\Passport\Token;
+    use App\Models\Passport\Client as PassportClient;
+
+    class Client extends PassportClient
+    {
+        // ...
+    }
+
+Then, you may instruct Passport to use your custom models via the `Passport` class:
+
+그런 다음 Passport에 `Passport` 클래스를 통해 커스텀 모델을 사용하도록 지시 할 수 있습니다.
+ 
     use App\Models\Passport\AuthCode;
+    use App\Models\Passport\Client;
     use App\Models\Passport\PersonalAccessClient;
+    use App\Models\Passport\Token;
 
     /**
      * Register any authentication / authorization services.
@@ -664,9 +685,9 @@ When authenticating using the password grant, Passport will use the `email` attr
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -696,21 +717,21 @@ When authenticating using the password grant, Passport will use the `password` a
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Support\Facades\Hash;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Support\Facades\Hash;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
         use HasApiTokens, Notifiable;
 
         /**
-        * Validate the password of the user for the Passport password grant.
-        *
-        * @param  string $password
-        * @return bool
-        */
+         * Validate the password of the user for the Passport password grant.
+         *
+         * @param  string  $password
+         * @return bool
+         */
         public function validateForPassportPasswordGrant($password)
         {
             return Hash::check($password, $this->password);
@@ -1135,9 +1156,9 @@ Typically, if you want to consume your API from your JavaScript application, you
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-> {note} You should ensure that the `EncryptCookies` middleware is listed prior to the `CreateFreshApiToken` middleware in your middleware stack.
+> {note} You should ensure that the `CreateFreshApiToken` middleware is the last middleware listed in your middleware stack.
 
-> {note} 미들웨어 스택에서 `CreateFreshApiToken` 미들웨어가 나오기 전에 `EncryptCookies` 미들웨어가 있는지 확인해야합니다.
+> {note} `CreateFreshApiToken` 미들웨어가 미들웨어 스택에 나열된 마지막 미들웨어인지 확인해야합니다.
 
 This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
 
@@ -1223,4 +1244,23 @@ Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는�
         $response = $this->post('/api/create-server');
 
         $response->assertStatus(201);
+    }
+
+Passport's `actingAsClient` method may be used to specify the currently authenticated client as well as its scopes. The first argument given to the `actingAsClient` method is the client instance and the second is an array of scopes that should be granted to the client's token:
+
+Passport의 `actingAsClient` 메소드를 사용하여 현재 인증 된 클라이언트와 해당 범위를 지정할 수 있습니다. `actingAsClient` 메소드에 주어진 첫 번째 인수는 클라이언트 인스턴스이고 두 번째 인수는 클라이언트의 토큰에 부여해야하는 스코프의 배열입니다.
+
+    use Laravel\Passport\Client;
+    use Laravel\Passport\Passport;
+
+    public function testGetOrders()
+    {
+        Passport::actingAsClient(
+            factory(Client::class)->create(),
+            ['check-status']
+        );
+
+        $response = $this->get('/api/orders');
+
+        $response->assertStatus(200);
     }

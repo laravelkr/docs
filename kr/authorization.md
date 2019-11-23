@@ -180,12 +180,12 @@ The gate methods for authorizing abilities (`allows`, `denies`, `check`, `any`, 
 ### Gate Responses
 ### 게이트 응답
 
-So far, we have only examined gates that return simple boolean values. However, sometimes you may wish to return a more detail response, including an error message. To do so, you may return a `Illuminate\Auth\Access\Response` from your gate:
+So far, we have only examined gates that return simple boolean values. However, sometimes you may wish to return a more detailed response, including an error message. To do so, you may return a `Illuminate\Auth\Access\Response` from your gate:
 
 지금까지 우리는 단순한 Boolean값을 반환하는 게이트만 살펴보았습니다. 그러나 때로는 에러 메시지를 포함한 더욱 자세한 응답을 반환해야 할 때도 있습니다. 이때 게이트에서 `Illuminate\Auth\Access\Response`를 반환할 수 있습니다.
 
-    use Illuminate\Support\Facades\Gate;
     use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
 
     Gate::define('edit-settings', function ($user) {
         return $user->isAdmin
@@ -193,7 +193,7 @@ So far, we have only examined gates that return simple boolean values. However, 
                     : Response::deny('You must be a super administrator.');
     });
 
-When returning an authorization response from your gate, the `Gate::allows` method will still return a simple boolean value; however, you may use use the `Gate::inspect` method to get the full authorization response returned by the gate:
+When returning an authorization response from your gate, the `Gate::allows` method will still return a simple boolean value; however, you may use the `Gate::inspect` method to get the full authorization response returned by the gate:
 
 게이트에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 여전히 단순한 Boolean 값을 반환합니다. 그러나 `Gate::inspect` 메소드를 이용하면 전체 권한 확인 응답을 반환할 수 있습니다.
 
@@ -285,10 +285,10 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
 
     namespace App\Providers;
 
-    use App\Post;
     use App\Policies\PostPolicy;
-    use Illuminate\Support\Facades\Gate;
+    use App\Post;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Gate;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -355,8 +355,8 @@ The `update` method will receive a `User` and a `Post` instance as its arguments
 
     namespace App\Policies;
 
-    use App\User;
     use App\Post;
+    use App\User;
 
     class PostPolicy
     {
@@ -385,7 +385,7 @@ Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메
 ### Policy Responses
 ### Policy 응답
 
-So far, we have only examined policy methods that return simple boolean values. However, sometimes you may wish to return a more detail response, including an error message. To do so, you may return a `Illuminate\Auth\Access\Response` from your policy method:
+So far, we have only examined policy methods that return simple boolean values. However, sometimes you may wish to return a more detailed response, including an error message. To do so, you may return an `Illuminate\Auth\Access\Response` from your policy method:
 
 지금까지 우리는 단순한 Boolean값을 반환하는 Policy 메소드만 살펴보았습니다. 그러나 때로는 에러 메시지를 포함한 더욱 자세한 응답을 반환해야 할 때도 있습니다. 이때 Policy 메소드에서 `Illuminate\Auth\Access\Response`를 반환할 수 있습니다.
 
@@ -396,7 +396,7 @@ So far, we have only examined policy methods that return simple boolean values. 
      *
      * @param  \App\User  $user
      * @param  \App\Post  $post
-     * @return bool
+     * @return \Illuminate\Auth\Access\Response
      */
     public function update(User $user, Post $post)
     {
@@ -405,7 +405,7 @@ So far, we have only examined policy methods that return simple boolean values. 
                     : Response::deny('You do not own this post.');
     }
 
-When returning an authorization response from your policy, the `Gate::allows` method will still return a simple boolean value; however, you may use use the `Gate::inspect` method to get the full authorization response returned by the gate:
+When returning an authorization response from your policy, the `Gate::allows` method will still return a simple boolean value; however, you may use the `Gate::inspect` method to get the full authorization response returned by the gate:
 
 Policy에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 여전히 단순한 Boolean 값을 반환합니다. 그러나 `Gate::inspect` 메소드를 이용하면 전체 권한 확인 응답을 반환할 수 있습니다.
 
@@ -460,8 +460,8 @@ By default, all gates and policies automatically return `false` if the incoming 
 
     namespace App\Policies;
 
-    use App\User;
     use App\Post;
+    use App\User;
 
     class PostPolicy
     {
@@ -575,9 +575,9 @@ In addition to helpful methods provided to the `User` model, Laravel provides a 
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Post;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PostController extends Controller
     {
@@ -633,9 +633,9 @@ The `authorizeResource` method accepts the model's class name as its first argum
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Post;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PostController extends Controller
     {

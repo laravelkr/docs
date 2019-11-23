@@ -4,8 +4,8 @@
 - [버전 관리 체계](#versioning-scheme)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
-- [Laravel 6.0](#laravel-6.0)
-- [라라벨 6.0](#laravel-6.0)
+- [Laravel 6](#laravel-6)
+- [라라벨 6](#laravel-6)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
@@ -23,9 +23,9 @@ When referencing the Laravel framework or its components from your application o
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes.
+For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-라라벨 6.0과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
+라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
@@ -33,7 +33,7 @@ For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and se
 | 5.6 | February 7th, 2018 | August 7th, 2018 | February 7th, 2019 |
 | 5.7 | September 4th, 2018 | March 4th, 2019 | September 4th, 2019 |
 | 5.8 | February 26th, 2019 | August 26th, 2019 | February 26th, 2020 |
-| 6.0 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
+| 6 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
 
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
 | --- | --- | --- | --- |
@@ -41,16 +41,16 @@ For LTS releases, such as Laravel 6.0, bug fixes are provided for 2 years and se
 | 5.6 | 2018년 2월 7일 | 2018년 8월 7일 | 2019년 2월 7일 |
 | 5.7 | 2018년 9월 4일 | 2019년 3월 4일 | 2019년 9월 4일 |
 | 5.8 | 2019년 2월 26일 | 2019년 8월 26일 | 2020년 2월 26일 |
-| 6.0 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
+| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
 
 
-<a name="laravel-6.0"></a>
-## Laravel 6.0
-## 라라벨 6.0
+<a name="laravel-6"></a>
+## Laravel 6
+## 라라벨 6
 
-Laravel 6.0 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
+Laravel 6 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
 
-라라벨 6.0 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 6 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
 ### Semantic Versioning
 ### 유의적 버젼
@@ -66,16 +66,16 @@ _Laravel Vapor was built by [Taylor Otwell](https://github.com/taylorotwell)_.
 
 _라라벨 Vapor 는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
 
-Laravel 6.0 provides compatibility with [Laravel Vapor](https://vapor.laravel.com), an auto-scaling serverless deployment platform for Laravel. Vapor abstracts the complexity of managing Laravel applications on AWS Lambda, as well as interfacing those applications with SQS queues, databases, Redis clusters, networks, CloudFront CDN, and more.
+Laravel 6 provides compatibility with [Laravel Vapor](https://vapor.laravel.com), an auto-scaling serverless deployment platform for Laravel. Vapor abstracts the complexity of managing Laravel applications on AWS Lambda, as well as interfacing those applications with SQS queues, databases, Redis clusters, networks, CloudFront CDN, and more.
 
-라라벨 6.0 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
+라라벨 6 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
 
 ### Improved Exceptions Via Ignition
 ### Ignition 을 통한 개선된 예외상황들
 
-Laravel 6.0 ships with [Ignition](https://github.com/facade/ignition), a new open source exception detail page created by Freek Van der Herten and Marcel Pociot. Ignition offers many benefits over previous releases, such as improved Blade error file and line number handling, runnable solutions for common problems, code editing, exception sharing, and an improved UX.
+Laravel 6 ships with [Ignition](https://github.com/facade/ignition), a new open source exception detail page created by Freek Van der Herten and Marcel Pociot. Ignition offers many benefits over previous releases, such as improved Blade error file and line number handling, runnable solutions for common problems, code editing, exception sharing, and an improved UX.
 
-라라벨 6.0은 Freek Van der Herten 과 Marcel Pociot 가 만든 새로운 오픈소스 예외상황 상세 페이지인 [Ignition](https://github.com/facade/ignition)을 장착하였습니다. Ignition 은 블레이드 에러 파일과 줄번호 관리, 일반적 문제에 대한 실행 가능한 해결책, 코드 수정, 예외상황 공유, 개선된 UX 등 이전 버전에 비해 개선된 이점을 제공합니다.
+라라벨 6은 Freek Van der Herten 과 Marcel Pociot 가 만든 새로운 오픈소스 예외상황 상세 페이지인 [Ignition](https://github.com/facade/ignition)을 장착하였습니다. Ignition 은 블레이드 에러 파일과 줄번호 관리, 일반적 문제에 대한 실행 가능한 해결책, 코드 수정, 예외상황 공유, 개선된 UX 등 이전 버전에 비해 개선된 이점을 제공합니다.
 
 ### Improved Authorization Responses
 ### 개선된 권한 응답
@@ -84,9 +84,9 @@ _Improved authorization responses were implemented by [Gary Green](https://githu
 
 _개선된 권한 응답은 [Gary Green](https://github.com/garygreen)에 의해 구현되었습니다_.
 
-In previous releases of Laravel, it was difficult to retrieve and expose custom authorization messages to end users. This made it difficult to explain to end-users exactly why a particular request was denied. In Laravel 6.0, this is now much easier using authorization response messages and the new `Gate::inspect` method. For example, given the following policy method:
+In previous releases of Laravel, it was difficult to retrieve and expose custom authorization messages to end users. This made it difficult to explain to end-users exactly why a particular request was denied. In Laravel 6, this is now much easier using authorization response messages and the new `Gate::inspect` method. For example, given the following policy method:
 
-라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6.0 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
+라라벨의 이전 릴리즈에서는 최종 사용자에게 커스텀 권한 메시지를 노출하거나 검색하는 것이 어려웠습니다. 이것은 최종 사용자에게 특정 요청이 어떠한 이유로 거부되었는지 안내해주기 어렵습니다. 라라벨 6 에서는 권한 응답 메세지와 `Gate::inspect` 메소드를 이용해서 쉽게 가능합니다. 다음과 같이 다음의 정책 메소드를 봅시다.
 
     /**
      * Determine if the user can view the given flight.
@@ -126,7 +126,7 @@ _Job middleware were implemented by [Taylor Otwell](https://github.com/taylorotw
 
 _Job 미들웨어는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 구현되었습니다_.
 
-Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, in previous releases of Laravel, you may have wrapped the logic of a job's `handle` method within a rate-limited callback:
+Job middleware allow you to wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, in previous releases of Laravel, you may have wrapped the logic of a job's `handle` method within a rate-limited callback:
 
 Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸는 커스텀 로직을 추가할 수 있게 도와줍니다. 예를 들자면, 당신은 라라벨 이전 버젼에서 실행속도 제한(rated-limited) 콜백에서 그 job 의 `handle` 메소드의 로직 전후를 감쌌어야 했습니다.
 
@@ -148,9 +148,9 @@ Job 미들웨어는 큐에 들어간 job 이 실행될때, 그 전후를 감싸�
         });
     }
 
-In Laravel 6.0, this logic may be extracted into a job middleware, allowing you to keep your job's `handle` method free of any rate limiting responsibilities:
+In Laravel 6, this logic may be extracted into a job middleware, allowing you to keep your job's `handle` method free of any rate limiting responsibilities:
 
-라라벨 6.0 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
+라라벨 6 에서는 이 로직이 하나의 job 미들웨어로 추출될거고, 그것은 당신의 job 의 `handle` 메소드를 어떠한 실행속도 제한(rated-limiting) 책임들 없이 유지할 수 있게 합니다.
 
     <?php
 
@@ -206,9 +206,9 @@ _Lazy collections were implemented by [Joseph Silber](https://github.com/JosephS
 
 _지연 컬렉션-lazy collections은 [Joseph Silber](https://github.com/JosephSilber)에 의해 구현되었습니다_.
 
-Many developers already enjoy Laravel's powerful [Collection methods](https://laravel.com/docs/collections). To supplement the already powerful `Collection` class, Laravel 6.0 introduces a `LazyCollection`, which leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
+Many developers already enjoy Laravel's powerful [Collection methods](https://laravel.com/docs/collections). To supplement the already powerful `Collection` class, Laravel 6 introduces a `LazyCollection`, which leverages PHP's [generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
 
-많은 개발자들은 이미 라라벨의 강력한 [컬렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6.0 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
+많은 개발자들은 이미 라라벨의 강력한 [컬렉션 메소드들](/docs/collections) 잘 사용하고 있습니다. 이 강력한 `Collection` 클래스를 좀더 지원하기 위해 라라벨 6 에서는 PHP 의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용한, 적은 메모리 사용을 유지하먼서 아주 큰 데이타셋과 함께 일하기 맞춤인 `LazyCollection`을 도입했습니다. 
 
 For example, imagine your application needs to process a multi-gigabyte log file while taking advantage of Laravel's collection methods to parse the logs. Instead of reading the entire file into memory at once, lazy collections may be used to keep only a small part of the file in memory at a given time:
 
@@ -240,9 +240,9 @@ Or, imagine you need to iterate through 10,000 Eloquent models. When using tradi
         return $user->id > 500;
     });
 
-However, beginning in Laravel 6.0, the query builder's `cursor` method has been updated to return a `LazyCollection` instance. This allows you to still only run a single query against the database but also only keep one Eloquent model loaded in memory at a time. In this example, the `filter` callback is not executed until we actually iterate over each user individually, allowing for a drastic reduction in memory usage:
+However, beginning in Laravel 6, the query builder's `cursor` method has been updated to return a `LazyCollection` instance. This allows you to still only run a single query against the database but also only keep one Eloquent model loaded in memory at a time. In this example, the `filter` callback is not executed until we actually iterate over each user individually, allowing for a drastic reduction in memory usage:
 
-그러나 라라벨 6.0 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
+그러나 라라벨 6 의 시작과 함게, 쿼리빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스로 반환하도록 변경되었습니다. 데이터베이스에 하나의 쿼리에 실행해 한번에 메모리에 하나의 엘로퀜트 모델을 유지하도록 합니다. 예를 들자면 `filter` 콜백은 각 사용자 개별로 순회 반복되기전까지 실행되지 않아서 메모리 사용량이 크게 줄어줍니다.
 
     $users = App\User::cursor()->filter(function ($user) {
         return $user->id > 500;
@@ -259,13 +259,13 @@ _Eloquent subquery enhancements were implemented by [Jonathan Reinink](https://g
 
 _엘로퀜트 서브쿼리 확장은 [Jonathan Reinink](https://github.com/reinink)에 의해 구현되었습니다_.
 
-Laravel 6.0 introduces several new enhancements and improvements to database subquery support. For example, let's imagine that we have a table of flight `destinations` and a table of `flights` to destinations. The `flights` table contains an `arrived_at` column which indicates when the flight arrived at the destination.
+Laravel 6 introduces several new enhancements and improvements to database subquery support. For example, let's imagine that we have a table of flight `destinations` and a table of `flights` to destinations. The `flights` table contains an `arrived_at` column which indicates when the flight arrived at the destination.
 
-라라벨 6.0 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
+라라벨 6 은 데이터베이스 서브쿼리 지원에 대한 새로운 확장과 향상을 소개했습니다. 예를 들자면, 비행 `destinations`(목적지) 테이블과 목적지로의 `flights`(비행) 테이블이 있다고 상상해봅시다. `flights` 테이블에는 목적지에 도착한 때를 가리키는 `arrived_at` 컬럼이 포함되어있습니다.
 
-Using the new subquery select functionality in Laravel 6.0, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
+Using the new subquery select functionality in Laravel 6, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
 
-라라벨 6.0 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
+라라벨 6 의 새로운 서브쿼리 조회(select) 기능을 사용하면, 하나의 쿼리를 사용하여 비행이름과 목적지의 최근 도착시간을 한번에 조회할 수 있습니다.
 
     return Destination::addSelect(['last_flight' => Flight::select('name')
         ->whereColumn('destination_id', 'destinations.id')
@@ -295,6 +295,6 @@ In order to restore the traditional Vue / Bootstrap scaffolding present in previ
 
 이전 릴리즈의 라라벨에서 제공된 전통적인 vue / bootstrap 스캐폴딩을 복원하는 순서로, 아마 당신은 `laravel\ui` 패키지를 설치하고, `ui` 아티산 커멘드로 프론트엔드 스캐폴딩을 설치해야 할 것입니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth

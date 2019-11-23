@@ -44,9 +44,9 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
 
     <?php
 
-    use Illuminate\Support\Str;
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Str;
 
     class DatabaseSeeder extends Seeder
     {
@@ -133,11 +133,11 @@ Now you may use the `db:seed` Artisan command to seed your database. By default,
 
     php artisan db:seed --class=UsersTableSeeder
 
-You may also seed your database using the `migrate:refresh` command, which will also rollback and re-run all of your migrations. This command is useful for completely re-building your database:
+You may also seed your database using the `migrate:fresh` command, which will drop all tables and re-run all of your migrations. This command is useful for completely re-building your database:
 
-`migrate:refresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 마이그레이션들을 롤백한 다음 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다. 
+`migrate:fresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 테이블을 삭제한 다음 마이그레이션을 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다. 
 
-    php artisan migrate:refresh --seed
+    php artisan migrate:fresh --seed
 
 <a name="forcing-seeding-production"></a>
 #### Forcing Seeders To Run In Production

@@ -681,15 +681,15 @@ Mailhog이 구성되면 `http://localhost:8025` 로 Mailhog 대시 보드에 액
 ### Configuring Minio
 ### Minio 설정하기
 
-Minio is an open source object storage server with an Amazon S3 compatible API. To install Minio, update your `Homestead.yaml` file with the following configuration option:
+Minio is an open source object storage server with an Amazon S3 compatible API. To install Minio, update your `Homestead.yaml` file with the following configuration option in the [features](#installing-optional-features) section:
 
-Minio 는 Amazon S3 API와 호환되는 오픈소스 객체 스토리지 서버입니다. Minio를 설치하려면 `Homestead.yaml` 파일에 다음의 설정 내용을 추가하십시오:
+Minio 는 Amazon S3 API와 호환되는 오픈소스 객체 스토리지 서버입니다. Minio를 설치하려면 `Homestead.yaml` 파일의 [features](#installing-optional-features)섹션에 다음의 설정 내용을 추가하십시오.
 
     minio: true
 
-By default, Minio is available on port 9600. You may access the Minio control panel by visiting `http://homestead:9600/`. The default access key is `homestead`, while the default secret key is `secretkey`. When accessing Minio, you should always use region `us-east-1`.
+By default, Minio is available on port 9600. You may access the Minio control panel by visiting `http://localhost:9600/`. The default access key is `homestead`, while the default secret key is `secretkey`. When accessing Minio, you should always use region `us-east-1`.
 
-기본적으로 Minio는 9600포트를 사용합니다. `http://homestead:9600/` 을 방문하여 Minio 제어판에 엑세스 할 수 있습니다. 기본 엑세스 키는 `homestead` 이고, 기본 비밀 키는 `secretkey` 입니다. Minio에 엑세스 할 때는 항상 `us-east-1` 리전을 사용해야합니다.
+기본적으로 Minio는 9600포트를 사용합니다. `http://localhost:9600/` 을 방문하여 Minio 제어판에 엑세스 할 수 있습니다. 기본 엑세스 키는 `homestead` 이고, 기본 비밀 키는 `secretkey` 입니다. Minio에 엑세스 할 때는 항상 `us-east-1` 리전을 사용해야합니다.
 
 In order to use Minio you will need to adjust the S3 disk configuration in your `config/filesystems.php` configuration file. You will need to add the `use_path_style_endpoint` option to the disk configuration, as well as change the `url` key to `endpoint`:
 
@@ -712,7 +712,7 @@ Finally, ensure your `.env` file has the following options:
     AWS_ACCESS_KEY_ID=homestead
     AWS_SECRET_ACCESS_KEY=secretkey
     AWS_DEFAULT_REGION=us-east-1
-    AWS_URL=http://homestead:9600
+    AWS_URL=http://localhost:9600
 
 To provision buckets, add a `buckets` directive to your Homestead configuration file:
 
@@ -860,9 +860,9 @@ PHP CLI 애플리케이션을 디버깅하려면, Vagrant 박스 안에 `xphp` �
 #### Autostarting Xdebug
 #### Xdebug 자동시작
 
-When debugging functional tests that make requests to the web server, it is easier to autostart debugging rather than modifying tests to pass through a custom header or cookie to trigger debugging. To force Xdebug to start automatically, modify `/etc/php/7.#/fpm/conf.d/20-xdebug.ini` inside your Vagrant box and add the following configuration:
+When debugging functional tests that make requests to the web server, it is easier to autostart debugging rather than modifying tests to pass through a custom header or cookie to trigger debugging. To force Xdebug to start automatically, modify `/etc/php/7.x/fpm/conf.d/20-xdebug.ini` inside your Vagrant box and add the following configuration:
 
-웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7./fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
+웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7.x/fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
 
     ; If Homestead.yml contains a different subnet for the IP address, this address may be different...
     xdebug.remote_host = 192.168.10.1

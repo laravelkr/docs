@@ -63,6 +63,8 @@
     - [사전준비사항](#sms-prerequisites)
     - [Formatting SMS Notifications](#formatting-sms-notifications)
     - [SMS 알림 포맷 지정하기](#formatting-sms-notifications)
+    - [Formatting Shortcode Notifications](#formatting-shortcode-notifications)
+    - [Shortcode 알림 포맷 지정하기](#formatting-shortcode-notifications)
     - [Customizing The "From" Number](#customizing-the-from-number)
     - [발신자 번호 수정하기](#customizing-the-from-number)
     - [Routing SMS Notifications](#routing-sms-notifications)
@@ -126,8 +128,8 @@ Notifications may be sent in two ways: using the `notify` method of the `Notifia
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -200,8 +202,8 @@ Sending notifications can take time, especially if the channel needs an external
     namespace App\Notifications;
 
     use Illuminate\Bus\Queueable;
-    use Illuminate\Notifications\Notification;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Notification;
 
     class InvoicePaid extends Notification implements ShouldQueue
     {
@@ -234,6 +236,7 @@ Sometimes you may need to send a notification to someone who is not stored as a 
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('nexmo', '5555555555')
+                ->route('slack', 'https://hooks.slack.com/services/...')
                 ->notify(new InvoicePaid($invoice));
 
 <a name="mail-notifications"></a>
@@ -371,8 +374,8 @@ When sending notifications via the `mail` channel, the notification system will 
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -759,9 +762,9 @@ If you would like to customize which channels a notifiable entity receives its b
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -792,13 +795,15 @@ Sending SMS notifications in Laravel is powered by [Nexmo](https://www.nexmo.com
 
     composer require laravel/nexmo-notification-channel
 
-Next, you will need to add a few configuration options to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+This will also install the [`nexmo/laravel`](https://github.com/Nexmo/nexmo-laravel) package. This package includes [its own configuration file](https://github.com/Nexmo/nexmo-laravel/blob/master/config/nexmo.php). You can use the `NEXMO_KEY` and `NEXMO_SECRET` environment variables to set your Nexmo public and secret key.
 
-그 다음, `config/services.php` 설정 파일에 몇가지 옵션들을 추가해야합니다. 이 옵션은 다음의 예제와 같은 모양입니다. 복사해서 사용하십시오:
+[`nexmo/laravel`](https://github.com/Nexmo/nexmo-laravel) 패키지도 설치됩니다. 이 패키지에는 [자체 설정 파일](https://github.com/Nexmo/nexmo-laravel/blob/master/config/nexmo.php)이 포함되어 있습니다. `NEXMO_KEY` 및 `NEXMO_SECRET` 환경 변수를 사용하여 Nexmo 공개 및 비밀 키를 설정할 수 있습니다.
+
+Next, you will need to add a configuration option to your `config/services.php` configuration file. You may copy the example configuration below to get started:
+
+다음으로 `config/services.php` 설정 파일에 설정 옵션을 추가해야합니다. 아래 예제 구성을 복사하여 시작할 수 있습니다.
 
     'nexmo' => [
-        'key' => env('NEXMO_KEY'),
-        'secret' => env('NEXMO_SECRET'),
         'sms_from' => '15556666666',
     ],
 
@@ -825,6 +830,34 @@ If a notification supports being sent as an SMS, you should define a `toNexmo` m
         return (new NexmoMessage)
                     ->content('Your SMS message content');
     }
+
+<a name="formatting-shortcode-notifications"></a>
+### Formatting Shortcode Notifications
+### Shortcode 알림 포맷 지정하기
+
+Laravel also supports sending shortcode notifications, which are pre-defined message templates in your Nexmo account. You may specify the type of notification (`alert`, `2fa`, or `marketing`), as well as the custom values that will populate the template:
+
+Laravel은 Nexmo 계정에서 미리 정의 된 메시지 템플릿 인 shortcode 알림 전송도 지원합니다. 템플릿을 채울 사용자 정의 값 뿐만 아니라 알림 유형 (`alert`, `2fa` 또는 `marketing`)을 지정할 수 있습니다.
+
+    /**
+     * Get the Nexmo / Shortcode representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toShortcode($notifiable)
+    {
+        return [
+            'type' => 'alert',
+            'custom' => [
+                'code' => 'ABC123',
+            ];
+        ];
+    }
+
+> {tip} Like [routing SMS Notifications](#routing-sms-notifications), you should implement the `routeNotificationForShortcode` method on your notifiable model.
+
+> {tip} [SMS 알림 라우팅](#routing-sms-notifications)과 같이 알림 가능한 모델에 `routeNotificationForShortcode` 메소드를 구현해야합니다.
 
 #### Unicode Content
 #### 유니코드 컨텐츠
@@ -879,8 +912,8 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -977,7 +1010,7 @@ You may also use an image as your logo instead of an emoji:
     {
         return (new SlackMessage)
                     ->from('Laravel')
-                    ->image('https://laravel.com/favicon.png')
+                    ->image('https://laravel.com/img/favicon/favicon.ico')
                     ->content('This will display the Laravel logo next to the message');
     }
 
@@ -1087,8 +1120,8 @@ To route Slack notifications to the proper location, define a `routeNotification
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -1234,11 +1267,11 @@ Once your notification channel class has been defined, you may return the class 
 
     namespace App\Notifications;
 
-    use Illuminate\Bus\Queueable;
-    use App\Channels\VoiceChannel;
     use App\Channels\Messages\VoiceMessage;
-    use Illuminate\Notifications\Notification;
+    use App\Channels\VoiceChannel;
+    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Notifications\Notification;
 
     class InvoicePaid extends Notification
     {

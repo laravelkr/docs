@@ -83,9 +83,9 @@ It is often useful to reset your database after each test so that data from a pr
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -146,8 +146,8 @@ When testing, you may need to insert a few records into your database before exe
 
 테스트를 할 때, 실행하기 전 데이터베이스에 몇몇 레코드를 입력하는 것이 필요할 수 있습니다. 이 테스트 데이터를 생성할 때 수동으로 각각의 컬럼의 값을 지정하는 대신에 라라벨은 모델 팩토리를 사용하여 각각의 [Eloquent 모델](/docs/{{version}}/eloquent)을 위한 기본 속성의 세트를 정의하도록 해줍니다. 먼저 애플리케이션의 `database/factories/UserFactory.php` 파일을 살펴보겠습니다. 이 파일은 바로 사용이 가능한 하나의 팩토리 정의를 가지고 있습니다.
 
-    use Illuminate\Support\Str;
     use Faker\Generator as Faker;
+    use Illuminate\Support\Str;
 
     $factory->define(App\User::class, function (Faker $faker) {
         return [
@@ -323,31 +323,27 @@ You may use the `createMany` method to create multiple related models:
 #### Relations & Attribute Closures
 #### 관계 & 속성 클로저-Closures
 
-You may also attach relationships to models using Closure attributes in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
+You may also attach relationships to models in your factory definitions. For example, if you would like to create a new `User` instance when creating a `Post`, you may do the following:
 
-팩토리 정의안에서 클로저를 속성으로 사용하여 모델에 관계를 추가할 수도 있습니다. 예를 들어 `Post` 가 생성될 때 `User` 인스턴스를 생성하고자 한다면, 다음처럼 하면 됩니다.
+팩토리 정의에서 모델에 관계를 추가 할 수도 있습니다. 예를 들어, `Post`를 생성할 때 새로운 `User` 인스턴스를 생성하려면 다음처럼 하면 됩니다.
 
     $factory->define(App\Post::class, function ($faker) {
         return [
             'title' => $faker->title,
             'content' => $faker->paragraph,
-            'user_id' => function () {
-                return factory(App\User::class)->create()->id;
-            },
+            'user_id' => factory(App\User::class),
         ];
     });
 
-These Closures also receive the evaluated attribute array of the factory that defines them:
+If the relationship depends on the factory that defines it you may provide a callback which accepts the evaluated attribute array:
 
-이 클로저는 그것들을 정의하는 팩토리의 계산된 속성 배열을 받을 수도 있습니다.
+팩토리에 정의된 관계에 의존해야하는 경우 evaluated 된 속성 배열을 입력받는 콜백을 사용 할 수 있습니다.
 
     $factory->define(App\Post::class, function ($faker) {
         return [
             'title' => $faker->title,
             'content' => $faker->paragraph,
-            'user_id' => function () {
-                return factory(App\User::class)->create()->id;
-            },
+            'user_id' => factory(App\User::class),
             'user_type' => function (array $post) {
                 return App\User::find($post['user_id'])->type;
             },
@@ -366,10 +362,10 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
 
     namespace Tests\Feature;
 
-    use Tests\TestCase;
-    use OrderStatusesTableSeeder;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use OrderStatusesTableSeeder;
+    use Tests\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -404,10 +400,29 @@ Method  | Description
 ------------- | -------------
 `$this->assertDatabaseHas($table, array $data);`  |  Assert that a table in the database contains the given data.
 `$this->assertDatabaseMissing($table, array $data);`  |  Assert that a table in the database does not contain the given data.
+`$this->assertDeleted($table, array $data);`  |  Assert that the given record has been deleted.
 `$this->assertSoftDeleted($table, array $data);`  |  Assert that the given record has been soft deleted.
 
 메소드 | 설명
 ------------- | -------------
 `$this->assertDatabaseHas($table, array $data);`  |  데이터베이스에서 테이블에 주어진 데이터가 존재하는지 확인.
 `$this->assertDatabaseMissing($table, array $data);`  |  데이터베이스에서 테이블에 주어진 데이터가 존재하지 않는 것을 확인.
+`$this->assertDeleted($table, array $data);`  |  주어진 레코드가 삭제되었는지 확인.
 `$this->assertSoftDeleted($table, array $data);`  |  주어진 레코드가 소프트 삭제 되었는지 확인.
+
+For convenience, you may pass a model to the `assertDeleted` and `assertSoftDeleted` helpers to assert the record was deleted or soft deleted, respectively, from the database based on the model's primary key.
+
+편의상 모델의 기본 키를 기반으로 데이터베이스에서 레코드가 삭제 또는 소프트 삭제되었는지 확인하도록 모델을 `assertDeleted` 및 `assertSoftDeleted` 헬퍼에 전달 할 수 있습니다.
+
+For example, if you are using a model factory in your test, you may pass this model to one of these helpers to test your application properly deleted the record from the database:
+
+예를 들어 테스트에서 모델 팩토리를 사용하는 경우, 이 모델을 이 헬퍼들 중 하나에 전달하여 애플리케이션이 데이터베이스에서 레코드를 올바르게 삭제했는지 테스트 할 수 있습니다.
+
+  public function testDatabase()
+  {
+      $user = factory(App\User::class)->create();
+
+      // Make call to application...
+
+      $this->assertDeleted($user);
+  }

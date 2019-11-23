@@ -162,33 +162,6 @@ You may update your Valet installation using the `composer global update` comman
 
 터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오.
 
-#### Upgrading To Valet 2.0
-#### 발렛 2.0 으로 업그레이드 하기
-
-Valet 2.0 transitions Valet's underlying web server from Caddy to Nginx. Before upgrading to this version you should run the following commands to stop and uninstall the existing Caddy daemon:
-
-발렛 2.0에서는 발렛이 Caddy 에서 Nginx 를 사용하도록 변경되었습니다. 새로운 버전으로 업그레이드 하기 전에, 다음의 명령어를 사용하여 Caddy 데몬을 중지하고 언인스톨 해야합니다.
-
-    valet stop
-    valet uninstall
-
-Next, you should upgrade to the latest version of Valet. Depending on how you installed Valet, this is typically done through Git or Composer. If you installed Valet via Composer, you should use the following command to update to the latest major version:
-
-그 다음, 최신 발렛 버전을 설치합니다. 발렛을 어떻게 설치했느냐에 따라서, Git 또는 Composer 를 통해서 진행됩니다. 컴포저를 통해서 발렛을 설치했다면, 최신버전을 설치하기 위해서 다음 명령어를 사용해야합니다.
-
-    composer global require laravel/valet
-
-Once the fresh Valet source code has been downloaded, you should run the `install` command:
-
-일단 새로운 발렛 소스 코드가 다운로드 되고나서,`install` 명령을 실행해야합니다.
-
-    valet install
-    valet restart
-
-After upgrading, it may be necessary to re-park or re-link your sites.
-
-업그레이드를 완료하면, 사이트를 다시 park 하거나 다시 link 설정해야 합니다.
-
 <a name="serving-sites"></a>
 ## Serving Sites
 ## 사이트 동작시키기
@@ -198,8 +171,8 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다.
 
 <a name="the-park-command"></a>
-**The `park` Command**
-**`park` 명령어**
+#### The `park` Command
+#### `park` 명령어
 
 
 - Create a new directory on your Mac by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
@@ -214,11 +187,12 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 
 **That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.test` convention.
+
 **여기까지가 전부 입니다.** 이제 여러분이 "parked(지정한)" 디렉토리 안에 생성된 라라벨 프로젝트는 자동으로 `http://folder-name.test` 형태로 접속할 수 있습니다.
 
 <a name="the-link-command"></a>
-**The `link` Command**
-**`link` 명령어**
+#### The `link` Command
+#### `link` 명령어
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 
@@ -243,8 +217,8 @@ To see a listing of all of your linked directories, run the `valet links` comman
 > {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오.
 
 <a name="securing-sites"></a>
-**Securing Sites With TLS**
-**TLS를 사용한 안전한 사이트**
+#### Securing Sites With TLS
+#### TLS를 사용한 안전한 사이트
 
 By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.test` domain, you should run the following command to secure it:
 

@@ -233,6 +233,12 @@ The `exists` method may be used to determine if a file exists on the disk:
 
     $exists = Storage::disk('s3')->exists('file.jpg');
 
+The `missing` method may be used to determine if a file is missing from the disk:
+
+`missing` 메소드는 파일이 디스크에서 누락되었는지 판별하는 데 사용될 수 있습니다.
+
+    $missing = Storage::disk('s3')->missing('file.jpg');
+
 <a name="downloading-files"></a>
 ### Downloading Files
 ### 파일 다운로드
@@ -319,9 +325,9 @@ The `lastModified` method returns the UNIX timestamp of the last time the file w
 ## Storing Files
 ## 파일 저장하기
 
-The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Using streams is greatly recommended when dealing with large files:
+The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Remember, all file paths should be specified relative to the "root" location configured for the disk:
 
-`put` 메소드는 파일의 내용을 디스크에 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 큰 파일을 사용하는 경우 스트림을 사용하기를 권장합니다.
+`put` 메소드는 파일의 내용을 디스크에 저장하는데 사용됩니다. 또한 `put` 메소드에 `resource` 를 전달하여 파일시스템의 스트림을 사용할 수도 있습니다. 모든 파일 경로는 디스크에 대해 구성된 "root" 위치를 기준으로 지정해야합니다.
 
     use Illuminate\Support\Facades\Storage;
 
@@ -389,8 +395,8 @@ In web applications, one of the most common use-cases for storing files is stori
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class UserAvatarController extends Controller
     {
@@ -474,7 +480,7 @@ If the file has already been stored, its visibility can be retrieved and set via
 
     $visibility = Storage::getVisibility('file.jpg');
 
-    Storage::setVisibility('file.jpg', 'public')
+    Storage::setVisibility('file.jpg', 'public');
 
 <a name="deleting-files"></a>
 ## Deleting Files
@@ -567,16 +573,16 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
 
     namespace App\Providers;
 
-    use Storage;
-    use League\Flysystem\Filesystem;
     use Illuminate\Support\ServiceProvider;
+    use League\Flysystem\Filesystem;
     use Spatie\Dropbox\Client as DropboxClient;
     use Spatie\FlysystemDropbox\DropboxAdapter;
+    use Storage;
 
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */

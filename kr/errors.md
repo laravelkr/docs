@@ -46,9 +46,9 @@ For local development, you should set the `APP_DEBUG` environment variable to `t
 ### The Report Method
 ### Report 메소드
 
-All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
+All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
 
-모든 예외-exception는 `App\Exceptions\Handler` 클래스에 의해서 처리됩니다. `report` 메소드는 예외-exceptions를 로깅하거나 [Bugsnag](https://bugsnag.com) 또는 [Sentry](https://github.com/getsentry/sentry-laravel) 같은 별도의 외부 서비스로 보내는데 사용되어 집니다. 기본적으로 `report` 메소드는 예외-exception가 기록되는 경우, 베이스 클래스로 예외-exception을 전달합니다.
+모든 예외-exception는 `App\Exceptions\Handler` 클래스에 의해서 처리됩니다. 이 클래스에는 `report`와 `render`의 두 가지 메소드가 있습니다. 각 방법을 자세히 살펴 보겠습니다. `report` 메소드는 예외-exceptions를 로깅하거나 [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) 또는 [Sentry](https//github.com/getsentry/sentry-laravel)와 같은 외부 서비스로 전송하는 데 사용됩니다. 기본적으로 `report` 메소드는 예외가 기록되는 기본 클래스에 예외를 전달합니다. 그러나 원하는 경우에만 예외를 기록 할 수도 있습니다.
 
 For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
 
@@ -57,7 +57,7 @@ For example, if you need to report different types of exceptions in different wa
     /**
      * Report or log an exception.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     * This is a great spot to send exceptions to Flare, Sentry, Bugsnag, etc.
      *
      * @param  \Exception  $exception
      * @return void
@@ -185,7 +185,7 @@ Exception 핸들러의 `report` 그리고 `render` 메소드에서 exception의 
         /**
          * Render the exception into an HTTP response.
          *
-         * @param  \Illuminate\Http\Request
+         * @param  \Illuminate\Http\Request  $request
          * @return \Illuminate\Http\Response
          */
         public function render($request)

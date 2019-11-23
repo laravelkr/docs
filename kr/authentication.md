@@ -17,6 +17,8 @@
     - [승인된 사용자 조회하기](#retrieving-the-authenticated-user)
     - [Protecting Routes](#protecting-routes)
     - [라우트 보호하기](#protecting-routes)
+    - [Password Confirmation](#password-confirmation)
+    - [비밀번호 확인](#password-confirmation)
     - [Login Throttling](#login-throttling)
     - [로그인 횟수 제한](#login-throttling)
 - [Manually Authenticating Users](#authenticating-users)
@@ -105,7 +107,7 @@ Laravel's `laravel/ui` package provides a quick way to scaffold all of the route
 
 라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth
 
@@ -116,6 +118,15 @@ This command should be used on fresh applications and will install a layout view
 > {tip} If your application doesn’t need registration, you may disable it by removing the newly created `RegisterController` and modifying your route declaration: `Auth::routes(['register' => false]);`.
 
 > {tip} 여러분의 애플리케이션에서 회원가입을 필요로 하지 않는다면, 새롭게 생성되는 `RegisterController` 파일을 삭제하고 라우트 정의 파일에서 `Auth::routes(['register' => false]);`를 수정하면 됩니다.
+
+#### Creating Applications Including Authentication
+#### 인증을 포함한 애플리케이션 만들기
+
+If you are starting a brand new application and would like to include the authentication scaffolding, you may use the `--auth` directive when creating your application. This command will create a new application with all of the authentication scaffolding compiled and installed:
+
+새로운 애플리케이션을 만들때 인증 스캐폴딩을 포함하려면 `--auth`을 사용하면 됩니다. 이 명령은 모든 인증 스캐폴딩을 컴파일하고 설치하여 새 애플리케이션을 만듭니다.
+
+    laravel new blog --auth
 
 <a name="included-views"></a>
 ### Views
@@ -311,6 +322,26 @@ When attaching the `auth` middleware to a route, you may also specify which guar
     {
         $this->middleware('auth:api');
     }
+
+<a name="password-confirmation"></a>
+### Password Confirmation
+### 비밀번호 확인
+
+Sometimes, you may wish to require the user to confirm their password before accessing a specific area of your application. For example, you may require this before the user modifies any billing settings within the application.
+
+때로는 애플리케이션의 특정 영역에 액세스하기 전에 사용자에게 암호를 입력하도록 요청할 수 있습니다. 예를 들어, 사용자가 애플리케이션 내에서 결제 설정을 변경하는 곳에서 사용할 수 있습니다.
+
+To accomplish this, Laravel provides a `password.confirm` middleware. Attaching the `password.confirm` middleware to a route will redirect users to a screen where they need to confirm their password before they can continue:
+
+이를 위해 라라벨은 `password.confirm` 미들웨어를 제공합니다. `password.confirm` 미들웨어를 라우트에 연결하면 사용자가 계속 진행하기 전에 비밀번호를 확인해야하는 화면으로 사용자를 리디렉션합니다.
+
+    Route::get('/settings/security', function () {
+        // Users must confirm their password before continuing...
+    })->middleware(['auth', 'password.confirm']);
+
+After the user has successfully confirmed their password, the user is redirected to the route they originally tried to access. By default, after confirming their password, the user will not have to confirm their password again for three hours. You are free to customize the length of time before the user must re-confirm their password using the `auth.password_timeout` configuration option.
+
+사용자가 자신의 암호를 확인하면 원래 접근하려는 경로로 다시 돌아갑니다. 기본적으로 비밀번호를 확인한 후 사용자는 3시간 동안 비밀번호를 다시 확인 할 필요가 없습니다. `auth.password_timeout` 설정 옵션을 사용하여 사용자가 비밀번호를 다시 확인해야하는 시간을 자유롭게 변경 할 수 있습니다.
 
 <a name="login-throttling"></a>
 ### Login Throttling
@@ -594,8 +625,8 @@ You may define your own authentication guards using the `extend` method on the `
     namespace App\Providers;
 
     use App\Services\Auth\JwtGuard;
-    use Illuminate\Support\Facades\Auth;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -679,9 +710,9 @@ If you are not using a traditional relational database to store your users, you 
 
     namespace App\Providers;
 
-    use Illuminate\Support\Facades\Auth;
     use App\Extensions\RiakUserProvider;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Auth;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -739,14 +770,13 @@ Let's take a look at the `Illuminate\Contracts\Auth\UserProvider` contract:
 
     namespace Illuminate\Contracts\Auth;
 
-    interface UserProvider {
-
+    interface UserProvider
+    {
         public function retrieveById($identifier);
         public function retrieveByToken($identifier, $token);
         public function updateRememberToken(Authenticatable $user, $token);
         public function retrieveByCredentials(array $credentials);
         public function validateCredentials(Authenticatable $user, array $credentials);
-
     }
 
 The `retrieveById` function typically receives a key representing the user, such as an auto-incrementing ID from a MySQL database. The `Authenticatable` implementation matching the ID should be retrieved and returned by the method.
@@ -781,15 +811,14 @@ Now that we have explored each of the methods on the `UserProvider`, let's take 
 
     namespace Illuminate\Contracts\Auth;
 
-    interface Authenticatable {
-
+    interface Authenticatable
+    {
         public function getAuthIdentifierName();
         public function getAuthIdentifier();
         public function getAuthPassword();
         public function getRememberToken();
         public function setRememberToken($value);
         public function getRememberTokenName();
-
     }
 
 This interface is simple. The `getAuthIdentifierName` method should return the name of the "primary key" field of the user and the `getAuthIdentifier` method should return the "primary key" of the user. In a MySQL back-end, again, this would be the auto-incrementing primary key. The `getAuthPassword` should return the user's hashed password. This interface allows the authentication system to work with any User class, regardless of what ORM or storage abstraction layer you are using. By default, Laravel includes a `User` class in the `app` directory which implements this interface, so you may consult this class for an implementation example.

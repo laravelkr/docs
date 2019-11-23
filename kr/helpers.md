@@ -114,6 +114,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::studly](#method-studly-case)
 - [Str::title](#method-title-case)
 - [Str::uuid](#method-str-uuid)
+- [Str::words](#method-str-words)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 
@@ -1354,6 +1355,19 @@ The `Str::uuid` method generates a UUID (version 4):
     use Illuminate\Support\Str;
 
     return (string) Str::uuid();
+
+<a name="method-str-words"></a>
+#### `Str::words()` {#collection-method}
+
+The `Str::words` method limits the number of words in a string:
+
+`Str::words` 메소드는 문자열의 단어 수를 제한합니다.
+
+    use Illuminate\Support\Str;
+
+    return Str::words('Perfectly balanced, as all things should be.', 3, ' >>>');
+    
+    // Perfectly balanced, as >>>
 
 <a name="method-trans"></a>
 #### `trans()` {#collection-method}

@@ -131,7 +131,7 @@ When an exception is uncaught and the `APP_DEBUG` environment variable is `true`
 
 Some variables are available in both the environment variables and the server / request data. Therefore, you may need to blacklist them for both `$_ENV` and `$_SERVER`:
 
-일부 변수는 환경 변수와 서버 / 요청 데이터에서 모두 사용할 수 있습니다. 그러므로 `$ _ENV` 와 `$ _SERVER` 둘 다 블랙리스트에 올릴 필요가 있습니다.
+일부 변수는 환경 변수와 서버 / 요청 데이터에서 모두 사용할 수 있습니다. 그러므로 `$_ENV` 와 `$_SERVER` 둘 다 블랙리스트에 올릴 필요가 있습니다.
 
     return [
 

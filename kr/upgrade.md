@@ -527,7 +527,8 @@ The `action` helper and `URL::action` method are also affected by this change:
 **영향 가능성: 낮음**
 
 The form request's `validationData` method was changed from `protected` to `public`. If you are overriding this method in your implementation, you should update the visibility to `public`.
-The form request's `validationData` method was changed from `protected` to `public`. If you are overriding this method in your implementation, you should update the visibility to `public`.
+
+폼 요청-request의 `validationData` 메소드가 `protected`에서 `public`으로 변경되었습니다. 구현에서 이 메소드를 재정의하는 경우 가시성을 `public`으로 업데이트해야합니다.
 
 <a name="miscellaneous"></a>
 ### Miscellaneous

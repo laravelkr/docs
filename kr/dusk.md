@@ -935,6 +935,8 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertDialogOpened](#assert-dialog-opened)
 - [assertEnabled](#assert-enabled)
 - [assertDisabled](#assert-disabled)
+- [assertButtonEnabled](#assert-button-enabled)
+- [assertButtonDisabled](#assert-button-disabled)
 - [assertFocused](#assert-focused)
 - [assertNotFocused](#assert-not-focused)
 - [assertVue](#assert-vue)
@@ -1428,6 +1430,26 @@ Assert that the given field is disabled:
 주어진 필드가 사용 불가능한지 확인:
 
     $browser->assertDisabled($field);
+
+<a name="assert-button-enabled"></a>
+#### assertButtonEnabled
+#### assertButtonEnabled
+
+Assert that the given button is enabled:
+
+주어진 버튼이 활성화되어 있는지 확인:
+
+    $browser->assertButtonEnabled($button);
+
+<a name="assert-button-disabled"></a>
+#### assertButtonDisabled
+#### assertButtonDisabled
+
+Assert that the given button is disabled:
+
+주어진 버튼이 비활성화되어 있는지 확인:
+
+    $browser->assertButtonDisabled($button);
 
 <a name="assert-focused"></a>
 #### assertFocused

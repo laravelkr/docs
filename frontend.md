@@ -5,23 +5,26 @@
 - [Writing JavaScript](#writing-javascript)
     - [Writing Vue Components](#writing-vue-components)
     - [Using React](#using-react)
+- [Adding Presets](#adding-presets)
 
 <a name="introduction"></a>
 ## Introduction
 
-While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/) and [Vue](https://vuejs.org) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
+While Laravel does not dictate which JavaScript or CSS pre-processors you use, it does provide a basic starting point using [Bootstrap](https://getbootstrap.com/), [React](https://reactjs.org/), and / or [Vue](https://vuejs.org/) that will be helpful for many applications. By default, Laravel uses [NPM](https://www.npmjs.org) to install both of these frontend packages.
 
 The Bootstrap and Vue scaffolding provided by Laravel is located in the `laravel/ui` Composer package, which may be installed using Composer:
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
 Once the `laravel/ui` package has been installed, you may install the frontend scaffolding using the `ui` Artisan command:
 
     // Generate basic scaffolding...
+    php artisan ui bootstrap
     php artisan ui vue
     php artisan ui react
 
     // Generate login / registration scaffolding...
+    php artisan ui bootstrap --auth
     php artisan ui vue --auth
     php artisan ui react --auth
 
@@ -92,9 +95,24 @@ If you are interested in learning more about writing Vue components, you should 
 
 If you prefer to use React to build your JavaScript application, Laravel makes it a cinch to swap the Vue scaffolding with React scaffolding:
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui react
 
     // Generate login / registration scaffolding...
     php artisan ui react --auth
+
+<a name="adding-presets"></a>
+## Adding Presets
+
+Presets are "macroable", which allows you to add additional methods to the `UiCommand` class at runtime. For example, the following code adds a `nextjs` method to the `UiCommand` class. Typically, you should declare preset macros in a [service provider](/docs/{{version}}/providers):
+
+    use Laravel\Ui\UiCommand;
+
+    UiCommand::macro('nextjs', function (UiCommand $command) {
+        // Scaffold your frontend...
+    });
+
+Then, you may call the new preset via the `ui` command:
+
+    php artisan ui nextjs

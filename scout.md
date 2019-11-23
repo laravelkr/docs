@@ -47,8 +47,8 @@ Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -85,8 +85,8 @@ Each Eloquent model is synced with a given search "index", which contains all of
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -112,8 +112,8 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class Post extends Model
     {
@@ -137,14 +137,14 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 <a name="configuring-the-model-id"></a>
 ### Configuring The Model ID
 
-By default, Scout will use the primary key of the model as the unique ID stored in the search index. If you need to customize this behavior, you may override the `getScoutKey` method on the model:
+By default, Scout will use the primary key of the model as the unique ID stored in the search index. If you need to customize this behavior, you may override the `getScoutKey` and the `getScoutKeyName` methods on the model:
 
     <?php
 
     namespace App;
 
-    use Laravel\Scout\Searchable;
     use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\Searchable;
 
     class User extends Model
     {
@@ -158,6 +158,16 @@ By default, Scout will use the primary key of the model as the unique ID stored 
         public function getScoutKey()
         {
             return $this->email;
+        }
+        
+         /**
+         * Get the key name used to index the model.
+         *
+         * @return mixed
+         */
+        public function getScoutKeyName()
+        {
+            return 'email';
         }
     }
 
@@ -376,7 +386,7 @@ If one of the built-in Scout search engines doesn't fit your needs, you may writ
     abstract public function search(Builder $builder);
     abstract public function paginate(Builder $builder, $perPage, $page);
     abstract public function mapIds($results);
-    abstract public function map($results, $model);
+    abstract public function map(Builder $builder, $results, $model);
     abstract public function getTotalCount($results);
     abstract public function flush($model);
 
@@ -413,9 +423,9 @@ If you would like to define a custom builder method, you may use the `macro` met
 
     namespace App\Providers;
 
-    use Laravel\Scout\Builder;
-    use Illuminate\Support\ServiceProvider;
     use Illuminate\Support\Facades\Response;
+    use Illuminate\Support\ServiceProvider;
+    use Laravel\Scout\Builder;
 
     class ScoutMacroServiceProvider extends ServiceProvider
     {

@@ -82,8 +82,8 @@ Let's take a look at an example command. Note that we are able to inject any dep
 
     namespace App\Console\Commands;
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
     use Illuminate\Console\Command;
 
     class SendEmails extends Command
@@ -151,8 +151,8 @@ The Closure is bound to the underlying command instance, so you have full access
 
 In addition to receiving your command's arguments and options, command Closures may also type-hint additional dependencies that you would like resolved out of the [service container](/docs/{{version}}/container):
 
-    use App\User;
     use App\DripEmailer;
+    use App\User;
 
     Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
         $drip->send(User::find($user));
@@ -331,6 +331,12 @@ If you need to ask the user for a simple confirmation, you may use the `confirm`
 The `anticipate` method can be used to provide auto-completion for possible choices. The user can still choose any answer, regardless of the auto-completion hints:
 
     $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
+
+Alternatively, you may pass a Closure as the second argument to the `anticipate` method. The Closure will be called each time the user types an input character. The Closure should accept a string parameter containing the user's input so far, and return an array of options for auto-completion:
+
+    $name = $this->anticipate('What is your name?', function ($input) {
+        // Return auto-completion options...
+    });
 
 #### Multiple Choice Questions
 

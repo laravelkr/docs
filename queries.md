@@ -12,7 +12,7 @@
     - [Parameter Grouping](#parameter-grouping)
     - [Where Exists Clauses](#where-exists-clauses)
     - [JSON Where Clauses](#json-where-clauses)
-- [Ordering, Grouping, Limit, & Offset](#ordering-grouping-limit-and-offset)
+- [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
 - [Conditional Clauses](#conditional-clauses)
 - [Inserts](#inserts)
 - [Updates](#updates)
@@ -42,8 +42,8 @@ You may use the `table` method on the `DB` facade to begin a query. The `table` 
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\DB;
 
     class UserController extends Controller
     {
@@ -194,7 +194,7 @@ Instead of using `DB::raw`, you may also use the following methods to insert a r
 
 #### `selectRaw`
 
-The `selectRaw` method can be used in place of `select(DB::raw(...))`. This method accepts an optional array of bindings as its second argument:
+The `selectRaw` method can be used in place of `addSelect(DB::raw(...))`. This method accepts an optional array of bindings as its second argument:
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])
@@ -527,7 +527,7 @@ You may use `whereJsonLength` to query JSON arrays by their length:
                     ->get();
 
 <a name="ordering-grouping-limit-and-offset"></a>
-## Ordering, Grouping, Limit, & Offset
+## Ordering, Grouping, Limit & Offset
 
 #### orderBy
 

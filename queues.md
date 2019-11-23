@@ -93,6 +93,8 @@ Adjusting this value based on your queue load can be more efficient than continu
         'retry_after' => 90,
         'block_for' => 5,
     ],
+    
+> {note} Setting `block_for` to `0` will cause queue workers to block indefinitely until a job is available. This will also prevent signals such as `SIGTERM` from being handled until the next job has been processed.
 
 #### Other Driver Prerequisites
 
@@ -101,7 +103,7 @@ The following dependencies are needed for the listed queue drivers:
 <div class="content-list" markdown="1">
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~4.0`
-- Redis: `predis/predis ~1.0`
+- Redis: `predis/predis ~1.0` or phpredis PHP extension
 </div>
 
 <a name="creating-jobs"></a>
@@ -125,13 +127,13 @@ Job classes are very simple, normally containing only a `handle` method which is
 
     namespace App\Jobs;
 
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -241,7 +243,7 @@ After creating job middleware, they may be attached to a job by returning them f
     use App\Jobs\Middleware\RateLimited;
 
     /**
-     * Get the middlewarwe the job should pass through.
+     * Get the middleware the job should pass through.
      *
      * @return array
      */
@@ -259,9 +261,9 @@ Once you have written your job class, you may dispatch it using the `dispatch` m
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -288,9 +290,9 @@ If you would like to delay the execution of a queued job, you may use the `delay
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -320,9 +322,9 @@ If you would like to dispatch a job immediately (synchronously), you may use the
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
-    use App\Jobs\ProcessPodcast;
     use App\Http\Controllers\Controller;
+    use App\Jobs\ProcessPodcast;
+    use Illuminate\Http\Request;
 
     class PodcastController extends Controller
     {
@@ -372,9 +374,9 @@ By pushing jobs to different queues, you may "categorize" your queued jobs and e
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -400,9 +402,9 @@ If you are working with multiple queue connections, you may specify which connec
 
     namespace App\Http\Controllers;
 
+    use App\Http\Controllers\Controller;
     use App\Jobs\ProcessPodcast;
     use Illuminate\Http\Request;
-    use App\Http\Controllers\Controller;
 
     class PodcastController extends Controller
     {
@@ -721,13 +723,13 @@ You may define a `failed` method directly on your job class, allowing you to per
 
     namespace App\Jobs;
 
-    use Exception;
-    use App\Podcast;
     use App\AudioProcessor;
+    use App\Podcast;
+    use Exception;
     use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -779,8 +781,8 @@ If you would like to register an event that will be called when a job fails, you
     namespace App\Providers;
 
     use Illuminate\Support\Facades\Queue;
-    use Illuminate\Queue\Events\JobFailed;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\Queue\Events\JobFailed;
 
     class AppServiceProvider extends ServiceProvider
     {

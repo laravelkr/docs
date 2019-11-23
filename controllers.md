@@ -8,6 +8,7 @@
 - [Controller Middleware](#controller-middleware)
 - [Resource Controllers](#resource-controllers)
     - [Partial Resource Routes](#restful-partial-resource-routes)
+    - [Nested Resources](#restful-nested-resources)
     - [Naming Resource Routes](#restful-naming-resource-routes)
     - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
     - [Localizing Resource URIs](#restful-localizing-resource-uris)
@@ -32,8 +33,8 @@ Below is an example of a basic controller class. Note that the controller extend
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class UserController extends Controller
     {
@@ -75,8 +76,8 @@ If you would like to define a controller that only handles a single action, you 
 
     namespace App\Http\Controllers;
 
-    use App\User;
     use App\Http\Controllers\Controller;
+    use App\User;
 
     class ShowProfile extends Controller
     {
@@ -213,6 +214,15 @@ You may register many API resource controllers at once by passing an array to th
 To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` switch when executing the `make:controller` command:
 
     php artisan make:controller API/PhotoController --api
+
+<a name="restful-nested-resources"></a>
+### Nested Resources
+
+Sometimes you may need to define routes to a "nested" resource. For example, a photo resource may have multiple "comments" that may be attached to the photo. To "nest" resource controllers, use "dot" notation in your route declaration:
+
+    Route::resource('photos.comments', 'PhotoCommentController');
+
+This route will register a "nested" resource that may be accessed with URLs like the following: photos/{photos}/comments/{comments}.
 
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes

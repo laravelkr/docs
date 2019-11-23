@@ -21,9 +21,9 @@ To get started, verify that your `App\User` model implements the `Illuminate\Con
 
     namespace App;
 
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Contracts\Auth\MustVerifyEmail;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable implements MustVerifyEmail
     {
@@ -62,7 +62,7 @@ Laravel includes the `Auth\VerificationController` class that contains the neces
 
 To generate all of the necessary view for email verification, you may use the `laravel/ui` Composer package:
 
-    composer require laravel/ui
+    composer require laravel/ui --dev
 
     php artisan ui vue --auth
 

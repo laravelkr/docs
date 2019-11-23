@@ -166,6 +166,10 @@ The `exists` method may be used to determine if a file exists on the disk:
 
     $exists = Storage::disk('s3')->exists('file.jpg');
 
+The `missing` method may be used to determine if a file is missing from the disk:
+
+    $missing = Storage::disk('s3')->missing('file.jpg');
+
 <a name="downloading-files"></a>
 ### Downloading Files
 
@@ -229,7 +233,7 @@ The `lastModified` method returns the UNIX timestamp of the last time the file w
 <a name="storing-files"></a>
 ## Storing Files
 
-The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Using streams is greatly recommended when dealing with large files:
+The `put` method may be used to store raw file contents on a disk. You may also pass a PHP `resource` to the `put` method, which will use Flysystem's underlying stream support. Remember, all file paths should be specified relative to the "root" location configured for the disk:
 
     use Illuminate\Support\Facades\Storage;
 
@@ -281,8 +285,8 @@ In web applications, one of the most common use-cases for storing files is stori
 
     namespace App\Http\Controllers;
 
-    use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\Request;
 
     class UserAvatarController extends Controller
     {
@@ -345,7 +349,7 @@ If the file has already been stored, its visibility can be retrieved and set via
 
     $visibility = Storage::getVisibility('file.jpg');
 
-    Storage::setVisibility('file.jpg', 'public')
+    Storage::setVisibility('file.jpg', 'public');
 
 <a name="deleting-files"></a>
 ## Deleting Files
@@ -413,16 +417,16 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
 
     namespace App\Providers;
 
-    use Storage;
-    use League\Flysystem\Filesystem;
     use Illuminate\Support\ServiceProvider;
+    use League\Flysystem\Filesystem;
     use Spatie\Dropbox\Client as DropboxClient;
     use Spatie\FlysystemDropbox\DropboxAdapter;
+    use Storage;
 
     class DropboxServiceProvider extends ServiceProvider
     {
         /**
-         * Register bindings in the container.
+         * Register any application services.
          *
          * @return void
          */

@@ -1,6 +1,7 @@
 # Laravel Passport
 
 - [Introduction](#introduction)
+- [Upgrading Passport](#upgrading)
 - [Installation](#installation)
     - [Frontend Quickstart](#frontend-quickstart)
     - [Deploying Passport](#deploying-passport)
@@ -41,6 +42,11 @@ Laravel already makes it easy to perform authentication via traditional login fo
 
 > {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general [terminology](https://oauth2.thephpleague.com/terminology/) and features of OAuth2 before continuing.
 
+<a name="upgrading"></a>
+## Upgrading Passport
+
+When upgrading to a new major version of Passport, it's important that you carefully review [the upgrade guide](https://github.com/laravel/passport/blob/master/UPGRADE.md).
+
 <a name="installation"></a>
 ## Installation
 
@@ -62,9 +68,9 @@ After running this command, add the `Laravel\Passport\HasApiTokens` trait to you
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -77,9 +83,9 @@ Next, you should call the `Passport::routes` method within the `boot` method of 
 
     namespace App\Providers;
 
-    use Laravel\Passport\Passport;
-    use Illuminate\Support\Facades\Gate;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+    use Illuminate\Support\Facades\Gate;
+    use Laravel\Passport\Passport;
 
     class AuthServiceProvider extends ServiceProvider
     {
@@ -223,12 +229,21 @@ By default, Passport issues long-lived access tokens that expire after one year.
 <a name="overriding-default-models"></a>
 ### Overriding Default Models
 
-You are free to extend the models used internally by Passport. Then, you may instruct Passport to use your custom models via the `Passport` class:
+You are free to extend the models used internally by Passport:
 
-    use App\Models\Passport\Client;
-    use App\Models\Passport\Token;
+    use App\Models\Passport\Client as PassportClient;
+
+    class Client extends PassportClient
+    {
+        // ...
+    }
+
+Then, you may instruct Passport to use your custom models via the `Passport` class:
+
     use App\Models\Passport\AuthCode;
+    use App\Models\Passport\Client;
     use App\Models\Passport\PersonalAccessClient;
+    use App\Models\Passport\Token;
 
     /**
      * Register any authentication / authorization services.
@@ -498,9 +513,9 @@ When authenticating using the password grant, Passport will use the `email` attr
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
@@ -527,21 +542,21 @@ When authenticating using the password grant, Passport will use the `password` a
 
     namespace App;
 
-    use Laravel\Passport\HasApiTokens;
-    use Illuminate\Support\Facades\Hash;
-    use Illuminate\Notifications\Notifiable;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Support\Facades\Hash;
+    use Laravel\Passport\HasApiTokens;
 
     class User extends Authenticatable
     {
         use HasApiTokens, Notifiable;
 
         /**
-        * Validate the password of the user for the Passport password grant.
-        *
-        * @param  string $password
-        * @return bool
-        */
+         * Validate the password of the user for the Passport password grant.
+         *
+         * @param  string  $password
+         * @return bool
+         */
         public function validateForPassportPasswordGrant($password)
         {
             return Hash::check($password, $this->password);
@@ -864,7 +879,7 @@ Typically, if you want to consume your API from your JavaScript application, you
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 
-> {note} You should ensure that the `EncryptCookies` middleware is listed prior to the `CreateFreshApiToken` middleware in your middleware stack.
+> {note} You should ensure that the `CreateFreshApiToken` middleware is the last middleware listed in your middleware stack.
 
 This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
 
@@ -935,4 +950,21 @@ Passport's `actingAs` method may be used to specify the currently authenticated 
         $response = $this->post('/api/create-server');
 
         $response->assertStatus(201);
+    }
+
+Passport's `actingAsClient` method may be used to specify the currently authenticated client as well as its scopes. The first argument given to the `actingAsClient` method is the client instance and the second is an array of scopes that should be granted to the client's token:
+
+    use Laravel\Passport\Client;
+    use Laravel\Passport\Passport;
+
+    public function testGetOrders()
+    {
+        Passport::actingAsClient(
+            factory(Client::class)->create(),
+            ['check-status']
+        );
+
+        $response = $this->get('/api/orders');
+
+        $response->assertStatus(200);
     }

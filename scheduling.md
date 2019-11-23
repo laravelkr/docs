@@ -38,9 +38,9 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
 
     namespace App\Console;
 
-    use Illuminate\Support\Facades\DB;
     use Illuminate\Console\Scheduling\Schedule;
     use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+    use Illuminate\Support\Facades\DB;
 
     class Kernel extends ConsoleKernel
     {
@@ -111,16 +111,16 @@ Method  | Description
 `->everyFifteenMinutes();`  |  Run the task every fifteen minutes
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
-`->hourlyAt(17);`  |  Run the task every hour at 17 mins past the hour
+`->hourlyAt(17);`  |  Run the task every hour at 17 minutes past the hour
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
-`->weekly();`  |  Run the task every week
+`->weekly();`  |  Run the task every sunday at 00:00
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
-`->monthly();`  |  Run the task every month
+`->monthly();`  |  Run the task on the first day of every month at 00:00
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
-`->quarterly();` |  Run the task every quarter
-`->yearly();`  |  Run the task every year
+`->quarterly();` |  Run the task on the first day of every quarter at 00:00
+`->yearly();`  |  Run the task on the first day of every year at 00:00
 `->timezone('America/New_York');` | Set the timezone
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, to schedule a command to run weekly on Monday:

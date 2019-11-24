@@ -613,7 +613,7 @@ In some situations, it's useful to embed PHP code into your views. You can use t
 
 > {tip} While Blade provides this feature, using it frequently may be a signal that you have too much logic embedded within your template.
 
-> {tip} 블레이드가 이 기능을 제공하지만, 이 기능을 너무 빈번하게 사용하는 것은 너무 많은 로직이 템플린 안에 포함되어 있다는 신호일 수 있습니다.
+> {tip} 블레이드가 이 기능을 제공하지만, 이 기능을 너무 빈번하게 사용하는 것은 너무 많은 로직이 템플릿 안에 포함되어 있다는 신호일 수 있습니다.
 
 <a name="forms"></a>
 ## Forms

@@ -132,7 +132,7 @@ By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue com
 
 To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
 
-애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플린 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
+애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플릿 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
 
     @extends('layouts.app')
 

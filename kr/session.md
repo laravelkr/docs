@@ -185,17 +185,17 @@ If you would like to retrieve all the data in the session, you may use the `all`
 #### Determining If An Item Exists In The Session
 #### 세션에 아이템이 존재하는지 확인하기
 
-To determine if an item is present in the session, you may use the `has` method. The `has` method returns `true` if the value is present and is not `null`:
+To determine if an item is present in the session, you may use the `has` method. The `has` method returns `true` if the item is present and is not `null`:
 
-세션안에 아이템이 존재하는지 확인하려면 `has` 메소드를 사용하면 됩니다. `has` 메소드는 값이 현재 존재하고 `null`이 아니라면 `true`를 반환합니다.
+세션안에 아이템이 존재하는지 확인하려면 `has` 메소드를 사용하면 됩니다. `has` 메소드는 아이템이 현재 존재하고 `null`이 아니라면 `true`를 반환합니다.
 
     if ($request->session()->has('users')) {
         //
     }
 
-To determine if an item is present in the session, even if its value is `null`, you may use the `exists` method. The `exists` method returns `true` if the value is present:
+To determine if an item is present in the session, even if its value is `null`, you may use the `exists` method. The `exists` method returns `true` if the item is present:
 
-값이 `null`이더라도 세션안에 아이템이 들어 있는지 확인하려면 `exists` 메소드를 사용할 수 있습니다. `exists` 메소드는 값이 존재한다면 `true`를 반환합니다.
+값이 `null`이더라도 세션안에 아이템이 들어 있는지 확인하려면 `exists` 메소드를 사용할 수 있습니다. `exists` 메소드는 아이템이 존재한다면 `true`를 반환합니다.
 
     if ($request->session()->exists('users')) {
         //

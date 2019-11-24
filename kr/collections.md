@@ -463,10 +463,12 @@ The `countBy` method counts the occurrences of values in the collection. By defa
 `countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다.
 
     $collection = collect([1, 2, 2, 2, 3]);
-    
-    $collection->countBy();
-    
-    // collect([1 => 1, 2 => 3, 3 => 1])
+
+    $counted = $collection->countBy();
+
+    $counted->all();
+
+    // [1 => 1, 2 => 3, 3 => 1]
 
 However, you pass a callback to the `countBy` method to count all items by a custom value:
 
@@ -474,11 +476,13 @@ However, you pass a callback to the `countBy` method to count all items by a cus
 
     $collection = collect(['alice@gmail.com', 'bob@yahoo.com', 'carlos@gmail.com']);
 
-    $collection->countBy(function ($email) {
+    $counted = $collection->countBy(function ($email) {
         return substr(strrchr($email, "@"), 1);
     });
 
-    // collect(['gmail.com' => 2, 'yahoo.com' => 1])
+    $counted->all();
+
+    // ['gmail.com' => 2, 'yahoo.com' => 1]
 
 <a name="method-crossjoin"></a>
 #### `crossJoin()` {#collection-method}
@@ -1208,6 +1212,20 @@ The `isNotEmpty` method returns `true` if the collection is not empty; otherwise
     collect([])->isNotEmpty();
 
     // false
+
+<a name="method-join"></a>
+#### `join()` {#collection-method}
+#### `join()` {#collection-method}
+
+The `join` method joins the collection's values with a string:
+
+`join` 메소드는 컬렉션의 값을 지정한 문자열로 합칩니다.
+
+    collect(['a', 'b', 'c'])->join(', '); // 'a, b, c'
+    collect(['a', 'b', 'c'])->join(', ', ', and '); // 'a, b, and c'
+    collect(['a', 'b'])->join(', ', ' and '); // 'a and b'
+    collect(['a'])->join(', ', ' and '); // 'a'
+    collect([])->join(', ', ' and '); // ''
 
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
@@ -2551,6 +2569,8 @@ Alias for the [`whenNotEmpty`](#method-whennotempty) method.
 #### `unlessNotEmpty()` {#collection-method}
 #### `unlessNotEmpty()` {#collection-method}
 
+Alias for the [`whenEmpty`](#method-whenempty) method.
+
 [`whenEmpty`](#method-whenempty) 메소드의 별칭입니다.
 
 <a name="method-unwrap"></a>
@@ -3189,7 +3209,7 @@ Almost all methods available on the `Collection` class are also available on the
 
 </div>
 
-> {note} Methods that mutate the collection (such as `shift`, `pop`, `prepend` etc.) are are _not_ available on the `LazyCollection` class.
+> {note} Methods that mutate the collection (such as `shift`, `pop`, `prepend` etc.) are _not_ available on the `LazyCollection` class.
 
 > {note} `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
 

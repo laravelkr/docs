@@ -162,7 +162,7 @@ The `{{ $slot }}` variable will contain the content we wish to inject into the c
     @component('alert')
         <strong>Whoops!</strong> Something went wrong!
     @endcomponent
-    
+
 To instruct Laravel to load the first view that exists from a given array of possible views for the component, you may use the `componentFirst` directive:
 
 Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다.
@@ -574,6 +574,8 @@ Property  | Description
 `$loop->count`  |  The total number of items in the array being iterated.
 `$loop->first`  |  Whether this is the first iteration through the loop.
 `$loop->last`  |  Whether this is the last iteration through the loop.
+`$loop->even`  |  Whether this is an even iteration through the loop.
+`$loop->odd`  |  Whether this is an odd iteration through the loop.
 `$loop->depth`  |  The nesting level of the current loop.
 `$loop->parent`  |  When in a nested loop, the parent's loop variable.
 
@@ -586,6 +588,8 @@ Property  | Description
 `$loop->count`  |  반복되는 배열의 총 아이템 수.
 `$loop->first`  |  현재 반복문의 첫번째 인지 확인.
 `$loop->last`  |  현재 반복문의 마지막 인지 확인.
+`$loop->even`  |  현재 반복문이 짝수번째 인지 확인.
+`$loop->odd`  |  현재 반복문이 홀수번째 인지 확인.
 `$loop->depth`  |  중첩된 반복문의 깊이.
 `$loop->parent`  |  반복문이 중첩된 경우 부모의 루프 변수.
 
@@ -623,7 +627,7 @@ In some situations, it's useful to embed PHP code into your views. You can use t
 ### CSRF Field
 ### CSRF 필드
 
-Anytime you define a HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
+Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
 애플리케이션에서 HTML 폼을 만들 할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 요청에 대한 유효성 검사를 할 수 있도록 폼에 숨겨진 CSRF 토큰 필드를 포함해야합니다. Blade의 `@csrf` 지시어를 사용하여 토큰 필드를 생성 할 수 있습니다.
 
@@ -662,6 +666,20 @@ The `@error` directive may be used to quickly check if [validation error message
     <input id="title" type="text" class="@error('title') is-invalid @enderror">
 
     @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+
+You may pass [the name of a specific error bag](/docs/{{version}}/validation#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:
+
+`@error` 지시문-directive의 두 번째 파라메터로 [특정 에러 백의 이름](/docs/{{version}}/validation#named-error-bags)을 전달하여 여러개의 폼이 포함 된 페이지에서 유효성 검증 오류 메시지를 조회 할 수 있습니다.
+
+    <!-- /resources/views/auth.blade.php -->
+
+    <label for="email">Email address</label>
+
+    <input id="email" type="email" class="@error('email', 'login') is-invalid @enderror">
+
+    @error('email', 'login')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
@@ -838,21 +856,21 @@ The following example creates a `@datetime($var)` directive which formats a give
          *
          * @return void
          */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
         public function boot()
         {
             Blade::directive('datetime', function ($expression) {
                 return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -877,7 +895,7 @@ Programming a custom directive is sometimes more complex than necessary when def
     use Illuminate\Support\Facades\Blade;
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */

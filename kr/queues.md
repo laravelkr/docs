@@ -447,9 +447,9 @@ If you would like to dispatch a job immediately (synchronously), you may use the
 ### Job Chaining
 ### Job 체이닝
 
-Job chaining allows you to specify a list of queued jobs that should be run in sequence. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
+Job chaining allows you to specify a list of queued jobs that should be run in sequence after the primary job has executed successfully. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
 
-Job 체이닝은 여러분이 대기열에 입력된 job이 순차적으로 실행되도록 목록을 지정할 수 있게 해줍니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, 실행 가능한 모든 jobs 에 `withChain` 메소드를 사용하면 됩니다.
+Job 체이닝을 사용하면 기본 Job이 성공적으로 실행 된 후 순차적으로 실행되어야 하는 대기 Job 목록을 지정할 수 있습니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, 실행 가능한 모든 jobs 에 `withChain` 메소드를 사용하면 됩니다.
 
     ProcessPodcast::withChain([
         new OptimizePodcast,
@@ -545,7 +545,7 @@ job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnectio
     ProcessPodcast::dispatch($podcast)
                   ->onConnection('sqs')
                   ->onQueue('processing');
-                  
+
 Alternatively, you may specify the `connection` as a property on the job class:
 
 또는 작업 클래스에서 `connection`을 속성으로 지정할 수 있습니다.
@@ -928,9 +928,9 @@ Sometimes your queued jobs will fail. Don't worry, things don't always go as pla
 
     php artisan migrate
 
-Then, when running your [queue worker](#running-the-queue-worker), you should specify the maximum number of times a job should be attempted using the `--tries` switch on the `queue:work` command. If you do not specify a value for the `--tries` option, jobs will be attempted indefinitely:
+Then, when running your [queue worker](#running-the-queue-worker), you can specify the maximum number of times a job should be attempted using the `--tries` switch on the `queue:work` command. If you do not specify a value for the `--tries` option, jobs will only be attempted once:
 
-그런 뒤에, [queue worker](#running-the-queue-worker)가 실행될 때, `queue:listen` 명령어의 `--tries` 옵션을 사용하여 Job이 재시도 되어야 할 최대 횟수를 지정해야합니다. `--tries` 옵션값을 지정하지 않는다면, job은 무한정 계속 시도됩니다.
+그런 뒤에, [queue worker](#running-the-queue-worker)가 실행될 때, `queue:listen` 명령어의 `--tries` 옵션을 사용하여 Job이 재시도 되어야 할 최대 횟수를 지정할 수 있습니다. `--tries` 옵션값을 지정하지 않는다면, job은 한번만 다시 시도됩니다.
 
     php artisan queue:work redis --tries=3
 
@@ -1038,7 +1038,7 @@ Job이 실패한 경우에 호출될 이벤트를 등록하려면, `Queue::faili
         {
             //
         }
-        
+
         /**
          * Bootstrap any application services.
          *

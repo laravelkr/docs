@@ -663,7 +663,7 @@ The `firstOrNew` method, like `firstOrCreate` will attempt to locate a record in
     // Retrieve flight by name, or create it if it doesn't exist...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
 
-    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes..
+    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrCreate(
         ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']

@@ -336,10 +336,12 @@ Command  |  Description
 `$table->mediumInteger('votes');`  |  MEDIUMINT equivalent column.
 `$table->mediumText('description');`  |  MEDIUMTEXT equivalent column.
 `$table->morphs('taggable');`  |  Adds `taggable_id` UNSIGNED BIGINT and `taggable_type` VARCHAR equivalent columns.
+`$table->uuidMorphs('taggable');`  |  Adds `taggable_id` CHAR(36) and `taggable_type` VARCHAR(255) UUID equivalent columns.
 `$table->multiLineString('positions');`  |  MULTILINESTRING equivalent column.
 `$table->multiPoint('positions');`  |  MULTIPOINT equivalent column.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
 `$table->nullableMorphs('taggable');`  |  Adds nullable versions of `morphs()` columns.
+`$table->nullableUuidMorphs('taggable');`  |  Adds nullable versions of `uuidMorphs()` columns.
 `$table->nullableTimestamps();`  |  Alias of `timestamps()` method.
 `$table->point('position');`  |  POINT equivalent column.
 `$table->polygon('positions');`  |  POLYGON equivalent column.
@@ -397,10 +399,12 @@ Command  |  Description
 `$table->mediumInteger('votes');`  |  MEDIUMINT 컬럼.
 `$table->mediumText('description');`  |  MEDIUMTEXT 컬럼.
 `$table->morphs('taggable');`  |  UNSIGNED BIGINT 의 `taggable_id` 컬럼과 `taggable_type` VARCHAR 컬럼을 추가.
+`$table->uuidMorphs('taggable');`  |  `taggable_id` CHAR (36) 컬럼과 `taggable_type` VARCHAR (255) UUID 컬럼을 추가.
 `$table->multiLineString('positions');`  |  MULTILINESTRING 컬럼.
 `$table->multiPoint('positions');`  |  MULTIPOINT 컬럼.
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
-`$table->nullableMorphs('taggable');`  |  nullable (null 값이 허용되는) `morphs()` 컬럼 버전.
+`$table->nullableMorphs('taggable');`  |   `morphs()` 컬럼의 nullable (null 값이 허용되는) 버전.
+`$table->nullableUuidMorphs('taggable');`  |   `uuidMorphs()` 컬럼의 nullable (null 값이 허용되는) 버전.
 `$table->nullableTimestamps();`  |  `timestamps()` 의 별칭입니다.
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.

@@ -57,6 +57,8 @@
 - [토큰 스코프(범위)](#token-scopes)
     - [Defining Scopes](#defining-scopes)
     - [스코프 정의하기](#defining-scopes)
+    - [Default Scope](#default-scope)
+    - [기본 스코프](#default-scope)
     - [Assigning Scopes To Tokens](#assigning-scopes-to-tokens)
     - [토큰에 스코프 할당하기](#assigning-scopes-to-tokens)
     - [Checking Scopes](#checking-scopes)
@@ -310,6 +312,8 @@ By default, Passport issues long-lived access tokens that expire after one year.
         Passport::tokensExpireIn(now()->addDays(15));
 
         Passport::refreshTokensExpireIn(now()->addDays(30));
+
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
     }
 
 <a name="overriding-default-models"></a>
@@ -1115,7 +1119,7 @@ Once an access token authenticated request has entered your application, you may
 #### Additional Scope Methods
 #### 추가 스코프 메소드
 
-The `scopeIds` method will be return an array of all defined IDs / names:
+The `scopeIds` method will return an array of all defined IDs / names:
 
 `scopeIds` 메소드는 정의 된 모든 ID / 이름의 배열을 반환합니다.
 

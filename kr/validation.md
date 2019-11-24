@@ -1083,9 +1083,9 @@ The field under validation must be greater than or equal to the given _field_. T
 <a name="rule-image"></a>
 #### image
 
-The file under validation must be an image (jpeg, png, bmp, gif, or svg)
+The file under validation must be an image (jpeg, png, bmp, gif, svg, or webp)
 
-이미지 파일(jpeg, png, bmp, gif, svg)이어야 합니다.
+이미지 파일(jpeg, png, bmp, gif, svg 또는 webp)이어야 합니다.
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...

@@ -69,9 +69,9 @@ If you would like to remove the frontend scaffolding from your application, you 
 ## Writing CSS
 ## CSS 작성하기
 
-Laravel's `package.json` file includes the `bootstrap` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is provided as a good starting point for those who choose to use it.
+After installing the `laravel/ui` Composer package and [generating the frontend scaffolding](#introduction), Laravel's `package.json` file will include the `bootstrap` package to help you get started prototyping your application's frontend using Bootstrap. However, feel free to add or remove packages from the `package.json` file as needed for your own application. You are not required to use the Bootstrap framework to build your Laravel application - it is provided as a good starting point for those who choose to use it.
 
-라라벨의 `package.json` 파일은 부트스트랩을 사용하여 애플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap` 패키지를 포함하고 있습니다. 그렇지만 애플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 애플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 시작점을 제공하고 있을 뿐입니다.
+`laravel/ui` Composer 패키지와 [프론트 엔드 스캐 폴딩 생성](#introduction)을 설치 한 후, 라라벨의 `package.json` 파일은 부트스트랩을 사용하여 애플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap` 패키지를 포함하고 있습니다. 그렇지만 애플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 애플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 시작점을 제공하고 있을 뿐입니다.
 
 Before compiling your CSS, install your project's frontend dependencies using the [Node package manager (NPM)](https://www.npmjs.org):
 
@@ -85,9 +85,9 @@ Once the dependencies have been installed using `npm install`, you can compile y
 
     npm run dev
 
-The default `webpack.mix.js` included with Laravel will compile the `resources/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Mix](/docs/{{version}}/mix).
+The `webpack.mix.js` file included with Laravel's frontend scaffolding will compile the `resources/sass/app.scss` SASS file. This `app.scss` file imports a file of SASS variables and loads Bootstrap, which provides a good starting point for most applications. Feel free to customize the `app.scss` file however you wish or even use an entirely different pre-processor by [configuring Laravel Mix](/docs/{{version}}/mix).
 
-라라벨에 기본적으로 포함된 `webpack.mix.js`는 `resources/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 애플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 Mix에서 설정하여](/docs/{{version}}/mix) 사용할 수도 있습니다.
+라라벨에 프론트엔드 스캐폴딩에 포함된 `webpack.mix.js`는 `resources/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 애플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 Mix에서 설정하여](/docs/{{version}}/mix) 사용할 수도 있습니다.
 
 <a name="writing-javascript"></a>
 ## Writing JavaScript
@@ -99,9 +99,9 @@ All of the JavaScript dependencies required by your application can be found in 
 
     npm install
 
-> {tip} By default, the Laravel `package.json` file includes a few packages such as `vue` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
+> {tip} By default, the Laravel `package.json` file includes a few packages such as `lodash` and `axios` to help you get started building your JavaScript application. Feel free to add or remove from the `package.json` file as needed for your own application.
 
-> {tip} 기본적으로 라라벨의 `package.json` 파일은 자바스크립트 애플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 애플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
+> {tip} 기본적으로 라라벨의 `package.json` 파일은 자바스크립트 애플리케이션을 구성하는데 도움을 줄 수 있는`lodash` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 애플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
 
 Once the packages are installed, you can use the `npm run dev` command to [compile your assets](/docs/{{version}}/mix). Webpack is a module bundler for modern JavaScript applications. When you run the `npm run dev` command, Webpack will execute the instructions in your `webpack.mix.js` file:
 
@@ -121,18 +121,18 @@ By default, the Laravel `webpack.mix.js` file compiles your SASS and the `resour
 ### Writing Vue Components
 ### Vue 컴포넌트 작성하기
 
-By default, fresh Laravel applications contain an `ExampleComponent.vue` Vue component located in the `resources/js/components` directory. The `ExampleComponent.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
+When using the `laravel/ui` package to scaffold your frontend, an `ExampleComponent.vue` Vue component will be placed in the `resources/js/components` directory. The `ExampleComponent.vue` file is an example of a [single file Vue component](https://vuejs.org/guide/single-file-components) which defines its JavaScript and HTML template in the same file. Single file components provide a very convenient approach to building JavaScript driven applications. The example component is registered in your `app.js` file:
 
-기본적으로 새로 설치한 라라벨 애플리케이션은 `resources/js/components` 디렉토리에 `ExampleComponent.vue` 뷰 컴포넌트를 포함하고 있습니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다.
+`laravel/ui` 패키지를 사용하여 프론트엔드를 스캐폴딩하면 `ExampleComponent.vue` Vue 컴포넌트가 `resources/js/components` 디렉토리에 배치됩니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다.
 
     Vue.component(
         'example-component',
         require('./components/ExampleComponent.vue').default
     );
 
-To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `make:auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
+To use the component in your application, you may drop it into one of your HTML templates. For example, after running the `php artisan ui vue --auth` Artisan command to scaffold your application's authentication and registration screens, you could drop the component into the `home.blade.php` Blade template:
 
-애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플릿 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
+애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플릿 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `php artisan ui vue --auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
 
     @extends('layouts.app')
 

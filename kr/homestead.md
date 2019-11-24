@@ -13,6 +13,8 @@
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [Per Project Installation](#per-project-installation)
     - [프로젝트별 설치하기](#per-project-installation)
+    - [Installing Optional Features](#installing-optional-features)
+    - [선택적 기능 설치](#installing-optional-features)
     - [Aliases](#aliases)
     - [별칭 설정](#aliases)
 - [Daily Usage](#daily-usage)
@@ -181,9 +183,9 @@ If this command fails, make sure your Vagrant installation is up to date.
 
 이 명령어가 실패하면, Vagrant 설치가 최신버전인지 확인하십시오.
 
-> {note} Periodically Homestead will issue Alpha or Beta boxes for testing. These versions *will* interfere with the `vagrant box add` command. If you are having issues running this command you can safely skip this for now and the correct base box will be downloaded the first time you run `vagrant up`.
+> {note} Homestead periodically issues "alpha" / "beta" boxes for testing, which may interfere with the `vagrant box add` command. If you are having issues running `vagrant box add`, you may run the `vagrant up` command and the correct box will be downloaded when Vagrant attempts to start the virtual machine.
 
-> {note} Homestead는 정기적으로 테스트를 위해 알파 또는 베타 버전의 상자를 발행합니다. 이 버전들은 `vagrant box add` 명령을 *방해합니다*. 이 명령을 실행하는 데 문제가 있는 경우 안전하게 지금 이 단계를 건너뛰고 `vagrant up`을 처음 실행할 때 올바른 기본 상자가 다운로드됩니다.
+> {note} Homestead는 정기적으로 테스트를 위해 "알파" / "베타"박스를 발행하는데, 이로 인해 `vagrant box add` 명령이 방해받을 수 있습니다. `vagrant box add` 실행에 문제가 있는 경우 `vagrant up` 명령을 실행할 수 있으며 Vagrant가 가상 머신을 시작하려고 할 때 올바른 상자가 다운로드됩니다.
 
 #### Installing Homestead
 #### 홈스테드 설치하기
@@ -508,9 +510,9 @@ But, since you will probably need to SSH into your Homestead machine frequently,
 ### Connecting To Databases
 ### 데이터베이스 접속하기
 
-A `homestead` database is configured for both MySQL and PostgreSQL out of the box. For even more convenience, Laravel's `.env` file configures the framework to use this database out of the box.
+A `homestead` database is configured for both MySQL and PostgreSQL out of the box. To connect to your MySQL or PostgreSQL database from your host machine's database client, you should connect to `127.0.0.1` and port `33060` (MySQL) or `54320` (PostgreSQL). The username and password for both databases is `homestead` / `secret`.
 
-별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 PostgreSQL 가 설정되어 있습니다. 보다 편리하게 하기 위해 라라벨의 `.env` 파일의 설정이 프로임워크에서 별다른 작업 없이도 이 데이터베이스를 사용하도록 설정되어 있습니다.
+별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 PostgreSQL 가 설정되어 있습니다. 호스트 컴퓨터의 데이터베이스 클라이언트에서 MySQL 또는 PostgreSQL 데이터베이스에 연결하려면 `127.0.0.1` 및 포트 `33060` (MySQL) 또는 `54320` (PostgreSQL)에 연결해야합니다. 두 데이터베이스의 사용자 이름과 비밀번호는 `homestead` / `secret`입니다.
 
 To connect to your MySQL or PostgreSQL database from your host machine's database client, you should connect to `127.0.0.1` and port `33060` (MySQL) or `54320` (PostgreSQL). The username and password for both databases is `homestead` / `secret`.
 
@@ -809,6 +811,16 @@ In addition, you may use any of the supported PHP versions via the CLI:
     php7.2 artisan list
     php7.3 artisan list
 
+You may also update the default CLI version by issuing the following commands from within your Homestead virtual machine:
+
+Homestead 가상 머신에서 다음 명령을 실행하여 기본 CLI 버전을 업데이트 할 수도 있습니다.
+
+    php56
+    php70
+    php71
+    php72
+    php73
+
 <a name="web-servers"></a>
 ### Web Servers
 ### 웹서버
@@ -992,9 +1004,9 @@ Homestead를 팀 환경에서 사용할 때 개인 개발 스타일에 더 잘 �
 ## Updating Homestead
 ## 홈스테드 업데이트하기
 
-Before you begin updating Homestead ensure you run `vagrant destroy` to remove your current virtual machine. 
+Before you begin updating Homestead ensure you have removed your current virtual machine by running the following command in your Homestead directory: 
 
-Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 가상 머신을 제거하십시오. 
+Homestead 업데이트를 시작하기 전에 Homestead 디렉토리에서 다음 명령을 실행하여 현재 가상 머신을 제거했는지 확인하십시오. 
 
     vagrant destroy
 
@@ -1005,7 +1017,7 @@ Next, you need to update the Homestead source code. If you cloned the repository
     git fetch
 
     git pull origin release
-    
+
 These commands pull the latest Homestead code from the GitHub repository, fetches the latest tags, and then checks out the latest tagged release. You can find the latest stable release version on the [GitHub releases page](https://github.com/laravel/homestead/releases).
 
 이 명령은 Homestead 코드를 GitHub 저장소에서 가져 와서 최신 태그를 가져온 다음 최신 태그 릴리스를 체크 아웃합니다. 최신 안정 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾을 수 있습니다.
@@ -1022,9 +1034,9 @@ Then, you should update the Vagrant box using the `vagrant box update` command:
 
     vagrant box update
 
-Finally, you will need to destroy and regenerate your Homestead box to utilize the latest Vagrant installation. To accomplish this, run the following commands in your Homestead directory:
+Finally, you will need to regenerate your Homestead box to utilize the latest Vagrant installation:
 
-마지막으로 Homestead 박스를 제거하고 재생성하여 최신 Vagrant 설치를 활용해야합니다. 이를 수행하려면 Homestead 디렉토리에서 다음 명령을 실행하십시오.
+마지막으로, 최신 Vagrant를 설치하려면 Homestead 박스를 재생성해야합니다.
 
     vagrant destroy
 

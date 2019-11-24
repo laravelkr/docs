@@ -29,8 +29,6 @@
     - [마크다운으로 메세지 작성하기](#writing-markdown-messages)
     - [Customizing The Components](#customizing-the-components)
     - [컴포넌트 커스터마이징](#customizing-the-components)
-- [Previewing Mailables In The Browser](#previewing-mailables-in-the-browser)
-- [브라우저에서 Mailables 미리보기](#previewing-mailables-in-the-browser)
 - [Sending Mail](#sending-mail)
 - [메일 발송](#sending-mail)
     - [Queueing Mail](#queueing-mail)
@@ -221,7 +219,7 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
 #### Plain Text Emails
 #### 텍스트 전용 이메일
 
-If you would like to define a plain-text version of your email, you may use the `text` method. Like the `view` method, the `text` method accepts a template name which will be used to render the contents of the email. You are free to define both a HTML and plain-text version of your message:
+If you would like to define a plain-text version of your email, you may use the `text` method. Like the `view` method, the `text` method accepts a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message:
 
 이메일을 순수 텍스트 버전으로 정의하고자 한다면, `text` 메소드를 사용하면 됩니다. `view` 메소드와 같이 `text` 메소드는 이메일의 컨텐츠를 렌더링하는데 사용하게될 템플릿의 이름을 인자로 전달받습니다. 이메일 메세지를 HTML 과 순수 텍스트 버전 어느것으로도 정의할 수 있습니다.
 
@@ -622,7 +620,7 @@ You may export all of the Markdown mail components to your own application for c
 
     php artisan vendor:publish --tag=laravel-mail
 
-This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain a `html` and a `text` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
+This command will publish the Markdown mail components to the `resources/views/vendor/mail` directory. The `mail` directory will contain an `html` and a `text` directory, each containing their respective representations of every available component. You are free to customize these components however you like.
 
 이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `text` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. 원한다면 이 컴포넌트를 커스터마이징 할 수 있습니다.
 
@@ -633,23 +631,13 @@ After exporting the components, the `resources/views/vendor/mail/html/themes` di
 
 컴포넌트를 내보내기(export) 한 이후에, `resources/views/vendor/mail/html/themes` 디렉토리를 보면 `default.css` 파일을 확인할 수 있습니다. 이 파일에서 CSS를 커스터마이징 할 수 있으며, 마크다운 메일 메세지의 HTML 표현에서 스타일이 자동으로 적용됩니다.
 
-> {tip} If you would like to build an entirely new theme for the Markdown components, write a new CSS file within the `html/themes` directory and change the `theme` option of your `mail` configuration file.
+If you would like to build an entirely new theme for Laravel's Markdown components, you may place a CSS file within the `html/themes` directory. After naming and saving your CSS file, update the `theme` option of the `mail` configuration file to match the name of your new theme.
 
-> {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
+Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축하려면 `html/themes` 디렉토리에 CSS 파일을 배치 할 수 있습니다. CSS 파일의 이름을 지정하고 저장 한 후, `mail` 컴포넌트의 `theme` 옵션을 새 테마의 이름과 같도록 변경하십시오.
 
-<a name="previewing-mailables-in-the-browser"></a>
-## Previewing Mailables In The Browser
-## 브라우저에서 Mailables 미리보기
+To customize the theme for an individual mailable, you may set the `$theme` property of the mailable class to the name of the theme that should be used when sending that mailable.
 
-When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
-
-mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 결과를 미리볼 수 있는 것은 빠르고 편리한 방법입니다. 이런 이유로, 라라벨은 라우트 클로저나 컨트롤러에서 mailable 을 바로 반환할 수 있게 허용하고 있습니다. mailable 이 반환되면, 브라우저에서 보여 질 수 있도록 렌더링 되며, 실제 이메일이 어떤 형태로 보여지게 될지 빠르게 확인할 수 있습니다.
-
-    Route::get('/mailable', function () {
-        $invoice = App\Invoice::find(1);
-
-        return new App\Mail\InvoicePaid($invoice);
-    });
+개별 mailable에 대한 테마를 커스텀하기 위해 mailable 클래스의 `$theme` 속성을 해당 mailable을 보낼 때 사용해야하는 테마 이름으로 설정할 수 있습니다.
 
 <a name="sending-mail"></a>
 ## Sending Mail

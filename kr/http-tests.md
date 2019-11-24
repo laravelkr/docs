@@ -554,6 +554,15 @@ response-응답에 지정된 경로와 지정된 데이터가 포함되어 있�
 
     $response->assertJsonPath($path, array $data, $strict = false);
 
+<a name="assert-json-structure"></a>
+#### assertJsonStructure
+
+Assert that the response has a given JSON structure:
+
+response-응답에 지정된 JSON 구조가 있는지 확인:
+
+    $response->assertJsonStructure(array $structure);
+
 <a name="assert-json-validation-errors"></a>
 #### assertJsonValidationErrors
 
@@ -715,7 +724,7 @@ Assert that the session has no errors for the given keys:
 세션에 주어진 키에 대해 오류가 없는 지 확인.
 
     $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
-    
+
 <a name="assert-session-missing"></a>
 #### assertSessionMissing
 

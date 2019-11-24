@@ -214,8 +214,8 @@ Of course, when using the `Gate::authorize` method to throw an `AuthorizationExc
     // The action is authorized...
 
 <a name="intercepting-gate-checks"></a>
-#### Intercepting Gate Checks
-#### Gate 체크 로직의 후킹
+### Intercepting Gate Checks
+### Gate 체크 로직의 후킹
 
 Sometimes, you may wish to grant all abilities to a specific user. You may use the `before` method to define a callback that is run before all other authorization checks:
 
@@ -524,7 +524,7 @@ If a [policy is registered](#registering-policies) for the given model, the `can
 #### Actions That Don't Require Models
 #### 모델을 인자로 전달 받지 않는 액션
 
-Remenber, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the `can` method. The class name will be used to determine which policy to use when authorizing the action:
+Remember, some actions like `create` may not require a model instance. In these situations, you may pass a class name to the `can` method. The class name will be used to determine which policy to use when authorizing the action:
 
 이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `can` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다.
 

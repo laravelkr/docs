@@ -307,7 +307,7 @@ You may clear the entire cache using the `flush` method:
 ### Atomic Locks
 ### 원자 잠금장치(Atomic-locks)
 
-> {note} To utilize this feature, your application must be using the `memcached`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+> {note} To utilize this feature, your application must be using the `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
 > {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
@@ -348,7 +348,7 @@ If the lock is not available at the moment you request it, you may instruct Lara
     } catch (LockTimeoutException $e) {
         // Unable to acquire lock...
     } finally {
-             optional($lock)->release();
+         optional($lock)->release();
     }
 
     Cache::lock('foo', 10)->block(5, function () {

@@ -214,15 +214,20 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 <a name="method-array-add"></a>
 #### `Arr::add()` {#collection-method .first-collection-method}
 
-The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array:
+The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
-`Arr::add` 메소드는 배열 내에 키가 존재하지 않는 경우 주어진 key/value 쌍을 배열에 추가합니다.
+`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`인 경우 주어진 key/value 쌍을 배열에 추가합니다.
 
     use Illuminate\Support\Arr;
 
     $array = Arr::add(['name' => 'Desk'], 'price', 100);
 
     // ['name' => 'Desk', 'price' => 100]
+
+    $array = Arr::add(['name' => 'Desk', 'price' => null], 'price', 100);
+
+    // ['name' => 'Desk', 'price' => 100]
+
 
 <a name="method-array-collapse"></a>
 #### `Arr::collapse()` {#collection-method}
@@ -355,6 +360,8 @@ The `Arr::get` method retrieves a value from a deeply nested array using "dot" n
 The `Arr::get` method also accepts a default value, which will be returned if the specific key is not found:
 
 `Arr::get` 메소드는 특정 키를 찾지 못한 경우 반환되는 기본값을 지정할 수도 있습니다.
+
+    use Illuminate\Support\Arr;
 
     $discount = Arr::get($array, 'products.desk.discount', 0);
 
@@ -772,9 +779,9 @@ This function also accepts wildcards and will set values on the target according
         ]
     */
 
-By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the third argument:
+By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
 
-기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만, 새로운 값을 설정하고자 한다면, 세번째 인자로 `false`를 전달하면 됩니다.
+기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만, 새로운 값을 설정하고자 한다면, 네번째 인자로 `false`를 전달하면 됩니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -1025,6 +1032,8 @@ The `Str::contains` method determines if the given string contains the given val
 
 `Str::contains` 메소드는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
 
+    use Illuminate\Support\Str;
+
     $contains = Str::contains('This is my name', 'my');
 
     // true
@@ -1059,6 +1068,8 @@ The `Str::containsAll` method determines if the given string contains all array 
 The `Str::endsWith` method determines if the given string ends with the given value:
 
 `Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다.
+
+    use Illuminate\Support\Str;
 
     $result = Str::endsWith('This is my name', 'name');
 

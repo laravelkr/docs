@@ -106,6 +106,7 @@ Every resource class defines a `toArray` method which returns the array of attri
         return new UserResource(User::find(1));
     });
 
+<a name="resource-collections"></a>
 ### Resource Collections
 ### 리소스 컬렉션
 
@@ -352,7 +353,7 @@ Like singular resources, resource collections may be returned directly from rout
 
 단일 리소스와 같이, 리소스 컬렉션은 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
-    use App\Http\Resources\User as UserResource;
+    use App\Http\Resources\UserCollection;
     use App\User;
 
     Route::get('/users', function () {
@@ -390,8 +391,8 @@ If you would like to disable the wrapping of the outer-most resource, you may us
 
     namespace App\Providers;
 
-    use App\Http\Resources\User as UserResource;
-    use App\User;
+    use Illuminate\Http\Resources\Json\Resource;
+    use Illuminate\Support\ServiceProvider;
 
     class AppServiceProvider extends ServiceProvider
     {

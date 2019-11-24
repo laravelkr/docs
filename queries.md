@@ -196,7 +196,7 @@
 
 #### `selectRaw`
 
-`selectRaw` 메소드는 `select(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
+`selectRaw` 메소드는 `addSelect(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])

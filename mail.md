@@ -14,7 +14,6 @@
     - [마크다운 Mailable 생성하기](#generating-markdown-mailables)
     - [마크다운으로 메세지 작성하기](#writing-markdown-messages)
     - [컴포넌트 커스터마이징](#customizing-the-components)
-- [브라우저에서 Mailables 미리보기](#previewing-mailables-in-the-browser)
 - [메일 발송](#sending-mail)
     - [큐를 통한 메일 처리](#queueing-mail)
 - [Mailables 객체 렌더링](#rendering-mailables)
@@ -496,18 +495,9 @@ mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더�
 
 컴포넌트를 내보내기(export) 한 이후에, `resources/views/vendor/mail/html/themes` 디렉토리를 보면 `default.css` 파일을 확인할 수 있습니다. 이 파일에서 CSS를 커스터마이징 할 수 있으며, 마크다운 메일 메세지의 HTML 표현에서 스타일이 자동으로 적용됩니다.
 
-> {tip} 완전히 새로운 마크다운 컴포넌트 테마를 생성하려면 `html/themes` 디렉토리에 새로운 CSS 파일을 작성하고, `mail` 설정 파일의 `theme` 옵션을 변경하면 됩니다.
+Laravel의 Markdown 컴포넌트에 대해 완전히 새로운 테마를 구축하려면 `html/themes` 디렉토리에 CSS 파일을 배치 할 수 있습니다. CSS 파일의 이름을 지정하고 저장 한 후, `mail` 컴포넌트의 `theme` 옵션을 새 테마의 이름과 같도록 변경하십시오.
 
-<a name="previewing-mailables-in-the-browser"></a>
-## 브라우저에서 Mailables 미리보기
-
-mailable의 템플릿을 구성할 때, 일반적인 블레이드 템플릿과 같이 브라우저에서 렌더링된 mailable 결과를 미리볼 수 있는 것은 빠르고 편리한 방법입니다. 이런 이유로, 라라벨은 라우트 클로저나 컨트롤러에서 mailable 을 바로 반환할 수 있게 허용하고 있습니다. mailable 이 반환되면, 브라우저에서 보여 질 수 있도록 렌더링 되며, 실제 이메일이 어떤 형태로 보여지게 될지 빠르게 확인할 수 있습니다.
-
-    Route::get('/mailable', function () {
-        $invoice = App\Invoice::find(1);
-
-        return new App\Mail\InvoicePaid($invoice);
-    });
+개별 mailable에 대한 테마를 커스텀하기 위해 mailable 클래스의 `$theme` 속성을 해당 mailable을 보낼 때 사용해야하는 테마 이름으로 설정할 수 있습니다.
 
 <a name="sending-mail"></a>
 ## 메일 발송하기

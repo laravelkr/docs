@@ -197,13 +197,13 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [슬랙](https://slack.com
 <a name="discord"></a>
 ### 디스코드
 
-Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다. `@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다.
+Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://discord.com)를 통해서 알림을 보내는 작업을 지원합니다.`@discord` 지시어는 디스코드 Hook URL 과 메시지를 수신합니다. 서버 설정에서 "Webhook" 을 만들고 웹훅을 게시할 채널을 선택할 수 있습니다. 여러분은 전체 웹훅 URL 을 `@discord` 지시어에 전달하면 됩니다.
 
     @finished
         @discord('discord-webhook-url')
     @endfinished
 
-또한 특정 작업에 대해 Discord에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@discord` 지시문을 추가하면됩니다.
+또한 특정 작업에 대해 Discord에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@discord` 지시문을 추가하면됩니다 :
 
     @task('deploy', ['on' => 'web', 'confirm' => true])
         cd site

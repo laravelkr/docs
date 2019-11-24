@@ -76,6 +76,7 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
         return new UserResource(User::find(1));
     });
 
+<a name="resource-collections"></a>
 ### 리소스 컬렉션
 
 리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다.
@@ -284,7 +285,7 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 단일 리소스와 같이, 리소스 컬렉션은 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
-    use App\Http\Resources\User as UserResource;
+    use App\Http\Resources\UserCollection;
     use App\User;
 
     Route::get('/users', function () {
@@ -317,8 +318,8 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
     namespace App\Providers;
 
-    use App\Http\Resources\User as UserResource;
-    use App\User;
+    use Illuminate\Http\Resources\Json\Resource;
+    use Illuminate\Support\ServiceProvider;
 
     class AppServiceProvider extends ServiceProvider
     {

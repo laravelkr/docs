@@ -816,7 +816,7 @@ PHP의 `filter_var` 함수를 사용하는 `filter` validator는 라라벨에 �
 <a name="rule-image"></a>
 #### image
 
-이미지 파일(jpeg, png, bmp, gif, svg)이어야 합니다.
+이미지 파일(jpeg, png, bmp, gif, svg 또는 webp)이어야 합니다.
 
 <a name="rule-in"></a>
 #### in:_foo_,_bar_,...

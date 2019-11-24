@@ -674,9 +674,74 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
         }
     }
 
+#### 관계-Relationship 조회하기
+
+데이터베이스 테이블과 모델이 정의되면 관계-Relationship를 통해 모델에 접근 할 수 있습니다. 예를 들어, 게시물의 모든 댓글에 접근하기 위해 `comments` 동적 속성을 사용할 수 있습니다.
+
+    $post = App\Post::find(1);
+
+    foreach ($post->comments as $comment) {
+        //
+    }
+
+`morphTo`에 대한 호출을 수행하는 메소드의 이름에 액세스하여 다형성 모델에서 다형성 관계의 소유자를 검색 할 수도 있습니다. 지금의 상황이라면 `Comment` 모델의 `commentable` 메소드입니다. 따라서 해당 메소드를 동적 속성으로 액세스합니다.
+
+    $comment = App\Comment::find(1);
+
+    $commentable = $comment->commentable;
+
+`Comment` 모델의 `commentable` 관계는 댓글을 소유한 모델 타입에 따라 `Post` 또는 `Video` 인스턴스를 반환합니다.
+
+(역자주: 말이 어렵지만 위의 섹션에서 모델을 정의한 코드만 보면 `$comment->commentable()`만 정의해뒀지만 `$comment->commentable`로 사용할 경우 라라벨이 자동으로 해당 댓글의 부모가 뭔지 찾아서 그에 맞는 객체를 가져와 준다는 의미입니다)
+
+<a name="many-to-many-polymorphic-relations"></a>
+### \*:*(다대다) (다형성)
+
+#### 테이블 구조
+
+다대다 다형성 관계는 `morphOne`과 `morphMany` 관계보다 약간 더 복잡합니다. 예를 들어 블로그에서 `Post`및 `Video`모델은 `Tag`모델과 다형성 관계를 공유 할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오에서 공유되는 고유한-unique 태그로 구성된 하나의 목록을 가질 수 있습니다. 먼저 테이블 구조를 살펴 보겠습니다.
+
+    posts
+        id - integer
+        name - string
+
+    videos
+        id - integer
+        name - string
+
+    tags
+        id - integer
+        name - string
+
+    taggables
+        tag_id - integer
+        taggable_id - integer
+        taggable_type - string
+
+#### 모델 구조
+
+다음으로, 모델의 관계를 정의해보겠습니다. `Post` 및 `Video` 모델에는 기본 Eloquent 클래스에서 `morphToMany` 메소드를 호출하는 `tags` 메소드를 추가합니다.
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Post extends Model
+    {
+        /**
+         * Get all of the tags for the post.
+         */
+        public function tags()
+        {
+            return $this->morphToMany('App\Tag', 'taggable');
+        }
+    }
+
 #### 역관계 정의하기
 
-다음, `Tag` 모델에서 관련된 각 모델들을 위해 메소드를 정의해야 합니다. 이 예제에서는 `posts` 메소드와 `videos` 메소드를 정의하겠습니다.
+다음으로, `Tag` 모델에서 관련된 각 모델들을 위해 메소드를 정의해야 합니다. 이 예제에서는 `posts` 메소드와 `videos` 메소드를 정의하겠습니다.
 
     <?php
 
@@ -778,7 +843,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
             ->orWhere('votes', '>=', 100)
             ->get();
 
-    // select * from posts 
+    // select * from posts
     // where user_id = ? and active = 1 or votes >= 100
 
 대부분의 상황에서 [제약조건 그룹](/docs/{{version}}/queries#parameter-grouping)을 사용하여 괄호 사이에 조건부 검사를 논리적으로 그룹화합니다.
@@ -792,7 +857,7 @@ relationship-관계를 위한 테이블 구조를 살펴보았으니 이제 `Cou
             })
             ->get();
 
-    // select * from posts 
+    // select * from posts
     // where user_id = ? and (active = 1 or votes >= 100)
 
 <a name="relationship-methods-vs-dynamic-properties"></a>
@@ -872,8 +937,8 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
     // Retrieve comments associated to posts or videos with a title like foo%...
     $comments = App\Comment::whereHasMorph(
-        'commentable', 
-        ['App\Post', 'App\Video'], 
+        'commentable',
+        ['App\Post', 'App\Video'],
         function (Builder $query) {
             $query->where('title', 'like', 'foo%');
         }
@@ -881,23 +946,23 @@ Eloquent 관계 쿼리에 제한을 추가할 필요가 없다면 속성처럼 �
 
     // Retrieve comments associated to posts with a title not like foo%...
     $comments = App\Comment::whereDoesntHaveMorph(
-        'commentable', 
-        'App\Post', 
+        'commentable',
+        'App\Post',
         function (Builder $query) {
             $query->where('title', 'like', 'foo%');
         }
-    )->get();    
+    )->get();
 
 `$type` 파라미터를 사용하여 관련 모델에 따라 다른 제약 조건을 추가 할 수 있습니다.
 
     use Illuminate\Database\Eloquent\Builder;
 
     $comments = App\Comment::whereHasMorph(
-        'commentable', 
-        ['App\Post', 'App\Video'], 
+        'commentable',
+        ['App\Post', 'App\Video'],
         function (Builder $query, $type) {
             $query->where('title', 'like', 'foo%');
-    
+
             if ($type === 'App\Post') {
                 $query->orWhere('content', 'like', 'foo%');
             }

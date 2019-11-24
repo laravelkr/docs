@@ -42,6 +42,7 @@
 `single` | 하나의 파일이나 경로 기반 로거 채널(`StreamHandler`)
 `daily` | Monolog 드라이버를 기반으로 한 일별 로테이션을 하는 `RotatingFileHandler`
 `slack` | Monolog 드라이버를 기반으로 한 `SlackWebhookHandler`
+`papertrail` | Monolog 드라이버를 기반으로 한 `SyslogUdpHandler`
 `syslog` | Monolog 드라이버를 기반으로 한 `SyslogHandler`
 `errorlog` | Monolog 드라이버를 기반으로한 `ErrorLogHandler`
 `monolog` | 지원가능한 Monolog 핸들러를 사용하는 Molog 팩토리 드라이버
@@ -59,6 +60,9 @@
 `permission`| 로그 파일의 사용 권한 | `0644`
 `locking`| 기록하기 전에 로그 파일을 잠그십시오. | `거짓`
 
+#### Papertrail 채널 설정하기
+
+`papertrail` 채널에는 `url` 및 `port` 설정 옵션이 필요합니다. [Papertrail](https://help.papertrailapp.com/kb/configuration/configuring-centralized-logging-from-php-apps/#send-events-from-php-app)에서 이 값을 얻을 수 있습니다.
 
 #### 슬랙 채널 설정하기
 

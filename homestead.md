@@ -6,6 +6,7 @@
     - [홈스테드 설정](#configuring-homestead)
     - [Vagrant Box 구동하기](#launching-the-vagrant-box)
     - [프로젝트별 설치하기](#per-project-installation)
+    - [선택적 기능 설치](#installing-optional-features)
     - [별칭 설정](#aliases)
 - [사용 방법](#daily-usage)
     - [어디에서나 홈스테드 엑세스하기](#accessing-homestead-globally)
@@ -122,7 +123,7 @@ VirtualBox / VMware 그리고 Vagrant 가 설치되었다면, 터미널에서 �
 
 이 명령어가 실패하면, Vagrant 설치가 최신버전인지 확인하십시오.
 
-> {note} Homestead는 정기적으로 테스트를 위해 알파 또는 베타 버전의 상자를 발행합니다. 이 버전들은 `vagrant box add` 명령을 *방해합니다*. 이 명령을 실행하는 데 문제가 있는 경우 안전하게 지금 이 단계를 건너뛰고 `vagrant up`을 처음 실행할 때 올바른 기본 상자가 다운로드됩니다.
+> {note} Homestead는 정기적으로 테스트를 위해 "알파" / "베타"박스를 발행하는데, 이로 인해 `vagrant box add` 명령이 방해받을 수 있습니다. `vagrant box add` 실행에 문제가 있는 경우 `vagrant up` 명령을 실행할 수 있으며 Vagrant가 가상 머신을 시작하려고 할 때 올바른 상자가 다운로드됩니다.
 
 #### 홈스테드 설치하기
 
@@ -291,7 +292,7 @@ MariaDB를 활성화하면 MySQL이 제거되고 MariaDB가 설치됩니다. Mar
 
 #### Elasticsearch
 
-Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본 설치는 `homestead`라는 이름으로 클러스터가 생성됩니다. Elasticsearch에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch에 할당한 것의 두배 이상의 메모리가 있는지 확인하십시오.
+Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메이저 버전 또는 (major.minor.patch) 형태의 정확한 버전을 지정하면 됩니다. 기본 설치는 'homestead'라는 이름으로 클러스터가 생성됩니다. Elasticsearch에 운영체제 메모리의 절반 이상을 할당하면 안됩니다. 따라서 홈스테드 머신에 Elasticsearch에 할당한 것의 두배 이상의 메모리가 있는지 확인하십시오.
 
 > {tip} 관련 설정을 변경하려면 [Elasticsearch 매뉴얼](https://www.elastic.co/guide/en/elasticsearch/reference/current)을 참고하십시오.
 
@@ -352,7 +353,7 @@ Elasticsearch의 지원 버전을 지정할 수 있습니다. 이 버전은 메�
 <a name="connecting-to-databases"></a>
 ### 데이터베이스 접속하기
 
-별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 PostgreSQL 가 설정되어 있습니다. 보다 편리하게 하기 위해 라라벨의 `.env` 파일의 설정이 프로임워크에서 별다른 작업 없이도 이 데이터베이스를 사용하도록 설정되어 있습니다.
+별다른 설정 없이도 `homestead` 데이터베이스는 MySQL과 PostgreSQL 가 설정되어 있습니다. 호스트 컴퓨터의 데이터베이스 클라이언트에서 MySQL 또는 PostgreSQL 데이터베이스에 연결하려면 `127.0.0.1` 및 포트 `33060` (MySQL) 또는 `54320` (PostgreSQL)에 연결해야합니다. 두 데이터베이스의 사용자 이름과 비밀번호는 `homestead` / `secret`입니다.
 
 데이터베이스 클라이언트를 통해서 MySQL 또는 PostgreSQL 데이터베이스에 접속하려면 `127.0.0.1` 의 `33060` (MySQL) 또는 `54320` (PostgreSQL) 포트에 연결하면 됩니다. 데이터베이스 사용자 이름과 암호는 모두 `homestead` / `secret` 입니다.
 
@@ -564,6 +565,14 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
     php7.2 artisan list
     php7.3 artisan list
 
+Homestead 가상 머신에서 다음 명령을 실행하여 기본 CLI 버전을 업데이트 할 수도 있습니다.
+
+    php56
+    php70
+    php71
+    php72
+    php73
+
 <a name="web-servers"></a>
 ### 웹서버
 
@@ -687,7 +696,7 @@ Homestead를 팀 환경에서 사용할 때 개인 개발 스타일에 더 잘 �
 <a name="updating-homestead"></a>
 ## 홈스테드 업데이트하기
 
-Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 가상 머신을 제거하십시오. 
+Homestead 업데이트를 시작하기 전에 Homestead 디렉토리에서 다음 명령을 실행하여 현재 가상 머신을 제거했는지 확인하십시오. 
 
     vagrant destroy
 
@@ -707,7 +716,7 @@ Homestead를 업데이트하기 전에 `vagrant destroy`를 실행하여 현재 
 
     vagrant box update
 
-마지막으로 Homestead 박스를 제거하고 재생성하여 최신 Vagrant 설치를 활용해야합니다. 이를 수행하려면 Homestead 디렉토리에서 다음 명령을 실행하십시오.
+마지막으로, 최신 Vagrant를 설치하려면 Homestead 박스를 재생성해야합니다.
 
     vagrant destroy
 

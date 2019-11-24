@@ -363,20 +363,24 @@
 `countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다.
 
     $collection = collect([1, 2, 2, 2, 3]);
-    
-    $collection->countBy();
-    
-    // collect([1 => 1, 2 => 3, 3 => 1])
+
+    $counted = $collection->countBy();
+
+    $counted->all();
+
+    // [1 => 1, 2 => 3, 3 => 1]
 
 `countBy` 메소드에 특정 값으로 모든 아이템을 계산하는 콜백을 인자로 전달할 수도 있습니다.
 
     $collection = collect(['alice@gmail.com', 'bob@yahoo.com', 'carlos@gmail.com']);
 
-    $collection->countBy(function ($email) {
+    $counted = $collection->countBy(function ($email) {
         return substr(strrchr($email, "@"), 1);
     });
 
-    // collect(['gmail.com' => 2, 'yahoo.com' => 1])
+    $counted->all();
+
+    // ['gmail.com' => 2, 'yahoo.com' => 1]
 
 <a name="method-crossjoin"></a>
 #### `crossJoin()` {#collection-method}
@@ -982,6 +986,17 @@
     collect([])->isNotEmpty();
 
     // false
+
+<a name="method-join"></a>
+#### `join()` {#collection-method}
+
+`join` 메소드는 컬렉션의 값을 지정한 문자열로 합칩니다.
+
+    collect(['a', 'b', 'c'])->join(', '); // 'a, b, c'
+    collect(['a', 'b', 'c'])->join(', ', ', and '); // 'a, b, and c'
+    collect(['a', 'b'])->join(', ', ' and '); // 'a and b'
+    collect(['a'])->join(', ', ' and '); // 'a'
+    collect([])->join(', ', ' and '); // ''
 
 <a name="method-keyby"></a>
 #### `keyBy()` {#collection-method}
@@ -2082,6 +2097,7 @@
 [`whenNotEmpty`](#method-whennotempty) 메소드의 별칭입니다.
 
 <a name="method-unlessnotempty"></a>
+#### `unlessNotEmpty()` {#collection-method}
 
 [`whenEmpty`](#method-whenempty) 메소드의 별칭입니다.
 

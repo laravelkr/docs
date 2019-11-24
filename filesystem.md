@@ -92,17 +92,17 @@ S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 �
 라라벨의 통합 Flysystem은 FTP를 통해서도 원활하게 동작합니다; 하지만 `filesystems.php` 설정 파일에는 기본적으로 이 설정 내용이 포함되어 있지 않습니다. 만약 FTP 파일 시스템 설정이 필요하다면, 다음과 같은 예제를 참고할 수 있습니다.
 
     'ftp' => [
-        'driver'   => 'ftp',
-        'host'     => 'ftp.example.com',
+        'driver' => 'ftp',
+        'host' => 'ftp.example.com',
         'username' => 'your-username',
         'password' => 'your-password',
 
         // Optional FTP Settings...
-        // 'port'     => 21,
-        // 'root'     => '',
-        // 'passive'  => true,
-        // 'ssl'      => true,
-        // 'timeout'  => 30,
+        // 'port' => 21,
+        // 'root' => '',
+        // 'passive' => true,
+        // 'ssl' => true,
+        // 'timeout' => 30,
     ],
 
 #### SFTP 드라이버 설정하기

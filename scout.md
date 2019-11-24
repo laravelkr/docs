@@ -137,7 +137,7 @@ Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보
 <a name="configuring-the-model-id"></a>
 ### 모델 ID 설정하기
 
-기본적으로 Scout-스카우트는 모델의 primary 키를 검색 인덱스에 저장되는 고유한 ID로 사용합니다. 이 동작을 커스터마이징 하고자 한다면, 모들의 `getScoutKey` 메소드를 오버라이드 하면 됩니다.
+기본적으로 Scout-스카우트는 모델의 primary 키를 검색 인덱스에 저장되는 고유한 ID로 사용합니다. 이 동작을 커스터마이징 하고자 한다면, 모들의 `getScoutKey`와 `getScoutKeyName` 메소드를 오버라이드 하면 됩니다.
 
     <?php
 

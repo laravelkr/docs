@@ -127,7 +127,7 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
 <a name="closure-commands"></a>
 ### 클로저 명령
 
-클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의`commands` 함수 내에서 Laravel은`routes/console.php` 파일을 로드합니다.
+클로저 기반 명령은 콘솔 명령을 클래스로 정의하는 대신에 사용할 수 있습니다. 라우트 클로저가 컨트롤러의 대안 인 것과 같은 방식으로 명령 클래스에 대한 명령 클로저를 생각해보십시오. `app/Console/Kernel.php` 파일의 `commands` 함수 내에서 Laravel은 `routes/console.php` 파일을 로드합니다.
 
     /**
      * Register the Closure based commands for the application.

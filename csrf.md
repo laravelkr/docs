@@ -71,8 +71,8 @@ POST 파라미터로 넘어오는 CSRF 토큰을 체크하는 것에 더하여, 
 <a name="csrf-x-xsrf-token"></a>
 ## X-XSRF-TOKEN
 
-라라벨은 현재의 CSRF 토큰을 프레임워크가 생성하는 모든 요청에 포함되어 있는 `XSRF-TOKEN` 쿠키에 저장합니다. `X-XSRF-TOKEN` request-요청 헤더를 세팅하기 위해 쿠키 값을 사용할 수 있습니다.
+라라벨은 현재의 CSRF 토큰을 프레임워크가 생성하는 모든 요청에 포함되어 있는 암호화 된 `XSRF-TOKEN` 쿠키에 저장합니다. `X-XSRF-TOKEN` request-요청 헤더를 세팅하기 위해 쿠키 값을 사용할 수 있습니다.
 
-이 쿠키는 주로 편의를 위해 보내집니다. 왜냐하면 Angular 와 Axios 같은 자바스크립트 프레임워크나 라이브러리는 그 값을 `X-XSRF-TOKEN` 헤더에 자동으로 설정하기 때문에 주로 편의상 발송됩니다.
+이 쿠키는 Angular 및 Axios와 같은 일부 JavaScript 프레임 워크 및 라이브러리가 동일한 출처 요청의`X-XSRF-TOKEN` 헤더에 자동으로 값을 배치하기 때문에 편의상 주로 전송됩니다.
 
-> {tip} 기본적으로 `/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.
+> {tip} 기본적으로 `resources/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.

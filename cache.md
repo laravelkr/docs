@@ -245,7 +245,7 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
     } catch (LockTimeoutException $e) {
         // Unable to acquire lock...
     } finally {
-             optional($lock)->release();
+         optional($lock)->release();
     }
 
     Cache::lock('foo', 10)->block(5, function () {

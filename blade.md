@@ -433,6 +433,8 @@ Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 �
 `$loop->count`  |  반복되는 배열의 총 아이템 수.
 `$loop->first`  |  현재 반복문의 첫번째 인지 확인.
 `$loop->last`  |  현재 반복문의 마지막 인지 확인.
+`$loop->even`  |  현재 반복문이 짝수번째 인지 확인.
+`$loop->odd`  |  현재 반복문이 홀수번째 인지 확인.
 `$loop->depth`  |  중첩된 반복문의 깊이.
 `$loop->parent`  |  반복문이 중첩된 경우 부모의 루프 변수.
 
@@ -491,6 +493,18 @@ HTML 폼은 `PUT`,`PATCH` 또는`DELETE` 요청을 만들 수 없기 때문에 �
     <input id="title" type="text" class="@error('title') is-invalid @enderror">
 
     @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+
+`@error` 지시문-directive의 두 번째 파라메터로 [특정 에러 백의 이름](/docs/{{version}}/validation#named-error-bags)을 전달하여 여러개의 폼이 포함 된 페이지에서 유효성 검증 오류 메시지를 조회 할 수 있습니다.
+
+    <!-- /resources/views/auth.blade.php -->
+
+    <label for="email">Email address</label>
+
+    <input id="email" type="email" class="@error('email', 'login') is-invalid @enderror">
+
+    @error('email', 'login')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
@@ -621,21 +635,21 @@ include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 
          *
          * @return void
          */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
         public function boot()
         {
             Blade::directive('datetime', function ($expression) {
                 return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
-        }
-
-        /**
-         * Register bindings in the container.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
         }
     }
 
@@ -653,7 +667,7 @@ include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 
     use Illuminate\Support\Facades\Blade;
 
     /**
-     * Perform post-registration booting of services.
+     * Bootstrap any application services.
      *
      * @return void
      */

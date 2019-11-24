@@ -212,7 +212,7 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
             $this->browse(function ($browser) use ($user) {
                 $browser->visit('/login')
                         ->type('email', $user->email)
-                        ->type('password', 'secret')
+                        ->type('password', 'password')
                         ->press('Login')
                         ->assertPathIs('/home');
             });
@@ -261,7 +261,7 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 
     use Illuminate\Support\ServiceProvider;
     use Laravel\Dusk\Browser;
-    
+
     class DuskServiceProvider extends ServiceProvider
     {
         /**
@@ -1244,8 +1244,6 @@ Dusk을 설치 한 후, 기본 `Page` 클래스는 `tests/Browser/Pages` 디렉�
 
 <a name="components"></a>
 ## 컴포넌트
-
-Components are similar to Dusk’s “page objects”, but are intended for pieces of UI and functionality that are re-used throughout your application, such as a navigation bar or notification window. As such, components are not bound to specific URLs.
 
 컴포넌트는 Dusk의 "페이지 개체-objects"와 유사하지만 네비게이션바 또는 알림 창과 같이 애플리케이션 전체에서 다시 사용되는 UI 및 기능에 사용됩니다. 따라서 컴포넌트는 특정 URL에 바인딩되지 않습니다.
 

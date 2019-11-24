@@ -75,9 +75,9 @@
 <a name="included-views"></a>
 ### Views-뷰
 
-앞서 언급하였듯이, `php artisan make:auth` 명령어는 인증에서 필요로 하는 모든 뷰를 생성하여 `resources/views/auth` 디렉토리에 위치시킬 것입니다.
+이전 섹션에서 언급했듯이 `laravel/ui` 패키지의 `php artisan ui vue --auth` 명령은 인증에 필요한 모든 뷰를 `resources/views/auth` 디렉토리에 생성합니다.
 
-`make:auth` 명령어는 또한 애플리케이션의 베이스 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 생성할 것입니다. 이 모든 뷰 파일들은 Bootstrap CSS 프레임워크를 사용하지만, 여러분이 원하는 경우 자유롭게 변경할 수 있습니다.
+`ui` 명령은 또한 애플리케이션의 기본 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 만듭니다. 이러한 모든 뷰는 Bootstrap CSS 프레임워크를 사용하지만 원하는대로 자유롭게 커스텀 할 수 있습니다.
 
 <a name="included-authenticating"></a>
 ### 인증하기
@@ -371,7 +371,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
 <a name="stateless-http-basic-authentication"></a>
 ### 상태를 유지하지 않는 HTTP 기본 인증
 
-여러분은 또한 API 인증에 유용한, 세션의 사용자 식별 쿠키가 없는 HTTP 기본 인증을 사용할 수도 있습니다. 이렇게 하기 위해서는 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의하면 됩니다. `onceBasic` 메소드가 아무런 예외를 던지지 않는다면 이 요청은 애플리케이션 안에서 계속 진행될 것입니다.
+세션에서 사용자 식별자 쿠키를 사용하지 않고 HTTP 기본 인증을 사용할 수도 있습니다. 이것은 API 인증에 특히 유용합니다. 그럴려면 `onceBasic` 메소드를 호출하는 [미들웨어](/docs/{{version}}/middleware)를 정의합니다. `onceBasic`메소드가 응답을 리턴하지 않으면 요청-request가 애플리케이션으로 안쪽으로 전달 될 수 있습니다.
 
     <?php
 
@@ -641,6 +641,7 @@ PHP FastCGI를 사용하는 경우, HTTP 기본 인증이 제대로 작동하지
         'Illuminate\Auth\Events\Lockout' => [
             'App\Listeners\LogLockout',
         ],
+
         'Illuminate\Auth\Events\PasswordReset' => [
             'App\Listeners\LogPasswordReset',
         ],

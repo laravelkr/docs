@@ -28,6 +28,7 @@
     - [엑세스 토큰 전달하기](#passing-the-access-token)
 - [토큰 스코프(범위)](#token-scopes)
     - [스코프 정의하기](#defining-scopes)
+    - [기본 스코프](#default-scope)
     - [토큰에 스코프 할당하기](#assigning-scopes-to-tokens)
     - [Scope 확인하기](#checking-scopes)
 - [자바스크립트로 API 사용하기](#consuming-your-api-with-javascript)
@@ -223,6 +224,8 @@ Passport 를 실서버에 맨 처음 배포할 때, `passport:keys` 명령어가
         Passport::tokensExpireIn(now()->addDays(15));
 
         Passport::refreshTokensExpireIn(now()->addDays(30));
+
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
     }
 
 <a name="overriding-default-models"></a>

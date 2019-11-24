@@ -45,7 +45,7 @@ Laravel은 사용하는 JavaScript 또는 CSS 전처리기를 제한하지 않�
 <a name="writing-css"></a>
 ## CSS 작성하기
 
-라라벨의 `package.json` 파일은 부트스트랩을 사용하여 애플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap` 패키지를 포함하고 있습니다. 그렇지만 애플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 애플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 시작점을 제공하고 있을 뿐입니다.
+`laravel/ui` Composer 패키지와 [프론트 엔드 스캐 폴딩 생성](#introduction)을 설치 한 후, 라라벨의 `package.json` 파일은 부트스트랩을 사용하여 애플리케이션의 프론트엔드 프로토타이핑을 시작하는 것을 돕는 `bootstrap` 패키지를 포함하고 있습니다. 그렇지만 애플리케이션에 필요한 경우 자유롭게 `package.json` 파일에서 패키지를 추가하거나, 삭제하면 됩니다. 라라벨 애플리케이션을 구성하는데 부트스트랩 프레임워크를 사용하는 것이 필요하지는 않습니다 - 부트스트랩을 사용하기로 선택한 사람들을 위해서 시작점을 제공하고 있을 뿐입니다.
 
 CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.npmjs.org)을 사용하여 여러분의 프로젝트의 프론트엔드 의존성을 설치하십시오:
 
@@ -55,7 +55,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
     npm run dev
 
-라라벨에 기본적으로 포함된 `webpack.mix.js`는 `resources/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 애플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 Mix에서 설정하여](/docs/{{version}}/mix) 사용할 수도 있습니다.
+라라벨에 프론트엔드 스캐폴딩에 포함된 `webpack.mix.js`는 `resources/sass/app.scss` SASS 파일을 컴파일 할 것입니다. 이 `app.scss` 파일은 SASS 변수들을 가져오고 대부분의 애플리케이션을 위한 좋은 시작점이 되는 제공하는부트스트랩을 로딩합니다. 이 `app.scss` 파일은 자유롭게 수정할 수 있지만, 원하는 경우 완전히 다른 전처리기를 [라라벨 Mix에서 설정하여](/docs/{{version}}/mix) 사용할 수도 있습니다.
 
 <a name="writing-javascript"></a>
 ## 자바스크립트 작성하기
@@ -64,7 +64,7 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 
     npm install
 
-> {tip} 기본적으로 라라벨의 `package.json` 파일은 자바스크립트 애플리케이션을 구성하는데 도움을 줄 수 있는`vue` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 애플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
+> {tip} 기본적으로 라라벨의 `package.json` 파일은 자바스크립트 애플리케이션을 구성하는데 도움을 줄 수 있는`lodash` 와 `axios` 와 같은 몇몇 패키지를 포함하고 있습니다. 자유롭게 `package.json` 파일에 애플리케이션에서 필요한 의존성들을 추가하거나 삭제할 수 있습니다.
 
 패키지들이 설치되고 나면, `npm run dev` 명령어를 사용하여 [asset 을 컴파일](/docs/{{version}}/mix) 할 수 있습니다. Webpack은 현대적인 자바스크립트 애플리케이션을 위한 모듈 번들러 입니다. `npm run dev` 명령어를 실행하면, Webpack 는 `webpack.mix.js` 파일안에 있는 명령어들을 실행할 것입니다.
 
@@ -77,14 +77,14 @@ CSS 를 컴파일 하기 전에, [Node 패키지 매니저 (NPM)](https://www.np
 <a name="writing-vue-components"></a>
 ### Vue 컴포넌트 작성하기
 
-기본적으로 새로 설치한 라라벨 애플리케이션은 `resources/js/components` 디렉토리에 `ExampleComponent.vue` 뷰 컴포넌트를 포함하고 있습니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다.
+`laravel/ui` 패키지를 사용하여 프론트엔드를 스캐폴딩하면 `ExampleComponent.vue` Vue 컴포넌트가 `resources/js/components` 디렉토리에 배치됩니다. `ExampleComponent.vue` 파일은 동일한 파일 안에서 자바스크립트와 HTML 템플릿을 정의한 [파일 하나로 된 Vue 컴포넌트](https://vuejs.org/guide/single-file-components)의 예제 입니다. 하나의 파일로된 컴포넌트는 자바스크립트 기반의 애플리케이션을 구성하는데 매우 편리한 방법을 제공합니다. 이 예제 컴포넌트는 `app.js` 에 등록되어 있습니다.
 
     Vue.component(
         'example-component',
         require('./components/ExampleComponent.vue').default
     );
 
-애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플릿 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `make:auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
+애플리케이션에서 이 컴포넌트를 사용하려면, HTML 템플릿 안에 등록하면 됩니다. 예를 들어 애플리케이션의 인증과 회원 가입 화면을 스캐폴딩 하기 위해서 `php artisan ui vue --auth` 아티즌 명령어를 실행 한 다음에 컴포넌트를 `home.blade.php` 블레이드 템플릿 안에 등록할 수 있습니다.
 
     @extends('layouts.app')
 

@@ -512,7 +512,7 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
     // Retrieve flight by name, or create it if it doesn't exist...
     $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
 
-    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes..
+    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes...
     $flight = App\Flight::firstOrCreate(
         ['name' => 'Flight 10'],
         ['delayed' => 1, 'arrival_time' => '11:30']

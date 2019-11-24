@@ -851,12 +851,91 @@ Next, let's examine the model definitions needed to build this relationship:
         }
     }
 
+#### Retrieving The Relationship
+#### 관계-Relationship 조회하기
+
+Once your database table and models are defined, you may access the relationships via your models. For example, to access all of the comments for a post, we can use the `comments` dynamic property:
+
+데이터베이스 테이블과 모델이 정의되면 관계-Relationship를 통해 모델에 접근 할 수 있습니다. 예를 들어, 게시물의 모든 댓글에 접근하기 위해 `comments` 동적 속성을 사용할 수 있습니다.
+
+    $post = App\Post::find(1);
+
+    foreach ($post->comments as $comment) {
+        //
+    }
+
+You may also retrieve the owner of a polymorphic relation from the polymorphic model by accessing the name of the method that performs the call to `morphTo`. In our case, that is the `commentable` method on the `Comment` model. So, we will access that method as a dynamic property:
+
+`morphTo`에 대한 호출을 수행하는 메소드의 이름에 액세스하여 다형성 모델에서 다형성 관계의 소유자를 검색 할 수도 있습니다. 지금의 상황이라면 `Comment` 모델의 `commentable` 메소드입니다. 따라서 해당 메소드를 동적 속성으로 액세스합니다.
+
+    $comment = App\Comment::find(1);
+
+    $commentable = $comment->commentable;
+
+The `commentable` relation on the `Comment` model will return either a `Post` or `Video` instance, depending on which type of model owns the comment.
+
+`Comment` 모델의 `commentable` 관계는 댓글을 소유한 모델 타입에 따라 `Post` 또는 `Video` 인스턴스를 반환합니다.
+
+(역자주: 말이 어렵지만 위의 섹션에서 모델을 정의한 코드만 보면 `$comment->commentable()`만 정의해뒀지만 `$comment->commentable`로 사용할 경우 라라벨이 자동으로 해당 댓글의 부모가 뭔지 찾아서 그에 맞는 객체를 가져와 준다는 의미입니다)
+
+<a name="many-to-many-polymorphic-relations"></a>
+### Many To Many (Polymorphic)
+### \*:*(다대다) (다형성)
+
+#### Table Structure
+#### 테이블 구조
+
+Many-to-many polymorphic relations are slightly more complicated than `morphOne` and `morphMany` relationships. For example, a blog `Post` and `Video` model could share a polymorphic relation to a `Tag` model. Using a many-to-many polymorphic relation allows you to have a single list of unique tags that are shared across blog posts and videos. First, let's examine the table structure:
+
+다대다 다형성 관계는 `morphOne`과 `morphMany` 관계보다 약간 더 복잡합니다. 예를 들어 블로그에서 `Post`및 `Video`모델은 `Tag`모델과 다형성 관계를 공유 할 수 있습니다. 다대다 다형성 관계를 사용하면 블로그 게시물과 비디오에서 공유되는 고유한-unique 태그로 구성된 하나의 목록을 가질 수 있습니다. 먼저 테이블 구조를 살펴 보겠습니다.
+
+    posts
+        id - integer
+        name - string
+
+    videos
+        id - integer
+        name - string
+
+    tags
+        id - integer
+        name - string
+
+    taggables
+        tag_id - integer
+        taggable_id - integer
+        taggable_type - string
+
+#### Model Structure
+#### 모델 구조
+
+Next, we're ready to define the relationships on the model. The `Post` and `Video` models will both have a `tags` method that calls the `morphToMany` method on the base Eloquent class:
+
+다음으로, 모델의 관계를 정의해보겠습니다. `Post` 및 `Video` 모델에는 기본 Eloquent 클래스에서 `morphToMany` 메소드를 호출하는 `tags` 메소드를 추가합니다.
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class Post extends Model
+    {
+        /**
+         * Get all of the tags for the post.
+         */
+        public function tags()
+        {
+            return $this->morphToMany('App\Tag', 'taggable');
+        }
+    }
+
 #### Defining The Inverse Of The Relationship
 #### 역관계 정의하기
 
 Next, on the `Tag` model, you should define a method for each of its related models. So, for this example, we will define a `posts` method and a `videos` method:
 
-다음, `Tag` 모델에서 관련된 각 모델들을 위해 메소드를 정의해야 합니다. 이 예제에서는 `posts` 메소드와 `videos` 메소드를 정의하겠습니다.
+다음으로, `Tag` 모델에서 관련된 각 모델들을 위해 메소드를 정의해야 합니다. 이 예제에서는 `posts` 메소드와 `videos` 메소드를 정의하겠습니다.
 
     <?php
 
@@ -982,7 +1061,7 @@ As demonstrated in the example above, you are free to add additional constraints
             ->orWhere('votes', '>=', 100)
             ->get();
 
-    // select * from posts 
+    // select * from posts
     // where user_id = ? and active = 1 or votes >= 100
 
 In most situations, you likely intend to use [constraint groups](/docs/{{version}}/queries#parameter-grouping) to logically group the conditional checks between parentheses:
@@ -998,7 +1077,7 @@ In most situations, you likely intend to use [constraint groups](/docs/{{version
             })
             ->get();
 
-    // select * from posts 
+    // select * from posts
     // where user_id = ? and (active = 1 or votes >= 100)
 
 <a name="relationship-methods-vs-dynamic-properties"></a>
@@ -1102,8 +1181,8 @@ To query the existence of `MorphTo` relationships, you may use the `whereHasMorp
 
     // Retrieve comments associated to posts or videos with a title like foo%...
     $comments = App\Comment::whereHasMorph(
-        'commentable', 
-        ['App\Post', 'App\Video'], 
+        'commentable',
+        ['App\Post', 'App\Video'],
         function (Builder $query) {
             $query->where('title', 'like', 'foo%');
         }
@@ -1111,13 +1190,13 @@ To query the existence of `MorphTo` relationships, you may use the `whereHasMorp
 
     // Retrieve comments associated to posts with a title not like foo%...
     $comments = App\Comment::whereDoesntHaveMorph(
-        'commentable', 
-        'App\Post', 
+        'commentable',
+        'App\Post',
         function (Builder $query) {
             $query->where('title', 'like', 'foo%');
         }
-    )->get();    
-    
+    )->get();
+
 You may use the `$type` parameter to add different constraints depending on the related model:
 
 `$type` 파라미터를 사용하여 관련 모델에 따라 다른 제약 조건을 추가 할 수 있습니다.
@@ -1125,17 +1204,17 @@ You may use the `$type` parameter to add different constraints depending on the 
     use Illuminate\Database\Eloquent\Builder;
 
     $comments = App\Comment::whereHasMorph(
-        'commentable', 
-        ['App\Post', 'App\Video'], 
+        'commentable',
+        ['App\Post', 'App\Video'],
         function (Builder $query, $type) {
             $query->where('title', 'like', 'foo%');
-    
+
             if ($type === 'App\Post') {
                 $query->orWhere('content', 'like', 'foo%');
             }
         }
     )->get();
-    
+
 Instead of passing an array of possible polymorphic models, you may provide `*` as a wildcard and let Laravel retrieve all the possible polymorphic types from the database. Laravel will execute an additional query in order to perform this operation:
 
 가능한 다형성 모델 배열을 전달하는 대신에 `*`를 와일드 카드로 제공하고 Laravel로 하여금 가능한 모든 다형성 타입을 데이터베이스에서 검색하도록 할 수 있습니다. Laravel은 이 작업을 수행하기 위해 추가 쿼리를 실행합니다.
@@ -1377,7 +1456,7 @@ Sometimes you might want to always load some relationships when retrieving a mod
             return $this->belongsTo('App\Author');
         }
     }
-   
+
 If you would like to remove an item from the `$with` property for a single query, you may use the `without` method:
 
 단일 쿼리에 대한 `$with` 속성에서 항목을 제거하려면 `without` 메소드를 사용할 수 있습니다.

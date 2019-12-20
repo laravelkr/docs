@@ -42,7 +42,7 @@ There are several ways to paginate items. The simplest is by using the `paginate
 
 In this example, the only argument passed to the `paginate` method is the number of items you would like displayed "per page". In this case, let's specify that we would like to display `15` items per page:
 
-이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 갯수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
+이 예제에서 `pagenate` 에 전달되는 인자는 여러분이 "한 페이지당" 표시하고자 하는 항목들의 개수 입니다. 이 경우에는 페이지당 `15`개의 항목들을 표시하도록 지정해 보겠습니다:
 
     <?php
 
@@ -111,7 +111,7 @@ Sometimes you may wish to create a pagination instance manually, passing it an a
 
 The `Paginator` class does not need to know the total number of items in the result set; however, because of this, the class does not have methods for retrieving the index of the last page. The `LengthAwarePaginator` accepts almost the same arguments as the `Paginator`; however, it does require a count of the total number of items in the result set.
 
-`Paginator` 클래스는 결과 셋에 설정되어있는 항목의 총수를 알 필요는 없습니다. 따라서 클래스 마지막 페이지의 인덱스를 가져오는 메소드를 가지고 있지 않습니다. 그에 반해서 `LengthAwarePaginator` 는 `Paginator` 과 거의 같은 인자를 전달 받지만, 결과 셋에 설정되어있는 전체 항목의 갯수를 필요로 합니다.
+`Paginator` 클래스는 결과 셋에 설정되어있는 항목의 총수를 알 필요는 없습니다. 따라서 클래스 마지막 페이지의 인덱스를 가져오는 메소드를 가지고 있지 않습니다. 그에 반해서 `LengthAwarePaginator` 는 `Paginator` 과 거의 같은 인자를 전달 받지만, 결과 셋에 설정되어있는 전체 항목의 개수를 필요로 합니다.
 
 In other words, the `Paginator` corresponds to the `simplePaginate` method on the query builder and Eloquent, while the `LengthAwarePaginator` corresponds to the `paginate` method.
 

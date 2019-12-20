@@ -775,7 +775,7 @@ For more advanced `having` statements, see the [`havingRaw`](#raw-methods) metho
 
 To limit the number of results returned from the query, or to skip a given number of results in the query, you may use the `skip` and `take` methods:
 
-쿼리에서 반환되는 결과의 갯수를 제한하거나, 주어진 갯수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다:
+쿼리에서 반환되는 결과의 개수를 제한하거나, 주어진 개수만큼 결과를 건너뛰기 위해서는, `skip` 과 `take` 메소드를 사용하면 됩니다:
 
     $users = DB::table('users')->skip(10)->take(5)->get();
 

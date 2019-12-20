@@ -221,7 +221,7 @@ To execute an `insert` statement, you may use the `insert` method on the `DB` fa
 
 The `update` method should be used to update existing records in the database. The number of rows affected by the statement will be returned:
 
-`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 갯수가 반환될 것입니다:
+`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 개수가 반환될 것입니다:
 
     $affected = DB::update('update users set votes = 100 where name = ?', ['John']);
 
@@ -230,7 +230,7 @@ The `update` method should be used to update existing records in the database. T
 
 The `delete` method should be used to delete records from the database. Like `update`, the number of rows affected will be returned:
 
-`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다:
+`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 개수가 반환됩니다:
 
     $deleted = DB::delete('delete from users');
 

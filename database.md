@@ -152,13 +152,13 @@ SELECT문에서 사용하는 데이터베이스와 INSERT, UPDATE 그리고 DELE
 
 #### Update 쿼리 실행하기
 
-`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 갯수가 반환될 것입니다:
+`update` 메소드는 데이터베이스에 존재하는 레코드 업데이트 하는데 사용되어집니다. 그 결과 영향을 받은 레코드들의 개수가 반환될 것입니다:
 
     $affected = DB::update('update users set votes = 100 where name = ?', ['John']);
 
 #### Delete 쿼리 실행하기
 
-`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 갯수가 반환됩니다:
+`delete` 메소드는 데이터베이스에서 레코드를 삭제하는데 사용됩니다. `update` 와 같이, 영향을 받은 레코드 개수가 반환됩니다:
 
     $deleted = DB::delete('delete from users');
 

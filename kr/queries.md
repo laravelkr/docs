@@ -752,7 +752,7 @@ The `inRandomOrder` method may be used to sort the query results randomly. For e
 
 The `groupBy` and `having` methods may be used to group the query results. The `having` method's signature is similar to that of the `where` method:
 
-`groupBy` 와 `hanving` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다.
+`groupBy` 와 `having` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다.
 
     $users = DB::table('users')
                     ->groupBy('account_id')

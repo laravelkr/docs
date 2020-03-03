@@ -368,6 +368,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "initred",
+      "name": "InitRed",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/34208843?v=4",
+      "profile": "https://github.com/initred",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

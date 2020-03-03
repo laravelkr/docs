@@ -558,7 +558,7 @@ MySQL과 PostgreSQL은 다중 값으로 `whereJsonContains` 를 지원합니다.
 
 #### groupBy / having
 
-`groupBy` 와 `hanving` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다.
+`groupBy` 와 `having` 메소드는 쿼리 결과를 그룹화하는데 사용합니다. `having` 메소드는 `where` 메소드와 사용장법이 비슷합니다.
 
     $users = DB::table('users')
                     ->groupBy('account_id')

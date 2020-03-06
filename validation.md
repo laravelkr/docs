@@ -12,6 +12,7 @@
     - [Authorizing Form Requests](#authorizing-form-requests)
     - [Customizing The Error Messages](#customizing-the-error-messages)
     - [Customizing The Validation Attributes](#customizing-the-validation-attributes)
+    - [Prepare Input For Validation](#prepare-input-for-validation)
 - [Manually Creating Validators](#manually-creating-validators)
     - [Automatic Redirection](#automatic-redirection)
     - [Named Error Bags](#named-error-bags)
@@ -30,7 +31,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel provides several different approaches to validate your application's incoming data. By default, Laravel's base controller class uses a `ValidatesRequests` trait which provides a convenient method to validate incoming HTTP request with a variety of powerful validation rules.
+Laravel provides several different approaches to validate your application's incoming data. By default, Laravel's base controller class uses a `ValidatesRequests` trait which provides a convenient method to validate incoming HTTP requests with a variety of powerful validation rules.
 
 <a name="validation-quickstart"></a>
 ## Validation Quickstart
@@ -112,6 +113,13 @@ As you can see, we pass the desired validation rules into the `validate` method.
 Alternatively, validation rules may be specified as arrays of rules instead of a single `|` delimited string:
 
     $validatedData = $request->validate([
+        'title' => ['required', 'unique:posts', 'max:255'],
+        'body' => ['required'],
+    ]);
+
+If you would like to specify the [error bag](#named-error-bags) in which the error messages should be placed, you may use the `validateWithBag` method:
+
+    $request->validateWithBag('blog', [
         'title' => ['required', 'unique:posts', 'max:255'],
         'body' => ['required'],
     ]);
@@ -330,6 +338,25 @@ If you would like the `:attribute` portion of your validation message to be repl
         return [
             'email' => 'email address',
         ];
+    }
+
+<a name="prepare-input-for-validation"></a>
+### Prepare Input For Validation
+
+If you need to sanitize any data from the request before you apply your validation rules, you can use the `prepareForValidation` method:
+
+    use Illuminate\Support\Str;
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'slug' => Str::slug($this->slug),
+        ]);
     }
 
 <a name="manually-creating-validators"></a>
@@ -569,6 +596,8 @@ Below is a list of all available validation rules and their function:
 [Distinct](#rule-distinct)
 [E-Mail](#rule-email)
 [Ends With](#rule-ends-with)
+[Exclude If](#rule-exclude-if)
+[Exclude Unless](#rule-exclude-unless)
 [Exists (Database)](#rule-exists)
 [File](#rule-file)
 [Filled](#rule-filled)
@@ -773,6 +802,16 @@ The `filter` validator, which uses PHP's `filter_var` function under the hood, s
 
 The field under validation must end with one of the given values.
 
+<a name="rule-exclude-if"></a>
+#### exclude_if:_anotherfield_,_value_
+
+The field under validation will be excluded from the request data returned by the `validate` and `validated` methods if the _anotherfield_ field is equal to _value_.
+
+<a name="rule-exclude-unless"></a>
+#### exclude_unless:_anotherfield_,_value_
+
+The field under validation will be excluded from the request data returned by the `validate` and `validated` methods unless _anotherfield_'s field is equal to _value_.
+
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
 
@@ -791,6 +830,10 @@ If the `column` option is not specified, the field name will be used.
 Occasionally, you may need to specify a specific database connection to be used for the `exists` query. You can accomplish this by prepending the connection name to the table name using "dot" syntax:
 
     'email' => 'exists:connection.staff,email'
+
+Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
+
+    'user_id' => 'exists:App\User,id'
 
 If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
 
@@ -1036,7 +1079,19 @@ The given _field_ must match the field under validation.
 <a name="rule-size"></a>
 #### size:_value_
 
-The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value. For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes.
+The field under validation must have a size matching the given _value_. For string data, _value_ corresponds to the number of characters. For numeric data, _value_ corresponds to a given integer value (the attribute must also have the `numeric` or `integer` rule). For an array, _size_ corresponds to the `count` of the array. For files, _size_ corresponds to the file size in kilobytes. Let's look at some examples:
+
+    // Validate that a string is exactly 12 characters long...
+    'title' => 'size:12';
+
+    // Validate that a provided integer equals 10...
+    'seats' => 'integer|size:10';
+
+    // Validate that an array has exactly 5 elements...
+    'tags' => 'array|size:5';
+
+    // Validate that an uploaded file is exactly 512 kilobytes...
+    'image' => 'file|size:512';
 
 <a name="rule-starts-with"></a>
 #### starts_with:_foo_,_bar_,...
@@ -1058,7 +1113,11 @@ The field under validation must be a valid timezone identifier according to the 
 
 The field under validation must not exist within the given database table.
 
-**Specifying A Custom Column Name:**
+**Specifying A Custom Table / Column Name:**
+
+Instead of specifying the table name directly, you may specify the Eloquent model which should be used to determine the table name:
+
+    'email' => 'unique:App\User,email_address'
 
 The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the field name will be used.
 

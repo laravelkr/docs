@@ -51,6 +51,7 @@ Next, you are ready to authenticate users! You will need two routes: one for red
 
     namespace App\Http\Controllers\Auth;
 
+    use App\Http\Controllers\Controller;
     use Socialite;
 
     class LoginController extends Controller
@@ -117,6 +118,8 @@ You can overwrite all existing scopes using the `setScopes` method:
 The `stateless` method may be used to disable session state verification. This is useful when adding social authentication to an API:
 
     return Socialite::driver('google')->stateless()->user();
+
+> {note} Stateless authentication is not available for the Twitter driver, which uses OAuth 1.0 for authentication.
 
 <a name="retrieving-user-details"></a>
 ## Retrieving User Details

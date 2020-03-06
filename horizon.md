@@ -1,10 +1,10 @@
 # Laravel Horizon
 
 - [Introduction](#introduction)
-- [Upgrading Horizon](#upgrading)
 - [Installation](#installation)
     - [Configuration](#configuration)
     - [Dashboard Authorization](#dashboard-authorization)
+- [Upgrading Horizon](#upgrading-horizon)
 - [Running Horizon](#running-horizon)
     - [Deploying Horizon](#deploying-horizon)
 - [Tags](#tags)
@@ -22,15 +22,6 @@ All of your worker configuration is stored in a single, simple configuration fil
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
 </p>
 
-<a name="upgrading"></a>
-## Upgrading Horizon
-
-When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
-
-In addition, you should re-publish Horizon's assets:
-
-    php artisan horizon:assets
-
 <a name="installation"></a>
 ## Installation
 
@@ -43,12 +34,6 @@ You may use Composer to install Horizon into your Laravel project:
 After installing Horizon, publish its assets using the `horizon:install` Artisan command:
 
     php artisan horizon:install
-
-You should also create the `failed_jobs` table which Laravel will use to store any [failed queue jobs](/docs/{{version}}/queues#dealing-with-failed-jobs):
-
-    php artisan queue:failed-table
-
-    php artisan migrate
 
 <a name="configuration"></a>
 ### Configuration
@@ -65,7 +50,7 @@ Horizon allows you to choose from three balancing strategies: `simple`, `auto`, 
 
 The `auto` strategy adjusts the number of worker processes per queue based on the current workload of the queue. For example, if your `notifications` queue has 1,000 waiting jobs while your `render` queue is empty, Horizon will allocate more workers to your `notifications` queue until it is empty. When the `balance` option is set to `false`, the default Laravel behavior will be used, which processes queues in the order they are listed in your configuration.
 
-When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to:
+When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to. The `minProcesses` value specifies the minimum number of processes per queue, while the `maxProcesses` value specifies the maximum number of processes across all queues:
 
     'environments' => [
         'production' => [
@@ -112,6 +97,15 @@ Horizon exposes a dashboard at `/horizon`. By default, you will only be able to 
 
 > {note} Remember that Laravel injects the *authenticated* user to the Gate automatically. If your app is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` above to `function ($user = null)` to force Laravel to not require authentication.
 
+<a name="upgrading-horizon"></a>
+## Upgrading Horizon
+
+When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
+
+In addition, you should re-publish Horizon's assets:
+
+    php artisan horizon:assets
+
 <a name="running-horizon"></a>
 ## Running Horizon
 
@@ -124,6 +118,10 @@ You may pause the Horizon process and instruct it to continue processing jobs us
     php artisan horizon:pause
 
     php artisan horizon:continue
+
+You may check the current status of the Horizon process using the `horizon:status` Artisan command:
+
+    php artisan horizon:status
 
 You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Any jobs that Horizon is currently processing will be completed and then Horizon will exit:
 
@@ -154,6 +152,9 @@ Supervisor configuration files are typically stored in the `/etc/supervisor/conf
     user=forge
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/horizon.log
+    stopwaitsecs=3600
+
+> {note} You should ensure that the value of `stopwaitsecs` is greater than the number of seconds consumed by your longest running job. Otherwise, Supervisor may kill the job before it is finished processing.
 
 #### Starting Supervisor
 

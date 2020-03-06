@@ -28,6 +28,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 [Arr::add](#method-array-add)
 [Arr::collapse](#method-array-collapse)
+[Arr::crossJoin](#method-array-crossjoin)
 [Arr::divide](#method-array-divide)
 [Arr::dot](#method-array-dot)
 [Arr::except](#method-array-except)
@@ -43,7 +44,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::prepend](#method-array-prepend)
 [Arr::pull](#method-array-pull)
 [Arr::random](#method-array-random)
+[Arr::query](#method-array-query)
 [Arr::set](#method-array-set)
+[Arr::shuffle](#method-array-shuffle)
 [Arr::sort](#method-array-sort)
 [Arr::sortRecursive](#method-array-sort-recursive)
 [Arr::where](#method-array-where)
@@ -88,6 +91,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::endsWith](#method-ends-with)
 [Str::finish](#method-str-finish)
 [Str::is](#method-str-is)
+[Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::limit](#method-str-limit)
 [Str::orderedUuid](#method-str-ordered-uuid)
@@ -103,6 +107,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::startsWith](#method-starts-with)
 [Str::studly](#method-studly-case)
 [Str::title](#method-title-case)
+[Str::ucfirst](#method-str-ucfirst)
 [Str::uuid](#method-str-uuid)
 [Str::words](#method-str-words)
 [trans](#method-trans)
@@ -223,6 +228,39 @@ The `Arr::collapse` method collapses an array of arrays into a single array:
     $array = Arr::collapse([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+<a name="method-array-crossjoin"></a>
+#### `Arr::crossJoin()` {#collection-method}
+
+The `Arr::crossJoin` method cross joins the given arrays, returning a Cartesian product with all possible permutations:
+
+    use Illuminate\Support\Arr;
+
+    $matrix = Arr::crossJoin([1, 2], ['a', 'b']);
+
+    /*
+        [
+            [1, 'a'],
+            [1, 'b'],
+            [2, 'a'],
+            [2, 'b'],
+        ]
+    */
+
+    $matrix = Arr::crossJoin([1, 2], ['a', 'b'], ['I', 'II']);
+
+    /*
+        [
+            [1, 'a', 'I'],
+            [1, 'a', 'II'],
+            [1, 'b', 'I'],
+            [1, 'b', 'II'],
+            [2, 'a', 'I'],
+            [2, 'a', 'II'],
+            [2, 'b', 'I'],
+            [2, 'b', 'II'],
+        ]
+    */
 
 <a name="method-array-divide"></a>
 #### `Arr::divide()` {#collection-method}
@@ -347,7 +385,7 @@ The `Arr::has` method checks whether a given item or items exists in an array us
     $contains = Arr::has($array, ['product.price', 'product.discount']);
 
     // false
- 
+
 <a name="method-array-isassoc"></a>
 #### `Arr::isAssoc()` {#collection-method}
 
@@ -486,6 +524,19 @@ You may also specify the number of items to return as an optional second argumen
 
     // [2, 5] - (retrieved randomly)
 
+<a name="method-array-query"></a>
+#### `Arr::query()` {#collection-method}
+
+The `Arr::query` method converts the array into a query string:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['name' => 'Taylor', 'order' => ['column' => 'created_at', 'direction' => 'desc']];
+
+    Arr::query($array);
+
+    // name=Taylor&order[column]=created_at&order[direction]=desc
+
 <a name="method-array-set"></a>
 #### `Arr::set()` {#collection-method}
 
@@ -498,6 +549,17 @@ The `Arr::set` method sets a value within a deeply nested array using "dot" nota
     Arr::set($array, 'products.desk.price', 200);
 
     // ['products' => ['desk' => ['price' => 200]]]
+
+<a name="method-array-shuffle"></a>
+#### `Arr::shuffle()` {#collection-method}
+
+The `Arr::shuffle` method randomly shuffles the items in the array:
+
+    use Illuminate\Support\Arr;
+
+    $array = Arr::shuffle([1, 2, 3, 4, 5]);
+
+    // [3, 2, 5, 1, 4] - (generated randomly)
 
 <a name="method-array-sort"></a>
 #### `Arr::sort()` {#collection-method}
@@ -537,7 +599,7 @@ You may also sort the array by the results of the given Closure:
 <a name="method-array-sort-recursive"></a>
 #### `Arr::sortRecursive()` {#collection-method}
 
-The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
+The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative subarrays:
 
     use Illuminate\Support\Arr;
 
@@ -838,7 +900,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 <a name="method-str-after"></a>
 #### `Str::after()` {#collection-method}
 
-The `Str::after` method returns everything after the given value in a string:
+The `Str::after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
 
     use Illuminate\Support\Str;
 
@@ -849,7 +911,7 @@ The `Str::after` method returns everything after the given value in a string:
 <a name="method-str-after-last"></a>
 #### `Str::afterLast()` {#collection-method}
 
-The `Str::afterLast` method returns everything after the last occurrence of the given value in a string:
+The `Str::afterLast` method returns everything after the last occurrence of the given value in a string. The entire string will be returned if the value does not exist within the string:
 
     use Illuminate\Support\Str;
 
@@ -939,9 +1001,9 @@ You may also pass an array of values to determine if the given string ends with 
     $result = Str::endsWith('This is my name', ['name', 'foo']);
 
     // true
-    
+
     $result = Str::endsWith('This is my name', ['this', 'foo']);
-    
+
     // false
 
 <a name="method-str-finish"></a>
@@ -971,6 +1033,32 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
     // true
 
     $matches = Str::is('baz*', 'foobar');
+
+    // false
+
+<a name="method-str-ucfirst"></a>
+#### `Str::ucfirst()` {#collection-method}
+
+The `Str::ucfirst` method returns the given string with the first character capitalized:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::ucfirst('foo bar');
+
+    // Foo bar
+
+<a name="method-str-is-uuid"></a>
+#### `Str::isUuid()` {#collection-method}
+
+The `Str::isUuid` method determines if the given string is a valid UUID:
+
+    use Illuminate\Support\Str;
+
+    $isUuid = Str::isUuid('a0a2a2d2-0b87-4a18-83f2-2529882be2de');
+
+    // true
+
+    $isUuid = Str::isUuid('laravel');
 
     // false
 
@@ -1016,7 +1104,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 <a name="method-str-plural"></a>
 #### `Str::plural()` {#collection-method}
 
-The `Str::plural` method converts a string to its plural form. This function currently only supports the English language:
+The `Str::plural` method converts a single word string to its plural form. This function currently only supports the English language:
 
     use Illuminate\Support\Str;
 
@@ -1186,7 +1274,7 @@ The `Str::words` method limits the number of words in a string:
     use Illuminate\Support\Str;
 
     return Str::words('Perfectly balanced, as all things should be.', 3, ' >>>');
-    
+
     // Perfectly balanced, as >>>
 
 <a name="method-trans"></a>

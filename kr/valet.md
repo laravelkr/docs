@@ -19,14 +19,20 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
+- [Serving A Default Site](#serving-a-default-site)
+- [기본 사이트 제공](#serving-a-default-site)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
 - [사이트 별 환경 변수](#site-specific-environment-variables)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
     - [로컬 드라이버](#local-drivers)
+- [PHP Configuration](#php-configuration)
+- [PHP 설정](#php-configuration)
 - [Other Valet Commands](#other-valet-commands)
 - [기타 발렛 명령어들](#other-valet-commands)
+- [Valet Directories & Files](#valet-directories-and-files)
+- [Valet 디렉토리와 파일](#valet-directories-and-files)
 
 <a name="introduction"></a>
 ## Introduction
@@ -103,7 +109,7 @@ Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭�
 
 
 - Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
-- Install PHP 7.3 using Homebrew via `brew install php`.
+- Install PHP 7.4 using Homebrew via `brew install php`.
 - Install [Composer](https://getcomposer.org).
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
@@ -153,7 +159,18 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
     valet use php@7.2
     
     valet use php
-    
+
+> {note} Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
+
+> {note} Valet는 여러 개의 PHP 버전이 설치되어 있어도 한 번에 하나의 PHP 버전 만 제공합니다.
+
+#### Resetting Your Installation
+#### 설치 재설정
+
+If you are having trouble getting your Valet installation to run properly, executing the `composer global update` command followed by `valet install` will reset your installation and can solve a variety of problems. In rare cases it may be necessary to "hard reset" Valet by executing `valet uninstall --force` followed by `valet install`.
+
+Valet 설치 후 제대로 실행되지 않는 경우 `composer global update` 명령과 `valet install`을 실행하면 설치가 재설정되고 다양한 문제를 해결할 수 있습니다. 드문 경우지만 `valet uninstall --force`와 `valet install`을 실행하여 Valet를 "하드 리셋"해야 할 수도 있습니다.
+
 <a name="upgrading"></a>
 ### Upgrading
 ### 업그레이드 하기
@@ -236,17 +253,43 @@ To "unsecure" a site and revert back to serving its traffic over plain HTTP, use
 ## Sharing Sites
 ## 사이트 공유
 
-Valet even includes a command to share your local sites with the world. No additional software installation is required once Valet is installed.
+Valet even includes a command to share your local sites with the world, providing an easy way to test your site on mobile devices or share it with team members and clients. No additional software installation is required once Valet is installed.
 
-발렛에는 여러분의 로컬 사이트를 세상과 공유하는 명령어도 포함되어 있습니다. 발렛만 설치되어 있으면 추가적인 소프트웨어의 설치도 필요하지 않습니다.
+발렛에는 여러분의 로컬 사이트를 세상과 공유하는 명령어도 포함되어 있어서 모바일 기기에서 사이트를 쉽게 테스트하거나 팀원 및 고객과 사이트를 공유 할 수 있습니다. 발렛만 설치되어 있으면 추가적인 소프트웨어의 설치도 필요하지 않습니다.
 
-To share a site, navigate to the site's directory in your terminal and run the `valet share` command. A publicly accessible URL will be inserted into your clipboard and is ready to paste directly into your browser. That's it.
+### Sharing Sites Via Ngrok
+### Ngrok를 통해 사이트 공유
 
-사이트를 공유하기 위해서는, 터미널 상에서 사이트의 디렉토리로 이동한 뒤에 `valet share` 명령어를 입력하십시오. 공개된 접근가능한 URL 이 여러분의 클립보드에 복사되고 브라우저에서 직접 붙여넣을 수 있습니다. 이게 끝입니다.
+To share a site, navigate to the site's directory in your terminal and run the `valet share` command. A publicly accessible URL will be inserted into your clipboard and is ready to paste directly into your browser or share with your team.
+
+사이트를 공유하기 위해서는, 터미널 상에서 사이트의 디렉토리로 이동한 뒤에 `valet share` 명령어를 입력하십시오. 공개된 접근가능한 URL 이 여러분의 클립보드에 복사되고 브라우저에서 직접 붙여넣거나 팀원들과 공유 할 수 있습니다.
 
 To stop sharing your site, hit `Control + C` to cancel the process.
 
 사이트의 공유를 중단하려면 `컨트롤 + C`를 눌러 프로세스를 취소하십시오.
+
+> {tip} You may pass additional parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
+
+> {tip} `valet share --region=eu`와 같이 추가 파라메터를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok documentation](https://ngrok.com/docs)을 참조하십시오.
+
+### Sharing Sites On Your Local Network
+### 로컬 네트워크에서 사이트 공유
+
+Valet restricts incoming traffic to the internal `127.0.0.1` interface by default. This way your development machine isn't exposed to security risks from the Internet.
+
+Valet는 들어오는 트래픽을 기본적으로 내부 `127.0.0.1` 인터페이스로 제한합니다. 이렇게하면 개발 시스템이 인터넷의 보안 위험에 노출되지 않습니다.
+
+If you wish to allow other devices on your local network to access the Valet sites on your machine via your machine's IP address (eg: `192.168.1.10/app-name.test`), you will need to manually edit the appropriate Nginx configuration file for that site to remove the restriction on the `listen` directive by removing the the `127.0.0.1:` prefix on the directive for ports 80 and 443.
+
+로컬 네트워크의 다른 장치가 컴퓨터의 IP 주소를 통해 컴퓨터의 Valet 사이트에 접속하도록하려면, (예 : `192.168.1.10/app-name.test`) 해당 사이트에 대한 적절한 Nginx 설정파일을 수동으로 편집하여 포트 80 및 443에 대한 지시문에서 `127.0.0.1:` 접두어를 제거하여 `listen` 지시문에 대한 제한 사항을 제거해야합니다.
+
+If you have not run `valet secure` on the project, you can open up network access for all non-HTTPS sites by editing the `/usr/local/etc/nginx/valet/valet.conf` file. However, if you're serving the project site over HTTPS (you have run `valet secure` for the site) then you should edit the `~/.config/valet/Nginx/app-name.test` file.
+
+프로젝트에서 `valet secure`를 실행하지 않은 경우 `/usr/local/etc/nginx/valet/valet.conf` 파일을 편집하여 모든 비 HTTPS 사이트에 대한 네트워크 액세스를 열 수 있습니다. 그러나 HTTPS를 통해 프로젝트 사이트를 제공하는 경우 (사이트에 대해 `valet secure`를 실행 한 경우) `~/.config/valet/Nginx/app-name.test` 파일을 편집해야합니다.
+
+Once you have updated your Nginx configuration, run the `valet restart` command to apply the configuration changes.
+
+Nginx 설정을 변경하고 나면 `valet restart` 명령을 실행하여 설정을 변경하십시오.
 
 <a name="site-specific-environment-variables"></a>
 ## Site Specific Environment Variables
@@ -258,9 +301,29 @@ Some applications using other frameworks may depend on server environment variab
 
     <?php
 
+    // Set $_SERVER['key'] to "value" for the foo.test site...
     return [
-        'WEBSITE_NAME' => 'My Blog',
+        'foo' => [
+            'key' => 'value',
+        ],
     ];
+
+    // Set $_SERVER['key'] to "value" for all sites...
+    return [
+        '*' => [
+            'key' => 'value',
+        ],
+    ];
+
+<a name="serving-a-default-site"></a>
+## Serving A Default Site
+## 기본 사이트 제공
+
+Sometimes, you may wish to configure Valet to serve a "default" site instead of a `404` when visiting an unknown `test` domain. To accomplish this, you may add a `default` option to your `~/.config/valet/config.json` configuration file containing the path to the site that should function as your default site:
+
+알 수없는 `test` 도메인을 방문 할 때 Valet가 `404`대신 "기본"사이트를 제공하도록 설정 할 수도 있습니다. 이를 위해 `~/.config/valet/config.json` 설정 파일에 기본 사이트로 작동해야하는 사이트 경로를 포함하는 `default` 옵션을 추가 할 수 있습니다.
+
+    "default": "/Users/Sally/Sites/foo",
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers
@@ -391,6 +454,28 @@ If you would like to define a custom Valet driver for a single application, crea
         }
     }
 
+<a name="php-configuration"></a>
+## PHP Configuration
+## PHP 설정
+
+You may add additional PHP configuration `.ini` files in the `/usr/local/etc/php/7.X/conf.d/` directory to customize your PHP installation. Once you've added or updated these settings you should run `valet restart php`.
+
+`/usr/local/etc/php/7.X/conf.d/`디렉토리에 PHP 설정 `.ini` 파일을 추가하여 PHP 설치를 커스터마이징 할 수 있습니다. 이러한 설정을 추가하거나 업데이트하면 `valet restart php`를 실행해야합니다.
+
+### PHP Memory Limits
+### PHP 메모리 제한
+
+By default, Valet specifies the PHP installation's memory limit and max file upload size in the `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` configuration file. This affects both the CLI and FPM PHP processes.
+
+Valet은 기본적으로 `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` 설정 파일에서 PHP 설치의 메모리 제한과 최대 파일 업로드 크기를 지정합니다. 이는 CLI 및 FPM PHP 프로세스 모두에 영향을줍니다.
+
+### PHP-FPM Pool Processes
+### PHP-FPM 프로세스 풀
+
+Valet's PHP-FPM configuration is contained within the `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` configuration file. In this file you may increase the number of FPM servers and child processes utilized by your PHP application.
+
+Valet의 PHP-FPM 설정은 `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` 설정 파일에 들어 있습니다. 이 파일에서 PHP 애플리케이션이 사용하는 FPM 서버 및 자식 프로세스 수를 늘릴 수 있습니다.
+
 <a name="other-valet-commands"></a>
 ## Other Valet Commands
 ## 기타 발렛 명령어들
@@ -404,7 +489,7 @@ Command  | Description
 `valet start` | Start the Valet daemon.
 `valet stop` | Stop the Valet daemon.
 `valet trust` | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.
-`valet uninstall` | Uninstall the Valet daemon.
+`valet uninstall` | Uninstall Valet: Shows instructions for manual uninstall; or pass the `--force` parameter to aggressively delete all of Valet.
 
 명령어 | 설명
 ------------- | -------------
@@ -415,4 +500,48 @@ Command  | Description
 `valet start` | 발렛 데몬을 시작합니다.
 `valet stop` | 발렛 데몬을 중지합니다.
 `valet trust` | 암호를 묻지 않고 Valet 명령을 실행할 수 있도록 Brew와 Valet을 sudoers에 추가합니다.
-`valet uninstall` | Valet 데몬 제거.
+`valet uninstall` | Valet 제거 : 수동 제거에 대한 명렁을 보여줍니다. 또는 `--force` 파라메터를 전달하여 모든 Valet을 적극적으로 삭제합니다.
+
+<a name="valet-directories-and-files"></a>
+## Valet Directories & Files
+## Valet 디렉토리 및 파일
+
+You may find the following directory and file information helpful while troubleshooting issues with your Valet environment:
+
+Valet 환경설정 관련 문제를 해결하기 위해 다음 디렉토리 및 파일 정보가 도움이 될 수 있습니다.
+
+File / Path | Description
+--------- | -----------
+`~/.config/valet/` | Contains all of Valet's configuration. You may wish to maintain a backup of this folder.
+`~/.config/valet/dnsmasq.d/` | Contains DNSMasq's configuration.
+`~/.config/valet/Drivers/` | Contains custom Valet drivers.
+`~/.config/valet/Extensions/` | Contains custom Valet extensions / commands.
+`~/.config/valet/Nginx/` | Contains all Valet generated Nginx site configurations. These files are rebuilt when running the `install`, `secure`, and `tld` commands.
+`~/.config/valet/Sites/` | Contains all symbolic links for linked projects.
+`~/.config/valet/config.json` | Valet's master configuration file
+`~/.config/valet/valet.sock` | The PHP-FPM socket used by Valet's Nginx configuration. This will only exist if PHP is running properly.
+`~/.config/valet/Log/fpm-php.www.log` | User log for PHP errors.
+`~/.config/valet/Log/nginx-error.log` | User log for Nginx errors.
+`/usr/local/var/log/php-fpm.log` | System log for PHP-FPM errors.
+`/usr/local/var/log/nginx` | Contains Nginx access and error logs.
+`/usr/local/etc/php/X.X/conf.d` | Contains `*.ini` files for various PHP configuration settings.
+`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | PHP-FPM pool configuration file.
+`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | The default Nginx configuration used for building site certificates.
+
+파일 / 경로 | 설명
+--------- | -----------
+`~/.config/valet/` | Valet의 모든 설정이 들어 있습니다. 이 폴더의 백업하여 유지 관리 할 수 ​​있습니다.
+`~/.config/valet/dnsmasq.d/` | DNSMasq의 설정이 들어 있습니다.
+`~/.config/valet/Drivers/` | 커스텀 Valet 드라이버가 들어 있습니다.
+`~/.config/valet/Extensions/` | 커스텀 Valet 확장모듈 / 커맨드가 들어 있습니다.
+`~/.config/valet/Nginx/` | Valet이 생성한 모든 Nginx 사이트 설정이 들어 있습니다. 이 파일들은 `install`, `secure` 및 `tld` 명령을 실행할 때 다시 빌드됩니다.
+`~/.config/valet/Sites/` | 연결된 프로젝트에 대한 모든 심볼릭 링크가 들어 있습니다.
+`~/.config/valet/config.json` | Valet의 마스터 설정 파일
+`~/.config/valet/valet.sock` | Valet의 Nginx 설정에서 사용되는 PHP-FPM 소켓. PHP가 실행되고 있는 경우에만 존재합니다.
+`~/.config/valet/Log/fpm-php.www.log` | PHP 오류에 대한 사용자 로그.
+`~/.config/valet/Log/nginx-error.log` | Nginx 오류에 대한 사용자 로그.
+`/usr/local/var/log/php-fpm.log` | PHP-FPM 오류에 대한 시스템 로그.
+`/usr/local/var/log/nginx` | Nginx 액세스 및 오류 로그.
+`/usr/local/etc/php/X.X/conf.d` | 다양한 PHP 환경 설정을 위한 `* .ini` 파일이 들어 있습니다.
+`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | PHP-FPM 풀 설정 파일.
+`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | 사이트 인증서를 작성하는 데 사용되는 기본 Nginx 설정.

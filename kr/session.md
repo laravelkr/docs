@@ -38,9 +38,9 @@ HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HT
 ### Configuration
 ### 설정하기
 
-The session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications. In production applications, you may consider using the `memcached` or `redis` drivers for even faster session performance.
+The session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `file` session driver, which will work well for many applications.
 
-세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에서 사용 가능한 옵션을 잘 살펴보십시오. 기본적으로 라라벨은 대부분의 애플리케이션에서 잘 작동 할 수 있도록 `file` 세션 드라이버를 사용하도록 설정되어 있습니다. 실서비스용 애플리케이션에서는 보다 나은 세션 처리 성능을 위해서 `memcached` 또는 `redis` 드라이버를 사용하는 것을 고려하십시오.
+세션의 설정파일은 `config/session.php`로 저장되어 있습니다. 이 파일에서 사용 가능한 옵션을 잘 살펴보십시오. 기본적으로 라라벨은 대부분의 애플리케이션에서 잘 작동 할 수 있도록 `file` 세션 드라이버를 사용하도록 설정되어 있습니다.
 
 The session `driver` configuration option defines where session data will be stored for each request. Laravel ships with several great drivers out of the box:
 

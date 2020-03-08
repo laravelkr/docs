@@ -9,6 +9,8 @@
 - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [Writing Factories](#writing-factories)
 - [팩토리 작성하기](#writing-factories)
+    - [Extending Factories](#extending-factories)
+    - [팩토리 확장](#extending-factories)
     - [Factory States](#factory-states)
     - [팩토리 상태(States)](#factory-states)
     - [Factory Callbacks](#factory-callbacks)
@@ -47,9 +49,9 @@ You can also use the `assertDatabaseMissing` helper to assert that data does not
 
 또한 데이터베이스에 데이터가 존재하지 않는 것을 확인하기 위해서 `assertDatabaseMissing` 헬퍼 함수를 사용할 수 있습니다.
 
-The `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your tests.
+The `assertDatabaseHas` method and other helpers like it are for convenience. You are free to use any of PHPUnit's built-in assertion methods to supplement your feature tests.
 
-`assertDatabaseHas` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
+`assertDatabaseHas` 메소드와 기타 다른 헬퍼들은 사용하기에 더 편리합니다. PHPUnit의 피쳐 테스트 구문에서 자유롭게 이 함수들을 사용할 수 있습니다.
 
 <a name="generating-factories"></a>
 ## Generating Factories
@@ -154,7 +156,7 @@ When testing, you may need to insert a few records into your database before exe
             'name' => $faker->name,
             'email' => $faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
     });
@@ -170,6 +172,20 @@ You may also create additional factory files for each model for better organizat
 > {tip} You can set the Faker locale by adding a `faker_locale` option to your `config/app.php` configuration file.
 
 > {tip} `config/app.php` 설정 파일에 `faker_locale` 옵션을 추가하여 Faker 로케일을 설정할 수 있습니다.
+
+<a name="extending-factories"></a>
+### Extending Factories
+### 팩토리 확장
+
+If you have extended a model, you may wish to extend its factory as well in order to utilize the child model's factory attributes during testing and seeding. To accomplish this, you may call the factory builder's `raw` method to obtain the raw array of attributes from any given factory:
+
+모델을 확장 한 경우 테스트 및 시드 중에 하위 모델의 팩토리 속성을 활용하기 위해 팩토리를 확장 할 수도 있습니다. 이를 달성하기 위해 팩토리 빌더의 `raw` 메소드를 호출하여 주어진 팩토리에서 속성의 원시 배열을 얻을 수 있습니다.
+
+    $factory->define(App\Admin::class, function (Faker\Generator $faker) {
+        return factory(App\User::class)->raw([
+            // ...
+        ]);
+    });
 
 <a name="factory-states"></a>
 ### Factory States
@@ -229,9 +245,9 @@ You may also define callbacks for [factory states](#factory-states):
 ### Creating Models
 ### 모델 생성하기
 
-Once you have defined your factories, you may use the global `factory` function in your tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the `make` method to create models but not save them to the database:
+Once you have defined your factories, you may use the global `factory` function in your feature tests or seed files to generate model instances. So, let's take a look at a few examples of creating models. First, we'll use the `make` method to create models but not save them to the database:
 
-팩토리를 정의한 뒤에는, 테스트파일 에서나 모델 인스턴스를 생성하기 위한 시드 파일안에서 글로벌 `factory` 함수를 사용할 수 있습니다. 그럼 모델들을 생성하는 몇몇의 예제를 살펴보겠습니다. 우선 모델을 생성하지만 데이터베이스에 저장하지는 않는, `make` 메소드를 사용할 것입니다.
+팩토리를 정의한 뒤에는, 피쳐 테스트나 모델 인스턴스를 생성하기 위한 시드 파일안에서 글로벌 `factory` 함수를 사용할 수 있습니다. 그럼 모델들을 생성하는 몇몇의 예제를 살펴보겠습니다. 우선 모델을 생성하지만 데이터베이스에 저장하지는 않는, `make` 메소드를 사용할 것입니다.
 
     public function testDatabase()
     {
@@ -354,9 +370,9 @@ If the relationship depends on the factory that defines it you may provide a cal
 ## Using Seeds
 ## Seed 사용
 
-If you would like to use [database seeders](/docs/{{version}}/seeding) to populate your database during a test, you may use the `seed` method. By default, the `seed` method will return the `DatabaseSeeder`, which should execute all of your other seeders. Alternatively, you pass a specific seeder class name to the `seed` method:
+If you would like to use [database seeders](/docs/{{version}}/seeding) to populate your database during a feature test, you may use the `seed` method. By default, the `seed` method will return the `DatabaseSeeder`, which should execute all of your other seeders. Alternatively, you pass a specific seeder class name to the `seed` method:
 
-테스트 도중 [database seeders](/docs/{{version}}/seeding)를 사용하여 데이터베이스를 채워 넣으려면 `seed` 메소드를 사용할 수 있습니다. 기본적으로`seed` 메소드는 `DatabaseSeeder`를 반환하는데, 이 메소드는 다른 모든 seeder를 실행해야 합니다. 또는 특정 seeder 클래스 이름을 `seed` 메소드에 전달하십시오.
+피쳐 테스트 도중 [database seeders](/docs/{{version}}/seeding)를 사용하여 데이터베이스를 채워 넣으려면 `seed` 메소드를 사용할 수 있습니다. 기본적으로`seed` 메소드는 `DatabaseSeeder`를 반환하는데, 이 메소드는 다른 모든 seeder를 실행해야 합니다. 또는 특정 seeder 클래스 이름을 `seed` 메소드에 전달하십시오.
 
     <?php
 
@@ -392,9 +408,9 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
 ## Available Assertions
 ## 사용 가능한 Assertions
 
-Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) tests:
+Laravel provides several database assertions for your [PHPUnit](https://phpunit.de/) feature tests:
 
-라라벨은 [PHPUnit](https://phpunit.de/) 테스트에서 사용가능한 데이터데이스 assertion을 제공합니다.
+라라벨은 [PHPUnit](https://phpunit.de/) 피쳐 테스트에서 사용가능한 데이터데이스 assertion을 제공합니다.
 
 Method  | Description
 ------------- | -------------
@@ -418,11 +434,11 @@ For example, if you are using a model factory in your test, you may pass this mo
 
 예를 들어 테스트에서 모델 팩토리를 사용하는 경우, 이 모델을 이 헬퍼들 중 하나에 전달하여 애플리케이션이 데이터베이스에서 레코드를 올바르게 삭제했는지 테스트 할 수 있습니다.
 
-  public function testDatabase()
-  {
-      $user = factory(App\User::class)->create();
+    public function testDatabase()
+    {
+        $user = factory(App\User::class)->create();
 
-      // Make call to application...
+        // Make call to application...
 
-      $this->assertDeleted($user);
-  }
+        $this->assertDeleted($user);
+    }

@@ -5,6 +5,8 @@
 - [시작하기](#introduction)
     - [Customizing Request Headers](#customizing-request-headers)
     - [요청-Request 헤더 커스터마이징하기](#customizing-request-headers)
+    - [Cookies](#cookies)
+    - [쿠키](#cookies)
     - [Debugging Responses](#debugging-responses)
     - [응답 디버깅](#debugging-responses)
 - [Session / Authentication](#session-and-authentication)
@@ -24,9 +26,9 @@
 ## Introduction
 ## 시작하기
 
-Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the test defined below:
+Laravel provides a very fluent API for making HTTP requests to your application and examining the output. For example, take a look at the feature test defined below:
 
-라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 테스트 예제를 살펴보겠습니다.
+라라벨은 애플리케이션에 HTTP request-요청을 하고, 결과를 검사하는데 사용할 수 있는, 유연한 API를 제공합니다. 다음에 정의된 피쳐 테스트 예제를 살펴보겠습니다.
 
     <?php
 
@@ -90,13 +92,36 @@ You may use the `withHeaders` method to customize the request's headers before i
 
 > {tip} 테스트가 실행되는 동안 CSRF 미들웨어는 자동으로 비활성화 됩니다.
 
+<a name="cookies"></a>
+### Cookies
+### 쿠키
+
+You may use the `withCookie` or `withCookies` methods to set cookie values before making a request. The `withCookie` method accepts a cookie name and value as its two arguments, while the `withCookies` method accepts an array of name / value pairs:
+
+`withCookie` 또는 `withCookies` 메소드를 사용하여 요청하기 전에 쿠키 값을 설정할 수 있습니다. `withCookie` 메소드는 쿠키 이름과 값을 두 개의 인수로 받아들이고`withCookies` 메소드는 이름 / 값 쌍의 배열을받습니다.
+
+    <?php
+
+    class ExampleTest extends TestCase
+    {
+        public function testCookies()
+        {
+            $response = $this->withCookie('color', 'blue')->get('/');
+
+            $response = $this->withCookies([
+                'color' => 'blue',
+                'name' => 'Taylor',
+            ])->get('/');
+        }
+    }
+
 <a name="debugging-responses"></a>
 ### Debugging Responses
 ### 응답 디버깅
 
-After making a test request to your application, the `dump` and `dumpHeaders` methods may be used to examine and debug the response contents:
+After making a test request to your application, the `dump`, `dumpHeaders`, and `dumpSession` methods may be used to examine and debug the response contents:
 
-애플리케이션에 테스트 요청을 한 후에는 `dump` 및 `dumpHeaders` 메소드를 사용하여 응답 내용을 검사하고 디버그 할 수 있습니다.
+애플리케이션에 테스트 요청을 한 후에는 `dump`, `dumpHeaders` 및 `dumpSession` 메소드를 사용하여 응답 내용을 검사하고 디버그 할 수 있습니다.
 
 
     <?php
@@ -119,6 +144,8 @@ After making a test request to your application, the `dump` and `dumpHeaders` me
             $response = $this->get('/');
 
             $response->dumpHeaders();
+
+            $response->dumpSession();
 
             $response->dump();
         }
@@ -311,6 +338,12 @@ In addition to creating images, you may create files of any other type using the
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes);
 
+If needed, you may pass a `$mimeType` argument to the method to explicitly define the MIME type that should be returned by the file:
+
+필요한 경우, 파일에 의해 반환되어야하는 MIME 유형을 명시적으로 정의하기 위해 메소드에 `$mimeType` 인수를 전달할 수 있습니다.
+
+    UploadedFile::fake()->create('document.pdf', $sizeInKilobytes, 'application/pdf');
+
 <a name="available-assertions"></a>
 ## Available Assertions
 ## 사용 가능한 Assertions
@@ -319,9 +352,9 @@ In addition to creating images, you may create files of any other type using the
 ### Response Assertions
 ### 응답-response Assertions
 
-Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
+Laravel provides a variety of custom assertion methods for your [PHPUnit](https://phpunit.de/) feature tests. These assertions may be accessed on the response that is returned from the `json`, `get`, `post`, `put`, and `delete` test methods:
 
-라라벨은 [PHPUnit](https://phpunit.de/) 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다.
+라라벨은 [PHPUnit](https://phpunit.de/) 피쳐 테스트를 위해 다양한 커스텀 assertion 메소드를 제공합니다. 이러한 assertions 은 `json`, `get`, `post`, `put`, 그리고 `delete` 테스트 메소드에서 반환된 response-응답에 엑세스 할 수 있습니다.
 
 <style>
     .collection-method-list > p {
@@ -801,9 +834,9 @@ response-응답 뷰가 주어진 데이터가 아닌것을 확인:
 ### Authentication Assertions
 ### 인증 Assertions
 
-Laravel also provides a variety of authentication related assertions for your [PHPUnit](https://phpunit.de/) tests:
+Laravel also provides a variety of authentication related assertions for your [PHPUnit](https://phpunit.de/) feature tests:
 
-라라벨은 또한 [PHPUnit](https://phpunit.de/) 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다.
+라라벨은 또한 [PHPUnit](https://phpunit.de/) 피쳐 테스트를 위해서 인증과 관련된 다양한 assertion 메소드를 제공합니다.
 
 Method  | Description
 ------------- | -------------

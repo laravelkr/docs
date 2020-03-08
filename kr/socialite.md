@@ -80,6 +80,7 @@ Next, you are ready to authenticate users! You will need two routes: one for red
 
     namespace App\Http\Controllers\Auth;
 
+    use App\Http\Controllers\Controller;
     use Socialite;
 
     class LoginController extends Controller
@@ -163,6 +164,10 @@ The `stateless` method may be used to disable session state verification. This i
 `stateless` 메소드는 세션의 상태를 확인하지 않게 하도록 하기 위해 사용될 수 있습니다. 이는 소셜 로그인을 API에 추가할 때 유용합니다.
 
     return Socialite::driver('google')->stateless()->user();
+
+> {note} Stateless authentication is not available for the Twitter driver, which uses OAuth 1.0 for authentication.
+
+> {note} OAuth 1.0을 인증에 사용하는 Twitter 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.
 
 <a name="retrieving-user-details"></a>
 ## Retrieving User Details

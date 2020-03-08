@@ -25,6 +25,14 @@
     - [토큰 요청](#requesting-tokens)
     - [Refreshing Tokens](#refreshing-tokens)
     - [토큰 갱신하기](#refreshing-tokens)
+    - [Purging Tokens](#purging-tokens)
+    - [토큰 제거](#purging-tokens)
+- [Authorization Code Grant with PKCE](#code-grant-pkce)
+- [PKCE를 통한 인증 코드 부여](#code-grant-pkce)
+    - [Creating The Client](#creating-a-auth-pkce-grant-client)
+    - [클라이언트 생성](#creating-a-auth-pkce-grant-client)
+    - [Requesting Tokens](#requesting-auth-pkce-grant-tokens)
+    - [토큰 요청](#requesting-auth-pkce-grant-tokens)
 - [Password Grant Tokens](#password-grant-tokens)
 - [패스워드 Grant 토큰](#password-grant-tokens)
     - [Creating A Password Grant Client](#creating-a-password-grant-client)
@@ -324,7 +332,7 @@ You are free to extend the models used internally by Passport:
 
 Passport가 내부적으로 사용하는 모델을 자유롭게 확장 할 수 있습니다.
 
-    use App\Models\Passport\Client as PassportClient;
+    use Laravel\Passport\Client as PassportClient;
 
     class Client extends PassportClient
     {
@@ -391,7 +399,7 @@ If you would like to whitelist multiple redirect URLs for your client, you may s
 
     http://example.com/callback,http://examplefoo.com/callback
 
-> {note} Any URLs which contains commas must be encoded.
+> {note} Any URL which contains commas must be encoded.
 
 > {note} 쉼표가 포함 된 URL은 모두 인코딩해야합니다.
 
@@ -524,9 +532,9 @@ If you would like to customize the authorization approval screen, you may publis
 
     php artisan vendor:publish --tag=passport-views
 
-Sometimes you may wish to skip the authorization prompt, such as when authorizing a first-party client. You may accomplish this by defining a `skipsAuthorization` method on the client model. If `skipsAuthorization` returns `true` the client will be approved and the user will be redirected back to the `redirect_uri` immediately:
+Sometimes you may wish to skip the authorization prompt, such as when authorizing a first-party client. You may accomplish this by [extending the `Client` model](#overriding-default-models) and defining a `skipsAuthorization` method. If `skipsAuthorization` returns `true` the client will be approved and the user will be redirected back to the `redirect_uri` immediately:
 
-때로는 자체 클라이언트에 권한 부여 할 때와 같이 권한 부여 입력창를 건너 뛰고 싶을 수 있습니다. 클라이언트 모델에서 `skipsAuthorization` 메소드를 정의하여 이를 수행 할 수 있습니다. `skipsAuthorization`가 `true`를 반환하면 클라이언트는 승인되고 즉시 `redirect_uri`로 리디렉션됩니다.
+때로는 자체 클라이언트에 권한 부여 할 때와 같이 권한 부여 입력창를 건너 뛰고 싶을 수 있습니다. [`Client` 모델](#overriding-default-models)을 확장하고 `skipsAuthorization` 메소드를 정의하여 이를 수행 할 수 있습니다. `skipsAuthorization`가 `true`를 반환하면 클라이언트는 승인되고 즉시 `redirect_uri`로 리디렉션됩니다.
 
     <?php
 
@@ -612,6 +620,142 @@ If your application issues short-lived access tokens, users will need to refresh
 This `/oauth/token` route will return a JSON response containing `access_token`, `refresh_token`, and `expires_in` attributes. The `expires_in` attribute contains the number of seconds until the access token expires.
 
 `/oauth/token` 라우트는 `access_token`, `refresh_token`, 그리고 `expires_in`을 포함하는 JSON 응답-response를 반환합니다. `expires_in` 속성은 엑세스 토큰이 만료되기까지의 (초)를 가지고 있습니다.
+
+<a name="purging-tokens"></a>
+### Purging Tokens
+### 토큰 제거
+
+When tokens have been revoked or expired, you might want to purge them from the database. Passport ships with a command that can do this for you:
+
+토큰이 취소되거나 만료되면 데이터베이스에서 제거 할 수 있습니다. Passport는 다음과 같은 명령을 제공합니다.
+
+    # Purge revoked and expired tokens and auth codes...
+    php artisan passport:purge
+
+    # Only purge revoked tokens and auth codes...
+    php artisan passport:purge --revoked 
+
+    # Only purge expired tokens and auth codes...
+    php artisan passport:purge --expired
+
+You may also configure a [scheduled job](/docs/{{version}}/scheduling) in your console `Kernel` class to automatically prune your tokens on a schedule:
+
+콘솔 `Kernel` 클래스에서 [스케줄 된 job](/docs/{{version}}/scheduling)을 설정하여 스케줄에 따라 토큰을 자동으로 정리할 수도 있습니다.
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('passport:purge')->hourly();
+    }
+
+<a name="code-grant-pkce"></a>
+## Authorization Code Grant with PKCE
+## PKCE를 통한 인증 코드 부여
+
+The Authorization Code grant with "Proof Key for Code Exchange" (PKCE) is a secure way to authenticate single page applications or native applications to access your API. This grant should be used when you can't guarantee that the client secret will be stored confidentially or in order to mitigate the threat of having the authorization code intercepted by an attacker. A combination of a "code verifier" and a "code challenge" replaces the client secret when exchanging the authorization code for an access token.
+
+"PKCE(Proof Key for Code Exchange)"가 포함 된 인증 코드 부여는 SPA(single page applications) 또는 네이티브 애플리케이션이 인증하여 API에 액세스하는 안전한 방법입니다. 이 권한 부여는 클라이언트 암호가 비밀로 저장되도록하거나 공격자가 인증 코드를 가로채는 위협을 완화하기 위해 사용할 수 없는 경우에 사용해야합니다. "코드 검증기"와 "코드 챌린지"의 조합은 액세스 토큰의 인증 코드를 교환 할 때 클라이언트 암호를 대체합니다.
+
+<a name="creating-a-auth-pkce-grant-client"></a>
+### Creating The Client
+### 클라이언트 생성
+
+Before your application can issue tokens via the authorization code grant with PKCE, you will need to create a PKCE-enabled client. You may do this using the `passport:client` command with the `--public` option:
+
+애플리케이션이 PKCE와의 인증 코드 부여를 통해 토큰을 발급하려면 PKCE가 가능한 클라이언트를 만들어야합니다. `--public` 옵션과 함께 `passport:client` 명령을 사용하여 이를 수행 할 수 있습니다.
+
+    php artisan passport:client --public
+
+<a name="requesting-auth-pkce-grant-tokens"></a>
+### Requesting Tokens
+### 토큰 요청
+
+#### Code Verifier & Code Challenge
+#### 코드 검증기 및 코드 챌린지
+
+As this authorization grant does not provide a client secret, developers will need to generate a combination of a code verifier and a code challenge in order to request a token.
+
+이 권한 부여는 클라이언트 시크릿을 제공하지 않으므로 개발자는 토큰을 요청하기 위해 코드 검증기와 코드 챌린지의 조합을 생성해야합니다.
+
+The code verifier should be a random string of between 43 and 128 characters containing letters, numbers and  `"-"`, `"."`, `"_"`, `"~"`, as defined in the [RFC 7636 specification](https://tools.ietf.org/html/rfc7636).
+
+코드 검증기는 [RFC 7636 사양](https://tools.ietf.org/html/rfc7636)에 정의 된대로 문자, 숫자 및 `"-"`, `"."`, `"_"`, `"~"` 를 포함하는 43 ~ 128 자의 임의 문자열이어야합니다.
+
+The code challenge should be a Base64 encoded string with URL and filename-safe characters. The trailing `'='` characters should be removed and no line breaks, whitespace, or other additional characters should be present.
+
+코드 챌린지는 URL 및 파일 이름이 안전한 문자가 포함 된 Base64 인코딩 문자열이어야합니다. `'='`문자로 끝나는 것은 제거해야하며 줄 바꿈, 공백 또는 기타 추가 문자가 없어야합니다.
+
+    $encoded = base64_encode(hash('sha256', $code_verifier, true));
+
+    $codeChallenge = strtr(rtrim($encoded, '='), '+/', '-_');
+
+#### Redirecting For Authorization
+#### 권한 재 지정
+
+Once a client has been created, you may use the client ID and the generated code verifier and code challenge to request an authorization code and access token from your application. First, the consuming application should make a redirect request to your application's `/oauth/authorize` route:
+
+클라이언트가 작성되면 클라이언트 ID와 생성 된 코드 검증기 및 코드 챌린지를 사용하여 애플리케이션에서 인증 코드 및 액세스 토큰을 요청할 수 있습니다. 먼저, 소비 애플리케이션은 애플리케이션의 `/oauth/authorize` 경로로 리다이렉션을 요청해야합니다.
+
+    Route::get('/redirect', function (Request $request) {
+        $request->session()->put('state', $state = Str::random(40));
+
+        $request->session()->put('code_verifier', $code_verifier = Str::random(128));
+
+        $codeChallenge = strtr(rtrim(
+            base64_encode(hash('sha256', $code_verifier, true))
+        , '='), '+/', '-_');
+
+        $query = http_build_query([
+            'client_id' => 'client-id',
+            'redirect_uri' => 'http://example.com/callback',
+            'response_type' => 'code',
+            'scope' => '',
+            'state' => $state,
+            'code_challenge' => $codeChallenge,
+            'code_challenge_method' => 'S256',
+        ]);
+
+        return redirect('http://your-app.com/oauth/authorize?'.$query);
+    });
+
+#### Converting Authorization Codes To Access Tokens
+#### 토큰에 액세스하기 위해 권한 부여 코드 변환
+
+If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should verify the `state` parameter against the value that was stored prior to the redirect, as in the standard Authorization Code Grant.
+
+사용자가 승인 요청을 승인하면 소비 애플리케이션으로 다시 리디렉션됩니다. 소비자는 표준 Authorization Code Grant에서와 같이 경로 재 지정 전에 저장된 값에 대해`state` 파라메터를 확인해야합니다.
+
+If the state parameter matches, the consumer should issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request along with the originally generated code verifier:
+
+state 파라메터가 일치하면 소비자는 애플리케이션에 `POST` 요청으로 액세스 토큰을 요청해야합니다. 요청에는 사용자가 원래 생성 된 코드 검증기와 함께 권한 부여 요청을 승인 할 때 애플리케이션에서 발행 한 권한 부여 코드가 포함되어야합니다.
+
+    Route::get('/callback', function (Request $request) {
+        $state = $request->session()->pull('state');
+
+        $codeVerifier = $request->session()->pull('code_verifier');
+
+        throw_unless(
+            strlen($state) > 0 && $state === $request->state,
+            InvalidArgumentException::class
+        );
+
+        $response = (new GuzzleHttp\Client)->post('http://your-app.com/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => 'client-id',
+                'redirect_uri' => 'http://example.com/callback',
+                'code_verifier' => $codeVerifier,
+                'code' => $request->code,
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
+    });
 
 <a name="password-grant-tokens"></a>
 ## Password Grant Tokens

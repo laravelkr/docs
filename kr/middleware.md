@@ -235,8 +235,8 @@ Middleware groups may be assigned to routes and controller actions using the sam
     Route::group(['middleware' => ['web']], function () {
         //
     });
-    
-    Route::middleware(['web', 'subscribed'])->group(function () { 
+
+    Route::middleware(['web', 'subscribed'])->group(function () {
         //
     });
 
@@ -347,6 +347,18 @@ The `terminate` method should receive both the request and the response. Once yo
 
 `terminate` 메소드는 Http 요청과 응답의 두 가지를 전달 받는 구조여야 합니다. 종료시 동작하는 미들웨어는 `app/Http/Kernel.php` 파일의 라우트나 글로벌 미들웨어 목록에 추가해야 합니다.
 
-When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method.
+When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method. Typically this should be done in the `register` method of your `AppServiceProvider.php`:
 
-미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오.
+미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오. 이것은 일반적으로`AppServiceProvider.php`의 `register` 메소드에서 수행해야합니다.
+
+    use App\Http\Middleware\TerminableMiddleware;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton(TerminableMiddleware::class);
+    }

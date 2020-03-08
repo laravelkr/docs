@@ -99,6 +99,10 @@ But, before diving too deep into using relationships, let's learn how to define 
 
 relationship을 사용하는 법에 더 깊이 알아보기 전에, 각 타입을 어떻게 정의햐는지 알아보도록 합시다.
 
+> {note} Relationship names cannot collide with attribute names as that could lead to your model not being able to know which one to resolve.
+
+> {note} relationship 이름은 attribute 이름과 충돌 할 수 없으므로 모델이 처리해야 할 모델을 알지 못할 수 있습니다.
+
 <a name="one-to-one"></a>
 ### One To One
 ### 1:1(일대일) 관계 정의하기
@@ -304,9 +308,32 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 ### Many To Many
 ### \*:* (다대다) 관계 정의하기
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
 
-다대다 관계는 `hasOne`과 `hasMany` 관계들에 비해서 조금 더 복잡합니다. 이런 관계의 예로 사용자가 여러 역할을 가지면서 그 역할들이 다른 사용자와 공유되는 경우가 있습니다. 예를 들어 여러 사용자들이 "Admin" 역할을 할 수 있습니다. 이 관계를 정의하기 위해는 `users`, `roles`, 그리고 `role_user`의 3개의 데이터베이스 테이블이 필요합니다. `role_user` 테이블은 관련된 모델 이름의 알파펫 순으로부터 정렬되며 `user_id`와 `role_id` 컬럼을 가지고 있습니다.
+Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". 
+
+다 대다 관계는 `hasOne` 및 `hasMany` 관계보다 약간 더 복잡합니다. 이러한 관계의 예는 많은 역할을 가진 유저이며, 다른 유저도 해당 역할을 공유합니다. 예를 들어 많은 유저가 "관리자" 역할을 할 수 있습니다.
+
+#### Table Structure
+#### Table 구조
+
+To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns:
+
+이 관계를 정의하려면 `users`, `roles` 및 `role_user`의 세 가지 데이터베이스 테이블이 필요합니다. `role_user` 테이블은 관련 모델 이름의 알파벳 순서에서 파생되며`user_id` 및 `role_id` 열을 포함합니다.
+
+    users
+        id - integer
+        name - string
+
+    roles
+        id - integer
+        name - string
+
+    role_user
+        user_id - integer
+        role_id - integer
+
+#### Model Structure
+#### Model 구조
 
 Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
 
@@ -442,13 +469,15 @@ Once this is done, you may access the intermediate table data using the customiz
 #### Filtering Relationships Via Intermediate Table Columns
 #### 중간 테이블의 컬럼을 사용한 관계의 필터링
 
-You can also filter the results returned by `belongsToMany` using the `wherePivot` and `wherePivotIn` methods when defining the relationship:
+You can also filter the results returned by `belongsToMany` using the `wherePivot`, `wherePivotIn`, and `wherePivotNotIn` methods when defining the relationship:
 
-관계를 정의할 때, `wherePivot` 과 `wherePivotIn` 메소드를 사용하여 `belongsToMany`이 반환하는 결과를 필터링 할 수도 있습니다.
+관계를 정의할 때, `wherePivot`, `wherePivotIn`과 `wherePivotNotIn` 메소드를 사용하여 `belongsToMany`이 반환하는 결과를 필터링 할 수도 있습니다.
 
     return $this->belongsToMany('App\Role')->wherePivot('approved', 1);
 
     return $this->belongsToMany('App\Role')->wherePivotIn('priority', [1, 2]);
+
+    return $this->belongsToMany('App\Role')->wherePivotNotIn('priority', [1, 2]);
 
 <a name="defining-custom-intermediate-table-models"></a>
 ### Defining Custom Intermediate Table Models
@@ -1166,7 +1195,7 @@ You may use "dot" notation to execute a query against a nested relationship. For
     use Illuminate\Database\Eloquent\Builder;
 
     $posts = App\Post::whereDoesntHave('comments.author', function (Builder $query) {
-        $query->where('banned', 1);
+        $query->where('banned', 0);
     })->get();
 
 <a name="querying-polymorphic-relationships"></a>

@@ -37,7 +37,7 @@
     - [메소드 필드](#method-field)
     - [Validation Errors](#validation-errors)
     - [유효성 검증 실패](#validation-errors)
-- [Including Sub-Views](#including-sub-views)
+- [Including Subviews](#including-subviews)
 - [하위 뷰파일 포함시키기](#including-sub-views)
     - [Rendering Views For Collections](#rendering-views-for-collections)
     - [컬렉션을 뷰에서 렌더링하기](#rendering-views-for-collections)
@@ -167,7 +167,7 @@ To instruct Laravel to load the first view that exists from a given array of pos
 
 Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다.
 
-    @componentFirst(['custom.alert', 'alert'])
+    @componentfirst(['custom.alert', 'alert'])
         <strong>Whoops!</strong> Something went wrong!
     @endcomponentfirst
 
@@ -209,7 +209,7 @@ Sometimes you may need to pass additional data to a component. For this reason, 
 #### Aliasing Components
 #### 별칭 컴포넌트
 
-If your Blade components are stored in a sub-directory, you may wish to alias them for easier access. For example, imagine a Blade component that is stored at `resources/views/components/alert.blade.php`. You may use the `component` method to alias the component from `components.alert` to `alert`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
+If your Blade components are stored in a subdirectory, you may wish to alias them for easier access. For example, imagine a Blade component that is stored at `resources/views/components/alert.blade.php`. You may use the `component` method to alias the component from `components.alert` to `alert`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
 
 블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다.
 
@@ -683,8 +683,8 @@ You may pass [the name of a specific error bag](/docs/{{version}}/validation#nam
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 
-<a name="including-sub-views"></a>
-## Including Sub-Views
+<a name="including-subviews"></a>
+## Including Subviews
 ## 하위 뷰 포함하기
 
 Blade's `@include` directive allows you to include a Blade view from within another view. All variables that are available to the parent view will be made available to the included view:
@@ -736,7 +736,7 @@ To include the first view that exists from a given array of views, you may use t
 #### Aliasing Includes
 #### Include의 별칭 지정
 
-If your Blade includes are stored in a sub-directory, you may wish to alias them for easier access. For example, imagine a Blade include that is stored at `resources/views/includes/input.blade.php` with the following content:
+If your Blade includes are stored in a subdirectory, you may wish to alias them for easier access. For example, imagine a Blade include that is stored at `resources/views/includes/input.blade.php` with the following content:
 
 Blade Include가 하위 디렉토리에 저장되어있는 경우 쉽게 액세스 할 수 있도록 별칭을 지정할 수 있습니다. 예를 들어, 다음 내용으로 `resources/views/includes/input.blade.php`에 저장된 블레이드 포함 시키는 것을 생각해보십시오 :
 

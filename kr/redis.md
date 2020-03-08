@@ -243,9 +243,9 @@ This will give you an instance of the default Redis server. You may also pass th
 ### Pipelining Commands
 ### 파이프라이닝 명령어
 
-Pipelining should be used when you need to send many commands to the server in one operation. The `pipeline` method accepts one argument: a `Closure` that receives a Redis instance. You may issue all of your commands to this Redis instance and they will all be executed within a single operation:
+Pipelining should be used when you need to send many commands to the server. The `pipeline` method accepts one argument: a `Closure` that receives a Redis instance. You may issue all of your commands to this Redis instance and they will all be streamed to the server thus providing better performance:
 
-파이프라이닝은 다수의 명령어들을 한번에 서버로 보내야 할 때 사용되어집니다. `pipeline` 메소드는 Redis 인스턴스를 전달받는 하나의 `Closure`를 하나의 인자로 전달 받습니다. 이 Redis 인스턴스에 모든 명령을 내리 수 있으며 모든 명령은 단일 작업 내에서 실행됩니다.
+파이프라이닝은 다수의 명령어들을 서버로 보내야 할 때 사용되어집니다. `pipeline` 메소드는 Redis 인스턴스를 전달받는 하나의 `Closure`를 하나의 인자로 전달 받습니다. 이 Redis 인스턴스에 모든 명령이 서버로 스트리밍되므로 성능이 향상됩니다.
 
     Redis::pipeline(function ($pipe) {
         for ($i = 0; $i < 1000; $i++) {

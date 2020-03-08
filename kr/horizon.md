@@ -3,14 +3,14 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-- [Upgrading Horizon](#upgrading)
-- [Horizon 업그레이드](#upgrading)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Configuration](#configuration)
     - [설정하기](#configuration)
     - [Dashboard Authorization](#dashboard-authorization)
     - [Dashboard 권한 부여](#dashboard-authorization)
+- [Upgrading Horizon](#upgrading)
+- [Horizon 업그레이드](#upgrading)
 - [Running Horizon](#running-horizon)
 - [Horizon 실행하기](#running-horizon)
     - [Deploying Horizon](#deploying-horizon)
@@ -38,20 +38,6 @@ All of your worker configuration is stored in a single, simple configuration fil
 <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
 </p>
 
-<a name="upgrading"></a>
-#### Upgrading Horizon
-#### Horizon 업그레이드
-
-When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
-
-Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
-
-In addition, you should re-publish Horizon's assets:
-
-또한 Horizon의 자산-asssets을 다시 게시해야합니다.
-
-    php artisan horizon:assets
-
 <a name="installation"></a>
 ## Installation
 ## 설치하기
@@ -71,14 +57,6 @@ After installing Horizon, publish its assets using the `horizon:install` Artisan
 Horizon을 설치 한 뒤에 `horizon:install` 아티즌 명령어를 이용하여 에셋(assets) 파일을 퍼블리싱 합니다.
 
     php artisan horizon:install
-
-You should also create the `failed_jobs` table which Laravel will use to store any [failed queue jobs](/docs/{{version}}/queues#dealing-with-failed-jobs):
-
-[실패한 queue-큐 작업](/docs/{{version}}/queues#dealing-with-failed-jobs)을 저장하기 위한 `failed_job` 테이블을 생성해야합니다.
-
-    php artisan queue:failed-table
-
-    php artisan migrate
 
 <a name="configuration"></a>
 ### Configuration
@@ -105,9 +83,9 @@ The `auto` strategy adjusts the number of worker processes per queue based on th
 
 `auto`는 queue의 현재 작업 부하량을 기준으로 queue당 worker 프로세스를 조절 합니다. 예를들어 `notifications` queue에 1000개의 작업이 대기중인데, `render` queue는 비어있는 경우라면, Horizon은 `notifications` queue가 비게 될때까지 더 많은 worker를 notification queue에 배정 합니다. 밸런스 옵션이 `false`일 경우에는, 라라벨 기본 동작으로 설정에 나열된 순서 대로 queue를 처리합니다.
 
-When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to:	
+When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to. The `minProcesses` value specifies the minimum number of processes per queue, while the `maxProcesses` value specifies the maximum number of processes across all queues:
 
-`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다.
+`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다. `minProcesses` 값은 대기열 당 최소 프로세스 수를 지정하고 `maxProcesses` 값은 모든 대기열에서 최대 프로세스 수를 지정합니다.
 
     'environments' => [
         'production' => [
@@ -163,6 +141,21 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
 
 > {note} 라라벨은 *인증된* 사용자를 게이트에 자동으로 주입합니다. IP 제한과 같이 다른 방법으로 Horizon 보안을 제공한다면 사용자는 `로그인`이 필요하지 않을 수 있습니다. 따라서 라라벨이 인증을 요구하지 않게 하려면 위의`function ($user)` `function ($user = null)` 변경해야 합니다.
 
+
+<a name="upgrading"></a>
+#### Upgrading Horizon
+#### Horizon 업그레이드
+
+When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
+
+Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
+
+In addition, you should re-publish Horizon's assets:
+
+또한 Horizon의 자산-asssets을 다시 게시해야합니다.
+
+    php artisan horizon:assets
+
 <a name="running-horizon"></a>
 ## Running Horizon
 ## Horizon 실행하기
@@ -180,6 +173,12 @@ You may pause the Horizon process and instruct it to continue processing jobs us
     php artisan horizon:pause
 
     php artisan horizon:continue
+
+You may check the current status of the Horizon process using the `horizon:status` Artisan command:
+
+`horizon:status` Artisan 명령을 사용하여 Horizon 프로세스의 현재 상태를 확인할 수 있습니다.
+
+    php artisan horizon:status
 
 You may gracefully terminate the master Horizon process on your machine using the `horizon:terminate` Artisan command. Any jobs that Horizon is currently processing will be completed and then Horizon will exit:
 
@@ -223,7 +222,11 @@ Supervisor configuration files are typically stored in the `/etc/supervisor/conf
     user=forge
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/horizon.log
+    stopwaitsecs=3600
 
+> {note} You should ensure that the value of `stopwaitsecs` is greater than the number of seconds consumed by your longest running job. Otherwise, Supervisor may kill the job before it is finished processing.
+
+> {note} `stopwaitsecs`의 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 supervisor가 작업을 처리를 완료하기 전에 종료 할 수 있습니다.
 
 #### Starting Supervisor
 #### Supervisor 시작하기

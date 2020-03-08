@@ -42,11 +42,15 @@ As you can see, the first argument passed to the `view` helper corresponds to th
 
 보이는 바와 같이 `view` 헬퍼 함수에 전달하는 첫번째 인자는 `resources/views` 디렉토리에 있는 파일의 이름이 됩니다. 두번째 인자는 뷰에서 사용될 데이터의 배열입니다. 이 예제에서는 뷰에서 [블레이드 문법](/docs/{{version}}/blade)을 통해서 보여지게 될 `name` 변수를 전달하고 있습니다.
 
-Views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
+Views may also be nested within subdirectories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.blade.php`, you may reference it like so:
 
 뷰는 `resources/views` 디렉토리의 중첩된 서브 디렉토리를 구성할 수 있습니다. 중첩된 뷰 파일을 참조하려면 "점"으로 구성된 표기법을 사용할 수 있습니다. 예를 들어 뷰파일이 `resources/views/admin/profile.blade.php` 처럼 저장되었다면 다음처럼 호출해야 합니다.
 
     return view('admin.profile', $data);
+
+> {note} View directory names should not contain the `.` character.
+
+> {note} View 디렉토리 이름에는 `.` 문자가 포함되지 않아야합니다.
 
 #### Determining If A View Exists
 #### 뷰파일이 존재하는지 확인하기

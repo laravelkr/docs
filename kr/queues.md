@@ -68,9 +68,9 @@ Laravel queues provide a unified API across a variety of different queue backend
 
 라라벨의 Queue-큐는 Beanstalk, Amazone SQS, Redis 그리고 관계형 데이터베이스과 같은 다양한 queue 시스템을 위한 통일된 API를 제공합니다. queue를 사용하면 이메일을 보내는 일과 같이 시간이 소요되는 Job을 나중에 처리할 수 있습니다. 이렇게 소모되는 작업들을 나중에 처리함으로써 여러분의 애플리케이션은 웹 요청-request을 더 빠르게 처리할 수 있습니다.
 
-The queue configuration file is stored in `config/queue.php`. In this file you will find connection configurations for each of the queue drivers that are included with the framework, which includes a database, [Beanstalkd](https://kr.github.io/beanstalkd/), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io),  and a synchronous driver that will execute jobs immediately (for local use). A `null` queue driver is also included which discards queued jobs.
+The queue configuration file is stored in `config/queue.php`. In this file you will find connection configurations for each of the queue drivers that are included with the framework, which includes a database, [Beanstalkd](https://beanstalkd.github.io/), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io),  and a synchronous driver that will execute jobs immediately (for local use). A `null` queue driver is also included which discards queued jobs.
 
-큐의 환경 설정 파일은 `config/queue.php`에 있습니다. 이 파일에서 프레임워크에 포함된 데이터베이스, [Beanstalkd](https://kr.github.com/beanstalkd), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), 그리고 (로컬 사용을 위한) job을 즉시 실행하는 synchronous 드라이버 설정을 확인할 수 있습니다. `null`로 설정 시 큐 동작을 비활성화 합니다.
+큐의 환경 설정 파일은 `config/queue.php`에 있습니다. 이 파일에서 프레임워크에 포함된 데이터베이스, [Beanstalkd](https://beanstalkd.github.io/), [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), 그리고 (로컬 사용을 위한) job을 즉시 실행하는 synchronous 드라이버 설정을 확인할 수 있습니다. `null`로 설정 시 큐 동작을 비활성화 합니다.
 
 <a name="connections-vs-queues"></a>
 ### Connections Vs. Queues
@@ -152,7 +152,7 @@ Adjusting this value based on your queue load can be more efficient than continu
     ],
 
 > {note} Setting `block_for` to `0` will cause queue workers to block indefinitely until a job is available. This will also prevent signals such as `SIGTERM` from being handled until the next job has been processed.
-   
+
 > {note} `block_for`를 `0`으로 설정하면 작업을 사용할 수있을 때까지 큐 작업자가 무기한으로 대기됩니다. 이렇게하면 다음 작업이 처리 될 때까지 `SIGTERM`과 같은 신호가 처리되지 않습니다.
 
 #### Other Driver Prerequisites
@@ -235,9 +235,9 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
         }
     }
 
-In this example, note that we were able to pass an [Eloquent model](/docs/{{version}}/eloquent) directly into the queued job's constructor. Because of the `SerializesModels` trait that the job is using, Eloquent models will be gracefully serialized and unserialized when the job is processing. If your queued job accepts an Eloquent model in its constructor, only the identifier for the model will be serialized onto the queue. When the job is actually handled, the queue system will automatically re-retrieve the full model instance from the database. It's all totally transparent to your application and prevents issues that can arise from serializing full Eloquent model instances.
+In this example, note that we were able to pass an [Eloquent model](/docs/{{version}}/eloquent) directly into the queued job's constructor. Because of the `SerializesModels` trait that the job is using, Eloquent models and their loaded relationships will be gracefully serialized and unserialized when the job is processing. If your queued job accepts an Eloquent model in its constructor, only the identifier for the model will be serialized onto the queue. When the job is actually handled, the queue system will automatically re-retrieve the full model instance and its loaded relationships from the database. It's all totally transparent to your application and prevents issues that can arise from serializing full Eloquent model instances.
 
-이 예제에서 queue Job 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. Job 클래스에서 사용하는 SerializesModels 트레이트-trait에 의해 Eloquent 모델은 효과적으로 serialize 될것이며, Job이 처리 될 때 unserialize 됩니다. queue에 저장된 Job이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. Job이 실제로 처리될 때 queue 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 애플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
+이 예제에서 queue Job 클래스의 생성자에 [Eloquent 모델](/docs/{{version}}/eloquent)이 직접적으로 전달된다는 것을 주목하십시오. Job 클래스에서 사용하는 `SerializesModels` 트레이트-trait에 의해 Eloquent 모델과 같이 로드된 관계들은 효과적으로 serialize 될것이며, Job이 처리 될 때 unserialize 됩니다. queue에 저장된 Job이 생성자에서 Eloquent 모델을 전달 받는 경우, 모델의 식별자만 큐로 저장될 때 serialize 될 것입니다. Job이 실제로 처리될 때 queue 시스템은 자동으로 데이터베이스에서 해당 모델 인스턴스를 다시 가져옵니다. 이렇게 하는 것은 애플리케이션을 완전히 투명하게 하고, Eloquent 모델 인스턴스와 로드된 관계들를 serialize 할 때 발생하는 문제를 방지 할 수 있습니다.
 
 The `handle` method is called when the job is processed by the queue. Note that we are able to type-hint dependencies on the `handle` method of the job. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
 
@@ -256,6 +256,24 @@ If you would like to take total control over how the container injects dependenc
 > {note} Binary data, such as raw image contents, should be passed through the `base64_encode` function before being passed to a queued job. Otherwise, the job may not properly serialize to JSON when being placed on the queue.
 
 > {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
+
+#### Handling Relationships
+#### 관계 처리
+
+Because loaded relationships also get serialized, the serialized job string can become quite large. To prevent relations from being serialized, you can call the `withoutRelations` method on the model when setting a property value. This method will return an instance of the model with no loaded relationships:
+
+로드 된 관계도 직렬화되므로 직렬화 된 작업 문자열이 상당히 커질 수 있습니다. 관계가 직렬화되는 것을 방지하기 위해 속성 값을 설정할 때 모델에서 `withoutRelations` 메소드를 호출 할 수 있습니다. 이 메소드는 로드 된 관계가 없는 모델의 인스턴스를 리턴합니다.
+
+    /**
+     * Create a new job instance.
+     *
+     * @param  \App\Podcast  $podcast
+     * @return void
+     */
+    public function __construct(Podcast $podcast)
+    {
+        $this->podcast = $podcast->withoutRelations();
+    }
 
 <a name="job-middleware"></a>
 ### Job Middleware
@@ -736,13 +754,13 @@ Laravel includes a queue worker that will process new jobs as they are pushed on
 
 > {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
 
-Remember, queue workers are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment).
+Remember, queue workers are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment). In addition, remember that any static state created or modified by your application will not be automatically reset between jobs.
 
-주의할 점은 queue worker는 장시간 동안 살아 있는 프로세스 이며 애플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다.
+주의할 점은 queue worker는 장시간 동안 살아 있는 프로세스 이며 애플리케이션의 상태를 메모리에 저장한다는 것입니다. 그 결과, 일단 구동되고 나면 코드 기반의 변경사항은 반영되지 않습니다. 따라서 개발 중에는 직접 [queue worker를 재시작](#queue-workers-and-deployment)해야 합니다. 또한 애플리케이션에서 작성하거나 수정 한 정적 상태는 작업간에 자동으로 재설정되지 않습니다.
 
-Alternatively, you may run the `queue:listen` command. When using the `queue:listen` command, you don't have to manually restart the worker after your code is changed; however, this command is not as efficient as `queue:work`:
+Alternatively, you may run the `queue:listen` command. When using the `queue:listen` command, you don't have to manually restart the worker when you want to reload your updated code or reset the application state; however, this command is not as efficient as `queue:work`:
 
-또는 `queue:listen` 명령을 실행할 수도 있습니다. `queue:listen` 명령을 사용할 때 코드가 변경된 후에는 worker를 수동으로 다시 시작할 필요가 없습니다. 그러나 이 명령은 `queue:work`만큼 효율적이지 않습니다.
+또는 `queue:listen` 명령을 실행할 수도 있습니다. `queue:listen` 명령을 사용하면 업데이트 된 코드를 다시로드하거나 애플리케이션 상태를 재설정 할 때 worker를 수동으로 다시 시작할 필요가 없습니다. 그러나 이 명령은 `queue:work`만큼 효율적이지 않습니다.
 
     php artisan queue:listen
 
@@ -755,7 +773,7 @@ You may also specify which queue connection the worker should utilize. The conne
 
     php artisan queue:work redis
 
-You may customize your queue worker even further by only processing particular queues for a given connection. For example, if all of your emails are processed in an `emails` queue on your `redis` queue connection, you may issue the following command to start a worker that only processes only that queue:
+You may customize your queue worker even further by only processing particular queues for a given connection. For example, if all of your emails are processed in an `emails` queue on your `redis` queue connection, you may issue the following command to start a worker that only processes that queue:
 
 주어진 커넥션의 특정 queue만 처리되도록 queue-큐 worker를 커스터마이즈 할 수 있습니다. 예를 들어, 모든 이메일이 `redis` queue-큐 커넥션의 `emails` queue-큐에서 처리되도록 하고자 할경우, 다음의 명령어를 사용하여 하나의 queue-큐를 처리하는 worker를 시작할 수 있습니다.
 
@@ -838,9 +856,9 @@ In your `config/queue.php` configuration file, each queue connection defines a `
 #### Worker Timeouts
 #### worker 타임아웃
 
-The `queue:work` Artisan command exposes a `--timeout` option. The `--timeout` option specifies how long the Laravel queue master process will wait before killing off a child queue worker that is processing a job. Sometimes a child queue process can become "frozen" for various reasons, such as an external HTTP call that is not responding. The `--timeout` option removes frozen processes that have exceeded that specified time limit:
+The `queue:work` Artisan command exposes a `--timeout` option. The `--timeout` option specifies how long the Laravel queue master process will wait before killing off a child queue worker that is processing a job. Sometimes a child queue process can become "frozen" for various reasons. The `--timeout` option removes frozen processes that have exceeded that specified time limit:
 
-`queue:work` 아티즌 명령어는 `--timeout` 옵션도 지원합니다. `--timeout` 옵션은 라라벨의 queue 마스터 프로세스가 작업을 처리하는 child queue worker가 job을 얼마나 오래 처리하는지 지정합니다. 때로는 child queue 프로세스는 외부 HTTP 호출이 응답이 없는 것과 같은 다양한 이유로, "먹통"이 될 수 있습니다. `--timeout` 옵션은 지정된 실행 시간이 지난 뒤에, "먹통"이 된 프로세스를 제거합니다.
+`queue:work` 아티즌 명령어는 `--timeout` 옵션도 지원합니다. `--timeout` 옵션은 라라벨의 queue 마스터 프로세스가 작업을 처리하는 child queue worker가 job을 얼마나 오래 처리하는지 지정합니다. 때로는 child queue 프로세스는 다양한 이유로, "먹통"이 될 수 있습니다. `--timeout` 옵션은 지정된 실행 시간이 지난 뒤에, "먹통"이 된 프로세스를 제거합니다.
 
     php artisan queue:work --timeout=60
 
@@ -894,10 +912,15 @@ Supervisor 설정 파일은 일반적으로 `/etc/supervisor/conf.d` 디렉토�
     numprocs=8
     redirect_stderr=true
     stdout_logfile=/home/forge/app.com/worker.log
+    stopwaitsecs=3600
 
 In this example, the `numprocs` directive will instruct Supervisor to run 8 `queue:work` processes and monitor all of them, automatically restarting them if they fail. You should change the `queue:work sqs` portion of the `command` directive to reflect your desired queue connection.
 
 이 예제에서, `numprocs` 지시어는 Supervisor에 총 8 개의 `queue:work` 프로세스를 실행하고 이들을 모니터링하여, 이 프로세스가 죽어 있으면, 자동으로 재시작하도록 지시하고 있습니다. `command` 지시어의 `queue:work sqs` 부분을 변경하고 선택한 커넥션에 맞추도록 해야합니다.
+
+> {note} You should ensure that the value of `stopwaitsecs` is greater than the number of seconds consumed by your longest running job. Otherwise, Supervisor may kill the job before it is finished processing.
+
+> {note} `stopwaitsecs`의 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 supervisor가 작업을 처리를 완료하기 전에 종료 할 수 있습니다.
 
 #### Starting Supervisor
 #### Supervisor 시작하기
@@ -1010,6 +1033,10 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
             // Send user notification of failure, etc...
         }
     }
+
+> {note} The `failed` method will not be called if the job was dispatched using the `dispatchNow` method.
+
+> {note} `dispatchNow` 메소드를 사용하여 작업을 전달하면 `failed` 메소드가 호출되지 않습니다.
 
 <a name="failed-job-events"></a>
 ### Failed Job Events

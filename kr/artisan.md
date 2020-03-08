@@ -58,9 +58,23 @@ Every command also includes a "help" screen which displays and describes the com
 ### Tinker (REPL)
 ### Tinker (REPL)
 
-All Laravel applications include Tinker, a REPL powered by the [PsySH](https://github.com/bobthecow/psysh) package. Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+Laravel Tinker is a powerful REPL for the Laravel framework, powered by the [PsySH](https://github.com/bobthecow/psysh) package.
 
-모든 라라벨 애플리케이션에는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 REPL 인 Tinker가 포함됩니다. Tinker를 사용하면 Eloquent ORM, Job, 이벤트 등 커맨드라인을 통해서 라라벨 애플리케이션을 조작할 수 있습니다. Tinker 환경에 진입하려면 `tinker` 아티즌 명령어를 실행하십시오:
+라라벨 Tinker는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 Laravel 프레임워크를 위한 강력한 REPL입니다.
+
+#### Installation
+
+All Laravel applications include Tinker by default. However, you may install it manually if needed using Composer:
+
+모든 라라벨 애플리케이션은 기본적으로 Tinker를 포함합니다. 그러나 필요한 경우 Composer를 사용하여 수동으로 설치할 수도 있습니다.
+
+    composer require laravel/tinker
+
+#### Usage
+
+Tinker allows you to interact with your entire Laravel application on the command line, including the Eloquent ORM, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
+
+Tinker를 사용하면 커맨드 라인에서 Eloquent ORM, Job, 이벤트 등을 포함하는 라라벨 애플리케이션 전체와 상호 작용할 수 있습니다. Tinker에 들어가려면 `tinker` Artisan 커맨드를 실행하십시오.
 
     php artisan tinker
 
@@ -69,6 +83,10 @@ You can publish Tinker's configuration file using the `vendor:publish` command:
 `vendor:publish` 명령어를 사용하여 Tinker의 설정 파일을 구성할 수 있습니다.
 
     php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
+
+> {note} The `dispatch` helper function and `dispatch` method on the `Dispatchable` class depends on garbage collection to place the job on the queue. Therefore, when using tinker, you should use `Bus::dispatch` or `Queue::push` to dispatch jobs.
+
+> {note} `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
 
 #### Command Whitelist
 #### 명령어 화이트리스트
@@ -463,6 +481,18 @@ If you need to give the user a predefined set of choices, you may use the `choic
 미리 주어진 선택지를 사용자에게 제공하려는 경우에는 `choice` 메소드를 사용하면 됩니다. 사용자는 특정한 배열의 인덱스를 선택하고, 결과 값을 선택합니다. 아무것도 선택되지 않은 경우에는 기본값을 지정할 수도 있습니다.
 
     $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $defaultIndex);
+
+In addition, the `choice` method accepts optional fourth and fifth arguments for determining the maximum number of attempts to select a valid response and whether multiple selections are permitted:
+
+또한, `choice` 메소드는 유효한 응답을 선택할 수 있도록 네 번째 및 다섯 번째 인수를 통해 최대 시도 횟수와 다중 선택의 가능 여부 선택적으로 입력받습니다.
+
+    $name = $this->choice(
+        'What is your name?',
+        ['Taylor', 'Dayle'],
+        $defaultIndex,
+        $maxAttempts = null,
+        $allowMultipleSelections = false
+    );
 
 <a name="writing-output"></a>
 ### Writing Output

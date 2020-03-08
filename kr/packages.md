@@ -15,6 +15,8 @@
     - [설정파일](#configuration)
     - [Migrations](#migrations)
     - [마이그레이션 파일들](#migrations)
+    - [Factories](#factories)
+    - [팩토리](#factories)
     - [Routes](#routes)
     - [라우트](#routes)
     - [Translations](#translations)
@@ -210,6 +212,30 @@ If your package contains [database migrations](/docs/{{version}}/migrations), yo
 Once your package's migrations have been registered, they will automatically be run when the `php artisan migrate` command is executed. You do not need to export them to the application's main `database/migrations` directory.
 
 패키지의 마이그레이션 파일들이 등록되고 나면, `php artisan migrate` 명령어를 실행할 때 자동으로 이 파일들이 구동될 것입니다. 이 파일들을 애플리케이션의 메인 `database/migrations` 디렉토리에 복사할 필요가 없습니다.
+
+<a name="factories"></a>
+### Factories
+### 팩토리
+
+If your package contains [database factories](/docs/{{version}}/database-testing#writing-factories), you may use the `loadFactoriesFrom` method to inform Laravel how to load them. The `loadFactoriesFrom` method accepts the path to your package's factories as its only argument:
+
+패키지에 [database factory](/docs/{{version}}/database-testing#writing-factories)가 포함 된 경우 `loadFactoriesFrom` 메소드를 사용하여 로드 방법을 라라벨에 알릴 수 있습니다. `loadFactoriesFrom` 메소드는 패키지 팩토리의 라우트를 유일한 인수로 받아들입니다.
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadFactoriesFrom(__DIR__.'/path/to/factories');
+    }
+
+Once your package's factories have been registered, you can use them in your application:
+
+패키지 팩토리가 등록되면 애플리케이션에서 사용할 수 있습니다.
+
+    factory(Package\Namespace\Model::class)->create();
 
 <a name="translations"></a>
 ### Translations

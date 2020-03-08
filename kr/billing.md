@@ -19,8 +19,14 @@
     - [로깅](#logging)
 - [Customers](#customers)
 - [고객](#customers)
+    - [Retrieving Customers](#retrieving-customers)
+    - [고객 조회](#retrieving-customers)
     - [Creating Customers](#creating-customers)
     - [고객 생성](#creating-customers)
+    - [Updating Customers](#updating-customers)
+    - [고객 업데이트](#updating-customers)
+    - [Custom Email Addresses](#custom-email-addresses)
+    - [Custom Email Addresses](#custom-email-addresses)
 - [Payment Methods](#payment-methods)
 - [결제 수단](#payment-methods)
     - [Storing Payment Methods](#storing-payment-methods)
@@ -59,6 +65,8 @@
     - [결제 수단 사전 등록](#with-payment-method-up-front)
     - [Without Payment Method Up Front](#without-payment-method-up-front)
     - [결제 수단없이 사전 등록](#without-payment-method-up-front)
+    - [Extending Trials](#extending-trials)
+    - [평가기간 연장](#extending-trials)
 - [Handling Stripe Webhooks](#handling-stripe-webhooks)
 - [Stripe webook 처리하기](#handling-stripe-webhooks)
     - [Defining Webhook Event Handlers](#defining-webhook-event-handlers)
@@ -85,6 +93,8 @@
     - [추가 확인이 필요한 결제](#payments-requiring-additional-confirmation)
     - [Off-session Payment Notifications](#off-session-payment-notifications)
     - [세션 외 결제 알림](#off-session-payment-notifications)
+- [Stripe SDK](#stripe-sdk)
+- [Stripe SDK](#stripe-sdk)
 
 <a name="introduction"></a>
 ## Introduction
@@ -215,11 +225,23 @@ Cashier allows you to specify the log channel to be used when logging all Stripe
 
 Cashier를 사용하면 모든 스트라이프 관련 예외를 기록 할 때 사용할 로그 채널을 지정할 수 있습니다. `CASHIER_LOGGER` 환경 변수를 사용하여 로그 채널을 지정할 수 있습니다.
 
-    CASHIER_LOGGER=default
+    CASHIER_LOGGER=stack
 
 <a name="customers"></a>
 ## Customers
 ## 고객
+
+<a name="retrieving-customers"></a>
+### Retrieving Customers
+### 고객 조회
+
+You can retrieve a customer by their Stripe ID using the `Cashier::findBillable` method. This will return an instance of the Billable model:
+
+`Cashier::findBillable` 메서드를 사용하여 스트라이프 ID로 고객을 조회 할 수 있습니다. 그러면 Billable 모델의 인스턴스가 반환됩니다.
+
+    use Laravel\Cashier\Cashier;
+
+    $user = Cashier::findBillable($stripeId);
 
 <a name="creating-customers"></a>
 ### Creating Customers
@@ -229,11 +251,51 @@ Occasionally, you may wish to create a Stripe customer without beginning a subsc
 
 경우에 따라 구독을 시작하지 않고 Stripe 고객을 만들 수도 있습니다. 이 경우 `createAsStripeCustomer` 메소드를 사용하면 됩니다.
 
-    $user->createAsStripeCustomer();
+    $stripeCustomer = $user->createAsStripeCustomer();
 
-Once the customer has been created in Stripe, you may begin a subscription at a later date.
+Once the customer has been created in Stripe, you may begin a subscription at a later date. You can also use an optional `$options` array to pass in any additional parameters which are supported by the Stripe API:
 
-Stripe에서 고객을 생성 한 후 나중에 구독을 시작 할 수도 있습니다.
+Stripe에서 고객이 생성되면 나중에 구독을 시작할 수 있습니다. 선택적인 `$options` 배열을 사용하여 Stripe API에서 지원하는 추가 파라메터를 전달할 수도 있습니다.
+
+    $stripeCustomer = $user->createAsStripeCustomer($options);
+
+You may also use the `createOrGetStripeCustomer` method if you want to return the customer object if the billable entity is already a customer within Stripe.
+
+billable 엔티티가 이미 Stripe의 고객일 경우 고객 오브젝트를 반환하려고 한다면 `createOrGetStripeCustomer` 메소드를 사용할 수도 있습니다.
+
+    $stripeCustomer = $user->createOrGetStripeCustomer();
+
+<a name="updating-customers"></a>
+### Updating Customers
+### 고객 업데이트
+
+Occasionally, you may wish to update the Stripe customer directly with additional information. You may accomplish this using the `updateStripeCustomer` method:
+
+때때로 추가 정보를 사용하여 Stripe 고객을 직접 업데이트 할 수 있습니다. `updateStripeCustomer` 메소드를 사용하여 이를 수행 할 수 있습니다.
+
+    $stripeCustomer = $user->updateStripeCustomer($options);
+
+<a name="custom-email-addresses"></a>
+### Custom Email Addresses
+### Custom Email Addresses
+
+By default, Cashier will use the `email` attribute on your Billable model to create customers within Stripe. You can override this using the `stripeEmail` method:
+
+Cashier는 기본적으로 Billable 모델에서 `email` 속성을 사용하여 Stripe 내에서 고객을 생성합니다. `stripeEmail` 메소드를 사용하여 이것을 덮어 쓸 수 있습니다.
+
+    /**
+     * Get the email address used to create the customer in Stripe.
+     *
+     * @return string|null
+     */
+    public function stripeEmail()
+    {
+        return $this->email;
+    }
+
+You can also choose to return `null` since an email address isn't required for creating a customer within Stripe. If you do not provide an email address, features within Stripe like dunning emails, failed payment reminders, and other email related features will not be available.
+
+Stripe 내에서 고객을 생성하는 데 이메일 주소가 필요하지 않으므로 `null`을 리턴하도록 선택할 수도 있습니다. 이메일 주소를 제공하지 않으면 독촉 이메일, 결제 실패 알림 및 기타 이메일 관련 기능과 같은 Stripe 내의 기능을 사용할 수 없습니다.
 
 <a name="payment-methods"></a>
 ## Payment Methods
@@ -286,18 +348,19 @@ Next, the Stripe.js library may be used to attach a Stripe Element to the form a
         cardElement.mount('#card-element');
     </script>
 
-Next, the card can be verified and a secure "payment method identifier" can be retrieved from Stripe using [Stripe's `handleCardSetup` method](https://stripe.com/docs/stripe-js/reference#stripe-handle-card-setup):
+Next, the card can be verified and a secure "payment method identifier" can be retrieved from Stripe using [Stripe's `confirmCardSetup` method](https://stripe.com/docs/js/setup_intents/confirm_card_setup):
 
-다음으로, [Stripe의 `handleCardSetup` 메소드](https://stripe.com/docs/stripe-js/reference#stripe-handle-card)를 사용하여 카드를 확인하고 안전한 "결제 방법 식별자"를 Stripe에서 조회 할 수 있습니다.
+다음으로, [Stripe의 `confirmCardSetup` 메소드](https://stripe.com/docs/stripe-js/reference#stripe-handle-card)를 사용하여 카드를 확인하고 안전한 "결제 방법 식별자"를 Stripe에서 조회 할 수 있습니다.
 
     const cardHolderName = document.getElementById('card-holder-name');
     const cardButton = document.getElementById('card-button');
     const clientSecret = cardButton.dataset.secret;
 
     cardButton.addEventListener('click', async (e) => {
-        const { setupIntent, error } = await stripe.handleCardSetup(
-            clientSecret, cardElement, {
-                payment_method_data: {
+        const { setupIntent, error } = await stripe.confirmCardSetup(
+            clientSecret, {
+                payment_method: {
+                    card: cardElement,
                     billing_details: { name: cardHolderName.value }
                 }
             }
@@ -314,9 +377,9 @@ After the card has been verified by Stripe, you may pass the resulting `setupInt
 
 Stripe에서 카드를 확인한 후 결과 `setupIntent.payment_method` 식별자를 라라벨 애플리케이션에 전달하여 고객에게 추가 할 수 있습니다. 결제 수단은 [결제 수단 추가](#adding-payment-methods) 또는 [기본 결제 수단 업데이트](#updating-the-default-payment-method) 일 수 있습니다. 결제 수단 식별자를 즉시 ​​사용하여 [새로운 정기 구독 생성하기](#creating-subscriptions)를 할 수도 있습니다.
 
-> {tip} If you would like more information about Setup Intents and gathering customer payment details please [review this overview provided by Stripe](https://stripe.com/docs/payments/cards/saving-cards#saving-card-without-payment).
+> {tip} If you would like more information about Setup Intents and gathering customer payment details please [review this overview provided by Stripe](https://stripe.com/docs/payments/save-and-reuse#php).
 
-> {tip} 설정 의도 및 고객 지불 정보 수집에 대한 자세한 내용을 보려면 [Stripe에서 제공하는 개요](https://stripe.com/docs/payments/cards/saving-cards#saving-card-without-payment)를 참고하십시오.
+> {tip} 설정 의도 및 고객 지불 정보 수집에 대한 자세한 내용을 보려면 [Stripe에서 제공하는 개요](https://stripe.com/docs/payments/save-and-reuse#php)를 참고하십시오.
 
 #### Payment Methods For Single Charges
 #### 단일 청구에 대한 결제 수단
@@ -557,7 +620,7 @@ The `subscribedToPlan` method may be used to determine if the user is subscribed
     if ($user->subscribedToPlan('monthly', 'default')) {
         //
     }
-    
+
 By passing an array to the `subscribedToPlan` method, you may determine if the user's `default` subscription is actively subscribed to the `monthly` or the `yearly` plan:
 
 `subscribedToPlan` 메소드에 배열을 전달하면 사용자의 `default`구독이 `monthly`또는 `yearly` plan이 활성화된 상태로 가입되어 있는지 확인할 수 있습니다.
@@ -681,6 +744,19 @@ Plan을 바꾸고 다음 청구주기를 기다리는 대신 사용자에게 즉
 
     $user->subscription('default')->swapAndInvoice('provider-plan-id');
 
+#### Prorations
+#### 비례 배분
+
+By default, Stripe prorates charges when swapping between plans. The `noProrate` method may be used to update the subscription's without prorating the charges:
+
+기본적으로, 스트라이프는 요금제를 교체 할 때 요금을 비례 배분하여 부과합니다. `noProrate`메소드는 요금을 비례 배분해서 생성하지 않고 구독을 업데이트하는 데 사용할 수 있습니다.
+
+    $user->subscription('default')->noProrate()->swap('provider-plan-id');
+
+For more information on subscription proration, consult the [Stripe documentation](https://stripe.com/docs/billing/subscriptions/prorations).
+
+구독 비례 배분에 대한 자세한 내용은 [스트라이프 문서](https://stripe.com/docs/billing/subscriptions/prorations)를 참조하십시오.
+
 <a name="subscription-quantity"></a>
 ### Subscription Quantity
 ### 정기 구독 수량 변경하기
@@ -707,7 +783,7 @@ Alternatively, you may set a specific quantity using the `updateQuantity` method
 
     $user->subscription('default')->updateQuantity(10);
 
-The `noProrate` method may be used to update the subscription's quantity without pro-rating the charges:
+The `noProrate` method may be used to update the subscription's quantity without prorating the charges:
 
 `noProrate` 메소드를 사용하면 요금에 영향을 주지 않으면서 구독의 수량을 수정 할 수 있습니다.
 
@@ -816,6 +892,10 @@ If the user cancels a subscription and then resumes that subscription before the
 ## Subscription Trials
 ## 구독 평가기간
 
+> {note} Cashier manages trial dates for subscriptions and does not derive them from the Stripe plan. Therefore, you should configure your plan in Stripe to have a trial period of zero days so that Cashier can manage the trials instead.
+
+> {note} Cashier는 구독의 평가판 날짜를 관리하며 스트라이프 plan에서 가져오지 않습니다. 따라서 Cashier가 평가판을 대신 관리 할 수 ​​있도록 평가판 기간이 0일이 되도록 Stripe에서 plan을 구성해야합니다.
+
 <a name="with-payment-method-up-front"></a>
 ### With Payment Method Up Front
 ### 결제 수단 사전 등록
@@ -901,6 +981,28 @@ Once you are ready to create an actual subscription for the user, you may use th
 
     $user->newSubscription('default', 'monthly')->create($paymentMethod);
 
+<a name="extending-trials"></a>
+### Extending Trials
+### 평가기간 연장
+
+The `extendTrial` method allows you to extend the trial period of a subscription after it's been created:
+
+`extendTrial` 메소드를 사용하면 구독 생성 후 평가기간을 연장 할 수 있습니다.
+
+    // End the trial 7 days from now...
+    $subscription->extendTrial(
+        now()->addDays(7)
+    );
+
+    // Add an additional 5 days to the trial...
+    $subscription->extendTrial(
+        $subscription->trial_ends_at->addDays(5)
+    );
+
+If the trial has already expired and the customer is already being billed for the subscription, you can still offer them an extended trial. The time spent within the trial period will be deducted from the customer's next invoice.
+
+평가판이 이미 만료되었고 고객이 이미 구독 요금을 청구하는 경우에도 평가판을 연장하여 제공 할 수 있습니다. 평가판 기간에 포함 된 시간은 고객의 다음 청구서에서 공제됩니다.
+
 <a name="handling-stripe-webhooks"></a>
 ## Handling Stripe Webhooks
 ## Stripe webhook 처리하기
@@ -909,9 +1011,9 @@ Stripe can notify your application of a variety of events via webhooks. To handl
 
 Stripe는 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다.
 
-> {tip} You may use [Laravel Valet's](/docs/{{version}}/valet) `valet share` command to help test webhooks during local development.
+> {tip} You may use [the Stripe CLI](https://stripe.com/docs/stripe-cli) to help test webhooks during local development.
 
-> {tip} [Laravel Valet](/docs/{{version}}/valet)의 `valet share` 명령을 사용하여 로컬 개발 도중에도 웹훅을 테스트 할 수 있습니다.
+> {tip} [the Stripe CLI](https://stripe.com/docs/stripe-cli)을 사용하여 로컬 개발 도중에도 웹훅을 테스트 할 수 있습니다.
 
 Stripe can notify your application of a variety of events via webhooks. By default, a route that points to Cashier's webhook controller is configured through the Cashier service provider. This controller will handle all incoming webhook requests.
 
@@ -983,9 +1085,9 @@ Next, define a route to your Cashier controller within your `routes/web.php` fil
         '\App\Http\Controllers\WebhookController@handleWebhook'
     );
 
-Cashier emits a `Laravel\Cashier\Events\WebhookReceived` event when a webhook is received, and a `Laravel\Cashier\Events\WebhookWebhookHandled` event when a webhook was handled by Cashier. Both events contain the full payload of the Stripe webhook.
+Cashier emits a `Laravel\Cashier\Events\WebhookReceived` event when a webhook is received, and a `Laravel\Cashier\Events\WebhookHandled` event when a webhook was handled by Cashier. Both events contain the full payload of the Stripe webhook.
 
-Cashier는 웹훅이 수신되면 `Laravel\Cashier\Events\WebhookReceived` 이벤트를, Cashier가 웹훅을 처리하면 `Laravel\Cashier\Events\WebhookWebhookHandled` 이벤트를 생성합니다. 두 이벤트 모두 Stripe 웹훅의 전체 페이로드를 포함합니다.
+Cashier는 웹훅이 수신되면 `Laravel\Cashier\Events\WebhookReceived` 이벤트를, Cashier가 웹훅을 처리하면 `Laravel\Cashier\Events\WebhookHandled` 이벤트를 생성합니다. 두 이벤트 모두 Stripe 웹훅의 전체 페이로드를 포함합니다.
 
 <a name="handling-failed-subscriptions"></a>
 ### Failed Subscriptions
@@ -1176,8 +1278,7 @@ Incomplete payment exceptions may be thrown for the following methods: `charge`,
 #### Incomplete and Past Due State
 #### 미완료 및 기한 만료 상태
 
-
-When a payment needs additional confirmation, the subscription will remain in an `incomplete` or `past_due` state as indicated by its `stripe_status` database column. Cashier will make automatically activate the customer's subscription via a webhook as soon as payment confirmation is complete.
+When a payment needs additional confirmation, the subscription will remain in an `incomplete` or `past_due` state as indicated by its `stripe_status` database column. Cashier will automatically activate the customer's subscription via a webhook as soon as payment confirmation is complete.
 
 결제에 추가 확인이 필요한 경우, 구독은 `stripe_status` 데이터베이스 컬럼에 표시된 것처럼 `incomplete` 또는 `past_due`상태로 유지됩니다. Cashier는 결제 확인이 완료되는 즉시 웹훅을 통해 고객의 구독을 자동으로 활성화합니다.
 
@@ -1202,3 +1303,15 @@ To ensure that off-session payment confirmation notifications are delivered, ver
 > {note} Notifications will be sent even when customers are manually making a payment that requires additional confirmation. Unfortunately, there is no way for Stripe to know that the payment was done manually or "off-session". But, a customer will simply see a "Payment Successful" message if they visit the payment page after already confirming their payment. The customer will not be allowed to accidentally confirm the same payment twice and incur an accidental second charge.
 
 > {note} 고객이 추가 확인이 필요한 수동 결제를 하는 경우에도 알림이 전송됩니다. 불행히도 Stripe이 지불이 수동 또는 "세션 외"로 완료되었음을 알 수있는 방법은 없습니다. 그러나 고객은 이미 결제를 확인한 후 결제 페이지를 방문하면 "결제 성공"메시지를 보게됩니다. 고객은 실수로 동일한 결제를 두 번 확인하고 실수로 두 번째 청구를 할 수 없습니다.
+
+<a name="stripe-sdk"></a>
+## Stripe SDK
+## Stripe SDK
+
+Many of Cashier's objects are wrappers around Stripe SDK objects. If you would like to interact with the Stripe objects directly, you may conveniently retrieve them using the `asStripe` method:
+
+Cashier의 많은 객체는 Stripe SDK 객체를 감싸는 래퍼입니다. Stripe 객체와 직접 상호 작용하려면 `asStripe` 메소드를 사용하여 편리하게 조회 할 수 있습니다.
+
+    $stripeSubscription = $subscription->asStripeSubscription();
+
+    $stripeSubscription->update(['application_fee_percent' => 5]);

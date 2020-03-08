@@ -131,6 +131,13 @@ Channels 와 [Laravel Echo](#installing-laravel-echo) 를 쓸 때는, `resources
         key: 'your-pusher-channels-key'
     });
 
+Finally, you will need to change your broadcast driver to `pusher` in your `.env` file:
+
+마지막으로 `.env` 파일에서 브로드 캐스트 드라이버를 `pusher`로 수정해야합니다.
+
+
+    BROADCAST_DRIVER=pusher
+
 #### Redis
 #### Redis
 
@@ -139,6 +146,12 @@ If you are using the Redis broadcaster, you should either install the phpredis P
 Redis 브로드캐스터를 사용하는 경우 PECL을 통해 phpredis PHP 확장모듈을 설치하거나 Composer를 통해 Predis 라이브러리를 설치해야합니다.
 
     composer require predis/predis
+
+Next, you should update your broadcast driver to `redis` in your `.env` file:
+
+다음으로, `.env` 파일에서 브로드 캐스트 드라이버를 `redis`로 수정해야합니다.
+
+    BROADCAST_DRIVER=redis
 
 The Redis broadcaster will broadcast messages using Redis' pub / sub feature; however, you will need to pair this with a WebSocket server that can receive the messages from Redis and broadcast them to your WebSocket channels.
 
@@ -515,7 +528,7 @@ Private and presence broadcast channels authenticate the current user via your a
 
 사설 및 현재 브로드캐스트 채널은 애플리케이션의 기본 인증 가드를 통해 현재 사용자를 인증합니다. 사용자가 인증되지 않으면 채널 권한이 자동으로 거부되고 권한 콜백이 실행되지 않습니다. 그러나 필요한 경우 들어오는 Request에 인증해야하는 사용자 지정 가드를 여러 개 지정할 수 있습니다.
 
-    Broadcast::channel('channel', function() {
+    Broadcast::channel('channel', function () {
         // ...
     }, ['guards' => ['web', 'admin']]);
 

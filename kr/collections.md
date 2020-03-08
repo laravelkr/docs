@@ -15,6 +15,8 @@
 - [지연 컬렉션-Lazy Collections](#lazy-collections)
     - [Introduction](#lazy-collection-introduction)
     - [시작하기](#lazy-collection-introduction)
+    - [Creating Lazy Collections](#creating-lazy-collections)
+    - [지연 컬렉션 생성하기](#creating-lazy-collections)
     - [The Enumerable Contract](#the-enumerable-contract)
     - [열거형 Contract](#the-enumerable-contract)
     - [Lazy Collection Methods](#lazy-collection-methods)
@@ -61,6 +63,7 @@ Collections are "macroable", which allows you to add additional methods to the `
 
 컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
 
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
 
     Collection::macro('toUpper', function () {
@@ -213,6 +216,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [whereNotBetween](#method-wherenotbetween)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
+- [whereNotNull](#method-wherenotnull)
+- [whereNull](#method-wherenull)
 - [wrap](#method-wrap)
 - [zip](#method-zip)
 
@@ -440,6 +445,10 @@ This method has the same signature as the [`contains`](#method-contains) method;
 
 이 메소드는 [`contains`](#method-contains) 메소드와 동일하게 사용되지만, "엄격한" 비교를 수행하는 것이 차이점입니다.
 
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains)를 사용할 때 수정됩니다.
+
 <a name="method-count"></a>
 #### `count()` {#collection-method}
 #### `count()` {#collection-method}
@@ -566,6 +575,10 @@ The `diff` method compares the collection against another collection or a plain 
     $diff->all();
 
     // [1, 3, 5]
+
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff)를 사용할 때 수정됩니다.
 
 <a name="method-diffassoc"></a>
 #### `diffAssoc()` {#collection-method}
@@ -744,7 +757,7 @@ If the collection is empty, `every` will return true:
 
     $collection = collect([]);
 
-    $collection->every(function($value, $key) {
+    $collection->every(function ($value, $key) {
         return $value > 2;
     });
 
@@ -769,6 +782,10 @@ The `except` method returns all items in the collection except for those with th
 For the inverse of `except`, see the [only](#method-only) method.
 
 `except`의 반대는, [only](#method-only)메소드를 확인하십시오.
+
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except)를 사용할 때 수정됩니다.
 
 <a name="method-filter"></a>
 #### `filter()` {#collection-method}
@@ -1168,6 +1185,10 @@ The `intersect` method removes any values from the original collection that are 
     $intersect->all();
 
     // [0 => 'Desk', 2 => 'Chair']
+
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect)를 사용할 때 수정됩니다.
 
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {#collection-method}
@@ -1622,6 +1643,10 @@ The `only` method returns the items in the collection with the specified keys:
 For the inverse of `only`, see the [except](#method-except) method.
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
+
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only)를 사용할 때 수정됩니다.
 
 <a name="method-pad"></a>
 #### `pad()` {#collection-method}
@@ -2380,9 +2405,9 @@ This method can be useful when combined with factories to create [Eloquent](/doc
 
     /*
         [
-            ['id' => 1, 'name' => 'Category #1'],
-            ['id' => 2, 'name' => 'Category #2'],
-            ['id' => 3, 'name' => 'Category #3'],
+            ['id' => 1, 'name' => 'Category No. 1'],
+            ['id' => 2, 'name' => 'Category No. 2'],
+            ['id' => 3, 'name' => 'Category No. 3'],
         ]
     */
 
@@ -2522,6 +2547,10 @@ You may also pass your own callback to determine item uniqueness:
 The `unique` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`uniqueStrict`](#method-uniquestrict) method to filter using "strict" comparisons.
 
 `unique` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`uniqueStrict`](#method-uniquestrict) 메소드를 사용하십시오.
+
+> {tip} This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique).
+
+> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique)를 사용할 때 수정됩니다.
 
 <a name="method-uniquestrict"></a>
 #### `uniqueStrict()` {#collection-method}
@@ -2675,9 +2704,9 @@ The `whenEmpty` method will execute the given callback when the collection is em
 
     $collection = collect(['michael', 'tom']);
 
-    $collection->whenEmpty(function($collection) {
+    $collection->whenEmpty(function ($collection) {
         return $collection->push('adam');
-    }, function($collection) {
+    }, function ($collection) {
         return $collection->push('taylor');
     });
 
@@ -2721,9 +2750,9 @@ The `whenNotEmpty` method will execute the given callback when the collection is
 
     $collection = collect();
 
-    $collection->whenNotEmpty(function($collection) {
+    $collection->whenNotEmpty(function ($collection) {
         return $collection->push('adam');
-    }, function($collection) {
+    }, function ($collection) {
         return $collection->push('taylor');
     });
 
@@ -2843,8 +2872,8 @@ The `whereIn` method filters the collection by a given key / value contained wit
 
     /*
         [
-            ['product' => 'Bookcase', 'price' => 150],
             ['product' => 'Desk', 'price' => 200],
+            ['product' => 'Bookcase', 'price' => 150],
         ]
     */
 
@@ -2949,6 +2978,55 @@ The `whereNotIn` method uses "loose" comparisons when checking item values, mean
 This method has the same signature as the [`whereNotIn`](#method-wherenotin) method; however, all values are compared using "strict" comparisons.
 
 이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 "엄격한" 비교를 수행합니다.
+
+<a name="method-wherenotnull"></a>
+#### `whereNotNull()` {#collection-method}
+#### `whereNotNull()` {#collection-method}
+
+The `whereNotNull` method filters items where the given key is not null:
+
+`whereNotNull` 메소드는 주어진 키가 null이 아닌 항목을 필터링합니다.
+
+    $collection = collect([
+        ['name' => 'Desk'],
+        ['name' => null],
+        ['name' => 'Bookcase'],
+    ]);
+    
+    $filtered = $collection->whereNotNull('name');
+
+    $filtered->all();
+    
+    /*
+        [
+            ['name' => 'Desk'],
+            ['name' => 'Bookcase'],
+        ]
+    */
+
+<a name="method-wherenull"></a>
+#### `whereNull()` {#collection-method}
+#### `whereNull()` {#collection-method}
+
+The `whereNull` method filters items where the given key is null:
+
+`whereNull` 메소드는 주어진 키가 null 인 항목을 필터링합니다.
+
+    $collection = collect([
+        ['name' => 'Desk'],
+        ['name' => null],
+        ['name' => 'Bookcase'],
+    ]);
+    
+    $filtered = $collection->whereNull('name');
+
+    $filtered->all();
+    
+    /*
+        [
+            ['name' => null],
+        ]
+    */
 
 <a name="method-wrap"></a>
 #### `wrap()` {#collection-method}

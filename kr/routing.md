@@ -23,8 +23,8 @@
     - [미들웨어](#route-group-middleware)
     - [Namespaces](#route-group-namespaces)
     - [네임스페이스](#route-group-namespaces)
-    - [Sub-Domain Routing](#route-group-sub-domain-routing)
-    - [서브 도메인 라우팅](#route-group-sub-domain-routing)
+    - [Subdomain Routing](#route-group-subdomain-routing)
+    - [서브 도메인 라우팅](#route-group-subdomain-routing)
     - [Route Prefixes](#route-group-prefixes)
     - [라우트 접두사](#route-group-prefixes)
     - [Route Name Prefixes](#route-group-name-prefixes)
@@ -308,8 +308,11 @@ If you pass additional parameters in the array, those key / value pairs will aut
 
     // /user/1/profile?photos=yes
 
-#### Inspecting The Current Route
+> {tip} Sometimes, you may wish to specify request-wide default values for URL parameters, such as the current locale. To accomplish this, you may use the [`URL::defaults` method](/docs/{{version}}/urls#default-values).
 
+> {tip} 때때로, 현재 로케일과 같은 URL 파라메터에 대한 요청 전체 기본값을 지정할 수 있습니다. 이를 위해 [`URL::defaults` 메서드](/docs/{{version}}/urls#default-values)을 사용할 수 있습니다.
+
+#### Inspecting The Current Route
 #### 현재의 라우트 검사하기
 
 If you would like to determine if the current request was routed to a given named route, you may use the `named` method on a Route instance. For example, you may check the current route name from a route middleware:
@@ -378,11 +381,11 @@ Remember, by default, the `RouteServiceProvider` includes your route files withi
 
 주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳이 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
 
-<a name="route-group-sub-domain-routing"></a>
-### Sub-Domain Routing
+<a name="route-group-subdomain-routing"></a>
+### Subdomain Routing
 ### 서브 도메인 라우팅
 
-Route groups may also be used to handle sub-domain routing. Sub-domains may be assigned route parameters just like route URIs, allowing you to capture a portion of the sub-domain for usage in your route or controller. The sub-domain may be specified by calling the `domain` method before defining the group:
+Route groups may also be used to handle subdomain routing. Subdomains may be assigned route parameters just like route URIs, allowing you to capture a portion of the subdomain for usage in your route or controller. The subdomain may be specified by calling the `domain` method before defining the group:
 
 라우트 그룹은 또한 카드형태의 서브 도메인을 처리하는데 사용할 수도 있습니다. 서브 도메인은 라우트 URI와 같이 서브 도메인의 일부를 추출하여, 라우트 파라미터로 할당할 수 있습니다. 서브 도메인은 그룹을 정의하기 전에 `domain` 메소드를 호출하여 지정할 수 있습니다.
 
@@ -392,7 +395,7 @@ Route groups may also be used to handle sub-domain routing. Sub-domains may be a
         });
     });
 
-> {note} In order to ensure your sub-domain routes are reachable, you should register sub-domain routes before registering root domain routes. This will prevent root domain routes from overwriting sub-domain routes which have the same URI path.
+> {note} In order to ensure your subdomain routes are reachable, you should register subdomain routes before registering root domain routes. This will prevent root domain routes from overwriting subdomain routes which have the same URI path.
 
 > {note} 서브 도메인 라우트가 동작하도록하려면 루트 도메인 라우트를 등록하기 전에 서브 도메인 라우트를 등록해야합니다. 이렇게하면 루트 도메인 라우트가 동일한 URI 라우트를 가진 서브 도메인 라우트를 덮어 쓰지 않습니다.
 
@@ -595,7 +598,28 @@ You may also combine this functionality with dynamic rate limits. For example, i
             //
         });
     });
-    
+
+
+#### Rate Limit Segments
+#### 속도 제한 세그먼트
+
+Typically, you will probably specify one rate limit for your entire API. However, your application may require different rate limits for different segments of your API. If this is the case, you will need to pass a segment name as the third argument to the `throttle` middleware:
+
+일반적으로 전체 API에 대해 하나의 비율 제한을 지정합니다. 그러나 애플리케이션에 따라 API의 각 세그먼트마다 다른 속도 제한이 필요할 수 있습니다. 이 경우, `throttle` 미들웨어에 세 번째 인수로 세그먼트 이름을 전달해야합니다.
+
+    Route::middleware('auth:api')->group(function () {
+        Route::middleware('throttle:60,1,default')->group(function () {
+            Route::get('/servers', function () {
+                //
+            });
+        });
+
+        Route::middleware('throttle:60,1,deletes')->group(function () {
+            Route::delete('/servers/{id}', function () {
+                //
+            });
+        });
+    });
     
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing

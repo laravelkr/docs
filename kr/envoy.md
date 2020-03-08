@@ -255,19 +255,6 @@ You may provide one of the following as the channel argument:
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
 
-
-In addition you can also send Slack updates for specific tasks so you get the context of which task was run. You can do this by adding the `@slack` directive inside the `@task` directive:
-
-또한 특정 작업에 대해 Slack에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@slack` 지시문을 추가하면 됩니다.
-
-    @task('deploy', ['on' => 'web', 'confirm' => true])
-        cd site
-        git pull origin {{ $branch }}
-        php artisan migrate
-
-        @slack('webhook-url', '#deployments')
-    @endtask
-
 <a name="discord"></a>
 ### Discord
 ### 디스코드
@@ -279,15 +266,3 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://dis
     @finished
         @discord('discord-webhook-url')
     @endfinished
-
-In addition you can also send Discord updates for specific tasks so you get the context of which task was run. You can do this by adding the `@discord` directive inside the `@task` directive:
-
-또한 특정 작업에 대해 Discord에 업데이트를 전송하여 실행 된 작업의 컨텍스트를 얻을 수 있습니다. `@task` 지시문 안에 `@discord` 지시문을 추가하면됩니다 :
-
-    @task('deploy', ['on' => 'web', 'confirm' => true])
-        cd site
-        git pull origin {{ $branch }}
-        php artisan migrate
-
-        @discord('discord-webhook-url')
-    @endtask

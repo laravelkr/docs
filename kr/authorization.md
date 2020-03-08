@@ -377,9 +377,9 @@ You may continue to define additional methods on the policy as needed for the va
 
 Policy는 권한을 확인하고자 하는 다양한 액션 만큼 필요한 메소드를 policy 클래스에 계속해서 정의하면 됩니다. 예를 들어 `Post`에 권한을 확인하는 `view`나 `delete` 메소드를 정의할 수도 있습니다. Policy의 이름은 여러분이 원하는 대로 자유롭게 작성할 수 있습니다.
 
-> {tip} If you used the `--model` option when generating your policy via the Artisan console, it will already contain methods for the `view`, `create`, `update`, `delete`, `restore`, and `forceDelete` actions.
+> {tip} If you used the `--model` option when generating your policy via the Artisan console, it will already contain methods for the `viewAny`, `view`, `create`, `update`, `delete`, `restore`, and `forceDelete` actions.
 
-> {tip} 만약 아티즌 명령어를 통해 Policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
+> {tip} 만약 아티즌 명령어를 통해 Policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `viewAny`, `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
 
 <a name="policy-responses"></a>
 ### Policy Responses
@@ -474,7 +474,7 @@ By default, all gates and policies automatically return `false` if the incoming 
          */
         public function update(?User $user, Post $post)
         {
-            return $user->id === $post->user_id;
+            return optional($user)->id === $post->user_id;
         }
     }
 
@@ -678,9 +678,9 @@ When writing Blade templates, you may wish to display a portion of the page only
     @endcan
 
     @cannot('update', $post)
-        <!-- The Current User Can't Update The Post -->
+        <!-- The Current User Cannot Update The Post -->
     @elsecannot('create', App\Post::class)
-        <!-- The Current User Can't Create New Post -->
+        <!-- The Current User Cannot Create A New Post -->
     @endcannot
 
 These directives are convenient shortcuts for writing `@if` and `@unless` statements. The `@can` and `@cannot` statements above respectively translate to the following statements:
@@ -692,7 +692,7 @@ These directives are convenient shortcuts for writing `@if` and `@unless` statem
     @endif
 
     @unless (Auth::user()->can('update', $post))
-        <!-- The Current User Can't Update The Post -->
+        <!-- The Current User Cannot Update The Post -->
     @endunless
 
 You may also determine if a user has any authorization ability from a given list of abilities. To accomplish this, use the `@canany` directive:

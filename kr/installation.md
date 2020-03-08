@@ -36,6 +36,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 - PHP >= 7.2.0
 - BCMath PHP Extension
 - Ctype PHP Extension
+- Fileinfo PHP extension
 - JSON PHP Extension
 - Mbstring PHP Extension
 - OpenSSL PHP Extension
@@ -66,9 +67,13 @@ Make sure to place Composer's system-wide vendor bin directory in your `$PATH` s
 laravel 실행 파일을 시스템에서 찾을 수 있도록 컴포저의 시스템 vendor bin 디렉토리가 `$PATH`에 추가되었는지 확인하십시오. 이 디렉토리는 운영체제 별로 다른 위치에 저장됩니다만, 일반적으로는 다음과 같습니다.
 
 
-- macOS and GNU / Linux Distributions: `$HOME/.composer/vendor/bin`
+- macOS: `$HOME/.composer/vendor/bin`
 - Windows: `%USERPROFILE%\AppData\Roaming\Composer\vendor\bin`
+- GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin`
 
+You could also find the composer's global installation path by running `composer global about` and looking up from the first line.
+
+`composer global about`을 실행하고 첫 번째 줄을 보면 컴포저의 글로벌 설치 경로를 확인 할 수 있습니다.
 
 Once installed, the `laravel new` command will create a fresh Laravel installation in the directory you specify. For instance, `laravel new blog` will create a directory named `blog` containing a fresh Laravel installation with all of Laravel's dependencies already installed:
 
@@ -159,7 +164,7 @@ You may also want to configure a few additional components of Laravel, such as:
 ### Directory Configuration
 ### Directory 설정
 
-Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a sub-directory of the "web directory". Attempting to do so could expose sensitive files present within your application.
+Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a subdirectory of the "web directory". Attempting to do so could expose sensitive files present within your application.
 
 Laravel은 항상 웹 서버용으로 구성된 "웹 디렉토리"의 루트에서 제공되어야합니다. "웹 디렉토리"의 하위 디렉토리에서 Laravel 애플리케이션을 제공하려고 시도해서는 안됩니다. 이렇게하면 애플리케이션 내에 민감한 파일이 노출 될 수 있습니다.
 

@@ -108,10 +108,6 @@ You may even register listeners using the `*` as a wildcard parameter, allowing 
 ### Event Discovery
 ### 이벤트 Discovery
 
-> {note} Event Discovery is available for Laravel 5.8.9 or later.
-
-> {note} 이벤트 Discovery는 Laravel 5.8.9 이상에서 사용할 수 있습니다.
-
 Instead of registering events and listeners manually in the `$listen` array of the `EventServiceProvider`, you can enable automatic event discovery. When event discovery is enabled, Laravel will automatically find and register your events and listeners by scanning your application's `Listeners` directory. In addition, any explicitly defined events listed in the `EventServiceProvider` will still be registered.
 
 `EventServiceProvider`의 `$listen` 배열에 이벤트와 리스너를 수동으로 등록하는 대신, 자동으로 이벤트 Discovery를 가능하게 할 수 있습니다. 이벤트 검색이 활성화되면 Laravel은 애플리케이션의 Listeners 디렉터리를 검색하여 이벤트와 리스너를 자동으로 찾아 등록합니다. 또한 `EventServiceProvider`에 명시적으로 정의 된 이벤트는 여전히 등록됩니다.

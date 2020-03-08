@@ -26,7 +26,7 @@ The Bootstrap and Vue scaffolding provided by Laravel is located in the `laravel
 
 라라벨에서 제공하는 부트스트랩 및 Vue 스캐폴딩은 `laravel/ui` Composer 패키지에 있으며 Composer를 사용하여 설치할 수 있습니다.
 
-    composer require laravel/ui --dev
+    composer require laravel/ui:^1.0 --dev
 
 Once the `laravel/ui` package has been installed, you may install the frontend scaffolding using the `ui` Artisan command:
 

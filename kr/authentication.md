@@ -55,9 +55,9 @@
 ## Introduction
 ## 시작하기
 
-> {tip} **Want to get started fast?** Install the `laravel/ui` Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These commands will take care of scaffolding your entire authentication system!
+> {tip} **Want to get started fast?** Install the `laravel/ui` (1.0) Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These commands will take care of scaffolding your entire authentication system!
 
-> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에 `laravel/ui` 컴포저 패키지를 설치하고 `php artisan ui vue --auth` 명령어를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
+> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에 `laravel/ui` (1.0) 컴포저 패키지를 설치하고 `php artisan ui vue --auth` 명령어를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
 
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
@@ -107,7 +107,7 @@ Laravel's `laravel/ui` package provides a quick way to scaffold all of the route
 
 라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
 
-    composer require laravel/ui --dev
+    composer require laravel/ui "^1.0" --dev
 
     php artisan ui vue --auth
 
@@ -151,28 +151,29 @@ Now that you have routes and views setup for the included authentication control
 #### Path Customization
 #### 리다이렉트 경로 수정하기
 
-When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect location by defining a `redirectTo` property on the `LoginController`, `RegisterController`, `ResetPasswordController`, and `VerificationController`:
+When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect path using the `HOME` constant defined in your `RouteServiceProvider`:
 
-사용자가 성공적으로 인증되면, `/home` URI로 리다이렉트 될 것입니다. 여러분은 `LoginController`, `RegisterController`, `ResetPasswordController` 그리고 `VerificationController` 의 `redirectTo` 속성을 정의하여, 인증 이후의 리다이렉트 경로를 커스터마이징 할 수 있습니다.
+사용자가 성공적으로 인증되면 `/home` URI로 리디렉션 됩니다. `RouteServiceProvider`에 정의 된 `HOME` 상수를 사용하여 인증 후 이동되는 경로를 커스터마이징 할 수 있습니다.
 
-    protected $redirectTo = '/';
+    public const HOME = '/home';
 
-Next, you should modify the `RedirectIfAuthenticated` middleware's `handle` method to use your new URI when redirecting the user.
+If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method that may be overwritten if desired:
 
-그리고, 사용자가 리다이렉팅 될 때 사용하는 새로운 URI를 사용하도록 `RedirectIfAuthenticated` 미들웨어의 `handle` 메소드를 수정해야 합니다.
+사용자가 인증 될 때 반환되는 응답을 보다 강력하게 커스터마이징 해야하는 경우 라라벨은 원하는 경우 덮어 쓸 수있는 빈 `authenticated(Request $request, $user)`메소드를 제공합니다.
 
-If the redirect path needs custom generation logic you may define a `redirectTo` method instead of a `redirectTo` property:
-
-리다이렉트 경로가 커스텀 생성 로직을 필요로 한다면 `redirectTo` 속성 대신 `redirectTo` 메소드를 정의할 수 있습니다.
-
-    protected function redirectTo()
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
     {
-        return '/path';
+        return response([
+            //
+        ]);
     }
-
-> {tip} The `redirectTo` method will take precedence over the `redirectTo` property.
-
-> {tip} `redirectTo` 메소드는 `redirectTo` 속성보다 우선합니다.
 
 #### Username Customization
 #### 어떤 사용자이름을 사용할지 결정하기
@@ -608,9 +609,13 @@ Then, you may use the `logoutOtherDevices` method on the `Auth` facade. This met
 
     Auth::logoutOtherDevices($password);
 
-> {note} When the `logoutOtherDevices` method is invoked, the user's other sessions will be invalidated entirely, meaning they will be "logged out" of all guards they were previously authenticated by.
+When the `logoutOtherDevices` method is invoked, the user's other sessions will be invalidated entirely, meaning they will be "logged out" of all guards they were previously authenticated by.
 
-> {note} `logoutOtherDevices` 메소드가 호출될 때, 사용자의 다른 세션은 완전히 무효화됩니다. 이는, 이전에 인증되었던 모든 사용자 정보가 "로그아웃"됨을 의미합니다.
+`logoutOtherDevices` 메소드가 호출되면, 사용자의 다른 세션은 완전히 무효화됩니다. 즉, 이전에 인증 된 모든 가드에서 "로그 아웃"됩니다.
+
+> {note} When using the `AuthenticateSession` middleware in combination with a custom route name for the `login` route, you must override the `unauthenticated` method on your application's exception handler to properly redirect users to your login page.
+
+> {note} `login`라우트에 대한 커스텀 라우트 이름과 함께 `AuthenticateSession`미들웨어를 사용하는 경우 사용자를 로그인 페이지로 올바르게 리디렉션하려면 애플리케이션의 예외 처리기에서 `unauthenticated` 메서드를 재정의해야합니다.
 
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards

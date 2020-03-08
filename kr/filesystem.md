@@ -270,7 +270,7 @@ You may use the `url` method to get the URL for the given file. If you are using
 #### Temporary URLs
 #### 임시 URLs
 
-For files stored using the `s3` you may create a temporary URL to a given file using the `temporaryUrl` method. This methods accepts a path and a `DateTime` instance specifying when the URL should expire:
+For files stored using the `s3` you may create a temporary URL to a given file using the `temporaryUrl` method. This method accepts a path and a `DateTime` instance specifying when the URL should expire:
 
 `s3`를 사용하여 파일을 저장할 때, `temporaryUrl` 메소드를 사용하여 파일에 접근하기 위한 임시 URL을 생성할 수 있습니다. 이 메소드는 파일의 경로 및 언제 URL이 만료되어야 하는지 지정한 `DateTime` 인스턴스를 인자로 받습니다.
 
@@ -458,6 +458,21 @@ By default, this method will use your default disk. If you would like to specify
         'avatars/'.$request->user()->id, 's3'
     );
 
+#### Other File Information
+#### 다른 파일 정보
+
+If you would like to get original name of the uploaded file, you may do so using the `getClientOriginalName` method:
+
+업로드 된 파일의 원래 이름을 얻으려면 `getClientOriginalName` 메소드를 사용하십시오.
+
+    $name = $request->file('avatar')->getClientOriginalName();
+
+The `extension` method may be used to get the file extension of the uploaded file:
+
+`extension` 메소드는 업로드 된 파일의 확장자를 얻기 위해 사용될 수 있습니다.
+
+    $extension = $request->file('avatar')->extension();
+
 <a name="file-visibility"></a>
 ### File Visibility
 ### 파일 Visibility
@@ -511,7 +526,7 @@ If necessary, you may specify the disk that the file should be deleted from:
 #### Get All Files Within A Directory
 #### 디렉토리 안의 모든 파일들 확인하기
 
-The `files` method returns an array of all of the files in a given directory. If you would like to retrieve a list of all files within a given directory including all sub-directories, you may use the `allFiles` method:
+The `files` method returns an array of all of the files in a given directory. If you would like to retrieve a list of all files within a given directory including all subdirectories, you may use the `allFiles` method:
 
 `files` 메소드는 주어진 디렉토리에 들어 있는 모든 파일들에 대한 배열을 반환합니다. 만약 지정된 디렉토리의 하위 디렉토리에 있는 모든 파일의 목록을 포함하기를 원한다면는 `allFiles` 메소드를 사용하면 됩니다.
 
@@ -524,7 +539,7 @@ The `files` method returns an array of all of the files in a given directory. If
 #### Get All Directories Within A Directory
 #### 디렉토리에 들어 있는 모든 하위 디렉토리들 확인하기
 
-The `directories` method returns an array of all the directories within a given directory. Additionally, you may use the `allDirectories` method to get a list of all directories within a given directory and all of its sub-directories:
+The `directories` method returns an array of all the directories within a given directory. Additionally, you may use the `allDirectories` method to get a list of all directories within a given directory and all of its subdirectories:
 
 `directories` 메소드는 주어진 디렉토리에 들어 있는 전체 디렉토리들에 대한 배열을 반환합니다. 추가적으로 지정된 디렉토리의 하위 디렉토리 및 하위 디렉토리 아래의 모든 디렉토리들에 대한 목록을 포함하기를 원한다면는 `allDirectories` 메소드를 사용하면 됩니다.
 
@@ -536,7 +551,7 @@ The `directories` method returns an array of all the directories within a given 
 #### Create A Directory
 #### 디렉토리 생성하기
 
-The `makeDirectory` method will create the given directory, including any needed sub-directories:
+The `makeDirectory` method will create the given directory, including any needed subdirectories:
 
 `makeDirectory` 메소드는 필요한 하위 디렉토리를 포함하여 지정된 디렉토리를 만들 것입니다.
 

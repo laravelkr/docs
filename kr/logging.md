@@ -117,9 +117,9 @@ The `papertrail` channel requires the `url` and `port` configuration options. Yo
 #### Configuring The Slack Channel
 #### 슬랙 채널 설정하기
 
-The `slack` channel requires a `url` configuration option. This URL should match a URL for an [incoming webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) that you have configured for your Slack team.
+The `slack` channel requires a `url` configuration option. This URL should match a URL for an [incoming webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) that you have configured for your Slack team. By default, Slack will only receive logs at the `critical` level and above; however, you can adjust this in your `logging` configuration file.
 
-`slack` 채널은 `url` 옵션을 필요로 합니다. URL은 팀에서 지정한 슬랙 [incoming webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) URL과 일치해야 합니다.
+`slack` 채널은 `url` 옵션을 필요로 합니다. URL은 팀에서 지정한 슬랙 [incoming webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) URL과 일치해야 합니다. 기본적으로 슬랙은 `critical` 수준 이상의 로그만 받습니다. 그러나 `logging` 설정 파일에서 이것을 조정할 수 있습니다.
 
 <a name="building-log-stacks"></a>
 ### Building Log Stacks

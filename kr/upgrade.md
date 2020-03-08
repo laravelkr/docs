@@ -176,11 +176,67 @@ If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should up
 #### Redis 기본 클라이언트
 
 **Likelihood Of Impact: Medium**
-**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
 The default Redis client has changed from `predis` to `phpredis`. In order to keep using `predis`, ensure the `redis.client` configuration option is set to `predis` in your `config/database.php` configuration file.
 
 Redis 기본 클라이언트가 `predis`에서 `phpredis`로 변경되었습니다. `predis`를 계속 사용하려면 `config/database.php` 설정 파일에서 `redis.client` 설정 옵션이 `predis`로 되어 있는지 확인하십시오.
+
+<a name="dynamodb-cache-store"></a>
+#### DynamoDB Cache Store
+#### DynamoDB Cache Store
+
+**Likelihood Of Impact: Optional**
+**영향 가능성: 선택적**
+
+If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update your `config/cache.php` file to include the `dynamodb` store.
+
+[Laravel Vapor](https://vapor.laravel.com)을 활용하려면 `dynamodb` 저장소를 포함하도록 `config/cache.php` 파일을 수정해야합니다.
+
+    <?php
+    return [
+        ...
+        'stores' => [
+            ...
+            'dynamodb' => [
+                'driver' => 'dynamodb',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+                'table' => env('DYNAMODB_CACHE_TABLE', 'cache'),
+                'endpoint' => env('DYNAMODB_ENDPOINT'),
+            ],
+        ],
+        ...
+    ];
+
+<a name="sqs-environment-variables"></a>
+#### SQS Environment Variables
+#### SQS 환경 변수
+
+**Likelihood Of Impact: Optional**
+**영향 가능성: 선택적**
+
+If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update your `config/queue.php` file to include the updated `sqs` connection environment variables.
+
+[Laravel Vapor](https://vapor.laravel.com)을 사용하려면 업데이트 된 `sqs` 연결 환경 변수를 포함하도록 `config/queue.php` 파일을 수정해야합니다.
+
+    <?php
+    return [
+        ...
+        'connections' => [
+            ...
+            'sqs' => [
+                'driver' => 'sqs',
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
+                'queue' => env('SQS_QUEUE', 'your-queue-name'),
+                'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            ],
+        ],
+        ...
+    ];
 
 ### Database
 ### 데이터베이스
@@ -196,7 +252,7 @@ Redis 기본 클라이언트가 `predis`에서 `phpredis`로 변경되었습니�
 
 > {note} 이 변경사항은 `illuminate/database` 패키지를 라라벨과 별개로 사용중인 어플리케이션에만 해당됩니다.
 
-The signature of the `Illuminate\Database\Capsule\Manager` class' `table` method has 
+The signature of the `Illuminate\Database\Capsule\Manager` class' `table` method has
 updated to accept a table alias as its second argument. If you are using `illuminate/database` outside of a Laravel application, you should update any calls to this method accordingly:
 
 `Illuminate\Database\Capsule\Manager` 클래스의 `table` 메소드가 두번째 인자로 테이블의 alias를 받도록 변경되었습니다. 만약 `illuminate/database` 패키지를 라라벨과 별개로 사용중이라면 이 메소드를 호출하는 부분들을 따라 수정해야 합니다.
@@ -503,7 +559,7 @@ In previous releases of Laravel, passing associative array parameters to the `ro
     echo route('profile', ['status' => 'active']);
 
     // Laravel 6.0: http://example.com/profile?status=active
-    echo route('profile', ['status' => 'active']);    
+    echo route('profile', ['status' => 'active']);
 
 The `action` helper and `URL::action` method are also affected by this change:
 
@@ -515,7 +571,7 @@ The `action` helper and `URL::action` method are also affected by this change:
     echo action('ProfileController@show', ['profile' => 1]);
 
     // Laravel 6.0: http://example.com/profile?profile=1
-    echo action('ProfileController@show', ['profile' => 1]);   
+    echo action('ProfileController@show', ['profile' => 1]);
 
 ### Validation
 ### 검증

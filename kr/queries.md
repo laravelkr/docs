@@ -314,7 +314,16 @@ The `orderByRaw` method may be used to set a raw string as the value of the `ord
                     ->orderByRaw('updated_at - created_at DESC')
                     ->get();
 
+### `groupByRaw`
 
+The `groupByRaw` method may be used to set a raw string as the value of the `group by` clause:
+
+`groupByRaw` 메소드는 원시 문자열을 `group by`절의 값으로 설정하는 데 사용될 수 있습니다.
+
+    $orders = DB::table('orders')
+                    ->select('city', 'state')
+                    ->groupByRaw('city, state')
+                    ->get();
 
 <a name="joins"></a>
 ## Joins
@@ -356,7 +365,7 @@ To perform a "cross join" use the `crossJoin` method with the name of the table 
 "Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다.
 
     $users = DB::table('sizes')
-                ->crossJoin('colours')
+                ->crossJoin('colors')
                 ->get();
 
 #### Advanced Join Clauses
@@ -383,10 +392,10 @@ join 구문에 "where" 을 사용하고자 한다면, join 에 `where`와 `orWhe
             })
             ->get();
 
-#### Sub-Query Joins
+#### Subquery Joins
 #### 서브쿼리 조인
 
-You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a query to a sub-query. Each of these methods receive three arguments: the sub-query, its table alias, and a Closure that defines the related columns:
+You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a query to a subquery. Each of these methods receive three arguments: the subquery, its table alias, and a Closure that defines the related columns:
 
 쿼리와 서브쿼리의 조인을 위해서 `joinSub`, `leftJoinSub`, `rightJoinSub` 메소드를 사용할 수 있습니다. 각각의 메소드는 세개의 인자: 서브쿼리, 테이블의 별칭(alias), 연관된 컬럼을 정의하는 클로저를 전달받습니다.
 
@@ -479,6 +488,20 @@ You may chain where constraints together as well as add `or` clauses to the quer
                         ->where('votes', '>', 100)
                         ->orWhere('name', 'John')
                         ->get();
+
+If you need to group an "or" condition within parentheses, you may pass a Closure as the first argument to the `orWhere` method:
+
+괄호 안에 "or"조건을 그룹화해야하는 경우 `orWhere` 메소드의 첫 번째 인수로 클로저를 전달할 수 있습니다.
+
+    $users = DB::table('users')
+                ->where('votes', '>', 100)
+                ->orWhere(function($query) {
+                    $query->where('name', 'Abigail')
+                          ->where('votes', '>', 50);
+                })
+                ->get();
+
+    // SQL: select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 
 #### Additional Where Clauses
 #### 추가적인 Where 구문

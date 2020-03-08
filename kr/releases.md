@@ -48,7 +48,7 @@ For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and secu
 ## Laravel 6
 ## 라라벨 6
 
-Laravel 6 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, sub-query improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
+Laravel 6 (LTS) continues the improvements made in Laravel 5.8 by introducing semantic versioning, compatibility with [Laravel Vapor](https://vapor.laravel.com), improved authorization responses, job middleware, lazy collections, subquery improvements, the extraction of frontend scaffolding to the `laravel/ui` Composer package, and a variety of other bug fixes and usability improvements.
 
 라라벨 6 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 

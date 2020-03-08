@@ -112,7 +112,7 @@ Within a service provider, you always have access to the container via the `$thi
 서비스 프로바이더 안에서는 항상 `$this->app` 속성을 통해서 컨테이너 인스턴스에 접근 할 수 있습니다. 또한 `bind` 메소드를 사용하여 클래스나 인터페이스 이름에 대한 의존성을 우리가 원하는 클래스의 인스턴스를 반환하는 `Closure`를 등록하여 바인딩 할 수 있습니다.
 
     $this->app->bind('HelpSpot\API', function ($app) {
-        return new HelpSpot\API($app->make('HttpClient'));
+        return new \HelpSpot\API($app->make('HttpClient'));
     });
 
 Note that we receive the container itself as an argument to the resolver. We can then use the container to resolve sub-dependencies of the object we are building.
@@ -127,7 +127,7 @@ The `singleton` method binds a class or interface into the container that should
 `singleton` 메소드로 클래스나 인터페이스를 바인딩 하면 컨테이너는 한 번만 해당 의존성을 해결합니다. 싱글톤 바인딩으로 의존성이 해결되면, 컨테이너의 다른 부분에서 호출될 때 동일한 객체 인스턴스가 반환될 것입니다.
 
     $this->app->singleton('HelpSpot\API', function ($app) {
-        return new HelpSpot\API($app->make('HttpClient'));
+        return new \HelpSpot\API($app->make('HttpClient'));
     });
 
 #### Binding Instances
@@ -137,7 +137,7 @@ You may also bind an existing object instance into the container using the `inst
 
 `instance` 메소드를 사용하여 이미 존재하는 객체의 인스턴스를 컨테이너에 바인딩 할 수 있습니다. 이후 컨테이너에서 호출이 될 때는 매번 주어진 인스턴스가 반환됩니다. 
 
-    $api = new HelpSpot\API(new HttpClient);
+    $api = new \HelpSpot\API(new HttpClient);
 
     $this->app->instance('HelpSpot\API', $api);
 
@@ -332,7 +332,7 @@ The service container fires an event each time it resolves an object. You may li
         // Called when container resolves object of any type...
     });
 
-    $this->app->resolving(HelpSpot\API::class, function ($api, $app) {
+    $this->app->resolving(\HelpSpot\API::class, function ($api, $app) {
         // Called when container resolves objects of type "HelpSpot\API"...
     });
 

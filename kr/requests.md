@@ -161,7 +161,7 @@ The [PSR-7 standard](https://www.php-fig.org/psr/psr-7/) specifies interfaces fo
 [PSR-7 표준](https://www.php-fig.org/psr/psr-7/)은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터페이스를 지정합니다. 라라벨의 request 대신 PSR-7 요청의 인스턴스를 획득하기 위해서는 우선 몇 개의 라이브러리를 설치해야 합니다. 라라벨은 *Symfony HTTP Message Bridge* 컴포넌트를 사용하여 일반적인 라라벨의 request-요청과 response-응답을 PSR-7에 맞는 구현체로 변환합니다.
 
     composer require symfony/psr-http-message-bridge
-    composer require zendframework/zend-diactoros
+    composer require nyholm/psr7
 
 Once you have installed these libraries, you may obtain a PSR-7 request by type-hinting the request interface on your route Closure or controller method:
 
@@ -273,6 +273,15 @@ When sending JSON requests to your application, you may access the JSON data via
 애플리케이션에 JSON 요청이 전달되어 `Content-Type` 헤더 속성이 `application/json` 으로 지정되어 있다면 `input` 메소드를 통해서 JSON 데이터에 접근할 수 있습니다. 또한 "점" 문법을 통해서 JSON 배열에 접근할 수도 있습니다.
 
     $name = $request->input('user.name');
+
+#### Retrieving Boolean Input Values
+#### Boolean 입력 값 조회
+
+When dealing with HTML elements like checkboxes, your application may receive "truthy" values that are actually strings. For example, "true" or "on". For convenience, you may use the `boolean` method to retrieve these values as booleans. The `boolean` method returns `true` for 1, "1", true, "true", "on", and "yes". All other values will return `false`:
+
+체크박스과 같은 HTML 요소를 처리 할 때 애플리케이션은 실제로 문자열 인 "truthy"값을 받을 수 있습니다. 예를 들어 "true"또는 "on"입니다. 편의상 `boolean` 메소드를 사용하여 이러한 값을 boolean로 검색 할 수 있습니다. `boolean` 메소드는 1, "1", true, "true", "on"및 "yes"에 대해 `true`를 리턴합니다. 다른 모든 값은 `false`를 반환합니다.
+
+    $archived = $request->boolean('archived');
 
 #### Retrieving A Portion Of The Input Data
 #### 입력 데이터의 한 부분 조회하기
@@ -556,7 +565,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
         /**
          * The trusted proxies for this application.
          *
-         * @var array
+         * @var string|array
          */
         protected $proxies = [
             '192.168.1.1',
@@ -585,6 +594,6 @@ If you are using Amazon AWS or another "cloud" load balancer provider, you may n
     /**
      * The trusted proxies for this application.
      *
-     * @var array
+     * @var string|array
      */
     protected $proxies = '*';

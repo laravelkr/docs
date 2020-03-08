@@ -106,7 +106,7 @@ Laravel includes a `cache.headers` middleware, which may be used to quickly set 
 
 Laravel에는 `cache.headers` 미들웨어가 포함되어 있습니다. 이 미들웨어는 라우트 그룹에 `Cache-Control` 헤더를 빠르게 설정하는 데 사용할 수 있습니다. 지시어 목록에 `etag`가 지정되면 응답 내용의 MD5 해시가 자동으로 ETag 식별자로 설정됩니다.
 
-    Route::middleware('cache.headers:public;max_age=2628000;etag')->group(function() {
+    Route::middleware('cache.headers:public;max_age=2628000;etag')->group(function () {
         Route::get('privacy', function () {
             // ...
         });

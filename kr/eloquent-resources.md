@@ -364,7 +364,7 @@ Like singular resources, resource collections may be returned directly from rout
 ### Data Wrapping
 ### 데이터 Wrapping(랩핑)
 
-By default, your outer-most resource is wrapped in a `data` key when the resource response is converted to JSON. So, for example, a typical resource collection response looks like the following:
+By default, your outermost resource is wrapped in a `data` key when the resource response is converted to JSON. So, for example, a typical resource collection response looks like the following:
 
 기본적으로, 리소스를 통한 응답-response는 JSON으로 변환될 때 "data"라는 키로 랩핑됩니다. 예들 들자면, 일반적인 리소스 응답-response는 다음과 같습니다.
 
@@ -383,7 +383,7 @@ By default, your outer-most resource is wrapped in a `data` key when the resourc
         ]
     }
 
-If you would like to disable the wrapping of the outer-most resource, you may use the `withoutWrapping` method on the base resource class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/docs/{{version}}/providers) that is loaded on every request to your application:
+If you would like to disable the wrapping of the outermost resource, you may use the `withoutWrapping` method on the base resource class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/docs/{{version}}/providers) that is loaded on every request to your application:
 
 위와 같은 데이터 랩핑을 원하지 않는다면, base 리소스 클래스에 `withoutWrapping` 메소드를 사용하면 됩니다. 일반적으로 이 메소드는 `AppServiceProvider` 또는 애플리케이션의 다른 서비스 프로바이더에서 호출해야 합니다.
 
@@ -417,7 +417,7 @@ If you would like to disable the wrapping of the outer-most resource, you may us
         }
     }
 
-> {note} The `withoutWrapping` method only affects the outer-most response and will not remove `data` keys that you manually add to your own resource collections.
+> {note} The `withoutWrapping` method only affects the outermost response and will not remove `data` keys that you manually add to your own resource collections.
 
 > {note} `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
 
@@ -428,7 +428,7 @@ You have total freedom to determine how your resource's relationships are wrappe
 
 리소스에서 관계-relationships이 어떻게 랩핑될지 자유롭게 결정할 수 있습니다. 중첩(nested)되었는지에 상관없이 모든 리소스 컬렉션을 `data` 키에 랩핑하고자 한다면, 각 리소스에 대한 리소스 컬렉션 클래스를 정의하고 `data` 키 안에서 컬렉션을 반환해야 합니다.
 
-You may be wondering if this will cause your outer-most resource to be wrapped in two `data` keys. Don't worry, Laravel will never let your resources be accidentally double-wrapped, so you don't have to be concerned about the nesting level of the resource collection you are transforming:
+You may be wondering if this will cause your outermost resource to be wrapped in two `data` keys. Don't worry, Laravel will never let your resources be accidentally double-wrapped, so you don't have to be concerned about the nesting level of the resource collection you are transforming:
 
 이렇게 되었을 때, 외부 리소스가 두개의 `data` 키로 랩핑되어 있는지 의문을 가질 수 있습니다. 걱정하지 마십시오. 라라벨은 리소스를 두번 랩핑하지 않으므로 변환중인 리소스 컬렉션이 중첩되었는지에 대해서 걱정할 필요가 없습니다.
 
@@ -722,7 +722,7 @@ When returning additional meta data from your resources, you never have to worry
 #### Top Level Meta Data
 #### 최상위 레벨의 메타 데이터
 
-Sometimes you may wish to only include certain meta data with a resource response if the resource is the outer-most resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a `with` method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outer-most resource being rendered:
+Sometimes you may wish to only include certain meta data with a resource response if the resource is the outermost resource being returned. Typically, this includes meta information about the response as a whole. To define this meta data, add a `with` method to your resource class. This method should return an array of meta data to be included with the resource response only when the resource is the outermost resource being rendered:
 
 반환되는 리소스가 가장 외부의 리소스인 경우에, 리소스 응답-response에 특정 메타 데이터만을 포함시키기를 원할 수 있습니다. 일반적으로 이는 전체적인 응답-response에 대한 메타데이터를 포함합니다. 이러한 메타 데이터를 정의하려면, 리소스 클래스에 `with` 메소드를 추가하면 됩니다. 이 메소드는 리소스가 렌더링 되는 가장 외부의 리소스인 경우에 리소스 응답에 포함되어야 하는 메타 데이터의 배열을 반환해야 합니다.
 
@@ -788,9 +788,9 @@ As you have already read, resources may be returned directly from routes and con
         return new UserResource(User::find(1));
     });
 
-However, sometimes you may need to customize the outgoing HTTP response before it is sent to the client. There are two ways to accomplish this. First, you may chain the `response` method onto the resource. This method will return an `Illuminate\Http\Response` instance, allowing you full control of the response's headers:
+However, sometimes you may need to customize the outgoing HTTP response before it is sent to the client. There are two ways to accomplish this. First, you may chain the `response` method onto the resource. This method will return an `Illuminate\Http\JsonResponse` instance, allowing you full control of the response's headers:
 
-그렇지만, 때때로 클라이언트에 HTTP 응답-response를 내보내기 전에 이를 커스터마이징 해야 할 때도 있습니다. 이 경우, 두가지 방법이 있는데, 먼저 리소스에 `response` 메소드를 체이닝 형태로 사용하면 됩니다. 이 메소드는 `Illuminate\Http\Response` 인스턴스를 반환하는데, 이를 사용하여 응답-response의 헤더를 조작할 수 있습니다.
+그렇지만, 때때로 클라이언트에 HTTP 응답-response를 내보내기 전에 이를 커스터마이징 해야 할 때도 있습니다. 이 경우, 두가지 방법이 있는데, 먼저 리소스에 `response` 메소드를 체이닝 형태로 사용하면 됩니다. 이 메소드는 `Illuminate\Http\JsonResponse` 인스턴스를 반환하는데, 이를 사용하여 응답-response의 헤더를 조작할 수 있습니다.
 
     use App\Http\Resources\User as UserResource;
     use App\User;
@@ -801,7 +801,7 @@ However, sometimes you may need to customize the outgoing HTTP response before i
                     ->header('X-Value', 'True');
     });
 
-Alternatively, you may define a `withResponse` method within the resource itself. This method will be called when the resource is returned as the outer-most resource in a response:
+Alternatively, you may define a `withResponse` method within the resource itself. This method will be called when the resource is returned as the outermost resource in a response:
 
 다른 방법으로는, 리소스 클래스에 `withResponse` 메소드를 정의하면 됩니다. 이 메소드는 리소스가 반환될 때, 호출됩니다.
 

@@ -297,17 +297,43 @@ To quickly generate an API resource controller that does not include the `create
 ### Nested Resources
 ### 중첩된 Resources
 
-Sometimes you may need to define routes to a "nested" resource. For example, a photo resource may have multiple "comments" that may be attached to the photo. To "nest" resource controllers, use "dot" notation in your route declaration:
+Sometimes you may need to define routes to a nested resource. For example, a photo resource may have multiple comments that may be attached to the photo. To nest the resource controllers, use "dot" notation in your route declaration:
 
-때때로 "중첩 된" 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 사진 리소스는 사진에 첨부 될 수있는 다수의 "코멘트"를 가질 수 있습니다. 리소스 컨트롤러를 "중첩"하려면 경로 선언에서 "점-dot"표기법을 사용하십시오.
+때때로 중첩 된 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 사진 리소스는 사진에 첨부 될 수있는 다수의 코멘트를 가질 수 있습니다. 리소스 컨트롤러를 중첩하려면 경로 선언에서 "점-dot"표기법을 사용하십시오.
 
     Route::resource('photos.comments', 'PhotoCommentController');
 
-This route will register a "nested" resource that may be accessed with URLs like the following: photos/{photos}/comments/{comments}.
+This route will register a nested resource that may be accessed with URIs like the following:
 
-이 라우트는 photos/{photos}/comments/{comments}와 같은 URL로 액세스 할 수있는 "중첩 된" 리소스를 등록합니다.
+이 라우트는 다음과 같은 URI로 접근 할 수있는 중첩 된 리소스를 등록합니다.
+
+    /photos/{photo}/comments/{comment}
+
+#### Shallow Nesting
+#### 얕은 중첩
+
+Often, it is not entirely necessary to have both the parent and the child IDs within a URI since the child ID is already a unique identifier. When using unique identifier such as auto-incrementing primary keys to identify your models in URI segments, you may choose to use "shallow nesting":
+
+자식 ID는 이미 고유 식별자이므로 URI 내에 부모 ID와 자식 ID를 모두 가질 필요는 없습니다. URI 단위에서 모델을 식별하기 위해 auto-incrementing 기본 키와 같은 고유 식별자를 사용하는 경우 "얕은 중첩"을 사용하도록 선택할 수 있습니다.
+
+    Route::resource('photos.comments', 'CommentController')->shallow();
+
+The route definition above will define the following routes:
+
+위의 라우트 정의는 다음 라우트를 정의합니다.
+
+Verb      | URI                               | Action       | Route Name
+----------|-----------------------------------|--------------|---------------------
+GET       | `/photos/{photo}/comments`        | index        | photos.comments.index
+GET       | `/photos/{photo}/comments/create` | create       | photos.comments.create
+POST      | `/photos/{photo}/comments`        | store        | photos.comments.store
+GET       | `/comments/{comment}`             | show         | comments.show
+GET       | `/comments/{comment}/edit`        | edit         | comments.edit
+PUT/PATCH | `/comments/{comment}`             | update       | comments.update
+DELETE    | `/comments/{comment}`             | destroy      | comments.destroy
 
 <a name="restful-naming-resource-routes"></a>
+### Naming Resource Routes
 ### 리소스 라우트 이름 지정하기
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:

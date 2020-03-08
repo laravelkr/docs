@@ -42,9 +42,9 @@
 ## Introduction
 ## 시작하기
 
-Migrations are like version control for your database, allowing your team to easily modify and share the application's database schema. Migrations are typically paired with Laravel's schema builder to easily build your application's database schema. If you have ever had to tell a teammate to manually add a column to their local database schema, you've faced the problem that database migrations solve.
+Migrations are like version control for your database, allowing your team to modify and share the application's database schema. Migrations are typically paired with Laravel's schema builder to build your application's database schema. If you have ever had to tell a teammate to manually add a column to their local database schema, you've faced the problem that database migrations solve.
 
-마이그레이션은 여러분의 팀에서 손쉽게 애플리케이션의 데이터베이스를 수정하고 데이터베이스 스키마를 공유할 수 있도록 해주며 데이터베이스를 위한 버전 컨트롤과 같은 역할을 합니다. 마이그레이션은 보통 라라벨의 스키마 빌더와 쌍을 이루어 애플리케이션의 데이터베이스 스키마를 손쉽게 만들 수 있습니다. 만약 팀 동료에게 로컬 데이터베이스 스키마에 수동으로 컬럼을 추가하는 것에 대해서 이야기를 해야한다면, 데이터베이스 마이그레이션 기능이 해결하고자 하는 문제에 직면해 있는 것입니다.
+마이그레이션은 여러분의 팀에서 애플리케이션의 데이터베이스를 수정하고 데이터베이스 스키마를 공유할 수 있도록 해주며 데이터베이스를 위한 버전 컨트롤과 같은 역할을 합니다. 마이그레이션은 보통 라라벨의 스키마 빌더와 쌍을 이루어 애플리케이션의 데이터베이스 스키마를 손쉽게 만들 수 있습니다. 만약 팀 동료에게 로컬 데이터베이스 스키마에 수동으로 컬럼을 추가하는 것에 대해서 이야기를 해야한다면, 데이터베이스 마이그레이션 기능이 해결하고자 하는 문제에 직면해 있는 것입니다.
 
 The Laravel `Schema` [facade](/docs/{{version}}/facades) provides database agnostic support for creating and manipulating tables across all of Laravel's supported database systems.
 
@@ -60,13 +60,13 @@ To create a migration, use the `make:migration` [Artisan command](/docs/{{versio
 
     php artisan make:migration create_users_table
 
-The new migration will be placed in your `database/migrations` directory. Each migration file name contains a timestamp which allows Laravel to determine the order of the migrations.
+The new migration will be placed in your `database/migrations` directory. Each migration file name contains a timestamp, which allows Laravel to determine the order of the migrations.
 
 새로운 마이그레이션 파일은 `database/migrations` 디렉토리에 생성됩니다. 각 마이그레이션 파일의 이름에는 타임스탬프를 포함하며 라라벨이 마이그레이션들의 순서를 판별할 수 있도록 합니다.
 
-The `--table` and `--create` options may also be used to indicate the name of the table and whether the migration will be creating a new table. These options pre-fill the generated migration stub file with the specified table:
+The `--table` and `--create` options may also be used to indicate the name of the table and whether or not the migration will be creating a new table. These options pre-fill the generated migration stub file with the specified table:
 
-`--table`와 `--create` 옵션들은 테이블의 이름과 마이그레이션이 테이블을 새로 생성할지에 대해 명시하는데 사용될 수 있습니다. 이 옵션들은 생성된 마이그레이션 stub 파일을 특정한 테이블로 미리 채워 놓습니다.
+`--table`와 `--create` 옵션들은 테이블의 이름과 마이그레이션이 테이블을 새로 생성할지 여부를 표시하는 데 사용할 수 있습니다. 이 옵션들은 생성된 마이그레이션 stub 파일을 특정한 테이블로 미리 채워 놓습니다.
 
     php artisan make:migration create_users_table --create=users
 
@@ -84,9 +84,9 @@ A migration class contains two methods: `up` and `down`. The `up` method is used
 
 마이그레이션 클래스는 `up`과 `down`, 두 개의 메드를 가지고 있습니다. `up` 메소드는 데이터베이스에 테이블, 컬럼, 인덱스를 추가하는데 사용되고, 이와 반대로 `down` 메소드는 `up` 메소드의 동작을 취소합니다.
 
-Within both of these methods you may use the Laravel schema builder to expressively create and modify tables. To learn about all of the methods available on the `Schema` builder, [check out its documentation](#creating-tables). For example, this migration example creates a `flights` table:
+Within both of these methods you may use the Laravel schema builder to expressively create and modify tables. To learn about all of the methods available on the `Schema` builder, [check out its documentation](#creating-tables). For example, the following migration creates a `flights` table:
 
-이 두 메소드 안에서 모두 라라벨 스키마 빌더를 사용하여 테이블을 다양한 방법을 통해서 생성하고 변경할 수 있습니다. `Schema` 빌더가 제공하는 모든 메소드에 대해 알아보려면 [문서](#creating-tables)을 확인하세요. 다음에서, 마이그레이션 예제는 `flights` 테이블을 생성합니다.
+이 두 메소드 안에서 모두 라라벨 스키마 빌더를 사용하여 테이블을 다양한 방법을 통해서 생성하고 변경할 수 있습니다. `Schema` 빌더가 제공하는 모든 메소드에 대해 알아보려면 [문서](#creating-tables)을 확인하세요. 예를 들어, 다음 마이그레이션은 `flights` 테이블을 생성합니다.
 
     <?php
 
@@ -149,13 +149,13 @@ Some migration operations are destructive, which means they may cause you to los
 ### Rolling Back Migrations
 ### 마이그레이션 되돌리기-롤백
 
-To rollback the latest migration operation, you may use the `rollback` command. This command rolls back the last "batch" of migrations, which may include multiple migration files:
+To roll back the latest migration operation, you may use the `rollback` command. This command rolls back the last "batch" of migrations, which may include multiple migration files:
 
 가장 최근의 마이그레이션 작업(operation)을 되돌리려면 `rollback` 명령어를 사용하면 됩니다. 이 명령어는 가장 최근에 실행된 마이그레이션의 "모음(batch)", 즉 여러개의 마이그레이션 파일에 대해서 되돌릴 수 있습니다.
 
     php artisan migrate:rollback
 
-You may rollback a limited number of migrations by providing the `step` option to the `rollback` command. For example, the following command will rollback the last five migrations:
+You may roll back a limited number of migrations by providing the `step` option to the `rollback` command. For example, the following command will roll back the last five migrations:
 
 `rollback` 명령어에 `step` 옵션을 전달하여 제한된 숫자의 마이그레이션만 되돌릴 수 있습니다. 예를들어 다음의 명령어는 최근 5개의 마이그레이션만 되돌립니다.
 
@@ -167,7 +167,7 @@ The `migrate:reset` command will roll back all of your application's migrations:
 
     php artisan migrate:reset
 
-#### Rollback & Migrate In Single Command
+#### Roll Back & Migrate Using A Single Command
 #### 하나의 명령어로 롤백과 마이그레이트 함께 실행 하기
 
 The `migrate:refresh` command will roll back all of your migrations and then execute the `migrate` command. This command effectively re-creates your entire database:
@@ -179,7 +179,7 @@ The `migrate:refresh` command will roll back all of your migrations and then exe
     // Refresh the database and run all database seeds...
     php artisan migrate:refresh --seed
 
-You may rollback & re-migrate a limited number of migrations by providing the `step` option to the `refresh` command. For example, the following command will rollback & re-migrate the last five migrations:
+You may roll back & re-migrate a limited number of migrations by providing the `step` option to the `refresh` command. For example, the following command will roll back & re-migrate the last five migrations:
 
 `refresh` 명령어에 `step` 옵션을 전달하여 제한된 숫자의 마이그레이션만 되돌리고 다시 마이그레이션을 수행할 수 있습니다. 예를들어 다음의 명령어는 최근 5개의 마이그레이션만 되돌리고 마이그레이션을 다시 실행합니다.
 
@@ -204,7 +204,7 @@ The `migrate:fresh` command will drop all tables from the database and then exec
 ### Creating Tables
 ### 테이블 생성하기
 
-To create a new database table, use the `create` method on the `Schema` facade. The `create` method accepts two arguments. The first is the name of the table, while the second is a `Closure` which receives a `Blueprint` object that may be used to define the new table:
+To create a new database table, use the `create` method on the `Schema` facade. The `create` method accepts two arguments: the first is the name of the table, while the second is a `Closure` which receives a `Blueprint` object that may be used to define the new table:
 
 새로운 데이터베이스 테이블을 생성하려면 `Schema` 파사드에 `create` 메소드를 사용하면 됩니다. `create` 메소드는 두개의 인자를 전달 받습니다. 첫번째 인자는 테이블의 이름이고, 두번째 인자는 새로운 테이블을 정의하는 사용되는 `Blueprint` 객체를 받는 `Closure`입니다.
 
@@ -219,9 +219,9 @@ When creating the table, you may use any of the schema builder's [column methods
 #### Checking For Table / Column Existence
 #### 테이블 / 컬럼이 존재하는지 확인하기
 
-You may easily check for the existence of a table or column using the `hasTable` and `hasColumn` methods:
+You may check for the existence of a table or column using the `hasTable` and `hasColumn` methods:
 
-`hasTable`와 `hasColumn` 메소드를 사용하면 손쉽게 테이블이나 컬럼의 존재 유무를 확인할 수 있습니다.
+`hasTable`와 `hasColumn` 메소드를 사용해 테이블이나 컬럼의 존재 유무를 확인할 수 있습니다.
 
     if (Schema::hasTable('users')) {
         //

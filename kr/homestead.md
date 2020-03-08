@@ -95,6 +95,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes Nginx, PHP, My
 
 - Ubuntu 18.04
 - Git
+- PHP 7.4
 - PHP 7.3
 - PHP 7.2
 - PHP 7.1
@@ -792,9 +793,9 @@ After running the command, you will see an Ngrok screen appear which contains th
 ### Multiple PHP Versions
 ### 여러 버전의 PHP 사용하기
 
-Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2" and "7.3" (the default):
+Homestead 6 introduced support for multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2", "7.3", and "7.4" (the default):
 
-홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3"(기본) 입니다.
+홈스테드 6부터 동일한 가상 머신에서 여러버전의 PHP를 사용할 수 있습니다. 해당 사이트에서 어떤 버전의 PHP를 사용할지 `Homestead.yaml`에서 지정할 수 있습니다. 사용가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3", "7.4"(기본) 입니다.
 
     sites:
         - map: homestead.test
@@ -810,6 +811,7 @@ In addition, you may use any of the supported PHP versions via the CLI:
     php7.1 artisan list
     php7.2 artisan list
     php7.3 artisan list
+    php7.4 artisan list
 
 You may also update the default CLI version by issuing the following commands from within your Homestead virtual machine:
 
@@ -820,6 +822,7 @@ Homestead 가상 머신에서 다음 명령을 실행하여 기본 CLI 버전을
     php71
     php72
     php73
+    php74
 
 <a name="web-servers"></a>
 ### Web Servers
@@ -876,7 +879,7 @@ When debugging functional tests that make requests to the web server, it is easi
 
 웹 서버에 요청하는 기능 테스트를 디버깅 할 때 커스텀 헤더 또는 쿠키를 통해서 디버깅을 실행하도록 테스트를 수정하는 대신 디버깅을 자동 시작하는 것이 더 쉽습니다. Xdebug를 자동으로 시작하려면 Vagrant 박스에서 `/etc/php/7.x/fpm/conf.d/20-xdebug.ini`을 수정하고 다음 설정을 추가하십시오.
 
-    ; If Homestead.yml contains a different subnet for the IP address, this address may be different...
+    ; If Homestead.yaml contains a different subnet for the IP address, this address may be different...
     xdebug.remote_host = 192.168.10.1
     xdebug.remote_autostart = 1
 
@@ -1022,9 +1025,9 @@ These commands pull the latest Homestead code from the GitHub repository, fetche
 
 이 명령은 Homestead 코드를 GitHub 저장소에서 가져 와서 최신 태그를 가져온 다음 최신 태그 릴리스를 체크 아웃합니다. 최신 안정 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾을 수 있습니다.
 
-If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^9"` and update your dependencies:
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^10"` and update your dependencies:
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^9"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다.
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^10"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다.
 
     composer update
 

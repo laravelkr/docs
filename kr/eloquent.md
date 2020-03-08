@@ -37,6 +37,8 @@
     - [소프트 삭제하기](#soft-deleting)
     - [Querying Soft Deleted Models](#querying-soft-deleted-models)
     - [소프트 삭제된 모델 쿼리하기](#querying-soft-deleted-models)
+- [Replicating Models](#replicating-models)
+- [모델 복제](#replicating-models)
 - [Query Scopes](#query-scopes)
 - [쿼리 스코프](#query-scopes)
     - [Global Scopes](#global-scopes)
@@ -443,9 +445,9 @@ In addition, the query builder's `orderBy` function supports subqueries. We may 
 ## Retrieving Single Models / Aggregates
 ## 하나의 모델 / 집계 조회하기
 
-In addition to retrieving all of the records for a given table, you may also retrieve single records using `find` or `first`. Instead of returning a collection of models, these methods return a single model instance:
+In addition to retrieving all of the records for a given table, you may also retrieve single records using `find`, `first`, or `firstWhere`. Instead of returning a collection of models, these methods return a single model instance:
 
-테이블에서 모든 정보를 조회하는 것 외에도 `find` 또는 `first`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다.
+테이블에서 모든 정보를 조회하는 것 외에도 `find`, `first` 또는 `firstWhere`를 이용해서 하나의 레코드를 찾을 수 있습니다. 이 메소드들은 모델 컬렉션을 반환하는 대신 모델 인스턴스 하나를 반환합니다.
 
     // Retrieve a model by its primary key...
     $flight = App\Flight::find(1);
@@ -453,11 +455,31 @@ In addition to retrieving all of the records for a given table, you may also ret
     // Retrieve the first model matching the query constraints...
     $flight = App\Flight::where('active', 1)->first();
 
+    // Shorthand for retrieving the first model matching the query constraints...
+    $flight = App\Flight::firstWhere('active', 1);
+
 You may also call the `find` method with an array of primary keys, which will return a collection of the matching records:
 
 또한 `find` 메소드를 primary key 의 배열과 함께 사용하여 매칭되는 레코드들의 컬렉션을 반환받을 수 있습니다.
 
     $flights = App\Flight::find([1, 2, 3]);
+
+Sometimes you may wish to retrieve the first result of a query or perform some other action if no results are found. The `firstOr` method will return the first result that is found or, if no results are found, execute the given callback. The result of the callback will be considered the result of the `firstOr` method:
+
+때로는 쿼리의 첫 번째 결과를 검색하거나 결과가 없는 경우 다른 작업을 수행 할 수 있습니다. `firstOr` 메소드는 발견 된 첫 번째 결과를 반환하거나, 결과가 없으면 주어진 콜백을 실행합니다. 콜백의 결과는 `firstOr` 메소드의 결과로 간주됩니다.
+
+    $model = App\Flight::where('legs', '>', 100)->firstOr(function () {
+            // ...
+    });
+
+The `firstOr` method also accepts an array of columns to retrieve:
+
+`firstOr` 메소드는 조회 할 컬럼의 배열 또한 허용합니다.
+
+    $model = App\Flight::where('legs', '>', 100)
+                ->firstOr(['id', 'legs'], function () {
+                    // ...
+                });
 
 #### Not Found Exceptions
 #### Not Found Exceptions
@@ -566,6 +588,55 @@ The `update` method expects an array of column and value pairs representing the 
 > {note} When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
 
 > {note} Eloquent를 통해서 여러개의 모델을 업데이트 할 때, 변경되는 모델에 대한 `saving`, `saved`, `updating` 및 `updated` 모델 이벤트는 발생되지 않습니다. 이 이유는 여러개의 모델을 업데이트 할 때 실제로 모델이 조회되는 것이 아니기 때문입니다.
+
+#### Examining Attribute Changes
+#### 속성 변경 검토
+
+Eloquent provides the `isDirty`, `isClean`, and `wasChanged` methods to examine the internal state of your model and determine how its attributes have changed from when they were originally loaded.
+
+Eloquent는 `isDirty`, `isClean` 및 `wasChanged` 메소드를 제공하여 모델의 내부 상태를 검사하고 모델이 처음 로드되었을 때의 속성이 어떻게 바뀌 었는지 확인합니다.
+
+The `isDirty` method determines if any attributes have been changed since the model was loaded. You may pass a specific attribute name to determine if a particular attribute is dirty. The `isClean` method is the opposite of `isDirty` and also accepts an optional attribute argument:
+
+`isDirty` 메소드는 모델이 로드 된 후 속성이 변경되었는지 여부를 판별합니다. 특정 속성이 더티인지 확인하기 위해 특정 속성 이름을 전달할 수 있습니다. `isClean` 메소드는 `isDirty`와 반대며 선택적 속성 인수도 허용합니다.
+
+    $user = User::create([
+        'first_name' => 'Taylor',
+        'last_name' => 'Otwell',
+        'title' => 'Developer',
+    ]);
+
+    $user->title = 'Painter';
+
+    $user->isDirty(); // true
+    $user->isDirty('title'); // true
+    $user->isDirty('first_name'); // false
+
+    $user->isClean(); // false
+    $user->isClean('title'); // false
+    $user->isClean('first_name'); // true
+
+    $user->save();
+
+    $user->isDirty(); // false
+    $user->isClean(); // true
+
+The `wasChanged` method determines if any attributes were changed when the model was last saved within the current request cycle. You may also pass an attribute name to see if a particular attribute was changed:
+
+`wasChanged` 메소드는 현재 요청주기 내에 모델이 마지막으로 저장 될 때 속성이 변경되었는지 여부를 판별합니다. 특정 속성이 변경되었는지 확인하기 위해 속성 이름을 전달할 수도 있습니다.
+
+    $user = User::create([
+        'first_name' => 'Taylor',
+        'last_name' => 'Otwell',
+        'title' => 'Developer',
+    ]);
+
+    $user->title = 'Painter';
+    $user->save();
+
+    $user->wasChanged(); // true
+    $user->wasChanged('title'); // true
+    $user->wasChanged('first_name'); // false
 
 <a name="mass-assignment"></a>
 ### Mass Assignment
@@ -843,6 +914,28 @@ Sometimes you may need to truly remove a model from your database. To permanentl
 
     // Force deleting all related models...
     $flight->history()->forceDelete();
+
+<a name="replicating-models"></a>
+## Replicating Models
+## 모델 복제
+
+You may create an unsaved copy of a model instance using the `replicate` method. This is particularly useful when you have model instances that share many of the same attributes:
+
+`replicate` 메소드를 사용하여 모델 인스턴스의 저장되지 않은 사본을 생성 할 수 있습니다. 이것은 많은 동일한 속성을 공유하는 모델 인스턴스가 있을 때 특히 유용합니다.
+
+    $shipping = App\Address::create([
+        'type' => 'shipping',
+        'line_1' => '123 Example Street',
+        'city' => 'Victorville',
+        'state' => 'CA',
+        'postcode' => '90001',
+    ]);
+
+    $billing = $shipping->replicate()->fill([
+        'type' => 'billing'
+    ]);
+
+    $billing->save();
 
 <a name="query-scopes"></a>
 ## Query Scopes
@@ -1197,6 +1290,17 @@ This command will place the new observer in your `App/Observers` directory. If t
          * @return void
          */
         public function deleted(User $user)
+        {
+            //
+        }
+
+        /**
+         * Handle the User "forceDeleted" event.
+         *
+         * @param  \App\User  $user
+         * @return void
+         */
+        public function forceDeleted(User $user)
         {
             //
         }

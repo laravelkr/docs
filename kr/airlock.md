@@ -26,7 +26,7 @@
     - [Protecting Routes](#protecting-spa-routes)
     - [라우트 보호하기](#protecting-spa-routes)
     - [Authorizing Private Broadcast Channels](#authorizing-private-broadcast-channels)
-    - [비공개 브로드캐스트 채널 승인하기](#authorizing-private-broadcast-channels)
+    - [Private 브로드캐스트 채널 승인하기](#authorizing-private-broadcast-channels)
 - [Mobile Application Authentication](#mobile-application-authentication)
 - [모바일 어플리케이션 인증](#mobile-application-authentication)
     - [Issuing API Tokens](#issuing-mobile-api-tokens)
@@ -74,7 +74,7 @@ Second, Airlock exists to offer a simple way to authenticate single page applica
 
 For this feature, Airlock does not use tokens of any kind. Instead, Airlock uses Laravel's built-in cookie based session authentication services. This provides the benefits of CSRF protection, session authentication, as well as protects against leakage of the authentication credentials via XSS. Airlock will only attempt to authenticate using cookies when the incoming request originates from your own SPA frontend.
 
-이 기능을 위해서 에어락은 어떤 종류의 토큰도 사용하지 않습니다. 대신, 에어락은 라라벨에 내장(built-in) 된 쿠키 기반의 세션 인증 서비스를 사용합니다. 이것은 인증 CSRF 보호, 세션 인증이라는 장점과 더불어 XSS를 통한 인증 자격 증명(authentication credentials)의 누출을 방어합니다. 에어락은 단지 어떤 요청이 여러분 자신의 SPA 프론트엔드로부터 비롯될 때 쿠키를 사용한 인증을 시도할 것입니다.
+이 기능을 위해서 에어락은 어떤 종류의 토큰도 사용하지 않습니다. 대신, 에어락은 라라벨에 내장 (built-in) 된 쿠키 기반의 세션 인증 서비스를 사용합니다. 이것은 인증 CSRF 보호, 세션 인증이라는 장점과 더불어 XSS를 통한 인증 자격 증명(authentication credentials)의 누출을 방어합니다. 에어락은 단지 어떤 요청이 여러분 자신의 SPA 프론트엔드로부터 비롯될 때 쿠키를 사용한 인증을 시도할 것입니다.
 
 <a name="installation"></a>
 ## Installation
@@ -308,11 +308,11 @@ To protect routes so that all incoming requests must be authenticated, you shoul
 
 <a name="authorizing-private-broadcast-channels"></a>
 ### Authorizing Private Broadcast Channels
-### 비공개 브로드캐스트 채널 승인하기
+### Private 브로드캐스트 채널 승인하기
 
 If your SPA needs to authenticate with [private / presence broadcast channels](/docs/{{version}}/broadcasting#authorizing-channels), you should place the `Broadcast::routes` method call within your `routes/api.php` file:
 
-만약 당신의 SPA가 [비밀 / 공개 브로드캐스트 채널](/docs/{{version}}/broadcasting#authorizing-channels)로 인증될 필요가 있다면, `routes/api.php` 파일 내에 `Broadcast::routes` 메소드 콜(method call)을 넣어야 합니다.
+만약 당신의 SPA가 [Private / Presence 브로드캐스트 채널](/docs/{{version}}/broadcasting#authorizing-channels)로 인증될 필요가 있다면, `routes/api.php` 파일 내에 `Broadcast::routes` 메소드 콜(method call)을 넣어야 합니다.
 
     Broadcast::routes(['middleware' => ['auth:airlock']]);
 

@@ -43,6 +43,8 @@
 - [Form-폼 메소드 Sppring-스푸핑](#form-method-spoofing)
 - [Accessing The Current Route](#accessing-the-current-route)
 - [현재 라우트에 엑세스하기](#accessing-the-current-route)
+- [Cross-Origin Resource Sharing (CORS)](#cors)
+- [크로스 오리진 리소스 쉐어링 (CORS)](#cors)
 
 <a name="basic-routing"></a>
 ## Basic Routing
@@ -273,6 +275,10 @@ You may also specify route names for controller actions:
 
     Route::get('user/profile', 'UserProfileController@show')->name('profile');
 
+> {note} Route names should always be unique.
+
+> {note} 라우트 이름은 언제나 고유해야 합니다.
+
 #### Generating URLs To Named Routes
 #### 이름이 지정된 라우트들에 대한 URL 생성하기
 
@@ -451,12 +457,40 @@ Since the `$user` variable is type-hinted as the `App\User` Eloquent model and t
 
 `App\User` Eloquent 모델로 타입힌트된 `$user` 변수와 `{user}` 세그먼트가 일치하기 때문에, 라라벨은 자동으로 request URI 로 부터 일치하는 ID 값을 가진 모델 인스턴스를 주입할것입니다. 만약 데이터베이스에서 매칭되는 모델 인스턴스를 찾을 수 없으면, 자동으로 404 HTTP response 가 생성됩니다.
 
-#### Customizing The Key Name
-#### 키의 이름을 변경하기
+#### Customizing The Key
+#### 키 커스터마이징
 
-If you would like model binding to use a database column other than `id` when retrieving a given model class, you may override the `getRouteKeyName` method on the Eloquent model:
+Sometimes you may wish to resolve Eloquent models using a column other than `id`. To do so, you may specify the column in the route parameter definition:
 
-주어진 모델의 클래스를 찾을 때 `id` 와는 다른 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다.
+엘로퀜트 모델들을 의존성을 `id` 키 대신 다른 컬럼을 사용하여 해결하기 원한다면, 라우트 파라미터 정의 안에 그 컬럼을 명시할 수 있습니다.
+
+    Route::get('api/posts/{post:slug}', function (App\Post $post) {
+        return $post;
+    });
+
+#### Custom Keys & Scoping
+
+Sometimes, when implicitly binding multiple Eloquent models in a single route definition, you may wish to scope the second Eloquent model such that it must be a child of the first Eloquent model. For example, consider this situation that retrieves a blog post by slug for a specific user:
+
+하나의 라우트 명세에 다양한 엘로퀜트 모델을 묵시적으로 바인드 할때, 첫번째 엘로퀜트 모델의 자식이 되어야 하는 두번째 엘로퀜트 모델의 범위(Scope)를 바랄 수도 있다.  특정 유저를 위한 Slug 에 관련된 블로그 글를 찾는 다음의 예를 고려해보자.
+
+    use App\Post;
+    use App\User;
+
+    Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
+        return $post;
+    });
+
+When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `User` model has a relationship named `posts` (the plural of the route parameter name) which can be used to retrieve the `Post` model.
+
+사용자 정의 키로 묵시적 바인딩을 중첩된 라우트 매개 변수로 사용하는 경우, Laravel 은 부모의 관계 이름을 추측하는 규칙을 사용하여 부모에 의해 중첩된 모델을 검색하도록 쿼리의 범위를 자동으로 지정합니다. 이 경우, `User` 모델은 `post` 모델을 검색하는 데 사용할 수있는 `posts` (경로 매개 변수 이름의 복수형)라는 관계가 있다고 가정합니다.
+
+#### Customizing The Default Key Name
+#### 기본 키의 이름을 변경하기
+
+If you would like model binding to use a default database column other than `id` when retrieving a given model class, you may override the `getRouteKeyName` method on the Eloquent model:
+
+주어진 모델의 클래스를 찾을 때 `id` 와는 다른 기본 데이터베이스 컬럼을 사용하는 모델 바인딩을 하고자 한다면, Eloquent 모델의 `getRouteKeyName` 메소드를 재지정하면 됩니다.
 
     /**
      * Get the route key for the model.
@@ -528,9 +562,10 @@ Alternatively, you may override the `resolveRouteBinding` method on your Eloquen
      * Retrieve the model for a bound value.
      *
      * @param  mixed  $value
+     * @param  string|null  $field
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function resolveRouteBinding($value)
+    public function resolveRouteBinding($value, $field = null)
     {
         return $this->where('name', $value)->firstOrFail();
     }
@@ -588,7 +623,7 @@ You may specify different rate limits for guest and authenticated users. For exa
     Route::middleware('throttle:10|60,1')->group(function () {
         //
     });
-   
+
 You may also combine this functionality with dynamic rate limits. For example, if your `User` model contains a `rate_limit` attribute, you may pass the name of the attribute to the `throttle` middleware so that it is used to calculate the maximum request count for authenticated users:
 
 또한 이 기능과 동적 rate 제한을 함께 사용할 수 있습니다. 예를 들어, `User` 모델이 `rate_limit` 속성을 포함하고 있다면, 인증 된 사용자의 최대 요청 수를 제한 하는 `throttle` 미들웨어에 속성의 이름을 전달해줄 수 있습니다.
@@ -620,7 +655,7 @@ Typically, you will probably specify one rate limit for your entire API. However
             });
         });
     });
-    
+
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing
 ## Form-폼 메소드 Sppring-스푸핑
@@ -660,3 +695,10 @@ You may use the `current`, `currentRouteName`, and `currentRouteAction` methods 
 Refer to the API documentation for both the [underlying class of the Route facade](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) and [Route instance](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) to review all accessible methods.
 
 모든 메소드를 확인하고자 한다면 [Route 파사드 뒤에서 동작하는 클래스](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 와 [Route 인스턴스](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) API 문서를 참고하십시오.
+
+<a name="cors"></a>
+## Cross-Origin Resource Sharing (CORS)
+
+Laravel can automatically respond to CORS OPTIONS requests with values that you configure. All CORS settings may be configured in your `cors` configuration file and OPTIONS requests will automatically be handled by the `HandleCors` middleware that is included by default in your global middleware stack.
+
+> {tip} For more information on CORS and CORS headers, please consult the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).

@@ -15,6 +15,8 @@
     - [설정내역 로딩 최적화](#optimizing-configuration-loading)
     - [Optimizing Route Loading](#optimizing-route-loading)
     - [라우트 로딩 최적화](#optimizing-route-loading)
+    - [Optimizing View Loading](#optimizing-view-loading)
+    - [뷰 로딩 최적화]](#optimizing-view-loading)
 - [Deploying With Forge](#deploying-with-forge)
 - [Forge에서 배포하기](#deploying-with-forge)
 
@@ -125,6 +127,20 @@ This command reduces all of your route registrations into a single method call w
 > {note} Since this feature uses PHP serialization, you may only cache the routes for applications that exclusively use controller based routes. PHP is not able to serialize Closures.
 
 > {note} 이 기능은 PHP의 시리얼라이제이션 기능을 사용하기 때문에, 컨트롤러 기반의 라우트로 구성된 라우트만 캐싱할 수 있습니다. PHP에서 클로저는 시리얼라이즈 할 수 없기 때문입니다.
+
+<a name="optimizing-view-loading"></a>
+### Optimizing View Loading
+### 뷰 로딩 최적화
+
+When deploying your application to production, you should make sure that you run the `view:cache` Artisan command during your deployment process:
+
+실 서버에 배포할 때에, 배포 프로세스에 `view:cache` 아티즌 명령어를 실행하도록 하십시오:
+
+    php artisan view:cache
+
+This command precompiles all your Blade views so they are not compiled on demand, improving the performance of each request that returns a view.
+
+이 명령은 모든 블레이드 뷰를 사전 컴파일하여 요청시 컴파일하지 않으며, 뷰를 리턴하는 요청들의 성능을 향상시킵니다.
 
 <a name="deploying-with-forge"></a>
 ## Deploying With Forge

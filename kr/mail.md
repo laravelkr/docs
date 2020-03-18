@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+    - [Configuration](#configuration)
+    - [설정하기](#configuration)
     - [Driver Prerequisites](#driver-prerequisites)
     - [드라이버 사전 준비사항](#driver-prerequisites)
 - [Generating Mailables](#generating-mailables)
@@ -52,6 +54,11 @@ Laravel provides a clean, simple API over the popular [SwiftMailer](https://swif
 
 라라벨은 인기있는 [SwiftMailer](https://swiftmailer.symfony.com/)를 통해서 깔끔하고 단순한 API 를 제공하며, 로컬과 클라우드 기반의 메일 서비스를 통해서 어렵지 않게 메일을 사용할 수 있도록 SMTP, Mailgun, Postmark, 아마존 SES, 그리고 `sendmail` 드라이버를 제공합니다.
 
+<a name="configuration"></a>
+### Configuration
+
+Laravel's email services may be configured via the `mail` configuration file. Each mailer configured within this file may have its own options and even its own unique "transport", allowing your application to use different email services to send certain email messages. For example, your application might use Postmark to send transactional mail while using Amazon SES to send bulk mail.
+
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
 ### 드라이버 사전준비사항
@@ -65,9 +72,9 @@ API를 기반으로한 Mailgun 그리고 Postmark 드라이버의 경우 대개 
 #### Mailgun Driver
 #### Mailgun 드라이버
 
-To use the Mailgun driver, first install Guzzle, then set the `driver` option in your `config/mail.php` configuration file to `mailgun`. Next, verify that your `config/services.php` configuration file contains the following options:
+To use the Mailgun driver, first install Guzzle, then set the `default` option in your `config/mail.php` configuration file to `mailgun`. Next, verify that your `config/services.php` configuration file contains the following options:
 
-Mailgun 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/mail.php` 설정파일에 `driver` 옵션을 `mailgun`으로 설정하면 됩니다. 다음으로 `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
+Mailgun 드라이버를 사용하려면 먼저 Guzzle 을 설치하고, `config/mail.php` 설정파일에 `default` 옵션을 `mailgun`으로 설정하면 됩니다. 다음으로 `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
 
     'mailgun' => [
         'domain' => 'your-mailgun-domain',
@@ -93,9 +100,9 @@ Postmark 드라이버를 사용하려면, 컴포저를 사용해서 Postmark 의
 
     composer require wildbit/swiftmailer-postmark
 
-Next, install Guzzle and set the `driver` option in your `config/mail.php` configuration file to `postmark`. Finally, verify that your `config/services.php` configuration file contains the following options:
+Next, install Guzzle and set the `default` option in your `config/mail.php` configuration file to `postmark`. Finally, verify that your `config/services.php` configuration file contains the following options:
 
-다음으로, Guzzle을 설치하고, `config/mail.php` 설정 파일에 `driver` 옵션을 `postmark`으로 설정하면 됩니다. 마지막으로, `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
+다음으로, Guzzle을 설치하고, `config/mail.php` 설정 파일에 `defatul` 옵션을 `postmark`으로 설정하면 됩니다. 마지막으로, `config/services.php` 설정 파일이 다음 내용을 포함하고 있는지 확인하십시오:
 
     'postmark' => [
         'token' => 'your-postmark-token',
@@ -110,9 +117,9 @@ To use the Amazon SES driver you must first install the Amazon AWS SDK for PHP. 
 
     "aws/aws-sdk-php": "~3.0"
 
-Next, set the `driver` option in your `config/mail.php` configuration file to `ses` and verify that your `config/services.php` configuration file contains the following options:
+Next, set the `default` option in your `config/mail.php` configuration file to `ses` and verify that your `config/services.php` configuration file contains the following options:
 
-다음으로 `config/mail.php` 설정 파일의 `driver` 옵션을 `ses` 로 설정하고 `config/services.php` 설정 파일이 다음과 같은 옵션을 포함하고 있는지 확인하십시오:
+다음으로 `config/mail.php` 설정 파일의 `default` 옵션을 `ses` 로 설정하고 `config/services.php` 설정 파일이 다음과 같은 옵션을 포함하고 있는지 확인하십시오:
 
     'ses' => [
         'key' => 'your-ses-key',
@@ -680,10 +687,20 @@ You are not limited to just specifying the "to" recipients when sending a messag
 
 메일을 보낼 때 "to"에서 수신자를 지정하는데 제한이 있지는 않습니다. "to", "cc", "bcc" 를 사용한 수신자 설정을 하나의 체이닝된 호출로 사용할 수도 있습니다.
 
+    use Illuminate\Support\Facades\Mail;
+
     Mail::to($request->user())
         ->cc($moreUsers)
         ->bcc($evenMoreUsers)
         ->send(new OrderShipped($order));
+
+#### Sending Mail Via A Specific Mailer
+
+By default, Laravel will use the mailer configured as the `default` mailer in your `mail` configuration file. However, you may use the `mailer` method to send a message using a specific mailer configuration:
+
+    Mail::mailer('postmark')
+            ->to($request->user())
+            ->send(new OrderShipped($order));
 
 <a name="rendering-mailables"></a>
 ## Rendering Mailables

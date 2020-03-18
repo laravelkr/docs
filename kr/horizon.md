@@ -9,8 +9,8 @@
     - [설정하기](#configuration)
     - [Dashboard Authorization](#dashboard-authorization)
     - [Dashboard 권한 부여](#dashboard-authorization)
-- [Upgrading Horizon](#upgrading)
-- [Horizon 업그레이드](#upgrading)
+- [Upgrading Horizon](#upgrading-horizon)
+- [Horizon 업그레이드](#upgrading-horizon)
 - [Running Horizon](#running-horizon)
 - [Horizon 실행하기](#running-horizon)
     - [Deploying Horizon](#deploying-horizon)
@@ -83,9 +83,9 @@ The `auto` strategy adjusts the number of worker processes per queue based on th
 
 `auto`는 queue의 현재 작업 부하량을 기준으로 queue당 worker 프로세스를 조절 합니다. 예를들어 `notifications` queue에 1000개의 작업이 대기중인데, `render` queue는 비어있는 경우라면, Horizon은 `notifications` queue가 비게 될때까지 더 많은 worker를 notification queue에 배정 합니다. 밸런스 옵션이 `false`일 경우에는, 라라벨 기본 동작으로 설정에 나열된 순서 대로 queue를 처리합니다.
 
-When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to. The `minProcesses` value specifies the minimum number of processes per queue, while the `maxProcesses` value specifies the maximum number of processes across all queues:
+When using the `auto` strategy, you may define the `minProcesses` and `maxProcesses` configuration options to control the minimum and maximum number of processes Horizon should scale up and down to:
 
-`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다. `minProcesses` 값은 대기열 당 최소 프로세스 수를 지정하고 `maxProcesses` 값은 모든 대기열에서 최대 프로세스 수를 지정합니다.
+`auto`를 사용하는 경우 `minProcesses`와 `maxProcesses`의 옵션으로 Horizon이 스케일 업, 다운하는 프로세스의 최소, 최대 수를 제어 할 수 있습니다:
 
     'environments' => [
         'production' => [
@@ -99,7 +99,7 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
             ],
         ],
     ],
-    
+
 #### Job Trimming
 #### 작업 트리밍
 
@@ -136,15 +136,14 @@ Horizon Dashboard는 `/horizon`으로 접속 가능하며, 기본적으로 `loca
             ]);
         });
     }
-    
-> {note} Remember that Laravel injects the *authenticated* user to the Gate automatically. If your app is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` above to `function ($user = null)` to force Laravel to not require authentication.		
+
+> {note} Remember that Laravel injects the *authenticated* user to the Gate automatically. If your app is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` above to `function ($user = null)` to force Laravel to not require authentication.
 
 > {note} 라라벨은 *인증된* 사용자를 게이트에 자동으로 주입합니다. IP 제한과 같이 다른 방법으로 Horizon 보안을 제공한다면 사용자는 `로그인`이 필요하지 않을 수 있습니다. 따라서 라라벨이 인증을 요구하지 않게 하려면 위의`function ($user)` `function ($user = null)` 변경해야 합니다.
 
-
-<a name="upgrading"></a>
-#### Upgrading Horizon
-#### Horizon 업그레이드
+<a name="upgrading-horizon"></a>
+## Upgrading Horizon
+## Horizon 업그레이드
 
 When upgrading to a new major version of Horizon, it's important that you carefully review [the upgrade guide](https://github.com/laravel/horizon/blob/master/UPGRADE.md).
 
@@ -154,7 +153,7 @@ In addition, you should re-publish Horizon's assets:
 
 또한 Horizon의 자산-asssets을 다시 게시해야합니다.
 
-    php artisan horizon:assets
+    php artisan horizon:publish
 
 <a name="running-horizon"></a>
 ## Running Horizon

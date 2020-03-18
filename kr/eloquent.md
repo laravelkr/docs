@@ -49,6 +49,8 @@
 - [모델의 비교](#comparing-models)
 - [Events](#events)
 - [이벤트](#events)
+    - [Using Closures](#events-using-closures)
+    - [클로저 사용하기](#events-using-closures)
     - [Observers](#observers)
     - [옵저버](#observers)
 
@@ -986,9 +988,9 @@ Writing a global scope is simple. Define a class that implements the `Illuminate
 #### Applying Global Scopes
 #### 글로벌 스코프 적용하기
 
-To assign a global scope to a model, you should override a given model's `boot` method and use the `addGlobalScope` method:
+To assign a global scope to a model, you should override a given model's `booted` method and use the `addGlobalScope` method:
 
-글로벌 스코프를 모델에 할당하려면, 주어진 모델의 `boot` 메소드를 오버라이딩 하여 `addGlobalScope` 메소드를 사용해야 합니다.
+글로벌 스코프를 모델에 할당하려면, 주어진 모델의 `booted` 메소드를 오버라이딩 하여 `addGlobalScope` 메소드를 사용해야 합니다.
 
     <?php
 
@@ -1000,11 +1002,11 @@ To assign a global scope to a model, you should override a given model's `boot` 
     class User extends Model
     {
         /**
-         * The "booting" method of the model.
+         * The "booted" method of the model.
          *
          * @return void
          */
-        protected static function boot()
+        protected static function booted()
         {
             parent::boot();
 
@@ -1235,6 +1237,37 @@ To get started, define a `$dispatchesEvents` property on your Eloquent model tha
 After defining and mapping your Eloquent events, you may use [event listeners](https://laravel.com/docs/{{version}}/events#defining-listeners) to handle the events.
 
 Eloquent 이벤트를 정의하고 매핑 한 후 [이벤트 리스너](/docs/{{version}}/events#defining-listeners)를 사용하여 이벤트를 처리 할 수 있습니다.
+
+<a name="events-using-closures"></a>
+### Using Closures
+### 클로저 사용하기
+
+Instead of using custom event classes, you may register Closures that execute when various model events are fired. Typically, you should register these Closures in the `booted` method of your model:
+
+사용자 정의 이벤트 클래스를 사용하는 대신 다양한 모델 이벤트가 실행될 때 실행되는 클로저를 등록할 수 있습니다. 일반적으로 이러한 폐쇄를 모델의 `booted` 방식으로 등록하면 됩니다.
+	
+    <?php
+
+    namespace App;
+
+    use App\Scopes\AgeScope;
+
+    use Illuminate\Database\Eloquent\Model;
+
+    class User extends Model
+    {
+        /**
+         * The "booted" method of the model.
+         *
+         * @return void
+         */
+        protected static function booted()
+        {
+            static::created(function ($user) {
+                //
+            });
+        }
+    }
 
 <a name="observers"></a>
 ### Observers

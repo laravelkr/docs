@@ -318,7 +318,7 @@ If your SPA needs to authenticate with [private / presence broadcast channels](/
 
 Next, in order for Pusher's authorization requests to succeed, you will need to provide a custom Pusher `authorizer` when initializing [Laravel Echo](/docs/{{version}}/broadcasting#installing-laravel-echo). This allows your application to configure Pusher to use the `axios` instance that is [properly configured for cross-domain requests](#cors-and-cookies):
 
-다음으로, 푸셔(Pusher)의 권한 부여 요청에 성공하려면, [라라벨 에코](/docs/{{version}}/broadcasting#installing-laravel-echo)를 초기화할 때, 커스텀 푸셔 `authorizer`를 제공해야 합니다. 이를 통해 애플리케이션은 [크로스 도메인 요청에 대해 올바르게 설정된](#cors-and-cookies) `axios` 인스턴스를 사용하도록 푸셔를 설정할 수 있습니다.
+다음으로, 푸셔(Pusher)의 승인 요청에 성공하려면, [라라벨 에코](/docs/{{version}}/broadcasting#installing-laravel-echo)를 초기화할 때, 커스텀 푸셔 `authorizer`를 제공해야 합니다. 이를 통해 애플리케이션은 [크로스 도메인 요청에 대해 올바르게 설정된](#cors-and-cookies) `axios` 인스턴스를 사용하도록 푸셔를 설정할 수 있습니다.
 
     window.Echo = new Echo({
         broadcaster: "pusher",

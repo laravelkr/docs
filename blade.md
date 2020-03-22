@@ -607,8 +607,8 @@ You may pass [the name of a specific error bag](/docs/{{version}}/validation#nam
 
 Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. There are two approaches to writing components: class based components and anonymous components.
 
-컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 이점를 제공합니다. 하지만 컴포넌트와 슬롯의 정신적 모델을 이해하기 쉽다고 생각할 수 있습니다. 컴포넌트를 작성하는 방법은 두가지가 있습니다. 클래스 기반의 컴포넌트와 익명 컴포넌트입니다.
-
+컴포넌트와 슬롯은 섹션 및 레이아웃과 비슷하게 제공됩니다. 그래서 컴포넌트와 슬롯의 정신적 모델을 이해하기 쉽다고 생각할 수 있습니다. 컴포넌트를 작성하는 방법은 두가지가 있는 클래스 기반의 컴포넌트와 익명 컴포넌트입니다.
+데
 To create a class based component, you may use the `make:component` Artisan command. To illustrate how to use components, we will create a simple `Alert` component. The `make:component` command will place the component in the `App\View\Components` directory:
 
 클래스 기반의 컴포넌트를 작성하기 위해서 `make:component` 아티즌 명령어를 사용할 수 있습니다. 컴포넌트 사용방법을 설명하기 위해서 간단한 `Alert` 컴포넌트를 만듭니다. `make:component` 명령은 컴포넌트를 `App\View\Components` 디렉토리에 생성됩니다.
@@ -628,7 +628,7 @@ When writing components for your own application, components are automatically d
 
 However, if you are building a package that utilizes Blade components, you will need to manually register your component class and its HTML tag alias. You should typically register your components in the `boot` method of your package's service provider:
 
-하지만, 블레이드 컴포넌트 패키지를 만들어 활용하려면 컴포넌트 클라스와 HTML 태그를 수동으로 등록해야 합니다. 일반적으로 패키지 서비스 프로바이더의 `boot` 메소드에 컴포넌트를 등록해야 합니다.
+하지만, 블레이드 컴포넌트 패키지를 만들어 활용하려면 컴포넌트 클래스와 HTML 태그를 수동으로 등록해야 합니다. 일반적으로 패키지 서비스 프로바이더의 `boot` 메소드에 컴포넌트를 등록해야 합니다.
 
     use Illuminate\Support\Facades\Blade;
 
@@ -760,7 +760,7 @@ You may execute this method from your component template by invoking the variabl
 
 If the component method accepts no arguments, you may simple render the method name as a variable instead of invoking it as a function. For example, imagine a component method that simply returns a string:
 
-컴포넌트 메소드에 인수를 사용하지 않는 경우, 함수로 인수를 호출하지 않고 메소드 이름을 변수로 간단하게 호출할 수 있다. 예를 들어 간단한 문자열을 반환하는 메소드를 보여준다.
+컴포넌트 메소드에 인수를 사용하지 않는 경우, 함수로 인수를 호출하지 않고 메소드 이름을 변수로 간단하게 호출할 수 있습니다. 예를 들어 아래는 간단한 문자열을 반환하는 메소드를 보여줍니다.
 
     /**
      * Get the size.
@@ -774,7 +774,7 @@ If the component method accepts no arguments, you may simple render the method n
 
 Within a component, you may retrieve the value of the method as a variable:
 
-컴포넌트에서 변수로 메서드의 값을 사용할 수 있다.
+컴포넌트에서 변수로 메서드의 값을 사용할 수 있습니다.
 
     {{ $size }}
 
@@ -783,7 +783,7 @@ Within a component, you may retrieve the value of the method as a variable:
 
 If your component requires dependencies from Laravel's [service container](/docs/{{version}}/container), you may list them before any of the component's data attributes and they will automatically be injected by the container:
 
-컴포넌트가 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)의 종속성을 필요할 경우 컴포넌트의 데이터 속성 앞에 컴포넌트를 사용할 수 있으며 컨테이너에 자동으로 주입된다.
+컴포넌트가 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)의 종속성을 필요할 경우 컴포넌트의 데이터 속성 앞에 컴포넌트를 사용할 수 있으며 컨테이너에 자동으로 주입됩니다.
 
     use App\AlertCreator
 
@@ -938,7 +938,7 @@ You may use the `.` character to indicate if a component is nested deeper inside
     <x-inputs.button/>
 
 #### Data Properties / Attributes
-#### 데이터 속성 / 속성
+#### 데이터 프로퍼티 / 속성
 
 Since anonymous components do not have any associated class, you may wonder how you may differentiate which data should be passed to the component as variables and which attributes should be placed in the component's [attribute bag](#managing-attributes).
 

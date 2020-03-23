@@ -322,7 +322,7 @@ _라우트 모델 바인딩 개선에 대한 개발에는 [Taylor Otwell](https:
 
 Sometimes you may wish to resolve Eloquent models using a column other than `id`. To do so, Laravel 7 allows you to specify the column in the route parameter definition:
 
-때때로 엘로퀜트 모델의 `id` 컬럼 대신에 다른 컬럼을 통해 모델을 주입하고 싶을 경우가 있을 것입니다. 라라벨 7에서는 라우팅 파라미터 정의에 모델의 컬럼을 명시할 수 있습니다.
+때때로 엘로퀜트 모델에 대한 의존성을 `id` 컬럼 대신에 다른 컬럼을 통해 결정하고 싶을 경우가 있을 것입니다. 라라벨 7에서는 라우팅 파라미터 정의에 모델의 컬럼을 명시할 수 있습니다.
 
     Route::get('api/posts/{post:slug}', function (App\Post $post) {
         return $post;

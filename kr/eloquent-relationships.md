@@ -68,6 +68,7 @@ Database tables are often related to one another. For example, a blog post may h
 
 데이터베이스 테이블은 주로 서로 관련되어 있습니다. 예를 들어, 한 블로그 포스트가 많은 댓글을 가지고 있거나 어떤 명령이 그 명령을 내린 사용자와 관련되어 있을 수 있습니다. Eloquent는 이 relationship들과 관련한 작업을 하거나 관리하는 것을 쉽게 해주며 여러 타입의 relationship을 지원합니다.
 
+<div class="content-list" markdown="1">
 - [One To One](#one-to-one)
 - [1:1(일대일) 관계](#one-to-one)
 - [One To Many](#one-to-many)
@@ -84,6 +85,7 @@ Database tables are often related to one another. For example, a blog post may h
 - [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
 - [Many To Many (Polymorphic)](#many-to-many-polymorphic-relations)
 - [\*:*(다대다) (다형성)](#many-to-many-polymorphic-relations)
+</div>
 
 <a name="defining-relationships"></a>
 ## Defining Relationships
@@ -1036,6 +1038,14 @@ You may register the `morphMap` in the `boot` function of your `AppServiceProvid
 > {note} When adding a "morph map" to your existing application, every morphable `*_type` column value in your database that still contains a fully-qualified class will need to be converted to its "map" name.
 
 > {note} 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
+
+You may determine the morph alias of a given model at runtime using the `getMorphClass` method. Conversely, you may determine the fully-qualified class name associated with a morph alias using the `Relation::getMorphedModel` method:
+
+여러분은 실행 중에 `getMorphClass` 메소드를 이용하여 주어진 모델의 morph 별칭을 확정할 수 있습니다. 반대로 `Relation::getMorphedModel` 메소드를 이용하여 morph 별칭과 연관된 정규화된 클래스 이름을 결정할 수 있습니다.
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    $alias = $post->getMorphClass();
 
 <a name="querying-relations"></a>
 ## Querying Relations

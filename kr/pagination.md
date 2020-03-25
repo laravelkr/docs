@@ -165,6 +165,12 @@ You may append to the query string of pagination links using the `appends` metho
 
     {{ $users->appends(['sort' => 'votes'])->links() }}
 
+If you wish to append all current query string values to the pagination links you may use the `withQueryString` method:
+
+페이지 링크에 현재 모든 쿼리 스트링을 추가하려면  `withQueryString` 메소드를 사용할 수 있습니다.
+ 
+    {{ $users->withQueryString()->links() }}
+
 If you wish to append a "hash fragment" to the paginator's URLs, you may use the `fragment` method. For example, to append `#foo` to the end of each pagination link, make the following call to the `fragment` method:
 
 만약 "hash fragment"를 페이지 번호의 링크에 추가하고 싶다면 `fragment` 메소드를 사용하면 됩니다. 예를 들어 각각의 페이지 링크에 `#foo`를 추가하고자 한다면, 다음과 같이 `fragment` 메소드를 호출하면 됩니다.

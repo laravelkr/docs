@@ -222,6 +222,24 @@ You may instruct a single model instance to append attributes using the `append`
 ## Date Serialization
 ## 날짜 Serialization
 
+#### Customizing The Default Date Format
+#### 기본 날짜 형식 사용자 정의
+
+You may customize the default serialization format by overriding the `serializeDate` method:
+
+`serializeDate` 메소드를 재정의하여 기본 시리얼라이즈 포맷을 원하는데로 설정 할 수 있습니다.
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d');
+    }
+
 #### Customizing The Date Format Per Attribute
 #### 날짜 포맷의 속성을 커스터마이징 하기
 

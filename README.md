@@ -145,6 +145,7 @@
     <td align="center"><a href="https://github.com/humble92"><img src="https://avatars3.githubusercontent.com/u/1191154?v=4" width="100px;" alt=""/><br /><sub><b>Daniel</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=humble92" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/sungjoomoon"><img src="https://avatars2.githubusercontent.com/u/61780681?v=4" width="100px;" alt=""/><br /><sub><b>sungjoomoon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=sungjoomoon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/stseira"><img src="https://avatars3.githubusercontent.com/u/199357?v=4" width="100px;" alt=""/><br /><sub><b>YeongGwon Alex Jeong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=stseira" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/nugmubs"><img src="https://avatars2.githubusercontent.com/u/61725446?v=4" width="100px;" alt=""/><br /><sub><b>nugmubs</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=nugmubs" title="Documentation">📖</a></td>
   </tr>
 </table>
 

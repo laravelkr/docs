@@ -142,6 +142,10 @@ Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호
 
     php artisan make:controller ShowProfile --invokable
 
+> {tip} Controller stubs may be customized using stub publishing
+   
+> {tip} [stub publishing](/docs/{{version}}/stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
+
 <a name="controller-middleware"></a>
 ## Controller Middleware
 ## 컨트롤러 미들웨어
@@ -241,6 +245,7 @@ If you are using route model binding and would like the resource controller's me
 라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다.
 
     php artisan make:controller PhotoController --resource --model=Photo
+    
 
 #### Spoofing Form Methods
 #### 스푸핑 폼 함수

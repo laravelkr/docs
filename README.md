@@ -139,6 +139,9 @@
     <td align="center"><a href="https://github.com/initred"><img src="https://avatars3.githubusercontent.com/u/34208843?v=4" width="100px;" alt=""/><br /><sub><b>InitRed</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=initred" title="Documentation">📖</a></td>
     <td align="center"><a href="https://ahfk8762.tistory.com/"><img src="https://avatars2.githubusercontent.com/u/35286689?v=4" width="100px;" alt=""/><br /><sub><b>Kwon Sung Doo</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=KDudoo" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/kamikax"><img src="https://avatars1.githubusercontent.com/u/6329608?v=4" width="100px;" alt=""/><br /><sub><b>kamikax</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=kamikax" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

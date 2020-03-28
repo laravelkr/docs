@@ -178,7 +178,7 @@ The `modelKeys` method returns the primary keys for all models in the collection
 #### `makeVisible($attributes)`
 #### `makeVisible($attributes)`
 
-The `makeVisible` method makes visible attributes that are typically "hidden" on each model in the collection:
+The `makeVisible` method makes attributes visible that are typically "hidden" on each model in the collection:
 
 `makeVisible` 메소드는 컬렉션의 각 모델에서 전형적으로 "숨겨진-hidden" 속성을 가시적으로 만듭니다.
 

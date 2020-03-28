@@ -150,6 +150,7 @@
   </tr>
   <tr>
     <td align="center"><a href="http://www.palgle.com"><img src="https://avatars3.githubusercontent.com/u/2672043?v=4" width="100px;" alt=""/><br /><sub><b>Samgu Lee</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=cable8mm" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://junwoo.kim"><img src="https://avatars0.githubusercontent.com/u/6765995?v=4" width="100px;" alt=""/><br /><sub><b>Junwoo Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=dasider41" title="Documentation">📖</a></td>
   </tr>
 </table>
 

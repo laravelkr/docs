@@ -168,11 +168,11 @@ Alternatively, validation rules may be specified as arrays of rules instead of a
         'body' => ['required'],
     ]);
 
-If you would like to specify the [error bag](#named-error-bags) in which the error messages should be placed, you may use the `validateWithBag` method:
+You may use the `validateWithBag` method to validate a request and store any error messages within a [named error bag](#named-error-bags):
 
-오류 메시지를 배치 할 [error bag](#named-error-bags)을 지정하기 위해 `validateWithBag` 메소드를 사용할 수 있습니다.
+`validateWithBag` 메소드를 사용하여 요청을 검증하고 오류 메시지를 [named error bag](#named-error-bags)안에 저장할 수 있습니다.
 
-    $request->validateWithBag('blog', [
+    $validatedData = $request->validateWithBag('post', [
         'title' => ['required', 'unique:posts', 'max:255'],
         'body' => ['required'],
     ]);
@@ -539,6 +539,15 @@ If you would like to create a validator instance manually but still take advanta
         'body' => 'required',
     ])->validate();
 
+You may use the `validateWithBag` method to store the error messages in a [named error bag](#named-error-bags) if validation fails:
+
+유효성 검사에에 실패하면 `validateWithBag` 메소드를 사용하여 [named error bag](#named-error-bags)안에 오류 메시지를 저장할 수 있습니다.
+
+    Validator::make($request->all(), [
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+    ])->validateWithBag('post');
+    
 <a name="named-error-bags"></a>
 ### Named Error Bags
 ### 이름이 지정된 Error Bags
@@ -1571,6 +1580,29 @@ The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) univ
 ## Conditionally Adding Rules
 ## 조건부로 규칙 추가하기
 
+#### Skipping Validation When Fields Have Certain Values
+#### 필드에 특정 값이 있는 경우 유효성 검사 건너뛰기
+
+You may occasionally wish to not validate a given field if another field has a given value. You may accomplish this using the `exclude_if` validation rule. In this example, the `appointment_date` and `doctor_name` fields will not be validated if the `has_appointment` field has a value of `false`:
+
+때때로 다른 필드에 지정된 값이 있는 경우 주어진 필드의 유효성을 검사를 원하지 않는 경우가 있습니다. `exclude_if` 검증 규칙을 사용하여 이를 수행 할 수 있습니다. 이 예에서 `has_appointment` 필드의 값이 'false'이면 `appointment_date` 및 `doctor_name` 필드의 유효성은 검사되지 않습니다.
+
+    $v = Validator::make($data, [
+        'has_appointment' => 'required|bool',
+        'appointment_date' => 'exclude_if:has_appointment,false|required|date',
+        'doctor_name' => 'exclude_if:has_appointment,false|required|string',
+    ]);
+
+Alternatively, you may use the `exclude_unless` rule to not validate a given field unless another field has a given value:
+
+또는 다른 필드에 지정된 값이 없으면 `exclude_unless` 규칙을 사용하여 지정된 필드의 유효성을 검사하지 않을 수 있습니다.
+
+    $v = Validator::make($data, [
+        'has_appointment' => 'required|bool',
+        'appointment_date' => 'exclude_unless:has_appointment,true|required|date',
+        'doctor_name' => 'exclude_unless:has_appointment,true|required|string',
+    ]);
+    
 #### Validating When Present
 #### 현재 값이 존재할때 유효성 검사하기
 

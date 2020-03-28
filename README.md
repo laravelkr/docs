@@ -137,6 +137,7 @@
     <td align="center"><a href="https://github.com/NalCoder"><img src="https://avatars0.githubusercontent.com/u/57889823?v=4" width="100px;" alt=""/><br /><sub><b>NalCoder</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=NalCoder" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/soilSpoon"><img src="https://avatars1.githubusercontent.com/u/9105017?v=4" width="100px;" alt=""/><br /><sub><b>Hee</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=soilSpoon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/initred"><img src="https://avatars3.githubusercontent.com/u/34208843?v=4" width="100px;" alt=""/><br /><sub><b>InitRed</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=initred" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://ahfk8762.tistory.com/"><img src="https://avatars2.githubusercontent.com/u/35286689?v=4" width="100px;" alt=""/><br /><sub><b>Kwon Sung Doo</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=KDudoo" title="Documentation">📖</a></td>
   </tr>
 </table>
 

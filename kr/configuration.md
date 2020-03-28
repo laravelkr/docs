@@ -91,10 +91,6 @@ The second value passed to the `env` function is the "default value". This value
 
 `env` 함수에 전달되는 두 번째 인자는 "기본값" 입니다. 이 값은 주어진 키를 위한 환경 변수가 존재하지 않을 때 사용될 것입니다.
 
-Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration.
-
-개별 개발자와 서버에서 애플리케이션별로 다른 구동 환경 설정을 필요로 하기 때문에, `.env` 파일을 애플리케이션의 소스 컨트롤 시스템에 커밋하지 않아야 합니다.
-
 <a name="determining-the-current-environment"></a>
 ### Determining The Current Environment
 ### 현재 구동환경 결정하기

@@ -23,6 +23,8 @@
     - [언어 파일](#translations)
     - [Views](#views)
     - [뷰 파일들](#views)
+    - [View Components](#view-components)
+    - [뷰 컴포넌트 파일](#view-components)
 - [Commands](#commands)
 - [명령어](#commands)
 - [Public Assets](#public-assets)
@@ -343,6 +345,35 @@ If you would like to make your views available for publishing to the application
 Now, when users of your package execute Laravel's `vendor:publish` Artisan command, your package's views will be copied to the specified publish location.
 
 이제 라라벨의 `vendor:publish` 아티즌 명령어가 실행될 때 패키지의 뷰 파일들은 지정된 퍼블리싱 위치로 복사될 것입니다.
+
+<a name="view-components"></a>
+### View Components
+### 뷰 컴포넌트
+
+If your package contains [view components](/docs/{{version}}/blade#components), you may use the `loadViewComponentsAs` method to inform Laravel how to load them. The `loadViewComponentsAs` method accepts two arguments: the tag prefix for your view components and an array of your view components class. For example, if your package's prefix is `courier` and you have `Alert` and `Button` view components, you would add the following to your service provider's `boot` method:
+
+여러분의 패키지가 [뷰 컴포넌트](/docs/{{version}}/blade#components)를 포함하고 있다면, `loadViewComponentsAs` 메소드를 사용해 라라벨이 이를 로드할 수 있게 할 수 있습니다. `loadViewComponentsAs` 메소드는 두 개의 인자를 받아들이는데: 뷰 컴포넌트를 위한 태그 접두사(tag prefix)와 뷰 컴포넌트 클래스입니다. 예를 들어 여러분의 패키지 접두사가 `courier`이고 `Alert` 와 `Button` 뷰 컴포넌트를 가지고 있다면, 서비스 프로바이더의 `boot` 메소드에 아래와 같이 추가합니다.
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->loadViewComponentsAs('courier', [
+            Alert::class,
+            Button::class,
+        ]);
+    }
+
+Once your view components are registered in a service provider, you may reference them in your view like so:
+
+뷰 컴포넌트가 서비스 프로바이더에 등록되고나면,  뷰파일에서 다음과 같이 참조할 수 있습니다.
+
+    <x-courier-alert />
+
+    <x-courier-button />
 
 <a name="commands"></a>
 ## Commands

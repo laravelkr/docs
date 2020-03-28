@@ -148,6 +148,9 @@
     <td align="center"><a href="https://github.com/nugmubs"><img src="https://avatars2.githubusercontent.com/u/61725446?v=4" width="100px;" alt=""/><br /><sub><b>nugmubs</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=nugmubs" title="Documentation">📖</a></td>
     <td align="center"><a href="https://bitbucket.org/ji667623/"><img src="https://avatars1.githubusercontent.com/u/19298367?v=4" width="100px;" alt=""/><br /><sub><b>JasSung Cho</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ji6676" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://www.palgle.com"><img src="https://avatars3.githubusercontent.com/u/2672043?v=4" width="100px;" alt=""/><br /><sub><b>Samgu Lee</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=cable8mm" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

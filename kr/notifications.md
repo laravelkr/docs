@@ -27,6 +27,8 @@
     - [수신자 설정하기](#customizing-the-recipient)
     - [Customizing The Subject](#customizing-the-subject)
     - [제목 설정하기](#customizing-the-subject)
+    - [Customizing The Mailer](#customizing-the-mailer)
+    - [메일러 설정하기](#customizing-the-mailer)
     - [Customizing The Templates](#customizing-the-templates)
     - [템플릿 설정하기](#customizing-the-templates)
     - [Previewing Mail Notifications](#previewing-mail-notifications)
@@ -415,6 +417,27 @@ By default, the email's subject is the class name of the notification formatted 
     {
         return (new MailMessage)
                     ->subject('Notification Subject')
+                    ->line('...');
+    }
+
+<a name="customizing-the-mailer"></a>
+### Customizing The Mailer
+### 메일러 설정하기
+
+By default, the email notification will be sent using the default driver defined in the `config/mail.php` configuration file. However, you may specify a different mailer at runtime by calling the `mailer` method when building your message:
+
+기본적으로 이메일 알림은 `config/mail.php` 설정 파일에 정의된 기본 드라이버를 사용하여 전송될 것입니다. 하지만 여러분이 다른 메일러(mailer)를 동적으로 지정할 수 있으며 이는 메시지를 빌드할 때 아래의 예시와 같이 `mailer` 메서드를 호출합니다.
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->mailer('postmark')
                     ->line('...');
     }
 

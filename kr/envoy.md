@@ -246,14 +246,13 @@ You may provide one of the following as the channel argument:
 
 채널 인자는 다음 중 하나를 지정할 수 있습니다.
 
-
+<div class="content-list" markdown="1">
 - To send the notification to a channel: `#channel`
 - To send the notification to a user: `@user`
 
-
-
 - 채널로 알림을 보낼 때: `#채널`
 - 유저에게 알림을 보낼 때: `@유저`
+</div>
 
 <a name="discord"></a>
 ### Discord

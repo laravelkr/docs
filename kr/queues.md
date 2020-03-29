@@ -186,6 +186,10 @@ The generated class will implement the `Illuminate\Contracts\Queue\ShouldQueue` 
 
 생성된 클래스는 Job이 queue를 통해서 비동기적으로 실행되어야 된다는 것을 나타내는, `Illuminate\Contracts\Queue\ShouldQueue` 인터페이스를 구현하고 있습니다.
 
+> {tip} Job stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
+
+> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Job stub을 사용자가 정의할 수 있습니다.
+
 <a name="class-structure"></a>
 ### Class Structure
 ### 클래스 구조
@@ -391,6 +395,14 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
             ProcessPodcast::dispatch($podcast);
         }
     }
+    
+If you would like to conditionally dispatch a job, you may use the `dispatchIf` and `dispatchUnless` methods:
+
+조건부 Job 처리를 원한다면, `dispatchIf`와 `dispatchUnless` 메소드를 사용할 수 있습니다.
+
+    ProcessPodcast::dispatchIf($accountActive = true, $podcast);
+
+    ProcessPodcast::dispatchUnless($accountSuspended = false, $podcast);
 
 <a name="delayed-dispatching"></a>
 ### Delayed Dispatching
@@ -428,6 +440,28 @@ If you would like to delay the execution of a queued job, you may use the `delay
 > {note} The Amazon SQS queue service has a maximum delay time of 15 minutes.
 
 > {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
+
+#### Dispatching After The Response Is Sent To Browser
+#### 브라우저로 응답을 보낸 후 처리
+
+Alternatively, the `dispatchAfterResponse` method delays dispatching a job until after the response is sent to the user's browser. This will still allow the user to begin using the application even though a queued job is still executing. This should typically only be used for jobs that take about a second, such as sending an email:
+
+또는, `dispatchAfterResponse` 메소드는 응답이 사용자의 브라우저로 전송 될 때까지 작업을 ​​지연시킵니다. 이렇게하면 대기중인 작업이 계속 실행되고 있어도 사용자가 어플리케이션 사용을 시작할 수 있습니다. 일반적으로 이메일 전송과 같은 초단위 작업에 사용해야합니다.
+
+    use App\Jobs\SendNotification;
+
+    SendNotification::dispatchAfterResponse();
+
+You may `dispatch` a Closure and chain the `afterResponse` method onto the helper to execute a Closure after the response has been sent to the browser:
+
+브라우저에 응답을 보낸 후에 'dispatch' 클로저와 'afterResponse'메소드를 통해 실행할 수 있습니다.
+
+    use App\Mail\WelcomeMessage;
+    use Illuminate\Support\Facades\Mail;
+
+    dispatch(function () {
+        Mail::to('taylor@laravel.com')->send(new WelcomeMessage);
+    })->afterResponse();
 
 <a name="synchronous-dispatching"></a>
 ### Synchronous Dispatching
@@ -472,6 +506,18 @@ Job 체이닝을 사용하면 기본 Job이 성공적으로 실행 된 후 순�
     ProcessPodcast::withChain([
         new OptimizePodcast,
         new ReleasePodcast
+    ])->dispatch();
+
+In addition to chaining job class instances, you may also chain Closures:
+
+Job 클래스 인스턴스 체이닝과 더불어 체인 클로저로도 사용할 수 있습니다.
+
+    ProcessPodcast::withChain([
+        new OptimizePodcast,
+        new ReleasePodcast,
+        function () {
+            Podcast::update(...);
+        },
     ])->dispatch();
 
 > {note} Deleting jobs using the `$this->delete()` method will not prevent chained jobs from being processed. The chain will only stop executing if a job in the chain fails.
@@ -634,6 +680,54 @@ job 이 최종적으로 실패처리 될 때까지, 얼마나 많이 재시도 �
 > {tip} You may also define a `retryUntil` method on your queued event listeners.
 
 > {tip} queued 이벤트 리스너에도 `retryUntil` 메소드를 정의할 수 있습니다.
+
+#### Max Exceptions
+#### 최대 예외
+
+Sometimes you may wish to specify that a job may be attempted many times, but should fail if the retries are triggered by a given number of exceptions. To accomplish this, you may define a `maxExceptions` property on your job class:
+
+때로는 작업을 여러 번 시도하도록 지정할 수 있지만, 주어진 횟수만큼 예외가 발생하면 실패해야합니다. 이를 위해 Job클래스에 `maxExceptions` 속성을 정의할 수 있습니다.
+
+
+    <?php
+
+    namespace App\Jobs;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        /**
+         * The number of times the job may be attempted.
+         *
+         * @var int
+         */
+        public $tries = 25;
+
+        /**
+         * The maximum number of exceptions to allow before failing.
+         *
+         * @var int
+         */
+        public $maxExceptions = 3;
+
+        /**
+         * Execute the job.
+         *
+         * @return void
+         */
+        public function handle()
+        {
+            Redis::throttle('key')->allow(10)->every(60)->then(function () {
+                // Lock obtained, process the podcast...
+            }, function () {
+                // Unable to obtain lock...
+                return $this->release(10);
+            });
+        }
+    }
+
+In this example, the job is released for ten seconds if the application is unable to obtain a Redis lock and will continue to be retried up to 25 times. However, the job will fail if three unhandled exceptions are thrown by the job.
+
+이 예제에서, 애플리케이션이 Redis lock을 확보 할 수없는 경우 job은 10초 동안 해제되며 최대 25회 재시도됩니다. 그러나 처리되지 않은 예외가 3회 발생하면 작업이 실패합니다.
 
 #### Timeout
 #### 타임아웃

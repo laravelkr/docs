@@ -32,8 +32,6 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ### Arrays & Objects
 ### 배열 & 객체
 
-
-
 - [Arr::accessible](#method-array-accessible)
 - [Arr::add](#method-array-add)
 - [Arr::collapse](#method-array-collapse)
@@ -68,12 +66,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [head](#method-head)
 - [last](#method-last)
 
-
-
 ### Paths
 ### 경로
-
-
 
 - [app_path](#method-app-path)
 - [base_path](#method-base-path)
@@ -84,12 +78,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [resource_path](#method-resource-path)
 - [storage_path](#method-storage-path)
 
-
-
 ### Strings
 ### 문자열
-
-
 
 - [\__](#method-__)
 - [class_basename](#method-class-basename)
@@ -127,12 +117,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 
-
-
 ### Fluent Strings
 ### Fluent Strings
-
-
 
 - [after](#method-after) 
 - [afterLast](#method-afterLast) 
@@ -179,12 +165,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [whenEmpty](#method-whenEmpty) 
 - [words](#method-words) 
 
-
-
 ### URLs
 ### URLs
-
-
 
 - [action](#method-action)
 - [asset](#method-asset)
@@ -193,12 +175,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [secure_url](#method-secure-url)
 - [url](#method-url)
 
-
-
 ### Miscellaneous
 ### 기타
-
-
 
 - [abort](#method-abort)
 - [abort_if](#method-abort-if)
@@ -252,8 +230,6 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [view](#method-view)
 - [with](#method-with)
 
-
-
 <a name="method-listing"></a>
 ## Method Listing
 ## 메소드 목록
@@ -298,13 +274,12 @@ The `Arr::accessible` method checks that the given value is array accessible:
     
     // false
     
-
 <a name="method-array-add"></a>
 #### `Arr::add()` {#collection-method .first-collection-method}
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
-`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`이면 주어진 key/value 쌍을 배열에 추가합니다.
+`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`이면 주어진 key / value 쌍을 배열에 추가합니다.
 
     use Illuminate\Support\Arr;
 
@@ -369,7 +344,7 @@ The `Arr::crossJoin` method cross joins the given arrays, returning a Cartesian 
 
 The `Arr::divide` method returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`Arr::divide` 메소드는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열을 반환합니다.
+`Arr::divide` 메소드는 주어진 배열에서 키들을 담고 있는 배열과 값들을 담고 있는 배열, 총 2개의 배열을 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -384,7 +359,7 @@ The `Arr::divide` method returns two arrays, one containing the keys, and the ot
 
 The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
-`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다.
+`Arr::dot` 메소드는 다차원 배열을 "점(.)"으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다.
 
     use Illuminate\Support\Arr;
 
@@ -433,7 +408,7 @@ The `Arr::exists` method checks that the given key exists in the provided array:
 
 The `Arr::first` method returns the first element of an array passing a given truth test:
 
-`Arr::first` 메소드는 넘겨진 배열 중 주어진 조건을 만족하는 첫 번째 요소를 반환합니다.
+`Arr::first` 메소드는 전달된 배열 중 주어진 조건을 만족하는 첫 번째 요소를 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -473,7 +448,7 @@ The `Arr::flatten` method flattens a multi-dimensional array into a single level
 
 The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
 
-`Arr::forget` 메소드는 "점(.)" 표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다.
+`Arr::forget` 메소드는 "점(.)" 표기법을 사용하여 중첩 배열로부터 주어진 키 / 값 쌍을 제거합니다.
 
     use Illuminate\Support\Arr;
 
@@ -841,7 +816,7 @@ The `Arr::where` method filters an array using the given Closure:
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다.
+`Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면 결과에는 변경사항이 없습니다.
 
     use Illuminate\Support\Arr;
 
@@ -882,7 +857,7 @@ The `data_fill` function sets a missing value within a nested array or object us
 
 This function also accepts asterisks as wildcards and will fill the target accordingly:
 
-이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 채워넣습니다.
+이 함수는 또한 별표를 와일드카드로 받아들여 해당하는 대상을 채워넣습니다.
 
     $data = [
         'products' => [
@@ -941,7 +916,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 
 The `data_set` function sets a value within a nested array or object using "dot" notation:
 
-`data_set` 함수는 "dot" 표기법을 사용하여 중첩된 배열 또는 객체 안의 값을 설정합니다.
+`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안의 값을 설정합니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -951,7 +926,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
 This function also accepts wildcards and will set values on the target accordingly:
 
-이 함수는 또한 별표를 와일드 카드로 받아들여, 해당하는 대상을 설정합니다.
+이 함수는 또한 별표를 와일드 카드로 받아들여 해당하는 대상을 설정합니다.
 
     $data = [
         'products' => [
@@ -973,7 +948,7 @@ This function also accepts wildcards and will set values on the target according
 
 By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
 
-기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만, 새로운 값을 설정하고자 한다면, 네 번째 인자로 `false`를 전달하면 됩니다.
+기본적으로 기존 값은 덮어 씁니다. 새로운 값을 설정하고자 한다면, 값이 존재하지 않을 때만 네 번째 인자로 `false`를 전달하면 됩니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -1012,7 +987,6 @@ The `last` function returns the last element in the given array:
 ## 경로
 
 <a name="method-app-path"></a>
-#### `app_path()` {#collection-method}
 #### `app_path()` {#collection-method}
 
 The `app_path` function returns the fully qualified path to the `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
@@ -1144,7 +1118,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
 The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
 
-`preg_replace_array` 함수는 주어진 패턴에 맞는 문자열을 차례대로 배열로 교체합니다.
+`preg_replace_array` 함수는 주어진 패턴에 맞는 문자열을 차례대로 배열로 대체합니다.
 
     $string = 'The event will take place between :start and :end';
 
@@ -1157,7 +1131,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 
 The `Str::after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
 
-`Str::after` 메소드는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
+`Str::after` 메소드는 주어진 값 이후의 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
 
     use Illuminate\Support\Str;
 
@@ -1183,7 +1157,7 @@ The `Str::afterLast` method returns everything after the last occurrence of the 
 
 The `Str::before` method returns everything before the given value in a string:
 
-`Str::before` 메소드는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다.
+`Str::before` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1196,7 +1170,7 @@ The `Str::before` method returns everything before the given value in a string:
 
 The `Str::beforeLast` method returns everything before the last occurrence of the given value in a string:
 
-`Str::beforeLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타나기 전에 모든 것을 반환합니다.
+`Str::beforeLast` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1209,7 +1183,7 @@ The `Str::beforeLast` method returns everything before the last occurrence of th
 
 The `Str::camel` method converts the given string to `camelCase`:
 
-`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다.
+`Str::camel` 메소드는 주어진 문자열을 `camelCase`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1222,7 +1196,7 @@ The `Str::camel` method converts the given string to `camelCase`:
 
 The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
-`Str::contains` 메소드는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다.(대소문자를 구분합니다.):
+`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하는지 확인합니다. (대소문자를 구분합니다.)
 
     use Illuminate\Support\Str;
 
@@ -1232,7 +1206,7 @@ The `Str::contains` method determines if the given string contains the given val
 
 You may also pass an array of values to determine if the given string contains any of the values:
 
-또한, 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다.
+또한, 주어진 문자열에 값이 포함되어 있는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1245,8 +1219,7 @@ You may also pass an array of values to determine if the given string contains a
 
 The `Str::containsAll` method determines if the given string contains all array values:
 
-`Str::containsAll` 메소드는 주어진 모든 문자열이 배열 값에 포함되어 있는지를 확인합니다.
-
+`Str::containsAll` 메소드는 주어진 문자열에 모든 배열 값이 포함되어 있는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1259,7 +1232,7 @@ The `Str::containsAll` method determines if the given string contains all array 
 
 The `Str::endsWith` method determines if the given string ends with the given value:
 
-`Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다.
+`Str::endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1267,10 +1240,9 @@ The `Str::endsWith` method determines if the given string ends with the given va
 
     // true
 
-
 You may also pass an array of values to determine if the given string ends with any of the given values:
 
-주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 값 배열을 전달할 수도 있습니다.
+주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1287,7 +1259,7 @@ You may also pass an array of values to determine if the given string ends with 
 
 The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
-`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다.
+`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않으면 해당 값을 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1304,7 +1276,7 @@ The `Str::finish` method adds a single instance of the given value to a string i
 
 The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다.
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1352,7 +1324,7 @@ The `Str::isUuid` method determines if the given string is a valid UUID:
 The `Str::kebab` method converts the given string to `kebab-case`:
 
 `Str::kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다.
- (역자주 : 단어와 단어를 '-'로 연결한 형태)
+(역자주 : 단어와 단어를 '-'로 연결한 형태)
 
     use Illuminate\Support\Str;
 
@@ -1375,7 +1347,7 @@ The `Str::limit` method truncates the given string at the specified length:
 
 You may also pass a third argument to change the string that will be appended to the end:
 
-변경될 문자열의 마지막에 덧붙일 문자열을 세 번째 인자로 전달할 수도 있습니다.
+끝에 추가 될 문자열을 변경하기 위해 세 번째 인수를 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1390,7 +1362,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 `Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프와 같은 정렬이 가능한" UUID를 생성합니다.
 
-(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫 번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
+(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫 번째 부분은 시간에 따라서 증감하는 형태를 보입니다.)
 
     use Illuminate\Support\Str;
 
@@ -1401,7 +1373,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 The `Str::plural` method converts a single word string to its plural form. This function currently only supports the English language:
 
-`Str::plural` 메소드는 단수형태의 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다.
+`Str::plural` 메소드는 단수형을 복수형으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1415,7 +1387,7 @@ The `Str::plural` method converts a single word string to its plural form. This 
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
-문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두 번째 인자로 정수를 전달할 수 있습니다.
+문자열의 단수 또는 복수 형식을 검색하기 위해 함수에 두 번째 인수로 정수를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1443,7 +1415,7 @@ The `Str::random` method generates a random string of the specified length. This
 
 The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
 
-`Str::replaceArray` 메소드는 주어진 값을 차례대로 배열로 치환합니다.
+`Str::replaceArray` 메소드는 배열을 사용하여 문자열에서 주어진 값을 차례대로 바꿉니다.
 
     use Illuminate\Support\Str;
 
@@ -1458,7 +1430,7 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 
 The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
-`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫 번째 부분을 교체합니다.
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫 번째 부분을 대체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1471,7 +1443,7 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 
 The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
-`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다.
+`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 대체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1484,7 +1456,7 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 
 The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
 
-`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 기능은 현재 영어에만 적용 가능합니다.
+`Str::singular` 메소드는 문자열을 단수 형식으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1527,7 +1499,7 @@ The `Str::snake` method converts the given string to `snake_case`:
 
 The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 추가합니다.
+`Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1544,7 +1516,7 @@ The `Str::start` method adds a single instance of the given value to a string if
 
 The `Str::startsWith` method determines if the given string begins with the given value:
 
-`Str::startsWith` 메소드는 문자열이 주어진 문자열로 시작하는지 판별합니다.
+`Str::startsWith` 메소드는 문자열이 주어진 값으로 시작하는지를 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1557,7 +1529,7 @@ The `Str::startsWith` method determines if the given string begins with the give
 
 The `Str::studly` method converts the given string to `StudlyCase`:
 
-`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다.
+`Str::studly` 메소드는 주어진 문자열을 `StudlyCase`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1570,7 +1542,7 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
 The `Str::title` method converts the given string to `Title Case`:
 
-`Str::title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태)
+`Str::title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1740,9 +1712,9 @@ The `beforeLast` method returns everything before the last occurrence of the giv
 <a name="method-fluent-str-camel"></a>
 ### `camel` {#collection-method}
 
-The `camel` method converts the given string to camelCase:
+The `camel` method converts the given string to `camelCase`:
 
-`camel` 메소드는 주어진 문자열을 camelCase로 변환합니다.
+`camel` 메소드는 주어진 문자열을 `camelCase`로 변환합니다.
 
     use Illuminate\Support\Str;
     
@@ -1933,9 +1905,9 @@ The `isEmpty` method determines if the given string is empty:
 <a name="method-fluent-str-kebab"></a>
 ### `kebab` {#collection-method}
 
-The `kebab` method converts the given string to kebab-case:
+The `kebab` method converts the given string to `kebab-case`:
 
-`kebab` 메소드는 주어진 문자열을 kebab-case로 변환합니다.
+`kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다.
 
     use Illuminate\Support\Str;
     
@@ -2164,7 +2136,7 @@ The `replaceMatches` method also accepts a Closure that will be invoked with eac
 
 The `start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`start` 메소드는 주어진 값으로 아직 시작하지 않으면 주어진 값의 단일 인스턴스를 문자열에 추가합니다.
+`start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
 
     use Illuminate\Support\Str;
     
@@ -2192,9 +2164,9 @@ The `upper` method converts the given string to uppercase:
 <a name="method-fluent-str-title"></a>
 ### `title` {#collection-method}
 
-The `title` method converts the given string to Title Case:
+The `title` method converts the given string to `Title Case`:
 
-`title` 메소드는 주어진 문자열을 Title Case로 변환합니다.
+`title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.
 
     use Illuminate\Support\Str;
     
@@ -2235,9 +2207,9 @@ The `slug` method generates a URL friendly "slug" from the given string:
 <a name="method-fluent-str-snake"></a>
 ### `snake` {#collection-method}
 
-The `snake` method converts the given string to snake_case:
+The `snake` method converts the given string to `snake_case`:
 
-`snake` 메소드는 주어진 문자열을 snake_case로 변환합니다.
+`snake` 메소드는 주어진 문자열을 `snake_case`로 변환합니다.
 
     use Illuminate\Support\Str;
     
@@ -2261,9 +2233,9 @@ The `startsWith` method determines if the given string begins with the given val
 <a name="method-fluent-str-studly"></a>
 ### `studly` {#collection-method}
 
-The `studly` method converts the given string to StudlyCase:
+The `studly` method converts the given string to `StudlyCase`:
 
-`studly` 메소드는 주어진 문자열을 StudlyCase로 변환합니다.
+`studly` 메소드는 주어진 문자열을 `StudlyCase`로 변환합니다.
 
     use Illuminate\Support\Str;
     
@@ -2321,7 +2293,7 @@ The `ucfirst` method returns the given string with the first character capitaliz
 <a name="method-fluent-str-whenEmpty"></a>
 ### `whenEmpty` {#collection-method}
 
-The `whenEmpty` method invokes the given Closure if the string is empty. If the Closure returns a value, that value will also be returned by the whenEmpty method. If the Closure does not return a value, the fluent string instance will be returned:
+The `whenEmpty` method invokes the given Closure if the string is empty. If the Closure returns a value, that value will also be returned by the `whenEmpty` method. If the Closure does not return a value, the fluent string instance will be returned:
 
 `whenEmpty` 메소드는 문자열이 비어 있으면 주어진 클로저를 호출합니다. 클로저가 값을 반환하면 그 값도 `whenEmpty` 메소드에 의해 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
 
@@ -2965,7 +2937,6 @@ The `retry` function attempts to execute the given callback until the given maxi
     return retry(5, function () {
         // Attempt 5 times while resting 100ms in between attempts...
     }, 100);
-
 
 <a name="method-session"></a>
 #### `session()` {#collection-method}

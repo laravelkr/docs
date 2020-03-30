@@ -511,8 +511,6 @@ response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확�
 
 Assert that the given string is not contained within the response text. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-    $response->assertDontSeeText($value, $escaped = true);
-
 response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
 
     $response->assertDontSeeText($value, $escaped = true);

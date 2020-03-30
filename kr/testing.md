@@ -7,6 +7,8 @@
 - [환경](#environment)
 - [Creating & Running Tests](#creating-and-running-tests)
 - [테스트 생성 & 실행](#creating-and-running-tests)
+    - [Artisan Test Runner](#artisan-test-runner)
+    - [아티즌 테스트 러너](#artisan-test-runner)
 
 <a name="introduction"></a>
 ## Introduction
@@ -54,9 +56,13 @@ To create a new test case, use the `make:test` Artisan command:
     // Create a test in the Unit directory...
     php artisan make:test UserTest --unit
 
-Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, execute the `phpunit` command from your terminal:
+> {tip} Test stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
 
-테스트 파일이 생성되면, 보통 PHPUnit을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `phpunit` 커맨드를 실행하십시오.
+> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
+
+Once the test has been generated, you may define test methods as you normally would using PHPUnit. To run your tests, execute the `phpunit` or `artisan test` command from your terminal:
+
+테스트 파일이 생성되면, 보통 PHPUnit을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `phpunit` 또는 `artisan test` 커맨드를 실행하십시오.
 
     <?php
 
@@ -81,3 +87,20 @@ Once the test has been generated, you may define test methods as you normally wo
 > {note} If you define your own `setUp` / `tearDown` methods within a test class, be sure to call the respective `parent::setUp()` / `parent::tearDown()` methods on the parent class.
 
 > {note} 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
+
+<a name="artisan-test-runner"></a>
+### Artisan Test Runner
+
+### 아티즌 테스트 러너
+
+In addition to the `phpunit` command, you may use the `test` Artisan command to run your tests. The Artisan test runner provides more information regarding the test that is currently running and will automatically stop on the first test failure:
+
+`phpunit` 명령 외에도`test` Artisan 명령을 사용하여 테스트를 실행할 수 있습니다. Artisan 테스트 러너는 현재 실행중인 테스트에 대한 자세한 정보를 제공하며 첫 번째 테스트 실패시 자동으로 중지됩니다.
+
+    php artisan test
+
+Any arguments that can be passed to the `phpunit` command may also be passed to the Artisan `test` command:
+
+`phpunit` 명령으로 전달 할 수있는 모든 인수는 아티즌 `test` 명령으로도 전달 할 수 있습니다.
+
+    php artisan test --group=feature

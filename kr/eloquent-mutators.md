@@ -13,10 +13,14 @@
 - [날짜 Mutators](#date-mutators)
 - [Attribute Casting](#attribute-casting)
 - [속성(Attribute) 캐스팅](#attribute-casting)
+    - [Custom Casts](#custom-casts)
+    - [커스텀 캐스트](#custom-casts)
     - [Array & JSON Casting](#array-and-json-casting)
     - [배열 & JSON 캐스팅](#array-and-json-casting)
     - [Date Casting](#date-casting)
     - [날짜 캐스팅](#date-casting)
+    - [Query Time Casting](#query-time-casting)
+    - [쿼리 시간 캐스팅](#query-time-casting)
 
 <a name="introduction"></a>
 ## Introduction
@@ -220,7 +224,7 @@ To demonstrate attribute casting, let's cast the `is_admin` attribute, which is 
     class User extends Model
     {
         /**
-         * The attributes that should be cast to native types.
+         * The attributes that should be cast.
          *
          * @var array
          */
@@ -239,6 +243,209 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
         //
     }
 
+<a name="custom-casts"></a>
+### Custom Casts
+### 커스텀 캐스트
+
+Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may accomplish this by defining a class that implements the `CastsAttributes` interface.
+
+라라벨은 다양한 캐스트 타입 내장하고 있습니다 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다.. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
+
+Classes that implement this interface must define a `get` and `set` methods. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+
+이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다. 
+
+    <?php
+
+    namespace App\Casts;
+
+    use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+
+    class Json implements CastsAttributes
+    {
+        /**
+         * Cast the given value.
+         *
+         * @param  \Illuminate\Database\Eloquent\Model  $model
+         * @param  string  $key
+         * @param  mixed  $value
+         * @param  array  $attributes
+         * @return array
+         */
+        public function get($model, $key, $value, $attributes)
+        {
+            return json_decode($value, true);
+        }
+
+        /**
+         * Prepare the given value for storage.
+         *
+         * @param  \Illuminate\Database\Eloquent\Model  $model
+         * @param  string  $key
+         * @param  array  $value
+         * @param  array  $attributes
+         * @return string
+         */
+        public function set($model, $key, $value, $attributes)
+        {
+            return json_encode($value);
+        }
+    }
+
+Once you have defined a custom cast type, you may attach it to a model attribute using its class name:
+
+한번 커스텀 캐스트 타입을 정의하면, 해당 클래스 이름으로 모델 속성에 추가 할 수 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use App\Casts\Json;
+    use Illuminate\Database\Eloquent\Model;
+
+    class User extends Model
+    {
+        /**
+         * The attributes that should be cast.
+         *
+         * @var array
+         */
+        protected $casts = [
+            'options' => Json::class,
+        ];
+    }
+
+#### Value Object Casting
+#### 밸류 오브젝트 캐스팅 
+
+You are not limited to casting values to primitive types. You may also cast values to objects. Defining custom casts that cast values to objects is very similar to casting to primitive types; however, the `set` method should return an array of key / value pairs that will be used to set raw, storable values on the model.
+
+원시 타입의 캐스팅 이외에 오브젝트의 값도 캐스트 할 수 있습니다. 오브젝트의 값의 커스텀 캐스트 정의는 원시 타입의 커스텀 캐스팅과 매우 비슷합니다, 하지만 `set` 메소드는 모델에서 저장 가능한 원시 값을 설정할 때 사용되는 key / value 쌍의 배열을 리턴 해야 합니다.
+
+As an example, we will define a custom cast class that casts multiple model values into a single `Address` value object. We will assume the `Address` value has two public properties: `lineOne` and `lineTwo`:
+
+예제로 하나의 `Address`값을 가지는 밸류 오브젝트를 여러 모델 값을 캐스트 하는 커스텀 캐스트 클래스 정의했습니다, `Address` 값에는 `lineOne`과 `lineTwo`라는 두 가지 퍼블릭 프로퍼티가 있다고 가정하겠습니다.
+    
+    <?php
+
+    namespace App\Casts;
+
+    use App\Address;
+    use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+
+    class Address implements CastsAttributes
+    {
+        /**
+         * Cast the given value.
+         *
+         * @param  \Illuminate\Database\Eloquent\Model  $model
+         * @param  string  $key
+         * @param  mixed  $value
+         * @param  array  $attributes
+         * @return \App\Address
+         */
+        public function get($model, $key, $value, $attributes)
+        {
+            return new Address(
+                $attributes['address_line_one'],
+                $attributes['address_line_two']
+            );
+        }
+
+        /**
+         * Prepare the given value for storage.
+         *
+         * @param  \Illuminate\Database\Eloquent\Model  $model
+         * @param  string  $key
+         * @param  \App\Address  $value
+         * @param  array  $attributes
+         * @return array
+         */
+        public function set($model, $key, $value, $attributes)
+        {
+            return [
+                'address_line_one' => $value->lineOne,
+                'address_line_two' => $value->lineTwo,
+            ];
+        }
+    }
+
+When casting to value objects, any changes made to the value object will automatically be synced back to the model before the model is saved:
+
+밸류 오브젝트를 캐스팅 할 때 밸류 오브젝트의 변경 사항은 모델이 저장되기 전으로 자동으로 동기화됩니다.
+
+    $user = App\User::find(1);
+
+    $user->address->lineOne = 'Updated Address Value';
+
+    $user->save();
+
+#### Inbound Casting
+#### 인바운드 캐스팅
+
+Occasionally, you may need to write a custom cast that only transforms values that are being set on the model and does not perform any operations when attributes are being retrieved from the model. A classic example of an inbound only cast is a "hashing" cast. Inbound only custom casts should implement the `CastsInboundAttributes` interface, which only requires a `set` method to be defined.
+
+가끔은 모델에서 설정 중인 값만 변환하고 속성을 검색하지 않는 캐스트를 작성해야 할 필요가 있습니다. 인바운드 캐스팅의 전형적인 예제는 "해싱"입니다, 인바운드 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현 해야 합니다.
+
+    <?php
+
+    namespace App\Casts;
+
+    use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
+
+    class Hash implements CastsInboundAttributes
+    {
+        /**
+         * The hashing algorithm.
+         *
+         * @var string
+         */
+        protected $algorithm;
+
+        /**
+         * Create a new cast class instance.
+         *
+         * @param  string|null  $algorithm
+         * @return void
+         */
+        public function __construct($algorithm = null)
+        {
+            $this->algorithm = $algorithm;
+        }
+
+        /**
+         * Prepare the given value for storage.
+         *
+         * @param  \Illuminate\Database\Eloquent\Model  $model
+         * @param  string  $key
+         * @param  array  $value
+         * @param  array  $attributes
+         * @return string
+         */
+        public function set($model, $key, $value, $attributes)
+        {
+            return is_null($this->algorithm)
+                        ? bcrypt($value);
+                        : hash($this->algorithm, $value);
+        }
+    }
+
+#### Cast Parameters
+캐스트 파라메터
+
+When attaching a custom cast to a model, cast parameters may be specified by separating them from the class name using a `:` character and comma-delimiting multiple parameters. The parameters will be passed to the constructor of the cast class:
+
+모델에 커스텀 캐스트를 추가할 때 캐스트 파라메터는 `:`문자를 사용하여 클래스 이름 쉼표로 구분된 여러 파라메터로 구분하여 지정할 수 있습니다. 파라메터는 캐스트 클래스의 생성자로 전달됩니다.
+    
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'secret' => Hash::class.':sha256',
+    ];
+
 <a name="array-and-json-casting"></a>
 ### Array & JSON Casting
 ### 배열 && JSON 캐스팅
@@ -256,7 +463,7 @@ The `array` cast type is particularly useful when working with columns that are 
     class User extends Model
     {
         /**
-         * The attributes that should be cast to native types.
+         * The attributes that should be cast.
          *
          * @var array
          */
@@ -288,10 +495,37 @@ When using the `date` or `datetime` cast type, you may specify the date's format
 `date` 또는 `datetime` 캐스트 타입을 사용할 때 날짜 포맷을 지정할 수 있습니다. 이 포맷은 [모델이 배열이나, JSON으로 serialize](/docs/{{version}}/eloquent-serialization) 될 때 사용됩니다.
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',
     ];
+
+<a name="query-time-casting"></a>
+### Query Time Casting
+### 쿼리 시간 캐스팅
+
+Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
+테이블에서 원시 값을 선택 할때 실행하는 동안 캐스트를 적용 할 수 있습니다. 예시로 다음의 쿼리 참고 하세요
+    
+    use App\Post;
+    use App\User;를
+
+    $users = User::select([
+        'users.*',
+        'last_posted_at' => Post::selectRaw('MAX(created_at)')
+                ->whereColumn('user_id', 'users.id')
+    ])->get();
+
+The `last_posted_at` attribute on the results of this query will be a raw string. It would be convenient if we could apply a `date` cast to this attribute when executing the query. To accomplish this, we may use the `withCasts` method:
+쿼리 결과의 `last_posted_at` 속성은 원시 문자열입니다. `date` 캐스트를 이 속성에 적용하면 편리할 것입니다. 이를 위해 `withCasts` 메소드를 사용 할 수 있습니다.
+
+    $users = User::select([
+        'users.*',
+        'last_posted_at' => Post::selectRaw('MAX(created_at)')
+                ->whereColumn('user_id', 'users.id')
+    ])->withCasts([
+        'last_posted_at' => 'date'
+    ])->get();

@@ -154,6 +154,7 @@
     <td align="center"><a href="https://github.com/shkimolulo"><img src="https://avatars1.githubusercontent.com/u/45745078?v=4" width="100px;" alt=""/><br /><sub><b>shkimolulo</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=shkimolulo" title="Documentation">📖</a></td>
     <td align="center"><a href="https://medium.com/@shaul1991"><img src="https://avatars1.githubusercontent.com/u/35905295?v=4" width="100px;" alt=""/><br /><sub><b>JI HOON KIM</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=shaul1991" title="Documentation">📖</a></td>
     <td align="center"><a href="https://blog.decorus.io"><img src="https://avatars1.githubusercontent.com/u/8151366?v=4" width="100px;" alt=""/><br /><sub><b>Kazuma Itou</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=decorus-kazuma" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/webmin41"><img src="https://avatars0.githubusercontent.com/u/39331373?v=4" width="100px;" alt=""/><br /><sub><b>Mingi_Jeon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=webmin41" title="Documentation">📖</a></td>
   </tr>
 </table>
 

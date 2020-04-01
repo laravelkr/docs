@@ -12,7 +12,7 @@
 
 Laravel includes a variety of global "helper" PHP functions. Many of these functions are used by the framework itself; however, you are free to use them in your own applications if you find them convenient.
 
-라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그 중 많은 기능은 프레임워크가 스스로 사용하지만 여러분의 애플리케이션에도 자유롭게 사용하실 수 있습니다.
+라라벨은 다양한 글로벌 "헬퍼" PHP 함수들을 포함하고 있습니다. 그중 많은 기능은 프레임워크가 스스로 사용하지만, 여러분의 어플리케이션에도 자유롭게 사용하실 수 있습니다.
 
 <a name="available-methods"></a>
 ## Available Methods
@@ -32,27 +32,28 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ### Arrays & Objects
 ### 배열 & 객체
 
-
-
+- [Arr::accessible](#method-array-accessible)
 - [Arr::add](#method-array-add)
 - [Arr::collapse](#method-array-collapse)
 - [Arr::crossJoin](#method-array-crossjoin)
 - [Arr::divide](#method-array-divide)
 - [Arr::dot](#method-array-dot)
 - [Arr::except](#method-array-except)
+- [Arr::exists](#method-array-exists)
 - [Arr::first](#method-array-first)
 - [Arr::flatten](#method-array-flatten)
 - [Arr::forget](#method-array-forget)
 - [Arr::get](#method-array-get)
 - [Arr::has](#method-array-has)
+- [Arr::hasAny](#method-array-hasAny)
 - [Arr::isAssoc](#method-array-isassoc)
 - [Arr::last](#method-array-last)
 - [Arr::only](#method-array-only)
 - [Arr::pluck](#method-array-pluck)
 - [Arr::prepend](#method-array-prepend)
 - [Arr::pull](#method-array-pull)
-- [Arr::random](#method-array-random)
 - [Arr::query](#method-array-query)
+- [Arr::random](#method-array-random)
 - [Arr::set](#method-array-set)
 - [Arr::shuffle](#method-array-shuffle)
 - [Arr::sort](#method-array-sort)
@@ -65,11 +66,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [head](#method-head)
 - [last](#method-last)
 
-
 ### Paths
 ### 경로
-
-
 
 - [app_path](#method-app-path)
 - [base_path](#method-base-path)
@@ -80,12 +78,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [resource_path](#method-resource-path)
 - [storage_path](#method-storage-path)
 
-
-
 ### Strings
 ### 문자열
-
-
 
 - [\__](#method-__)
 - [class_basename](#method-class-basename)
@@ -123,12 +117,56 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 
+### Fluent Strings
+### Fluent Strings
 
+- [after](#method-after) 
+- [afterLast](#method-afterLast) 
+- [append](#method-append) 
+- [ascii](#method-ascii) 
+- [basename](#method-basename) 
+- [before](#method-before) 
+- [beforeLast](#method-beforeLast) 
+- [camel](#method-camel) 
+- [contains](#method-contains) 
+- [containsAll](#method-containsAll) 
+- [dirname](#method-dirname) 
+- [endsWith](#method-endsWith) 
+- [exactly](#method-exactly) 
+- [explode](#method-explode) 
+- [finish](#method-finish) 
+- [is](#method-is) 
+- [isAscii](#method-isAscii) 
+- [isEmpty](#method-isEmpty) 
+- [kebab](#method-kebab) 
+- [length](#method-length) 
+- [limit](#method-limit) 
+- [lower](#method-lower) 
+- [match](#method-match) 
+- [matchAll](#method-matchAll) 
+- [plural](#method-plural) 
+- [prepend](#method-prepend) 
+- [replace](#method-replace) 
+- [replaceArray](#method-replaceArray) 
+- [replaceFirst](#method-replaceFirst) 
+- [replaceLast](#method-replaceLast) 
+- [replaceMatches](#method-replaceMatches) 
+- [start](#method-start) 
+- [upper](#method-upper) 
+- [title](#method-title) 
+- [singular](#method-singular) 
+- [slug](#method-slug) 
+- [snake](#method-snake) 
+- [startsWith](#method-startsWith) 
+- [studly](#method-studly) 
+- [substr](#method-substr) 
+- [trim](#method-trim) 
+- [ucfirst](#method-ucfirst) 
+- [whenEmpty](#method-whenEmpty) 
+- [words](#method-words) 
 
 ### URLs
 ### URLs
-
-
 
 - [action](#method-action)
 - [asset](#method-asset)
@@ -137,12 +175,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [secure_url](#method-secure-url)
 - [url](#method-url)
 
-
-
 ### Miscellaneous
 ### 기타
-
-
 
 - [abort](#method-abort)
 - [abort_if](#method-abort-if)
@@ -196,8 +230,6 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [view](#method-view)
 - [with](#method-with)
 
-
-
 <a name="method-listing"></a>
 ## Method Listing
 ## 메소드 목록
@@ -216,12 +248,38 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ## Arrays & Objects
 ## 배열 & 객체
 
+<a name="method-array-accessible"></a>
+#### `Arr::accessible()` {#collection-method}
+
+The `Arr::accessible` method checks that the given value is array accessible:
+
+`Arr::accessible` 메소드는 주어진 값이 배열에 접근할 수 있는지 확인합니다.
+
+    use Illuminate\Support\Arr;
+    use Illuminate\Support\Collection;
+    
+    $isAccessible = Arr::accessible(['a' => 1, 'b' => 2]);
+    
+    // true
+    
+    $isAccessible = Arr::accessible(new Collection);
+    
+    // true
+    
+    $isAccessible = Arr::accessible('abc');
+    
+    // false
+    
+    $isAccessible = Arr::accessible(new stdClass);
+    
+    // false
+    
 <a name="method-array-add"></a>
 #### `Arr::add()` {#collection-method .first-collection-method}
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
-`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`인 경우 주어진 key/value 쌍을 배열에 추가합니다.
+`Arr::add` 메소드는 배열 내에 키가 존재하지 않거나 `null`이면 주어진 key / value 쌍을 배열에 추가합니다.
 
     use Illuminate\Support\Arr;
 
@@ -233,13 +291,12 @@ The `Arr::add` method adds a given key / value pair to an array if the given key
 
     // ['name' => 'Desk', 'price' => 100]
 
-
 <a name="method-array-collapse"></a>
 #### `Arr::collapse()` {#collection-method}
 
 The `Arr::collapse` method collapses an array of arrays into a single array:
 
-`Arr::collapse` 메소드는 배열들의 배열(여러개의 배열)을 하나의 배열로 통합합니다.
+`Arr::collapse` 메소드는 배열들의 배열(여러 개의 배열)을 하나의 배열로 통합합니다.
 
     use Illuminate\Support\Arr;
 
@@ -287,7 +344,7 @@ The `Arr::crossJoin` method cross joins the given arrays, returning a Cartesian 
 
 The `Arr::divide` method returns two arrays, one containing the keys, and the other containing the values of the given array:
 
-`Arr::divide` 메소드는 주어진 배열에서 키(key)들을 담고 있는 배열과 값(value)들을 담고 있는 배열, 총 2개의 배열들을 반환합니다.
+`Arr::divide` 메소드는 주어진 배열에서 키들을 담고 있는 배열과 값들을 담고 있는 배열, 총 2개의 배열을 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -302,7 +359,7 @@ The `Arr::divide` method returns two arrays, one containing the keys, and the ot
 
 The `Arr::dot` method flattens a multi-dimensional array into a single level array that uses "dot" notation to indicate depth:
 
-`Arr::dot` 메소드는 다차원 배열을 ‘점(.)’으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다.
+`Arr::dot` 메소드는 다차원 배열을 "점(.)"으로 배열 깊이를 표기하면서 단일 레벨의 배열로 만듭니다.
 
     use Illuminate\Support\Arr;
 
@@ -327,12 +384,31 @@ The `Arr::except` method removes the given key / value pairs from an array:
 
     // ['name' => 'Desk']
 
+<a name="method-array-exists"></a>
+#### `Arr::exists()` {#collection-method}
+
+The `Arr::exists` method checks that the given key exists in the provided array:
+
+`Arr::exists` 메소드는 주어진 키가 제공된 배열에 있는지 확인합니다.
+
+    use Illuminate\Support\Arr;
+    
+    $array = ['name' => 'John Doe', 'age' => 17];
+    
+    $exists = Arr::exists($array, 'name');
+    
+    // true
+    
+    $exists = Arr::exists($array, 'salary');
+    
+    // false
+
 <a name="method-array-first"></a>
 #### `Arr::first()` {#collection-method}
 
 The `Arr::first` method returns the first element of an array passing a given truth test:
 
-`Arr::first` 메소드는 넘겨진 배열 중 주어진 조건을 만족하는 첫번째 요소를 반환합니다.
+`Arr::first` 메소드는 전달된 배열 중 주어진 조건을 만족하는 첫 번째 요소를 반환합니다.
 
     use Illuminate\Support\Arr;
 
@@ -346,7 +422,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
 A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
-메소드에 세번째 파라미터로 기본 값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다.
+메소드에 세번째 파라미터로 기본값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -372,7 +448,7 @@ The `Arr::flatten` method flattens a multi-dimensional array into a single level
 
 The `Arr::forget` method removes a given key / value pair from a deeply nested array using "dot" notation:
 
-`Arr::forget` 메소드는 “점(.)”표기법을 사용하여 중첩 배열로부터 주어진 키/ 값 쌍을 제거합니다.
+`Arr::forget` 메소드는 "점(.)" 표기법을 사용하여 중첩 배열로부터 주어진 키 / 값 쌍을 제거합니다.
 
     use Illuminate\Support\Arr;
 
@@ -387,7 +463,7 @@ The `Arr::forget` method removes a given key / value pair from a deeply nested a
 
 The `Arr::get` method retrieves a value from a deeply nested array using "dot" notation:
 
-`Arr::get` 메소드는  “점(.)”표기법으로 중첩 배열로부터 주어진 값을 찾습니다.
+`Arr::get` 메소드는 "점(.)" 표기법으로 중첩 배열로부터 주어진 값을 찾습니다.
 
     use Illuminate\Support\Arr;
 
@@ -426,12 +502,35 @@ The `Arr::has` method checks whether a given item or items exists in an array us
 
     // false
 
+<a name="method-array-hasAny"></a>
+#### `Arr::hasAny()` {#collection-method}
+
+The Arr::hasAny method checks whether any item in a given set exists in an array using "dot" notation:
+
+`Arr::hasAny` 메소드는 "점(.)" 표기를 이용하여 주어진 세트의 항목이 배열에 존재하는지 확인합니다.
+
+    use Illuminate\Support\Arr;
+    
+    $array = ['product' => ['name' => 'Desk', 'price' => 100]];
+    
+    $contains = Arr::hasAny($array, 'product.name');
+    
+    // true
+    
+    $contains = Arr::hasAny($array, ['product.name', 'product.discount']);
+    
+    // true
+    
+    $contains = Arr::hasAny($array, ['category', 'product.discount']);
+    
+    // false
+
 <a name="method-array-isassoc"></a>
 #### `Arr::isAssoc()` {#collection-method}
 
 The `Arr::isAssoc` returns `true` if the given array is an associative array. An array is considered "associative" if it doesn't have sequential numerical keys beginning with zero:
 
-주어진 배열이 연관 배열이면 `Arr::isAssoc`은 `true`를 반환합니다. 배열은 0으로 시작하는 순차적 숫자 키가없는 경우 "연관-associative"으로 간주됩니다.
+주어진 배열이 연관 배열이면 `Arr::isAssoc`은 `true`를 반환합니다. 배열은 0으로 시작하는 순차적 숫자 키가 없는 경우 "연관-associative"로 간주됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -462,7 +561,7 @@ The `Arr::last` method returns the last element of an array passing a given trut
 
 A default value may be passed as the third argument to the method. This value will be returned if no value passes the truth test:
 
-메소드의 세번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다.
+메소드의 세 번째 인자로 기본값을 전달할 수 있습니다. 이 값은 조건을 통과하는 값이 없을 때 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -503,7 +602,7 @@ The `Arr::pluck` method retrieves all of the values for a given key from an arra
 
 You may also specify how you wish the resulting list to be keyed:
 
-리스트만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다.
+리스트가 만들어 지는 결과가 어떻게 키로 변환될지 지정할 수도 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -516,7 +615,7 @@ You may also specify how you wish the resulting list to be keyed:
 
 The `Arr::prepend` method will push an item onto the beginning of an array:
 
-`Arr::prepend` 메소드는 배열의 시작부분에 아이템을 추가할 것입니다.
+`Arr::prepend` 메소드는 배열의 시작 부분에 아이템을 추가할 것입니다.
 
     use Illuminate\Support\Arr;
 
@@ -557,12 +656,27 @@ The `Arr::pull` method returns and removes a key / value pair from an array:
 
 A default value may be passed as the third argument to the method. This value will be returned if the key doesn't exist:
 
-메소드의 세번째 인자로 기본값을 전달 할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다.
+메소드의 세 번째 인자로 기본값을 전달할 수 있습니다. 키가 존재하지 않는 경우 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
     $value = Arr::pull($array, $key, $default);
 
+<a name="method-array-query"></a>
+#### `Arr::query()` {#collection-method}
+
+The `Arr::query` method converts the array into a query string:
+
+`Arr::query` 메소드는 배열을 쿼리 스트링으로 변환합니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = ['name' => 'Taylor', 'order' => ['column' => 'created_at', 'direction' => 'desc']];
+
+    Arr::query($array);
+
+    // name=Taylor&order[column]=created_at&order[direction]=desc
+    
 <a name="method-array-random"></a>
 #### `Arr::random()` {#collection-method}
 
@@ -580,7 +694,7 @@ The `Arr::random` method returns a random value from an array:
 
 You may also specify the number of items to return as an optional second argument. Note that providing this argument will return an array, even if only one item is desired:
 
-두번째 인자로 몇개의 아이템을 반환할지 값을 지정할 수 있습니다. 이 인자를 지정하면, 하나의 아이템이 포함되더라도 배열이 반환 됩니다.
+두 번째 인자로 몇 개의 아이템을 반환할지 값을 지정할 수 있습니다. 이 인자를 지정하면, 하나의 아이템이 포함되더라도 배열이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -588,27 +702,10 @@ You may also specify the number of items to return as an optional second argumen
 
     // [2, 5] - (retrieved randomly)
 
-<a name="method-array-query"></a>
-#### `Arr::query()` {#collection-method}
-
-The `Arr::query` method converts the array into a query string:
-
-`Arr::query` 메소드는 배열을 쿼리스트링으로 변환합니다.
-
-    use Illuminate\Support\Arr;
-
-    $array = ['name' => 'Taylor', 'order' => ['column' => 'created_at', 'direction' => 'desc']];
-
-    Arr::query($array);
-
-    // name=Taylor&order[column]=created_at&order[direction]=desc
-
 <a name="method-array-set"></a>
 #### `Arr::set()` {#collection-method}
 
 The `Arr::set` method sets a value within a deeply nested array using "dot" notation:
-
-`Arr::set` 메소드는 "dot"표기법을 사용하여 깊게 중첩 된 배열 내에 값을 설정합니다.
 
 `Arr::set` 메소드는 "점(.)" 표기법을 이용하여 중첩된 배열 내에 값을 설정합니다.
 
@@ -650,7 +747,7 @@ The `Arr::sort` method sorts an array by its values:
 
 You may also sort the array by the results of the given Closure:
 
-또한 주어진 클로저의 결과 값으로 배열을 정렬 할 수 있습니다.
+또한, 주어진 클로저의 결괏값으로 배열을 정렬할 수 있습니다.
 
     use Illuminate\Support\Arr;
 
@@ -677,7 +774,7 @@ You may also sort the array by the results of the given Closure:
 
 The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
 
-`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
+`Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을 위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
 
     use Illuminate\Support\Arr;
 
@@ -719,7 +816,7 @@ The `Arr::where` method filters an array using the given Closure:
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
 
-`Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면, 결과에는 변경사항이 없습니다.
+`Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면 결과에는 변경사항이 없습니다.
 
     use Illuminate\Support\Arr;
 
@@ -746,7 +843,7 @@ If the given value is null, an empty array will be returned:
 
 The `data_fill` function sets a missing value within a nested array or object using "dot" notation:
 
-`data_fill` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 내부에 빠진 값을 채워넣습니다.
+`data_fill` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 내부에 빠진 값을 채워 넣습니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -760,7 +857,7 @@ The `data_fill` function sets a missing value within a nested array or object us
 
 This function also accepts asterisks as wildcards and will fill the target accordingly:
 
-이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 채워넣습니다.
+이 함수는 또한 별표를 와일드카드로 받아들여 해당하는 대상을 채워넣습니다.
 
     $data = [
         'products' => [
@@ -785,7 +882,7 @@ This function also accepts asterisks as wildcards and will fill the target accor
 
 The `data_get` function retrieves a value from a nested array or object using "dot" notation:
 
-`data_get` 함수는 "점" 표기법을 사용하여 중첩된 배열 또는 객체 안에서 값을 조회합니다.
+`data_get` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안에서 값을 조회합니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -819,7 +916,7 @@ The function also accepts wildcards using asterisks, which may target any key of
 
 The `data_set` function sets a value within a nested array or object using "dot" notation:
 
-`data_set` 함수는 "dot" 표기법을 사용하여 중첩된 배열 또는 객체 안의 값을 설정합니다.
+`data_set` 함수는 "점(.)" 표기법을 사용하여 중첩된 배열 또는 객체 안의 값을 설정합니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -829,7 +926,7 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
 This function also accepts wildcards and will set values on the target accordingly:
 
-이 함수는 또한 별표를 와일드카드로 받아들여, 해당하는 대상을 설정합니다.
+이 함수는 또한 별표를 와일드 카드로 받아들여 해당하는 대상을 설정합니다.
 
     $data = [
         'products' => [
@@ -851,7 +948,7 @@ This function also accepts wildcards and will set values on the target according
 
 By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
 
-기본적으로 존재하는 값은 덮어쓰게 됩니다. 값이 존재하지 않을 때만, 새로운 값을 설정하고자 한다면, 네번째 인자로 `false`를 전달하면 됩니다.
+기본적으로 기존 값은 덮어 씁니다. 새로운 값을 설정하고자 한다면, 값이 존재하지 않을 때만 네 번째 인자로 `false`를 전달하면 됩니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
@@ -864,7 +961,7 @@ By default, any existing values are overwritten. If you wish to only set a value
 
 The `head` function returns the first element in the given array:
 
-`head` 함수는 배열의 첫번째 요소를 반환합니다.
+`head` 함수는 배열의 첫 번째 요소를 반환합니다.
 
     $array = [100, 200, 300];
 
@@ -891,11 +988,10 @@ The `last` function returns the last element in the given array:
 
 <a name="method-app-path"></a>
 #### `app_path()` {#collection-method}
-#### `app_path()` {#collection-method}
 
 The `app_path` function returns the fully qualified path to the `app` directory. You may also use the `app_path` function to generate a fully qualified path to a file relative to the application directory:
 
-`app_path` 함수는 `app` 디렉토리에 대한 절대 경로를 반환합니다. `app_path` 함수를 사용하면 애플리케이션 디렉토리에서 특정 파일의 절대 경로를 생성할 수도 있습니다.
+`app_path` 함수는 `app` 디렉토리에 대한 절대 경로를 반환합니다. `app_path` 함수를 사용하면 어플리케이션 디렉토리에서 특정 파일의 절대 경로를 생성할 수도 있습니다.
 
     $path = app_path();
 
@@ -917,7 +1013,7 @@ The `base_path` function returns the fully qualified path to the project root. Y
 
 The `config_path` function returns the fully qualified path to the `config` directory. You may also use the `config_path` function to generate a fully qualified path to a given file within the application's configuration directory:
 
-`config_path` 함수는 애플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다. `config_path` 함수를 사용하여, 애플리케이션의 설정 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
+`config_path` 함수는 애플리케이션의 `config` 디렉토리에 대한 절대 경로를 반환합니다. `config_path` 함수를 사용하여, 어플리케이션의 설정 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
 
     $path = config_path();
 
@@ -948,7 +1044,7 @@ The `mix` function returns the path to a [versioned Mix file](/docs/{{version}}/
 
 The `public_path` function returns the fully qualified path to the `public` directory. You may also use the `public_path` function to generate a fully qualified path to a given file within the public directory:
 
-`public_path` 함수는 `public` 디렉토리에 대한 절대경로를 반환합니다. `public_path` 함수를 사용하여, 애플리케이션의 public 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
+`public_path` 함수는 `public` 디렉토리에 대한 절대 경로를 반환합니다. `public_path` 함수를 사용하여, 애플리케이션의 public 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
 
     $path = public_path();
 
@@ -959,7 +1055,7 @@ The `public_path` function returns the fully qualified path to the `public` dire
 
 The `resource_path` function returns the fully qualified path to the `resources` directory. You may also use the `resource_path` function to generate a fully qualified path to a given file within the resources directory:
 
-`resource_path` 함수는 `resources` 디렉토리에 대한 절대경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
+`resource_path` 함수는 `resources` 디렉토리에 대한 절대 경로를 반환합니다. `resource_path` 함수를 사용하여 리소스 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
 
     $path = resource_path();
 
@@ -970,7 +1066,7 @@ The `resource_path` function returns the fully qualified path to the `resources`
 
 The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
 
-`storage_path` 함수는 `storage` 디렉토리에 대한 절대경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
+`storage_path` 함수는 `storage` 디렉토리에 대한 절대 경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
 
     $path = storage_path();
 
@@ -993,7 +1089,7 @@ The `__` function translates the given translation string or translation key usi
 
 If the specified translation string or key does not exist, the `__` function will return the given value. So, using the example above, the `__` function would return `messages.welcome` if that translation key does not exist.
 
-지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`를 그대로 반환합니다.
+지정된 다국어 문자열이나 키가 존재하지 않는 경우, `__` 함수는 주어진 값을 그대로 반환합니다. 따라서 예제와 같이 `__` 함수는 다국어 키가 존재하지 않는다면 `messages.welcome`을 그대로 반환합니다.
 
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
@@ -1011,7 +1107,7 @@ The `class_basename` function returns the class name of the given class with the
 
 The `e` function runs PHP's `htmlspecialchars` function with the `double_encode` option set to `true` by default:
 
-`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `double_encode` 옵션이 기본적으로 `true` 인 형태로 실행한 결과를 반환합니다.
+`e` 함수는 주어진 문자열에 PHP의 `htmlspecialchars` 함수를 `double_encode` 옵션이 기본적으로 `true`인 형태로 실행한 결과를 반환합니다.
 
     echo e('<html>foo</html>');
 
@@ -1022,7 +1118,7 @@ The `e` function runs PHP's `htmlspecialchars` function with the `double_encode`
 
 The `preg_replace_array` function replaces a given pattern in the string sequentially using an array:
 
-`preg_replace_array` 함수는 주어진 패턴에 맞는 문자열을 순차적으로 배열으로 교체합니다.
+`preg_replace_array` 함수는 주어진 패턴에 맞는 문자열을 차례대로 배열로 대체합니다.
 
     $string = 'The event will take place between :start and :end';
 
@@ -1035,7 +1131,7 @@ The `preg_replace_array` function replaces a given pattern in the string sequent
 
 The `Str::after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
 
-`Str::after` 메소드는 문자열에서 주어진 문자열 다음의 모든 값을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
+`Str::after` 메소드는 주어진 값 이후의 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
 
     use Illuminate\Support\Str;
 
@@ -1061,7 +1157,7 @@ The `Str::afterLast` method returns everything after the last occurrence of the 
 
 The `Str::before` method returns everything before the given value in a string:
 
-`Str::before` 메소드는 문자열에 주어진 문자열 이전의 모든 값을 반환합니다.
+`Str::before` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1074,7 +1170,7 @@ The `Str::before` method returns everything before the given value in a string:
 
 The `Str::beforeLast` method returns everything before the last occurrence of the given value in a string:
 
-`Str::beforeLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타나기 전에 모든 것을 반환합니다.
+`Str::beforeLast` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1087,7 +1183,7 @@ The `Str::beforeLast` method returns everything before the last occurrence of th
 
 The `Str::camel` method converts the given string to `camelCase`:
 
-`Str::camel` 메소드는 주어진 문자열을 `camelCase` 형태로 변환합니다.
+`Str::camel` 메소드는 주어진 문자열을 `camelCase`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1100,7 +1196,7 @@ The `Str::camel` method converts the given string to `camelCase`:
 
 The `Str::contains` method determines if the given string contains the given value (case sensitive):
 
-`Str::contains` 메소드는 주어진 문자열이 특정 문자열을 포함하는지 판별합니다 (대소문자를 구분합니다):
+`Str::contains` 메소드는 주어진 문자열이 주어진 값을 포함하는지 확인합니다. (대소문자를 구분합니다.)
 
     use Illuminate\Support\Str;
 
@@ -1110,7 +1206,7 @@ The `Str::contains` method determines if the given string contains the given val
 
 You may also pass an array of values to determine if the given string contains any of the values:
 
-또한 주어진 문자열이 특정 문자열을 포함하고 있는지 판별하기 위한 배열을 전달할 수도 있습니다.
+또한, 주어진 문자열에 값이 포함되어 있는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1123,8 +1219,7 @@ You may also pass an array of values to determine if the given string contains a
 
 The `Str::containsAll` method determines if the given string contains all array values:
 
-`Str::containsAll` 메소드는 주어진 모든 문자열이 배열 값에 포함되어 있는지를 확인합니다.
-
+`Str::containsAll` 메소드는 주어진 문자열에 모든 배열 값이 포함되어 있는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1137,7 +1232,7 @@ The `Str::containsAll` method determines if the given string contains all array 
 
 The `Str::endsWith` method determines if the given string ends with the given value:
 
-`Str::endsWith` 메소드는 주어진 문자열이 특정 값으로 끝나는지 알아냅니다.
+`Str::endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1145,10 +1240,9 @@ The `Str::endsWith` method determines if the given string ends with the given va
 
     // true
 
-
 You may also pass an array of values to determine if the given string ends with any of the given values:
 
-주어진 문자열이 주어진 값으로 끝나는 지 확인하기 위해 값 배열을 전달할 수도 있습니다.
+주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1165,7 +1259,7 @@ You may also pass an array of values to determine if the given string ends with 
 
 The `Str::finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
-`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않는다면 해당 값을 추가합니다.
+`Str::finish` 메소드는 문자열이 주어진 값으로 끝나지 않으면 해당 값을 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1182,7 +1276,7 @@ The `Str::finish` method adds a single instance of the given value to a string i
 
 The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 대응되는지 확인합니다. 와일드카드를 표시하기 위해 별표를 사용할 수 있습니다.
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1199,7 +1293,7 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
 
 The `Str::ucfirst` method returns the given string with the first character capitalized:
 
-`Str::ucfirst` 메소드는 첫 문자를 대문자로하여 주어진 문자열을 반환합니다.
+`Str::ucfirst` 메소드는 첫 문자를 대문자로 하여 주어진 문자열을 반환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1230,7 +1324,7 @@ The `Str::isUuid` method determines if the given string is a valid UUID:
 The `Str::kebab` method converts the given string to `kebab-case`:
 
 `Str::kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다.
- (역자주 : 단어와 단어를 '-'로 연결한 형태)
+(역자주 : 단어와 단어를 '-'로 연결한 형태)
 
     use Illuminate\Support\Str;
 
@@ -1253,7 +1347,7 @@ The `Str::limit` method truncates the given string at the specified length:
 
 You may also pass a third argument to change the string that will be appended to the end:
 
-변경될 문자열의 마지막에 덧붙일 문자열을 세번째 인자로 전달할 수도 있습니다.
+끝에 추가 될 문자열을 변경하기 위해 세 번째 인수를 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1268,7 +1362,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 `Str::orderedUuid` 메소드는 인덱싱된 데이터베이스 컬럼에 효과적으로 저장될 수 있도록 "타임스탬프와 같은 정렬이 가능한" UUID를 생성합니다.
 
-(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫번째 부분은 시간에 따라서 증감하는 형태를 보입니다)
+(역자주 : 이 헬퍼 메소드의 결과로 생성되는 UUID의 첫 번째 부분은 시간에 따라서 증감하는 형태를 보입니다.)
 
     use Illuminate\Support\Str;
 
@@ -1279,7 +1373,7 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
 
 The `Str::plural` method converts a single word string to its plural form. This function currently only supports the English language:
 
-`Str::plural` 메소드는 단수형태의 문자열을 복수형태로 변환합니다. 이 함수는 현재 영어에만 적용 가능합니다.
+`Str::plural` 메소드는 단수형을 복수형으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1293,7 +1387,7 @@ The `Str::plural` method converts a single word string to its plural form. This 
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
 
-문자열의 단일 혹은 복수 형태를 조회하기 위해서, 함수의 두번째 인자로 정수를 전달할 수 있습니다.
+문자열의 단수 또는 복수 형식을 검색하기 위해 함수에 두 번째 인수로 정수를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1321,7 +1415,7 @@ The `Str::random` method generates a random string of the specified length. This
 
 The `Str::replaceArray` method replaces a given value in the string sequentially using an array:
 
-`Str::replaceArray` 메소드는 주어진 값을 순차적으로 배열값으로 치환합니다.
+`Str::replaceArray` 메소드는 배열을 사용하여 문자열에서 주어진 값을 차례대로 바꿉니다.
 
     use Illuminate\Support\Str;
 
@@ -1336,7 +1430,7 @@ The `Str::replaceArray` method replaces a given value in the string sequentially
 
 The `Str::replaceFirst` method replaces the first occurrence of a given value in a string:
 
-`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫번째 부분을 교체합니다.
+`Str::replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫 번째 부분을 대체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1349,7 +1443,7 @@ The `Str::replaceFirst` method replaces the first occurrence of a given value in
 
 The `Str::replaceLast` method replaces the last occurrence of a given value in a string:
 
-`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 교체합니다.
+`Str::replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 대체합니다.
 
     use Illuminate\Support\Str;
 
@@ -1362,7 +1456,7 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
 
 The `Str::singular` method converts a string to its singular form. This function currently only supports the English language:
 
-`Str::singular` 메소드는 문자열을 단수 형태로 변환합니다. 이 기능는 현재 영어에만 적용 가능합니다.
+`Str::singular` 메소드는 문자열을 단수 형식으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
 
@@ -1405,7 +1499,7 @@ The `Str::snake` method converts the given string to `snake_case`:
 
 The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
 
-`Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않은 경우에 이를 추가합니다.
+`Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
 
     use Illuminate\Support\Str;
 
@@ -1422,7 +1516,7 @@ The `Str::start` method adds a single instance of the given value to a string if
 
 The `Str::startsWith` method determines if the given string begins with the given value:
 
-`Str::startsWith` 메소드는 문자열이 주어진 문자열으로 시작하는지 판별합니다.
+`Str::startsWith` 메소드는 문자열이 주어진 값으로 시작하는지를 확인합니다.
 
     use Illuminate\Support\Str;
 
@@ -1435,7 +1529,7 @@ The `Str::startsWith` method determines if the given string begins with the give
 
 The `Str::studly` method converts the given string to `StudlyCase`:
 
-`Str::studly` 메소드는 주어진 문자열을 `StudlyCase` 형태로 변환합니다.
+`Str::studly` 메소드는 주어진 문자열을 `StudlyCase`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1448,7 +1542,7 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
 The `Str::title` method converts the given string to `Title Case`:
 
-`Str::title` 메소드는 주어진 문자열을 `Title Case` 로 변환합니다(단어별로 앞글자를 대문자, 단어 사이를 공백이 포함되는 형태):
+`Str::title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.
 
     use Illuminate\Support\Str;
 
@@ -1491,7 +1585,7 @@ The `trans` function translates the given translation key using your [localizati
 
 If the specified translation key does not exist, the `trans` function will return the given key. So, using the example above, the `trans` function would return `messages.welcome` if the translation key does not exist.
 
-지정된 다국어 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`를 그대로 반환합니다.
+지정된 다국어 키가 존재하지 않는다면, `trans` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans` 함수는 `messages.welcome`을 그대로 반환합니다.
 
 <a name="method-trans-choice"></a>
 #### `trans_choice()` {#collection-method}
@@ -1505,6 +1599,724 @@ The `trans_choice` function translates the given translation key with inflection
 If the specified translation key does not exist, the `trans_choice` function will return the given key. So, using the example above, the `trans_choice` function would return `messages.notifications` if the translation key does not exist.
 
 지정된 다국어 키가 존재하지 않는다면, `trans_choice` 함수는 주어진 키를 반환합니다. 따라서 예제에서 다국어 키가 존재하지 않는다면 `trans_choice` 함수는 `messages.notifications`를 그대로 반환합니다.
+
+<a name="fluent-strings"></a>
+## Fluent Strings
+## Fluent Strings
+
+Fluent strings provide a more fluent, object-oriented interface for working with string values, allowing you to chain multiple string operations together using a more readable syntax compared to traditional string operations.
+
+Fluent Strings는 문자열 값을 사용할 때보다 유창하고 객체 지향적인 인터페이스를 제공하므로, 기존 문자열의 작동보다 더 읽기 쉬운 구문을 사용하여 여러 문자열 연산을 함께 연결할 수 있습니다.
+
+<a name="method-fluent-str-after"></a>
+### `after` {#collection-method}
+
+The `after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
+
+`after` 메소드는 주어진 값 이후의 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
+
+    use Illuminate\Support\Str;
+    
+    $slice = Str::of('This is my name')->after('This is');
+    
+    // ' my name'
+
+<a name="method-fluent-str-afterLast"></a>
+### `afterLast` {#collection-method}
+
+The `afterLast` method returns everything after the last occurrence of the given value in a string. The entire string will be returned if the value does not exist within the string:
+
+`afterLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타난 후 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
+
+    use Illuminate\Support\Str;
+    
+    $slice = Str::of('App\Http\Controllers\Controller')->afterLast('\\');
+    
+    // 'Controller'
+
+<a name="method-fluent-str-append"></a>
+### `append` {#collection-method}
+
+The `append` method appends the given values to the string:
+
+`append` 메소드는 주어진 값을 문자열에 추가합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('Taylor')->append(' Otwell');
+    
+    // 'Taylor Otwell'
+
+<a name="method-fluent-str-ascii"></a>
+### `ascii` {#collection-method}
+
+The `ascii` method will attempt to transliterate the string into an ASCII value:
+
+`ascii` 메소드는 문자열을 ASCII 값으로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('ü')->ascii();
+    
+    // 'u'
+
+<a name="method-fluent-str-basename"></a>
+### `basename` {#collection-method}
+
+The `basename` method will return the trailing name component of the given string:
+
+`basename` 메소드는 주어진 문자열의 마지막 구성 요소를 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('/foo/bar/baz')->basename();
+    
+    // 'baz'
+    
+If needed, you may provide an "extension" that will be removed from the trailing component:
+
+필요한 경우 마지막 구성 요소에서 제거할 "확장자"를 제공할 수 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('/foo/bar/baz.jpg')->basename('.jpg');
+    
+    // 'baz'
+
+<a name="method-fluent-str-before"></a>
+### `before` {#collection-method}
+
+The `before` method returns everything before the given value in a string:
+
+`before` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $slice = Str::of('This is my name')->before('my name');
+    
+    // 'This is '
+
+<a name="method-fluent-str-beforeLast"></a>
+### `beforeLast` {#collection-method}
+
+The `beforeLast` method returns everything before the last occurrence of the given value in a string:
+
+`beforeLast` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $slice = Str::of('This is my name')->beforeLast('is');
+    
+    // 'This '
+
+<a name="method-fluent-str-camel"></a>
+### `camel` {#collection-method}
+
+The `camel` method converts the given string to `camelCase`:
+
+`camel` 메소드는 주어진 문자열을 `camelCase`로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $converted = Str::of('foo_bar')->camel();
+    
+    // fooBar
+
+<a name="method-fluent-str-contains"></a>
+### `contains` {#collection-method}
+
+The `contains` method determines if the given string contains the given value (case sensitive):
+
+`contains` 메소드는 주어진 문자열이 주어진 값을 포함하는지 확인합니다. (대소문자를 구분합니다.)
+
+    use Illuminate\Support\Str;
+    
+    $contains = Str::of('This is my name')->contains('my');
+    
+    // true
+    
+You may also pass an array of values to determine if the given string contains any of the values:
+
+또한, 주어진 문자열에 값이 포함되어 있는지 확인하기 위해 배열을 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $contains = Str::of('This is my name')->contains(['my', 'foo']);
+    
+    // true
+
+<a name="method-fluent-str-containsAll"></a>
+### `containsAll` {#collection-method}
+
+The `containsAll` method determines if the given string contains all array values:
+
+`containsAll` 메소드는 주어진 문자열에 모든 배열 값이 포함되어 있는지 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $containsAll = Str::of('This is my name')->containsAll(['my', 'name']);
+    
+    // true
+
+<a name="method-fluent-str-dirname"></a>
+### `dirname` {#collection-method}
+
+The `dirname` method returns the parent directory portion of the given string:
+
+`dirname` 메소드는 주어진 문자열의 부모 디렉토리를 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('/foo/bar/baz')->dirname();
+    
+    // '/foo/bar'
+    
+Optionally, You may specify how many directory levels you wish to trim from the string:
+
+선택적으로 문자열에서 자르려는 디렉토리 레벨 수를 지정할 수 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('/foo/bar/baz')->dirname(2);
+    
+    // '/foo'
+
+<a name="method-fluent-str-endsWith"></a>
+### `endsWith` {#collection-method}
+
+The `endsWith` method determines if the given string ends with the given value:
+
+`endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('This is my name')->endsWith('name');
+    
+    // true
+    
+You may also pass an array of values to determine if the given string ends with any of the given values:
+
+주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('This is my name')->endsWith(['name', 'foo']);
+    
+    // true
+    
+    $result = Str::of('This is my name')->endsWith(['this', 'foo']);
+    
+    // false
+
+<a name="method-fluent-str-exactly"></a>
+### `exactly` {#collection-method}
+
+The `exactly` method determines if the given string is an exact match with another string:
+
+`exactly` 메소드는 주어진 문자열이 다른 문자열과 정확히 일치하는지 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('Laravel')->exactly('Laravel');
+    
+    // true
+
+<a name="method-fluent-str-explode"></a>
+### `explode` {#collection-method}
+
+The `explode` method splits the string by the given delimiter and returns a collection containing each section of the split string:
+
+`explode` 메소드는 주어진 구분 기호로 문자열을 분할하고 분할 문자열의 각 섹션을 포함하는 컬렉션을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $collection = Str::of('foo bar baz')->explode(' ');
+    
+    // collect(['foo', 'bar', 'baz'])
+
+<a name="method-fluent-str-finish"></a>
+### `finish` {#collection-method}
+
+The `finish` method adds a single instance of the given value to a string if it does not already end with the value:
+
+`finish` 메소드는 문자열이 주어진 값으로 끝나지 않으면 해당 값을 추가합니다.
+
+    use Illuminate\Support\Str;
+    
+    $adjusted = Str::of('this/string')->finish('/');
+    
+    // this/string/
+    
+    $adjusted = Str::of('this/string/')->finish('/');
+    
+    // this/string/
+
+<a name="method-fluent-str-is"></a>
+### `is` {#collection-method}
+
+The `is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
+
+`is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $matches = Str::of('foobar')->is('foo*');
+    
+    // true
+    
+    $matches = Str::of('foobar')->is('baz*');
+    
+    // false
+
+<a name="method-fluent-str-isAscii"></a>
+### `isAscii` {#collection-method}
+
+The `isAscii` method determines if a given string is an ASCII string:
+
+`isAscii` 메소드는 주어진 문자열이 ASCII 문자열인지 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('Taylor')->isAscii();
+    
+    // true
+    
+    $result = Str::of('ü')->isAcii();
+    
+    // false
+
+<a name="method-fluent-str-isEmpty"></a>
+### `isEmpty` {#collection-method}
+
+The `isEmpty` method determines if the given string is empty:
+
+`isEmpty` 메소드는 주어진 문자열이 비어 있는지 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('  ')->trim()->isEmpty();
+    
+    // true
+    
+    $result = Str::of('Laravel')->trim()->isEmpty();
+    
+    // false
+
+<a name="method-fluent-str-kebab"></a>
+### `kebab` {#collection-method}
+
+The `kebab` method converts the given string to `kebab-case`:
+
+`kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $converted = Str::of('fooBar')->kebab();
+    
+    // foo-bar
+
+<a name="method-fluent-str-length"></a>
+### `length` {#collection-method}
+
+The `length` method returns the length of the given string:
+
+`length` 메소드는 주어진 문자열의 길이를 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $length = Str::of('Laravel')->length();
+    
+    // 7
+
+<a name="method-fluent-str-limit"></a>
+### `limit` {#collection-method}
+
+The `limit` method truncates the given string at the specified length:
+
+`limit` 메소드는 주어진 문자열을 지정된 길이로 제한합니다.
+
+    use Illuminate\Support\Str;
+    
+    $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20);
+    
+    // The quick brown fox...
+    
+You may also pass a third argument to change the string that will be appended to the end:
+
+끝에 추가 될 문자열을 변경하기 위해 세 번째 인수를 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20, ' (...)');
+    
+    // The quick brown fox (...)
+
+<a name="method-fluent-str-lower"></a>
+### `lower` {#collection-method}
+
+The `lower` method converts the given string to lowercase:
+
+`lower` 메소드는 주어진 문자열을 소문자로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('LARAVEL')->lower();
+    
+    // 'laravel'
+
+<a name="method-fluent-str-match"></a>
+### `match` {#collection-method}
+
+The `match` method will return the portion of a string that matches a given regular expression pattern:
+
+`match` 메소드는 주어진 정규식 패턴과 일치하는 문자열을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('foo bar')->match('/bar/');
+    
+    // 'bar'
+    
+    $result = Str::of('foo bar')->match('/foo (.*)/');
+    
+    // 'bar'
+
+<a name="method-fluent-str-matchAll"></a>
+### `matchAll` {#collection-method}
+
+The `matchAll` method will return a collection containing the portions of a string that match a given regular expression pattern:
+
+`matchAll` 메소드는 주어진 정규 표현식 패턴과 일치하는 문자열을 포함하는 컬렉션을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('bar foo bar')->matchAll('/bar/');
+    
+    // collect(['bar', 'bar'])
+
+If you specify a matching group within the expression, Laravel will return a collection of that group's matches:
+
+식 내에서 일치하는 그룹을 지정하면 Laravel은 해당 그룹의 일치하는 컬렉션을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('bar fun bar fly')->match('/f(\w*)/');
+    
+    // collect(['un', 'ly']);
+    
+If no matches are found, an empty collection will be returned.
+
+일치하는 항목이 없으면 빈 컬렉션이 반환됩니다.
+
+<a name="method-fluent-str-plural"></a>
+### `plural` {#collection-method}
+
+The `plural` method converts a single word string to its plural form. This function currently only supports the English language:
+
+`plural` 메소드는 단수형을 복수형으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
+
+    use Illuminate\Support\Str;
+    
+    $plural = Str::of('car')->plural();
+    
+    // cars
+    
+    $plural = Str::of('child')->plural();
+    
+    // children
+
+You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+
+문자열의 단수 또는 복수 형식을 검색하기 위해 함수에 두 번째 인수로 정수를 제공할 수 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $plural = Str::of('child')->plural(2);
+    
+    // children
+    
+    $plural = Str::of('child')->plural(1);
+    
+    // child
+
+<a name="method-fluent-str-prepend"></a>
+### `prepend` {#collection-method}
+
+The `prepend` method prepends the given values onto the string:
+
+`prepend` 메소드는 주어진 값을 문자열 앞에 추가합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('Framework')->prepend('Laravel ');
+    
+    // Laravel Framework
+
+<a name="method-fluent-str-replace"></a>
+### `replace` {#collection-method}
+
+The `replace` method replaces a given string within the string:
+
+`replace` 메소드는 문자열 내에서 주어진 문자열을 대체합니다.
+
+    use Illuminate\Support\Str;
+    
+    $replaced = Str::of('Laravel 6.x')->replace('6.x', '7.x');
+    
+    // Laravel 7.x
+
+<a name="method-fluent-str-replaceArray"></a>
+### `replaceArray` {#collection-method}
+
+The `replaceArray` method replaces a given value in the string sequentially using an array:
+
+`replaceArray` 메소드는 배열을 사용하여 문자열에서 주어진 값을 차례대로 바꿉니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = 'The event will take place between ? and ?';
+    
+    $replaced = Str::of($string)->replaceArray('?', ['8:30', '9:00']);
+    
+    // The event will take place between 8:30 and 9:00
+
+<a name="method-fluent-str-replaceFirst"></a>
+### `replaceFirst` {#collection-method}
+
+The `replaceFirst` method replaces the first occurrence of a given value in a string:
+
+`replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫 번째 부분을 대체합니다.
+
+    use Illuminate\Support\Str;
+    
+    $replaced = Str::of('the quick brown fox jumps over the lazy dog')->replaceFirst('the', 'a');
+    
+    // a quick brown fox jumps over the lazy dog
+
+<a name="method-fluent-str-replaceLast"></a>
+### `replaceLast` {#collection-method}
+
+The `replaceLast` method replaces the last occurrence of a given value in a string:
+
+`replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 대체합니다.
+
+    use Illuminate\Support\Str;
+    
+    $replaced = Str::of('the quick brown fox jumps over the lazy dog')->replaceLast('the', 'a');
+    
+    // the quick brown fox jumps over a lazy dog
+
+<a name="method-fluent-str-replaceMatches"></a>
+### `replaceMatches` {#collection-method}
+
+The `replaceMatches` method replaces all portions of a string matching a given pattern with the given replacement string:
+ 
+`replaceMatches` 메소드는 주어진 패턴과 일치하는 문자열의 모든 부분을 주어진 대체 문자열로 변경합니다.
+
+    use Illuminate\Support\Str;
+    
+    $replaced = Str::of('(+1) 501-555-1000')->replaceMatches('/[^A-Za-z0-9]++/', '')
+    
+    // '15015551000'
+    
+The `replaceMatches` method also accepts a Closure that will be invoked with each portion of the string matching the given party, allowing you to perform the replacement logic within the Closure and return the replaced value:
+
+`replaceMatches` 메소드는 또한 주어진 파티에 일치하는 문자열의 각 부분에 대해 호출되는 클로저를 허용하므로 closure 내에서 대체 로직을 실행하고 대체된 값을 반환할 수 있습니다.
+
+    use Illuminate\Support\Str;
+    
+    $replaced = Str::of('123')->replaceMatches('/\d/', function ($match) {
+        return '['.$match[0].']';
+    });
+    
+    // '[1][2][3]'
+
+<a name="method-fluent-str-start"></a>
+### `start` {#collection-method}
+
+The `start` method adds a single instance of the given value to a string if it does not already start with the value:
+
+`start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
+
+    use Illuminate\Support\Str;
+    
+    $adjusted = Str::of('this/string')->start('/');
+    
+    // /this/string
+    
+    $adjusted = Str::of('/this/string')->start('/');
+    
+    // /this/string
+
+<a name="method-fluent-str-upper"></a>
+### `upper` {#collection-method}
+
+The `upper` method converts the given string to uppercase:
+
+`upper` 메소드는 주어진 문자열을 대문자로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $adjusted = Str::of('laravel')->upper();
+    
+    // LARAVEL
+
+<a name="method-fluent-str-title"></a>
+### `title` {#collection-method}
+
+The `title` method converts the given string to `Title Case`:
+
+`title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $converted = Str::of('a nice title uses the correct case')->title();
+    
+    // A Nice Title Uses The Correct Case
+
+<a name="method-fluent-str-singular"></a>
+### `singular` {#collection-method}
+
+The `singular` method converts a string to its singular form. This function currently only supports the English language:
+
+`singular` 메소드는 문자열을 단수 형식으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
+
+    use Illuminate\Support\Str;
+    
+    $singular = Str::of('cars')->singular();
+    
+    // car
+    
+    $singular = Str::of('children')->singular();
+    
+    // child
+
+<a name="method-fluent-str-slug"></a>
+### `slug` {#collection-method}
+
+The `slug` method generates a URL friendly "slug" from the given string:
+
+`slug` 메소드는 주어진 문자열로부터 URL에 알맞는 "slug"를 생성합니다.
+
+    use Illuminate\Support\Str;
+    
+    $slug = Str::of('Laravel Framework')->slug('-');
+    
+    // laravel-framework
+
+<a name="method-fluent-str-snake"></a>
+### `snake` {#collection-method}
+
+The `snake` method converts the given string to `snake_case`:
+
+`snake` 메소드는 주어진 문자열을 `snake_case`로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $converted = Str::of('fooBar')->snake();
+    
+    // foo_bar
+
+<a name="method-fluent-str-startsWith"></a>
+### `startsWith` {#collection-method}
+
+The `startsWith` method determines if the given string begins with the given value:
+
+`startsWith` 메소드는 주어진 문자열이 주어진 값으로 시작하는지를 확인합니다.
+
+    use Illuminate\Support\Str;
+    
+    $result = Str::of('This is my name')->startsWith('This');
+    
+    // true
+
+<a name="method-fluent-str-studly"></a>
+### `studly` {#collection-method}
+
+The `studly` method converts the given string to `StudlyCase`:
+
+`studly` 메소드는 주어진 문자열을 `StudlyCase`로 변환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $converted = Str::of('foo_bar')->studly();
+    
+    // FooBar
+
+<a name="method-fluent-str-substr"></a>
+### `substr` {#collection-method}
+
+The `substr` method returns the portion of the string specified by the given start and length parameters:
+
+`substr` 메소드는 주어진 시작 및 길이 파라미터에 의해 지정된 문자열 부분을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('Laravel Framework')->substr(8);
+    
+    // Framework
+    
+    $string = Str::of('Laravel Framework')->substr(8, 5);
+    
+    // Frame
+
+<a name="method-fluent-str-trim"></a>
+### `trim` {#collection-method}
+
+The `trim` method trims the given string:
+
+`trim` 메소드는 주어진 문자열을 잘라냅니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('  Laravel  ')->trim();
+    
+    // 'Laravel'
+    
+    $string = Str::of('/Laravel/')->trim('/');
+    
+    // 'Laravel'
+
+<a name="method-fluent-str-ucfirst"></a>
+### `ucfirst` {#collection-method}
+
+The `ucfirst` method returns the given string with the first character capitalized:
+
+`ucfirst` 메소드는 첫 문자를 대문자로 하여 주어진 문자열을 반환합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('foo bar')->ucfirst();
+    
+    // Foo bar
+
+<a name="method-fluent-str-whenEmpty"></a>
+### `whenEmpty` {#collection-method}
+
+The `whenEmpty` method invokes the given Closure if the string is empty. If the Closure returns a value, that value will also be returned by the `whenEmpty` method. If the Closure does not return a value, the fluent string instance will be returned:
+
+`whenEmpty` 메소드는 문자열이 비어 있으면 주어진 클로저를 호출합니다. 클로저가 값을 반환하면 그 값도 `whenEmpty` 메소드에 의해 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('  ')->whenEmpty(function ($string) {
+        return $string->trim()->prepend('Laravel');
+    });
+    
+    // 'Laravel'
+
+<a name="method-fluent-str-words"></a>
+### `words` {#collection-method}
+
+The `words` method limits the number of words in a string:
+
+`words` 메소드는 문자열의 단어 수를 제한합니다.
+
+    use Illuminate\Support\Str;
+    
+    $string = Str::of('Perfectly balanced, as all things should be.')->words(3, ' >>>');
+    
+    // Perfectly balanced, as >>>
 
 <a name="urls"></a>
 ## URLs
@@ -1522,7 +2334,7 @@ The `action` function generates a URL for the given controller action. You do no
 
 If the method accepts route parameters, you may pass them as the second argument to the method:
 
-메소드가 라우트 파라미터를 받아들인다면, 두번째 인자로 메소드에 전달하십시오:
+메소드가 라우트 파라미터를 받아들인다면, 두 번째 인자로 메소드에 전달하십시오.
 
     $url = action('UserController@profile', ['id' => 1]);
 
@@ -1554,13 +2366,13 @@ The `route` function generates a URL for the given named route:
 
 If the route accepts parameters, you may pass them as the second argument to the method:
 
-라우트가 파라미터를 가진다면 파라미터를 두번째 인자로 메소드에 전달하세요:
+라우트가 파라미터를 가진다면 파라미터를 두 번째 인자로 메소드에 전달하세요.
 
     $url = route('routeName', ['id' => 1]);
 
 By default, the `route` function generates an absolute URL. If you wish to generate a relative URL, you may pass `false` as the third argument:
 
-기본적으로 `route` 함수는 절대경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다.
+기본적으로 `route` 함수는 절대 경로 URL을 생성합니다. 만약 상태경로의 URL을 생성하려면 세번째 인자를 `false`로 전달하면 됩니다.
 
     $url = route('routeName', ['id' => 1], false);
 
@@ -1738,7 +2550,7 @@ The `broadcast` function [broadcasts](/docs/{{version}}/broadcasting) the given 
 
 The `cache` function may be used to get values from the [cache](/docs/{{version}}/cache). If the given key does not exist in the cache, an optional default value will be returned:
 
-`cache` 함수는 [캐시](/docs/{{version}}/cache)로 부터 값을 가져오는데 사용할 수 있습니다. 캐시에서 주어진 키가 존재하지 않는 경우, 옵션으로 전달된 기본값(두번째인자)가 반환됩니다
+`cache` 함수는 [캐시](/docs/{{version}}/cache)로 부터 값을 가져오는데 사용할 수 있습니다. 캐시에서 주어진 키가 존재하지 않는 경우, 옵션으로 전달된 기본값(두 번째인자)가 반환됩니다
 
     $value = cache('key');
 
@@ -2022,7 +2834,7 @@ The `optional` function accepts any argument and allows you to access properties
 
 The `optional` function also accepts a Closure as its second argument. The Closure will be invoked if the value provided as the first argument is not null:
 
-`optional` 함수는 두번째 인자로 클로저를 받을 수 있습니다. 첫번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다.
+`optional` 함수는 두 번째 인자로 클로저를 받을 수 있습니다. 첫 번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다.
 
     return optional(User::find($id), function ($user) {
         return new DummyUser;
@@ -2083,7 +2895,7 @@ The `rescue` function executes the given Closure and catches any exceptions that
 
 You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the Closure:
 
-`rescue` 함수에는 두번째 인자를 전달 할 수 있는데, 이 인자는 클로저를 실행하는 동안 예외-exception가 발생하면 반환된 "기본값" 입니다.
+`rescue` 함수에는 두 번째 인자를 전달 할 수 있는데, 이 인자는 클로저를 실행하는 동안 예외-exception가 발생하면 반환된 "기본값" 입니다.
 
     return rescue(function () {
         return $this->method();
@@ -2125,7 +2937,6 @@ The `retry` function attempts to execute the given callback until the given maxi
     return retry(5, function () {
         // Attempt 5 times while resting 100ms in between attempts...
     }, 100);
-
 
 <a name="method-session"></a>
 #### `session()` {#collection-method}
@@ -2245,7 +3056,7 @@ The `transform` function executes a `Closure` on a given value if the value is n
 
 A default value or `Closure` may also be passed as the third parameter to the method. This value will be returned if the given value is blank:
 
-세번째 인자로 기본값 또는 `Closure` 가 전달될 수 있습니다. 이 값은 첫번째 인자가 빈값인 경우 반환됩니다.
+세번째 인자로 기본값 또는 `Closure` 가 전달될 수 있습니다. 이 값은 첫 번째 인자가 빈값인 경우 반환됩니다.
 
     $result = transform(null, $callback, 'The value is blank');
 
@@ -2291,7 +3102,7 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 
 The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed and its result will be returned:
 
-`with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다.
+`with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두 번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다.
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

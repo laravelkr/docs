@@ -485,6 +485,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "decorus-kazuma",
+      "name": "Kazuma Itou",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8151366?v=4",
+      "profile": "https://blog.decorus.io",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

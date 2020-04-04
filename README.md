@@ -26,6 +26,7 @@
  * [라라벨 5.7](https://laravel.kr/docs/5.7)
  * [라라벨 5.8](https://laravel.kr/docs/5.8)
  * [라라벨 6.x](https://laravel.kr/docs/6.x)
+ * [라라벨 7.x](https://laravel.kr/docs/7.x)
 
 ## 기여방법
 
@@ -39,7 +40,7 @@
 ### Pull Request 
 
 풀리퀘스트의 경우 아래의 작업룰에 따라 등록을 해주셔야 합니다
-기본 작업 가이드는 아래와 같으며 자세한 사항은 [WIKI](https://github.com/laravelkr/docs/wiki)를 참조해 주시기 바랍니다
+기본 작업 가이드는 아래와 같으며 자세한 사항은 [WIKI](https://github.com/laravelkr/docs/wiki) 를 참조해 주시기 바랍니다
 
 #### 오타 및 표현의 오류 수정
 
@@ -50,7 +51,7 @@
 
 #### 영어 원문의 업데이트
 
-- 원문의 수정사항을 업데이트 할 경우 pre-kr 브랜치에 [원문 레포](https://github.com/laravel/docs)의 해당하는 버전에 맞는 브랜치의 커밋을 merge 합니다
+- 원문의 수정사항을 업데이트 할 경우 pre-kr 브랜치에 [원문 레포](https://github.com/laravel/docs) 의 해당하는 버전에 맞는 브랜치의 커밋을 merge 합니다
   - 즉 최상위 폴더에 있는 md파일의 경우 원본의 커밋히스토리와 merge 히스토리만이 존재해야합니다
 - 이후 merge 전의 내용과 비교하여 수정된 내용을 kr 폴더의 영어 부분에 모두 업데이트 해 줍니다
   - 이 작업은 현재 수기로 모두 원문을 체크해서 진행하고 있습니다

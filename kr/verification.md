@@ -90,10 +90,10 @@ To generate all of the necessary view for email verification, you may use the `l
 
 `laravel/ui` Composer 패키지를 이용하면 이메일 검증에 필요한 뷰를 생성할 수 있습니다.
 
-    composer require laravel/ui --dev
-    
+    composer require laravel/ui
+
     php artisan ui vue --auth
-    
+
 The email verification view is placed in `resources/views/auth/verify.blade.php`. You are free to customize this view as needed for your application.
 
 이메일 검증 뷰는 `resources/views/auth/verify.blade.php`에 있습니다. 필요에 따라 자유롭게 수정할 수 있습니다.

@@ -23,6 +23,8 @@
     - [파라미터 그룹](#parameter-grouping)
     - [Where Exists Clauses](#where-exists-clauses)
     - [존재여부를 판단하는 Where 절](#where-exists-clauses)
+    - [Subquery Where Clauses](#subquery-where-clauses)
+    - [서브쿼리 Where 절](#subquery-where-clauses)
     - [JSON Where Clauses](#json-where-clauses)
     - [JSON Where 절](#json-where-clauses)
 - [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
@@ -688,6 +690,24 @@ The query above will produce the following SQL:
     where exists (
         select 1 from orders where orders.user_id = users.id
     )
+
+<a name="subquery-where-clauses"></a>
+### Subquery Where Clauses
+### 서브쿼리 Where 절
+
+Sometimes you may need to construct a where clause that compares the results of a subquery to a given value. You may accomplish this by passing a Closure and a value to the `where` method. For example, the following query will retrieve all users who have a recent "membership" of a given type;
+
+주어진 값에 대한 서브쿼리의 결과를 비교하는 Where 절을 생성해야 할때, 클로저와 값을 `Where` 메서드에 전달하면 됩니다. 예를 들어 다음 쿼리는 주어진 유형의 최근 "membership"을 가진 모든 사용자를 검색합니다;
+
+    use App\User;
+
+    $users = User::where(function ($query) {
+        $query->select('type')
+            ->from('membership')
+            ->whereColumn('user_id', 'users.id')
+            ->orderByDesc('start_date')
+            ->limit(1);
+    }, 'Pro')->get();
 
 <a name="json-where-clauses"></a>
 ### JSON Where Clauses

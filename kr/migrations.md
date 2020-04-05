@@ -64,6 +64,10 @@ The new migration will be placed in your `database/migrations` directory. Each m
 
 새로운 마이그레이션 파일은 `database/migrations` 디렉토리에 생성됩니다. 각 마이그레이션 파일의 이름에는 타임스탬프를 포함하며 라라벨이 마이그레이션들의 순서를 판별할 수 있도록 합니다.
 
+> {tip} Migration stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
+
+> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 통해서 마이그레이션 stubs을 커스트마이징 할 수 있습니다. 
+
 The `--table` and `--create` options may also be used to indicate the name of the table and whether or not the migration will be creating a new table. These options pre-fill the generated migration stub file with the specified table:
 
 `--table`와 `--create` 옵션들은 테이블의 이름과 마이그레이션이 테이블을 새로 생성할지 여부를 표시하는 데 사용할 수 있습니다. 이 옵션들은 생성된 마이그레이션 stub 파일을 특정한 테이블로 미리 채워 놓습니다.

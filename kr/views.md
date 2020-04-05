@@ -9,6 +9,8 @@
     - [모든 뷰에서 데이터 공유하기](#sharing-data-with-all-views)
 - [View Composers](#view-composers)
 - [뷰 컴포저](#view-composers)
+- [Optimizing Views](#optimizing-views)
+- [뷰 최적화](#optimizing-views)
 
 <a name="creating-views"></a>
 ## Creating Views
@@ -269,3 +271,30 @@ View **creators** are very similar to view composers; however, they are executed
 뷰 **크리에이터**는 뷰 컴포저와 거의 비슷하게 동작합니다. 하지만 뷰 크리에이터는 뷰가 렌더링 되기를 기다리는 대신 인스턴스화 된 다음에 바로 실행됩니다. 뷰 크리에이터를 등록하기 위해서는 `creator` 메소드를 사용하면 됩니다.
 
     View::creator('profile', 'App\Http\View\Creators\ProfileCreator');
+    
+<a name="optimizing-views"></a>
+## Optimizing Views
+## 뷰 최적화
+By default, views are compiled on demand. When a request is executed that renders a view, Laravel will determine if a compiled version of the view exists. If the file exists, Laravel will then determine if the uncompiled view has been modified more recently than the compiled view. If the compiled view either does not exist, or the uncompiled view has been modified, Laravel will recompile the view.
+
+기본적으로 뷰를 불러올때 컴파일이 됩니다. 뷰를 렌더링하는 리퀘스트가 실행되면 라라벨은 뷰가 컴파일 된 버젼이 존재하는지 확인합니다. 컴파일 된 파일이 존재하면 라라벨은 컴파일되지 않은 뷰가 컴파일된 뷰보다 최근에 수정 되었는지를 판단 합니다. 컴파일된 뷰가 존재 하지 않거나 컴파일 되지 않은 뷰가 수정된 경우, 라라벨은 뷰를 다시 컴파일 합니다.
+
+Compiling views during the request negatively impacts performance, so Laravel provides the `view:cache` Artisan command to precompile all of the views utilized by your application. For increased performance, you may wish to run this command as part of your deployment process:
+
+리퀘스트 요청중에 뷰를 컴파일하면 성능에 부정적인 영향을 미치므로 라라벨은 `view:cache` Artisan 명령을 제공하여 응용 프로그램에서 사용하는 모든 뷰를 사전 컴파일 합니다. 성능 향상을 위해 다음의 명령어를 당신의 개발 과정에서 실행 할수 있습니다.
+
+    php artisan view:cache
+
+You may use the `view:clear` command to clear the view cache:
+다음의 명령어로 뷰 캐시를 지울수 있습니다.
+
+    php artisan view:clear
+
+Typically, you can assume that views will **never** be modified in your production environment. Therefore, you can usually disable the file modification checks Laravel makes to determine if views are expired by modifying the `expires` option within your `view` configuration file:
+
+일반적으로 프로덕션 환경에서는 뷰가 **절대** 수정 되지 않는다고 가정 할 수 있습니다. 따라서 보통은 `view` 구성 파일내의 옵션을 수정하여 라라벨이 뷰가 만료 되었는지 확인하기 위해 파일 수정 검사를 비활성화 할 수 있습니다.
+
+    'expires' => env('APP_ENV') !== 'production',
+
+> {note} You must run `php artisan view:cache` during your deployment process to disable checking for expired views.
+> {note} 만료된 뷰 확인을 비활성화 하려면 개발과정 중에 `php artisan view:cache` 실행해야 합니다.

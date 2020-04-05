@@ -275,6 +275,7 @@ View **creators** are very similar to view composers; however, they are executed
 <a name="optimizing-views"></a>
 ## Optimizing Views
 ## 뷰 최적화
+
 By default, views are compiled on demand. When a request is executed that renders a view, Laravel will determine if a compiled version of the view exists. If the file exists, Laravel will then determine if the uncompiled view has been modified more recently than the compiled view. If the compiled view either does not exist, or the uncompiled view has been modified, Laravel will recompile the view.
 
 기본적으로 뷰를 불러올때 컴파일이 됩니다. 뷰를 렌더링하는 리퀘스트가 실행되면 라라벨은 뷰가 컴파일 된 버젼이 존재하는지 확인합니다. 컴파일 된 파일이 존재하면 라라벨은 컴파일되지 않은 뷰가 컴파일된 뷰보다 최근에 수정 되었는지를 판단 합니다. 컴파일된 뷰가 존재 하지 않거나 컴파일 되지 않은 뷰가 수정된 경우, 라라벨은 뷰를 다시 컴파일 합니다.
@@ -286,6 +287,7 @@ Compiling views during the request negatively impacts performance, so Laravel pr
     php artisan view:cache
 
 You may use the `view:clear` command to clear the view cache:
+
 다음의 명령어로 뷰 캐시를 지울수 있습니다.
 
     php artisan view:clear
@@ -297,4 +299,5 @@ Typically, you can assume that views will **never** be modified in your producti
     'expires' => env('APP_ENV') !== 'production',
 
 > {note} You must run `php artisan view:cache` during your deployment process to disable checking for expired views.
+
 > {note} 만료된 뷰 확인을 비활성화 하려면 개발과정 중에 `php artisan view:cache` 실행해야 합니다.

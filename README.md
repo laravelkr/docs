@@ -164,6 +164,7 @@
     <td align="center"><a href="https://imon.dev"><img src="https://avatars1.githubusercontent.com/u/18586282?v=4" width="100px;" alt=""/><br /><sub><b>Youchan</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=YouchanChung" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Jeongwoo-Han"><img src="https://avatars0.githubusercontent.com/u/60590468?v=4" width="100px;" alt=""/><br /><sub><b>Jeongwoo-Han</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Jeongwoo-Han" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/wjdgkrud45"><img src="https://avatars3.githubusercontent.com/u/61770473?v=4" width="100px;" alt=""/><br /><sub><b>wjdgkrud45</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=wjdgkrud45" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/ongyjho"><img src="https://avatars2.githubusercontent.com/u/58408421?v=4" width="100px;" alt=""/><br /><sub><b>Yeojin Hong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ongyjho" title="Documentation">📖</a></td>
   </tr>
 </table>
 

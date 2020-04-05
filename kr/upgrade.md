@@ -1,595 +1,455 @@
 # Upgrade Guide
 # 업그레이드 가이드
 
-- [Upgrading To 6.0 From 5.8](#upgrade-6.0)
-- [5.8에서 6.0으로 업그레이드](#upgrade-6.0)
+- [Upgrading To 7.0 From 6.x](#upgrade-7.0)
+- [6.x에서 7.0으로 업그레이드](#upgrade-7.0)
 
 <a name="high-impact-changes"></a>
 ## High Impact Changes
 ## 매우 중요한 변경사항
 
-<!-- <div class="content-list" markdown="1"> -->
-- [Authorized Resources & `viewAny`](#authorized-resources)
-- [String & Array Helpers](#helpers)
-- [리소스 인가와 `viewAny`](#authorized-resources)
-- [문자열 & 배열 헬퍼](#helpers)
-<!-- </div> -->
+- [Authentication Scaffolding](#authentication-scaffolding)
+- [인증 스캐 폴딩](#authentication-scaffolding)
+- [Date Serialization](#date-serialization)
+- [날짜 직렬화](#date-serialization)
+- [Symfony 5 Related Upgrades](#symfony-5-related-upgrades)
+- [Symfony 5 관련 업그레이드](#symfony-5-related-upgrades)
 
-<!-- <a name="medium-impact-changes"></a> -->
+<a name="medium-impact-changes"></a>
 ## Medium Impact Changes
 ## 중요한 변경사항
 
-<!-- <div class="content-list" markdown="1"> -->
-- [Carbon 1.x No Longer Supported](#carbon-support)
-- [Redis Default Client](#redis-default-client)
-- [Database `Capsule::table` Method](#capsule-table)
-- [Eloquent Arrayable & `toArray`](#eloquent-to-array)
-- [Eloquent `BelongsTo::update` Method](#belongs-to-update)
-- [Eloquent Primary Key Types](#eloquent-primary-key-type)
-- [Localization `Lang::trans` and `Lang::transChoice` Methods](#trans-and-trans-choice)
-- [Localization `Lang::getFromJson` Method](#get-from-json)
-- [Queue Retry Limit](#queue-retry-limit)
-- [Resend Email Verification Route](#email-verification-route)
-- [Email Verification Route Change](#email-verification-route-change)
-- [The `Input` Facade](#the-input-facade)
+- [Blade Components & "Blade X"](#blade-components-and-blade-x)
+- [블레이드 컴포넌트 및 "블레이드 X"](#blade-components-and-blade-x)
+- [CORS Support](#cors-support)
+- [CORS 지원](#cors-support)
+- [Factory Types](#factory-types)
+- [Factory Types](#factory-types)
+- [Markdown Mail Template Updates](#markdown-mail-template-updates)
+- [마크 다운 메일 템플릿 업데이트](#markdown-mail-template-updates)
+- [The `Blade::component` Method](#the-blade-component-method)
+- [`Blade::component` 메소드](#the-blade-component-method)
+- [The `assertSee` Assertion](#assert-see)
+- [`assertSee` Assertion](#assert-see)
+- [The`different` Validation Rule](#the-different-rule)
+- [`different` Validation Rule](#the-different-rule)
+- [Unique Route Names](#unique-route-names)
+- [고유한 라우트이름](#unique-route-names)
 
-- [Carbon 1.x 지원 종료](#carbon-support)
-- [Redis 기본 클라이언트](#redis-default-client)
-- [데이터베이스 `Capsule::table` 메소드](#capsule-table)
-- [Eloquent Arrayable & `toArray`](#eloquent-to-array)
-- [Eloquent `BelongsTo::update` Method](#belongs-to-update)
-- [Eloquent Primary Key 타입](#eloquent-primary-key-type)
-- [Localization `Lang::trans` 메소드와 `Lang::transChoice` 메소드](#trans-and-trans-choice)
-- [Localization `Lang::getFromJson` 메소드](#get-from-json)
-- [큐 재시도 횟수 제한](#queue-retry-limit)
-- [이메일 인증 재발송 라우트](#email-verification-route)
-- [Email 확인 경로 변경](#email-verification-route-change)
-- [`Input` 파사드](#the-input-facade)
-<!-- </div> -->
+<a name="upgrade-7.0"></a>
+## Upgrading To 7.0 From 6.x
+## 6.x에서 7.0으로 업그레이드
 
-<a name="upgrade-6.0"></a>
-## Upgrading To 6.0 From 5.8
-## 5.8에서 6.0으로 업그레이드 하기
-
-#### Estimated Upgrade Time: One Hour
-#### 예상 소요 시간: 1시간
+#### Estimated Upgrade Time: 15 Minutes
+#### 예상 업그레이드 시간 : 15 분
 
 > {note} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application.
 
 > {note} 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다.
 
-### PHP 7.2 Required
-### PHP 7.2 필요
+### Symfony 5 Required
+### Symfony 5 필요
 
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
+**Likelihood Of Impact: High**
+**영향 가능성: 높음**
 
-PHP 7.1 will no longer be actively maintained as of December 2019. Therefore, Laravel 6.0 requires PHP 7.2 or greater.
+Laravel 7 upgraded its underlying Symfony components to the 5.x series, which is now also the new minimum compatible version.
 
-PHP 7.1 버전은 2019년 12월 이후로 더 이상 활발하게 지원되지 않습니다. 그렇기 때문에 라라벨 6.0은 PHP 7.2버전 이상을 필요로 합니다. 
+Laravel 7은 기본 Symfony 컴포넌트를 5.x 시리즈로 업그레이드했습니다. 이 시리즈는 이제 새로운 최소 호환 버전이기도 합니다.
+
+### PHP 7.2.5 Required
+### PHP 7.2.5 필요
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The new minimum PHP version is now 7.2.5.
+
+이제 최소로 필요한 PHP 버전은 7.2.5입니다.
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `^6.0` in your `composer.json` file.
+Update your `laravel/framework` dependency to `^7.0` in your `composer.json` file. In addition, update your `nunomaduro/collision` dependency to `^4.1`, `phpunit/phpunit` dependency to `^8.5`, `laravel/tinker` dependency to `^2.0`, and `facade/ignition` to `^2.0`.
 
-`composer.json` 파일을 열어 `laravel/framework` 의존성을 `^6.0` 으로 업데이트 하세요.
+`composer.json` 파일에서 `laravel/framework` 의존성을 `^ 7.0`로 업데이트하십시오. 또한 `nunomaduro/collision` 의존성을 `^ 4.1`로, `phpunit/phpunit` 의존성을 `^ 8.5`로, `laravel/tinker` 의존성을 `^ 2.0`으로, 그리고 `facade/ignition`을 `^2.0`로 업데이트하십시오.
 
-Next, examine any 3rd party packages consumed by your application and verify you are using the proper version for Laravel 6 support.
+The following first-party packages have new major releases to support Laravel 7. If there are any, read through their individual upgrade guides before upgrading:
 
-그리고, 어플리케이션에서 사용 중인 모든 3rd party 패키지들을 살펴보고 라라벨 6 버전을 지원하는 버전을 사용중인지 확인하세요. 
+다음 자사 패키지에는 Laravel 7을 지원하기위한 새로운 주요 릴리스가 있습니다. 업그레이드가 있는 경우 개별 업그레이드 안내서를 읽어보십시오.
 
-### Authorization
-### 인가
+- [Browser Kit Testing v6.0](https://github.com/laravel/browser-kit-testing/blob/master/UPGRADE.md)
+- [Envoy v2.0](https://github.com/laravel/envoy/blob/master/UPGRADE.md)
+- [Horizon v4.0](https://github.com/laravel/horizon/blob/master/UPGRADE.md)
+- [Nova v3.0](https://nova.laravel.com/releases)
+- [Scout v8.0](https://github.com/laravel/scout/blob/master/UPGRADE.md)
+- [Telescope v3.0](https://github.com/laravel/telescope/releases)
+- UI v2.0 (No changes necessary)
 
-<a name="authorized-resources"></a>
-#### Authorized Resources & `viewAny`
-#### 인가된 리소스 & `viewAny`
+Finally, examine any other third-party packages consumed by your application and verify you are using the proper version for Laravel 7 support.
+
+마지막으로, 애플리케이션에서 사용하는 다른 타사 패키지를 검사하고 Laravel 7 지원에 적합한 버전을 사용하고 있는지 확인하십시오.
+
+<a name="symfony-5-related-upgrades"></a>
+### Symfony 5 Related Upgrades
+### Symfony 5 관련 업그레이드
 
 **Likelihood Of Impact: High**
 **영향 가능성: 높음**
 
-Authorization policies attached to controllers using the `authorizeResource` method should now define a `viewAny` method, which will be called when a user accesses the controller's `index` method. Otherwise, calls to the `index` method of the controller will be rejected as unauthorized.
+Laravel 7 utilizes the 5.x series of the Symfony components. Some minor changes to your application are required to accommodate this upgrade.
 
-`authorizeResource` 함수를 사용해 컨트롤러에 붙여진 인가 정책은 이제 `viewAny` 메소드를 정의해야만 합니다. 이 메소드는 유저가 컨트롤러의 `index` 메소드에 접근할 때 호출됩니다. 이 메소드를 정의하지 않으면, 컨트롤러의 `index` 메소드에 대한 호출이 거부되거나 비인가 처리됩니다. 
+라라벨 7은 5.x 시리즈의 Symfony 컴포넌트를 사용합니다. 이 업그레이드를 하려면 애플리케이션을 약간 변경해야합니다.
 
-#### Authorization Responses
-#### Authorization Response 클래스
+First, the `report` and `render` methods of your application's `App\Exceptions\Handler` class should accept instances of the `Throwable` interface instead of `Exception` instances:
+
+먼저, 애플리케이션의 `App\Exceptions\Handler` 클래스의 `report` 및 `render` 메소드는 `Exception` 인스턴스 대신 `Throwable` 인터페이스의 인스턴스를 허용해야합니다.
+
+
+    use Throwable;
+
+    public function report(Throwable $exception);
+    public function render($request, Throwable $exception);
+
+Next, please update your `session` configuration file's `secure` option to have a fallback value of `null`:
+
+다음으로, `session` 설정 파일의 `secure` 옵션을 `null`로 폴백 값을 업데이트하십시오.
+
+    'secure' => env('SESSION_SECURE_COOKIE', null),
+
+### Authentication
+### 인증
+
+<a name="authentication-scaffolding"></a>
+#### Scaffolding
+#### 스캐폴딩
+
+**Likelihood Of Impact: High**
+**영향 가능성: 높음**
+
+All authentication scaffolding has been moved to the `laravel/ui` repository. If you are using Laravel's authentication scaffolding, you should install the `^2.0` release of this package and the package should be installed in all environments. If you were previously including this package in the `require-dev` portion of your application's `composer.json` file, you should move it to the `require` section:
+
+모든 인증 스캐 폴딩은 `laravel/ui` 저장소로 옮겨졌습니다. 만약 라라벨의 인증 스캐 폴딩을 사용하고 있다면 이 패키지의 `^2.0` 릴리즈를 설치해야하며 모든 환경에 패키지를 설치해야합니다. 이전에 이 패키지를 애플리케이션의 `composer.json` 파일의 `require-dev` 부분에 포함 시켰다면, `require` 섹션으로 이동해야합니다.
+
+    composer require laravel/ui "^2.0"
+
+#### The `TokenRepositoryInterface`
+#### `TokenRepositoryInterface`
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-The constructor signature of the `Illuminate\Auth\Access\Response` class has changed. You should update your code accordingly. If you are not constructing authorization responses manually and are only using the `allow` and `deny` instance methods within your policies, no change is required:
+A `recentlyCreatedToken` method has been added to the `Illuminate\Auth\Passwords\TokenRepositoryInterface` interface. If you are writing a custom implementation of this interface, you should add this method to your implementation.
 
-`Illuminate\Auth\Access\Response` 클래스 생성자의 인자 구성이 변경되었습니다. 그에 따라 코드를 알맞게 변경해야 합니다. 만약 인증에 대한 응답을 수동으로 생성하고 있지 않고, 정책들에서 `allow` 와 `deny` 메소드만 사용하고 있다면 변경할 필요 없습니다.
+`recentlyCreatedToken` 메소드가 `Illuminate\Auth\Passwords\TokenRepositoryInterface` 인터페이스에 추가되었습니다. 이 인터페이스의 커스텀을 작성하는 경우 이 메소드를 구현에 추가해야합니다.
+
+### Blade
+### Blade
+
+<a name="the-blade-component-method"></a>
+#### The `component` Method
+#### `component` 메소드
+
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
+
+The `Blade::component` method has been renamed to `Blade::aliasComponent`. Please update your calls to this method accordingly.
+
+`Blade::component` 메소드의 이름이 `Blade::aliasComponent`로 변경되었습니다. 이에 따라이 방법에 대한 호출을 업데이트하십시오.
+
+<a name="blade-components-and-blade-x"></a>
+#### Blade Components & "Blade X"
+#### 블레이드 컴포넌트 및 "블레이드 X"
+
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
+
+Laravel 7 includes first-party support for Blade "tag components". If you wish to disable Blade's built-in tag component functionality, you may call the `withoutComponentTags` method from the `boot` method of your `AppServiceProvider`:
+
+Laravel 7에는 블레이드 "태그 컴포넌트"에 대한 자사 지원이 포함되어 있습니다. Blade의 내장 태그 컴포넌트 기능을 비활성화하려면 `AppServiceProvider`의 `boot` 메소드에서 `withoutComponentTags` 메소드를 호출 할 수 있습니다.
+
+    use Illuminate\Support\Facades\Blade;
+
+    Blade::withoutComponentTags();
+
+### Eloquent
+### Eloquent
+
+#### The `addHidden` / `addVisible` Methods
+#### `addHidden` / `addVisible` 메소드
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The undocumented `addHidden` and `addVisible` methods have been removed. Instead, please use the `makeHidden` and `makeVisible` methods.
+
+문서화되지 않은 `addHidden` 및 `addVisible` 메소드가 제거되었습니다. 대신 `makeHidden` 및 `makeVisible` 메소드를 사용하십시오.
+
+#### The `booting` / `booted` Methods
+#### `booting` / `booted` 메소드
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The `booting` and `booted` methods have been added to Eloquent to provide a place to conveniently define any logic that should execute during the model "boot" process. If you already have model methods with these names, you will need to rename your methods so they do not conflict with the newly added methods.
+
+모델 "부팅-boot" 프로세스 중에 실행해야하는 로직을 편리하게 정의 할 수있는 장소를 제공하기 위해 `booting` 및 `booted` 메서드가 Eloquent에 추가되었습니다. 이러한 이름의 모델 메소드가 이미있는 경우 메소드를 새로 추가 한 메소드와 충돌하지 않도록 메소드 이름을 바꿔야합니다.
+
+<a name="date-serialization"></a>
+#### Date Serialization
+#### 날짜 직렬화
+
+**Likelihood Of Impact: High**
+**영향 가능성: 높음**
+
+Laravel 7 uses a new date serialization format when using the `toArray` or `toJson` method on Eloquent models. To format dates for serialization, the framework now uses Carbon's `toJSON` method, which produces an ISO-8601 compatible date including timezone information and fractional seconds. In addition, this change provides better support and integration with client-side date parsing libraries.
+
+Laravel 7은 Eloquent 모델에서 `toArray` 또는 `toJson` 메서드를 사용할 때 새로운 날짜 직렬화 형식을 사용합니다. 직렬화 날짜 형식을 지정하기 위해 이제 프레임워크는 표준 시간대 정보와 세분화된-fractional 초-seconds를 포함하여 ISO-8601 호환 날짜를 생성하는 Carbon의 `toJSON` 메서드를 사용합니다. 또한 이 변경은 클라이언트 측 날짜 구문 분석 라이브러리와의 지원 및 통합을 향상시킵니다.
+
+Previously, dates would be serialized to a format like the following: `2019-12-02 20:01:00`. Dates serialized using the new format will appear like: `2019-12-02T20:01:00.283041Z`. Please note that ISO-8601 dates are always expressed in UTC.
+
+이전에는 날짜가 `2019-12-02 20:01:00`와 같은 형식으로 직렬화되었습니다. 새로운 형식을 사용하여 직렬화 된 날짜는 `2019-12-02T20:01:00.283041Z`와 같이 나타납니다. ISO-8601 날짜는 항상 UTC로 표시됩니다.
+
+If you would like to keep using the previous behavior you can override the `serializeDate` method on your model:
+
+이전 동작을 계속 사용하려면 모델에서 `serializeDate` 메소드를 대체 할 수 있습니다.
 
     /**
-     * Create a new response.
+     * Prepare a date for array / JSON serialization.
      *
-     * @param  bool  $allowed
-     * @param  string  $message
-     * @param  mixed  $code
-     * @return void
+     * @param  \DateTimeInterface  $date
+     * @return string
      */
-    public function __construct($allowed, $message = '', $code = null)
-
-#### Returning "Deny" Responses
-#### "Deny" 응답 반환
-
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
-
-In previous releases of Laravel, you did not need to return the value of the `deny` method from your policy methods since an exception was thrown immediately. However, in accordance with the Laravel documentation, you must now return the value of the `deny` method from your policies:
-
-Laravel의 이전 릴리스에서는 예외가 즉시 발생했기 때문에 정책-policy 메소드에서 `deny` 메소드의 값을 반환 할 필요가 없었습니다. 그러나 Laravel 문서에 따라 이제 정책-policy에서 `deny` 메소드의 값을 반환해야합니다.
-
-    public function update(User $user, Post $post)
+    protected function serializeDate(DateTimeInterface $date)
     {
-        if (! $user->role->isEditor()) {
-            return $this->deny("You must be an editor to edit this post.")
-        }
-
-        return $user->id === $post->user_id;
+        return $date->format('Y-m-d H:i:s');
     }
 
-<a name="auth-access-gate-contract"></a>
-#### The `Illuminate\Contracts\Auth\Access\Gate` Contract
-#### `Illuminate\Contracts\Auth\Access\Gate` 인터페이스
+> {tip} This change only affects serialization of models and model collections to arrays and JSON. This change has no effect on how dates are stored in your database.
+
+> {tip} 이 변경 사항은 모델 및 모델 컬렉션을 배열 및 JSON으로의 직렬화에만 영향을 줍니다. 이 변경 사항은 데이터베이스에 날짜가 저장되는 방식에 영향을 미치지 않습니다.
+
+<a name="factory-types"></a>
+#### Factory Types
+#### Factory Types
+
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
+
+Laravel 7 removes the "factory types" feature. This feature has been undocumented since October 2016. If you are still using this feature, you should upgrade to [factory states](/docs/{{version}}/database-testing#factory-states), which provide more flexibility.
+
+Laravel 7은 "factory types"기능을 제거합니다. 이 기능은 2016 년 10 월 이후로 문서화되지 않았습니다. 이 기능을 계속 사용하는 경우 [factory states](/docs/{{version}}/database-testing#factory-states)로 업그레이드해야합니다.
+
+#### The `getOriginal` Method
+#### `getOriginal` 메서드
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-The `Illuminate\Contracts\Auth\Access\Gate` contract has received a new `inspect` method. If you are implementing this interface manually, you should add this method to your implementation.
+The `$model->getOriginal()` method will now respect any casts defined on the model. Previously, this method returned the uncast, raw attributes. If you would like to continue retrieving the raw, uncast values, you may use the `getRawOriginal` method instead.
 
-`Illuminate\Contracts\Auth\Access\Gate` 인터페이스에 `inspect` 라는 새로운 메소드가 추가되었습니다. 만약 이 인터페이스를 직접 구현하고 있다면 구현체에 이 메소드를 추가해야 합니다.
+`$model->getOriginal()` 메소드는 이제 모델에 정의 된 모든 캐스트를 존중합니다. 이전에는 이 ​​메소드가 캐스트되지 않은 원시 속성을 리턴했습니다. 캐스팅되지 않은 원시 값을 계속 검색하려면 `getRawOriginal` 메소드를 대신 사용할 수 있습니다.
 
-### Carbon
-### Carbon
-
-<a name="carbon-support"></a>
-#### Carbon 1.x No Longer Supported
-#### Carbon 1.x 버전은 더 이상 지원되지 않습니다.
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-Carbon 1.x [is no longer supported](https://github.com/laravel/framework/pull/28683) since it is nearing its maintenance end of life. Please upgrade your application to Carbon 2.0.
-
-Carbon 1.x 버전의 지원 기간이 종료되었기 때문에 [더 이상 지원되지 않습니다](https://github.com/laravel/framework/pull/28683). 어플리케이션을 Carbon 2.0 버전을 사용하도록 업그레이드 하세요.
-
-### Configuration
-### 설정
-
-#### The `AWS_REGION` Environment Variable
-#### `AWS_REGION` 환경 변수
-
-**Likelihood Of Impact: Optional**
-**영향 가능성: 선택적**
-
-If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update all occurrences of `AWS_REGION` within your `config` directory to `AWS_DEFAULT_REGION`. In addition, you should update this environment variable's name in your `.env` file.
-
-만약 [라라벨 Vapor](https://vapor.laravel.com)를 사용하려 한다면 `config` 디렉토리의 모든 `AWS_REGION` 문자열을 `AWS_DEFAULT_REGION` 으로 변경해야 합니다. 또한, `.env` 파일의 이 환경변수 이름을 변경해야 합니다.
-
-<a name="redis-default-client"></a>
-#### Redis Default Client
-#### Redis 기본 클라이언트
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-The default Redis client has changed from `predis` to `phpredis`. In order to keep using `predis`, ensure the `redis.client` configuration option is set to `predis` in your `config/database.php` configuration file.
-
-Redis 기본 클라이언트가 `predis`에서 `phpredis`로 변경되었습니다. `predis`를 계속 사용하려면 `config/database.php` 설정 파일에서 `redis.client` 설정 옵션이 `predis`로 되어 있는지 확인하십시오.
-
-<a name="dynamodb-cache-store"></a>
-#### DynamoDB Cache Store
-#### DynamoDB Cache Store
-
-**Likelihood Of Impact: Optional**
-**영향 가능성: 선택적**
-
-If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update your `config/cache.php` file to include the `dynamodb` store.
-
-[Laravel Vapor](https://vapor.laravel.com)을 활용하려면 `dynamodb` 저장소를 포함하도록 `config/cache.php` 파일을 수정해야합니다.
-
-    <?php
-    return [
-        ...
-        'stores' => [
-            ...
-            'dynamodb' => [
-                'driver' => 'dynamodb',
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-                'table' => env('DYNAMODB_CACHE_TABLE', 'cache'),
-                'endpoint' => env('DYNAMODB_ENDPOINT'),
-            ],
-        ],
-        ...
-    ];
-
-<a name="sqs-environment-variables"></a>
-#### SQS Environment Variables
-#### SQS 환경 변수
-
-**Likelihood Of Impact: Optional**
-**영향 가능성: 선택적**
-
-If you plan to utilize [Laravel Vapor](https://vapor.laravel.com), you should update your `config/queue.php` file to include the updated `sqs` connection environment variables.
-
-[Laravel Vapor](https://vapor.laravel.com)을 사용하려면 업데이트 된 `sqs` 연결 환경 변수를 포함하도록 `config/queue.php` 파일을 수정해야합니다.
-
-    <?php
-    return [
-        ...
-        'connections' => [
-            ...
-            'sqs' => [
-                'driver' => 'sqs',
-                'key' => env('AWS_ACCESS_KEY_ID'),
-                'secret' => env('AWS_SECRET_ACCESS_KEY'),
-                'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
-                'queue' => env('SQS_QUEUE', 'your-queue-name'),
-                'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-            ],
-        ],
-        ...
-    ];
-
-### Database
-### 데이터베이스
-
-<a name="capsule-table"></a>
-#### The Capsule `table` Method
-#### Capsule `table` 메소드
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-> {note} This change only applies to non-Laravel applications that are using `illuminate/database` as a dependency.
-
-> {note} 이 변경사항은 `illuminate/database` 패키지를 라라벨과 별개로 사용중인 어플리케이션에만 해당됩니다.
-
-The signature of the `Illuminate\Database\Capsule\Manager` class' `table` method has
-updated to accept a table alias as its second argument. If you are using `illuminate/database` outside of a Laravel application, you should update any calls to this method accordingly:
-
-`Illuminate\Database\Capsule\Manager` 클래스의 `table` 메소드가 두번째 인자로 테이블의 alias를 받도록 변경되었습니다. 만약 `illuminate/database` 패키지를 라라벨과 별개로 사용중이라면 이 메소드를 호출하는 부분들을 따라 수정해야 합니다.
-
-    /**
-     * Get a fluent query builder instance.
-     *
-     * @param  \Closure|\Illuminate\Database\Query\Builder|string  $table
-     * @param  string|null  $as
-     * @param  string|null  $connection
-     * @return \Illuminate\Database\Query\Builder
-     */
-    public static function table($table, $as = null, $connection = null)
-
-#### The `cursor` Method
-#### `cursor` 메소드
+#### Route Binding
+#### 라우트 바인딩
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-The `cursor` method now returns an instance of `Illuminate\Support\LazyCollection` instead of a `Generator` The `LazyCollection` may be iterated just like a generator:
+The `resolveRouteBinding` method of the `Illuminate\Contracts\Routing\UrlRoutable` interface now accepts a `$field` argument. If you were implementing this interface by hand, you should update your implementation.
 
-`cursor` 메소드는 이제 `Generator` 객체 대신 `Illuminate\Support\LazyCollection` 객체를 리턴합니다. `LazyCollection` 은 기존의 제너레이터와 동일하게 반복할 수 있습니다.
+`Illuminate\Contracts\Routing\UrlRoutable` 인터페이스의 `resolveRouteBinding` 메소드는 이제 `$field` 인수를 입력받습합니다. 이 인터페이스를 직접 구현 한 경우 구현을 업데이트해야합니다.
 
-    $users = App\User::cursor();
+In addition, the `resolveRouteBinding` method of the `Illuminate\Database\Eloquent\Model` class also now accepts a `$field` parameter. If you were overriding this method, you should update your method to accept this argument.
 
-    foreach ($users as $user) {
-        //
-    }
+또한 `Illuminate\Database\Eloquent\Model`클래스의 `resolveRouteBinding` 메소드도 이제 `$field` 파라메터를 입력받습합니다. 이 메소드를 대체하는 경우이 인수를 입력받도록 메소드를 업데이트해야합니다.
 
-<a name="eloquent"></a>
-### Eloquent
-### Eloquent
+Finally, the `resolveRouteBinding` method of the `Illuminate\Http\Resources\DelegatesToResources` trait also now accepts a `$field` parameter. If you were overriding this method, you should update your method to accept this argument.
 
-<a name="belongs-to-update"></a>
-#### The `BelongsTo::update` Method
-#### `BelongsTo::update` 메소드
+마지막으로 `Illuminate\Http\Resources\DelegatesToResources` trait의 `resolveRouteBinding` 메소드도 이제 `$field` 파라메터를 입력받습합니다. 이 메소드를 대체하는 경우이 인수를 입력받도록 메소드를 업데이트해야합니다.
 
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
+### HTTP
+### HTTP
 
-For consistency, the `update` method of the `BelongsTo` relationship now functions as an ad-hoc update query, meaning it does not provide mass assignment protection or fire Eloquent events. This makes the relationship consistent with the `update` methods on all other types of relationships.
-
-통일성을 위해 `BelongsTo` 관계의 `update` 메소드는 ad-hoc 업데이트 쿼리로 작동합니다. 즉 이제 더 이상 대량할당으로부터 보호되거나, 엘로퀀트 이벤트를 발생시키지 않는다는 것을 의미합니다. 다른 타입의 관계들의 `update` 메소드와 동일하게 동작하게 된 것입니다.
-
-If you would like to update a model attached via a `BelongsTo` relationship and receive mass assignment update protection and events, you should call the `update` method on the model itself:
-
-만약 `BelongsTo` 관계에 있는 모델을 업데이트 하면서 대량 할당 보호 기능, 엘로퀀트 이벤트 기능을 사용하고 싶다면 모델 자체의 `update` 메소드를 호출해야 합니다.
-
-    // Ad-hoc query... no mass assignment protection or events...
-    $post->user()->update(['foo' => 'bar']);
-
-    // Model update... provides mass assignment protection and events...
-    $post->user->update(['foo' => 'bar']);
-
-<a name="eloquent-to-array"></a>
-#### Arrayable & `toArray`
-#### Arrayable & `toArray`
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-The Eloquent model's `toArray` method will now cast any attributes that implement `Illuminate\Contracts\Support\Arrayable` to an array.
-
-엘로퀀트 모델의 `toArray` 메소드는 이제 `Illuminate\Contracts\Support\Arrayable` 를 구현하는 속성을 모두 배열로 캐스팅합니다.
-
-<a name="eloquent-primary-key-type"></a>
-#### Declaration Of Primary Key Type
-#### Primary Key 타입 정의
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-Laravel 6.0 has received [performance optimizations](https://github.com/laravel/framework/pull/28153) for integer key types. If you are using a string as your model's primary key, you should declare the key type using the `$keyType` property on your model:
-
-라라벨 6.0에는 integer 키 타입을 위한 [성능 향상](https://github.com/laravel/framework/pull/28153)이 추가되었습니다. 만약 모델의 Primary Key로 문자열 타입을 사용중이라면, `$keyType` 프로퍼티를 모델에 선언해 주어야 합니다.
-
-    /**
-     * The "type" of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
-
-### Email Verification
-### 이메일 인증
-
-<a name="email-verification-route"></a>
-#### Resend Verification Route HTTP Method
-#### 이메일 인증 재전송 Route HTTP 메소드
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-To prevent possible CSRF attacks, the `email/resend` route registered by the router when using Laravel's built-in email verification has been updated from a `GET` route to a `POST` route. Therefore, you will need to update your frontend to send the proper request type to this route. For example, if you are using the built-in email verification template scaffolding:
-
-가능한 CSRF 공격을 방지하기 위하여 라라벨의 내장된 이메일 인증 기능의 `email/resend` 라우트가 `GET` 라우트에서 `POST` 라우트로 변경되었습니다. 그러므로 여러분은 이 라우트로 알맞은 메소드로 리퀘스트를 보내도록 프론트엔드 코드를 수정해야 합니다. 예를 들어, 만약 내장된 이메일 인증 기능을 수정하지 않고 사용중이라면: 
-
-    {{ __('Before proceeding, please check your email for a verification link.') }}
-    {{ __('If you did not receive the email') }},
-
-    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-        @csrf
-
-        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-            {{ __('click here to request another') }}
-        </button>.
-    </form>
-
-<a name="mustverifyemail-contract"></a>
-#### The `MustVerifyEmail` Contract
-#### `MustVerifyEmail` 인터페이스
+#### PSR-7 Compatibility
+#### PSR-7 호환성
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-A new `getEmailForVerification` method has been added to the `Illuminate\Contracts\Auth\MustVerifyEmail` contract. If you are manually implementing this contract, you should implement this method. This method should return the object's associated email address. If your `App\User` model is using the `Illuminate\Auth\MustVerifyEmail` trait, no changes are required, as this trait implements this method for you.
+The Zend Diactoros library for generating PSR-7 responses has been deprecated. If you are using this package for PSR-7 compatibility, please install the `nyholm/psr7` Composer package instead. In addition, please install the `^2.0` release of the `symfony/psr-http-message-bridge` Composer package.
 
-새로운 `getEmailForVerification` 메소드가 `Illuminate\Contracts\Auth\MustVerifyEmail` 인터페이스에 추가되었습니다. 만약 이 인터페이스를 직접 구현해서 사용하고 있다면, 이 메소드도 구현해야 합니다. 만약 `App\User` 모델이 `Illuminate\Auth\MustVerifyEmail` trait을 사용중이라면 이 trait이 앞서 언급한 메소드를 구현하고 있기 때문에 별도의 수정사항이 필요하지 않습니다.
-
-<a name="email-verification-route-change"></a>
-#### Email Verification Route Change
-#### Email 확인 경로 변경
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-The route path for verifying emails has changed from `/email/verify/{id}` to `/email/verify/{id}/{hash}`. Any email verification emails that were sent prior to upgrading to Laravel 6.x will not longer be valid and will display a 404 page. If you wish, you may define a route matching the old verification URL path and display an informative message for your users that asks them to re-verify their email address.
-
-이메일 확인 경로가 `/email/verify/{id}`에서 `/email/verify/{id}/{hash}`로 변경되었습니다. Laravel 6.x로 업그레이드하기 전에 전송 된 이메일 확인 이메일은 더 이상 유효하지 않으며 404 페이지를 표시합니다. 원하는 경우 이전 확인 URL 경로와 일치하는 경로를 정의하고 사용자에게 이메일 주소를 다시 확인하도록 요청하는 정보 메시지를 표시 할 수 있습니다.
-
-<a name="helpers"></a>
-### Helpers
-### 헬퍼들
-
-#### String & Array Helpers Package
-#### 문자열 & 배열 헬퍼 패키지
-
-**Likelihood Of Impact: High**
-**영향 가능성: 높음**
-
-All `str_` and `array_` helpers have been moved to the new `laravel/helpers` Composer package and removed from the framework. If desired, you may update all calls to these helpers to use the `Illuminate\Support\Str` and `Illuminate\Support\Arr` classes. Alternatively, you can add the new `laravel/helpers` package to your application to continue using these helpers:
-
-모든 `str_` 과 `array_` 헬퍼들이 새로운 `laravel/helpers` 컴포저 패키지로 이동되었고 프레임워크에서는 제거되었습니다. 원한다면 이 헬퍼들에 대한 호출을 `Illuminate\Support\Str`과 `Illuminate\Support\Arr` 클래스로 변경해도 됩니다. 아니면 `laravel/helpers` 패키지를 어플리케이션에 추가하고 헬퍼들을 게속 사용 할 수 있습니다.
-
-    composer require laravel/helpers
-
-### Localization
-### 다국어
-
-<a name="trans-and-trans-choice"></a>
-#### The `Lang::trans` & `Lang::transChoice` Methods
-#### `Lang::trans` & `Lang::transChoice` 메소드들
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-The `Lang::trans` and `Lang::transChoice` methods of the translator have been renamed to `Lang::get` and `Lang::choice`.
-
-번역 기능의 `Lang::trans` 와 `Lang::transChoice` 메소드의 이름이 `Lang::get` 과 `Lang::choice` 로 변경되었습니다.
-
-In addition, if you are manually implementing the `Illuminate\Contracts\Translation\Translator` contract, you should update your implementation's `trans` and `transChoice` methods to `get` and `choice`.
-
-또한, 만약 `Illuminate\Contracts\Translation\Translator` 인터페이스를 직접 구현해서 사용중이라면 구현체의 `trans` 와 `transChoice` 메소드의 이름을 `get` 과 `choice`로 변경해주세요.
-
-<a name="get-from-json"></a>
-#### The `Lang::getFromJson` Method
-#### `Lang::getFromJson` 메소드
-
-**Likelihood Of Impact: Medium**
-**영향 가능성: 중간**
-
-The `Lang::get` and `Lang::getFromJson` methods have been consolidated. Calls to the `Lang::getFromJson` method should be updated to call `Lang::get`.
-
-`Lang::get` 과 `Lang::getFromJson` 메소드가 통합되었습니다. `Lang::getFromJson` 메소드를 호출하는 부분은 모두 `Lang::get` 를 호출하도록 변경되어야 합니다.
-
-> {note} You should run the `php artisan view:clear` Artisan command to avoid Blade errors related to the removal of `Lang::transChoice`, `Lang::trans`, and `Lang::getFromJson`.
-
-> {note} `Lang::transChoice`, `Lang::trans` 및 `Lang::getFromJson` 제거와 관련된 블레이드 오류를 피하려면 `php artisan view:clear` 아티즌 명령을 실행해야합니다.
+PSR-7 응답을 생성하기위한 Zend Diactoros 라이브러리는 더 이상 사용되지 않습니다. PSR-7 호환성을 위해이 패키지를 사용하는 경우, 대신 `nyholm/psr7` Composer 패키지를 설치하십시오. 또한 `symfony/psr-http-message-bridge` Composer 패키지의 `^2.0` 릴리스를 설치하십시오.
 
 ### Mail
-### 메일
+### Mail
 
-#### Mandrill & SparkPost Drivers Removed
-#### Mandrill & SpartPost 드라이버 삭제
+#### Configuration File Changes
+#### 설정 파일 변경
 
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
+**Likelihood Of Impact: Optional**
+**영향 가능성: 선택적**
 
-The `mandrill` and `sparkpost` mail drivers have been removed. If you would like to continue using either of these drivers, we encourage you to adopt a community maintained package of your choice that provides the driver.
+In order to support multiple mailers, the default `mail` configuration file has changed in Laravel 7.x to include an array of `mailers`. However, in order to preserve backwards compatibility, the Laravel 6.x format of this configuration file is still supported. So, no changes are **required** when upgrading to Laravel 7.x; however, you may wish to [examine the new `mail` configuration file](https://github.com/laravel/laravel/blob/develop/config/mail.php) structure and update your file to reflect the changes.
 
-`mandrill` 과 `sparkpost` 메일 드라이버들이 삭제되었습니다. 만약 이 드라이버들을 계속 사용하고 싶다면 해당 드라이버들을 제공하는 커뮤니티 기반의 패키지를 사용하길 권합니다.
+여러 메일러를 지원하기 위해 Laravel 7.x에서 기본 `mail` 설정 파일이 메일러 배열을 포함하도록 변경되었습니다. 그러나 이전 버전과의 호환성을 유지하기 위해이 설정 파일의 Laravel 6.x 형식을 계속 지원합니다. 따라서 Laravel 7.x로 업그레이드 할 때 변경이 필요하지 않습니다. 그러나, 당신은 [새로운 `mail` 설정 파일을 검토](https://github.com/laravel/laravel/blob/develop/config/mail.php) 하여 구조를 변경하고 파일을 업데이트하여 변경 사항을 반영 할 수 있습니다.
 
-### Notifications
-### 알림
-
-#### Nexmo Routing Removed
-#### Nexmo 라우팅 삭제
-
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
-
-A lingering part of the Nexmo notification channel was removed from the core of the framework. If you're relying on routing Nexmo notifications you should manually implement the `routeNotificationForNexmo` method on your notifiable entity [as described in the documentation](/docs/{{version}}/notifications#routing-sms-notifications).
-
-Nexmo 알림 채널이 마침내 프레임워크의 코어에서 제거되었습니다. 만약 Nexmo 라우팅에 의존하고 있다면 `routeNotificationForNexmo` 메소드를 [문서에 설명된 대로](/docs/{{version}}/notifications#routing-sms-notifications) notifiable entity에 구현하세요.
-
-### Password Reset
-### 비밀번호 초기화
-
-#### Password Validation
-#### 비밀번호 검증
-
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
-
-The `PasswordBroker` no longer restricts or validates passwords. Password validation was already being handled by the `ResetPasswordController` class, making the broker's validations redundant and impossible to customize. If you are manually using the `PasswordBroker` (or `Password` facade) outside of the built-in `ResetPasswordController`, you should validate all passwords before passing them to the broker.
-
-`PasswordBroker`는 이제 비밀번호를 검증하지 않습니다. `ResetPasswordController`가 이미 비밀번호 검증을 처리해주기 때문에, 브로커의 검증과정은 중복이며 커스터마이징이 불가능합니다. 만약 내장된 `ResetPasswordController` 와는 별도로 `PasswordBroker` (혹은 `Password` 파사드)를 사용하고 있다면 브로커로 넘기기 전에 검증해야 합니다.
-
-### Queues
-### 큐
-
-<a name="queue-retry-limit"></a>
-#### Queue Retry Limit
-#### 큐 재시도 횟수 제한
+<a name="markdown-mail-template-updates"></a>
+#### Markdown Mail Template Updates
+#### 마크 다운 메일 템플릿 업데이트
 
 **Likelihood Of Impact: Medium**
 **영향 가능성: 중간**
 
-In previous releases of Laravel, the `php artisan queue:work` command would retry jobs indefinitely. Beginning with Laravel 6.0, this command will now try a job one time by default. If you would like to force jobs to be tried indefinitely, you may pass `0` to the `--tries` option:
+The default Markdown mail templates have been refreshed with a more professional and appealing design. In addition, the undocumented `promotion` Markdown mail component has been removed.
 
-라라벨의 이전 릴리즈에서는, `php artisan queue:work` 명령어가 Job 처리를 무제한으로 재시도했습니다. 라라벨 6.0 부터는 Job 처리를 한번만 시도합니다. 만약 무제한으로 재시도 하도록 강제하고 싶다면 `--tries` 옵션에 `0` 을 넣으세요:
+보다 전문적이고 매력적인 디자인으로 기본 마크 다운 메일 템플릿이 새로 고쳐졌습니다. 또한 문서화되지 않은 `promotion` 마크 다운 메일 컴포넌트가 제거되었습니다.
 
-    php artisan queue:work --tries=0
+Because indentitation has special meaning within Markdown, Markdown mail templates expect unindented HTML. If you've previously published Laravel's default mail templates, you'll need to re-publish your mail templates or manually unindent them:
 
-In addition, please ensure your application's database contains a `failed_jobs` table. You can generate a migration for this table using the `queue:failed-table` Artisan command:
+들여 쓰기는 Markdown 내에서 특별한 의미를 갖기 때문에 Markdown 메일 템플릿에는 들여 쓰기되지 않은 HTML이 필요합니다. 이전에 라라벨의 기본 메일 템플릿을 게시-published 한 경우 메일 템플릿을 다시 게시하거나 수동으로 들여 쓰기를 해제해야합니다.
 
-또한, 어플리케이션의 데이터베이스에 `failed_jobs` 테이블이 있는지 확인하세요. 이 테이블에 대한 마이그레이션은 `queue:failed-table` 아티즌 커맨드로 생성할 수 있습니다.
+    php artisan vendor:publish --tag=laravel-mail --force
 
-    php artisan queue:failed-table
+### Queue
+### Queue
 
-### Requests
-### 리퀘스트
+#### Deprecated `--daemon` Flag Removed
+#### 더 이상 사용되지 않는 `-daemon` 플래그 제거
 
-<a name="the-input-facade"></a>
-#### The `Input` Facade
-#### `Input` 파사드
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The deprecated `--daemon` flag on the `queue:work` command has been removed. This flag is no longer necessary as the worker runs as a daemon by default.
+
+`queue:work` 명령에서 사용되지 않는 `--daemon` 플래그가 제거되었습니다. 워커가 기본적으로 데몬으로 실행되므로이 ​​플래그는 더 이상 필요하지 않습니다.
+
+### Resources
+### Resources
+
+#### The `Illuminate\Http\Resources\Json\Resource` Class
+#### `Illuminate\Http\Resources\Json\Resource` Class
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The deprecated `Illuminate\Http\Resources\Json\Resource` class has been removed. Your resources should extend the `Illuminate\Http\Resources\Json\JsonResource` class instead.
+
+더 이상 사용되지 않는 `Illuminate\Http\Resources\Json\Resource` 클래스가 제거되었습니다. 리소스는 대신`Illuminate\Http\Resources\Json\JsonResource` 클래스를 확장해야합니다.
+
+### Routing
+### Routing
+
+#### The Router `getRoutes` Method
+#### 라우터 `getRoutes` 메소드
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The router's `getRoutes` method now returns an instance of `Illuminate\Routing\RouteCollectionInterface` instead of `Illuminate\Routing\RouteCollection`.
+
+라우터의 `getRoutes` 메소드는 이제 `Illuminate\Routing\RouteCollection` 대신 `Illuminate\Routing\RouteCollectionInterface`의 인스턴스를 반환합니다.
+
+<a name="unique-route-names"></a>
+#### Unique Route Names
+#### 고유한 라우트 이름
 
 **Likelihood Of Impact: Medium**
 **영향 가능성: 중간**
 
-The `Input` facade, which was primarily a duplicate of the `Request` facade, has been removed. If you are using the `Input::get` method, you should now call the `Request::input` method. All other calls to the `Input` facade may simply be updated to use the `Request` facade.
+Even though never officially documented, previous Laravel releases allow you to define two different routes with the same name. In Laravel 7 this is no longer possible and you should always provide unique names for your routes. Routes with duplicate names can cause unexpected behavior in multiple areas of the framework.
 
-`Request` 파사드와 중복되었던 `Input` 파사드가 삭제되었습니다. 만약 `Input::get` 메소드를 사용중이라면 `Request::input` 메소드를 호출하도록 변경해야 합니다. `Input` 파사드의 다른 메소드들은 그냥 `Request` 파사드를 사용하도록 변경하면 됩니다.
+공식적으로 문서화 된 적이 없지만 이전 Laravel 릴리스에서는 동일한 이름으로 두 개의 다른 경로를 정의 할 수 있습니다. Laravel 7에서는 더 이상 가능하지 않으므로 항상 라우트에 고유한 이름을 제공해야합니다. 이름이 중복 된 라우트는 프레임 워크의 여러 영역에서 예기치 않은 동작을 일으킬 수 있습니다.
 
-### Scheduling
-### 스케줄링
+<a name="cors-support"></a>
+#### CORS Support
+#### CORS 지원
 
-#### The `between` Method
-#### `between` 메소드
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
+
+Cross-Origin Resource Sharing (CORS) support is now integrated by default. If you are using any third-party CORS libraries you are now advised to use the [new `cors` configuration file](https://github.com/laravel/laravel/blob/develop/config/cors.php).
+
+Cross-Origin Resource Sharing (CORS) 지원이 기본적으로 통합되었습니다. 타사 CORS 라이브러리를 사용하는 경우 이제 [새로운 `cors` 설정 파일](https://github.com/laravel/laravel/blob/develop/config/cors.php) 을 사용하는 것이 좋습니다.
+
+Next, install the underlying CORS library as a dependency of your application:
+
+다음으로 기본 CORS 라이브러리를 애플리케이션의 의존성으로 설치하십시오.
+
+    composer require fruitcake/laravel-cors
+
+Finally, add the `\Fruitcake\Cors\HandleCors::class` middleware to your `App\Http\Kernel` global middleware list.
+
+마지막으로 `\Fruitcake\Cors\HandleCors::class` 미들웨어를 `App\Http\Kernel` 글로벌 미들웨어 목록에 추가하십시오.
+
+### Session
+### Session
+
+#### The `array` Session Driver
+#### `array` Session Driver
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-In previous releases of Laravel, the scheduler's `between` method exhibited confusing behavior across date boundaries. For example:
+The `array` session driver data is now persistent for the current request. Previously, data stored in the `array` session could not be retrieved even during the current request.
 
-라라벨의 이전 버전에서는 스케줄러의 `between` 메소드가 날짜 형식을 다루는데에 있어 혼란스럽게 동작했습니다. 예를 들면:
+`array`세션 드라이버 데이터는 이제 현재 request에 대해 영속적입니다. 이전에는 현재 request 도중에도 `array`세션에 저장된 데이터를 검색 할 수 없었습니다.
 
-    $schedule->command('list')->between('23:00', '4:00');
+### Testing
+### Testing
 
-For most users, the expected behavior of this method would be to run the `list` command every minute for all minutes between 23:00 and 4:00. However, in previous releases of Laravel, the scheduler ran the `list` command every minute between 4:00 and 23:00, essentially swapping the time thresholds. In Laravel 6.0, this behavior has been corrected.
+<a name="assert-see"></a>
+#### The `assertSee` Assertion
+#### `assertSee` Assertion
 
-대부분의 사용자는 이 메소드가 23시와 4시 사이의 매 분마다 `list` 커맨드를 실행할 거라고 예상합니다. 하지만 라라벨의 이전 버전에서 이 스케줄러는 4시와 23시 사이의 매 분마다라 `list` 함수를 호출했습니다. 이는 본질적으로 지정한 시간이 뒤바뀌는 것입니다. 라라벨 6.0 버전에서는 이 동작이 수정되었습니다.
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
-### Storage
-### 스토리지
+The `assertSee` and `assertDontSee` assertions on the `TestResponse` class will now automatically escape values. If you are manually escaping any values passed to these assertions you should no longer do so. If you need to assert unescaped values, you may pass `false` as the second argument to the method.
 
-<a name="rackspace-storage-driver"></a>
-#### Rackspace Storage Driver Removed
-#### Rackspace 스토리지 드라이버 삭제
+`TestResponse` 클래스의 `assertSee` 및 `assertDontSee` 검증은 이제 자동으로 값을 이스케이프합니다. 이러한 검증에 전달 된 값을 수동으로 이스케이프 처리하면 더 이상 그렇게하지 않아야합니다. 이스케이프 처리되지 않은 값을 지정해야하는 경우 메소드의 두 번째 인수로 `false`를 전달할 수 있습니다.
+
+<a name="test-response"></a>
+#### The `TestResponse` Class
+#### `TestResponse` Class
 
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-The `rackspace` storage driver has been removed. If you would like to continue using Rackspace as a storage provider, we encourage you to adopt a community maintained package of your choice that provides this driver.
+The `Illuminate\Foundation\Testing\TestResponse` class has been renamed to `Illuminate\Testing\TestResponse`. If you're extending this class, make sure to update the namespace.
 
-`rackspace` 스토리지 드라이버가 삭제되었습니다. Rackspace를 스토리지 프로바이더로 계속 사용하려면 커뮤니티에서 개발되는 패키지들 중 이 드라이버를 제공하는 것을 사용하길 권합니다.
+`Illuminate\Foundation\Testing\TestResponse` 클래스의 이름이 `Illuminate\Testing\TestResponse`로 변경되었습니다. 이 클래스를 확장하는 경우 네임스페이스를 업데이트하십시오.
 
-### URL Generation
-### URL 생성
+<a name="assert-class"></a>
+#### The `Assert` Class
+#### `Assert` Class
 
-#### Route URL Generation & Extra Parameters
-#### 라우트 URL 생성 & 추가 파라미터
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
 
-In previous releases of Laravel, passing associative array parameters to the `route` helper or `URL::route` method would occasionally use these parameters as URI values when generating URLs for routes, even if the parameter value had no matching key within the route path. Beginning in Laravel 6.0, these values will be attached to the query string instead. For example, consider the following route:
+The `Illuminate\Foundation\Testing\Assert` class has been renamed to `Illuminate\Testing\Assert`. If you're using this class, make sure to update the namespace.
 
-라라벨의 이전 릴리스에서는 연관 배열 파라메터를 `route` 헬퍼 또는 `URL::route` 메소드에 전달하면 파라메터 값에 라우트 내에 일치하는 키가 없는 경우에도 라우트에 대한 URL을 생성 할 때 이러한 파라메터를 URI 값으로 사용하는 경우가 있었습니다. Laravel 6.0부터는 이러한 값이 대신 쿼리 문자열에 첨부됩니다. 예를 들어 다음 경로를 고려하십시오.
-
-    Route::get('/profile/{location}', function ($location = null) {
-        //
-    })->name('profile');
-
-    // Laravel 5.8: http://example.com/profile/active
-    echo route('profile', ['status' => 'active']);
-
-    // Laravel 6.0: http://example.com/profile?status=active
-    echo route('profile', ['status' => 'active']);
-
-The `action` helper and `URL::action` method are also affected by this change:
-
-`action` 헬퍼와 `URL::action` 메소드도 이 변경의 영향을 받습니다.
-
-    Route::get('/profile/{id}', 'ProfileController@show');
-
-    // Laravel 5.8: http://example.com/profile/1
-    echo action('ProfileController@show', ['profile' => 1]);
-
-    // Laravel 6.0: http://example.com/profile?profile=1
-    echo action('ProfileController@show', ['profile' => 1]);
+`Illuminate\Foundation\Testing\Assert` 클래스의 이름이 `Illuminate\Testing\Assert`로 변경되었습니다. 이 클래스를 사용하는 경우 네임스페이스를 업데이트하십시오.
 
 ### Validation
 ### 검증
 
-#### FormRequest `validationData` Method
-#### FormRequest `validationData` 메소드
+<a name="the-different-rule"></a>
+#### The `different` Rule
+#### `different` Rule
 
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
+**Likelihood Of Impact: Medium**
+**영향 가능성: 중간**
 
-The form request's `validationData` method was changed from `protected` to `public`. If you are overriding this method in your implementation, you should update the visibility to `public`.
+The `different` rule will now fail if one of the specified parameters is missing from the request.
 
-폼 요청-request의 `validationData` 메소드가 `protected`에서 `public`으로 변경되었습니다. 구현에서 이 메소드를 재정의하는 경우 가시성을 `public`으로 업데이트해야합니다.
+지정된 파라메터 중 하나가 요청에서 누락되면 `different`규칙이 실패합니다.
 
 <a name="miscellaneous"></a>
 ### Miscellaneous
 ### 기타
 
-We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.8...master) and choose which updates are important to you.
+We also encourage you to view the changes in the `laravel/laravel` [GitHub repository](https://github.com/laravel/laravel). While many of these changes are not required, you may wish to keep these files in sync with your application. Some of these changes will be covered in this upgrade guide, but others, such as changes to configuration files or comments, will not be. You can easily view the changes with the [GitHub comparison tool](https://github.com/laravel/laravel/compare/6.x...master) and choose which updates are important to you.
 
-`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항들을 확인해보시길 권합니다. 변경사항들 중 많은 부분들은 필수는 아니지만, 업데이트 된 파일들을 여러분의 어플리케이션에 동기화 해두는게 좋습니다. 변경사항들 중 일부는 이 업그레이드 가이드에서 설명되었지만 설정 파일이나 코멘트같은 다른 변경사항들은 그렇지 않았습니다. [GitHub comparison tool](https://github.com/laravel/laravel/compare/5.8...master)을 이용해 변경사항들을 쉽게 살펴보고 어떤 변경사항이 여러분에게 중요한지 살펴보세요.
+`laravel/laravel` [GitHub 저장소](https://github.com/laravel/laravel)에서 변경사항들을 확인해보시길 권합니다. 변경사항들 중 많은 부분들은 필수는 아니지만, 업데이트 된 파일들을 여러분의 어플리케이션에 동기화 해두는게 좋습니다. 변경사항들 중 일부는 이 업그레이드 가이드에서 설명되었지만 설정 파일이나 코멘트같은 다른 변경사항들은 그렇지 않았습니다. [GitHub comparison tool](https://github.com/laravel/laravel/compare/6.x...master)을 이용해 변경사항들을 쉽게 살펴보고 어떤 변경사항이 여러분에게 중요한지 살펴보세요.

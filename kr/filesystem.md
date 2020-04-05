@@ -76,6 +76,15 @@ Once a file has been stored and the symbolic link has been created, you can crea
 
     echo asset('storage/file.txt');
 
+You may configure additional symbolic links in your `filesystems` configuration file. Each of the configured links will be created when you run the `storage:link` command:
+
+`filesystems`설정 파일에서 추가적인 심볼릭 링크를 구성 할 수 있습니다. `storage:link` 커맨드를 실행할 때 설정한 각 링크가 생성됩니다.
+
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+        public_path('images') => storage_path('app/images'),
+    ],
+
 <a name="the-local-driver"></a>
 ### The Local Driver
 ### 로컬 드라이버
@@ -301,7 +310,6 @@ If you would like to pre-define the host for files stored on a disk using the `l
         'url' => env('APP_URL').'/storage',
         'visibility' => 'public',
     ],
-
 
 <a name="file-metadata"></a>
 ### File Metadata

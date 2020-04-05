@@ -167,6 +167,9 @@
     <td align="center"><a href="https://github.com/ongyjho"><img src="https://avatars2.githubusercontent.com/u/58408421?v=4" width="100px;" alt=""/><br /><sub><b>Yeojin Hong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ongyjho" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/junho3"><img src="https://avatars3.githubusercontent.com/u/54342973?v=4" width="100px;" alt=""/><br /><sub><b>junho3</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=junho3" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/gyoungeunbae"><img src="https://avatars3.githubusercontent.com/u/24830023?v=4" width="100px;" alt=""/><br /><sub><b>Ola</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=gyoungeunbae" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

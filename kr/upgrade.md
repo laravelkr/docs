@@ -215,6 +215,8 @@ Previously, dates would be serialized to a format like the following: `2019-12-0
 
 If you would like to keep using the previous behavior you can override the `serializeDate` method on your model:
 
+이전 동작을 계속 사용하려면 모델에서 `serializeDate` 메소드를 대체 할 수 있습니다.
+
     use DateTimeInterface;
 
     /**

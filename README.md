@@ -163,6 +163,7 @@
     <td align="center"><a href="https://hajaebong.github.io/"><img src="https://avatars0.githubusercontent.com/u/31947247?v=4" width="100px;" alt=""/><br /><sub><b>Jaebong,Ha</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=hajaebong" title="Documentation">📖</a></td>
     <td align="center"><a href="https://imon.dev"><img src="https://avatars1.githubusercontent.com/u/18586282?v=4" width="100px;" alt=""/><br /><sub><b>Youchan</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=YouchanChung" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Jeongwoo-Han"><img src="https://avatars0.githubusercontent.com/u/60590468?v=4" width="100px;" alt=""/><br /><sub><b>Jeongwoo-Han</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Jeongwoo-Han" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/wjdgkrud45"><img src="https://avatars3.githubusercontent.com/u/61770473?v=4" width="100px;" alt=""/><br /><sub><b>wjdgkrud45</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=wjdgkrud45" title="Documentation">📖</a></td>
   </tr>
 </table>
 

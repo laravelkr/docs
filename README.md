@@ -1,6 +1,6 @@
 # 라라벨 한국어 매뉴얼
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-39-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-67-orange.svg?style=flat-square)](#contributors)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
 ![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)

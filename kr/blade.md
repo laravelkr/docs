@@ -36,7 +36,20 @@
     - [Method Field](#method-field)
     - [메소드 필드](#method-field)
     - [Validation Errors](#validation-errors)
-    - [유효성 검증 실패](#validation-errors)
+- [Components](#components)
+- [컴포넌트](#components)
+    - [Displaying Components](#displaying-components)
+    - [컴포넌트 표시](#displaying-components)
+    - [Passing Data To Components](#passing-data-to-components)
+    - [컴포넌트에 데이터 전달하기](#passing-data-to-components)
+    - [Managing Attributes](#managing-attributes)
+    - [속성 관리](#managing-attributes)
+    - [Slots](#slots)
+    - [슬롯](#slots)
+    - [Inline Component Views](#inline-component-views)
+    - [인라인 컴포넌트 뷰](#inline-component-views)
+    - [Anonymous Components](#anonymous-components)
+    - [익명 컴포넌트](#anonymous-components)
 - [Including Subviews](#including-subviews)
 - [하위 뷰파일 포함시키기](#including-sub-views)
     - [Rendering Views For Collections](#rendering-views-for-collections)
@@ -140,98 +153,6 @@ Blade views may be returned from routes using the global `view` helper:
     Route::get('blade', function () {
         return view('child');
     });
-
-<a name="components-and-slots"></a>
-## Components & Slots
-## 컴포넌트 & 슬롯
-
-Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. First, let's imagine a reusable "alert" component we would like to reuse throughout our application:
-
-컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 먼저 애플리케이션에서 재사용이 가능한 "경고(alert)" 컴포넌트를 생각해 보겠습니다.
-
-    <!-- /resources/views/alert.blade.php -->
-
-    <div class="alert alert-danger">
-        {{ $slot }}
-    </div>
-
-The `{{ $slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Blade directive:
-
-이 `{{ $slot }}` 변수는 컴포넌트에 주입될 내용을 가지고 있습니다. 이 컴포넌트를 구성하기 위해서 `@component` 블레이드 지시어를 사용할 수 있습니다.
-
-    @component('alert')
-        <strong>Whoops!</strong> Something went wrong!
-    @endcomponent
-
-To instruct Laravel to load the first view that exists from a given array of possible views for the component, you may use the `componentFirst` directive:
-
-Laravel이 컴포넌트의 가능한 뷰 배열에서 존재하는 첫 번째 뷰를 로드하도록 지시하려면, `componentFirst` 지시어를 사용할 수 있습니다.
-
-    @componentfirst(['custom.alert', 'alert'])
-        <strong>Whoops!</strong> Something went wrong!
-    @endcomponentfirst
-
-Sometimes it is helpful to define multiple slots for a component. Let's modify our alert component to allow for the injection of a "title". Named slots may be displayed by "echoing" the variable that matches their name:
-
-때로는 컴포넌트에 여러개의 슬롯을 정의하는 것이 유용합니다. "제목(title)" 주입이 가능하도록 경고(alert) 컴포넌트를 수정해보겠습니다. 이름이 지정된 슬롯은 일치하는 이름의 변수가 "출력" 되도록 표시할 수 있습니다.
-
-    <!-- /resources/views/alert.blade.php -->
-
-    <div class="alert alert-danger">
-        <div class="alert-title">{{ $title }}</div>
-
-        {{ $slot }}
-    </div>
-
-Now, we can inject content into the named slot using the `@slot` directive. Any content not within a `@slot` directive will be passed to the component in the `$slot` variable:
-
-그러면 이제, `@slot` 지시어를 사용하여 이름이 지정된 슬롯에 내용을 주입할 수 있습니다. `@slot` 지시어에 포함되어 있지 않는 컨텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다.
-
-    @component('alert')
-        @slot('title')
-            Forbidden
-        @endslot
-
-        You are not allowed to access this resource!
-    @endcomponent
-
-#### Passing Additional Data To Components
-#### 추가적인 데이터를 컴포넌트로 전달하기
-
-Sometimes you may need to pass additional data to a component. For this reason, you can pass an array of data as the second argument to the `@component` directive. All of the data will be made available to the component template as variables:
-
-컴포넌트로 추가적인 데이터를 전달할 필요가 있는 경우, `@component` 지시어의 두번째 인자로 데이터 배열을 전달하면 됩니다. 전달된 데이터는 컴포넌트 템플릿 에서 변수로 사용 가능합니다.
-
-    @component('alert', ['foo' => 'bar'])
-        ...
-    @endcomponent
-
-#### Aliasing Components
-#### 별칭 컴포넌트
-
-If your Blade components are stored in a subdirectory, you may wish to alias them for easier access. For example, imagine a Blade component that is stored at `resources/views/components/alert.blade.php`. You may use the `component` method to alias the component from `components.alert` to `alert`. Typically, this should be done in the `boot` method of your `AppServiceProvider`:
-
-블레이드 컴포넌트가 서브 디렉토리에 저장되어있다면, 그 컴포넌트에 쉽게 접근하기 위한 별칭을 사용할 수 있습니다. 예를 들어, `resources/views/components/alert.blade.php` 에 저장된 블레이드 컴포넌트가 있다고 생각해봅시다. `component` 메소드를 사용하여 `components.alert`를 `alert`라고 별칭을 지정할 수 있습니다. 일반적으로 이 방법은 `AppServiceProvider` 의 `boot` 메소드 안에서 완료되어야 합니다.
-
-    use Illuminate\Support\Facades\Blade;
-
-    Blade::component('components.alert', 'alert');
-
-Once the component has been aliased, you may render it using a directive:
-
-해당 컴포넌트에 별칭이 지정되면, 지시어를 사용해서 이를 렌더링할 수 있습니다.
-
-    @alert(['type' => 'danger'])
-        You are not allowed to access this resource!
-    @endalert
-
-You may omit the component parameters if it has no additional slots:
-
-컴포넌트에 추가 슬롯이 없는 경우, 컴포넌트 파라미터를 생략할 수 있습니다.
-
-    @alert
-        You are not allowed to access this resource!
-    @endalert
 
 <a name="displaying-data"></a>
 ## Displaying Data
@@ -682,6 +603,363 @@ You may pass [the name of a specific error bag](/docs/{{version}}/validation#nam
     @error('email', 'login')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
+
+<a name="components"></a>
+## Components
+## 컴포넌트
+
+Components and slots provide similar benefits to sections and layouts; however, some may find the mental model of components and slots easier to understand. There are two approaches to writing components: class based components and anonymous components.
+
+컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 그러나 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 컴포넌트 작성에는 클래스 기반 컴포넌트와 익명 컴포넌트의 두 가지 접근 방식이 있습니다.
+
+
+To create a class based component, you may use the `make:component` Artisan command. To illustrate how to use components, we will create a simple `Alert` component. The `make:component` command will place the component in the `App\View\Components` directory:
+
+클래스 기반 컴포넌트를 만들려면 `make:component` 아티즌 커맨드를 사용할 수 있습니다. 컴포넌트 사용 방법을 설명하기 위해 간단한 `Alert` 컴포넌트를 만들어보겠습니다. `make:component` 커맨드로 `App\View\Components` 디렉토리에 컴포넌트를 만듭니다.
+
+    php artisan make:component Alert
+
+The `make:component` command will also create a view template for the component. The view will be placed in the `resources/views/components` directory.
+
+`make:component` 커맨드는 컴포넌트에 대한 뷰템플릿도 만듭니다. 뷰는 `resources/views/components` 디렉토리에 만들어집니다.
+
+#### Manually Registering Package Components
+#### 패키지 컴포넌트 수동 등록
+
+When writing components for your own application, components are automatically discovered within the `app/View/Components` directory and `resources/views/components` directory.
+
+자신의 애플리케이션을 위한 컴포넌트를 만들때는 컴포넌트는 `app/View/Components` 디렉토리 및 `resources/views/components` 디렉토리에서 자동으로 감지됩니다.
+
+However, if you are building a package that utilizes Blade components, you will need to manually register your component class and its HTML tag alias. You should typically register your components in the `boot` method of your package's service provider:
+
+그러나 블레이드 컴포넌트를 사용하는 패키지를 만드는 경우 컴포넌트 클래스와 HTML 별칭 태그를 수동으로 등록해야합니다. 일반적으로 패키지 서비스 제공자의 `boot` 메소드에 컴포넌트를 등록해야합니다.
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Bootstrap your package's services.
+     */
+    public function boot()
+    {
+        Blade::component(AlertComponent::class, 'package-alert');
+    }
+
+Once your component has been registered, it may be rendered using its tag alias:
+
+컴포넌트가 등록되면 별칭 태그을 사용하여 렌더링 될 수 있습니다.
+
+    <x-package-alert/>
+
+<a name="displaying-components"></a>
+### Displaying Components
+### 컴포넌트 표시
+
+To display a component, you may use a Blade component tag within one of your Blade templates. Blade component tags start with the string `x-` followed by the kebab case name of the component class:
+
+컴포넌트를 표시하려면 블레이드 템플릿 중 하나에 블레이드 컴포넌트 태그를 사용할 수 있습니다. 블레이드 컴포넌트 태그는 문자열 `x-`로 시작하고 그 뒤에 컴포넌트 클래스의 케밥 케이스형태의 이름이 옵니다.
+
+    <x-alert/>
+
+    <x-user-profile/>
+
+If the component class is nested deeper within the `App\View\Components` directory, you may use the `.` character to indicate directory nesting. For example, if we assume a component is located at `App\View\Components\Inputs\Button.php`, we may render it like so:
+
+컴포넌트 클래스가 `App\View\Components` 디렉토리에 더 깊게 중첩 된 경우 `.` 문자를 사용하여 디렉토리 중첩을 표시 할 수 있습니다. 예를 들어 컴포넌트가 `App\View\Components\Inputs\Button.php`에 있다고 가정하면 다음과 같이 렌더링 할 수 있습니다.
+
+    <x-inputs.button/>
+
+<a name="passing-data-to-components"></a>
+### Passing Data To Components
+### 컴포넌트에 데이터 전달하기
+
+You may pass data to Blade components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attributes. PHP expressions and variables should be passed to the component via attributes that are prefixed with `:`:
+
+HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 수 있습니다. 하드코딩 된 기본 값은 간단한 HTML 속성을 사용하여 컴포넌트에 전달 할 수 있습니다. PHP 표현식과 변수는 접두사가 `:`인 속성을 통해 컴포넌트에 전달되어야합니다.
+
+    <x-alert type="error" :message="$message"/>
+
+You should define the component's required data in its class constructor. All public properties on a component will automatically be made available to the component's view. It is not necessary to pass the data to the view from the component's `render` method:
+
+클래스 생성자에서 컴포넌트의 필수 데이터를 정의해야합니다. 컴포넌트의 모든 공용 속성은 컴포넌트보기에 자동으로 제공됩니다. 컴포넌트의 `render` 메소드에서 뷰로 데이터를 전달 할 필요는 없습니다 :
+
+    <?php
+
+    namespace App\View\Components;
+
+    use Illuminate\View\Component;
+
+    class Alert extends Component
+    {
+        /**
+         * The alert type.
+         *
+         * @var string
+         */
+        public $type;
+
+        /**
+         * The alert message.
+         *
+         * @var string
+         */
+        public $message;
+
+        /**
+         * Create the component instance.
+         *
+         * @param  string  $type
+         * @param  string  $message
+         * @return void
+         */
+        public function __construct($type, $message)
+        {
+            $this->type = $type;
+            $this->message = $message;
+        }
+
+        /**
+         * Get the view / contents that represent the component.
+         *
+         * @return \Illuminate\View\View|string
+         */
+        public function render()
+        {
+            return view('components.alert');
+        }
+    }
+
+When your component is rendered, you may display the contents of your component's public variables by echoing the variables by name:
+
+컴포넌트가 렌더링 될 때 이름별로 변수를 출력하여 컴포넌트의 공용 변수 컨텐츠를 표시 할 수 있습니다.
+
+    <div class="alert alert-{{ $type }}">
+        {{ $message }}
+    </div>
+
+#### Component Methods
+#### 컴포넌트 메소드
+
+In addition to public variables being available to your component template, any public methods on the component may also be executed. For example, imagine a component that has a `isSelected` method:
+
+컴포넌트 템플릿에 사용 가능한 공용 변수 외에도 컴포넌트의 모든 공용 메서드가 실행될 수도 있습니다. 예를 들어, `isSelected` 메소드가 있는 컴포넌트를 생각해보십시오.
+
+    /**
+     * Determine if the given option is the current selected option.
+     *
+     * @param  string  $option
+     * @return bool
+     */
+    public function isSelected($option)
+    {
+        return $option === $this->selected;
+    }
+
+You may execute this method from your component template by invoking the variable matching the name of the method:
+
+메소드 이름과 일치하는 변수를 호출하여 컴포넌트 템플릿에서 이 메소드를 실행할 수 있습니다.
+
+    <option {{ $isSelected($value) ? 'selected="selected"' : '' }} value="{{ $value }}">
+        {{ $label }}
+    </option>
+
+If the component method accepts no arguments, you may simple render the method name as a variable instead of invoking it as a function. For example, imagine a component method that simply returns a string:
+
+컴포넌트 메소드가 인수를 허용하지 않으면 메소드 이름을 함수로 호출하는 대신 변수로 간단히 렌더링 할 수 있습니다. 예를 들어 단순히 문자열을 반환하는 컴포넌트 메서드를 생각해보십시오.
+
+    /**
+     * Get the size.
+     *
+     * @return string
+     */
+    public function size()
+    {
+        return 'Large';
+    }
+
+Within a component, you may retrieve the value of the method as a variable:
+
+컴포넌트 내에서 메소드의 값을 변수로 검색 할 수 있습니다.
+
+    {{ $size }}
+
+#### Additional Dependencies
+#### 추가 의존성
+
+If your component requires dependencies from Laravel's [service container](/docs/{{version}}/container), you may list them before any of the component's data attributes and they will automatically be injected by the container:
+
+컴포넌트에 라라벨의 [service container](/docs/{{version}}/container)의 종속성이 필요한 경우 컴포넌트의 데이터 속성 앞에 나열하면 컨테이너에 의해 자동으로 주입됩니다.
+
+    use App\AlertCreator
+
+    /**
+     * Create the component instance.
+     *
+     * @param  \App\AlertCreator  $creator
+     * @param  string  $type
+     * @param  string  $message
+     * @return void
+     */
+    public function __construct(AlertCreator $creator, $type, $message)
+    {
+        $this->creator = $creator;
+        $this->type = $type;
+        $this->message = $message;
+    }
+
+<a name="managing-attributes"></a>
+### Managing Attributes
+### 속성 관리
+
+We've already examined how to pass data attributes to a component; however, sometimes you may need to specify additional HTML attributes, such as `class`, that are not part of the data required for a component to function. Typically, you want to pass these additional attributes down to the root element of the component template. For example, imagine we want to render an `alert` component like so:
+
+우리는 이미 데이터 속성을 컴포넌트에 전달하는 방법을 살펴 보았습니다. 그러나 때때로 컴포넌트가 작동하는 데 필요한 데이터의 일부가 아닌 `class`와 같은 추가 HTML 속성을 지정해야 할 수도 있습니다. 일반적으로 이러한 추가 속성을 컴포넌트 템플릿의 루트 요소로 전달하려고합니다. 예를 들어, 다음과 같이 `alert` 컴포넌트를 렌더링한다고 가정하십시오.
+
+    <x-alert type="error" :message="$message" class="mt-4"/>
+
+All of the attributes that are not part of the component's constructor will automatically be added to the component's "attribute bag". This attribute bag is automatically made available to the component via the `$attributes` variable. All of the attributes may be rendered within the component by echoing this variable:
+
+컴포넌트 생성자의 일부가 아닌 모든 속성은 컴포넌트의 "attribute bag"에 자동으로 추가됩니다. 이 속성 백은 `$attributes` 변수를 통해 컴포넌트에 자동으로 제공됩니다. 이 변수를 출력하여 컴포넌트 내에서 모든 속성을 렌더링 할 수 있습니다.
+
+    <div {{ $attributes }}>
+        <!-- Component Content -->
+    </div>
+
+#### Default / Merged Attributes
+#### 기본 / 병합 속성
+
+Sometimes you may need to specify default values for attributes or merge additional values into some of the component's attributes. To accomplish this, you may use the attribute bag's `merge` method:
+
+때로는 속성의 기본값을 지정하거나 추가 값을 컴포넌트의 속성 중 일부에 병합해야 할 수도 있습니다. 이를 달성하기 위해 속성 백의 `merge`방법을 사용할 수 있습니다.
+
+    <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
+        {{ $message }}
+    </div>
+
+If we assume this component is utilized like so:
+
+이 컴포넌트가 다음과 같이 사용된다고 가정하면
+
+    <x-alert type="error" :message="$message" class="mb-4"/>
+
+The final, rendered HTML of the component will appear like the following:
+
+컴포넌트의 최종 렌더링 HTML은 다음과 같이 나타납니다.
+
+    <div class="alert alert-error mb-4">
+        <!-- Contents of the $message variable -->
+    </div>
+
+<a name="slots"></a>
+### Slots
+### 슬롯
+
+Often, you will need to pass additional content to your component via "slots". Let's imagine that an `alert` component we created has the following markup:
+
+때로는 "슬롯"을 통해 추가 컨텐츠를 컴포넌트에 전달해야합니다. 우리가 만든 `alert`컴포넌트에 다음과 같은 마크 업이 있다고 가정 해 봅시다.
+
+    <!-- /resources/views/components/alert.blade.php -->
+
+    <div class="alert alert-danger">
+        {{ $slot }}
+    </div>
+
+We may pass content to the `slot` by injecting content into the component:
+
+컴포넌트에 컨텐츠를 주입하여 `slot`에 컨텐츠를 전달할 수 있습니다.
+
+    <x-alert>
+        <strong>Whoops!</strong> Something went wrong!
+    </x-alert>
+
+Sometimes a component may need to render multiple different slots in different locations within the component. Let's modify our alert component to allow for the injection of a "title":
+
+때로는 컴포넌트가 컴포넌트 내의 다른 위치에 여러 개의 다른 슬롯을 렌더링해야 할 수도 있습니다. "제목"을 삽입 할 수 있도록 경고 컴포넌트를 수정하겠습니다.
+
+    <!-- /resources/views/components/alert.blade.php -->
+
+    <span class="alert-title">{{ $title }}</span>
+
+    <div class="alert alert-danger">
+        {{ $slot }}
+    </div>
+
+You may define the content of the named slot using the `x-slot` tag. Any content not within a `x-slot` tag will be passed to the component in the `$slot` variable:
+
+`x-slot` 태그를 사용하여 명명 된 슬롯의 내용을 정의 할 수 있습니다. `x-slot` 태그에없는 모든 내용은 `$slot` 변수의 컴포넌트로 전달됩니다.
+
+    <x-alert>
+        <x-slot name="title">
+            Server Error
+        </x-slot>
+
+        <strong>Whoops!</strong> Something went wrong!
+    </x-alert>
+
+<a name="inline-component-views"></a>
+### Inline Component Views
+### 인라인 컴포넌트 뷰
+
+For very small components, it may feel cumbersome to manage both the component class and the component's view template. For this reason, you may return the component's markup directly from the `render` method:
+
+매우 작은 컴포넌트의 경우 컴포넌트 클래스와 컴포넌트의 뷰 템플릿을 모두 관리하는 것이 번거로울 수 있습니다. 이러한 이유로 컴포넌트의 마크 업을`render` 메소드에서 직접 반환 할 수 있습니다.
+
+    /**
+     * Get the view / contents that represent the component.
+     *
+     * @return \Illuminate\View\View|string
+     */
+    public function render()
+    {
+        return <<<'blade'
+            <div class="alert alert-danger">
+                {{ $slot }}
+            </div>
+        blade;
+    }
+
+#### Generating Inline View Components
+#### 인라인 뷰 컴포넌트 생성
+
+To create a component that renders an inline view, you may use the `inline` option when executing the `make:component` command:
+
+인라인 뷰를 렌더링하는 컴포넌트를 만들려면 `make:component` 명령을 실행할 때 `inline` 옵션을 사용할 수 있습니다.
+
+    php artisan make:component Alert --inline
+
+<a name="anonymous-components"></a>
+### Anonymous Components
+### 익명 컴포넌트
+
+Similar to inline components, anonymous components provide a mechanism for managing a component via a single file. However, anonymous components utilize a single view file and have no associated class. To define an anonymous component, you only need to place a Blade template within your `resources/views/components` directory. For example, assuming you have defined a component at `resources/views/components/alert.blade.php`:
+
+인라인 컴포넌트와 마찬가지로 익명 컴포넌트는 단일 파일을 통해 컴포넌트를 관리하는 메커니즘을 제공합니다. 그러나 익명 컴포넌트는 단일 뷰 파일을 사용하며 관련 클래스가 없습니다. 익명의 컴포넌트를 정의하려면 블레이드/템플릿을 `resources/views/components` 디렉토리에만 배치하면됩니다. 예를 들어, `resources/views/components/alert.blade.php`에 컴포넌트를 정의했다고 가정합니다.
+
+    <x-alert/>
+
+You may use the `.` character to indicate if a component is nested deeper inside the `components` directory. For example, assuming the component is defined at `resources/views/components/inputs/button.blade.php`, you may render it like so:
+
+`.` 문자를 사용하여 컴포넌트가 `components` 디렉토리 안에 더 깊게 중첩되어 있는지 여부를 나타낼 수 있습니다. 예를 들어 컴포넌트가 `resources/views/components/inputs/button.blade.php`에 정의되어 있다고 가정하면 다음과 같이 렌더링 할 수 있습니다.
+
+    <x-inputs.button/>
+
+#### Data Properties / Attributes
+#### 데이터 속성 / 속성
+
+Since anonymous components do not have any associated class, you may wonder how you may differentiate which data should be passed to the component as variables and which attributes should be placed in the component's [attribute bag](#managing-attributes).
+
+익명 컴포넌트에는 연결된 클래스가 없으므로 컴포넌트에 변수로 전달해야하는 데이터와 컴포넌트의 [속성 백](#managing-attributes)에 어떤 특성을 배치해야하는지 구별 할 수 있습니다.
+
+You may specify which attributes should be considered data variables using the `@props` directive at the top of your component's Blade template. All other attributes on the component will be available via the component's attribute bag:
+
+컴포넌트의 블레이드 템플릿 맨 위에있는 `@props` 지시문을 사용하여 데이터 변수로 간주 할 속성을 지정할 수 있습니다. 컴포넌트의 다른 모든 속성은 컴포넌트의 속성 백을 통해 사용할 수 있습니다.
+
+    <!-- /resources/views/components/alert.blade.php -->
+
+    @props(['type', 'message'])
+
+    <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
+        {{ $message }}
+    </div>
 
 <a name="including-subviews"></a>
 ## Including Subviews

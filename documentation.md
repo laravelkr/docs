@@ -36,7 +36,6 @@
     - [Assets 컴파일](/docs/{{version}}/mix)
 - 보안
     - [인증](/docs/{{version}}/authentication)
-    - [API 인증](/docs/{{version}}/api-authentication)
     - [Authorization-권한승인](/docs/{{version}}/authorization)
     - [Email 검증](/docs/{{version}}/verification)
     - [암호화](/docs/{{version}}/encryption)

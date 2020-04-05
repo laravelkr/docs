@@ -185,6 +185,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [sort](#method-sort)
 - [sortBy](#method-sortby)
 - [sortByDesc](#method-sortbydesc)
+- [sortDesc](#method-sortdesc)
 - [sortKeys](#method-sortkeys)
 - [sortKeysDesc](#method-sortkeysdesc)
 - [splice](#method-splice)
@@ -216,6 +217,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [whereNotBetween](#method-wherenotbetween)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
+- [whereNotNull](#method-wherenotnull)
+- [whereNull](#method-wherenull)
 - [whereNotNull](#method-wherenotnull)
 - [whereNull](#method-wherenull)
 - [wrap](#method-wrap)
@@ -2188,6 +2191,22 @@ You can also pass your own callback to determine how to sort the collection valu
 This method has the same signature as the [`sortBy`](#method-sortby) method, but will sort the collection in the opposite order.
 
 이 메소드의 사용법은 [`sortBy`](#method-sortby) 메소드와 동일하지만, 반대의 순서로 컬렉션을 정렬합니다.
+
+<a name="method-sortdesc"></a>
+#### `sortDesc()` {#collection-method}
+#### `sortDesc()` {#collection-method}
+
+This method has the same signature as the [`sort`](#method-sort) method, but will sort the collection in the opposite order:
+
+이 메소드의 사용법은 [`sort`](#method-sort) 메소드와 동일하지만, 반대의 순서로 컬렉션을 정렬합니다.
+
+    $collection = collect([5, 3, 1, 2, 4]);
+
+    $sorted = $collection->sortDesc();
+
+    $sorted->values()->all();
+
+    // [5, 4, 3, 2, 1]
 
 <a name="method-sortkeys"></a>
 #### `sortKeys()` {#collection-method}

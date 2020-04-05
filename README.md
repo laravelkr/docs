@@ -169,6 +169,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/gyoungeunbae"><img src="https://avatars3.githubusercontent.com/u/24830023?v=4" width="100px;" alt=""/><br /><sub><b>Ola</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=gyoungeunbae" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JJRomi"><img src="https://avatars1.githubusercontent.com/u/27665422?v=4" width="100px;" alt=""/><br /><sub><b>Romi</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=JJRomi" title="Documentation">📖</a></td>
   </tr>
 </table>
 

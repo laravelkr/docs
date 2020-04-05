@@ -82,7 +82,7 @@ For this feature, Airlock does not use tokens of any kind. Instead, Airlock uses
 
 You may install Laravel Airlock via Composer:
 
-여러분은 컴포져를 통해 라라벨 에어락을 설치할 수 있습니다:
+여러분은 컴포져를 통해 라라벨 에어락을 설치할 수 있습니다.
 
     composer require laravel/airlock
 
@@ -396,7 +396,7 @@ When the mobile device uses the token to make an API request to your application
 
 As previously documented, you may protect routes so that all incoming requests must be authenticated by attaching the `airlock` authentication guard to the routes. Typically, you will attach this guard to the routes defined within your `routes/api.php` file:
 
-앞서 문서화 한 바와 같이, 경로에 `airlock` 인증 가드를 연결하여 들어오는 모든 요청을 인증해야 하는 경로를 보호할 수 있습니다. 일반적으로`routes/api.php` 파일에 정의된 라우트에 이 가드를 연결합니다:
+앞서 문서화 한 바와 같이, 경로에 `airlock` 인증 가드를 연결하여 들어오는 모든 요청을 인증해야 하는 경로를 보호할 수 있습니다. 일반적으로`routes/api.php` 파일에 정의된 라우트에 이 가드를 연결합니다.
 
     Route::middleware('auth:airlock')->get('/user', function (Request $request) {
         return $request->user();

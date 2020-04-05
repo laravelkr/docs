@@ -502,7 +502,7 @@ response-응답에  201 상태 코드가 있는 지 확인:
 
 Assert that the given string is not contained within the response. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
+response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다.
 
     $response->assertDontSee($value, $escaped = true);
 
@@ -511,7 +511,7 @@ response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확�
 
 Assert that the given string is not contained within the response text. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
+response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다.
 
     $response->assertDontSeeText($value, $escaped = true);
 
@@ -700,7 +700,7 @@ response-응답이 주어진 URI로 리다이렉트되는지 여부를 확인:
 
 Assert that the given string is contained within the response. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답이 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
+response-응답이 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다.
 
     $response->assertSee($value, $escaped = true);
 
@@ -709,7 +709,7 @@ response-응답이 주어진 문자열을 포함하고 있는지 확인. 이 테
 
 Assert that the given strings are contained in order within the response. This assertion will automatically escape the given strings unless you pass a second argument of `false`:
 
-response-응답이 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다:
+response-응답이 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다.
 
     $response->assertSeeInOrder(array $values, $escaped = true);
 
@@ -718,7 +718,7 @@ response-응답이 주어진 문자열 배열을 순서대로 포함하고 있�
 
 Assert that the given string is contained within the response text. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
+response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다.
 
     $response->assertSeeText($value, $escaped = true);
 
@@ -727,7 +727,7 @@ response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확�
 
 Assert that the given strings are contained in order within the response text. This assertion will automatically escape the given strings unless you pass a second argument of `false`:
 
-response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다:
+response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다.
 
     $response->assertSeeTextInOrder(array $values, $escaped = true);
 

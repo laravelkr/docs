@@ -229,6 +229,12 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
 
 > {tip} `assertJson` 메소드는 response-응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 애플리케이션에서 반환된 JSON 배열 안에 주어진 내용이 존재하는지 확인합니다. 따라서 JSON response-응답에 다른 속성이 있더라도, 주어진 내용이 존재하면 테스트는 통과합니다.
 
+In addition, JSON response data may be accessed as array variables on the response:
+
+덧붙여 말하자면, JSON 응답 데이터는 응답(response)에서 배열의 변수들을 통해 접근이 가능합니다.
+
+    $this->assertTrue($response['created']);
+
 <a name="verifying-exact-match"></a>
 ### Verifying An Exact JSON Match
 ### JSON이 정확하게 일치하는지 확인하기
@@ -369,50 +375,80 @@ Laravel provides a variety of custom assertion methods for your [PHPUnit](https:
 
 
 
-- [assertCookie](#assert-cookie)
-- [assertCookieExpired](#assert-cookie-expired)
-- [assertCookieNotExpired](#assert-cookie-not-expired)
-- [assertCookieMissing](#assert-cookie-missing)
-- [assertCreated](#assert-created)
-- [assertDontSee](#assert-dont-see)
-- [assertDontSeeText](#assert-dont-see-text)
-- [assertExactJson](#assert-exact-json)
-- [assertForbidden](#assert-forbidden)
-- [assertHeader](#assert-header)
-- [assertHeaderMissing](#assert-header-missing)
-- [assertJson](#assert-json)
-- [assertJsonCount](#assert-json-count)
-- [assertJsonFragment](#assert-json-fragment)
-- [assertJsonMissing](#assert-json-missing)
-- [assertJsonMissingExact](#assert-json-missing-exact)
-- [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
-- [assertJsonPath](#assert-json-path)
-- [assertJsonStructure](#assert-json-structure)
-- [assertJsonValidationErrors](#assert-json-validation-errors)
-- [assertLocation](#assert-location)
-- [assertNotFound](#assert-not-found)
-- [assertOk](#assert-ok)
-- [assertPlainCookie](#assert-plain-cookie)
-- [assertRedirect](#assert-redirect)
-- [assertSee](#assert-see)
-- [assertSeeInOrder](#assert-see-in-order)
-- [assertSeeText](#assert-see-text)
-- [assertSeeTextInOrder](#assert-see-text-in-order)
-- [assertSessionHas](#assert-session-has)
-- [assertSessionHasInput](#assert-session-has-input)
-- [assertSessionHasAll](#assert-session-has-all)
-- [assertSessionHasErrors](#assert-session-has-errors)
-- [assertSessionHasErrorsIn](#assert-session-has-errors-in)
-- [assertSessionHasNoErrors](#assert-session-has-no-errors)
-- [assertSessionDoesntHaveErrors](#assert-session-doesnt-have-errors)
-- [assertSessionMissing](#assert-session-missing)
-- [assertStatus](#assert-status)
-- [assertSuccessful](#assert-successful)
-- [assertUnauthorized](#assert-unauthorized)
-- [assertViewHas](#assert-view-has)
-- [assertViewHasAll](#assert-view-has-all)
-- [assertViewIs](#assert-view-is)
-- [assertViewMissing](#assert-view-missing)
+- [HTTP Tests](#http-tests)
+- [HTTP 테스트](#http-%ed%85%8c%ec%8a%a4%ed%8a%b8)
+  - [Introduction](#introduction)
+  - [시작하기](#%ec%8b%9c%ec%9e%91%ed%95%98%ea%b8%b0)
+    - [Customizing Request Headers](#customizing-request-headers)
+    - [요청-Request 헤더 커스터마이징하기](#%ec%9a%94%ec%b2%ad-request-%ed%97%a4%eb%8d%94-%ec%bb%a4%ec%8a%a4%ed%84%b0%eb%a7%88%ec%9d%b4%ec%a7%95%ed%95%98%ea%b8%b0)
+    - [Cookies](#cookies)
+    - [쿠키](#%ec%bf%a0%ed%82%a4)
+    - [Debugging Responses](#debugging-responses)
+    - [응답 디버깅](#%ec%9d%91%eb%8b%b5-%eb%94%94%eb%b2%84%ea%b9%85)
+  - [Session / Authentication](#session--authentication)
+  - [세션 / 인증](#%ec%84%b8%ec%85%98--%ec%9d%b8%ec%a6%9d)
+  - [Testing JSON APIs](#testing-json-apis)
+  - [JSON API 테스팅하기](#json-api-%ed%85%8c%ec%8a%a4%ed%8c%85%ed%95%98%ea%b8%b0)
+    - [Verifying An Exact JSON Match](#verifying-an-exact-json-match)
+    - [JSON이 정확하게 일치하는지 확인하기](#json%ec%9d%b4-%ec%a0%95%ed%99%95%ed%95%98%ea%b2%8c-%ec%9d%bc%ec%b9%98%ed%95%98%eb%8a%94%ec%a7%80-%ed%99%95%ec%9d%b8%ed%95%98%ea%b8%b0)
+    - [Verifying JSON Paths](#verifying-json-paths)
+    - [JSON Path 검증하기](#json-path-%ea%b2%80%ec%a6%9d%ed%95%98%ea%b8%b0)
+  - [Testing File Uploads](#testing-file-uploads)
+  - [파일 업로드 테스트하기](#%ed%8c%8c%ec%9d%bc-%ec%97%85%eb%a1%9c%eb%93%9c-%ed%85%8c%ec%8a%a4%ed%8a%b8%ed%95%98%ea%b8%b0)
+      - [Fake File Customization](#fake-file-customization)
+      - [Fake 파일 커스터마이징](#fake-%ed%8c%8c%ec%9d%bc-%ec%bb%a4%ec%8a%a4%ed%84%b0%eb%a7%88%ec%9d%b4%ec%a7%95)
+  - [Available Assertions](#available-assertions)
+  - [사용 가능한 Assertions](#%ec%82%ac%ec%9a%a9-%ea%b0%80%eb%8a%a5%ed%95%9c-assertions)
+    - [Response Assertions](#response-assertions)
+    - [응답-response Assertions](#%ec%9d%91%eb%8b%b5-response-assertions)
+      - [assertCookie](#assertcookie)
+      - [assertCookieExpired](#assertcookieexpired)
+      - [assertCookieNotExpired](#assertcookienotexpired)
+      - [assertCookieMissing](#assertcookiemissing)
+      - [assertCreated](#assertcreated)
+      - [assertDontSee](#assertdontsee)
+      - [assertDontSeeText](#assertdontseetext)
+      - [assertExactJson](#assertexactjson)
+      - [assertForbidden](#assertforbidden)
+      - [assertHeader](#assertheader)
+      - [assertHeaderMissing](#assertheadermissing)
+      - [assertJson](#assertjson)
+      - [assertJsonCount](#assertjsoncount)
+      - [assertJsonFragment](#assertjsonfragment)
+      - [assertJsonMissing](#assertjsonmissing)
+      - [assertJsonMissingExact](#assertjsonmissingexact)
+      - [assertJsonMissingValidationErrors](#assertjsonmissingvalidationerrors)
+      - [assertJsonStructure](#assertjsonstructure)
+      - [assertJsonPath](#assertjsonpath)
+      - [assertJsonStructure](#assertjsonstructure-1)
+      - [assertJsonValidationErrors](#assertjsonvalidationerrors)
+      - [assertLocation](#assertlocation)
+      - [assertNoContent](#assertnocontent)
+      - [assertNotFound](#assertnotfound)
+      - [assertOk](#assertok)
+      - [assertPlainCookie](#assertplaincookie)
+      - [assertRedirect](#assertredirect)
+      - [assertSee](#assertsee)
+      - [assertSeeInOrder](#assertseeinorder)
+      - [assertSeeText](#assertseetext)
+      - [assertSeeTextInOrder](#assertseetextinorder)
+      - [assertSessionHas](#assertsessionhas)
+      - [assertSessionHasInput](#assertsessionhasinput)
+      - [assertSessionHasAll](#assertsessionhasall)
+      - [assertSessionHasErrors](#assertsessionhaserrors)
+      - [assertSessionHasErrorsIn](#assertsessionhaserrorsin)
+      - [assertSessionHasNoErrors](#assertsessionhasnoerrors)
+      - [assertSessionDoesntHaveErrors](#assertsessiondoesnthaveerrors)
+      - [assertSessionMissing](#assertsessionmissing)
+      - [assertStatus](#assertstatus)
+      - [assertSuccessful](#assertsuccessful)
+      - [assertUnauthorized](#assertunauthorized)
+      - [assertViewHas](#assertviewhas)
+      - [assertViewHasAll](#assertviewhasall)
+      - [assertViewIs](#assertviewis)
+      - [assertViewMissing](#assertviewmissing)
+    - [Authentication Assertions](#authentication-assertions)
+    - [인증 Assertions](#%ec%9d%b8%ec%a6%9d-assertions)
 
 
 
@@ -464,20 +500,20 @@ response-응답에  201 상태 코드가 있는 지 확인:
 <a name="assert-dont-see"></a>
 #### assertDontSee
 
-Assert that the given string is not contained within the response:
+Assert that the given string is not contained within the response. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확인:
+response-응답에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
 
-    $response->assertDontSee($value);
+    $response->assertDontSee($value, $escaped = true);
 
 <a name="assert-dont-see-text"></a>
 #### assertDontSeeText
 
-Assert that the given string is not contained within the response text:
+Assert that the given string is not contained within the response text. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인:
+response-응답 텍스트에 주어진 문자열이 포함되어 있지 않은 것을 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
 
-    $response->assertDontSeeText($value);
+    $response->assertDontSeeText($value, $escaped = true);
 
 <a name="assert-exact-json"></a>
 #### assertExactJson
@@ -662,38 +698,38 @@ response-응답이 주어진 URI로 리다이렉트되는지 여부를 확인:
 <a name="assert-see"></a>
 #### assertSee
 
-Assert that the given string is contained within the response:
+Assert that the given string is contained within the response. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답이 주어진 문자열을 포함하고 있는지 확인:
+response-응답이 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
 
-    $response->assertSee($value);
+    $response->assertSee($value, $escaped = true);
 
 <a name="assert-see-in-order"></a>
 #### assertSeeInOrder
 
-Assert that the given strings are contained in order within the response:
+Assert that the given strings are contained in order within the response. This assertion will automatically escape the given strings unless you pass a second argument of `false`:
 
-response-응답이 주어진 문자열 배열을 순서대로 포함하고 있는지 확인:
+response-응답이 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다:
 
-    $response->assertSeeInOrder(array $values);
+    $response->assertSeeInOrder(array $values, $escaped = true);
 
 <a name="assert-see-text"></a>
 #### assertSeeText
 
-Assert that the given string is contained within the response text:
+Assert that the given string is contained within the response text. This assertion will automatically escape the given string unless you pass a second argument of `false`:
 
-response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확인:
+response-응답 텍스트가 주어진 문자열을 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열을 노출시킵니다:
 
-    $response->assertSeeText($value);
+    $response->assertSeeText($value, $escaped = true);
 
 <a name="assert-see-text-in-order"></a>
 #### assertSeeTextInOrder
 
-Assert that the given strings are contained in order within the response text:
+Assert that the given strings are contained in order within the response text. This assertion will automatically escape the given strings unless you pass a second argument of `false`:
 
-response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함하고 있는지 확인:
+response-응답 텍스트가 주어진 문자열 배열을 순서대로 포함하고 있는지 확인. 이 테스트는 두번째 인자값으로 `false`를 지정하지 않는 한, 자동으로 주어진 문자열들을 노출시킵니다:
 
-    $response->assertSeeTextInOrder(array $values);
+    $response->assertSeeTextInOrder(array $values, $escaped = true);
 
 <a name="assert-session-has"></a>
 #### assertSessionHas
@@ -802,6 +838,12 @@ Assert that the response view was given a piece of data:
 response-응답 뷰가 주어진 데이터인지 확인:
 
     $response->assertViewHas($key, $value = null);
+
+In addition, view data may be accessed as array variables on the response:
+
+덧붙여 말하자면, 뷰 데이터는 응답(response)에서 배열의 변수들을 통해 접근이 가능합니다.
+
+    $this->assertEquals('Taylor', $response['name']);
 
 <a name="assert-view-has-all"></a>
 #### assertViewHasAll

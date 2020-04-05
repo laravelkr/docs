@@ -159,7 +159,7 @@
     <td align="center"><a href="http://onoffmix.dev"><img src="https://avatars1.githubusercontent.com/u/60088641?v=4" width="100px;" alt=""/><br /><sub><b>Kim Chanhyung</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=kimchanhyung98" title="Documentation">📖</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/junhyuk-noh-kurly"><img src="https://avatars2.githubusercontent.com/u/57616482?v=4" width="100px;" alt=""/><br /><sub><b>junhyuk-noh-kurly</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=junhyuk-noh-kurly" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/njhyuk"><img src="https://avatars2.githubusercontent.com/u/17216521?v=4" width="100px;" alt=""/><br /><sub><b>njhyuk</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=njhyuk" title="Documentation">📖</a></td>
     <td align="center"><a href="https://hajaebong.github.io/"><img src="https://avatars0.githubusercontent.com/u/31947247?v=4" width="100px;" alt=""/><br /><sub><b>Jaebong,Ha</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=hajaebong" title="Documentation">📖</a></td>
   </tr>
 </table>

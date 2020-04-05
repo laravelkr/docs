@@ -56,8 +56,11 @@ Laravel provides a clean, simple API over the popular [SwiftMailer](https://swif
 
 <a name="configuration"></a>
 ### Configuration
+### 설정하기
 
 Laravel's email services may be configured via the `mail` configuration file. Each mailer configured within this file may have its own options and even its own unique "transport", allowing your application to use different email services to send certain email messages. For example, your application might use Postmark to send transactional mail while using Amazon SES to send bulk mail.
+
+laravel의 이메일 서비스는 `mail` 설정 파일을 통해 설정을 변경할 있습니다. 이 파일 내에 각 메일 발송자별로 고유한 옵션과 고유한 "전송" 설정이 있어서  애플리케이션에서 특정 이메일마다 다른 이메일 서비스를 사용하여 보낼 수 있습니다. 예를 들어, 애플리케이션은 Postmark를 사용하여 거래 메일을 보내고 아마존 ses를 사용하여 대량 메일을 보낼 수 있습니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
@@ -695,8 +698,11 @@ You are not limited to just specifying the "to" recipients when sending a messag
         ->send(new OrderShipped($order));
 
 #### Sending Mail Via A Specific Mailer
+#### 특정 메일러를 통해 메일 보내기
 
 By default, Laravel will use the mailer configured as the `default` mailer in your `mail` configuration file. However, you may use the `mailer` method to send a message using a specific mailer configuration:
+
+라라벨은 기본적으로 `mail` 설정 파일에서 `default` 메일러로 설정된 메일러를 사용합니다. 그러나 `mailer`메소드을 사용하여 특정 메일러 구성을 사용하여 메시지를 보낼 수 있습니다.
 
     Mail::mailer('postmark')
             ->to($request->user())

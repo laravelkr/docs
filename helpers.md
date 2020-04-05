@@ -26,12 +26,14 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 
 <div class="collection-method-list" markdown="1">
 
+[Arr::accessible](#method-array-accessible)
 [Arr::add](#method-array-add)
 [Arr::collapse](#method-array-collapse)
 [Arr::crossJoin](#method-array-crossjoin)
 [Arr::divide](#method-array-divide)
 [Arr::dot](#method-array-dot)
 [Arr::except](#method-array-except)
+[Arr::exists](#method-array-exists)
 [Arr::first](#method-array-first)
 [Arr::flatten](#method-array-flatten)
 [Arr::forget](#method-array-forget)
@@ -44,8 +46,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
 [Arr::pull](#method-array-pull)
-[Arr::random](#method-array-random)
 [Arr::query](#method-array-query)
+[Arr::random](#method-array-random)
 [Arr::set](#method-array-set)
 [Arr::shuffle](#method-array-shuffle)
 [Arr::sort](#method-array-sort)
@@ -86,15 +88,19 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::afterLast](#method-str-after-last)
 [Str::before](#method-str-before)
 [Str::beforeLast](#method-str-before-last)
+[Str::between](#method-str-between)
 [Str::camel](#method-camel-case)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
 [Str::endsWith](#method-ends-with)
 [Str::finish](#method-str-finish)
 [Str::is](#method-str-is)
+[Str::isAscii](#method-str-is-ascii)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
+[Str::length](#method-str-length)
 [Str::limit](#method-str-limit)
+[Str::lower](#method-str-lower)
 [Str::orderedUuid](#method-str-ordered-uuid)
 [Str::plural](#method-str-plural)
 [Str::random](#method-str-random)
@@ -107,8 +113,10 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::start](#method-str-start)
 [Str::startsWith](#method-starts-with)
 [Str::studly](#method-studly-case)
+[Str::substr](#method-str-substr)
 [Str::title](#method-title-case)
 [Str::ucfirst](#method-str-ucfirst)
+[Str::upper](#method-str-upper)
 [Str::uuid](#method-str-uuid)
 [Str::words](#method-str-words)
 [trans](#method-trans)
@@ -255,8 +263,32 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 <a name="arrays"></a>
 ## Arrays & Objects
 
+<a name="method-array-accessible"></a>
+#### `Arr::accessible()` {#collection-method .first-collection-method}
+
+The `Arr::accessible` method checks that the given value is array accessible:
+
+    use Illuminate\Support\Arr;
+    use Illuminate\Support\Collection;
+
+    $isAccessible = Arr::accessible(['a' => 1, 'b' => 2]);
+
+    // true
+
+    $isAccessible = Arr::accessible(new Collection);
+
+    // true
+
+    $isAccessible = Arr::accessible('abc');
+
+    // false
+
+    $isAccessible = Arr::accessible(new stdClass);
+
+    // false
+
 <a name="method-array-add"></a>
-#### `Arr::add()` {#collection-method .first-collection-method}
+#### `Arr::add()` {#collection-method}
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
@@ -353,6 +385,23 @@ The `Arr::except` method removes the given key / value pairs from an array:
     $filtered = Arr::except($array, ['price']);
 
     // ['name' => 'Desk']
+
+<a name="method-array-exists"></a>
+#### `Arr::exists()` {#collection-method}
+
+The `Arr::exists` method checks that the given key exists in the provided array:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['name' => 'John Doe', 'age' => 17];
+
+    $exists = Arr::exists($array, 'name');
+
+    // true
+
+    $exists = Arr::exists($array, 'salary');
+
+    // false
 
 <a name="method-array-first"></a>
 #### `Arr::first()` {#collection-method}
@@ -577,6 +626,19 @@ A default value may be passed as the third argument to the method. This value wi
 
     $value = Arr::pull($array, $key, $default);
 
+<a name="method-array-query"></a>
+#### `Arr::query()` {#collection-method}
+
+The `Arr::query` method converts the array into a query string:
+
+    use Illuminate\Support\Arr;
+
+    $array = ['name' => 'Taylor', 'order' => ['column' => 'created_at', 'direction' => 'desc']];
+
+    Arr::query($array);
+
+    // name=Taylor&order[column]=created_at&order[direction]=desc
+
 <a name="method-array-random"></a>
 #### `Arr::random()` {#collection-method}
 
@@ -597,19 +659,6 @@ You may also specify the number of items to return as an optional second argumen
     $items = Arr::random($array, 2);
 
     // [2, 5] - (retrieved randomly)
-
-<a name="method-array-query"></a>
-#### `Arr::query()` {#collection-method}
-
-The `Arr::query` method converts the array into a query string:
-
-    use Illuminate\Support\Arr;
-
-    $array = ['name' => 'Taylor', 'order' => ['column' => 'created_at', 'direction' => 'desc']];
-
-    Arr::query($array);
-
-    // name=Taylor&order[column]=created_at&order[direction]=desc
 
 <a name="method-array-set"></a>
 #### `Arr::set()` {#collection-method}
@@ -945,7 +994,7 @@ If the specified translation string or key does not exist, the `__` function wil
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
-The `class_basename` function returns the class name of the given class with the class' namespace removed:
+The `class_basename` function returns the class name of the given class with the class's namespace removed:
 
     $class = class_basename('Foo\Bar\Baz');
 
@@ -1014,6 +1063,17 @@ The `Str::beforeLast` method returns everything before the last occurrence of th
     $slice = Str::beforeLast('This is my name', 'is');
 
     // 'This '
+
+<a name="method-str-between"></a>
+#### `Str::between()` {#collection-method}
+
+The `Str::between` method returns the portion of a string between two values:
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::between('This is my name', 'This', 'name');
+
+    // ' is my '
 
 <a name="method-camel-case"></a>
 #### `Str::camel()` {#collection-method}
@@ -1110,16 +1170,20 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
 
     // false
 
-<a name="method-str-ucfirst"></a>
-#### `Str::ucfirst()` {#collection-method}
+<a name="method-str-is-ascii"></a>
+#### `Str::isAscii()` {#collection-method}
 
-The `Str::ucfirst` method returns the given string with the first character capitalized:
+The `Str::isAscii` method determines if a given string is 7 bit ASCII:
 
     use Illuminate\Support\Str;
 
-    $string = Str::ucfirst('foo bar');
+    $isAscii = Str::isAscii('Taylor');
 
-    // Foo bar
+    // true
+
+    $isAscii = Str::isAscii('ü');
+
+    // false
 
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {#collection-method}
@@ -1147,6 +1211,17 @@ The `Str::kebab` method converts the given string to `kebab-case`:
 
     // foo-bar
 
+<a name="method-str-length"></a>
+#### `Str::length()` {#collection-method}
+
+The `Str::length` method returns the length of the given string:
+
+    use Illuminate\Support\Str;
+
+    $length = Str::length('Laravel');
+
+    // 7
+
 <a name="method-str-limit"></a>
 #### `Str::limit()` {#collection-method}
 
@@ -1165,6 +1240,17 @@ You may also pass a third argument to change the string that will be appended to
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
 
     // The quick brown fox (...)
+
+<a name="method-str-lower"></a>
+#### `Str::lower()` {#collection-method}
+
+The `Str::lower` method converts the given string to lowercase:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::lower('LARAVEL');
+
+    // laravel
 
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {#collection-method}
@@ -1320,6 +1406,17 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
     // FooBar
 
+<a name="method-str-substr"></a>
+#### `Str::substr()` {#collection-method}
+
+The `Str::substr` method returns the portion of string specified by the start and length parameters:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::substr('The Laravel Framework', 4, 7);
+
+    // Laravel
+
 <a name="method-title-case"></a>
 #### `Str::title()` {#collection-method}
 
@@ -1330,6 +1427,28 @@ The `Str::title` method converts the given string to `Title Case`:
     $converted = Str::title('a nice title uses the correct case');
 
     // A Nice Title Uses The Correct Case
+
+<a name="method-str-ucfirst"></a>
+#### `Str::ucfirst()` {#collection-method}
+
+The `Str::ucfirst` method returns the given string with the first character capitalized:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::ucfirst('foo bar');
+
+    // Foo bar
+
+<a name="method-str-upper"></a>
+#### `Str::upper()` {#collection-method}
+
+The `Str::upper` method converts the given string to uppercase:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::upper('laravel');
+
+    // LARAVEL
 
 <a name="method-str-uuid"></a>
 #### `Str::uuid()` {#collection-method}

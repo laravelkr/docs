@@ -467,7 +467,7 @@ However, if you are building a package that utilizes Blade components, you will 
      */
     public function boot()
     {
-        Blade::component(AlertComponent::class, 'package-alert');
+        Blade::component('package-alert', AlertComponent::class);
     }
 
 Once your component has been registered, it may be rendered using its tag alias:
@@ -547,6 +547,26 @@ When your component is rendered, you may display the contents of your component'
     <div class="alert alert-{{ $type }}">
         {{ $message }}
     </div>
+
+#### Casing
+
+Component constructor arguments should be specified using `camelCase`, while `kebab-case` should be used when referencing the argument names in your HTML attributes. For example, given the following component constructor:
+
+    /**
+     * Create the component instance.
+     *
+     * @param  string  $alertType
+     * @param  string  $message
+     * @return void
+     */
+    public function __construct($alertType)
+    {
+        $this->alertType = $alertType;
+    }
+
+The `$alertType` argument may be provided like so:
+
+    <x-alert alert-type="danger" />
 
 #### Component Methods
 
@@ -714,11 +734,11 @@ You may use the `.` character to indicate if a component is nested deeper inside
 
 Since anonymous components do not have any associated class, you may wonder how you may differentiate which data should be passed to the component as variables and which attributes should be placed in the component's [attribute bag](#managing-attributes).
 
-You may specify which attributes should be considered data variables using the `@props` directive at the top of your component's Blade template. All other attributes on the component will be available via the component's attribute bag:
+You may specify which attributes should be considered data variables using the `@props` directive at the top of your component's Blade template. All other attributes on the component will be available via the component's attribute bag. If you wish to give a data variable a default value, you may specify the variable's name as the array key and the default value as the array value:
 
     <!-- /resources/views/components/alert.blade.php -->
 
-    @props(['type', 'message'])
+    @props(['type' => 'info', 'message'])
 
     <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
         {{ $message }}

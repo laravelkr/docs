@@ -68,12 +68,14 @@ Finally, examine any other third-party packages consumed by your application and
 
 Laravel 7 utilizes the 5.x series of the Symfony components. Some minor changes to your application are required to accommodate this upgrade.
 
-First, the `report` and `render` methods of your application's `App\Exceptions\Handler` class should accept instances of the `Throwable` interface instead of `Exception` instances:
+First, the `report`, `render`, `shouldReport`, and `renderForConsole` methods of your application's `App\Exceptions\Handler` class should accept instances of the `Throwable` interface instead of `Exception` instances:
 
     use Throwable;
 
     public function report(Throwable $exception);
+    public function shouldReport(Throwable $exception);
     public function render($request, Throwable $exception);
+    public function renderForConsole($output, Throwable $exception);
 
 Next, please update your `session` configuration file's `secure` option to have a fallback value of `null`:
 
@@ -141,6 +143,8 @@ Previously, dates would be serialized to a format like the following: `2019-12-0
 
 If you would like to keep using the previous behavior you can override the `serializeDate` method on your model:
 
+    use DateTimeInterface;
+
     /**
      * Prepare a date for array / JSON serialization.
      *
@@ -200,9 +204,19 @@ In order to support multiple mailers, the default `mail` configuration file has 
 
 The default Markdown mail templates have been refreshed with a more professional and appealing design. In addition, the undocumented `promotion` Markdown mail component has been removed.
 
-Because indentitation has special meaning within Markdown, Markdown mail templates expect unindented HTML. If you've previously published Laravel's default mail templates, you'll need to re-publish your mail templates or manually unindent them:
+Because indentation has special meaning within Markdown, Markdown mail templates expect unindented HTML. If you've previously published Laravel's default mail templates, you'll need to re-publish your mail templates or manually unindent them:
 
     php artisan vendor:publish --tag=laravel-mail --force
+
+#### Swift Mailer Bindings
+
+**Likelihood Of Impact: Low**
+
+Laravel 7.x doesn't provide `swift.mailer` and `swift.transport` container bindings. You may now access these objects through the `mailer` binding:
+
+    $swiftMailer = app('mailer')->getSwiftMailer();
+
+    $swiftTransport = $swiftMailer->getTransport();
 
 ### Queue
 
@@ -240,7 +254,7 @@ Even though never officially documented, previous Laravel releases allow you to 
 
 **Likelihood Of Impact: Medium**
 
-Cross-Origin Resource Sharing (CORS) support is now integrated by default. If you are using any third-party CORS libraries you are now advised to use the [new `cors` configuration file](https://github.com/laravel/laravel/blob/develop/config/cors.php).
+Cross-Origin Resource Sharing (CORS) support is now integrated by default. If you are using any third-party CORS libraries you are now advised to use the [new `cors` configuration file](https://github.com/laravel/laravel/blob/master/config/cors.php).
 
 Next, install the underlying CORS library as a dependency of your application:
 

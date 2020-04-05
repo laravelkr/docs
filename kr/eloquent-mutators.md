@@ -555,7 +555,8 @@ When using the `date` or `datetime` cast type, you may specify the date's format
 ### 쿼리 시간 캐스팅
 
 Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
-테이블에서 원시 값을 선택 할때 실행하는 동안 캐스트를 적용 할 수 있습니다. 예시로 다음의 쿼리 참고 하세요
+
+테이블에서 원시 값을 선택 할때 실행하는 동안 캐스트를 적용 할 수 있습니다. 예시로 다음의 쿼리 참고 하세요.
 
     use App\Post;
     use App\User;
@@ -567,6 +568,7 @@ Sometimes you may need to apply casts while executing a query, such as when sele
     ])->get();
 
 The `last_posted_at` attribute on the results of this query will be a raw string. It would be convenient if we could apply a `date` cast to this attribute when executing the query. To accomplish this, we may use the `withCasts` method:
+
 쿼리 결과의 `last_posted_at` 속성은 원시 문자열입니다. `date` 캐스트를 이 속성에 적용하면 편리할 것입니다. 이를 위해 `withCasts` 메소드를 사용 할 수 있습니다.
 
     $users = User::select([

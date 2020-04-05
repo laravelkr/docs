@@ -108,7 +108,7 @@ Within both of these methods you may use the Laravel schema builder to expressiv
         public function up()
         {
             Schema::create('flights', function (Blueprint $table) {
-                $table->bigIncrements('id');
+                $table->id();
                 $table->string('name');
                 $table->string('airline');
                 $table->timestamps();
@@ -213,7 +213,7 @@ To create a new database table, use the `create` method on the `Schema` facade. 
 새로운 데이터베이스 테이블을 생성하려면 `Schema` 파사드에 `create` 메소드를 사용하면 됩니다. `create` 메소드는 두개의 인자를 전달 받습니다. 첫번째 인자는 테이블의 이름이고, 두번째 인자는 새로운 테이블을 정의하는 사용되는 `Blueprint` 객체를 받는 `Closure`입니다.
 
     Schema::create('users', function (Blueprint $table) {
-        $table->bigIncrements('id');
+        $table->id();
     });
 
 When creating the table, you may use any of the schema builder's [column methods](#creating-columns) to define the table's columns.
@@ -243,7 +243,7 @@ If you want to perform a schema operation on a database connection that is not y
 기본 커넥션-connection이 아닌 다른 데이터베이스 커넥션-connection에 스키마 작업을 수행하려면 `connection` 메소드를 사용하면 됩니다.
 
     Schema::connection('foo')->create('users', function (Blueprint $table) {
-        $table->bigIncrements('id');
+        $table->id();
     });
 
 You may use the following commands on the schema builder to define the table's options:
@@ -314,16 +314,18 @@ The schema builder contains a variety of column types that you may specify when 
 
 Command  |  Description
 -------  |  -----------
+`$table->id();`  |  Alias of `$table->bigIncrements('id')`.
+`$table->foreignId('user_id');`  |  Alias of `$table->unsignedBigInteger('user_id')`.
 `$table->bigIncrements('id');`  |  Auto-incrementing UNSIGNED BIGINT (primary key) equivalent column.
 `$table->bigInteger('votes');`  |  BIGINT equivalent column.
 `$table->binary('data');`  |  BLOB equivalent column.
 `$table->boolean('confirmed');`  |  BOOLEAN equivalent column.
-`$table->char('name', 100);`  |  CHAR equivalent column with an optional length.
+`$table->char('name', 100);`  |  CHAR equivalent column with a length.
 `$table->date('created_at');`  |  DATE equivalent column.
-`$table->dateTime('created_at');`  |  DATETIME equivalent column.
-`$table->dateTimeTz('created_at');`  |  DATETIME (with timezone) equivalent column.
-`$table->decimal('amount', 8, 2);`  |  DECIMAL equivalent column with a precision (total digits) and scale (decimal digits).
-`$table->double('amount', 8, 2);`  |  DOUBLE equivalent column with a precision (total digits) and scale (decimal digits).
+`$table->dateTime('created_at', 0);`  |  DATETIME equivalent column with precision (total digits).
+`$table->dateTimeTz('created_at', 0);`  |  DATETIME (with timezone) equivalent column with precision (total digits).
+`$table->decimal('amount', 8, 2);`  |  DECIMAL equivalent column with precision (total digits) and scale (decimal digits).
+`$table->double('amount', 8, 2);`  |  DOUBLE equivalent column with precision (total digits) and scale (decimal digits).
 `$table->enum('level', ['easy', 'hard']);`  |  ENUM equivalent column.
 `$table->float('amount', 8, 2);`  |  FLOAT equivalent column with a precision (total digits) and scale (decimal digits).
 `$table->geometry('positions');`  |  GEOMETRY equivalent column.
@@ -346,23 +348,23 @@ Command  |  Description
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON equivalent column.
 `$table->nullableMorphs('taggable');`  |  Adds nullable versions of `morphs()` columns.
 `$table->nullableUuidMorphs('taggable');`  |  Adds nullable versions of `uuidMorphs()` columns.
-`$table->nullableTimestamps();`  |  Alias of `timestamps()` method.
+`$table->nullableTimestamps(0);`  |  Alias of `timestamps()` method.
 `$table->point('position');`  |  POINT equivalent column.
 `$table->polygon('positions');`  |  POLYGON equivalent column.
 `$table->rememberToken();`  |  Adds a nullable `remember_token` VARCHAR(100) equivalent column.
 `$table->set('flavors', ['strawberry', 'vanilla']);`  |  SET equivalent column.
 `$table->smallIncrements('id');`  |  Auto-incrementing UNSIGNED SMALLINT (primary key) equivalent column.
 `$table->smallInteger('votes');`  |  SMALLINT equivalent column.
-`$table->softDeletes();`  |  Adds a nullable `deleted_at` TIMESTAMP equivalent column for soft deletes.
-`$table->softDeletesTz();`  |  Adds a nullable `deleted_at` TIMESTAMP (with timezone) equivalent column for soft deletes.
-`$table->string('name', 100);`  |  VARCHAR equivalent column with a optional length.
+`$table->softDeletes('deleted_at', 0);`  |  Adds a nullable `deleted_at` TIMESTAMP equivalent column for soft deletes with precision (total digits).
+`$table->softDeletesTz('deleted_at', 0);`  |  Adds a nullable `deleted_at` TIMESTAMP (with timezone) equivalent column for soft deletes with precision (total digits).
+`$table->string('name', 100);`  |  VARCHAR equivalent column with a length.
 `$table->text('description');`  |  TEXT equivalent column.
-`$table->time('sunrise');`  |  TIME equivalent column.
-`$table->timeTz('sunrise');`  |  TIME (with timezone) equivalent column.
-`$table->timestamp('added_on');`  |  TIMESTAMP equivalent column.
-`$table->timestampTz('added_on');`  |  TIMESTAMP (with timezone) equivalent column.
-`$table->timestamps();`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP equivalent columns.
-`$table->timestampsTz();`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP (with timezone) equivalent columns.
+`$table->time('sunrise', 0);`  |  TIME equivalent column with precision (total digits).
+`$table->timeTz('sunrise', 0);`  |  TIME (with timezone) equivalent column with precision (total digits).
+`$table->timestamp('added_on', 0);`  |  TIMESTAMP equivalent column with precision (total digits).
+`$table->timestampTz('added_on', 0);`  |  TIMESTAMP (with timezone) equivalent column with precision (total digits).
+`$table->timestamps(0);`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP equivalent columns with precision (total digits).
+`$table->timestampsTz(0);`  |  Adds nullable `created_at` and `updated_at` TIMESTAMP (with timezone) equivalent columns with precision (total digits).
 `$table->tinyIncrements('id');`  |  Auto-incrementing UNSIGNED TINYINT (primary key) equivalent column.
 `$table->tinyInteger('votes');`  |  TINYINT equivalent column.
 `$table->unsignedBigInteger('votes');`  |  UNSIGNED BIGINT equivalent column.
@@ -374,17 +376,18 @@ Command  |  Description
 `$table->uuid('id');`  |  UUID equivalent column.
 `$table->year('birth_year');`  |  YEAR equivalent column.
 
-
 명령  | 설명
 ------------- | -------------
+`$table->id();`  | `$table->bigIncrements('id')`의 별칭.
+`$table->foreignId('user_id');`  |  `$table->unsignedBigInteger('user_id')`의 별칭.
 `$table->bigIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED BIGINT (primary key) 컬럼.
 `$table->bigInteger('votes');`  |  BIGINT 컬럼.
 `$table->binary('data');`  |  BLOB 컬럼.
 `$table->boolean('confirmed');`  |  BOOLEAN 컬럼.
-`$table->char('name', 100);`  |  옵션값을 길이로 하는 CHAR 컬럼.
+`$table->char('name', 100);`  |  값을 길이로 하는 CHAR 컬럼.
 `$table->date('created_at');`  |  DATE 컬럼.
-`$table->dateTime('created_at');`  |  DATETIME 컬럼.
-`$table->dateTimeTz('created_at');`  |  DATETIME (타임존을 가지는) 컬럼.
+`$table->dateTime('created_at', 0);`  |  정확도를 가지는 DATETIME과 동등한 컬럼(총 자릿수)
+`$table->dateTimeTz('created_at', 0);`  | 정확도를 가지는 DATETIME (타임존 포함)과 동등한 컬럼 (총자릿수).
 `$table->decimal('amount', 8, 2);`  |  전체 자릿수와 소수점 자릿수를 지정한 DECIMAL 컬럼.
 `$table->double('amount', 8, 2);`  |  전체 자릿수와 소수점 자릿수를 지정한 DOUBLE 컬럼.
 `$table->enum('level', ['easy', 'hard']);`  |  ENUM 컬럼.
@@ -409,23 +412,23 @@ Command  |  Description
 `$table->multiPolygon('positions');`  |  MULTIPOLYGON 컬럼.
 `$table->nullableMorphs('taggable');`  |   `morphs()` 컬럼의 nullable (null 값이 허용되는) 버전.
 `$table->nullableUuidMorphs('taggable');`  |   `uuidMorphs()` 컬럼의 nullable (null 값이 허용되는) 버전.
-`$table->nullableTimestamps();`  |  `timestamps()` 의 별칭입니다.
+`$table->nullableTimestamps(0);`  |  `timestamps()` 의 별칭입니다.
 `$table->point('position');`  |  POINT 컬럼.
 `$table->polygon('positions');`  |  POLYGON 컬럼.
 `$table->rememberToken();`  |  nullable (null 값이 허용되는) `remember_token` VARCHAR(100) 컬럼.
 `$table->set('flavors', ['strawberry', 'vanilla']);`  |  동일한 컬럼으로 지정.
 `$table->smallIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED SMALLINT (primary key) 컬럼.
 `$table->smallInteger('votes');`  |  SMALLINT 컬럼.
-`$table->softDeletes();`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` TIMESTAMP 컬럼.
-`$table->softDeletesTz();`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` TIMESTAMP (타임존을 가지는)
-`$table->string('name', 100);`  |  옵션값을 길이로 하는 VARCHAR 컬럼.
+`$table->softDeletes('deleted_at', 0);`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` TIMESTAMP 컬럼 (자릿수 포함).
+`$table->softDeletesTz('deleted_at', 0);`  |  soft delete 를 위한 nullable (null 값이 허용되는) `deleted_at` (타임존을 포함한) TIMESTAMP 컬럼 (자릿수 포함)
+`$table->string('name', 100);`  |  값을 길이로 하는 VARCHAR 컬럼.
 `$table->text('description');`  |  TEXT 컬럼.
-`$table->time('sunrise');`  |  TIME 컬럼.
-`$table->timeTz('sunrise');`  |  TIME (타임존을 가지는) 컬럼.
-`$table->timestamp('added_on');`  |  TIMESTAMP 컬럼.
-`$table->timestampTz('added_on');`  |  TIMESTAMP (타임존을 가지는) 컬럼.
-`$table->timestamps();`  |  nullable (null 값이 허용되는) `created_at` 와 `updated_at` TIMESTAMP 컬럼.
-`$table->timestampsTz();`  |  nullable (null 값이 허용되는) `created_at` 와 `updated_at` TIMESTAMP (타임존을 가지는) 컬럼.
+`$table->time('sunrise', 0);`  | 정확도를 가지는 TIME 컬럼 (자릿수 포함).
+`$table->timeTz('sunrise', 0);`  | 정확도를 가지는 TIME (타임존을 가지는) 컬럼 (자릿수 포함).
+`$table->timestamp('added_on', 0);`  | 정확도를 가지는 TIMESTAMP 컬럼 (자릿수 포함).
+`$table->timestampTz('added_on', 0);`  | 정확도를 가지는 TIMESTAMP (타임존을 가지는) 컬럼 (자릿수 포함).
+`$table->timestamps(0);`  | 정확도를 가지는 nullable (null 값이 허용되는) `created_at` 와 `updated_at` TIMESTAMP 컬럼 (자릿수 포함).
+`$table->timestampsTz(0);`  | 정확도를 가지는 nullable (null 값이 허용되는) `created_at` 와 `updated_at` TIMESTAMP (타임존을 가지는) 컬럼 (자릿수 포함).
 `$table->tinyIncrements('id');`  |  자동으로 증가하는(auto increment) UNSIGNED TINYINT (primary key) 컬럼.
 `$table->tinyInteger('votes');`  |  TINYINT 컬럼.
 `$table->unsignedBigInteger('votes');`  |  UNSIGNED BIGINT 컬럼.
@@ -449,9 +452,9 @@ In addition to the column types listed above, there are several column "modifier
         $table->string('email')->nullable();
     });
 
-Below is a list of all the available column modifiers. This list does not include the [index modifiers](#creating-indexes):
+The following list contains all available column modifiers. This list does not include the [index modifiers](#creating-indexes):
 
-아래는 사용 가능한 모든 컬럼 Modifier의 목록입니다. 이 목록은 [인덱스 modifiers](#creating-indexes)를 포함하지 않습니다.
+다음은 사용 가능한 모든 컬럼 Modifier의 목록입니다. 이 목록은 [인덱스 modifiers](#creating-indexes)를 포함하지 않습니다.
 
 Modifier  |  Description
 --------  |  -----------
@@ -491,7 +494,7 @@ Modifier  | 설명
 #### Default Expressions
 #### 기본 표현식
 
-The `default` modifier accepts a value or an `\Illuminate\Database\Query\Expression` instance. Using an `Expression` instance will prevent wrapping the value in quotes and allow you to use database specific functions. One situation where this is particularly useful is assigning default values to JSON columns:
+The `default` modifier accepts a value or an `\Illuminate\Database\Query\Expression` instance. Using an `Expression` instance will prevent wrapping the value in quotes and allow you to use database specific functions. One situation where this is particularly useful is when you need to assign default values to JSON columns:
 
 `default` 수정자-modifier는 값 또는 `\Illuminate\Database\Query\Expression` 인스턴스를 허용합니다. `Expression` 인스턴스를 사용하면 값을 따옴표로 묶는 것을 방지하고 데이터베이스 별 함수를 사용할 수 있습니다. 이것이 특히 유용한 상황 중 하나는 JSON 열에 기본값을 할당하는 것입니다.
 
@@ -512,7 +515,7 @@ The `default` modifier accepts a value or an `\Illuminate\Database\Query\Express
         public function up()
         {
             Schema::create('flights', function (Blueprint $table) {
-                $table->bigIncrements('id');
+                $table->id();
                 $table->json('movies')->default(new Expression('(JSON_ARRAY())'));
                 $table->timestamps();
             });
@@ -530,18 +533,18 @@ The `default` modifier accepts a value or an `\Illuminate\Database\Query\Express
 #### Prerequisites
 #### 사전 준비사항
 
-Before modifying a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file. The Doctrine DBAL library is used to determine the current state of the column and create the SQL queries needed to make the specified adjustments to the column:
+Before modifying a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file. The Doctrine DBAL library is used to determine the current state of the column and create the SQL queries needed to make the required adjustments:
 
-컬럼을 수정하기 전에, 꼭 `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하십시오. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 필요한 SQL 쿼리를 생성하여 컬럼에 지정된 변경사항을 수행하기 위해 사용됩니다.
+컬럼을 수정하기 전에, 꼭 `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하십시오. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 필요한 SQL 쿼리를 생성하기 위해 사용됩니다.
 
     composer require doctrine/dbal
 
 #### Updating Column Attributes
 #### 컬럼의 속성 변경하기
 
-The `change` method allows you to modify some existing column types to a new type or modify the column's attributes. For example, you may wish to increase the size of a string column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
+The `change` method allows you to modify type and attributes of existing columns. For example, you may wish to increase the size of a `string` column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50:
 
-`change` 메소드는 이미 존재하는 컬럼 타입을 새로운 타입으로 수정하거나 컬럼의 속성을 변경합니다. 예를 들어, 문자열 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다.
+`change` 메소드는 이미 존재하는 컬럼 타입을 유형과 속성을 변경합니다. 예를 들어, `string` 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다.
 
     Schema::table('users', function (Blueprint $table) {
         $table->string('name', 50)->change();
@@ -562,7 +565,7 @@ We could also modify a column to be nullable:
 #### Renaming Columns
 #### 컬럼의 이름 변경하기
 
-To rename a column, you may use the `renameColumn` method on the Schema builder. Before renaming a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file:
+To rename a column, you may use the `renameColumn` method on the schema builder. Before renaming a column, be sure to add the `doctrine/dbal` dependency to your `composer.json` file:
 
 컬럼의 이름을 변경하기 위해서, 스키마 빌더에 `renameColumn` 메소드를 사용할 수 있습니다. 컬럼의 이름을 바꾸기 전에 반드시 `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하십시오:
 
@@ -578,7 +581,7 @@ To rename a column, you may use the `renameColumn` method on the Schema builder.
 ### Dropping Columns
 ### 컬럼 삭제하기
 
-To drop a column, use the `dropColumn` method on the Schema builder. Before dropping columns from a SQLite database, you will need to add the `doctrine/dbal` dependency to your `composer.json` file and run the `composer update` command in your terminal to install the library:
+To drop a column, use the `dropColumn` method on the schema builder. Before dropping columns from a SQLite database, you will need to add the `doctrine/dbal` dependency to your `composer.json` file and run the `composer update` command in your terminal to install the library:
 
 컬럼을 삭제하기 위해서는, 스키마 빌더에서 `dropColumn` 메소드를 사용하면 됩니다. SQLite 데이터베이스에서 컬럼을 삭제하기 전에, `composer.json` 파일에 `doctrine/dbal` 의존성을 추가하고 라이브러리를 설치하기 위해서 터미널에서 `composer update` 명령어를 실행할 필요가 있습니다.
 
@@ -627,9 +630,9 @@ Command  |  Description
 ### Creating Indexes
 ### 인덱스 생성하기
 
-The schema builder supports several types of indexes. First, let's look at an example that specifies a column's values should be unique. To create the index, we can chain the `unique` method onto the column definition:
+The Laravel schema builder supports several types of indexes. The following example creates a new `email` column and specifies that its values should be unique. To create the index, we can chain the `unique` method onto the column definition:
 
-스키마 빌더는 여러 타입의 인덱스를 지원합니다. 우선 컬럼의 값이 유니크 해야 함을 지정하는 예를 살펴보겠습니다. 인덱스를 생성하려면 컬럼의 정의에서 `unique` 메소드를 체이닝 하면 됩니다.
+Laravel 스키마 빌더는 여러 타입의 인덱스를 지원합니다. 다음에서 새로운 `email` 컬럼을 만들고 해당 값을 고유 값을 가지도록 만들어 보겠습니다. 인덱스를 생성하려면 컬럼의 정의에서 `unique` 메소드를 체이닝 하면 됩니다.
 
     $table->string('email')->unique();
 
@@ -645,18 +648,18 @@ You may even pass an array of columns to an index method to create a compound (o
 
     $table->index(['account_id', 'created_at']);
 
-Laravel will automatically generate a reasonable index name, but you may pass a second argument to the method to specify the name yourself:
+Laravel will automatically generate an index name based on the table, column names, and the index type, but you may pass a second argument to the method to specify the index name yourself:
 
-라라벨은 자동으로 알맞은 인덱스 이름을 생성할 것입니다만, 메소드의 두번째 인자로 인덱스 이름을 지정할 수도 있습니다.
+라라벨은 테이블, 컬럼 이름 및 인덱스 유형을 기반으로 인덱스 이름을 자동으로 생성하지만 메소드의 두번째 인자로 인덱스 이름을 지정할 수도 있습니다.
 
     $table->unique('email', 'unique_email');
 
 #### Available Index Types
 #### 사용가능한 인덱스 타입
 
-Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s).
+Each index method accepts an optional second argument to specify the name of the index. If omitted, the name will be derived from the names of the table and column(s) used for the index, as well as the index type.
 
-각각의 인덱스 메소드는 인덱스의 이름을 두번째 인자를 전달 받는다(필수가 아닙니다). 이 값이 생략된다면, 인덱스의 이름은 테이블과 컬럼의 이름을 기반으로 생성됩니다.
+각각의 인덱스 메소드는 두번쨰 인수를 통해 선택적으로 인덱스의 이름입력받습니다. 이 값이 생략된다면, 인덱스의 이름은 테이블, 컬럼과 인덱스의 타입을 기반으로 생성됩니다.
 
 Command  |  Description
 -------  |  -----------
@@ -701,9 +704,9 @@ Alternatively, you may enable the `innodb_large_prefix` option for your database
 ### Renaming Indexes
 ### 인덱스 이름 변경하기
 
-To rename an index, you may use the `renameIndex` method. This method accepts the current index name as its first argument and the desired name as its second argument:
+To rename an index, you may use the `renameIndex` method. This method accepts the current index name as its first argument and the desired new name as its second argument:
 
-인덱스의 이름을 변경하기 위해서는 `renameIndex` 메소드를 사용하면 됩니다. 이 메소드는 현재의 인덱스 이름을 첫번째 인자로, 변경하고자 하는 이름을 두번째 인자로 전달받습니다.
+인덱스의 이름을 변경하기 위해서는 `renameIndex` 메소드를 사용하면 됩니다. 이 메소드는 현재의 인덱스 이름을 첫번째 인자로, 변경하고자 하는 새이름을 두번째 인자로 전달받습니다.
 
     $table->renameIndex('from', 'to')
 
@@ -711,9 +714,9 @@ To rename an index, you may use the `renameIndex` method. This method accepts th
 ### Dropping Indexes
 ### 인덱스 삭제하기
 
-To drop an index, you must specify the index's name. By default, Laravel automatically assigns a reasonable name to the indexes. Concatenate the table name, the name of the indexed column, and the index type. Here are some examples:
+To drop an index, you must specify the index's name. By default, Laravel automatically assigns an index name based on the table name, the name of the indexed column, and the index type. Here are some examples:
 
-인덱스를 삭제하기 위해서는 인덱스의 이름을 지정해야 합니다. 라라벨은 자동으로 인덱스에 합리적인 이름을 부여하도록 설정되어 있습니다. 테이블 이름, 인덱스된 컬럼의 이름, 그리고 인덱스 타입을 합친것입니다. 다음은 몇 개의 예제 입니다.
+인덱스를 삭제하기 위해서는 인덱스의 이름을 지정해야 합니다. 기본적으로 라라벨은 테이블 이름, 인덱스된 컬럼의 이름, 그리고 인덱스 타입을 기반으로 자동으로 인덱스의 이름을 부여하도록 설정되어 있습니다. 다음은 몇 개의 예제 입니다.
 
 Command  |  Description
 -------  |  -----------
@@ -751,23 +754,35 @@ Laravel also provides support for creating foreign key constraints, which are us
         $table->foreign('user_id')->references('id')->on('users');
     });
 
+Since this syntax is rather verbose, Laravel provides additional, terser methods that use convention to provide a better developer experience. The example above could be written like so:
+
+이 구문은 다소 장황하므로 라라벨은 더 나은 개발자 경험을 제공하기 위해 규칙을 사용하는 추가의 terser 메소드를 제공합니다. 위의 예제는 다음과 같이 작성할 수 있습니다.
+
+    Schema::table('posts', function (Blueprint $table) {
+        $table->foreignId('user_id')->constrained();
+    });
+
+The `foreignId` method is an alias for `unsignedBigInteger` while the `constrained` method will use convention to determine the table and column name being referenced.
+
+`foreignId` 메소드는 `unsignedBigInteger`의 별명 인 반면, `constrained` 메소드는 참조되는 테이블 및 컬럼 이름을 판별하기 위해 규칙을 사용합니다.
+
 You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
 
 제약조건(constraint)의 "on delete"와 "on update" 속성에 원하는 동작을 지정할 수도 있습니다.
 
-    $table->foreign('user_id')
-          ->references('id')->on('users')
+    $table->foreignId('user_id')
+          ->constrained()
           ->onDelete('cascade');
 
-To drop a foreign key, you may use the `dropForeign` method. Foreign key constraints use the same naming convention as indexes. So, we will concatenate the table name and the columns in the constraint then suffix the name with "\_foreign":
+To drop a foreign key, you may use the `dropForeign` method, passing the foreign key constraint to be deleted as an argument. Foreign key constraints use the same naming convention as indexes, based on the table name and the columns in the constraint, followed by a "\_foreign" suffix:
 
 외래 키를 지우기 위해서는 `dropForeign` 메소드를 사용할 수 있습니다. 외래 키 제약조건(constraint)은 인덱스와 같은 명명 규칙을 사용합니다. 따라서 테이블 이름과 제약조건(constraint)의 컬럼들을 합치고 뒤에 "_foreign"을 붙일 것입니다.
 
     $table->dropForeign('posts_user_id_foreign');
 
-Or, you may pass an array value which will automatically use the conventional constraint name when dropping:
+Alternatively, you may pass an array containing the column name that holds the foreign key to the `dropForeign` method. The array will be automatically converted using the constraint name convention used by Laravel's schema builder:
 
-또는 인자에 배열 값을 전달하면 삭제시 자동으로 제약조건 컨벤션 규칙에 따르는 이름이 사용됩니다.
+또는 외래 키를 포함하는 컬럼 이름이 포함 된 배열을 `dropForeign` 메서드에 전달할 수 있습니다. 배열은 라라벨의 스키마 빌더가 사용하는 제약 조건 이름 규칙을 사용하여 자동으로 변환됩니다.
 
     $table->dropForeign(['user_id']);
 
@@ -779,6 +794,6 @@ You may enable or disable foreign key constraints within your migrations by usin
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations.
+> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html). 
 
-> {note} SQLite는 외래 키 제약 조건이 기본적으로 비활성화되어있습니다. SQLite를 사용할 때는 마이그레이션에서 외래 키를 생성하기 전에 [외래 키 기능을 활성화](/docs/{{version}}/database#configuration)해야합니다.
+> {note} SQLite는 기본적으로 외래 키 제약 조건을 비활성화합니다. SQLite를 사용하는 경우, 마이그레이션에서 데이터베이스 설정을 작성하기 전에 데이터베이스 설정에서 [외래 키 지원](/docs/{{version}}/database#configuration)을 사용해야합니다. 또한 SQLite는 테이블 생성시 및 [테이블이 변경되지 않을 때](https://www.sqlite.org/omitted.html) 외래 키만 지원합니다.

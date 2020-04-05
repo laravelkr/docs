@@ -58,6 +58,10 @@ The default language for your application is stored in the `config/app.php` conf
 애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다.
 
     Route::get('welcome/{locale}', function ($locale) {
+        if (! in_array($locale, ['en', 'es', 'fr'])) {
+            abort(400);
+        }
+
         App::setLocale($locale);
 
         //

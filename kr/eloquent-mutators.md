@@ -243,6 +243,10 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
         //
     }
 
+> {note} Attributes that are `null` will not be cast.
+
+> {note} `null` 인 속성은 캐스트되지 않습니다.
+
 <a name="custom-casts"></a>
 ### Custom Casts
 ### 커스텀 캐스트
@@ -446,6 +450,49 @@ When attaching a custom cast to a model, cast parameters may be specified by sep
         'secret' => Hash::class.':sha256',
     ];
 
+#### Castables
+#### Castables
+
+Instead of attaching the custom cast to your model, you may alternatively attach a class that implements the `Illuminate\Contracts\Database\Eloquent\Castable` interface:
+
+모델에 커스텀 캐스트를 부착하는 대신 `Illuminate\Contracts\Database\Eloquent\Castable` 인터페이스를 구현하는 클래스를 부착 할 수도 있습니다.
+
+    protected $casts = [
+        'options' => \App\Address::class,
+    ];
+
+Objects that implement the `Castable` interface must define a `castUsing` method that returns the class name of the custom caster class that is responsible for casting to and from the `Castable` class:
+
+`Castable` 인터페이스를 구현하는 객체는 `Castable` 클래스로의 캐스트를 담당하는 커스텀 캐스터 클래스의 클래스 이름을 리턴하는 `castUsing` 메소드를 정의해야합니다.
+
+    <?php
+
+    namespace App;
+
+    use Illuminate\Contracts\Database\Eloquent\Castable;
+    use App\Casts\Address as AddressCast;
+
+    class Address implements Castable
+    {
+        /**
+         * Get the name of the caster class to use when casting from / to this cast target.
+         *
+         * @return string
+         */
+        public static function castUsing()
+        {
+            return AddressCast::class;
+        }
+    }
+
+When using `Castable` classes, you may still provide arguments in the `$casts` definition. The arguments will be passed directly to the caster class:
+
+`Castable` 클래스를 사용할 때 `$casts` 정의에서 인수를 제공 할 수 있습니다. 인수는 캐스터 클래스로 직접 전달됩니다.
+
+    protected $casts = [
+        'options' => \App\Address::class.':argument',
+    ];
+
 <a name="array-and-json-casting"></a>
 ### Array & JSON Casting
 ### 배열 && JSON 캐스팅
@@ -509,9 +556,9 @@ When using the `date` or `datetime` cast type, you may specify the date's format
 
 Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
 테이블에서 원시 값을 선택 할때 실행하는 동안 캐스트를 적용 할 수 있습니다. 예시로 다음의 쿼리 참고 하세요
-    
+
     use App\Post;
-    use App\User;를
+    use App\User;
 
     $users = User::select([
         'users.*',

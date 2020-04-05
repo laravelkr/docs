@@ -1,15 +1,29 @@
 # HTTP Client
 # HTTP 클라이언트
 
+- [Introduction](#introduction)
 - [소개](#introduction)
+- [Making Requests](#making-requests)
 - [요청 만들기](#making-requests)
+    - [Request Data](#request-data)
     - [요청 데이터](#request-data)
+    - [Headers](#headers)
     - [헤더](#headers)
+    - [Authentication](#authentication)
     - [인증](#authentication)
+    - [Timeout](#timeout)
+    - [시간초과](#timeout)
+    - [Retries](#retries)
     - [재시도](#retries)
+    - [Error Handling](#error-handling)
     - [에러 처리](#error-handling)
+    - [Guzzle Options](#guzzle-options)
+    - [Guzzle Options](#guzzle-options)
 - [테스트](#testing)
+- [Testing](#testing)
+    - [Faking Responses](#faking-responses)
     - [응답 속이기](#faking-responses)
+    - [Inspecting Requests](#inspecting-requests)
     - [요청 검사하기](#inspecting-requests)
 
 <a name="introduction"></a>
@@ -32,7 +46,7 @@ Before getting started, you should ensure that you have installed the Guzzle pac
 
 To make requests, you may use the `get`, `post`, `put`, `patch`, and `delete` methods. First, let's examine how to make a basic `GET` request:
 
-요청을 만드는데 `get`, `post`, `put`, `patch`, `delete` 메서드를 사용할 수 있습니다. 우선 기본적인 'GET' 요청부터 알아봅시다.
+요청을 만드는데 `get`, `post`, `put`, `patch`, `delete` 메서드를 사용할 수 있습니다. 우선 기본적인 `GET` 요청부터 알아봅시다.
 
     use Illuminate\Support\Facades\Http;
 
@@ -54,7 +68,7 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 
 The `Illuminate\Http\Client\Response` object also implements the PHP `ArrayAccess` interface, allowing you to access JSON response data directly on the response:
 
-`Illuminate\Http\Client\Response` 객체는 PHP 'ArrayAccess' 인터페이스도 구현하고 있기 때문에 응답에서 JSON 응답 데이터에 바로 접근할 수 있습니다.
+`Illuminate\Http\Client\Response` 객체는 PHP `ArrayAccess` 인터페이스도 구현하고 있기 때문에 응답에서 JSON 응답 데이터에 바로 접근할 수 있습니다.
 
     return Http::get('http://test.com/users/1')['name'];
 
@@ -64,7 +78,7 @@ The `Illuminate\Http\Client\Response` object also implements the PHP `ArrayAcces
 
 Of course, it is common when using `POST`, `PUT`, and `PATCH` to send additional data with your request. So, these methods accept an array of data as their second argument. By default, data will be sent using the `application/json` content type:
 
-당연한 이야기이지만, 보통 'POST', 'PUT', 'PATCH'를 사용할 때 요청에 추가적인 데이터를 함께 보냅니다. 그래서 이 메서드들은 두 번째 인자로 데이터의 배열을 받습니다. 기본적으로 데이터는 `application/json` 컨텐트 타입으로 전송됩니다.
+당연한 이야기이지만, 보통 `POST`, `PUT`, `PATCH`를 사용할 때 요청에 추가적인 데이터를 함께 보냅니다. 그래서 이 메서드들은 두 번째 인자로 데이터의 배열을 받습니다. 기본적으로 데이터는 `application/json` 컨텐트 타입으로 전송됩니다.
 
     $response = Http::post('http://test.com/users', [
         'name' => 'Steve',
@@ -127,10 +141,10 @@ You may specify basic and digest authentication credentials using the `withBasic
 
 `withBasicAuth`와 `withDigestAuth` 메서드를 이용해서 기본 인증을 사용할 건지 다이제스트 인증을 사용할 건지 지정할 수 있습니다.
 
-    // 기본 인증...
+    // Basic authentication...
     $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(...);
 
-    // 다이제스트 인증...
+    // Digest authentication...
     $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(...);
 
 #### Bearer Tokens
@@ -141,6 +155,20 @@ If you would like to quickly add an `Authorization` bearer token header to the r
 요청 헤더에 `Authorization` bearer 토큰을 추가하고 싶으면 `withToken` 메서드를 사용하면 됩니다.
 
     $response = Http::withToken('token')->post(...);
+
+<a name="timeout"></a>
+### Timeout
+### 시간초과
+
+The `timeout` method may be used to specify the maximum number of seconds to wait for a response:
+
+`timeout` 메소드는 응답을 기다리는 최대 시간 (초)을 지정하는 데 사용될 수 있습니다.
+
+    $response = Http::timeout(3)->get(...);
+
+If the given timeout is exceeded, an instance of `Illuminate\Http\Client\ConnectionException` will  be thrown.
+
+주어진 타임 아웃이 초과되면 `Illuminate\Http\Client\ConnectionException`의 인스턴스가 발생합니다.
 
 <a name="retries"></a>
 ### Retries
@@ -196,6 +224,18 @@ The `throw` method returns the response instance if no error occurred, allowing 
 `throw` 메서드를 써도 실제로 에러가 발생하지 않으면 응답 인스턴스를 반환하기 때문에 `throw` 메서드에 다른 작업을 연결할 수 있습니다.
 
     return Http::post(...)->throw()->json();
+
+<a name="guzzle-options"></a>
+### Guzzle Options
+### Guzzle Options
+
+You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) using the `withOptions` method. The `withOptions` method accepts an array of key / value pairs:
+
+`withOptions` 메소드를 사용하여 추가 [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) 를 지정할 수 있습니다. `withOptions` 메소드는 키 / 값 쌍의 배열을 받습니다.
+
+    $response = Http::withOptions([
+        'debug' => true,
+    ])->get('http://test.com/users');
 
 <a name="testing"></a>
 ## Testing
@@ -319,3 +359,26 @@ The `assertSent` method accepts a callback which will be given an `Illuminate\Ht
                $request['name'] == 'Taylor' &&
                $request['role'] == 'Developer';
     });
+
+If needed, you may assert that a specific request was not sent using the `assertNotSent` method:
+
+필요한 경우 `assertNotSent` 메소드를 사용하여 특정 요청을 전송하지 않았는지 검증 할 수 있습니다.
+
+    Http::fake();
+    
+    Http::post('http://test.com/users', [
+        'name' => 'Taylor',
+        'role' => 'Developer',
+    ]); 
+       
+    Http::assertNotSent(function (Request $request) {
+        return $request->url() === 'http://test.com/posts';
+    });
+    
+Or, if you would like to assert that no requests were sent, you may use the `assertNothingSent` method:
+
+또는 요청이 전송되지 않았는지 검증하려면 `assertNothingSent` 메소드를 사용할 수 있습니다.
+
+    Http::fake();
+    
+    Http::assertNothingSent();

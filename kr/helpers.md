@@ -45,7 +45,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Arr::forget](#method-array-forget)
 - [Arr::get](#method-array-get)
 - [Arr::has](#method-array-has)
-- [Arr::hasAny](#method-array-hasAny)
+- [Arr::hasAny](#method-array-hasany)
 - [Arr::isAssoc](#method-array-isassoc)
 - [Arr::last](#method-array-last)
 - [Arr::only](#method-array-only)
@@ -89,15 +89,19 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::afterLast](#method-str-after-last)
 - [Str::before](#method-str-before)
 - [Str::beforeLast](#method-str-before-last)
+- [Str::between](#method-str-between)
 - [Str::camel](#method-camel-case)
 - [Str::contains](#method-str-contains)
 - [Str::containsAll](#method-str-contains-all)
 - [Str::endsWith](#method-ends-with)
 - [Str::finish](#method-str-finish)
 - [Str::is](#method-str-is)
+- [Str::isAscii](#method-str-is-ascii)
 - [Str::isUuid](#method-str-is-uuid)
 - [Str::kebab](#method-kebab-case)
+- [Str::length](#method-str-length)
 - [Str::limit](#method-str-limit)
+- [Str::lower](#method-str-lower)
 - [Str::orderedUuid](#method-str-ordered-uuid)
 - [Str::plural](#method-str-plural)
 - [Str::random](#method-str-random)
@@ -110,60 +114,63 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::start](#method-str-start)
 - [Str::startsWith](#method-starts-with)
 - [Str::studly](#method-studly-case)
+- [Str::substr](#method-str-substr)
 - [Str::title](#method-title-case)
 - [Str::ucfirst](#method-str-ucfirst)
+- [Str::upper](#method-str-upper)
 - [Str::uuid](#method-str-uuid)
 - [Str::words](#method-str-words)
 - [trans](#method-trans)
 - [trans_choice](#method-trans-choice)
 
+<a name="fluent-strings"></a>
 ### Fluent Strings
 ### Fluent Strings
 
-- [after](#method-after) 
-- [afterLast](#method-afterLast) 
-- [append](#method-append) 
-- [ascii](#method-ascii) 
-- [basename](#method-basename) 
-- [before](#method-before) 
-- [beforeLast](#method-beforeLast) 
-- [camel](#method-camel) 
-- [contains](#method-contains) 
-- [containsAll](#method-containsAll) 
-- [dirname](#method-dirname) 
-- [endsWith](#method-endsWith) 
-- [exactly](#method-exactly) 
-- [explode](#method-explode) 
-- [finish](#method-finish) 
-- [is](#method-is) 
-- [isAscii](#method-isAscii) 
-- [isEmpty](#method-isEmpty) 
-- [kebab](#method-kebab) 
-- [length](#method-length) 
-- [limit](#method-limit) 
-- [lower](#method-lower) 
-- [match](#method-match) 
-- [matchAll](#method-matchAll) 
-- [plural](#method-plural) 
-- [prepend](#method-prepend) 
-- [replace](#method-replace) 
-- [replaceArray](#method-replaceArray) 
-- [replaceFirst](#method-replaceFirst) 
-- [replaceLast](#method-replaceLast) 
-- [replaceMatches](#method-replaceMatches) 
-- [start](#method-start) 
-- [upper](#method-upper) 
-- [title](#method-title) 
-- [singular](#method-singular) 
-- [slug](#method-slug) 
-- [snake](#method-snake) 
-- [startsWith](#method-startsWith) 
-- [studly](#method-studly) 
-- [substr](#method-substr) 
-- [trim](#method-trim) 
-- [ucfirst](#method-ucfirst) 
-- [whenEmpty](#method-whenEmpty) 
-- [words](#method-words) 
+- [after](#method-fluent-str-after)
+- [afterLast](#method-fluent-str-after-last)
+- [append](#method-fluent-str-append)
+- [ascii](#method-fluent-str-ascii)
+- [basename](#method-fluent-str-basename)
+- [before](#method-fluent-str-before)
+- [beforeLast](#method-fluent-str-before-last)
+- [camel](#method-fluent-str-camel)
+- [contains](#method-fluent-str-contains)
+- [containsAll](#method-fluent-str-contains-all)
+- [dirname](#method-fluent-str-dirname)
+- [endsWith](#method-fluent-str-ends-with)
+- [exactly](#method-fluent-str-exactly)
+- [explode](#method-fluent-str-explode)
+- [finish](#method-fluent-str-finish)
+- [is](#method-fluent-str-is)
+- [isAscii](#method-fluent-str-is-ascii)
+- [isEmpty](#method-fluent-str-is-empty)
+- [kebab](#method-fluent-str-kebab)
+- [length](#method-fluent-str-length)
+- [limit](#method-fluent-str-limit)
+- [lower](#method-fluent-str-lower)
+- [match](#method-fluent-str-match)
+- [matchAll](#method-fluent-str-matchAll)
+- [plural](#method-fluent-str-plural)
+- [prepend](#method-fluent-str-prepend)
+- [replace](#method-fluent-str-replace)
+- [replaceArray](#method-fluent-str-replace-array)
+- [replaceFirst](#method-fluent-str-replace-first)
+- [replaceLast](#method-fluent-str-replace-last)
+- [replaceMatches](#method-fluent-str-replace-matches)
+- [start](#method-fluent-str-start)
+- [upper](#method-fluent-str-upper)
+- [title](#method-fluent-str-title)
+- [singular](#method-fluent-str-singular)
+- [slug](#method-fluent-str-slug)
+- [snake](#method-fluent-str-snake)
+- [startsWith](#method-fluent-str-starts-with)
+- [studly](#method-fluent-str-studly)
+- [substr](#method-fluent-str-substr)
+- [trim](#method-fluent-str-trim)
+- [ucfirst](#method-fluent-str-ucfirst)
+- [whenEmpty](#method-fluent-str-when-empty)
+- [words](#method-fluent-str-words)
 
 ### URLs
 ### URLs
@@ -249,7 +256,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 ## 배열 & 객체
 
 <a name="method-array-accessible"></a>
-#### `Arr::accessible()` {#collection-method}
+#### `Arr::accessible()` {#collection-method .first-collection-method}
 
 The `Arr::accessible` method checks that the given value is array accessible:
 
@@ -257,25 +264,25 @@ The `Arr::accessible` method checks that the given value is array accessible:
 
     use Illuminate\Support\Arr;
     use Illuminate\Support\Collection;
-    
+
     $isAccessible = Arr::accessible(['a' => 1, 'b' => 2]);
-    
+
     // true
-    
+
     $isAccessible = Arr::accessible(new Collection);
-    
+
     // true
-    
+
     $isAccessible = Arr::accessible('abc');
-    
+
     // false
-    
+
     $isAccessible = Arr::accessible(new stdClass);
-    
+
     // false
-    
+
 <a name="method-array-add"></a>
-#### `Arr::add()` {#collection-method .first-collection-method}
+#### `Arr::add()` {#collection-method}
 
 The `Arr::add` method adds a given key / value pair to an array if the given key doesn't already exist in the array or is set to `null`:
 
@@ -290,6 +297,7 @@ The `Arr::add` method adds a given key / value pair to an array if the given key
     $array = Arr::add(['name' => 'Desk', 'price' => null], 'price', 100);
 
     // ['name' => 'Desk', 'price' => 100]
+
 
 <a name="method-array-collapse"></a>
 #### `Arr::collapse()` {#collection-method}
@@ -392,15 +400,15 @@ The `Arr::exists` method checks that the given key exists in the provided array:
 `Arr::exists` 메소드는 주어진 키가 제공된 배열에 있는지 확인합니다.
 
     use Illuminate\Support\Arr;
-    
+
     $array = ['name' => 'John Doe', 'age' => 17];
-    
+
     $exists = Arr::exists($array, 'name');
-    
+
     // true
-    
+
     $exists = Arr::exists($array, 'salary');
-    
+
     // false
 
 <a name="method-array-first"></a>
@@ -502,27 +510,27 @@ The `Arr::has` method checks whether a given item or items exists in an array us
 
     // false
 
-<a name="method-array-hasAny"></a>
+<a name="method-array-hasany"></a>
 #### `Arr::hasAny()` {#collection-method}
 
-The Arr::hasAny method checks whether any item in a given set exists in an array using "dot" notation:
+The `Arr::hasAny` method checks whether any item in a given set exists in an array using "dot" notation:
 
 `Arr::hasAny` 메소드는 "점(.)" 표기를 이용하여 주어진 세트의 항목이 배열에 존재하는지 확인합니다.
 
     use Illuminate\Support\Arr;
-    
+
     $array = ['product' => ['name' => 'Desk', 'price' => 100]];
-    
+
     $contains = Arr::hasAny($array, 'product.name');
-    
+
     // true
-    
+
     $contains = Arr::hasAny($array, ['product.name', 'product.discount']);
-    
+
     // true
-    
+
     $contains = Arr::hasAny($array, ['category', 'product.discount']);
-    
+
     // false
 
 <a name="method-array-isassoc"></a>
@@ -676,7 +684,7 @@ The `Arr::query` method converts the array into a query string:
     Arr::query($array);
 
     // name=Taylor&order[column]=created_at&order[direction]=desc
-    
+
 <a name="method-array-random"></a>
 #### `Arr::random()` {#collection-method}
 
@@ -772,7 +780,7 @@ You may also sort the array by the results of the given Closure:
 <a name="method-array-sort-recursive"></a>
 #### `Arr::sortRecursive()` {#collection-method}
 
-The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative sub-arrays:
+The `Arr::sortRecursive` method recursively sorts an array using the `sort` function for numeric sub=arrays and `ksort` for associative subarrays:
 
 `Arr::sortRecursive` 메소드는 순차적 하위 배열을 위한 `sort` 함수와 연관 하위 배열을 위한 `ksort` 함수를 사용하여 배열을 재귀적으로 정렬합니다.
 
@@ -1094,7 +1102,7 @@ If the specified translation string or key does not exist, the `__` function wil
 <a name="method-class-basename"></a>
 #### `class_basename()` {#collection-method}
 
-The `class_basename` function returns the class name of the given class with the class' namespace removed:
+The `class_basename` function returns the class name of the given class with the class's namespace removed:
 
 `class_basename` 함수는 클래스의 네임스페이스를 제거한 클래스의 클래스 명을 반환합니다.
 
@@ -1178,6 +1186,20 @@ The `Str::beforeLast` method returns everything before the last occurrence of th
 
     // 'This '
 
+<a name="method-str-between"></a>
+#### `Str::between()` {#collection-method}
+
+The `Str::between` method returns the portion of a string between two values:
+
+`Str::between` 메소드는 두 값 사이의 문자열 부분을 반환합니다.
+
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::between('This is my name', 'This', 'name');
+
+    // ' is my '
+
 <a name="method-camel-case"></a>
 #### `Str::camel()` {#collection-method}
 
@@ -1240,6 +1262,7 @@ The `Str::endsWith` method determines if the given string ends with the given va
 
     // true
 
+
 You may also pass an array of values to determine if the given string ends with any of the given values:
 
 주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
@@ -1288,18 +1311,22 @@ The `Str::is` method determines if a given string matches a given pattern. Aster
 
     // false
 
-<a name="method-str-ucfirst"></a>
-#### `Str::ucfirst()` {#collection-method}
+<a name="method-str-is-ascii"></a>
+#### `Str::isAscii()` {#collection-method}
 
-The `Str::ucfirst` method returns the given string with the first character capitalized:
+The `Str::isAscii` method determines if a given string is 7 bit ASCII:
 
-`Str::ucfirst` 메소드는 첫 문자를 대문자로 하여 주어진 문자열을 반환합니다.
+`Str::isAscii` 메소드는 주어진 문자열이 7 비트 ASCII인지 확인합니다.
 
     use Illuminate\Support\Str;
 
-    $string = Str::ucfirst('foo bar');
+    $isAscii = Str::isAscii('Taylor');
 
-    // Foo bar
+    // true
+
+    $isAscii = Str::isAscii('ü');
+
+    // false
 
 <a name="method-str-is-uuid"></a>
 #### `Str::isUuid()` {#collection-method}
@@ -1332,6 +1359,19 @@ The `Str::kebab` method converts the given string to `kebab-case`:
 
     // foo-bar
 
+<a name="method-str-length"></a>
+#### `Str::length()` {#collection-method}
+
+The `Str::length` method returns the length of the given string:
+
+ `Str::length` 메소드는 주어진 문자열을 지정된 길이를 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $length = Str::length('Laravel');
+
+    // 7
+
 <a name="method-str-limit"></a>
 #### `Str::limit()` {#collection-method}
 
@@ -1354,6 +1394,19 @@ You may also pass a third argument to change the string that will be appended to
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
 
     // The quick brown fox (...)
+
+<a name="method-str-lower"></a>
+#### `Str::lower()` {#collection-method}
+
+The `Str::lower` method converts the given string to lowercase:
+
+`Str::lower` 메소드는 주어진 문자열을 소문자로 변환합니다.
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::lower('LARAVEL');
+
+    // laravel
 
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {#collection-method}
@@ -1537,6 +1590,19 @@ The `Str::studly` method converts the given string to `StudlyCase`:
 
     // FooBar
 
+<a name="method-str-substr"></a>
+#### `Str::substr()` {#collection-method}
+
+The `Str::substr` method returns the portion of string specified by the start and length parameters:
+
+`Str::substr` 메소드는 start 및 length 매개 변수로 지정된 문자열 부분을 리턴합니다.
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::substr('The Laravel Framework', 4, 7);
+
+    // Laravel
+
 <a name="method-title-case"></a>
 #### `Str::title()` {#collection-method}
 
@@ -1549,6 +1615,32 @@ The `Str::title` method converts the given string to `Title Case`:
     $converted = Str::title('a nice title uses the correct case');
 
     // A Nice Title Uses The Correct Case
+
+<a name="method-str-ucfirst"></a>
+#### `Str::ucfirst()` {#collection-method}
+
+The `Str::ucfirst` method returns the given string with the first character capitalized:
+
+`Str::ucfirst` 메소드는 첫 문자를 대문자로하여 주어진 문자열을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::ucfirst('foo bar');
+
+    // Foo bar
+
+<a name="method-str-upper"></a>
+#### `Str::upper()` {#collection-method}
+
+The `Str::upper` method converts the given string to uppercase:
+
+`Str::upper` 메소드는 주어진 문자열을 대문자로 변환합니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::upper('laravel');
+
+    // LARAVEL
 
 <a name="method-str-uuid"></a>
 #### `Str::uuid()` {#collection-method}
@@ -1609,389 +1701,389 @@ Fluent strings provide a more fluent, object-oriented interface for working with
 Fluent Strings는 문자열 값을 사용할 때보다 유창하고 객체 지향적인 인터페이스를 제공하므로, 기존 문자열의 작동보다 더 읽기 쉬운 구문을 사용하여 여러 문자열 연산을 함께 연결할 수 있습니다.
 
 <a name="method-fluent-str-after"></a>
-### `after` {#collection-method}
+#### `after` {#collection-method}
 
 The `after` method returns everything after the given value in a string. The entire string will be returned if the value does not exist within the string:
 
 `after` 메소드는 주어진 값 이후의 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
 
     use Illuminate\Support\Str;
-    
+
     $slice = Str::of('This is my name')->after('This is');
-    
+
     // ' my name'
 
-<a name="method-fluent-str-afterLast"></a>
-### `afterLast` {#collection-method}
+<a name="method-fluent-str-after-last"></a>
+#### `afterLast` {#collection-method}
 
 The `afterLast` method returns everything after the last occurrence of the given value in a string. The entire string will be returned if the value does not exist within the string:
 
 `afterLast` 메소드는 문자열에서 주어진 값이 마지막으로 나타난 후 모든 것을 반환합니다. 문자열 내에 값이 없으면 전체 문자열이 반환됩니다.
 
     use Illuminate\Support\Str;
-    
+
     $slice = Str::of('App\Http\Controllers\Controller')->afterLast('\\');
-    
+
     // 'Controller'
 
 <a name="method-fluent-str-append"></a>
-### `append` {#collection-method}
+#### `append` {#collection-method}
 
 The `append` method appends the given values to the string:
 
 `append` 메소드는 주어진 값을 문자열에 추가합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('Taylor')->append(' Otwell');
-    
+
     // 'Taylor Otwell'
 
 <a name="method-fluent-str-ascii"></a>
-### `ascii` {#collection-method}
+#### `ascii` {#collection-method}
 
 The `ascii` method will attempt to transliterate the string into an ASCII value:
 
 `ascii` 메소드는 문자열을 ASCII 값으로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('ü')->ascii();
-    
+
     // 'u'
 
 <a name="method-fluent-str-basename"></a>
-### `basename` {#collection-method}
+#### `basename` {#collection-method}
 
 The `basename` method will return the trailing name component of the given string:
 
 `basename` 메소드는 주어진 문자열의 마지막 구성 요소를 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('/foo/bar/baz')->basename();
-    
+
     // 'baz'
-    
+
 If needed, you may provide an "extension" that will be removed from the trailing component:
 
 필요한 경우 마지막 구성 요소에서 제거할 "확장자"를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('/foo/bar/baz.jpg')->basename('.jpg');
-    
+
     // 'baz'
 
 <a name="method-fluent-str-before"></a>
-### `before` {#collection-method}
+#### `before` {#collection-method}
 
 The `before` method returns everything before the given value in a string:
 
 `before` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $slice = Str::of('This is my name')->before('my name');
-    
+
     // 'This is '
 
-<a name="method-fluent-str-beforeLast"></a>
-### `beforeLast` {#collection-method}
+<a name="method-fluent-str-before-last"></a>
+#### `beforeLast` {#collection-method}
 
 The `beforeLast` method returns everything before the last occurrence of the given value in a string:
 
 `beforeLast` 메소드는 문자열에서 주어진 값 이전의 모든 것을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $slice = Str::of('This is my name')->beforeLast('is');
-    
+
     // 'This '
 
 <a name="method-fluent-str-camel"></a>
-### `camel` {#collection-method}
+#### `camel` {#collection-method}
 
 The `camel` method converts the given string to `camelCase`:
 
 `camel` 메소드는 주어진 문자열을 `camelCase`로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $converted = Str::of('foo_bar')->camel();
-    
+
     // fooBar
 
 <a name="method-fluent-str-contains"></a>
-### `contains` {#collection-method}
+#### `contains` {#collection-method}
 
 The `contains` method determines if the given string contains the given value (case sensitive):
 
 `contains` 메소드는 주어진 문자열이 주어진 값을 포함하는지 확인합니다. (대소문자를 구분합니다.)
 
     use Illuminate\Support\Str;
-    
+
     $contains = Str::of('This is my name')->contains('my');
-    
+
     // true
-    
+
 You may also pass an array of values to determine if the given string contains any of the values:
 
 또한, 주어진 문자열에 값이 포함되어 있는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $contains = Str::of('This is my name')->contains(['my', 'foo']);
-    
+
     // true
 
-<a name="method-fluent-str-containsAll"></a>
-### `containsAll` {#collection-method}
+<a name="method-fluent-str-contains-all"></a>
+#### `containsAll` {#collection-method}
 
 The `containsAll` method determines if the given string contains all array values:
 
 `containsAll` 메소드는 주어진 문자열에 모든 배열 값이 포함되어 있는지 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $containsAll = Str::of('This is my name')->containsAll(['my', 'name']);
-    
+
     // true
 
 <a name="method-fluent-str-dirname"></a>
-### `dirname` {#collection-method}
+#### `dirname` {#collection-method}
 
 The `dirname` method returns the parent directory portion of the given string:
 
 `dirname` 메소드는 주어진 문자열의 부모 디렉토리를 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('/foo/bar/baz')->dirname();
-    
+
     // '/foo/bar'
-    
+
 Optionally, You may specify how many directory levels you wish to trim from the string:
 
 선택적으로 문자열에서 자르려는 디렉토리 레벨 수를 지정할 수 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('/foo/bar/baz')->dirname(2);
-    
+
     // '/foo'
 
-<a name="method-fluent-str-endsWith"></a>
-### `endsWith` {#collection-method}
+<a name="method-fluent-str-ends-with"></a>
+#### `endsWith` {#collection-method}
 
 The `endsWith` method determines if the given string ends with the given value:
 
 `endsWith` 메소드는 주어진 문자열이 주어진 값으로 끝나는지 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('This is my name')->endsWith('name');
-    
+
     // true
-    
+
 You may also pass an array of values to determine if the given string ends with any of the given values:
 
 주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('This is my name')->endsWith(['name', 'foo']);
-    
+
     // true
-    
+
     $result = Str::of('This is my name')->endsWith(['this', 'foo']);
-    
+
     // false
 
 <a name="method-fluent-str-exactly"></a>
-### `exactly` {#collection-method}
+#### `exactly` {#collection-method}
 
 The `exactly` method determines if the given string is an exact match with another string:
 
 `exactly` 메소드는 주어진 문자열이 다른 문자열과 정확히 일치하는지 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('Laravel')->exactly('Laravel');
-    
+
     // true
 
 <a name="method-fluent-str-explode"></a>
-### `explode` {#collection-method}
+#### `explode` {#collection-method}
 
 The `explode` method splits the string by the given delimiter and returns a collection containing each section of the split string:
 
 `explode` 메소드는 주어진 구분 기호로 문자열을 분할하고 분할 문자열의 각 섹션을 포함하는 컬렉션을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $collection = Str::of('foo bar baz')->explode(' ');
-    
+
     // collect(['foo', 'bar', 'baz'])
 
 <a name="method-fluent-str-finish"></a>
-### `finish` {#collection-method}
+#### `finish` {#collection-method}
 
 The `finish` method adds a single instance of the given value to a string if it does not already end with the value:
 
 `finish` 메소드는 문자열이 주어진 값으로 끝나지 않으면 해당 값을 추가합니다.
 
     use Illuminate\Support\Str;
-    
+
     $adjusted = Str::of('this/string')->finish('/');
-    
+
     // this/string/
-    
+
     $adjusted = Str::of('this/string/')->finish('/');
-    
+
     // this/string/
 
 <a name="method-fluent-str-is"></a>
-### `is` {#collection-method}
+#### `is` {#collection-method}
 
 The `is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
 `is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $matches = Str::of('foobar')->is('foo*');
-    
+
     // true
-    
+
     $matches = Str::of('foobar')->is('baz*');
-    
+
     // false
 
-<a name="method-fluent-str-isAscii"></a>
-### `isAscii` {#collection-method}
+<a name="method-fluent-str-is-ascii"></a>
+#### `isAscii` {#collection-method}
 
 The `isAscii` method determines if a given string is an ASCII string:
 
 `isAscii` 메소드는 주어진 문자열이 ASCII 문자열인지 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('Taylor')->isAscii();
-    
+
     // true
-    
+
     $result = Str::of('ü')->isAcii();
-    
+
     // false
 
-<a name="method-fluent-str-isEmpty"></a>
-### `isEmpty` {#collection-method}
+<a name="method-fluent-str-is-empty"></a>
+#### `isEmpty` {#collection-method}
 
 The `isEmpty` method determines if the given string is empty:
 
 `isEmpty` 메소드는 주어진 문자열이 비어 있는지 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('  ')->trim()->isEmpty();
-    
+
     // true
-    
+
     $result = Str::of('Laravel')->trim()->isEmpty();
-    
+
     // false
 
 <a name="method-fluent-str-kebab"></a>
-### `kebab` {#collection-method}
+#### `kebab` {#collection-method}
 
 The `kebab` method converts the given string to `kebab-case`:
 
 `kebab` 메소드는 주어진 문자열을 `kebab-case`로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $converted = Str::of('fooBar')->kebab();
-    
+
     // foo-bar
 
 <a name="method-fluent-str-length"></a>
-### `length` {#collection-method}
+#### `length` {#collection-method}
 
 The `length` method returns the length of the given string:
 
 `length` 메소드는 주어진 문자열의 길이를 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $length = Str::of('Laravel')->length();
-    
+
     // 7
 
 <a name="method-fluent-str-limit"></a>
-### `limit` {#collection-method}
+#### `limit` {#collection-method}
 
 The `limit` method truncates the given string at the specified length:
 
 `limit` 메소드는 주어진 문자열을 지정된 길이로 제한합니다.
 
     use Illuminate\Support\Str;
-    
+
     $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20);
-    
+
     // The quick brown fox...
-    
+
 You may also pass a third argument to change the string that will be appended to the end:
 
 끝에 추가 될 문자열을 변경하기 위해 세 번째 인수를 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20, ' (...)');
-    
+
     // The quick brown fox (...)
 
 <a name="method-fluent-str-lower"></a>
-### `lower` {#collection-method}
+#### `lower` {#collection-method}
 
 The `lower` method converts the given string to lowercase:
 
 `lower` 메소드는 주어진 문자열을 소문자로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('LARAVEL')->lower();
-    
+
     // 'laravel'
 
 <a name="method-fluent-str-match"></a>
-### `match` {#collection-method}
+#### `match` {#collection-method}
 
 The `match` method will return the portion of a string that matches a given regular expression pattern:
 
 `match` 메소드는 주어진 정규식 패턴과 일치하는 문자열을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('foo bar')->match('/bar/');
-    
-    // 'bar'
-    
-    $result = Str::of('foo bar')->match('/foo (.*)/');
-    
+
     // 'bar'
 
-<a name="method-fluent-str-matchAll"></a>
-### `matchAll` {#collection-method}
+    $result = Str::of('foo bar')->match('/foo (.*)/');
+
+    // 'bar'
+
+<a name="method-fluent-str-match-all"></a>
+#### `matchAll` {#collection-method}
 
 The `matchAll` method will return a collection containing the portions of a string that match a given regular expression pattern:
 
 `matchAll` 메소드는 주어진 정규 표현식 패턴과 일치하는 문자열을 포함하는 컬렉션을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('bar foo bar')->matchAll('/bar/');
-    
+
     // collect(['bar', 'bar'])
 
 If you specify a matching group within the expression, Laravel will return a collection of that group's matches:
@@ -1999,30 +2091,30 @@ If you specify a matching group within the expression, Laravel will return a col
 식 내에서 일치하는 그룹을 지정하면 Laravel은 해당 그룹의 일치하는 컬렉션을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('bar fun bar fly')->match('/f(\w*)/');
-    
+
     // collect(['un', 'ly']);
-    
+
 If no matches are found, an empty collection will be returned.
 
 일치하는 항목이 없으면 빈 컬렉션이 반환됩니다.
 
 <a name="method-fluent-str-plural"></a>
-### `plural` {#collection-method}
+#### `plural` {#collection-method}
 
 The `plural` method converts a single word string to its plural form. This function currently only supports the English language:
 
 `plural` 메소드는 단수형을 복수형으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
-    
+
     $plural = Str::of('car')->plural();
-    
+
     // cars
-    
+
     $plural = Str::of('child')->plural();
-    
+
     // children
 
 You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
@@ -2030,292 +2122,292 @@ You may provide an integer as a second argument to the function to retrieve the 
 문자열의 단수 또는 복수 형식을 검색하기 위해 함수에 두 번째 인수로 정수를 제공할 수 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $plural = Str::of('child')->plural(2);
-    
+
     // children
-    
+
     $plural = Str::of('child')->plural(1);
-    
+
     // child
 
 <a name="method-fluent-str-prepend"></a>
-### `prepend` {#collection-method}
+#### `prepend` {#collection-method}
 
 The `prepend` method prepends the given values onto the string:
 
 `prepend` 메소드는 주어진 값을 문자열 앞에 추가합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('Framework')->prepend('Laravel ');
-    
+
     // Laravel Framework
 
 <a name="method-fluent-str-replace"></a>
-### `replace` {#collection-method}
+#### `replace` {#collection-method}
 
 The `replace` method replaces a given string within the string:
 
 `replace` 메소드는 문자열 내에서 주어진 문자열을 대체합니다.
 
     use Illuminate\Support\Str;
-    
+
     $replaced = Str::of('Laravel 6.x')->replace('6.x', '7.x');
-    
+
     // Laravel 7.x
 
-<a name="method-fluent-str-replaceArray"></a>
-### `replaceArray` {#collection-method}
+<a name="method-fluent-str-replace-array"></a>
+#### `replaceArray` {#collection-method}
 
 The `replaceArray` method replaces a given value in the string sequentially using an array:
 
 `replaceArray` 메소드는 배열을 사용하여 문자열에서 주어진 값을 차례대로 바꿉니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = 'The event will take place between ? and ?';
-    
+
     $replaced = Str::of($string)->replaceArray('?', ['8:30', '9:00']);
-    
+
     // The event will take place between 8:30 and 9:00
 
-<a name="method-fluent-str-replaceFirst"></a>
-### `replaceFirst` {#collection-method}
+<a name="method-fluent-str-replace-first"></a>
+#### `replaceFirst` {#collection-method}
 
 The `replaceFirst` method replaces the first occurrence of a given value in a string:
 
 `replaceFirst` 메소드는 문자열에서 주어진 값이 발견된 첫 번째 부분을 대체합니다.
 
     use Illuminate\Support\Str;
-    
+
     $replaced = Str::of('the quick brown fox jumps over the lazy dog')->replaceFirst('the', 'a');
-    
+
     // a quick brown fox jumps over the lazy dog
 
-<a name="method-fluent-str-replaceLast"></a>
-### `replaceLast` {#collection-method}
+<a name="method-fluent-str-replace-last"></a>
+#### `replaceLast` {#collection-method}
 
 The `replaceLast` method replaces the last occurrence of a given value in a string:
 
 `replaceLast` 메소드는 문자열에서 주어진 값이 발견된 마지막 부분을 대체합니다.
 
     use Illuminate\Support\Str;
-    
+
     $replaced = Str::of('the quick brown fox jumps over the lazy dog')->replaceLast('the', 'a');
-    
+
     // the quick brown fox jumps over a lazy dog
 
-<a name="method-fluent-str-replaceMatches"></a>
-### `replaceMatches` {#collection-method}
+<a name="method-fluent-str-replace-matches"></a>
+#### `replaceMatches` {#collection-method}
 
 The `replaceMatches` method replaces all portions of a string matching a given pattern with the given replacement string:
  
 `replaceMatches` 메소드는 주어진 패턴과 일치하는 문자열의 모든 부분을 주어진 대체 문자열로 변경합니다.
 
     use Illuminate\Support\Str;
-    
+
     $replaced = Str::of('(+1) 501-555-1000')->replaceMatches('/[^A-Za-z0-9]++/', '')
-    
+
     // '15015551000'
-    
+
 The `replaceMatches` method also accepts a Closure that will be invoked with each portion of the string matching the given party, allowing you to perform the replacement logic within the Closure and return the replaced value:
 
 `replaceMatches` 메소드는 또한 주어진 파티에 일치하는 문자열의 각 부분에 대해 호출되는 클로저를 허용하므로 closure 내에서 대체 로직을 실행하고 대체된 값을 반환할 수 있습니다.
 
     use Illuminate\Support\Str;
-    
+
     $replaced = Str::of('123')->replaceMatches('/\d/', function ($match) {
         return '['.$match[0].']';
     });
-    
+
     // '[1][2][3]'
 
 <a name="method-fluent-str-start"></a>
-### `start` {#collection-method}
+#### `start` {#collection-method}
 
 The `start` method adds a single instance of the given value to a string if it does not already start with the value:
 
 `start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
 
     use Illuminate\Support\Str;
-    
+
     $adjusted = Str::of('this/string')->start('/');
-    
+
     // /this/string
-    
+
     $adjusted = Str::of('/this/string')->start('/');
-    
+
     // /this/string
 
 <a name="method-fluent-str-upper"></a>
-### `upper` {#collection-method}
+#### `upper` {#collection-method}
 
 The `upper` method converts the given string to uppercase:
 
 `upper` 메소드는 주어진 문자열을 대문자로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $adjusted = Str::of('laravel')->upper();
-    
+
     // LARAVEL
 
 <a name="method-fluent-str-title"></a>
-### `title` {#collection-method}
+#### `title` {#collection-method}
 
 The `title` method converts the given string to `Title Case`:
 
 `title` 메소드는 주어진 문자열을 `Title Case`로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $converted = Str::of('a nice title uses the correct case')->title();
-    
+
     // A Nice Title Uses The Correct Case
 
 <a name="method-fluent-str-singular"></a>
-### `singular` {#collection-method}
+#### `singular` {#collection-method}
 
 The `singular` method converts a string to its singular form. This function currently only supports the English language:
 
 `singular` 메소드는 문자열을 단수 형식으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
     use Illuminate\Support\Str;
-    
+
     $singular = Str::of('cars')->singular();
-    
+
     // car
-    
+
     $singular = Str::of('children')->singular();
-    
+
     // child
 
 <a name="method-fluent-str-slug"></a>
-### `slug` {#collection-method}
+#### `slug` {#collection-method}
 
 The `slug` method generates a URL friendly "slug" from the given string:
 
 `slug` 메소드는 주어진 문자열로부터 URL에 알맞는 "slug"를 생성합니다.
 
     use Illuminate\Support\Str;
-    
+
     $slug = Str::of('Laravel Framework')->slug('-');
-    
+
     // laravel-framework
 
 <a name="method-fluent-str-snake"></a>
-### `snake` {#collection-method}
+#### `snake` {#collection-method}
 
 The `snake` method converts the given string to `snake_case`:
 
 `snake` 메소드는 주어진 문자열을 `snake_case`로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $converted = Str::of('fooBar')->snake();
-    
+
     // foo_bar
 
-<a name="method-fluent-str-startsWith"></a>
-### `startsWith` {#collection-method}
+<a name="method-fluent-str-starts-with"></a>
+#### `startsWith` {#collection-method}
 
 The `startsWith` method determines if the given string begins with the given value:
 
 `startsWith` 메소드는 주어진 문자열이 주어진 값으로 시작하는지를 확인합니다.
 
     use Illuminate\Support\Str;
-    
+
     $result = Str::of('This is my name')->startsWith('This');
-    
+
     // true
 
 <a name="method-fluent-str-studly"></a>
-### `studly` {#collection-method}
+#### `studly` {#collection-method}
 
 The `studly` method converts the given string to `StudlyCase`:
 
 `studly` 메소드는 주어진 문자열을 `StudlyCase`로 변환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $converted = Str::of('foo_bar')->studly();
-    
+
     // FooBar
 
 <a name="method-fluent-str-substr"></a>
-### `substr` {#collection-method}
+#### `substr` {#collection-method}
 
 The `substr` method returns the portion of the string specified by the given start and length parameters:
 
 `substr` 메소드는 주어진 시작 및 길이 파라미터에 의해 지정된 문자열 부분을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('Laravel Framework')->substr(8);
-    
+
     // Framework
-    
+
     $string = Str::of('Laravel Framework')->substr(8, 5);
-    
+
     // Frame
 
 <a name="method-fluent-str-trim"></a>
-### `trim` {#collection-method}
+#### `trim` {#collection-method}
 
 The `trim` method trims the given string:
 
 `trim` 메소드는 주어진 문자열을 잘라냅니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('  Laravel  ')->trim();
-    
+
     // 'Laravel'
-    
+
     $string = Str::of('/Laravel/')->trim('/');
-    
+
     // 'Laravel'
 
 <a name="method-fluent-str-ucfirst"></a>
-### `ucfirst` {#collection-method}
+#### `ucfirst` {#collection-method}
 
 The `ucfirst` method returns the given string with the first character capitalized:
 
 `ucfirst` 메소드는 첫 문자를 대문자로 하여 주어진 문자열을 반환합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('foo bar')->ucfirst();
-    
+
     // Foo bar
 
-<a name="method-fluent-str-whenEmpty"></a>
-### `whenEmpty` {#collection-method}
+<a name="method-fluent-str-when-empty"></a>
+#### `whenEmpty` {#collection-method}
 
 The `whenEmpty` method invokes the given Closure if the string is empty. If the Closure returns a value, that value will also be returned by the `whenEmpty` method. If the Closure does not return a value, the fluent string instance will be returned:
 
 `whenEmpty` 메소드는 문자열이 비어 있으면 주어진 클로저를 호출합니다. 클로저가 값을 반환하면 그 값도 `whenEmpty` 메소드에 의해 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('  ')->whenEmpty(function ($string) {
         return $string->trim()->prepend('Laravel');
     });
-    
+
     // 'Laravel'
 
 <a name="method-fluent-str-words"></a>
-### `words` {#collection-method}
+#### `words` {#collection-method}
 
 The `words` method limits the number of words in a string:
 
 `words` 메소드는 문자열의 단어 수를 제한합니다.
 
     use Illuminate\Support\Str;
-    
+
     $string = Str::of('Perfectly balanced, as all things should be.')->words(3, ' >>>');
-    
+
     // Perfectly balanced, as >>>
 
 <a name="urls"></a>
@@ -2683,10 +2775,6 @@ The `dump` function dumps the given variables:
 If you want to stop executing the script after dumping the variables, use the [`dd`](#method-dd) function instead.
 
 변수읙 값을 표시한 다음에 스크립트의 실행을 멈추고자 한다면, [`dd`](#method-dd)함수를 사용하십시오.
-
-> {tip} You may use Artisan's `dump-server` command to intercept all `dump` calls and display them in your console window instead of your browser.
-
-> {tip} Artisan의 `dump-server` 명령을 사용하여 모든 `dump` 호출을 차단하고 브라우저 대신 콘솔 창에 표시 할 수 있습니다.
 
 <a name="method-encrypt"></a>
 #### `encrypt()` {#collection-method}

@@ -951,6 +951,9 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertSelectMissingOptions](#assert-select-missing-options)
 - [assertSelectHasOption](#assert-select-has-option)
 - [assertValue](#assert-value)
+- [assertAttribute](#assert-attribute)
+- [assertAriaAttribute](#assert-aria-attribute)
+- [assertDataAttribute](#assert-data-attribute)
 - [assertVisible](#assert-visible)
 - [assertPresent](#assert-present)
 - [assertMissing](#assert-missing)
@@ -1392,6 +1395,48 @@ Assert that the element matching the given selector has the given value:
 주어진 selector 와 매칭되는 element가 주어진 값을 가지는지 확인:
 
     $browser->assertValue($selector, $value);
+
+<a name="assert-attribute"></a>
+#### assertAttribute
+#### assertAttribute
+
+Assert that the element matching the given selector has the given value in the provided attribute:
+
+주어진 선택자와 일치하는 요소가 제공된 속성에 주어진 값을 가지는지 확인:
+
+    $browser->assertAttribute($selector, $attribute, $value);
+
+<a name="assert-aria-attribute"></a>
+#### assertAriaAttribute
+#### assertAriaAttribute
+
+Assert that the element matching the given selector has the given value in the provided aria attribute:
+
+제공된 선택자와 일치하는 요소가 제공된 aria 속성에 지정된 값을 가지고 있는지 확인:
+
+    $browser->assertAriaAttribute($selector, $attribute, $value);
+
+For example, given the markup `<button aria-label="Add"></>`, you may assert against the `aria-label` attribute like so:
+
+예를 들어, `<button aria-label="Add"></>`마크업이 주어지면 다음과 같이 `aria-label` 속성에 대해 검증:
+
+    $browser->assertAriaAttribute('button', 'label', 'Add')
+
+<a name="assert-data-attribute"></a>
+#### assertDataAttribute
+#### assertDataAttribute
+
+Assert that the element matching the given selector has the given value in the provided data attribute:
+
+제공된 선택기와 일치하는 요소가 제공된 데이터 속성에 지정된 값을 가지고 있는지 확인:
+
+    $browser->assertDataAttribute($selector, $attribute, $value);
+
+For example, given the markup `<tr id="row-1" data-content="attendees"></>`, you may assert against the `data-label` attribute like so:
+
+예를 들어 `<tr id="row-1" data-content="attendees"></>`마크 업이 주어지면 다음과 같이`data-label` 속성에 대해 검증:
+
+    $browser->assertDataAttribute('#row-1', 'content', 'attendees')
 
 <a name="assert-visible"></a>
 #### assertVisible
@@ -1962,11 +2007,13 @@ If you are using [Github Actions](https://github.com/features/actions) to run yo
       dusk-php:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
           - name: Prepare The Environment
             run: cp .env.example .env
           - name: Create Database
-            run: mysql --user="root" --password="root" -e "CREATE DATABASE my-database character set UTF8mb4 collate utf8mb4_bin;"
+            run: |
+              sudo systemctl start mysql
+              mysql --user="root" --password="root" -e "CREATE DATABASE my-database character set UTF8mb4 collate utf8mb4_bin;"
           - name: Install Composer Dependencies
             run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           - name: Generate Application Key

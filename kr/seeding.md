@@ -16,9 +16,9 @@
 ## Introduction
 ## 시작하기
 
-Laravel includes a simple method of seeding your database with test data using seed classes. All seed classes are stored in the `database/seeds` directory. Seed classes may have any name you wish, but probably should follow some sensible convention, such as `UsersTableSeeder`, etc. By default, a `DatabaseSeeder` class is defined for you. From this class, you may use the `call` method to run other seed classes, allowing you to control the seeding order.
+Laravel includes a simple method of seeding your database with test data using seed classes. All seed classes are stored in the `database/seeds` directory. Seed classes may have any name you wish, but probably should follow some sensible convention, such as `UserSeeder`, etc. By default, a `DatabaseSeeder` class is defined for you. From this class, you may use the `call` method to run other seed classes, allowing you to control the seeding order.
 
-라라벨에서는 시드(seed) 클래스를 사용해서 테스트 데이터를 데이터베이스에 설정하는 간단한 메소드를 포함하고 있습니다. 모든 시드(Seed) 클래스는 `database/seeds` 디렉토리에 저장됩니다. 시드(Seed)클래스의 이름은 아무렇게나 작성할 수 있지만 가급적 `UsersTableSeeder`등과 같이 직관적인 이름 규칙을 따르는 것이 좋습니다. 기본값으로 `DatabaseSeeder`클래스가 정의 되어 있습니다. 이 클래스에서 `call` 메소드로 다른 시드(seed) 클래스를  호출해서 시딩(seeding) 순서를 조정 할 수 있습니다.
+라라벨에서는 시드(seed) 클래스를 사용해서 테스트 데이터를 데이터베이스에 설정하는 간단한 메소드를 포함하고 있습니다. 모든 시드(Seed) 클래스는 `database/seeds` 디렉토리에 저장됩니다. 시드(Seed)클래스의 이름은 아무렇게나 작성할 수 있지만 가급적 `UserSeeder`등과 같이 직관적인 이름 규칙을 따르는 것이 좋습니다. 기본값으로 `DatabaseSeeder`클래스가 정의 되어 있습니다. 이 클래스에서 `call` 메소드로 다른 시드(seed) 클래스를  호출해서 시딩(seeding) 순서를 조정 할 수 있습니다.
 
 <a name="writing-seeders"></a>
 ## Writing Seeders
@@ -28,7 +28,7 @@ To generate a seeder, execute the `make:seeder` [Artisan command](/docs/{{versio
 
 seeder를 생성하기 위해서는, `make:seeder` [아티즌 명령어](/docs/{{version}}/artisan)를 실행하면 됩니다. 프레임워크에 의해서 생성된 모든 seeder들은 `database/seeds` 디렉토리에 위치할 것입니다.
 
-    php artisan make:seeder UsersTableSeeder
+    php artisan make:seeder UserSeeder
 
 A seeder class only contains one method by default: `run`. This method is called when the `db:seed` [Artisan command](/docs/{{version}}/artisan) is executed. Within the `run` method, you may insert data into your database however you wish. You may use the [query builder](/docs/{{version}}/queries) to manually insert data or you may use [Eloquent model factories](/docs/{{version}}/database-testing#writing-factories).
 
@@ -110,9 +110,9 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
     public function run()
     {
         $this->call([
-            UsersTableSeeder::class,
-            PostsTableSeeder::class,
-            CommentsTableSeeder::class,
+            UserSeeder::class,
+            PostSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 
@@ -132,7 +132,7 @@ Now you may use the `db:seed` Artisan command to seed your database. By default,
 
     php artisan db:seed
 
-    php artisan db:seed --class=UsersTableSeeder
+    php artisan db:seed --class=UserSeeder
 
 You may also seed your database using the `migrate:fresh` command, which will drop all tables and re-run all of your migrations. This command is useful for completely re-building your database:
 

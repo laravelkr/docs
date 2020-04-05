@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+- [Model Preparation](#model-preparation)
+- [모델 준비사항](#model-preparation)
 - [Database Considerations](#verification-database)
 - [데이터베이스 고려사항](#verification-database)
 - [Routing](#verification-routing)
@@ -24,8 +26,9 @@ Many web applications require users to verify their email addresses before using
 
 많은 웹 애플리케이션에서 사용자는 애플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. 라라벨은 각 애플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
 
-### Model Preparation
-### 모델 준비사항
+<a name="model-preparation"></a>
+## Model Preparation
+## 모델 준비사항
 
 To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
 
@@ -48,8 +51,8 @@ To get started, verify that your `App\User` model implements the `Illuminate\Con
     }
 
 <a name="verification-database"></a>
-## Database Considerations
-## 데이터베이스 고려사항
+### Database Considerations
+### 데이터베이스 고려사항
 
 #### The Email Verification Column
 #### 이메일 검증 컬럼

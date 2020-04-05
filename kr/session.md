@@ -271,9 +271,9 @@ The `forget` method will remove a piece of data from the session. If you would l
 ### Regenerating The Session ID
 ### 세션 ID 다시 생성하기
 
-Regenerating the session ID is often done in order to prevent malicious users from exploiting a [session fixation](https://en.wikipedia.org/wiki/Session_fixation) attack on your application.
+Regenerating the session ID is often done in order to prevent malicious users from exploiting a [session fixation](https://owasp.org/www-community/attacks/Session_fixation) attack on your application.
 
-세션 ID를 다시 생성하는 것은 종종 악의적인 사용자의 애플리케이션에 대한 [세션 fixation](https://en.wikipedia.org/wiki/Session_fixation) 공격을 방지하기 위해서 수행합니다.
+세션 ID를 다시 생성하는 것은 종종 악의적인 사용자의 애플리케이션에 대한 [세션 fixation](https://owasp.org/www-community/attacks/Session_fixation) 공격을 방지하기 위해서 수행합니다.
 
 Laravel automatically regenerates the session ID during authentication if you are using the built-in `LoginController`; however, if you need to manually regenerate the session ID, you may use the `regenerate` method.
 

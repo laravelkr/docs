@@ -641,7 +641,7 @@ However, if you are building a package that utilizes Blade components, you will 
      */
     public function boot()
     {
-        Blade::component(AlertComponent::class, 'package-alert');
+        Blade::component('package-alert', AlertComponent::class);
     }
 
 Once your component has been registered, it may be rendered using its tag alias:
@@ -735,6 +735,31 @@ When your component is rendered, you may display the contents of your component'
     <div class="alert alert-{{ $type }}">
         {{ $message }}
     </div>
+
+#### Casing
+#### Casing
+
+Component constructor arguments should be specified using `camelCase`, while `kebab-case` should be used when referencing the argument names in your HTML attributes. For example, given the following component constructor:
+
+컴포넌트 생성자 인수는 `camelCase`를 사용하여 지정해야하며, `camelCase`는 HTML 속성에서 인수 이름을 참조 할 때 사용해야합니다. 예를 들어 다음과 같은 컴포넌트 생성자가 있습니다.
+
+    /**
+     * Create the component instance.
+     *
+     * @param  string  $alertType
+     * @param  string  $message
+     * @return void
+     */
+    public function __construct($alertType)
+    {
+        $this->alertType = $alertType;
+    }
+
+The `$alertType` argument may be provided like so:
+
+`$alertType` 인수는 다음과 같이 제공 될 수 있습니다.
+
+    <x-alert alert-type="danger" />
 
 #### Component Methods
 #### 컴포넌트 메소드
@@ -949,13 +974,14 @@ Since anonymous components do not have any associated class, you may wonder how 
 
 익명 컴포넌트에는 연결된 클래스가 없으므로 컴포넌트에 변수로 전달해야하는 데이터와 컴포넌트의 [속성 백](#managing-attributes)에 어떤 특성을 배치해야하는지 구별 할 수 있습니다.
 
-You may specify which attributes should be considered data variables using the `@props` directive at the top of your component's Blade template. All other attributes on the component will be available via the component's attribute bag:
+You may specify which attributes should be considered data variables using the `@props` directive at the top of your component's Blade template. All other attributes on the component will be available via the component's attribute bag. If you wish to give a data variable a default value, you may specify the variable's name as the array key and the default value as the array value:
 
-컴포넌트의 블레이드 템플릿 맨 위에있는 `@props` 지시문을 사용하여 데이터 변수로 간주 할 속성을 지정할 수 있습니다. 컴포넌트의 다른 모든 속성은 컴포넌트의 속성 백을 통해 사용할 수 있습니다.
+컴포넌트의 블레이드 템플릿 맨 위에있는 `@props` 지시문을 사용하여 데이터 변수로 간주 할 속성을 지정할 수 있습니다. 컴포넌트의 다른 모든 속성은 컴포넌트의 속성 백을 통해 사용할 수 있습니다. 데이터 변수에 기본값을 지정하려면 변수 이름을 배열 키로 지정하고 기본값을 배열 값으로 지정할 수 있습니다.
+
 
     <!-- /resources/views/components/alert.blade.php -->
 
-    @props(['type', 'message'])
+    @props(['type' => 'info', 'message'])
 
     <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
         {{ $message }}

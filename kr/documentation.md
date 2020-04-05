@@ -6,8 +6,8 @@
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [Contribution Guide](/docs/{{version}}/contributions)
     - [기여 가이드](/docs/{{version}}/contributions)
-    - [API Documentation](/api/6.x)
-    - [API 문서](/api/6.x)
+    - [API Documentation](/api/7.x)
+    - [API 문서](/api/7.x)
 - Getting Started
 - 시작하기
     - [Installation](/docs/{{version}}/installation)
@@ -102,6 +102,8 @@
     - [파일 스토리지](/docs/{{version}}/filesystem)
     - [Helpers](/docs/{{version}}/helpers)
     - [헬퍼 함수들](/docs/{{version}}/helpers)
+    - [HTTP Client](/docs/{{version}}/http-client)
+    - [HTTP Client](/docs/{{version}}/http-client)
     - [Mail](/docs/{{version}}/mail)
     - [메일](/docs/{{version}}/mail)
     - [Notifications](/docs/{{version}}/notifications)
@@ -156,8 +158,10 @@
     - [Mocking](/docs/{{version}}/mocking)
 - Official Packages
 - 공식 패키지들
-    - [Cashier](/docs/{{version}}/billing)
-    - [캐셔-biling](/docs/{{version}}/billing)
+    - [Cashier (Stripe)](/docs/{{version}}/billing)
+    - [캐쳐 (Stripe)](/docs/{{version}}/billing)
+    - [Cashier (Mollie)](https://github.com/laravel/cashier-mollie)
+    - [캐쳐 (Mollie)](https://github.com/laravel/cashier-mollie)
     - [Dusk](/docs/{{version}}/dusk)
     - [Dusk](/docs/{{version}}/dusk)
     - [Envoy](/docs/{{version}}/envoy)
@@ -166,6 +170,8 @@
     - [Horizon](/docs/{{version}}/horizon)
     - [Passport](/docs/{{version}}/passport)
     - [Passport-OAuth2](/docs/{{version}}/passport)
+    - [Sanctum](/docs/{{version}}/sanctum)
+    - [Sanctum](/docs/{{version}}/sanctum)
     - [Scout](/docs/{{version}}/scout)
     - [Scout-검색](/docs/{{version}}/scout)
     - [Socialite](/docs/{{version}}/socialite)

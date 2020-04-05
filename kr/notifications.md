@@ -750,6 +750,10 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
         ]);
     }
 
+broadcast notifications will also contain a `type` field containing the class name of the notification.
+
+브로드 캐스트 알림에는 알림의 클래스 이름이 포함 된 `type`필드도 포함됩니다.
+
 #### Broadcast Queue Configuration
 #### 브로드캐스트 Queue-큐 설정하기
 
@@ -761,9 +765,24 @@ All broadcast notifications are queued for broadcasting. If you would like to co
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
 
-> {tip} In addition to the data you specify, broadcast notifications will also contain a `type` field containing the class name of the notification.
+#### Customizing The Notification Type
+#### 알림 유형 사용자 정의
 
-> {tip} 여러분이 지정한 데이터에 더해서, 브로드캐스트 알림은 알림의 클래스 이름을 가지고 있는 `type` 필드를 포함합니다.
+In addition to the data you specify, all broadcast notifications also have a `type` field containing the full class name of the notification. If you would like to customize the notification `type` that is provided to your JavaScript client, you may define a `broadcastType` method on the notification class:
+
+지정한 데이터 외에도 모든 브로드 캐스트 알림에는 알림의 전체 클래스 이름이 포함 된 `type`필드도 있습니다. JavaScript 클라이언트에 제공되는 알림 `type`을 커스터마이징하려면 알림 클래스에서 `broadcastType` 메소드를 정의하십시오.
+
+    use Illuminate\Notifications\Messages\BroadcastMessage;
+
+    /**
+     * Get the type of the notification being broadcast.
+     *
+     * @return string
+     */
+    public function broadcastType()
+    {
+        return 'broadcast.message';
+    }
 
 <a name="listening-for-notifications"></a>
 ### Listening For Notifications

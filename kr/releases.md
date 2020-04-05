@@ -50,24 +50,24 @@ For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and secu
 ## Laravel 7
 ## 라라벨 7
 
-Laravel 7 continues the improvements made in Laravel 6.x by introducing Laravel Airlock, routing speed improvements, custom Eloquent casts, Blade component tags, fluent string operations, a developer focused HTTP client, first-party CORS support, improved scoping for route model binding, stub customization, database queue improvements, multiple mail drivers, query-time casts, a new `artisan test` command, and a variety of other bug fixes and usability improvements.
+Laravel 7 continues the improvements made in Laravel 6.x by introducing Laravel Sanctum, routing speed improvements, custom Eloquent casts, Blade component tags, fluent string operations, a developer focused HTTP client, first-party CORS support, improved scoping for route model binding, stub customization, database queue improvements, multiple mail drivers, query-time casts, a new `artisan test` command, and a variety of other bug fixes and usability improvements.
 
-라라벨 7은 라라벨 Airlock, 라우트 속도 향상, 커스텀 엘로퀀트 캐스트, 블레이드 컴포넌트 태그, 막힘없는 문자열 처리, 개발자를 위한 HTTP 클라이언트, CORS 자체 지원, 개선된 라우트 모델 바인드 스코프, 스텁 커스터마이징, 데이베이스 큐 개선, 다중 메일 드라이버, 쿼리-타임 캐스트, 새로운 `artisan test` 커맨드 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 6에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 7은 라라벨 Sanctum, 라우트 속도 향상, 커스텀 엘로퀀트 캐스트, 블레이드 컴포넌트 태그, 막힘없는 문자열 처리, 개발자를 위한 HTTP 클라이언트, CORS 자체 지원, 개선된 라우트 모델 바인드 스코프, 스텁 커스터마이징, 데이베이스 큐 개선, 다중 메일 드라이버, 쿼리-타임 캐스트, 새로운 `artisan test` 커맨드 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 6에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
-### Laravel Airlock
-### 라라벨 Airlock
+### Laravel Sanctum
+### 라라벨 Sanctum
 
-_Laravel Airlock was built by [Taylor Otwell](https://github.com/taylorotwell)_.
+_Laravel Sanctum was built by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-_라라벨 Airlock 은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
+_라라벨 Sanctum 은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
 
-Laravel Airlock provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Airlock allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
+Laravel Sanctum provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
 
-라라벨 Airlock 은 SPAs(싱글 페이지 어플리케이션), 모바일 어플리케이션, 토큰 기반의 API를 위한 가벼운 인증 시스템을 제공합니다. Airlock은 어플리케이션 사용자에게 여러개의 API 토큰을 생성할 수 있게 해 줍니다. 이 토큰들에는 어떤 액션들이 실행될 수 있는지 허용 범위나 권한을 부여할수 있습니다.
+라라벨 Sanctum 은 SPAs(싱글 페이지 어플리케이션), 모바일 어플리케이션, 토큰 기반의 API를 위한 가벼운 인증 시스템을 제공합니다. Sanctum은 어플리케이션 사용자에게 여러개의 API 토큰을 생성할 수 있게 해 줍니다. 이 토큰들에는 어떤 액션들이 실행될 수 있는지 허용 범위나 권한을 부여할수 있습니다.
 
-For more information on Laravel Airlock, consult the [Airlock documentation](/docs/{{version}}/airlock).
+For more information on Laravel Sanctum, consult the [Sanctum documentation](/docs/{{version}}/sanctum).
 
-라라벨 Airlock 에 대해 더 알고싶다면 [Airlock](/docs/{{version}}/airlock) 문서를 참고하세요.
+라라벨 Sanctum 에 대해 더 알고싶다면 [Sanctum](/docs/{{version}}/sanctum) 문서를 참고하세요.
 
 ### Custom Eloquent Casts
 ### 커스텀 엘로퀜트 캐스트

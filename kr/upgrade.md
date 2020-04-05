@@ -31,7 +31,7 @@
 - [`Blade::component` 메소드](#the-blade-component-method)
 - [The `assertSee` Assertion](#assert-see)
 - [`assertSee` Assertion](#assert-see)
-- [The`different` Validation Rule](#the-different-rule)
+- [The `different` Validation Rule](#the-different-rule)
 - [`different` Validation Rule](#the-different-rule)
 - [Unique Route Names](#unique-route-names)
 - [고유한 라우트이름](#unique-route-names)
@@ -102,15 +102,17 @@ Laravel 7 utilizes the 5.x series of the Symfony components. Some minor changes 
 
 라라벨 7은 5.x 시리즈의 Symfony 컴포넌트를 사용합니다. 이 업그레이드를 하려면 애플리케이션을 약간 변경해야합니다.
 
-First, the `report` and `render` methods of your application's `App\Exceptions\Handler` class should accept instances of the `Throwable` interface instead of `Exception` instances:
+First, the `report`, `render`, `shouldReport`, and `renderForConsole` methods of your application's `App\Exceptions\Handler` class should accept instances of the `Throwable` interface instead of `Exception` instances:
 
-먼저, 애플리케이션의 `App\Exceptions\Handler` 클래스의 `report` 및 `render` 메소드는 `Exception` 인스턴스 대신 `Throwable` 인터페이스의 인스턴스를 허용해야합니다.
+먼저, 애플리케이션의 `App\Exceptions\Handler` 클래스의 `report`, `render`, `shouldReport`, 및 `renderForConsole` 메소드는 `Exception` 인스턴스 대신 `Throwable` 인터페이스의 인스턴스를 허용해야합니다.
 
 
     use Throwable;
 
     public function report(Throwable $exception);
+    public function shouldReport(Throwable $exception);
     public function render($request, Throwable $exception);
+    public function renderForConsole($output, Throwable $exception);
 
 Next, please update your `session` configuration file's `secure` option to have a fallback value of `null`:
 
@@ -213,7 +215,7 @@ Previously, dates would be serialized to a format like the following: `2019-12-0
 
 If you would like to keep using the previous behavior you can override the `serializeDate` method on your model:
 
-이전 동작을 계속 사용하려면 모델에서 `serializeDate` 메소드를 대체 할 수 있습니다.
+    use DateTimeInterface;
 
     /**
      * Prepare a date for array / JSON serialization.
@@ -306,11 +308,25 @@ The default Markdown mail templates have been refreshed with a more professional
 
 보다 전문적이고 매력적인 디자인으로 기본 마크 다운 메일 템플릿이 새로 고쳐졌습니다. 또한 문서화되지 않은 `promotion` 마크 다운 메일 컴포넌트가 제거되었습니다.
 
-Because indentitation has special meaning within Markdown, Markdown mail templates expect unindented HTML. If you've previously published Laravel's default mail templates, you'll need to re-publish your mail templates or manually unindent them:
+Because indentation has special meaning within Markdown, Markdown mail templates expect unindented HTML. If you've previously published Laravel's default mail templates, you'll need to re-publish your mail templates or manually unindent them:
 
 들여 쓰기는 Markdown 내에서 특별한 의미를 갖기 때문에 Markdown 메일 템플릿에는 들여 쓰기되지 않은 HTML이 필요합니다. 이전에 라라벨의 기본 메일 템플릿을 게시-published 한 경우 메일 템플릿을 다시 게시하거나 수동으로 들여 쓰기를 해제해야합니다.
 
     php artisan vendor:publish --tag=laravel-mail --force
+
+#### Swift Mailer Bindings
+#### 스위프트 메일러 바인딩
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+Laravel 7.x doesn't provide `swift.mailer` and `swift.transport` container bindings. You may now access these objects through the `mailer` binding:
+
+라라벨 7.x는 `swift.mailer`와 `swift.transport` 컨테이너 바인딩을 제공하지 않습니다. 이제 메일러 바인딩을 통해 이러한 객체에 액세스 할 수 있습니다.
+
+    $swiftMailer = app('mailer')->getSwiftMailer();
+
+    $swiftTransport = $swiftMailer->getTransport();
 
 ### Queue
 ### Queue
@@ -369,9 +385,9 @@ Even though never officially documented, previous Laravel releases allow you to 
 **Likelihood Of Impact: Medium**
 **영향 가능성: 중간**
 
-Cross-Origin Resource Sharing (CORS) support is now integrated by default. If you are using any third-party CORS libraries you are now advised to use the [new `cors` configuration file](https://github.com/laravel/laravel/blob/develop/config/cors.php).
+Cross-Origin Resource Sharing (CORS) support is now integrated by default. If you are using any third-party CORS libraries you are now advised to use the [new `cors` configuration file](https://github.com/laravel/laravel/blob/master/config/cors.php).
 
-Cross-Origin Resource Sharing (CORS) 지원이 기본적으로 통합되었습니다. 타사 CORS 라이브러리를 사용하는 경우 이제 [새로운 `cors` 설정 파일](https://github.com/laravel/laravel/blob/develop/config/cors.php) 을 사용하는 것이 좋습니다.
+Cross-Origin Resource Sharing (CORS) 지원이 기본적으로 통합되었습니다. 타사 CORS 라이브러리를 사용하는 경우 이제 [새로운 `cors` 설정 파일](https://github.com/laravel/laravel/blob/master/config/cors.php) 을 사용하는 것이 좋습니다.
 
 Next, install the underlying CORS library as a dependency of your application:
 

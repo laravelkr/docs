@@ -790,6 +790,25 @@ The `inRandomOrder` method may be used to sort the query results randomly. For e
                     ->inRandomOrder()
                     ->first();
 
+#### reorder
+#### reorder
+
+The `reorder` method allows you to remove all the existing orders and optionally apply a new order. For example, you can remove all the existing orders:
+
+`reorder` 메서드를 사용하면 기존의 모든 정렬을 제거하고 선택적으로 새 정렬을 적용 할 수 있습니다. 예를 들어 다음과 같이 기존 정렬을 모두 제거 할 수 있습니다.
+
+    $query = DB::table('users')->orderBy('name');
+
+    $unorderedUsers = $query->reorder()->get();
+
+To remove all existing orders and apply a new order, provide the column and direction as arguments to the method:
+
+기존 정렬을 모두 제거하고 새 정렬을 적용하려면 메소드에 컬럼 및 방향을 인수로 지정하십시오.
+
+    $query = DB::table('users')->orderBy('name');
+
+    $usersOrderedByEmail = $query->reorder('email', 'desc')->get();
+
 #### groupBy / having
 #### groupBy / having
 

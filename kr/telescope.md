@@ -115,9 +115,22 @@ After running `telescope:install`, you should remove the `TelescopeServiceProvid
     public function register()
     {
         if ($this->app->isLocal()) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
     }
+
+You should also prevent the Telescope package from being [auto-discovered](/docs/{{version}}/packages#package-discovery) by adding the following to your `composer.json` file:
+
+또한 `composer.json` 파일에 다음을 추가하여 Telescope 패키지가 [자동 발견](/docs/{{version}}/packages#package-discovery) 되지 않도록해야합니다.
+
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/telescope"
+            ]
+        }
+    },
 
 <a name="migration-customization"></a>
 ### Migration Customization

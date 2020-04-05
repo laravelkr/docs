@@ -283,7 +283,7 @@ Because loaded relationships also get serialized, the serialized job string can 
 ### Job Middleware
 ### Job 미들웨어
 
-Job middleware allow you wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, consider the following `handle` method which leverages Laravel's Redis rate limiting features to allow only one job to process every five seconds:
+Job middleware allow you to wrap custom logic around the execution of queued jobs, reducing boilerplate in the jobs themselves. For example, consider the following `handle` method which leverages Laravel's Redis rate limiting features to allow only one job to process every five seconds:
 
 Job 미들웨어를 사용하면 대기중인 Job 실행을 중심으로 커스텀 로직을 래핑하여 Job 자체의 중복코드를 줄일 수 있습니다. 예를 들어, 5 초마다 한 Job 만 처리 하기위해 Laravel의 Redis 속도 제한 기능을 활용하는 다음 `handle` 메소드를 생각해보십시오.
 
@@ -400,9 +400,9 @@ If you would like to conditionally dispatch a job, you may use the `dispatchIf` 
 
 조건부 Job 처리를 원한다면, `dispatchIf`와 `dispatchUnless` 메소드를 사용할 수 있습니다.
 
-    ProcessPodcast::dispatchIf($accountActive = true, $podcast);
+    ProcessPodcast::dispatchIf($accountActive === true, $podcast);
 
-    ProcessPodcast::dispatchUnless($accountSuspended = false, $podcast);
+    ProcessPodcast::dispatchUnless($accountSuspended === false, $podcast);
 
 <a name="delayed-dispatching"></a>
 ### Delayed Dispatching

@@ -1037,6 +1037,16 @@ You may register the `morphMap` in the `boot` function of your `AppServiceProvid
 
 > {note} 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
 
+You may determine the morph alias of a given model at runtime using the `getMorphClass` method. Conversely, you may determine the fully-qualified class name associated with a morph alias using the `Relation::getMorphedModel` method:
+
+`getMorphClass` 메소드를 사용하여 런타임에 주어진 모델의 morph 별칭을 결정할 수 있습니다. 반대로 `Relation::getMorphedModel` 메소드를 사용하여 morph 별칭과 관련된 정규화 된 클래스 이름을 결정할 수 있습니다.
+
+    use Illuminate\Database\Eloquent\Relations\Relation;
+
+    $alias = $post->getMorphClass();
+
+    $class = Relation::getMorphedModel($alias);
+
 <a name="querying-relations"></a>
 ## Querying Relations
 ## 관계 쿼리 질의하기

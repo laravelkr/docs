@@ -84,7 +84,8 @@
 - [Invoices](#invoices)
 - [청구서](#invoices)
     - [Generating Invoice PDFs](#generating-invoice-pdfs)
-    - [청구서 PDF로 생성하기](#generating-invoice-pdfs)
+- [Handling Failed Payments](#handling-failed-payments)
+- [결제 실패 처리](#handling-failed-payments)
 - [Strong Customer Authentication (SCA)](#strong-customer-authentication)
 - [강력한 고객 인증 (SCA)](#strong-customer-authentication)
     - [Payments Requiring Additional Confirmation](#payments-requiring-additional-confirmation)
@@ -93,6 +94,8 @@
     - [세션 외 결제 알림](#off-session-payment-notifications)
 - [Stripe SDK](#stripe-sdk)
 - [Stripe SDK](#stripe-sdk)
+- [Testing](#testing)
+- [테스팅](#testing)
 
 <a name="introduction"></a>
 ## Introduction
@@ -983,10 +986,6 @@ If the trial has already expired and the customer is already being billed for th
 ## Handling Stripe Webhooks
 ## Stripe webhook 처리하기
 
-Stripe can notify your application of a variety of events via webhooks. To handle webhooks, define a route that points to Cashier's webhook controller. This controller will handle all incoming webhook requests and dispatch them to the proper controller method:
-
-Stripe는 Webhook을 통해서 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. webhook을 처리하려면 캐셔의 webhook 컨트롤러의 라우트를 정의해야합니다. 이 컨트롤러는 유입되는 모든 webhook request-요청을 처리하고 알맞은 컨트롤러 메소드에 전달합니다.
-
 > {tip} You may use [the Stripe CLI](https://stripe.com/docs/stripe-cli) to help test webhooks during local development.
 
 > {tip} [the Stripe CLI](https://stripe.com/docs/stripe-cli)을 사용하여 로컬 개발 도중에도 웹훅을 테스트 할 수 있습니다.
@@ -1112,6 +1111,14 @@ The `charge` method accepts an array as its third argument, allowing you to pass
         'custom_option' => $value,
     ]);
 
+You may also use the `charge` method without an underlying customer or user:
+
+기본 고객이나 사용자없이 `charge` 메서드를 사용할 수도 있습니다.
+
+    use App\User;
+
+    $stripeCharge = (new User)->charge(100, $paymentMethod);
+
 The `charge` method will throw an exception if the charge fails. If the charge is successful, an instance of `Laravel\Cashier\Payment` will be returned from the method:
 
 충전이 실패하면 `charge` 메소드에서 예외가 발생합니다. 청구가 성공하면 `Laravel\Cashier\Payment` 인스턴스가 메소드에서 리턴됩니다.
@@ -1203,25 +1210,13 @@ From within a route or controller, use the `downloadInvoice` method to generate 
         ]);
     });
 
-<a name="strong-customer-authentication"></a>
-## Strong Customer Authentication
-## 강력한 고객 인증
+<a name="handling-failed-payments"></a>
+## Handling Failed Payments
+## 결제 실패 처리
 
-If your business is based in Europe you will need to abide by the Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
+Sometimes, payments for subscriptions or single charges can fail. When this happens, Cashier will throw an `IncompletePayment` exception that informs you that this happened. After catching this exception, you have two options on how to proceed.
 
-비즈니스가 유럽에 기반을 둔 경우 강력한 고객 인증 (SCA) 규정을 준수해야합니다. 이 규정은 2019년 9월 유럽 연합에 의해 지불 사기를 방지하기 위해 부과되었습니다. 운 좋게도 Stripe과 Cashier는 SCA 호환 애플리케이션을 구축 할 준비가 되어 있습니다.
-
-> {note} Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/en-be/guides/strong-customer-authentication) as well as their [documentation on the new SCA API's](https://stripe.com/docs/strong-customer-authentication).
-
-> {note} 시작하기 전에 [PS2 및 SCA에 대한 Stripe의 가이드](https://stripe.com/en-be/guides/strong-customer-authentication)와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication)를 검토하십시오.
-
-<a name="payments-requiring-additional-confirmation"></a>
-### Payments Requiring Additional Confirmation
-### 추가 확인이 필요한 결제
-
-SCA regulations often require extra verification in order to confirm and process a payment. When this happens, Cashier will throw an `IncompletePayment` exception that informs you that this extra verification is needed. After catching this exception, you have two options on how to proceed.
-
-SCA 규정은 때로는 결제를 확인하고 처리하기 위해 추가 검증이 필요합니다. 이러한 상황이 발생하면 Cashier는 이 추가 확인이 필요하다는 것을 알려주는 `IncompletePayment`예외를 던집니다. 이 예외를 받았을 경우 진행 방법에 대한 두 가지 옵션이 있습니다.
+때로는 구독 결제 또는 단일 청구에 실패 할 수 있습니다. 이런 일이 발생하면 캐셔은 이 문제가 발생했음을 알리는 `IncompletePayment`예외를 발생시킵니다. 이 예외를 발생시킨 후 처리 방법에 대한 두 가지 옵션이 있습니다.
 
 First, you could redirect your customer to the dedicated payment confirmation page which is included with Cashier. This page already has an associated route that is registered via Cashier's service provider. So, you may catch the `IncompletePayment` exception and redirect to the payment confirmation page:
 
@@ -1239,17 +1234,48 @@ First, you could redirect your customer to the dedicated payment confirmation pa
         );
     }
 
-On the payment confirmation page, the customer will be prompted to enter their credit card info again and perform any additional actions required by Stripe, such as "3D Secure" confirmation. After confirming their payment, the user will be redirected to the URL provided by the `redirect` parameter specified above.
+On the payment confirmation page, the customer will be prompted to enter their credit card info again and perform any additional actions required by Stripe, such as "3D Secure" confirmation. After confirming their payment, the user will be redirected to the URL provided by the `redirect` parameter specified above. Upon redirection, `message` (string) and `success` (integer) query string variables will be added to the URL.
 
-결제 확인 페이지에서 고객에게 신용카드 정보를 다시 입력하라는 메시지가 표시되고 "3D 보안"확인과 같이 Stripe에 필요한 추가 작업을 수행하라는 메시지가 표시됩니다. 결제를 확인한 후 사용자는 위에 지정된 `redirect` 파라메터가 제공 한 URL로 리디렉션됩니다.
+결제 확인 페이지에서 고객에게 신용 카드 정보를 다시 입력하라는 메시지가 표시되고 "3D 보안" 확인과 같이 Stripe에 필요한 추가 작업을 수행하라는 메시지가 표시됩니다. 결제를 확인한 후 사용자는 위에 지정된 `redirect` 파라메터가 제공한 URL로 리디렉션됩니다. 리디렉션시 `message` (문자열) 및 `success` (정수) 쿼리스트링 변수가 URL에 추가됩니다.
 
-Alternatively, you could allow Stripe to handle the payment confirmation for you. In this case, instead of redirecting to the payment confirmation page, you may [setup Stripe's automatic billing emails](https://dashboard.stripe.com/account/billing/automatic) in your Stripe dashboard. However, if an `IncompletePayment` exception is caught, you should still inform the user they will receive an email with further payment confirmation instructions.
+Alternatively, you could allow Stripe to handle the payment confirmation for you. In this case, instead of redirecting to the payment confirmation page, you may [setup Stripe's automatic billing emails](https://dashboard.stripe.com/account/billing/automatic) in your Stripe dashboard. However, if a `IncompletePayment` exception is caught, you should still inform the user they will receive an email with further payment confirmation instructions.
 
-또 하나는 Stripe가 지불 확인을 처리하도록 허용 할 수 있습니다. 이 경우 결제 확인 페이지로 리디렉션하는 대신 스트라이프 대시 보드에서 [스트라이프 자동 결제 이메일 설정](https://dashboard.stripe.com/account/billing/automatic)을 할 수 있습니다. 그러나 `IncompletePayment` 예외가 발생하더라도 사용자에게 추가 지불 확인을 위한 지시 사항이 포함 된 이메일을 열람하도록 알려줘야합니다.
+또는 Stripe이 지불 확인을 처리하도록 허용 할 수 있습니다. 이 경우 결제 확인 페이지로 리디렉션하는 대신 스트라이프 대시 보드에서 [스트라이프 자동 결제 이메일 설정](https://dashboard.stripe.com/account/billing/automatic) 을 할 수 있습니다. 그러나 `IncompletePayment`예외가 발생하더라도 사용자에게 추가 지불 확인 지시 사항이 포함 된 이메일을 수신하도록 알려야합니다.
 
-Incomplete payment exceptions may be thrown for the following methods: `charge`, `invoiceFor`, and `invoice` on the `Billable` user. When handling subscriptions, the `create` method on the `SubscriptionBuilder`, and the `incrementAndInvoice` and `swapAndInvoice` methods on the `Subscription` model may throw exceptions.
+Payment exceptions may be thrown for the following methods: `charge`, `invoiceFor`, and `invoice` on the `Billable` user. When handling subscriptions, the `create` method on the `SubscriptionBuilder`, and the `incrementAndInvoice` and `swapAndInvoice` methods on the `Subscription` model may throw exceptions.
 
-`Billable` 사용자의 `charge`, `invoiceFor`, 및 `invoice` 메서드는 불완전한 지불 예외-exception가 발생할 수 있습니다. 구독을 처리 할 때 `SubscriptionBuilder`의 `create` 메소드와 `Subscription` 모델의 `incrementAndInvoice` 및 `swapAndInvoice` 메소드에서 예외가 발생할 수 있습니다.
+`Billable` 사용자의 `charge`, `invoiceFor` 및  `invoice`메서드에 대해서는 지불 예외가 발생할 수 있습니다. 구독을 처리 할 때 `SubscriptionBuilder`의`create` 메소드와 `Subscription` 모델의 `incrementAndInvoice` 및 `swapAndInvoice` 메소드에서 예외가 발생할 수 있습니다.
+
+There are currently two types of payment exceptions which extend `IncompletePayment`. You can catch these separately if needed so that you can customize the user experience:
+
+`IncompletePayment`를 확장하는 두 가지 유형의 지불 예외가 있습니다. 사용자 경험을 커스터마이징 할 수 있도록 필요한 경우 이를 별도로 처리할 수 있습니다.
+
+
+- `PaymentActionRequired`: this indicates that Stripe requires extra verification in order to confirm and process a payment.
+- `PaymentFailure`: this indicates that a payment failed for various other reasons, such as being out of available funds.
+
+- `PaymentActionRequired`: 결제를 확인하고 처리하기 위해 Stripe에서 추가 확인이 필요함을 나타냅니다.
+- `PaymentFailure`: 사용 가능한 자금이 부족한 등 여러 가지 이유로 결제가 실패했음을 나타냅니다.
+
+<a name="strong-customer-authentication"></a>
+## Strong Customer Authentication
+## 강력한 고객 인증
+
+If your business is based in Europe you will need to abide by the Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
+
+비즈니스가 유럽에 기반을 둔 경우 강력한 고객 인증 (SCA) 규정을 준수해야합니다. 이 규정은 2019년 9월 유럽 연합에 의해 지불 사기를 방지하기 위해 부과되었습니다. 운 좋게도 Stripe과 Cashier는 SCA 호환 애플리케이션을 구축 할 준비가되어 있습니다.
+
+> {note} Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/en-be/guides/strong-customer-authentication) as well as their [documentation on the new SCA API's](https://stripe.com/docs/strong-customer-authentication).
+
+> {note} 시작하기 전에 [PS2 및 SCA에 대한 Stripe 안내서](https://stripe.com/en-be/guides/strong-customer-authentication)와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication) 를 검토하십시오.
+
+<a name="payments-requiring-additional-confirmation"></a>
+### Payments Requiring Additional Confirmation
+### 추가 확인이 필요한 결제
+
+SCA regulations often require extra verification in order to confirm and process a payment. When this happens, Cashier will throw a `PaymentActionRequired` exception that informs you that this extra verification is needed. More info on how to handle these exceptions be found [here](#handling-failed-payments).
+
+SCA 규정은 종종 지불을 확인하고 처리하기 위해 추가 검증이 필요합니다. 이런 일이 발생하면 캐셔는 이 추가 확인이 필요하다는 것을 알려주는 `PaymentActionRequired` 예외를 처리합니다. 이러한 예외를 처리하는 방법에 대한 자세한 내용은 [여기](#handling-failed-payments)를 참조하십시오.
 
 #### Incomplete and Past Due State
 #### 미완료 및 기한 만료 상태
@@ -1291,3 +1317,25 @@ Cashier의 많은 객체는 Stripe SDK 객체를 감싸는 래퍼입니다. Stri
     $stripeSubscription = $subscription->asStripeSubscription();
 
     $stripeSubscription->update(['application_fee_percent' => 5]);
+
+<a name="testing"></a>
+## Testing
+## 테스팅
+
+When testing an application that uses Cashier, you may mock the actual HTTP requests to the Stripe API; however, this requires you to partially re-implement Cashier's own behavior. Therefore, we recommend allowing your tests to hit the actual Stripe API. While this is slower, it provides more confidence that your application is working as expected and any slow tests may be placed within their own PHPUnit testing group.
+
+캐셔를 사용하는 애플리케이션을 테스트 할 때 실제 HTTP 요청을 Stripe API로 모킹 할 수 있습니다. 그러나 이를 위해서는 캐셔 자신의 행동을 부분적으로 다시 구현해야합니다. 따라서 테스트가 실제 Stripe API에 도달하도록 허용하는 것이 좋습니다. 속도는 느리지만 애플리케이션이 예상대로 작동하고 있으며 느린 테스트는 자체 PHPUnit 테스트 그룹 내에 배치 될 수 있습니다.
+
+When testing, remember that that Cashier itself already has a great test suite, so you should only focus on testing the subscription and payment flow of your own application and not every underlying Cashier behavior.
+
+테스트시 캐셔 자체에는 이미 훌륭한 테스트 suite가 있으므로 모든 기본 캐셔 동작이 아니라 자체 애플리케이션의 서브스크립션 및 지불 플로우 테스트에만 중점을 두어야합니다.
+
+To get started, add the **testing** version of your Stripe secret to your `phpunit.xml` file:
+
+시작하려면, **testing** 버전의 Stripe secret을 `phpunit.xml` 파일에 추가하십시오.
+
+    <env name="STRIPE_SECRET" value="sk_test_<your-key>"/>
+
+Now, whenever you interact with Cashier while testing, it will send actual API requests to your Stripe testing environment. For convenience, you should pre-fill your Stripe testing account with subscriptions / plans that you may then use during testing.
+
+이제 테스트하는 동안 캐셔와 상호 작용할 때마다 실제 API 요청이 Stripe 테스트 환경으로 전송됩니다. 편의상 스트라이프 테스트 계정에 구독/플랜을 미리 채워서 테스트 중에 사용할 수 있도록해야합니다.

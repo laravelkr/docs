@@ -52,4 +52,10 @@ You may test this command with the following test which utilizes the `expectsQue
              ->assertExitCode(0);
     }
 
+When writing a command which expects a confirmation in the form of a "yes" or "no" answer, you may utilize the `expectsConfirmation` method:
 
+"예" 또는 "아니오" 답변의 형태로 확인을 요구하는 명령을 작성할 때 `expectsConfirmation`메소드를 사용할 수 있습니다.
+
+    $this->artisan('module:import')
+        ->expectsConfirmation('Do you really wish to run this command?', 'no')
+        ->assertExitCode(1);

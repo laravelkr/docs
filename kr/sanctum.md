@@ -422,17 +422,12 @@ To allow users to revoke API tokens issued to mobile devices, you may list them 
 사용자가 모바일 장치에 발급된 API 토큰을 해지할 수 있도록 웹 애플리케이션 UI의 "계정 설정"부분에 "해지"버튼과 함께 이름별로 토큰을 나열할 수 있습니다. 사용자가 "해지"버튼을 클릭하면 데이터베이스에서 토큰을 삭제할 수 있습니다. `HasApiTokens` 트레잇이 제공하는`tokens`관계를 통해 사용자의 API 토큰에 액세스할 수 있습니다.
 
     // Revoke all tokens...
-    $user->tokens()->delete();
-
-    // Revoke a specific token...
-    $user->tokens()->where('id', $id)->delete();
-
     // 모든 토큰 해지...
     $user->tokens()->delete();
 
+    // Revoke a specific token...
     // 지정된 토큰 해지...
     $user->tokens()->where('id', $id)->delete();
-
 
 <a name="testing"></a>
 ## Testing

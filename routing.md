@@ -517,8 +517,8 @@ HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. �
 모든 메소드를 확인하고자 한다면 [Route 파사드 뒤에서 동작하는 클래스](https://laravel.com/api/{{version}}/Illuminate/Routing/Router.html) 와 [Route 인스턴스](https://laravel.com/api/{{version}}/Illuminate/Routing/Route.html) API 문서를 참고하십시오.
 
 <a name="cors"></a>
-## Cross-Origin Resource Sharing (CORS)
+## 크로스-오리진 리소스 쉐어링 (CORS)
 
-Laravel can automatically respond to CORS OPTIONS requests with values that you configure. All CORS settings may be configured in your `cors` configuration file and OPTIONS requests will automatically be handled by the `HandleCors` middleware that is included by default in your global middleware stack.
+Laravel 은 사용자가 구성한 값으로 CORS OPTIONS 요청에 자동으로 응답 할 수 있습니다. 모든 CORS 설정은 `cors` 구성 파일에서 구성 될 수 있으며 OPTIONS 요청은 전역 미들웨어 스택에 기본적으로 포함 된 `HandleCors '미들웨어에 의해 자동으로 처리됩니다.
 
-> {tip} For more information on CORS and CORS headers, please consult the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
+> {tip} CORS 및 CORS 헤더에 대한 자세한 내용은 [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers) 를 참조하십시오.

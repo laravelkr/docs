@@ -130,12 +130,6 @@ Sanctum에 의해 들어오는 요청 인증이 핸들링 될 때, 여러분은 
 
 `HasApiTokens` 트레잇이 제공하는 `tokens` 관계(relationship)을 사용하여 데이터베이스에서 삭제함으로서 토큰을 해지합니다.
 
-    // Revoke all tokens...
-    $user->tokens()->delete();
-
-    // Revoke a specific token...
-    $user->tokens()->where('id', $id)->delete();
-
     // 모든 토큰 해지...
     $user->tokens()->delete();
 

@@ -10,7 +10,7 @@
     - [테이블의 이름변경 / 제거](#renaming-and-dropping-tables)
 - [컬럼](#columns)
     - [컬럼 생성하기](#creating-columns)
-    - [컬럼 수정 처리](#column-modifiers)
+    - [컬럼 수정자](#column-modifiers)
     - [컬럼 수정하기](#modifying-columns)
     - [컬럼 삭제하기](#dropping-columns)
 - [인덱스](#indexes)

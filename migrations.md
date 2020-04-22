@@ -17,7 +17,7 @@
     - [인덱스 생성하기](#creating-indexes)
     - [인덱스 이름 변경하기](#renaming-indexes)
     - [인덱스 없애기](#dropping-indexes)
-    - [외래키 제약](#foreign-key-constraints)
+    - [외래키 제약조건](#foreign-key-constraints)
 
 <a name="introduction"></a>
 ## 시작하기

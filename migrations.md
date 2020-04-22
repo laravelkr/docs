@@ -10,14 +10,14 @@
     - [테이블의 이름변경 / 제거](#renaming-and-dropping-tables)
 - [컬럼](#columns)
     - [컬럼 생성하기](#creating-columns)
-    - [컬럼 수정 처리](#column-modifiers)
+    - [컬럼 수정자](#column-modifiers)
     - [컬럼 수정하기](#modifying-columns)
     - [컬럼 삭제하기](#dropping-columns)
 - [인덱스](#indexes)
     - [인덱스 생성하기](#creating-indexes)
     - [인덱스 이름 변경하기](#renaming-indexes)
     - [인덱스 없애기](#dropping-indexes)
-    - [외래키 제약](#foreign-key-constraints)
+    - [외래키 제약조건](#foreign-key-constraints)
 
 <a name="introduction"></a>
 ## 시작하기

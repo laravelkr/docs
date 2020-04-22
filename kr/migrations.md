@@ -22,7 +22,7 @@
     - [Creating Columns](#creating-columns)
     - [컬럼 생성하기](#creating-columns)
     - [Column Modifiers](#column-modifiers)
-    - [컬럼 수정 처리](#column-modifiers)
+    - [컬럼 수정자](#column-modifiers)
     - [Modifying Columns](#modifying-columns)
     - [컬럼 수정하기](#modifying-columns)
     - [Dropping Columns](#dropping-columns)
@@ -36,7 +36,7 @@
     - [Dropping Indexes](#dropping-indexes)
     - [인덱스 없애기](#dropping-indexes)
     - [Foreign Key Constraints](#foreign-key-constraints)
-    - [외래키 제약](#foreign-key-constraints)
+    - [외래키 제약조건](#foreign-key-constraints)
 
 <a name="introduction"></a>
 ## Introduction

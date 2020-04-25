@@ -1272,13 +1272,6 @@ The field under validation must have a minimum _value_. Strings, numerics, array
 
 필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
-<a name="rule-nullable"></a>
-#### nullable
-
-The field under validation may be `null`. This is particularly useful when validating primitive such as strings and integers that can contain `null` values.
-
-필드의 값은 `null` 일 수 있습니다. 이는 특히 `null` 을 포함한 문자열이나 정수형과 같은 기본 타입에 대해서 유효성검사를 할 때 유용합니다.
-
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
 

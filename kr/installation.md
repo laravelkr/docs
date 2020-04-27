@@ -33,7 +33,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 홈스테드를 사용하지 않는 경우 서버에서 다음의 요구 사항을 만족하는지 확인해야 합니다.
 
 
-[[-]] PHP >= 7.2.5
+- PHP >= 7.2.5
 - BCMath PHP Extension
 - Ctype PHP Extension
 - Fileinfo PHP extension
@@ -101,7 +101,7 @@ If you have PHP installed locally and you would like to use PHP's built-in devel
 
 More robust local development options are available via [Homestead](/docs/{{version}}/homestead) and [Valet](/docs/{{version}}/valet).
 
-보다 강력한 로컬 개발의 대안으로 [홈스테드](/docs/{{version}}/homestead)와 [발렛](/docs/{{version}}/valet)도 사용할 수 있습니다.
+보다 강력한 로컬 개발의 대안으로 [홈스테드](/docs/{{version}}/homestead)와 [발렛](/docs/{{version}}/valet) 도 사용할 수 있습니다.
 
 <a name="configuration"></a>
 ### Configuration
@@ -133,7 +133,7 @@ After installing Laravel, you may need to configure some permissions. Directorie
 
 The next thing you should do after installing Laravel is set your application key to a random string. If you installed Laravel via Composer or the Laravel installer, this key has already been set for you by the `php artisan key:generate` command.
 
-라라벨을 설치한 이후에 해야 할 일은 애플리케이션 키를 랜덤 한 문자열로 [[세팅하는]] 것입니다. Composer나 라라벨 인스톨러로 설치했다면 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다.
+라라벨을 설치한 이후에 해야 할 일은 애플리케이션 키를 랜덤 한 문자열로 세팅하는 것입니다. Composer나 라라벨 인스톨러로 설치했다면 `php artisan key:generate` 명령어가 실행되어 이미 설정되어 있을 것입니다.
 
 Typically, this string should be 32 characters long. The key can be set in the `.env` environment file. If you have not copied the `.env.example` file to a new file named `.env`, you should do that now. **If the application key is not set, your user sessions and other encrypted data will not be secure!**
 

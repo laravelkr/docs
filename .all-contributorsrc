@@ -629,6 +629,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "ojongchul",
+      "name": "Oh Jongchul",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/25588378?v=4",
+      "profile": "https://gist.github.com/ojongchul/d97a2d5581f271e247a00508b9eb93ee",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

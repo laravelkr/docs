@@ -22,7 +22,7 @@
     - [Retrieving Aggregates](#retrieving-aggregates)
     - [합계 가져오기](#retrieving-aggregates)
 - [Inserting & Updating Models](#inserting-and-updating-models)
-- [모델을 통한 추가 및 삭제하기](#inserting-and-updating-models)
+- [모델을 통한 추가 및 수정하기](#inserting-and-updating-models)
     - [Inserts](#inserts)
     - [Inserts](#inserts)
     - [Updates](#updates)
@@ -516,7 +516,7 @@ You may also use the `count`, `sum`, `max`, and other [aggregate methods](/docs/
 
 <a name="inserting-and-updating-models"></a>
 ## Inserting & Updating Models
-## 모델 추가하기 & 수정하기
+## 모델을 통한 추가 및 수정하기
 
 <a name="inserts"></a>
 ### Inserts

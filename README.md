@@ -176,6 +176,9 @@
     <td align="center"><a href="https://github.com/sangchul-moon"><img src="https://avatars3.githubusercontent.com/u/38758061?v=4" width="100px;" alt=""/><br /><sub><b>Sangchul Moon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=sangchul-moon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://gist.github.com/ojongchul/d97a2d5581f271e247a00508b9eb93ee"><img src="https://avatars0.githubusercontent.com/u/25588378?v=4" width="100px;" alt=""/><br /><sub><b>Oh Jongchul</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ojongchul" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/danics7"><img src="https://avatars3.githubusercontent.com/u/5405310?v=4" width="100px;" alt=""/><br /><sub><b>Chisoo Yang</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=danics7" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

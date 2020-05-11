@@ -10,7 +10,7 @@
     - [고급 서브쿼리](#advanced-subqueries)
 - [하나의 모델 / 합계를 찾기](#retrieving-single-models)
     - [합계 가져오기](#retrieving-aggregates)
-- [모델을 통한 추가 및 삭제하기](#inserting-and-updating-models)
+- [모델을 통한 추가 및 수정하기](#inserting-and-updating-models)
     - [Inserts](#inserts)
     - [Updates](#updates)
     - [대량 할당 - Mass Assignment](#mass-assignment)
@@ -396,7 +396,7 @@ Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 �
     $max = App\Flight::where('active', 1)->max('price');
 
 <a name="inserting-and-updating-models"></a>
-## 모델 추가하기 & 수정하기
+## 모델을 통한 추가 및 수정하기
 
 <a name="inserts"></a>
 ### Inserts

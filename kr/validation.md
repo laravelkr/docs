@@ -836,7 +836,7 @@ Below is a list of all available validation rules and their function:
 
 The field under validation must be _yes_, _on_, _1_, or _true_. This is useful for validating "Terms of Service" acceptance.
 
-필드의 값이 _yes_, _on_, _1_, 또는 _true_이어야 합니다. 이 것은 "이용약관" 동의와 같은 필드의 검사에 유용합니다.
+필드의 값이 _yes_, _on_, _1_, 또는 _true_ 이어야 합니다. 이 것은 "이용약관" 동의와 같은 필드의 검사에 유용합니다.
 
 <a name="rule-active-url"></a>
 #### active_url
@@ -923,7 +923,7 @@ The field under validation must be a value preceding or equal to the given date.
 
 The field under validation must have a size between the given _min_ and _max_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이, 주어진 _min_ 과 _max_의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 계산될 수 있습니다.
+필드의 값이, 주어진 _min_ 과 _max_ 의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 계산될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
@@ -958,14 +958,14 @@ The field under validation must be equal to the given date. The dates will be pa
 
 The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
-필드의 값이 반드시 주어진 _format_과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
+필드의 값이 반드시 주어진 _format_ 과 일지해야 합니다. 필드의 유효성을 검사할 때에는 `date`와 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 포맷을 지원합니다.
 
 <a name="rule-different"></a>
 #### different:_field_
 
 The field under validation must have a different value than _field_.
 
-필드의 값이 주어진 _field_의 값과 달라야 합니다.
+필드의 값이 주어진 _field_ 의 값과 달라야 합니다.
 
 <a name="rule-digits"></a>
 #### digits:_value_
@@ -979,7 +979,7 @@ The field under validation must be _numeric_ and must have an exact length of _v
 
 The field under validation must be _numeric_ and must have a length between the given _min_ and _max_.
 
-필드의 값이 반드시 _숫자_ 여야 하고, 주어진 _min_과 _max_ 사이의 길이를 가져야 합니다.
+필드의 값이 반드시 _숫자_ 여야 하고, 주어진 _min_ 과 _max_ 사이의 길이를 가져야 합니다.
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -1230,7 +1230,7 @@ The field under validation must be less than or equal to the given _field_. The 
 
 The field under validation must be less than or equal to a maximum _value_. Strings, numerics, arrays, and files are evaluated in the same fashion as the [`size`](#rule-size) rule.
 
-필드의 값이 반드시 _value_보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
+필드의 값이 반드시 _value_ 보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
@@ -1370,7 +1370,7 @@ The field under validation must be present in the input data and not empty. A fi
 
 The field under validation must be present and not empty if the _anotherfield_ field is equal to any _value_.
 
-만약 _anotherfield_의 값이 _value_중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
+만약 _anotherfield_ 의 값이 _value_ 중의 하나와 일치한다면, 해당 필드는 존재하고 비어있지 않아야 합니다.
 
 If you would like to construct a more complex condition for the `required_if` rule, you may use the `Rule::requiredIf` method. This methods accepts a boolean or a Closure. When passed a Closure, the Closure should return `true` or `false` to indicate if the field under validation is required:
 
@@ -1393,7 +1393,7 @@ If you would like to construct a more complex condition for the `required_if` ru
 
 The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
 
-_anotherfield_가 어떤 _value_와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다.
+_anotherfield_ 가 어떤 _value_ 와도 값이 일치하지 않다면 해당 필드는 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
@@ -1428,7 +1428,7 @@ The field under validation must be present and not empty _only when_ all of the 
 
 The given _field_ must match the field under validation.
 
-필드의 값이 주어진 _field_의 값과 일치해야 합니다.
+필드의 값이 주어진 _field_ 의 값과 일치해야 합니다.
 
 <a name="rule-size"></a>
 #### size:_value_
@@ -1540,7 +1540,7 @@ If your table uses a primary key column name other than `id`, you may specify th
 
 By default, the `unique` rule will check the uniqueness of the column matching the name of the attribute being validated. However, you may pass a different column name as the second argument to the `unique` method:
 
-기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나`unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
+기본적으로 `unique`규칙은 유효성 검사중인 속성의 이름과 일치하는 열의 고유성을 검사합니다. 그러나 `unique` 메소드의 두 번째 인자에 다른 칼럼의 이름을 전달할 수 있습니다.
 
     Rule::unique('users', 'email_address')->ignore($user->id),
 
@@ -1549,7 +1549,7 @@ By default, the `unique` rule will check the uniqueness of the column matching t
 
 You may also specify additional query constraints by customizing the query using the `where` method. For example, let's add a constraint that verifies the `account_id` is `1`:
 
-`where` 메소드를 사용하여 쿼리를 커스터마이징하는 추가 제약을 지정할 수 있습니다. 예를 들어, `account_id`이 `1`인지 확인하는 제약 조건을 추가해 보겠습니다.
+`where` 메소드를 사용하여 쿼리를 커스터마이징하는 추가 제약을 지정할 수 있습니다. 예를 들어, `account_id` 이 `1` 인지 확인하는 제약 조건을 추가해 보겠습니다.
 
     'email' => Rule::unique('users')->where(function ($query) {
         return $query->where('account_id', 1);

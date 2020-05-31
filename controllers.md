@@ -406,6 +406,6 @@ DELETE    | `/comments/{comment}`             | destroy      | comments.destroy
 
 이 명령을 실행하면 캐시 된 라우트 파일이 모든 요청에 로드됩니다. 새로운 라우트를 추가하는 경우 새로운 라우트 캐시를 생성해야합니다. 이 때문에 프로젝트 배포 중에 `route:cache` 명령 만 실행하면 됩니다.
 
-캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다. 캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다.
+캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다.
 
     php artisan route:clear

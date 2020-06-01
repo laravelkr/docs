@@ -534,6 +534,6 @@ After running this command, your cached routes file will be loaded on every requ
 
 You may use the `route:clear` command to clear the route cache:
 
-캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다. 캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다.
+캐시를 재생성하는것 말고 캐시를 제거하기 위해서는 `route:clear` 명령어를 실행하면 됩니다.
 
     php artisan route:clear

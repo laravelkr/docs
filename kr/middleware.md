@@ -177,6 +177,7 @@ Once the middleware has been defined in the HTTP kernel, you may use the `middle
 You may also assign multiple middleware to the route:
 
 라우트에 여러개의 미들웨어를 지정할 수도 있습니다.
+
     Route::get('/', function () {
         //
     })->middleware('first', 'second');

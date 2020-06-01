@@ -77,8 +77,8 @@
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking](/docs/{{version}}/mocking)
 - 공식 패키지들
-    - [캐쳐 (Stripe)](/docs/{{version}}/billing)
-    - [캐쳐 (Mollie)](https://github.com/laravel/cashier-mollie)
+    - [캐셔 (Stripe)](/docs/{{version}}/billing)
+    - [캐셔 (Mollie)](https://github.com/laravel/cashier-mollie)
     - [Dusk](/docs/{{version}}/dusk)
     - [Envoy-Task Runner](/docs/{{version}}/envoy)
     - [Horizon](/docs/{{version}}/horizon)

@@ -131,7 +131,7 @@ Sanctum의 기본 마이그레이션을 사용하지 않으려면  `AppServicePr
 
 Sanctum allows you to issue API tokens / personal access tokens that may be used to authenticate API requests. When making requests using API tokens, the token should be included in the `Authorization` header as a `Bearer` token.
 
-Sanctum을 사용하면 API 요청을 인증할 때 사용할 수 있는 API 토큰 / 개인 액세스 토큰을 발행할 수 있습니다. API 토큰을 사용한 요청이 올 때, 토큰은 `Authorization` 헤더 안에 `Bearer` 토큰 형식으로 포함되어야 합니다.
+Sanctum을 사용하면 API 요청을 인증할 때 사용할 수 있는 API 토큰 / 개인 액세스 토큰을 발행할 수 있습니다. API 토큰을 사용한 요청이 올 때, 토큰은 `Authorization` 헤더 안에 `Bearer` 토큰 형식으로 포함되어야 합니다.
 
 To begin issuing tokens for users, your User model should use the `HasApiTokens` trait:
 
@@ -240,7 +240,7 @@ For this feature, Sanctum does not use tokens of any kind. Instead, Sanctum uses
 
 First, you should configure which domains your SPA will be making requests from. You may configure these domains using the `stateful` configuration option in your `sanctum` configuration file. This configuration setting determines which domains will maintain "stateful" authentication using Laravel session cookies when making requests to your API.
 
-먼저 SPA가 요청할 도메인을 설정해야 합니다. `sanctum` 설정 파일 안에 `stateful` 설정 옵션을 사용해서 이러한 도메인을 설정합니다. 이 설정 세팅은 어떤 도메인이 API에 요청할 때 라라벨 세션 쿠키를 사용하여 "상태 유지(stateful)" 인증을 유지할 도메인을 결정합니다.
+먼저 SPA가 요청할 도메인을 설정해야 합니다. `sanctum` 설정 파일 안에 `stateful` 설정 옵션을 사용해서 이러한 도메인을 설정합니다. 이 설정 세팅은 어떤 도메인이 API에 요청할 때 라라벨 세션 쿠키를 사용하여 "상태 유지(stateful)" 인증을 유지할 도메인을 결정합니다.
 
 #### Sanctum Middleware
 #### Sanctum 미들웨어
@@ -263,7 +263,7 @@ Next, you should add Sanctum's middleware to your `api` middleware group within 
 
 If you are having trouble authenticating with your application from an SPA that executes on a separate subdomain, you have likely misconfigured your CORS (Cross-Origin Resource Sharing) or session cookie settings.
 
-별도의 서브도메인에서 실행되는 SPA에서 애플리케이션을 인증하는데 문제가 있는 경우, CORS (Cross-Origin Resource Sharing) 또는 세션 쿠키 세팅이 잘못 설정되었을 수 있습니다.
+별도의 서브도메인에서 실행되는 SPA에서 애플리케이션을 인증하는데 문제가 있는 경우, CORS (Cross-Origin Resource Sharing) 또는 세션 쿠키 세팅이 잘못 설정되었을 수 있습니다.
 
 You should ensure that your application's CORS configuration is returning the `Access-Control-Allow-Credentials` header with a value of `True` by setting the `supports_credentials` option within your application's `cors` configuration file to `true`.
 
@@ -295,7 +295,7 @@ SPA를 인증하려면 먼저 SPA 로그인 페이지에서 CSRF 보호(protecti
 
 Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. This `/login` route may be provided by the `laravel/ui` [authentication scaffolding](/docs/{{version}}/authentication#introduction) package.
 
-한번 CSRF 보호가 초기화되면, 여러분은 일반적인  라라벨 `/login` 라우트에 `POST`로 요청해야 합니다. 이 `/login` 라우트는 `laravel/ui` [인증 스케폴딩](/docs/{{version}}/authentication#introduction) 패키지에서 제공될 수 있습니다.
+한번 CSRF 보호가 초기화되면, 여러분은 일반적인  라라벨 `/login` 라우트에 `POST`로 요청해야 합니다. 이 `/login` 라우트는 `laravel/ui` [인증 스케폴딩](/docs/{{version}}/authentication#introduction) 패키지에서 제공될 수 있습니다.
 
 If the login request is successful, you will be authenticated and subsequent requests to your API routes will automatically be authenticated via the session cookie that the Laravel backend issued to your client.
 

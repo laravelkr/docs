@@ -399,6 +399,7 @@ For more information on CORS support in Laravel 7.x, please consult the [CORS do
 ### 쿼리 타임 캐스트
 
 _Query time casting was contributed by [Matt Barlow](https://github.com/mpbarlow)_.
+
 _쿼리 타임 캐스팅 개발은 [Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
 
 Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
@@ -441,6 +442,7 @@ In previous releases of Laravel, the `database` queue was not considered robust 
 ### 아티즌 `test` 커맨드
 
 _The `test` command was contributed by [Nuno Maduro](https://twitter.com/enunomaduro)_.
+
 _`test` 커맨드 추가는 [Nuno Maduro](https://twitter.com/enunomaduro)가 기여했습니다_.
 
 In addition to the `phpunit` command, you may now use the `test` Artisan command to run your tests. The Artisan test runner provides beautiful console UX and more information regarding the test that is currently running. In addition, the runner will automatically stop on the first test failure:

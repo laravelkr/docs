@@ -153,7 +153,7 @@ To learn how to write custom Eloquent casts, including custom casts that cast to
 
 _Blade component tags were contributed by [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)_.
 
-_블레이드 컴포넌트 태그 개발에는 Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
+_블레이드 컴포넌트 태그 개발에는 [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
 
 > {tip} Blade components have been overhauled to allow tag based rendering, attribute management, component classes, inline view components, and more. Since the overhaul of Blade components is so extensive, please consult the [full Blade component documentation](/docs/{{version}}/blade#components) to learn about this feature.
 
@@ -399,7 +399,7 @@ For more information on CORS support in Laravel 7.x, please consult the [CORS do
 ### 쿼리 타임 캐스트
 
 _Query time casting was contributed by [Matt Barlow](https://github.com/mpbarlow)_.
-_쿼리 타임 캐스팅 개발은 Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
+_쿼리 타임 캐스팅 개발은 [Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
 
 Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
 

@@ -321,12 +321,12 @@
 편의상 모델의 기본 키를 기반으로 데이터베이스에서 레코드가 삭제 또는 소프트 삭제되었는지 확인하도록 모델을 `assertDeleted` 및 `assertSoftDeleted` 헬퍼에 전달 할 수 있습니다.
 
 예를 들어 테스트에서 모델 팩토리를 사용하는 경우, 이 모델을 이 헬퍼들 중 하나에 전달하여 애플리케이션이 데이터베이스에서 레코드를 올바르게 삭제했는지 테스트 할 수 있습니다.
-
-  public function testDatabase()
-  {
-      $user = factory(App\User::class)->create();
-
-      // Make call to application...
-
-      $this->assertDeleted($user);
-  }
+    
+      public function testDatabase()
+      {
+          $user = factory(App\User::class)->create();
+    
+          // Make call to application...
+    
+          $this->assertDeleted($user);
+      }

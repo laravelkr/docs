@@ -452,7 +452,7 @@ In addition to the `phpunit` command, you may now use the `test` Artisan command
     php artisan test
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142435/Screen_Shot_2020-02-19_at_2.00.01_PM.png" width="600">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142435/Screen_Shot_2020-02-19_at_2.00.01_PM.png">
 </p>
 
 Any arguments that can be passed to the `phpunit` command may also be passed to the Artisan `test` command:
@@ -473,7 +473,7 @@ The default Markdown mail template has received a fresh, more modern design base
 기본 마크다운 메일 템플릿이 테일윈드 CSS 컬러 팔레트에 기반해 좀 더 새롭고 모던한 디자인을 받아들였습니다. 물론 템플릿은 어플리케이션의 용도에 따라 발행되고 커스터마이징 될 수 있습니다.
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142674/Screen_Shot_2020-02-19_at_2.04.11_PM.png" width="600">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142674/Screen_Shot_2020-02-19_at_2.04.11_PM.png">
 </p>
 
 For more information on Markdown mail, please consult the [mail documentation](/docs/{{version}}/mail#markdown-mailables).

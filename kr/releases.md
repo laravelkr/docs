@@ -153,7 +153,7 @@ To learn how to write custom Eloquent casts, including custom casts that cast to
 
 _Blade component tags were contributed by [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)_.
 
-_블레이드 컴포넌트 태그 개발에는 Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
+_블레이드 컴포넌트 태그 개발에는 [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
 
 > {tip} Blade components have been overhauled to allow tag based rendering, attribute management, component classes, inline view components, and more. Since the overhaul of Blade components is so extensive, please consult the [full Blade component documentation](/docs/{{version}}/blade#components) to learn about this feature.
 
@@ -399,7 +399,8 @@ For more information on CORS support in Laravel 7.x, please consult the [CORS do
 ### 쿼리 타임 캐스트
 
 _Query time casting was contributed by [Matt Barlow](https://github.com/mpbarlow)_.
-_쿼리 타임 캐스팅 개발은 Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
+
+_쿼리 타임 캐스팅 개발은 [Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
 
 Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
 
@@ -441,6 +442,7 @@ In previous releases of Laravel, the `database` queue was not considered robust 
 ### 아티즌 `test` 커맨드
 
 _The `test` command was contributed by [Nuno Maduro](https://twitter.com/enunomaduro)_.
+
 _`test` 커맨드 추가는 [Nuno Maduro](https://twitter.com/enunomaduro)가 기여했습니다_.
 
 In addition to the `phpunit` command, you may now use the `test` Artisan command to run your tests. The Artisan test runner provides beautiful console UX and more information regarding the test that is currently running. In addition, the runner will automatically stop on the first test failure:
@@ -450,7 +452,7 @@ In addition to the `phpunit` command, you may now use the `test` Artisan command
     php artisan test
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142435/Screen_Shot_2020-02-19_at_2.00.01_PM.png">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142435/Screen_Shot_2020-02-19_at_2.00.01_PM.png" width="600">
 </p>
 
 Any arguments that can be passed to the `phpunit` command may also be passed to the Artisan `test` command:
@@ -471,7 +473,7 @@ The default Markdown mail template has received a fresh, more modern design base
 기본 마크다운 메일 템플릿이 테일윈드 CSS 컬러 팔레트에 기반해 좀 더 새롭고 모던한 디자인을 받아들였습니다. 물론 템플릿은 어플리케이션의 용도에 따라 발행되고 커스터마이징 될 수 있습니다.
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142674/Screen_Shot_2020-02-19_at_2.04.11_PM.png">
+<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142674/Screen_Shot_2020-02-19_at_2.04.11_PM.png" width="600">
 </p>
 
 For more information on Markdown mail, please consult the [mail documentation](/docs/{{version}}/mail#markdown-mailables).

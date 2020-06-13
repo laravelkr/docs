@@ -28,7 +28,7 @@
 <a name="laravel-6"></a>
 ## 라라벨 6
 
-라라벨 6 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)과의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 6 (LTS) 은 [Laravel Vapor](https://vapor.laravel.com)와의 호환성, 권한 응답, job 미들웨어, 지연 컬렉션, 서브쿼리 개선, `laravel/ui` 패키지를 통한 프론트엔드 스캐폴딩 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 5.8에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
 
 ### 유의적 버젼
 
@@ -38,7 +38,7 @@
 
 _라라벨 Vapor 는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
 
-라라벨 6 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)과 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
+라라벨 6 은 라라벨를 위한 '오토스케일링 서버리스 개발 플랫폼'인 [라라벨 Vapor](https://vapor.laravel.com)와 호환성을 제공합니다. Vapor 는 SQS 큐들, 데이터베이스들, Redis 클러스터들, 네트워크들, CloudFront CDN 등과 이외의 것들을 인터페이스화해서 AWS Lambda 위에서의 라라벨 어플리케이션 관리의 복잡함을 추상화하였습니다.
 
 ### Ignition 을 통한 개선된 예외상황들
 

@@ -109,7 +109,7 @@ _커스텀 엘로퀜트 캐스트 개발에는 [Taylor Otwell](https://github.co
 
 ### 블레이드 컴포넌트 태그 & 개선사항
 
-_블레이드 컴포넌트 태그 개발에는 Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
+_블레이드 컴포넌트 태그 개발에는 [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
 
 > {팁} 블레이드 컴포넌트가 태그 기반 렌더링, 속성 관리, 컴포넌트 클래스, 인라인 뷰 컴포넌트 등을 할 수 있도록 완전히 정비되었습니다. 이 변경사항이 워낙 방대하기 때문에, [블레이드 컴포넌트](/docs/{{version}}/blade#components) 문서를 참고해서 해당 기능을 학습하세요.
 
@@ -291,8 +291,7 @@ _CORS 지원은 [Barry vd. Heuvel](https://twitter.com/barryvdh)이 기여했습
 
 ### 쿼리 타임 캐스트
 
-_Query time casting was contributed by [Matt Barlow](https://github.com/mpbarlow)_.
-_쿼리 타임 캐스팅 개발은 Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
+_쿼리 타임 캐스팅 개발은 [Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
 
 쿼리를 실행할 때 데이터베이스의 원시 값을 셀렉트하면서 바로 캐스팅을 적용해야 할 필요가 있을겁니다. 예를 들어, 아래와 같은 쿼리를 살펴봅시다.
 
@@ -323,7 +322,6 @@ _MySQL 데이터베이스 큐 개선은 [Mohamed Said](https://github.com/themsa
 
 ### 아티즌 `test` 커맨드
 
-_The `test` command was contributed by [Nuno Maduro](https://twitter.com/enunomaduro)_.
 _`test` 커맨드 추가는 [Nuno Maduro](https://twitter.com/enunomaduro)가 기여했습니다_.
 
 테스트를 실행할 때 `phpunit` 커맨드 뿐만 아니라 이제 아티즌의 `test` 커맨드를 사용할 수 있습니다. 아티즌의 테스트 러너는 아름다운 콘솔 유저 경험과 현재 어떤 테스트가 실행 중인가에 대한 더 많은 정보를 제공합니다. 또한 테스트 러너는 첫 번째 테스트 실패가 발생할 경우에 자동으로 중단됩니다.

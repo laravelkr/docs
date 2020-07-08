@@ -14,7 +14,7 @@ Laravel은 사용하는 JavaScript 또는 CSS 전처리기를 제한하지 않�
 
 라라벨에서 제공하는 부트스트랩 및 Vue 스캐폴딩은 `laravel/ui` Composer 패키지에 있으며 Composer를 사용하여 설치할 수 있습니다.
 
-    composer require laravel/ui:^1.0
+    composer require laravel/ui
 
 `laravel/ui` 패키지가 설치되면 `ui` Artisan 명령을 사용하여 프론트엔드 스캐폴딩을 설치할 수 있습니다.
 

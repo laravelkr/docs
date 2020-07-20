@@ -181,7 +181,7 @@ Method  | Description
 `->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  매달 1일 00:00 에 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
-`->quarterly();` |  분기변 첫번째 날 00:00 에 작업 실행
+`->quarterly();` |  분기별 첫번째 날 00:00 에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
 

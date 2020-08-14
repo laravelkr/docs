@@ -37,7 +37,7 @@
 <a name="extending-collections"></a>
 ### 컬렉션 확장하기
 
-컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가하라 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
+컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가할 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
 
     use Illuminate\Support\Collection;
     use Illuminate\Support\Str;

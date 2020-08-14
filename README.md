@@ -179,6 +179,7 @@
   <tr>
     <td align="center"><a href="https://github.com/danics7"><img src="https://avatars3.githubusercontent.com/u/5405310?v=4" width="100px;" alt=""/><br /><sub><b>Chisoo Yang</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=danics7" title="Documentation">📖</a></td>
     <td align="center"><a href="https://papion93.github.io/"><img src="https://avatars0.githubusercontent.com/u/49216709?v=4" width="100px;" alt=""/><br /><sub><b>PAPION</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=PAPION93" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/DungGi"><img src="https://avatars1.githubusercontent.com/u/57477524?v=4" width="100px;" alt=""/><br /><sub><b>DungGi</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=DungGi" title="Documentation">📖</a></td>
   </tr>
 </table>
 

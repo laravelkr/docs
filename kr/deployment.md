@@ -16,7 +16,7 @@
     - [Optimizing Route Loading](#optimizing-route-loading)
     - [라우트 로딩 최적화](#optimizing-route-loading)
     - [Optimizing View Loading](#optimizing-view-loading)
-    - [뷰 로딩 최적화]](#optimizing-view-loading)
+    - [뷰 로딩 최적화](#optimizing-view-loading)
 - [Deploying With Forge](#deploying-with-forge)
 - [Forge에서 배포하기](#deploying-with-forge)
 

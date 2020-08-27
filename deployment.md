@@ -7,7 +7,7 @@
     - [Autoloader 최적화](#autoloader-optimization)
     - [설정내역 로딩 최적화](#optimizing-configuration-loading)
     - [라우트 로딩 최적화](#optimizing-route-loading)
-    - [뷰 로딩 최적화]](#optimizing-view-loading)
+    - [뷰 로딩 최적화](#optimizing-view-loading)
 - [Forge에서 배포하기](#deploying-with-forge)
 
 <a name="introduction"></a>

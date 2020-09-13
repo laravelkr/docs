@@ -5,7 +5,8 @@
     - [Configuration](#configuration)
     - [Data Pruning](#data-pruning)
     - [Migration Customization](#migration-customization)
-- [Dashboard Authorization](#dashboard-authorization)
+    - [Dashboard Authorization](#dashboard-authorization)
+- [Upgrading Telescope](#upgrading-telescope)
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
     - [Batches](#filtering-batches)
@@ -26,6 +27,7 @@
     - [Redis Watcher](#redis-watcher)
     - [Request Watcher](#request-watcher)
     - [Schedule Watcher](#schedule-watcher)
+- [Displaying User Avatars](#displaying-user-avatars)
 
 <a name="introduction"></a>
 ## Introduction
@@ -33,7 +35,7 @@
 Laravel Telescope is an elegant debug assistant for the Laravel framework. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps and more. Telescope makes a wonderful companion to your local Laravel development environment.
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600">
+<img src="https://laravel.com/assets/img/examples/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600">
 </p>
 
 <a name="installation"></a>
@@ -48,12 +50,6 @@ After installing Telescope, publish its assets using the `telescope:install` Art
     php artisan telescope:install
 
     php artisan migrate
-
-#### Updating Telescope
-
-When updating Telescope, you should re-publish Telescope's assets:
-
-    php artisan telescope:publish
 
 ### Installing Only In Specific Environments
 
@@ -112,7 +108,7 @@ By default, all entries older than 24 hours will be pruned. You may use the `hou
     $schedule->command('telescope:prune --hours=48')->daily();
 
 <a name="dashboard-authorization"></a>
-## Dashboard Authorization
+### Dashboard Authorization
 
 Telescope exposes a dashboard at `/telescope`. By default, you will only be able to access this dashboard in the `local` environment. Within your `app/Providers/TelescopeServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Telescope in **non-local** environments. You are free to modify this gate as needed to restrict access to your Telescope installation:
 
@@ -130,6 +126,27 @@ Telescope exposes a dashboard at `/telescope`. By default, you will only be able
                 'taylor@laravel.com',
             ]);
         });
+    }
+
+> {note} You should ensure you change your `APP_ENV` environment variable to `production` in your production environment. Otherwise, your Telescope installation will be publicly available.
+
+<a name="upgrading-telescope"></a>
+## Upgrading Telescope
+
+When upgrading to a new major version of Telescope, it's important that you carefully review [the upgrade guide](https://github.com/laravel/telescope/blob/master/UPGRADE.md).
+
+In addition, when upgrading to any new Telescope version, you should re-publish Telescope's assets:
+
+    php artisan telescope:publish
+
+To keep the assets up-to-date and avoid issues in future updates, you may add the `telescope:publish` command to the `post-update-cmd` scripts in your application's `composer.json` file:
+
+    {
+        "scripts": {
+            "post-update-cmd": [
+                "@php artisan telescope:publish --ansi"
+            ]
+        }
     }
 
 <a name="filtering"></a>
@@ -351,3 +368,23 @@ The request watcher records the request, headers, session, and response data ass
 ### Schedule Watcher
 
 The schedule watcher records the command and output of any scheduled tasks run by your application.
+
+<a name="displaying-user-avatars"></a>
+## Displaying User Avatars
+
+The Telescope dashboard displays the user avatar for the user that was logged in when a given entry was saved. By default, Telescope will retrieve avatars using the Gravatar web service. However, you may customize the avatar URL by registering a callback in your `TelescopeServiceProvider`. The callback will receive the user's ID and email address and should return the user's avatar image URL:
+
+    use App\User;
+    use Laravel\Telescope\Telescope;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Telescope::avatar(function ($id, $email) {
+            return '/avatars/'.User::find($id)->avatar_path;
+        });
+    }

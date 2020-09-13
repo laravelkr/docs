@@ -86,6 +86,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [preg_replace_array](#method-preg-replace-array)
 [Str::after](#method-str-after)
 [Str::afterLast](#method-str-after-last)
+[Str::ascii](#method-str-ascii)
 [Str::before](#method-str-before)
 [Str::beforeLast](#method-str-before-last)
 [Str::between](#method-str-between)
@@ -102,6 +103,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::limit](#method-str-limit)
 [Str::lower](#method-str-lower)
 [Str::orderedUuid](#method-str-ordered-uuid)
+[Str::padBoth](#method-str-padboth)
+[Str::padLeft](#method-str-padleft)
+[Str::padRight](#method-str-padright)
 [Str::plural](#method-str-plural)
 [Str::random](#method-str-random)
 [Str::replaceArray](#method-str-replace-array)
@@ -147,12 +151,17 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [is](#method-fluent-str-is)
 [isAscii](#method-fluent-str-is-ascii)
 [isEmpty](#method-fluent-str-is-empty)
+[isNotEmpty](#method-fluent-str-is-not-empty)
 [kebab](#method-fluent-str-kebab)
 [length](#method-fluent-str-length)
 [limit](#method-fluent-str-limit)
 [lower](#method-fluent-str-lower)
+[ltrim](#method-fluent-str-ltrim)
 [match](#method-fluent-str-match)
-[matchAll](#method-fluent-str-matchAll)
+[matchAll](#method-fluent-str-match-all)
+[padBoth](#method-fluent-str-padboth)
+[padLeft](#method-fluent-str-padleft)
+[padRight](#method-fluent-str-padright)
 [plural](#method-fluent-str-plural)
 [prepend](#method-fluent-str-prepend)
 [replace](#method-fluent-str-replace)
@@ -160,17 +169,20 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [replaceFirst](#method-fluent-str-replace-first)
 [replaceLast](#method-fluent-str-replace-last)
 [replaceMatches](#method-fluent-str-replace-matches)
-[start](#method-fluent-str-start)
-[upper](#method-fluent-str-upper)
-[title](#method-fluent-str-title)
+[rtrim](#method-fluent-str-rtrim)
 [singular](#method-fluent-str-singular)
 [slug](#method-fluent-str-slug)
 [snake](#method-fluent-str-snake)
+[split](#method-fluent-str-split)
+[start](#method-fluent-str-start)
 [startsWith](#method-fluent-str-starts-with)
 [studly](#method-fluent-str-studly)
 [substr](#method-fluent-str-substr)
+[title](#method-fluent-str-title)
 [trim](#method-fluent-str-trim)
 [ucfirst](#method-fluent-str-ucfirst)
+[upper](#method-fluent-str-upper)
+[when](#method-fluent-str-when)
 [whenEmpty](#method-fluent-str-when-empty)
 [words](#method-fluent-str-words)
 
@@ -210,11 +222,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [csrf_field](#method-csrf-field)
 [csrf_token](#method-csrf-token)
 [dd](#method-dd)
-[decrypt](#method-decrypt)
 [dispatch](#method-dispatch)
 [dispatch_now](#method-dispatch-now)
 [dump](#method-dump)
-[encrypt](#method-encrypt)
 [env](#method-env)
 [event](#method-event)
 [factory](#method-factory)
@@ -1042,6 +1052,17 @@ The `Str::afterLast` method returns everything after the last occurrence of the 
 
     // 'Controller'
 
+<a name="method-str-ascii"></a>
+#### `Str::ascii()` {#collection-method}
+
+The `Str::ascii` method will attempt to transliterate the string into an ASCII value:
+
+    use Illuminate\Support\Str;
+
+    $slice = Str::ascii('û');
+
+    // 'u'
+
 <a name="method-str-before"></a>
 #### `Str::before()` {#collection-method}
 
@@ -1260,6 +1281,51 @@ The `Str::orderedUuid` method generates a "timestamp first" UUID that may be eff
     use Illuminate\Support\Str;
 
     return (string) Str::orderedUuid();
+
+<a name="method-str-padboth"></a>
+#### `Str::padBoth()` {#collection-method}
+
+The `Str::padBoth` method wraps PHP's `str_pad` function, padding both sides of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::padBoth('James', 10, '_');
+
+    // '__James___'
+
+    $padded = Str::padBoth('James', 10);
+
+    // '  James   '
+
+<a name="method-str-padleft"></a>
+#### `Str::padLeft()` {#collection-method}
+
+The `Str::padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::padLeft('James', 10, '-=');
+
+    // '-=-=-James'
+
+    $padded = Str::padLeft('James', 10);
+
+    // '     James'
+
+<a name="method-str-padright"></a>
+#### `Str::padRight()` {#collection-method}
+
+The `Str::padRight` method wraps PHP's `str_pad` function, padding the right side of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::padRight('James', 10, '-');
+
+    // 'James-----'
+
+    $padded = Str::padRight('James', 10);
+
+    // 'James     '
 
 <a name="method-str-plural"></a>
 #### `Str::plural()` {#collection-method}
@@ -1724,7 +1790,7 @@ The `isAscii` method determines if a given string is an ASCII string:
 
     // true
 
-    $result = Str::of('ü')->isAcii();
+    $result = Str::of('ü')->isAscii();
 
     // false
 
@@ -1742,6 +1808,22 @@ The `isEmpty` method determines if the given string is empty:
     $result = Str::of('Laravel')->trim()->isEmpty();
 
     // false
+
+<a name="method-fluent-str-is-not-empty"></a>
+#### `isNotEmpty` {#collection-method}
+
+The `isNotEmpty` method determines if the given string is not empty:
+
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('  ')->trim()->isNotEmpty();
+
+    // false
+
+    $result = Str::of('Laravel')->trim()->isNotEmpty();
+
+    // true
 
 <a name="method-fluent-str-kebab"></a>
 #### `kebab` {#collection-method}
@@ -1776,7 +1858,7 @@ The `limit` method truncates the given string at the specified length:
 
     // The quick brown fox...
 
-You may also pass a third argument to change the string that will be appended to the end:
+You may also pass a second argument to change the string that will be appended to the end:
 
     use Illuminate\Support\Str;
 
@@ -1794,6 +1876,21 @@ The `lower` method converts the given string to lowercase:
     $result = Str::of('LARAVEL')->lower();
 
     // 'laravel'
+
+<a name="method-fluent-str-ltrim"></a>
+#### `ltrim` {#collection-method}
+
+The `ltrim` method left trims the given string:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('  Laravel  ')->ltrim();
+
+    // 'Laravel  '
+
+    $string = Str::of('/Laravel/')->ltrim('/');
+
+    // 'Laravel/'
 
 <a name="method-fluent-str-match"></a>
 #### `match` {#collection-method}
@@ -1825,11 +1922,56 @@ If you specify a matching group within the expression, Laravel will return a col
 
     use Illuminate\Support\Str;
 
-    $result = Str::of('bar fun bar fly')->match('/f(\w*)/');
+    $result = Str::of('bar fun bar fly')->matchAll('/f(\w*)/');
 
     // collect(['un', 'ly']);
 
 If no matches are found, an empty collection will be returned.
+
+<a name="method-fluent-str-padboth"></a>
+#### `padBoth` {#collection-method}
+
+The `padBoth` method wraps PHP's `str_pad` function, padding both sides of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::of('James')->padBoth(10, '_');
+
+    // '__James___'
+
+    $padded = Str::of('James')->padBoth(10);
+
+    // '  James   '
+
+<a name="method-fluent-str-padleft"></a>
+#### `padLeft` {#collection-method}
+
+The `padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::of('James')->padLeft(10, '-=');
+
+    // '-=-=-James'
+
+    $padded = Str::of('James')->padLeft(10);
+
+    // '     James'
+
+<a name="method-fluent-str-padright"></a>
+#### `padRight` {#collection-method}
+
+The `padRight` method wraps PHP's `str_pad` function, padding the right side of a string with another:
+
+    use Illuminate\Support\Str;
+
+    $padded = Str::of('James')->padRight(10, '-');
+
+    // 'James-----'
+
+    $padded = Str::of('James')->padRight(10);
+
+    // 'James     '
 
 <a name="method-fluent-str-plural"></a>
 #### `plural` {#collection-method}
@@ -1936,42 +2078,20 @@ The `replaceMatches` method also accepts a Closure that will be invoked with eac
 
     // '[1][2][3]'
 
-<a name="method-fluent-str-start"></a>
-#### `start` {#collection-method}
+<a name="method-fluent-str-rtrim"></a>
+#### `rtrim` {#collection-method}
 
-The `start` method adds a single instance of the given value to a string if it does not already start with the value:
-
-    use Illuminate\Support\Str;
-
-    $adjusted = Str::of('this/string')->start('/');
-
-    // /this/string
-
-    $adjusted = Str::of('/this/string')->start('/');
-
-    // /this/string
-
-<a name="method-fluent-str-upper"></a>
-#### `upper` {#collection-method}
-
-The `upper` method converts the given string to uppercase:
+The `rtrim` method right trims the given string:
 
     use Illuminate\Support\Str;
 
-    $adjusted = Str::of('laravel')->upper();
+    $string = Str::of('  Laravel  ')->rtrim();
 
-    // LARAVEL
+    // '  Laravel'
 
-<a name="method-fluent-str-title"></a>
-#### `title` {#collection-method}
+    $string = Str::of('/Laravel/')->rtrim('/');
 
-The `title` method converts the given string to `Title Case`:
-
-    use Illuminate\Support\Str;
-
-    $converted = Str::of('a nice title uses the correct case')->title();
-
-    // A Nice Title Uses The Correct Case
+    // '/Laravel'
 
 <a name="method-fluent-str-singular"></a>
 #### `singular` {#collection-method}
@@ -2010,6 +2130,32 @@ The `snake` method converts the given string to `snake_case`:
 
     // foo_bar
 
+<a name="method-fluent-str-split"></a>
+#### `split` {#collection-method}
+
+The `split` method splits a string into a collection using a regular expression:
+
+    use Illuminate\Support\Str;
+
+    $segments = Str::of('one, two, three')->split('/[\s,]+/');
+
+    // collect(["one", "two", "three"])
+
+<a name="method-fluent-str-start"></a>
+#### `start` {#collection-method}
+
+The `start` method adds a single instance of the given value to a string if it does not already start with the value:
+
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::of('this/string')->start('/');
+
+    // /this/string
+
+    $adjusted = Str::of('/this/string')->start('/');
+
+    // /this/string
+
 <a name="method-fluent-str-starts-with"></a>
 #### `startsWith` {#collection-method}
 
@@ -2047,6 +2193,17 @@ The `substr` method returns the portion of the string specified by the given sta
 
     // Frame
 
+<a name="method-fluent-str-title"></a>
+#### `title` {#collection-method}
+
+The `title` method converts the given string to `Title Case`:
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::of('a nice title uses the correct case')->title();
+
+    // A Nice Title Uses The Correct Case
+
 <a name="method-fluent-str-trim"></a>
 #### `trim` {#collection-method}
 
@@ -2072,6 +2229,33 @@ The `ucfirst` method returns the given string with the first character capitaliz
     $string = Str::of('foo bar')->ucfirst();
 
     // Foo bar
+
+<a name="method-fluent-str-upper"></a>
+#### `upper` {#collection-method}
+
+The `upper` method converts the given string to uppercase:
+
+    use Illuminate\Support\Str;
+
+    $adjusted = Str::of('laravel')->upper();
+
+    // LARAVEL
+
+<a name="method-fluent-str-when"></a>
+#### `when` {#collection-method}
+
+The `when` method invokes the given Closure if a given condition is true. The Closure will receive the fluent string instance:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Taylor')
+                    ->when(true, function ($string) {
+                        return $string->append(' Otwell');
+                    });
+
+    // 'Taylor Otwell'
+
+If necessary, you may pass another Closure as the third parameter to the `when` method. This Closure will execute if the condition parameter evaluates to `false`.
 
 <a name="method-fluent-str-when-empty"></a>
 #### `whenEmpty` {#collection-method}
@@ -2345,13 +2529,6 @@ The `dd` function dumps the given variables and ends execution of the script:
 
 If you do not want to halt the execution of your script, use the [`dump`](#method-dump) function instead.
 
-<a name="method-decrypt"></a>
-#### `decrypt()` {#collection-method}
-
-The `decrypt` function decrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
-
-    $decrypted = decrypt($encrypted_value);
-
 <a name="method-dispatch"></a>
 #### `dispatch()` {#collection-method}
 
@@ -2376,13 +2553,6 @@ The `dump` function dumps the given variables:
     dump($value1, $value2, $value3, ...);
 
 If you want to stop executing the script after dumping the variables, use the [`dd`](#method-dd) function instead.
-
-<a name="method-encrypt"></a>
-#### `encrypt()` {#collection-method}
-
-The `encrypt` function encrypts the given value using Laravel's [encrypter](/docs/{{version}}/encryption):
-
-    $encrypted = encrypt($unencrypted_value);
 
 <a name="method-env"></a>
 #### `env()` {#collection-method}

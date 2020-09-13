@@ -7,12 +7,15 @@
     - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
     - [Storing Items In The Cache](#storing-items-in-the-cache)
     - [Removing Items From The Cache](#removing-items-from-the-cache)
-    - [Atomic Locks](#atomic-locks)
     - [The Cache Helper](#the-cache-helper)
 - [Cache Tags](#cache-tags)
     - [Storing Tagged Cache Items](#storing-tagged-cache-items)
     - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
     - [Removing Tagged Cache Items](#removing-tagged-cache-items)
+- [Atomic Locks](#atomic-locks)
+    - [Driver Prerequisites](#lock-driver-prerequisites)
+    - [Managing Locks](#managing-locks)
+    - [Managing Locks Across Processes](#managing-locks-across-processes)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
     - [Writing The Driver](#writing-the-driver)
     - [Registering The Driver](#registering-the-driver)
@@ -209,10 +212,81 @@ You may clear the entire cache using the `flush` method:
 
 > {note} Flushing the cache does not respect the cache prefix and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.
 
-<a name="atomic-locks"></a>
-### Atomic Locks
+<a name="the-cache-helper"></a>
+### The Cache Helper
 
-> {note} To utilize this feature, your application must be using the `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
+
+    $value = cache('key');
+
+If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
+
+    cache(['key' => 'value'], $seconds);
+
+    cache(['key' => 'value'], now()->addMinutes(10));
+
+When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
+
+    cache()->remember('users', $seconds, function () {
+        return DB::table('users')->get();
+    });
+
+> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
+
+<a name="cache-tags"></a>
+## Cache Tags
+
+> {note} Cache tags are not supported when using the `file`, `dynamodb`, or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
+
+<a name="storing-tagged-cache-items"></a>
+### Storing Tagged Cache Items
+
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
+
+    Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
+
+    Cache::tags(['people', 'authors'])->put('Anne', $anne, $seconds);
+
+<a name="accessing-tagged-cache-items"></a>
+### Accessing Tagged Cache Items
+
+To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
+
+    $john = Cache::tags(['people', 'artists'])->get('John');
+
+    $anne = Cache::tags(['people', 'authors'])->get('Anne');
+
+<a name="removing-tagged-cache-items"></a>
+### Removing Tagged Cache Items
+
+You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
+
+    Cache::tags(['people', 'authors'])->flush();
+
+In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
+
+    Cache::tags('authors')->flush();
+
+<a name="atomic-locks"></a>
+## Atomic Locks
+
+> {note} To utilize this feature, your application must be using the `memcached`, `dynamodb`, `redis`, `database`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+
+<a name="lock-driver-prerequisites"></a>
+### Driver Prerequisites
+
+#### Database
+
+When using the `database` cache driver, you will need to setup a table to contain the cache locks. You'll find an example `Schema` declaration for the table below:
+
+    Schema::create('cache_locks', function ($table) {
+        $table->string('key')->primary();
+        $table->string('owner');
+        $table->integer('expiration');
+    });
+
+<a name="managing-locks"></a>
+### Managing Locks
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
@@ -252,7 +326,8 @@ If the lock is not available at the moment you request it, you may instruct Lara
         // Lock acquired after waiting maximum of 5 seconds...
     });
 
-#### Managing Locks Across Processes
+<a name="managing-locks-across-processes"></a>
+### Managing Locks Across Processes
 
 Sometimes, you may wish to acquire a lock in one process and release it in another process. For example, you may acquire a lock during a web request and wish to release the lock at the end of a queued job that is triggered by that request. In this scenario, you should pass the lock's scoped "owner token" to the queued job so that the job can re-instantiate the lock using the given token:
 
@@ -271,61 +346,6 @@ Sometimes, you may wish to acquire a lock in one process and release it in anoth
 If you would like to release a lock without respecting its current owner, you may use the `forceRelease` method:
 
     Cache::lock('foo')->forceRelease();
-
-<a name="the-cache-helper"></a>
-### The Cache Helper
-
-In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
-
-    $value = cache('key');
-
-If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
-
-    cache(['key' => 'value'], $seconds);
-
-    cache(['key' => 'value'], now()->addMinutes(10));
-
-When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
-
-    cache()->remember('users', $seconds, function () {
-        return DB::table('users')->get();
-    });
-
-> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
-
-<a name="cache-tags"></a>
-## Cache Tags
-
-> {note} Cache tags are not supported when using the `file` or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
-
-<a name="storing-tagged-cache-items"></a>
-### Storing Tagged Cache Items
-
-Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
-
-    Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
-
-    Cache::tags(['people', 'authors'])->put('Anne', $anne, $seconds);
-
-<a name="accessing-tagged-cache-items"></a>
-### Accessing Tagged Cache Items
-
-To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
-
-    $john = Cache::tags(['people', 'artists'])->get('John');
-
-    $anne = Cache::tags(['people', 'authors'])->get('Anne');
-
-<a name="removing-tagged-cache-items"></a>
-### Removing Tagged Cache Items
-
-You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
-
-    Cache::tags(['people', 'authors'])->flush();
-
-In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
-
-    Cache::tags('authors')->flush();
 
 <a name="adding-custom-cache-drivers"></a>
 ## Adding Custom Cache Drivers

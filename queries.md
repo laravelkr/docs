@@ -265,7 +265,7 @@ If you would like to perform a "left join" or "right join" instead of an "inner 
 
 To perform a "cross join" use the `crossJoin` method with the name of the table you wish to cross join to. Cross joins generate a cartesian product between the first table and the joined table:
 
-    $users = DB::table('sizes')
+    $sizes = DB::table('sizes')
                 ->crossJoin('colors')
                 ->get();
 
@@ -405,6 +405,8 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
     $users = DB::table('users')
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
+
+> {note} If you are adding a huge array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 
@@ -573,6 +575,13 @@ The `orderBy` method allows you to sort the result of the query by a given colum
     $users = DB::table('users')
                     ->orderBy('name', 'desc')
                     ->get();
+                    
+If you need to sort by multiple columns, you may invoke `orderBy` as many times as needed:
+                                         
+    $users = DB::table('users')
+                    ->orderBy('name', 'desc')
+                    ->orderBy('email', 'asc')
+                    ->get();
 
 #### latest / oldest
 
@@ -675,14 +684,14 @@ You may even insert several records into the table with a single call to `insert
 
     DB::table('users')->insert([
         ['email' => 'taylor@example.com', 'votes' => 0],
-        ['email' => 'dayle@example.com', 'votes' => 0]
+        ['email' => 'dayle@example.com', 'votes' => 0],
     ]);
 
 The `insertOrIgnore` method will ignore duplicate record errors while inserting records into the database:
 
     DB::table('users')->insertOrIgnore([
         ['id' => 1, 'email' => 'taylor@example.com'],
-        ['id' => 2, 'email' => 'dayle@example.com']
+        ['id' => 2, 'email' => 'dayle@example.com'],
     ]);
 
 #### Auto-Incrementing IDs
@@ -743,6 +752,8 @@ Both of these methods accept at least one argument: the column to modify. A seco
 You may also specify additional columns to update during the operation:
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
+
+> {note} Model events are not fired when using the `increment` and `decrement` methods.
 
 <a name="deletes"></a>
 ## Deletes

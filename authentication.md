@@ -50,18 +50,18 @@ Also, you should verify that your `users` (or equivalent) table contains a nulla
 <a name="authentication-quickstart"></a>
 ## Authentication Quickstart
 
-Laravel ships with several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
-
 <a name="included-routing"></a>
 ### Routing
 
 Laravel's `laravel/ui` package provides a quick way to scaffold all of the routes and views you need for authentication using a few simple commands:
 
-    composer require laravel/ui
+    composer require laravel/ui:^2.4
 
     php artisan ui vue --auth
 
 This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
+
+The `laravel/ui` package also generates several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
 
 > {tip} If your application doesn’t need registration, you may disable it by removing the newly created `RegisterController` and modifying your route declaration: `Auth::routes(['register' => false]);`.
 
@@ -89,7 +89,7 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
     public const HOME = '/home';
 
-If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method that may be overwritten if desired:
+If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method within the `AuthenticatesUsers` trait. This trait is used by the `LoginController` class that is installed into your application when using the `laravel/ui` package. Therefore, you can define your own `authenticated` method within the `LoginController` class:
 
     /**
      * The user has been authenticated.
@@ -642,8 +642,24 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
             'App\Listeners\LogFailedLogin',
         ],
 
+        'Illuminate\Auth\Events\Validated' => [
+            'App\Listeners\LogValidated',
+        ],
+        
+        'Illuminate\Auth\Events\Verified' => [
+            'App\Listeners\LogVerified',
+        ],
+
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogSuccessfulLogout',
+        ],
+
+        'Illuminate\Auth\Events\CurrentDeviceLogout' => [
+            'App\Listeners\LogCurrentDeviceLogout',
+        ],
+
+        'Illuminate\Auth\Events\OtherDeviceLogout' => [
+            'App\Listeners\LogOtherDeviceLogout',
         ],
 
         'Illuminate\Auth\Events\Lockout' => [

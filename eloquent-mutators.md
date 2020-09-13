@@ -140,7 +140,7 @@ As noted above, when retrieving attributes that are listed in your `$dates` prop
 
 #### Date Formats
 
-By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customize the timestamp format, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database, as well as their format when the model is serialized to an array or JSON:
+By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customize the timestamp format, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database:
 
     <?php
 
@@ -191,14 +191,14 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
         //
     }
 
-> {note} Attributes that are `null` will not be cast.
+> {note} Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
 
 <a name="custom-casts"></a>
 ### Custom Casts
 
 Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may accomplish this by defining a class that implements the `CastsAttributes` interface.
 
-Classes that implement this interface must define a `get` and `set` methods. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
 
     <?php
 
@@ -270,6 +270,7 @@ As an example, we will define a custom cast class that casts multiple model valu
 
     use App\Address;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+    use InvalidArgumentException;
 
     class Address implements CastsAttributes
     {
@@ -301,6 +302,10 @@ As an example, we will define a custom cast class that casts multiple model valu
          */
         public function set($model, $key, $value, $attributes)
         {
+            if (! $value instanceof Address) {
+                throw new InvalidArgumentException('The given value is not an Address instance.');
+            }
+
             return [
                 'address_line_one' => $value->lineOne,
                 'address_line_two' => $value->lineTwo,
@@ -315,6 +320,8 @@ When casting to value objects, any changes made to the value object will automat
     $user->address->lineOne = 'Updated Address Value';
 
     $user->save();
+
+> {tip} If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
 
 #### Inbound Casting
 
@@ -358,7 +365,7 @@ Occasionally, you may need to write a custom cast that only transforms values th
         public function set($model, $key, $value, $attributes)
         {
             return is_null($this->algorithm)
-                        ? bcrypt($value);
+                        ? bcrypt($value)
                         : hash($this->algorithm, $value);
         }
     }
@@ -381,7 +388,7 @@ When attaching a custom cast to a model, cast parameters may be specified by sep
 Instead of attaching the custom cast to your model, you may alternatively attach a class that implements the `Illuminate\Contracts\Database\Eloquent\Castable` interface:
 
     protected $casts = [
-        'options' => \App\Address::class,
+        'address' => \App\Address::class,
     ];
 
 Objects that implement the `Castable` interface must define a `castUsing` method that returns the class name of the custom caster class that is responsible for casting to and from the `Castable` class:
@@ -409,7 +416,7 @@ Objects that implement the `Castable` interface must define a `castUsing` method
 When using `Castable` classes, you may still provide arguments in the `$casts` definition. The arguments will be passed directly to the caster class:
 
     protected $casts = [
-        'options' => \App\Address::class.':argument',
+        'address' => \App\Address::class.':argument',
     ];
 
 <a name="array-and-json-casting"></a>
@@ -482,5 +489,5 @@ The `last_posted_at` attribute on the results of this query will be a raw string
         'last_posted_at' => Post::selectRaw('MAX(created_at)')
                 ->whereColumn('user_id', 'users.id')
     ])->withCasts([
-        'last_posted_at' => 'date'
+        'last_posted_at' => 'datetime'
     ])->get();

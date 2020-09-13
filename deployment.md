@@ -8,7 +8,7 @@
     - [Optimizing Configuration Loading](#optimizing-configuration-loading)
     - [Optimizing Route Loading](#optimizing-route-loading)
     - [Optimizing View Loading](#optimizing-view-loading)
-- [Deploying With Forge](#deploying-with-forge)
+- [Deploying With Forge / Vapor](#deploying-with-forge-or-vapor)
 
 <a name="introduction"></a>
 ## Introduction
@@ -26,13 +26,13 @@ If you are deploying your application to a server that is running Nginx, you may
     server {
         listen 80;
         server_name example.com;
-        root /example.com/public;
+        root /srv/example.com/public;
 
         add_header X-Frame-Options "SAMEORIGIN";
         add_header X-XSS-Protection "1; mode=block";
         add_header X-Content-Type-Options "nosniff";
 
-        index index.html index.htm index.php;
+        index index.php;
 
         charset utf-8;
 
@@ -46,8 +46,7 @@ If you are deploying your application to a server that is running Nginx, you may
         error_page 404 /index.php;
 
         location ~ \.php$ {
-            fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-            fastcgi_index index.php;
+            fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
             fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
             include fastcgi_params;
         }
@@ -100,9 +99,13 @@ When deploying your application to production, you should make sure that you run
 
 This command precompiles all your Blade views so they are not compiled on demand, improving the performance of each request that returns a view.
 
-<a name="deploying-with-forge"></a>
-## Deploying With Forge
+<a name="deploying-with-forge-or-vapor"></a>
+## Deploying With Forge / Vapor
 
 If you aren't quite ready to manage your own server configuration or aren't comfortable configuring all of the various services needed to run a robust Laravel application, [Laravel Forge](https://forge.laravel.com) is a wonderful alternative.
 
 Laravel Forge can create servers on various infrastructure providers such as DigitalOcean, Linode, AWS, and more. In addition, Forge installs and manages all of the tools needed to build robust Laravel applications, such as Nginx, MySQL, Redis, Memcached, Beanstalk, and more.
+
+#### Laravel Vapor
+
+If you would like a totally serverless, auto-scaling deployment platform tuned for Laravel, check out [Laravel Vapor](https://vapor.laravel.com). Laravel Vapor is a serverless deployment platform for Laravel, powered by AWS. Launch your Laravel infrastructure on Vapor and fall in love with the scalable simplicity of serverless. Laravel Vapor is fine-tuned by Laravel's creators to work seamlessly with the framework so you can keep writing your Laravel applications exactly like you're used to.

@@ -14,12 +14,14 @@
     - [One To Many](#one-to-many-polymorphic-relations)
     - [Many To Many](#many-to-many-polymorphic-relations)
     - [Custom Polymorphic Types](#custom-polymorphic-types)
+- [Dynamic Relationships](#dynamic-relationships)
 - [Querying Relations](#querying-relations)
     - [Relationship Methods Vs. Dynamic Properties](#relationship-methods-vs-dynamic-properties)
     - [Querying Relationship Existence](#querying-relationship-existence)
     - [Querying Relationship Absence](#querying-relationship-absence)
     - [Querying Polymorphic Relationships](#querying-polymorphic-relationships)
     - [Counting Related Models](#counting-related-models)
+    - [Counting Related Models On Polymorphic Relationships](#counting-related-models-on-polymorphic-relationships)
 - [Eager Loading](#eager-loading)
     - [Constraining Eager Loads](#constraining-eager-loads)
     - [Lazy Eager Loading](#lazy-eager-loading)
@@ -225,7 +227,7 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 <a name="many-to-many"></a>
 ### Many To Many
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". 
+Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin".
 
 #### Table Structure
 
@@ -431,20 +433,24 @@ If you have defined a many-to-many relationship that uses a custom pivot model, 
 ### Has One Through
 
 The "has-one-through" relationship links models through a single intermediate relation.
-For example, if each supplier has one user, and each user is associated with one user history record, then the supplier model may access the user's history _through_ the user. Let's look at the database tables necessary to define this relationship:
 
-    users
+For example, in a vehicle repair shop application, each `Mechanic` may have one `Car`, and each `Car` may have one `Owner`. While the `Mechanic` and the `Owner` have no direct connection, the `Mechanic` can access the `Owner` _through_ the `Car` itself. Let's look at the tables necessary to define this relationship:
+
+    mechanics
         id - integer
-        supplier_id - integer
+        name - string
 
-    suppliers
+    cars
         id - integer
+        model - string
+        mechanic_id - integer
 
-    history
+    owners
         id - integer
-        user_id - integer
+        name - string
+        car_id - integer
 
-Though the `history` table does not contain a `supplier_id` column, the `hasOneThrough` relation can provide access to the user's history to the supplier model. Now that we have examined the table structure for the relationship, let's define it on the `Supplier` model:
+Now that we have examined the table structure for the relationship, let's define the relationship on the `Mechanic` model:
 
     <?php
 
@@ -452,14 +458,14 @@ Though the `history` table does not contain a `supplier_id` column, the `hasOneT
 
     use Illuminate\Database\Eloquent\Model;
 
-    class Supplier extends Model
+    class Mechanic extends Model
     {
         /**
-         * Get the user's history.
+         * Get the car's owner.
          */
-        public function userHistory()
+        public function carOwner()
         {
-            return $this->hasOneThrough('App\History', 'App\User');
+            return $this->hasOneThrough('App\Owner', 'App\Car');
         }
     }
 
@@ -467,20 +473,20 @@ The first argument passed to the `hasOneThrough` method is the name of the final
 
 Typical Eloquent foreign key conventions will be used when performing the relationship's queries. If you would like to customize the keys of the relationship, you may pass them as the third and fourth arguments to the `hasOneThrough` method. The third argument is the name of the foreign key on the intermediate model. The fourth argument is the name of the foreign key on the final model. The fifth argument is the local key, while the sixth argument is the local key of the intermediate model:
 
-    class Supplier extends Model
+    class Mechanic extends Model
     {
         /**
-         * Get the user's history.
+         * Get the car's owner.
          */
-        public function userHistory()
+        public function carOwner()
         {
             return $this->hasOneThrough(
-                'App\History',
-                'App\User',
-                'supplier_id', // Foreign key on users table...
-                'user_id', // Foreign key on history table...
-                'id', // Local key on suppliers table...
-                'id' // Local key on users table...
+                'App\Owner',
+                'App\Car',
+                'mechanic_id', // Foreign key on cars table...
+                'car_id', // Foreign key on owners table...
+                'id', // Local key on mechanics table...
+                'id' // Local key on cars table...
             );
         }
     }
@@ -629,7 +635,15 @@ You may also retrieve the parent from the polymorphic model by accessing the nam
 
     $imageable = $image->imageable;
 
-The `imageable` relation on the `Image` model will return either a `Post` or `User` instance, depending on which type of model owns the image.
+The `imageable` relation on the `Image` model will return either a `Post` or `User` instance, depending on which type of model owns the image. If you need to specify custom `type` and `id` columns for the `morphTo` relation, always ensure you pass the relationship name (which should exactly match the method name) as the first parameter:
+
+    /**
+     * Get the model that the image belongs to.
+     */
+    public function imageable()
+    {
+        return $this->morphTo(__FUNCTION__, 'imageable_type', 'imageable_id');
+    }
 
 <a name="one-to-many-polymorphic-relations"></a>
 ### One To Many (Polymorphic)
@@ -819,7 +833,7 @@ By default, Laravel will use the fully qualified class name to store the type of
         'videos' => 'App\Video',
     ]);
 
-You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish. 
+You may register the `morphMap` in the `boot` function of your `AppServiceProvider` or create a separate service provider if you wish.
 
 > {note} When adding a "morph map" to your existing application, every morphable `*_type` column value in your database that still contains a fully-qualified class will need to be converted to its "map" name.
 
@@ -830,6 +844,20 @@ You may determine the morph alias of a given model at runtime using the `getMorp
     $alias = $post->getMorphClass();
 
     $class = Relation::getMorphedModel($alias);
+
+<a name="dynamic-relationships"></a>
+### Dynamic Relationships
+
+You may use the `resolveRelationUsing` method to define relations between Eloquent models at runtime. While not typically recommended for normal application development, this may occasionally be useful when developing Laravel packages:
+
+    use App\Order;
+    use App\Customer;
+
+    Order::resolveRelationUsing('customer', function ($orderModel) {
+        return $orderModel->belongsTo(Customer::class, 'customer_id');
+    });
+
+> {note} When defining dynamic relationships, always provide explicit key name arguments to the Eloquent relationship methods.
 
 <a name="querying-relations"></a>
 ## Querying Relations
@@ -949,7 +977,7 @@ If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesn
         $query->where('content', 'like', 'foo%');
     })->get();
 
-You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts with comments from authors that are not banned:
+You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts that do not have comments and posts that have comments from authors that are not banned:
 
     use Illuminate\Database\Eloquent\Builder;
 
@@ -1062,6 +1090,34 @@ If you need to set additional query constraints on the eager loading query, you 
     $book->loadCount(['reviews' => function ($query) {
         $query->where('rating', 5);
     }])
+
+<a name="counting-related-models-on-polymorphic-relationships"></a>
+### Counting Related Models On Polymorphic Relationships
+
+If you would like to eager load a `morphTo` relationship, as well as nested relationship counts on the various entities that may be returned by that relationship, you may use the `with` method in combination with the `morphTo` relationship's `morphWithCount` method.
+
+In this example, let's assume `Photo` and `Post` models may create `ActivityFeed` models. Additionally, let's assume that `Photo` models are associated with `Tag` models, and `Post` models are associated with `Comment` models.
+
+Using these model definitions and relationships, we may retrieve `ActivityFeed` model instances and eager load all `parentable` models and their respective nested relationship counts:
+
+    use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+    $activities = ActivityFeed::query()
+        ->with(['parentable' => function (MorphTo $morphTo) {
+            $morphTo->morphWithCount([
+                Photo::class => ['tags'],
+                Post::class => ['comments'],
+            ]);
+        }])->get();
+
+In addition, you may use the `loadMorphCount` method to eager load all nested relationship counts on the various entities of the polymorphic relation if the `ActivityFeed` models have already been retrieved:
+
+    $activities = ActivityFeed::with('parentable')
+        ->get()
+        ->loadMorphCount('parentable', [
+            Photo::class => ['tags'],
+            Post::class => ['comments'],
+        ]);
 
 <a name="eager-loading"></a>
 ## Eager Loading
@@ -1298,6 +1354,15 @@ If you need to save multiple related models, you may use the `saveMany` method:
         new App\Comment(['message' => 'A new comment.']),
         new App\Comment(['message' => 'Another comment.']),
     ]);
+
+The `save` and `saveMany` methods will not add the new models to any in-memory relationships that are already loaded onto the parent model. If you plan on accessing the relationship after using the `save` or `saveMany` methods, you may wish to use the `refresh` method to reload the model and its relationships:
+
+    $post->comments()->save($comment);
+    
+    $post->refresh();
+    
+    // All comments, including the newly saved comment...
+    $post->comments;
 
 <a name="the-push-method"></a>
 #### Recursively Saving Models & Relationships

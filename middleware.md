@@ -59,7 +59,7 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 > {tip} All middleware are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a middleware's constructor.
 
-### Before & After Middleware
+#### Before & After Middleware
 
 Whether a middleware runs before or after a request depends on the middleware itself. For example, the following middleware would perform some task **before** the request is handled by the application:
 
@@ -145,6 +145,22 @@ When assigning middleware, you may also pass the fully qualified class name:
     Route::get('admin/profile', function () {
         //
     })->middleware(CheckAge::class);
+
+When assigning middleware to a group of routes, you may occasionally need to prevent the middleware from being applied to an individual route within the group. You may accomplish this using the `withoutMiddleware` method:
+
+    use App\Http\Middleware\CheckAge;
+
+    Route::middleware([CheckAge::class])->group(function () {
+        Route::get('/', function () {
+            //
+        });
+
+        Route::get('admin/profile', function () {
+            //
+        })->withoutMiddleware([CheckAge::class]);
+    });
+
+The `withoutMiddleware` method can only remove route middleware and does not apply to [global middleware](#global-middleware).
 
 <a name="middleware-groups"></a>
 ### Middleware Groups

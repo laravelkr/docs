@@ -26,6 +26,7 @@
 - [Events](#events)
     - [Using Closures](#events-using-closures)
     - [Observers](#observers)
+    - [Muting Events](#muting-events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -498,6 +499,19 @@ The `wasChanged` method determines if any attributes were changed when the model
     $user->wasChanged('title'); // true
     $user->wasChanged('first_name'); // false
 
+The `getOriginal` method returns an array containing the original attributes of the model regardless of any changes since the model was loaded. You may pass a specific attribute name to get the original value of a particular attribute:
+
+    $user = User::find(1);
+
+    $user->name; // John
+    $user->email; // john@example.com
+
+    $user->name = "Jack";
+    $user->name; // Jack
+
+    $user->getOriginal('name'); // John
+    $user->getOriginal(); // Array of original attributes...
+
 <a name="mass-assignment"></a>
 ### Mass Assignment
 
@@ -531,25 +545,7 @@ If you already have a model instance, you may use the `fill` method to populate 
 
     $flight->fill(['name' => 'Flight 22']);
 
-#### Guarding Attributes
-
-While `$fillable` serves as a "white list" of attributes that should be mass assignable, you may also choose to use `$guarded`. The `$guarded` property should contain an array of attributes that you do not want to be mass assignable. All other attributes not in the array will be mass assignable. So, `$guarded` functions like a "black list". Importantly, you should use either `$fillable` or `$guarded` - not both. In the example below, all attributes **except for `price`** will be mass assignable:
-
-    <?php
-
-    namespace App;
-
-    use Illuminate\Database\Eloquent\Model;
-
-    class Flight extends Model
-    {
-        /**
-         * The attributes that aren't mass assignable.
-         *
-         * @var array
-         */
-        protected $guarded = ['price'];
-    }
+#### Allowing Mass Assignment
 
 If you would like to make all attributes mass assignable, you may define the `$guarded` property as an empty array:
 
@@ -609,7 +605,7 @@ To delete a model, call the `delete` method on a model instance:
 
 #### Deleting An Existing Model By Key
 
-In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without retrieving it by calling the `destroy` method.  In addition to a single primary key as its argument, the `destroy` method will accept multiple primary keys, an array of primary keys, or a [collection](/docs/{{version}}/collections) of primary keys:
+In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without explicitly retrieving it by calling the `destroy` method.  In addition to a single primary key as its argument, the `destroy` method will accept multiple primary keys, an array of primary keys, or a [collection](/docs/{{version}}/collections) of primary keys:
 
     App\Flight::destroy(1);
 
@@ -618,6 +614,8 @@ In the example above, we are retrieving the model from the database before calli
     App\Flight::destroy([1, 2, 3]);
 
     App\Flight::destroy(collect([1, 2, 3]));
+
+> {note} The `destroy` method loads each model individually and calls the `delete` method on them so that the `deleting` and `deleted` events are fired.
 
 #### Deleting Models By Query
 
@@ -648,9 +646,19 @@ In addition to actually removing records from your database, Eloquent can also "
 
 You should also add the `deleted_at` column to your database table. The Laravel [schema builder](/docs/{{version}}/migrations) contains a helper method to create this column:
 
-    Schema::table('flights', function (Blueprint $table) {
-        $table->softDeletes();
-    });
+    public function up()
+    {
+        Schema::table('flights', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('flights', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+    }
 
 Now, when you call the `delete` method on the model, the `deleted_at` column will be set to the current date and time. And, when querying a model that uses soft deletes, the soft deleted models will automatically be excluded from all query results.
 
@@ -936,7 +944,7 @@ Sometimes you may need to determine if two models are the "same". The `is` metho
 
 Eloquent models fire several events, allowing you to hook into the following points in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. Events allow you to easily execute code each time a specific model class is saved or updated in the database. Each event receives the instance of the model through its constructor.
 
-The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
+The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. The `updating` / `updated` events will fire when an existing model is modified and the `save` method is called. The `saving` / `saved` events will fire when a model is created or updated.
 
 > {note} When issuing a mass update or delete via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be fired for the affected models. This is because the models are never actually retrieved when issuing a mass update or delete.
 
@@ -976,7 +984,6 @@ Instead of using custom event classes, you may register Closures that execute wh
 
     namespace App;
 
-    use App\Scopes\AgeScope;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
@@ -1090,3 +1097,16 @@ To register an observer, use the `observe` method on the model you wish to obser
             User::observe(UserObserver::class);
         }
     }
+
+<a name="muting-events"></a>
+### Muting Events
+
+You may occasionally wish to temporarily "mute" all events fired by a model. You may achieve this using the `withoutEvents` method. The `withoutEvents` method accepts a Closure as its only argument. Any code executed within this Closure will not fire model events. For example, the following will fetch and delete an `App\User` instance without firing any model events. Any value returned by the given Closure will be returned by the `withoutEvents` method:
+
+    use App\User;
+
+    $user = User::withoutEvents(function () use () {
+        User::findOrFail(1)->delete();
+
+        return User::find(2);
+    });

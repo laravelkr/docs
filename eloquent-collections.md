@@ -54,7 +54,6 @@ In addition, the `Illuminate\Database\Eloquent\Collection` class provides a supe
 [diff](#method-diff)
 [except](#method-except)
 [find](#method-find)
-[findMany](#method-findMany)
 [fresh](#method-fresh)
 [intersect](#method-intersect)
 [load](#method-load)
@@ -63,6 +62,7 @@ In addition, the `Illuminate\Database\Eloquent\Collection` class provides a supe
 [makeVisible](#method-makeVisible)
 [makeHidden](#method-makeHidden)
 [only](#method-only)
+[toQuery](#method-toquery)
 [unique](#method-unique)
 
 </div>
@@ -73,7 +73,7 @@ In addition, the `Illuminate\Database\Eloquent\Collection` class provides a supe
 The `contains` method may be used to determine if a given model instance is contained by the collection. This method accepts a primary key or a model instance:
 
     $users->contains(1);
-    
+
     $users->contains(User::find(1));
 
 <a name="method-diff"></a>
@@ -100,16 +100,7 @@ The `find` method finds a model that has a given primary key. If `$key` is a mod
     $users = User::all();
 
     $user = $users->find(1);
-    
-<a name="method-findMany"></a>
-#### `findMany($keys)`
 
-The `findMany` method returns all models with a primary key that is included in the `$keys` array:
-
-    $users = User::all();
-    
-    $user = $users->findMany([1, 2, 3]);
-    
 <a name="method-fresh"></a>
 #### `fresh($with = [])`
 
@@ -154,7 +145,7 @@ The `modelKeys` method returns the primary keys for all models in the collection
     $users->modelKeys();
 
     // [1, 2, 3, 4, 5]
-    
+
 <a name="method-makeVisible"></a>
 #### `makeVisible($attributes)`
 
@@ -175,6 +166,17 @@ The `makeHidden` method hides attributes that are typically "visible" on each mo
 The `only` method returns all of the models that have the given primary keys:
 
     $users = $users->only([1, 2, 3]);
+
+<a name="method-toquery"></a>
+#### `toQuery()`
+
+The `toQuery` method returns an Eloquent query builder instance containing a `whereIn` constraint on the collection model's primary keys:
+
+    $users = App\User::where('status', 'VIP')->get();
+
+    $users->toQuery()->update([
+        'status' => 'Administrator',
+    ]);
 
 <a name="method-unique"></a>
 #### `unique($key = null, $strict = false)`

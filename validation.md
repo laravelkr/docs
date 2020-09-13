@@ -319,7 +319,7 @@ You may customize the error messages used by the form request by overriding the 
     {
         return [
             'title.required' => 'A title is required',
-            'body.required'  => 'A message is required',
+            'body.required' => 'A message is required',
         ];
     }
 
@@ -504,10 +504,10 @@ If needed, you may use custom error messages for validation instead of the defau
 In this example, the `:attribute` placeholder will be replaced by the actual name of the field under validation. You may also utilize other placeholders in validation messages. For example:
 
     $messages = [
-        'same'    => 'The :attribute and :other must match.',
-        'size'    => 'The :attribute must be exactly :size.',
+        'same' => 'The :attribute and :other must match.',
+        'size' => 'The :attribute must be exactly :size.',
         'between' => 'The :attribute value :input is not between :min - :max.',
-        'in'      => 'The :attribute must be one of the following types: :values',
+        'in' => 'The :attribute must be one of the following types: :values',
     ];
 
 #### Specifying A Custom Message For A Given Attribute
@@ -529,13 +529,21 @@ In most cases, you will probably specify your custom messages in a language file
         ],
     ],
 
-#### Specifying Custom Attributes In Language Files
+#### Specifying Custom Attribute Values
 
 If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
 
     'attributes' => [
         'email' => 'email address',
     ],
+
+You may also pass the custom attributes as the fourth argument to the `Validator::make` method:
+
+    $customAttributes = [
+        'email' => 'email address',
+    ];
+
+    $validator = Validator::make($input, $rules, $messages, $customAttributes);
 
 #### Specifying Custom Values In Language Files
 
@@ -601,7 +609,7 @@ Below is a list of all available validation rules and their function:
 [Digits Between](#rule-digits-between)
 [Dimensions (Image Files)](#rule-dimensions)
 [Distinct](#rule-distinct)
-[E-Mail](#rule-email)
+[Email](#rule-email)
 [Ends With](#rule-ends-with)
 [Exclude If](#rule-exclude-if)
 [Exclude Unless](#rule-exclude-unless)

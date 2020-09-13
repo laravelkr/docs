@@ -47,7 +47,13 @@ The new minimum PHP version is now 7.2.5.
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
 
-Update your `laravel/framework` dependency to `^7.0` in your `composer.json` file. In addition, update your `nunomaduro/collision` dependency to `^4.1`, `phpunit/phpunit` dependency to `^8.5`, `laravel/tinker` dependency to `^2.0`, and `facade/ignition` to `^2.0`.
+Update the following dependencies in your `composer.json` file:
+
+- `laravel/framework` to `^7.0`
+- `nunomaduro/collision` to `^4.1`
+- `phpunit/phpunit` to `^8.5`
+- `laravel/tinker` to `^2.0`
+- `facade/ignition` to `^2.0`
 
 The following first-party packages have new major releases to support Laravel 7. If there are any, read through their individual upgrade guides before upgrading:
 
@@ -55,8 +61,10 @@ The following first-party packages have new major releases to support Laravel 7.
 - [Envoy v2.0](https://github.com/laravel/envoy/blob/master/UPGRADE.md)
 - [Horizon v4.0](https://github.com/laravel/horizon/blob/master/UPGRADE.md)
 - [Nova v3.0](https://nova.laravel.com/releases)
+- [Passport v9.0](https://github.com/laravel/passport/blob/master/UPGRADE.md)
 - [Scout v8.0](https://github.com/laravel/scout/blob/master/UPGRADE.md)
 - [Telescope v3.0](https://github.com/laravel/telescope/releases)
+- [Tinker v2.0](https://github.com/laravel/tinker/blob/2.x/CHANGELOG.md)
 - UI v2.0 (No changes necessary)
 
 Finally, examine any other third-party packages consumed by your application and verify you are using the proper version for Laravel 7 support.
@@ -80,6 +88,17 @@ First, the `report`, `render`, `shouldReport`, and `renderForConsole` methods of
 Next, please update your `session` configuration file's `secure` option to have a fallback value of `null`:
 
     'secure' => env('SESSION_SECURE_COOKIE', null),
+
+Symfony Console, which is the underlying component that powers Artisan, expects all commands to return an integer. Therefore, you should ensure that any of your commands which return a value are returning integers:
+
+    public function handle()
+    {
+        // Before...
+        return true;
+
+        // After...
+        return 0;
+    }
 
 ### Authentication
 
@@ -169,7 +188,7 @@ Laravel 7 removes the "factory types" feature. This feature has been undocumente
 
 **Likelihood Of Impact: Low**
 
-The `$model->getOriginal()` method will now respect any casts defined on the model. Previously, this method returned the uncast, raw attributes. If you would like to continue retrieving the raw, uncast values, you may use the `getRawOriginal` method instead.
+The `$model->getOriginal()` method will now respect any casts and mutators defined on the model. Previously, this method returned the uncast, raw attributes. If you would like to continue retrieving the raw, uncast values, you may use the `getRawOriginal` method instead.
 
 #### Route Binding
 
@@ -217,14 +236,6 @@ Laravel 7.x doesn't provide `swift.mailer` and `swift.transport` container bindi
     $swiftMailer = app('mailer')->getSwiftMailer();
 
     $swiftTransport = $swiftMailer->getTransport();
-
-### Queue
-
-#### Deprecated `--daemon` Flag Removed
-
-**Likelihood Of Impact: Low**
-
-The deprecated `--daemon` flag on the `queue:work` command has been removed. This flag is no longer necessary as the worker runs as a daemon by default.
 
 ### Resources
 
@@ -277,7 +288,7 @@ The `array` session driver data is now persistent for the current request. Previ
 
 **Likelihood Of Impact: Medium**
 
-The `assertSee` and `assertDontSee` assertions on the `TestResponse` class will now automatically escape values. If you are manually escaping any values passed to these assertions you should no longer do so. If you need to assert unescaped values, you may pass `false` as the second argument to the method.
+The `assertSee`, `assertDontSee`, `assertSeeText`, `assertDontSeeText`, `assertSeeInOrder` and `assertSeeTextInOrder` assertions on the `TestResponse` class will now automatically escape values. If you are manually escaping any values passed to these assertions you should no longer do so. If you need to assert unescaped values, you may pass `false` as the second argument to the method.
 
 <a name="test-response"></a>
 #### The `TestResponse` Class

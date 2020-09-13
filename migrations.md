@@ -176,8 +176,8 @@ You may use the following commands on the schema builder to define the table's o
 Command  |  Description
 -------  |  -----------
 `$table->engine = 'InnoDB';`  |  Specify the table storage engine (MySQL).
-`$table->charset = 'utf8';`  |  Specify a default character set for the table (MySQL).
-`$table->collation = 'utf8_unicode_ci';`  |  Specify a default collation for the table (MySQL).
+`$table->charset = 'utf8mb4';`  |  Specify a default character set for the table (MySQL).
+`$table->collation = 'utf8mb4_unicode_ci';`  |  Specify a default collation for the table (MySQL).
 `$table->temporary();`  |  Create a temporary table (except SQL Server).
 
 <a name="renaming-and-dropping-tables"></a>
@@ -292,8 +292,8 @@ Modifier  |  Description
 --------  |  -----------
 `->after('column')`  |  Place the column "after" another column (MySQL)
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
-`->charset('utf8')`  |  Specify a character set for the column (MySQL)
-`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
+`->charset('utf8mb4')`  |  Specify a character set for the column (MySQL)
+`->collation('utf8mb4_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
@@ -358,7 +358,7 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} Only the following column types can be "changed": bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger and unsignedSmallInteger.
+> {note} Only the following column types can be "changed": bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger and uuid.
 
 #### Renaming Columns
 
@@ -492,13 +492,24 @@ Since this syntax is rather verbose, Laravel provides additional, terser methods
         $table->foreignId('user_id')->constrained();
     });
 
-The `foreignId` method is an alias for `unsignedBigInteger` while the `constrained` method will use convention to determine the table and column name being referenced.
+The `foreignId` method is an alias for `unsignedBigInteger` while the `constrained` method will use convention to determine the table and column name being referenced. If your table name does not match the convention, you may specify the table name by passing it as an argument to the `constrained` method:
+
+    Schema::table('posts', function (Blueprint $table) {
+        $table->foreignId('user_id')->constrained('users');
+    });
+
 
 You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
 
     $table->foreignId('user_id')
           ->constrained()
           ->onDelete('cascade');
+
+Any additional [column modifiers](#column-modifiers) must be called before `constrained`:
+
+    $table->foreignId('user_id')
+          ->nullable()
+          ->constrained();
 
 To drop a foreign key, you may use the `dropForeign` method, passing the foreign key constraint to be deleted as an argument. Foreign key constraints use the same naming convention as indexes, based on the table name and the columns in the constraint, followed by a "\_foreign" suffix:
 
@@ -514,4 +525,4 @@ You may enable or disable foreign key constraints within your migrations by usin
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html). 
+> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).

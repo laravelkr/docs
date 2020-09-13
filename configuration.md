@@ -20,7 +20,7 @@ All of the configuration files for the Laravel framework are stored in the `conf
 
 It is often helpful to have different configuration values based on the environment where the application is running. For example, you may wish to use a different cache driver locally than you do on your production server.
 
-To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
+To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be copied to `.env`. Otherwise, you should copy the file manually.
 
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would get exposed.
 
@@ -79,15 +79,15 @@ You may also pass arguments to the `environment` method to check if the environm
 <a name="hiding-environment-variables-from-debug"></a>
 ### Hiding Environment Variables From Debug Pages
 
-When an exception is uncaught and the `APP_DEBUG` environment variable is `true`, the debug page will show all environment variables and their contents. In some cases you may want to obscure certain variables. You may do this by updating the `debug_blacklist` option in your `config/app.php` configuration file.
+When an exception is uncaught and the `APP_DEBUG` environment variable is `true`, the debug page will show all environment variables and their contents. In some cases you may want to obscure certain variables. You may do this by updating the `debug_hide` option in your `config/app.php` configuration file.
 
-Some variables are available in both the environment variables and the server / request data. Therefore, you may need to blacklist them for both `$_ENV` and `$_SERVER`:
+Some variables are available in both the environment variables and the server / request data. Therefore, you may need to hide them for both `$_ENV` and `$_SERVER`:
 
     return [
 
         // ...
 
-        'debug_blacklist' => [
+        'debug_hide' => [
             '_ENV' => [
                 'APP_KEY',
                 'DB_PASSWORD',
@@ -110,6 +110,9 @@ Some variables are available in both the environment variables and the server / 
 You may easily access your configuration values using the global `config` helper function from anywhere in your application. The configuration values may be accessed using "dot" syntax, which includes the name of the file and option you wish to access. A default value may also be specified and will be returned if the configuration option does not exist:
 
     $value = config('app.timezone');
+
+    // Retrieve a default value if the configuration value does not exist...
+    $value = config('app.timezone', 'Asia/Seoul');
 
 To set configuration values at runtime, pass an array to the `config` helper:
 

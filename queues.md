@@ -478,22 +478,6 @@ You may chain the `onConnection` and `onQueue` methods to specify the connection
                   ->onConnection('sqs')
                   ->onQueue('processing');
 
-Alternatively, you may specify the `connection` as a property on the job class:
-
-    <?php
-
-    namespace App\Jobs;
-
-    class ProcessPodcast implements ShouldQueue
-    {
-        /**
-         * The queue connection that should handle the job.
-         *
-         * @var string
-         */
-        public $connection = 'sqs';
-    }
-
 <a name="max-job-attempts-and-timeout"></a>
 ### Specifying Max Job Attempts / Timeout Values
 
@@ -580,7 +564,7 @@ In this example, the job is released for ten seconds if the application is unabl
 
 #### Timeout
 
-> {note} The `timeout` feature is optimized for PHP 7.1+ and the `pcntl` PHP extension.
+> {note} The `pcntl` PHP extension must be installed in order to specify job timeouts.
 
 Likewise, the maximum number of seconds that jobs can run may be specified using the `--timeout` switch on the Artisan command line:
 
@@ -601,6 +585,8 @@ However, you may also define the maximum number of seconds a job should be allow
          */
         public $timeout = 120;
     }
+
+Sometimes, IO blocking processes such as sockets or outgoing HTTP connections may not respect your specified timeout. Therefore, when using these features, you should always attempt to specify a timeout using their APIs as well. For example, when using Guzzle, you should always specify a connection and request timeout value.
 
 <a name="rate-limiting"></a>
 ### Rate Limiting
@@ -809,10 +795,22 @@ If you would like to configure the failed job retry delay on a per-job basis, yo
      */
     public $retryAfter = 3;
 
+If you require more complex logic for determining the retry delay, you may define a `retryAfter` method on your queued job class:
+
+    /**
+    * Calculate the number of seconds to wait before retrying the job.
+    *
+    * @return int
+    */
+    public function retryAfter()
+    {
+        return 3;
+    }
+
 <a name="cleaning-up-after-failed-jobs"></a>
 ### Cleaning Up After Failed Jobs
 
-You may define a `failed` method directly on your job class, allowing you to perform job specific clean-up when a failure occurs. This is the perfect location to send an alert to your users or revert any actions performed by the job. The `Exception` that caused the job to fail will be passed to the `failed` method:
+You may define a `failed` method directly on your job class, allowing you to perform job specific clean-up when a failure occurs. This is the perfect location to send an alert to your users or revert any actions performed by the job. The `Throwable` exception that caused the job to fail will be passed to the `failed` method:
 
     <?php
 
@@ -820,7 +818,7 @@ You may define a `failed` method directly on your job class, allowing you to per
 
     use App\AudioProcessor;
     use App\Podcast;
-    use Exception;
+    use Throwable;
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Queue\InteractsWithQueue;
@@ -835,7 +833,7 @@ You may define a `failed` method directly on your job class, allowing you to per
         /**
          * Create a new job instance.
          *
-         * @param  Podcast  $podcast
+         * @param  \App\Podcast  $podcast
          * @return void
          */
         public function __construct(Podcast $podcast)
@@ -846,7 +844,7 @@ You may define a `failed` method directly on your job class, allowing you to per
         /**
          * Execute the job.
          *
-         * @param  AudioProcessor  $processor
+         * @param  \App\AudioProcessor  $processor
          * @return void
          */
         public function handle(AudioProcessor $processor)
@@ -855,12 +853,12 @@ You may define a `failed` method directly on your job class, allowing you to per
         }
 
         /**
-         * The job failed to process.
+         * Handle a job failure.
          *
-         * @param  Exception  $exception
+         * @param  \Throwable  $exception
          * @return void
          */
-        public function failed(Exception $exception)
+        public function failed(Throwable $exception)
         {
             // Send user notification of failure, etc...
         }
@@ -915,9 +913,15 @@ To view all of your failed jobs that have been inserted into your `failed_jobs` 
 
     php artisan queue:failed
 
-The `queue:failed` command will list the job ID, connection, queue, and failure time. The job ID may be used to retry the failed job. For instance, to retry a failed job that has an ID of `5`, issue the following command:
+The `queue:failed` command will list the job ID, connection, queue, failure time, and other information about the job. The job ID may be used to retry the failed job. For instance, to retry a failed job that has an ID of `5`, issue the following command:
 
     php artisan queue:retry 5
+
+If necessary, you may pass multiple IDs or an ID range (when using numeric IDs) to the command:
+
+    php artisan queue:retry 5 6 7 8 9 10
+
+    php artisan queue:retry --range=5-10
 
 To retry all of your failed jobs, execute the `queue:retry` command and pass `all` as the ID:
 

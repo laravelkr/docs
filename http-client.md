@@ -34,10 +34,11 @@ To make requests, you may use the `get`, `post`, `put`, `patch`, and `delete` me
 The `get` method returns an instance of `Illuminate\Http\Client\Response`, which provides a variety of methods that may be used to inspect the response:
 
     $response->body() : string;
-    $response->json() : array;
+    $response->json() : array|mixed;
     $response->status() : int;
     $response->ok() : bool;
     $response->successful() : bool;
+    $response->failed() : bool;
     $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
@@ -57,6 +58,15 @@ Of course, it is common when using `POST`, `PUT`, and `PATCH` to send additional
         'role' => 'Network Administrator',
     ]);
 
+#### GET Request Query Parameters
+
+When making `GET` requests, you may either append a query string to the URL directly or pass an array of key / value pairs as the second argument to the `get` method:
+
+    $response = Http::get('http://test.com/users', [
+        'name' => 'Taylor',
+        'page' => 1,
+    ]);
+
 #### Sending Form URL Encoded Requests
 
 If you would like to send data using the `application/x-www-form-urlencoded` content type, you should call the `asForm` method before making your request:
@@ -65,6 +75,14 @@ If you would like to send data using the `application/x-www-form-urlencoded` con
         'name' => 'Sara',
         'role' => 'Privacy Consultant',
     ]);
+
+#### Sending A Raw Request Body
+
+You may use the `withBody` method if you would like to provide a raw request body when making a request:
+
+    $response = Http::withBody(
+        base64_encode($photo), 'image/jpeg'
+    )->post('http://test.com/photo');
 
 #### Multi-Part Requests
 
@@ -136,6 +154,9 @@ Unlike Guzzle's default behavior, Laravel's HTTP client wrapper does not throw e
 
     // Determine if the status code was >= 200 and < 300...
     $response->successful();
+
+    // Determine if the status code was >= 400...
+    $response->failed();
 
     // Determine if the response has a 400 level status code...
     $response->clientError();
@@ -265,22 +286,22 @@ The `assertSent` method accepts a callback which will be given an `Illuminate\Ht
                $request['name'] == 'Taylor' &&
                $request['role'] == 'Developer';
     });
-    
+
 If needed, you may assert that a specific request was not sent using the `assertNotSent` method:
 
     Http::fake();
-    
+
     Http::post('http://test.com/users', [
         'name' => 'Taylor',
         'role' => 'Developer',
-    ]); 
-       
+    ]);
+
     Http::assertNotSent(function (Request $request) {
         return $request->url() === 'http://test.com/posts';
     });
-    
+
 Or, if you would like to assert that no requests were sent, you may use the `assertNothingSent` method:
 
     Http::fake();
-    
+
     Http::assertNothingSent();

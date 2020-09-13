@@ -5,6 +5,7 @@
 - [Bus Fake](#bus-fake)
 - [Event Fake](#event-fake)
     - [Scoped Event Fakes](#scoped-event-fakes)
+- [HTTP Fake](#http-fake)
 - [Mail Fake](#mail-fake)
 - [Notification Fake](#notification-fake)
 - [Queue Fake](#queue-fake)
@@ -77,7 +78,8 @@ As an alternative to mocking, you may use the `Bus` facade's `fake` method to pr
 
             // Perform order shipping...
 
-            Bus::assertDispatched(ShipOrder::class, function ($job) use ($order) {
+            // Assert a specific type of job was dispatched meeting the given truth test...
+            Bus::assertDispatched(function (ShipOrder $job) use ($order) {
                 return $job->order->id === $order->id;
             });
 
@@ -113,8 +115,9 @@ As an alternative to mocking, you may use the `Event` facade's `fake` method to 
 
             // Perform order shipping...
 
-            Event::assertDispatched(OrderShipped::class, function ($e) use ($order) {
-                return $e->order->id === $order->id;
+            // Assert a specific type of event was dispatched meeting the given truth test...
+            Event::assertDispatched(function (OrderShipped $event) use ($order) {
+                return $event->order->id === $order->id;
             });
 
             // Assert an event was dispatched twice...
@@ -184,6 +187,11 @@ If you only want to fake event listeners for a portion of your test, you may use
         }
     }
 
+<a name="http-fake"></a>
+## HTTP Fake
+
+The `Http` facade's `fake` method allows you to instruct the HTTP client to return stubbed / dummy responses when requests are made. For more information on faking outgoing HTTP requests, please consult the [HTTP Client testing documentation](/docs/{{version}}/http-client#testing).
+
 <a name="mail-fake"></a>
 ## Mail Fake
 
@@ -210,7 +218,8 @@ You may use the `Mail` facade's `fake` method to prevent mail from being sent. Y
 
             // Perform order shipping...
 
-            Mail::assertSent(OrderShipped::class, function ($mail) use ($order) {
+            // Assert a specific type of mailable was dispatched meeting the given truth test...
+            Mail::assertSent(function (OrderShipped $mail) use ($order) {
                 return $mail->order->id === $order->id;
             });
 
@@ -261,10 +270,10 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
 
             // Perform order shipping...
 
+            // Assert a specific type of notification was sent meeting the given truth test...
             Notification::assertSentTo(
                 $user,
-                OrderShipped::class,
-                function ($notification, $channels) use ($order) {
+                function (OrderShipped $notification, $channels) use ($order) {
                     return $notification->order->id === $order->id;
                 }
             );
@@ -323,7 +332,8 @@ As an alternative to mocking, you may use the `Queue` facade's `fake` method to 
 
             // Perform order shipping...
 
-            Queue::assertPushed(ShipOrder::class, function ($job) use ($order) {
+            // Assert a specific type of job was pushed meeting the given truth test...
+            Queue::assertPushed(function (ShipOrder $job) use ($order) {
                 return $job->order->id === $order->id;
             });
 

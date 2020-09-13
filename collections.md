@@ -152,6 +152,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 [shift](#method-shift)
 [shuffle](#method-shuffle)
 [skip](#method-skip)
+[skipUntil](#method-skipuntil)
+[skipWhile](#method-skipwhile)
 [slice](#method-slice)
 [some](#method-some)
 [sort](#method-sort)
@@ -164,6 +166,8 @@ For the remainder of this documentation, we'll discuss each method available on 
 [split](#method-split)
 [sum](#method-sum)
 [take](#method-take)
+[takeUntil](#method-takeuntil)
+[takeWhile](#method-takewhile)
 [tap](#method-tap)
 [times](#method-times)
 [toArray](#method-toarray)
@@ -494,7 +498,7 @@ The `diffAssoc` method compares the collection against another collection or a p
     $collection = collect([
         'color' => 'orange',
         'type' => 'fruit',
-        'remain' => 6
+        'remain' => 6,
     ]);
 
     $diff = $collection->diffAssoc([
@@ -761,7 +765,7 @@ You may optionally pass the function a "depth" argument:
             ['name' => 'iPhone 6S', 'brand' => 'Apple'],
         ],
         'Samsung' => [
-            ['name' => 'Galaxy S7', 'brand' => 'Samsung']
+            ['name' => 'Galaxy S7', 'brand' => 'Samsung'],
         ],
     ]);
 
@@ -994,11 +998,11 @@ The `intersect` method removes any values from the original collection that are 
 The `intersectByKeys` method removes any keys from the original collection that are not present in the given `array` or collection:
 
     $collection = collect([
-        'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
+        'serial' => 'UX301', 'type' => 'screen', 'year' => 2009,
     ]);
 
     $intersect = $collection->intersectByKeys([
-        'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
+        'reference' => 'UX404', 'type' => 'tab', 'year' => 2011,
     ]);
 
     $intersect->all();
@@ -1220,12 +1224,12 @@ The `mapWithKeys` method iterates through the collection and passes each value t
         [
             'name' => 'John',
             'department' => 'Sales',
-            'email' => 'john@example.com'
+            'email' => 'john@example.com',
         ],
         [
             'name' => 'Jane',
             'department' => 'Marketing',
-            'email' => 'jane@example.com'
+            'email' => 'jane@example.com',
         ]
     ]);
 
@@ -1440,6 +1444,23 @@ You may also specify how you wish the resulting collection to be keyed:
     $plucked->all();
 
     // ['prod-100' => 'Desk', 'prod-200' => 'Chair']
+
+The `pluck` method also supports retrieving nested values using "dot" notation:
+
+    $collection = collect([
+        [
+            'speakers' => [
+                'first_day' => ['Rosa', 'Judith'],
+                'second_day' => ['Angela', 'Kathleen'],
+            ],
+        ],
+    ]);
+
+    $plucked = $collection->pluck('speakers.first_day');
+
+    $plucked->all();
+
+    // ['Rosa', 'Judith']
 
 If duplicate keys exist, the last matching element will be inserted into the plucked collection:
 
@@ -1707,6 +1728,50 @@ The `skip` method returns a new collection, without the first given amount of it
 
     // [5, 6, 7, 8, 9, 10]
 
+<a name="method-skipuntil"></a>
+#### `skipUntil()` {#collection-method}
+
+The `skipUntil` method skips items until the given callback returns `true` and then returns the remaining items in the collection:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->skipUntil(function ($item) {
+        return $item >= 3;
+    });
+
+    $subset->all();
+
+    // [3, 4]
+
+You may also pass a simple value to the `skipUntil` method to skip all items until the given value is found:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->skipUntil(3);
+
+    $subset->all();
+
+    // [3, 4]
+
+> {note} If the given value is not found or the callback never returns `true`, the `skipUntil` method will return an empty collection.
+
+<a name="method-skipwhile"></a>
+#### `skipWhile()` {#collection-method}
+
+The `skipWhile` method skips items while the given callback returns `true` and then returns the remaining items in the collection:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->skipWhile(function ($item) {
+        return $item <= 3;
+    });
+
+    $subset->all();
+
+    // [4]
+
+> {note} If the callback never returns `true`, the `skipWhile` method will return an empty collection.
+
 <a name="method-slice"></a>
 #### `slice()` {#collection-method}
 
@@ -1805,7 +1870,7 @@ This method has the same signature as the [`sortBy`](#method-sortby) method, but
 <a name="method-sortdesc"></a>
 #### `sortDesc()` {#collection-method}
 
-This method has the same signature as the [`sort`](#method-sort) method, but will sort the collection in the opposite order:
+This method will sort the collection in the opposite order as the [`sort`](#method-sort) method:
 
     $collection = collect([5, 3, 1, 2, 4]);
 
@@ -1814,6 +1879,8 @@ This method has the same signature as the [`sort`](#method-sort) method, but wil
     $sorted->values()->all();
 
     // [5, 4, 3, 2, 1]
+
+Unlike `sort`, you may not pass a callback to `sortDesc`. If you wish to use a callback, you should use [`sort`](#method-sort) and invert your comparison.
 
 <a name="method-sortkeys"></a>
 #### `sortKeys()` {#collection-method}
@@ -1957,6 +2024,50 @@ You may also pass a negative integer to take the specified amount of items from 
     $chunk->all();
 
     // [4, 5]
+
+<a name="method-takeuntil"></a>
+#### `takeUntil()` {#collection-method}
+
+The `takeUntil` method returns items in the collection until the given callback returns `true`:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->takeUntil(function ($item) {
+        return $item >= 3;
+    });
+
+    $subset->all();
+
+    // [1, 2]
+
+You may also pass a simple value to the `takeUntil` method to get the items until the given value is found:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->takeUntil(3);
+
+    $subset->all();
+
+    // [1, 2]
+
+> {note} If the given value is not found or the callback never returns `true`, the `takeUntil` method will return all items in the collection.
+
+<a name="method-takewhile"></a>
+#### `takeWhile()` {#collection-method}
+
+The `takeWhile` method returns items in the collection until the given callback returns `false`:
+
+    $collection = collect([1, 2, 3, 4]);
+
+    $subset = $collection->takeWhile(function ($item) {
+        return $item < 3;
+    });
+
+    $subset->all();
+
+    // [1, 2]
+
+> {note} If the callback never returns `false`, the `takeWhile` method will return all items in the collection.
 
 <a name="method-tap"></a>
 #### `tap()` {#collection-method}
@@ -2174,7 +2285,7 @@ The `values` method returns a new collection with the keys reset to consecutive 
 
     $collection = collect([
         10 => ['product' => 'Desk', 'price' => 200],
-        11 => ['product' => 'Desk', 'price' => 200]
+        11 => ['product' => 'Desk', 'price' => 200],
     ]);
 
     $values = $collection->values();
@@ -2479,11 +2590,11 @@ The `whereNotNull` method filters items where the given key is not null:
         ['name' => null],
         ['name' => 'Bookcase'],
     ]);
-    
+
     $filtered = $collection->whereNotNull('name');
 
     $filtered->all();
-    
+
     /*
         [
             ['name' => 'Desk'],
@@ -2501,11 +2612,11 @@ The `whereNull` method filters items where the given key is null:
         ['name' => null],
         ['name' => 'Bookcase'],
     ]);
-    
+
     $filtered = $collection->whereNull('name');
 
     $filtered->all();
-    
+
     /*
         [
             ['name' => null],
@@ -2552,7 +2663,7 @@ The `zip` method merges together the values of the given array with the values o
 <a name="higher-order-messages"></a>
 ## Higher Order Messages
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), and [`unique`](#method-unique).
+Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`skipUntil`](#method-skipuntil), [`skipWhile`](#method-skipwhile), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), [`takeUntil`](#method-takeuntil), [`takeWhile`](#method-takewhile) and [`unique`](#method-unique).
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 

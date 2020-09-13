@@ -16,6 +16,7 @@
     - [Database Snapshots](#database-snapshots)
     - [Adding Additional Sites](#adding-additional-sites)
     - [Environment Variables](#environment-variables)
+    - [Wildcard SSL](#wildcard-ssl)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
     - [Configuring Minio](#configuring-minio)
@@ -69,7 +70,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes Nginx, PHP, My
 - MySQL
 - lmm for MySQL or MariaDB database snapshots
 - Sqlite3
-- PostgreSQL
+- PostgreSQL (9.6, 10, 11, 12)
 - Composer
 - Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
@@ -226,6 +227,18 @@ If you change the `sites` property after provisioning the Homestead box, you sho
 
 > {note} Homestead scripts are built to be as idempotent as possible. However, if you are experiencing issues while provisioning you should destroy and rebuild the machine via `vagrant destroy && vagrant up`.
 
+#### Enable / Disable Services
+
+Homestead starts several services by default; however, you may customize which services are enabled or disabled during provisioning. For example, you may enable PostgreSQL and disable MySQL:
+
+    services:
+        - enabled:
+            - "postgresql@12-main"
+        - disabled:
+            - "mysql"
+
+The specified services will be started or stopped based on their order in the `enabled` and `disabled` directives.
+
 <a name="hostname-resolution"></a>
 #### Hostname Resolution
 
@@ -284,7 +297,7 @@ Optional software is installed using the "features" setting in your Homestead co
         - crystal: true
         - docker: true
         - elasticsearch:
-            version: 7
+            version: 7.9.0
         - gearman: true
         - golang: true
         - grafana: true
@@ -456,6 +469,22 @@ You can set global environment variables by adding them to your `Homestead.yaml`
 
 After updating the `Homestead.yaml`, be sure to re-provision the machine by running `vagrant reload --provision`. This will update the PHP-FPM configuration for all of the installed PHP versions and also update the environment for the `vagrant` user.
 
+<a name="wildcard-ssl"></a>
+### Wildcard SSL
+
+Homestead configures a self-signed SSL certificate for each site defined in the `sites:` section of your `Homestead.yaml` file. If you would like to generate a wildcard SSL certificate for a site you may add a `wildcard` option to that site's configuration. By default, the site will use the wildcard certificate *instead* of the specific domain certificate:
+
+    - map: foo.domain.test
+      to: /home/vagrant/domain
+      wildcard: "yes"
+
+If the `use_wildcard` option is set to `no`, the wildcard certificate will be generated but will not be used:
+
+    - map: foo.domain.test
+      to: /home/vagrant/domain
+      wildcard: "yes"
+      use_wildcard: "no"
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 
@@ -475,7 +504,7 @@ The Cron job for the site will be defined in the `/etc/cron.d` folder of the vir
 
 Mailhog allows you to easily catch your outgoing email and examine it without actually sending the mail to its recipients. To get started, update your `.env` file to use the following mail settings:
 
-    MAIL_DRIVER=smtp
+    MAIL_MAILER=smtp
     MAIL_HOST=localhost
     MAIL_PORT=1025
     MAIL_USERNAME=null
@@ -502,7 +531,7 @@ In order to use Minio you will need to adjust the S3 disk configuration in your 
         'region' => env('AWS_DEFAULT_REGION'),
         'bucket' => env('AWS_BUCKET'),
         'endpoint' => env('AWS_URL'),
-        'use_path_style_endpoint' => true
+        'use_path_style_endpoint' => true,
     ]
 
 Finally, ensure your `.env` file has the following options:
@@ -728,13 +757,21 @@ Next, you need to update the Homestead source code. If you cloned the repository
 
 These commands pull the latest Homestead code from the GitHub repository, fetches the latest tags, and then checks out the latest tagged release. You can find the latest stable release version on the [GitHub releases page](https://github.com/laravel/homestead/releases).
 
-If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^10"` and update your dependencies:
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^11"` and update your dependencies:
 
     composer update
 
 Then, you should update the Vagrant box using the `vagrant box update` command:
 
     vagrant box update
+
+Next, you should run the `bash init.sh` command from the Homestead directory in order to update some additional configuration files. You will be asked whether you wish to overwrite your existing `Homestead.yaml`, `after.sh`, and `aliases` files:
+
+    // Mac / Linux...
+    bash init.sh
+
+    // Windows...
+    init.bat
 
 Finally, you will need to regenerate your Homestead box to utilize the latest Vagrant installation:
 

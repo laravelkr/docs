@@ -202,6 +202,7 @@ Typically, you will want to pass some data to your view that you can utilize whe
         /**
          * Create a new message instance.
          *
+         * @param  \App\Order  $order
          * @return void
          */
         public function __construct(Order $order)
@@ -253,6 +254,7 @@ If you would like to customize the format of your email's data before it is sent
         /**
          * Create a new message instance.
          *
+         * @param  \App\Order $order
          * @return void
          */
         public function __construct(Order $order)
@@ -324,7 +326,7 @@ If you have stored a file on one of your [filesystem disks](/docs/{{version}}/fi
      */
     public function build()
     {
-       return $this->view('email.orders.shipped')
+       return $this->view('emails.orders.shipped')
                    ->attachFromStorage('/path/to/file');
     }
 
@@ -337,7 +339,7 @@ If necessary, you may specify the file's attachment name and additional options 
      */
     public function build()
     {
-       return $this->view('email.orders.shipped')
+       return $this->view('emails.orders.shipped')
                    ->attachFromStorage('/path/to/file', 'name.pdf', [
                        'mime' => 'application/pdf'
                    ]);
@@ -352,7 +354,7 @@ The `attachFromStorageDisk` method may be used if you need to specify a storage 
      */
     public function build()
     {
-       return $this->view('email.orders.shipped')
+       return $this->view('emails.orders.shipped')
                    ->attachFromStorageDisk('s3', '/path/to/file');
     }
 
@@ -548,6 +550,14 @@ You are not limited to just specifying the "to" recipients when sending a messag
         ->bcc($evenMoreUsers)
         ->send(new OrderShipped($order));
 
+#### Looping Over Recipients
+
+Occasionally, you may need to send a mailable to a list of recipients by iterating over an array of recipients / email addresses. Since the `to` method appends email addresses to the mailable's list of recipients, you should always re-create the mailable instance for each recipient:
+
+    foreach (['taylor@example.com', 'dries@example.com'] as $recipient) {
+        Mail::to($recipient)->send(new OrderShipped($order));
+    }
+
 #### Sending Mail Via A Specific Mailer
 
 By default, Laravel will use the mailer configured as the `default` mailer in your `mail` configuration file. However, you may use the `mailer` method to send a message using a specific mailer configuration:
@@ -555,26 +565,6 @@ By default, Laravel will use the mailer configured as the `default` mailer in yo
     Mail::mailer('postmark')
             ->to($request->user())
             ->send(new OrderShipped($order));
-
-<a name="rendering-mailables"></a>
-## Rendering Mailables
-
-Sometimes you may wish to capture the HTML content of a mailable without sending it. To accomplish this, you may call the `render` method of the mailable. This method will return the evaluated contents of the mailable as a string:
-
-    $invoice = App\Invoice::find(1);
-
-    return (new App\Mail\InvoicePaid($invoice))->render();
-
-<a name="previewing-mailables-in-the-browser"></a>
-### Previewing Mailables In The Browser
-
-When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
-
-    Route::get('mailable', function () {
-        $invoice = App\Invoice::find(1);
-
-        return new App\Mail\InvoicePaid($invoice);
-    });
 
 <a name="queueing-mail"></a>
 ### Queueing Mail
@@ -624,6 +614,26 @@ If you have mailable classes that you want to always be queued, you may implemen
     {
         //
     }
+
+<a name="rendering-mailables"></a>
+## Rendering Mailables
+
+Sometimes you may wish to capture the HTML content of a mailable without sending it. To accomplish this, you may call the `render` method of the mailable. This method will return the evaluated contents of the mailable as a string:
+
+    $invoice = App\Invoice::find(1);
+
+    return (new App\Mail\InvoicePaid($invoice))->render();
+
+<a name="previewing-mailables-in-the-browser"></a>
+### Previewing Mailables In The Browser
+
+When designing a mailable's template, it is convenient to quickly preview the rendered mailable in your browser like a typical Blade template. For this reason, Laravel allows you to return any mailable directly from a route Closure or controller. When a mailable is returned, it will be rendered and displayed in the browser, allowing you to quickly preview its design without needing to send it to an actual email address:
+
+    Route::get('mailable', function () {
+        $invoice = App\Invoice::find(1);
+
+        return new App\Mail\InvoicePaid($invoice);
+    });
 
 <a name="localizing-mailables"></a>
 ## Localizing Mailables

@@ -18,12 +18,9 @@ For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and secu
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
-| 5.5 (LTS) | August 30th, 2017 | August 30th, 2019 | August 30th, 2020 |
-| 5.6 | February 7th, 2018 | August 7th, 2018 | February 7th, 2019 |
-| 5.7 | September 4th, 2018 | March 4th, 2019 | September 4th, 2019 |
-| 5.8 | February 26th, 2019 | August 26th, 2019 | February 26th, 2020 |
 | 6 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
-| 7 | March 3rd, 2020 | September 3rd, 2020 | March 3rd, 2021 |
+| 7 | March 3rd, 2020 | September 10th, 2020 | March 3rd, 2021 |
+| 8 | September 8th, 2020 | March 8th, 2021 | September 8th, 2021 |
 
 <a name="laravel-7"></a>
 ## Laravel 7
@@ -328,7 +325,7 @@ In addition to the `phpunit` command, you may now use the `test` Artisan command
     php artisan test
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142435/Screen_Shot_2020-02-19_at_2.00.01_PM.png">
+<img src="https://laravel.com/img/docs/7x-release-notes-artisan-test-preview.png">
 </p>
 
 Any arguments that can be passed to the `phpunit` command may also be passed to the Artisan `test` command:
@@ -342,7 +339,7 @@ _Markdown mail template improvements were contributed by [Taylor Otwell](https:/
 The default Markdown mail template has received a fresh, more modern design based on the Tailwind CSS color palette. Of course, this template can be published and customized according to your application's needs:
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1582142674/Screen_Shot_2020-02-19_at_2.04.11_PM.png">
+<img src="https://laravel.com/img/docs/7x-release-notes-notification-preview.png">
 </p>
 
 For more information on Markdown mail, please consult the [mail documentation](/docs/{{version}}/mail#markdown-mailables).

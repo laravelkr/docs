@@ -13,6 +13,7 @@
     - [The Loop Variable](#the-loop-variable)
     - [Comments](#comments)
     - [PHP](#php)
+    - [The `@once` Directive](#the-once-directive)
 - [Forms](#forms)
     - [CSRF Field](#csrf-field)
     - [Method Field](#method-field)
@@ -145,12 +146,6 @@ However, instead of manually calling `json_encode`, you may use the `@json` Blad
 
 > {note} You should only use the `@json` directive to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
 
-The `@json` directive is also useful for seeding Vue components or `data-*` attributes:
-
-    <example-component :some-prop='@json($array)'></example-component>
-
-> {note} Using `@json` in element attributes requires that it be surrounded by single quotes.
-
 #### HTML Entity Encoding
 
 By default, Blade (and the Laravel `e` helper) will double encode HTML entities. If you would like to disable double encoding, call the `Blade::withoutDoubleEncoding` method from the `boot` method of your `AppServiceProvider`:
@@ -185,6 +180,14 @@ Since many JavaScript frameworks also use "curly" braces to indicate a given exp
     Hello, @{{ name }}.
 
 In this example, the `@` symbol will be removed by Blade; however, `{{ name }}` expression will remain untouched by the Blade engine, allowing it to instead be rendered by your JavaScript framework.
+
+The `@` symbol may also be used to escape Blade directives:
+
+    {{-- Blade --}}
+    @@json()
+
+    <!-- HTML output -->
+    @json()
 
 #### The `@verbatim` Directive
 
@@ -263,6 +266,32 @@ You may check if a section has content using the `@hasSection` directive:
 
         <div class="clearfix"></div>
     @endif
+
+You may use the `sectionMissing` directive to determine if a section does not have content:
+
+    @sectionMissing('navigation')
+        <div class="pull-right">
+            @include('default-navigation')
+        </div>
+    @endif
+
+#### Environment Directives
+
+You may check if the application is running in the production environment using the `@production` directive:
+
+    @production
+        // Production specific content...
+    @endproduction
+
+Or, you may determine if the application is running in a specific environment using the `@env` directive:
+
+    @env('staging')
+        // The application is running in "staging"...
+    @endenv
+    
+    @env(['staging', 'production'])
+        // The application is running in "staging" or "production"...
+    @endenv
 
 <a name="switch-statements"></a>
 ### Switch Statements
@@ -390,6 +419,19 @@ In some situations, it's useful to embed PHP code into your views. You can use t
     @endphp
 
 > {tip} While Blade provides this feature, using it frequently may be a signal that you have too much logic embedded within your template.
+
+<a name="the-once-directive"></a>
+### The `@once` Directive
+
+The `@once` directive allows you to define a portion of the template that will only be evaluate once per rendering cycle. This may be useful for pushing a given piece of JavaScript into the page's header using [stacks](#stacks). For example, if you are rendering a given [component](#components) within a loop, you may wish to only push the JavaScript to the header the the first time the component is rendered:
+
+    @once
+        @push('scripts')
+            <script>
+                // Your custom JavaScript...
+            </script>
+        @endpush
+    @endonce
 
 <a name="forms"></a>
 ## Forms
@@ -534,7 +576,7 @@ You should define the component's required data in its class constructor. All pu
         /**
          * Get the view / contents that represent the component.
          *
-         * @return \Illuminate\View\View|string
+         * @return \Illuminate\View\View|\Closure|string
          */
         public function render()
         {
@@ -556,7 +598,6 @@ Component constructor arguments should be specified using `camelCase`, while `ke
      * Create the component instance.
      *
      * @param  string  $alertType
-     * @param  string  $message
      * @return void
      */
     public function __construct($alertType)
@@ -589,21 +630,27 @@ You may execute this method from your component template by invoking the variabl
         {{ $label }}
     </option>
 
-If the component method accepts no arguments, you may simple render the method name as a variable instead of invoking it as a function. For example, imagine a component method that simply returns a string:
+#### Using Attributes & Slots Inside The Class
+
+Blade components also allow you to access the component name, attributes, and slot inside the class's render method. However, in order to access this data, you should return a Closure from your component's `render` method. The Closure will receive a `$data` array as its only argument:
 
     /**
-     * Get the size.
+     * Get the view / contents that represent the component.
      *
-     * @return string
+     * @return \Illuminate\View\View|\Closure|string
      */
-    public function size()
+    public function render()
     {
-        return 'Large';
+        return function (array $data) {
+            // $data['componentName'];
+            // $data['attributes'];
+            // $data['slot'];
+
+            return '<div>Component content</div>';
+        };
     }
 
-Within a component, you may retrieve the value of the method as a variable:
-
-    {{ $size }}
+The `componentName` is equal to the name used in the HTML tag after the `x-` prefix. So `<x-alert />`'s `componentName` will be `alert`. The `attributes` element will contain all of the attributes that were present on the HTML tag. The `slot` element is a `Illuminate\Support\HtmlString` instance with the contents of the slot from the component.
 
 #### Additional Dependencies
 
@@ -639,6 +686,8 @@ All of the attributes that are not part of the component's constructor will auto
         <!-- Component Content -->
     </div>
 
+> {note} Echoing variables (`{{ $attributes }}`) or using directives such as `@env` directly on a component is not supported at this time.
+
 #### Default / Merged Attributes
 
 Sometimes you may need to specify default values for attributes or merge additional values into some of the component's attributes. To accomplish this, you may use the attribute bag's `merge` method:
@@ -656,6 +705,20 @@ The final, rendered HTML of the component will appear like the following:
     <div class="alert alert-error mb-4">
         <!-- Contents of the $message variable -->
     </div>
+
+#### Filtering Attributes
+
+You may filter attributes using the `filter` method. This method accepts a Closure which should return `true` if you wish to retain the attribute in the attribute bag:
+
+    {{ $attributes->filter(fn ($value, $key) => $key == 'foo') }}
+
+For convenience, you may use the `whereStartsWith` method to retrieve all attributes whose keys begin with a given string:
+
+    {{ $attributes->whereStartsWith('wire:model') }}
+
+Using the `first` method, you may render the first attribute in a given attribute bag:
+
+    {{ $attributes->whereStartsWith('wire:model')->first() }}
 
 <a name="slots"></a>
 ### Slots
@@ -694,6 +757,18 @@ You may define the content of the named slot using the `x-slot` tag. Any content
         <strong>Whoops!</strong> Something went wrong!
     </x-alert>
 
+#### Scoped Slots
+
+If you have used a JavaScript framework such as Vue, you may be familiar with "scoped slots", which allow you to access data or methods from the component within your slot. You may achieve similar behavior in Laravel by defining public methods or properties on your component and accessing the component within your slot via the `$component` variable:
+
+    <x-alert>
+        <x-slot name="title">
+            {{ $component->formatAlert('Server Error') }}
+        </x-slot>
+
+        <strong>Whoops!</strong> Something went wrong!
+    </x-alert>
+
 <a name="inline-component-views"></a>
 ### Inline Component Views
 
@@ -702,7 +777,7 @@ For very small components, it may feel cumbersome to manage both the component c
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return \Illuminate\View\View|\Closure|string
      */
     public function render()
     {
@@ -898,7 +973,7 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 <a name="custom-if-statements"></a>
 ### Custom If Statements
 
-Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application cloud provider. We may do this in the `boot` method of our `AppServiceProvider`:
 
     use Illuminate\Support\Facades\Blade;
 
@@ -909,21 +984,21 @@ Programming a custom directive is sometimes more complex than necessary when def
      */
     public function boot()
     {
-        Blade::if('env', function ($environment) {
-            return app()->environment($environment);
+        Blade::if('cloud', function ($provider) {
+            return config('filesystems.default') === $provider;
         });
     }
 
 Once the custom conditional has been defined, we can easily use it on our templates:
 
-    @env('local')
-        // The application is in the local environment...
-    @elseenv('testing')
-        // The application is in the testing environment...
+    @cloud('digitalocean')
+        // The application is using the digitalocean cloud provider...
+    @elsecloud('aws')
+        // The application is using the aws provider...
     @else
-        // The application is not in the local or testing environment...
-    @endenv
+        // The application is not using the digitalocean or aws environment...
+    @endcloud
 
-    @unlessenv('production')
-        // The application is not in the production environment...
-    @endenv
+    @unlesscloud('aws')
+        // The application is not using the aws environment...
+    @endcloud

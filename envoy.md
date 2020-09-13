@@ -12,6 +12,7 @@
 - [Notifications](#notifications)
     - [Slack](#slack)
     - [Discord](#discord)
+    - [Telegram](#telegram)
 
 <a name="introduction"></a>
 ## Introduction
@@ -27,7 +28,7 @@ First, install Envoy using the Composer `global require` command:
 
 Since global Composer libraries can sometimes cause package version conflicts, you may wish to consider using `cgr`, which is a drop-in replacement for the `composer global require` command. The `cgr` library's installation instructions can be [found on GitHub](https://github.com/consolidation-org/cgr).
 
-> {note} Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
+> {note} Make sure to place the `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
 
 #### Updating Envoy
 
@@ -46,7 +47,7 @@ All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the ro
         ls -la
     @endtask
 
-As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
+As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. The `@servers` declaration should always be placed on a single line. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
 
 You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
 
@@ -189,4 +190,13 @@ Envoy also supports sending notifications to [Discord](https://discord.com) afte
 
     @finished
         @discord('discord-webhook-url')
+    @endfinished
+
+<a name="telegram"></a>
+### Telegram
+
+Envoy also supports sending notifications to [Telegram](https://telegram.org) after each task is executed. The `@telegram` directive accepts a Telegram Bot ID and a Chat ID. You may retrieve your Bot ID by creating a new bot using [BotFather](https://t.me/botfather). You can retrieve a valid Chat ID using [@username_to_id_bot](https://t.me/username_to_id_bot). You should pass the entire Bot ID and Chat ID into the `@telegram` directive:
+
+    @finished
+        @telegram('<bot-id>','<chat-id>')
     @endfinished

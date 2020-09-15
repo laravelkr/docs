@@ -23,6 +23,8 @@
 - [기본 사이트 제공](#serving-a-default-site)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
 - [사이트 별 환경 변수](#site-specific-environment-variables)
+- [Proxying Services](#proxying-services)
+- [프록시 서비스](#proxying-services)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
@@ -273,6 +275,17 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 > {tip} `valet share --region=eu`와 같이 추가 파라메터를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok documentation](https://ngrok.com/docs)을 참조하십시오.
 
+### Sharing Sites Via Expose
+### Expose을 통해 사이트 공유
+
+If you have [Expose](https://beyondco.de/docs/expose) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the expose documentation for additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members.
+
+[Expose](https://beyondco.de/docs/expose)가 설치되어있는 경우 터미널에서 사이트 디렉토리로 이동하고 `expose` 명령을 실행하여 사이트를 공유 할 수 있습니다. 지원하는 추가 명령 줄 매개 변수는 expose 문서를 참조하세요. 사이트를 공유 한 후 Expose는 다른 장치 또는 팀 구성원간에 사용할 수있는 공유 가능한 URL을 표시합니다.
+
+To stop sharing your site, hit `Control + C` to cancel the process.
+
+사이트 공유를 중지하려면 `Control + C`를 눌러 프로세스를 취소하십시오.
+
 ### Sharing Sites On Your Local Network
 ### 로컬 네트워크에서 사이트 공유
 
@@ -325,6 +338,32 @@ Sometimes, you may wish to configure Valet to serve a "default" site instead of 
 알 수없는 `test` 도메인을 방문 할 때 Valet가 `404`대신 "기본"사이트를 제공하도록 설정 할 수도 있습니다. 이를 위해 `~/.config/valet/config.json` 설정 파일에 기본 사이트로 작동해야하는 사이트 경로를 포함하는 `default` 옵션을 추가 할 수 있습니다.
 
     "default": "/Users/Sally/Sites/foo",
+
+<a name="proxying-services"></a>
+## Proxying Services
+## 프록시 서비스
+
+Sometimes you may wish to proxy a Valet domain to another service on your local machine. For example, you may occasionally need to run Valet while also running a separate site in Docker; however, Valet and Docker can't both bind to port 80 at the same time.
+
+때로는 Valet 도메인을 로컬 컴퓨터의 다른 서비스로 프록시 할 수 있습니다. 예를 들어 Docker에서 별도의 사이트를 실행하면서 Valet를 실행해야하는 경우가 있습니다. 그러나 Valet와 Docker는 동시에 포트 80에 바인딩 할 수 없습니다.
+
+To solve this, you may use the `proxy` command to generate a proxy. For example, you may proxy all traffic from `http://elasticsearch.test` to `http://127.0.0.1:9200`:
+
+이를 해결하기 위해 `proxy` 명령을 사용하여 프록시를 생성 할 수 있습니다. 예를 들어 `http://elasticsearch.test`에서 `http://127.0.0.1:9200`으로 모든 트래픽을 프록시 할 수 있습니다.
+
+    valet proxy elasticsearch http://127.0.0.1:9200
+
+You may remove a proxy using the `unproxy` command:
+
+`unproxy` 명령을 사용하여 프록시를 제거 할 수 있습니다.
+
+    valet unproxy elasticsearch
+
+You may use the `proxies` command to list all site configuration that are proxied:
+
+프록시 된 모든 사이트 설정을 확인하려면 `proxies` 명령을 사용할 수 있습니다.
+
+    valet proxies
 
 <a name="custom-valet-drivers"></a>
 ## Custom Valet Drivers

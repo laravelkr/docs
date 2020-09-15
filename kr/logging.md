@@ -273,6 +273,8 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 
     namespace App\Logging;
 
+    use Monolog\Formatter\LineFormatter;
+
     class CustomizeFormatter
     {
         /**
@@ -284,7 +286,9 @@ Once you have configured the `tap` option on your channel, you're ready to defin
         public function __invoke($logger)
         {
             foreach ($logger->getHandlers() as $handler) {
-                $handler->setFormatter(...);
+                $handler->setFormatter(new LineFormatter(
+                    '[%datetime%] %channel%.%level_name%: %message% %context% %extra%'
+                ));
             }
         }
     }

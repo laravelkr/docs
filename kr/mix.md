@@ -255,7 +255,7 @@ As useful as this feature may be, it's possible that your existing folder struct
 
 이 기능이 유용할 수 있지만, 이미 기존폴더가 존재할 수도 있습니다. 이런경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다.
 
-    mix.sass('resources/app/app.scss', 'public/css')
+    mix.sass('resources/sass/app.scss', 'public/css')
         .options({
             processCssUrls: false
         });
@@ -503,7 +503,7 @@ You may inject environment variables into Mix by prefixing a key in your `.env` 
 
     MIX_SENTRY_DSN_PUBLIC=http://example.com
 
-After the variable has been defined in your `.env` file, you may access via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
+After the variable has been defined in your `.env` file, you may access it via the `process.env` object. If the value changes while you are running a `watch` task, you will need to restart the task:
 
 `.env` 파일에 변수를 정의한 후에는, `process.env` 객체를 통해서 이 값을 엑세스 할 수 있습니다. `watch` 작업 중에는 이 값을 변경한다면, 재시작을 필요로 합니다.
 

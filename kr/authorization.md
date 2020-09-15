@@ -625,9 +625,9 @@ If you are utilizing [resource controllers](/docs/{{version}}/controllers#resour
 
 [리소스 컨트롤러](/docs/{{version}}/controllers##resource-controllers)를 사용한다면, 컨트롤러의 생성자 안에서 `authorizeResource` 메소드를 사용할 수 있습니다. 이 메소드는 `can` 미들웨어의 정의사항을 리소스 컨트롤러의 메소드에 추가하게 됩니다.
 
-The `authorizeResource` method accepts the model's class name as its first argument, and the name of the route / request parameter that will contain the model's ID as its second argument:
+The `authorizeResource` method accepts the model's class name as its first argument, and the name of the route / request parameter that will contain the model's ID as its second argument. You should ensure your [resource controller](/docs/{{version}}/controllers#resource-controllers) is created with the `--model` flag to have the required method signatures and type hints:
 
-`authorizeResource` 메소드는 모델의 클래스 이름을 첫번째 인자로, 해당 모델의 ID를 파라미터로 받는 라우트의 이름을 두번째 인자로 전달받습니다.
+`authorizeResource` 메소드는 첫번째 인자로 모델의 클래스 이름을, 두번째 인자로 해당 모델의 ID를 파라미터로 받는 라우트에 정의된 이름을 전달받습니다. 필요한 메소드 사용법과 타입힌트를 갖기 위해 `--model` 플래그로 [리소스 컨트롤러](/docs/{{version}}/controllers#resource-controllers)를 생성해야 합니다.
 
     <?php
 

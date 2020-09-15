@@ -29,6 +29,8 @@
     - [주석](#comments)
     - [PHP](#php)
     - [PHP](#php)
+    - [The `@once` Directive](#the-once-directive)
+    - [`@once` 지시어](#the-once-directive)
 - [Forms](#forms)
 - [폼](#forms)
     - [CSRF Field](#csrf-field)
@@ -220,16 +222,6 @@ However, instead of manually calling `json_encode`, you may use the `@json` Blad
 
 > {note} 기존 변수를 JSON으로 렌더링하려면 `@json` 지시어 만 사용해야합니다. Blade 템플릿은 정규 표현식을 기반으로하며 지시어에 복잡한 표현식을 전달하려고하면 예상치 못한 오류가 발생할 수 있습니다.
 
-The `@json` directive is also useful for seeding Vue components or `data-*` attributes:
-
-또한 `@json` 지시어는 Vue 컴포넌트 나 `data-*` 속성을 시딩하는데 유용합니다.
-
-    <example-component :some-prop='@json($array)'></example-component>
-
-> {note} Using `@json` in element attributes requires that it be surrounded by single quotes.
-
-> {note} 엘리먼츠의 속성에서 `@json`을 사용하려면 홑따옴표로 묶어야합니다.
-
 #### HTML Entity Encoding
 #### HTML Entity 인코딩
 
@@ -272,6 +264,16 @@ Since many JavaScript frameworks also use "curly" braces to indicate a given exp
 In this example, the `@` symbol will be removed by Blade; however, `{{ name }}` expression will remain untouched by the Blade engine, allowing it to instead be rendered by your JavaScript framework.
 
 이 예제에서 `@` 기호는 블레이드에 의해 지워질 것입니다. 하지만 `{{ name }}` 표현은 블레이드 엔진에 의해 영향을 받지 않을 것이며 자바스크립트 프레임워크에 의해 렌더링될 수 있게 해줍니다.
+
+The `@` symbol may also be used to escape Blade directives:
+
+`@`기호를 사용하여 Blade 지시문을 이스케이프 할 수도 있습니다.
+
+    {{-- Blade --}}
+    @@json()
+
+    <!-- HTML output -->
+    @json()
 
 #### The `@verbatim` Directive
 #### `@verbatim` 지시어
@@ -371,6 +373,39 @@ You may check if a section has content using the `@hasSection` directive:
 
         <div class="clearfix"></div>
     @endif
+
+You may use the `sectionMissing` directive to determine if a section does not have content:
+
+섹션에 콘텐츠가 없는지 확인하려면 `sectionMissing` 지시문을 사용할 수 있습니다.
+
+    @sectionMissing('navigation')
+        <div class="pull-right">
+            @include('default-navigation')
+        </div>
+    @endif
+
+#### Environment Directives
+#### 환경 지시문
+
+You may check if the application is running in the production environment using the `@production` directive:
+
+`@production` 지시문을 사용하여 애플리케이션이 프로덕션 환경에서 실행 중인지 확인할 수 있습니다.
+
+    @production
+        // Production specific content...
+    @endproduction
+
+Or, you may determine if the application is running in a specific environment using the `@env` directive:
+
+또는 `@env` 지시문을 사용하여 애플리케이션이 특정 환경에서 실행 중인지 확인할 수 있습니다.
+
+    @env('staging')
+        // The application is running in "staging"...
+    @endenv
+    
+    @env(['staging', 'production'])
+        // The application is running in "staging" or "production"...
+    @endenv
 
 <a name="switch-statements"></a>
 ### Switch Statements
@@ -539,6 +574,22 @@ In some situations, it's useful to embed PHP code into your views. You can use t
 > {tip} While Blade provides this feature, using it frequently may be a signal that you have too much logic embedded within your template.
 
 > {tip} 블레이드가 이 기능을 제공하지만, 이 기능을 너무 빈번하게 사용하는 것은 너무 많은 로직이 템플릿 안에 포함되어 있다는 신호일 수 있습니다.
+
+<a name="the-once-directive"></a>
+### The `@once` Directive
+### `@once` 지시문
+
+The `@once` directive allows you to define a portion of the template that will only be evaluate once per rendering cycle. This may be useful for pushing a given piece of JavaScript into the page's header using [stacks](#stacks). For example, if you are rendering a given [component](#components) within a loop, you may wish to only push the JavaScript to the header the the first time the component is rendered:
+
+`@once` 지시문을 사용하면 렌더링 주기당 한 번만 처리하는 템플릿을 정의 할 수 있습니다. 이것은 [stacks](#stacks)를 사용하여 페이지의 헤더에 주어진 자바 스크립트 부분을 푸시하는 데 유용 할 수 있습니다. 예를 들어 루프 내에서 지정된 [component](#components)를 렌더링하는 경우 구성 요소가 처음 렌더링 될 때만 JavaScript를 헤더에 푸시 할 수 있습니다.
+
+    @once
+        @push('scripts')
+            <script>
+                // Your custom JavaScript...
+            </script>
+        @endpush
+    @endonce
 
 <a name="forms"></a>
 ## Forms
@@ -720,7 +771,7 @@ You should define the component's required data in its class constructor. All pu
         /**
          * Get the view / contents that represent the component.
          *
-         * @return \Illuminate\View\View|string
+         * @return \Illuminate\View\View|\Closure|string
          */
         public function render()
         {
@@ -747,7 +798,6 @@ Component constructor arguments should be specified using `camelCase`, while `ke
      * Create the component instance.
      *
      * @param  string  $alertType
-     * @param  string  $message
      * @return void
      */
     public function __construct($alertType)
@@ -787,25 +837,32 @@ You may execute this method from your component template by invoking the variabl
         {{ $label }}
     </option>
 
-If the component method accepts no arguments, you may simple render the method name as a variable instead of invoking it as a function. For example, imagine a component method that simply returns a string:
+#### Using Attributes & Slots Inside The Class
+#### 클래스 내 속성 및 슬롯 사용
 
-컴포넌트 메소드가 인수를 허용하지 않으면 메소드 이름을 함수로 호출하는 대신 변수로 간단히 렌더링 할 수 있습니다. 예를 들어 단순히 문자열을 반환하는 컴포넌트 메서드를 생각해보십시오.
+Blade components also allow you to access the component name, attributes, and slot inside the class's render method. However, in order to access this data, you should return a Closure from your component's `render` method. The Closure will receive a `$data` array as its only argument:
+
+블레이드 컴포넌트를 사용하면 클래스의 렌더링 메서드 내에서 컴포넌트 이름, 속성 및 슬롯에 액세스 할 수도 있습니다. 그러나 이 데이터에 액세스하려면 컴포넌트의 `render` 메서드에서 Closure를 반환해야합니다. Closure는 유일한 인수로 `$data` 배열을 받습니다
 
     /**
-     * Get the size.
+     * Get the view / contents that represent the component.
      *
-     * @return string
+     * @return \Illuminate\View\View|\Closure|string
      */
-    public function size()
+    public function render()
     {
-        return 'Large';
+        return function (array $data) {
+            // $data['componentName'];
+            // $data['attributes'];
+            // $data['slot'];
+
+            return '<div>Component content</div>';
+        };
     }
 
-Within a component, you may retrieve the value of the method as a variable:
+The `componentName` is equal to the name used in the HTML tag after the `x-` prefix. So `<x-alert />`'s `componentName` will be `alert`. The `attributes` element will contain all of the attributes that were present on the HTML tag. The `slot` element is a `Illuminate\Support\HtmlString` instance with the contents of the slot from the component.
 
-컴포넌트 내에서 메소드의 값을 변수로 검색 할 수 있습니다.
-
-    {{ $size }}
+`componentName`은 `x-` 접두사 뒤의 HTML 태그에 사용 된 이름과 동일합니다. 따라서 `<x-alert />`의 `componentName`은 `alert`이 됩니다. `attributes` 요소는 HTML 태그에 있던 모든 속성을 포함합니다. `slot` 요소는 컴포넌트의 슬롯 내용이 포함 된 `Illuminate\Support\HtmlString` 인스턴스입니다.
 
 #### Additional Dependencies
 #### 추가 의존성
@@ -849,6 +906,10 @@ All of the attributes that are not part of the component's constructor will auto
         <!-- Component Content -->
     </div>
 
+> {note} Echoing variables (`{{ $attributes }}`) or using directives such as `@env` directly on a component is not supported at this time.
+
+> {note} 현재는 출력 변수 (`{{ $attributes }}`) 또는 `@env`와 같은 지시문을 컴포넌트에 직접 사용하는 것은 지원되지 않습니다.
+
 #### Default / Merged Attributes
 #### 기본 / 병합 속성
 
@@ -873,6 +934,27 @@ The final, rendered HTML of the component will appear like the following:
     <div class="alert alert-error mb-4">
         <!-- Contents of the $message variable -->
     </div>
+
+#### Filtering Attributes
+#### 필터링 속성
+
+You may filter attributes using the `filter` method. This method accepts a Closure which should return `true` if you wish to retain the attribute in the attribute bag:
+
+`filter` 메소드를 사용하여 속성을 필터링 할 수 있습니다. 이 메서드는 속성-attribute 모음에 속성을 유지하려는 경우 `true`를 반환하는 Closure를 입력받습니다.
+
+    {{ $attributes->filter(fn ($value, $key) => $key == 'foo') }}
+
+For convenience, you may use the `whereStartsWith` method to retrieve all attributes whose keys begin with a given string:
+
+편의를 위해 `whereStartsWith` 메소드를 사용하여 키가 주어진 문자열로 시작하는 모든 속성을 검색 할 수 있습니다.
+
+    {{ $attributes->whereStartsWith('wire:model') }}
+
+Using the `first` method, you may render the first attribute in a given attribute bag:
+
+`first` 메소드를 사용하면 주어진 속성 모음에서 첫 번째 속성을 렌더링 할 수 있습니다.
+
+    {{ $attributes->whereStartsWith('wire:model')->first() }}
 
 <a name="slots"></a>
 ### Slots
@@ -920,6 +1002,21 @@ You may define the content of the named slot using the `x-slot` tag. Any content
         <strong>Whoops!</strong> Something went wrong!
     </x-alert>
 
+#### Scoped Slots
+#### 범위가 지정된 슬롯
+
+If you have used a JavaScript framework such as Vue, you may be familiar with "scoped slots", which allow you to access data or methods from the component within your slot. You may achieve similar behavior in Laravel by defining public methods or properties on your component and accessing the component within your slot via the `$component` variable:
+
+Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 컴포넌트에서 데이터 또는 메소드에 액세스 할 수있는 "범위가 지정된 슬롯"에 익숙 할 것입니다. 컴포넌트에 퍼블릭 메소드 또는 속성을 정의하고 `$component` 변수를 통해 슬롯 내 컴포넌트에 액세스하여 라라벨에서 유사한 동작을 수행 할 수 있습니다.
+
+    <x-alert>
+        <x-slot name="title">
+            {{ $component->formatAlert('Server Error') }}
+        </x-slot>
+
+        <strong>Whoops!</strong> Something went wrong!
+    </x-alert>
+
 <a name="inline-component-views"></a>
 ### Inline Component Views
 ### 인라인 컴포넌트 뷰
@@ -931,7 +1028,7 @@ For very small components, it may feel cumbersome to manage both the component c
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return \Illuminate\View\View|\Closure|string
      */
     public function render()
     {
@@ -1192,9 +1289,9 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 ### Custom If Statements
 ### 커스텀 If 구문
 
-Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application environment. We may do this in the `boot` method of our `AppServiceProvider`:
+Programming a custom directive is sometimes more complex than necessary when defining simple, custom conditional statements. For that reason, Blade provides a `Blade::if` method which allows you to quickly define custom conditional directives using Closures. For example, let's define a custom conditional that checks the current application cloud provider. We may do this in the `boot` method of our `AppServiceProvider`:
 
-커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 애플리케이션의 구동 환경을 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다.
+커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 애플리케이션의 클라우드 공급자를 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Blade;
 
@@ -1205,8 +1302,8 @@ Programming a custom directive is sometimes more complex than necessary when def
      */
     public function boot()
     {
-        Blade::if('env', function ($environment) {
-            return app()->environment($environment);
+        Blade::if('cloud', function ($provider) {
+            return config('filesystems.default') === $provider;
         });
     }
 
@@ -1214,14 +1311,14 @@ Once the custom conditional has been defined, we can easily use it on our templa
 
 커스텀 조건을 정의한 뒤에는, 템플릿에서 손쉽게 사용할 수 있습니다.
 
-    @env('local')
-        // The application is in the local environment...
-    @elseenv('testing')
-        // The application is in the testing environment...
+    @cloud('digitalocean')
+        // The application is using the digitalocean cloud provider...
+    @elsecloud('aws')
+        // The application is using the aws provider...
     @else
-        // The application is not in the local or testing environment...
-    @endenv
+        // The application is not using the digitalocean or aws environment...
+    @endcloud
 
-    @unlessenv('production')
-        // The application is not in the production environment...
-    @endenv
+    @unlesscloud('aws')
+        // The application is not using the aws environment...
+    @endcloud

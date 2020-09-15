@@ -25,6 +25,8 @@
     - [고객 생성](#creating-customers)
     - [Updating Customers](#updating-customers)
     - [고객 업데이트](#updating-customers)
+    - [Billing Portal](#billing-portal)
+    - [빌링 포탈](#billing-portal)
 - [Payment Methods](#payment-methods)
 - [결제 수단](#payment-methods)
     - [Storing Payment Methods](#storing-payment-methods)
@@ -48,6 +50,8 @@
     - [Changing Plans](#changing-plans)
     - [정기 구독 유형 변경하기](#changing-plans)
     - [Subscription Quantity](#subscription-quantity)
+    - [Multiplan Subscriptions](#multiplan-subscriptions)
+    - [멀티 플랜 구독](#multiplan-subscriptions)
     - [정기 구독 수량 변경하기](#subscription-quantity)
     - [Subscription Taxes](#subscription-taxes)
     - [정기 구독의 세금계산](#subscription-taxes)
@@ -83,7 +87,10 @@
     - [환불 수수료](#refunding-charges)
 - [Invoices](#invoices)
 - [청구서](#invoices)
+    - [Retrieving Invoices](#retrieving-invoices)
+    - [인보이스 검색](#retrieving-invoices)
     - [Generating Invoice PDFs](#generating-invoice-pdfs)
+    - [인보이스 PDF 생성](#generating-invoice-pdfs)
 - [Handling Failed Payments](#handling-failed-payments)
 - [결제 실패 처리](#handling-failed-payments)
 - [Strong Customer Authentication (SCA)](#strong-customer-authentication)
@@ -109,13 +116,13 @@ Laravel Cashier provides an expressive, fluent interface to [Stripe's](https://s
 ## Upgrading Cashier
 ## 캐셔 업그레이드하기
 
-When upgrading to a new version of Cashier, it's important that you carefully review [the upgrade guide](https://github.com/laravel/cashier/blob/master/UPGRADE.md).
+When upgrading to a new version of Cashier, it's important that you carefully review [the upgrade guide](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md).
 
-Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier/blob/master/UPGRADE.md)를 주의 깊게 검토해야합니다.
+Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)를 주의 깊게 검토해야합니다.
 
-> {note} To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 10.1 utilizes Stripe API version `2019-08-14`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
+> {note} To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 12 utilizes Stripe API version `2020-03-02`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
 
-> {note} 변경을 방지하기 위해 Cashier는 Stripe API 버전을 고정으로 사용합니다. Cashier 10.1은 Stripe API 버전 `2019-08-14`를 사용합니다. Stripe API 버전은 새로운 Stripe 기능과 개선 사항을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
+> {note} 변경을 방지하기 위해 Cashier는 Stripe API 버전을 고정으로 사용합니다. Cashier 12은 Stripe API 버전 `2020-03-02`를 사용합니다. Stripe API 버전은 새로운 Stripe 기능과 개선 사항을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
 
 <a name="installation"></a>
 ## Installation
@@ -191,7 +198,7 @@ Cashier는 Billable 모델이 Laravel과 함께 제공되는 `App\User` 클래�
 ### API Keys
 ### API Key
 
-Next, you should configure your Stripe key in your `.env` file. You can retrieve your Stripe API keys from the Stripe control panel.
+Next, you should configure your Stripe keys in your `.env` file. You can retrieve your Stripe API keys from the Stripe control panel.
 
 다음으로 `.env` 파일에서 Stripe 키를 설정해야합니다. Stripe 컨트롤 패널에서 Stripe API 키를 찾을 수 있습니다.
 
@@ -260,9 +267,15 @@ Stripe에서 고객이 생성되면 나중에 구독을 시작할 수 있습니�
 
     $stripeCustomer = $user->createAsStripeCustomer($options);
 
-You may also use the `createOrGetStripeCustomer` method if you want to return the customer object if the billable entity is already a customer within Stripe.
+You may use the `asStripeCustomer` method if you want to return the customer object if the billable entity is already a customer within Stripe:
 
-billable 엔티티가 이미 Stripe의 고객일 경우 고객 오브젝트를 반환하려고 한다면 `createOrGetStripeCustomer` 메소드를 사용할 수도 있습니다.
+billable 엔티티가 Stripe의 고객일 경우 고객 오브젝트를 반환하려고 한다면 `asStripeCustomer` 메소드를 사용할 수도 있습니다.
+
+    $stripeCustomer = $user->asStripeCustomer();
+
+The `createOrGetStripeCustomer` method may be used if you want to return the customer object but are not sure whether the billable entity is already a customer within Stripe. This method will create a new customer in Stripe if one does not already exist:
+
+`createOrGetStripeCustomer`메서드는 고객 객체를 반환하고 싶지만 청구 가능한 엔터티가 Stripe 내에 이미 고객인지 아닌지 확실하지 않은 경우에 사용할 수 있습니다. 이 메서드는 고객이 존재하지 않는 경우 Stripe에 새 고객을 생성합니다.
 
     $stripeCustomer = $user->createOrGetStripeCustomer();
 
@@ -275,6 +288,40 @@ Occasionally, you may wish to update the Stripe customer directly with additiona
 때때로 추가 정보를 사용하여 Stripe 고객을 직접 업데이트 할 수 있습니다. `updateStripeCustomer` 메소드를 사용하여 이를 수행 할 수 있습니다.
 
     $stripeCustomer = $user->updateStripeCustomer($options);
+
+<a name="billing-portal"></a>
+### Billing Portal
+### 빌링 포탈
+
+Stripe offers [an easy way to set up a billing portal](https://stripe.com/docs/billing/subscriptions/customer-portal) so your customer can manage their subscription, payment methods, and view their billing history. You can redirect your users to the billing portal using the `redirectToBillingPortal` method from a controller or route:
+
+Stripe는 [결제 포탈을 설정하는 쉬운 방법](https://stripe.com/docs/billing/subscriptions/customer-portal) 을 제공하므로 고객이 구독, 결제 수단을 관리하고 결제 내역을 볼 수 있습니다. 컨트롤러 또는 라우트에서 `redirectToBillingPortal` 메소드를 사용하여 사용자를 결제 포탈로 리디렉션 할 수 있습니다.
+
+    use Illuminate\Http\Request;
+
+    public function billingPortal(Request $request)
+    {
+        return $request->user()->redirectToBillingPortal();
+    }
+
+By default, when the user is finished managing their subscription, they can return to the `home` route of your application. You may provide a custom URL the user should return to by passing the URL as an argument to the `redirectToBillingPortal` method:
+
+기본적으로 사용자가 구독 관리를 끝내면 애플리케이션의 `home`경로로 돌아갑니다. `redirectToBillingPortal` 메소드에 URL을 인수로 전달하여 사용자가 돌아가야하는  URL을 지정 할 수 있습니다.
+
+    use Illuminate\Http\Request;
+
+    public function billingPortal(Request $request)
+    {
+        return $request->user()->redirectToBillingPortal(
+            route('billing')
+        );
+    }
+
+If you would like to only generate the URL to the billing portal, you may use the `billingPortalUrl` method:
+
+빌링 포탈에 대한 URL만 생성하려면 `billingPortalUrl` 메소드를 사용할 수 있습니다.
+
+    $url = $user->billingPortalUrl(route('billing'));
 
 <a name="payment-methods"></a>
 ## Payment Methods
@@ -442,9 +489,17 @@ You can also retrieve a specific payment method that is owned by the Billable mo
 ### Determining If A User Has A Payment Method
 ### 사용자에게 결제 수단이 있는지 확인
 
-To determine if a Billable model has a payment method attached to their account, use the `hasPaymentMethod` method:
+To determine if a Billable model has a default payment method attached to their account, use the `hasDefaultPaymentMethod` method:
 
-Billable 모델의 계정에 지불 방법이 연결되어 있는지 확인하려면 `hasPaymentMethod` 메소드를 사용하십시오.
+청구 가능 모델에 계정에 연결된 기본 결제 수단이 있는지 확인하려면 `hasDefaultPaymentMethod`메소드를 사용하세요.
+
+    if ($user->hasDefaultPaymentMethod()) {
+        //
+    }
+
+To determine if a Billable model has at least one payment method attached to their account, use the `hasPaymentMethod` method:
+
+청구 가능 모델에 계정에 연결된 결제 수단이 하나 이상 있는지 확인하려면 `hasPaymentMethod`메서드를 사용하세요.
 
     if ($user->hasPaymentMethod()) {
         //
@@ -518,11 +573,11 @@ To create a subscription, first retrieve an instance of your billable model, whi
 
     $user = User::find(1);
 
-    $user->newSubscription('default', 'premium')->create($paymentMethod);
+    $user->newSubscription('default', 'price_premium')->create($paymentMethod);
 
-The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `default` or `primary`. The second argument is the specific plan the user is subscribing to. This value should correspond to the plan's identifier in Stripe.
+The first argument passed to the `newSubscription` method should be the name of the subscription. If your application only offers a single subscription, you might call this `default` or `primary`. The second argument is the specific plan the user is subscribing to. This value should correspond to the plan's price identifier in Stripe.
 
-`newSubscription` 메소드에 전달되는 첫번째 인자는 정기 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `default` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 plan입니다. 이 값은 Stripe의 plan 식별자와 일치해야 합니다.
+`newSubscription` 메소드에 전달되는 첫번째 인자는 정기 구독의 제목이 되어야 합니다. 애플리케이션이 단 하나의 구독모델을 제공한다면, `default` 또는 `primary` 와 같이 사용할 수 있습니다. 두번째 인자는 사용자가 구독하고자 하는 지정된 plan입니다. 이 값은 Stripe의 plan의 가격 식별자와 일치해야 합니다.
 
 The `create` method, which accepts [a Stripe payment method identifier](#storing-payment-methods) or Stripe `PaymentMethod` object, will begin the subscription as well as update your database with the customer ID and other relevant billing information.
 
@@ -532,20 +587,33 @@ The `create` method, which accepts [a Stripe payment method identifier](#storing
 
 > {note} 결제 수단 식별자를 `create()` 정기 구독 메소드에 직접 전달하면 자동으로 사용자의 저장된 지불 수단에 추가됩니다.
 
-#### Additional User Details
-#### 추가적인 사용자의 상세 정보
+#### Quantities
+#### 수량
 
-If you would like to specify additional customer details, you may do so by passing them as the second argument to the `create` method:
+If you would like to set a specific quantity for the plan when creating the subscription, you may use the `quantity` method:
 
-만약 여러분이 추가적인 사용자 정보를 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째 인자로 전달하면 됩니다.
+구독을 생성 할 때 플랜에 대한 특정 수량을 설정하려면 `quantity` 메서드를 사용할 수 있습니다.
 
-    $user->newSubscription('default', 'monthly')->create($paymentMethod, [
+    $user->newSubscription('default', 'price_monthly')
+         ->quantity(5)
+         ->create($paymentMethod);
+         
+#### Additional Details
+#### 추가적인 상세 정보
+
+If you would like to specify additional customer or subscription details, you may do so by passing them as the second and third arguments to the `create` method:
+
+만약 여러분이 추가적인 사용자 정보나 구독의 세부 사항을 지정하고 싶다면 이러한 정보를 `create` 메소드의 두번째와 세번째 인자로 전달하면 됩니다.
+
+    $user->newSubscription('default', 'price_monthly')->create($paymentMethod, [
         'email' => $email,
+    ], [
+        'metadata' => ['note' => 'Some extra information.'],
     ]);
 
-To learn more about the additional fields supported by Stripe, check out Stripe's [documentation on customer creation](https://stripe.com/docs/api#create_customer).
+To learn more about the additional fields supported by Stripe, check out Stripe's documentation on [customer creation](https://stripe.com/docs/api#create_customer) and [subscription creation](https://stripe.com/docs/api/subscriptions/create).
 
-추가적인 필드에 대한 Stripe의 지원정보를 확인하고자 한다면 Stripe의 [고객 생성에 관한 문서](https://stripe.com/docs/api#create_customer)를 확인하십시오.
+추가적인 필드에 대한 Stripe의 지원정보를 확인하고자 한다면 Stripe의 [고객 생성에 관한 문서](https://stripe.com/docs/api#create_customer)와 [구독 생성](https://stripe.com/docs/api/subscriptions/create)을 확인하십시오.
 
 #### Coupons
 #### 쿠폰
@@ -554,9 +622,20 @@ If you would like to apply a coupon when creating the subscription, you may use 
 
 새로운 구독을 생성 할 때 쿠폰을 적용할 수 있게 하려면 `withCoupon` 메소드를 사용하면 됩니다.
 
-    $user->newSubscription('default', 'monthly')
+    $user->newSubscription('default', 'price_monthly')
          ->withCoupon('code')
          ->create($paymentMethod);
+
+#### Adding Subscriptions
+#### 구독 추가
+
+If you would like to add a subscription to a customer who already has a default payment method set you can use the `add` method when using the `newSubscription` method:
+
+이미 기본 결제 수단을 설정 한 고객에게 구독을 추가하려면 `newSubscription` 메서드을 사용할 때 `add` 메서드를 사용할 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->newSubscription('default', 'price_premium')->add();
 
 <a name="checking-subscription-status"></a>
 ### Checking Subscription Status
@@ -592,11 +671,11 @@ If you would like to determine if a user is still within their trial period, you
         //
     }
 
-The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe plan ID. In this example, we will determine if the user's `default` subscription is actively subscribed to the `monthly` plan:
+The `subscribedToPlan` method may be used to determine if the user is subscribed to a given plan based on a given Stripe Price ID. In this example, we will determine if the user's `default` subscription is actively subscribed to the `monthly` plan:
 
-`subscribedToPlan` 메소드는 사용자가 주어진 Stripe plan ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `default` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다.
+`subscribedToPlan` 메소드는 사용자가 주어진 Stripe 가격 ID에 대당하는 구독 플랜을 이용하는지 확인할 수 있습니다. 다음 예제는 사용자가 `default` 구독을 `monthly` plan 으로 구독하고 있는지 확인하게 됩니다.
 
-    if ($user->subscribedToPlan('monthly', 'default')) {
+    if ($user->subscribedToPlan('price_monthly', 'default')) {
         //
     }
 
@@ -604,7 +683,7 @@ By passing an array to the `subscribedToPlan` method, you may determine if the u
 
 `subscribedToPlan` 메소드에 배열을 전달하면 사용자의 `default`구독이 `monthly`또는 `yearly` plan이 활성화된 상태로 가입되어 있는지 확인할 수 있습니다.
 
-    if ($user->subscribedToPlan(['monthly', 'yearly'], 'default')) {
+    if ($user->subscribedToPlan(['price_monthly', 'price_yearly'], 'default')) {
         //
     }
 
@@ -642,6 +721,35 @@ To determine if the user has cancelled their subscription and is no longer withi
     if ($user->subscription('default')->ended()) {
         //
     }
+
+#### Subscription Scopes
+#### 구독 범위
+
+Most subscription states are also available as query scopes so that you may easily query your database for subscriptions that are in a given state:
+
+대부분의 구독상태는 쿼리 스코프로도 조회할 수 있으므로 상태에 맞는 구독을 데이터베이스에서 쉽게 조회 할 수 있습니다.
+
+    // Get all active subscriptions...
+    $subscriptions = Subscription::query()->active()->get();
+
+    // Get all of the cancelled subscriptions for a user...
+    $subscriptions = $user->subscriptions()->cancelled()->get();
+
+A complete list of available scopes is available below:
+
+사용 가능한 스코프의 전체 목록은 아래에서 확인할 수 있습니다.
+
+    Subscription::query()->active();
+    Subscription::query()->cancelled();
+    Subscription::query()->ended();
+    Subscription::query()->incomplete();
+    Subscription::query()->notCancelled();
+    Subscription::query()->notOnGracePeriod();
+    Subscription::query()->notOnTrial();
+    Subscription::query()->onGracePeriod();
+    Subscription::query()->onTrial();
+    Subscription::query()->pastDue();
+    Subscription::query()->recurring();
 
 <a name="incomplete-and-past-due-status"></a>
 #### Incomplete and Past Due Status
@@ -695,13 +803,13 @@ If you would like the subscription to still be considered active when it's in a 
 ### Changing Plans
 ### 정기 구독 유형 변경하기
 
-After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, pass the plan's identifier to the `swap` method:
+After a user is subscribed to your application, they may occasionally want to change to a new subscription plan. To swap a user to a new subscription, pass the plan's price identifier to the `swap` method:
 
-사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 id를 전달하면 됩니다.
+사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 가격 id를 전달하면 됩니다.
 
     $user = App\User::find(1);
 
-    $user->subscription('default')->swap('provider-plan-id');
+    $user->subscription('default')->swap('provider-price-id');
 
 If the user is on trial, the trial period will be maintained. Also, if a "quantity" exists for the subscription, that quantity will also be maintained.
 
@@ -713,7 +821,7 @@ If you would like to swap plans and cancel any trial period the user is currentl
 
     $user->subscription('default')
             ->skipTrial()
-            ->swap('provider-plan-id');
+            ->swap('provider-price-id');
 
 If you would like to swap plans and immediately invoice the user instead of waiting for their next billing cycle, you may use the `swapAndInvoice` method:
 
@@ -721,7 +829,7 @@ Plan을 바꾸고 다음 청구주기를 기다리는 대신 사용자에게 즉
 
     $user = App\User::find(1);
 
-    $user->subscription('default')->swapAndInvoice('provider-plan-id');
+    $user->subscription('default')->swapAndInvoice('provider-price-id');
 
 #### Prorations
 #### 비례 배분
@@ -730,11 +838,15 @@ By default, Stripe prorates charges when swapping between plans. The `noProrate`
 
 기본적으로, 스트라이프는 요금제를 교체 할 때 요금을 비례 배분하여 부과합니다. `noProrate`메소드는 요금을 비례 배분해서 생성하지 않고 구독을 업데이트하는 데 사용할 수 있습니다.
 
-    $user->subscription('default')->noProrate()->swap('provider-plan-id');
+    $user->subscription('default')->noProrate()->swap('provider-price-id');
 
 For more information on subscription proration, consult the [Stripe documentation](https://stripe.com/docs/billing/subscriptions/prorations).
 
 구독 비례 배분에 대한 자세한 내용은 [스트라이프 문서](https://stripe.com/docs/billing/subscriptions/prorations)를 참조하십시오.
+
+> {note} Executing the `noProrate` method before the `swapAndInvoice` method will have no affect on proration. An invoice will always be issued.
+
+> {note} `swapAndInvoice` 메소드 이전에 `noProrate` 메소드를 실행해도 비례 배분에 영향을주지 않습니다. 인보이스는 항상 발행됩니다.
 
 <a name="subscription-quantity"></a>
 ### Subscription Quantity
@@ -772,35 +884,221 @@ For more information on subscription quantities, consult the [Stripe documentati
 
 구독 수량에 대한 보다 자세한 내용은 [Stripe 문서](https://stripe.com/docs/subscriptions/quantities)를 참고하십시오.
 
+> {note} Please note that when working with multiplan subscriptions, an extra "plan" parameter is required for the above quantity methods.
+
+> {note} 멀티 플랜 구독으로 작업 할 때 위의 수량 메서드에 추가적인 "플랜" 파라메터가 필요합니다.
+
+<a name="multiplan-subscriptions"></a>
+### Multiplan Subscriptions
+### 멀티 플랜 구독
+
+[Multiplan subscriptions](https://stripe.com/docs/billing/subscriptions/multiplan) allow you to assign multiple billing plans to a single subscription. For example, imagine you are building a customer service "helpdesk" application that has a base subscription of $10 per month, but offers a live chat add-on plan for an additional $15 per month:
+
+[멀티 플랜 구독](https://stripe.com/docs/billing/subscriptions/multiplan)을 사용하면 단일 구독에 여러 결제 플랜을 할당 할 수 있습니다. 예를 들어, "헬프 데스크"라는 고객 서비스 애플리케이션을 월 $10의 기본 구독료로 제공하고, 월 $15의 추가 요금으로 라이브 채팅 애드온을 제공한다고 가정 해보십시오.
+
+    $user = User::find(1);
+
+    $user->newSubscription('default', [
+        'price_monthly',
+        'chat-plan',
+    ])->create($paymentMethod);
+
+Now the customer will have two plans on their `default` subscription. Both plans will be charged for on their respective billing intervals. You can also use the `quantity` method to indicate the specific quantity for each plan:
+
+이제 고객은 `default`구독에 대해 두 가지 플랜을 갖게됩니다. 두 플랜 모두 각각의 주기로 요금이 청구됩니다. `quantity`메서드를 사용하여 각 플랜에 특정 수량을 지정할 수도 있습니다.
+
+    $user = User::find(1);
+
+    $user->newSubscription('default', ['price_monthly', 'chat-plan'])
+        ->quantity(5, 'chat-plan')
+        ->create($paymentMethod);
+
+Or, you may dynamically add the extra plan and its quantity using the `plan` method:
+
+또는 `plan` 메소드를 사용하여 추가 플랜과 수량을 동적으로 추가 할 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->newSubscription('default', 'price_monthly')
+        ->plan('chat-plan', 5)
+        ->create($paymentMethod);
+
+Alternatively, you may add a new plan to an existing subscription at a later time:
+
+또는 나중에 기존 구독에 새 플랜을 추가 할 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->subscription('default')->addPlan('chat-plan');
+
+The example above will add the new plan and the customer will be billed for it on their next billing cycle. If you would like to bill the customer immediately you may use the `addPlanAndInvoice` method:
+
+위의 예는 새 요금제를 추가하고 고객에게 다음 결제주기에 요금을 청구합니다. 고객에게 즉시 청구하려면 `addPlanAndInvoice` 메소드를 사용할 수 있습니다.
+
+    $user->subscription('default')->addPlanAndInvoice('chat-plan');
+
+If you would like to add a plan with a specific quantity, you can pass the quantity as the second parameter of the `addPlan` or `addPlanAndInvoice` methods:
+
+플랜에 수량을 추가하려면 `addPlan` 또는 `addPlanAndInvoice` 메소드의 두 번째 매개 변수로 수량을 추가하면 됩니다.
+
+    $user = User::find(1);
+
+    $user->subscription('default')->addPlan('chat-plan', 5);
+
+You may remove plans from subscriptions using the `removePlan` method:
+
+`removePlan` 메소드를 사용하여 구독에서 플랜을 제거 할 수 있습니다.
+
+    $user->subscription('default')->removePlan('chat-plan');
+
+> {note} You may not remove the last plan on a subscription. Instead, you should simply cancel the subscription.
+
+> {note} 구독의 마지막 플랜은 제거 할 수 없습니다. 대신 구독을 취소하면 됩니다.
+
+### Swapping
+### 교환
+
+You may also change the plans attached to a multiplan subscription. For example, imagine you're on a `basic-plan` subscription with a `chat-plan` add-on and you want to upgrade to the `pro-plan` plan:
+
+멀티 플랜 구독에 첨부 된 플랜을 변경할 수도 있습니다. 예를 들어 `basic-plan`에 `chat-plan` 애드온을 추가하여 구독 중이고 `pro-plan` 플랜으로 업그레이드하려고한다고 가정 해보십시오.
+
+    $user = User::find(1);
+
+    $user->subscription('default')->swap(['pro-plan', 'chat-plan']);
+
+When executing the code above, the underlying subscription item with the `basic-plan` is deleted and the one with the `chat-plan` is preserved. Additionally, a new subscription item for the new `pro-plan` is created.
+
+위 코드를 실행하면 `basic-plan`의 기본 구독 항목이 삭제되고 `chat-plan`이 있는 항목은 유지됩니다. 또한 새로운 `pro-plan`에 대한 새 구독 항목이 생성됩니다.
+
+You can also specify subscription item options. For example, you may need to specify the subscription plan quantities:
+
+구독 항목 옵션을 지정할 수도 있습니다. 예를 들어, 구독 플랜 수량을 지정 할 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->subscription('default')->swap([
+        'pro-plan' => ['quantity' => 5],
+        'chat-plan'
+    ]);
+
+If you want to swap a single plan on a subscription, you may do so using the `swap` method on the subscription item itself. This approach is useful if you, for example, want to preserve all of the existing metadata on the subscription item.
+
+구독에서 단일 요금제를 교체하려면 구독 항목 자체에 `swap`메서드를 사용하면됩니다. 이 접근 방식은, 예를 들어, 구독 항목의 기존 메타 데이터를 모두 보존하려는 경우에 유용합니다.
+
+    $user = User::find(1);
+
+    $user->subscription('default')
+            ->findItemOrFail('basic-plan')
+            ->swap('pro-plan');
+
+#### Proration
+#### 비례 배분
+
+By default, Stripe will prorate charges when adding or removing plans from a subscription. If you would like to make a plan adjustment without proration, you should chain the `noProrate` method onto your plan operation:
+
+기본적으로 Stripe는 구독에서 요금제를 추가하거나 제거 할 때 요금을 비례 배분합니다. 비례 배분없이 플랜을 조정하려면 `noProrate` 메서드를 플랜 작업에 연결해야합니다.
+
+    $user->subscription('default')->noProrate()->removePlan('chat-plan');
+
+#### Quantities
+#### 수량
+
+If you would like to update quantities on individual subscription plans, you may do so using the [existing quantity methods](#subscription-quantity) and passing the name of the plan as an additional argument to the method:
+
+개별 구독 플랜의 수량을 업데이트하려면 [수량 변경 메서드](#subscription-quantity)을 사용하고 플랜 이름을 추가 인수로 메소드에 전달하면됩니다.
+
+    $user = User::find(1);
+
+    $user->subscription('default')->incrementQuantity(5, 'chat-plan');
+
+    $user->subscription('default')->decrementQuantity(3, 'chat-plan');
+
+    $user->subscription('default')->updateQuantity(10, 'chat-plan');
+
+> {note} When you have multiple plans set on a subscription the `stripe_plan` and `quantity` attributes on the `Subscription` model will be `null`. To access the individual plans, you should use the `items` relationship available on the `Subscription` model.
+
+> {note} 구독에 여러 플랜이 설정되어있는 경우 `Subscription` 모델의 `stripe_plan` 및 `quantity` 속성은 `null`이 됩니다. 개별 요금제에 액세스하려면 `Subscription`모델에서 사용할 수있는 `items`관계를 사용해야합니다.
+
+#### Subscription Items
+#### 구독 항목
+
+When a subscription has multiple plans, it will have multiple subscription "items" stored in your database's `subscription_items` table. You may access these via the `items` relationship on the subscription:
+
+구독에 여러 플랜이있는 경우 데이터베이스의 `subscription_items` 테이블에 여러 구독 "항목-items"이 저장됩니다. 구독의 `items` 관계를 통해 액세스 할 수 있습니다.
+
+    $user = User::find(1);
+
+    $subscriptionItem = $user->subscription('default')->items->first();
+
+    // Retrieve the Stripe plan and quantity for a specific item...
+    $stripePlan = $subscriptionItem->stripe_plan;
+    $quantity = $subscriptionItem->quantity;
+
+You can also retrieve a specific plan using the `findItemOrFail` method:
+
+`findItemOrFail` 메소드를 사용하여 특정 플랜을 검색 할 수도 있습니다.
+
+    $user = User::find(1);
+
+    $subscriptionItem = $user->subscription('default')->findItemOrFail('chat-plan');
+
 <a name="subscription-taxes"></a>
 ### Subscription Taxes
 ### 정기구독의 세금계산
 
-To specify the tax percentage a user pays on a subscription, implement the `taxPercentage` method on your billable model, and return a numeric value between 0 and 100, with no more than 2 decimal places.
+To specify the tax rates a user pays on a subscription, implement the `taxRates` method on your billable model, and return an array with the Tax Rate IDs. You can define these tax rates in [your Stripe dashboard](https://dashboard.stripe.com/test/tax-rates):
 
-고객이 구매를 진행할 때 세금에 대한 퍼센트를 지정하려면 청구가 가능한 모델에 `taxPercentage` 메소드를 사용하여 구현 소수점 자릿수가 2 자리 이내에서 0에서 100 사이의 숫자를 반환하면 됩니다.
+사용자가 구독에 대해 지불하는 세율을 지정하려면 청구 가능 모델에 `taxRates`메서드를 세율 ID가 있는 배열을 반환하도록 구현합니다. [스트라이프 대시 보드](http://dashboard.stripe.com/test/tax-rates)에서 다음 세율을 정의 할 수 있습니다.
 
-    public function taxPercentage()
+    public function taxRates()
     {
-        return 20;
+        return ['tax-rate-id'];
     }
 
-The `taxPercentage` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates.
+The `taxRates` method enables you to apply a tax rate on a model-by-model basis, which may be helpful for a user base that spans multiple countries and tax rates. If you're working with multiplan subscriptions you can define different tax rates for each plan by implementing a `planTaxRates` method on your billable model:
 
-`taxPercentage` 메소드는 모델별로 세율을 적용하여 다양한 국가와 세율을 해당 국가의 사용자를 기반으로 적용할 수 이 있습니다.
+`taxRates` 메소드는 모델별로 세율을 적용하여 다양한 국가와 세율을 해당 국가의 사용자를 기반으로 적용할 수 이 있습니다. 멀티 플랜 구독으로 작업하는 경우 청구 가능 모델에 `planTaxRates`메소드를 구현하여 각 플랜에 대해 서로 다른 세율을 정의 할 수 있습니다.
 
-> {note} The `taxPercentage` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
+    public function planTaxRates()
+    {
+        return [
+            'plan-id' => ['tax-rate-id'],
+        ];
+    }
 
-> {note} `taxPercentage` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
+> {note} The `taxRates` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
 
-#### Syncing Tax Percentages
-### 세금 비율 동기화
+> {note} `taxRates` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
-When changing the hard-coded value returned by the `taxPercentage` method, the tax settings on any existing subscriptions for the user will remain the same. If you wish to update the tax value for existing subscriptions with the returned `taxPercentage` value, you should call the `syncTaxPercentage` method on the user's subscription instance:
+#### Syncing Tax Rates
+#### 세율 동기화
 
-`taxPercentage` 메소드에 의해 반환 된 하드 코딩 된 값을 변경할 때, 사용자를 위한 기존 구독에 대한 세금 설정은 동일하게 유지됩니다. 기존의 구독에 대한 세금 값을 반환 된 `taxPercentage` 값으로 업데이트하려면 사용자의 구독 인스턴스에서 `syncTaxPercentage` 메소드를 호출해야합니다.
+When changing the hard-coded Tax Rate IDs returned by the `taxRates` method, the tax settings on any existing subscriptions for the user will remain the same. If you wish to update the tax value for existing subscriptions with the returned `taxTaxRates` values, you should call the `syncTaxRates` method on the user's subscription instance:
 
-    $user->subscription('default')->syncTaxPercentage();
+`taxRates` 메소드에 의해 반환 된 하드 코딩 된 세율의 ID를 변경할 때, 사용자를 위한 기존 구독에 대한 세금 설정은 동일하게 유지됩니다. 기존의 구독에 대한 세금 값을 반환 된 `taxTaxRates` 값으로 업데이트하려면 사용자의 구독 인스턴스에서 `syncTaxRates` 메소드를 호출해야합니다.
+
+    $user->subscription('default')->syncTaxRates();
+
+This will also sync any subscription item tax rates so make sure you also properly change the `planTaxRates` method.
+
+이렇게하면 구독 항목의 세율도 동기화되므로 `planTaxRates` 메서드도 올바르게 변경해야합니다.
+
+#### Tax Exemption
+#### 면세
+
+Cashier also offers methods to determine if the customer is tax exempt by calling the Stripe API. The `isNotTaxExempt`, `isTaxExempt`, and `reverseChargeApplies` methods are available on the billable model:
+
+캐셔는 Stripe API를 호출하여 고객이 면세 여부를 확인하는 메서드도 제공합니다. `isNotTaxExempt`, `isTaxExempt` 및 `reverseChargeApplies` 메소드는 청구 가능 모델에서 사용할 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->isTaxExempt();
+    $user->isNotTaxExempt();
+    $user->reverseChargeApplies();
+
+These methods are also available on any `Laravel\Cashier\Invoice` object. However, when calling these methods on an `Invoice` object the methods will determine the exemption status at the time the invoice was created.
+
+이러한 메서드는 모든 `Laravel\Cashier\Invoice` 객체에서도 사용할 수 있습니다. 그러나 `Invoice` 객체에서 이러한 메서드를 호출하면 메서드가 송장이 생성 된 시점의 면세 상태를 결정합니다.
 
 <a name="subscription-anchor-date"></a>
 ### Subscription Anchor Date
@@ -817,7 +1115,7 @@ By default, the billing cycle anchor is the date the subscription was created, o
 
     $anchor = Carbon::parse('first day of next month');
 
-    $user->newSubscription('default', 'premium')
+    $user->newSubscription('default', 'price_premium')
                 ->anchorBillingCycleOn($anchor->startOfDay())
                 ->create($paymentMethod);
 
@@ -871,10 +1169,6 @@ If the user cancels a subscription and then resumes that subscription before the
 ## Subscription Trials
 ## 구독 평가기간
 
-> {note} Cashier manages trial dates for subscriptions and does not derive them from the Stripe plan. Therefore, you should configure your plan in Stripe to have a trial period of zero days so that Cashier can manage the trials instead.
-
-> {note} Cashier는 구독의 평가판 날짜를 관리하며 스트라이프 plan에서 가져오지 않습니다. 따라서 Cashier가 평가판을 대신 관리 할 수 ​​있도록 평가판 기간이 0일이 되도록 Stripe에서 plan을 구성해야합니다.
-
 <a name="with-payment-method-up-front"></a>
 ### With Payment Method Up Front
 ### 결제 수단 사전 등록
@@ -885,7 +1179,7 @@ If you would like to offer trial periods to your customers while still collectin
 
     $user = User::find(1);
 
-    $user->newSubscription('default', 'monthly')
+    $user->newSubscription('default', 'price_monthly')
                 ->trialDays(10)
                 ->create($paymentMethod);
 
@@ -903,7 +1197,7 @@ The `trialUntil` method allows you to provide a `DateTime` instance to specify w
 
     use Carbon\Carbon;
 
-    $user->newSubscription('default', 'monthly')
+    $user->newSubscription('default', 'price_monthly')
                 ->trialUntil(Carbon::now()->addDays(10))
                 ->create($paymentMethod);
 
@@ -918,6 +1212,13 @@ You may determine if the user is within their trial period using either the `onT
     if ($user->subscription('default')->onTrial()) {
         //
     }
+
+#### Defining Trial Days In Stripe / Cashier
+#### Stripe / 캐셔에서 평가기간 정의
+
+You may choose to define how many trial days your plan's receive in the Stripe dashboard or always pass them explicitly using Cashier. If you choose to define your plan's trial days in Stripe you should be aware that new subscriptions, including new subscriptions for a customer that had a subscription in the past, will always receive a trial period unless you explicitly call the `trialDays(0)` method.
+
+Stripe 대시 보드에서 플랜의 평가기간를 정의하거나 항상 캐셔를 사용하여 명시적으로 전달할 수 있습니다. Stripe에서 플랜의 평가판 기간을 정의하기로 선택한 경우, 과거에 구독한 고객에 대한 새 구독을 포함하여 새 구독은 명시적으로 `trialDays(0)`메서드를 호출하지 않는 한 항상 평가 기간을 받게됩니다.
 
 <a name="without-payment-method-up-front"></a>
 ### Without Payment Method Up Front
@@ -958,7 +1259,7 @@ Once you are ready to create an actual subscription for the user, you may use th
 
     $user = User::find(1);
 
-    $user->newSubscription('default', 'monthly')->create($paymentMethod);
+    $user->newSubscription('default', 'price_monthly')->create($paymentMethod);
 
 <a name="extending-trials"></a>
 ### Extending Trials
@@ -998,9 +1299,9 @@ By default, this controller will automatically handle cancelling subscriptions t
 
 기본적으로 이 컨트롤러는 너무 많은 청구 실패 (스트라이프 설정에 의해 정의 됨), 고객 업데이트, 고객 삭제, 가입 업데이트 및 결제 수단 변경이 있는 가입 취소를 자동으로 처리합니다. 그러나 곧 알게 되겠지만 원하는 웹훅 이벤트를 처리하도록 이 컨트롤러를 확장 할 수 있습니다.
 
-To ensure your application can handle Stripe webhooks, be sure to configure the webhook URL in the Stripe control panel. The full list of all webhooks you should configure in the Stripe control panel are:
+To ensure your application can handle Stripe webhooks, be sure to configure the webhook URL in the Stripe control panel. By default, Cashier's webhook controller listens to the `/stripe/webhook` URL path. The full list of all webhooks you should configure in the Stripe control panel are:
 
-애플리케이션이 Stripe 웹훅을 처리 할 수 있도록하려면 Stripe 제어판에서 webhook URL을 구성하십시오. Stripe 제어판에서 구성해야하는 모든 웹훅의 전체 목록은 다음과 같습니다.
+애플리케이션이 Stripe 웹훅을 처리 할 수 있도록하려면 Stripe 제어판에서 webhook URL을 구성하십시오. 기본적으로 캐셔의 웹훅 컨트롤러는 `/stripe/webhook` URL 경로로 수신됩니다. Stripe 제어판에서 구성해야하는 모든 웹훅의 전체 목록은 다음과 같습니다.
 
 - `customer.subscription.updated`
 - `customer.subscription.deleted`
@@ -1147,7 +1448,7 @@ The invoice will be charged immediately against the user's default payment metho
     $user->invoiceFor('Stickers', 500, [
         'quantity' => 50,
     ], [
-        'tax_percent' => 21,
+        'default_tax_rates' => ['tax-rate-id'],
     ]);
 
 > {note} The `invoiceFor` method will create a Stripe invoice which will retry failed billing attempts. If you do not want invoices to retry failed charges, you will need to close them using the Stripe API after the first failed charge.
@@ -1170,6 +1471,10 @@ Stripe의 결제를 환불해야하는 경우 `refund` 메소드를 사용할 �
 ## Invoices
 ## 청구서
 
+<a name="retrieving-invoices"></a>
+### Retrieving Invoices
+### 송장 검색
+
 You may easily retrieve an array of a billable model's invoices using the `invoices` method:
 
 `invoices` 메소드를 사용하여 청구가 가능한 모델의 청구서를 손쉽게 배열 형태로 조회 할 수 있습니다.
@@ -1178,6 +1483,15 @@ You may easily retrieve an array of a billable model's invoices using the `invoi
 
     // Include pending invoices in the results...
     $invoices = $user->invoicesIncludingPending();
+
+You may use the `findInvoice` method to retrieve a specific invoice:
+
+`findInvoice` 메소드를 사용하여 특정 인보이스를 검색 할 수 있습니다.
+
+    $invoice = $user->findInvoice($invoiceId);
+
+#### Displaying Invoice Information
+#### 송장 정보 표시
 
 When listing the invoices for the customer, you may use the invoice's helper methods to display the relevant invoice information. For example, you may wish to list every invoice in a table, allowing the user to easily download any of them:
 
@@ -1209,6 +1523,15 @@ From within a route or controller, use the `downloadInvoice` method to generate 
             'product' => 'Your Product',
         ]);
     });
+
+The `downloadInvoice` method also allows for an optional custom filename as the third parameter. This filename will automatically be suffixed with `.pdf` for you:
+
+`downloadInvoice` 메소드는 세 번째 파라메터로 파일이름을 지정할 수도 있습니다. 파일 이름은 `.pdf`가 자동으로 끝에 추가됩니다.
+
+    return $request->user()->downloadInvoice($invoiceId, [
+        'vendor' => 'Your Company',
+        'product' => 'Your Product',
+    ], 'my-invoice');
 
 <a name="handling-failed-payments"></a>
 ## Handling Failed Payments
@@ -1265,9 +1588,9 @@ If your business is based in Europe you will need to abide by the Strong Custome
 
 비즈니스가 유럽에 기반을 둔 경우 강력한 고객 인증 (SCA) 규정을 준수해야합니다. 이 규정은 2019년 9월 유럽 연합에 의해 지불 사기를 방지하기 위해 부과되었습니다. 운 좋게도 Stripe과 Cashier는 SCA 호환 애플리케이션을 구축 할 준비가되어 있습니다.
 
-> {note} Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/en-be/guides/strong-customer-authentication) as well as their [documentation on the new SCA API's](https://stripe.com/docs/strong-customer-authentication).
+> {note} Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/guides/strong-customer-authentication) as well as their [documentation on the new SCA APIs](https://stripe.com/docs/strong-customer-authentication).
 
-> {note} 시작하기 전에 [PS2 및 SCA에 대한 Stripe 안내서](https://stripe.com/en-be/guides/strong-customer-authentication)와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication) 를 검토하십시오.
+> {note} 시작하기 전에 [PS2 및 SCA에 대한 Stripe 안내서](https://stripe.com/guides/strong-customer-authentication)와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication) 를 검토하십시오.
 
 <a name="payments-requiring-additional-confirmation"></a>
 ### Payments Requiring Additional Confirmation
@@ -1316,7 +1639,15 @@ Cashier의 많은 객체는 Stripe SDK 객체를 감싸는 래퍼입니다. Stri
 
     $stripeSubscription = $subscription->asStripeSubscription();
 
-    $stripeSubscription->update(['application_fee_percent' => 5]);
+    $stripeSubscription->application_fee_percent = 5;
+
+    $stripeSubscription->save();
+
+You may also use the `updateStripeSubscription` method to update the Stripe subscription directly:
+
+`updateStripeSubscription` 메서드를 사용하여 Stripe 구독을 직접 업데이트 할 수도 있습니다.
+
+    $subscription->updateStripeSubscription(['application_fee_percent' => 5]);
 
 <a name="testing"></a>
 ## Testing
@@ -1339,3 +1670,7 @@ To get started, add the **testing** version of your Stripe secret to your `phpun
 Now, whenever you interact with Cashier while testing, it will send actual API requests to your Stripe testing environment. For convenience, you should pre-fill your Stripe testing account with subscriptions / plans that you may then use during testing.
 
 이제 테스트하는 동안 캐셔와 상호 작용할 때마다 실제 API 요청이 Stripe 테스트 환경으로 전송됩니다. 편의상 스트라이프 테스트 계정에 구독/플랜을 미리 채워서 테스트 중에 사용할 수 있도록해야합니다.
+
+> {tip} In order to test a variety of billing scenarios, such as credit card denials and failures, you may use the vast range of [testing card numbers and tokens](https://stripe.com/docs/testing) provided by Stripe.
+
+> {tip} 신용 카드 거부 및 실패와 같은 다양한 결제 시나리오를 테스트하기 위해 Stripe가 제공하는 광범위한 [테스트 카드 번호 및 토큰](https://stripe.com/docs/testing)을 사용할 수 있습니다.

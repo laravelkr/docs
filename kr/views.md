@@ -291,13 +291,3 @@ You may use the `view:clear` command to clear the view cache:
 다음의 명령어로 뷰 캐시를 지울수 있습니다.
 
     php artisan view:clear
-
-Typically, you can assume that views will **never** be modified in your production environment. Therefore, you can usually disable the file modification checks Laravel makes to determine if views are expired by modifying the `expires` option within your `view` configuration file:
-
-일반적으로 프로덕션 환경에서는 뷰가 **절대** 수정 되지 않는다고 가정 할 수 있습니다. 따라서 보통은 `view` 구성 파일내의 옵션을 수정하여 라라벨이 뷰가 만료 되었는지 확인하기 위해 파일 수정 검사를 비활성화 할 수 있습니다.
-
-    'expires' => env('APP_ENV') !== 'production',
-
-> {note} You must run `php artisan view:cache` during your deployment process to disable checking for expired views.
-
-> {note} 만료된 뷰 확인을 비활성화 하려면 개발과정 중에 `php artisan view:cache` 실행해야 합니다.

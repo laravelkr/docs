@@ -15,8 +15,6 @@
     - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
     - [Removing Items From The Cache](#removing-items-from-the-cache)
     - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
-    - [Atomic Locks](#atomic-locks)
-    - [원자 잠금장치](#atomic-locks)
     - [The Cache Helper](#the-cache-helper)
     - [캐시 헬퍼 함수](#the-cache-helper)
 - [Cache Tags](#cache-tags)
@@ -27,6 +25,14 @@
     - [태그로 캐시 아이템 엑세스하기](#accessing-tagged-cache-items)
     - [Removing Tagged Cache Items](#removing-tagged-cache-items)
     - [태그가 추가된 캐시 아이템 삭제하기](#removing-tagged-cache-items)
+- [Atomic Locks](#atomic-locks)
+- [원자 잠금장치](#atomic-locks)
+    - [Driver Prerequisites](#lock-driver-prerequisites)
+    - [드라이버 전제 조건](#lock-driver-prerequisites)
+    - [Managing Locks](#managing-locks)
+    - [잠금 관리](#managing-locks)
+    - [Managing Locks Across Processes](#managing-locks-across-processes)
+    - [프로세스 간 잠금 관리](#managing-locks-across-processes)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
 - [사용자 정의 캐시 드라이버 추가하기](#adding-custom-cache-drivers)
     - [Writing The Driver](#writing-the-driver)
@@ -303,13 +309,112 @@ You may clear the entire cache using the `flush` method:
 
 > {note} 모든 캐시를 비우는 것은 캐시에서 모든 항목이 제거된다는 것을 의미합니다. 애플리케이션의 다른 부분에서 공유하는 캐시를 제거할 때에 주의하십시오.
 
+<a name="the-cache-helper"></a>
+### The Cache Helper
+### 캐시 헬퍼
+
+In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
+
+`Cache` 파사드 또는 [cache contract](/docs/{{version}}/contracts)를 사용하는 것 외에도 전역 `cache` 함수를 사용하여 캐시를 통해 데이터를 검색하고 저장할 수 있습니다. `cache` 함수가 단일 문자열 인수로 호출되면 주어진 키의 값을 반환합니다.
+
+    $value = cache('key');
+
+If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
+
+키 / 값 쌍의 배열과 만료 시간을 함수에 제공하면 지정된 기간 동안 값을 캐시에 저장합니다.
+
+    cache(['key' => 'value'], $seconds);
+
+    cache(['key' => 'value'], now()->addMinutes(10));
+
+When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
+
+인수없이 `cache` 함수를 호출하면 `Illuminate\Contracts\Cache\Factory`를 구현한 인스턴스를 반환하여 다른 캐싱 메서드를 호출 할 수 있습니다.
+
+    cache()->remember('users', $seconds, function () {
+        return DB::table('users')->get();
+    });
+
+> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
+
+> {tip} 전역 `cache` 함수 호출을 테스트 할 때 [파사드 테스트](/docs/{{version}}/mocking#mocking-facades )처럼 `Cache::shouldReceive` 메소드를 사용할 수 있습니다.
+
+<a name="cache-tags"></a>
+## Cache Tags
+## 캐시 태그
+
+> {note} Cache tags are not supported when using the `file`, `dynamodb`, or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
+
+> {note} `file`, `dynamodb` 또는 `database` 캐시 드라이버를 사용하는 경우 캐시 태그가 지원되지 않습니다. 또한 "forever"로 저장된 캐시와 함께 여러 태그를 사용할 때 만료된 데이터를 자동으로 제거하는 `memcached`와 같은 드라이버를 사용하면 성능이 가장 좋습니다.
+
+<a name="storing-tagged-cache-items"></a>
+### Storing Tagged Cache Items
+### 태그가 지정된 캐시 항목 저장
+
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
+
+캐시 태그를 사용하면 캐시의 관련 항목에 태그를 지정한 다음 지정된 태그가 할당 된 모든 캐시 된 값을 플러시 할 수 있습니다. 태그 이름의 정렬 된 배열을 전달하여 태그가 지정된 캐시에 액세스 할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 액세스하고 캐시의 `put`값에 액세스 해 보겠습니다.
+
+    Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
+
+    Cache::tags(['people', 'authors'])->put('Anne', $anne, $seconds);
+
+<a name="accessing-tagged-cache-items"></a>
+### Accessing Tagged Cache Items
+### 태그가 지정된 캐시 항목 액세스
+
+To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
+
+태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
+
+    $john = Cache::tags(['people', 'artists'])->get('John');
+
+    $anne = Cache::tags(['people', 'authors'])->get('Anne');
+
+<a name="removing-tagged-cache-items"></a>
+### Removing Tagged Cache Items
+### 태그가 지정된 캐시 항목 제거
+
+You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
+
+태그 또는 태그 목록이 할당 된 모든 항목을 플러시 할 수 있습니다. 예를 들어, 이 문은 `people`, `authors` 또는 둘 다로 태그가 지정된 모든 캐시를 제거합니다. 따라서 `Anne`과` John`은 모두 캐시에서 제거됩니다.
+
+    Cache::tags(['people', 'authors'])->flush();
+
+In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
+
+반대로이 문은 `authors`로 태그가 지정된 캐시 만 제거하므로 `Anne`은 제거되지만 `John`은 제거되지 않습니다.
+
+    Cache::tags('authors')->flush();
+
 <a name="atomic-locks"></a>
 ### Atomic Locks
 ### 원자 잠금장치(Atomic-locks)
 
-> {note} To utilize this feature, your application must be using the `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+> {note} To utilize this feature, your application must be using the `memcached`, `dynamodb`, `redis`, `database`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> {note} 이 기능을 활용하려면, 애플리케이션이 기본 캐시 드라이버로 `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
+> {note} 이 기능을 사용하려면 애플리케이션에서 `memcached`, `dynamodb`, `redis`, `database`, 또는 `array` 캐시 드라이버를 애플리케이션의 기본 캐시 드라이버로 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
+
+<a name="lock-driver-prerequisites"></a>
+### Driver Prerequisites
+### 드라이버 전제 조건
+
+#### Database
+#### Database
+
+When using the `database` cache driver, you will need to setup a table to contain the cache locks. You'll find an example `Schema` declaration for the table below:
+
+`database` 캐시 드라이버를 사용하는 경우 캐시 잠금을 포함하도록 테이블을 설정해야합니다. 아래 표에 대한 `Schema` 선언 예제를 찾을 수 있습니다.
+
+    Schema::create('cache_locks', function ($table) {
+        $table->string('key')->primary();
+        $table->string('owner');
+        $table->integer('expiration');
+    });
+
+<a name="managing-locks"></a>
+### Managing Locks
+### 잠금 관리
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
@@ -355,8 +460,9 @@ If the lock is not available at the moment you request it, you may instruct Lara
         // Lock acquired after waiting maximum of 5 seconds...
     });
 
-#### Managing Locks Across Processes
-#### 프로세스 간 잠금 관리
+<a name="managing-locks-across-processes"></a>
+### Managing Locks Across Processes
+### 프로세스 간 잠금 관리
 
 Sometimes, you may wish to acquire a lock in one process and release it in another process. For example, you may acquire a lock during a web request and wish to release the lock at the end of a queued job that is triggered by that request. In this scenario, you should pass the lock's scoped "owner token" to the queued job so that the job can re-instantiate the lock using the given token:
 
@@ -379,83 +485,6 @@ If you would like to release a lock without respecting its current owner, you ma
 현재 소유자를 무시하고 잠금을 해제하려면 `forceRelease` 메소드를 사용할 수 있습니다.
 
     Cache::lock('foo')->forceRelease();
-
-<a name="the-cache-helper"></a>
-### The Cache Helper
-### 캐시 헬퍼 함수
-
-In addition to using the `Cache` facade or [cache contract](/docs/{{version}}/contracts), you may also use the global `cache` function to retrieve and store data via the cache. When the `cache` function is called with a single, string argument, it will return the value of the given key:
-
-`Cache` 파사드나 [캐시 contract](/docs/{{version}}/contracts)를 사용하는것에 더하여, 글로벌 `cache` 함수를 사용하여 캐시에서 데이터를 조회하거나 저장할 수 있습니다. `cache` 함수에 인자가 하나의 문자열일 때는, 주어진 키에 대한 값을 반환합니다.
-    $value = cache('key');
-
-If you provide an array of key / value pairs and an expiration time to the function, it will store values in the cache for the specified duration:
-
-키와 값으로된 배열과 유효시간을 함수에 전달하면, 지정된 기간동안 캐시에 값을 저장하고 있습니다.
-
-    cache(['key' => 'value'], $seconds);
-
-    cache(['key' => 'value'], now()->addMinutes(10));
-
-When the `cache` function is called without any arguments, it returns an instance of the `Illuminate\Contracts\Cache\Factory` implementation, allowing you to call other caching methods:
-
-`cache` 함수가 아무런 인자없이 호출되면 `Illuminate/Contracts/Cache/Factory` 를 구현한 인스턴스를 반환하고 사용자는 이것을 통해 다른 모든 캐싱 메소드를 호출 할 수 있습니다.
-
-    cache()->remember('users', $seconds, function () {
-        return DB::table('users')->get();
-    });
-
-> {tip} When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing a facade](/docs/{{version}}/mocking#mocking-facades).
-
-> {tip} 글로벌 `cache` 함수 호출을 테스팅할 때에는, [파사드 테스팅](/docs/{{version}}/mocking#mocking-facades)을 참고하여 `Cache::shouldReceive`메소드를 사용할 수 있습니다.
-
-<a name="cache-tags"></a>
-## Cache Tags
-## 캐시 태그
-
-> {note} Cache tags are not supported when using the `file` or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
-
-> {note} 캐시 태그는 `file`과 `database` 드라이버를 사용하는 경우 지원되지 않습니다. 또한 "forever"로 저장되는 캐시에 많은 태그를 사용하면 기존 레코드를 자동으로 삭제하는 `memcached` 와 같은 드라이버에서 최상의 성능을 낼 것입니다.
-
-<a name="storing-tagged-cache-items"></a>
-### Storing Tagged Cache Items
-### 태그가 추가된 캐시 아이템 저장하기
-
-Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` value in the cache:
-
-캐시 태그는 캐시에 있는 관련된 아이템들을 태그할 수 있도록 해주고, 주어진 태그가 지정된 전체 캐시 항목을 삭제할 수도 있게 해줍니다. 여러분은 순서대로 태그 이름의 배열을 전달하여 태그가 추가된 캐시 아이템에 엑세스할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 엑세스하여, 값을 `저장(put)` 해 보겠습니다.
-
-    Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
-
-    Cache::tags(['people', 'authors'])->put('Anne', $anne, $seconds);
-
-<a name="accessing-tagged-cache-items"></a>
-### Accessing Tagged Cache Items
-### 태그된 캐시 아이템 엑세스하기
-
-To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
-
-태그가 지정된 캐시 아이템을 찾으려면 `tags` 메소드에 저장된 것과 동일한 순서로 태그의 목록을 전달하고, 찾고자 하는 키와 함께 `get` 메소드를 호출하면 됩니다.
-
-    $john = Cache::tags(['people', 'artists'])->get('John');
-
-    $anne = Cache::tags(['people', 'authors'])->get('Anne');
-
-<a name="removing-tagged-cache-items"></a>
-### Removing Tagged Cache Items
-### 태그된 캐시 아이템 제거하기
-
-You may flush all items that are assigned a tag or list of tags. For example, this statement would remove all caches tagged with either `people`, `authors`, or both. So, both `Anne` and `John` would be removed from the cache:
-
-태그 또는 태그 목록이 지정된 아이템을 모두 지울 수 있습니다. 예를 들어 다음 코드는 `people` 또는 `authors` 또는 둘 모두에 태그가 지정된 모든 캐시된 항목이 삭제됩니다. 그러므로 "Anne"과 "John" 두 아이템은 캐시에서 제거됩니다.
-
-    Cache::tags(['people', 'authors'])->flush();
-
-In contrast, this statement would remove only caches tagged with `authors`, so `Anne` would be removed, but not `John`:
-
-한편, 다음 코드에서는 `authors` 태그된 캐시만 삭제되기 때문에 `Anne`은 삭제되지만 `John`는 남아 있습니다.
-
-    Cache::tags('authors')->flush();
 
 <a name="adding-custom-cache-drivers"></a>
 ## Adding Custom Cache Drivers

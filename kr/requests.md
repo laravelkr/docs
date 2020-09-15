@@ -459,6 +459,23 @@ If you would like to generate a `Symfony\Component\HttpFoundation\Cookie` instan
 
     return response('Hello World')->cookie($cookie);
 
+#### Expiring Cookies Early
+#### 일찍 만료되는 쿠키
+
+You may remove a cookie by expiring it via the `forget` method of the `Cookie` facade:
+
+쿠키는 `Cookie` 파사드의 `forget` 메소드를 통해 만료시켜 제거 할 수 있습니다.
+
+    Cookie::queue(Cookie::forget('name'));
+
+Alternatively, you may attach the expired cookie to a response instance:
+
+또는 만료 된 쿠키를 응답 인스턴스에 연결할 수 있습니다.
+
+    $cookie = Cookie::forget('name');
+
+    return response('Hello World')->withCookie($cookie);
+
 <a name="files"></a>
 ## Files
 ## 파일처리
@@ -508,9 +525,9 @@ The `UploadedFile` class also contains methods for accessing the file's fully-qu
 #### Other File Methods
 #### 기타 파일 관련 메소드들
 
-There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](https://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html) for more information regarding these methods.
+There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](https://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html) for more information regarding these methods.
 
-`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](https://api.symfony.com/3.0/Symfony/Component/HttpFoundation/File/UploadedFile.html)을 확인해보십시오.
+`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](https://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html)을 확인해보십시오.
 
 <a name="storing-uploaded-files"></a>
 ### Storing Uploaded Files
@@ -575,7 +592,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
         /**
          * The headers that should be used to detect proxies.
          *
-         * @var string
+         * @var int
          */
         protected $headers = Request::HEADER_X_FORWARDED_ALL;
     }

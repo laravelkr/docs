@@ -366,7 +366,7 @@ To perform a "cross join" use the `crossJoin` method with the name of the table 
 
 "Cross Join"을 수행하고자 한다면 조인 하고자 하는 테이블 이름과 함께 `crossJoin` 메소드를 사용하면 됩니다. 크로스 조인은 첫 번째 테이블과 조인된 테이블 사이의 cartesian product 를 생성합니다.
 
-    $users = DB::table('sizes')
+    $sizes = DB::table('sizes')
                 ->crossJoin('colors')
                 ->get();
 
@@ -548,6 +548,10 @@ The `whereNotIn` method verifies that the given column's value is **not** contai
     $users = DB::table('users')
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
+
+> {note} If you are adding a huge array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
+
+> {note} 쿼리에 거대한 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
@@ -768,6 +772,15 @@ The `orderBy` method allows you to sort the result of the query by a given colum
                     ->orderBy('name', 'desc')
                     ->get();
 
+If you need to sort by multiple columns, you may invoke `orderBy` as many times as needed:
+
+여러 컬럼을 기준으로 정렬해야하는 경우 필요한만큼 `orderBy`를 추가 할 수 있습니다.
+                                         
+    $users = DB::table('users')
+                    ->orderBy('name', 'desc')
+                    ->orderBy('email', 'asc')
+                    ->get();
+
 #### latest / oldest
 #### latest / oldest
 
@@ -903,7 +916,7 @@ You may even insert several records into the table with a single call to `insert
 
     DB::table('users')->insert([
         ['email' => 'taylor@example.com', 'votes' => 0],
-        ['email' => 'dayle@example.com', 'votes' => 0]
+        ['email' => 'dayle@example.com', 'votes' => 0],
     ]);
 
 The `insertOrIgnore` method will ignore duplicate record errors while inserting records into the database:
@@ -912,7 +925,7 @@ The `insertOrIgnore` method will ignore duplicate record errors while inserting 
 
     DB::table('users')->insertOrIgnore([
         ['id' => 1, 'email' => 'taylor@example.com'],
-        ['id' => 2, 'email' => 'dayle@example.com']
+        ['id' => 2, 'email' => 'dayle@example.com'],
     ]);
 
 #### Auto-Incrementing IDs
@@ -996,6 +1009,10 @@ You may also specify additional columns to update during the operation:
 또한 이 작업을 수행동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다.
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
+
+> {note} Model events are not fired when using the `increment` and `decrement` methods.
+
+> {note} `increment` 및 `decrement` 메서드를 사용할 때 모델 이벤트가 발생하지 않습니다.
 
 <a name="deletes"></a>
 ## Deletes

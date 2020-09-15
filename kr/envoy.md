@@ -25,6 +25,8 @@
     - [슬랙](#slack)
     - [Discord](#discord)
     - [디스코드](#discord)
+    - [Telegram](#telegram)
+    - [텔레그램](#telegram)
 
 <a name="introduction"></a>
 ## Introduction
@@ -48,9 +50,9 @@ Since global Composer libraries can sometimes cause package version conflicts, y
 
 글로벌 Composer 라이브러리는 때로는 패키지 버전의 충돌을 일으키기 때문에 `composer global require` 명령의 대안으로 `cgr`사용을 고려할 수도 있습니다. `cgr` 라이브러리의 설치 방법은 [GitHub](https://github.com/consolidation-org/cgr)에서 찾을 수 있습니다.
 
-> {note} Make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
+> {note} Make sure to place the `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin` directory in your PATH so the `envoy` executable is found when running the `envoy` command in your terminal.
 
-> {note} `~/.composer/vendor/bin` 디렉토리를 여러분의 PATH에 추가하여 터미널에서 `envoy` 명령어를 실행할 때 `envoy`를 바로 찾을 수 있도록 설정하십시오.
+> {note} `$HOME/.config/composer/vendor/bin` 또는 `$HOME/.composer/vendor/bin` 디렉토리를 여러분의 PATH에 추가하여 터미널에서 `envoy` 명령어를 실행할 때 `envoy`를 바로 찾을 수 있도록 설정하십시오.
 
 #### Updating Envoy
 #### Envoy 업데이트 하기
@@ -75,9 +77,9 @@ All of your Envoy tasks should be defined in an `Envoy.blade.php` file in the ro
         ls -la
     @endtask
 
-As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
+As you can see, an array of `@servers` is defined at the top of the file, allowing you to reference these servers in the `on` option of your task declarations. The `@servers` declaration should always be placed on a single line. Within your `@task` declarations, you should place the Bash code that should run on your server when the task is executed.
 
-위에서 보시다 시피 `@servers` 배열이 파일의 최상단에 정의되어 작업을 지정할 때 `on` 옵션을 사용할 때 해당 서버를 참조할 수 있습니다. `@task` 선언 안에서 여러분은 작업이 실행될 때 서버에서 구동시킬 Bash 코드를 작성해야 합니다.
+위에서 보시다 시피 `@servers` 배열이 파일의 최상단에 정의되어 작업을 지정할 때 `on` 옵션을 사용할 때 해당 서버를 참조할 수 있습니다. `@servers` 선언은 항상 한 줄에 배치해야합니다. `@task` 선언 안에서 여러분은 작업이 실행될 때 서버에서 구동시킬 Bash 코드를 작성해야 합니다.
 
 You can force a script to run locally by specifying the server's IP address as `127.0.0.1`:
 
@@ -263,4 +265,16 @@ Envoy 는 또한 각각의 작업이 실행된 후에 [디스코드](https://dis
 
     @finished
         @discord('discord-webhook-url')
+    @endfinished
+
+<a name="telegram"></a>
+### Telegram
+### 텔레그램
+
+Envoy also supports sending notifications to [Telegram](https://telegram.org) after each task is executed. The `@telegram` directive accepts a Telegram Bot ID and a Chat ID. You may retrieve your Bot ID by creating a new bot using [BotFather](https://t.me/botfather). You can retrieve a valid Chat ID using [@username_to_id_bot](https://t.me/username_to_id_bot). You should pass the entire Bot ID and Chat ID into the `@telegram` directive:
+
+Envoy는 각 작업이 실행 된 후 [Telegram](https://telegram.org)에 알림을 보내는 것도 지원합니다. `@telegram` 지시문은 Telegram Bot ID와 Chat ID를입력받습니다. [BotFather](https://t.me/botfather)를 사용하여 새 봇을 생성하여 Bot ID를 검색 할 수 있습니다. [@username_to_id_bot](https://t.me/username_to_id_bot)을 사용하여 유효한 채팅 ID를 검색 할 수 있습니다. 전체 봇 ID와 채팅 ID를 `@telegram` 지시문에 전달해야합니다.
+
+    @finished
+        @telegram('<bot-id>','<chat-id>')
     @endfinished

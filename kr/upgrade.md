@@ -71,9 +71,21 @@ The new minimum PHP version is now 7.2.5.
 ### Updating Dependencies
 ### 의존성 업데이트
 
-Update your `laravel/framework` dependency to `^7.0` in your `composer.json` file. In addition, update your `nunomaduro/collision` dependency to `^4.1`, `phpunit/phpunit` dependency to `^8.5`, `laravel/tinker` dependency to `^2.0`, and `facade/ignition` to `^2.0`.
+Update the following dependencies in your `composer.json` file:
 
-`composer.json` 파일에서 `laravel/framework` 의존성을 `^ 7.0`로 업데이트하십시오. 또한 `nunomaduro/collision` 의존성을 `^ 4.1`로, `phpunit/phpunit` 의존성을 `^ 8.5`로, `laravel/tinker` 의존성을 `^ 2.0`으로, 그리고 `facade/ignition`을 `^2.0`로 업데이트하십시오.
+- `laravel/framework` to `^7.0`
+- `nunomaduro/collision` to `^4.1`
+- `phpunit/phpunit` to `^8.5`
+- `laravel/tinker` to `^2.0`
+- `facade/ignition` to `^2.0`
+
+`composer.json` 파일에서 다음 종속성을 업데이트하십시오.
+
+- `laravel/framework` 을 `^7.0` 으로
+- `nunomaduro/collision` 을 `^4.1` 으로
+- `phpunit/phpunit` 을 `^8.5` 으로
+- `laravel/tinker` 을 `^2.0` 으로
+- `facade/ignition` 을 `^2.0` 으로
 
 The following first-party packages have new major releases to support Laravel 7. If there are any, read through their individual upgrade guides before upgrading:
 
@@ -83,8 +95,10 @@ The following first-party packages have new major releases to support Laravel 7.
 - [Envoy v2.0](https://github.com/laravel/envoy/blob/master/UPGRADE.md)
 - [Horizon v4.0](https://github.com/laravel/horizon/blob/master/UPGRADE.md)
 - [Nova v3.0](https://nova.laravel.com/releases)
+- [Passport v9.0](https://github.com/laravel/passport/blob/master/UPGRADE.md)
 - [Scout v8.0](https://github.com/laravel/scout/blob/master/UPGRADE.md)
 - [Telescope v3.0](https://github.com/laravel/telescope/releases)
+- [Tinker v2.0](https://github.com/laravel/tinker/blob/2.x/CHANGELOG.md)
 - UI v2.0 (No changes necessary)
 
 Finally, examine any other third-party packages consumed by your application and verify you are using the proper version for Laravel 7 support.
@@ -119,6 +133,19 @@ Next, please update your `session` configuration file's `secure` option to have 
 다음으로, `session` 설정 파일의 `secure` 옵션을 `null`로 폴백 값을 업데이트하십시오.
 
     'secure' => env('SESSION_SECURE_COOKIE', null),
+
+Symfony Console, which is the underlying component that powers Artisan, expects all commands to return an integer. Therefore, you should ensure that any of your commands which return a value are returning integers:
+
+Artisan을 지원하는 기본 컴포넌트 인 Symfony Console은 모든 명령이 정수를 반환 할 것으로 예상합니다. 따라서 값을 반환하는 명령이 정수를 반환하는지 확인해야합니다.
+
+    public function handle()
+    {
+        // Before...
+        return true;
+
+        // After...
+        return 0;
+    }
 
 ### Authentication
 ### 인증
@@ -251,9 +278,9 @@ Laravel 7은 "factory types"기능을 제거합니다. 이 기능은 2016 년 10
 **Likelihood Of Impact: Low**
 **영향 가능성: 낮음**
 
-The `$model->getOriginal()` method will now respect any casts defined on the model. Previously, this method returned the uncast, raw attributes. If you would like to continue retrieving the raw, uncast values, you may use the `getRawOriginal` method instead.
+The `$model->getOriginal()` method will now respect any casts and mutators defined on the model. Previously, this method returned the uncast, raw attributes. If you would like to continue retrieving the raw, uncast values, you may use the `getRawOriginal` method instead.
 
-`$model->getOriginal()` 메소드는 이제 모델에 정의 된 모든 캐스트를 존중합니다. 이전에는 이 ​​메소드가 캐스트되지 않은 원시 속성을 리턴했습니다. 캐스팅되지 않은 원시 값을 계속 검색하려면 `getRawOriginal` 메소드를 대신 사용할 수 있습니다.
+`$model->getOriginal()` 메소드는 이제 모델에 정의 된 모든 캐스트와 뮤테이터를 존중합니다. 이전에는 이 메소드가 캐스트되지 않은 원시 속성을 리턴했습니다. 캐스팅되지 않은 원시 값을 계속 검색하려면 `getRawOriginal` 메소드를 대신 사용할 수 있습니다.
 
 #### Route Binding
 #### 라우트 바인딩
@@ -329,19 +356,6 @@ Laravel 7.x doesn't provide `swift.mailer` and `swift.transport` container bindi
     $swiftMailer = app('mailer')->getSwiftMailer();
 
     $swiftTransport = $swiftMailer->getTransport();
-
-### Queue
-### Queue
-
-#### Deprecated `--daemon` Flag Removed
-#### 더 이상 사용되지 않는 `-daemon` 플래그 제거
-
-**Likelihood Of Impact: Low**
-**영향 가능성: 낮음**
-
-The deprecated `--daemon` flag on the `queue:work` command has been removed. This flag is no longer necessary as the worker runs as a daemon by default.
-
-`queue:work` 명령에서 사용되지 않는 `--daemon` 플래그가 제거되었습니다. 워커가 기본적으로 데몬으로 실행되므로이 ​​플래그는 더 이상 필요하지 않습니다.
 
 ### Resources
 ### Resources
@@ -424,9 +438,9 @@ The `array` session driver data is now persistent for the current request. Previ
 **Likelihood Of Impact: Medium**
 **영향 가능성: 중간**
 
-The `assertSee` and `assertDontSee` assertions on the `TestResponse` class will now automatically escape values. If you are manually escaping any values passed to these assertions you should no longer do so. If you need to assert unescaped values, you may pass `false` as the second argument to the method.
+The `assertSee`, `assertDontSee`, `assertSeeText`, `assertDontSeeText`, `assertSeeInOrder` and `assertSeeTextInOrder` assertions on the `TestResponse` class will now automatically escape values. If you are manually escaping any values passed to these assertions you should no longer do so. If you need to assert unescaped values, you may pass `false` as the second argument to the method.
 
-`TestResponse` 클래스의 `assertSee` 및 `assertDontSee` 검증은 이제 자동으로 값을 이스케이프합니다. 이러한 검증에 전달 된 값을 수동으로 이스케이프 처리하면 더 이상 그렇게하지 않아야합니다. 이스케이프 처리되지 않은 값을 지정해야하는 경우 메소드의 두 번째 인수로 `false`를 전달할 수 있습니다.
+`TestResponse` 클래스의 `assertSee`, `assertDontSee`, `assertSeeText`, `assertDontSeeText`, `assertSeeInOrder` 및 `assertSeeTextInOrder` 검증은 이제 자동으로 값을 이스케이프합니다. 이러한 검증에 전달 된 값을 수동으로 이스케이프 처리하면 더 이상 그렇게하지 않아야합니다. 이스케이프 처리되지 않은 값을 지정해야하는 경우 메소드의 두 번째 인수로 `false`를 전달할 수 있습니다.
 
 <a name="test-response"></a>
 #### The `TestResponse` Class

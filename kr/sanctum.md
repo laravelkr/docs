@@ -50,12 +50,16 @@ Laravel Sanctum provides a featherweight authentication system for SPAs (single 
 ### How It Works
 ### 작동 원리
 
+Laravel Sanctum exists to solve two separate problems.
+
+Laravel Sanctum은 두 가지 문제를 해결하기 위해 존재합니다.
+
 #### API Tokens
 #### API 토큰
 
-Laravel Sanctum exists to solve two separate problems. First, it is a simple package to issue API tokens to your users without the complication of OAuth. This feature is inspired by GitHub "access tokens". For example, imagine the "account settings" of your application has a screen where a user may generate an API token for their account. You may use Sanctum to generate and manage those tokens. These tokens typically have a very long expiration time (years), but may be manually revoked by the user at anytime.
+First, it is a simple package to issue API tokens to your users without the complication of OAuth. This feature is inspired by GitHub "access tokens". For example, imagine the "account settings" of your application has a screen where a user may generate an API token for their account. You may use Sanctum to generate and manage those tokens. These tokens typically have a very long expiration time (years), but may be manually revoked by the user at anytime.
 
-라라벨 Sanctum은 두 가지 별도의 문제를 해결하기 위해서 제작되었습니다. 첫 번째, Sanctum은 OAuth의 복잡함 없이 사용자에게 API 토큰을 발행하는 단순한 패키지입니다. 이 기능은 깃헙 "액세스 토큰(access tokens)"에서 영감을 얻었습니다. 예를 들어서,  "계정 설정(account settings)"에 사용자가 자신의 계정에 대한 API 토큰을 생성할 수 있는 어떤 화면을 상상해 보세요. Sanctum을 사용하여 해당 토큰을 생성하고 관리 할 수 있습니다. 이러한 토큰들은 매우 긴 만료일(몇 년)을 가지고 있지만, 어느 때라도 사용자에 의해서 해지(revoke) 할 수도 있습니다.
+첫 번째, Sanctum은 OAuth의 복잡함 없이 사용자에게 API 토큰을 발행하는 단순한 패키지입니다. 이 기능은 깃헙 "액세스 토큰(access tokens)"에서 영감을 얻었습니다. 예를 들어서,  "계정 설정(account settings)"에 사용자가 자신의 계정에 대한 API 토큰을 생성할 수 있는 어떤 화면을 상상해 보세요. Sanctum을 사용하여 해당 토큰을 생성하고 관리 할 수 있습니다. 이러한 토큰들은 매우 긴 만료일(몇 년)을 가지고 있지만, 어느 때라도 사용자에 의해서 해지(revoke) 할 수도 있습니다.
 
 Laravel Sanctum offers this feature by storing user API tokens in a single database table and authenticating incoming requests via the `Authorization` header which should contain a valid API token.
 
@@ -64,10 +68,6 @@ Laravel Sanctum offers this feature by storing user API tokens in a single datab
 #### SPA Authentication
 #### SPA 인증
 
-> {tip} It is perfectly fine to use Sanctum only for API token authentication or only for SPA authentication. Just because you use Sanctum does not mean you are required to use both features it offers.
-
-> {팁} Sanctum은 API 토큰 인증 또는 SPA 인증에만 사용하는 것이 좋습니다. Sanctum을 사용한다고해서 제공하는 두 기능 모두를 사용해야한다는 의미는 아닙니다.
-
 Second, Sanctum exists to offer a simple way to authenticate single page applications (SPAs) that need to communicate with a Laravel powered API. These SPAs might exist in the same repository as your Laravel application or might be an entirely separate repository, such as a SPA created using Vue CLI.
 
 두번째, Sanctum은 라라벨 기반 API와 통신해야하는 싱글 페이지 애플리케이션(SPAs)을 인증하는 간단한 방법을 제공하기 위해 만들어졌습니다. 이런 SPA는 라라벨 애플리케이션과 같은 저장소(repository)에 있거나, Vue CLI를 사용해 생성 된 SPA처럼 전체가 분리된 저장소에 있을 수도 있습니다.
@@ -75,6 +75,10 @@ Second, Sanctum exists to offer a simple way to authenticate single page applica
 For this feature, Sanctum does not use tokens of any kind. Instead, Sanctum uses Laravel's built-in cookie based session authentication services. This provides the benefits of CSRF protection, session authentication, as well as protects against leakage of the authentication credentials via XSS. Sanctum will only attempt to authenticate using cookies when the incoming request originates from your own SPA frontend.
 
 이 기능을 위해서 Sanctum은 어떤 종류의 토큰도 사용하지 않습니다. 대신, Sanctum은 라라벨에 내장(built-in) 된 쿠키 기반의 세션 인증 서비스를 사용합니다. 이것은 CSRF 보호, 세션 인증이라는 이점을 제공할 뿐만 아니라 XSS를 통한 인증 자격 증명(authentication credentials)의 유출을 방어합니다. Sanctum은 들어오는 요청이 자신의 SPA 프론트엔드에서 시작된 경우에만 쿠키를 사용하여 인증을 시도합니다.
+
+> {tip} It is perfectly fine to use Sanctum only for API token authentication or only for SPA authentication. Just because you use Sanctum does not mean you are required to use both features it offers.
+
+> {tip} Sanctum은 API 토큰 인증에만 사용하거나 SPA 인증에만 사용하는 것이 좋습니다. Sanctum을 사용한다고해서 제공되는 두 기능을 모두 사용해야하는 것은 아닙니다.
 
 <a name="installation"></a>
 ## Installation
@@ -202,14 +206,11 @@ You may "revoke" tokens by deleting them from your database using the `tokens` r
 
 `HasApiTokens` 트레잇이 제공하는 `tokens` 관계(relationship)을 사용하여 데이터베이스에서 삭제함으로서 토큰을 해지합니다.
 
-    // Revoke all tokens...
-    $user->tokens()->delete();
-
-    // Revoke a specific token...
-    $user->tokens()->where('id', $id)->delete();
-
     // 모든 토큰 해지...
-    $user->tokens()->delete();
+    $user->tokens()->delete();    
+    
+    // 사용자의 현재 토큰 해지...
+    $request->user()->currentAccessToken()->delete();    
 
     // 지정된 토큰 해지...
     $user->tokens()->where('id', $id)->delete();
@@ -241,6 +242,10 @@ For this feature, Sanctum does not use tokens of any kind. Instead, Sanctum uses
 First, you should configure which domains your SPA will be making requests from. You may configure these domains using the `stateful` configuration option in your `sanctum` configuration file. This configuration setting determines which domains will maintain "stateful" authentication using Laravel session cookies when making requests to your API.
 
 먼저 SPA가 요청할 도메인을 설정해야 합니다. `sanctum` 설정 파일 안에 `stateful` 설정 옵션을 사용해서 이러한 도메인을 설정합니다. 이 설정 세팅은 어떤 도메인이 API에 요청할 때 라라벨 세션 쿠키를 사용하여 "상태 유지(stateful)" 인증을 유지할 도메인을 결정합니다.
+
+> {note} If you are accessing your application via a URL that includes the port (`127.0.0.1:8000`), you should ensure that you include the port number with the domain.
+
+> {note} 포트 (`127.0.0.1:8000`)가 포함 된 URL을 통해 애플리케이션에 액세스하는 경우 도메인에 포트 번호를 포함해야합니다.
 
 #### Sanctum Middleware
 #### Sanctum 미들웨어
@@ -292,6 +297,10 @@ SPA를 인증하려면 먼저 SPA 로그인 페이지에서 CSRF 보호(protecti
     axios.get('/sanctum/csrf-cookie').then(response => {
         // Login...
     });
+
+During this request Laravel will set an `XSRF-TOKEN` cookie containing the current CSRF token. This token should then be passed in an `X-XSRF-TOKEN` header on subsequent requests, which libraries like Axios and the Angular HttpClient will do automatically for you.
+
+이 요청 중에 Laravel은 현재 CSRF 토큰을 포함하는 `XSRF-TOKEN` 쿠키를 설정합니다. 이 토큰은 후속 요청에서 `X-XSRF-TOKEN` 헤더로 전달되어야하며, Axios 및 Angular HttpClient와 같은 라이브러리가 자동으로 수행합니다.
 
 Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. This `/login` route may be provided by the `laravel/ui` [authentication scaffolding](/docs/{{version}}/authentication#introduction) package.
 
@@ -379,7 +388,7 @@ To get started, create a route that accepts the user's email / username, passwor
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required'
+            'device_name' => 'required',
         ]);
 
         $user = User::where('email', $request->email)->first();

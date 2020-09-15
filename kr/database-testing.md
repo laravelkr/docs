@@ -380,7 +380,7 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
 
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use OrderStatusesTableSeeder;
+    use OrderStatusSeeder;
     use Tests\TestCase;
 
     class ExampleTest extends TestCase
@@ -398,7 +398,7 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
             $this->seed();
 
             // Run a single seeder...
-            $this->seed(OrderStatusesTableSeeder::class);
+            $this->seed(OrderStatusSeeder::class);
 
             // ...
         }
@@ -414,6 +414,7 @@ Laravel provides several database assertions for your [PHPUnit](https://phpunit.
 
 Method  | Description
 ------------- | -------------
+`$this->assertDatabaseCount($table, int $count);`  |  Assert that a table in the database contains the given amount of entries.
 `$this->assertDatabaseHas($table, array $data);`  |  Assert that a table in the database contains the given data.
 `$this->assertDatabaseMissing($table, array $data);`  |  Assert that a table in the database does not contain the given data.
 `$this->assertDeleted($table, array $data);`  |  Assert that the given record has been deleted.
@@ -421,6 +422,7 @@ Method  | Description
 
 메소드 | 설명
 ------------- | -------------
+`$this->assertDatabaseCount($table, int $count);`  |  데이터베이스의 테이블에 주어진 숫자의 항목이 포함되어 있는지 확인하십시오.
 `$this->assertDatabaseHas($table, array $data);`  |  데이터베이스에서 테이블에 주어진 데이터가 존재하는지 확인.
 `$this->assertDatabaseMissing($table, array $data);`  |  데이터베이스에서 테이블에 주어진 데이터가 존재하지 않는 것을 확인.
 `$this->assertDeleted($table, array $data);`  |  주어진 레코드가 삭제되었는지 확인.

@@ -23,6 +23,8 @@
     - [리소스 라우트 이름 지정하기](#restful-naming-resource-routes)
     - [Naming Resource Route Parameters](#restful-naming-resource-route-parameters)
     - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
+    - [Scoping Resource Routes](#restful-scoping-resource-routes)
+    - [리소스 라우트 범위 지정](#restful-scoping-resource-routes)
     - [Localizing Resource URIs](#restful-localizing-resource-uris)
     - [리소스 URI의 지역화(다국어 동사처리)](#restful-localizing-resource-uris)
     - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
@@ -221,7 +223,7 @@ You may register many resource controllers at once by passing an array to the `r
 
     Route::resources([
         'photos' => 'PhotoController',
-        'posts' => 'PostController'
+        'posts' => 'PostController',
     ]);
 
 #### Actions Handled By Resource Controller
@@ -289,7 +291,7 @@ You may register many API resource controllers at once by passing an array to th
 
     Route::apiResources([
         'photos' => 'PhotoController',
-        'posts' => 'PostController'
+        'posts' => 'PostController',
     ]);
 
 To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` switch when executing the `make:controller` command:
@@ -366,6 +368,32 @@ By default, `Route::resource` will create the route parameters for your resource
  위의 예제는 리소스의 `show` 라우트에서 다음의 URI를 생성합니다.
 
     /users/{admin_user}
+
+<a name="restful-scoping-resource-routes"></a>
+### Scoping Resource Routes
+### 리소스 라우트 스코프 지정
+
+Sometimes, when implicitly binding multiple Eloquent models in resource route definitions, you may wish to scope the second Eloquent model such that it must be a child of the first Eloquent model. For example, consider this situation that retrieves a blog post by slug for a specific user:
+
+때로는 리소스 라우트 정의에서 여러 Eloquent 모델을 암시적으로 바인딩 할 때, 두 번째 Eloquent 모델의 스코프를 지정하여 첫 번째 Eloquent 모델의 자식이도록 할 수 있습니다. 예를 들어, 특정 사용자에 대해 슬러그별로 블로그 게시물을 검색하는 다음 상황을 가정해보십시오.
+
+    use App\Http\Controllers\PostsController;
+
+    Route::resource('users.posts', PostsController::class)->scoped();
+
+You may override the default model route keys by passing an array to the `scoped` method:
+
+배열을 `scoped` 메서드에 전달하여 기본 모델 라우트 키를 재정의 할 수 있습니다.
+
+    use App\Http\Controllers\PostsController;
+
+    Route::resource('users.posts', PostsController::class)->scoped([
+        'post' => 'slug',
+    ]);
+
+When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `User` model has a relationship named `posts` (the plural of the route parameter name) which can be used to retrieve the `Post` model.
+
+커스텀 키의 암시적 바인딩을 중첩 라우트 파라메터로 사용할 때 Laravel은 자동으로 쿼리 스코프를 지정하여 부모의 관계 이름을 추측하는 규칙을 사용하여 부모별로 중첩 된 모델을 검색합니다. 이 경우 `User`모델에는 `Post`모델을 검색하는 데 사용할 수있는 `posts`(라우트 매개 변수 이름의 복수)라는 관계가있는 것으로 가정합니다.
 
 <a name="restful-localizing-resource-uris"></a>
 ### Localizing Resource URIs

@@ -183,9 +183,9 @@ As noted above, when retrieving attributes that are listed in your `$dates` prop
 #### Date Formats
 #### Date Formats
 
-By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customize the timestamp format, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database, as well as their format when the model is serialized to an array or JSON:
+By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customize the timestamp format, set the `$dateFormat` property on your model. This property determines how date attributes are stored in the database:
 
-기본적으로, 타임스탬프 형식은 `'Y-m-d H:i:s'` 입니다. 타임 스탬프 형식을 별도로 지정할 필요가 있다면, 모델에서 `$dateFormat` 속성을 설정하면 됩니다. 이 속성은 데이터베이스에서 날짜 속성이 어떻게 저장되어야 하는지, 그리고 모델이 배열 또는 JSON 형태로 serialize 될 때의 형식을 결정합니다.
+기본적으로, 타임스탬프 형식은 `'Y-m-d H:i:s'` 입니다. 타임 스탬프 형식을 별도로 지정할 필요가 있다면, 모델에서 `$dateFormat` 속성을 설정하면 됩니다. 이 속성은 데이터베이스에서 날짜 속성이 어떻게 저장되어야 하는지 결정합니다.
 
     <?php
 
@@ -243,9 +243,9 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
         //
     }
 
-> {note} Attributes that are `null` will not be cast.
+> {note} Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
 
-> {note} `null` 인 속성은 캐스트되지 않습니다.
+> {note} `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트 (또는 속성)를 정의해서는 안됩니다.
 
 <a name="custom-casts"></a>
 ### Custom Casts
@@ -255,7 +255,7 @@ Laravel has a variety of built-in, helpful cast types; however, you may occasion
 
 라라벨은 다양한 캐스트 타입 내장하고 있습니다 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다.. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
 
-Classes that implement this interface must define a `get` and `set` methods. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
 
 이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다. 
 
@@ -336,6 +336,7 @@ As an example, we will define a custom cast class that casts multiple model valu
 
     use App\Address;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+    use InvalidArgumentException;
 
     class Address implements CastsAttributes
     {
@@ -367,6 +368,10 @@ As an example, we will define a custom cast class that casts multiple model valu
          */
         public function set($model, $key, $value, $attributes)
         {
+            if (! $value instanceof Address) {
+                throw new InvalidArgumentException('The given value is not an Address instance.');
+            }
+
             return [
                 'address_line_one' => $value->lineOne,
                 'address_line_two' => $value->lineTwo,
@@ -383,6 +388,10 @@ When casting to value objects, any changes made to the value object will automat
     $user->address->lineOne = 'Updated Address Value';
 
     $user->save();
+
+> {tip} If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
+
+> {tip} 값 객체를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려면 값 객체에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야합니다.
 
 #### Inbound Casting
 #### 인바운드 캐스팅
@@ -429,7 +438,7 @@ Occasionally, you may need to write a custom cast that only transforms values th
         public function set($model, $key, $value, $attributes)
         {
             return is_null($this->algorithm)
-                        ? bcrypt($value);
+                        ? bcrypt($value)
                         : hash($this->algorithm, $value);
         }
     }
@@ -458,7 +467,7 @@ Instead of attaching the custom cast to your model, you may alternatively attach
 모델에 커스텀 캐스트를 부착하는 대신 `Illuminate\Contracts\Database\Eloquent\Castable` 인터페이스를 구현하는 클래스를 부착 할 수도 있습니다.
 
     protected $casts = [
-        'options' => \App\Address::class,
+        'address' => \App\Address::class,
     ];
 
 Objects that implement the `Castable` interface must define a `castUsing` method that returns the class name of the custom caster class that is responsible for casting to and from the `Castable` class:
@@ -490,7 +499,7 @@ When using `Castable` classes, you may still provide arguments in the `$casts` d
 `Castable` 클래스를 사용할 때 `$casts` 정의에서 인수를 제공 할 수 있습니다. 인수는 캐스터 클래스로 직접 전달됩니다.
 
     protected $casts = [
-        'options' => \App\Address::class.':argument',
+        'address' => \App\Address::class.':argument',
     ];
 
 <a name="array-and-json-casting"></a>
@@ -576,5 +585,5 @@ The `last_posted_at` attribute on the results of this query will be a raw string
         'last_posted_at' => Post::selectRaw('MAX(created_at)')
                 ->whereColumn('user_id', 'users.id')
     ])->withCasts([
-        'last_posted_at' => 'date'
+        'last_posted_at' => 'datetime'
     ])->get();

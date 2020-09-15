@@ -11,8 +11,12 @@
     - [프론트 엔드 빠른시작](#frontend-quickstart)
     - [Deploying Passport](#deploying-passport)
     - [Passport 배포하기](#deploying-passport)
+    - [Migration Customization](#migration-customization)
+    - [마이그레이션 커스터마이징](#migration-customization)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
+    - [Client Secret Hashing](#client-secret-hashing)
+    - [클라이언트 비밀키 해싱](#client-secret-hashing)
     - [Token Lifetimes](#token-lifetimes)
     - [토큰 지속시간](#token-lifetimes)
     - [Overriding Default Models](#overriding-default-models)
@@ -25,6 +29,8 @@
     - [토큰 요청](#requesting-tokens)
     - [Refreshing Tokens](#refreshing-tokens)
     - [토큰 갱신하기](#refreshing-tokens)
+    - [Revoking Tokens](#revoking-tokens)
+    - [토큰 취소](#revoking-tokens)
     - [Purging Tokens](#purging-tokens)
     - [토큰 제거](#purging-tokens)
 - [Authorization Code Grant with PKCE](#code-grant-pkce)
@@ -41,6 +47,8 @@
     - [토큰 요청](#requesting-password-grant-tokens)
     - [Requesting All Scopes](#requesting-all-scopes)
     - [모든 범위에 대하여 요청하기](#requesting-all-scopes)
+    - [Customizing The User Provider](#customizing-the-user-provider)
+    - [사용자 공급자 커스터마이징](#customizing-the-user-provider)
     - [Customizing The Username Field](#customizing-the-username-field)
     - [사용자 이름 필드 사용자 정의하기](#customizing-the-username-field)
     - [Customizing The Password Validation](#customizing-the-password-validation)
@@ -124,9 +132,13 @@ Next, you should run the `passport:install` command. This command will create th
 
     php artisan passport:install
 
-After running this command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+> {tip} If you would like to use UUIDs as the primary key value of the Passport `Client` model instead of auto-incrementing integers, please install Passport using [the `uuids` option](#client-uuids).
 
-이 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다.
+> {tip} 자동으로 증가하는 정수 대신 Passport `Client` 모델의 기본 키 값으로 UUID를 사용하려면 [`uuids` 옵션](#client-uuids)를 사용하여 Passport를 설치하십시오.
+
+After running the `passport:install` command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+
+`passport:install` 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다.
 
     <?php
 
@@ -193,12 +205,16 @@ Finally, in your `config/auth.php` configuration file, you should set the `drive
         ],
     ],
 
-### Migration Customization
-### 마이그레이션 커스터마이징
 
-If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using `php artisan vendor:publish --tag=passport-migrations`.
+<a name="client-uuids"></a>
+#### Client UUIDs
+#### Client UUIDs
 
-Passport의 기본 마이그레이션을 사용하지 않으려면, `AppServiceProvider` 의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야합니다. `php artisan vendor:publish --tag=passport-migrations` 를 사용하여 기본 마이그레이션을 가져올 수 있습니다.
+You may run the `passport:install` command with the `--uuids` option present. This flag will instruct Passport that you would like to use UUIDs instead of auto-incrementing integers as the Passport `Client` model's primary key values. After running the `passport:install` command with the `--uuids` option, you will be given additional instructions regarding disabling Passport's default migrations:
+
+`--uuids` 옵션이 있는 상태에서 `passport:install` 명령을 실행할 수 있습니다. 이 플래그는 Passport `Client` 모델의 기본 키 값으로 정수 자동 증가 대신 UUID를 사용하도록 Passport에 지시합니다. `--uuids` 옵션과 함께 `passport:install` 명령을 실행하면 Passport의 기본 마이그레이션 비활성화에 대한 추가 지침이 제공됩니다.
+
+    php artisan passport:install --uuids
 
 By default, Passport uses an integer column to store the `user_id`. If your application uses a different column type to identify users (for example: UUIDs), you should modify the default Passport migrations after publishing them.
 
@@ -294,9 +310,30 @@ Additionally, you may publish Passport's configuration file using `php artisan v
     <public key here>
     -----END PUBLIC KEY-----"
 
+### Migration Customization
+### 마이그레이션 커스터마이징
+
+If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `AppServiceProvider`. You may export the default migrations using `php artisan vendor:publish --tag=passport-migrations`.
+
+Passport의 기본 마이그레이션을 사용하지 않으려면, `AppServiceProvider` 의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야합니다. `php artisan vendor:publish --tag=passport-migrations` 를 사용하여 기본 마이그레이션을 가져올 수 있습니다.
+
 <a name="configuration"></a>
 ## Configuration
 ## 설정하기
+
+<a name="client-secret-hashing"></a>
+### Client Secret Hashing
+### 클라이언트 비밀키 해싱
+
+If you would like your client's secrets to be hashed when stored in your database, you should call the `Passport::hashClientSecrets` method in the `boot` method of your `AppServiceProvider`:
+
+클라이언트의 비밀키가 데이터베이스에 저장 될 때 해시되도록하려면 `AppServiceProvider`의 `boot` 메소드에서 `Passport::hashClientSecrets` 메소드를 호출해야합니다.
+
+    Passport::hashClientSecrets();
+
+Once enabled, all of your client secrets will only be shown one time when your client is created. Since the plain-text client secret value is never stored in the database, it is not possible to recover if lost.
+
+활성화되면 모든 클라이언트 비밀키가 클라이언트가 생성 될 때 한 번만 표시됩니다. 일반 텍스트 클라이언트 비밀키은 데이터베이스에 저장되지 않으므로 손실 된 경우 복구 할 수 없습니다.
 
 <a name="token-lifetimes"></a>
 ### Token Lifetimes
@@ -323,6 +360,10 @@ By default, Passport issues long-lived access tokens that expire after one year.
 
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
     }
+
+> {note} The `expires_at` columns on the Passport database tables are read-only and for display purposes only. When issuing tokens, Passport stores the expiration information within the signed and encrypted tokens. If you need to invalidate a token you should revoke it.
+
+> {note} Passport 데이터베이스 테이블의 `expires_at` 열은 읽기 전용이며 표시 용입니다. 토큰을 발행 할 때 Passport는 서명되고 암호화 된 토큰 내에 만료 정보를 저장합니다. 토큰을 무효화해야하는 경우 취소해야합니다.
 
 <a name="overriding-default-models"></a>
 ### Overriding Default Models
@@ -393,7 +434,7 @@ The simplest way to create a client is using the `passport:client` Artisan comma
 **Redirect URLs**
 **URL 리다이렉션**
 
-If you would like to whitelist multiple redirect URLs for your client, you may specify them using a comma-delimited list when prompted for the URL by the `passport:client` command:
+If you would like to allow multiple redirect URLs for your client, you may specify them using a comma-delimited list when prompted for the URL by the `passport:client` command:
 
 클라이언트에 여러 개의 URL 리디렉션을 허용하려면 `passport:client` 명령으로 URL을 입력하라는 메시지가 표시됐을 때 쉼표로 구분 된 목록을 입력하여 지정할 수 있습니다.
 
@@ -595,6 +636,34 @@ This `/oauth/token` route will return a JSON response containing `access_token`,
 
 > {tip} `/oauth/authorize` 라우트와 같이 `/oauth/token` 라우트는 `Passport::routes` 메소드에 의해서 정의됩니다. 이 라우트를 수동으로 등록할 필요가 없습니다. 기본적으로 이 경로는 `ThrottleRequests` 미들웨어의 설정을 사용해여 제한합니다.
 
+#### JSON API
+#### JSON API
+
+Passport also includes a JSON API for managing authorized access tokens. You may pair this with your own frontend to offer your users a dashboard for managing access tokens. For convenience, we'll use [Axios](https://github.com/mzabriskie/axios) to demonstrate making HTTP requests to the endpoints. The JSON API is guarded by the `web` and `auth` middleware; therefore, it may only be called from your own application.
+
+Passport에는 승인 된 액세스 토큰을 관리하기위한 JSON API도 포함되어 있습니다. 이를 자체 프런트엔드와 페어링하여 사용자에게 액세스 토큰 관리를 위한 대시 보드를 제공 할 수 있습니다. 편의를 위해 [Axios](https://github.com/mzabriskie/axios)를 사용하여 엔드포인트에 대한 HTTP 요청을 시연합니다. JSON API는 `web` 및 `auth` 미들웨어에 의해 보호됩니다. 따라서 자신의 애플리케이션에서만 호출 할 수 있습니다.
+
+#### `GET /oauth/tokens`
+#### `GET /oauth/tokens`
+
+This route returns all of the authorized access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they can revoke them:
+
+이 경로는 인증 된 사용자가 생성 한 모든 승인 된 액세스 토큰을 반환합니다. 이는 주로 사용자의 모든 토큰을 나열하여 취소 할 수 있도록하는 데 유용합니다.
+
+    axios.get('/oauth/tokens')
+        .then(response => {
+            console.log(response.data);
+        });
+
+#### `DELETE /oauth/tokens/{token-id}`
+#### `DELETE /oauth/tokens/{token-id}`
+
+This route may be used to revoke authorized access tokens and their related refresh tokens:
+
+이 경로는 승인 된 액세스 토큰 및 관련 새로 고침 토큰을 취소하는 데 사용할 수 있습니다.
+
+    axios.delete('/oauth/tokens/' + tokenId);
+
 <a name="refreshing-tokens"></a>
 ### Refreshing Tokens
 ### 토큰 갱신하기
@@ -621,6 +690,23 @@ This `/oauth/token` route will return a JSON response containing `access_token`,
 
 `/oauth/token` 라우트는 `access_token`, `refresh_token`, 그리고 `expires_in`을 포함하는 JSON 응답-response를 반환합니다. `expires_in` 속성은 엑세스 토큰이 만료되기까지의 (초)를 가지고 있습니다.
 
+<a name="revoking-tokens"></a>
+### Revoking Tokens
+### 토큰 취소
+
+You may revoke a token by using the `revokeAccessToken` method on the `TokenRepository`. You may revoke a token's refresh tokens using the `revokeRefreshTokensByAccessTokenId` method on the `RefreshTokenRepository`:
+
+`TokenRepository`에서 `revokeAccessToken`메소드를 사용하여 토큰을 취소 할 수 있습니다. `RefreshTokenRepository`에서 `revokeRefreshTokensByAccessTokenId`메소드를 사용하여 토큰의 새로 고침 토큰을 취소 할 수 있습니다.
+
+    $tokenRepository = app('Laravel\Passport\TokenRepository');
+    $refreshTokenRepository = app('Laravel\Passport\RefreshTokenRepository');
+
+    // Revoke an access token...
+    $tokenRepository->revokeAccessToken($tokenId);
+
+    // Revoke all of the token's refresh tokens...
+    $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+
 <a name="purging-tokens"></a>
 ### Purging Tokens
 ### 토큰 제거
@@ -633,7 +719,7 @@ When tokens have been revoked or expired, you might want to purge them from the 
     php artisan passport:purge
 
     # Only purge revoked tokens and auth codes...
-    php artisan passport:purge --revoked 
+    php artisan passport:purge --revoked
 
     # Only purge expired tokens and auth codes...
     php artisan passport:purge --expired
@@ -820,6 +906,14 @@ When using the password grant or client credentials grant, you may wish to autho
             'scope' => '*',
         ],
     ]);
+
+<a name="customizing-the-user-provider"></a>
+### Customizing The User Provider
+### 사용자 공급자 커스터마이징
+
+If your application uses more than one [authentication user provider](/docs/{{version}}/authentication#introduction), you may specify which user provider the password grant client uses by providing a `--provider` option when creating the client via the `artisan passport:client --password` command. The given provider name should match a valid provider defined in your `config/auth.php` configuration file. You can then [protect your route using middleware](#via-middleware) to ensure that only users from the guard's specified provider are authorized.
+
+애플리케이션에서 둘 이상의 [인증 사용자 공급자](/docs/{{version}}/authentication#introduction)를 사용하는 경우 암호 부여 클라이언트가 사용할 사용자 공급자를 지정할 때 `--provider` 옵션을 제공하여 `artisan passport:client --password` 명령을 통해 클라이언트. 제공된 공급자 이름은 `config/auth.php` 구성 파일에 정의 된 유효한 공급자와 일치해야합니다. 그런 다음 [미들웨어를 사용하여 경로를 보호](#via-middleware)하여 가드가 지정한 공급자의 사용자 만 인증되도록 할 수 있습니다.
 
 <a name="customizing-the-username-field"></a>
 ### Customizing The Username Field
@@ -1010,9 +1104,16 @@ Before your application can issue personal access tokens, you will need to creat
 
     php artisan passport:client --personal
 
-If you have already defined a personal access client, you may instruct Passport to use it using the `personalAccessClientId` method. Typically, this method should be called from the `boot` method of your `AuthServiceProvider`:
+After creating your personal access client, place the client's ID and plain-text secret value in your application's `.env` file:
 
-이미 개인 액세스 클라이언트를 정의한 경우 Passport가 `personalAccessClientId` 메소드를 사용하여 이것를 사용 할 수 있습니다. 일반적으로 이 메소드는 `AuthServiceProvider` 의 `boot` 메소드에서 호출되어야합니다.
+개인 액세스 클라이언트를 만든 후 클라이언트의 ID와 일반 텍스트 비밀 값을 애플리케이션의 `.env` 파일에 추가합니다.
+
+    PASSPORT_PERSONAL_ACCESS_CLIENT_ID=client-id-value
+    PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET=unhashed-client-secret-value
+
+Next, you should register these values by placing the following calls to `Passport::personalAccessClientId` and `Passport::personalAccessClientSecret` within the `boot` method of your `AuthServiceProvider`:
+
+다음으로, `AuthServiceProvider`의 `boot` 메소드 내에서 `Passport::personalAccessClientId` 및 `Passport::personalAccessClientSecret`을 다음과 같이 호출하여 이러한 값을 등록해야합니다.
 
     /**
      * Register any authentication / authorization services.
@@ -1025,7 +1126,13 @@ If you have already defined a personal access client, you may instruct Passport 
 
         Passport::routes();
 
-        Passport::personalAccessClientId('client-id');
+        Passport::personalAccessClientId(
+            config('passport.personal_access_client.id')
+        );
+
+        Passport::personalAccessClientSecret(
+            config('passport.personal_access_client.secret')
+        );
     }
 
 <a name="managing-personal-access-tokens"></a>
@@ -1074,9 +1181,9 @@ This route returns all of the [scopes](#token-scopes) defined for your applicati
 #### `GET /oauth/personal-access-tokens`
 #### `GET /oauth/personal-access-tokens`
 
-This route returns all of the personal access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they may edit or delete them:
+This route returns all of the personal access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they may edit or revoke them:
 
-이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 삭제할 수 있습니다.
+이 라우트는 인증된 사용자가 생성한 모든 개인용 엑세스 토큰을 반환합니다. 모든 사용자 토큰을 목록을 확인하는데 유용하여, 주로 이를 수정하거나, 제거할 수 있습니다.
 
     axios.get('/oauth/personal-access-tokens')
         .then(response => {
@@ -1106,9 +1213,9 @@ This route creates new personal access tokens. It requires two pieces of data: t
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
 #### `DELETE /oauth/personal-access-tokens/{token-id}`
 
-This route may be used to delete personal access tokens:
+This route may be used to revoke personal access tokens:
 
-이 라우트는 개인용 엑세스 토큰을 삭제하는데 사용됩니다.
+이 라우트는 개인용 엑세스 토큰을 제거하는데 사용됩니다.
 
     axios.delete('/oauth/personal-access-tokens/' + tokenId);
 
@@ -1127,6 +1234,35 @@ Passport는 유입되는 request-요청에 대해서 엑세스 토큰을 검증�
     Route::get('/user', function () {
         //
     })->middleware('auth:api');
+
+#### Multiple Authentication Guards
+#### 다중 인증 가드
+
+If your application authenticates different types of users that perhaps use entirely different Eloquent models, you will likely need to define a guard configuration for each user provider type in your application. This allows you to protect requests intended for specific user providers. For example, given the following guard configuration the `config/auth.php` configuration file:
+
+애플리케이션이 완전히 다른 Eloquent 모델을 사용하는 여러 유형의 사용자가 인증하는 경우 애플리케이션의 각 사용자 공급자 유형에 대한 가드 설정을 정의해야 할 수 있습니다. 이를 통해 특정 사용자 공급자를 위한 요청을 보호 할 수 있습니다. 예를 들어 다음 가드 설정의 경우 `config/auth.php` 설정 파일이 있습니다.
+
+    'api' => [
+        'driver' => 'passport',
+        'provider' => 'users',
+    ],
+
+    'api-customers' => [
+        'driver' => 'passport',
+        'provider' => 'customers',
+    ],
+
+The following route will utilize the `api-customers` guard, which uses the `customers` user provider, to authenticate incoming requests:
+
+다음 경로는 `customers` 사용자 공급자를 사용하는 `api-customers` 가드를 사용하여 들어오는 요청을 인증합니다.
+
+    Route::get('/customer', function () {
+        //
+    })->middleware('auth:api-customers');
+
+> {tip} For more information on using multiple user providers with Passport, please consult the [password grant documentation](#customizing-the-user-provider).
+
+> {tip} Passport에서 여러 사용자 공급자를 사용하는 방법에 대한 자세한 내용은 [암호 부여 문서](#customizing-the-user-provider)를 참조하십시오.
 
 <a name="passing-the-access-token"></a>
 ### Passing The Access Token
@@ -1308,9 +1444,9 @@ Typically, if you want to consume your API from your JavaScript application, you
 
 > {note} `CreateFreshApiToken` 미들웨어가 미들웨어 스택에 나열된 마지막 미들웨어인지 확인해야합니다.
 
-This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. Now, you may make requests to your application's API without explicitly passing an access token:
+This Passport middleware will attach a `laravel_token` cookie to your outgoing responses. This cookie contains an encrypted JWT that Passport will use to authenticate API requests from your JavaScript application. The JWT has a lifetime equal to your `session.lifetime` configuration value. Now, you may make requests to your application's API without explicitly passing an access token:
 
-이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다.
+이 Passport 미들웨어는 `laravel_token` 쿠키를 반환되는 응답-response에 덧붙입니다. 이 쿠키는 Passport 가 여러분의 자바스크립트 애플리케이션에서 인증 API 요청-request에서 사용할 암호화된 JWT를 가지고 있습니다. JWT의 수명은`session.lifetime` 설정 값과 같습니다. 이제 액세스 토큰을 명시적으로 전달하지 않고도 여러분의 애플리케이션에 API에 요청-request를 만들 수 있습니다.
 
     axios.get('/api/user')
         .then(response => {

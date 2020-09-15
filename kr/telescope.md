@@ -11,8 +11,10 @@
     - [데이터 정리](#data-pruning)
     - [Migration Customization](#migration-customization)
     - [사용자 정의 마이그레이션](#migration-customization)
-- [Dashboard Authorization](#dashboard-authorization)
-- [Dashboard 권한 부여](#dashboard-authorization)
+    - [Dashboard Authorization](#dashboard-authorization)
+    - [Dashboard 권한 부여](#dashboard-authorization)
+- [Upgrading Telescope](#upgrading-telescope)
+- [Telescope 업그레이드](#upgrading-telescope)
 - [Filtering](#filtering)
 - [Filtering](#filtering)
     - [Entries](#filtering-entries)
@@ -53,6 +55,8 @@
     - [Request Watcher](#request-watcher)
     - [Schedule Watcher](#schedule-watcher)
     - [Schedule Watcher](#schedule-watcher)
+- [Displaying User Avatars](#displaying-user-avatars)
+- [사용자 아바타 표시](#displaying-user-avatars)
 
 <a name="introduction"></a>
 ## Introduction
@@ -63,7 +67,7 @@ Laravel Telescope is an elegant debug assistant for the Laravel framework. Teles
 라라벨 Telescope는 라라벨을 위한 우아한 디버깅 도구입니다. Telescope는 애플리케이션에 들어오는 요청, 예외, 로그 항목, 데이터베이스 쿼리, queue-큐 작업, 메일, 알림, 캐시 작업, 스케줄링 작업, 변수 덤프 등에 대한 분석을 제공합니다. Telescope는 라라벨 로컬 개발 환경에 훌륭한 도우미 역할을 수행합니다.
 
 <p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1539110860/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600">
+<img src="https://laravel.com/assets/img/examples/Screen_Shot_2018-10-09_at_1.47.23_PM.png" width="600">
 </p>
 
 <a name="installation"></a>
@@ -84,15 +88,6 @@ Telescope을 설치 한 후 `telescope:install` 아티즌 명령을 사용하여
     php artisan telescope:install
 
     php artisan migrate
-
-#### Updating Telescope
-#### Telescope 업데이트
-
-When updating Telescope, you should re-publish Telescope's assets:
-
-Telescope를 업데이트 할 때 Telescope의 assets을 다시 퍼블리싱해야합니다.
-
-    php artisan telescope:publish
 
 ### Installing Only In Specific Environments
 ### 특정 환경에서만 설치
@@ -172,8 +167,8 @@ By default, all entries older than 24 hours will be pruned. You may use the `hou
     $schedule->command('telescope:prune --hours=48')->daily();
 
 <a name="dashboard-authorization"></a>
-## Dashboard Authorization
-## Dashboard 권한 부여
+### Dashboard Authorization
+### Dashboard 권한 부여
 
 Telescope exposes a dashboard at `/telescope`. By default, you will only be able to access this dashboard in the `local` environment. Within your `app/Providers/TelescopeServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Telescope in **non-local** environments. You are free to modify this gate as needed to restrict access to your Telescope installation:
 
@@ -193,6 +188,36 @@ Telescope 대쉬보드는 `/telescope` 으로 접속 가능하며, 기본적으�
                 'taylor@laravel.com',
             ]);
         });
+    }
+
+> {note} You should ensure you change your `APP_ENV` environment variable to `production` in your production environment. Otherwise, your Telescope installation will be publicly available.
+
+> {note} 프로덕션 환경에서 `APP_ENV` 환경 변수를 `production`으로 변경해야합니다. 그렇지 않으면 Telescope가 공개적으로 설치됩니다.
+
+<a name="upgrading-telescope"></a>
+## Upgrading Telescope
+## Telescope 업그레이드
+
+When upgrading to a new major version of Telescope, it's important that you carefully review [the upgrade guide](https://github.com/laravel/telescope/blob/master/UPGRADE.md).
+
+새로운 주요 버전의 Telescope로 업그레이드 할 때 [업그레이드 가이드](https://github.com/laravel/telescope/blob/master/UPGRADE.md)를 주의 깊게 검토하는 것이 중요합니다.
+
+In addition, when upgrading to any new Telescope version, you should re-publish Telescope's assets:
+
+또한 새로운 Telescope 버전으로 업그레이드 할 때 Telescope의 자산-assets을 다시 게시해야합니다.
+
+    php artisan telescope:publish
+
+To keep the assets up-to-date and avoid issues in future updates, you may add the `telescope:publish` command to the `post-update-cmd` scripts in your application's `composer.json` file:
+
+자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 애플리케이션의 `composer.json` 파일에있는 `post-update-cmd` 스크립트에 `telescope:publish` 명령을 추가하면 됩니다.
+
+    {
+        "scripts": {
+            "post-update-cmd": [
+                "@php artisan telescope:publish --ansi"
+            ]
+        }
     }
 
 <a name="filtering"></a>
@@ -473,3 +498,26 @@ request 와처는 유입되는 request, 헤더, 세션, 그리고 응답 데이�
 The schedule watcher records the command and output of any scheduled tasks run by your application.
 
 스케줄러 와처는 애플리케이션에서 실행되는 스케줄링 작업의 명령어와 그 결과를 기록합니다.
+
+<a name="displaying-user-avatars"></a>
+## Displaying User Avatars
+## 사용자 아바타 표시
+
+The Telescope dashboard displays the user avatar for the user that was logged in when a given entry was saved. By default, Telescope will retrieve avatars using the Gravatar web service. However, you may customize the avatar URL by registering a callback in your `TelescopeServiceProvider`. The callback will receive the user's ID and email address and should return the user's avatar image URL:
+
+Telescope 대시보드에는 주어진 항목이 저장 될 때 로그인 한 사용자의 사용자 아바타가 표시됩니다. 기본적으로 Telescope는 Gravatar 웹 서비스를 사용하여 아바타를 검색합니다. 그러나 `TelescopeServiceProvider`에 콜백을 등록하여 아바타 URL을 맞춤 설정할 수 있습니다. 콜백은 사용자의 ID와 이메일 주소를 수신하고 사용자의 아바타 이미지 URL을 반환해야합니다.
+
+    use App\User;
+    use Laravel\Telescope\Telescope;
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Telescope::avatar(function ($id, $email) {
+            return '/avatars/'.User::find($id)->avatar_path;
+        });
+    }

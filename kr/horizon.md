@@ -34,10 +34,6 @@ All of your worker configuration is stored in a single, simple configuration fil
 
 모든 worker의 설정은 하나의 간단한 설정 파일에 저장되기 때문에, 팀원 모두와 협업 할 수 있도록 소스 컨트롤에 보관 할 수 있습니다.
 
-<p align="center">
-<img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1537195039/photos/Test.png" width="600" height="481">
-</p>
-
 <a name="installation"></a>
 ## Installation
 ## 설치하기
@@ -149,11 +145,23 @@ When upgrading to a new major version of Horizon, it's important that you carefu
 
 Horizon을 새로운 메이저 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/horizon/blob/master/UPGRADE.md)를 자세히 검토하는 것이 중요합니다.
 
-In addition, you should re-publish Horizon's assets:
+In addition, when upgrading to any new Horizon version, you should re-publish Horizon's assets:
 
-또한 Horizon의 자산-asssets을 다시 게시해야합니다.
+또한 새 Horizon 버전으로 업그레이드 할 때 Horizon 자산-asssets을 다시 게시해야합니다.
 
     php artisan horizon:publish
+
+To keep the assets up-to-date and avoid issues in future updates, you may add the command to the `post-update-cmd` scripts in your `composer.json` file:
+
+자산-asssets을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 `composer.json` 파일의 `post-update-cmd` 스크립트에 명령을 추가 할 수 있습니다.
+
+    {
+        "scripts": {
+            "post-update-cmd": [
+                "@php artisan horizon:publish --ansi"
+            ]
+        }
+    }
 
 <a name="running-horizon"></a>
 ## Running Horizon
@@ -349,6 +357,7 @@ You may configure how many seconds are considered a "long wait" within your `con
 
     'waits' => [
         'redis:default' => 60,
+        'redis:critical,high' => 90,
     ],
 
 <a name="metrics"></a>

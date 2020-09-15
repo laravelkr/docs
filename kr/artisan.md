@@ -101,8 +101,8 @@ Tinker 는 어떤 아티즌 명령어들이 쉘(shell) 에서 구동할 수 있�
         // App\Console\Commands\ExampleCommand::class,
     ],
 
-#### Alias Blacklist
-#### 별칭 블랙리스트
+#### Classes That Should Not Be Aliased
+#### 별칭-Aliased 처리하지 않는 클래스
 
 Typically, Tinker automatically aliases classes as you require them in Tinker. However, you may wish to never alias some classes. You may accomplish this by listing the classes in the `dont_alias` array of your `tinker.php` configuration file:
 

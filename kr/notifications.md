@@ -92,9 +92,9 @@
 ## Introduction
 ## 시작하기
 
-In addition to support for [sending email](/docs/{{version}}/mail), Laravel provides support for sending notifications across a variety of delivery channels, including mail, SMS (via [Nexmo](https://www.nexmo.com/)), and [Slack](https://slack.com). Notifications may also be stored in a database so they may be displayed in your web interface.
+In addition to support for [sending email](/docs/{{version}}/mail), Laravel provides support for sending notifications across a variety of delivery channels, including mail, SMS (via [Vonage](https://www.vonage.com/communications-apis/), formerly known as Nexmo), and [Slack](https://slack.com). Notifications may also be stored in a database so they may be displayed in your web interface.
 
-[이메일 발송](/docs/{{version}}/mail)기능을 지원하는 것에 더해, 라라벨은 이메일을 포함해 SMS([Nexmo](https://www.nexmo.com/)를 통해서 제공), [슬랙](https://slack.com)등  다양한 드라이버 채널을 통해서 알림을 발송하는 기능을 제공합니다.
+[이메일 발송](/docs/{{version}}/mail)기능을 지원하는 것에 더해, 라라벨은 이메일을 포함해 SMS([Vonage](https://www.vonage.com/communications-apis/)를 통해서 제공, 이전 이름 Nexmo), [슬랙](https://slack.com)등  다양한 드라이버 채널을 통해서 알림을 발송하는 기능을 제공합니다.
 
 Typically, notifications should be short, informational messages that notify users of something that occurred in your application. For example, if you are writing a billing application, you might send an "Invoice Paid" notification to your users via the email and SMS channels.
 
@@ -228,13 +228,33 @@ If you would like to delay the delivery of the notification, you may chain the `
 
     $user->notify((new InvoicePaid($invoice))->delay($when));
 
+#### Customizing Notification Channel Queues
+#### 알림 채널 대기열 커스터마이징
+
+If you would like to specify a specific queue that should be used for each notification channel supported by the notification, you may define a `viaQueues` method on your notification. This method should return an array of channel name / queue name pairs:
+
+알림이 지원하는 각 알림 채널에 사용해야하는 특정 대기열을 지정하려면 알림에 `viaQueues` 메소드를 정의 할 수 있습니다. 이 메서드는 채널 이름 / 큐 이름 쌍의 배열을 반환해야합니다.
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     *
+     * @return array
+     */
+    public function viaQueues()
+    {
+        return [
+            'mail' => 'mail-queue',
+            'slack' => 'slack-queue',
+        ];
+    }
+
 <a name="on-demand-notifications"></a>
 ### On-Demand Notifications
 ### 필요시 대상을 지정한 Notifications
 
-Sometimes you may need to send a notification to someone who is not stored as a "user" of your application. Using the `Notification::route` method, you may specify ad-hoc notification routing information before sending the notification:
+Sometimes you may need to send a notification to someone who is not stored as a "user" of your application. Using the `Notification::route` facade method, you may specify ad-hoc notification routing information before sending the notification:
 
-때로는 애플리케이션의 "사용자(User)"가 아닌 특정 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 메소드를 사용하여, 알림이 전달될 누군가의 정보를 지정할 수 있습니다.
+때로는 애플리케이션의 "사용자(User)"가 아닌 특정 누군가에게 알림을 보내고자 할 수도 있습니다. `Notification::route` 파사드 메소드를 사용하여, 알림이 전달될 누군가의 정보를 지정할 수 있습니다.
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('nexmo', '5555555555')
@@ -304,9 +324,27 @@ Instead of defining the "lines" of text in the notification class, you may use t
         );
     }
 
-In addition, you may return a [mailable object](/docs/{{version}}/mail) from the `toMail` method:
+You may specify a plain-text view for the mail message by passing the view name as the second element of an array that is given to the `view` method of the `MailMessage`:
 
-이에 더해서, `toMail` 메소드에서 [mailable 객체](/docs/{{version}}/mail)를 반환할 수도 있습니다.
+`MailMessage`의 `view` 메소드에 제공되는 배열의 두 번째 요소로 뷰 이름을 전달하여 메일 메시지에 대한 일반 텍스트 뷰를 지정할 수 있습니다.
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)->view(
+            ['emails.name.html', 'emails.name.plain'], 
+            ['invoice' => $this->invoice]
+        );
+    }
+
+In addition, you may return a full [mailable object](/docs/{{version}}/mail) from the `toMail` method:
+
+이에 더해서, `toMail` 메소드에서 전체 [mailable 객체](/docs/{{version}}/mail)를 반환할 수도 있습니다.
 
     use App\Mail\InvoicePaid as Mailable;
 
@@ -318,7 +356,7 @@ In addition, you may return a [mailable object](/docs/{{version}}/mail) from the
      */
     public function toMail($notifiable)
     {
-        return (new Mailable($this->invoice))->to($this->user->email);
+        return (new Mailable($this->invoice))->to($notifiable->email);
     }
 
 <a name="error-messages"></a>
@@ -991,9 +1029,9 @@ Before you can send notifications via Slack, you must install the notification c
 
     composer require laravel/slack-notification-channel
 
-You will also need to configure an ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
+You will also need to configure an ["Incoming Webhook"](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) integration for your Slack team. This integration will provide you with a URL you may use when [routing Slack notifications](#routing-slack-notifications).
 
-슬랙 팀에서 ["Incoming Webhook"](https://api.slack.com/incoming-webhooks) intergration을 설정해야합니다. 이 intergration은 [슬랙 알림을 전송](#routing-slack-notifications)할 때 사용하는 하나의 URL을 제공해줍니다.
+슬랙 팀에서 ["Incoming Webhook"](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) intergration을 설정해야합니다. 이 intergration은 [슬랙 알림을 전송](#routing-slack-notifications)할 때 사용하는 하나의 URL을 제공해줍니다.
 
 <a name="formatting-slack-notifications"></a>
 ### Formatting Slack Notifications

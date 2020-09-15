@@ -51,7 +51,6 @@ However, collections are much more powerful than arrays and expose a variety of 
 - [diff](#method-diff)
 - [except](#method-except)
 - [find](#method-find)
-- [findMany](#method-findMany)
 - [fresh](#method-fresh)
 - [intersect](#method-intersect)
 - [load](#method-load)
@@ -60,6 +59,7 @@ However, collections are much more powerful than arrays and expose a variety of 
 - [makeVisible](#method-makeVisible)
 - [makeHidden](#method-makeHidden)
 - [only](#method-only)
+- [toQuery](#method-toquery)
 - [unique](#method-unique)
 
 All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
@@ -78,7 +78,7 @@ The `contains` method may be used to determine if a given model instance is cont
 `contains` 메소드는 주어진 모델 인스턴스가 컬렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
 
     $users->contains(1);
-    
+
     $users->contains(User::find(1));
 
 <a name="method-diff"></a>
@@ -114,20 +114,6 @@ The `find` method finds a model that has a given primary key. If `$key` is a mod
     $users = User::all();
 
     $user = $users->find(1);
-
-
-<a name="method-findMany"></a>
-#### `findMany($keys)`
-#### `findMany($keys)`
-
-The `findMany` method returns all models with a primary key that is included in the `$keys` array:
-
-`findMany` 메소드는 `$keys` 배열에 포함 된 기본 키를 가진 모든 모델을 반환합니다.
-
-
-    $users = User::all();
-    
-    $user = $users->findMany([1, 2, 3]);
 
 <a name="method-fresh"></a>
 #### `fresh($with = [])`
@@ -218,6 +204,20 @@ The `only` method returns all of the models that have the given primary keys:
 `only` 메소드는 주어진 기본-primary 키를 가진 모든 모델을 반환합니다.
 
     $users = $users->only([1, 2, 3]);
+
+<a name="method-toquery"></a>
+#### `toQuery()`
+#### `toQuery()`
+
+The `toQuery` method returns an Eloquent query builder instance containing a `whereIn` constraint on the collection model's primary keys:
+
+`toQuery` 메소드는 컬렉션 모델의 기본 키에 대한 `whereIn` 제약 조건을 포함하는 Eloquent 쿼리 빌더 인스턴스를 반환합니다.
+
+    $users = App\User::where('status', 'VIP')->get();
+
+    $users->toQuery()->update([
+        'status' => 'Administrator',
+    ]);
 
 <a name="method-unique"></a>
 #### `unique($key = null, $strict = false)`

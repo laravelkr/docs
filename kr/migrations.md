@@ -253,15 +253,15 @@ You may use the following commands on the schema builder to define the table's o
 Command  |  Description
 -------  |  -----------
 `$table->engine = 'InnoDB';`  |  Specify the table storage engine (MySQL).
-`$table->charset = 'utf8';`  |  Specify a default character set for the table (MySQL).
-`$table->collation = 'utf8_unicode_ci';`  |  Specify a default collation for the table (MySQL).
+`$table->charset = 'utf8mb4';`  |  Specify a default character set for the table (MySQL).
+`$table->collation = 'utf8mb4_unicode_ci';`  |  Specify a default collation for the table (MySQL).
 `$table->temporary();`  |  Create a temporary table (except SQL Server).
 
 명령어 | 설명
 -------  |  -----------
 `$table->engine = 'InnoDB';`  |  테이블 엔진을 지정합니다.(MySQL).
-`$table->charset = 'utf8';`  |  테이블의 기본 케릭터셋을 지정합니다.(MySQL).
-`$table->collation = 'utf8_unicode_ci';`  |  테이블의 기본 collation을 지정합니다.(MySQL).
+`$table->charset = 'utf8mb4';`  |  테이블의 기본 케릭터셋을 지정합니다.(MySQL).
+`$table->collation = 'utf8mb4_unicode_ci';`  |  테이블의 기본 collation을 지정합니다.(MySQL).
 `$table->temporary();`  |  임시 테이블을 생성 (SQL Server 제외).
 
 <a name="renaming-and-dropping-tables"></a>
@@ -460,8 +460,8 @@ Modifier  |  Description
 --------  |  -----------
 `->after('column')`  |  Place the column "after" another column (MySQL)
 `->autoIncrement()`  |  Set INTEGER columns as auto-increment (primary key)
-`->charset('utf8')`  |  Specify a character set for the column (MySQL)
-`->collation('utf8_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
+`->charset('utf8mb4')`  |  Specify a character set for the column (MySQL)
+`->collation('utf8mb4_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
@@ -477,8 +477,8 @@ Modifier  | 설명
 --------  |  -----------
 `->after('column')`  |  컬럼을 다른 컬럼 "뒤"로 옮깁니다 (MySQL)
 `->autoIncrement()`  |  INTEGER 컬럼을 자동으로 증가하는 (auto-increment) (primary key)로 지정합니다
-`->charset('utf8')`  |  컬럼의 캐릭터셋을 지정합니다 (MySQL)
-`->collation('utf8_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/PostgreSQL/SQL Server)
+`->charset('utf8mb4')`  |  컬럼의 캐릭터셋을 지정합니다 (MySQL)
+`->collation('utf8mb4_unicode_ci')`  |  컬럼의 collation 지정합니다 (MySQL/PostgreSQL/SQL Server)
 `->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL/PostgreSQL)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  컬럼을 테이블의 "맨 처음" 위치로 옮깁니다 (MySQL)
@@ -558,9 +558,9 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} Only the following column types can be "changed": bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger and unsignedSmallInteger.
+> {note} Only the following column types can be "changed": bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger and uuid.
 
-> {note} 다음의 컬럼 타입들만 "변경" 할 수 있습니다. bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger.
+> {note} 다음의 컬럼 타입들만 "변경" 할 수 있습니다. bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallInteger, string, text, time, unsignedBigInteger, unsignedInteger, unsignedSmallInteger, uuid.
 
 #### Renaming Columns
 #### 컬럼의 이름 변경하기
@@ -762,9 +762,13 @@ Since this syntax is rather verbose, Laravel provides additional, terser methods
         $table->foreignId('user_id')->constrained();
     });
 
-The `foreignId` method is an alias for `unsignedBigInteger` while the `constrained` method will use convention to determine the table and column name being referenced.
+The `foreignId` method is an alias for `unsignedBigInteger` while the `constrained` method will use convention to determine the table and column name being referenced. If your table name does not match the convention, you may specify the table name by passing it as an argument to the `constrained` method:
 
-`foreignId` 메소드는 `unsignedBigInteger`의 별명 인 반면, `constrained` 메소드는 참조되는 테이블 및 컬럼 이름을 판별하기 위해 규칙을 사용합니다.
+`foreignId` 메소드는 `unsignedBigInteger`의 별명 인 반면, `constrained` 메소드는 참조되는 테이블 및 컬럼 이름을 판별하기 위해 규칙을 사용합니다. 테이블 이름이 규칙과 일치하지 않는 경우 `constrained` 메소드에 인수로 전달하여 테이블 이름을 지정할 수 있습니다.
+
+    Schema::table('posts', function (Blueprint $table) {
+        $table->foreignId('user_id')->constrained('users');
+    });
 
 You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
 
@@ -773,6 +777,14 @@ You may also specify the desired action for the "on delete" and "on update" prop
     $table->foreignId('user_id')
           ->constrained()
           ->onDelete('cascade');
+
+Any additional [column modifiers](#column-modifiers) must be called before `constrained`:
+
+추가 [column modifiers](#column-modifiers)는 `constrained` 전에 호출해야합니다.
+
+    $table->foreignId('user_id')
+          ->nullable()
+          ->constrained();
 
 To drop a foreign key, you may use the `dropForeign` method, passing the foreign key constraint to be deleted as an argument. Foreign key constraints use the same naming convention as indexes, based on the table name and the columns in the constraint, followed by a "\_foreign" suffix:
 
@@ -794,6 +806,6 @@ You may enable or disable foreign key constraints within your migrations by usin
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html). 
+> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).
 
 > {note} SQLite는 기본적으로 외래 키 제약 조건을 비활성화합니다. SQLite를 사용하는 경우, 마이그레이션에서 데이터베이스 설정을 작성하기 전에 데이터베이스 설정에서 [외래 키 지원](/docs/{{version}}/database#configuration)을 사용해야합니다. 또한 SQLite는 테이블 생성시 및 [테이블이 변경되지 않을 때](https://www.sqlite.org/omitted.html) 외래 키만 지원합니다.

@@ -34,10 +34,6 @@ Alternatively, you can install the `predis/predis` package via Composer:
 
     composer require predis/predis
 
-> {note} Predis has been abandoned by the package's original author and may be removed from Laravel in a future release.
-
-> {note} Predis는 패키지 원작자에 의해 버려졌습니다. 이후 라라벨 release에서 제거될 수 있습니다.
-
 <a name="configuration"></a>
 ### Configuration
 ### 설정하기
@@ -66,9 +62,45 @@ The Redis configuration for your application is located in the `config/database.
 
     ],
 
-The default server configuration should suffice for development. However, you are free to modify this array based on your environment. Each Redis server defined in your configuration file is required to have a name, host, and port.
+The default server configuration should suffice for development. However, you are free to modify this array based on your environment. Each Redis server defined in your configuration file is required to have a name, host, and port unless you define a single URL to represent the Redis connection:
 
 개발중에 기본 서버 설정은 충분할 수 있습니다. 하지만 환경에 맞게 이 배열을 변경할 수도 있습니다. 설정 파일 안에서 정의된 각각의 레디스 서버는 이름, 호스트, 포트를 필요로 합니다.
+
+    'redis' => [
+
+        'client' => env('REDIS_CLIENT', 'phpredis'),
+
+        'default' => [
+            'url' => 'tcp://127.0.0.1:6379?database=0',
+        ],
+
+        'cache' => [
+            'url' => 'tls://user:password@127.0.0.1:6380?database=1',
+        ],
+
+    ],
+
+#### Configuring The Connection Scheme
+#### 연결 스키마 설정
+
+By default, Redis clients will use the `tcp` scheme when connecting to your Reids servers; however, you may use TLS / SSL encryption by specifying a `scheme` configuration option in your Redis server configuration:
+
+기본적으로 Redis 클라이언트는 Reids 서버에 연결할 때 `tcp` 체계를 사용합니다. 그러나 Redis 서버 구성에서 `scheme` 구성 옵션을 지정하여 TLS / SSL 암호화를 사용할 수 있습니다.
+
+    'redis' => [
+
+        'client' => env('REDIS_CLIENT', 'phpredis'),
+
+        'default' => [
+            'scheme' => 'tls',
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_DB', 0),
+        ],
+
+    ],
+
 
 #### Configuring Clusters
 #### 클러스터 설정하기
@@ -160,9 +192,9 @@ If you plan to use PhpRedis extension along with the `Redis` Facade alias, you s
 
     'RedisManager' => Illuminate\Support\Facades\Redis::class,
 
-In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout` and `timeout`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
+In addition to the default `host`, `port`, `database`, and `password` server configuration options, PhpRedis supports the following additional connection parameters: `persistent`, `prefix`, `read_timeout`, `timeout`, and `context`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `persistent`, `prefix`, `read_timeout` 그리고 `timeout`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다.
+`host`, `port`, `database`, 그리고 `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `persistent`, `prefix`, `read_timeout`, `timeout` 그리고 `context`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -170,6 +202,10 @@ In addition to the default `host`, `port`, `database`, and `password` server con
         'port' => env('REDIS_PORT', 6379),
         'database' => 0,
         'read_timeout' => 60,
+        'context' => [
+            // 'auth' => ['username', 'secret'],
+            // 'stream' => ['verify_peer' => false],
+        ],
     ],
 
 #### The Redis Facade

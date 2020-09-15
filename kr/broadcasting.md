@@ -138,6 +138,13 @@ Finally, you will need to change your broadcast driver to `pusher` in your `.env
 
     BROADCAST_DRIVER=pusher
 
+#### Pusher Compatible Laravel Websockets
+#### 푸셔 호환 Laravel Websockets
+
+The [laravel-websockets](https://github.com/beyondcode/laravel-websockets) is a pure PHP, Pusher compatible websocket package for Laravel. This package allows you to leverage the full power of Laravel broadcasting without an external websocket provider or Node. For more information on installing and using this package, please consult its [official documentation](https://beyondco.de/docs/laravel-websockets).
+
+[laravel-websockets](https://github.com/beyondcode/laravel-websockets)는 Laravel용 순수 PHP로 만들어진, Pusher 호환 웹 소켓 패키지입니다. 이 패키지를 사용하면 외부 웹 소켓 공급자 또는 Node.js 없이도 Laravel 브로드캐스트의 모든 기능을 활용할 수 있습니다. 이 패키지의 설치 및 사용에 대한 자세한 내용은 [공식 문서](https://beyondco.de/docs/laravel-websockets)를 참조하십시오.
+
 #### Redis
 #### Redis
 
@@ -205,6 +212,10 @@ Laravel's event broadcasting allows you to broadcast your server-side Laravel ev
 Events are broadcast over "channels", which may be specified as public or private. Any visitor to your application may subscribe to a public channel without any authentication or authorization; however, in order to subscribe to a private channel, a user must be authenticated and authorized to listen on that channel.
 
 이벤트는 공개적이거나 비공개적이라고 명시된 "채널"을 통해 브로드캐스트 됩니다. 모든 방문자는 인증이나 승인 없이도 공개 채널을 구독할 수 있습니다. 하지만 비공개 채널을 구독하기 위해서는 반드시 인증과 승인을 받아야 합니다.
+
+> {tip} If you would like to use an open source, PHP driven alternative to Pusher, check out the [laravel-websockets](https://github.com/beyondcode/laravel-websockets) package.
+
+> {tip} Pusher 대신 PHP 기반의 오픈 소스를 사용하려면 [laravel-websockets](https://github.com/beyondcode/laravel-websockets) 패키지를 확인하세요.
 
 <a name="using-example-application"></a>
 ### Using An Example Application

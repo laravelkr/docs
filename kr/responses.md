@@ -99,8 +99,8 @@ Or, you may use the `withHeaders` method to specify an array of headers to be ad
                     'X-Header-Two' => 'Header Value',
                 ]);
 
-##### Cache Control Middleware
-##### Cache Control 미들웨어
+#### Cache Control Middleware
+#### Cache Control 미들웨어
 
 Laravel includes a `cache.headers` middleware, which may be used to quickly set the `Cache-Control` header for a group of routes. If `etag` is specified in the list of directives, an MD5 hash of the response content will automatically be set as the ETag identifier:
 
@@ -210,9 +210,9 @@ Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트�
 
     return redirect()->route('profile', [$user]);
 
-If you would like to customize the value that is placed in the route parameter, you should override the `getRouteKey` method on your Eloquent model:
+If you would like to customize the value that is placed in the route parameter, you can specify the column in the route parameter definition (`profile/{id:slug}`) or you can override the `getRouteKey` method on your Eloquent model:
 
-만약 라우트 파라미터에 저장되는 값을 커스터마이징 하려면, Eloquent 모델의 `getRouteKey` 메소드를 오버라이드해야 합니다.
+라우트 파라메터에 지정된 값을 커스터마이징하려면 라우트 파라메터 정의 (`profile/{id:slug}`)에서 컬럼을 지정하거나 Eloquent 모델에서 `getRouteKey` 메소드를 통해 재정의 할 수 있습니다.
 
     /**
      * Get the value of the model's route key.
@@ -310,7 +310,7 @@ The `json` method will automatically set the `Content-Type` header to `applicati
 
     return response()->json([
         'name' => 'Abigail',
-        'state' => 'CA'
+        'state' => 'CA',
     ]);
 
 If you would like to create a JSONP response, you may use the `json` method in combination with the `withCallback` method:

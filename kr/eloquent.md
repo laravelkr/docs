@@ -53,6 +53,8 @@
     - [클로저 사용하기](#events-using-closures)
     - [Observers](#observers)
     - [옵저버](#observers)
+    - [Muting Events](#muting-events)
+    - [이벤트 끄기](#muting-events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -640,6 +642,21 @@ The `wasChanged` method determines if any attributes were changed when the model
     $user->wasChanged('title'); // true
     $user->wasChanged('first_name'); // false
 
+The `getOriginal` method returns an array containing the original attributes of the model regardless of any changes since the model was loaded. You may pass a specific attribute name to get the original value of a particular attribute:
+
+`getOriginal` 메소드는 모델이 로드 된 이후의 변경된 사항에 관계없이 모델의 원래 속성을 포함하는 배열을 반환합니다. 특정 속성 이름을 전달하여 특정 속성의 원래 값을 가져올 수 있습니다.
+
+    $user = User::find(1);
+
+    $user->name; // John
+    $user->email; // john@example.com
+
+    $user->name = "Jack";
+    $user->name; // Jack
+
+    $user->getOriginal('name'); // John
+    $user->getOriginal(); // Array of original attributes...
+
 <a name="mass-assignment"></a>
 ### Mass Assignment
 ### 대량 할당 - Mass Assignment
@@ -684,28 +701,8 @@ If you already have a model instance, you may use the `fill` method to populate 
 
     $flight->fill(['name' => 'Flight 22']);
 
-#### Guarding Attributes
-#### 속성들 보호하기
-
-While `$fillable` serves as a "white list" of attributes that should be mass assignable, you may also choose to use `$guarded`. The `$guarded` property should contain an array of attributes that you do not want to be mass assignable. All other attributes not in the array will be mass assignable. So, `$guarded` functions like a "black list". Importantly, you should use either `$fillable` or `$guarded` - not both. In the example below, all attributes **except for `price`** will be mass assignable:
-
-`$fillable`는 대량 할당(mass assign)될 수 있는 속성들의 화이트 리스트로써 동작 하지만, `$guarded`를 사용할 수도 있습니다. `$guarded` 속성은 대량 할당(mass assign)하고 싶지 않은 속성들의 배열을 가지고 있을 것입니다. 이 배열에 포함되지 않은 모든 속성들은 대량 할당될 수 있을 것입니다. 따라서 `$guarded`는 블랙리스트와 같은 기능을 합니다. `$fillable`나 `$guarded` 둘 중 하나만을 사용해야 합니다. 다음 예제에서 **`price`**를 제외한 모든 속성들은 대량 할당이 가능합니다.
-
-    <?php
-
-    namespace App;
-
-    use Illuminate\Database\Eloquent\Model;
-
-    class Flight extends Model
-    {
-        /**
-         * The attributes that aren't mass assignable.
-         *
-         * @var array
-         */
-        protected $guarded = ['price'];
-    }
+#### Allowing Mass Assignment
+#### 대량 할당 허용하기
 
 If you would like to make all attributes mass assignable, you may define the `$guarded` property as an empty array:
 
@@ -780,9 +777,9 @@ To delete a model, call the `delete` method on a model instance:
 #### Deleting An Existing Model By Key
 #### 키를 통해서 이미 존재하는 모델 삭제하기
 
-In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without retrieving it by calling the `destroy` method.  In addition to a single primary key as its argument, the `destroy` method will accept multiple primary keys, an array of primary keys, or a [collection](/docs/{{version}}/collections) of primary keys:
+In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without explicitly retrieving it by calling the `destroy` method.  In addition to a single primary key as its argument, the `destroy` method will accept multiple primary keys, an array of primary keys, or a [collection](/docs/{{version}}/collections) of primary keys:
 
-위의 예제에서는 `delete` 메소드를 호출하기 전에 데이터베이스에서 모델을 조회합니다. 하지만 모델의 기본 키를 알고 있다면 모델을 조회하지 않고 바로 삭제할 수 있습니다. `destroy` 메소드는 단일 기본 키를 인수로 사용하는 것 이외에도 여러개의 기본 키, 기본 키의 배열 또는 기본키의 [collection](/docs/{{version}}/collections)를 허용합니다.
+위의 예제에서는 `delete` 메소드를 호출하기 전에 데이터베이스에서 모델을 조회합니다. 하지만 모델의 기본 키를 알고 있다면 모델을 명시적으로 조회하지 않고 바로 삭제할 수 있습니다. `destroy` 메소드는 단일 기본 키를 인수로 사용하는 것 이외에도 여러개의 기본 키, 기본 키의 배열 또는 기본키의 [collection](/docs/{{version}}/collections)를 허용합니다.
 
     App\Flight::destroy(1);
 
@@ -791,6 +788,10 @@ In the example above, we are retrieving the model from the database before calli
     App\Flight::destroy([1, 2, 3]);
 
     App\Flight::destroy(collect([1, 2, 3]));
+
+> {note} The `destroy` method loads each model individually and calls the `delete` method on them so that the `deleting` and `deleted` events are fired.
+
+> {note} `destroy` 메서드는 각 모델을 개별적으로 로드하고 `delete` 메서드를 호출하여 `deleting` 및 `deleted` 이벤트가 발생하도록합니다.
 
 #### Deleting Models By Query
 #### 쿼리를 통해서 모델 삭제하기
@@ -833,9 +834,19 @@ You should also add the `deleted_at` column to your database table. The Laravel 
 
 데이터베이스 테이블에 `deleted_at` 컬럼을 추가해야 합니다. 라라벨의 [스키마 빌더](/docs/{{version}}/migrations)는 이 컬럼을 생성하는 도우미 메소드를 가지고 있습니다.
 
-    Schema::table('flights', function (Blueprint $table) {
-        $table->softDeletes();
-    });
+    public function up()
+    {
+        Schema::table('flights', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('flights', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+    }
 
 Now, when you call the `delete` method on the model, the `deleted_at` column will be set to the current date and time. And, when querying a model that uses soft deletes, the soft deleted models will automatically be excluded from all query results.
 
@@ -1199,9 +1210,9 @@ Eloquent models fire several events, allowing you to hook into the following poi
 
 Eloquent 모델은 여러 이벤트들을 발생시켜 모델의 라이프사이클의 다양한 지점에 후킹할 수 있도록 합니다. `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`. 이벤트들은 특정 모델 클래스가 데이터베이스에 저장되거나 업데이트될 때마다 코드를 실행하기 용이하게 해줍니다. 각 이벤트는 생성자를 통해 모델의 인스턴스를 받습니다.
 
-The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. If a model already existed in the database and the `save` method is called, the `updating` / `updated` events will fire. However, in both cases, the `saving` / `saved` events will fire.
+The `retrieved` event will fire when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will fire. The `updating` / `updated` events will fire when an existing model is modified and the `save` method is called. The `saving` / `saved` events will fire when a model is created or updated.
 
-데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. 모델이 이미 데이터베이스에 존재할 때 `save` 메소드가 호출된다면 `updating` / `updated` 이벤트가 발생합니다. 하지만 이 두 경우 모두 `saving` / `saved` 이벤트가 발생할 것입니다.
+데이터베이스에서 모델이 존재하고 조회가 되었을때 `retrieved` 이벤트가 발생합니다. 새로운 모델이 처음으로 저장되었을 때 `creating`과 `created` 이벤트가 발생합니다. `updating` / `updated` 이벤트는 기존 모델이 수정되고 `save` 메소드가 호출 될 때 발생합니다. `saving` / `saved` 이벤트는 모델이 생성되거나 업데이트 될 때 발생합니다.
 
 > {note} When issuing a mass update or delete via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be fired for the affected models. This is because the models are never actually retrieved when issuing a mass update or delete.
 
@@ -1249,8 +1260,6 @@ Instead of using custom event classes, you may register Closures that execute wh
     <?php
 
     namespace App;
-
-    use App\Scopes\AgeScope;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -1374,3 +1383,19 @@ To register an observer, use the `observe` method on the model you wish to obser
         }
     }
 
+<a name="muting-events"></a>
+### Muting Events
+### 이벤트 끄기
+
+You may occasionally wish to temporarily "mute" all events fired by a model. You may achieve this using the `withoutEvents` method. The `withoutEvents` method accepts a Closure as its only argument. Any code executed within this Closure will not fire model events. For example, the following will fetch and delete an `App\User` instance without firing any model events. Any value returned by the given Closure will be returned by the `withoutEvents` method:
+
+때로는 모델에 의해 발생 된 모든 이벤트를 일시적으로 "음소거" 할 수 있습니다. `withoutEvents` 메소드를 사용하여이 작업을 수행 할 수 있습니다. `withoutEvents` 메소드는 Closure를 단일 인수로 입력받습니다. 이 Closure 내에서 실행되는 모든 코드는 모델 이벤트를 발생시키지 않습니다. 예를 들어 다음은 모델 이벤트를 발생시키지 않고 `App\User` 인스턴스를 가져오고 삭제합니다. 주어진 Closure가 반환하는 모든 값은 `withoutEvents` 메소드에 의해 반환됩니다.
+
+
+    use App\User;
+
+    $user = User::withoutEvents(function () use () {
+        User::findOrFail(1)->delete();
+
+        return User::find(2);
+    });

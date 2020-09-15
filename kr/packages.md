@@ -375,6 +375,15 @@ Once your view components are registered in a service provider, you may referenc
 
     <x-courier-button />
 
+#### Anonymous Components
+#### 익명 컴포넌트
+
+If your package contains anonymous components, they must be placed within a `components` directory of your package's "views" directory (as specified by `loadViewsFrom`). Then, you may render them by prefixing the component name with the package's view namespace:
+
+패키지에 익명의 컴포넌트가 포함 된 경우 패키지의 "views"디렉토리 (`loadViewsFrom`에 지정한대로)의 `components` 디렉토리에 배치해야합니다. 그런 다음 컴포넌트 이름 앞에 패키지의 뷰 네임스페이스를 추가하여 렌더링 할 수 있습니다.
+
+    <x-courier::alert />
+
 <a name="commands"></a>
 ## Commands
 ## 명령어

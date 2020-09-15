@@ -297,12 +297,12 @@ If you need to specify additional [S3 request parameters](https://docs.aws.amazo
         ['ResponseContentType' => 'application/octet-stream']
     );
 
-#### Local URL Host Customization
-#### 로컬 URL 호스트 커스터마이징
+#### URL Host Customization
+#### URL 호스트 커스터마이징
 
-If you would like to pre-define the host for files stored on a disk using the `local` driver, you may add a `url` option to the disk's configuration array:
+If you would like to pre-define the host for file URLs generated using the `Storage` facade, you may add a `url` option to the disk's configuration array:
 
-`local` 드라이버를 사용하여 디스크에 저장된 파일을 위한 호스트를 미리 정의하고자 한다면, 디스크 설정 배열에 `url` 옵션을 추가하면 됩니다.
+`Storage` 파사드를 사용하여 생성된 파일 URL에 대한 호스트를 미리 정의하려면 디스크의 설정 배열에 `url` 옵션을 추가하면 됩니다.
 
     'public' => [
         'driver' => 'local',
@@ -466,6 +466,16 @@ By default, this method will use your default disk. If you would like to specify
         'avatars/'.$request->user()->id, 's3'
     );
 
+If you are using the `storeAs` method, you may pass the disk name as the third argument to the method:
+
+`storeAs` 메서드를 사용하는 경우 디스크 이름을 메서드의 세 번째 인수로 전달할 수 있습니다.
+
+    $path = $request->file('avatar')->storeAs(
+        'avatars',
+        $request->user()->id,
+        's3'
+    );
+
 #### Other File Information
 #### 다른 파일 정보
 
@@ -504,6 +514,18 @@ If the file has already been stored, its visibility can be retrieved and set via
     $visibility = Storage::getVisibility('file.jpg');
 
     Storage::setVisibility('file.jpg', 'public');
+
+When interacting with uploaded files, you may use the `storePublicly` and `storePubliclyAs` methods to store the uploaded file with `public` visibility:
+
+업로드 된 파일과 상호 작용할 때 `storePublicly` 및 `storePubliclyAs` 메소드를 사용하여 업로드 된 파일을 `public`으로 저장할 수 있습니다.
+
+    $path = $request->file('avatar')->storePublicly('avatars', 's3');
+
+    $path = $request->file('avatar')->storePubliclyAs(
+        'avatars',
+        $request->user()->id,
+        's3'
+    );
 
 <a name="deleting-files"></a>
 ## Deleting Files
@@ -596,11 +618,11 @@ Next, you should create a [service provider](/docs/{{version}}/providers) such a
 
     namespace App\Providers;
 
+    use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\ServiceProvider;
     use League\Flysystem\Filesystem;
     use Spatie\Dropbox\Client as DropboxClient;
     use Spatie\FlysystemDropbox\DropboxAdapter;
-    use Storage;
 
     class DropboxServiceProvider extends ServiceProvider
     {

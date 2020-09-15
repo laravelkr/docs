@@ -17,6 +17,8 @@
     - [페이지네이션 결과를 JSON으로 변환하기](#converting-results-to-json)
 - [Customizing The Pagination View](#customizing-the-pagination-view)
 - [페이지네이션 뷰 파일 수정하기](#customizing-the-pagination-view)
+    - [Using Tailwind](#using-tailwind)
+    - [Tailwind 사용](#using-tailwind)
 - [Paginator Instance Methods](#paginator-instance-methods)
 - [페이지네이터 인스턴스 메소드](#paginator-instance-methods)
 
@@ -260,6 +262,21 @@ If you would like to designate a different file as the default pagination view, 
         Paginator::defaultSimpleView('view-name');
     }
 
+<a name="using-tailwind"></a>
+### Using Tailwind
+### Tailwind 사용
+
+Laravel includes pagination views built using [Tailwind CSS](https://tailwindcss.com/). To use these views instead of the default Bootstrap views, you may call the paginator's `useTailwind` method within your `AppServiceProvider`:
+
+Laravel에는 [Tailwind CSS](https://tailwindcss.com/)를 사용하여 빌드 된 페이지네이션 뷰가 포함되어 있습니다. 기본 부트 스트랩 뷰 대신 이러한 뷰를 사용하려면 `AppServiceProvider` 내에서 페이지 지정자의 `useTailwind` 메서드를 호출하면 됩니다.
+
+    use Illuminate\Pagination\Paginator;
+
+    public function boot()
+    {
+        Paginator::useTailwind();
+    }
+
 <a name="paginator-instance-methods"></a>
 ## Paginator Instance Methods
 ## 페이지네이터 인스턴스 메소드
@@ -270,42 +287,42 @@ Each paginator instance provides additional pagination information via the follo
 
 Method  |  Description
 -------  |  -----------
-`$results->count()`  |  Get the number of items for the current page.
-`$results->currentPage()`  |  Get the current page number.
-`$results->firstItem()`  |  Get the result number of the first item in the results.
-`$results->getOptions()`  |  Get the paginator options.
-`$results->getUrlRange($start, $end)`  |  Create a range of pagination URLs.
-`$results->hasPages()`  |  Determine if there are enough items to split into multiple pages.
-`$results->hasMorePages()`  |  Determine if there is more items in the data store.
-`$results->items()`  |  Get the items for the current page.
-`$results->lastItem()`  |  Get the result number of the last item in the results.
-`$results->lastPage()`  |  Get the page number of the last available page. (Not available when using `simplePaginate`).
-`$results->nextPageUrl()`  |  Get the URL for the next page.
-`$results->onFirstPage()`  |  Determine if the paginator is on the first page.
-`$results->perPage()`  |  The number of items to be shown per page.
-`$results->previousPageUrl()`  |  Get the URL for the previous page.
-`$results->total()`  |  Determine the total number of matching items in the data store. (Not available when using `simplePaginate`).
-`$results->url($page)`  |  Get the URL for a given page number.
-`$results->getPageName()`  |  Get the query string variable used to store the page.
-`$results->setPageName($name)`  |  Set the query string variable used to store the page.
+`$paginator->count()`  |  Get the number of items for the current page.
+`$paginator->currentPage()`  |  Get the current page number.
+`$paginator->firstItem()`  |  Get the result number of the first item in the results.
+`$paginator->getOptions()`  |  Get the paginator options.
+`$paginator->getUrlRange($start, $end)`  |  Create a range of pagination URLs.
+`$paginator->hasPages()`  |  Determine if there are enough items to split into multiple pages.
+`$paginator->hasMorePages()`  |  Determine if there is more items in the data store.
+`$paginator->items()`  |  Get the items for the current page.
+`$paginator->lastItem()`  |  Get the result number of the last item in the results.
+`$paginator->lastPage()`  |  Get the page number of the last available page. (Not available when using `simplePaginate`).
+`$paginator->nextPageUrl()`  |  Get the URL for the next page.
+`$paginator->onFirstPage()`  |  Determine if the paginator is on the first page.
+`$paginator->perPage()`  |  The number of items to be shown per page.
+`$paginator->previousPageUrl()`  |  Get the URL for the previous page.
+`$paginator->total()`  |  Determine the total number of matching items in the data store. (Not available when using `simplePaginate`).
+`$paginator->url($page)`  |  Get the URL for a given page number.
+`$paginator->getPageName()`  |  Get the query string variable used to store the page.
+`$paginator->setPageName($name)`  |  Set the query string variable used to store the page.
 
 메소드  |  설명
 -------  |  -----------
-`$results->count()`  |  현재 페이지의 항목 수를 가져옵니다.
-`$results->currentPage()`  |  현재 페이지 번호를 가져옵니다.
-`$results->firstItem()`  |  결과에서 첫 번째 항목의 결과 번호를 가져옵니다.
-`$results->getOptions()`  |  페이지네이션의 옵션을 가져옵니다.
-`$results->getUrlRange($start, $end)`  |  다양한 페이지네이션 URL을 만듭니다.
-`$results->hasPages()`  |  여러 페이지로 분할하기에 충분한 항목이 있는지 확인합니다.
-`$results->hasMorePages()`  |  데이터 저장소에 더 많은 항목이 있는지 확인합니다.
-`$results->items()`  |  현재 페이지의 항목을 가져옵니다.
-`$results->lastItem()`  |  결과의 마지막 항목의 결과 번호를 가져옵니다.
-`$results->lastPage()`  |  마지막으로 사용 가능한 페이지의 페이지 번호를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
-`$results->nextPageUrl()`  |  다음 페이지의 URL을 가져옵니다.
-`$results->onFirstPage()`  |  페이지네이터가 첫 페이지에 있는지 확인합니다.
-`$results->perPage()`  |  페이지 당 표시 할 항목 수입니다.
-`$results->previousPageUrl()`  |  이전 페이지의 URL을 가져옵니다.
-`$results->total()`  |  데이터 저장소에서 일치하는 항목의 총 개수를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
-`$results->url($page)`  |  지정된 페이지 번호의 URL을 가져옵니다.
-`$results->getPageName()`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 가져옵니다.
-`$results->setPageName($name)`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 설정합니다.
+`$paginator->count()`  |  현재 페이지의 항목 수를 가져옵니다.
+`$paginator->currentPage()`  |  현재 페이지 번호를 가져옵니다.
+`$paginator->firstItem()`  |  결과에서 첫 번째 항목의 결과 번호를 가져옵니다.
+`$paginator->getOptions()`  |  페이지네이션의 옵션을 가져옵니다.
+`$paginator->getUrlRange($start, $end)`  |  다양한 페이지네이션 URL을 만듭니다.
+`$paginator->hasPages()`  |  여러 페이지로 분할하기에 충분한 항목이 있는지 확인합니다.
+`$paginator->hasMorePages()`  |  데이터 저장소에 더 많은 항목이 있는지 확인합니다.
+`$paginator->items()`  |  현재 페이지의 항목을 가져옵니다.
+`$paginator->lastItem()`  |  결과의 마지막 항목의 결과 번호를 가져옵니다.
+`$paginator->lastPage()`  |  마지막으로 사용 가능한 페이지의 페이지 번호를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
+`$paginator->nextPageUrl()`  |  다음 페이지의 URL을 가져옵니다.
+`$paginator->onFirstPage()`  |  페이지네이터가 첫 페이지에 있는지 확인합니다.
+`$paginator->perPage()`  |  페이지 당 표시 할 항목 수입니다.
+`$paginator->previousPageUrl()`  |  이전 페이지의 URL을 가져옵니다.
+`$paginator->total()`  |  데이터 저장소에서 일치하는 항목의 총 개수를 가져옵니다. (`simplePaginate`를 사용할 때는 사용할 수 없습니다.)
+`$paginator->url($page)`  |  지정된 페이지 번호의 URL을 가져옵니다.
+`$paginator->getPageName()`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 가져옵니다.
+`$paginator->setPageName($name)`  |  페이지를 저장하는 데 사용되는 쿼리 문자열 변수를 설정합니다.

@@ -31,9 +31,9 @@ Before using Laravel's encrypter, you must set a `key` option in your `config/ap
 #### Encrypting A Value
 #### 하나의 값 암호화하기
 
-You may encrypt a value using the `encrypt` helper. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
+You may encrypt a value using the `encryptString` method of the `Crypt` facade. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
 
-`encrypt` 헬퍼함수를 사용하여 하나의 값을 암호화 할 수 있습니다. 모든 암호화된 값들은 OpenSSL 과 `AES-256-CBC` 알고리즘이 사용됩니다. 또한 모든 암호화된 값은 변경을 감지하기 위해서 (MAC) 을 기본으로한 서명이 적용됩니다.
+`Crypt`파사드의 `encryptString` 메서드를 사용하여 하나의 값을 암호화 할 수 있습니다. 모든 암호화된 값들은 OpenSSL 과 `AES-256-CBC` 알고리즘이 사용됩니다. 또한 모든 암호화된 값은 변경을 감지하기 위해서 (MAC) 을 기본으로한 서명이 적용됩니다.
 
     <?php
 
@@ -42,6 +42,7 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
     use App\Http\Controllers\Controller;
     use App\User;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Crypt;
 
     class UserController extends Controller
     {
@@ -57,35 +58,23 @@ You may encrypt a value using the `encrypt` helper. All encrypted values are enc
             $user = User::findOrFail($id);
 
             $user->fill([
-                'secret' => encrypt($request->secret),
+                'secret' => Crypt::encryptString($request->secret),
             ])->save();
         }
     }
 
-#### Encrypting Without Serialization
-#### Serialization 없이 암호화하기
-
-Encrypted values are passed through `serialize` during encryption, which allows for encryption of objects and arrays. Thus, non-PHP clients receiving encrypted values will need to `unserialize` the data. If you would like to encrypt and decrypt values without serialization, you may use the `encryptString` and `decryptString` methods of the `Crypt` facade:
-
-암호화를 진행하는 동안 암호화된 값은 `serialize`를 통해서 전달되어 객체와 배열의 암호화를 가능하게 합니다. 따라서 PHP가 아닌 클라이언트에서 암호화된 값을 받으면 데이터를 `unserialize` 해야 합니다. 만약 serialize 없이 값을 암호화하고 이를 복호화하려면 Cyprt 파사드의 `encryptString` 과 `decryptString` 메소드를 하용하면 됩니다.
-
-    use Illuminate\Support\Facades\Crypt;
-
-    $encrypted = Crypt::encryptString('Hello world.');
-
-    $decrypted = Crypt::decryptString($encrypted);
-
 #### Decrypting A Value
 #### 값 복호화 하기
 
-You may decrypt values using the `decrypt` helper. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+You may decrypt values using the `decryptString` method of the `Crypt` facade. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
 
-`decrypt` 헬퍼 함수를 사용하여 특정 값을 복호화 할 수 있습니다. MAC 이 일치하지 않는 경우에는, 지정한 값이 정상적으로 복호화 되지 않으며 `Illuminate\Contracts\Encryption\DecryptException`이 발생할 것입니다.
+`Crypt`파사드의 `encryptString` 메서드를 사용하여 특정 값을 복호화 할 수 있습니다. MAC 이 일치하지 않는 경우에는, 지정한 값이 정상적으로 복호화 되지 않으며 `Illuminate\Contracts\Encryption\DecryptException`이 발생할 것입니다.
 
     use Illuminate\Contracts\Encryption\DecryptException;
+    use Illuminate\Support\Facades\Crypt;
 
     try {
-        $decrypted = decrypt($encryptedValue);
+        $decrypted = Crypt::decryptString($encryptedValue);
     } catch (DecryptException $e) {
         //
     }

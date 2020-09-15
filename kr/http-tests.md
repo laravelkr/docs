@@ -486,7 +486,7 @@ response-응답에 주어진 JSON 데이터가 정확하게 일치하게 포함�
 <a name="assert-forbidden"></a>
 #### assertForbidden
 
-Assert that the response has a forbidden status code:
+Assert that the response has a forbidden (403) status code:
 
 response-응답이 forbidden(403) 상태코드를 가지고 있는지 확인:
 

@@ -25,6 +25,14 @@
     - [인증](#authentication)
     - [Database Migrations](#migrations)
     - [데이터베이스 마이그레이션](#migrations)
+    - [Cookies](#cookies)
+    - [Cookies](#cookies)
+    - [Taking A Screenshot](#taking-a-screenshot)
+    - [스크린 샷 찍기](#taking-a-screenshot)
+    - [Storing Console Output To Disk](#storing-console-output-to-disk)
+    - [콘솔 출력을 디스크에 저장하기](#storing-console-output-to-disk)
+    - [Storing Page Source To Disk](#storing-page-source-to-disk)
+    - [페이지 소스를 디스크에 저장하기](#storing-page-source-to-disk)
 - [Interacting With Elements](#interacting-with-elements)
 - [Element 조작하기](#interacting-with-elements)
     - [Dusk Selectors](#dusk-selectors)
@@ -47,6 +55,8 @@
     - [Scoping Selectors](#scoping-selectors)
     - [Waiting For Elements](#waiting-for-elements)
     - [Elements 기다리기](#waiting-for-elements)
+    - [Scrolling An Element Into View](#scrolling-an-element-into-view)
+    - [Element가 보이는 곳으로 스크롤하기](#scrolling-an-element-into-view)
     - [Making Vue Assertions](#making-vue-assertions)
     - [Vue Assertions 만들기](#making-vue-assertions)
 - [Available Assertions](#available-assertions)
@@ -364,6 +374,12 @@ When a test fails, Dusk will automatically resize the browser to fit the content
 
     $browser->disableFitOnFailure();
 
+You may use the `move` method to move the browser window to a different position on your screen:
+
+`move` 메소드를 사용하여 브라우저 창을 화면의 다른 위치로 이동할 수 있습니다.
+
+    $browser->move(100, 100);
+
 <a name="browser-macros"></a>
 ### Browser Macros
 ### 브라우저 매크로
@@ -445,6 +461,62 @@ When your test requires migrations, like the authentication example above, you s
         use DatabaseMigrations;
     }
 
+<a name="cookies"></a>
+### Cookies
+### Cookies
+
+You may use the `cookie` method to get or set an encrypted cookie's value:
+
+`cookie` 메소드를 사용하여 암호화 된 쿠키의 값을 가져 오거나 설정할 수 있습니다.
+
+    $browser->cookie('name');
+
+    $browser->cookie('name', 'Taylor');
+
+You may use the `plainCookie` method to get or set an unencrypted cookie's value:
+
+암호화되지 않은 쿠키의 값을 가져 오거나 설정하기 위해서는 `plainCookie` 메소드를 사용할 수 있습니다.
+
+    $browser->plainCookie('name');
+
+    $browser->plainCookie('name', 'Taylor');
+
+You may use the `deleteCookie` method to delete the given cookie:
+
+쿠키를 삭제하기 위해 `deleteCookie` 메소드를 사용할 수 있습니다.
+
+    $browser->deleteCookie('name');
+
+<a name="taking-a-screenshot"></a>
+### Taking A Screenshot
+### 스크린 샷 찍기
+
+You may use the `screenshot` method to take a screenshot and store it with the given filename. All screenshots will be stored within the `tests/Browser/screenshots` directory:
+
+`screenshot` 메서드를 사용하여 스크린 샷을 찍고 주어진 파일 이름으로 저장할 수 있습니다. 모든 스크린 샷은 `tests/Browser/screenshots` 디렉토리에 저장됩니다.
+
+    $browser->screenshot('filename');
+
+<a name="storing-console-output-to-disk"></a>
+### Storing Console Output To Disk
+### 콘솔 출력을 디스크에 저장하기
+
+You may use the `storeConsoleLog` method to write the console output to disk with the given filename. Console output will be stored within the `tests/Browser/console` directory:
+
+`storeConsoleLog` 메소드를 사용하여 주어진 파일 이름으로 콘솔 출력을 디스크에 쓸 수 있습니다. 콘솔 출력은 `tests/Browser/console` 디렉토리에 저장됩니다.
+
+    $browser->storeConsoleLog('filename');
+
+<a name="storing-page-source-to-disk"></a>
+### Storing Page Source To Disk
+### 페이지 소스를 디스크에 저장하기
+
+You may use the `storeSource` method to write the page's current source to disk with the given filename. The page source will be stored within the `tests/Browser/source` directory:
+
+`storeSource` 메소드를 사용하여 페이지의 현재 소스를 주어진 파일 이름으로 디스크에 쓸 수 있습니다. 페이지 소스는 `tests/Browser/source` 디렉토리에 저장됩니다.
+
+    $browser->storeSource('filename');
+
 <a name="interacting-with-elements"></a>
 ## Interacting With Elements
 ## Element 조작하기
@@ -487,9 +559,17 @@ To click a link, you may use the `clickLink` method on the browser instance. The
 
     $browser->clickLink($linkText);
 
-> {note} This method interacts with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
+You may use the `seeLink` method to determine if a link that has the given display text is visible on the page:
 
-> {note} 이 메소드는 jQuery를 통해서 상호작용을 수행합니다. 웹 페이지에서 jQuery를 사용할 수 없다면 Dusk는 테스트가 수행되는 동안에 자동으로 이를 로딩하여 사용하능한 형태로 만듭니다.
+`seeLink` 메소드를 사용하여 지정한 텍스트로 링크가 걸린 것이 페이지에 표시되는지 확인할 수 있습니다.
+
+    if ($browser->seeLink($linkText)) {
+        // ...
+    }
+    
+> {note} These methods interact with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
+
+> {note} 이 메소드는 jQuery와 상호작용합니다. 웹 페이지에서 jQuery를 사용할 수 없다면 Dusk는 테스트가 수행되는 동안에 자동으로 이를 로딩하여 사용하능한 형태로 만듭니다.
 
 <a name="text-values-and-attributes"></a>
 ### Text, Values, & Attributes
@@ -507,6 +587,13 @@ Dusk 는 페이지에 현재 표시된 텍스트, 입력값 그리고 속성들�
 
     // Set the value...
     $browser->value('selector', 'value');
+
+You may use the `inputValue` method to get the "value" of an input element that has a given field name:
+
+주어진 필드 이름을 가진 input element의 "값"을 얻기 위해 `inputValue` 메소드를 사용할 수 있습니다.
+
+    // Retrieve the value of an input element...
+    $inputValue = $browser->inputValue('field');
 
 #### Retrieving Text
 #### 텍스트 조회하기
@@ -555,6 +642,21 @@ You may clear the value of an input using the `clear` method:
 `clear` 메소드를 통해서 input 필드의 값을 비울 수 있습니다.
 
     $browser->clear('email');
+
+You can instruct Dusk to type slowly using the `typeSlowly` method. By default, Dusk will pause for 100 milliseconds between key presses. To customize the amount of time between key presses, you may pass the appropriate number of milliseconds as the second argument to the method:
+
+Dusk에게 `typeSlowly` 메서드를 사용하여 천천히 입력하도록 지시 할 수 있습니다. 기본적으로 Dusk는 키를 누를 때마다 100 밀리 초 동안 일시 중지됩니다. 키 누름 사이의 시간을 커스터마이징하려면 메서드의 두 번째 인수로 적절한 밀리 초를 전달할 수 있습니다.
+
+    $browser->typeSlowly('mobile', '+1 (202) 555-5555');
+
+    $browser->typeSlowly('mobile', '+1 (202) 555-5555', 300);
+
+You may use the `appendSlowly` method to append text slowly:
+
+`appendSlowly` 메소드를 사용하여 텍스트를 천천히 추가 할 수 있습니다.
+
+    $browser->type('tags', 'foo')
+            ->appendSlowly('tags', ', bar, baz');
 
 #### Dropdowns
 #### Dropdowns(셀렉트박스)
@@ -638,6 +740,40 @@ The `click` method may be used to "click" on an element matching the given selec
 
     $browser->click('.selector');
 
+The `clickAtXPath` method may be used to "click" on an element matching the given XPath expression:
+
+`clickAtXPath` 메소드는 주어진 XPath 표현식과 일치하는 요소를 "클릭"하는 데 사용할 수 있습니다.
+
+    $browser->clickAtXPath('//div[@class = "selector"]');
+
+The `clickAtPoint` method may be used to "click" on the topmost element at a given pair of coordinates relative to the viewable area of the browser:
+
+`clickAtPoint` 메소드는 브라우저의 볼 수있는 영역을 기준으로 지정된 좌표 쌍에서 최상위 요소를 "클릭"하는 데 사용할 수 있습니다.
+
+    $browser->clickAtPoint(0, 0);
+
+The `doubleClick` method may be used to simulate the double "click" of a mouse:
+
+`doubleClick` 메소드를 사용하여 마우스의 더블 클릭을 시뮬레이션 할 수 있습니다.
+
+    $browser->doubleClick();
+
+The `rightClick` method may be used to simulate the right "click" of a mouse:
+
+`rightClick`메소드는 마우스의 오른쪽 "클릭"을 시뮬레이션하는 데 사용할 수 있습니다.
+
+    $browser->rightClick();
+
+    $browser->rightClick('.selector');
+
+The `clickAndHold` method may be used to simulate a mouse button being clicked and held down. A subsequent call to the `releaseMouse` method will undo this behavior and release the mouse button:
+
+`clickAndHold` 메서드는 마우스 버튼을 클릭하고 누르고 있는 것을 시뮬레이션하는 데 사용할 수 있습니다. 후속 호출로 `releaseMouse` 메서드를 사용하면 이 동작을 중단하고 마우스 버튼을 놓습니다.
+
+    $browser->clickAndHold()
+            ->pause(1000)
+            ->releaseMouse();
+
 #### Mouseover
 #### Mouseover
 
@@ -664,6 +800,12 @@ Or, you may drag an element in a single direction:
     $browser->dragRight('.selector', 10);
     $browser->dragUp('.selector', 10);
     $browser->dragDown('.selector', 10);
+
+Finally, you may drag an element by a given offset:
+
+마지막으로 주어진 오프셋으로 요소를 드래그 할 수 있습니다.
+
+    $browser->dragOffset('.selector', 10, 10);
 
 <a name="javascript-dialogs"></a>
 ### JavaScript Dialogs
@@ -706,6 +848,18 @@ Sometimes you may wish to perform several operations while scoping all of the op
         $table->assertSee('Hello World')
               ->clickLink('Delete');
     });
+
+You may occasionally need to execute assertions outside of the current scope. You may use the `elsewhere` method to accomplish this:
+
+때때로 현재 범위 밖에서 검증을 실행해야 할 수도 있습니다. 이를 위해 `elsewhere` 메소드를 사용할 수 있습니다.
+
+     $browser->with('.table', function ($table) {
+        // Current scope is `body .table`...
+        $browser->elsewhere('.page-title', function ($title) {
+            // Current scope is `body .page-title`...
+            $title->assertSee('Hello World');
+        });
+     });
 
 <a name="waiting-for-elements"></a>
 ### Waiting For Elements
@@ -858,6 +1012,17 @@ Dusk의 "wait"메소드의 대부분은 기본 `waitUsing` 메소드에 의존�
         return $something->isReady();
     }, "Something wasn't ready in time.");
 
+<a name="scrolling-an-element-into-view"></a>
+### Scrolling An Element Into View
+### Element가 보이는 곳으로 스크롤하기
+
+Sometimes you may not be able to click on an element because it is outside of the viewable area of the browser. The `scrollIntoView` method will scroll the browser window until the element at the given selector is within the view:
+
+때때로 Element가 브라우저의 볼 수 있는 영역 밖에 있기 때문에 클릭하지 못할 수 있습니다. `scrollIntoView` 메소드는 지정된 선택기의 요소가 뷰 내에있을 때까지 브라우저 창을 스크롤합니다.
+
+    $browser->scrollIntoView('selector')
+            ->click('selector');
+
 <a name="making-vue-assertions"></a>
 ### Making Vue Assertions
 ### Vue Assertions 만들기
@@ -878,7 +1043,7 @@ Dusk마저도 [Vue](https://vuejs.org) 컴포넌트 데이터의 상태에 대�
         data: function () {
             return {
                 user: {
-                  name: 'Taylor'
+                    name: 'Taylor'
                 }
             };
         }
@@ -928,7 +1093,9 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertFragmentBeginsWith](#assert-fragment-begins-with)
 - [assertFragmentIsNot](#assert-fragment-is-not)
 - [assertHasCookie](#assert-has-cookie)
+- [assertHasPlainCookie](#assert-has-plain-cookie)
 - [assertCookieMissing](#assert-cookie-missing)
+- [assertPlainCookieMissing](#assert-plain-cookie-missing)
 - [assertCookieValue](#assert-cookie-value)
 - [assertPlainCookieValue](#assert-plain-cookie-value)
 - [assertSee](#assert-see)
@@ -948,6 +1115,7 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertSelected](#assert-selected)
 - [assertNotSelected](#assert-not-selected)
 - [assertSelectHasOptions](#assert-select-has-options)
+- [assertSelectMissingOption](#assert-select-missing-option)
 - [assertSelectMissingOptions](#assert-select-missing-options)
 - [assertSelectHasOption](#assert-select-has-option)
 - [assertValue](#assert-value)
@@ -964,6 +1132,9 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertButtonDisabled](#assert-button-disabled)
 - [assertFocused](#assert-focused)
 - [assertNotFocused](#assert-not-focused)
+- [assertAuthenticated](#assert-authenticated)
+- [assertGuest](#assert-guest)
+- [assertAuthenticatedAs](#assert-authenticated-as)
 - [assertVue](#assert-vue)
 - [assertVueIsNot](#assert-vue-is-not)
 - [assertVueContains](#assert-vue-contains)
@@ -1160,29 +1331,44 @@ Assert that the current fragment does not match the given fragment:
 #### assertHasCookie
 #### assertHasCookie
 
-Assert that the given cookie is present:
+Assert that the given encrypted cookie is present:
 
-주어진 쿠키가 존재하는지 확인:
+주어진 암호화된 쿠키가 존재하는지 확인:
 
     $browser->assertHasCookie($name);
+
+<a name="assert-has-plain-cookie"></a>
+#### assertHasPlainCookie
+#### assertHasPlainCookie
+
+주어진 암호화되지 않은 쿠키가 있는지 확인:
+
+    $browser->assertHasPlainCookie($name);
 
 <a name="assert-cookie-missing"></a>
 #### assertCookieMissing
 #### assertCookieMissing
 
-Assert that the given cookie is not present:
+Assert that the given encrypted cookie is not present:
 
-주어진 쿠키가 존재하지 않는 것을 확인:
+주어진 암호화된 쿠키가 존재하지 않는 것을 확인:
 
     $browser->assertCookieMissing($name);
+
+<a name="assert-plain-cookie-missing"></a>
+#### assertPlainCookieMissing
+
+주어진 암호화되지 않은 쿠키가 존재하지 않는 것을 확인:
+
+    $browser->assertPlainCookieMissing($name);
 
 <a name="assert-cookie-value"></a>
 #### assertCookieValue
 #### assertCookieValue
 
-Assert that a cookie has a given value:
+Assert that an encrypted cookie has a given value:
 
-쿠키가 주어진 값을 가지고 있는지 확인:
+암호화된 쿠키가 주어진 값을 가지고 있는지 확인:
 
     $browser->assertCookieValue($name, $value);
 
@@ -1366,6 +1552,16 @@ Assert that the given array of values are available to be selected:
 
     $browser->assertSelectHasOptions($field, $values);
 
+<a name="assert-select-missing-option"></a>
+#### assertSelectMissingOption
+#### assertSelectMissingOption
+
+Assert that the given value is not available to be selected:
+
+주어진 값을 선택할 수 없음을 확인:
+
+    $browser->assertSelectMissingOption($field, $value);
+
 <a name="assert-select-missing-options"></a>
 #### assertSelectMissingOptions
 #### assertSelectMissingOptions
@@ -1416,9 +1612,9 @@ Assert that the element matching the given selector has the given value in the p
 
     $browser->assertAriaAttribute($selector, $attribute, $value);
 
-For example, given the markup `<button aria-label="Add"></>`, you may assert against the `aria-label` attribute like so:
+For example, given the markup `<button aria-label="Add"></button>`, you may assert against the `aria-label` attribute like so:
 
-예를 들어, `<button aria-label="Add"></>`마크업이 주어지면 다음과 같이 `aria-label` 속성에 대해 검증:
+예를 들어, `<button aria-label="Add"></button>`마크업이 주어지면 다음과 같이 `aria-label` 속성에 대해 검증:
 
     $browser->assertAriaAttribute('button', 'label', 'Add')
 
@@ -1432,9 +1628,9 @@ Assert that the element matching the given selector has the given value in the p
 
     $browser->assertDataAttribute($selector, $attribute, $value);
 
-For example, given the markup `<tr id="row-1" data-content="attendees"></>`, you may assert against the `data-label` attribute like so:
+For example, given the markup `<tr id="row-1" data-content="attendees"></tr>`, you may assert against the `data-label` attribute like so:
 
-예를 들어 `<tr id="row-1" data-content="attendees"></>`마크 업이 주어지면 다음과 같이`data-label` 속성에 대해 검증:
+예를 들어 `<tr id="row-1" data-content="attendees"></tr>`마크 업이 주어지면 다음과 같이`data-label` 속성에 대해 검증:
 
     $browser->assertDataAttribute('#row-1', 'content', 'attendees')
 
@@ -1537,6 +1733,36 @@ Assert that the given field is not focused:
 주어진 필드에 포커스가 되지 않은 것을 확인:
 
     $browser->assertNotFocused($field);
+
+<a name="assert-authenticated"></a>
+#### assertAuthenticated
+#### assertAuthenticated
+
+Assert that the user is authenticated:
+
+사용자가 인증되었는지 확인:
+
+    $browser->assertAuthenticated();
+
+<a name="assert-guest"></a>
+#### assertGuest
+#### assertGuest
+
+Assert that the user is not authenticated:
+
+사용자가 인증되지 않았음을 확인:
+
+    $browser->assertGuest();
+
+<a name="assert-authenticated-as"></a>
+#### assertAuthenticatedAs
+#### assertAuthenticatedAs
+
+Assert that the user is authenticated as the given user:
+
+사용자가 지정된 사용자로 인증되었는지 확인:
+
+    $browser->assertAuthenticatedAs($user);
 
 <a name="assert-vue"></a>
 #### assertVue
@@ -1649,6 +1875,26 @@ Once a page has been configured, you may navigate to it using the `visit` method
     use Tests\Browser\Pages\Login;
 
     $browser->visit(new Login);
+
+You may use the `visitRoute` method to navigate to a named route:
+
+`visitRoute` 메소드를 사용하여 이름이 지정된 라우트로 이동할 수 있습니다.
+
+    $browser->visitRoute('login');
+
+You may navigate "back" and "forward" using the `back` and `forward` methods:
+
+`back` 및 `forward` 메소드를 사용하여 '뒤로' 및 '앞으로' 이동 할 수 있습니다.
+
+    $browser->back();
+
+    $browser->forward();
+
+You may use the `refresh` method to refresh the page:
+
+페이지를 새로 고침하기 위해 `refresh` 메소드를 사용할 수 있습니다.
+
+    $browser->refresh();
 
 Sometimes you may already be on a given page and need to "load" the page's selectors and methods into the current test context. This is common when pressing a button and being redirected to a given page without explicitly navigating to it. In this situation, you may use the `on` method to load the page:
 
@@ -1922,6 +2168,11 @@ CircleCI를 사용하여 Dusk 테스트를 실행하는 경우 이 설정 파일
                 - store_artifacts:
                     path: tests/Browser/screenshots
 
+                - store_artifacts:
+                    path: tests/Browser/console
+
+                - store_artifacts:
+                    path: storage/logs
 
 <a name="running-tests-on-codeship"></a>
 ### Codeship
@@ -2013,16 +2264,18 @@ If you are using [Github Actions](https://github.com/features/actions) to run yo
           - name: Create Database
             run: |
               sudo systemctl start mysql
-              mysql --user="root" --password="root" -e "CREATE DATABASE my-database character set UTF8mb4 collate utf8mb4_bin;"
+              mysql --user="root" --password="root" -e "CREATE DATABASE 'my-database' character set UTF8mb4 collate utf8mb4_bin;"
           - name: Install Composer Dependencies
             run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           - name: Generate Application Key
             run: php artisan key:generate
           - name: Upgrade Chrome Driver
-            run: php artisan dusk:chrome-driver
+            run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
           - name: Start Chrome Driver
             run: ./vendor/laravel/dusk/bin/chromedriver-linux &
           - name: Run Laravel Server
             run: php artisan serve &
           - name: Run Dusk Tests
+            env:
+              APP_URL: "http://127.0.0.1:8000"
             run: php artisan dusk

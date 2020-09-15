@@ -36,9 +36,9 @@ It is often helpful to have different configuration values based on the environm
 
 프로그램이 실행되는 구동환경에따라 다른 설정값을 사용할 수 있으면 많은 이점이 있습니다. 예를 들어 실제 제품 서버와 로컬 개발 서버에 각각 다른 캐시 드라이버를 사용하려고 하는 경우가 그렇습니다.
 
-To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be renamed to `.env`. Otherwise, you should rename the file manually.
+To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library by Vance Lucas. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file. If you install Laravel via Composer, this file will automatically be copied to `.env`. Otherwise, you should copy the file manually.
 
-보다 확실하게 하기 위해서 라라벨은 Vance Lucas가 만든 PHP 라이브러리 [DotEnv](https://github.com/vlucas/phpdotenv)을 이용합니다. 새롭게 라라벨을 인스톨 한경우에 애플리케이션의 루트 디렉토리에 `.env.example` 파일이 포함되어 있습니다. 컴포저를 통해서 설치한 경우에는 이 파일이 자동으로 `.env`파일로 변경됩니다. 컴포저를 사용하지 않는다면 직접 파일을 변경하십시오.
+보다 확실하게 하기 위해서 라라벨은 Vance Lucas가 만든 PHP 라이브러리 [DotEnv](https://github.com/vlucas/phpdotenv)을 이용합니다. 새롭게 라라벨을 인스톨 한경우에 애플리케이션의 루트 디렉토리에 `.env.example` 파일이 포함되어 있습니다. 컴포저를 통해서 설치한 경우에는 이 파일이 자동으로 `.env`파일로 복사됩니다. 컴포저를 사용하지 않는다면 직접 파일을 복사하십시오.
 
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would get exposed.
 
@@ -121,19 +121,19 @@ You may also pass arguments to the `environment` method to check if the environm
 ### Hiding Environment Variables From Debug Pages
 ### 디버그 페이지에서 환경 변수 숨기기
 
-When an exception is uncaught and the `APP_DEBUG` environment variable is `true`, the debug page will show all environment variables and their contents. In some cases you may want to obscure certain variables. You may do this by updating the `debug_blacklist` option in your `config/app.php` configuration file.
+When an exception is uncaught and the `APP_DEBUG` environment variable is `true`, the debug page will show all environment variables and their contents. In some cases you may want to obscure certain variables. You may do this by updating the `debug_hide` option in your `config/app.php` configuration file.
 
-예외가 발생하지 않고 `APP_DEBUG` 환경 변수가 `true` 라면, 디버그 페이지는 모든 환경 변수와 그 내용을 보여줍니다. 경우에 따라 특정 변수를 가릴 수 있습니다. `config/app.php` 설정 파일에서 `debug_blacklist` 옵션을 업데이트하면됩니다.
+예외가 발생하지 않고 `APP_DEBUG` 환경 변수가 `true` 라면, 디버그 페이지는 모든 환경 변수와 그 내용을 보여줍니다. 경우에 따라 특정 변수를 가릴 수 있습니다. `config/app.php` 설정 파일에서 `debug_hide` 옵션을 업데이트하면됩니다.
 
-Some variables are available in both the environment variables and the server / request data. Therefore, you may need to blacklist them for both `$_ENV` and `$_SERVER`:
+Some variables are available in both the environment variables and the server / request data. Therefore, you may need to hide them for both `$_ENV` and `$_SERVER`:
 
-일부 변수는 환경 변수와 서버 / 요청 데이터에서 모두 사용할 수 있습니다. 그러므로 `$_ENV` 와 `$_SERVER` 둘 다 블랙리스트에 올릴 필요가 있습니다.
+일부 변수는 환경 변수와 서버 / 요청 데이터에서 모두 사용할 수 있습니다. 따라서 `$_ENV` 와 `$_SERVER` 둘 다 숨겨야 할 수 있습니다.
 
     return [
 
         // ...
 
-        'debug_blacklist' => [
+        'debug_hide' => [
             '_ENV' => [
                 'APP_KEY',
                 'DB_PASSWORD',
@@ -159,6 +159,9 @@ You may easily access your configuration values using the global `config` helper
 애플리케이션의 어디에서라도 `config` 헬퍼 함수를 사용하여 손쉽게 설정 값에 엑세스 할 수 있습니다. 설정된 값은 파일의 이름과 엑세스 하고자 하는 옵션에 대해서, ".(점)" 문법을 사용하여 엑세스 할 수 있습니다. 설정된 옵션값이 존재하지 않았을 때 반환될 기본값을 지정할 수 있습니다.
 
     $value = config('app.timezone');
+
+    // Retrieve a default value if the configuration value does not exist...
+    $value = config('app.timezone', 'Asia/Seoul');
 
 To set configuration values at runtime, pass an array to the `config` helper:
 

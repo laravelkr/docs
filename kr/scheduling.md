@@ -147,12 +147,19 @@ Method  | Description
 ------------- | -------------
 `->cron('* * * * *');`  |  Run the task on a custom Cron schedule
 `->everyMinute();`  |  Run the task every minute
+`->everyTwoMinutes();`  |  Run the task every two minutes
+`->everyThreeMinutes();`  |  Run the task every three minutes
+`->everyFourMinutes();`  |  Run the task every four minutes
 `->everyFiveMinutes();`  |  Run the task every five minutes
 `->everyTenMinutes();`  |  Run the task every ten minutes
 `->everyFifteenMinutes();`  |  Run the task every fifteen minutes
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
 `->hourlyAt(17);`  |  Run the task every hour at 17 minutes past the hour
+`->everyTwoHours();`  |  Run the task every two hours
+`->everyThreeHours();`  |  Run the task every three hours
+`->everyFourHours();`  |  Run the task every four hours
+`->everySixHours();`  |  Run the task every six hours
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
@@ -160,6 +167,7 @@ Method  | Description
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task on the first day of every month at 00:00
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
+`->lastDayOfMonth('15:00');` | Run the task on the last day of the month at 15:00
 `->quarterly();` |  Run the task on the first day of every quarter at 00:00
 `->yearly();`  |  Run the task on the first day of every year at 00:00
 `->timezone('America/New_York');` | Set the timezone
@@ -168,12 +176,19 @@ Method  | Description
 ------------- | -------------
 `->cron('* * * * *');`  |  지정한 Cron 형태로 작업 실행
 `->everyMinute();`  |  매분 마다 작업 실행
+`->everyTwoMinutes();`  |  2분마다 작업 실행
+`->everyThreeMinutes();`  |  3분마다 작업 실행
+`->everyFourMinutes();`  |  4분마다 작업 실행
 `->everyFiveMinutes();`  |  5분 간격으로 작업 실행
 `->everyTenMinutes();`  |  10분 간격으로 작업 실행
 `->everyFifteenMinutes();`  |  15분 간격으로 작업 실행
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
+`->everyTwoHours();`  |  2시간마다 작업 실행
+`->everyThreeHours();`  |  3시간마다 작업 실행
+`->everyFourHours();`  |  4시간마다 작업 실행
+`->everySixHours();`  |  6시간마다 작업 실행
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
@@ -181,6 +196,7 @@ Method  | Description
 `->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  매달 1일 00:00 에 작업 실행
 `->monthlyOn(4, '15:00');`  |  매달 4일 15:00분에 작업 실행
+`->lastDayOfMonth('15:00');` | 매월 말일 15:00에 작업 실행
 `->quarterly();` |  분기별 첫번째 날 00:00 에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
@@ -216,6 +232,7 @@ Method  | Description
 `->thursdays();`  |  Limit the task to Thursday
 `->fridays();`  |  Limit the task to Friday
 `->saturdays();`  |  Limit the task to Saturday
+`->days(array|mixed);`  |  Limit the task to specific days
 `->between($start, $end);`  |  Limit the task to run between start and end times
 `->when(Closure);`  |  Limit the task based on a truth test
 `->environments($env);`  |  Limit the task to specific environments
@@ -231,9 +248,21 @@ Method  | Description
 `->thursdays();`  |  목요일로 제한
 `->fridays();`  |  금요일로 제한
 `->saturdays();`  |  토요일로 제한
+`->days(array|mixed);`  |  특정 요일로 제한
 `->between($start, $end);`  |  시작과 종료 시간 사이에 작업 실행을 제한
 `->when(Closure);`  |  클로저 결과에 따라서 수행
 `->environments($env);`  |  특정 환경으로 작업 제한
+
+#### Day Constraints
+#### 요일 제약
+
+The `days` method may be used to limit the execution of a task to specific days of the week. For example, you may schedule a command to run hourly on Sundays and Wednesdays:
+
+`days`메소드는 특정 요일로 작업 실행을 제한하는 데 사용할 수 있습니다. 예를 들어, 일요일과 수요일에 매시간 실행되도록 명령을 예약 할 수 있습니다.
+
+    $schedule->command('reminders:send')
+                    ->hourly()
+                    ->days([0, 3]);
 
 #### Between Time Constraints
 #### Between 시간 제한
@@ -344,7 +373,7 @@ If needed, you may specify how many minutes must pass before the "without overla
 
 > {note} To utilize this feature, your application must be using the `memcached` or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> {note} 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `memcached` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
+> {note} 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
 
 If your application is running on multiple servers, you may limit a scheduled job to only execute on a single server. For instance, assume you have a scheduled task that generates a new report every Friday night. If the task scheduler is running on three worker servers, the scheduled task will run on all three servers and generate the report three times. Not good!
 

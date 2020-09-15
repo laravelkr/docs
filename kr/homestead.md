@@ -33,6 +33,8 @@
     - [사이트 추가하기](#adding-additional-sites)
     - [Environment Variables](#environment-variables)
     - [시스템 ENV 환경 변수](#environment-variables)
+    - [Wildcard SSL](#wildcard-ssl)
+    - [Wildcard SSL](#wildcard-ssl)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
     - [Cron 설정하기](#configuring-cron-schedules)
     - [Configuring Mailhog](#configuring-mailhog)
@@ -105,7 +107,7 @@ Homestead runs on any Windows, Mac, or Linux system, and includes Nginx, PHP, My
 - MySQL
 - lmm for MySQL or MariaDB database snapshots
 - Sqlite3
-- PostgreSQL
+- PostgreSQL (9.6, 10, 11, 12)
 - Composer
 - Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
@@ -303,6 +305,23 @@ If you change the `sites` property after provisioning the Homestead box, you sho
 
 > {note} Homestead 스크립트는 가능한 한 멱등성을 유지하도록 만들어졌습니다. 그러나 프로비저닝 중에 문제가 발생하는 경우, `vagrant destroy && vagrant up`를 통해 가상머신을 제거하고 재구성해야합니다.
 
+#### Enable / Disable Services
+#### 서비스 활성화 / 비활성화
+
+Homestead starts several services by default; however, you may customize which services are enabled or disabled during provisioning. For example, you may enable PostgreSQL and disable MySQL:
+
+Homestead는 기본적으로 여러 서비스를 시작합니다. 그러나 프로비저닝 중에 활성화 또는 비활성화되는 서비스를 커스터마이징 할 수 있습니다. 예를 들어 PostgreSQL을 활성화하고 MySQL을 비활성화 할 수 있습니다.
+
+    services:
+        - enabled:
+            - "postgresql@12-main"
+        - disabled:
+            - "mysql"
+
+The specified services will be started or stopped based on their order in the `enabled` and `disabled` directives.
+
+지정된 서비스는 `enabled` 및 `disabled` 지시문의 순서에 따라 시작되거나 중지됩니다.
+
 <a name="hostname-resolution"></a>
 #### Hostname Resolution
 #### Hostname 해결
@@ -385,7 +404,7 @@ Optional software is installed using the "features" setting in your Homestead co
         - crystal: true
         - docker: true
         - elasticsearch:
-            version: 7
+            version: 7.9.0
         - gearman: true
         - golang: true
         - grafana: true
@@ -640,6 +659,27 @@ After updating the `Homestead.yaml`, be sure to re-provision the machine by runn
 
 `Homestead.yaml` 파일을 수정한 뒤에는 `vagrant reload --provision` 를 실행하여 머신을 새롭게 프로비저닝 하십시오. 이 명령어는 설치된 PHP버전에 맞는 PHP-FPM 설정을 업데이트하고 `vagrant` 사용자를 위한 구동환경을 업데이트 합니다.
 
+<a name="wildcard-ssl"></a>
+### Wildcard SSL
+### Wildcard SSL
+
+Homestead configures a self-signed SSL certificate for each site defined in the `sites:` section of your `Homestead.yaml` file. If you would like to generate a wildcard SSL certificate for a site you may add a `wildcard` option to that site's configuration. By default, the site will use the wildcard certificate *instead* of the specific domain certificate:
+
+Homestead는 `Homestead.yaml` 파일의 `sites:` 섹션에 정의 된 각 사이트에 대해 자체 서명 된 SSL 인증서를 정의합니다. 사이트에 대한 와일드 카드 SSL 인증서를 생성하려면 해당 사이트의 설정에 `wildcard`옵션을 추가 할 수 있습니다. 기본적으로 사이트는 특정 도메인 인증서 *대신* 와일드 카드 인증서를 사용합니다.
+
+    - map: foo.domain.test
+      to: /home/vagrant/domain
+      wildcard: "yes"
+
+If the `use_wildcard` option is set to `no`, the wildcard certificate will be generated but will not be used:
+
+`use_wildcard` 옵션이 `no`로 설정되면 와일드 카드 인증서가 생성되지만 사용되지는 않습니다.
+
+    - map: foo.domain.test
+      to: /home/vagrant/domain
+      wildcard: "yes"
+      use_wildcard: "no"
+
 <a name="configuring-cron-schedules"></a>
 ### Configuring Cron Schedules
 ### Cron 스케줄링 설정하기
@@ -669,7 +709,7 @@ Mailhog allows you to easily catch your outgoing email and examine it without ac
 
 Mailhog를 사용하면 실제로 메일을 받는 사람에게 메일을 보내지 않고도 송신하는 메일을 손쉽게 찾아보고 확인 할 수 있습니다. 이를 시작하려면 `.env` 파일을 수정하여 다음의 메일 설정을 사용하십시오:
 
-    MAIL_DRIVER=smtp
+    MAIL_MAILER=smtp
     MAIL_HOST=localhost
     MAIL_PORT=1025
     MAIL_USERNAME=null
@@ -705,7 +745,7 @@ Minio를 사용하기 위해서는 설정 파일 `config/filesystems.php` 에서
         'region' => env('AWS_DEFAULT_REGION'),
         'bucket' => env('AWS_BUCKET'),
         'endpoint' => env('AWS_URL'),
-        'use_path_style_endpoint' => true
+        'use_path_style_endpoint' => true,
     ]
 
 Finally, ensure your `.env` file has the following options:
@@ -1025,9 +1065,9 @@ These commands pull the latest Homestead code from the GitHub repository, fetche
 
 이 명령은 Homestead 코드를 GitHub 저장소에서 가져 와서 최신 태그를 가져온 다음 최신 태그 릴리스를 체크 아웃합니다. 최신 안정 버전은 [GitHub 릴리즈 페이지](https://github.com/laravel/homestead/releases)에서 찾을 수 있습니다.
 
-If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^10"` and update your dependencies:
+If you have installed Homestead via your project's `composer.json` file, you should ensure your `composer.json` file contains `"laravel/homestead": "^11"` and update your dependencies:
 
-프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^10"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다.
+프로젝트의 `composer.json` 파일을 통해서 홈스테드를 설치했었다면, `composer.json` 파일이 `"laravel/homestead": "^11"`를 포함하여 의존성을 업데이트 할 수 있게 해야합니다.
 
     composer update
 
@@ -1036,6 +1076,16 @@ Then, you should update the Vagrant box using the `vagrant box update` command:
 그런 다음 `vagrant box update` 명령어를 사용하여 Vagrant 박스를 업데이트 해야합니다.
 
     vagrant box update
+
+Next, you should run the `bash init.sh` command from the Homestead directory in order to update some additional configuration files. You will be asked whether you wish to overwrite your existing `Homestead.yaml`, `after.sh`, and `aliases` files:
+
+다음으로, 추가 설정 파일을 업데이트하려면 Homestead 디렉토리에서 `bash init.sh` 명령을 실행해야합니다. 기존 `Homestead.yaml`, `after.sh` 및 `aliases` 파일을 덮어 쓸 것인지 묻는 메시지가 표시됩니다.
+
+    // Mac / Linux...
+    bash init.sh
+
+    // Windows...
+    init.bat
 
 Finally, you will need to regenerate your Homestead box to utilize the latest Vagrant installation:
 

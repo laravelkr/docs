@@ -95,10 +95,6 @@ Also, you should verify that your `users` (or equivalent) table contains a nulla
 ## Authentication Quickstart
 ## 빠르게 인증 살펴보기
 
-Laravel ships with several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
-
-라라벨은 별도의 설정 없이도 `App\Http\Controllers\Auth` 네임스페이스에 위치한 몇가지 인증 컨트롤러를 제공하고 있습니다. `RegisterController`는 새로운 사용자의 등록을, `LoginController`는 인증을 처리하고, `ForgotPasswordController`는 암호 재설정을 위한 링크 생성을, `ResetPasswordController`는 암호를 재설정하는 로직이 들어 있습니다. 각각의 컨트롤러는 필요한 메소드를 포함하기 위해 트레이트-trait를 사용합니다. 대부분의 애플리케이션에서 여러분은 이 컨트롤러들을 수정할 필요가 없을 것입니다.
-
 <a name="included-routing"></a>
 ### Routing
 ### Routing-라우팅
@@ -107,13 +103,17 @@ Laravel's `laravel/ui` package provides a quick way to scaffold all of the route
 
 라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
 
-    composer require laravel/ui "^1.0" --dev
+    composer require laravel/ui:^2.4
 
     php artisan ui vue --auth
 
 This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
 
 이 명령어는 새로운 애플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
+
+The `laravel/ui` package also generates several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
+
+`laravel/ui` 패키지는 `App\Http\Controllers\Auth` 네임스페이스에 미리 만들어둔 여러개의 인증에 관한 컨트롤러도 생성합니다. `RegisterController`는 새로운 사용자 등록을 처리하고 `LoginController`는 인증을 처리하고 `ForgotPasswordController`는 비밀번호 재설정을 위한 이메일 링크를 처리하며 `ResetPasswordController`에는 비밀번호 재설정 로직이 포함되어 있습니다. 각 컨트롤러는 Trait을 사용하여 필요한 메서드를 포함하고 있습니다. 대부분의 어플리케이션이 이러한 컨트롤러들을 전혀 수정할 필요가 없습니다.
 
 > {tip} If your application doesn’t need registration, you may disable it by removing the newly created `RegisterController` and modifying your route declaration: `Auth::routes(['register' => false]);`.
 
@@ -157,7 +157,7 @@ When a user is successfully authenticated, they will be redirected to the `/home
 
     public const HOME = '/home';
 
-If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method that may be overwritten if desired:
+If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method within the `AuthenticatesUsers` trait. This trait is used by the `LoginController` class that is installed into your application when using the `laravel/ui` package. Therefore, you can define your own `authenticated` method within the `LoginController` class:
 
 사용자가 인증 될 때 반환되는 응답을 보다 강력하게 커스터마이징 해야하는 경우 라라벨은 원하는 경우 덮어 쓸 수있는 빈 `authenticated(Request $request, $user)`메소드를 제공합니다.
 
@@ -864,8 +864,24 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
             'App\Listeners\LogFailedLogin',
         ],
 
+        'Illuminate\Auth\Events\Validated' => [
+            'App\Listeners\LogValidated',
+        ],
+        
+        'Illuminate\Auth\Events\Verified' => [
+            'App\Listeners\LogVerified',
+        ],
+
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\LogSuccessfulLogout',
+        ],
+
+        'Illuminate\Auth\Events\CurrentDeviceLogout' => [
+            'App\Listeners\LogCurrentDeviceLogout',
+        ],
+
+        'Illuminate\Auth\Events\OtherDeviceLogout' => [
+            'App\Listeners\LogOtherDeviceLogout',
         ],
 
         'Illuminate\Auth\Events\Lockout' => [

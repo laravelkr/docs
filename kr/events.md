@@ -183,11 +183,13 @@ An event class is a data container which holds the information related to the ev
     namespace App\Events;
 
     use App\Order;
+    use Illuminate\Broadcasting\InteractsWithSockets;
+    use Illuminate\Foundation\Events\Dispatchable;
     use Illuminate\Queue\SerializesModels;
 
     class OrderShipped
     {
-        use SerializesModels;
+        use Dispatchable, InteractsWithSockets, SerializesModels;
 
         public $order;
 
@@ -322,12 +324,26 @@ If you would like to customize the queue connection, queue name, or queue delay 
         public $delay = 60;
     }
 
+If you would like to define the listener's queue at runtime, you may define a `viaQueue` method on the listener:
+
+런타임에 리스너의 큐를 정의하고 싶다면 리스너에 `viaQueue` 메소드를 정의 할 수 있습니다.
+
+    /**
+     * Get the name of the listener's queue.
+     *
+     * @return string
+     */
+    public function viaQueue()
+    {
+        return 'listeners';
+    }
+
 #### Conditionally Queueing Listeners
 #### 조건부 대기열-Queueing 리스너
 
-Sometimes, you may need to determine whether a listener should be queued based on some data that's only available at runtime. To accomplish this, a `shouldQueue` method may be added to a listener to determine whether the listener should be queued and executed synchronously:
+Sometimes, you may need to determine whether a listener should be queued based on some data that's only available at runtime. To accomplish this, a `shouldQueue` method may be added to a listener to determine whether the listener should be queued. If the `shouldQueue` method returns `false`, the listener will not be executed:
 
-때로는 런타임에만 사용 가능한 일부 데이터를 기반으로 대기열-Queueing에 대기해야 하는지 여부를 결정해야 할 수도 있습니다. 이것을 달성하기 위해서, 리스너에 `shouldQueue` 메소드를 추가해, 리스너를 큐에 넣고 동기 실행해야 할 지 어떨지를 판단 할 수 있습니다.
+때로는 런타임에만 사용 가능한 일부 데이터를 기반으로 대기열-Queueing에 대기해야 하는지 여부를 결정해야 할 수도 있습니다. 이것을 달성하기 위해서, 리스너에 `shouldQueue` 메소드를 추가해, 리스너를 큐에 넣어야하는지 여부를 판단 할 수 있습니다. `shouldQueue` 메소드가 `false`를 반환하면 리스너가 실행되지 않습니다.
 
     <?php
 
@@ -430,7 +446,7 @@ Sometimes your queued event listeners may fail. If queued listener exceeds the m
          * Handle a job failure.
          *
          * @param  \App\Events\OrderShipped  $event
-         * @param  \Exception  $exception
+         * @param  \Throwable  $exception
          * @return void
          */
         public function failed(OrderShipped $event, $exception)
@@ -472,6 +488,12 @@ To dispatch an event, you may pass an instance of the event to the `event` helpe
             event(new OrderShipped($order));
         }
     }
+
+Alternatively, if your event uses the `Illuminate\Foundation\Events\Dispatchable` trait, you may call the static `dispatch` method on the event. Any arguments passed to the `dispatch` method will be passed to the event's constructor:
+
+또는 이벤트에서 `Illuminate\Foundation\Events\Dispatchable` trait를 사용하는 경우 이벤트에서 정적 `dispatch` 메서드를 호출 할 수 있습니다. `dispatch` 메소드에 전달 된 모든 인수는 이벤트 생성자에 전달됩니다.
+
+    OrderShipped::dispatch($order);
 
 > {tip} When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#event-fake) makes it a cinch.
 

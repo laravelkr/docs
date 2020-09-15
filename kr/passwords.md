@@ -41,9 +41,11 @@ To get started, verify that your `App\User` model implements the `Illuminate\Con
 #### Generating The Reset Token Table Migration
 #### 재설정 토큰을 저장하는 테이블 마이그레이션 파일 생성하기
 
-Next, a table must be created to store the password reset tokens. The migration for this table is included with Laravel out of the box, and resides in the `database/migrations` directory. So, all you need to do is run your database migrations:
+Next, a table must be created to store the password reset tokens. The migration for this table is included in the `laravel/ui` Composer package. After installing the `laravel/ui` package, you may use the `migrate` command to create the password reset token database table:
 
-다음으로, 패스워드 재설정 토큰을 저장하는 테이블을 생성해야 합니다. 라라벨에서 별다른 설정 없이도 이 테이블을 위한 마이그레이션 파일이 `database/migrations` 디렉토리에 포함되어 있습니다. 따라서 여러분은 데이터베이스 마이그레이션을 실행하기만 하면 됩니다.
+다음으로 패스워드 재설정 토큰을 저장하기위한 테이블을 만들어야합니다. 이 테이블의 마이그레이션은 `laravel/ui` Composer 패키지에 포함되어 있습니다. `laravel/ui` 패키지를 설치 한 후 `migrate` 명령을 사용하여 비밀번호 재설정 토큰 데이터베이스 테이블을 만들 수 있습니다.
+
+    composer require laravel/ui
 
     php artisan migrate
 

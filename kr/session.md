@@ -19,6 +19,8 @@
     - [데이터 삭제하기](#deleting-data)
     - [Regenerating The Session ID](#regenerating-the-session-id)
     - [세션 ID 다시 생성하기](#regenerating-the-session-id)
+- [Session Blocking](#session-blocking)
+- [세션 블로킹](#session-blocking)
 - [Adding Custom Session Drivers](#adding-custom-session-drivers)
 - [사용자 정의 세션 드라이버 추가하기](#adding-custom-session-drivers)
     - [Implementing The Driver](#implementing-the-driver)
@@ -79,7 +81,7 @@ When using the `database` session driver, you will need to create a table to con
 
     Schema::create('sessions', function ($table) {
         $table->string('id')->unique();
-        $table->unsignedInteger('user_id')->nullable();
+        $table->foreignId('user_id')->nullable();
         $table->string('ip_address', 45)->nullable();
         $table->text('user_agent')->nullable();
         $table->text('payload');
@@ -280,6 +282,48 @@ Laravel automatically regenerates the session ID during authentication if you ar
 라라벨에 포함된 `LoginController` 사용하는 경우 인증 과정에서 세션 ID가 자동으로 재생성됩니다; 그렇지만 세션 ID를 수동으로 다시 생성할 필요가 있다면 `regenerate` 메소드를 사용할 수 있습니다.
 
     $request->session()->regenerate();
+
+<a name="session-blocking"></a>
+## Session Blocking
+## 세션 블로킹
+
+> {note} To utilize session blocking, your application must be using a cache driver that supports [atomic locks](/docs/{{version}}/cache#atomic-locks). Currently, those cache drivers include the `memcached`, `dynamodb`, `redis`, and `database` drivers. In addition, you may not use the `cookie` session driver.
+
+> {note} 세션 블로킹을 활용하려면 애플리케이션에서 [atomic locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버를 사용해야합니다. 현재 이러한 캐시 드라이버에는 `memcached`, `dynamodb`, `redis` 및 `database` 드라이버가 포함됩니다. 또한 `cookie`세션 드라이버를 사용할 수 없습니다.
+
+By default, Laravel allows requests using the same session to execute concurrently. So, for example, if you use a JavaScript HTTP library to make two HTTP requests to your application, they will both execute at the same time. For many applications, this is not a problem; however, session data loss can occur in a small subset of applications that make concurrent requests to two different application endpoints which both write data to the session.
+
+기본적으로 라라벨은 동일한 세션을 사용하는 요청이 동시에 실행되도록 허용합니다. 예를 들어 자바 스크립트 HTTP 라이브러리를 사용하여 애플리케이션에 두 개의 HTTP 요청을 수행하면 두 요청이 동시에 실행됩니다. 많은 애플리케이션에서 이것이 문제가 되지 않습니다. 그러나 세션 데이터 손실은 둘 다 세션에 데이터를 쓰는 두 개의 서로 다른 애플리케이션 엔드포인트에 동시에 요청하는 애플리케이션의 작은 하위 집합에서 발생할 수 있습니다.
+
+(역자주: php는 기본 세션을 사용할 때 동시에 여러 요청이 들어올 경우 세션데이터의 정합성을 위해 세션락이 걸리며 뒤에 실행되는 요청들은 모두 대기가 됩니다. 추가적으로 [제니퍼소프트의 관련글](https://jennifersoft.com/ko/blog/tech/2019-03-21/)을 읽어보시면 좋을 것 같습니다. 라라벨은 반대로 세션락을 걸지 않아서 여기서는 락을 걸어주는 방식을 안내하고 있습니다)
+
+To mitigate this, Laravel provides functionality that allows you to limit concurrent requests for a given session. To get started, you may simply chain the `block` method onto your route definition. In this example, an incoming request to the `/profile` endpoint would acquire a session lock. While this lock is being held, any incoming requests to the `/profile` or `/order` endpoints which share the same session ID will wait for the first request to finish executing before continuing their execution:
+
+이를 완화하기 위해 라라벨은 주어진 세션에 대한 동시 요청을 제한 할 수있는 기능을 제공합니다. 시작하려면 단순히 `block` 메소드를 라우트 정의에 연결하면됩니다. 다음 예제에서 `/profile` 엔드 포인트에 대한 수신 요청은 세션 잠금을 획득합니다. 이 잠금이 유지되는 동안 동일한 세션 ID를 공유하는 `/profile` 또는 `/order` 엔드 포인트로 들어오는 모든 요청은 실행을 계속하기 전에 첫 번째 요청의 실행이 완료 될 때까지 기다립니다.
+
+    Route::post('/profile', function () {
+        //
+    })->block($lockSeconds = 10, $waitSeconds = 10)
+
+    Route::post('/order', function () {
+        //
+    })->block($lockSeconds = 10, $waitSeconds = 10)
+
+The `block` method accepts two optional arguments. The first argument accepted by the `block` method is the maximum number of seconds the session lock should be held for before it is released. Of course, if the request finishes executing before this time the lock will be released earlier.
+
+`block` 메소드는 두 개의 선택적 인수를 허용합니다. `block`메소드에서 허용하는 첫 번째 인수는 세션 잠금이 해제되기 전에 유지되어야하는 최대 시간 (초)입니다. 물론이 시간 전에 요청 실행이 완료되면 잠금이 더 일찍 해제됩니다.
+
+The second argument accepted by the `block` method is the number of seconds a request should wait while attempting to obtain a session lock. A `Illuminate\Contracts\Cache\LockTimeoutException` will be thrown if the request is unable to obtain a session lock within the given number of seconds.
+
+`block`메소드에서 허용하는 두 번째 인수는 세션 잠금을 얻으려고 시도하는 동안 요청이 기다려야하는 시간 (초)입니다. 요청이 주어진 시간 (초) 내에 세션 잠금을 얻을 수 없으면 `Illuminate\Contracts\Cache\LockTimeoutException`이 발생합니다.
+
+If neither of these arguments are passed, the lock will be obtained for a maximum of 10 seconds and requests will wait a maximum of 10 seconds while attempting to obtain a lock:
+
+이 인수 중 어느 것도 전달되지 않으면 최대 10 초 동안 잠금을 획득하고 요청은 잠금 획득을 시도하는 동안 최대 10 초 동안 대기합니다.
+
+    Route::post('/profile', function () {
+        //
+    })->block()
 
 <a name="adding-custom-session-drivers"></a>
 ## Adding Custom Session Drivers

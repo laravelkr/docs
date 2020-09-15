@@ -11,6 +11,10 @@
     - [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations)
     - [Contextual Binding](#contextual-binding)
     - [문맥에 따른 조건적 바인딩](#contextual-binding)
+    - [Binding Primitives](#binding-primitives)
+    - [기본 타입 바인딩](#binding-primitives)
+    - [Binding Typed Variadics](#binding-typed-variadics)
+    - [Typed Variadic 바인딩](#binding-typed-variadics)
     - [Tagging](#tagging)
     - [태깅](#tagging)
     - [Extending Bindings](#extending-bindings)
@@ -141,17 +145,6 @@ You may also bind an existing object instance into the container using the `inst
 
     $this->app->instance('HelpSpot\API', $api);
 
-#### Binding Primitives
-#### 기본 타입 바인딩
-
-Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
-
-때로는, 클래스가 주입되는 클래스들을 받아들일 수도 있지만, 정수형과 같은 기본 타입의 값들을 주입할 필요가 있을 수도 있습니다. 여러분은 손쉽게 문맥에 따라 조건적 바인딩을 통해서 클래스가 필요한 값을 주입할 수 있습니다.
-
-    $this->app->when('App\Http\Controllers\UserController')
-              ->needs('$variableName')
-              ->give($value);
-
 <a name="binding-interfaces-to-implementations"></a>
 ### Binding Interfaces To Implementations
 ### 인터페이스에 구현객체 바인딩하기
@@ -207,6 +200,83 @@ Sometimes you may have two classes that utilize the same interface, but you wish
               ->give(function () {
                   return Storage::disk('s3');
               });
+
+<a name="binding-primitives"></a>
+#### Binding Primitives
+#### 기본 타입 바인딩
+
+Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
+
+때로는, 클래스가 주입되는 클래스들을 받아들일 수도 있지만, 정수형과 같은 기본 타입의 값들을 주입 할 필요가 있을 수도 있습니다. 여러분은 손쉽게 문맥에 따라 조건적 바인딩을 통해서 클래스가 필요한 값을 주입할 수 있습니다.
+
+    $this->app->when('App\Http\Controllers\UserController')
+              ->needs('$variableName')
+              ->give($value);
+
+Sometimes a class may depend on an array of tagged instances. Using the `giveTagged` method, you may easily inject all of the container bindings with that tag:
+
+때때로 클래스는 태그 된 인스턴스의 배열에 의존 할 수 있습니다. `giveTagged` 메소드를 사용하면 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
+
+    $this->app->when(ReportAggregator::class)
+        ->needs('$reports')
+        ->giveTagged('reports');
+
+<a name="binding-typed-variadics"></a>
+### Binding Typed Variadics
+### Typed Variadic 바인딩
+
+Occasionally you may have a class that receives an array of typed objects using a variadic constructor argument:
+
+때때로 가변 생성자 인수를 사용하여 유형이 지정된 객체의 배열을 받는 클래스가 있을 수 있습니다.
+
+    class Firewall
+    {
+        protected $logger;
+        protected $filters;
+
+        public function __construct(Logger $logger, Filter ...$filters)
+        {
+            $this->logger = $logger;
+            $this->filters = $filters;
+        }
+    }
+
+Using contextual binding, you may resolve this dependency by providing the `give` method with a Closure that returns an array of resolved `Filter` instances:
+
+컨텍스트 바인딩을 사용하면 해결 된 `Filter` 인스턴스의 배열을 반환하는 Closure와 함께 `give` 메서드를 제공하여 이 종속성을 해결할 수 있습니다.
+
+    $this->app->when(Firewall::class)
+              ->needs(Filter::class)
+              ->give(function ($app) {
+                    return [
+                        $app->make(NullFilter::class),
+                        $app->make(ProfanityFilter::class),
+                        $app->make(TooLongFilter::class),
+                    ];
+              });
+
+For convenience, you may also just provide an array of class names to be resolved by the container whenever `Firewall` needs `Filter` instances:
+
+편의를 위해 `Firewall`에 `Filter` 인스턴스가 필요 할 때마다 컨테이너에서 확인 할 클래스 이름 배열을 제공 할 수도 있습니다.
+
+    $this->app->when(Firewall::class)
+              ->needs(Filter::class)
+              ->give([
+                  NullFilter::class,
+                  ProfanityFilter::class,
+                  TooLongFilter::class,
+              ]);
+
+#### Variadic Tag Dependencies
+#### 가변 태그 종속성
+
+Sometimes a class may have a variadic dependency that is type-hinted as a given class (`Report ...$reports`). Using the `needs` and `giveTagged` methods, you may easily inject all of the container bindings with that tag for the given dependency:
+
+때때로 클래스는 주어진 클래스 (`Report ... $reports`)로 타입 힌트 된 가변 종속성을 가질 수 있습니다. `needs` 및 `giveTagged` 메소드를 사용하면 주어진 종속성에 대해 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
+
+    $this->app->when(ReportAggregator::class)
+        ->needs(Report::class)
+        ->giveTagged('reports');
 
 <a name="tagging"></a>
 ### Tagging

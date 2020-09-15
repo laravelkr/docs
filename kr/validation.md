@@ -431,7 +431,7 @@ You may customize the error messages used by the form request by overriding the 
     {
         return [
             'title.required' => 'A title is required',
-            'body.required'  => 'A message is required',
+            'body.required' => 'A message is required',
         ];
     }
 
@@ -664,10 +664,10 @@ In this example, the `:attribute` placeholder will be replaced by the actual nam
 다음의 예에서 `:attribute` 플레이스홀더는 유효성 검사를 받는 필드의 실제 이름으로 대체됩니다. 유효성 검사 메세지에서 다른 플레이스 홀더들 또한 활용할 수 있습니다. 예를 들어:
 
     $messages = [
-        'same'    => 'The :attribute and :other must match.',
-        'size'    => 'The :attribute must be exactly :size.',
+        'same' => 'The :attribute and :other must match.',
+        'size' => 'The :attribute must be exactly :size.',
         'between' => 'The :attribute value :input is not between :min - :max.',
-        'in'      => 'The :attribute must be one of the following types: :values',
+        'in' => 'The :attribute must be one of the following types: :values',
     ];
 
 #### Specifying A Custom Message For A Given Attribute
@@ -695,8 +695,8 @@ In most cases, you will probably specify your custom messages in a language file
         ],
     ],
 
-#### Specifying Custom Attributes In Language Files
-#### 언어파일에 커스텀 속성 지정하기
+#### Specifying Custom Attribute Values
+#### 사용자 지정 속성 값 지정
 
 If you would like the `:attribute` portion of your validation message to be replaced with a custom attribute name, you may specify the custom name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
 
@@ -705,6 +705,16 @@ If you would like the `:attribute` portion of your validation message to be repl
     'attributes' => [
         'email' => 'email address',
     ],
+
+You may also pass the custom attributes as the fourth argument to the `Validator::make` method:
+
+사용자 정의 속성을 `Validator::make` 메소드의 네 번째 인수로 전달할 수도 있습니다.
+
+    $customAttributes = [
+        'email' => 'email address',
+    ];
+
+    $validator = Validator::make($input, $rules, $messages, $customAttributes);
 
 #### Specifying Custom Values In Language Files
 #### 언어 파일에서 사용자 값 지정
@@ -783,7 +793,7 @@ Below is a list of all available validation rules and their function:
 - [Digits Between](#rule-digits-between)
 - [Dimensions (Image Files)](#rule-dimensions)
 - [Distinct](#rule-distinct)
-- [E-Mail](#rule-email)
+- [Email](#rule-email)
 - [Ends With](#rule-ends-with)
 - [Exclude If](#rule-exclude-if)
 - [Exclude Unless](#rule-exclude-unless)

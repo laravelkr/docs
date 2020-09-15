@@ -29,6 +29,8 @@
     - [\*:*(다대다) 관계](#many-to-many-polymorphic-relations)
     - [Custom Polymorphic Types](#custom-polymorphic-types)
     - [사용자 정의 다형성 타입](#custom-polymorphic-types)
+- [Dynamic Relationships](#dynamic-relationships)
+- [동적 관계](#dynamic-relationships)
 - [Querying Relations](#querying-relations)
 - [관계 쿼리 질의하기](#querying-relations)
     - [Relationship Methods Vs. Dynamic Properties](#relationship-methods-vs-dynamic-properties)
@@ -41,6 +43,8 @@
     - [다형성 관계 쿼리](#querying-polymorphic-relationships)
     - [Counting Related Models](#counting-related-models)
     - [연관된 모델 수량 확인하기-카운트](#counting-related-models)
+    - [Counting Related Models On Polymorphic Relationships](#counting-related-models-on-polymorphic-relationships)
+    - [다형성 관계에서 관련된 모델 수량 확인하기](#counting-related-models-on-polymorphic-relationships)
 - [Eager Loading](#eager-loading)
 - [Eager 로딩](#eager-loading)
     - [Constraining Eager Loads](#constraining-eager-loads)
@@ -308,8 +312,7 @@ If your parent model does not use `id` as its primary key, or you wish to join t
 ### Many To Many
 ### \*:* (다대다) 관계 정의하기
 
-
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". 
+Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin".
 
 다 대다 관계는 `hasOne` 및 `hasMany` 관계보다 약간 더 복잡합니다. 이러한 관계의 예는 많은 역할을 가진 유저이며, 다른 유저도 해당 역할을 공유합니다. 예를 들어 많은 유저가 "관리자" 역할을 할 수 있습니다.
 
@@ -568,25 +571,30 @@ If you have defined a many-to-many relationship that uses a custom pivot model, 
 ### 연결을 통한 단일 관계
 
 The "has-one-through" relationship links models through a single intermediate relation.
-For example, if each supplier has one user, and each user is associated with one user history record, then the supplier model may access the user's history _through_ the user. Let's look at the database tables necessary to define this relationship:
 
 "연결을 통한" 관계는 하나의 중간 테이블을 통해 연결합니다.
-예를 들어 각 공급자(suppliers)가 한 명의 사용자(users)를 가지고 있고 각 사용자가 한 개의 사용자 이력(history) 레코드와 연결된 경우 공급자 모델은 사용자의 기록을 통해 접근할 수 있습니다. 이 관계를 정의하는 데 필요한 데이터베이스 테이블을 살펴보겠습니다.
 
-    users
+For example, in a vehicle repair shop application, each `Mechanic` may have one `Car`, and each `Car` may have one `Owner`. While the `Mechanic` and the `Owner` have no direct connection, the `Mechanic` can access the `Owner` _through_ the `Car` itself. Let's look at the tables necessary to define this relationship:
+
+예를 들어, 자동차 수리점 애플리케이션에서 각 `Mechanic`은 하나의 `Car`를 가질 수 있고, 각 `Car`는 하나의 `Owner`를 가질 수 있습니다. `Mechanic`과 `Owner`는 직접적인 연결이 없지만 `Mechanic`은 `Car` _를 통해_ `Owner`에 접근 할 수 있습니다. 이 관계를 정의하는 데 필요한 테이블을 살펴 보겠습니다.
+
+    mechanics
         id - integer
-        supplier_id - integer
+        name - string
 
-    suppliers
+    cars
         id - integer
+        model - string
+        mechanic_id - integer
 
-    history
+    owners
         id - integer
-        user_id - integer
+        name - string
+        car_id - integer
 
-Though the `history` table does not contain a `supplier_id` column, the `hasOneThrough` relation can provide access to the user's history to the supplier model. Now that we have examined the table structure for the relationship, let's define it on the `Supplier` model:
+Now that we have examined the table structure for the relationship, let's define the relationship on the `Mechanic` model:
 
-`history` 테이블에는 `supplier_id` 컬럼이 포함되지 않았지만 `hasOneThrough` 관계는 공급자(suppliers) 모델에 대한 사용자 이력(history)에 대한 접근을 제공할 수 있습니다. 이제 관계에 대한 테이블 구조를 살펴보았으므로 `Supplier` 모델에 대해 정의해보겠습니다.
+관계에 대한 테이블 구조를 확인해봤으니 이제 `Mechanic` 모델에서 관계를 정의 해 보겠습니다.
 
     <?php
 
@@ -594,14 +602,14 @@ Though the `history` table does not contain a `supplier_id` column, the `hasOneT
 
     use Illuminate\Database\Eloquent\Model;
 
-    class Supplier extends Model
+    class Mechanic extends Model
     {
         /**
-         * Get the user's history.
+         * Get the car's owner.
          */
-        public function userHistory()
+        public function carOwner()
         {
-            return $this->hasOneThrough('App\History', 'App\User');
+            return $this->hasOneThrough('App\Owner', 'App\Car');
         }
     }
 
@@ -613,20 +621,20 @@ Typical Eloquent foreign key conventions will be used when performing the relati
 
 관계 쿼리를 수행할 때 일반적인 Eloquent 외래 키 규칙이 사용됩니다. 관계 키를 커스텀하러면 세번째 및 네번째 인자로 `hasOneThrough` 메소드에 전달 할 수 있습니다. 세번째 인자는 중간 모델의 외래 키입니다. 네번째 인자는 최종 모델의 외래 키입니다. 다섯번째 인자는 로컬 키며, 여섯번째 인자는 중간 모델의 로컬 키입니다.
 
-    class Supplier extends Model
+    class Mechanic extends Model
     {
         /**
-         * Get the user's history.
+         * Get the car's owner.
          */
-        public function userHistory()
+        public function carOwner()
         {
             return $this->hasOneThrough(
-                'App\History',
-                'App\User',
-                'supplier_id', // Foreign key on users table...
-                'user_id', // Foreign key on history table...
-                'id', // Local key on suppliers table...
-                'id' // Local key on users table...
+                'App\Owner',
+                'App\Car',
+                'mechanic_id', // Foreign key on cars table...
+                'car_id', // Foreign key on owners table...
+                'id', // Local key on mechanics table...
+                'id' // Local key on cars table...
             );
         }
     }
@@ -803,9 +811,17 @@ You may also retrieve the parent from the polymorphic model by accessing the nam
 
     $imageable = $image->imageable;
 
-The `imageable` relation on the `Image` model will return either a `Post` or `User` instance, depending on which type of model owns the image.
+The `imageable` relation on the `Image` model will return either a `Post` or `User` instance, depending on which type of model owns the image. If you need to specify custom `type` and `id` columns for the `morphTo` relation, always ensure you pass the relationship name (which should exactly match the method name) as the first parameter:
 
-`Image` 모델의 `imageable` 관계는 이미지를 소유한 모델의 타입에 따라서 `Post` 또는 `User` 인스턴스를 반환합니다.
+`Image` 모델의 `imageable` 관계는 이미지를 소유한 모델의 타입에 따라서 `Post` 또는 `User` 인스턴스를 반환합니다. `morphTo` 관계에 대해 `type` 및 `id` 열을 커스터마이징 해야하는 경우 항상 첫 번째 매개 변수로 관계 이름 (메서드 이름과 정확히 일치해야 함)을 전달해야합니다.
+
+    /**
+     * Get the model that the image belongs to.
+     */
+    public function imageable()
+    {
+        return $this->morphTo(__FUNCTION__, 'imageable_type', 'imageable_id');
+    }
 
 <a name="one-to-many-polymorphic-relations"></a>
 ### One To Many (Polymorphic)
@@ -1047,6 +1063,25 @@ You may determine the morph alias of a given model at runtime using the `getMorp
 
     $class = Relation::getMorphedModel($alias);
 
+<a name="dynamic-relationships"></a>
+### Dynamic Relationships
+### 동적 관계
+
+You may use the `resolveRelationUsing` method to define relations between Eloquent models at runtime. While not typically recommended for normal application development, this may occasionally be useful when developing Laravel packages:
+
+런타임에 Eloquent 모델 간의 관계를 정의하기 위해 `resolveRelationUsing` 메소드를 사용할 수 있습니다. 일반적인 애플리케이션 개발에는 권장되지 않지만 라라벨 패키지를 개발할 때 유용 할 수 있습니다.
+
+    use App\Order;
+    use App\Customer;
+
+    Order::resolveRelationUsing('customer', function ($orderModel) {
+        return $orderModel->belongsTo(Customer::class, 'customer_id');
+    });
+
+> {note} When defining dynamic relationships, always provide explicit key name arguments to the Eloquent relationship methods.
+
+> {note} 동적 관계를 정의 할 때 항상 Eloquent 관계 메서드에 명시적인 키 이름 인수를 제공하십시오.
+
 <a name="querying-relations"></a>
 ## Querying Relations
 ## 관계 쿼리 질의하기
@@ -1198,9 +1233,9 @@ If you need even more power, you may use the `whereDoesntHave` and `orWhereDoesn
         $query->where('content', 'like', 'foo%');
     })->get();
 
-You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts with comments from authors that are not banned:
+You may use "dot" notation to execute a query against a nested relationship. For example, the following query will retrieve all posts that do not have comments and posts that have comments from authors that are not banned:
 
-중첩된 관계에 대해서는 "점(.)" 표기법을 사용하여 쿼리를 질의할 수 있습니다. 예를들어, 다음의 쿼리는 작성자가 규제 받지 않은 모든 포스트와 코멘트를 조회합니다.
+중첩된 관계에 대해서는 "점(.)" 표기법을 사용하여 쿼리를 질의할 수 있습니다. 예를 들어, 다음 쿼리는 댓글이 없는 모든 게시물과 차단되지 않은 작성자의 댓글이 있는 게시물을 검색합니다.
 
     use Illuminate\Database\Eloquent\Builder;
 
@@ -1335,6 +1370,43 @@ eager loading 쿼리에 쿼리 제약 조건을 추가 설정해야하는 경우
     $book->loadCount(['reviews' => function ($query) {
         $query->where('rating', 5);
     }])
+
+<a name="counting-related-models-on-polymorphic-relationships"></a>
+### Counting Related Models On Polymorphic Relationships
+### 다형성 관계에서 관련된 모델 수량 확인하기
+
+If you would like to eager load a `morphTo` relationship, as well as nested relationship counts on the various entities that may be returned by that relationship, you may use the `with` method in combination with the `morphTo` relationship's `morphWithCount` method.
+
+`morphTo` 관계뿐만 아니라 해당 관계에 의해 반환 될 수 있는 다양한 엔터티의 중첩 된 관계의 숫자를 직접 로드하려면 `with`메서드내에서 `morphTo`메서드와 `morphWithCount` 메서드를 함께 사용하면 됩니다.
+
+In this example, let's assume `Photo` and `Post` models may create `ActivityFeed` models. Additionally, let's assume that `Photo` models are associated with `Tag` models, and `Post` models are associated with `Comment` models.
+
+이 예제에서는 `Photo` 및 `Post` 모델이 `ActivityFeed` 모델을 생성 할 수 있다고 가정합니다. 또한 `Photo`모델은 `Tag`모델과 연결되고 `Post`모델은 `Comment`모델과 연결되어 있다고 가정 해 보겠습니다.
+
+Using these model definitions and relationships, we may retrieve `ActivityFeed` model instances and eager load all `parentable` models and their respective nested relationship counts:
+
+이러한 모델 정의와 관계를 사용하여 `ActivityFeed` 모델 인스턴스를 검색하고 모든 `parentable` 모델과 각각의 중첩 된 관계 수를 즉시로드 할 수 있습니다.
+
+    use Illuminate\Database\Eloquent\Relations\MorphTo;
+
+    $activities = ActivityFeed::query()
+        ->with(['parentable' => function (MorphTo $morphTo) {
+            $morphTo->morphWithCount([
+                Photo::class => ['tags'],
+                Post::class => ['comments'],
+            ]);
+        }])->get();
+
+In addition, you may use the `loadMorphCount` method to eager load all nested relationship counts on the various entities of the polymorphic relation if the `ActivityFeed` models have already been retrieved:
+
+또한, `ActivityFeed` 모델이 이미 검색된 경우 `loadMorphCount` 메서드를 사용하여 다형성 관계의 다양한 엔티티에 대한 모든 중첩 관계 수를 즉시로드 할 수 있습니다.
+
+    $activities = ActivityFeed::with('parentable')
+        ->get()
+        ->loadMorphCount('parentable', [
+            Photo::class => ['tags'],
+            Post::class => ['comments'],
+        ]);
 
 <a name="eager-loading"></a>
 ## Eager Loading
@@ -1638,6 +1710,17 @@ If you need to save multiple related models, you may use the `saveMany` method:
         new App\Comment(['message' => 'A new comment.']),
         new App\Comment(['message' => 'Another comment.']),
     ]);
+
+The `save` and `saveMany` methods will not add the new models to any in-memory relationships that are already loaded onto the parent model. If you plan on accessing the relationship after using the `save` or `saveMany` methods, you may wish to use the `refresh` method to reload the model and its relationships:
+
+`save` 및 `saveMany` 메소드는 이미 상위 모델에 로드 된 인메모리 관계에 새 모델을 추가하지 않습니다. `save` 또는 `saveMany` 메서드를 사용한 후 관계에 액세스하려는 경우 `refresh` 메서드를 사용하여 모델과 해당 관계를 다시 로드 할 수 있습니다.
+
+    $post->comments()->save($comment);
+    
+    $post->refresh();
+    
+    // All comments, including the newly saved comment...
+    $post->comments;
 
 <a name="the-push-method"></a>
 #### Recursively Saving Models & Relationships

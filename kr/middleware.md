@@ -87,8 +87,8 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 > {tip} 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
-### Before & After Middleware
-### Before & After 미들웨어
+#### Before & After Middleware
+#### Before & After 미들웨어
 
 Whether a middleware runs before or after a request depends on the middleware itself. For example, the following middleware would perform some task **before** the request is handled by the application:
 
@@ -191,6 +191,26 @@ When assigning middleware, you may also pass the fully qualified class name:
     Route::get('admin/profile', function () {
         //
     })->middleware(CheckAge::class);
+
+When assigning middleware to a group of routes, you may occasionally need to prevent the middleware from being applied to an individual route within the group. You may accomplish this using the `withoutMiddleware` method:
+
+라우트 그룹에 미들웨어를 할당 할 때 때때로 미들웨어가 그룹 내의 개별 라우트에 적용되는 것을 방지해야 할 수 있습니다. `withoutMiddleware` 메소드를 사용하여 이것을 처리할 수 있습니다.
+
+    use App\Http\Middleware\CheckAge;
+
+    Route::middleware([CheckAge::class])->group(function () {
+        Route::get('/', function () {
+            //
+        });
+
+        Route::get('admin/profile', function () {
+            //
+        })->withoutMiddleware([CheckAge::class]);
+    });
+
+The `withoutMiddleware` method can only remove route middleware and does not apply to [global middleware](#global-middleware).
+
+`withoutMiddleware` 메소드는 라우트 미들웨어 만 제거 할 수 있으며 [글로벌 미들웨어](#global-middleware)에는 적용되지 않습니다.
 
 <a name="middleware-groups"></a>
 ### Middleware Groups

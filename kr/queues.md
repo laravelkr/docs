@@ -610,24 +610,6 @@ job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnectio
                   ->onConnection('sqs')
                   ->onQueue('processing');
 
-Alternatively, you may specify the `connection` as a property on the job class:
-
-또는 작업 클래스에서 `connection`을 속성으로 지정할 수 있습니다.
-
-    <?php
-
-    namespace App\Jobs;
-
-    class ProcessPodcast implements ShouldQueue
-    {
-        /**
-         * The queue connection that should handle the job.
-         *
-         * @var string
-         */
-        public $connection = 'sqs';
-    }
-
 <a name="max-job-attempts-and-timeout"></a>
 ### Specifying Max Job Attempts / Timeout Values
 ### 최대 재시도 횟수 / 타임아웃 시간 지정하기
@@ -732,9 +714,9 @@ In this example, the job is released for ten seconds if the application is unabl
 #### Timeout
 #### 타임아웃
 
-> {note} The `timeout` feature is optimized for PHP 7.1+ and the `pcntl` PHP extension.
+> {note} The `pcntl` PHP extension must be installed in order to specify job timeouts.
 
-> {note} `timeout` 기능은 PHP 7.1 이상이며 `pcntl` PHP 확장 기능에 최적화 되어 있습니다.
+> {note} 작업 시간 제한을 지정하려면 `pcntl` PHP 확장기능을 설치해야합니다.
 
 Likewise, the maximum number of seconds that jobs can run may be specified using the `--timeout` switch on the Artisan command line:
 
@@ -759,6 +741,10 @@ However, you may also define the maximum number of seconds a job should be allow
          */
         public $timeout = 120;
     }
+
+Sometimes, IO blocking processes such as sockets or outgoing HTTP connections may not respect your specified timeout. Therefore, when using these features, you should always attempt to specify a timeout using their APIs as well. For example, when using Guzzle, you should always specify a connection and request timeout value.
+
+때로는 소켓이나 나가는 HTTP 연결과 같은 IO 차단 프로세스가 지정된 시간 제한을 따르지 않을 수 있습니다. 따라서 이러한 기능을 사용할 때 항상 해당 API를 사용하여 시간 제한을 지정해야합니다. 예를 들어 Guzzle을 사용할 때는 항상 연결 및 요청 시간 제한 값을 지정해야합니다.
 
 <a name="rate-limiting"></a>
 ### Rate Limiting
@@ -1068,13 +1054,27 @@ Job 마다 실패한 Job의 재시도 지연을 설정하려면 대기중인 Job
      */
     public $retryAfter = 3;
 
+If you require more complex logic for determining the retry delay, you may define a `retryAfter` method on your queued job class:
+
+재시도 지연을 결정하기 위해 더 복잡한 로직이 필요한 경우 대기중인 작업 클래스에 `retryAfter`메서드를 정의 할 수 있습니다.
+
+    /**
+    * Calculate the number of seconds to wait before retrying the job.
+    *
+    * @return int
+    */
+    public function retryAfter()
+    {
+        return 3;
+    }
+
 <a name="cleaning-up-after-failed-jobs"></a>
 ### Cleaning Up After Failed Jobs
 ### 실패한 Job 정리하기
 
-You may define a `failed` method directly on your job class, allowing you to perform job specific clean-up when a failure occurs. This is the perfect location to send an alert to your users or revert any actions performed by the job. The `Exception` that caused the job to fail will be passed to the `failed` method:
+You may define a `failed` method directly on your job class, allowing you to perform job specific clean-up when a failure occurs. This is the perfect location to send an alert to your users or revert any actions performed by the job. The `Throwable` exception that caused the job to fail will be passed to the `failed` method:
 
-job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패가 발생했을 때 job을 정리하는 액션을 수행할 수 있게 합니다. 이 메소드는 사용자에게 알림을 보내거나, job에서 실행된 액션을 되돌리는 역할을 하기 좋습니다. `failed`메소드에는 job에서 발생한 `Exception`이 전달됩니다.
+job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패가 발생했을 때 job을 정리하는 액션을 수행할 수 있게 합니다. 이 메소드는 사용자에게 알림을 보내거나, job에서 실행된 액션을 되돌리는 역할을 하기 좋습니다. `failed`메소드에는 job에서 발생한 `Throwable` 예외가 전달됩니다.
 
     <?php
 
@@ -1082,7 +1082,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 
     use App\AudioProcessor;
     use App\Podcast;
-    use Exception;
+    use Throwable;
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Queue\InteractsWithQueue;
@@ -1097,7 +1097,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
         /**
          * Create a new job instance.
          *
-         * @param  Podcast  $podcast
+         * @param  \App\Podcast  $podcast
          * @return void
          */
         public function __construct(Podcast $podcast)
@@ -1108,7 +1108,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
         /**
          * Execute the job.
          *
-         * @param  AudioProcessor  $processor
+         * @param  \App\AudioProcessor  $processor
          * @return void
          */
         public function handle(AudioProcessor $processor)
@@ -1117,12 +1117,12 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
         }
 
         /**
-         * The job failed to process.
+         * Handle a job failure.
          *
-         * @param  Exception  $exception
+         * @param  \Throwable  $exception
          * @return void
          */
-        public function failed(Exception $exception)
+        public function failed(Throwable $exception)
         {
             // Send user notification of failure, etc...
         }
@@ -1185,11 +1185,19 @@ To view all of your failed jobs that have been inserted into your `failed_jobs` 
 
     php artisan queue:failed
 
-The `queue:failed` command will list the job ID, connection, queue, and failure time. The job ID may be used to retry the failed job. For instance, to retry a failed job that has an ID of `5`, issue the following command:
+The `queue:failed` command will list the job ID, connection, queue, failure time, and other information about the job. The job ID may be used to retry the failed job. For instance, to retry a failed job that has an ID of `5`, issue the following command:
 
-`queue:failed` 명령은 Job의 ID, 커넥션, queue, 그리고 실패 시간을 목록으로 보여줍니다. Job ID는 실패한 Job을 다시 시도하기 위해 사용될 수 있습니다. 예를 들어 `5`라는 ID를 가진 실패한 Job을 재시작할려면, 다음 명령어를 실행합니다.
+`queue:failed` 명령은 Job의 ID, 커넥션, queue, 실패 시간 및 기타 작업 정보를 목록으로 보여줍니다. Job ID는 실패한 Job을 다시 시도하기 위해 사용될 수 있습니다. 예를 들어 `5`라는 ID를 가진 실패한 Job을 재시작할려면, 다음 명령어를 실행합니다.
 
     php artisan queue:retry 5
+
+If necessary, you may pass multiple IDs or an ID range (when using numeric IDs) to the command:
+
+필요한 경우 여러 ID 또는 ID 범위 (숫자 ID 사용시)를 명령에 전달할 수 있습니다.
+
+    php artisan queue:retry 5 6 7 8 9 10
+
+    php artisan queue:retry --range=5-10
 
 To retry all of your failed jobs, execute the `queue:retry` command and pass `all` as the ID:
 

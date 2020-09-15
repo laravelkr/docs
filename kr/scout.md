@@ -17,6 +17,8 @@
     - [검색 데이터 설정하기](#configuring-searchable-data)
     - [Configuring The Model ID](#configuring-the-model-id)
     - [모델 ID 설정하기](#configuring-the-model-id)
+    - [Identifying Users](#identifying-users)
+    - [사용자 식별](#identifying-users)
 - [Indexing](#indexing)
 - [인덱싱](#indexing)
     - [Batch Import](#batch-import)
@@ -213,8 +215,8 @@ By default, Scout will use the primary key of the model as the unique ID stored 
         {
             return $this->email;
         }
-        
-         /**
+
+        /**
          * Get the key name used to index the model.
          *
          * @return mixed
@@ -224,6 +226,20 @@ By default, Scout will use the primary key of the model as the unique ID stored 
             return 'email';
         }
     }
+
+<a name="identifying-users"></a>
+### Identifying Users
+### 사용자 식별
+
+Scout also allows you to auto identify users when using Algolia. Associating the authenticated user with search operations may be helpful when viewing your search analytics within Algolia's dashboard. You can enable user identification by setting `SCOUT_IDENTIFY` to `true` in your `.env` file:
+
+Scout를 사용하면 Algolia를 사용할 때 사용자를 자동으로 식별 할 수도 있습니다. 인증 된 사용자를 검색 작업과 연결하면 Algolia의 대시 보드 내에서 검색 분석을 볼 때 도움이 될 수 있습니다. `.env` 파일에서 `SCOUT_IDENTIFY`를 `true`로 설정하여 사용자 식별을 활성화 할 수 있습니다.
+
+    SCOUT_IDENTIFY=true
+
+Enabling this feature this will also pass the request's IP address and your authenticated user's primary identifier to Algolia so this data is associated with any search request that is made by the user.
+
+이 기능을 활성화하면 요청의 IP 주소와 인증 된 사용자의 기본 식별자도 Algolia에 전달되므로이 데이터는 사용자가 만든 모든 검색 요청과 연결됩니다.
 
 <a name="indexing"></a>
 ## Indexing

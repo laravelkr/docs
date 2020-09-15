@@ -57,10 +57,11 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 `get` 메서드는 `Illuminate\Http\Client\Response` 인스턴스를 반환합니다. 이 인스턴스는 응답을 검사할 때 사용하는 다양한 메서드를 제공합니다.
 
     $response->body() : string;
-    $response->json() : array;
+    $response->json() : array|mixed;
     $response->status() : int;
     $response->ok() : bool;
     $response->successful() : bool;
+    $response->failed() : bool;
     $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
@@ -85,6 +86,18 @@ Of course, it is common when using `POST`, `PUT`, and `PATCH` to send additional
         'role' => 'Network Administrator',
     ]);
 
+#### GET Request Query Parameters
+#### GET 리퀘스트 쿼리 파라메터
+
+When making `GET` requests, you may either append a query string to the URL directly or pass an array of key / value pairs as the second argument to the `get` method:
+
+`GET` 요청을 할 때 쿼리스트링을 URL에 직접 추가하거나 키 / 값 쌍의 배열을 `get` 메소드의 두 번째 인수로 전달할 수 있습니다.
+
+    $response = Http::get('http://test.com/users', [
+        'name' => 'Taylor',
+        'page' => 1,
+    ]);
+
 #### Sending Form URL Encoded Requests
 #### 폼 URL 인코디드 요청 전송하기
 
@@ -96,6 +109,17 @@ If you would like to send data using the `application/x-www-form-urlencoded` con
         'name' => 'Sara',
         'role' => 'Privacy Consultant',
     ]);
+
+#### Sending A Raw Request Body
+#### Raw Body Request 보내기
+
+You may use the `withBody` method if you would like to provide a raw request body when making a request:
+
+요청할 때 raw request body를 발송하려면 `withBody` 메서드를 사용할 수 있습니다.
+
+    $response = Http::withBody(
+        base64_encode($photo), 'image/jpeg'
+    )->post('http://test.com/photo');
 
 #### Multi-Part Requests
 #### 멀티-파트 요청
@@ -194,6 +218,9 @@ Guzzle의 기본 동작과는 달리 라라벨 HTTP 클라이언트는 클라이
 
     // 상태 코드가 200 이상 300 미만인지 판단...
     $response->successful();
+
+    // 상태 코드가 400이상 인지 판단...
+    $response->failed();
 
     // 응답 코드가 400대인지 판단...
     $response->clientError();
@@ -365,20 +392,20 @@ If needed, you may assert that a specific request was not sent using the `assert
 필요한 경우 `assertNotSent` 메소드를 사용하여 특정 요청을 전송하지 않았는지 검증 할 수 있습니다.
 
     Http::fake();
-    
+
     Http::post('http://test.com/users', [
         'name' => 'Taylor',
         'role' => 'Developer',
     ]); 
-       
+
     Http::assertNotSent(function (Request $request) {
         return $request->url() === 'http://test.com/posts';
     });
-    
+
 Or, if you would like to assert that no requests were sent, you may use the `assertNothingSent` method:
 
 또는 요청이 전송되지 않았는지 검증하려면 `assertNothingSent` 메소드를 사용할 수 있습니다.
 
     Http::fake();
-    
+
     Http::assertNothingSent();

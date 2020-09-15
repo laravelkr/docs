@@ -158,6 +158,8 @@
 - 공식 패키지들
     - [Cashier (Stripe)](/docs/{{version}}/billing)
     - [캐셔 (Stripe)](/docs/{{version}}/billing)
+    - [Cashier (Paddle)](/docs/{{version}}/cashier-paddle)
+    - [캐셔 (Paddle)](/docs/{{version}}/cashier-paddle)
     - [Cashier (Mollie)](https://github.com/laravel/cashier-mollie)
     - [캐셔 (Mollie)](https://github.com/laravel/cashier-mollie)
     - [Dusk](/docs/{{version}}/dusk)

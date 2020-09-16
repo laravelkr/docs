@@ -703,7 +703,7 @@ Sometimes you may need to construct a where clause that compares the results of 
 
 주어진 값에 대한 서브쿼리의 결과를 비교하는 Where 절을 생성해야 할때, 클로저와 값을 `Where` 메서드에 전달하면 됩니다. 예를 들어 다음 쿼리는 주어진 유형의 최근 "membership"을 가진 모든 사용자를 검색합니다;
 
-    use App\User;
+    use App\Models\User;
 
     $users = User::where(function ($query) {
         $query->select('type')
@@ -880,7 +880,6 @@ Sometimes you may want clauses to apply to a query only when something else is t
                     })
                     ->get();
 
-
 The `when` method only executes the given Closure when the first parameter is `true`. If the first parameter is `false`, the Closure will not be executed.
 
 `when` 메소드는 첫번째 파라미터가 `true` 일때 주어진 클로저를 실행합니다. 첫번째 파라미터가 `false` 라면 클로저는 실행되지 않을 것입니다.
@@ -956,7 +955,7 @@ In addition to inserting records into the database, the query builder can also u
                   ->update(['votes' => 1]);
 
 #### Update Or Insert
-####  Updates-수정 또는 Inserts-삽입
+#### Updates-수정 또는 Inserts-삽입
 
 Sometimes you may want to update an existing record in the database or create it if no matching record exists. In this scenario, the `updateOrInsert` method may be used. The `updateOrInsert` method accepts two arguments: an array of conditions by which to find the record, and an array of column and value pairs containing the columns to be updated.
 

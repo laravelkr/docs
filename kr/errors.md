@@ -7,10 +7,10 @@
 - [설정하기](#configuration)
 - [The Exception Handler](#the-exception-handler)
 - [Exception 핸들러](#the-exception-handler)
-    - [Report Method](#report-method)
-    - [Report 메소드](#report-method)
-    - [Render Method](#render-method)
-    - [Render 메소드](#render-method)
+    - [Reporting Exceptions](#reporting-exceptions)
+    - [Reporting Exceptions](#reporting-exceptions)
+    - [Rendering Exceptions](#rendering-exceptions)
+    - [Rendering Exceptions](#rendering-exceptions)
     - [Reportable & Renderable Exceptions](#renderable-exceptions)
     - [Reportable & Renderable Exceptions](#renderable-exceptions)
 - [HTTP Exceptions](#http-exceptions)
@@ -42,38 +42,43 @@ For local development, you should set the `APP_DEBUG` environment variable to `t
 ## The Exception Handler
 ## Exception 핸들러
 
-<a name="report-method"></a>
-### The Report Method
-### Report 메소드
+<a name="reporting-exceptions"></a>
+### Reporting Exceptions
+### Reporting Exceptions
 
-All exceptions are handled by the `App\Exceptions\Handler` class. This class contains two methods: `report` and `render`. We'll examine each of these methods in detail. The `report` method is used to log exceptions or send them to an external service like [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, the `report` method passes the exception to the base class where the exception is logged. However, you are free to log exceptions however you wish.
+All exceptions are handled by the `App\Exceptions\Handler` class. This class contains a `register` method where you may register custom exception reporter and renderer callbacks. We'll examine each of these concepts in detail. Exception reporting is used to log exceptions or send them to an external service like [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, exceptions will be logged based on your [logging](/docs/{{version}}/logging) configuration. However, you are free to log exceptions however you wish.
 
-모든 예외-exception는 `App\Exceptions\Handler` 클래스에 의해서 처리됩니다. 이 클래스에는 `report`와 `render`의 두 가지 메소드가 있습니다. 각 방법을 자세히 살펴 보겠습니다. `report` 메소드는 예외-exceptions를 로깅하거나 [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) 또는 [Sentry](https//github.com/getsentry/sentry-laravel)와 같은 외부 서비스로 전송하는 데 사용됩니다. 기본적으로 `report` 메소드는 예외가 기록되는 기본 클래스에 예외를 전달합니다. 그러나 원하는 경우에만 예외를 기록 할 수도 있습니다.
+모든 예외-exception는 `App\Exceptions\Handler` 클래스에 의해서 처리됩니다. 이 클래스에는 커스텀 예외 리포터와 렌더러 콜백을 등록할 수 있는 `register` 메소드가 있습니다. 각 개념을 자세히 살펴 보겠습니다. Exception Reporting는 예외를 기록하거나 [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) 또는 [Sentry](https://github.com/getsentry/sentry-laravel)와 같은 외부 서비스로 전송하는 데 사용됩니다. 기본적으로 예외는 설정 [logging](/docs/{{version}}/logging) 설정에 따라 기록됩니다. 그러나 원하는 경우에만 예외를 기록 할 수도 있습니다.
 
-For example, if you need to report different types of exceptions in different ways, you may use the PHP `instanceof` comparison operator:
+For example, if you need to report different types of exceptions in different ways, you may use the `reportable` method to register a Closure that should be executed when an exception of a given type needs to be reported. Laravel will deduce what type of exception the Closure reports by examining the type-hint of the Closure:
 
-예를 들어 각기 다른 유형의 예외-exception을 다른 방법 보고해야한다면, PHP의 instanceof 비교 연산자를 사용하면 됩니다.
+예를 들어 각기 다른 유형의 예외-exception을 다른 방법 보고해야한다면, instanceof 비교 연산자를 사용하면 됩니다.
+
+    use App\Exceptions\CustomException;
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * This is a great spot to send exceptions to Flare, Sentry, Bugsnag, etc.
-     *
-     * @param  \Throwable  $exception
      * @return void
      */
-    public function report(Throwable $exception)
+    public function register()
     {
-        if ($exception instanceof CustomException) {
+        $this->reportable(function (CustomException $e) {
             //
-        }
-
-        parent::report($exception);
+        });
     }
 
-> {tip} Instead of making a lot of `instanceof` checks in your `report` method, consider using [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)
+When you register a custom exception reporting callback using the `reportable` method, Laravel will still log the exception using the default logging configuration for the application. If you wish to stop the propagation of the exception to the default logging stack, you may use the `stop` method when defining your reporting callback:
 
-> {tip} `report` 메소드 안에서 수많은 `instanceof` 체크를 하는 대신에 [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 사용하도록 하십시오.
+`reportable` 메소드를 사용하여 사용자 정의 예외보고 콜백을 등록할 때 Laravel은 애플리케이션의 기본 로깅 구성을 사용하여 예외를 계속 기록합니다. 기본 로깅 스택으로의 예외 전파를 중지하려면 보고 콜백을 정의할 때 `stop` 메소드를 사용할 수 있습니다.
+
+    $this->reportable(function (CustomException $e) {
+        //
+    })->stop();
+
+> {tip} To customize the exception reporting for a given exception, you may also consider using [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)
+
+> {tip} 특정 예외에 대한 예외보고를 사용자 지정하려면 [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)를 사용하는 것도 고려할 수 있습니다.
 
 #### Global Log Context
 #### 글로벌 로그 컨텍스트
@@ -97,9 +102,9 @@ If available, Laravel automatically adds the current user's ID to every exceptio
 #### The `report` Helper
 #### `report` 헬퍼 함수
 
-Sometimes you may need to report an exception but continue handling the current request. The `report` helper function allows you to quickly report an exception using your exception handler's `report` method without rendering an error page:
+Sometimes you may need to report an exception but continue handling the current request. The `report` helper function allows you to quickly report an exception using your exception handler without rendering an error page:
 
-때때로, 현재 발생한 exception-예외를 report-보고해야 하지만, 현재 request 처리를 계속하기를 원할 수도 있습니다. `report` 헬퍼 함수는 에러 페이지를 렌더링 하지 않으면서, exception 핸들러의 `report` 메소드를 사용하여 보다 빠르게 예외사항을 보고합니다.
+때때로, 현재 발생한 exception-예외를 report-보고해야 하지만, 현재 request 처리를 계속하기를 원할 수도 있습니다. `report` 헬퍼 함수는 에러 페이지를 렌더링 하지 않으면서, exception 핸들러를 사용하여 보다 빠르게 예외사항을 보고합니다.
 
     public function isValid($value)
     {
@@ -132,28 +137,26 @@ Exception 핸들러의 `$dontReport` 속성 배열에 포함되어 있는 유형
         \Illuminate\Validation\ValidationException::class,
     ];
 
-<a name="render-method"></a>
-### The Render Method
-### Render 메소드
+<a name="rendering-exceptions"></a>
+### Rendering Exceptions
+### Rendering Exceptions
 
-The `render` method is responsible for converting a given exception into an HTTP response that should be sent back to the browser. By default, the exception is passed to the base class which generates a response for you. However, you are free to check the exception type or return your own custom response:
+By default, the Laravel exception handler will convert exceptions into an HTTP response for you. However, you are free to register a custom rendering Closure for exceptions of a given type. You may accomplish this via the `renderable` method of your exception handler. Laravel will deduce what type of exception the Closure renders by examining the type-hint of the Closure:
 
-`render` 메소드는 주어진 예외-exception를 HTTP 응답으로 변환하고 브라우저에게 보내는 역할을 담당합니다. 기본적으로 예외-exception는 응답을 생성하는 기본 클래스로 전달됩니다. 하지만 예외-exception의 유형을 파악하고 사용자 지정된 응답을 반환 것도 여러분의 자유입니다.
+기본적으로 Laravel 예외 핸들러는 예외를 HTTP 응답으로 변환합니다. 그러나 주어진 유형의 예외에 대해 사용자 지정 렌더링 클로저(Closure)를 자유롭게 등록할 수 있습니다. exception 핸들러의 `renderable` 메소드를 통하여 이 작업을 수행할 수 있습니다. Laravel은 클로저(Closure)의 유형 힌트를 검사하여 클로저(Closure)가 렌더링하는 예외 유형을 추론합니다.
+
+    use App\Exceptions\CustomException;
 
     /**
-     * Render an exception into an HTTP response.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function render($request, Throwable $exception)
+    public function register()
     {
-        if ($exception instanceof CustomException) {
+        $this->renderable(function (CustomException $e, $request) {
             return response()->view('errors.custom', [], 500);
-        }
-
-        return parent::render($request, $exception);
+        });
     }
 
 <a name="renderable-exceptions"></a>
@@ -194,25 +197,35 @@ Exception 핸들러의 `report` 그리고 `render` 메소드에서 exception의 
         }
     }
 
+If your exception contains custom reporting logic that only occurs when certain conditions are met, you may need to instruct Laravel to report the exception using the default exception handling configuration. To accomplish this, you may return `false` from the exception's `report` method:
+
+특정 조건에 충족 될 때만 발생하는 사용자 정의보고 로직이 예외에 포함된 경우 기본 예외 처리 구성을 사용하여 예외를 보고하도록 Laravel에 지시해야 할 수 있습니다. 이를 위해 예의의 `report` 메소드에서 `false`를 반환할 수 있습니다.
+
+    /**
+     * Report the exception.
+     *
+     * @return bool|void
+     */
+    public function report()
+    {
+        // Determine if the exception needs custom reporting...
+
+        return false;
+    }
+
 > {tip} You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
 > {tip} `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
 
 <a name="http-exceptions"></a>
 ## HTTP Exceptions
-## HTTP 예외-exception
+## HTTP Exceptions
 
 Some exceptions describe HTTP error codes from the server. For example, this may be a "page not found" error (404), an "unauthorized error" (401) or even a developer generated 500 error. In order to generate such a response from anywhere in your application, you may use the `abort` helper:
 
 어떤 예외들-exceptions은 서버에서 발생하는 HTTP 에러 코드를 나타냅니다. 예를 들어, "페이지를 찾을 수 없습니다." 에러(404)나, 인증 오류 (401) 또는 개발자가 유발하는 500 오류 같은 것들입니다. 애플리케이션의 어느 곳에서든 이 같은 응답을 반환하려면 `abort` 헬퍼 함수를 사용하면 됩니다.
 
     abort(404);
-
-The `abort` helper will immediately raise an exception which will be rendered by the exception handler. Optionally, you may provide the response text:
-
-`abort` 헬퍼함수는 즉시 예외-exception을 발생시키고, 그 예외는 Exception 핸들러에 의해 렌더링될 것입니다. 선택적으로 응답의 텍스트를 지정할 수도 있습니다.
-
-    abort(403, 'Unauthorized action.');
 
 <a name="custom-http-error-pages"></a>
 ### Custom HTTP Error Pages

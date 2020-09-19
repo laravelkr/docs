@@ -2628,11 +2628,9 @@ The `words` method limits the number of words in a string:
 <a name="method-action"></a>
 #### `action()` {#collection-method}
 
-The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
+The `action` function generates a URL for the given controller action:
 
-`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달하지 않아도 됩니다. 대신, `App\Http\Controllers` 네임스페이스에 따른 컨트롤러 클래스 이름을 전달하면 됩니다.
-
-    $url = action('HomeController@index');
+`action` 함수는 주어진 컨트롤러 메소드로 URL을 생성합니다.
 
     $url = action([HomeController::class, 'index']);
 
@@ -2640,7 +2638,7 @@ If the method accepts route parameters, you may pass them as the second argument
 
 메소드가 라우트 파라미터를 받아들인다면, 두 번째 인자로 메소드에 전달하십시오.
 
-    $url = action('UserController@profile', ['id' => 1]);
+    $url = action([UserController::class, 'profile'], ['id' => 1]);
 
 <a name="method-asset"></a>
 #### `asset()` {#collection-method}
@@ -2734,9 +2732,9 @@ The `abort` function throws [an HTTP exception](/docs/{{version}}/errors#http-ex
 
     abort(403);
 
-You may also provide the exception's response text and custom response headers:
+You may also provide the exception's message and custom response headers that should be sent to the browser:
 
-exception 의 응답 텍스트를 제공하거나, 커스텀 헤더를 지정할 수도 있습니다.
+브라우저에 보내야 하는 exception 의 메세지를 제공하거나, 커스텀 헤더를 지정할 수도 있습니다.
 
     abort(403, 'Unauthorized.', $headers);
 
@@ -2875,7 +2873,7 @@ The `class_uses_recursive` function returns all traits used by a class, includin
 
 `class_uses_recursive` 함수는 모든 부모 클래스가 사용하는 trait를 포함하여 클래스가 사용하는 모든 trait을 반환합니다.
 
-    $traits = class_uses_recursive(App\User::class);
+    $traits = class_uses_recursive(App\Models\User::class);
 
 <a name="method-collect"></a>
 #### `collect()` {#collection-method}
@@ -3129,7 +3127,7 @@ The `policy` method retrieves a [policy](/docs/{{version}}/authorization#creatin
 
 `policy` 메소도는 주어진 클래스를 위한 [policy](/docs/{{version}}/authorization#creating-policies) 인스턴스를 조회합니다.
 
-    $policy = policy(App\User::class);
+    $policy = policy(App\Models\User::class);
 
 <a name="method-redirect"></a>
 #### `redirect()` {#collection-method}
@@ -3147,9 +3145,9 @@ The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/res
 <a name="method-report"></a>
 #### `report()` {#collection-method}
 
-The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method:
+The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
-`report` 함수는 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드를 사용하여 exception-예외를 보고합니다.
+`report` 함수는 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)를 이용하여 예외(exception)를 보고합니다.
 
     report($e);
 
@@ -3167,9 +3165,9 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 <a name="method-rescue"></a>
 #### `rescue()` {#collection-method}
 
-The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler)'s `report` method; however, the request will continue processing:
+The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler); however, the request will continue processing:
 
-`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외-exception을 받아냅니다. catch 된 모든 예외-exception은 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 `report` 메소드로 전달되지만, request-요청 에 대한 처리는 계속됩니다.
+`rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외(exception)을 받아냅니다. catch 된 모든 예외(exception) [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 요청(request)에 대한 처리는 계속됩니다.
 
     return rescue(function () {
         return $this->method();

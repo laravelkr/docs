@@ -3147,7 +3147,7 @@ The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/res
 
 The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
-`report` 함수는 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)를 이용하여 예외(exception)를 보고합니다.
+`report` 함수는 [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)를 예외(exception)를 보고합니다.
 
     report($e);
 

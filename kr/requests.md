@@ -61,7 +61,9 @@ If your controller method is also expecting input from a route parameter you sho
 
 만약 컨트롤러 메소드에서 라우트 파라미터로 부터 입력값을 받아야 한다면, 다른 의존성을 지정한 뒤에 라우트 파라미터를 나열해야 합니다. 예를 들어 라우트는 다음과 같이 정의될 수 있습니다.
 
-    Route::put('user/{id}', 'UserController@update');
+    use App\Http\Controllers\UserController;
+    
+    Route::put('user/{id}', [UserController::class, 'update']);
 
 You may still type-hint the `Illuminate\Http\Request` and access your route parameter `id` by defining your controller method as follows:
 

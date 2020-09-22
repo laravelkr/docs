@@ -5,6 +5,8 @@
 - [시작하기](#introduction)
 - [Generating Migrations](#generating-migrations)
 - [마이그레이션 파일 생성하기](#generating-migrations)
+    - [Squashing Migrations](#squashing-migrations)
+    - [스쿼싱 마이그레이션](#squashing-migrations)
 - [Migration Structure](#migration-structure)
 - [마이그레이션의 구조](#migration-structure)
 - [Running Migrations](#running-migrations)
@@ -79,6 +81,31 @@ The `--table` and `--create` options may also be used to indicate the name of th
 If you would like to specify a custom output path for the generated migration, you may use the `--path` option when executing the `make:migration` command. The given path should be relative to your application's base path.
 
 생성된 마이그레이션 파일이 생성될 출력 경로를 지정하고 싶다면 `make:migration` 명령어를 실행할 때 `--path` 옵션을 사용하면 됩니다. 주어진 경로는 애플리케이션의 베이스 경로로 부터 연관된 상대경로여야 합니다.
+
+<a name="squashing-migrations"></a>
+### Squashing Migrations
+### 스쿼싱 마이그레이션
+
+As you build your application, you may accumulate more and more migrations over time. This can lead to your migration directory becoming bloated with potentially hundreds of migrations. If you would like, you may "squash" your migrations into a single SQL file. To get started, execute the `schema:dump` command:
+
+여러분의 애플리케이션을 빌드할 때, 시간이 지남에 따라 점점 더 많은 마이그레이션이 누적될 수 있습니다. 이로 인해 잠재적으로 수백 개의 마이그레이션으로 마이그레이션 폴더가 비대해질 수 있습니다. 여러분이 원한다면, 마이그레이션을 단일 SQL 파일로 "squash" 할 수 있습니다. 시작하려면 `schema : dump` 명령을 실행합니다.
+
+    php artisan schema:dump
+
+    // Dump the current database schema and prune all existing migrations...
+    php artisan schema:dump --prune
+
+When you execute this command, Laravel will write a "schema" file to your `database/schema` directory. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute the schema file's SQL first. After executing the schema file's commands, Laravel will execute any remaining migrations that were not part of the schema dump.
+
+이 명령을 실행하면, 라라벨은 `database/schema` 폴더에 "schema" 파일을 작성합니다. 이제, 데이터베이스 마이그레이트를 시도하고 다른 마이그레이션이 실행되지 않은 경우, 라라벨은 스키마 파일의 SQL을 먼저 실행합니다. 스키마 파일의 명령을 실행한 후, 라라벨은 스키마 덤프의 일부가 아닌 나머지 마이그레이션을 실행합니다.
+
+You should commit your database schema file to source control so that other new developers on your team may quickly create your application's initial database structure.
+
+여러분은 팀의 다른 새로운 개발자 애플리케이션의 초기 데이터베이스 구조를 빠르게 만들 수 있도록 데이터베이스 스키마 파일을 소스 컨트롤에 커밋해야 합니다.
+
+> {note} Migration squashing is only available for the MySQL and PostgreSQL databases.
+
+> {note} 마이그레이션 스쿼싱은 MySQL 및 PostgreSQL 데이터베이스에서만 사용할 수 잇습니다.
 
 <a name="migration-structure"></a>
 ## Migration Structure
@@ -465,6 +492,7 @@ Modifier  |  Description
 `->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL)
 `->default($value)`  |  Specify a "default" value for the column
 `->first()`  |  Place the column "first" in the table (MySQL)
+`->from($integer)`  |  Set the starting value of an auto-incrementing field (MySQL / PostgreSQL)
 `->nullable($value = true)`  |  Allows (by default) NULL values to be inserted into the column
 `->storedAs($expression)`  |  Create a stored generated column (MySQL)
 `->unsigned()`  |  Set INTEGER columns as UNSIGNED (MySQL)
@@ -482,14 +510,13 @@ Modifier  | 설명
 `->comment('my comment')`  |  컬럼에 코멘트 추가합니다 (MySQL/PostgreSQL)
 `->default($value)`  |  컬럼의 "기본"값을 설정합니다
 `->first()`  |  컬럼을 테이블의 "맨 처음" 위치로 옮깁니다 (MySQL)
+`->from($integer)`  |  자동 증가 필드의 시작 값을 설정합니다 (MySQL / PostgreSQL)
 `->nullable($value = true)`  |  컬럼에 NULL 값이 입력되는 것을 허용합니다(기본값)
 `->storedAs($expression)`  |  stored generated 컬럼 생성하기 (MySQL)
 `->unsigned()`  |  INTEGER 컬럼을 UNSIGNED 으로 지정 (MySQL)
 `->virtualAs($expression)`  |  virtual generated 컬럼 생성하기 (MySQL)
 `->generatedAs($expression)`  |  지정한 시퀀스 옵션을 사용하여 ID 컬럼 만들기 (PostgreSQL)
 `->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다 (PostgreSQL)
-
-(역자주 : generated column (virtual/stored) 는 mysql 5.7 부터 가능한 컬럼 유형으로 자세한 내용은 [mysql 공식 매뉴얼](https://dev.mysql.com/doc/refman/5.7/en/create-table-generated-columns.html)을 참고하십시오)
 
 #### Default Expressions
 #### 기본 표현식

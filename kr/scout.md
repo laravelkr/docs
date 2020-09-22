@@ -82,7 +82,7 @@ Finally, add the `Laravel\Scout\Searchable` trait to the model you would like to
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
     use Laravel\Scout\Searchable;
@@ -117,7 +117,7 @@ When using the Algolia driver, you should configure your Algolia `id` and `secre
 
 Algolia 드라이버를 사용할 때, Algolia 계정의 `id`와 `secret` 정보를 `config/scout.php` 설정 파일에 입력해야 합니다. 계정 정보를 설정한 다음에는, 컴포저를 통해 Algolia PHP SDK를 설치해야 합니다.
 
-    composer require algolia/algoliasearch-client-php:^2.2
+    composer require algolia/algoliasearch-client-php
 
 <a name="configuration"></a>
 ## Configuration
@@ -133,7 +133,7 @@ Each Eloquent model is synced with a given search "index", which contains all of
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
     use Laravel\Scout\Searchable;
@@ -163,7 +163,7 @@ By default, the entire `toArray` form of a given model will be persisted to its 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
     use Laravel\Scout\Searchable;
@@ -197,7 +197,7 @@ By default, Scout will use the primary key of the model as the unique ID stored 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
     use Laravel\Scout\Searchable;
@@ -253,13 +253,13 @@ If you are installing Scout into an existing project, you may already have datab
 
 만약 이미 존재하는 프로젝트에 스카우트를 설치했다면, 당신은 이미 검색 드라이버로 임포트할 데이터베이스 레코드를 가지고 있을 것입니다. 스카우트는 존재하는 모든 데이터를 검색 인덱스로 임포트할 때 사용할 수 있는 `import` 아티즌 명령을 제공합니다.
 
-    php artisan scout:import "App\Post"
+    php artisan scout:import "App\Models\Post"
 
 The `flush` command may be used to remove all of a model's records from your search indexes:
 
 `flush` 명령어는 검색 인덱스에서 모델의 모든 레코드를 삭제하는데 사용합니다.
 
-    php artisan scout:flush "App\Post"
+    php artisan scout:flush "App\Models\Post"
 
 <a name="adding-records"></a>
 ### Adding Records
@@ -269,7 +269,7 @@ Once you have added the `Laravel\Scout\Searchable` trait to a model, all you nee
 
 모델에 `Laravel\Scout\Searchable` trait를 추가했다면, 당신은 모델 인스턴스의 `save`를 실행하기만 하면 됩니다. 그러면 자동으로 검색 인덱스에 추가될 것입니다. 만약 스카우트에 [큐 사용](#queueing) 설정을 했다면, 이 작업은 당신의 큐 워커에 의해 백그라운드에서 실행될 것입니다.
 
-    $order = new App\Order;
+    $order = new App\Models\Order;
 
     // ...
 
@@ -283,7 +283,7 @@ If you would like to add a collection of models to your search index via an Eloq
 만약 당신이 엘로퀀트 쿼리를 통해 조회된 모델의 모음을 추가하고 싶다면, `searchable` 메소드를 엘로퀀트 쿼리에 연결지어 쓸 수 있습니다. `searchable` 메소드는 쿼리의 [결과를 묶음으로 처리](/docs/{{version}}/eloquent#chunking-results)하여 검색 인덱스에 레코드를 추가할 것입니다. 앞서와 마찬가지로 만약 당신이 스카우트에서 큐를 사용하기로 설정했다면, 모든 묶음은 큐 워커에 의해 백그라운드에서 추가될 것입니다.
 
     // Adding via Eloquent query...
-    App\Order::where('price', '>', 100)->searchable();
+    App\Models\Order::where('price', '>', 100)->searchable();
 
     // You may also add records via relationships...
     $user->orders()->searchable();
@@ -303,7 +303,7 @@ To update a searchable model, you only need to update the model instance's prope
 
 모델을 업데이트하기 위해서는, 모델 인스턴스의 프로퍼티를 업데이트하고, 데이터베이스에 `save` 하기만 하면 됩니다. 스카우트는 자동으로 변경 사항을 검색 인덱스에 적용할 것입니다.
 
-    $order = App\Order::find(1);
+    $order = App\Models\Order::find(1);
 
     // Update the order...
 
@@ -314,7 +314,7 @@ You may also use the `searchable` method on an Eloquent query to update a collec
 여러분은 엘로퀀트 쿼리의 결과로 조회된 모델들을 업데이트할 때에도 `searchable` 메소드를 사용할 수 있습니다. 만약 모델이 검색 인덱스에 존재하지 않는다면, 새로 생성될 것입니다.
 
     // Updating via Eloquent query...
-    App\Order::where('price', '>', 100)->searchable();
+    App\Models\Order::where('price', '>', 100)->searchable();
 
     // You may also update via relationships...
     $user->orders()->searchable();
@@ -330,7 +330,7 @@ To remove a record from your index, `delete` the model from the database. This f
 
 인덱스에서 레코드를 삭제하기 위해서는, 데이터베이스에서 해당 모델을 `delete`하면 됩니다. 이 삭제 방법은 [soft deleted](/docs/{{version}}/eloquent#soft-deleting)가 적용된 모델에서도 작동합니다.
 
-    $order = App\Order::find(1);
+    $order = App\Models\Order::find(1);
 
     $order->delete();
 
@@ -339,7 +339,7 @@ If you do not want to retrieve the model before deleting the record, you may use
 만약 레코드를 삭제하기 전에 모델을 조회하고 싶지 않다면, 엘로퀀트 쿼리에 `unsearchable` 메소드를 사용할 수 있습니다.
 
     // Removing via Eloquent query...
-    App\Order::where('price', '>', 100)->unsearchable();
+    App\Models\Order::where('price', '>', 100)->unsearchable();
 
     // You may also remove via relationships...
     $user->orders()->unsearchable();
@@ -355,7 +355,7 @@ Sometimes you may need to perform a batch of Eloquent operations on a model with
 
 가끔 검색 인덱스와 모델 데이터를 동기화하지 않으면서 모델에 엘로퀀트 작업을 일괄처리할 필요가 있습니다. 이때 `withoutSyncingToSearch` 메소드를 사용하면 됩니다. 이 메소드는 하나의 콜백 함수를 받아서 바로 실행합니다. 이 콜백 함수 안에서 실행되는 어떤 모델 작업이든 모델의 인덱스와 동기화 되지 않을 것입니다.
 
-    App\Order::withoutSyncingToSearch(function () {
+    App\Models\Order::withoutSyncingToSearch(function () {
         // Perform model actions...
     });
 
@@ -363,9 +363,9 @@ Sometimes you may need to perform a batch of Eloquent operations on a model with
 ### Conditionally Searchable Model Instances
 ### 조건에 따른 검색 모델 인스턴스
 
-Sometimes you may need to only make a model searchable under certain conditions. For example, imagine you have `App\Post` model that may be in one of two states: "draft" and "published". You may only want to allow "published" posts to be searchable. To accomplish this, you may define a `shouldBeSearchable` method on your model:
+Sometimes you may need to only make a model searchable under certain conditions. For example, imagine you have `App\Models\Post` model that may be in one of two states: "draft" and "published". You may only want to allow "published" posts to be searchable. To accomplish this, you may define a `shouldBeSearchable` method on your model:
 
-때로는 특정한 조건에 맞는 경우에만 모델을 검색되도록 만들 수도 있습니다. 예를 들어, `App\Post` 모델이 "작업중" 과 "발행됨" 두가지 상태를 가지는 경우를 생각해 보겠습니다. "발행됨" 상태의 글만 검색이 가능하기를 원할 수 있습니다. 이를 위해서는, 모델에 `shouldBeSearchable` 메소드를 정의하면 됩니다.
+때로는 특정한 조건에 맞는 경우에만 모델을 검색되도록 만들 수도 있습니다. 예를 들어, `App\Models\Post` 모델이 "작업중" 과 "발행됨" 두가지 상태를 가지는 경우를 생각해 보겠습니다. "발행됨" 상태의 글만 검색이 가능하기를 원할 수 있습니다. 이를 위해서는, 모델에 `shouldBeSearchable` 메소드를 정의하면 됩니다.
 
     public function shouldBeSearchable()
     {
@@ -377,7 +377,7 @@ The `shouldBeSearchable` method is only applied when manipulating models through
 `shouldBeSearchable` 메소드는 `save` 메소드, 쿼리 또는 관계 모델을 통해서 모델을 조작한 경우에만 적용됩니다. `searchable` 메소드를 사용하여 모델 또는 컬렉션을 직접적으로 검색 가능하게 하면, `shouldBeSearchable` 메소드의 결과를 덮어씌게 됩니다.
 
     // Will respect "shouldBeSearchable"...
-    App\Order::where('price', '>', 100)->searchable();
+    App\Models\Order::where('price', '>', 100)->searchable();
 
     $user->orders()->searchable();
 
@@ -396,7 +396,7 @@ You may begin searching a model using the `search` method. The search method acc
 
 `search` 메소드를 사용하여 모델을 검색할 수 있습니다. search 메소드는 모델을 검색할 때 사용될 단일 스트링을 파라미터로 가집니다. 그런 다음, 주어진 검색 쿼리와 일치하는 엘로퀀트 모델을 조회하기 위하여 `get` 메소드를 연결해서 사용해야 합니다.
 
-    $orders = App\Order::search('Star Trek')->get();
+    $orders = App\Models\Order::search('Star Trek')->get();
 
 Since Scout searches return a collection of Eloquent models, you may even return the results directly from a route or controller and they will automatically be converted to JSON:
 
@@ -405,20 +405,20 @@ Since Scout searches return a collection of Eloquent models, you may even return
     use Illuminate\Http\Request;
 
     Route::get('/search', function (Request $request) {
-        return App\Order::search($request->search)->get();
+        return App\Models\Order::search($request->search)->get();
     });
 
 If you would like to get the raw results before they are converted to Eloquent models, you should use the `raw` method:
 
 결과가 Eloquent 모델로 변환되기 전의 상태를 얻고자 한다면, `raw` 메소드를 사용하십시오:
 
-    $orders = App\Order::search('Star Trek')->raw();
+    $orders = App\Models\Order::search('Star Trek')->raw();
 
 Search queries will typically be performed on the index specified by the model's [`searchableAs`](#configuring-model-indexes) method. However, you may use the `within` method to specify a custom index that should be searched instead:
 
 검색 쿼리는 일반적으로 모델의 [`searchableAs`](#configuring-model-indexes) 메소드에 의한 인덱스가 지정되어 실행됩니다. 대신에 `within` 메소드를 사용하여 검색하고자 하는 커스텀 인덱스를 지정할 수 있습니다.
 
-    $orders = App\Order::search('Star Trek')
+    $orders = App\Models\Order::search('Star Trek')
         ->within('tv_shows_popularity_desc')
         ->get();
 
@@ -430,7 +430,7 @@ Scout allows you to add simple "where" clauses to your search queries. Currently
 
 여러분은 검색 쿼리를 위해 "where" 클로저를 스카우트에 추가할 수 있습니다. 현재로서는, 그 클로저는 오직 기본적인 수식을 지원하며, 주로 tenant ID에 의해 검색 쿼리를 한정할 때 유용합니다. 검색 인덱스는 관계형 데이터베이스가 아니기 때문에, 더 고수준의 "where" 클로저는 아직 지원하지 않습니다.
 
-    $orders = App\Order::search('Star Trek')->where('user_id', 1)->get();
+    $orders = App\Models\Order::search('Star Trek')->where('user_id', 1)->get();
 
 <a name="pagination"></a>
 ### Pagination
@@ -441,13 +441,13 @@ In addition to retrieving a collection of models, you may paginate your search r
 
 모델의 검색과 함께, `paginate` 메소드를 사용하여 검색결과를 페이징할 수도 있습니다. [엘로퀀트 쿼리에서 페이징](/docs/{{version}}/pagination)을 했던 것처럼, 이 메소드는 `Paginator` 인스턴스를 반환합니다.
 
-    $orders = App\Order::search('Star Trek')->paginate();
+    $orders = App\Models\Order::search('Star Trek')->paginate();
 
 You may specify how many models to retrieve per page by passing the amount as the first argument to the `paginate` method:
 
 `paginate` 메소드의 첫번째 파라미터를 사용하여 한 페이지에 검색할 모델의 수량을 지정할 수도 있습니다.
 
-    $orders = App\Order::search('Star Trek')->paginate(15);
+    $orders = App\Models\Order::search('Star Trek')->paginate(15);
 
 Once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade) just as if you had paginated a traditional Eloquent query:
 
@@ -476,10 +476,10 @@ When this configuration option is `true`, Scout will not remove soft deleted mod
 이 설정 값이 `true` 인 경우, Scout-스카우트는 소프트 삭제된 모델을 검색 인덱스에서 삭제 하지 않습니다. 대신에, 인덱스된 레코드에 `__soft_deleted` 라는 숨겨진 속성을 설정합니다. 그러면 검색할 때 `withTrashed` 또는 `onlyTrashed` 메소드를 사용하여 소프트 삭제된 레코드를 조회할 수 있습니다.
 
     // Include trashed records when retrieving results...
-    $orders = App\Order::search('Star Trek')->withTrashed()->get();
+    $orders = App\Models\Order::search('Star Trek')->withTrashed()->get();
 
     // Only include trashed records when retrieving results...
-    $orders = App\Order::search('Star Trek')->onlyTrashed()->get();
+    $orders = App\Models\Order::search('Star Trek')->onlyTrashed()->get();
 
 > {tip} When a soft deleted model is permanently deleted using `forceDelete`, Scout will remove it from the search index automatically.
 
@@ -495,7 +495,7 @@ If you need to customize the search behavior of an engine you may pass a callbac
 
     use Algolia\AlgoliaSearch\SearchIndex;
 
-    App\Order::search('Star Trek', function (SearchIndex $algolia, string $query, array $options) {
+    App\Models\Order::search('Star Trek', function (SearchIndex $algolia, string $query, array $options) {
         $options['body']['query']['bool']['filter']['geo_distance'] = [
             'distance' => '1000km',
             'location' => ['lat' => 36, 'lon' => 111],
@@ -594,4 +594,4 @@ The `macro` function accepts a name as its first argument, and a Closure as its 
 
 `macro` 함수는 첫 번째 인수로 이름을 받아들입니다. 두 번째 인수는 Closure입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다.
 
-    App\Order::search('Star Trek')->count();
+    App\Models\Order::search('Star Trek')->count();

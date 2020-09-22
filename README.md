@@ -181,6 +181,7 @@
     <td align="center"><a href="https://papion93.github.io/"><img src="https://avatars0.githubusercontent.com/u/49216709?v=4" width="100px;" alt=""/><br /><sub><b>PAPION</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=PAPION93" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/DungGi"><img src="https://avatars1.githubusercontent.com/u/57477524?v=4" width="100px;" alt=""/><br /><sub><b>DungGi</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=DungGi" title="Documentation">📖</a></td>
     <td align="center"><a href="https://z9n.net"><img src="https://avatars1.githubusercontent.com/u/5427199?v=4" width="100px;" alt=""/><br /><sub><b>Terrorboy</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Terrorboy" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JeongJaeSoon"><img src="https://avatars3.githubusercontent.com/u/53788601?v=4" width="100px;" alt=""/><br /><sub><b>JeongJaeSoon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=JeongJaeSoon" title="Documentation">📖</a></td>
   </tr>
 </table>
 

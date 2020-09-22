@@ -19,8 +19,6 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
-- [Serving A Default Site](#serving-a-default-site)
-- [기본 사이트 제공](#serving-a-default-site)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
 - [사이트 별 환경 변수](#site-specific-environment-variables)
 - [Proxying Services](#proxying-services)
@@ -29,8 +27,6 @@
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
     - [로컬 드라이버](#local-drivers)
-- [PHP Configuration](#php-configuration)
-- [PHP 설정](#php-configuration)
 - [Other Valet Commands](#other-valet-commands)
 - [기타 발렛 명령어들](#other-valet-commands)
 - [Valet Directories & Files](#valet-directories-and-files)
@@ -329,16 +325,6 @@ Some applications using other frameworks may depend on server environment variab
         ],
     ];
 
-<a name="serving-a-default-site"></a>
-## Serving A Default Site
-## 기본 사이트 제공
-
-Sometimes, you may wish to configure Valet to serve a "default" site instead of a `404` when visiting an unknown `test` domain. To accomplish this, you may add a `default` option to your `~/.config/valet/config.json` configuration file containing the path to the site that should function as your default site:
-
-알 수없는 `test` 도메인을 방문 할 때 Valet가 `404`대신 "기본"사이트를 제공하도록 설정 할 수도 있습니다. 이를 위해 `~/.config/valet/config.json` 설정 파일에 기본 사이트로 작동해야하는 사이트 경로를 포함하는 `default` 옵션을 추가 할 수 있습니다.
-
-    "default": "/Users/Sally/Sites/foo",
-
 <a name="proxying-services"></a>
 ## Proxying Services
 ## 프록시 서비스
@@ -493,28 +479,6 @@ If you would like to define a custom Valet driver for a single application, crea
             return $sitePath.'/public_html/index.php';
         }
     }
-
-<a name="php-configuration"></a>
-## PHP Configuration
-## PHP 설정
-
-You may add additional PHP configuration `.ini` files in the `/usr/local/etc/php/7.X/conf.d/` directory to customize your PHP installation. Once you've added or updated these settings you should run `valet restart php`.
-
-`/usr/local/etc/php/7.X/conf.d/`디렉토리에 PHP 설정 `.ini` 파일을 추가하여 PHP 설치를 커스터마이징 할 수 있습니다. 이러한 설정을 추가하거나 업데이트하면 `valet restart php`를 실행해야합니다.
-
-### PHP Memory Limits
-### PHP 메모리 제한
-
-By default, Valet specifies the PHP installation's memory limit and max file upload size in the `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` configuration file. This affects both the CLI and FPM PHP processes.
-
-Valet은 기본적으로 `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` 설정 파일에서 PHP 설치의 메모리 제한과 최대 파일 업로드 크기를 지정합니다. 이는 CLI 및 FPM PHP 프로세스 모두에 영향을줍니다.
-
-### PHP-FPM Pool Processes
-### PHP-FPM 프로세스 풀
-
-Valet's PHP-FPM configuration is contained within the `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` configuration file. In this file you may increase the number of FPM servers and child processes utilized by your PHP application.
-
-Valet의 PHP-FPM 설정은 `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` 설정 파일에 들어 있습니다. 이 파일에서 PHP 애플리케이션이 사용하는 FPM 서버 및 자식 프로세스 수를 늘릴 수 있습니다.
 
 <a name="other-valet-commands"></a>
 ## Other Valet Commands

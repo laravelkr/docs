@@ -72,8 +72,6 @@ Database tables are often related to one another. For example, a blog post may h
 
 데이터베이스 테이블은 주로 서로 관련되어 있습니다. 예를 들어, 한 블로그 포스트가 많은 댓글을 가지고 있거나 어떤 명령이 그 명령을 내린 사용자와 관련되어 있을 수 있습니다. Eloquent는 이 relationship들과 관련한 작업을 하거나 관리하는 것을 쉽게 해주며 여러 타입의 relationship을 지원합니다.
 
-<div class="content-list" markdown="1">
-
 - [One To One](#one-to-one)
 - [1:1(일대일) 관계](#one-to-one)
 - [One To Many](#one-to-many)
@@ -90,7 +88,6 @@ Database tables are often related to one another. For example, a blog post may h
 - [1:*(일대다) (다형성)](#one-to-many-polymorphic-relations)
 - [Many To Many (Polymorphic)](#many-to-many-polymorphic-relations)
 - [\*:*(다대다) (다형성)](#many-to-many-polymorphic-relations)
-</div>
 
 <a name="defining-relationships"></a>
 ## Defining Relationships

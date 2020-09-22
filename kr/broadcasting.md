@@ -320,7 +320,7 @@ The `ShouldBroadcast` interface requires you to implement a single method: `broa
 
     namespace App\Events;
 
-    use App\User;
+    use App\Models\User;
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Broadcasting\PresenceChannel;
@@ -484,7 +484,7 @@ The `Broadcast::routes` method will automatically place its routes within the `w
 `Broadcast::routes` 메소드는 자동적으로 라우트를 `web` 미들웨어 그룹에 위치시킬 것입니다. 그렇지만 할당된 속성들을 커스터마이즈하기 위해서는 메소드에 라우트 속성 배열을 전달해줘야 합니다.
 
     Broadcast::routes($attributes);
-    
+
 #### Customizing The Authorization Endpoint
 #### Authorization Endpoint의 커스터마이징
 
@@ -526,7 +526,7 @@ Just like HTTP routes, channel routes may also take advantage of implicit and ex
 
 HTTP 라우트와 같이 채널 라우트는 명시적 그리고 묵시적 [라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)의 장점을 사용할 수 있습니다. 예를 들어, 문자열이나 숫자형태의 주문 ID를 받는 대신에, 실제 `Order` 모델 인스턴스를 요청할 수 있습니다.
 
-    use App\Order;
+    use App\Models\Order;
 
     Broadcast::channel('order.{order}', function ($user, Order $order) {
         return $user->id === $order->user_id;
@@ -569,8 +569,8 @@ Finally, you may place the authorization logic for your channel in the channel c
 
     namespace App\Broadcasting;
 
-    use App\Order;
-    use App\User;
+    use App\Models\Order;
+    use App\Models\User;
 
     class OrderChannel
     {
@@ -587,8 +587,8 @@ Finally, you may place the authorization logic for your channel in the channel c
         /**
          * Authenticate the user's access to the channel.
          *
-         * @param  \App\User  $user
-         * @param  \App\Order  $order
+         * @param  \App\Models\User  $user
+         * @param  \App\Models\Order  $order
          * @return array|bool
          */
         public function join(User $user, Order $order)
@@ -692,7 +692,7 @@ When creating an Echo instance that uses the `pusher` connector, you may also sp
         cluster: 'eu',
         forceTLS: true
     });
-    
+
 #### Using An Existing Client Instance
 #### 기존 클라이언트 인스턴스 사용
 
@@ -905,6 +905,6 @@ Once you have configured a notification to use the broadcast channel, you may li
             console.log(notification.type);
         });
 
-In this example, all notifications sent to `App\User` instances via the `broadcast` channel would be received by the callback. A channel authorization callback for the `App.User.{id}` channel is included in the default `BroadcastServiceProvider` that ships with the Laravel framework.
+In this example, all notifications sent to `App\Models\User` instances via the `broadcast` channel would be received by the callback. A channel authorization callback for the `App.User.{id}` channel is included in the default `BroadcastServiceProvider` that ships with the Laravel framework.
 
-이 예제에서 `broadcast` 채널을 통해 `App\User` 인스턴스에 보내지는 모든 알림들은 콜백에 의해 받아집니다. `App.User.{id}` 채널에 대한 채널 승인 콜백이 라라벨 프레임워크와 함께 제공되는 기본 `BroadcastServiceProvider` 에 포함됩니다.
+이 예제에서 `broadcast` 채널을 통해 `App\Models\User` 인스턴스에 보내지는 모든 알림들은 콜백에 의해 받아집니다. `App.User.{id}` 채널에 대한 채널 승인 콜백이 라라벨 프레임워크와 함께 제공되는 기본 `BroadcastServiceProvider` 에 포함됩니다.

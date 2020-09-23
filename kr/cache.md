@@ -1,70 +1,46 @@
 # Cache
 # 캐시
 
-- [Cache](#cache)
-- [캐시](#캐시)
-  - [Configuration](#configuration)
-  - [설정하기](#설정하기)
+- [Configuration](#configuration)
+- [설정하기](#configuration)
     - [Driver Prerequisites](#driver-prerequisites)
-    - [드라이버 사전 준비사항](#드라이버-사전-준비사항)
-      - [Database](#database)
-      - [데이터베이스](#데이터베이스)
-      - [Memcached](#memcached)
-      - [Memcached](#memcached-1)
-      - [Redis](#redis)
-      - [Redis](#redis-1)
-  - [Cache Usage](#cache-usage)
-  - [캐시 사용법](#캐시-사용법)
+    - [드라이버 사전 준비사항](#driver-prerequisites)
+- [Cache Usage](#cache-usage)
+- [캐시 사용법](#cache-usage)
     - [Obtaining A Cache Instance](#obtaining-a-cache-instance)
-    - [캐시 인스턴스 획득하기](#캐시-인스턴스-획득하기)
-      - [Accessing Multiple Cache Stores](#accessing-multiple-cache-stores)
-      - [여러 개의 캐시 Store 사용하기](#여러-개의-캐시-store-사용하기)
+    - [캐시 인스턴스 획득하기](#obtaining-a-cache-instance)
     - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
-    - [캐시에서 아이템 조회하기](#캐시에서-아이템-조회하기)
-      - [Checking For Item Existence](#checking-for-item-existence)
-      - [아이템이 존재하는지 확인하기](#아이템이-존재하는지-확인하기)
-      - [Incrementing / Decrementing Values](#incrementing--decrementing-values)
-      - [증가 / 감소](#증가--감소)
-      - [Retrieve & Store](#retrieve--store)
-      - [조회 & 저장](#조회--저장)
-      - [Retrieve & Delete](#retrieve--delete)
-      - [조회 & 삭제하기](#조회--삭제하기)
+    - [캐시에서 아이템 찾기](#retrieving-items-from-the-cache)
     - [Storing Items In The Cache](#storing-items-in-the-cache)
-    - [캐시에 아이템 저장하기](#캐시에-아이템-저장하기)
-      - [Store If Not Present](#store-if-not-present)
-      - [존재하지 않으면 저장하기](#존재하지-않으면-저장하기)
-      - [Storing Items Forever](#storing-items-forever)
-      - [아이템들을 영구적으로 저장하기](#아이템들을-영구적으로-저장하기)
+    - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
     - [Removing Items From The Cache](#removing-items-from-the-cache)
-    - [캐시에서 아이템 삭제하기](#캐시에서-아이템-삭제하기)
+    - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
     - [The Cache Helper](#the-cache-helper)
-    - [캐시 헬퍼](#캐시-헬퍼)
-  - [Cache Tags](#cache-tags)
-  - [캐시 태그](#캐시-태그)
+    - [캐시 헬퍼 함수](#the-cache-helper)
+- [Cache Tags](#cache-tags)
+- [캐시 태그](#cache-tags)
     - [Storing Tagged Cache Items](#storing-tagged-cache-items)
-    - [태그가 지정된 캐시 항목 저장](#태그가-지정된-캐시-항목-저장)
+    - [태그가 추가된 캐시 아이템 저장하기](#storing-tagged-cache-items)
     - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
-    - [태그가 지정된 캐시 항목 액세스](#태그가-지정된-캐시-항목-액세스)
+    - [태그로 캐시 아이템 엑세스하기](#accessing-tagged-cache-items)
     - [Removing Tagged Cache Items](#removing-tagged-cache-items)
-    - [태그가 지정된 캐시 항목 제거](#태그가-지정된-캐시-항목-제거)
-    - [Atomic Locks](#atomic-locks)
-    - [원자 잠금장치(Atomic-locks)](#원자-잠금장치atomic-locks)
-    - [Driver Prerequisites](#driver-prerequisites-1)
-    - [드라이버 전제 조건](#드라이버-전제-조건)
-      - [Database](#database-1)
-      - [Database](#database-2)
+    - [태그가 추가된 캐시 아이템 삭제하기](#removing-tagged-cache-items)
+- [Atomic Locks](#atomic-locks)
+- [원자 잠금장치](#atomic-locks)
+    - [Driver Prerequisites](#lock-driver-prerequisites)
+    - [드라이버 전제 조건](#lock-driver-prerequisites)
     - [Managing Locks](#managing-locks)
-    - [잠금 관리](#잠금-관리)
+    - [잠금 관리](#managing-locks)
     - [Managing Locks Across Processes](#managing-locks-across-processes)
-    - [프로세스 간 잠금 관리](#프로세스-간-잠금-관리)
-  - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
-  - [사용자 정의 캐시 드라이버 추가하기](#사용자-정의-캐시-드라이버-추가하기)
+    - [프로세스 간 잠금 관리](#managing-locks-across-processes)
+- [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
+- [사용자 정의 캐시 드라이버 추가하기](#adding-custom-cache-drivers)
     - [Writing The Driver](#writing-the-driver)
-    - [드라이버 작성하기](#드라이버-작성하기)
+    - [드라이버 작성하기](#writing-the-driver)
     - [Registering The Driver](#registering-the-driver)
-    - [드라이버 등록하기](#드라이버-등록하기)
-  - [Events](#events)
-  - [이벤트](#이벤트)
+    - [드라이버 등록하기](#registering-the-driver)
+- [Events](#events)
+- [이벤트](#events)
 
 <a name="configuration"></a>
 ## Configuration
@@ -151,7 +127,7 @@ The `Illuminate\Contracts\Cache\Factory` and `Illuminate\Contracts\Cache\Reposit
 
 However, you may also use the `Cache` facade, which is what we will use throughout this documentation. The `Cache` facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts:
 
-이 문서에 나오는 전반적인 기능에서 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다.
+이 문서에 나오는 전반적인 기능들은 `Cache` 파사드를 통해 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다.
 
     <?php
 
@@ -520,7 +496,7 @@ If you would like to release a lock without respecting its current owner, you ma
 
 To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
 
-여러분들의 캐시 드라이버를 생성하기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 을 구현할 필요가 있습니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
+캐시 드라이버를 직접 만들기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 을 구현할 필요가 있습니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
 
     <?php
 

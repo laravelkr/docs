@@ -177,15 +177,9 @@ Once you have registered the middleware in your kernel, you may attach it to a r
 ## URLs For Controller Actions
 ## 컨트롤러 액션 URL
 
-The `action` function generates a URL for the given controller action. You do not need to pass the full namespace of the controller. Instead, pass the controller class name relative to the `App\Http\Controllers` namespace:
+The `action` function generates a URL for the given controller action:
 
-`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다. 컨트롤러의 전체 네임스페이스를 전달할 필요는 없습니다. 대신에 `App\Http\Controllers` 네임스페이스로부터 시작하는 컨트롤러 클래스 이름을 전달하십시오:
-
-    $url = action('HomeController@index');
-
-You may also reference actions with a "callable" array syntax:
-
-"callable" 배열 문법을 통해서 액션을 참조하도록 할 수 있습니다.
+`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다.
 
     use App\Http\Controllers\HomeController;
 
@@ -195,7 +189,7 @@ If the controller method accepts route parameters, you may pass them as the seco
 
 컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다.
 
-    $url = action('UserController@profile', ['id' => 1]);
+    $url = action([UserController::class, 'profile'], ['id' => 1]);
 
 <a name="default-values"></a>
 ## Default Values
@@ -233,3 +227,28 @@ It is cumbersome to always pass the `locale` every time you call the `route` hel
 Once the default value for the `locale` parameter has been set, you are no longer required to pass its value when generating URLs via the `route` helper.
 
 `locale` 파라미터의 기본값이 설정되면 `rotue` 헬퍼를 통해서 URL을 생성 할 때 더 이상 매번 값을 전달하지 않아도 됩니다.
+
+#### URL Defaults & Middleware Priority
+## URL 기본값 & 미들웨어 우선 순위
+
+Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](https://laravel.com/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this by making sure your middleware occurs before the `SubstituteBindings` middleware within the `$middlewarePriority` property of your application's HTTP kernel.
+
+URL 기본값을 설정하면 라라벨의 암시적인 모델 바인딩 처리에 방해가 될 수 있습니다. 따라서, 라라벨의 `SubstituteBindings` 미들웨어 이전에 URL 기본값을 설정한 [미들웨어](https://laravel.com/docs/bersion}/middleware#sorting-middleware)를 실행해야 합니다. 애플리케이션 HTTP 커널의 `$middlewarePriority` 속성 내에서 `SubstituteBindings` 보다 먼저 등록되어야 합니다.
+
+The `$middlewarePriority` property is defined in the base `Illuminate\Foundation\Http\Kernel` class. You may copy its definition from that class and overwrite it in your application's HTTP kernel in order to modify it:
+
+`$middlewarePriority` 속성은 `Illuminate\Foundation\Http\Kernel` 클래스에 정의되어 있습니다. 해당 클래스의 정의를 복사하여 애플리케이션의 HTTP 커널에 덮어써서 수정하세요.
+
+    /**
+     * The priority-sorted list of middleware.
+     *
+     * This forces non-global middleware to always be in the given order.
+     *
+     * @var array
+     */
+    protected $middlewarePriority = [
+        // ...
+         \App\Http\MiddlewareSetDefaultLocaleForUrls::class,
+         \Illuminate\Routing\Middleware\SubstituteBindings::class,
+         // ...
+    ];

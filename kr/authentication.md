@@ -5,6 +5,8 @@
 - [시작하기](#introduction)
     - [Database Considerations](#introduction-database-considerations)
     - [데이터베이스 유의사항](#introduction-database-considerations)
+    - [Ecosystem Overview](#ecosystem-overview)
+    - [생태계 개요](#ecosystem-overview)
 - [Authentication Quickstart](#authentication-quickstart)
 - [빠르게 인증 살펴보기](#authentication-quickstart)
     - [Routing](#included-routing)
@@ -17,8 +19,6 @@
     - [승인된 사용자 조회하기](#retrieving-the-authenticated-user)
     - [Protecting Routes](#protecting-routes)
     - [라우트 보호하기](#protecting-routes)
-    - [Password Confirmation](#password-confirmation)
-    - [비밀번호 확인](#password-confirmation)
     - [Login Throttling](#login-throttling)
     - [로그인 횟수 제한](#login-throttling)
 - [Manually Authenticating Users](#authenticating-users)
@@ -35,8 +35,16 @@
 - [로그아웃](#logging-out)
     - [Invalidating Sessions On Other Devices](#invalidating-sessions-on-other-devices)
     - [다른 디바이스의 세션 무효화](#invalidating-sessions-on-other-devices)
-- [Social Authentication](https://github.com/laravel/socialite)
-- [소셜 인증](https://github.com/laravel/socialite)
+- [Password Confirmation](#password-confirmation)
+- [비밀번호 확인](#password-confirmation)
+    - [Configuration](#password-confirmation-configuration)
+    - [설정하기](#password-confirmation-configuration)
+    - [Routing](#password-confirmation-routing)
+    - [라우팅](#password-confirmation-routing)
+    - [Protecting Routes](#password-confirmation-protecting-routes)
+    - [라우트 보호하기](#password-confirmation-protecting-routes)
+- [Social Authentication](/docs/{{version}}/socialite)
+- [소셜 인증](/docs/{{version}}/socialite)
 - [Adding Custom Guards](#adding-custom-guards)
 - [사용자 정의 Guards 추가하기](#adding-custom-guards)
     - [Closure Request Guards](#closure-request-guards)
@@ -55,10 +63,6 @@
 ## Introduction
 ## 시작하기
 
-> {tip} **Want to get started fast?** Install the `laravel/ui` (1.0) Composer package and run `php artisan ui vue --auth` in a fresh Laravel application. After migrating your database, navigate your browser to `http://your-app.test/register` or any other URL that is assigned to your application. These commands will take care of scaffolding your entire authentication system!
-
-> {tip} ** 빠르게 시작하길 원하십니까? ** 새로이 생성한 Laravel 애플리케이션에 `laravel/ui` (1.0) 컴포저 패키지를 설치하고 `php artisan ui vue --auth` 명령어를 실행하십시오. 그 다음, 브라우저에서 `http://your-app.test/register` 또는 다른 URL로 이동하세요. 이 명령어는 전체적인 인증 시스템을 스캐폴딩합니다.
-
 Laravel makes implementing authentication very simple. In fact, almost everything is configured for you out of the box. The authentication configuration file is located at `config/auth.php`, which contains several well documented options for tweaking the behavior of the authentication services.
 
 라라벨은 인증기능 구현을 매우 쉽게 해줍니다. 기본적으로 별도의 설정 없이도 대부분 이미 준비되어 있습니다. 인증에 대한 설정 파일은 `config/auth.php`으로 인증 서비스의 동작을 제어할 수 있는 옵션들이 자세한 설명과 함께 제공됩니다.
@@ -75,154 +79,192 @@ Don't worry if this all sounds confusing now! Many applications will never need 
 
 지금 이러한 이야기가 혼란스럽더라도 걱정하지 마십시오. 많은 애플리케이션은 기본 인증 설정을 변경할 필요가 전혀 없습니다.
 
+#### Getting Started Fast
+#### 빠르게 시작하기
+
+Want to get started fast? Install [Laravel Jetstream](https://jetstream.laravel.com) in a fresh Laravel application. After migrating your database, navigate your browser to `/register` or any other URL that is assigned to your application. Jetstream will take care of scaffolding your entire authentication system!
+
+빠르게 시작하길 원하십니까? [Laravel Jetstream](https://jetstream.laravel.com) 을 새로운 라라벨 애플리케이션에 설치하십시오. 데이터베이스를 마이그레이션 한 후 브라우저에서 `/register` 또는 애플리케이션에 할당된 다른 URL로 이동하십시오. Jetstream이 전체적인 인증 시스템을 스캐폴딩 합니다.
+
 <a name="introduction-database-considerations"></a>
 ### Database Considerations
 ### 데이터베이스 유의사항
 
-By default, Laravel includes an `App\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
+By default, Laravel includes an `App\Models\User` [Eloquent model](/docs/{{version}}/eloquent) in your `app/Models` directory. This model may be used with the default Eloquent authentication driver. If your application is not using Eloquent, you may use the `database` authentication driver which uses the Laravel query builder.
 
-기본적으로 라라벨은 `app` 디렉토리에 `App\User` [Eloquent 모델](/docs/{{version}}/eloquent) 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 애플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다.
+기본적으로 라라벨은 `app/Models` 디렉토리에 `App\Models\User` [Eloquent model](/docs/{{version}}/eloquent) 모델을 포함하고 있습니다. 이 모델은 기본적인 Eloquent 인증 드라이버와 함께 사용하게 됩니다. 애플리케이션이 Eloquent를 사용하고 있지 않다면 라라벨 쿼리 빌더를 사용하는 `database` 인증 드라이버를 이용하면 됩니다.
 
-When building the database schema for the `App\User` model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.
+When building the database schema for the `App\Models\User` model, make sure the password column is at least 60 characters in length. Maintaining the default string column length of 255 characters would be a good choice.
 
-`App\User` 모델을 위한 데이터베이스 스키마를 구성할 때, 패스워드 컬럼은 최소 60자가 되어야 하는 것을 명심하십시오. 기본값인 255을 유지하는 것도 좋은 선택입니다.
+`App\Models\User` 모델을 위한 데이터베이스 스키마를 구성할 때, 패스워드 컬럼은 최소 60자가 되어야 하는 것을 명심하십시오. 기본값인 255을 유지하는 것도 좋은 선택입니다.
 
 Also, you should verify that your `users` (or equivalent) table contains a nullable, string `remember_token` column of 100 characters. This column will be used to store a token for users that select the "remember me" option when logging into your application.
 
 또한 `users` (또는 동일한) 테이블이 NULL을 허용하는 100자리 문자열의 `remember_token` 컬럼을 포함하고 있는지 확인하십시오. 이 컬럼은 애플리케이션에 로그인할 때 "remember me" 옵션을 선택한 사용자의 토큰을 저장하는 데 사용됩니다.
 
+<a name="ecosystem-overview"></a>
+### Ecosystem Overview
+### 생태계 개요
+
+Laravel offers several packages related to authentication. Before continuing, we'll review the general authentication ecosystem in Laravel and discuss each package's intended purpose.
+
+라라벨은 인증과 관련된 여러 패키지를 제공합니다. 계속하기 전에 Laravel의 일반 인증 생태계를 검토하고 각 패키지의 의도된 목적에 대해 논의할 것입니다.
+
+First, consider how authentication works. When using a web browser, a user will provide their username and password via a login form. If these credentials are correct, the application will store information about the authenticated user in the user's [session](/docs/{{version}}/session). A cookie issued to the browser contains the session ID so that subsequent requests to the application can associate the user with the correct session. After the session cookie is received, the application will retrieve the session data based on the session ID, note that the authentication information has been stored in the session, and will consider the user as "authenticated".
+
+먼저 인증 작동 방식을 고려하십시오. 웹 브라우저를 사용할 때 사용자는 로그인 form을 통해 사용자 이름과 비밀번호를 제공합니다. 이러한 자격 증명이 올바르면 애플리케이션은 인증된 사용자에 대한 정보를 사용자의 [세션](/docs/{{version}}/session)에 저장합니다. 브라우저에 발행된 쿠키에는 애플리케이션에 대한 후속 요청이 사용자를 올바른 세션과 연결할 수 있도록 세션 ID가 포함됩니다. 세션 쿠키가 수신된 후 애플리케이션은 세션 ID를 기반으로 세션 데이터를 검색하고 인증 정보가 세션에 저장되었음을 확인하고 사용자를 "인증된"것으로 간주합니다.
+
+When a remote service needs to authenticate to access an API, cookies are not typically used because there is no web browser. Instead, the remote service sends an API token to the API on each request. The application may validate the incoming token against a table of valid API tokens and "authenticate" the request as being performed by the user associated with that API token.
+
+원격 서비스가 API에 액세스하기 위해 인증해야 하는 경우 웹 브라우저가 없기 때문에 일반적으로 쿠키가 사용되지 않습니다. 대신 원격 서비스는 각 요청에서 API 토큰을 API에 보냅니다. 애플리케이션은 유효한 API 토큰 테이블에 대해 들어오는 토큰의 유효성을 검사하고 해당 API 토큰과 관련된 사용자가 수행하는 요청을 "인증"할 수 있습니다.
+
+#### Laravel's Built-in Browser Authentication Services
+#### 라라벨의 내장 브라우져 인증 서비스
+
+Laravel includes built-in authentication and session services which are typically accessed via the `Auth` and `Session` facades. These features provide cookie based authentication for requests that are initiated from web browsers. They provide methods that allow you to verify a user's credentials and authenticate the user. In addition, these services will automatically store the proper data in the user's session and issue the proper session cookie. A discussion of how to use these services is contained within this documentation.
+
+라라벨에는 일반적으로`Auth` 및`Session` 파사드를 통해 액세스되는 내장 인증 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저에서 시작된 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자의 자격 증명을 확인하고 사용자를 인증 할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 데이터를 자동으로 저장하고 적절한 세션 쿠키를 발행합니다. 이러한 서비스를 사용하는 방법에 대한 설명이 이 문서에 포함되어 있습니다.
+
+**Jetstream / Fortify**
+
+**Jetstream / Fortify**
+
+As discussed in this documentation, you can interact with these authentication services manually to build your application's own authentication layer. However, to help you get started more quickly, we have released free packages that provide robust, modern scaffolding of the entire authentication layer. These packages are [Laravel Jetstream](https://jetstream.laravel.com) and [Laravel Fortify](https://github.com/laravel/fortify).
+
+이 문서에 설명된 대로 이러한 인증 서비스와 수동으로 상호 작용하여 애플리케이션의 고유한 인증 계층을 구축 할 수 있습니다. 그러나 보다 빠르게 시작할 수 있도록 전체 인증 계층에 대한 강력하고 현대적인 스캐폴딩을 제공하는 무료 패키지를 출시했습니다. 이러한 패키지는 [Laravel Jetstream](https://jetstream.laravel.com) 및 [Laravel Fortify](https://github.com/laravel/fortify) 입니다.
+
+Laravel Fortify is a headless authentication backend for Laravel that implements many of the features found in this documentation, including cookie-based authentication as well as other features such as two-factor authentication and email verification. Laravel Jetstream is a UI that consumes and exposes Fortify's authentication services with a beautiful, modern UI powered by [Tailwind CSS](https://tailwindcss.com), [Laravel Livewire](https://laravel-livewire.com), and / or [Inertia.js](https://inertiajs.com). Laravel Jetstream, in addition to offering browser-based cookie authentication, includes built-in integration with Laravel Sanctum to offer API token authentication. Laravel's API authentication offerings are discussed below.
+
+라라벨 Fortify는 쿠키 기반 인증은 물론 2단계 인증 및 이메일 확인과 같은 기타 기능을 포함하여 이 문서에 있는 많은 기능을 구현하는 라라벨용 헤드리스 인증 백엔드입니다. 라라벨 Jetstream은 [Tailwind CSS](https://tailwindcss.com), [Laravel Livewire](https://laravel-livewire.com), [Inertia.js](https://inertiajs.com) 에서 제공하는 아름답고 현대적인 UI로 Fortify의 인증 서비스를 이용하고 노출하는 UI입니다. 라라벨 Jetstream은 브라우저 기반 쿠키 인증을 제공하는 것 외에도 라라벨 Sanctum과의 통합하여 API 토큰 인증을 제공합니다. 라라벨에서 제공하는 API 인증은 아래에서 설명합니다.
+
+#### Laravel's API Authentication Services
+#### 라라벨 API 인증 서비스
+
+Laravel provides two optional packages to assist you in managing API tokens and authenticating requests made with API tokens: [Passport](/docs/{{version}}/passport) and [Sanctum](/docs/{{version}}/sanctum). Please note that these libraries and Laravel's built-in cookie based authentication libraries are not mutually exclusive. These libraries primarily focus on API token authentication while the built-in authentication services focus on cookie based browser authentication. Many applications will use both Laravel's built-in cookie based authentication services and one of Laravel's API authentication packages.
+
+라라벨은 API 토큰을 관리하고 API 토큰으로 요청을 인증하는데 도움이 되는 두 가지 선택 가능한 패키지를 제공합니다: [Passport](/docs/{{version}}/passport) 및 [Sanctum](/docs/{{version}}/sanctum). 이러한 라이브러리와 Laravel의 내장 쿠키 기반 인증 라이브러리는 상호 배타적이지 않습니다. 이러한 라이브러리는 주로 API 토큰 인증에 중점을 두고 있으며 기본 제공 인증 서비스는 쿠키 기반 브라우저 인증에 중점을 둡니다. 많은 애플리케이션이 라라벨의 내장 쿠키 기반 인증 서비스와 라라벨의 API 인증 패키지를 모두 사용합니다.
+
+**Passport**
+**Passport**
+
+Passport is an OAuth2 authentication provider, offering a variety of OAuth2 "grant types" which allow you to issue various types of tokens. In general, this is a robust and complex package for API authentication. However, most applications do not require the complex features offered by the OAuth2 spec, which can be confusing for both users and developers. In addition, developers have been historically confused about how to authenticate SPA applications or mobile applications using OAuth2 authentication providers like Passport.
+
+Passport는 다양한 유형의 토큰을 발급 할 수 있는 다양한 OAuth2 "grant types"을 제공하는 OAuth2 인증 공급자입니다. 일반적으로 이것은 API 인증을 위한 강력하고 복잡한 패키지입니다. 그러나 대부분의 애플리케이션에는 OAuth2 사양에서 제공하는 복잡한 기능이 필요하지 않으므로 사용자와 개발자 모두에게 혼란을 줄 수 있습니다. 또한, 개발자는 Passport와 같은 OAuth2 인증 공급자를 사용하여 SPA 애플리케이션 또는 모바일 애플리케이션을 인증하는 방법에 대해 그동안 혼란스러웠습니다.
+
+**Sanctum**
+**Sanctum**
+
+In response to the complexity of OAuth2 and developer confusion, we set out to build a simpler, more streamlined authentication package that could handle both first-party web requests from a web browser and API requests via tokens. This goal was realized with the release of [Laravel Sanctum](/docs/{{version}}/sanctum), which should be considered the preferred and recommended authentication package for applications that will be offering a first-party web UI in addition to an API, or will be powered by a single-page application that exists separately from the backend Laravel application, or applications that offer a mobile client.
+
+OAuth2의 복잡성과 개발자 혼란에 대응하여, 웹 브라우저의 자사 웹 요청과 토큰을 통한 API 요청을 모두 처리 할 수 있는 더 간단하고 간소화된 인증 패키지를 구축하기 시작했습니다. 이 목표는 [Laravel Sanctum](/docs/{{version}}/sanctum)의 출시와 함께 실현되었습니다. 이 패키지는 다음과 함께 자사 웹 UI를 제공 할 애플리케이션에 대해 선호되고 권장되는 인증 패키지로 간주되어야 합니다. API 또는 백엔드 라라벨 애플리케이션과 별도로 존재하는 SPA (단일 페이지 애플리케이션) 또는 모바일 클라이언트를 제공하는 애플리케이션에 의해 구동됩니다.
+
+Laravel Sanctum is a hybrid web / API authentication package that can manage your application's entire authentication process. This is possible because when Sanctum based applications receive a request, Sanctum will first determine if the request includes a session cookie that references an authenticated session. Sanctum accomplishes this by calling Laravel's built-in authentication services which we discussed earlier. If the request is not being authenticated via a session cookie, Sanctum will inspect the request for an API token. If an API token is present, Sanctum will authenticate the request using that token. To learn more about this process, please consult Sanctum's ["how it works"](/docs/{{version}}/sanctum#how-it-works) documentation.
+
+Laravel Sanctum은 애플리케이션의 전체 인증 프로세스를 관리 할 수 있는 하이브리드 웹 / API 인증 패키지입니다. 이는 Sanctum 기반 애플리케이션이 요청을 수신할 때 Sanctum이 먼저 요청에 인증된 세션을 참조하는 세션 쿠키가 포함되어 있는지 확인하기 때문에 가능합니다. Sanctum은 앞서 논의한 라라벨의 내장 인증 서비스를 호출하여 이를 수행합니다. 요청이 세션 쿠키를 통해 인증되지 않는 경우 Sanctum은 요청에서 API 토큰을 검사합니다. API 토큰이 있는 경우 Sanctum은 해당 토큰을 사용하여 요청을 인증합니다. 이 프로세스에 대한 자세한 내용은 Sanctum의 ["작동 방식"](/docs/{{version}}/sanctum#how-it-works) 문서를 참조하십시오.
+
+Laravel Sanctum is the API package we have chosen to include with the [Laravel Jetstream](https://jetstream.laravel.com) authentication scaffolding because we believe it is the best fit for the majority of web application's authentication needs.
+
+Laravel Santum은 웹 애플리케이션 인증에 가장 적합하다고 판단되어 [Laravel Jetstream](https://jetstream.laravel.com)의 인증 스캐폴딩에 포함하기로 선택한 API 패키지 입니다.
+ 
+#### Summary & Choosing Your Stack
+#### 요약 & 스택 선택
+
+In summary, if your application will be accessed using a browser, your application will use Laravel's built-in authentication services.
+
+요약하면, 브라우저를 사용하여 애플리케이션에 접근할 경우 애플리케이션은 라라벨의 기본 제공 인증 서비스를 사용할 수 있습니다.
+
+Next, if your application offers an API, you will choose between [Passport](/docs/{{version}}/passport) or [Sanctum](/docs/{{version}}/sanctum) to provide API token authentication for your application. In general, Sanctum should be preferred when possible since it is a simple, complete solution for API authentication, SPA authentication, and mobile authentication, including support for "scopes" or "abilities".
+
+다음으로, 애플리케이션이 API를 제공하는 경우 [Passport](/docs/{{version}}/passport) 또는 [Sanctum](/docs/{{version}}/Sanctum) 중에서 선택하여 API 토큰 인증을 제공합니다. 일반적으로 Sanctum은 API 인증, SPA 인증, 모바일 인증을 위한 것으로, 해당 인증의 "범위" 나 "기능성"에 대한 지원을 포함하는 간편하고 완벽한 솔루션이기 때문에, 가능한 한 채택되어야 합니다.
+
+Passport may be chosen when your application absolutely needs all of the features provided by the OAuth2 specification.
+
+애플리케이션에 OAuth2 사양에서 제공하는 모든 기능이 절대적으로 필요한 경우 Passport를 선택할 수 있습니다.
+
+And, if you would like to get started quickly, we are pleased to recommend [Laravel Jetstream](https://jetstream.laravel.com) as a quick way to start a new Laravel application that already uses our preferred authentication stack of Laravel's built-in authentication services and Laravel Sanctum.
+
+만약 당신이 빠르게 시작하고자 한다면, 우리는 새로운 라라벨 애플리케이션을 시작하는 빠른 방법으로 라라벨의 내장(built-in) 인증 서비스와 Laravel Sanctum으로 이루어진 선호도 높은 인증 스택을 이미 사용하는 [Laravel Jetstream](https://jetstream.laravel.com)을 흔쾌히 추천합니다.
+
 <a name="authentication-quickstart"></a>
 ## Authentication Quickstart
 ## 빠르게 인증 살펴보기
+
+> {note} This portion of the documentation discusses authenticating users via the [Laravel Jetstream](https://jetstream.laravel.com) package, which includes UI scaffolding to help you get started quickly. If you would like to integrate with Laravel's authentication systems directly, check out the documentation on [manually authenticating users](#authenticating-users).
+
+> {참고} 문서의이 부분에서는 빠르게 시작할 수 있도록 UI 스캐폴딩이 포함된 [Laravel Jetstream](https://jetstream.laravel.com) 패키지를 통한 사용자 인증에 대해 설명합니다. 라라벨 인증 시스템과 직접 통합하려면 [수동 인증 사용자](#authenticating-users) 문서를 확인하세요.
 
 <a name="included-routing"></a>
 ### Routing
 ### Routing-라우팅
 
-Laravel's `laravel/ui` package provides a quick way to scaffold all of the routes and views you need for authentication using a few simple commands:
+Laravel's `laravel/jetstream` package provides a quick way to scaffold all of the routes, views, and other backend logic needed for authentication using a few simple commands:
 
-라라벨의 `laravel/ui` 패키지는 다음의 간단한 명령어들을 통해서 인증에 필요한 모든 라우트와 뷰를 스캐폴딩 할 수 있는 손쉬운 방법을 제공합니다.
+Laravel의`laravel/jetstream` 패키지는 몇 가지 간단한 명령을 사용하여 인증에 필요한 모든 경로, view 및 기타 백엔드 로직을 스캐폴딩하는 빠른 방법을 제공합니다.
 
-    composer require laravel/ui:^2.4
+    composer require laravel/jetstream
 
-    php artisan ui vue --auth
+    // Install Jetstream with the Livewire stack...
+    php artisan jetstream:install livewire
 
-This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `HomeController` will also be generated to handle post-login requests to your application's dashboard.
+    // Install Jetstream with the Inertia stack...
+    php artisan jetstream:install inertia
 
-이 명령어는 새로운 애플리케이션에서 사용되어야 하며, 레이아웃 뷰, 등록과 로그인 뷰, 모든 인증의 진입점을 위한 라우팅 기능을 설치할 것입니다. 또한 로그인 후 여러분의 대시보드 페이지를 요청할 수 있는 `HomeController`도 함께 설치됩니다.
+This command should be used on fresh applications and will install a layout view, registration and login views, as well as routes for all authentication end-points. A `/dashboard` route will also be generated to handle post-login requests to your application's dashboard.
 
-The `laravel/ui` package also generates several pre-built authentication controllers, which are located in the `App\Http\Controllers\Auth` namespace. The `RegisterController` handles new user registration, the `LoginController` handles authentication, the `ForgotPasswordController` handles e-mailing links for resetting passwords, and the `ResetPasswordController` contains the logic to reset passwords. Each of these controllers uses a trait to include their necessary methods. For many applications, you will not need to modify these controllers at all.
-
-`laravel/ui` 패키지는 `App\Http\Controllers\Auth` 네임스페이스에 미리 만들어둔 여러개의 인증에 관한 컨트롤러도 생성합니다. `RegisterController`는 새로운 사용자 등록을 처리하고 `LoginController`는 인증을 처리하고 `ForgotPasswordController`는 비밀번호 재설정을 위한 이메일 링크를 처리하며 `ResetPasswordController`에는 비밀번호 재설정 로직이 포함되어 있습니다. 각 컨트롤러는 Trait을 사용하여 필요한 메서드를 포함하고 있습니다. 대부분의 어플리케이션이 이러한 컨트롤러들을 전혀 수정할 필요가 없습니다.
-
-> {tip} If your application doesn’t need registration, you may disable it by removing the newly created `RegisterController` and modifying your route declaration: `Auth::routes(['register' => false]);`.
-
-> {tip} 여러분의 애플리케이션에서 회원가입을 필요로 하지 않는다면, 새롭게 생성되는 `RegisterController` 파일을 삭제하고 라우트 정의 파일에서 `Auth::routes(['register' => false]);`를 수정하면 됩니다.
+이 명령은 새로운 애플리케이션에서 사용해야 하며 레이아웃 view, 등록 및 로그인 view는 물론 모든 인증 end-point 에 대한 경로를 설치합니다. 애플리케이션 대시 보드에 대한 로그인 후 요청을 처리하기 위해`/dashboard` 경로도 생성됩니다.
 
 #### Creating Applications Including Authentication
 #### 인증을 포함한 애플리케이션 만들기
 
-If you are starting a brand new application and would like to include the authentication scaffolding, you may use the `--auth` directive when creating your application. This command will create a new application with all of the authentication scaffolding compiled and installed:
+If you are starting a brand new application and would like to include the authentication scaffolding, you may use the `--jet` directive when creating your application via the Laravel Installer. This command will create a new application with all of the authentication scaffolding compiled and installed:
 
-새로운 애플리케이션을 만들때 인증 스캐폴딩을 포함하려면 `--auth`을 사용하면 됩니다. 이 명령은 모든 인증 스캐폴딩을 컴파일하고 설치하여 새 애플리케이션을 만듭니다.
+새로운 애플리케이션을 시작하고 인증 스캐폴딩을 포함하려면 라라벨 설치 프로그램을 통해 애플리케이션을 만들 때 `--jet` 지시문을 사용할 수 있습니다. 이 명령은 모든 인증 스캐폴딩이 컴파일되고 설치된 새 애플리케이션을 만듭니다.
 
-    laravel new blog --auth
+    laravel new kitetail --jet
+
+>{tip} To learn more about Jetstream, please visit the official [Jetstream documentation](https://jetstream.laravel.com).
+>{tip} Jetstream에 대해 자세히 알아 보려면 공식사이트에 방문하세요. [Jetstream documentation](https://jetstream.laravel.com).
 
 <a name="included-views"></a>
 ### Views
 ### Views-뷰
 
-As mentioned in the previous section, the `laravel/ui` package's `php artisan ui vue --auth` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
+As mentioned in the previous section, the `laravel/jetstream` package's `php artisan jetstream:install` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
 
-이전 섹션에서 언급했듯이 `laravel/ui` 패키지의 `php artisan ui vue --auth` 명령은 인증에 필요한 모든 뷰를 `resources/views/auth` 디렉토리에 생성합니다.
+이전 섹션에서 언급했듯이`laravel/jetstream` 패키지의`php artisan jetstream:install` 명령은 인증에 필요한 모든 view 를 생성하고 `Resources/views/auth` 디렉토리에 배치합니다.
 
-The `ui` command will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the Bootstrap CSS framework, but you are free to customize them however you wish.
+Jetstream will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the [Tailwind CSS](https://tailwindcss.com) framework, but you are free to customize them however you wish.
 
-`ui` 명령은 또한 애플리케이션의 기본 레이아웃을 포함하는 `resources/views/layouts` 디렉토리를 만듭니다. 이러한 모든 뷰는 Bootstrap CSS 프레임워크를 사용하지만 원하는대로 자유롭게 커스텀 할 수 있습니다.
+Jetstream은 애플리케이션의 기본 레이아웃을 포함하는`resources/views/layouts` 디렉토리도 만듭니다. 이러한 모든 view는 [Tailwind CSS](https://tailwindcss.com) 프레임 워크를 사용하지만 원하는 대로 자유롭게 맞춤 설정할 수 있습니다.
 
 <a name="included-authenticating"></a>
 ### Authenticating
 ### 인증하기
 
-Now that you have routes and views setup for the included authentication controllers, you are ready to register and authenticate new users for your application! You may access your application in a browser since the authentication controllers already contain the logic (via their traits) to authenticate existing users and store new users in the database.
+Now that your application has been scaffolded for authentication, you are ready to register and authenticate! You may simply access your application in a browser since Jetstream's authentication controllers already contain the logic to authenticate existing users and store new users in the database.
 
-이제 인증 컨트롤러에 대한 라우트와 뷰가 설정되었으니, 애플리케이션에 새로운 사용자를 등록하거나 인증할 준비가 되었습니다! 기존 사용자를 인증하거나 새로운 사용자를 데이터베이스에 저장하는 (트레이트-trait를 통한) 로직은 이미 인증 컨트롤러에 포함되어 있으므로, 브라우저로 여러분의 애플리케이션에 접근하기만 하면 됩니다.
+이제 애플리케이션이 인증을 위해 스캐폴딩 되었으므로 등록 및 인증 할 준비가 되었습니다! Jetstream의 인증 컨트롤러에는 이미 기존 사용자를 인증하고 데이터베이스에 새 사용자를 저장하는 로직이 포함되어 있음으로 브라우저에서 애플리케이션에 액세스하면 됩니다.
 
 #### Path Customization
 #### 리다이렉트 경로 수정하기
 
-When a user is successfully authenticated, they will be redirected to the `/home` URI. You can customize the post-authentication redirect path using the `HOME` constant defined in your `RouteServiceProvider`:
+When a user is successfully authenticated, they will typically be redirected to the `/home` URI. You can customize the post-authentication redirect path using the `HOME` constant defined in your `RouteServiceProvider`:
 
-사용자가 성공적으로 인증되면 `/home` URI로 리디렉션 됩니다. `RouteServiceProvider`에 정의 된 `HOME` 상수를 사용하여 인증 후 이동되는 경로를 커스터마이징 할 수 있습니다.
+사용자가 성공적으로 인증되면 일반적으로`/home` URI로 이동됩니다. `RouteServiceProvider`에 정의 된 `HOME` 상수를 사용하여 인증 후 이동되는 경로를 수정할 수 있습니다.
 
     public const HOME = '/home';
 
-If you need more robust customization of the response returned when a user is authenticated, Laravel provides an empty `authenticated(Request $request, $user)` method within the `AuthenticatesUsers` trait. This trait is used by the `LoginController` class that is installed into your application when using the `laravel/ui` package. Therefore, you can define your own `authenticated` method within the `LoginController` class:
+When using Laravel Jetstream, the Jetstream installation process will change the value of the `HOME` constant to `/dashboard`.
 
-사용자가 인증 될 때 반환되는 응답을 보다 강력하게 커스터마이징 해야하는 경우 라라벨은 원하는 경우 덮어 쓸 수있는 빈 `authenticated(Request $request, $user)`메소드를 제공합니다.
-
-    /**
-     * The user has been authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
-     */
-    protected function authenticated(Request $request, $user)
-    {
-        return response([
-            //
-        ]);
-    }
-
-#### Username Customization
-#### 어떤 사용자이름을 사용할지 결정하기
-
-By default, Laravel uses the `email` field for authentication. If you would like to customize this, you may define a `username` method on your `LoginController`:
-
-기본적으로 라라벨은 인증에 `email` 필드를 사용합니다. 이를 커스터마이징 하려면, `LoginController`의 `username` 메소드를 정의하면 됩니다.
-
-    public function username()
-    {
-        return 'username';
-    }
-
-#### Guard Customization
-#### Guard 커스터마이징
-
-You may also customize the "guard" that is used to authenticate and register users. To get started, define a `guard` method on your `LoginController`, `RegisterController`, and `ResetPasswordController`. The method should return a guard instance:
-
-또한 여러분은 사용자 인증과 등록에 사용되는 "guard"를 커스터마이징 할 수 있습니다. 시작하기에 앞서, `LoginController`, `RegisterController`, 그리고 `ResetPasswordController`에 `guard` 메소드를 정의하시기 바랍니다. 이 메소드는 guard 인스턴스를 리턴해야만 합니다.
-
-    use Illuminate\Support\Facades\Auth;
-
-    protected function guard()
-    {
-        return Auth::guard('guard-name');
-    }
-
-#### Validation / Storage Customization
-#### Validation-유효성 검사 / 스토리지 커스터마이징
-
-To modify the form fields that are required when a new user registers with your application, or to customize how new users are stored into your database, you may modify the `RegisterController` class. This class is responsible for validating and creating new users of your application.
-
-새로운 사용자를 등록할 때 필수로 입력해야 하는 form 항목을 변경하려면, 또는 새로운 사용자가 데이터베이스에 입력되는 방식을 커스터마이징 하려면, `RegisterController` 클래스를 수정하면 됩니다. 이 클래스는 애플리케이션에서 새로운 사용자를 검증하고 생성하는 역할을 합니다.
-
-The `validator` method of the `RegisterController` contains the validation rules for new users of the application. You are free to modify this method as you wish.
-
-`RegisterController` 클래스의 `validator` 메소드는 애플리케이션의 새로운 사용자에 대한 폼 검증 규칙을 포함하고 있으며, 여러분은 원하는대로 이 메소드를 수정해도 됩니다.
-
-The `create` method of the `RegisterController` is responsible for creating new `App\User` records in your database using the [Eloquent ORM](/docs/{{version}}/eloquent). You are free to modify this method according to the needs of your database.
-
-`RegisterController`의 `create` 메소드는 [Eloquent ORM](/docs/{{version}}/eloquent)을 이용하여 데이터베이스에 새 `App\User` 레코드를 생성합니다. 여러분은 데이터베이스의 필요에 따라 이 메소드를 수정해도 됩니다.
+Laravel Jetstream을 사용할 때 Jetstream 설치 프로세스는`HOME` 상수를 `/dashboard` 로 변경합니다.
 
 <a name="retrieving-the-authenticated-user"></a>
 ### Retrieving The Authenticated User
 ### 승인된 사용자 조회하기
 
-You may access the authenticated user via the `Auth` facade:
+While handling an incoming request, you may access the authenticated user via the `Auth` facade:
 
-`Auth` 파사드를 통해 인증된 사용자에게 접근할 수 있습니다.
+들어오는 요청을 처리하는 동안 `Auth` 파사드를 통해 인증된 사용자에 액세스 할 수 있습니다.
 
     use Illuminate\Support\Facades\Auth;
 
@@ -232,9 +274,9 @@ You may access the authenticated user via the `Auth` facade:
     // Get the currently authenticated user's ID...
     $id = Auth::id();
 
-Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods:
+Alternatively, once a user is authenticated, you may access the authenticated user via an `Illuminate\Http\Request` instance. Remember, type-hinted classes will automatically be injected into your controller methods. By type-hinting the `Illuminate\Http\Request` object, you may gain convenient access to the authenticated user from any controller method in your application:
 
-또는, 사용자가 인증되면, `Illuminate\Http\Request` 인스턴스를 통해 인증된 사용자에게 접근할 수 있습니다. 타입힌트된 클래스는 컨트롤러 메소드에 자동으로 주입된다는 것을 기억하십시오.
+또는, 사용자가 인증되면, `Illuminate\http\Request` 인스턴스를 통해 인증된 사용자에게 접근할 수 있습니다. 타입힌트된 클래스는 컨트롤러 메서드에 자동으로 주입된다는 것을 기억하십시오. `Illuminate\http\Request` 개체를 타입힌트하면 애플리케이션의 모든 컨트롤러 메서드에서 인증된 사용자에게 편리하게 접근할 수 있습니다.
 
     <?php
 
@@ -242,10 +284,10 @@ Alternatively, once a user is authenticated, you may access the authenticated us
 
     use Illuminate\Http\Request;
 
-    class ProfileController extends Controller
+    class FlightController extends Controller
     {
         /**
-         * Update the user's profile.
+         * Get a list of all available flights.
          *
          * @param  Request  $request
          * @return Response
@@ -277,22 +319,13 @@ To determine if the user is already logged into your application, you may use th
 ### Protecting Routes
 ### 라우트 보호하기
 
-[Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which is defined at `Illuminate\Auth\Middleware\Authenticate`. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:
+[Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which references the `Illuminate\Auth\Middleware\Authenticate` class. Since this middleware is already registered in your HTTP kernel, all you need to do is attach the middleware to a route definition:
 
-[라우트 미들웨어](/docs/{{version}}/middleware)는 인증된 사용자에게만 주어진 라우트에 접근하도록 허용하는데 사용될 수 있습니다. 라라벨은 `Illuminate\Auth\Middleware\Authenticate`에 정의된 `auth` 미들웨어를 제공하고 있습니다. 이제 여러분이 할 일은 라우트가 정의된 부분에 미들웨어를 추가하는 것 뿐입니다.
+[라우트 미들웨어](/docs/{{version}}/middleware)는 인증된 사용자에게만 주어진 라우트에 접근하도록 허용하는데 사용될 수 있습니다. 라라벨은 `Illuminate\Auth\Middleware\Authenticate` 클래스를 참조하는 `auth` 미들웨어를 제공하고 있습니다. 이제 여러분이 할 일은 라우트가 정의된 부분에 미들웨어를 추가하는 것 뿐입니다.
 
-    Route::get('profile', function () {
+    Route::get('flights', function () {
         // Only authenticated users may enter...
     })->middleware('auth');
-
-If you are using [controllers](/docs/{{version}}/controllers), you may call the `middleware` method from the controller's constructor instead of attaching it in the route definition directly:
-
-만약 [컨트롤러 클래스](/docs/{{version}}/controllers)를 사용하고 있다면, 라우트 정의 부분에 직접 추가하는 대신 컨트롤러의 생성자에서 `middleware` 메소드를 호출할 수 있습니다.
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
 #### Redirecting Unauthenticated Users
 #### 인증되지 않는 사용자 리다이렉팅하기
@@ -319,46 +352,29 @@ When attaching the `auth` middleware to a route, you may also specify which guar
 
 `auth` 미들웨어를 라우트에 추가할 때, 여러분은 또한 어떤 guard가 인증에 사용되어야 하는지 지정할 수 있습니다. 지정된 guard는 `auth.php` 설정 파일의 `guards` 배열에 있는 키 중 하나와 일치해야 합니다.
 
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
-<a name="password-confirmation"></a>
-### Password Confirmation
-### 비밀번호 확인
-
-Sometimes, you may wish to require the user to confirm their password before accessing a specific area of your application. For example, you may require this before the user modifies any billing settings within the application.
-
-때로는 애플리케이션의 특정 영역에 액세스하기 전에 사용자에게 암호를 입력하도록 요청할 수 있습니다. 예를 들어, 사용자가 애플리케이션 내에서 결제 설정을 변경하는 곳에서 사용할 수 있습니다.
-
-To accomplish this, Laravel provides a `password.confirm` middleware. Attaching the `password.confirm` middleware to a route will redirect users to a screen where they need to confirm their password before they can continue:
-
-이를 위해 라라벨은 `password.confirm` 미들웨어를 제공합니다. `password.confirm` 미들웨어를 라우트에 연결하면 사용자가 계속 진행하기 전에 비밀번호를 확인해야하는 화면으로 사용자를 리디렉션합니다.
-
-    Route::get('/settings/security', function () {
-        // Users must confirm their password before continuing...
-    })->middleware(['auth', 'password.confirm']);
-
-After the user has successfully confirmed their password, the user is redirected to the route they originally tried to access. By default, after confirming their password, the user will not have to confirm their password again for three hours. You are free to customize the length of time before the user must re-confirm their password using the `auth.password_timeout` configuration option.
-
-사용자가 자신의 암호를 확인하면 원래 접근하려는 경로로 다시 돌아갑니다. 기본적으로 비밀번호를 확인한 후 사용자는 3시간 동안 비밀번호를 다시 확인 할 필요가 없습니다. `auth.password_timeout` 설정 옵션을 사용하여 사용자가 비밀번호를 다시 확인해야하는 시간을 자유롭게 변경 할 수 있습니다.
+    Route::get('flights', function () {
+        // Only authenticated users may enter...
+    })->middleware('auth:api');
 
 <a name="login-throttling"></a>
 ### Login Throttling
 ### 로그인 횟수 제한
 
-If you are using Laravel's built-in `LoginController` class, the `Illuminate\Foundation\Auth\ThrottlesLogins` trait will already be included in your controller. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address.
+If you are using Laravel Jetstream, rate limiting will automatically be applied to login attempts. By default, the user will not be able to login for one minute if they fail to provide the correct credentials after several attempts. The throttling is unique to the user's username / e-mail address and their IP address.
 
-만약 라라벨에 포함된 `LoginController` 클래스를 사용한다면 `Illuminate\Foundation\Auth\ThrottlesLogins` 트레이트-trait가 이미 포함되어 있을 겁니다. 기본적으로, 사용자가 정확한 계정 정보를 입력하는 데 여러번 실패하면, 1분 동안 로그인하지 못하게 설정되어 있습니다. 이 제한은 사용자의 이름 / 이메일 주소와 IP 주소에 대해 고유하게 동작합니다.
+Laravel Jetstream을 사용하는 경우 로그인 시도에 속도 제한이 자동으로 적용됩니다. 기본적으로 사용자는 몇 번의 시도 후에도 올바른 자격 증명을 제공하지 않으면 1분 동안 로그인할 수 없습니다. 제한은 사용자의 사용자 이름 / 이메일 및 IP 주소에 대해 고유하게 동작합니다.
+
+> {tip} If you would like to rate limit your own routes, check out the [rate limiting documentation](/docs/{{version}}/routing#rate-limiting).
+
+> {tip} 자신의 경로를 속도 제한하려면 [속도 제한 문서](/docs/{{version}}/routing#rate-limiting)를 확인하세요.
 
 <a name="authenticating-users"></a>
 ## Manually Authenticating Users
 ## 수동으로 사용자 인증하기
 
-Note that you are not required to use the authentication controllers included with Laravel. If you choose to remove these controllers, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
+You are not required to use the authentication scaffolding included with Laravel Jetstream. If you choose to not use this scaffolding, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
 
-라라벨에 포함된 인증 컨트롤러를 꼭 써야하지는 않습니다. 이 컨트롤러들을 삭제한다면 라라벨의 인증 클래스를 사용하여 사용자 인증을 직접 관리해야 합니다. 아주 쉬우니까 걱정하지 마세요!
+Laravel Jetstream에 포함된 인증 스캐폴딩을 꼭 사용할 필요는 없습니다. 이 스캐폴딩을 사용하지 않기로 선택한 경우 인증 라라벨 클래스를 직접 사용하여 사용자 인증을 관리해야 합니다. 걱정하지 마세요.
 
 We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method:
 
@@ -454,10 +470,6 @@ If you would like to provide "remember me" functionality in your application, yo
         // The user is being remembered...
     }
 
-> {tip} If you are using the built-in `LoginController` that is shipped with Laravel, the proper logic to "remember" users is already implemented by the traits used by the controller.
-
-> {tip} Laravel에 기본 제공되는 `LoginController`를 사용하는 경우, "remember"하는 사용자를 처리하는 적절한 로직은 이미 컨트롤러에서 사용하는 트레이트-trait에 구현되어 있습니다.
-
 If you are "remembering" users, you may use the `viaRemember` method to determine if the user was authenticated using the "remember me" cookie:
 
 여러분이 "remember"하는 사용자라면, `viaRemember` 메소드를 통해 해당 사용자가 "remember me" 쿠키로 인증이 되었는 지 확인 할 수 있습니다.
@@ -473,9 +485,9 @@ If you are "remembering" users, you may use the `viaRemember` method to determin
 #### Authenticate A User Instance
 #### 사용자 인스턴스를 통해서 인증하기
 
-If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). The `App\User` model included with Laravel already implements this interface:
+If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). The `App\Models\User` model included with Laravel already implements this interface. This method of authentication is useful when you already have a valid user instance, such as directly after a user registers with your application:
 
-애플리케이션에 이미 존재하는 사용자 인스턴스를 통해서 로그인을 하려면 사용자 인스턴스의 `login` 메소드를 호출할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts)를 구현해야 합니다. 라라벨에 포함된 `App\User` 모델은 이미 이 인터페이스를 구현합니다.
+기존 사용자 인스턴스를 애플리케이션에 로그인해야 하는 경우 사용자 인스턴스와 함께 `login` 메서드를 호출 할 수 있습니다. 주어진 객체는`Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contract)의 구현이어야 합니다. 라라벨에 포함된 `App\Models\User` 모델은 이미 이 인터페이스를 구현하고 있습니다. 이 인증 방법은 사용자가 애플리케이션에 등록한 직후와 같이 유효한 사용자 인스턴스가 이미 있는 경우에 유용합니다.
 
     Auth::login($user);
 
@@ -617,6 +629,88 @@ When the `logoutOtherDevices` method is invoked, the user's other sessions will 
 
 > {note} `login`라우트에 대한 커스텀 라우트 이름과 함께 `AuthenticateSession`미들웨어를 사용하는 경우 사용자를 로그인 페이지로 올바르게 리디렉션하려면 애플리케이션의 예외 처리기에서 `unauthenticated` 메서드를 재정의해야합니다.
 
+
+<a name="password-confirmation"></a>
+## Password Confirmation
+## 비밀번호 확인
+
+While building your application, you may occasionally have actions that should require the user to confirm their password before the action is performed. Laravel includes built-in middleware to make this process a breeze. Implementing this feature will require you to define two routes: one route to display a view asking the user to confirm their password, and one route to confirm that the password is valid and redirect the user to their intended destination.
+
+애플리케이션을 구축하는 동안 작업을 수행하기 전에 사용자가 암호를 확인 해야하는 작업이 있을 수 있습니다. 라라벨은 이 프로세스를 쉽게 만들어주는 내장 미들웨어를 포함하고 있습니다. 이 기능을 구현하려면 두 가지 경로를 정의해야 합니다. 하나는 사용자에게 암호 확인을 요청하는 view를 표시하는 경로이고 다른 하나는 암호가 유효한지 확인하고 사용자를 원하는 대상으로 이동하는 경로입니다.
+
+> {tip} The following documentation discusses how to integrate with Laravel's password confirmation features directly; however, if you would like to get started more quickly, the [Laravel Jetstream](https://jetstream.laravel.com) authentication scaffolding package includes support for this feature!
+
+> {Tip} 다음 문서는 라라벨의 비밀번호 확인 기능과 직접 통합하는 방법을 설명합니다. 하지만 더 빨리 시작하려면 [Laravel Jetstream](https://jetstream.laravel.com) 인증 스캐폴딩 패키지에 이 기능에 대한 지원이 포함되어 있습니다!
+
+<a name="password-confirmation-configuration"></a>
+### Configuration
+### 환경설정
+
+After confirming their password, a user will not be asked to confirm their password again for three hours. However, you may configure the length of time before the user is re-prompted for their password by changing the value of the `password_timeout` configuration value within your `auth` configuration file.
+
+비밀번호를 확인한 후 사용자는 3시간 동안 비밀번호를 다시 확인하지 않아도 됩니다. 그러나 `auth` 설정 파일의 `password_timeout` 값을 변경하여 사용자에게 암호를 다시 묻는 메시지가 표시되기 까지의 시간을 변경할 수 있습니다.
+
+<a name="password-confirmation-routing"></a>
+### Routing
+### 라우팅
+
+#### The Password Confirmation Form
+#### 비밀번호 확인 양식
+
+First, we will define the route that is needed to display a view requesting that the user confirm their password:
+
+먼저 사용자가 자신의 암호를 확인하도록 요청하는 view를 표시하는 데 필요한 경로를 정의합니다.
+
+    Route::get('/confirm-password', function () {
+        return view('auth.confirm-password');
+    })->middleware(['auth'])->name('password.confirm');
+
+As you might expect, the view that is returned by this route should have a form containing a `password` field. In addition, feel free to include text within the view that explains that the user is entering a protected area of the application and must confirm their password.
+
+예상 할 수 있듯이 이 경로에서 반환되는 view에는 `password` 필드가 포함된 양식이 있어야 합니다. 또한 사용자가 애플리케이션의 보호 영역에 들어가고 있으며 비밀번호를 확인해야 한다는 내용을 view에 자유롭게 포함 할 수 있습니다.
+
+#### Confirming The Password
+#### 비밀번호 확인
+
+Next, we will define a route will handle the form request from the "confirm password" view. This route will be responsible for validating the password and redirecting the user to their intended destination:
+
+다음으로 "비밀번호 확인" view에서 요청 양식을 처리 할 경로를 정의합니다. 이 경로는 암호의 유효성을 검사하고 사용자를 원하는 대상으로 이동하는 역할을 합니다.
+
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Hash;
+
+    Route::post('/confirm-password', function (Request $request) {
+        if (! Hash::check($request->password, $request->user()->password)) {
+            return back()->withErrors([
+                'password' => ['The provided password does not match our records.']
+            ]);
+        }
+
+        $request->session()->passwordConfirmed();
+
+        return redirect()->intended();
+    })->middleware(['auth', 'throttle:6,1'])->name('password.confirm');
+
+Before moving on, let's examine this route in more detail. First, the request's `password` attribute is determined to actually match the authenticated user's password. If the password is valid, we need to inform Laravel's session that the user has confirmed their password. The `passwordConfirmed` method will set a timestamp in the user's session that Laravel can use to determine when the user last confirmed their password. Finally, we can redirect the user to their intended destination.
+
+계속 진행하기 전에 이 경로를 자세히 살펴보겠습니다. 먼저 요청의 `password` 속성이 인증된 사용자의 비밀번호와 실제로 일치하는지 확인합니다. 암호가 유효하면 사용자가 암호를 확인했음을 라라벨 세션에 알려야 합니다. `passwordConfirmed` 메소드는 사용자가 마지막으로 비밀번호를 확인한 시기를 결정하기 위해 라라벨이 사용할 수 있는 사용자 세션의 타임 스탬프를 설정합니다. 마지막으로 사용자를 의도한 목적지로 이동 할 수 있습니다.
+
+<a name="password-confirmation-protecting-routes"></a>
+### Protecting Routes
+### 라우트 보호하기
+
+You should ensure that any route that performs an action that should require recent password confirmation is assigned the `password.confirm` middleware. This middleware is included with the default installation of Laravel and will automatically store the user's intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user's intended destination in the session, the middleware will redirect the user to the `password.confirm` [named route](/docs/{{version}}/routing#named-routes):
+
+최근 암호 확인이 필요한 작업을 수행하는 모든 경로에`password.confirm` 미들웨어가 할당 되었는지 확인해야 합니다. 이 미들웨어는 라라벨의 기본 설치에 포함되어 있으며 사용자가 암호를 확인한 후 해당 위치로 이동 될 수 있도록 세션에 사용자가 의도한 대상을 자동으로 저장합니다. 세션에 대한 사용자의 의도된 대상을 저장 한 후 미들웨어는 사용자를 `password.confirm` [named route](/docs/{{version}}/routing#named-routes) 으로 이동합니다:
+
+    Route::get('/settings', function () {
+        // ...
+    })->middleware(['password.confirm']);
+
+    Route::post('/settings', function () {
+        // ...
+    })->middleware(['password.confirm']);
+
 <a name="adding-custom-guards"></a>
 ## Adding Custom Guards
 ## 사용자정의 Guard 추가
@@ -675,7 +769,7 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
 
 시작하려면, `AuthServiceProvider` 의 `boot` 메소드에서 `Auth::viaRequest` 메소드를 호출하면 됩니다. `viaRequest` 메소드는 인증 드라이버 이름을 첫번째 인자로 전달 받습니다. 이 이름은 커스텀 guard를 표현하는 문자열이 될 수도 있습니다. 메소드에 전달되는 두번째 인자는 유입되는 HTTP request-요청을 전달받아 사용자 인스턴스를 반환하는 클로저여야하며, 인증에 실패한다면, `null` 을 반환해야 합니다.
 
-    use App\User;
+    use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
 
@@ -867,7 +961,7 @@ Laravel raises a variety of [events](/docs/{{version}}/events) during the authen
         'Illuminate\Auth\Events\Validated' => [
             'App\Listeners\LogValidated',
         ],
-        
+
         'Illuminate\Auth\Events\Verified' => [
             'App\Listeners\LogVerified',
         ],

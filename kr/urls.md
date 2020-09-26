@@ -229,7 +229,7 @@ Once the default value for the `locale` parameter has been set, you are no longe
 `locale` 파라미터의 기본값이 설정되면 `rotue` 헬퍼를 통해서 URL을 생성 할 때 더 이상 매번 값을 전달하지 않아도 됩니다.
 
 #### URL Defaults & Middleware Priority
-## URL 기본값 & 미들웨어 우선 순위
+#### URL 기본값 & 미들웨어 우선 순위
 
 Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](https://laravel.com/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this by making sure your middleware occurs before the `SubstituteBindings` middleware within the `$middlewarePriority` property of your application's HTTP kernel.
 

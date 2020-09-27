@@ -233,7 +233,7 @@ Once the default value for the `locale` parameter has been set, you are no longe
 
 Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](https://laravel.com/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this by making sure your middleware occurs before the `SubstituteBindings` middleware within the `$middlewarePriority` property of your application's HTTP kernel.
 
-URL 기본값을 설정하면 라라벨의 암시적인 모델 바인딩 처리에 방해가 될 수 있습니다. 따라서, 라라벨의 `SubstituteBindings` 미들웨어 이전에 URL 기본값을 설정한 [미들웨어](https://laravel.com/docs/bersion}/middleware#sorting-middleware)를 실행해야 합니다. 애플리케이션 HTTP 커널의 `$middlewarePriority` 속성 내에서 `SubstituteBindings` 보다 먼저 등록되어야 합니다.
+URL 기본값을 설정하면 라라벨의 묵시적 모델 바인딩 처리에 방해가 될 수 있습니다. 따라서, 라라벨의 `SubstituteBindings` 미들웨어 이전에 URL 기본값을 설정한 [미들웨어](https://laravel.com/docs/{{version}}/middleware#sorting-middleware)를 실행해야 합니다. 애플리케이션 HTTP 커널의 `$middlewarePriority` 속성 내에서 `SubstituteBindings` 보다 먼저 등록되어야 합니다.
 
 The `$middlewarePriority` property is defined in the base `Illuminate\Foundation\Http\Kernel` class. You may copy its definition from that class and overwrite it in your application's HTTP kernel in order to modify it:
 

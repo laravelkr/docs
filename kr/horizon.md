@@ -100,7 +100,7 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
 
 The `balanceMaxShift` and `balanceCooldown` configuration values to determine how quickly Horizon will scale to meet worker demand. In the example above, a maximum of one new process will be created or destroyed every three seconds. You are free to tweak these values as necessary based on your application's needs.
 
-`balanceMaxShift`와 `balanceCooldown` 구성 값은 Horizon이 worker 수요를 충족하기 위하여 얼마나 신속하게 확장되는지 결정하는 구성값 입니다. 위의 예시에서, 최대 한개의 프로세스가 3초마다 생성되거나 파괴됩니다. 어플리케이션의 요구에 따라 이러한 값을 자유롭게 변경할 수 있습니다.
+`balanceMaxShift`와 `balanceCooldown` 구성 값은 Horizon이 worker 수요를 충족하기 위하여 얼마나 신속하게 확장되는지 결정하는 구성값 입니다. 위의 예시에서, 3초마다 최대 한개의 프로세스가 생성되거나 파괴됩니다. 어플리케이션의 요구에 따라 이러한 값을 자유롭게 변경할 수 있습니다.
 
 #### Job Trimming
 #### 작업 트리밍

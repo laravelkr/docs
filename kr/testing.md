@@ -68,8 +68,7 @@ Once the test has been generated, you may define test methods as you normally wo
 
     namespace Tests\Unit;
 
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Tests\TestCase;
+    use PHPUnit\Framework\TestCase;
 
     class ExampleTest extends TestCase
     {
@@ -92,9 +91,9 @@ Once the test has been generated, you may define test methods as you normally wo
 ### Artisan Test Runner
 ### 아티즌 테스트 러너
 
-In addition to the `phpunit` command, you may use the `test` Artisan command to run your tests. The Artisan test runner provides more information regarding the test that is currently running and will automatically stop on the first test failure:
+In addition to the `phpunit` command, you may use the `test` Artisan command to run your tests. The Artisan test runner provides verbose test reports in order to ease development and debugging:
 
-`phpunit` 명령 외에도`test` Artisan 명령을 사용하여 테스트를 실행할 수 있습니다. Artisan 테스트 러너는 현재 실행중인 테스트에 대한 자세한 정보를 제공하며 첫 번째 테스트 실패시 자동으로 중지됩니다.
+`phpunit` 명령 외에도`test` Artisan 명령을 사용하여 테스트를 실행할 수 있습니다. Artisan 테스트 러너는 개발과 디버깅을 쉽게 도와주는 자세한 테스트 보고서를 제공합니다.
 
     php artisan test
 
@@ -102,4 +101,4 @@ Any arguments that can be passed to the `phpunit` command may also be passed to 
 
 `phpunit` 명령으로 전달 할 수있는 모든 인수는 아티즌 `test` 명령으로도 전달 할 수 있습니다.
 
-    php artisan test --group=feature
+    php artisan test --group=feature --stop-on-failure

@@ -7,8 +7,6 @@
 - [기본적인 컨트롤서](#basic-controllers)
     - [Defining Controllers](#defining-controllers)
     - [컨트롤러 정의](#defining-controllers)
-    - [Controllers & Namespaces](#controllers-and-namespaces)
-    - [컨트롤러 & 네임스페이스](#controllers-and-namespaces)
     - [Single Action Controllers](#single-action-controllers)
     - [단일 동작 컨트롤러](#single-action-controllers)
 - [Controller Middleware](#controller-middleware)
@@ -59,7 +57,7 @@ Below is an example of a basic controller class. Note that the controller extend
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\User;
+    use App\Models\User;
 
     class UserController extends Controller
     {
@@ -79,7 +77,9 @@ You can define a route to this controller action like so:
 
 여러분은 다음과 같이 컨트롤러의 액션에 라우트를 지정할 수 있습니다.
 
-    Route::get('user/{id}', 'UserController@show');
+    use App\Http\Controllers\UserController;
+
+    Route::get('user/{id}', [UserController::class, 'show']);
 
 Now, when a request matches the specified route URI, the `show` method on the `UserController` class will be executed. The route parameters will also be passed to the method.
 
@@ -88,20 +88,6 @@ Now, when a request matches the specified route URI, the `show` method on the `U
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenience features such as the `middleware`, `validate`, and `dispatch` methods.
 
 > {tip} 컨트롤러는 기본 클래스를 확장하기 위해 **필수**가 아닙니다. 그러나 `middleware`, `validate`, `dispatch` 함수와 같은 편리한 기능을 사용할 수는 없습니다.
-
-<a name="controllers-and-namespaces"></a>
-### Controllers & Namespaces
-### 컨트롤러 & 네임스페이스
-
-It is very important to note that we did not need to specify the full controller namespace when defining the controller route. Since the `RouteServiceProvider` loads your route files within a route group that contains the namespace, we only specified the portion of the class name that comes after the `App\Http\Controllers` portion of the namespace.
-
-컨트롤러에 대응하는 라우트를 정의 할 때 전체 컨트롤러의 전체 네임 스페이스를 지정할 필요가 없다는 점에 유의해야합니다. `RouteServiceProvider`는 네임 스페이스를 포함하는 라우트 그룹 내에서 라우트 파일을 로드하기 때문에 네임 스페이스의 `App\Http\Controllers` 부분의 뒤에 오는 클래스 이름부분만 지정했습니다.
-
-If you choose to nest your controllers deeper into the `App\Http\Controllers` directory, use the specific class name relative to the `App\Http\Controllers` root namespace. So, if your full controller class is `App\Http\Controllers\Photos\AdminController`, you should register routes to the controller like so:
-
-컨트롤러를 `App\Http\Controllers` 디렉토리내에 위치시키려면 `App\Http\Controllers` 루트 네임 스페이스와 관련된 특정 클래스 이름을 사용하기 만하면됩니다. 따라서 만약 컨트롤러가 `App\Http\Controllers\Photos\AdminController` 처럼 구성되어 있다면 다음처럼 라우트를 구성하면 됩니다.
-
-    Route::get('foo', 'Photos\AdminController@method');
 
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
@@ -116,7 +102,7 @@ If you would like to define a controller that only handles a single action, you 
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\User;
+    use App\Models\User;
 
     class ShowProfile extends Controller
     {
@@ -136,7 +122,9 @@ When registering routes for single action controllers, you do not need to specif
 
 단일 액션 컨트롤러에 대한 경로를 등록 할 때 함수를 지정할 필요가 없습니다.
 
-    Route::get('user/{id}', 'ShowProfile');
+    use App\Http\Controllers\ShowProfile;
+
+    Route::get('user/{id}', ShowProfile::class);
 
 You may generate an invokable controller by using the `--invokable` option of the `make:controller` Artisan command:
 
@@ -144,9 +132,9 @@ Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호
 
     php artisan make:controller ShowProfile --invokable
 
-> {tip} Controller stubs may be customized using stub publishing
-   
-> {tip} [stub publishing](/docs/{{version}}/stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
+> {tip} Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
+
+>> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
 
 <a name="controller-middleware"></a>
 ## Controller Middleware
@@ -156,7 +144,7 @@ Artisan 커맨드 `make:controller` 에 `--invokable` 옵션을 사용하여 호
 
 [미들웨어](/docs/{{version}}/middleware)는 다음과 같이 컨트롤러 라우트에 지정할 수 있습니다.
 
-    Route::get('profile', 'UserController@show')->middleware('auth');
+    Route::get('profile', [UserController::class, 'show'])->middleware('auth');
 
 However, it is more convenient to specify middleware within your controller's constructor. Using the `middleware` method from your controller's constructor, you may easily assign middleware to the controller's action. You may even restrict the middleware to only certain methods on the controller class:
 
@@ -211,7 +199,7 @@ Next, you may register a resourceful route to the controller:
 
 이제 생성된 컨트롤러에 resourceful 라우트를 등록하면 됩니다.
 
-    Route::resource('photos', 'PhotoController');
+    Route::resource('photos', PhotoController::class);
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions, including notes informing you of the HTTP verbs and URIs they handle.
 
@@ -222,8 +210,8 @@ You may register many resource controllers at once by passing an array to the `r
 `resources` 메소드에 배열을 전달하여 한번에 여러개의 리소스 컨트롤러를 등록할 수 있습니다.
 
     Route::resources([
-        'photos' => 'PhotoController',
-        'posts' => 'PostController',
+        'photos' => PhotoController::class,
+        'posts' => PostController::class,
     ]);
 
 #### Actions Handled By Resource Controller
@@ -247,18 +235,6 @@ If you are using route model binding and would like the resource controller's me
 라우트 모델 바인딩을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다.
 
     php artisan make:controller PhotoController --resource --model=Photo
-    
-
-#### Spoofing Form Methods
-#### 스푸핑 폼 함수
-
-Since HTML forms can't make `PUT`, `PATCH`, or `DELETE` requests, you will need to add a hidden `_method` field to spoof these HTTP verbs. The `@method` Blade directive can create this field for you:
-
-HTML 폼은 `PUT`, `PATCH` 또는 `DELETE` 요청을 만들 수 없으므로 숨겨진 `_method` 필드를 추가하여 이들 HTTP 문법을 인용해야합니다. `@method` 블레이드 디렉티브로 필드를 생성 할 수 있습니다.
-
-    <form action="/foo/bar" method="POST">
-        @method('PUT')
-    </form>
 
 <a name="restful-partial-resource-routes"></a>
 ### Partial Resource Routes
@@ -268,11 +244,11 @@ When declaring a resource route, you may specify a subset of actions the control
 
 resource 라우트를 선언할 때, 액션의 일부만을 지정할 수도 있습니다.
 
-    Route::resource('photos', 'PhotoController')->only([
+    Route::resource('photos', PhotoController::class)->only([
         'index', 'show'
     ]);
 
-    Route::resource('photos', 'PhotoController')->except([
+    Route::resource('photos', PhotoController::class)->except([
         'create', 'store', 'update', 'destroy'
     ]);
 
@@ -283,15 +259,15 @@ When declaring resource routes that will be consumed by APIs, you will commonly 
 
 API에서 사용할 리소스 라우트를 선언하는 경우, 일반적으로 `create`, `edit`와 같은 HTML 템플릿을 표시하는 라우트는 제외하기를 원합니다. 편의를 위해서 `apiResource`를 사용하면 이 두가지의 라우트를 제외할 수 있습니다.
 
-    Route::apiResource('photos', 'PhotoController');
+    Route::apiResource('photos', PhotoController::class);
 
 You may register many API resource controllers at once by passing an array to the `apiResources` method:
 
 `apiResources` 메소드에 배열형태의 API 리소스 컨트롤러를 전달하여 여러개를 한번에 등록할 수 있습니다.
 
     Route::apiResources([
-        'photos' => 'PhotoController',
-        'posts' => 'PostController',
+        'photos' => PhotoController::class,
+        'posts' => PostController::class,
     ]);
 
 To quickly generate an API resource controller that does not include the `create` or `edit` methods, use the `--api` switch when executing the `make:controller` command:
@@ -308,13 +284,27 @@ Sometimes you may need to define routes to a nested resource. For example, a pho
 
 때때로 중첩 된 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 사진 리소스는 사진에 첨부 될 수있는 다수의 코멘트를 가질 수 있습니다. 리소스 컨트롤러를 중첩하려면 경로 선언에서 "점-dot"표기법을 사용하십시오.
 
-    Route::resource('photos.comments', 'PhotoCommentController');
+    Route::resource('photos.comments', PhotoCommentController::class);
 
 This route will register a nested resource that may be accessed with URIs like the following:
 
 이 라우트는 다음과 같은 URI로 접근 할 수있는 중첩 된 리소스를 등록합니다.
 
     /photos/{photo}/comments/{comment}
+
+#### Scoping Nested Resources
+
+Laravel's [implicit model binding](/docs/{{version}}/routing#implicit-model-binding-scoping) feature can automatically scope nested bindings such that the resolved child model is confirmed to belong to the parent model. By using the `scoped` method when defining your nested resource, you may enabling automatic scoping as well as instruct Laravel which field the child resource should be retrieved by:
+Laravel의 [implicit model binding] (/ docs / {{version}} / routing # implicit-model-binding-scoping) 기능은 상위 모델에 속한 해결 된 하위 모델이 확인되도록 중첩 된 바인딩의 범위를 자동으로 지정할 수 있습니다. `scoped` 메서드를 사용해 중첩 된 리소스를 정의 할 때 자동 범위 지정을 활성화 할 수있을뿐만 아니라 Laravel에 하위 리소스를 검색해야하는 필드를 지정할 수 있습니다.
+    
+    Route::resource('photos.comments', PhotoCommentController::class)->scoped([
+        'comment' => 'slug',
+    ]);
+
+This route will register a scoped nested resource that may be accessed with URIs like the following:
+이 라우트는 다음과 같은 URI로 접근해 중첩된 리소스의 범위를 지정 등록할 수 있습니다. 
+
+    /photos/{photo}/comments/{comment:slug}
 
 #### Shallow Nesting
 #### 얕은 중첩
@@ -323,7 +313,7 @@ Often, it is not entirely necessary to have both the parent and the child IDs wi
 
 자식 ID는 이미 고유 식별자이므로 URI 내에 부모 ID와 자식 ID를 모두 가질 필요는 없습니다. URI 단위에서 모델을 식별하기 위해 auto-incrementing 기본 키와 같은 고유 식별자를 사용하는 경우 "얕은 중첩"을 사용하도록 선택할 수 있습니다.
 
-    Route::resource('photos.comments', 'CommentController')->shallow();
+    Route::resource('photos.comments', CommentController::class)->shallow();
 
 The route definition above will define the following routes:
 
@@ -347,7 +337,7 @@ By default, all resource controller actions have a route name; however, you can 
 
 기본적으로 모든 리소스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 이름을 덮어씌울 수 있습니다.
 
-    Route::resource('photos', 'PhotoController')->names([
+    Route::resource('photos', PhotoController::class)->names([
         'create' => 'photos.build'
     ]);
 
@@ -359,7 +349,7 @@ By default, `Route::resource` will create the route parameters for your resource
 
 기본적으로 `Route::resource` 는 리소스 라우트들을 위한 리소스 이름을 "단일화된" 버전을 기반으로 라우트 파라미터들을 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 이를 덮어쓸 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다.
 
-    Route::resource('users', 'AdminUserController')->parameters([
+    Route::resource('users', AdminUserController::class)->parameters([
         'users' => 'admin_user'
     ]);
 
@@ -434,9 +424,9 @@ If you need to add additional routes to a resource controller beyond the default
 
 만약 리소스 컨트롤러에 추가적으로 라우팅을 구성해야할 필요가 있다면 `Route::resource`가 호출되기 전에 등록해야합니다. 그렇지 않으면 `resource` 메소드에 의해서 정의된 라우트들이 추가한 라우트들 보다 우선하게 되어 버립니다.
 
-    Route::get('photos/popular', 'PhotoController@method');
+    Route::get('photos/popular', [PhotoController::class, 'popular']);
 
-    Route::resource('photos', 'PhotoController');
+    Route::resource('photos', PhotoController::class);
 
 > {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
@@ -515,7 +505,7 @@ If your controller method is also expecting input from a route parameter, list y
 
 컨트롤러 메소드가 라우트 인자로 부터 입력값을 받아야 한다면 간단하게 라우트 인자를 지정하면 됩니다. 예를 들어 다음과 같이 정의할 수 있습니다.
 
-    Route::put('user/{id}', 'UserController@update');
+    Route::put('user/{id}', [UserController::class, 'update']);
 
 You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
 
@@ -545,10 +535,6 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` param
 <a name="route-caching"></a>
 ## Route Caching
 ## 라우트 캐시
-
-> {note} Closure based routes cannot be cached. To use route caching, you must convert any Closure routes to controller classes.
-
-> {note} 라우트 캐시는 클로저를 기반으로한 라우트에서는 동작하지 않습니다. 라우트 캐시를 사용하기 위해서는 모든 클로저 기반의 라우트를 컨트롤러를 사용하도록 변경해야 합니다.
 
 If your application is exclusively using controller based routes, you should take advantage of Laravel's route cache. Using the route cache will drastically decrease the amount of time it takes to register all of your application's routes. In some cases, your route registration may even be up to 100x faster. To generate a route cache, just execute the `route:cache` Artisan command:
 

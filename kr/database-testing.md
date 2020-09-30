@@ -160,7 +160,7 @@ To get started, take a look at the `database/factories/UserFactory.php` file in 
 
 As you can see, in their most basic form, factories are classes that extend Laravel's base factory class and define a `model` property and `definition` method. The `definition` method returns the default set of attribute values that should be applied when creating a model using the factory.
 
-보시다시피 가장 기본적인 형태에서 팩토리는 라 라벨의 기본 팩토리 클래스를 확장하고`model` 속성과`definition` 메서드를 정의하는 클래스입니다. `definition` 메소드는 팩토리를 사용하여 모델을 만들 때 적용해야하는 기본 속성 값 집합을 반환합니다.
+보시다시피 가장 기본적인 형태에서 팩토리는 라 라벨의 기본 팩토리 클래스를 확장하고 `model` 속성과 `definition` 메서드를 정의하는 클래스입니다. `definition` 메소드는 팩토리를 사용하여 모델을 만들 때 적용해야하는 기본 속성 값 집합을 반환합니다.
 
 Via the `faker` property, factories have access to the [Faker](https://github.com/fzaninotto/Faker) PHP library, which allows you to conveniently generate various kinds of random data for testing.
 
@@ -192,6 +192,8 @@ State manipulation methods allow you to define discrete modifications that can b
 
 If your state transformation requires access to the other attributes defined by the factory, you may pass a callback to the `state` method. The callback will receive the array of raw attributes defined for the factory:
 
+상태 변환이 팩토리에서 정의한 다른 속성에 액세스해야하는 경우 `state` 메소드에 콜백을 전달할 수 있습니다. 콜백은 팩토리에 대해 정의 된 원시 속성 배열을 수신합니다.
+
     /**
      * Indicate that the user is suspended.
      *
@@ -211,7 +213,7 @@ If your state transformation requires access to the other attributes defined by 
 
 Factory callbacks are registered using the `afterMaking` and `afterCreating` methods and allow you to perform additional tasks after making or creating a model. You should register these callbacks by defining a `configure` method on the factory class. This method will automatically be called by Laravel when the factory is instantiated:
 
-팩토리 콜백은`afterMaking` 및`afterCreating` 메소드를 사용하여 등록되며 모델을 만들거나 만든 후 추가 작업을 수행 할 수 있습니다. 팩토리 클래스에서`configure` 메소드를 정의하여 이러한 콜백을 등록해야합니다. 이 메서드는 팩토리가 인스턴스화 될 때 Laravel에 의해 자동으로 호출됩니다.
+팩토리 콜백은 `afterMaking` 와 `afterCreating` 메소드를 사용하여 등록합니다. 이는 모델을 생성할 때나 생성된 다음에 추가적인 작업을 수행할 수 있게 해줍니다. 팩토리 클래스에서`configure` 메소드를 정의하여 이러한 콜백을 등록해야합니다. 이 메서드는 팩토리가 인스턴스화 될 때 Laravel에 의해 자동으로 호출됩니다.
 
     namespace Database\Factories;
 
@@ -323,13 +325,15 @@ If you would like to override some of the default values of your models, you may
 
 Alternatively, the `state` method may be called directly on the factory instance to perform an inline state transformation:
 
+또는 `state` 메소드를 팩토리 인스턴스에서 직접 호출하여 인라인 상태 변환을 수행 할 수 있습니다.
+
     $user = User::factory()->state([
         'name' => 'Abigail Otwell',
     ])->make();
 
 > {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled when creating models using factories.
 
-> {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment)은 팩토리를 사용하여 모델을 생성 할 때 자동으로 비활성화됩니다.
+> {tip} 팩토리를 사용하여 모델을 생성 할 때 [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment)은 자동으로 비활성화됩니다.
 
 <a name="persisting-models"></a>
 ### Persisting Models
@@ -413,7 +417,7 @@ You may attach relationships to models in your factory definitions. For example,
 
 If the relationship's columns depend on the factory that defines it you may provide a callback which accepts the evaluated attribute array:
 
-관계의 열이 관계를 정의하는 팩토리에 의존하는 경우 검증된 속성 배열을 허용하는 콜백을 제공 할 수 있습니다.
+팩토리에 정의된 관계 컬럼에 의존해야하는 경우 evaluated 된 속성 배열을 입력받는 콜백을 사용 할 수 있습니다.
 
     /**
      * Define the model's default state.
@@ -608,7 +612,7 @@ For convenience, you may use the factory's magic relationship methods to define 
 
 Magic methods may not be used to create `morphTo` relationships. Instead, the `for` method must be used directly and the name of the relationship must be explicitly provided. For example, imagine that the `Comment` model has a `commentable` method that defines a `morphTo` relationship. In this situation, we may create three comments that belong to a single post using the `for` method directly:
 
-매직 메서드는`morphTo` 관계를 만드는 데 사용할 수 없습니다. 대신`for` 메소드를 직접 사용해야하며 관계 이름을 명시 적으로 제공해야합니다. 예를 들어`Comment` 모델에 `morphTo` 관계를 정의하는`commentable` 메소드가 있다고 가정 해보십시오. 이 상황에서 우리는 직접`for` 메소드를 사용하여 단일 게시물에 속하는 3개의 댓글을 만들 수 있습니다.
+매직 메서드는 `morphTo` 관계를 만드는 데 사용할 수 없습니다. 대신 `for` 메소드를 직접 사용해야하며 관계 이름을 명시 적으로 제공해야합니다. 예를 들어`Comment` 모델에 `morphTo` 관계를 정의하는 `commentable` 메소드가 있다고 가정 해보십시오. 이 상황에서 우리는 직접 `for` 메소드를 사용하여 단일 게시물에 속하는 3개의 댓글을 만들 수 있습니다.
 
     $comments = Comment::factory()->count(3)->for(
         Post::factory(), 'commentable'

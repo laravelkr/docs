@@ -199,17 +199,55 @@ To enable maintenance mode, execute the `down` Artisan command:
 
     php artisan down
 
-You may also provide `message` and `retry` options to the `down` command. The `message` value may be used to display or log a custom message, while the `retry` value will be set as the `Retry-After` HTTP header's value:
+You may also provide a `retry` option to the `down` command, which will be set as the `Retry-After` HTTP header's value:
 
-또한 `down` 명령어에 `message` 와 `retry` 옵션을 지정할 수 있습니다. `message` 값은 화면에 보여주거나, 로그에 사용자 메세지를 남기는데 사용되고, `retry` 값은 HTTP 헤더의 `Retry-After` 를 설정하는데 사용될 것입니다.
+또한 retry 옵션을 down 명령에 제공할 수 있으며, 이 옵션은 Retry-After HTTP 헤더 값으로 설정됩니다.
 
-    php artisan down --message="Upgrading Database" --retry=60
+    php artisan down --retry=60
 
-Even while in maintenance mode, specific IP addresses or networks may be allowed to access the application using the command's `allow` option:
+#### Bypassing Maintenance Mode
+#### 점검 모드 우회
 
-점검 모드 중이지만, 지정된 IP나 네트워크 대역에 대해서는 애플리케이션에 접속할 수 있게 하고자 한다면, 명령어에 `allow` 옵션을 사용하면 됩니다.
+Even while in maintenance mode, you may use the `secret` option to specify a maintenance mode bypass token:
 
-    php artisan down --allow=127.0.0.1 --allow=192.168.0.0/16
+점검 모드인 경우에도 secret 옵션을 사용하여 점검 모드 우회 토큰을 지정할 수 있습니다.
+
+    php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
+
+After placing the application in maintenance mode, you may navigate to the application URL matching this token and Laravel will issue a maintenance mode bypass cookie to your browser:
+
+애플리케이션을 점검 모드로 설정한 후 이 토큰과 일치하는 애플리케이션 URL로 이동하면 Laravel이 브라우저에 점검 모드 우회 쿠키를 발행합니다.
+
+    https://example.com/1630542a-246b-4b66-afa1-dd72a4c43515
+
+When accessing this hidden route, you will then be redirected to the `/` route of the application. Once the cookie has been issued to your browser, you will be able to browse the application normally as if it was not in maintenance mode.
+
+이 숨겨진 경로에 엑세스하면 애플리케이션의 / 경로로 리디렉션 될 것입니다. 쿠키가 브라우저에 발급되면 점검 모드가 아닌 것처럼 정상적으로 애플리케이션을 탐색할 수 있습니다.
+
+#### Pre-Rendering The Maintenace Mode View
+#### 점검 모드 사전 렌더링 View
+
+If you utilize the `php artisan down` command during deployment, your users may still occasionally encounter errors if they access the application while your Composer dependencies or other infrastructure components are updating. This occurs because a significant part of the Laravel framework must boot in order to determine your application is in maintenance mode and render the maintenance mode view using the templating engine.
+
+배포 중에 php artisan down 명령을 사용하는 경우 Composer 종속성 또는 기타 인프라 구성 요소가 업데이트되는 동안 사용자가 애플리케이션에 액세스하면 오류가 발생할 수 있습니다. 이는 애플리케이션이 점검 모드에 있는지 확인하고 템플릿 엔진을 사용하여 점검 모드 view를 렌더링하기 위해 Laravel 프레임워크의 상당 부분 부팅되어야하기 때문에 발생합니다.
+
+For this reason, Laravel allows you to pre-render a maintenance mode view that will be returned at the very beginning of the request cycle. This view is rendered before any of your application's dependencies have loaded. You may pre-render a template of your choice using the `down` command's `render` option:
+
+이러한 이유로 Laravel은 요청 사이클의 시작 부분에 반환 될 점검 모드 view를 미리 렌더링할 수 있습니다. 이 view는 애플리케이션의 종속성이 로드되기 전에 렌더링됩니다. down 명령의 렌더 옵션을 사용하여 선택한 템플릿을 미리 렌더링할 수 있습니다.
+
+    php artisan down --render="errors::503"
+
+#### Redirecting Maintenance Mode Requests
+#### 점검 모드 요청 리디렉션
+
+While in maintenance mode, Laravel will display the maintenance mode view for all application URLs the user attempts to access. If you wish, you may instruct Laravel to redirect all requests to a specific URL. This may be accomplished using the `redirect` option. For example, you may wish to redirect all requests to the `/` URI:
+
+점검 모드에 있는 동안 Laravel은 사용자가 액세스하려는 모든 애플리케이션 URL에 대한 점검 view를 표시합니다. 원하는 경우 Laravel에 모든 요청을 특정 URL로 리디렉션하도록 지시할 수 있습니다. 리디렉션 옵션을 사용하여 이 작업을 수행할 수 있습니다. 예를 들어 모든 요청을 / URI로 리디렉션할 수 있습니다.
+
+    php artisan down --redirect=/
+
+#### Disabling Maintenance Mode
+#### 점검모드 비활성화
 
 To disable maintenance mode, use the `up` command:
 

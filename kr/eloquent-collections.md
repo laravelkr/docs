@@ -20,7 +20,7 @@ All collections also serve as iterators, allowing you to loop over them as if th
 
 모든 컬렉션은 Iterators(반복자)이기 때문에, 간단한 PHP 배열과 같이 반복문 안에서 사용할 수도 있습니다.
 
-    $users = App\User::where('active', 1)->get();
+    $users = App\Models\User::where('active', 1)->get();
 
     foreach ($users as $user) {
         echo $user->name;
@@ -30,7 +30,7 @@ However, collections are much more powerful than arrays and expose a variety of 
 
 하지만, 컬렉션은 배열보다 강력하며, 직관적인 인터페이스를 사용하여 메소드 체인이 가능한 map / reduce 메소드를 사용 할 수 있습니다. 예를 들어 사용자 중에서 비활성화된 사용자를 제외하고 남은 사용자들의 이름을 확인하려면 다음과 같이 하면 됩니다.
 
-    $users = App\User::all();
+    $users = App\Models\User::all();
 
     $names = $users->reject(function ($user) {
         return $user->active === false;
@@ -135,7 +135,7 @@ The `intersect` method returns all of the models that are also present in the gi
 
 `intersect` 메소드는 주어진 컬렉션에 존재하는 모든 모델을 반환합니다.
 
-    use App\User;
+    use App\Models\User;
 
     $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
 
@@ -213,7 +213,7 @@ The `toQuery` method returns an Eloquent query builder instance containing a `wh
 
 `toQuery` 메소드는 컬렉션 모델의 기본 키에 대한 `whereIn` 제약 조건을 포함하는 Eloquent 쿼리 빌더 인스턴스를 반환합니다.
 
-    $users = App\User::where('status', 'VIP')->get();
+    $users = App\Models\User::where('status', 'VIP')->get();
 
     $users->toQuery()->update([
         'status' => 'Administrator',
@@ -239,9 +239,9 @@ If you need to use a custom `Collection` object with your own extension methods,
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
-    use App\CustomCollection;
+    use App\Support\CustomCollection;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model

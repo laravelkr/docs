@@ -201,7 +201,7 @@ To enable maintenance mode, execute the `down` Artisan command:
 
 You may also provide a `retry` option to the `down` command, which will be set as the `Retry-After` HTTP header's value:
 
-또한 retry 옵션을 down 명령에 제공할 수 있으며, 이 옵션은 Retry-After HTTP 헤더 값으로 설정됩니다.
+또한 retry 옵션을 down 명령에 제공할 수 있으며, 이 옵션은 HTTP 헤더에 Retry-After 값을 추가합니다.
 
     php artisan down --retry=60
 

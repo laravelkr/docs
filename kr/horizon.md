@@ -91,10 +91,16 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
                 'balance' => 'auto',
                 'minProcesses' => 1,
                 'maxProcesses' => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
                 'tries' => 3,
             ],
         ],
     ],
+
+The `balanceMaxShift` and `balanceCooldown` configuration values to determine how quickly Horizon will scale to meet worker demand. In the example above, a maximum of one new process will be created or destroyed every three seconds. You are free to tweak these values as necessary based on your application's needs.
+
+`balanceMaxShift`와 `balanceCooldown` 구성 값은 Horizon이 worker 수요를 충족하기 위하여 얼마나 신속하게 확장되는지 결정하는 구성값 입니다. 위의 예시에서, 3초마다 최대 한개의 프로세스가 생성되거나 파괴됩니다. 어플리케이션의 요구에 따라 이러한 값을 자유롭게 변경할 수 있습니다.
 
 #### Job Trimming
 #### 작업 트리밍
@@ -264,7 +270,7 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
 
     namespace App\Jobs;
 
-    use App\Video;
+    use App\Models\Video;
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
@@ -278,14 +284,14 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
         /**
          * The video instance.
          *
-         * @var \App\Video
+         * @var \App\Models\Video
          */
         public $video;
 
         /**
          * Create a new job instance.
          *
-         * @param  \App\Video  $video
+         * @param  \App\Models\Video  $video
          * @return void
          */
         public function __construct(Video $video)
@@ -304,11 +310,11 @@ Horizon을 사용하면 mailables, event broadcasts, notifications 및 queued ev
         }
     }
 
-If this job is queued with an `App\Video` instance that has an `id` of `1`, it will automatically receive the tag `App\Video:1`. This is because Horizon will examine the job's properties for any Eloquent models. If Eloquent models are found, Horizon will intelligently tag the job using the model's class name and primary key:
+If this job is queued with an `App\Models\Video` instance that has an `id` of `1`, it will automatically receive the tag `App\Models\Video:1`. This is because Horizon will examine the job's properties for any Eloquent models. If Eloquent models are found, Horizon will intelligently tag the job using the model's class name and primary key:
 
-`id`가 `1`인 `App\Video`인스턴스가 queue에 있는 job에 있는 경우 자동으로 `App\Video:1` 태그를 할당 받게됩니다. Horizon은 모든 Eloquent 모델의 job 속성을 확인하기 때문입니다. Eloquent 모델이 발견되면 Horizon은 모델의 클래스 이름과 기본 키를 사용하여 job에 알아서 태그를 지정합니다.
+`id`가 `1`인 `App\Models\Video`인스턴스가 queue에 있는 job에 있는 경우 자동으로 `App\Models\Video:1` 태그를 할당 받게됩니다. Horizon은 모든 Eloquent 모델의 job 속성을 확인하기 때문입니다. Eloquent 모델이 발견되면 Horizon은 모델의 클래스 이름과 기본 키를 사용하여 job에 알아서 태그를 지정합니다.
 
-    $video = App\Video::find(1);
+    $video = App\Models\Video::find(1);
 
     App\Jobs\RenderVideo::dispatch($video);
 

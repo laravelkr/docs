@@ -36,7 +36,7 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
 하나의 모델과 연관된 [관계 모델](/docs/{{version}}/eloquent-relationships)들을 배열로 변환 하고자 할 때에는, `toArray` 메소드를 사용해야만 합니다. 이 메소드는 재귀적이기 때문에, 모든 속성들과 모든 관계 모델들(관계 모델들 안에 포함된 관계 모델들까지)이 배열로 변환될 것입니다.
 
-    $user = App\User::with('roles')->first();
+    $user = App\Models\User::with('roles')->first();
 
     return $user->toArray();
 
@@ -44,7 +44,7 @@ To convert only a model's attributes to an array, use the `attributesToArray` me
 
 모델의 속성만을 배열로 변환하려면 `attributesToArray` 메소드를 사용하십시오.
 
-    $user = App\User::first();
+    $user = App\Models\User::first();
 
     return $user->attributesToArray();
 
@@ -52,7 +52,7 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 
 또한 전체 모델 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
-    $users = App\User::all();
+    $users = App\Models\User::all();
 
     return $users->toArray();
 
@@ -64,7 +64,7 @@ To convert a model to JSON, you should use the `toJson` method. Like `toArray`, 
 
 모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     return $user->toJson();
 
@@ -74,7 +74,7 @@ Alternatively, you may cast a model or collection to a string, which will automa
 
 이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     return (string) $user;
 
@@ -83,7 +83,7 @@ Since models and collections are converted to JSON when cast to a string, you ca
 모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 애플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다.
 
     Route::get('users', function () {
-        return App\User::all();
+        return App\Models\User::all();
     });
 
 #### Relationships
@@ -103,7 +103,7 @@ Sometimes you may wish to limit the attributes, such as passwords, that are incl
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -127,7 +127,7 @@ Alternatively, you may use the `visible` property to define a white-list of attr
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -166,7 +166,7 @@ Occasionally, when casting models to an array or JSON, you may wish to add attri
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -189,7 +189,7 @@ accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 

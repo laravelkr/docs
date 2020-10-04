@@ -48,7 +48,7 @@ accessor를 정의하기 위해서, `Foo` 모델에 접근하고자 하는 컬�
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -70,7 +70,7 @@ As you can see, the original value of the column is passed to the accessor, allo
 
 위에서 볼 수 있듯이, 컬럼의 원래 값이 accessor 로 전달되고, 값을 가공하여 반환됩니다. accessor의 값에 액세스하려면, 모델 인스턴스의 `first_name` 속성에 액세스하면 됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $firstName = $user->first_name;
 
@@ -102,7 +102,7 @@ mutator 를 정의하기 위해서, `Foo` 모델 클래스에 엑세스 하고�
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -124,7 +124,7 @@ The mutator will receive the value that is being set on the attribute, allowing 
 
 mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형하고, 변형된 값을 Eloquent 모델의 `$attributes` 속성에 지정할 것입니다. 다음 처럼`first_name` 속성을 `Sally` 로 지정해 보겠습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->first_name = 'Sally';
 
@@ -142,7 +142,7 @@ By default, Eloquent will convert the `created_at` and `updated_at` columns to i
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -166,7 +166,7 @@ When a column is considered a date, you may set its value to a UNIX timestamp, d
 
 컬럼이 날짜라고 추정되는 경우, 이 값을 UNIX 타임스탬프, 날짜 문자열(`Y-m-d`), 날짜-시간에 대한 문자열, 또는 `DateTime` / `Carbon` 클래스의 인스턴스 값으로 설정할 수 있고, 날짜는 올바르게 변환되어 데이터베이스에 저장됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->deleted_at = now();
 
@@ -176,7 +176,7 @@ As noted above, when retrieving attributes that are listed in your `$dates` prop
 
 위에서 보다시피, `$dates` 속성에 나열된 값을 가져오려고 하는 경우, 이 값은 자동으로 [Carbon](https://github.com/briannesbitt/Carbon)인스턴스로 캐스팅 될것이기 때문에, 속성에 대해서 Carbon의 메소드를 아무거나 사용할 수 있습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     return $user->deleted_at->getTimestamp();
 
@@ -189,7 +189,7 @@ By default, timestamps are formatted as `'Y-m-d H:i:s'`. If you need to customiz
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -217,7 +217,7 @@ To demonstrate attribute casting, let's cast the `is_admin` attribute, which is 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -237,7 +237,7 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
 
 이제 사용자가 액세스 할 때 데이터베이스에 정수형 값으로 저장되어있는 경우에도 `is_admin` 속성은 항상 boolean으로 캐스팅됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     if ($user->is_admin) {
         //
@@ -253,7 +253,7 @@ Now the `is_admin` attribute will always be cast to a boolean when you access it
 
 Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may accomplish this by defining a class that implements the `CastsAttributes` interface.
 
-라라벨은 다양한 캐스트 타입 내장하고 있습니다 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다.. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
+라라벨은 다양한 캐스트 타입 내장하고 있습니다 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
 
 Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
 
@@ -302,7 +302,7 @@ Once you have defined a custom cast type, you may attach it to a model attribute
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use App\Casts\Json;
     use Illuminate\Database\Eloquent\Model;
@@ -334,7 +334,7 @@ As an example, we will define a custom cast class that casts multiple model valu
 
     namespace App\Casts;
 
-    use App\Address;
+    use App\Models\Address;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
     use InvalidArgumentException;
 
@@ -383,7 +383,7 @@ When casting to value objects, any changes made to the value object will automat
 
 밸류 오브젝트를 캐스팅 할 때 밸류 오브젝트의 변경 사항은 모델이 저장되기 전으로 자동으로 동기화됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->address->lineOne = 'Updated Address Value';
 
@@ -467,7 +467,7 @@ Instead of attaching the custom cast to your model, you may alternatively attach
 모델에 커스텀 캐스트를 부착하는 대신 `Illuminate\Contracts\Database\Eloquent\Castable` 인터페이스를 구현하는 클래스를 부착 할 수도 있습니다.
 
     protected $casts = [
-        'address' => \App\Address::class,
+        'address' => \App\Models\Address::class,
     ];
 
 Objects that implement the `Castable` interface must define a `castUsing` method that returns the class name of the custom caster class that is responsible for casting to and from the `Castable` class:
@@ -476,7 +476,7 @@ Objects that implement the `Castable` interface must define a `castUsing` method
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Contracts\Database\Eloquent\Castable;
     use App\Casts\Address as AddressCast;
@@ -499,7 +499,7 @@ When using `Castable` classes, you may still provide arguments in the `$casts` d
 `Castable` 클래스를 사용할 때 `$casts` 정의에서 인수를 제공 할 수 있습니다. 인수는 캐스터 클래스로 직접 전달됩니다.
 
     protected $casts = [
-        'address' => \App\Address::class.':argument',
+        'address' => \App\Models\Address::class.':argument',
     ];
 
 <a name="array-and-json-casting"></a>
@@ -512,7 +512,7 @@ The `array` cast type is particularly useful when working with columns that are 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -532,7 +532,7 @@ Once the cast is defined, you may access the `options` attribute and it will aut
 
 캐스팅이 정의하고 나서, `options` 속성에 액세스하면 자동으로 JSON 이 PHP 배열로 deserialize 될 것입니다. `options` 속성에 값을 설정하면, 주어진 배열은 자동으로 JSON으로 serialize 될 것입니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $options = $user->options;
 
@@ -567,8 +567,8 @@ Sometimes you may need to apply casts while executing a query, such as when sele
 
 테이블에서 원시 값을 선택 할때 실행하는 동안 캐스트를 적용 할 수 있습니다. 예시로 다음의 쿼리 참고 하세요.
 
-    use App\Post;
-    use App\User;
+    use App\Models\Post;
+    use App\Models\User;
 
     $users = User::select([
         'users.*',

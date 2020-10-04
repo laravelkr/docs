@@ -100,7 +100,7 @@ Every resource class defines a `toArray` method which returns the array of attri
 모든 리소스 클래스는 응답-response를 내보낼 때 JSON으로 변환되어야 하는 속성 배열을 반환하는 `toArray` 메소드를 정의하고 있습니다. `$this` 변수를 통해서 모델에 직접 엑세스 할 수 있습니다. 이는 리소스 클래스가 자동으로 기본 모델에 대한 속성과 메소드에 엑세스 할 수 있게 프록시를 제공하기 때문입니다. 리소스 클래스를 정의하면, 이는 라우트 또는 컨트롤러에서 반환 할 수 있게됩니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -115,7 +115,7 @@ If you are returning a collection of resources or a paginated response, you may 
 리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -161,7 +161,7 @@ After defining your resource collection, it may be returned from a route or cont
 리소스 컬렉션 클래스를 정의하고 나면, 라우트나 컨트롤러에서 이를 반환할 수 있습니다.
 
     use App\Http\Resources\UserCollection;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/users', function () {
         return new UserCollection(User::all());
@@ -195,7 +195,7 @@ When the `preserveKeys` property is set to `true`, collection keys will be prese
 `preserveKeys` 속성이 `true` 로 지정되면, 컬렉션의 키가 유지됩니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all()->keyBy->id);
@@ -271,7 +271,7 @@ Once a resource has been defined, it may be returned directly from a route or co
 리소스 클래스를 정의하고 나면, 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -314,7 +314,7 @@ While resources translate a single model into an array, resource collections tra
 리소스가 하나의 모델을 배열로 변환한다면, 리소스 컬렉션은 모델 컬렉션을 배열로 변환합니다. 모든 리소스 클래스는 "ad-hoc"을 생성하는 `collection` 메소드를 제공하고 있기 때문에, 모든 모델에 대해서 리소스 컬렉션 클래스를 정의할 필요는 없습니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return UserResource::collection(User::all());
@@ -354,7 +354,7 @@ Like singular resources, resource collections may be returned directly from rout
 단일 리소스와 같이, 리소스 컬렉션은 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
     use App\Http\Resources\UserCollection;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/users', function () {
         return new UserCollection(User::all());
@@ -433,7 +433,7 @@ If you would like to disable the wrapping of the outermost resource, you may use
          */
         public function boot()
         {
-            Resource::withoutWrapping();
+              JsonResource::withoutWrapping();
         }
     }
 
@@ -518,7 +518,7 @@ You may always pass a paginator instance to the `collection` method of a resourc
 커스텀 리소스 컬렉션이나 리소스의 `collection` 메소드에 페이지네이터의 인스턴스를 전달할 수 있습니다.
 
     use App\Http\Resources\UserCollection;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/users', function () {
         return new UserCollection(User::paginate());
@@ -802,7 +802,7 @@ As you have already read, resources may be returned directly from routes and con
 앞서 확인한 것 처럼, 리소스는 라우트나 컨트롤러에서 바로 반환할 수 있습니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return new UserResource(User::find(1));
@@ -813,7 +813,7 @@ However, sometimes you may need to customize the outgoing HTTP response before i
 그렇지만, 때때로 클라이언트에 HTTP 응답-response를 내보내기 전에 이를 커스터마이징 해야 할 때도 있습니다. 이 경우, 두가지 방법이 있는데, 먼저 리소스에 `response` 메소드를 체이닝 형태로 사용하면 됩니다. 이 메소드는 `Illuminate\Http\JsonResponse` 인스턴스를 반환하는데, 이를 사용하여 응답-response의 헤더를 조작할 수 있습니다.
 
     use App\Http\Resources\User as UserResource;
-    use App\User;
+    use App\Models\User;
 
     Route::get('/user', function () {
         return (new UserResource(User::find(1)))

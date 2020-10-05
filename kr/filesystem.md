@@ -278,7 +278,7 @@ When using the `local` driver, all files that should be publicly accessible shou
 
 > {note} When using the `local` driver, the return value of `url` is not URL encoded. For this reason, we recommend always storing your files using names that will create valid URLs.
 
-> {note} `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 항상 유효한 URL을 이용하여 이름을 생성하고 파일을 저장하는 것을 권장합니다.
+> {note} `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
 
 #### Temporary URLs
 #### 임시 URLs

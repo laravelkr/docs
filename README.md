@@ -185,6 +185,9 @@
     <td align="center"><a href="https://github.com/mapd3692"><img src="https://avatars3.githubusercontent.com/u/13864840?v=4" width="100px;" alt=""/><br /><sub><b>mapd3692</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=mapd3692" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/gommmm"><img src="https://avatars3.githubusercontent.com/u/9735109?v=4" width="100px;" alt=""/><br /><sub><b>gommmm</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=gommmm" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/coolhong"><img src="https://avatars2.githubusercontent.com/u/3918019?v=4" width="100px;" alt=""/><br /><sub><b>YoungsuHong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=coolhong" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->

@@ -316,6 +316,7 @@ This method is especially useful in [views](/docs/{{version}}/views) when workin
 The `chunkWhile` method breaks the collection into multiple, smaller collections based on the evaluation of the given callback:
 
 `chunkWhile` 메소드는 컬렉션을 콜백의 평가를 토대로 더 작은 여러개의 컬렉션으로 분활합니다.
+
     $collection = collect(str_split('AABBCCCD'));
 
     $chunks = $collection->chunkWhile(function($current, $key, $chunk) {

@@ -272,9 +272,13 @@ You may use the `url` method to get the URL for the given file. If you are using
 
     $url = Storage::url('file.jpg');
 
-> {note} Remember, if you are using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
+When using the `local` driver, all files that should be publicly accessible should be placed in the `storage/app/public` directory. Furthermore, you should [create a symbolic link](#the-public-disk) at `public/storage` which points to the `storage/app/public` directory.
 
-> {note} 주의할 점은, 만약 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 한다는 것입니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage` [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
+`local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 합니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage` [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
+
+> {note} When using the `local` driver, the return value of `url` is not URL encoded. For this reason, we recommend always storing your files using names that will create valid URLs.
+
+> {note} `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
 
 #### Temporary URLs
 #### 임시 URLs
@@ -294,7 +298,10 @@ If you need to specify additional [S3 request parameters](https://docs.aws.amazo
     $url = Storage::temporaryUrl(
         'file.jpg',
         now()->addMinutes(5),
-        ['ResponseContentType' => 'application/octet-stream']
+        [
+            'ResponseContentType' => 'application/octet-stream',
+            'ResponseContentDisposition' => 'attachment; filename=file2.jpg',
+        ]
     );
 
 #### URL Host Customization
@@ -310,6 +317,18 @@ If you would like to pre-define the host for file URLs generated using the `Stor
         'url' => env('APP_URL').'/storage',
         'visibility' => 'public',
     ],
+
+<a name="file-paths"></a>
+### File Paths
+### 파일 경로
+
+You may use the `path` method to get the path for a given file. If you are using the `local` driver, this will return the absolute path to the file. If you are using the `s3` driver, this method will return the relative path to the file in the S3 bucket:
+
+`path` 메소드를 이용하여 지정된 파일의 경로를 가져올 수 있습니다. `local` 드라이버를 사용하는 경우, 파일의 절대 경로를 반환합니다. `S3` 드라이버를 사용하는 경우, S3 버킷의 파일 상대 경로를 반환합니다.
+
+    use Illuminate\Support\Facades\Storage;
+
+    $path = Storage::path('file.jpg');
 
 <a name="file-metadata"></a>
 ### File Metadata

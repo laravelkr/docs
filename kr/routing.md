@@ -21,9 +21,7 @@
 - [라우트 그룹](#route-groups)
     - [Middleware](#route-group-middleware)
     - [미들웨어](#route-group-middleware)
-    - [Namespaces](#route-group-namespaces)
-    - [네임스페이스](#route-group-namespaces)
-    - [Subdomain Routing](#route-group-subdomain-routing)
+- [Subdomain Routing](#route-group-subdomain-routing)
     - [서브 도메인 라우팅](#route-group-subdomain-routing)
     - [Route Prefixes](#route-group-prefixes)
     - [라우트 접두사](#route-group-prefixes)
@@ -69,7 +67,9 @@ For most applications, you will begin by defining routes in your `routes/web.php
 
 대부분의 애플리케이션에서, 여러분은 `routes/web.php` 파일에 라우트를 정의하여 시작할 수 있습니다. `routes/web.php` 에 정의된 라우트는 브라우저를 통해서 유입되는 라우트 URL을 정의하는데 사용됩니다. 예를 들어 브라우저에서 `http://your-app.test/user`와 같이 접속하기 위해서 다음의 라우트를 정의할 수 있습니다.
 
-    Route::get('/user', 'UserController@index');
+    use App\Http\Controllers\UserController;
+
+    Route::get('/user', [UserController::class, 'index']);
 
 Routes defined in the `routes/api.php` file are nested within a route group by the `RouteServiceProvider`. Within this group, the `/api` URI prefix is automatically applied so you do not need to manually apply it to every route in the file. You may modify the prefix and other route group options by modifying your `RouteServiceProvider` class.
 
@@ -273,7 +273,7 @@ You may also specify route names for controller actions:
 
 컨트롤러의 액션에도 라우트 이름을 지정할 수 있습니다.
 
-    Route::get('user/profile', 'UserProfileController@show')->name('profile');
+    Route::get('user/profile', [UserProfileController::class, 'show'])->name('profile');
 
 > {note} Route names should always be unique.
 
@@ -345,13 +345,13 @@ If you would like to determine if the current request was routed to a given name
 ## Route Groups
 ## 라우트 그룹
 
-Route groups allow you to share route attributes, such as middleware or namespaces, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
+Route groups allow you to share route attributes, such as middleware, across a large number of routes without needing to define those attributes on each individual route. Shared attributes are specified in an array format as the first parameter to the `Route::group` method.
 
-라우트 그룹을 사용하면 미들웨어나, 네임스페이스와 같은 라우트 속성을 공유할 수 있어, 많은 수의 라우트를 등록할 때 각각의 개별 라우트에 매번 속성들을 정의하지 않아도 되게 해줍니다. 공유하려는 속성은 배열 형식으로 지정되어 `Route::group` 메소드의 첫번째 인자로 전달됩니다.
+라우트 그룹을 사용하면 미들웨어와 같은 라우트 속성을 공유할 수 있어, 많은 수의 라우트를 등록할 때 각각의 개별 라우트에 매번 속성들을 정의하지 않아도 되게 해줍니다. 공유하려는 속성은 배열 형식으로 지정되어 `Route::group` 메소드의 첫번째 인자로 전달됩니다.
 
-Nested groups attempt to intelligently "merge" attributes with their parent group. Middleware and `where` conditions are merged while names, namespaces, and prefixes are appended. Namespace delimiters and slashes in URI prefixes are automatically added where appropriate.
+Nested groups attempt to intelligently "merge" attributes with their parent group. Middleware and `where` conditions are merged while names and prefixes are appended. Namespace delimiters and slashes in URI prefixes are automatically added where appropriate.
 
-중첩 된 그룹은 속성을 상위 그룹과 지능적으로 "병합"합니다. 미들웨어와 이름, 네임 스페이스 및 접두사가 추가되는 동안 `where` 조건이 병합됩니다. 적절한 경우 URI 접두사의 네임 스페이스 구분 기호와 슬래시가 자동으로 추가됩니다.
+중첩 된 그룹은 속성을 상위 그룹과 지능적으로 "병합"합니다. 미들웨어와 이름 및 접두사가 추가되는 동안 `where` 조건이 병합됩니다. 적절한 경우 URI 접두사의 네임 스페이스 구분 기호와 슬래시가 자동으로 추가됩니다.
 
 <a name="route-group-middleware"></a>
 ### Middleware
@@ -363,29 +363,13 @@ To assign middleware to all routes within a group, you may use the `middleware` 
 
     Route::middleware(['first', 'second'])->group(function () {
         Route::get('/', function () {
-            // Uses first & second Middleware
+            // Uses first & second middleware...
         });
 
         Route::get('user/profile', function () {
-            // Uses first & second Middleware
+            // Uses first & second middleware...
         });
     });
-
-<a name="route-group-namespaces"></a>
-### Namespaces
-### 네임스페이스
-
-Another common use-case for route groups is assigning the same PHP namespace to a group of controllers using the `namespace` method:
-
-라우트 그룹을 사용하는 또 다른 사용 예로는 `namespace` 메소드를 사용하는 컨트롤러들에 동일한 PHP 네임스페이스를 할당하는 경우 입니다.
-
-    Route::namespace('Admin')->group(function () {
-        // Controllers Within The "App\Http\Controllers\Admin" Namespace
-    });
-
-Remember, by default, the `RouteServiceProvider` includes your route files within a namespace group, allowing you to register controller routes without specifying the full `App\Http\Controllers` namespace prefix. So, you only need to specify the portion of the namespace that comes after the base `App\Http\Controllers` namespace.
-
-주의할점은, 기본적으로 `RouteServiceProvider` 는 `App\Http\Controllers` 네임스페이스를 접두사로 굳이 지정하지 않아도 컨트롤러가 등록되도록, 네임스페이스 그룹 안에서 라우트 파일을 로드한다는 것입니다. 따라서 여러분들이 네임스페이스에서 필요한 부분은 `App\Http\Controllers` 네임스페이스 뒷부분만 지정하면 됩니다.
 
 <a name="route-group-subdomain-routing"></a>
 ### Subdomain Routing
@@ -468,6 +452,7 @@ Sometimes you may wish to resolve Eloquent models using a column other than `id`
         return $post;
     });
 
+<a name="implicit-model-binding-scoping"></a>
 #### Custom Keys & Scoping
 
 Sometimes, when implicitly binding multiple Eloquent models in a single route definition, you may wish to scope the second Eloquent model such that it must be a child of the first Eloquent model. For example, consider this situation that retrieves a blog post by slug for a specific user:
@@ -506,15 +491,20 @@ If you would like model binding to use a default database column other than `id`
 ### Explicit Binding
 ### 명시적 바인딩
 
-To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your explicit model bindings in the `boot` method of the `RouteServiceProvider` class:
+To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your explicit model bindings at the beginning of the `boot` method of your `RouteServiceProvider` class:
 
-명시적 바인딩을 등록하기 위해서, 주어진 파라미터에 대한 클래스를 지정하려면 라우터의 `model` 메소드를 사용하십시오. 여러분은 `RouteServiceProvider` 클래스의 `boot` 메소드 안에서 명시적 모델 바인딩을 정의해야 합니다.
+명시적 바인딩을 등록하기 위해서, 주어진 파라미터에 대한 클래스를 지정하려면 라우터의 `model` 메소드를 사용하십시오. 여러분은 `RouteServiceProvider` 클래스의 `boot` 메소드의 시작부분에 명시적 모델 바인딩을 정의해야 합니다.
 
+    /**
+     * Define your route model bindings, pattern filters, etc.
+     *
+     * @return void
+     */
     public function boot()
     {
-        parent::boot();
+        Route::model('user', App\Models\User::class);
 
-        Route::model('user', App\User::class);
+        // ...
     }
 
 Next, define a route that contains a `{user}` parameter:
@@ -541,17 +531,17 @@ If you wish to use your own resolution logic, you may use the `Route::bind` meth
 만약 여러분의 고유한 의존성 해결 로직을 사용하려면 `Route::bind` 메소드를 사용할 수 있습니다. `bind` 메소드에 전달되는 `클로저`에는 URI 세그먼트에 해당하는 값이 전달되고 라우트에 주입되어야 하는 클래스의 인스턴스를 반환해야 합니다.
 
     /**
-     * Bootstrap any application services.
+     * Define your route model bindings, pattern filters, etc.
      *
      * @return void
      */
     public function boot()
     {
-        parent::boot();
-
         Route::bind('user', function ($value) {
-            return App\User::where('name', $value)->firstOrFail();
+            return App\Models\User::where('name', $value)->firstOrFail();
         });
+
+        // ...
     }
 
 Alternatively, you may override the `resolveRouteBinding` method on your Eloquent model. This method will receive the value of the URI segment and should return the instance of the class that should be injected into the route:

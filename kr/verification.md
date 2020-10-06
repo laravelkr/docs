@@ -13,8 +13,6 @@
     - [라우트 보호하기](#protecting-routes)
 - [Views](#verification-views)
 - [뷰](#verification-views)
-- [After Verifying Emails](#after-verifying-emails)
-- [이메일 검증 이후](#after-verifying-emails)
 - [Events](#events)
 - [이벤트](#events)
 
@@ -26,18 +24,22 @@ Many web applications require users to verify their email addresses before using
 
 많은 웹 애플리케이션에서 사용자는 애플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. 라라벨은 각 애플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
 
+#### Getting Started Fast
+
+Want to get started fast? Install [Laravel Jetstream](https://jetstream.laravel.com) in a fresh Laravel application. After migrating your database, navigate your browser to `/register` or any other URL that is assigned to your application. Jetstream will take care of scaffolding your entire authentication system, including email verification support!
+
 <a name="model-preparation"></a>
 ## Model Preparation
 ## 모델 준비사항
 
-To get started, verify that your `App\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
+To get started, verify that your `App\Models\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
 
-시작하려면 `App\User` 모델이 `Illuminate\Contracts\Auth\MustVerifyEmail` contract을 구현하는지 확인하십시오.
+시작하려면 `App\Models\User` 모델이 `Illuminate\Contracts\Auth\MustVerifyEmail` contract을 구현하는지 확인하십시오.
 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Contracts\Auth\MustVerifyEmail;
     use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -67,11 +69,9 @@ Next, your `user` table must contain an `email_verified_at` column to store the 
 ## Routing
 ## 라우팅
 
-Laravel includes the `Auth\VerificationController` class that contains the necessary logic to send verification links and verify emails. To register the necessary routes for this controller, pass the `verify` option to the `Auth::routes` method:
+All of the routes needed to perform email verification are automatically included in [Laravel Jetstream](https://jetstream.laravel.com). To learn how to install Jetstream, please consult the official [Jetstream documentation](https://jetstream.laravel.com/1.x/features/authentication.html#email-verification).
 
-라라벨에 포함된 `Auth\VerificationController` 클래스는 검증 링크를 보내고 이메일을 확인합니다. 이 컨트롤러에 사용하기 위해 필요한 라우트를 등록하려면 `Auth::routes` 메소드에 `verify` 옵션을 넘깁니다.
-
-    Auth::routes(['verify' => true]);
+이메일 확인에 필요한 모든 라우트는 [Laravel Jetstream](https://jetstream.laravel.com)에 포함되어 있습니다. Jetstream 설치 방법을 알아 보려면 공식 [Jetstream 문서](https://jetstream.laravel.com/1.x/features/authentication.html#email-verification) 를 참조하세요.
 
 <a name="protecting-routes"></a>
 ### Protecting Routes
@@ -89,27 +89,9 @@ Laravel includes the `Auth\VerificationController` class that contains the neces
 ## Views
 ## 뷰
 
-To generate all of the necessary view for email verification, you may use the `laravel/ui` Composer package:
+All of the views needed to perform email verification are automatically included in [Laravel Jetstream](https://jetstream.laravel.com). To learn how to install Jetstream, please consult the official [Jetstream documentation](https://jetstream.laravel.com).
 
-`laravel/ui` Composer 패키지를 이용하면 이메일 검증에 필요한 뷰를 생성할 수 있습니다.
-
-    composer require laravel/ui
-
-    php artisan ui vue --auth
-
-The email verification view is placed in `resources/views/auth/verify.blade.php`. You are free to customize this view as needed for your application.
-
-이메일 검증 뷰는 `resources/views/auth/verify.blade.php`에 있습니다. 필요에 따라 자유롭게 수정할 수 있습니다.
-
-<a name="after-verifying-emails"></a>
-## After Verifying Emails
-## 이메일 검증 이후
-
-After an email address is verified, the user will automatically be redirected to `/home`. You can customize the post verification redirect location by defining a `redirectTo` method or property on the `VerificationController`:
-
-이메일 주소가 확인되면 사용자는 자동으로 `/home`으로 리다이렉트 됩니다. `VerificationController` 에 `redirectTo` 메소드나 속성을 지정하면 이메일 주소 확인 후 이동할 라우트를 변경할 수 있습니다. 
-
-    protected $redirectTo = '/dashboard';
+이메일 확인에 필요한 모든 뷰는 [Laravel Jetstream](https://jetstream.laravel.com)에 포함되어 있습니다. Jetstream 설치 방법을 알아 보려면 공식 [Jetstream 문서](https://jetstream.laravel.com/1.x/installation.html) 를 참조하세요.
 
 <a name="events"></a>
 ## Events

@@ -79,6 +79,8 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
 
 이벤트는 보통 `EventServiceProvider`의 `$listen` 배열을 통해 등록됩니다. 하지만 `EventServiceProvider`의 `boot` 메소드 안에서 클로저 기반의 이벤트를 수동으로 등록할 수도 있습니다.
 
+    use App\Events\PodcastProcessed;
+
     /**
      * Register any other events for your application.
      *
@@ -88,10 +90,53 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
     {
         parent::boot();
 
-        Event::listen('event.name', function ($foo, $bar) {
+        Event::listen(function (PodcastProcessed $event) {
             //
         });
     }
+
+<a name="queuable-anonymous-event-listeners"></a>
+#### Queueable Anonymous Event Listeners
+#### 대기 가능한 익명 이벤트 리스너
+
+When registering event listeners manually, you may wrap the listener Closure within the `Illuminate\Events\queueable` function to instruct Laravel to execute the listener using the [queue](/docs/{{version}}/queues):
+
+이벤트 리스너를 수동으로 등록 할 때 `Illuminate\Events\queueable` 함수에 리스너 클로저-Closure를 등록하여, [queue](/docs/{{version}}/queues)를 사용해 리스너를 실행하도록 라라벨에 지시 할 수 있습니다.
+
+    use App\Events\PodcastProcessed;
+    use function Illuminate\Events\queueable;
+    use Illuminate\Support\Facades\Event;
+
+    /**
+     * Register any other events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Event::listen(queueable(function (PodcastProcessed $event) {
+            //
+        }));
+    }
+
+Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods to customize the execution of the queued listener:
+
+    Event::listen(queueable(function (PodcastProcessed $event) {
+        //
+    })->onConnection('redis')->onQueue('podcasts')->delay(now()->addSeconds(10)));
+
+If you would like to handle anonymous queued listener failures, you may provide a Closure to the `catch` method while defining the `queueable` listener:
+
+    use App\Events\PodcastProcessed;
+    use function Illuminate\Events\queueable;
+    use Illuminate\Support\Facades\Event;
+    use Throwable;
+
+    Event::listen(queueable(function (PodcastProcessed $event) {
+        //
+    })->catch(function (PodcastProcessed $event, Throwable $e) {
+        // The queued listener failed...
+    }));
 
 #### Wildcard Event Listeners
 #### 와일드 카드(여러개의 이벤트를 수신하는) 이벤트 리스너
@@ -182,7 +227,7 @@ An event class is a data container which holds the information related to the ev
 
     namespace App\Events;
 
-    use App\Order;
+    use App\Models\Order;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Foundation\Events\Dispatchable;
     use Illuminate\Queue\SerializesModels;
@@ -196,7 +241,7 @@ An event class is a data container which holds the information related to the ev
         /**
          * Create a new event instance.
          *
-         * @param  \App\Order  $order
+         * @param  \App\Models\Order  $order
          * @return void
          */
         public function __construct(Order $order)
@@ -469,7 +514,7 @@ To dispatch an event, you may pass an instance of the event to the `event` helpe
 
     use App\Events\OrderShipped;
     use App\Http\Controllers\Controller;
-    use App\Order;
+    use App\Models\Order;
 
     class OrderController extends Controller
     {
@@ -531,19 +576,40 @@ Event subscribers are classes that may subscribe to multiple events from within 
          * Register the listeners for the subscriber.
          *
          * @param  \Illuminate\Events\Dispatcher  $events
+         * @return void
          */
         public function subscribe($events)
         {
             $events->listen(
                 'Illuminate\Auth\Events\Login',
-                'App\Listeners\UserEventSubscriber@handleUserLogin'
+                [UserEventSubscriber::class, 'handleUserLogin']
             );
 
             $events->listen(
                 'Illuminate\Auth\Events\Logout',
-                'App\Listeners\UserEventSubscriber@handleUserLogout'
+                [UserEventSubscriber::class, 'handleUserLogout']
             );
         }
+    }
+
+Alternatively, your subscriber's `subscribe` method may return an array of event to handler mappings. In this case, the event listener mappings will be registered for you automatically:
+
+또는 구독자의 `subscribe` 메소드가 핸들러 매핑에 대한 이벤트 배열을 반환 할 수 있습니다. 이 경우 이벤트 리스너 매핑이 자동으로 등록됩니다.
+
+    use Illuminate\Auth\Events\Login;
+    use Illuminate\Auth\Events\Logout;
+
+    /**
+     * Register the listeners for the subscriber.
+     *
+     * @return array
+     */
+    public function subscribe()
+    {
+        return [
+            Login::class => [UserEventSubscriber::class, 'handleUserLogin'],
+            Logout::class => [UserEventSubscriber::class, 'handleUserLogout'],
+        ];
     }
 
 <a name="registering-event-subscribers"></a>

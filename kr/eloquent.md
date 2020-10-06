@@ -1284,7 +1284,7 @@ Instead of using custom event classes, you may register Closures that execute wh
 
 If needed, you may utilize [queueable anonymous event listeners](/docs/{{version}}/events#queuable-anonymous-event-listeners) when registering model events. This will instruct Laravel to execute the model event listener using the [queue](/docs/{{version}}/queues):
 
-필요하다면, 모델의 이벤트를 등록 할 때 [큐가 가능한 익명 이벤트 리스너](/docs/{{version}}/events#queuable-anonymous-event-listeners)를 활용할 수 있습니다. 이것은 라라벨이 [큐](/docs/{{version}}/queues)를 사용하여 모델 이벤트 리스너를 실행하도록 지시합니다.
+필요하다면, 모델의 이벤트를 등록 할 때 [대기 가능한 익명 이벤트 리스너](/docs/{{version}}/events#queuable-anonymous-event-listeners)를 활용할 수 있습니다. 이것은 라라벨이 [큐](/docs/{{version}}/queues)를 사용하여 모델 이벤트 리스너를 실행하도록 지시합니다.
 
     use function Illuminate\Events\queueable;
 

@@ -136,13 +136,13 @@ Next, you should run the `passport:install` command. This command will create th
 
 > {tip} 자동으로 증가하는 정수 대신 Passport `Client` 모델의 기본 키 값으로 UUID를 사용하려면 [`uuids` 옵션](#client-uuids)를 사용하여 Passport를 설치하십시오.
 
-After running the `passport:install` command, add the `Laravel\Passport\HasApiTokens` trait to your `App\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
+After running the `passport:install` command, add the `Laravel\Passport\HasApiTokens` trait to your `App\Models\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
 
-`passport:install` 명령어를 실행한 후에, `App\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다.
+`passport:install` 명령어를 실행한 후에, `App\Models\User` 모델에 `Laravel\Passport\HasApiTokens` 트레이트-trait 를 추가하십시오. 이 트레이트-trait는 모델에 인증된 사용자의 토큰과 범위를 확인하기 위한 몇가지 헬퍼 메소드를 제공합니다.
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -925,7 +925,7 @@ When authenticating using the password grant, Passport will use the `email` attr
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -939,7 +939,7 @@ When authenticating using the password grant, Passport will use the `email` attr
          * Find the user instance for the given username.
          *
          * @param  string  $username
-         * @return \App\User
+         * @return \App\Models\User
          */
         public function findForPassport($username)
         {
@@ -957,7 +957,7 @@ When authenticating using the password grant, Passport will use the `password` a
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -1111,30 +1111,6 @@ After creating your personal access client, place the client's ID and plain-text
     PASSPORT_PERSONAL_ACCESS_CLIENT_ID=client-id-value
     PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET=unhashed-client-secret-value
 
-Next, you should register these values by placing the following calls to `Passport::personalAccessClientId` and `Passport::personalAccessClientSecret` within the `boot` method of your `AuthServiceProvider`:
-
-다음으로, `AuthServiceProvider`의 `boot` 메소드 내에서 `Passport::personalAccessClientId` 및 `Passport::personalAccessClientSecret`을 다음과 같이 호출하여 이러한 값을 등록해야합니다.
-
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerPolicies();
-
-        Passport::routes();
-
-        Passport::personalAccessClientId(
-            config('passport.personal_access_client.id')
-        );
-
-        Passport::personalAccessClientSecret(
-            config('passport.personal_access_client.secret')
-        );
-    }
-
 <a name="managing-personal-access-tokens"></a>
 ### Managing Personal Access Tokens
 ### 개인용 엑세스 토큰 관리하기
@@ -1143,7 +1119,7 @@ Once you have created a personal access client, you may issue tokens for a given
 
 개인용 엑세스 클라이언트를 생성하고 나면, `User` 모델 인스턴스의 `createToken` 메소드를 사용하여 주어진 사용자를 위한 토큰을 발급할 수 있습니다. `createToken` 메소드는 토큰의 이름을 첫번째 인자로, [범위](#token-scopes)의 배열을 선택적으로 두번째 인자로 받습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     // Creating a token without scopes...
     $token = $user->createToken('Token Name')->accessToken;
@@ -1515,13 +1491,13 @@ Passport's `actingAs` method may be used to specify the currently authenticated 
 
 Passport의 `actionAs` 메소드는 현재 인증된 사용자를 지정하는데 사용할 수 있습니다. `actionAs` 메소드에 전달되는 첫번째 인자는 사용자 인스턴스이고, 두번째 인자는 사용자의 토큰에 허용된 스코프 배열입니다.
 
-    use App\User;
+    use App\Models\User;
     use Laravel\Passport\Passport;
 
     public function testServerCreation()
     {
         Passport::actingAs(
-            factory(User::class)->create(),
+            User::factory()->create(),
             ['create-servers']
         );
 
@@ -1540,7 +1516,7 @@ Passport의 `actingAsClient` 메소드를 사용하여 현재 인증 된 클라�
     public function testGetOrders()
     {
         Passport::actingAsClient(
-            factory(Client::class)->create(),
+            Client::factory()->create(),
             ['check-status']
         );
 

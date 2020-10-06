@@ -296,13 +296,15 @@ This route will register a nested resource that may be accessed with URIs like t
 ### 중첩 리소스 범위 지정
 
 Laravel's [implicit model binding](/docs/{{version}}/routing#implicit-model-binding-scoping) feature can automatically scope nested bindings such that the resolved child model is confirmed to belong to the parent model. By using the `scoped` method when defining your nested resource, you may enabling automatic scoping as well as instruct Laravel which field the child resource should be retrieved by:
-Laravel의 [implicit model binding] (/ docs / {{version}} / routing # implicit-model-binding-scoping) 기능은 상위 모델에 속한 해결 된 하위 모델이 확인되도록 중첩 된 바인딩의 범위를 자동으로 지정할 수 있습니다. `scoped` 메서드를 사용해 중첩 된 리소스를 정의 할 때 자동 범위 지정을 활성화 할 수있을뿐만 아니라 Laravel에 하위 리소스를 검색해야하는 필드를 지정할 수 있습니다.
+
+Laravel의 [묵시적 모델 바인딩] (/ docs / {{version}} / routing # implicit-model-binding-scoping) 기능은 상위 모델에 속한 해결 된 하위 모델이 확인되도록 중첩 된 바인딩의 범위를 자동으로 지정할 수 있습니다. `scoped` 메서드를 사용해 중첩 된 리소스를 정의 할 때 자동 범위 지정을 활성화 할 수있을뿐만 아니라 Laravel에 하위 리소스를 검색해야하는 필드를 지정할 수 있습니다.
     
     Route::resource('photos.comments', PhotoCommentController::class)->scoped([
         'comment' => 'slug',
     ]);
 
 This route will register a scoped nested resource that may be accessed with URIs like the following:
+
 이 라우트는 다음과 같은 URI로 접근해 중첩된 리소스의 범위를 지정 등록할 수 있습니다. 
 
     /photos/{photo}/comments/{comment:slug}

@@ -187,6 +187,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/coolhong"><img src="https://avatars2.githubusercontent.com/u/3918019?v=4" width="100px;" alt=""/><br /><sub><b>YoungsuHong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=coolhong" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/truekim819"><img src="https://avatars3.githubusercontent.com/u/19642477?v=4" width="100px;" alt=""/><br /><sub><b>truekim819</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=truekim819" title="Documentation">📖</a></td>
   </tr>
 </table>
 

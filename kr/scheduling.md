@@ -485,6 +485,22 @@ The `onSuccess` and `onFailure` methods allow you to specify code to be executed
                  // The task failed...
              });
 
+If output is available from your command, you may access it in your `after`, `onSuccess` or `onFailure` hooks by type-hinting an `Illuminate\Support\Stringable` instance as `$output` on your hook's Closure definition:
+
+커맨드에서 출력을 사용해야 할 경우, `after`, `onSuccess` 또는 `onFailure` 훅의 클로저에 `$output`를 `Illuminate\Support\Stringable` 인스턴스로 타입 힌트하여 사용 할 수 있습니다.
+
+
+    use Illuminate\Support\Stringable;
+
+    $schedule->command('emails:send')
+             ->daily()
+             ->onSuccess(function (Stringable $output) {
+                 // The task succeeded...
+             })
+             ->onFailure(function (Stringable $output) {
+                 // The task failed...
+             });
+
 #### Pinging URLs
 #### URL Ping 실행
 

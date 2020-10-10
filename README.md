@@ -173,6 +173,22 @@
     <td align="center"><a href="https://github.com/JJRomi"><img src="https://avatars1.githubusercontent.com/u/27665422?v=4" width="100px;" alt=""/><br /><sub><b>Romi</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=JJRomi" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Hyeongwon"><img src="https://avatars1.githubusercontent.com/u/14510347?v=4" width="100px;" alt=""/><br /><sub><b>Hyeongwon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Hyeongwon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://blog.silnex.kr"><img src="https://avatars2.githubusercontent.com/u/24711610?v=4" width="100px;" alt=""/><br /><sub><b>silnex</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=SilNex" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Khon0316"><img src="https://avatars3.githubusercontent.com/u/20215769?v=4" width="100px;" alt=""/><br /><sub><b>Khon0316</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Khon0316" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/sangchul-moon"><img src="https://avatars3.githubusercontent.com/u/38758061?v=4" width="100px;" alt=""/><br /><sub><b>Sangchul Moon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=sangchul-moon" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://gist.github.com/ojongchul/d97a2d5581f271e247a00508b9eb93ee"><img src="https://avatars0.githubusercontent.com/u/25588378?v=4" width="100px;" alt=""/><br /><sub><b>Oh Jongchul</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ojongchul" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/danics7"><img src="https://avatars3.githubusercontent.com/u/5405310?v=4" width="100px;" alt=""/><br /><sub><b>Chisoo Yang</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=danics7" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://papion93.github.io/"><img src="https://avatars0.githubusercontent.com/u/49216709?v=4" width="100px;" alt=""/><br /><sub><b>PAPION</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=PAPION93" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/DungGi"><img src="https://avatars1.githubusercontent.com/u/57477524?v=4" width="100px;" alt=""/><br /><sub><b>DungGi</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=DungGi" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://z9n.net"><img src="https://avatars1.githubusercontent.com/u/5427199?v=4" width="100px;" alt=""/><br /><sub><b>Terrorboy</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Terrorboy" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JeongJaeSoon"><img src="https://avatars3.githubusercontent.com/u/53788601?v=4" width="100px;" alt=""/><br /><sub><b>JeongJaeSoon</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=JeongJaeSoon" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/mapd3692"><img src="https://avatars3.githubusercontent.com/u/13864840?v=4" width="100px;" alt=""/><br /><sub><b>mapd3692</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=mapd3692" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/gommmm"><img src="https://avatars3.githubusercontent.com/u/9735109?v=4" width="100px;" alt=""/><br /><sub><b>gommmm</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=gommmm" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/coolhong"><img src="https://avatars2.githubusercontent.com/u/3918019?v=4" width="100px;" alt=""/><br /><sub><b>YoungsuHong</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=coolhong" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/truekim819"><img src="https://avatars3.githubusercontent.com/u/19642477?v=4" width="100px;" alt=""/><br /><sub><b>truekim819</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=truekim819" title="Documentation">📖</a></td>
   </tr>
 </table>
 

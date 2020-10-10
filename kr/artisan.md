@@ -109,7 +109,7 @@ Typically, Tinker automatically aliases classes as you require them in Tinker. H
 일반적으로 Tinker는 필요한 클래스에 자동으로 별칭(alias)을 지정합니다. 하지만 일부 클래스틑 별칭을 지정하지 않을 수도 있습니다. `tinker.php` 설정 파일의 `dont_alias` 배열에 클래스를 추가하면 됩니다.
 
     'dont_alias' => [
-        App\User::class,
+        App\Models\User::class,
     ],
 
 <a name="writing-commands"></a>
@@ -151,7 +151,7 @@ Let's take a look at an example command. Note that we are able to inject any dep
     namespace App\Console\Commands;
 
     use App\DripEmailer;
-    use App\User;
+    use App\Models\User;
     use Illuminate\Console\Command;
 
     class SendEmails extends Command
@@ -230,7 +230,7 @@ In addition to receiving your command's arguments and options, command Closures 
 명령어의 인자와 옵션을 전달 받는 것 이외에도 명령어 클로저는 [서비스 컨테이너](/docs/{{version}}/container) 에서 해결하고자 하는 추가적인 의존성을 입력 할 수 있습니다.
 
     use App\DripEmailer;
-    use App\User;
+    use App\Models\User;
 
     Artisan::command('email:send {user}', function (DripEmailer $drip, $user) {
         $drip->send(User::find($user));
@@ -535,7 +535,7 @@ The `table` method makes it easy to correctly format multiple rows / columns of 
 
     $headers = ['Name', 'Email'];
 
-    $users = App\User::all(['name', 'email'])->toArray();
+    $users = App\Models\User::all(['name', 'email'])->toArray();
 
     $this->table($headers, $users);
 
@@ -547,7 +547,7 @@ For long running tasks, it could be helpful to show a progress indicator. Using 
 시간이 오래 걸리는 작업의 경우, 진행 상황을 표시하는 것이 도움이 됩니다. 출력 객체를 사용하여 시작, 진행중, 정지를 표시 할 수 있습니다. 진행률 표시줄을 시작할 때 여러 단계를 정의해야만 각 단계마다 진행 표시줄이 이동합니다.
 
 
-    $users = App\User::all();
+    $users = App\Models\User::all();
 
     $bar = $this->output->createProgressBar(count($users));
 

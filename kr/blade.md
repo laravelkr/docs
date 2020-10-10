@@ -724,7 +724,7 @@ This will allow the usage of package components by their vendor namespace using 
 
 Blade will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
 
-블레이드는 파스칼 케이스를 적용한 이름으로 이 컴포넌트를 알아서 감지합니다. 하위 디렉토리 안에서는 "." 표기법도 지원합니다.
+블레이드는 파스칼 케이스를 적용한 이름으로 이 컴포넌트를 알아서 감지합니다. 또한 하위 디렉토리를 위한 "." 표기법도 지원합니다.
 
 <a name="displaying-components"></a>
 ### Displaying Components

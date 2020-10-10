@@ -911,7 +911,7 @@ job들의 배치를 발송하기 위해, `Bus` 파사드의 `batch` 메소드를
 
 Some tools such as Laravel Horizon and Laravel Telescope may provide more user-friendly debug information for batches if batches are named. To assign an arbitrary name to a batch, you may call the `name` method while defining the batch:
 
-Lravel Horizon 및 Laravel Telescope와 같은 일부 도구들은 배치 이름이 지정된 경우 배치에 대해 보다 사용자 친화적인 debug 정보를 제공합니다. 배치에 임의의 이름을 지정하려면, 배치를 정의하는 동안 `name` 메소드를 호출해야 합니다.
+Laravel Horizon 및 Laravel Telescope와 같은 일부 도구들은 배치 이름이 지정된 경우 배치에 대해 보다 사용자 친화적인 debug 정보를 제공합니다. 배치에 임의의 이름을 지정하려면, 배치를 정의하는 동안 `name` 메소드를 호출해야 합니다.
 
     $batch = Bus::batch([
         // ...
@@ -938,7 +938,7 @@ If you would like to specify the connection and queue that should be used for th
 
 Sometimes it may be useful to add additional jobs to a batch from within a batched job. This pattern can be useful when you need to batch thousands of jobs which may take too long to dispatch during a web request. So, instead, you may wish to dispatch an initial batch of "loader" jobs that hydrate the batch with more jobs:
 
-때로는 배치된 job 내에서 배치에 job들을 추가하는 것이 유용합니다. 이 패턴은 웹 요청 중에 전송하는 데 시간이 너무 오래 걸릴 수 있는 수천 개의 job들을 배치할 때 유용할 수 있습니다. 따라서 대신, 더 많은 job들을 처리할 수 있는 "loader"를 초기 배치로 전송 할 수 있습니다.
+때로는 배치된 job 내에서 배치에 job들을 추가하는 것이 유용합니다. 이 패턴은 웹 요청 중에 전송하는 데 시간이 너무 오래 걸릴 수 있는 수천 개의 job들을 배치할 때 유용할 수 있습니다. 따라서 대신, 더 많은 job들을 배치에 녹여낼 수 있는 "loader"를 초기 배치로 전송 할 수 있습니다.
 
     $batch = Bus::batch([
         new LoadImportBatch,
@@ -950,7 +950,7 @@ Sometimes it may be useful to add additional jobs to a batch from within a batch
 
 In this example, we will use the `LoadImportBatch` job to hydrate the batch with additional jobs. To accomplish this, we may use the `add` method on the batch instance that can be accessed within the job:
 
-예시에서, 추가 job들로 배치를 수화하기 위해 `LoadImportBatch` job을 사용합니다. 이를 위해 job 내에서 접근할 수 있는 배치 instance에 `add` 메소드를 사용할 수 있습니다.
+예시에서, 추가 job들을 배치에 녹여내기 위해 `LoadImportBatch` job을 사용합니다. 이를 위해 job 내에서 접근할 수 있는 배치 instance에 `add` 메소드를 사용할 수 있습니다.
 
     use App\Jobs\ImportContacts;
     use Illuminate\Support\Collection;
@@ -1157,9 +1157,9 @@ The `--once` option may be used to instruct the worker to only process a single 
 
     php artisan queue:work --once
 
-The `--max-jobs` option may be used to instruct the worker to process the given number of jobs and then exit. This option may be useful when combined with [Supervisor](supervisor-configuration) so that your workers are automatically restarted after processing a given number of jobs:
+The `--max-jobs` option may be used to instruct the worker to process the given number of jobs and then exit. This option may be useful when combined with [Supervisor](#supervisor-configuration) so that your workers are automatically restarted after processing a given number of jobs:
 
-`--max-jobs` 옵션읜 worker(작업자)에게 주어진 수의 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](supervisor-configuration)와 함께 사용하면 주어진 수의 job을 처리 한 후 workers(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
+`--max-jobs` 옵션읜 worker(작업자)에게 주어진 수의 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](#supervisor-configuration)와 함께 사용하면 주어진 수의 job을 처리 한 후 workers(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
 
     php artisan queue:work --max-jobs=1000
 
@@ -1175,9 +1175,9 @@ The `--stop-when-empty` option may be used to instruct the worker to process all
 #### Processing Jobs For A Given Number Of Seconds
 #### 주어진 시간 동안 Job 처리
 
-The `--max-time` option may be used to instruct the worker to process jobs for the given number of seconds and then exit. This option may be useful when combined with [Supervisor](supervisor-configuration) so that your workers are automatically restarted after processing jobs for a given amount of time:
+The `--max-time` option may be used to instruct the worker to process jobs for the given number of seconds and then exit. This option may be useful when combined with [Supervisor](#supervisor-configuration) so that your workers are automatically restarted after processing jobs for a given amount of time:
 
-`--max-time` 옵션은 worker(작업자)에게 주어진 시간 동안 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](supervisor-configuration)와 함께 사용하면 주어진 시간 동안 job을 처리한 후 worker(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
+`--max-time` 옵션은 worker(작업자)에게 주어진 시간 동안 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](#supervisor-configuration)와 함께 사용하면 주어진 시간 동안 job을 처리한 후 worker(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
 
     // Process jobs for one hour and then exit...
     php artisan queue:work --max-time=3600

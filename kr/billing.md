@@ -184,15 +184,15 @@ Cashier를 사용하기전, `Billable` 트레이트-trait를 모델에 추가합
         use Billable;
     }
 
-Cashier assumes your Billable model will be the `App\User` class that ships with Laravel. If you wish to change this you can specify a different model in your `.env` file:
+Cashier assumes your Billable model will be the `App\Models\User` class that ships with Laravel. If you wish to change this you can specify a different model in your `.env` file:
 
-Cashier는 Billable 모델이 Laravel과 함께 제공되는 `App\User` 클래스라고 가정합니다. 이것을 바꾸고 싶다면 `.env` 파일에서 다른 모델을 지정할 수 있습니다.
+Cashier는 Billable 모델이 Laravel과 함께 제공되는 `App\Models\User` 클래스라고 가정합니다. 이것을 바꾸고 싶다면 `.env` 파일에서 다른 모델을 지정할 수 있습니다.
 
-    CASHIER_MODEL=App\User
+    CASHIER_MODEL=App\Models\User
 
-> {note} If you're using a model other than Laravel's supplied `App\User` model, you'll need to publish and alter the [migrations](#installation) provided to match your alternative model's table name.
+> {note} If you're using a model other than Laravel's supplied `App\Models\User` model, you'll need to publish and alter the [migrations](#installation) provided to match your alternative model's table name.
 
-> {note} Laravel에서 제공 한 `App\User` 모델 이외의 모델을 사용하는 경우, 대체 모델의 테이블 이름과 일치하도록 제공된 [migrations](#installation)을 퍼블리싱하고 변경해야합니다.
+> {note} Laravel에서 제공 한 `App\Models\User` 모델 이외의 모델을 사용하는 경우, 대체 모델의 테이블 이름과 일치하도록 제공된 [migrations](#installation)을 퍼블리싱하고 변경해야합니다.
 
 <a name="api-keys"></a>
 ### API Keys
@@ -567,9 +567,9 @@ The `deletePaymentMethods` method will delete all of the payment method informat
 ### Creating Subscriptions
 ### 새로운 정기 구독 생성하기
 
-To create a subscription, first retrieve an instance of your billable model, which typically will be an instance of `App\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
+To create a subscription, first retrieve an instance of your billable model, which typically will be an instance of `App\Models\User`. Once you have retrieved the model instance, you may use the `newSubscription` method to create the model's subscription:
 
-새로운 정기 구독을 생성하려면, 먼저 청구가 가능한 (일반적으로 `App\User`가 되는 ) 모델 인스턴스를 조회해야 합니다. 모델 인스턴스를 조회하면, 모델에 대한 정기 구독을 생성하기 위해 `newSubscription` 메소드를 사용할 수 있습니다.
+새로운 정기 구독을 생성하려면, 먼저 청구가 가능한 (일반적으로 `App\Models\User`가 되는 ) 모델 인스턴스를 조회해야 합니다. 모델 인스턴스를 조회하면, 모델에 대한 정기 구독을 생성하기 위해 `newSubscription` 메소드를 사용할 수 있습니다.
 
     $user = User::find(1);
 
@@ -807,7 +807,7 @@ After a user is subscribed to your application, they may occasionally want to ch
 
 사용자가 애플리케이션을 구독한 뒤에, 구독 플랜을 변경하고자 하는 경우는 자주 있습니다. 사용자를 새로운 구독 플랜으로 변경하게 하려면 `swap` 메소드에 플랜의 가격 id를 전달하면 됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->subscription('default')->swap('provider-price-id');
 
@@ -827,7 +827,7 @@ If you would like to swap plans and immediately invoice the user instead of wait
 
 Plan을 바꾸고 다음 청구주기를 기다리는 대신 사용자에게 즉시 송장을 보내려면 `swapAndInvoice` 메소드를 사용할 수 있습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->subscription('default')->swapAndInvoice('provider-price-id');
 
@@ -1108,7 +1108,7 @@ By default, the billing cycle anchor is the date the subscription was created, o
 
 일반적으로 과금 주기의 고정일은 정기 구독이 시작 된 날짜 또는 평가기간이 있는 경우 평가기간이 종료되는 날짜입니다. 청구서의 고정일을 수정하려면 `anchorBillingCycleOn` 메소드를 사용할 수 있습니다.
 
-    use App\User;
+    use App\Models\User;
     use Carbon\Carbon;
 
     $user = User::find(1);
@@ -1356,9 +1356,12 @@ Next, define a route to your Cashier controller within your `routes/web.php` fil
 
 다음으로 `routes/web.php` 파일에서 캐셔 컨트롤러에 대한 라우트를 정의하십시오. 이것은 기본으로 전달되는 라우트를 덮어 씁니다.
 
+    use App\Http\Controllers\WebhookController;
+
     Route::post(
         'stripe/webhook',
         '\App\Http\Controllers\WebhookController@handleWebhook'
+        [WebhookController::class, 'handleWebhook']
     );
 
 Cashier emits a `Laravel\Cashier\Events\WebhookReceived` event when a webhook is received, and a `Laravel\Cashier\Events\WebhookHandled` event when a webhook was handled by Cashier. Both events contain the full payload of the Stripe webhook.
@@ -1416,7 +1419,7 @@ You may also use the `charge` method without an underlying customer or user:
 
 기본 고객이나 사용자없이 `charge` 메서드를 사용할 수도 있습니다.
 
-    use App\User;
+    use App\Models\User;
 
     $stripeCharge = (new User)->charge(100, $paymentMethod);
 

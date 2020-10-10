@@ -1,0 +1,71 @@
+# 테스팅 : 시작하기
+
+- [시작하기](#introduction)
+- [환경](#environment)
+- [테스트 생성 & 실행](#creating-and-running-tests)
+    - [아티즌 테스트 러너](#artisan-test-runner)
+
+<a name="introduction"></a>
+## 시작하기
+
+라라벨은 테스트를 고려하여 제작되었습니다. 실제로 PHPUnit 테스팅 지원은 기본 포함되어 있고 `phpunit.xml` 파일은 이미 애플리케이션이 맞게 설정되어 있습니다. 또한, 프레임워크는 애플리케이션을 다양하게 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다.
+
+기본적으로, 애플리케이션의 `tests` 디렉토리는 두개의 디렉토리: `Feature` 와 `Unit` 를 가지고 있습니다. 단위테스트는 코드의 매우 작고, 독립적인 부분에 초점을 둔 테스트 입니다. 실제로, 대부분의 단위 테스트는 하나의 메소드에 포커스를 맞춥니다. 기능 테스트는 여러 객체가 서로 상호작용하는 방식 또는 JSON 엔드 포인트에 대한 전체 HTTP 요청을 포함하여 코드의 많은 부분을 테스트할 수 있습니다.
+
+`ExampleTest.php` 파일은 `Feature` 와 `Unit` 테스트 디렉토리에 모두 제공됩니다. 새로운 라라벨 애플리케이션을 설치한 후, 테스트를 실행하려면 커맨드 라인에서 `vendor/bin/phpunit`을 실행하십시오.
+
+<a name="environment"></a>
+## 환경
+
+`vendor/bin/phpunit`을 통해서 테스트를 실행할 때, 라라벨은 `phpunit.xml`에 정의된 환경변수 때문에, 설정 환경을 `testing`으로 자동 설정합니다. 라라벨은 테스팅 하는 동안은 `array` 드라이버에 세션과 캐시를 자동 설정합니다. 이것은 테스트 하는 동안 세션과 캐시 데이터는 유지되지 않음을 의미합니다. 
+
+필요한 다른 테스트 환경 설정 값들을 자유롭게 정의할 수 있습니다. `testing` 환경 변수는 `phpunit.xml` 파일에 설정되어 있지만, 테스트를 실행 하기 전에 `config:clear` 아티즌 명령을 이용하여 설정된 캐시를 지우십시오!
+
+추가로, 프로젝트의 루트에 `.env.testing` 파일을 생성할 수도 있습니다. 이 파일은 PHPUnit 테스트가 실행될 때나 `--env=testing` 옵션으로 아티즌 명령을 실행할때 `.env` 파일을 오버라이드합니다.
+
+<a name="creating-and-running-tests"></a>
+## 테스트 생성 & 실행
+
+새로운 테스트 케이스를 생성하려면 `make:test` 아티즌 명령어를 이용하십시오.
+
+    // Create a test in the Feature directory...
+    php artisan make:test UserTest
+
+    // Create a test in the Unit directory...
+    php artisan make:test UserTest --unit
+
+> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
+
+테스트 파일이 생성되면, 보통 PHPUnit을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `phpunit` 또는 `artisan test` 커맨드를 실행하십시오.
+
+    <?php
+
+    namespace Tests\Unit;
+
+    use PHPUnit\Framework\TestCase;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * A basic test example.
+         *
+         * @return void
+         */
+        public function testBasicTest()
+        {
+            $this->assertTrue(true);
+        }
+    }
+
+> {note} 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
+
+<a name="artisan-test-runner"></a>
+### 아티즌 테스트 러너
+
+`phpunit` 명령 외에도 `test` Artisan 명령을 사용하여 테스트를 실행할 수 있습니다. Artisan 테스트 러너는 개발과 디버깅을 쉽게 도와주는 자세한 테스트 보고서를 제공합니다.
+
+    php artisan test
+
+`phpunit` 명령으로 전달 할 수있는 모든 인수는 아티즌 `test` 명령으로도 전달 할 수 있습니다.
+
+    php artisan test --group=feature --stop-on-failure

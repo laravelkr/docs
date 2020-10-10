@@ -408,7 +408,7 @@ Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods
 
 If you would like to handle anonymous queued listener failures, you may provide a Closure to the `catch` method while defining the `queueable` listener:
 
-만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 제공하세요:
+만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 제공하세요.
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;

@@ -69,6 +69,8 @@ The `assertDatabaseHas` method and other helpers like it are for convenience. Yo
 
 It is often useful to reset your database after each test so that data from a previous test does not interfere with subsequent tests. The `RefreshDatabase` trait takes the most optimal approach to migrating your test database depending on if you are using an in-memory database or a traditional database. Use the trait on your test class and everything will be handled for you:
 
+이전 테스트의 데이터가 후속 테스트를 방해하지 않도록 각 테스트 후에 데이터베이스를 재설정하는 것이 유용한 경우가 많습니다. `RefreshDatabase` trait은 인 메모리 데이터베이스를 사용하는지 아니면 기존 데이터베이스를 사용하는지에 따라 테스트 데이터베이스를 마이그레이션하는 가장 최적의 접근 방식을 취합니다. 테스트 클래스에서 trait을 사용하면 모든 것이 처리됩니다.
+
     <?php
 
     namespace Tests\Feature;

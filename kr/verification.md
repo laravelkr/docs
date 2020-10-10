@@ -25,8 +25,11 @@ Many web applications require users to verify their email addresses before using
 많은 웹 애플리케이션에서 사용자는 애플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. 라라벨은 각 애플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
 
 #### Getting Started Fast
+#### 빠르게 시작하기
 
 Want to get started fast? Install [Laravel Jetstream](https://jetstream.laravel.com) in a fresh Laravel application. After migrating your database, navigate your browser to `/register` or any other URL that is assigned to your application. Jetstream will take care of scaffolding your entire authentication system, including email verification support!
+
+빨리 시작하고 싶으세요? 새로운 Laravel 애플리케이션에 [Laravel Jetstream](https://jetstream.laravel.com)을 설치합니다. 데이터베이스를 마이그레이션 한 후 브라우저에서 `/register` 또는 애플리케이션에 할당 된 다른 URL로 이동합니다. Jetstream은 이메일 확인 지원을 포함하여 전체 인증 시스템을 스캐 폴딩합니다!
 
 <a name="model-preparation"></a>
 ## Model Preparation

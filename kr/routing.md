@@ -648,7 +648,7 @@ Typically, you will probably specify one rate limit for your entire API. However
 
 <a name="form-method-spoofing"></a>
 ## Form Method Spoofing
-## Form-폼 메소드 Sppring-스푸핑
+## Form-폼 메소드 Spoofing-스푸핑
 
 HTML forms do not support `PUT`, `PATCH` or `DELETE` actions. So, when defining `PUT`, `PATCH` or `DELETE` routes that are called from an HTML form, you will need to add a hidden `_method` field to the form. The value sent with the `_method` field will be used as the HTTP request method:
 
@@ -695,4 +695,5 @@ Laravel can automatically respond to CORS OPTIONS requests with values that you 
 Laravel 은 사용자가 구성한 값으로 CORS OPTIONS 요청에 자동으로 응답 할 수 있습니다. 모든 CORS 설정은 `cors` 구성 파일에서 구성 될 수 있으며 OPTIONS 요청은 전역 미들웨어 스택에 기본적으로 포함 된 `HandleCors '미들웨어에 의해 자동으로 처리됩니다.
 
 > {tip} For more information on CORS and CORS headers, please consult the [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers).
+
 > {tip} CORS 및 CORS 헤더에 대한 자세한 내용은 [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers) 를 참조하십시오.

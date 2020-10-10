@@ -3,56 +3,56 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-    - [Connections Vs. Queues](#connections-vs-queues)
-    - [커넥션 Vs. Queues-큐](#connections-vs-queues)
-    - [Driver Notes & Prerequisites](#driver-prerequisites)
-    - [드라이버 주의사항과 사전준비사항](#driver-prerequisites)
+  - [Connections Vs. Queues](#connections-vs-queues)
+  - [커넥션 Vs. Queues-큐](#connections-vs-queues)
+  - [Driver Notes & Prerequisites](#driver-prerequisites)
+  - [드라이버 주의사항과 사전준비사항](#driver-prerequisites)
 - [Creating Jobs](#creating-jobs)
 - [Job 생성하기](#creating-jobs)
-    - [Generating Job Classes](#generating-job-classes)
-    - [Job 클래스 생성하기](#generating-job-classes)
-    - [Class Structure](#class-structure)
-    - [클래스 구조](#class-structure)
-    - [Job Middleware](#job-middleware)
-    - [Job 미들웨어](#job-middleware)
+  - [Generating Job Classes](#generating-job-classes)
+  - [Job 클래스 생성하기](#generating-job-classes)
+  - [Class Structure](#class-structure)
+  - [클래스 구조](#class-structure)
+  - [Job Middleware](#job-middleware)
+  - [Job 미들웨어](#job-middleware)
 - [Dispatching Jobs](#dispatching-jobs)
 - [Job 처리하기](#dispatching-jobs)
-    - [Delayed Dispatching](#delayed-dispatching)
-    - [지연시켜서 처리하기](#delayed-dispatching)
-    - [Synchronous Dispatching](#synchronous-dispatching)
-    - [동기식 반환](#synchronous-dispatching)
-    - [Job Chaining](#job-chaining)
-    - [Job 체이닝](#job-chaining)
-    - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
-    - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
-    - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
-    - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
-    - [Rate Limiting](#rate-limiting)
-    - [실행 속도 제한](#rate-limiting)
-    - [Error Handling](#error-handling)
-    - [에러 핸들링](#error-handling)
+  - [Delayed Dispatching](#delayed-dispatching)
+  - [지연시켜서 처리하기](#delayed-dispatching)
+  - [Synchronous Dispatching](#synchronous-dispatching)
+  - [동기식 반환](#synchronous-dispatching)
+  - [Job Chaining](#job-chaining)
+  - [Job 체이닝](#job-chaining)
+  - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
+  - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
+  - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
+  - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
+  - [Rate Limiting](#rate-limiting)
+  - [실행 속도 제한](#rate-limiting)
+  - [Error Handling](#error-handling)
+  - [에러 핸들링](#error-handling)
 - [Queueing Closures](#queueing-closures)
 - [큐잉 클로저](#queueing-closures)
 - [Running The Queue Worker](#running-the-queue-worker)
 - [Queue Worker 구동하기](#running-the-queue-worker)
-    - [Queue Priorities](#queue-priorities)
-    - [Queue 우선순위 지정하기](#queue-priorities)
-    - [Queue Workers & Deployment](#queue-workers-and-deployment)
-    - [Queue Workers & 배포](#queue-workers-and-deployment)
-    - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
-    - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
+  - [Queue Priorities](#queue-priorities)
+  - [Queue 우선순위 지정하기](#queue-priorities)
+  - [Queue Workers & Deployment](#queue-workers-and-deployment)
+  - [Queue Workers & 배포](#queue-workers-and-deployment)
+  - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
+  - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
 - [Supervisor Configuration](#supervisor-configuration)
 - [Supervisor 설정](#supervisor-configuration)
 - [Dealing With Failed Jobs](#dealing-with-failed-jobs)
 - [실패한 Job 처리하기](#dealing-with-failed-jobs)
-    - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
-    - [Job 실패 후 처리](#cleaning-up-after-failed-jobs)
-    - [Failed Job Events](#failed-job-events)
-    - [실패한 Job 이벤트](#failed-job-events)
-    - [Retrying Failed Jobs](#retrying-failed-jobs)
-    - [실패한 Job 재시도하기](#retrying-failed-jobs)
-    - [Ignoring Missing Models](#ignoring-missing-models)
-    - [누락 된 모델 무시하기](#ignoring-missing-models)
+  - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
+  - [Job 실패 후 처리](#cleaning-up-after-failed-jobs)
+  - [Failed Job Events](#failed-job-events)
+  - [실패한 Job 이벤트](#failed-job-events)
+  - [Retrying Failed Jobs](#retrying-failed-jobs)
+  - [실패한 Job 재시도하기](#retrying-failed-jobs)
+  - [Ignoring Missing Models](#ignoring-missing-models)
+  - [누락 된 모델 무시하기](#ignoring-missing-models)
 - [Job Events](#job-events)
 - [Job 이벤트](#job-events)
 
@@ -395,7 +395,7 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
             ProcessPodcast::dispatch($podcast);
         }
     }
-    
+
 If you would like to conditionally dispatch a job, you may use the `dispatchIf` and `dispatchUnless` methods:
 
 조건부 Job 처리를 원한다면, `dispatchIf`와 `dispatchUnless` 메소드를 사용할 수 있습니다.
@@ -541,6 +541,7 @@ If you would like to specify the connection and queue that should be used for th
     ])->onConnection('redis')->onQueue('podcasts')->dispatch();
 
 #### Chain Failures
+#### Chain Failures
 
 When chaining jobs, you may use the `chain` method to specify a Closure that should be invoked if a job within the chain fails. The given callback will receive the exception instance that caused the job failure:
 
@@ -624,6 +625,7 @@ If you are working with multiple queue connections, you may specify which connec
     }
 
 You may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
+
 job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnection` 과 `onQueue` 메소드를 체이닝하여 사용할 수도 있습니다.
 
     ProcessPodcast::dispatch($podcast)
@@ -779,7 +781,7 @@ If your application interacts with Redis, you may throttle your queued jobs by t
 애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다.
 
 For example, using the `throttle` method, you may throttle a given type of job to only run 10 times every 60 seconds. If a lock can not be obtained, you should typically release the job back onto the queue so it can be retried later:
- 
+
 예를 들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 queue에 릴리즈 한 뒤 나중에 다시 시도하도록 할 수 있습니다.
 
     Redis::throttle('key')->allow(10)->every(60)->then(function () {
@@ -1108,7 +1110,7 @@ Using the `catch` method, you may provide a Closure that should be executed if t
     })->catch(function (Throwable $e) {
         // This job has failed...
     });
-/////////////////////////////////////////////////////////////////////////////////////
+
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker
 ## Queue-큐 worker 실행하기

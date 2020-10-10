@@ -68,7 +68,7 @@ The new minimum PHP version is now 7.3.0.
 
 Update the following dependencies in your `composer.json` file:
 
-여러분의 `composer.json` 에 있는 아래의 의존성들을 업데이트 하세요:
+여러분의 `composer.json` 에 있는 아래의 의존성들을 업데이트 하세요.
 
 <div class="content-list" markdown="1">
 - `guzzlehttp/guzzle` to `^7.0.1`

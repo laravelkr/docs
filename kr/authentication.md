@@ -126,7 +126,6 @@ Laravel includes built-in authentication and session services which are typicall
 라라벨에는 일반적으로`Auth` 및`Session` 파사드를 통해 액세스되는 내장 인증 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저에서 시작된 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자의 자격 증명을 확인하고 사용자를 인증 할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 데이터를 자동으로 저장하고 적절한 세션 쿠키를 발행합니다. 이러한 서비스를 사용하는 방법에 대한 설명이 이 문서에 포함되어 있습니다.
 
 **Jetstream / Fortify**
-
 **Jetstream / Fortify**
 
 As discussed in this documentation, you can interact with these authentication services manually to build your application's own authentication layer. However, to help you get started more quickly, we have released free packages that provide robust, modern scaffolding of the entire authentication layer. These packages are [Laravel Jetstream](https://jetstream.laravel.com) and [Laravel Fortify](https://github.com/laravel/fortify).
@@ -199,7 +198,7 @@ And, if you would like to get started quickly, we are pleased to recommend [Lara
 
 Laravel's `laravel/jetstream` package provides a quick way to scaffold all of the routes, views, and other backend logic needed for authentication using a few simple commands:
 
-Laravel의`laravel/jetstream` 패키지는 몇 가지 간단한 명령을 사용하여 인증에 필요한 모든 경로, view 및 기타 백엔드 로직을 스캐폴딩하는 빠른 방법을 제공합니다.
+Laravel의 `laravel/jetstream` 패키지는 몇 가지 간단한 명령을 사용하여 인증에 필요한 모든 경로, view 및 기타 백엔드 로직을 스캐폴딩하는 빠른 방법을 제공합니다.
 
     composer require laravel/jetstream
 
@@ -223,6 +222,7 @@ If you are starting a brand new application and would like to include the authen
     laravel new kitetail --jet
 
 >{tip} To learn more about Jetstream, please visit the official [Jetstream documentation](https://jetstream.laravel.com).
+
 >{tip} Jetstream에 대해 자세히 알아 보려면 공식사이트에 방문하세요. [Jetstream documentation](https://jetstream.laravel.com).
 
 <a name="included-views"></a>
@@ -231,11 +231,11 @@ If you are starting a brand new application and would like to include the authen
 
 As mentioned in the previous section, the `laravel/jetstream` package's `php artisan jetstream:install` command will create all of the views you need for authentication and place them in the `resources/views/auth` directory.
 
-이전 섹션에서 언급했듯이`laravel/jetstream` 패키지의`php artisan jetstream:install` 명령은 인증에 필요한 모든 view 를 생성하고 `Resources/views/auth` 디렉토리에 배치합니다.
+이전 섹션에서 언급했듯이 `laravel/jetstream` 패키지의 `php artisan jetstream:install` 명령은 인증에 필요한 모든 view 를 생성하고 `Resources/views/auth` 디렉토리에 배치합니다.
 
 Jetstream will also create a `resources/views/layouts` directory containing a base layout for your application. All of these views use the [Tailwind CSS](https://tailwindcss.com) framework, but you are free to customize them however you wish.
 
-Jetstream은 애플리케이션의 기본 레이아웃을 포함하는`resources/views/layouts` 디렉토리도 만듭니다. 이러한 모든 view는 [Tailwind CSS](https://tailwindcss.com) 프레임 워크를 사용하지만 원하는 대로 자유롭게 맞춤 설정할 수 있습니다.
+Jetstream은 애플리케이션의 기본 레이아웃을 포함하는 `resources/views/layouts` 디렉토리도 만듭니다. 이러한 모든 view는 [Tailwind CSS](https://tailwindcss.com) 프레임 워크를 사용하지만 원하는 대로 자유롭게 맞춤 설정할 수 있습니다.
 
 <a name="included-authenticating"></a>
 ### Authenticating
@@ -250,13 +250,13 @@ Now that your application has been scaffolded for authentication, you are ready 
 
 When a user is successfully authenticated, they will typically be redirected to the `/home` URI. You can customize the post-authentication redirect path using the `HOME` constant defined in your `RouteServiceProvider`:
 
-사용자가 성공적으로 인증되면 일반적으로`/home` URI로 이동됩니다. `RouteServiceProvider`에 정의 된 `HOME` 상수를 사용하여 인증 후 이동되는 경로를 수정할 수 있습니다.
+사용자가 성공적으로 인증되면 일반적으로 `/home` URI로 이동됩니다. `RouteServiceProvider`에 정의 된 `HOME` 상수를 사용하여 인증 후 이동되는 경로를 수정할 수 있습니다.
 
     public const HOME = '/home';
 
 When using Laravel Jetstream, the Jetstream installation process will change the value of the `HOME` constant to `/dashboard`.
 
-Laravel Jetstream을 사용할 때 Jetstream 설치 프로세스는`HOME` 상수를 `/dashboard` 로 변경합니다.
+Laravel Jetstream을 사용할 때 Jetstream 설치 프로세스는 `HOME` 상수를 `/dashboard` 로 변경합니다.
 
 <a name="retrieving-the-authenticated-user"></a>
 ### Retrieving The Authenticated User
@@ -487,7 +487,7 @@ If you are "remembering" users, you may use the `viaRemember` method to determin
 
 If you need to log an existing user instance into your application, you may call the `login` method with the user instance. The given object must be an implementation of the `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contracts). The `App\Models\User` model included with Laravel already implements this interface. This method of authentication is useful when you already have a valid user instance, such as directly after a user registers with your application:
 
-기존 사용자 인스턴스를 애플리케이션에 로그인해야 하는 경우 사용자 인스턴스와 함께 `login` 메서드를 호출 할 수 있습니다. 주어진 객체는`Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contract)의 구현이어야 합니다. 라라벨에 포함된 `App\Models\User` 모델은 이미 이 인터페이스를 구현하고 있습니다. 이 인증 방법은 사용자가 애플리케이션에 등록한 직후와 같이 유효한 사용자 인스턴스가 이미 있는 경우에 유용합니다.
+기존 사용자 인스턴스를 애플리케이션에 로그인해야 하는 경우 사용자 인스턴스와 함께 `login` 메서드를 호출 할 수 있습니다. 주어진 객체는 `Illuminate\Contracts\Auth\Authenticatable` [contract](/docs/{{version}}/contract)의 구현이어야 합니다. 라라벨에 포함된 `App\Models\User` 모델은 이미 이 인터페이스를 구현하고 있습니다. 이 인증 방법은 사용자가 애플리케이션에 등록한 직후와 같이 유효한 사용자 인스턴스가 이미 있는 경우에 유용합니다.
 
     Auth::login($user);
 
@@ -701,7 +701,7 @@ Before moving on, let's examine this route in more detail. First, the request's 
 
 You should ensure that any route that performs an action that should require recent password confirmation is assigned the `password.confirm` middleware. This middleware is included with the default installation of Laravel and will automatically store the user's intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user's intended destination in the session, the middleware will redirect the user to the `password.confirm` [named route](/docs/{{version}}/routing#named-routes):
 
-최근 암호 확인이 필요한 작업을 수행하는 모든 경로에`password.confirm` 미들웨어가 할당 되었는지 확인해야 합니다. 이 미들웨어는 라라벨의 기본 설치에 포함되어 있으며 사용자가 암호를 확인한 후 해당 위치로 이동 될 수 있도록 세션에 사용자가 의도한 대상을 자동으로 저장합니다. 세션에 대한 사용자의 의도된 대상을 저장 한 후 미들웨어는 사용자를 `password.confirm` [named route](/docs/{{version}}/routing#named-routes) 으로 이동합니다.
+최근 암호 확인이 필요한 작업을 수행하는 모든 경로에 `password.confirm` 미들웨어가 할당 되었는지 확인해야 합니다. 이 미들웨어는 라라벨의 기본 설치에 포함되어 있으며 사용자가 암호를 확인한 후 해당 위치로 이동 될 수 있도록 세션에 사용자가 의도한 대상을 자동으로 저장합니다. 세션에 대한 사용자의 의도된 대상을 저장 한 후 미들웨어는 사용자를 `password.confirm` [named route](/docs/{{version}}/routing#named-routes) 으로 이동합니다.
 
     Route::get('/settings', function () {
         // ...

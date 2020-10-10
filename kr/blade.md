@@ -717,7 +717,7 @@ Alternatively, you may use the `componentNamespace` method to autoload component
 
 This will allow the usage of package components by their vendor namespace using the `package-name::` syntax:
 
-`package-name::` 문법을 사용하여 벤더 네임스페이스에 의한 패키지 컴포넌트의 사용을 가능하게 할 것입니다:
+`package-name::` 문법을 사용하여 벤더 네임스페이스에 의한 패키지 컴포넌트의 사용을 가능하게 할 것입니다.
 
     <x-nightshade::calendar />
     <x-nightshade::color-picker />

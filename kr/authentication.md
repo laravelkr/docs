@@ -142,7 +142,7 @@ Laravel Fortify is a headless authentication backend for Laravel that implements
 
 Laravel provides two optional packages to assist you in managing API tokens and authenticating requests made with API tokens: [Passport](/docs/{{version}}/passport) and [Sanctum](/docs/{{version}}/sanctum). Please note that these libraries and Laravel's built-in cookie based authentication libraries are not mutually exclusive. These libraries primarily focus on API token authentication while the built-in authentication services focus on cookie based browser authentication. Many applications will use both Laravel's built-in cookie based authentication services and one of Laravel's API authentication packages.
 
-라라벨은 API 토큰을 관리하고 API 토큰으로 요청을 인증하는데 도움이 되는 두 가지 선택 가능한 패키지를 제공합니다: [Passport](/docs/{{version}}/passport) 및 [Sanctum](/docs/{{version}}/sanctum). 이러한 라이브러리와 Laravel의 내장 쿠키 기반 인증 라이브러리는 상호 배타적이지 않습니다. 이러한 라이브러리는 주로 API 토큰 인증에 중점을 두고 있으며 기본 제공 인증 서비스는 쿠키 기반 브라우저 인증에 중점을 둡니다. 많은 애플리케이션이 라라벨의 내장 쿠키 기반 인증 서비스와 라라벨의 API 인증 패키지를 모두 사용합니다.
+라라벨은 API 토큰을 관리하고 API 토큰으로 요청을 인증하는데 도움이 되는 두 가지 선택 가능한 패키지 [Passport](/docs/{{version}}/passport)와 [Sanctum](/docs/{{version}}/sanctum)을 제공합니다. 이러한 라이브러리와 Laravel의 내장 쿠키 기반 인증 라이브러리는 상호 배타적이지 않습니다. 이러한 라이브러리는 주로 API 토큰 인증에 중점을 두고 있으며 기본 제공 인증 서비스는 쿠키 기반 브라우저 인증에 중점을 둡니다. 많은 애플리케이션이 라라벨의 내장 쿠키 기반 인증 서비스와 라라벨의 API 인증 패키지를 모두 사용합니다.
 
 **Passport**
 **Passport**
@@ -701,7 +701,7 @@ Before moving on, let's examine this route in more detail. First, the request's 
 
 You should ensure that any route that performs an action that should require recent password confirmation is assigned the `password.confirm` middleware. This middleware is included with the default installation of Laravel and will automatically store the user's intended destination in the session so that the user may be redirected to that location after confirming their password. After storing the user's intended destination in the session, the middleware will redirect the user to the `password.confirm` [named route](/docs/{{version}}/routing#named-routes):
 
-최근 암호 확인이 필요한 작업을 수행하는 모든 경로에`password.confirm` 미들웨어가 할당 되었는지 확인해야 합니다. 이 미들웨어는 라라벨의 기본 설치에 포함되어 있으며 사용자가 암호를 확인한 후 해당 위치로 이동 될 수 있도록 세션에 사용자가 의도한 대상을 자동으로 저장합니다. 세션에 대한 사용자의 의도된 대상을 저장 한 후 미들웨어는 사용자를 `password.confirm` [named route](/docs/{{version}}/routing#named-routes) 으로 이동합니다:
+최근 암호 확인이 필요한 작업을 수행하는 모든 경로에`password.confirm` 미들웨어가 할당 되었는지 확인해야 합니다. 이 미들웨어는 라라벨의 기본 설치에 포함되어 있으며 사용자가 암호를 확인한 후 해당 위치로 이동 될 수 있도록 세션에 사용자가 의도한 대상을 자동으로 저장합니다. 세션에 대한 사용자의 의도된 대상을 저장 한 후 미들웨어는 사용자를 `password.confirm` [named route](/docs/{{version}}/routing#named-routes) 으로 이동합니다.
 
     Route::get('/settings', function () {
         // ...

@@ -79,7 +79,7 @@ _모델 팩토리 클래스는 [Taylor Otwell](https://github.com/taylorotwell)�
 
 Eloquent [model factories](/docs/{{version}}/database-testing#creating-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
 
-엘로퀀트 [모델 팩토리](/docs/{{version}}/database-testing#creating-factories)는 클래스 기반의 팩토리로 일급 관계를 지원하도록 완전히 재작성 되었습니다. 예를 들면, 라라벨에 포함된 `UserFactory` 는 아래와 같이 작성되었습니다:
+엘로퀀트 [모델 팩토리](/docs/{{version}}/database-testing#creating-factories)는 클래스 기반의 팩토리로 일급 관계를 지원하도록 완전히 재작성 되었습니다. 예를 들면, 라라벨에 포함된 `UserFactory` 는 아래와 같이 작성되었습니다.
 
     <?php
 
@@ -146,7 +146,7 @@ For example, your `User` model might have a `suspended` state that modifies one 
 
 After defining the state transformation method, we may use it like so:
 
-상태 변경 메소드를 정의한 후, 아래처럼 사용할 수 있습니다:
+상태 변경 메소드를 정의한 후, 아래처럼 사용할 수 있습니다.
 
     use App\Models\User;
 
@@ -204,7 +204,7 @@ Laravel's job batching feature allows you to easily execute a batch of jobs and 
 
 The new `batch` method of the `Bus` facade may be used to dispatch a batch of jobs. Of course, batching is primarily useful when combined with completion callbacks. So, you may use the `then`, `catch`, and `finally` methods to define completion callbacks for the batch. Each of these callbacks will receive an `Illuminate\Bus\Batch` instance when they are invoked:
 
-새로운 `Bus` 파사드의 `batch` 메소드는 배치잡을 시작시키기 위해 사용될 수 있습니다. 물론, 배칭은 완료 콜백과 함께 실행 될때 더 유용합니다. 이를 위해서 여러분은 `then`, `catch`, 그리고 `finally` 메소드를 사용해 배치 작업의 완료 콜백을 정의할 수 있습니다. 각각의 콜백은 실행될 때 `Illuminate\Bus\Batch` 의 인스턴스를 인자로 넘겨받습니다:
+새로운 `Bus` 파사드의 `batch` 메소드는 배치잡을 시작시키기 위해 사용될 수 있습니다. 물론, 배칭은 완료 콜백과 함께 실행 될때 더 유용합니다. 이를 위해서 여러분은 `then`, `catch`, 그리고 `finally` 메소드를 사용해 배치 작업의 완료 콜백을 정의할 수 있습니다. 각각의 콜백은 실행될 때 `Illuminate\Bus\Batch` 의 인스턴스를 인자로 넘겨받습니다.
 
     use App\Jobs\ProcessPodcast;
     use App\Podcast;
@@ -245,7 +245,7 @@ Laravel's request rate limiter feature has been augmented with more flexibility 
 
 Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a Closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
 
-레이트 리미터들은 `RateLimiter` 파사드의 `for` 메소드를 통해 정의될 수 있습니다. `for` 메소드는 레이트 리미터의 이름과 이 레이트 리미터에 할당된 라우트들에 적용될 제한 관련 설정을 리턴하는 클로져를 전달받습니다: 
+레이트 리미터들은 `RateLimiter` 파사드의 `for` 메소드를 통해 정의될 수 있습니다. `for` 메소드는 레이트 리미터의 이름과 이 레이트 리미터에 할당된 라우트들에 적용될 제한 관련 설정을 리턴하는 클로져를 전달받습니다. 
 
     use Illuminate\Cache\RateLimiting\Limit;
     use Illuminate\Support\Facades\RateLimiter;
@@ -256,7 +256,7 @@ Rate limiters are defined using the `RateLimiter` facade's `for` method. The `fo
 
 Since rate limiter callbacks receive the incoming HTTP request instance, you may build the appropriate rate limit dynamically based on the incoming request or authenticated user:
 
-레이트 리미터 콜백이 요청된 HTTP 리퀘스트 인스턴스를 전달받기 때문에, 여러분은 요청 혹은 요청하는 유저에 따라 유동적으로 적절한 레이트 리미트를 적용할 수 있을것입니다:
+레이트 리미터 콜백이 요청된 HTTP 리퀘스트 인스턴스를 전달받기 때문에, 여러분은 요청 혹은 요청하는 유저에 따라 유동적으로 적절한 레이트 리미트를 적용할 수 있을것입니다.
 
     RateLimiter::for('uploads', function (Request $request) {
         return $request->user()->vipCustomer()
@@ -276,7 +276,7 @@ Sometimes you may wish to segment rate limits by some arbitrary value. For examp
 
 Rate limiters may be attached to routes or route groups using the `throttle` [middleware](/docs/{{version}}/middleware). The throttle middleware accepts the name of the rate limiter you wish to assign to the route:
 
-레이트 리미터는 라우트 혹은 라우트 그룹에 `throttle` [미들웨어](/docs/{{version}}/middleware) 를 통해 연결됩니다. 쓰로틀 미들웨어는 여러분이 라우트에 적용하고자 하는 레이트 리미터의 이름을 전달받습니다:
+레이트 리미터는 라우트 혹은 라우트 그룹에 `throttle` [미들웨어](/docs/{{version}}/middleware) 를 통해 연결됩니다. 쓰로틀 미들웨어는 여러분이 라우트에 적용하고자 하는 레이트 리미터의 이름을 전달받습니다.
 
     Route::middleware(['throttle:uploads'])->group(function () {
         Route::post('/audio', function () {
@@ -328,7 +328,7 @@ If you utilize the `php artisan down` command during deployment, your users may 
 
 For this reason, Laravel now allows you to pre-render a maintenance mode view that will be returned at the very beginning of the request cycle. This view is rendered before any of your application's dependencies have loaded. You may pre-render a template of your choice using the `down` command's `render` option:
 
-위와 같은 이유로, 라라벨은 이제 점검 모드 뷰를 미리 렌더링(Pre-rendering) 하여 리퀘스트 사이클의 매우 앞부분에서 리턴할 수 있도록 지원합니다. 해당 뷰는 여러분의 어플리케이션의 의존성이 로딩되기 이전에 렌더링됩니다. 여러분은 `down` 커맨드의 `render` 옵션을 통해 미리 렌더링할 템플릿을 선택할 수 있습니다:
+위와 같은 이유로, 라라벨은 이제 점검 모드 뷰를 미리 렌더링(Pre-rendering) 하여 리퀘스트 사이클의 매우 앞부분에서 리턴할 수 있도록 지원합니다. 해당 뷰는 여러분의 어플리케이션의 의존성이 로딩되기 이전에 렌더링됩니다. 여러분은 `down` 커맨드의 `render` 옵션을 통해 미리 렌더링할 템플릿을 선택할 수 있습니다.
 
     php artisan down --render="errors::503"
 
@@ -388,7 +388,7 @@ Closure based event listeners may now be registered by only passing the Closure 
 
 In addition, Closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
 
-또한, 클로져 기반의 이벤트 리스너는 `Illuminate\Events\queueable` 함수를 통해 큐로 처리가 가능한 리스너로 등록될 수 있습니다:
+또한, 클로져 기반의 이벤트 리스너는 `Illuminate\Events\queueable` 함수를 통해 큐로 처리가 가능한 리스너로 등록될 수 있습니다.
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -400,7 +400,7 @@ In addition, Closure based event listeners may now be marked as queueable using 
 
 Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods to customize the execution of the queued listener:
 
-큐잉된 작업들처럼, 여러분은 `onConnection`, `onQueue`, 그리고 `delay` 메소드를 통해 큐잉된 리스너의 실행을 설정할 수 있습니다:
+큐잉된 작업들처럼, 여러분은 `onConnection`, `onQueue`, 그리고 `delay` 메소드를 통해 큐잉된 리스너의 실행을 설정할 수 있습니다.
 
     Event::listen(queueable(function (PodcastProcessed $event) {
         //
@@ -430,7 +430,7 @@ _시간 테스팅 헬퍼는 Ruby on Rails에서 영감을 받아 [Taylor Otwell]
 
 When testing, you may occasionally need to modify the time returned by helpers such as `now` or `Illuminate\Support\Carbon::now()`. Laravel's base feature test class now includes helpers that allow you to manipulate the current time:
 
-테스트에서, 여러분은 `now` 혹은 `Illuminate\Support\Carbon::now()`와 같은 헬퍼에서 리턴되는 시간을 수정할 필요가 있을 수 있습니다. 라라벨의 기본 기능 테스트 클래스는 이제 여러분이 현재 시간을 조작할 수 있도록 하는 헬퍼 함수들을 포함합니다:
+테스트에서, 여러분은 `now` 혹은 `Illuminate\Support\Carbon::now()`와 같은 헬퍼에서 리턴되는 시간을 수정할 필요가 있을 수 있습니다. 라라벨의 기본 기능 테스트 클래스는 이제 여러분이 현재 시간을 조작할 수 있도록 하는 헬퍼 함수들을 포함합니다.
 
     public function testTimeCanBeManipulated()
     {
@@ -476,7 +476,7 @@ The Laravel paginator has been updated to use the [Tailwind CSS](https://tailwin
 
 In previous releases of Laravel, the `RouteServiceProvider` contained a `$namespace` property. This property's value would automatically be prefixed onto controller route definitions and calls to the `action` helper / `URL::action` method. In Laravel 8.x, this property is `null` by default. This means that no automatic namespace prefixing will be done by Laravel. Therefore, in new Laravel 8.x applications, controller route definitions should be defined using standard PHP callable syntax:
 
-이전 버전의 라라벨에서는, `RouteServiceProvider`가 `$namespace` 속성을 갖고 있었습니다. 이 속성의 값은 컨트롤러의 라우트를 정의 할때와 `action` 헬퍼 / `URL::action` 메서드를 호출할때 자동으로 접두 되었습니다. 라라벨 8.x 버전에서는, 이 속성은 기본적으로 `null` 입니다. 이것은 이제부터 라라벨이 자동으로 네임스페이스를 접두해주지 않는 다는 의미입니다. 그러므로, 라라벨 8.x 어플리케이션에서는 컨트롤러 라우트가 PHP 표준 callable 문법을 사용해 정의되어야합니다:
+이전 버전의 라라벨에서는, `RouteServiceProvider`가 `$namespace` 속성을 갖고 있었습니다. 이 속성의 값은 컨트롤러의 라우트를 정의 할때와 `action` 헬퍼 / `URL::action` 메서드를 호출할때 자동으로 접두 되었습니다. 라라벨 8.x 버전에서는, 이 속성은 기본적으로 `null` 입니다. 이것은 이제부터 라라벨이 자동으로 네임스페이스를 접두해주지 않는 다는 의미입니다. 그러므로, 라라벨 8.x 어플리케이션에서는 컨트롤러 라우트가 PHP 표준 callable 문법을 사용해 정의되어야합니다.
 
     use App\Http\Controllers\UserController;
 
@@ -484,7 +484,7 @@ In previous releases of Laravel, the `RouteServiceProvider` contained a `$namesp
 
 Calls to the `action` related methods should use the same callable syntax:
 
-`action` 관련된 메소드들을 호출할때도 동일한 callable 문법을 사용해야 합니다:
+`action` 관련된 메소드들을 호출할때도 동일한 callable 문법을 사용해야 합니다.
 
     action([UserController::class, 'index']);
 

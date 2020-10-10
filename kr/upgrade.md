@@ -109,7 +109,7 @@ Finally, examine any other third-party packages consumed by your application and
 
 To be consistent with typical PHP behavior, the `offsetExists` method of `Illuminate\Support\Collection` has been updated to use `isset` instead of `array_key_exists`. This may present a change in behavior when dealing with collection items that have a value of `null`:
 
-일반적인 PHP의 동작과 일관성을 유지하기 위해, `Illuminate\Support\Collection`의 `offsetExists` 메소드는 `array_key_exists` 대신 `isset` 함수를 사용하도록 업데이트 되었습니다. 이 변경사항은 컬렉션에서 `null` 값을 가진 아이템들을 다룰 때 동작의 변화를 발생시킵니다:
+일반적인 PHP의 동작과 일관성을 유지하기 위해, `Illuminate\Support\Collection`의 `offsetExists` 메소드는 `array_key_exists` 대신 `isset` 함수를 사용하도록 업데이트 되었습니다. 이 변경사항은 컬렉션에서 `null` 값을 가진 아이템들을 다룰 때 동작의 변화를 발생시킵니다.
 
     $collection = collect([null]);
 
@@ -131,7 +131,7 @@ To be consistent with typical PHP behavior, the `offsetExists` method of `Illumi
 
 Seeders and factories are now namespaced. To accommodate for these changes, add the `Database\Seeders` namespace to your seeder classes. In addition, the previous `database/seeds` directory should be renamed to `database/seeders`:
 
-Seeder와 Factory들은 이제 네임스페이스를 갖습니다. 이 변경사항을 대응하기 위해 `Database\Seeders` 네임스페이스를 여러분의 Seeder 클래스들에 추가하세요. 그리고, 이전의 `database/seeds` 디렉토리는 `database/seeders` 로 이름이 변경되어야 합니다: 
+Seeder와 Factory들은 이제 네임스페이스를 갖습니다. 이 변경사항을 대응하기 위해 `Database\Seeders` 네임스페이스를 여러분의 Seeder 클래스들에 추가하세요. 그리고, 이전의 `database/seeds` 디렉토리는 `database/seeders` 로 이름이 변경되어야 합니다. 
 
     <?php
 
@@ -181,7 +181,7 @@ Next, in your `composer.json` file, remove `classmap` block from the `autoload` 
 
 Laravel's [model factories](/docs/{{version}}/database-testing#creating-factories) feature has been totally rewritten to support classes and is not compatible with Laravel 7.x style factories. However, to ease the upgrade process, a new `laravel/legacy-factories` package has been created to continue using your existing factories with Laravel 8.x. You may install this package via Composer:
 
-라라벨의 [모델 팩토리](/docs/{{version}}/database-testing#creating-factories) 기능은 이제 클래스를 지원하기 위해 완전히 재작성 되었으며 더이상 라라벨 7.x 스타일의 팩토리와 호환되지 않습니다. 하지만 업그레이드 과정을 쉽게 하기 위해, 이전 스타일의 팩토리들을 라라벨 8.x 버전과 함께 사용할 수 있도록 `laravel/legacy-factories` 패키지가 지원됩니다. 여러분은 컴포저를 통해 이 패키지를 설치할 수 있습니다:
+라라벨의 [모델 팩토리](/docs/{{version}}/database-testing#creating-factories) 기능은 이제 클래스를 지원하기 위해 완전히 재작성 되었으며 더이상 라라벨 7.x 스타일의 팩토리와 호환되지 않습니다. 하지만 업그레이드 과정을 쉽게 하기 위해, 이전 스타일의 팩토리들을 라라벨 8.x 버전과 함께 사용할 수 있도록 `laravel/legacy-factories` 패키지가 지원됩니다. 여러분은 컴포저를 통해 이 패키지를 설치할 수 있습니다.
 
     composer require laravel/legacy-factories
 
@@ -193,7 +193,7 @@ Laravel's [model factories](/docs/{{version}}/database-testing#creating-factorie
 
 The `castUsing` method of the `Castable` interface has been updated to accept an array of arguments. If you are implementing this interface you should update your implementation accordingly:
 
-`Castable` 인터페이스의 `castUsing` 메소드가 배열을 인자로 넘겨받도록 업데이트 되었습니다. 만약 여러분이 이 인터페이스를 구현한 부분이 있다면, 여러분의 구현체를 적절하게 수정해야 합니다:
+`Castable` 인터페이스의 `castUsing` 메소드가 배열을 인자로 넘겨받도록 업데이트 되었습니다. 만약 여러분이 이 인터페이스를 구현한 부분이 있다면, 여러분의 구현체를 적절하게 수정해야 합니다.
 
     public static function castUsing(array $arguments);
 
@@ -218,7 +218,7 @@ Proper "update" and "save" related model events will now be dispatched when exec
 
 The `listen` method of the `Illuminate\Contracts\Events\Dispatcher` contract has been updated to make the `$listener` property optional. This change was made to support automatic detection of handled event types via reflection. If you are manually implementing this interface, you should update your implementation accordingly:
 
-`Illuminate\Contracts\Events\Dispatcher`의 `listen` 메소드는 이제 $listener 인자를 선택적으로 받도록 업데이트 되었습니다. 이 변경사항은 리플렉션을 통해 처리할 수 있는 이벤트 타입들을 자동으로 감지할 수 있도록 지원해주기 위한 것입니다. 만약 여러분이 이 인터페이스를 직접 구현하고 있다면, 여러분의 구현체를 적절히 업데이트 해주어야 합니다:
+`Illuminate\Contracts\Events\Dispatcher`의 `listen` 메소드는 이제 $listener 인자를 선택적으로 받도록 업데이트 되었습니다. 이 변경사항은 리플렉션을 통해 처리할 수 있는 이벤트 타입들을 자동으로 감지할 수 있도록 지원해주기 위한 것입니다. 만약 여러분이 이 인터페이스를 직접 구현하고 있다면, 여러분의 구현체를 적절히 업데이트 해주어야 합니다.
 
     public function listen($events, $listener = null);
 
@@ -234,7 +234,7 @@ The `listen` method of the `Illuminate\Contracts\Events\Dispatcher` contract has
 
 The [maintenance mode](/docs/{{version}}/configuration#maintenance-mode) feature of Laravel has been improved in Laravel 8.x. Pre-rendering the maintenance mode template is now supported and eliminates the chances of end users encountering errors during maintenance mode. However, to support this, the following lines must be added to your `public/index.php` file. These lines should be placed directly under the existing `LARAVEL_START` constant definition:
 
-라라벨의 [점검 모드](/docs/{{version}}/configuration#maintenance-mode) 기능이 라라벨 8.x 버전에서 향상되었습니다. 점검 모드 템플릿의 Pre-rendering 기능이 이제 지원되어 유저들이 더 이상 점검모드에서 에러를 겪을 가능성을 완전히 차단됩니다. 하지만 이 기능을 사용하기 위해서는 여러분의 `public/index.php` 파일에 아래의 라인들이 추가되어야 합니다. 아래의 라인들이 `LARAVEL_START` 상수 선언 아래에 위치해야 합니다:
+라라벨의 [점검 모드](/docs/{{version}}/configuration#maintenance-mode) 기능이 라라벨 8.x 버전에서 향상되었습니다. 점검 모드 템플릿의 Pre-rendering 기능이 이제 지원되어 유저들이 더 이상 점검모드에서 에러를 겪을 가능성을 완전히 차단됩니다. 하지만 이 기능을 사용하기 위해서는 여러분의 `public/index.php` 파일에 아래의 라인들이 추가되어야 합니다. 아래의 라인들이 `LARAVEL_START` 상수 선언 아래에 위치해야 합니다.
 
     define('LARAVEL_START', microtime(true));
 
@@ -298,7 +298,7 @@ The previously deprecated `sendNow` method has been removed. Instead, please use
 
 The paginator now uses the [Tailwind CSS framework](https://tailwindcss.com) for its default styling. In order to keep using Bootstrap, you should add the following method call to the `boot` method of your application's `AppServiceProvider`:
 
-Paginator는 이제 기본 스타일링을 위해 [Tailwind CSS 프레임워크](https://tailwindcss.com)를 사용합니다. 부트스트랩 기반의 스타일을 유지하고 싶다면, `AppServiceProvider`의 `boot` 메서드에 아래의 함수 호출을 추가해야 합니다:
+Paginator는 이제 기본 스타일링을 위해 [Tailwind CSS 프레임워크](https://tailwindcss.com)를 사용합니다. 부트스트랩 기반의 스타일을 유지하고 싶다면, `AppServiceProvider`의 `boot` 메서드에 아래의 함수 호출을 추가해야 합니다.
 
     use Illuminate\Pagination\Paginator;
 
@@ -338,7 +338,7 @@ Queued jobs, Notification, 그리고 Listener의 `timeoutAt` 속성은 `retryUnt
 
 For consistency with other dispatching methods, the `allOnQueue()` and `allOnConnection()` methods used with job chaining have been removed. You may use the `onQueue()` and `onConnection()` methods instead. These methods should be called before calling the `dispatch` method:
 
-다른 dispatching 메서드들과 일관성을 유지하기 위해 작업 체이닝과 함께 사용되던 `allOnQueue()` 와 `allOnConnection()` 메서드는 제거되었습니다. 여러분은 이제 `onQueue()` 메서드와 `onConnection()` 메서드를 대신 사용하세요. 이 메서드들은 `dispatch` 메서드를 호출하기 전에 호출되어야 합니다:
+다른 dispatching 메서드들과 일관성을 유지하기 위해 작업 체이닝과 함께 사용되던 `allOnQueue()` 와 `allOnConnection()` 메서드는 제거되었습니다. 여러분은 이제 `onQueue()` 메서드와 `onConnection()` 메서드를 대신 사용하세요. 이 메서드들은 `dispatch` 메서드를 호출하기 전에 호출되어야 합니다.
 
     ProcessPodcast::withChain([
         new OptimizePodcast,
@@ -354,7 +354,7 @@ For consistency with other dispatching methods, the `allOnQueue()` and `allOnCon
 
 If you plan to use the [job batching](/docs/{{version}}/queues#job-batching) features of Laravel 8.x, your `failed_jobs` database table will need to be updated. First, a new `uuid` column should be added to your table:
 
-만약 라라벨 8.x의 [배치 잡](/docs/{{version}}/queues#job-batching) 기능을 사용할 계획이 있다면, 여러분의 `failed_jobs` 데이터베이스 테이블이 업데이트 될 필요가 있습니다. 먼저, 테이블에 새로운 `uuid` 컬럼을 만들어야 합니다:
+만약 라라벨 8.x의 [배치 잡](/docs/{{version}}/queues#job-batching) 기능을 사용할 계획이 있다면, 여러분의 `failed_jobs` 데이터베이스 테이블이 업데이트 될 필요가 있습니다. 먼저, 테이블에 새로운 `uuid` 컬럼을 만들어야 합니다.
 
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;

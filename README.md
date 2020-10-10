@@ -27,6 +27,7 @@
  * [라라벨 5.8](https://laravel.kr/docs/5.8)
  * [라라벨 6.x](https://laravel.kr/docs/6.x)
  * [라라벨 7.x](https://laravel.kr/docs/7.x)
+ * [라라벨 8.x](https://laravel.kr/docs/8.x)
 
 ## 기여방법
 

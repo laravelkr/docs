@@ -2,7 +2,7 @@
     - [릴리즈 노트](/docs/{{version}}/releases)
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [기여 가이드](/docs/{{version}}/contributions)
-    - [API 문서](/api/7.x)
+    - [API 문서](/api/8.x)
 - 시작하기
     - [설치하기](/docs/{{version}}/installation)
     - [설정하기](/docs/{{version}}/configuration)
@@ -32,7 +32,6 @@
 - 프론트엔드
     - [블레이드 템플릿](/docs/{{version}}/blade)
     - [다국어](/docs/{{version}}/localization)
-    - [프론트엔드 스캐폴딩](/docs/{{version}}/frontend)
     - [Assets 컴파일](/docs/{{version}}/mix)
 - 보안
     - [인증](/docs/{{version}}/authentication)

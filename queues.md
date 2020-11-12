@@ -423,7 +423,6 @@ Job 체이닝을 사용하면 기본 Job이 성공적으로 실행 된 후 순�
         }
     }
 
-You may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
 job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnection` 과 `onQueue` 메소드를 체이닝하여 사용할 수도 있습니다.
 
     ProcessPodcast::dispatch($podcast)

@@ -1,10 +1,10 @@
 # 라라벨 한국어 매뉴얼
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-67-orange.svg?style=flat-square)](#contributors)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)
-![GitHub](https://img.shields.io/github/license/laravelkr/docs.svg)
-![GitHub stars](https://img.shields.io/github/stars/laravelkr/docs.svg?style=social)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laravelkr/docs/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/laravelkr/docs.svg)](https://github.com/laravelkr/docs/issues)
+[![GitHub license](https://img.shields.io/github/license/laravelkr/docs.svg)](https://github.com/laravelkr/docs/blob/master/license.md)
+[![GitHub stars](https://img.shields.io/github/stars/laravelkr/docs.svg?style=social)](https://github.com/laravelkr/docs)
 
 이 페이지는 라라벨을 이해하고 사용하는데 영어라는 장벽으로 인해서 겪는 문제점들을 해소하기 위해서 마련되었습니다.
 

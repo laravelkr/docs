@@ -62,17 +62,6 @@ The default Laravel application structure is intended to provide a great startin
 
 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
 
-#### Where Is The Models Directory?
-#### 모델 디렉토리는 어디에 있나요?
-
-When getting started with Laravel, many developers are confused by the lack of a `models` directory. However, the lack of such a directory is intentional. We find the word "models" ambiguous since it means many different things to many different people. Some developers refer to an application's "model" as the totality of all of its business logic, while others refer to "models" as classes that interact with a relational database.
-
-라라벨을 시작할 때, 많은 개발자들이 `models` 디렉토리가 없는 것에 혼란을 느낍니다. 하지만 이 디렉토리가 없는 것은 의도된 것입니다. 우리는 "모델"이라는 많은 사람들에게 각기 다른 의미로 받아들려지기 때문에 모호하다는 것을 알게되었습니다. 일부 개발자들은 애플리케이션의 "모델"을 비지니스 로직의 전체로서 참조하는 반면, 다른 개발자들은 "모델"을 관계형 데이터베이스와 상호작용하는데 사용합니다.
-
-For this reason, we choose to place Eloquent models in the `app` directory by default, and allow the developer to place them somewhere else if they choose.
-
-이러한 이유로, 기본적으로 `app` 디렉토리를 Eloquent 모델이 저장되는 곳으로 선택했으며, 개발자가 원하는 그 어떤 곳이라도 이 파일들을 배치할 수 있게 허용 하고 있습니다.
-
 <a name="the-root-directory"></a>
 ## The Root Directory
 ## Root 디렉토리

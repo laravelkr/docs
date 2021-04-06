@@ -250,6 +250,14 @@ This directory does not exist by default, but will be created for you if you exe
 
 이 디렉토리는 기본적으로 존재하지 않지만, `make:mail` 아티즌 명령어를 실행하는 경우 생성됩니다. `Mail` 디렉토리는 애플리케이션에 의해서 발송되는 이메일을 나타내는 클래스들을 가지고 있습니다. 메일 객체는 `Mail::send` 메소드를 사용하여 보낼 수 있는 간단한 하나의 클래스를 통해서 이메일을 구성하는 로직을 캡슐화 합니다.
 
+<a name="the-models-directory"></a>
+#### The Models Directory
+#### Models 디렉토리
+
+The `Models` directory contains all of your [Eloquent model classes](/docs/{{version}}/eloquent). The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord implementation for working with your database. Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.
+
+`Models` 디렉토리는 모든 [Eloquent 모델 클래스](/docs/{{version}}/eloquent)를 포함하고 있습니다. 라라벨에 포함된 Eloquent ORM은 데이터베이스를 다루는 아름답고 간편한 ActiveRecord-액티브레코드 구현을 제공합니다. 각각의 데이터베이스 테이블은 해당 테이블과 상호작용하기 위해 대응되는 "모델"을 가집니다. 모델을 이용해 테이블의 데이터를 쿼리하고 테이블에 새로운 레코드를 삽입할 수 있습니다.
+
 <a name="the-notifications-directory"></a>
 #### The Notifications Directory
 #### Notifications 디렉토리

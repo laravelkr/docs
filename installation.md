@@ -6,8 +6,11 @@
     - [Getting Started On macOS](#getting-started-on-macos)
     - [Getting Started On Windows](#getting-started-on-windows)
     - [Getting Started On Linux](#getting-started-on-linux)
+    - [Choosing Your Sail Services](#choosing-your-sail-services)
     - [Installation Via Composer](#installation-via-composer)
 - [Initial Configuration](#initial-configuration)
+    - [Environment Based Configuration](#environment-based-configuration)
+    - [Directory Configuration](#directory-configuration)
 - [Next Steps](#next-steps)
     - [Laravel The Full Stack Framework](#laravel-the-fullstack-framework)
     - [Laravel The API Backend](#laravel-the-api-backend)
@@ -59,7 +62,7 @@ Laravel Sail is a light-weight command-line interface for interacting with Larav
 If you're developing on a Mac and [Docker Desktop](https://www.docker.com/products/docker-desktop) is already installed, you can use a simple terminal command to create a new Laravel project. For example, to create a new Laravel application in a directory named "example-app", you may run the following command in your terminal:
 
 ```nothing
-curl -s https://laravel.build/example-app | bash
+curl -s "https://laravel.build/example-app" | bash
 ```
 
 Of course, you can change "example-app" in this URL to anything you like. The Laravel application's directory will be created within the directory you execute the command from.
@@ -138,6 +141,17 @@ Once the application's Docker containers have been started, you can access the a
 
 > {tip} To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
 
+<a name="choosing-your-sail-services"></a>
+### Choosing Your Sail Services
+
+When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `redis`, `memcached`, `meilisearch`, `selenium`, and `mailhog`:
+
+```nothing
+curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
+```
+
+If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `meilisearch`, `mailhog`, and `selenium` will be configured.
+
 <a name="installation-via-composer"></a>
 ### Installation Via Composer
 
@@ -159,6 +173,8 @@ composer global require laravel/installer
 
 laravel new example-app
 
+cd example-app
+
 php artisan serve
 ```
 
@@ -170,6 +186,36 @@ Make sure to place Composer's system-wide vendor bin directory in your `$PATH` s
 - GNU / Linux Distributions: `$HOME/.config/composer/vendor/bin` or `$HOME/.composer/vendor/bin`
 </div>
 
+For convenience, the Laravel installer can also create a Git repository for your new project. To indicate that you want a Git repository to be created, pass the `--git` flag when creating a new project:
+
+```bash
+laravel new example-app --git
+```
+
+This command will initialize a new Git repository for your project and automatically commit the base Laravel skeleton. The `git` flag assumes you have properly installed and configured Git. You can also use the `--branch` flag to set the initial branch name:
+
+```bash
+laravel new example-app --git --branch="main"
+```
+
+Instead of using the `--git` flag, you may also use the `--github` flag to create a Git repository and also create a corresponding private repository on GitHub:
+
+```bash
+laravel new example-app --github
+```
+
+The created repository will then be available at `https://github.com/<your-account>/my-app.com`. The `github` flag assumes you have properly installed the [`gh` CLI tool](https://cli.github.com) and are authenticated with GitHub. Additionally, you should have `git` installed and properly configured. If needed, you can pass additional flags that supported by the GitHub CLI:
+
+```bash
+laravel new example-app --github="--public"
+```
+
+You may use the `--organization` flag to create the repository under a specific GitHub organization:
+
+```bash
+laravel new example-app --github="--public" --organization="laravel"
+```
+
 <a name="initial-configuration"></a>
 ## Initial Configuration
 
@@ -177,14 +223,19 @@ All of the configuration files for the Laravel framework are stored in the `conf
 
 Laravel needs almost no additional configuration out of the box. You are free to get started developing! However, you may wish to review the `config/app.php` file and its documentation. It contains several options such as `timezone` and `locale` that you may wish to change according to your application.
 
-<a name="environment-configuration"></a>
-#### Environment Based Configuration
+<a name="environment-based-configuration"></a>
+### Environment Based Configuration
 
 Since many of Laravel's configuration option values may vary depending on whether your application is running on your local computer or on a production web server, many important configuration values are defined using the `.env` file that exists at the root of your application.
 
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would get exposed.
 
 > {tip} For more information about the `.env` file and environment based configuration, check out the full [configuration documentation](/docs/{{version}}/configuration#environment-configuration).
+
+<a name="directory-configuration"></a>
+### Directory Configuration
+
+Laravel should always be served out of the root of the "web directory" configured for your web server. You should not attempt to serve a Laravel application out of a subdirectory of the "web directory". Attempting to do so could expose sensitive files that exist within your application.
 
 <a name="next-steps"></a>
 ## Next Steps

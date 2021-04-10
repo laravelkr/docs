@@ -167,7 +167,7 @@ You may also bind an existing object instance into the container using the `inst
 
 A very powerful feature of the service container is its ability to bind an interface to a given implementation. For example, let's assume we have an `EventPusher` interface and a `RedisEventPusher` implementation. Once we have coded our `RedisEventPusher` implementation of this interface, we can register it with the service container like so:
 
-    use App\Contrats\EventPusher;
+    use App\Contracts\EventPusher;
     use App\Services\RedisEventPusher;
 
     $this->app->bind(EventPusher::class, RedisEventPusher::class);
@@ -225,10 +225,16 @@ Sometimes a class may depend on an array of [tagged](#tagging) instances. Using 
         ->needs('$reports')
         ->giveTagged('reports');
 
+If you need to inject a value from one of your application's configuration files, you may use the `giveConfig` method:
+
+    $this->app->when(ReportAggregator::class)
+        ->needs('$timezone')
+        ->giveConfig('app.timezone');
+
 <a name="binding-typed-variadics"></a>
 ### Binding Typed Variadics
 
-Occasionally you may have a class that receives an array of typed objects using a variadic constructor argument:
+Occasionally, you may have a class that receives an array of typed objects using a variadic constructor argument:
 
     <?php
 
@@ -336,20 +342,20 @@ You may use the `make` method to resolve a class instance from the container. Th
 
     use App\Services\Transistor;
 
-    $api = $this->app->make(Transistor::class);
+    $transistor = $this->app->make(Transistor::class);
 
-If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method. For example, we may manually pass the `$id` constructor argument required by the `HelpSpot\API` service:
+If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method. For example, we may manually pass the `$id` constructor argument required by the `Transistor` service:
 
     use App\Services\Transistor;
 
-    $api = $this->app->makeWith(Transistor::class, ['id' => 1]);
+    $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
 
 If you are outside of a service provider in a location of your code that does not have access to the `$app` variable, you may use the `App` [facade](/docs/{{version}}/facades) to resolve a class instance from the container:
 
     use App\Services\Transistor;
     use Illuminate\Support\Facades\App;
 
-    $api = App::make(Transistor::class);
+    $transistor = App::make(Transistor::class);
 
 If you would like to have the Laravel container instance itself injected into a class that is being resolved by the container, you may type-hint the `Illuminate\Container\Container` class on your class' constructor:
 
@@ -358,7 +364,7 @@ If you would like to have the Laravel container instance itself injected into a 
     /**
      * Create a new class instance.
      *
-     * @param  \Illuminate\Container\Container
+     * @param  \Illuminate\Container\Container  $container
      * @return void
      */
     public function __construct(Container $container)
@@ -418,8 +424,8 @@ The service container fires an event each time it resolves an object. You may li
 
     use App\Services\Transistor;
 
-    $this->app->resolving(Transistor::class, function ($api, $app) {
-        // Called when container resolves objects of type "HelpSpot\API"...
+    $this->app->resolving(Transistor::class, function ($transistor, $app) {
+        // Called when container resolves objects of type "Transistor"...
     });
 
     $this->app->resolving(function ($object, $app) {

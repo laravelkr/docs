@@ -35,6 +35,7 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 
     $response->body() : string;
     $response->json() : array|mixed;
+    $response->collect() : Illuminate\Support\Collection;
     $response->status() : int;
     $response->ok() : bool;
     $response->successful() : bool;
@@ -47,6 +48,13 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 The `Illuminate\Http\Client\Response` object also implements the PHP `ArrayAccess` interface, allowing you to access JSON response data directly on the response:
 
     return Http::get('http://example.com/users/1')['name'];
+
+<a name="dumping-requests"></a>
+#### Dumping Requests
+
+If you would like to dump the outgoing request instance before it is sent and terminate the script's execution, you may add the `dd` method to the beginning of your request definition:
+
+    return Http::dd()->get('http://example.com');
 
 <a name="request-data"></a>
 ### Request Data

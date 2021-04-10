@@ -105,12 +105,15 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::length](#method-str-length)
 [Str::limit](#method-str-limit)
 [Str::lower](#method-str-lower)
+[Str::markdown](#method-str-markdown)
 [Str::orderedUuid](#method-str-ordered-uuid)
 [Str::padBoth](#method-str-padboth)
 [Str::padLeft](#method-str-padleft)
 [Str::padRight](#method-str-padright)
 [Str::plural](#method-str-plural)
+[Str::pluralStudly](#method-str-plural-studly)
 [Str::random](#method-str-random)
+[Str::remove](#method-str-remove)
 [Str::replaceArray](#method-str-replace-array)
 [Str::replaceFirst](#method-str-replace-first)
 [Str::replaceLast](#method-str-replace-last)
@@ -121,6 +124,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::startsWith](#method-starts-with)
 [Str::studly](#method-studly-case)
 [Str::substr](#method-str-substr)
+[Str::substrCount](#method-str-substrcount)
 [Str::title](#method-title-case)
 [Str::ucfirst](#method-str-ucfirst)
 [Str::upper](#method-str-upper)
@@ -160,13 +164,16 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [limit](#method-fluent-str-limit)
 [lower](#method-fluent-str-lower)
 [ltrim](#method-fluent-str-ltrim)
+[markdown](#method-fluent-str-markdown)
 [match](#method-fluent-str-match)
 [matchAll](#method-fluent-str-match-all)
 [padBoth](#method-fluent-str-padboth)
 [padLeft](#method-fluent-str-padleft)
 [padRight](#method-fluent-str-padright)
+[pipe](#method-fluent-str-pipe)
 [plural](#method-fluent-str-plural)
 [prepend](#method-fluent-str-prepend)
+[remove](#method-fluent-str-remove)
 [replace](#method-fluent-str-replace)
 [replaceArray](#method-fluent-str-replace-array)
 [replaceFirst](#method-fluent-str-replace-first)
@@ -181,6 +188,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [startsWith](#method-fluent-str-starts-with)
 [studly](#method-fluent-str-studly)
 [substr](#method-fluent-str-substr)
+[tap](#method-fluent-str-tap)
+[test](#method-fluent-str-test)
 [title](#method-fluent-str-title)
 [trim](#method-fluent-str-trim)
 [ucfirst](#method-fluent-str-ucfirst)
@@ -228,7 +237,6 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [csrf_token](#method-csrf-token)
 [dd](#method-dd)
 [dispatch](#method-dispatch)
-[dispatch_now](#method-dispatch-now)
 [dump](#method-dump)
 [env](#method-env)
 [event](#method-event)
@@ -780,7 +788,7 @@ The `Arr::where` method filters an array using the given closure:
 <a name="method-array-wrap"></a>
 #### `Arr::wrap()` {#collection-method}
 
-The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it be returned without modification:
+The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will be returned without modification:
 
     use Illuminate\Support\Arr;
 
@@ -1281,6 +1289,23 @@ The `Str::lower` method converts the given string to lowercase:
 
     // laravel
 
+<a name="method-str-markdown"></a>
+#### `Str::markdown()` {#collection-method}
+
+The `Str::markdown` method converts GitHub flavored Markdown into HTML:
+
+    use Illuminate\Support\Str;
+
+    $html = Str::markdown('# Laravel');
+
+    // <h1>Laravel</h1>
+
+    $html = Str::markdown('# Taylor <b>Otwell</b>', [
+        'html_input' => 'strip',
+    ]);
+
+    // <h1>Taylor Otwell</h1>
+
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {#collection-method}
 
@@ -1358,9 +1383,36 @@ You may provide an integer as a second argument to the function to retrieve the 
 
     // children
 
-    $plural = Str::plural('child', 1);
+    $singular = Str::plural('child', 1);
 
     // child
+
+<a name="method-str-plural-studly"></a>
+#### `Str::pluralStudly()` {#collection-method}
+
+The `Str::pluralStudly` method converts a singular word string formatted in studly caps case to its plural form. This function currently only supports the English language:
+
+    use Illuminate\Support\Str;
+
+    $plural = Str::pluralStudly('VerifiedHuman');
+
+    // VerifiedHumans
+
+    $plural = Str::pluralStudly('UserFeedback');
+
+    // UserFeedback
+
+You may provide an integer as a second argument to the function to retrieve the singular or plural form of the string:
+
+    use Illuminate\Support\Str;
+
+    $plural = Str::pluralStudly('VerifiedHuman', 2);
+
+    // VerifiedHumans
+
+    $singular = Str::pluralStudly('VerifiedHuman', 1);
+
+    // VerifiedHuman
 
 <a name="method-str-random"></a>
 #### `Str::random()` {#collection-method}
@@ -1370,6 +1422,21 @@ The `Str::random` method generates a random string of the specified length. This
     use Illuminate\Support\Str;
 
     $random = Str::random(40);
+
+<a name="method-str-remove"></a>
+#### `Str::remove()` {#collection-method}
+
+The `Str::remove` method removes the given value or array of values from the string:
+
+    use Illuminate\Support\Str;
+
+    $string = 'Peter Piper picked a peck of pickled peppers.';
+
+    $removed = Str::remove('e', $string);
+
+    // Ptr Pipr pickd a pck of pickld ppprs.
+
+You may also pass `false` as a third argument to the `remove` method to ignore case when removing strings.
 
 <a name="method-str-replace-array"></a>
 #### `Str::replaceArray()` {#collection-method}
@@ -1469,6 +1536,12 @@ The `Str::startsWith` method determines if the given string begins with the give
 
     // true
 
+If an array of possible values is passed, the `startsWith` method will return `true` if the string begins with any of the given values:
+
+    $result = Str::startsWith('This is my name', ['This', 'That', 'There']);
+
+    // true
+
 <a name="method-studly-case"></a>
 #### `Str::studly()` {#collection-method}
 
@@ -1490,6 +1563,17 @@ The `Str::substr` method returns the portion of string specified by the start an
     $converted = Str::substr('The Laravel Framework', 4, 7);
 
     // Laravel
+
+<a name="method-str-substrcount"></a>
+#### `Str::substrCount()` {#collection-method}
+
+The `Str::substrCount` method returns the number of occurrences of a given value in the given string:
+
+    use Illuminate\Support\Str;
+
+    $count = Str::substrCount('If you like ice cream, you will like snow cones.', 'like');
+
+    // 2
 
 <a name="method-title-case"></a>
 #### `Str::title()` {#collection-method}
@@ -1900,6 +1984,23 @@ The `ltrim` method trims the left side of the string:
 
     // 'Laravel/'
 
+<a name="method-fluent-str-markdown"></a>
+#### `markdown` {#collection-method}
+
+The `markdown` method converts GitHub flavored Markdown into HTML:
+
+    use Illuminate\Support\Str;
+
+    $html = Str::of('# Laravel')->markdown();
+
+    // <h1>Laravel</h1>
+
+    $html = Str::of('# Taylor <b>Otwell</b>')->markdown([
+        'html_input' => 'strip',
+    ]);
+
+    // <h1>Taylor Otwell</h1>
+
 <a name="method-fluent-str-match"></a>
 #### `match` {#collection-method}
 
@@ -1981,6 +2082,23 @@ The `padRight` method wraps PHP's `str_pad` function, padding the right side of 
 
     // 'James     '
 
+<a name="method-fluent-str-pipe"></a>
+#### `pipe` {#collection-method}
+
+The `pipe` method allows you to transform the string by passing its current value to the given callable:
+
+    use Illuminate\Support\Str;
+
+    $hash = Str::of('Laravel')->pipe('md5')->prepend('Checksum: ');
+
+    // 'Checksum: a5c95b86291ea299fcbe64458ed12702'
+
+    $closure = Str::of('foo')->pipe(function ($str) {
+        return 'bar';
+    });
+
+    // 'bar'
+
 <a name="method-fluent-str-plural"></a>
 #### `plural` {#collection-method}
 
@@ -2018,6 +2136,19 @@ The `prepend` method prepends the given values onto the string:
     $string = Str::of('Framework')->prepend('Laravel ');
 
     // Laravel Framework
+
+<a name="method-fluent-str-remove"></a>
+#### `remove` {#collection-method}
+
+The `remove` method removes the given value or array of values from the string:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Arkansas is quite beautiful!')->remove('quite');
+
+    // Arkansas is beautiful!
+
+You may also pass `false` as a second parameter to ignore case when removing.
 
 <a name="method-fluent-str-replace"></a>
 #### `replace` {#collection-method}
@@ -2200,6 +2331,33 @@ The `substr` method returns the portion of the string specified by the given sta
     $string = Str::of('Laravel Framework')->substr(8, 5);
 
     // Frame
+
+<a name="method-fluent-str-tap"></a>
+#### `tap` {#collection-method}
+
+The `tap` method passes the string to the given closure, allowing you to examine and interact with the string while not affecting the string itself. The original string is returned by the `tap` method regardless of what is returned by the closure:
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Laravel')
+        ->append(' Framework')
+        ->tap(function ($string) {
+            dump('String after append: ' . $string);
+        })
+        ->upper();
+
+    // LARAVEL FRAMEWORK
+
+<a name="method-fluent-str-test"></a>
+#### `test` {#collection-method}
+
+The `test` method determines if a string matches the given regular expression pattern:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('Laravel Framework')->test('/Laravel/');
+
+    // true
 
 <a name="method-fluent-str-title"></a>
 #### `title` {#collection-method}
@@ -2546,13 +2704,6 @@ The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating
 
     dispatch(new App\Jobs\SendEmails);
 
-<a name="method-dispatch-now"></a>
-#### `dispatch_now()` {#collection-method}
-
-The `dispatch_now` function runs the given [job](/docs/{{version}}/queues#creating-jobs) immediately and returns the value from its `handle` method:
-
-    $result = dispatch_now(new App\Jobs\SendEmails);
-
 <a name="method-dump"></a>
 #### `dump()` {#collection-method}
 
@@ -2692,6 +2843,10 @@ The `redirect` function returns a [redirect HTTP response](/docs/{{version}}/res
 The `report` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler):
 
     report($e);
+
+The `report` function also accepts a string as an argument. When a string is given to the function, the function will create an exception with the given string as its message:
+
+    report('Something went wrong.');
 
 <a name="method-request"></a>
 #### `request()` {#collection-method}

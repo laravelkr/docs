@@ -49,7 +49,7 @@ If you are manually implementing registration within your application instead of
 <a name="database-preparation"></a>
 ### Database Preparation
 
-Next, your `user` table must contain an `email_verified_at` column to store the date and time that the user's email address was verified. By default, the `users` table migration included with the Laravel framework already includes this column. So, all you need to do is run your database migrations:
+Next, your `users` table must contain an `email_verified_at` column to store the date and time that the user's email address was verified. By default, the `users` table migration included with the Laravel framework already includes this column. So, all you need to do is run your database migrations:
 
     php artisan migrate
 
@@ -71,7 +71,7 @@ As mentioned previously, a route should be defined that will return a view instr
         return view('auth.verify-email');
     })->middleware('auth')->name('verification.notice');
 
-The route that returns the email verification notice should be named `verification.notice`. It is important that the route be assigned this exact name since the `verified` middleware [included with Laravel](#protecting-routes) will automatically redirect to this route name if a user has not verified their email address.
+The route that returns the email verification notice should be named `verification.notice`. It is important that the route is assigned this exact name since the `verified` middleware [included with Laravel](#protecting-routes) will automatically redirect to this route name if a user has not verified their email address.
 
 > {tip} When manually implementing email verification, you are required to define the contents of the verification notice view yourself. If you would like scaffolding that includes all necessary authentication and verification views, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 
@@ -81,7 +81,6 @@ The route that returns the email verification notice should be named `verificati
 Next, we need to define a route that will handle requests generated when the user clicks the email verification link that was emailed to them. This route should be named `verification.verify` and be assigned the `auth` and `signed` middlewares:
 
     use Illuminate\Foundation\Auth\EmailVerificationRequest;
-    use Illuminate\Http\Request;
 
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
@@ -143,7 +142,7 @@ To get started, pass a closure to the `toMailUsing` method provided by the `Illu
             return (new MailMessage)
                 ->subject('Verify Email Address')
                 ->line('Click the button below to verify your email address.')
-                ->action('Verify Email Address', $url)
+                ->action('Verify Email Address', $url);
         });
     }
 

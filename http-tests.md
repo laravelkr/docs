@@ -7,6 +7,7 @@
     - [Session / Authentication](#session-and-authentication)
     - [Debugging Responses](#debugging-responses)
 - [Testing JSON APIs](#testing-json-apis)
+    - [Fluent JSON Testing](#fluent-json-testing)
 - [Testing File Uploads](#testing-file-uploads)
 - [Testing Views](#testing-views)
     - [Rendering Blade & Components](#rendering-blade-and-components)
@@ -192,7 +193,7 @@ After making a test request to your application, the `dump`, `dumpHeaders`, and 
          *
          * @return void
          */
-        public function testBasicTest()
+        public function test_basic_test()
         {
             $response = $this->get('/');
 
@@ -297,6 +298,120 @@ If you would like to verify that the JSON response contains the given data at a 
                 ->assertJsonPath('team.owner.name', 'Darian');
         }
     }
+
+<a name="fluent-json-testing"></a>
+### Fluent JSON Testing
+
+Laravel also offers a beautiful way to fluently test your application's JSON responses. To get started, pass a closure to the `assertJson` method. This closure will be invoked with an instance of `Illuminate\Testing\Fluent\AssertableJson` which can be used to make assertions against the JSON that was returned by your application. The `where` method may be used to make assertions against a particular attribute of the JSON, while the `missing` method may be used to assert that a particular attribute is missing from the JSON:
+
+    use Illuminate\Testing\Fluent\AssertableJson;
+
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function test_fluent_json()
+    {
+        $response = $this->json('GET', '/users/1');
+
+        $response
+            ->assertJson(fn (AssertableJson $json) =>
+                $json->where('id', 1)
+                     ->where('name', 'Victoria Faith')
+                     ->missing('password')
+                     ->etc()
+            );
+    }
+
+#### Understanding The `etc` Method
+
+In the example above, you may have noticed we invoked the `etc` method at the end of our assertion chain. This method informs Laravel that there may be other attributes present on the JSON object. If the `etc` method is not used, the test will fail if other attributes that you did not make assertions against exist on the JSON object.
+
+The intention behind this behavior is to protect you from unintentionally exposing sensitive information in your JSON responses by forcing you to either explicitly make an assertion against the attribute or explicitly allow additional attributes via the `etc` method.
+
+<a name="asserting-against-json-collections"></a>
+#### Asserting Against JSON Collections
+
+Often, your route will return a JSON response that contains multiple items, such as multiple users:
+
+    Route::get('/users', function () {
+        return User::all();
+    });
+
+In these situations, we may use the fluent JSON object's `has` method to make assertions against the users included in the response. For example, let's assert that the JSON response contains three users. Next, we'll make some assertions about the first user in the collection using the `first` method. The `first` method accepts a closure which receives another assertable JSON string that we can use to make assertions about the first object in the JSON collection:
+
+    $response
+        ->assertJson(fn (AssertableJson $json) =>
+            $json->has(3)
+                 ->first(fn ($json) =>
+                    $json->where('id', 1)
+                         ->where('name', 'Victoria Faith')
+                         ->missing('password')
+                         ->etc()
+                 )
+        );
+
+<a name="scoping-json-collection-assertions"></a>
+#### Scoping JSON Collection Assertions
+
+Sometimes, your application's routes will return JSON collections that are assigned named keys:
+
+    Route::get('/users', function () {
+        return [
+            'meta' => [...],
+            'users' => User::all(),
+        ];
+    })
+
+When testing these routes, you may use the `has` method to assert against the number of items in the collection. In addition, you may use the `has` method to scope a chain of assertions:
+
+    $response
+        ->assertJson(fn (AssertableJson $json) =>
+            $json->has('meta')
+                 ->has('users', 3)
+                 ->has('users.0', fn ($json) =>
+                    $json->where('id', 1)
+                         ->where('name', 'Victoria Faith')
+                         ->missing('password')
+                         ->etc()
+                 )
+        );
+
+However, instead of making two separate calls to the `has` method to assert against the `users` collection, you may make a single call which provides a closure as its third parameter. When doing so, the closure will automatically be invoked and scoped to the first item in the collection:
+
+    $response
+        ->assertJson(fn (AssertableJson $json) =>
+            $json->has('meta')
+                 ->has('users', 3, fn ($json) =>
+                    $json->where('id', 1)
+                         ->where('name', 'Victoria Faith')
+                         ->missing('password')
+                         ->etc()
+                 )
+        );
+
+<a name="asserting-json-types"></a>
+#### Asserting JSON Types
+
+You may only want to assert that the properties in the JSON response are of a certain type. The `Illuminate\Testing\Fluent\AssertableJson` class provides the `whereType` and `whereAllType` methods for doing just that:
+
+    $response->assertJson(fn (AssertableJson $json) =>
+        $json->whereType('id', 'integer')
+             ->whereAllType([
+                'users.0.name' => 'string',
+                'meta' => 'array'
+            ])
+    );
+
+You may specify multiple types using the `|` character, or passing an array of types as the second parameter to the `whereType` method. The assertion will be successful if the response value is any of the listed types:
+
+    $response->assertJson(fn (AssertableJson $json) =>
+        $json->whereType('name', 'string|null')
+             ->whereType('id', ['string', 'integer'])
+    );
+
+The `whereType` and `whereTypeAll` methods recognize the following types: `string`, `integer`, `double`, `boolean`, `array`, and `null`.
 
 <a name="testing-file-uploads"></a>
 ## Testing File Uploads
@@ -615,7 +730,7 @@ Assert that the response has no JSON validation errors for the given keys:
 
 Assert that the response contains the given data at the specified path:
 
-    $response->assertJsonPath($path, array $data, $strict = true);
+    $response->assertJsonPath($path, $expectedValue);
 
 For example, if the JSON response returned by your application contains the following data:
 
@@ -653,6 +768,37 @@ You may assert that the JSON structure matches your expectations like so:
     $response->assertJsonStructure([
         'user' => [
             'name',
+        ]
+    ]);
+
+Sometimes, JSON responses returned by your application may contain arrays of objects:
+
+```js
+{
+    "user": [
+        {
+            "name": "Steve Schoger",
+            "age": 55,
+            "location": "Earth"
+        },  
+        {
+            "name": "Mary Schoger",
+            "age": 60,
+            "location": "Earth"
+        }
+    ]
+}
+```
+
+In this situation, you may use the `*` character to assert against the structure of all of the objects in the array:
+
+    $response->assertJsonStructure([
+        'user' => [
+            '*' => [
+                 'name',
+                 'age',
+                 'location'
+            ]
         ]
     ]);
 
@@ -770,7 +916,7 @@ Assert that the session contains an error for the given `$keys`. If `$keys` is a
         array $keys, $format = null, $errorBag = 'default'
     );
 
-For example, to assert that the `name` and `email` field have validation error messages that were flashed to the session, you may invoke the `assertSessionHasErrors` method like so:
+For example, to assert that the `name` and `email` fields have validation error messages that were flashed to the session, you may invoke the `assertSessionHasErrors` method like so:
 
     $response->assertSessionHasErrors(['name', 'email']);
 
@@ -849,14 +995,14 @@ Assert that the response view has a given list of data:
 
 This method may be used to assert that the view simply contains data matching the given keys:
 
-    $rseponse->assertViewHasAll([
+    $response->assertViewHasAll([
         'name',
         'email',
     ]);
 
 Or, you may assert that the view data is present and has specific values:
 
-    $rseponse->assertViewHasAll([
+    $response->assertViewHasAll([
         'name' => 'Taylor Otwell',
         'email' => 'taylor@example.com,',
     ]);

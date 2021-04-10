@@ -8,7 +8,7 @@
 - [Defining Events](#defining-events)
 - [Defining Listeners](#defining-listeners)
 - [Queued Event Listeners](#queued-event-listeners)
-    - [Manually Interacting The Queue](#manually-interacting-the-queue)
+    - [Manually Interacting With The Queue](#manually-interacting-with-the-queue)
     - [Queued Event Listeners & Database Transactions](#queued-event-listeners-and-database-transactions)
     - [Handling Failed Jobs](#handling-failed-jobs)
 - [Dispatching Events](#dispatching-events)
@@ -146,7 +146,7 @@ Laravel finds event listeners by scanning the listener classes using PHP's refle
         /**
          * Handle the given event.
          *
-         * @param  \App\Events\PodcastProcessed
+         * @param  \App\Events\PodcastProcessed  $event
          * @return void
          */
         public function handle(PodcastProcessed $event)
@@ -339,7 +339,7 @@ If you would like to define the listener's queue at runtime, you may define a `v
 <a name="conditionally-queueing-listeners"></a>
 #### Conditionally Queueing Listeners
 
-Sometimes, you may need to determine whether a listener should be queued based on some data that's only available at runtime. To accomplish this, a `shouldQueue` method may be added to a listener to determine whether the listener should be queued. If the `shouldQueue` method returns `false`, the listener will not be executed:
+Sometimes, you may need to determine whether a listener should be queued based on some data that are only available at runtime. To accomplish this, a `shouldQueue` method may be added to a listener to determine whether the listener should be queued. If the `shouldQueue` method returns `false`, the listener will not be executed:
 
     <?php
 
@@ -373,8 +373,8 @@ Sometimes, you may need to determine whether a listener should be queued based o
         }
     }
 
-<a name="manually-interacting-the-queue"></a>
-### Manually Interacting The Queue
+<a name="manually-interacting-with-the-queue"></a>
+### Manually Interacting With The Queue
 
 If you need to manually access the listener's underlying queue job's `delete` and `release` methods, you may do so using the `Illuminate\Queue\InteractsWithQueue` trait. This trait is imported by default on generated listeners and provides access to these methods:
 
@@ -471,7 +471,7 @@ Sometimes your queued event listeners may fail. If queued listener exceeds the m
 <a name="specifying-queued-listener-maximum-attempts"></a>
 #### Specifying Queued Listener Maximum Attempts
 
-If one of your queued listener is encountering an error, you likely do not want it to keep retrying indefinitely. Therefore, Laravel provides various ways to specify how many times or for how long a listener may be attempted.
+If one of your queued listeners is encountering an error, you likely do not want it to keep retrying indefinitely. Therefore, Laravel provides various ways to specify how many times or for how long a listener may be attempted.
 
 You may define `$tries` property on your listener class to specify how many times the listener may be attempted before it is considered to have failed:
 

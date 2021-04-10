@@ -135,7 +135,7 @@ Next, in your `composer.json` file, remove `classmap` block from the `autoload` 
 
 **Likelihood Of Impact: High**
 
-Laravel's [model factories](/docs/{{version}}/database-testing#creating-factories) feature has been totally rewritten to support classes and is not compatible with Laravel 7.x style factories. However, to ease the upgrade process, a new `laravel/legacy-factories` package has been created to continue using your existing factories with Laravel 8.x. You may install this package via Composer:
+Laravel's [model factories](/docs/{{version}}/database-testing#defining-model-factories) feature has been totally rewritten to support classes and is not compatible with Laravel 7.x style factories. However, to ease the upgrade process, a new `laravel/legacy-factories` package has been created to continue using your existing factories with Laravel 8.x. You may install this package via Composer:
 
     composer require laravel/legacy-factories
 
@@ -157,6 +157,13 @@ Proper "update" and "save" related model events will now be dispatched when exec
 
 <a name="events"></a>
 ### Events
+
+<a name="the-event-service-provider-class"></a>
+#### The `EventServiceProvider` Class
+
+**Likelihood Of Impact: Low**
+
+If your `App\Providers\EventServiceProvider` class contains a `register` function, you should ensure that you call `parent::register` at the beginning of this method. Otherwise, your application's events will not be registered.
 
 <a name="the-dispatcher-contract"></a>
 #### The `Dispatcher` Contract
@@ -243,7 +250,7 @@ The paginator now uses the [Tailwind CSS framework](https://tailwindcss.com) for
 
 **Likelihood Of Impact: High**
 
-For consistency with other features of Laravel, the `retryAfter` method and `retryAfter` property of queued jobs, mailers, notifications, and listeners has been renamed to `backoff`. You should update the name of this method / property in the relevant classes in your application.
+For consistency with other features of Laravel, the `retryAfter` method and `retryAfter` property of queued jobs, mailers, notifications, and listeners have been renamed to `backoff`. You should update the name of this method / property in the relevant classes in your application.
 
 <a name="queue-timeout-at-property"></a>
 #### The `timeoutAt` Property
@@ -310,7 +317,7 @@ In Laravel 8, this property is set to `null` by default. This allows your contro
     // Using string syntax...
     Route::get('/users', 'App\Http\Controllers\UserController@index');
 
-In most cases this won't impact applications that are being upgraded because your `RouteServiceProvider` will still contain the `$namespace` property with its previous value. However, if you upgrade your application by creating a brand new Laravel project, you may encounter this as a breaking change.
+In most cases, this won't impact applications that are being upgraded because your `RouteServiceProvider` will still contain the `$namespace` property with its previous value. However, if you upgrade your application by creating a brand new Laravel project, you may encounter this as a breaking change.
 
 If you would like to continue using the original auto-prefixed controller routing, you can simply set the value of the `$namespace` property within your `RouteServiceProvider` and update the route registrations within the `boot` method to use the `$namespace` property:
 
@@ -363,7 +370,7 @@ If you would like to continue using the original auto-prefixed controller routin
         protected function configureRateLimiting()
         {
             RateLimiter::for('api', function (Request $request) {
-                return Limit::perMinute(60);
+                return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
             });
         }
     }

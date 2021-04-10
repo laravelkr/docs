@@ -18,11 +18,12 @@
     - [Retrieving Uploaded Files](#retrieving-uploaded-files)
     - [Storing Uploaded Files](#storing-uploaded-files)
 - [Configuring Trusted Proxies](#configuring-trusted-proxies)
+- [Configuring Trusted Hosts](#configuring-trusted-hosts)
 
 <a name="introduction"></a>
 ## Introduction
 
-Laravel's `Illuminate\Http\Request` class provides an object-oriented way to interact with the current HTTP request being handled by your application as well retrieve the input, cookies, and files that were submitted with the request.
+Laravel's `Illuminate\Http\Request` class provides an object-oriented way to interact with the current HTTP request being handled by your application as well as retrieve the input, cookies, and files that were submitted with the request.
 
 <a name="interacting-with-the-request"></a>
 ## Interacting With The Request
@@ -130,6 +131,10 @@ To retrieve the full URL for the incoming request you may use the `url` or `full
 
     $urlWithQueryString = $request->fullUrl();
 
+If you would like to append query string data to the current URL, you may call the `fullUrlWithQuery` method. This method merges the given array of query string variables with the current query string:
+
+    $request->fullUrlWithQuery(['type' => 'phone']);
+
 <a name="retrieving-the-request-method"></a>
 #### Retrieving The Request Method
 
@@ -156,7 +161,7 @@ The `hasHeader` method may be used to determine if the request contains a given 
         //
     }
 
-For convenience, the `bearerToken` may be used to a bearer token from the `Authorization` header. If no such header is present, an empty string will be returned:
+For convenience, the `bearerToken` method may be used to retrieve a bearer token from the `Authorization` header. If no such header is present, an empty string will be returned:
 
     $token = $request->bearerToken();
 
@@ -492,7 +497,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
          *
          * @var int
          */
-        protected $headers = Request::HEADER_X_FORWARDED_ALL;
+        protected $headers = Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO;
     }
 
 > {tip} If you are using AWS Elastic Load Balancing, your `$headers` value should be `Request::HEADER_X_FORWARDED_AWS_ELB`. For more information on the constants that may be used in the `$headers` property, check out Symfony's documentation on [trusting proxies](https://symfony.com/doc/current/deployment/proxies.html).
@@ -508,3 +513,27 @@ If you are using Amazon AWS or another "cloud" load balancer provider, you may n
      * @var string|array
      */
     protected $proxies = '*';
+
+<a name="configuring-trusted-hosts"></a>
+## Configuring Trusted Hosts
+
+By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
+
+Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application.
+
+The `TrustHosts` middleware is already included in the `$middleware` stack of your application; however, you should uncomment it so that it becomes active. Within this middleware's `hosts` method, you may specify the host names that your application should respond to. Incoming requests with other `Host` value headers will be rejected:
+
+    /**
+     * Get the host patterns that should be trusted.
+     *
+     * @return array
+     */
+    public function hosts()
+    {
+        return [
+            'laravel.test',
+            $this->allSubdomainsOfApplicationUrl(),
+        ];
+    }
+
+The `allSubdomainsOfApplicationUrl` helper method will return a regular expression matching all subdomains of your application's `app.url` configuration value. This helper method provides a convenient way to allow all of your application's subdomains when building an application that utilizes wildcard subdomains.

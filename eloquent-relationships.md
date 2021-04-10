@@ -605,7 +605,7 @@ If you have defined a many-to-many relationship that uses a custom pivot model, 
 <a name="polymorphic-relationships"></a>
 ## Polymorphic Relationships
 
-A polymorphic relationship allows the child model to belong to more than one type of model using a single association. For example, imagine you are building an application that allows users to share blog posts and videos. a `Comment` model might belong to both the `Post` and `Video` models.
+A polymorphic relationship allows the child model to belong to more than one type of model using a single association. For example, imagine you are building an application that allows users to share blog posts and videos. In such an application, a `Comment` model might belong to both the `Post` and `Video` models.
 
 <a name="one-to-one-polymorphic-relations"></a>
 ### One To One (Polymorphic)
@@ -941,7 +941,7 @@ You may determine the morph alias of a given model at runtime using the model's 
 
 You may use the `resolveRelationUsing` method to define relations between Eloquent models at runtime. While not typically recommended for normal application development, this may occasionally be useful when developing Laravel packages.
 
-The `resolveRelationshipUsing` method accepts the desired relationship name as its first argument. The second argument passed to the method should be a closure that accepts the model instance and returns a valid Eloquent relationship definition. Typically, you should configure dynamic relationships within the boot method of a [service provider](/docs/{{version}}/providers):
+The `resolveRelationUsing` method accepts the desired relationship name as its first argument. The second argument passed to the method should be a closure that accepts the model instance and returns a valid Eloquent relationship definition. Typically, you should configure dynamic relationships within the boot method of a [service provider](/docs/{{version}}/providers):
 
     use App\Models\Order;
     use App\Models\Customer;
@@ -996,7 +996,7 @@ As demonstrated in the example above, you are free to add additional constraints
             ->orWhere('votes', '>=', 100)
             ->get();
 
-The example above will generate the following SQL. As you can see, the `or` clause instructs the query to return _any_ use with greater than 100 votes. The query is no longer constrained to a specific user:
+The example above will generate the following SQL. As you can see, the `or` clause instructs the query to return _any_ user with greater than 100 votes. The query is no longer constrained to a specific user:
 
 ```sql
 select *
@@ -1071,7 +1071,7 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
     $posts = Post::whereHas('comments', function (Builder $query) {
         $query->where('content', 'like', 'code%');
     }, '>=', 10)->get();
-    
+
 > {note} Eloquent does not currently support querying for relationship existence across databases. The relationships must exist within the same database.
 
 <a name="querying-relationship-absence"></a>
@@ -1121,7 +1121,7 @@ To query the existence of "morph to" relationships, you may use the `whereHasMor
     // Retrieve comments associated to posts with a title not like code%...
     $comments = Comment::whereDoesntHaveMorph(
         'commentable',
-        Post::class
+        Post::class,
         function (Builder $query) {
             $query->where('title', 'like', 'code%');
         }
@@ -1327,7 +1327,7 @@ Sometimes you may need to eager load several different relationships. To do so, 
 <a name="nested-eager-loading"></a>
 #### Nested Eager Loading
 
-To eager a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts:
+To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts:
 
     $books = Book::with('author.contacts')->get();
 
@@ -1576,7 +1576,7 @@ You may use the `createMany` method to create multiple related models:
         ['message' => 'Another new comment.'],
     ]);
 
-You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods to [create and update models on relationships](https://laravel.com/docs/{{version}}/eloquent#other-creation-methods).
+You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods to [create and update models on relationships](https://laravel.com/docs/{{version}}/eloquent#upserts).
 
 > {tip} Before using the `create` method, be sure to review the [mass assignment](/docs/{{version}}/eloquent#mass-assignment) documentation.
 

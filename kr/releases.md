@@ -2,6 +2,8 @@
 
 - [Versioning Scheme](#versioning-scheme)
 - [버전 관리 체계](#versioning-scheme)
+    - [Exceptions](#exceptions)
+    - [예외사항](#exceptions)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
 - [Laravel 8](#laravel-8)
@@ -11,34 +13,50 @@
 ## Versioning Scheme
 ## 버전 관리 체계
 
-Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every six months (February and August), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
+Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~September), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 6개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~9월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^8.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
 애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `^8.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
+<a name="exceptions"></a>
+### Exceptions
+### 예외사항
+
+<a name="named-arguments"></a>
+#### Named Arguments
+#### 명명 된 인수-Named Arguments
+
+At this time, PHP's [named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) functionality are not covered by Laravel's backwards compatibility guidelines. We may choose to rename function parameters when necessary in order to improve the Laravel codebase. Therefore, using named arguments when calling Laravel methods should be done cautiously and with the understanding that the parameter names may change in the future.
+
+현재 PHP의 [named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) 기능은 라라벨의 하위 호환성 지침에 포함되지 않습니다. 라라벨 코드베이스를 개선하기 위해 필요한 경우 함수 매개 변수의 이름을 바꿀 수 있습니다. 따라서 라라벨 메서드를 호출 할 때 명명 된 인수를 사용하는 경우에는 매개 변수 이름이 향후 변경 될 수 있음을 이해하고 신중하게 수행해야합니다.
+
 <a name="support-policy"></a>
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
+For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
+라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 18개월, 보안 패치는 2년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
 또한 [라라벨에서 지원되는 데이터베이스](/docs/{{version}}/database#introduction) 버전들도 참고하세요.
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
-| 6 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
-| 7 | March 3rd, 2020 | September 10th, 2020 | March 3rd, 2021 |
-| 8 | September 8th, 2020 | March 8th, 2021 | September 8th, 2021 |
+| 6 (LTS) | September 3rd, 2019 | September 7th, 2021 | September 6th, 2022 |
+| 7 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
+| 8 | September 8th, 2020 | March 1st, 2022 | September 6th, 2022 |
+| 9 (LTS) | September, 2021 | September, 2023 | September, 2024 |
+| 10 | September, 2022 | March, 2024 | September, 2024 |
 
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
 | --- | --- | --- | --- |
-| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
-| 7 | 2020년 3월 3일 | 2020년 9월 10일 | 2021년 3월 3일 |
-| 8 | 2020년 9월 8일 | 2021년 3월 8일 | 2021년 9월 8일 |
+| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 7일 | 2022년 9월 6일 |
+| 7 | 2020년 3월 3일 | 2020년 10월 6일 | 2021년 3월 3일 |
+| 8 | 2020년 9월 8일 | 2022년 3월 1일 | 2022년 9월 6일 |
+| 9 (LTS) | 2021년 9월 | 2023년 9월 | 2024년 9월 |
+| 10 | 2022년 9월 | 2024년 3월 | 2024년 9월 |
 
 <a name="laravel-8"></a>
 ## Laravel 8
@@ -77,9 +95,9 @@ _Model factory classes were contributed by [Taylor Otwell](https://github.com/ta
 
 _모델 팩토리 클래스는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
 
-Eloquent [model factories](/docs/{{version}}/database-testing#creating-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
+Eloquent [model factories](/docs/{{version}}/database-testing#defining-model-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
 
-엘로퀀트 [모델 팩토리](/docs/{{version}}/database-testing#creating-factories)는 클래스 기반의 팩토리로 일급 관계를 지원하도록 완전히 재작성 되었습니다. 예를 들면, 라라벨에 포함된 `UserFactory` 는 아래와 같이 작성되었습니다.
+엘로퀀트 [모델 팩토리](/docs/{{version}}/database-testing#defining-model-factories)는 클래스 기반의 팩토리로 일급 관계를 지원하도록 완전히 재작성 되었습니다. 예를 들면, 라라벨에 포함된 `UserFactory` 는 아래와 같이 작성되었습니다.
 
     <?php
 
@@ -167,9 +185,9 @@ To ease the upgrade process, the [laravel/legacy-factories](https://github.com/l
 
 업그레이드를 좀 더 수월하게 만들기 위해, [laravel/legacy-factories](https://github.com/laravel/legacy-factories) 패키지가 라라벨 8.x 이전 버전 형태의 모델 팩토리를 지원하기 위해 제공됩니다.
 
-Laravel's re-written factories contain many more features that we think you will love. To learn more about model factories, please consult the [database testing documentation](/docs/{{version}}/database-testing#creating-factories).
+Laravel's re-written factories contain many more features that we think you will love. To learn more about model factories, please consult the [database testing documentation](/docs/{{version}}/database-testing#defining-model-factories).
 
-라라벨의 재작성된 팩토리들은 여러분이 좋아할만한 다른 많은 기능들을 포함합니다. 모델 팩토리에 대해서 더 알아보시려면, [데이터베이스 테스팅](/docs/{{version}}/database-testing#creating-factories) 문서를 참고하세요.
+라라벨의 재작성된 팩토리들은 여러분이 좋아할만한 다른 많은 기능들을 포함합니다. 모델 팩토리에 대해서 더 알아보시려면, [데이터베이스 테스팅](/docs/{{version}}/database-testing#defining-model-factories) 문서를 참고하세요.
 
 ### Migration Squashing
 ### 마이그레이션 스쿼싱

@@ -719,6 +719,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "ucyang",
+      "name": "Unchun Yang",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31183209?v=4",
+      "profile": "https://ucyang.com/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

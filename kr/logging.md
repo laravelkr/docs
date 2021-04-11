@@ -295,7 +295,7 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 
 > {tip} All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
 
-> {tip} 모든 "tap" 크래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
+> {tip} 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
 <a name="creating-monolog-handler-channels"></a>
 ### Creating Monolog Handler Channels

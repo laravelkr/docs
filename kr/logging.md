@@ -105,7 +105,7 @@ Name | Description | Default
 ------------- | ------------- | -------------
 `bubble`| 처리 된 후에 메시지가 다른 채널로 버블링되어야하는지 나타냅니다. | `true`
 `permission`| 로그 파일의 사용 권한 | `0644`
-`locking`| 기록하기 전에 로그 파일을 잠그십시오. | `거짓`
+`locking`| 기록하기 전에 로그 파일을 잠그십시오. | `false`
 
 #### Configuring The Papertrail Channel
 #### Papertrail 채널 설정하기

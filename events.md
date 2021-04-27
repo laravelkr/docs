@@ -41,7 +41,7 @@
 <a name="generating-events-and-listeners"></a>
 ### 이벤트 & 리스너 생성하기
 
-물론 각각의 이벤트와 리스너를의 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다.
+물론 각각의 이벤트와 리스너 파일을 일일히 생성하는 것은 불편한 일입니다. 대신에 `EventServiceProvider`에 리스너와 이벤트를 추가하고 `event:generate` 명령어를 사용하십시오. 이 명령어는 `EventServiceProvider`의 리스트에 포함된 이벤트나 리스너를 생성할 수 있습니다. 이미 존재하는 이벤트나 리스너는 영향을 받지 않을 것입니다.
 
     php artisan event:generate
 

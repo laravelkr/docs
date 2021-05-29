@@ -88,8 +88,8 @@ To see an example of how to write a factory, take a look at the `database/factor
         public function definition()
         {
             return [
-                'name' => $this->faker->name,
-                'email' => $this->faker->unique()->safeEmail,
+                'name' => $this->faker->name(),
+                'email' => $this->faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
@@ -496,8 +496,8 @@ To define a relationship within your model factory, you will typically assign a 
     {
         return [
             'user_id' => User::factory(),
-            'title' => $this->faker->title,
-            'content' => $this->faker->paragraph,
+            'title' => $this->faker->title(),
+            'content' => $this->faker->paragraph(),
         ];
     }
 
@@ -515,8 +515,8 @@ If the relationship's columns depend on the factory that defines it you may assi
             'user_type' => function (array $attributes) {
                 return User::find($attributes['user_id'])->type;
             },
-            'title' => $this->faker->title,
-            'content' => $this->faker->paragraph,
+            'title' => $this->faker->title(),
+            'content' => $this->faker->paragraph(),
         ];
     }
 
@@ -555,25 +555,24 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
         }
     }
 
-Alternatively, you may instruct the `RefreshDatabase` trait to automatically seed the database before each test. You may accomplish this by defining a `$seed` property on your test class:
+Alternatively, you may instruct Laravel to automatically seed the database before each test. You may accomplish this by defining a `$seed` property on your base test class:
 
     <?php
 
-    namespace Tests\Feature;
+    namespace Tests;
 
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Tests\TestCase;
+    use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
-    class ExampleTest extends TestCase
+    abstract class TestCase extends BaseTestCase
     {
+        use CreatesApplication;
+
         /**
          * Indicates whether the default seeder should run before each test.
          *
          * @var bool
          */
         protected $seed = true;
-
-        // ...
     }
 
 When the `$seed` property is `true`, the test will run the `Database\Seeders\DatabaseSeeder` class before each test. However, you may specify a specific seeder that should be executed by defining a `$seeder` property on your test class:

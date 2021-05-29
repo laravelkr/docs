@@ -38,6 +38,7 @@
     - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
     - [Retrying Failed Jobs](#retrying-failed-jobs)
     - [Ignoring Missing Models](#ignoring-missing-models)
+    - [Storing Failed Jobs In DynamoDB](#storing-failed-jobs-in-dynamodb)
     - [Failed Job Events](#failed-job-events)
 - [Clearing Jobs From Queues](#clearing-jobs-from-queues)
 - [Job Events](#job-events)
@@ -489,6 +490,18 @@ If you wish to immediately delete any overlapping jobs so that they will not be 
         return [(new WithoutOverlapping($this->order->id))->dontRelease()];
     }
 
+The `WithoutOverlapping` middleware is powered by Laravel's atomic lock feature. Sometimes, your job may unexpectedly fail or timeout in such a way that the lock is not released. Therefore, you may explicitly define a lock expiration time using the `expireAfter` method. For example, the example below will instruct Laravel to release the `WithoutOverlapping` lock three minutes after the job has started processing:
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [(new WithoutOverlapping($this->order->id))->expireAfter(180)];
+    }
+
 > {note} The `WithoutOverlapping` middleware requires a cache driver that supports [locks](/docs/{{version}}/cache#atomic-locks). Currently, the `memcached`, `redis`, `dynamodb`, `database`, `file`, and `array` cache drivers support atomic locks.
 
 <a name="throttling-exceptions"></a>
@@ -496,7 +509,7 @@ If you wish to immediately delete any overlapping jobs so that they will not be 
 
 Laravel includes a `Illuminate\Queue\Middleware\ThrottlesExceptions` middleware that allows you to throttle exceptions. Once the job throws a given number of exceptions, all further attempts to execute the job are delayed until a specified time interval lapses. This middleware is particularly useful for jobs that interact with third-party services that are unstable.
 
-For example, let's imagine a queued job that interacts with an third-party API that begins throwing exceptions. To throttle exceptions, you can return the `ThrottlesExceptions` middleware from your job's `middleware` method. Typically, this middleware should be paired with a job that implements [time based attempts](#time-based-attempts):
+For example, let's imagine a queued job that interacts with a third-party API that begins throwing exceptions. To throttle exceptions, you can return the `ThrottlesExceptions` middleware from your job's `middleware` method. Typically, this middleware should be paired with a job that implements [time based attempts](#time-based-attempts):
 
     use Illuminate\Queue\Middleware\ThrottlesExceptions;
 
@@ -1012,6 +1025,20 @@ You may also define the maximum number of seconds a job should be allowed to run
 
 Sometimes, IO blocking processes such as sockets or outgoing HTTP connections may not respect your specified timeout. Therefore, when using these features, you should always attempt to specify a timeout using their APIs as well. For example, when using Guzzle, you should always specify a connection and request timeout value.
 
+<a name="failing-on-timeout"></a>
+#### Failing On Timeout
+
+If you would like to indicate that a job should be marked as [failed](#dealing-with-failed-jobs) on timeout, you may define the `$failOnTimeout` property on the job class:
+
+```php
+/**
+ * Indicate if the job should be marked as failed on timeout.
+ *
+ * @var bool
+ */
+public $failOnTimeout = true;
+```
+
 <a name="error-handling"></a>
 ### Error Handling
 
@@ -1036,7 +1063,7 @@ Sometimes you may wish to manually release a job back onto the queue so that it 
 
 By default, the `release` method will release the job back onto the queue for immediate processing. However, by passing an integer to the `release` method you may instruct the queue to not make the job available for processing until a given number of seconds has elapsed:
 
-    $this->release(10)
+    $this->release(10);
 
 <a name="manually-failing-a-job"></a>
 #### Manually Failing A Job
@@ -1647,6 +1674,8 @@ When a particular job fails, you may want to send an alert to your users or reve
         }
     }
 
+> {note} A new instance of the job is instantiated before invoking the `failed` method; therefore, any class property modifications that may have occurred within the `handle` method will be lost.
+
 <a name="retrying-failed-jobs"></a>
 ### Retrying Failed Jobs
 
@@ -1663,6 +1692,10 @@ If necessary, you may pass multiple IDs or an ID range (when using numeric IDs) 
     php artisan queue:retry 5 6 7 8 9 10
 
     php artisan queue:retry --range=5-10
+
+You may also retry all of the failed jobs for a particular queue:
+
+    php artisan queue:retry --queue=name
 
 To retry all of your failed jobs, execute the `queue:retry` command and pass `all` as the ID:
 
@@ -1691,6 +1724,31 @@ For convenience, you may choose to automatically delete jobs with missing models
      * @var bool
      */
     public $deleteWhenMissingModels = true;
+
+<a name="storing-failed-jobs-in-dynamodb"></a>
+### Storing Failed Jobs In DynamoDB
+
+Laravel also provides support for storing your failed job records in [DynamoDB](https://aws.amazon.com/dynamodb) instead of a relational database table. However, you must create a DynamoDB table to store all of the failed job records. Typically, this table should be named `failed_jobs`, but you should name the table based on the value of the `queue.failed.table` configuration value within your application's `queue` configuration file.
+
+The `failed_jobs` table should have a string primary partition key named `application` and a string primary sort key named `uuid`. The `application` portion of the key will contain your application's name as defined by the `name` configuration value within your application's `app` configuration file. Since the application name is part of the DynamoDB table's key, you can use the same table to store failed jobs for multiple Laravel applications.
+
+In addition, ensure that you install the AWS SDK so that your Laravel application can communicate with Amazon DynamoDB:
+
+```nothing
+composer require aws/aws-sdk-php
+```
+
+Next, set the `queue.failed.driver` configuration option's value to `dynamodb`. In addition, you should define `key`, `secret`, and `region` configuration options within the failed job configuration array. These options will be used to authenticate with AWS. When using the `dynamodb` driver, the `queue.failed.database` configuration option is unnecessary:
+
+```php
+'failed' => [
+    'driver' => env('QUEUE_FAILED_DRIVER', 'dynamodb'),
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    'table' => 'failed_jobs',
+],
+```
 
 <a name="failed-job-events"></a>
 ### Failed Job Events

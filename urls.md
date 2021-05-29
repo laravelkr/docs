@@ -138,6 +138,25 @@ Once you have registered the middleware in your kernel, you may attach it to a r
     Route::post('/unsubscribe/{user}', function (Request $request) {
         // ...
     })->name('unsubscribe')->middleware('signed');
+    
+<a name="responding-to-invalid-signed-routes"></a>
+#### Responding To Invalid Signed Routes
+
+When someone visits a signed URL that has expired, they will receive a generic error page for the `403` HTTP status code. However, you can customize this behavior by defining a custom "renderable" closure for the `InvalidSignatureException` exception in your exception handler. This closure should return an HTTP response:
+
+    use Illuminate\Routing\Exceptions\InvalidSignatureException;
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->renderable(function (InvalidSignatureException $e) {
+            return response()->view('error.link-expired', [], 403);
+        });
+    }
 
 <a name="urls-for-controller-actions"></a>
 ## URLs For Controller Actions
@@ -192,7 +211,7 @@ Once the default value for the `locale` parameter has been set, you are no longe
 <a name="url-defaults-middleware-priority"></a>
 #### URL Defaults & Middleware Priority
 
-Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](https://laravel.com/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this by making sure your middleware occurs before the `SubstituteBindings` middleware within the `$middlewarePriority` property of your application's HTTP kernel.
+Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this by making sure your middleware occurs before the `SubstituteBindings` middleware within the `$middlewarePriority` property of your application's HTTP kernel.
 
 The `$middlewarePriority` property is defined in the base `Illuminate\Foundation\Http\Kernel` class. You may copy its definition from that class and overwrite it in your application's HTTP kernel in order to modify it:
 

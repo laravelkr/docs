@@ -1139,7 +1139,7 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 <a name="csrf-field"></a>
 ### CSRF Field
 
-Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](https://laravel.com/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
+Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
 ```html
 <form method="POST" action="/profile">
@@ -1177,6 +1177,16 @@ The `@error` directive may be used to quickly check if [validation error message
 @error('title')
     <div class="alert alert-danger">{{ $message }}</div>
 @enderror
+```
+
+Since the `@error` directive compiles to an "if" statement, you may use the `@else` directive to render content when there is not an error for an attribute:
+
+```html
+<!-- /resources/views/auth.blade.php -->
+
+<label for="email">Email address</label>
+
+<input id="email" type="email" class="@error('email') is-invalid @else is-valid @enderror">
 ```
 
 You may pass [the name of a specific error bag](/docs/{{version}}/validation#named-error-bags) as the second parameter to the `@error` directive to retrieve validation error messages on pages containing multiple forms:

@@ -71,6 +71,9 @@ php artisan make:model Flight -c
 # Generate a model and a migration, factory, seeder, and controller...
 php artisan make:model Flight -mfsc
 
+# Shortcut to generate a model, migration, factory, seeder, and controller...
+php artisan make:model Flight --all
+
 # Generate a pivot model...
 php artisan make:model Member --pivot
 ```
@@ -1155,7 +1158,7 @@ To start listening to model events, define a `$dispatchesEvents` property on you
         ];
     }
 
-After defining and mapping your Eloquent events, you may use [event listeners](https://laravel.com/docs/{{version}}/events#defining-listeners) to handle the events.
+After defining and mapping your Eloquent events, you may use [event listeners](/docs/{{version}}/events#defining-listeners) to handle the events.
 
 > {note} When issuing a mass update or delete query via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be dispatched for the affected models. This is because the models are never actually retrieved when performing mass updates or deletes.
 

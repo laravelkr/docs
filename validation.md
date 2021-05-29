@@ -25,6 +25,7 @@
 - [Available Validation Rules](#available-validation-rules)
 - [Conditionally Adding Rules](#conditionally-adding-rules)
 - [Validating Arrays](#validating-arrays)
+- [Validating Passwords](#validating-passwords)
 - [Custom Validation Rules](#custom-validation-rules)
     - [Using Rule Objects](#using-rule-objects)
     - [Using Closures](#using-closures)
@@ -210,7 +211,7 @@ You may use the `@error` [Blade](/docs/{{version}}/blade) directive to quickly d
 
 <label for="title">Post Title</label>
 
-<input id="title" type="text" class="@error('title') is-invalid @enderror">
+<input id="title" type="text" name="title" class="@error('title') is-invalid @enderror">
 
 @error('title')
     <div class="alert alert-danger">{{ $message }}</div>
@@ -345,6 +346,10 @@ The form request class also contains an `authorize` method. Within this method, 
 Since all form requests extend the base Laravel request class, we may use the `user` method to access the currently authenticated user. Also, note the call to the `route` method in the example above. This method grants you access to the URI parameters defined on the route being called, such as the `{comment}` parameter in the example below:
 
     Route::post('/comment/{comment}');
+
+Therefore, if your application is taking advantage of [route model binding](/docs/{{version}}/routing#route-model-binding), your code may be made even more succinct by accessing the resolved model as a property of the request:
+
+    return $this->user()->can('update', $this->comment);
 
 If the `authorize` method returns `false`, an HTTP response with a 403 status code will automatically be returned and your controller method will not execute.
 
@@ -524,7 +529,7 @@ Sometimes you may wish to specify a custom error message only for a specific att
 <a name="specifying-custom-attribute-values"></a>
 #### Specifying Custom Attribute Values
 
-Many of Laravel's built-in error messages include an `:attribute:` placeholder that is replaced with the name of the field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you may pass an array of custom attributes as the fourth argument to the `Validator::make` method:
+Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you may pass an array of custom attributes as the fourth argument to the `Validator::make` method:
 
     $validator = Validator::make($input, $rules, $messages, [
         'email' => 'email address',
@@ -618,7 +623,7 @@ You may customize the error messages used for specified attribute and rule combi
 <a name="specifying-attribute-in-language-files"></a>
 ### Specifying Attributes In Language Files
 
-Many of Laravel's built-in error messages include an `:attribute:` placeholder that is replaced with the name of the field or attribute under validation. If you would like the `:attribute` portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
+Many of Laravel's built-in error messages include an `:attribute` placeholder that is replaced with the name of the field or attribute under validation. If you would like the `:attribute` portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the `attributes` array of your `resources/lang/xx/validation.php` language file:
 
     'attributes' => [
         'email' => 'email address',
@@ -786,6 +791,22 @@ The field under validation must be entirely alpha-numeric characters.
 
 The field under validation must be a PHP `array`.
 
+When additional values are provided to the `array` rule, each key in the input array must be present within the list of values provided to the rule. In the following example, the `admin` key in the input array is invalid since it is not contained in the list of values provided to the `array` rule:
+
+    use Illuminate\Support\Facades\Validator;
+
+    $input = [
+        'user' => [
+            'name' => 'Taylor Otwell',
+            'username' => 'taylorotwell',
+            'admin' => true,
+        ],
+    ];
+
+    Validator::make($input, [
+        'user' => 'array:username,locale',
+    ]);
+
 <a name="rule-bail"></a>
 #### bail
 
@@ -926,7 +947,7 @@ The field under validation will be excluded from the request data returned by th
 <a name="rule-exclude-unless"></a>
 #### exclude_unless:_anotherfield_,_value_
 
-The field under validation will be excluded from the request data returned by the `validate` and `validated` methods unless _anotherfield_'s field is equal to _value_.
+The field under validation will be excluded from the request data returned by the `validate` and `validated` methods unless _anotherfield_'s field is equal to _value_. If _value_ is `null` (`exclude_unless:name,null`), the field under validation will be excluded unless the comparison field is `null` or the comparison field is missing from the request data.
 
 <a name="rule-exists"></a>
 #### exists:_table_,_column_
@@ -1006,6 +1027,23 @@ The field under validation must be included in the given list of values. Since t
         'zones' => [
             'required',
             Rule::in(['first-zone', 'second-zone']),
+        ],
+    ]);
+
+When the `in` rule is combined with the `array` rule, each value in the input array must be present within the list of values provided to the `in` rule. In the following example, the `LAS` airport code in the input array is invalid since it is not contained in the list of airports provided to the `in` rule:
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
+
+    $input = [
+        'airports' => ['NYC', 'LAS'],
+    ];
+
+    Validator::make($input, [
+        'airports' => [
+            'required',
+            'array',
+            Rule::in(['NYC', 'LIT']),
         ],
     ]);
 
@@ -1195,7 +1233,7 @@ If you would like to construct a more complex condition for the `required_if` ru
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...
 
-The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_.
+The field under validation must be present and not empty unless the _anotherfield_ field is equal to any _value_. This also means _anotherfield_ must be present in the request data unless _value_ is `null`. If _value_ is `null` (`required_unless:name,null`), the field under validation will be required unless the comparison field is `null` or the comparison field is missing from the request data.
 
 <a name="rule-required-with"></a>
 #### required_with:_foo_,_bar_,...
@@ -1411,6 +1449,84 @@ Likewise, you may use the `*` character when specifying [custom validation messa
             'unique' => 'Each person must have a unique email address',
         ]
     ],
+
+<a name="validating-passwords"></a>
+## Validating Passwords
+
+To ensure that passwords have an adequate level of complexity, you may use Laravel's `Password` rule object:
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rules\Password;
+
+    $validator = Validator::make($request->all(), [
+        'password' => ['required', 'confirmed', Password::min(8)],
+    ]);
+
+The `Password` rule object allows you to easily customize the password complexity requirements for your application, such as specifying that passwords require at least one letter, number, symbol, or characters with mixed casing:
+
+    // Require at least 8 characters...
+    Password::min(8)
+
+    // Require at least one letter...
+    Password::min(8)->letters()
+
+    // Require at least one uppercase and one lowercase letter...
+    Password::min(8)->mixedCase()
+
+    // Require at least one number...
+    Password::min(8)->numbers()
+
+    // Require at least one symbol...
+    Password::min(8)->symbols()
+
+In addition, you may ensure that a password has not been compromised in a public password data breach leak using the `uncompromised` method:
+
+    Password::min(8)->uncompromised()
+
+Internally, the `Password` rule object uses the [k-Anonymity](https://en.wikipedia.org/wiki/K-anonymity) model to determine if a password has been leaked via the [haveibeenpwned.com](https://haveibeenpwned.com) service without sacrificing the user's privacy or security.
+
+By default, if a password appears at least once in a data leak, it will be considered compromised. You can customize this threshold using the first argument of the `uncompromised` method:
+
+    // Ensure the password appears less than 3 times in the same data leak...
+    Password::min(8)->uncompromised(3);
+
+Of course, you may chain all the methods in the examples above:
+
+    Password::min(8)
+        ->letters()
+        ->mixedCase()
+        ->numbers()
+        ->symbols()
+        ->uncompromised()
+
+<a name="defining-default-password-rules"></a>
+#### Defining Default Password Rules
+
+You may find it convenient to specify the default validation rules for passwords in a single location of your application. You can easily accomplish this using the `Password::defaults` method, which accepts a closure. The closure given to the `defaults` method should return the default configuration of the Password rule. Typically, the `defaults` rule should be called within the `boot` method of one of your application's service providers:
+
+```php
+use Illuminate\Validation\Rules\Password;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Password::defaults(function () {
+        $rule = Password::min(8);
+
+        return $this->app->isProduction()
+                    ? $rule->mixedCase()->uncompromised()
+                    : $rule;
+    });
+}
+```
+
+Then, when you would like to apply the default rules to a particular password undergoing validation, you may invoke the `defaults` method with no arguments:
+
+    'password' => ['required', Password::defaults()],
 
 <a name="custom-validation-rules"></a>
 ## Custom Validation Rules

@@ -99,6 +99,20 @@ Within both of these methods, you may use the Laravel schema builder to expressi
         }
     }
 
+<a name="anonymous-migrations"></a>
+#### Anonymous Migrations
+
+As you may have noticed in the example above, Laravel will automatically assign a class name to all of the migrations that you generate using the `make:migration` command. However, if you wish, you may return an anonymous class from your migration file. This is primarily useful if your application accumulates many migrations and two of them have a class name collision:
+
+    <?php
+
+    use Illuminate\Database\Migrations\Migration;
+
+    return new class extends Migration
+    {
+        //
+    };
+
 <a name="setting-the-migration-connection"></a>
 #### Setting The Migration Connection
 
@@ -362,6 +376,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [timestamps](#column-method-timestamps)
 [tinyIncrements](#column-method-tinyIncrements)
 [tinyInteger](#column-method-tinyInteger)
+[tinyText](#column-method-tinyText)
 [unsignedBigInteger](#column-method-unsignedBigInteger)
 [unsignedDecimal](#column-method-unsignedDecimal)
 [unsignedInteger](#column-method-unsignedInteger)
@@ -502,7 +517,7 @@ The `integer` method creates an `INTEGER` equivalent column:
 <a name="column-method-ipAddress"></a>
 #### `ipAddress()` {#collection-method}
 
-The `ipAddress` method creates an `INTEGER` equivalent column:
+The `ipAddress` method creates a `VARCHAR` equivalent column:
 
     $table->ipAddress('visitor');
 
@@ -738,6 +753,13 @@ The `tinyIncrements` method creates an auto-incrementing `UNSIGNED TINYINT` equi
 The `tinyInteger` method creates a `TINYINT` equivalent column:
 
     $table->tinyInteger('votes');
+    
+<a name="column-method-tinyText"></a>
+#### `tinyText()` {#collection-method}
+
+The `tinyText` method creates a `TINYTEXT` equivalent column:
+
+    $table->tinyText('notes');
 
 <a name="column-method-unsignedBigInteger"></a>
 #### `unsignedBigInteger()` {#collection-method}

@@ -70,7 +70,7 @@ You are not limited to interacting with a single attribute within your accessor.
         return "{$this->first_name} {$this->last_name}";
     }
 
-> {tip} If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](https://laravel.com/docs/{{version}}/eloquent-serialization#appending-values-to-json).
+> {tip} If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
 <a name="defining-a-mutator"></a>
 ### Defining A Mutator
@@ -446,7 +446,7 @@ When casting to value objects, any changes made to the value object will automat
 
 When an Eloquent model is converted to an array or JSON using the `toArray` and `toJson` methods, your custom cast value objects will typically be serialized as well as long as they implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces. However, when using value objects provided by third-party libraries, you may not have the ability to add these interfaces to the object.
 
-Therefore, you may specify that your custom cast class will be responsible for serializing the value object. To do so, your custom class cast should implement the `Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes` interface. This interface states that your class should contain a `serialize` method which should return the serialized form of your value object:
+Therefore, you may specify that your custom cast class will be responsible for serializing the value object. To do so, your custom cast class should implement the `Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes` interface. This interface states that your class should contain a `serialize` method which should return the serialized form of your value object:
 
     /**
      * Get the serialized representation of the value.

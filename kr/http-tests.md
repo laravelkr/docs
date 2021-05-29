@@ -618,15 +618,6 @@ response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함
 
     $response->assertJsonMissingValidationErrors($keys);
 
-<a name="assert-json-structure"></a>
-#### assertJsonStructure
-
-Assert that the response has a given JSON structure:
-
-response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
-
-    $response->assertJsonStructure(array $structure);
-
 <a name="assert-json-path"></a>
 #### assertJsonPath
 

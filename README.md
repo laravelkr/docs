@@ -191,6 +191,7 @@
     <td align="center"><a href="https://github.com/truekim819"><img src="https://avatars3.githubusercontent.com/u/19642477?v=4?s=100" width="100px;" alt=""/><br /><sub><b>truekim819</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=truekim819" title="Documentation">📖</a></td>
     <td align="center"><a href="https://ucyang.com/"><img src="https://avatars.githubusercontent.com/u/31183209?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Unchun Yang</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=ucyang" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/woongbin"><img src="https://avatars.githubusercontent.com/u/15007903?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sirwoongke</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=woongbin" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://dev.epiloum.net"><img src="https://avatars.githubusercontent.com/u/74719609?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaewon Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Epiloum" title="Documentation">📖</a></td>
   </tr>
 </table>
 

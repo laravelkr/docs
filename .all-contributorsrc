@@ -737,6 +737,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Epiloum",
+      "name": "Jaewon Kim",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74719609?v=4",
+      "profile": "http://dev.epiloum.net",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -109,7 +109,7 @@ Laravel의 GitHub 이슈 트래커는 Laravel 도움말이나 지원을 제공�
 <a name="styleci"></a>
 ### StyleCI
 
-Don't worry if your code styling isn't perfect! [StyleCI](https://styleci.io/) will automatically merge any style fixes into the Laravel repository after pull requests are merged. This allows us to focus on the content of the contribution and not the code style.
+코드 스타일링이 완벽하지 않아도 걱정하지 마세요! [StyleCI](https://styleci.io/)는 pull 요청이 병합된 후 모든 스타일 수정 사항을 라라벨 저장소에 자동으로 병합합니다. 이를 통해 우리는 코드 스타일이 아닌 기여 내용에 집중할 수 있습니다.
 
 <a name="code-of-conduct"></a>
 ## 행동 지침

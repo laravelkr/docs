@@ -251,7 +251,7 @@ The [maintenance mode](/docs/{{version}}/configuration#maintenance-mode) feature
 
 The `--message` option of the `php artisan down` command has been removed. As an alternative, consider [pre-rendering your maintenance mode views](/docs/{{version}}/configuration#maintenance-mode) with the message of your choice.
 
-`php artisan down` 커맨드의 `--message` 옵션이 제거되었습니다. 대안으로, [점검 모드 뷰 Pre-rendering]](/docs/{{version}}/configuration#maintenance-mode) 기능과 함께 여러분의 메시지를 표시할 수 있습니다.
+`php artisan down` 커맨드의 `--message` 옵션이 제거되었습니다. 대안으로, [점검 모드 뷰 Pre-rendering](/docs/{{version}}/configuration#maintenance-mode) 기능과 함께 여러분의 메시지를 표시할 수 있습니다.
 
 #### Manager `$app` Property
 #### Manager `$app` 속성

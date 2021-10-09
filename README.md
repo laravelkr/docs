@@ -193,6 +193,7 @@
     <td align="center"><a href="https://github.com/woongbin"><img src="https://avatars.githubusercontent.com/u/15007903?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sirwoongke</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=woongbin" title="Documentation">📖</a></td>
     <td align="center"><a href="http://dev.epiloum.net"><img src="https://avatars.githubusercontent.com/u/74719609?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaewon Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Epiloum" title="Documentation">📖</a></td>
     <td align="center"><a href="http://pinkward.co.kr"><img src="https://avatars.githubusercontent.com/u/28586768?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Leejungyoung</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=jungyoung" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/misstur"><img src="https://avatars.githubusercontent.com/u/47712114?v=4?s=100" width="100px;" alt=""/><br /><sub><b>misstur</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=misstur" title="Documentation">📖</a></td>
   </tr>
 </table>
 

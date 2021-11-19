@@ -238,7 +238,7 @@ mocking하는 대신에, `Bus` 파사드의 `fake` 메소드를 사용하여 실
         }
     }
 
-백그라운드에서 메일을 보내기 위해서 queue를 사용했다면, `assertSent` 대신에 `assertQueued` 메소드를 사요해야 합니다.
+백그라운드에서 메일을 보내기 위해서 queue를 사용했다면, `assertSent` 대신에 `assertQueued` 메소드를 사용해야 합니다.
 
     Mail::assertQueued(...);
     Mail::assertNotQueued(...);

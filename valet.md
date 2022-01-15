@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Valet is a Laravel development environment for macOS minimalists. Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.test` domain to point to sites installed on your local machine.
+[Laravel Valet](https://github.com/laravel/valet) is a development environment for macOS minimalists. Laravel Valet configures your Mac to always run [Nginx](https://www.nginx.com/) in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.test` domain to point to sites installed on your local machine.
 
 In other words, Valet is a blazing fast Laravel development environment that uses roughly 7 MB of RAM. Valet isn't a complete replacement for [Sail](/docs/{{version}}/sail) or [Homestead](/docs/{{version}}/homestead), but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
@@ -95,6 +95,12 @@ Valet allows you to switch PHP versions using the `valet use php@version` comman
     valet use php@7.2
 
     valet use php
+
+You may also create a `.valetphprc` file in the root of your project. The `.valetphprc` file should contain the PHP version the site should use:
+
+    php@7.2
+
+Once this file has been created, you may simply execute the `valet use` command and the command will determine the site's preferred PHP version by reading the file.
 
 > {note} Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
 
@@ -195,7 +201,7 @@ To stop sharing your site, you may press `Control + C`.
 <a name="sharing-sites-via-expose"></a>
 ### Sharing Sites Via Expose
 
-If you have [Expose](https://beyondco.de/docs/expose) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the [Expose documentation](https://beyondco.de/docs/expose/introduction) for information regarding the additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members:
+If you have [Expose](https://expose.dev) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the [Expose documentation](https://expose.dev/docs) for information regarding the additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members:
 
     cd ~/Sites/laravel
 

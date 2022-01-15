@@ -7,6 +7,8 @@
 - [Attribute Casting](#attribute-casting)
     - [Array & JSON Casting](#array-and-json-casting)
     - [Date Casting](#date-casting)
+    - [Enum Casting](#enum-casting)
+    - [Encrypted Casting](#encrypted-casting)
     - [Query Time Casting](#query-time-casting)
 - [Custom Casts](#custom-casts)
     - [Value Object Casting](#value-object-casting)
@@ -118,11 +120,14 @@ The `$casts` property should be an array where the key is the name of the attrib
 
 <div class="content-list" markdown="1">
 - `array`
+- `AsStringable::class`
 - `boolean`
 - `collection`
 - `date`
 - `datetime`
-- `decimal:<digits>`
+- `immutable_date`
+- `immutable_datetime`
+- `decimal:`<code>&lt;digits&gt;</code>
 - `double`
 - `encrypted`
 - `encrypted:array`
@@ -164,7 +169,38 @@ After defining the cast, the `is_admin` attribute will always be cast to a boole
         //
     }
 
+If you need to add a new, temporary cast at runtime, you may use the `mergeCasts` method. These cast definitions will be added to any of the casts already defined on the model:
+
+    $user->mergeCasts([
+        'is_admin' => 'integer',
+        'options' => 'object',
+    ]);
+
 > {note} Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
+
+<a name="stringable-casting"></a>
+#### Stringable Casting
+
+You may use the `Illuminate\Database\Eloquent\Casts\AsStringable` cast class to cast a model attribute to a [fluent `Illuminate\Support\Stringable` object](/docs/{{version}}/helpers#fluent-strings-method-list):
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Casts\AsStringable;
+    use Illuminate\Database\Eloquent\Model;
+
+    class User extends Model
+    {
+        /**
+         * The attributes that should be cast.
+         *
+         * @var array
+         */
+        protected $casts = [
+            'directory' => AsStringable::class,
+        ];
+    }
 
 <a name="array-and-json-casting"></a>
 ### Array & JSON Casting
@@ -247,7 +283,7 @@ Similarly, Laravel offers an `AsCollection` cast that casts your JSON attribute 
 <a name="date-casting"></a>
 ### Date Casting
 
-By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `$cast` property array. Typically, dates should be cast using the `datetime` cast.
+By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `$casts` property array. Typically, dates should be cast using the `datetime` or `immutable_datetime` cast types.
 
 When defining a `date` or `datetime` cast, you may also specify the date's format. This format will be used when the [model is serialized to an array or JSON](/docs/{{version}}/eloquent-serialization):
 
@@ -260,7 +296,7 @@ When defining a `date` or `datetime` cast, you may also specify the date's forma
         'created_at' => 'datetime:Y-m-d',
     ];
 
-When a column is cast as a date, you may set its value to a UNIX timestamp, date string (`Y-m-d`), date-time string, or a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database:
+When a column is cast as a date, you may set the corresponding model attribute value to a UNIX timestamp, date string (`Y-m-d`), date-time string, or a `DateTime` / `Carbon` instance. The date's value will be correctly converted and stored in your database.
 
 You may customize the default serialization format for all of your model's dates by defining a `serializeDate` method on your model. This method does not affect how your dates are formatted for storage in the database:
 
@@ -283,6 +319,46 @@ To specify the format that should be used when actually storing a model's dates 
      * @var string
      */
     protected $dateFormat = 'U';
+
+<a name="date-casting-and-timezones"></a>
+#### Date Casting, Serialization, & Timezones
+
+By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`1986-05-28T21:05:54.000000Z`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
+
+If a custom format is applied to the `date` or `datetime` cast, such as `datetime:Y-m-d H:i:s`, the inner timezone of the Carbon instance will be used during date serialization. Typically, this will be the timezone specified in your application's `timezone` configuration option.
+
+<a name="enum-casting"></a>
+### Enum Casting
+
+> {note} Enum casting is only available for PHP 8.1+.
+
+Eloquent also allows you to cast your attribute values to PHP enums. To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
+
+    use App\Enums\ServerStatus;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => ServerStatus::class,
+    ];
+
+Once you have defined the cast on your model, the specified attribute will be automatically cast to and from an enum when you interact with the attribute:
+
+    if ($server->status == ServerStatus::provisioned) {
+        $server->status = ServerStatus::ready;
+
+        $server->save();
+    }
+
+<a name="encrypted-casting"></a>
+### Encrypted Casting
+
+The `encrypted` cast will encrypt a model's attribute value using Laravel's built-in [encryption](/docs/{{version}}/encryption) features. In addition, the `encrypted:array`, `encrypted:collection`, `encrypted:object`, `AsEncryptedArrayObject`, and `AsEncryptedCollection` casts work like their unencrypted counterparts; however, as you might expect, the underlying value is encrypted when stored in your database.
+
+As the final length of the encrypted text is not predictable and is longer than its plain text counterpart, make sure the associated database column is of `TEXT` type or larger. In addition, since the values are encrypted in the database, you will not be able to query or search encrypted attribute values.
 
 <a name="query-time-casting"></a>
 ### Query Time Casting

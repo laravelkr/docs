@@ -24,7 +24,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Laravel Sanctum provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
+[Laravel Sanctum](https://github.com/laravel/sanctum) provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
 
 <a name="how-it-works"></a>
 ### How It Works
@@ -51,6 +51,8 @@ Sanctum will only attempt to authenticate using cookies when the incoming reques
 
 <a name="installation"></a>
 ## Installation
+
+> {tip} The most recent versions of Laravel already include Laravel Sanctum. However, if your application's `composer.json` file does not include `laravel/sanctum`, you may follow the installation instructions below.
 
 You may install Laravel Sanctum via the Composer package manager:
 
@@ -155,6 +157,26 @@ When handling an incoming request authenticated by Sanctum, you may determine if
         //
     }
 
+<a name="token-ability-middleware"></a>
+#### Token Ability Middleware
+
+Sanctum also includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given ability. To get started, add the following middleware to the `$routeMiddleware` property of your application's `app/Http/Kernel.php` file:
+
+    'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+    'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+
+The `abilities` middleware may be assigned to a route to verify that the incoming request's token has all of the listed abilities:
+
+    Route::get('/orders', function () {
+        // Token has both "check-status" and "place-orders" abilities...
+    })->middleware(['auth:sanctum', 'abilities:check-status,place-orders']);
+
+The `ability` middleware may be assigned to a route to verify that the incoming request's token has *at least one* of the listed abilities:
+
+    Route::get('/orders', function () {
+        // Token has the "check-status" or "place-orders" ability...
+    })->middleware(['auth:sanctum', 'ability:check-status,place-orders']);
+
 <a name="first-party-ui-initiated-requests"></a>
 #### First-Party UI Initiated Requests
 
@@ -205,7 +227,8 @@ Sanctum also exists to provide a simple method of authenticating single page app
 
 For this feature, Sanctum does not use tokens of any kind. Instead, Sanctum uses Laravel's built-in cookie based session authentication services. This approach to authentication provides the benefits of CSRF protection, session authentication, as well as protects against leakage of the authentication credentials via XSS.
 
-> {note} In order to authenticate, your SPA and API must share the same top-level domain. However, they may be placed on different subdomains.
+> {note} In order to authenticate, your SPA and API must share the same top-level domain. However, they may be placed on different subdomains. Additionally, you should ensure that you send the `Accept: application/json` header with your request.
+
 
 <a name="spa-configuration"></a>
 ### Configuration
@@ -222,10 +245,8 @@ First, you should configure which domains your SPA will be making requests from.
 
 Next, you should add Sanctum's middleware to your `api` middleware group within your `app/Http/Kernel.php` file. This middleware is responsible for ensuring that incoming requests from your SPA can authenticate using Laravel's session cookies, while still allowing requests from third parties or mobile applications to authenticate using API tokens:
 
-    use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
-
     'api' => [
-        EnsureFrontendRequestsAreStateful::class,
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         'throttle:api',
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ],
@@ -233,7 +254,7 @@ Next, you should add Sanctum's middleware to your `api` middleware group within 
 <a name="cors-and-cookies"></a>
 #### CORS & Cookies
 
-If you are having trouble authenticating with your application from an SPA that executes on a separate subdomain, you have likely misconfigured your CORS (Cross-Origin Resource Sharing) or session cookie settings.
+If you are having trouble authenticating with your application from a SPA that executes on a separate subdomain, you have likely misconfigured your CORS (Cross-Origin Resource Sharing) or session cookie settings.
 
 You should ensure that your application's CORS configuration is returning the `Access-Control-Allow-Credentials` header with a value of `True`. This may be accomplished by setting the `supports_credentials` option within your application's `config/cors.php` configuration file to `true`.
 
@@ -288,7 +309,7 @@ If your SPA needs to authenticate with [private / presence broadcast channels](/
 
     Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
-Next, in order for Pusher's authorization requests to succeed, you will need to provide a custom Pusher `authorizer` when initializing [Laravel Echo](/docs/{{version}}/broadcasting#installing-laravel-echo). This allows your application to configure Pusher to use the `axios` instance that is [properly configured for cross-domain requests](#cors-and-cookies):
+Next, in order for Pusher's authorization requests to succeed, you will need to provide a custom Pusher `authorizer` when initializing [Laravel Echo](/docs/{{version}}/broadcasting#client-side-installation). This allows your application to configure Pusher to use the `axios` instance that is [properly configured for cross-domain requests](#cors-and-cookies):
 
     window.Echo = new Echo({
         broadcaster: "pusher",

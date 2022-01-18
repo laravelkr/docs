@@ -131,7 +131,7 @@ Thankfully, many of the classes you will be writing when building a Laravel appl
 
 Thanks to zero configuration resolution, you will often type-hint dependencies on routes, controllers, event listeners, and elsewhere without ever manually interacting with the container. For example, you might type-hint the `Illuminate\Http\Request` object on your route definition so that you can easily access the current request. Even though we never have to interact with the container to write this code, it is managing the injection of these dependencies behind the scenes:
 
-설정이 따로 필요없는 의존성 해결 덕분에, 당신은 자주 라우트, 컨트롤러, 이벤트 리스너와 그 외 지금껏 메뉴얼대로 컨테이너와 상호 작용하지 않은 다른 것들을 의존성 타입힌팅 할 것이다. 예를 들어, 라우트에 명시에 `Illuminate\Http\Request` 객체를 타입힌팅 하면 현재 Request 에 쉽게 액세스 할 수 있습니다. 이 코드를 작성하며 컨테이너와 상호작용할 필요가 없더라도, 이면에선 의존성 주입들을 관리합니다.
+설정이 따로 필요없는 의존성 해결 덕분에, 라우트, 컨트롤러, 이벤트 리스너 그리고 그 외에도 컨테이너와 직접 상호 작용하지 않고 타입힌팅으로 의존성을 해결할 수 있습니다. 예를 들어, 라우트 명시에 `Illuminate\Http\Request` 객체를 타입힌팅 하면 현재 요청 에 쉽게 액세스 할 수 있습니다. 컨테이너와 직접 상호작용하는 코드를 작성하지 않더라도, 이면에선 의존성 주입들을 관리해줍니다.
 
     use Illuminate\Http\Request;
 
@@ -141,11 +141,11 @@ Thanks to zero configuration resolution, you will often type-hint dependencies o
 
 In many cases, thanks to automatic dependency injection and [facades](/docs/{{version}}/facades), you can build Laravel applications without **ever** manually binding or resolving anything from the container. **So, when would you ever manually interact with the container?** Let's examine two situations.
 
-많은 상황에서, 파사드와 자동 의존성주입 덕분에 라라벨 애플리케이션을 컨테이너에 직접 바인딩하거나 의존성 해결할 일 없이 만들 수 있습니다. 그럼 언제 컨테이너와 직접 상호작용 할까요? 두 상황을 한번 예시로 봅시다.
+많은 상황에서, 파사드와 자동 의존성 주입 덕분에 라라벨 애플리케이션을 컨테이너에 무엇이든 직접 바인딩하거나 의존성 해결할 필요 없이 만들 수 있습니다. 그럼 언제 컨테이너와 직접 상호작용할까요? 두 상황을 한번 예시로 봅시다.
 
 First, if you write a class that implements an interface and you wish to type-hint that interface on a route or class constructor, you must [tell the container how to resolve that interface](#binding-interfaces-to-implementations). Secondly, if you are [writing a Laravel package](/docs/{{version}}/packages) that you plan to share with other Laravel developers, you may need to bind your package's services into the container.
 
-먼저, 인터페이스를 구현한 클래스를 작성하고 라우트나 클래스 생성자에 타입힌팅 하고 싶으면, [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations) 를 해야합니다. 두번째로 다른 라라벨 개발자에게 공유할 계획이 있는 [라라벨 패키지 작성하기](/docs/{{version}}/packages) 를 진행중이라면, 컨테이너에 패키지의 서비스들을 바인딩해야 할 수 있습니다.
+먼저, 인터페이스를 구현한 클래스를 작성하고 라우트나 클래스 생성자에 타입힌팅 하고 싶으면, [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations) 를 해야 합니다. 두번째로 다른 라라벨 개발자들에게 공유하려는 [라라벨 패키지 작성하기](/docs/{{version}}/packages) 를 진행 중이라면, 컨테이너에 패키지의 서비스들을 바인딩해야 할 수 있습니다.
 
 <a name="binding"></a>
 ## Binding
@@ -195,7 +195,7 @@ The `singleton` method binds a class or interface into the container that should
 
 The `scoped` method binds a class or interface into the container that should only be resolved one time within a given Laravel request / job lifecycle. While this method is similar to the `singleton` method, instances registered using the `scoped` method will be flushed whenever the Laravel application starts a new "lifecycle", such as when a [Laravel Octane](/docs/{{version}}/octane) worker processes a new request or when a Laravel [queue worker](/docs/{{version}}/queues) processes a new job:
 
-'scoped' 메소드는 주어진 Laravel 요청/작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 Laravel [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 `scoped` 메서드를 사용하여 등록된 인스턴스가 플러시됩니다.
+`scoped` 메소드는 주어진 Laravel 요청/작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, `scoped` 메서드를 통해 등록된 인스턴스는 [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 컨테이너에서 비워집니다.
 
     use App\Services\Transistor;
     use App\Services\PodcastParser;
@@ -468,7 +468,7 @@ For example, you may type-hint a repository defined by your application in a con
 
 Sometimes you may wish to invoke a method on an object instance while allowing the container to automatically inject that method's dependencies. For example, given the following class:
 
-때때로 메소드의 의존성들을 주입하는 동안 객체 인스턴스에서 메소드를 호출 할 수 있습니다. 예를 들어, 아래와 같은 클래스가 있습니다.
+때때로 메소드의 의존성들을 자동으로 주입할 수 있는 상태에서 객체 인스턴스에서 메소드를 호출하고 싶을 수 있습니다. 예를 들어, 아래와 같은 클래스가 있습니다.
 
     <?php
 
@@ -492,7 +492,7 @@ Sometimes you may wish to invoke a method on an object instance while allowing t
 
 You may invoke the `generate` method via the container like so:
 
-아래와 같이 `generate` 메소드를 컨테이너를 통해 실행시킬 수 있습니다.
+`generate` 메소드를 컨테이너를 통해 호출하고 싶을 수 있습니다. 아래와 같이 사용할 수 있습니다.
 
     use App\UserReport;
     use Illuminate\Support\Facades\App;

@@ -34,11 +34,11 @@
 라라벨의 한글 매뉴얼은 많은 분들의 기여를 통해서 완성되었습니다. 현재도 계속적으로 업데이트가 이루어 지고 있으며, 오타나 수정사항에 대해서는 [laravel@laravel.kr](mailto:laravel@laravel.kr)에 문의주시거나 [Github](https://github.com/laravelkr/docs) 에서 [Pull Request](https://github.com/laravelkr/docs/pulls) 를 보내주시면 검토후 반영됩니다.
 
 
-### 깃허브 이슈 등록 
+### 1. 깃허브 이슈 등록 
 
 [이슈](https://github.com/laravelkr/docs/issues/new) 에 수정 요청사항을 등록해주시면 됩니다
 
-### Pull Request 
+### 2. Pull Request 
 
 풀리퀘스트의 경우 아래의 작업룰에 따라 등록을 해주셔야 합니다
 기본 작업 가이드는 아래와 같으며 자세한 사항은 [WIKI](https://github.com/laravelkr/docs/wiki) 를 참조해 주시기 바랍니다
@@ -46,9 +46,9 @@
 #### 오타 및 표현의 오류 수정
 
 - 해당하는 버전에 맞는 pre-kr-{version}의 브랜치에 pull request를 해주시면 됩니다
-- pre-kr 브랜치의 경우 반드시 kr 폴더 내에 있는 파일만 수정하시고 커밋을 하셔야합니다 
+  - pre-kr 브랜치의 경우 반드시 kr 폴더 내에 있는 파일만 수정하시고 커밋을 하셔야합니다 
 - kr-{version} 브랜치의 경우 실제 매뉴얼을 서비스하기 위한 문서 파일 이므로 관리자가 직접 수정하고 있습니다
-- kr-{버전} 브랜치의 pr도 같이 주신다면 문서의 반영이 조금 더 빠르게 됩니다 
+  - kr-{버전} 브랜치의 pr도 같이 주신다면 문서의 반영이 조금 더 빠르게 됩니다 
 
 #### 영어 원문의 업데이트
 
@@ -79,7 +79,7 @@
 
 ## 채팅 참여 방법
 
-채팅에 참여하려면 [슬랙](https://modernpug.slack.com)으로 [참가하기](http://slack-invite.modernpug.org/)를 신청하면 됩니다. 채널은 `#laravel`에서 이야기 하고 있습니다.
+채팅에 참여하려면 [디스코드](https://discord.gg/9BuTr5K63g) 채널 `#📚번역-좀-하시죠`로 접속하시면 됩니다
 
 ## Contributors
 

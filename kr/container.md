@@ -98,6 +98,55 @@ A deep understanding of the Laravel service container is essential to building a
 
 라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 애플리케이션을 구축할 때나 라라벨 코어에 공헌하기 위해서 아주 중요한 부분입니다.
 
+<a name="zero-configuration-resolution"></a>
+### Zero Configuration Resolution
+### 설정이 필요없는 의존성 해결
+
+If a class has no dependencies or only depends on other concrete classes (not interfaces), the container does not need to be instructed on how to resolve that class. For example, you may place the following code in your `routes/web.php` file:
+
+클래스에 의존성이 없거나 인터페이스가 아닌 다른 구현 된 클래스에만 의존하는 경우, 컨테이너는 해당 클래스에 대한 의존성 해결을 지시받을 필요가 없습니다. 예를 들어 'routes/web.php' 파일에 다음 코드를 넣을 수 있습니다.
+
+    <?php
+
+    class Service
+    {
+        //
+    }
+
+    Route::get('/', function (Service $service) {
+        die(get_class($service));
+    });
+
+In this example, hitting your application's `/` route will automatically resolve the `Service` class and inject it into your route's handler. This is game changing. It means you can develop your application and take advantage of dependency injection without worrying about bloated configuration files.
+
+이 예시에서 애플리케이션의 `/` 경로로 접속하면 자동으로 라우트 핸들러를 통해 `Service` 클래스에 대한 의존성을 해결하고 주입합니다. 이것은 여러분들이 비대한 설정 파일들에 대한 걱정 없이 의존성 주입의 이점을 누리며 애플리케이션을 개발할 수 있다는 것을 의미합니다.
+
+Thankfully, many of the classes you will be writing when building a Laravel application automatically receive their dependencies via the container, including [controllers](/docs/{{version}}/controllers), [event listeners](/docs/{{version}}/events), [middleware](/docs/{{version}}/middleware), and more. Additionally, you may type-hint dependencies in the `handle` method of [queued jobs](/docs/{{version}}/queues). Once you taste the power of automatic and zero configuration dependency injection it feels impossible to develop without it.
+
+고맙게도 라라벨 애플리케이션을 개발할 때 작성할 [컨트롤러](/docs/{version}/controllers), [이벤트 리스너](/docs/{version}/events), [미들웨어](/docs/{vers}/{version}/middware) 등을 포함한 클래스는 컨테이너를 통해 종속성을 자동으로 수신합니다.
+
+<a name="when-to-use-the-container"></a>
+### When To Use The Container
+### 컨테이너를 사용할 때
+
+Thanks to zero configuration resolution, you will often type-hint dependencies on routes, controllers, event listeners, and elsewhere without ever manually interacting with the container. For example, you might type-hint the `Illuminate\Http\Request` object on your route definition so that you can easily access the current request. Even though we never have to interact with the container to write this code, it is managing the injection of these dependencies behind the scenes:
+
+설정이 따로 필요없는 의존성 해결 덕분에, 당신은 자주 라우트, 컨트롤러, 이벤트 리스너와 그 외 지금껏 메뉴얼대로 컨테이너와 상호 작용하지 않은 다른 것들을 의존성 타입힌팅 할 것이다. 예를 들어, 라우트에 명시에 `Illuminate\Http\Request` 객체를 타입힌팅 하면 현재 Request 에 쉽게 액세스 할 수 있습니다. 이 코드를 작성하며 컨테이너와 상호작용할 필요가 없더라도, 이면에선 의존성 주입들을 관리합니다.
+
+    use Illuminate\Http\Request;
+
+    Route::get('/', function (Request $request) {
+        // ...
+    });
+
+In many cases, thanks to automatic dependency injection and [facades](/docs/{{version}}/facades), you can build Laravel applications without **ever** manually binding or resolving anything from the container. **So, when would you ever manually interact with the container?** Let's examine two situations.
+
+많은 상황에서, 파사드와 자동 의존성주입 덕분에 라라벨 애플리케이션을 컨테이너에 직접 바인딩하거나 의존성 해결할 일 없이 만들 수 있습니다. 그럼 언제 컨테이너와 직접 상호작용 할까요? 두 상황을 한번 예시로 봅시다.
+
+First, if you write a class that implements an interface and you wish to type-hint that interface on a route or class constructor, you must [tell the container how to resolve that interface](#binding-interfaces-to-implementations). Secondly, if you are [writing a Laravel package](/docs/{{version}}/packages) that you plan to share with other Laravel developers, you may need to bind your package's services into the container.
+
+먼저, 인터페이스를 구현한 클래스를 작성하고 라우트나 클래스 생성자에 타입힌팅 하고 싶으면, [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations) 를 해야합니다. 두번째로 다른 라라벨 개발자에게 공유할 계획이 있는 [라라벨 패키지 작성하기](/docs/{{version}}/packages) 를 진행중이라면, 컨테이너에 패키지의 서비스들을 바인딩해야 할 수 있습니다.
+
 <a name="binding"></a>
 ## Binding
 ## 바인딩

@@ -189,6 +189,22 @@ The `singleton` method binds a class or interface into the container that should
         return new \HelpSpot\API($app->make('HttpClient'));
     });
 
+<a name="binding-scoped"></a>
+#### Binding Scoped Singletons
+#### Scoped 싱글턴 바인딩
+
+The `scoped` method binds a class or interface into the container that should only be resolved one time within a given Laravel request / job lifecycle. While this method is similar to the `singleton` method, instances registered using the `scoped` method will be flushed whenever the Laravel application starts a new "lifecycle", such as when a [Laravel Octane](/docs/{{version}}/octane) worker processes a new request or when a Laravel [queue worker](/docs/{{version}}/queues) processes a new job:
+
+'scoped' 메소드는 주어진 Laravel 요청/작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 Laravel [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 `scoped` 메서드를 사용하여 등록된 인스턴스가 플러시됩니다.
+
+    use App\Services\Transistor;
+    use App\Services\PodcastParser;
+
+    $this->app->scoped(Transistor::class, function ($app) {
+        return new Transistor($app->make(PodcastParser::class));
+    });
+
+<a name="binding-instances"></a>
 #### Binding Instances
 #### 인스턴스를 바인딩하기
 
@@ -322,6 +338,7 @@ For convenience, you may also just provide an array of class names to be resolve
                   TooLongFilter::class,
               ]);
 
+<a name="variadic-tag-dependencies"></a>
 #### Variadic Tag Dependencies
 #### 가변 태그 종속성
 

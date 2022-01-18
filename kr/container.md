@@ -462,6 +462,54 @@ For example, you may type-hint a repository defined by your application in a con
         }
     }
 
+<a name="method-invocation-and-injection"></a>
+## Method Invocation & Injection
+## 메소드 호출 & 주입
+
+Sometimes you may wish to invoke a method on an object instance while allowing the container to automatically inject that method's dependencies. For example, given the following class:
+
+때때로 메소드의 의존성들을 주입하는 동안 객체 인스턴스에서 메소드를 호출 할 수 있습니다. 예를 들어, 아래와 같은 클래스가 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use App\Repositories\UserRepository;
+
+    class UserReport
+    {
+        /**
+         * Generate a new user report.
+         *
+         * @param  \App\Repositories\UserRepository  $repository
+         * @return array
+         */
+        public function generate(UserRepository $repository)
+        {
+            // ...
+        }
+    }
+
+You may invoke the `generate` method via the container like so:
+
+아래와 같이 `generate` 메소드를 컨테이너를 통해 실행시킬 수 있습니다.
+
+    use App\UserReport;
+    use Illuminate\Support\Facades\App;
+
+    $report = App::call([new UserReport, 'generate']);
+
+The `call` method accepts any PHP callable. The container's `call` method may even be used to invoke a closure while automatically injecting its dependencies:
+
+`call` 메소드는 모든 PHP callable 을 허용합니다. 컨테이너의 `call` 메소드는 의존성들을 해결하는 동안 클로저를 호출하는데 사용될 수도 있다는 얘기입니다.
+
+    use App\Repositories\UserRepository;
+    use Illuminate\Support\Facades\App;
+
+    $result = App::call(function (UserRepository $repository) {
+        // ...
+    });
+
 <a name="container-events"></a>
 ## Container Events
 ## 컨테이너 이벤트

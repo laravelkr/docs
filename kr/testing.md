@@ -5,10 +5,12 @@
 - [시작하기](#introduction)
 - [Environment](#environment)
 - [환경](#environment)
-- [Creating & Running Tests](#creating-and-running-tests)
-- [테스트 생성 & 실행](#creating-and-running-tests)
-    - [Artisan Test Runner](#artisan-test-runner)
-    - [아티즌 테스트 러너](#artisan-test-runner)
+- [Creating Tests](#creating-tests)
+- [테스트 생성](#creating-tests)
+- [Running Tests](#running-tests)
+- [테스트 실행](#running-tests)
+    - [Running Tests In Parallel](#running-tests-in-parallel)
+    - [Parallel에서 테스트 실행](#running-tests-in-parallel)
 
 <a name="introduction"></a>
 ## Introduction
@@ -18,13 +20,17 @@ Laravel is built with testing in mind. In fact, support for testing with PHPUnit
 
 라라벨은 테스트를 고려하여 제작되었습니다. 실제로 PHPUnit 테스팅 지원은 기본 포함되어 있고 `phpunit.xml` 파일은 이미 애플리케이션이 맞게 설정되어 있습니다. 또한, 프레임워크는 애플리케이션을 다양하게 테스트할 수 있도록 편리한 헬퍼 메소드들을 제공합니다.
 
-By default, your application's `tests` directory contains two directories: `Feature` and `Unit`. Unit tests are tests that focus on a very small, isolated portion of your code. In fact, most unit tests probably focus on a single method. Feature tests may test a larger portion of your code, including how several objects interact with each other or even a full HTTP request to a JSON endpoint.
+By default, your application's `tests` directory contains two directories: `Feature` and `Unit`. Unit tests are tests that focus on a very small, isolated portion of your code. In fact, most unit tests probably focus on a single method. Tests within your "Unit" test directory do not boot your Laravel application and therefore are unable to access your application's database or other framework services.
 
-기본적으로, 애플리케이션의 `tests` 디렉토리는 두개의 디렉토리: `Feature` 와 `Unit` 를 가지고 있습니다. 단위테스트는 코드의 매우 작고, 독립적인 부분에 초점을 둔 테스트 입니다. 실제로, 대부분의 단위 테스트는 하나의 메소드에 포커스를 맞춥니다. 기능 테스트는 여러 객체가 서로 상호작용하는 방식 또는 JSON 엔드 포인트에 대한 전체 HTTP 요청을 포함하여 코드의 많은 부분을 테스트할 수 있습니다.
+기본적으로, 애플리케이션의 `tests` 디렉토리는 두개의 디렉토리: `Feature` 와 `Unit` 를 가지고 있습니다. 단위테스트는 코드의 매우 작고, 독립적인 부분에 초점을 둔 테스트 입니다. 실제로, 대부분의 단위 테스트는 하나의 메소드에 포커스를 맞춥니다. "Unit" 테스트 디렉토리 내의 테스트는 라라벨 응용 프로그램을 실행하지 않으므로 응용 프로그램의 데이터베이스나 다른 프레임워크 서비스에 액세스할 수 없습니다.
 
-An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, run `vendor/bin/phpunit` on the command line to run your tests.
+Feature tests may test a larger portion of your code, including how several objects interact with each other or even a full HTTP request to a JSON endpoint. **Generally, most of your tests should be feature tests. These types of tests provide the most confidence that your system as a whole is functioning as intended.**
 
-`ExampleTest.php` 파일은 `Feature` 와 `Unit` 테스트 디렉토리에 모두 제공됩니다. 새로운 라라벨 애플리케이션을 설치한 후, 테스트를 실행하려면 커맨드 라인에서 `vendor/bin/phpunit`을 실행하십시오.
+기능 테스트는 여러 객체가 서로 상호작용하는 방식 또는 JSON 엔드 포인트에 대한 전체 HTTP 요청을 포함하여 코드의 많은 부분을 테스트할 수 있습니다. **일반적으로 대부분의 테스트는 기능 테스트여야 합니다. 이러한 유형의 테스트는 전체적으로 시스템이 올바르게 작동한다는 가장 큰 신뢰를 제공합니다.**
+
+An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, execute the `vendor/bin/phpunit` or `php artisan test` commands to run your tests.
+
+`ExampleTest.php` 파일은 `Feature` 와 `Unit` 테스트 디렉토리에 모두 제공됩니다. 새로운 라라벨 애플리케이션을 설치한 후, `vendor/bin/phpunit` 또는 `php artisan test` 명령을 실행하여 테스트를 실행합니다.
 
 <a name="environment"></a>
 ## Environment

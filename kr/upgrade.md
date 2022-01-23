@@ -376,9 +376,9 @@ Next, the `failed.driver` configuration option within your `queue` configuration
 **Likelihood Of Impact: Optional**
 **영향 가능성: 선택적**
 
-In previous releases of Laravel, the `RouteServiceProvider` class contained a `$namespace` property with a value of `App\Http\Controllers`. This value of this property was used to automatically prefix controller route declarations and controller route URL generation such as when calling the `action` helper.
+In previous releases of Laravel, the `RouteServiceProvider` class contained a `$namespace` property with a value of `App\Http\Controllers`. The value of this property was used to automatically prefix controller route declarations and controller route URL generation such as when calling the `action` helper.
 
-이전 버전의 라라벨에서는 `RouteServiceProvider` 클래스가 `App\Http\Controllers` 값을 가진 `$namespace` 속성을 포함하고 있었습니다. 이 속성은 컨트롤러 라우트 선언부 혹은 `action` 헬퍼와 같은 메소드 호출을 통한 URL 생성부에서 자동 접두어로 사용되었습니다.
+이전 버전의 라라벨에서는 `RouteServiceProvider` 클래스가 `App\Http\Controllers` 값을 가진 `$namespace` 속성을 포함하고 있었습니다. 이 속성값은 컨트롤러 라우트 선언부 혹은 `action` 헬퍼와 같은 메소드 호출을 통한 URL 생성부에서 자동 접두어로 사용되었습니다.
 
 In Laravel 8, this property is set to `null` by default. This allows your controller route declarations to use the standard PHP callable syntax, which provides better support for jumping to the controller class in many IDEs:
 

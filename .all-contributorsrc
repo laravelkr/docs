@@ -764,6 +764,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "corean",
+      "name": "corean",
+      "avatar_url": "https://avatars.githubusercontent.com/u/225376?v=4",
+      "profile": "https://github.com/corean",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

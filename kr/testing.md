@@ -62,7 +62,7 @@ Laravel includes a `CreatesApplication` trait that is applied to your applicatio
 
 To create a new test case, use the `make:test` Artisan command. By default, tests will be placed in the `tests/Feature` directory:
 
-새로운 테스트 케이스를 생성하려면 `make:test` 아티즌 명령어를 이용하십시오. 기본적으로, 테스트에 사용되는 파일은 `tests/Feature`에 위치해 있습니다.
+새로운 테스트 케이스를 생성하려면 `make:test` 아티즌 명령어를 이용하십시오. 기본적으로, 테스트에 사용되는 파일은 `tests/Feature`에 존재합니다.
 
     php artisan make:test UserTest
 

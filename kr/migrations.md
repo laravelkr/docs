@@ -18,7 +18,7 @@
     - [Creating Tables](#creating-tables)
     - [테이블 생성하기](#creating-tables)
     - [Updating Tables](#updating-tables)
-    - [테이블 업데이트](#updating-tables)
+    - [테이블 수정하기](#updating-tables)
     - [Renaming / Dropping Tables](#renaming-and-dropping-tables)
     - [테이블의 이름변경 / 제거](#renaming-and-dropping-tables)
 - [Columns](#columns)
@@ -362,11 +362,11 @@ The `temporary` method may be used to indicate that the table should be "tempora
 
 <a name="updating-tables"></a>
 ### Updating Tables
-### 테이블 업데이트
+### 테이블 수정하기
 
 The `table` method on the `Schem-a` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a closure that receives a `Blueprint` instance you may use to add columns or indexes to the table:
 
-`Schema` 파사드의 `table` 메소드는 기존 테이블을 업데이트하는 데 사용할 수 있습니다. `create` 메소드와 마찬가지로 `table` 메소드는 테이블 이름과 테이블에 컬럼이나 인덱스를 추가하는 데 사용할 수 있는 `Blueprint` 인스턴스를 받는 클로저의 두 가지 인수를 허용합니다:
+`Schema` 파사드의 `table` 메소드는 기존 테이블을 수정하는 데 사용할 수 있습니다. `create` 메소드와 마찬가지로 `table` 메소드는 테이블 이름과 테이블에 컬럼이나 인덱스를 추가하는 데 사용할 수 있는 `Blueprint` 인스턴스를 받는 클로저의 두 가지 인수를 허용합니다:
 
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
@@ -1151,7 +1151,7 @@ Modifier  |  설명
 `->storedAs($expression)`  |  stored generated 컬럼 생성하기 (MySQL)
 `->unsigned()`  |  INTEGER 컬럼을 UNSIGNED 으로 지정 (MySQL)
 `->useCurrent()`  |  CURRENT_TIMESTAMP를 기본값으로 사용하도록 TIMESTAMP 컬럼을 설정합니다.
-`->useCurrentOnUpdate()`  |  레코드가 업데이트될 때 CURRENT_TIMESTAMP를 사용하도록 TIMESTAMP 컬럼을 설정합니다.
+`->useCurrentOnUpdate()`  |  레코드가 수정될 때 CURRENT_TIMESTAMP를 사용하도록 TIMESTAMP 컬럼을 설정합니다.
 `->virtualAs($expression)`  |  virtual generated 컬럼 생성하기 (MySQL)
 `->generatedAs($expression)`  |  지정한 시퀀스 옵션을 사용하여 ID 컬럼 만들기 (PostgreSQL)
 `->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다 (PostgreSQL)

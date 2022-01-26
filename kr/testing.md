@@ -50,7 +50,7 @@ In addition, you may create a `.env.testing` file in the root of your project. T
 
 <a name="the-creates-application-trait"></a>
 #### The `CreatesApplication` Trait
-#### '생성 애플리케이션'의 특성
+#### `CreatesApplication`의 특성
 
 Laravel includes a `CreatesApplication` trait that is applied to your application's base `TestCase` class. This trait contains a `createApplication` method that bootstraps the Laravel application before running your tests. It's important that you leave this trait at its original location as some features, such as Laravel's parallel testing feature, depend on it.
 

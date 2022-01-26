@@ -22,44 +22,33 @@
     - [Background Tasks](#background-tasks)
     - [백그라운드 작업](#background-tasks)
     - [Maintenance Mode](#maintenance-mode)
-    - [공사중 모드](#maintenance-mode)
+    - [점검 모드](#maintenance-mode)
 - [Task Output](#task-output)
 - [작업 출력](#task-output)
 - [Task Hooks](#task-hooks)
 - [작업 후킹](#task-hooks)
+- [Events](#events)
+- [이벤트](#events)
 
 <a name="introduction"></a>
 ## Introduction
 ## 시작하기
 
-In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries.
+In the past, you may have written a cron configuration entry for each task you needed to schedule on your server. However, this can quickly become a pain because your task schedule is no longer in source control and you must SSH into your server to view your existing cron entries or add additional entries.
 
-이전까지는, 여러분은 서버에서 스케줄링이 필요한 각각의 작업들을 위해서 Cron 항목를 생성해야 했습니다. 그러나 작업 스케줄은 소스 컨트롤로 관리되지도 않고, 서버에 SSH로 접속해서 Cron 항목을 추가해야 하기 때문에. 이 작업은 금방 어려워 집니다.
+이전까지는, 서버에서 예약해야 하는 각 작업에 대해 Cron 구성 항목을 생성해야 했습니다. 그러나 작업 스케쥴은 더 이상 소스 컨트롤로 관리되지 않고, 기존 Cron 항목을 보거나 추가 항목을 추가하려면 SSH를 통해 서버에 연결해야 하기 때문에 이 작업은 문제가 될 수도 있습니다.
 
-Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself. When using the scheduler, only a single Cron entry is needed on your server. Your task schedule is defined in the `app/Console/Kernel.php` file's `schedule` method. To help you get started, a simple example is defined within the method.
+Laravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. The scheduler allows you to fluently and expressively define your command schedule within your Laravel application itself. When using the scheduler, only a single cron entry is needed on your server. Your task schedule is defined in the `app/Console/Kernel.php` file's `schedule` method. To help you get started, a simple example is defined within the method.
 
-라라벨의 명령어 스케줄러는 라라벨 안에서 유연하고 풍부한 표현이 가능한 명령어 스케줄을 정의할 수 있게 해줍니다. 스케줄러를 사용할 때에는 단지, 서버에 Cron 항목이 하나만 필요합니다. `app/Console/Kernel.php` 파일의 `schedule` 메소드안에 여러분의 작업 스케줄을 정의합니다. 시작을 돕기 위해서 이 메소드 안에는 간단한 예제가 정의되어 있습니다.
-
-### Starting The Scheduler
-### 작업 스케줄러 시작하기
-
-When using the scheduler, you only need to add the following Cron entry to your server. If you do not know how to add Cron entries to your server, consider using a service such as [Laravel Forge](https://forge.laravel.com) which can manage the Cron entries for you:
-
-스케줄러를 사용할 때에는, 다음의 Cron 항목을 서버에 추가하기만 하면 됩니다. 만약 여러분이 어떻게 Cron 항목을 서버에 추가하는지에 대해서 알지 못한다면, Cron 항목들을 관리해 줄 수 있는 [라라벨 Forge](https://forge.laravel.com)와 같은 서비스를 사용하는 것을 고려해 보십시오:
-
-    * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
-
-This Cron will call the Laravel command scheduler every minute. When the `schedule:run` command is executed, Laravel will evaluate your scheduled tasks and runs the tasks that are due.
-
-이 Cron 은 라라벨 명령어 스케줄러를 매분마다 호출할것입니다. `schedule:run` 명령어가 실행될 때, 라라벨은 여러분의 스케줄에 포함된 작업들을 계산하고 맞춰진 시간에 따라 작업들을 수행합니다.
+라라벨의 명령 스케줄러는 서버에서 예약된 작업을 관리하는 새로운 접근 방식을 제공합니다. 스케줄러를 사용하면 라라벨 애플리케이션 자체 내에서 명령 스케줄을 유창하고 표현적으로 정의할 수 있습니다. 스케줄러를 사용할 때 서버에 하나의 Cron 항목만 필요합니다. 작업 일정은 `app/Console/Kernel.php` 파일의 `schedule` 메소드에 정의되어 있습니다. 시작하는 데 도움이 되도록 메서드 내에 간단한 예제가 정의되어 있습니다.
 
 <a name="defining-schedules"></a>
 ## Defining Schedules
 ## 스케줄 정의하기
 
-You may define all of your scheduled tasks in the `schedule` method of the `App\Console\Kernel` class. To get started, let's look at an example of scheduling a task. In this example, we will schedule a `Closure` to be called every day at midnight. Within the `Closure` we will execute a database query to clear a table:
+You may define all of your scheduled tasks in the `schedule` method of your application's `App\Console\Kernel` class. To get started, let's take a look at an example. In this example, we will schedule a closure to be called every day at midnight. Within the closure we will execute a database query to clear a table:
 
-`App\Console\Kernel` 의 `schedule` 메소드에서 모든 스케줄된 작업들을 정의할 수 있습니다. 시작하기 전에 작업을 스케줄하는 예제 하나를 보겠습니다. 이 예제에서는 `Closure`가 매일밤 자정에 호출되도록 스케줄을 지정합니다. `Closure` 내에 테이블을 정리할 데이터베이스 쿼리를 실행합니다.
+애플리케이션의 `App\Console\Kernel` 클래스의 `schedule` 메소드에서 모든 스케쥴링된 작업을 정의할 수 있습니다. 시작하기 위해 예제를 살펴보겠습니다. 이 예에서는 매일 자정에 클로저가 호출되도록 스케쥴링합니다. 클로저 내에서 우리는 테이블을 지우기 위해 데이터베이스 쿼리를 실행할 것입니다:
 
     <?php
 
@@ -94,23 +83,37 @@ You may define all of your scheduled tasks in the `schedule` method of the `App\
         }
     }
 
-In addition to scheduling using Closures, you may also use [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
+In addition to scheduling using closures, you may also schedule [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke). Invokable objects are simple PHP classes that contain an `__invoke` method:
 
-클로저를 사용하여 스케쥴링 하는 것 외에도 [invokable objects](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke)를 사용할 수 있습니다. 호출 가능한 객체는 `__invoke` 메소드를 포함하는 간단한 PHP 클래스입니다.
+클로저를 사용하여 스케쥴링 하는 것 외에도 [호출 가능한 개체](https://secure.php.net/manual/en/language.oop5.magic.php#object.invoke)를 예약할 수도 있습니다. 호출 가능한 객체는 `__invoke` 메서드가 포함된 간단한 PHP 클래스입니다.
 
     $schedule->call(new DeleteRecentUsers)->daily();
+
+If you would like to view an overview of your scheduled tasks and the next time they are scheduled to run, you may use the `schedule:list` Artisan command:
+
+스케쥴링된 작업의 개요와 다음에 실행하도록 스케쥴링된 시간을 보려면 `schedule:list` 아티즌 명령을 사용할 수 있습니다.
+
+```nothing
+php artisan schedule:list
+```
 
 <a name="scheduling-artisan-commands"></a>
 ### Scheduling Artisan Commands
 ### 아티즌 명령어 스케줄링
 
-In addition to scheduling Closure calls, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and operating system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class:
+In addition to scheduling closures, you may also schedule [Artisan commands](/docs/{{version}}/artisan) and system commands. For example, you may use the `command` method to schedule an Artisan command using either the command's name or class.
 
-클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan)와 os 명령어도 스케줄링 할 수 있습니다. 예를 들어 `command` 메소드로 다른 명령어의 이름이나 클래스를 사용하는 아티즌 커맨드를 스케줄링할 수 있습니다.
+클로저 호출 외에도 [아티즌 명령어](/docs/{{version}}/artisan) 및 시스템 명령을 스케쥴링할 수도 있습니다. 예를 들어 `command` 메소드를 사용하여 커맨드의 이름이나 클래스를 사용하여 아티즌 커멘드을 스케쥴링할 수 있습니다.
+
+When scheduling Artisan commands using the command's class name, you may pass an array of additional command-line arguments that should be provided to the command when it is invoked:
+
+커멘드의 클래스 이름을 사용하여 아티즌 명령을 스케쥴링할 때 커멘드가 호출될 때 커멘드에 제공되어야 하는 추가 명령줄 인수의 배열을 전달할 수 있습니다.
+
+    use App\Console\Commands\SendEmailsCommand;
 
     $schedule->command('emails:send Taylor --force')->daily();
 
-    $schedule->command(EmailsCommand::class, ['Taylor', '--force'])->daily();
+    $schedule->command(SendEmailsCommand::class, ['Taylor', '--force'])->daily();
 
 <a name="scheduling-queued-jobs"></a>
 ### Scheduling Queued Jobs

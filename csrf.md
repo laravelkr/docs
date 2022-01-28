@@ -1,4 +1,4 @@
-# CSRF Protection
+# CSRF 보호
 
 - [소개하기](#csrf-introduction)
 - [사이트 간 요청 위조 방지하기](#preventing-csrf-requests)

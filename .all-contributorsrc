@@ -782,6 +782,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "yunh03",
+      "name": "Yun-Hwan Jeon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57185499?v=4",
+      "profile": "https://yuns.space",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

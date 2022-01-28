@@ -52,7 +52,7 @@
     <form method="POST" action="/profile">
         @csrf
 
-        <!-- Equivalent to... -->
+        <!-- 아래와 같이 사용할 수 있습니다. -->
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     </form>
 
@@ -79,7 +79,7 @@ URI를 CSRF 보호에서 제외시키고 싶을 때가 있습니다. 예를 들�
     class VerifyCsrfToken extends Middleware
     {
         /**
-         * The URIs that should be excluded from CSRF verification.
+         * CSRF 검증에서 제외해야 하는 URI입니다.
          *
          * @var array
          */

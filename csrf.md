@@ -35,7 +35,7 @@
 
 라라벨은 애플리케이션에서 관리하는 [HTTP 세션](/docs/{{version}}/session)마다 CSRF 토큰을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에서 요청을 했는지 확인하는 데 사용됩니다. 이 토큰은 사용자의 세션에 저장되며 세션이 재생성 될 때마다 변경되므로 악성 애플리케이션이 접근할 수 없습니다.
 
-현재 세션에 대한 CSRF 토큰은 Request 의 session() 메서드나 `csrf_token` 이라는 헬퍼 함수를 통해 접근할 수 있습니다.
+현재 세션에 대한 CSRF 토큰은 Request 의 session() 메소드나 `csrf_token` 이라는 헬퍼 함수를 통해 접근할 수 있습니다.
 
     use Illuminate\Http\Request;
 

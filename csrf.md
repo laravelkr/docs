@@ -61,7 +61,6 @@
 <a name="csrf-tokens-and-spas"></a>
 ### CSRF 토큰과 SPA
 
-If you are building an SPA that is utilizing Laravel as an API backend, you should consult the [Laravel Sanctum documentation](/docs/{{version}}/sanctum) for information on authenticating with your API and protecting against CSRF vulnerabilities.
 라라벨을 API 백앤드로 활용하는 싱글 페이지 애플리케이션(SPA)을 만들고 있다면 [라라벨 Sanctum 문서](/docs/{{version}}/sanctum)에서 API 인증과 CSRF 취약점 보호 방법에 대해 알아보십시오. 
 
 <a name="csrf-excluding-uris"></a>

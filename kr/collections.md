@@ -7,7 +7,7 @@
     - [Extending Collections](#extending-collections)
     - [컬렉션 확장하기](#extending-collections)
 - [Available Methods](#available-methods)
-- [사용가능한 메소드들](#available-methods)
+- [사용가능한 메소드](#available-methods)
 - [Higher Order Messages](#higher-order-messages)
 - [Higher Order Messages](#higher-order-messages)
 - [Lazy Collections](#lazy-collections)

@@ -2044,7 +2044,7 @@ You may pass an integer to `random` to specify how many items you would like to 
 
 If the collection instance has fewer items than requested, the `random` method will throw an `InvalidArgumentException`.
 
-컬렉션이 요청된 것보다 더 적은 개수의 아이템을 가지고 있다면, 메소드는 `InvalidArgumentException`을 던집니다.
+컬렉션 인스턴스가 요청된 것보다 더 적은 개수의 아이템을 가지고 있다면, `random` 메소드는 `InvalidArgumentException`을 던집니다.
 
 <a name="method-range"></a>
 #### `range()` {.collection-method}

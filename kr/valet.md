@@ -1,22 +1,23 @@
 # Laravel Valet
+
 # 라라벨 발렛
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-    - [Valet Or Homestead](#valet-or-homestead)
-    - [발렛 또는 홈스테드](#valet-or-homestead)
+  - [Valet Or Homestead](#valet-or-homestead)
+  - [발렛 또는 홈스테드](#valet-or-homestead)
 - [Installation](#installation)
 - [설치하기](#installation)
-    - [Upgrading](#upgrading)
-    - [업그레이드하기](#upgrading)
+  - [Upgrading](#upgrading)
+  - [업그레이드하기](#upgrading)
 - [Serving Sites](#serving-sites)
 - [사이트 동작시키기](#serving-sites)
-    - [The "Park" Command](#the-park-command)
-    - ["Park" 명령어](#the-park-command)
-    - [The "Link" Command](#the-link-command)
-    - ["Link" 명령어](#the-link-command)
-    - [Securing Sites With TLS](#securing-sites)
-    - [TLS를 사용한 안전한 사이트](#securing-sites)
+  - [The "Park" Command](#the-park-command)
+  - ["Park" 명령어](#the-park-command)
+  - [The "Link" Command](#the-link-command)
+  - ["Link" 명령어](#the-link-command)
+  - [Securing Sites With TLS](#securing-sites)
+  - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
@@ -25,15 +26,17 @@
 - [프록시 서비스](#proxying-services)
 - [Custom Valet Drivers](#custom-valet-drivers)
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
-    - [Local Drivers](#local-drivers)
-    - [로컬 드라이버](#local-drivers)
+  - [Local Drivers](#local-drivers)
+  - [로컬 드라이버](#local-drivers)
 - [Other Valet Commands](#other-valet-commands)
 - [기타 발렛 명령어들](#other-valet-commands)
 - [Valet Directories & Files](#valet-directories-and-files)
 - [Valet 디렉토리와 파일](#valet-directories-and-files)
 
 <a name="introduction"></a>
+
 ## Introduction
+
 ## 시작하기
 
 Valet is a Laravel development environment for Mac minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
@@ -52,6 +55,14 @@ Out of the box, Valet support includes, but is not limited to:
 
 별다른 설정 없이도, 발렛은 다음을 지원하지만, 이게 전부는 아닙니다.
 
+<style>
+    #valet-support > ul {
+        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        line-height: 1.9;
+    }
+</style>
+
+<div id="valet-support" markdown="1">
 
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
@@ -75,15 +86,16 @@ Out of the box, Valet support includes, but is not limited to:
 - [Symfony](https://symfony.com)
 - [WordPress](https://wordpress.org)
 - [Zend](https://framework.zend.com)
-
-
+</div>
 
 However, you may extend Valet with your own [custom drivers](#custom-valet-drivers).
 
 여러분은 발렛을 고유한 [사용자 정의 드라이버](#custom-valet-drivers)를 통해서 확장할 수 있습니다.
 
 <a name="valet-or-homestead"></a>
+
 ### Valet Or Homestead
+
 ### 발렛 또는 홈스테드
 
 As you may know, Laravel offers [Homestead](/docs/{{version}}/homestead), another local Laravel development environment. Homestead and Valet differ in regards to their intended audience and their approach to local development. Homestead offers an entire Ubuntu virtual machine with automated Nginx configuration. Homestead is a wonderful choice if you want a fully virtualized Linux development environment or are on Windows / Linux.
@@ -99,28 +111,20 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭한 선택입니다. 선택은 개인적인 취향과 팀의 필요에 따라 달라질 것입니다.
 
 <a name="installation"></a>
+
 ## Installation
+
 ## 설치하기
 
 **Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.**
 
 **발렛은 macOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
-
 - Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
 - Install PHP 7.4 using Homebrew via `brew install php`.
 - Install [Composer](https://getcomposer.org).
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
-
-
-
-- [Homebrew](https://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
-- `brew install php` Homebrew 명령어를 사용하여 PHP7.3을 설치하십시오.
-- [Composer](https://getcomposer.org) 설치.
-- `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
-- `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
-
 
 Once Valet is installed, try pinging any `*.test` domain on your terminal using a command such as `ping foobar.test`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
 
@@ -131,6 +135,7 @@ Valet will automatically start its daemon each time your machine boots. There is
 발렛은 여러분의 머신이 매번 부팅될 때 자동적으로 데몬이 시작될 것입니다. 처음 발렛이 설치되어 완료되고 나면 별도의 `valet start` 나 `valet install` 을 실행할 필요가 없습니다.
 
 #### Using Another Domain
+
 #### 다른 도메인 사용하기
 
 By default, Valet serves your projects using the `.test` TLD. If you'd like to use another domain, you can do so using the `valet tld tld-name` command.
@@ -142,6 +147,7 @@ For example, if you'd like to use `.app` instead of `.test`, run `valet tld app`
 예를 들어, `.test` 대신에 `.app` 을 사용하고자 한다면 `valet tld app` 을 실행하면 발렛이 `*.app` 을 프로젝트에 자동적으로 제공하게 될것입니다.
 
 #### Database
+
 #### 데이터베이스
 
 If you need a database, try MySQL by running `brew install mysql@5.7` on your command line. Once MySQL has been installed, you may start it using the `brew services start mysql@5.7` command. You can then connect to the database at `127.0.0.1` using the `root` username and an empty string for the password.
@@ -149,6 +155,7 @@ If you need a database, try MySQL by running `brew install mysql@5.7` on your co
 데이터베이스가 필요하다면, 커맨드 라인에서 `brew install mysql@5.7`를 실행하여 MySQL를 설치해 보십시오. MySQL가 설치되고 나면, `brew services start mysql@5.7` 명령어를 통해서 서비스를 시작할 수 있습니다. 그렇게 하면 `127.0.0.1` 서버에 `root` 계정으로 패스워드 없이 접속 할 수 있습니다.
 
 #### PHP Versions
+
 #### PHP 버전
 
 Valet allows you to switch PHP versions using the `valet use php@version` command. Valet will install the specified PHP version via Brew if it is not already installed:
@@ -156,7 +163,7 @@ Valet allows you to switch PHP versions using the `valet use php@version` comman
 Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할 수있게합니다. Valet은 Brew를 통해 지정된 PHP 버전을 아직 설치하지 않은 경우 설치합니다.
 
     valet use php@7.2
-    
+
     valet use php
 
 > {note} Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
@@ -164,6 +171,7 @@ Valet은 `valet use php@version` 명령을 사용하여 PHP 버전을 전환 할
 > {note} Valet는 여러 개의 PHP 버전이 설치되어 있어도 한 번에 하나의 PHP 버전 만 제공합니다.
 
 #### Resetting Your Installation
+
 #### 설치 재설정
 
 If you are having trouble getting your Valet installation to run properly, executing the `composer global update` command followed by `valet install` will reset your installation and can solve a variety of problems. In rare cases it may be necessary to "hard reset" Valet by executing `valet uninstall --force` followed by `valet install`.
@@ -171,7 +179,9 @@ If you are having trouble getting your Valet installation to run properly, execu
 Valet 설치 후 제대로 실행되지 않는 경우 `composer global update` 명령과 `valet install`을 실행하면 설치가 재설정되고 다양한 문제를 해결할 수 있습니다. 드문 경우지만 `valet uninstall --force`와 `valet install`을 실행하여 Valet를 "하드 리셋"해야 할 수도 있습니다.
 
 <a name="upgrading"></a>
+
 ### Upgrading
+
 ### 업그레이드 하기
 
 You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
@@ -179,7 +189,9 @@ You may update your Valet installation using the `composer global update` comman
 터미널에서 `composer global update` 명령어를 사용하여 Valet 설치파일을 업데이트 할 수 있습니다. 업그레이드가 진행되면, `valet install` 명령어를 실행시켜 필요한 경우 설정파일에 추가적인 업그레이드가 진행되도록 하십시오.
 
 <a name="serving-sites"></a>
+
 ## Serving Sites
+
 ## 사이트 동작시키기
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
@@ -187,42 +199,46 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 발렛이 설치되고 나면, 사이트를 동작시킬 준비가된 것입니다. 발렛은 라라벨 사이트를 구동하는데 도움을 줄 수 있는 `park` 와 `link` 두가지 명령어를 제공합니다.
 
 <a name="the-park-command"></a>
+
 #### The `park` Command
+
 #### `park` 명령어
 
-
+<div class="content-list" markdown="1">
 - Create a new directory on your Mac by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
 - Next, create a new Laravel site within this directory: `laravel new blog`.
 - Open `http://blog.test` in your browser.
+</div>
 
-
-
+<div class="content-list" markdown="1">
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
 - 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다. `laravel new blog`.
 - 브라우저에서 `http://blog.test` 사이트를 열어서 확인합니다.
-
+</div>
 
 **That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.test` convention.
 
 **여기까지가 전부 입니다.** 이제 여러분이 "parked(지정한)" 디렉토리 안에 생성된 라라벨 프로젝트는 자동으로 `http://folder-name.test` 형태로 접속할 수 있습니다.
 
 <a name="the-link-command"></a>
+
 #### The `link` Command
+
 #### `link` 명령어
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 
 `link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
 
-
+<div class="content-list" markdown="1">
 - To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.config/valet/Sites` which points to your current working directory.
 - After running the `link` command, you can access the site in your browser at `http://app-name.test`.
+</div>
 
-
-
+<div class="content-list" markdown="1">
 - 명령어를 사용하기 위해서, 프로젝트 중 하나의 디렉토리에 대해서 터미널에서 `valet link app-name` 을 실행합니다. 발렛은 현재 작업 디렉토리를 `~/.config/valet/Sites`가 지정하도록 심볼릭 링크를 생성할 것입니다.
 - `link` 명령어를 실행한 다음에, 브라우저에서 `http://app-name.test` 로 접속할 수 있습니다.
-
+</div>
 
 To see a listing of all of your linked directories, run the `valet links` command. You may use `valet unlink app-name` to destroy the symbolic link.
 
@@ -233,7 +249,9 @@ To see a listing of all of your linked directories, run the `valet links` comman
 > {tip} `valet link` 를 동일한 프로젝트에 대해서 다수의 (서브) 도메인을 통해서 사이트가 동작하도록 할 수 있습니다. 프로젝트에 서브도메인이나, 다른 도메인을 추가하려면 프로젝트 폴더에서 `valet link subdomain.app-name` 을 실행하십시오.
 
 <a name="securing-sites"></a>
+
 #### Securing Sites With TLS
+
 #### TLS를 사용한 안전한 사이트
 
 By default, Valet serves sites over plain HTTP. However, if you would like to serve a site over encrypted TLS using HTTP/2, use the `secure` command. For example, if your site is being served by Valet on the `laravel.test` domain, you should run the following command to secure it:
@@ -249,7 +267,9 @@ To "unsecure" a site and revert back to serving its traffic over plain HTTP, use
     valet unsecure laravel
 
 <a name="sharing-sites"></a>
+
 ## Sharing Sites
+
 ## 사이트 공유
 
 Valet even includes a command to share your local sites with the world, providing an easy way to test your site on mobile devices or share it with team members and clients. No additional software installation is required once Valet is installed.
@@ -257,6 +277,7 @@ Valet even includes a command to share your local sites with the world, providin
 발렛에는 여러분의 로컬 사이트를 세상과 공유하는 명령어도 포함되어 있어서 모바일 기기에서 사이트를 쉽게 테스트하거나 팀원 및 고객과 사이트를 공유 할 수 있습니다. 발렛만 설치되어 있으면 추가적인 소프트웨어의 설치도 필요하지 않습니다.
 
 ### Sharing Sites Via Ngrok
+
 ### Ngrok를 통해 사이트 공유
 
 To share a site, navigate to the site's directory in your terminal and run the `valet share` command. A publicly accessible URL will be inserted into your clipboard and is ready to paste directly into your browser or share with your team.
@@ -272,6 +293,7 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 > {tip} `valet share --region=eu`와 같이 추가 파라메터를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok documentation](https://ngrok.com/docs)을 참조하십시오.
 
 ### Sharing Sites Via Expose
+
 ### Expose을 통해 사이트 공유
 
 If you have [Expose](https://beyondco.de/docs/expose) installed, you can share your site by navigating to the site's directory in your terminal and running the `expose` command. Consult the expose documentation for additional command-line parameters it supports. After sharing the site, Expose will display the sharable URL that you may use on your other devices or amongst team members.
@@ -283,6 +305,7 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 사이트 공유를 중지하려면 `Control + C`를 눌러 프로세스를 취소하십시오.
 
 ### Sharing Sites On Your Local Network
+
 ### 로컬 네트워크에서 사이트 공유
 
 Valet restricts incoming traffic to the internal `127.0.0.1` interface by default. This way your development machine isn't exposed to security risks from the Internet.
@@ -302,7 +325,9 @@ Once you have updated your Nginx configuration, run the `valet restart` command 
 Nginx 설정을 변경하고 나면 `valet restart` 명령을 실행하여 설정을 변경하십시오.
 
 <a name="site-specific-environment-variables"></a>
+
 ## Site Specific Environment Variables
+
 ## 사이트 별 환경변수
 
 Some applications using other frameworks may depend on server environment variables but do not provide a way for those variables to be configured within your project. Valet allows you to configure site specific environment variables by adding a `.valet-env.php` file within the root of your project. These variables will be added to the `$_SERVER` global array:
@@ -326,7 +351,9 @@ Some applications using other frameworks may depend on server environment variab
     ];
 
 <a name="proxying-services"></a>
+
 ## Proxying Services
+
 ## 프록시 서비스
 
 Sometimes you may wish to proxy a Valet domain to another service on your local machine. For example, you may occasionally need to run Valet while also running a separate site in Docker; however, Valet and Docker can't both bind to port 80 at the same time.
@@ -352,7 +379,9 @@ You may use the `proxies` command to list all site configuration that are proxie
     valet proxies
 
 <a name="custom-valet-drivers"></a>
+
 ## Custom Valet Drivers
+
 ## 사용자 정의-커스텀 발렛 드라이버
 
 You can write your own Valet "driver" to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a `~/.config/valet/Drivers` directory is created which contains a `SampleValetDriver.php` file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: `serves`, `isStaticFile`, and `frontControllerPath`.
@@ -372,6 +401,7 @@ Let's take a look at a sample implementation of each method your custom Valet dr
 사용자 정의 발렛 드라이버에서 구현하는 메소드의 샘플 코드를 살펴 보겠습니다.
 
 #### The `serves` Method
+
 #### `serves` 메소드
 
 The `serves` method should return `true` if your driver should handle the incoming request. Otherwise, the method should return `false`. So, within this method you should attempt to determine if the given `$sitePath` contains a project of the type you are trying to serve.
@@ -396,6 +426,7 @@ For example, let's pretend we are writing a `WordPressValetDriver`. Our `serves`
     }
 
 #### The `isStaticFile` Method
+
 #### `isStaticFile` 메소드
 
 The `isStaticFile` should determine if the incoming request is for a file that is "static", such as an image or a stylesheet. If the file is static, the method should return the fully qualified path to the static file on disk. If the incoming request is not for a static file, the method should return `false`:
@@ -424,6 +455,7 @@ The `isStaticFile` should determine if the incoming request is for a file that i
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 #### The `frontControllerPath` Method
+
 #### `frontControllerPath` 메소드
 
 The `frontControllerPath` method should return the fully qualified path to your application's "front controller", which is typically your "index.php" file or equivalent:
@@ -444,7 +476,9 @@ The `frontControllerPath` method should return the fully qualified path to your 
     }
 
 <a name="local-drivers"></a>
+
 ### Local Drivers
+
 ### 로컬 드라이버
 
 If you would like to define a custom Valet driver for a single application, create a `LocalValetDriver.php` in the application's root directory. Your custom driver may extend the base `ValetDriver` class or extend an existing application specific driver such as the `LaravelValetDriver`:
@@ -481,71 +515,75 @@ If you would like to define a custom Valet driver for a single application, crea
     }
 
 <a name="other-valet-commands"></a>
+
 ## Other Valet Commands
+
 ## 기타 발렛 명령어들
 
-Command  | Description
-------------- | -------------
-`valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
-`valet log` | View a list of logs which are written by Valet's services.
-`valet paths` | View all of your "parked" paths.
-`valet restart` | Restart the Valet daemon.
-`valet start` | Start the Valet daemon.
-`valet stop` | Stop the Valet daemon.
-`valet trust` | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.
-`valet uninstall` | Uninstall Valet: Shows instructions for manual uninstall; or pass the `--force` parameter to aggressively delete all of Valet.
+| Command           | Description                                                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `valet forget`    | Run this command from a "parked" directory to remove it from the parked directory list.                                        |
+| `valet log`       | View a list of logs which are written by Valet's services.                                                                     |
+| `valet paths`     | View all of your "parked" paths.                                                                                               |
+| `valet restart`   | Restart the Valet daemon.                                                                                                      |
+| `valet start`     | Start the Valet daemon.                                                                                                        |
+| `valet stop`      | Stop the Valet daemon.                                                                                                         |
+| `valet trust`     | Add sudoers files for Brew and Valet to allow Valet commands to be run without prompting for passwords.                        |
+| `valet uninstall` | Uninstall Valet: Shows instructions for manual uninstall; or pass the `--force` parameter to aggressively delete all of Valet. |
 
-명령어 | 설명
-------------- | -------------
-`valet forget` | parked 디렉토리 목록에서 디렉토리를 제거하기 위해서는 "parked" 된 디렉토리에서 이 명령어를 실행하십시오.
-`valet log` | Valet의 서비스가 작성한 로그 목록보기.
-`valet paths` | "parked" 된 모든 경로를 확인합니다.
-`valet restart` | 발렛 데몬을 재시작 합니다.
-`valet start` | 발렛 데몬을 시작합니다.
-`valet stop` | 발렛 데몬을 중지합니다.
-`valet trust` | 암호를 묻지 않고 Valet 명령을 실행할 수 있도록 Brew와 Valet을 sudoers에 추가합니다.
-`valet uninstall` | Valet 제거 : 수동 제거에 대한 명렁을 보여줍니다. 또는 `--force` 파라메터를 전달하여 모든 Valet을 적극적으로 삭제합니다.
+| 명령어            | 설명                                                                                                                    |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `valet forget`    | parked 디렉토리 목록에서 디렉토리를 제거하기 위해서는 "parked" 된 디렉토리에서 이 명령어를 실행하십시오.                |
+| `valet log`       | Valet의 서비스가 작성한 로그 목록보기.                                                                                  |
+| `valet paths`     | "parked" 된 모든 경로를 확인합니다.                                                                                     |
+| `valet restart`   | 발렛 데몬을 재시작 합니다.                                                                                              |
+| `valet start`     | 발렛 데몬을 시작합니다.                                                                                                 |
+| `valet stop`      | 발렛 데몬을 중지합니다.                                                                                                 |
+| `valet trust`     | 암호를 묻지 않고 Valet 명령을 실행할 수 있도록 Brew와 Valet을 sudoers에 추가합니다.                                     |
+| `valet uninstall` | Valet 제거 : 수동 제거에 대한 명렁을 보여줍니다. 또는 `--force` 파라메터를 전달하여 모든 Valet을 적극적으로 삭제합니다. |
 
 <a name="valet-directories-and-files"></a>
+
 ## Valet Directories & Files
+
 ## Valet 디렉토리 및 파일
 
 You may find the following directory and file information helpful while troubleshooting issues with your Valet environment:
 
 Valet 환경설정 관련 문제를 해결하기 위해 다음 디렉토리 및 파일 정보가 도움이 될 수 있습니다.
 
-File / Path | Description
---------- | -----------
-`~/.config/valet/` | Contains all of Valet's configuration. You may wish to maintain a backup of this folder.
-`~/.config/valet/dnsmasq.d/` | Contains DNSMasq's configuration.
-`~/.config/valet/Drivers/` | Contains custom Valet drivers.
-`~/.config/valet/Extensions/` | Contains custom Valet extensions / commands.
-`~/.config/valet/Nginx/` | Contains all Valet generated Nginx site configurations. These files are rebuilt when running the `install`, `secure`, and `tld` commands.
-`~/.config/valet/Sites/` | Contains all symbolic links for linked projects.
-`~/.config/valet/config.json` | Valet's master configuration file
-`~/.config/valet/valet.sock` | The PHP-FPM socket used by Valet's Nginx configuration. This will only exist if PHP is running properly.
-`~/.config/valet/Log/fpm-php.www.log` | User log for PHP errors.
-`~/.config/valet/Log/nginx-error.log` | User log for Nginx errors.
-`/usr/local/var/log/php-fpm.log` | System log for PHP-FPM errors.
-`/usr/local/var/log/nginx` | Contains Nginx access and error logs.
-`/usr/local/etc/php/X.X/conf.d` | Contains `*.ini` files for various PHP configuration settings.
-`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | PHP-FPM pool configuration file.
-`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | The default Nginx configuration used for building site certificates.
+| File / Path                                                    | Description                                                                                                                               |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `~/.config/valet/`                                             | Contains all of Valet's configuration. You may wish to maintain a backup of this folder.                                                  |
+| `~/.config/valet/dnsmasq.d/`                                   | Contains DNSMasq's configuration.                                                                                                         |
+| `~/.config/valet/Drivers/`                                     | Contains custom Valet drivers.                                                                                                            |
+| `~/.config/valet/Extensions/`                                  | Contains custom Valet extensions / commands.                                                                                              |
+| `~/.config/valet/Nginx/`                                       | Contains all Valet generated Nginx site configurations. These files are rebuilt when running the `install`, `secure`, and `tld` commands. |
+| `~/.config/valet/Sites/`                                       | Contains all symbolic links for linked projects.                                                                                          |
+| `~/.config/valet/config.json`                                  | Valet's master configuration file                                                                                                         |
+| `~/.config/valet/valet.sock`                                   | The PHP-FPM socket used by Valet's Nginx configuration. This will only exist if PHP is running properly.                                  |
+| `~/.config/valet/Log/fpm-php.www.log`                          | User log for PHP errors.                                                                                                                  |
+| `~/.config/valet/Log/nginx-error.log`                          | User log for Nginx errors.                                                                                                                |
+| `/usr/local/var/log/php-fpm.log`                               | System log for PHP-FPM errors.                                                                                                            |
+| `/usr/local/var/log/nginx`                                     | Contains Nginx access and error logs.                                                                                                     |
+| `/usr/local/etc/php/X.X/conf.d`                                | Contains `*.ini` files for various PHP configuration settings.                                                                            |
+| `/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf`              | PHP-FPM pool configuration file.                                                                                                          |
+| `~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | The default Nginx configuration used for building site certificates.                                                                      |
 
-파일 / 경로 | 설명
---------- | -----------
-`~/.config/valet/` | Valet의 모든 설정이 들어 있습니다. 이 폴더의 백업하여 유지 관리 할 수 ​​있습니다.
-`~/.config/valet/dnsmasq.d/` | DNSMasq의 설정이 들어 있습니다.
-`~/.config/valet/Drivers/` | 커스텀 Valet 드라이버가 들어 있습니다.
-`~/.config/valet/Extensions/` | 커스텀 Valet 확장모듈 / 커맨드가 들어 있습니다.
-`~/.config/valet/Nginx/` | Valet이 생성한 모든 Nginx 사이트 설정이 들어 있습니다. 이 파일들은 `install`, `secure` 및 `tld` 명령을 실행할 때 다시 빌드됩니다.
-`~/.config/valet/Sites/` | 연결된 프로젝트에 대한 모든 심볼릭 링크가 들어 있습니다.
-`~/.config/valet/config.json` | Valet의 마스터 설정 파일
-`~/.config/valet/valet.sock` | Valet의 Nginx 설정에서 사용되는 PHP-FPM 소켓. PHP가 실행되고 있는 경우에만 존재합니다.
-`~/.config/valet/Log/fpm-php.www.log` | PHP 오류에 대한 사용자 로그.
-`~/.config/valet/Log/nginx-error.log` | Nginx 오류에 대한 사용자 로그.
-`/usr/local/var/log/php-fpm.log` | PHP-FPM 오류에 대한 시스템 로그.
-`/usr/local/var/log/nginx` | Nginx 액세스 및 오류 로그.
-`/usr/local/etc/php/X.X/conf.d` | 다양한 PHP 환경 설정을 위한 `* .ini` 파일이 들어 있습니다.
-`/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf` | PHP-FPM 풀 설정 파일.
-`~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | 사이트 인증서를 작성하는 데 사용되는 기본 Nginx 설정.
+| 파일 / 경로                                                    | 설명                                                                                                                              |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `~/.config/valet/`                                             | Valet의 모든 설정이 들어 있습니다. 이 폴더의 백업하여 유지 관리 할 수 ​​있습니다.                                                 |
+| `~/.config/valet/dnsmasq.d/`                                   | DNSMasq의 설정이 들어 있습니다.                                                                                                   |
+| `~/.config/valet/Drivers/`                                     | 커스텀 Valet 드라이버가 들어 있습니다.                                                                                            |
+| `~/.config/valet/Extensions/`                                  | 커스텀 Valet 확장모듈 / 커맨드가 들어 있습니다.                                                                                   |
+| `~/.config/valet/Nginx/`                                       | Valet이 생성한 모든 Nginx 사이트 설정이 들어 있습니다. 이 파일들은 `install`, `secure` 및 `tld` 명령을 실행할 때 다시 빌드됩니다. |
+| `~/.config/valet/Sites/`                                       | 연결된 프로젝트에 대한 모든 심볼릭 링크가 들어 있습니다.                                                                          |
+| `~/.config/valet/config.json`                                  | Valet의 마스터 설정 파일                                                                                                          |
+| `~/.config/valet/valet.sock`                                   | Valet의 Nginx 설정에서 사용되는 PHP-FPM 소켓. PHP가 실행되고 있는 경우에만 존재합니다.                                            |
+| `~/.config/valet/Log/fpm-php.www.log`                          | PHP 오류에 대한 사용자 로그.                                                                                                      |
+| `~/.config/valet/Log/nginx-error.log`                          | Nginx 오류에 대한 사용자 로그.                                                                                                    |
+| `/usr/local/var/log/php-fpm.log`                               | PHP-FPM 오류에 대한 시스템 로그.                                                                                                  |
+| `/usr/local/var/log/nginx`                                     | Nginx 액세스 및 오류 로그.                                                                                                        |
+| `/usr/local/etc/php/X.X/conf.d`                                | 다양한 PHP 환경 설정을 위한 `* .ini` 파일이 들어 있습니다.                                                                        |
+| `/usr/local/etc/php/X.X/php-fpm.d/valet-fpm.conf`              | PHP-FPM 풀 설정 파일.                                                                                                             |
+| `~/.composer/vendor/laravel/valet/cli/stubs/secure.valet.conf` | 사이트 인증서를 작성하는 데 사용되는 기본 Nginx 설정.                                                                             |

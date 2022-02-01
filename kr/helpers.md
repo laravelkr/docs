@@ -454,7 +454,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
 A default value may also be passed as the third parameter to the method. This value will be returned if no value passes the truth test:
 
-메소드에 세번째 파라미터로 기본값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다.
+메소드에 세번째 인자로 기본값을 지정할 수 있습니다. 배열의 어떠한 값도 조건을 통과하지 못했을 때 이 값이 반환됩니다.
 
     use Illuminate\Support\Arr;
 
@@ -826,6 +826,50 @@ The `Arr::sortRecursive` method recursively sorts an array using the `sort` func
         ]
     */
 
+<a name="method-array-to-css-classes"></a>
+#### `Arr::toCssClasses()` {.collection-method}
+
+The `Arr::toCssClasses` conditionally compiles a CSS class string. The method accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
+
+`Arr::toCssClasses` 메소드는 CSS class 문자열을 조건부로 컴파일합니다. 이 메소드는 추가하려는 클래스가 key이며 이에 대한 value가 boolean 값인 클래스 배열을 전달 받습니다. 만약 배열 요소가 숫자 키를 갖고 있다면, 이 클래스는 항상 렌더링 된 클래스 리스트에 포함됩니다. 
+
+
+    use Illuminate\Support\Arr;
+
+    $isActive = false;
+    $hasError = true;
+
+    $array = ['p-4', 'font-bold' => $isActive, 'bg-red' => $hasError];
+
+    $classes = Arr::toCssClasses($array);
+
+    /*
+        'p-4 bg-red'
+    */
+
+This method powers Laravel's functionality allowing [merging classes with a Blade component's attribute bag](/docs/{{version}}/blade#conditionally-merge-classes) as well as the `@class` [Blade directive](/docs/{{version}}/blade#conditional-classes).
+
+이 메소드는 `@class` [블레이드 지시어](/docs/{{version}}/blade#conditional-classes) 뿐만 아니라 라라벨의 [기본 / 병합 속성](/docs/{{version}}/blade#기본%20/%20병합%20속성) 기능을 강화시킵니다.
+
+
+<a name="method-array-undot"></a>
+#### `Arr::undot()` {.collection-method}
+
+The `Arr::undot` method expands a single-dimensional array that uses "dot" notation into a multi-dimensional array:
+
+`Arr::undot` 메소드는 점(.) 표기법을 사용하는 단일 차원 배열을 다차원 배열로 변환합니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        'user.name' => 'Kevin Malone',
+        'user.occupation' => 'Accountant',
+    ];
+
+    $array = Arr::undot($array);
+
+    // ['user' => ['name' => 'Kevin Malone', 'occupation' => 'Accountant']]
+
 <a name="method-array-where"></a>
 #### `Arr::where()` {.collection-method}
 
@@ -843,11 +887,27 @@ The `Arr::where` method filters an array using the given Closure:
 
     // [1 => '200', 3 => '400']
 
+
+<a name="method-array-where-not-null"></a>
+#### `Arr::whereNotNull()` {.collection-method}
+
+The `Arr::whereNotNull` method removes all `null` values from the given array:
+
+`Arr::whereNotNull` 메소드는 배열 내의 모든 `null` 값을 제거합니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = [0, null];
+
+    $filtered = Arr::whereNotNull($array);
+
+    // [0 => 0]
+
 <a name="method-array-wrap"></a>
 
-The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will not be changed:
-
 #### `Arr::wrap()` {.collection-method}
+
+The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will be returned without modification:
 `Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면 결과에는 변경사항이 없습니다.
 
     use Illuminate\Support\Arr;
@@ -956,9 +1016,9 @@ The `data_set` function sets a value within a nested array or object using "dot"
 
     // ['products' => ['desk' => ['price' => 200]]]
 
-This function also accepts wildcards and will set values on the target accordingly:
+This function also accepts wildcards using asterisks and will set values on the target accordingly:
 
-이 함수는 또한 별표를 와일드 카드로 받아들여 해당하는 대상을 설정합니다.
+또한, 이 함수는 별표를 와일드 카드로 받아들여 해당하는 대상을 설정합니다.
 
     $data = [
         'products' => [
@@ -978,13 +1038,13 @@ This function also accepts wildcards and will set values on the target according
         ]
     */
 
-By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument:
+By default, any existing values are overwritten. If you wish to only set a value if it doesn't exist, you may pass `false` as the fourth argument to the function:
 
 기본적으로 기존 값은 덮어 씁니다. 새로운 값을 설정하고자 한다면, 값이 존재하지 않을 때만 네 번째 인자로 `false`를 전달하면 됩니다.
 
     $data = ['products' => ['desk' => ['price' => 100]]];
 
-    data_set($data, 'products.desk.price', 200, false);
+    data_set($data, 'products.desk.price', 200, $overwrite = false);
 
     // ['products' => ['desk' => ['price' => 100]]]
 
@@ -1096,7 +1156,7 @@ The `resource_path` function returns the fully qualified path to the `resources`
 <a name="method-storage-path"></a>
 #### `storage_path()` {.collection-method}
 
-The `storage_path` function returns the fully qualified path to the `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
+The `storage_path` function returns the fully qualified path to your application's `storage` directory. You may also use the `storage_path` function to generate a fully qualified path to a given file within the storage directory:
 
 `storage_path` 함수는 `storage` 디렉토리에 대한 절대 경로를 반환합니다. `storage_path` 함수를 사용하여 스토리지 디렉토리 안에 있는 파일에 대한 절대 경로를 생성할 수도 있습니다.
 
@@ -1331,12 +1391,29 @@ The `Str::finish` method adds a single instance of the given value to a string i
 
     // this/string/
 
+<a name="method-str-headline"></a>
+#### `Str::headline()` {.collection-method}
+
+The `Str::headline` method will convert strings delimited by casing, hyphens, or underscores into a space delimited string with each word's first letter capitalized:
+
+`Str::headline` 메소드는 대/소문자, 하이픈(-), 언더스코어(_)가 구분자인 문자열을 각 단어의 첫글자가 대문자인 띄어쓰기인 구분자로 바꿉니다.
+
+    use Illuminate\Support\Str;
+
+    $headline = Str::headline('steve_jobs');
+
+    // Steve Jobs
+
+    $headline = Str::headline('EmailNotificationSent');
+
+    // Email Notification Sent
+
 <a name="method-str-is"></a>
 #### `Str::is()` {.collection-method}
 
 The `Str::is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
 
-`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
+`Str::is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 별표를 와일드카드로써 사용할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1445,6 +1522,46 @@ The `Str::lower` method converts the given string to lowercase:
 
     // laravel
 
+<a name="method-str-markdown"></a>
+#### `Str::markdown()` {.collection-method}
+
+The `Str::markdown` method converts GitHub flavored Markdown into HTML:
+
+`Str::markdown` 메소드는 GitHub Flavored Markdown(GFM)을 HTML 문법으로 변환합니다.
+
+    use Illuminate\Support\Str;
+
+    $html = Str::markdown('# Laravel');
+
+    // <h1>Laravel</h1>
+
+    $html = Str::markdown('# Taylor <b>Otwell</b>', [
+        'html_input' => 'strip',
+    ]);
+
+    // <h1>Taylor Otwell</h1>
+
+<a name="method-str-mask"></a>
+#### `Str::mask()` {.collection-method}
+
+The `Str::mask` method masks a portion of a string with a repeated character, and may be used to obfuscate segments of strings such as email addresses and phone numbers:
+
+`Str::mask` 메소드는 문자열의 일부를 반복되는 문자로 마스킹하며, 이메일 주소 또는 휴대폰 번호와 같은 문자열을 난독화 하기 위해 사용 할 수 있습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::mask('taylor@example.com', '*', 3);
+
+    // tay***************
+
+If needed, you provide a negative number as the third argument to the `mask` method, which will instruct the method to begin masking at the given distance from the end of the string:
+
+세번째 인자로 음수를 사용하는 경우, 주어진 문자열의 끝에서부터 마스킹을 할 수 있습니다.
+
+    $string = Str::mask('taylor@example.com', '*', -15, 3);
+
+    // tay***@example.com
+
 <a name="method-str-ordered-uuid"></a>
 #### `Str::orderedUuid()` {.collection-method}
 
@@ -1551,6 +1668,40 @@ The `Str::random` method generates a random string of the specified length. This
 
     $random = Str::random(40);
 
+<a name="method-str-remove"></a>
+#### `Str::remove()` {.collection-method}
+
+The `Str::remove` method removes the given value or array of values from the string:
+
+`Str::remove` 메소드는 전달된 문자열 또는 문자열 배열에 포함된 문자열을 주어진 문자열에서 제거합니다.
+
+    use Illuminate\Support\Str;
+
+    $string = 'Peter Piper picked a peck of pickled peppers.';
+
+    $removed = Str::remove('e', $string);
+
+    // Ptr Pipr pickd a pck of pickld ppprs.
+
+You may also pass `false` as a third argument to the `remove` method to ignore case when removing strings.
+
+세번째 인자로 `false` 값을 전달하는 경우 문자열 제거 시 대/소분자를 구분하지 않도록 할 수 있습니다.
+
+<a name="method-str-replace"></a>
+#### `Str::replace()` {.collection-method}
+
+The `Str::replace` method replaces a given string within the string:
+
+`Str::replace` 메소드는 문자열 내에서 특정 문자열을 다른 문자열로 대체합니다.  
+
+    use Illuminate\Support\Str;
+
+    $string = 'Laravel 8.x';
+
+    $replaced = Str::replace('8.x', '9.x', $string);
+
+    // Laravel 9.x
+
 <a name="method-str-replace-array"></a>
 #### `Str::replaceArray()` {.collection-method}
 
@@ -1591,6 +1742,20 @@ The `Str::replaceLast` method replaces the last occurrence of a given value in a
     $replaced = Str::replaceLast('the', 'a', 'the quick brown fox jumps over the lazy dog');
 
     // the quick brown fox jumps over a lazy dog
+
+
+<a name="method-str-reverse"></a>
+#### `Str::reverse()` {.collection-method}
+
+The `Str::reverse` method reverses the given string:
+
+`Str::reverse` 메소드는 주어진 문자열을 반전합니다.
+
+    use Illuminate\Support\Str;
+
+    $reversed = Str::reverse('Hello World');
+
+    // dlroW olleH
 
 <a name="method-str-singular"></a>
 #### `Str::singular()` {.collection-method}
@@ -1635,10 +1800,14 @@ The `Str::snake` method converts the given string to `snake_case`:
 
     // foo_bar
 
+    $converted = Str::snake('fooBar', '-');
+
+    // foo-bar
+
 <a name="method-str-start"></a>
 #### `Str::start()` {.collection-method}
 
-The `Str::start` method adds a single instance of the given value to a string if it does not already start with the value:
+The `Str::start` method adds a single instance of the given value to a string if it does not already start with that value:
 
 `Str::start` 메소드는 문자열이 주어진 값으로 시작하지 않으면 이를 문자열에 추가합니다.
 
@@ -1662,6 +1831,14 @@ The `Str::startsWith` method determines if the given string begins with the give
     use Illuminate\Support\Str;
 
     $result = Str::startsWith('This is my name', 'This');
+
+    // true
+
+If an array of possible values is passed, the `startsWith` method will return `true` if the string begins with any of the given values:
+
+만약 배열을 전달하는 경우, `startsWith` 메소드는 문자열이 배열 내의 값 중 하나로 시작하면 `true` 값을 반환합니다.
+
+    $result = Str::startsWith('This is my name', ['This', 'That', 'There']);
 
     // true
 
@@ -1691,6 +1868,34 @@ The `Str::substr` method returns the portion of string specified by the start an
 
     // Laravel
 
+<a name="method-str-substrcount"></a>
+#### `Str::substrCount()` {.collection-method}
+
+The `Str::substrCount` method returns the number of occurrences of a given value in the given string:
+
+`Str::substrCount` 메소드는 주어진 값이 문자열 내에서 반복된 횟수를 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $count = Str::substrCount('If you like ice cream, you will like snow cones.', 'like');
+
+    // 2
+
+<a name="method-str-substrreplace"></a>
+#### `Str::substrReplace()` {.collection-method}
+
+The `Str::substrReplace` method replaces text within a portion of a string, starting at the position specified by the third argument and replacing the number of characters specified by the fourth argument. Passing `0` to the method's fourth argument will insert the string at the specified position without replacing any of the existing characters in the string:
+
+`Str::substrReplace` 메소드는 문자열의 일부 텍스트를 바꿉니다. 세 번째 인자로 지정된 위치에서 시작하여 네 번째 인자로 지정된 위치의 문자를 바꿉니다. 메소드의 네 번째 인자에 '0'을 전달하면 문자열의 기존 문자를 바꾸지 않고 지정된 위치에 문자열을 삽입합니다.
+
+    use Illuminate\Support\Str;
+
+    $result = Str::substrReplace('1300', ':', 2); 
+    // 13:
+    
+    $result = Str::substrReplace('1300', ':', 2, 0); 
+    // 13:00
+
 <a name="method-title-case"></a>
 #### `Str::title()` {.collection-method}
 
@@ -1703,6 +1908,17 @@ The `Str::title` method converts the given string to `Title Case`:
     $converted = Str::title('a nice title uses the correct case');
 
     // A Nice Title Uses The Correct Case
+
+<a name="method-str-to-html-string"></a>
+#### `Str::toHtmlString()` {.collection-method}
+
+The `Str::toHtmlString` method converts the string instance to an instance of `Illuminate\Support\HtmlString`, which may be displayed in Blade templates:
+
+`Str::toHtmlString` 메소드는 string 인스턴스를 블레이드 템플릿에서 표현될 수 있는 `Illuminate\Support\HtmlString` 인스턴스로 변환합니다.
+
+    use Illuminate\Support\Str;
+
+    $htmlString = Str::of('Nuno Maduro')->toHtmlString();
 
 <a name="method-str-ucfirst"></a>
 #### `Str::ucfirst()` {.collection-method}
@@ -1740,6 +1956,19 @@ The `Str::uuid` method generates a UUID (version 4):
     use Illuminate\Support\Str;
 
     return (string) Str::uuid();
+
+<a name="method-str-word-count"></a>
+#### `Str::wordCount()` {.collection-method}
+
+The `Str::wordCount` method returns the number of words that a string contains:
+
+`Str::wordCount`는 문자열에 포함된 단어의 수를 반환합니다.
+
+```php
+use Illuminate\Support\Str;
+
+Str::wordCount('Hello, world!'); // 2
+```
 
 <a name="method-str-words"></a>
 #### `Str::words()` {.collection-method}
@@ -1889,6 +2118,19 @@ The `beforeLast` method returns everything before the last occurrence of the giv
 
     // 'This '
 
+<a name="method-fluent-str-between"></a>
+#### `between` {.collection-method}
+
+The `between` method returns the portion of a string between two values:
+
+`between` 메소드는 주어진 두 문자열 사이에 포함된 문자열 부분을 반환합니다.
+
+    use Illuminate\Support\Str;
+
+    $converted = Str::of('This is my name')->between('This', 'name');
+
+    // ' is my '
+
 <a name="method-fluent-str-camel"></a>
 #### `camel` {.collection-method}
 
@@ -1951,9 +2193,9 @@ The `dirname` method returns the parent directory portion of the given string:
 
     // '/foo/bar'
 
-Optionally, You may specify how many directory levels you wish to trim from the string:
+If necessary, you may specify how many directory levels you wish to trim from the string:
 
-선택적으로 문자열에서 자르려는 디렉토리 레벨 수를 지정할 수 있습니다.
+필요한 경우, 문자열에서 자르려는 디렉토리 레벨 수를 지정할 수 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -1974,7 +2216,7 @@ The `endsWith` method determines if the given string ends with the given value:
 
     // true
 
-You may also pass an array of values to determine if the given string ends with any of the given values:
+You may also pass an array of values to determine if the given string ends with any of the values in the array:
 
 주어진 문자열이 주어진 값으로 끝나는지 확인하기 위해 배열을 전달할 수도 있습니다.
 
@@ -2017,7 +2259,7 @@ The `explode` method splits the string by the given delimiter and returns a coll
 <a name="method-fluent-str-finish"></a>
 #### `finish` {.collection-method}
 
-The `finish` method adds a single instance of the given value to a string if it does not already end with the value:
+The `finish` method adds a single instance of the given value to a string if it does not already end with that value:
 
 `finish` 메소드는 문자열이 주어진 값으로 끝나지 않으면 해당 값을 추가합니다.
 
@@ -2034,7 +2276,7 @@ The `finish` method adds a single instance of the given value to a string if it 
 <a name="method-fluent-str-is"></a>
 #### `is` {.collection-method}
 
-The `is` method determines if a given string matches a given pattern. Asterisks may be used to indicate wildcards:
+The `is` method determines if a given string matches a given pattern. Asterisks may be used as wildcard values
 
 `is` 메소드는 주어진 문자열이 주어진 패턴과 일치하는지를 확인합니다. 와일드카드를 나타내는 데 별표를 사용할 수 있습니다.
 
@@ -2100,6 +2342,24 @@ The `isNotEmpty` method determines if the given string is not empty:
 
     // true
 
+<a name="method-fluent-str-is-uuid"></a>
+#### `isUuid` {.collection-method}
+
+The `isUuid` method determines if a given string is a UUID:
+
+`isUuid` 메소드는 주어진 문자열이 UUID 인지 확인합니다. 
+
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('5ace9ab9-e9cf-4ec6-a19d-5881212a452c')->isUuid();
+
+    // true
+
+    $result = Str::of('Taylor')->isUuid();
+
+    // false
+
 <a name="method-fluent-str-kebab"></a>
 #### `kebab` {.collection-method}
 
@@ -2129,7 +2389,7 @@ The `length` method returns the length of the given string:
 <a name="method-fluent-str-limit"></a>
 #### `limit` {.collection-method}
 
-The `limit` method truncates the given string at the specified length:
+The `limit` method truncates the given string to the specified length:
 
 `limit` 메소드는 주어진 문자열을 지정된 길이로 제한합니다.
 
@@ -2139,9 +2399,9 @@ The `limit` method truncates the given string at the specified length:
 
     // The quick brown fox...
 
-You may also pass a second argument to change the string that will be appended to the end:
+You may also pass a second argument to change the string that will be appended to the end of the truncated string:
 
-끝에 추가 될 문자열을 변경하기 위해 두 번째 인수를 전달할 수도 있습니다.
+제한된 문자열의 끝에 문자열을 추가하기 위해 두 번째 인자를 전달할 수도 있습니다.
 
     use Illuminate\Support\Str;
 
@@ -2180,6 +2440,47 @@ The `ltrim` method left trims the given string:
     $string = Str::of('/Laravel/')->ltrim('/');
 
     // 'Laravel/'
+
+<a name="method-fluent-str-markdown"></a>
+#### `markdown` {.collection-method}
+
+The `markdown` method converts GitHub flavored Markdown into HTML:
+
+`markdown` 메소드는 GitHub Flavored Markdown(GFM)을 HTML 문법으로 변환합니다.
+
+    use Illuminate\Support\Str;
+
+    $html = Str::of('# Laravel')->markdown();
+
+    // <h1>Laravel</h1>
+
+    $html = Str::of('# Taylor <b>Otwell</b>')->markdown([
+        'html_input' => 'strip',
+    ]);
+
+    // <h1>Taylor Otwell</h1>
+
+<a name="method-fluent-str-mask"></a>
+#### `mask` {.collection-method}
+
+The `mask` method masks a portion of a string with a repeated character, and may be used to obfuscate segments of strings such as email addresses and phone numbers:
+
+`mask` 메소드는 문자열의 일부를 반복되는 문자로 마스킹하며, 이메일 주소 또는 휴대폰 번호와 같은 문자열을 난독화 하기 위해 사용 할 수 있습니다.
+
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('taylor@example.com')->mask('*', 3);
+
+    // tay***************
+
+If needed, you provide a negative number as the third argument to the `mask` method, which will instruct the method to begin masking at the given distance from the end of the string:
+
+세번째 인자로 음수를 사용하는 경우, 주어진 문자열의 끝에서부터 마스킹을 할 수 있습니다.
+
+    $string = Str::of('taylor@example.com')->mask('*', -15, 3);
+
+    // tay***@example.com
 
 <a name="method-fluent-str-match"></a>
 #### `match` {.collection-method}
@@ -2245,9 +2546,9 @@ The `padBoth` method wraps PHP's `str_pad` function, padding both sides of a str
 <a name="method-fluent-str-padleft"></a>
 #### `padLeft` {.collection-method}
 
-The `padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another:
+The `padLeft` method wraps PHP's `str_pad` function, padding the left side of a string with another string until the final string reaches the desired length:
 
-`padLeft` 메소드는 PHP의 `str_pad` 함수를 래핑하여 문자열의 왼쪽을 다른 문자로 채웁니다
+`padLeft` 메소드는 PHP의 `str_pad` 함수를 래핑한 것으로, 문자열이 원하는 길이가 될 때까지 문자열의 왼쪽을 다른 문자로 채웁니다.
 
     use Illuminate\Support\Str;
 
@@ -2275,6 +2576,25 @@ The `padRight` method wraps PHP's `str_pad` function, padding the right side of 
     $padded = Str::of('James')->padRight(10);
 
     // 'James     '
+
+<a name="method-fluent-str-pipe"></a>
+#### `pipe` {.collection-method}
+
+The `pipe` method allows you to transform the string by passing its current value to the given callable:
+
+`pipe` 메소드는 현재 문자열을 주어진 callable에 전달하여 변환할 수 있습니다.
+
+    use Illuminate\Support\Str;
+
+    $hash = Str::of('Laravel')->pipe('md5')->prepend('Checksum: ');
+
+    // 'Checksum: a5c95b86291ea299fcbe64458ed12702'
+
+    $closure = Str::of('foo')->pipe(function ($str) {
+        return 'bar';
+    });
+
+    // 'bar'
 
 <a name="method-fluent-str-plural"></a>
 #### `plural` {.collection-method}
@@ -2319,6 +2639,23 @@ The `prepend` method prepends the given values onto the string:
     $string = Str::of('Framework')->prepend('Laravel ');
 
     // Laravel Framework
+
+<a name="method-fluent-str-remove"></a>
+#### `remove` {.collection-method}
+
+The `remove` method removes the given value or array of values from the string:
+
+`Str::remove` 메소드는 주어진 문자열 또는 문자열 배열에 포함된 문자를 주어진 문자열에서 제거합니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Arkansas is quite beautiful!')->remove('quite');
+
+    // Arkansas is beautiful!
+
+You may also pass `false` as a second parameter to ignore case when removing.
+
+세번째 인자로 `false` 값을 전달하는 경우 문자열 제거 시 대/소분자를 구분하지 않도록 할 수 있습니다.
 
 <a name="method-fluent-str-replace"></a>
 #### `replace` {.collection-method}
@@ -2532,6 +2869,54 @@ The `substr` method returns the portion of the string specified by the given sta
 
     // Frame
 
+<a name="method-fluent-str-substrreplace"></a>
+#### `substrReplace` {.collection-method}
+
+The `substrReplace` method replaces text within a portion of a string, starting at the position specified by the third argument and replacing the number of characters specified by the fourth argument. Passing `0` to the method's fourth argument will insert the string at the specified position without replacing any of the existing characters in the string:
+
+`substrReplace` 메소드는 문자열의 일부 텍스트를 바꿉니다. 세 번째 인자로 지정된 위치에서 시작하여 네 번째 인자로 지정된 위치의 문자를 바꿉니다. 메소드의 네 번째 인자에 '0'을 전달하면 문자열의 기존 문자를 바꾸지 않고 지정된 위치에 문자열을 삽입합니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('1300')->substrReplace(':', 2);
+
+    // 13:
+
+    $string = Str::of('The Framework')->substrReplace(' Laravel', 3, 0);
+
+    // The Laravel Framework
+
+<a name="method-fluent-str-tap"></a>
+#### `tap` {.collection-method}
+
+The `tap` method passes the string to the given closure, allowing you to examine and interact with the string while not affecting the string itself. The original string is returned by the `tap` method regardless of what is returned by the closure:
+
+`tap` 메소드는 문자열을 주어진 클로저에 전달하여 문자열 자체에 영향을 주지 않으면서 문자열을 검사하고 상호 작용할 수 있도록 합니다. 원래 문자열은 클로저에 의해 반환된 내용에 관계없이 `tap` 메소드에 의해 반환됩니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Laravel')
+        ->append(' Framework')
+        ->tap(function ($string) {
+            dump('String after append: ' . $string);
+        })
+        ->upper();
+
+    // LARAVEL FRAMEWORK
+
+<a name="method-fluent-str-test"></a>
+#### `test` {.collection-method}
+
+The `test` method determines if a string matches the given regular expression pattern:
+
+`test` 메소드는 문자열이 주어진 정규 표현식 패턴과 일치하는지 확인합니다.
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('Laravel Framework')->test('/Laravel/');
+
+    // true
+
 <a name="method-fluent-str-title"></a>
 #### `title` {.collection-method}
 
@@ -2593,7 +2978,7 @@ The `upper` method converts the given string to uppercase:
 
 The `when` method invokes the given Closure if a given condition is true. The Closure will receive the fluent string instance:
 
-`when` 메소드는 주어진 조건이 참이면 주어진 Closure를 호출합니다. Closure는 fluent string 인스턴스를받습니다.
+`when` 메소드는 주어진 조건이 참이면 주어진 Closure를 호출합니다. Closure는 fluent string 인스턴스를 받습니다.
 
     use Illuminate\Support\Str;
 
@@ -2607,6 +2992,60 @@ The `when` method invokes the given Closure if a given condition is true. The Cl
 If necessary, you may pass another Closure as the third parameter to the `when` method. This Closure will execute if the condition parameter evaluates to `false`.
 
 필요한 경우 `when` 메소드의 세 번째 매개 변수로 다른 Closure를 전달할 수 있습니다. 조건 매개 변수가 `false`로 판별되면 이 Closure가 실행됩니다.
+
+
+<a name="method-fluent-str-when-contains"></a>
+#### `whenContains` {.collection-method}
+
+The `whenContains` method invokes the given closure if the string contains the given value. The closure will receive the fluent string instance:
+
+`whenContains` 메소드는 문자열이 주어진 값을 포함하는 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('tony stark')
+                ->whenContains('tony', function ($string) {
+                    return $string->title();
+                });
+
+    // 'Tony Stark'
+
+If necessary, you may pass another closure as the third parameter to the `when` method. This closure will execute if the string does not contain the given value.
+
+필요한 경우 `when` 메소드의 세 번째 매개변수로 다른 클로저를 전달할 수 있습니다. 이 클로저는 문자열에 주어진 값이 포함되어 있지 않으면 실행됩니다.
+
+You may also pass an array of values to determine if the given string contains any of the values in the array:
+
+주어진 문자열에 배열의 값이 포함되어 있는지 확인하기 위해 값 배열을 전달할 수도 있습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('tony stark')
+                ->whenContains(['tony', 'hulk'], function ($string) {
+                    return $string->title();
+                });
+
+    // Tony Stark
+
+<a name="method-fluent-str-when-contains-all"></a>
+#### `whenContainsAll` {.collection-method}
+
+The `whenContainsAll` method invokes the given closure if the string contains all of the given sub-strings. The closure will receive the fluent string instance:
+
+`whenContainsAll` 메소드는 문자열에 주어진 하위 문자열이 모두 포함되어 있으면 전달된 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('tony stark')
+                    ->whenContainsAll(['tony', 'stark'], function ($string) {
+                        return $string->title();
+                    });
+
+    // 'Tony Stark'
+
+If necessary, you may pass another closure as the third parameter to the `when` method. This closure will execute if the condition parameter evaluates to `false`.
+
+필요한 경우 `when` 메소드의 세 번째 매개변수로 다른 클로저를 전달할 수 있습니다. 이 클로저는 조건이 `false`로 반환되면 실행됩니다.
 
 <a name="method-fluent-str-when-empty"></a>
 #### `whenEmpty` {.collection-method}
@@ -2622,6 +3061,139 @@ The `whenEmpty` method invokes the given Closure if the string is empty. If the 
     });
 
     // 'Laravel'
+
+<a name="method-fluent-str-when-not-empty"></a>
+#### `whenNotEmpty` {.collection-method}
+
+The `whenNotEmpty` method invokes the given closure if the string is not empty. If the closure returns a value, that value will also be returned by the `whenNotEmpty` method. If the closure does not return a value, the fluent string instance will be returned:
+
+`whenNotEmpty` 메소드는 문자열이 비어 있지 않으면 주어진 클로저를 호출합니다. closure 가 값을 반환하면 해당 값은 `whenNotEmpty` 메소드에서도 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('Framework')->whenNotEmpty(function ($string) {
+        return $string->prepend('Laravel ');
+    });
+
+    // 'Laravel Framework'
+
+<a name="method-fluent-str-when-starts-with"></a>
+#### `whenStartsWith` {.collection-method}
+
+The `whenStartsWith` method invokes the given closure if the string starts with the given sub-string. The closure will receive the fluent string instance:
+
+`whenStartsWith` 메소드는 문자열이 주어진 하위 문자열로 시작하면 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('disney world')->whenStartsWith('disney', function ($string) {
+        return $string->title();
+    });
+
+    // 'Disney World'
+
+<a name="method-fluent-str-when-ends-with"></a>
+#### `whenEndsWith` {.collection-method}
+
+The `whenEndsWith` method invokes the given closure if the string ends with the given sub-string. The closure will receive the fluent string instance:
+
+`whenEndsWith` 메소드는 문자열이 주어진 하위 문자열로 끝나는 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('disney world')->whenEndsWith('world', function ($string) {
+        return $string->title();
+    });
+
+    // 'Disney World'
+
+<a name="method-fluent-str-when-exactly"></a>
+#### `whenExactly` {.collection-method}
+
+The `whenExactly` method invokes the given closure if the string exactly matches the given string. The closure will receive the fluent string instance:
+
+`whenExactly` 메소드는 문자열이 주어진 문자열과 정확히 일치하면 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('laravel')->whenExactly('laravel', function ($string) {
+        return $string->title();
+    });
+
+    // 'Laravel'
+
+<a name="method-fluent-str-when-is"></a>
+#### `whenIs` {.collection-method}
+
+The `whenIs` method invokes the given closure if the string matches a given pattern. Asterisks may be used as wildcard values. The closure will receive the fluent string instance:
+
+`whenIs` 메소드는 문자열이 주어진 패턴과 일치하면 주어진 클로저를 호출합니다. 별표를 와일드카드 값으로 사용할 수 있습니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('foo/bar')->whenIs('foo/*', function ($string) {
+        return $string->append('/baz');
+    });
+
+    // 'foo/bar/baz'
+
+<a name="method-fluent-str-when-is-ascii"></a>
+#### `whenIsAscii` {.collection-method}
+
+The `whenIsAscii` method invokes the given closure if the string is 7 bit ASCII. The closure will receive the fluent string instance:
+
+`whenIsAscii` 메소드는 문자열이 7비트 ASCII인 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('foo/bar')->whenIsAscii('laravel', function ($string) {
+        return $string->title();
+    });
+
+    // 'Laravel'
+
+<a name="method-fluent-str-when-is-uuid"></a>
+#### `whenIsUuid` {.collection-method}
+
+The `whenIsUuid` method invokes the given closure if the string is a valid UUID. The closure will receive the fluent string instance:
+
+`whenIsUuid` 메소드는 문자열이 유효한 UUID인 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
+
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('foo/bar')->whenIsUuid('a0a2a2d2-0b87-4a18-83f2-2529882be2de', function ($string) {
+        return $string->substr(0, 8);
+    });
+
+    // 'a0a2a2d2'
+
+<a name="method-fluent-str-when-test"></a>
+#### `whenTest` {.collection-method}
+
+The `whenTest` method invokes the given closure if the string matches the given regular expression. The closure will receive the fluent string instance:
+
+`whenTest` 메소드는 문자열이 주어진 정규 표현식과 일치하는 경우 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('laravel framework')->whenTest('/laravel/', function ($string) {
+        return $string->title();
+    });
+
+    // 'Laravel Framework'
+
+<a name="method-fluent-str-word-count"></a>
+#### `wordCount` {.collection-method}
+
+The `wordCount` method returns the number of words that a string contains:
+`wordCount` 메소드는 문자열 내의 단어의 수를 반환합니다.
+
+```php
+use Illuminate\Support\Str;
+
+Str::of('Hello, world!')->wordCount(); // 2
+```
 
 <a name="method-fluent-str-words"></a>
 #### `words` {.collection-method}
@@ -3052,7 +3624,7 @@ For the inverse of `filled`, see the [`blank`](#method-blank) method.
 <a name="method-info"></a>
 #### `info()` {.collection-method}
 
-The `info` function will write information to the [log](/docs/{{version}}/logging):
+The `info` function will write information to your application's [log](/docs/{{version}}/logging):
 
 `info` 함수는 [로그](/docs/{{version}}/logging)에 정보를 기록합니다.
 
@@ -3126,12 +3698,12 @@ The `optional` function accepts any argument and allows you to access properties
 
     {!! old('name', optional($user)->name) !!}
 
-The `optional` function also accepts a Closure as its second argument. The Closure will be invoked if the value provided as the first argument is not null:
+The `optional` function also accepts a closure as its second argument. The closure will be invoked if the value provided as the first argument is not null:
 
 `optional` 함수는 두 번째 인자로 클로저를 받을 수 있습니다. 첫 번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다.
 
     return optional(User::find($id), function ($user) {
-        return new DummyUser;
+        return $user->name;
     });
 
 <a name="method-policy"></a>
@@ -3165,10 +3737,16 @@ The `report` function will report an exception using your [exception handler](/d
 
     report($e);
 
+The `report` function also accepts a string as an argument. When a string is given to the function, the function will create an exception with the given string as its message:
+
+`report` 함수는 문자열을 인자로 받습니다. 문자열이 함수로 전달되면, 함수는 전달된 문자열을 메시지로 갖는 예외를 생성합니다.
+
+    report('Something went wrong.');
+
 <a name="method-request"></a>
 #### `request()` {.collection-method}
 
-The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input item:
+The `request` function returns the current [request](/docs/{{version}}/requests) instance or obtains an input field's value from the current request:
 
 `request` 함수는 현재의 [요청](/docs/{{version}}/requests) 인스턴스를 반환하거나 입력 아이템을 가져옵니다.
 
@@ -3179,7 +3757,7 @@ The `request` function returns the current [request](/docs/{{version}}/requests)
 <a name="method-rescue"></a>
 #### `rescue()` {.collection-method}
 
-The `rescue` function executes the given Closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler); however, the request will continue processing:
+The `rescue` function executes the given closure and catches any exceptions that occur during its execution. All exceptions that are caught will be sent to your [exception handler](/docs/{{version}}/errors#the-exception-handler); however, the request will continue processing:
 
 `rescue` 함수는 주어진 클로저를 실행하고, 실행중 발생하는 예외(exception)을 받아냅니다. catch 된 모든 예외(exception) [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)의 요청(request)에 대한 처리는 계속됩니다.
 
@@ -3187,7 +3765,7 @@ The `rescue` function executes the given Closure and catches any exceptions that
         return $this->method();
     });
 
-You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the Closure:
+You may also pass a second argument to the `rescue` function. This argument will be the "default" value that should be returned if an exception occurs while executing the closure:
 
 `rescue` 함수에는 두 번째 인자를 전달 할 수 있는데, 이 인자는 클로저를 실행하는 동안 예외-exception가 발생하면 반환된 "기본값" 입니다.
 
@@ -3204,7 +3782,7 @@ You may also pass a second argument to the `rescue` function. This argument will
 <a name="method-resolve"></a>
 #### `resolve()` {.collection-method}
 
-The `resolve` function resolves a given class or interface name to its instance using the [service container](/docs/{{version}}/container):
+The `resolve` function resolves a given class or interface name to an instance using the [service container](/docs/{{version}}/container):
 
 `resolve` 함수는 [서비스 컨테이너](/docs/{{version}}/container)를 사용하여 주어진 클래스 또는 인터페이스를 의존성 해결하여 인스턴스를 반환합니다.
 
@@ -3232,6 +3810,27 @@ The `retry` function attempts to execute the given callback until the given maxi
         // Attempt 5 times while resting 100ms in between attempts...
     }, 100);
 
+If you would like to manually calculate the number of milliseconds to sleep in between attempts, you may pass a closure as the third argument to the `retry` function:
+
+만약 수동으로 다시 실행을 시도하기까지의 시간(밀리초)을 수동으로 계산하려면 `retry` 함수에 대한 세 번째 인자로 클로저를 전달할 수 있습니다.
+
+    return retry(5, function () {
+        // ...
+    }, function ($attempt) {
+        return $attempt * 100;
+    });
+
+
+To only retry under specific conditions, you may pass a closure as the fourth argument to the `retry` function:
+
+특정 조건에서만 재시도하려면 `retry` 함수의 네 번째 인자로 클로저를 전달할 수 있습니다.
+
+    return retry(5, function () {
+        // ...
+    }, 100, function ($exception) {
+        return $exception instanceof RetryException;
+    });
+
 <a name="method-session"></a>
 #### `session()` {.collection-method}
 
@@ -3258,7 +3857,7 @@ The session store will be returned if no value is passed to the function:
 <a name="method-tap"></a>
 #### `tap()` {.collection-method}
 
-The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. The `$value` will be passed to the Closure and then be returned by the `tap` function. The return value of the Closure is irrelevant:
+The `tap` function accepts two arguments: an arbitrary `$value` and a closure. The `$value` will be passed to the closure and then be returned by the `tap` function. The return value of the closure is irrelevant:
 
 `tap` 함수는 임의의 `$value` 와 클로저 두개의 인자를 받아들입니다. `$value` 는 클로저에 전달되어 `tap` 함수에 의해서 반환됩니다. 반환되는 값은 클로저와 무관합니다.
 
@@ -3268,7 +3867,7 @@ The `tap` function accepts two arguments: an arbitrary `$value` and a Closure. T
         $user->save();
     });
 
-If no Closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
+If no closure is passed to the `tap` function, you may call any method on the given `$value`. The return value of the method you call will always be `$value`, regardless of what the method actually returns in its definition. For example, the Eloquent `update` method typically returns an integer. However, we can force the method to return the model itself by chaining the `update` method call through the `tap` function:
 
 `tap` 함수에 클로저를 전달하지 않는다면, 주어진 `$value` 에 모든 메소드를 호출할 수 있습니다. 메소드에서 반환하는 값은 메소드가 실제로 정의해서 반환하는 `$value` 와는 관계없이 항상 `$value` 가 됩니다. 예를 들어 Eloquent update 메소드는 일반적으로 정수값을 반환하지만, `tap` 메소드를 통해서 `update` 메소드를 호출을 체이닝하면 메소드가 모델 그 자체를 반환하도록 할 수 있습니다.
 
@@ -3297,7 +3896,7 @@ The `throw_if` function throws the given exception if a given boolean expression
     throw_if(
         ! Auth::user()->isAdmin(),
         AuthorizationException::class,
-        'You are not allowed to access this page'
+        'You are not allowed to access this page.'
     );
 
 <a name="method-throw-unless"></a>
@@ -3312,7 +3911,7 @@ The `throw_unless` function throws the given exception if a given boolean expres
     throw_unless(
         Auth::user()->isAdmin(),
         AuthorizationException::class,
-        'You are not allowed to access this page'
+        'You are not allowed to access this page.'
     );
 
 <a name="method-today"></a>
@@ -3336,9 +3935,9 @@ The `trait_uses_recursive` function returns all traits used by a trait:
 <a name="method-transform"></a>
 #### `transform()` {.collection-method}
 
-The `transform` function executes a `Closure` on a given value if the value is not [blank](#method-blank) and returns the result of the `Closure`:
+The `transform` function executes a closure on a given value if the value is not [blank](#method-blank) and then returns the return value of the closure:
 
-`transform` 함수는 주어진 값이 [빈값](#method-blank)이 아닌 경우에 `Closure`를 실행하고 `Closure`의 결과를 반환합니다.
+`transform` 함수는 주어진 값이 [빈값](#method-blank)이 아닌 경우에 Closure를 실행하고 Closure의 결과를 반환합니다.
 
     $callback = function ($value) {
         return $value * 2;
@@ -3348,9 +3947,9 @@ The `transform` function executes a `Closure` on a given value if the value is n
 
     // 10
 
-A default value or `Closure` may also be passed as the third parameter to the method. This value will be returned if the given value is blank:
+A default value or closure may be passed as the third argument to the function. This value will be returned if the given value is blank:
 
-세번째 인자로 기본값 또는 `Closure` 가 전달될 수 있습니다. 이 값은 첫 번째 인자가 빈값인 경우 반환됩니다.
+세번째 인자로 기본값 또는 Closure 가 전달될 수 있습니다. 이 값은 첫 번째 인자가 빈값인 경우 반환됩니다.
 
     $result = transform(null, $callback, 'The value is blank');
 
@@ -3359,18 +3958,18 @@ A default value or `Closure` may also be passed as the third parameter to the me
 <a name="method-validator"></a>
 #### `validator()` {.collection-method}
 
-The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it instead of the `Validator` facade for convenience:
+The `validator` function creates a new [validator](/docs/{{version}}/validation) instance with the given arguments. You may use it as an alternative to the `Validator` facade:
 
-`validator` 함수는 주어진 인자를 통해서 새로운 [validator](/docs/{{version}}/validation) 인스턴스를 생성합니다. 보다 편리하게 `Validator` 파사드를 사용할 수도 있습니다.
+`validator` 함수는 주어진 인자를 통해서 새로운 [validator](/docs/{{version}}/validation) 인스턴스를 생성합니다. `Validator` 파사드 대신 사용할 수도 있습니다.
 
     $validator = validator($data, $rules, $messages);
 
 <a name="method-value"></a>
 #### `value()` {.collection-method}
 
-The `value` function returns the value it is given. However, if you pass a `Closure` to the function, the `Closure` will be executed then its result will be returned:
+The `value` function returns the value it is given. However, if you pass a closure to the function, the closure will be executed and its returned value will be returned:
 
-`value` 함수는 자신에게 주어진 값을 그대로 반환합니다. 그렇지만 함수에 `Closure`를 전달하면 `Closure`가 실행되고 그 결과물이 반환됩니다.
+`value` 함수는 자신에게 주어진 값을 그대로 반환합니다. 그렇지만 함수에 Closure를 전달하면 Closure가 실행되고 그 결과물이 반환됩니다.
 
     $result = value(true);
 
@@ -3394,9 +3993,9 @@ The `view` function retrieves a [view](/docs/{{version}}/views) instance:
 <a name="method-with"></a>
 #### `with()` {.collection-method}
 
-The `with` function returns the value it is given. If a `Closure` is passed as the second argument to the function, the `Closure` will be executed and its result will be returned:
+The `with` function returns the value it is given. If a closure is passed as the second argument to the function, the closure will be executed and its returned value will be returned:
 
-`with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두 번째 인자로 `Closure` 가 전달되면, `Closure` 가 실행되어 그 결과를 반환합니다.
+`with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두 번째 인자로 Closure 가 전달되면, Closure 가 실행되어 그 결과를 반환합니다.
 
     $callback = function ($value) {
         return (is_numeric($value)) ? $value * 2 : 0;

@@ -9,8 +9,6 @@
     - [레이아웃 정의하기](#defining-a-layout)
     - [Extending A Layout](#extending-a-layout)
     - [레이아웃 확장하기](#extending-a-layout)
-- [Components & Slots](#components-and-slots)
-- [컴포넌트 & 슬롯](#components-and-slots)
 - [Displaying Data](#displaying-data)
 - [데이터 표시하기](#displaying-data)
     - [Blade & JavaScript Frameworks](#blade-and-javascript-frameworks)
@@ -52,6 +50,8 @@
     - [인라인 컴포넌트 뷰](#inline-component-views)
     - [Anonymous Components](#anonymous-components)
     - [익명 컴포넌트](#anonymous-components)
+    - [Dynamic Components](#dynamic-components)
+    - [동적 컴포넌트](#dynamic-components)
 - [Including Subviews](#including-subviews)
 - [하위 뷰파일 포함시키기](#including-sub-views)
     - [Rendering Views For Collections](#rendering-views-for-collections)
@@ -701,6 +701,31 @@ Once your component has been registered, it may be rendered using its tag alias:
 
     <x-package-alert/>
 
+Alternatively, you may use the `componentNamespace` method to autoload component classes by convention. For example, a `Nightshade` package might have `Calendar` and `ColorPicker` components that reside within the `Package\Views\Components` namespace:
+
+대신, 관례상 autoload 컴포넌트 클래스에 `componentNamespace` 메소드를 사용할 수 있습니다. 예를 들어, `Nightshade` 패키지가 `Package\Views\Components` 네임스페이스 안에 있는 `Calendar` 와 `ColorPicker` 컴포넌트를 가지는 경우:
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Bootstrap your package's services.
+     */
+    public function boot()
+    {
+        Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
+    }
+
+This will allow the usage of package components by their vendor namespace using the `package-name::` syntax:
+
+`package-name::` 문법을 사용하여 벤더 네임스페이스에 의한 패키지 컴포넌트의 사용을 가능하게 할 것입니다.
+
+    <x-nightshade::calendar />
+    <x-nightshade::color-picker />
+
+Blade will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
+
+블레이드는 파스칼 케이스를 적용한 이름으로 이 컴포넌트를 알아서 감지합니다. 또한 하위 디렉토리를 위한 "." 표기법도 지원합니다.
+
 <a name="displaying-components"></a>
 ### Displaying Components
 ### 컴포넌트 표시
@@ -723,9 +748,9 @@ If the component class is nested deeper within the `App\View\Components` directo
 ### Passing Data To Components
 ### 컴포넌트에 데이터 전달하기
 
-You may pass data to Blade components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attributes. PHP expressions and variables should be passed to the component via attributes that are prefixed with `:`:
+You may pass data to Blade components using HTML attributes. Hard-coded, primitive values may be passed to the component using simple HTML attributes. PHP expressions and variables should be passed to the component via attributes that use the `:` character as a prefix:
 
-HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 수 있습니다. 하드코딩 된 기본 값은 간단한 HTML 속성을 사용하여 컴포넌트에 전달 할 수 있습니다. PHP 표현식과 변수는 접두사가 `:`인 속성을 통해 컴포넌트에 전달되어야합니다.
+HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 수 있습니다. 하드코딩 된 기본 값은 간단한 HTML 속성을 사용하여 컴포넌트에 전달 할 수 있습니다. PHP 표현식과 변수는 `:` 을 접두사로 한 속성을 통해 컴포넌트에 전달되어야 합니다.
 
     <x-alert type="error" :message="$message"/>
 
@@ -871,12 +896,12 @@ If your component requires dependencies from Laravel's [service container](/docs
 
 컴포넌트에 라라벨의 [service container](/docs/{{version}}/container)의 종속성이 필요한 경우 컴포넌트의 데이터 속성 앞에 나열하면 컨테이너에 의해 자동으로 주입됩니다.
 
-    use App\AlertCreator
+    use App\Services\AlertCreator
 
     /**
      * Create the component instance.
      *
-     * @param  \App\AlertCreator  $creator
+     * @param  \App\Services\AlertCreator  $creator
      * @param  string  $type
      * @param  string  $message
      * @return void
@@ -906,9 +931,9 @@ All of the attributes that are not part of the component's constructor will auto
         <!-- Component Content -->
     </div>
 
-> {note} Echoing variables (`{{ $attributes }}`) or using directives such as `@env` directly on a component is not supported at this time.
+> {note} Using directives such as `@env` directly on a component is not supported at this time.
 
-> {note} 현재는 출력 변수 (`{{ $attributes }}`) 또는 `@env`와 같은 지시문을 컴포넌트에 직접 사용하는 것은 지원되지 않습니다.
+> {note} 현재는 `@env`와 같은 지시문을 컴포넌트에 직접 사용하는 것은 지원되지 않습니다.
 
 #### Default / Merged Attributes
 #### 기본 / 병합 속성
@@ -1075,7 +1100,6 @@ You may specify which attributes should be considered data variables using the `
 
 컴포넌트의 블레이드 템플릿 맨 위에있는 `@props` 지시문을 사용하여 데이터 변수로 간주 할 속성을 지정할 수 있습니다. 컴포넌트의 다른 모든 속성은 컴포넌트의 속성 백을 통해 사용할 수 있습니다. 데이터 변수에 기본값을 지정하려면 변수 이름을 배열 키로 지정하고 기본값을 배열 값으로 지정할 수 있습니다.
 
-
     <!-- /resources/views/components/alert.blade.php -->
 
     @props(['type' => 'info', 'message'])
@@ -1083,6 +1107,16 @@ You may specify which attributes should be considered data variables using the `
     <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
         {{ $message }}
     </div>
+
+<a name="dynamic-components"></a>
+### Dynamic Components
+### 동적 컴포넌트
+
+Sometimes you may need to render a component but not know which component should be rendered until runtime. In this situation, you may use Laravel's built-in `dynamic-component` component to render the component based on a runtime value or variable:
+
+때때로 컴포넌트 렌더링이 필요하지만 어떤 컴포넌트가 런타임까지 렌더되는지 알지 못합니다. 이러한 상황에서, 런타임 값이나 변수를 기반으로 컴포넌트를 렌더하기 위해 라라벨 내장의 `dynamic-component` 컴포넌트를 사용할 수 있습니다. 
+
+    <x-dynamic-component :component="$componentName" class="mt-4" />
 
 <a name="including-subviews"></a>
 ## Including Subviews

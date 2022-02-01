@@ -14,11 +14,11 @@
 <a name="bug-reports"></a>
 ## Bug Reports
 
-To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
+To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test. Pull requests will only be reviewed when marked as "ready for review" (not in the "draft" state) and all tests for new features are passing. Lingering, non-active pull requests left in the "draft" state will be closed after a few days.
 
 However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible and a code sample that demonstrates the issue. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 
-Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel+-repo%3Alaravel%2Fnova-issues).
+Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel). You must be authenticated with GitHub to view all of Laravel's issues.
 
 The Laravel source code is managed on GitHub, and there are repositories for each of the Laravel projects:
 
@@ -37,6 +37,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Horizon](https://github.com/laravel/horizon)
 - [Laravel Jetstream](https://github.com/laravel/jetstream)
 - [Laravel Passport](https://github.com/laravel/passport)
+- [Laravel Sail](https://github.com/laravel/sail)
 - [Laravel Sanctum](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
@@ -54,15 +55,15 @@ Laravel's GitHub issue trackers are not intended to provide Laravel help or supp
 - [Laracasts Forums](https://laracasts.com/discuss)
 - [Laravel.io Forums](https://laravel.io/forum)
 - [StackOverflow](https://stackoverflow.com/questions/tagged/laravel)
-- [Discord](https://discordapp.com/invite/KxwQuKb)
+- [Discord](https://discordapp.com/invite/mPZNm7A)
 - [Larachat](https://larachat.co)
-- [IRC](https://webchat.freenode.net/?nick=artisan&channels=%23laravel&prompt=1)
+- [IRC](https://web.libera.chat/?nick=artisan&channels=#laravel)
 </div>
 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion
 
-You may propose new features or improvements of existing Laravel behavior in the Laravel Ideas [issue board](https://github.com/laravel/ideas/issues). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
+You may propose new features or improvements of existing Laravel behavior in the Laravel framework repository's [GitHub discussion board](https://github.com/laravel/framework/discussions). If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
 Informal discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [Laravel Discord server](https://discordapp.com/invite/mPZNm7A). Taylor Otwell, the maintainer of Laravel, is typically present in the channel on weekdays from 8am-5pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
@@ -80,7 +81,7 @@ If you are unsure if your feature qualifies as a major or minor, please ask Tayl
 <a name="compiled-assets"></a>
 ## Compiled Assets
 
-If you are submitting a change that will affect a compiled file, such as most of the files in `resources/sass` or `resources/js` of the `laravel/laravel` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
+If you are submitting a change that will affect a compiled file, such as most of the files in `resources/css` or `resources/js` of the `laravel/laravel` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
 
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities

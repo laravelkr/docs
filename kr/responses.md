@@ -228,18 +228,20 @@ If you would like to customize the value that is placed in the route parameter, 
 ### Redirecting To Controller Actions
 ### 컨트롤러 액션으로 리다이렉트 하기
 
-You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method. Remember, you do not need to specify the full namespace to the controller since Laravel's `RouteServiceProvider` will automatically set the base controller namespace:
+You may also generate redirects to [controller actions](/docs/{{version}}/controllers). To do so, pass the controller and action name to the `action` method:
 
-또한 [컨트롤러 액션](/docs/{{version}}/controllers)으로 리다이렉트하는 응답을 생성할 수도 있습니다. 이렇게 하기 위해서는, 컨트롤러와 액션의 이름을 `action` 메소드에 전달하면 됩니다. 주의할 것은 라라벨이 자동으로 베이스 컨트롤러 네임스페이스를 설정하기 때문에 전체 네임스페이스를 지정할 필요가 없다는 것입니다.
+또한 [컨트롤러 액션](/docs/{{version}}/controllers)으로 리다이렉트하는 응답을 생성할 수도 있습니다. 이렇게 하기 위해서는, 컨트롤러와 액션의 이름을 `action` 메소드에 전달하면 됩니다.
 
-    return redirect()->action('HomeController@index');
+    use App\Http\Controllers\HomeController;
+
+    return redirect()->action([HomeController::class, 'index']);
 
 If your controller route requires parameters, you may pass them as the second argument to the `action` method:
 
 컨트롤러 라우트에 파라미터가 필요한 경우, `action` 메소드의 두 번째 인자로 전달하면 됩니다.
 
     return redirect()->action(
-        'UserController@profile', ['id' => 1]
+        [UserController::class, 'profile'], ['id' => 1]
     );
 
 <a name="redirecting-external-domains"></a>

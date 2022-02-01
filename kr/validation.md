@@ -86,12 +86,15 @@ To learn about Laravel's powerful validation features, let's look at a complete 
 First, let's assume we have the following routes defined in our `routes/web.php` file:
 
 우선 다음의 라우트들이 `routes/web.php` 파일에 정의되어 있다고 가정해 보겠습니다.
+    
+    use App\Http\Controllers\PostController;
+
 
     use App\Http\Controllers\PostController;
 
     Route::get('post/create', 'PostController@create');
-
-    Route::post('post', 'PostController@store');
+    
+    Route::post('post', [PostController::class, 'store']);
 
 The `GET` route will display a form for the user to create a new blog post, while the `POST` route will store the new blog post in the database.
 
@@ -219,6 +222,15 @@ HTTP 요청이 "중첩된" 파라미터를 가지고 있다면 ".(점)" 문법�
         'title' => 'required|unique:posts|max:255',
         'author.name' => 'required',
         'author.description' => 'required',
+    ]);
+
+On the other hand, if your field name contains a literal period, you can explicitly prevent this from being interpreted as "dot" syntax by escaping the period with a backslash:
+
+반면에 필드 이름에 리터럴 마침표가 포함된 경우 마침표를 백슬래시로 이스케이프 하여 점 구문으로 해석되지 않도록 명시적으로 방지할 수 있습니다.
+
+    $request->validate([
+        'title' => 'required|unique:posts|max:255',
+        'v1\.0' => 'required',
     ]);
 
 <a name="quick-displaying-the-validation-errors"></a>
@@ -1192,7 +1204,7 @@ Instead of specifying the table name directly, you may specify the Eloquent mode
 
 테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용해야하는 Eloquent 모델을 지정할 수 있습니다.
 
-    'user_id' => 'exists:App\User,id'
+    'user_id' => 'exists:App\Models\User,id'
 
 If you would like to customize the query executed by the validation rule, you may use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit them:
 
@@ -1614,7 +1626,7 @@ Instead of specifying the table name directly, you may specify the Eloquent mode
 
 테이블 이름을 직접 지정하는 대신 테이블 이름을 결정하는 데 사용해야하는 Eloquent 모델을 지정할 수 있습니다.
 
-    'email' => 'unique:App\User,email_address'
+    'email' => 'unique:App\Models\User,email_address'
 
 The `column` option may be used to specify the field's corresponding database column. If the `column` option is not specified, the field name will be used.
 
@@ -1712,7 +1724,7 @@ The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) univ
 
 You may occasionally wish to not validate a given field if another field has a given value. You may accomplish this using the `exclude_if` validation rule. In this example, the `appointment_date` and `doctor_name` fields will not be validated if the `has_appointment` field has a value of `false`:
 
-때때로 다른 필드에 지정된 값이 있는 경우 주어진 필드의 유효성을 검사를 원하지 않는 경우가 있습니다. `exclude_if` 검증 규칙을 사용하여 이를 수행 할 수 있습니다. 이 예에서 `has_appointment` 필드의 값이 'false'이면 `appointment_date` 및 `doctor_name` 필드의 유효성은 검사되지 않습니다.
+때때로 다른 필드에 지정된 값이 있는 경우 주어진 필드의 유효성을 검사를 원하지 않는 경우가 있습니다. `exclude_if` 검증 규칙을 사용하여 이를 수행 할 수 있습니다. 이 예에서 `has_appointment` 필드의 값이 `false`이면 `appointment_date` 및 `doctor_name` 필드의 유효성은 검사되지 않습니다.
 
     $v = Validator::make($data, [
         'has_appointment' => 'required|bool',

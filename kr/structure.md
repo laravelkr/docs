@@ -43,6 +43,8 @@
     - [`Listeners` 디렉토리](#the-listeners-directory)
     - [The `Mail` Directory](#the-mail-directory)
     - [`Mail` 디렉토리](#the-mail-directory)
+    - [The `Models` Directory](#the-models-directory)
+    - [`Models` 디렉토리](#the-models-directory)
     - [The `Notifications` Directory](#the-notifications-directory)
     - [`Notifications` 디렉토리](#the-notifications-directory)
     - [The `Policies` Directory](#the-policies-directory)
@@ -59,17 +61,6 @@
 The default Laravel application structure is intended to provide a great starting point for both large and small applications. But you are free to organize your application however you like. Laravel imposes almost no restrictions on where any given class is located - as long as Composer can autoload the class.
 
 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
-
-#### Where Is The Models Directory?
-#### 모델 디렉토리는 어디에 있나요?
-
-When getting started with Laravel, many developers are confused by the lack of a `models` directory. However, the lack of such a directory is intentional. We find the word "models" ambiguous since it means many different things to many different people. Some developers refer to an application's "model" as the totality of all of its business logic, while others refer to "models" as classes that interact with a relational database.
-
-라라벨을 시작할 때, 많은 개발자들이 `models` 디렉토리가 없는 것에 혼란을 느낍니다. 하지만 이 디렉토리가 없는 것은 의도된 것입니다. 우리는 "모델"이라는 많은 사람들에게 각기 다른 의미로 받아들려지기 때문에 모호하다는 것을 알게되었습니다. 일부 개발자들은 애플리케이션의 "모델"을 비지니스 로직의 전체로서 참조하는 반면, 다른 개발자들은 "모델"을 관계형 데이터베이스와 상호작용하는데 사용합니다.
-
-For this reason, we choose to place Eloquent models in the `app` directory by default, and allow the developer to place them somewhere else if they choose.
-
-이러한 이유로, 기본적으로 `app` 디렉토리를 Eloquent 모델이 저장되는 곳으로 선택했으며, 개발자가 원하는 그 어떤 곳이라도 이 파일들을 배치할 수 있게 허용 하고 있습니다.
 
 <a name="the-root-directory"></a>
 ## The Root Directory
@@ -258,6 +249,14 @@ This directory does not exist by default, but will be created for you if you exe
 This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
 
 이 디렉토리는 기본적으로 존재하지 않지만, `make:mail` 아티즌 명령어를 실행하는 경우 생성됩니다. `Mail` 디렉토리는 애플리케이션에 의해서 발송되는 이메일을 나타내는 클래스들을 가지고 있습니다. 메일 객체는 `Mail::send` 메소드를 사용하여 보낼 수 있는 간단한 하나의 클래스를 통해서 이메일을 구성하는 로직을 캡슐화 합니다.
+
+<a name="the-models-directory"></a>
+#### The Models Directory
+#### Models 디렉토리
+
+The `Models` directory contains all of your [Eloquent model classes](/docs/{{version}}/eloquent). The Eloquent ORM included with Laravel provides a beautiful, simple ActiveRecord implementation for working with your database. Each database table has a corresponding "Model" which is used to interact with that table. Models allow you to query for data in your tables, as well as insert new records into the table.
+
+`Models` 디렉토리는 모든 [Eloquent 모델 클래스](/docs/{{version}}/eloquent)를 포함하고 있습니다. 라라벨에 포함된 Eloquent ORM은 데이터베이스를 다루는 아름답고 간편한 ActiveRecord-액티브레코드 구현을 제공합니다. 각각의 데이터베이스 테이블은 해당 테이블과 상호작용하기 위해 대응되는 "모델"을 가집니다. 모델을 이용해 테이블의 데이터를 쿼리하고 테이블에 새로운 레코드를 삽입할 수 있습니다.
 
 <a name="the-notifications-directory"></a>
 #### The Notifications Directory

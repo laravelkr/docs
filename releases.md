@@ -1,49 +1,76 @@
 # Release Notes
 
 - [Versioning Scheme](#versioning-scheme)
+    - [Exceptions](#exceptions)
 - [Support Policy](#support-policy)
 - [Laravel 8](#laravel-8)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
 
-Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every six months (~February and ~August), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
+Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~January), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^8.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+
+<a name="exceptions"></a>
+### Exceptions
+
+<a name="named-arguments"></a>
+#### Named Arguments
+
+At this time, PHP's [named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) functionality are not covered by Laravel's backwards compatibility guidelines. We may choose to rename function parameters when necessary in order to improve the Laravel codebase. Therefore, using named arguments when calling Laravel methods should be done cautiously and with the understanding that the parameter names may change in the future.
 
 <a name="support-policy"></a>
 ## Support Policy
 
-For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
+For LTS releases, such as Laravel 9, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-| Version | Release | Bug Fixes Until | Security Fixes Until |
-| --- | --- | --- | --- |
-| 6 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
-| 7 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
-| 8 | September 8th, 2020 | April 6th, 2021 | September 8th, 2021 |
+| Version | PHP (*) | Release | Bug Fixes Until | Security Fixes Until |
+| --- | --- | --- | --- | --- |
+| 6 (LTS) | 7.2 - 8.0 | September 3rd, 2019 | January 25th, 2022 | September 6th, 2022 |
+| 7 | 7.2 - 8.0 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
+| 8 | 7.3 - 8.1 | September 8th, 2020 | July 26th, 2022 | January 24th, 2023 |
+| 9 (LTS) | 8.0 - 8.1 | January 25th, 2022 | January 30th, 2024 | January 28th, 2025 |
+| 10 | 8.0 - 8.1 | January 24th, 2023 | July 30th, 2024 | January 28th, 2025 |
+
+<div class="sm:flex dark:text-gray-400 mb-1">
+    <div class="flex items-center mr-4">
+        <div class="w-3 h-3 mr-2 bg-red-500"></div>
+        <div>End of life</div>
+    </div>
+    <div class="flex items-center">
+        <div class="w-3 h-3 mr-2 bg-orange-600"></div>
+        <div>Security fixes only</div>
+    </div>
+</div>
+
+(*) Supported PHP versions
 
 <a name="laravel-8"></a>
 ## Laravel 8
 
 Laravel 8 continues the improvements made in Laravel 7.x by introducing Laravel Jetstream, model factory classes, migration squashing, job batching, improved rate limiting, queue improvements, dynamic Blade components, Tailwind pagination views, time testing helpers, improvements to `artisan serve`, event listener improvements, and a variety of other bug fixes and usability improvements.
 
+<a name="laravel-jetstream"></a>
 ### Laravel Jetstream
 
 _Laravel Jetstream was written by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-[Laravel Jetstream](https://github.com/laravel/jetstream) is a beautifully designed application scaffolding for Laravel. Jetstream provides the perfect starting point for your next project and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Laravel Jetstream replaces and improves upon the legacy authentication UI scaffolding available for previous versions of Laravel.
+[Laravel Jetstream](https://jetstream.laravel.com) is a beautifully designed application scaffolding for Laravel. Jetstream provides the perfect starting point for your next project and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Laravel Jetstream replaces and improves upon the legacy authentication UI scaffolding available for previous versions of Laravel.
 
 Jetstream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://laravel-livewire.com) or [Inertia](https://inertiajs.com) scaffolding.
 
+<a name="models-directory"></a>
 ### Models Directory
 
 By overwhelming community demand, the default Laravel application skeleton now contains an `app/Models` directory. We hope you enjoy this new home for your Eloquent models! All relevant generator commands have been updated to assume models exist within the `app/Models` directory if it exists. If the directory does not exist, the framework will assume your models should be placed within the `app` directory.
 
+<a name="model-factory-classes"></a>
 ### Model Factory Classes
 
 _Model factory classes were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-Eloquent [model factories](/docs/{{version}}/database-testing#creating-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
+Eloquent [model factories](/docs/{{version}}/database-testing#defining-model-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
 
     <?php
 
@@ -70,8 +97,8 @@ Eloquent [model factories](/docs/{{version}}/database-testing#creating-factories
         public function definition()
         {
             return [
-                'name' => $this->faker->name,
-                'email' => $this->faker->unique()->safeEmail,
+                'name' => $this->faker->name(),
+                'email' => $this->faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
@@ -117,8 +144,9 @@ As mentioned, Laravel 8's model factories contain first class support for relati
 
 To ease the upgrade process, the [laravel/legacy-factories](https://github.com/laravel/legacy-factories) package has been released to provide support for the previous iteration of model factories within Laravel 8.x.
 
-Laravel's re-written factories contain many more features that we think you will love. To learn more about model factories, please consult the [database testing documentation](/docs/{{version}}/database-testing#creating-factories).
+Laravel's re-written factories contain many more features that we think you will love. To learn more about model factories, please consult the [database testing documentation](/docs/{{version}}/database-testing#defining-model-factories).
 
+<a name="migration-squashing"></a>
 ### Migration Squashing
 
 _Migration squashing was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
@@ -132,6 +160,7 @@ As you build your application, you may accumulate more and more migrations over 
 
 When you execute this command, Laravel will write a "schema" file to your `database/schema` directory. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute the schema file's SQL first. After executing the schema file's commands, Laravel will execute any remaining migrations that were not part of the schema dump.
 
+<a name="job-batching"></a>
 ### Job Batching
 
 _Job batching was contributed by [Taylor Otwell](https://github.com/taylorotwell) & [Mohamed Said](https://github.com/themsaid)_.
@@ -143,7 +172,7 @@ The new `batch` method of the `Bus` facade may be used to dispatch a batch of jo
     use App\Jobs\ProcessPodcast;
     use App\Podcast;
     use Illuminate\Bus\Batch;
-    use Illuminate\Support\Facades\Batch;
+    use Illuminate\Support\Facades\Bus;
     use Throwable;
 
     $batch = Bus::batch([
@@ -164,13 +193,14 @@ The new `batch` method of the `Bus` facade may be used to dispatch a batch of jo
 
 To learn more about job batching, please consult the [queue documentation](/docs/{{version}}/queues#job-batching).
 
+<a name="improved-rate-limiting"></a>
 ### Improved Rate Limiting
 
 _Rate limiting improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
 
 Laravel's request rate limiter feature has been augmented with more flexibility and power, while still maintaining backwards compatibility with previous release's `throttle` middleware API.
 
-Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a Closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
+Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
 
     use Illuminate\Cache\RateLimiting\Limit;
     use Illuminate\Support\Facades\RateLimiter;
@@ -209,6 +239,7 @@ Rate limiters may be attached to routes or route groups using the `throttle` [mi
 
 To learn more about rate limiting, please consult the [routing documentation](/docs/{{version}}/routing#rate-limiting).
 
+<a name="improved-maintenance-mode"></a>
 ### Improved Maintenance Mode
 
 _Maintenance mode improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell) with inspiration from [Spatie](https://spatie.be)_.
@@ -225,6 +256,7 @@ After placing the application in maintenance mode, you may navigate to the appli
 
 When accessing this hidden route, you will then be redirected to the `/` route of the application. Once the cookie has been issued to your browser, you will be able to browse the application normally as if it was not in maintenance mode.
 
+<a name="pre-rendering-the-maintenance-mode-view"></a>
 #### Pre-Rendering The Maintenance Mode View
 
 If you utilize the `php artisan down` command during deployment, your users may still occasionally encounter errors if they access the application while your Composer dependencies or other infrastructure components are updating. This occurs because a significant part of the Laravel framework must boot in order to determine your application is in maintenance mode and render the maintenance mode view using the templating engine.
@@ -233,11 +265,12 @@ For this reason, Laravel now allows you to pre-render a maintenance mode view th
 
     php artisan down --render="errors::503"
 
+<a name="closure-dispatch-chain-catch"></a>
 ### Closure Dispatch / Chain `catch`
 
 _Catch improvements were contributed by [Mohamed Said](https://github.com/themsaid)_.
 
-Using the new `catch` method, you may now provide a Closure that should be executed if a queued Closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
+Using the new `catch` method, you may now provide a closure that should be executed if a queued closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
 
     use Throwable;
 
@@ -247,6 +280,7 @@ Using the new `catch` method, you may now provide a Closure that should be execu
         // This job has failed...
     });
 
+<a name="dynamic-blade-components"></a>
 ### Dynamic Blade Components
 
 _Dynamic Blade components were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
@@ -257,11 +291,12 @@ Sometimes you may need to render a component but not know which component should
 
 To learn more about Blade components, please consult the [Blade documentation](/docs/{{version}}/blade#components).
 
+<a name="event-listener-improvements"></a>
 ### Event Listener Improvements
 
 _Event listener improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-Closure based event listeners may now be registered by only passing the Closure to the `Event::listen` method. Laravel will inspect the Closure to determine which type of event the listener handles:
+Closure based event listeners may now be registered by only passing the closure to the `Event::listen` method. Laravel will inspect the closure to determine which type of event the listener handles:
 
     use App\Events\PodcastProcessed;
     use Illuminate\Support\Facades\Event;
@@ -270,7 +305,7 @@ Closure based event listeners may now be registered by only passing the Closure 
         //
     });
 
-In addition, Closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
+In addition, closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -286,7 +321,7 @@ Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods
         //
     })->onConnection('redis')->onQueue('podcasts')->delay(now()->addSeconds(10)));
 
-If you would like to handle anonymous queued listener failures, you may provide a Closure to the `catch` method while defining the `queueable` listener:
+If you would like to handle anonymous queued listener failures, you may provide a closure to the `catch` method while defining the `queueable` listener:
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -299,6 +334,7 @@ If you would like to handle anonymous queued listener failures, you may provide 
         // The queued listener failed...
     }));
 
+<a name="time-testing-helpers"></a>
 ### Time Testing Helpers
 
 _Time testing helpers were contributed by [Taylor Otwell](https://github.com/taylorotwell) with inspiration from Ruby on Rails_.
@@ -326,16 +362,19 @@ When testing, you may occasionally need to modify the time returned by helpers s
         $this->travelBack();
     }
 
+<a name="artisan-serve-improvements"></a>
 ### Artisan `serve` Improvements
 
 _Artisan `serve` improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
 
 The Artisan `serve` command has been improved with automatic reloading when environment variable changes are detected within your local `.env` file. Previously, the command had to be manually stopped and restarted.
 
+<a name="tailwind-pagination-views"></a>
 ### Tailwind Pagination Views
 
 The Laravel paginator has been updated to use the [Tailwind CSS](https://tailwindcss.com) framework by default. Tailwind CSS is a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override. Of course, Bootstrap 3 and 4 views remain available as well.
 
+<a name="routing-namespace-updates"></a>
 ### Routing Namespace Updates
 
 In previous releases of Laravel, the `RouteServiceProvider` contained a `$namespace` property. This property's value would automatically be prefixed onto controller route definitions and calls to the `action` helper / `URL::action` method. In Laravel 8.x, this property is `null` by default. This means that no automatic namespace prefixing will be done by Laravel. Therefore, in new Laravel 8.x applications, controller route definitions should be defined using standard PHP callable syntax:

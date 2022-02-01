@@ -2,542 +2,516 @@
 
 - [Versioning Scheme](#versioning-scheme)
 - [버전 관리 체계](#versioning-scheme)
+    - [Exceptions](#exceptions)
+    - [예외사항](#exceptions)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
-- [Laravel 7](#laravel-7)
-- [라라벨 7](#laravel-7)
+- [Laravel 8](#laravel-8)
+- [라라벨 8](#laravel-8)
 
 <a name="versioning-scheme"></a>
 ## Versioning Scheme
 ## 버전 관리 체계
 
-Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every six months (February and August), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
+Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~September), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 6개월마다 (2월, 8월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~9월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^7.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^8.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `^7.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `^8.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
+
+<a name="exceptions"></a>
+### Exceptions
+### 예외사항
+
+<a name="named-arguments"></a>
+#### Named Arguments
+#### 명명 된 인수-Named Arguments
+
+At this time, PHP's [named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) functionality are not covered by Laravel's backwards compatibility guidelines. We may choose to rename function parameters when necessary in order to improve the Laravel codebase. Therefore, using named arguments when calling Laravel methods should be done cautiously and with the understanding that the parameter names may change in the future.
+
+현재 PHP의 [named arguments](https://www.php.net/manual/en/functions.arguments.php#functions.named-arguments) 기능은 라라벨의 하위 호환성 지침에 포함되지 않습니다. 라라벨 코드베이스를 개선하기 위해 필요한 경우 함수 매개 변수의 이름을 바꿀 수 있습니다. 따라서 라라벨 메서드를 호출 할 때 명명 된 인수를 사용하는 경우에는 매개 변수 이름이 향후 변경 될 수 있음을 이해하고 신중하게 수행해야합니다.
 
 <a name="support-policy"></a>
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 6 months and security fixes are provided for 1 year. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
+For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 6개월, 보안 패치는 1년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
+라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 18개월, 보안 패치는 2년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
 또한 [라라벨에서 지원되는 데이터베이스](/docs/{{version}}/database#introduction) 버전들도 참고하세요.
 
 | Version | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- |
-| 6 (LTS) | September 3rd, 2019 | September 3rd, 2021 | September 3rd, 2022 |
-| 7 | March 3rd, 2020 | September 10th, 2020 | March 3rd, 2021 |
-| 8 | September 8th, 2020 | March 8th, 2021 | September 8th, 2021 |
+| 6 (LTS) | September 3rd, 2019 | September 7th, 2021 | September 6th, 2022 |
+| 7 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
+| 8 | September 8th, 2020 | March 1st, 2022 | September 6th, 2022 |
+| 9 (LTS) | September, 2021 | September, 2023 | September, 2024 |
+| 10 | September, 2022 | March, 2024 | September, 2024 |
 
 | 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
 | --- | --- | --- | --- |
-| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 3일 | 2022년 9월 3일 |
-| 7 | 2020년 3월 3일 | 2020년 9월 10일 | 2021년 3월 3일 |
-| 8 | 2020년 9월 8일 | 2021년 3월 8일 | 2021년 9월 8일 |
+| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 7일 | 2022년 9월 6일 |
+| 7 | 2020년 3월 3일 | 2020년 10월 6일 | 2021년 3월 3일 |
+| 8 | 2020년 9월 8일 | 2022년 3월 1일 | 2022년 9월 6일 |
+| 9 (LTS) | 2021년 9월 | 2023년 9월 | 2024년 9월 |
+| 10 | 2022년 9월 | 2024년 3월 | 2024년 9월 |
 
-<a name="laravel-7"></a>
-## Laravel 7
-## 라라벨 7
+<a name="laravel-8"></a>
+## Laravel 8
+## 라라벨 8
 
-Laravel 7 continues the improvements made in Laravel 6.x by introducing Laravel Sanctum, routing speed improvements, custom Eloquent casts, Blade component tags, fluent string operations, a developer focused HTTP client, first-party CORS support, improved scoping for route model binding, stub customization, database queue improvements, multiple mail drivers, query-time casts, a new `artisan test` command, and a variety of other bug fixes and usability improvements.
+Laravel 8 continues the improvements made in Laravel 7.x by introducing Laravel Jetstream, model factory classes, migration squashing, job batching, improved rate limiting, queue improvements, dynamic Blade components, Tailwind pagination views, time testing helpers, improvements to `artisan serve`, event listener improvements, and a variety of other bug fixes and usability improvements.
 
-라라벨 7은 라라벨 Sanctum, 라우트 속도 향상, 커스텀 엘로퀀트 캐스트, 블레이드 컴포넌트 태그, 막힘없는 문자열 처리, 개발자를 위한 HTTP 클라이언트, CORS 자체 지원, 개선된 라우트 모델 바인드 스코프, 스텁 커스터마이징, 데이베이스 큐 개선, 다중 메일 드라이버, 쿼리-타임 캐스트, 새로운 `artisan test` 커맨드 및 다양한 버그 수정 및 유용성 개선 등을 통해 라라벨 6에서 만들어진 것들을 지속적으로 개선해 나갈 것 입니다.
+라라벨 8은 라라벨 Jetstream, 모델 팩토리 클래스, 마이그레이션 스쿼싱, 배치 잡, 개선된 레이트 리미팅, 큐 개선사항들, 동적인 블레이드 컴포넌트, Tailwind 페이지네이션 뷰들, 시간 테스트 헬퍼들, `artisan serve` 의 개선사항, 이벤트 리스너의 개선사항 등 다양한 버그 수정과 사용성 개선을 통해 라라벨 7.x 를 개선합니다.
 
-### Laravel Sanctum
-### 라라벨 Sanctum
+### Laravel Jetstream
+### 라라벨 Jetstream
 
-_Laravel Sanctum was built by [Taylor Otwell](https://github.com/taylorotwell)_.
+_Laravel Jetstream was written by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-_라라벨 Sanctum 은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 만들어졌습니다_.
+_라라벨 Jetstream은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 작성되었습니다_.
 
-Laravel Sanctum provides a featherweight authentication system for SPAs (single page applications), mobile applications, and simple, token based APIs. Sanctum allows each user of your application to generate multiple API tokens for their account. These tokens may be granted abilities / scopes which specify which actions the tokens are allowed to perform.
+[Laravel Jetstream](https://github.com/laravel/jetstream) is a beautifully designed application scaffolding for Laravel. Jetstream provides the perfect starting point for your next project and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Laravel Jetstream replaces and improves upon the legacy authentication UI scaffolding available for previous versions of Laravel.
 
-라라벨 Sanctum 은 SPAs(싱글 페이지 어플리케이션), 모바일 어플리케이션, 토큰 기반의 API를 위한 가벼운 인증 시스템을 제공합니다. Sanctum은 어플리케이션 사용자에게 여러개의 API 토큰을 생성할 수 있게 해 줍니다. 이 토큰들에는 어떤 액션들이 실행될 수 있는지 허용 범위나 권한을 부여할수 있습니다.
+[라라벨 Jetstream](https://github.com/laravel/jetstream)은 아름답게 디자인된 라라벨 어플리케이션 스캐폴딩입니다. Jetstream은 로그인, 가입, 이메일 인증, 2차 인증, 세션 관리, 라라벨 Sanctum을 통한 API 지원, 그리고 선택적인 팀 관리 기능을 통해 당신의 새로운 프로젝트를 위한 완벽한 시작지점을 제공합니다.
 
-For more information on Laravel Sanctum, consult the [Sanctum documentation](/docs/{{version}}/sanctum).
+Jetstream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://laravel-livewire.com) or [Inertia](https://inertiajs.com) scaffolding.
 
-라라벨 Sanctum 에 대해 더 알고싶다면 [Sanctum](/docs/{{version}}/sanctum) 문서를 참고하세요.
+Jetsream은 [Tailwind CSS](https://tailwindcss.com)를 이용해서 디자인 되었으며 여러분은 [Livewire](https://laravel-livewire.com) 혹은 [Inertia](https://inertiajs.com) 기반의 스캐폴딩을 선택할 수 있습니다.
 
-### Custom Eloquent Casts
-### 커스텀 엘로퀜트 캐스트
+### Models Directory
+### Models 디렉토리
 
-_Custom Eloquent casts was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+By overwhelming community demand, the default Laravel application skeleton now contains an `app/Models` directory. We hope you enjoy this new home for your Eloquent models! All relevant generator commands have been updated to assume models exist within the `app/Models` directory if it exists. If the directory does not exist, the framework will assume your models should be placed within the `app` directory.
 
-_커스텀 엘로퀜트 캐스트 개발에는 [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
+커뮤니티의 요구에 라라벨의 기본 어플리케이션 뼈대에 `app/Models` 디렉토리가 추가되었습니다. 우리는 여러분이 엘로퀀트 모델을을 위한 이 새 집을 좋아하길 바랍니다! 관련된 모든 생성 커맨드들은 이 디렉토리가 존재하면 이 디렉토리에 모델들이 있을것으로 가정하도록 업데이트 되었습니다. 만약 이 디렉토리가 없다면, 라라벨은 여러분의 모델이 `app` 디렉토리에 있을것이라고 가정합니다.
 
-Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may now accomplish this by defining a class that implements the `CastsAttributes` interface.
+### Model Factory Classes
+### 모델 팩토리 클래스들
 
-라라벨은 여러가지로 유용한 빌트인 타입 캐스트를 가지고 있지만, 때때로 이를 직접 정의해야할 경우가 있습니다. 이제 `CastsAttributes` 인터페이스를 구현한 클래스를 정의할 수 있습니다.
+_Model factory classes were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
 
-Classes that implement this interface must define a `get` and `set` methods. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+_모델 팩토리 클래스는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
 
-이 인터페이스를 구현할때는 반드시 `get` 메소드와 `set` 메소드를 정의해야 합니다. `get` 메소드는 데이터베이스에서 가져온 원시 값을 캐스팅된 값으로 변환하며, `set` 메소드는 반대로 캐스팅된 값이 데이터베이스의 원시 값으로 변환될수 있도록 합니다. 예를 들어서, 라라벨에서 빌트인 된 `json` 캐스트 타입을 커스텀 캐스트 타입으로 다시 구현해보면 아래와 같습니다.
+Eloquent [model factories](/docs/{{version}}/database-testing#defining-model-factories) have been entirely re-written as class based factories and improved to have first-class relationship support. For example, the `UserFactory` included with Laravel is written like so:
 
-    <?php
-
-    namespace App\Casts;
-
-    use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-
-    class Json implements CastsAttributes
-    {
-        /**
-         * Cast the given value.
-         *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  mixed  $value
-         * @param  array  $attributes
-         * @return array
-         */
-        public function get($model, $key, $value, $attributes)
-        {
-            return json_decode($value, true);
-        }
-
-        /**
-         * Prepare the given value for storage.
-         *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  array  $value
-         * @param  array  $attributes
-         * @return string
-         */
-        public function set($model, $key, $value, $attributes)
-        {
-            return json_encode($value);
-        }
-    }
-
-Once you have defined a custom cast type, you may attach it to a model attribute using its class name:
-
-커스텀 캐스팅 타입을 정의하였다면, 해당 클래스명으로 모델 속성에 사용할 수 있습니다.
+엘로퀀트 [모델 팩토리](/docs/{{version}}/database-testing#defining-model-factories)는 클래스 기반의 팩토리로 일급 관계를 지원하도록 완전히 재작성 되었습니다. 예를 들면, 라라벨에 포함된 `UserFactory` 는 아래와 같이 작성되었습니다.
 
     <?php
 
-    namespace App;
+    namespace Database\Factories;
 
-    use App\Casts\Json;
-    use Illuminate\Database\Eloquent\Model;
+    use App\Models\User;
+    use Illuminate\Database\Eloquent\Factories\Factory;
+    use Illuminate\Support\Str;
 
-    class User extends Model
+    class UserFactory extends Factory
     {
         /**
-         * The attributes that should be cast to native types.
-         *
-         * @var array
-         */
-        protected $casts = [
-            'options' => Json::class,
-        ];
-    }
-
-To learn how to write custom Eloquent casts, including custom casts that cast to value objects, please consult the [Eloquent documentation](/docs/{{version}}/eloquent-mutators#custom-casts).
-
-위와 같은 방식 뿐만 아니라, 밸류 객체를 사용자가 정의한대로 캐스팅하는 것을 포함한 커스텀 엘로퀜트 캐스트에 대해서 좀 더 알고 싶다면 [엘로퀜트 모델](/docs/{{version}}/eloquent-mutators#custom-casts) 문서를 참고하세요.
-
-### Blade Component Tags & Improvements
-### 블레이드 컴포넌트 태그 & 개선사항
-
-_Blade component tags were contributed by [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)_.
-
-_블레이드 컴포넌트 태그 개발에는 [Spatie](https://spatie.be/), [Marcel Pociot](https://twitter.com/marcelpociot), [Caleb Porzio](https://twitter.com/calebporzio), [Dries Vints](https://twitter.com/driesvints), and [Taylor Otwell](https://github.com/taylorotwell)이 기여했습니다_.
-
-> {tip} Blade components have been overhauled to allow tag based rendering, attribute management, component classes, inline view components, and more. Since the overhaul of Blade components is so extensive, please consult the [full Blade component documentation](/docs/{{version}}/blade#components) to learn about this feature.
-
-> {팁} 블레이드 컴포넌트가 태그 기반 렌더링, 속성 관리, 컴포넌트 클래스, 인라인 뷰 컴포넌트 등을 할 수 있도록 완전히 정비되었습니다. 이 변경사항이 워낙 방대하기 때문에, [블레이드 컴포넌트](/docs/{{version}}/blade#components) 문서를 참고해서 해당 기능을 학습하세요.
-
-In summary, a component may now have an associated class which specifies the data it accepts. All public properties and methods defined on the component class will automatically be made available to the component view. Any additional HTML attributes specified on the component may be managed using the automatically included `$attributes` variable, which is an attribute bag instance.
-
-블레이드 컴포넌트는 이제 연결된 클래스를 가지며, 여기에 어떤 데이터를 받을지 정의합니다. 컴포넌트 클래스의 퍼블릭 프로퍼티들과 메소드들이 컴포넌트 뷰를 사용 가능하게 해줍니다. 또한 컴포넌트에 정의할 추가적인 HTML 속성들은 `$attributes` 백 인스턴스 변수에 자동으로 포함되어서 관리됩니다.
-
-In this example, we will assume that an `App\View\Components\Alert` component has been defined like so:
-
-아래와 같이 정의된 `App\View\Components\Alert` 컴포넌트를 예로 들어서 가정해보겠습니다.
-
-    <?php
-
-    namespace App\View\Components;
-
-    use Illuminate\View\Component;
-
-    class Alert extends Component
-    {
-        /**
-         * The alert type.
+         * The name of the factory's corresponding model.
          *
          * @var string
          */
-        public $type;
+        protected $model = User::class;
 
         /**
-         * Create the component instance.
+         * Define the model's default state.
          *
-         * @param  string  $type
-         * @return void
+         * @return array
          */
-        public function __construct($type)
+        public function definition()
         {
-            $this->type = $type;
-        }
-
-        /**
-         * Get the class for the given alert type.
-         *
-         * @return string
-         */
-        public function classForType()
-        {
-            return $this->type == 'danger' ? 'alert-danger' : 'alert-warning';
-        }
-
-        /**
-         * Get the view / contents that represent the component.
-         *
-         * @return \Illuminate\View\View|string
-         */
-        public function render()
-        {
-            return view('components.alert');
+            return [
+                'name' => $this->faker->name,
+                'email' => $this->faker->unique()->safeEmail,
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'remember_token' => Str::random(10),
+            ];
         }
     }
 
-And, assuming the component's Blade template has been defined like so:
+Thanks to the new `HasFactory` trait available on generated models, the model factory may be used like so:
 
-그리고 이 컴포넌트의 블레이드 템플릿은 아래와 같이 정의되어 있다고 가정합니다.
+`HasFactory` 라는 새로운 트레이트에 의해, 생성된 모델은 아래와 같이 사용될수 있습니다. 
 
-    <!-- /resources/views/components/alert.blade.php -->
+    use App\Models\User;
 
-    <div class="alert {{ $classForType }}" {{ $attributes }}>
-        {{ $heading }}
+    User::factory()->count(50)->create();
 
-        {{ $slot }}
-    </div>
 
-The component may be rendered in another Blade view using the component's tag:
+Since model factories are now simple PHP classes, state transformations may be written as class methods. In addition, you may add any other helper classes to your Eloquent model factory as needed.
 
-이 컴포넌트는 다른 블레이드 뷰에서 컴포넌트 태그를 통해 사용됩니다.
+모델 팩토리들은 이제 간단한 PHP 클래스들이기 때문에, 상태 변경이 클래스 메소드로 작성될 수 있습니다. 또한, 여러분은 이제 엘로퀀트 모델 팩토리에 이제 다른 헬퍼클래스들을 필요한만큼 추가할 수 있습니다. 
 
-    <x-alert type="error" class="mb-4">
-        <x-slot name="heading">
-            Alert content...
-        </x-slot>
+For example, your `User` model might have a `suspended` state that modifies one of its default attribute values. You may define your state transformations using the base factory's `state` method. You may name your state method anything you like. After all, it's just a typical PHP method:
 
-        Default slot content...
-    </x-alert>
+예를 들어, `User` 모델이 기본 속성중 하나를 변경하는 `suspended` 상태를 가지고 있다고 가정해봅시다. 여러분은 베이스 팩토리의 `state` 메소드를 통해 상태 변경들을 정의할 수 있습니다. 여러분은 상태 메소들을 여러분이 원하는대로 네이밍 할 수 있습니다. 결국은 일반적인 PHP 메소드라는 이야기입니다.
 
-As mentioned, this is just a very small sample of the functionality of the Blade component overhaul in Laravel 7 and does not demonstrate anonymous components, inline view components, and a variety of other features. Please consult the [full Blade component documentation](/docs/{{version}}/blade#components) to learn about this feature.
-
-위에 언급한 내용은 라라벨 7의 블레이드 컴포넌트 개선사항 중 익명 컴포넌트, 인라인 뷰 컴포넌트 등의 다른 여러가지 기능까지는 모두 보여주지 않은 작은 예시일 뿐입니다. 이를 학습하기 위해선 [블레이드 컴포넌트](/docs/{{version}}/blade#components) 문서를 참고하세요.
-
-> {note} The previous `@component` syntax for Blade components has not and will not be removed.
-
-> {note} 기존에 블레이드 컴포넌트를 위한 `@component` 문법은 사용되지 않으며 삭제될 예정입니다.
-
-### HTTP Client
-### HTTP 클라이언트
-
-_The HTTP client is a wrapper of Guzzle and was contributed by [Adam Wathan](https://twitter.com/adamwathan), [Jason McCreary](https://twitter.com/gonedark), and [Taylor Otwell](https://github.com/taylorotwell)_.
-
-_HTTP 클라이언트는 Guzzle 의 래퍼이며, [Adam Wathan](https://twitter.com/adamwathan), [Jason McCreary](https://twitter.com/gonedark), and [Taylor Otwell](https://github.com/taylorotwell)이 개발에 기여했습니다_.
-
-Laravel now provides an expressive, minimal API around the [Guzzle HTTP client](http://docs.guzzlephp.org/en/stable/), allowing you to quickly make outgoing HTTP requests to communicate with other web applications. Laravel's wrapper around Guzzle is focused on its most common use cases and a wonderful developer experience. For example, the client makes it a breeze to `POST` and interface with JSON data:
-
-라라벨은 이제 [Guzzle HTTP 클라이언트](http://docs.guzzlephp.org/en/stable/) 기반의 풍부하면서도 최소한의 API를 제공해, 다른 웹 어플리케이션과 통신하기 위한 HTTP 요청을 쉽게 만들 수 있습니다. 라라벨의 이 Guzzle 래퍼는 대부분의 유스 케이스와 개발자의 멋진 경험에 중점을 두고 있습니다. 아래는 이 클라이언트가 JSON 데이터를 가지고 `POST` 요청을 보내는 예시입니다.
-
-    use Illuminate\Support\Facades\Http;
-
-    $response = Http::withHeaders([
-        'X-First' => 'foo',
-        'X-Second' => 'bar'
-    ])->post('http://test.com/users', [
-        'name' => 'Taylor',
-    ]);
-
-    return $response['id'];
-
-In addition, the HTTP client provides fantastic, ergonomic testing functionality:
-
-거기다 이 HTTP 클라이언트는 멋지고 인간공학적인 테스팅 기능도 제공합니다.
-
-    Http::fake([
-        // Stub a JSON response for GitHub endpoints...
-        'github.com/*' => Http::response(['foo' => 'bar'], 200, ['Headers']),
-
-        // Stub a string response for Google endpoints...
-        'google.com/*' => Http::response('Hello World', 200, ['Headers']),
-
-        // Stub a series of responses for Facebook endpoints...
-        'facebook.com/*' => Http::sequence()
-                                ->push('Hello World', 200)
-                                ->push(['foo' => 'bar'], 200)
-                                ->pushStatus(404),
-    ]);
-
-To learn more about all of the features of the HTTP client, please consult the [HTTP client documentation](/docs/{{version}}/http-client).
-
-이 HTTP 클라이언트에 대해서 좀 더 알고싶다면 [HTTP 클라이언트](/docs/{{version}}/http-client) 문서를 참고하세요.
-
-### Fluent String Operations
-### 막힘없는 문자열 연산
-
-_Fluent string operations were contributed by [Taylor Otwell](https://twitter.com/taylorotwell)_.
-
-_문자열 연산에 관련 개발은 [Taylor Otwell](https://twitter.com/taylorotwell)이 기여했습니다_.
-
-You are likely familiar with Laravel's existing `Illuminate\Support\Str` class, which provides a variety of helpful string manipulation functions. Laravel 7 now offers a more object-oriented, fluent string manipulation library built on top of these functions. You may create a fluent `Illuminate\Support\Stringable` object using the `Str::of` method. A variety of methods may then be chained onto the object to manipulate the string:
-
-여러분은 이미 라라벨에서 여러가지 문자열 처리 기능을 제공하는 `Illuminate\Support\Str` 클래스에 익숙할 겁니다. 라라벨 7은 이 기능에 더해 더 객체 지향적이고 막힘없는 문자열 조작 기능을 제공합니다. 이제 `Str::of` 메소드를 사용해, `Illuminate\Support\Stringable` 이라는 객체를 만들 수 있습니다. 문자열 조작을 위한 여러가지 메소드들이 이 객체를 통해 체이닝 됩니다.
-
-    return (string) Str::of('  Laravel Framework 6.x ')
-                        ->trim()
-                        ->replace('6.x', '7.x')
-                        ->slug();
-
-For more information on the methods available via fluent string manipulation, please consult its [full documentation](/docs/{{version}}/helpers#fluent-strings).
-
-이러한 문자열 조작을 통해 가능한 메소드들에 대해서는 [막힘없는 문자열 연산](/docs/{{version}}/helpers#fluent-strings) 문서를 참고하세요.
-
-### Route Model Binding Improvements
-### 라우트 모델 바인딩 개선
-
-_Route model binding improvements were contributed by [Taylor Otwell](https://twitter.com/taylorotwell)_.
-
-_라우트 모델 바인딩 개선에 대한 개발에는 [Taylor Otwell](https://twitter.com/taylorotwell)이 기여했습니다_.
-
-#### Key Customization
-#### 키 커스터마이징
-
-Sometimes you may wish to resolve Eloquent models using a column other than `id`. To do so, Laravel 7 allows you to specify the column in the route parameter definition:
-
-때때로 엘로퀜트 모델에 대한 의존성을 `id` 컬럼 대신에 다른 컬럼을 통해 결정하고 싶을 경우가 있을 것입니다. 라라벨 7에서는 라우팅 파라미터 정의에 모델의 컬럼을 명시할 수 있습니다.
-
-    Route::get('api/posts/{post:slug}', function (App\Post $post) {
-        return $post;
-    });
-
-#### Automatic Scoping
-#### 자동 스코핑
-
-Sometimes, when implicitly binding multiple Eloquent models in a single route definition, you may wish to scope the second Eloquent model such that it must be a child of the first Eloquent model. For example, consider this situation that retrieves a blog post by slug for a specific user:
-
-하나의 라우트 정의에 여러 개의 엘로퀜트 모델을 바인딩할 때, 두 번째 엘로퀜트 모델이 첫 번째 엘로퀜트 모델의 자식 관계이어야 할 경우가 있습니다. 아래와 같이 특정 유저의 블로그 포스팅을 가져와야하는 상황을 가정해봅시다.
-
-    use App\Post;
-    use App\User;
-
-    Route::get('api/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
-        return $post;
-    });
-
-When using a custom keyed implicit binding as a nested route parameter, Laravel 7 will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `User` model has a relationship named `posts` (the plural of the route parameter name) which can be used to retrieve the `Post` model.
-
-커스텀 키를 이용한 암시적인 바인딩을 이러한 중첩된 라우트 파라미터로 사용할 경우, 라라벨 7은 부모 모델이 사용하는 컨벤션에 의해 관계명을 추측하고, 자동으로 쿼리 범위를 잡습니다. 이 경우, `User` 모델은 `Post` 모델을 조회하기 위해 `posts` (라우트 파라미터의 복수형) 관계를 봅니다.
-
-For more information on route model binding, please consult the [routing documentation](/docs/{{version}}/routing#route-model-binding).
-
-이 라우트 모델 바인딩에 대해서 좀 더 알고 싶다면 [라우팅](/docs/{{version}}/routing#route-model-binding) 문서를 참고하세요.
-
-### Multiple Mail Drivers
-### 다중 메일 드라이버
-
-_Multiple mail driver support was contributed by [Taylor Otwell](https://twitter.com/taylorotwell)_.
-
-_다중 메일 드라이버 지원은 [Taylor Otwell](https://twitter.com/taylorotwell)이 기여했습니다_.
-
-Laravel 7 allows the configuration of multiple "mailers" for a single application. Each mailer configured within the `mail` configuration file may have its own options and even its own unique "transport", allowing your application to use different email services to send certain email messages. For example, your application might use Postmark to send transactional mail while using Amazon SES to send bulk mail.
-
-라라벨 7은 하나의 어플리케이션에서 다양한 "메일러" 설정을 지원합니다. `mail` 설정 파일 안에 있는 각각의 메일러는 서로 다른 옵션 뿐만 아니라, 어플리케이션에서 다른 메일 발송 서비스를 사용하게 하는 고유한 "트랜스포트" 를 가지고 있습니다. 예를 들어, 어플리케이션이 트랜잭셔널 메일(역자 주: 회원가입, 상품 구매등 이벤트 발생시 발송하는 메일)에는 Postmark를 사용하고, 벌크 메일(역자 주: 마케팅 등을 위해 동시에 대량으로 발송하는 메일)에는 Amazon SES를 사용할 수 있습니다.
-
-By default, Laravel will use the mailer configured as the `default` mailer in your `mail` configuration file. However, you may use the `mailer` method to send a message using a specific mailer configuration
-
-기본적으로 라라벨은 `mail` 설정 파일 내에서 `default` 메일러를 사용합니다. 하지만 `mailer` 메소드를 사용해 특정한 메일러 설정을 사용할 수도 있습니다.
-
-    Mail::mailer('postmark')
-            ->to($request->user())
-            ->send(new OrderShipped($order));
-
-### Route Caching Speed Improvements
-### 라우트 캐싱 속도 향상
-
-_The route caching speed improvements were contributed by upstream [Symfony](https://symfony.com) contributors and [Dries Vints](https://twitter.com/driesvints)_.
-
-_라우트 캐싱 속도 향상은 업스트림 [Symfony](https://symfony.com) 개발 기여자들과 [Dries Vints](https://twitter.com/driesvints)가 개발에 기여했습니다_.
-
-Laravel 7 includes a new method of matching compiled, cached routes that have been cached using the `route:cache` Artisan command. On large applications (for example, applications with 800 or more routes), these improvements can result in a **2x speed improvement** in requests per second on a simple "Hello World" benchmark. No changes to your application are required.
-
-라라벨 7은 `route:cache` 아티즌 커맨드를 사용해 캐싱되던 매칭 컴파일 및 라우트 캐싱에 대해 새로운 방식을 포함하고 있습니다. 대형 어플리케이션(예를 들어, 800개 이상의 라우트를 가지는 어플리케이션)에서 이 개선사항은 간단한 "Hello World" 벤치마크에서 초당 리퀘스트 수의 **2배의 성능 향상** 을 가져옵니다. 사용자 어플리케이션에 대한 변경사항은 필요하지 않습니다.
-
-### CORS Support
-### CORS 지원
-
-_CORS support was contributed by [Barry vd. Heuvel](https://twitter.com/barryvdh)_.
-
-_CORS 지원은 [Barry vd. Heuvel](https://twitter.com/barryvdh)이 기여했습니다._
-
-Laravel 7 includes first-party support for configuring Cross-Origin Resource Sharing (CORS) `OPTIONS` request responses by integrating the popular Laravel CORS package written by Barry vd. Heuvel. A new `cors` configuration is included in the [default Laravel application skeleton](https://github.com/laravel/laravel/blob/develop/config/cors.php).
-
-라라벨 7은 Barry vd. Heuvel이 작성한 라라벨 패키지를 통합하면서 크로스-원본 자원 공유(CORS) `OPTIONS` 요청 및 응답을 설정하는 것을 자체적으로 지원합니다. 새로운 `cors` 설정이 [라라벨 기본 어플리케이션 스켈레톤](https://github.com/laravel/laravel/blob/develop/config/cors.php)에 포함되어 있습니다.
-
-For more information on CORS support in Laravel 7.x, please consult the [CORS documentation](/docs/{{version}}/routing#cors).
-
-라라벨 7.x의 CORS 설정에 대해서 좀 더 알고싶다면 [CORS](/docs/{{version}}/routing#cors) 문서를 참고하세요.
-
-### Query Time Casts
-### 쿼리 타임 캐스트
-
-_Query time casting was contributed by [Matt Barlow](https://github.com/mpbarlow)_.
-
-_쿼리 타임 캐스팅 개발은 [Matt Barlow](https://github.com/mpbarlow)가 기여했습니다_.
-
-Sometimes you may need to apply casts while executing a query, such as when selecting a raw value from a table. For example, consider the following query:
-
-쿼리를 실행할 때 데이터베이스의 원시 값을 셀렉트하면서 바로 캐스팅을 적용해야 할 필요가 있을겁니다. 예를 들어, 아래와 같은 쿼리를 살펴봅시다.
-
-    use App\Post;
-    use App\User;
-
-    $users = User::select([
-        'users.*',
-        'last_posted_at' => Post::selectRaw('MAX(created_at)')
-                ->whereColumn('user_id', 'users.id')
-    ])->get();
-
-The `last_posted_at` attribute on the results of this query will be a raw string. It would be convenient if we could apply a `date` cast to this attribute when executing the query. To accomplish this, we may use the `withCasts` method provided by Laravel 7:
-
-쿼리 결과에서 `last_posted_at` 속성은 문자열입니다. 만약 쿼리할때 이걸 `date` 캐스팅이 자동으로 적용된다면 좀 더 편리할 것입니다. 이를 라라벨 7에서 제공되는 `withCasts` 메소드를 통해서 사용 가능합니다.
-
-    $users = User::select([
-        'users.*',
-        'last_posted_at' => Post::selectRaw('MAX(created_at)')
-                ->whereColumn('user_id', 'users.id')
-    ])->withCasts([
-        'last_posted_at' => 'date'
-    ])->get();
-
-### MySQL 8+ Database Queue Improvements
-### MySQL 8 이상 데이터베이스 큐 개선
-
-_MySQL database queue improvements were contributed by [Mohamed Said](https://github.com/themsaid)_.
-
-_MySQL 데이터베이스 큐 개선은 [Mohamed Said](https://github.com/themsaid)가 기여했습니다_.
-
-In previous releases of Laravel, the `database` queue was not considered robust enough for production usage, due to deadlocks. However, Laravel 7 provides improvements to applications using MySQL 8+ as their database backed queue. By using the `FOR UPDATE SKIP LOCKED` clause and other SQL enhancements, the `database` driver may now safely be used in higher volume production applications.
-
-라라벨의 이전 버전에서는 `database` 큐는 데드락 때문에 프로덕션 환경에서 사용하기에는 어려웠지만, 라라벨 7은 MySQL 8 이상 버전에서 데이터베이스에서 지원하는 큐를 통해 이에 대한 개선을 제공합니다. `database` 큐 드라이버는 `FOR UPDATE SKIP LOCKED` 쿼리 절 (역자 주: 락이 걸려 있는 row를 제외하고 쿼리를 바로 실행하는 옵션)과 다른 SQL 향상을 사용해, 좀 더 안전하게 대용량 프로덕션 환경의 어플리케이션에서 사용될 수 있습니다.
-
-### Artisan `test` Command
-### 아티즌 `test` 커맨드
-
-_The `test` command was contributed by [Nuno Maduro](https://twitter.com/enunomaduro)_.
-
-_`test` 커맨드 추가는 [Nuno Maduro](https://twitter.com/enunomaduro)가 기여했습니다_.
-
-In addition to the `phpunit` command, you may now use the `test` Artisan command to run your tests. The Artisan test runner provides beautiful console UX and more information regarding the test that is currently running. In addition, the runner will automatically stop on the first test failure:
-
-테스트를 실행할 때 `phpunit` 커맨드 뿐만 아니라 이제 아티즌의 `test` 커맨드를 사용할 수 있습니다. 아티즌의 테스트 러너는 아름다운 콘솔 유저 경험과 현재 어떤 테스트가 실행 중인가에 대한 더 많은 정보를 제공합니다. 또한 테스트 러너는 첫 번째 테스트 실패가 발생할 경우에 자동으로 중단됩니다.
-
-    php artisan test
-
-<p align="center">
-<img src="https://laravel.com/img/docs/7x-release-notes-artisan-test-preview.png">
-</p>
-
-Any arguments that can be passed to the `phpunit` command may also be passed to the Artisan `test` command:
-
-`phpunit` 커맨드 실행시 전달될 수 있는 어떠한 인수 역시 아티즌 `test` 커맨드를 통해 전달될 수 있습니다.
-
-    php artisan test --group=feature
-
-### Markdown Mail Template Improvements
-### 마크다운 메일 템플릿 개선
-
-_Markdown mail template improvements were contributed by [Taylor Otwell](https://twitter.com/taylorotwell)_.
-
-_마크다운 메일 템플릿 개선은 [Taylor Otwell](https://twitter.com/taylorotwell)이 기여했습니다_.
-
-The default Markdown mail template has received a fresh, more modern design based on the Tailwind CSS color palette. Of course, this template can be published and customized according to your application's needs:
-
-기본 마크다운 메일 템플릿이 테일윈드 CSS 컬러 팔레트에 기반해 좀 더 새롭고 모던한 디자인을 받아들였습니다. 물론 템플릿은 어플리케이션의 용도에 따라 발행되고 커스터마이징 될 수 있습니다.
-
-<p align="center">
-<img src="https://laravel.com/img/docs/7x-release-notes-notification-preview.png">
-</p>
-
-For more information on Markdown mail, please consult the [mail documentation](/docs/{{version}}/mail#markdown-mailables).
-
-마크다운 메일에 대해서 좀 더 알고 싶다면 [메일](/docs/{{version}}/mail#markdown-mailables) 문서를 참고하세요.
-
-### Stub Customization
-### 스텁 커스터마이즈
-
-_Stub customization was contributed by [Taylor Otwell](https://twitter.com/taylorotwell)_.
-
-_스텁 커스터마이즈는 [Taylor Otwell](https://twitter.com/taylorotwell)이 기여했습니다_.
-
-The Artisan console's `make` commands are used to create a variety of classes, such as controllers, jobs, migrations, and tests. These classes are generated using "stub" files that are populated with values based on your input. However, you may sometimes wish to make small changes to files generated by Artisan. To accomplish this, Laravel 7 provides the `stub:publish` command to publish the most common stubs for customization:
-
-아티즌 콘솔의 `make` 커맨드는 컨트롤러, job, 마이그레이션, 테스트 등의 여러가지 클래스를 생성하기 위해 사용됩니다. 이런 클래스들은 커맨드 입력값에 따라 "스텁" 이라고 하는 파일을 사용해 생성됩니다. 하지만 때때로 아티즌에 대해 생성되는 파일에 대해 약간의 변화를 주고싶을 때가 있습니다. 라라벨 7에서는 대부분의 공통 스텁 파일을 커스터마이징해 만들 수 있는 `stub:publish` 커맨드를 제공합니다.
-
-    php artisan stub:publish
-
-The published stubs will be located within a `stubs` directory in the root of your application. Any changes you make to these stubs will be reflected when you generate their corresponding classes using Artisan `make` commands.
-
-생성된 스텁은 어플리케이션 루트 디렉토리 내 `stubs` 디렉토리에 위치하게 됩니다. 이렇게 생성된 스텁 파일에 대해 추가한 변경사항은 이후 아티즌 `make` 커맨드를 사용해 해당하는 클래스를 생성할 때 반영됩니다.
-
-### Queue `maxExceptions` Configuration
-### 큐 `maxExceptions` 설정
-
-_The `maxExceptions` property was contributed by [Mohamed Said](https://twitter.com/themsaid)_.
-
-_`maxExceptions` 프로퍼티 추가는 [Mohamed Said](https://twitter.com/themsaid)가 기여했습니다_.
-
-Sometimes you may wish to specify that a job may be attempted many times, but should fail if the retries are triggered by a given number of exceptions. In Laravel 7, you may define a `maxExceptions` property on your job class:
-
-큐에서 job이 여러 번 재시도 될 수 있게 명시하더라도, 정해놓은 횟수만큼 예외가 발생할경우 job을 실패 처리하길 원할 때가 있습니다. 라라벨 7에서는 job 클래스의 프로퍼티 중 `maxExceptions` 를 정의할 수 있습니다.
-
-    <?php
-
-    namespace App\Jobs;
-
-    class ProcessPodcast implements ShouldQueue
+    /**
+     * Indicate that the user is suspended.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function suspended()
     {
-        /**
-         * The number of times the job may be attempted.
-         *
-         * @var int
-         */
-        public $tries = 25;
-
-        /**
-         * The maximum number of exceptions to allow before failing.
-         *
-         * @var int
-         */
-        public $maxExceptions = 3;
-
-        /**
-         * Execute the job.
-         *
-         * @return void
-         */
-        public function handle()
-        {
-            Redis::throttle('key')->allow(10)->every(60)->then(function () {
-                // Lock obtained, process the podcast...
-            }, function () {
-                // Unable to obtain lock...
-                return $this->release(10);
-            });
-        }
+        return $this->state([
+            'account_status' => 'suspended',
+        ]);
     }
 
-In this example, the job is released for ten seconds if the application is unable to obtain a Redis lock and will continue to be retried up to 25 times. However, the job will fail if three unhandled exceptions are thrown by the job.
+After defining the state transformation method, we may use it like so:
 
-위 예제에서 job은 어플리케이션이 레디스에서 락을 획득하지 못하면 10초간 기다리는 것을 25번까지 재시도할수 있습니다. 하지만, 처리되지 않은 예외가 3번 발생시 job을 실패처리하게 됩니다.
+상태 변경 메소드를 정의한 후, 아래처럼 사용할 수 있습니다.
+
+    use App\Models\User;
+
+    User::factory()->count(5)->suspended()->create();
+
+
+As mentioned, Laravel 8's model factories contain first class support for relationships. So, assuming our `User` model has a `posts` relationship method, we may simply run the following code to generate a user with three posts:
+
+언급된 것처럼, 라라벨 8의 모델 팩토리는 관계들에 대해 일급 객체 지원을 포함합니다. `User` 모델이 `posts` 관계 메소드를 가지고 있다고 가정해봅시다, 우리는 유저와 세 개의 포스트를 생성하기 위해 간단하게 아래의 코드를 실행하면 됩니다.
+
+    $users = User::factory()
+                ->hasPosts(3, [
+                    'published' => false,
+                ])
+                ->create();
+
+To ease the upgrade process, the [laravel/legacy-factories](https://github.com/laravel/legacy-factories) package has been released to provide support for the previous iteration of model factories within Laravel 8.x.
+
+업그레이드를 좀 더 수월하게 만들기 위해, [laravel/legacy-factories](https://github.com/laravel/legacy-factories) 패키지가 라라벨 8.x 이전 버전 형태의 모델 팩토리를 지원하기 위해 제공됩니다.
+
+Laravel's re-written factories contain many more features that we think you will love. To learn more about model factories, please consult the [database testing documentation](/docs/{{version}}/database-testing#defining-model-factories).
+
+라라벨의 재작성된 팩토리들은 여러분이 좋아할만한 다른 많은 기능들을 포함합니다. 모델 팩토리에 대해서 더 알아보시려면, [데이터베이스 테스팅](/docs/{{version}}/database-testing#defining-model-factories) 문서를 참고하세요.
+
+### Migration Squashing
+### 마이그레이션 스쿼싱
+
+_Migration squashing was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_마이그레이션 스쿼싱은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_
+
+As you build your application, you may accumulate more and more migrations over time. This can lead to your migration directory becoming bloated with potentially hundreds of migrations. If you're using MySQL or PostgreSQL, you may now "squash" your migrations into a single SQL file. To get started, execute the `schema:dump` command:
+
+어플리케이션 개발을 진행하면서, 여러분의 마이그레이션 파일들은 시간이 지날수록 계속 쌓여만 갈것입니다. 결국 마이그레이션 디렉토리는 수백개의 파일들로 꽉차버리게 됩니다. 여러분이 만약 MySQL이나 PostrgreSQL을 사용한다면, 여러분은 이제 마이그레이션 파일들을 "스쿼시" 하여 한개의 SQL 파일로 만들 수 있습니다. 시작하려면, `schema:dump` 커맨드를 실행하세요:
+
+    php artisan schema:dump
+
+    // Dump the current database schema and prune all existing migrations...
+    php artisan schema:dump --prune
+
+When you execute this command, Laravel will write a "schema" file to your `database/schema` directory. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute the schema file's SQL first. After executing the schema file's commands, Laravel will execute any remaining migrations that were not part of the schema dump.
+
+여러분이 이 커맨드를 실행하면 라라벨은 "schema" 파일을 여러분의 `database/schema` 디렉토리에 생성합니다. 이제, 여러분이 데이터베이스 마이그레이션을 시도할 때 아직 아무 마이그레이션도 실행되지 않은 초기상태 인 경우, 라라벨은 스키마 파일의 SQL을 먼저 실행할 것입니다. 스키마 파일의 명령어가 먼저 실행된 이후, 라라벨은 스키마 덤프에 포함되지 않은 마이그레이션의 나머지 부분들을 실행합니다.
+
+### Job Batching
+### 배치 잡
+
+_Job batching was contributed by [Taylor Otwell](https://github.com/taylorotwell) & [Mohamed Said](https://github.com/themsaid)_.
+
+_배치 잡은 [Taylor Otwell](https://github.com/taylorotwell) & [Mohamed Said](https://github.com/themsaid)에 의해 기여되었습니다_.
+
+Laravel's job batching feature allows you to easily execute a batch of jobs and then perform some action when the batch of jobs has completed executing.
+
+라라벨의 배치잡 기능은 여러분이 쉽게 배치 잡을 실행하고 여러분의 배치잡이 완료되었을때 어떤 액션을 실행할수 있게 해줍니다.
+
+The new `batch` method of the `Bus` facade may be used to dispatch a batch of jobs. Of course, batching is primarily useful when combined with completion callbacks. So, you may use the `then`, `catch`, and `finally` methods to define completion callbacks for the batch. Each of these callbacks will receive an `Illuminate\Bus\Batch` instance when they are invoked:
+
+새로운 `Bus` 파사드의 `batch` 메소드는 배치잡을 시작시키기 위해 사용될 수 있습니다. 물론, 배칭은 완료 콜백과 함께 실행 될때 더 유용합니다. 이를 위해서 여러분은 `then`, `catch`, 그리고 `finally` 메소드를 사용해 배치 작업의 완료 콜백을 정의할 수 있습니다. 각각의 콜백은 실행될 때 `Illuminate\Bus\Batch` 의 인스턴스를 인자로 넘겨받습니다.
+
+    use App\Jobs\ProcessPodcast;
+    use App\Podcast;
+    use Illuminate\Bus\Batch;
+    use Illuminate\Support\Facades\Batch;
+    use Throwable;
+
+    $batch = Bus::batch([
+        new ProcessPodcast(Podcast::find(1)),
+        new ProcessPodcast(Podcast::find(2)),
+        new ProcessPodcast(Podcast::find(3)),
+        new ProcessPodcast(Podcast::find(4)),
+        new ProcessPodcast(Podcast::find(5)),
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->catch(function (Batch $batch, Throwable $e) {
+        // First batch job failure detected...
+    })->finally(function (Batch $batch) {
+        // The batch has finished executing...
+    })->dispatch();
+
+    return $batch->id;
+
+To learn more about job batching, please consult the [queue documentation](/docs/{{version}}/queues#job-batching).
+
+배치잡에 대해 더 알아보고 싶다면, [큐 문서](/docs/{{version}}/queues#job-batching)를 참고하세요.
+
+### Improved Rate Limiting
+### 개선된 레이트 리미팅
+
+_Rate limiting improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_레이트 리미팅 개선은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
+
+Laravel's request rate limiter feature has been augmented with more flexibility and power, while still maintaining backwards compatibility with previous release's `throttle` middleware API.
+
+라라벨의 리퀘스트 레이트 리미터 기능은 이전 버전의 `throttle` 미들웨어 API와의 호환성을 유지하면서도 더욱 유연하고 강력하게 확장되었습니다. 
+
+Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a Closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
+
+레이트 리미터들은 `RateLimiter` 파사드의 `for` 메소드를 통해 정의될 수 있습니다. `for` 메소드는 레이트 리미터의 이름과 이 레이트 리미터에 할당된 라우트들에 적용될 제한 관련 설정을 리턴하는 클로져를 전달받습니다. 
+
+    use Illuminate\Cache\RateLimiting\Limit;
+    use Illuminate\Support\Facades\RateLimiter;
+
+    RateLimiter::for('global', function (Request $request) {
+        return Limit::perMinute(1000);
+    });
+
+Since rate limiter callbacks receive the incoming HTTP request instance, you may build the appropriate rate limit dynamically based on the incoming request or authenticated user:
+
+레이트 리미터 콜백이 요청된 HTTP 리퀘스트 인스턴스를 전달받기 때문에, 여러분은 요청 혹은 요청하는 유저에 따라 유동적으로 적절한 레이트 리미트를 적용할 수 있을것입니다.
+
+    RateLimiter::for('uploads', function (Request $request) {
+        return $request->user()->vipCustomer()
+                    ? Limit::none()
+                    : Limit::perMinute(100);
+    });
+
+Sometimes you may wish to segment rate limits by some arbitrary value. For example, you may wish to allow users to access a given route 100 times per minute per IP address. To accomplish this, you may use the `by` method when building your rate limit:
+
+때때로 여러분은 원하는 기준에 따라 레이트 리미트를 적용할 필요가 있습니다. 예를 들어 여러분이 단일 아이피에 대해 분당 100번의 요청만들 허용하고 싶다고 가정해봅시다. 이를 위해 여러분은 레이트 리미터 설정을 생성할 때 `by` 메소드를 사용할 수 있습니다.
+
+    RateLimiter::for('uploads', function (Request $request) {
+        return $request->user()->vipCustomer()
+                    ? Limit::none()
+                    : Limit::perMinute(100)->by($request->ip());
+    });
+
+Rate limiters may be attached to routes or route groups using the `throttle` [middleware](/docs/{{version}}/middleware). The throttle middleware accepts the name of the rate limiter you wish to assign to the route:
+
+레이트 리미터는 라우트 혹은 라우트 그룹에 `throttle` [미들웨어](/docs/{{version}}/middleware) 를 통해 연결됩니다. 쓰로틀 미들웨어는 여러분이 라우트에 적용하고자 하는 레이트 리미터의 이름을 전달받습니다.
+
+    Route::middleware(['throttle:uploads'])->group(function () {
+        Route::post('/audio', function () {
+            //
+        });
+
+        Route::post('/video', function () {
+            //
+        });
+    });
+
+To learn more about rate limiting, please consult the [routing documentation](/docs/{{version}}/routing#rate-limiting).
+
+레이트 리미팅에 대해 더 알고 싶으시면, [라우팅 문서](/docs/{{version}}/routing#rate-limiting)를 참고하세요.
+
+### Improved Maintenance Mode
+### 개선된 점검 모드
+
+_Maintenance mode improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell) with inspiration from [Spatie](https://spatie.be)_.
+
+_점검 모드 개선은 [Spatie](https://spatie.be)에게서 영감을 받아 [Taylor Otwell](https://github.com/taylorotwell)이 기여하였습니다_.
+
+In previous releases of Laravel, the `php artisan down` maintenance mode feature may be bypassed using an "allow list" of IP addresses that were allowed to access the application. This feature has been removed in favor of a simpler "secret" / token solution.
+
+이전 버전의 라라벨에서는 `php artisan down` 점검 모드 기능이 "허용 목록"의 아이피 주소들에 한해 어플리케이션에 접근하는 것을 허용했습니다. 이 기능은 이제 제거되며 더 간단한 "비밀" / 토큰 접근 방식으로 대체됩니다.
+
+While in maintenance mode, you may use the `secret` option to specify a maintenance mode bypass token:
+
+점검 모드 중에, 여러분은 이제 `secret` 옵션을 이용해 점검 모드를 우회하는 토큰을 설정할 수 있습니다.
+
+    php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
+
+After placing the application in maintenance mode, you may navigate to the application URL matching this token and Laravel will issue a maintenance mode bypass cookie to your browser:
+
+어플리케이션이 점검 모드에 들어간 이후에, 토큰에 매칭되는 어플리케이션 URL에 접속하면 라라벨이 점검 모드 우회 쿠키를 여러분의 브라우저에 발급합니다.
+
+    https://example.com/1630542a-246b-4b66-afa1-dd72a4c43515
+
+When accessing this hidden route, you will then be redirected to the `/` route of the application. Once the cookie has been issued to your browser, you will be able to browse the application normally as if it was not in maintenance mode.
+
+이 숨겨진 라우트에 접근하면 여러분은 `/` 경로로 리다이렉트 될 것입니다. 쿠키가 한번 발급되면, 여러분은 어플리케이션에 점검 모드가 아닌것처럼 접근할 수 있을 것입니다. 
+
+#### Pre-Rendering The Maintenance Mode View
+#### 점검 모드 뷰 Pre-Rendering
+
+If you utilize the `php artisan down` command during deployment, your users may still occasionally encounter errors if they access the application while your Composer dependencies or other infrastructure components are updating. This occurs because a significant part of the Laravel framework must boot in order to determine your application is in maintenance mode and render the maintenance mode view using the templating engine.
+
+만약 여러분이 배포 중 `php artisan down` 커맨드를 사용하려 한다면, 컴포저의 의존성 혹은 여러 인프라 구성요소가 업데이트 되는 중에 어플리케이션에 접근한다면 여전히 유저들 중 일부가 에러를 볼 가능성이 있습니다. 이것은 점검 모드 뷰를 템플릿 엔진을 사용해 렌더링 하기 위해 라라벨 프레임워크의 거대한 부분이 부팅되어야 하기 때문입니다.
+
+For this reason, Laravel now allows you to pre-render a maintenance mode view that will be returned at the very beginning of the request cycle. This view is rendered before any of your application's dependencies have loaded. You may pre-render a template of your choice using the `down` command's `render` option:
+
+위와 같은 이유로, 라라벨은 이제 점검 모드 뷰를 미리 렌더링(Pre-rendering) 하여 리퀘스트 사이클의 매우 앞부분에서 리턴할 수 있도록 지원합니다. 해당 뷰는 여러분의 어플리케이션의 의존성이 로딩되기 이전에 렌더링됩니다. 여러분은 `down` 커맨드의 `render` 옵션을 통해 미리 렌더링할 템플릿을 선택할 수 있습니다.
+
+    php artisan down --render="errors::503"
+
+### Closure Dispatch / Chain `catch`
+### 클로져 Dispatch / 체인된 `catch`
+
+_Catch improvements were contributed by [Mohamed Said](https://github.com/themsaid)_.
+
+_Catch 개선은 [Mohamed Said](https://github.com/themsaid)에 의해 기여되었습니다_.
+
+Using the new `catch` method, you may now provide a Closure that should be executed if a queued Closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
+
+새로운 `catch` 메소드를 사용하면, 큐잉된 클로져가 설정된 retry 수만큼 시도한 이후에도 실패했을 때에 실행할 클로져를 설정할 수 있습니다. 
+
+    use Throwable;
+
+    dispatch(function () use ($podcast) {
+        $podcast->publish();
+    })->catch(function (Throwable $e) {
+        // This job has failed...
+    });
+
+### Dynamic Blade Components
+### 동적 블레이드 컴포넌트
+
+_Dynamic Blade components were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_동적 블레이드 컴포넌트는 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
+
+Sometimes you may need to render a component but not know which component should be rendered until runtime. In this situation, you may now use Laravel's built-in `dynamic-component` component to render the component based on a runtime value or variable:
+
+때때로 런타임이 되기 전까지 어떤 컴포넌트를 렌더링 해야할지 모르는 상황에서 컴포넌트를 렌더 해야하는 경우가 있습니다. 이 상황에서, 여러분은 이제 라라벨에 내장된 `dynamic-component` 컴포넌트를 사용하여 런타임의 값 혹은 변수를 사용해 컴포넌트를 렌더할 수 있습니다.
+
+    <x-dynamic-component :component="$componentName" class="mt-4" />
+
+To learn more about Blade components, please consult the [Blade documentation](/docs/{{version}}/blade#components).
+
+블레이드 컴포넌트에 대해 더 알고 싶다면, [블레이드 문서](/docs/{{version}}/blade#components)를 참고하세요.
+
+### Event Listener Improvements
+### 이벤트 리스너 개선
+
+_Event listener improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_이벤트 리스너 개선은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
+
+Closure based event listeners may now be registered by only passing the Closure to the `Event::listen` method. Laravel will inspect the Closure to determine which type of event the listener handles:
+
+클로져 기반의 이벤트 리스너는 이제 `Event::listen` 메소드를 통해서만 등록될 수 있습니다. 라라벨은 이제 클로져를 검사하여 어떤 타입의 이벤트를 처리하는 리스너인지 판단합니다. 
+
+    use App\Events\PodcastProcessed;
+    use Illuminate\Support\Facades\Event;
+
+    Event::listen(function (PodcastProcessed $event) {
+        //
+    });
+
+In addition, Closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
+
+또한, 클로져 기반의 이벤트 리스너는 `Illuminate\Events\queueable` 함수를 통해 큐로 처리가 가능한 리스너로 등록될 수 있습니다.
+
+    use App\Events\PodcastProcessed;
+    use function Illuminate\Events\queueable;
+    use Illuminate\Support\Facades\Event;
+
+    Event::listen(queueable(function (PodcastProcessed $event) {
+        //
+    }));
+
+Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods to customize the execution of the queued listener:
+
+큐잉된 작업들처럼, 여러분은 `onConnection`, `onQueue`, 그리고 `delay` 메소드를 통해 큐잉된 리스너의 실행을 설정할 수 있습니다.
+
+    Event::listen(queueable(function (PodcastProcessed $event) {
+        //
+    })->onConnection('redis')->onQueue('podcasts')->delay(now()->addSeconds(10)));
+
+If you would like to handle anonymous queued listener failures, you may provide a Closure to the `catch` method while defining the `queueable` listener:
+
+만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 제공하세요.
+
+    use App\Events\PodcastProcessed;
+    use function Illuminate\Events\queueable;
+    use Illuminate\Support\Facades\Event;
+    use Throwable;
+
+    Event::listen(queueable(function (PodcastProcessed $event) {
+        //
+    })->catch(function (PodcastProcessed $event, Throwable $e) {
+        // The queued listener failed...
+    }));
+
+### Time Testing Helpers
+### 시간 테스팅 헬퍼
+
+_Time testing helpers were contributed by [Taylor Otwell](https://github.com/taylorotwell) with inspiration from Ruby on Rails_.
+
+_시간 테스팅 헬퍼는 Ruby on Rails에서 영감을 받아 [Taylor Otwell](https://github.com/taylorotwell)이 기여하였습니다_.
+
+When testing, you may occasionally need to modify the time returned by helpers such as `now` or `Illuminate\Support\Carbon::now()`. Laravel's base feature test class now includes helpers that allow you to manipulate the current time:
+
+테스트에서, 여러분은 `now` 혹은 `Illuminate\Support\Carbon::now()`와 같은 헬퍼에서 리턴되는 시간을 수정할 필요가 있을 수 있습니다. 라라벨의 기본 기능 테스트 클래스는 이제 여러분이 현재 시간을 조작할 수 있도록 하는 헬퍼 함수들을 포함합니다.
+
+    public function testTimeCanBeManipulated()
+    {
+        // Travel into the future...
+        $this->travel(5)->milliseconds();
+        $this->travel(5)->seconds();
+        $this->travel(5)->minutes();
+        $this->travel(5)->hours();
+        $this->travel(5)->days();
+        $this->travel(5)->weeks();
+        $this->travel(5)->years();
+
+        // Travel into the past...
+        $this->travel(-5)->hours();
+
+        // Travel to an explicit time...
+        $this->travelTo(now()->subHours(6));
+
+        // Return back to the present time...
+        $this->travelBack();
+    }
+
+### Artisan `serve` Improvements
+### Artisan `serve` 개선
+
+_Artisan `serve` improvements were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+
+_Artisan `serve` 개선은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
+
+The Artisan `serve` command has been improved with automatic reloading when environment variable changes are detected within your local `.env` file. Previously, the command had to be manually stopped and restarted.
+
+Artisan `serve` 커맨드는 로컬의 `.env` 파일의 환경변수 변화를 감지해 자동으로 리로드 되도록 개선되었습니다. 과거에는 커맨드를 이용해 수동으로 정지하고 재시작해야 했습니다.
+
+### Tailwind Pagination Views
+### Tailwind 페이지네이션 뷰
+
+The Laravel paginator has been updated to use the [Tailwind CSS](https://tailwindcss.com) framework by default. Tailwind CSS is a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke designs without any annoying opinionated styles you have to fight to override. Of course, Bootstrap 3 and 4 views remain available as well.
+
+라라벨 paginator는 이제 [Tailwind CSS](https://tailwindcss.com)를 기본적으로 사용하도록 업데이트 되었습니다. Tailwind CSS는 강력한 커스터마이징을 지원하며, 로우레벨의 CSS 프레임워크입니다. 강제적인 스타일이 없어 오버라이드하려고 애쓰지 않아도 되고 맞춤 디자인을 만드는데 사용할수 있는 컴포넌트들을 제공합니다. 당연히, 부트스트랩 3과 4의 뷰도 여전히 사용 가능합니다.
+
+### Routing Namespace Updates
+### 라우팅 네임스페이스 업데이트
+
+In previous releases of Laravel, the `RouteServiceProvider` contained a `$namespace` property. This property's value would automatically be prefixed onto controller route definitions and calls to the `action` helper / `URL::action` method. In Laravel 8.x, this property is `null` by default. This means that no automatic namespace prefixing will be done by Laravel. Therefore, in new Laravel 8.x applications, controller route definitions should be defined using standard PHP callable syntax:
+
+이전 버전의 라라벨에서는, `RouteServiceProvider`가 `$namespace` 속성을 갖고 있었습니다. 이 속성의 값은 컨트롤러의 라우트를 정의 할때와 `action` 헬퍼 / `URL::action` 메서드를 호출할때 자동으로 접두 되었습니다. 라라벨 8.x 버전에서는, 이 속성은 기본적으로 `null` 입니다. 이것은 이제부터 라라벨이 자동으로 네임스페이스를 접두해주지 않는 다는 의미입니다. 그러므로, 라라벨 8.x 어플리케이션에서는 컨트롤러 라우트가 PHP 표준 callable 문법을 사용해 정의되어야합니다.
+
+    use App\Http\Controllers\UserController;
+
+    Route::get('/users', [UserController::class, 'index']);
+
+Calls to the `action` related methods should use the same callable syntax:
+
+`action` 관련된 메소드들을 호출할때도 동일한 callable 문법을 사용해야 합니다.
+
+    action([UserController::class, 'index']);
+
+    return Redirect::action([UserController::class, 'index']);
+
+If you prefer Laravel 7.x style controller route prefixing, you may simply add the `$namespace` property into your application's `RouteServiceProvider`.
+
+만약 여러분이 라라벨 7.x 스타일의 컨트롤러 라우트 접두 기능을 사용하고 싶다면, 여러분의 어플리케이션의 `RouteServiceProvider` 에 `$namespace` 속성을 추가하세요.
+
+> {note} This change only affects new Laravel 8.x applications. Applications upgrading from Laravel 7.x will still have the `$namespace` property in their `RouteServiceProvider`.
+
+> {note} 이 변경사항은 새로운 라라벨 8.x 어플리케이션들에만 적용됩니다. 라라벨 7.x로부터 업그레이드 된 어플리케이션들은 `RouteServiceProvider` 에 `$namespace` 속성을 갖고 있을 것이기 때문에 영향받지 않습니다.

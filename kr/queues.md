@@ -3,56 +3,56 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-    - [Connections Vs. Queues](#connections-vs-queues)
-    - [커넥션 Vs. Queues-큐](#connections-vs-queues)
-    - [Driver Notes & Prerequisites](#driver-prerequisites)
-    - [드라이버 주의사항과 사전준비사항](#driver-prerequisites)
+  - [Connections Vs. Queues](#connections-vs-queues)
+  - [커넥션 Vs. Queues-큐](#connections-vs-queues)
+  - [Driver Notes & Prerequisites](#driver-prerequisites)
+  - [드라이버 주의사항과 사전준비사항](#driver-prerequisites)
 - [Creating Jobs](#creating-jobs)
 - [Job 생성하기](#creating-jobs)
-    - [Generating Job Classes](#generating-job-classes)
-    - [Job 클래스 생성하기](#generating-job-classes)
-    - [Class Structure](#class-structure)
-    - [클래스 구조](#class-structure)
-    - [Job Middleware](#job-middleware)
-    - [Job 미들웨어](#job-middleware)
+  - [Generating Job Classes](#generating-job-classes)
+  - [Job 클래스 생성하기](#generating-job-classes)
+  - [Class Structure](#class-structure)
+  - [클래스 구조](#class-structure)
+  - [Job Middleware](#job-middleware)
+  - [Job 미들웨어](#job-middleware)
 - [Dispatching Jobs](#dispatching-jobs)
 - [Job 처리하기](#dispatching-jobs)
-    - [Delayed Dispatching](#delayed-dispatching)
-    - [지연시켜서 처리하기](#delayed-dispatching)
-    - [Synchronous Dispatching](#synchronous-dispatching)
-    - [동기식 반환](#synchronous-dispatching)
-    - [Job Chaining](#job-chaining)
-    - [Job 체이닝](#job-chaining)
-    - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
-    - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
-    - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
-    - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
-    - [Rate Limiting](#rate-limiting)
-    - [실행 속도 제한](#rate-limiting)
-    - [Error Handling](#error-handling)
-    - [에러 핸들링](#error-handling)
+  - [Delayed Dispatching](#delayed-dispatching)
+  - [지연시켜서 처리하기](#delayed-dispatching)
+  - [Synchronous Dispatching](#synchronous-dispatching)
+  - [동기식 반환](#synchronous-dispatching)
+  - [Job Chaining](#job-chaining)
+  - [Job 체이닝](#job-chaining)
+  - [Customizing The Queue & Connection](#customizing-the-queue-and-connection)
+  - [Queue-큐 & 커넥션 커스터마이징](#customizing-the-queue-and-connection)
+  - [Specifying Max Job Attempts / Timeout Values](#max-job-attempts-and-timeout)
+  - [최대 재시도 횟수 / 타임아웃 시간 지정하기](#max-job-attempts-and-timeout)
+  - [Rate Limiting](#rate-limiting)
+  - [실행 속도 제한](#rate-limiting)
+  - [Error Handling](#error-handling)
+  - [에러 핸들링](#error-handling)
 - [Queueing Closures](#queueing-closures)
 - [큐잉 클로저](#queueing-closures)
 - [Running The Queue Worker](#running-the-queue-worker)
 - [Queue Worker 구동하기](#running-the-queue-worker)
-    - [Queue Priorities](#queue-priorities)
-    - [Queue 우선순위 지정하기](#queue-priorities)
-    - [Queue Workers & Deployment](#queue-workers-and-deployment)
-    - [Queue Workers & 배포](#queue-workers-and-deployment)
-    - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
-    - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
+  - [Queue Priorities](#queue-priorities)
+  - [Queue 우선순위 지정하기](#queue-priorities)
+  - [Queue Workers & Deployment](#queue-workers-and-deployment)
+  - [Queue Workers & 배포](#queue-workers-and-deployment)
+  - [Job Expirations & Timeouts](#job-expirations-and-timeouts)
+  - [Job 만료 & 타임아웃](#job-expirations-and-timeouts)
 - [Supervisor Configuration](#supervisor-configuration)
 - [Supervisor 설정](#supervisor-configuration)
 - [Dealing With Failed Jobs](#dealing-with-failed-jobs)
 - [실패한 Job 처리하기](#dealing-with-failed-jobs)
-    - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
-    - [Job 실패 후 처리](#cleaning-up-after-failed-jobs)
-    - [Failed Job Events](#failed-job-events)
-    - [실패한 Job 이벤트](#failed-job-events)
-    - [Retrying Failed Jobs](#retrying-failed-jobs)
-    - [실패한 Job 재시도하기](#retrying-failed-jobs)
-    - [Ignoring Missing Models](#ignoring-missing-models)
-    - [누락 된 모델 무시하기](#ignoring-missing-models)
+  - [Cleaning Up After Failed Jobs](#cleaning-up-after-failed-jobs)
+  - [Job 실패 후 처리](#cleaning-up-after-failed-jobs)
+  - [Failed Job Events](#failed-job-events)
+  - [실패한 Job 이벤트](#failed-job-events)
+  - [Retrying Failed Jobs](#retrying-failed-jobs)
+  - [실패한 Job 재시도하기](#retrying-failed-jobs)
+  - [Ignoring Missing Models](#ignoring-missing-models)
+  - [누락 된 모델 무시하기](#ignoring-missing-models)
 - [Job Events](#job-events)
 - [Job 이벤트](#job-events)
 
@@ -202,8 +202,8 @@ Job 클래스는 매우 간단하며, 기본적으로 큐에 저장된 Job을 �
 
     namespace App\Jobs;
 
-    use App\AudioProcessor;
-    use App\Podcast;
+    use App\Models\Podcast;
+    use App\Services\AudioProcessor;
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Foundation\Bus\Dispatchable;
@@ -395,7 +395,7 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
             ProcessPodcast::dispatch($podcast);
         }
     }
-    
+
 If you would like to conditionally dispatch a job, you may use the `dispatchIf` and `dispatchUnless` methods:
 
 조건부 Job 처리를 원한다면, `dispatchIf`와 `dispatchUnless` 메소드를 사용할 수 있습니다.
@@ -499,22 +499,25 @@ If you would like to dispatch a job immediately (synchronously), you may use the
 ### Job Chaining
 ### Job 체이닝
 
-Job chaining allows you to specify a list of queued jobs that should be run in sequence after the primary job has executed successfully. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `withChain` method on any of your dispatchable jobs:
+Job chaining allows you to specify a list of queued jobs that should be run in sequence after the primary job has executed successfully. If one job in the sequence fails, the rest of the jobs will not be run. To execute a queued job chain, you may use the `chain` method provided by the `Bus` facade:
 
-Job 체이닝을 사용하면 기본 Job이 성공적으로 실행 된 후 순차적으로 실행되어야 하는 대기 Job 목록을 지정할 수 있습니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, 실행 가능한 모든 jobs 에 `withChain` 메소드를 사용하면 됩니다.
+Job 체이닝을 사용하면 기본 Job이 성공적으로 실행 된 후 순차적으로 실행되어야 하는 대기 Job 목록을 지정할 수 있습니다. 이 순차적인 목록에서 하나의 job 이 실패하면, 나머지 job은 실행되지 않습니다. job 체이닝을 실행하려면, `Bus` 파사드에서 제공하는 `chain` 메소드를 사용하면 됩니다.
 
-    ProcessPodcast::withChain([
+    use Illuminate\Support\Facades\Bus;
+
+    Bus::chain([
+        new ProcessPodcast,
         new OptimizePodcast,
-        new ReleasePodcast
+        new ReleasePodcast,
     ])->dispatch();
 
 In addition to chaining job class instances, you may also chain Closures:
 
 Job 클래스 인스턴스 체이닝과 더불어 체인 클로저로도 사용할 수 있습니다.
 
-    ProcessPodcast::withChain([
+    Bus::chain([
+        new ProcessPodcast,
         new OptimizePodcast,
-        new ReleasePodcast,
         function () {
             Podcast::update(...);
         },
@@ -527,15 +530,33 @@ Job 클래스 인스턴스 체이닝과 더불어 체인 클로저로도 사용�
 #### Chain Connection & Queue
 #### Connection과 Queue 체이닝
 
-If you would like to specify the default connection and queue that should be used for the chained jobs, you may use the `allOnConnection` and `allOnQueue` methods. These methods specify the queue connection and queue name that should be used unless the queued job is explicitly assigned a different connection / queue:
+If you would like to specify the connection and queue that should be used for the chained jobs, you may use the `onConnection` and `onQueue` methods. These methods specify the queue connection and queue name that should be used unless the queued job is explicitly assigned a different connection / queue:
 
-체이닝된 job에 사용될 기본 커넥션과 queue를 지정하고 싶다면, `allOnConnection`과 `allOnQueue` 메소드를 사용하면 됩니다. 이 메소드는 대기열에 있는 job이 명시적으로 다른 커넥션 / queue로 지정되지 않을 경우 사용될 queue 커넥션과 queue 이름을 지정합니다.
+체이닝된 job에 사용될 커넥션과 queue를 지정하고 싶다면, `onConnection`과 `onQueue` 메소드를 사용하면 됩니다. 이 메소드는 대기열에 있는 job이 명시적으로 다른 커넥션 / queue로 지정되지 않을 경우 사용될 queue 커넥션과 queue 이름을 지정합니다.
 
-    ProcessPodcast::withChain([
+    Bus::chain([
+        new ProcessPodcast,
         new OptimizePodcast,
-        new ReleasePodcast
-    ])->dispatch()->allOnConnection('redis')->allOnQueue('podcasts');
+        new ReleasePodcast,
+    ])->onConnection('redis')->onQueue('podcasts')->dispatch();
 
+#### Chain Failures
+#### Chain Failures
+
+When chaining jobs, you may use the `chain` method to specify a Closure that should be invoked if a job within the chain fails. The given callback will receive the exception instance that caused the job failure:
+
+job을 체이닝할 때, 체인 내의 job이 실패할 경우 호출되어야하는 클로저를 지정하기 위해 `chain` 메소드를 사용하면 됩니다. 지정된 callback에는 job의 실패를 일으킨 예외 instance가 실행됩니다.
+
+    use Illuminate\Support\Facades\Bus;
+    use Throwable;
+
+    Bus::chain([
+        new ProcessPodcast,
+        new OptimizePodcast,
+        new ReleasePodcast,
+    ])->catch(function (Throwable $e) {
+        // A job within the chain has failed...
+    })->dispatch();
 
 <a name="customizing-the-queue-and-connection"></a>
 ### Customizing The Queue & Connection
@@ -604,6 +625,7 @@ If you are working with multiple queue connections, you may specify which connec
     }
 
 You may chain the `onConnection` and `onQueue` methods to specify the connection and the queue for a job:
+
 job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnection` 과 `onQueue` 메소드를 체이닝하여 사용할 수도 있습니다.
 
     ProcessPodcast::dispatch($podcast)
@@ -619,7 +641,7 @@ job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnectio
 
 One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line:
 
-작업이 수행될 때 쵀대 재시도 횟수를 지정하려면, 아티즌 명령어에 `--tries` 옵션을 지정하면 됩니다.
+작업이 수행될 때 최대 재시도 횟수를 지정하려면, 아티즌 명령어에 `--tries` 옵션을 지정하면 됩니다.
 
     php artisan queue:work --tries=3
 
@@ -759,7 +781,7 @@ If your application interacts with Redis, you may throttle your queued jobs by t
 애플리케이션이 Redis 에 연결되어 있는 경우, queue job을 시간 또는 동시에 처리할 수 있는 수를 제한할 수 있습니다. 이 기능은 사용량 제한이 있는 외부 API 작업을 수행하는 queue job을 실행할 때 도움이 될 수 있습니다.
 
 For example, using the `throttle` method, you may throttle a given type of job to only run 10 times every 60 seconds. If a lock can not be obtained, you should typically release the job back onto the queue so it can be retried later:
- 
+
 예를 들어 `throttle` 메소드를 사용하여 주어진 job이 60초마다 10번만 실행되도록 조절할 수 있습니다. lock을 획득할 수 없는 경우에는 일반적으로 job을 queue에 릴리즈 한 뒤 나중에 다시 시도하도록 할 수 있습니다.
 
     Redis::throttle('key')->allow(10)->every(60)->then(function () {
@@ -802,13 +824,274 @@ If an exception is thrown while the job is being processed, the job will automat
 
 job이 처리되는 동안에 exception이 발생하면, job을 다시 시도하기 위하여 자동으로 queue로 반환됩니다. job은 애플리케이션에서 정의된 최대 재시도 횟수만큼 계속해서 실행됩니다. 재시도 횟수는 `queue:work` 아티즌 명령어를 사용할 때 `--tries` 옵션을 사용하여 정의됩니다. 재시도 횟수를 job클래스 자체에 정의할 수도 있습니다. queue worker에 대한 보다 자세한 사항은 [다음에서 찾을 수 있습니다](#running-the-queue-worker)
 
+<a name="job-batching"></a>
+## Job Batching
+## Job 배치(동일 프로그램에서 일괄 처리되는 작업 단위)
+
+Laravel's job batching feature allows you to easily execute a batch of jobs and then perform some action when the batch of jobs has completed executing. Before getting started, you should create a database migration to build a table that will contain your job batch meta information. This migration may be generated using the `queue:batches-table` Artisan command:
+
+Laravel의 job 배치 기능을 사용하면 job 배치를 쉽게 실행 한 다음 일괄 작업 실행이 완료되면 몇 가지 작업을 수행 할 수 있습니다. 시작하기 전에, job 배치 meta 정보를 포함할 테이블을 build하기 위해 데이터베이스 마이그레이션을 생성해야 합니다. 이 마이그레이션은 `queue:batches-table` 아티즌 명령어를 사용하여 생성할 수 있습니다.
+
+    php artisan queue:batches-table
+
+    php artisan migrate
+
+<a name="defining-batchable-jobs"></a>
+### Defining Batchable Jobs
+### 배치 가능한 Jobs 정의
+
+To build a batchable job, you should [create a queueable job](#creating-jobs) as normal; however, you should add the `Illuminate\Bus\Batchable` trait to the job class. This trait provides access to a `batch` method which may be used to retrieve the current batch that the job is executing in:
+
+배치 가능한 job을 build하려면, 정상적으로 [대기열 job을 생성해야 합니다](#creating-jobs). 그러나 `Illuminate\Bus\Batchable` trait을 job 클래스에 추가해야 합니다. 이 trait은 job이 실행 중인 현재 배치를 검색하는 데 사용할 수 있는 `batch` 메소드에 대한 접근을 제공합니다.
+
+    <?php
+
+    namespace App\Jobs;
+
+    use App\Models\Podcast;
+    use App\Services\AudioProcessor;
+    use Illuminate\Bus\Batchable;
+    use Illuminate\Bus\Queueable;
+    use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Foundation\Bus\Dispatchable;
+    use Illuminate\Queue\InteractsWithQueue;
+    use Illuminate\Queue\SerializesModels;
+
+    class ProcessPodcast implements ShouldQueue
+    {
+        use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+        /**
+         * Execute the job.
+         *
+         * @return void
+         */
+        public function handle()
+        {
+            if ($this->batch()->cancelled()) {
+                // Detected cancelled batch...
+
+                return;
+            }
+
+            // Batched job executing...
+        }
+    }
+
+<a name="dispatching-batches"></a>
+### Dispatching Batches
+### 배치 발송
+
+To dispatch a batch of jobs, you should use `batch` method of the `Bus` facade. Of course, batching is primarily useful when combined with completion callbacks. So, you may use the `then`, `catch`, and `finally` methods to define completion callbacks for the batch. Each of these callbacks will receive an `Illuminate\Bus\Batch` instance when they are invoked:
+
+job들의 배치를 발송하기 위해, `Bus` 파사드의 `batch` 메소드를 사용해야 합니다. 물론, 배치하는 것은 완료한 callbacks와 결합 할 때 매우 유용합니다. 그래서 배치에 대한 완료 callbacks를 정의하기 위해 `then`, `catch` 그리고 `finally` 메소드들을 사용해야 합니다. 이러한 각 callbacks는 호출될 때 `Illuminate\Bus\Batch` instance를 받습니다.
+
+    use App\Jobs\ProcessPodcast;
+    use App\Podcast;
+    use Illuminate\Bus\Batch;
+    use Illuminate\Support\Facades\Bus;
+    use Throwable;
+
+    $batch = Bus::batch([
+        new ProcessPodcast(Podcast::find(1)),
+        new ProcessPodcast(Podcast::find(2)),
+        new ProcessPodcast(Podcast::find(3)),
+        new ProcessPodcast(Podcast::find(4)),
+        new ProcessPodcast(Podcast::find(5)),
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->catch(function (Batch $batch, Throwable $e) {
+        // First batch job failure detected...
+    })->finally(function (Batch $batch) {
+        // The batch has finished executing...
+    })->dispatch();
+
+    return $batch->id;
+
+#### Naming Batches
+#### 배치 이름 지정
+
+Some tools such as Laravel Horizon and Laravel Telescope may provide more user-friendly debug information for batches if batches are named. To assign an arbitrary name to a batch, you may call the `name` method while defining the batch:
+
+Laravel Horizon 및 Laravel Telescope와 같은 일부 도구들은 배치 이름이 지정된 경우 배치에 대해 보다 사용자 친화적인 debug 정보를 제공합니다. 배치에 임의의 이름을 지정하려면, 배치를 정의하는 동안 `name` 메소드를 호출해야 합니다.
+
+    $batch = Bus::batch([
+        // ...
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->name('Process Podcasts')->dispatch();
+
+#### Batch Connection & Queue
+#### Connection 및 Queue 배치
+
+If you would like to specify the connection and queue that should be used for the batched jobs, you may use the `onConnection` and `onQueue` methods:
+
+배치된 jobs에 사용해야 하는 connection 및 queue를 지정하려면 `onConnection` 및 `onQueue` 메소드들을 사용해야 합니다.
+
+    $batch = Bus::batch([
+        // ...
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->onConnection('redis')->onQueue('podcasts')->dispatch();
+
+<a name="adding-jobs-to-batches"></a>
+### Adding Jobs To Batches
+### 배치에 Job 추가
+
+Sometimes it may be useful to add additional jobs to a batch from within a batched job. This pattern can be useful when you need to batch thousands of jobs which may take too long to dispatch during a web request. So, instead, you may wish to dispatch an initial batch of "loader" jobs that hydrate the batch with more jobs:
+
+때로는 배치된 job 내에서 배치에 job들을 추가하는 것이 유용합니다. 이 패턴은 웹 요청 중에 전송하는 데 시간이 너무 오래 걸릴 수 있는 수천 개의 job들을 배치할 때 유용할 수 있습니다. 따라서 대신, 더 많은 job들을 배치에 녹여낼 수 있는 "loader"를 초기 배치로 전송 할 수 있습니다.
+
+    $batch = Bus::batch([
+        new LoadImportBatch,
+        new LoadImportBatch,
+        new LoadImportBatch,
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->name('Import Contacts')->dispatch();
+
+In this example, we will use the `LoadImportBatch` job to hydrate the batch with additional jobs. To accomplish this, we may use the `add` method on the batch instance that can be accessed within the job:
+
+예시에서, 추가 job들을 배치에 녹여내기 위해 `LoadImportBatch` job을 사용합니다. 이를 위해 job 내에서 접근할 수 있는 배치 instance에 `add` 메소드를 사용할 수 있습니다.
+
+    use App\Jobs\ImportContacts;
+    use Illuminate\Support\Collection;
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        if ($this->batch()->cancelled()) {
+            return;
+        }
+
+        $this->batch()->add(Collection::times(1000, function () {
+            return new ImportContacts;
+        }));
+    }
+
+> {note} You may only add jobs to a batch from within a job that belongs to the same batch.
+
+> {note} 동일한 배치에 속하는 job 내에서만 배치에 job들을 추가할 수 있습니다.
+
+<a name="inspecting-batches"></a>
+### Inspecting Batches
+### 배치 검사
+
+The `Illuminate\Bus\Batch` method that is provided to batch completion callbacks has a variety of properties and methods to assist you in interacting with and inspecting a given batch of jobs.
+
+배치 완료 callback들에 제공되는 `Illuminate\Bus\Batch` 메소드에는 주어진 배치 job들과 상호 작용하고 검사하는 데 도움이 되는 다양한 속성들과 메소드들이 있습니다.
+
+
+
+    // The UUID of the batch...
+    $batch->id;
+
+    // The name of the batch (if applicable)...
+    $batch->name;
+
+    // The number of jobs assigned to the batch...
+    $batch->totalJobs;
+
+    // The number of jobs that have not been processed by the queue...
+    $batch->pendingJobs;
+
+    // The number of jobs that have failed...
+    $batch->failedJobs;
+
+    // The number of jobs that have been processed thus far...
+    $batch->processedJobs();
+
+    // The completion percentage of the batch (0-100)...
+    $batch->progress();
+
+    // Indicates if the batch has finished executing...
+    $batch->finished();
+
+    // Cancel the execution of the batch...
+    $batch->cancel();
+
+    // Indicates if the batch has been cancelled...
+    $batch->cancelled();
+
+#### Returning Batches From Routes
+#### 라우트에서 배치 반환
+
+All `Illuminate\Bus\Batch` instances are JSON serializable, meaning you can return them directly from one of your application's routes to retrieve a JSON payload containing information about the batch, including its completion progress. To retrieve a batch by its ID, you may use the `Bus` facade's `findBatch` method:
+
+모든 `Illuminate\Bus\Batch` instance들은 JSON serialize가 가능합니다. 즉, 애플리케이션의 라우트들 중 하나에서 직접 반환하여 완료 진행률을 포함한 배치에 대한 정보가 포함 된 JSON payload를 검색할 수 있습니다.
+
+    use Illuminate\Support\Facades\Bus;
+    use Illuminate\Support\Facades\Route;
+
+    Route::get('/batch/{batchId}', function (string $batchId) {
+        return Bus::findBatch($batchId);
+    });
+
+<a name="cancelling-batches"></a>
+### Cancelling Batches
+### 배치 취소
+
+Sometimes you may need to cancel a given batch's execution. This can be accomplished by calling the `cancel` method on the `Illuminate\Bus\Batch` instance:
+
+때로 지정된 배치를 취소해야 할 수도 있습니다. 이는`Illuminate\Bus\Batch` instance에서 `cancel` 메소드를 호출하여 수행할 수 있습니다.
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        if ($this->user->exceedsImportLimit()) {
+            return $this->batch()->cancel();
+        }
+
+        if ($this->batch()->cancelled()) {
+            return;
+        }
+    }
+
+<a name="batch-failures"></a>
+### Batch Failures
+### 배치 실패
+
+When a batch job fails, the `catch` callback (if assigned) will be invoked. This callback is only invoked for the job that fails within the batch.
+
+job 배치가 실패할 때, `catch` callback(할당된 경우)이 호출됩니다. 이 콜백은 오직 배치 내에서 실패한 job에 대해서만 호출됩니다.
+
+#### Allowing Failures
+#### 실패 허용
+
+When a job within a batch fails, Laravel will automatically mark the batch as "cancelled". If you wish, you may disable this behavior so that a job failure does not automatically mark the batch as cancelled. This may be accomplished by calling the `allowFailures` method while dispatching the batch:
+
+배치 내의 job이 실패하면 Laravel은 자동으로 배치를 "취소됨"으로 표시합니다. 당신이 원할 경우, job 실패로 인해 배치가 취소 되게 자동으로 표시되지 않도록 이 동작을 비활성화할 수 있습니다. 이는 배치를 dispatch하는 동안 `allowFailures` 메소드를 호출하여 수행합니다.
+
+    $batch = Bus::batch([
+        // ...
+    ])->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->allowFailures()->dispatch();
+
+#### Retrying Failed Batch Jobs
+#### 실패한 job 배치를 재시도
+
+For convenience, Laravel provides a `queue:retry-batch` Artisan command that allows you to easily retry all of the failed jobs for a given batch. The `queue:retry-batch` command accepts the UUID of the batch whose failed jobs should be retried:
+
+편의상, Laravel은 주어진 배치에 대하여 실패한 모든 job들을 쉽게 재시도 할 수 있는 `queue:retry-batch` 아티즌 명령어를 제공합니다. `queue:retry-batch` 명령어는 재시도 해야 하는 실패한 job들의 배치의 UUID를 허용합니다.
+
+    php artisan queue:retry-batch 32dbc76c-4f82-4749-b610-a639fe0099b5
+
 <a name="queueing-closures"></a>
 ## Queueing Closures
 ## 큐잉 클로저
 
-Instead of dispatching a job class to the queue, you may also dispatch a Closure. This is great for quick, simple tasks that need to be executed outside of the current request cycle:
+Instead of dispatching a job class to the queue, you may also dispatch a Closure. This is great for quick, simple tasks that need to be executed outside of the current request cycle. When dispatching Closures to the queue, the Closure's code contents is cryptographically signed so it can not be modified in transit:
 
-작업 클래스를 대기열로 보내지 않고 Closure를 보낼 수도 있습니다. 이는 현재 요청주기를 벗어나 실행 해야하는 빠르고 간단한 작업에 유용합니다.
+작업 클래스를 대기열로 보내지 않고 Closure를 보낼 수도 있습니다. 이는 현재 요청주기를 벗어나 실행 해야하는 빠르고 간단한 작업에 유용합니다. Closure를 대기열에 dispatch할 때, Closure의 코드 내용은 암호화 방식으로 서명되므로 전송 중에 수정할 수 없습니다.
 
     $podcast = App\Podcast::find(1);
 
@@ -816,9 +1099,17 @@ Instead of dispatching a job class to the queue, you may also dispatch a Closure
         $podcast->publish();
     });
 
-When dispatching Closures to the queue, the Closure's code contents is cryptographically signed so it can not be modified in transit.
+Using the `catch` method, you may provide a Closure that should be executed if the queued Closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
 
-클로저를 queue에 dispatch 할 때 Closure의 코드 내용은 암호화 되어 서명되어 전송 중에 수정할 수 없습니다.
+`catch` 메소드를 사용하면, 대기열에 구성된 모든 재시도를 소진한 후 대기 중인 Closure가 성공적으로 완료되지 않으면 실행해야하는 Closure가 제공됩니다.
+
+    use Throwable;
+
+    dispatch(function () use ($podcast) {
+        $podcast->publish();
+    })->catch(function (Throwable $e) {
+        // This job has failed...
+    });
 
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker
@@ -859,8 +1150,8 @@ You may customize your queue worker even further by only processing particular q
 
     php artisan queue:work redis --queue=emails
 
-#### Processing A Single Job
-#### 하나의 단일 Job 처리하기
+#### Processing A Specified Number Of Jobs
+#### 지정된 수의 Job 처리하기
 
 The `--once` option may be used to instruct the worker to only process a single job from the queue:
 
@@ -868,14 +1159,30 @@ The `--once` option may be used to instruct the worker to only process a single 
 
     php artisan queue:work --once
 
+The `--max-jobs` option may be used to instruct the worker to process the given number of jobs and then exit. This option may be useful when combined with [Supervisor](#supervisor-configuration) so that your workers are automatically restarted after processing a given number of jobs:
+
+`--max-jobs` 옵션읜 worker(작업자)에게 주어진 수의 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](#supervisor-configuration)와 함께 사용하면 주어진 수의 job을 처리 한 후 workers(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
+
+    php artisan queue:work --max-jobs=1000
+
 #### Processing All Queued Jobs & Then Exiting
-#### 대기중인 모든 작업 처리 및 종료
+#### 대기중인 모든 Job 처리 및 종료
 
 The `--stop-when-empty` option may be used to instruct the worker to process all jobs and then exit gracefully. This option can be useful when working Laravel queues within a Docker container if you wish to shutdown the container after the queue is empty:
 
 `--stop-when-empty` 옵션은 워커에게 모든 작업을 처리 한 다음 정상적으로 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 Docker 컨테이너에서 Laravel queue가 동작 할 때 queue가 빈 후 컨테이너를 종료하려면 유용 할 수 있습니다.
 
     php artisan queue:work --stop-when-empty
+
+#### Processing Jobs For A Given Number Of Seconds
+#### 주어진 시간 동안 Job 처리
+
+The `--max-time` option may be used to instruct the worker to process jobs for the given number of seconds and then exit. This option may be useful when combined with [Supervisor](#supervisor-configuration) so that your workers are automatically restarted after processing jobs for a given amount of time:
+
+`--max-time` 옵션은 worker(작업자)에게 주어진 시간 동안 job을 처리한 다음 종료하도록 지시하는 데 사용할 수 있습니다. 이 옵션은 [Supervisor](#supervisor-configuration)와 함께 사용하면 주어진 시간 동안 job을 처리한 후 worker(작업자)가 자동으로 다시 시작되도록 하는 데 유용 할 수 있습니다.
+
+    // Process jobs for one hour and then exit...
+    php artisan queue:work --max-time=3600
 
 #### Resource Considerations
 #### 리소스 고려사항
@@ -1037,35 +1344,49 @@ Then, when running your [queue worker](#running-the-queue-worker), you can speci
 
     php artisan queue:work redis --tries=3
 
-In addition, you may specify how many seconds Laravel should wait before retrying a job that has failed using the `--delay` option. By default, a job is retried immediately:
+In addition, you may specify how many seconds Laravel should wait before retrying a job that has failed using the `--backoff` option. By default, a job is retried immediately:
 
-또한 `--delay` 옵션을 사용하여 실패한 작업을 다시 시도하기 전에 Laravel이 기다려야하는 시간을 지정할 수 있습니다. 기본적으로 Job은 즉시 재시도됩니다.
+또한 `--backoff` 옵션을 사용하여 실패한 작업을 다시 시도하기 전에 Laravel이 기다려야하는 시간을 지정할 수 있습니다. 기본적으로 Job은 즉시 재시도됩니다.
 
-    php artisan queue:work redis --tries=3 --delay=3
+    php artisan queue:work redis --tries=3 --backoff=3
 
-If you would like to configure the failed job retry delay on a per-job basis, you may do so by defining a `retryAfter` property on your queued job class:
+If you would like to configure the failed job retry delay on a per-job basis, you may do so by defining a `backoff` property on your queued job class:
 
-Job 마다 실패한 Job의 재시도 지연을 설정하려면 대기중인 Job 클래스에 `retryAfter` 속성을 정의하면됩니다.
+Job 마다 실패한 Job의 재시도 지연을 설정하려면 대기중인 Job 클래스에 `backoff` 속성을 정의하면됩니다.
 
     /**
      * The number of seconds to wait before retrying the job.
      *
      * @var int
      */
-    public $retryAfter = 3;
+    public $backoff = 3;
 
 If you require more complex logic for determining the retry delay, you may define a `retryAfter` method on your queued job class:
 
-재시도 지연을 결정하기 위해 더 복잡한 로직이 필요한 경우 대기중인 작업 클래스에 `retryAfter`메서드를 정의 할 수 있습니다.
+재시도 지연을 결정하기 위해 더 복잡한 로직이 필요한 경우 대기중인 작업 클래스에 `backoff`메소드를 정의 할 수 있습니다.
 
     /**
     * Calculate the number of seconds to wait before retrying the job.
     *
     * @return int
     */
-    public function retryAfter()
+    public function backoff()
     {
         return 3;
+    }
+
+You may easily configure "exponential" backoffs by returning an array of backoff values from the `backoff` method. In this example, the retry delay will be 1 seconds for the first retry, 5 seconds for the second retry, and 10 seconds for the third retry:
+
+`backoff` 메소드에서 backoff 값 배열을 반환하여 "지수" backoff들을 쉽게 구성할 수 있습니다. 이 예에서, 재시도 지연은 첫 번째 재시도의 경우 1초, 두 번째 재시도의 경우 5초, 세 번째 재시도의 경우 10초 정도 걸릴 것입니다.
+
+    /**
+    * Calculate the number of seconds to wait before retrying the job.
+    *
+    * @return array
+    */
+    public function backoff()
+    {
+        return [1, 5, 10];
     }
 
 <a name="cleaning-up-after-failed-jobs"></a>
@@ -1080,13 +1401,13 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
 
     namespace App\Jobs;
 
-    use App\AudioProcessor;
-    use App\Podcast;
-    use Throwable;
+    use App\Models\Podcast;
+    use App\Services\AudioProcessor;
     use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Queue\InteractsWithQueue;
     use Illuminate\Queue\SerializesModels;
+    use Throwable;
 
     class ProcessPodcast implements ShouldQueue
     {
@@ -1097,7 +1418,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
         /**
          * Create a new job instance.
          *
-         * @param  \App\Podcast  $podcast
+         * @param  \App\Models\Podcast  $podcast
          * @return void
          */
         public function __construct(Podcast $podcast)
@@ -1108,7 +1429,7 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
         /**
          * Execute the job.
          *
-         * @param  \App\AudioProcessor  $processor
+         * @param  \App\Services\AudioProcessor  $processor
          * @return void
          */
         public function handle(AudioProcessor $processor)
@@ -1127,10 +1448,6 @@ job 클래스에 `failed` 메소드를 정의할 수 있습니다. 이는 실패
             // Send user notification of failure, etc...
         }
     }
-
-> {note} The `failed` method will not be called if the job was dispatched using the `dispatchNow` method.
-
-> {note} `dispatchNow` 메소드를 사용하여 작업을 전달하면 `failed` 메소드가 호출되지 않습니다.
 
 <a name="failed-job-events"></a>
 ### Failed Job Events

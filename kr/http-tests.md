@@ -15,6 +15,8 @@
 - [JSON API 테스팅](#testing-json-apis)
 - [Testing File Uploads](#testing-file-uploads)
 - [파일 업로드 테스트하기](#testing-file-uploads)
+- [Testing Views](#testing-views)
+- [뷰 테스트하기](#testing-views)
 - [Available Assertions](#available-assertions)
 - [사용가능한 Assertions](#available-assertions)
     - [Response Assertions](#response-assertions)
@@ -176,13 +178,13 @@ One common use of the session is for maintaining state for the authenticated use
 
     <?php
 
-    use App\User;
+    use App\Models\User;
 
     class ExampleTest extends TestCase
     {
         public function testApplication()
         {
-            $user = factory(User::class)->create();
+            $user = User::factory()->create();
 
             $response = $this->actingAs($user)
                              ->withSession(['foo' => 'bar'])
@@ -349,6 +351,58 @@ If needed, you may pass a `$mimeType` argument to the method to explicitly defin
 필요한 경우, 파일에 의해 반환되어야하는 MIME 유형을 명시적으로 정의하기 위해 메소드에 `$mimeType` 인수를 전달할 수 있습니다.
 
     UploadedFile::fake()->create('document.pdf', $sizeInKilobytes, 'application/pdf');
+
+<a name="testing-views"></a>
+## Testing Views
+## 뷰 테스트하기
+
+Laravel allows you to render a view in isolation without making a simulated HTTP request to the application. To accomplish this, you may use the `view` method within your test. The `view` method accepts the view name and an optional array of data. The method returns an instance of `Illuminate\Testing\TestView`, which offers several methods to conveniently make assertions about the view's contents:
+
+라라벨을 사용하면 애플리케이션에 대한 시뮬레이트 된 HTTP 요청을 수행하지 않고 격리 된 뷰를 렌더링 할 수 있습니다. 이를 위해 테스트 안에서 `view` 메소드를 사용할 수 있습니다. `view` 메소드는 뷰 이름과 선택적인 데이터 배열을 허용합니다. 이 메서드는 `Illuminate\Testing\TestView`의 인스턴스를 반환합니다. 이 인스턴스는 뷰의 내용에 대한 검증을 편리하게 만들 수있는 여러 메서드를 제공합니다.
+
+    public function testWelcomeView()
+    {
+        $view = $this->view('welcome', ['name' => 'Taylor']);
+
+        $view->assertSee('Taylor');
+    }
+
+The `TestView` object provides the following assertion methods: `assertSee`, `assertSeeInOrder`, `assertSeeText`, `assertSeeTextInOrder`, `assertDontSee`, and `assertDontSeeText`.
+
+`TestView` 객체는 `assertSee`, `assertSeeInOrder`, `assertSeeText`, `assertSeeTextInOrder`, `assertDontSee` 및 `assertDontSeeText`와 같은 검증 메소드를 제공합니다.
+
+If needed, you may get the raw, rendered view contents by casting the `TestView` instance to a string:
+
+필요하다면 `TestView` 인스턴스를 문자열로 캐스팅하여 렌더링 된 뷰의 원문을 가져올 수 있습니다.
+
+    $contents = (string) $this->view('welcome');
+
+#### Sharing Errors
+#### 에러 공유하기
+
+Some views may depend on errors shared in the global error bag provided by Laravel. To hydrate the error bag with error messages, you may use the `withViewErrors` method:
+
+일부 뷰들은 라라벨에서 제공하는 전역 error bag에서 공유되는 오류에 따라 달라질 수 있습니다. 오류 메시지를 error bag에 녹여내려면 `withViewErrors` 메소드를 사용할 수 있습니다.
+
+    $view = $this->withViewErrors([
+        'name' => ['Please provide a valid name.']
+    ])->view('form');
+
+    $view->assertSee('Please provide a valid name.');
+
+#### Rendering Raw Blade
+#### RAW 블레이드 렌더링
+
+If necessary, you may use the `blade` method to evaluate and render a raw Blade string. Like the `view` method, the `blade` method returns an instance of `Illuminate\Testing\TestView`:
+
+필요하다면, `blade` 메서드를 사용하여 raw 블레이드 문자열을 가지고 렌더링 할 수 있습니다. `view` 메서드와 마찬가지로 `blade` 메서드는 `Illuminate\Testing\TestView` 의 인스턴스를 반환합니다.
+
+    $view = $this->blade(
+        '<x-component :name="$name" />',
+        ['name' => 'Taylor']
+    );
+
+    $view->assertSee('Taylor');
 
 <a name="available-assertions"></a>
 ## Available Assertions
@@ -563,15 +617,6 @@ Assert that the response has no JSON validation errors for the given keys:
 response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함되어 있지 않은 것을 확인:
 
     $response->assertJsonMissingValidationErrors($keys);
-
-<a name="assert-json-structure"></a>
-#### assertJsonStructure
-
-Assert that the response has a given JSON structure:
-
-response-응답이 주어진 JOSN 구조를 가지고 있는지 확인:
-
-    $response->assertJsonStructure(array $structure);
 
 <a name="assert-json-path"></a>
 #### assertJsonPath

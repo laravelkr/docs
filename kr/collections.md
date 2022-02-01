@@ -107,6 +107,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [average](#method-average)
 - [avg](#method-avg)
 - [chunk](#method-chunk)
+- [chunkWhile](#method-chunkwhile)
 - [collapse](#method-collapse)
 - [collect](#method-collect)
 - [combine](#method-combine)
@@ -143,6 +144,7 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [intersectByKeys](#method-intersectbykeys)
 - [isEmpty](#method-isempty)
 - [isNotEmpty](#method-isnotempty)
+- [join](#method-join)
 - [keyBy](#method-keyby)
 - [keys](#method-keys)
 - [last](#method-last)
@@ -221,8 +223,6 @@ For the remainder of this documentation, we'll discuss each method available on 
 - [whereNotBetween](#method-wherenotbetween)
 - [whereNotIn](#method-wherenotin)
 - [whereNotInStrict](#method-wherenotinstrict)
-- [whereNotNull](#method-wherenotnull)
-- [whereNull](#method-wherenull)
 - [whereNotNull](#method-wherenotnull)
 - [whereNull](#method-wherenull)
 - [wrap](#method-wrap)
@@ -308,6 +308,24 @@ This method is especially useful in [views](/docs/{{version}}/views) when workin
             @endforeach
         </div>
     @endforeach
+
+<a name="method-chunkwhile"></a>
+#### `chunkWhile()` {#collection-method}
+#### `chunkWhile()` {#collection-method}
+
+The `chunkWhile` method breaks the collection into multiple, smaller collections based on the evaluation of the given callback:
+
+`chunkWhile` 메소드는 컬렉션을 콜백의 평가를 토대로 더 작은 여러개의 컬렉션으로 분활합니다.
+
+    $collection = collect(str_split('AABBCCCD'));
+
+    $chunks = $collection->chunkWhile(function($current, $key, $chunk) {
+        return $current === $chunk->last();
+    });
+
+    $chunks->toArray();
+
+    // [['A', 'A'], ['B', 'B'], ['C', 'C', 'C'], ['D']]
 
 <a name="method-collapse"></a>
 #### `collapse()` {#collection-method}
@@ -2556,7 +2574,7 @@ This method can be useful when combined with factories to create [Eloquent](/doc
 이 메소드는 [Eloquent](/docs/{{version}}/eloquent) 모델을 생성하는 팩토리와 조합할 때 유용합니다.
 
     $categories = Collection::times(3, function ($number) {
-        return factory(Category::class)->create(['name' => "Category No. $number"]);
+        return Category::factory()->create(['name' => "Category No. $number"]);
     });
 
     $categories->all();
@@ -3057,8 +3075,8 @@ The `whereInstanceOf` method filters the collection by a given class type:
 
 `whereInstanceOf` 메소드는 컬렉션을 주어진 클래스 타입으로 필터링합니다.
 
-    use App\User;
-    use App\Post;
+    use App\Models\User;
+    use App\Models\Post;
 
     $collection = collect([
         new User,
@@ -3070,7 +3088,7 @@ The `whereInstanceOf` method filters the collection by a given class type:
 
     $filtered->all();
 
-    // [App\User, App\User]
+    // [App\Models\User, App\Models\User]
 
 <a name="method-wherenotbetween"></a>
 #### `whereNotBetween()` {#collection-method}
@@ -3272,7 +3290,7 @@ For example, imagine your application needs to process a multi-gigabyte log file
 
 예를 들어, 어플리케이션이 로그를 파싱하는 컬렉션 메소드를 활용해서 수 기가바이트의 로그 파일을 처리한다고 생각해 봅시다. 한 번에 전체 파일을 메모리에 읽는 대신, 지연 컬렉션을 이용해, 파일의 극히 일부분만 메모리에 담아놓을 수 있습니다.
 
-    use App\LogEntry;
+    use App\Models\LogEntry;
     use Illuminate\Support\LazyCollection;
 
     LazyCollection::make(function () {
@@ -3291,7 +3309,7 @@ Or, imagine you need to iterate through 10,000 Eloquent models. When using tradi
 
 또는 10,000개의 Eloquent 모델을 반복해야 한다고 가정해 봅시다. 전통적인 라라벨 컬렉션을 사용할때는, 10,000개의 Eloquent 모델이 모두 동시에 메모리에 로드되어야 합니다. 
 
-    $users = App\User::all()->filter(function ($user) {
+    $users = App\Models\User::all()->filter(function ($user) {
         return $user->id > 500;
     });
 
@@ -3299,7 +3317,7 @@ However, the query builder's `cursor` method returns a `LazyCollection` instance
 
 그러나, 쿼리 빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스를 반환합니다. 이렇게 하면 데이터베이스에 단 하나의 쿼리만 실행할 수 있을 뿐만 아니라 한 번에 하나의 Eloquent 모델만 메모리에 로드됩니다. 이 예제에서는 `filter` 콜백이 각각 사용자에 대해 개별적으로 반복할 때까지 실행되지 않으므로, 메모리 사용량이 크게 줄어듭니다.
 
-    $users = App\User::cursor()->filter(function ($user) {
+    $users = App\Models\User::cursor()->filter(function ($user) {
         return $user->id > 500;
     });
 
@@ -3339,6 +3357,7 @@ Almost all methods available on the `Collection` class are also available on the
 - [average](#method-average)
 - [avg](#method-avg)
 - [chunk](#method-chunk)
+- [chunkWhile](#method-chunkwhile)
 - [collapse](#method-collapse)
 - [collect](#method-collect)
 - [combine](#method-combine)

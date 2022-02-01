@@ -206,15 +206,17 @@ You may "revoke" tokens by deleting them from your database using the `tokens` r
 
 `HasApiTokens` 트레잇이 제공하는 `tokens` 관계(relationship)을 사용하여 데이터베이스에서 삭제함으로서 토큰을 해지합니다.
 
+    // Revoke all tokens...
     // 모든 토큰 해지...
-    $user->tokens()->delete();    
-    
-    // 사용자의 현재 토큰 해지...
-    $request->user()->currentAccessToken()->delete();    
+    $user->tokens()->delete();
 
+    // Revoke the user's current token...
+    // 사용자의 현재 토큰 해지...
+    $request->user()->currentAccessToken()->delete();
+
+    // Revoke a specific token...
     // 지정된 토큰 해지...
     $user->tokens()->where('id', $id)->delete();
-
 
 <a name="spa-authentication"></a>
 ## SPA Authentication
@@ -302,9 +304,9 @@ During this request Laravel will set an `XSRF-TOKEN` cookie containing the curre
 
 이 요청 중에 Laravel은 현재 CSRF 토큰을 포함하는 `XSRF-TOKEN` 쿠키를 설정합니다. 이 토큰은 후속 요청에서 `X-XSRF-TOKEN` 헤더로 전달되어야하며, Axios 및 Angular HttpClient와 같은 라이브러리가 자동으로 수행합니다.
 
-Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. This `/login` route may be provided by the `laravel/ui` [authentication scaffolding](/docs/{{version}}/authentication#introduction) package.
+Once CSRF protection has been initialized, you should make a `POST` request to the typical Laravel `/login` route. This `/login` route may be provided by the `laravel/jetstream` [authentication scaffolding](/docs/{{version}}/authentication#introduction) package.
 
-한번 CSRF 보호가 초기화되면, 여러분은 일반적인  라라벨 `/login` 라우트에 `POST`로 요청해야 합니다. 이 `/login` 라우트는 `laravel/ui` [인증 스케폴딩](/docs/{{version}}/authentication#introduction) 패키지에서 제공될 수 있습니다.
+한번 CSRF 보호가 초기화되면, 여러분은 일반적인  라라벨 `/login` 라우트에 `POST`로 요청해야 합니다. 이 `/login` 라우트는 `laravel/jetstream` [인증 스케폴딩](/docs/{{version}}/authentication#introduction) 패키지에서 제공될 수 있습니다.
 
 If the login request is successful, you will be authenticated and subsequent requests to your API routes will automatically be authenticated via the session cookie that the Laravel backend issued to your client.
 
@@ -379,7 +381,7 @@ To get started, create a route that accepts the user's email / username, passwor
 
 시작하려면, 사용자의 이메일 / 사용자 이름, 비밀번호 및 장치 이름을 허용하는 라우트를 만든 다음, 해당 자격 증명을 새로운 Sanctum 토큰으로 교환하십시오. 엔드포인트는 평문으로 된 Sanctum 토큰을 반환한 다음 모바일 장치에 저장하여 추가 API 요청을 수행하는 데 사용할 수 있습니다.
 
-    use App\User;
+    use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Validation\ValidationException;
@@ -446,13 +448,13 @@ While testing, the `Sanctum::actingAs` method may be used to authenticate a user
 
 테스트하는 동안 `Sanctum::actingAs` 메소드를 사용하여 사용자를 인증하고 토큰에 부여할 기능을 지정할 수 있습니다.
 
-    use App\User;
+    use App\Models\User;
     use Laravel\Sanctum\Sanctum;
 
     public function test_task_list_can_be_retrieved()
     {
         Sanctum::actingAs(
-            factory(User::class)->create(),
+            User::factory()->create(),
             ['view-tasks']
         );
 
@@ -466,6 +468,6 @@ If you would like to grant all abilities to the token, you should include `*` in
 모든 기능(abilities)을 토큰에 부여하려면 `actingAs` 메소드에서 제공한 기능 목록에`*`를 포함시켜야 합니다.
 
     Sanctum::actingAs(
-        factory(User::class)->create(),
+        User::factory()->create(),
         ['*']
     );

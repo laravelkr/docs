@@ -128,7 +128,7 @@ Notifications may be sent in two ways: using the `notify` method of the `Notifia
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -138,9 +138,9 @@ Notifications may be sent in two ways: using the `notify` method of the `Notifia
         use Notifiable;
     }
 
-This trait is utilized by the default `App\User` model and contains one method that may be used to send notifications: `notify`. The `notify` method expects to receive a notification instance:
+This trait is utilized by the default `App\Models\User` model and contains one method that may be used to send notifications: `notify`. The `notify` method expects to receive a notification instance:
 
-이 트레이트-trait는 기본적으로 `App\User` 모델에서 사용되며 알림을 보내는데 사용할 수 있는 `notify` 메소드를 가지고 있습니다. `notify` 메소드는 알림 인스턴스를 전달 받습니다.
+이 트레이트-trait는 기본적으로 `App\Models\User` 모델에서 사용되며 알림을 보내는데 사용할 수 있는 `notify` 메소드를 가지고 있습니다. `notify` 메소드는 알림 인스턴스를 전달 받습니다.
 
     use App\Notifications\InvoicePaid;
 
@@ -337,7 +337,7 @@ You may specify a plain-text view for the mail message by passing the view name 
     public function toMail($notifiable)
     {
         return (new MailMessage)->view(
-            ['emails.name.html', 'emails.name.plain'], 
+            ['emails.name.html', 'emails.name.plain'],
             ['invoice' => $this->invoice]
         );
     }
@@ -412,7 +412,7 @@ When sending notifications via the `mail` channel, the notification system will 
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -694,11 +694,11 @@ The `toArray` method is also used by the `broadcast` channel to determine which 
 ### Accessing The Notifications
 ### 알림에 엑세스하기
 
-Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\User` model, includes a `notifications` Eloquent relationship that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp:
+Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\Models\User` model, includes a `notifications` Eloquent relationship that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp:
 
-데이터베이스에 알림이 저장되고 난 뒤에, 여러분은 알림 엔티티에서 저장된 알림에 편리하게 엑세스 할 수 있는 방법이 필요합니다. 라라벨의 기본 `App\User` 모델에 포함되어 있는 `Illuminate\Notifications\Notifiable` 트레이트는 엔티티의 알림을 반환하는 `notifications` Eloquent 관계를 가지고 있습니다. 알림을 가져오기 위해서 다른 Eloquent 관계와 마찬가지로, 이 메소드에 엑세스 할 수 있습니다. 기본적으로 알림은 `created_at` 타임스탬프를 기준으로 정렬됩니다.
+데이터베이스에 알림이 저장되고 난 뒤에, 여러분은 알림 엔티티에서 저장된 알림에 편리하게 엑세스 할 수 있는 방법이 필요합니다. 라라벨의 기본 `App\Models\User` 모델에 포함되어 있는 `Illuminate\Notifications\Notifiable` 트레이트는 엔티티의 알림을 반환하는 `notifications` Eloquent 관계를 가지고 있습니다. 알림을 가져오기 위해서 다른 Eloquent 관계와 마찬가지로, 이 메소드에 엑세스 할 수 있습니다. 기본적으로 알림은 `created_at` 타임스탬프를 기준으로 정렬됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     foreach ($user->notifications as $notification) {
         echo $notification->type;
@@ -708,7 +708,7 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
 
 "unread"(읽지않은) 알림만 조회하고자 한다면, `unreadNotifications` 메소드를 사용할 수 있습니다. 다시 한번 말하지만, 이 알림들은 `created_at` 타임스탬프에 의해서 정렬됩니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     foreach ($user->unreadNotifications as $notification) {
         echo $notification->type;
@@ -726,7 +726,7 @@ Typically, you will want to mark a notification as "read" when a user views it. 
 
 일반적으로, 사용자가 알림을 확인했을 때 이를 "읽음"으로 표시하기를 원할 것입니다. `Illuminate\Notifications\Notifiable` 트레이트는 알림 데이터베이스 레코드에서 `read_at` 컬럼을 업데이트 하는 `markAsRead` 메소드를 제공합니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     foreach ($user->unreadNotifications as $notification) {
         $notification->markAsRead();
@@ -742,7 +742,7 @@ You may also use a mass-update query to mark all of the notifications as read wi
 
 또한, 데이터베이스에서 별도로 조회하지 않고서 바로 알림을 읽음 표시 하는데 mass-update(대량 업데이트) 쿼리를 사용할 수도 있습니다.
 
-    $user = App\User::find(1);
+    $user = App\Models\User::find(1);
 
     $user->unreadNotifications()->update(['read_at' => now()]);
 
@@ -826,9 +826,9 @@ In addition to the data you specify, all broadcast notifications also have a `ty
 ### Listening For Notifications
 ### 알림 수신하기
 
-Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
+Notifications will broadcast on a private channel formatted using a `{notifiable}.{id}` convention. So, if you are sending a notification to a `App\Models\User` instance with an ID of `1`, the notification will be broadcast on the `App.User.1` private channel. When using [Laravel Echo](/docs/{{version}}/broadcasting), you may easily listen for notifications on a channel using the `notification` helper method:
 
-비공개 채널에 브로드캐스팅 되는 알림은 `{notifiable}.{id}` 컨벤션에 의해서 포맷이 지정됩니다. 따라서 ID 가 `1`인 `App\User` 인스턴스를 알림으로 보내는 경우 알림은 `App.User.1` 비공개 채널에 브로드캐스팅 됩니다. [라라벨 에코](/docs/{{version}}/broadcasting)를 사용하는 경우, 채널에서 `notification` 헬퍼 메소드를 사용하여 알림을 손쉽게 수신할 수 있습니다.
+비공개 채널에 브로드캐스팅 되는 알림은 `{notifiable}.{id}` 컨벤션에 의해서 포맷이 지정됩니다. 따라서 ID 가 `1`인 `App\Models\User` 인스턴스를 알림으로 보내는 경우 알림은 `App.User.1` 비공개 채널에 브로드캐스팅 됩니다. [라라벨 에코](/docs/{{version}}/broadcasting)를 사용하는 경우, 채널에서 `notification` 헬퍼 메소드를 사용하여 알림을 손쉽게 수신할 수 있습니다.
 
     Echo.private('App.User.' + userId)
         .notification((notification) => {
@@ -844,7 +844,7 @@ If you would like to customize which channels a notifiable entity receives its b
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Broadcasting\PrivateChannel;
     use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -994,7 +994,7 @@ Nexmo 알림을 올바른 전화 번호로 전송하려면 알림 가능한 엔�
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;
@@ -1202,7 +1202,7 @@ To route Slack notifications to the proper location, define a `routeNotification
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Illuminate\Foundation\Auth\User as Authenticatable;
     use Illuminate\Notifications\Notifiable;

@@ -123,11 +123,11 @@ Redis 설정과 관련된 보다 자세한 사항은 [라라벨 Redis 문서](/d
 
 The `Illuminate\Contracts\Cache\Factory` and `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts) provide access to Laravel's cache services. The `Factory` contract provides access to all cache drivers defined for your application. The `Repository` contract is typically an implementation of the default cache driver for your application as specified by your `cache` configuration file.
 
-`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 애플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체입니다.
+`Illuminate\Contracts\Cache\Factory` 와 `Illuminate\Contracts\Cache\Repository` [contracts](/docs/{{version}}/contracts)는 라라벨의 캐시 서비스에 대한 엑세스를 제공합니다. `Factory` contract 는 애플리케이션에서 정의하고 있는 모든 캐시 드라이버를 제공합니다. `Repository` contract 는 일반적으로 `cache` 설정 파일에서 기본으로 설정된 캐시 드라이버의 구현체입니다.
 
 However, you may also use the `Cache` facade, which is what we will use throughout this documentation. The `Cache` facade provides convenient, terse access to the underlying implementations of the Laravel cache contracts:
 
-하지만 언제라도 `Cache` 파사드를 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다.
+이 문서에 나오는 전반적인 기능들은 `Cache` 파사드를 통해 사용 할 수 있습니다. `Cache` 파사드는 라라벨의 캐시 contract 를 활용하여 캐시에 대한 편리하고 간결한 엑세스를 제공합니다.
 
     <?php
 
@@ -176,7 +176,7 @@ The `get` method on the `Cache` facade is used to retrieve items from the cache.
 
 You may even pass a `Closure` as the default value. The result of the `Closure` will be returned if the specified item does not exist in the cache. Passing a Closure allows you to defer the retrieval of default values from a database or other external service:
 
-기본값을 `Closure-클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure-클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스와 외부 서비스로부터 기본값을 획득할 수 있습니다.
+기본값을 `Closure-클로저`로 전달할 수도 있습니다. 캐시에 지정한 아이템이 존재하지 않을 경우에 `Closure-클로저`의 반환값이 결과값이 됩니다. 클로저를 전달하면 데이터베이스 또는 외부 서비스로부터 기본값을 획득할 수 있습니다.
 
     $value = Cache::get('key', function () {
         return DB::table(...)->get();
@@ -496,7 +496,7 @@ If you would like to release a lock without respecting its current owner, you ma
 
 To create our custom cache driver, we first need to implement the `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts). So, a MongoDB cache implementation would look something like this:
 
-여러분의 고유한 캐시 드라이버를 생성하기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 을 구현할 필요가 있습니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
+캐시 드라이버를 직접 만들기 위해서는 먼저 `Illuminate\Contracts\Cache\Store` [contract](/docs/{{version}}/contracts) 을 구현할 필요가 있습니다. 따라서 생성하려는 MongoDB 캐시는 다음과 같은 형태가 될 것입니다.
 
     <?php
 

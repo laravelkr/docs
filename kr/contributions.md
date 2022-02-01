@@ -3,6 +3,8 @@
 
 - [Bug Reports](#bug-reports)
 - [버그 리포트](#bug-reports)
+- [Support Questions](#support-questions)
+- [지원 질문](#support-questions)
 - [Core Development Discussion](#core-development-discussion)
 - [코어 개발에 대한 논의](#core-development-discussion)
 - [Which Branch?](#which-branch)
@@ -15,6 +17,8 @@
 - [코딩 스타일](#coding-style)
     - [PHPDoc](#phpdoc)
     - [StyleCI](#styleci)
+- [Code of Conduct](#code-of-conduct)
+- [행동 지침](#code-of-conduct)
 
 <a name="bug-reports"></a>
 ## Bug Reports
@@ -28,14 +32,13 @@ However, if you file a bug report, your issue should contain a title and a clear
 
 버그 리포트를 작성하는 경우, 이슈는 제목과 이슈에 대한 명확한 설명을 포함해야 합니다. 또한 해당 이슈에 대한 가능한 많은 관련 정보와 데모 코드 샘플을 포함해야 합니다. 버그 리포트의 목적은 여러분 자신과 다른 사람들이 쉽게 버그를 재현하고, 수정할 수 있게 하는 것입니다.
 
-Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem.
+Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel+-repo%3Alaravel%2Fnova-issues).
 
-버그 리포트를 통해 같은 문제를 겪고 있는 다른 사람들과 협력해서 그 문제를 해결할 수 있다는 것을 명심하세요. 버그 리포트가 자동으로 어떤 활동을 만들어 내거나, 다른 이들이 버그을 고칠 것이라는 기대를 하지 마십시오. 버그 리포트 제출은 여러분 자신과 다른 사람이 문제를 해결할 수 있는 길에 들어설 수 있도록 하는 것입니다.
+버그 리포트를 통해 같은 문제를 겪고 있는 다른 사람들과 협력해서 그 문제를 해결할 수 있다는 것을 명심하세요. 버그 리포트가 자동으로 어떤 활동을 만들어 내거나, 다른 이들이 버그을 고칠 것이라는 기대를 하지 마십시오. 버그 리포트 제출은 여러분 자신과 다른 사람이 문제를 해결할 수 있는 길에 들어설 수 있도록 하는 것입니다. 문제를 해결하려면 [이슈 트래커에 나열된 모든 버그](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel+-repo%3Alaravel%2Fnova-issues) 를 수정하여 도움을 줄 수 있습니다.
 
 The Laravel source code is managed on GitHub, and there are repositories for each of the Laravel projects:
 
 라라벨의 소스 코드는 GitHub에서 관리되며 각각의 라라벨 프로젝트의 저장소가 있습니다.
-
 
 - [Laravel Application](https://github.com/laravel/laravel)
 - [라라벨 애플리케이션](https://github.com/laravel/laravel)
@@ -43,10 +46,14 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [라라벨 아트웤](https://github.com/laravel/art)
 - [Laravel Documentation](https://github.com/laravel/docs)
 - [라라벨 매뉴얼](https://github.com/laravel/docs)
-- [Laravel Cashier](https://github.com/laravel/cashier)
-- [라라벨 캐셔](https://github.com/laravel/cashier)
-- [Laravel Cashier for Braintree](https://github.com/laravel/cashier-braintree)
-- [Braintree를 위한 라라벨 캐셔](https://github.com/laravel/cashier-braintree)
+- [Laravel Dusk](https://github.com/laravel/dusk)
+- [라라벨 더스크(Dusk)](https://github.com/laravel/dusk)
+- [Laravel Cashier Stripe](https://github.com/laravel/cashier)
+- [라라벨 캐셔 Stripe](https://github.com/laravel/cashier)
+- [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)
+- [라라벨 캐셔 Paddle](https://github.com/laravel/cashier-paddle)
+- [Laravel Echo](https://github.com/laravel/echo)
+- [라라벨 에코(Echo)](https://github.com/laravel/echo)
 - [Laravel Envoy](https://github.com/laravel/envoy)
 - [라라벨 Envoy](https://github.com/laravel/envoy)
 - [Laravel Framework](https://github.com/laravel/framework)
@@ -56,9 +63,11 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Homestead Build Scripts](https://github.com/laravel/settler)
 - [라라벨 홈스테드 빌드스크립트](https://github.com/laravel/settler)
 - [Laravel Horizon](https://github.com/laravel/horizon)
-- [라라벨 Horizon](https://github.com/laravel/horizon)
+- [Laravel Jetstream](https://github.com/laravel/jetstream)
+- [Laravel 제트스트림(Jetstream)](https://github.com/laravel/jetstream)
 - [Laravel Passport](https://github.com/laravel/passport)
-- [라라벨 패스포트(Passport)](https://github.com/laravel/passport)
+- [Laravel Sanctum](https://github.com/laravel/sanctum)
+- [라라벨 생텀(Sanctum)](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)
 - [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
@@ -68,6 +77,28 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Website](https://github.com/laravel/laravel.com-next)
 - [라라벨 웹사이트](https://github.com/laravel/laravel.com-next)
 
+<a name="support-questions"></a>
+## Support Questions
+## 지원 질문
+
+Laravel's GitHub issue trackers are not intended to provide Laravel help or support. Instead, use one of the following channels:
+
+Laravel의 GitHub 이슈 트래커는 Laravel 도움말이나 지원을 제공하기위한 것이 아닙니다. 대신 다음 채널 중 하나를 사용하십시오.
+
+- [GitHub Discussions](https://github.com/laravel/framework/discussions)
+- [GitHub Discussions](https://github.com/laravel/framework/discussions)
+- [Laracasts Forums](https://laracasts.com/discuss)
+- [Laracasts Forums](https://laracasts.com/discuss)
+- [Laravel.io Forums](https://laravel.io/forum)
+- [Laravel.io Forums](https://laravel.io/forum)
+- [StackOverflow](https://stackoverflow.com/questions/tagged/laravel)
+- [StackOverflow](https://stackoverflow.com/questions/tagged/laravel)
+- [Discord](https://discordapp.com/invite/KxwQuKb)
+- [Discord](https://discordapp.com/invite/KxwQuKb)
+- [Larachat](https://larachat.co)
+- [Larachat](https://larachat.co)
+- [IRC](https://webchat.freenode.net/?nick=artisan&channels=%23laravel&prompt=1)
+- [IRC](https://webchat.freenode.net/?nick=artisan&channels=%23laravel&prompt=1)
 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion
@@ -89,11 +120,11 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 **모든** 버그 수정은 최신 안정 브랜치 또는  [현재의 LTS 브랜치](/docs/{{version}}/releases#support-policy)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
-**Minor** features that are **fully backwards compatible** with the current Laravel release may be sent to the latest stable branch.
+**Minor** features that are **fully backward compatible** with the current release may be sent to the latest stable branch.
 
 현재 라라벨 릴리스와 **완전한 호환성** 을 가진 **마이너** 기능은 최신 안정 브랜치로 보내 주시기 바랍니다.
 
-**Major** new features should always be sent to the `master` branch, which contains the upcoming Laravel release.
+**Major** new features should always be sent to the `master` branch, which contains the upcoming release.
 
 다음 라라벨 릴리즈에 포함될, **주요한** 새로운 기능들은 항상 `master` 브랜치로 보내 주시기 바랍니다.
 
@@ -154,4 +185,21 @@ Below is an example of a valid Laravel documentation block. Note that the `@para
 
 Don't worry if your code styling isn't perfect! [StyleCI](https://styleci.io/) will automatically merge any style fixes into the Laravel repository after pull requests are merged. This allows us to focus on the content of the contribution and not the code style.
 
-코드의 스타일이 완벽하지 않더라도 걱정하지 마십시오. PR이 Merge 될 때 [StyleCI](https://styleci.io/)가 자동으로 스타일을 수정하고 라라벨 저장소에 머지할 것입니다. 이렇게 하면 코드 스타일이 아니라 기여의 내용에 집중할 수 있습니다.
+코드 스타일링이 완벽하지 않아도 걱정하지 마세요! [StyleCI](https://styleci.io/)는 pull 요청이 병합된 후 모든 스타일 수정 사항을 라라벨 저장소에 자동으로 병합합니다. 이를 통해 우리는 코드 스타일이 아닌 기여 내용에 집중할 수 있습니다.
+
+<a name="code-of-conduct"></a>
+## Code of Conduct
+## 행동 지침
+
+The Laravel code of conduct is derived from the Ruby code of conduct. Any violations of the code of conduct may be reported to Taylor Otwell (taylor@laravel.com):
+
+Laravel 행동 지침은 Ruby 행동 지침에서 파생되었습니다. 행동 지침 위반은 Taylor Otwell (taylor@laravel.com)에게 보고 될 수 있습니다.
+
+- Participants will be tolerant of opposing views.
+- 참여자는 반대 의견에 관대해야 합니다.
+- Participants must ensure that their language and actions are free of personal attacks and disparaging personal remarks.
+- 참여자는 말과 행동을 통해 인신공격을 하거나 헐뜯어서는 안 됩니다.
+- When interpreting the words and actions of others, participants should always assume good intentions.
+- 참여자는 다른 사람의 말이나 행동을 항상 좋은 의도로 해석해야 합니다.
+- Behavior that can be reasonably considered harassment will not be tolerated.
+- 타당하게 괴롭힘이라고 판단될 수 있는 행동은 용인되지 않을 것입니다.

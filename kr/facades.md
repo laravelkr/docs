@@ -201,7 +201,7 @@ Using real-time facades, you may treat any class in your application as if it we
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use App\Contracts\Publisher;
     use Illuminate\Database\Eloquent\Model;
@@ -228,7 +228,7 @@ Injecting a publisher implementation into the method allows us to easily test th
 
     <?php
 
-    namespace App;
+    namespace App\Models;
 
     use Facades\App\Contracts\Publisher;
     use Illuminate\Database\Eloquent\Model;
@@ -256,7 +256,7 @@ When the real-time facade is used, the publisher implementation will be resolved
 
     namespace Tests\Feature;
 
-    use App\Podcast;
+    use App\Models\Podcast;
     use Facades\App\Contracts\Publisher;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Tests\TestCase;

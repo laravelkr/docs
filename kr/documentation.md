@@ -6,8 +6,8 @@
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [Contribution Guide](/docs/{{version}}/contributions)
     - [기여 가이드](/docs/{{version}}/contributions)
-    - [API Documentation](/api/7.x)
-    - [API 문서](/api/7.x)
+    - [API Documentation](/api/8.x)
+    - [API 문서](/api/8.x)
 - Getting Started
 - 시작하기
     - [Installation](/docs/{{version}}/installation)
@@ -66,8 +66,6 @@
     - [블레이드 템플릿](/docs/{{version}}/blade)
     - [Localization](/docs/{{version}}/localization)
     - [다국어](/docs/{{version}}/localization)
-    - [Frontend Scaffolding](/docs/{{version}}/frontend)
-    - [프론트엔드 스캐폴딩](/docs/{{version}}/frontend)
     - [Compiling Assets](/docs/{{version}}/mix)
     - [Assets 컴파일](/docs/{{version}}/mix)
 - Security

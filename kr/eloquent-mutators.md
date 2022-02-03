@@ -671,10 +671,9 @@ Therefore, you may specify that your custom cast class will be responsible for s
 ### Inbound Casting
 ### 인바운드 캐스팅
 
-[//]: # 마지막 문장 피드백을 받아야 함. ()
 Occasionally, you may need to write a custom cast that only transforms values that are being set on the model and does not perform any operations when attributes are being retrieved from the model. A classic example of an inbound only cast is a "hashing" cast. Inbound only custom casts should implement the `CastsInboundAttributes` interface, which only requires a `set` method to be defined.
+
 경우에 따라 모델에 설정되는 값만 변환하고 모델에서 속성을 검색할 때 작업을 수행하지 않는 사용자 지정 캐스트를 작성해야 할 수도 있습니다. 인바운드 전용 캐스트의 전형적인 예는 "해싱" 캐스트입니다. 인바운드 전용 사용자 지정 캐스트는 'set' 메서드만 정의하면 되는 'CastsInboundAttributes' 인터페이스를 구현해야 합니다.
-경우에 따라 모델에 설정되는 값만 변환하고 모델에서 속성을 검색할 때 작업을 수행하지 않는 사용자 지정 캐스트를 작성해야 할 수도 있습니다. 인바운드 전용 캐스트의 전형적인 예는 "해싱" 캐스트입니다. 인바운드 전용 사용자 지정 캐스트는 'CastsInboundAttributes' 인터페이스를 구현해야 하며, 'set' 메서드만 정의하면 됩니다.
 
     <?php
 

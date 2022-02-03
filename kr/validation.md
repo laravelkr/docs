@@ -80,6 +80,8 @@ First, let's assume we have the following routes defined in our `routes/web.php`
 
 우선 다음의 라우트들이 `routes/web.php` 파일에 정의되어 있다고 가정해 보겠습니다.
 
+    use App\Http\Controllers\PostController;
+
     Route::get('post/create', 'PostController@create');
 
     Route::post('post', 'PostController@store');

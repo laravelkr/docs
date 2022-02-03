@@ -19,8 +19,6 @@
     - [TLS를 사용한 안전한 사이트](#securing-sites)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
-- [Serving A Default Site](#serving-a-default-site)
-- [기본 사이트 제공](#serving-a-default-site)
 - [Site Specific Environment Variables](#site-specific-environment-variables)
 - [사이트 별 환경 변수](#site-specific-environment-variables)
 - [Proxying Services](#proxying-services)
@@ -29,8 +27,6 @@
 - [사용자 정의-커스텀 발렛 드라이버](#custom-valet-drivers)
     - [Local Drivers](#local-drivers)
     - [로컬 드라이버](#local-drivers)
-- [PHP Configuration](#php-configuration)
-- [PHP 설정](#php-configuration)
 - [Other Valet Commands](#other-valet-commands)
 - [기타 발렛 명령어들](#other-valet-commands)
 - [Valet Directories & Files](#valet-directories-and-files)
@@ -56,7 +52,14 @@ Out of the box, Valet support includes, but is not limited to:
 
 별다른 설정 없이도, 발렛은 다음을 지원하지만, 이게 전부는 아닙니다.
 
+<style>
+    #valet-support > ul {
+        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
+        line-height: 1.9;
+    }
+</style>
 
+<div id="valet-support" markdown="1">
 - [Laravel](https://laravel.com)
 - [Lumen](https://lumen.laravel.com)
 - [Bedrock](https://roots.io/bedrock/)
@@ -79,8 +82,7 @@ Out of the box, Valet support includes, but is not limited to:
 - [Symfony](https://symfony.com)
 - [WordPress](https://wordpress.org)
 - [Zend](https://framework.zend.com)
-
-
+</div>
 
 However, you may extend Valet with your own [custom drivers](#custom-valet-drivers).
 
@@ -110,21 +112,21 @@ Valet과 Homestead는 모두 Laravel 개발 환경을 구성하기위한 훌륭�
 
 **발렛은 macOS와 [Homebrew](https://brew.sh/)를 필요로 합니다. 설치하기 전에, 여러분은 Apache 또는 Nginx 가 로컬 머신의 80번 포트를 바인딩 하지 않고 있다는 것을 확인해야 합니다.**
 
-
+<div class="content-list" markdown="1">
 - Install or update [Homebrew](https://brew.sh/) to the latest version using `brew update`.
 - Install PHP 7.4 using Homebrew via `brew install php`.
 - Install [Composer](https://getcomposer.org).
 - Install Valet with Composer via `composer global require laravel/valet`. Make sure the `~/.composer/vendor/bin` directory is in your system's "PATH".
 - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
+</div>
 
-
-
+<div class="content-list" markdown="1">
 - [Homebrew](https://brew.sh/) 설치하거나 `brew update`를 사용하여 최신 버전으로 업데이트 하십시오.
 - `brew install php` Homebrew 명령어를 사용하여 PHP7.3을 설치하십시오.
 - [Composer](https://getcomposer.org) 설치.
 - `composer global require laravel/valet` 명령어를 사용하여 컴포저로 발렛을 설치하십시오. 여러분 시스템의 "PATH" 에 `~/.composer/vendor/bin` 디렉토리가 들어 있는지 확인하십시오.
 - `valet install` 명령어를 실행하십시오. 이 명령어는 발렛과 DnsMasq 를 설치하고 설정하여 발렛 데몬을 여러분의 시스템이 시작할 때 구동되도록 등록할 것입니다.
-
+</div>
 
 Once Valet is installed, try pinging any `*.test` domain on your terminal using a command such as `ping foobar.test`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
 
@@ -194,17 +196,17 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 #### The `park` Command
 #### `park` 명령어
 
-
+<div class="content-list" markdown="1">
 - Create a new directory on your Mac by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
 - Next, create a new Laravel site within this directory: `laravel new blog`.
 - Open `http://blog.test` in your browser.
+</div>
 
-
-
+<div class="content-list" markdown="1">
 - Mac 에 `mkdir ~/Sites`와 같은 명령어를 실행하여 새로운 디렉토리를 생성합니다. 다음으로, `cd ~/Sites` 와 `valet park`을 실행합니다. 이 명령어는 현재 작업 디렉토리를 사이트로 접속했을 때 발렛이 찾게 되는 디렉토리로 등록합니다.
 - 다음으로 이 디렉토리에서 새로운 라라벨 사이트를 생성합니다. `laravel new blog`.
 - 브라우저에서 `http://blog.test` 사이트를 열어서 확인합니다.
-
+</div>
 
 **That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.test` convention.
 
@@ -218,15 +220,15 @@ The `link` command may also be used to serve your Laravel sites. This command is
 
 `link` 명령어는 사이트를 동작시킬 때 사용됩니다. 이 명령어는 전체 디렉토리가 아니라 하나의 디렉토리 안에서 한개의 사이트를 제공하기를 원할 때 유용합니다.
 
-
+<div class="content-list" markdown="1">
 - To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.config/valet/Sites` which points to your current working directory.
 - After running the `link` command, you can access the site in your browser at `http://app-name.test`.
+</div>
 
-
-
+<div class="content-list" markdown="1">
 - 명령어를 사용하기 위해서, 프로젝트 중 하나의 디렉토리에 대해서 터미널에서 `valet link app-name` 을 실행합니다. 발렛은 현재 작업 디렉토리를 `~/.config/valet/Sites`가 지정하도록 심볼릭 링크를 생성할 것입니다.
 - `link` 명령어를 실행한 다음에, 브라우저에서 `http://app-name.test` 로 접속할 수 있습니다.
-
+</div>
 
 To see a listing of all of your linked directories, run the `valet links` command. You may use `valet unlink app-name` to destroy the symbolic link.
 
@@ -328,16 +330,6 @@ Some applications using other frameworks may depend on server environment variab
             'key' => 'value',
         ],
     ];
-
-<a name="serving-a-default-site"></a>
-## Serving A Default Site
-## 기본 사이트 제공
-
-Sometimes, you may wish to configure Valet to serve a "default" site instead of a `404` when visiting an unknown `test` domain. To accomplish this, you may add a `default` option to your `~/.config/valet/config.json` configuration file containing the path to the site that should function as your default site:
-
-알 수없는 `test` 도메인을 방문 할 때 Valet가 `404`대신 "기본"사이트를 제공하도록 설정 할 수도 있습니다. 이를 위해 `~/.config/valet/config.json` 설정 파일에 기본 사이트로 작동해야하는 사이트 경로를 포함하는 `default` 옵션을 추가 할 수 있습니다.
-
-    "default": "/Users/Sally/Sites/foo",
 
 <a name="proxying-services"></a>
 ## Proxying Services
@@ -493,28 +485,6 @@ If you would like to define a custom Valet driver for a single application, crea
             return $sitePath.'/public_html/index.php';
         }
     }
-
-<a name="php-configuration"></a>
-## PHP Configuration
-## PHP 설정
-
-You may add additional PHP configuration `.ini` files in the `/usr/local/etc/php/7.X/conf.d/` directory to customize your PHP installation. Once you've added or updated these settings you should run `valet restart php`.
-
-`/usr/local/etc/php/7.X/conf.d/`디렉토리에 PHP 설정 `.ini` 파일을 추가하여 PHP 설치를 커스터마이징 할 수 있습니다. 이러한 설정을 추가하거나 업데이트하면 `valet restart php`를 실행해야합니다.
-
-### PHP Memory Limits
-### PHP 메모리 제한
-
-By default, Valet specifies the PHP installation's memory limit and max file upload size in the `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` configuration file. This affects both the CLI and FPM PHP processes.
-
-Valet은 기본적으로 `/usr/local/etc/php/7.X/conf.d/php-memory-limits.ini` 설정 파일에서 PHP 설치의 메모리 제한과 최대 파일 업로드 크기를 지정합니다. 이는 CLI 및 FPM PHP 프로세스 모두에 영향을줍니다.
-
-### PHP-FPM Pool Processes
-### PHP-FPM 프로세스 풀
-
-Valet's PHP-FPM configuration is contained within the `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` configuration file. In this file you may increase the number of FPM servers and child processes utilized by your PHP application.
-
-Valet의 PHP-FPM 설정은 `/usr/local/etc/php/7.X/php-fpm.d/valet-fpm.conf` 설정 파일에 들어 있습니다. 이 파일에서 PHP 애플리케이션이 사용하는 FPM 서버 및 자식 프로세스 수를 늘릴 수 있습니다.
 
 <a name="other-valet-commands"></a>
 ## Other Valet Commands

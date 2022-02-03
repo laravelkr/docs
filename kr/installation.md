@@ -33,7 +33,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 홈스테드를 사용하지 않는 경우 서버에서 다음의 요구 사항을 만족하는지 확인해야 합니다.
 
 
-- PHP >= 7.2.5
+- PHP >= 7.3
 - BCMath PHP Extension
 - Ctype PHP Extension
 - Fileinfo PHP extension
@@ -80,6 +80,10 @@ Once installed, the `laravel new` command will create a fresh Laravel installati
 라라벨 인스톨러를 설치한 후 `laravel new` 명령을 입력하면 여러분이 지정한 폴더 안에 깨끗한(fresh) 상태의 라라벨 파일을 생성할 것입니다. 예를 들어 `laravel new blog` 명령은 라라벨에서 필요한 의존성 패키지들을 모두 설치하고 깨끗한(fresh) 상태의 라라벨 파일이 포함된 `blog` 디렉토리를 생성합니다.
 
     laravel new blog
+
+> {tip} Want to create a Laravel project with login, registration, and more features already built for you? Check out [Laravel Jetstream](https://jetstream.laravel.com).
+
+> {tip} 로그인, 회원가입이 이미 구축되어있고 더 많은 기능이 포함된 라라벨 프로젝트를 만들고 싶으십니까? [Laravel Jetstream](https://jetstream.laravel.com)을 확인하세요.
 
 #### Via Composer Create-Project
 #### Composer Create-Project를 통한 설치

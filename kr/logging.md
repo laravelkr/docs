@@ -105,7 +105,7 @@ Name | Description | Default
 ------------- | ------------- | -------------
 `bubble`| 처리 된 후에 메시지가 다른 채널로 버블링되어야하는지 나타냅니다. | `true`
 `permission`| 로그 파일의 사용 권한 | `0644`
-`locking`| 기록하기 전에 로그 파일을 잠그십시오. | `거짓`
+`locking`| 기록하기 전에 로그 파일을 잠그십시오. | `false`
 
 #### Configuring The Papertrail Channel
 #### Papertrail 채널 설정하기
@@ -198,7 +198,7 @@ So, you may call any of these methods to log a message for the corresponding lev
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\User;
+    use App\Models\User;
     use Illuminate\Support\Facades\Log;
 
     class UserController extends Controller
@@ -295,7 +295,7 @@ Once you have configured the `tap` option on your channel, you're ready to defin
 
 > {tip} All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
 
-> {tip} 모든 "tap" 크래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
+> {tip} 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
 <a name="creating-monolog-handler-channels"></a>
 ### Creating Monolog Handler Channels

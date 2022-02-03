@@ -507,7 +507,7 @@ The Telescope dashboard displays the user avatar for the user that was logged in
 
 Telescope 대시보드에는 주어진 항목이 저장 될 때 로그인 한 사용자의 사용자 아바타가 표시됩니다. 기본적으로 Telescope는 Gravatar 웹 서비스를 사용하여 아바타를 검색합니다. 그러나 `TelescopeServiceProvider`에 콜백을 등록하여 아바타 URL을 맞춤 설정할 수 있습니다. 콜백은 사용자의 ID와 이메일 주소를 수신하고 사용자의 아바타 이미지 URL을 반환해야합니다.
 
-    use App\User;
+    use App\Models\User;
     use Laravel\Telescope\Telescope;
 
     /**

@@ -90,10 +90,12 @@ Gate는 사용자가 주어진 액션에 대해서 수행할 수 있는 권한�
         });
     }
 
-Gates may also be defined using a `Class@method` style callback string, like controllers:
+Gates may also be defined using a class callback array, like controllers:
 
-Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형태로 정의할 수 있습니다.
+Gate는 컨트롤러와 같이 클래스 콜백 배열을 사용하여 정의할 수도 있습니다.
 
+    use App\Policies\PostPolicy;
+    
     /**
      * Register any authentication / authorization services.
      *
@@ -103,7 +105,7 @@ Gate는 컨트롤러와 같이 `Class@method` 스타일의 콜백 문자열 형�
     {
         $this->registerPolicies();
 
-        Gate::define('update-post', 'App\Policies\PostPolicy@update');
+        Gate::define('update-post', [PostPolicy::class, 'update']);
     }
 
 <a name="authorizing-actions-via-gates"></a>
@@ -285,8 +287,8 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
 
     namespace App\Providers;
 
+    use App\Models\Post;
     use App\Policies\PostPolicy;
-    use App\Post;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Illuminate\Support\Facades\Gate;
 
@@ -317,9 +319,9 @@ Policy를 생성하고 나면, 이를 등록해야 사용할 수 있습니다. �
 #### Policy Auto-Discovery
 #### Policy Auto-Discovery
 
-Instead of manually registering model policies, Laravel can auto-discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory below the directory that contains the models. So, for example, the models may be placed in the `app` directory while the policies may be placed in the `app/Policies` directory. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
+Instead of manually registering model policies, Laravel can auto-discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory at or above the directory that contains your models. So, for example, the models may be placed in the `app/Models` directory while the policies may be placed in the `app/Policies` directory. In this situation, Laravel will check for policies in `app/Models/Policies` then `app/Policies`. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` class.
 
-직접 Policy모델을 등록하는 대신에, 라라벨은 모델과 Policy이 표준 라라벨 네이밍 규칙을 따른다면 auto-discover Policy을 사용할 수 있습니다. 분명하게, Policy는 models-모델을 포함하는 디렉토리의 아래로 `Policies` 디렉토리를 위치해야합니다. 예를들어, models-모델은 `app` 디렉토리 아래에 위치한다면, Policy 는 `app/Policies` 디렉토리에 위치할 수 있습니다. 또한, Policy 이름은 model-모델 이름과 매칭되어야되며, `Policy` 접미사를 써야합니다. 예를들어, 모델 이름이 `User` 이라면 Policy는 `UserPolicy` 클래스의 이름으로 이용하면 됩니다.
+직접 모델 policy를 등록하는 대신에, 라라벨은 모델과 Policy가 표준 라라벨 네이밍 규칙을 따른다면 자동 검색 policy를 사용할 수 있습니다. 구체적으로 말하면, policy는 모델이 포함 된 디렉토리 또는 그 위의 `Policies` 디렉토리에 있어야합니다. 예를 들어 모델은 `app/Models` 디렉토리에 배치되고 정책은 `app/Policies` 디렉토리에 배치 할 수 있습니다. 이 상황에서 라라벨은 `app/Models/Policies` 다음에 `app/Policies` 에서 policy를 확인합니다. 또한 policy 이름은 모델 이름과 일치해야 하며 `Policy` 접미사가 있어야 합니다. 따라서 `User` 모델의 policy는 `UserPolicy` 가 됩니다.
 
 If you would like to provide your own policy discovery logic, you may register a custom callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AuthServiceProvider`:
 
@@ -331,9 +333,9 @@ If you would like to provide your own policy discovery logic, you may register a
         // return policy class name...
     });
 
-> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potential auto-discovered policies.
+> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potentially a auto-discovered policies.
 
-> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 Policy는 모든 잠재적인 auto-discovered Policy 보다 우선됩니다.
+> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 Policy는 모든 잠재적으로 자동검색된 Policy 보다 우선됩니다.
 
 <a name="writing-policies"></a>
 ## Writing Policies
@@ -355,16 +357,16 @@ The `update` method will receive a `User` and a `Post` instance as its arguments
 
     namespace App\Policies;
 
-    use App\Post;
-    use App\User;
+    use App\Models\Post;
+    use App\Models\User;
 
     class PostPolicy
     {
         /**
          * Determine if the given post can be updated by the user.
          *
-         * @param  \App\User  $user
-         * @param  \App\Post  $post
+         * @param  \App\Models\User  $user
+         * @param  \App\Models\Post  $post
          * @return bool
          */
         public function update(User $user, Post $post)
@@ -394,8 +396,8 @@ So far, we have only examined policy methods that return simple boolean values. 
     /**
      * Determine if the given post can be updated by the user.
      *
-     * @param  \App\User  $user
-     * @param  \App\Post  $post
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Auth\Access\Response
      */
     public function update(User $user, Post $post)
@@ -440,7 +442,7 @@ When defining policy methods that will not receive a model instance, such as a `
     /**
      * Determine if the given user can create posts.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return bool
      */
     public function create(User $user)
@@ -460,16 +462,16 @@ By default, all gates and policies automatically return `false` if the incoming 
 
     namespace App\Policies;
 
-    use App\Post;
-    use App\User;
+    use App\Models\Post;
+    use App\Models\User;
 
     class PostPolicy
     {
         /**
          * Determine if the given post can be updated by the user.
          *
-         * @param  \App\User  $user
-         * @param  \App\Post  $post
+         * @param  \App\Models\User  $user
+         * @param  \App\Models\Post  $post
          * @return bool
          */
         public function update(?User $user, Post $post)
@@ -528,7 +530,7 @@ Remember, some actions like `create` may not require a model instance. In these 
 
 이전에 말했다시피 `create`와 같은 몇몇 액션은 모델 인스턴스를 필요로 하지 않습니다. 이러한 경우에는 `can` 메소드에 클래스 이름을 전달하면 됩니다. 클래스 이름은 액션에 대한 권한을 확인 할 때 어떤 policy가 사용될지 결정하는데 이용됩니다.
 
-    use App\Post;
+    use App\Models\Post;
 
     if ($user->can('create', Post::class)) {
         // Executes the "create" method on the relevant policy...
@@ -542,7 +544,7 @@ Laravel includes a middleware that can authorize actions before the incoming req
 
 라라벨에는 유입되는 Request-요청이 라우트 또는 컨트롤러에 도달하기도 전에 권한을 검사할 수 있는 미들웨어가 포함되어 있습니다. 기본적으로 `App\Http\Kernel` 클래스의 `can` 키에는 `Illuminate\Auth\Middleware\Authorize` 미들웨어가 할당되어 있습니다. 사용자가 블로그 포스트를 수정할 권한을 부여하는 `can` 미들웨어를 사용하는 예제를 살펴보겠습니다.
 
-    use App\Post;
+    use App\Models\Post;
 
     Route::put('/post/{post}', function (Post $post) {
         // The current user may update the post...
@@ -561,7 +563,7 @@ Again, some actions like `create` may not require a model instance. In these sit
 
     Route::post('/post', function () {
         // The current user may create posts...
-    })->middleware('can:create,App\Post');
+    })->middleware('can:create,App\Models\Post');
 
 <a name="via-controller-helpers"></a>
 ### Via Controller Helpers
@@ -576,7 +578,7 @@ In addition to helpful methods provided to the `User` model, Laravel provides a 
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\Post;
+    use App\Models\Post;
     use Illuminate\Http\Request;
 
     class PostController extends Controller
@@ -634,7 +636,7 @@ The `authorizeResource` method accepts the model's class name as its first argum
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
-    use App\Post;
+    use App\Models\Post;
     use Illuminate\Http\Request;
 
     class PostController extends Controller
@@ -673,13 +675,13 @@ When writing Blade templates, you may wish to display a portion of the page only
 
     @can('update', $post)
         <!-- The Current User Can Update The Post -->
-    @elsecan('create', App\Post::class)
+    @elsecan('create', App\Models\Post::class)
         <!-- The Current User Can Create New Post -->
     @endcan
 
     @cannot('update', $post)
         <!-- The Current User Cannot Update The Post -->
-    @elsecannot('create', App\Post::class)
+    @elsecannot('create', App\Models\Post::class)
         <!-- The Current User Cannot Create A New Post -->
     @endcannot
 
@@ -701,7 +703,7 @@ You may also determine if a user has any authorization ability from a given list
 
     @canany(['update', 'view', 'delete'], $post)
         // The current user can update, view, or delete the post
-    @elsecanany(['create'], \App\Post::class)
+    @elsecanany(['create'], \App\Models\Post::class)
         // The current user can create a post
     @endcanany
 
@@ -712,11 +714,11 @@ Like most of the other authorization methods, you may pass a class name to the `
 
 다른 권한을 확인하는 메소드 대부분과 동일하게, 확인하고자 하는 액션이 모델을 필요로 하지 않는 경우 `@can` 과 `@cannot` 지시어에 클래스 이름을 전달할 수 있습니다.
 
-    @can('create', App\Post::class)
+    @can('create', App\Models\Post::class)
         <!-- The Current User Can Create Posts -->
     @endcan
 
-    @cannot('create', App\Post::class)
+    @cannot('create', App\Models\Post::class)
         <!-- The Current User Can't Create Posts -->
     @endcannot
 
@@ -731,8 +733,8 @@ Policy를 이용하여 액션에 대한 권한을 확인 할 때, 다양한 권�
     /**
      * Determine if the given post can be updated by the user.
      *
-     * @param  \App\User  $user
-     * @param  \App\Post  $post
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
      * @param  int  $category
      * @return bool
      */

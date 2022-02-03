@@ -2,16 +2,14 @@
 # CSRF 보호
 
 - [Introduction](#csrf-introduction)
-- [Preventing CSRF Requests](#preventing-csrf-requests)
-    - [Excluding URIs](#csrf-excluding-uris)
-- [X-CSRF-Token](#csrf-x-csrf-token)
-- [X-XSRF-Token](#csrf-x-xsrf-token)
-
-
 - [소개하기](#csrf-introduction)
+- [Preventing CSRF Requests](#preventing-csrf-requests)
 - [사이트 간 요청 위조 방지하기](#preventing-csrf-requests)
+    - [Excluding URIs](#csrf-excluding-uris)
     - [특정 URI 제외시기키](#csrf-excluding-uris)
 - [X-CSRF-Token](#csrf-x-csrf-token)
+- [X-CSRF-Token](#csrf-x-csrf-token)
+- [X-XSRF-Token](#csrf-x-xsrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
 
 <a name="csrf-introduction"></a>
@@ -20,7 +18,7 @@
 
 Cross-site request forgeries are a type of malicious exploit whereby unauthorized commands are performed on behalf of an authenticated user. Thankfully, Laravel makes it easy to protect your application from [cross-site request forgery](https://en.wikipedia.org/wiki/Cross-site_request_forgery) (CSRF) attacks.  
 
-라라벨은 크로스-사이트 요청 위조 공격 (CSRF)으로부터 애플리케이션을 손쉽게 보호할 수 있도록 해줍니다. 사이트 간 요청 위조는 인증된 사용자를 대신해서 승인되지 않은 커맨드를 악의적으로 활용하는 것입니다.
+라라벨은 [크로스-사이트 요청 위조 공격 (CSRF)](https://ko.wikipedia.org/wiki/%EC%82%AC%EC%9D%B4%ED%8A%B8_%EA%B0%84_%EC%9A%94%EC%B2%AD_%EC%9C%84%EC%A1%B0)으로부터 애플리케이션을 손쉽게 보호할 수 있도록 해줍니다. 사이트 간 요청 위조는 인증된 사용자를 대신해서 승인되지 않은 커맨드를 악의적으로 활용하는 것입니다.
 
 <a name="csrf-explanation"></a>
 #### An Explanation Of The Vulnerability
@@ -56,7 +54,7 @@ Without CSRF protection, a malicious website could create an HTML form that poin
 
 Laravel automatically generates a CSRF "token" for each active [user session](/docs/{{version}}/session) managed by the application. This token is used to verify that the authenticated user is the person actually making the requests to the application. Since this token is stored in the user's session and changes each time the session is regenerated, a malicious application is unable to access it.  
 
-라라벨은 애플리케이션에서 관리하는 [HTTP 세션](/docs/{{version}}/session)마다 CSRF 토큰을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에서 요청을 했는지 확인하는 데 사용됩니다. 이 토큰은 사용자의 세션에 저장되며 세션이 재생성 될 때마다 변경되므로 악성 애플리케이션이 접근할 수 없습니다.
+라라벨은 애플리케이션에서 관리하는 [사용자의 세션](/docs/{{version}}/session)마다 CSRF 토큰을 자동으로 생성합니다. 이 토큰은 인증된 사용자가 실제로 애플리케이션에서 요청을 했는지 확인하는 데 사용됩니다. 이 토큰은 사용자의 세션에 저장되며 세션이 재생성 될 때마다 변경되므로 악성 애플리케이션이 접근할 수 없습니다.
 
 The current session's CSRF token can be accessed via the request's session or via the `csrf_token` helper function:  
 

@@ -24,17 +24,13 @@
 ## Introduction
 ## 시작하기
 
-Middleware provide a convenient mechanism for filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+Middleware provide a convenient mechanism for inspecting and filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to your application's login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
 
-미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. 만약 인증되지 않은 사용자라면 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 합니다. 반대로 인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속 처리되도록 합니다.
+미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 검증하고 필터링할 수 있는 방법을 제공합니다. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. 만약 인증되지 않은 사용자라면 미들웨어는 그 사용자를 애플리케이션의 로그인 화면으로 리다이렉트 합니다. 반대로 인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속 처리되도록 합니다.
 
-Additional middleware can be written to perform a variety of tasks besides authentication. A CORS middleware might be responsible for adding the proper headers to all responses leaving your application. A logging middleware might log all incoming requests to your application.
+Additional middleware can be written to perform a variety of tasks besides authentication. For example, a logging middleware might log all incoming requests to your application. There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
 
-인증 이외에도 다양한 작업을 수행하는 미들웨어를 추가로 작성할 수도 있습니다. CORS 미들웨어는 애플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가할 수도 있습니다. 로깅 미들웨어는 애플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
-
-There are several middleware included in the Laravel framework, including middleware for authentication and CSRF protection. All of these middleware are located in the `app/Http/Middleware` directory.
-
-라라벨 프레임워크에는 인증(authentication)과 CSRF 보안을 위한 미들웨어가 포함되어 있습니다. 이러한 미들웨어는 모두 `app/Http/Middleware` 디렉토리 안에 존재합니다.
+인증 이외에도 다양한 작업을 수행하는 미들웨어를 추가로 작성할 수 있습니다. 예를 들어, 로깅 미들웨어는 애플리케이션에 유입되는 모든 요청을 기록할 수 있습니다. 라라벨 프레임워크에는 인증 및 CSRF 보호 미들웨어를 포함해 여러 미들웨어가 존재합니다. 모든 미들웨어는 `app/Http/Middleware` 디렉토리에 있습니다. 
 
 <a name="defining-middleware"></a>
 ## Defining Middleware
@@ -42,13 +38,13 @@ There are several middleware included in the Laravel framework, including middle
 
 To create a new middleware, use the `make:middleware` Artisan command:
 
-새로운 미들웨어를 생성하려면 `make:middleware` 아티즌 명령을 사용하세요.
+새로운 미들웨어를 생성하려면 `make:middleware` 아티즌 명령을 사용하면 됩니다.
 
-    php artisan make:middleware CheckAge
+    php artisan make:middleware EnsureTokenIsValid
 
-This command will place a new `CheckAge` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `age` is greater than 200. Otherwise, we will redirect the users back to the `home` URI:
+This command will place a new `EnsureTokenIsValid` class within your `app/Http/Middleware` directory. In this middleware, we will only allow access to the route if the supplied `token` input matches a specified value. Otherwise, we will redirect the users back to the `home` URI:
 
-이 명령은 `app/Http/Middleware` 디렉토리 안에 `CheckAge` 클래스를 생성합니다. 이 미들웨어는 `age`가 200보다 클 때에만 요청된 주소에 접근할 수 있도록 허용합니다. 그렇지 않은 경우 사용자를 `home` URI 으로 리다이렉트할 것입니다.
+이 명령은 `app/Http/Middleware` 디렉토리 안에 `EnsureTokenIsValid` 클래스를 생성합니다. 이 미들웨어는 `token`이 지정된 값과 매칭될때만 요청된 주소에 접근할 수 있도록 허용합니다. 그렇지 않은 경우 사용자를 `home` URI 으로 리다이렉트할 것입니다.
 
     <?php
 
@@ -56,7 +52,7 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
 
     use Closure;
 
-    class CheckAge
+    class EnsureTokenIsValid
     {
         /**
          * Handle an incoming request.
@@ -67,7 +63,7 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
          */
         public function handle($request, Closure $next)
         {
-            if ($request->age <= 200) {
+            if ($request->input('token') !== 'my-secret-token') {
                 return redirect('home');
             }
 
@@ -75,9 +71,9 @@ This command will place a new `CheckAge` class within your `app/Http/Middleware`
         }
     }
 
-As you can see, if the given `age` is less than or equal to `200`, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), call the `$next` callback with the `$request`.
+As you can see, if the given `token` does not match our secret token, the middleware will return an HTTP redirect to the client; otherwise, the request will be passed further into the application. To pass the request deeper into the application (allowing the middleware to "pass"), you should call the `$next` callback with the `$request`.
 
-위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작거나 같으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환합니다. 그렇지 않다면 HTTP 요청은 (미들웨어를 지나) 애플리케이션 안으로 계속 진행될 것입니다. (미들웨어가 "통과"를 허용하는) HTTP 요청을 애플리케이션 안으로 계속 전달하기 원한다면, `$next` 콜백함수에 `$request`인자를 넣어 호출하면 됩니다.
+위 코드에서 볼 수 있듯이, 주어진 `token` 값이 암호토큰과 매칭되지 않는다면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환합니다. 그렇지 않다면 HTTP 요청은 (미들웨어를 지나) 애플리케이션 안으로 계속 진행될 것입니다. (미들웨어가 "통과"를 허용하는) HTTP 요청을 애플리케이션 안으로 계속 전달하기 원한다면, `$next` 콜백함수에 `$request`인자를 넣어 호출하면 됩니다.
 
 It's best to envision middleware as a series of "layers" HTTP requests must pass through before they hit your application. Each layer can examine the request and even reject it entirely.
 
@@ -87,12 +83,14 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 > {tip} 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
-#### Before & After Middleware
-#### Before & After 미들웨어
+<a name="before-after-middleware"></a>
+<a name="middleware-and-responses"></a>
+#### Middleware & Responses
+#### 미들웨어와 응답
 
-Whether a middleware runs before or after a request depends on the middleware itself. For example, the following middleware would perform some task **before** the request is handled by the application:
+Of course, a middleware can perform tasks before or after passing the request deeper into the application. For example, the following middleware would perform some task **before** the request is handled by the application:
 
-애플리케이션이 HTTP 요청을 미들웨어가 처리하기 전에 실행될지 처리한 후에 실행될지는 미들웨어 자신이 결정할 수 있습니다. 예를 들어 다음의 미들웨어는 애플리케이션에서 HTTP 요청이 처리되기 **이전** 에 실행됩니다.
+당연하게도, 미들웨어는 요청을 애플리케이션에게 전달하기 전과 후 둘중 언제 실행될지 자신이 결정할 수 있습니다. 예를 들어 다음의 미들웨어는 애플리케이션에서 HTTP 요청이 처리되기 **이전** 에 실행됩니다.
 
     <?php
 
@@ -148,11 +146,9 @@ If you want a middleware to run during every HTTP request to your application, l
 ### Assigning Middleware To Routes
 ### 라우트에 미들웨어 지정하기
 
-If you would like to assign middleware to specific routes, you should first assign the middleware a key in your `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. To add your own, append it to this list and assign it a key of your choosing:
+If you would like to assign middleware to specific routes, you should first assign the middleware a key in your application's `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it a key of your choosing:
 
-미들웨어를 특정 라우트에만 할당하고 싶을 때에는 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 이름(key)을 지정해야 합니다. 이 클래스의 `$routeMiddleware` 속성에는 라라벨에 포함된 미들웨어 목록이 있습니다. 미들웨어를 추가하려면 미들웨어 이름과 함께 이 목록에 붙여주세요.
-
-    // Within App\Http\Kernel Class...
+    // Within App\Http\Kernel class...
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -170,42 +166,58 @@ Once the middleware has been defined in the HTTP kernel, you may use the `middle
 
 미들웨어를 HTTP 커널에 등록했다면, 라우트에 `middleware` 메소드를 사용하여 미들웨어를 지정할 수 있습니다.
 
-    Route::get('admin/profile', function () {
+    Route::get('/profile', function () {
         //
     })->middleware('auth');
 
-You may also assign multiple middleware to the route:
+You may assign multiple middleware to the route by passing an array of middleware names to the `middleware` method:
 
-라우트에 여러개의 미들웨어를 지정할 수도 있습니다.
+라우트에 `middleware` 메서드에 미들웨어 이름으로 된 배열을 전달하여 여러개의 미들웨어를 지정할 수도 있습니다.
 
     Route::get('/', function () {
         //
-    })->middleware('first', 'second');
+    })->middleware(['first', 'second']);
 
 When assigning middleware, you may also pass the fully qualified class name:
 
 미들웨어를 지정할 때, 전체 클래스 이름을 전달할 수도 있습니다.
 
-    use App\Http\Middleware\CheckAge;
+    use App\Http\Middleware\EnsureTokenIsValid;
 
-    Route::get('admin/profile', function () {
+    Route::get('/profile', function () {
         //
-    })->middleware(CheckAge::class);
+    })->middleware(EnsureTokenIsValid::class);
+
+<a name="excluding-middleware"></a>
+#### Excluding Middleware
+#### 미들웨어 제외하기
 
 When assigning middleware to a group of routes, you may occasionally need to prevent the middleware from being applied to an individual route within the group. You may accomplish this using the `withoutMiddleware` method:
 
 라우트 그룹에 미들웨어를 할당 할 때 때때로 미들웨어가 그룹 내의 개별 라우트에 적용되는 것을 방지해야 할 수 있습니다. `withoutMiddleware` 메소드를 사용하여 이것을 처리할 수 있습니다.
 
-    use App\Http\Middleware\CheckAge;
+    use App\Http\Middleware\EnsureTokenIsValid;
 
-    Route::middleware([CheckAge::class])->group(function () {
+    Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/', function () {
             //
         });
 
-        Route::get('admin/profile', function () {
+        Route::get('/profile', function () {
             //
-        })->withoutMiddleware([CheckAge::class]);
+        })->withoutMiddleware([EnsureTokenIsValid::class]);
+    });
+
+You may also exclude a given set of middleware from an entire [group](/docs/{{version}}/routing#route-groups) of route definitions:
+
+라우트가 정의된 전체 [그룹](/docs/{{version}}/routing#route-groups)에서 주어진 미들웨어 세트를 제외할 수도 있습니다.
+
+    use App\Http\Middleware\EnsureTokenIsValid;
+
+    Route::withoutMiddleware([EnsureTokenIsValid::class])->group(function () {
+        Route::get('/profile', function () {
+            //
+        });
     });
 
 The `withoutMiddleware` method can only remove route middleware and does not apply to [global middleware](#global-middleware).
@@ -216,13 +228,13 @@ The `withoutMiddleware` method can only remove route middleware and does not app
 ### Middleware Groups
 ### 미들웨어 그룹
 
-Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may do this using the `$middlewareGroups` property of your HTTP kernel.
+Sometimes you may want to group several middleware under a single key to make them easier to assign to routes. You may accomplish this using the `$middlewareGroups` property of your HTTP kernel.
 
 여러 개의 미들웨어를 하나의 이름으로 묶어서 라우트에 할당하고 싶을 수도 있습니다. 이 경우 HTTP 커널의 `$middlewareGroups` 속성을 사용하면 됩니다.
 
-Out of the box, Laravel comes with `web` and `api` middleware groups that contain common middleware you may want to apply to your web UI and API routes:
+Out of the box, Laravel comes with `web` and `api` middleware groups that contain common middleware you may want to apply to your web and API routes. Remember, these middleware groups are automatically applied by your application's `App\Providers\RouteServiceProvider` service provider to routes within your corresponding `web` and `api` route files:
 
-별다른 설정 없이도, 라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다.
+별다른 설정 없이도, 라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다. 이 미들웨어 그룹은 애플리케이션의 `App\Providers\RouteServiceProvider` 서비스 프로바이더가 `web` 및 `api` 라우트 파일 안의 경로에 자동으로 적용한다는 것을 기억하십시오.
 
     /**
      * The application's route middleware groups.
@@ -234,14 +246,15 @@ Out of the box, Laravel comes with `web` and `api` middleware groups that contai
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
-            'throttle:60,1',
-            'auth:api',
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -253,37 +266,36 @@ Middleware groups may be assigned to routes and controller actions using the sam
         //
     })->middleware('web');
 
-    Route::group(['middleware' => ['web']], function () {
+    Route::middleware(['web'])->group(function () {
         //
     });
 
-    Route::middleware(['web', 'subscribed'])->group(function () {
-        //
-    });
+> {tip} Out of the box, the `web` and `api` middleware groups are automatically applied to your application's corresponding `routes/web.php` and `routes/api.php` files by the `App\Providers\RouteServiceProvider`.
 
-> {tip} Out of the box, the `web` middleware group is automatically applied to your `routes/web.php` file by the `RouteServiceProvider`.
-
-> {tip} 별다른 설정없이도, `web` 미들웨어 그룹이 자동으로 `RouteServiceProvider`의 `routes/web.php` 파일에 지정되어 있습니다.
+> {tip} 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
 
 <a name="sorting-middleware"></a>
 ### Sorting Middleware
 ### 미들웨어 순서
 
-Rarely, you may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file:
+Rarely, you may need your middleware to execute in a specific order but not have control over their order when they are assigned to the route. In this case, you may specify your middleware priority using the `$middlewarePriority` property of your `app/Http/Kernel.php` file. This property may not exist in your HTTP kernel by default. If it does not exist, you may copy its default definition below:
 
-드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다.
+드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다. 이 속성은 HTTP 커널에 기본적으로 존재하지 않을 수도 있습니다. 이 속성이 없다면 다음과 같이 기본 코드를 복사할 수 있습니다.
 
     /**
      * The priority-sorted list of middleware.
      *
      * This forces non-global middleware to always be in the given order.
      *
-     * @var array
+     * @var string[]
      */
     protected $middlewarePriority = [
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
@@ -293,9 +305,9 @@ Rarely, you may need your middleware to execute in a specific order but not have
 ## Middleware Parameters
 ## 미들웨어 파라미터
 
-Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create a `CheckRole` middleware that receives a role name as an additional argument.
+Middleware can also receive additional parameters. For example, if your application needs to verify that the authenticated user has a given "role" before performing a given action, you could create an `EnsureUserHasRole` middleware that receives a role name as an additional argument.
 
-미들웨어는 인자를 전달 받을 수도 있습니다. 예를 들어 로그인 사용자가 적절한 "역할(role)"을 가지고 있는지 확인해야 할 때, 역할의 이름을 인자로 전달받는 `CheckRole` 미들웨어를 만들 수 있습니다.
+미들웨어는 인자를 전달 받을 수도 있습니다. 예를 들어 로그인 사용자가 적절한 "역할(role)"을 가지고 있는지 확인해야 할 때, 역할의 이름을 인자로 전달받는 `EnsureUserHasRole` 미들웨어를 만들 수 있습니다.
 
 Additional middleware parameters will be passed to the middleware after the `$next` argument:
 
@@ -307,7 +319,7 @@ Additional middleware parameters will be passed to the middleware after the `$ne
 
     use Closure;
 
-    class CheckRole
+    class EnsureUserHasRole
     {
         /**
          * Handle the incoming request.
@@ -332,7 +344,7 @@ Middleware parameters may be specified when defining the route by separating the
 
 라우트를 정의 할 때 미들웨어 이름과 인자를 `:` 로 구분합니다. 여러 개의 인자는 쉼표로 구분합니다.
 
-    Route::put('post/{id}', function ($id) {
+    Route::put('/post/{id}', function ($id) {
         //
     })->middleware('role:editor');
 
@@ -351,28 +363,42 @@ Sometimes a middleware may need to do some work after the HTTP response has been
 
     use Closure;
 
-    class StartSession
+    class TerminatingMiddleware
     {
+        /**
+         * Handle an incoming request.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Closure  $next
+         * @return mixed
+         */
         public function handle($request, Closure $next)
         {
             return $next($request);
         }
 
+        /**
+         * Handle tasks after the response has been sent to the browser.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Illuminate\Http\Response  $response
+         * @return void
+         */
         public function terminate($request, $response)
         {
-            // Store the session data...
+            // ...
         }
     }
 
-The `terminate` method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of route or global middleware in the `app/Http/Kernel.php` file.
+The `terminate` method should receive both the request and the response. Once you have defined a terminable middleware, you should add it to the list of routes or global middleware in the `app/Http/Kernel.php` file.
 
 `terminate` 메소드는 Http 요청과 응답의 두 가지를 전달 받는 구조여야 합니다. 종료시 동작하는 미들웨어는 `app/Http/Kernel.php` 파일의 라우트나 글로벌 미들웨어 목록에 추가해야 합니다.
 
-When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method. Typically this should be done in the `register` method of your `AppServiceProvider.php`:
+When calling the `terminate` method on your middleware, Laravel will resolve a fresh instance of the middleware from the [service container](/docs/{{version}}/container). If you would like to use the same middleware instance when the `handle` and `terminate` methods are called, register the middleware with the container using the container's `singleton` method. Typically this should be done in the `register` method of your `AppServiceProvider`:
 
-미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오. 이것은 일반적으로`AppServiceProvider.php`의 `register` 메소드에서 수행해야합니다.
+미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오. 이것은 일반적으로`AppServiceProvider`의 `register` 메소드에서 수행해야합니다.
 
-    use App\Http\Middleware\TerminableMiddleware;
+    use App\Http\Middleware\TerminatingMiddleware;
 
     /**
      * Register any application services.
@@ -381,5 +407,5 @@ When calling the `terminate` method on your middleware, Laravel will resolve a f
      */
     public function register()
     {
-        $this->app->singleton(TerminableMiddleware::class);
+        $this->app->singleton(TerminatingMiddleware::class);
     }

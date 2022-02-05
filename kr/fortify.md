@@ -52,7 +52,6 @@
 
 <a name="introduction"></a>
 ## Introduction
-
 ## 시작하기
 
 [Laravel Fortify](https://github.com/laravel/fortify) is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel's authentication features, including login, registration, password reset, email verification, and more. After installing Fortify, you may run the `route:list` Artisan command to see the routes that Fortify has registered.
@@ -128,7 +127,6 @@ API를 제공하거나 단일 페이지 애플리케이션의 백엔드 역할�
 
 <a name="installation"></a>
 ## Installation
-
 ## 설치
 
 To get started, install Fortify using the Composer package manager:
@@ -213,7 +211,6 @@ Fortify의 View를 비활성화하고 애플리케이션에 대한 비밀번호 
 
 <a name="authentication"></a>
 ## Authentication
-
 ## 인증
 
 To get started, we need to instruct Fortify how to return our "login" view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel's authentication features that are already completed for you, you should use an [application starter kit](/docs/{{version}}/starter-kits).
@@ -370,7 +367,6 @@ public function register()
 
 <a name="two-factor-authentication"></a>
 ## Two Factor Authentication
-
 ## 2단계 인증
 
 When Fortify's two factor authentication feature is enabled, the user is required to input a six digit numeric token during the authentication process. This token is generated using a time-based one-time password (TOTP) that can be retrieved from any TOTP compatible mobile authentication application such as Google Authenticator.
@@ -509,7 +505,6 @@ To disable two factor authentication, your application should make a DELETE requ
 
 <a name="registration"></a>
 ## Registration
-
 ## 등록
 
 To begin implementing our application's registration functionality, we need to instruct Fortify how to return our "register" view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel's authentication features that are already completed for you, you should use an [application starter kit](/docs/{{version}}/starter-kits).
@@ -565,7 +560,6 @@ The user validation and creation process may be customized by modifying the `App
 
 <a name="password-reset"></a>
 ## Password Reset
-
 ## 비밀번호 재설정
 
 <a name="requesting-a-password-reset-link"></a>
@@ -707,7 +701,6 @@ The password reset process may be customized by modifying the `App\Actions\Reset
 
 <a name="email-verification"></a>
 ## Email Verification
-
 ## 이메일 인증
 
 After registration, you may wish for users to verify their email address before they continue accessing your application. To get started, ensure the `emailVerification` feature is enabled in your `fortify` configuration file's `features` array. Next, you should ensure that your `App\Models\User` class implements the `Illuminate\Contracts\Auth\MustVerifyEmail` interface.
@@ -786,7 +779,6 @@ Route::get('/dashboard', function () {
 
 <a name="password-confirmation"></a>
 ## Password Confirmation
-
 ## 비밀번호 확인
 
 While building your application, you may occasionally have actions that should require the user to confirm their password before the action is performed. Typically, these routes are protected by Laravel's built-in `password.confirm` middleware.

@@ -56,7 +56,7 @@
 
 [Laravel Fortify](https://github.com/laravel/fortify) is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel's authentication features, including login, registration, password reset, email verification, and more. After installing Fortify, you may run the `route:list` Artisan command to see the routes that Fortify has registered.
 
-[Laravel Fortify](https://github.com/laravel/fortify)는 Laravel을 위한 프론트엔드와 관게 없이 사용할 수 있는 백엔드 인증에 대한 구현입니다. Fortify는 로그인, 등록, 비밀번호 재설정, 이메일 확인 등을 포함하여 Laravel의 모든 인증 기능을 구현하는 데 필요한 경로와 컨트롤러를 등록합니다. Fortify를 설치한 후 `route:list` Artisan 명령을 실행하여 Fortify가 등록한 경로를 볼 수 있습니다.
+[Laravel Fortify](https://github.com/laravel/fortify)는 Laravel에서 프론트엔드의 관계 없이 사용할 수 있는 백엔드 인증에 대한 구현입니다. Fortify는 로그인, 등록, 비밀번호 재설정, 이메일 확인 등을 포함하여 Laravel의 모든 인증 기능을 구현하는 데 필요한 경로와 컨트롤러를 등록합니다. Fortify를 설치한 후 `route:list` Artisan 명령을 실행하여 Fortify가 등록한 경로를 볼 수 있습니다.
 
 Since Fortify does not provide its own user interface, it is meant to be paired with your own user interface which makes requests to the routes it registers. We will discuss exactly how to make requests to these routes in the remainder of this documentation.
 

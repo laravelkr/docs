@@ -22,9 +22,7 @@
 
 When building APIs using Laravel, you will often need to convert your models and relationships to arrays or JSON. Eloquent includes convenient methods for making these conversions, as well as controlling which attributes are included in the serialized representation of your models.
 
-[//]: # (TODO: 문장 검토 필요 )
-라라벨을 사용하여 API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야될 필요가 있을 것입니다. Eloquent 는 이러한 변환을 수행하는 편리한 메소드가 포함되어 있을 뿐만 아니라, 모델의 일련화된 표현에 포함되는 특성을 제어하는 메소드들을 포함되어 있습니다.
-
+라라벨을 사용하여 API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야 하는 경우가 있을겁니다. Eloquent에는 이러한 변환을 수행하는 편리한 메소드와 모델의 직렬화된(serialized) 표현에 포함되는 속성을 제어하는 메소드가 포함되어 있습니다.
 
 > {tip} For an even more robust way of handling Eloquent model and collection JSON serialization, check out the documentation on [Eloquent API resources](/docs/{{version}}/eloquent-resources).
 
@@ -60,7 +58,6 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 
 컬렉션 인스턴스에서 `toArray` 메서드를 호출하여 모델의 전체 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
-
     $users = User::all();
 
     return $users->toArray();
@@ -83,7 +80,7 @@ To convert a model to JSON, you should use the `toJson` method. Like `toArray`, 
 
 Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method on the model or collection:
 
-이렇게 하는 대신에, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
+또는, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
 
     return (string) User::find(1);
 
@@ -101,7 +98,7 @@ Since models and collections are converted to JSON when cast to a string, you ca
 
 When an Eloquent model is converted to JSON, its loaded relationships will automatically be included as attributes on the JSON object. Also, though Eloquent relationship methods are defined using "camel case" method names, a relationship's JSON attribute will be "snake case".
 
-Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메서드는 "camel case" 를 메서드 이름을 사용하여 정의되지만 관계의 JSON 속성은 "snake case"가 됩니다.
+Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메서드는 "카멜 케이스"를 메서드 이름을 사용하여 정의되지만 관계의 JSON 속성은 "스네이크 케이스"가 됩니다.
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
@@ -164,7 +161,6 @@ If you would like to make some typically hidden attributes visible on a given mo
 Likewise, if you would like to hide some attributes that are typically visible, you may use the `makeHidden` method.
 
 마찬가지로, 일반적으로 표시되는 일부 속성을 숨기려면 `makeHidden` 메서드를 사용할 수 있습니다.
-
 
     return $user->makeHidden('attribute')->toArray();
 
@@ -260,7 +256,7 @@ You may customize the default serialization format by overriding the `serializeD
 
 You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the model's [cast declarations](/docs/{{version}}/eloquent-mutators#attribute-casting):
 
-만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 모델의 [캐스트 선언](docs{{version}}eloquent-mutatorsattribute-casting) 에 자세하게 명시되어 있습니다.
+만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 모델의 [캐스트 선언](/docs/{{version}}/eloquent-mutators#attribute-casting)에 자세하게 명시되어 있습니다.
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',

@@ -68,7 +68,6 @@ Fortify는 사용자 인터페이스를 제공하지 않기 때문에 등록된 
 
 <a name="what-is-fortify"></a>
 ### What Is Fortify?
-
 ### Fortify 란?
 
 As mentioned previously, Laravel Fortify is a frontend agnostic authentication backend implementation for Laravel. Fortify registers the routes and controllers needed to implement all of Laravel's authentication features, including login, registration, password reset, email verification, and more.
@@ -89,7 +88,6 @@ Laravel Fortify는 본질적으로 Laravel Breeze의 경로와 컨트롤러를 �
 
 <a name="when-should-i-use-fortify"></a>
 ### When Should I Use Fortify?
-
 ### 언제 Fortify를 사용해야 합니까?
 
 You may be wondering when it is appropriate to use Laravel Fortify. First, if you are using one of Laravel's [application starter kits](/docs/{{version}}/starter-kits), you do not need to install Laravel Fortify since all of Laravel's application starter kits already provide a full authentication implementation.
@@ -110,7 +108,6 @@ Fortify를 사용하는 대신 Laravel의 인증 서비스와 수동으로 상�
 
 <a name="laravel-fortify-and-laravel-sanctum"></a>
 #### Laravel Fortify & Laravel Sanctum
-
 #### Laravel Fortify & Laravel Sanctum
 
 Some developers become confused regarding the difference between [Laravel Sanctum](/docs/{{version}}/sanctum) and Laravel Fortify. Because the two packages solve two different but related problems, Laravel Fortify and Laravel Sanctum are not mutually exclusive or competing packages.
@@ -159,7 +156,6 @@ php artisan migrate
 
 <a name="the-fortify-service-provider"></a>
 ### The Fortify Service Provider
-
 ### Fortify 서비스 프로바이더
 
 The `vendor:publish` command discussed above will also publish the `App\Providers\FortifyServiceProvider` class. You should ensure this class is registered within the `providers` array of your application's `config/app.php` configuration file.
@@ -172,7 +168,6 @@ Fortify 서비스 제공자는 Fortify가 게시한 작업을 등록하고 Forti
 
 <a name="fortify-features"></a>
 ### Fortify Features
-
 ### Fortify 특징
 
 The `fortify` configuration file contains a `features` configuration array. This array defines which backend routes / features Fortify will expose by default. If you are not using Fortify in combination with [Laravel Jetstream](https://jetstream.laravel.com), we recommend that you only enable the following features, which are the basic authentication features provided by most Laravel applications:
@@ -189,7 +184,6 @@ The `fortify` configuration file contains a `features` configuration array. This
 
 <a name="disabling-views"></a>
 ### Disabling Views
-
 ### View 비활성화
 
 By default, Fortify defines routes that are intended to return views, such as a login screen or registration screen. However, if you are building a JavaScript driven single-page application, you may not need these routes. For that reason, you may disable these routes entirely by setting the `views` configuration value within your application's `config/fortify.php` configuration file to `false`:
@@ -202,7 +196,6 @@ By default, Fortify defines routes that are intended to return views, such as a 
 
 <a name="disabling-views-and-password-reset"></a>
 #### Disabling Views & Password Reset
-
 #### View 비활성화 & 비밀번호 재설정
 
 If you choose to disable Fortify's views and you will be implementing password reset features for your application, you should still define a route named `password.reset` that is responsible for displaying your application's "reset password" view. This is necessary because Laravel's `Illuminate\Auth\Notifications\ResetPassword` notification will generate the password reset URL via the `password.reset` named route.
@@ -251,7 +244,6 @@ If the request was not successful, the user will be redirected back to the login
 
 <a name="customizing-user-authentication"></a>
 ### Customizing User Authentication
-
 ### 유저 인증 커터마징
 
 Fortify will automatically retrieve and authenticate the user based on the provided credentials and the authentication guard that is configured for your application. However, you may sometimes wish to have full customization over how login credentials are authenticated and users are retrieved. Thankfully, Fortify allows you to easily accomplish this using the `Fortify::authenticateUsing` method.
@@ -290,7 +282,6 @@ public function boot()
 
 <a name="authentication-guard"></a>
 #### Authentication Guard
-
 #### 인증 가드
 
 You may customize the authentication guard used by Fortify within your application's `fortify` configuration file. However, you should ensure that the configured guard is an implementation of `Illuminate\Contracts\Auth\StatefulGuard`. If you are attempting to use Laravel Fortify to authenticate an SPA, you should use Laravel's default `web` guard in combination with [Laravel Sanctum](https://laravel.com/docs/sanctum).
@@ -298,9 +289,7 @@ You may customize the authentication guard used by Fortify within your applicati
 애플리케이션의 `fortify` 구성 파일 내에서 Fortify가 사용하는 인증 가드를 커스터마이즈할 수 있습니다. 그러나 구성된 가드가 `Illuminate\Contracts\Auth\StatefulGuard`의 구현인지 확인해야 합니다. SPA를 인증하기 위해 Laravel Fortify를 사용하려는 경우 [Laravel Sanctum](https://laravel.com/docs/sanctum)과 함께 Laravel의 기본 `web` 가드를 사용해야 합니다.
 
 <a name="customizing-the-authentication-pipeline"></a>
-
 ### Customizing The Authentication Pipeline
-
 ### 인증 파이프라인 커스터마이징
 
 Laravel Fortify authenticates login requests through a pipeline of invokable classes. If you would like, you may define a custom pipeline of classes that login requests should be piped through. Each class should have an `__invoke` method which receives the incoming `Illuminate\Http\Request` instance and, like [middleware](/docs/{{version}}/middleware), a `$next` variable that is invoked in order to pass the request to the next class in the pipeline.
@@ -335,7 +324,6 @@ Fortify::authenticateThrough(function (Request $request) {
 
 <a name="customizing-authentication-redirects"></a>
 ### Customizing Redirects
-
 ### 리다이렉트 커스터마이징
 
 If the login attempt is successful, Fortify will redirect you to the URI configured via the `home` configuration option within your application's `fortify` configuration file. If the login request was an XHR request, a 200 HTTP response will be returned. After a user logs out of the application, the user will be redirected to the `/` URI.
@@ -402,7 +390,6 @@ Next, you should build a screen within your application where users can manage t
 
 <a name="enabling-two-factor-authentication"></a>
 ### Enabling Two Factor Authentication
-
 ### 2단계 인증 활성화
 
 To enable two factor authentication, your application should make a POST request to the `/user/two-factor-authentication` endpoint defined by Fortify. If the request is successful, the user will be redirected back to the previous URL and the `status` session variable will be set to `two-factor-authentication-enabled`. You may detect this `status` session variable within your templates to display the appropriate success message. If the request was an XHR request, `200` HTTP response will be returned:
@@ -431,7 +418,6 @@ JavaScript 기반 프론트엔드를 구축하는 경우 `/user/two-factor-qr-co
 
 <a name="displaying-the-recovery-codes"></a>
 #### Displaying The Recovery Codes
-
 #### 복구 코드 표시
 
 You should also display the user's two factor recovery codes. These recovery codes allow the user to authenticate if they lose access to their mobile device. If you are using Blade to render your application's frontend, you may access the recovery codes via the authenticated user instance:
@@ -452,7 +438,6 @@ To regenerate the user's recovery codes, your application should make a POST req
 
 <a name="authenticating-with-two-factor-authentication"></a>
 ### Authenticating With Two Factor Authentication
-
 ### 2단계 인증으로 인증하기
 
 During the authentication process, Fortify will automatically redirect the user to your application's two factor authentication challenge screen. However, if your application is making an XHR login request, the JSON response returned after a successful authentication attempt will contain a JSON object that has a `two_factor` boolean property. You should inspect this value to know whether you should redirect to your application's two factor authentication challenge screen.
@@ -496,7 +481,6 @@ If the request was not successful, the user will be redirected back to the login
 
 <a name="disabling-two-factor-authentication"></a>
 ### Disabling Two Factor Authentication
-
 ### 2단계 인증 비활성화
 
 To disable two factor authentication, your application should make a DELETE request to the `/user/two-factor-authentication` endpoint. Remember, Fortify's two factor authentication endpoints require [password confirmation](#password-confirmation) prior to being called.
@@ -551,7 +535,6 @@ If the request was not successful, the user will be redirected back to the regis
 
 <a name="customizing-registration"></a>
 ### Customizing Registration
-
 ### 등록 커스터마이징
 
 The user validation and creation process may be customized by modifying the `App\Actions\Fortify\CreateNewUser` action that was generated when you installed Laravel Fortify.
@@ -564,7 +547,6 @@ The user validation and creation process may be customized by modifying the `App
 
 <a name="requesting-a-password-reset-link"></a>
 ### Requesting A Password Reset Link
-
 ### 비밀번호 재설정 링크 요청
 
 To begin implementing our application's password reset functionality, we need to instruct Fortify how to return our "forgot password" view. Remember, Fortify is a headless authentication library. If you would like a frontend implementation of Laravel's authentication features that are already completed for you, you should use an [application starter kit](/docs/{{version}}/starter-kits).
@@ -603,7 +585,6 @@ The `/forgot-password` endpoint expects a string `email` field. The name of this
 
 <a name="handling-the-password-reset-link-request-response"></a>
 #### Handling The Password Reset Link Request Response
-
 #### 비밀번호 재설정 링크 요청 응답 처리
 
 If the password reset link request was successful, Fortify will redirect the user back to the `/forgot-password` endpoint and send an email to the user with a secure link they can use to reset their password. If the request was an XHR request, a 200 HTTP response will be returned.
@@ -628,7 +609,6 @@ If the request was not successful, the user will be redirected back to the reque
 
 <a name="resetting-the-password"></a>
 ### Resetting The Password
-
 ### 비밀번호 재설정
 
 To finish implementing our application's password reset functionality, we need to instruct Fortify how to return our "reset password" view.
@@ -667,7 +647,6 @@ The `/reset-password` endpoint expects a string `email` field, a `password` fiel
 
 <a name="handling-the-password-reset-response"></a>
 #### Handling The Password Reset Response
-
 #### 비밀번호 재설정 응답 처리
 
 If the password reset request was successful, Fortify will redirect back to the `/login` route so that the user can log in with their new password. In addition, a `status` session variable will be set so that you may display the successful status of the reset on your login screen:
@@ -692,7 +671,6 @@ If the request was not successful, the user will be redirected back to the reset
 
 <a name="customizing-password-resets"></a>
 ### Customizing Password Resets
-
 ### 비밀번호 재설정 커스터마이징
 
 The password reset process may be customized by modifying the `App\Actions\ResetUserPassword` action that was generated when you installed Laravel Fortify.
@@ -743,7 +721,6 @@ Your `verify-email` template should include an informational message instructing
 
 <a name="resending-email-verification-links"></a>
 #### Resending Email Verification Links
-
 #### 이메일 확인 링크 재전송
 
 If you wish, you may add a button to your application's `verify-email` template that triggers a POST request to the `/email/verification-notification` endpoint. When this endpoint receives a request, a new verification email link will be emailed to the user, allowing the user to get a new verification link if the previous one was accidentally deleted or lost.
@@ -762,9 +739,7 @@ If the request to resend the verification link email was successful, Fortify wil
 @endif
 ```
 <a name="protecting-routes"></a>
-
 ### Protecting Routes
-
 ### 경로 보호
 
 To specify that a route or group of routes requires that the user has verified their email address, you should attach Laravel's built-in `verified` middleware to the route. This middleware is registered within your application's `App\Http\Kernel` class:

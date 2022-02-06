@@ -50,19 +50,19 @@
     - [Manually Registering Components](#manually-registering-components)
     - [수동으로 컴포넌트 등록](#manually-registering-components)
 - [Building Layouts](#building-layouts)
-- [Building Layouts](#building-layouts)
+- [레이아웃 만들기](#building-layouts)
     - [Layouts Using Components](#layouts-using-components)
-    - [Layouts Using Components](#layouts-using-components)
+    - [컴포넌트를 사용한 레이아웃](#layouts-using-components)
     - [Layouts Using Template Inheritance](#layouts-using-template-inheritance)
-    - [Layouts Using Template Inheritance](#layouts-using-template-inheritance)
+    - [템플릿 상속을 사용한 레이아웃](#layouts-using-template-inheritance)
 - [Forms](#forms)
-- [Forms](#forms)
+- [양식-Form](#forms)
     - [CSRF Field](#csrf-field)
-    - [CSRF Field](#csrf-field)
+    - [CSRF 필드](#csrf-field)
     - [Method Field](#method-field)
-    - [Method Field](#method-field)
+    - [메소드 필드](#method-field)
     - [Validation Errors](#validation-errors)
-    - [Validation Errors](#validation-errors)
+    - [검증 오류](#validation-errors)
 - [Stacks](#stacks)
 - [스택](#stacks)
 - [Service Injection](#service-injection)
@@ -1645,11 +1645,11 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 
 <a name="forms"></a>
 ## Forms
-## Form
+## 양식-Form
 
 <a name="csrf-field"></a>
 ### CSRF Field
-### CSRF Field
+### CSRF 필드
 
 Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 

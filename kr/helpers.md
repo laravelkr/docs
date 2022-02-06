@@ -849,7 +849,7 @@ The `Arr::toCssClasses` conditionally compiles a CSS class string. The method ac
 
 This method powers Laravel's functionality allowing [merging classes with a Blade component's attribute bag](/docs/{{version}}/blade#conditionally-merge-classes) as well as the `@class` [Blade directive](/docs/{{version}}/blade#conditional-classes).
 
-이 메소드는 `@class` [블레이드 지시어](/docs/{{version}}/blade#conditional-classes) 뿐만 아니라 라라벨의 [기본 / 병합 속성](/docs/{{version}}/blade#기본%20/%20병합%20속성) 기능을 강화시킵니다.
+이 메소드는 `@class` [블레이드 지시어](/docs/{{version}}/blade#conditional-classes) 뿐만 아니라 라라벨의 [기본 / 병합 속성](/docs/{{version}}/blade#conditionally-merge-classes) 기능을 강화시킵니다.
 
 
 <a name="method-array-undot"></a>

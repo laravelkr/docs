@@ -65,7 +65,7 @@ accessor는 접근할 때 Eloquent 속성 값을 변환합니다. accessor를 �
 
 In this example, we'll define an accessor for the `first_name` attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the `first_name` attribute:
 
-아래 예제에서는 `first_name` 속성에 대한 accessor를 정의합니다. Accessor는 `first_name` 속성의 값을 검색하려고 시도할 때 Eloquent에 의해 자동으로 호출됩니다:
+아래 예제에서는 `first_name` 속성에 대한 accessor를 정의합니다. accessor는 `first_name` 속성의 값을 검색하려고 시도할 때 Eloquent에 의해 자동으로 호출됩니다:
 
     <?php
 
@@ -99,7 +99,7 @@ As you can see, the original value of the column is passed to the accessor, allo
 
 You are not limited to interacting with a single attribute within your accessor. You may also use accessors to return new, computed values from existing attributes:
 
-Accessor 내에서 단일 속성과 상호 작용하는 것으로 제한하지 않습니다. Accessor를 사용하여 기존 속성에서 계산된 새 값을 반환할 수도 있습니다.
+accessor 내에서 단일 속성과 상호 작용하는 것으로 제한하지 않습니다. accessor를 사용하여 기존 속성에서 계산된 새 값을 반환할 수도 있습니다.
 
     /**
      * Get the user's full name.
@@ -120,11 +120,11 @@ Accessor 내에서 단일 속성과 상호 작용하는 것으로 제한하지 �
 
 A mutator transforms an Eloquent attribute value when it is set. To define a mutator, define a `set{Attribute}Attribute` method on your model where `{Attribute}` is the "studly" cased name of the column you wish to access.
 
-Mutator는 Eloquent 속성 값이 설정될 때 변환됩니다. Mutator를 정의하려면 모델에 `set{Attribute}Attribute` 메소드를 정의하십시오. 여기서 `{Attribute}`는 액세스하려는 Column의 "studly" Case 이름입니다.
+mutator는 Eloquent 속성 값이 설정될 때 변환됩니다. mutator를 정의하려면 모델에 `set{Attribute}Attribute` 메소드를 정의하십시오. 여기서 `{Attribute}`는 액세스하려는 Column의 "studly" Case 이름입니다.
 
 Let's define a mutator for the `first_name` attribute. This mutator will be automatically called when we attempt to set the value of the `first_name` attribute on the model:
 
-`first_name` 속성에 대한 Mutator를 정의해 보겠습니다. 이 Mutator는 모델의 `first_name` 속성 값을 설정하려고 할 때 자동으로 호출됩니다.
+`first_name` 속성에 대한 mutator를 정의해 보겠습니다. 이 mutator는 모델의 `first_name` 속성 값을 설정하려고 할 때 자동으로 호출됩니다.
 
     <?php
 
@@ -148,7 +148,7 @@ Let's define a mutator for the `first_name` attribute. This mutator will be auto
 
 The mutator will receive the value that is being set on the attribute, allowing you to manipulate the value and set the manipulated value on the Eloquent model's internal `$attributes` property. To use our mutator, we only need to set the `first_name` attribute on an Eloquent model:
 
-Mutator는 속성에 설정된 값을 수신하여 값을 조작하고 Eloquent 모델의 내부 '속성' 속성에 조작된 값을 설정할 수 있습니다. mutator를 사용하려면 Eloquent 모델에 `first_name` 속성만 설정하면 됩니다.
+mutator는 속성에 설정된 값을 수신하여 값을 조작하고 Eloquent 모델의 내부 '속성' 속성에 조작된 값을 설정할 수 있습니다. mutator를 사용하려면 Eloquent 모델에 `first_name` 속성만 설정하면 됩니다.
 
     use App\Models\User;
 

@@ -34,7 +34,7 @@ API 를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 
 
 Of course, you may always convert Eloquent models or collections to JSON using their `toJson` methods; however, Eloquent resources provide more granular and robust control over the JSON serialization of your models and their relationships.
 
-물론 'toJson' 메서드를 사용하여 Eloquent 모델이나 컬렉션을 항상 JSON으로 변환할 수 있습니다. 그러나 Eloquent 리소스는 모델과 그 관계의 JSON 직렬화에 대해 보다 세분화되고 강력한 제어를 제공합니다.
+물론 `toJson` 메서드를 사용하여 Eloquent 모델이나 컬렉션을 항상 JSON으로 변환할 수 있습니다. 그러나 Eloquent 리소스는 모델과 그 관계의 JSON 직렬화에 대해 보다 세분화되고 강력한 제어를 제공합니다.
 
 <a name="generating-resources"></a>
 ## Generating Resources
@@ -122,6 +122,7 @@ Note that we can access model properties directly from the `$this` variable. Thi
 If you are returning a collection of resources or a paginated response, you should use the `collection` method provided by your resource class when creating the resource instance in your route or controller:
 
 리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다.
+
     use App\Http\Resources\UserResource;
     use App\Models\User;
 
@@ -295,6 +296,8 @@ If you would like to include related resources in your response, you may add the
 
 응답-response에서 연관된 리소스(relationships)를 포함하고자 한다면, `toArray` 메소드에서 반환하는 배열에 이를 추가하면 됩니다. 다음 예제에서는 `PostResource` 리소스의 `collection` 메소드를 사용하여 사용자의 블로그 포스트를 응답-response에 추가합니다.
 
+    use App\Http\Resources\PostResource;
+
     /**
      * Transform the resource into an array.
      *
@@ -335,7 +338,6 @@ While resources transform a single model into an array, resource collections tra
 However, if you need to customize the meta data returned with the collection, it is necessary to define your own resource collection:
 
 그러나, 컬렉션과 함께 반환된 메타 데이터를 커스터마이징 해야 하는 경우 고유한 리소스 컬렉션을 정의해야 합니다.
-
 
     <?php
 
@@ -601,9 +603,9 @@ Sometimes you may wish to only include an attribute in a resource response if a 
         ];
     }
 
-In this example, the `secret` key will only be returned in the final resource response if the authenticated user's `isAdmin` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response entirely before it is sent back to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
+In this example, the `secret` key will only be returned in the final resource response if the authenticated user's `isAdmin` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response before it is sent to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
 
-이 예제에서 인증된 사용자의 `isAdmin` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메서드가 `false`를 반환하면, `secret` 키는 클라이언트로 다시 전송되기 전에 리소스 응답-response에서 완전히 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 사용하지 않고 명시적으로 리소스를 정의할 수 있습니다.
+이 예제에서 인증된 사용자의 `isAdmin` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메서드가 `false`를 반환하면, `secret` 키는 클라이언트로 다시 전송되기 전에 리소스 응답-response에서 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 의존하지 않고 명시적으로 리소스를 정의할 수 있습니다.
 
 The `when` method also accepts a closure as its second argument, allowing you to calculate the resulting value only if the given condition is `true`:
 
@@ -662,6 +664,7 @@ The `whenLoaded` method may be used to conditionally load a relationship. In ord
 
 `whenLoaded` 메소드는 조건에 따라 관계-relationship 를 로딩하는데 사용할 수 있습니다. 필요하지 않은 관계-relationship를 로딩하는 것을 회피하기 위해서 이 메소드는 관계-relationship 그 자체 대신 관계-relationship 이름을 인지로 받습니다.
 
+    use App\Http\Resources\PostResource;
     /**
      * Transform the resource into an array.
      *

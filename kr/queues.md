@@ -641,7 +641,7 @@ job을 처리하는 queue에 특정 커넥션에서 실행하려면 `onConnectio
 
 One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line:
 
-작업이 수행될 때 쵀대 재시도 횟수를 지정하려면, 아티즌 명령어에 `--tries` 옵션을 지정하면 됩니다.
+작업이 수행될 때 최대 재시도 횟수를 지정하려면, 아티즌 명령어에 `--tries` 옵션을 지정하면 됩니다.
 
     php artisan queue:work --tries=3
 

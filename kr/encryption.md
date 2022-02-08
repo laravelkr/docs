@@ -12,28 +12,29 @@
 ## Introduction
 ## 시작하기
 
-Laravel's encrypter uses OpenSSL to provide AES-256 and AES-128 encryption. You are strongly encouraged to use Laravel's built-in encryption facilities and not attempt to roll your own "home grown" encryption algorithms. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified once encrypted.
+Laravel's encryption services provide a simple, convenient interface for encrypting and decrypting text via OpenSSL using AES-256 and AES-128 encryption. All of Laravel's encrypted values are signed using a message authentication code (MAC) so that their underlying value can not be modified or tampered with once encrypted.
 
-라라벨의 encrypter AES-256 과 AES-128 암호화를 제공하기 위해서 OpelSSL을 사용합니다. 라라벨에 내장된 암호화 기능은 매우 강력합니다. 따라서 여러분의 "고유한" 암호화 알고리즘을 구성하지 않는 것이 좋습니다. 라라벨의 모든 암호화된 값은 (MAC) 메세지 인증 코드를 사용하여 서명되고, 따라서 한번 암호화 되면 값을 변경할 수 없습니다.
+라라벨의 암호화 서비스는 AES-256 및 AES-128 암호화를 사용하여 OpenSSL을 통해 텍스트를 암호화하고 해독하기 위한 간단하고 편리한 인터페이스를 제공합니다. 라라벨의 모든 암호화된 값은 메시지 인증 코드(MAC)를 사용하여 서명되므로 일단 암호화되면 기본 값을 수정하거나 변조할 수 없습니다.
 
 <a name="configuration"></a>
 ## Configuration
 ## 설정하기
 
-Before using Laravel's encrypter, you must set a `key` option in your `config/app.php` configuration file. You should use the `php artisan key:generate` command to generate this key since this Artisan command will use PHP's secure random bytes generator to build your key. If this value is not properly set, all values encrypted by Laravel will be insecure.
+Before using Laravel's encrypter, you must set the `key` configuration option in your `config/app.php` configuration file. This configuration value is driven by the `APP_KEY` environment variable. You should use the `php artisan key:generate` command to generate this variable's value since the `key:generate` command will use PHP's secure random bytes generator to build a cryptographically secure key for your application. Typically, the value of the `APP_KEY` environment variable will be generated for you during [Laravel's installation](/docs/{{version}}/installation).
 
-라라벨의 encrypter 를 사용하기 전에, `config/app.php` 설정 파일의 `key` 옵션을 지정해야만 합니다. 여러분은 `php artisan key:generate` 명령어를 사용하여 이 키를 생성해야 합니다.  이 아티즌 명령어는 키를 생성하는데 PHP의 안전한 랜덤 바이트 제너레이터를 사용합니다. 이 값이 확실하게 설정되지 않으면, 라라벨에 의해서 암호화된 값은 안전하지 않습니다.
+라라벨의 암호화를 사용하기 전에 `config/app.php` 설정 파일에서 `key` 설정 옵션을 설정해야 합니다. 이 설정 값은 `APP_KEY` 환경 변수에 의해 동작합니다. `key:generate` 명령은 PHP의 보안 랜덤 바이트 생성기를 사용하여 애플리케이션에 대한 암호화 보안 키를 구축하므로, `php artisan key:generate` 명령을 사용하여 이 변수의 값을 생성해야 합니다. 일반적으로 `APP_KEY` 환경 변수의 값은 [Laravel 설치](/docs/{{version}}/installation) 중에 생성됩니다.
 
 <a name="using-the-encrypter"></a>
 ## Using The Encrypter
 ## Encrypter 사용하기
 
+<a name="encrypting-a-value"></a>
 #### Encrypting A Value
 #### 하나의 값 암호화하기
 
-You may encrypt a value using the `encryptString` method of the `Crypt` facade. All encrypted values are encrypted using OpenSSL and the `AES-256-CBC` cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC) to detect any modifications to the encrypted string:
+You may encrypt a value using the `encryptString` method provided by the `Crypt` facade. All encrypted values are encrypted using OpenSSL and the AES-256-CBC cipher. Furthermore, all encrypted values are signed with a message authentication code (MAC). The integrated message authentication code will prevent the decryption of any values that have been tampered with by malicious users:
 
-`Crypt`파사드의 `encryptString` 메서드를 사용하여 하나의 값을 암호화 할 수 있습니다. 모든 암호화된 값들은 OpenSSL 과 `AES-256-CBC` 알고리즘이 사용됩니다. 또한 모든 암호화된 값은 변경을 감지하기 위해서 (MAC) 을 기본으로한 서명이 적용됩니다.
+`Crypt` 파사드에서 제공하는 `encryptString` 메소드를 사용하여 값을 암호화할 수 있습니다. 모든 암호화된 값은 OpenSSL 및 AES-256-CBC 암호를 사용하여 암호화됩니다. 또한 모든 암호화된 값은 메시지 인증 코드(MAC)로 서명됩니다. 통합 메시지 인증 코드는 악의적인 사용자에 의해 변조된 값의 암호 해독을 방지합니다.
 
     <?php
 
@@ -44,31 +45,29 @@ You may encrypt a value using the `encryptString` method of the `Crypt` facade. 
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Crypt;
 
-    class UserController extends Controller
+    class DigitalOceanTokenController extends Controller
     {
         /**
-         * Store a secret message for the user.
+         * Store a DigitalOcean API token for the user.
          *
-         * @param  Request  $request
-         * @param  int  $id
-         * @return Response
+         * @param  \Illuminate\Http\Request  $request
+         * @return \Illuminate\Http\Response
          */
-        public function storeSecret(Request $request, $id)
+        public function storeSecret(Request $request)
         {
-            $user = User::findOrFail($id);
-
-            $user->fill([
-                'secret' => Crypt::encryptString($request->secret),
+            $request->user()->fill([
+                'token' => Crypt::encryptString($request->token),
             ])->save();
         }
     }
 
+<a name="decrypting-a-value"></a>
 #### Decrypting A Value
 #### 값 복호화 하기
 
-You may decrypt values using the `decryptString` method of the `Crypt` facade. If the value can not be properly decrypted, such as when the MAC is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
+You may decrypt values using the `decryptString` method provided by the `Crypt` facade. If the value can not be properly decrypted, such as when the message authentication code is invalid, an `Illuminate\Contracts\Encryption\DecryptException` will be thrown:
 
-`Crypt`파사드의 `encryptString` 메서드를 사용하여 특정 값을 복호화 할 수 있습니다. MAC 이 일치하지 않는 경우에는, 지정한 값이 정상적으로 복호화 되지 않으며 `Illuminate\Contracts\Encryption\DecryptException`이 발생할 것입니다.
+`Crypt` 파사드에서 제공하는 `decryptString` 메소드를 사용하여 값을 해독할 수 있습니다. 메시지 인증 코드가 유효하지 않은 경우와 같이 값을 제대로 해독할 수 없으면 `Illuminate\Contracts\Encryption\DecryptException`이 발생합니다.
 
     use Illuminate\Contracts\Encryption\DecryptException;
     use Illuminate\Support\Facades\Crypt;

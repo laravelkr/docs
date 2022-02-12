@@ -3,16 +3,22 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-- [Model Preparation](#model-preparation)
-- [모델 준비사항](#model-preparation)
-- [Database Considerations](#verification-database)
-- [데이터베이스 고려사항](#verification-database)
+    - [Model Preparation](#model-preparation)
+    - [모델 준비사항](#model-preparation)
+    - [Database Preparation](#database-preparation)
+    - [데이터베이스 준비사항](#database-preparation)
 - [Routing](#verification-routing)
 - [라우팅](#verification-routing)
+    - [The Email Verification Notice](#the-email-verification-notice)
+    - [이메일 검증 발송](#the-email-verification-notice)
+    - [The Email Verification Handler](#the-email-verification-handler)
+    - [이메일 검증 핸들러](#the-email-verification-handler)
+    - [Resending The Verification Email](#resending-the-verification-email)
+    - [이메일 검증 재발송](#resending-the-verification-email)
     - [Protecting Routes](#protecting-routes)
     - [라우트 보호하기](#protecting-routes)
-- [Views](#verification-views)
-- [뷰](#verification-views)
+- [Customization](#customization)
+- [커스터마이징](#customization)
 - [Events](#events)
 - [이벤트](#events)
 
@@ -20,9 +26,9 @@
 ## Introduction
 ## 시작하기
 
-Many web applications require users to verify their email addresses before using the application. Rather than forcing you to re-implement this on each application, Laravel provides convenient methods for sending and verifying email verification requests.
+Many web applications require users to verify their email addresses before using the application. Rather than forcing you to re-implement this feature by hand for each application you create, Laravel provides convenient built-in services for sending and verifying email verification requests.
 
-많은 웹 애플리케이션에서 사용자는 애플리케이션을 사용하기 전에 이메일 주소를 확인해야합니다. 라라벨은 각 애플리케이션에서 이를 다시 구현하지 않고 이메일 검증 요청을 보내고 검증하는 편리한 방법을 제공합니다.
+대부분의 웹 애플리케이션에서는 사용자가 특정 애플리케이션을 사용하기 전, 이메일 검증을 요구합니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현 할 수 있도록 편리한 방법을 제공합니다.
 
 #### Getting Started Fast
 #### 빠르게 시작하기

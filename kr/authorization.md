@@ -380,7 +380,7 @@ Laravel 애플리케이션에 포함된 `App\Providers\AuthServiceProvider`에�
 
 <a name="policy-auto-discovery"></a>
 #### Policy Auto-Discovery
-#### Policy Auto-Discovery
+#### 정책 자동 검색
 
 Instead of manually registering model policies, Laravel can automatically discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory at or above the directory that contains your models. So, for example, the models may be placed in the `app/Models` directory while the policies may be placed in the `app/Policies` directory. In this situation, Laravel will check for policies in `app/Models/Policies` then `app/Policies`. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` policy class.
 

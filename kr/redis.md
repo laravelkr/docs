@@ -30,7 +30,7 @@ Before using Redis with Laravel, we encourage you to install and use the [phpred
 
 If you are unable to install the phpredis extension, you may install the `predis/predis` package via Composer. Predis is a Redis client written entirely in PHP and does not require any additional extensions:
 
-phpredis 확장을 설치할 수 없는 경우 Composer를 통해 'predis/predis' 패키지를 설치할 수 있습니다. predis는 PHP 로만 작성된 extension 이므로 추가적으로 다른 패키지가 요구 되지 않습니다.
+phpredis 확장을 설치할 수 없는 경우 Composer를 통해 `predis/predis` 패키지를 설치할 수 있습니다. predis는 PHP 로만 작성된 extension 이므로 추가적으로 다른 패키지가 요구 되지 않습니다.
 
     composer require predis/predis
 
@@ -294,6 +294,7 @@ Redis의 네이티브 `MULTY` 와 `EXEC` 명령어를 `Redis` 파사드의 `tran
 
 > {note} 레디스 트랜젝션이 정의 되는 동안 Redis 에서 해당 값을 찾을수 없습니다. 모든 트랜잭션은 원자성이 보장되며 모든 클로저가 실행 될때까지 모든 명령은 실행되지 않음을 기억하세요.
 
+#### Lua Scripts
 #### Lua Scripts
 
 The `eval` method provides another method of executing multiple Redis commands in a single, atomic operation. However, the `eval` method has the benefit of being able to interact with and inspect Redis key values during that operation. Redis scripts are written in the [Lua programming language](https://www.lua.org).

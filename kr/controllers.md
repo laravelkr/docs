@@ -83,7 +83,7 @@ You can define a route to this controller method like so:
 
 When an incoming request matches the specified route URI, the `show` method on the `App\Http\Controllers\UserController` class will be invoked and the route parameters will be passed to the method.
 
-들어오는 요청이 지정된 라우트(route) URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route) 매개변수가 메소드에 전달됩니다.
+들어오는 요청이 지정된 라우트(route) URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route) 파라메터가 메소드에 전달됩니다.
 
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
@@ -97,7 +97,7 @@ If a controller action is particularly complex, you might find it convenient to 
 
 컨트롤러 작업이 특히 복잡한 경우, 하나의 컨트롤러 클래스 전체를 단일 액션으로 구성하는 것이 편리할 수 있습니다. 이를 수행하기 위해 컨트롤러 내에서 단일 `__invoke` 메서드를 정의할 수 있습니다.
 
-(역자주 : 액션(action)이란? 컨트롤러에서 라우터에 직접 연결되는 메소드들로 public으로 공개된 메소드들이다. 대표적으로 index, show, update, destroy 등등의 메소드를 의미한다.)
+(역자주 : 액션(action)이란? 컨트롤러에서 라우터에 직접 연결되는 메소드들로 public으로 공개된 메소드들입니다. 대표적으로 index, show, update, destroy 등의 메소드를 의미합니다.)
 
     <?php
 
@@ -129,7 +129,7 @@ When registering routes for single action controllers, you do not need to specif
 
 You may generate an invokable controller by using the `--invokable` option of the `make:controller` Artisan command:
 
-라라벨의 커멘드 라인 명령어 Artisan을 사용하면 `make:controller` 에 `--invokable` 옵션을 사용하여 `__invoke` 함수가 내장된 컨트롤러(invokable controller)를 생성 할 수 있습니다.
+Artisan 컨멘드를 사용하면 `make:controller` 에 `--invokable` 옵션을 사용하여 `__invoke` 함수가 내장된 컨트롤러(invokable controller)를 생성 할 수 있습니다.
 
     php artisan make:controller ProvisionServer --invokable
 
@@ -183,7 +183,7 @@ If you think of each Eloquent model in your application as a "resource", it is t
 
 애플리케이션의 각 Eloquent 모델을 "리소스"로 생각한다면 애플리케이션의 각 리소스에 대해 동일 유형(typical)의 같은 작업을 수행하는 것이 일반적입니다. 예를 들어 애플리케이션에 'Photo' 모델과 'Movie' 모델이 포함되어 있다고 가정해 보겠습니다. 사용자는 Photo 리소스에 대해서도 Movie 리소스에 대해서도 동일하게 생성, 조회, 업데이트 또는 삭제할 수 있습니다.
 
-(역자주 : 동일 유형이란? 데이터 리소스로 부터 생성, 조회, 업데이트, 삭제라는 작업을 하는 것은 다른 데이터 리소스에 대해서도 일반적으로 동일하게 생성, 조회, 업데이트, 삭제 작업을 하기 때문에 데이터 리소스에 대한 작접 유형의 동일함을 의미합니다.)
+(역자주 : 동일 유형이란? 데이터 리소스로 부터 생성, 조회, 업데이트, 삭제라는 작업을 하는 것은 다른 데이터 리소스에 대해서도 일반적으로 동일하게 생성, 조회, 업데이트, 삭제 작업을 하기 때문에 데이터 리소스에 대한 작업 유형이 동일함을 의미합니다.)
 
 Because of this common use case, Laravel resource routing assigns the typical create, read, update, and delete ("CRUD") routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's `--resource` option to quickly create a controller to handle these actions:
 
@@ -196,7 +196,7 @@ Because of this common use case, Laravel resource routing assigns the typical cr
 This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
 Next, you may register a resource route that points to the controller:
 
-아티즌 명령어는 `app/Http/Controllers/PhotoController.php` 파일을 생성합니다. 생성된 컨트롤러는 이용 가능한 리소스의 동작(operations) 각각에 대한 메소드를 포함합니다.
+Artisan 명령어는 `app/Http/Controllers/PhotoController.php` 파일을 생성합니다. 생성된 컨트롤러는 이용 가능한 리소스의 동작(operations) 각각에 대한 메소드를 포함합니다.
 
 (역자주 : 리소스의 동작이란 것은 생성, 조회, 업데이트, 삭제 등 리소스에 대한 작업을 의미합니다.)
 
@@ -206,7 +206,7 @@ Next, you may register a resource route that points to the controller:
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions. Remember, you can always get a quick overview of your application's routes by running the `route:list` Artisan command.
 
-단일한 라우트의 선언으로 리소스에 대한 다양한 엑션을 다루기 위한 라우터를 생성할 수 있습니다. 생성된 컨트롤러에는 미리 생성된 코드(stub)를 가진 엑션 메소드를 가집니다. `route:list` 아티산 명령어를 실행하여 여러분 애플리케이션의 라우트에 대한 개요(overview)를 빠르게 얻을 수 있다는 것을 알아 두세요.
+단일한 라우트의 선언으로 리소스에 대한 다양한 엑션을 다루기 위한 라우터를 생성할 수 있습니다. 생성된 컨트롤러에는 미리 생성된 코드(stub)를 가진 엑션 메소드를 가집니다. `route:list` Artisan 명령어를 실행하여 여러분 애플리케이션의 라우트에 대한 개요(overview)를 빠르게 얻을 수 있다는 것을 알아 두세요.
 
 You may register many resource controllers at once by passing an array to the `resources` method:
 
@@ -254,7 +254,7 @@ Typically, a 404 HTTP response will be generated if an implicitly bound resource
 
 If you are using [route model binding](/docs/{{version}}/routing#route-model-binding) and would like the resource controller's methods to type-hint a model instance, you may use the `--model` option when generating the controller:
 
-[라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 대 `--model` 옵션을 사용할 수 있습니다.
+[라우트 모델 바인딩](/docs/{{version}}/routing#route-model-binding)을 사용하고 있고, 리소스 컨트롤러의 메소드가 모델 인스턴스에 대한 타입힌트를 하도록 원한다면 컨트롤러를 생성할 때 `--model` 옵션을 사용할 수 있습니다.
 
     php artisan make:controller PhotoController --resource --model=Photo
 
@@ -373,7 +373,7 @@ DELETE    | `/comments/{comment}`             | destroy      | comments.destroy
 
 By default, all resource controller actions have a route name; however, you can override these names by passing a `names` array with your options:
 
-기본적으로 모든 리소스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 라으트 이름을 덮어씌울 수 있습니다.
+기본적으로 모든 리소스 컨트롤러 액션은 라우트 이름을 가지고 있습니다. 그러나 `names` 옵션 배열을 전달하여 라우트 이름을 덮어씌울 수 있습니다.
 
     Route::resource('photos', PhotoController::class)->names([
         'create' => 'photos.build'
@@ -421,7 +421,7 @@ This route will register a scoped nested resource that may be accessed with URIs
 
 When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `Photo` model has a relationship named `comments` (the plural of the route parameter name) which can be used to retrieve the `Comment` model.
 
-중첩된 라우트의 매개변수로 커스텀 키가 있는 암시적 바인딩을 사용할 때, Laravel은 자동으로 쿼리의 스코프를 지정하여 부모의 관계 이름을 추축하는 규칙을 사용하여 부모에 의해 중첩된 모델을 검색합니다. 이 경우 `Photo`모델에는 `Comment`모델을 검색하는 데 사용할 수있는 `comments`(라우트 매개 변수 이름의 복수)라는 관계가있는 것으로 가정합니다.
+중첩된 라우트의 파라메터로 커스텀 키가 있는 암시적 바인딩을 사용할 때, Laravel은 자동으로 쿼리의 스코프를 지정하여 부모의 관계 이름을 추축하는 규칙을 사용하여 부모에 의해 중첩된 모델을 검색합니다. 이 경우 `Photo`모델에는 `Comment`모델을 검색하는 데 사용할 수있는 `comments`(라우트 파라메터 이름의 복수)라는 관계가있는 것으로 가정합니다.
 
 <a name="restful-localizing-resource-uris"></a>
 ### Localizing Resource URIs
@@ -542,7 +542,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
 If your controller method is also expecting input from a route parameter, list your route arguments after your other dependencies. For example, if your route is defined like so:
 
-컨트롤러 메소드가 경로 매개변수의 입력도 예상하는 경우 다른 종속성 뒤에 경로 인수를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우:
+컨트롤러 메소드가 경로 파라메터의 입력도 예상하는 경우 다른 종속성 뒤에 경로 인수를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우:
 
     use App\Http\Controllers\UserController;
 
@@ -550,7 +550,7 @@ If your controller method is also expecting input from a route parameter, list y
 
 You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
 
-여전히 `Illuminate\Http\Request`를 입력하고 다음과 같이 컨트롤러 메소드를 정의하여 `id` 매개변수에 액세스할 수 있습니다.
+여전히 `Illuminate\Http\Request`를 입력하고 다음과 같이 컨트롤러 메소드를 정의하여 `id` 파라메터에 액세스할 수 있습니다.
 
     <?php
 

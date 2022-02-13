@@ -11,6 +11,8 @@
     - [PhpRedis](#phpredis)
 - [Interacting With Redis](#interacting-with-redis)
 - [Redis 와 상호작용](#interacting-with-redis)
+    - [Transactions](#transactions)
+    - [트랜잭션](#transactions)
     - [Pipelining Commands](#pipelining-commands)
     - [파이프라이닝 명령어](#pipelining-commands)
 - [Pub / Sub](#pubsub)

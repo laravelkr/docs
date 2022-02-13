@@ -28,22 +28,19 @@
 
 Many web applications require users to verify their email addresses before using the application. Rather than forcing you to re-implement this feature by hand for each application you create, Laravel provides convenient built-in services for sending and verifying email verification requests.
 
-대부분의 웹 애플리케이션에서는 사용자가 특정 애플리케이션을 사용하기 전, 이메일 검증을 요구합니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현 할 수 있도록 편리한 방법을 제공합니다.
+우리가 웹 애플리케이션을 사용 하다보면 이메일 검증을 요구하는 경우가 종종 있습니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현 할 수 있도록 편리한 방법을 제공합니다.
 
-#### Getting Started Fast
-#### 빠르게 시작하기
+> {tip} Want to get started fast? Install one of the [Laravel application starter kits](/docs/{{version}}/starter-kits) in a fresh Laravel application. The starter kits will take care of scaffolding your entire authentication system, including email verification support.
 
-Want to get started fast? Install [Laravel Jetstream](https://jetstream.laravel.com) in a fresh Laravel application. After migrating your database, navigate your browser to `/register` or any other URL that is assigned to your application. Jetstream will take care of scaffolding your entire authentication system, including email verification support!
-
-빨리 시작하고 싶으세요? 새로운 Laravel 애플리케이션에 [Laravel Jetstream](https://jetstream.laravel.com)을 설치합니다. 데이터베이스를 마이그레이션 한 후 브라우저에서 `/register` 또는 애플리케이션에 할당 된 다른 URL로 이동합니다. Jetstream은 이메일 확인 지원을 포함하여 전체 인증 시스템을 스캐 폴딩합니다!
+> {tip} 빨리 시작하고 싶으세요? 새로운 Laravel 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 확인 지원을 포함하여 전체 인증 시스템을 스캐 폴딩합니다!
 
 <a name="model-preparation"></a>
 ## Model Preparation
 ## 모델 준비사항
 
-To get started, verify that your `App\Models\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
+Before getting started, verify that your `App\Models\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract:
 
-시작하려면 `App\Models\User` 모델이 `Illuminate\Contracts\Auth\MustVerifyEmail` contract을 구현하는지 확인하십시오.
+시작하기 앞서 `App\Models\User` 모델이 `Illuminate\Contracts\Auth\MustVerifyEmail` contract을 구현하는지 확인하십시오.
 
 
     <?php
@@ -60,6 +57,10 @@ To get started, verify that your `App\Models\User` model implements the `Illumin
 
         // ...
     }
+
+Once this interface has been added to your model, newly registered users will automatically be sent an email containing an email verification link. As you can see by examining your application's `App\Providers\EventServiceProvider`, Laravel already contains a `SendEmailVerificationNotification` [listener](/docs/{{version}}/events) that is attached to the `Illuminate\Auth\Events\Registered` event. This event listener will send the email verification link to the user.
+
+이 인터페이스가 모델에 추가되면 새로 등록된 사용자에게 이메일 검증 링크가 포함된 이메일이 자동으로 전송됩니다. 여러분의 애플리케이션의 `App\Providers\EventServiceProvider`를 확인하면 알 수 있듯이 라라벨은 `Illuminate\Auth\Events\Registered`에 등록된 `SendEmailVerificationNotification` [listener](/docs/{{version}}/events)를 포함하고 있습니다. 이 이벤트 리스너는 사용자에게 이메일 검증 링크를 보냅니다.
 
 <a name="verification-database"></a>
 ### Database Considerations

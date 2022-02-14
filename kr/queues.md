@@ -446,7 +446,7 @@ If you would like to delay the execution of a queued job, you may use the `delay
 
 Alternatively, the `dispatchAfterResponse` method delays dispatching a job until after the response is sent to the user's browser. This will still allow the user to begin using the application even though a queued job is still executing. This should typically only be used for jobs that take about a second, such as sending an email:
 
-또는, `dispatchAfterResponse` 메소드는 응답이 사용자의 브라우저로 전송 될 때까지 작업을 ​​지연시킵니다. 이렇게하면 대기중인 작업이 계속 실행되고 있어도 사용자가 어플리케이션 사용을 시작할 수 있습니다. 일반적으로 이메일 전송과 같은 초단위 작업에 사용해야합니다.
+또는, `dispatchAfterResponse` 메소드는 응답이 사용자의 브라우저로 전송 될 때까지 작업을 ​​지연시킵니다. 이렇게하면 대기중인 작업이 계속 실행되고 있어도 사용자가 어플리케이션 사용을 시작할 수 있습니다. 일반적으로 이메일 전송과 같은 초단위 작업에 사용해야합니다. 이러한 방식으로 디스패치된 작업은 처리를 위해 queue worker를 실행할 필요가 없습니다.
 
     use App\Jobs\SendNotification;
 

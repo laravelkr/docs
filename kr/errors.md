@@ -240,7 +240,7 @@ Instead of type-checking exceptions in the exception handler's `report` and `ren
 
 If your exception contains custom reporting logic that is only necessary when certain conditions are met, you may need to instruct Laravel to sometimes report the exception using the default exception handling configuration. To accomplish this, you may return `false` from the exception's `report` method:
 
-만약 여러분이 작성한 예외가 일정 조건을 충족할 때에만 필요한 커스텀 보고 로직을 포함하고 있는 경우, 기본 예외 처리 설정을 사용하여 예외를 보고하도록 라라벨에게 지시해야 할 필요가 생깁니다. 이를 위해서는 예외의 `report` 메소드에서 `false`를 반환하면 됩니다:
+만약 여러분이 작성한 예외가 일정 조건을 충족할 때에만 필요한 커스텀 보고 로직을 포함하고 있는 경우, 기본 예외 처리 설정을 사용하여 예외를 보고하도록 라라벨에게 지시해야 할 필요가 생깁니다. 이를 위해서는 예외의 `report` 메소드에서 `false`를 반환하면 됩니다.
 
     /**
      * Report the exception.

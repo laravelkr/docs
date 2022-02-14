@@ -36,7 +36,7 @@
 
 Instead of defining all of your request handling logic as closures in your route files, you may wish to organize this behavior using "controller" classes. Controllers can group related request handling logic into a single class. For example, a `UserController` class might handle all incoming requests related to users, including showing, creating, updating, and deleting users. By default, controllers are stored in the `app/Http/Controllers` directory.
 
-모든 요청 처리 논리를 경로 파일의 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 이 동작을 구성할 수 있습니다.  예를 들어 'UserController' 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러는 `app/Http/Controllers` 디렉토리에 저장됩니다.
+모든 요청 처리 논리를 경로 파일의 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 이 동작을 구성할 수 있습니다.  예를 들어 `UserController` 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러는 `app/Http/Controllers` 디렉토리에 저장됩니다.
 
 <a name="writing-controllers"></a>
 ## Writing Controllers
@@ -87,7 +87,7 @@ When an incoming request matches the specified route URI, the `show` method on t
 
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
-> {팁} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위해 접근 할 수 없습니다.
+> {tip} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위해 접근 할 수 없습니다.
 
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
@@ -96,8 +96,6 @@ When an incoming request matches the specified route URI, the `show` method on t
 If a controller action is particularly complex, you might find it convenient to dedicate an entire controller class to that single action. To accomplish this, you may define a single `__invoke` method within the controller:
 
 컨트롤러 작업이 특히 복잡한 경우, 하나의 컨트롤러 클래스 전체를 단일 액션으로 구성하는 것이 편리할 수 있습니다. 이를 수행하기 위해 컨트롤러 내에서 단일 `__invoke` 메서드를 정의할 수 있습니다.
-
-(역자주 : 액션(action)이란? 컨트롤러에서 라우터에 직접 연결되는 메소드들로 public으로 공개된 메소드들입니다. 대표적으로 index, show, update, destroy 등의 메소드를 의미합니다.)
 
     <?php
 
@@ -181,9 +179,7 @@ Controllers also allow you to register middleware using a closure. This provides
 
 If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of actions against each resource in your application. For example, imagine your application contains a `Photo` model and a `Movie` model. It is likely that users can create, read, update, or delete these resources.
 
-애플리케이션의 각 Eloquent 모델을 "리소스"로 생각한다면 애플리케이션의 각 리소스에 대해 동일 유형(typical)의 같은 작업을 수행하는 것이 일반적입니다. 예를 들어 애플리케이션에 'Photo' 모델과 'Movie' 모델이 포함되어 있다고 가정해 보겠습니다. 사용자는 Photo 리소스에 대해서도 Movie 리소스에 대해서도 동일하게 생성, 조회, 업데이트 또는 삭제할 수 있습니다.
-
-(역자주 : 동일 유형이란? 데이터 리소스로 부터 생성, 조회, 업데이트, 삭제라는 작업을 하는 것은 다른 데이터 리소스에 대해서도 일반적으로 동일하게 생성, 조회, 업데이트, 삭제 작업을 하기 때문에 데이터 리소스에 대한 작업 유형이 동일함을 의미합니다.)
+애플리케이션의 각 Eloquent 모델을 "리소스"로 생각한다면 애플리케이션의 각 리소스에 대해 동일 유형(typical)의 같은 작업을 수행하는 것이 일반적입니다. 예를 들어 애플리케이션에 `Photo` 모델과 `Movie` 모델이 포함되어 있다고 가정해 보겠습니다. 사용자는 Photo 리소스에 대해서도 Movie 리소스에 대해서도 동일하게 생성, 조회, 업데이트 또는 삭제할 수 있습니다.
 
 Because of this common use case, Laravel resource routing assigns the typical create, read, update, and delete ("CRUD") routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's `--resource` option to quickly create a controller to handle these actions:
 
@@ -542,7 +538,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
 If your controller method is also expecting input from a route parameter, list your route arguments after your other dependencies. For example, if your route is defined like so:
 
-컨트롤러 메소드가 경로 파라메터의 입력도 예상하는 경우 다른 종속성 뒤에 경로 인수를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우:
+컨트롤러 메소드가 경로 파라메터의 입력도 예상하는 경우 다른 종속성 뒤에 경로 인수를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우
 
     use App\Http\Controllers\UserController;
 

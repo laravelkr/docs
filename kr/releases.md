@@ -1,9 +1,10 @@
 # Release Notes
+# 릴리즈 노트
 
 - [Versioning Scheme](#versioning-scheme)
 - [버전 관리 체계](#versioning-scheme)
-    - [Exceptions](#exceptions)
-    - [예외사항](#exceptions)
+  - [Exceptions](#exceptions)
+  - [예외사항](#exceptions)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
 - [Laravel 8](#laravel-8)
@@ -13,9 +14,9 @@
 ## Versioning Scheme
 ## 버전 관리 체계
 
-Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~September), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
+Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~February), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~9월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~2월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^8.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
@@ -37,26 +38,39 @@ At this time, PHP's [named arguments](https://www.php.net/manual/en/functions.ar
 ## Support Policy
 ## 지원 정책
 
-For LTS releases, such as Laravel 6, bug fixes are provided for 2 years and security fixes are provided for 3 years. These releases provide the longest window of support and maintenance. For general releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
+For all Laravel releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-라라벨 6과 같은 LTS 릴리즈 동안에는, 2년간의 버그 픽스와 3년동안의 보안 패치가 지원됩니다. 이러한 릴리즈는 장기간에 걸친 지원과 유지보수를 제공합니다. 일반적인 릴리즈에서는 버그 픽스는 18개월, 보안 패치는 2년동안 제공됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
+모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
 또한 [라라벨에서 지원되는 데이터베이스](/docs/{{version}}/database#introduction) 버전들도 참고하세요.
 
-| Version | Release | Bug Fixes Until | Security Fixes Until |
-| --- | --- | --- | --- |
-| 6 (LTS) | September 3rd, 2019 | September 7th, 2021 | September 6th, 2022 |
-| 7 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
-| 8 | September 8th, 2020 | March 1st, 2022 | September 6th, 2022 |
-| 9 (LTS) | September, 2021 | September, 2023 | September, 2024 |
-| 10 | September, 2022 | March, 2024 | September, 2024 |
+| Version | PHP (*) | Release | Bug Fixes Until | Security Fixes Until |
+| --- | --- | --- | --- | --- |
+| 6 (LTS) | 7.2 - 8.0 | September 3rd, 2019 | January 25th, 2022 | September 6th, 2022 |
+| 7 | 7.2 - 8.0 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
+| 8 | 7.3 - 8.1 | September 8th, 2020 | July 26th, 2022 | January 24th, 2023 |
+| 9 | 8.0 - 8.1 | February 8th, 2022 | August 8th, 2023 | February 8th, 2024 |
+| 10 | 8.0 - 8.1 | February 7th, 2023 | August 7th, 2024 | February 7th, 2025 |
 
-| 버전 | 릴리즈 | 버그픽스 지원기간| 보안 패치 지원기간 |
-| --- | --- | --- | --- |
-| 6 (LTS) | 2019년 9월 3일 | 2021년 9월 7일 | 2022년 9월 6일 |
-| 7 | 2020년 3월 3일 | 2020년 10월 6일 | 2021년 3월 3일 |
-| 8 | 2020년 9월 8일 | 2022년 3월 1일 | 2022년 9월 6일 |
-| 9 (LTS) | 2021년 9월 | 2023년 9월 | 2024년 9월 |
-| 10 | 2022년 9월 | 2024년 3월 | 2024년 9월 |
+| 버전 | PHP (*)            | 릴리즈          | 버그픽스 지원기간   | 보안 패치 지원기간  |
+| --- |--------------------|--------------|-------------|-------------|
+| 6 (LTS) | 7.2 - 8.0          | 2019년 9월 3일  | 2022년 1월 25일 | 2022년 9월 6일 |
+| 7 | 7.2 - 8.0          | 2020년 3월 3일  | 2020년 10월 6일 | 2021년 3월 3일 |
+| 8 | 7.3 - 8.1          | 2020년 9월 8일  | 2022년 7월 26일 | 2023년 1월 24일 |
+| 9 | 8.0 - 8.1          | 2022년 2월 8일  | 2023년 8월 8일 | 2024년 2월 8일 |
+| 10 | 8.0 - 8.1 | 2023년 2월 7일 | 2024년 8월 7일 | 2025년 2월 7일 |
+
+<div class="version-colors">
+    <div class="end-of-life">
+        <div class="color-box"></div>
+        <div>End of life</div>
+    </div>
+    <div class="security-fixes">
+        <div class="color-box"></div>
+        <div>Security fixes only</div>
+    </div>
+</div>
+
+(*) Supported PHP versions
 
 <a name="laravel-8"></a>
 ## Laravel 8
@@ -66,6 +80,7 @@ Laravel 8 continues the improvements made in Laravel 7.x by introducing Laravel 
 
 라라벨 8은 라라벨 Jetstream, 모델 팩토리 클래스, 마이그레이션 스쿼싱, 배치 잡, 개선된 레이트 리미팅, 큐 개선사항들, 동적인 블레이드 컴포넌트, Tailwind 페이지네이션 뷰들, 시간 테스트 헬퍼들, `artisan serve` 의 개선사항, 이벤트 리스너의 개선사항 등 다양한 버그 수정과 사용성 개선을 통해 라라벨 7.x 를 개선합니다.
 
+<a name="laravel-jetstream"></a>
 ### Laravel Jetstream
 ### 라라벨 Jetstream
 
@@ -73,14 +88,15 @@ _Laravel Jetstream was written by [Taylor Otwell](https://github.com/taylorotwel
 
 _라라벨 Jetstream은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 작성되었습니다_.
 
-[Laravel Jetstream](https://github.com/laravel/jetstream) is a beautifully designed application scaffolding for Laravel. Jetstream provides the perfect starting point for your next project and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Laravel Jetstream replaces and improves upon the legacy authentication UI scaffolding available for previous versions of Laravel.
+[Laravel Jetstream](https://jetstream.laravel.com) is a beautifully designed application scaffolding for Laravel. Jetstream provides the perfect starting point for your next project and includes login, registration, email verification, two-factor authentication, session management, API support via Laravel Sanctum, and optional team management. Laravel Jetstream replaces and improves upon the legacy authentication UI scaffolding available for previous versions of Laravel.
 
-[라라벨 Jetstream](https://github.com/laravel/jetstream)은 아름답게 디자인된 라라벨 어플리케이션 스캐폴딩입니다. Jetstream은 로그인, 가입, 이메일 인증, 2차 인증, 세션 관리, 라라벨 Sanctum을 통한 API 지원, 그리고 선택적인 팀 관리 기능을 통해 당신의 새로운 프로젝트를 위한 완벽한 시작지점을 제공합니다.
+[라라벨 Jetstream](https://jetstream.laravel.com)은 아름답게 디자인된 라라벨 어플리케이션 스캐폴딩입니다. Jetstream은 로그인, 가입, 이메일 인증, 2차 인증, 세션 관리, 라라벨 Sanctum을 통한 API 지원, 그리고 선택적인 팀 관리 기능을 통해 당신의 새로운 프로젝트를 위한 완벽한 시작지점을 제공합니다.
 
 Jetstream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://laravel-livewire.com) or [Inertia](https://inertiajs.com) scaffolding.
 
 Jetsream은 [Tailwind CSS](https://tailwindcss.com)를 이용해서 디자인 되었으며 여러분은 [Livewire](https://laravel-livewire.com) 혹은 [Inertia](https://inertiajs.com) 기반의 스캐폴딩을 선택할 수 있습니다.
 
+<a name="models-directory"></a>
 ### Models Directory
 ### Models 디렉토리
 
@@ -88,6 +104,7 @@ By overwhelming community demand, the default Laravel application skeleton now c
 
 커뮤니티의 요구에 라라벨의 기본 어플리케이션 뼈대에 `app/Models` 디렉토리가 추가되었습니다. 우리는 여러분이 엘로퀀트 모델을을 위한 이 새 집을 좋아하길 바랍니다! 관련된 모든 생성 커맨드들은 이 디렉토리가 존재하면 이 디렉토리에 모델들이 있을것으로 가정하도록 업데이트 되었습니다. 만약 이 디렉토리가 없다면, 라라벨은 여러분의 모델이 `app` 디렉토리에 있을것이라고 가정합니다.
 
+<a name="model-factory-classes"></a>
 ### Model Factory Classes
 ### 모델 팩토리 클래스들
 
@@ -124,8 +141,8 @@ Eloquent [model factories](/docs/{{version}}/database-testing#defining-model-fac
         public function definition()
         {
             return [
-                'name' => $this->faker->name,
-                'email' => $this->faker->unique()->safeEmail,
+                'name' => $this->faker->name(),
+                'email' => $this->faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'remember_token' => Str::random(10),
@@ -189,6 +206,7 @@ Laravel's re-written factories contain many more features that we think you will
 
 라라벨의 재작성된 팩토리들은 여러분이 좋아할만한 다른 많은 기능들을 포함합니다. 모델 팩토리에 대해서 더 알아보시려면, [데이터베이스 테스팅](/docs/{{version}}/database-testing#defining-model-factories) 문서를 참고하세요.
 
+<a name="migration-squashing"></a>
 ### Migration Squashing
 ### 마이그레이션 스쿼싱
 
@@ -209,6 +227,7 @@ When you execute this command, Laravel will write a "schema" file to your `datab
 
 여러분이 이 커맨드를 실행하면 라라벨은 "schema" 파일을 여러분의 `database/schema` 디렉토리에 생성합니다. 이제, 여러분이 데이터베이스 마이그레이션을 시도할 때 아직 아무 마이그레이션도 실행되지 않은 초기상태 인 경우, 라라벨은 스키마 파일의 SQL을 먼저 실행할 것입니다. 스키마 파일의 명령어가 먼저 실행된 이후, 라라벨은 스키마 덤프에 포함되지 않은 마이그레이션의 나머지 부분들을 실행합니다.
 
+<a name="job-batching"></a>
 ### Job Batching
 ### 배치 잡
 
@@ -227,7 +246,7 @@ The new `batch` method of the `Bus` facade may be used to dispatch a batch of jo
     use App\Jobs\ProcessPodcast;
     use App\Podcast;
     use Illuminate\Bus\Batch;
-    use Illuminate\Support\Facades\Batch;
+    use Illuminate\Support\Facades\Bus;
     use Throwable;
 
     $batch = Bus::batch([
@@ -250,6 +269,7 @@ To learn more about job batching, please consult the [queue documentation](/docs
 
 배치잡에 대해 더 알아보고 싶다면, [큐 문서](/docs/{{version}}/queues#job-batching)를 참고하세요.
 
+<a name="improved-rate-limiting"></a>
 ### Improved Rate Limiting
 ### 개선된 레이트 리미팅
 
@@ -261,7 +281,7 @@ Laravel's request rate limiter feature has been augmented with more flexibility 
 
 라라벨의 리퀘스트 레이트 리미터 기능은 이전 버전의 `throttle` 미들웨어 API와의 호환성을 유지하면서도 더욱 유연하고 강력하게 확장되었습니다. 
 
-Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a Closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
+Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a closure that returns the limit configuration that should apply to routes that are assigned this rate limiter:
 
 레이트 리미터들은 `RateLimiter` 파사드의 `for` 메소드를 통해 정의될 수 있습니다. `for` 메소드는 레이트 리미터의 이름과 이 레이트 리미터에 할당된 라우트들에 적용될 제한 관련 설정을 리턴하는 클로져를 전달받습니다. 
 
@@ -310,6 +330,7 @@ To learn more about rate limiting, please consult the [routing documentation](/d
 
 레이트 리미팅에 대해 더 알고 싶으시면, [라우팅 문서](/docs/{{version}}/routing#rate-limiting)를 참고하세요.
 
+<a name="improved-maintenance-mode"></a>
 ### Improved Maintenance Mode
 ### 개선된 점검 모드
 
@@ -337,6 +358,7 @@ When accessing this hidden route, you will then be redirected to the `/` route o
 
 이 숨겨진 라우트에 접근하면 여러분은 `/` 경로로 리다이렉트 될 것입니다. 쿠키가 한번 발급되면, 여러분은 어플리케이션에 점검 모드가 아닌것처럼 접근할 수 있을 것입니다. 
 
+<a name="pre-rendering-the-maintenance-mode-view"></a>
 #### Pre-Rendering The Maintenance Mode View
 #### 점검 모드 뷰 Pre-Rendering
 
@@ -350,6 +372,7 @@ For this reason, Laravel now allows you to pre-render a maintenance mode view th
 
     php artisan down --render="errors::503"
 
+<a name="closure-dispatch-chain-catch"></a>
 ### Closure Dispatch / Chain `catch`
 ### 클로져 Dispatch / 체인된 `catch`
 
@@ -357,7 +380,7 @@ _Catch improvements were contributed by [Mohamed Said](https://github.com/themsa
 
 _Catch 개선은 [Mohamed Said](https://github.com/themsaid)에 의해 기여되었습니다_.
 
-Using the new `catch` method, you may now provide a Closure that should be executed if a queued Closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
+Using the new `catch` method, you may now provide a closure that should be executed if a queued closure fails to complete successfully after exhausting all of your queue's configured retry attempts:
 
 새로운 `catch` 메소드를 사용하면, 큐잉된 클로져가 설정된 retry 수만큼 시도한 이후에도 실패했을 때에 실행할 클로져를 설정할 수 있습니다. 
 
@@ -369,6 +392,7 @@ Using the new `catch` method, you may now provide a Closure that should be execu
         // This job has failed...
     });
 
+<a name="dynamic-blade-components"></a>
 ### Dynamic Blade Components
 ### 동적 블레이드 컴포넌트
 
@@ -386,6 +410,7 @@ To learn more about Blade components, please consult the [Blade documentation](/
 
 블레이드 컴포넌트에 대해 더 알고 싶다면, [블레이드 문서](/docs/{{version}}/blade#components)를 참고하세요.
 
+<a name="event-listener-improvements"></a>
 ### Event Listener Improvements
 ### 이벤트 리스너 개선
 
@@ -393,7 +418,7 @@ _Event listener improvements were contributed by [Taylor Otwell](https://github.
 
 _이벤트 리스너 개선은 [Taylor Otwell](https://github.com/taylorotwell)에 의해 기여되었습니다_.
 
-Closure based event listeners may now be registered by only passing the Closure to the `Event::listen` method. Laravel will inspect the Closure to determine which type of event the listener handles:
+Closure based event listeners may now be registered by only passing the closure to the `Event::listen` method. Laravel will inspect the closure to determine which type of event the listener handles:
 
 클로져 기반의 이벤트 리스너는 이제 `Event::listen` 메소드를 통해서만 등록될 수 있습니다. 라라벨은 이제 클로져를 검사하여 어떤 타입의 이벤트를 처리하는 리스너인지 판단합니다. 
 
@@ -404,7 +429,7 @@ Closure based event listeners may now be registered by only passing the Closure 
         //
     });
 
-In addition, Closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
+In addition, closure based event listeners may now be marked as queueable using the `Illuminate\Events\queueable` function:
 
 또한, 클로져 기반의 이벤트 리스너는 `Illuminate\Events\queueable` 함수를 통해 큐로 처리가 가능한 리스너로 등록될 수 있습니다.
 
@@ -424,7 +449,7 @@ Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods
         //
     })->onConnection('redis')->onQueue('podcasts')->delay(now()->addSeconds(10)));
 
-If you would like to handle anonymous queued listener failures, you may provide a Closure to the `catch` method while defining the `queueable` listener:
+If you would like to handle anonymous queued listener failures, you may provide a closure to the `catch` method while defining the `queueable` listener:
 
 만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 제공하세요.
 
@@ -439,6 +464,7 @@ If you would like to handle anonymous queued listener failures, you may provide 
         // The queued listener failed...
     }));
 
+<a name="time-testing-helpers"></a>
 ### Time Testing Helpers
 ### 시간 테스팅 헬퍼
 
@@ -471,6 +497,7 @@ When testing, you may occasionally need to modify the time returned by helpers s
         $this->travelBack();
     }
 
+<a name="artisan-serve-improvements"></a>
 ### Artisan `serve` Improvements
 ### Artisan `serve` 개선
 
@@ -482,6 +509,8 @@ The Artisan `serve` command has been improved with automatic reloading when envi
 
 Artisan `serve` 커맨드는 로컬의 `.env` 파일의 환경변수 변화를 감지해 자동으로 리로드 되도록 개선되었습니다. 과거에는 커맨드를 이용해 수동으로 정지하고 재시작해야 했습니다.
 
+
+<a name="tailwind-pagination-views"></a>
 ### Tailwind Pagination Views
 ### Tailwind 페이지네이션 뷰
 
@@ -489,6 +518,7 @@ The Laravel paginator has been updated to use the [Tailwind CSS](https://tailwin
 
 라라벨 paginator는 이제 [Tailwind CSS](https://tailwindcss.com)를 기본적으로 사용하도록 업데이트 되었습니다. Tailwind CSS는 강력한 커스터마이징을 지원하며, 로우레벨의 CSS 프레임워크입니다. 강제적인 스타일이 없어 오버라이드하려고 애쓰지 않아도 되고 맞춤 디자인을 만드는데 사용할수 있는 컴포넌트들을 제공합니다. 당연히, 부트스트랩 3과 4의 뷰도 여전히 사용 가능합니다.
 
+<a name="routing-namespace-updates"></a>
 ### Routing Namespace Updates
 ### 라우팅 네임스페이스 업데이트
 

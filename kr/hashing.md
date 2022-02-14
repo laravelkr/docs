@@ -106,7 +106,7 @@ If you are using the Argon2 algorithm, the `make` method allows you to manage th
 
 > {tip} For more information on these options, please refer to the [official PHP documentation regarding Argon hashing](https://secure.php.net/manual/en/function.password-hash.php).
 
-> {팁} work factor을 조정하기 위한 옵션에 대한 더 많은 정보를 보시려면 다음을 참고하세요.  [official PHP documentation Argon 해싱에 관하여](https://secure.php.net/manual/en/function.password-hash.php).
+> {tip} work factor을 조정하기 위한 옵션에 대한 더 많은 정보를 보시려면 다음을 참고하세요.  [official PHP documentation Argon 해싱에 관하여](https://secure.php.net/manual/en/function.password-hash.php).
 
 <a name="verifying-that-a-password-matches-a-hash"></a>
 ### Verifying That A Password Matches A Hash
@@ -114,7 +114,7 @@ If you are using the Argon2 algorithm, the `make` method allows you to manage th
 
 The `check` method provided by the `Hash` facade allows you to verify that a given plain-text string corresponds to a given hash:
 
-`Hash` 파사드가 제공하는 `check` 메소드는 평문(암호화 하지 않은 데이터)가 주어진 해시와 일치하는지 확인합니다.
+`Hash` 파사드가 제공하는 `check` 메소드는 평문(암호화 하지 않은 데이터)이 주어진 해시와 일치하는지 확인합니다.
 
     if (Hash::check('plain-text', $hashedPassword)) {
         // The passwords match...

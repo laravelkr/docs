@@ -126,9 +126,7 @@ The `check` method provided by the `Hash` facade allows you to verify that a giv
 
 The `needsRehash` method provided by the `Hash` facade allows you to determine if the work factor used by the hasher has changed since the password was hashed. Some applications choose to perform this check during the application's authentication process:
 
-`Hash` 파사드가 제공하는 `needsRehash` 메소드를 사용하면 비밀번호가 해시된 이후에, 사용된 해시가 사용한 work factor가 바뀌었는지 확인할 수 있습니다. 일부 애플리케이션에서는 인증 프로세스 중에 work factor의 변경 여부를 검사하는 방식을 채택하고 있습니다.
-
-(역자주 : work factor가 바뀌기 전의 해시된 값과 work factor가 바뀐 이후 해시된 값이 달라지면 인증이 되지 않는 문제가 발생합니다. 이를 위해 work factor가 바뀌는 경우 사용자가 접속했을 때 일단 이전 work factor를 사용하여 로그인을 하게 하고 새로운 비밀번호를 설정을 강제하여 바뀐 work factor로 새로 비밀번호를 만들게 하는 방법을 사용하기도 합니다.)
+work factor가 바뀌기 전의 해시된 값과 work factor가 바뀐 이후 해시된 값이 달라지면 인증이 되지 않는 문제가 발생할 수 있습니다. `Hash` 파사드가 제공하는 `needsRehash` 메소드를 사용하면 비밀번호가 해시된 이후에, 사용된 해시가 사용한 work factor가 바뀌었는지 확인할 수 있습니다. 일부 애플리케이션에서는 인증 프로세스 내부에 work factor의 변경 여부를 검사하는 방식을 채택하고 있습니다.
 
     if (Hash::needsRehash($hashed)) {
         $hashed = Hash::make('plain-text');

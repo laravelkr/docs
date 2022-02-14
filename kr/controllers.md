@@ -183,18 +183,14 @@ If you think of each Eloquent model in your application as a "resource", it is t
 
 Because of this common use case, Laravel resource routing assigns the typical create, read, update, and delete ("CRUD") routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's `--resource` option to quickly create a controller to handle these actions:
 
-이와 같은 일반적인 사용 사례(use case) 때문에 라라벨 리소스 라우팅은 동일 유형의 생성, 읽기, 업데이트 및 삭제("CRUD")를 한 줄의 코드로 컨트롤러를 라우트에 할당합니다. `make:controller` Artisan 명령의 `--resource` 옵션을 사용하여 모델에 대한 생성, 읽기, 업데이트 및 삭제를 처리하는 컨트롤러를 빠르게 생성할 수 있습니다.
-
-(역자주 : 리소스 컨트롤러를 사용하지 않는다면 생성, 읽기, 업데이트, 삭제를 각각 하나의 라우터에 할당해야 하기 때문에 라우터를 여러개 작성해야 하는 불편함이 있습니다. 이를 간단히 하기 위해서 리소스 라우터를 사용합니다.)
+이와 같은 일반적인 사용 사례(use case) 때문에 라라벨 리소스 라우팅은 동일 유형의 생성, 읽기, 업데이트 및 삭제("CRUD")를 여러줄의 라우터로 각각 선언하지 않고 한 줄의 코드로 컨트롤러의 기본 엑션들을 라우트에 할당합니다. `make:controller` Artisan 명령의 `--resource` 옵션을 사용하여 모델에 대한 생성, 읽기, 업데이트 및 삭제를 처리하는 컨트롤러를 빠르게 생성할 수 있습니다.
 
     php artisan make:controller PhotoController --resource
 
 This command will generate a controller at `app/Http/Controllers/PhotoController.php`. The controller will contain a method for each of the available resource operations.
 Next, you may register a resource route that points to the controller:
 
-Artisan 명령어는 `app/Http/Controllers/PhotoController.php` 파일을 생성합니다. 생성된 컨트롤러는 이용 가능한 리소스의 동작(operations) 각각에 대한 메소드를 포함합니다.
-
-(역자주 : 리소스의 동작이란 것은 생성, 조회, 업데이트, 삭제 등 리소스에 대한 작업을 의미합니다.)
+Artisan 명령어는 `app/Http/Controllers/PhotoController.php` 파일을 생성합니다. 생성된 컨트롤러는 리소스의 이용 가능한 동작(operations)에 해당하는 엑션 메소드를 포함합니다.
 
     use App\Http\Controllers\PhotoController;
 
@@ -308,7 +304,7 @@ To quickly generate an API resource controller that does not include the `create
 
 Sometimes you may need to define routes to a nested resource. For example, a photo resource may have multiple comments that may be attached to the photo. To nest the resource controllers, use "dot" notation in your route declaration:
 
-때로는 중첩된(Nested) 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 게제할 사진 정보를 저장하는 사진 리소스는 사진에 관한 여러 글(comments)을 가질 수 있습니다. 사진 리소스를 사용하는 리소스 컨트롤러에 사진에 관한 글(comments)을 중첩(nest)하려면 "dot" 표기법을 사용하여 라우트를 선언합니다.
+때로는 중첩된(Nested) 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 게제할 사진 정보를 저장하는 사진 리소스는 사진에 관한 여러 글(comments)을 가질 수 있습니다. 사진 리소스를 사용하는 리소스 컨트롤러에 사진에 관한 글(comments)을 중첩(nest)하려면 라우트를 선언할 때 "dot" 표기법을 사용합니다.
 
     use App\Http\Controllers\PhotoCommentController;
 
@@ -320,22 +316,17 @@ This route will register a nested resource that may be accessed with URIs like t
 
     /photos/{photo}/comments/{comment}
 
-(역자주 : 중첩된 리소스는 엘로퀀트 관계로 이해해야 합니다. 컨트롤러에 지정된 엘로퀀트 모델을 photos이라고 할 때, comments는 photos 모델에 관계로 연결된 엘로퀀트 모델입니다. photos는 comments를 hasMany로 연결한 관계로 볼 수 있습니다.)
-
 <a name="scoping-nested-resources"></a>
 #### Scoping Nested Resources
 ### 중첩(Nested) 리소스 범위(Scoping) 지정
 
 Laravel's [implicit model binding](/docs/{{version}}/routing#implicit-model-binding-scoping) feature can automatically scope nested bindings such that the resolved child model is confirmed to belong to the parent model. By using the `scoped` method when defining your nested resource, you may enable automatic scoping as well as instruct Laravel which field the child resource should be retrieved by. For more information on how to accomplish this, please see the documentation on [scoping resource routes](#restful-scoping-resource-routes).
 
-라라벨의 [암시적 모델 바인딩](/docs/{{version}}/routing#implicit-model-binding-scoping) 기능(feature)은 컨트롤러에서 사용할(resolved) 모델을 자식 모델이라고 할 때 부모 모델에 속해 있는지 (belong to 관계인지) 확인하는 기능을 제공합니다. 중첩된 리소스를 정의할 때 `scoped` 메서드를 사용하면 자동 범위 지정을 활성화할 수 있을 뿐만 아니라 자식 리소스가 회수(retrieved) 해야 할 필드를 라라벨에 지시할 수 있습니다. 이를 수행하는 방법에 대한 자세한 내용은 [자원 경로 범위 지정](#restful-scoping-resource-routes)에 대한 설명서를 참조하세요.
+라라벨의 [암시적 모델 바인딩](/docs/{{version}}/routing#implicit-model-binding-scoping) 기능(feature)은 컨트롤러에서 사용할(resolved) 모델을 자식 모델이라고 할 때 부모 모델에 속해 있는지 (belong to 관계인지) 확인하는 기능을 제공합니다. 중첩된 리소스를 정의할 때 `scoped` 메서드를 사용하면 자동 범위 지정을 활성화할 수 있을 뿐만 아니라 자식 리소스가 회수(retrieved) 해야 할 필드를 라라벨에 지시할 수 있습니다. 이를 수행하는 방법에 대한 자세한 내용은 [자원 경로 범위 지정](#restful-scoping-resource-routes)에 대한 설명서를 읽어 보세요.
 
     Route::resource('photos.comments', PhotoCommentController::class)->scoped([
         'comment' => 'slug',
     ]);
-
-(역자주 : belong to 관계는 엘로퀀트 모델 간의 관계에서 slug 모델의 외래키가 comment 모델의 기본키를 참조하는 관계 일 때 belong to 라고 합니다. 이때 slug 모델을 자식 모델 comment 모델을 부모 모델의 관계로 봅니다.)
-
 
 <a name="shallow-nesting"></a>
 #### Shallow Nesting
@@ -466,8 +457,6 @@ If you need to add additional routes to a resource controller beyond the default
 > {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
 > {tip} 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하십시오.
-
-(역자주 : 기본 유형의 리소스 엑션 세트? 조회, 생성, 수정, 삭제 등의 엑션)
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers

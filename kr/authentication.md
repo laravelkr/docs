@@ -88,7 +88,7 @@ Want to get started fast? Install a [Laravel application starter kit](/docs/{{ve
 
 빨리 시작하고 싶으세요? 새로운 라라벨 애플리케이션에 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 설치합니다. 데이터베이스를 마이그레이션 한 후 브라우저를 탐색하여 `/register` 또는 애플리케이션에 할당 된 다른 URL을 들어가보세요. 스타터 키트는 전체 인증 시스템을 자동으로 만들어줍니다!
 
-**Even if you choose to not use a starter kit in your final Laravel application, installing the [Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze) starter kit can be a wonderful opportunity to learn how to implement all of Laravel's authentication functionality in an actual Laravel project.** Since Laravel Breeze creates authentication controllers, routes, and views for you, you can examine the code within these files to learn how Laravel's authentication features may be implemented.
+**Even if you choose not to use a starter kit in your final Laravel application, installing the [Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze) starter kit can be a wonderful opportunity to learn how to implement all of Laravel's authentication functionality in an actual Laravel project.** Since Laravel Breeze creates authentication controllers, routes, and views for you, you can examine the code within these files to learn how Laravel's authentication features may be implemented.
 
 **최종적으로 라라벨 애플리케이션에서 스타터 키트를 사용하지 않기로 선택한 경우에도 [라라벨 Breeze](/docs/{{version}}/starter-kits#laravel-breeze) 스타터 키트를 설치하면, 실제 라라벨 프로젝트의 인증 기능을 구현하는 방법을 모두 배울 수 있습니다.** 라라벨 Breeze는 인증 컨트롤러, 라우트 및 뷰를 생성하므로, 이 파일들의 코드를 통해 라라벨의 인증 기능을 구현하는 방법을 배울 수 있습니다.
 
@@ -346,7 +346,7 @@ Laravel Breeze나 Laravel Jetstream 같은 [스타터 키트](/docs/{{version}}/
 ## Manually Authenticating Users
 ## 수동으로 사용자 인증하기
 
-You are not required to use the authentication scaffolding included with Laravel's [application starter kits](/docs/{{version}}/starter-kits). If you choose to not use this scaffolding, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
+You are not required to use the authentication scaffolding included with Laravel's [application starter kits](/docs/{{version}}/starter-kits). If you choose not to use this scaffolding, you will need to manage user authentication using the Laravel authentication classes directly. Don't worry, it's a cinch!
 
 라라벨 [스타터 키트](/docs/{{version}}/starter-kits)에 포함된 인증 스캐폴딩을 꼭 사용할 필요는 없습니다. 이 스캐폴딩을 사용하지 않기로 결정했다면, 라라벨 인증 클래스를 사용하여 직접 사용자 인증을 처리해야 합니다. 걱정하지 마세요. 간단합니다!
 
@@ -594,7 +594,7 @@ In addition to calling the `logout` method, it is recommended that you invalidat
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
@@ -666,7 +666,7 @@ After confirming their password, a user will not be asked to confirm their passw
 #### The Password Confirmation Form
 #### 비밀번호 확인 양식
 
-First, we will define a route to display a view that requests that the user confirm their password:
+First, we will define a route to display a view that requests that the user to confirm their password:
 
 먼저 사용자에게 비밀번호 확인을 요청하는 폼의 경로를 지정합니다.
 
@@ -700,7 +700,7 @@ Next, we will define a route that will handle the form request from the "confirm
         $request->session()->passwordConfirmed();
 
         return redirect()->intended();
-    })->middleware(['auth', 'throttle:6,1'])->name('password.confirm');
+    })->middleware(['auth', 'throttle:6,1']);
 
 Before moving on, let's examine this route in more detail. First, the request's `password` field is determined to actually match the authenticated user's password. If the password is valid, we need to inform Laravel's session that the user has confirmed their password. The `passwordConfirmed` method will set a timestamp in the user's session that Laravel can use to determine when the user last confirmed their password. Finally, we can redirect the user to their intended destination.
 

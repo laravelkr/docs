@@ -25,6 +25,7 @@
 - [Deleting Models](#deleting-models)
     - [Soft Deleting](#soft-deleting)
     - [Querying Soft Deleted Models](#querying-soft-deleted-models)
+- [Pruning Models](#pruning-models)
 - [Replicating Models](#replicating-models)
 - [Query Scopes](#query-scopes)
     - [Global Scopes](#global-scopes)
@@ -53,7 +54,7 @@ If you would like to generate a [database migration](/docs/{{version}}/migration
 
     php artisan make:model Flight --migration
 
-You may generate various other types of classes when generating a model, such as factories, seeders, and controllers. In addition, these options may be combined to create multiple classes at once:
+You may generate various other types of classes when generating a model, such as factories, seeders, policies, controllers, and form requests. In addition, these options may be combined to create multiple classes at once:
 
 ```bash
 # Generate a model and a FlightFactory class...
@@ -68,10 +69,17 @@ php artisan make:model Flight -s
 php artisan make:model Flight --controller
 php artisan make:model Flight -c
 
+# Generate a model, FlightController resource class, and form request classes...
+php artisan make:model Flight --controller --resource --requests
+php artisan make:model Flight -crR
+
+# Generate a model and a FlightPolicy class...
+php artisan make:model Flight --policy
+
 # Generate a model and a migration, factory, seeder, and controller...
 php artisan make:model Flight -mfsc
 
-# Shortcut to generate a model, migration, factory, seeder, and controller...
+# Shortcut to generate a model, migration, factory, seeder, policy, controller, and form requests...
 php artisan make:model Flight --all
 
 # Generate a pivot model...
@@ -380,6 +388,8 @@ Flight::where('departed', true)
     ->each->update(['departed' => false]);
 ```
 
+You may filter the results based on the descending order of the `id` using the `lazyByIdDesc` method.
+
 <a name="cursors"></a>
 ### Cursors
 
@@ -595,7 +605,7 @@ Updates can also be performed against models that match a given query. In this e
           ->where('destination', 'San Diego')
           ->update(['delayed' => 1]);
 
-The `update` method expects an array of column and value pairs representing the columns that should be updated.
+The `update` method expects an array of column and value pairs representing the columns that should be updated. The `update` method returns the number of affected rows.
 
 > {note} When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
 
@@ -744,8 +754,6 @@ If you would like to perform multiple "upserts" in a single query, then you shou
         ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
     ], ['departure', 'destination'], ['price']);
 
-> {note} All databases systems except SQL Server require the columns in the second argument provided to the `upsert` method to have a "primary" or "unique" index.
-
 <a name="deleting-models"></a>
 ## Deleting Models
 
@@ -781,7 +789,7 @@ In the example above, we are retrieving the model from the database before calli
 
 Of course, you may build an Eloquent query to delete all models matching your query's criteria. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not dispatch model events for the models that are deleted:
 
-    $deletedRows = Flight::where('active', 0)->delete();
+    $deleted = Flight::where('active', 0)->delete();
 
 > {note} When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be dispatched for the deleted models. This is because the models are never actually retrieved when executing the delete statement.
 
@@ -880,6 +888,103 @@ The `onlyTrashed` method will retrieve **only** soft deleted models:
                     ->where('airline_id', 1)
                     ->get();
 
+<a name="pruning-models"></a>
+## Pruning Models
+
+Sometimes you may want to periodically delete models that are no longer needed. To accomplish this, you may add the `Illuminate\Database\Eloquent\Prunable` or `Illuminate\Database\Eloquent\MassPrunable` trait to the models you would like to periodically prune. After adding one of the traits to the model, implement a `prunable` method which returns an Eloquent query builder that resolves the models that are no longer needed:
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Prunable;
+
+    class Flight extends Model
+    {
+        use Prunable;
+
+        /**
+         * Get the prunable model query.
+         *
+         * @return \Illuminate\Database\Eloquent\Builder
+         */
+        public function prunable()
+        {
+            return static::where('created_at', '<=', now()->subMonth());
+        }
+    }
+
+When marking models as `Prunable`, you may also define a `pruning` method on the model. This method will be called before the model is deleted. This method can be useful for deleting any additional resources associated with the model, such as stored files, before the model is permanently removed from the database:
+
+    /**
+     * Prepare the model for pruning.
+     *
+     * @return void
+     */
+    protected function pruning()
+    {
+        //
+    }
+
+After configuring your prunable model, you should schedule the `model:prune` Artisan command in your application's `App\Console\Kernel` class. You are free to choose the appropriate interval at which this command should be run:
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('model:prune')->daily();
+    }
+
+Behind the scenes, the `model:prune` command will automatically detect "Prunable" models within your application's `app/Models` directory. If your models are in a different location, you may use the `--model` option to specify the model class names:
+
+    $schedule->command('model:prune', [
+        '--model' => [Address::class, Flight::class],
+    ])->daily();
+
+If you wish to exclude certain models from being pruned while pruning all other detected models, you may use the `--except` option:
+
+    $schedule->command('model:prune', [
+        '--except' => [Address::class, Flight::class],
+    ])->daily();
+
+You may test your `prunable` query by executing the `model:prune` command with the `--pretend` option. When pretending, the `model:prune` command will simply report how many records would be pruned if the command were to actually run:
+
+    php artisan model:prune --pretend
+
+> {note} Soft deleting models will be permanently deleted (`forceDelete`) if they match the prunable query.
+
+<a name="mass-pruning"></a>
+#### Mass Pruning
+
+When models are marked with the `Illuminate\Database\Eloquent\MassPrunable` trait, models are deleted from the database using mass-deletion queries. Therefore, the `pruning` method will not be invoked, nor will the `deleting` and `deleted` model events be dispatched. This is because the models are never actually retrieved before deletion, thus making the pruning process much more efficient:
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\MassPrunable;
+
+    class Flight extends Model
+    {
+        use MassPrunable;
+
+        /**
+         * Get the prunable model query.
+         *
+         * @return \Illuminate\Database\Eloquent\Builder
+         */
+        public function prunable()
+        {
+            return static::where('created_at', '<=', now()->subMonth());
+        }
+    }
+
 <a name="replicating-models"></a>
 ## Replicating Models
 
@@ -900,6 +1005,20 @@ You may create an unsaved copy of an existing model instance using the `replicat
     ]);
 
     $billing->save();
+
+To exclude one or more attributes from being replicated to the new model, you may pass an array to the `replicate` method:
+
+    $flight = Flight::create([
+        'destination' => 'LAX',
+        'origin' => 'LHR',
+        'last_flown' => '2020-03-04 11:00:00',
+        'last_pilot_id' => 747,
+    ]);
+
+    $flight = $flight->replicate([
+        'last_flown',
+        'last_pilot_id'
+    ]);
 
 <a name="query-scopes"></a>
 ## Query Scopes
@@ -1025,7 +1144,7 @@ If you would like to remove several or even all of the query's global scopes, yo
 
 Local scopes allow you to define common sets of query constraints that you may easily re-use throughout your application. For example, you may need to frequently retrieve all users that are considered "popular". To define a scope, prefix an Eloquent model method with `scope`.
 
-Scopes should always return a query builder instance:
+Scopes should always return the same query builder instance or `void`:
 
     <?php
 
@@ -1050,11 +1169,11 @@ Scopes should always return a query builder instance:
          * Scope a query to only include active users.
          *
          * @param  \Illuminate\Database\Eloquent\Builder  $query
-         * @return \Illuminate\Database\Eloquent\Builder
+         * @return void
          */
         public function scopeActive($query)
         {
-            return $query->where('active', 1);
+            $query->where('active', 1);
         }
     }
 
@@ -1129,9 +1248,11 @@ The `is` and `isNot` methods are also available when using the `belongsTo`, `has
 <a name="events"></a>
 ## Events
 
+> {tip} Want to broadcast your Eloquent events directly to your client-side application? Check out Laravel's [model event broadcasting](/docs/{{version}}/broadcasting#model-broadcasting).
+
 Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `restoring`, `restored`, and `replicating`.
 
-The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed.
+The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the changes to the model are persisted.
 
 To start listening to model events, define a `$dispatchesEvents` property on your Eloquent model. This property maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events). Each model event class should expect to receive an instance of the affected model via its constructor:
 
@@ -1276,6 +1397,8 @@ To register an observer, you need to call the `observe` method on the model you 
         User::observe(UserObserver::class);
     }
 
+> {tip} There are additional events an observer can listen to, such as `saving` and `retrieved`. These events are described within the [events](#events) documentation.
+
 <a name="observers-and-database-transactions"></a>
 #### Observers & Database Transactions
 
@@ -1311,7 +1434,7 @@ When models are being created within a database transaction, you may want to ins
 <a name="muting-events"></a>
 ### Muting Events
 
-You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the `withoutEvents` method. The `withoutEvents` method accepts a closure as its only argument. Any code executed within this closure will not dispatch model events. For example, the following example will fetch and delete an `App\Models\User` instance without dispatching any model events. Any value returned by the closure will be returned by the `withoutEvents` method:
+You may occasionally need to temporarily "mute" all events fired by a model. You may achieve this using the `withoutEvents` method. The `withoutEvents` method accepts a closure as its only argument. Any code executed within this closure will not dispatch model events, and any value returned by the closure will be returned by the `withoutEvents` method:
 
     use App\Models\User;
 

@@ -277,6 +277,23 @@ To populate the default model with attributes, you may pass an array or closure 
         });
     }
 
+<a name="querying-belongs-to-relationships"></a>
+#### Querying Belongs To Relationships
+
+When querying for the children of a "belongs to" relationship, you may manually build the `where` clause to retrieve the corresponding Eloquent models:
+
+    use App\Models\Post;
+
+    $posts = Post::where('user_id', $user->id)->get();
+
+However, you may find it more convenient to use the `whereBelongsTo` method, which will automatically determine the proper relationship and foreign key for the given model:
+
+    $posts = Post::whereBelongsTo($user)->get();
+
+By default, Laravel will determine the relationship associated with the given model based on the class name of the model; however, you may specify the relationship name manually by providing it as the second argument to the `whereBelongsTo` method:
+
+    $posts = Post::whereBelongsTo($user, 'author')->get();
+
 <a name="has-one-of-many"></a>
 ### Has One Of Many
 
@@ -317,6 +334,8 @@ public function largestOrder()
     return $this->hasOne(Order::class)->ofMany('price', 'max');
 }
 ```
+
+> {note} Because PostgreSQL does not support executing the `MAX` function against UUID columns, it is not currently possible to use one-of-many relationships in combination with PostgreSQL UUID columns.
 
 <a name="advanced-has-one-of-many-relationships"></a>
 #### Advanced Has One Of Many Relationships
@@ -408,7 +427,7 @@ Typical Eloquent foreign key conventions will be used when performing the relati
 <a name="has-many-through"></a>
 ### Has Many Through
 
-The "has-many-through" relationship provides a convenient way to access distant relations via an intermediate relation. For example, let's assume we are building a deployment platform like [Laravel Vapor](https://vapor.laravel.com). A `Project` model might access many `Deployment` models through an intermediate `Environment` model. Using this example, you could easily gather all deployments for a given environment. Let's look at the tables required to define this relationship:
+The "has-many-through" relationship provides a convenient way to access distant relations via an intermediate relation. For example, let's assume we are building a deployment platform like [Laravel Vapor](https://vapor.laravel.com). A `Project` model might access many `Deployment` models through an intermediate `Environment` model. Using this example, you could easily gather all deployments for a given project. Let's look at the tables required to define this relationship:
 
     projects
         id - integer
@@ -606,7 +625,7 @@ Once the custom intermediate table attribute has been specified, you may access 
 <a name="filtering-queries-via-intermediate-table-columns"></a>
 ### Filtering Queries Via Intermediate Table Columns
 
-You can also filter the results returned by `belongsToMany` relationship queries using the `wherePivot`, `wherePivotIn`, and `wherePivotNotIn` methods when defining the relationship:
+You can also filter the results returned by `belongsToMany` relationship queries using the `wherePivot`, `wherePivotIn`, `wherePivotNotIn`, `wherePivotBetween`, `wherePivotNotBetween`, `wherePivotNull`, and `wherePivotNotNull` methods when defining the relationship:
 
     return $this->belongsToMany(Role::class)
                     ->wherePivot('approved', 1);
@@ -616,6 +635,22 @@ You can also filter the results returned by `belongsToMany` relationship queries
 
     return $this->belongsToMany(Role::class)
                     ->wherePivotNotIn('priority', [1, 2]);
+
+    return $this->belongsToMany(Podcast::class)
+                    ->as('subscriptions')
+                    ->wherePivotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
+
+    return $this->belongsToMany(Podcast::class)
+                    ->as('subscriptions')
+                    ->wherePivotNotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
+
+    return $this->belongsToMany(Podcast::class)
+                    ->as('subscriptions')
+                    ->wherePivotNull('expired_at');
+
+    return $this->belongsToMany(Podcast::class)
+                    ->as('subscriptions')
+                    ->wherePivotNotNull('expired_at');
 
 <a name="defining-custom-intermediate-table-models"></a>
 ### Defining Custom Intermediate Table Models
@@ -877,7 +912,7 @@ Sometimes a model may have many related models, yet you want to easily retrieve 
  */
 public function latestImage()
 {
-    return $this->morphOne(Image::class)->latestOfMany();
+    return $this->morphOne(Image::class, 'imageable')->latestOfMany();
 }
 ```
 
@@ -889,7 +924,7 @@ Likewise, you may define a method to retrieve the "oldest", or first, related mo
  */
 public function oldestImage()
 {
-    return $this->morphOne(Image::class)->oldestOfMany();
+    return $this->morphOne(Image::class, 'imageable')->oldestOfMany();
 }
 ```
 
@@ -903,7 +938,7 @@ For example, using the `ofMany` method, you may retrieve the user's most "liked"
  */
 public function bestImage()
 {
-    return $this->morphOne(Image::class)->ofMany('likes', 'max');
+    return $this->morphOne(Image::class, 'imageable')->ofMany('likes', 'max');
 }
 ```
 
@@ -1028,12 +1063,12 @@ For example, instead of using the model names as the "type", we may use simple s
 
     use Illuminate\Database\Eloquent\Relations\Relation;
 
-    Relation::morphMap([
+    Relation::enforceMorphMap([
         'post' => 'App\Models\Post',
         'video' => 'App\Models\Video',
     ]);
 
-You may register the `morphMap` in the `boot` function of your `App\Providers\AppServiceProvider` class or create a separate service provider if you wish.
+You may call the `enforceMorphMap` method in the `boot` method of your `App\Providers\AppServiceProvider` class or create a separate service provider if you wish.
 
 You may determine the morph alias of a given model at runtime using the model's `getMorphClass` method. Conversely, you may determine the fully-qualified class name associated with a morph alias using the `Relation::getMorphedModel` method:
 
@@ -1183,6 +1218,21 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
 
 > {note} Eloquent does not currently support querying for relationship existence across databases. The relationships must exist within the same database.
 
+<a name="inline-relationship-existence-queries"></a>
+#### Inline Relationship Existence Queries
+
+If you would like to query for a relationship's existence with a single, simple where condition attached to the relationship query, you may find it more convenient to use the `whereRelation` and `whereMorphRelation` methods. For example, we may query for all posts that have unapproved comments:
+
+    use App\Models\Post;
+
+    $posts = Post::whereRelation('comments', 'is_approved', false)->get();
+
+Of course, like calls to the query builder's `where` method, you may also specify an operator:
+
+    $posts = Post::whereRelation(
+        'comments', 'created_at', '>=', now()->subHour()
+    )->get();
+
 <a name="querying-relationship-absence"></a>
 ### Querying Relationship Absence
 
@@ -1267,7 +1317,7 @@ Instead of passing an array of possible polymorphic models, you may provide `*` 
 <a name="counting-related-models"></a>
 ### Counting Related Models
 
-Sometimes you may want to count the number of related models for a given relationship without actually loading the models. To accomplish this, you may use the `withCount` method. The `withCount` method which will place a `{relation}_count` attribute on the resulting models:
+Sometimes you may want to count the number of related models for a given relationship without actually loading the models. To accomplish this, you may use the `withCount` method. The `withCount` method will place a `{relation}_count` attribute on the resulting models:
 
     use App\Models\Post;
 
@@ -1339,11 +1389,25 @@ In addition to the `withCount` method, Eloquent provides `withMin`, `withMax`, `
         echo $post->comments_sum_votes;
     }
 
+If you wish to access the result of the aggregate function using another name, you may specify your own alias:
+
+    $posts = Post::withSum('comments as total_comments', 'votes')->get();
+
+    foreach ($posts as $post) {
+        echo $post->total_comments;
+    }
+
 Like the `loadCount` method, deferred versions of these methods are also available. These additional aggregate operations may be performed on Eloquent models that have already been retrieved:
 
     $post = Post::first();
 
     $post->loadSum('comments', 'votes');
+
+If you're combining these aggregate methods with a `select` statement, ensure that you call the aggregate methods after the `select` method:
+
+    $posts = Post::select(['title', 'body'])
+                    ->withExists('comments')
+                    ->get();
 
 <a name="counting-related-models-on-morph-to-relationships"></a>
 ### Counting Related Models On Morph To Relationships

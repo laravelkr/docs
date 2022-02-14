@@ -324,7 +324,17 @@ If you would like to customize the queue connection, queue name, or queue delay 
         public $delay = 60;
     }
 
-If you would like to define the listener's queue at runtime, you may define a `viaQueue` method on the listener:
+If you would like to define the listener's queue connection or queue name at runtime, you may define `viaConnection` or `viaQueue` methods on the listener:
+
+    /**
+     * Get the name of the listener's queue connection.
+     *
+     * @return string
+     */
+    public function viaConnection()
+    {
+        return 'sqs';
+    }
 
     /**
      * Get the name of the listener's queue.
@@ -553,6 +563,9 @@ Event subscribers are classes that may subscribe to multiple events from within 
 
     namespace App\Listeners;
 
+    use Illuminate\Auth\Events\Login;
+    use Illuminate\Auth\Events\Logout;
+
     class UserEventSubscriber
     {
         /**
@@ -574,14 +587,50 @@ Event subscribers are classes that may subscribe to multiple events from within 
         public function subscribe($events)
         {
             $events->listen(
-                'Illuminate\Auth\Events\Login',
+                Login::class,
                 [UserEventSubscriber::class, 'handleUserLogin']
             );
 
             $events->listen(
-                'Illuminate\Auth\Events\Logout',
+                Logout::class,
                 [UserEventSubscriber::class, 'handleUserLogout']
             );
+        }
+    }
+
+If your event listener methods are defined within the subscriber itself, you may find it more convenient to return an array of events and method names from the subscriber's `subscribe` method. Laravel will automatically determine the subscriber's class name when registering the event listeners:
+
+    <?php
+
+    namespace App\Listeners;
+
+    use Illuminate\Auth\Events\Login;
+    use Illuminate\Auth\Events\Logout;
+
+    class UserEventSubscriber
+    {
+        /**
+         * Handle user login events.
+         */
+        public function handleUserLogin($event) {}
+
+        /**
+         * Handle user logout events.
+         */
+        public function handleUserLogout($event) {}
+
+        /**
+         * Register the listeners for the subscriber.
+         *
+         * @param  \Illuminate\Events\Dispatcher  $events
+         * @return array
+         */
+        public function subscribe($events)
+        {
+            return [
+                Login::class => 'handleUserLogin',
+                Logout::class => 'handleUserLogout',
+            ];
         }
     }
 

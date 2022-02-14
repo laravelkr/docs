@@ -28,18 +28,17 @@
 
 The `Illuminate\Support\Collection` class provides a fluent, convenient wrapper for working with arrays of data. For example, check out the following code. We'll use the `collect` helper to create a new collection instance from the array, run the `strtoupper` function on each element, and then remove all empty elements:
 
-`Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 다음의 사용예제를 확인하십시오. `collect` 헬퍼 함수를 사용하여 배열에서 새로운 collection 인스턴스를 생성하고 모든 요소들을 대문자로 변경한 다음 비어있는 요소들을 제거하는 예제 입니다.
+`Illuminate\Support\Collection` 클래스는 배열 데이터를 사용하기 위한 유연하고 편리한 래퍼(wrapper)를 제공합니다. 아래 예제 코드와 같이 `collect` 헬퍼를 사용하면 배열에서 새로운 컬렉션 인스턴스를 생성하고 모든 요소들에 `strtoupper` 함수를 실행한 다음 비어있는 요소들을 제거할 수 있습니다.
 
     $collection = collect(['taylor', 'abigail', null])->map(function ($name) {
         return strtoupper($name);
-    })
-    ->reject(function ($name) {
+    })->reject(function ($name) {
         return empty($name);
     });
 
 As you can see, the `Collection` class allows you to chain its methods to perform fluent mapping and reducing of the underlying array. In general, collections are immutable, meaning every `Collection` method returns an entirely new `Collection` instance.
 
-보시는 바와 같이 `Collection` 클래스는 편리한 매핑과 배열의 감소를 수행하기 위한 체이닝 방식을 제공합니다. 일반적으로, 컬렉션은 변경이 불가능(immutable)하고, 모든 `Collection`의 메소드는 새로운 `Collection`의 인스턴스를 반환합니다.
+보시다시피 `Collection` 클래스를 사용하면 해당 메서드를 연결하여 기본 배열의 흐름 매핑 및 축소를 수행할 수 있습니다. 일반적으로 컬렉션은 변경할 수 없습니다. 즉, 모든 `Collection` 메서드는 완전히 새로운 `Collection` 인스턴스를 반환합니다.
 
 <a name="creating-collections"></a>
 ### Creating Collections
@@ -47,7 +46,7 @@ As you can see, the `Collection` class allows you to chain its methods to perfor
 
 As mentioned above, the `collect` helper returns a new `Illuminate\Support\Collection` instance for the given array. So, creating a collection is as simple as:
 
-앞서 설명한 대로 `collect` 헬퍼 함수는 주어진 배열으로 부터 `Illuminate\Support\Collection` 인스턴스를 반환합니다. 따라서 컬렉션을 생성하는 것은 보시는 바와 같이 아주 간단합니다.
+앞서 설명한 대로 `collect` 헬퍼 함수는 주어진 배열으로 부터 새로운 `Illuminate\Support\Collection` 인스턴스를 반환합니다. 따라서 컬렉션을 생성하는 것은 보시는 바와 같이 아주 간단합니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -59,9 +58,9 @@ As mentioned above, the `collect` helper returns a new `Illuminate\Support\Colle
 ### Extending Collections
 ### 컬렉션 확장하기
 
-Collections are "macroable", which allows you to add additional methods to the `Collection` class at run time. For example, the following code adds a `toUpper` method to the `Collection` class:
+Collections are "macroable", which allows you to add additional methods to the `Collection` class at run time. The `Illuminate\Support\Collection` class' `macro` method accepts a closure that will be executed when your macro is called. The macro closure may access the collection's other methods via `$this`, just as if it were a real method of the collection class. For example, the following code adds a `toUpper` method to the `Collection` class:
 
-컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가할 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
+컬렉션은 "macroable" 하기 때문에, 런타임에 `Collection` 클래스에 메소드를 추가할 수 있습니다. `Illuminate\Support\Collection` 클래스의 `macro` 메소드는 매크로가 호출될 때 실행될 클로저를 허용합니다. 매크로 클로저는 `$this`를 통해 컬렉션의 다른 메소드에 접근할 수 있습니다. 예를 들어 다음의 코드는 `Collection` 클래스에 `toUpper` 메소드를 추가합니다.
 
     use Illuminate\Support\Collection;
     use Illuminate\Support\Str;
@@ -78,17 +77,38 @@ Collections are "macroable", which allows you to add additional methods to the `
 
     // ['FIRST', 'SECOND']
 
-Typically, you should declare collection macros in a [service provider](/docs/{{version}}/providers).
+Typically, you should declare collection macros in the `boot` method of a [service provider](/docs/{{version}}/providers).
 
-일반적으로, [서비스 프로바이더](/docs/{{version}}/providers)에서 컬렉션에 메소드를 추가하게 됩니다.
+일반적으로, [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메소드에서 컬렉션 매크로를 선언해야 합니다.
+
+<a name="macro-arguments"></a>
+#### Macro Arguments
+#### 매크로 인자
+
+If necessary, you may define macros that accept additional arguments:
+
+필요한 경우, 추가 인자가 있는 매크로를 정의할 수도 있습니다.
+
+    use Illuminate\Support\Collection;
+    use Illuminate\Support\Facades\Lang;
+
+    Collection::macro('toLocale', function ($locale) {
+        return $this->map(function ($value) use ($locale) {
+            return Lang::get($value, [], $locale);
+        });
+    });
+
+    $collection = collect(['first', 'second']);
+
+    $translated = $collection->toLocale('es');
 
 <a name="available-methods"></a>
 ## Available Methods
-## 사용가능한 메소드
+## 사용가능한 메소드들
 
-For the remainder of this documentation, we'll discuss each method available on the `Collection` class. Remember, all of these methods may be chained to fluently manipulate the underlying array. Furthermore, almost every method returns a new `Collection` instance, allowing you to preserve the original copy of the collection when necessary:
+For the majority of the remaining collection documentation, we'll discuss each method available on the `Collection` class. Remember, all of these methods may be chained to fluently manipulate the underlying array. Furthermore, almost every method returns a new `Collection` instance, allowing you to preserve the original copy of the collection when necessary:
 
-이 문서의 나머지 부분에서는 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다.
+이 문서의 나머지는 대부분 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다.
 
 <style>
     #collection-method-list > p {
@@ -103,130 +123,139 @@ For the remainder of this documentation, we'll discuss each method available on 
 
 <div id="collection-method-list" markdown="1">
 
-- [all](#method-all)
-- [average](#method-average)
-- [avg](#method-avg)
-- [chunk](#method-chunk)
-- [chunkWhile](#method-chunkwhile)
-- [collapse](#method-collapse)
-- [collect](#method-collect)
-- [combine](#method-combine)
-- [concat](#method-concat)
-- [contains](#method-contains)
-- [containsStrict](#method-containsstrict)
-- [count](#method-count)
-- [countBy](#method-countBy)
-- [crossJoin](#method-crossjoin)
-- [dd](#method-dd)
-- [diff](#method-diff)
-- [diffAssoc](#method-diffassoc)
-- [diffKeys](#method-diffkeys)
-- [dump](#method-dump)
-- [duplicates](#method-duplicates)
-- [duplicatesStrict](#method-duplicatesstrict)
-- [each](#method-each)
-- [eachSpread](#method-eachspread)
-- [every](#method-every)
-- [except](#method-except)
-- [filter](#method-filter)
-- [first](#method-first)
-- [firstWhere](#method-first-where)
-- [flatMap](#method-flatmap)
-- [flatten](#method-flatten)
-- [flip](#method-flip)
-- [forget](#method-forget)
-- [forPage](#method-forpage)
-- [get](#method-get)
-- [groupBy](#method-groupby)
-- [has](#method-has)
-- [implode](#method-implode)
-- [intersect](#method-intersect)
-- [intersectByKeys](#method-intersectbykeys)
-- [isEmpty](#method-isempty)
-- [isNotEmpty](#method-isnotempty)
-- [join](#method-join)
-- [keyBy](#method-keyby)
-- [keys](#method-keys)
-- [last](#method-last)
-- [macro](#method-macro)
-- [make](#method-make)
-- [map](#method-map)
-- [mapInto](#method-mapinto)
-- [mapSpread](#method-mapspread)
-- [mapToGroups](#method-maptogroups)
-- [mapWithKeys](#method-mapwithkeys)
-- [max](#method-max)
-- [median](#method-median)
-- [merge](#method-merge)
-- [mergeRecursive](#method-mergerecursive)
-- [min](#method-min)
-- [mode](#method-mode)
-- [nth](#method-nth)
-- [only](#method-only)
-- [pad](#method-pad)
-- [partition](#method-partition)
-- [pipe](#method-pipe)
-- [pluck](#method-pluck)
-- [pop](#method-pop)
-- [prepend](#method-prepend)
-- [pull](#method-pull)
-- [push](#method-push)
-- [put](#method-put)
-- [random](#method-random)
-- [reduce](#method-reduce)
-- [reject](#method-reject)
-- [replace](#method-replace)
-- [replaceRecursive](#method-replacerecursive)
-- [reverse](#method-reverse)
-- [search](#method-search)
-- [shift](#method-shift)
-- [shuffle](#method-shuffle)
-- [skip](#method-skip)
-- [skipUntil](#method-skipuntil)
-- [skipWhile](#method-skipwhile)
-- [slice](#method-slice)
-- [some](#method-some)
-- [sort](#method-sort)
-- [sortBy](#method-sortby)
-- [sortByDesc](#method-sortbydesc)
-- [sortDesc](#method-sortdesc)
-- [sortKeys](#method-sortkeys)
-- [sortKeysDesc](#method-sortkeysdesc)
-- [splice](#method-splice)
-- [split](#method-split)
-- [sum](#method-sum)
-- [take](#method-take)
-- [takeUntil](#method-takeuntil)
-- [takeWhile](#method-takewhile)
-- [tap](#method-tap)
-- [times](#method-times)
-- [toArray](#method-toarray)
-- [toJson](#method-tojson)
-- [transform](#method-transform)
-- [union](#method-union)
-- [unique](#method-unique)
-- [uniqueStrict](#method-uniquestrict)
-- [unless](#method-unless)
-- [unlessEmpty](#method-unlessempty)
-- [unlessNotEmpty](#method-unlessnotempty)
-- [unwrap](#method-unwrap)
-- [values](#method-values)
-- [when](#method-when)
-- [whenEmpty](#method-whenempty)
-- [whenNotEmpty](#method-whennotempty)
-- [where](#method-where)
-- [whereStrict](#method-wherestrict)
-- [whereBetween](#method-wherebetween)
-- [whereIn](#method-wherein)
-- [whereInStrict](#method-whereinstrict)
-- [whereInstanceOf](#method-whereinstanceof)
-- [whereNotBetween](#method-wherenotbetween)
-- [whereNotIn](#method-wherenotin)
-- [whereNotInStrict](#method-wherenotinstrict)
-- [whereNotNull](#method-wherenotnull)
-- [whereNull](#method-wherenull)
-- [wrap](#method-wrap)
-- [zip](#method-zip)
+[all](#method-all)
+[average](#method-average)
+[avg](#method-avg)
+[chunk](#method-chunk)
+[chunkWhile](#method-chunkwhile)
+[collapse](#method-collapse)
+[collect](#method-collect)
+[combine](#method-combine)
+[concat](#method-concat)
+[contains](#method-contains)
+[containsStrict](#method-containsstrict)
+[count](#method-count)
+[countBy](#method-countBy)
+[crossJoin](#method-crossjoin)
+[dd](#method-dd)
+[diff](#method-diff)
+[diffAssoc](#method-diffassoc)
+[diffKeys](#method-diffkeys)
+[doesntContain](#method-doesntcontain)
+[dump](#method-dump)
+[duplicates](#method-duplicates)
+[duplicatesStrict](#method-duplicatesstrict)
+[each](#method-each)
+[eachSpread](#method-eachspread)
+[every](#method-every)
+[except](#method-except)
+[filter](#method-filter)
+[first](#method-first)
+[firstWhere](#method-first-where)
+[flatMap](#method-flatmap)
+[flatten](#method-flatten)
+[flip](#method-flip)
+[forget](#method-forget)
+[forPage](#method-forpage)
+[get](#method-get)
+[groupBy](#method-groupby)
+[has](#method-has)
+[implode](#method-implode)
+[intersect](#method-intersect)
+[intersectByKeys](#method-intersectbykeys)
+[isEmpty](#method-isempty)
+[isNotEmpty](#method-isnotempty)
+[join](#method-join)
+[keyBy](#method-keyby)
+[keys](#method-keys)
+[last](#method-last)
+[macro](#method-macro)
+[make](#method-make)
+[map](#method-map)
+[mapInto](#method-mapinto)
+[mapSpread](#method-mapspread)
+[mapToGroups](#method-maptogroups)
+[mapWithKeys](#method-mapwithkeys)
+[max](#method-max)
+[median](#method-median)
+[merge](#method-merge)
+[mergeRecursive](#method-mergerecursive)
+[min](#method-min)
+[mode](#method-mode)
+[nth](#method-nth)
+[only](#method-only)
+[pad](#method-pad)
+[partition](#method-partition)
+[pipe](#method-pipe)
+[pipeInto](#method-pipeinto)
+[pipeThrough](#method-pipethrough)
+[pluck](#method-pluck)
+[pop](#method-pop)
+[prepend](#method-prepend)
+[pull](#method-pull)
+[push](#method-push)
+[put](#method-put)
+[random](#method-random)
+[range](#method-range)
+[reduce](#method-reduce)
+[reduceSpread](#method-reduce-spread)
+[reject](#method-reject)
+[replace](#method-replace)
+[replaceRecursive](#method-replacerecursive)
+[reverse](#method-reverse)
+[search](#method-search)
+[shift](#method-shift)
+[shuffle](#method-shuffle)
+[sliding](#method-sliding)
+[skip](#method-skip)
+[skipUntil](#method-skipuntil)
+[skipWhile](#method-skipwhile)
+[slice](#method-slice)
+[sole](#method-sole)
+[some](#method-some)
+[sort](#method-sort)
+[sortBy](#method-sortby)
+[sortByDesc](#method-sortbydesc)
+[sortDesc](#method-sortdesc)
+[sortKeys](#method-sortkeys)
+[sortKeysDesc](#method-sortkeysdesc)
+[splice](#method-splice)
+[split](#method-split)
+[splitIn](#method-splitin)
+[sum](#method-sum)
+[take](#method-take)
+[takeUntil](#method-takeuntil)
+[takeWhile](#method-takewhile)
+[tap](#method-tap)
+[times](#method-times)
+[toArray](#method-toarray)
+[toJson](#method-tojson)
+[transform](#method-transform)
+[undot](#method-undot)
+[union](#method-union)
+[unique](#method-unique)
+[uniqueStrict](#method-uniquestrict)
+[unless](#method-unless)
+[unlessEmpty](#method-unlessempty)
+[unlessNotEmpty](#method-unlessnotempty)
+[unwrap](#method-unwrap)
+[values](#method-values)
+[when](#method-when)
+[whenEmpty](#method-whenempty)
+[whenNotEmpty](#method-whennotempty)
+[where](#method-where)
+[whereStrict](#method-wherestrict)
+[whereBetween](#method-wherebetween)
+[whereIn](#method-wherein)
+[whereInStrict](#method-whereinstrict)
+[whereInstanceOf](#method-whereinstanceof)
+[whereNotBetween](#method-wherenotbetween)
+[whereNotIn](#method-wherenotin)
+[whereNotInStrict](#method-wherenotinstrict)
+[whereNotNull](#method-wherenotnull)
+[whereNull](#method-wherenull)
+[wrap](#method-wrap)
+[zip](#method-zip)
 
 </div>
 
@@ -235,18 +264,17 @@ For the remainder of this documentation, we'll discuss each method available on 
 ## 메소드 목록
 
 <style>
-    #collection-method code {
+    .collection-method code {
         font-size: 14px;
     }
 
-    #collection-method:not(.first-collection-method) {
+    .collection-method:not(.first-collection-method) {
         margin-top: 50px;
     }
 </style>
 
 <a name="method-all"></a>
-#### `all()` {#collection-method .first-collection-method}
-#### `all()` {#collection-method .first-collection-method}
+#### `all()` {.collection-method .first-collection-method}
 
 The `all` method returns the underlying array represented by the collection:
 
@@ -257,22 +285,25 @@ The `all` method returns the underlying array represented by the collection:
     // [1, 2, 3]
 
 <a name="method-average"></a>
-#### `average()` {#collection-method}
-#### `average()` {#collection-method}
+#### `average()` {.collection-method}
 
 Alias for the [`avg`](#method-avg) method.
 
 [`avg`](#method-avg) 메소드의 별칭입니다.
 
 <a name="method-avg"></a>
-#### `avg()` {#collection-method}
-#### `avg()` {#collection-method}
+#### `avg()` {.collection-method}
 
 The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Average) of a given key:
 
 `avg` 메소드는 주어진 키의 [평균값](https://en.wikipedia.org/wiki/Average)을 반환합니다.
 
-    $average = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->avg('foo');
+    $average = collect([
+        ['foo' => 10],
+        ['foo' => 10],
+        ['foo' => 20],
+        ['foo' => 40]
+    ])->avg('foo');
 
     // 20
 
@@ -281,8 +312,7 @@ The `avg` method returns the [average value](https://en.wikipedia.org/wiki/Avera
     // 2
 
 <a name="method-chunk"></a>
-#### `chunk()` {#collection-method}
-#### `chunk()` {#collection-method}
+#### `chunk()` {.collection-method}
 
 The `chunk` method breaks the collection into multiple, smaller collections of a given size:
 
@@ -292,11 +322,11 @@ The `chunk` method breaks the collection into multiple, smaller collections of a
 
     $chunks = $collection->chunk(4);
 
-    $chunks->toArray();
+    $chunks->all();
 
     // [[1, 2, 3, 4], [5, 6, 7]]
 
-This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/docs/4.1/layout/grid/). Imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
+This method is especially useful in [views](/docs/{{version}}/views) when working with a grid system such as [Bootstrap](https://getbootstrap.com/docs/4.1/layout/grid/). For example, imagine you have a collection of [Eloquent](/docs/{{version}}/eloquent) models you want to display in a grid:
 
 이 메소드는 특히 [views-뷰](/docs/{{version}}/views) 안에서 [Bootstrap-부트스트랩](https://getbootstrap.com/docs/4.1/layout/grid/)와 같은 그리드(grid) 시스템을 작업할 때 유용합니다.
 [Eloquent](/docs/{{version}}/eloquent) 모델 컬렉션을 그리드에 표시한다고 생각해 보십시오:
@@ -310,32 +340,34 @@ This method is especially useful in [views](/docs/{{version}}/views) when workin
     @endforeach
 
 <a name="method-chunkwhile"></a>
-#### `chunkWhile()` {#collection-method}
-#### `chunkWhile()` {#collection-method}
+#### `chunkWhile()` {.collection-method}
 
-The `chunkWhile` method breaks the collection into multiple, smaller collections based on the evaluation of the given callback:
+The `chunkWhile` method breaks the collection into multiple, smaller collections based on the evaluation of the given callback. The `$chunk` variable passed to the closure may be used to inspect the previous element:
 
-`chunkWhile` 메소드는 컬렉션을 콜백의 평가를 토대로 더 작은 여러개의 컬렉션으로 분활합니다.
+`chunkWhile` 메소드는 컬렉션을 콜백의 평가를 토대로 더 작은 여러개의 컬렉션으로 분활합니다. 클로저에 전달된 `$chunk` 변수는 이전 요소를 검사하는 데 사용할 수 있습니다.
 
     $collection = collect(str_split('AABBCCCD'));
 
-    $chunks = $collection->chunkWhile(function($current, $key, $chunk) {
-        return $current === $chunk->last();
+    $chunks = $collection->chunkWhile(function ($value, $key, $chunk) {
+        return $value === $chunk->last();
     });
 
-    $chunks->toArray();
+    $chunks->all();
 
     // [['A', 'A'], ['B', 'B'], ['C', 'C', 'C'], ['D']]
 
 <a name="method-collapse"></a>
-#### `collapse()` {#collection-method}
-#### `collapse()` {#collection-method}
+#### `collapse()` {.collection-method}
 
 The `collapse` method collapses a collection of arrays into a single, flat collection:
 
 `collapse` 메소드는 배열의 컬렉션을 하나의 평면적인 컬렉션으로 만듭니다.
 
-    $collection = collect([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    $collection = collect([
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+    ]);
 
     $collapsed = $collection->collapse();
 
@@ -343,25 +375,8 @@ The `collapse` method collapses a collection of arrays into a single, flat colle
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-<a name="method-combine"></a>
-#### `combine()` {#collection-method}
-#### `combine()` {#collection-method}
-
-The `combine` method combines the values of the collection, as keys, with the values of another array or collection:
-
-`combine` 메소드는 컬렉션의 값들을 키로 다른 배열 또는 컬렉션의 값을 결합합니다.
-
-    $collection = collect(['name', 'age']);
-
-    $combined = $collection->combine(['George', 29]);
-
-    $combined->all();
-
-    // ['name' => 'George', 'age' => 29]
-
 <a name="method-collect"></a>
-#### `collect()` {#collection-method}
-#### `collect()` {#collection-method}
+#### `collect()` {.collection-method}
 
 The `collect` method returns a new `Collection` instance with the items currently in the collection:
 
@@ -397,15 +412,30 @@ The `collect` method is primarily useful for converting [lazy collections](#lazy
 
 > {tip} The `collect` method is especially useful when you have an instance of `Enumerable` and need a non-lazy collection instance. Since `collect()` is part of the `Enumerable` contract, you can safely use it to get a `Collection` instance.
 
-> {tip} `collect` 메소드는 `Enumerable` 인스턴스를 가지고 있고, 비지연(non-lazy) 컬렉션 인스턴스가 필요할 때 특히 유용합니다. `collect()`는 `Enumerable` contract에 속해있기 때문에, `Collection` 인스턴스를 얻는데 안전하게 사용할 수 있습니다. 
+> {tip} `collect` 메소드는 `Enumerable` 인스턴스를 가지고 있고, 비지연(non-lazy) 컬렉션 인스턴스가 필요할 때 특히 유용합니다. `collect()`는 `Enumerable` contract에 속해있기 때문에, `Collection` 인스턴스를 얻는데 안전하게 사용할 수 있습니다.
+
+
+<a name="method-combine"></a>
+#### `combine()` {.collection-method}
+
+The `combine` method combines the values of the collection, as keys, with the values of another array or collection:
+
+`combine` 메소드는 컬렉션의 값을 키로 결합하여 다른 배열 또는 컬렉션의 값과 결합합니다.
+
+    $collection = collect(['name', 'age']);
+
+    $combined = $collection->combine(['George', 29]);
+
+    $combined->all();
+
+    // ['name' => 'George', 'age' => 29]
 
 <a name="method-concat"></a>
-#### `concat()` {#collection-method}
-#### `concat()` {#collection-method}
+#### `concat()` {.collection-method}
 
-The `concat` method appends the given `array` or collection values onto the end of the collection:
+The `concat` method appends the given `array` or collection's values onto the end of another collection:
 
-`concat` 메소드는 주어진 `배열` 또는 컬렉션 값을 컬렉션의 마지막에 추가합니다.
+`concat` 메소드는 주어진 `배열` 또는 컬렉션 값을 다른 컬렉션의 마지막에 추가합니다.
 
     $collection = collect(['John Doe']);
 
@@ -416,12 +446,23 @@ The `concat` method appends the given `array` or collection values onto the end 
     // ['John Doe', 'Jane Doe', 'Johnny Doe']
 
 <a name="method-contains"></a>
-#### `contains()` {#collection-method}
-#### `contains()` {#collection-method}
+#### `contains()` {.collection-method}
 
-The `contains` method determines whether the collection contains a given item:
+The `contains` method determines whether the collection contains a given item. You may pass a closure to the `contains` method to determine if an element exists in the collection matching a given truth test:
 
-`contains` 메소드는 컬렉션에 주어진 아이템을 포함하고 있는지 알려줍니다.
+`contains` 메소드는 컬렉션에 주어진 아이템을 포함하고 있는지 알려줍니다. 주어진 컬렉션에 조건에 해당하는 요소가 있는지 확인하기 위해 `contains` 메소드에 클로저를 전달할 수 있습니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->contains(function ($value, $key) {
+        return $value > 5;
+    });
+
+    // false
+
+Alternatively, you may pass a string to the `contains` method to determine whether the collection contains a given item value:
+
+또는 문자열을 `contains` 메소드에 전달하여 컬렉션에 특정 값이 포함되어 있는지 확인할 수 있습니다.
 
     $collection = collect(['name' => 'Desk', 'price' => 100]);
 
@@ -446,25 +487,16 @@ You may also pass a key / value pair to the `contains` method, which will determ
 
     // false
 
-Finally, you may also pass a callback to the `contains` method to perform your own truth test:
-
-마지막으로, `contains` 메소드에 주어진 조건을 판별할 수 있는 콜백을 인자로 전달할 수도 있습니다.
-
-    $collection = collect([1, 2, 3, 4, 5]);
-
-    $collection->contains(function ($value, $key) {
-        return $value > 5;
-    });
-
-    // false
-
 The `contains` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value. Use the [`containsStrict`](#method-containsstrict) method to filter using "strict" comparisons.
 
-`contains` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`containsStrict`](#method-containsstrict) 메소드를 사용하십시오.
+`contains` 메소드는 항목 값을 확인할 때 "느슨한" 비교를 사용합니다. 즉, 정수 값이 있는 문자열은 동일한 값의 정수와 동일한 것으로 간주됩니다. [`containsStrict`](#method-containsstrict) 메서드를 사용하여 "엄격한" 비교를 사용하여 필터링합니다.
+
+For the inverse of `contains`, see the [doesntContain](#method-doesntcontain) method.
+
+`contains`의 부정(반대)에 대해서는 [doesntContain](#method-doesntcontain) 메서드를 참조하세요.
 
 <a name="method-containsstrict"></a>
-#### `containsStrict()` {#collection-method}
-#### `containsStrict()` {#collection-method}
+#### `containsStrict()` {.collection-method}
 
 This method has the same signature as the [`contains`](#method-contains) method; however, all values are compared using "strict" comparisons.
 
@@ -475,8 +507,7 @@ This method has the same signature as the [`contains`](#method-contains) method;
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains)를 사용할 때 수정됩니다.
 
 <a name="method-count"></a>
-#### `count()` {#collection-method}
-#### `count()` {#collection-method}
+#### `count()` {.collection-method}
 
 The `count` method returns the total number of items in the collection:
 
@@ -489,12 +520,11 @@ The `count` method returns the total number of items in the collection:
     // 4
 
 <a name="method-countBy"></a>
-#### `countBy()` {#collection-method}
-#### `countBy()` {#collection-method}
+#### `countBy()` {.collection-method}
 
-The `countBy` method counts the occurrences of values in the collection. By default, the method counts the occurrences of every element:
+The `countBy` method counts the occurrences of values in the collection. By default, the method counts the occurrences of every element, allowing you to count certain "types" of elements in the collection:
 
-`countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소가 해당됩니다.
+`countBy` 메소드는 컬렉션 안의 값의 발생 횟수를 셉니다. 기본적으로 모든 요소의 발생 횟수를 세므로 컬렉션에 있는 요소의 특정 "유형들"을 계산할 수 있습니다.
 
     $collection = collect([1, 2, 2, 2, 3]);
 
@@ -504,7 +534,7 @@ The `countBy` method counts the occurrences of values in the collection. By defa
 
     // [1 => 1, 2 => 3, 3 => 1]
 
-However, you pass a callback to the `countBy` method to count all items by a custom value:
+You pass a closure to the `countBy` method to count all items by a custom value:
 
 `countBy` 메소드에 특정 값으로 모든 아이템을 계산하는 콜백을 인자로 전달할 수도 있습니다.
 
@@ -519,8 +549,7 @@ However, you pass a callback to the `countBy` method to count all items by a cus
     // ['gmail.com' => 2, 'yahoo.com' => 1]
 
 <a name="method-crossjoin"></a>
-#### `crossJoin()` {#collection-method}
-#### `crossJoin()` {#collection-method}
+#### `crossJoin()` {.collection-method}
 
 The `crossJoin` method cross joins the collection's values among the given arrays or collections, returning a Cartesian product with all possible permutations:
 
@@ -561,8 +590,7 @@ The `crossJoin` method cross joins the collection's values among the given array
     */
 
 <a name="method-dd"></a>
-#### `dd()` {#collection-method}
-#### `dd()` {#collection-method}
+#### `dd()` {.collection-method}
 
 The `dd` method dumps the collection's items and ends execution of the script:
 
@@ -586,8 +614,7 @@ If you do not want to stop executing the script, use the [`dump`](#method-dump) 
 스크립트가 종료되지 않길 원한다면, [`dump`](#method-dump) 메소드를 사용하십시오.
 
 <a name="method-diff"></a>
-#### `diff()` {#collection-method}
-#### `diff()` {#collection-method}
+#### `diff()` {.collection-method}
 
 The `diff` method compares the collection against another collection or a plain PHP `array` based on its values. This method will return the values in the original collection that are not present in the given collection:
 
@@ -606,8 +633,7 @@ The `diff` method compares the collection against another collection or a plain 
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff)를 사용할 때 수정됩니다.
 
 <a name="method-diffassoc"></a>
-#### `diffAssoc()` {#collection-method}
-#### `diffAssoc()` {#collection-method}
+#### `diffAssoc()` {.collection-method}
 
 The `diffAssoc` method compares the collection against another collection or a plain PHP `array` based on its keys and values. This method will return the key / value pairs in the original collection that are not present in the given collection:
 
@@ -631,8 +657,7 @@ The `diffAssoc` method compares the collection against another collection or a p
     // ['color' => 'orange', 'remain' => 6]
 
 <a name="method-diffkeys"></a>
-#### `diffKeys()` {#collection-method}
-#### `diffKeys()` {#collection-method}
+#### `diffKeys()` {.collection-method}
 
 The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys. This method will return the key / value pairs in the original collection that are not present in the given collection:
 
@@ -657,9 +682,53 @@ The `diffKeys` method compares the collection against another collection or a pl
 
     // ['one' => 10, 'three' => 30, 'five' => 50]
 
+<a name="method-doesntcontain"></a>
+#### `doesntContain()` {.collection-method}
+
+The `doesntContain` method determines whether the collection does not contain a given item. You may pass a closure to the `doesntContain` method to determine if an element does not exist in the collection matching a given truth test:
+
+`doesntContain` 메서드는 컬렉션에 항목이 포함되어 있지 않은지 여부를 확인합니다. 주어진 조건에 해당하는 컬렉션에 요소가 존재하지 않는지 확인하기 위해 `doesntContain` 메소드에 클로저를 전달할 수 있습니다:
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->doesntContain(function ($value, $key) {
+        return $value < 5;
+    });
+
+    // false
+Alternatively, you may pass a string to the `doesntContain` method to determine whether the collection does not contain a given item value:
+
+또는 문자열을 `doesntContain` 메서드에 전달하여 컬렉션에 지정된 항목 값이 포함되어 있지 않은지 확인할 수 있습니다.
+
+    $collection = collect(['name' => 'Desk', 'price' => 100]);
+
+    $collection->doesntContain('Table');
+
+    // true
+
+    $collection->doesntContain('Desk');
+
+    // false
+
+You may also pass a key / value pair to the `doesntContain` method, which will determine if the given pair does not exist in the collection:
+
+또한 주어진 키/값 쌍이 컬렉션 안에 존재하지 않는지 확인할 수 있도록 `contains` 메소드에 키/값 쌍을 인자로 전달할 수도 있습니다.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+    ]);
+
+    $collection->doesntContain('product', 'Bookcase');
+
+    // true
+
+The `doesntContain` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value.
+
+`doesntContain` 메소드는 항목 값을 확인할 때 "느슨한" 비교를 사용합니다. 즉, 정수 값이 있는 문자열은 동일한 값의 정수와 동일한 것으로 간주됩니다.
+
 <a name="method-dump"></a>
-#### `dump()` {#collection-method}
-#### `dump()` {#collection-method}
+#### `dump()` {.collection-method}
 
 The `dump` method dumps the collection's items:
 
@@ -683,8 +752,7 @@ If you want to stop executing the script after dumping the collection, use the [
 컬렉션을 덤프한 후 스크립트의 실행을 멈추고 싶다면, [`dd`](#method-dd) 메소드를 사용하십시오.
 
 <a name="method-duplicates"></a>
-#### `duplicates()` {#collection-method}
-#### `duplicates()` {#collection-method}
+#### `duplicates()` {.collection-method}
 
 The `duplicates` method retrieves and returns duplicate values from the collection:
 
@@ -704,45 +772,42 @@ If the collection contains arrays or objects, you can pass the key of the attrib
         ['email' => 'abigail@example.com', 'position' => 'Developer'],
         ['email' => 'james@example.com', 'position' => 'Designer'],
         ['email' => 'victoria@example.com', 'position' => 'Developer'],
-    ])
+    ]);
 
     $employees->duplicates('position');
 
     // [2 => 'Developer']
 
 <a name="method-duplicatesstrict"></a>
-#### `duplicatesStrict()` {#collection-method}
-#### `duplicatesStrict()` {#collection-method}
+#### `duplicatesStrict()` {.collection-method}
 
 This method has the same signature as the [`duplicates`](#method-duplicates) method; however, all values are compared using "strict" comparisons.
 
 이 메소드는 [`duplicates`](#method-duplicates) 메소드와 사용법이 같습니다. 그러나 모든 값은 "엄격한-strict"비교를 사용하여 비교됩니다.
 
 <a name="method-each"></a>
-#### `each()` {#collection-method}
-#### `each()` {#collection-method}
+#### `each()` {.collection-method}
 
-The `each` method iterates over the items in the collection and passes each item to a callback:
+The `each` method iterates over the items in the collection and passes each item to a closure:
 
-`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 콜백에 각 아이템을 전달합니다.
+`each` 메소드는 컬렉션의 아이템을 반복적으로 처리하여 클로저에 각 아이템을 전달합니다.
 
     $collection->each(function ($item, $key) {
         //
     });
 
-If you would like to stop iterating through the items, you may return `false` from your callback:
+If you would like to stop iterating through the items, you may return `false` from your closure:
 
-전체 항목에 대한 반복을 중지하려면, 콜백 안에서 `false` 를 반환하면 됩니다.
+전체 항목에 대한 반복을 중지하려면, 클로저 안에서 `false` 를 반환하면 됩니다.
 
     $collection->each(function ($item, $key) {
-        if (/* some condition */) {
+        if (/* condition */) {
             return false;
         }
     });
 
 <a name="method-eachspread"></a>
-#### `eachSpread()` {#collection-method}
-#### `eachSpread()` {#collection-method}
+#### `eachSpread()` {.collection-method}
 
 The `eachSpread` method iterates over the collection's items, passing each nested item value into the given callback:
 
@@ -763,8 +828,8 @@ You may stop iterating through the items by returning `false` from the callback:
     });
 
 <a name="method-every"></a>
-#### `every()` {#collection-method}
-#### `every()` {#collection-method}
+#### `every()` {.collection-method}
+
 
 The `every` method may be used to verify that all elements of a collection pass a given truth test:
 
@@ -776,9 +841,9 @@ The `every` method may be used to verify that all elements of a collection pass 
 
     // false
 
-If the collection is empty, `every` will return true:
+If the collection is empty, the `every` method will return true:
 
-컬렉션이 비어 있다면, `every`는 true를 반환할 것입니다.
+컬렉션이 비어 있다면, `every` 메소드는 true를 반환할 것입니다.
 
     $collection = collect([]);
 
@@ -789,8 +854,7 @@ If the collection is empty, `every` will return true:
     // true
 
 <a name="method-except"></a>
-#### `except()` {#collection-method}
-#### `except()` {#collection-method}
+#### `except()` {.collection-method}
 
 The `except` method returns all items in the collection except for those with the specified keys:
 
@@ -813,8 +877,7 @@ For the inverse of `except`, see the [only](#method-only) method.
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except)를 사용할 때 수정됩니다.
 
 <a name="method-filter"></a>
-#### `filter()` {#collection-method}
-#### `filter()` {#collection-method}
+#### `filter()` {.collection-method}
 
 The `filter` method filters the collection using the given callback, keeping only those items that pass a given truth test:
 
@@ -845,8 +908,7 @@ For the inverse of `filter`, see the [reject](#method-reject) method.
 `filter`의 반대는 [reject](#method-reject) 메소드를 확인하십시오.
 
 <a name="method-first"></a>
-#### `first()` {#collection-method}
-#### `first()` {#collection-method}
+#### `first()` {.collection-method}
 
 The `first` method returns the first element in the collection that passes a given truth test:
 
@@ -867,8 +929,7 @@ You may also call the `first` method with no arguments to get the first element 
     // 1
 
 <a name="method-first-where"></a>
-#### `firstWhere()` {#collection-method}
-#### `firstWhere()` {#collection-method}
+#### `firstWhere()` {.collection-method}
 
 The `firstWhere` method returns the first element in the collection with the given key / value pair:
 
@@ -885,9 +946,9 @@ The `firstWhere` method returns the first element in the collection with the giv
 
     // ['name' => 'Linda', 'age' => 14]
 
-You may also call the `firstWhere` method with an operator:
+You may also call the `firstWhere` method with a comparison operator:
 
-또한 `firstWhere` 메소드에 연산자를 지정할 수도 있습니다.
+또한 `firstWhere` 메소드에 비교 연산자를 지정할 수도 있습니다.
 
     $collection->firstWhere('age', '>=', 18);
 
@@ -902,12 +963,11 @@ Like the [where](#method-where) method, you may pass one argument to the `firstW
     // ['name' => 'Linda', 'age' => 14]
 
 <a name="method-flatmap"></a>
-#### `flatMap()` {#collection-method}
-#### `flatMap()` {#collection-method}
+#### `flatMap()` {.collection-method}
 
-The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
+The `flatMap` method iterates through the collection and passes each value to the given closure. The closure is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by one level:
 
-`flatMap` 메소드는 각각의 컬렉션을 반복하며 각자의 값을 주어진 콜백에 전달합니다. 콜백은 자유롭게 이 값을 변경하고 돌려주며 이를 통해서 수정된 값을 기반으로 새로운 컬렉션을 만듭니다. 이 배열은 일차원이 됩니다.
+`flatMap` 메소드는 각각의 컬렉션을 반복하며 각자의 값을 주어진 클로저에 전달합니다. 클로저는 자유롭게 이 값을 변경하고 돌려주며 이를 통해서 수정된 값을 기반으로 새로운 컬렉션을 만듭니다. 이 배열은 일차원이 됩니다.
 
     $collection = collect([
         ['name' => 'Sally'],
@@ -924,14 +984,18 @@ The `flatMap` method iterates through the collection and passes each value to th
     // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
 
 <a name="method-flatten"></a>
-#### `flatten()` {#collection-method}
-#### `flatten()` {#collection-method}
+#### `flatten()` {.collection-method}
 
 The `flatten` method flattens a multi-dimensional collection into a single dimension:
 
 `flatten` 메소드는 다차원으로 구성된 컬렉션을 한 차원으로 변경시킵니다.
 
-    $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
+    $collection = collect([
+        'name' => 'taylor',
+        'languages' => [
+            'php', 'javascript'
+        ]
+    ]);
 
     $flattened = $collection->flatten();
 
@@ -939,16 +1003,22 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
 
     // ['taylor', 'php', 'javascript'];
 
-You may optionally pass the function a "depth" argument:
+If necessary, you may pass the `flatten` method a "depth" argument:
 
-여러분은 선택적으로 함수에 "깊이" 인자를 전달할 수 있습니다.
+필요하다면 `flatten` 메소드에 "깊이" 인자를 전달할 수 있습니다.
 
     $collection = collect([
         'Apple' => [
-            ['name' => 'iPhone 6S', 'brand' => 'Apple'],
+            [
+                'name' => 'iPhone 6S',
+                'brand' => 'Apple'
+            ],
         ],
         'Samsung' => [
-            ['name' => 'Galaxy S7', 'brand' => 'Samsung'],
+            [
+                'name' => 'Galaxy S7',
+                'brand' => 'Samsung'
+            ],
         ],
     ]);
 
@@ -963,13 +1033,12 @@ You may optionally pass the function a "depth" argument:
         ]
     */
 
-In this example, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to restrict the levels of nested arrays that will be flattened.
+In this example, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to specify the number of levels nested arrays will be flattened.
 
 이 예제에서, `flatten` 을 깊이에 대한 인자 없이 호출하면, 중첩 배열을 평평하게 하기 때문에 그 결과 `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`이 됩니다. 깊이를 전달하게 되면 중첩된 배열의 깊이를 제한하여 정리될 것입니다.
 
 <a name="method-flip"></a>
-#### `flip()` {#collection-method}
-#### `flip()` {#collection-method}
+#### `flip()` {.collection-method}
 
 The `flip` method swaps the collection's keys with their corresponding values:
 
@@ -984,8 +1053,7 @@ The `flip` method swaps the collection's keys with their corresponding values:
     // ['taylor' => 'name', 'laravel' => 'framework']
 
 <a name="method-forget"></a>
-#### `forget()` {#collection-method}
-#### `forget()` {#collection-method}
+#### `forget()` {.collection-method}
 
 The `forget` method removes an item from the collection by its key:
 
@@ -1004,8 +1072,7 @@ The `forget` method removes an item from the collection by its key:
 > {note} 다른 컬렉션 메소드와는 달리 `forget`는 수정된 새로운 컬렉션을 반환하지 않습니다; 호출된 컬렉션을 변경합니다.
 
 <a name="method-forpage"></a>
-#### `forPage()` {#collection-method}
-#### `forPage()` {#collection-method}
+#### `forPage()` {.collection-method}
 
 The `forPage` method returns a new collection containing the items that would be present on a given page number. The method accepts the page number as its first argument and the number of items to show per page as its second argument:
 
@@ -1020,8 +1087,7 @@ The `forPage` method returns a new collection containing the items that would be
     // [4, 5, 6]
 
 <a name="method-get"></a>
-#### `get()` {#collection-method}
-#### `get()` {#collection-method}
+#### `get()` {.collection-method}
 
 The `get` method returns the item at a given key. If the key does not exist, `null` is returned:
 
@@ -1039,23 +1105,22 @@ You may optionally pass a default value as the second argument:
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
-    $value = $collection->get('foo', 'default-value');
+    $value = $collection->get('age', 34);
 
-    // default-value
+    // 34
 
-You may even pass a callback as the default value. The result of the callback will be returned if the specified key does not exist:
+You may even pass a callback as the method's default value. The result of the callback will be returned if the specified key does not exist:
 
-기본값을 결정하는 콜백을 전달할 수도 있습니다. 지정된 키가 존재하지 않는 경우에 콜백의 결과가 반환될 것입니다.
+메소드의 기본값을 결정하는 콜백을 전달할 수도 있습니다. 지정된 키가 존재하지 않는 경우에 콜백의 결과가 반환될 것입니다.
 
     $collection->get('email', function () {
-        return 'default-value';
+        return 'taylor@example.com';
     });
 
-    // default-value
+    // taylor@example.com
 
 <a name="method-groupby"></a>
-#### `groupBy()` {#collection-method}
-#### `groupBy()` {#collection-method}
+#### `groupBy()` {.collection-method}
 
 The `groupBy` method groups the collection's items by a given key:
 
@@ -1069,7 +1134,7 @@ The `groupBy` method groups the collection's items by a given key:
 
     $grouped = $collection->groupBy('account_id');
 
-    $grouped->toArray();
+    $grouped->all();
 
     /*
         [
@@ -1091,7 +1156,7 @@ Instead of passing a string `key`, you may pass a callback. The callback should 
         return substr($item['account_id'], -3);
     });
 
-    $grouped->toArray();
+    $grouped->all();
 
     /*
         [
@@ -1116,12 +1181,9 @@ Multiple grouping criteria may be passed as an array. Each array element will be
         40 => ['user' => 4, 'skill' => 2, 'roles' => ['Role_2']],
     ]);
 
-    $result = $data->groupBy([
-        'skill',
-        function ($item) {
-            return $item['roles'];
-        },
-    ], $preserveKeys = true);
+    $result = $data->groupBy(['skill', function ($item) {
+        return $item['roles'];
+    }], $preserveKeys = true);
 
     /*
     [
@@ -1149,8 +1211,7 @@ Multiple grouping criteria may be passed as an array. Each array element will be
     */
 
 <a name="method-has"></a>
-#### `has()` {#collection-method}
-#### `has()` {#collection-method}
+#### `has()` {.collection-method}
 
 The `has` method determines if a given key exists in the collection:
 
@@ -1171,10 +1232,9 @@ The `has` method determines if a given key exists in the collection:
     // false
 
 <a name="method-implode"></a>
-#### `implode()` {#collection-method}
-#### `implode()` {#collection-method}
+#### `implode()` {.collection-method}
 
-The `implode` method joins the items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values:
+The `implode` method joins items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values:
 
 `implode` 메소드는 컬렉션 안의 아이템들을 합쳐줍니다. 이 메소드의 인자는 컬렉션 안에 있는 아이템들의 타입에 의존합니다. 컬렉션이 배열 또는 객체를 가지고 있다면, 합치고자 하는 속성의 키와 값들 사이에 끼워 넣고자 하는 "glue" 문자열을 전달해야 합니다.
 
@@ -1187,7 +1247,7 @@ The `implode` method joins the items in a collection. Its arguments depend on th
 
     // Desk, Chair
 
-If the collection contains simple strings or numeric values, pass the "glue" as the only argument to the method:
+If the collection contains simple strings or numeric values, you should pass the "glue" as the only argument to the method:
 
 컬렉션이 간단한 문자열 또는 숫자값을 가지고 있다면, 간단하게 "glue" 를 첫 번째 인자로 전달하면 됩니다.
 
@@ -1196,8 +1256,7 @@ If the collection contains simple strings or numeric values, pass the "glue" as 
     // '1-2-3-4-5'
 
 <a name="method-intersect"></a>
-#### `intersect()` {#collection-method}
-#### `intersect()` {#collection-method}
+#### `intersect()` {.collection-method}
 
 The `intersect` method removes any values from the original collection that are not present in the given `array` or collection. The resulting collection will preserve the original collection's keys:
 
@@ -1216,12 +1275,11 @@ The `intersect` method removes any values from the original collection that are 
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect)를 사용할 때 수정됩니다.
 
 <a name="method-intersectbykeys"></a>
-#### `intersectByKeys()` {#collection-method}
-#### `intersectByKeys()` {#collection-method}
+#### `intersectByKeys()` {.collection-method}
 
-The `intersectByKeys` method removes any keys from the original collection that are not present in the given `array` or collection:
+The `intersectByKeys` method removes any keys and their corresponding values from the original collection that are not present in the given `array` or collection:
 
-`intersectByKeys` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키를 제거합니다.
+`intersectByKeys` 메소드는 원래의 컬렉션에서 주어진 `배열` 또는 컬렉션에 존재하지 않는 키와 해당 값을 제거합니다.
 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009,
@@ -1236,8 +1294,7 @@ The `intersectByKeys` method removes any keys from the original collection that 
     // ['type' => 'screen', 'year' => 2009]
 
 <a name="method-isempty"></a>
-#### `isEmpty()` {#collection-method}
-#### `isEmpty()` {#collection-method}
+#### `isEmpty()` {.collection-method}
 
 The `isEmpty` method returns `true` if the collection is empty; otherwise, `false` is returned:
 
@@ -1248,8 +1305,7 @@ The `isEmpty` method returns `true` if the collection is empty; otherwise, `fals
     // true
 
 <a name="method-isnotempty"></a>
-#### `isNotEmpty()` {#collection-method}
-#### `isNotEmpty()` {#collection-method}
+#### `isNotEmpty()` {.collection-method}
 
 The `isNotEmpty` method returns `true` if the collection is not empty; otherwise, `false` is returned:
 
@@ -1260,12 +1316,11 @@ The `isNotEmpty` method returns `true` if the collection is not empty; otherwise
     // false
 
 <a name="method-join"></a>
-#### `join()` {#collection-method}
-#### `join()` {#collection-method}
+#### `join()` {.collection-method}
 
-The `join` method joins the collection's values with a string:
+The `join` method joins the collection's values with a string. Using this method's second argument, you may also specify how the final element should be appended to the string:
 
-`join` 메소드는 컬렉션의 값을 지정한 문자열로 합칩니다.
+`join` 메소드는 컬렉션의 값을 지정한 문자열로 합칩니다. 이 메서드의 두 번째 인수를 사용하여 마지막 요소를 문자열에 추가하는 방법을 지정할 수도 있습니다.
 
     collect(['a', 'b', 'c'])->join(', '); // 'a, b, c'
     collect(['a', 'b', 'c'])->join(', ', ', and '); // 'a, b, and c'
@@ -1274,8 +1329,7 @@ The `join` method joins the collection's values with a string:
     collect([])->join(', ', ' and '); // ''
 
 <a name="method-keyby"></a>
-#### `keyBy()` {#collection-method}
-#### `keyBy()` {#collection-method}
+#### `keyBy()` {.collection-method}
 
 The `keyBy` method keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection:
 
@@ -1315,8 +1369,7 @@ You may also pass a callback to the method. The callback should return the value
     */
 
 <a name="method-keys"></a>
-#### `keys()` {#collection-method}
-#### `keys()` {#collection-method}
+#### `keys()` {.collection-method}
 
 The `keys` method returns all of the collection's keys:
 
@@ -1334,8 +1387,7 @@ The `keys` method returns all of the collection's keys:
     // ['prod-100', 'prod-200']
 
 <a name="method-last"></a>
-#### `last()` {#collection-method}
-#### `last()` {#collection-method}
+#### `last()` {.collection-method}
 
 The `last` method returns the last element in the collection that passes a given truth test:
 
@@ -1356,24 +1408,21 @@ You may also call the `last` method with no arguments to get the last element in
     // 4
 
 <a name="method-macro"></a>
-#### `macro()` {#collection-method}
-#### `macro()` {#collection-method}
+#### `macro()` {.collection-method}
 
 The static `macro` method allows you to add methods to the `Collection` class at run time. Refer to the documentation on [extending collections](#extending-collections) for more information.
 
 `macro` 메소드를 사용하면 런타임에 `Collection` 클래스에 메소드를 추가할 수 있습니다. 자세한 정보는 [컬렉션 확장하기](#extending-collections) 문서를 참조하십시오.
 
 <a name="method-make"></a>
-#### `make()` {#collection-method}
-#### `make()` {#collection-method}
+#### `make()` {.collection-method}
 
 The static `make` method creates a new collection instance. See the [Creating Collections](#creating-collections) section.
 
 `make` 메소드는 새로운 컬렉션 인스턴스를 생성합니다. [컬렉션 생성하기](#creating-collections) 부분을 참고하십시오.
 
 <a name="method-map"></a>
-#### `map()` {#collection-method}
-#### `map()` {#collection-method}
+#### `map()` {.collection-method}
 
 The `map` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items:
 
@@ -1394,8 +1443,7 @@ The `map` method iterates through the collection and passes each value to the gi
 > {note} 대다수의 다른 컬렉션 메소드와 같이, `map` 메소드는 새로운 컬렉션 인스턴스를 반환합니다; 이 메소드는 호출된 컬렉션을 변경하지 않습니다. 원래의 컬렉션을 변경하고자 한다면 [`transform`](#method-transform)메소드를 사용하십시오.
 
 <a name="method-mapinto"></a>
-#### `mapInto()` {#collection-method}
-#### `mapInto()` {#collection-method}
+#### `mapInto()` {.collection-method}
 
 The `mapInto()` method iterates over the collection, creating a new instance of the given class by passing the value into the constructor:
 
@@ -1424,12 +1472,11 @@ The `mapInto()` method iterates over the collection, creating a new instance of 
     // [Currency('USD'), Currency('EUR'), Currency('GBP')]
 
 <a name="method-mapspread"></a>
-#### `mapSpread()` {#collection-method}
-#### `mapSpread()` {#collection-method}
+#### `mapSpread()` {.collection-method}
 
-The `mapSpread` method iterates over the collection's items, passing each nested item value into the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items:
+The `mapSpread` method iterates over the collection's items, passing each nested item value into the given closure. The closure is free to modify the item and return it, thus forming a new collection of modified items:
 
-`mapSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 콜백에 전달합니다. 콜백에서는 자유롭게 아이템을 수정하고 반환할 수 있으며, 그 결과 수정된 아이템으로 구성된 새로운 컬렉션을 반환합니다.
+`mapSpread` 메소드는 컬렉션의 아이템을 돌면서 각각의 중첩된 아이템 값을 주어진 클로저에 전달합니다. 클로저에서는 자유롭게 아이템을 수정하고 반환할 수 있으며, 그 결과 수정된 아이템으로 구성된 새로운 컬렉션을 반환합니다.
 
     $collection = collect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -1444,12 +1491,11 @@ The `mapSpread` method iterates over the collection's items, passing each nested
     // [1, 5, 9, 13, 17]
 
 <a name="method-maptogroups"></a>
-#### `mapToGroups()` {#collection-method}
-#### `mapToGroups()` {#collection-method}
+#### `mapToGroups()` {.collection-method}
 
-The `mapToGroups` method groups the collection's items by the given callback. The callback should return an associative array containing a single key / value pair, thus forming a new collection of grouped values:
+The `mapToGroups` method groups the collection's items by the given closure. The closure should return an associative array containing a single key / value pair, thus forming a new collection of grouped values:
 
-`mapToGroups` 메소드는 컬렉션의 항목을 지정된 콜백 별로 그룹화합니다. 콜백은 하나의 키/값 쌍을 포함하는 그룹화 된 값으로 구성된 새로운 컬렉션을 반환합니다.
+`mapToGroups` 메소드는 컬렉션의 항목을 지정된 클로저 별로 그룹화합니다. 클로저는 하나의 키/값 쌍을 포함하는 그룹화 된 값으로 구성된 새로운 컬렉션을 반환합니다.
 
     $collection = collect([
         [
@@ -1470,7 +1516,7 @@ The `mapToGroups` method groups the collection's items by the given callback. Th
         return [$item['department'] => $item['name']];
     });
 
-    $grouped->toArray();
+    $grouped->all();
 
     /*
         [
@@ -1484,8 +1530,7 @@ The `mapToGroups` method groups the collection's items by the given callback. Th
     // ['John Doe', 'Jane Doe']
 
 <a name="method-mapwithkeys"></a>
-#### `mapWithKeys()` {#collection-method}
-#### `mapWithKeys()` {#collection-method}
+#### `mapWithKeys()` {.collection-method}
 
 The `mapWithKeys` method iterates through the collection and passes each value to the given callback. The callback should return an associative array containing a single key / value pair:
 
@@ -1504,7 +1549,7 @@ The `mapWithKeys` method iterates through the collection and passes each value t
         ]
     ]);
 
-    $keyed = $collection->mapWithKeys(function ($item) {
+    $keyed = $collection->mapWithKeys(function ($item, $key) {
         return [$item['email'] => $item['name']];
     });
 
@@ -1518,14 +1563,16 @@ The `mapWithKeys` method iterates through the collection and passes each value t
     */
 
 <a name="method-max"></a>
-#### `max()` {#collection-method}
-#### `max()` {#collection-method}
+#### `max()` {.collection-method}
 
 The `max` method returns the maximum value of a given key:
 
 `max` 메소드는 주어진 키에 해당하는 최대값을 반환합니다.
 
-    $max = collect([['foo' => 10], ['foo' => 20]])->max('foo');
+    $max = collect([
+        ['foo' => 10],
+        ['foo' => 20]
+    ])->max('foo');
 
     // 20
 
@@ -1534,14 +1581,18 @@ The `max` method returns the maximum value of a given key:
     // 5
 
 <a name="method-median"></a>
-#### `median()` {#collection-method}
-#### `median()` {#collection-method}
+#### `median()` {.collection-method}
 
 The `median` method returns the [median value](https://en.wikipedia.org/wiki/Median) of a given key:
 
 `median` 메소드는 주어진 키에 대한 [중간값](https://en.wikipedia.org/wiki/Median)을 반환합니다
 
-    $median = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->median('foo');
+    $median = collect([
+        ['foo' => 10],
+        ['foo' => 10],
+        ['foo' => 20],
+        ['foo' => 40]
+    ])->median('foo');
 
     // 15
 
@@ -1550,8 +1601,7 @@ The `median` method returns the [median value](https://en.wikipedia.org/wiki/Med
     // 1.5
 
 <a name="method-merge"></a>
-#### `merge()` {#collection-method}
-#### `merge()` {#collection-method}
+#### `merge()` {.collection-method}
 
 The `merge` method merges the given array or collection with the original collection. If a string key in the given items matches a string key in the original collection, the given items's value will overwrite the value in the original collection:
 
@@ -1578,8 +1628,7 @@ If the given items's keys are numeric, the values will be appended to the end of
     // ['Desk', 'Chair', 'Bookcase', 'Door']
 
 <a name="method-mergerecursive"></a>
-#### `mergeRecursive()` {#collection-method}
-#### `mergeRecursive()` {#collection-method}
+#### `mergeRecursive()` {.collection-method}
 
 The `mergeRecursive` method merges the given array or collection recursively with the original collection. If a string key in the given items matches a string key in the original collection, then the values for these keys are merged together into an array, and this is done recursively:
 
@@ -1587,15 +1636,18 @@ The `mergeRecursive` method merges the given array or collection recursively wit
 
     $collection = collect(['product_id' => 1, 'price' => 100]);
 
-    $merged = $collection->mergeRecursive(['product_id' => 2, 'price' => 200, 'discount' => false]);
+    $merged = $collection->mergeRecursive([
+        'product_id' => 2,
+        'price' => 200,
+        'discount' => false
+    ]);
 
     $merged->all();
 
     // ['product_id' => [1, 2], 'price' => [100, 200], 'discount' => false]
 
 <a name="method-min"></a>
-#### `min()` {#collection-method}
-#### `min()` {#collection-method}
+#### `min()` {.collection-method}
 
 The `min` method returns the minimum value of a given key:
 
@@ -1610,14 +1662,18 @@ The `min` method returns the minimum value of a given key:
     // 1
 
 <a name="method-mode"></a>
-#### `mode()` {#collection-method}
-#### `mode()` {#collection-method}
+#### `mode()` {.collection-method}
 
 The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(statistics)) of a given key:
 
 `mode` 메소드는 [확률분포에서의 중앙값](https://en.wikipedia.org/wiki/Mode_(statistics))을 반환합니다.
 
-    $mode = collect([['foo' => 10], ['foo' => 10], ['foo' => 20], ['foo' => 40]])->mode('foo');
+    $mode = collect([
+        ['foo' => 10],
+        ['foo' => 10],
+        ['foo' => 20],
+        ['foo' => 40]
+    ])->mode('foo');
 
     // [10]
 
@@ -1625,9 +1681,12 @@ The `mode` method returns the [mode value](https://en.wikipedia.org/wiki/Mode_(s
 
     // [1]
 
+    $mode = collect([1, 1, 2, 2])->mode();
+
+    // [1, 2]
+
 <a name="method-nth"></a>
-#### `nth()` {#collection-method}
-#### `nth()` {#collection-method}
+#### `nth()` {.collection-method}
 
 The `nth` method creates a new collection consisting of every n-th element:
 
@@ -1641,23 +1700,27 @@ The `nth` method creates a new collection consisting of every n-th element:
 
     // ['a', 'e']
 
-You may optionally pass an offset as the second argument:
+You may optionally pass a starting offset as the second argument:
 
-두 번째 인자로 offset을 전달할 수도 있습니다.
+두 번째 인자로 시작 offset을 전달할 수도 있습니다.
 
     $collection->nth(4, 1);
 
     // ['b', 'f']
 
 <a name="method-only"></a>
-#### `only()` {#collection-method}
-#### `only()` {#collection-method}
+#### `only()` {.collection-method}
 
 The `only` method returns the items in the collection with the specified keys:
 
 `only` 메소드는 컬렉션 안에서 지정된 키에 대한 아이템 만을 반환합니다.
 
-    $collection = collect(['product_id' => 1, 'name' => 'Desk', 'price' => 100, 'discount' => false]);
+    $collection = collect([
+        'product_id' => 1,
+        'name' => 'Desk',
+        'price' => 100,
+        'discount' => false
+    ]);
 
     $filtered = $collection->only(['product_id', 'name']);
 
@@ -1674,8 +1737,7 @@ For the inverse of `only`, see the [except](#method-except) method.
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only)를 사용할 때 수정됩니다.
 
 <a name="method-pad"></a>
-#### `pad()` {#collection-method}
-#### `pad()` {#collection-method}
+#### `pad()` {.collection-method}
 
 The `pad` method will fill the array with the given value until the array reaches the specified size. This method behaves like the [array_pad](https://secure.php.net/manual/en/function.array-pad.php) PHP function.
 
@@ -1700,16 +1762,15 @@ To pad to the left, you should specify a negative size. No padding will take pla
     // [0, 0, 'A', 'B', 'C']
 
 <a name="method-partition"></a>
-#### `partition()` {#collection-method}
-#### `partition()` {#collection-method}
+#### `partition()` {.collection-method}
 
-The `partition` method may be combined with the `list` PHP function to separate elements that pass a given truth test from those that do not:
+The `partition` method may be combined with PHP array destructuring to separate elements that pass a given truth test from those that do not:
 
-`partition` 메소드는 PHP의 `list` 함수와 함께 사용되어 주어진 조건식을 만족하는, 그리고 만족하지 못하는 두 개의 요소들로 나누는데 사용할 수 있습니다.
+`partition` 메소드는 PHP 배열을 변수로 분해하는 표현식과 함께 사용되어 주어진 조건식을 만족하는, 그리고 만족하지 못하는 두 개의 요소들로 나누는데 사용할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6]);
 
-    list($underThree, $equalOrAboveThree) = $collection->partition(function ($i) {
+    [$underThree, $equalOrAboveThree] = $collection->partition(function ($i) {
         return $i < 3;
     });
 
@@ -1722,12 +1783,11 @@ The `partition` method may be combined with the `list` PHP function to separate 
     // [3, 4, 5, 6]
 
 <a name="method-pipe"></a>
-#### `pipe()` {#collection-method}
-#### `pipe()` {#collection-method}
+#### `pipe()` {.collection-method}
 
-The `pipe` method passes the collection to the given callback and returns the result:
+The `pipe` method passes the collection to the given closure and returns the result of the executed closure:
 
-`pipe` 메소드는 컬렉션을 주어진 콜백에 전달하고 그 결과를 반환합니다.
+`pipe` 메소드는 컬렉션을 주어진 클로저에 전달하고 그 결과를 반환합니다.
 
     $collection = collect([1, 2, 3]);
 
@@ -1737,9 +1797,62 @@ The `pipe` method passes the collection to the given callback and returns the re
 
     // 6
 
+<a name="method-pipeinto"></a>
+#### `pipeInto()` {.collection-method}
+
+The `pipeInto` method creates a new instance of the given class and passes the collection into the constructor:
+
+`pipeInto` 메소드는 주어진 클래스의 새로운 인스턴스를 생성하고 컬렉션을 생성자에 전달합니다.
+
+    class ResourceCollection
+    {
+        /**
+         * The Collection instance.
+         */
+        public $collection;
+
+        /**
+         * Create a new ResourceCollection instance.
+         *
+         * @param  Collection  $collection
+         * @return void
+         */
+        public function __construct(Collection $collection)
+        {
+            $this->collection = $collection;
+        }
+    }
+
+    $collection = collect([1, 2, 3]);
+
+    $resource = $collection->pipeInto(ResourceCollection::class);
+
+    $resource->collection->all();
+
+    // [1, 2, 3]
+
+<a name="method-pipethrough"></a>
+#### `pipeThrough()` {.collection-method}
+
+The `pipeThrough` method passes the collection to the given array of closures and returns the result of the executed closures:
+
+'pipeThrough' 메서드는 컬렉션을 주어진 클로저 배열로 전달하고 실행된 클로저의 결과를 반환합니다.
+
+    $collection = collect([1, 2, 3]);
+
+    $result = $collection->pipeThrough([
+        function ($collection) {
+            return $collection->merge([4, 5]);
+        },
+        function ($collection) {
+            return $collection->sum();
+        },
+    ]);
+
+    // 15
+
 <a name="method-pluck"></a>
-#### `pluck()` {#collection-method}
-#### `pluck()` {#collection-method}
+#### `pluck()` {.collection-method}
 
 The `pluck` method retrieves all of the values for a given key:
 
@@ -1803,8 +1916,7 @@ If duplicate keys exist, the last matching element will be inserted into the plu
     // ['Tesla' => 'black', 'Pagani' => 'orange']
 
 <a name="method-pop"></a>
-#### `pop()` {#collection-method}
-#### `pop()` {#collection-method}
+#### `pop()` {.collection-method}
 
 The `pop` method removes and returns the last item from the collection:
 
@@ -1820,9 +1932,22 @@ The `pop` method removes and returns the last item from the collection:
 
     // [1, 2, 3, 4]
 
+You may pass an integer to the `pop` method to remove and return multiple items from the end of a collection:
+
+컬렉션의 끝에서 여러 항목을 제거하고 반환하기 위해 `pop` 메서드에 정수를 전달할 수 있습니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->pop(3);
+
+    // collect([5, 4, 3])
+
+    $collection->all();
+
+    // [1, 2]
+
 <a name="method-prepend"></a>
-#### `prepend()` {#collection-method}
-#### `prepend()` {#collection-method}
+#### `prepend()` {.collection-method}
 
 The `prepend` method adds an item to the beginning of the collection:
 
@@ -1836,7 +1961,7 @@ The `prepend` method adds an item to the beginning of the collection:
 
     // [0, 1, 2, 3, 4, 5]
 
-You may also pass a second argument to set the key of the prepended item:
+You may also pass a second argument to specify the key of the prepended item:
 
 또한 두 번째 인자로 앞에 붙이고자 하는 아이템의 키를 설정할 수도 있습니다.
 
@@ -1849,8 +1974,7 @@ You may also pass a second argument to set the key of the prepended item:
     // ['zero' => 0, 'one' => 1, 'two' => 2]
 
 <a name="method-pull"></a>
-#### `pull()` {#collection-method}
-#### `pull()` {#collection-method}
+#### `pull()` {.collection-method}
 
 The `pull` method removes and returns an item from the collection by its key:
 
@@ -1867,8 +1991,7 @@ The `pull` method removes and returns an item from the collection by its key:
     // ['product_id' => 'prod-100']
 
 <a name="method-push"></a>
-#### `push()` {#collection-method}
-#### `push()` {#collection-method}
+#### `push()` {.collection-method}
 
 The `push` method appends an item to the end of the collection:
 
@@ -1883,8 +2006,7 @@ The `push` method appends an item to the end of the collection:
     // [1, 2, 3, 4, 5]
 
 <a name="method-put"></a>
-#### `put()` {#collection-method}
-#### `put()` {#collection-method}
+#### `put()` {.collection-method}
 
 The `put` method sets the given key and value in the collection:
 
@@ -1899,8 +2021,7 @@ The `put` method sets the given key and value in the collection:
     // ['product_id' => 1, 'name' => 'Desk', 'price' => 100]
 
 <a name="method-random"></a>
-#### `random()` {#collection-method}
-#### `random()` {#collection-method}
+#### `random()` {.collection-method}
 
 The `random` method returns a random item from the collection:
 
@@ -1912,9 +2033,9 @@ The `random` method returns a random item from the collection:
 
     // 4 - (retrieved randomly)
 
-You may optionally pass an integer to `random` to specify how many items you would like to randomly retrieve. A collection of items is always returned when explicitly passing the number of items you wish to receive:
+You may pass an integer to `random` to specify how many items you would like to randomly retrieve. A collection of items is always returned when explicitly passing the number of items you wish to receive:
 
-얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 선택적으로 정수값을 전달할 수 있습니다. 수신할 아이템의 수를 명시적으로 전달하면 아이템 컬렉션이 반환됩니다.
+얼마나 많은 아이템을 랜덤으로 조회할지 `random` 메소드에 정수값을 전달할 수 있습니다. 수신할 아이템의 수를 명시적으로 전달하면 아이템 컬렉션이 반환됩니다.
 
     $random = $collection->random(3);
 
@@ -1922,13 +2043,25 @@ You may optionally pass an integer to `random` to specify how many items you wou
 
     // [2, 4, 5] - (retrieved randomly)
 
-If the Collection has fewer items than requested, the method will throw an `InvalidArgumentException`.
+If the collection instance has fewer items than requested, the `random` method will throw an `InvalidArgumentException`.
 
-컬렉션이 요청된 것보다 더 적은 개수의 아이템을 가지고 있다면, 메소드는 `InvalidArgumentException`을 던집니다.
+컬렉션 인스턴스가 요청된 것보다 더 적은 개수의 아이템을 가지고 있다면, `random` 메소드는 `InvalidArgumentException`을 던집니다.
+
+<a name="method-range"></a>
+#### `range()` {.collection-method}
+
+The `range` method returns a collection containing integers between the specified range:
+
+`range` 메소드는 지정된 범위 사이의 정수를 포함하는 컬렉션을 반환합니다.
+
+    $collection = collect()->range(3, 6);
+
+    $collection->all();
+
+    // [3, 4, 5, 6]
 
 <a name="method-reduce"></a>
-#### `reduce()` {#collection-method}
-#### `reduce()` {#collection-method}
+#### `reduce()` {.collection-method}
 
 The `reduce` method reduces the collection to a single value, passing the result of each iteration into the subsequent iteration:
 
@@ -1952,13 +2085,55 @@ The value for `$carry` on the first iteration is `null`; however, you may specif
 
     // 10
 
+The `reduce` method also passes array keys in associative collections to the given callback:
+
+`reduce` 메서드는 연관 컬렉션의 배열 키도 지정된 콜백에 전달합니다.
+
+    $collection = collect([
+        'usd' => 1400,
+        'gbp' => 1200,
+        'eur' => 1000,
+    ]);
+
+    $ratio = [
+        'usd' => 1,
+        'gbp' => 1.37,
+        'eur' => 1.22,
+    ];
+
+    $collection->reduce(function ($carry, $value, $key) use ($ratio) {
+        return $carry + ($value * $ratio[$key]);
+    });
+
+    // 4264
+
+<a name="method-reduce-spread"></a>
+#### `reduceSpread()` {.collection-method}
+
+The `reduceSpread` method reduces the collection to an array of values, passing the results of each iteration into the subsequent iteration. This method is similar to the `reduce` method; however, it can accept multiple initial values:
+
+`reduceSpread` 메소드는 컬렉션을 값 배열로 줄이고 각 반복의 결과를 후속 반복에 전달합니다. 이 방법은 `reduce` 메소드와 유사하지만, 여러 초기 값을 허용할 수 있습니다.
+
+```php
+[$creditsRemaining, $batch] = Image::where('status', 'unprocessed')
+        ->get()
+        ->reduceSpread(function ($creditsRemaining, $batch, $image) {
+            if ($creditsRemaining >= $image->creditsRequired()) {
+                $batch->push($image);
+
+                $creditsRemaining -= $image->creditsRequired();
+            }
+
+            return [$creditsRemaining, $batch];
+        }, $creditsAvailable, collect());
+```
+
 <a name="method-reject"></a>
-#### `reject()` {#collection-method}
-#### `reject()` {#collection-method}
+#### `reject()` {.collection-method}
 
-The `reject` method filters the collection using the given callback. The callback should return `true` if the item should be removed from the resulting collection:
+The `reject` method filters the collection using the given closure. The closure should return `true` if the item should be removed from the resulting collection:
 
-`reject` 메소드는 컬렉션에서 지정된 콜백을 사용하여 필터링을 합니다. 콜백은 결과 컬렉션에서 제거되어야 하는 아이템의 경우 `true`를 반환해야 합니다.
+`reject` 메소드는 컬렉션에서 지정된 클로저를 사용하여 필터링을 합니다. 클로저는 결과 컬렉션에서 제거되어야 하는 아이템의 경우 `true`를 반환해야 합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -1975,12 +2150,11 @@ For the inverse of the `reject` method, see the [`filter`](#method-filter) metho
 `reject` 메소드의 반대는, [`filter`](#method-filter)메소드를 확인하십시오.
 
 <a name="method-replace"></a>
-#### `replace()` {#collection-method}
-#### `replace()` {#collection-method}
+#### `replace()` {.collection-method}
 
-The `replace` method behaves similarly to `merge`; however, in addition to overwriting matching items with string keys, the `replace` method will also overwrite items in the collection that have matching numeric keys:
+The `replace` method behaves similarly to `merge`; however, in addition to overwriting matching items that have string keys, the `replace` method will also overwrite items in the collection that have matching numeric keys:
 
-`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 일치하는 항목을 문자열 키로 덮어 쓰는 것 외에도 `replace` 메소드는 컬렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
+`replace` 메소드는 `merge`와 비슷하게 동작합니다. 그러나 문자열 키가 있는 일치하는 항목을 덮어 쓰는 것 외에도 `replace` 메소드는 컬렉션에서 일치하는 숫자 키를 가진 항목을 덮어 씁니다.
 
     $collection = collect(['Taylor', 'Abigail', 'James']);
 
@@ -1991,24 +2165,33 @@ The `replace` method behaves similarly to `merge`; however, in addition to overw
     // ['Taylor', 'Victoria', 'James', 'Finn']
 
 <a name="method-replacerecursive"></a>
-#### `replaceRecursive()` {#collection-method}
-#### `replaceRecursive()` {#collection-method}
+#### `replaceRecursive()` {.collection-method}
 
 This method works like `replace`, but it will recur into arrays and apply the same replacement process to the inner values:
 
 이 메소드는 `replace`처럼 동작하지만, 재귀적 배열로 반복되어 내부 값에 동일한 대체 프로세스를 적용합니다.
 
-    $collection = collect(['Taylor', 'Abigail', ['James', 'Victoria', 'Finn']]);
+    $collection = collect([
+        'Taylor',
+        'Abigail',
+        [
+            'James',
+            'Victoria',
+            'Finn'
+        ]
+    ]);
 
-    $replaced = $collection->replaceRecursive(['Charlie', 2 => [1 => 'King']]);
+    $replaced = $collection->replaceRecursive([
+        'Charlie',
+        2 => [1 => 'King']
+    ]);
 
     $replaced->all();
 
     // ['Charlie', 'Abigail', ['James', 'King', 'Finn']]
 
 <a name="method-reverse"></a>
-#### `reverse()` {#collection-method}
-#### `reverse()` {#collection-method}
+#### `reverse()` {.collection-method}
 
 The `reverse` method reverses the order of the collection's items, preserving the original keys:
 
@@ -2031,10 +2214,9 @@ The `reverse` method reverses the order of the collection's items, preserving th
     */
 
 <a name="method-search"></a>
-#### `search()` {#collection-method}
-#### `search()` {#collection-method}
+#### `search()` {.collection-method}
 
-The `search` method searches the collection for the given value and returns its key if found. If the item is not found, `false` is returned.
+The `search` method searches the collection for the given value and returns its key if found. If the item is not found, `false` is returned:
 
 `search` 메소드는 주어진 값이 컬렉션에 있는지 찾아서 해당 값의 키를 반환합니다. 아이템을 찾지 못한 경우, `false`가 반환됩니다.
 
@@ -2048,23 +2230,22 @@ The search is done using a "loose" comparison, meaning a string with an integer 
 
 검색은 "느슨한" 비교로 (타입을 엄격하게 비교하지 않습니다) 다시말해 문자열과 정수값의 경우 동일한 값이라면 같다고 판단합니다. 타입에 일치하는 "엄격한" 비교를 수행하려면 `true`를 메소드의 두 번째 인자로 전달하면 됩니다.
 
-    $collection->search('4', true);
+    collect([2, 4, 6, 8])->search('4', $strict = true);
 
     // false
 
-Alternatively, you may pass in your own callback to search for the first item that passes your truth test:
+Alternatively, you may provide your own closure to search for the first item that passes a given truth test:
 
-다른 방법으로, 검색 콜백을 전달하여 콜백을 통과 하는 첫 번째 아이템을 획득할 수도 있습니다.
+또는 특정 조건을 만족하는 첫 번째 항목을 검색하기 위해 고유한 클로저를 전달할 수도 있습니다.
 
-    $collection->search(function ($item, $key) {
+    collect([2, 4, 6, 8])->search(function ($item, $key) {
         return $item > 5;
     });
 
     // 2
 
 <a name="method-shift"></a>
-#### `shift()` {#collection-method}
-#### `shift()` {#collection-method}
+#### `shift()` {.collection-method}
 
 The `shift` method removes and returns the first item from the collection:
 
@@ -2080,9 +2261,22 @@ The `shift` method removes and returns the first item from the collection:
 
     // [2, 3, 4, 5]
 
+You may pass an integer to the `shift` method to remove and return multiple items from the beginning of a collection:
+
+컬렉션의 시작 부분에서 여러 항목을 제거하고 반환하기 위해 `shift` 메서드에 정수를 전달할 수 있습니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->shift(3);
+
+    // collect([1, 2, 3])
+
+    $collection->all();
+
+    // [4, 5]
+
 <a name="method-shuffle"></a>
-#### `shuffle()` {#collection-method}
-#### `shuffle()` {#collection-method}
+#### `shuffle()` {.collection-method}
 
 The `shuffle` method randomly shuffles the items in the collection:
 
@@ -2096,13 +2290,47 @@ The `shuffle` method randomly shuffles the items in the collection:
 
     // [3, 2, 5, 1, 4] - (generated randomly)
 
+<a name="method-sliding"></a>
+#### `sliding()` {.collection-method}
+
+The `sliding` method returns a new collection of chunks representing a "sliding window" view of the items in the collection:
+
+`sliding` 메소드는 컬렉션에 있는 항목의 "슬라이딩 창" 보기를 나타내는 청크의 새로운 컬렉션을 반환합니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(2);
+
+    $chunks->toArray();
+
+    // [[1, 2], [2, 3], [3, 4], [4, 5]]
+
+This is especially useful in conjunction with the [`eachSpread`](#method-eachspread) method:
+
+이것은 [`eachSpread`](#method-eachspread) 메소드와 함께 특히 유용합니다.
+
+    $transactions->sliding(2)->eachSpread(function ($previous, $current) {
+        $current->total = $previous->total + $current->amount;
+    });
+
+You may optionally pass a second "step" value, which determines the distance between the first item of every chunk:
+
+선택적으로 모든 청크의 첫 번째 항목 사이의 거리를 결정하는 두 번째 "단계" 값을 전달할 수 있습니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(3, step: 2);
+
+    $chunks->toArray();
+
+    // [[1, 2, 3], [3, 4, 5]]
+
 <a name="method-skip"></a>
-#### `skip()` {#collection-method}
-#### `skip()` {#collection-method}
+#### `skip()` {.collection-method}
 
-The `skip` method returns a new collection, without the first given amount of items:
+The `skip` method returns a new collection, with the given number of elements removed from the beginning of the collection:
 
-`skip` 메소드는 첫번째로 주어진 항목의 수 만큼을 제외한 새 컬렉션을 반환합니다.
+`skip` 메소드는 컬렉션의 시작 부분부터 주어진 항목의 수 만큼을 제외한 새 컬렉션을 반환합니다.
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
@@ -2113,12 +2341,11 @@ The `skip` method returns a new collection, without the first given amount of it
     // [5, 6, 7, 8, 9, 10]
 
 <a name="method-skipuntil"></a>
-#### `skipUntil()` {#collection-method}
-#### `skipUntil()` {#collection-method}
+#### `skipUntil()` {.collection-method}
 
-The `skipUntil` method skips items until the given callback returns `true` and then returns the remaining items in the collection:
+The `skipUntil` method skips over items from the collection until the given callback returns `true` and then returns the remaining items in the collection as a new collection instance:
 
-`skipUntil` 메소드는 주어진 콜백이 `true`를 반환 할 때까지 항목을 건너 뛴 다음 컬렉션의 나머지 항목을 반환합니다.
+`skipUntil` 메소드는 주어진 콜백이 `true`를 반환 할 때까지 컬렉션의 항목을 건너 뛴 다음 컬렉션의 나머지 항목을 새 컬렉션 인스턴스로 반환합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -2144,15 +2371,12 @@ You may also pass a simple value to the `skipUntil` method to skip all items unt
 
 > {note} If the given value is not found or the callback never returns `true`, the `skipUntil` method will return an empty collection.
 
-> {note} 주어진 값이 없거나 콜백이 `true`를 반환하지 않는 경우 `skipUntil`메서드는 빈 컬렉션을 반환합니다.
-
 <a name="method-skipwhile"></a>
-#### `skipWhile()` {#collection-method}
-#### `skipWhile()` {#collection-method}
+#### `skipWhile()` {.collection-method}
 
-The `skipWhile` method skips items while the given callback returns `true` and then returns the remaining items in the collection:
+The `skipWhile` method skips over items from the collection while the given callback returns `true` and then returns the remaining items in the collection as a new collection:
 
-`skipWhile` 메소드는 주어진 콜백이 `true`를 반환하고 컬렉션의 나머지 항목을 반환하는 동안 항목을 건너 뜁니다.
+`skipWhile` 메소드는 컬렉션의 항목을 건너뛰고 주어진 콜백이 `true`를 반환한 다음 컬렉션의 나머지 항목을 새 컬랙션으로 반환합니다.
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -2164,13 +2388,12 @@ The `skipWhile` method skips items while the given callback returns `true` and t
 
     // [4]
 
-> {note} If the callback never returns `true`, the `skipWhile` method will return an empty collection.
+> {note} If the callback never returns `false`, the `skipWhile` method will return an empty collection.
 
-> {note} 콜백이 `true`를 반환하지 않는 경우 `skipWhile` 메서드는 빈 컬렉션을 반환합니다.
+> {note} 콜백이 `false`를 반환하지 않는 경우 `skipWhile` 메서드는 빈 컬렉션을 반환합니다.
 
 <a name="method-slice"></a>
-#### `slice()` {#collection-method}
-#### `slice()` {#collection-method}
+#### `slice()` {.collection-method}
 
 The `slice` method returns a slice of the collection starting at the given index:
 
@@ -2198,9 +2421,50 @@ The returned slice will preserve keys by default. If you do not wish to preserve
 
 반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 [`values`](#method-values) 메소드를 사용할 수 있습니다.
 
+<a name="method-sole"></a>
+#### `sole()` {.collection-method}
+
+The `sole` method returns the first element in the collection that passes a given truth test, but only if the truth test matches exactly one element:
+
+`sole` 메소드는 주어진 조건을 만족하는 컬렉션의 첫 번째 요소를 반환하지만, 정확히 하나의 요소와 일치하여야 합니다.
+
+    collect([1, 2, 3, 4])->sole(function ($value, $key) {
+        return $value === 2;
+    });
+
+    // 2
+
+You may also pass a key / value pair to the `sole` method, which will return the first element in the collection that matches the given pair, but only if it exactly one element matches:
+
+키/값 쌍을 `sole` 메소드에 전달할 수도 있습니다. 그러면 컬렉션에서 주어진 쌍과 일치하는 첫 번째 요소가 반환되지만 정확히 하나의 요소가 일치하는 경우에만 반환됩니다.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Chair', 'price' => 100],
+    ]);
+
+    $collection->sole('product', 'Chair');
+
+    // ['product' => 'Chair', 'price' => 100]
+
+Alternatively, you may also call the `sole` method with no argument to get the first element in the collection if there is only one element:
+
+또는 요소가 하나만 있는 경우 컬렉션의 첫 번째 요소를 가져오기 위해 인수 없이 `sole` 메서드를 호출할 수도 있습니다.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+    ]);
+
+    $collection->sole();
+
+    // ['product' => 'Desk', 'price' => 200]
+
+If there are no elements in the collection that should be returned by the `sole` method, an `\Illuminate\Collections\ItemNotFoundException` exception will be thrown. If there is more than one element that should be returned, an `\Illuminate\Collections\MultipleItemsFoundException` will be thrown.
+
+컬렉션에 `sole` 메서드가 반환해야 하는 요소가 없으면 `\Illuminate\Collections\ItemNotFoundException` 예외가 발생합니다. 반환해야 하는 요소가 두 개 이상 있으면 `\Illuminate\Collections\MultipleItemsFoundException`이 발생합니다.
+
 <a name="method-some"></a>
-#### `some()` {#collection-method}
-#### `some()` {#collection-method}
+#### `some()` {.collection-method}
 
 Alias for the [`contains`](#method-contains) method.
 
@@ -2208,10 +2472,9 @@ Alias for the [`contains`](#method-contains) method.
 
 
 <a name="method-sort"></a>
-#### `sort()` {#collection-method}
-#### `sort()` {#collection-method}
+#### `sort()` {.collection-method}
 
-The `sort` method sorts the collection. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+The `sort` method sorts the collection. The sorted collection keeps the original array keys, so in the following example we will use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
 `sort` 메소드는 컬렉션을 정렬합니다. 정렬된 컬렉션은 원래의 배열 키를 유지 하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
@@ -2223,19 +2486,18 @@ The `sort` method sorts the collection. The sorted collection keeps the original
 
     // [1, 2, 3, 4, 5]
 
-If your sorting needs are more advanced, you may pass a callback to `sort` with your own algorithm. Refer to the PHP documentation on [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters), which is what the collection's `sort` method calls under the hood.
+If your sorting needs are more advanced, you may pass a callback to `sort` with your own algorithm. Refer to the PHP documentation on [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters), which is what the collection's `sort` method calls utilizes internally.
 
-보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 호출될 때의 동작은 [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters)PHP 문서를 참고하십시오.
+보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 내부적으로 호출될 때의 동작은 [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters)PHP 문서를 참고하십시오.
 
 > {tip} If you need to sort a collection of nested arrays or objects, see the [`sortBy`](#method-sortby) and [`sortByDesc`](#method-sortbydesc) methods.
 
 > {tip} 만약 중첩된 배열이나 객체의 컬렉션을 정렬할 필요가 있다면, [`sortBy`](#method-sortby) 또는 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
 
 <a name="method-sortby"></a>
-#### `sortBy()` {#collection-method}
-#### `sortBy()` {#collection-method}
+#### `sortBy()` {.collection-method}
 
-The `sortBy` method sorts the collection by the given key. The sorted collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+The `sortBy` method sorts the collection by the given key. The sorted collection keeps the original array keys, so in the following example we will use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
 `sortBy` 메소드는 주어진 키에 의한 정렬을 수행합니다. 정렬된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
@@ -2257,9 +2519,31 @@ The `sortBy` method sorts the collection by the given key. The sorted collection
         ]
     */
 
-You can also pass your own callback to determine how to sort the collection values:
+The `sortBy` method accepts [sort flags](https://www.php.net/manual/en/function.sort.php) as its second argument:
 
-컬렉션의 값을 어떻게 정렬하는지를 결정하기 위해 콜백을 전달할 수도 있습니다.
+`sortBy` 메소드는 두 번째 인수로 [sort flags](https://www.php.net/manual/en/function.sort.php)를 허용합니다.
+
+    $collection = collect([
+        ['title' => 'Item 1'],
+        ['title' => 'Item 12'],
+        ['title' => 'Item 3'],
+    ]);
+
+    $sorted = $collection->sortBy('title', SORT_NATURAL);
+
+    $sorted->values()->all();
+
+    /*
+        [
+            ['title' => 'Item 1'],
+            ['title' => 'Item 3'],
+            ['title' => 'Item 12'],
+        ]
+    */
+
+Alternatively, you may pass your own closure to determine how to sort the collection's values:
+
+또는 컬렉션 값을 정렬하는 방법을 결정하기 위해 고유한 클로저를 전달할 수 있습니다.
 
     $collection = collect([
         ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
@@ -2281,17 +2565,69 @@ You can also pass your own callback to determine how to sort the collection valu
         ]
     */
 
+If you would like to sort your collection by multiple attributes, you may pass an array of sort operations to the `sortBy` method. Each sort operation should be an array consisting of the attribute that you wish to sort by and the direction of the desired sort:
+
+컬렉션을 여러 속성으로 정렬하려면 정렬 작업의 배열을 `sortBy` 메서드에 전달할 수 있습니다. 각 정렬 작업은 정렬 기준으로 사용할 속성과 원하는 정렬 방향으로 구성된 배열이어야 합니다.
+
+    $collection = collect([
+        ['name' => 'Taylor Otwell', 'age' => 34],
+        ['name' => 'Abigail Otwell', 'age' => 30],
+        ['name' => 'Taylor Otwell', 'age' => 36],
+        ['name' => 'Abigail Otwell', 'age' => 32],
+    ]);
+
+    $sorted = $collection->sortBy([
+        ['name', 'asc'],
+        ['age', 'desc'],
+    ]);
+
+    $sorted->values()->all();
+
+    /*
+        [
+            ['name' => 'Abigail Otwell', 'age' => 32],
+            ['name' => 'Abigail Otwell', 'age' => 30],
+            ['name' => 'Taylor Otwell', 'age' => 36],
+            ['name' => 'Taylor Otwell', 'age' => 34],
+        ]
+    */
+
+When sorting a collection by multiple attributes, you may also provide closures that define each sort operation:
+
+여러 속성으로 컬렉션을 정렬할 때 각 정렬 작업을 정의하는 클로저를 제공할 수도 있습니다.
+
+    $collection = collect([
+        ['name' => 'Taylor Otwell', 'age' => 34],
+        ['name' => 'Abigail Otwell', 'age' => 30],
+        ['name' => 'Taylor Otwell', 'age' => 36],
+        ['name' => 'Abigail Otwell', 'age' => 32],
+    ]);
+
+    $sorted = $collection->sortBy([
+        fn ($a, $b) => $a['name'] <=> $b['name'],
+        fn ($a, $b) => $b['age'] <=> $a['age'],
+    ]);
+
+    $sorted->values()->all();
+
+    /*
+        [
+            ['name' => 'Abigail Otwell', 'age' => 32],
+            ['name' => 'Abigail Otwell', 'age' => 30],
+            ['name' => 'Taylor Otwell', 'age' => 36],
+            ['name' => 'Taylor Otwell', 'age' => 34],
+        ]
+    */
+
 <a name="method-sortbydesc"></a>
-#### `sortByDesc()` {#collection-method}
-#### `sortByDesc()` {#collection-method}
+#### `sortByDesc()` {.collection-method}
 
 This method has the same signature as the [`sortBy`](#method-sortby) method, but will sort the collection in the opposite order.
 
 이 메소드의 사용법은 [`sortBy`](#method-sortby) 메소드와 동일하지만, 반대의 순서로 컬렉션을 정렬합니다.
 
 <a name="method-sortdesc"></a>
-#### `sortDesc()` {#collection-method}
-#### `sortDesc()` {#collection-method}
+#### `sortDesc()` {.collection-method}
 
 This method will sort the collection in the opposite order as the [`sort`](#method-sort) method:
 
@@ -2305,13 +2641,12 @@ This method will sort the collection in the opposite order as the [`sort`](#meth
 
     // [5, 4, 3, 2, 1]
 
-Unlike `sort`, you may not pass a callback to `sortDesc`. If you wish to use a callback, you should use [`sort`](#method-sort) and invert your comparison.
+Unlike `sort`, you may not pass a closure to `sortDesc`. Instead, you should use the [`sort`](#method-sort) method and invert your comparison.
 
-`sort`와 달리 `sortDesc`에 콜백을 전달할 수 없습니다. 콜백을 사용하려면 [`sort`](#method-sort)를 사용하고 비교를 반전해야합니다.
+`sort`와 달리 `sortDesc`에 클로저를 전달할 수 없습니다. 대신 [`sort`](#method-sort)를 사용하고 비교를 반전해야합니다.
 
 <a name="method-sortkeys"></a>
-#### `sortKeys()` {#collection-method}
-#### `sortKeys()` {#collection-method}
+#### `sortKeys()` {.collection-method}
 
 The `sortKeys` method sorts the collection by the keys of the underlying associative array:
 
@@ -2336,16 +2671,14 @@ The `sortKeys` method sorts the collection by the keys of the underlying associa
     */
 
 <a name="method-sortkeysdesc"></a>
-#### `sortKeysDesc()` {#collection-method}
-#### `sortKeysDesc()` {#collection-method}
+#### `sortKeysDesc()` {.collection-method}
 
 This method has the same signature as the [`sortKeys`](#method-sortkeys) method, but will sort the collection in the opposite order.
 
 이 메소드의 사용법은 [`sortKeys`](#method-sortkeys) 메소드와 동일하지만, 반대의 순서로 컬렉션을 정렬합니다.
 
 <a name="method-splice"></a>
-#### `splice()` {#collection-method}
-#### `splice()` {#collection-method}
+#### `splice()` {.collection-method}
 
 The `splice` method removes and returns a slice of items starting at the specified index:
 
@@ -2363,9 +2696,9 @@ The `splice` method removes and returns a slice of items starting at the specifi
 
     // [1, 2]
 
-You may pass a second argument to limit the size of the resulting chunk:
+You may pass a second argument to limit the size of the resulting collection:
 
-반환되는 결과의 사이즈를 제한하기 위해서 두 번째 인자로 전달할 수 있습니다.
+반환되는 결과 컬렉션의 사이즈를 제한하기 위해서 두 번째 인자로 전달할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 
@@ -2379,7 +2712,7 @@ You may pass a second argument to limit the size of the resulting chunk:
 
     // [1, 2, 4, 5]
 
-In addition, you can pass a third argument containing the new items to replace the items removed from the collection:
+In addition, you may pass a third argument containing the new items to replace the items removed from the collection:
 
 추가적으로, 컬렉션에서 아이템을 제거하고, 대체할 새로운 아이템을 세 번째 인자로 전달할 수 있습니다.
 
@@ -2396,8 +2729,7 @@ In addition, you can pass a third argument containing the new items to replace t
     // [1, 2, 10, 11, 4, 5]
 
 <a name="method-split"></a>
-#### `split()` {#collection-method}
-#### `split()` {#collection-method}
+#### `split()` {.collection-method}
 
 The `split` method breaks a collection into the given number of groups:
 
@@ -2407,13 +2739,27 @@ The `split` method breaks a collection into the given number of groups:
 
     $groups = $collection->split(3);
 
-    $groups->toArray();
+    $groups->all();
 
     // [[1, 2], [3, 4], [5]]
 
+<a name="method-splitin"></a>
+#### `splitIn()` {.collection-method}
+
+The `splitIn` method breaks a collection into the given number of groups, filling non-terminal groups completely before allocating the remainder to the final group:
+
+`splitIn` 메소드는 컬렉션을 주어진 수의 그룹으로 나누고 나머지를 최종 그룹에 할당하기 전에 비터미널 그룹을 완전히 채웁니다.
+
+    $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+    $groups = $collection->splitIn(3);
+
+    $groups->all();
+
+    // [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
+
 <a name="method-sum"></a>
-#### `sum()` {#collection-method}
-#### `sum()` {#collection-method}
+#### `sum()` {.collection-method}
 
 The `sum` method returns the sum of all items in the collection:
 
@@ -2423,7 +2769,7 @@ The `sum` method returns the sum of all items in the collection:
 
     // 15
 
-If the collection contains nested arrays or objects, you should pass a key to use for determining which values to sum:
+If the collection contains nested arrays or objects, you should pass a key that will be used to determine which values to sum:
 
 컬렉션이 중첩된 배열이나 객체를 가지고 있다면, 어떤 값을 더해야할지 결정하는 키를 전달해야 합니다.
 
@@ -2436,9 +2782,9 @@ If the collection contains nested arrays or objects, you should pass a key to us
 
     // 1272
 
-In addition, you may pass your own callback to determine which values of the collection to sum:
+In addition, you may pass your own closure to determine which values of the collection to sum:
 
-추가적으로, 컬렉션의 어떤 값을 더해야 할지 결정하는 콜백을 전달할 수도 있습니다.
+추가적으로, 컬렉션의 어떤 값을 더해야 할지 결정하는 클로저를 전달할 수도 있습니다.
 
     $collection = collect([
         ['name' => 'Chair', 'colors' => ['Black']],
@@ -2453,8 +2799,7 @@ In addition, you may pass your own callback to determine which values of the col
     // 6
 
 <a name="method-take"></a>
-#### `take()` {#collection-method}
-#### `take()` {#collection-method}
+#### `take()` {.collection-method}
 
 The `take` method returns a new collection with the specified number of items:
 
@@ -2468,7 +2813,7 @@ The `take` method returns a new collection with the specified number of items:
 
     // [0, 1, 2]
 
-You may also pass a negative integer to take the specified amount of items from the end of the collection:
+You may also pass a negative integer to take the specified number of items from the end of the collection:
 
 컬렉션의 끝에서부터 가져올 아이템의 개수를 지정하기 위해서 음수를 전달할 수도 있습니다.
 
@@ -2481,8 +2826,7 @@ You may also pass a negative integer to take the specified amount of items from 
     // [4, 5]
 
 <a name="method-takeuntil"></a>
-#### `takeUntil()` {#collection-method}
-#### `takeUntil()` {#collection-method}
+#### `takeUntil()` {.collection-method}
 
 The `takeUntil` method returns items in the collection until the given callback returns `true`:
 
@@ -2512,11 +2856,8 @@ You may also pass a simple value to the `takeUntil` method to get the items unti
 
 > {note} If the given value is not found or the callback never returns `true`, the `takeUntil` method will return all items in the collection.
 
-> {note} 주어진 값이 없거나 콜백이 `true`를 반환하지 않는 경우 `takeUntil`메서드는 컬렉션의 모든 항목을 반환합니다.
-
 <a name="method-takewhile"></a>
-#### `takeWhile()` {#collection-method}
-#### `takeWhile()` {#collection-method}
+#### `takeWhile()` {.collection-method}
 
 The `takeWhile` method returns items in the collection until the given callback returns `false`:
 
@@ -2534,32 +2875,28 @@ The `takeWhile` method returns items in the collection until the given callback 
 
 > {note} If the callback never returns `false`, the `takeWhile` method will return all items in the collection.
 
-> {note} 콜백이 `false`를 반환하지 않는 경우 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
-
 <a name="method-tap"></a>
-#### `tap()` {#collection-method}
-#### `tap()` {#collection-method}
+#### `tap()` {.collection-method}
 
-The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself:
+The `tap` method passes the collection to the given callback, allowing you to "tap" into the collection at a specific point and do something with the items while not affecting the collection itself. The collection is then returned by the `tap` method:
 
-`tap` 메소드는 컬렉션에 콜백과 함께 전달되며, 원래의 컬렉션에 영향을 주지 않고 특정 지점에 대해서 어떤 작업을 수행하고자 할 때 사용됩니다.
+`tap` 메소드는 컬렉션에 콜백과 함께 전달되며, 원래의 컬렉션에 영향을 주지 않고 특정 지점에 대해서 어떤 작업을 수행하고자 할 때 사용됩니다. 그런 다음 컬렉션은 `tap` 메소드에 의해 반환됩니다.
 
     collect([2, 4, 3, 1, 5])
         ->sort()
         ->tap(function ($collection) {
-            Log::debug('Values after sorting', $collection->values()->toArray());
+            Log::debug('Values after sorting', $collection->values()->all());
         })
         ->shift();
 
     // 1
 
 <a name="method-times"></a>
-#### `times()` {#collection-method}
-#### `times()` {#collection-method}
+#### `times()` {.collection-method}
 
-The static `times` method creates a new collection by invoking the callback a given amount of times:
+The static `times` method creates a new collection by invoking the given closure a specified number of times:
 
-`times` 메소드는 주어진 양의 횟수만큼 콜백을 수행한 결과로 새로운 컬렉션을 생성합니다.
+`times` 메소드는 주어진 양의 횟수만큼 클로저를 수행한 결과로 새로운 컬렉션을 생성합니다.
 
     $collection = Collection::times(10, function ($number) {
         return $number * 9;
@@ -2569,27 +2906,8 @@ The static `times` method creates a new collection by invoking the callback a gi
 
     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
 
-This method can be useful when combined with factories to create [Eloquent](/docs/{{version}}/eloquent) models:
-
-이 메소드는 [Eloquent](/docs/{{version}}/eloquent) 모델을 생성하는 팩토리와 조합할 때 유용합니다.
-
-    $categories = Collection::times(3, function ($number) {
-        return Category::factory()->create(['name' => "Category No. $number"]);
-    });
-
-    $categories->all();
-
-    /*
-        [
-            ['id' => 1, 'name' => 'Category No. 1'],
-            ['id' => 2, 'name' => 'Category No. 2'],
-            ['id' => 3, 'name' => 'Category No. 3'],
-        ]
-    */
-
 <a name="method-toarray"></a>
-#### `toArray()` {#collection-method}
-#### `toArray()` {#collection-method}
+#### `toArray()` {.collection-method}
 
 The `toArray` method converts the collection into a plain PHP `array`. If the collection's values are [Eloquent](/docs/{{version}}/eloquent) models, the models will also be converted to arrays:
 
@@ -2605,13 +2923,12 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
         ]
     */
 
-> {note} `toArray` also converts all of the collection's nested objects that are an instance of `Arrayable` to an array. If you want to get the raw underlying array, use the [`all`](#method-all) method instead.
+> {note} `toArray` also converts all of the collection's nested objects that are an instance of `Arrayable` to an array. If you want to get the raw array underlying the collection, use the [`all`](#method-all) method instead.
 
 > {note} 또한 `toArray`는 컬렉션 내의 `Arrayable` 인스턴스인 모든 중첩된 객체를 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
 
 <a name="method-tojson"></a>
-#### `toJson()` {#collection-method}
-#### `toJson()` {#collection-method}
+#### `toJson()` {.collection-method}
 
 The `toJson` method converts the collection into a JSON serialized string:
 
@@ -2624,8 +2941,7 @@ The `toJson` method converts the collection into a JSON serialized string:
     // '{"name":"Desk", "price":200}'
 
 <a name="method-transform"></a>
-#### `transform()` {#collection-method}
-#### `transform()` {#collection-method}
+#### `transform()` {.collection-method}
 
 The `transform` method iterates over the collection and calls the given callback with each item in the collection. The items in the collection will be replaced by the values returned by the callback:
 
@@ -2645,9 +2961,45 @@ The `transform` method iterates over the collection and calls the given callback
 
 > {note} 다른 컬렉션 메소드와 다르게, `transform` 메소드는 컬렉션 자신을 변경합니다. 대신에, 새로운 컬렉션을 생성하려면 [`map`](#method-map) 메소드를 사용하십시오.
 
+<a name="method-undot"></a>
+#### `undot()` {.collection-method}
+
+The `undot` method expands a single-dimensional collection that uses "dot" notation into a multi-dimensional collection:
+
+`undot` 메서드는 "점" 표기법을 사용하는 1차원 컬렉션을 다차원 컬렉션으로 확장합니다.
+
+    $person = collect([
+        'name.first_name' => 'Marie',
+        'name.last_name' => 'Valentine',
+        'address.line_1' => '2992 Eagle Drive',
+        'address.line_2' => '',
+        'address.suburb' => 'Detroit',
+        'address.state' => 'MI',
+        'address.postcode' => '48219'
+    ])
+
+    $person = $person->undot();
+
+    $person->toArray();
+
+    /*
+        [
+            "name" => [
+                "first_name" => "Marie",
+                "last_name" => "Valentine",
+            ],
+            "address" => [
+                "line_1" => "2992 Eagle Drive",
+                "line_2" => "",
+                "suburb" => "Detroit",
+                "state" => "MI",
+                "postcode" => "48219",
+            ],
+        ]
+    */
+
 <a name="method-union"></a>
-#### `union()` {#collection-method}
-#### `union()` {#collection-method}
+#### `union()` {.collection-method}
 
 The `union` method adds the given array to the collection. If the given array contains keys that are already in the original collection, the original collection's values will be preferred:
 
@@ -2655,17 +3007,16 @@ The `union` method adds the given array to the collection. If the given array co
 
     $collection = collect([1 => ['a'], 2 => ['b']]);
 
-    $union = $collection->union([3 => ['c'], 1 => ['b']]);
+    $union = $collection->union([3 => ['c'], 1 => ['d']]);
 
     $union->all();
 
     // [1 => ['a'], 2 => ['b'], 3 => ['c']]
 
 <a name="method-unique"></a>
-#### `unique()` {#collection-method}
-#### `unique()` {#collection-method}
+#### `unique()` {.collection-method}
 
-The `unique` method returns all of the unique items in the collection. The returned collection keeps the original array keys, so in this example we'll use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
+The `unique` method returns all of the unique items in the collection. The returned collection keeps the original array keys, so in the following example we will use the [`values`](#method-values) method to reset the keys to consecutively numbered indexes:
 
 `unique` 메소드는 컬렉션 안에서 유니크한 모든 아이템들을 반환합니다. 반환된 컬렉션은 원래의 배열 키를 유지하기 때문에, 다음 예제에서 연속된 숫자 인덱스를 리셋하기 위해서 [`values`](#method-values)메소드를 사용할 것입니다.
 
@@ -2700,9 +3051,9 @@ When dealing with nested arrays or objects, you may specify the key used to dete
         ]
     */
 
-You may also pass your own callback to determine item uniqueness:
+Finally, you may also pass your own closure to the `unique` method to specify which value should determine an item's uniqueness:
 
-또한 아이템이 유니크한지 결정하기 위한 콜백을 전달할 수도 있습니다.
+또한 아이템이 고유한지 결정하기 위해 `unique` 메소드에 고유한 클로저를 전달할 수도 있습니다.
 
 
     $unique = $collection->unique(function ($item) {
@@ -2729,16 +3080,14 @@ The `unique` method uses "loose" comparisons when checking item values, meaning 
 > {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique)를 사용할 때 수정됩니다.
 
 <a name="method-uniquestrict"></a>
-#### `uniqueStrict()` {#collection-method}
-#### `uniqueStrict()` {#collection-method}
+#### `uniqueStrict()` {.collection-method}
 
 This method has the same signature as the [`unique`](#method-unique) method; however, all values are compared using "strict" comparisons.
 
 이 메소드는 [`unique`](#method-unique)와 사용방법이 동일합니다. 차이점은 "엄격한" 비교를 수행한다는 점입니다.
 
 <a name="method-unless"></a>
-#### `unless()` {#collection-method}
-#### `unless()` {#collection-method}
+#### `unless()` {.collection-method}
 
 The `unless` method will execute the given callback unless the first argument given to the method evaluates to `true`:
 
@@ -2758,29 +3107,40 @@ The `unless` method will execute the given callback unless the first argument gi
 
     // [1, 2, 3, 5]
 
+A second callback may be passed to the `unless` method. The second callback will be executed when the first argument given to the `unless` method evaluates to `true`:
+
+두 번째 콜백은 `unless` 메소드로 전달될 수 있습니다. 두 번째 콜백은 `unless` 메소드에 제공된 첫 번째 인수가 `true`로 평가될 때 실행됩니다.
+
+    $collection = collect([1, 2, 3]);
+
+    $collection->unless(true, function ($collection) {
+        return $collection->push(4);
+    }, function ($collection) {
+        return $collection->push(5);
+    });
+
+    $collection->all();
+
+    // [1, 2, 3, 5]
+
 For the inverse of `unless`, see the [`when`](#method-when) method.
 
 `unless` 메소드의 반대는 [`when`](#method-when) 메소드를 참고하십시오.
 
 <a name="method-unlessempty"></a>
-#### `unlessEmpty()` {#collection-method}
-#### `unlessEmpty()` {#collection-method}
+#### `unlessEmpty()` {.collection-method}
 
 Alias for the [`whenNotEmpty`](#method-whennotempty) method.
 
-[`whenNotEmpty`](#method-whennotempty) 메소드의 별칭입니다.
-
 <a name="method-unlessnotempty"></a>
-#### `unlessNotEmpty()` {#collection-method}
-#### `unlessNotEmpty()` {#collection-method}
+#### `unlessNotEmpty()` {.collection-method}
 
 Alias for the [`whenEmpty`](#method-whenempty) method.
 
 [`whenEmpty`](#method-whenempty) 메소드의 별칭입니다.
 
 <a name="method-unwrap"></a>
-#### `unwrap()` {#collection-method}
-#### `unwrap()` {#collection-method}
+#### `unwrap()` {.collection-method}
 
 The static `unwrap` method returns the collection's underlying items from the given value when applicable:
 
@@ -2799,8 +3159,7 @@ The static `unwrap` method returns the collection's underlying items from the gi
     // 'John Doe'
 
 <a name="method-values"></a>
-#### `values()` {#collection-method}
-#### `values()` {#collection-method}
+#### `values()` {.collection-method}
 
 The `values` method returns a new collection with the keys reset to consecutive integers:
 
@@ -2823,8 +3182,7 @@ The `values` method returns a new collection with the keys reset to consecutive 
     */
 
 <a name="method-when"></a>
-#### `when()` {#collection-method}
-#### `when()` {#collection-method}
+#### `when()` {.collection-method}
 
 The `when` method will execute the given callback when the first argument given to the method evaluates to `true`:
 
@@ -2844,59 +3202,76 @@ The `when` method will execute the given callback when the first argument given 
 
     // [1, 2, 3, 4]
 
+A second callback may be passed to the `when` method. The second callback will be executed when the first argument given to the `when` method evaluates to `false`:
+
+두 번째 콜백은 `when` 메소드로 전달될 수 있습니다. 두 번째 콜백은 `when` 메소드에 지정된 첫 번째 인수가 `false`일 때 실행됩니다.
+
+    $collection = collect([1, 2, 3]);
+
+    $collection->when(false, function ($collection) {
+        return $collection->push(4);
+    }, function ($collection) {
+        return $collection->push(5);
+    });
+
+    $collection->all();
+
+    // [1, 2, 3, 5]
+
 For the inverse of `when`, see the [`unless`](#method-unless) method.
 
 `when` 메소드의 반대는, [`unless`](#method-unless) 메소드를 참고하십시오.
 
 <a name="method-whenempty"></a>
-#### `whenEmpty()` {#collection-method}
-#### `whenEmpty()` {#collection-method}
+#### `whenEmpty()` {.collection-method}
 
 The `whenEmpty` method will execute the given callback when the collection is empty:
 
 `whenEmpty` 메소드는 컬렉션이 비어 있을때 전달되는 콜백을 실행합니다.
 
-    $collection = collect(['michael', 'tom']);
+    $collection = collect(['Michael', 'Tom']);
 
     $collection->whenEmpty(function ($collection) {
-        return $collection->push('adam');
+        return $collection->push('Adam');
     });
 
     $collection->all();
 
-    // ['michael', 'tom']
+    // ['Michael', 'Tom']
 
 
     $collection = collect();
 
     $collection->whenEmpty(function ($collection) {
-        return $collection->push('adam');
+        return $collection->push('Adam');
     });
 
     $collection->all();
 
-    // ['adam']
+    // ['Adam']
 
+A second closure may be passed to the `whenEmpty` method that will be executed when the collection is not empty:
 
-    $collection = collect(['michael', 'tom']);
+두 번째 클로저는 컬렉션이 비어 있지 않을 때 실행될 `whenEmpty` 메소드에 전달될 수 있습니다.
+
+    $collection = collect(['Michael', 'Tom']);
 
     $collection->whenEmpty(function ($collection) {
-        return $collection->push('adam');
+        return $collection->push('Adam');
     }, function ($collection) {
-        return $collection->push('taylor');
+        return $collection->push('Taylor');
     });
 
     $collection->all();
 
-    // ['michael', 'tom', 'taylor']
+    // ['Michael', 'Tom', 'Taylor']
 
 For the inverse of `whenEmpty`, see the [`whenNotEmpty`](#method-whennotempty) method.
 
 `whenEmpty`의 반대는, [`whenNotEmpty`](#method-whennotempty) 메소드를 확인하십시오.
 
 <a name="method-whennotempty"></a>
-#### `whenNotEmpty()` {#collection-method}
-#### `whenNotEmpty()` {#collection-method}
+#### `whenNotEmpty()` {.collection-method}
 
 The `whenNotEmpty` method will execute the given callback when the collection is not empty:
 
@@ -2923,6 +3298,9 @@ The `whenNotEmpty` method will execute the given callback when the collection is
 
     // []
 
+A second closure may be passed to the `whenNotEmpty` method that will be executed when the collection is empty:
+
+두 번째 클로저는 컬렉션이 비어 있을 때 실행될 `whenNotEmpty` 메소드로 전달될 수 있습니다.
 
     $collection = collect();
 
@@ -2941,8 +3319,7 @@ For the inverse of `whenNotEmpty`, see the [`whenEmpty`](#method-whenempty) meth
 `whenNotEmpty`의 반대는, [`whenEmpty`](#method-whenempty) 메소드를 확인하십시오.
 
 <a name="method-where"></a>
-#### `where()` {#collection-method}
-#### `where()` {#collection-method}
+#### `where()` {.collection-method}
 
 The `where` method filters the collection by a given key / value pair:
 
@@ -2992,18 +3369,16 @@ Optionally, you may pass a comparison operator as the second parameter.
     */
 
 <a name="method-wherestrict"></a>
-#### `whereStrict()` {#collection-method}
-#### `whereStrict()` {#collection-method}
+#### `whereStrict()` {.collection-method}
 
 This method has the same signature as the [`where`](#method-where) method; however, all values are compared using "strict" comparisons.
 
 이 메소드는 [`where`](#method-where) 메소드와 동일한 사용법을 가지고 있습니다; 하지만 모든 값이 "엄격하게" 비교되어 집니다.(타입까지 일치하는지 체크합니다)
 
 <a name="method-wherebetween"></a>
-#### `whereBetween()` {#collection-method}
-#### `whereBetween()` {#collection-method}
+#### `whereBetween()` {.collection-method}
 
-The `whereBetween` method filters the collection within a given range:
+The `whereBetween` method filters the collection by determining if a specified item value is within a given range:
 
 `whereBetween` 메소드는 컬렉션을 주어진 범위안에 해당되는 값으로만 필터링합니다.
 
@@ -3028,12 +3403,11 @@ The `whereBetween` method filters the collection within a given range:
     */
 
 <a name="method-wherein"></a>
-#### `whereIn()` {#collection-method}
-#### `whereIn()` {#collection-method}
+#### `whereIn()` {.collection-method}
 
-The `whereIn` method filters the collection by a given key / value contained within the given array:
+The `whereIn` method removes elements from the collection that do not have a specified item value that is contained within the given array:
 
-`whereIn` 메소드는 주어진 배열 안에 포함된 주어진 키/값을 사용하여 컬렉션을 필터링합니다.
+`whereIn` 메소드는 지정된 배열 안에 포함된 주어진 항목 값이 없는 컬렉션에서 항목을 제거합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -3058,8 +3432,7 @@ The `whereIn` method uses "loose" comparisons when checking item values, meaning
 `whereIn` 메소드는 아이템 값을 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. "엄격한" 비교를 통해서 필터링 하려면 [`whereInStrict`](#method-whereinstrict) 메소드를 사용하십시오.
 
 <a name="method-whereinstrict"></a>
-#### `whereInStrict()` {#collection-method}
-#### `whereInStrict()` {#collection-method}
+#### `whereInStrict()` {.collection-method}
 
 This method has the same signature as the [`whereIn`](#method-wherein) method; however, all values are compared using "strict" comparisons.
 
@@ -3068,8 +3441,7 @@ This method has the same signature as the [`whereIn`](#method-wherein) method; h
 (역자주 : 느슨한 비교와 엄격한 비교는 `==`와 `===`의 차이처럼 타입과 값이 모두 일치하는지 비교하는 정도를 나타냅니다)
 
 <a name="method-whereinstanceof"></a>
-#### `whereInstanceOf()` {#collection-method}
-#### `whereInstanceOf()` {#collection-method}
+#### `whereInstanceOf()` {.collection-method}
 
 The `whereInstanceOf` method filters the collection by a given class type:
 
@@ -3091,10 +3463,9 @@ The `whereInstanceOf` method filters the collection by a given class type:
     // [App\Models\User, App\Models\User]
 
 <a name="method-wherenotbetween"></a>
-#### `whereNotBetween()` {#collection-method}
-#### `whereNotBetween()` {#collection-method}
+#### `whereNotBetween()` {.collection-method}
 
-The `whereNotBetween` method filters the collection within a given range:
+The `whereNotBetween` method filters the collection by determining if a specified item value is outside of a given range:
 
 `whereNotBetween` 메소드는 주어진 범위 내에서 컬렉션을 필터링합니다.
 
@@ -3118,12 +3489,11 @@ The `whereNotBetween` method filters the collection within a given range:
     */
 
 <a name="method-wherenotin"></a>
-#### `whereNotIn()` {#collection-method}
-#### `whereNotIn()` {#collection-method}
+#### `whereNotIn()` {.collection-method}
 
-The `whereNotIn` method filters the collection by a given key / value not contained within the given array:
+The `whereNotIn` method removes elements from the collection that have a specified item value that is contained within the given array:
 
-`whereNotIn` 메소드는 컬렉션 안에 주어진 키/값을 포함하지 않은 값들을 필터링합니다.
+`whereNotIn` 메소드는 지정된 배열 내에 포함된 지정된 항목 값이 있는 컬렉션에서 항목을 제거합니다.
 
     $collection = collect([
         ['product' => 'Desk', 'price' => 200],
@@ -3148,20 +3518,18 @@ The `whereNotIn` method uses "loose" comparisons when checking item values, mean
 `whereNotIn` 메소드는 아이템의 값을 확인할 때 "느슨하게" 비교하기 때문에, 문자형 정수값이더라도 정수형과 동일하다고 판단합니다. (타입을 엄격하게 비교하지 않습니다) "엄격한" 비교를 원한다면, [`whereNotInStrict`](#method-wherenotinstrict) 메소드를 사용하십시오.
 
 <a name="method-wherenotinstrict"></a>
-#### `whereNotInStrict()` {#collection-method}
-#### `whereNotInStrict()` {#collection-method}
+#### `whereNotInStrict()` {.collection-method}
 
 This method has the same signature as the [`whereNotIn`](#method-wherenotin) method; however, all values are compared using "strict" comparisons.
 
 이 메소드의 사용법은 [`whereNotIn`](#method-wherenotin) 메소드와 동일하지만, 모든 값들은 "엄격한" 비교를 수행합니다.
 
 <a name="method-wherenotnull"></a>
-#### `whereNotNull()` {#collection-method}
-#### `whereNotNull()` {#collection-method}
+#### `whereNotNull()` {.collection-method}
 
-The `whereNotNull` method filters items where the given key is not null:
+The `whereNotNull` method returns items from the collection where the given key is not `null`:
 
-`whereNotNull` 메소드는 주어진 키가 null이 아닌 항목을 필터링합니다.
+`whereNotNull` 메소드는 주어진 키가 null이 아닌 컬렉션에서 항목을 반환합니다.
 
     $collection = collect([
         ['name' => 'Desk'],
@@ -3181,12 +3549,11 @@ The `whereNotNull` method filters items where the given key is not null:
     */
 
 <a name="method-wherenull"></a>
-#### `whereNull()` {#collection-method}
-#### `whereNull()` {#collection-method}
+#### `whereNull()` {.collection-method}
 
-The `whereNull` method filters items where the given key is null:
+The `whereNull` method returns items from the collection where the given key is `null`:
 
-`whereNull` 메소드는 주어진 키가 null 인 항목을 필터링합니다.
+`whereNull` 메소드는 주어진 키가 null 인 컬렉션에서 항목을 반환합니다.
 
     $collection = collect([
         ['name' => 'Desk'],
@@ -3205,12 +3572,13 @@ The `whereNull` method filters items where the given key is null:
     */
 
 <a name="method-wrap"></a>
-#### `wrap()` {#collection-method}
-#### `wrap()` {#collection-method}
+#### `wrap()` {.collection-method}
 
 The static `wrap` method wraps the given value in a collection when applicable:
 
 정적 메소드인 `wrap` 메소드는 가능한 경우, 주어진 값을 컬렉션으로 감쌉니다.
+
+    use Illuminate\Support\Collection;
 
     $collection = Collection::wrap('John Doe');
 
@@ -3231,10 +3599,9 @@ The static `wrap` method wraps the given value in a collection when applicable:
     // ['John Doe']
 
 <a name="method-zip"></a>
-#### `zip()` {#collection-method}
-#### `zip()` {#collection-method}
+#### `zip()` {.collection-method}
 
-The `zip` method merges together the values of the given array with the values of the original collection at the corresponding index:
+The `zip` method merges together the values of the given array with the values of the original collection at their corresponding index:
 
 `zip` 메소드는 해당 인덱스의 원래 컬렉션의 값으로 주어진 배열의 값을 함께 합칩니다.
 
@@ -3250,13 +3617,15 @@ The `zip` method merges together the values of the given array with the values o
 ## Higher Order Messages
 ## Higher Order Messages
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`skipUntil`](#method-skipuntil), [`skipWhile`](#method-skipwhile), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), [`takeUntil`](#method-takeuntil), [`takeWhile`](#method-takewhile) and [`unique`](#method-unique).
+Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`skipUntil`](#method-skipuntil), [`skipWhile`](#method-skipwhile), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), [`takeUntil`](#method-takeuntil), [`takeWhile`](#method-takewhile), and [`unique`](#method-unique).
 
-컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`skipUntil`](#method-skipuntil), [`skipWhile`](#method-skipwhile), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), [`takeUntil`](#method-takeuntil), [`takeWhile`](#method-takewhile), 그리고 [`unique`](#method-unique) 입니다.
+컬렉션은 공통된 작업을 수행하는데 필요한 "higher order message"를 제공합니다. 컬렉션에서 higher order message 가 가능한 메소드들은 [`average`](#method-average), [`avg`](#method-avg), [`contains`](#method-contains), [`each`](#method-each), [`every`](#method-every), [`filter`](#method-filter), [`first`](#method-first), [`flatMap`](#method-flatmap), [`groupBy`](#method-groupby), [`keyBy`](#method-keyby), [`map`](#method-map), [`max`](#method-max), [`min`](#method-min), [`partition`](#method-partition), [`reject`](#method-reject), [`skipUntil`](#method-skipuntil), [`skipWhile`](#method-skipwhile), [`some`](#method-some), [`sortBy`](#method-sortby), [`sortByDesc`](#method-sortbydesc), [`sum`](#method-sum), [`takeUntil`](#method-takeuntil), [`takeWhile`](#method-takewhile), and [`unique`](#method-unique) 입니다.
 
 Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
 
 각각의 higher order message 는 컬렉션 인스턴스의 동적 속성에 접근할 수 있습니다. 예를 들자면, 컬렉션 안에 있는 각 객체의 메소드를 호출하기 위해서 `each` higher order message 를 사용해보겠습니다.
+
+    use App\Models\User;
 
     $users = User::where('votes', '>', 500)->get();
 
@@ -3307,9 +3676,11 @@ For example, imagine your application needs to process a multi-gigabyte log file
 
 Or, imagine you need to iterate through 10,000 Eloquent models. When using traditional Laravel collections, all 10,000 Eloquent models must be loaded into memory at the same time:
 
-또는 10,000개의 Eloquent 모델을 반복해야 한다고 가정해 봅시다. 전통적인 라라벨 컬렉션을 사용할때는, 10,000개의 Eloquent 모델이 모두 동시에 메모리에 로드되어야 합니다. 
+또는 10,000개의 Eloquent 모델을 반복해야 한다고 가정해 봅시다. 전통적인 라라벨 컬렉션을 사용할때는, 10,000개의 Eloquent 모델이 모두 동시에 메모리에 로드되어야 합니다.
 
-    $users = App\Models\User::all()->filter(function ($user) {
+    use App\Models\User;
+
+    $users = User::all()->filter(function ($user) {
         return $user->id > 500;
     });
 
@@ -3317,7 +3688,9 @@ However, the query builder's `cursor` method returns a `LazyCollection` instance
 
 그러나, 쿼리 빌더의 `cursor` 메소드는 `LazyCollection` 인스턴스를 반환합니다. 이렇게 하면 데이터베이스에 단 하나의 쿼리만 실행할 수 있을 뿐만 아니라 한 번에 하나의 Eloquent 모델만 메모리에 로드됩니다. 이 예제에서는 `filter` 콜백이 각각 사용자에 대해 개별적으로 반복할 때까지 실행되지 않으므로, 메모리 사용량이 크게 줄어듭니다.
 
-    $users = App\Models\User::cursor()->filter(function ($user) {
+    use App\Models\User;
+
+    $users = User::cursor()->filter(function ($user) {
         return $user->id > 500;
     });
 
@@ -3353,118 +3726,118 @@ Almost all methods available on the `Collection` class are also available on the
 
 <div id="collection-method-list" markdown="1">
 
-- [all](#method-all)
-- [average](#method-average)
-- [avg](#method-avg)
-- [chunk](#method-chunk)
-- [chunkWhile](#method-chunkwhile)
-- [collapse](#method-collapse)
-- [collect](#method-collect)
-- [combine](#method-combine)
-- [concat](#method-concat)
-- [contains](#method-contains)
-- [containsStrict](#method-containsstrict)
-- [count](#method-count)
-- [countBy](#method-countBy)
-- [crossJoin](#method-crossjoin)
-- [dd](#method-dd)
-- [diff](#method-diff)
-- [diffAssoc](#method-diffassoc)
-- [diffKeys](#method-diffkeys)
-- [dump](#method-dump)
-- [duplicates](#method-duplicates)
-- [duplicatesStrict](#method-duplicatesstrict)
-- [each](#method-each)
-- [eachSpread](#method-eachspread)
-- [every](#method-every)
-- [except](#method-except)
-- [filter](#method-filter)
-- [first](#method-first)
-- [firstWhere](#method-first-where)
-- [flatMap](#method-flatmap)
-- [flatten](#method-flatten)
-- [flip](#method-flip)
-- [forPage](#method-forpage)
-- [get](#method-get)
-- [groupBy](#method-groupby)
-- [has](#method-has)
-- [implode](#method-implode)
-- [intersect](#method-intersect)
-- [intersectByKeys](#method-intersectbykeys)
-- [isEmpty](#method-isempty)
-- [isNotEmpty](#method-isnotempty)
-- [join](#method-join)
-- [keyBy](#method-keyby)
-- [keys](#method-keys)
-- [last](#method-last)
-- [macro](#method-macro)
-- [make](#method-make)
-- [map](#method-map)
-- [mapInto](#method-mapinto)
-- [mapSpread](#method-mapspread)
-- [mapToGroups](#method-maptogroups)
-- [mapWithKeys](#method-mapwithkeys)
-- [max](#method-max)
-- [median](#method-median)
-- [merge](#method-merge)
-- [mergeRecursive](#method-mergerecursive)
-- [min](#method-min)
-- [mode](#method-mode)
-- [nth](#method-nth)
-- [only](#method-only)
-- [pad](#method-pad)
-- [partition](#method-partition)
-- [pipe](#method-pipe)
-- [pluck](#method-pluck)
-- [random](#method-random)
-- [reduce](#method-reduce)
-- [reject](#method-reject)
-- [replace](#method-replace)
-- [replaceRecursive](#method-replacerecursive)
-- [reverse](#method-reverse)
-- [search](#method-search)
-- [shuffle](#method-shuffle)
-- [skip](#method-skip)
-- [slice](#method-slice)
-- [some](#method-some)
-- [sort](#method-sort)
-- [sortBy](#method-sortby)
-- [sortByDesc](#method-sortbydesc)
-- [sortKeys](#method-sortkeys)
-- [sortKeysDesc](#method-sortkeysdesc)
-- [split](#method-split)
-- [sum](#method-sum)
-- [take](#method-take)
-- [tap](#method-tap)
-- [times](#method-times)
-- [toArray](#method-toarray)
-- [toJson](#method-tojson)
-- [union](#method-union)
-- [unique](#method-unique)
-- [uniqueStrict](#method-uniquestrict)
-- [unless](#method-unless)
-- [unlessEmpty](#method-unlessempty)
-- [unlessNotEmpty](#method-unlessnotempty)
-- [unwrap](#method-unwrap)
-- [values](#method-values)
-- [when](#method-when)
-- [whenEmpty](#method-whenempty)
-- [whenNotEmpty](#method-whennotempty)
-- [where](#method-where)
-- [whereStrict](#method-wherestrict)
-- [whereBetween](#method-wherebetween)
-- [whereIn](#method-wherein)
-- [whereInStrict](#method-whereinstrict)
-- [whereInstanceOf](#method-whereinstanceof)
-- [whereNotBetween](#method-wherenotbetween)
-- [whereNotIn](#method-wherenotin)
-- [whereNotInStrict](#method-wherenotinstrict)
-- [wrap](#method-wrap)
-- [zip](#method-zip)
+[all](#method-all)
+[average](#method-average)
+[avg](#method-avg)
+[chunk](#method-chunk)
+[chunkWhile](#method-chunkwhile)
+[collapse](#method-collapse)
+[collect](#method-collect)
+[combine](#method-combine)
+[concat](#method-concat)
+[contains](#method-contains)
+[containsStrict](#method-containsstrict)
+[count](#method-count)
+[countBy](#method-countBy)
+[crossJoin](#method-crossjoin)
+[dd](#method-dd)
+[diff](#method-diff)
+[diffAssoc](#method-diffassoc)
+[diffKeys](#method-diffkeys)
+[dump](#method-dump)
+[duplicates](#method-duplicates)
+[duplicatesStrict](#method-duplicatesstrict)
+[each](#method-each)
+[eachSpread](#method-eachspread)
+[every](#method-every)
+[except](#method-except)
+[filter](#method-filter)
+[first](#method-first)
+[firstWhere](#method-first-where)
+[flatMap](#method-flatmap)
+[flatten](#method-flatten)
+[flip](#method-flip)
+[forPage](#method-forpage)
+[get](#method-get)
+[groupBy](#method-groupby)
+[has](#method-has)
+[implode](#method-implode)
+[intersect](#method-intersect)
+[intersectByKeys](#method-intersectbykeys)
+[isEmpty](#method-isempty)
+[isNotEmpty](#method-isnotempty)
+[join](#method-join)
+[keyBy](#method-keyby)
+[keys](#method-keys)
+[last](#method-last)
+[macro](#method-macro)
+[make](#method-make)
+[map](#method-map)
+[mapInto](#method-mapinto)
+[mapSpread](#method-mapspread)
+[mapToGroups](#method-maptogroups)
+[mapWithKeys](#method-mapwithkeys)
+[max](#method-max)
+[median](#method-median)
+[merge](#method-merge)
+[mergeRecursive](#method-mergerecursive)
+[min](#method-min)
+[mode](#method-mode)
+[nth](#method-nth)
+[only](#method-only)
+[pad](#method-pad)
+[partition](#method-partition)
+[pipe](#method-pipe)
+[pluck](#method-pluck)
+[random](#method-random)
+[reduce](#method-reduce)
+[reject](#method-reject)
+[replace](#method-replace)
+[replaceRecursive](#method-replacerecursive)
+[reverse](#method-reverse)
+[search](#method-search)
+[shuffle](#method-shuffle)
+[skip](#method-skip)
+[slice](#method-slice)
+[some](#method-some)
+[sort](#method-sort)
+[sortBy](#method-sortby)
+[sortByDesc](#method-sortbydesc)
+[sortKeys](#method-sortkeys)
+[sortKeysDesc](#method-sortkeysdesc)
+[split](#method-split)
+[sum](#method-sum)
+[take](#method-take)
+[tap](#method-tap)
+[times](#method-times)
+[toArray](#method-toarray)
+[toJson](#method-tojson)
+[union](#method-union)
+[unique](#method-unique)
+[uniqueStrict](#method-uniquestrict)
+[unless](#method-unless)
+[unlessEmpty](#method-unlessempty)
+[unlessNotEmpty](#method-unlessnotempty)
+[unwrap](#method-unwrap)
+[values](#method-values)
+[when](#method-when)
+[whenEmpty](#method-whenempty)
+[whenNotEmpty](#method-whennotempty)
+[where](#method-where)
+[whereStrict](#method-wherestrict)
+[whereBetween](#method-wherebetween)
+[whereIn](#method-wherein)
+[whereInStrict](#method-whereinstrict)
+[whereInstanceOf](#method-whereinstanceof)
+[whereNotBetween](#method-wherenotbetween)
+[whereNotIn](#method-wherenotin)
+[whereNotInStrict](#method-wherenotinstrict)
+[wrap](#method-wrap)
+[zip](#method-zip)
 
 </div>
 
-> {note} Methods that mutate the collection (such as `shift`, `pop`, `prepend` etc.) are _not_ available on the `LazyCollection` class.
+> {note} Methods that mutate the collection (such as `shift`, `pop`, `prepend` etc.) are **not** available on the `LazyCollection` class.
 
 > {note} `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
 
@@ -3476,20 +3849,54 @@ In addition to the methods defined in the `Enumerable` contract, the `LazyCollec
 
 `Enumerable` contract에 정의된 메소드 외에, `LazyCollection` 클래스는 추가적으로 다음 메소드를 포함합니다.
 
+<a name="method-takeUntilTimeout"></a>
+#### `takeUntilTimeout()` {.collection-method}
+
+The `takeUntilTimeout` method returns a new lazy collection that will enumerate values until the specified time. After that time, the collection will then stop enumerating:
+
+`takeUntilTimeout` 메서드는 지정된 시간까지 값을 열거하는 새로운 지연 컬렉션-Lazy Collections을 반환합니다. 그 시간이 지나면 컬렉션은 열거를 중지합니다.
+
+    $lazyCollection = LazyCollection::times(INF)
+        ->takeUntilTimeout(now()->addMinute());
+
+    $lazyCollection->each(function ($number) {
+        dump($number);
+
+        sleep(1);
+    });
+
+    // 1
+    // 2
+    // ...
+    // 58
+    // 59
+
+To illustrate the usage of this method, imagine an application that submits invoices from the database using a cursor. You could define a [scheduled task](/docs/{{version}}/scheduling) that runs every 15 minutes and only processes invoices for a maximum of 14 minutes:
+
+이 방법의 사용법을 설명하기 위해 커서를 사용하여 데이터베이스에서 송장을 제출하는 애플리케이션을 상상해 보십시오. 15분마다 실행되고 최대 14분 동안만 인보이스를 처리하는 [예약된 작업](/docs/{{version}}/scheduling)을 정의할 수 있습니다.
+
+    use App\Models\Invoice;
+    use Illuminate\Support\Carbon;
+
+    Invoice::pending()->cursor()
+        ->takeUntilTimeout(
+            Carbon::createFromTimestamp(LARAVEL_START)->add(14, 'minutes')
+        )
+        ->each(fn ($invoice) => $invoice->submit());
+
 <a name="method-tapEach"></a>
-#### `tapEach()` {#collection-method}
-#### `tapEach()` {#collection-method}
+#### `tapEach()` {.collection-method}
 
 While the `each` method calls the given callback for each item in the collection right away, the `tapEach` method only calls the given callback as the items are being pulled out of the list one by one:
 
 `each` 메소드는 각 항목에 대한 콜백을 즉시 호출하는 반면, `tabEach` 메소드는 목록에서 하나씩 빼내어지는 항목에 대해서만 주어진 콜백을 호출합니다.
 
+    // Nothing has been dumped so far...
     $lazyCollection = LazyCollection::times(INF)->tapEach(function ($value) {
         dump($value);
     });
 
-    // Nothing has been dumped so far...
-
+    // Three items are dumped...
     $array = $lazyCollection->take(3)->all();
 
     // 1
@@ -3497,21 +3904,20 @@ While the `each` method calls the given callback for each item in the collection
     // 3
 
 <a name="method-remember"></a>
-#### `remember()` {#collection-method}
-#### `remember()` {#collection-method}
+#### `remember()` {.collection-method}
 
-The `remember` method returns a new lazy collection that will remember any values that have already been enumerated and will not retrieve them again when the collection is enumerated again:
+The `remember` method returns a new lazy collection that will remember any values that have already been enumerated and will not retrieve them again on subsequent collection enumerations:
 
 `remember` 메소드는 이미 열거 된 값을 기억하고 콜렉션이 다시 열거 될 때 다시 검색하지 않는 새로운 지연 컬렉션-Lazy Collections을 리턴합니다.
 
+    // No query has been executed yet...
     $users = User::cursor()->remember();
 
-    // No query has been executed yet...
-
+    // The query is executed...
+    // The first 5 users are hydrated from the database...
     $users->take(5)->all();
 
-    // The query has been executed and the first 5 users have been hydrated from the database...
-
+    // First 5 users come from the collection's cache...
+    // The rest are hydrated from the database...
     $users->take(20)->all();
 
-    // First 5 users come from the collection's cache... The rest are hydrated from the database...

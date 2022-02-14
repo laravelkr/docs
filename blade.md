@@ -9,10 +9,11 @@
     - [Switch Statements](#switch-statements)
     - [Loops](#loops)
     - [The Loop Variable](#the-loop-variable)
-    - [Comments](#comments)
+    - [Conditional Classes](#conditional-classes)
     - [Including Subviews](#including-subviews)
     - [The `@once` Directive](#the-once-directive)
     - [Raw PHP](#raw-php)
+    - [Comments](#comments)
 - [Components](#components)
     - [Rendering Components](#rendering-components)
     - [Passing Data To Components](#passing-data-to-components)
@@ -33,6 +34,7 @@
 - [Stacks](#stacks)
 - [Service Injection](#service-injection)
 - [Extending Blade](#extending-blade)
+    - [Custom Echo Handlers](#custom-echo-handlers)
     - [Custom If Statements](#custom-if-statements)
 
 <a name="introduction"></a>
@@ -46,7 +48,7 @@ Blade views may be returned from routes or controller using the global `view` he
         return view('greeting', ['name' => 'Finn']);
     });
 
-> {tip} Before digging deeper into Blade, make sure to read the Laravel [view documentation](/docs/{{version}}/views).
+> {tip} Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com).
 
 <a name="displaying-data"></a>
 ## Displaying Data
@@ -66,25 +68,6 @@ You may display the contents of the `name` variable like so:
 You are not limited to displaying the contents of the variables passed to the view. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Blade echo statement:
 
     The current UNIX timestamp is {{ time() }}.
-
-<a name="rendering-json"></a>
-#### Rendering JSON
-
-Sometimes you may pass an array to your view with the intention of rendering it as JSON in order to initialize a JavaScript variable. For example:
-
-    <script>
-        var app = <?php echo json_encode($array); ?>;
-    </script>
-
-However, instead of manually calling `json_encode`, you may use the `@json` Blade directive. The `@json` directive accepts the same arguments as PHP's `json_encode` function. By default, the `@json` directive calls the `json_encode` function with the `JSON_HEX_TAG`, `JSON_HEX_APOS`, `JSON_HEX_AMP`, and `JSON_HEX_QUOT` flags:
-
-    <script>
-        var app = @json($array);
-
-        var app = @json($array, JSON_PRETTY_PRINT);
-    </script>
-
-> {note} You should only use the `@json` directive to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
 
 <a name="html-entity-encoding"></a>
 ### HTML Entity Encoding
@@ -134,10 +117,33 @@ In this example, the `@` symbol will be removed by Blade; however, `{{ name }}` 
 The `@` symbol may also be used to escape Blade directives:
 
     {{-- Blade template --}}
-    @@json()
+    @@if()
 
     <!-- HTML output -->
-    @json()
+    @if()
+
+<a name="rendering-json"></a>
+#### Rendering JSON
+
+Sometimes you may pass an array to your view with the intention of rendering it as JSON in order to initialize a JavaScript variable. For example:
+
+    <script>
+        var app = <?php echo json_encode($array); ?>;
+    </script>
+
+However, instead of manually calling `json_encode`, you may use the `Illuminate\Support\Js::from` method directive. The `from` method accepts the same arguments as PHP's `json_encode` function; however, it will ensure that the resulting JSON is properly escaped for inclusion within HTML quotes. The `from` method will return a string `JSON.parse` JavaScript statement that will convert the given object or array into a valid JavaScript object:
+
+    <script>
+        var app = {{ Illuminate\Support\Js::from($array) }};
+    </script>
+
+The latest versions of the Laravel application skeleton include a `Js` facade, which provides convenient access to this functionality within your Blade templates:
+
+    <script>
+        var app = {{ Js::from($array) }};
+    </script>
+
+> {note} You should only use the `Js::from` method to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
 
 <a name="the-at-verbatim-directive"></a>
 #### The `@verbatim` Directive
@@ -360,12 +366,24 @@ Property  | Description
 `$loop->depth`  |  The nesting level of the current loop.
 `$loop->parent`  |  When in a nested loop, the parent's loop variable.
 
-<a name="comments"></a>
-### Comments
+<a name="conditional-classes"></a>
+### Conditional Classes
 
-Blade also allows you to define comments in your views. However, unlike HTML comments, Blade comments are not included in the HTML returned by your application:
+The `@class` directive conditionally compiles a CSS class string. The directive accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
 
-    {{-- This comment will not be present in the rendered HTML --}}
+    @php
+        $isActive = false;
+        $hasError = true;
+    @endphp
+
+    <span @class([
+        'p-4',
+        'font-bold' => $isActive,
+        'text-gray-500' => ! $isActive,
+        'bg-red' => $hasError,
+    ])></span>
+
+    <span class="p-4 text-gray-500 bg-red"></span>
 
 <a name="including-subviews"></a>
 ### Including Subviews
@@ -440,6 +458,13 @@ In some situations, it's useful to embed PHP code into your views. You can use t
     @php
         $counter = 1;
     @endphp
+
+<a name="comments"></a>
+### Comments
+
+Blade also allows you to define comments in your views. However, unlike HTML comments, Blade comments are not included in the HTML returned by your application:
+
+    {{-- This comment will not be present in the rendered HTML --}}
 
 <a name="components"></a>
 ## Components
@@ -759,6 +784,8 @@ If you need to merge other attributes onto your component, you can chain the `me
         {{ $slot }}
     </button>
 
+> {tip} If you need to conditionally compile classes on other HTML elements that shouldn't receive merged attributes, you can use the [`@class` directive](#conditional-classes).
+
 <a name="non-class-attribute-merging"></a>
 #### Non-Class Attribute Merging
 
@@ -890,6 +917,46 @@ If you have used a JavaScript framework such as Vue, you may be familiar with "s
 </x-alert>
 ```
 
+<a name="slot-attributes"></a>
+#### Slot Attributes
+
+Like Blade components, you may assign additional [attributes](#component-attributes) to slots such as CSS class names:
+
+```html
+<x-card class="shadow-sm">
+    <x-slot name="heading" class="font-bold">
+        Heading
+    </x-slot>
+
+    Content
+
+    <x-slot name="footer" class="text-sm">
+        Footer
+    </x-slot>
+</x-card>
+```
+
+To interact with slot attributes, you may access the `attributes` property of the slot's variable. For more information on how to interact with attributes, please consult the documentation on [component attributes](#component-attributes):
+
+```php
+@props([
+    'heading',
+    'footer',
+])
+
+<div {{ $attributes->class(['border']) }}>
+    <h1 {{ $heading->attributes->class(['text-lg']) }}>
+        {{ $heading }}
+    </h1>
+
+    {{ $slot }}
+
+    <footer {{ $footer->attributes->class(['text-gray-700']) }}>
+        {{ $footer }}
+    </footer>
+</div>
+```
+
 <a name="inline-component-views"></a>
 ### Inline Component Views
 
@@ -927,6 +994,35 @@ You may use the `.` character to indicate if a component is nested deeper inside
 
     <x-inputs.button/>
 
+<a name="anonymous-index-components"></a>
+#### Anonymous Index Components
+
+Sometimes, when a component is made up of many Blade templates, you may wish to group the given component's templates within a single directory. For example, imagine an "accordion" component with the following directory structure:
+
+```none
+/resources/views/components/accordion.blade.php
+/resources/views/components/accordion/item.blade.php
+```
+
+This directory structure allows you to render the accordion component and its item like so:
+
+```html
+<x-accordion>
+    <x-accordion.item>
+        ...
+    </x-accordion.item>
+</x-accordion>
+```
+
+However, in order to render the accordion component via `x-accordion`, we were forced to place the "index" accordion component template in the `resources/views/components` directory instead of nesting it within the `accordion` directory with the other accordion related templates.
+
+Thankfully, Blade allows you to place an `index.blade.php` file within a component's template directory. When an `index.blade.php` template exists for the component, it will be rendered as the "root" node of the component. So, we can continue to use the same Blade syntax given in the example above; however, we will adjust our directory structure like so:
+
+```none
+/resources/views/components/accordion/index.blade.php
+/resources/views/components/accordion/item.blade.php
+```
+
 <a name="data-properties-attributes"></a>
 #### Data Properties / Attributes
 
@@ -945,6 +1041,36 @@ You may specify which attributes should be considered data variables using the `
 Given the component definition above, we may render the component like so:
 
     <x-alert type="error" :message="$message" class="mb-4"/>
+
+<a name="accessing-parent-data"></a>
+#### Accessing Parent Data
+
+Sometimes you may want to access data from a parent component inside a child component. In these cases, you may use the `@aware` directive. For example, imagine we are building a complex menu component consisting of a parent `<x-menu>` and child `<x-menu.item>`:
+
+    <x-menu color="purple">
+        <x-menu.item>...</x-menu.item>
+        <x-menu.item>...</x-menu.item>
+    </x-menu>
+
+The `<x-menu>` component may have an implementation like the following:
+
+    <!-- /resources/views/components/menu/index.blade.php -->
+
+    @props(['color' => 'gray'])
+
+    <ul {{ $attributes->merge(['class' => 'bg-'.$color.'-200']) }}>
+        {{ $slot }}
+    </ul>
+
+Because the `color` prop was only passed into the parent (`<x-menu>`), it won't be available inside `<x-menu.item>`. However, if we use the `@aware` directive, we can make it available inside `<x-menu.item>` as well:
+
+    <!-- /resources/views/components/menu/item.blade.php -->
+
+    @aware(['color' => 'gray'])
+
+    <li {{ $attributes->merge(['class' => 'text-'.$color.'-800']) }}>
+        {{ $slot }}
+    </li>
 
 <a name="dynamic-components"></a>
 ### Dynamic Components
@@ -1295,6 +1421,34 @@ As you can see, we will chain the `format` method onto whatever expression is pa
     <?php echo ($var)->format('m/d/Y H:i'); ?>
 
 > {note} After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
+
+<a name="custom-echo-handlers"></a>
+### Custom Echo Handlers
+
+If you attempt to "echo" an object using Blade, the object's `__toString` method will be invoked. The [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
+
+In these cases, Blade allows you to register a custom echo handler for that particular type of object. To accomplish this, you should invoke Blade's `stringable` method. The `stringable` method accepts a closure. This closure should type-hint the type of object that it is responsible for rendering. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
+
+    use Illuminate\Support\Facades\Blade;
+    use Money\Money;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::stringable(function (Money $money) {
+            return $money->formatTo('en_GB');
+        });
+    }
+
+Once your custom echo handler has been defined, you may simply echo the object in your Blade template:
+
+```html
+Cost: {{ $money }}
+```
 
 <a name="custom-if-statements"></a>
 ### Custom If Statements

@@ -67,19 +67,11 @@ To see an example of how to write a factory, take a look at the `database/factor
 
     namespace Database\Factories;
 
-    use App\Models\User;
     use Illuminate\Database\Eloquent\Factories\Factory;
     use Illuminate\Support\Str;
 
     class UserFactory extends Factory
     {
-        /**
-         * The name of the factory's corresponding model.
-         *
-         * @var string
-         */
-        protected $model = User::class;
-
         /**
          * Define the model's default state.
          *
@@ -97,7 +89,7 @@ To see an example of how to write a factory, take a look at the `database/factor
         }
     }
 
-As you can see, in their most basic form, factories are classes that extend Laravel's base factory class and define a `model` property and `definition` method. The `definition` method returns the default set of attribute values that should be applied when creating a model using the factory.
+As you can see, in their most basic form, factories are classes that extend Laravel's base factory class and define `definition` method. The `definition` method returns the default set of attribute values that should be applied when creating a model using the factory.
 
 Via the `faker` property, factories have access to the [Faker](https://github.com/FakerPHP/Faker) PHP library, which allows you to conveniently generate various kinds of random data for testing.
 
@@ -112,9 +104,39 @@ To create a factory, execute the `make:factory` [Artisan command](/docs/{{versio
 
 The new factory class will be placed in your `database/factories` directory.
 
-The `--model` option may be used to indicate the name of the model created by the factory. This option will pre-fill the generated factory file with the given model:
+<a name="factory-and-model-discovery-conventions"></a>
+#### Model & Factory Discovery Conventions
 
-    php artisan make:factory PostFactory --model=Post
+Once you have defined your factories, you may use the static `factory` method provided to your models by the `Illuminate\Database\Eloquent\Factories\HasFactory` trait in order to instantiate a factory instance for that model.
+
+The `HasFactory` trait's `factory` method will use conventions to determine the proper factory for the model the trait is assigned to. Specifically, the method will look for a factory in the `Database\Factories` namespace that has a class name matching the model name and is suffixed with `Factory`. If these conventions do not apply to your particular application or factory, you may overwrite the `newFactory` method on your model to return an instance of the model's corresponding factory directly:
+
+    use Database\Factories\Administration\FlightFactory;
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return FlightFactory::new();
+    }
+
+Next, define a `model` property on the corresponding factory:
+
+    use App\Administration\Flight;
+    use Illuminate\Database\Eloquent\Factories\Factory;
+
+    class FlightFactory extends Factory
+    {
+        /**
+         * The name of the factory's corresponding model.
+         *
+         * @var string
+         */
+        protected $model = Flight::class;
+    }
 
 <a name="factory-states"></a>
 ### Factory States
@@ -150,13 +172,6 @@ Factory callbacks are registered using the `afterMaking` and `afterCreating` met
 
     class UserFactory extends Factory
     {
-        /**
-         * The name of the factory's corresponding model.
-         *
-         * @var string
-         */
-        protected $model = User::class;
-
         /**
          * Configure the model factory.
          *
@@ -219,23 +234,6 @@ Alternatively, the `state` method may be called directly on the factory instance
 
 > {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled when creating models using factories.
 
-<a name="connecting-factories-and-models"></a>
-#### Connecting Factories & Models
-
-The `HasFactory` trait's `factory` method will use conventions to determine the proper factory for the model. Specifically, the method will look for a factory in the `Database\Factories` namespace that has a class name matching the model name and is suffixed with `Factory`. If these conventions do not apply to your particular application or factory, you may overwrite the `newFactory` method on your model to return an instance of the model's corresponding factory directly:
-
-    use Database\Factories\Administration\FlightFactory;
-
-    /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    protected static function newFactory()
-    {
-        return FlightFactory::new();
-    }
-
 <a name="persisting-models"></a>
 ### Persisting Models
 
@@ -283,8 +281,15 @@ If necessary, you may include a closure as a sequence value. The closure will be
     $users = User::factory()
                     ->count(10)
                     ->state(new Sequence(
-                        fn () => ['role' => UserRoles::all()->random()],
+                        fn ($sequence) => ['role' => UserRoles::all()->random()],
                     ))
+                    ->create();
+
+Within a sequence closure, you may access the `$index` or `$count` properties on the sequence instance that is injected into the closure. The `$index` property contains the number of iterations through the sequence that have occurred thus far, while the `$count` property contains the total number of times the sequence will be invoked:
+
+    $users = User::factory()
+                    ->count(10)
+                    ->sequence(fn ($sequence) => ['name' => 'Name '.$sequence->index])
                     ->create();
 
 <a name="factory-relationships"></a>
@@ -530,6 +535,7 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
     namespace Tests\Feature;
 
     use Database\Seeders\OrderStatusSeeder;
+    use Database\Seeders\TransactionStatusSeeder;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Foundation\Testing\WithoutMiddleware;
     use Tests\TestCase;
@@ -552,10 +558,17 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
             $this->seed(OrderStatusSeeder::class);
 
             // ...
+
+            // Run an array of specific seeders...
+            $this->seed([
+                OrderStatusSeeder::class,
+                TransactionStatusSeeder::class,
+                // ...
+            ]);
         }
     }
 
-Alternatively, you may instruct Laravel to automatically seed the database before each test. You may accomplish this by defining a `$seed` property on your base test class:
+Alternatively, you may instruct Laravel to automatically seed the database before each test that uses the `RefreshDatabase` trait. You may accomplish this by defining a `$seed` property on your base test class:
 
     <?php
 
@@ -575,7 +588,7 @@ Alternatively, you may instruct Laravel to automatically seed the database befor
         protected $seed = true;
     }
 
-When the `$seed` property is `true`, the test will run the `Database\Seeders\DatabaseSeeder` class before each test. However, you may specify a specific seeder that should be executed by defining a `$seeder` property on your test class:
+When the `$seed` property is `true`, the test will run the `Database\Seeders\DatabaseSeeder` class before each test that uses the `RefreshDatabase` trait. However, you may specify a specific seeder that should be executed by defining a `$seeder` property on your test class:
 
     use Database\Seeders\OrderStatusSeeder;
 
@@ -632,3 +645,27 @@ The `assertDeleted` asserts that a given Eloquent model has been deleted from th
 The `assertSoftDeleted` method may be used to assert a given Eloquent model has been "soft deleted":
 
     $this->assertSoftDeleted($user);
+
+<a name="assert-model-exists"></a>
+#### assertModelExists
+
+Assert that a given model exists in the database:
+
+    use App\Models\User;
+
+    $user = User::factory()->create();
+
+    $this->assertModelExists($user);
+
+<a name="assert-model-missing"></a>
+#### assertModelMissing
+
+Assert that a given model does not exist in the database:
+
+    use App\Models\User;
+
+    $user = User::factory()->create();
+
+    $user->delete();
+
+    $this->assertModelMissing($user);

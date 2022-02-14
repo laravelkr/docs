@@ -10,9 +10,11 @@
     - [Error Handling](#error-handling)
     - [Guzzle Options](#guzzle-options)
 - [Concurrent Requests](#concurrent-requests)
+- [Macros](#macros)
 - [Testing](#testing)
     - [Faking Responses](#faking-responses)
     - [Inspecting Requests](#inspecting-requests)
+- [Events](#events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -36,6 +38,7 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 
     $response->body() : string;
     $response->json() : array|mixed;
+    $response->object() : object;
     $response->collect() : Illuminate\Support\Collection;
     $response->status() : int;
     $response->ok() : bool;
@@ -126,11 +129,11 @@ Headers may be added to requests using the `withHeaders` method. This `withHeade
     ])->post('http://example.com/users', [
         'name' => 'Taylor',
     ]);
-    
+
 You may use the `accept` method to specify the content type that your application is expecting in response to your request:
 
     $response = Http::accept('application/json')->get('http://example.com/users');
-    
+
 For convenience, you may use the `acceptJson` method to quickly specify that your application expects the `application/json` content type in response to your request:
 
     $response = Http::acceptJson()->get('http://example.com/users');
@@ -165,9 +168,15 @@ If the given timeout is exceeded, an instance of `Illuminate\Http\Client\Connect
 <a name="retries"></a>
 ### Retries
 
-If you would like HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts two arguments: the maximum number of times the request should be attempted and the number of milliseconds that Laravel should wait in between attempts:
+If you would like HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts the maximum number of times the request should be attempted and the number of milliseconds that Laravel should wait in between attempts:
 
     $response = Http::retry(3, 100)->post(...);
+
+If needed, you may pass a third argument to the `retry` method. The third argument should be a callable that determines if the retries should actually be attempted. For example, you may wish to only retry the request if the initial request encounters an `ConnectionException`:
+
+    $response = Http::retry(3, 100, function ($exception) {
+        return $exception instanceof ConnectionException;
+    })->post(...);
 
 If all of the requests fail, an instance of `Illuminate\Http\Client\RequestException` will be thrown.
 
@@ -191,12 +200,15 @@ Unlike Guzzle's default behavior, Laravel's HTTP client wrapper does not throw e
 <a name="throwing-exceptions"></a>
 #### Throwing Exceptions
 
-If you have a response instance and would like to throw an instance of `Illuminate\Http\Client\RequestException` if the response status code indicates a client or server error, you may use the `throw` method:
+If you have a response instance and would like to throw an instance of `Illuminate\Http\Client\RequestException` if the response status code indicates a client or server error, you may use the `throw` or `throwIf` methods:
 
     $response = Http::post(...);
 
     // Throw an exception if a client or server error occurred...
     $response->throw();
+
+    // Throw an exception if an error occurred and the given condition is true...
+    $response->throwIf($condition);
 
     return $response['user']['id'];
 
@@ -253,6 +265,35 @@ As you can see, each response instance can be accessed based on the order it was
     ]);
 
     return $responses['first']->ok();
+
+<a name="macros"></a>
+## Macros
+
+The Laravel HTTP client allows you to define "macros", which can serve as a fluent, expressive mechanism to configure common request paths and headers when interacting with services throughout your application. To get started, you may define the macro within the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+
+```php
+use Illuminate\Support\Facades\Http;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Http::macro('github', function () {
+        return Http::withHeaders([
+            'X-Example' => 'example',
+        ])->baseUrl('https://github.com');
+    });
+}
+```
+
+Once your macro has been configured, you may invoke it from anywhere in your application to create a pending request with the specified configuration:
+
+```php
+$response = Http::github()->get('/');
+```
 
 <a name="testing"></a>
 ## Testing
@@ -380,3 +421,27 @@ Or, you may use the `assertNothingSent` method to assert that no requests were s
     Http::fake();
 
     Http::assertNothingSent();
+
+<a name="events"></a>
+## Events
+
+Laravel fires three events during the process of sending HTTP requests. The `RequestSending` event is fired prior to a request being sent, while the `ResponseReceived` event is fired after a response is received for a given request. The `ConnectionFailed` event is fired if no response is received for a given request.
+
+The `RequestSending` and `ConnectionFailed` events both contain a public `$request` property that you may use to inspect the `Illuminate\Http\Client\Request` instance. Likewise, the `ResponseReceived` event contains a `$request` property as well as a `$response` property which may be used to inspect the `Illuminate\Http\Client\Response` instance. You may register event listeners for this event in your `App\Providers\EventServiceProvider` service provider:
+
+    /**
+     * The event listener mappings for the application.
+     *
+     * @var array
+     */
+    protected $listen = [
+        'Illuminate\Http\Client\Events\RequestSending' => [
+            'App\Listeners\LogRequestSending',
+        ],
+        'Illuminate\Http\Client\Events\ResponseReceived' => [
+            'App\Listeners\LogResponseReceived',
+        ],
+        'Illuminate\Http\Client\Events\ConnectionFailed' => [
+            'App\Listeners\LogConnectionFailed',
+        ],
+    ];

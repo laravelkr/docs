@@ -78,9 +78,9 @@ The `app` directory contains the core code of your application. We'll explore th
 #### The Bootstrap Directory
 #### Bootstrap 디렉토리
 
-The `bootstrap` directory contains the `app.php` file which bootstraps the framework. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files.
+The `bootstrap` directory contains the `app.php` file which bootstraps the framework. This directory also houses a `cache` directory which contains framework generated files for performance optimization such as the route and services cache files. You should not typically need to modify any files within this directory.
 
-`bootstrap` 디렉토리는 프레임워크의 부트스트래핑을 담당하는 `app.php` 파일을 가지고 있습니다. 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다.
+`bootstrap` 디렉토리는 프레임워크의 부트스트래핑을 담당하는 `app.php` 파일을 가지고 있습니다. 또한 프레임워크가 라우트나 서비스 캐시 파일과 같은 퍼포먼스 향상을 위해서 생성하는 `cache` 디렉토리를 가지고 있습니다. 일반적으로 이 디렉토리 안의 파일은 수정할 필요가 없습니다.
 
 <a name="the-config-directory"></a>
 #### The Config Directory
@@ -110,53 +110,55 @@ The `public` directory contains the `index.php` file, which is the entry point f
 #### The Resources Directory
 #### Resources 디렉토리
 
-The `resources` directory contains your views as well as your raw, un-compiled assets such as LESS, SASS, or JavaScript. This directory also houses all of your language files.
+The `resources` directory contains your [views](/docs/{{version}}/views) as well as your raw, un-compiled assets such as CSS or JavaScript. This directory also houses all of your language files.
 
-`resources` 디렉토리는 뷰 파일과 LESS, SASS, 자바스크립트와 같이 컴파일 되기 전의 asset파일들을 가지고 있습니다. 이 디렉토리는 또한 다국어 파일도 들어 있습니다.
+`resources` 디렉토리는 [뷰](/docs/{{version}}/views) 파일과 CSS, 자바스크립트와 같이 컴파일 되기 전의 asset파일들을 가지고 있고 다국어 파일도 들어 있습니다.
 
 <a name="the-routes-directory"></a>
 #### The Routes Directory
 #### Routes 디렉토리
 
-The `routes` directory contains all of the route definitions for your application. By default, several route files are included with Laravel: `web.php`, `api.php`, `console.php` and `channels.php`.
+The `routes` directory contains all of the route definitions for your application. By default, several route files are included with Laravel: `web.php`, `api.php`, `console.php`, and `channels.php`.
 
 `routes` 디렉토리는 애플리케이션에서 정의된 모든 라우트들이 들어 있습니다. 기본적으로 여기에는 라라벨에서 제공하는 `web.php`, `api.php`, `console.php` 그리고 `channels.php` 파일이 포함되어 있습니다.
 
-The `web.php` file contains routes that the `RouteServiceProvider` places in the `web` middleware group, which provides session state, CSRF protection, and cookie encryption. If your application does not offer a stateless, RESTful API, all of your routes will most likely be defined in the `web.php` file.
+The `web.php` file contains routes that the `RouteServiceProvider` places in the `web` middleware group, which provides session state, CSRF protection, and cookie encryption. If your application does not offer a stateless, RESTful API then it is likely that all of your routes will most likely be defined in the `web.php` file.
 
 `web.php` 파일은 `RouteServiceProvider` 의 `web` 미들웨어 그룹안에 포함되는 라우트들을 포함하고 있으며, 세션 상태, CSRF 보호, 쿠키 암호화 기능을 제공합니다. 만약 여러분의 애플리케이션이 상태를 저장하지 않는 RESTful API를 제공하지 않는다면, 대부분의 라우트는 `web.php` 파일안에 정의될것입니다.
 
-The `api.php` file contains routes that the `RouteServiceProvider` places in the `api` middleware group, which provides rate limiting. These routes are intended to be stateless, so requests entering the application through these routes are intended to be authenticated via tokens and will not have access to session state.
+The `api.php` file contains routes that the `RouteServiceProvider` places in the `api` middleware group. These routes are intended to be stateless, so requests entering the application through these routes are intended to be authenticated [via tokens](/docs/{{version}}/sanctum) and will not have access to session state.
 
-`api.php` 파일은 `RouteServiceProvider` 의 `api` 미들웨어 그룹안에 포함되는 라우트들을 포함하고 있으며, 접속 속도 제한 기능을 제공합니다. 이 라우트들은 상태를 저장하지 않는것을 대상으로 하며 따라서 requests-요청들이 애플리케이션에 진입하면 이 라우트들을 통해서 토큰을 통해서 인증되고, 세션 상태에 엑세스 할 수 없습니다.
+`api.php` 파일은 `RouteServiceProvider` 의 `api` 미들웨어 그룹안에 포함되는 라우트들을 포함하고 있습니다. 이 라우트들은 상태를 저장하지 않는것을 대상으로 하며 애플리케이션에서 처리되기 위해서는 따라서 [토큰을 통한](/docs/{{version}}/sanctum) 인증이 처리되어야 합니다. 그리고 이 라우트들은 세션에 접근할 수 없습니다. 
 
-The `console.php` file is where you may define all of your Closure based console commands. Each Closure is bound to a command instance allowing a simple approach to interacting with each command's IO methods. Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application.
+The `console.php` file is where you may define all of your closure based console commands. Each closure is bound to a command instance allowing a simple approach to interacting with each command's IO methods. Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application.
 
 `console.php` 파일은 클로저 기반의 명령어들을 정의해 놓을 수 있는 파일입니다. 각각의 클로저는 각각의 명령어 IO 메소드와 상호작용하는 간단한 명령어를 구현하는 명령어 인스턴스에 바인드 되어 있습니다. 이 파일에는 HTTP 라우트가 정의되어 있지는 않지만, 애플리케이션에 콘솔 기반의 진입점(라우트와 비슷하게)을 정의합니다.
 
-The `channels.php` file is where you may register all of the event broadcasting channels that your application supports.
+The `channels.php` file is where you may register all of the [event broadcasting](/docs/{{version}}/broadcasting) channels that your application supports.
 
-`channels.php` 파일은 애플리케이션에서 지원하는 모든 이벤트 브로드캐스팅 채널을 등록하는 파일입니다.
+
+`channels.php` 파일은 애플리케이션에서 지원하는 모든 [이벤트 브로드캐스팅](/docs/{{version}}/broadcasting) 채널을 등록하는 파일입니다.
 
 <a name="the-storage-directory"></a>
 #### The Storage Directory
 #### Storage 디렉토리
 
-The `storage` directory contains your compiled Blade templates, file based sessions, file caches, and other files generated by the framework. This directory is segregated into `app`, `framework`, and `logs` directories. The `app` directory may be used to store any files generated by your application. The `framework` directory is used to store framework generated files and caches. Finally, the `logs` directory contains your application's log files.
+The `storage` directory contains your logs, compiled Blade templates, file based sessions, file caches, and other files generated by the framework. This directory is segregated into `app`, `framework`, and `logs` directories. The `app` directory may be used to store any files generated by your application. The `framework` directory is used to store framework generated files and caches. Finally, the `logs` directory contains your application's log files.
 
-`storage` 디렉토리는 여러분의 컴파일된 블레이트 템플릿, 파일 기반의 세션, 파일 캐시 그리고 기타 프레임워크에서 생성된 파일들을 가지고 있습니다. 이 디렉토리는 그 안에 `app`, `framework` 그리고 `logs` 디렉토리로 구성되어 있습니다. `app` 디렉토리는 애플리케이션에 의해서 생성된 파일을 저장하는데 사용되어집니다. `framework` 디렉토리는 프레임워크가 생성한 파일들과 캐시를 저장하는데 사용됩니다. 마지막으로 `logs` 디렉토리는 애플리케이션의 로그 파일들을 가지고 있습니다.
+`storage` 디렉토리는 애플리케이션의 로그, 컴파일된 블레이트 템플릿, 파일 기반의 세션, 파일 캐시 그리고 기타 프레임워크에서 생성된 파일들을 가지고 있습니다. 이 디렉토리는 그 안에 `app`, `framework` 그리고 `logs` 디렉토리로 구성되어 있습니다. `app` 디렉토리는 애플리케이션에 의해서 생성된 파일을 저장하는데 사용되어집니다. `framework` 디렉토리는 프레임워크가 생성한 파일들과 캐시를 저장하는데 사용됩니다. 마지막으로 `logs` 디렉토리는 애플리케이션의 로그 파일들을 가지고 있습니다.
 
-The `storage/app/public` directory may be used to store user-generated files, such as profile avatars, that should be publicly accessible. You should create a symbolic link at `public/storage` which points to this directory. You may create the link using the `php artisan storage:link` command.
+The `storage/app/public` directory may be used to store user-generated files, such as profile avatars, that should be publicly accessible. You should create a symbolic link at `public/storage` which points to this directory. You may create the link using the `php artisan storage:link` Artisan command.
 
-`storage/app/public` 디렉토리는 공개적으로 엑세스가 가능해야 하는 프로필 아바타와 같은 사용자가 생성한 파일들에 사용할 수 있습니다. 여러분은 이 디렉토리를 가리키는 `public/storage` 심볼릭 링크를 생성해야 합니다. `php artisan storage:link` 명령어를 통해서 이 링크를 생성할 수 있습니다.
+
+`storage/app/public` 디렉토리는 공개적으로 엑세스가 가능해야 하는 프로필 아바타와 같은 사용자가 생성한 파일들에 사용할 수 있습니다. 여러분은 이 디렉토리를 가리키는 `public/storage` 심볼릭 링크를 생성해야 합니다. `php artisan storage:link` 아티즌 명령어를 통해서 이 링크를 생성할 수 있습니다.
 
 <a name="the-tests-directory"></a>
 #### The Tests Directory
 #### Tests 디렉토리
 
-The `tests` directory contains your automated tests. An example [PHPUnit](https://phpunit.de/) test is provided out of the box. Each test class should be suffixed with the word `Test`. You may run your tests using the `phpunit` or `php vendor/bin/phpunit` commands.
+The `tests` directory contains your automated tests. Example [PHPUnit](https://phpunit.de/) unit tests and feature tests are provided out of the box. Each test class should be suffixed with the word `Test`. You may run your tests using the `phpunit` or `php vendor/bin/phpunit` commands. Or, if you would like a more detailed and beautiful representation of your test results, you may run your tests using the `php artisan test` Artisan command.
 
-`tests` 디렉토리는 자동화된 테스트가 포함되어 있습니다. 별다른 설정 없이도 [PHPUnit](https://phpunit.de/) 테스트의 예제가 제공됩니다. 각각의 테스트 클래스는 `Test` 라는 단어가 붙어 있어야 합니다. `phpunit` 또는 `php vendor/bin/phpunit` 명령어를 통해서 테스트를 실행할 수 있습니다.
+`tests` 디렉토리는 자동화된 테스트가 포함되어 있습니다. 별다른 설정 없이도 [PHPUnit](https://phpunit.de/) 단위 테스트와 기능 테스트 예제가 제공됩니다. 각각의 테스트 클래스는 `Test` 라는 단어가 뒤에 붙어 있어야 합니다. `phpunit` 또는 `php vendor/bin/phpunit` 명령어를 통해서 테스트를 실행할 수 있습니다. 테스트 결과를 좀 더 자세하고 예쁜 화면을 통해서 확인하려면 `php artisan test` 아티즌 명령어를 실행하면 됩니다.
 
 <a name="the-vendor-directory"></a>
 #### The Vendor Directory
@@ -246,9 +248,9 @@ This directory does not exist by default, but will be created for you if you exe
 #### The Mail Directory
 #### Mail 디렉토리
 
-This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your classes that represent emails sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
+This directory does not exist by default, but will be created for you if you execute the `make:mail` Artisan command. The `Mail` directory contains all of your [classes that represent emails](/docs/{{version}}/mail) sent by your application. Mail objects allow you to encapsulate all of the logic of building an email in a single, simple class that may be sent using the `Mail::send` method.
 
-이 디렉토리는 기본적으로 존재하지 않지만, `make:mail` 아티즌 명령어를 실행하는 경우 생성됩니다. `Mail` 디렉토리는 애플리케이션에 의해서 발송되는 이메일을 나타내는 클래스들을 가지고 있습니다. 메일 객체는 `Mail::send` 메소드를 사용하여 보낼 수 있는 간단한 하나의 클래스를 통해서 이메일을 구성하는 로직을 캡슐화 합니다.
+이 디렉토리는 기본적으로 존재하지 않지만, `make:mail` 아티즌 명령어를 실행하는 경우 생성됩니다. `Mail` 디렉토리는 애플리케이션에 의해서 발송되는 [이메일을 나타내는 클래스들](/docs/{{version}}/mail)을 가지고 있습니다. 메일 객체는 `Mail::send` 메소드를 사용하여 보낼 수 있는 간단한 하나의 클래스를 통해서 이메일을 구성하는 로직을 캡슐화 합니다.
 
 <a name="the-models-directory"></a>
 #### The Models Directory
@@ -262,17 +264,17 @@ The `Models` directory contains all of your [Eloquent model classes](/docs/{{ver
 #### The Notifications Directory
 #### Notifications 디렉토리
 
-This directory does not exist by default, but will be created for you if you execute the `make:notification` Artisan command. The `Notifications` directory contains all of the "transactional" notifications that are sent by your application, such as simple notifications about events that happen within your application. Laravel's notification features abstracts sending notifications over a variety of drivers such as email, Slack, SMS, or stored in a database.
+This directory does not exist by default, but will be created for you if you execute the `make:notification` Artisan command. The `Notifications` directory contains all of the "transactional" [notifications](/docs/{{version}}/notifications) that are sent by your application, such as simple notifications about events that happen within your application. Laravel's notification feature abstracts sending notifications over a variety of drivers such as email, Slack, SMS, or stored in a database.
 
-이 디렉토리는 기본적으로 존재하지 않지만, `make:notification` 아티즌 명령어를 실행하는 경우 생성됩니다. `Notifications` 디렉토리는 애플리케이션 안에서 발생하는 이벤트에 대한 간단한 알림으로, 애플리케이션에서 전송되는 "트랜잭션" 알림을 제공합니다. 라라벨의 알림 기능은 이메일, 슬랙, SMS와 같은 다양한 드라이버를 통해서 알림을 보내거나, 데이터베이스에 저장하는 추상화 기능입니다.
+이 디렉토리는 기본적으로 존재하지 않지만, `make:notification` 아티즌 명령어를 실행하는 경우 생성됩니다. `Notifications` 디렉토리는 애플리케이션 안에서 발생하는 이벤트에 대한 간단한 알림으로, 애플리케이션에서 전송되는 "트랜잭션" [알림](/docs/{{version}}/notifications)을 제공합니다. 라라벨의 알림 기능은 이메일, 슬랙, SMS와 같은 다양한 드라이버를 통해서 알림을 보내거나, 데이터베이스에 저장하는 추상화 기능입니다.
 
 <a name="the-policies-directory"></a>
 #### The Policies Directory
 #### Policies 디렉토리
 
-This directory does not exist by default, but will be created for you if you execute the `make:policy` Artisan command. The `Policies` directory contains the authorization policy classes for your application. Policies are used to determine if a user can perform a given action against a resource. For more information, check out the [authorization documentation](/docs/{{version}}/authorization).
+This directory does not exist by default, but will be created for you if you execute the `make:policy` Artisan command. The `Policies` directory contains the [authorization policy classes](/docs/{{version}}/authorization) for your application. Policies are used to determine if a user can perform a given action against a resource.
 
-이 디렉토리는 기본적으로 존재하지 않지만, `make:policy` 아티즌 명령어를 실행하는 경우 생성됩니다. `Policies` 디렉토리는 애플리케이션의 authorization policy 클래스를 가지고 있습니다. Policies는 사용자가 특정 리소스에 대한 주어진 액션을 수행할 수 있는지를 결정하는데 사용됩니다. 보다 자세한 정보는 [authorization 문서](/docs/{{version}}/authorization)를 참고하십시오.
+이 디렉토리는 기본적으로 존재하지 않지만, `make:policy` 아티즌 명령어를 실행하는 경우 생성됩니다. `Policies` 디렉토리는 애플리케이션의 [authorization policy 클래스](/docs/{{version}}/authorization)를 가지고 있습니다. Policies는 사용자가 특정 리소스에 대한 주어진 액션을 수행할 수 있는지를 결정하는데 사용됩니다.
 
 <a name="the-providers-directory"></a>
 #### The Providers Directory

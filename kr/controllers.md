@@ -36,7 +36,9 @@
 
 Instead of defining all of your request handling logic as closures in your route files, you may wish to organize this behavior using "controller" classes. Controllers can group related request handling logic into a single class. For example, a `UserController` class might handle all incoming requests related to users, including showing, creating, updating, and deleting users. By default, controllers are stored in the `app/Http/Controllers` directory.
 
-모든 요청 처리 논리를 경로 파일의 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 이 동작을 구성할 수 있습니다.  예를 들어 `UserController` 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러는 `app/Http/Controllers` 디렉토리에 저장됩니다.
+모든 리퀘스트 처리 논리를 라우트 파일에서 클로저로 정의하는 대신
+
+리퀘스트 처리에 관한 논리는 라우트 파일에서 클로저로 정의 할 수 있습니다. 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 같은 동작을 구성할 수 있습니다. 예를 들어 `UserController` 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러 클래스 파일은 `app/Http/Controllers` 디렉토리에 저장됩니다.
 
 <a name="writing-controllers"></a>
 ## Writing Controllers
@@ -83,11 +85,11 @@ You can define a route to this controller method like so:
 
 When an incoming request matches the specified route URI, the `show` method on the `App\Http\Controllers\UserController` class will be invoked and the route parameters will be passed to the method.
 
-들어오는 요청이 지정된 라우트(route) URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route) 파라메터가 메소드에 전달됩니다.
+들어오는 요청(request)이 지정된 라우트(route)의 URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route)의 파라메터가 `show` 메소드에 전달됩니다.
 
 > {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
-> {tip} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위해 접근 할 수 없습니다.
+> {tip} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
 
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
@@ -179,11 +181,11 @@ Controllers also allow you to register middleware using a closure. This provides
 
 If you think of each Eloquent model in your application as a "resource", it is typical to perform the same sets of actions against each resource in your application. For example, imagine your application contains a `Photo` model and a `Movie` model. It is likely that users can create, read, update, or delete these resources.
 
-애플리케이션의 각 Eloquent 모델을 "리소스"로 생각한다면 애플리케이션의 각 리소스에 대해 동일 유형(typical)의 같은 작업을 수행하는 것이 일반적입니다. 예를 들어 애플리케이션에 `Photo` 모델과 `Movie` 모델이 포함되어 있다고 가정해 보겠습니다. 사용자는 Photo 리소스에 대해서도 Movie 리소스에 대해서도 동일하게 생성, 조회, 업데이트 또는 삭제할 수 있습니다.
+애플리케이션의 각 Eloquent 모델을 "리소스"로 생각한다면 애플리케이션의 각 리소스에 대해 동일 유형(typical)의 같은 작업을 수행하는 것이 일반적입니다. 예를 들어 애플리케이션에 `Photo` 모델과 `Movie` 모델이 포함되어 있다고 가정해 보겠습니다. 사용자는 Photo 리소스에 대해서도 Movie 리소스에 대해서도 동일하게 생성, 조회, 업데이트 또는 삭제하는 동일한 유형의 작업을 합니다.
 
 Because of this common use case, Laravel resource routing assigns the typical create, read, update, and delete ("CRUD") routes to a controller with a single line of code. To get started, we can use the `make:controller` Artisan command's `--resource` option to quickly create a controller to handle these actions:
 
-이와 같은 일반적인 사용 사례(use case) 때문에 라라벨 리소스 라우팅은 동일 유형의 생성, 읽기, 업데이트 및 삭제("CRUD")를 여러줄의 라우터로 각각 선언하지 않고 한 줄의 코드로 컨트롤러의 기본 엑션들을 라우트에 할당합니다. `make:controller` Artisan 명령의 `--resource` 옵션을 사용하여 모델에 대한 생성, 읽기, 업데이트 및 삭제를 처리하는 컨트롤러를 빠르게 생성할 수 있습니다.
+이와 같은 일반적인 사용 사례(use case) 때문에 라라벨 리소스 라우팅은 동일 유형의 생성, 읽기, 업데이트 및 삭제("CRUD")를 여러줄의 라우터로 각각 선언하지 않고 한 줄의 코드로 컨트롤러의 기본 엑션들을 라우트에 할당하는 방법을 제공합니다. `make:controller` Artisan 명령의 `--resource` 옵션을 사용하여 모델에 대한 생성, 읽기, 업데이트 및 삭제를 처리하는 컨트롤러를 빠르게 생성할 수 있습니다.
 
     php artisan make:controller PhotoController --resource
 
@@ -198,7 +200,7 @@ Artisan 명령어는 `app/Http/Controllers/PhotoController.php` 파일을 생성
 
 This single route declaration creates multiple routes to handle a variety of actions on the resource. The generated controller will already have methods stubbed for each of these actions. Remember, you can always get a quick overview of your application's routes by running the `route:list` Artisan command.
 
-단일한 라우트의 선언으로 리소스에 대한 다양한 엑션을 다루기 위한 라우터를 생성할 수 있습니다. 생성된 컨트롤러에는 미리 생성된 코드(stub)를 가진 엑션 메소드를 가집니다. `route:list` Artisan 명령어를 실행하여 여러분 애플리케이션의 라우트에 대한 개요(overview)를 빠르게 얻을 수 있다는 것을 알아 두세요.
+단일한 라우트의 선언으로 리소스에 대한 다양한 엑션을 다루기 위한 라우터를 생성할 수 있습니다. 생성된 컨트롤러에는 미리 생성된 코드(stub)를 가진 엑션 메소드를 가집니다. `route:list` Artisan 명령어를 실행하여 여러분 애플리케이션의 라우트에 대한 개략적인 코드(overview)를 빠르게 얻을 수 있다는 것을 알아 두세요.
 
 You may register many resource controllers at once by passing an array to the `resources` method:
 
@@ -304,7 +306,7 @@ To quickly generate an API resource controller that does not include the `create
 
 Sometimes you may need to define routes to a nested resource. For example, a photo resource may have multiple comments that may be attached to the photo. To nest the resource controllers, use "dot" notation in your route declaration:
 
-때로는 중첩된(Nested) 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 게제할 사진 정보를 저장하는 사진 리소스는 사진에 관한 여러 글(comments)을 가질 수 있습니다. 사진 리소스를 사용하는 리소스 컨트롤러에 사진에 관한 글(comments)을 중첩(nest)하려면 라우트를 선언할 때 "dot" 표기법을 사용합니다.
+때로는 엘로퀀트 모델의 중첩된(Nested) 리소스에 대한 라우트를 정의해야 할 수도 있습니다. 예를 들어, 게제할 사진 정보를 저장하는 사진 리소스는 사진에 관한 여러 글(comments)을 가질 수 있습니다. 사진 리소스를 사용하는 리소스 컨트롤러에 사진에 관한 글(comments)을 중첩(nest)하려면 라우트를 선언할 때 엘로퀀트 모델간의 연결 관계를 "dot" 기호를 사용해서 나타냅니다.
 
     use App\Http\Controllers\PhotoCommentController;
 
@@ -408,7 +410,7 @@ This route will register a scoped nested resource that may be accessed with URIs
 
 When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `Photo` model has a relationship named `comments` (the plural of the route parameter name) which can be used to retrieve the `Comment` model.
 
-중첩된 라우트의 파라메터로 커스텀 키가 있는 암시적 바인딩을 사용할 때, Laravel은 자동으로 쿼리의 스코프를 지정하여 부모의 관계 이름을 추축하는 규칙을 사용하여 부모에 의해 중첩된 모델을 검색합니다. 이 경우 `Photo`모델에는 `Comment`모델을 검색하는 데 사용할 수있는 `comments`(라우트 파라메터 이름의 복수)라는 관계가있는 것으로 가정합니다.
+중첩된 라우트의 파라메터로 커스텀 키가 있는 암시적(implicit) 바인딩을 사용할 때, Laravel은 자동으로 쿼리의 스코프를 지정하여 부모의 관계 이름을 추축하는 규칙을 사용하여 부모 모델에 중첩되어 있는 모델인지 확인합니다. 이 경우 부모 모델인 `Photo`는 자식 모델인 `Comment`를 검색하는 데 사용할 수있는 `comments`(라우트 파라메터 이름의 복수)라는 엘로퀀트 릴레이션 관계가있는 것으로 가정합니다.
 
 <a name="restful-localizing-resource-uris"></a>
 ### Localizing Resource URIs
@@ -435,7 +437,7 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
 
 Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은  리소스 라우트는 다음의 URI를 구성하게 됩니다.
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은 리소스 라우트는 다음의 URI를 구성하게 됩니다.
 
     /fotos/crear
 
@@ -456,7 +458,7 @@ If you need to add additional routes to a resource controller beyond the default
 
 > {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
-> {tip} 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하십시오.
+> {tip} 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers
@@ -527,7 +529,7 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
 If your controller method is also expecting input from a route parameter, list your route arguments after your other dependencies. For example, if your route is defined like so:
 
-컨트롤러 메소드가 경로 파라메터의 입력도 예상하는 경우 다른 종속성 뒤에 경로 인수를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우
+컨트롤러의 메소드가 라우트 파라메터의 전달도 고려해야 하는 경우, 의존성 주입 파라메터 다음에 라우터 파라메터를 나열합니다. 예를 들어 경로가 다음과 같이 정의된 경우
 
     use App\Http\Controllers\UserController;
 
@@ -535,7 +537,7 @@ If your controller method is also expecting input from a route parameter, list y
 
 You may still type-hint the `Illuminate\Http\Request` and access your `id` parameter by defining your controller method as follows:
 
-여전히 `Illuminate\Http\Request`를 입력하고 다음과 같이 컨트롤러 메소드를 정의하여 `id` 파라메터에 액세스할 수 있습니다.
+다음과 같은 코드를 통해 동일하게 타입힌트로 지정된 `Illuminate\Http\Request` 의존성 주입 대상과 컨트롤러 메소드에 정의된 `id` 파라메터에 접근할 수 있습니다.
 
     <?php
 

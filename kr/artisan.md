@@ -365,6 +365,12 @@ To assign a shortcut when defining an option, you may specify it before the opti
 
     mail:send {user} {--Q|queue}
 
+When invoking the command on your terminal, option shortcuts should be prefixed with a single hyphen:
+
+터미널에서 명령을 호출할 때 옵션의 짧은 표현은 하이픈 하나로 시작 해야 합니다.
+
+    php artisan mail:send 1 -Q
+
 <a name="input-arrays"></a>
 ### Input Arrays
 ### 배열 입력
@@ -415,7 +421,7 @@ You may assign descriptions to input arguments and options by separating the arg
      */
     protected $signature = 'mail:send
                             {user : The ID of the user}
-                            {--queue= : Whether the job should be queued}';
+                            {--queue : Whether the job should be queued}';
 
 <a name="command-io"></a>
 ## Command I/O
@@ -552,7 +558,7 @@ In addition, the `choice` method accepts optional fourth and fifth arguments for
 
 To send output to the console, you may use the `line`, `info`, `comment`, `question`, `warn`, and `error` methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the `info` method will display in the console as green colored text:
 
-콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `warn`, `error` 메소드를 사용하면 됩니다. 각 메서드는 각자의 목적에 맞는 ANSI 색상으로 출력합니다. 예를 들어 사용자에게 몇 가지 일반적인 정보를 출력해 보겠습니다. 사용자에게 정보에 관한 메시지를 보여주고싶은 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다. 
+콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `warn`, `error` 메소드를 사용하면 됩니다. 각 메서드는 각자의 목적에 맞는 ANSI 색상으로 출력합니다. 예를 들어 사용자에게 몇 가지 일반적인 정보를 출력해 보겠습니다. 사용자에게 정보에 관한 메시지를 보여주고싶은 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다.
 
     /**
      * Execute the console command.
@@ -660,9 +666,9 @@ All of your console commands are registered within your application's `App\Conso
         // ...
     }
 
-If necessary, you may manually register commands by adding the command's class name to the `$commands` property of your `App\Console\Kernel` class. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+If necessary, you may manually register commands by adding the command's class name to a `$commands` property within your `App\Console\Kernel` class. If this property is not already defined on your kernel, you should define it manually. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-필요한 경우 `App\Console\Kernel` 클래스의 `commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
+필요한 경우 `App\Console\Kernel` 클래스의 `commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. 만약 `commands` 속성이 커널에 정의되어있지 않다면 수동으로 정의 해야 합니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
 
     protected $commands = [
         Commands\SendEmails::class

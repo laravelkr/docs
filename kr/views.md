@@ -70,7 +70,7 @@ Once you have created a view, you may return it from one of your application's r
 
 Views may also be returned using the `View` facade:
 
-뷰-View는 `View` 파사드를 사용하여 반환될 수도 있습니다:
+뷰-View는 `View` 파사드를 사용하여 반환될 수도 있습니다.
 
     use Illuminate\Support\Facades\View;
 
@@ -132,7 +132,7 @@ As you saw in the previous examples, you may pass an array of data to views to m
 
 When passing information in this manner, the data should be an array with key / value pairs. After providing data to a view, you can then access each value within your view using the data's keys, such as `<?php echo $name; ?>`.
 
-이러한 방식으로 정보를 전달할 때, 데이터는 키/값 쌍이 있는 배열이어야 합니다. 뷰-View에 데이터를 제공한 후, 데이터의 키를 사용하여 뷰-View 내의 각 값에 액세스할 수 있습니다. `<?php echo name; ?>` 처럼.
+이러한 방식으로 정보를 전달할 때, 데이터는 키/값 쌍이 있는 배열이어야 합니다. 뷰-View에 데이터를 제공한 후, 데이터의 키를 사용하여 뷰-View 내의 각 값에 액세스할 수 있습니다. `<?php echo $name; ?>` 처럼.
 
 As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view. The `with` method returns an instance of the view object so that you can continue chaining methods before returning the view:
 

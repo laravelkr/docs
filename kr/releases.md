@@ -16,11 +16,11 @@
 
 Laravel and its other first-party packages follow [Semantic Versioning](https://semver.org). Major framework releases are released every year (~February), while minor and patch releases may be released as often as every week. Minor and patch releases should **never** contain breaking changes.
 
-라라벨과 그외 자체 제공하는 패키지들은 [유의적 버젼](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~2월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
+라라벨과 그외 자체적으로 제공하는 패키지들은 [시멘틱버저닝-유의적 버젼체계](https://semver.org/lang/ko/)을 따릅니다. 메이저 프레임워크 릴리즈는 1년마다 (~2월) 릴리즈되며, 마이너 릴리스는 매주 여러번 릴리즈 될 수 있습니다. 마이너 릴리즈에는 이전 버전의 호환성을 깨뜨리는 변경 사항이 **없어야** 합니다.
 
 When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^8.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
 
-애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때에, 라라벨의 메이저 릴리즈가 이전 버전과 호환성을 유지하지 못하는 변경사항을 포함하고 있기 때문에 항상 `^8.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
+애플리케이션에서 라라벨 프레임워크, 라라벨의 컴포넌트 또는 패키지를 참조할 때, 메이저 릴리즈에서는 (ex 7.x -> 8.x) 이전 버전과 호환성이 깨지는 변경사항을 포함하고 있기 때문에 항상 `^8.0` 와 같이 참조하도록 해야 합니다. 변경사항에 대해서는 하루 안에 새로운 릴리즈를 업데이트 할 수 있도록 노력하고 있습니다.
 
 <a name="exceptions"></a>
 ### Exceptions
@@ -102,7 +102,7 @@ Jetsream은 [Tailwind CSS](https://tailwindcss.com)를 이용해서 디자인 �
 
 By overwhelming community demand, the default Laravel application skeleton now contains an `app/Models` directory. We hope you enjoy this new home for your Eloquent models! All relevant generator commands have been updated to assume models exist within the `app/Models` directory if it exists. If the directory does not exist, the framework will assume your models should be placed within the `app` directory.
 
-커뮤니티의 요구에 라라벨의 기본 어플리케이션 뼈대에 `app/Models` 디렉토리가 추가되었습니다. 우리는 여러분이 엘로퀀트 모델을을 위한 이 새 집을 좋아하길 바랍니다! 관련된 모든 생성 커맨드들은 이 디렉토리가 존재하면 이 디렉토리에 모델들이 있을것으로 가정하도록 업데이트 되었습니다. 만약 이 디렉토리가 없다면, 라라벨은 여러분의 모델이 `app` 디렉토리에 있을것이라고 가정합니다.
+커뮤니티의 요구에 라라벨의 기본 어플리케이션 뼈대에 `app/Models` 디렉토리가 추가되었습니다. 우리는 여러분이 엘로퀀트 모델을 위한 이 새로운 디렉토리를 좋아하길 바랍니다! 관련된 모든 생성 커맨드들은 이 디렉토리가 존재하면 이 디렉토리에 모델들이 있을것으로 가정하도록 업데이트 되었습니다. 만약 이 디렉토리가 없다면, 라라벨은 여러분의 모델이 `app` 디렉토리에 있을것이라고 가정합니다.
 
 <a name="model-factory-classes"></a>
 ### Model Factory Classes
@@ -340,7 +340,7 @@ _점검 모드 개선은 [Spatie](https://spatie.be)에게서 영감을 받아 [
 
 In previous releases of Laravel, the `php artisan down` maintenance mode feature may be bypassed using an "allow list" of IP addresses that were allowed to access the application. This feature has been removed in favor of a simpler "secret" / token solution.
 
-이전 버전의 라라벨에서는 `php artisan down` 점검 모드 기능이 "허용 목록"의 아이피 주소들에 한해 어플리케이션에 접근하는 것을 허용했습니다. 이 기능은 이제 제거되며 더 간단한 "비밀" / 토큰 접근 방식으로 대체됩니다.
+이전 버전의 라라벨에서는 `php artisan down` 점검 모드 기능이 "허용 목록"의 아이피 주소들에 한해 어플리케이션에 접근하는 것을 허용했습니다. 이 기능은 이제 제거되며 더 간단한 "secret" / 토큰 접근 방식으로 대체됩니다.
 
 While in maintenance mode, you may use the `secret` option to specify a maintenance mode bypass token:
 
@@ -364,7 +364,7 @@ When accessing this hidden route, you will then be redirected to the `/` route o
 
 If you utilize the `php artisan down` command during deployment, your users may still occasionally encounter errors if they access the application while your Composer dependencies or other infrastructure components are updating. This occurs because a significant part of the Laravel framework must boot in order to determine your application is in maintenance mode and render the maintenance mode view using the templating engine.
 
-만약 여러분이 배포 중 `php artisan down` 커맨드를 사용하려 한다면, 컴포저의 의존성 혹은 여러 인프라 구성요소가 업데이트 되는 중에 어플리케이션에 접근한다면 여전히 유저들 중 일부가 에러를 볼 가능성이 있습니다. 이것은 점검 모드 뷰를 템플릿 엔진을 사용해 렌더링 하기 위해 라라벨 프레임워크의 거대한 부분이 부팅되어야 하기 때문입니다.
+만약 여러분이 배포 중 `php artisan down` 커맨드를 사용하려 한다면, 컴포저의 의존성 혹은 여러 인프라 구성요소가 업데이트 되는 중에 어플리케이션에 접근할 때 여전히 유저들 중 일부가 에러를 볼 가능성이 있습니다. 이것은 점검 모드 뷰를 템플릿 엔진을 사용해 렌더링 하기 위해 라라벨 프레임워크의 거대한 부분이 부팅되어야 하기 때문입니다.
 
 For this reason, Laravel now allows you to pre-render a maintenance mode view that will be returned at the very beginning of the request cycle. This view is rendered before any of your application's dependencies have loaded. You may pre-render a template of your choice using the `down` command's `render` option:
 
@@ -540,7 +540,7 @@ Calls to the `action` related methods should use the same callable syntax:
 
 If you prefer Laravel 7.x style controller route prefixing, you may simply add the `$namespace` property into your application's `RouteServiceProvider`.
 
-만약 여러분이 라라벨 7.x 스타일의 컨트롤러 라우트 접두 기능을 사용하고 싶다면, 여러분의 어플리케이션의 `RouteServiceProvider` 에 `$namespace` 속성을 추가하세요.
+만약 여러분이 라라벨 7.x 스타일의 컨트롤러 라우트 prefix 기능을 사용하고 싶다면, 여러분의 어플리케이션의 `RouteServiceProvider` 에 `$namespace` 속성을 추가하세요.
 
 > {note} This change only affects new Laravel 8.x applications. Applications upgrading from Laravel 7.x will still have the `$namespace` property in their `RouteServiceProvider`.
 

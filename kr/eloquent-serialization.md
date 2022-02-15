@@ -154,7 +154,7 @@ Alternatively, you may use the `visible` property to define an "allow list" of a
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance:
 
-주어진 모델 인스턴스에서 몇가지 일반적으로 숨겨진 속성을 표시하려면 `makeVisible` 메소드를 사용할 수 있습니다. `makeVisible` 메소드는 모델 인스턴스를 반환합니다.
+주어진 모델 인스턴스에서 몇가지 일반적인 숨겨진 속성을 보이도록 만들고자 한다면, `makeVisible` 메소드를 사용하면 됩니다. `makeVisible` 메소드는 모델 인스턴스를 반환합니다.
 
     return $user->makeVisible('attribute')->toArray();
 
@@ -170,7 +170,7 @@ Likewise, if you would like to hide some attributes that are typically visible, 
 
 Occasionally, when converting models to arrays or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an [accessor](/docs/{{version}}/eloquent-mutators) for the value:
 
-때때로, 모델이 배열이나 JSON으로 캐스팅 될 때, 데이터베이스의 컬럼에 일치하지 않는 속성들을 추가하기를 원할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 [accessor](/docs/{{version}}/eloquent-mutators)를 정의하면 됩니다.
+때때로, 모델이 배열이나 JSON으로 변환 될 때, 데이터베이스의 컬럼에 일치하지 않는 속성들을 추가하기를 원할 수도 있습니다. 이렇게 하기 위해서는, 단순히 값에 대한 [accessor](/docs/{{version}}/eloquent-mutators)를 정의하면 됩니다.
 
     <?php
 

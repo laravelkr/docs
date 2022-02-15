@@ -148,7 +148,7 @@ Let's define a mutator for the `first_name` attribute. This mutator will be auto
 
 The mutator will receive the value that is being set on the attribute, allowing you to manipulate the value and set the manipulated value on the Eloquent model's internal `$attributes` property. To use our mutator, we only need to set the `first_name` attribute on an Eloquent model:
 
-mutator는 속성에 설정된 값을 수신하여 값을 조작하고 Eloquent 모델의 내부 '속성' 속성에 조작된 값을 설정할 수 있습니다. mutator를 사용하려면 Eloquent 모델에 `first_name` 속성만 설정하면 됩니다.
+mutator 는 속성에 설정하고자 하는 값을 전달 받아, 값을 변형하고, 변형된 값을 Eloquent 모델의 `$attributes` 속성에 지정할 것입니다. mutator를 사용하려면, Eloquent 모델에 `first_name` 속성만 설정하면 됩니다.
 
     use App\Models\User;
 
@@ -158,7 +158,7 @@ mutator는 속성에 설정된 값을 수신하여 값을 조작하고 Eloquent 
 
 In this example, the `setFirstNameAttribute` function will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in the internal `$attributes` array.
 
-이 예제에서 `setFirstNameAttribute` 함수는 `Sally` 값으로 호출하게 됩니다. 그런 다음 mutator는 'strtolower' 함수를 이름에 적용하고 결과 값을 내부 'attributes' 배열에 설정합니다.
+이 예제에서 `setFirstNameAttribute` 함수는 `Sally` 라는 값과 함께 호출 될것입니다. mutator 는 이름에 대해 `strtolower` 함수가 실행되도록 하여 그 결과 값을 내부 `$attributes` 배열에 지정할 것입니다.
 
 <a name="attribute-casting"></a>
 ## Attribute Casting
@@ -499,11 +499,11 @@ The `last_posted_at` attribute on the results of this query will be a simple str
 
 Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may accomplish this by defining a class that implements the `CastsAttributes` interface.
 
-라라벨에는 다양한 내장형 유용한 캐스트 유형이 있습니다. 그러나 때때로 고유한 캐스트 유형을 정의해야 할 수도 있습니다.`CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 이 작업을 수행할 수 있습니다.
+라라벨은 다양한 캐스트 타입 내장하고 있습니다 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
 
 Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
 
-이 인터페이스를 구현하는 클래스는 `get` 및 `set` 메서드를 정의해야 합니다. `get` 메서드는 데이터베이스의 원시 값을 캐스팅 값으로 변환하는 역할을 하는 반면, `set` 메서드는 캐스트 값을 데이터베이스에 저장할 수 있는 원래희 값으로 변환해야 합니다. 예를 들어, 우리는 내장된 `json` 캐스트 유형을 사용자 정의 캐스트 유형으로 다시 구현합니다.
+이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다.
 
     <?php
 
@@ -544,7 +544,7 @@ Classes that implement this interface must define a `get` and `set` method. The 
 
 Once you have defined a custom cast type, you may attach it to a model attribute using its class name:
 
-사용자 정의 캐스트 유형을 정의한 후에는 클래스 이름을 사용하여 모델 속성에 연결할 수 있습니다.
+한번 커스텀 캐스트 타입을 정의하면, 해당 클래스 이름으로 모델 속성에 추가 할 수 있습니다.
 
     <?php
 
@@ -567,15 +567,15 @@ Once you have defined a custom cast type, you may attach it to a model attribute
 
 <a name="value-object-casting"></a>
 ### Value Object Casting
-### Value Object 캐스팅
+### 밸류 오브젝트 캐스팅
 
 You are not limited to casting values to primitive types. You may also cast values to objects. Defining custom casts that cast values to objects is very similar to casting to primitive types; however, the `set` method should return an array of key / value pairs that will be used to set raw, storable values on the model.
 
-값을 기본 유형으로 캐스팅하는 데만 제한되지 않습니다. 또한 객체에 값을 캐스팅할 수도 있습니다. 객체에 값을 캐스팅하는 사용자 지정 캐스트를 정의하는 것은 기본 유형으로 캐스팅하는 것과 매우 합니다. 그러나, `set` 메소드는 모델에서 원래 값을 저장 가능한 값으로 설정하는 데 사용할 key / value 쌍의 배열을 반환해야 합니다.
+원시 타입의 캐스팅 이외에 오브젝트의 값도 캐스트 할 수 있습니다. 오브젝트의 값의 커스텀 캐스트 정의는 원시 타입의 커스텀 캐스팅과 매우 비슷합니다, 하지만 `set` 메소드는 모델에서 저장 가능한 원시 값을 설정할 때 사용되는 key / value 쌍의 배열을 리턴 해야 합니다.
 
 As an example, we will define a custom cast class that casts multiple model values into a single `Address` value object. We will assume the `Address` value has two public properties: `lineOne` and `lineTwo`:
 
-예를 들어 여러 모델 값을 단일 `Address` 값 개체로 캐스팅하는 사용자 지정 캐스트 클래스를 정의합니다. `Address` 값에는 `lineOne`과 `lineTwo`라는 두 개의 Public 속성이 있다고 가정합니다.
+예제로 하나의 `Address`값을 가지는 밸류 오브젝트를 여러 모델 값을 캐스트 하는 커스텀 캐스트 클래스 정의했습니다, `Address` 값에는 `lineOne`과 `lineTwo`라는 두 가지 퍼블릭 프로퍼티가 있다고 가정하겠습니다.
 
     <?php
 
@@ -673,7 +673,7 @@ Therefore, you may specify that your custom cast class will be responsible for s
 
 Occasionally, you may need to write a custom cast that only transforms values that are being set on the model and does not perform any operations when attributes are being retrieved from the model. A classic example of an inbound only cast is a "hashing" cast. Inbound only custom casts should implement the `CastsInboundAttributes` interface, which only requires a `set` method to be defined.
 
-경우에 따라 모델에 설정되는 값만 변환하고 모델에서 속성을 검색할 때 작업을 수행하지 않는 사용자 지정 캐스트를 작성해야 할 수도 있습니다. 인바운드 전용 캐스트의 전형적인 예는 "해싱" 캐스트입니다. 인바운드 전용 사용자 지정 캐스트는 'set' 메서드만 정의하면 되는 'CastsInboundAttributes' 인터페이스를 구현해야 합니다.
+가끔은 모델에서 설정 중인 값만 변환하고 속성을 검색하지 않는 캐스트를 작성해야 할 필요가 있습니다. 인바운드 캐스팅의 전형적인 예제는 "해싱"입니다, 인바운드 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현 해야 합니다.
 
     <?php
 
@@ -720,11 +720,11 @@ Occasionally, you may need to write a custom cast that only transforms values th
 
 <a name="cast-parameters"></a>
 ### Cast Parameters
-### 캐스트 매개변수
+### 캐스트 파라메터
 
 When attaching a custom cast to a model, cast parameters may be specified by separating them from the class name using a `:` character and comma-delimiting multiple parameters. The parameters will be passed to the constructor of the cast class:
 
-모델에 사용자 지정 캐스트를 추가할 때 `:` 문자를 사용하여 클래스 이름에서 분리하고 여러 파라미터를 쉼표로 구분하여 캐스트 파라미터를 지정할 수 있습니다. 매개변수가 캐스트 클래스의 생성자에게 전달됩니다.
+모델에 커스텀 캐스트를 추가할 때 캐스트 파라메터는 `:`문자를 사용하여 클래스 이름 쉼표로 구분된 여러 파라메터로 구분하여 지정할 수 있습니다. 파라메터는 캐스트 클래스의 생성자로 전달됩니다.
 
     /**
      * The attributes that should be cast.
@@ -751,7 +751,7 @@ You may want to allow your application's value objects to define their own custo
 
 Objects that implement the `Castable` interface must define a `castUsing` method that returns the class name of the custom caster class that is responsible for casting to and from the `Castable` class:
 
-`Castable` 인터페이스를 구현하는 개체는 `Castable` 클래스와의 캐스팅을 담당하는 사용자 지정 캐스터 클래스의 클래스 이름을 반환하는 `CastUsing` 메서드를 정의해야 합니다.
+`Castable` 인터페이스를 구현하는 객체는 `Castable` 클래스로의 캐스트를 담당하는 커스텀 캐스터 클래스의 클래스 이름을 리턴하는 `castUsing` 메소드를 정의해야합니다.
 
 
     <?php

@@ -174,7 +174,7 @@ config/app.php 설정 파일의 디버그 옵션에 따라 사용자에게 실�
 
 **In your production environment, this value should always be `false`. If the `APP_DEBUG` variable is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.**
 
-**프로덕션 환경에서 이 값은 항상 'false'여야 합니다. 프로덕션에서 `APP_DEBUG` 변수가 `true`로 설정되면 민감한 설정 값이 애플리케이션의 최종 사용자에게 노출될 위험이 있습니다.**
+**프로덕션 환경에서 이 값은 항상 `false`여야 합니다. 프로덕션에서 `APP_DEBUG` 변수가 `true`로 설정되면 민감한 설정 값이 애플리케이션의 최종 사용자에게 노출될 위험이 있습니다.**
 
 <a name="deploying-with-forge-or-vapor"></a>
 ## Deploying With Forge / Vapor

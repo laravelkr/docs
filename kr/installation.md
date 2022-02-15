@@ -272,7 +272,7 @@ If your computer already has PHP and Composer installed, you may create a new La
 
 Or, you may install the Laravel Installer as a global Composer dependency:
 
-또는 라라벨 인스톨러를 전역 Composer 종속성으로 설치할 수 있습니다.
+또는 라라벨 인스톨러를 전역 Composer를 이용해서 설치 할 수 있습니다.
 
 ```nothing
 composer global require laravel/installer

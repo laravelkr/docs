@@ -24,7 +24,7 @@ The Laravel `Hash` [facade](/docs/{{version}}/facades) provides secure Bcrypt an
 
 Bcrypt is a great choice for hashing passwords because its "work factor" is adjustable, which means that the time it takes to generate a hash can be increased as hardware power increases. When hashing passwords, slow is good. The longer an algorithm takes to hash a password, the longer it takes malicious users to generate "rainbow tables" of all possible string hash values that may be used in brute force attacks against applications.
 
-비밀번호를 해싱(Hashing)하는데 Bcrypt 방식의 해시 알고리즘은 "work factor"를 조절할 수 있기 때문에 아주 좋은 선택입니다. "work factor"를 조절할 수 있다는 말은 하드웨어의 사양이 좋아짐에 따라 해시를 만들어내는 시간도 증가 시킬 수 있다는 의미입니다. 비밀번호를 해시화 할 때는 느릴 수록 좋습니다. 해시 알고리즘이 사용하는 시간이 오래 걸리면 오래 걸릴수록 악의 적인 사용자가 있어 무차별 대입 공격(brute force attacks)에 필요한 모든 가능한 문자열 해시 값을 가진 레인보우 테이블(rainbow tables)을 생성하는데 더 오랜 시간이 걸립니다.
+비밀번호를 해싱(Hashing)하는데 Bcrypt 방식의 해시 알고리즘은 "work factor"를 조절할 수 있기 때문에 아주 좋은 선택입니다. "work factor"를 조절할 수 있다는 말은 하드웨어의 사양이 좋아짐에 따라 해시를 만들어내는 시간도 증가 시킬 수 있다는 의미입니다. 비밀번호를 해시화 할 때는 느릴 수록 좋습니다. 해시 알고리즘이 사용하는 시간이 오래 걸리면 오래 걸릴수록 악의적인 사용자가 무차별 대입 공격(brute force attacks)에 필요한 모든 가능한 문자열 해시 값을 가진 레인보우 테이블(rainbow tables)을 생성하는데 더 오랜 시간이 걸립니다.
 
 (역자주 : 'work factor'는 해싱 알고리즘을 선택하는데 고려되는 요소를 의미합니다. 대표적으로 무차별 대입 공격이 성공하지 못하도록 막으려는 요소와 로그인에 필요한 해싱 속도를 향상 시키는 요소가 있습니다. 일반적으로 해싱 알고리즘이 복잡할수록 무차별 대입 공격에 소모되는 비용이 커지는 반면, 로그인 시도의 속도 또한 느려집니다. 해싱을 할 때는 어느 정도 빠른 인증 속도를 보장하면서도 해킹이 어렵도록 풀기 어려운 암호를 만드는 해싱 알고리즘의 선택과 'work factor'를 조정하는 것이 중요합니다.)
 
@@ -84,7 +84,7 @@ You may hash a password by calling the `make` method on the `Hash` facade:
 
 If you are using the Bcrypt algorithm, the `make` method allows you to manage the work factor of the algorithm using the `rounds` option; however, the default work factor managed by Laravel is acceptable for most applications:
 
-여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 해싱 알고리즘의 `rounds` 옵션을 사용하여 work factor를 조절할 수 있습니다. 라라벨에서는 대부분의 애플리케이션에서 기본적으로 받아 들여지고 있는 기본 값을 사용하며 work factor의 값을 조정할 수 있도록 옵션을 제공하고 있습니다.
+여러분이 Bcrypt 알고리즘을 사용하고 있다면, `make` 메소드는 해싱 알고리즘의 `rounds` 옵션을 사용하여 work factor를 조절할 수 있습니다. 라라벨에서는 대부분의 애플리케이션에서 기본적으로 받아 들여지고 있는 기본 값을 사용하며, work factor의 값을 조정할 수 있도록 옵션을 제공하고 있습니다.
 
     $hashed = Hash::make('password', [
         'rounds' => 12,

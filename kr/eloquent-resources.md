@@ -102,7 +102,7 @@ Before diving into all of the options available to you when writing resources, l
 
 Every resource class defines a `toArray` method which returns the array of attributes that should be converted to JSON when the resource is returned as a response from a route or controller method.
 
-모든 리소스 클래스는 리소스가 경로 또는 컨트롤러 메서드에서 응답으로 반환될 때 JSON으로 변환되어야 하는 속성의 배열을 반환하는 `toArray` 메서드를 정의합니다.
+모든 리소스 클래스는 리소스가 경로 또는 컨트롤러 메소드에서 응답으로 반환될 때 JSON으로 변환되어야 하는 속성의 배열을 반환하는 `toArray` 메소드를 정의합니다.
 
 Note that we can access model properties directly from the `$this` variable. This is because a resource class will automatically proxy property and method access down to the underlying model for convenient access. Once the resource is defined, it may be returned from a route or controller. The resource accepts the underlying model instance via its constructor:
 
@@ -121,7 +121,7 @@ Note that we can access model properties directly from the `$this` variable. Thi
 
 If you are returning a collection of resources or a paginated response, you should use the `collection` method provided by your resource class when creating the resource instance in your route or controller:
 
-리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 `collection` 메소드를 사용할 수 있습니다.
+리소스 컬렉션이나, 페이지네이션 처리된 응답을 반환하는 경우, 라우트나 컨트롤러에서 리소스 인스턴스를 생성하기 위해서 리소스 클래스에서 제공하는 `collection` 메소드를 사용할 수 있습니다.
 
     use App\Http\Resources\UserResource;
     use App\Models\User;
@@ -132,7 +132,7 @@ If you are returning a collection of resources or a paginated response, you shou
 
 Note that this does not allow any addition of custom meta data that may need to be returned with your collection. If you would like to customize the resource collection response, you may create a dedicated resource to represent the collection:
 
-이 경우에는 컬렉션과 함께 리턴하고자 하는 사용자 지정 메타 데이터는 추가할 수 없습니다. 리소스 컬렉션 응답-response를 커스터마이징 하고자 하는 경우에는, 컬렉션을 나타내는 특정한 리소스 클래스를 생성할 수 있습니다.
+이 경우에는 컬렉션과 함께 리턴하고자 하는 커스텀 메타 데이터는 추가할 수 없습니다. 리소스 컬렉션 응답-response를 커스터마이징 하고자 하는 경우에는, 컬렉션을 나타내는 특정한 리소스 클래스를 생성할 수 있습니다.
 
     php artisan make:resource UserCollection
 
@@ -249,7 +249,7 @@ For example, `UserCollection` will attempt to map the given user instances into 
 
 In essence, resources are simple. They only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned from your application's routes or controllers:
 
-본질적으로, 리소스라는 것은 간단합니다. 리소스의 역할은 모델을 배열로 반환하는 하는 것입니다. 따라서 각 리소스에는 모델의 속성을 애플리케이션의 라우터 또는 컨트롤러에서 반환할 수 있고 API 친화적 배열로 변환하는 `toArray` 메서드가 포함되어 있습니다.
+본질적으로, 리소스라는 것은 간단합니다. 리소스의 역할은 모델을 배열로 반환하는 하는 것입니다. 따라서 각 리소스에는 모델의 속성을 애플리케이션의 라우터 또는 컨트롤러에서 반환할 수 있고 API 친화적 배열로 변환하는 `toArray` 메소드가 포함되어 있습니다.
 
     <?php
 
@@ -420,7 +420,7 @@ If you would like to use a custom key instead of `data`, you may define a `$wrap
 
 If you would like to disable the wrapping of the outermost resource, you should invoke the `withoutWrapping` method on the base `Illuminate\Http\Resources\Json\JsonResource` class. Typically, you should call this method from your `AppServiceProvider` or another [service provider](/docs/{{version}}/providers) that is loaded on every request to your application:
 
-위와 같은 데이터 랩핑을 원하지 않는다면, 기본 `Illuminate\Http\Resources\Json\JsonResource` 클래스에서 `withoutWrapping` 메서드를 호출해야 합니다. 일반적으로 이 메소드는 AppServiceProvider 또는 애플리케이션의 다른 서비스 [서비스 제공자](/docs/{{version}}/providers)에서 호출해야 합니다.
+위와 같은 데이터 랩핑을 원하지 않는다면, 기본 `Illuminate\Http\Resources\Json\JsonResource` 클래스에서 `withoutWrapping` 메소드를 호출해야 합니다. 일반적으로 이 메소드는 AppServiceProvider 또는 애플리케이션의 다른 서비스 [서비스 제공자](/docs/{{version}}/providers)에서 호출해야 합니다.
 
     <?php
 
@@ -605,7 +605,7 @@ Sometimes you may wish to only include an attribute in a resource response if a 
 
 In this example, the `secret` key will only be returned in the final resource response if the authenticated user's `isAdmin` method returns `true`. If the method returns `false`, the `secret` key will be removed from the resource response before it is sent to the client. The `when` method allows you to expressively define your resources without resorting to conditional statements when building the array.
 
-이 예제에서 인증된 사용자의 `isAdmin` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메서드가 `false`를 반환하면, `secret` 키는 클라이언트로 다시 전송되기 전에 리소스 응답-response에서 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 의존하지 않고 명시적으로 리소스를 정의할 수 있습니다.
+이 예제에서 인증된 사용자의 `isAdmin` 메소드가 `true`를 반환 하면 최종적인 리소스 응답-response에 `scret` 키가 반환됩니다. 이 메소드가 `false`를 반환하면, `secret` 키는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다. `when` 메소드를 사용하면, 배열을 만들 때 조건문을 의존하지 않고 명시적으로 리소스를 정의할 수 있습니다.
 
 The `when` method also accepts a closure as its second argument, allowing you to calculate the resulting value only if the given condition is `true`:
 
@@ -685,7 +685,7 @@ The `whenLoaded` method may be used to conditionally load a relationship. In ord
 
 In this example, if the relationship has not been loaded, the `posts` key will be removed from the resource response before it is sent to the client.
 
-이 예제에서 관계-relationship가 로딩되지 않은 경우에 `posts` 키가 클라이언트에 전송되기 전에 리소스 응답에서 제거됩니다.
+이 예제에서 관계-relationship가 로딩되지 않은 경우에 `posts` 키가 클라이언트에 전송되기 전에 리소스 응답-response에서 제거됩니다.
 
 <a name="conditional-pivot-information"></a>
 #### Conditional Pivot Information
@@ -693,7 +693,7 @@ In this example, if the relationship has not been loaded, the `posts` key will b
 
 In addition to conditionally including relationship information in your resource responses, you may conditionally include data from the intermediate tables of many-to-many relationships using the `whenPivotLoaded` method. The `whenPivotLoaded` method accepts the name of the pivot table as its first argument. The second argument should be a closure that returns the value to be returned if the pivot information is available on the model:
 
-리소스 응답-response에서 조건에 따라 관계-relationship를 포함하는 것에 더해서, `whenPivotLoaded` 메소드를 사용해서 다대다 관계-relationship 에서 조건에 따라서 중간 테이블을 포함시킬 수 있습니다. `whenPivotLoaded` 메서드는 피벗 테이블의 이름을 첫 번째 인자로 받아들입니다.  두번째 인수는 모델에서 피벗 정보를 사용할 수 있는 경우 반환할 값을 반환하는 클로저여야 합니다.
+리소스 응답-response에서 조건에 따라 관계-relationship를 포함하는 것에 더해서, `whenPivotLoaded` 메소드를 사용해서 다대다 관계-relationship 에서 조건에 따라서 중간 테이블을 포함시킬 수 있습니다. `whenPivotLoaded` 메소드는 첫번째 인자로 피벗 테이블의 이름을 전달 받고, 두번째 인자로 모델에서 피벗 정보를 사용할 수 있는 경우 반환하는 클로저를 전달받습니다.
 
     /**
      * Transform the resource into an array.
@@ -714,7 +714,7 @@ In addition to conditionally including relationship information in your resource
 
 If your relationship is using a [custom intermediate table model](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models), you may pass an instance of the intermediate table model as the first argument to the `whenPivotLoaded` method:
 
-관계가 [사용자 지정 중간 테이블 모델](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models)을 사용하는 경우, 중간 테이블 모델의 인스턴스를 `whenPivotLoaded` 메서드에 첫 번째 인수로 전달할 수 있습니다.
+관계가 [사용자 지정 중간 테이블 모델](/docs/{{version}}/eloquent-relationships#defining-custom-intermediate-table-models)을 사용하는 경우, 중간 테이블 모델의 인스턴스를 `whenPivotLoaded` 메소드에 첫 번째 인수로 전달할 수 있습니다.
 
     'expires_at' => $this->whenPivotLoaded(new Membership, function () {
         return $this->pivot->expires_at;

@@ -268,7 +268,7 @@ The `ability` middleware may be assigned to a route to verify that the incoming 
 
 For convenience, the `tokenCan` method will always return `true` if the incoming authenticated request was from your first-party SPA and you are using Sanctum's built-in [SPA authentication](#spa-authentication).
 
-편의상, `tokenCan` 메소드는 들어오는 인증 요청이 자사 SPA에서 온 것이고 Sanctum의 내장 된 [SPA 인증](spa-authentication)을 사용하는 경우 항상 `true`를 반환합니다.
+편의상, `tokenCan` 메소드는 들어오는 인증 요청이 자사 SPA에서 온 것이고 Sanctum의 내장 된 [SPA 인증](#spa-authentication)을 사용하는 경우 항상 `true`를 반환합니다.
 
 However, this does not necessarily mean that your application has to allow the user to perform the action. Typically, your application's [authorization policies](/docs/{{version}}/authorization#creating-policies) will determine if the token has been granted the permission to perform the abilities as well as check that the user instance itself should be allowed to perform the action.
 
@@ -339,7 +339,7 @@ For this feature, Sanctum does not use tokens of any kind. Instead, Sanctum uses
 
 > {note} In order to authenticate, your SPA and API must share the same top-level domain. However, they may be placed on different subdomains. Additionally, you should ensure that you send the `Accept: application/json` header with your request.
 
-> {note} 인증을 받으려면 SPA와 API가 동일한 최상위 도메인을 공유해야합니다. 그러나 다른 하위 도메인에 배치 될 수 있습니다. 또한 요청과 함께 `Accept: applicationjson` 헤더를 보내야 합니다.
+> {note} 인증을 받으려면 SPA와 API가 동일한 최상위 도메인을 공유해야합니다. 그러나 다른 하위 도메인에 배치 될 수 있습니다. 또한 요청과 함께 `Accept: application/json` 헤더를 보내야 합니다.
 
 <a name="spa-configuration"></a>
 ### Configuration
@@ -381,11 +381,11 @@ If you are having trouble authenticating with your application from a SPA that e
 
 You should ensure that your application's CORS configuration is returning the `Access-Control-Allow-Credentials` header with a value of `True`. This may be accomplished by setting the `supports_credentials` option within your application's `config/cors.php` configuration file to `true`.
 
-애플리케이션의 CORS 구성이 값이 `True`인 `Access-Control-Allow-Credentials` 헤더를 리턴하는지 확인해야 합니다. 이것은 애플리케이션의 `config/cors.php` 구성 파일에서 `support_credentials` 옵션을 `true`로 세팅하여 수행할 수 있습니다.
+애플리케이션의 CORS 설정 값이 `True`인 `Access-Control-Allow-Credentials` 헤더를 리턴하는지 확인해야 합니다. 이것은 애플리케이션의 `config/cors.php` 설정 파일에서 `support_credentials` 옵션을 `true`로 세팅하여 수행할 수 있습니다.
 
 In addition, you should enable the `withCredentials` option on your application's global `axios` instance. Typically, this should be performed in your `resources/js/bootstrap.js` file. If you are not using Axios to make HTTP requests from your frontend, you should perform the equivalent configuration on your own HTTP client:
 
-또한 애플리케이션의 전역 `axios` 인스턴스에서 `withCredentials` 옵션을 활성화해야 합니다. 일반적으로 이것은 `resources/js/bootstrap.js` 파일에서 수행되어야 합니다. Axios를 사용하여 프론트엔드에서 HTTP 요청을 생성하지 않는 경우 자체 HTTP 클라이언트에서 동일한 구성을 수행해야 합니다.
+또한 애플리케이션의 전역 `axios` 인스턴스에서 `withCredentials` 옵션을 활성화해야 합니다. 일반적으로 이것은 `resources/js/bootstrap.js` 파일에서 수행되어야 합니다. Axios를 사용하여 프론트엔드에서 HTTP 요청을 생성하지 않는 경우, 자체 HTTP 클라이언트에서 Axios와 동일한 설정으로 수행해야 합니다.
 
     axios.defaults.withCredentials = true;
 
@@ -556,7 +556,7 @@ As previously documented, you may protect routes so that all incoming requests m
 
 To allow users to revoke API tokens issued to mobile devices, you may list them by name, along with a "Revoke" button, within an "account settings" portion of your web application's UI. When the user clicks the "Revoke" button, you can delete the token from the database. Remember, you can access a user's API tokens via the `tokens` relationship provided by the `Laravel\Sanctum\HasApiTokens` trait:
 
-사용자가 모바일 장치에 발급된 API 토큰을 해지할 수 있도록 웹 애플리케이션 UI의 "계정 설정"부분에 "해지"버튼과 함께 이름별로 토큰을 나열할 수 있습니다. 사용자가 "해지"버튼을 클릭하면 데이터베이스에서 토큰을 삭제할 수 있습니다. `HasApiTokens` 트레잇이 제공하는`tokens`관계를 통해 사용자의 API 토큰에 액세스할 수 있습니다.
+사용자가 모바일 장치에 발급된 API 토큰을 해지할 수 있도록 웹 애플리케이션 UI의 "계정 설정"부분에 "해지"버튼과 함께 이름별로 토큰을 나열할 수 있습니다. 사용자가 "해지"버튼을 클릭하면 데이터베이스에서 토큰을 삭제할 수 있습니다. `Laravel\Sanctum\HasApiTokens` 트레잇이 제공하는`tokens`관계를 통해 사용자의 API 토큰에 액세스할 수 있습니다.
 
     // Revoke all tokens...
     // 모든 토큰 해지...

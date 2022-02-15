@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
 - [Serializing Models & Collections](#serializing-models-and-collections)
-- [모델 및 컬렉션 Serializing](#serializing-models-and-collections)
+- [모델 & 컬렉션 Serializing](#serializing-models-and-collections)
     - [Serializing To Arrays](#serializing-to-arrays)
     - [배열로 Serializing](#serializing-to-arrays)
     - [Serializing To JSON](#serializing-to-json)
@@ -56,7 +56,7 @@ The `attributesToArray` method may be used to convert a model's attributes to an
 
 You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays by calling the `toArray` method on the collection instance:
 
-컬렉션 인스턴스에서 `toArray` 메서드를 호출하여 모델의 전체 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
+컬렉션 인스턴스에서 `toArray` 메소드를 호출하여 모델의 전체 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = User::all();
 
@@ -68,7 +68,7 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 
 To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify any JSON encoding options that are [supported by PHP](https://secure.php.net/manual/en/function.json-encode.php):
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 마찬가지로 `toJson` 메서드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 지원하는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수도 있습니다.
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다.
 
     use App\Models\User;
 
@@ -98,7 +98,7 @@ Since models and collections are converted to JSON when cast to a string, you ca
 
 When an Eloquent model is converted to JSON, its loaded relationships will automatically be included as attributes on the JSON object. Also, though Eloquent relationship methods are defined using "camel case" method names, a relationship's JSON attribute will be "snake case".
 
-Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메서드는 "카멜 케이스"를 메서드 이름을 사용하여 정의되지만 관계의 JSON 속성은 "스네이크 케이스"가 됩니다.
+Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메소드는 "camel case"를 메소드 이름을 사용하여 정의되지만 관계의 JSON 속성은 "snake case"가 됩니다.
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
@@ -154,13 +154,13 @@ Alternatively, you may use the `visible` property to define an "allow list" of a
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance:
 
-주어진 모델 인스턴스에서 몇가지 일반적으로 숨겨진 속성을 표시하려면 `makeVisible` 메소드를 사용할 수 있습니다. `makeVisible` 메서드는 모델 인스턴스를 반환합니다.
+주어진 모델 인스턴스에서 몇가지 일반적으로 숨겨진 속성을 표시하려면 `makeVisible` 메소드를 사용할 수 있습니다. `makeVisible` 메소드는 모델 인스턴스를 반환합니다.
 
     return $user->makeVisible('attribute')->toArray();
 
 Likewise, if you would like to hide some attributes that are typically visible, you may use the `makeHidden` method.
 
-마찬가지로, 일반적으로 표시되는 일부 속성을 숨기려면 `makeHidden` 메서드를 사용할 수 있습니다.
+마찬가지로, 일반적으로 표시되는 일부 속성을 숨기려면 `makeHidden` 메소드를 사용할 수 있습니다.
 
     return $user->makeHidden('attribute')->toArray();
 
@@ -193,7 +193,7 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
 
 After creating the accessor, add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
 
-accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 PHP 메서드가 "카멜 케이스" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "스네이크 케이스"로 엑세스 됩니다.
+accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
 
     <?php
 
@@ -221,7 +221,7 @@ Once the attribute has been added to the `appends` list, it will be included in 
 
 At runtime, you may instruct a model instance to append additional attributes using the `append` method. Or, you may use the `setAppends` method to override the entire array of appended properties for a given model instance:
 
-런타임에서, `append` 메서드를 사용하여 속성을 추가하도록 모델 인스턴스에 지시할 수 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 대해 추가된 속성의 전체 배열을 오버라이드 할 수 있습니다.
+런타임에서, `append` 메소드를 사용하여 속성을 추가하도록 모델 인스턴스에 지시할 수 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 대해 추가된 속성의 전체 배열을 오버라이드 할 수 있습니다.
 
     return $user->append('is_admin')->toArray();
 
@@ -256,7 +256,7 @@ You may customize the default serialization format by overriding the `serializeD
 
 You may customize the serialization format of individual Eloquent date attributes by specifying the date format in the model's [cast declarations](/docs/{{version}}/eloquent-mutators#attribute-casting):
 
-만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 모델의 [캐스트 선언](/docs/{{version}}/eloquent-mutators#attribute-casting)에 자세하게 명시되어 있습니다.
+만약 각각의 Eloquent 시리얼라이즈 포맷을 커스터마이즈 하고싶다면, 날짜 형식은 모델의 [cast declarations](/docs/{{version}}/eloquent-mutators#attribute-casting) 에 자세하게 명시되어 있습니다.
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',

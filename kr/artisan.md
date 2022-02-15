@@ -668,7 +668,7 @@ All of your console commands are registered within your application's `App\Conso
 
 If necessary, you may manually register commands by adding the command's class name to a `$commands` property within your `App\Console\Kernel` class. If this property is not already defined on your kernel, you should define it manually. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-필요한 경우 `App\Console\Kernel` 클래스의 `commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. 만약 `commands` 속성이 커널에 정의되어있지 않다면 수동으로 정의 해야 합니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
+필요한 경우 `App\Console\Kernel` 클래스의 `$commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. 만약 `$commands` 속성이 커널에 정의되어있지 않다면 수동으로 정의 해야 합니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
 
     protected $commands = [
         Commands\SendEmails::class

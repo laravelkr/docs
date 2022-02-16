@@ -386,11 +386,11 @@ Eloquent의 `all` 메소드는 모델의 테이블에 있는 모든 결과를 �
 
 <a name="refreshing-models"></a>
 #### Refreshing Models
-#### 모델 새로 고침
+#### 모델의 리프레쉬
 
 If you already have an instance of an Eloquent model that was retrieved from the database, you can "refresh" the model using the `fresh` and `refresh` methods. The `fresh` method will re-retrieve the model from the database. The existing model instance will not be affected:
 
-데이터베이스에서 가져온 Eloquent 모델의 인스턴스가 이미 있는 경우 `fresh` 및 `refresh` 메소드를 사용하여 모델을 "새로 고침"할 수 있습니다. `fresh` 메소드는 데이터베이스에서 모델을 다시 검색합니다. 기존 모델 인스턴스는 영향을 받지 않습니다.
+데이터베이스에서 가져온 Eloquent 모델의 인스턴스가 이미 있는 경우 `fresh` 및 `refresh` 메소드를 사용하여 모델을 "리프레쉬"할 수 있습니다. `fresh` 메소드는 데이터베이스에서 모델을 다시 검색합니다. 기존 모델 인스턴스는 영향을 받지 않습니다.
 
     $flight = Flight::where('number', 'FR 900')->first();
 
@@ -398,7 +398,7 @@ If you already have an instance of an Eloquent model that was retrieved from the
 
 The `refresh` method will re-hydrate the existing model using fresh data from the database. In addition, all of its loaded relationships will be refreshed as well:
 
-`refresh` 방법은 데이터베이스의 최신 데이터를 사용하여 기존 모델을 다시 보충합니다. 또한 로드된 모든 관계도 새로 고쳐집니다.
+`refresh` 메소드는 데이터베이스의 최신 데이터를 사용하여 기존 모델을 다시 갱신합니다. 또한 로드된 모든 관계도 새로 초기화 됩니다.
 
     $flight = Flight::where('number', 'FR 900')->first();
 
@@ -418,7 +418,7 @@ As we have seen, Eloquent methods like `all` and `get` retrieve multiple records
 
 The Eloquent `Collection` class extends Laravel's base `Illuminate\Support\Collection` class, which provides a [variety of helpful methods](/docs/{{version}}/collections#available-methods) for interacting with data collections. For example, the `reject` method may be used to remove models from a collection based on the results of an invoked closure:
 
-Eloquent `Collection` 클래스는 데이터 컬렉션과 상호작용하기 위한 [다양한 유용한 메소드](/docs/{{version}}/collections#available-methods)를 제공하는 Laravel의 기본 `Illuminate\Support\Collection` 클래스를 확장합니다. 예를 들어, `reject` 메소드는 호출된 클로저의 결과를 기반으로 컬렉션에서 모델을 제거하는 데 사용할 수 있습니다.
+Eloquent `Collection` 클래스는 데이터 컬렉션과 상호작용하기 위해 [다양하고 유용한 메소드](/docs/{{version}}/collections#available-methods)를 제공하는 라라벨의 기본 `Illuminate\Support\Collection` 클래스를 확장합니다. 예를 들어, `reject` 메소드는 호출된 클로저의 결과를 기반으로 컬렉션에서 모델을 제거하는 데 사용할 수 있습니다.
 
 ```php
 $flights = Flight::where('destination', 'Paris')->get();
@@ -448,11 +448,11 @@ foreach ($flights as $flight) {
 
 Your application may run out of memory if you attempt to load tens of thousands of Eloquent records via the `all` or `get` methods. Instead of using these methods, the `chunk` method may be used to process large numbers of models more efficiently.
 
-`all` 또는 `get` 메소드를 통해 수만 개의 Eloquent 레코드를 로드하려고 하면 애플리케이션의 메모리가 부족할 수 있습니다. 이러한 방법을 사용하는 대신 `chunk` 방법을 사용하여 많은 수의 모델을 보다 효율적으로 처리할 수 있습니다.
+`all` 또는 `get` 메소드를 통해 수만 개의 Eloquent 레코드를 로드하려고 하면 애플리케이션의 메모리가 부족할 수 있습니다. 이러한 방법을 사용하는 대신 `chunk` 메소드를 사용하여 많은 수의 모델을 보다 효율적으로 처리할 수 있습니다.
 
 The `chunk` method will retrieve a subset of Eloquent models, passing them to a closure for processing. Since only the current chunk of Eloquent models is retrieved at a time, the `chunk` method will provide significantly reduced memory usage when working with a large number of models:
 
-`chunk` 메소드는 Eloquent 모델의 하위 집합을 검색하여 처리를 위해 클로저에 전달합니다. Eloquent 모델의 현재 청크만 한 번에 검색되기 때문에 `chunk` 방법은 많은 수의 모델로 작업할 때 메모리 사용량을 크게 줄입니다.
+`chunk` 메소드는 Eloquent 모델의 하위 집합을 검색하여 처리하기 위해 클로저에 전달합니다. Eloquent 모델의 현재 청크(chunk)만 한 번에 검색되기 때문에 `chunk` 메소드는 많은 수의 모델로 작업할 때 메모리 사용량을 크게 줄입니다.
 
 ```php
 use App\Models\Flight;
@@ -466,11 +466,11 @@ Flight::chunk(200, function ($flights) {
 
 The first argument passed to the `chunk` method is the number of records you wish to receive per "chunk". The closure passed as the second argument will be invoked for each chunk that is retrieved from the database. A database query will be executed to retrieve each chunk of records passed to the closure.
 
-`chunk` 메소드에 전달된 첫 번째 인수는 "chunk"당 수신하려는 레코드 수입니다. 두 번째 인수로 전달된 클로저는 데이터베이스에서 검색된 각 청크에 대해 호출됩니다. 데이터베이스 쿼리가 실행되어 클로저에 전달된 각 레코드 청크를 검색합니다.
+`chunk` 메소드에 전달된 첫 번째 인수는 "청크" 당 수신하려는 레코드 수 입니다. 두 번째 인수로 전달된 클로저는 데이터베이스에서 검색된 각 청크에 대해 호출됩니다. 데이터베이스 쿼리가 실행되어 클로저에 전달된 각 레코드 청크를 검색합니다.
 
 If you are filtering the results of the `chunk` method based on a column that you will also be updating while iterating over the results, you should use the `chunkById` method. Using the `chunk` method in these scenarios could lead to unexpected and inconsistent results. Internally, the `chunkById` method will always retrieve models with an `id` column greater than the last model in the previous chunk:
 
-결과를 반복하는 동안 업데이트할 열을 기반으로 `chunk` 메소드의 결과를 필터링하는 경우 `chunkById` 메소드를 사용해야 합니다. 이러한 시나리오에서 '청크' 방법을 사용하면 예상치 못한 일관성 없는 결과가 발생할 수 있습니다. 내부적으로 `chunkById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 열을 가진 모델을 검색합니다.
+결과를 반복하는 동안 업데이트할 컬럼을 기반으로 `chunk` 메소드의 결과를 필터링하는 경우 `chunkById` 메소드를 사용해야 합니다. 이러한 시나리오에서 '청크' 메소드를 사용하면 예상치 못한 일관성 없는 결과가 발생할 수 있습니다. 내부적으로 `chunkById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 컬럼을 가진 모델을 검색합니다.
 
 ```php
 Flight::where('departed', true)
@@ -485,7 +485,7 @@ Flight::where('departed', true)
 
 The `lazy` method works similarly to [the `chunk` method](#chunking-results) in the sense that, behind the scenes, it executes the query in chunks. However, instead of passing each chunk directly into a callback as is, the `lazy` method returns a flattened [`LazyCollection`](/docs/{{version}}/collections#lazy-collections) of Eloquent models, which lets you interact with the results as a single stream:
 
-`lazy` 메소드는 배후에서 청크로 쿼리를 실행한다는 점에서 [`chunk` 메소드](#chunking-results)와 유사하게 작동합니다. 그러나 각 청크를 그대로 콜백에 전달하는 대신 `lazy` 메소드는 Eloquent 모델의 평면화된 [`LazyCollection`](/docs/{{version}}/collections#lazy-collections)을 반환하므로 다음과 같이 결과와 상호 작용할 수 있습니다. 단일 스트림:
+`lazy` 메소드는 배후에서 청크로 쿼리를 실행한다는 점에서 [`chunk` 메소드](#chunking-results)와 유사하게 작동합니다. 그러나 각 청크를 그대로 콜백에 전달하는 대신, `lazy` 메소드는 Eloquent 모델의 평평한 [`LazyCollection`](/docs/{{version}}/collections#lazy-collections)을 반환하고 결과와 단일 스트림으로 상호 작용할 수 있습니다.
 
 ```php
 use App\Models\Flight;
@@ -497,7 +497,7 @@ foreach (Flight::lazy() as $flight) {
 
 If you are filtering the results of the `lazy` method based on a column that you will also be updating while iterating over the results, you should use the `lazyById` method. Internally, the `lazyById` method will always retrieve models with an `id` column greater than the last model in the previous chunk:
 
-결과를 반복하는 동안 업데이트할 열을 기반으로 `lazy` 메소드의 결과를 필터링하는 경우 `lazyById` 메소드를 사용해야 합니다. 내부적으로 `lazyById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 열을 가진 모델을 검색합니다.
+결과를 반복하는 동안 업데이트할 칼럼을 기반으로 `lazy` 메소드의 결과를 필터링하는 경우 `lazyById` 메소드를 사용해야 합니다. 내부적으로 `lazyById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 컬럼을 가진 모델을 검색합니다.
 
 ```php
 Flight::where('departed', true)
@@ -523,7 +523,7 @@ The `cursor` method will only execute a single database query; however, the indi
 
 > {note} Since the `cursor` method only ever holds a single Eloquent model in memory at a time, it cannot eager load relationships. If you need to eager load relationships, consider using [the `lazy` method](#streaming-results-lazily) instead.
 
-> {note} `cursor` 메소드는 한 번에 하나의 Eloquent 모델만 메모리에 보유하므로 관계를 즉시 로드할 수 없습니다. 관계를 즉시 로드해야 하는 경우 대신 [`lazy` 메소드](#streaming-results-lazily)를 사용하는 것이 좋습니다.
+> {note} `cursor` 메소드는 한 번에 하나의 Eloquent 모델만 메모리에 보유하므로 관계-relationships를 바로 로드할 수 없습니다. 관계를 즉시 로드해야 하는 경우 [`lazy` 메소드](#streaming-results-lazily)를 대신 사용하는 것이 좋습니다.
 
 Internally, the `cursor` method uses PHP [generators](https://www.php.net/manual/en/language.generators.overview.php) to implement this functionality:
 
@@ -539,7 +539,7 @@ foreach (Flight::where('destination', 'Zurich')->cursor() as $flight) {
 
 The `cursor` returns an `Illuminate\Support\LazyCollection` instance. [Lazy collections](/docs/{{version}}/collections#lazy-collections) allow you to use many of the collection methods available on typical Laravel collections while only loading a single model into memory at a time:
 
-`cursor`는 `Illuminate\Support\LazyCollection` 인스턴스를 반환합니다. [Lazy collections](/docs/{{version}}/collections#lazy-collections)를 사용하면 한 번에 단일 모델만 메모리에 로드하면서 일반적인 Laravel 컬렉션에서 사용할 수 있는 많은 컬렉션 메소드를 사용할 수 있습니다.
+`cursor`는 `Illuminate\Support\LazyCollection` 인스턴스를 반환합니다. [Lazy collections](/docs/{{version}}/collections#lazy-collections)를 사용하면 한 번에 단일 모델만 메모리에 로드하면서 일반적인 라라벨 컬렉션에서 사용할 수 있는 많은 컬렉션 메소드를 사용할 수 있습니다.
 
 ```php
 use App\Models\User;
@@ -555,7 +555,7 @@ foreach ($users as $user) {
 
 Although the `cursor` method uses far less memory than a regular query (by only holding a single Eloquent model in memory at a time), it will still eventually run out of memory. This is [due to PHP's PDO driver internally caching all raw query results in its buffer](https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php). If you're dealing with a very large number of Eloquent records, consider using [the `lazy` method](#streaming-results-lazily) instead.
 
-비록 `cursor` 메소드가 일반 쿼리보다 훨씬 적은 메모리를 사용하지만(한 번에 하나의 Eloquent 모델만 메모리에 유지함으로써), 결국에는 여전히 메모리가 부족합니다. 이는 [PHP의 PDO 드라이버가 내부적으로 모든 원시 쿼리 결과를 버퍼에 캐싱하기 때문입니다](https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php). 매우 많은 수의 Eloquent 레코드를 처리하는 경우 대신 [`lazy` 메소드](#streaming-results-lazily) 사용을 고려하십시오.
+비록 `cursor` 메소드가 일반 쿼리보다 훨씬 적은 메모리를 사용하지만(한 번에 하나의 Eloquent 모델만 메모리에 유지함으로써), 결국에는 여전히 메모리가 부족합니다. 이는 [PHP의 PDO 드라이버가 내부적으로 모든 원시 쿼리 결과를 버퍼에 캐싱하기 때문입니다](https://www.php.net/manual/en/mysqlinfo.concepts.buffering.php). 대신 매우 많은 수의 Eloquent 레코드를 처리하는 경우 [`lazy` 메소드](#streaming-results-lazily) 사용을 고려하십시오.
 
 <a name="advanced-subqueries"></a>
 ### Advanced Subqueries
@@ -567,11 +567,11 @@ Although the `cursor` method uses far less memory than a regular query (by only 
 
 Eloquent also offers advanced subquery support, which allows you to pull information from related tables in a single query. For example, let's imagine that we have a table of flight `destinations` and a table of `flights` to destinations. The `flights` table contains an `arrived_at` column which indicates when the flight arrived at the destination.
 
-Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 관련 테이블에 있는 정보를 가져올 수 있습니다. 예를 들어, 우리는 목적지까지 가기 위해 `destinations` 테이블과 `flights` 테이블이 있다고 가정 해봅시다. `flights` 테이블에는 항공편이 목적지에 도착한 시점을 나타내는 `arrived_at` 열이 있습니다.
+Eloquent 는 고급 서브쿼리 기능을 지원하므로 단일 쿼리에서 관련 테이블에 있는 정보를 가져올 수 있습니다. 예를 들어, 우리는 목적지까지 가기 위해 `destinations` 테이블과 `flights` 테이블이 있다고 가정 해봅시다. `flights` 테이블에는 항공편이 목적지에 도착한 시점을 나타내는 `arrived_at` 컬럼이 있습니다.
 
 Using the subquery functionality available to the query builder's `select` and `addSelect` methods, we can select all of the `destinations` and the name of the flight that most recently arrived at that destination using a single query:
 
-쿼리 작성기의 `select` 및 `addSelect` 메소드에 사용할 수 있는 하위 쿼리 기능을 사용하면 단일 쿼리를 사용하여 모든 `destinations`와 해당 목적지에 가장 최근에 도착한 항공편 이름을 선택할 수 있습니다.
+쿼리 빌더의 `select` 및 `addSelect` 메소드에 사용할 수 있는 서브 쿼리 기능을 사용하면 단일 쿼리를 사용하여 모든 `destinations`와 해당 목적지에 가장 최근에 도착한 항공편 이름을 선택할 수 있습니다.
 
     use App\Models\Destination;
     use App\Models\Flight;
@@ -588,7 +588,7 @@ Using the subquery functionality available to the query builder's `select` and `
 
 In addition, the query builder's `orderBy` function supports subqueries. Continuing to use our flight example, we may use this functionality to sort all destinations based on when the last flight arrived at that destination. Again, this may be done while executing a single database query:
 
-또한 쿼리 빌더의 `orderBy` 기능은 하위 쿼리를 지원합니다. 비행 예제를 계속 사용하면 이 기능을 사용하여 마지막 항공편이 해당 목적지에 도착한 시간을 기준으로 모든 목적지를 정렬할 수 있습니다. 다시 말하지만, 이것은 단일 데이터베이스 쿼리를 실행하는 동안 수행될 수 있습니다.
+또한 쿼리 빌더의 `orderBy` 기능은 서브 쿼리를 지원합니다. 비행 예제를 계속 사용하면 이 기능을 사용하여 마지막 항공편이 해당 목적지에 도착한 시간을 기준으로 모든 목적지를 정렬할 수 있습니다. 다시 말하지만, 이것은 단일 데이터베이스 쿼리를 실행하는 동안 수행될 수 있습니다.
 
     return Destination::orderByDesc(
         Flight::select('arrived_at')
@@ -652,11 +652,11 @@ If the `ModelNotFoundException` is not caught, a 404 HTTP response is automatica
 
 The `firstOrCreate` method will attempt to locate a database record using the given column / value pairs. If the model can not be found in the database, a record will be inserted with the attributes resulting from merging the first array argument with the optional second array argument:
 
-`firstOrCreate` 메소드는 주어진 열 값 쌍을 사용하여 데이터베이스 레코드를 찾으려고 시도합니다. 데이터베이스에서 모델을 찾을 수 없는 경우 첫 번째 배열 인수와 선택적 두 번째 배열 인수를 병합한 결과 속성이 포함된 레코드가 삽입됩니다.
+`firstOrCreate` 메서드는 주어진 컬럼/값 쌍을 사용하여 데이터베이스 레코드를 찾습니다. 데이터베이스에서 모델을 찾을 수 없는 경우 첫 번째 배열 인수와 선택적 두 번째 배열 인수를 병합하여 얻은 특성을 가진 레코드가 삽입됩니다.
 
 The `firstOrNew` method, like `firstOrCreate`, will attempt to locate a record in the database matching the given attributes. However, if a model is not found, a new model instance will be returned. Note that the model returned by `firstOrNew` has not yet been persisted to the database. You will need to manually call the `save` method to persist it:
 
-`firstOrCreate`와 같은 `firstOrNew` 메소드는 데이터베이스에서 주어진 속성과 일치하는 레코드를 찾으려고 시도합니다. 그러나 모델을 찾을 수 없는 경우 새 모델 인스턴스가 반환됩니다. `firstOrNew`에 의해 반환된 모델은 아직 데이터베이스에 유지되지 않았습니다. 이를 유지하려면 `save` 메소드를 수동으로 호출해야 합니다.
+`firstOrCreate`와 같은 `firstOrNew` 메소드는 데이터베이스에서 주어진 속성과 일치하는 레코드를 찾으려고 시도합니다. 그러나 모델을 찾을 수 없는 경우 새 모델의 인스턴스가 반환됩니다. `firstOrNew`에 의해 반환된 모델은 아직 데이터베이스에 유지되지 않았습니다. 이를 유지하려면 `save` 메소드를 수동으로 호출해야 합니다.
 
     use App\Models\Flight;
 
@@ -688,7 +688,7 @@ The `firstOrNew` method, like `firstOrCreate`, will attempt to locate a record i
 
 When interacting with Eloquent models, you may also use the `count`, `sum`, `max`, and other [aggregate methods](/docs/{{version}}/queries#aggregates) provided by the Laravel [query builder](/docs/{{version}}/queries). As you might expect, these methods return a scalar value instead of an Eloquent model instance:
 
-Eloquent 모델과 상호 작용할 때 Laravel [쿼리 빌더](/docs/{{version}}/queries#aggregates). 예상대로 이 메소드는 Eloquent 모델 인스턴스 대신 스칼라 값을 반환합니다.
+Eloquent 모델과 상호 작용할 때 라라벨 [쿼리 빌더](/docs/{{version}}/queries#aggregates)에서 제공하는 `count`, `sum`, `max` 및 기타 집계 메소드를 사용할 수도 있습니다. 예상대로 이 메서드는 Eloquent 모델 인스턴스 대신 스칼라 값을 반환합니다.
 
     $count = Flight::where('active', 1)->count();
 

@@ -48,7 +48,7 @@ To convert a model and its loaded [relationships](/docs/{{version}}/eloquent-rel
 
 The `attributesToArray` method may be used to convert a model's attributes to an array but not its relationships:
 
-`attributesToArray` 메소드는 모델의 속성을 배열로 변환하는 데 사용할 수 있지만 관계는 변환하지 않습니다.
+`attributesToArray` 메소드는 모델의 속성을 배열로 변환하는 데 사용할 수 있지만 관계-relationships는 변환하지 않습니다.
 
     $user = User::first();
 
@@ -56,7 +56,7 @@ The `attributesToArray` method may be used to convert a model's attributes to an
 
 You may also convert entire [collections](/docs/{{version}}/eloquent-collections) of models to arrays by calling the `toArray` method on the collection instance:
 
-컬렉션 인스턴스에서 `toArray` 메소드를 호출하여 모델의 전체 [collections](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
+컬렉션 인스턴스에서 `toArray` 메소드를 호출하여 모델의 전체 [컬렉션](/docs/{{version}}/eloquent-collections)을 배열로 변환할 수도 있습니다.
 
     $users = User::all();
 
@@ -68,7 +68,7 @@ You may also convert entire [collections](/docs/{{version}}/eloquent-collections
 
 To convert a model to JSON, you should use the `toJson` method. Like `toArray`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify any JSON encoding options that are [supported by PHP](https://secure.php.net/manual/en/function.json-encode.php):
 
-모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 relations-관계들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다.
+모델을 JSON으로 변환하기 위해서는, `toJson` 메소드를 사용해야 합니다. `toArray` 메소드와 같이 `toJson` 메소드는 재귀적이기 때문에, 모든 속성들과 관계-relations들은 JSON으로 변환됩니다. 또한 [PHP에서 제공되는](https://secure.php.net/manual/en/function.json-encode.php) JSON 인코딩 옵션을 지정할 수 있습니다.
 
     use App\Models\User;
 
@@ -80,13 +80,13 @@ To convert a model to JSON, you should use the `toJson` method. Like `toArray`, 
 
 Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method on the model or collection:
 
-또는, 모델 또는 컬렉션을 문자열(string)으로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될것입니다.
+또는, 모델 또는 컬렉션을 문자열로 캐스팅하면, 자동으로 `toJson` 메소드가 호출 될 것입니다.
 
     return (string) User::find(1);
 
 Since models and collections are converted to JSON when cast to a string, you can return Eloquent objects directly from your application's routes or controllers. Laravel will automatically serialize your Eloquent models and collections to JSON when they are returned from routes or controllers:
 
-모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 애플리케이션의 라우트 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. Laravel은 라우트나 컨트롤러에서 반환될 때 Eloquent 모델과 컬렉션을 자동으로 JSON으로 직렬화(serialize)합니다.
+모델과 컬렉션을 문자열로 캐스팅할 때에는, JSON으로 변환되므로, 애플리케이션의 라우터 또는 컨트롤러에서 Eloquent 객체를 바로 반환할 수도 있습니다. 라라벨은 라우터나 컨트롤러에서 반환될 때 Eloquent 모델과 컬렉션을 자동으로 JSON으로 직렬화(serialize)합니다.
 
     Route::get('users', function () {
         return User::all();
@@ -98,7 +98,7 @@ Since models and collections are converted to JSON when cast to a string, you ca
 
 When an Eloquent model is converted to JSON, its loaded relationships will automatically be included as attributes on the JSON object. Also, though Eloquent relationship methods are defined using "camel case" method names, a relationship's JSON attribute will be "snake case".
 
-Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계 메소드는 "camel case"를 메소드 이름을 사용하여 정의되지만 관계의 JSON 속성은 "snake case"가 됩니다.
+Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSON 객체의 속성에 포함됩니다. 또한 Eloquent 관계-relationship 메소드는 "camel case"를 메소드 이름을 사용하여 정의되지만 관계-relationship의 JSON 속성은 "snake case"가 됩니다.
 
 <a name="hiding-attributes-from-json"></a>
 ## Hiding Attributes From JSON
@@ -193,7 +193,7 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
 
 After creating the accessor, add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
 
-accessor 를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor 가 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
+accessor를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor는 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
 
     <?php
 
@@ -221,7 +221,7 @@ Once the attribute has been added to the `appends` list, it will be included in 
 
 At runtime, you may instruct a model instance to append additional attributes using the `append` method. Or, you may use the `setAppends` method to override the entire array of appended properties for a given model instance:
 
-런타임에서, `append` 메소드를 사용하여 속성을 추가하도록 모델 인스턴스에 지시할 수 있습니다. 또는 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 대해 추가된 속성의 전체 배열을 오버라이드 할 수 있습니다.
+런타임에서, `append` 메소드를 사용하여 속성을 추가하도록 모델 인스턴스에 지시할 수 있습니다. 또한 `setAppends` 메소드를 사용하여 주어진 모델 인스턴스에 대해 추가된 속성의 전체 배열을 오버라이드 할 수 있습니다.
 
     return $user->append('is_admin')->toArray();
 

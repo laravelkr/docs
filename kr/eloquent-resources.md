@@ -34,7 +34,7 @@ API를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 J
 
 Of course, you may always convert Eloquent models or collections to JSON using their `toJson` methods; however, Eloquent resources provide more granular and robust control over the JSON serialization of your models and their relationships.
 
-물론 `toJson` 메서드를 사용하여 Eloquent 모델이나 컬렉션을 항상 JSON으로 변환할 수 있습니다. 그러나 Eloquent 리소스는 모델과 그 관계의 JSON 직렬화에 대해 보다 세분화되고 강력한 제어를 제공합니다.
+물론 `toJson` 메소드를 사용하여 Eloquent 모델이나 컬렉션을 항상 JSON으로 변환할 수 있습니다. 그러나 Eloquent 리소스는 모델과 그 관계의 JSON 직렬화에 대해 보다 세분화되고 강력한 제어를 제공합니다.
 
 <a name="generating-resources"></a>
 ## Generating Resources

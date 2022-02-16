@@ -61,7 +61,7 @@ In addition to user-specified accessors and mutators, Eloquent can also automati
 
 An accessor transforms an Eloquent attribute value when it is accessed. To define an accessor, create a `get{Attribute}Attribute` method on your model where `{Attribute}` is the "studly" cased name of the column you wish to access.
 
-accessor는 접근할 때 Eloquent 속성 값을 변환합니다. accessor를 정의하려면 모델에 `get{Attribute}Attribute` 메서드를 생성합니다. 여기서 `{Attribute}`는 접근하려는 컬럼의 "studly" 케이스 이름입니다.
+accessor는 접근할 때 Eloquent 속성 값을 변환합니다. accessor를 정의하려면 모델에 `get{Attribute}Attribute` 메소드를 생성합니다. 여기서 `{Attribute}`는 접근하려는 컬럼의 "studly" 케이스 이름입니다.
 
 In this example, we'll define an accessor for the `first_name` attribute. The accessor will automatically be called by Eloquent when attempting to retrieve the value of the `first_name` attribute:
 
@@ -167,7 +167,7 @@ In this example, the `setFirstNameAttribute` function will be called with the va
 
 Attribute casting provides functionality similar to accessors and mutators without requiring you to define any additional methods on your model. Instead, your model's `$casts` property provides a convenient method of converting attributes to common data types.
 
-속성(Attribute) 캐스팅은 모델에 추가 메서드를 정의할 필요 없이 accessors 및 mutators와 유사한 기능을 제공합니다.  대신, 모델의 'casts' 속성을 사용하면 속성을 일반적인 데이터 유형으로 편리하게 변환할 수 있습니다.
+속성(Attribute) 캐스팅은 모델에 추가 메소드를 정의할 필요 없이 accessors 및 mutators와 유사한 기능을 제공합니다.  대신, 모델의 'casts' 속성을 사용하면 속성을 일반적인 데이터 유형으로 편리하게 변환할 수 있습니다.
 
 The `$casts` property should be an array where the key is the name of the attribute being cast and the value is the type you wish to cast the column to. The supported cast types are:
 
@@ -230,7 +230,7 @@ After defining the cast, the `is_admin` attribute will always be cast to a boole
 
 If you need to add a new, temporary cast at runtime, you may use the `mergeCasts` method. These cast definitions will be added to any of the casts already defined on the model:
 
-런타임에 임시 캐스트를 새로 추가해야 하는 경우, `mergeCasts` 메서드를 사용할 수 있습니다. 이러한 캐스트 정의는 모델에 이미 정의된 캐스트에 추가됩니다.
+런타임에 임시 캐스트를 새로 추가해야 하는 경우, `mergeCasts` 메소드를 사용할 수 있습니다. 이러한 캐스트 정의는 모델에 이미 정의된 캐스트에 추가됩니다.
 
     $user->mergeCasts([
         'is_admin' => 'integer',
@@ -486,7 +486,7 @@ Sometimes you may need to apply casts while executing a query, such as when sele
 
 The `last_posted_at` attribute on the results of this query will be a simple string. It would be wonderful if we could apply a `datetime` cast to this attribute when executing the query. Thankfully, we may accomplish this using the `withCasts` method:
 
-이 쿼리 결과의 `last_posted_at` 속성은 간단한 문자열입니다. 쿼리를 실행할 때 이 속성에 `datetime` 캐스트를 적용할 수 있다면 정말 좋을 것입니다. 고맙게도 `withCasts` 메서드를 사용하여 이 작업을 수행할 수 있습니다.
+이 쿼리 결과의 `last_posted_at` 속성은 간단한 문자열입니다. 쿼리를 실행할 때 이 속성에 `datetime` 캐스트를 적용할 수 있다면 정말 좋을 것입니다. 고맙게도 `withCasts` 메소드를 사용하여 이 작업을 수행할 수 있습니다.
 
     $users = User::select([
         'users.*',
@@ -655,7 +655,7 @@ Eloquent 모델이 `toArray` 및 `toJson` 메소드를 사용하여 배열 또�
 
 Therefore, you may specify that your custom cast class will be responsible for serializing the value object. To do so, your custom cast class should implement the `Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes` interface. This interface states that your class should contain a `serialize` method which should return the serialized form of your value object:
 
-따라서 커스텀 캐스트 클래스가 값 객체를 직렬화하도록 지정할 수 있습니다. 이렇게 하려면 커스텀 캐스트 클래스가 `Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes` 인터페이스를 구현해야 합니다. 이 인터페이스는 클래스에 밸류 오브젝트의 직렬화된 형식을 반환해야 하는 `serialize` 메서드를 포함해야 한다고 명시하고 있습니다.
+따라서 커스텀 캐스트 클래스가 값 객체를 직렬화하도록 지정할 수 있습니다. 이렇게 하려면 커스텀 캐스트 클래스가 `Illuminate\Contracts\Database\Eloquent\SerializesCastableAttributes` 인터페이스를 구현해야 합니다. 이 인터페이스는 클래스에 밸류 오브젝트의 직렬화된 형식을 반환해야 하는 `serialize` 메소드를 포함해야 한다고 명시하고 있습니다.
 
 
     /**
@@ -782,7 +782,7 @@ Objects that implement the `Castable` interface must define a `castUsing` method
 
 When using `Castable` classes, you may still provide arguments in the `$casts` definition. The arguments will be passed to the `castUsing` method:
 
-`Castable` 클래스를 사용할 때 `$casts` 정의에 인수를 제공할 수 있습니다. 인수는 `castUsing` 메서드에 전달됩니다.
+`Castable` 클래스를 사용할 때 `$casts` 정의에 인수를 제공할 수 있습니다. 인수는 `castUsing` 메소드에 전달됩니다.
 
     use App\Models\Address;
 
@@ -796,7 +796,7 @@ When using `Castable` classes, you may still provide arguments in the `$casts` d
 
 By combining "castables" with PHP's [anonymous classes](https://www.php.net/manual/en/language.oop5.anonymous.php), you may define a value object and its casting logic as a single castable object. To accomplish this, return an anonymous class from your value object's `castUsing` method. The anonymous class should implement the `CastsAttributes` interface:
 
-"castables"을 PHP의 [익명 클래스](https://www.php.net/manual/en/language.oop5.anonymous.php)와 결합함으로써 값 객체와 해당 캐스팅 논리를 단일 castable 객체로 정의할 수 있습니다. 이를 수행하려면 밸류 오브젝트의 `castUsing` 메서드에서 익명 클래스를 반환합니다. 익명 클래스는 `CastsAttributes` 인터페이스를 구현해야 합니다.
+"castables"을 PHP의 [익명 클래스](https://www.php.net/manual/en/language.oop5.anonymous.php)와 결합함으로써 값 객체와 해당 캐스팅 논리를 단일 castable 객체로 정의할 수 있습니다. 이를 수행하려면 밸류 오브젝트의 `castUsing` 메소드에서 익명 클래스를 반환합니다. 익명 클래스는 `CastsAttributes` 인터페이스를 구현해야 합니다.
 
     <?php
 

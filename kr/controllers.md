@@ -36,7 +36,7 @@
 
 Instead of defining all of your request handling logic as closures in your route files, you may wish to organize this behavior using "controller" classes. Controllers can group related request handling logic into a single class. For example, a `UserController` class might handle all incoming requests related to users, including showing, creating, updating, and deleting users. By default, controllers are stored in the `app/Http/Controllers` directory.
 
-리퀘스트 처리에 관한 논리는 라우트 파일에서 클로저로 정의 할 수 있습니다. 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 같은 동작을 구성할 수 있습니다. 예를 들어 `UserController` 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러 클래스 파일은 `app/Http/Controllers` 디렉토리에 저장됩니다.
+리퀘스트 처리에 관한 논리는 라우트 파일에서 클로저로 정의 할 수 있습니다. 클로저로 정의하는 대신 "컨트롤러" 클래스를 사용하여 같은 동작을 설정할 수 있습니다. 예를 들어 `UserController` 클래스는 사용자 표시(showing), 생성(creating), 업데이트(updating) 및 삭제(deleting)를 포함하여 사용자와 관련된 모든 수신 요청을 처리할 수 있습니다. 기본적으로 컨트롤러 클래스 파일은 `app/Http/Controllers` 디렉토리에 저장됩니다.
 
 <a name="writing-controllers"></a>
 ## Writing Controllers
@@ -95,7 +95,7 @@ When an incoming request matches the specified route URI, the `show` method on t
 
 If a controller action is particularly complex, you might find it convenient to dedicate an entire controller class to that single action. To accomplish this, you may define a single `__invoke` method within the controller:
 
-컨트롤러 작업이 특히 복잡한 경우, 하나의 컨트롤러 클래스 전체를 단일 액션으로 구성하는 것이 편리할 수 있습니다. 이를 수행하기 위해 컨트롤러 내에서 단일 `__invoke` 메서드를 정의할 수 있습니다.
+컨트롤러 작업이 특히 복잡한 경우, 하나의 컨트롤러 클래스 전체를 단일 액션으로 설정하는 것이 편리할 수 있습니다. 이를 수행하기 위해 컨트롤러 내에서 단일 `__invoke` 메서드를 정의할 수 있습니다.
 
     <?php
 
@@ -211,7 +211,7 @@ You may register many resource controllers at once by passing an array to the `r
 
 <a name="actions-handled-by-resource-controller"></a>
 #### Actions Handled By Resource Controller
-#### 리소스풀 컨트롤러에 의해서 구성된 액션들
+#### 리소스풀 컨트롤러에 의해서 설정된 액션들
 
 Verb      | URI                    | Action       | Route Name
 ----------|------------------------|--------------|---------------------
@@ -416,7 +416,7 @@ When using a custom keyed implicit binding as a nested route parameter, Laravel 
 
 By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done in the `boot` method of your `AppServiceProvider`:
 
-기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 구성합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다.
+기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 설정합니다. 만약 `create`와 `edit` 액션 동사를 지역화 하고자 한다면, `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 `AppServiceProvider` 파일의 `boot` 메소드에서 수행해야 합니다.
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -435,7 +435,7 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
 
 Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', 'PhotoController')` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은 리소스 라우트는 다음의 URI를 구성하게 됩니다.
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', 'PhotoController')`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
 
     /fotos/crear
 
@@ -447,7 +447,7 @@ Once the verbs have been customized, a resource route registration such as `Rout
 
 If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to `Route::resource`; otherwise, the routes defined by the `resource` method may unintentionally take precedence over your supplemental routes:
 
-만약 리소스 컨트롤러에 추가적으로 라우팅을 구성해야할 필요가 있다면 `Route::resource`가 호출되기 전에 추가 엑션을 지정하는 라우트를 등록해야합니다. 그렇지 않으면 `resource` 메소드에 의해서 정의된 라우트들이 추가한 라우트들 보다 우선하게 되어 버립니다.
+만약 리소스 컨트롤러에 추가적으로 라우팅을 설정해야할 필요가 있다면 `Route::resource`가 호출되기 전에 추가 엑션을 지정하는 라우트를 등록해야합니다. 그렇지 않으면 `resource` 메소드에 의해서 정의된 라우트들이 추가한 라우트들 보다 우선하게 되어 버립니다.
 
     use App\Http\Controller\PhotoController;
 

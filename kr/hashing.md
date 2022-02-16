@@ -34,7 +34,7 @@ Bcrypt is a great choice for hashing passwords because its "work factor" is adju
 
 The default hashing driver for your application is configured in your application's `config/hashing.php` configuration file. There are currently three supported drivers: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) and [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i and Argon2id variants).
 
-라라벨 애플리케이션에 기본(default)으로 설정되어 있는 해시 드라이버를 바꾸려면 `config/hashing.php` 구성 파일을 확인하십시오. 라라벨에서는 현재 세 개의 해싱 드라이버를 지원하고 있습니다. [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i 와 Argon2id 변경버전).
+라라벨 애플리케이션에 기본(default)으로 설정되어 있는 해시 드라이버를 바꾸려면 `config/hashing.php` 설정 파일을 확인하십시오. 라라벨에서는 현재 세 개의 해싱 드라이버를 지원하고 있습니다. [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i 와 Argon2id 변경버전).
 
 > {note} The Argon2i driver requires PHP 7.2.0 or greater and the Argon2id driver requires PHP 7.3.0 or greater.
 

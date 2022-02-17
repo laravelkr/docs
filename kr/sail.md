@@ -231,7 +231,7 @@ sail composer require laravel/sanctum
 
 If you are developing an application with a team, you may not be the one that initially creates the Laravel application. Therefore, none of the application's Composer dependencies, including Sail, will be installed after you clone the application's repository to your local computer.
 
-팀과 함께 어플리케이션을 개발하는 경우 Laravel 애플리케이션을 처음 만든 사람이 아닐 수 있습니다. 따라서 어플리케이션의 레포지토리를 로컬 컴퓨터에 복제한 후에는 Sail을 포함하여 어플리케이션의 Composer 종속성이 설치되지 않습니다.
+팀과 함께 어플리케이션을 개발하는 경우 Laravel 애플리케이션을 처음 만든 사람이 아닐 수 있습니다. 따라서 어플리케이션의 레포지토리를 로컬 컴퓨터에 복제한 후에는 Sail을 포함하여 어플리케이션의 Composer 의존성이 설치되지 않습니다.
 
 You may install the application's dependencies by navigating to the application's directory and executing the following command. This command uses a small Docker container containing PHP and Composer to install the application's dependencies:
 
@@ -248,8 +248,7 @@ docker run --rm \
 
 When using the `laravelsail/phpXX-composer` image, you should use the same version of PHP that you plan to use for your application (`74`, `80`, or `81`).
 
-`laravelsail/phpXX-composer` 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다 (`74`, `80`, or `81`).
-
+`laravelsail/phpXX-composer` (XX 부분에는 `74`, `80` 또는 `81` 가 들어갑니다) 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다.
 <a name="executing-artisan-commands"></a>
 ### Executing Artisan Commands
 ### Artisan 명령어 실행

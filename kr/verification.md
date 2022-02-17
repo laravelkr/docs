@@ -117,7 +117,7 @@ As mentioned previously, a route should be defined that will return a view instr
 
 Next, we need to define a route that will handle requests generated when the user clicks the email verification link that was emailed to them. This route should be named `verification.verify` and be assigned the `auth` and `signed` middlewares:
 
-다음으로 사용자가 이메일로 받은 검증 링크를 클릭 할 때 생성 된 요청을 처리 할 라우터를 정의 해야 합니다. 이 라우터의 name은 `Verification.Verify`로 정의하고 `auth` 및 `signed` 미들웨어를 할당해야 합니다.
+다음으로 사용자가 이메일로 받은 검증 링크를 클릭 할 때 생성 된 요청을 처리 할 라우터를 정의 해야 합니다. 이 라우터의 name은 `verification.verify`로 정의하고 `auth` 및 `signed` 미들웨어를 할당해야 합니다.
 
     use Illuminate\Foundation\Auth\EmailVerificationRequest;
 

@@ -470,7 +470,7 @@ The first argument passed to the `chunk` method is the number of records you wis
 
 If you are filtering the results of the `chunk` method based on a column that you will also be updating while iterating over the results, you should use the `chunkById` method. Using the `chunk` method in these scenarios could lead to unexpected and inconsistent results. Internally, the `chunkById` method will always retrieve models with an `id` column greater than the last model in the previous chunk:
 
-결과를 반복하는 동안 업데이트할 컬럼을 기반으로 `chunk` 메소드의 결과를 필터링하는 경우 `chunkById` 메소드를 사용해야 합니다. 이러한 시나리오에서 '청크' 메소드를 사용하면 예상치 못한 일관성 없는 결과가 발생할 수 있습니다. 내부적으로 `chunkById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 컬럼을 가진 모델을 검색합니다.
+결과를 반복하는 동안 업데이트할 컬럼을 기반으로 `chunk` 메소드의 결과를 필터링하는 경우 `chunkById` 메소드를 사용해야 합니다. 이러한 시나리오에서 `chunk` 메소드를 사용하면 예상치 못한 일관성 없는 결과가 발생할 수 있습니다. 내부적으로 `chunkById` 메소드는 항상 이전 청크의 마지막 모델보다 큰 `id` 컬럼을 가진 모델을 검색합니다.
 
 ```php
 Flight::where('departed', true)
@@ -758,7 +758,7 @@ However, before using the `create` method, you will need to specify either a `fi
 
 The `save` method may also be used to update models that already exist in the database. To update a model, you should retrieve it and set any attributes you wish to update. Then, you should call the model's `save` method. Again, the `updated_at` timestamp will automatically be updated, so there is no need to manually set its value:
 
-`save` 메소드는 데이터베이스에 이미 존재하는 모델을 업데이트하는 데에도 사용할 수 있습니다. 모델을 업데이트하려면 모델을 검색하고 업데이트하려는 속성을 설정해야 합니다. 그런 다음 모델의 '저장' 메소드를 호출해야 합니다. 이 때에도 `updated_at` 타임스탬프는 자동으로 업데이트 되어 설정되며 수동으로 값을 지정할 필요가 없습니다.
+`save` 메소드는 데이터베이스에 이미 존재하는 모델을 업데이트하는 데에도 사용할 수 있습니다. 모델을 업데이트하려면 모델을 검색하고 업데이트하려는 속성을 설정해야 합니다. 그런 다음 모델의 `save` 메소드를 호출해야 합니다. 이 때에도 `updated_at` 타임스탬프는 자동으로 업데이트 되어 설정되며 수동으로 값을 지정할 필요가 없습니다.
 
     use App\Models\Flight;
 
@@ -1143,7 +1143,7 @@ The `withTrashed` method may also be called when building a [relationship](/docs
 
 The `onlyTrashed` method will retrieve **only** soft deleted models:
 
-`onlyTrashed` 메소드는 **only** 소프트 삭제 모델을 검색합니다.
+`onlyTrashed` 메소드는 **오직** 소프트 삭제 모델을 검색합니다.
 
     $flights = Flight::onlyTrashed()
                     ->where('airline_id', 1)
@@ -1236,7 +1236,7 @@ You may test your `prunable` query by executing the `model:prune` command with t
 
 <a name="mass-pruning"></a>
 #### Mass Pruning
-#### Mass Pruning
+#### 대량으로 비우기
 
 When models are marked with the `Illuminate\Database\Eloquent\MassPrunable` trait, models are deleted from the database using mass-deletion queries. Therefore, the `pruning` method will not be invoked, nor will the `deleting` and `deleted` model events be dispatched. This is because the models are never actually retrieved before deletion, thus making the pruning process much more efficient:
 
@@ -1740,7 +1740,7 @@ This command will place the new observer in your `App/Observers` directory. If t
 
 To register an observer, you need to call the `observe` method on the model you wish to observe. You may register observers in the `boot` method of your application's `App\Providers\EventServiceProvider` service provider:
 
-관찰자를 등록하려면 관찰하려는 모델에서 `observe` 메소드를 호출해야 합니다. 애플리케이션의 `App\Providers\EventServiceProvider` 서비스 제공자의 `boot` 메소드에서 관찰자를 등록할 수 있습니다.
+옵저버를 등록하려면 관찰하려는 모델에서 `observe` 메소드를 호출해야 합니다. 애플리케이션의 `App\Providers\EventServiceProvider` 서비스 제공자의 `boot` 메소드에서 옵저버를 등록할 수 있습니다.
 
     use App\Models\User;
     use App\Observers\UserObserver;

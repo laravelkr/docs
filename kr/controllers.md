@@ -133,7 +133,7 @@ Artisan 컨멘드를 사용하면 `make:controller` 에 `--invokable` 옵션을 
 
 > {tip} Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
 
->> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
+> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
 
 <a name="controller-middleware"></a>
 ## Controller Middleware

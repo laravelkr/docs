@@ -133,7 +133,7 @@ Before moving on, let's take a closer look at this route. First, you'll notice w
 
 Next, we can proceed directly to calling the `fulfill` method on the request. This method will call the `markEmailAsVerified` method on the authenticated user and dispatch the `Illuminate\Auth\Events\Verified` event. The `markEmailAsVerified` method is available to the default `App\Models\User` model via the `Illuminate\Foundation\Auth\User` base class. Once the user's email address has been verified, you may redirect them wherever you wish.
 
-다음으로 request-요청에서 `fulfill` 메소드를 직접 호출하여 진행할 수 있습니다. 이 메소드는 `MarkEmailAsVerified` 메소드를 호출하고 검증된 사용자를 `Illuminate\Auth\Events\Verified` 이벤트에 전달 합니다. 이 `MarkEmailAsVerified` 메소드는 기본 클래스 `Illuminate\Foundation\Auth\User`를 통해 `App\Models\User` 모델에서 기본적으로 사용할 수 있습니다. 사용자의 이메일 검증이 완료되면 여러분이 원하시는 라우터로 이메일이 검증된 사용자들을 리다이렉트 시킬 수 있습니다.
+다음으로 request-요청에서 `fulfill` 메소드를 직접 호출하여 진행할 수 있습니다. 이 메소드는 `markEmailAsVerified` 메소드를 호출하고 검증된 사용자를 `Illuminate\Auth\Events\Verified` 이벤트에 전달 합니다. 이 `markEmailAsVerified` 메소드는 기본 클래스 `Illuminate\Foundation\Auth\User`를 통해 `App\Models\User` 모델에서 기본적으로 사용할 수 있습니다. 사용자의 이메일 검증이 완료되면 여러분이 원하시는 라우터로 이메일이 검증된 사용자들을 리다이렉트 시킬 수 있습니다.
 
 <a name="resending-the-verification-email"></a>
 ### Resending The Verification Email
@@ -210,7 +210,7 @@ To get started, pass a closure to the `toMailUsing` method provided by the `Illu
 
 When using the [Laravel application starter kits](/docs/{{version}}/starter-kits), Laravel dispatches [events](/docs/{{version}}/events) during the email verification process. If you are manually handling email verification for your application, you may wish to manually dispatch these events after verification is completed. You may attach listeners to these events in your application's `EventServiceProvider`:
 
-[Laravel application starter kits](/docs/{{version}}/starter-kits)을 사용할 때 라라벨은 이메일 검증 과정에서 [이벤트](/docs/{{version}}/events)를 전달합니다. 여러분의 애플리케이션에 대한 이메일 검증을 수동으로 처리하는 경우, 이메일 검증 완료 이벤트를 수동으로 전달할 수 있습니다. 여러분 애플리케이션의 'EventServiceProvider'에서 이벤트에 리스너를 연결할 수 있습니다.
+[Laravel application starter kits](/docs/{{version}}/starter-kits)을 사용할 때 라라벨은 이메일 검증 과정에서 [이벤트](/docs/{{version}}/events)를 전달합니다. 여러분의 애플리케이션에 대한 이메일 검증을 수동으로 처리하는 경우, 이메일 검증 완료 이벤트를 수동으로 전달할 수 있습니다. 여러분 애플리케이션의 `EventServiceProvider`에서 이벤트에 리스너를 연결할 수 있습니다.
 
     /*
      * The event listener mappings for the application.

@@ -202,6 +202,7 @@
     <td align="center"><a href="https://github.com/Laeng"><img src="https://avatars.githubusercontent.com/u/11701767?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laeng</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Laeng" title="Documentation">📖</a></td>
     <td align="center"><a href="http://@wondongho.tistory.com"><img src="https://avatars.githubusercontent.com/u/30614857?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DongHo Won</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=DongHoWon" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/wonjun3991"><img src="https://avatars.githubusercontent.com/u/48777603?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wonjun</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=wonjun3991" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/castell9000"><img src="https://avatars.githubusercontent.com/u/20631577?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JIHWAN BAEK</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=castell9000" title="Documentation">📖</a></td>
   </tr>
 </table>
 

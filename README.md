@@ -204,6 +204,9 @@
     <td align="center"><a href="https://github.com/wonjun3991"><img src="https://avatars.githubusercontent.com/u/48777603?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Wonjun</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=wonjun3991" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/castell9000"><img src="https://avatars.githubusercontent.com/u/20631577?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JIHWAN BAEK</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=castell9000" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/N0FreeLunch"><img src="https://avatars.githubusercontent.com/u/47421082?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JJW</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=N0FreeLunch" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->

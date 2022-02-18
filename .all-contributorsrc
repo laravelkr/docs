@@ -845,6 +845,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "1ocate",
+      "name": "Jay Yeo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29521447?v=4",
+      "profile": "https://github.com/1ocate",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

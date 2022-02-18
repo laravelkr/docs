@@ -160,11 +160,11 @@ To create a new command, you may use the `make:command` Artisan command. This co
 
 After generating your command, you should define appropriate values for the `signature` and `description` properties of the class. These properties will be used when displaying your command on the `list` screen. The `signature` property also allows you to define [your command's input expectations](#defining-input-expectations). The `handle` method will be called when your command is executed. You may place your command logic in this method.
 
-명령어를 생성 한 후 클래스의 `signature`와 `description` 속성에 적절한 값을 지정해줘야합니다. 이 속성은 화면에 `list` 명령을 표시 할 때 사용됩니다. `signature` 속성을 사용하면 [명령어의 입력 기대 값](#defining-input-expectations)을 정의 할 수도 있습니다. 명령어가 실행되면 `handle` 메소드가 호출됩니다. 이 메서드에 실행할 로직들을 작성하면 됩니다.
+명령어를 생성 한 후 클래스의 `signature`와 `description` 속성에 적절한 값을 지정해줘야합니다. 이 속성은 화면에 `list` 명령을 표시 할 때 사용됩니다. `signature` 속성을 사용하면 [명령어의 입력 기대 값](#defining-input-expectations)을 정의 할 수도 있습니다. 명령어가 실행되면 `handle` 메소드가 호출됩니다. 이 메소드에 실행할 로직들을 작성하면 됩니다.
 
 Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies that are type-hinted in this method's signature:
 
-예제 명령어을 살펴 보겠습니다. 명령어의 `handle` 메소드에 실행될 때 필요한 모든 의존성들을 작성할 수 있습니다. 그러면 Laravel [서비스 컨테이너](/docs/{{version}}/container)에서 이 메서드에 타입 힌트가 있는 모든 의존성을 자동으로 주입해줍니다.
+예제 명령어을 살펴 보겠습니다. 명령어의 `handle` 메소드에 실행될 때 필요한 모든 의존성들을 작성할 수 있습니다. 그러면 Laravel [서비스 컨테이너](/docs/{{version}}/container)에서 이 메소드에 타입 힌트가 있는 모든 의존성을 자동으로 주입해줍니다.
 
     <?php
 
@@ -365,6 +365,12 @@ To assign a shortcut when defining an option, you may specify it before the opti
 
     mail:send {user} {--Q|queue}
 
+When invoking the command on your terminal, option shortcuts should be prefixed with a single hyphen:
+
+터미널에서 명령을 호출할 때 옵션의 짧은 표현은 하이픈 하나로 시작 해야 합니다.
+
+    php artisan mail:send 1 -Q
+
 <a name="input-arrays"></a>
 ### Input Arrays
 ### 배열 입력
@@ -415,7 +421,7 @@ You may assign descriptions to input arguments and options by separating the arg
      */
     protected $signature = 'mail:send
                             {user : The ID of the user}
-                            {--queue= : Whether the job should be queued}';
+                            {--queue : Whether the job should be queued}';
 
 <a name="command-io"></a>
 ## Command I/O
@@ -496,7 +502,7 @@ If you need to ask the user for a simple "yes or no" confirmation, you may use t
 
 If necessary, you may specify that the confirmation prompt should return `true` by default by passing `true` as the second argument to the `confirm` method:
 
-필요하다면 `confirm`메서드에 두 번째 인수로 `true`를 지정해, 입력창에서 기본적으로 `true`를 반환하도록 할 수 있습니다.
+필요하다면 `confirm`메소드에 두 번째 인수로 `true`를 지정해, 입력창에서 기본적으로 `true`를 반환하도록 할 수 있습니다.
 
     if ($this->confirm('Do you wish to continue?', true)) {
         //
@@ -526,7 +532,7 @@ Alternatively, you may pass a closure as the second argument to the `anticipate`
 
 If you need to give the user a predefined set of choices when asking a question, you may use the `choice` method. You may set the array index of the default value to be returned if no option is chosen by passing the index as the third argument to the method:
 
-미리 주어진 선택지를 사용자에게 제공하려는 경우에는 `choice` 메소드를 사용하면 됩니다. 메서드에 세 번째 인수로, 옵션을 선택하지 않은 경우 반환 할 기본값의 배열 인덱스를 설정할 수 있습니다.
+미리 주어진 선택지를 사용자에게 제공하려는 경우에는 `choice` 메소드를 사용하면 됩니다. 메소드에 세 번째 인수로, 옵션을 선택하지 않은 경우 반환 할 기본값의 배열 인덱스를 설정할 수 있습니다.
 
     $name = $this->choice(
         'What is your name?',
@@ -552,7 +558,7 @@ In addition, the `choice` method accepts optional fourth and fifth arguments for
 
 To send output to the console, you may use the `line`, `info`, `comment`, `question`, `warn`, and `error` methods. Each of these methods will use appropriate ANSI colors for their purpose. For example, let's display some general information to the user. Typically, the `info` method will display in the console as green colored text:
 
-콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `warn`, `error` 메소드를 사용하면 됩니다. 각 메서드는 각자의 목적에 맞는 ANSI 색상으로 출력합니다. 예를 들어 사용자에게 몇 가지 일반적인 정보를 출력해 보겠습니다. 사용자에게 정보에 관한 메시지를 보여주고싶은 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다. 
+콘솔에 출력하기 위해서는 `line`, `info`, `comment`, `question`, `warn`, `error` 메소드를 사용하면 됩니다. 각 메소드는 각자의 목적에 맞는 ANSI 색상으로 출력합니다. 예를 들어 사용자에게 몇 가지 일반적인 정보를 출력해 보겠습니다. 사용자에게 정보에 관한 메시지를 보여주고싶은 경우에는 `info` 메소드를 사용합니다. 일반적으로 이 경우 녹색 텍스트가 콘솔에 표시됩니다.
 
     /**
      * Execute the console command.
@@ -574,7 +580,7 @@ To display an error message, use the `error` method. Error message text is typic
 
 You may use the `line` method to display plain, uncolored text:
 
-`line`메서드를 사용하여 색상이 지정되지 않은 일반 텍스트를 표시 할 수 있습니다.
+`line`메소드를 사용하여 색상이 지정되지 않은 일반 텍스트를 표시 할 수 있습니다.
 
     $this->line('Display this on the screen');
 
@@ -594,7 +600,7 @@ You may use the `newLine` method to display a blank line:
 
 The `table` method makes it easy to correctly format multiple rows / columns of data. All you need to do is provide the column names and the data for the table and Laravel will automatically calculate the appropriate width and height of the table for you:
 
-`table` 메서드를 사용하면 데이터의 여러 행과 열을 쉽게 도식화 할 수 있습니다. 테이블의 열 이름과 데이터를 제공하기만하면 라라벨이 자동으로 표의 적절한 너비와 높이를 계산합니다.
+`table` 메소드를 사용하면 데이터의 여러 행과 열을 쉽게 도식화 할 수 있습니다. 테이블의 열 이름과 데이터를 제공하기만하면 라라벨이 자동으로 표의 적절한 너비와 높이를 계산합니다.
 
     use App\Models\User;
 
@@ -660,9 +666,9 @@ All of your console commands are registered within your application's `App\Conso
         // ...
     }
 
-If necessary, you may manually register commands by adding the command's class name to the `$commands` property of your `App\Console\Kernel` class. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
+If necessary, you may manually register commands by adding the command's class name to a `$commands` property within your `App\Console\Kernel` class. If this property is not already defined on your kernel, you should define it manually. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-필요한 경우 `App\Console\Kernel` 클래스의 `commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
+필요한 경우 `App\Console\Kernel` 클래스의 `$commands` 속성에 명령어의 클래스 이름을 추가하여 수동으로 명령을 등록 할 수 있습니다. 만약 `$commands` 속성이 커널에 정의되어있지 않다면 수동으로 정의 해야 합니다. Artisan이 실행되면, 이 속성에 나열된 모든 명령어가 [service container](/docs/{{version}}/container) 에 의해 의존성을 해결하고 Artisan에 등록됩니다.
 
     protected $commands = [
         Commands\SendEmails::class
@@ -714,7 +720,7 @@ If your command defines an option that accepts an array, you may pass an array o
 
 If you need to specify the value of an option that does not accept string values, such as the `--force` flag on the `migrate:refresh` command, you should pass `true` or `false` as the value of the option:
 
-`migrate:refresh` 명령어의 `--force` 플래그와 같이 문자열이 아닌 값이 필요한 경우, 옵션값을 통해 전달하면 됩니다.
+만약 `migrate:refresh` 명령어의 `--force` 옵션과 같이 문자열을 받지 않는 옵션의 값을 지정해야 한다면, 옵션값으로 `true` 혹은 `false` 를 입력해야 합니다.
 
     $exitCode = Artisan::call('migrate:refresh', [
         '--force' => true,
@@ -826,7 +832,7 @@ class StartServer extends Command implements SignalableCommandInterface
 
 As you might expect, the `getSubscribedSignals` method should return an array of the signals that your command can handle, while the `handleSignal` method receives the signal and can respond accordingly.
 
-예상했겠지만 `getSubscribedSignals` 메서드는 명령어가 처리 할 수있는 시그널의 배열을 반환하며, `handleSignal` 메서드는 시그널을 수신하고 그에 따른 응답을 처리 할 수 있습니다.
+예상했겠지만 `getSubscribedSignals` 메소드는 명령어가 처리 할 수있는 시그널의 배열을 반환하며, `handleSignal` 메소드는 시그널을 수신하고 그에 따른 응답을 처리 할 수 있습니다.
 
 <a name="stub-customization"></a>
 ## Stub Customization
@@ -834,7 +840,7 @@ As you might expect, the `getSubscribedSignals` method should return an array of
 
 The Artisan console's `make` commands are used to create a variety of classes, such as controllers, jobs, migrations, and tests. These classes are generated using "stub" files that are populated with values based on your input. However, you may want to make small changes to files generated by Artisan. To accomplish this, you may use the `stub:publish` command to publish the most common stubs to your application so that you can customize them:
 
-아티즌 콘솔의 `make` 명령어는 컨트롤러, 작업, 마이그레이션 및 테스트와 같은 다양한 클래스를 생성하는 데 사용됩니다. 이러한 클래스는 "스텁"파일에 입력값을 기반으로 내용을 채워 생성합니다. 그러나 아티즌에서 생성하는 파일을 약간 변경하는 것이 좋습니다. 이를 수행하려면 `stub:publish` 명령어를 사용하여 가장 일반적인 스텁파일을 애플리케이션으로 꺼내서 원하는 대로 수정 할 수 있습니다.
+아티즌 콘솔의 `make` 명령어는 컨트롤러, 작업, 마이그레이션 및 테스트와 같은 다양한 클래스를 생성하는 데 사용됩니다. 이러한 클래스는 "스텁(stub)"파일에 입력값을 기반으로 내용을 채워 생성합니다. 그러나 아티즌에서 생성하는 파일을 약간 변경하는 것이 좋습니다. 이를 수행하려면 `stub:publish` 명령어를 사용하여 가장 일반적인 스텁파일을 애플리케이션으로 꺼내서 원하는 대로 수정 할 수 있습니다.
 
     php artisan stub:publish
 

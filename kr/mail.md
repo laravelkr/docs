@@ -148,7 +148,7 @@ composer require aws/aws-sdk-php
 
 Next, set the `default` option in your `config/mail.php` configuration file to `ses` and verify that your `config/services.php` configuration file contains the following options:
 
-다음으로 `config/mail.php` 설정 파일의 `default` 옵션을 `ses` 로 설정하고 `config/services.php` 설정 파일이 다음과 같은 옵션을 포함하고 있는지 확인하십시오:
+다음으로 `config/mail.php` 설정 파일의 `default` 옵션을 `ses` 로 설정하고 `config/services.php` 설정 파일이 다음과 같은 옵션을 포함하고 있는지 확인하십시오.
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
@@ -193,7 +193,7 @@ Sometimes, an external service you have configured to send your application's ma
 
 To accomplish this, you should define a mailer within your application's `mail` configuration file that uses the `failover` transport. The configuration array for your application's `failover` mailer should contain an array of `mailers` that reference the order in which mail drivers should be chosen for delivery:
 
-To accomplish this, you should define a mailer within your application's `mail` configuration file that uses the `failover` transport. The configuration array for your application's `failover` mailer should contain an array of `mailers` that reference the order in which mail drivers should be chosen for delivery:
+이렇게 하려면 `failover` 전송을 사용하는 mailer를 애플리케이션의 `mail` 구성 파일 내에서 mailer를 정의해야 합니다. 애플리케이션의 `failover` mailer에 대한 구성 배열에는 딜리버리를 위해 메일 드라이버를 선택해야 하는 순서를 참조하는 `mailers` 배열을 포함해야 합니다.
 
     'mailers' => [
         'failover' => [
@@ -234,7 +234,7 @@ Mailable 클래스를 생성했으면 해당 클래스를 열어 내용을 탐�
 
 > {tip} You may type-hint dependencies on the mailable's `build` method. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
 
-> {tip} mailable의 `build` 메소드에 의존성을 타입-힌트로 할 수 있습니다. Laravel [서비스 컨테이너](/docs/{{version}}/container)는 이러한 종속성을 자동으로 주입합니다.
+> {tip} mailable의 `build` 메소드에 의존성을 타입-힌트로 할 수 있습니다. Laravel [서비스 컨테이너](/docs/{{version}}/container)는 이러한 의존성을 자동으로 주입합니다.
 
 <a name="configuring-the-sender"></a>
 ### Configuring The Sender
@@ -613,7 +613,7 @@ The `withSwiftMessage` method of the `Mailable` base class allows you to registe
 
 Markdown mailable messages allow you to take advantage of the pre-built templates and components of [mail notifications](/docs/{{version}}/notifications#mail-notifications) in your mailables. Since the messages are written in Markdown, Laravel is able to render beautiful, responsive HTML templates for the messages while also automatically generating a plain-text counterpart.
 
-마크다운 mailable 메시지 기능을 사용하면 mailable 항목에서 미리 빌드된 템플릿 과 [메일 알림](문서{{버전}}notificationsmail-notifications)의 컴포넌트를 활용할 수 있습니다. 마크다운을 통해서 메세지를 작성하게 되면서, 라라벨은 메세지를 보다 원활하게 렌더링 하고, 반응형 HTML 템플릿을 사용하는 동시에 일반 텍스트를 자동으로 생성할 수 있게 되었습니다.
+마크다운 mailable 메시지 기능을 사용하면 mailable 항목에서 미리 빌드된 템플릿 과 [메일 알림](/docs/{{version}}/notifications#mail-notifications)의 컴포넌트를 활용할 수 있습니다. 마크다운을 통해서 메세지를 작성하게 되면서, 라라벨은 메세지를 보다 원활하게 렌더링 하고, 반응형 HTML 템플릿을 사용하는 동시에 일반 텍스트를 자동으로 생성할 수 있게 되었습니다.
 
 <a name="generating-markdown-mailables"></a>
 ### Generating Markdown Mailables
@@ -1007,7 +1007,7 @@ Laravel provides several convenient methods for testing that your mailables cont
 
 As you might expect, the "HTML" assertions assert that the HTML version of your mailable contains a given string, while the "text" assertions assert that the plain-text version of your mailable contains a given string:
 
-예상할 수 있듯이 "HTML"은 mailable의 HTML 버전이 주어진 문자열을 포함한다고 주장하는 반면, "text" 는 mailable의 일반 텍스트 버전이 주어진 문자열을 포함한다고 주장합니다.
+예상할 수 있듯이 "HTML"은 mailable의 HTML 버전이 주어진 문자열을 포함한다고 검증하는 반면, "text" 는 mailable의 일반 텍스트 버전이 주어진 문자열을 포함한다고 검증합니다.
 
     use App\Mail\InvoicePaid;
     use App\Models\User;
@@ -1031,7 +1031,7 @@ As you might expect, the "HTML" assertions assert that the HTML version of your 
 
 We suggest testing the content of your mailables separately from your tests that assert that a given mailable was "sent" to a specific user. To learn how to test that mailables were sent, check out our documentation on the [Mail fake](/docs/{{version}}/mocking#mail-fake).
 
-mailables가 특정 사용자에게 "전송"되었다고 주장하는 테스트와 별도로 mailable의 내용을 테스트할 것을 권장합니다. mailables가 전송되었는지 테스트하는 방법은 [Mail fake](/docs/{{version}}/mocking#mail-fake) 문서를 참고하세요.
+mailables가 특정 사용자에게 "전송" 되었다고 검증하는 테스트와 별도로 mailable의 내용을 테스트할 것을 권장합니다. mailables가 전송되었는지 테스트하는 방법은 [Mail fake](/docs/{{version}}/mocking#mail-fake) 문서를 참고하세요.
 
 <a name="mail-and-local-development"></a>
 ## Mail & Local Development

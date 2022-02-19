@@ -1,5 +1,5 @@
 # Laravel Telescope
-# Laravel Telescope
+# 라라벨 Telescope
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
@@ -24,7 +24,7 @@
 - [Tagging](#tagging)
 - [Tagging](#tagging)
 - [Available Watchers](#available-watchers)
-- [Available Watchers](#available-watchers)
+- [사용가능한 watcher](#available-watchers)
     - [Batch Watcher](#batch-watcher)
     - [Batch Watcher](#batch-watcher)
     - [Cache Watcher](#cache-watcher)
@@ -66,7 +66,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## Introduction
+## 시작하기
 
 [Laravel Telescope](https://github.com/laravel/telescope) makes a wonderful companion to your local Laravel development environment. Telescope provides insight into the requests coming into your application, exceptions, log entries, database queries, queued jobs, mail, notifications, cache operations, scheduled tasks, variable dumps, and more.
 

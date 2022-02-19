@@ -846,7 +846,7 @@ OAuth2 패스워드 그랜트-grant는 모바일 애플리케이션과 같은 �
 
 Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` Artisan command with the `--password` option. **If you have already run the `passport:install` command, you do not need to run this command:**
 
-패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티산 명령을 사용하여 이 작업을 수행할 수 있습니다. 이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.
+패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티산 명령을 사용하여 이 작업을 수행할 수 있습니다. **이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.**
 
     php artisan passport:client --password
 

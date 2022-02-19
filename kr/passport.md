@@ -410,7 +410,6 @@ The simplest way to create a client is using the `passport:client` Artisan comma
 If you would like to allow multiple redirect URLs for your client, you may specify them using a comma-delimited list when prompted for the URL by the `passport:client` command. Any URLs which contain commas should be URL encoded:
 
 클라이언트에 여러 개의 리다이렉션 URL을 허용하려면 `passport:client` 명령으로 URL을 입력하라는 메시지가 표시될 때 쉼표로 구분된 목록을 사용하여 지정할 수 있습니다. 쉼표가 포함된 모든 URL은 URL로 인코딩되어야 합니다.
-클라이언트에 여러 개의 리다이렉션 URL을 허용하려면 `passport:client` 명령으로 URL을 입력하라는 메시지가 표시될 때 쉼표로 구분된 목록을 사용하여 지정할 수 있습니다. 쉼표가 포함된 모든 URL은 URL로 인코딩되어야 합니다.
 
 ```bash
 http://example.com/callback,http://examplefoo.com/callback

@@ -1039,7 +1039,7 @@ Next, to use this grant type, you need to add the `CheckClientCredentials` middl
 
 Then, attach the middleware to a route:
 
-그 다음 이 미들웨어를 라우트에 추가하십시오:
+그 다음 이 미들웨어를 라우트에 추가하십시오.
 
     Route::get('/orders', function (Request $request) {
         ...

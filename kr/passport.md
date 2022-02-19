@@ -626,7 +626,7 @@ Passport에는 승인 된 액세스 토큰을 관리하기위한 JSON API도 포
 
 This route returns all of the authorized access tokens that the authenticated user has created. This is primarily useful for listing all of the user's tokens so that they can revoke them:
 
-이 경로는 인증 된 사용자가 생성 한 모든 승인 된 액세스 토큰을 반환합니다. 이는 주로 사용자의 모든 토큰을 나열하여 취소 할 수 있도록하는 데 유용합니다.
+이 라우트는 인증 된 사용자가 생성 한 모든 승인 된 액세스 토큰을 반환합니다. 이는 주로 사용자의 모든 토큰을 나열하여 취소 할 수 있도록하는 데 유용합니다.
 
     axios.get('/oauth/tokens')
         .then(response => {
@@ -639,7 +639,7 @@ This route returns all of the authorized access tokens that the authenticated us
 
 This route may be used to revoke authorized access tokens and their related refresh tokens:
 
-이 경로는 승인 된 액세스 토큰 및 관련 새로 고침 토큰을 취소하는 데 사용할 수 있습니다.
+이 라우트는 승인 된 액세스 토큰 및 관련 새로 고침 토큰을 취소하는 데 사용할 수 있습니다.
 
     axios.delete('/oauth/tokens/' + tokenId);
 

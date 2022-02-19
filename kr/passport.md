@@ -497,6 +497,8 @@ This route is used to update clients. It requires two pieces of data: the client
 
 This route is used to delete clients:
 
+이 라우트는 클라이언트를 삭제하는 데 사용됩니다.
+
     axios.delete('/oauth/clients/' + clientId)
         .then(response => {
             //

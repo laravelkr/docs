@@ -1059,7 +1059,7 @@ To restrict access to the route to specific scopes, you may provide a comma-deli
 
 To retrieve a token using this grant type, make a request to the `oauth/token` endpoint:
 
-이 권한 유형을 사용하여 토큰을 검색하려면 `oauth/token`의 엔드 포인트에 요청하십시오 :
+이 grant 타입을 사용하여 토큰을 검색하려면 `oauth/token`의 엔드포인트에 요청하십시오.
 
     use Illuminate\Support\Facades\Http;
 

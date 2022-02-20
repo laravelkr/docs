@@ -6,22 +6,22 @@
 - [캐셔 업그레이드](#upgrading-cashier)
 - [Installation](#installation)
 - [설치하기](#installation)
-  - [Paddle Sandbox](#paddle-sandbox)
-  - [Paddle Sandbox](#paddle-sandbox)
-  - [Database Migrations](#database-migrations)
-  - [데이터베이스 마이그레이션](#database-migrations)
+    - [Paddle Sandbox](#paddle-sandbox)
+    - [Paddle Sandbox](#paddle-sandbox)
+    - [Database Migrations](#database-migrations)
+    - [데이터베이스 마이그레이션](#database-migrations)
 - [Configuration](#configuration)
 - [환경설정](#configuration)
-  - [Billable Model](#billable-model)
-  - [청구 가능 모델](#billable-model)
-  - [API Keys](#api-keys)
-  - [API Keys](#api-keys)
-  - [Paddle JS](#paddle-js)
-  - [Paddle JS](#paddle-js)
-  - [Currency Configuration](#currency-configuration)
-  - [통화 설정하기](#currency-configuration)
-  - [Overriding Default Models](#overriding-default-models)
-  - [기본 모델 재정의](#overriding-default-models)
+    - [Billable Model](#billable-model)
+    - [청구 가능 모델](#billable-model)
+    - [API Keys](#api-keys)
+    - [API Keys](#api-keys)
+    - [Paddle JS](#paddle-js)
+    - [Paddle JS](#paddle-js)
+    - [Currency Configuration](#currency-configuration)
+    - [통화 설정하기](#currency-configuration)
+    - [Overriding Default Models](#overriding-default-models)
+    - [기본 모델 재정의](#overriding-default-models)
 - [Core Concepts](#core-concepts)
 - [핵심 개념](#core-concepts)
     - [Pay Links](#pay-links)
@@ -79,7 +79,7 @@
 - [Receipts](#receipts)
 - [영수증](#receipts)
     - [Past & Upcoming Payments](#past-and-upcoming-payments)
-    - [Past & Upcoming Payments](#past-and-upcoming-payments)
+    - [과거 및 향후 지급](#past-and-upcoming-payments)
 - [Handling Failed Payments](#handling-failed-payments)
 - [실패한 결제 처리](#handling-failed-payments)
 - [Testing](#testing)
@@ -91,11 +91,11 @@
 
 [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle) provides an expressive, fluent interface to [Paddle's](https://paddle.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading. In addition to basic subscription management, Cashier can handle: coupons, swapping subscription, subscription "quantities", cancellation grace periods, and more.
 
-[Laravel Cashier Paddle](https://github.comlaravelcashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
+[Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
 
 While working with Cashier we recommend you also review Paddle's [user guides](https://developer.paddle.com/guides) and [API documentation](https://developer.paddle.com/api-reference/intro).
 
-캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.comguides) 및 [API 문서](https://developer.paddle.comapi-referenceintro)도 함께 보는것이 좋습니다
+캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.com/guides) 및 [API 문서](https://developer.paddle.com/api-reference/intro)도 함께 보는것이 좋습니다.
 
 <a name="upgrading-cashier"></a>
 ## Upgrading Cashier
@@ -125,7 +125,7 @@ First, install the Cashier package for Paddle using the Composer package manager
 
 During local and staging development, you should [register a Paddle Sandbox account](https://developer.paddle.com/getting-started/sandbox). This account will give you a sandboxed environment to test and develop your applications without making actual payments. You may use Paddle's [test card numbers](https://developer.paddle.com/getting-started/sandbox#test-cards) to simulate various payment scenarios.
 
-로컬 및 스테이징 개발 중에 [Paddle Sandbox](https://developer.paddle.comgetting-startedsandbox)계정을 등록해야 합니다. 이 계정은 실제 지불 없이 애플리케이션을 테스트하고 개발할 수 있는 샌드박스 환경을 제공합니다. 패들의 [테스트 카드 번호](https://developer.paddle.comgetting-startedsandboxtest-cards)를 사용하여 다양한 결제 시나리오를 시험해 볼 수 있습니다.
+로컬 및 스테이징 개발 중에 [Paddle Sandbox](https://developer.paddle.comgetting-startedsandbox)계정을 등록해야 합니다. 이 계정은 실제 지불 없이 애플리케이션을 테스트하고 개발할 수 있는 샌드박스 환경을 제공합니다. 패들의 [테스트 카드 번호](https://developer.paddle.com/getting-started/sandbox#test-cards)를 사용하여 다양한 결제 시나리오를 시험해 볼 수 있습니다.
 
 When using the Paddle Sandbox environment, you should set the `PADDLE_SANDBOX` environment variable to `true` within your application's `.env` file:
 
@@ -139,7 +139,7 @@ After you have finished developing your application you may [apply for a Paddle 
 
 <a name="database-migrations"></a>
 ### Database Migrations
-### Database Migrations
+### 데이터베이스 마이그레이션
 
 The Cashier service provider registers its own database migration directory, so remember to migrate your database after installing the package. The Cashier migrations will create a new `customers` table. In addition, a new `subscriptions` table will be created to store all of your customer's subscriptions. Finally, a new `receipts` table will be created to store all of your application's receipt information:
 
@@ -215,7 +215,7 @@ Next, you should configure your Paddle keys in your application's `.env` file. Y
 
 The `PADDLE_SANDBOX` environment variable should be set to `true` when you are using [Paddle's Sandbox environment](#paddle-sandbox). The `PADDLE_SANDBOX` variable should be set to `false` if you are deploying your application to production and are using Paddle's live vendor environment.
 
-[패들의 샌드박스 환경](#paddle-sandbox) 사용 시 'PADDLE_SANDBOX' 환경 변수를 'true'로 설정해야 합니다. 애플리케이션을 프로덕션에 배포하고 Paddle의 라이브 공급업체 환경을 사용하는 경우 `PADDLE_SANDBOX` 변수를 `false`로 설정해야 합니다.
+[패들의 샌드박스 환경](#paddle-sandbox) 사용 시 `PADDLE_SANDBOX` 환경 변수를 `true`로 설정해야 합니다. 애플리케이션을 프로덕션에 배포하고 Paddle의 라이브 공급업체 환경을 사용하는 경우 `PADDLE_SANDBOX` 변수를 `false`로 설정해야 합니다.
 
 <a name="paddle-js"></a>
 ### Paddle JS
@@ -268,7 +268,7 @@ You are free to extend the models used internally by Cashier by defining your ow
 
 After defining your model, you may instruct Cashier to use your custom model via the `Laravel\Paddle\Cashier` class. Typically, you should inform Cashier about your custom models in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
-모델을 정의한 후 'Laravel\Paddle\Cashier' 클래스를 통해 사용자 정의 모델을 사용하도록 캐셔에 지시할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\AppServiceProvider` 클래스의 `boot` 메소드에서 사용자 정의 모델에 대해 캐셔에게 알려야 합니다.
+모델을 정의한 후 `Laravel\Paddle\Cashier` 클래스를 통해 사용자 정의 모델을 사용하도록 캐셔에 지시할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\AppServiceProvider` 클래스의 `boot` 메소드에서 사용자 정의 모델에 대해 캐셔에게 알려야 합니다.
 
     use App\Models\Cashier\Receipt;
     use App\Models\Cashier\Subscription;
@@ -350,7 +350,7 @@ Laravel의 내장 Blade 컴포넌트를 사용하지 않고 수동으로 유료 
 
 Next, simply attach the pay link URL to an `a` element in your HTML:
 
-다음으로 HTML의 'a' 요소에 유료 링크 URL을 첨부하기만 하면 됩니다.
+다음으로 HTML의 `a` 요소에 유료 링크 URL을 첨부하기만 하면 됩니다.
 
     <a href="#!" class="ml-4 paddle_button" data-override="{{ $payLink }}">
         Paddle Checkout
@@ -413,7 +413,7 @@ Please consult Paddle's [guide on Inline Checkout](https://developer.paddle.com/
 
 You may also manually render an inline checkout without using Laravel's built-in Blade components. To get started, generate the pay link URL [as demonstrated in previous examples](#pay-links).
 
-Laravel의 내장 Blade 컴포넌트를 사용하지 않고 인라인 체크아웃을 수동으로 렌더링할 수도 있습니다. 시작하려면 [유료 링크 URL](#pay-links)을 생성하십시오.
+라라벨의 내장 Blade 컴포넌트를 사용하지 않고 인라인 체크아웃을 수동으로 렌더링할 수도 있습니다. 시작하려면 [유료 링크 URL](#pay-links)을 생성하십시오.
 
 Next, you may use Paddle.js to initialize the checkout. To keep this example simple, we will demonstrate this using [Alpine.js](https://github.com/alpinejs/alpine); however, you are free to translate this example to your own frontend stack:
 
@@ -647,7 +647,7 @@ The first argument passed to the `newSubscription` method should be the internal
 
 The `create` method will create a pay link which you can use to generate a payment button. The payment button can be generated using the `paddle-button` [Blade component](/docs/{{version}}/blade#components) that is included with Cashier Paddle:
 
-'create' 메소드는 지불 버튼을 생성하는 데 사용할 수 있는 지불 링크를 생성합니다. 결제 버튼은 Cashier Paddle에 포함된 '패들 버튼' [Blade component](docs{{version}}bladecomponents)를 사용하여 생성할 수 있습니다.
+`create` 메소드는 지불 버튼을 생성하는 데 사용할 수 있는 지불 링크를 생성합니다. 결제 버튼은 Cashier Paddle에 포함된 `paddle-button` [Blade component](/docs/{{version}}/blade#components)를 사용하여 생성할 수 있습니다.
 
     <x-paddle-button :url="$payLink" class="px-8 py-4">
         Subscribe
@@ -663,7 +663,7 @@ After the user has finished their checkout, a `subscription_created` webhook wil
 
 If you would like to specify additional customer or subscription details, you may do so by passing them as an array of key / value pairs to the `create` method. To learn more about the additional fields supported by Paddle, check out Paddle's documentation on [generating pay links](https://developer.paddle.com/api-reference/product-api/pay-links/createpaylink):
 
-추가 고객 또는 구독 세부 정보를 지정하려면 키 값 쌍의 배열로 'create' 메서드에 전달하면 됩니다. Paddle에서 지원하는 추가 필드에 대해 자세히 알아보려면 [지불 링크 생성](https://developer.paddle.com/api-reference/product-api/pay-links/createpaylink)에 대한 Paddle의 문서를 확인하세요.
+추가 고객 또는 구독 세부 정보를 지정하려면 키 / 값 의 배열로 `create` 메서드에 전달하면 됩니다. Paddle에서 지원하는 추가 필드에 대해 자세히 알아보려면 [지불 링크 생성](https://developer.paddle.com/api-reference/product-api/pay-links/createpaylink)에 대한 Paddle의 문서를 확인하세요.
 
     $payLink = $user->newSubscription('default', $monthly = 12345)
         ->returnTo(route('home'))
@@ -746,7 +746,7 @@ The `subscribed` method also makes a great candidate for a [route middleware](/d
 
 If you would like to determine if a user is still within their trial period, you may use the `onTrial` method. This method can be useful for determining if you should display a warning to the user that they are still on their trial period:
 
-사용자가 아직 평가판 기간 내에 있는지 확인하려면 'onTrial' 방법을 사용할 수 있습니다. 이 방법은 사용자에게 아직 평가판 기간에 대한 경고를 표시해야 하는지 여부를 결정하는 데 유용할 수 있습니다.
+사용자가 아직 평가판 기간 내에 있는지 확인하려면 `onTrial` 방법을 사용할 수 있습니다. 이 방법은 사용자에게 아직 평가판 기간에 대한 경고를 표시해야 하는지 여부를 결정하는 데 유용할 수 있습니다.
 
     if ($user->subscription('default')->onTrial()) {
         //
@@ -818,7 +818,7 @@ If a payment fails for a subscription, it will be marked as `past_due`. When you
 
 When a subscription is past due, you should instruct the user to [update their payment information](#updating-payment-information). You may configure how past due subscriptions are handled in your [Paddle subscription settings](https://vendors.paddle.com/subscription-settings).
 
-구독 기한이 지난 경우 사용자에게 [결제 정보 업데이트](#updating-payment-information)를 안내해야 합니다. [패들 구독 설정](https:vendors.paddle.comsubscription-settings)에서 연체 구독을 처리하는 방법을 구성할 수 있습니다.
+구독 기한이 지난 경우 사용자에게 [결제 정보 업데이트](#updating-payment-information)를 안내해야 합니다. [패들 구독 설정](https://vendors.paddle.com/subscription-settings)에서 연체 구독을 처리하는 방법을 구성할 수 있습니다.
 
 If you would like subscriptions to still be considered active when they are `past_due`, you may use the `keepPastDueSubscriptionsActive` method provided by Cashier. Typically, this method should be called in the `register` method of your `AppServiceProvider`:
 
@@ -1262,7 +1262,7 @@ To ensure your application can handle Paddle webhooks, be sure to [configure the
 
 Since Paddle webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), be sure to list the URI as an exception in your `App\Http\Middleware\VerifyCsrfToken` middleware or list the route outside of the `web` middleware group:
 
-Paddle 웹훅은 Laravel의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하므로 `App\Http\Middleware\VerifyCsrfToken` 미들웨어에 URI를 예외로 나열하거나 `web` 미들웨어 그룹의 외부에 라우트로 추가해야합니다.
+Paddle 웹훅은 라라벨의 [CSRF 보호](/docs/{{version}}/csrf)를 우회해야하므로 `App\Http\Middleware\VerifyCsrfToken` 미들웨어에 URI를 예외로 나열하거나 `web` 미들웨어 그룹의 외부에 라우트로 추가해야합니다.
 
     protected $except = [
         'paddle/*',
@@ -1508,7 +1508,7 @@ When listing the receipts for the customer, you may use the receipt instance's m
 
 <a name="past-and-upcoming-payments"></a>
 ### Past & Upcoming Payments
-### Past & Upcoming Payments
+### 과거 및 향후 지급
 
 You may use the `lastPayment` and `nextPayment` methods to retrieve and display a customer's past or upcoming payments for recurring subscriptions:
 

@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
     - [Passport Or Sanctum?](#passport-or-sanctum)
-    - [Passport Or Sanctum?](#passport-or-sanctum)
+    - [Passport 와 Sanctum 중에서 선택하기](#passport-or-sanctum)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Deploying Passport](#deploying-passport)
@@ -92,7 +92,7 @@
 
 [Laravel Passport](https://github.com/laravel/passport) provides a full OAuth2 server implementation for your Laravel application in a matter of minutes. Passport is built on top of the [League OAuth2 server](https://github.com/thephpleague/oauth2-server) that is maintained by Andy Millington and Simon Hamp.
 
-[라라벨 Passport](https://github.com/laravel/passport) 는 몇 분 만에 라라벨 애플리케이션을 위한 전체 OAuth2 서버 구현을 제공합니다. Passport는 Andy Millington과 Simon Hamp가 관리하는 [League OAuth2 서버](https://github.com/thephpleague/oauth2-server) 위에 구축됩니다.
+[라라벨 Passport](https://github.com/laravel/passport) 는 몇 분 만에 라라벨 애플리케이션을 위한 전체 OAuth2 서버를 구현할 수 있게 만들어줍니다. Passport는 Andy Millington과 Simon Hamp가 관리하는 [League OAuth2 서버](https://github.com/thephpleague/oauth2-server) 기반으로 구축됩니다.
 
 > {note} This documentation assumes you are already familiar with OAuth2. If you do not know anything about OAuth2, consider familiarizing yourself with the general [terminology](https://oauth2.thephpleague.com/terminology/) and features of OAuth2 before continuing.
 
@@ -258,7 +258,7 @@ Alternatively, you may publish Passport's configuration file using the `vendor:p
 
 After the configuration file has been published, you may load your application's encryption keys by defining them as environment variables:
 
-설정 파일 이후 출시 되었다면, 환경 변수로 정의하여 애플리케이션의 암호화 키를 어플리케이션에서 로드할 수 있습니다.
+설정 파일이 생성되었다면, 환경 변수로 정의하여 애플리케이션의 암호화 키를 어플리케이션에서 로드할 수 있습니다.
 
 ```bash
 PASSPORT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
@@ -580,7 +580,7 @@ Sometimes you may wish to skip the authorization prompt, such as when authorizin
 
 If the user approves the authorization request, they will be redirected back to the consuming application. The consumer should first verify the `state` parameter against the value that was stored prior to the redirect. If the state parameter matches then the consumer should issue a `POST` request to your application to request an access token. The request should include the authorization code that was issued by your application when the user approved the authorization request:
 
-사용자가 인증 요청을 승인하면, 해당 인증을 사용 할 애플리케이션으로 다시 리다이렉션됩니다. 사용자는 먼저 리다이렉션 이전에 저장된 값에 대해 `state` 파라미터를 확인해야 합니다. `state` 파라미터가 일치하면 사용자는 액세스 토큰을 요청하기 위해 애플리케이션에 'POST' 요청을 보내야 합니다. 요청에는 사용자가 인증 요청을 승인할 때 애플리케이션에서 발행한 승인 코드가 포함되어야 합니다.
+사용자가 인증 요청을 승인하면, 해당 인증을 사용 할 애플리케이션으로 리다이렉션됩니다. 인증을 사용할 어플리케이션은 리다이렉션으로 자신에게 돌아오면, 다른 경로로 이동하기 전에 `state` 파라미터에 저장된 값을 확인해야합니다. state 파라미터가 사용자와 일치하면 애플리케이션에 `POST`로 액세스 토큰을 요청해야합니다. 이 요청에는 사용자가 인증 요청을 승인 할 때 애플리케이션에서 발행 한 승인 코드를 포함해야합니다.
 
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Http;

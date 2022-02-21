@@ -55,7 +55,7 @@ In other words, Mix makes it a cinch to compile and minify your application's CS
 
 If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application; you are free to use any asset pipeline tool you wish, or even none at all.
 
-혹시라도 Webpack 과 asset 컴파일을 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 여러분이 원하는 어떠한 asset 파이프라인 툴을 사용해됩니다. 또는 이러한 기능을 사용하지 않아도 괜찮습니다.
+혹시라도 웹펙 과 asset 컴파일을 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 여러분이 원하는 어떠한 asset 파이프라인 툴을 사용해됩니다. 또는 이러한 기능을 사용하지 않아도 괜찮습니다.
 
 > {tip} If you need a head start building your application with Laravel and [Tailwind CSS](https://tailwindcss.com), check out one of our [application starter kits](/docs/{{version}}/starter-kits).
 
@@ -181,7 +181,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 Finally, you should reference your stylesheet in your application's primary layout template. Many applications choose to store this template at `resources/views/layouts/app.blade.php`. In addition, ensure you add the responsive viewport `meta` tag if it's not already present:
 
-마지막으로 애플리케이션에서 선행 분기점이 되는 레이아웃 템플릿(primary layout template)에서 스타일시트를 참조해야 합니다. 많은 애플리케이션에서 스타일 시트 참조 태그를 지정하기 위해 `resources/views/layouts/app.blade.php` 템플릿을 선택했습니다. 또한 반응형 뷰포트를 지정하는 `meta` 태그가 없다면 추가해 주어야 합니다.
+마지막으로 애플리케이션에서 선행 분기점이 되는 레이아웃 템플릿(primary layout template)에서 스타일시트를 참조해야 합니다. 많은 애플리케이션에서 스타일시트 참조 태그를 지정하기 위해 `resources/views/layouts/app.blade.php` 템플릿을 선택했습니다. 또한 반응형 뷰포트를 지정하는 `meta` 태그가 없다면 추가해 주어야 합니다.
 
 ```html
 <head>
@@ -197,7 +197,7 @@ Finally, you should reference your stylesheet in your application's primary layo
 
 [PostCSS](https://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application.
 
-[PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 vendor 접미어(prefix)를 자동으로 적용합니다. 그러나 PostCSS를 사용하지 않고도 애플리케이션에 적합한 추가 플러그인을 자유롭게 추가할 수 있습니다.
+[PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 vendor 접두사(prefix)를 자동으로 적용합니다. 그러나 기본적인 플러그인 이외에도 애플리케이션에 적합한 플러그인을 자유롭게 추가할 수 있습니다.
 
 First, install the desired plugin through NPM and include it in your array of plugins when calling Mix's `postCss` method. The `postCss` method accepts the path to your CSS file as its first argument and the directory where the compiled file should be placed as its second argument:
 
@@ -237,7 +237,7 @@ You may compile multiple Sass files into their own respective CSS files and even
 
 Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
 
-라라벨 Mix는 Webpack 위에 구축되었기 때문에 몇 가지 Webpack 개념을 이해하는 것이 중요합니다. CSS 컴파일의 경우 Webpack은 스타일시트 내의 모든 `url()` 호출을 재작성하고 최적화합니다. 처음에는 이상해보일 수도 있지만, 이는 믿을 수 없을 정도로 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass 파일을 컴파일 한다고 생각해보겠습니다.
+라라벨 Mix는 웹펙 위에 구축되었기 때문에 몇 가지 웹펙 개념을 이해하는 것이 중요합니다. CSS 컴파일의 경우 웹펙은 스타일시트 내의 모든 `url()` 호출을 재작성하고 최적화합니다. 처음에는 이상해보일 수도 있지만, 이는 믿을 수 없을 정도로 강력한 기능입니다. 어떤 이미지의 상대경로를 포함하고 있는 Sass 파일을 컴파일 한다고 생각해보겠습니다.
 
     .example {
         background: url('../images/example.png');
@@ -249,7 +249,7 @@ Because Laravel Mix is built on top of Webpack, it's important to understand a f
 
 By default, Laravel Mix and Webpack will find `example.png`, copy it to your `public/images` folder, and then rewrite the `url()` within your generated stylesheet. As such, your compiled CSS will be:
 
-기본적으로, 라라벨 Mix와 Webpack은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일시트 내에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다.
+기본적으로, 라라벨 Mix와 웹펙은 `example.png` 파일을 찾아 이를 `public/images` 폴더에 복사하고, 생성된 스타일시트 내에서 `url()`을 재작성합니다. 그 결과, 컴파일된 CSS는 다음과 같습니다.
 
     .example {
         background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
@@ -265,7 +265,7 @@ As useful as this feature may be, it's possible that your existing folder struct
 
 With this addition to your `webpack.mix.js` file, Mix will no longer match any `url()` or copy assets to your public directory. In other words, the compiled CSS will look just like how you originally typed it:
 
-`webpack.mix.js` 파일에서 url 재작성 동작을 비활성화하면, Mix는 더 이상 어떠한 `url()` 또는 복사된 에셋을 public 폴더 내의 파일 경로와 매칭하지 않을 것입니다. 다시 말해서 컴파일된 CSS는 컴파일 전의 원본 파일과 똑같은 url을 가집니다.
+`webpack.mix.js` 파일에서 url 재작성 동작을 비활성화하면, Mix는 더 이상 어떠한 `url()` 또는 복사된 에셋 파일을 public 폴더 내의 파일 경로와 매칭하지 않을 것입니다. 다시 말해서 컴파일된 CSS는 컴파일 전의 원본 파일과 똑같은 url을 가집니다.
 
     .example {
         background: url("../images/thing.png");
@@ -288,7 +288,7 @@ Though disabled by default, source maps may be activated by calling the `mix.sou
 
 Webpack offers a variety of [source mapping styles](https://webpack.js.org/configuration/devtool/#devtool). By default, Mix's source mapping style is set to `eval-source-map`, which provides a fast rebuild time. If you want to change the mapping style, you may do so using the `sourceMaps` method:
 
-Webpack은 다양한 [소스 매핑 스타일](https://webpack.js.org/configuration/devtool/#devtool)을 제공합니다. 기본적으로 Mix의 소스 매핑 스타일은 `eval-source-map`으로 설정되어있어 빠른 rebuild를 제공합니다. 매핑 스타일을 변경하려면 `sourceMaps` 메소드를 사용하십시오.
+웹펙은 다양한 [소스 매핑 스타일](https://webpack.js.org/configuration/devtool/#devtool)을 제공합니다. 기본적으로 Mix의 소스 매핑 스타일은 `eval-source-map`으로 설정되어있어 빠른 rebuild를 제공합니다. 매핑 스타일을 변경하려면 `sourceMaps` 메소드를 사용하십시오.
 
     let productionSourceMaps = false;
 
@@ -350,14 +350,14 @@ JavaScript가 컴파일되면 애플리케이션에서 참조할 수 있습니�
 
 Mix can automatically install the Babel plugins necessary for React support. To get started, add a call to the `react` method:
 
-Mix는 리액트에 필요한 바벨 플러그인을 자동적으로 인스톨 할 수 있습니다. 시작하려면 `react` 메소드를 호출하도록 고려하세요.
+Mix는 리액트에 필요한 바벨 플러그인을 자동적으로 인스톨 할 수 있습니다. 시작하려면 `react` 메소드를 호출하세요.
 
     mix.js('resources/js/app.jsx', 'public/js')
        .react();
 
 Behind the scenes, Mix will download and include the appropriate `babel-preset-react` Babel plugin. Once your JavaScript has been compiled, you can reference it in your application:
 
-내부적으로 Mix는 미리 적절히 설정 된(the appropriate) `babel-preset-react` Babel 플러그인을 포함하여 다운로드 합니다. JavaScript가 컴파일되면 애플리케이션에서 참조할 수 있습니다.
+내부적으로 Mix는 미리 적절히 설정 된(the appropriate) `babel-preset-react` Babel 플러그인을 포함하여 다운로드 합니다. JavaScript가 컴파일되면 애플리케이션에서 컴파일 된 리액트 스크립트를 참조할 수 있습니다.
 
 ```html
 <head>
@@ -408,11 +408,11 @@ To avoid JavaScript errors, be sure to load these files in the proper order:
 
 <a name="custom-webpack-configuration"></a>
 ### Custom Webpack Configuration
-### 커스텀 Webpack 설정
+### 커스텀 웹펙 설정
 
 Occasionally, you may need to manually modify the underlying Webpack configuration. For example, you might have a special loader or plugin that needs to be referenced.
 
-때때로 Webpack을 원본 설정을(underlying) 수동으로 수정해야 할 수도 있습니다. 예를 들어, 애플리케이션 별도로 참조해야 하는 로더(loader) 또는 플러그인이 있을 수 있습니다.
+때때로 웹펙의 원본 설정을(underlying) 수동으로 수정해야 할 수도 있습니다. 예를 들어, 애플리케이션 마다 별도로 참조해야 하는 로더(loader) 또는 플러그인이 있을 수 있습니다.
 
 Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is particularly appealing, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
 

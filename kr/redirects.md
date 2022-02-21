@@ -16,7 +16,7 @@
 
 Redirect responses are instances of the `Illuminate\Http\RedirectResponse` class, and contain the proper headers needed to redirect the user to another URL. There are several ways to generate a `RedirectResponse` instance. The simplest method is to use the global `redirect` helper:
 
-리다이렉트 Response 는 `Illuminate\Http\RedirectResponse` 클래스의 인스턴스이며, 사용자를 다른 URL로 리다이렉트하는데 필요한 적절한 헤더를 포함하고 있습니다. `RedirectResponse` 인스턴스를 생성하려면 여러가지 방법이 있습니다. 가장 쉬운 방법은 글로벌 `redirect` 헬퍼 함수를 사용하는 것입니다.
+리다이렉트 Response 는 `Illuminate\Http\RedirectResponse` 클래스의 인스턴스이며, 사용자를 다른 URL로 리다이렉트하는데 필요한 적절한 헤더를 포함하고 있습니다. `RedirectResponse` 인스턴스를 생성하는 여러가지 방법이 있습니다. 가장 간단한 방법은 글로벌 `redirect` 헬퍼 함수를 사용하는 것입니다.
 
     Route::get('dashboard', function () {
         return redirect('home/dashboard');
@@ -55,7 +55,7 @@ If your route has parameters, you may pass them as the second argument to the `r
 
 If you are redirecting to a route with an "ID" parameter that is being populated from an Eloquent model, you may pass the model itself. The ID will be extracted automatically:
 
-Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 모델 그 자체를 전달할 수 있습니다. ID 는 자동으로 추출됩니다.
+Eloquent 모델에 의해서 채워지는 "ID" 파라미터를 가진 라우트로 리다이렉트 하는 경우, 모델 그 자체를 전달할 수 있습니다. ID는 자동으로 추출됩니다.
 
     // For a route with the following URI: profile/{id}
 
@@ -108,6 +108,12 @@ Redirecting to a new URL and [flashing data to the session](/docs/{{version}}/se
 
         return redirect('dashboard')->with('status', 'Profile updated!');
     });
+
+You may use the `withInput` method provided by the `RedirectResponse` instance to flash the current request's input data to the session before redirecting the user to a new location. Once the input has been flashed to the session, you may easily [retrieve it](/docs/{{version}}/requests#retrieving-old-input) during the next request:
+
+`RedirectResponse` 인스턴스에 의해 제공되는 `withInput` 메소드를 사용하면 현제 요청에 담겨 있는 input 데이터를 리다이렉트 하기 전의 세션에 임시저장(flash)합니다. 리다이렉트는 유저에게 새로운 주소(location)로 이동하게 지시합니다. 일단 input 데이터가 리다이렉트 전의 세션에 임시저장(flashed)이 되면, 다음 요청에서 임시저장한 [데이터를 회수](/docs/{{version}}/requests#retrieving-old-input)하기 쉬워집니다.
+
+    return back()->withInput();
 
 After the user is redirected, you may display the flashed message from the [session](/docs/{{version}}/session). For example, using [Blade syntax](/docs/{{version}}/blade):
 

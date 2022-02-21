@@ -9,16 +9,16 @@
 - [Mix 실행하기](#running-mix)
 - [Working With Stylesheets](#working-with-stylesheets)
 - [스타일시트 작업하기](#working-with-stylesheets)
-  - [Tailwind CSS](#tailwindcss)
-  - [테일윈드 CSS](#tailwindcss)
-  - [PostCSS](#postcss)
-  - [PostCSS](#postcss)
-  - [Sass](#sass)
-  - [Sass](#sass)
-  - [URL Processing](#url-processing)
-  - [URL Processing](#url-processing)
-  - [Source Maps](#css-source-maps)
-  - [소스 맵](#css-source-maps)
+    - [Tailwind CSS](#tailwindcss)
+    - [테일윈드 CSS](#tailwindcss)
+    - [PostCSS](#postcss)
+    - [PostCSS](#postcss)
+    - [Sass](#sass)
+    - [Sass](#sass)
+    - [URL Processing](#url-processing)
+    - [URL Processing](#url-processing)
+    - [Source Maps](#css-source-maps)
+    - [소스 맵](#css-source-maps)
 - [Working With JavaScript](#working-with-scripts)
 - [자바스크립트 작업하기](#working-with-scripts)
     - [Vue](#vue)
@@ -55,7 +55,7 @@ In other words, Mix makes it a cinch to compile and minify your application's CS
 
 If you've ever been confused and overwhelmed about getting started with Webpack and asset compilation, you will love Laravel Mix. However, you are not required to use it while developing your application; you are free to use any asset pipeline tool you wish, or even none at all.
 
-혹시라도 Webpack 과 asset 컴파일을 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 여러분이 원하는 어느 asset 파이프라인 툴을 사용해됩니다. 또는 이러한 기능을 사용하지 않아도 괜찮습니다.
+혹시라도 Webpack 과 asset 컴파일을 혼란스럽고 부담을 느끼고 있다면, 라라벨 Mix를 좋아하게 될 것입니다. 하지만 애플리케이션을 개발할 때 라라벨 Mix가 꼭 필요한 건 아닙니다. 여러분이 원하는 어떠한 asset 파이프라인 툴을 사용해됩니다. 또는 이러한 기능을 사용하지 않아도 괜찮습니다.
 
 > {tip} If you need a head start building your application with Laravel and [Tailwind CSS](https://tailwindcss.com), check out one of our [application starter kits](/docs/{{version}}/starter-kits).
 
@@ -78,7 +78,7 @@ Mix를 사용하기전 작업환경에 Node.js와 NPM이 설치되어있는지 �
 
 You can easily install the latest version of Node and NPM using simple graphical installers from [the official Node website](https://nodejs.org/en/download/). Or, if you are using [Laravel Sail](/docs/{{version}}/sail), you may invoke Node and NPM through Sail:
 
-[공식 노드JS 웹 사이트](https://nodejs.org/en/download/)에서 최신 버전의 노드JS와 NPM을 심플한 그래픽의 인스톨러로 간단히 설치할 수 있습니다. 또는 [Laravel Sail](/docs/{{version}}/sail)을 사용한다면 Sail 가상환경에서 노드JS와 NPM을 호출할 수 있습니다.
+[공식 NodeJS 웹 사이트](https://nodejs.org/en/download/)에서 최신 버전의 노드JS와 NPM을 심플한 그래픽의 인스톨러로 간단히 설치할 수 있습니다. 또는 [라라벨 Sail](/docs/{{version}}/sail)을 사용한다면 Sail 가상환경에서 NodeJS와 NPM을 호출할 수 있습니다.
 
     ./sail node -v
     ./sail npm -v
@@ -99,7 +99,7 @@ The only remaining step is to install Laravel Mix. Within a fresh installation o
 
 Mix is a configuration layer on top of [webpack](https://webpack.js.org), so to run your Mix tasks you only need to execute one of the NPM scripts that are included in the default Laravel `package.json` file. When you run the `dev` or `production` scripts, all of your application's CSS and JavaScript assets will be compiled and placed in your application's `public` directory:
 
-Mix는 [webpack](https://webpack.js.org)를 레핑하고 있는 설정 레이어입니다. Mix 작업을 실행하려면 기본 Laravel `package.json` 파일 에 포함된 NPM 스크립트 중 하나를 실행하면 됩니다. `dev` 또는 `production` 스크립트를 실행할 때, 애플리케이션의 모든 CSS와 자바스크립트 에셋(assets)은 컴파일 되고 애플리케이션의 `public` 폴더에 위치하게 됩니다.
+Mix는 [웹펙](https://webpack.js.org)을 레핑하고 있는 설정 레이어입니다. Mix 작업을 실행하려면 기본 라라벨 `package.json` 파일 에 포함된 NPM 스크립트 중 하나를 실행하면 됩니다. `dev` 또는 `production` 스크립트를 실행할 때, 애플리케이션의 모든 CSS와 자바스크립트 에셋(assets)은 컴파일 되고 애플리케이션의 `public` 폴더에 위치하게 됩니다.
 
     // Run all Mix tasks...
     npm run dev
@@ -129,7 +129,7 @@ Webpack may not be able to detect your file changes in certain local development
 
 Your application's `webpack.mix.js` file is your entry point for all asset compilation. Think of it as a light configuration wrapper around [webpack](https://webpack.js.org). Mix tasks can be chained together to define exactly how your assets should be compiled.
 
-`webpack.mix.js` 파일은 모든 에셋 컴파일의 시작점(entry point) 입니다. 이 파일은 [webpack](https://webpack.js.org)을 래핑한 가벼운 설정이라고 여기면 됩니다. 믹스 작업(tasks)은 어떻게 컴파일 되어야 하는지에 관해 명확히 정의하기 위해서 서로 체이닝 될 수 있도록 만들어져 있습니다.
+`webpack.mix.js` 파일은 모든 에셋 컴파일의 시작점(entry point) 입니다. 이 파일은 [웹펙](https://webpack.js.org)을 래핑한 가벼운 설정이라고 여기면 됩니다. 믹스 작업(tasks)은 어떻게 컴파일 되어야 하는지에 관해 명확히 정의하기 위해서 서로 체이닝 될 수 있도록 만들어져 있습니다.
 
 <a name="tailwindcss"></a>
 ### Tailwind CSS
@@ -181,7 +181,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 Finally, you should reference your stylesheet in your application's primary layout template. Many applications choose to store this template at `resources/views/layouts/app.blade.php`. In addition, ensure you add the responsive viewport `meta` tag if it's not already present:
 
-마지막으로 애플리케이션에서 선행 분기점이 되는 레이아웃 템플릿(primary layout template)에서 스타일시트를 참조해야 합니다. 많은 애플리케이션에서 이 템플릿을 저장하기 위해 `resources/views/layouts/app.blade.php`템플릿을 선택했습니다. 또한 반응형 뷰포트를 지정하는 `meta` 태그가 없다면 추가해 주어야 합니다.
+마지막으로 애플리케이션에서 선행 분기점이 되는 레이아웃 템플릿(primary layout template)에서 스타일시트를 참조해야 합니다. 많은 애플리케이션에서 스타일 시트 참조 태그를 지정하기 위해 `resources/views/layouts/app.blade.php` 템플릿을 선택했습니다. 또한 반응형 뷰포트를 지정하는 `meta` 태그가 없다면 추가해 주어야 합니다.
 
 ```html
 <head>
@@ -237,7 +237,7 @@ You may compile multiple Sass files into their own respective CSS files and even
 
 Because Laravel Mix is built on top of Webpack, it's important to understand a few Webpack concepts. For CSS compilation, Webpack will rewrite and optimize any `url()` calls within your stylesheets. While this might initially sound strange, it's an incredibly powerful piece of functionality. Imagine that we want to compile Sass that includes a relative URL to an image:
 
-Laravel Mix는 Webpack 위에 구축되었기 때문에 몇 가지 Webpack 개념을 이해하는 것이 중요합니다. CSS 컴파일의 경우 Webpack은 스타일시트 내의 모든 `url()` 호출을 재작성하고 최적화합니다. 처음에는 이상해보일 수도 있지만, 이는 믿을 수 없을 정도로 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass 파일을 컴파일 한다고 생각해보겠습니다.
+라라벨 Mix는 Webpack 위에 구축되었기 때문에 몇 가지 Webpack 개념을 이해하는 것이 중요합니다. CSS 컴파일의 경우 Webpack은 스타일시트 내의 모든 `url()` 호출을 재작성하고 최적화합니다. 처음에는 이상해보일 수도 있지만, 이는 믿을 수 없을 정도로 강력한 기능입니다. 특정 이미지의 상대경로를 포함하고 있는 Sass 파일을 컴파일 한다고 생각해보겠습니다.
 
     .example {
         background: url('../images/example.png');
@@ -327,7 +327,7 @@ With this single line of code, you may now take advantage of:
 
 Mix will automatically install the Babel plugins necessary for Vue single-file component compilation support when using the `vue` method. No further configuration is required:
 
-`vue` 메소드를 사용하면 Mix는 단일 파일의 vue 컴포넌트를 컴파일 하기 위해 필요한 Babel 플러그인을 자동으로 설치합니다. 따라서 Vue를 컴파일 하기 위해서 추가적인 구성이 필요하지 않습니다.
+`vue` 메소드를 사용하면 Mix는 단일 파일의 vue 컴포넌트를 컴파일 하기 위해 필요한 Babel 플러그인을 자동으로 설치합니다. 따라서 Vue를 컴파일 하기 위해서 추가적인 설정이 필요하지 않습니다.
 
     mix.js('resources/js/app.js', 'public/js')
        .vue();
@@ -400,7 +400,7 @@ The `extract` method accepts an array of all libraries or modules that you wish 
 
 To avoid JavaScript errors, be sure to load these files in the proper order:
 
-자바 스크립트 오류를 방지하려면 적절한 순서로 다음 파일들을 로드해야합니다.
+자바스크립트 오류를 방지하려면 적절한 순서로 다음 파일들을 로드해야합니다.
 
     <script src="/js/manifest.js"></script>
     <script src="/js/vendor.js"></script>
@@ -416,7 +416,7 @@ Occasionally, you may need to manually modify the underlying Webpack configurati
 
 Mix provides a useful `webpackConfig` method that allows you to merge any short Webpack configuration overrides. This is particularly appealing, as it doesn't require you to copy and maintain your own copy of the `webpack.config.js` file. The `webpackConfig` method accepts an object, which should contain any [Webpack-specific configuration](https://webpack.js.org/configuration/) that you wish to apply.
 
-Mix는 웹펙의 설정을 재정의(override) 하거나 추가할 수 있도록 간단한 웹펙 설정 코드들을 웹펙 설정에 합쳐주는 `webpackConfig` 메서드를 제공합니다. 이 메소드를 사용하면 `webpack.config.js` 파일의 사본을 복사하고 유지/관리(maintain)할 필요가 없기 때문에 특히 매력적입니다. `webpackConfig` 메서드의 인자로는 [Webpack 설정](https://webpack.js.org/configuration/)에 포함되어 있는 어떠한 객체도 지정 될 수 있습니다.
+Mix는 웹펙의 설정을 재정의(override) 하거나 추가할 수 있도록 간단한 웹펙 설정 코드들을 웹펙 설정에 합쳐주는 `webpackConfig` 메서드를 제공합니다. 이 메소드를 사용하면 `webpack.config.js` 파일의 사본을 복사하고 관리(maintain)할 필요가 없기 때문에 특히 매력적입니다. `webpackConfig` 메서드의 인자로는 [웹펙 설정](https://webpack.js.org/configuration/)에 포함되어 있는 어떠한 객체도 지정 될 수 있습니다.
 
     mix.webpackConfig({
         resolve: {
@@ -432,7 +432,7 @@ Mix는 웹펙의 설정을 재정의(override) 하거나 추가할 수 있도록
 
 Many developers suffix their compiled assets with a timestamp or unique token to force browsers to load the fresh assets instead of serving stale copies of the code. Mix can handle this for you using the `version` method.
 
-많은 개발자들은 브라우저에 캐싱되어 있는 지난 버전(stale)의 코드 복사본을 웹에서 제공하지 않도록 하고 새로운 에셋(assets)이 브라우저에서 강제로 로드 될 수 있도록 타임스템프나 유니크 토큰을 컴파일된 에셋의 접미사에 붙입니다. Mix는 `version` 메소드를 사용여 이러한 문제를 처리(handle)합니다.
+많은 개발자들은 브라우저에 캐싱되어 있는 지난 버전(stale)의 코드 복사본을 웹에서 제공하지 않도록 하고 새로운 에셋(assets)이 브라우저에서 강제로 로드 될 수 있도록 타임스템프나 유니크 토큰을 컴파일된 에셋의 접미사에 붙입니다. Mix는 `version` 메소드를 사용하여 이러한 문제를 처리(handle)합니다.
 
 The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
 
@@ -443,7 +443,7 @@ The `version` method will automatically append a unique hash to the filenames of
 
 After generating the versioned file, you won't know the exact file name. So, you should use Laravel's global `mix` function within your [views](/docs/{{version}}/views) to load the appropriately hashed asset. The `mix` function will automatically determine the current name of the hashed file:
 
-버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 해시값이 붙어 있는 현재의 파일 이름을 결정합니다.
+버전이 지정된 파일이 생성되면, 여러분은 정확한 파일 이름을 알 수가 없습니다. 따라서 [뷰-views](/docs/{{version}}/views)에서 라라벨의 글로벌 `mix` 헬퍼를 사용하여 해시값이 붙은 asset 을 로딩할 수 있습니다. `mix` 함수는 자동으로 현 시점에서의 해시값이 붙어 있는 파일 이름을 결정합니다.
 
     <script src="{{ mix('/js/app.js') }}"></script>
 
@@ -481,7 +481,7 @@ https://cdn.example.com/js/app.js?id=1964becbdd96414518cd
 
 [BrowserSync](https://browsersync.io/) can automatically monitor your files for changes, and inject your changes into the browser without requiring a manual refresh. You may enable support for this by calling the `mix.browserSync()` method:
 
-[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 이 Browsersync 기능을 활성화 시킬 수 있습니다.
+[BrowserSync](https://browsersync.io/)는 파일의 변경사항을 감시하고 있다가, 수동으로 페이지를 다시 로드하지 않아도 자동으로 변경 사항을 브라우저에 반영합니다. `mix.browserSync()` 메소드를 호출하여 Browsersync 기능을 활성화 시킬 수 있습니다.
 
 ```js
 mix.browserSync('laravel.test');

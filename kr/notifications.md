@@ -123,11 +123,11 @@ This command will place a fresh notification class in your `app/Notifications` d
 
 <a name="using-the-notifiable-trait"></a>
 ### Using The Notifiable Trait
-### Notifiable 트레이트 사용하기
+### Notifiable 트레이트-trait 사용하기
 
 Notifications may be sent in two ways: using the `notify` method of the `Notifiable` trait or using the `Notification` [facade](/docs/{{version}}/facades). The `Notifiable` trait is included on your application's `App\Models\User` model by default:
 
-알림은 두가지 방법으로 보낼 수 있습니다. `Notifiable` 트레이트의 `notify` 메소드를 이용하거나 `Notification` [파사드](/docs/{{version}}/facades) 를 이용합니다. `Notifiable` 트레이트는 어플리케이션에 `App\Models\User` 모델을 기본적으로 포함하고 있습니다.
+알림은 두가지 방법으로 보낼 수 있습니다. `Notifiable` 트레이트-trait의 `notify` 메소드를 이용하거나 `Notification` [파사드](/docs/{{version}}/facades) 를 이용합니다. `Notifiable` 트레이트-trait는 어플리케이션에 `App\Models\User` 모델을 기본적으로 포함하고 있습니다.
 
     <?php
 
@@ -143,7 +143,7 @@ Notifications may be sent in two ways: using the `notify` method of the `Notifia
 
 The `notify` method that is provided by this trait expects to receive a notification instance:
 
-이 트레이트가 제공하는 `notify` 메소드는 Notification 인스턴스를 받아야 합니다.
+이 트레이트-trait가 제공하는 `notify` 메소드는 Notification 인스턴스를 받아야 합니다.
 
     use App\Notifications\InvoicePaid;
 
@@ -151,7 +151,7 @@ The `notify` method that is provided by this trait expects to receive a notifica
 
 > {tip} Remember, you may use the `Notifiable` trait on any of your models. You are not limited to only including it on your `User` model.
 
-> {tip} 기억하세요. 당신은 당신의 어떤 모델에도 `Notifiable` 트레이트를 사용할 수 있습니다. 오직 `User` 모델에만 한정되지 않습니다.
+> {tip} 기억하세요. 당신은 당신의 어떤 모델에도 `Notifiable` 트레이트-trait를 사용할 수 있습니다. 오직 `User` 모델에만 한정되지 않습니다.
 
 <a name="using-the-notification-facade"></a>
 ### Using The Notification Facade
@@ -241,7 +241,7 @@ If you would like to delay the delivery of the notification, you may chain the `
 
 You may pass an array to the `delay` method to specify the delay amount for specific channels:
 
-특정 채널에 대한 지연을 설정하기 위해 배열을 `delay` 메소드에 전달할 수 있습니다:
+특정 채널에 대한 지연을 설정하기 위해 배열을 `delay` 메소드에 전달할 수 있습니다.
 
     $user->notify((new InvoicePaid($invoice))->delay([
         'mail' => now()->addMinutes(5),
@@ -331,7 +331,7 @@ Alternatively, you may call the `afterCommit` method from your notification's co
 
 > {tip} To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
 
-> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 관련 문서를 검토하세요. [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions).
+> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 검토하세요.
 
 
 #### Determining If A Queued Notification Should Be Sent
@@ -343,7 +343,7 @@ After a queued notification has been dispatched for the queue for background pro
 
 However, if you would like to make the final determination on whether the queued notification should be sent after it is being processed by a queue worker, you may define a `shouldSend` method on the notification class. If this method returns `false`, the notification will not be sent:
 
-그러나 대기열 작업자가 처리한 후 대기열에 있는 알림을 보낼지 여부를 최종 결정하려면 알림 클래스에 `shouldSend` 메소드를 정의할 수 있습니다. 이 메소드가 'false`를 반환하면 알림이 전송되지 않습니다.
+그러나 대기열 작업자가 처리한 후 대기열에 있는 알림을 보낼지 여부를 최종 결정하려면 알림 클래스에 `shouldSend` 메소드를 정의할 수 있습니다. 이 메소드가 `false`를 반환하면 알림이 전송되지 않습니다.
 
     /**
      * Determine if the notification should be sent.
@@ -597,7 +597,7 @@ You can modify the HTML and plain-text template used by mail notifications by pu
 
 To add attachments to an email notification, use the `attach` method while building your message. The `attach` method accepts the absolute path to the file as its first argument:
 
-이메일 알림에 첨부 파일을 추가하려면 메시지를 작성하는 동안 `attach` 메소드을 사용하세요. `attach` 메소드는 파일의 절대 경로를 첫 번째 인수로 받아들입니다.:
+이메일 알림에 첨부 파일을 추가하려면 메시지를 작성하는 동안 `attach` 메소드을 사용하세요. `attach` 메소드는 파일의 절대 경로를 첫 번째 인수로 받아들입니다.
 
     /**
      * Get the mail representation of the notification.
@@ -614,7 +614,7 @@ To add attachments to an email notification, use the `attach` method while build
 
 When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
 
-메시지에 파일을 첨부할 때 `attach` 메소드의 두 번째 인수로 `array`를 전달하여 표시 이름, MIME 유형을 지정할 수도 있습니다.:
+메시지에 파일을 첨부할 때 `attach` 메소드의 두 번째 인수로 `array`를 전달하여 표시 이름, MIME 유형을 지정할 수도 있습니다.
 
     /**
      * Get the mail representation of the notification.
@@ -930,7 +930,7 @@ The `toArray` method is also used by the `broadcast` channel to determine which 
 
 Once notifications are stored in the database, you need a convenient way to access them from your notifiable entities. The `Illuminate\Notifications\Notifiable` trait, which is included on Laravel's default `App\Models\User` model, includes a `notifications` [Eloquent relationship](/docs/{{version}}/eloquent-relationships) that returns the notifications for the entity. To fetch notifications, you may access this method like any other Eloquent relationship. By default, notifications will be sorted by the `created_at` timestamp with the most recent notifications at the beginning of the collection:
 
-알림이 데이터베이스에 저장되면 알림 인스턴스에서 액세스할 수 있는 편리한 방법이 필요합니다. 라라벨의 기본 `App\Models\User` 모델에 포함된 `Illuminate\Notifications\Notifiable` 트레이트에는 알림을 가져오기 위해 다른 Eloquent 관계[엘로퀀트 연관관계](/docs/{{version}}/eloquent-relationships) 처럼 이 방법에 액세스할 수 있는 모델  `notifications`이 있습니다. 기본적으로 알림은 컬렉션 시작 부분에 가장 최근 알림과 함께 'created_at' 타임스탬프로 정렬됩니다.
+알림이 데이터베이스에 저장되면 알림 인스턴스에서 액세스할 수 있는 편리한 방법이 필요합니다. 라라벨의 기본 `App\Models\User` 모델에 포함된 `Illuminate\Notifications\Notifiable` 트레이트-trait에는 알림을 가져오기 위해 다른 Eloquent 관계[엘로퀀트 연관관계](/docs/{{version}}/eloquent-relationships) 처럼 이 방법에 액세스할 수 있는 모델  `notifications`이 있습니다. 기본적으로 알림은 컬렉션 시작 부분에 가장 최근 알림과 함께 'created_at' 타임스탬프로 정렬됩니다.
 
     $user = App\Models\User::find(1);
 
@@ -958,7 +958,7 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
 
 Typically, you will want to mark a notification as "read" when a user views it. The `Illuminate\Notifications\Notifiable` trait provides a `markAsRead` method, which updates the `read_at` column on the notification's database record:
 
-일반적으로, 사용자가 알림을 확인했을 때 이를 "읽음"으로 표시하기를 원할 것입니다. `Illuminate\Notifications\Notifiable` 트레이트는 알림 데이터베이스 레코드에서 `read_at` 컬럼을 업데이트 하는 `markAsRead` 메소드를 제공합니다.
+일반적으로, 사용자가 알림을 확인했을 때 이를 "읽음"으로 표시하기를 원할 것입니다. `Illuminate\Notifications\Notifiable` 트레이트-trait는 알림 데이터베이스 레코드에서 `read_at` 컬럼을 업데이트 하는 `markAsRead` 메소드를 제공합니다.
 
     $user = App\Models\User::find(1);
 
@@ -1513,7 +1513,7 @@ Once you have implemented the interface, Laravel will automatically use the pref
 
 When a notification is sending, the `Illuminate\Notifications\Events\NotificationSending` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your application's `EventServiceProvider`:
 
-알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSending` [event](docs/{{version}}/events)을 전달합니다. 여기에는 "notifiable" 모델과 알림 인스턴스 자체가 포함됩니다. 애플리케이션의 `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
+알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSending` [event](/docs/{{version}}/events)을 전달합니다. 여기에는 "notifiable" 모델과 알림 인스턴스 자체가 포함됩니다. 애플리케이션의 `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
 
     /**
      * The event listener mappings for the application.
@@ -1564,7 +1564,7 @@ Within an event listener, you may access the `notifiable`, `notification`, and `
 
 When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your `EventServiceProvider`:
 
-알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSent` [event](docs/{{version}}/events)를 전달합니다. 여기에는 "notifiable" 모델와 알림 인스턴스 자체가 포함됩니다. `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
+알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events)를 전달합니다. 여기에는 "notifiable" 모델와 알림 인스턴스 자체가 포함됩니다. `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
 
     /**
      * The event listener mappings for the application.

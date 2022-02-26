@@ -46,7 +46,7 @@ The `Illuminate\Support\Facades\RateLimiter` facade may be used to interact with
 
 The `attempt` method returns `false` when the callback has no remaining attempts available; otherwise, the `attempt` method will return the callback's result or `true`. The first argument accepted by the `attempt` method is a rate limiter "key", which may be any string of your choosing that represents the action being rate limited:
 
-콜백에 남은 시도가 없을 때 `attempt` 메서드는 `false`를 반환합니다. 그렇지 않으면 `attempt` 메소드는 콜백의 결과 또는 `true`를 리턴합니다. `attempt` 메소드에서 허용되는 첫 번째 인수는 속도 제한기 "키"이며, 속도 제한 중인 작업을 나타내는 임의의 문자열일 수 있습니다.:
+콜백에 남은 시도가 없을 때 `attempt` 메서드는 `false`를 반환합니다. 그렇지 않으면 `attempt` 메소드는 콜백의 결과 또는 `true`를 리턴합니다. `attempt` 메소드에서 허용되는 첫 번째 인수는 속도 제한기 "키"이며, 속도 제한 중인 작업을 나타내는 임의의 문자열일 수 있습니다.
 
     use Illuminate\Support\Facades\RateLimiter;
 
@@ -68,7 +68,7 @@ The `attempt` method returns `false` when the callback has no remaining attempts
 
 If you would like to manually interact with the rate limiter, a variety of other methods are available. For example, you may invoke the `tooManyAttempts` method to determine if a given rate limiter key has exceeded its maximum number of allowed attempts per minute:
 
-속도 제한기와 수동으로 상호 작용하려는 경우 다양한 다른 방법을 사용할 수 있습니다. 예를 들어, `tooManyAttempts` 메소드를 호출하여 주어진 속도 제한기 키가 분당 허용되는 최대 시도 횟수를 초과했는지 확인할 수 있습니다.:
+속도 제한기와 수동으로 상호 작용하려는 경우 다양한 다른 방법을 사용할 수 있습니다. 예를 들어, `tooManyAttempts` 메소드를 호출하여 주어진 속도 제한기 키가 분당 허용되는 최대 시도 횟수를 초과했는지 확인할 수 있습니다.
 
     use Illuminate\Support\Facades\RateLimiter;
 

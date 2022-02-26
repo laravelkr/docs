@@ -402,7 +402,7 @@ Alternatively, you may customize the widget with custom options instead of using
 
 Please consult Paddle's [guide on Inline Checkout](https://developer.paddle.com/guides/how-tos/checkout/inline-checkout) as well as their [parameter reference](https://developer.paddle.com/reference/paddle-js/parameters) for further details on the inline checkout's available options.
 
-인라인 체크아웃의 사용 가능한 옵션에 대한 자세한 내용은 Paddle의 [인라인 체크아웃 가이드](https://developer.paddle.com/guides/how-tos/checkoutinline-checkout) 및 [매개변수 참조](https://developer.paddle.com/reference/paddle-js/parameters)를 참조하세요. .
+인라인 체크아웃의 사용 가능한 옵션에 대한 자세한 내용은 Paddle의 [인라인 체크아웃 가이드](https://developer.paddle.com/guides/how-tos/checkoutinline-checkout) 및 [매개변수 참조](https://developer.paddle.com/reference/paddle-js/parameters)를 참조하세요.
 
 > {note} If you would like to also use the `passthrough` option when specifying custom options, you should provide a key / value array as its value. Cashier will automatically handle converting the array to a JSON string. In addition, the `customer_id` passthrough option is reserved for internal Cashier usage.
 

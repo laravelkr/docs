@@ -589,7 +589,7 @@ sites:
 
 The available site types are: `apache`, `apigility`, `expressive`, `laravel` (the default), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4`, and `zf`.
 
-사용 가능한 사이트 유형은 `apache`, `apigility`, `expressive`, `laravel`(기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4` 및 `zf`입니다. .
+사용 가능한 사이트 유형은 `apache`, `apigility`, `expressive`, `laravel`(기본값), `proxy`, `silverstripe`, `statamic`, `symfony2`, `symfony4` 및 `zf`입니다.
 
 <a name="site-parameters"></a>
 #### Site Parameters

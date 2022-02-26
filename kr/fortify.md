@@ -128,7 +128,7 @@ API를 제공하거나 단일 페이지 애플리케이션의 백엔드 역할�
 
 To get started, install Fortify using the Composer package manager:
 
-시작하려면 Composer 패키지 관리자를 사용하여 Fortify를 설치합니다.:
+시작하려면 Composer 패키지 관리자를 사용하여 Fortify를 설치합니다.
 
 ```nothing
 composer require laravel/fortify
@@ -136,7 +136,7 @@ composer require laravel/fortify
 
 Next, publish Fortify's resources using the `vendor:publish` command:
 
-그 다음, Fortify 리소스를 `vendor:publish` 명령어로 publish합니다.:
+그 다음, Fortify 리소스를 `vendor:publish` 명령어로 publish합니다.
 
 ```bash
 php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
@@ -148,7 +148,7 @@ This command will publish Fortify's actions to your `app/Actions` directory, whi
 
 Next, you should migrate your database:
 
-그 다음, 데이터베이스를 마이그레이션을 실행합니다.:
+그 다음, 데이터베이스를 마이그레이션을 실행합니다.
 
 ```bash
 php artisan migrate
@@ -172,7 +172,7 @@ Fortify 서비스 제공자는 Fortify가 게시한 작업을 등록하고 Forti
 
 The `fortify` configuration file contains a `features` configuration array. This array defines which backend routes / features Fortify will expose by default. If you are not using Fortify in combination with [Laravel Jetstream](https://jetstream.laravel.com), we recommend that you only enable the following features, which are the basic authentication features provided by most Laravel applications:
 
-`fortify` 환경설정에는 `features` 구성 배열이 포함되어 있습니다. 이 배열은 Fortify가 기본적으로 노출할 백엔드 경로/기능을 정의합니다. Fortify를 [Laravel Jetstream](https://jetstream.laravel.com)과 함께 사용하지 않는 경우 대부분의 Laravel 애플리케이션에서 제공하는 기본 인증 기능인 다음 기능만 활성화하는 것이 좋습니다.:
+`fortify` 환경설정에는 `features` 구성 배열이 포함되어 있습니다. 이 배열은 Fortify가 기본적으로 노출할 백엔드 경로/기능을 정의합니다. Fortify를 [Laravel Jetstream](https://jetstream.laravel.com)과 함께 사용하지 않는 경우 대부분의 Laravel 애플리케이션에서 제공하는 기본 인증 기능인 다음 기능만 활성화하는 것이 좋습니다.
 
 ```php
 'features' => [
@@ -212,7 +212,7 @@ To get started, we need to instruct Fortify how to return our "login" view. Reme
 
 All of the authentication view's rendering logic may be customized using the appropriate methods available via the `Laravel\Fortify\Fortify` class. Typically, you should call this method from the `boot` method of your application's `App\Providers\FortifyServiceProvider` class. Fortify will take care of defining the `/login` route that returns this view:
 
-모든 인증 View의 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 적절한 방법을 사용해 정의할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다. Fortify는 이 View를 반환하는 `/login` 경로 정의를 처리합니다.:
+모든 인증 View의 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 적절한 방법을 사용해 정의할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다. Fortify는 이 View를 반환하는 `/login` 경로 정의를 처리합니다.
 
     use Laravel\Fortify\Fortify;
 
@@ -302,7 +302,7 @@ To define your custom pipeline, you may use the `Fortify::authenticateThrough` m
 
 The example below contains the default pipeline definition that you may use as a starting point when making your own modifications:
 
-아래 예시는 직접 수정할 때 시작점으로 사용할 수 있는 기본 파이프라인 정의가 포함되어 있습니다.:
+아래 예시는 직접 수정할 때 시작점으로 사용할 수 있는 기본 파이프라인 정의가 포함되어 있습니다.
 
 ```php
 use Laravel\Fortify\Actions\AttemptToAuthenticate;
@@ -332,7 +332,7 @@ If the login attempt is successful, Fortify will redirect you to the URI configu
 
 If you need advanced customization of this behavior, you may bind implementations of the `LoginResponse` and `LogoutResponse` contracts into the Laravel [service container](/docs/{{version}}/container). Typically, this should be done within the `register` method of your application's `App\Providers\FortifyServiceProvider` class:
 
-이 동작의 고급 커스터마이즈가 필요한 경우 `LoginResponse` 및 `LogoutResponse`의 구현을 Laravel [서비스 컨테이너](/docs/{{version}}/container)에 바인딩할 수 있습니다. 일반적으로 이것은 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `register` 메소드 내에서 수행되어야 합니다.:
+이 동작의 고급 커스터마이즈가 필요한 경우 `LoginResponse` 및 `LogoutResponse`의 구현을 Laravel [서비스 컨테이너](/docs/{{version}}/container)에 바인딩할 수 있습니다. 일반적으로 이것은 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `register` 메소드 내에서 수행되어야 합니다.
 
 ```php
 use Laravel\Fortify\Contracts\LogoutResponse;
@@ -363,7 +363,7 @@ Fortify의 2단계 인증 기능이 활성화되면 사용자는 인증 과정�
 
 Before getting started, you should first ensure that your application's `App\Models\User` model uses the `Laravel\Fortify\TwoFactorAuthenticatable` trait:
 
-시작하기 전에 먼저 애플리케이션의 `App\Models\User` 모델이 `Laravel\Fortify\TwoFactorAuthenticatable` trait을 사용하는지 확인해야 합니다.:
+시작하기 전에 먼저 애플리케이션의 `App\Models\User` 모델이 `Laravel\Fortify\TwoFactorAuthenticatable` trait을 사용하는지 확인해야 합니다.
 
 ```php
 <?php
@@ -394,7 +394,7 @@ Next, you should build a screen within your application where users can manage t
 
 To enable two factor authentication, your application should make a POST request to the `/user/two-factor-authentication` endpoint defined by Fortify. If the request is successful, the user will be redirected back to the previous URL and the `status` session variable will be set to `two-factor-authentication-enabled`. You may detect this `status` session variable within your templates to display the appropriate success message. If the request was an XHR request, `200` HTTP response will be returned:
 
-2단계 인증을 활성화하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.:
+2단계 인증을 활성화하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.
 
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
@@ -497,7 +497,7 @@ To begin implementing our application's registration functionality, we need to i
 
 All of the Fortify's view rendering logic may be customized using the appropriate methods available via the `Laravel\Fortify\Fortify` class. Typically, you should call this method from the `boot` method of your `App\Providers\FortifyServiceProvider` class:
 
-Fortify의 모든 View 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 사용할 수 있는 적절한 방법을 사용하여 커스터마이즈할 수 있습니다. 일반적으로 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다.:
+Fortify의 모든 View 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 사용할 수 있는 적절한 방법을 사용하여 커스터마이즈할 수 있습니다. 일반적으로 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다.
 
 ```php
 use Laravel\Fortify\Fortify;
@@ -729,7 +729,7 @@ If you wish, you may add a button to your application's `verify-email` template 
 
 If the request to resend the verification link email was successful, Fortify will redirect the user back to the `/email/verify` endpoint with a `status` session variable, allowing you to display an informational message to the user informing them the operation was successful. If the request was an XHR request, a 202 HTTP response will be returned:
 
-확인 링크 이메일 재전송 요청이 성공하면 Fortify는 `status` 세션 변수를 사용하여 사용자를 `/email/verify` 엔드포인트로 다시 리디렉션하여 작업이 완료됨 메시지를 사용자에게 표시할 수 있습니다. 요청이 XHR 요청인 경우 202 HTTP 응답이 반환됩니다.:
+확인 링크 이메일 재전송 요청이 성공하면 Fortify는 `status` 세션 변수를 사용하여 사용자를 `/email/verify` 엔드포인트로 다시 리디렉션하여 작업이 완료됨 메시지를 사용자에게 표시할 수 있습니다. 요청이 XHR 요청인 경우 202 HTTP 응답이 반환됩니다.
 
 ```html
 @if (session('status') == 'verification-link-sent')
@@ -744,7 +744,7 @@ If the request to resend the verification link email was successful, Fortify wil
 
 To specify that a route or group of routes requires that the user has verified their email address, you should attach Laravel's built-in `verified` middleware to the route. This middleware is registered within your application's `App\Http\Kernel` class:
 
-사용자가 이메일 주소를 확인해야 하는 경로 또는 경로 그룹을 지정하려면 Laravel의 내장 `verified` 미들웨어를 경로에 연결해야 합니다. 이 미들웨어는 애플리케이션의 `App\Http\Kernel` 클래스에 등록됩니다.:
+사용자가 이메일 주소를 확인해야 하는 경로 또는 경로 그룹을 지정하려면 Laravel의 내장 `verified` 미들웨어를 경로에 연결해야 합니다. 이 미들웨어는 애플리케이션의 `App\Http\Kernel` 클래스에 등록됩니다.
 
 ```php
 Route::get('/dashboard', function () {
@@ -766,7 +766,7 @@ To begin implementing password confirmation functionality, we need to instruct F
 
 All of Fortify's view rendering logic may be customized using the appropriate methods available via the `Laravel\Fortify\Fortify` class. Typically, you should call this method from the `boot` method of your application's `App\Providers\FortifyServiceProvider` class:
 
-Fortify의 모든 뷰 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 사용할 수 있는 적절한 방법을 사용하여 커스터마이즈할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다.:
+Fortify의 모든 뷰 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 사용할 수 있는 적절한 방법을 사용하여 커스터마이즈할 수 있습니다. 일반적으로 애플리케이션의 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다.
 
 ```php
 use Laravel\Fortify\Fortify;

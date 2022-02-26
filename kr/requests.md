@@ -8,9 +8,9 @@
    - [Accessing The Request](#accessing-the-request)
    - [Request 접근](#accessing-the-request)
    - [Request Path & Method](#request-path-and-method)
-   - [Request Path & Method](#request-path-and-method)
+   - [Request 경로 & 메소드](#request-path-and-method)
    - [Request Headers](#request-headers)
-   - [Request Headers](#request-headers)
+   - [Request 헤더](#request-headers)
    - [Request IP Address](#request-ip-address)
    - [Request IP 주소](#request-ip-address)
    - [Content Negotiation](#content-negotiation)
@@ -38,9 +38,9 @@
    - [Storing Uploaded Files](#storing-uploaded-files)
    - [업로드 파일 수납](#storing-uploaded-files)
 - [Configuring Trusted Proxies](#configuring-trusted-proxies)
-- [신뢰할 수 있는 프록시 구성](#configuring-trusted-proxies)
+- [신뢰할 수 있는 프록시 설정](#configuring-trusted-proxies)
 - [Configuring Trusted Hosts](#configuring-trusted-hosts)
-- [신뢰할 수 있는 호스트 구성](#configuring-trusted-hosts)
+- [신뢰할 수 있는 호스트 설정](#configuring-trusted-hosts)
 
 <a name="introduction"></a>
 ## Introduction
@@ -60,7 +60,8 @@ Laravel's `Illuminate\Http\Request` class provides an object-oriented way to int
 
 To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your route closure or controller method. The incoming request instance will automatically be injected by the Laravel [service container](/docs/{{version}}/container):
 
-의존성 주입을 통해 현재 HTTP 요청의 인스턴스를 얻으려면 route 클로저 또는 컨트롤러 메서드에서 `Illuminate\Http\Request` 클래스를 입력해야 합니다. 유입된 request 인스턴스는 Laravel [service container](/docs/{{version}}/container)에 의해 자동으로 주입됩니다.
+의존성 주입을 통해 현재 HTTP 요청의 인스턴스를 얻으려면 route 클로저 또는 컨트롤러 메서드에서 `Illuminate\Http\Request` 클래스를 입력해야 합니다. 유입된 request 인스턴스는 라라벨 [service container](/docs/{{version}}/container)에 의해 자동으로 주입됩니다.
+
     <?php
 
     namespace App\Http\Controllers;
@@ -144,17 +145,17 @@ The `Illuminate\Http\Request` instance provides a variety of methods for examini
 
 The `path` method returns the request's path information. So, if the incoming request is targeted at `http://example.com/foo/bar`, the `path` method will return `foo/bar`:
 
-`path` 메소드는 request의 경로정보를 반환합니다. 따라서 들어오는 request가 `http://example.com/foo/bar`를 대상으로 한다면 `path` 메소드는 `foo/bar`를 반환합니다.
+`path` 메소드는 request의 경로정보를 반환합니다. 따라서 들어오는 request가 `http://example.com/foo/bar` 를 대상으로 한다면 `path` 메소드는 `foo/bar`를 반환합니다.
 
     $uri = $request->path();
 
 <a name="inspecting-the-request-path"></a>
 #### Inspecting The Request Path / Route
-#### Inspecting The Request Path / Route
+#### Request 경로 검사
 
 The `is` method allows you to verify that the incoming request path matches a given pattern. You may use the `*` character as a wildcard when utilizing this method:
 
-`is` 메소드는 들어오는 request가 특정 패턴에 상응한다는 것을 확인할 수 있게 해줍니다. 이 메소드를 활용할 때 `*` 기호를 와일드카드로 쓸 수 있습니다.
+`is` 메소드는 들어오는 request가 특정 패턴에 상응한다는 것을 확인 할 수 있게 해줍니다. 이 메소드를 활용할 때 `*` 기호를 와일드카드로 쓸 수 있습니다.
 
     if ($request->is('admin/*')) {
         //
@@ -162,7 +163,7 @@ The `is` method allows you to verify that the incoming request path matches a gi
 
 Using the `routeIs` method, you may determine if the incoming request has matched a [named route](/docs/{{version}}/routing#named-routes):
 
-`routeIs` 메소드를 사용하면 수신 요청이 [named route](/docs/{{version}}/routing#named-routes)와 일치하는지 확인할 수 있습니다.
+`routeIs` 메소드를 사용하면 request 요청이 [named route](/docs/{{version}}/routing#named-routes)와 일치하는지 확인할 수 있습니다.
 
     if ($request->routeIs('admin.*')) {
         //
@@ -182,7 +183,7 @@ To retrieve the full URL for the incoming request you may use the `url` or `full
 
 If you would like to append query string data to the current URL, you may call the `fullUrlWithQuery` method. This method merges the given array of query string variables with the current query string:
 
-현재 URL에 query string 데이터를 추가하려면 'fullUrlWithQuery' 메서드를 호출하면 됩니다. 이 메서드는 주어진 query string 변수 배열을 현재 query string과 병합합니다.
+현재 URL에 query string 데이터를 추가하려면 `fullUrlWithQuery` 메서드를 호출하면 됩니다. 이 메서드는 주어진 query string 변수 배열을 현재 query string과 병합합니다.
 
     $request->fullUrlWithQuery(['type' => 'phone']);
 
@@ -202,7 +203,7 @@ The `method` method will return the HTTP verb for the request. You may use the `
 
 <a name="request-headers"></a>
 ### Request Headers
-### Request Headers
+### Request 헤더
 
 You may retrieve a request header from the `Illuminate\Http\Request` instance using the `header` method. If the header is not present on the request, `null` will be returned. However, the `header` method accepts an optional second argument that will be returned if the header is not present on the request:
 
@@ -242,7 +243,7 @@ The `ip` method may be used to retrieve the IP address of the client that made t
 
 Laravel provides several methods for inspecting the incoming request's requested content types via the `Accept` header. First, the `getAcceptableContentTypes` method will return an array containing all of the content types accepted by the request:
 
-Laravel은 `Accept` 헤더를 통해 들어오는 요청의 요청된 Content 유형을 검사하는 여러 방법을 제공합니다. 먼저 `getAcceptableContentTypes` 메소드는 요청에 의해 수락된 모든 Content 유형을 포함하는 배열을 반환합니다.
+라라벨은 `Accept` 헤더를 통해 들어오는 요청의 요청된 Content 유형을 검사하는 여러 방법을 제공합니다. 먼저 `getAcceptableContentTypes` 메소드는 요청에 의해 수락된 모든 Content 유형을 포함하는 배열을 반환합니다.
 
     $contentTypes = $request->getAcceptableContentTypes();
 
@@ -274,7 +275,7 @@ Since many applications only serve HTML or JSON, you may use the `expectsJson` m
 
 The [PSR-7 standard](https://www.php-fig.org/psr/psr-7/) specifies interfaces for HTTP messages, including requests and responses. If you would like to obtain an instance of a PSR-7 request instead of a Laravel request, you will first need to install a few libraries. Laravel uses the *Symfony HTTP Message Bridge* component to convert typical Laravel requests and responses into PSR-7 compatible implementations:
 
-[PSR-7 표준](https://www.php-fig.org/psr/psr-7/)은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터페이스를 지정합니다. 라라벨의 request 대신 PSR-7 요청의 인스턴스를 획득하기 위해서는 우선 몇 개의 라이브러리를 설치해야 합니다. 라라벨은 *Symfony HTTP Message Bridge* 컴포넌트를 사용하여 일반적인 라라벨의 request-요청과 response-응답을 PSR-7에 맞는 구현체로 변환합니다.
+[PSR-7 표준](https://www.php-fig.org/psr/psr-7/) 은 요청과 응답을 포함한 HTTP 메세지들에 대한 인터페이스를 지정합니다. 라라벨의 request 대신 PSR-7 요청의 인스턴스를 획득하기 위해서는 우선 몇 개의 라이브러리를 설치해야 합니다. 라라벨은 *Symfony HTTP Message Bridge* 컴포넌트를 사용하여 일반적인 라라벨의 request-요청과 response-응답을 PSR-7에 맞는 구현체로 변환합니다.
 
     composer require symfony/psr-http-message-bridge
     composer require nyholm/psr7
@@ -319,7 +320,7 @@ Using the `collect` method, you may retrieve all of the incoming request's input
 
 The `collect` method also allows you to retrieve a subset of the incoming request input as a collection:
 
-'collect' 메소드를 사용하면 들어오는 요청 input의 하위 집합을 collection으로 검색할 수도 있습니다.
+`collect` 메소드를 사용하면 들어오는 요청 input의 하위 집합을 collection으로 검색할 수도 있습니다.
 
     $request->collect('users')->each(function ($user) {
         // ...
@@ -429,9 +430,7 @@ You may also access user input using dynamic properties on the `Illuminate\Http\
 
 When using dynamic properties, Laravel will first look for the parameter's value in the request payload. If it is not present, Laravel will search for the field in the matched route's parameters.
 
-//동적 속성을 사용할 때, 라라벨은 먼저 request payload 안에 있는 파라미터의 값을 찾습니다. 만약 값이 없다면 라라벨은 라우트 파라미터 안에 있는 필드를 찾을 것입니다.
-
-동적 속성을 사용할 때 Laravel은 먼저 요청 페이로드에서 매개변수 값을 찾습니다. 존재하지 않으면 Laravel은 일치하는 경로의 매개변수에서 필드를 검색합니다.
+동적 속성을 사용할 때, 라라벨은 먼저 request payload 안에 있는 파라미터의 값을 찾습니다. 만약 값이 없다면 라라벨은 라우트 파라미터 안에 있는 필드를 찾을 것입니다.
 
 <a name="retrieving-a-portion-of-the-input-data"></a>
 #### Retrieving A Portion Of The Input Data
@@ -467,7 +466,7 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
 
 When given an array, the `has` method will determine if all of the specified values are present:
 
-`has` 메소드에 배열이 주어지면, 지정된 모든 값이 존재하는지 확인하게 됩니다.
+`has` 메소드에 배열이 주어지면, 지정된 모든 값이 존재하는지 확인합니다.
 
     if ($request->has(['name', 'email'])) {
         //
@@ -535,12 +534,17 @@ To determine if a given key is absent from the request, you may use the `missing
 
 <a name="merging-additional-input"></a>
 ### Merging Additional Input
+### 추가 입력 병합
 
 Sometimes you may need to manually merge additional input into the request's existing input data. To accomplish this, you may use the `merge` method:
+
+때때로 추가 입력을 요청의 기존 입력 데이터에 수동으로 병합해야 할 수도 있습니다. 이를 위해 `merge` 메소드를 사용할 수 있습니다.
 
     $request->merge(['votes' => 0]);
 
 The `mergeIfMissing` method may be used to merge input into the request if the corresponding keys do not already exist within the request's input data:
+
+`mergeIfMissing` 메소드는 해당 키가 요청의 입력 데이터 내에 이미 존재하지 않는 경우, 입력을 요청에 병합하는 데 사용할 수 있습니다.
 
     $request->mergeIfMissing(['votes' => 0]);
 
@@ -610,7 +614,7 @@ Laravel also provides a global `old` helper. If you are displaying old input wit
 
 All cookies created by the Laravel framework are encrypted and signed with an authentication code, meaning they will be considered invalid if they have been changed by the client. To retrieve a cookie value from the request, use the `cookie` method on an `Illuminate\Http\Request` instance:
 
-라라벨 프레임워크에서 생성된 모든 쿠키는 인증 코드와 함께 암호화 됩니다. 이것은 쿠키 정보가 클라이언트에 의해 변경되었을 경우 유효하지 않은 것으로 간주됨을 의미합니다. Request에서 쿠키 값을 가져오기 위해서는 `Illuminate\Http\Request` 인스턴스에서 `cookie` 메소드를 사용하십시오:
+라라벨 프레임워크에서 생성된 모든 쿠키는 인증 코드와 함께 암호화 됩니다. 이것은 쿠키 정보가 클라이언트에 의해 변경되었을 경우 유효하지 않은 것으로 간주됨을 의미합니다. Request에서 쿠키 값을 가져오기 위해서는 `Illuminate\Http\Request` 인스턴스에서 `cookie` 메소드를 사용하십시오.
 
     $value = $request->cookie('name');
 
@@ -620,7 +624,7 @@ All cookies created by the Laravel framework are encrypted and signed with an au
 
 By default, Laravel includes the `App\Http\Middleware\TrimStrings` and `App\Http\Middleware\ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the global middleware stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
 
-기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `App\Http\Middleware\TrimStrings` 및 `App\Http\Middleware\ConvertEmptyStringsToNull` 미들웨어를 포함합니다. 이런 미들웨어는 `App\Http\Kernel` 클래스에 의해 글로벌 미들웨어 스택에 나열됩니다. 이러한 미들웨어는 요청 시 들어오는 모든 문자열 필드를 자동으로 트리밍하고 빈 문자열 필드를 'null'로 변환합니다. 이를 통해 경로 및 컨트롤러에서 이러한 정규화 문제에 대해 걱정할 필요가 없습니다.
+기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `App\Http\Middleware\TrimStrings` 및 `App\Http\Middleware\ConvertEmptyStringsToNull` 미들웨어를 포함합니다. 이런 미들웨어는 `App\Http\Kernel` 클래스에 의해 글로벌 미들웨어 스택에 나열됩니다. 이러한 미들웨어는 요청 시 들어오는 모든 문자열 필드를 자동으로 트리밍하고 빈 문자열 필드를 `null`로 변환합니다. 이를 통해 경로 및 컨트롤러에서 이러한 정규화 문제에 대해 걱정할 필요가 없습니다.
 
 If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
 
@@ -680,7 +684,7 @@ The `UploadedFile` class also contains methods for accessing the file's fully-qu
 
 There are a variety of other methods available on `UploadedFile` instances. Check out the [API documentation for the class](https://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html) for more information regarding these methods.
 
-`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](https://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html)을 확인해보십시오.
+`UploadedFile` 인스턴스에 다양한 다른 메소드들이 제공되어 있습니다. 이 메소드들에 대해 더 많은 정보를 얻으려면 [클래스의 API documentation](https://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html) 을 확인해보십시오.
 
 <a name="storing-uploaded-files"></a>
 ### Storing Uploaded Files
@@ -692,7 +696,7 @@ To store an uploaded file, you will typically use one of your configured [filesy
 
 The `store` method accepts the path where the file should be stored relative to the filesystem's configured root directory. This path should not contain a filename, since a unique ID will automatically be generated to serve as the filename.
 
-`store` 메소드는 파일 시스템에 구성된 루트 디렉토리로 부터 파일이 어디에 저장되어야 할지에 대한 경로를 전달 받습니다. 파일의 이름은 자동으로 고유한 ID로 생성되므로 이 경로에는 파일 이름을 포함하지 않아야 합니다.
+`store` 메소드는 파일 시스템에 설정된 루트 디렉토리로 부터 파일이 어디에 저장되어야 할지에 대한 경로를 전달 받습니다. 파일의 이름은 자동으로 고유한 ID로 생성되므로 이 경로에는 파일 이름을 포함하지 않아야 합니다.
 
 The `store` method also accepts an optional second argument for the name of the disk that should be used to store the file. The method will return the path of the file relative to the disk's root:
 
@@ -722,7 +726,7 @@ TLS / SSL 인증서가 적용된 로드 밸런서 뒤에서 애플리케이션�
 
 To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the proxy `$headers` that should be trusted:
 
-이 문제를 해결하기 위해서, 라라벨 애플리케이션에는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 손쉽게 애플리케이션에서 신뢰할 수 있는 로드밸런서 또는 프록시를 설정할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 지정해놓으면 됩니다. 신뢰할 수 있는 프록시를 구성하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다.
+이 문제를 해결하기 위해서, 라라벨 애플리케이션에는 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 손쉽게 애플리케이션에서 신뢰할 수 있는 로드밸런서 또는 프록시를 설정할 수 있습니다. 신뢰할 수 있는 프록시들은 이 미들웨어의 `$proxies` 속성 배열에 지정해놓으면 됩니다. 신뢰할 수 있는 프록시를 설정하는 것 이외에도 신뢰해야 하는 프록시 헤더를 설정 할 수 있습니다.
 
     <?php
 
@@ -775,11 +779,11 @@ If you are using Amazon AWS or another "cloud" load balancer provider, you may n
 
 By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
 
-기본적으로 Laravel은 HTTP 요청의 `Host` 헤더 내용에 관계없이 수신하는 모든 요청에 응답합니다. 또한 웹 요청 중에 애플리케이션에 대한 절대 URL을 생성할 때 `Host` 헤더 값이 사용됩니다.
+기본적으로 라라벨은 HTTP 요청의 `Host` 헤더 내용에 관계없이 수신하는 모든 요청에 응답합니다. 또한 웹 요청 중에 애플리케이션에 대한 절대 URL을 생성할 때 `Host` 헤더 값이 사용됩니다.
 
 Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application.
 
-일반적으로 지정된 호스트 이름과 일치하는 요청만 애플리케이션에 보내도록 Nginx 또는 Apache와 같은 웹 서버를 구성해야 합니다. 그러나 웹 서버를 직접 사용자 정의할 수 없고 특정 호스트 이름에만 응답하도록 Laravel에 지시해야 하는 경우 애플리케이션에 대해 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화하여 그렇게 할 수 있습니다.
+일반적으로 지정된 호스트 이름과 일치하는 요청만 애플리케이션에 보내도록 Nginx 또는 Apache와 같은 웹 서버를 설정해야 합니다. 그러나 웹 서버를 직접 사용자 정의할 수 없고, 특정 호스트 이름에만 응답하도록 라라벨에 지시해야 하는 경우 애플리케이션에 대해 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화하여 그렇게 할 수 있습니다.
 
 The `TrustHosts` middleware is already included in the `$middleware` stack of your application; however, you should uncomment it so that it becomes active. Within this middleware's `hosts` method, you may specify the host names that your application should respond to. Incoming requests with other `Host` value headers will be rejected:
 
@@ -800,4 +804,4 @@ The `TrustHosts` middleware is already included in the `$middleware` stack of yo
 
 The `allSubdomainsOfApplicationUrl` helper method will return a regular expression matching all subdomains of your application's `app.url` configuration value. This helper method provides a convenient way to allow all of your application's subdomains when building an application that utilizes wildcard subdomains.
 
-`allSubdomainsOfApplicationUrl` 도우미 메소드는 애플리케이션의 `app.url` 구성 값의 모든 하위 도메인과 일치하는 정규식을 반환합니다. 이 도우미 메서드는 와일드카드 하위 도메인을 사용하는 애플리케이션을 구축할 때 애플리케이션의 모든 하위 도메인을 허용하는 편리한 방법을 제공합니다.
+`allSubdomainsOfApplicationUrl` 도우미 메소드는 애플리케이션의 `app.url` 설정 값의 모든 하위 도메인과 일치하는 정규식을 반환합니다. 이 도우미 메서드는 와일드카드 하위 도메인을 사용하는 애플리케이션을 구축할 때 애플리케이션의 모든 하위 도메인을 허용하는 편리한 방법을 제공합니다.

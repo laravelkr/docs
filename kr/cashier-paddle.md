@@ -1,4 +1,5 @@
 # Laravel Cashier (Paddle)
+# 라라벨 캐셔 패들
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
@@ -131,7 +132,7 @@ When using the Paddle Sandbox environment, you should set the `PADDLE_SANDBOX` e
 
 Paddle Sandbox 환경을 사용할 때 애플리케이션의 `.env` 파일 내에서 `PADDLE_SANDBOX` 환경 변수를 `true`로 설정해야 합니다.
 
-PADDLE_SANDBOX=true
+    PADDLE_SANDBOX=true
 
 After you have finished developing your application you may [apply for a Paddle vendor account](https://paddle.com).
 
@@ -309,7 +310,7 @@ Paddle에는 상태 변경을 수행하기위한 광범위한 CRUD API가 없습
 
 Cashier includes a `paddle-button` [Blade component](/docs/{{version}}/blade#components). We may pass the pay link URL to this component as a "prop". When this button is clicked, Paddle's checkout widget will be displayed:
 
-캐셔에는 `paddle-button` [블레이드 컴포넌트](/docs/{{version}}/blade#components)가 포함되어 있습니다. 이 컴포넌트에 "prop"으로 유료 링크 URL을 전달할 수 있습니다. 이 버튼을 클릭하면 Paddle의 결제 위젯이 표시됩니다.
+캐셔에는 `paddle-button` [블레이드 컴포넌트](/docs/{{version}}/blade#components)가 포함되어 있습니다. 이 컴포넌트에 "prop"으로 결제 링크 URL을 전달할 수 있습니다. 이 버튼을 클릭하면 Paddle의 결제 위젯이 표시됩니다.
 
 
     <x-paddle-button :url="$payLink" class="px-8 py-4">
@@ -330,7 +331,7 @@ The Paddle checkout widget is asynchronous. Once the user creates or updates a s
 
 For more information on pay links, you may review [the Paddle API documentation on pay link generation](https://developer.paddle.com/api-reference/product-api/pay-links/createpaylink).
 
-유료 링크에 대한 자세한 내용은 [페이 링크 생성에 대한 Paddle API 문서](https://developer.paddle.comapi-referenceproduct-apipay-linkscreatepaylink)를 참조하세요.
+결제 링크에 대한 자세한 내용은 [결제 링크 생성에 대한 Paddle API 문서](https://developer.paddle.comapi-referenceproduct-apipay-linkscreatepaylink)를 참조하세요.
 
 > {note} After a subscription state change, the delay for receiving the corresponding webhook is typically minimal but you should account for this in your application by considering that your user's subscription might not be immediately available after completing the checkout.
 
@@ -338,11 +339,11 @@ For more information on pay links, you may review [the Paddle API documentation 
 
 <a name="manually-rendering-pay-links"></a>
 #### Manually Rendering Pay Links
-#### Manually Rendering Pay Links
+#### 수동으로 결제 링크 렌더링
 
 You may also manually render a pay link without using Laravel's built-in Blade components. To get started, generate the pay link URL as demonstrated in previous examples:
 
-Laravel의 내장 Blade 컴포넌트를 사용하지 않고 수동으로 유료 링크를 렌더링할 수도 있습니다. 시작하려면 이전 예에서 설명한 대로 지불 링크 URL을 생성하십시오.
+Laravel의 내장 Blade 컴포넌트를 사용하지 않고 수동으로 결제 링크를 렌더링할 수도 있습니다. 시작하려면 이전 예에서 설명한 대로 결제 링크 URL을 생성하십시오.
 
     $payLink = $request->user()->newSubscription('default', $premium = 34567)
         ->returnTo(route('home'))
@@ -350,7 +351,7 @@ Laravel의 내장 Blade 컴포넌트를 사용하지 않고 수동으로 유료 
 
 Next, simply attach the pay link URL to an `a` element in your HTML:
 
-다음으로 HTML의 `a` 요소에 유료 링크 URL을 첨부하기만 하면 됩니다.
+다음으로 HTML의 `a` 요소에 결제 링크 URL을 첨부하기만 하면 됩니다.
 
     <a href="#!" class="ml-4 paddle_button" data-override="{{ $payLink }}">
         Paddle Checkout
@@ -413,7 +414,7 @@ Please consult Paddle's [guide on Inline Checkout](https://developer.paddle.com/
 
 You may also manually render an inline checkout without using Laravel's built-in Blade components. To get started, generate the pay link URL [as demonstrated in previous examples](#pay-links).
 
-라라벨의 내장 Blade 컴포넌트를 사용하지 않고 인라인 체크아웃을 수동으로 렌더링할 수도 있습니다. 시작하려면 [유료 링크 URL](#pay-links)을 생성하십시오.
+라라벨의 내장 Blade 컴포넌트를 사용하지 않고 인라인 체크아웃을 수동으로 렌더링할 수도 있습니다. 시작하려면 [결제 링크 URL](#pay-links)을 생성하십시오.
 
 Next, you may use Paddle.js to initialize the checkout. To keep this example simple, we will demonstrate this using [Alpine.js](https://github.com/alpinejs/alpine); however, you are free to translate this example to your own frontend stack:
 
@@ -717,7 +718,6 @@ The `subscribed` method also makes a great candidate for a [route middleware](/d
 
 `subscribed` 메서드는 또한 [route middleware](/docs/{{version}}/middleware)의 훌륭한 보조도구가 되므로 사용자의 구독 상태에 따라 경로 및 컨트롤러에 대한 접근을 필터링할 수 있습니다.
 
-
     <?php
 
     namespace App\Http\Middleware;
@@ -955,7 +955,7 @@ By default, Paddle prorates charges when swapping between plans. The `noProrate`
 
 Sometimes subscriptions are affected by "quantity". For example, a project management application might charge $10 per month per project. To easily increment or decrement your subscription's quantity, use the `incrementQuantity` and `decrementQuantity` methods:
 
-때때로 구독은 "수량"의 영향을 받습니다. 예를 들어 프로젝트 관리 응용 프로그램은 프로젝트당 월 10달러를 청구할 수 있습니다. 구독 수량을 쉽게 늘리거나 줄이려면 `incrementQuantity` 및 `decrementQuantity` 메서드를 사용하세요.
+때때로 구독은 "수량"의 영향을 받습니다. 예를 들어 프로젝트 관리 애플리케이션은 프로젝트당 월 10달러를 청구할 수 있습니다. 구독 수량을 쉽게 늘리거나 줄이려면 `incrementQuantity` 및 `decrementQuantity` 메서드를 사용하세요.
 
     $user = User::find(1);
 
@@ -1401,11 +1401,9 @@ The `charge` method accepts an array as its third argument, allowing you to pass
 
 Charges happen in the currency specified in the `cashier.currency` configuration option. By default, this is set to USD. You may override the default currency by defining the `CASHIER_CURRENCY` environment variable in your application's `.env` file:
 
-청구는 `cashier.currency` 구성 옵션에 지정된 통화로 발생합니다. 기본적으로 USD로 설정되어 있습니다. 애플리케이션의 `.env` 파일에서 `CASHIER_CURRENCY` 환경 변수를 정의하여 기본 통화를 재정의할 수 있습니다.
+청구는 `cashier.currency` 설정 옵션에 지정된 통화로 발생합니다. 기본적으로 USD로 설정되어 있습니다. 애플리케이션의 `.env` 파일에서 `CASHIER_CURRENCY` 환경 변수를 정의하여 기본 통화를 재정의할 수 있습니다.
 
-```bash
-CASHIER_CURRENCY=EUR
-```
+    CASHIER_CURRENCY=EUR
 
 You can also [override prices per currency](https://developer.paddle.com/api-reference/product-api/pay-links/createpaylink#price-overrides) using Paddle's dynamic pricing matching system. To do so, pass an array of prices instead of a fixed amount:
 

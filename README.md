@@ -208,6 +208,7 @@
     <td align="center"><a href="https://github.com/N0FreeLunch"><img src="https://avatars.githubusercontent.com/u/47421082?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JJW</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=N0FreeLunch" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Kyungseo-Park"><img src="https://avatars.githubusercontent.com/u/45850400?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kyoungseo Park</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Kyungseo-Park" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/1ocate"><img src="https://avatars.githubusercontent.com/u/29521447?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jay Yeo</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=1ocate" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/evans-kim"><img src="https://avatars.githubusercontent.com/u/25667826?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evans Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=evans-kim" title="Documentation">📖</a></td>
   </tr>
 </table>
 

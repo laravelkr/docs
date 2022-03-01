@@ -18,7 +18,7 @@
 ## Introduction
 ## 시작하기
 
-Service providers are the central place of all Laravel application bootstrapping. Your own application, as well as all of Laravel's core services are bootstrapped via service providers.
+Service providers are the central place of all Laravel application bootstrapping. Your own application, as well as all of Laravel's core services, are bootstrapped via service providers.
 
 서비스 프로바이더는 라라벨 애플리케이션의 부팅(부트스트래핑)의 가장 핵심이라고 할 수 있습니다. 여러분의 애플리케이션과 마찬가지로 라라벨의 모든 코어 서비스는 서비스 프로바이더를 통해서 부트스트래핑 됩니다.
 
@@ -26,13 +26,17 @@ But, what do we mean by "bootstrapped"? In general, we mean **registering** thin
 
 그런데 "부트스트래핑" 이란 과연 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스너, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
 
-If you open the `config/app.php` file included with Laravel, you will see a `providers` array. These are all of the service provider classes that will be loaded for your application. Note that many of these are "deferred" providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
+If you open the `config/app.php` file included with Laravel, you will see a `providers` array. These are all of the service provider classes that will be loaded for your application. By default, a set of Laravel core service providers are listed in this array. These providers bootstrap the core Laravel components, such as the mailer, queue, cache, and others. Many of these providers are "deferred" providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
 
-라라벨에 포함되어 있는 `config/app.php` 파일을 열어 본다면 `providers` 배열을 볼 수 있을 것입니다. 배열 안에 있는 모든 서비스 프로바이더 클래스가 애플리케이션에 로드됩니다. 대부분의 프로바이더는 "지연된" 프로바이더입니다. 이 말은 모든 요청에 대해서 반드시 로드되지 않고 실제로 필요할 때에 로드 된다는 것을 의미합니다.
+라라벨에 포함된 `config/app.php` 파일을 열면 `providers` 배열을 볼 수 있습니다. 이들은 애플리케이션에 대해 로드될 모든 서비스 프로바이더 클래스입니다. 기본적으로 라라벨 핵심 서비스 프로바이더 세트가 이 배열에 나열됩니다. 이러한 프로바이더는 메일러, 큐, 캐시 등과 같은 핵심 라라벨 구성 요소를 부트스트랩합니다. 이러한 프로바이더 중 다수는 "지연된" 프로바이더입니다. 즉, 모든 요청에 로드되지 않고 해당 프로바이더가 제공하는 서비스가 실제로 필요할 때만 로드됩니다.
 
-In this overview you will learn how to write your own service providers and register them with your Laravel application.
+In this overview, you will learn how to write your own service providers and register them with your Laravel application.
 
 여기에서는 서비스 프로바이더를 작성하는 방법과 라라벨 애플리케이션에 등록하는 방법을 배워봅시다.
+
+> {tip} If you would like to learn more about how Laravel handles requests and works internally, check out our documentation on the Laravel [request lifecycle](/docs/{{version}}/lifecycle).
+
+> {tip} If you would like to learn more about how Laravel handles requests and works internally, check out our documentation on the Laravel [request lifecycle](/docs/{{version}}/lifecycle).
 
 <a name="writing-service-providers"></a>
 ## Writing Service Providers
@@ -64,8 +68,8 @@ Let's take a look at a basic service provider. Within any of your service provid
 
     namespace App\Providers;
 
+    use App\Services\Riak\Connection;
     use Illuminate\Support\ServiceProvider;
-    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider
     {
@@ -82,10 +86,11 @@ Let's take a look at a basic service provider. Within any of your service provid
         }
     }
 
-This service provider only defines a `register` method, and uses that method to define an implementation of `Riak\Connection` in the service container. If you don't understand how the service container works, check out [its documentation](/docs/{{version}}/container).
+This service provider only defines a `register` method, and uses that method to define an implementation of `App\Services\Riak\Connection` in the service container. If you're not yet familiar with Laravel's service container, check out [its documentation](/docs/{{version}}/container).
 
-이 서비스 프로바이더는 `register` 메소드만 정의되어 있습니다. 그리고 이 메소드를 통해서 서비스 컨테이너에 `Riak\Connection` 구현 객체를 정의하고 있습니다. 서비스 컨테이너가 어떻게 작동하는지 이해하지 못하겠다면, [컨테이너 문서](/docs/{{version}}/container)를 확인하십시오.
+이 서비스 프로바이더는 `register` 메서드만 정의하고 해당 메서드를 사용하여 서비스 컨테이너에서 `App\Services\Riak\Connection`의 구현을 정의합니다. 라라벨의 서비스 컨테이너가 아직 익숙하지 않다면 [해당 문서](/docs/{{version}}/container)를 확인하세요.
 
+<a name="the-bindings-and-singletons-properties"></a>
 #### The `bindings` And `singletons` Properties
 #### `bindings` 과 `singletons` 속성
 
@@ -138,6 +143,7 @@ So, what if we need to register a [view composer](/docs/{{version}}/views#view-c
 
     namespace App\Providers;
 
+    use Illuminate\Support\Facades\View;
     use Illuminate\Support\ServiceProvider;
 
     class ComposerServiceProvider extends ServiceProvider
@@ -149,12 +155,13 @@ So, what if we need to register a [view composer](/docs/{{version}}/views#view-c
          */
         public function boot()
         {
-            view()->composer('view', function () {
+            View::composer('view', function () {
                 //
             });
         }
     }
 
+<a name="boot-method-dependency-injection"></a>
 #### Boot Method Dependency Injection
 #### Boot 메소드의 의존성 주입
 
@@ -164,9 +171,15 @@ You may type-hint dependencies for your service provider's `boot` method. The [s
 
     use Illuminate\Contracts\Routing\ResponseFactory;
 
+    /**
+     * Bootstrap any application services.
+     *
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
+     * @return void
+     */
     public function boot(ResponseFactory $response)
     {
-        $response->macro('caps', function ($value) {
+        $response->macro('serialized', function ($value) {
             //
         });
     }
@@ -209,9 +222,9 @@ To defer the loading of a provider, implement the `\Illuminate\Contracts\Support
 
     namespace App\Providers;
 
+    use App\Services\Riak\Connection;
     use Illuminate\Contracts\Support\DeferrableProvider;
     use Illuminate\Support\ServiceProvider;
-    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider implements DeferrableProvider
     {

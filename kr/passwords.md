@@ -261,7 +261,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `App\Models\User` model. Within this method, you may send the notification using any [notification class](/docs/{{version}}/notifications) of your own creation. The password reset `$token` is the first argument received by the method. You may use this `$token` to build the password reset URL of your choice and send your notification to the user:
 
-비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는  원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알람 (notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
+비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알람 (notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
 
     use App\Notifications\ResetPasswordNotification;
 

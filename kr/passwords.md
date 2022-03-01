@@ -163,7 +163,7 @@ The view that is returned by this route should display a form containing an `ema
 
 Of course, we need to define a route to actually handle the password reset form submission. This route will be responsible for validating the incoming request and updating the user's password in the database:
 
-당연하게도 비밀번호 재설정 폼에서 제출된 데이터를 실제로 처리하기 위해서는 라우트를 정의해야 합니다. 라우트는 들어오는 요청의 유효성을 검사하고 데이터베이스에서 유저의 비밀번호를 업데이트 하는 역할을 담당하고 있습니다.
+당연히 비밀번호 재설정 폼에서 제출된 데이터를 실제로 처리하기 위해서는 라우트를 정의해야 합니다. 이 라우트는 들어오는 요청의 유효성을 검사하고 데이터베이스에서 유저의 비밀번호를 업데이트 하는 역할을 담당하고 있습니다.
 
     use Illuminate\Auth\Events\PasswordReset;
     use Illuminate\Http\Request;
@@ -238,7 +238,7 @@ If you would like to automate this process, consider adding the command to your 
 
 You may customize the password reset link URL using the `createUrlUsing` method provided by the `ResetPassword` notification class. This method accepts a closure which receives the user instance that is receiving the notification as well as the password reset link token. Typically, you should call this method from your `App\Providers\AuthServiceProvider` service provider's `boot` method:
 
-`ResetPassword` notification 클래스에서 제공하는 `createUrlUsing` 메소드를 사용하여 비밀번호 재설정 링크의 URL을 커스터마이징할 수 있습니다. `createUrlUsing` 메소드는 클로저를 인자로 받습니다. 이 클로저는 user 인스턴스와 비밀번호 재설정 링크의 토큰을 인자로 받습니다. 유저 인스턴스는 알람(notification)을 받을 사용자를 선택하는 역할을 합니다. 일반적으로 `ResetPassword` 클래스의 `createUrlUsing` 메소드는 `App\Providers\AuthServiceProvider` 서비스 프로바이더의 `boot` 메서드에서 호출해야 합니다.
+`ResetPassword` notification 클래스에서 제공하는 `createUrlUsing` 메소드를 사용하여 비밀번호 재설정 링크의 URL을 커스터마이징할 수 있습니다. `createUrlUsing` 메소드는 클로저를 인자로 받습니다. 이 클로저는 user 인스턴스와 비밀번호 재설정 링크의 토큰을 인자로 받습니다. 유저 인스턴스는 알림(notification)을 받을 사용자를 선택하는 역할을 합니다. 일반적으로 `ResetPassword` 클래스의 `createUrlUsing` 메소드는 `App\Providers\AuthServiceProvider` 서비스 프로바이더의 `boot` 메서드에서 호출해야 합니다.
 
     use Illuminate\Auth\Notifications\ResetPassword;
 
@@ -261,7 +261,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `App\Models\User` model. Within this method, you may send the notification using any [notification class](/docs/{{version}}/notifications) of your own creation. The password reset `$token` is the first argument received by the method. You may use this `$token` to build the password reset URL of your choice and send your notification to the user:
 
-비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알람 (notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
+비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알림(notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
 
     use App\Notifications\ResetPasswordNotification;
 

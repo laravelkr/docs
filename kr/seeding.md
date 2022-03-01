@@ -16,9 +16,13 @@
 ## Introduction
 ## 시작하기
 
-Laravel includes a simple method of seeding your database with test data using seed classes. All seed classes are stored in the `database/seeders` directory. Seed classes may have any name you wish, but probably should follow some sensible convention, such as `UserSeeder`, etc. By default, a `DatabaseSeeder` class is defined for you. From this class, you may use the `call` method to run other seed classes, allowing you to control the seeding order.
+Laravel includes the ability to seed your database with data using seed classes. All seed classes are stored in the `database/seeders` directory. By default, a `DatabaseSeeder` class is defined for you. From this class, you may use the `call` method to run other seed classes, allowing you to control the seeding order.
 
-라라벨에서는 시드(seed) 클래스를 사용해서 테스트 데이터를 데이터베이스에 설정하는 간단한 메소드를 포함하고 있습니다. 모든 시드(Seed) 클래스는 `database/seeders` 디렉토리에 저장됩니다. 시드(Seed)클래스의 이름은 아무렇게나 작성할 수 있지만 가급적 `UserSeeder`등과 같이 직관적인 이름 규칙을 따르는 것이 좋습니다. 기본값으로 `DatabaseSeeder`클래스가 정의 되어 있습니다. 이 클래스에서 `call` 메소드로 다른 시드(seed) 클래스를  호출해서 시딩(seeding) 순서를 조정 할 수 있습니다.
+라라벨에는 시드 클래스를 사용하여 데이터로 데이터베이스를 시드하는 기능이 포함되어 있습니다. 모든 시드 클래스는 `database/seeders` 디렉토리에 저장됩니다. 기본적으로 `DatabaseSeeder` 클래스가 정의되어 있습니다. 이 클래스에서 `call` 메소드를 사용하여 다른 시드 클래스를 실행할 수 있으므로 시드 순서를 제어할 수 있습니다.
+
+> {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled during database seeding.
+
+> {tip} [대량 할당 보호](/docs/{{version}}/eloquent#mass-assignment)는 데이터베이스 시딩 중에 자동으로 비활성화됩니다.
 
 <a name="writing-seeders"></a>
 ## Writing Seeders
@@ -30,13 +34,9 @@ seeder를 생성하기 위해서는, `make:seeder` [아티즌 명령어](/docs/{
 
     php artisan make:seeder UserSeeder
 
-A seeder class only contains one method by default: `run`. This method is called when the `db:seed` [Artisan command](/docs/{{version}}/artisan) is executed. Within the `run` method, you may insert data into your database however you wish. You may use the [query builder](/docs/{{version}}/queries) to manually insert data or you may use [Eloquent model factories](/docs/{{version}}/database-testing#writing-factories).
+A seeder class only contains one method by default: `run`. This method is called when the `db:seed` [Artisan command](/docs/{{version}}/artisan) is executed. Within the `run` method, you may insert data into your database however you wish. You may use the [query builder](/docs/{{version}}/queries) to manually insert data or you may use [Eloquent model factories](/docs/{{version}}/database-testing#defining-model-factories).
 
-seeder 클래스는 기본적으로 `run` 이라는 하나의 메소드만 가지고 있습니다. 이 메소드는 `db:seed` [아티즌 명령어](/docs/{{version}}/artisan)가 실행될 때 호출 됩니다. `run` 메소드 안에서 여러분은 원하는 어떤 데이터라도 입력할 수 있습니다. 직접 [query builder](/docs/{{version}}/queries)를 사용하여 데이터를 입력하거나, [Eloquent 모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다.
-
-> {tip} [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled during database seeding.
-
-> {tip} 데이터베이스 시딩이 진행되는 동안 [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment)는 자동으로 동작하지 않습니다.
+시더 클래스에는 기본적으로 `run`이라는 하나의 메소드만 포함됩니다. 이 메소드는 `db:seed` [Artisan command](/docs/{{version}}/artisan)이 실행될 때 호출됩니다. `run` 메소드 내에서 원하는 대로 데이터베이스에 데이터를 삽입할 수 있습니다. [쿼리 빌더](/docs/{{version}}/queries)를 사용하여 수동으로 데이터를 삽입하거나 [Eloquent 모델 팩토리](/docs/{{version}}/database-testing#defining-model-factories)를 사용할 수 있습니다.
 
 As an example, let's modify the default `DatabaseSeeder` class and add a database insert statement to the `run` method:
 
@@ -76,13 +76,13 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
 ### Using Model Factories
 ### 모델 팩토리 사용하기
 
-Of course, manually specifying the attributes for each model seed is cumbersome. Instead, you can use [model factories](/docs/{{version}}/database-testing#writing-factories) to conveniently generate large amounts of database records. First, review the [model factory documentation](/docs/{{version}}/database-testing#writing-factories) to learn how to define your factories.
+Of course, manually specifying the attributes for each model seed is cumbersome. Instead, you can use [model factories](/docs/{{version}}/database-testing#defining-model-factories) to conveniently generate large amounts of database records. First, review the [model factory documentation](/docs/{{version}}/database-testing#defining-model-factories) to learn how to define your factories.
 
-당연하게도, 수동으로 각각의 모델 seed 를 위한 속성들을 지정하는 것은 번거로운 일입니다. 대신에, 여러분은 대량의 데이터베이스 레코드를 생성하는데 유용한 [모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용할 수 있습니다. 먼저 [모델 팩토리 문서](/docs/{{version}}/database-testing#writing-factories)를 확인하고, 팩토리를 어떻게 정의하는지 알아 봅시다.
+물론 각 모델 시드의 속성을 수동으로 지정하는 것은 번거롭습니다. 대신 [모델 팩토리](/docs/{{version}}/database-testing#defining-model-factories)를 사용하여 대량의 데이터베이스 레코드를 편리하게 생성할 수 있습니다. 먼저 [모델 팩토리 문서](/docs/{{version}}/database-testing#defining-model-factories)를 검토하여 팩토리를 정의하는 방법을 알아보세요.
 
-For example, let's create 50 users and attach a relationship to each user:
+For example, let's create 50 users that each has one related post:
 
-예를 들어, 50 개의 레코드를 생성하고 각각의 사용자에 관계 모델을 추가해 봅시다.
+예를 들어, 각각 관련 게시물이 하나씩 있는 50명의 사용자를 생성해 보겠습니다.
 
     use App\Models\User;
 
@@ -94,7 +94,7 @@ For example, let's create 50 users and attach a relationship to each user:
     public function run()
     {
         User::factory()
-                ->times(50)
+                ->count(50)
                 ->hasPosts(1)
                 ->create();
     }
@@ -103,9 +103,9 @@ For example, let's create 50 users and attach a relationship to each user:
 ### Calling Additional Seeders
 ### 추가적인 Seeder 호출하기
 
-Within the `DatabaseSeeder` class, you may use the `call` method to execute additional seed classes. Using the `call` method allows you to break up your database seeding into multiple files so that no single seeder class becomes overwhelmingly large. Pass the name of the seeder class you wish to run:
+Within the `DatabaseSeeder` class, you may use the `call` method to execute additional seed classes. Using the `call` method allows you to break up your database seeding into multiple files so that no single seeder class becomes too large. The `call` method accepts an array of seeder classes that should be executed:
 
-`DatabaseSeeder` 클래스 안에서, `call` 메소드를 사용하여 추가적인 seeder 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면, 여러분의 데이터베이스 seeding 을 하나의 매우 커다란 파일에서 여러개의 파일로 쪼갤 수 있게 됩니다. 메소드에서는 실행하려는 seeder 클래스의 이름을 전달하면 됩니다.
+`DatabaseSeeder` 클래스 내에서 `call` 메소드를 사용하여 추가 시드 클래스를 실행할 수 있습니다. `call` 메소드를 사용하면 단일 시드 클래스가 너무 커지지 않도록 데이터베이스 시드를 여러 파일로 나눌 수 있습니다. `call` 메소드는 실행되어야 하는 시드 클래스의 배열을 입력받습니다.
 
     /**
      * Run the database seeders.
@@ -125,23 +125,17 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
 ## Running Seeders
 ## Seeder 실행하기
 
-Once you have written your seeder, you may need to regenerate Composer's autoloader using the `dump-autoload` command:
+You may execute the `db:seed` Artisan command to seed your database. By default, the `db:seed` command runs the `Database\Seeders\DatabaseSeeder` class, which may in turn invoke other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
 
-seeder 클래스를 작성하고 나면, `dump-autoload` 명령어를 사용해서 컴포저의 오토로더를 다시 생성할 필요가 있습니다.
-
-    composer dump-autoload
-
-Now you may use the `db:seed` Artisan command to seed your database. By default, the `db:seed` command runs the `DatabaseSeeder` class, which may be used to call other seed classes. However, you may use the `--class` option to specify a specific seeder class to run individually:
-
-이제, `db:seed` 아티즌 명령어를 통해서 데이터베이스에 데이터를 입력할 수 있습니다. 기본적으로 `db:seed` 명령어는 다른 시드(seed) 클래스들을 호출하는 `DatabaseSeeder`클래스를 실행합니다. 하지만 `--class`옵션을 사용해서 특정 시더(seeder) 클래스가 개별적으로 실행되도록 지정할 수 있습니다.
+`db:seed` Artisan 명령을 실행하여 데이터베이스를 시드할 수 있습니다. 기본적으로 `db:seed` 명령은 `Database\Seeders\DatabaseSeeder` 클래스를 실행하며, 이는 차례로 다른 시드 클래스를 호출할 수 있습니다. 그러나 `--class` 옵션을 사용하여 개별적으로 실행할 특정 시드 클래스를 지정할 수 있습니다.
 
     php artisan db:seed
 
     php artisan db:seed --class=UserSeeder
 
-You may also seed your database using the `migrate:fresh` command, which will drop all tables and re-run all of your migrations. This command is useful for completely re-building your database:
+You may also seed your database using the `migrate:fresh` command in combination with the `--seed` option, which will drop all tables and re-run all of your migrations. This command is useful for completely re-building your database:
 
-`migrate:fresh`명령어를 사용하면 데이터베이스 초기값을 설정할 때 모든 테이블을 삭제한 다음 마이그레이션을 다시 실행 할 것입니다. 이 명령어는 데이터베이스를 완전히 재구성할 때 유용합니다. 
+모든 테이블을 삭제하고 모든 마이그레이션을 다시 실행하는 `--seed` 옵션과 함께 `migrate:fresh` 명령을 사용하여 데이터베이스를 시드할 수도 있습니다. 이 명령은 데이터베이스를 완전히 재구축하는 데 유용합니다.
 
     php artisan migrate:fresh --seed
 
@@ -149,8 +143,8 @@ You may also seed your database using the `migrate:fresh` command, which will dr
 #### Forcing Seeders To Run In Production
 #### 프로덕션 환경에서 강제 시딩
 
-Some seeding operations may cause you to alter or lose data. In order to protect you from running seeding commands against your production database, you will be prompted for confirmation before the seeders are executed. To force the seeders to run without a prompt, use the `--force` flag:
+Some seeding operations may cause you to alter or lose data. In order to protect you from running seeding commands against your production database, you will be prompted for confirmation before the seeders are executed in the `production` environment. To force the seeders to run without a prompt, use the `--force` flag:
 
-일부 시드 작업으로 인해 데이터가 변경되거나 손실 될 수 있습니다. 프로덕션 데이터베이스에 대해 시드 명령을 실행하지 못하도록하기 위해 시드를 실행하기 전에 확인 메시지가 나타납니다. 시드를 프롬프트없이 실행하게하려면 `--force` 플래그를 사용하십시오.
+일부 시딩 작업으로 인해 데이터가 변경되거나 손실될 수 있습니다. 프로덕션 데이터베이스에 대해 시드 명령을 실행하지 못하도록 보호하기 위해 `production` 환경에서 시드를 실행하기 전에 확인 메시지가 표시됩니다. 확인창 없이 시더를 강제 실행하려면 `--force` 플래그를 사용하세요.
 
     php artisan db:seed --force

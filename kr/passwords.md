@@ -30,7 +30,7 @@ Most web applications provide a way for users to reset their forgotten passwords
 
 > {tip} Want to get started fast? Install a Laravel [application starter kit](/docs/{{version}}/starter-kits) in a fresh Laravel application. Laravel's starter kits will take care of scaffolding your entire authentication system, including resetting forgotten passwords.
 
-> {tip} 애플리케이션을 빠르게 만들고 싶으신가요? 새로운 라라벨 애플리케이션에서 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
+> {tip} 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
 
 <a name="model-preparation"></a>
 ### Model Preparation
@@ -38,11 +38,21 @@ Most web applications provide a way for users to reset their forgotten passwords
 
 Before using the password reset features of Laravel, your application's `App\Models\User` model must use the `Illuminate\Notifications\Notifiable` trait. Typically, this trait is already included on the default `App\Models\User` model that is created with new Laravel applications.
 
-라라벨의 비밀번호 리셋 기능을 사용하기 전에 애플리케이션의 `App\Models\User` 모델에는 반드시 `Illuminate\Notifications\Notifiable` 트레이트를 사용해 줘야 합니다. 일반적으로 이 트레이트는 라라벨 애플리케이션을 새로 생성할 때 디폴트로 `App\Models\User` 모델에 포함되어 있습니다.
+라라벨의 비밀번호 재설정 기능을 사용하기 전에 애플리케이션의 `App\Models\User` 모델에는 반드시 `Illuminate\Notifications\Notifiable` 트레이트를 사용해 줘야 합니다. 일반적으로 이 트레이트는 라라벨 애플리케이션을 새로 생성할 때 디폴트로 `App\Models\User` 모델에 포함되어 있습니다.
 
 Next, verify that your `App\Models\User` model implements the `Illuminate\Contracts\Auth\CanResetPassword` contract. The `App\Models\User` model included with the framework already implements this interface, and uses the `Illuminate\Auth\Passwords\CanResetPassword` trait to include the methods needed to implement the interface.
 
-다음으로 `App\Models\User` 모델이 `Illuminate\Contracts\Auth\CanResetPassword` 컨트렉트(contract)를 구현하는지 확인합니다. 라라벨 프레임워크의 `App\Models\User` 모델은 `Illuminate\Auth\Passwords\CanResetPassword` 트레이트를 사용하여 인터페이스로 된 컨트렉트를 구현하고 있습니다.
+다음으로 `App\Models\User` 모델이 `Illuminate\Contracts\Auth\CanResetPassword` 컨트렉트(contract)를 구현하는지 확인합니다. 라라벨 프레임워크의 `App\Models\User` 모델은 `Illuminate\Auth\Passwords\CanResetPassword` 트레이트를 사용하여 인터페이스인 컨트렉트를 구현하고 있습니다.
+
+<a name="database-preparation"></a>
+### Database Preparation
+### 데이터베이스 준비하기
+
+A table must be created to store your application's password reset tokens. The migration for this table is included in the default Laravel application, so you only need to migrate your database to create this table:
+
+라라벨의 기본 비밀번호 재설정 기능을 사용하기 위해서는 애플리케이션에 비밀번호 재설정 토큰을 저장하는 테이블을 만들어 주어야 합니다. 비밀번호 재설정 토큰을 저장하는 테이블은 라라벨의 디폴트 마이그레이션을 통해 생성할 수 있습니다.
+
+    php artisan migrate
 
 <a name="configuring-trusted-hosts"></a>
 ### Configuring Trusted Hosts
@@ -129,14 +139,15 @@ You may be wondering how Laravel knows how to retrieve the user record from your
 
 <a name="resetting-the-password"></a>
 ### Resetting The Password
-### 
+### 비밀번호 재설정하기
 
 <a name="the-password-reset-form"></a>
 #### The Password Reset Form
+#### 비밀번호 재설정 폼(Form)
 
 Next, we will define the routes necessary to actually reset the password once the user clicks on the password reset link that has been emailed to them and provides a new password. First, let's define the route that will display the reset password form that is displayed when the user clicks the reset password link. This route will receive a `token` parameter that we will use later to verify the password reset request:
 
-다음으로 실제로 비밀번호를 재설정하기 위해 유저의 메일로 발송된 비밀번호 재설정 링크를 유저가 클릭 했을 때 필요한 라우트를 정의할 것입니다. 그리고 새로운 비밀번호를 제공할 것입니다. 먼저 유저가 비밀번호 재설정 링크를 클릭했을 때 비밃번호 재설정 폼을 표시하기 위한 라우트를 정의합니다. 이 라우트는 비밀번호 재설정 요청을 나중에 인증하기 위해 사용하는 `token` 파라메터를 받습니다. 
+다음으로, 실제로 비밀번호를 재설정하고 새로운 비밀번호를 제출하기 위해서 필요한 라우트를 정의할 것입니다. 이 라우트는 유저의 메일로 발송된 비밀번호 재설정 링크를 유저가 클릭했을 때 사용됩니다. 먼저 유저가 비밀번호 재설정 링크를 클릭했을 때 비밀번호 재설정 폼을 표시하기 위한 라우트를 정의합니다. 이 라우트는 비밀번호 재설정 요청을 인증하기 위해 추후 사용될 `token` 파라메터를 받습니다. 
 
     Route::get('/reset-password/{token}', function ($token) {
         return view('auth.reset-password', ['token' => $token]);
@@ -144,7 +155,7 @@ Next, we will define the routes necessary to actually reset the password once th
 
 The view that is returned by this route should display a form containing an `email` field, a `password` field, a `password_confirmation` field, and a hidden `token` field, which should contain the value of the secret `$token` received by our route.
 
-이 라우트에 의해 반환 된 뷰(view)의 폼(form)에는 `email`필드 `password` 필드, `password_confirmation` 필드, `token` 필드를 포함하고 있어야 합나다. `email`필드 `password` 필드, `password_confirmation` 필드는 페이지에 표시되는 폼이며 `token` 필드는 hidden 속성으로 숨겨진 필드입니다. `token` 필드에는 라우트에서 받은 `$token` 비밀토큰의 값이 포함되어 있어야 합니다.
+이 라우트에 의해 반환 된 뷰(view)의 폼(form)에는 `email`필드 `password` 필드, `password_confirmation` 필드, `token` 필드를 포함하고 있어야 합나다. `email`필드 `password` 필드, `password_confirmation` 필드는 페이지에 표시되는 폼이며 `token` 필드는 hidden 속성으로 숨겨진 필드입니다. `token` 필드에는 라우트에서 받은 `$token` 비밀(secret) 토큰의 값이 포함되어 있어야 합니다.
 
 <a name="password-reset-handling-the-form-submission"></a>
 #### Handling The Form Submission
@@ -152,7 +163,7 @@ The view that is returned by this route should display a form containing an `ema
 
 Of course, we need to define a route to actually handle the password reset form submission. This route will be responsible for validating the incoming request and updating the user's password in the database:
 
-당연하게도 비밀번호 재설정 폼에서 제출된 데이터를 실제로 처리하기 위해서는 라우트를 정의할 필요가 있습니다. 라우트는 들어오는 요청의 유효성을 검사하고 데이터베이스에서 유저의 비밀번호를 업데이트 하는 역할을 담당하고 있습니다.
+당연하게도 비밀번호 재설정 폼에서 제출된 데이터를 실제로 처리하기 위해서는 라우트를 정의해야 합니다. 라우트는 들어오는 요청의 유효성을 검사하고 데이터베이스에서 유저의 비밀번호를 업데이트 하는 역할을 담당하고 있습니다.
 
     use Illuminate\Auth\Events\PasswordReset;
     use Illuminate\Http\Request;
@@ -213,7 +224,7 @@ Password reset tokens that have expired will still be present within your databa
 
 If you would like to automate this process, consider adding the command to your application's [scheduler](/docs/{{version}}/scheduling):
 
-데이터베이스에 존재하는 만료된 토큰을 자동으로 삭제하려면 애플리케이션의 [스케줄러](/docs/{{버전}}/scheduling)에 다음 코드을 추가하는 것이 좋습니다.
+데이터베이스에 존재하는 만료된 토큰을 자동으로 삭제하려면 애플리케이션의 [스케줄러](/docs/{{version}}/scheduling)에 다음 코드을 추가하는 것이 좋습니다.
 
     $schedule->command('auth:clear-resets')->everyFifteenMinutes();
 
@@ -250,7 +261,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `App\Models\User` model. Within this method, you may send the notification using any [notification class](/docs/{{version}}/notifications) of your own creation. The password reset `$token` is the first argument received by the method. You may use this `$token` to build the password reset URL of your choice and send your notification to the user:
 
-비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 여러분이 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알람 (notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
+비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는  원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알람 (notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
 
     use App\Notifications\ResetPasswordNotification;
 

@@ -1,23 +1,19 @@
-- ## Prologue
-- ## 프롤로그
+- 프롤로그
     - [릴리즈 노트](/docs/{{version}}/releases)
     - [업그레이드 가이드](/docs/{{version}}/upgrade)
     - [기여 가이드](/docs/{{version}}/contributions)
-- ## Getting Started
-- ## 시작하기
+- 시작하기
     - [설치하기](/docs/{{version}}/installation)
     - [설정하기](/docs/{{version}}/configuration)
     - [디렉토리 구조](/docs/{{version}}/structure)
     - [스타터 킷](/docs/{{version}}/starter-kits)
     - [배포](/docs/{{version}}/deployment)
-- ## Architecture Concepts
-- ## 설계 컨셉
+- 설계 컨셉
     - [Request 라이프사이클](/docs/{{version}}/lifecycle)
     - [서비스 컨테이너](/docs/{{version}}/container)
     - [서비스 프로바이더](/docs/{{version}}/providers)
     - [파사드](/docs/{{version}}/facades)
-- ## The Basics
-- ## 기본적인 사항들
+- 기본적인 사항들
     - [라우팅](/docs/{{version}}/routing)
     - [미들웨어](/docs/{{version}}/middleware)
     - [CSRF 보호하기](/docs/{{version}}/csrf)
@@ -31,8 +27,7 @@
     - [Validation-유효성검사](/docs/{{version}}/validation)
     - [Error 핸들링](/docs/{{version}}/errors)
     - [로깅](/docs/{{version}}/logging)
-- ## Digging Deeper
-- ## 고급 기능들
+- 고급 기능들
     - [아티즌 콘솔](/docs/{{version}}/artisan)
     - [브로드캐스팅](/docs/{{version}}/broadcasting)
     - [캐시](/docs/{{version}}/cache)
@@ -50,40 +45,35 @@
     - [Queues-큐](/docs/{{version}}/queues)
     - [속도 제한](/docs/{{version}}/rate-limiting)
     - [작업 스케줄링](/docs/{{version}}/scheduling)
-- ## Security
-- ## Security
+- Security
     - [인증](/docs/{{version}}/authentication)
     - [권한 확인](/docs/{{version}}/authorization)
     - [이메일 검증](/docs/{{version}}/verification)
     - [암호화](/docs/{{version}}/encryption)
     - [해시](/docs/{{version}}/hashing)
     - [패스워드 재설정하기](/docs/{{version}}/passwords)
-- ## Database
-- ## 데이터베이스
+- 데이터베이스
     - [시작하기](/docs/{{version}}/database)
     - [쿼리 빌더](/docs/{{version}}/queries)
     - [페이지네이션](/docs/{{version}}/pagination)
     - [마이그레이션](/docs/{{version}}/migrations)
     - [Seeding-시딩](/docs/{{version}}/seeding)
     - [Redis-레디스](/docs/{{version}}/redis)
-- ## Eloquent ORM
-- ## Eloquent ORM
+- Eloquent ORM
     - [시작하기](/docs/{{version}}/eloquent)
     - [Relationships-연관관계](/docs/{{version}}/eloquent-relationships)
     - [컬렉션](/docs/{{version}}/eloquent-collections)
     - [Mutators / Casts](/docs/{{version}}/eloquent-mutators)
     - [API 리소스](/docs/{{version}}/eloquent-resources)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
-- ## Testing
-- ## Testing
+- Testing
     - [시작하기](/docs/{{version}}/testing)
     - [HTTP 테스트](/docs/{{version}}/http-tests)
     - [콘솔 테스트](/docs/{{version}}/console-tests)
     - [브라우저 테스트](/docs/{{version}}/dusk)
     - [데이터베이스](/docs/{{version}}/database-testing)
     - [Mocking-모의 객체](/docs/{{version}}/mocking)
-- ## Packages
-- ## 패키지
+- 패키지
     - [Breeze](/docs/{{version}}/starter-kits#laravel-breeze)
     - [캐셔 (Stripe)](/docs/{{version}}/billing)
     - [캐셔 (Paddle)](/docs/{{version}}/cashier-paddle)

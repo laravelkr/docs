@@ -1836,7 +1836,7 @@ The `pipeInto` method creates a new instance of the given class and passes the c
 
 The `pipeThrough` method passes the collection to the given array of closures and returns the result of the executed closures:
 
-'pipeThrough' 메서드는 컬렉션을 주어진 클로저 배열로 전달하고 실행된 클로저의 결과를 반환합니다.
+`pipeThrough` 메서드는 컬렉션을 주어진 클로저 배열로 전달하고 실행된 클로저의 결과를 반환합니다.
 
     $collection = collect([1, 2, 3]);
 

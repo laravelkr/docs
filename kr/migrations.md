@@ -784,7 +784,7 @@ The `morphs` method is a convenience method that adds a `{column}_id` `UNSIGNED 
 
 `morphs` 메소드는 `{column}_id` `UNSIGNED BIGINT`에 해당하는 컬럼과 `{column}_type` `VARCHAR`에 해당하는 컬럼을 추가하는 편리한 메소드입니다.
 
-This method is intended to be used when defining the columns necessary for a polymorphic [Relationships - 관계](/docs/{{version}}/eloquent-relationships). In the following example, `taggable_id` and `taggable_type` columns would be created:
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/docs/{{version}}/eloquent-relationships). In the following example, `taggable_id` and `taggable_type` columns would be created:
 
 이 방법은 다형성 [Relationships - 관계](/docs/{{version}}/eloquent-relationships)에 필요한 컬럼을 정의할 때 사용하기 위한 것입니다. 다음 예에서는 `taggable_id` 및 `taggable_type` 컬럼이 생성됩니다.
 
@@ -1073,7 +1073,7 @@ The `uuidMorphs` method is a convenience method that adds a `{column}_id` `CHAR(
 
 `uuidMorphs` 메소드는 `{column}_id` `CHAR(36)`에 해당하는 컬럼과 `{column}_type` `VARCHAR`에 해당하는 컬럼을 추가하는 편리한 메소드입니다.
 
-This method is intended to be used when defining the columns necessary for a polymorphic [Relationships - 관계](/docs/{{version}}/eloquent-relationships) that use UUID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/docs/{{version}}/eloquent-relationships) that use UUID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
 
 이 방법은 UUID 식별자를 사용하는 다형성 [Relationships - 관계](/docs/{{version}}/eloquent-relationships)에 필요한 컬럼을 정의할 때 사용하기 위한 것입니다. 다음 예에서는 `taggable_id` 및 `taggable_type` 컬럼이 생성됩니다.
 

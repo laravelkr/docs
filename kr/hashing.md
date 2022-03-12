@@ -11,8 +11,8 @@
     - [비밀번호 해싱하기](#hashing-passwords)
     - [Verifying That A Password Matches A Hash](#verifying-that-a-password-matches-a-hash)
     - [A 비밀번호가 A 해시인지 확인하는 방법](#verifying-that-a-password-matches-a-hash)
-      - [Determining If A Password Needs To Be Rehashed](#determining-if-a-password-needs-to-be-rehashed)
-      - [A 비밀번호의 해시화를 다시 해야 할 필요가 있는지 결정하기](#determining-if-a-password-needs-to-be-rehashed)
+        - [Determining If A Password Needs To Be Rehashed](#determining-if-a-password-needs-to-be-rehashed)
+        - [A 비밀번호의 해시화를 다시 해야 할 필요가 있는지 결정하기](#determining-if-a-password-needs-to-be-rehashed)
 
 <a name="introduction"></a>
 ## Introduction
@@ -31,6 +31,7 @@ Bcrypt is a great choice for hashing passwords because its "work factor" is adju
 
 <a name="configuration"></a>
 ## Configuration
+## 설정
 
 The default hashing driver for your application is configured in your application's `config/hashing.php` configuration file. There are currently three supported drivers: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) and [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i and Argon2id variants).
 

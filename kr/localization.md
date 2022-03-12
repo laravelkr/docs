@@ -3,20 +3,20 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Configuring The Locale](#configuring-the-locale)
-  - [Locale 설정하기](#configuring-the-locale)
+    - [Configuring The Locale](#configuring-the-locale)
+    - [Locale 설정하기](#configuring-the-locale)
 - [Defining Translation Strings](#defining-translation-strings)
 - [다국어 문자값 정의하기](#defining-translation-strings)
-  - [Using Short Keys](#using-short-keys)
-  - [짧은 키 사용하기](#using-short-keys)
-  - [Using Translation Strings As Keys](#using-translation-strings-as-keys)
-  - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
+    - [Using Short Keys](#using-short-keys)
+    - [짧은 키 사용하기](#using-short-keys)
+    - [Using Translation Strings As Keys](#using-translation-strings-as-keys)
+    - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
 - [Retrieving Translation Strings](#retrieving-translation-strings)
 - [다국어 문자 조회하기](#retrieving-translation-strings)
-  - [Replacing Parameters In Translation Strings](#replacing-parameters-in-translation-strings)
-  - [다국어 문자열의 파라미터를 치환하기](#replacing-parameters-in-translation-strings)
-  - [Pluralization](#pluralization)
-  - [복수 표기](#pluralization)
+    - [Replacing Parameters In Translation Strings](#replacing-parameters-in-translation-strings)
+    - [다국어 문자열의 파라미터를 치환하기](#replacing-parameters-in-translation-strings)
+    - [Pluralization](#pluralization)
+    - [복수 표기](#pluralization)
 - [Overriding Package Language Files](#overriding-package-language-files)
 - [패키지의 언어 파일 재정의하기](#overriding-package-language-files)
 
@@ -174,7 +174,7 @@ If the specified translation string does not exist, the `__` function will retur
 
 If you are using your [default translation strings as your translation keys](#using-translation-strings-as-keys), you should pass the default translation of your string to the `__` function;
 
-[기본 번역 문자열을 번역 키로 사용](using-translation-strings-as-keys)을 사용하는 경우 문자열의 기본 번역을 `__` 함수에 전달해야 합니다.
+[기본 번역 문자열을 번역 키로 사용](#using-translation-strings-as-keys)을 사용하는 경우 문자열의 기본 번역을 `__` 함수에 전달해야 합니다.
 
     echo __('I love programming.');
 

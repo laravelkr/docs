@@ -5,28 +5,28 @@
 - [시작하기](#introduction)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
-  - [Available Channel Drivers](#available-channel-drivers)
-  - [사용 가능한 채널 드라이버](#available-channel-drivers)
-  - [Channel Prerequisites](#channel-prerequisites)
-  - [채널 전제 조건](#channel-prerequisites)
-  - [Logging Deprecation Warnings](#logging-deprecation-warnings)
-  - [사용 중단 경고 로깅](#logging-deprecation-warnings)
+    - [Available Channel Drivers](#available-channel-drivers)
+    - [사용 가능한 채널 드라이버](#available-channel-drivers)
+    - [Channel Prerequisites](#channel-prerequisites)
+    - [채널 전제 조건](#channel-prerequisites)
+    - [Logging Deprecation Warnings](#logging-deprecation-warnings)
+    - [사용 중단 경고 로깅](#logging-deprecation-warnings)
 - [Building Log Stacks](#building-log-stacks)
 - [로그 스택 설정하기](#building-log-stacks)
 - [Writing Log Messages](#writing-log-messages)
 - [로그 메세지 작성하기](#writing-log-messages)
-  - [Contextual Information](#contextual-information)
-  - [컨텍스트 정보](#contextual-information)
-  - [Writing To Specific Channels](#writing-to-specific-channels)
-  - [채널을 지정하여 로그 기록하기](#writing-to-specific-channels)
+    - [Contextual Information](#contextual-information)
+    - [컨텍스트 정보](#contextual-information)
+    - [Writing To Specific Channels](#writing-to-specific-channels)
+    - [채널을 지정하여 로그 기록하기](#writing-to-specific-channels)
 - [Monolog Channel Customization](#monolog-channel-customization)
 - [Monolog 채널 커스터마이징하기](#monolog-channel-customization)
-  - [Customizing Monolog For Channels](#customizing-monolog-for-channels)
-  - [채널에서 사용하는 Monolog 커스터마이징하기](#customizing-monolog-for-channels)
-  - [Creating Monolog Handler Channels](#creating-monolog-handler-channels)
-  - [Monolog 핸들러 채널 생성하기](#creating-monolog-handler-channels)
-  - [Creating Custom Channels Via Factories](#creating-custom-channels-via-factories)
-  - [팩토리를 사용하여 커스텀 채널 생성하기](#creating-custom-channels-via-factories)
+    - [Customizing Monolog For Channels](#customizing-monolog-for-channels)
+    - [채널에서 사용하는 Monolog 커스터마이징하기](#customizing-monolog-for-channels)
+    - [Creating Monolog Handler Channels](#creating-monolog-handler-channels)
+    - [Monolog 핸들러 채널 생성하기](#creating-monolog-handler-channels)
+    - [Creating Custom Channels Via Factories](#creating-custom-channels-via-factories)
+    - [팩토리를 사용하여 커스텀 채널 생성하기](#creating-custom-channels-via-factories)
 
 <a name="introduction"></a>
 ## Introduction
@@ -76,7 +76,7 @@ By default, Monolog is instantiated with a "channel name" that matches the curre
 
 Each log channel is powered by a "driver". The driver determines how and where the log message is actually recorded. The following log channel drivers are available in every Laravel application. An entry for most of these drivers is already present in your application's `config/logging.php` configuration file, so be sure to review this file to become familiar with its contents:
 
-각 로그 채널은 "드라이버"에 의해 구동됩니다. 드라이버는 로그 메시지가 실제로 기록되는 방법과 위치를 결정합니다. 다음 로그 채널 드라이버는 모든 Laravel 애플리케이션에서 사용할 수 있습니다. 대부분의 이러한 드라이버에 대한 항목은 이미 애플리케이션의 `configlogging.php` 설정 파일에 있으므로 이 파일을 검토하여 내용에 익숙해지도록 하십시오.
+각 로그 채널은 "드라이버"에 의해 구동됩니다. 드라이버는 로그 메시지가 실제로 기록되는 방법과 위치를 결정합니다. 다음 로그 채널 드라이버는 모든 Laravel 애플리케이션에서 사용할 수 있습니다. 대부분의 이러한 드라이버에 대한 항목은 이미 애플리케이션의 `config/logging.php` 설정 파일에 있으므로 이 파일을 검토하여 내용에 익숙해지도록 하십시오.
 
 Name | Description
 ------------- | -------------

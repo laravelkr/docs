@@ -1086,8 +1086,7 @@ Sometimes, your users may want to issue access tokens to themselves without goin
 
 Before your application can issue personal access tokens, you will need to create a personal access client. You may do this by executing the `passport:client` Artisan command with the `--personal` option. If you have already run the `passport:install` command, you do not need to run this command:
 
-애플리케이션에서 개인용 액세스 토큰을 발급하려면 먼저 개인용 액세스 클라이언트를 생성해야 합니다. `--personal` 옵션과 함께 `passport:client` 아티산 명령을 실행하면 됩니다. 이미 `passport:install` 명령을 실행했다면 다음 명령을 실행할 필요가 없습니다.
-애플리케이션에서 개인용 액세스 토큰을 발급하려면 먼저 개인용 액세스 클라이언트를 생성해야 합니다. `--personal` 옵션과 함께 `passport:client` 아티산 명령을 실행하면 됩니다. 이미 `--personal` 옵션을 사용하면 됩니다. 만약 이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요는 없습니다.
+애플리케이션에서 개인용 액세스 토큰을 발급하려면 먼저 개인용 액세스 클라이언트를 생성해야 합니다. `--personal` 옵션과 함께 `passport:client` Artisan 명령을 실행하면 됩니다. 이미 `passport:install` 명령을 실행했다면 다음 명령을 실행할 필요가 없습니다.
 
     php artisan passport:client --personal
 

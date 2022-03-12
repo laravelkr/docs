@@ -109,7 +109,7 @@ All of the variables listed in this file will be loaded into the `$_ENV` PHP sup
 
 The second value passed to the `env` function is the "default value". This value will be returned if no environment variable exists for the given key.
 
-'env' 함수에 전달된 두 번째 인자는 "기본값"입니다. 주어진 키에 대한 환경 변수가 없으면 이 값이 반환됩니다.
+`env` 함수에 전달된 두 번째 인자는 "기본값"입니다. 주어진 키에 대한 환경 변수가 없으면 이 값이 반환됩니다.
 
 <a name="determining-the-current-environment"></a>
 ### Determining The Current Environment

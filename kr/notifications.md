@@ -391,6 +391,7 @@ If a notification supports being sent as an email, you should define a `toMail` 
 알림이 이메일로 전송되는 것을 지원하는 경우 알림 클래스에 `toMail` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable` 구현체를 수신하고 `Illuminate\Notifications\Messages\MailMessage` 인스턴스를 반환해야 합니다.
 
 The `MailMessage` class contains a few simple methods to help you build transactional email messages. Mail messages may contain lines of text as well as a "call to action". Let's take a look at an example `toMail` method:
+
 `MailMessage` 클래스에는 트랜잭션 이메일 메시지를 작성하는 데 도움이 되는 몇 가지 간단한 메소드가 포함되어 있습니다. 메일 메시지에는 "행동 유도문안"과 함께 한 줄의 텍스트가 포함될 수 있습니다. `toMail` 메소드의 예를 살펴보겠습니다.
 
     /**

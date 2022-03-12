@@ -232,6 +232,8 @@ If your route has dependencies that you would like the Laravel service container
 
 Occasionally you may need to specify a route parameter that may not always be present in the URI. You may do so by placing a `?` mark after the parameter name. Make sure to give the route's corresponding variable a default value:
 
+경우에 따라 URI에 항상 존재하지 않을 수 있는 경로 매개변수를 지정해야 할 수도 있습니다. 매개변수 이름 뒤에 `?` 표시를 하면 됩니다. 경로의 해당 변수에 기본값을 지정해야 합니다.
+
     Route::get('/user/{name?}', function ($name = null) {
         return $name;
     });

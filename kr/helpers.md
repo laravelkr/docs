@@ -908,6 +908,7 @@ The `Arr::whereNotNull` method removes all `null` values from the given array:
 #### `Arr::wrap()` {.collection-method}
 
 The `Arr::wrap` method wraps the given value in an array. If the given value is already an array it will be returned without modification:
+
 `Arr::wrap` 메소드는 주어진 값을 배열로 만듭니다. 만약 함수에 전달된 값이 배열이라면 결과에는 변경사항이 없습니다.
 
     use Illuminate\Support\Arr;
@@ -2715,7 +2716,7 @@ The `replaceLast` method replaces the last occurrence of a given value in a stri
 #### `replaceMatches` {.collection-method}
 
 The `replaceMatches` method replaces all portions of a string matching a given pattern with the given replacement string:
- 
+
 `replaceMatches` 메소드는 주어진 패턴과 일치하는 문자열의 모든 부분을 주어진 대체 문자열로 변경합니다.
 
     use Illuminate\Support\Str;
@@ -2802,6 +2803,8 @@ The `snake` method converts the given string to `snake_case`:
 #### `split` {.collection-method}
 
 The `split` method splits a string into a collection using a regular expression:
+
+`split` 메소드는 정규 표현식을 사용하여 문자열을 컬렉션으로 분할합니다.
 
     use Illuminate\Support\Str;
 
@@ -3187,6 +3190,7 @@ The `whenTest` method invokes the given closure if the string matches the given 
 #### `wordCount` {.collection-method}
 
 The `wordCount` method returns the number of words that a string contains:
+
 `wordCount` 메소드는 문자열 내의 단어의 수를 반환합니다.
 
 ```php

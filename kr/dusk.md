@@ -771,7 +771,7 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
 The `press` method may be used to click a button element on the page. The first argument given to the `press` method may be either the display text of the button or a CSS / Dusk selector:
 
-'press' 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. 'press' 메서드에 지정된 첫 번째 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
+`press` 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. `press` 메서드에 지정된 첫 번째 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
 
     $browser->press('Login');
 
@@ -797,7 +797,7 @@ To click a link, you may use the `clickLink` method on the browser instance. The
 
 You may use the `seeLink` method to determine if a link with the given display text is visible on the page:
 
-'seeLink' 메서드를 사용하여 주어진 표시 텍스트가 있는 링크가 페이지에 표시되는지 확인할 수 있습니다.
+`seeLink` 메서드를 사용하여 주어진 표시 텍스트가 있는 링크가 페이지에 표시되는지 확인할 수 있습니다.
 
     if ($browser->seeLink($linkText)) {
         // ...
@@ -855,13 +855,13 @@ The `clickAtPoint` method may be used to click on the topmost element at a given
 
 The `doubleClick` method may be used to simulate the double click of a mouse:
 
-'doubleClick' 메서드를 사용하여 마우스 더블 클릭을 시뮬레이션할 수 있습니다.
+`doubleClick` 메서드를 사용하여 마우스 더블 클릭을 시뮬레이션할 수 있습니다.
 
     $browser->doubleClick();
 
 The `rightClick` method may be used to simulate the right click of a mouse:
 
-'rightClick' 메서드를 사용하여 마우스 오른쪽 클릭을 시뮬레이션할 수 있습니다.
+`rightClick` 메서드를 사용하여 마우스 오른쪽 클릭을 시뮬레이션할 수 있습니다.
 
     $browser->rightClick();
 
@@ -950,7 +950,7 @@ To close an open JavaScript dialog by clicking the "Cancel" button, you may invo
 
 Sometimes you may wish to perform several operations while scoping all of the operations within a given selector. For example, you may wish to assert that some text exists only within a table and then click a button within that table. You may use the `with` method to accomplish this. All operations performed within the closure given to the `with` method will be scoped to the original selector:
 
-주어진 선택자 내에서 모든 작업의 범위를 지정하는 동안 여러 작업을 수행하려는 경우가 있습니다. 예를 들어, 일부 텍스트가 테이블 내에만 존재한다고 검증한 다음 해당 테이블 내에서 버튼을 클릭할 수 있습니다. 이를 수행하기 위해 `with` 메소드를 사용할 수 있습니다. 'with' 메소드에 제공된 클로저 내에서 수행되는 모든 작업은 원래 선택자로 범위가 지정됩니다.
+주어진 선택자 내에서 모든 작업의 범위를 지정하는 동안 여러 작업을 수행하려는 경우가 있습니다. 예를 들어, 일부 텍스트가 테이블 내에만 존재한다고 검증한 다음 해당 테이블 내에서 버튼을 클릭할 수 있습니다. 이를 수행하기 위해 `with` 메소드를 사용할 수 있습니다. `with` 메소드에 제공된 클로저 내에서 수행되는 모든 작업은 원래 선택자로 범위가 지정됩니다.
 
     $browser->with('.table', function ($table) {
         $table->assertSee('Hello World')

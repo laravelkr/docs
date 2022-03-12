@@ -554,6 +554,8 @@ The `mergeIfMissing` method may be used to merge input into the request if the c
 
 Laravel allows you to keep input from one request during the next request. This feature is particularly useful for re-populating forms after detecting validation errors. However, if you are using Laravel's included [validation features](/docs/{{version}}/validation), it is possible that you will not need to manually use these session input flashing methods directly, as some of Laravel's built-in validation facilities will call them automatically.
 
+라라벨은 한 request의 입력을 다음 request 중에도 유지할 수 있도록 해줍니다. 이 기능은 특히 유효성 검사 오류를 감지한 후 폼을 다시 채워 넣을 때 유용합니다. 하지만 라라벨에 포함된 [유효성 검사 기능](/docs/{{version}}/validation)를 이용한다면 몇몇 유효성 검사 기능들이 자동으로 이 기능을 호출하기 때문에 수동으로 이 메소드들을 사용해야 할 가능성은 낮습니다.
+
 <a name="flashing-input-to-the-session"></a>
 #### Flashing Input To The Session
 #### 입력값을 세션에 임시 저장하기
@@ -594,7 +596,7 @@ Since you often will want to flash input to the session and then redirect to the
 
 To retrieve flashed input from the previous request, invoke the `old` method on an instance of `Illuminate\Http\Request`. The `old` method will pull the previously flashed input data from the [session](/docs/{{version}}/session):
 
-이전 요청에서 플래시 입력을 검색하려면 `Illuminate\Http\Request` 인스턴스에서 `old` 메서드를 호출하세요. `old` 메소드는 [세션](/docs/{{버전}}/세션)에서 이전에 플래시된 입력 데이터를 가져옵니다.
+이전 요청에서 플래시 입력을 검색하려면 `Illuminate\Http\Request` 인스턴스에서 `old` 메서드를 호출하세요. `old` 메소드는 [세션](/docs/{{version}}/session)에서 이전에 플래시된 입력 데이터를 가져옵니다.
 
     $username = $request->old('username');
 
@@ -716,6 +718,8 @@ If you do not want a filename to be automatically generated, you may use the `st
 
 > {tip} For more information about file storage in Laravel, check out the complete [file storage documentation](/docs/{{version}}/filesystem).
 
+> {tip} 라라벨의 파일 스토리지에 대한 자세한 내용은 전체 [파일 스토리지 문서](/docs/{{version}}/filesystem)를 확인하세요.
+
 <a name="configuring-trusted-proxies"></a>
 ## Configuring Trusted Proxies
 ## 신뢰할 수 있는 프록시 설정하기
@@ -776,6 +780,7 @@ If you are using Amazon AWS or another "cloud" load balancer provider, you may n
 
 <a name="configuring-trusted-hosts"></a>
 ## Configuring Trusted Hosts
+## 신뢰할 수 있는 호스트 설정
 
 By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
 

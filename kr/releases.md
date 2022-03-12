@@ -3,8 +3,8 @@
 
 - [Versioning Scheme](#versioning-scheme)
 - [버전 관리 체계](#versioning-scheme)
-  - [Exceptions](#exceptions)
-  - [예외사항](#exceptions)
+    - [Exceptions](#exceptions)
+    - [예외사항](#exceptions)
 - [Support Policy](#support-policy)
 - [지원 정책](#support-policy)
 - [Laravel 8](#laravel-8)
@@ -40,7 +40,8 @@ At this time, PHP's [named arguments](https://www.php.net/manual/en/functions.ar
 
 For all Laravel releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다. 
+모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
+
 또한 [라라벨에서 지원되는 데이터베이스](/docs/{{version}}/database#introduction) 버전들도 참고하세요.
 
 | Version | PHP (*) | Release | Bug Fixes Until | Security Fixes Until |

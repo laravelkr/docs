@@ -2409,7 +2409,6 @@ When a model defines a `belongsTo` or `belongsToMany` relationship to another mo
 
 For example, when a `Comment` model is updated, you may want to automatically "touch" the `updated_at` timestamp of the owning `Post` so that it is set to the current date and time. To accomplish this, you may add a `touches` property to your child model containing the names of the relationships that should have their `updated_at` timestamps updated when the child model is updated:
 
-
 예를 들어 `Comment` 모델이 업데이트되었을 때, 이 모델을 소유하는 `Post`의 `updated_at` 타임스탬프의 값을 자동으로 현재의 시간값으로 "갱신"하고자 할 수 있습니다. 이렇게 하기 위해서는 하위 모델의 `touches` 속성에 연관관계의 이름을 추가하면 됩니다. 이 연관관계 모델은 `updated_at` 타임스탬프를 가지고 있어야 합니다.
 
     <?php

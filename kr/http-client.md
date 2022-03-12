@@ -60,6 +60,8 @@ Request를 만드는데 `Http` 파사드에서 제공하는 `get`, `post`, `put`
 
 The `get` method returns an instance of `Illuminate\Http\Client\Response`, which provides a variety of methods that may be used to inspect the response:
 
+`get` 메소드는 응답을 검사하는 데 사용할 수 있는 다양한 메소드를 제공하는 `Illuminate\Http\Client\Response`의 인스턴스를 반환합니다.
+
     $response->body() : string;
     $response->json() : array|mixed;
     $response->object() : object;

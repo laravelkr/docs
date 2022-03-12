@@ -281,16 +281,17 @@ Enabling this feature this will also pass the request's IP address and your auth
 
 <a name="local-development"></a>
 ## Local Development
+## 로컬 개발환경
 
-While you are free to use the Algolia or MeiliSearch search engines during local development, you may find it more convenient to get started with the "collection" engine. The collection engine will use "where" clauses and collection filtering on results from your existing database to determine the applicable search results for your query. When using this engine, it is not necessary to "index" your searchable models, as they will simply be retrieved from your local database.
+지역 개발 중에 Algolia 또는 MeiliSearch 검색 엔진을 자유롭게 사용할 수 있지만 "수집" 엔진으로 시작하는 것이 더 편리할 수 있습니다. 컬렉션 엔진은 "where" 절과 기존 데이터베이스의 결과에 대한 컬렉션 필터링을 사용하여 쿼리에 적용 가능한 검색 결과를 결정합니다. 이 엔진을 사용할 때 검색 가능한 모델을 "인덱싱"할 필요가 없습니다. 로컬 데이터베이스에서 간단히 검색되기 때문입니다.
 
-To use the collection engine, you may simply set the value of the `SCOUT_DRIVER` environment variable to `collection`, or specify the `collection` driver directly in your application's `scout` configuration file:
+컬렉션 엔진을 사용하려면 `SCOUT_DRIVER` 환경 변수의 값을 `collection`으로 설정하거나 애플리케이션의 `scout` 설정 파일에서 직접 `collection` 드라이버를 지정할 수 있습니다.
 
 ```ini
 SCOUT_DRIVER=collection
 ```
 
-Once you have specified the collection driver as your preferred driver, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or MeiliSearch indexes, is unnecessary when using the collection engine.
+컬렉션 드라이버를 기본 드라이버로 지정했으면 모델에 대해 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. Algolia 또는 MeiliSearch 색인을 시드하는 데 필요한 색인과 같은 검색 엔진 색인은 수집 엔진을 사용할 때 필요하지 않습니다.
 
 <a name="indexing"></a>
 ## Indexing

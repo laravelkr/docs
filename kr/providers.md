@@ -36,7 +36,7 @@ In this overview, you will learn how to write your own service providers and reg
 
 > {tip} If you would like to learn more about how Laravel handles requests and works internally, check out our documentation on the Laravel [request lifecycle](/docs/{{version}}/lifecycle).
 
-> {tip} If you would like to learn more about how Laravel handles requests and works internally, check out our documentation on the Laravel [request lifecycle](/docs/{{version}}/lifecycle).
+> {tip} 라라벨이 요청을 처리하고 내부적으로 작동하는 방식에 대해 자세히 알아보려면 라라벨 [request lifecycle](/docs/{{version}}/lifecycle)에 대한 문서를 확인하세요.
 
 <a name="writing-service-providers"></a>
 ## Writing Service Providers

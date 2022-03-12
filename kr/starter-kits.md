@@ -30,7 +30,8 @@ While you are welcome to use these starter kits, they are not required. You are 
 ## Laravel Breeze
 ## 라라벨 Breeze
 
-[Laravel Breeze](https://github.com/laravel/breeze) is a minimal, simple implementation of all of Laravel's [authentication features](/docs/{{version}}/authentication), including login, registration, password reset, email verification, and password confirmation. Laravel Breeze's default view layer is made up of simple [Blade templates](/docs/{{version}}/blade) styled with [Tailwind CSS](https://tailwindcss.com).  
+[Laravel Breeze](https://github.com/laravel/breeze) is a minimal, simple implementation of all of Laravel's [authentication features](/docs/{{version}}/authentication), including login, registration, password reset, email verification, and password confirmation. Laravel Breeze's default view layer is made up of simple [Blade templates](/docs/{{version}}/blade) styled with [Tailwind CSS](https://tailwindcss.com).
+
 [라라벨 Breeze](https://github.com/laravel/breeze)는 로그인, 가입, 비밀번호 재설정, 이메일 인증, 비밀번호 확인을 포함한 라라벨의 [인증 기능](/docs/{{version}}/authentication)을 간단하게 구현한 것입니다. 라라벨 Breeze의 기본 뷰 레이어(View Layer)는 [Tailwind CSS](https://tailwindcss.com)을 사용하여 간단한 [블레이드 템플릿](/docs/{{version}}/blade)으로 구성되어 있습니다.
 
 Breeze provides a wonderful starting point for beginning a fresh Laravel application and is also great choice for projects that plan to take their Blade templates to the next level with [Laravel Livewire](https://laravel-livewire.com).  

@@ -7,18 +7,18 @@
 - [Mocking 객체](#mocking-objects)
 - [Mocking Facades](#mocking-facades)
 - [Mocking 파사드](#mocking-facades)
-  - [Facade Spies](#facade-spies)
-  - [파사드 Spies](#facade-spies)
+    - [Facade Spies](#facade-spies)
+    - [파사드 Spies](#facade-spies)
 - [Bus Fake](#bus-fake)
 - [Bus Fake](#bus-fake)
-  - [Job Chains](#bus-job-chains)
-  - [Job 체인](#bus-job-chains)
-  - [Job Batches](#job-batches)
-  - [Job 배치](#job-batches)
+    - [Job Chains](#bus-job-chains)
+    - [Job 체인](#bus-job-chains)
+    - [Job Batches](#job-batches)
+    - [Job 배치](#job-batches)
 - [Event Fake](#event-fake)
 - [Event Fake](#event-fake)
-  - [Scoped Event Fakes](#scoped-event-fakes)
-  - [Scoped Event Fakes](#scoped-event-fakes)
+    - [Scoped Event Fakes](#scoped-event-fakes)
+    - [Scoped Event Fakes](#scoped-event-fakes)
 - [HTTP Fake](#http-fake)
 - [HTTP Fake](#http-fake)
 - [Mail Fake](#mail-fake)
@@ -27,8 +27,8 @@
 - [Notification Fake](#notification-fake)
 - [Queue Fake](#queue-fake)
 - [Queue Fake](#queue-fake)
-  - [Job Chains](#job-chains)
-  - [Job 체인](#job-chains)
+    - [Job Chains](#job-chains)
+    - [Job 체인](#job-chains)
 - [Storage Fake](#storage-fake)
 - [Storage Fake](#storage-fake)
 - [Interacting With Time](#interacting-with-time)
@@ -158,7 +158,7 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
 
 > {note} You should not mock the `Request` facade. Instead, pass the input you desire into the [HTTP testing methods](/docs/{{version}}/http-tests) such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, call the `Config::set` method in your tests.
 
-> {note} `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
+> {note} `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
 
 ### Facade Spies
 ### Facade Spies

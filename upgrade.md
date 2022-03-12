@@ -49,7 +49,9 @@
 
 아래의 프레임워크 패키지들은 라라벨 8을 지원하기 위한 새로운 메이저 릴리즈를 갖고 있습니다. 가능하면 업그레이드를 진행하기 전에 여러분은 개별 업그레이드 가이드를 읽어보십시오:
 
+- [Horizon v5.0](https://github.com/laravel/horizon/blob/master/UPGRADE.md)
 - [Passport v10.0](https://github.com/laravel/passport/blob/master/UPGRADE.md)
+- [Socialite v5.0](https://github.com/laravel/socialite/blob/master/UPGRADE.md)
 - [Telescope v4.0](https://github.com/laravel/telescope/releases)
 
 추가로, 라라벨 인스톨러는 `composer create-project` 와 라라벨 Jetstream을 지원하도록 업데이트 되었습니다. 4.0 버전보다 오래된 인스톨러는 2020년 10월 이후로 작동이 중단될 것입니다. 여러분의 라라벨 글로벌 인스톨러를 가능한 빨리 `^4.0` 버전으로 업그레이드 하세요. 

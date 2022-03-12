@@ -52,7 +52,7 @@ Laravel's command scheduler offers a fresh approach to managing scheduled tasks 
 
 You may define all of your scheduled tasks in the `schedule` method of your application's `App\Console\Kernel` class. To get started, let's take a look at an example. In this example, we will schedule a closure to be called every day at midnight. Within the closure we will execute a database query to clear a table:
 
-애플리케이션의 `App\Console\Kernel` 클래스의 `schedule` 메소드에서 모든 스케줄링된 작업을 정의할 수 있습니다. 시작하기 위해 예제를 살펴보겠습니다. 이 예에서는 매일 자정에 클로저가 호출되도록 스케줄링합니다. 클로저 내에서 우리는 테이블을 지우기 위해 데이터베이스 쿼리를 실행할 것입니다:
+애플리케이션의 `App\Console\Kernel` 클래스의 `schedule` 메소드에서 모든 스케줄링된 작업을 정의할 수 있습니다. 시작하기 위해 예제를 살펴보겠습니다. 이 예에서는 매일 자정에 클로저가 호출되도록 스케줄링합니다. 클로저 내에서 우리는 테이블을 지우기 위해 데이터베이스 쿼리를 실행할 것입니다.
 
     <?php
 
@@ -125,7 +125,7 @@ When scheduling Artisan commands using the command's class name, you may pass an
 
 The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues). This method provides a convenient way to schedule queued jobs without using the `call` method to define closures to queue the job:
 
-`job` 메소드는 [대기 중인 작업](/docs/{{버전}}/queues)을 스케줄링하는 데 사용됩니다. 이 메서드는 'call' 메서드를 사용하여 작업을 대기열에 추가할 클로저를 정의하지 않고 대기열에 있는 작업을 스케줄링하는 편리한 방법을 제공합니다.
+`job` 메소드는 [대기 중인 작업](/docs/{{버전}}/queues)을 스케줄링하는 데 사용됩니다. 이 메서드는 `call` 메서드를 사용하여 작업을 대기열에 추가할 클로저를 정의하지 않고 대기열에 있는 작업을 스케줄링하는 편리한 방법을 제공합니다.
 
     use App\Jobs\Heartbeat;
 
@@ -447,7 +447,7 @@ By default, multiple tasks scheduled at the same time will execute sequentially 
 
 Your application's scheduled tasks will not run when the application is in [maintenance mode](/docs/{{version}}/configuration#maintenance-mode), since we don't want your tasks to interfere with any unfinished maintenance you may be performing on your server. However, if you would like to force a task to run even in maintenance mode, you may call the `evenInMaintenanceMode` method when defining the task:
 
-애플리케이션의 예약된 작업은 애플리케이션이 [점검 모드](/docs/{{version}}/configuration#maintenance-mode)에 있을 때 실행되지 않습니다. 서버에서 수행 중입니다. 그러나 유지 관리 모드에서도 작업을 강제 실행하려면 작업을 정의할 때 'evenInMaintenanceMode' 메서드를 호출할 수 있습니다.
+애플리케이션의 예약된 작업은 애플리케이션이 [점검 모드](/docs/{{version}}/configuration#maintenance-mode)에 있을 때 실행되지 않습니다. 서버에서 수행 중입니다. 그러나 유지 관리 모드에서도 작업을 강제 실행하려면 작업을 정의할 때 `evenInMaintenanceMode` 메서드를 호출할 수 있습니다.
 
     $schedule->command('emails:send')->evenInMaintenanceMode();
 

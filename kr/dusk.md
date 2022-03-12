@@ -481,7 +481,7 @@ If you would like to define a custom browser method that you can re-use in a var
 
 The `macro` function accepts a name as its first argument, and a closure as its second. The macro's closure will be executed when calling the macro as a method on a `Browser` instance:
 
-`macro` 함수는 이름을 첫 번째 인수로 받아들이고 클로저를 두 번째 인수로 받아들입니다. 매크로의 클로저는 `Browser` 인스턴스의 메소드로 매크로를 호출할 때 실행됩니다:
+`macro` 함수는 이름을 첫 번째 인수로 받아들이고 클로저를 두 번째 인수로 받아들입니다. 매크로의 클로저는 `Browser` 인스턴스의 메소드로 매크로를 호출할 때 실행됩니다.
 
     $this->browse(function ($browser) use ($user) {
         $browser->visit('/pay')
@@ -747,7 +747,7 @@ The `uncheck` method may be used to "uncheck" a checkbox input:
 
 To "select" a `radio` input option, you may use the `radio` method. Like many other input related methods, a full CSS selector is not required. If a CSS selector match can't be found, Dusk will search for a `radio` input with matching `name` and `value` attributes:
 
-`radio` 입력 옵션을 "선택"하려면 `radio` 메서드를 사용할 수 있습니다. 다른 많은 입력 관련 방법과 마찬가지로 전체 CSS 선택자가 필요하지 않습니다. CSS 선택자 일치 항목을 찾을 수 없으면 Dusk는 'name' 및 'value' 속성이 일치하는 'radio' 입력을 검색합니다.
+`radio` 입력 옵션을 "선택"하려면 `radio` 메서드를 사용할 수 있습니다. 다른 많은 입력 관련 방법과 마찬가지로 전체 CSS 선택자가 필요하지 않습니다. CSS 선택자 일치 항목을 찾을 수 없으면 Dusk는 `name` 및 `value` 속성이 일치하는 `radio` 입력을 검색합니다.
 
     $browser->radio('size', 'large');
 
@@ -757,7 +757,7 @@ To "select" a `radio` input option, you may use the `radio` method. Like many ot
 
 The `attach` method may be used to attach a file to a `file` input element. Like many other input related methods, a full CSS selector is not required. If a CSS selector match can't be found, Dusk will search for a `file` input with a matching `name` attribute:
 
-`attach` 메소드는 파일을 `file` 입력 요소에 첨부하는 데 사용할 수 있습니다. 다른 많은 입력 관련 방법과 마찬가지로 전체 CSS 선택자가 필요하지 않습니다. CSS 선택자 일치 항목을 찾을 수 없으면 Dusk는 일치하는 'name' 속성이 있는 'file' 입력을 검색합니다.
+`attach` 메소드는 파일을 `file` 입력 요소에 첨부하는 데 사용할 수 있습니다. 다른 많은 입력 관련 방법과 마찬가지로 전체 CSS 선택자가 필요하지 않습니다. CSS 선택자 일치 항목을 찾을 수 없으면 Dusk는 일치하는 `name` 속성이 있는 `file` 입력을 검색합니다.
 
     $browser->attach('photo', __DIR__.'/photos/mountains.png');
 
@@ -791,7 +791,7 @@ When submitting forms, many application's disable the form's submission button a
 
 To click a link, you may use the `clickLink` method on the browser instance. The `clickLink` method will click the link that has the given display text:
 
-링크를 클릭하려면 브라우저 인스턴스에서 'clickLink' 메서드를 사용할 수 있습니다. `clickLink` 메소드는 주어진 표시 텍스트가 있는 링크를 클릭합니다:
+링크를 클릭하려면 브라우저 인스턴스에서 `clickLink` 메서드를 사용할 수 있습니다. `clickLink` 메소드는 주어진 표시 텍스트가 있는 링크를 클릭합니다.
 
     $browser->clickLink($linkText);
 
@@ -813,7 +813,7 @@ You may use the `seeLink` method to determine if a link with the given display t
 
 The `keys` method allows you to provide more complex input sequences to a given element than normally allowed by the `type` method. For example, you may instruct Dusk to hold modifier keys while entering values. In this example, the `shift` key will be held while `taylor` is entered into the element matching the given selector. After `taylor` is typed, `swift` will be typed without any modifier keys:
 
-`keys` 메소드를 사용하면 `type` 메소드에서 일반적으로 허용하는 것보다 더 복잡한 입력 시퀀스를 주어진 요소에 제공할 수 있습니다. 예를 들어 Dusk에 값을 입력하는 동안 보조 키를 유지하도록 지시할 수 있습니다. 이 예에서 `taylor`가 주어진 선택자와 일치하는 요소에 입력되는 동안 `shift` 키가 유지됩니다. 'taylor'를 입력한 후 'swift'는 수식 키 없이 입력됩니다.
+`keys` 메소드를 사용하면 `type` 메소드에서 일반적으로 허용하는 것보다 더 복잡한 입력 시퀀스를 주어진 요소에 제공할 수 있습니다. 예를 들어 Dusk에 값을 입력하는 동안 보조 키를 유지하도록 지시할 수 있습니다. 이 예에서 `taylor`가 주어진 선택자와 일치하는 요소에 입력되는 동안 `shift` 키가 유지됩니다. `taylor`를 입력한 후 `swift`는 수식 키 없이 입력됩니다.
 
     $browser->keys('selector', ['{shift}', 'taylor'], 'swift');
 
@@ -981,7 +981,7 @@ You may occasionally need to execute assertions outside of the current scope. Yo
 
 When testing applications that use JavaScript extensively, it often becomes necessary to "wait" for certain elements or data to be available before proceeding with a test. Dusk makes this a cinch. Using a variety of methods, you may wait for elements to become visible on the page or even wait until a given JavaScript expression evaluates to `true`.
 
-JavaScript를 광범위하게 사용하는 애플리케이션을 테스트할 때 테스트를 진행하기 전에 특정 요소나 데이터를 사용할 수 있을 때까지 "대기"해야 하는 경우가 종종 있습니다. 황혼은 이것을 간단하게 만듭니다. 다양한 메서드를 사용하여 요소가 페이지에 표시될 때까지 기다리거나 주어진 JavaScript 표현식이 'true'로 평가될 때까지 기다릴 수도 있습니다.
+JavaScript를 광범위하게 사용하는 애플리케이션을 테스트할 때 테스트를 진행하기 전에 특정 요소나 데이터를 사용할 수 있을 때까지 "대기"해야 하는 경우가 종종 있습니다. 황혼은 이것을 간단하게 만듭니다. 다양한 메서드를 사용하여 요소가 페이지에 표시될 때까지 기다리거나 주어진 JavaScript 표현식이 `true`로 평가될 때까지 기다릴 수도 있습니다.
 
 <a name="waiting"></a>
 #### Waiting
@@ -1100,7 +1100,7 @@ The `waitForLink` method may be used to wait until the given link text is displa
 
 When making a path assertion such as `$browser->assertPathIs('/home')`, the assertion can fail if `window.location.pathname` is being updated asynchronously. You may use the `waitForLocation` method to wait for the location to be a given value:
 
-`$browser->assertPathIs('/home')`와 같은 경로에 대한 검증을 만들 때 `window.location.pathname`이 비동기식으로 업데이트되면 검증이 실패할 수 있습니다. `waitForLocation` 메소드를 사용하여 위치가 주어진 값이 될 때까지 기다릴 수 있습니다:
+`$browser->assertPathIs('/home')`와 같은 경로에 대한 검증을 만들 때 `window.location.pathname`이 비동기식으로 업데이트되면 검증이 실패할 수 있습니다. `waitForLocation` 메소드를 사용하여 위치가 주어진 값이 될 때까지 기다릴 수 있습니다.
 
     $browser->waitForLocation('/secret');
 

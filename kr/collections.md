@@ -687,7 +687,7 @@ The `diffKeys` method compares the collection against another collection or a pl
 
 The `doesntContain` method determines whether the collection does not contain a given item. You may pass a closure to the `doesntContain` method to determine if an element does not exist in the collection matching a given truth test:
 
-`doesntContain` 메서드는 컬렉션에 항목이 포함되어 있지 않은지 여부를 확인합니다. 주어진 조건에 해당하는 컬렉션에 요소가 존재하지 않는지 확인하기 위해 `doesntContain` 메소드에 클로저를 전달할 수 있습니다:
+`doesntContain` 메서드는 컬렉션에 항목이 포함되어 있지 않은지 여부를 확인합니다. 주어진 조건에 해당하는 컬렉션에 요소가 존재하지 않는지 확인하기 위해 `doesntContain` 메소드에 클로저를 전달할 수 있습니다.
 
     $collection = collect([1, 2, 3, 4, 5]);
 

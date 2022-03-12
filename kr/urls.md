@@ -53,7 +53,7 @@ The `url` helper may be used to generate arbitrary URLs for your application. Th
 
 If no path is provided to the `url` helper, an `Illuminate\Routing\UrlGenerator` instance is returned, allowing you to access information about the current URL:
 
-만약 `url` 헬퍼에 아무런 경로를 지정하지 않는다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환되며, 현재 URL 정보에 access할 수 있습니다:
+만약 `url` 헬퍼에 아무런 경로를 지정하지 않는다면, `Illuminate\Routing\UrlGenerator` 인스턴스가 반환되며, 현재 URL 정보에 access할 수 있습니다.
 
     // Get the current URL without the query string...
     echo url()->current();
@@ -86,7 +86,7 @@ The `route` helper may be used to generate URLs to [named routes](/docs/{{versio
 
 To generate a URL to this route, you may use the `route` helper like so:
 
-이 라우트에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다:
+이 라우트에 대한 URL을 생성하려면 `route` 헬퍼 함수를 다음과 같이 사용하면 됩니다.
 
     echo route('post.show', ['post' => 1]);
 
@@ -94,7 +94,7 @@ To generate a URL to this route, you may use the `route` helper like so:
 
 Of course, the `route` helper may also be used to generate URLs for routes with multiple parameters:
 
-물론, 'route' 헬퍼는 또한 여러개의 파라미터를 가진 라우트 URL을 생성할 수도 있습니다:
+물론, 'route' 헬퍼는 또한 여러개의 파라미터를 가진 라우트 URL을 생성할 수도 있습니다.
 
     Route::get('/post/{post}/comment/{comment}', function (Post $post, Comment $comment) {
         //
@@ -118,7 +118,7 @@ Any additional array elements that do not correspond to the route's definition p
 
 You will often be generating URLs using the route key (typically the primary key) of [Eloquent models](/docs/{{version}}/eloquent). For this reason, you may pass Eloquent models as parameter values. The `route` helper will automatically extract the model's route key:
 
-여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 라우트 키(전형적으로 기본 키)를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 라우트 키를 추출하여 사용할 것입니다:
+여러분은 종종 [Eloquent 모델](/docs/{{version}}/eloquent)의 라우트 키(전형적으로 기본 키)를 사용하여 URL을 생성하게 될 겁니다. 이러한 이유로, 파라미터 값으로 Eloquent 모델을 전달할 수도 있습니다. `route` 헬퍼 함수는 자동으로 모델의 라우트 키를 추출하여 사용할 것입니다.
 
     echo route('post.show', ['post' => $post]);
 
@@ -140,7 +140,7 @@ For example, you might use signed URLs to implement a public "unsubscribe" link 
 
 If you would like to generate a temporary signed route URL that expires after a specified amount of time, you may use the `temporarySignedRoute` method. When Laravel validates a temporary signed route URL, it will ensure that the expiration timestamp that is encoded into the signed URL has not elapsed:
 
-지정된 시간 후에 만료되는 임시 서명된 경로 URL을 생성하려면 `temporarySignedRoute` 메소드를 사용할 수 있습니다. Laravel이 서명된 임시 경로 URL의 유효성을 검사할 때 서명된 URL에 인코딩된 만료 타임스탬프가 경과되지 않았는지 확인합니다:
+지정된 시간 후에 만료되는 임시 서명된 경로 URL을 생성하려면 `temporarySignedRoute` 메소드를 사용할 수 있습니다. Laravel이 서명된 임시 경로 URL의 유효성을 검사할 때 서명된 URL에 인코딩된 만료 타임스탬프가 경과되지 않았는지 확인합니다.
 
     use Illuminate\Support\Facades\URL;
 
@@ -183,7 +183,7 @@ Alternatively, you may assign the `Illuminate\Routing\Middleware\ValidateSignatu
 
 Once you have registered the middleware in your kernel, you may attach it to a route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` HTTP response:
 
-커널에 미들웨어를 등록하고 나면, 라우트에 이 미들웨어를 추가할 수 있습니다. 들어오는 요청에 유효한 서명이 없으면, 미들웨어는 자동으로 `403` HTTP Response를 반환합니다:
+커널에 미들웨어를 등록하고 나면, 라우트에 이 미들웨어를 추가할 수 있습니다. 들어오는 요청에 유효한 서명이 없으면, 미들웨어는 자동으로 `403` HTTP Response를 반환합니다.
 
     Route::post('/unsubscribe/{user}', function (Request $request) {
         // ...
@@ -195,7 +195,7 @@ Once you have registered the middleware in your kernel, you may attach it to a r
 
 When someone visits a signed URL that has expired, they will receive a generic error page for the `403` HTTP status code. However, you can customize this behavior by defining a custom "renderable" closure for the `InvalidSignatureException` exception in your exception handler. This closure should return an HTTP response:
 
-누군가 만료된 서명의 URL을 방문하면 '403' HTTP 상태 코드에 대한 일반 오류 페이지가 표시됩니다. 그러나 예외 처리기에서 'InvalidSignatureException' 예외에 대해 "렌더링 가능한" 사용자 정의 클로저를 정의하여 이 동작을 사용자 정의할 수 있습니다. 이 클로저는 HTTP 응답을 반환해야 합니다:
+누군가 만료된 서명의 URL을 방문하면 '403' HTTP 상태 코드에 대한 일반 오류 페이지가 표시됩니다. 그러나 예외 처리기에서 `InvalidSignatureException` 예외에 대해 "렌더링 가능한" 사용자 정의 클로저를 정의하여 이 동작을 사용자 정의할 수 있습니다. 이 클로저는 HTTP 응답을 반환해야 합니다.
 
     use Illuminate\Routing\Exceptions\InvalidSignatureException;
 
@@ -217,7 +217,7 @@ When someone visits a signed URL that has expired, they will receive a generic e
 
 The `action` function generates a URL for the given controller action:
 
-`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다:
+`action` 함수는 주어진 컨트롤러 액션에 대한 URL을 생성합니다.
 
     use App\Http\Controllers\HomeController;
 
@@ -225,7 +225,7 @@ The `action` function generates a URL for the given controller action:
 
 If the controller method accepts route parameters, you may pass an associative array of route parameters as the second argument to the function:
 
-컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다:
+컨트롤러 메소드가 라우트 파라미터 인자를 필요로 한다면, 함수의 두번째 인자로 이를 전달할 수 있습니다.
 
     $url = action([UserController::class, 'profile'], ['id' => 1]);
 
@@ -243,7 +243,7 @@ For some applications, you may wish to specify request-wide default values for c
 
 It is cumbersome to always pass the `locale` every time you call the `route` helper. So, you may use the `URL::defaults` method to define a default value for this parameter that will always be applied during the current request. You may wish to call this method from a [route middleware](/docs/{{version}}/middleware#assigning-middleware-to-routes) so that you have access to the current request:
 
-'route' 도우미를 호출할 때마다 항상 'locale'을 전달하는 것은 번거롭습니다. 따라서 `URL::defaults` 메소드를 사용하여 현재 요청 중에 항상 적용될 이 매개변수의 기본값을 정의할 수 있습니다. 현재 요청에 액세스할 수 있도록 [라우트 미들웨어](/docs/{{version}}/middleware#assigning-middleware-to-routes)에서 이 메서드를 호출할 수 있습니다:
+`route` 헬퍼를 호출할 때마다 항상 `locale`을 전달하는 것은 번거롭습니다. 따라서 `URL::defaults` 메소드를 사용하여 현재 요청 중에 항상 적용될 이 매개변수의 기본값을 정의할 수 있습니다. 현재 요청에 액세스할 수 있도록 [라우트 미들웨어](/docs/{{version}}/middleware#assigning-middleware-to-routes)에서 이 메서드를 호출할 수 있습니다
 
     <?php
 

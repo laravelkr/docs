@@ -290,7 +290,7 @@ An array of contextual data may be passed to the log methods. This contextual da
 
 Occasionally, you may wish to specify some contextual information that should be included with all subsequent log entries. For example, you may wish to log a request ID that is associated with each incoming request to your application. To accomplish this, you may call the `Log` facade's `withContext` method:
 
-경우에 따라 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다:
+경우에 따라 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다.
 
     <?php
 

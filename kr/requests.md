@@ -508,7 +508,7 @@ If you would like to determine if a value is present on the request and is not e
 
 The `whenFilled` method will execute the given closure if a value is present on the request and is not empty:
 
-`whenFilled` 메소드는 값이 요청에 있고 그 값이 비어 있지 않은 경우 주어진 클로저를 실행합니다:
+`whenFilled` 메소드는 값이 요청에 있고 그 값이 비어 있지 않은 경우 주어진 클로저를 실행합니다.
 
     $request->whenFilled('name', function ($input) {
         //

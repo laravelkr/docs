@@ -1632,7 +1632,7 @@ All `Illuminate\Bus\Batch` instances are JSON serializable, meaning you can retu
 
 To retrieve a batch by its ID, you may use the `Bus` facade's `findBatch` method:
 
-ID로 배치를 검색하려면 `Bus` 파사드의 `findBatch` 메소드를 사용할 수 있습니다:
+ID로 배치를 검색하려면 `Bus` 파사드의 `findBatch` 메소드를 사용할 수 있습니다.
 
     use Illuminate\Support\Facades\Bus;
     use Illuminate\Support\Facades\Route;
@@ -2045,7 +2045,7 @@ Using the `--backoff` option, you may specify how many seconds Laravel should wa
 
 If you would like to configure how many seconds Laravel should wait before retrying a job that has encountered an exception on a per-job basis, you may do so by defining a `backoff` property on your job class:
 
-작업별로 예외가 발생한 작업을 재시도하기 전에 라라벨이 대기해야 하는 시간(초)을 설정하려면 작업 클래스에 `backoff` 속성을 정의하면 됩니다:
+작업별로 예외가 발생한 작업을 재시도하기 전에 라라벨이 대기해야 하는 시간(초)을 설정하려면 작업 클래스에 `backoff` 속성을 정의하면 됩니다.
 
     /**
      * The number of seconds to wait before retrying the job.

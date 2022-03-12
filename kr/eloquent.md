@@ -630,7 +630,7 @@ Sometimes you may wish to retrieve the first result of a query or perform some o
 
 Sometimes you may wish to throw an exception if a model is not found. This is particularly useful in routes or controllers. The `findOrFail` and `firstOrFail` methods will retrieve the first result of the query; however, if no result is found, an `Illuminate\Database\Eloquent\ModelNotFoundException` will be thrown:
 
-때때로 모델을 찾을 수 없는 경우 예외를 throw하고 싶을 수 있습니다. 이것은 라우트나 컨트롤러에서 특히 유용합니다. `findOrFail` 및 `firstOrFail` 메소드는 쿼리의 첫 번째 결과를 검색합니다. 그러나 결과가 없으면 `Illuminate\Database\Eloquent\ModelNotFoundException`이 발생합니다:
+때때로 모델을 찾을 수 없는 경우 예외를 throw하고 싶을 수 있습니다. 이것은 라우트나 컨트롤러에서 특히 유용합니다. `findOrFail` 및 `firstOrFail` 메소드는 쿼리의 첫 번째 결과를 검색합니다. 그러나 결과가 없으면 `Illuminate\Database\Eloquent\ModelNotFoundException`이 발생합니다.
 
     $flight = Flight::findOrFail(1);
 
@@ -900,7 +900,7 @@ So, to get started, you should define which model attributes you want to make ma
 
 Once you have specified which attributes are mass assignable, you may use the `create` method to insert a new record in the database. The `create` method returns the newly created model instance:
 
-대량 할당 가능한 속성을 지정했으면 `create` 메소드를 사용하여 데이터베이스에 새 레코드를 삽입할 수 있습니다. `create` 메소드는 새로 생성된 모델 인스턴스를 반환합니다:
+대량 할당 가능한 속성을 지정했으면 `create` 메소드를 사용하여 데이터베이스에 새 레코드를 삽입할 수 있습니다. `create` 메소드는 새로 생성된 모델 인스턴스를 반환합니다.
 
     $flight = Flight::create(['name' => 'London to Paris']);
 
@@ -1591,7 +1591,7 @@ Eloquent 모델은 여러 이벤트를 전달하여 모델 수명 주기의 `ret
 
 The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the changes to the model are persisted.
 
-`retrieved` 이벤트는 데이터베이스에서 기존 모델을 검색할 때 전달됩니다. 새 모델이 처음 저장되면 'creating' 및 'created' 이벤트가 전달됩니다. `updating` `updated` 이벤트는 기존 모델이 수정되고 `save` 메소드가 호출될 때 전달됩니다. `saving` / `saved` 이벤트는 모델의 속성이 변경되지 않은 경우에도 모델이 생성되거나 업데이트될 때 전달됩니다. `-ing`으로 끝나는 이벤트 이름은 모델에 대한 변경 사항이 지속되기 전에 전달되는 반면, `-ed`로 끝나는 이벤트는 모델에 대한 변경 사항이 지속된 후에 전달됩니다.
+`retrieved` 이벤트는 데이터베이스에서 기존 모델을 검색할 때 전달됩니다. 새 모델이 처음 저장되면 `creating` 및 `created` 이벤트가 전달됩니다. `updating` `updated` 이벤트는 기존 모델이 수정되고 `save` 메소드가 호출될 때 전달됩니다. `saving` / `saved` 이벤트는 모델의 속성이 변경되지 않은 경우에도 모델이 생성되거나 업데이트될 때 전달됩니다. `-ing`으로 끝나는 이벤트 이름은 모델에 대한 변경 사항이 지속되기 전에 전달되는 반면, `-ed`로 끝나는 이벤트는 모델에 대한 변경 사항이 지속된 후에 전달됩니다.
 
 To start listening to model events, define a `$dispatchesEvents` property on your Eloquent model. This property maps various points of the Eloquent model's lifecycle to your own [event classes](/docs/{{version}}/events). Each model event class should expect to receive an instance of the affected model via its constructor:
 
@@ -1677,7 +1677,7 @@ If needed, you may utilize [queueable anonymous event listeners](/docs/{{version
 
 If you are listening for many events on a given model, you may use observers to group all of your listeners into a single class. Observer classes have method names which reflect the Eloquent events you wish to listen for. Each of these methods receives the affected model as their only argument. The `make:observer` Artisan command is the easiest way to create a new observer class:
 
-주어진 모델에서 많은 이벤트를 수신하는 경우 옵저버를 사용하여 모든 리스너를 단일 클래스로 그룹화할 수 있습니다. 옵저버 클래스에는 듣고자 하는 Eloquent 이벤트를 반영하는 메소드 이름이 있습니다. 이러한 각 메소드는 영향을 받는 모델을 유일한 인수로 받습니다. `make:observer` Artisan 명령은 새로운 옵저버 클래스를 생성하는 가장 쉬운 방법입니다:
+주어진 모델에서 많은 이벤트를 수신하는 경우 옵저버를 사용하여 모든 리스너를 단일 클래스로 그룹화할 수 있습니다. 옵저버 클래스에는 듣고자 하는 Eloquent 이벤트를 반영하는 메소드 이름이 있습니다. 이러한 각 메소드는 영향을 받는 모델을 유일한 인수로 받습니다. `make:observer` Artisan 명령은 새로운 옵저버 클래스를 생성하는 가장 쉬운 방법입니다.
 
     php artisan make:observer UserObserver --model=User
 

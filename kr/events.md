@@ -79,7 +79,7 @@ Of course, manually creating the files for each event and listener is cumbersome
 
 Alternatively, you may use the `make:event` and `make:listener` Artisan commands to generate individual events and listeners:
 
-이방법 이외에도 `make:event` 또는 `make:listener` 아티즌 명령어를 사용해서 개별 이벤트와 리스너 클래스를 생성할 수도 있습니다:
+이방법 이외에도 `make:event` 또는 `make:listener` 아티즌 명령어를 사용해서 개별 이벤트와 리스너 클래스를 생성할 수도 있습니다.
 
     php artisan make:event PodcastProcessed
 
@@ -148,7 +148,7 @@ Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods
 
 If you would like to handle anonymous queued listener failures, you may provide a closure to the `catch` method while defining the `queueable` listener:
 
-만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 전달하면 됩니다. 이 클로저는 이벤트 인스턴스와 리스너의 실패가 담겨져 있는 `Throwable` 인스턴스를 전달받습니다:
+만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 전달하면 됩니다. 이 클로저는 이벤트 인스턴스와 리스너의 실패가 담겨져 있는 `Throwable` 인스턴스를 전달받습니다.
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -183,7 +183,7 @@ Instead of registering events and listeners manually in the `$listen` array of t
 
 Laravel finds event listeners by scanning the listener classes using PHP's reflection services. When Laravel finds any listener class method that begins with `handle`, Laravel will register those methods as event listeners for the event that is type-hinted in the method's signature:
 
-라라벨은 PHP의 리플렉션 서비스를 사용하여 리스너 클래스를 스캔하고, 이벤트 리스너를 찾습니다. 라라벨은 `handle`로 시작하는 리스너 클래스 메소드를 발견하면, 메소드의 시그니처에 타입 힌트 된 이벤트 클래스를 확인하고 이벤트 리스너로 해당 메소드를 등록합니다:
+라라벨은 PHP의 리플렉션 서비스를 사용하여 리스너 클래스를 스캔하고, 이벤트 리스너를 찾습니다. 라라벨은 `handle`로 시작하는 리스너 클래스 메소드를 발견하면, 메소드의 시그니처에 타입 힌트 된 이벤트 클래스를 확인하고 이벤트 리스너로 해당 메소드를 등록합니다.
 
     use App\Events\PodcastProcessed;
 

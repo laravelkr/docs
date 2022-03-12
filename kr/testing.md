@@ -116,7 +116,7 @@ Once the test has been generated, you may define test methods as you normally wo
 
 As mentioned previously, once you've written tests, you may run them using `phpunit`:
 
-이전에 언급한 바와 같이 필기 시험은 'phpunit'을 사용하여 실행할 수 있습니다.
+이전에 언급한 바와 같이 필기 시험은 `phpunit`을 사용하여 실행할 수 있습니다.
 
     ./vendor/bin/phpunit
 

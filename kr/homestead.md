@@ -365,7 +365,7 @@ Instead of installing Homestead globally and sharing the same Homestead virtual 
 
 You may install Homestead into your project using the Composer package manager:
 
-Composer 패키지 관리자를 사용하여 홈스테드를 프로젝트에 설치할 수 있습니다:
+Composer 패키지 관리자를 사용하여 홈스테드를 프로젝트에 설치할 수 있습니다.
 
 ```bash
 composer require laravel/homestead --dev
@@ -435,7 +435,7 @@ Optional software is installed using the `features` option within your `Homestea
 
 You may specify a supported version of Elasticsearch, which must be an exact version number (major.minor.patch). The default installation will create a cluster named 'homestead'. You should never give Elasticsearch more than half of the operating system's memory, so make sure your Homestead virtual machine has at least twice the Elasticsearch allocation.
 
-지원되는 Elasticsearch 버전을 정확한 버전 번호(major.minor.patch)로 지정할 수 있습니다. 기본 설치는 'homestead' 라는 클러스터를 생성합니다. Elasticsearch에 운영 체제 메모리의 절반 이상을 제공해서는 안 되므로 Homestead 가상 머신에 Elasticsearch에 할당된 메모리의 최소 2배가 존재하는지 확인하십시오.
+지원되는 Elasticsearch 버전을 정확한 버전 번호(major.minor.patch)로 지정할 수 있습니다. 기본 설치는 `homestead` 라는 클러스터를 생성합니다. Elasticsearch에 운영 체제 메모리의 절반 이상을 제공해서는 안 되므로 Homestead 가상 머신에 Elasticsearch에 할당된 메모리의 최소 2배가 존재하는지 확인하십시오.
 
 
 > {tip} Check out the [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current) to learn how to customize your configuration.
@@ -472,7 +472,7 @@ The default Neo4j installation will set the database username to `homestead` and
 
 You may add Bash aliases to your Homestead virtual machine by modifying the `aliases` file within your Homestead directory:
 
-홈스테드 디렉토리에서 `aliases` 파일을 수정하여 홈스테드 가상 머신내 Bash의 별칭을 추가할 수 있습니다:
+홈스테드 디렉토리에서 `aliases` 파일을 수정하여 홈스테드 가상 머신내 Bash의 별칭을 추가할 수 있습니다.
 
     alias c='clear'
     alias ..='cd ..'
@@ -830,7 +830,7 @@ Supported `policy` values include: `none`, `download`, `upload`, and `public`.
 
 In order to run [Laravel Dusk](/docs/{{version}}/dusk) tests within Homestead, you should enable the [`webdriver` feature](#installing-optional-features) in your Homestead configuration:
 
-홈스테드 내에서 [Laravel Dusk](/docs/{{version}}/dusk) 테스트를 실행하려면 홈스테드 설정에서 [`webdriver` 기능](#installing-optional-features)을 활성화해야 합니다:
+홈스테드 내에서 [Laravel Dusk](/docs/{{version}}/dusk) 테스트를 실행하려면 홈스테드 설정에서 [`webdriver` 기능](#installing-optional-features)을 활성화해야 합니다.
 
 ```yaml
 features:

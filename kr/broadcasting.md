@@ -899,7 +899,7 @@ Laravel Echo 인스턴스를 초기화할 때 소켓 ID가 연결에 할당됩�
 
 If you are not using a global Axios instance, you will need to manually configure your JavaScript application to send the `X-Socket-ID` header with all outgoing requests. You may retrieve the socket ID using the `Echo.socketId` method:
 
-전역 Axios 인스턴스를 사용하지 않는 경우 모든 발신 요청과 함께 'X-Socket-ID' 헤더를 보내도록 JavaScript 애플리케이션을 수동으로 설정해야 합니다. `Echo.socketId` 메소드를 사용하여 소켓 ID를 검색할 수 있습니다:
+전역 Axios 인스턴스를 사용하지 않는 경우 모든 발신 요청과 함께 'X-Socket-ID' 헤더를 보내도록 JavaScript 애플리케이션을 수동으로 설정해야 합니다. `Echo.socketId` 메소드를 사용하여 소켓 ID를 검색할 수 있습니다.
 
     var socketId = Echo.socketId();
 

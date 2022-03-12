@@ -266,4 +266,4 @@ If you would like to use a custom `Collection` object when interacting with a gi
 
 Once you have defined a `newCollection` method, you will receive an instance of your custom collection anytime Eloquent would normally return an `Illuminate\Database\Eloquent\Collection` instance. If you would like to use a custom collection for every model in your application, you should define the `newCollection` method on a base model class that is extended by all of your application's models.
 
-일단 `newCollection` 메소드를 정의하면 Eloquent가 일반적으로 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환할 때마다 사용자 정의 컬렉션의 인스턴스를 받게 됩니다. 애플리케이션의 모든 모델에 대해 사용자 지정 컬렉션을 사용하려면 애플리케이션의 모든 모델에 의해 확장되는 기본 모델 클래스에 'newCollection' 메서드를 정의해야 합니다. 
+일단 `newCollection` 메소드를 정의하면 Eloquent가 일반적으로 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환할 때마다 사용자 정의 컬렉션의 인스턴스를 받게 됩니다. 애플리케이션의 모든 모델에 대해 사용자 지정 컬렉션을 사용하려면 애플리케이션의 모든 모델에 의해 확장되는 기본 모델 클래스에 `newCollection` 메서드를 정의해야 합니다. 

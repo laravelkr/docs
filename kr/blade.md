@@ -1653,7 +1653,7 @@ The `@yield` directive also accepts a default value as its second parameter. Thi
 
 Anytime you define an HTML form in your application, you should include a hidden CSRF token field in the form so that [the CSRF protection](/docs/{{version}}/csrf) middleware can validate the request. You may use the `@csrf` Blade directive to generate the token field:
 
-애플리케이션에서 HTML 양식을 정의할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 유효한 요청인지 검사할 수 있도록 양식에 숨겨진 CSRF 토큰 필드를 포함해야 합니다. 토큰 필드를 생성하기 위해 `@csrf` 블레이드 지시문을 사용할 수 있습니다:
+애플리케이션에서 HTML 양식을 정의할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 유효한 요청인지 검사할 수 있도록 양식에 숨겨진 CSRF 토큰 필드를 포함해야 합니다. 토큰 필드를 생성하기 위해 `@csrf` 블레이드 지시문을 사용할 수 있습니다.
 
 ```html
 <form method="POST" action="/profile">

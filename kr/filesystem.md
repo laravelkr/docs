@@ -244,7 +244,7 @@ If your application interacts with multiple disks, you may use the `disk` method
 
 Sometimes you may wish to create a disk at runtime using a given configuration without that configuration actually being present in your application's `filesystems` configuration file. To accomplish this, you may pass a configuration array to the `Storage` facade's `build` method:
 
-때로는 애플리케이션의 `filesystems` 설정 파일에 존재하지 않는 설정을 사용하여 런타임에 디스크를 생성 할 수 있습니다. 이를 수행하려면 `Storage` 파사드의 `build` 메소드에 설정 배열을 전달 해야 합니다:
+때로는 애플리케이션의 `filesystems` 설정 파일에 존재하지 않는 설정을 사용하여 런타임에 디스크를 생성 할 수 있습니다. 이를 수행하려면 `Storage` 파사드의 `build` 메소드에 설정 배열을 전달 해야 합니다.
 
 ```php
 use Illuminate\Support\Facades\Storage;
@@ -344,7 +344,7 @@ If you need to specify additional [S3 request parameters](https://docs.aws.amazo
 
 If you need to customize how temporary URLs are created for a specific storage disk, you can use the `buildTemporaryUrlsUsing` method. For example, this can be useful if you have a controller that allows you to download files stored via a disk that doesn't typically support temporary URLs. Usually, this method should be called from the `boot` method of a service provider:
 
-특정 스토리지 디스크에 대해 임시 URL이 생성되는 방식을 커스터마이징 해야 하는 경우 `buildTemporaryUrlsUsing` 메소드를 사용할 수 있습니다. 예를 들어, 임시 URL을 지원하지 않는 디스크를 통해 저장된 파일을 다운로드할 수 있는 컨트롤러가 있는 경우 유용할 수 있습니다. 일반적으로 이 메소드는 서비스 프로바이더의 'boot' 메소드에서 호출해야 합니다.
+특정 스토리지 디스크에 대해 임시 URL이 생성되는 방식을 커스터마이징 해야 하는 경우 `buildTemporaryUrlsUsing` 메소드를 사용할 수 있습니다. 예를 들어, 임시 URL을 지원하지 않는 디스크를 통해 저장된 파일을 다운로드할 수 있는 컨트롤러가 있는 경우 유용할 수 있습니다. 일반적으로 이 메소드는 서비스 프로바이더의 `boot` 메소드에서 호출해야 합니다.
 
     <?php
 

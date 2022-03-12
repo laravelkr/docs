@@ -1148,7 +1148,7 @@ In the example above, Laravel will attempt to insert two records. If a record al
 
 In addition to inserting records into the database, the query builder can also update existing records using the `update` method. The `update` method, like the `insert` method, accepts an array of column and value pairs indicating the columns to be updated. The `update` method returns the number of affected rows. You may constrain the `update` query using `where` clauses:
 
-데이터베이스에 레코드를 삽입하는 것 외에도 쿼리 빌더는 'update' 메소드를 사용하여 기존 레코드를 업데이트할 수도 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로 업데이트할 컬럼을 나타내는 컬럼과 값 쌍의 배열을 받습니다. `update` 메소드는 영향을 받는 행의 수를 반환합니다. `where` 절을 사용하여 `update` 쿼리를 제한할 수 있습니다.
+데이터베이스에 레코드를 삽입하는 것 외에도 쿼리 빌더는 `update` 메소드를 사용하여 기존 레코드를 업데이트할 수도 있습니다. `update` 메소드는 `insert` 메소드와 마찬가지로 업데이트할 컬럼을 나타내는 컬럼과 값 쌍의 배열을 받습니다. `update` 메소드는 영향을 받는 행의 수를 반환합니다. `where` 절을 사용하여 `update` 쿼리를 제한할 수 있습니다.
 
     $affected = DB::table('users')
                   ->where('id', 1)

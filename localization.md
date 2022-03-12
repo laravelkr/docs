@@ -1,7 +1,7 @@
 # 지역화 (다국어)
 
 - [시작하기](#introduction)
-    - [Locale-로케일 설정하기](#configuring-the-locale)
+    - [Locale 설정하기](#configuring-the-locale)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [짧은 키 사용하기](#using-short-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
@@ -13,7 +13,9 @@
 <a name="introduction"></a>
 ## 시작하기
 
-라라벨의 다국어 기능은 애플리케이션이 다국어에 대응할 수 있도록 다양한 언어로 번역된 문자열을 검색하는 편리한 방법을 제공합니다. 언어 문자열은 `resources/lang` 디렉토리에 저장되어 있습니다. 이 디렉토리 안에서 애플리케이션이 지원하는 언어의 디렉토리가 지정되어야 합니다.
+라라벨의 현지화 기능은 다양한 언어로 된 문자열을 검색하는 편리한 방법을 제공하므로 애플리케이션 내에서 여러 언어를 쉽게 지원할 수 있습니다.
+
+라라벨은 번역 문자열을 관리하는 두 가지 방법을 제공합니다. 첫째, 언어 문자열은 `resources/lang` 디렉토리 내의 파일에 저장할 수 있습니다. 이 디렉토리에는 애플리케이션에서 지원하는 각 언어에 대한 하위 디렉토리가 있을 수 있습니다. 이것은 라라벨이 유효성 검사 오류 메시지와 같은 내장 라라벨 기능에 대한 번역 문자열을 관리하는 데 사용하는 접근 방식입니다.
 
     /resources
         /lang
@@ -22,22 +24,25 @@
             /es
                 messages.php
 
-모든 언어 파일은 키를 가지고 있는 배열을 반환합니다. 예를들자면:
+또는 `resources/lang` 디렉토리에 있는 JSON 파일 내에 번역 문자열을 정의할 수 있습니다. 이 접근 방식을 사용할 때 애플리케이션에서 지원하는 각 언어는 이 디렉토리 내에 해당 JSON 파일을 갖습니다. 이 접근 방식은 번역 가능한 문자열이 많은 애플리케이션에 권장됩니다.
 
-    <?php
+    /resources
+        /lang
+            en.json
+            es.json
 
-    return [
-        'welcome' => 'Welcome to our application',
-    ];
-
-> {note} 지역별로 다른 언어를 사용하는 경우 ISO 15897에 따라 구분되는 언어의 명칭을 지정해야합니다. 예를 들어 "en-GB" 대신 영국 영어에는 "en_GB"를 사용해야합니다.
+이 문서에서 번역 문자열을 관리하는 각 접근 방식에 대해 설명합니다.
 
 <a name="configuring-the-locale"></a>
 ### 로케일 설정하기
 
-애플리케이션의 기본 언어는 `config/app.php` 설정 파일에 지정되어 있습니다. 여러분은 이 값들을 애플리케이션에 맞게 수정할 수 있습니다. 또한 `App` 파사드의 `setLocale` 메소드를 사용하여 런타임에 활성화될 언어를 변경할 수도 있습니다.
+애플리케이션의 기본 언어는 `config/app.php` 설정 파일의 `locale` 설정 옵션에 저장됩니다. 애플리케이션의 요구 사항에 맞게 이 값을 자유롭게 수정할 수 있습니다.
 
-    Route::get('welcome/{locale}', function ($locale) {
+`App` 파사드에서 제공하는 `setLocale` 메소드를 사용하여 런타임 시 단일 HTTP 요청에 대한 기본 언어를 수정할 수 있습니다.
+
+    use Illuminate\Support\Facades\App;
+
+    Route::get('/greeting/{locale}', function ($locale) {
         if (! in_array($locale, ['en', 'es', 'fr'])) {
             abort(400);
         }
@@ -51,11 +56,14 @@
 
     'fallback_locale' => 'en',
 
+<a name="determining-the-current-locale"></a>
 #### 현재 로케일 확인하기
 
-`App` 파사드의 `getLocale` 과 `isLocale` 메소드를 사용하여 현재 로케일이나 주어진 로케일이 사용되는지 확인할 수 있습니다.
+`App` 파사드에서 `currentLocale` 및 `isLocale` 메소드를 사용하여 현재 로케일을 결정하거나 로케일이 주어진 값인지 확인할 수 있습니다.
 
-    $locale = App::getLocale();
+    use Illuminate\Support\Facades\App;
+
+    $locale = App::currentLocale();
 
     if (App::isLocale('en')) {
         //
@@ -67,7 +75,7 @@
 <a name="using-short-keys"></a>
 ### 짧은 키 사용하기
 
-일반적으로 다국어 문자값은 `resources/lang` 디렉토리에 있는 파일로 저장됩니다. 이 디렉토리안에서는 애플리케이션에서 지원할 각 언어가 하위 디렉토리로 존재해야 합니다.
+일반적으로 번역 문자열은 `resources/lang` 디렉토리 내의 파일에 저장됩니다. 이 디렉토리에는 애플리케이션에서 지원하는 각 언어에 대한 하위 디렉토리가 있어야 합니다. 이것은 라라벨이 유효성 검사 오류 메시지와 같은 내장 라라벨 기능에 대한 번역 문자열을 관리하는 데 사용하는 접근 방식입니다.
 
     /resources
         /lang
@@ -76,45 +84,53 @@
             /es
                 messages.php
 
-모든 언어파일은 문자키 형태의 배열을 반환합니다 예를 들면:
+모든 언어파일은 문자키 형태의 배열을 반환합니다. 예를 들면:
 
     <?php
 
     // resources/lang/en/messages.php
 
     return [
-        'welcome' => 'Welcome to our application',
+        'welcome' => 'Welcome to our application!',
     ];
+
+> {note} 지역별로 다른 언어의 경우 ISO 15897에 따라 언어 디렉토리의 이름을 지정해야 합니다. 예를 들어 영국식 영어의 경우 "en-gb"가 아닌 "en_GB"를 사용해야 합니다.
 
 <a name="using-translation-strings-as-keys"></a>
 ### 다국어 문자열을 키로 사용하기
 
-다국어 변환이 많은 애플리케이션의 경우에는, 모든 문자를 "짧은 키"로 정의하면 뷰에서 참조할때 금방 복잡해 집니다. 따라서 라라벨은 변환 문자를 "기본" 다국어 문자를 키로 사용하여 다국어 변환 문자열을 정의할 수 있도록 지원하고 있습니다.
+번역 가능한 문자열이 많은 애플리케이션의 경우, 뷰에서 키를 참조할 때 "짧은 키"로 모든 문자열을 정의하는 것이 혼란스러울 수 있으며, 애플리케이션에서 지원하는 모든 번역 문자열에 대해 키를 계속해서 생성하는 것은 번거롭습니다.
 
-다국어 문자열을 키로 사용하는 다국어 파일은 `resources/lang` 디렉토리에 JSON파일로 저장됩니다. 예를 들어, 애플리케이션에서 스페인 언어가 필요한경우 `resources/lang/es.json` 파일을 생성해야합니다.
+이러한 이유로 라라벨은 문자열의 "기본" 번역을 키로 사용하여 번역 문자열 정의에 대한 지원도 제공합니다. 번역 문자열을 키로 사용하는 번역 파일은 `resources/lang` 디렉토리에 JSON 파일로 저장됩니다. 예를 들어 애플리케이션에 스페인어 번역이 있는 경우 `resources/lang/es.json` 파일을 만들어야 합니다.
 
-    {
-        "I love programming.": "Me encanta programar."
-    }
+```js
+{
+    "I love programming.": "Me encanta programar."
+}
+```
+
+#### 키 / 파일 충돌
+
+다른 번역 파일 이름과 충돌하는 번역 문자열 키를 정의하면 안 됩니다. 예를 들어, `nl/action.php` 파일이 존재하지만 `nl.json` 파일이 존재하지 않는  경우, "NL" 로케일에 대해 `__('Action')`을 번역하면 번역기가 `nl/action.php`의 내용을 반환하게 됩니다..
 
 <a name="retrieving-translation-strings"></a>
 ## 다국어 문자 조회하기
 
-`__` 헬퍼 함수를 사용하여 다국어파일을 찾을 수 있습니다. `__` 메소드는 다국어 메세지를 찾기 위해서 파일과 키로 구성된 인자를 전달받습니다. 예를 들어 `resources/lang/messages.php` 파일에서 `welcome` 에 해당하는 다국어 문자를 찾으려면 다음과 같이 하면 됩니다.
+`__` 헬퍼 함수를 사용하여 언어 파일에서 번역 문자열을 검색할 수 있습니다. "짧은 키"를 사용하여 번역 문자열을 정의하는 경우 "." 구문을 사용하여 키와 키 자체를 포함하는 파일을 `__` 함수에 전달해야 합니다. 예를 들어 `resources/lang/en/messages.php` 언어 파일에서 `welcome` 번역 문자열을 검색해 보겠습니다.
 
     echo __('messages.welcome');
 
+지정된 번역 문자열이 존재하지 않으면 `__` 함수는 번역 문자열 키를 반환합니다. 따라서 위의 예를 사용하면 `__` 함수는 번역 문자열이 존재하지 않는 경우 `messages.welcome`을 반환합니다.
+
+[기본 번역 문자열을 번역 키로 사용](#using-translation-strings-as-keys)을 사용하는 경우 문자열의 기본 번역을 `__` 함수에 전달해야 합니다.
+
     echo __('I love programming.');
 
-[블레이드 템플릿 엔진](/docs/{{version}}/blade)을 사용한다면, `{{ }}` 구문 안에서 또는 `@lang` 지시어를 통해서 다국어 문자를 출력할 수 있습니다.
+다시 말하지만, 번역 문자열이 존재하지 않으면 `__` 함수는 제공된 번역 문자열 키를 반환합니다.
+
+[Blade 템플릿 엔진](/docs/{{version}}/blade)을 사용하는 경우 `{{ }}` 에코 구문을 사용하여 번역 문자열을 표시할 수 있습니다.
 
     {{ __('messages.welcome') }}
-
-    @lang('messages.welcome')
-
-지정된 언어에 대한 다국어 문자를 찾을 수 없는 경우 `__` 함수는 다국어 문자 키를 반환할 것입니다. 따라서, 위의 예제에서 다국어 메세지가 없을 경우에 `__` 함수는 `message.welcome` 라는 값을 반환할 것입니다.
-
-> {note} `@lang` 지시어는 아웃풋에 어떠한 escape 처리도 해주지 않습니다. 이 지시어을 사용할 때 사용자는 자신의 출력을 escape 처리 할 **책임**이 있습니다.
 
 <a name="replacing-parameters-in-translation-strings"></a>
 ### 다국어 문자열의 파라미터를 치환하기
@@ -123,7 +139,7 @@
 
     'welcome' => 'Welcome, :name',
 
-다국어 문자열에서 플레이스 홀더를 교체하려면 `__` 함수의 두번째 인자로 교체할 값의 배열을 전달하면 됩니다.
+번역 문자열을 검색할 때 자리 표시자를 교체하려면 대체 할 문자의 배열을 `__` 함수의 두 번째 인수로 전달할 수 있습니다.
 
     echo __('messages.welcome', ['name' => 'dayle']);
 
@@ -132,15 +148,22 @@
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
 
-
 <a name="pluralization"></a>
 ### 복수 표기
 
-각기 다른 언어에서 단수와 복수의 표기는 복잡하고 다양한 것처럼, 복수 표기는 아주 복잡한 문제입니다. "파이프" 문자를 사용하여 여러분은 단수 문자열과 복수형의 문자열을 나눌 수 있습니다.
+언어마다 복수화에 대한 다양한 복잡한 규칙이 있기 때문에 복수화는 복잡한 문제입니다. 그러나 라라벨은 정의한 복수화 규칙에 따라 문자열을 다르게 번역하는 데 도움을 줄 수 있습니다. `|` 문자를 사용하여 문자열의 단수형과 복수형을 구별할 수 있습니다.
 
     'apples' => 'There is one apple|There are many apples',
 
-많은 범위의 복수 표현을 가지고 있는 언어에서 보다 복잡한 복수 표현이 필요하더라도 편리하게 규칙을 만들 수 있습니다.
+물론 [번역 문자열을 키로 사용](using-translation-strings-as-keys)을 사용할 때도 복수화가 지원됩니다.
+
+```js
+{
+    "There is one apple|There are many apples": "Hay una manzana|Hay muchas manzanas"
+}
+```
+
+여러 값 범위에 대한 번역 문자열을 지정하는 더 복잡한 복수화 규칙을 만들 수도 있습니다.
 
     'apples' => '{0} There are none|[1,19] There are some|[20,*] There are many',
 
@@ -154,7 +177,7 @@
 
     echo trans_choice('time.minutes_ago', 5, ['value' => 5]);
 
-`trans_choice` 함수에 전달 된 정수 값을 표시하려면 placeholder `:count` 를 사용할 수 있습니다.
+`trans_choice` 함수에 전달된 정수 값을 표시하려면 내장 `:count` 자리 표시자를 사용할 수 있습니다.
 
     'apples' => '{0} There are none|{1} There is one|[2,*] There are :count',
 

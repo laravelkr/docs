@@ -13,20 +13,18 @@
 <a name="introduction"></a>
 ## 시작하기
 
-미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 필터링할 수 있는 방법을 제공합니다. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. 만약 인증되지 않은 사용자라면 미들웨어는 그 사용자를 로그인 화면으로 리다이렉트 합니다. 반대로 인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속 처리되도록 합니다.
+미들웨어는 애플리케이션으로 들어온 HTTP 요청을 간편하게 검증하고 필터링할 수 있는 방법을 제공합니다. 예를 들어, 라라벨은 애플리케이션의 사용자가 인증되었는지 검사하는 미들웨어를 내장하고 있습니다. 만약 인증되지 않은 사용자라면 미들웨어는 그 사용자를 애플리케이션의 로그인 화면으로 리다이렉트 합니다. 반대로 인증된 사용자라면, 미들웨어는 애플리케이션에서 HTTP 요청이 계속 처리되도록 합니다.
 
-인증 이외에도 다양한 작업을 수행하는 미들웨어를 추가로 작성할 수도 있습니다. CORS 미들웨어는 애플리케이션에서 내보내는 모든 응답에 적절한 헤더들을 추가할 수도 있습니다. 로깅 미들웨어는 애플리케이션으로 들어오는 모든 요청을 기록할 수도 있습니다.
-
-라라벨 프레임워크에는 인증(authentication)과 CSRF 보안을 위한 미들웨어가 포함되어 있습니다. 이러한 미들웨어는 모두 `app/Http/Middleware` 디렉토리 안에 존재합니다.
+인증 이외에도 다양한 작업을 수행하는 미들웨어를 추가로 작성할 수 있습니다. 예를 들어, 로깅 미들웨어는 애플리케이션에 유입되는 모든 요청을 기록할 수 있습니다. 라라벨 프레임워크에는 인증 및 CSRF 보호 미들웨어를 포함해 여러 미들웨어가 존재합니다. 모든 미들웨어는 `app/Http/Middleware` 디렉토리에 있습니다. 
 
 <a name="defining-middleware"></a>
 ## 미들웨어 정의하기
 
-새로운 미들웨어를 생성하려면 `make:middleware` 아티즌 명령을 사용하세요.
+새로운 미들웨어를 생성하려면 `make:middleware` 아티즌 명령을 사용하면 됩니다.
 
-    php artisan make:middleware CheckAge
+    php artisan make:middleware EnsureTokenIsValid
 
-이 명령은 `app/Http/Middleware` 디렉토리 안에 `CheckAge` 클래스를 생성합니다. 이 미들웨어는 `age`가 200보다 클 때에만 요청된 주소에 접근할 수 있도록 허용합니다. 그렇지 않은 경우 사용자를 `home` URI 으로 리다이렉트할 것입니다.
+이 명령은 `app/Http/Middleware` 디렉토리 안에 `EnsureTokenIsValid` 클래스를 생성합니다. 이 미들웨어는 `token`이 지정된 값과 매칭될때만 요청된 주소에 접근할 수 있도록 허용합니다. 그렇지 않은 경우 사용자를 `home` URI 으로 리다이렉트할 것입니다.
 
     <?php
 
@@ -34,7 +32,7 @@
 
     use Closure;
 
-    class CheckAge
+    class EnsureTokenIsValid
     {
         /**
          * Handle an incoming request.
@@ -45,7 +43,7 @@
          */
         public function handle($request, Closure $next)
         {
-            if ($request->age <= 200) {
+            if ($request->input('token') !== 'my-secret-token') {
                 return redirect('home');
             }
 
@@ -53,15 +51,17 @@
         }
     }
 
-위 코드에서 볼 수 있듯이, 주어진 `age`가 200보다 작거나 같으면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환합니다. 그렇지 않다면 HTTP 요청은 (미들웨어를 지나) 애플리케이션 안으로 계속 진행될 것입니다. (미들웨어가 "통과"를 허용하는) HTTP 요청을 애플리케이션 안으로 계속 전달하기 원한다면, `$next` 콜백함수에 `$request`인자를 넣어 호출하면 됩니다.
+위 코드에서 볼 수 있듯이, 주어진 `token` 값이 암호토큰과 매칭되지 않는다면 미들웨어는 HTTP 리다이렉트를 클라이언트에게 반환합니다. 그렇지 않다면 HTTP 요청은 (미들웨어를 지나) 애플리케이션 안으로 계속 진행될 것입니다. (미들웨어가 "통과"를 허용하는) HTTP 요청을 애플리케이션 안으로 계속 전달하기 원한다면, `$next` 콜백함수에 `$request`인자를 넣어 호출하면 됩니다.
 
 미들웨어를 HTTP 요청이 애플리케이션에 도달하기 전에 반드시 통과해야 하는 일종의 "단계(layers)"라고 생각하는 것이 가장 좋습니다. 각 단계에서 요청을 검사할 수 있고 요청을 완전히 거절할 수도 있습니다.
 
 > {tip} 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
-#### Before & After 미들웨어
+<a name="before-after-middleware"></a>
+<a name="middleware-and-responses"></a>
+#### 미들웨어와 응답
 
-애플리케이션이 HTTP 요청을 미들웨어가 처리하기 전에 실행될지 처리한 후에 실행될지는 미들웨어 자신이 결정할 수 있습니다. 예를 들어 다음의 미들웨어는 애플리케이션에서 HTTP 요청이 처리되기 **이전** 에 실행됩니다.
+당연하게도, 미들웨어는 요청을 애플리케이션에게 전달하기 전과 후 둘중 언제 실행될지 자신이 결정할 수 있습니다. 예를 들어 다음의 미들웨어는 애플리케이션에서 HTTP 요청이 처리되기 **이전** 에 실행됩니다.
 
     <?php
 
@@ -110,9 +110,9 @@
 <a name="assigning-middleware-to-routes"></a>
 ### 라우트에 미들웨어 지정하기
 
-미들웨어를 특정 라우트에만 할당하고 싶을 때에는 우선 `app/Http/Kernel.php` 파일에 그 미들웨어의 이름(key)을 지정해야 합니다. 이 클래스의 `$routeMiddleware` 속성에는 라라벨에 포함된 미들웨어 목록이 있습니다. 미들웨어를 추가하려면 미들웨어 이름과 함께 이 목록에 붙여주세요.
+If you would like to assign middleware to specific routes, you should first assign the middleware a key in your application's `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it a key of your choosing:
 
-    // Within App\Http\Kernel Class...
+    // Within App\Http\Kernel class...
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -128,36 +128,49 @@
 
 미들웨어를 HTTP 커널에 등록했다면, 라우트에 `middleware` 메소드를 사용하여 미들웨어를 지정할 수 있습니다.
 
-    Route::get('admin/profile', function () {
+    Route::get('/profile', function () {
         //
     })->middleware('auth');
 
-라우트에 여러개의 미들웨어를 지정할 수도 있습니다.
+라우트에 `middleware` 메서드에 미들웨어 이름으로 된 배열을 전달하여 여러개의 미들웨어를 지정할 수도 있습니다.
 
     Route::get('/', function () {
         //
-    })->middleware('first', 'second');
+    })->middleware(['first', 'second']);
 
 미들웨어를 지정할 때, 전체 클래스 이름을 전달할 수도 있습니다.
 
-    use App\Http\Middleware\CheckAge;
+    use App\Http\Middleware\EnsureTokenIsValid;
 
-    Route::get('admin/profile', function () {
+    Route::get('/profile', function () {
         //
-    })->middleware(CheckAge::class);
+    })->middleware(EnsureTokenIsValid::class);
+
+<a name="excluding-middleware"></a>
+#### 미들웨어 제외하기
 
 라우트 그룹에 미들웨어를 할당 할 때 때때로 미들웨어가 그룹 내의 개별 라우트에 적용되는 것을 방지해야 할 수 있습니다. `withoutMiddleware` 메소드를 사용하여 이것을 처리할 수 있습니다.
 
-    use App\Http\Middleware\CheckAge;
+    use App\Http\Middleware\EnsureTokenIsValid;
 
-    Route::middleware([CheckAge::class])->group(function () {
+    Route::middleware([EnsureTokenIsValid::class])->group(function () {
         Route::get('/', function () {
             //
         });
 
-        Route::get('admin/profile', function () {
+        Route::get('/profile', function () {
             //
-        })->withoutMiddleware([CheckAge::class]);
+        })->withoutMiddleware([EnsureTokenIsValid::class]);
+    });
+
+라우트가 정의된 전체 [그룹](/docs/{{version}}/routing#route-groups)에서 주어진 미들웨어 세트를 제외할 수도 있습니다.
+
+    use App\Http\Middleware\EnsureTokenIsValid;
+
+    Route::withoutMiddleware([EnsureTokenIsValid::class])->group(function () {
+        Route::get('/profile', function () {
+            //
+        });
     });
 
 `withoutMiddleware` 메소드는 라우트 미들웨어 만 제거 할 수 있으며 [글로벌 미들웨어](#global-middleware)에는 적용되지 않습니다.
@@ -167,7 +180,7 @@
 
 여러 개의 미들웨어를 하나의 이름으로 묶어서 라우트에 할당하고 싶을 수도 있습니다. 이 경우 HTTP 커널의 `$middlewareGroups` 속성을 사용하면 됩니다.
 
-별다른 설정 없이도, 라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다.
+별다른 설정 없이도, 라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다. 이 미들웨어 그룹은 애플리케이션의 `App\Providers\RouteServiceProvider` 서비스 프로바이더가 `web` 및 `api` 라우트 파일 안의 경로에 자동으로 적용한다는 것을 기억하십시오.
 
     /**
      * The application's route middleware groups.
@@ -179,14 +192,15 @@
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
-            'throttle:60,1',
-            'auth:api',
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -196,32 +210,31 @@
         //
     })->middleware('web');
 
-    Route::group(['middleware' => ['web']], function () {
+    Route::middleware(['web'])->group(function () {
         //
     });
 
-    Route::middleware(['web', 'subscribed'])->group(function () {
-        //
-    });
-
-> {tip} 별다른 설정없이도, `web` 미들웨어 그룹이 자동으로 `RouteServiceProvider`의 `routes/web.php` 파일에 지정되어 있습니다.
+> {tip} 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
 
 <a name="sorting-middleware"></a>
 ### 미들웨어 순서
 
-드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다.
+드물게, 미들웨어를 정해진 순서에 따라서 실행하기를 원하지만, 라우트에 할당된 순서를 제어할 수는 없습니다. 이러한 경우, `app/Http/Kernel.php` 파일의 미들웨어의 `$middlewarePriority` 속성을 사용하여 우선순위를 지정할 수 있습니다. 이 속성은 HTTP 커널에 기본적으로 존재하지 않을 수도 있습니다. 이 속성이 없다면 다음과 같이 기본 코드를 복사할 수 있습니다.
 
     /**
      * The priority-sorted list of middleware.
      *
      * This forces non-global middleware to always be in the given order.
      *
-     * @var array
+     * @var string[]
      */
     protected $middlewarePriority = [
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\Authenticate::class,
+        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
@@ -230,7 +243,7 @@
 <a name="middleware-parameters"></a>
 ## 미들웨어 파라미터
 
-미들웨어는 인자를 전달 받을 수도 있습니다. 예를 들어 로그인 사용자가 적절한 "역할(role)"을 가지고 있는지 확인해야 할 때, 역할의 이름을 인자로 전달받는 `CheckRole` 미들웨어를 만들 수 있습니다.
+미들웨어는 인자를 전달 받을 수도 있습니다. 예를 들어 로그인 사용자가 적절한 "역할(role)"을 가지고 있는지 확인해야 할 때, 역할의 이름을 인자로 전달받는 `EnsureUserHasRole` 미들웨어를 만들 수 있습니다.
 
 미들웨어 인자는 미들웨어의 `$next` 인자 다음에 전달됩니다.
 
@@ -240,7 +253,7 @@
 
     use Closure;
 
-    class CheckRole
+    class EnsureUserHasRole
     {
         /**
          * Handle the incoming request.
@@ -263,7 +276,7 @@
 
 라우트를 정의 할 때 미들웨어 이름과 인자를 `:` 로 구분합니다. 여러 개의 인자는 쉼표로 구분합니다.
 
-    Route::put('post/{id}', function ($id) {
+    Route::put('/post/{id}', function ($id) {
         //
     })->middleware('role:editor');
 
@@ -279,24 +292,38 @@
 
     use Closure;
 
-    class StartSession
+    class TerminatingMiddleware
     {
+        /**
+         * Handle an incoming request.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Closure  $next
+         * @return mixed
+         */
         public function handle($request, Closure $next)
         {
             return $next($request);
         }
 
+        /**
+         * Handle tasks after the response has been sent to the browser.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @param  \Illuminate\Http\Response  $response
+         * @return void
+         */
         public function terminate($request, $response)
         {
-            // Store the session data...
+            // ...
         }
     }
 
 `terminate` 메소드는 Http 요청과 응답의 두 가지를 전달 받는 구조여야 합니다. 종료시 동작하는 미들웨어는 `app/Http/Kernel.php` 파일의 라우트나 글로벌 미들웨어 목록에 추가해야 합니다.
 
-미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오. 이것은 일반적으로 `AppServiceProvider.php`의 `register` 메소드에서 수행해야합니다.
+미들웨어의 `terminate` 메소드를 호출하면, 라라벨은 [서비스 컨테이너](/docs/{{version}}/container)를 통해 새로운 미들웨어 인스턴스를 생성합니다. `handle` 과 `terminate` 메소드를 호출할 때, 동일한 미들웨어 인스턴스를 사용하려면 컨테이너의 `singleton` 메소드를 사용하여 미들웨어를 등록하십시오. 이것은 일반적으로`AppServiceProvider`의 `register` 메소드에서 수행해야합니다.
 
-    use App\Http\Middleware\TerminableMiddleware;
+    use App\Http\Middleware\TerminatingMiddleware;
 
     /**
      * Register any application services.
@@ -305,5 +332,5 @@
      */
     public function register()
     {
-        $this->app->singleton(TerminableMiddleware::class);
+        $this->app->singleton(TerminatingMiddleware::class);
     }

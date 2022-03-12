@@ -14,9 +14,11 @@
 
 그런데 "부트스트래핑" 이란 과연 무엇을 의미하는 것일까요? 일반적으로는 서비스 컨테이너에 바인딩을 등록하는 것을 포함해서 이벤트 리스너, 미들웨어 그리고 라우트등을 **등록** 하는 것을 의미합니다. 서비스 프로바이더는 애플리케이션 구성의 핵심입니다.
 
-라라벨에 포함되어 있는 `config/app.php` 파일을 열어 본다면 `providers` 배열을 볼 수 있을 것입니다. 배열 안에 있는 모든 서비스 프로바이더 클래스가 애플리케이션에 로드됩니다. 대부분의 프로바이더는 "지연된" 프로바이더입니다. 이 말은 모든 요청에 대해서 반드시 로드되지 않고 실제로 필요할 때에 로드 된다는 것을 의미합니다.
+라라벨에 포함된 `config/app.php` 파일을 열면 `providers` 배열을 볼 수 있습니다. 이들은 애플리케이션에 대해 로드될 모든 서비스 프로바이더 클래스입니다. 기본적으로 라라벨 핵심 서비스 프로바이더 세트가 이 배열에 나열됩니다. 이러한 프로바이더는 메일러, 큐, 캐시 등과 같은 핵심 라라벨 구성 요소를 부트스트랩합니다. 이러한 프로바이더 중 다수는 "지연된" 프로바이더입니다. 즉, 모든 요청에 로드되지 않고 해당 프로바이더가 제공하는 서비스가 실제로 필요할 때만 로드됩니다.
 
 여기에서는 서비스 프로바이더를 작성하는 방법과 라라벨 애플리케이션에 등록하는 방법을 배워봅시다.
+
+> {tip} Laravel이 요청을 처리하고 내부적으로 작동하는 방식에 대해 자세히 알아보려면 Laravel [request lifecycle](/docs/{{version}}/lifecycle)에 대한 문서를 확인하세요.
 
 <a name="writing-service-providers"></a>
 ## 서비스 프로바이더 작성하기
@@ -38,8 +40,8 @@
 
     namespace App\Providers;
 
+    use App\Services\Riak\Connection;
     use Illuminate\Support\ServiceProvider;
-    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider
     {
@@ -56,8 +58,9 @@
         }
     }
 
-이 서비스 프로바이더는 `register` 메소드만 정의되어 있습니다. 그리고 이 메소드를 통해서 서비스 컨테이너에 `Riak\Connection` 구현 객체를 정의하고 있습니다. 서비스 컨테이너가 어떻게 작동하는지 이해하지 못하겠다면, [컨테이너 문서](/docs/{{version}}/container)를 확인하십시오.
+이 서비스 프로바이더는 `register` 메서드만 정의하고 해당 메서드를 사용하여 서비스 컨테이너에서 `App\Services\Riak\Connection`의 구현을 정의합니다. 라라벨의 서비스 컨테이너가 아직 익숙하지 않다면 [해당 문서](/docs/{{version}}/container)를 확인하세요.
 
+<a name="the-bindings-and-singletons-properties"></a>
 #### `bindings` 과 `singletons` 속성
 
 서비스 프로바이더가 동일한 (simple) 바인딩 여러개를 등록한다면, 각각의 컨테이너 바인딩을 일일이 등록하는 대신에 `bindings` 와 `singletons` 속성을 사용할 수 있습니다. 프레임워크에서 서비스 프로바이더가 로드 될 때, 이 속성들을 자동으로 체크하고 바인딩을 등록합니다.
@@ -104,6 +107,7 @@
 
     namespace App\Providers;
 
+    use Illuminate\Support\Facades\View;
     use Illuminate\Support\ServiceProvider;
 
     class ComposerServiceProvider extends ServiceProvider
@@ -115,21 +119,28 @@
          */
         public function boot()
         {
-            view()->composer('view', function () {
+            View::composer('view', function () {
                 //
             });
         }
     }
 
+<a name="boot-method-dependency-injection"></a>
 #### Boot 메소드의 의존성 주입
 
 여러분은 서비스 프로바이더의 `boot` 메소드에서 의존성 주입을 위해서 타입 힌트를 사용할 수 있습니다. [서비스 컨테이너](/docs/{{version}}/container)는 자동으로 필요한 의존 객체를 주입할 것입니다.
 
     use Illuminate\Contracts\Routing\ResponseFactory;
 
+    /**
+     * Bootstrap any application services.
+     *
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
+     * @return void
+     */
     public function boot(ResponseFactory $response)
     {
-        $response->macro('caps', function ($value) {
+        $response->macro('serialized', function ($value) {
             //
         });
     }
@@ -160,9 +171,9 @@
 
     namespace App\Providers;
 
+    use App\Services\Riak\Connection;
     use Illuminate\Contracts\Support\DeferrableProvider;
     use Illuminate\Support\ServiceProvider;
-    use Riak\Connection;
 
     class RiakServiceProvider extends ServiceProvider implements DeferrableProvider
     {

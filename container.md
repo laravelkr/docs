@@ -1,6 +1,10 @@
 # 서비스 컨테이너
 
 - [시작하기](#introduction)
+  - [Zero Configuration Resolution](#zero-configuration-resolution)
+  - [설정이 필요없는 의존성 해결](#zero-configuration-resolution)
+  - [When To Use The Container](#when-to-use-the-container)
+  - [컨테이너를 사용할 때](#when-to-use-the-container)
 - [바인딩](#binding)
     - [기본적인 바인딩](#binding-basics)
     - [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations)
@@ -12,6 +16,7 @@
 - [의존성 해결](#resolving)
     - [Make 메소드](#the-make-method)
     - [자동 주입](#automatic-injection)
+- [메소드 호출 & 주입](#method-invocation-and-injection)
 - [컨테이너 이벤트](#container-events)
 - [PSR-11](#psr-11)
 
@@ -68,6 +73,41 @@
 
 라라벨 서비스 컨테이너를 깊이 이해하는 것은 강력하고 큰 애플리케이션을 구축할 때나 라라벨 코어에 공헌하기 위해서 아주 중요한 부분입니다.
 
+<a name="zero-configuration-resolution"></a>
+### 설정이 필요없는 의존성 해결
+
+클래스에 의존성이 없거나 인터페이스가 아닌 다른 구현 된 클래스에만 의존하는 경우, 컨테이너는 해당 클래스에 대한 의존성 해결을 지시받을 필요가 없습니다. 예를 들어 'routes/web.php' 파일에 다음 코드를 넣을 수 있습니다.
+
+    <?php
+
+    class Service
+    {
+        //
+    }
+
+    Route::get('/', function (Service $service) {
+        die(get_class($service));
+    });
+
+이 예시에서 애플리케이션의 `/` 경로로 접속하면 자동으로 라우트 핸들러를 통해 `Service` 클래스에 대한 의존성을 해결하고 주입합니다. 이것은 여러분들이 비대한 설정 파일들에 대한 걱정 없이 의존성 주입의 이점을 누리며 애플리케이션을 개발할 수 있다는 것을 의미합니다.
+
+고맙게도 라라벨 애플리케이션을 개발할 때 작성할 [컨트롤러](/docs/{version}/controllers), [이벤트 리스너](/docs/{version}/events), [미들웨어](/docs/{vers}/{version}/middware) 등을 포함한 클래스는 컨테이너를 통해 종속성을 자동으로 수신합니다.
+
+<a name="when-to-use-the-container"></a>
+### 컨테이너를 사용할 때
+
+설정이 따로 필요없는 의존성 해결 덕분에, 라우트, 컨트롤러, 이벤트 리스너 그리고 그 외에도 컨테이너와 직접 상호 작용하지 않고 타입힌팅으로 의존성을 해결할 수 있습니다. 예를 들어, 라우트 명시에 `Illuminate\Http\Request` 객체를 타입힌팅 하면 현재 요청 에 쉽게 액세스 할 수 있습니다. 컨테이너와 직접 상호작용하는 코드를 작성하지 않더라도, 이면에선 의존성 주입들을 관리해줍니다.
+
+    use Illuminate\Http\Request;
+
+    Route::get('/', function (Request $request) {
+        // ...
+    });
+
+많은 상황에서, 파사드와 자동 의존성 주입 덕분에 라라벨 애플리케이션을 컨테이너에 무엇이든 직접 바인딩하거나 의존성 해결할 필요 없이 만들 수 있습니다. 그럼 언제 컨테이너와 직접 상호작용할까요? 두 상황을 한번 예시로 봅시다.
+
+먼저, 인터페이스를 구현한 클래스를 작성하고 라우트나 클래스 생성자에 타입힌팅 하고 싶으면, [인터페이스에 구현객체 바인딩하기](#binding-interfaces-to-implementations) 를 해야 합니다. 두번째로 다른 라라벨 개발자들에게 공유하려는 [라라벨 패키지 작성하기](/docs/{{version}}/packages) 를 진행 중이라면, 컨테이너에 패키지의 서비스들을 바인딩해야 할 수 있습니다.
+
 <a name="binding"></a>
 ## 바인딩
 
@@ -96,6 +136,19 @@
         return new \HelpSpot\API($app->make('HttpClient'));
     });
 
+<a name="binding-scoped"></a>
+#### Scoped 싱글턴 바인딩
+
+`scoped` 메소드는 주어진 Laravel 요청/작업 라이프사이클 내에서 한 번만 해결되어야 하는 클래스 또는 인터페이스를 컨테이너에 바인딩합니다. `singleton` 메서드와 유사하지만, `scoped` 메서드를 통해 등록된 인스턴스는 [Laravel Octane](/docs/{{version}}/octane) 워커가 새 요청을 처리하거나 [큐 워커](/docs/{{version}}/queues)가 새 "라이프사이클"을 시작할 때마다 컨테이너에서 비워집니다.
+
+    use App\Services\Transistor;
+    use App\Services\PodcastParser;
+
+    $this->app->scoped(Transistor::class, function ($app) {
+        return new Transistor($app->make(PodcastParser::class));
+    });
+
+<a name="binding-instances"></a>
 #### 인스턴스를 바인딩하기
 
 `instance` 메소드를 사용하여 이미 존재하는 객체의 인스턴스를 컨테이너에 바인딩 할 수 있습니다. 이후 컨테이너에서 호출이 될 때는 매번 주어진 인스턴스가 반환됩니다. 
@@ -206,6 +259,7 @@
                   TooLongFilter::class,
               ]);
 
+<a name="variadic-tag-dependencies"></a>
 #### 가변 태그 종속성
 
 때때로 클래스는 주어진 클래스 (`Report ... $reports`)로 타입 힌트 된 가변 종속성을 가질 수 있습니다. `needs` 및 `giveTagged` 메소드를 사용하면 주어진 종속성에 대해 해당 태그로 모든 컨테이너 바인딩을 쉽게 삽입 할 수 있습니다.
@@ -304,6 +358,47 @@
             //
         }
     }
+
+<a name="method-invocation-and-injection"></a>
+## 메소드 호출 & 주입
+
+때때로 메소드의 의존성들을 자동으로 주입할 수 있는 상태에서 객체 인스턴스에서 메소드를 호출하고 싶을 수 있습니다. 예를 들어, 아래와 같은 클래스가 있습니다.
+
+    <?php
+
+    namespace App;
+
+    use App\Repositories\UserRepository;
+
+    class UserReport
+    {
+        /**
+         * Generate a new user report.
+         *
+         * @param  \App\Repositories\UserRepository  $repository
+         * @return array
+         */
+        public function generate(UserRepository $repository)
+        {
+            // ...
+        }
+    }
+
+`generate` 메소드를 컨테이너를 통해 호출하고 싶을 수 있습니다. 아래와 같이 사용할 수 있습니다.
+
+    use App\UserReport;
+    use Illuminate\Support\Facades\App;
+
+    $report = App::call([new UserReport, 'generate']);
+
+`call` 메소드는 모든 PHP callable 을 허용합니다. 컨테이너의 `call` 메소드는 의존성들을 해결하는 동안 클로저를 호출하는데 사용될 수도 있다는 얘기입니다.
+
+    use App\Repositories\UserRepository;
+    use Illuminate\Support\Facades\App;
+
+    $result = App::call(function (UserRepository $repository) {
+        // ...
+    });
 
 <a name="container-events"></a>
 ## 컨테이너 이벤트

@@ -253,7 +253,7 @@ Queued jobs, Notification, 그리고 Listener의 `timeoutAt` 속성은 `retryUnt
 
 **영향 가능성: 선택적**
 
-이전 버전의 라라벨에서는 `RouteServiceProvider` 클래스가 `App\Http\Controllers` 값을 가진 `$namespace` 속성을 포함하고 있었습니다. 이 속성은 컨트롤러 라우트 선언부 혹은 `action` 헬퍼와 같은 메소드 호출을 통한 URL 생성부에서 자동 접두어로 사용되었습니다.
+이전 버전의 라라벨에서는 `RouteServiceProvider` 클래스가 `App\Http\Controllers` 값을 가진 `$namespace` 속성을 포함하고 있었습니다. 이 속성값은 컨트롤러 라우트 선언부 혹은 `action` 헬퍼와 같은 메소드 호출을 통한 URL 생성부에서 자동 접두어로 사용되었습니다.
 
 라라벨 8에서는, 이 속성은 기본적으로 `null` 로 설정됩니다. 이것은 여러분의 컨트롤러 라우트 선언이 PHP 표준 callable 문법을 따르도록 하여, 여러 IDE에서 컨트롤러 클래스로의 jump 를 제대로 지원받기 위한 것입니다.
 

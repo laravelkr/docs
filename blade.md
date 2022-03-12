@@ -1,113 +1,61 @@
 # 블레이드 템플릿
 
 - [시작하기](#introduction)
-- [템플릿 상속](#template-inheritance)
-    - [레이아웃 정의하기](#defining-a-layout)
-    - [레이아웃 확장하기](#extending-a-layout)
-- [데이터 표시하기](#displaying-data)
-    - [블레이드 & 자바스크립트 프레임워크](#blade-and-javascript-frameworks)
-- [제어 구조](#control-structures)
+- [데이터 표시](#displaying-data)
+    - [HTML 엔티티 인코딩](#html-entity-encoding)
+    - [블레이드 및 자바스크립트 프레임워크](#blade-and-javascript-frameworks)
+- [블레이드 지시자](#blade-directives)
     - [조건문](#if-statements)
     - [스위치 구문](#switch-statements)
     - [반복문](#loops)
     - [루프 변수](#the-loop-variable)
+    - [조건부 클래스](#conditional-classes)
+    - [하위 뷰 포함하기](#including-subviews)
+    - [`@once` 지시자](#the-once-directive)
+    - [Raw PHP](#raw-php)
     - [주석](#comments)
-    - [PHP](#php)
-    - [`@once` 지시어](#the-once-directive)
-- [폼](#forms)
-    - [CSRF 필드](#csrf-field)
-    - [메소드 필드](#method-field)
-    - [Validation Errors](#validation-errors)
 - [컴포넌트](#components)
-    - [컴포넌트 표시](#displaying-components)
+    - [컴포넌트 렌더링](#rendering-components)
     - [컴포넌트에 데이터 전달하기](#passing-data-to-components)
-    - [속성 관리](#managing-attributes)
+    - [컴포넌트 속성](#component-attributes)
+    - [예약어](#reserved-keywords)
     - [슬롯](#slots)
     - [인라인 컴포넌트 뷰](#inline-component-views)
     - [익명 컴포넌트](#anonymous-components)
     - [동적 컴포넌트](#dynamic-components)
-- [하위 뷰파일 포함시키기](#including-sub-views)
-    - [컬렉션을 뷰에서 렌더링하기](#rendering-views-for-collections)
+    - [수동으로 컴포넌트 등록](#manually-registering-components)
+- [레이아웃 만들기](#building-layouts)
+    - [컴포넌트를 사용한 레이아웃](#layouts-using-components)
+    - [템플릿 상속을 사용한 레이아웃](#layouts-using-template-inheritance)
+- [양식-Form](#forms)
+    - [CSRF 필드](#csrf-field)
+    - [메소드 필드](#method-field)
+    - [검증 오류](#validation-errors)
 - [스택](#stacks)
 - [서비스 인젝션-주입](#service-injection)
 - [블레이드 기능 확장하기](#extending-blade)
-    - [커스텀 If 구문](#custom-if-statements)
+    - [사용자 정의 출력-echo 핸들러](#custom-echo-handlers)
+    - [사용자 정의 조건문](#custom-if-statements)
 
 <a name="introduction"></a>
 ## 시작하기
 
-블레이드는 라라벨에서 제공하는 간단하지만 강력한 템플릿 엔진입니다. 다른 인지도 높은 PHP 템플릿 엔진들과는 달리 블레이드는 뷰에서 순수한 PHP 코드를 작성하는 것을 허용합니다. 실제로는, 모든 블레이드 뷰는 단순한 PHP 코드로 컴파일되고 변경되기 전까지 캐시 됩니다. 이는 블레이드가 애플리케이션에 아무런 부담을 주지 않는다는 것을 의미합니다. 블레이드 뷰 파일은 `.blade.php` 형식의 파일 확장자를 사용하고 주로 `resources/views`에 저장됩니다.
+블레이드는 라라벨에 포함된 단순하지만 강력한 템플릿 엔진입니다. 일부 PHP 템플릿 엔진과 달리 블레이드는 템플릿에서 일반 PHP 코드를 사용하는 것을 제한하지 않습니다. 사실, 모든 Blade 템플릿은 일반 PHP 코드로 컴파일되고 수정될 때까지 캐시됩니다. 이는 블레이드가 기본적으로 애플리케이션에 추가적인 부하를 추가하지 않는다는 것을 의미합니다. 블레이드 템플릿 파일은 `.blade.php` 파일 확장자를 사용하며 일반적으로 `resources/views` 디렉토리에 저장됩니다.
 
-<a name="template-inheritance"></a>
-## 템플릿 상속
+블레이드는 전역 `view` 헬퍼를 사용하여 라우트 또는 컨트롤러에서 반환 할 수 있습니다. 물론 [views](docs{{version}}views) 문서에서 언급했듯이 `view` 헬퍼의 두 번째 인수를 사용하여 데이터를 블레이드에 전달할 수 있습니다.
 
-<a name="defining-a-layout"></a>
-### 레이아웃 정의하기
-
-블레이드의 가장 주요한 두가지 장점은 _템플릿 상속_ 과 _섹션_ 입니다. 먼저 간단한 예를 살펴보겠습니다. 우선 "마스터" 페이지 레이아웃을 구성할 것입니다. 대부분의 웹 애플리케이션이 다양한 페이지에서 동일한 레이아웃을 유지하기 때문에 이 레이아웃을 하나의 블레이드 뷰로 정의하는 것이 편리합니다.
-
-    <!-- Stored in resources/views/layouts/app.blade.php -->
-
-    <html>
-        <head>
-            <title>App Name - @yield('title')</title>
-        </head>
-        <body>
-            @section('sidebar')
-                This is the master sidebar.
-            @show
-
-            <div class="container">
-                @yield('content')
-            </div>
-        </body>
-    </html>
-
-여기서 볼 수 있듯이, 이 파일은 전형적인 HTML 마크업을 가지고 있습니다. 하지만 `@section` 와 `@yield` 지시어을 확인하십시오. `@section` 는 말 그대로 내용의 섹션을 정의하고 `@yield`는 어떤 섹션의 컨텐츠을 나타내는 데에 사용됩니다.
-
-이제 애플리케이션의 레이아웃을 정의하였으니, 이 레이아웃을 상속하는 자식 페이지를 정의하도록 하겠습니다.
-
-<a name="extending-a-layout"></a>
-### 레이아웃 확장하기
-
-하위 뷰를 정의할 때 블레이드 `@extends` 지시어을 사용해 하위 페이지가 어느 레이아웃을 "상속" 받을지 명시할 수 있습니다. 블레이드 레이아웃을 상속 받는 뷰는 `@section` 지시어를 이용해 레이아웃의 섹션에 컨텐츠를 삽입할 수 있습니다. 위의 예제에서 본 것처럼 이 섹션들의 컨텐츠는 `@yield`를 통해 레이아웃에 명시됩니다.
-
-    <!-- Stored in resources/views/child.blade.php -->
-
-    @extends('layouts.app')
-
-    @section('title', 'Page Title')
-
-    @section('sidebar')
-        @@parent
-
-        <p>This is appended to the master sidebar.</p>
-    @endsection
-
-    @section('content')
-        <p>This is my body content.</p>
-    @endsection
-
-이 예제에 `sidebar` 섹션은 `@@parent` 지시어를 활용해서 레이아웃 사이드바에 컨텐츠를 겹쳐 쓰지 않고 추가합니다. `@@parent` 지시어은 뷰가 렌더링되면 레이아웃의 컨텐츠에 의해 대체됩니다.
-
-> {tip} 이전 예제와는 다르게, `sidebar` 섹션은 `@show` 대신에 `@endsection` 으로 끝납니다. `@endsection` 지시어는 섹션 만을 정의하고, `@show`는 정의하는 **즉시 섹션을 생성** 합니다.
-
-또한 `@yield` 지시어는 두 번째 파라미터를 통해 기본값을 입력받습니다. 해당 섹션이 정의되지 않을 경우 이 값이 렌더링됩니다.
-
-    @yield('content', View::make('view.name'))
-
-블레이드 뷰도 글로벌 `view` 헬퍼를 사용하여 라우트에서 반환될 수 있습니다.
-
-    Route::get('blade', function () {
-        return view('child');
+    Route::get('/', function () {
+        return view('greeting', ['name' => 'Finn']);
     });
+
+> {tip} 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https:laravel-livewire.com)를 확인하세요.
 
 <a name="displaying-data"></a>
 ## 데이터 표시하기
 
 블레이드 뷰로 전달된 데이터를 표시하기 위해 중괄호로 쌓인 변수를 전달할 수 있습니다. 예로 들어 다음의 라우트를 볼 수 있습니다.
 
-    Route::get('greeting', function () {
+    Route::get('/', function () {
         return view('welcome', ['name' => 'Samantha']);
     });
 
@@ -121,33 +69,8 @@
 
     The current UNIX timestamp is {{ time() }}.
 
-#### Escape 처리되지 않은 데이터 표시하기
-
-기본적으로 블레이드 `{{ }}` 문장은 XSS 공격을 방지하기 위해 PHP의 `htmlspecialchars` 함수를 통과합니다. 데이터를 escape 처리를 하지 않으려면 다음과 같이 작성하면 됩니다.
-
-    Hello, {!! $name !!}.
-
-> {note} 애플리케이션의 사용자들로 부터 입력하여 표시되는 컨텐츠를 출력할 때는 escape-이스케이프에 대한 주의가 필요합니다. 사용자가 제공 한 데이터를 표시 할 때 XSS 공격을 방지하려면 항상 이스케이프 처리 된 이중 중괄호 문법을 사용하십시오.
-
-#### JSON 렌더링
-
-때로는 다음의 예와 같이, 자바스크립트 변수를 초기화하는데 사용하기 위해서 뷰에 배열을 전달하여 json으로 렌더링하기를 원할수도 있습니다.
-
-    <script>
-        var app = <?php echo json_encode($array); ?>;
-    </script>
-
-직접 `json_encode` 함수를 호출하는 대신에, `@json` 블레이드 지시어를 사용할 수 있습니다. `@json` 지시어는 PHP의 `json_encode` 함수와 같은 인수를 받아들입니다.
-
-    <script>
-        var app = @json($array);
-
-        var app = @json($array, JSON_PRETTY_PRINT);
-    </script>
-
-> {note} 기존 변수를 JSON으로 렌더링하려면 `@json` 지시어 만 사용해야합니다. Blade 템플릿은 정규 표현식을 기반으로하며 지시어에 복잡한 표현식을 전달하려고하면 예상치 못한 오류가 발생할 수 있습니다.
-
-#### HTML Entity 인코딩
+<a name="html-entity-encoding"></a>
+### HTML 엔티티 인코딩
 
 기본적으로, 블레이드 (그리고 라라벨의 `e` 헬퍼)는 HTML 요소를 두번 인코딩을 합니다. 이중 인코딩을 비활성화 하고 싶을 때에는, `AppServiceProvider` 의 `boot` 메소드 안에 `Blade::withoutDoubleEncoding` 메소드를 호출하면 됩니다.
 
@@ -171,10 +94,19 @@
         }
     }
 
+<a name="displaying-unescaped-data"></a>
+#### 이스케이프 처리되지 않은 데이터 표시
+
+기본적으로 블레이드의 `{{ }}` 문은 XSS 공격을 방지하기 위해 PHP의 `htmlspecialchars` 함수를 통해 자동으로 처리됩니다. 데이터를 이스케이프하지 않으려면 다음 문법을 사용할 수 있습니다.
+
+    Hello, {!! $name !!}.
+
+> {note} 애플리케이션의 사용자가 입력한 콘텐츠를 출력할 때는 매우 주의하십시오. 일반적으로는 사용자가 입력한 데이터를 표시할 때 XSS 공격을 방지하려면 이스케이프된 이중 중괄호 구문을 사용해야 합니다.
+
 <a name="blade-and-javascript-frameworks"></a>
 ### 블레이드 & 자바스크립트 프레임워크
 
-많은 자바스크립트 프레임워크에서 또한 중괄호를 사용하여 특정 표현이 브라우저에서 표시되어야 하는다는 것을 명시하기 때문에 `@` 기호를 써서 이 중괄호 표현을 유지해야 한다는 것을 블레이드 렌더링 엔진에게 알려 줄 수 있습니다. 예를 들어:
+많은 자바스크립트 프레임워크에서 또한 중괄호를 사용하여 특정 표현이 브라우저에서 표시되어야 하는다는 것을 명시하기 때문에 `@` 기호를 써서 이 중괄호 표현을 유지해야 한다는 것을 블레이드 렌더링 엔진에게 알려 줄 수 있습니다. 예를 들어
 
     <h1>Laravel</h1>
 
@@ -184,12 +116,36 @@
 
 `@`기호를 사용하여 Blade 지시문을 이스케이프 할 수도 있습니다.
 
-    {{-- Blade --}}
-    @@json()
+    {{-- Blade template --}}
+    @@if()
 
     <!-- HTML output -->
-    @json()
+    @if()
 
+<a name="rendering-json"></a>
+#### JSON 렌더링
+
+때로는 JavaScript 변수를 초기화하기 위해 배열을 JSON으로 렌더링해서 뷰에 전달할 수 있습니다. 예를 들어
+
+    <script>
+        var app = <?php echo json_encode($array); ?>;
+    </script>
+
+그러나 `json_encode`를 수동으로 호출하는 대신 `Illuminate\Support\Js::from` 메소드 지시문을 사용할 수 있습니다. `from` 메소드는 PHP의 `json_encode` 함수와 동일한 인수를 입력받습니다. 그러나 결과 JSON이 HTML 따옴표 안에 포함되도록 적절하게 이스케이프 처리되도록 합니다. `from` 메소드는 주어진 객체 또는 배열을 유효한 JavaScript 객체로 변환할 수있는 `JSON.parse` JavaScript 문을 반환합니다.
+
+    <script>
+        var app = {{ Illuminate\Support\Js::from($array) }};
+    </script>
+
+최신 버전의 라라벨 애플리케이션 스켈레톤에는 블레이드 템플릿 내에서 이 기능에 대한 편리한 액세스를 제공하는 `Js` 파사드가 포함되어 있습니다.
+
+    <script>
+        var app = {{ Js::from($array) }};
+    </script>
+
+> {note} 기존 변수를 JSON으로 렌더링하려면 `Js::from` 메서드만 사용해야 합니다. 블레이드 템플릿은 정규 표현식을 기반으로 하며 복잡한 표현식을 지시문에 전달하려고 하면 예기치 않은 오류가 발생할 수 있습니다.
+
+<a name="the-at-verbatim-directive"></a>
 #### `@verbatim` 지시어
 
 여러분이 템플릿의 많은 부분에서 자바스크립트 변수를 표시하는 경우라면, HTML을 `@verbatim` 지시어로 둘러쌓여 있게 할 수 있습니다. 이렇게 하면 여러분은 각각의 블레이드 출력 구문에 `@` 심볼을 매번 붙이지 않아도 됩니다.
@@ -200,15 +156,15 @@
         </div>
     @endverbatim
 
-<a name="control-structures"></a>
-## 컨트롤 구조
+<a name="blade-directives"></a>
+## 블레이드 지시어
 
-템플릿 상속과 데이터 표시 외에도 블레이드는 공통적인 PHP 컨트롤 구조를 위해서 조건문과 반복문과 같은 편리한 방법들을 제공합니다. 이 방법들은 PHP 컨트롤 구조를 이용할 수 있는 깔끔하고 간단한 방법을 제공하면서 PHP에 익숙한 구조와 비슷하도록 유지합니다.
+템플릿의 상속 및 데이터 표시 외에도 블레이드는 조건문 및 루프와 같은 일반적인 PHP 제어 구조에 대한 편리한 단축키를 제공합니다. 이러한 단축키는 PHP 제어 구조로 작업하는 매우 깔끔하고 간결한 방법을 제공하는 동시에 PHP 구조와도 유사합니다.
 
 <a name="if-statements"></a>
 ### 조건문
 
-`@if`, `@elseif`, `@else`, 그리고 `@endif` 지시어을 이용하여 조건문을 만들 수 있습니다. 이 지시어들은 대응하는 PHP 문장들과 동일하게 동작합니다.
+`@if`, `@elseif`, `@else`, 그리고 `@endif` 지시어을 이용하여 `if`문을 만들 수 있습니다. 이 지시어들은 대응하는 PHP 문법들과 동일하게 동작합니다.
 
     @if (count($records) === 1)
         I have one record!
@@ -234,9 +190,10 @@
         // $records is "empty"...
     @endempty
 
+<a name="authentication-directives"></a>
 #### 인증 관련 지시어
 
-`@auth` 그리고 `@guest` 지시어는 현재 접속자가 인증된 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다.
+`@auth` 그리고 `@guest` 지시어는 현재 접속자가 [인증된](/docs/{{version}}/authentication) 사용자인지 아니면 guest 인지 판별하는데 사용가능한 편의 기능입니다.
 
     @auth
         // The user is authenticated...
@@ -246,7 +203,7 @@
         // The user is not authenticated...
     @endguest
 
-필요한 경우, `@auth` 와 `@guest` 지시어에 체크하고자 하는 [인증 guard](/docs/{{version}}/authentication)를 지정할 수 있습니다.
+필요한 경우 `@auth` 및 `@guest` 지시문을 사용할 때 확인해야 하는 인증 가드를 지정할 수 있습니다.
 
     @auth('admin')
         // The user is authenticated...
@@ -256,29 +213,10 @@
         // The user is not authenticated...
     @endguest
 
-#### 섹션 지시어
+<a name="environment-directives"></a>
+#### 환경 지시어
 
-`@hasSection` 지시어를 사용하여 섹션이 내용을 가지고 있는지 확인할 수 있습니다.
-
-    @hasSection('navigation')
-        <div class="pull-right">
-            @yield('navigation')
-        </div>
-
-        <div class="clearfix"></div>
-    @endif
-
-섹션에 콘텐츠가 없는지 확인하려면 `sectionMissing` 지시문을 사용할 수 있습니다.
-
-    @sectionMissing('navigation')
-        <div class="pull-right">
-            @include('default-navigation')
-        </div>
-    @endif
-
-#### 환경 지시문
-
-`@production` 지시문을 사용하여 애플리케이션이 프로덕션 환경에서 실행 중인지 확인할 수 있습니다.
+`@production` 지시어을 사용하여 애플리케이션이 프로덕션 환경에서 실행 중인지 확인할 수 있습니다.
 
     @production
         // Production specific content...
@@ -289,10 +227,35 @@
     @env('staging')
         // The application is running in "staging"...
     @endenv
-    
+
     @env(['staging', 'production'])
         // The application is running in "staging" or "production"...
     @endenv
+
+<a name="section-directives"></a>
+#### 섹션 지시어
+
+`@hasSection` 지시어를 사용하여 템플릿 상속 섹션이 내용이 있는지 확인할 수 있습니다.
+
+```html
+@hasSection('navigation')
+    <div class="pull-right">
+        @yield('navigation')
+    </div>
+
+    <div class="clearfix"></div>
+@endif
+```
+
+섹션에 콘텐츠가 없는지 확인하려면 `sectionMissing` 지시문을 사용할 수 있습니다.
+
+```html
+@sectionMissing('navigation')
+    <div class="pull-right">
+        @include('default-navigation')
+    </div>
+@endif
+```
 
 <a name="switch-statements"></a>
 ### 스위치 구문
@@ -337,7 +300,7 @@
 
 > {tip} 반복문에서 [루프 변수](#the-loop-variable)를 사용하여 반복의 처음과 마지막에 대한 정보를 얻을 수 있습니다.
 
-반복문을 사용할 때에는 반복문의 중료 또는 현재 반복의 중단을 표시할 필요가 있습니다.
+루프를 사용할 때 `@continue` 및 `@break` 지시문을 사용하여 루프를 종료하거나 현재 반복을 건너뛸 수도 있습니다.
 
     @foreach ($users as $user)
         @if ($user->type == 1)
@@ -351,7 +314,7 @@
         @endif
     @endforeach
 
-또한 하나의 라인으로 표현되는 조건식을 포함할 수도 있습니다.
+지시문 내에 continue 또는 break 조건을 포함할 수도 있습니다.
 
     @foreach ($users as $user)
         @continue($user->type == 1)
@@ -383,7 +346,7 @@
     @foreach ($users as $user)
         @foreach ($user->posts as $post)
             @if ($loop->parent->first)
-                This is first iteration of the parent loop.
+                This is the first iteration of the parent loop.
             @endif
         @endforeach
     @endforeach
@@ -403,28 +366,81 @@
 `$loop->depth`  |  중첩된 반복문의 깊이.
 `$loop->parent`  |  반복문이 중첩된 경우 부모의 루프 변수.
 
-<a name="comments"></a>
-### 주석
+<a name="conditional-classes"></a>
+### 조건부 클래스
 
-블레이드는 또한 뷰에 주석을 정의할 수 있습니다. 하지만 HTML 주석과는 다르게 블레이드 주석은 애플리케이션이 반환하는 HTML에 포함되어 있지 않습니다.
-
-    {{-- This comment will not be present in the rendered HTML --}}
-
-<a name="php"></a>
-### PHP
-
-상황에 따라서, 뷰에서 PHP 코드 자체를 삽입하는 것이 유용할 수도 있습니다. 템플릿 안에서 블레이드의 `@php` 지시어를 사용하여 해당 블럭의 PHP를 실행 할 수 있습니다.
+`@class` 지시문은 CSS 클래스 문자열을 조건부로 컴파일합니다. 지시문은 추가하려는 클래스의 이름을 키로,  boolean 표현식을 값으로 이루어진 배열을 입력입니다. 만약 배열 요소에 숫자로 된 키가 있으면 항상 렌더링 된 클래스의 목록에 포함됩니다.
 
     @php
-        //
+        $isActive = false;
+        $hasError = true;
     @endphp
 
-> {tip} 블레이드가 이 기능을 제공하지만, 이 기능을 너무 빈번하게 사용하는 것은 너무 많은 로직이 템플릿 안에 포함되어 있다는 신호일 수 있습니다.
+    <span @class([
+        'p-4',
+        'font-bold' => $isActive,
+        'text-gray-500' => ! $isActive,
+        'bg-red' => $hasError,
+    ])></span>
+
+    <span class="p-4 text-gray-500 bg-red"></span>
+
+<a name="including-subviews"></a>
+### 하위 뷰 포함하기
+
+> {tip} `@include` 지시문을 자유롭게 사용할 수도 있지만, `@include` 지시문에 비해 Blade [components](#components)는 유사한 기능을 제공하고 데이터 및 속성 바인딩과 같은 여러 이점을 제공합니다.
+
+블레이드의 `@include` 지시문을 사용하면 다른 뷰 내에서 블레이드 뷰를 포함할 수 있습니다. 상위 뷰에서 사용할 수 있는 모든 변수는 포함된 뷰에서 사용할 수 있습니다.
+
+```html
+<div>
+    @include('shared.errors')
+
+    <form>
+        <!-- Form Contents -->
+    </form>
+</div>
+```
+
+포함된 뷰가 상위 뷰에서 사용 가능한 모든 데이터를 상속하더라도 포함된 뷰에서 사용할 데이터 배열을 추가로 전달할 수도 있습니다.
+
+    @include('view.name', ['status' => 'complete'])
+
+존재하지 않는 뷰를 `@include`하려고 하면 라라벨에서 오류가 발생합니다. 존재하거나 존재하지 않을 수 있는 뷰를 포함하려면 `@includeIf` 지시문을 사용해야 합니다.
+
+    @includeIf('view.name', ['status' => 'complete'])
+
+주어진 boolean 표현식이 `true` 또는 `false`로 평가되는 경우 뷰를 `@include`하려면 `@includeWhen` 및 `@includeUnless` 지시문을 사용할 수 있습니다.
+
+    @includeWhen($boolean, 'view.name', ['status' => 'complete'])
+
+    @includeUnless($boolean, 'view.name', ['status' => 'complete'])
+
+주어진 뷰 배열에서 존재하는 첫 번째 뷰를 포함하려면 `includeFirst` 지시문을 사용할 수 있습니다.
+
+    @includeFirst(['custom.admin', 'admin'], ['status' => 'complete'])
+
+> {note} 블레이드 뷰에서 `__DIR__` 및 `__FILE__` 상수는 캐시되고 컴파일된 뷰의 위치를 참조하므로 사용을 피해야 합니다.
+
+<a name="rendering-views-for-collections"></a>
+#### 컬렉션에 대한 뷰 렌더링
+
+블레이드의 `@each` 지시문을 사용하여 루프와 포함을 한 줄로 결합할 수 있습니다.
+
+    @each('view.name', $jobs, 'job')
+
+`@each` 지시문의 첫 번째 인수는 배열 또는 컬렉션의 각 요소에 대해 렌더링할 뷰입니다. 두 번째 인수는 반복하려는 배열 또는 컬렉션이고, 세 번째 인수는 뷰 내에서 현재 반복에 할당될 변수 이름입니다. 따라서 예를 들어 `jobs` 배열을 반복하는 경우 일반적으로 뷰 내에서 각 작업에 `job` 변수로 액세스하려고 할 것입니다. 현재 반복의 배열 키는 뷰 내에서 `key` 변수로 사용할 수 있습니다.
+
+네 번째 인수를 `@each` 지시문에 전달할 수도 있습니다. 이 인수는 지정된 배열이 비어 있는 경우 렌더링될 뷰를 결정합니다.
+
+    @each('view.name', $jobs, 'job', 'view.empty')
+
+> {note} `@each`를 통해 렌더링된 뷰는 상위 뷰에서 변수를 상속하지 않습니다. 자식 뷰에 이러한 변수가 필요한 경우 `@foreach` 및 `@include` 지시문을 사용해야 합니다.
 
 <a name="the-once-directive"></a>
 ### `@once` 지시문
 
-`@once` 지시문을 사용하면 렌더링 주기당 한 번만 처리하는 템플릿을 정의 할 수 있습니다. 이것은 [stacks](#stacks)를 사용하여 페이지의 헤더에 주어진 자바 스크립트 부분을 푸시하는 데 유용 할 수 있습니다. 예를 들어 루프 내에서 지정된 [component](#components)를 렌더링하는 경우 구성 요소가 처음 렌더링 될 때만 JavaScript를 헤더에 푸시 할 수 있습니다.
+`@once` 지시문을 사용하면 렌더링 주기당 한 번만 처리하는 템플릿을 정의 할 수 있습니다. 이것은 [stacks](#stacks)를 사용하여 페이지의 헤더에 주어진 자바 스크립트 부분을 푸시하는 데 유용 할 수 있습니다. 예를 들어 루프 내에서 지정된 [component](#components)를 렌더링하는 경우 컴포넌트가 처음 렌더링 될 때만 JavaScript를 헤더에 푸시 할 수 있습니다.
 
     @once
         @push('scripts')
@@ -434,70 +450,41 @@
         @endpush
     @endonce
 
-<a name="forms"></a>
-## 폼
+<a name="raw-php"></a>
+### Raw PHP
 
-<a name="csrf-field"></a>
-### CSRF 필드
+어떤 경우에는 PHP 코드를 뷰에 포함하는 것이 유용합니다. 블레이드의 `@php` 지시문을 사용하여 템플릿 내에서 일반 PHP를 실행할 수 있습니다.
 
-애플리케이션에서 HTML 폼을 만들 할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 요청에 대한 유효성 검사를 할 수 있도록 폼에 숨겨진 CSRF 토큰 필드를 포함해야합니다. Blade의 `@csrf` 지시어를 사용하여 토큰 필드를 생성 할 수 있습니다.
+    @php
+        $counter = 1;
+    @endphp
 
-    <form method="POST" action="/profile">
-        @csrf
+<a name="comments"></a>
+### 주석
 
-        ...
-    </form>
+블레이드를 사용하면 뷰에서 주석을 정의할 수도 있습니다. 그러나 HTML 주석과 달리 Blade 주석은 애플리케이션에서 반환된 HTML에 포함되지 않습니다.
 
-<a name="method-field"></a>
-### 메소드 필드
-
-HTML 폼은 `PUT`,`PATCH` 또는 `DELETE` 요청을 만들 수 없기 때문에 숨겨진 `_method` 필드를 추가하여 HTTP 동작을 속여합니다. Blade의 `@method` 지시어로 이 필드를 생성 할 수 있습니다.
-
-    <form action="/foo/bar" method="POST">
-        @method('PUT')
-
-        ...
-    </form>
-
-<a name="validation-errors"></a>
-### 유효성 검증 실패
-
-`@error` 지시어는 주어진 속성에 대해 [유효성 검증 실패 메세지](/docs/{{version}}/validation#quick-displaying-the-validation-errors) 가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시어 내에서 `$message` 변수를 echo 하여 에러 메시지를 표시 할 수 있습니다.
-
-    <!-- /resources/views/post/create.blade.php -->
-
-    <label for="title">Post Title</label>
-
-    <input id="title" type="text" class="@error('title') is-invalid @enderror">
-
-    @error('title')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-
-`@error` 지시문-directive의 두 번째 파라메터로 [특정 에러 백의 이름](/docs/{{version}}/validation#named-error-bags)을 전달하여 여러개의 폼이 포함 된 페이지에서 유효성 검증 오류 메시지를 조회 할 수 있습니다.
-
-    <!-- /resources/views/auth.blade.php -->
-
-    <label for="email">Email address</label>
-
-    <input id="email" type="email" class="@error('email', 'login') is-invalid @enderror">
-
-    @error('email', 'login')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
+    {{-- This comment will not be present in the rendered HTML --}}
 
 <a name="components"></a>
 ## 컴포넌트
 
-컴포넌트와 슬롯은 섹션 및 레이아웃과 유사한 장점을 제공합니다. 그러나 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 컴포넌트 작성에는 클래스 기반 컴포넌트와 익명 컴포넌트의 두 가지 접근 방식이 있습니다.
+컴포넌트와 슬롯은 섹션 및 레이아웃 및 include 과 유사한 장점을 제공합니다. 그러나 컴포넌트와 슬롯은 결과 모델을 보다 쉽게 이해할 수 있게 해줍니다. 컴포넌트 작성에는 클래스 기반 컴포넌트와 익명 컴포넌트의 두 가지 접근 방식이 있습니다.
 
 클래스 기반 컴포넌트를 만들려면 `make:component` 아티즌 커맨드를 사용할 수 있습니다. 컴포넌트 사용 방법을 설명하기 위해 간단한 `Alert` 컴포넌트를 만들어보겠습니다. `make:component` 커맨드로 `App\View\Components` 디렉토리에 컴포넌트를 만듭니다.
 
     php artisan make:component Alert
 
-`make:component` 커맨드는 컴포넌트에 대한 뷰템플릿도 만듭니다. 뷰는 `resources/views/components` 디렉토리에 만들어집니다.
+`make:component` 명령은 컴포넌트에 대한 뷰 템플릿도 생성합니다. 뷰는 `resources/views/components` 디렉토리에 생성됩니다. 자신의 애플리케이션을 위한 컴포넌트를 작성할 때 컴포넌트는 `app/View/Components` 디렉토리와 `resources/views/components` 디렉토리 내에서 자동으로 검색되므로, 일반적으로 추가적인 컴포넌트 등록 작업이 필요하지 않습니다.
 
-#### 패키지 컴포넌트 수동 등록
+하위 디렉토리 내에 컴포넌트를 생성할 수도 있습니다.
+
+    php artisan make:component Forms/Input
+
+위의 명령은 `App\View\Components\Forms` 디렉토리에 `Input` 컴포넌트를 생성하고 뷰는 `resources/views/components/forms` 디렉토리에 생성합니다.
+
+<a name="manually-registering-package-components"></a>
+#### 수동으로 패키지 컴포넌트 등록
 
 자신의 애플리케이션을 위한 컴포넌트를 만들때는 컴포넌트는 `app/View/Components` 디렉토리 및 `resources/views/components` 디렉토리에서 자동으로 감지됩니다.
 
@@ -510,34 +497,36 @@ HTML 폼은 `PUT`,`PATCH` 또는 `DELETE` 요청을 만들 수 없기 때문에 
      */
     public function boot()
     {
-        Blade::component('package-alert', AlertComponent::class);
+        Blade::component('package-alert', Alert::class);
     }
 
-컴포넌트가 등록되면 별칭 태그을 사용하여 렌더링 될 수 있습니다.
+컴포넌트가 등록되면 별칭 태그을 사용하여 렌더링 할 수 있습니다.
 
     <x-package-alert/>
 
-대신, 관례상 autoload 컴포넌트 클래스에 `componentNamespace` 메소드를 사용할 수 있습니다. 예를 들어, `Nightshade` 패키지가 `Package\Views\Components` 네임스페이스 안에 있는 `Calendar` 와 `ColorPicker` 컴포넌트를 가지는 경우:
+또는 `componentNamespace` 메서드를 사용하여 규칙에 따라 컴포넌트 클래스를 자동으로 로드할 수 있습니다. 예를 들어, `Nightshade` 패키지에는 `Package\Views\Components` 네임스페이스 내에 있는 `Calendar` 및 `ColorPicker` 컴포넌트가 있을 수 있습니다.
 
     use Illuminate\Support\Facades\Blade;
 
     /**
      * Bootstrap your package's services.
+     *
+     * @return void
      */
     public function boot()
     {
         Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
     }
 
-`package-name::` 문법을 사용하여 벤더 네임스페이스에 의한 패키지 컴포넌트의 사용을 가능하게 할 것입니다.
+이렇게하면 `package-name::` 문법을 사용하여 벤더 네임스페이스에 존재하는 패키지 컴포넌트를 사용 할 수 있습니다.
 
     <x-nightshade::calendar />
     <x-nightshade::color-picker />
 
-블레이드는 파스칼 케이스를 적용한 이름으로 이 컴포넌트를 알아서 감지합니다. 또한 하위 디렉토리를 위한 "." 표기법도 지원합니다.
+블레이드는 컴포넌트 이름을 파스칼 케이스로 변환하여 이 컴포넌트에 연결된 클래스를 자동으로 감지합니다. "." 표기법을 사용하여 하위 디렉터리도 지원됩니다.
 
-<a name="displaying-components"></a>
-### 컴포넌트 표시
+<a name="rendering-components"></a>
+### 컴포넌트 렌더링
 
 컴포넌트를 표시하려면 블레이드 템플릿 중 하나에 블레이드 컴포넌트 태그를 사용할 수 있습니다. 블레이드 컴포넌트 태그는 문자열 `x-`로 시작하고 그 뒤에 컴포넌트 클래스의 케밥 케이스형태의 이름이 옵니다.
 
@@ -556,7 +545,7 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
 
     <x-alert type="error" :message="$message"/>
 
-클래스 생성자에서 컴포넌트의 필수 데이터를 정의해야합니다. 컴포넌트의 모든 공용 속성은 컴포넌트보기에 자동으로 제공됩니다. 컴포넌트의 `render` 메소드에서 뷰로 데이터를 전달 할 필요는 없습니다 :
+클래스 생성자에서 컴포넌트의 필수 데이터를 정의해야합니다. 컴포넌트의 모든 공용 속성은 컴포넌트보기에 자동으로 제공됩니다. 컴포넌트의 `render` 메소드에서 뷰로 데이터를 전달 할 필요는 없습니다.
 
     <?php
 
@@ -606,10 +595,13 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
 
 컴포넌트가 렌더링 될 때 이름별로 변수를 출력하여 컴포넌트의 공용 변수 컨텐츠를 표시 할 수 있습니다.
 
-    <div class="alert alert-{{ $type }}">
-        {{ $message }}
-    </div>
+```html
+<div class="alert alert-{{ $type }}">
+    {{ $message }}
+</div>
+```
 
+<a name="casing"></a>
 #### Casing
 
 컴포넌트 생성자 인수는 `camelCase`를 사용하여 지정해야하며, `camelCase`는 HTML 속성에서 인수 이름을 참조 할 때 사용해야합니다. 예를 들어 다음과 같은 컴포넌트 생성자가 있습니다.
@@ -625,16 +617,32 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
         $this->alertType = $alertType;
     }
 
-`$alertType` 인수는 다음과 같이 제공 될 수 있습니다.
+`$alertType` 인수는 다음과 같이 컴포넌트에 전달할 수 있습니다.
 
     <x-alert alert-type="danger" />
 
+<a name="escaping-attribute-rendering"></a>
+#### 속성 렌더링 이스케이프
+
+Alpine.js와 같은 일부 JavaScript 프레임워크도 콜론 접두사 속성을 사용하기 때문에 이중 콜론(`::`) 접두사를 사용하여 속성이 PHP 표현식이 아님을 블레이드에 알릴 수 있습니다. 예를 들어 다음 컴포넌트가 있다고 가정합니다.
+
+    <x-button ::class="{ danger: isDeleting }">
+        Submit
+    </x-button>
+
+다음 HTML은 블레이드에 의해 렌더링됩니다.
+
+    <button :class="{ danger: isDeleting }">
+        Submit
+    </button>
+
+<a name="component-methods"></a>
 #### 컴포넌트 메소드
 
-컴포넌트 템플릿에 사용 가능한 공용 변수 외에도 컴포넌트의 모든 공용 메서드가 실행될 수도 있습니다. 예를 들어, `isSelected` 메소드가 있는 컴포넌트를 생각해보십시오.
+컴포넌트 템플릿에서 사용할 수 있는 공용 변수 외에도 컴포넌트의 모든 공용 메서드를 호출할 수 있습니다. 예를 들어 `isSelected` 메서드를 가진 컴포넌트가 있다고 생각해보겠습니다.
 
     /**
-     * Determine if the given option is the current selected option.
+     * Determine if the given option is the currently selected option.
      *
      * @param  string  $option
      * @return bool
@@ -644,15 +652,16 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
         return $option === $this->selected;
     }
 
-메소드 이름과 일치하는 변수를 호출하여 컴포넌트 템플릿에서 이 메소드를 실행할 수 있습니다.
+메소드 이름과 동일한 변수를 호출하면 컴포넌트 템플릿에서 이 메소드를 실행할 수 있습니다.
 
     <option {{ $isSelected($value) ? 'selected="selected"' : '' }} value="{{ $value }}">
         {{ $label }}
     </option>
 
-#### 클래스 내 속성 및 슬롯 사용
+<a name="using-attributes-slots-within-component-class"></a>
+#### 컴포넌트 클래스 내의 속성 및 슬롯 액세스
 
-블레이드 컴포넌트를 사용하면 클래스의 렌더링 메서드 내에서 컴포넌트 이름, 속성 및 슬롯에 액세스 할 수도 있습니다. 그러나 이 데이터에 액세스하려면 컴포넌트의 `render` 메서드에서 Closure를 반환해야합니다. Closure는 유일한 인수로 `$data` 배열을 받습니다
+블레이드 컴포넌트를 사용하면 클래스의 렌더링 메서드 내부에 컴포넌트 이름, 속성 및 슬롯에 액세스할 수도 있습니다. 그러나 이 데이터에 액세스하려면 컴포넌트의 `render` 메서드에서 클로저를 반환해야 합니다. 클로저는 `$data` 배열을 유일한 인수로 받습니다. 이 배열에는 컴포넌트에 대한 정보를 제공하는 여러 요소가 포함됩니다.
 
     /**
      * Get the view / contents that represent the component.
@@ -666,15 +675,18 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
             // $data['attributes'];
             // $data['slot'];
 
-            return '<div>Component content</div>';
+            return '<div>Components content</div>';
         };
     }
 
-`componentName`은 `x-` 접두사 뒤의 HTML 태그에 사용 된 이름과 동일합니다. 따라서 `<x-alert />`의 `componentName`은 `alert`이 됩니다. `attributes` 요소는 HTML 태그에 있던 모든 속성을 포함합니다. `slot` 요소는 컴포넌트의 슬롯 내용이 포함 된 `Illuminate\Support\HtmlString` 인스턴스입니다.
+`componentName`은 `x-` 접두사 뒤의 HTML 태그에서 사용된 이름과 같습니다. 따라서 `<x-alert >`의 `componentName`은 `alert`가 됩니다. `attributes` 요소에는 HTML 태그에 있던 모든 속성이 포함됩니다. `slot` 요소는 컴포넌트의 슬롯 내용이 있는 `Illuminate\Support\HtmlString` 인스턴스입니다.
 
+클로저는 문자열을 반환해야 합니다. 반환된 문자열과 일치하는 뷰가 존재한다면 해당 뷰가 렌더링됩니다. 그렇지 않으면 반환된 문자열이 인라인 블레이드 뷰로 처리됩니다.
+
+<a name="additional-dependencies"></a>
 #### 추가 의존성
 
-컴포넌트에 라라벨의 [service container](/docs/{{version}}/container)의 종속성이 필요한 경우 컴포넌트의 데이터 속성 앞에 나열하면 컨테이너에 의해 자동으로 주입됩니다.
+컴포넌트에 라라벨의 [service container](/docs/{{version}}/container)의 의존성이 필요한 경우 컴포넌트의 데이터 속성 앞에 나열하면 컨테이너에 의해 자동으로 주입됩니다.
 
     use App\Services\AlertCreator
 
@@ -693,42 +705,118 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
         $this->message = $message;
     }
 
-<a name="managing-attributes"></a>
-### 속성 관리
+<a name="hiding-attributes-and-methods"></a>
+#### 속성 / 메소드 숨기기
 
-우리는 이미 데이터 속성을 컴포넌트에 전달하는 방법을 살펴 보았습니다. 그러나 때때로 컴포넌트가 작동하는 데 필요한 데이터의 일부가 아닌 `class`와 같은 추가 HTML 속성을 지정해야 할 수도 있습니다. 일반적으로 이러한 추가 속성을 컴포넌트 템플릿의 루트 요소로 전달하려고합니다. 예를 들어, 다음과 같이 `alert` 컴포넌트를 렌더링한다고 가정하십시오.
+일부 공개-public 메서드나 속성이 컴포넌트 템플릿에 변수로 노출되는 것을 방지하려면 컴포넌트의 `$except` 배열 속성에 추가할 수 있습니다.
+
+    <?php
+
+    namespace App\View\Components;
+
+    use Illuminate\View\Component;
+
+    class Alert extends Component
+    {
+        /**
+         * The alert type.
+         *
+         * @var string
+         */
+        public $type;
+
+        /**
+         * The properties / methods that should not be exposed to the component template.
+         *
+         * @var array
+         */
+        protected $except = ['type'];
+    }
+
+<a name="component-attributes"></a>
+### 컴포넌트 속성
+
+데이터 속성을 컴포넌트에 전달하는 방법을 앞에서 확인해보았습니다. 그러나 때로는 컴포넌트가 작동하는 데 필요한 데이터의 일부가 아닌 `class`와 같은 추가적인 HTML 속성을 지정해야 할 수도 있습니다. 일반적으로는 이러한 추가 속성을 컴포넌트 템플릿의 루트 요소로 전달하려고 합니다. 예를 들어 다음과 같이 `alert` 컴포넌트를 렌더링한다고 가정해 보겠습니다.
 
     <x-alert type="error" :message="$message" class="mt-4"/>
 
 컴포넌트 생성자의 일부가 아닌 모든 속성은 컴포넌트의 "attribute bag"에 자동으로 추가됩니다. 이 속성 백은 `$attributes` 변수를 통해 컴포넌트에 자동으로 제공됩니다. 이 변수를 출력하여 컴포넌트 내에서 모든 속성을 렌더링 할 수 있습니다.
 
     <div {{ $attributes }}>
-        <!-- Component Content -->
+        <!-- Component content -->
     </div>
 
-> {note} 현재는 `@env`와 같은 지시문을 컴포넌트에 직접 사용하는 것은 지원되지 않습니다.
+> {note} 현재 컴포넌트 태그 내에서 `@env`와 같은 지시어을 사용하는 것은 지원하지 않습니다. 예를 들어 `<x-alert :live="@env('production')">`는 컴파일되지 않습니다.
 
+<a name="default-merged-attributes"></a>
 #### 기본 / 병합 속성
 
-때로는 속성의 기본값을 지정하거나 추가 값을 컴포넌트의 속성 중 일부에 병합해야 할 수도 있습니다. 이를 달성하기 위해 속성 백의 `merge`방법을 사용할 수 있습니다.
+경우에 따라 속성에 대한 기본값을 지정하거나 컴포넌트의 일부 속성에 추가 값을 병합해야 할 수도 있습니다. 이를 수행하기 위해 속성 모음의 `merge` 메서드를 사용하면 됩니다. 이 메서드는 항상 컴포넌트에 적용해야 하는 CSS 클래스의 기본값 목록을 정의할 때 특히 유용합니다.
 
     <div {{ $attributes->merge(['class' => 'alert alert-'.$type]) }}>
         {{ $message }}
     </div>
 
-이 컴포넌트가 다음과 같이 사용된다고 가정하면
+이 컴포넌트를 다음과 같이 사용한다고 가정하면
 
     <x-alert type="error" :message="$message" class="mb-4"/>
 
 컴포넌트의 최종 렌더링 HTML은 다음과 같이 나타납니다.
 
-    <div class="alert alert-error mb-4">
-        <!-- Contents of the $message variable -->
+```html
+<div class="alert alert-error mb-4">
+    <!-- Contents of the $message variable -->
+</div>
+```
+
+<a name="conditionally-merge-classes"></a>
+#### 조건부로 클래스 병합
+
+때때로 주어진 조건이 `true`인 경우 클래스를 병합하고자 할 수 있습니다. `class` 메서드에 추가하려는 클래스의 이름을 key로, 값은 boolean인 배열을 입력하여 이를 처리할 수 있습니다. 배열에 키가 숫자인 요소가 있으면 항상 렌더링된 클래스 목록에 포함됩니다.
+
+    <div {{ $attributes->class(['p-4', 'bg-red' => $hasError]) }}>
+        {{ $message }}
     </div>
 
-#### 필터링 속성
+다른 속성을 컴포넌트에 병합해야 하는 경우 `merge` 메소드를 `class` 메소드에 연결해서 사용 할 수 있습니다.
 
-`filter` 메소드를 사용하여 속성을 필터링 할 수 있습니다. 이 메서드는 속성-attribute 모음에 속성을 유지하려는 경우 `true`를 반환하는 Closure를 입력받습니다.
+    <button {{ $attributes->class(['p-4'])->merge(['type' => 'button']) }}>
+        {{ $slot }}
+    </button>
+
+> {tip} 병합된 속성을 받지 않아야 하는 다른 HTML 요소의 클래스를, 조건에 따라 컴파일해야 하는 경우 [`@class` 지시어](#conditional-classes)을 사용할 수 있습니다.
+
+<a name="non-class-attribute-merging"></a>
+#### 클래스가 아닌 속성의 병합
+
+`class` 속성이 아닌 속성을 병합할 때 `merge` 메소드에 제공된 값은 속성의 "default" 값으로 간주됩니다. 그러나 `class` 속성과 달리 이러한 속성은 삽입된 속성 값과 병합되지 않습니다. 대신 덮어쓰게 됩니다. 예를 들어 `button` 컴포넌트의 구현은 다음과 같을 수 있습니다.
+
+    <button {{ $attributes->merge(['type' => 'button']) }}>
+        {{ $slot }}
+    </button>
+
+버튼 컴포넌트를 사용자 정의 `type`으로 렌더링하려면, 컴포넌트를 사용할 때 지정할 수 있습니다. 유형을 지정하지 않으면 `button` 유형이 사용됩니다.
+
+    <x-button type="submit">
+        Submit
+    </x-button>
+
+이 예에서 `button` 컴포넌트의 렌더링된 HTML은 다음과 같습니다.
+
+    <button type="submit">
+        Submit
+    </button>
+
+`class` 이외의 속성이 기본값과 주입된 값을 함께 결합하도록 하려면 `prepends` 메소드를 사용할 수 있습니다. 이 예에서 `data-controller` 속성은 항상 `profile-controller`로 시작하고 추가로 주입된 `data-controller` 값은 이 기본값 뒤에 배치됩니다.
+
+    <div {{ $attributes->merge(['data-controller' => $attributes->prepends('profile-controller')]) }}>
+        {{ $slot }}
+    </div>
+
+<a name="filtering-attributes"></a>
+#### 속성 검색 및 필터링
+
+`filter` 메서드를 사용하여 속성을 필터링할 수 있습니다. 이 메서드는 속성 모음에 속성을 유지하려는 경우 `true`를 반환해야 하는 클로저를 입력받습니다.
 
     {{ $attributes->filter(fn ($value, $key) => $key == 'foo') }}
 
@@ -736,63 +824,141 @@ HTML 속성을 사용하여 블레이드 컴포넌트에 데이터를 전달할 
 
     {{ $attributes->whereStartsWith('wire:model') }}
 
+반대로 `whereDoesntStartWith` 메서드는 키가 주어진 문자열로 시작하는 모든 속성을 제외하는 데 사용할 수 있습니다.
+
+    {{ $attributes->whereDoesntStartWith('wire:model') }}
+
 `first` 메소드를 사용하면 주어진 속성 모음에서 첫 번째 속성을 렌더링 할 수 있습니다.
 
     {{ $attributes->whereStartsWith('wire:model')->first() }}
 
+컴포넌트에 속성이 있는지 확인하려면 `has` 메서드를 사용할 수 있습니다. 이 메서드는 속성 이름을 유일한 인수로 받아들이고 속성이 있는지 여부를 나타내는 부울 값을 반환합니다.
+
+    @if ($attributes->has('class'))
+        <div>Class attribute is present</div>
+    @endif
+
+`get` 메소드를 사용하여 특정 속성의 값을 검색할 수 있습니다.
+
+    {{ $attributes->get('class') }}
+
+<a name="reserved-keywords"></a>
+### 예약어
+
+기본적으로 일부 키워드는 블레이드의 내부에서 컴포넌트를 렌더링하기 위해 예약되어 있습니다. 다음 키워드는 컴포넌트 내에서 public 속성 또는 메서드 이름으로 정의할 수 없습니다.
+
+- `data`
+- `render`
+- `resolveView`
+- `shouldRender`
+- `view`
+- `withAttributes`
+- `withName`
+
 <a name="slots"></a>
 ### 슬롯
 
-때로는 "슬롯"을 통해 추가 컨텐츠를 컴포넌트에 전달해야합니다. 우리가 만든 `alert`컴포넌트에 다음과 같은 마크 업이 있다고 가정 해 봅시다.
+종종 "슬롯"을 통해 컴포넌트에 추가 콘텐츠를 전달해야 합니다. 컴포넌트 슬롯은 `slot` 변수를 반영하여 렌더링됩니다. 이 개념을 살펴보기 위해 `alert` 컴포넌트에 다음 마크업이 있다고 가정해 보겠습니다.
 
-    <!-- /resources/views/components/alert.blade.php -->
+```html
+<!-- /resources/views/components/alert.blade.php -->
 
-    <div class="alert alert-danger">
-        {{ $slot }}
-    </div>
+<div class="alert alert-danger">
+    {{ $slot }}
+</div>
+```
 
 컴포넌트에 컨텐츠를 주입하여 `slot`에 컨텐츠를 전달할 수 있습니다.
 
-    <x-alert>
-        <strong>Whoops!</strong> Something went wrong!
-    </x-alert>
+```html
+<x-alert>
+    <strong>Whoops!</strong> Something went wrong!
+</x-alert>
+```
 
-때로는 컴포넌트가 컴포넌트 내의 다른 위치에 여러 개의 다른 슬롯을 렌더링해야 할 수도 있습니다. "제목"을 삽입 할 수 있도록 경고 컴포넌트를 수정하겠습니다.
+때때로 컴포넌트는 컴포넌트 내의 서로 다른 위치에 있는 여러 개의 서로 다른 슬롯을 렌더링해야 할 수 있습니다. "제목" 슬롯을 삽입할 수 있도록 경고 컴포넌트를 수정해 보겠습니다.
 
-    <!-- /resources/views/components/alert.blade.php -->
+```html
+<!-- /resources/views/components/alert.blade.php -->
 
-    <span class="alert-title">{{ $title }}</span>
+<span class="alert-title">{{ $title }}</span>
 
-    <div class="alert alert-danger">
-        {{ $slot }}
-    </div>
+<div class="alert alert-danger">
+    {{ $slot }}
+</div>
+```
 
-`x-slot` 태그를 사용하여 명명 된 슬롯의 내용을 정의 할 수 있습니다. `x-slot` 태그에없는 모든 내용은 `$slot` 변수의 컴포넌트로 전달됩니다.
+`x-slot` 태그를 사용하여 명명된 슬롯의 내용을 정의할 수 있습니다. 명시적으로 `x-slot` 태그에 포함되지 않은 콘텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다.
 
-    <x-alert>
-        <x-slot name="title">
-            Server Error
-        </x-slot>
+```html
+<x-alert>
+    <x-slot name="title">
+        Server Error
+    </x-slot>
 
-        <strong>Whoops!</strong> Something went wrong!
-    </x-alert>
+    <strong>Whoops!</strong> Something went wrong!
+</x-alert>
+```
 
+<a name="scoped-slots"></a>
 #### 범위가 지정된 슬롯
 
-Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 컴포넌트에서 데이터 또는 메소드에 액세스 할 수있는 "범위가 지정된 슬롯"에 익숙 할 것입니다. 컴포넌트에 퍼블릭 메소드 또는 속성을 정의하고 `$component` 변수를 통해 슬롯 내 컴포넌트에 액세스하여 라라벨에서 유사한 동작을 수행 할 수 있습니다.
+Vue와 같은 자바스크립트 프레임워크를 사용해본적이 있다면, 슬롯 내 컴포넌트에서 데이터 또는 메소드에 액세스 할 수있는 "범위가 지정된 슬롯"에 익숙 할 것입니다. 컴포넌트에 public 메소드 또는 속성을 정의하고 `$component` 변수를 통해 슬롯 내 컴포넌트에 액세스하여 라라벨에서 유사한 동작을 수행 할 수 있습니다. 이 예에서는 `x-alert` 컴포넌트에 해당 컴포넌트 클래스에 정의된 public `formatAlert` 메서드가 있다고 가정합니다.
 
-    <x-alert>
-        <x-slot name="title">
-            {{ $component->formatAlert('Server Error') }}
-        </x-slot>
+```html
+<x-alert>
+    <x-slot name="title">
+        {{ $component->formatAlert('Server Error') }}
+    </x-slot>
 
-        <strong>Whoops!</strong> Something went wrong!
-    </x-alert>
+    <strong>Whoops!</strong> Something went wrong!
+</x-alert>
+```
+
+<a name="slot-attributes"></a>
+#### 슬롯 속성
+
+블레이드 컴포넌트와 마찬가지로 CSS 클래스 이름과 같은 슬롯에 추가 [속성](#component-attributes)을 할당할 수 있습니다.
+
+```html
+<x-card class="shadow-sm">
+    <x-slot name="heading" class="font-bold">
+        Heading
+    </x-slot>
+
+    Content
+
+    <x-slot name="footer" class="text-sm">
+        Footer
+    </x-slot>
+</x-card>
+```
+
+슬롯 속성과 상호 작용하기 위해 슬롯 변수의 `attributes` 속성에 액세스할 수 있습니다. 속성과 상호 작용하는 방법에 대한 자세한 내용은 [component attributes](#component-attributes)에 대한 문서를 참조하세요.
+
+```php
+@props([
+    'heading',
+    'footer',
+])
+
+<div {{ $attributes->class(['border']) }}>
+    <h1 {{ $heading->attributes->class(['text-lg']) }}>
+        {{ $heading }}
+    </h1>
+
+    {{ $slot }}
+
+    <footer {{ $footer->attributes->class(['text-gray-700']) }}>
+        {{ $footer }}
+    </footer>
+</div>
+```
 
 <a name="inline-component-views"></a>
 ### 인라인 컴포넌트 뷰
 
-매우 작은 컴포넌트의 경우 컴포넌트 클래스와 컴포넌트의 뷰 템플릿을 모두 관리하는 것이 번거로울 수 있습니다. 이러한 이유로 컴포넌트의 마크 업을 `render` 메소드에서 직접 반환 할 수 있습니다.
+매우 작은 컴포넌트의 경우 컴포넌트 클래스와 컴포넌트의 뷰 템플릿을 모두 관리하는 것이 번거로울 수 있습니다. 이러한 이유로 컴포넌트의 마크 업을`render` 메소드에서 직접 반환 할 수 있습니다.
 
     /**
      * Get the view / contents that represent the component.
@@ -808,6 +974,7 @@ Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 �
         blade;
     }
 
+<a name="generating-inline-view-components"></a>
 #### 인라인 뷰 컴포넌트 생성
 
 인라인 뷰를 렌더링하는 컴포넌트를 만들려면 `make:component` 명령을 실행할 때 `inline` 옵션을 사용할 수 있습니다.
@@ -817,7 +984,7 @@ Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 �
 <a name="anonymous-components"></a>
 ### 익명 컴포넌트
 
-인라인 컴포넌트와 마찬가지로 익명 컴포넌트는 단일 파일을 통해 컴포넌트를 관리하는 메커니즘을 제공합니다. 그러나 익명 컴포넌트는 단일 뷰 파일을 사용하며 관련 클래스가 없습니다. 익명의 컴포넌트를 정의하려면 블레이드/템플릿을 `resources/views/components` 디렉토리에만 배치하면됩니다. 예를 들어, `resources/views/components/alert.blade.php`에 컴포넌트를 정의했다고 가정합니다.
+인라인 컴포넌트와 마찬가지로 익명 컴포넌트는 단일 파일을 통해 컴포넌트를 관리하는 메커니즘을 제공합니다. 그러나 익명 컴포넌트는 단일 뷰 파일을 사용하며 관련된 클래스가 없습니다. 익명의 컴포넌트를 정의하려면 블레이드 템플릿을 `resources/views/components` 디렉토리에만 배치하면됩니다. 예를 들어, `resources/views/components/alert.blade.php`에 컴포넌트를 정의했다고 가정합니다.
 
     <x-alert/>
 
@@ -825,9 +992,39 @@ Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 �
 
     <x-inputs.button/>
 
+<a name="anonymous-index-components"></a>
+#### 익명 인덱스 컴포넌트
+
+때때로 컴포넌트가 많은 블레이드 템플릿으로 구성되어 있을 때 단일 디렉토리 내에서 주어진 컴포너트의 템플릿을 그룹화하기를 원할 수 있습니다. 예를 들어, 다음 디렉토리 구조를 가진 "아코디언" 컴포넌트를 상상해 보십시오.
+
+```none
+/resources/views/components/accordion.blade.php
+/resources/views/components/accordion/item.blade.php
+```
+
+이 디렉토리 구조를 사용할 경우, 다음과 같이 아코디언 컴포넌트와 해당 항목을 렌더링할 수 있습니다.
+
+```html
+<x-accordion>
+    <x-accordion.item>
+        ...
+    </x-accordion.item>
+</x-accordion>
+```
+
+그러나 `x-accordion`을 통해 아코디언 컴포넌트를 렌더링하기 위해 "index" 아코디언 컴포넌트 템플릿을 다른 아코디언 관련 템플릿과 함께 `accordion` 디렉토리에 작성하지 못하고, 대신 `resources/views/components` 디렉토리에 작성해야 했습니다.
+
+고맙게도 블레이드를 사용하면 컴포넌트의 템플릿 디렉토리에 `index.blade.php` 파일을 만들어서 처리 할 수 있습니다. 컴포넌트에 대한 `index.blade.php` 템플릿이 있으면 컴포넌트의 "루트" 노드로 렌더링됩니다. 따라서 위의 예제에 제공된 것과 동일한 블레이드 구문을 계속 사용할 수 있습니다. 그러나 다음과 같이 디렉토리 구조를 정리 할 수 있을 것입니다.
+
+```none
+/resources/views/components/accordion/index.blade.php
+/resources/views/components/accordion/item.blade.php
+```
+
+<a name="data-properties-attributes"></a>
 #### 데이터 속성 / 속성
 
-익명 컴포넌트에는 연결된 클래스가 없으므로 컴포넌트에 변수로 전달해야하는 데이터와 컴포넌트의 [속성 백](#managing-attributes)에 어떤 특성을 배치해야하는지 구별 할 수 있습니다.
+익명 컴포넌트에는 연결된 클래스가 없으므로 컴포넌트에 변수로 전달해야하는 데이터와 컴포넌트의 [속성 백-bag](#component-attributes)에 어떤 특성을 배치해야하는지 구별 할 수 있습니다.
 
 컴포넌트의 블레이드 템플릿 맨 위에있는 `@props` 지시문을 사용하여 데이터 변수로 간주 할 속성을 지정할 수 있습니다. 컴포넌트의 다른 모든 속성은 컴포넌트의 속성 백을 통해 사용할 수 있습니다. 데이터 변수에 기본값을 지정하려면 변수 이름을 배열 키로 지정하고 기본값을 배열 값으로 지정할 수 있습니다.
 
@@ -839,6 +1036,40 @@ Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 �
         {{ $message }}
     </div>
 
+위의 컴포넌트 정의가 주어지면 다음과 같이 컴포넌트를 렌더링 할 수 있습니다.
+
+    <x-alert type="error" :message="$message" class="mb-4"/>
+
+<a name="accessing-parent-data"></a>
+#### 상위 데이터 액세스
+
+때로는 자식 컴포넌트 내부에서 부모 컴포넌트의 데이터에 액세스하려고 할 수 있습니다. 이 경우 `@aware` 지시어를 사용할 수 있습니다. 예를 들어 상위 `<x-menu>`와 하위 `<x-menu.item>`으로 구성된 복잡한 메뉴 컴포넌트를 구축한다고 가정해 보겠습니다.
+
+    <x-menu color="purple">
+        <x-menu.item>...</x-menu.item>
+        <x-menu.item>...</x-menu.item>
+    </x-menu>
+
+`<x-menu>` 컴포넌트는 다음과 같이 구현할 수 있습니다.
+
+    <!-- /resources/views/components/menu/index.blade.php -->
+
+    @props(['color' => 'gray'])
+
+    <ul {{ $attributes->merge(['class' => 'bg-'.$color.'-200']) }}>
+        {{ $slot }}
+    </ul>
+
+`color` prop은 부모(`<x-menu>`)에만 전달되었기 때문에 `<x-menu.item>` 내에서는 사용할 수 없습니다. 그러나 `@aware` 지시어를 사용하면 `<x-menu.item>` 내부에서도 사용할 수 있습니다.
+
+    <!-- /resources/views/components/menu/item.blade.php -->
+
+    @aware(['color' => 'gray'])
+
+    <li {{ $attributes->merge(['class' => 'text-'.$color.'-800']) }}>
+        {{ $slot }}
+    </li>
+
 <a name="dynamic-components"></a>
 ### 동적 컴포넌트
 
@@ -846,111 +1077,303 @@ Vue와 같은 자바스크립트 프레임워크를 사용했다면 슬롯 내 �
 
     <x-dynamic-component :component="$componentName" class="mt-4" />
 
-<a name="including-subviews"></a>
-## 하위 뷰 포함하기
+<a name="manually-registering-components"></a>
+### 수동으로 컴포넌트 등록
 
-블레이드의 `@include` 지시어는 뷰 파일 안에 다른 블레이드 뷰를 포함할 수 있도록 해줍니다. 부모 뷰에서 사용가능한 모든 변수들은 하위 뷰에도 사용가능합니다.
+> {note} 아래의 문서는 수동으로 컴포넌트를 등록하는, 뷰 컴포넌트를 포함한 라라벨 패키지를 작성하는 사람들에게 주로 해당됩니다. 패키지를 작성하지 않는 경우 컴포넌트 설명서의 이 부분은 당신과 관련이 없을 수 있습니다.
 
-    <div>
-        @include('shared.errors')
+자신의 애플리케이션을 위한 컴포넌트를 작성할 때 컴포넌트는 `app/View/Components` 디렉토리와 `resources/views/components` 디렉토리에서 자동으로 검색됩니다.
 
-        <form>
-            <!-- Form Contents -->
-        </form>
-    </div>
+그러나 블레이드 컴포넌트를 활용하는 패키지를 빌드하거나, 컴포넌트를 일반적이지 않은 디렉터리에 배치하는 경우, 컴포넌트 클래스와 HTML 태그 별칭을 수동으로 등록해야 라라벨이 컴포넌트를 찾을 수 있는 위치를 알 수 있습니다. 일반적으로 패키지 서비스 제공자의 `boot` 메소드에 컴포넌트를 등록해야 합니다.
 
-하위에 포함하게 될 뷰는 부모 뷰의 모든 데이터를 상속하게 되지만, 하위 뷰에 데이터 배열을 직접 전달할 수도 있습니다.
+    use Illuminate\Support\Facades\Blade;
+    use VendorPackage\View\Components\AlertComponent;
 
-    @include('view.name', ['some' => 'data'])
+    /**
+     * Bootstrap your package's services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::component('package-alert', AlertComponent::class);
+    }
 
-`@include` 의 뷰가 존재하지 않으면 라라벨은 에러를 발생합니다. 존재하지 않을 수도 있는 하위 뷰를 포함하려면 `@includeIf` 지시어를 사용하면 됩니다.
+컴포넌트가 등록되면 태그 별칭을 사용하여 렌더링할 수 있습니다.
 
-    @includeIf('view.name', ['some' => 'data'])
+    <x-package-alert/>
 
-주어진 Boolean 표현식이 `true`일때 뷰를 `@include`하고 싶다면 `@includeWhen` 지시어를 사용할 수 있습니다.
+#### 패키지 컴포넌트 자동 로드
 
-    @includeWhen($boolean, 'view.name', ['some' => 'data'])
-
-주어진 Boolean 표현식이 `false`일때 뷰를 `@include`하고 싶다면 `@includeUnless` 지시어를 사용할 수 있습니다.
-
-    @includeUnless($boolean, 'view.name', ['some' => 'data'])
-
-주어진 배열에서 존재하는 것이 확인된 첫번째 뷰를 포함하도록 하려면, `includeFirst` 지시어를 사용하면 됩니다.
-
-    @includeFirst(['custom.admin', 'admin'], ['some' => 'data'])
-
-> {note} 블레이드 뷰에서 `__DIR__`와 `__FILE__` 를 사용하지 마십시오. 이를 사용하면 컴파일된 캐시 뷰의 경로가 반환됩니다.
-
-#### Include의 별칭 지정
-
-Blade Include가 하위 디렉토리에 저장되어있는 경우 쉽게 액세스 할 수 있도록 별칭을 지정할 수 있습니다. 예를 들어, 다음 내용으로 `resources/views/includes/input.blade.php`에 저장된 블레이드 포함 시키는 것을 생각해보십시오 :
-
-    <input type="{{ $type ?? 'text' }}">
-
-`include` 메소드를 사용하여 `input`을 `includes.input` 에 대한 include 별칭으로 지정할 수 있습니다. 일반적으로 이것은 `AppServiceProvider`의 `boot` 메소드에서 수행되어야합니다.
+또는 `componentNamespace` 메서드를 사용하여 규칙에 따라 컴포넌트 클래스를 자동으로 로드할 수 있습니다. 예를 들어, `Nightshade` 패키지에는 `Package\Views\Components` 네임스페이스 내에 있는 `Calendar` 및 `ColorPicker` 컴포넌트가 있을 수 있습니다.
 
     use Illuminate\Support\Facades\Blade;
 
-    Blade::include('includes.input', 'input');
+    /**
+     * Bootstrap your package's services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
+    }
 
-include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 사용하여 렌더링 할 수 있습니다.
+이렇게하면 `package-name::` 문법을 사용하여 벤더 네임스페이스에 존재하는 패키지 컴포넌트를 사용 할 수 있습니다.
 
-    @input(['type' => 'email'])
+    <x-nightshade::calendar />
+    <x-nightshade::color-picker />
 
-<a name="rendering-views-for-collections"></a>
-### 컬렉션을 뷰에서 렌더링하기
+블레이드는 컴포넌트 이름을 파스칼 케이스로 변환하여 이 컴포넌트에 연결된 클래스를 자동으로 감지합니다. "." 표기법을 사용하여 하위 디렉터리도 지원됩니다.
 
-블레이드의 `@each` 지시어을 사용하면 반복문을 하나의 줄로 구성할 수 있습니다.
+<a name="building-layouts"></a>
+## 레이아웃 만들기
 
-    @each('view.name', $jobs, 'job')
+<a name="layouts-using-components"></a>
+### 컴포넌트를 사용한 레이아웃
 
-첫번째 인자는 배열이나 컬렉션의 각 요소를 렌더링하기 위한 부분적 뷰의 이름입니다. 두번째 인자는 반복 처리하는 배열이나 컬렉션이며 세번째 인수는 뷰에서의 반복값이 대입되는 변수의 이름입니다. 예를 들어 `jobs` 배열을 반복 처리하려면 보통 부분적 뷰에서 각 과제를 `job` 변수로 접근해야 할 것입니다. 현재 반복에서의 키값은 부분적 뷰에서 `key` 변수로 접근할 수 있습니다.
+대부분의 웹 애플리케이션은 다양한 페이지에서 동일한 일반 레이아웃을 유지합니다. 우리가 만드는 모든 뷰에서 전체 레이아웃 HTML을 반복해야 한다면 애플리케이션을 유지 관리하는 것은 엄청나게 번거롭고 어려울 것입니다. 고맙게도 이 레이아웃을 단일 [Blade component](#components)로 정의한 다음 애플리케이션 전체에서 사용하는 것이 편리합니다.
 
-또한 `@each` 지시어에 네번째 인수를 전달할 수도 있습니다. 이 인자는 특정 배열이 비었을 경우 렌더링될 뷰를 결정합니다.
+<a name="defining-the-layout-component"></a>
+#### 레이아웃 컴포넌트 정의
 
-    @each('view.name', $jobs, 'job', 'view.empty')
+예를 들어, "할 일" 목록 애플리케이션을 구축한다고 상상해 보십시오. 다음과 같은 `layout` 컴포넌트를 정의할 수 있습니다.
 
-> {note} `@each`를 통해서 렌더링 되는 뷰는 부모 뷰에서 변수를 상속받지 않습니다. 만약 자식뷰에서 이 변수들을 사용해야 한다면, 대신 `@foreach` 그리고 `@include` 를 사용해야합니다.
+```html
+<!-- resources/views/components/layout.blade.php -->
+
+<html>
+    <head>
+        <title>{{ $title ?? 'Todo Manager' }}</title>
+    </head>
+    <body>
+        <h1>Todos</h1>
+        <hr/>
+        {{ $slot }}
+    </body>
+</html>
+```
+
+<a name="applying-the-layout-component"></a>
+#### 레이아웃 컴포넌트 적용
+
+`layout` 컴포넌트가 정의되면 컴포넌트를 활용하는 블레이드 뷰를 만들 수 있습니다. 이 예에서는 작업 목록을 표시하는 간단한 뷰를 정의합니다.
+
+```html
+<!-- resources/views/tasks.blade.php -->
+
+<x-layout>
+    @foreach ($tasks as $task)
+        {{ $task }}
+    @endforeach
+</x-layout>
+```
+
+컴포넌트에 주입된 콘텐츠는 `layout` 컴포넌트 내의 기본 `$slot` 변수에 제공됩니다. 눈치채셨겠지만, 우리의 `layout`은 `$title` 슬롯이 있는 경우 이를 우선합니다. 그렇지 않으면 기본 제목이 표시됩니다. [컴포넌트 문서](#components)에 설명된 표준 슬롯 구문을 사용하여 작업 목록 뷰에서 사용자 지정 제목을 삽입할 수 있습니다.
+
+```html
+<!-- resources/views/tasks.blade.php -->
+
+<x-layout>
+    <x-slot name="title">
+        Custom Title
+    </x-slot>
+
+    @foreach ($tasks as $task)
+        {{ $task }}
+    @endforeach
+</x-layout>
+```
+
+이제 레이아웃 및 작업 목록 뷰를 정의했으므로 경로에서 `task` 뷰를 반환하기만 하면 됩니다.
+
+    use App\Models\Task;
+
+    Route::get('/tasks', function () {
+        return view('tasks', ['tasks' => Task::all()]);
+    });
+
+<a name="layouts-using-template-inheritance"></a>
+### 템플릿 상속을 사용한 레이아웃
+
+<a name="defining-a-layout"></a>
+#### 레이아웃 정의
+
+레이아웃은 "템플릿 상속"을 통해 생성할 수도 있습니다. 이것은 [components](#components)가 도입되기 전에 애플리케이션을 구축하기위해 많이 사용하는 방법이었습니다.
+
+시작하기 위해 간단한 예를 살펴보겠습니다. 먼저 페이지 레이아웃을 살펴보겠습니다. 대부분의 웹 애플리케이션은 다양한 페이지에서 동일한 일반 레이아웃을 유지하므로 이 레이아웃을 단일 블레이드 뷰로 정의하는 것이 편리합니다.
+
+```html
+<!-- resources/views/layouts/app.blade.php -->
+
+<html>
+    <head>
+        <title>App Name - @yield('title')</title>
+    </head>
+    <body>
+        @section('sidebar')
+            This is the master sidebar.
+        @show
+
+        <div class="container">
+            @yield('content')
+        </div>
+    </body>
+</html>
+```
+
+보시다시피 이 파일에는 일반적인 HTML 마크업이 포함되어 있습니다. 그러나 `@section` 및 `@yield` 지시문에 유의하세요. `@section` 지시문은 이름에서 알 수 있듯이 콘텐츠의 섹션을 정의하는 반면 `@yield` 지시어는 주어진 섹션의 콘텐츠를 표시하는 데 사용됩니다.
+
+이제 애플리케이션에 대한 레이아웃을 정의했으므로 레이아웃을 상속하는 자식 페이지를 정의해 보겠습니다.
+
+<a name="extending-a-layout"></a>
+#### 레이아웃 확장
+
+자식 뷰를 정의할 때 `@extens` 블레이드 지시문을 사용하여 자식 뷰가 "상속"해야 하는 레이아웃을 지정합니다. 블레이드 레이아웃을 확장하는 뷰는 `@section` 지시문을 사용하여 레이아웃의 섹션에 콘텐츠를 주입할 수 있습니다. 위의 예에서 볼 수 있듯이 이 섹션의 내용은 `@yield`를 사용하여 레이아웃에 표시됩니다.
+
+```html
+<!-- resources/views/child.blade.php -->
+
+@extends('layouts.app')
+
+@section('title', 'Page Title')
+
+@section('sidebar')
+    @@parent
+
+    <p>This is appended to the master sidebar.</p>
+@endsection
+
+@section('content')
+    <p>This is my body content.</p>
+@endsection
+```
+
+이 예제에서 `sidebar` 섹션은 `@@parent` 지시문을 활용하여 레이아웃의 사이드바에 콘텐츠를 (덮어쓰기가 아니라) 추가합니다. `@@parent` 지시문은 뷰가 렌더링될 때 레이아웃의 내용으로 대체됩니다.
+
+> {tip} 이전 예제와 달리 이 `sidebar` 섹션은 `@show` 대신 `@endsection`으로 끝납니다. `@endsection` 지시문은 섹션만 정의하는 반면 `@show`는 섹션을 정의하고 즉시 생성합니다.
+
+`@yield` 지시문은 두 번째 매개변수로 기본값을 입력받습니다. 생성되는 섹션이 정의되지 않은 경우 이 값이 렌더링됩니다.
+
+    @yield('content', 'Default content')
+
+<a name="forms"></a>
+## 양식-Form
+
+<a name="csrf-field"></a>
+### CSRF 필드
+
+애플리케이션에서 HTML 양식을 정의할 때마다 [CSRF 보호](/docs/{{version}}/csrf) 미들웨어가 유효한 요청인지 검사할 수 있도록 양식에 숨겨진 CSRF 토큰 필드를 포함해야 합니다. 토큰 필드를 생성하기 위해 `@csrf` 블레이드 지시문을 사용할 수 있습니다.
+
+```html
+<form method="POST" action="/profile">
+    @csrf
+
+    ...
+</form>
+```
+
+<a name="method-field"></a>
+### 메소드 필드
+
+HTML 양식은 `PUT`, `PATCH` 또는 `DELETE` 요청을 할 수 없으므로 이러한 HTTP 동사를 스푸핑하려면 숨겨진 `_method` 필드를 추가해야 합니다. `@method` 블레이드 지시문은 다음 필드를 생성할 수 있습니다.
+
+```html
+<form action="/foo/bar" method="POST">
+    @method('PUT')
+
+    ...
+</form>
+```
+
+<a name="validation-errors"></a>
+### 검증 오류
+
+`@error` 지시문은 주어진 속성에 대해 [validation error messages](/docs/{{version}}/validation#quick-displaying-the-validation-errors)가 있는지 빠르게 확인하는 데 사용할 수 있습니다. `@error` 지시문 내에서 `message` 변수를 출력하여 오류 메시지를 표시할 수 있습니다.
+
+```html
+<!-- /resources/views/post/create.blade.php -->
+
+<label for="title">Post Title</label>
+
+<input id="title" type="text" class="@error('title') is-invalid @enderror">
+
+@error('title')
+    <div class="alert alert-danger">{{ $message }}</div>
+@enderror
+```
+
+`@error` 지시문이 "if" 문으로 컴파일되기 때문에 속성에 대한 오류가 없을 때 `@else` 지시문을 사용하여 콘텐츠를 렌더링할 수 있습니다.
+
+```html
+<!-- /resources/views/auth.blade.php -->
+
+<label for="email">Email address</label>
+
+<input id="email" type="email" class="@error('email') is-invalid @else is-valid @enderror">
+```
+
+여러 form이 포함된 페이지에서 유효성 검사 오류 메시지를 검색하려면 [특정 오류 백-bag의 이름](/docs/{{version}}/validation#named-error-bags)을 `@error` 지시문에 두 번째 매개변수로 전달할 수 있습니다.
+
+```html
+<!-- /resources/views/auth.blade.php -->
+
+<label for="email">Email address</label>
+
+<input id="email" type="email" class="@error('email', 'login') is-invalid @enderror">
+
+@error('email', 'login')
+    <div class="alert alert-danger">{{ $message }}</div>
+@enderror
+```
 
 <a name="stacks"></a>
 ## 스택
 
 블레이드는 또한 다른 뷰 또는 레이아웃에서 렌더링 할 수 있도록 이름이 지정된 스택에 푸시 할 수 있습니다. 이는 특히 하위 뷰에 필요한 JavaScript 라이브러리를 지정하는 데 유용합니다.
 
-    @push('scripts')
-        <script src="/example.js"></script>
-    @endpush
+```html
+@push('scripts')
+    <script src="/example.js"></script>
+@endpush
+```
 
 필요한 경우 여러번 스택에 푸쉬할 수 있습니다. 전체 스택 컨텐츠를 렌더링 하려면, 스택 이름을 `@stack` 지시어에 전달하면 됩니다.
 
-    <head>
-        <!-- Head Contents -->
+```html
+<head>
+    <!-- Head Contents -->
 
-        @stack('scripts')
-    </head>
+    @stack('scripts')
+</head>
+```
 
 스택이 시작하는 앞부분에 내용을 추가하고자 한다면, `@prepend` 지시어를 사용하면 됩니다.
 
-    @push('scripts')
-        This will be second...
-    @endpush
+```html
+@push('scripts')
+    This will be second...
+@endpush
 
-    // Later...
+// Later...
 
-    @prepend('scripts')
-        This will be first...
-    @endprepend
+@prepend('scripts')
+    This will be first...
+@endprepend
+```
 
 <a name="service-injection"></a>
 ## 서비스 인젝션-주입
 
 `@inject` 지시어는 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)에서 서비스를 반환하는 데 사용할 수 있습니다. `@inject` 지시어에 전달하는 첫번째 인자는 서비스를 할당할 변수의 이름이고, 두번째는 의존성을 해결하려는 서비스 클래스 또는 인터페이스의 이름입니다.
 
-    @inject('metrics', 'App\Services\MetricsService')
+```html
+@inject('metrics', 'App\Services\MetricsService')
 
-    <div>
-        Monthly Revenue: {{ $metrics->monthlyRevenue() }}.
-    </div>
+<div>
+    Monthly Revenue: {{ $metrics->monthlyRevenue() }}.
+</div>
+```
 
 <a name="extending-blade"></a>
 ## 블레이드 기능 확장하기
@@ -997,10 +1420,38 @@ include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 
 
 > {note} 블레이드 지시어 로직을 수정한 뒤에는, 블레이드 뷰 캐시를 삭제할 필요가 있습니다. 블레이드 뷰의 캐시는 `view:clear` 아티즌 명령어를 사용하여 제거할 수 있습니다.
 
-<a name="custom-if-statements"></a>
-### 커스텀 If 구문
+<a name="custom-echo-handlers"></a>
+### 사용자 정의 출력-echo 핸들러
 
-커스텀한 지시어를 프로그래밍하면 간단한 조건문을 정의할 때 필요 이상으로 복잡한 경우가 많습니다. 이때문에 블레이드는 클로저를 사용하여 커스텀 If 시지어를 보다 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 현재 애플리케이션의 클라우드 공급자를 확인하는 커스텀 지시어를 정의하면 다음처럼 `AppServiceProvider` 의 `boot` 메소드에서 사용할 수 있습니다.
+블레이드를 사용하여 객체를 "출력-echo"하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https:www.php.netmanualenlanguage.oop5.magic.phpobject.tostring) 메서드는 PHP에 내장된 "매직 메서드" 중 하나입니다. 그러나 해당하는 클래스가 타사에서 제공하는 라이브러리같이 원하는 클래스의 `__toString` 메서드를 사용 할 수 없는 경우가 있습니다.
+
+이러한 경우 블레이드를 사용하여 특정 유형의 개체에 대한 사용자 정의 출력-echo 핸들러를 등록할 수 있습니다. 이를 수행하려면 블레이드의 `stringable` 메소드를 호출해야 합니다. `stringable` 메소드는 클로저를 입력받습니다. 이 클로저는 렌더링을 담당하는 객체 유형을 유형-type 힌트로 지정해야 합니다. 일반적으로 `stringable` 메소드는 애플리케이션의 `AppServiceProvider` 클래스의 `boot` 메소드 내에서 호출되어야 합니다.
+
+    use Illuminate\Support\Facades\Blade;
+    use Money\Money;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::stringable(function (Money $money) {
+            return $money->formatTo('en_GB');
+        });
+    }
+
+사용자 정의 출력-echo 핸들러가 정의되면 단순히 블레이드 템플릿에서 객체를 출력할 수 있습니다.
+
+```html
+Cost: {{ $money }}
+```
+
+<a name="custom-if-statements"></a>
+### 사용자 정의 조건문
+
+사용자 지정 지시문을 프로그래밍하는 것은 간단한 사용자 지정 조건문을 정의할 때 필요 이상으로 복잡합니다. 이러한 이유로 블레이드는 클로저를 사용하여 사용자 정의 조건부 지시문을 빠르게 정의할 수 있는 `Blade::if` 메소드를 제공합니다. 예를 들어 애플리케이션에 대해 구성된 기본 "디스크"를 확인하는 사용자 지정 조건을 정의해 보겠습니다. 우리는 `AppServiceProvider`의 `boot` 메소드에서 이 작업을 수행할 수 있습니다.
 
     use Illuminate\Support\Facades\Blade;
 
@@ -1011,21 +1462,23 @@ include에 별칭이 지정되면 별칭 이름을 블레이드 지시문으로 
      */
     public function boot()
     {
-        Blade::if('cloud', function ($provider) {
-            return config('filesystems.default') === $provider;
+        Blade::if('disk', function ($value) {
+            return config('filesystems.default') === $value;
         });
     }
 
-커스텀 조건을 정의한 뒤에는, 템플릿에서 손쉽게 사용할 수 있습니다.
+사용자 정의 조건문이 정의되면 템플릿 내에서 사용할 수 있습니다.
 
-    @cloud('digitalocean')
-        // The application is using the digitalocean cloud provider...
-    @elsecloud('aws')
-        // The application is using the aws provider...
-    @else
-        // The application is not using the digitalocean or aws environment...
-    @endcloud
+```html
+@disk('local')
+    <!-- The application is using the local disk... -->
+@elsedisk('s3')
+    <!-- The application is using the s3 disk... -->
+@else
+    <!-- The application is using some other disk... -->
+@enddisk
 
-    @unlesscloud('aws')
-        // The application is not using the aws environment...
-    @endcloud
+@unlessdisk('local')
+    <!-- The application is not using the local disk... -->
+@enddisk
+```

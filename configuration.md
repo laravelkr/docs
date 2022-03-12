@@ -67,7 +67,7 @@ null | (null) null
 
     'debug' => env('APP_DEBUG', false),
 
-'env' 함수에 전달된 두 번째 인자는 "기본값"입니다. 주어진 키에 대한 환경 변수가 없으면 이 값이 반환됩니다.
+`env` 함수에 전달된 두 번째 인자는 "기본값"입니다. 주어진 키에 대한 환경 변수가 없으면 이 값이 반환됩니다.
 
 <a name="determining-the-current-environment"></a>
 ### 현재 구동환경 결정하기

@@ -53,7 +53,7 @@
 <a name="urls-for-named-routes"></a>
 ## 이름이 지정된 라우트 URL
 
-'route' 헬퍼는 [이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) URL을 생성하는데 사용될 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 애플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
+`route` 헬퍼는 [이름이 지정된 라우트](/docs/{{version}}/routing#named-routes) URL을 생성하는데 사용될 수 있습니다. 라우트에 이름을 지정하여 사용하면, 라우트에 정의된 실제 URL에 구애받지 않고서도 URL을 생성할 수 있습니다. 따라서 라우트의 URL이 변경되었다고 해서 `route` 함수를 호출한 곳을 모두 수정할 필요가 없습니다. 예를 들자면 애플리케이션에서 다음과 같이 정의된 라우트를 가지고 있다고 가정해보십시오:
 
     Route::get('/post/{post}', function (Post $post) {
         //
@@ -65,7 +65,7 @@
 
     // http://example.com/post/1
 
-물론, 'route' 헬퍼는 또한 여러개의 파라미터를 가진 라우트 URL을 생성할 수도 있습니다.
+물론, `route` 헬퍼는 또한 여러개의 파라미터를 가진 라우트 URL을 생성할 수도 있습니다.
 
     Route::get('/post/{post}/comment/{comment}', function (Post $post, Comment $comment) {
         //

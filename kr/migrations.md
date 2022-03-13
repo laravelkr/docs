@@ -450,6 +450,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 </style>
 
 <div id="collection-method-list" markdown="1">
+
 [bigIncrements](#column-method-bigIncrements)
 [bigInteger](#column-method-bigInteger)
 [binary](#column-method-binary)
@@ -514,6 +515,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [uuidMorphs](#column-method-uuidMorphs)
 [uuid](#column-method-uuid)
 [year](#column-method-year)
+
 </div>
 
 <a name="column-method-bigIncrements"></a>
@@ -1358,6 +1360,8 @@ You may even pass an array of columns to an index method to create a compound (o
     $table->index(['account_id', 'created_at']);
 
 When creating an index, Laravel will automatically generate an index name based on the table, column names, and the index type, but you may pass a second argument to the method to specify the index name yourself:
+
+인덱스를 생성할 때, 라라벨은 자동으로 테이블, 컬럼 이름, 인덱스 타입을 기반으로 인덱스 이름을 생성하지만, 인덱스 이름을 지정하기 위해 두 번째 인자를 메소드에 전달할 수도 있습니다.
 
     $table->unique('email', 'unique_email');
 

@@ -148,6 +148,8 @@ If you want a middleware to run during every HTTP request to your application, l
 
 If you would like to assign middleware to specific routes, you should first assign the middleware a key in your application's `app/Http/Kernel.php` file. By default, the `$routeMiddleware` property of this class contains entries for the middleware included with Laravel. You may add your own middleware to this list and assign it a key of your choosing:
 
+특정 경로에 미들웨어를 할당하려면 먼저 애플리케이션의 `app/Http/Kernel.php` 파일에서 미들웨어 키를 할당해야 합니다. 기본적으로 이 클래스의 `$routeMiddleware` 속성은 라라벨에 포함된 미들웨어에 대한 항목을 포함합니다. 이 목록에 자신의 미들웨어를 추가하고 선택한 키를 할당할 수 있습니다.
+
     // Within App\Http\Kernel class...
 
     protected $routeMiddleware = [

@@ -1014,7 +1014,7 @@ Laravel 스키마 빌더는 여러 타입의 인덱스를 지원합니다. 다�
 
     $table->index(['account_id', 'created_at']);
 
-When creating an index, Laravel will automatically generate an index name based on the table, column names, and the index type, but you may pass a second argument to the method to specify the index name yourself:
+인덱스를 생성할 때, 라라벨은 자동으로 테이블, 컬럼 이름, 인덱스 타입을 기반으로 인덱스 이름을 생성하지만, 인덱스 이름을 지정하기 위해 두 번째 인자를 메소드에 전달할 수도 있습니다.
 
     $table->unique('email', 'unique_email');
 

@@ -72,7 +72,7 @@ To learn more about this middleware, please consult the [`TrustHosts` middleware
 
 이 미들웨어에 대한 자세한 내용은 [`TrustHosts` 미들웨어 문서](/docs/{{version}}/requests#configuring-trusted-hosts)를 보세요.
 
-<a name="resetting-routing"></a>
+<a name="routing"></a>
 ## Routing
 ## 라우팅
 
@@ -260,6 +260,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
         });
     }
 
+<a name="reset-email-customization"></a>
 #### Reset Email Customization
 #### 패스워드 재설정 이메일 커스터마이징하기
 

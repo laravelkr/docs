@@ -187,7 +187,7 @@ By default, the Laravel exception handler will convert exceptions into an HTTP r
 
 The closure passed to the `renderable` method should return an instance of `Illuminate\Http\Response`, which may be generated via the `response` helper. Laravel will deduce what type of exception the closure renders by examining the type-hint of the closure:
 
-`rednerable` 메소드에 전달된 클로저(Closure)는 `response` 헬퍼 함수를 통해서 생성된 `Illuminate\Http\Response`의 인스턴스를 반환해야 합니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 렌더링하는 예외의 유형을 찾아낼 것입니다.
+`rednerable` 메소드에 전달된 클로저(Closure)는 `response` 헬퍼 함수를 통해서 생성된 `Illuminate\Http\Response`의 인스턴스를 반환해야 합니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 예외 유형을 추론하며 예외 유형에 맞는 렌더링 메시지를 표시합니다.
 
     use App\Exceptions\InvalidOrderException;
 
@@ -205,7 +205,7 @@ The closure passed to the `renderable` method should return an instance of `Illu
 
 You may also use the `renderable` method to override the rendering behavior for built-in Laravel or Symfony exceptions such as `NotFoundHttpException`. If the closure given to the `renderable` method does not return a value, Laravel's default exception rendering will be utilized:
 
-라라벨 또는 심포니의 내장 렌더링 기능(rendering behavior)을 `renderable` 메소드를 사용하여 재정의 할 수 있습니다. 예를 들어 기본 내장 예외 렌더링 기능에는 `NotFoundHttpException`이란 예외가 있습니다. `renderable` 메소드에서 인자로 할당되는 클로저가 `NotFoundHttpException` 예외를 클로저의 파라메터로 지정할 때 리턴 값이 반환되지 않는다면 `NotFoundHttpException` 예외일 경우 실행되는 라라벨의 기본 예외 렌더링을 사용합니다.
+라라벨 또는 심포니의 내장 렌더링 기능(rendering behavior)을 `renderable` 메소드를 사용하여 재정의 할 수 있습니다. 예를 들어 기본 내장 예외 렌더링 기능에는 `NotFoundHttpException`이란 예외가 있습니다. `renderable` 메소드에서 인자로 할당되는 클로저에 `NotFoundHttpException` 예외를 클로저의 파라메터로 지정한다고 가정해 봅시다. 클로저에서 리턴 값이 반환되지 않는다면 `NotFoundHttpException` 예외일 경우 실행되는 라라벨의 기본 예외 렌더링이 사용됩니다.
 
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

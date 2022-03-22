@@ -71,7 +71,7 @@ If you've ever been confused and overwhelmed about getting started with Webpack 
 #### Installing Node
 #### Node 설치하기
 
-Before triggering Mix, you must first ensure that Node.js and NPM are installed on your machine.
+Before running Mix, you must first ensure that Node.js and NPM are installed on your machine.
 
 Mix를 사용하기전 작업환경에 Node.js와 NPM이 설치되어있는지 확인하세요.
 
@@ -212,7 +212,7 @@ Finally, you should reference your stylesheet in your application's primary layo
 ### PostCSS
 ### PostCSS
 
-[PostCSS](https://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plug-in to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plug-ins that are appropriate for your application.
+[PostCSS](https://postcss.org/), a powerful tool for transforming your CSS, is included with Laravel Mix out of the box. By default, Mix leverages the popular [Autoprefixer](https://github.com/postcss/autoprefixer) plugin to automatically apply all necessary CSS3 vendor prefixes. However, you're free to add any additional plugins that are appropriate for your application.
 
 [PostCSS](https://postcss.org/)는 추가적인 설치 없이도, 라라벨 Mix에 기본적으로 포함되어 사용할 수 있는 CSS 변환툴입니다. 기본적으로 Mix는 널리 사용되는 [Autoprefixer](https://github.com/postcss/autoprefixer) 플러그인을 사용하여 필요한 모든 CSS3 vendor 접두사(prefix)를 자동으로 적용합니다. 그러나 기본적인 플러그인 이외에도 애플리케이션에 적합한 플러그인을 자유롭게 추가할 수 있습니다.
 
@@ -283,7 +283,7 @@ By default, Laravel Mix and Webpack will find `example.png`, copy it to your `pu
 }
 ```
 
-As useful as this feature may be, it's possible that your existing folder structure is already configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
+As useful as this feature may be, your existing folder structure may already be configured in a way you like. If this is the case, you may disable `url()` rewriting like so:
 
 이 기능이 유용할 수 있지만 기존 폴더 구조가 이미 원하는 방식으로 설정되어 있을 수 있습니다. 이런 경우에는 `url()`의 재작성 동작을 다음처럼 비활성화 할 수 있습니다.
 
@@ -348,15 +348,19 @@ With this single line of code, you may now take advantage of:
 이 한줄의 코드로 다음의 기능들을 취할 수 있습니다.
 
 <div class="content-list" markdown="1">
+
 - The latest EcmaScript syntax.
 - Modules
 - Minification for production environments.
+
 </div>
 
 <div class="content-list" markdown="1">
+
 - 최신 에크마 스크립트 문법
 - 모듈들
 - 프로덕션 환경을 위한 압축
+
 </div>
 
 <a name="vue"></a>
@@ -431,15 +435,19 @@ The `extract` method accepts an array of all libraries or modules that you wish 
 `extract` 메소드는 `vendor.js` 파일로 별도 구성(추출)하고자 하는 라이브러리 혹은 모듈의 배열을 전달 받습니다. 앞선 예의 경우에는 Mix는 다음 파일을 생성합니다.
 
 <div class="content-list" markdown="1">
+
 - `public/js/manifest.js`: *The Webpack manifest runtime*
 - `public/js/vendor.js`: *Your vendor libraries*
 - `public/js/app.js`: *Your application code*
+
 </div>
 
 <div class="content-list" markdown="1">
+
 - `public/js/manifest.js`: *웹펙의 manifest 런타임*
 - `public/js/vendor.js`: *애플리케이션의 vendor 라이브러리들*
 - `public/js/app.js`: *애플리케이션의 자바스크립트 코드*
+
 </div>
 
 To avoid JavaScript errors, be sure to load these files in the proper order:
@@ -482,9 +490,9 @@ Many developers suffix their compiled assets with a timestamp or unique token to
 
 많은 개발자들은 브라우저에 캐싱되어 있는 지난 버전(stale)의 코드 복사본을 웹에서 제공하지 않도록 하고 새로운 에셋(assets)이 브라우저에서 강제로 로드 될 수 있도록 타임스템프나 유니크 토큰을 컴파일된 에셋의 접미사에 붙입니다. Mix는 `version` 메소드를 사용하여 이러한 문제를 처리(handle)합니다.
 
-The `version` method will automatically append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
+The `version` method will append a unique hash to the filenames of all compiled files, allowing for more convenient cache busting:
 
-`version` 메소드는 컴파일 된 파일의 이름 뒤에 자동으로 고유한 hash를 덧붙여 좀 더 편리하게 캐시를 날릴 수 있도록 합니다.
+`version` 메소드는 컴파일 된 파일의 이름 뒤에 고유한 hash를 덧붙여 좀 더 편리하게 캐시를 날릴 수 있도록 합니다.
 
 ```js
 mix.js('resources/js/app.js', 'public/js')
@@ -499,9 +507,9 @@ After generating the versioned file, you won't know the exact file name. So, you
 <script src="{{ mix('/js/app.js') }}"></script>
 ```
 
-Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run production`:
+Because versioned files are usually unnecessary in development, you may instruct the versioning process to only run during `npm run prod`:
 
-개발중에는 버전이 지정된 파일이 항상 필요하지는 않기 때문에, `npm run production` 일 때만 파일 경로에 버전 식별자가 붙도록(versioning) 처리를 지시할 수 있습니다.
+개발중에는 버전이 지정된 파일이 항상 필요하지는 않기 때문에, `npm run prod` 일 때만 파일 경로에 버전 식별자가 붙도록(versioning) 처리를 지시할 수 있습니다.
 
 ```js
 mix.js('resources/js/app.js', 'public/js');
@@ -578,9 +586,9 @@ process.env.MIX_SENTRY_DSN_PUBLIC
 ## Notifications
 ## Notification-알림
 
-When available, Mix will automatically display OS notifications for each bundle. This will give you instant feedback, as to whether the compilation was successful or not. However, there may be instances when you'd prefer to disable these notifications. One such example might be triggering Mix on your production server. Notifications may be deactivated, via the `disableNotifications` method.
+When available, Mix will automatically display OS notifications when compiling, giving you instant feedback as to whether the compilation was successful or not. However, there may be instances when you would prefer to disable these notifications. One such example might be triggering Mix on your production server. Notifications may be deactivated using the `disableNotifications` method:
 
-가능한 경우에, Mix 는 자동으로 번들링을 마칠 때 OS 알림을 표시합니다. 이렇게 하면 컴파일이 성공했는지, 그렇지 않은지 즉각적인 피드백을 얻을 수 있습니다. 만약 이러한 알림을 비활성화 시키고자 할 수도 있는데, 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
+가능하다면 Mix는 컴파일이 끝날 때 자동으로 OS 알람을 표시합니다. 이를 통해 컴파일을 성공했는지 실패했는지에 대한 즉각적인 피드벡이 제공됩니다. 하지만 여러분의 선호에 따라 알람을 비활성화 할 수 있습니다. 프로덕션 서버에서 Mix를 사용할 때가 그렇습니다. `disableNotifications` 메소드를 사용하면 알림 기능을 비활성화 시킬 수 있습니다.
 
 ```js
 mix.disableNotifications();

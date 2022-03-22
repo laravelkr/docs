@@ -200,13 +200,35 @@ The closure passed to the `renderable` method should return an instance of `Illu
         });
     }
 
+You may also use the `renderable` method to override the rendering behavior for built-in Laravel or Symfony exceptions such as `NotFoundHttpException`. If the closure given to the `renderable` method does not return a value, Laravel's default exception rendering will be utilized:
+
+라라벨 또는 심포니의 내장 렌더링 기능(rendering behavior)을 `renderable` 메소드를 사용하여 재정의 할 수 있습니다. 예를 들어 내장 예외 렌더링 기능에는 `NotFoundHttpException`이 있고 `renderable` 메소드에서 인자로 할당되는 클로저에서 리턴 값이 반환되지 않는다면 라라벨의 기본 예외 렌더링을 사용합니다.
+
+    use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'Record not found.'
+                ], 404);
+            }
+        });
+    }
+
 <a name="renderable-exceptions"></a>
 ### Reportable & Renderable Exceptions
 ### 보고 가능한(Reportable) & 렌더링 가능한(Renderable) 예외들
 
-Instead of type-checking exceptions in the exception handler's `report` and `render` methods, you may define `report` and `render` methods directly on your custom exception. When these methods exist, they will be called automatically by the framework:
+Instead of type-checking exceptions in the exception handler's `register` method, you may define `report` and `render` methods directly on your custom exceptions. When these methods exist, they will be automatically called by the framework:
 
-예외 핸들러의 `report`와 `render` 메소드에서 예외의 유형을 확인하는 대신에, 커스텀 예외에 `report` 와 `render` 메소드를 직접 정의할 수 있습니다. `report` 와 `render`메소드에 정의된 로직은 프레임워크에 의해 자동으로 호출됩니다.
+예외 핸들러의 `register` 메소드에서 예외의 유형을 확인(type-checking)하는 대신에, 커스텀 예외에 `report` 와 `render` 메소드를 직접 정의할 수 있습니다. 커스텀으로 정의한 `report` 와 `render`가 존재한다면 이들 메소드에 정의된 로직은 프레임워크에 의해 자동으로 호출됩니다.
 
     <?php
 
@@ -236,6 +258,23 @@ Instead of type-checking exceptions in the exception handler's `report` and `ren
         {
             return response(...);
         }
+    }
+
+If your exception extends an exception that is already renderable, such as a built-in Laravel or Symfony exception, you may return `false` from the exception's `render` method to render the exception's default HTTP response:
+
+라라벨이나 심포니에 내장된 예외는 에러에 대한 HTTP 리스폰스를 반환합니다. 이들 내장된 예외를 상속하여 사용자 정의 예외를 만드는 경우에는 커스텀 예외의 `render` 메소드에서 `false`를 반환함으로써 기본 예외에서 사용되는 디폴트 HTTP 리스폰스를 렌더링 할 수 있습니다.
+
+    /**
+     * Render the exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request)
+    {
+        // Determine if the exception needs custom rendering...
+
+        return false;
     }
 
 If your exception contains custom reporting logic that is only necessary when certain conditions are met, you may need to instruct Laravel to sometimes report the exception using the default exception handling configuration. To accomplish this, you may return `false` from the exception's `report` method:

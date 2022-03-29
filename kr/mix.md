@@ -335,9 +335,9 @@ mix.js('resources/js/app.js', 'public/js')
 ## Working With JavaScript
 ## 자바스크립트 작업하기
 
-Mix provides several features to help you work with your JavaScript files, such as compiling ECMAScript 2015, module bundling, minification, and concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
+Mix provides several features to help you work with your JavaScript files, such as compiling modern ECMAScript, module bundling, minification, and concatenating plain JavaScript files. Even better, this all works seamlessly, without requiring an ounce of custom configuration:
 
-Mix는 자바스크립트 작업에 도움이 될만한 몇 가지 기능을 제공합니다. ECMAScript 2015 컴파일, 모듈 번들링, 파일 압축(minification), 브라우저에서 일반적으로 바로 로딩할 수 있는 자바스크립트(plain JavaScript) 파일의 결합 등입니다. 더 나아가 이 모든 기능은 여러가지 별도의 설정을 할 필요없이 원활하게(seamlessly) 동작합니다.
+Mix는 자바스크립트 작업에 도움이 될만한 몇 가지 기능을 제공합니다. 모던 ECMAScript 컴파일, 모듈 번들링, 파일 압축(minification), 브라우저에서 일반적으로 바로 로딩할 수 있는 자바스크립트(plain JavaScript) 파일의 결합 등입니다. 더 나아가 이 모든 기능은 여러가지 별도의 설정을 할 필요없이 원활하게(seamlessly) 동작합니다.
 
 ```js
 mix.js('resources/js/app.js', 'public/js');

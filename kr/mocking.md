@@ -670,7 +670,7 @@ You may use the `assertPushedWithoutChain` method to assert that a job was pushe
 
 The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `Illuminate\Http\UploadedFile` class, greatly simplifies the testing of file uploads. For example:
 
-`Storage` 파사드의 `fake` 메소드를 사용하면 `Illuminate\Http\UploadedFile` 클래스의 파일 생성과 결합된 가짜 디스크를 생성할 수 있어, 파일 업로드 테스트가 아주 쉬워집니다. 예를 들면:
+`Storage` 파사드의 `fake` 메소드를 사용하면 `Illuminate\Http\UploadedFile` 클래스의 파일 생성과 결합된 가짜 디스크를 생성할 수 있어, 파일 업로드 테스트가 아주 쉬워집니다. 예를 들면
 
     <?php
 
@@ -709,7 +709,7 @@ For more information on testing file uploads, you may consult the [HTTP testing 
 
 > {tip} By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead.
 
-> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일 삭제합니다. 이 파일들을 유지하고자 한다면, 대신 "persistentFake" 메소드를 사용하십시오.
+> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일을 삭제합니다. 이 파일들을 유지하고자 한다면, 대신 "persistentFake" 메소드를 사용하십시오.
 
 ## Interacting With Time
 ## 시간과의 상호작용

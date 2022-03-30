@@ -574,6 +574,42 @@ The `@class` directive conditionally compiles a CSS class string. The directive 
 <span class="p-4 text-gray-500 bg-red"></span>
 ```
 
+<a name="checked-and-selected"></a>
+### Checked / Selected / Disabled
+
+For convenience, you may use the `@checked` directive to easily indicate if a given HTML checkbox input is "checked". This directive will echo `checked` if the provided condition evaluates to `true`:
+
+HTML 폼 태그의 input 애트리뷰트가 "checked" 되었는지 `@checked` 지시어를 사용하여 편리하게 나타낼 수 있습니다. 이 지시어는 제공된 조건이 `ture`로 평가되면 해당 폼 태그의 input 태그에 `checked` 애트리뷰트를 표시합니다.
+
+```blade
+<input type="checkbox"
+        name="active"
+        value="active"
+        @checked(old('active', $user->active)) />
+```
+
+Likewise, the `@selected` directive may be used to indicate if a given select option should be "selected":
+
+마찬가지로 `@selected` 지시어를 사용하여 폼 태그의 input 태그 애트리뷰트를 "selected"로 표시할 수 있습니다.
+
+```blade
+<select name="version">
+    @foreach ($product->versions as $version)
+        <option value="{{ $version }}" @selected(old('version') == $version)>
+            {{ $version }}
+        </option>
+    @endforeach
+</select>
+```
+
+Additionally, the `@disabled` directive may be used to indicate if a given element should be "disabled":
+
+덧붙여, `@disabled` 지시어를 사용하여 주어진 폼 태그의 input 태그의 애트리뷰트가 "disabled"인지 지정할 수 있습니다.
+
+```blade
+<button type="submit" @disabled($errors->isNotEmpty())>Submit</button>
+```
+
 <a name="including-subviews"></a>
 ### Including Subviews
 ### 하위 뷰 포함하기
@@ -1277,6 +1313,9 @@ By default, some keywords are reserved for Blade's internal use in order to rend
 
 기본적으로 일부 키워드는 블레이드의 내부에서 컴포넌트를 렌더링하기 위해 예약되어 있습니다. 다음 키워드는 컴포넌트 내에서 public 속성 또는 메서드 이름으로 정의할 수 없습니다.
 
+
+<div class="content-list" markdown="1">
+
 - `data`
 - `render`
 - `resolveView`
@@ -1284,6 +1323,8 @@ By default, some keywords are reserved for Blade's internal use in order to rend
 - `view`
 - `withAttributes`
 - `withName`
+
+</div>
 
 <a name="slots"></a>
 ### Slots
@@ -1365,7 +1406,7 @@ Like Blade components, you may assign additional [attributes](#component-attribu
 
 블레이드 컴포넌트와 마찬가지로 CSS 클래스 이름과 같은 슬롯에 추가 [속성](#component-attributes)을 할당할 수 있습니다.
 
-```blade
+```xml
 <x-card class="shadow-sm">
     <x-slot:heading class="font-bold">
         Heading

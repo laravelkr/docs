@@ -80,7 +80,7 @@ These credentials should be placed in your application's `config/services.php` c
 
 To authenticate users using an OAuth provider, you will need two routes: one for redirecting the user to the OAuth provider, and another for receiving the callback from the provider after authentication. The example routes below demonstrate the implementation of both routes:
 
-OAuth 공급자를 사용하여 사용자를 인증하려면 두 가지 경로가 필요합니다. 하나는 사용자를 OAuth 공급자로 리다이렉션하기 위한 것이고 다른 하나는 인증 후 공급자로부터 콜백을 수신하기 위한 것입니다. 다음의 예시는 두개의 라우트를 경로한 것입니다.
+OAuth 공급자를 사용하여 사용자를 인증하려면 두 가지 경로가 필요합니다. 하나는 사용자를 OAuth 공급자로 리다이렉션하기 위한 것이고 다른 하나는 인증 후 공급자로부터 콜백을 수신하기 위한 것입니다. 다음의 예시는 두개의 라우트를 구현한 것입니다.
 
     use Laravel\Socialite\Facades\Socialite;
 

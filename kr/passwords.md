@@ -66,13 +66,13 @@ By default, Laravel will respond to all requests it receives regardless of the c
 
 Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application. This is particularly important when your application offers password reset functionality.
 
-일반적으로 지정된 호스트 이름과 일치하는 요청만 애플리케이션에 보내기 위해서는 Nginx 또는 Apache 를 사용하여 웹 서버를 구성해야 합니다. 그러나 웹 서버를 직접 커스터마이징 할 수 없는 상황이고 특정 호스트 이름에만 응답하도록 해야 한다면 라라벨에 직접 일치하는 호스트 이름에만 응답하도록 지시할 수 있습니다. 라라벨을 통해 지정된 호스트와 일치하는 요청에만 응답하도록 구성하려면 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화합니다. 이 미들웨어는 애플리케이션이 비밀번호 재설정 기능을 제공할 때 특히 요긴하게 쓰입니다.
+일반적으로 지정된 호스트 이름과 일치하는 요청만 애플리케이션에 보내기 위해서는 Nginx 또는 Apache 를 사용하여 웹 서버를 구성해야 합니다. 그러나 웹 서버를 직접 커스터마이징 할 수 없는 상황이고 특정 호스트 이름에만 응답하도록 해야 한다면 라라벨에 일치하는 호스트 이름에만 응답하도록 지시할 수 있습니다. 라라벨을 통해 지정된 호스트와 일치하는 요청에만 응답하도록 구성하려면 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화합니다. 이 미들웨어는 애플리케이션이 비밀번호 재설정 기능을 제공할 때 특히 요긴하게 쓰입니다.
 
 To learn more about this middleware, please consult the [`TrustHosts` middleware documentation](/docs/{{version}}/requests#configuring-trusted-hosts).
 
 이 미들웨어에 대한 자세한 내용은 [`TrustHosts` 미들웨어 문서](/docs/{{version}}/requests#configuring-trusted-hosts)를 보세요.
 
-<a name="resetting-routing"></a>
+<a name="routing"></a>
 ## Routing
 ## 라우팅
 
@@ -260,6 +260,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
         });
     }
 
+<a name="reset-email-customization"></a>
 #### Reset Email Customization
 #### 패스워드 재설정 이메일 커스터마이징하기
 

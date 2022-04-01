@@ -217,9 +217,21 @@ The following dependencies are needed for the listed queue drivers. These depend
 
 나열된 큐-queue 드라이버에는 다음 의존성이 필요합니다. 이러한 의존성은 Composer 패키지 관리자를 통해 설치할 수 있습니다.
 
+<div class="content-list" markdown="1">
+
+- Amazon SQS: `aws/aws-sdk-php ~3.0`
+- Beanstalkd: `pda/pheanstalk ~4.0`
+- Redis: `predis/predis ~1.0` or phpredis PHP extension
+
+</div>
+
+<div class="content-list" markdown="1">
+
 - Amazon SQS: `aws/aws-sdk-php ~3.0`
 - Beanstalkd: `pda/pheanstalk ~4.0`
 - Redis: `predis/predis ~1.0` 또는 phpredis PHP 확장 모듈
+
+</div>
 
 <a name="creating-jobs"></a>
 ## Creating Jobs

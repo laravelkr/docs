@@ -576,6 +576,7 @@ The `@class` directive conditionally compiles a CSS class string. The directive 
 
 <a name="checked-and-selected"></a>
 ### Checked / Selected / Disabled
+### Checked / Selected / Disabled
 
 For convenience, you may use the `@checked` directive to easily indicate if a given HTML checkbox input is "checked". This directive will echo `checked` if the provided condition evaluates to `true`:
 

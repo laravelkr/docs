@@ -260,7 +260,7 @@ public function giveConfig($key, $default = null);
 #### Postgres "스키마" 설정
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 The `schema` configuration option used to configure Postgres connection search paths in your application's `config/database.php` configuration file should be renamed to `search_path`.
 
@@ -285,7 +285,7 @@ The `registerCustomDoctrineType` method has been removed from the `Illuminate\Da
 #### Custom Casts & `null`
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 In previous releases of Laravel, the `set` method of custom cast classes was not invoked if the cast attribute was being set to `null`. However, this behavior was inconsistent with the Laravel documentation. In Laravel 9.x, the `set` method of the cast class will be invoked with `null` as the provided `$value` argument. Therefore, you should ensure your custom casts are able to sufficiently handle this scenario:
 
@@ -319,7 +319,7 @@ public function set($model, $key, $value, $attributes)
 #### 다대다 연관관계의 `firstOrNew`, `firstOrCreate`, `updateOrCreate` 메소드
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 The `belongsToMany` relationship's `firstOrNew`, `firstOrCreate`, and `updateOrCreate` methods all accept an array of attributes as their first argument. In previous releases of Laravel, this array of attributes was compared against the "pivot" / intermediate table for existing records.
 
@@ -816,7 +816,7 @@ It is no longer possible to retrieve a list of failed recipients after sending a
 #### `lang` 디렉토리
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 In new Laravel applications, the `resources/lang` directory is now located in the root project directory (`lang`). If your package is publishing language files to this directory, you should ensure that your package is publishing to `app()->langPath()` instead of a hard-coded path.
 
@@ -876,7 +876,7 @@ The `getSession` method previously returned an instance of `Illuminate\Session\S
 #### `assertDeleted` 메소드
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 All calls to the `assertDeleted` method should be updated to `assertModelMissing`.
 
@@ -943,7 +943,7 @@ public function validated($key = null, $default = null)
 #### `password` 규칙
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 The `password` rule, which validates that the given input value matches the authenticated user's current password, has been renamed to `current_password`.
 
@@ -954,7 +954,7 @@ The `password` rule, which validates that the given input value matches the auth
 #### 검증되지 않은 배열 키
 
 **Likelihood Of Impact: Medium**
-** 영향 가능성: 중간**
+**영향 가능성: 중간**
 
 In previous releases of Laravel, you were required to manually instruct Laravel's validator to exclude unvalidated array keys from the "validated" data it returns, especially in combination with an `array` rule that does not specify a list of allowed keys.
 

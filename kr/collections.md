@@ -2376,6 +2376,8 @@ You may also pass a simple value to the `skipUntil` method to skip all items unt
 
 > {note} If the given value is not found or the callback never returns `true`, the `skipUntil` method will return an empty collection.
 
+> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `skipUntil` 메서드는 빈 컬렉션을 반환합니다.
+
 <a name="method-skipwhile"></a>
 #### `skipWhile()` {.collection-method}
 
@@ -2709,6 +2711,8 @@ The `sortKeysUsing` method sorts the collection by the keys of the underlying as
 
 The callback must be a comparison function that returns an integer less than, equal to, or greater than zero. For more information, refer to the PHP documentation on [`uksort`](https://www.php.net/manual/en/function.uksort.php#refsect1-function.uksort-parameters), which is the PHP function that `sortKeysUsing` method utilizes internally.
 
+콜백은 0보다 작거나 같거나 큰 정수를 반환하는 비교 함수여야 합니다. 자세한 내용은 `sortKeysUsing` 메소드가 내부적으로 활용하는 PHP 함수인 [`uksort`](https://www.php.net/manual/en/function.uksort.php#refsect1-function.uksort-parameters) 에 대한 PHP 문서를 참조하십시오.
+
 <a name="method-splice"></a>
 #### `splice()` {.collection-method}
 
@@ -2888,6 +2892,8 @@ You may also pass a simple value to the `takeUntil` method to get the items unti
 
 > {note} If the given value is not found or the callback never returns `true`, the `takeUntil` method will return all items in the collection.
 
+> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `takeUntil` 메서드는 컬렉션의 모든 항목을 반환합니다.
+
 <a name="method-takewhile"></a>
 #### `takeWhile()` {.collection-method}
 
@@ -2906,6 +2912,8 @@ The `takeWhile` method returns items in the collection until the given callback 
     // [1, 2]
 
 > {note} If the callback never returns `false`, the `takeWhile` method will return all items in the collection.
+
+> {note} 콜백이 `false`를 반환하지 않으면 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-tap"></a>
 #### `tap()` {.collection-method}
@@ -3163,6 +3171,8 @@ For the inverse of `unless`, see the [`when`](#method-when) method.
 #### `unlessEmpty()` {.collection-method}
 
 Alias for the [`whenNotEmpty`](#method-whennotempty) method.
+
+[`whenNotEmpty`](#method-whennotempty) 메서드의 별칭입니다.
 
 <a name="method-unlessnotempty"></a>
 #### `unlessNotEmpty()` {.collection-method}

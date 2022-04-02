@@ -256,6 +256,7 @@ Route::get('/categories/{category}', function (Category $category) {
 ### 라우트 바인딩의 스코프 강제하기
 
 _Forced scoped bindings was contributed by [Claudio Dekker](https://github.com/claudiodekker)_.
+
 _라우트 바인딩 스코프 강제하기 기능은 [Claudio Dekker](https://github.com/claudiodekker)가 기여하였습니다._.
 
 In previous releases of Laravel, you may wish to scope the second Eloquent model in a route definition such that it must be a child of the previous Eloquent model. For example, consider this route definition that retrieves a blog post by slug for a specific user:

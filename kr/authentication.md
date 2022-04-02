@@ -203,6 +203,8 @@ Passport may be chosen when your application absolutely needs all of the feature
 
 And, if you would like to get started quickly, we are pleased to recommend [Laravel Jetstream](https://jetstream.laravel.com) as a quick way to start a new Laravel application that already uses our preferred authentication stack of Laravel's built-in authentication services and Laravel Sanctum.
 
+그리고 빠르게 시작하고 싶으시다면 [Laravel Jetstream](https://jetstream.laravel.com)을 추천합니다. 라라벨의 기본 인증 서비스 및 라라벨 Sanctum 스택을 이미 사용하고 있는 새로운 라라벨 애플리케이션을 빠르게 시작할 수 있습니다.
+
 <a name="authentication-quickstart"></a>
 ## Authentication Quickstart
 ## 빠르게 인증 살펴보기

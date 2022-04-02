@@ -138,6 +138,7 @@ You may also pass arguments to the `environment` method to determine if the envi
     }
 
 > {tip} The current application environment detection can be overridden by defining a server-level `APP_ENV` environment variable.
+
 > {tip} 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
 
 <a name="accessing-configuration-values"></a>
@@ -172,6 +173,7 @@ You should typically run the `php artisan config:cache` command as part of your 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
 
 > {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
+
 > {note} 배포가 진행 되는 도중에 `config:cache` 명령어를 실행한다면, 설정 파일안에서 `env` 함수만 호출된다는 것을 확인해야 합니다. 한번, 설정이 캐싱되고 나면, `.env` 파일은 로딩되지 않고, 모든 `env` 함수는 `null`을 반환합니다.
 
 <a name="debug-mode"></a>
@@ -243,6 +245,7 @@ When accessing this hidden route, you will then be redirected to the `/` route o
 이 숨겨진 경로에 엑세스하면 애플리케이션의 / 경로로 리디렉션 될 것입니다. 쿠키가 브라우저에 발급되면 점검 모드가 아닌 것처럼 정상적으로 애플리케이션을 탐색할 수 있습니다.
 
 > {tip} Your maintenance mode secret should typically consist of alpha-numeric characters and, optionally, dashes. You should avoid using characters that have special meaning in URLs such as `?`.
+
 > {tip} 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
 
 <a name="pre-rendering-the-maintenance-mode-view"></a>

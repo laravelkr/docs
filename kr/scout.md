@@ -652,6 +652,8 @@ You may use the `whereIn` method to constrain results against a given set of val
 
 Since a search index is not a relational database, more advanced "where" clauses are not currently supported.
 
+검색 인덱스는 관계형 데이터베이스가 아니므로 현재 고급 "where" 절이 지원되지 않습니다.
+
 <a name="pagination"></a>
 ### Pagination
 ### 페이지네이션

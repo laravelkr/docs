@@ -428,4 +428,3 @@ If this is how you plan to use Laravel, you may want to check out our documentat
 > {tip} Need a head start scaffolding your Laravel backend and Next.js frontend? Laravel Breeze offers an [API stack](/docs/{{version}}/starter-kits#breeze-and-next) as well as a [Next.js frontend implementation](https://github.com/laravel/breeze-next) so you can get started in minutes.
 
 > {tip} 라라벨 백엔드와 Next.js 프론트엔드를 시작하기 위한 스캐폴딩이 필요하십니까? 라라벨 Breeze는 [API 스택](/docs/{{version}}/starter-kits#breeze-and-next)과 [Next.js 프론트엔드 구현](https://github.com/laravel/breeze-next) 을 제공하므로 몇 분 안에 시작할 수 있습니다.
-> 

@@ -450,7 +450,7 @@ In addition to conditional statements, Blade provides simple directives for work
 ```
 
 > {tip} While iterating through a `foreach` loop, you may use the [loop variable](#the-loop-variable) to gain valuable information about the loop, such as whether you are in the first or last iteration through the loop.
-> 
+ 
 > {tip} `foreach` 반복문 안에서 [루프 변수](#the-loop-variable)를 사용하여 반복문의 처음과 마지막에 대한 정보를 얻을 수 있는 것처럼 반복문에 대한 정보를 사용할 수 있습니다. 
 
 When using loops you may also end the loop or skip the current iteration using the `@continue` and `@break` directives:

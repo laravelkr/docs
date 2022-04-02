@@ -420,7 +420,6 @@ php artisan passport:client
 ```
 
 **Redirect URLs**
-
 **리다이렉션-Redirect URLs**
 
 If you would like to allow multiple redirect URLs for your client, you may specify them using a comma-delimited list when prompted for the URL by the `passport:client` command. Any URLs which contain commas should be URL encoded:

@@ -237,5 +237,5 @@ The `stateless` method may be used to disable session state verification. This i
     return Socialite::driver('google')->stateless()->user();
 
 > {note} Stateless authentication is not available for the Twitter OAuth 1.0 driver.
-> 
+
 > {note} Twitter OAuth 1.0 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.

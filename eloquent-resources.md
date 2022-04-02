@@ -76,7 +76,7 @@ API를 작성할 때, 애플리케이션의 사용자에게 Eloquent 모델을 J
 
     use App\Http\Resources\UserResource;
     use App\Models\User;
-인
+
     Route::get('/user/{id}', function ($id) {
         return new UserResource(User::findOrFail($id));
     });

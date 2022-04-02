@@ -167,7 +167,7 @@ PUT/PATCH | `/photos/{photo}`      | update       | photos.update
 DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 <a name="customizing-missing-model-behavior"></a>
-#### 누락된 모델 동작 사용자 지정
+#### 모델을 찾을 수 없는 경우의 동작 커스터마이징 하기
 
 일반적으로 바인딩된 리소스 모델을 찾을 수 없는 경우 404 HTTP 응답을 라라벨은 생성하도록 구현되어 있습니다. 리소스 라우트를 정의할 때 `missing` 메서드를 호출하여 자동으로 404 HTTP응답 생성 동작을 커스터마이징할 수 있습니다. `missing` 메소드는 리소스 경로에 대해 내부에 바인딩된 모델을 찾을 수 없는 경우 호출되는 클로저를 사용합니다.
 

@@ -953,8 +953,6 @@ The `reorder` method removes all of the "order by" clauses that have previously 
 
 `reorder` 메소드는 이전 쿼리에 적용된 모든 "order by" 절을 제거합니다.
 
-`reorder`
-
 The `reorder` method allows you to remove all the existing orders and optionally apply a new order. For example, you can remove all the existing orders:
 
 `reorder` 메소드를 사용하면 기존의 모든 정렬을 제거하고 선택적으로 새 정렬을 적용 할 수 있습니다. 예를 들어 다음과 같이 기존 정렬을 모두 제거 할 수 있습니다.
@@ -1073,7 +1071,6 @@ You may pass another closure as the third argument to the `when` method. This cl
 ## Insert-삽입 구문
 
 The query builder also provides an `insert` method that may be used to insert records into the database table. The `insert` method accepts an array of column names and values:
-The query builder also provides an `insert` method for inserting records into the database table.              The `insert` method accepts an array of column names and values:
 
 쿼리 빌더는 데이터베이스 테이블에 레코드를 삽입하는 데 사용하는 `insert` 메서드도 제공합니다. `insert` 메소드는 컬럼의 이름과 값으로 이루어진 배열을 인자로 전달받습니다.
 

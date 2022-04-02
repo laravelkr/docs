@@ -225,6 +225,7 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 <a name="customizing-missing-model-behavior"></a>
 #### Customizing Missing Model Behavior
+#### 모델을 찾을 수 없는 경우의 동작 커스터마이징 하기
 
 Typically, a 404 HTTP response will be generated if an implicitly bound resource model is not found. However, you may customize this behavior by calling the `missing` method when defining your resource route. The `missing` method accepts a closure that will be invoked if an implicitly bound model can not be found for any of the resource's routes:
 

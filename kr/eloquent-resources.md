@@ -110,7 +110,7 @@ Note that we can access model properties directly from the `$this` variable. Thi
 
     use App\Http\Resources\UserResource;
     use App\Models\User;
-인
+
     Route::get('/user/{id}', function ($id) {
         return new UserResource(User::findOrFail($id));
     });

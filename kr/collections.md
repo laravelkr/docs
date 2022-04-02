@@ -2371,6 +2371,8 @@ You may also pass a simple value to the `skipUntil` method to skip all items unt
 
 > {note} If the given value is not found or the callback never returns `true`, the `skipUntil` method will return an empty collection.
 
+> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `skipUntil` 메서드는 빈 컬렉션을 반환합니다.
+
 <a name="method-skipwhile"></a>
 #### `skipWhile()` {.collection-method}
 
@@ -2856,6 +2858,8 @@ You may also pass a simple value to the `takeUntil` method to get the items unti
 
 > {note} If the given value is not found or the callback never returns `true`, the `takeUntil` method will return all items in the collection.
 
+> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `takeUntil` 메서드는 컬렉션의 모든 항목을 반환합니다.
+
 <a name="method-takewhile"></a>
 #### `takeWhile()` {.collection-method}
 
@@ -2874,6 +2878,8 @@ The `takeWhile` method returns items in the collection until the given callback 
     // [1, 2]
 
 > {note} If the callback never returns `false`, the `takeWhile` method will return all items in the collection.
+
+> {note} 콜백이 `false`를 반환하지 않으면 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-tap"></a>
 #### `tap()` {.collection-method}
@@ -3131,6 +3137,8 @@ For the inverse of `unless`, see the [`when`](#method-when) method.
 #### `unlessEmpty()` {.collection-method}
 
 Alias for the [`whenNotEmpty`](#method-whennotempty) method.
+
+[`whenNotEmpty`](#method-whennotempty) 메서드의 별칭입니다.
 
 <a name="method-unlessnotempty"></a>
 #### `unlessNotEmpty()` {.collection-method}

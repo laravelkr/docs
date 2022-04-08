@@ -338,7 +338,7 @@ php artisan make:job ProcessPodcast
 
 > {tip} 작업의 동시 처리만 제한해야 하는 경우 대신 [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) 작업 미들웨어를 사용하세요.
 
-<a name="job-middleware">< /a>-
+<a name="job-middleware"></a>
 ## 작업 미들웨어
 
 Job 미들웨어를 사용하면 대기중인 Job 실행을 중심으로 커스텀 로직을 래핑하여 Job 자체의 중복코드를 줄일 수 있습니다. 예를 들어, 5 초마다 한 Job 만 처리 하기위해 라라벨의 Redis 속도 제한 기능을 활용하는 다음 `handle` 메소드를 생각해보십시오.

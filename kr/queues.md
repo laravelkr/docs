@@ -480,7 +480,7 @@ Behind the scenes, when a `ShouldBeUnique` job is dispatched, Laravel attempts t
 
 > {tip} 작업의 동시 처리만 제한해야 하는 경우 대신 [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) 작업 미들웨어를 사용하세요.
 
-<a name="job-middleware">< /a>-
+<a name="job-middleware"></a>
 ## Job Middleware
 ## 작업 미들웨어
 

@@ -96,7 +96,7 @@ Blade views may be returned from routes or controllers using the global `view` h
 
 > {tip} Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com).
 
-> {tip} 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https:laravel-livewire.com)를 확인하세요.
+> {tip} 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https://laravel-livewire.com) 를 확인하세요.
 
 <a name="displaying-data"></a>
 ## Displaying Data
@@ -2094,7 +2094,7 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 
 If you attempt to "echo" an object using Blade, the object's `__toString` method will be invoked. The [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
 
-블레이드를 사용하여 객체를 "출력-echo"하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https:www.php.netmanualenlanguage.oop5.magic.phpobject.tostring) 메서드는 PHP에 내장된 "매직 메서드" 중 하나입니다. 그러나 해당하는 클래스가 타사에서 제공하는 라이브러리같이 원하는 클래스의 `__toString` 메서드를 사용 할 수 없는 경우가 있습니다.
+블레이드를 사용하여 객체를 "출력-echo"하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) 메서드는 PHP에 내장된 "매직 메서드" 중 하나입니다. 그러나 해당하는 클래스가 타사에서 제공하는 라이브러리같이 원하는 클래스의 `__toString` 메서드를 사용 할 수 없는 경우가 있습니다.
 
 In these cases, Blade allows you to register a custom echo handler for that particular type of object. To accomplish this, you should invoke Blade's `stringable` method. The `stringable` method accepts a closure. This closure should type-hint the type of object that it is responsible for rendering. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
 

@@ -839,7 +839,7 @@ Another valuable use case for the `keys` method is sending a "keyboard shortcut"
 
 > {tip} All modifier keys such as `{command}` are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php).
 
-> {tip} `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는] `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다(https: github.comphp-webdriverphp-webdriverblobmasterlibWebDriverKeys.php).
+> {tip} `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
 
 <a name="using-the-mouse"></a>
 ### Using The Mouse

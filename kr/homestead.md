@@ -72,11 +72,11 @@
 
 Laravel strives to make the entire PHP development experience delightful, including your local development environment. [Laravel Homestead](https://github.com/laravel/homestead) is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine.
 
-라라벨은 로컬 개발 환경을 포함하여 전체 PHP 개발 경험을 즐겁게 만들기 위해 노력합니다. [Laravel Homestead](https:github.comlaravelhomestead)는 PHP, 웹 서버 및 기타 서버 소프트웨어를 로컬 컴퓨터에 설치할 필요 없이 멋진 개발 환경을 제공하는 사전 패키지된 공식 Vagrant 상자입니다.
+라라벨은 로컬 개발 환경을 포함하여 전체 PHP 개발 경험을 즐겁게 만들기 위해 노력합니다. [Laravel Homestead](https://github.com/laravel/homestead) 는 PHP, 웹 서버 및 기타 서버 소프트웨어를 로컬 컴퓨터에 설치할 필요 없이 멋진 개발 환경을 제공하는 사전 패키지된 공식 Vagrant 상자입니다.
 
 [Vagrant](https://www.vagrantup.com) provides a simple, elegant way to manage and provision Virtual Machines. Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!
 
-[Vagrant](https:www.vagrantup.com)는 가상 머신을 관리하고 프로비저닝하는 간단하고 우아한 방법을 제공합니다. Vagrant 상자는 완전히 일회용입니다. 문제가 발생하면 몇 분 안에 상자를 파괴하고 다시 만들 수 있습니다!
+[Vagrant](https://www.vagrantup.com)는 가상 머신을 관리하고 프로비저닝하는 간단하고 우아한 방법을 제공합니다. Vagrant 상자는 완전히 일회용입니다. 문제가 발생하면 몇 분 안에 상자를 파괴하고 다시 만들 수 있습니다!
 
 Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, MySQL, PostgreSQL, Redis, Memcached, Node, and all of the other software you need to develop amazing Laravel applications.
 
@@ -277,7 +277,7 @@ folders:
 
 You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
 
-Vagrant의 [Synced Folders](https:www.vagrantup.comdocssynced-foldersbasic_usage.html)에서 지원하는 모든 옵션을 `options` 키 아래에 나열하여 전달할 수도 있습니다.
+Vagrant의 [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) 에서 지원하는 모든 옵션을 `options` 키 아래에 나열하여 전달할 수도 있습니다.
 
 ```yaml
 folders:

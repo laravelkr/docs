@@ -138,9 +138,9 @@ For applications with a large number of translatable strings, defining every str
 
 번역 가능한 문자열이 많은 애플리케이션의 경우, 뷰에서 키를 참조할 때 "짧은 키"로 모든 문자열을 정의하는 것이 혼란스러울 수 있으며, 애플리케이션에서 지원하는 모든 번역 문자열에 대해 키를 계속해서 생성하는 것은 번거롭습니다.
 
-For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key. Translation files that use translation strings as keys are stored as JSON files in the `resources/lang` directory. For example, if your application has a Spanish translation, you should create a `resources/lang/es.json` file:
+For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key. Translation files that use translation strings as keys are stored as JSON files in the `lang` directory. For example, if your application has a Spanish translation, you should create a `lang/es.json` file:
 
-이러한 이유로 라라벨은 문자열의 "기본" 번역을 키로 사용하여 번역 문자열 정의에 대한 지원도 제공합니다. 번역 문자열을 키로 사용하는 번역 파일은 `resources/lang` 디렉토리에 JSON 파일로 저장됩니다. 예를 들어 애플리케이션에 스페인어 번역이 있는 경우 `resources/lang/es.json` 파일을 만들어야 합니다.
+이러한 이유로 라라벨은 문자열의 "기본" 번역을 키로 사용하여 번역 문자열 정의에 대한 지원도 제공합니다. 번역 문자열을 키로 사용하는 번역 파일은 `lang` 디렉토리에 JSON 파일로 저장됩니다. 예를 들어 애플리케이션에 스페인어 번역이 있는 경우 `lang/es.json` 파일을 만들어야 합니다.
 
 ```json
 {

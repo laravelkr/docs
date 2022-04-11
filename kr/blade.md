@@ -88,7 +88,7 @@ Blade is the simple, yet powerful templating engine that is included with Larave
 
 Blade views may be returned from routes or controllers using the global `view` helper. Of course, as mentioned in the documentation on [views](/docs/{{version}}/views), data may be passed to the Blade view using the `view` helper's second argument:
 
-블레이드는 전역 `view` 헬퍼를 사용하여 라우트 또는 컨트롤러에서 반환 할 수 있습니다. 물론 [views](docs{{version}}views) 문서에서 언급했듯이 `view` 헬퍼의 두 번째 인수를 사용하여 데이터를 블레이드에 전달할 수 있습니다.
+블레이드는 전역 `view` 헬퍼를 사용하여 라우트 또는 컨트롤러에서 반환 할 수 있습니다. 물론 [views](/docs/{{version}}/views) 문서에서 언급했듯이 `view` 헬퍼의 두 번째 인수를 사용하여 데이터를 블레이드에 전달할 수 있습니다.
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'Finn']);

@@ -24,7 +24,7 @@
 
 Almost every modern web application interacts with a database. Laravel makes interacting with databases extremely simple across a variety of supported databases using raw SQL, a [fluent query builder](/docs/{{version}}/queries), and the [Eloquent ORM](/docs/{{version}}/eloquent). Currently, Laravel provides first-party support for five databases:
 
-거의 모든 최신 웹 애플리케이션은 데이터베이스와 상호 작용합니다. 라라벨은 원시 SQL, [유창한 쿼리 빌더](docs{{version}}queries) 및 [Eloquent ORM](docs{{version}}eloquent)을 사용하여 지원되는 다양한 데이터베이스에서 데이터베이스와 매우 간단하게 상호 작용할 수 있습니다. 현재 라라벨은 5개의 데이터베이스를 주요하게 지원하고 있습니다.
+거의 모든 최신 웹 애플리케이션은 데이터베이스와 상호 작용합니다. 라라벨은 원시 SQL, [유창한 쿼리 빌더](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용하여 지원되는 다양한 데이터베이스에서 데이터베이스와 매우 간단하게 상호 작용할 수 있습니다. 현재 라라벨은 5개의 데이터베이스를 주요하게 지원하고 있습니다.
 
 - MariaDB 10.2+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))

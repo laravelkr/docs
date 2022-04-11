@@ -44,13 +44,13 @@
 
 블레이드는 라라벨에 포함된 단순하지만 강력한 템플릿 엔진입니다. 일부 PHP 템플릿 엔진과 달리 블레이드는 템플릿에서 일반 PHP 코드를 사용하는 것을 제한하지 않습니다. 사실, 모든 Blade 템플릿은 일반 PHP 코드로 컴파일되고 수정될 때까지 캐시됩니다. 이는 블레이드가 기본적으로 애플리케이션에 추가적인 부하를 추가하지 않는다는 것을 의미합니다. 블레이드 템플릿 파일은 `.blade.php` 파일 확장자를 사용하며 일반적으로 `resources/views` 디렉토리에 저장됩니다.
 
-블레이드는 전역 `view` 헬퍼를 사용하여 라우트 또는 컨트롤러에서 반환 할 수 있습니다. 물론 [views](docs{{version}}views) 문서에서 언급했듯이 `view` 헬퍼의 두 번째 인수를 사용하여 데이터를 블레이드에 전달할 수 있습니다.
+블레이드는 전역 `view` 헬퍼를 사용하여 라우트 또는 컨트롤러에서 반환 할 수 있습니다. 물론 [views](/docs/{{version}}/views) 문서에서 언급했듯이 `view` 헬퍼의 두 번째 인수를 사용하여 데이터를 블레이드에 전달할 수 있습니다.
 
     Route::get('/', function () {
         return view('greeting', ['name' => 'Finn']);
     });
 
-> {tip} 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https:laravel-livewire.com)를 확인하세요.
+> {tip} 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https://laravel-livewire.com)를 확인하세요.
 
 <a name="displaying-data"></a>
 ## 데이터 표시하기
@@ -1645,7 +1645,7 @@ return Blade::render(
 <a name="custom-echo-handlers"></a>
 ### 사용자 정의 출력-echo 핸들러
 
-블레이드를 사용하여 객체를 "출력-echo"하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https:www.php.netmanualenlanguage.oop5.magic.phpobject.tostring) 메서드는 PHP에 내장된 "매직 메서드" 중 하나입니다. 그러나 해당하는 클래스가 타사에서 제공하는 라이브러리같이 원하는 클래스의 `__toString` 메서드를 사용 할 수 없는 경우가 있습니다.
+블레이드를 사용하여 객체를 "출력-echo"하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) 메서드는 PHP에 내장된 "매직 메서드" 중 하나입니다. 그러나 해당하는 클래스가 타사에서 제공하는 라이브러리같이 원하는 클래스의 `__toString` 메서드를 사용 할 수 없는 경우가 있습니다.
 
 이러한 경우 블레이드를 사용하여 특정 유형의 개체에 대한 사용자 정의 출력-echo 핸들러를 등록할 수 있습니다. 이를 수행하려면 블레이드의 `stringable` 메소드를 호출해야 합니다. `stringable` 메소드는 클로저를 입력받습니다. 이 클로저는 렌더링을 담당하는 객체 유형을 유형-type 힌트로 지정해야 합니다. 일반적으로 `stringable` 메소드는 애플리케이션의 `AppServiceProvider` 클래스의 `boot` 메소드 내에서 호출되어야 합니다.
 

@@ -37,9 +37,9 @@
 <a name="introduction"></a>
 ## 시작하기
 
-라라벨은 로컬 개발 환경을 포함하여 전체 PHP 개발 경험을 즐겁게 만들기 위해 노력합니다. [Laravel Homestead](https:github.comlaravelhomestead)는 PHP, 웹 서버 및 기타 서버 소프트웨어를 로컬 컴퓨터에 설치할 필요 없이 멋진 개발 환경을 제공하는 사전 패키지된 공식 Vagrant 상자입니다.
+라라벨은 로컬 개발 환경을 포함하여 전체 PHP 개발 경험을 즐겁게 만들기 위해 노력합니다. [Laravel Homestead](https://github.com/laravel/homestead) 는 PHP, 웹 서버 및 기타 서버 소프트웨어를 로컬 컴퓨터에 설치할 필요 없이 멋진 개발 환경을 제공하는 사전 패키지된 공식 Vagrant 상자입니다.
 
-[Vagrant](https:www.vagrantup.com)는 가상 머신을 관리하고 프로비저닝하는 간단하고 우아한 방법을 제공합니다. Vagrant 상자는 완전히 일회용입니다. 문제가 발생하면 몇 분 안에 상자를 파괴하고 다시 만들 수 있습니다!
+[Vagrant](https://www.vagrantup.com)는 가상 머신을 관리하고 프로비저닝하는 간단하고 우아한 방법을 제공합니다. Vagrant 상자는 완전히 일회용입니다. 문제가 발생하면 몇 분 안에 상자를 파괴하고 다시 만들 수 있습니다!
 
 홈스테드는 Windows, macOS 또는 Linux 시스템에서 실행되며 Nginx, PHP, MySQL, PostgreSQL, Redis, Memcached, Node 및 놀라운 라라벨 애플리케이션을 개발하는 데 필요한 기타 모든 소프트웨어를 포함합니다.
 
@@ -197,7 +197,7 @@ folders:
 
 > {note} 윈도우에서 NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 가상머신안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
-Vagrant의 [Synced Folders](https:www.vagrantup.comdocssynced-foldersbasic_usage.html)에서 지원하는 모든 옵션을 `options` 키 아래에 나열하여 전달할 수도 있습니다.
+Vagrant의 [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) 에서 지원하는 모든 옵션을 `options` 키 아래에 나열하여 전달할 수도 있습니다.
 
 ```yaml
 folders:

@@ -24,7 +24,7 @@ Breeze는 새로운 라라벨 애플리케이션을 시작하기 좋은 출발�
 <a name="laravel-breeze-installation"></a>
 ### 설치하기
 
-먼저, [새로운 라라벨 애플리케이션을 만든 후](/docs/{{version}}/installation) 데이터베이스를 구성한 다음 [데이터베이스 마이크그이션](/docs/{{version}}/migrations)을 해야 합니다.
+먼저, [새로운 라라벨 애플리케이션을 만든 후](/docs/{{version}}/installation) 데이터베이스를 구성한 다음 [데이터베이스 마이그레이션](/docs/{{version}}/migrations)을 해야 합니다.
 
 ```bash
 curl -s https://laravel.build/example-app | bash

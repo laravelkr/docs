@@ -80,7 +80,7 @@ php artisan make:test UserTest --unit --pest
 > {참고} 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
 
 <a name="running-tests"></a>
-## 테스틑 실행
+## 테스트 실행
 
 이전에 언급한 바와 같이 필기 시험은 `phpunit`을 사용하여 실행할 수 있습니다.
 

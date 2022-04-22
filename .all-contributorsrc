@@ -872,6 +872,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "sunsilver",
+      "name": "sunsilver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/44830861?v=4",
+      "profile": "https://github.com/sunsilver",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

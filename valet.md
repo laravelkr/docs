@@ -316,7 +316,6 @@ valet proxies
     }
 
 <a name="the-isstaticfile-method"></a>
-#### The `isStaticFile` Method
 #### `isStaticFile` 메소드
 
 `isStaticFile` 는 유입된 요청이 이미지나 스타일 시트와 같은 "정적" 파일인지 판단합니다. 파일이 정적파일이라면 해당 파일이 존재하는 디스크의 전체 경로를 반환합니다. 유입된 요청이 정적 파일이 아니라면 `false` 를 반환해야 합니다.
@@ -341,7 +340,6 @@ valet proxies
 > {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 <a name="the-frontcontrollerpath-method"></a>
-#### The `frontControllerPath` Method
 #### `frontControllerPath` 메소드
 
 `frontControllerPath` 메소드는 일반적으로 "index.php" 파일 또는 이와 동등한 파일인 애플리케이션의 "전면 컨트롤러"에 대한 완전한 경로를 반환해야 합니다.
@@ -360,7 +358,6 @@ valet proxies
     }
 
 <a name="local-drivers"></a>
-### Local Drivers
 ### 로컬 드라이버
 
 단일 애플리케이션에 대한 맞춤형 Valet 드라이버를 정의하려면 애플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 사용자 정의 드라이버는 기본 `ValetDriver` 클래스를 확장하거나 `LaravelValetDriver`와 같은 기존 애플리케이션 특정 드라이버를 확장할 수 있습니다.
@@ -395,7 +392,6 @@ valet proxies
     }
 
 <a name="other-valet-commands"></a>
-## Other Valet Commands
 ## 기타 발렛 명령어들
 
 명령 | 설명 
@@ -422,7 +418,6 @@ valet proxies
 
 이 디렉토리에는 DNSMasq의 설정이 포함되어 있습니다.
 
-#### `~/.config/valet/Drivers/`
 #### `~/.config/valet/Drivers/`
 
 이 디렉토리에는 발렛의 드라이버가 포함되어 있습니다. 드라이버는 특정 프레임워크 CMS가 제공되는 방식을 결정합니다.

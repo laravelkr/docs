@@ -70,7 +70,7 @@ _Symfony Mailer는 [Dries Vints](https://github.com/driesvints)_, [James Brooks]
 
 _Flysystem 3.x 지원은 [Dries Vints](https://github.com/driesvints)가 기여하였습니다._
 
-라라벨 9.x 는 ㄹlysystem 의존성을 ㄹlysystem 3.x 으로 업그레이드 하였습니다. Flysystem 은 `Storage` 파사드게 제공하는 모든 기능을 지원합니다. 
+라라벨 9.x 는 flysystem 의존성을 flysystem 3.x 으로 업그레이드 하였습니다. Flysystem 은 `Storage` 파사드게 제공하는 모든 기능을 지원합니다. 
 
 애플리케이션이 Flysystem 3.x 와 호환되는지 확인하려면 [업그레이드 가이드](/docs/{{version}}/upgrade#flysystem-3)를 참고하십시오.
 

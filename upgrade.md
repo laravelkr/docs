@@ -8,7 +8,6 @@
 - [Updating Dependencies](#updating-dependencies)
 - [의존성 업데이트](#updating-dependencies)
 - [Flysystem 3.x](#flysystem-3)
-- [Flysystem 3.x](#flysystem-3)
 - [Symfony Mailer](#symfony-mailer)
 - [Symfony 메일러](#symfony-mailer)
 

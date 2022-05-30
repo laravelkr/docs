@@ -433,7 +433,7 @@ php artisan route:list --except-vendor
 <a name="implicit-soft-deleted-models"></a>
 #### 소프트 삭제 모델
 
-일반적으로 북시적 모델 바인딩은 [소프트 삭제](/docs/{{version}}/eloquent#soft-deleting)된 모델은 찾을 수 없습니다. 그렇지만 라우트를 정의할 때 `withTrashed` 메서드를 연결하면 묵시적 모델을 조회할 때 소프트 삭제된 모델도 찾을 수 있습니다.
+일반적으로 묵시적 모델 바인딩은 [소프트 삭제](/docs/{{version}}/eloquent#soft-deleting)된 모델은 찾을 수 없습니다. 그렇지만 라우트를 정의할 때 `withTrashed` 메서드를 연결하면 묵시적 모델을 조회할 때 소프트 삭제된 모델도 찾을 수 있습니다.
 
     use App\Models\User;
 

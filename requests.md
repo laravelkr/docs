@@ -14,7 +14,7 @@
    - [추가 입력 병합](#merging-additional-input)
    - [이전 입력](#old-input)
    - [쿠키](#cookies)
-   - [입력 Trimming & 표준회](#input-trimming-and-normalization)
+   - [입력 Trimming & 표준화](#input-trimming-and-normalization)
 - [파일](#files)
    - [업로드 파일 검색](#retrieving-uploaded-files)
    - [업로드 파일 수납](#storing-uploaded-files)

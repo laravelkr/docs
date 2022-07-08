@@ -30,7 +30,7 @@
    - [Cookies](#cookies)
    - [쿠키](#cookies)
    - [Input Trimming & Normalization](#input-trimming-and-normalization)
-   - [입력 Trimming & 표준회](#input-trimming-and-normalization)
+   - [입력 Trimming & 표준화](#input-trimming-and-normalization)
 - [Files](#files)
 - [파일](#files)
    - [Retrieving Uploaded Files](#retrieving-uploaded-files)

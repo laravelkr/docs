@@ -211,6 +211,7 @@
     <td align="center"><a href="https://github.com/evans-kim"><img src="https://avatars.githubusercontent.com/u/25667826?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Evans Kim</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=evans-kim" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Ihyun"><img src="https://avatars.githubusercontent.com/u/32431157?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ihyun Song</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=Ihyun" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/sunsilver"><img src="https://avatars.githubusercontent.com/u/44830861?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sunsilver</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=sunsilver" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/jongbeum731"><img src="https://avatars.githubusercontent.com/u/95525159?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jongbeum731</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=jongbeum731" title="Documentation">📖</a></td>
   </tr>
 </table>
 

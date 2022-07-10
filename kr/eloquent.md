@@ -192,7 +192,7 @@ If your model's corresponding database table does not fit this convention, you m
 
 Eloquent will also assume that each model's corresponding database table has a primary key column named `id`. If necessary, you may define a protected `$primaryKey` property on your model to specify a different column that serves as your model's primary key:
 
-Eloquent 또한 각 모델의 해당 데이터베이스 테이블에 `id`라는 이름의 기본키 컬럼이 있다고 가정합니다. 필요한 경우 모델에 보호된 `$primaryKey` 속성을 정의하여 모델의 기본키로 사용되는 다른 칼럼ㅁ을 지정할 수 있습니다.
+Eloquent 또한 각 모델의 해당 데이터베이스 테이블에 `id`라는 이름의 기본키 컬럼이 있다고 가정합니다. 필요한 경우 모델에 보호된 `$primaryKey` 속성을 정의하여 모델의 기본키로 사용되는 다른 칼럼을 지정할 수 있습니다.
 
     <?php
 

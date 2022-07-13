@@ -115,7 +115,7 @@ _Flysystem 3.x 지원은 [Dries Vints](https://github.com/driesvints)가 기여�
 
 Laravel 9.x upgrades our upstream Flysystem dependency to Flysystem 3.x. Flysystem powers all of filesystem interactions offered by the `Storage` facade.
 
-라라벨 9.x 는 flysystem 의존성을 flysystem 3.x 으로 업그레이드 하였습니다. Flysystem 은 `Storage` 파사드게 제공하는 모든 기능을 지원합니다. 
+라라벨 9.x 는 flysystem 의존성을 flysystem 3.x 으로 업그레이드 하였습니다. Flysystem 은 `Storage` 파사드에서 제공하는 모든 기능을 지원합니다. 
 
 Please review the [upgrade guide](/docs/{{version}}/upgrade#flysystem-3) to learn more about ensuring your application is compatible with Flysystem 3.x.
 

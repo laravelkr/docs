@@ -213,6 +213,9 @@
     <td align="center"><a href="https://github.com/sunsilver"><img src="https://avatars.githubusercontent.com/u/44830861?v=4?s=100" width="100px;" alt=""/><br /><sub><b>sunsilver</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=sunsilver" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/jongbeum731"><img src="https://avatars.githubusercontent.com/u/95525159?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jongbeum731</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=jongbeum731" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/WilsonParker"><img src="https://avatars.githubusercontent.com/u/22154095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>정태현</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=WilsonParker" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->

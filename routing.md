@@ -169,7 +169,7 @@ php artisan route:list --except-vendor
 <a name="parameters-and-dependency-injection"></a>
 #### 파라미터와 의존성 주입
 
-라우트에 라라벨의 서비스 컨테이너가 주입해주는 의존성이 존재하는 경우, 의존 객체를 뒤에 라우트 파라미터를 나열해야합니다.
+라우트에 라라벨의 서비스 컨테이너가 주입해주는 의존성이 존재하는 경우, 의존 객체 뒤에 라우트 파라미터를 나열해야합니다.
 
     use Illuminate\Http\Request;
 

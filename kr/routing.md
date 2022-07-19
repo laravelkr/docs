@@ -252,7 +252,7 @@ Route parameters are always encased within `{}` braces and should consist of alp
 
 If your route has dependencies that you would like the Laravel service container to automatically inject into your route's callback, you should list your route parameters after your dependencies:
 
-라우트에 라라벨의 서비스 컨테이너가 주입해주는 의존성이 존재하는 경우, 의존 객체를 뒤에 라우트 파라미터를 나열해야합니다.
+라우트에 라라벨의 서비스 컨테이너가 주입해주는 의존성이 존재하는 경우, 의존 객체 뒤에 라우트 파라미터를 나열해야합니다.
 
     use Illuminate\Http\Request;
 

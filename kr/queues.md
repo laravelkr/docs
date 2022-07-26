@@ -1968,7 +1968,7 @@ This command will instruct all queue workers to gracefully exit after they finis
 
 In your `config/queue.php` configuration file, each queue connection defines a `retry_after` option. This option specifies how many seconds the queue connection should wait before retrying a job that is being processed. For example, if the value of `retry_after` is set to `90`, the job will be released back onto the queue if it has been processing for 90 seconds without being released or deleted. Typically, you should set the `retry_after` value to the maximum number of seconds your jobs should reasonably take to complete processing.
 
-`config/queue.php` 설정 파일에서 각 큐-queue 연결은 `retry_after` 옵션을 정의합니다. 이 옵션은 처리 중인 작업을 재시도하기 전에 큐-queue 연결이 대기해야 하는 시간(초)을 지정합니다. 예를 들어 `retry_after` 값이 `90`으로 설정된 경우 작업이 해제되거나 삭제되지 않고 90초 동안 처리된 경우 작업이 큐-queue로 다시 해제됩니다. 일반적으로 `retry_after` 값을 작업이 처리를 완료하는 데 합리적으로 걸리는 최대 시간(초)으로 설정해야 합니다.
+`config/queue.php` 설정 파일에서 각 큐-queue 연결은 `retry_after` 옵션을 정의합니다. 이 옵션은 처리 중인 작업을 재시도하기 전에 큐-queue 연결이 대기해야 하는 시간(초)을 지정합니다. 예를 들어 `retry_after` 값이 `90`으로 설정된 경우, 작업이 해제 되거나 삭제되지 않고 90초 동안 처리되면 작업이 큐-queue로 다시 등록 됩니다. 일반적으로 `retry_after` 값은 작업처리를 완료 하는데 합리적으로 걸리는 최대 시간(초)으로 설정해야 합니다.
 
 > {note} The only queue connection which does not contain a `retry_after` value is Amazon SQS. SQS will retry the job based on the [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) which is managed within the AWS console.
 

@@ -453,13 +453,13 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
         // ...
     }
 
-Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', PhotoController::class)` will produce the following URIs:
+Once the verbs have been customized, a resource route registration such as `Route::resource('photos', PhotoController::class)` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', PhotoController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
+액션 동사를 지역화되도록 설정하고 나면, `Route::resource('photos', PhotoController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
 
-    /fotos/crear
+    /photos/crear
 
-    /fotos/{foto}/editar
+    /photos/{photo}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers

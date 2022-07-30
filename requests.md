@@ -451,7 +451,7 @@ Request에 어떤 값이 존재하는지 확인하기 위해서 `has` 메소드�
     $value = $request->cookie('name');
 
 <a name="input-trimming-and-normalization"></a>
-## 입력 Trimming & 표준회
+## 입력 Trimming & 정규화
 
 기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `App\Http\Middleware\TrimStrings` 및 `App\Http\Middleware\ConvertEmptyStringsToNull` 미들웨어를 포함합니다. 이런 미들웨어는 `App\Http\Kernel` 클래스에 의해 글로벌 미들웨어 스택에 나열됩니다. 이러한 미들웨어는 요청 시 들어오는 모든 문자열 필드를 자동으로 트리밍하고 빈 문자열 필드를 `null`로 변환합니다. 이를 통해 경로 및 컨트롤러에서 이러한 정규화 문제에 대해 걱정할 필요가 없습니다.
 

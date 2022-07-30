@@ -624,7 +624,7 @@ All cookies created by the Laravel framework are encrypted and signed with an au
 
 <a name="input-trimming-and-normalization"></a>
 ## Input Trimming & Normalization
-## 입력 Trimming & 표준회
+## 입력 Trimming & 정규화
 
 By default, Laravel includes the `App\Http\Middleware\TrimStrings` and `App\Http\Middleware\ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the global middleware stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
 

@@ -1547,7 +1547,7 @@ php artisan queue:restart
 <a name="job-expiration"></a>
 #### Job 만료
 
-`config/queue.php` 설정 파일에서 각 큐-queue 연결은 `retry_after` 옵션을 정의합니다. 이 옵션은 처리 중인 작업을 재시도하기 전에 큐-queue 연결이 대기해야 하는 시간(초)을 지정합니다. 예를 들어 `retry_after` 값이 `90`으로 설정된 경우 작업이 해제되거나 삭제되지 않고 90초 동안 처리된 경우 작업이 큐-queue로 다시 해제됩니다. 일반적으로 `retry_after` 값을 작업이 처리를 완료하는 데 합리적으로 걸리는 최대 시간(초)으로 설정해야 합니다.
+`config/queue.php` 설정 파일에서 각 큐-queue 연결은 `retry_after` 옵션을 정의합니다. 이 옵션은 처리 중인 작업을 재시도하기 전에 큐-queue 연결이 대기해야 하는 시간(초)을 지정합니다. 예를 들어 `retry_after` 값이 `90`으로 설정된 경우, 작업이 해제 되거나 삭제되지 않고 90초 동안 처리되면 작업이 큐-queue로 다시 등록 됩니다. 일반적으로 `retry_after` 값은 작업처리를 완료 하는데 합리적으로 걸리는 최대 시간(초)으로 설정해야 합니다.
 
 > {note} 아마존 SQS에서는 `retry_after` 값은 포함되어 있지 않습니다. SQS는 AWS 콘솔 안에서 관리되는 [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) 에 의해서 job이 재시작됩니다.
 

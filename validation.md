@@ -1398,6 +1398,8 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
 지정된 다른 필드가 모두 선언이 되어있지않거나 값이 비어 _있다면_, 해당 필드가 반드시 존재하고 비어있지 않아야 합니다.
 
 <a name="rule-required-array-keys"></a>
+#### required_array_keys:_foo_,_bar_,...
+
 지정된 필드는 배열이어야 하며, 지정된 키를 포함해야합니다.
 
 <a name="rule-same"></a>

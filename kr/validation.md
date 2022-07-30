@@ -1920,6 +1920,8 @@ The field under validation must be present and not empty _only when_ all of the 
 #### required_array_keys:_foo_,_bar_,...
 #### required_array_keys:_foo_,_bar_,...
 
+The field under validation must be an array and must contain at least the specified keys.
+
 지정된 필드는 배열이어야 하며, 지정된 키를 포함해야합니다.
 
 <a name="rule-same"></a>

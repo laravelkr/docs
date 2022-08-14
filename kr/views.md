@@ -112,7 +112,7 @@ Using the `View` facade's `first` method, you may create the first view that exi
 
 If you need to determine if a view exists, you may use the `View` facade. The `exists` method will return `true` if the view exists:
 
-뷰파일이 존재하는지 확인해야 되는 경우, `View` 파사드를 사용할 수 있습니다. `exist` 메소드는 뷰 파일이 존재한다면 `true` 를 반환할 것입니다.
+뷰파일이 존재하는지 확인해야 되는 경우, `View` 파사드를 사용할 수 있습니다. `exists` 메소드는 뷰 파일이 존재한다면 `true` 를 반환할 것입니다.
 
     use Illuminate\Support\Facades\View;
 

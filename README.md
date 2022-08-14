@@ -215,6 +215,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/WilsonParker"><img src="https://avatars.githubusercontent.com/u/22154095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>정태현</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=WilsonParker" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://www.oneboard.co.kr"><img src="https://avatars.githubusercontent.com/u/51477836?v=4?s=100" width="100px;" alt=""/><br /><sub><b>742 Soft - K</b></sub></a><br /><a href="https://github.com/laravelkr/docs/commits?author=742soft" title="Documentation">📖</a></td>
   </tr>
 </table>
 

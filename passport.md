@@ -72,7 +72,7 @@ Passport의 [서비스 프로바이더](/docs/{{version}}/providers)는 고유�
 php artisan migrate
 ```
 
-다음으로 `passport:install` 아티산 명령어를 실행해야 합니다. 이 명령어는 보안 액세스 토큰을 생성하는 데 필요한 암호화 키를 생성합니다. 또한 이 명령어는 액세스 토큰을 생성하는 데 사용할 "개인 액세스(personal access)" 및 "암호 부여(password grant)" 클라이언트를 생성합니다.
+다음으로 `passport:install` 아티즌 명령어를 실행해야 합니다. 이 명령어는 보안 액세스 토큰을 생성하는 데 필요한 암호화 키를 생성합니다. 또한 이 명령어는 액세스 토큰을 생성하는 데 사용할 "개인 액세스(personal access)" 및 "암호 부여(password grant)" 클라이언트를 생성합니다.
 
 ```shell
 php artisan passport:install
@@ -183,7 +183,7 @@ php artisan passport:keys
 <a name="loading-keys-from-the-environment"></a>
 #### 환경변수에서 Key 로드하기
 
-대안으로, `vendor:publish` 아티산 명령어을 사용하여 Passport의 설정 파일을 사용할 수 있습니다.
+대안으로, `vendor:publish` 아티즌 명령어을 사용하여 Passport의 설정 파일을 사용할 수 있습니다.
 
 ```shell
 php artisan vendor:publish --tag=passport-config
@@ -204,7 +204,7 @@ PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
 <a name="migration-customization"></a>
 ### 마이그레이션 커스터마이징
 
-Passport의 기본 마이그레이션을 사용하지 않으려면, `App\Providers\AppServiceProvider` 클래스의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야 합니다. `vendor:publish` 아티산 명령어를 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
+Passport의 기본 마이그레이션을 사용하지 않으려면, `App\Providers\AppServiceProvider` 클래스의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야 합니다. `vendor:publish` 아티즌 명령어를 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
 
 ```shell
 php artisan vendor:publish --tag=passport-migrations
@@ -301,7 +301,7 @@ Passport의 새로운 메이저 버전으로 업그레이드할 때, [업그레�
 <a name="the-passportclient-command"></a>
 #### `passport:client` 명령어
 
-클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티산 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다.
+클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티즌 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다.
 
 ```shell
 php artisan passport:client
@@ -423,7 +423,7 @@ axios.delete('/oauth/clients/' + clientId)
 
 권한 승인 요청을 받으면, Passport는 자동으로 사용자가 템플릿을 표시하여 승인 요청을 수락하거나 거부할 수 있게 합니다. 요청이 승인되면, 애플리케이션에 의해서 지정된 `redirect_uri` 로 리다이렉션 됩니다. `redirect_uri` 는 클라이언트가 생성될 때 지정되었던 `redirect` URL과 일치해야 합니다.
 
-권한 승인 화면을 사용자가 커스터마이징을 하고싶다면, `vendor:publish` 아티산 명령어를 사용하여 Passport의 뷰-View 를 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다.
+권한 승인 화면을 사용자가 커스터마이징을 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport의 뷰-View 를 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다.
 
 ```shell
 php artisan vendor:publish --tag=passport-views
@@ -546,7 +546,7 @@ axios.delete('/oauth/tokens/' + tokenId);
 <a name="purging-tokens"></a>
 ### 토큰 제거
 
-토큰이 취소되거나 만료되면 데이터베이스에서 제거 할 수 있습니다. Passport에 포함된 `passport:purge` 아티산 명령어는 다음을 수행할 수 있습니다.
+토큰이 취소되거나 만료되면 데이터베이스에서 제거 할 수 있습니다. Passport에 포함된 `passport:purge` 아티즌 명령어는 다음을 수행할 수 있습니다.
 
 ```shell
 # Purge revoked and expired tokens and auth codes...
@@ -675,7 +675,7 @@ OAuth2 패스워드 그랜트-grant는 모바일 애플리케이션과 같은 �
 <a name="creating-a-password-grant-client"></a>
 ### 패스워드 Grant 클라이언트 생성하기
 
-패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티산 명령을 사용하여 이 작업을 수행할 수 있습니다. **이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.**
+패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티즌 명령을 사용하여 이 작업을 수행할 수 있습니다. **이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.**
 
 ```shell
 php artisan passport:client --password

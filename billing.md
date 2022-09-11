@@ -97,7 +97,7 @@ Cashier 서비스 프로바이더는 자체 데이터베이스 마이그레이�
 php artisan migrate
 ```
 
-캐셔와 함께 제공된 마이그레이션을 덮어 써야하는 경우 `vendor:publish` 아티잔 명령어을 사용하여 마이그레이션 파일을 내보낼 수 있습니다.
+캐셔와 함께 제공된 마이그레이션을 덮어 써야하는 경우 `vendor:publish` 아티즌 명령어을 사용하여 마이그레이션 파일을 내보낼 수 있습니다.
 
 ```shell
 php artisan vendor:publish --tag="cashier-migrations"

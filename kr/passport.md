@@ -128,7 +128,7 @@ Passport의 [서비스 프로바이더](/docs/{{version}}/providers)는 고유�
 
 Next, you should execute the `passport:install` Artisan command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
 
-다음으로 `passport:install` 아티산 명령어를 실행해야 합니다. 이 명령어는 보안 액세스 토큰을 생성하는 데 필요한 암호화 키를 생성합니다. 또한 이 명령어는 액세스 토큰을 생성하는 데 사용할 "개인 액세스(personal access)" 및 "암호 부여(password grant)" 클라이언트를 생성합니다.
+다음으로 `passport:install` 아티즌 명령어를 실행해야 합니다. 이 명령어는 보안 액세스 토큰을 생성하는 데 필요한 암호화 키를 생성합니다. 또한 이 명령어는 액세스 토큰을 생성하는 데 사용할 "개인 액세스(personal access)" 및 "암호 부여(password grant)" 클라이언트를 생성합니다.
 
     php artisan passport:install
 
@@ -252,7 +252,7 @@ If necessary, you may define the path where Passport's keys should be loaded fro
 
 Alternatively, you may publish Passport's configuration file using the `vendor:publish` Artisan command:
 
-대안으로, `vendor:publish` 아티산 명령어을 사용하여 Passport의 설정 파일을 사용할 수 있습니다.
+대안으로, `vendor:publish` 아티즌 명령어을 사용하여 Passport의 설정 파일을 사용할 수 있습니다.
 
     php artisan vendor:publish --tag=passport-config
 
@@ -276,7 +276,7 @@ PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
 
 If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `App\Providers\AppServiceProvider` class. You may export the default migrations using the `vendor:publish` Artisan command:
 
-Passport의 기본 마이그레이션을 사용하지 않으려면, `App\Providers\AppServiceProvider` 클래스의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야 합니다. `vendor:publish` 아티산 명령어를 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
+Passport의 기본 마이그레이션을 사용하지 않으려면, `App\Providers\AppServiceProvider` 클래스의 `register` 메소드에서 `Passport::ignoreMigrations` 메소드를 호출해야 합니다. `vendor:publish` 아티즌 명령어를 사용하여 기본 마이그레이션을 내보낼 수 있습니다.
 
     php artisan vendor:publish --tag=passport-migrations
 
@@ -399,7 +399,7 @@ First, developers building applications that need to interact with your applicat
 
 The simplest way to create a client is using the `passport:client` Artisan command. This command may be used to create your own clients for testing your OAuth2 functionality. When you run the `client` command, Passport will prompt you for more information about your client and will provide you with a client ID and secret:
 
-클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티산 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다.
+클라이언트를 만드는 가장 간단한 방법은 `passport:client` 아티즌 명령어를 사용하는 것입니다. 이 명령어는 OAuth2 기능을 테스트하는 여러분의 고유한 클라이언트를 생성하는데 사용될 수 있습니다. 여러분이 `client` 명령어를 실행하면, Passport는 클리이언트에 대한 보다 자세한 정보를 물어보는 메세지를 표시하고 클라이언트의 ID 와 암호를 제공합니다.
 
     php artisan passport:client
 
@@ -546,7 +546,7 @@ When receiving authorization requests, Passport will automatically display a tem
 
 If you would like to customize the authorization approval screen, you may publish Passport's views using the `vendor:publish` Artisan command. The published views will be placed in the `resources/views/vendor/passport` directory:
 
-권한 승인 화면을 사용자가 커스터마이징을 하고싶다면, `vendor:publish` 아티산 명령어를 사용하여 Passport의 뷰-View 를 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다.
+권한 승인 화면을 사용자가 커스터마이징을 하고싶다면, `vendor:publish` 아티즌 명령어를 사용하여 Passport의 뷰-View 를 퍼블리싱할 수 있습니다. 퍼블리싱된 뷰파일은 `resources/views/vendor/passport` 디렉토리에 위치합니다.
 
     php artisan vendor:publish --tag=passport-views
 
@@ -692,7 +692,7 @@ You may revoke a token by using the `revokeAccessToken` method on the `Laravel\P
 
 When tokens have been revoked or expired, you might want to purge them from the database. Passport's included `passport:purge` Artisan command can do this for you:
 
-토큰이 취소되거나 만료되면 데이터베이스에서 제거 할 수 있습니다. Passport에 포함된 `passport:purge` 아티산 명령어는 다음을 수행할 수 있습니다.
+토큰이 취소되거나 만료되면 데이터베이스에서 제거 할 수 있습니다. Passport에 포함된 `passport:purge` 아티즌 명령어는 다음을 수행할 수 있습니다.
 
     # Purge revoked and expired tokens and auth codes...
     php artisan passport:purge
@@ -845,7 +845,7 @@ OAuth2 패스워드 그랜트-grant는 모바일 애플리케이션과 같은 �
 
 Before your application can issue tokens via the password grant, you will need to create a password grant client. You may do this using the `passport:client` Artisan command with the `--password` option. **If you have already run the `passport:install` command, you do not need to run this command:**
 
-패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티산 명령을 사용하여 이 작업을 수행할 수 있습니다. **이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.**
+패스워드 grant를 통해서 애플리케이션에서 토큰을 발급하기 전에, 패스워드 grant 클라이언트를 생성해야 합니다. `--password` 옵션과 함께 `passport:client` 아티즌 명령을 사용하여 이 작업을 수행할 수 있습니다. **이미 `passport:install` 명령어를 실행했다면, 이 명령어를 실행할 필요가 없습니다.**
 
     php artisan passport:client --password
 

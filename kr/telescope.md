@@ -386,7 +386,7 @@ The cache watcher records data when a cache key is hit, missed, updated and forg
 
 The command watcher records the arguments, options, exit code, and output whenever an Artisan command is executed. If you would like to exclude certain commands from being recorded by the watcher, you may specify the command in the `ignore` option within your `config/telescope.php` file:
 
-커맨드 와처는 아티산 명령어가 실행될 때마다 인수, 옵션, exit code 및 출력을 기록합니다. 와처가 기록하는 특정 커맨드을 제외하려면 `config/telescope.php` 파일의 `ignore` 옵션에 명령을 지정할 수 있습니다.
+커맨드 와처는 아티즌 명령어가 실행될 때마다 인수, 옵션, exit code 및 출력을 기록합니다. 와처가 기록하는 특정 커맨드을 제외하려면 `config/telescope.php` 파일의 `ignore` 옵션에 명령을 지정할 수 있습니다.
 
     'watchers' => [
         Watchers\CommandWatcher::class => [

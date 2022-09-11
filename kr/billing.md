@@ -180,7 +180,7 @@ php artisan migrate
 
 If you need to overwrite the migrations that ship with Cashier, you can publish them using the `vendor:publish` Artisan command:
 
-캐셔와 함께 제공된 마이그레이션을 덮어 써야하는 경우 `vendor:publish` 아티잔 명령어을 사용하여 마이그레이션 파일을 내보낼 수 있습니다.
+캐셔와 함께 제공된 마이그레이션을 덮어 써야하는 경우 `vendor:publish` 아티즌 명령어을 사용하여 마이그레이션 파일을 내보낼 수 있습니다.
 
 ```shell
 php artisan vendor:publish --tag="cashier-migrations"

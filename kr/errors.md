@@ -160,7 +160,7 @@ Sometimes you may need to report an exception but continue handling the current 
 
 When building your application, there will be some types of exceptions you simply want to ignore and never report. Your application's exception handler contains a `$dontReport` property which is initialized to an empty array. Any classes that you add to this property will never be reported; however, they may still have custom rendering logic:
 
-애플리케이션을 구축할 때, 여러분이 무시하거나 보고하지 않기를 원하는 몇 가지 유형의 예외가 있을 수도 있습니다. 애플리케이션의 예외 헨들러는 빈 배열로 초기화된 `$dontReport` 속성을 가지고 있습니다. 이 속성에 추가된 클래스는 오류를 보고하지 않습니다.(never) 하지만 오류를 보고하지 않더라도 커스텀 렌더링 로직을 가질 수 있습니다.
+애플리케이션을 구축할 때, 여러분이 무시하거나 보고하지 않기를 원하는 몇 가지 유형의 예외가 있을 수도 있습니다. 애플리케이션의 예외 핸들러는 빈 배열로 초기화된 `$dontReport` 속성을 가지고 있습니다. 이 속성에 추가된 클래스는 오류를 보고하지 않습니다.(never) 하지만 오류를 보고하지 않더라도 커스텀 렌더링 로직을 가질 수 있습니다.
 
     use App\Exceptions\InvalidOrderException;
 

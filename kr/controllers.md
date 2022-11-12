@@ -54,7 +54,6 @@ Let's take a look at an example of a basic controller. Note that the controller 
 
     namespace App\Http\Controllers;
 
-    use App\Http\Controllers\Controller;
     use App\Models\User;
 
     class UserController extends Controller
@@ -85,9 +84,11 @@ When an incoming request matches the specified route URI, the `show` method on t
 
 들어오는 요청(request)이 지정된 라우트(route)의 URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route)의 파라메터가 `show` 메소드에 전달됩니다.
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
+> **Note**
+> Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
-> {tip} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
+> **Note**
+> 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
 
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
@@ -101,7 +102,6 @@ If a controller action is particularly complex, you might find it convenient to 
 
     namespace App\Http\Controllers;
 
-    use App\Http\Controllers\Controller;
     use App\Models\User;
 
     class ProvisionServer extends Controller
@@ -133,9 +133,11 @@ Artisan 컨멘드를 사용하면 `make:controller` 에 `--invokable` 옵션을 
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> {tip} Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
+> **Note**
+> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
 
-> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
+> **Note**
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
 
 <a name="controller-middleware"></a>
 ## Controller Middleware
@@ -243,6 +245,23 @@ Typically, a 404 HTTP response will be generated if an implicitly bound resource
                 return Redirect::route('photos.index');
             });
 
+<a name="soft-deleted-models"></a>
+#### Soft Deleted Models
+#### 소프트 삭제된 모델
+
+Typically, implicit model binding will not retrieve models that have been [soft deleted](/docs/{{version}}/eloquent#soft-deleting), and will instead return a 404 HTTP response. However, you can instruct the framework to allow soft deleted models by invoking the `withTrashed` method when defining your resource route:
+
+기본적으로 소프트 삭제된 모델은 묵시적 바인딩으로 조회되지 않고 404 HTTP 응답이 반환됩니다. 하지만 리소스 라우트를 정의할 때 `withTrashed` 메서드를 호출하여 소프트 삭제된 모델도 허용하도록 프레임워크에 지시할 수 있습니다.
+
+    use App\Http\Controllers\PhotoController;
+
+    Route::resource('photos', PhotoController::class)->withTrashed();
+
+Calling `withTrashed` with no arguments will allow soft deleted models for the `show`, `edit`, and `update` resource routes. You may specify a subset of these routes by passing an array to the `withTrashed` method:
+
+인자 없이 `withTrashed`를 호출하면 `show`, `edit`, `update` 리소스 라우트에 대해 소프트 삭제된 모델을 허용합니다. `withTrashed` 메서드에 배열을 전달하여 라우트 하위 집합을 지정할 수 있습니다.
+
+    Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
 <a name="specifying-the-resource-model"></a>
 #### Specifying The Resource Model
@@ -434,9 +453,9 @@ When using a custom keyed implicit binding as a nested route parameter, Laravel 
 ### Localizing Resource URIs
 ### 리소스 URI의 지역화(다국어 동사처리)
 
-By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done at the beginning of the `boot` method within your application's `App\Providers\RouteServiceProvider`:
+By default, `Route::resource` will create resource URIs using English verbs and plural rules. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done at the beginning of the `boot` method within your application's `App\Providers\RouteServiceProvider`:
 
-기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 설정합니다. 만약 `create`와 `edit`와 같은 이름 대신 현지화된 동사 이름을 사용하고자 한다면 `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 애플리케이션의 `App\Providers\RouteServiceProvider`의 `boot` 메소드에서 수행해야 합니다.
+기본적으로 `Route::resource` 는 영어 동사와 복수형 규칙을 사용하여 리소스 URI를 만듭니다. 만약 `create`와 `edit`와 같은 이름 대신 현지화된 동사 이름을 사용하고자 한다면 `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 애플리케이션의 `App\Providers\RouteServiceProvider`의 `boot` 메소드에서 수행해야 합니다.
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -453,13 +472,13 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
         // ...
     }
 
-Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', PhotoController::class)` will produce the following URIs:
+Laravel's pluralizer supports [several different languages which you may configure based on your needs](/docs/{{version}}/localization#pluralization-language). Once the verbs and pluralization language have been customized, a resource route registration such as `Route::resource('publication', PublicacionController::class)` will produce the following URIs:
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', PhotoController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
+라라벨 복수형은 [여러분의 필요에 따라 구성할 수 있는 여러 언어](/docs/{{version}}/localization#pluralization-language)를 지원합니다. 동사와 복수형 언어를 설정하고 나면, `Route::resource('publicacion', PublicacionController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
 
-    /fotos/crear
+    /publicacion/crear
 
-    /fotos/{foto}/editar
+    /publicacion/{publicaciones}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers
@@ -474,9 +493,11 @@ If you need to add additional routes to a resource controller beyond the default
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
+> **Note**
+> Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
-> {tip} 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
+> **Note**
+> 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers

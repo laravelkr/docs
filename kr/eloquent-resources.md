@@ -70,9 +70,11 @@ php artisan make:resource UserCollection
 ## Concept Overview
 ## 컨셉 살펴보기
 
-> {tip} This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.
+> **Note**
+> This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.
 
-> {tip} 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 간단한 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
+> **Note**
+> 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 간단한 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
 
 Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `UserResource` resource class:
 
@@ -249,9 +251,11 @@ For example, `UserCollection` will attempt to map the given user instances into 
 ## Writing Resources
 ## 리소스 클래스 작성하기
 
-> {tip} If you have not read the [concept overview](#concept-overview), you are highly encouraged to do so before proceeding with this documentation.
+> **Note**
+> If you have not read the [concept overview](#concept-overview), you are highly encouraged to do so before proceeding with this documentation.
 
-> {tip} [컨셉 살펴보기](#concept-overview)를 읽지 않았다면, 아래 문서를 확인하기 전에 해당 부분을 먼저 읽어보시기 바랍니다.
+> **Note**
+> [컨셉 살펴보기](#concept-overview)를 읽지 않았다면, 아래 문서를 확인하기 전에 해당 부분을 먼저 읽어보시기 바랍니다.
 
 In essence, resources are simple. They only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned from your application's routes or controllers:
 
@@ -322,9 +326,11 @@ If you would like to include related resources in your response, you may add the
         ];
     }
 
-> {tip} If you would like to include relationships only when they have already been loaded, check out the documentation on [conditional relationships](#conditional-relationships).
+> **Note**
+> If you would like to include relationships only when they have already been loaded, check out the documentation on [conditional relationships](#conditional-relationships).
 
-> {tip} 이미 로딩된 경우에만, 관계-relationships을 포함하고자 한다면, [조건에 따른 관계 표현](#conditional-relationships) 문서를 확인하십시오.
+> **Note**
+> 이미 로딩된 경우에만, 관계-relationships을 포함하고자 한다면, [조건에 따른 관계 표현](#conditional-relationships) 문서를 확인하십시오.
 
 <a name="writing-resource-collections"></a>
 #### Resource Collections
@@ -395,12 +401,12 @@ By default, your outermost resource is wrapped in a `data` key when the resource
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ]
 }
@@ -460,9 +466,11 @@ If you would like to disable the wrapping of the outermost resource, you should 
         }
     }
 
-> {note} The `withoutWrapping` method only affects the outermost response and will not remove `data` keys that you manually add to your own resource collections.
+> **Warning**
+> The `withoutWrapping` method only affects the outermost response and will not remove `data` keys that you manually add to your own resource collections.
 
-> {note} `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
+> **Warning**
+> `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
 
 <a name="wrapping-nested-resources"></a>
 #### Wrapping Nested Resources
@@ -510,12 +518,12 @@ When returning paginated collections via a resource response, Laravel will wrap 
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{
@@ -561,12 +569,12 @@ Paginated responses always contain `meta` and `links` keys with information abou
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{
@@ -595,8 +603,6 @@ Sometimes you may wish to only include an attribute in a resource response if a 
 
 때로는 주어진 조건이 충족 될 때, 리소스 응답에 지정된 속성을 포함시키고자 할 수도 있습니다. 예를 들어 현재 사용자가 "관리자"인 경우에만 값을 포함하고자 할 수 있습니다. 라라벨은 이러한 경우를 지원하기 위해서 다양한 헬퍼 메소드를 제공합니다. `when` 메소드는 리소스 응답-response에 조건에 따라 속성을 추가하는데 사용됩니다.
 
-    use Illuminate\Support\Facades\Auth;
-
     /**
      * Transform the resource into an array.
      *
@@ -609,7 +615,7 @@ Sometimes you may wish to only include an attribute in a resource response if a 
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'secret' => $this->when(Auth::user()->isAdmin(), 'secret-value'),
+            'secret' => $this->when($request->user()->isAdmin(), 'secret-value'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -623,9 +629,15 @@ The `when` method also accepts a closure as its second argument, allowing you to
 
 `when` 메소드는 두번째 인자로 클로저를 받을 수 있는데, 주어진 조건이 `true` 인 경우에 결과 값을 계산합니다.
 
-    'secret' => $this->when(Auth::user()->isAdmin(), function () {
+    'secret' => $this->when($request->user()->isAdmin(), function () {
         return 'secret-value';
     }),
+
+Additionally, the `whenNotNull` method may be used to include an attribute in the resource response if the attribute is not null:
+
+추가적으로, `whenNotNull` 메서드는 속성이 null이 아닐 때 리소스 응답에 속성을 포함할 때 사용합니다.
+
+    'name' => $this->whenNotNull($this->name),
 
 <a name="merging-conditional-attributes"></a>
 #### Merging Conditional Attributes
@@ -647,7 +659,7 @@ Sometimes you may have several attributes that should only be included in the re
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            $this->mergeWhen(Auth::user()->isAdmin(), [
+            $this->mergeWhen($request->user()->isAdmin(), [
                 'first-secret' => 'value',
                 'second-secret' => 'value',
             ]),
@@ -660,9 +672,11 @@ Again, if the given condition is `false`, these attributes will be removed from 
 
 다시 말하지만, 주어진 조건이 `false` 인 경우에는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다.
 
-> {note} The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
+> **Warning**
+> The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
 
-> {note} `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
+> **Warning**
+> `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
 
 <a name="conditional-relationships"></a>
 ### Conditional Relationships
@@ -698,6 +712,42 @@ The `whenLoaded` method may be used to conditionally load a relationship. In ord
 In this example, if the relationship has not been loaded, the `posts` key will be removed from the resource response before it is sent to the client.
 
 이 예제에서 관계-relationship가 로딩되지 않은 경우에 `posts` 키가 클라이언트에 전송되기 전에 리소스 응답-response에서 제거됩니다.
+
+<a name="conditional-relationship-counts"></a>
+#### Conditional Relationship Counts
+#### 조건적 관계 수
+
+In addition to conditionally including relationships, you may conditionally include relationship "counts" on your resource responses based on if the relationship's count has been loaded on the model:
+
+조건부로 관계를 포함시키는 것에 더해 관계 수가 모델에 로드되었는지 여부에 따라 조건부로 관계 "수"를 리소스 응답에 포함시킬 수 있습니다.
+
+    new UserResource($user->loadCount('posts'));
+
+The `whenCounted` method may be used to conditionally include a relationship's count in your resource response. This method avoids unnecessarily including the attribute if the relationships' count is not present:
+
+`whenCounted` 메서드는 리소스 응답에 관계 수를 조건부로 포함시킬 때 사용됩니다. 이 메서드는 관계 수가 존재하지 않을 때 불필요한 속성을 추가하는 걸 막아줍니다.
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'posts_count' => $this->whenCounted('posts'),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
+In this example, if the `posts` relationship's count has not been loaded, the `posts_count` key will be removed from the resource response before it is sent to the client.
+
+이 예제에서 `posts` 관계 수가 로드되지 않았다면, `posts_count` 키는 클라이언트에게 보내지기 전에 리소스 응답에서 제거됩니다.
 
 <a name="conditional-pivot-information"></a>
 #### Conditional Pivot Information

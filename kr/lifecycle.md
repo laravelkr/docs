@@ -70,17 +70,17 @@ HTTP 커널의 `handle` 메서드에 대한 메서드 사용법은 매우 간단
 ### Service Providers
 ### 서비스 프로바이더-Service Providers
 
-One of the most important kernel bootstrapping actions is loading the [service providers](/docs/{{version}}/providers) for your application. All of the service providers for the application are configured in the `config/app.php` configuration file's `providers` array.
+One of the most important kernel bootstrapping actions is loading the [service providers](/docs/{{version}}/providers) for your application. Service providers are responsible for bootstrapping all of the framework's various components, such as the database, queue, validation, and routing components. All of the service providers for the application are configured in the `config/app.php` configuration file's `providers` array.
 
-가장 중요한 커널 부트스트랩 작업 중 하나는 애플리케이션에 대한 [서비스 프로바이더](/docs/{{version}}/providers)를 로드하는 것입니다. 애플리케이션의 모든 서비스 프로바이더는 `config/app.php` 설정 파일의 `providers` 배열에서 관리됩니다.
+가장 중요한 커널 부트스트랩 작업 중 하나는 애플리케이션에 대한 [서비스 프로바이더](/docs/{{version}}/providers)를 로드하는 것입니다. 서비스 프로바이더는 데이터베이스, 큐, 밸리데이션, 라우팅 컴포넌트 같은 프레임워크의 다양한 컴포넌트를 모두 부트스트래핑하는 일을 담당합니다. 애플리케이션의 모든 서비스 프로바이더는 `config/app.php` 설정 파일의 `providers` 배열에서 관리됩니다.
 
 Laravel will iterate through this list of providers and instantiate each of them. After instantiating the providers, the `register` method will be called on all of the providers. Then, once all of the providers have been registered, the `boot` method will be called on each provider. This is so service providers may depend on every container binding being registered and available by the time their `boot` method is executed.
 
 라라벨은 이 서비스 프로바이더 목록을 각각 인스턴스화합니다. 서비스 프로바이더를 인스턴스화한 후 모든 프로바이더에서 `register` 메서드가 호출됩니다. 그런 다음 모든 프로바이더가 등록되면 각 프로바이더에서 `boot` 메서드가 호출됩니다. 이는 서비스 프로바이더가 `boot` 메소드가 실행될 때, 등록되고 사용 가능한 모든 컨테이너 바인딩에 의존할 수 있기 때문입니다.
 
-Service providers are responsible for bootstrapping all of the framework's various components, such as the database, queue, validation, and routing components. Essentially every major feature offered by Laravel is bootstrapped and configured by a service provider. Since they bootstrap and configure so many features offered by the framework, service providers are the most important aspect of the entire Laravel bootstrap process.
+Essentially every major feature offered by Laravel is bootstrapped and configured by a service provider. Since they bootstrap and configure so many features offered by the framework, service providers are the most important aspect of the entire Laravel bootstrap process.
 
-서비스 프로바이더는 데이터베이스, 대기열, 유효성 검사 및 라우팅 구성 요소와 같은 프레임워크의 다양한 구성 요소를 모두 부트스트랩해야 합니다. 본질적으로 라라벨이 제공하는 모든 주요 기능은 서비스 프로바이더에서 부트스트랩 및 구성합니다. 프레임워크에서 제공하는 많은 기능을 부트스트랩하고 구성하기 때문에 서비스 프로바이더는 전체 라라벨 부트스트랩 프로세스에서 가장 중요한 곳 입니다.
+본질적으로 라라벨이 제공하는 모든 주요 기능은 서비스 프로바이더에서 부트스트랩 및 구성합니다. 프레임워크에서 제공하는 많은 기능을 부트스트랩하고 구성하기 때문에 서비스 프로바이더는 전체 라라벨 부트스트랩 프로세스에서 가장 중요한 곳 입니다.
 
 <a name="routing"></a>
 ### Routing

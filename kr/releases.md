@@ -32,9 +32,9 @@ When referencing the Laravel framework or its components from your application o
 ## Support Policy
 ## 지원 정책
 
-For all Laravel releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
+For all Laravel releases, bug fixes are provided for 18 months and security fixes are provided for 2 years. For all additional libraries, including Lumen, only the latest major release receives bug fixes. In addition, please review the database versions [supported by Laravel](/docs/{{version}}/database#introduction).
 
-모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 릴리스에서만 버그 수정을 받습니다.
+모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 메이저 릴리스에서만 버그 수정을 받습니다. 추가로 [라라벨이 지원하는](/docs/{{version}}/database#introduction) 데이터베이스 버전을 확인하세요.
 
 | Version | PHP (*) | Release | Bug Fixes Until | Security Fixes Until |
 | --- | --- | --- | --- | --- |
@@ -188,9 +188,11 @@ public function address(): Attribute
 ### Enum Eloquent Attribute Casting
 ### Enum 엘로퀀트 속성 캐스팅
 
-> {note} Enum casting is only available for PHP 8.1+.
+> **Warning**
+> Enum casting is only available for PHP 8.1+.
 
-> {note} Enum 캐스팅은 PHP 8.1이상 버전에서만 사용가능합니다. 
+> **Warning**
+> Enum 캐스팅은 PHP 8.1이상 버전에서만 사용가능합니다. 
 
 _Enum casting was contributed by [Mohamed Said](https://github.com/themsaid)_.
 

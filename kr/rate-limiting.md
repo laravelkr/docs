@@ -20,9 +20,11 @@ Laravel includes a simple to use rate limiting abstraction which, in conjunction
 
 라라벨에는 애플리케이션의 [캐시](cache)와 함께 사용하기 쉬운 속도 제한 추상화가 포함되어 있어 지정된 시간 동안 모든 작업을 제한하는 쉬운 방법을 제공합니다.
 
-> {tip} If you are interested in rate limiting incoming HTTP requests, please consult the [rate limiter middleware documentation](routing#rate-limiting).
+> **Note**
+> If you are interested in rate limiting incoming HTTP requests, please consult the [rate limiter middleware documentation](routing#rate-limiting).
 
-> {팁} HTTP 요청의 속도 제한하는 방법에 관심이 있으면 [속도 제한기 미들웨어 문서](routing#rate-limiting)를 확인하세요.
+> **Note**
+> HTTP 요청의 속도 제한하는 방법에 관심이 있으면 [속도 제한기 미들웨어 문서](routing#rate-limiting)를 확인하세요.
 
 <a name="cache-configuration"></a>
 ### Cache Configuration

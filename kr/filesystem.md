@@ -11,6 +11,8 @@
     - [Public 디스크](#the-public-disk)
     - [Driver Prerequisites](#driver-prerequisites)
     - [드라이버 사용시 준비사항](#driver-prerequisites)
+    - [Scoped & Read-Only Filesystems](#scoped-and-read-only-filesystems)
+    - [범위 제한 & 읽기 전용 파일시스템](#scoped-and-read-only-filesystems)
     - [Amazon S3 Compatible Filesystems](#amazon-s3-compatible-filesystems)
     - [Amazon S3 호환 파일 시스템](#amazon-s3-compatible-filesystems)
 - [Obtaining Disk Instances](#obtaining-disk-instances)
@@ -64,9 +66,11 @@ The `local` driver interacts with files stored locally on the server running the
 
 `local` 드라이버는 라라벨 애플리케이션을 실행하는 서버에 로컬로 저장된 파일을 다루는 반면 `s3` 드라이버는 Amazon의 S3 클라우드 스토리지 서비스에 사용됩니다.
 
-> {tip} You may configure as many disks as you like and may even have multiple disks that use the same driver.
+> **Note**
+> You may configure as many disks as you like and may even have multiple disks that use the same driver.
 
-> {tip} 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
+> **Note**
+> 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
 
 <a name="the-local-driver"></a>
 ### The Local Driver
@@ -128,7 +132,7 @@ Before using the S3 driver, you will need to install the Flysystem S3 package vi
 S3 드라이버를 사용하기 전에 Composer 패키지 관리자를 통해 Flysystem S3 패키지를 설치해야 합니다.
 
 ```shell
-composer require -W league/flysystem-aws-s3-v3 "^3.0"
+composer require league/flysystem-aws-s3-v3 "^3.0"
 ```
 
 The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
@@ -191,7 +195,7 @@ Laravel's Flysystem integrations work great with SFTP; however, a sample configu
 
         // Settings for SSH key based authentication with encryption password...
         'privateKey' => env('SFTP_PRIVATE_KEY'),
-        'password' => env('SFTP_PASSWORD'),
+        'passphrase' => env('SFTP_PASSPHRASE'),
 
         // Optional SFTP Settings...
         // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
@@ -203,6 +207,34 @@ Laravel's Flysystem integrations work great with SFTP; however, a sample configu
         // 'useAgent' => true,
     ],
 
+<a name="scoped-and-read-only-filesystems"></a>
+### Scoped & Read-Only Filesystems
+### 범위 제한 & 읽기 전용 파일시스템
+
+You may create a path scoped instance of any existing filesystem disk by defining a disk that utilizes the `scoped` driver. Scoped disks allow you to define a filesystem where all paths are automatically prefixed with a given path prefix. For example, you may create a disk which scopes your existing `s3` disk to a specific path prefix, and then every file operation using your scoped disk will utilize the specified prefix:
+
+`scoped` 드라이버를 사용하는 디스크를 정의하여 기존 파일 시스템 디스크의 경로 범위 인스턴스를 만들 수 있습니다. 범위 지정 디스크를 사용하면 모든 경로에 자동으로 지정된 경로 접두사가 붙는 파일 시스템을 정의할 수 있습니다. 예를 들어, 기존 `s3` 디스크의 범위를 특정 경로 접두사로 지정하는 디스크를 생성하면 범위 지정 디스크를 사용하는 모든 파일 작업이 지정된 접두사를 활용할 수 있습니다.
+
+```php
+'s3-videos' => [
+    'driver' => 'scoped',
+    'disk' => 's3',
+    'prefix' => 'path/to/videos',
+],
+```
+
+If you would like to specify that any filesystem disk should be "read-only", you may include the `read-only` configuration option in the disk's configuration array:
+
+파일 시스템 디스크가 "읽기 전용"이어야 한다고 지정하려면 디스크의 구성 배열에 `read-only` 구성 옵션을 포함할 수 있습니다.
+
+```php
+'s3-videos' => [
+    'driver' => 's3',
+    // ...
+    'read-only' => true,
+],
+```
+
 <a name="amazon-s3-compatible-filesystems"></a>
 ### Amazon S3 Compatible Filesystems
 ### Amazon S3 호환 파일 시스템
@@ -211,9 +243,9 @@ By default, your application's `filesystems` configuration file contains a disk 
 
 기본적으로 애플리케이션의 `filesystems` 구성 파일에는 `s3` 디스크에 대한 디스크 구성이 포함되어 있습니다. 이 디스크를 사용하여 Amazon S3를 다루는 것 외에도 [MinIO](https://github.com/minio/minio) 또는 [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces) 와 같은 S3 호환 파일 스토리지 서비스를  사용할 수 있습니다.
 
-Typically, after updating the disk's credentials to match the credentials of the service you are planning to use, you only need to update the value of the `url` configuration option. This option's value is typically defined via the `AWS_ENDPOINT` environment variable:
+Typically, after updating the disk's credentials to match the credentials of the service you are planning to use, you only need to update the value of the `endpoint` configuration option. This option's value is typically defined via the `AWS_ENDPOINT` environment variable:
 
-일반적으로 사용하려는 서비스의 자격 증명과 일치하도록 디스크 자격 증명을 업데이트한 후 `url` 구성 옵션의 값만 업데이트하면 됩니다. 이 옵션의 값은 일반적으로 `AWS_ENDPOINT` 환경 변수를 통해 정의됩니다.
+일반적으로 사용하려는 서비스의 자격 증명과 일치하도록 디스크 자격 증명을 업데이트한 후 `endpoint` 구성 옵션의 값만 업데이트하면 됩니다. 이 옵션의 값은 일반적으로 `AWS_ENDPOINT` 환경 변수를 통해 정의됩니다.
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
@@ -308,9 +340,11 @@ When using the `local` driver, all files that should be publicly accessible shou
 
 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 합니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage` [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
 
-> {note} When using the `local` driver, the return value of `url` is not URL encoded. For this reason, we recommend always storing your files using names that will create valid URLs.
+> **Warning**
+> When using the `local` driver, the return value of `url` is not URL encoded. For this reason, we recommend always storing your files using names that will create valid URLs.
 
-> {note} `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
+> **Warning**
+> `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
 
 <a name="temporary-urls"></a>
 #### Temporary URLs
@@ -563,9 +597,11 @@ You may also use the `putFileAs` method on the `Storage` facade, which will perf
         'avatars', $request->file('avatar'), $request->user()->id
     );
 
-> {note} Unprintable and invalid unicode characters will automatically be removed from file paths. Therefore, you may wish to sanitize your file paths before passing them to Laravel's file storage methods. File paths are normalized using the `League\Flysystem\WhitespacePathNormalizer::normalizePath` method.
+> **Warning**
+> Unprintable and invalid unicode characters will automatically be removed from file paths. Therefore, you may wish to sanitize your file paths before passing them to Laravel's file storage methods. File paths are normalized using the `League\Flysystem\WhitespacePathNormalizer::normalizePath` method.
 
-> {note} 출력할 수 없거나 유효하지 않은 유니코드 문자는 파일 경로에서 자동으로 삭제됩니다. 그러므로 파일 경로를 라라벨 파일 저장 메소드에 전달하기 전에 sanitize 하시기 바랍니다. 파일 경로는 `League\Flysystem\WhitespacePathNormalizer::normalizePath` 메소드로 정규화됩니다.
+> **Warning**
+> 출력할 수 없거나 유효하지 않은 유니코드 문자는 파일 경로에서 자동으로 삭제됩니다. 그러므로 파일 경로를 라라벨 파일 저장 메소드에 전달하기 전에 sanitize 하시기 바랍니다. 파일 경로는 `League\Flysystem\WhitespacePathNormalizer::normalizePath` 메소드로 정규화됩니다.
 
 <a name="specifying-a-disk"></a>
 #### Specifying A Disk

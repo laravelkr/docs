@@ -70,9 +70,11 @@ The session `driver` configuration option defines where session data will be sto
 - `array` - 세션은 PHP 배열에 저장되며 지속되지 않습니다.
 
 
-> {tip} The array driver is primarily used during [testing](/docs/{{version}}/testing) and prevents the data stored in the session from being persisted.
+> **Note**
+> The array driver is primarily used during [testing](/docs/{{version}}/testing) and prevents the data stored in the session from being persisted.
 
-> {tip} array 드라이버는 주로 [테스트](/docs/{{version}}/testing)가 진행되는 동안 사용되고, 세션이 지속적으로 유지되지 않습니다.
+> **Note**
+> array 드라이버는 주로 [테스트](/docs/{{version}}/testing)가 진행되는 동안 사용되고, 세션이 지속적으로 유지되지 않습니다.
 
 <a name="driver-prerequisites"></a>
 ### Driver Prerequisites
@@ -113,9 +115,11 @@ Before using Redis sessions with Laravel, you will need to either install the Ph
 
 Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PHP 확장모듈을 설치하거나 Composer를 통해 `predis/predis` 패키지 (~ 1.0)를 설치해야합니다. Redis 설정에 대한 자세한 내용은 [Redis 문서](/docs/{{version}}/redis#configuration)을 참조하세요.
 
-> {tip} In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
+> **Note**
+> In the `session` configuration file, the `connection` option may be used to specify which Redis connection is used by the session.
 
-> {tip} `session` 설정 파일에서 `connection` 옵션을 사용하여 세션에서 어떤 Redis 연결을 사용할지 지정할 수 있습니다.
+> **Note**
+> `session` 설정 파일에서 `connection` 옵션을 사용하여 세션에서 어떤 Redis 연결을 사용할지 지정할 수 있습니다.
 
 <a name="interacting-with-the-session"></a>
 ## Interacting With The Session
@@ -182,9 +186,11 @@ You may also use the global `session` PHP function to retrieve and store data in
         session(['key' => 'value']);
     });
 
-> {tip} There is little practical difference between using the session via an HTTP request instance versus using the global `session` helper. Both methods are [testable](/docs/{{version}}/testing) via the `assertSessionHas` method which is available in all of your test cases.
+> **Note**
+> There is little practical difference between using the session via an HTTP request instance versus using the global `session` helper. Both methods are [testable](/docs/{{version}}/testing) via the `assertSessionHas` method which is available in all of your test cases.
 
-> {tip} 글로벌 `session` 헬퍼를 사용하는 것에 비해서 HTTP 요청-request 인스턴스에서 세션을 사용하는 것에는 약간의 실질적인 차이가 있습니다. 두가지 메소드는 테스트 케이스 안에서 사용가능한 `assertSessionHas` 메소드를 통해서 [테스트가 가능합니다](/docs/{{version}}/testing).
+> **Note**
+> 글로벌 `session` 헬퍼를 사용하는 것에 비해서 HTTP 요청-request 인스턴스에서 세션을 사용하는 것에는 약간의 실질적인 차이가 있습니다. 두가지 메소드는 테스트 케이스 안에서 사용가능한 `assertSessionHas` 메소드를 통해서 [테스트가 가능합니다](/docs/{{version}}/testing).
 
 <a name="retrieving-all-session-data"></a>
 #### Retrieving All Session Data
@@ -216,9 +222,9 @@ To determine if an item is present in the session, even if its value is `null`, 
         //
     }
 
-To determine if an item is not present in the session, you may use the `missing` method. The `missing` method returns `true` if the item is `null` or if the item is not present:
+To determine if an item is not present in the session, you may use the `missing` method. The `missing` method returns `true` if the item is not present:
 
-세션에 항목이 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다. 아이템이 `null`이거나 없는 경우 `missing` 메소드는 `true`를 반환 합니다.
+세션에 항목이 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다. 아이템이 없는 경우 `missing` 메소드는 `true`를 반환 합니다.
 
     if ($request->session()->missing('users')) {
         //
@@ -338,9 +344,11 @@ If you need to regenerate the session ID and remove all data from the session in
 ## Session Blocking
 ## 세션 블로킹
 
-> {note} To utilize session blocking, your application must be using a cache driver that supports [atomic locks](/docs/{{version}}/cache#atomic-locks). Currently, those cache drivers include the `memcached`, `dynamodb`, `redis`, and `database` drivers. In addition, you may not use the `cookie` session driver.
+> **Warning**
+> To utilize session blocking, your application must be using a cache driver that supports [atomic locks](/docs/{{version}}/cache#atomic-locks). Currently, those cache drivers include the `memcached`, `dynamodb`, `redis`, and `database` drivers. In addition, you may not use the `cookie` session driver.
 
-> {note} 세션 블로킹을 활용하려면 애플리케이션에서 [atomic locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버를 사용해야합니다. 현재 이러한 캐시 드라이버에는 `memcached`, `dynamodb`, `redis` 및 `database` 드라이버가 포함됩니다. 또한 `cookie`세션 드라이버를 사용할 수 없습니다.
+> **Warning**
+> 세션 블로킹을 활용하려면 애플리케이션에서 [atomic locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버를 사용해야합니다. 현재 이러한 캐시 드라이버에는 `memcached`, `dynamodb`, `redis` 및 `database` 드라이버가 포함됩니다. 또한 `cookie`세션 드라이버를 사용할 수 없습니다.
 
 By default, Laravel allows requests using the same session to execute concurrently. So, for example, if you use a JavaScript HTTP library to make two HTTP requests to your application, they will both execute at the same time. For many applications, this is not a problem; however, session data loss can occur in a small subset of applications that make concurrent requests to two different application endpoints which both write data to the session.
 
@@ -402,9 +410,11 @@ If none of the existing session drivers fit your application's needs, Laravel ma
         public function gc($lifetime) {}
     }
 
-> {tip} Laravel does not ship with a directory to contain your extensions. You are free to place them anywhere you like. In this example, we have created an `Extensions` directory to house the `MongoSessionHandler`.
+> **Note**
+> Laravel does not ship with a directory to contain your extensions. You are free to place them anywhere you like. In this example, we have created an `Extensions` directory to house the `MongoSessionHandler`.
 
-> {tip} 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoSessionHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
+> **Note**
+> 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoSessionHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
 
 Since the purpose of these methods is not readily understandable, let's quickly cover what each of the methods do:
 

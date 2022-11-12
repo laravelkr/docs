@@ -50,6 +50,7 @@ While most Eloquent collection methods return a new instance of an Eloquent coll
 ## Available Methods
 ## 사용가능한 메소드들 
 
+- [append](#method-append)
 - [contains](#method-contains)
 - [diff](#method-diff)
 - [except](#method-except)
@@ -73,9 +74,22 @@ In addition, the `Illuminate\Database\Eloquent\Collection` class provides a supe
 
 또한, `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 메서드의 상위 집합을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환합니다. 그러나 `modelKeys`와 같은 일부 메소드는 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
 
+<a name="method-append"></a>
+#### `append($attributes)` {.collection-method .first-collection-method}
+#### `append($attributes)` {.collection-method .first-collection-method}
+
+The `append` method may be used to indicate that an attribute should be [appended](/docs/{{version}}/eloquent-serialization#appending-values-to-json) for every model in the collection. This method accepts an array of attributes or a single attribute:
+
+`append` 메서드는 속성이 컬렉션에 있는 모든 모델에 [추가](/docs/{{version}}/eloquent-serialization#appending-values-to-json)되어야 하는지 나타내는데 쓰입니다. 이 메서드는 단일 속성 또는 속성의 배열을 받습니다.
+
+    $users->append('team');
+    
+    $users->append(['team', 'is_admin']);
+
+
 <a name="method-contains"></a>
-#### `contains($key, $operator = null, $value = null)` 
-#### `contains($key, $operator = null, $value = null)`
+#### `contains($key, $operator = null, $value = null)` {.collection-method}
+#### `contains($key, $operator = null, $value = null)` {.collection-method}
 
 The `contains` method may be used to determine if a given model instance is contained by the collection. This method accepts a primary key or a model instance:
 
@@ -155,6 +169,8 @@ The `load` method eager loads the given relationships for all models in the coll
 
     $users->load('comments.author');
 
+    $users->load(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
+
 <a name="method-loadMissing"></a>
 #### `loadMissing($relations)`
 #### `loadMissing($relations)`
@@ -166,6 +182,8 @@ The `loadMissing` method eager loads the given relationships for all models in t
     $users->loadMissing(['comments', 'posts']);
 
     $users->loadMissing('comments.author');
+
+    $users->loadMissing(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-modelKeys"></a>
 #### `modelKeys()`

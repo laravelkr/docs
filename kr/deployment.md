@@ -121,9 +121,11 @@ When deploying to production, make sure that you are optimizing Composer's class
 composer install --optimize-autoloader --no-dev
 ```
 
-> {tip} In addition to optimizing the autoloader, you should always be sure to include a `composer.lock` file in your project's source control repository. Your project's dependencies can be installed much faster when a `composer.lock` file is present.
+> **Note**
+> In addition to optimizing the autoloader, you should always be sure to include a `composer.lock` file in your project's source control repository. Your project's dependencies can be installed much faster when a `composer.lock` file is present.
 
-> {tip} 오토로더를 최적화 하는데 더하여, 프로젝트의 소스 컨트롤 저장소에 `composer.lock` 파일을 포함하고 있는지 확인하십시오. `composer.lock` 파일이 존재한다면 프로젝트의 의존성을 보다 빠르게 설치할 수 있습니다.
+> **Note**
+> 오토로더를 최적화 하는데 더하여, 프로젝트의 소스 컨트롤 저장소에 `composer.lock` 파일을 포함하고 있는지 확인하십시오. `composer.lock` 파일이 존재한다면 프로젝트의 의존성을 보다 빠르게 설치할 수 있습니다.
 
 <a name="optimizing-configuration-loading"></a>
 ### Optimizing Configuration Loading
@@ -141,9 +143,11 @@ This command will combine all of Laravel's configuration files into a single, ca
 
 이 명령어는 라라벨의 전체 설정 파일을 하나로 합쳐서, 캐시 파일을 만들고, 프레임워크가 설정파일을 로딩하기 위해서 여러개의 파일을 읽는 것을 줄여줍니다.
 
-> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function for `.env` variables will return `null`.
+> **Warning**
+> If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function for `.env` variables will return `null`.
 
-> {note} 배포 과정에서 `config:cache` 명령을 실행하면 설정 파일 내에서 `env` 함수 만 호출해야합니다. 설정이 캐시되면 `.env` 파일이 로드되지 않고 `.env`의 변수에 대한 `env` 함수의 모든 호출은 `null`을 반환합니다.
+> **Warning**
+> 배포 과정에서 `config:cache` 명령을 실행하면 설정 파일 내에서 `env` 함수 만 호출해야합니다. 설정이 캐시되면 `.env` 파일이 로드되지 않고 `.env`의 변수에 대한 `env` 함수의 모든 호출은 `null`을 반환합니다.
 
 <a name="optimizing-route-loading"></a>
 ### Optimizing Route Loading
@@ -181,9 +185,9 @@ This command precompiles all your Blade views so they are not compiled on demand
 ## Debug Mode
 ## 디버그 모드
 
-The debug option in your config/app.php configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the APP_DEBUG environment variable, which is stored in your .env file.
+The debug option in your config/app.php configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your application's `.env` file.
 
-config/app.php 설정 파일의 디버그 옵션에 따라 사용자에게 실제로 표시되는 오류 정보의 양이 결정됩니다. 기본적으로 이 옵션은 .env 파일에 저장된 APP_DEBUG 환경 변수의 값을 고려하도록 설정됩니다.
+config/app.php 설정 파일의 디버그 옵션에 따라 사용자에게 실제로 표시되는 오류 정보의 양이 결정됩니다. 기본적으로 이 옵션은 애플리케이션의 `.env` 파일에 저장된 `APP_DEBUG` 환경 변수의 값을 고려하도록 설정됩니다.
 
 **In your production environment, this value should always be `false`. If the `APP_DEBUG` variable is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.**
 
@@ -204,6 +208,12 @@ If you aren't quite ready to manage your own server configuration or aren't comf
 Laravel Forge can create servers on various infrastructure providers such as DigitalOcean, Linode, AWS, and more. In addition, Forge installs and manages all of the tools needed to build robust Laravel applications, such as Nginx, MySQL, Redis, Memcached, Beanstalk, and more.
 
 라라벨 Forge 는 DigitalOcean, Linode, AWS 와 같은 다양한 인프라를 제공하는 서비스 위에서 서버를 구성할 수 있습니다. 또한 Forge는 Nginx, MySQL, Redis, Memcached, Beanstalk 와 같은 라라벨 애플리케이션을 구축하는데 필요한 모든 툴들을 설치하고 관리해줍니다.
+
+> **Note**
+> Want a full guide to deploying with Laravel Forge? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com/deploying) and the Forge [video series available on Laracasts](https://laracasts.com/series/learn-laravel-forge-2022-edition).
+
+> **Note**
+> 라라벨 포지로 개발하는 방법에 대한 전체 가이드가 필요한가요? [라라벨 부트캠프](https://bootcamp.laravel.com/deploying)와 [포지 관련 라라캐스트 비디오 시리즈](https://laracasts.com/series/learn-laravel-forge-2022-edition)를 확인해보세요.
 
 <a name="laravel-vapor"></a>
 #### Laravel Vapor

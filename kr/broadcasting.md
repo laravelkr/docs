@@ -104,9 +104,11 @@ By default, Laravel includes two server-side broadcasting drivers for you to cho
 
 기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
 
-> {tip} Before diving into event broadcasting, make sure you have read Laravel's documentation on [events and listeners](/docs/{{version}}/events).
+> **Note** 
+> Before diving into event broadcasting, make sure you have read Laravel's documentation on [events and listeners](/docs/{{version}}/events).
 
-> {tip} 이벤트 브로드캐스팅을 시작하기 전에 [events and listeners](/docs/{{version}}/events)에 대한 라라벨 문서를 읽어보십시오.
+> **Note** 
+> 이벤트 브로드캐스팅을 시작하기 전에 [events and listeners](/docs/{{version}}/events)에 대한 라라벨 문서를 읽어보십시오.
 
 <a name="server-side-installation"></a>
 ## Server Side Installation
@@ -265,13 +267,14 @@ Echo가 설치되면 애플리케이션의 JavaScript에서 새로운 Echo 인�
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
 ```
@@ -284,9 +287,11 @@ Once you have uncommented and adjusted the Echo configuration according to your 
 npm run dev
 ```
 
-> {tip} To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Mix](/docs/{{version}}/mix).
+> **Note** 
+> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Vite](/docs/{{version}}/vite).
 
-> {tip} 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Mix](/docs/{{version}}/mix)에 대한 문서를 참조하세요.
+> **Note** 
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="using-an-existing-client-instance"></a>
 #### Using An Existing Client Instance
@@ -298,13 +303,16 @@ Echo에서 활용하고 싶은, 미리 설정된 Pusher Channels 클라이언트
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-const client = require('pusher-js');
+const options = {
+    broadcaster: 'pusher',
+    key: 'your-pusher-channels-key'
+}
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'your-pusher-channels-key',
-    client: client
+    ...options,
+    client: new Pusher(options.key, options)
 });
 ```
 
@@ -334,12 +342,13 @@ Echo가 설치되면 애플리케이션의 JavaScript에서 새로운 Echo 인�
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_ABLY_PUBLIC_KEY,
+    key: import.meta.env.VITE_ABLY_PUBLIC_KEY,
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: true,
@@ -347,9 +356,9 @@ window.Echo = new Echo({
 });
 ```
 
-Note that our Ably Echo configuration references a `MIX_ABLY_PUBLIC_KEY` environment variable. This variable's value should be your Ably public key. Your public key is the portion of your Ably key that occurs before the `:` character.
+Note that our Ably Echo configuration references a `VITE_ABLY_PUBLIC_KEY` environment variable. This variable's value should be your Ably public key. Your public key is the portion of your Ably key that occurs before the `:` character.
 
-Ably Echo 설정은 `MIX_ABLY_PUBLIC_KEY` 환경 변수를 참조합니다. 이 변수의 값은 Ably 공개 키여야 합니다. 공개 키는 `:` 문자 앞에 나오는 Ably 키 부분입니다.
+Ably Echo 설정은 `VITE_ABLY_PUBLIC_KEY` 환경 변수를 참조합니다. 이 변수의 값은 Ably 공개 키여야 합니다. 공개 키는 `:` 문자 앞에 나오는 Ably 키 부분입니다.
 
 Once you have uncommented and adjusted the Echo configuration according to your needs, you may compile your application's assets:
 
@@ -359,9 +368,11 @@ Once you have uncommented and adjusted the Echo configuration according to your 
 npm run dev
 ```
 
-> {tip} To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Mix](/docs/{{version}}/mix).
+> **Note** 
+> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Vite](/docs/{{version}}/vite).
 
-> {tip} 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Mix](/docs/{{version}}/mix)에 대한 문서를 참조하세요.
+> **Note** 
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="concept-overview"></a>
 ## Concept Overview
@@ -375,9 +386,11 @@ Events are broadcast over "channels", which may be specified as public or privat
 
 이벤트는 공개 또는 비공개로 지정할 수 있는 "채널"을 통해 브로드캐스트됩니다. 애플리케이션 방문자는 인증이나 승인 없이 공개 채널을 구독할 수 있습니다. 그러나 개인 채널을 구독하려면 사용자가 인증을 받고 해당 채널에서 수신할 수 있는 권한이 있어야 합니다.
 
-> {tip} If you would like to explore open source alternatives to Pusher, check out the [open source alternatives](#open-source-alternatives).
+> **Note** 
+> If you would like to explore open source alternatives to Pusher, check out the [open source alternatives](#open-source-alternatives).
 
-> {tip} 푸셔의 오픈 소스 대안을 탐색하고 싶다면 [오픈 소스 대안](#open-source-alternatives)을 확인하세요.
+> **Note** 
+> 푸셔의 오픈 소스 대안을 탐색하고 싶다면 [오픈 소스 대안](#open-source-alternatives)을 확인하세요.
 
 <a name="using-example-application"></a>
 ### Using An Example Application
@@ -407,7 +420,7 @@ When a user is viewing one of their orders, we don't want them to have to refres
 
     namespace App\Events;
 
-    use App\Order;
+    use App\Models\Order;
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Broadcasting\PresenceChannel;
@@ -688,9 +701,11 @@ If your queue connection's `after_commit` configuration option is set to `false`
         public $afterCommit = true;
     }
 
-> {tip} To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
+> **Note** 
+> To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
 
-> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
+> **Note** 
+> 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
 
 <a name="authorizing-channels"></a>
 ## Authorizing Channels
@@ -751,10 +766,10 @@ window.Echo = new Echo({
                     channel_name: channel.name
                 })
                 .then(response => {
-                    callback(false, response.data);
+                    callback(null, response.data);
                 })
                 .catch(error => {
-                    callback(true, error);
+                    callback(error);
                 });
             }
         };
@@ -796,9 +811,11 @@ HTTP 경로와 마찬가지로 채널 경로도 암시적 및 명시적 [경로 
         return $user->id === $order->user_id;
     });
 
-> {note} Unlike HTTP route model binding, channel model binding does not support automatic [implicit model binding scoping](/docs/{{version}}/routing#implicit-model-binding-scoping). However, this is rarely a problem because most channels can be scoped based on a single model's unique, primary key.
+> **Warning** 
+> Unlike HTTP route model binding, channel model binding does not support automatic [implicit model binding scoping](/docs/{{version}}/routing#implicit-model-binding-scoping). However, this is rarely a problem because most channels can be scoped based on a single model's unique, primary key.
 
-> {note} HTTP 경로 모델 바인딩과 달리 채널 모델 바인딩은 자동 [암시적 모델 바인딩 범위 지정](/docs/{{version}}/routing#implicit-model-binding-scoping)을 지원하지 않습니다. 그러나 대부분의 채널이 단일 모델의 고유한 기본 키를 기반으로 범위가 지정될 수 있기 때문에 이는 거의 문제가 되지 않습니다.
+> **Warning** 
+> HTTP 경로 모델 바인딩과 달리 채널 모델 바인딩은 자동 [암시적 모델 바인딩 범위 지정](/docs/{{version}}/routing#implicit-model-binding-scoping)을 지원하지 않습니다. 그러나 대부분의 채널이 단일 모델의 고유한 기본 키를 기반으로 범위가 지정될 수 있기 때문에 이는 거의 문제가 되지 않습니다.
 
 <a name="authorization-callback-authentication"></a>
 #### Authorization Callback Authentication
@@ -868,9 +885,11 @@ Finally, you may place the authorization logic for your channel in the channel c
         }
     }
 
-> {tip} Like many other classes in Laravel, channel classes will automatically be resolved by the [service container](/docs/{{version}}/container). So, you may type-hint any dependencies required by your channel in its constructor.
+> **Note** 
+> Like many other classes in Laravel, channel classes will automatically be resolved by the [service container](/docs/{{version}}/container). So, you may type-hint any dependencies required by your channel in its constructor.
 
-> {tip} 라라벨에 다른 많은 클래스와 같이, 채널 클래스도 자동으로 [서비스 컨테이너](/docs/{{version}}/container)를 통해 의존성이 해결됩니다. 따라서, 의존성을 가진 객체들을 채널 클래스 생성자에서 타입 힌트로 제공받을 수 있습니다.
+> **Note** 
+> 라라벨에 다른 많은 클래스와 같이, 채널 클래스도 자동으로 [서비스 컨테이너](/docs/{{version}}/container)를 통해 의존성이 해결됩니다. 따라서, 의존성을 가진 객체들을 채널 클래스 생성자에서 타입 힌트로 제공받을 수 있습니다.
 
 <a name="broadcasting-events"></a>
 ## Broadcasting Events
@@ -911,9 +930,11 @@ However, remember that we also broadcast the task's creation. If your JavaScript
 
 그러나 태스크 생성도 브로드캐스트한다는 것을 기억하십시오. JavaScript 애플리케이션이 작업 목록에 작업을 추가하기 위해 이 이벤트도 수신하는 경우 목록에 중복 작업이 있을 것입니다. 하나는 엔드포인트에서, 다른 하나는 브로드캐스트에서입니다. 브로드캐스터가 현재 사용자에게 이벤트를 브로드캐스트하지 않도록 지시하는 `toOthers` 메서드를 사용하여 이 문제를 해결할 수 있습니다.
 
-> {note} Your event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
+> **Warning** 
+> Your event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
 
-> {note} `toOthers` 메소드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
+> **Warning** 
+> `toOthers` 메소드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
 
 <a name="only-to-others-configuration"></a>
 #### Configuration
@@ -999,9 +1020,9 @@ If you would like to listen for events on a private channel, use the `private` m
 
 ```js
 Echo.private(`orders.${this.order.id}`)
-    .listen(...)
-    .listen(...)
-    .listen(...);
+    .listen(/* ... */)
+    .listen(/* ... */)
+    .listen(/* ... */);
 ```
 
 <a name="stop-listening-for-events"></a>
@@ -1149,9 +1170,9 @@ As typical of other types of events, you may listen for events sent to presence 
 
 ```js
 Echo.join(`chat.${roomId}`)
-    .here(...)
-    .joining(...)
-    .leaving(...)
+    .here(/* ... */)
+    .joining(/* ... */)
+    .leaving(/* ... */)
     .listen('NewMessage', (e) => {
         //
     });
@@ -1161,9 +1182,11 @@ Echo.join(`chat.${roomId}`)
 ## Model Broadcasting
 ## 모델 브로드캐스팅
 
-> {note} Before reading the following documentation about model broadcasting, we recommend you become familiar with the general concepts of Laravel's model broadcasting services as well as how to manually create and listen to broadcast events.
+> **Warning** 
+> Before reading the following documentation about model broadcasting, we recommend you become familiar with the general concepts of Laravel's model broadcasting services as well as how to manually create and listen to broadcast events.
 
-> {note} 모델 브로드캐스팅에 대한 다음 문서를 읽기 전에 라라벨의 모델 브로드캐스팅 서비스에 대한 일반적인 개념과 브로드캐스트 이벤트를 수동으로 생성하고 수신하는 방법을 숙지하는 것이 좋습니다.
+> **Warning** 
+> 모델 브로드캐스팅에 대한 다음 문서를 읽기 전에 라라벨의 모델 브로드캐스팅 서비스에 대한 일반적인 개념과 브로드캐스트 이벤트를 수동으로 생성하고 수신하는 방법을 숙지하는 것이 좋습니다.
 
 It is common to broadcast events when your application's [Eloquent models](/docs/{{version}}/eloquent) are created, updated, or deleted. Of course, this can easily be accomplished by manually [defining custom events for Eloquent model state changes](/docs/{{version}}/eloquent#events) and marking those events with the `ShouldBroadcast` interface.
 
@@ -1397,9 +1420,11 @@ Echo.private(`App.Models.User.${this.user.id}`)
 ## Client Events
 ## 클라이언트 이벤트
 
-> {tip} When using [Pusher Channels](https://pusher.com/channels), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
+> **Note** 
+> When using [Pusher Channels](https://pusher.com/channels), you must enable the "Client Events" option in the "App Settings" section of your [application dashboard](https://dashboard.pusher.com/) in order to send client events.
 
-> {tip} [Pusher Channels](https://pusher.com/channels) 를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/) 의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+> **Note** 
+> [Pusher Channels](https://pusher.com/channels) 를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/) 의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 Sometimes you may wish to broadcast an event to other connected clients without hitting your Laravel application at all. This can be particularly useful for things like "typing" notifications, where you want to alert users of your application that another user is typing a message on a given screen.
 

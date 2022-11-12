@@ -17,6 +17,8 @@
   - [TLS를 사용한 안전한 사이트](#securing-sites)
   - [Serving a Default Site](#serving-a-default-site)
   - [기본 사이트 제공](#serving-a-default-site)
+  - [Per-Site PHP Versions](#per-site-php-versions)
+  - [사이트별 PHP 버](#per-site-php-versions)
 - [Sharing Sites](#sharing-sites)
 - [사이트 공유하기](#sharing-sites)
   - [Sharing Sites Via Ngrok](#sharing-sites-via-ngrok)
@@ -37,6 +39,8 @@
 - [기타 발렛 명령어들](#other-valet-commands)
 - [Valet Directories & Files](#valet-directories-and-files)
 - [Valet 디렉토리와 파일](#valet-directories-and-files)
+  - [Disk Access](#disk-access)
+  - [디스크 접근](#disk-access)
 
 <a name="introduction"></a>
 ## Introduction
@@ -84,9 +88,11 @@ However, you may extend Valet with your own [custom drivers](#custom-valet-drive
 ## Installation
 ## 설치하기
 
-> {note} Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.
+> **Warning**
+> Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.
 
-> {note} 발렛은 macOS 및 [Homebrew](https://brew.s/h) 가 필요합니다. 설치하기 전에 Apache 또는 Nginx와 같은 다른 프로그램이 로컬 시스템의 포트 80에 바인딩되어 있지 않은지 확인해야 합니다.
+> **Warning**
+> 발렛은 macOS 및 [Homebrew](https://brew.s/h) 가 필요합니다. 설치하기 전에 Apache 또는 Nginx와 같은 다른 프로그램이 로컬 시스템의 포트 80에 바인딩되어 있지 않은지 확인해야 합니다.
 
 To get started, you first need to ensure that Homebrew is up to date using the `update` command:
 
@@ -154,9 +160,11 @@ Once this file has been created, you may simply execute the `valet use` command 
 
 이 파일이 생성되면 `valet use` 명령을 실행하기만 하면 이 명령이 파일을 읽어 사이트의 기본 PHP 버전을 결정합니다.
 
-> {note} Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
+> **Warning**
+> Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
 
-> {note} 발렛은 여러 PHP 버전이 설치되어 있어도 한 번에 하나의 PHP 버전만 제공합니다.
+> **Warning**
+> 발렛은 여러 PHP 버전이 설치되어 있어도 한 번에 하나의 PHP 버전만 제공합니다.
 
 <a name="database"></a>
 #### Database
@@ -236,6 +244,14 @@ cd ~/Sites/laravel
 valet link application
 ```
 
+Of course, you may also serve applications on subdomains using the `link` command:
+
+물론 서브도메인도 `link` 명령으로 제공할 수 있습니다.
+
+```shell
+valet link api.application
+```
+
 You may execute the `links` command to display a list of all of your linked directories:
 
 `links` 명령을 실행하여 연결된 모든 디렉토리 목록을 표시할 수 있습니다.
@@ -282,7 +298,55 @@ Sometimes, you may wish to configure Valet to serve a "default" site instead of 
 
 알 수 없는 `test` 도메인을 방문할 때 `404` 대신 `default` 사이트로 접속되도록 발렛을 설정하고 싶을수도 있습니다. 이때는 기본 사이트 역할을 해야 하는 사이트 주소가 포함된 `~/.config/valet/config.json` 설정 파일에 `default` 옵션을 추가할 수 있습니다.
 
-    "default": "/Users/Sally/Sites/foo",
+    "default": "/Users/Sally/Sites/example-site",
+
+<a name="per-site-php-versions"></a>
+### Per-Site PHP Versions
+### 사이트별 PHP 버전
+
+By default, Valet uses your global PHP installation to serve your sites. However, if you need to support multiple PHP versions across various sites, you may use the `isolate` command to specify which PHP version a particular site should use. The `isolate` command configures Valet to use the specified PHP version for the site located in your current working directory:
+
+기본적으로 발렛은 사이트를 서빙하는데 글로벌로 설치된 PHP를 사용합니다. 하지만 다양한 사이트에 여러 PHP 버전을 지원해야한다면 특정 사이트가 사용해야하는 PHP 버전을 지정하기 위해 `isolate` 커맨드를 사용할 수 있습니다.
+
+```shell
+cd ~/Sites/example-site
+
+valet isolate php@8.0
+```
+
+If your site name does not match the name of the directory that contains it, you may specify the site name using the `--site` option:
+
+만약 여러분의 사이트가 사이트가 담겨있는 디렉터리 이름과 일치하지 않는다면 `--site` 옵션으로 사이트 이름을 지정해줄 수 있습니다.
+
+```shell
+valet isolate php@8.0 --site="site-name"
+```
+
+For convenience, you may use the `valet php`, `composer`, and `which-php` commands to proxy calls to the appropriate PHP CLI or tool based on the site's configured PHP version:
+
+편의를 위해 사이트에 설정된 PHP 버전에 기반해서 적절한 PHP CLI나 도구를 호출하는 것을 프록시하기 위해 `valet php`, `composer`, `which-php` 커맨드를 사용할 수 있습니다.
+
+```shell
+valet php
+valet composer
+valet which-php
+```
+
+You may execute the `isolated` command to display a list of all of your isolated sites and their PHP versions:
+
+`isolated` 명령을 이용해 모든 격리된 사이트와 그들이 사용하는 PHP 버전의 목록을 볼 수 있습니다.
+
+```shell
+valet isolated
+```
+
+To revert a site back to Valet's globally installed PHP version, you may invoke the `unisolate` command from the site's root directory:
+
+사이트를 발렛의 전역에 설치된 PHP 버전으로 되돌리려면 `unisolate` 명령을 사이트의 루트 디렉토리에서 실행하면 됩니다.
+
+```shell
+valet unisolate
+```
 
 <a name="sharing-sites"></a>
 ## Sharing Sites
@@ -310,9 +374,11 @@ To stop sharing your site, you may press `Control + C`.
 
 사이트 공유를 중지하려면 `Control + C`를 누르면 됩니다.
 
-> {tip} You may pass additional Ngrok parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
+> **Note**
+> You may pass additional Ngrok parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
 
-> {tip} `valet share --region=eu`와 같은 추가 Ngrok 매개변수를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok 문서](https://ngrok.com/docs) 를 참조하세요.
+> **Note**
+> `valet share --region=eu`와 같은 추가 Ngrok 매개변수를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok 문서](https://ngrok.com/docs) 를 참조하세요.
 
 <a name="sharing-sites-via-expose"></a>
 ### Sharing Sites Via Expose
@@ -478,9 +544,11 @@ The `isStaticFile` should determine if the incoming request is for a file that i
         return false;
     }
 
-> {note} The `isStaticFile` method will only be called if the `serves` method returns `true` for the incoming request and the request URI is not `/`.
+> **Warning**
+> The `isStaticFile` method will only be called if the `serves` method returns `true` for the incoming request and the request URI is not `/`.
 
-> {note} `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
+> **Warning**
+> `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 <a name="the-frontcontrollerpath-method"></a>
 #### The `frontControllerPath` Method
@@ -546,6 +614,7 @@ If you would like to define a custom Valet driver for a single application, crea
 
 Command  | Description
 ------------- | -------------
+`valet list` | Display a list of all Valet commands.
 `valet forget` | Run this command from a "parked" directory to remove it from the parked directory list.
 `valet log` | View a list of logs which are written by Valet's services.
 `valet paths` | View all of your "parked" paths.
@@ -558,6 +627,7 @@ Command  | Description
 
 명령 | 설명 
 ---------- | ---------- 
+`valet list` | 모든 발렛 명령을 표시합니다.
 `valet forget` | 파킹된 디렉토리 목록에서 제거하려면 "파킹된-parked" 디렉토리에서 이 명령을 실행하십시오.
 `valet log` | 발렛 서비스가 작성한 로그 목록을 봅니다. 
 `valet paths` | 모든 "파킹된-parked" 경로를 봅니다. 
@@ -606,9 +676,9 @@ This directory contains custom Valet extensions / commands.
 #### `~/.config/valet/Nginx/`
 #### `~/.config/valet/Nginx/`
 
-This directory contains all of Valet's Nginx site configurations. These files are rebuilt when running the `install`, `secure`, and `tld` commands.
+This directory contains all of Valet's Nginx site configurations. These files are rebuilt when running the `install` and `secure` commands.
 
-이 디렉토리에는 발렛의 모든 Nginx 사이트 설정이 포함되어 있습니다. 이 파일은 `install`, `secure` 및 `tld` 명령을 실행할 때 다시 빌드됩니다.
+이 디렉토리에는 발렛의 모든 Nginx 사이트 설정이 포함되어 있습니다. 이 파일은 `install` 와 `secure` 명령을 실행할 때 다시 빌드됩니다.
 
 #### `~/.config/valet/Sites/`
 #### `~/.config/valet/Sites/`
@@ -679,3 +749,15 @@ This file is the PHP-FPM pool configuration file.
 This file is the default Nginx configuration used for building SSL certificates for your sites.
 
 이 파일은 사이트에 대한 SSL 인증서를 빌드하는 데 사용되는 기본 Nginx 구성입니다.
+
+<a name="disk-access"></a>
+### Disk Access
+### 디스크 접근
+
+Since macOS 10.14, [access to some files and directories is restricted by default](https://manuals.info.apple.com/MANUALS/1000/MA1902/en_US/apple-platform-security-guide.pdf). These restrictions include the Desktop, Documents, and Downloads directories. In addition, network volume and removable volume access is restricted. Therefore, Valet recommends your site folders are located outside of these protected locations.
+
+맥OS 10.14 부터 [일부 파일과 디렉토리에 접근하는게 기본으로 제한됩니다](https://manuals.info.apple.com/MANUALS/1000/MA1902/en_US/apple-platform-security-guide.pdf). 제한 범위에는 Desktop, Documents, Download 디렉토리가 포함됩니다. 그리고 네트워크 볼륨과 제거 가능한 볼륨에 대한 접근도 제한됩니다. 그러므로 발렛은 여러분의 사이트 폴더를 제한 범위 밖에 두길 권장합니다.
+
+However, if you wish to serve sites from within one of those locations, you will need to give Nginx "Full Disk Access". Otherwise, you may encounter server errors or other unpredictable behavior from Nginx, especially when serving static assets. Typically, macOS will automatically prompt you to grant Nginx full access to these locations. Or, you may do so manually via `System Preferences` > `Security & Privacy` > `Privacy` and selecting `Full Disk Access`. Next, enable any `nginx` entries in the main window pane.
+
+하지만 여러분이 맥OS가 접근을 제한하는 위치 내에서 사이트를 제공하고 싶다면 Nginx에게 "전체 디스크 접근" 권한을 줄 필요가 있습니다. 그렇지 않으면 서버 에러 또는 예측할 수 없는 행동에 맞닥뜨리게 될 것입니다. 특히 정적 에셋을 서빙할 때 그렇습니다. 일반적으로 맥OS가 해당 위치에 대한 전체 권한을 Nginx에게 허용할지를 자동으로 물을 것입니다. 자동으로 묻지 않는다면 직접 `System Preferences` > `Security & Privacy` > `Privacy` 에서 `Full Disk Access`를 선택하한 후 다음 매인 윈도우 창에서 `nginx` 관련 모든 항목을 활성화하면 됩니다.

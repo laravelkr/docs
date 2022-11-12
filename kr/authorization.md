@@ -70,8 +70,10 @@ You do not need to choose between exclusively using gates or exclusively using p
 ### Writing Gates
 ### Gate 작성하기
 
-> {note} Gates are a great way to learn the basics of Laravel's authorization features; however, when building robust Laravel applications you should consider using [policies](#creating-policies) to organize your authorization rules.
+> **Warning**
+> Gates are a great way to learn the basics of Laravel's authorization features; however, when building robust Laravel applications you should consider using [policies](#creating-policies) to organize your authorization rules.
 
+> **Warning**
 > Gate는 Laravel의 인증 기능에 대한 기본 사항을 배울 수 있는 좋은 방법입니다. 그러나 강력한 Laravel 애플리케이션을 구축할 때 [정책](#creating-policies)을 사용하여 권한 부여 규칙을 구성하는 것을 고려해야 합니다.
 
 Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the `boot` method of the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
@@ -255,6 +257,38 @@ When using the `Gate::authorize` method, which throws an `AuthorizationException
 
     // The action is authorized...
 
+<a name="customising-gate-response-status"></a>
+#### Customizing The HTTP Response Status
+#### HTTP 응답 상태 바꾸기
+
+When an action is denied via a Gate, a `403` HTTP response is returned; however, it can sometimes be useful to return an alternative HTTP status code. You may customize the HTTP status code returned for a failed authorization check using the `denyWithStatus` static constructor on the `Illuminate\Auth\Access\Response` class:
+
+어떤 행위가 Gate에 의해 거부되면 `403` HTTP 응답이 반환됩니다. 하지만 다른 HTTP 상태 코드를 반환하는게 더 유용한 경우가 있습니다. `Illuminate\Auth\Access\Response` 클래스에 있는 `denyWithStatus` 정적 생성자를 사용해서 권한 확인 실패시 반환되는 HTTP 상태 코드를 변경할 수 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    });
+
+Because hiding resources via a `404` response is such a common pattern for web applications, the `denyAsNotFound` method is offered for convenience:
+
+`404` 응답을 통해 리소스를 숨기는 것은 웹 애플리케이션에서 흔하게 사용되는 패턴이기 때문에 편의를 위해 `denyAsNotFound` 메서드를 제공하고 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    });
+
 <a name="intercepting-gate-checks"></a>
 ### Intercepting Gate Checks
 ### Gate 체크 로직의 후킹
@@ -305,7 +339,7 @@ Gate::allowIf(fn ($user) => $user->isAdministrator());
 Gate::denyIf(fn ($user) => $user->banned());
 ```
 
-If the action is not authorized or if no user is currently authenticated, Laravel will automatically throw an `Illuminate\Auth\Access\AuthorizationException` exception. Instances of `AuthorizationException` are automatically converted to a 403 HTTP response by Laravel's exception handler:
+If the action is not authorized or if no user is currently authenticated, Laravel will automatically throw an `Illuminate\Auth\Access\AuthorizationException` exception. Instances of `AuthorizationException` are automatically converted to a 403 HTTP response by Laravel's exception handler.
 
 작업이 승인되지 않았거나 현재 인증된 사용자가 없는 경우 Laravel은 자동으로 `Illuminate\Auth\Access\AuthorizationException` 예외를 발생시킵니다. `AuthorizationException`의 인스턴스는 Laravel의 예외 핸들러에 의해 자동으로 403 HTTP 응답으로 변환됩니다.
 
@@ -400,9 +434,11 @@ If you would like to define your own policy discovery logic, you may register a 
         // Return the name of the policy class for the given model...
     });
 
-> {note} Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potentially auto-discovered policies.
+> **Warning**
+> Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potentially auto-discovered policies.
 
-> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 정책은 모든 잠재적으로 자동 검색된 정책 보다 우선됩니다.
+> **Warning**
+> `AuthServiceProvider` 에 명시적으로 매핑된 모든 정책은 모든 잠재적으로 자동 검색된 정책 보다 우선됩니다.
 
 <a name="writing-policies"></a>
 ## Writing Policies
@@ -450,9 +486,11 @@ If you used the `--model` option when generating your policy via the Artisan con
 
 만약 아티즌 명령어를 통해 policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `viewAny`, `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
 
-> {tip} All policies are resolved via the Laravel [service container](/docs/{{version}}/container), allowing you to type-hint any needed dependencies in the policy's constructor to have them automatically injected.
+> **Note**
+> All policies are resolved via the Laravel [service container](/docs/{{version}}/container), allowing you to type-hint any needed dependencies in the policy's constructor to have them automatically injected.
 
-> {tip} 모든 정책은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 해결되므로 policy 생성자에 필요한 종속성을 입력하여 자동으로 삽입할 수 있습니다.
+> **Note**
+> 모든 정책은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 해결되므로 policy 생성자에 필요한 종속성을 입력하여 자동으로 삽입할 수 있습니다.
 
 <a name="policy-responses"></a>
 ### Policy Responses
@@ -501,6 +539,53 @@ When using the `Gate::authorize` method, which throws an `AuthorizationException
     Gate::authorize('update', $post);
 
     // The action is authorized...
+
+<a name="customising-policy-response-status"></a>
+#### Customizing The HTTP Response Status
+
+When an action is denied via a policy method, a `403` HTTP response is returned; however, it can sometimes be useful to return an alternative HTTP status code. You may customize the HTTP status code returned for a failed authorization check using the `denyWithStatus` static constructor on the `Illuminate\Auth\Access\Response` class:
+
+어떤 행위가 정책 메서드 의해 거부되면 `403` HTTP 응답이 반환됩니다. 하지만 다른 HTTP 상태 코드를 반환하는게 더 유용한 경우가 있습니다. `Illuminate\Auth\Access\Response` 클래스에 있는 `denyWithStatus` 정적 생성자를 사용해서 권한 확인 실패시 반환되는 HTTP 상태 코드를 변경할 수 있습니다.
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    }
+
+Because hiding resources via a `404` response is such a common pattern for web applications, the `denyAsNotFound` method is offered for convenience:
+
+`404` 응답을 통해 리소스를 숨기는 것은 웹 애플리케이션에서 흔하게 사용되는 패턴이기 때문에 편의를 위해 `denyAsNotFound` 메서드를 제공하고 있습니다.
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    }
 
 <a name="methods-without-models"></a>
 ### Methods Without Models
@@ -579,9 +664,11 @@ If you would like to deny all authorization checks for a particular type of user
 
 특정 사용자에게 모든 권한을 허용하지 않으려면, `before` 메소드에서 `false`를 반환하면 됩니다. 만약 `null`이 반환되면, 권한을 확인하는 과정은 policy 메소드까지 도달하게 됩니다.
 
-> {note} The `before` method of a policy class will not be called if the class doesn't contain a method with a name matching the name of the ability being checked.
+> **Warning**
+> The `before` method of a policy class will not be called if the class doesn't contain a method with a name matching the name of the ability being checked.
 
-> {note} 클래스가 확인하려는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
+> **Warning**
+> 클래스가 확인하려는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
 
 <a name="authorizing-actions-using-policies"></a>
 ## Authorizing Actions Using Policies
@@ -772,9 +859,11 @@ The following controller methods will be mapped to their corresponding policy me
 | update | update |
 | destroy | delete |
 
-> {tip} You may use the `make:policy` command with the `--model` option to quickly generate a policy class for a given model: `php artisan make:policy PostPolicy --model=Post`.
+> **Note**
+> You may use the `make:policy` command with the `--model` option to quickly generate a policy class for a given model: `php artisan make:policy PostPolicy --model=Post`.
 
-> {tip} `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
+> **Note**
+> `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
 
 <a name="via-middleware"></a>
 ### Via Middleware

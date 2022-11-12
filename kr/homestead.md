@@ -82,7 +82,8 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 
 홈스테드는 Windows, macOS 또는 Linux 시스템에서 실행되며 Nginx, PHP, MySQL, PostgreSQL, Redis, Memcached, Node 및 놀라운 라라벨 애플리케이션을 개발하는 데 필요한 기타 모든 소프트웨어를 포함합니다.
 
-> {note} If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
+> **Warning**
+> If you are using Windows, you may need to enable hardware virtualization (VT-x). It can usually be enabled via your BIOS. If you are using Hyper-V on a UEFI system you may additionally need to disable Hyper-V in order to access VT-x.
 
 > {참고} Windows를 사용하는 경우 하드웨어 가상화(VT-x)를 활성화해야 할 수 있습니다. 일반적으로 BIOS를 통해 활성화할 수 있습니다. UEFI 시스템에서 Hyper-V를 사용하는 경우 VT-x에 액세스하기 위해 Hyper-V를 비활성화해야 할 수도 있습니다.
 
@@ -106,6 +107,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - Sqlite3
 - PostgreSQL 13
 - Composer
+- Docker
 - Node (With Yarn, Bower, Grunt, and Gulp)
 - Redis
 - Memcached
@@ -127,7 +129,6 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - Chronograf
 - CouchDB
 - Crystal & Lucky Framework
-- Docker
 - Elasticsearch
 - EventStoreDB
 - Gearman
@@ -222,9 +223,11 @@ The `provider` key in your `Homestead.yaml` file indicates which Vagrant provide
 
     provider: virtualbox
 
-> {note} If you are using Apple Silicon, you should add `box: laravel/homestead-arm` to your `Homestead.yaml` file. Apple Silicon requires the Parallels provider.
+> **Warning**
+> If you are using Apple Silicon, you should add `box: laravel/homestead-arm` to your `Homestead.yaml` file. Apple Silicon requires the Parallels provider.
 
-> {note} Apple Silicon을 사용하는 경우 `Homestead.yaml` 파일에 `box: laravel/homestead-arm`을 추가해야 합니다. Apple Silicon에는 Parallels 공급자가 필요합니다.
+> **Warning**
+> Apple Silicon을 사용하는 경우 `Homestead.yaml` 파일에 `box: laravel/homestead-arm`을 추가해야 합니다. Apple Silicon에는 Parallels 공급자가 필요합니다.
 
 <a name="configuring-shared-folders"></a>
 #### Configuring Shared Folders
@@ -240,9 +243,11 @@ folders:
       to: /home/vagrant/project1
 ```
 
-> {note} Windows users should not use the `~/` path syntax and instead should use the full path to their project, such as `C:\Users\user\Code\project1`.
+> **Warning**
+> Windows users should not use the `~/` path syntax and instead should use the full path to their project, such as `C:\Users\user\Code\project1`.
 
-> {note} Windows 사용자는 `~/`경로 구문을 사용하지 말고 대신 `C:\Users\user\Code\project1`와 같은 프로젝트의 전체 경로를 사용해야 합니다.
+> **Warning**
+> Windows 사용자는 `~/`경로 구문을 사용하지 말고 대신 `C:\Users\user\Code\project1`와 같은 프로젝트의 전체 경로를 사용해야 합니다.
 
 You should always map individual applications to their own folder mapping instead of mapping a single large directory that contains all of your applications. When you map a folder, the virtual machine must keep track of all disk IO for *every* file in the folder. You may experience reduced performance if you have a large number of files in a folder:
 
@@ -256,9 +261,11 @@ folders:
       to: /home/vagrant/project2
 ```
 
-> {note} You should never mount `.` (the current directory) when using Homestead. This causes Vagrant to not map the current folder to `/vagrant` and will break optional features and cause unexpected results while provisioning.
+> **Warning**
+> You should never mount `.` (the current directory) when using Homestead. This causes Vagrant to not map the current folder to `/vagrant` and will break optional features and cause unexpected results while provisioning.
 
-> {note} 홈스테드를 사용할 때는 `.` (현재 디렉토리)를 마운트하지 마십시오. 이로 인해 Vagrant는 현재 폴더를 `/vagrant`로 매핑하지 않으며 옵션 기능을 중단하고 프로비저닝하는 동안 예상치 못한 결과를 초래합니다.
+> **Warning**
+> 홈스테드를 사용할 때는 `.` (현재 디렉토리)를 마운트하지 마십시오. 이로 인해 Vagrant는 현재 폴더를 `/vagrant`로 매핑하지 않으며 옵션 기능을 중단하고 프로비저닝하는 동안 예상치 못한 결과를 초래합니다.
 
 To enable [NFS](https://www.vagrantup.com/docs/synced-folders/nfs.html), you may add a `type` option to your folder mapping:
 
@@ -271,9 +278,11 @@ folders:
       type: "nfs"
 ```
 
-> {note} When using NFS on Windows, you should consider installing the [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead virtual machine.
+> **Warning**
+> When using NFS on Windows, you should consider installing the [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) plug-in. This plug-in will maintain the correct user / group permissions for files and directories within the Homestead virtual machine.
 
-> {note} 윈도우에서 NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 가상머신안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
+> **Warning**
+> 윈도우에서 NFS를 사용할 때에는, [vagrant-winnfsd](https://github.com/winnfsd/vagrant-winnfsd) 플러그인을 설치해야만 합니다. 이 플러그인은 홈스테드 가상머신안에서 파일과 디렉토리를 위한 올바른 사용자와 권한을 관리해줍니다.
 
 You may also pass any options supported by Vagrant's [Synced Folders](https://www.vagrantup.com/docs/synced-folders/basic_usage.html) by listing them under the `options` key:
 
@@ -307,9 +316,11 @@ If you change the `sites` property after provisioning the Homestead virtual mach
 
 홈스테드 가상 머신을 이미 생성한 후에 `sites` 속성을 변경하는 경우, 터미널에서 `vagrant reload --provision` 명령을 실행하여 가상 머신의 Nginx 구성을 업데이트해야 합니다.
 
-> {note} Homestead scripts are built to be as idempotent as possible. However, if you are experiencing issues while provisioning you should destroy and rebuild the machine by executing the `vagrant destroy && vagrant up` command.
+> **Warning**
+> Homestead scripts are built to be as idempotent as possible. However, if you are experiencing issues while provisioning you should destroy and rebuild the machine by executing the `vagrant destroy && vagrant up` command.
 
-> {note} 홈스테드 스크립트는 가능한 한 멱등성을 유지하도록 제작되었습니다. 그러나 프로비저닝하는 동안 문제가 발생하면 `vagrant destroy && vagrant up` 명령을 실행하여 시스템을 제거하고 다시 빌드해야 합니다.
+> **Warning**
+> 홈스테드 스크립트는 가능한 한 멱등성을 유지하도록 제작되었습니다. 그러나 프로비저닝하는 동안 문제가 발생하면 `vagrant destroy && vagrant up` 명령을 실행하여 시스템을 제거하고 다시 빌드해야 합니다.
 
 <a name="hostname-resolution"></a>
 #### Hostname Resolution
@@ -416,7 +427,6 @@ features:
     - chronograf: true
     - couchdb: true
     - crystal: true
-    - docker: true
     - elasticsearch:
         version: 7.9.0
     - eventstore: true
@@ -587,7 +597,8 @@ sites:
       to: /home/vagrant/project2/public
 ```
 
-> {note} You should ensure that you have configured a [folder mapping](#configuring-shared-folders) for the project's directory before adding the site.
+> **Warning**
+> You should ensure that you have configured a [folder mapping](#configuring-shared-folders) for the project's directory before adding the site.
 
 > {참고} 사이트를 추가하기 전에 프로젝트 디렉토리에 대한 [폴더 매핑](#configuring-shared-folders)을 설정했는지 확인해야 합니다.
 
@@ -751,9 +762,11 @@ A `homestead` database is configured for both MySQL and PostgreSQL out of the bo
 
 `homestead` 데이터베이스는 기본적으로 MySQL과 PostgreSQL 모두 생성됩니다. 호스트 머신의 데이터베이스 클라이언트에서 MySQL 또는 PostgreSQL 데이터베이스에 연결하려면 `127.0.0.1`에서 포트 `33060`(MySQL) 또는 `54320`(PostgreSQL)에 연결해야 합니다. 두 데이터베이스의 사용자 이름과 비밀번호는 `homestead` / `secret`입니다.
 
-> {note} You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel application's `database` configuration file since Laravel is running _within_ the virtual machine.
+> **Warning**
+> You should only use these non-standard ports when connecting to the databases from your host machine. You will use the default 3306 and 5432 ports in your Laravel application's `database` configuration file since Laravel is running _within_ the virtual machine.
 
-> {note} 호스트 머신에서 데이터베이스에 연결할 때 이러한 비표준 포트만 사용해야 합니다. 라라벨은 가상 머신 _내에서_ 실행 중이므로 라라벨 애플리케이션의 `database` 설정 파일에서는 기본 3306 및 5432 포트를 사용합니다.
+> **Warning**
+> 호스트 머신에서 데이터베이스에 연결할 때 이러한 비표준 포트만 사용해야 합니다. 라라벨은 가상 머신 _내에서_ 실행 중이므로 라라벨 애플리케이션의 `database` 설정 파일에서는 기본 3306 및 5432 포트를 사용합니다.
 
 <a name="database-backups"></a>
 ### Database Backups
@@ -765,7 +778,7 @@ Homestead can automatically backup your database when your Homestead virtual mac
 
     backup: true
 
-Once configured, Homestead will export your databases to `mysql_backup` and `postgres_backup` directories when the `vagrant destroy` command is executed. These directories can be found in the folder where you installed Homestead or in the root of your project if you are using the [per project installation](#per-project-installation) method.
+Once configured, Homestead will export your databases to `.backup/mysql_backup` and `.backup/postgres_backup` directories when the `vagrant destroy` command is executed. These directories can be found in the folder where you installed Homestead or in the root of your project if you are using the [per project installation](#per-project-installation) method.
 
 일단 구성되면 홈스테드는 `vagrant destroy` 명령이 실행될 때 데이터베이스를 `mysql_backup` 및 `postgres_backup` 디렉토리로 내보냅니다. 이 디렉토리는 홈스테드를 설치한 폴더 또는 [프로젝트별 설치](#per-project-installation)를 사용하는 경우 프로젝트의 루트에서 찾을 수 있습니다.
 
@@ -909,9 +922,11 @@ After running the command, you will see an Ngrok screen appear which contains th
 share homestead.test -region=eu -subdomain=laravel
 ```
 
-> {note} Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
+> **Warning**
+> Remember, Vagrant is inherently insecure and you are exposing your virtual machine to the Internet when running the `share` command.
 
-> {note} Vagrant는 본질적으로 안전하지 않으며 `share` 명령을 실행할 때 가상 머신을 인터넷에 노출시킵니다.
+> **Warning**
+> Vagrant는 본질적으로 안전하지 않으며 `share` 명령을 실행할 때 가상 머신을 인터넷에 노출시킵니다.
 
 <a name="debugging-and-profiling"></a>
 ## Debugging & Profiling
@@ -929,9 +944,11 @@ By default, Xdebug is already running and ready to accept connections. If you ne
 
 기본적으로 Xdebug는 이미 실행 중이며 연결을 수락할 준비가 되어 있습니다. CLI에서 Xdebug를 활성화해야 하는 경우 홈스테드 가상 머신 내에서 `sudo phpenmod xdebug` 명령을 실행합니다. 그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 확장 프로그램 또는 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/) 으로 Xdebug를 실행하도록 브라우저를 구성합니다.
 
-> {note} Xdebug causes PHP to run significantly slower. To disable Xdebug, run `sudo phpdismod xdebug` within your Homestead virtual machine and restart the FPM service.
+> **Warning**
+> Xdebug causes PHP to run significantly slower. To disable Xdebug, run `sudo phpdismod xdebug` within your Homestead virtual machine and restart the FPM service.
 
-> {note} Xdebug로 인해 PHP가 상당히 느리게 실행됩니다. Xdebug를 비활성화하려면 홈스테드 가상 머신 내에서 `sudo phpdismod xdebug`를 실행하고 FPM 서비스를 다시 시작하십시오.
+> **Warning**
+> Xdebug로 인해 PHP가 상당히 느리게 실행됩니다. Xdebug를 비활성화하려면 홈스테드 가상 머신 내에서 `sudo phpdismod xdebug`를 실행하고 FPM 서비스를 다시 시작하십시오.
 
 <a name="autostarting-xdebug"></a>
 #### Autostarting Xdebug
@@ -943,8 +960,9 @@ When debugging functional tests that make requests to the web server, it is easi
 
 ```ini
 ; If Homestead.yaml contains a different subnet for the IP address, this address may be different...
-xdebug.remote_host = 192.168.10.1
-xdebug.remote_autostart = 1
+xdebug.client_host = 192.168.10.1
+xdebug.mode = debug
+xdebug.start_with_request = yes
 ```
 
 <a name="debugging-cli-applications"></a>
@@ -984,7 +1002,7 @@ features:
 
 Blackfire server credentials and client credentials [require a Blackfire account](https://blackfire.io/signup). Blackfire offers various options to profile an application, including a CLI tool and browser extension. Please [review the Blackfire documentation for more details](https://blackfire.io/docs/cookbooks/index).
 
-Blackfire 서버 자격 증명 및 클라이언트 자격 증명은 [Blackfire 계정이 필요합니다](https://blackfire.io/signup). Blackfire는 CLI 도구 및 브라우저 확장을 포함하여 애플리케이션을 프로파일링하는 다양한 옵션을 제공합니다. [자세한 내용은 Blackfire 문서](https://blackfire.io/docs/cookbooks/index) 를 참조하세요.
+Blackfire 서버 자격 증명 및 클라이언트 자격 증명은 [Blackfire 계정이 필요합니다](https://blackfire.io/signup). Blackfire는 CLI 도구 및 브라우저 확장을 포함하여 애플리케이션을 프로파일링하는 다양한 옵션을 제공합니다. [자세한 내용은 Blackfire 문서](https://blackfire.io/docs/php/integrations/laravel/index) 를 참조하세요.
 
 <a name="network-interfaces"></a>
 ## Network Interfaces

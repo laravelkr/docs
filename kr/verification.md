@@ -30,9 +30,11 @@ Many web applications require users to verify their email addresses before using
 
 많은 웹 애플리케이션들이 사용자에게 사용 전 이메일 검증을 요구합니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현할 수 있도록 편리한 방법을 제공합니다.
 
-> {tip} Want to get started fast? Install one of the [Laravel application starter kits](/docs/{{version}}/starter-kits) in a fresh Laravel application. The starter kits will take care of scaffolding your entire authentication system, including email verification support.
+> **Note**
+> Want to get started fast? Install one of the [Laravel application starter kits](/docs/{{version}}/starter-kits) in a fresh Laravel application. The starter kits will take care of scaffolding your entire authentication system, including email verification support.
 
-> {tip} 빠르게 적용하고 싶으신가요? 새로운 라라벨 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 검증과 여러 지원을 포함하여 인증 시스템 전체를 스캐 폴딩합니다!
+> **Note**
+> 빠르게 적용하고 싶으신가요? 새로운 라라벨 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 검증과 여러 지원을 포함하여 인증 시스템 전체를 스캐 폴딩합니다!
 
 <a name="model-preparation"></a>
 ## Model Preparation
@@ -109,9 +111,11 @@ As mentioned previously, a route should be defined that will return a view instr
         return view('auth.verify-email');
     })->middleware('auth')->name('verification.notice');
 
-> {tip} When manually implementing email verification, you are required to define the contents of the verification notice view yourself. If you would like scaffolding that includes all necessary authentication and verification views, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
+> **Note**
+> When manually implementing email verification, you are required to define the contents of the verification notice view yourself. If you would like scaffolding that includes all necessary authentication and verification views, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 
-> {tip} 이메일 검증을 수동으로 구현할 때 이메일 검증 링크 확인을 요청하는 뷰는 여러분이 직접 정의 해야 합니다. 필요한 모든 검증 및 검증 요청 뷰가 포함 된 스캐폴딩을 원하신다면 [Laravel application starter kits](/docs/{{version}}/starter-kits)를 확인하십시오.
+> **Note**
+> 이메일 검증을 수동으로 구현할 때 이메일 검증 링크 확인을 요청하는 뷰는 여러분이 직접 정의 해야 합니다. 필요한 모든 검증 및 검증 요청 뷰가 포함 된 스캐폴딩을 원하신다면 [Laravel application starter kits](/docs/{{version}}/starter-kits)를 확인하십시오.
 
 <a name="the-email-verification-handler"></a>
 ### The Email Verification Handler
@@ -157,13 +161,13 @@ Sometimes a user may misplace or accidentally delete the email address verificat
 ### Protecting Routes
 ### 라우트 보호하기
 
-[Route middleware](/docs/{{version}}/middleware) may be used to only allow verified users to access a given route. Laravel ships with a `verified` middleware, which references the `Illuminate\Auth\Middleware\EnsureEmailIsVerified` class. Since this middleware is already registered in your application's HTTP kernel, all you need to do is attach the middleware to a route definition:
+[Route middleware](/docs/{{version}}/middleware) may be used to only allow verified users to access a given route. Laravel ships with a `verified` middleware, which references the `Illuminate\Auth\Middleware\EnsureEmailIsVerified` class. Since this middleware is already registered in your application's HTTP kernel, all you need to do is attach the middleware to a route definition. Typically, this middleware is paired with the `auth` middleware:
 
-[Route middleware](/docs/{{version}}/middleware)는 이메일이 검증된 사용자만 주어진 라우터에 접근할 수 있게 허용합니다. 라라벨은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified`에 정의되어 있습니다. 이 미들웨어는 이미 애플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다.
+[Route middleware](/docs/{{version}}/middleware)는 이메일이 검증된 사용자만 주어진 라우터에 접근할 수 있게 허용합니다. 라라벨은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified`에 정의되어 있습니다. 이 미들웨어는 이미 애플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다. 일반적으로 이 미들웨어는 `auth` 미들웨어와 쌍을 이룹니다.
 
     Route::get('/profile', function () {
         // Only verified users may access this route...
-    })->middleware('verified');
+    })->middleware(['auth', 'verified']);
 
 <a name="customization"></a>
 ## Customization
@@ -202,9 +206,11 @@ To get started, pass a closure to the `toMailUsing` method provided by the `Illu
         });
     }
 
-> {tip} To learn more about mail notifications, please consult the [mail notification documentation](/docs/{{version}}/notifications#mail-notifications).
+> **Note**
+> To learn more about mail notifications, please consult the [mail notification documentation](/docs/{{version}}/notifications#mail-notifications).
 
-> {tip} 메일 알림에 대한 자세한 내용은 [mail notification documentation](/docs/{{version}}/notifications#mail-notifications)에서 참조하세요.
+> **Note**
+> 메일 알림에 대한 자세한 내용은 [mail notification documentation](/docs/{{version}}/notifications#mail-notifications)에서 참조하세요.
 
 <a name="events"></a>
 ## Events
@@ -214,13 +220,16 @@ When using the [Laravel application starter kits](/docs/{{version}}/starter-kits
 
 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 사용할 때 라라벨은 이메일 검증 과정에서 [이벤트](/docs/{{version}}/events)를 전달합니다. 여러분의 애플리케이션에 대한 이메일 검증을 수동으로 처리하는 경우, 이메일 검증 완료 이벤트를 수동으로 전달할 수 있습니다. 여러분 애플리케이션의 `EventServiceProvider`에서 이벤트에 리스너를 연결할 수 있습니다.
 
-    /*
+    use App\Listeners\LogVerifiedUser;
+    use Illuminate\Auth\Events\Verified;
+    
+    /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\LogVerifiedUser',
+        Verified::class => [
+            LogVerifiedUser::class,
         ],
     ];

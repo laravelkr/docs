@@ -24,9 +24,9 @@
 ## Bug Reports
 ## 버그 리포트
 
-To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
+To encourage active collaboration, Laravel strongly encourages pull requests, not just bug reports. Pull requests will only be reviewed when marked as "ready for review" (not in the "draft" state) and all tests for new features are passing. Lingering, non-active pull requests left in the "draft" state will be closed after a few days.
 
-활발한 협력을 장려하기 위해, 라라벨은 버그 리포트가 아니라 PR을 권장하고 있습니다. "버그 리포트"는 문제가 있는 테스트를 포함한 PR로 보내져야 합니다.
+활발한 협력을 장려하기 위해, 라라벨은 버그 리포트가 아니라 PR을 권장하고 있습니다. PR은 "ready for review" ("draft" 상태가 아닌)로 표시되고 새로운 기능에 대한 모든 테스트가 통과되어야만 리뷰될 것입니다. "draft" 상태로 남아있는 비활성화된 PR은 며칠 후에 닫힙니다.
 
 However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible and a code sample that demonstrates the issue. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 
@@ -66,6 +66,7 @@ The Laravel source code is managed on GitHub, and there are repositories for eac
 - [Laravel Jetstream](https://github.com/laravel/jetstream)
 - [Laravel 제트스트림(Jetstream)](https://github.com/laravel/jetstream)
 - [Laravel Passport](https://github.com/laravel/passport)
+- [Laravel Pint](https://github.com/laravel/pint)
 - [Laravel Sanctum](https://github.com/laravel/sanctum)
 - [라라벨 생텀(Sanctum)](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)
@@ -116,9 +117,9 @@ Informal discussion regarding bugs, new features, and implementation of existing
 ## Which Branch?
 ## 브랜치 선택
 
-**All** bug fixes should be sent to the latest version that supports bug fixes (currently `8.x`). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**All** bug fixes should be sent to the latest version that supports bug fixes (currently `9.x`). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
 
-**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 8.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
+**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 9.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
 **Minor** features that are **fully backward compatible** with the current release may be sent to the latest stable branch (currently `9.x`).
 

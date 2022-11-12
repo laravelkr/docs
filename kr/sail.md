@@ -7,8 +7,8 @@
 - [설치 & 설정](#installation)
     - [Installing Sail Into Existing Applications](#installing-sail-into-existing-applications)
     - [기존 어플리케이션에 Sail 설치하기](#installing-sail-into-existing-applications)
-    - [Configuring A Bash Alias](#configuring-a-bash-alias)
-    - [Bash Alias 설정](#configuring-a-bash-alias)
+    - [Configuring A Shell Alias](#configuring-a-bash-alias)
+    - [Shell Alias 설정](#configuring-a-bash-alias)
 - [Starting & Stopping Sail](#starting-and-stopping-sail)
 - [Sail 시작 & 정지](#starting-and-stopping-sail)
 - [Executing Commands](#executing-sail-commands)
@@ -124,8 +124,8 @@ php artisan sail:install --devcontainer
 ```
 
 <a name="configuring-a-bash-alias"></a>
-### Configuring A Bash Alias
-### Bash Alias 설정
+### Configuring A Shell Alias
+### Shell Alias 설정
 
 By default, Sail commands are invoked using the `vendor/bin/sail` script that is included with all new Laravel applications:
 
@@ -135,17 +135,21 @@ By default, Sail commands are invoked using the `vendor/bin/sail` script that is
 ./vendor/bin/sail up
 ```
 
-However, instead of repeatedly typing `vendor/bin/sail` to execute Sail commands, you may wish to configure a Bash alias that allows you to execute Sail's commands more easily:
+However, instead of repeatedly typing `vendor/bin/sail` to execute Sail commands, you may wish to configure a shell alias that allows you to execute Sail's commands more easily:
 
-`vendor/bin/sail` 을 직접 타이핑해서 Sail 명령어를 실행하기 보다, Bash alias 를 설정하여 Sail 의 명령어를 더 쉽게 사용할 수 있습니다.
+`vendor/bin/sail` 을 직접 타이핑해서 Sail 명령어를 실행하기 보다, Shell alias 를 설정하여 Sail 의 명령어를 더 쉽게 사용할 수 있습니다.
 
 ```shell
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
-Once the Bash alias has been configured, you may execute Sail commands by simply typing `sail`. The remainder of this documentation's examples will assume that you have configured this alias:
+To make sure this is always available, you may add this to your shell configuration file in your home directory, such as `~/.zshrc` or `~/.bashrc`, and then restart your shell.
 
-Bash alias가 구성되면 `sail`을 입력하여 Sail 명령을 실행할 수 있습니다. 이 문서의 나머지 예에서는 이 alias를 구성한 것으로 가정합니다.
+이게 항상 가능하게 하려면 `~/.zshrc` 나 `~/.bashrc` 같은 홈디렉토리 내의 쉘 구성 파일에 이걸 추가하고 쉘을 재시작하세요.
+
+Once the shell alias has been configured, you may execute Sail commands by simply typing `sail`. The remainder of this documentation's examples will assume that you have configured this alias:
+
+shell alias가 구성되면 `sail`을 입력하여 Sail 명령을 실행할 수 있습니다. 이 문서의 나머지 예에서는 이 alias를 구성한 것으로 가정합니다.
 
 ```shell
 sail up
@@ -280,7 +284,7 @@ Node 명령은 `node`, NPM 명령은 `npm` 명령어로 실행 할 수 있습니
 ```shell
 sail node --version
 
-sail npm run prod
+sail npm run dev
 ```
 
 If you wish, you may use Yarn instead of NPM:
@@ -299,9 +303,13 @@ sail yarn
 ### MySQL
 ### MySQL
 
-As you may have noticed, your application's `docker-compose.yml` file contains an entry for a MySQL container. This container uses a [Docker volume](https://docs.docker.com/storage/volumes/) so that the data stored in your database is persisted even when stopping and restarting your containers. In addition, when the MySQL container is starting, it will ensure a database exists whose name matches the value of your `DB_DATABASE` environment variable.
+As you may have noticed, your application's `docker-compose.yml` file contains an entry for a MySQL container. This container uses a [Docker volume](https://docs.docker.com/storage/volumes/) so that the data stored in your database is persisted even when stopping and restarting your containers.
 
-어플리케이션의 `docker-compose.yml` 파일에는 MySQL 컨테이너에 대한 항목이 포함되어 있습니다. 이 컨테이너는 [Docker volume](https://docs.docker.com/storage/volumes/)을 사용하여 컨테이너를 중지하고 재시작할 때에도 데이터베이스에 저장된 데이터가 유지됩니다. 또한 MySQL 컨테이너가 시작될 때 이름이 `DB_DATABASE` 환경 변수의 값과 일치하는 데이터베이스가 존재하는지 확인합니다.
+어플리케이션의 `docker-compose.yml` 파일에는 MySQL 컨테이너에 대한 항목이 포함되어 있습니다. 이 컨테이너는 [Docker volume](https://docs.docker.com/storage/volumes/)을 사용하여 컨테이너를 중지하고 재시작할 때에도 데이터베이스에 저장된 데이터가 유지됩니다. 
+
+In addition, the first time the MySQL container starts, it will create two databases for you. The first database is named using the value of your `DB_DATABASE` environment variable and is for your local development. The second is a dedicated testing database named `testing` and will ensure that your tests do not interfere with your development data.
+
+추가적으로, MySQL 컨테이너가 처음 시작될 때 두 개의 데이터베이스를 만듭니다. 하나는 `DB_DATABASE` 환경 변수의 값을 사용해 만드는 것으로 로컬 개발 환경에 쓰입니다. 두 번째는 `testing` 이라는 이름으로 만들어지며 테스트가 개발 데이터를 다루지 않도록 합니다.
 
 Once you have started your containers, you may connect to the MySQL instance within your application by setting your `DB_HOST` environment variable within your application's `.env` file to `mysql`.
 
@@ -357,6 +365,24 @@ AWS_ENDPOINT=http://minio:9000
 AWS_USE_PATH_STYLE_ENDPOINT=true
 ```
 
+In order for Laravel's Flysystem integration to generate proper URLs when using MinIO, you should define the `AWS_URL` environment variable so that it matches your application's local URL and includes the bucket name in the URL path:
+
+MinIO를 사용할 때 라라벨 파일시스템 통합이 적절한 URL을 생성하도록 하기 위해 `AWS_URL` 환경 변수를 정의해서 애플리케이션 로컬 URL이 일치하고 URL 경로에 버킷 이름을 포함할 수 있도록 해야 합니다. 
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+You may create buckets via the MinIO console, which is available at `http://localhost:8900`. The default username for the MinIO console is `sail` while the default password is `password`.
+
+MinIO 콘솔을 통해 `http://localhost:8900`에서 사용할 수 있는 버킷을 만들 수 있습니다. MinIO 콘솔의 기본 username은 `sail` 이고 비밀번호는 `password` 입니다.
+
+> **Warning**  
+> Generating temporary storage URLs via the `temporaryUrl` method is not supported when using MinIO.
+
+> **Warning**
+> MinIO를 사용할 때는 임시 스토리지 URL을 생성하는 `temporaryUrl` 메서드는 지원되지 않습니다.
+
 <a name="running-tests"></a>
 ## Running Tests
 ## 테스팅 하기
@@ -378,6 +404,14 @@ Sail 의 `test` 명령은 Artisan 의 `test` 명령을 실행하는것과 같습
 
 ```shell
 sail artisan test
+```
+
+By default, Sail will create a dedicated `testing` database so that your tests do not interfere with the current state of your database. In a default Laravel installation, Sail will also configure your `phpunit.xml` file to use this database when executing your tests:
+
+기본적으로 세일은 전용 `testing` 데이터베이스를 생성해서 테스트가 여러분 데이터베이스의 현재 상태에 간섭하지 않도록 합니다. 기본 라라벨 설치에서 세일은 테스트를 실행할 때 `testing` 데이터베이스를 사용하도록 `phpunit.xml` 파일도 수정합니다.
+
+```xml
+<env name="DB_DATABASE" value="testing"/>
 ```
 
 <a name="laravel-dusk"></a>
@@ -579,15 +613,15 @@ Laravel Sail's Docker configuration includes support for [Xdebug](https://xdebug
 Laravel Sail의 도커에는 인기 있고 강력한 PHP 디버거인 [Xdebug](https://xdebug.org/)을 지원합니다. Xdebug를 활성화하려면 응용 프로그램의 `.env` 파일에 [Xdebug 구성](https://xdebug.org/docs/step_debug#mode)에 몇 가지 변수를 추가해야 합니다. Xdebug를 활성화하려면 Sail을 시작하기 전에 적절한 모드를 설정해야 합니다
 
 ```ini
-SAIL_XDEBUG_MODE=develop,debug
+SAIL_XDEBUG_MODE=develop,debug,coverage
 ```
 
 #### Linux Host IP Configuration
 #### Linux 호스트 IP 설정
 
-Internally, the `XDEBUG_CONFIG` environment variable is defined as `client_host=host.docker.internal` so that Xdebug will be properly configured for Mac and Windows (WSL2). If your local machine is running Linux, you will need to manually define this environment variable.
+Internally, the `XDEBUG_CONFIG` environment variable is defined as `client_host=host.docker.internal` so that Xdebug will be properly configured for Mac and Windows (WSL2). If your local machine is running Linux, you should ensure that you are running Docker Engine 17.06.0+ and Compose 1.16.0+. Otherwise, you will need to manually define this environment variable as shown below.
 
-내부적으로 `XDEBUG_CONFIG` 환경 변수는 `client_host=host.docker.internal`로 정의되므로 XDEBUG가 Mac 및 Windows(WSL2) 용으로만 제대로 동작합니다. 로컬 개발환경이 Linux라면 이 환경 변수를 수동으로 정의해야 합니다.
+내부적으로 `XDEBUG_CONFIG` 환경 변수는 `client_host=host.docker.internal`로 정의되므로 XDEBUG가 Mac 및 Windows(WSL2) 용으로만 제대로 동작합니다. 로컬 개발환경이 Linux라면 도커 엔진 17.06.0+ 그리고 도커 컴포즈 1.16.0+ 이 실행중인지 확인해야 합니다. 그렇지 않다면 이 환경 변수를 아래와 같이 수동으로 정의해야 합니다.
 
 First, you should determine the correct host IP address to add to the environment variable by running the following command. Typically, the `<container-name>` should be the name of the container that serves your application and often ends with `_laravel.test_1`:
 

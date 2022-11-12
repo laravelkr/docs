@@ -77,9 +77,11 @@ If you would like to specify a custom path for the generated migration, you may 
 
 생성된 마이그레이션에 대한 사용자 지정 경로를 지정하려면 `make:migration` 명령을 실행할 때 `--path` 옵션을 사용할 수 있습니다. 주어진 경로는 애플리케이션의 기본 경로에 상대적이어야 합니다.
 
-> {tip} Migration stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
+> **Note**
+> Migration stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
-> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 통해서 마이그레이션 stubs을 커스트마이징 할 수 있습니다.
+> **Note**
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)를 통해서 마이그레이션 stubs을 커스트마이징 할 수 있습니다.
 
 <a name="squashing-migrations"></a>
 ### Squashing Migrations
@@ -96,17 +98,28 @@ php artisan schema:dump
 php artisan schema:dump --prune
 ```
 
-When you execute this command, Laravel will write a "schema" file to your application's `database/schema` directory. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute the schema file's SQL statements first. After executing the schema file's statements, Laravel will execute any remaining migrations that were not part of the schema dump.
+When you execute this command, Laravel will write a "schema" file to your application's `database/schema` directory. The schema file's name will correspond to the database connection. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute first the SQL statements of the schema file of the database connection you are using. After executing the schema file's statements, Laravel will execute any remaining migrations that were not part of the schema dump.
 
-이 명령을 실행하면 라라벨은 `database/schema` 폴더에 "schema" 파일을 작성합니다. 이제 데이터베이스 마이그레이션을 시도하고 다른 마이그레이션이 실행되지 않은 경우 라라벨은 스키마 파일의 SQL 문을 먼저 실행합니다. 스키마 파일의 명령문을 실행한 후 라라벨은 스키마 덤프의 일부가 아닌 나머지 마이그레이션을 실행합니다.
+이 명령을 실행하면 라라벨은 `database/schema` 폴더에 "schema" 파일을 작성합니다. 스키마 파일의 이름은 데이터베이스 커넥션에 따라 지어집니다. 이제 데이터베이스 마이그레이션을 시도하고 다른 마이그레이션이 실행되지 않은 경우 라라벨은 여러분이 사용하고자 하는 데이터베이스 커넥션의 스키마 파일의 SQL 문을 먼저 실행합니다. 스키마 파일의 명령문을 실행한 후 라라벨은 스키마 덤프의 일부가 아닌 나머지 마이그레이션을 실행합니다.
+
+If your application's tests use a different database connection than the one you typically use during local development, you should ensure you have a dumped a schema file using that database connection so that your tests are able to build your database. You may wish to do this after dumping the database connection you typically use during local development:
+
+애플리케이션의 테스트가 로컬 개발 중에 사용하는 것과 다른 데이터베이스 연결을 사용하는 경우 테스트에서 데이터베이스를 빌드할 수 있도록 해당 데이터베이스 연결을 사용하여 스키마 파일을 덤프했는지 확인해야 합니다. 로컬 개발 중에 일반적으로 사용하는 데이터베이스 연결을 덤프한 후 이 작업을 수행할 수 있습니다.
+
+```shell
+php artisan schema:dump
+php artisan schema:dump --database=testing --prune
+```
 
 You should commit your database schema file to source control so that other new developers on your team may quickly create your application's initial database structure.
 
 여러분은 팀의 다른 새로운 개발자가 애플리케이션의 초기 데이터베이스 구조를 빠르게 만들 수 있도록 데이터베이스 스키마 파일을 소스 컨트롤에 커밋해야 합니다.
 
-> {note} Migration squashing is only available for the MySQL, PostgreSQL, and SQLite databases and utilizes the database's command-line client. Schema dumps may not be restored to in-memory SQLite databases.
+> **Warning**
+> Migration squashing is only available for the MySQL, PostgreSQL, and SQLite databases and utilizes the database's command-line client. Schema dumps may not be restored to in-memory SQLite databases.
 
-> {note} 마이그레이션 스쿼싱은 MySQL, PostgreSQL 및 SQLite 데이터베이스에서만 사용할 수 있으며 데이터베이스의 명령줄 클라이언트를 활용합니다. 스키마 덤프는 메모리 내 SQLite 데이터베이스로 복원되지 않을 수 있습니다.
+> **Warning**
+> 마이그레이션 스쿼싱은 MySQL, PostgreSQL 및 SQLite 데이터베이스에서만 사용할 수 있으며 데이터베이스의 명령줄 클라이언트를 활용합니다. 스키마 덤프는 메모리 내 SQLite 데이터베이스로 복원되지 않을 수 있습니다.
 
 <a name="migration-structure"></a>
 ## Migration Structure
@@ -154,23 +167,6 @@ Within both of these methods, you may use the Laravel schema builder to expressi
         }
     };
 
-<a name="anonymous-migrations"></a>
-#### Anonymous Migrations
-#### 익명 마이그레이션
-
-As you may have noticed in the example above, Laravel will automatically assign a class name to all of the migrations that you generate using the `make:migration` command. However, if you wish, you may return an anonymous class from your migration file. This is primarily useful if your application accumulates many migrations and two of them have a class name collision:
-
-위의 예에서 알 수 있듯이 라라벨은 `make:migration` 명령을 사용하여 생성하는 모든 마이그레이션에 클래스 이름을 자동으로 할당합니다. 그러나 원하는 경우 마이그레이션 파일에서 익명 클래스를 반환할 수 있습니다. 이는 애플리케이션이 많은 마이그레이션을 쌓여있을때 그 중 두 개에 클래스 이름 충돌이 있는 경우에 주로 유용합니다.
-
-    <?php
-
-    use Illuminate\Database\Migrations\Migration;
-
-    return new class extends Migration
-    {
-        //
-    };
-
 <a name="setting-the-migration-connection"></a>
 #### Setting The Migration Connection
 #### 마이그레이션 연결 설정
@@ -215,6 +211,34 @@ If you would like to see which migrations have run thus far, you may use the `mi
 ```shell
 php artisan migrate:status
 ```
+
+If you would like to see the SQL statements that will be executed by the migrations without actually running them, you may provide the `--pretend` flag to the `migrate` command:
+
+실제로 실행하진 않으면서 마이그레이션 수행시 사용될 SQL 구문을 보고 싶으면 마이그레이션 명령에 `--pretend` 플래그를 붙이면 됩니다.
+
+```shell
+php artisan migrate --pretend
+```
+
+#### Isolating Migration Execution
+#### 마이그레이션 실행 격리 
+
+If you are deploying your application across multiple servers and running migrations as part of your deployment process, you likely do not want two servers attempting to migrate the database at the same time. To avoid this, you may use the `isolated` option when invoking the `migrate` command.
+
+만일 여러분이 여러 서버에 걸쳐 애플리케이션을 배포하고 마이그레이션이 배포 프로세스에 포함되어 있다면 두 서버가 동시에 마이그레이션을 하려고 시도하는 것을 원하지 않을 것입니다. 이러한 일을 피하려면 `migrate` 명령을 실행할 때 `isolated` 옵션을 사용하면 됩니다.
+
+When the `isolated` option is provided, Laravel will acquire an atomic lock using your application's cache driver before attempting to run your migrations. All other attempts to run the `migrate` command while that lock is held will not execute; however, the command will still exit with a successful exit status code:
+
+`isolated` 옵션을 사용하면 라라벨은 마이그레이션을 시도하기 전에 애플리케이션의 캐시 드라이버를 사용해 원자적 잠금을 획득합니다. 잠금이 유지되는 동안 다른 `migrate` 실행 시도는 실행되지 않고 성공 종료 상태 코드를 표시하며 종료될 것입니다.
+
+```shell
+php artisan migrate --isolated
+```
+
+> **Warning**
+> To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+ 
+이 기능을 사용하려면 애플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, `array` 캐시 드라이버를 기본 캐시 드라이버로 사용해야 합니다. 그리고 모든 서버가 같은 중앙 캐시 서버와 통신해야 합니다.  
 
 <a name="forcing-migrations-to-run-in-production"></a>
 #### Forcing Migrations To Run In Production
@@ -293,9 +317,11 @@ php artisan migrate:fresh
 php artisan migrate:fresh --seed
 ```
 
-> {note} The `migrate:fresh` command will drop all database tables regardless of their prefix. This command should be used with caution when developing on a database that is shared with other applications.
+> **Warning**
+> The `migrate:fresh` command will drop all database tables regardless of their prefix. This command should be used with caution when developing on a database that is shared with other applications.
 
-> {note} `migrate:fresh` 명령은 접두어에 관계없이 모든 데이터베이스 테이블을 삭제합니다. 이 명령은 다른 응용 프로그램과 공유되는 데이터베이스에서 개발할 때 주의해서 사용해야 합니다.
+> **Warning**
+> `migrate:fresh` 명령은 접두어에 관계없이 모든 데이터베이스 테이블을 삭제합니다. 이 명령은 다른 응용 프로그램과 공유되는 데이터베이스에서 개발할 때 주의해서 사용해야 합니다.
 
 <a name="tables"></a>
 ## Tables
@@ -378,6 +404,16 @@ The `temporary` method may be used to indicate that the table should be "tempora
 
     Schema::create('calculations', function (Blueprint $table) {
         $table->temporary();
+
+        // ...
+    });
+
+If you would like to add a "comment" to a database table, you may invoke the `comment` method on the table instance. Table comments are currently only supported by MySQL and Postgres:
+
+데이터베이스 테이블에 "커맨트"를 추가하고 싶으면 테이블 인스턴스에서 `comment` 메서드를 실행하면 됩니다. 테이블 커맨트는 현재 MySQL과 Postgres 만 지원합니다.
+
+    Schema::create('calculations', function (Blueprint $table) {
+        $table->comment('Business calculations');
 
         // ...
     });
@@ -486,6 +522,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [float](#column-method-float)
 [foreignId](#column-method-foreignId)
 [foreignIdFor](#column-method-foreignIdFor)
+[foreignUlid](#column-method-foreignUlid)
 [foreignUuid](#column-method-foreignUuid)
 [geometryCollection](#column-method-geometryCollection)
 [geometry](#column-method-geometry)
@@ -534,6 +571,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
 [unsignedTinyInteger](#column-method-unsignedTinyInteger)
 [uuidMorphs](#column-method-uuidMorphs)
+[ulid](#column-method-ulid)
 [uuid](#column-method-uuid)
 [year](#column-method-year)
 </div>
@@ -663,6 +701,15 @@ The `foreignIdFor` method adds a `{column}_id UNSIGNED BIGINT` equivalent column
 `foreignIdFor` 메소드는 주어진 모델 클래스에 대해 `{column}_id UNSIGNED BIGINT`에 해당하는 컬럼을 추가합니다.
 
     $table->foreignIdFor(User::class);
+
+<a name="column-method-foreignUlid"></a>
+#### `foreignUlid()` {.collection-method}
+
+The `foreignUlid` method creates a `ULID` equivalent column:
+
+`foreignUlid` 메서드는 `ULID`에 해당하는 컬럼을 생성합니다.
+
+    $table->foreignUlid('user_id');
 
 <a name="column-method-foreignUuid"></a>
 #### `foreignUuid()` {.collection-method}
@@ -1101,6 +1148,15 @@ This method is intended to be used when defining the columns necessary for a pol
 
     $table->uuidMorphs('taggable');
 
+<a name="column-method-ulid"></a>
+#### `ulid()` {.collection-method}
+
+The `ulid` method creates a `ULID` equivalent column:
+
+`ulid` 메소드는 `ULID`에 해당하는 컬럼을 생성합니다.
+
+    $table->ulid('id');
+
 <a name="column-method-uuid"></a>
 #### `uuid()` {.collection-method}
 
@@ -1211,9 +1267,12 @@ The `default` modifier accepts a value or an `Illuminate\Database\Query\Expressi
         }
     };
 
-> {note} Support for default expressions depends on your database driver, database version, and the field type. Please refer to your database's documentation.
+> **Warning**
+> Support for default expressions depends on your database driver, database version, and the field type. Please refer to your database's documentation. In addition, it is not possible to combine raw `default` expressions (using `DB::raw`) with column changes via the `change` method.
 
-> {note} 기본 표현식 지원은 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 데이터베이스의 설명서를 참조하십시오.
+
+> **Warning**
+> 기본 표현식 지원은 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 데이터베이스의 설명서를 참조하십시오. 추가적으로 `default` 표현식(`DB::raw`를 사용하는)은 `change` 메서드를 통해 변경되는 컬럼과 합쳐질 수 없습니다.
 
 <a name="column-order"></a>
 #### Column Order
@@ -1257,9 +1316,11 @@ use Illuminate\Database\DBAL\TimestampType;
 ],
 ```
 
-> {note} If your application is using Microsoft SQL Server, please ensure that you install `doctrine/dbal:^3.0`.
+> **Warning**
+> If your application is using Microsoft SQL Server, please ensure that you install `doctrine/dbal:^3.0`.
 
-> {참고} 응용 프로그램이 Microsoft SQL Server를 사용하는 경우 `doctrine/dbal:^3.0`을 설치해야 합니다.
+> **Warning**
+> 응용 프로그램이 Microsoft SQL Server를 사용하는 경우 `doctrine/dbal:^3.0`을 설치해야 합니다.
 
 <a name="updating-column-attributes"></a>
 #### Updating Column Attributes
@@ -1281,9 +1342,11 @@ We could also modify a column to be nullable:
         $table->string('name', 50)->nullable()->change();
     });
 
-> {note} The following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, and `uuid`.  To modify a `timestamp` column type a [Doctrine type must be registered](#prerequisites).
+> **Warning**
+> The following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, and `uuid`.  To modify a `timestamp` column type a [Doctrine type must be registered](#prerequisites).
 
-> {note} 수정할 수 있는 컬럼 유형은 `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `integer`, `json`, `longText입니다. `, `mediumText`, `smallInteger`, `string`, `text`, `time`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger` 및 `uuid`. `timestamp` 컬럼 유형을 수정하려면 [Doctrine 타입 등록 필요](#prerequisites).
+> **Warning**
+> 수정할 수 있는 컬럼 유형은 `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText입니다. `, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger` 및 `uuid`. `timestamp` 컬럼 유형을 수정하려면 [Doctrine 타입 등록 필요](#prerequisites).
 
 <a name="renaming-columns"></a>
 #### Renaming Columns
@@ -1295,9 +1358,11 @@ We could also modify a column to be nullable:
         $table->renameColumn('from', 'to');
     });
 
-> {note} Renaming an `enum` column is not currently supported.
+> **Warning**
+> Renaming an `enum` column is not currently supported.
 
-> {note} `enum` 컬럼의 이름을 바꾸는 것은 현재 지원되지 않습니다.
+> **Warning**
+> `enum` 컬럼의 이름을 바꾸는 것은 현재 지원되지 않습니다.
 
 <a name="dropping-columns"></a>
 ### Dropping Columns
@@ -1318,9 +1383,11 @@ You may drop multiple columns from a table by passing an array of column names t
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> {note} Dropping or modifying multiple columns within a single migration while using an SQLite database is not supported.
+> **Warning**
+> Dropping or modifying multiple columns within a single migration while using an SQLite database is not supported.
 
-> {note} SQLite 데이터베이스를 사용하는 동안 단일 마이그레이션 내에서 여러 컬럼을 삭제하거나 수정하는 것은 지원되지 않습니다.
+> **Warning**
+> SQLite 데이터베이스를 사용하는 동안 단일 마이그레이션 내에서 여러 컬럼을 삭제하거나 수정하는 것은 지원되지 않습니다.
 
 <a name="available-command-aliases"></a>
 #### Available Command Aliases
@@ -1461,6 +1528,7 @@ Command  |  Description
 `$table->dropPrimary('users_id_primary');`  |  Drop a primary key from the "users" table.
 `$table->dropUnique('users_email_unique');`  |  Drop a unique index from the "users" table.
 `$table->dropIndex('geo_state_index');`  |  Drop a basic index from the "geo" table.
+`$table->dropFullText('posts_body_fulltext');`  |  Drop a full text index from the "posts" table.
 `$table->dropSpatialIndex('geo_location_spatialindex');`  |  Drop a spatial index from the "geo" table  (except SQLite).
 
 명령어  |  설명
@@ -1468,6 +1536,7 @@ Command  |  Description
 `$table->dropPrimary('users_id_primary');`  |  "users" 테이블에서 프라이머리 키 지우기.
 `$table->dropUnique('users_email_unique');`  |  "users" 테이블에서 유니크 인덱스 지우기.
 `$table->dropIndex('geo_state_index');`  |  "geo" 테이블에서 기본적인 인덱스 지우기.
+`$table->dropFullText('posts_body_fulltext');`  |  "posts" 테이블에서 풀 텍스트 인덱스 지우기.
 `$table->dropSpatialIndex('geo_location_spatialindex');`  |  "geo" 테이블에서 공간(spatial) 인덱스 지우기(SQLite 제외).
 
 If you pass an array of columns into a method that drops indexes, the conventional index name will be generated based on the table name, columns, and index type:
@@ -1576,9 +1645,11 @@ You may enable or disable foreign key constraints within your migrations by usin
 
     Schema::disableForeignKeyConstraints();
 
-> {note} SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).
+> **Warning**
+> SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).
 
-> {note} SQLite는 기본적으로 외래 키 제약 조건을 비활성화합니다. SQLite를 사용하는 경우 마이그레이션에서 생성을 시도하기 전에 데이터베이스 구성에서 [외래 키 지원 활성화](/docs/{{version}}/database#configuration)를 확인하십시오. 또한 SQLite는 테이블 생성 시에만 외래 키를 지원하며 [테이블이 변경되는 경우는 지원하지 않음](https://www.sqlite.org/omitted.html).
+> **Warning**
+> SQLite는 기본적으로 외래 키 제약 조건을 비활성화합니다. SQLite를 사용하는 경우 마이그레이션에서 생성을 시도하기 전에 데이터베이스 구성에서 [외래 키 지원 활성화](/docs/{{version}}/database#configuration)를 확인하십시오. 또한 SQLite는 테이블 생성 시에만 외래 키를 지원하며 [테이블이 변경되는 경우는 지원하지 않음](https://www.sqlite.org/omitted.html).
 
 <a name="events"></a>
 ## Events

@@ -87,9 +87,11 @@ php artisan make:test UserTest --pest
 php artisan make:test UserTest --unit --pest
 ```
 
-> {tip} Test stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
+> **Note**
+> Test stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
-> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
+> **Note**
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
 
 Once the test has been generated, you may define test methods as you normally would using [PHPUnit](https://phpunit.de). To run your tests, execute the `vendor/bin/phpunit` or `php artisan test` command from your terminal:
 
@@ -114,9 +116,11 @@ Once the test has been generated, you may define test methods as you normally wo
         }
     }
 
-> {note} If you define your own `setUp` / `tearDown` methods within a test class, be sure to call the respective `parent::setUp()` / `parent::tearDown()` methods on the parent class.
+> **Warning**
+> If you define your own `setUp` / `tearDown` methods within a test class, be sure to call the respective `parent::setUp()` / `parent::tearDown()` methods on the parent class.
 
-> {참고} 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
+> **Warning**
+> 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
 
 <a name="running-tests"></a>
 ## Running Tests
@@ -166,17 +170,19 @@ By default, Laravel will create as many processes as there are available CPU cor
 php artisan test --parallel --processes=4
 ```
 
-> {note} When running tests in parallel, some PHPUnit options (such as `--do-not-cache-result`) may not be available.
+> **Warning**
+> When running tests in parallel, some PHPUnit options (such as `--do-not-cache-result`) may not be available.
 
-> {참고} 테스트를 병렬로 실행할 때 일부 PHPUnit 옵션(예: `--do-not-cache-result`)을 사용하지 못할 수 있습니다.
+> **Warning**
+> 테스트를 병렬로 실행할 때 일부 PHPUnit 옵션(예: `--do-not-cache-result`)을 사용하지 못할 수 있습니다.
 
 <a name="parallel-testing-and-databases"></a>
 #### Parallel Testing & Databases
 #### 병렬 테스트 및 데이터베이스
 
-Laravel automatically handles creating and migrating a test database for each parallel process that is running your tests. The test databases will be suffixed with a process token which is unique per process. For example, if you have two parallel test processes, Laravel will create and use `your_db_test_1` and `your_db_test_2` test databases.
+As long as you have configured a primary database connection, Laravel automatically handles creating and migrating a test database for each parallel process that is running your tests. The test databases will be suffixed with a process token which is unique per process. For example, if you have two parallel test processes, Laravel will create and use `your_db_test_1` and `your_db_test_2` test databases.
 
-라라벨은 테스트를 실행하는 각 병렬 프로세스에 대한 테스트 데이터베이스 생성 및 마이그레이션을 자동으로 처리합니다. 테스트 데이터베이스에는 프로세스마다 고유한 프로세스 토큰이 접미사로 붙습니다. 예를 들어 두 개의 병렬 테스트 프로세스가 있는 경우 라라벨은 `your_db_test_1` 및 `your_db_test_2` 테스트 데이터베이스를 만들고 사용합니다.
+기본 데이터베이스 커넥션을 구성한 상태를 유지하는 한 라라벨은 테스트를 실행하는 각 병렬 프로세스에 대한 테스트 데이터베이스 생성 및 마이그레이션을 자동으로 처리합니다. 테스트 데이터베이스에는 프로세스마다 고유한 프로세스 토큰이 접미사로 붙습니다. 예를 들어 두 개의 병렬 테스트 프로세스가 있는 경우 라라벨은 `your_db_test_1` 및 `your_db_test_2` 테스트 데이터베이스를 만들고 사용합니다.
 
 By default, test databases persist between calls to the `test` Artisan command so that they can be used again by subsequent `test` invocations. However, you may re-create them using the `--recreate-databases` option:
 
@@ -252,9 +258,11 @@ If you would like to access the current parallel process "token" from any other 
 ### Reporting Test Coverage
 ### 테스트 커버리지 리포트
 
-> {note} This feature requires [Xdebug](https://xdebug.org) or [PCOV](https://pecl.php.net/package/pcov).
+> **Warning**
+> This feature requires [Xdebug](https://xdebug.org) or [PCOV](https://pecl.php.net/package/pcov).
 
-> {note} 이 기능은 [Xdebug](https://xdebug.org) 또는 [PCOV](https://pecl.php.net/package/pcov)가 필요합니다.
+> **Warning**
+> 이 기능은 [Xdebug](https://xdebug.org) 또는 [PCOV](https://pecl.php.net/package/pcov)가 필요합니다.
 
 When running your application tests, you may want to determine whether your test cases are actually covering the application code and how much application code is used when running your tests. To accomplish this, you may provide the `--coverage` option when invoking the `test` command:
 

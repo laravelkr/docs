@@ -116,13 +116,15 @@ To get started, you should install [Google Chrome](https://www.google.com/chrome
 composer require --dev laravel/dusk
 ```
 
-> {note} If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
+> **Warning**
+> If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
 
-> {note} 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
+> **Warning**
+> 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
 
-After installing the Dusk package, execute the `dusk:install` Artisan command. The `dusk:install` command will create a `tests/Browser` directory and an example Dusk test:
+After installing the Dusk package, execute the `dusk:install` Artisan command. The `dusk:install` command will create a `tests/Browser` directory, an example Dusk test, and install the Chrome Driver binary for your operating system:
 
-Dusk 패키지를 설치한 후 `dusk:install` Artisan 명령을 실행합니다. `dusk:install` 명령은 `tests/Browser` 디렉토리와 Dusk 테스트의 예제를 생성합니다.
+Dusk 패키지를 설치한 후 `dusk:install` Artisan 명령을 실행합니다. `dusk:install` 명령은 `tests/Browser` 디렉토리와 Dusk 테스트의 예제를 생성하고 여러분 운영 체제에 맞는 크롬 드라이버 바이너리를 설치합니다.
 
 ```shell
 php artisan dusk:install
@@ -132,17 +134,19 @@ Next, set the `APP_URL` environment variable in your application's `.env` file. 
 
 다음으로 애플리케이션의 `.env` 파일에서 `APP_URL` 환경 변수를 설정합니다. 이 값은 브라우저에서 애플리케이션에 액세스하는 데 사용하는 URL과 일치해야 합니다.
 
-> {tip} If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please also consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
+> **Note**
+> If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please also consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
 
-> {tip} [Laravel Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
+> **Note**
+> [Laravel Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
 
 <a name="managing-chromedriver-installations"></a>
 ### Managing ChromeDriver Installations
 ### 크롬 드라이버 설치 관리
 
-If you would like to install a different version of ChromeDriver than what is included with Laravel Dusk, you may use the `dusk:chrome-driver` command:
+If you would like to install a different version of ChromeDriver than what is installed by Laravel Dusk via the `dusk:install` command, you may use the `dusk:chrome-driver` command:
 
-라라벨 Dusk에 포함 된 것과 다른 버전의 ChromeDriver를 설치하려면 `dusk:chrome-driver` 명령을 사용할 수 있습니다.
+`dusk:install` 명령을 통해 라라벨 Dusk에 의해 설치되는 것과 다른 버전의 ChromeDriver를 설치하려면 `dusk:chrome-driver` 명령을 사용하면 됩니다.
 
 ```shell
 # Install the latest version of ChromeDriver for your OS...
@@ -158,9 +162,11 @@ php artisan dusk:chrome-driver --all
 php artisan dusk:chrome-driver --detect
 ```
 
-> {note} Dusk requires the `chromedriver` binaries to be executable. If you're having problems running Dusk, you should ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin/`.
+> **Warning**
+> Dusk requires the `chromedriver` binaries to be executable. If you're having problems running Dusk, you should ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin/`.
 
-> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
+> **Warning**
+> Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### Using Other Browsers
@@ -241,9 +247,11 @@ Most of the tests you write will interact with pages that retrieve data from you
         use DatabaseMigrations;
     }
 
-> {note} SQLite in-memory databases may not be used when executing Dusk tests. Since the browser executes within its own process, it will not be able to access the in-memory databases of other processes.
+> **Warning**
+> SQLite in-memory databases may not be used when executing Dusk tests. Since the browser executes within its own process, it will not be able to access the in-memory databases of other processes.
 
-> {note} Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
+> **Warning**
+> Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
 
 <a name="running-tests"></a>
 ### Running Tests
@@ -265,17 +273,19 @@ If you had test failures the last time you ran the `dusk` command, you may save 
 php artisan dusk:fails
 ```
 
-The `dusk` command accepts any argument that is normally accepted by the PHPUnit test runner, such as allowing you to only run the tests for a given [group](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group):
+The `dusk` command accepts any argument that is normally accepted by the PHPUnit test runner, such as allowing you to only run the tests for a given [group](https://phpunit.readthedocs.io/en/9.5/annotations.html#group):
 
-`dusk` 명령은 지정된 [그룹](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
+`dusk` 명령은 지정된 [그룹](https://phpunit.readthedocs.io/en/9.5/annotations.html#group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
 
 ```shell
 php artisan dusk --group=foo
 ```
 
-> {tip} If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
+> **Note**
+> If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
 
-> {tip} 로컬 개발 환경을 관리하기 위해 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 경우 [Dusk 테스트 설정 및 실행](/docs/{{ version}}/sail#laravel-dusk).
+> **Note**
+> 로컬 개발 환경을 관리하기 위해 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 경우 [Dusk 테스트 설정 및 실행](/docs/{{ version}}/sail#laravel-dusk).
 
 <a name="manually-starting-chromedriver"></a>
 #### Manually Starting ChromeDriver
@@ -518,9 +528,11 @@ Often, you will be testing pages that require authentication. You can use Dusk's
               ->visit('/home');
     });
 
-> {note} After using the `loginAs` method, the user session will be maintained for all tests within the file.
+> **Warning**
+> After using the `loginAs` method, the user session will be maintained for all tests within the file.
 
-> {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
+> **Warning**
+> `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
 
 <a name="cookies"></a>
 ### Cookies
@@ -574,6 +586,12 @@ You may use the `screenshot` method to take a screenshot and store it with the g
 `screenshot` 메서드를 사용하여 스크린 샷을 찍고 주어진 파일 이름으로 저장할 수 있습니다. 모든 스크린 샷은 `tests/Browser/screenshots` 디렉토리에 저장됩니다.
 
     $browser->screenshot('filename');
+
+The `responsiveScreenshots` method may be used to take a series of screenshots at various breakpoints:
+
+`responsiveScreenshots` 메서드는 다양한 중단점에서 여러장의 스크린샷을 찍을 때 사용합니다.
+
+    $browser->responsiveScreenshots('filename');
 
 <a name="storing-console-output-to-disk"></a>
 ### Storing Console Output To Disk
@@ -775,21 +793,23 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
     $browser->attach('photo', __DIR__.'/photos/mountains.png');
 
-> {note} The attach function requires the `Zip` PHP extension to be installed and enabled on your server.
+> **Warning**
+> The attach function requires the `Zip` PHP extension to be installed and enabled on your server.
 
-> {note} 파일 첨부기능을 사용하려면 서버에 `Zip` PHP 확장 기능이 설치되어 있고 활성화 되어 있어야 합니다.
+> **Warning**
+> 파일 첨부기능을 사용하려면 서버에 `Zip` PHP 확장 기능이 설치되어 있고 활성화 되어 있어야 합니다.
 
 <a name="pressing-buttons"></a>
 ### Pressing Buttons
 ### 버튼 누르기
 
-The `press` method may be used to click a button element on the page. The first argument given to the `press` method may be either the display text of the button or a CSS / Dusk selector:
+The `press` method may be used to click a button element on the page. The argument given to the `press` method may be either the display text of the button or a CSS / Dusk selector:
 
-`press` 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. `press` 메서드에 지정된 첫 번째 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
+`press` 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. `press` 메서드에 지정된 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
 
     $browser->press('Login');
 
-When submitting forms, many application's disable the form's submission button after it is pressed and then re-enable the button when the form submission's HTTP request is complete. To press a button and wait for the button to be re-enabled, you may use the `pressAndWaitFor` method:
+When submitting forms, many applications disable the form's submission button after it is pressed and then re-enable the button when the form submission's HTTP request is complete. To press a button and wait for the button to be re-enabled, you may use the `pressAndWaitFor` method:
 
 양식을 제출할 때 많은 애플리케이션이 양식 제출 버튼을 누른 후 비활성화했다가 양식 제출의 HTTP 요청이 완료되면 버튼을 다시 활성화합니다. 버튼을 누르고 버튼이 다시 활성화될 때까지 기다리려면 `pressAndWaitFor` 메서드를 사용할 수 있습니다.
 
@@ -817,9 +837,11 @@ You may use the `seeLink` method to determine if a link with the given display t
         // ...
     }
 
-> {note} These methods interact with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
+> **Warning**
+> These methods interact with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
 
-> {note} 이 메소드는 jQuery와 상호 작용합니다. 페이지에서 jQuery를 사용할 수 없는 경우 Dusk는 테스트 기간 동안 사용할 수 있도록 페이지에 자동으로 삽입합니다.
+> **Warning**
+> 이 메소드는 jQuery와 상호 작용합니다. 페이지에서 jQuery를 사용할 수 없는 경우 Dusk는 테스트 기간 동안 사용할 수 있도록 페이지에 자동으로 삽입합니다.
 
 <a name="using-the-keyboard"></a>
 ### Using The Keyboard
@@ -837,9 +859,11 @@ Another valuable use case for the `keys` method is sending a "keyboard shortcut"
 
     $browser->keys('.app', ['{command}', 'j']);
 
-> {tip} All modifier keys such as `{command}` are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php).
+> **Note**
+> All modifier keys such as `{command}` are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php).
 
-> {tip} `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
+> **Note**
+> `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
 
 <a name="using-the-mouse"></a>
 ### Using The Mouse
@@ -1007,6 +1031,18 @@ If you just need to pause the test for a given number of milliseconds, use the `
 
     $browser->pause(1000);
 
+If you need to pause the test only if a given condition is `true`, use the `pauseIf` method:
+
+주어진 조건이 `true` 인 경우에만 테스트를 중단할 필요가 있으면 `pauseIf` 메서드를 사용하세요.
+
+    $browser->pauseIf(App::environment('production'), 1000);
+
+Likewise, if you need to pause the test unless a given condition is `true`, you may use the `pauseUnless` method:
+
+위와 유사하게 주어진 조건이 `true`가 아닌 경우에만 테스트를 중단할 필요가 있으면 `pauseUnless` 메서드를 사용하시면 됩니다.
+
+    $browser->pauseUnless(App::environment('testing'), 1000);
+
 <a name="waiting-for-selectors"></a>
 #### Waiting For Selectors
 #### Selector 가 표시되기를 기다리기
@@ -1108,6 +1144,20 @@ The `waitForLink` method may be used to wait until the given link text is displa
     // Wait a maximum of one second for the link...
     $browser->waitForLink('Create', 1);
 
+<a name="waiting-for-inputs"></a>
+#### Waiting For Inputs
+#### 입력 기다리기
+
+The `waitForInput` method may be used to wait until the given input field is visible on the page:
+
+`waitForInput` 메서드는 페이지에 주어진 입력 필드가 보여질 때 까지 기다리기 위해 사용합니다.
+
+    // Wait a maximum of five seconds for the input...
+    $browser->waitForInput($field);
+
+    // Wait a maximum of one second for the input...
+    $browser->waitForInput($field, 1);
+
 <a name="waiting-on-the-page-location"></a>
 #### Waiting On The Page Location
 #### 페이지 경로를 기다리기
@@ -1131,7 +1181,7 @@ You may also wait for a [named route's](/docs/{{version}}/routing#named-routes) 
     $browser->waitForRoute($routeName, $parameters);
 
 <a name="waiting-for-page-reloads"></a>
-#### Waiting for Page Reloads
+#### Waiting For Page Reloads
 #### 페이지 새로고침 기다리기
 
 If you need to wait for a page to reload after performing an action, use the `waitForReload` method:
@@ -1180,6 +1230,42 @@ The `waitUntilVue` and `waitUntilVueIsNot` methods may be used to wait until a [
     // Wait until the component attribute doesn't contain the given value...
     $browser->waitUntilVueIsNot('user.name', null, '@user');
 
+<a name="waiting-for-javascript-events"></a>
+#### Waiting For JavaScript Events
+#### 자바스크립트 이벤트 기다리기
+
+The `waitForEvent` method can be used to pause the execution of a test until a JavaScript event occurs:
+
+`waitForEvent` 메서드는 자바스크립트 이벤트가 발생할 때 까지 테스트 실행을 중단 시킬 수 있습니다.
+
+    $browser->waitForEvent('load');
+
+The event listener is attached to the current scope, which is the `body` element by default. When using a scoped selector, the event listener will be attached to the matching element:
+
+이벤트 리스너는 현재 스코프에 연결되며, `body` 요소가 기본입니다. 스코프 셀렉터를 사용하면 이벤트 리스너는 해당 요소에 연결됩니다.
+
+    $browser->with('iframe', function ($iframe) {
+        // Wait for the iframe's load event...
+        $iframe->waitForEvent('load');
+    });
+
+You may also provide a selector as the second argument to the `waitForEvent` method to attach the event listener to a specific element:
+
+이벤트 리스너를 특정 요소에 연결 하기 위해 `waitForEvent` 메소드의 두 번째 인수로 셀렉터를 제공할 수도 있습니다 .
+
+    $browser->waitForEvent('load', '.selector');
+
+You may also wait for events on the `document` and `window` objects:
+
+`document` 와 `window` 객체에 대한 이벤트를 기다릴 수도 있습니다.
+
+    // Wait until the document is scrolled...
+    $browser->waitForEvent('scroll', 'document');
+
+    // Wait a maximum of five seconds until the window is resized...
+    $browser->waitForEvent('resize', 'window', 5);
+
+
 <a name="waiting-with-a-callback"></a>
 #### Waiting With A Callback
 #### 콜백 기다리기
@@ -1211,79 +1297,97 @@ Dusk provides a variety of assertions that you may make against your application
 
 Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공합니다. 가능한 모든 assertions은 아래 목록과 같습니다.
 
-- [assertTitle](#assert-title)
-- [assertTitleContains](#assert-title-contains)
-- [assertUrlIs](#assert-url-is)
-- [assertSchemeIs](#assert-scheme-is)
-- [assertSchemeIsNot](#assert-scheme-is-not)
-- [assertHostIs](#assert-host-is)
-- [assertHostIsNot](#assert-host-is-not)
-- [assertPortIs](#assert-port-is)
-- [assertPortIsNot](#assert-port-is-not)
-- [assertPathBeginsWith](#assert-path-begins-with)
-- [assertPathIs](#assert-path-is)
-- [assertPathIsNot](#assert-path-is-not)
-- [assertRouteIs](#assert-route-is)
-- [assertQueryStringHas](#assert-query-string-has)
-- [assertQueryStringMissing](#assert-query-string-missing)
-- [assertFragmentIs](#assert-fragment-is)
-- [assertFragmentBeginsWith](#assert-fragment-begins-with)
-- [assertFragmentIsNot](#assert-fragment-is-not)
-- [assertHasCookie](#assert-has-cookie)
-- [assertHasPlainCookie](#assert-has-plain-cookie)
-- [assertCookieMissing](#assert-cookie-missing)
-- [assertPlainCookieMissing](#assert-plain-cookie-missing)
-- [assertCookieValue](#assert-cookie-value)
-- [assertPlainCookieValue](#assert-plain-cookie-value)
-- [assertSee](#assert-see)
-- [assertDontSee](#assert-dont-see)
-- [assertSeeIn](#assert-see-in)
-- [assertDontSeeIn](#assert-dont-see-in)
-- [assertSeeAnythingIn](#assert-see-anything-in)
-- [assertSeeNothingIn](#assert-see-nothing-in)
-- [assertScript](#assert-script)
-- [assertSourceHas](#assert-source-has)
-- [assertSourceMissing](#assert-source-missing)
-- [assertSeeLink](#assert-see-link)
-- [assertDontSeeLink](#assert-dont-see-link)
-- [assertInputValue](#assert-input-value)
-- [assertInputValueIsNot](#assert-input-value-is-not)
-- [assertChecked](#assert-checked)
-- [assertNotChecked](#assert-not-checked)
-- [assertRadioSelected](#assert-radio-selected)
-- [assertRadioNotSelected](#assert-radio-not-selected)
-- [assertSelected](#assert-selected)
-- [assertNotSelected](#assert-not-selected)
-- [assertSelectHasOptions](#assert-select-has-options)
-- [assertSelectMissingOptions](#assert-select-missing-options)
-- [assertSelectHasOption](#assert-select-has-option)
-- [assertSelectMissingOption](#assert-select-missing-option)
-- [assertValue](#assert-value)
-- [assertValueIsNot](#assert-value-is-not)
-- [assertAttribute](#assert-attribute)
-- [assertAttributeContains](#assert-attribute-contains)
-- [assertAriaAttribute](#assert-aria-attribute)
-- [assertDataAttribute](#assert-data-attribute)
-- [assertVisible](#assert-visible)
-- [assertPresent](#assert-present)
-- [assertNotPresent](#assert-not-present)
-- [assertMissing](#assert-missing)
-- [assertInputPresent](#assert-input-present)
-- [assertInputMissing](#assert-input-missing)
-- [assertDialogOpened](#assert-dialog-opened)
-- [assertEnabled](#assert-enabled)
-- [assertDisabled](#assert-disabled)
-- [assertButtonEnabled](#assert-button-enabled)
-- [assertButtonDisabled](#assert-button-disabled)
-- [assertFocused](#assert-focused)
-- [assertNotFocused](#assert-not-focused)
-- [assertAuthenticated](#assert-authenticated)
-- [assertGuest](#assert-guest)
-- [assertAuthenticatedAs](#assert-authenticated-as)
-- [assertVue](#assert-vue)
-- [assertVueIsNot](#assert-vue-is-not)
-- [assertVueContains](#assert-vue-contains)
-- [assertVueDoesNotContain](#assert-vue-does-not-contain)
+<style>
+    .collection-method-list > p {
+        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
+    }
+
+    .collection-method-list a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="collection-method-list" markdown="1">
+
+[assertTitle](#assert-title)
+[assertTitleContains](#assert-title-contains)
+[assertUrlIs](#assert-url-is)
+[assertSchemeIs](#assert-scheme-is)
+[assertSchemeIsNot](#assert-scheme-is-not)
+[assertHostIs](#assert-host-is)
+[assertHostIsNot](#assert-host-is-not)
+[assertPortIs](#assert-port-is)
+[assertPortIsNot](#assert-port-is-not)
+[assertPathBeginsWith](#assert-path-begins-with)
+[assertPathIs](#assert-path-is)
+[assertPathIsNot](#assert-path-is-not)
+[assertRouteIs](#assert-route-is)
+[assertQueryStringHas](#assert-query-string-has)
+[assertQueryStringMissing](#assert-query-string-missing)
+[assertFragmentIs](#assert-fragment-is)
+[assertFragmentBeginsWith](#assert-fragment-begins-with)
+[assertFragmentIsNot](#assert-fragment-is-not)
+[assertHasCookie](#assert-has-cookie)
+[assertHasPlainCookie](#assert-has-plain-cookie)
+[assertCookieMissing](#assert-cookie-missing)
+[assertPlainCookieMissing](#assert-plain-cookie-missing)
+[assertCookieValue](#assert-cookie-value)
+[assertPlainCookieValue](#assert-plain-cookie-value)
+[assertSee](#assert-see)
+[assertDontSee](#assert-dont-see)
+[assertSeeIn](#assert-see-in)
+[assertDontSeeIn](#assert-dont-see-in)
+[assertSeeAnythingIn](#assert-see-anything-in)
+[assertSeeNothingIn](#assert-see-nothing-in)
+[assertScript](#assert-script)
+[assertSourceHas](#assert-source-has)
+[assertSourceMissing](#assert-source-missing)
+[assertSeeLink](#assert-see-link)
+[assertDontSeeLink](#assert-dont-see-link)
+[assertInputValue](#assert-input-value)
+[assertInputValueIsNot](#assert-input-value-is-not)
+[assertChecked](#assert-checked)
+[assertNotChecked](#assert-not-checked)
+[assertIndeterminate](#assert-indeterminate)
+[assertRadioSelected](#assert-radio-selected)
+[assertRadioNotSelected](#assert-radio-not-selected)
+[assertSelected](#assert-selected)
+[assertNotSelected](#assert-not-selected)
+[assertSelectHasOptions](#assert-select-has-options)
+[assertSelectMissingOptions](#assert-select-missing-options)
+[assertSelectHasOption](#assert-select-has-option)
+[assertSelectMissingOption](#assert-select-missing-option)
+[assertValue](#assert-value)
+[assertValueIsNot](#assert-value-is-not)
+[assertAttribute](#assert-attribute)
+[assertAttributeContains](#assert-attribute-contains)
+[assertAriaAttribute](#assert-aria-attribute)
+[assertDataAttribute](#assert-data-attribute)
+[assertVisible](#assert-visible)
+[assertPresent](#assert-present)
+[assertNotPresent](#assert-not-present)
+[assertMissing](#assert-missing)
+[assertInputPresent](#assert-input-present)
+[assertInputMissing](#assert-input-missing)
+[assertDialogOpened](#assert-dialog-opened)
+[assertEnabled](#assert-enabled)
+[assertDisabled](#assert-disabled)
+[assertButtonEnabled](#assert-button-enabled)
+[assertButtonDisabled](#assert-button-disabled)
+[assertFocused](#assert-focused)
+[assertNotFocused](#assert-not-focused)
+[assertAuthenticated](#assert-authenticated)
+[assertGuest](#assert-guest)
+[assertAuthenticatedAs](#assert-authenticated-as)
+[assertVue](#assert-vue)
+[assertVueIsNot](#assert-vue-is-not)
+[assertVueContains](#assert-vue-contains)
+[assertVueDoesNotContain](#assert-vue-does-not-contain)
+
+</div>
 
 <a name="assert-title"></a>
 #### assertTitle
@@ -1681,6 +1785,15 @@ Assert that the given checkbox is not checked:
 주어진 체크박스가 체크되어 있지 않은 것을 확인:
 
     $browser->assertNotChecked($field);
+
+<a name="assert-indeterminate"></a>
+#### assertIndeterminate
+
+Assert that the given checkbox is in an indeterminate state:
+
+주어진 체크박스가 불확실한 상태인지 확인
+
+    $browser->assertIndeterminate($field);
 
 <a name="assert-radio-selected"></a>
 #### assertRadioSelected
@@ -2372,9 +2485,11 @@ Once the component has been defined, we can easily select a date within the date
 ## Continuous Integration
 ## CI - 지속적 통합
 
-> {note} Most Dusk continuous integration configurations expect your Laravel application to be served using the built-in PHP development server on port 8000. Therefore, before continuing, you should ensure that your continuous integration environment has an `APP_URL` environment variable value of `http://127.0.0.1:8000`.
+> **Warning**
+> Most Dusk continuous integration configurations expect your Laravel application to be served using the built-in PHP development server on port 8000. Therefore, before continuing, you should ensure that your continuous integration environment has an `APP_URL` environment variable value of `http://127.0.0.1:8000`.
 
-> {note} 대부분의 Dusk 지속적 통합 설정은 8000포트에서 내장 PHP 개발 서버를 사용하여, 라라벨 애플리케이션이 제공될 것으로 예상합니다. 따라서 계속하기 전에 지속적 통합 환경에 `APP_URL` 환경 변수 값이 `http://127.0.0.1:8000`로 존재하는지 확인해야 합니다.
+> **Warning**
+> 대부분의 Dusk 지속적 통합 설정은 8000포트에서 내장 PHP 개발 서버를 사용하여, 라라벨 애플리케이션이 제공될 것으로 예상합니다. 따라서 계속하기 전에 지속적 통합 환경에 `APP_URL` 환경 변수 값이 `http://127.0.0.1:8000`로 존재하는지 확인해야 합니다.
 
 <a name="running-tests-on-heroku-ci"></a>
 ### Heroku CI
@@ -2434,9 +2549,9 @@ script:
 ### GitHub Actions
 ### GitHub Actions
 
-If you are using [Github Actions](https://github.com/features/actions) to run your Dusk tests, you may use the following configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
+If you are using [GitHub Actions](https://github.com/features/actions) to run your Dusk tests, you may use the following configuration file as a starting point. Like TravisCI, we will use the `php artisan serve` command to launch PHP's built-in web server:
 
-[Github Actions](https://github.com/features/actions) 를 사용하여 Dusk 테스트를 실행하는 경우 다음 설정 파일을 시작점으로 사용할 수 있습니다. TravisCI와 마찬가지로 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
+[GitHub Actions](https://github.com/features/actions) 를 사용하여 Dusk 테스트를 실행하는 경우 다음 설정 파일을 시작점으로 사용할 수 있습니다. TravisCI와 마찬가지로 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
 
 ```yaml
 name: CI
@@ -2445,27 +2560,30 @@ jobs:
 
   dusk-php:
     runs-on: ubuntu-latest
+    env:
+      APP_URL: "http://127.0.0.1:8000"
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      MAIL_MAILER: log
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Prepare The Environment
         run: cp .env.example .env
       - name: Create Database
         run: |
           sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE 'my-database' character set UTF8mb4 collate utf8mb4_bin;"
+          mysql --user="root" --password="root" -e "CREATE DATABASE \`my-database\` character set UTF8mb4 collate utf8mb4_bin;"
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Generate Application Key
         run: php artisan key:generate
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+        run: php artisan dusk:chrome-driver --detect
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Run Laravel Server
         run: php artisan serve --no-reload &
       - name: Run Dusk Tests
-        env:
-          APP_URL: "http://127.0.0.1:8000"
         run: php artisan dusk
       - name: Upload Screenshots
         if: failure()

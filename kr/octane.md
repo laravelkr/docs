@@ -79,9 +79,11 @@ php artisan octane:install
 ## Server Prerequisites
 ## 서버 전제 조건
 
-> {note} Laravel Octane requires [PHP 8.0+](https://php.net/releases/).
+> **Warning**
+> Laravel Octane requires [PHP 8.0+](https://php.net/releases/).
 
-> {note} Laravel Octane [PHP 8.0+](https://php.net/releases/) 을 필요로 합니다.
+> **Warning**
+> Laravel Octane [PHP 8.0+](https://php.net/releases/) 을 필요로 합니다.
 
 <a name="roadrunner"></a>
 ### RoadRunner
@@ -129,7 +131,7 @@ Next, update the `command` directive of your application's `docker/supervisord.c
 그 다음, 애플리케이션의 `docker/supervisord.conf` 파일의 `command`를 업데이트하여 Sail이 PHP 개발 서버 대신 Octane을 사용하여 애플리케이션이 제공되도록 합니다.
 
 ```ini
-command=/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=8000
+command=/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=80
 ```
 
 Finally, ensure the `rr` binary is executable and build your Sail images:
@@ -158,9 +160,11 @@ pecl install swoole
 #### Swoole Via Laravel Sail
 #### Laravel Sail을 통한 Swoole
 
-> {note} Before serving an Octane application via Sail, ensure you have the latest version of Laravel Sail and execute `./vendor/bin/sail build --no-cache` within your application's root directory.
+> **Warning**
+> Before serving an Octane application via Sail, ensure you have the latest version of Laravel Sail and execute `./vendor/bin/sail build --no-cache` within your application's root directory.
 
-> {note} Octane 애플리케이션을 Sail로 제공하기 전에, Laravel Sail의 가장 최신버전을 확인하기 위해 애플리케이션의 root 디렉토리에서 `./vendor/bin/sail build --no-cache` 를 실행해야 합니다. 
+> **Warning**
+> Octane 애플리케이션을 Sail로 제공하기 전에, Laravel Sail의 가장 최신버전을 확인하기 위해 애플리케이션의 root 디렉토리에서 `./vendor/bin/sail build --no-cache` 를 실행해야 합니다. 
 
 Alternatively, you may develop your Swoole based Octane application using [Laravel Sail](/docs/{{version}}/sail), the official Docker based development environment for Laravel. Laravel Sail includes the Swoole extension by default. However, you will still need to adjust the `supervisor.conf` file used by Sail to keep your application running. To get started, execute the `sail:publish` Artisan command:
 
@@ -200,7 +204,7 @@ Swoole은 `octane` 설정 파일에 필요한 것을 추가할 수 있도록 몇
         'log_file' => storage_path('logs/swoole_http.log'),
         'package_max_length' => 10 * 1024 * 1024,
     ],
-];
+],
 ```
 
 <a name="serving-your-application"></a>
@@ -512,9 +516,11 @@ The global `request` helper will always return the request the application is cu
 
 전역 `request` 헬퍼는 항상 애플리케이션이 현재 처리하고 있는 요청을 반환하므로 애플리케이션 내에서 안전하게 사용할 수 있습니다.
 
-> {note} It is acceptable to type-hint the `Illuminate\Http\Request` instance on your controller methods and route closures.
+> **Warning**
+> It is acceptable to type-hint the `Illuminate\Http\Request` instance on your controller methods and route closures.
 
-> {note} 컨트롤러의 메서드와 route의 클로저에서 `Illuminate\Http\Request` 인스턴스를 타입힌트로 사용하는 것은 허용 됩니다. 
+> **Warning**
+> 컨트롤러의 메서드와 route의 클로저에서 `Illuminate\Http\Request` 인스턴스를 타입힌트로 사용하는 것은 허용 됩니다. 
 
 <a name="configuration-repository-injection"></a>
 ### Configuration Repository Injection
@@ -600,9 +606,11 @@ While building your application, you should take special care to avoid creating 
 ## Concurrent Tasks
 ## 동시성 Tasks
 
-> {note} This feature requires [Swoole](#swoole).
+> **Warning**
+> This feature requires [Swoole](#swoole).
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다. 
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다. 
 
 When using Swoole, you may execute operations concurrently via light-weight background tasks. You may accomplish this using Octane's `concurrently` method. You may combine this method with PHP array destructuring to retrieve the results of each operation:
 
@@ -631,9 +639,11 @@ php artisan octane:start --workers=4 --task-workers=6
 ## Ticks & Intervals
 ## Ticks & Intervals
 
-> {note} This feature requires [Swoole](#swoole).
+> **Warning**
+> This feature requires [Swoole](#swoole).
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 When using Swoole, you may register "tick" operations that will be executed every specified number of seconds. You may register "tick" callbacks via the `tick` method. The first argument provided to the `tick` method should be a string that represents the name of the ticker. The second argument should be a callable that will be invoked at the specified interval.
 
@@ -662,9 +672,11 @@ Octane::tick('simple-ticker', fn () => ray('Ticking...'))
 ## The Octane Cache
 ## Octane 캐시
 
-> {note} This feature requires [Swoole](#swoole).
+> **Warning**
+> This feature requires [Swoole](#swoole).
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 When using Swoole, you may leverage the Octane cache driver, which provides read and write speeds of up to 2 million operations per second. Therefore, this cache driver is an excellent choice for applications that need extreme read / write speeds from their caching layer.
 
@@ -702,9 +714,11 @@ Cache::store('octane')->interval('random', function () {
 ## Tables
 ## Tables
 
-> {note} This feature requires [Swoole](#swoole).
+> **Warning**
+> This feature requires [Swoole](#swoole).
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 When using Swoole, you may define and interact with your own arbitrary [Swoole tables](https://www.swoole.co.uk/docs/modules/swoole-table). Swoole tables provide extreme performance throughput and the data in these tables can be accessed by all workers on the server. However, the data within them will be lost when the server is restarted.
 
@@ -738,6 +752,8 @@ Octane::table('example')->set('uuid', [
 return Octane::table('example')->get('uuid');
 ```
 
-> {note} The column types supported by Swoole tables are: `string`, `int`, and `float`.
+> **Warning**
+> The column types supported by Swoole tables are: `string`, `int`, and `float`.
 
-> {note} 컬럼 타입은 Swoole 테이블에서 `string`, `int`, `float`을 제공합니다. 
+> **Warning**
+> 컬럼 타입은 Swoole 테이블에서 `string`, `int`, `float`을 제공합니다. 

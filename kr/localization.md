@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
     - [Configuring The Locale](#configuring-the-locale)
-    - [Locale 설정하기](#configuring-the-locale)
+    - [Pluralization Language](#pluralization-language)
 - [Defining Translation Strings](#defining-translation-strings)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [Using Short Keys](#using-short-keys)
@@ -38,7 +38,7 @@ Laravel provides two ways to manage translation strings. First, language strings
         /es
             messages.php
 
-Or, translation strings may be defined within JSON files that are placed within the `lang` directory. When taking this approach, each language supported by your application would have a corresponding JSON file within this directory. This approach is recommended for application's that have a large number of translatable strings:
+Or, translation strings may be defined within JSON files that are placed within the `lang` directory. When taking this approach, each language supported by your application would have a corresponding JSON file within this directory. This approach is recommended for applications that have a large number of translatable strings:
 
 또는 `lang` 디렉토리에 있는 JSON 파일 내에 번역 문자열을 정의할 수 있습니다. 이 접근 방식을 사용할 때 애플리케이션에서 지원하는 각 언어는 이 디렉토리 내에 해당 JSON 파일을 갖습니다. 이 접근 방식은 번역 가능한 문자열이 많은 애플리케이션에 권장됩니다.
 
@@ -95,6 +95,34 @@ You may use the `currentLocale` and `isLocale` methods on the `App` facade to de
     if (App::isLocale('en')) {
         //
     }
+
+<a name="pluralization-language"></a>
+### Pluralization Language
+### 복수화 언어
+
+You may instruct Laravel's "pluralizer", which is used by Eloquent and other portions of the framework to convert singular strings to plural strings, to use a language other than English. This may be accomplished by invoking the `useLanguage` method within the `boot` method of one of your application's service providers. The pluralizer's currently supported languages are: `french`, `norwegian-bokmal`, `portuguese`, `spanish`, and `turkish`:
+
+Eloquent 및 프레임워크의 다른 부분에서 단수 문자열을 복수 문자열로 변환하는 데 사용하는 라라벨의 "pluralizer"에 영어 이외의 언어를 사용하도록 지시할 수 있습니다. 이것은 애플리케이션의 서비스 공급자 중 하나의 `boot` 메서드 내에서 `useLanguage` 메서드를 호출하여 수행할 수 있습니다 . pluralizer가 현재 지원하는 언어는 `프랑스어`, `norwegian-bokmal`, `포르투갈어`, `스페인어`, `터키어` 입니다.
+
+    use Illuminate\Support\Pluralizer;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Pluralizer::useLanguage('spanish');     
+
+        // ...     
+    }
+
+> **Warning**  
+> If you customize the pluralizer's language, you should explicitly define your Eloquent model's [table names](/docs/{{version}}/eloquent#table-names).
+
+> **Warning**
+> 복수형 언어를 사용자 정의하는 경우 Eloquent 모델의 [테이블 이름](/docs/{{version}}/eloquent#table-names)을 명시적으로 정의해야 합니다 .
 
 <a name="defining-translation-strings"></a>
 ## Defining Translation Strings

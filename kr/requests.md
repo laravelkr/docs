@@ -7,8 +7,8 @@
 - [Request와 상호작용](#interacting-with-the-request)
    - [Accessing The Request](#accessing-the-request)
    - [Request 접근](#accessing-the-request)
-   - [Request Path & Method](#request-path-and-method)
-   - [Request 경로 & 메소드](#request-path-and-method)
+   - [Request Path, Host, & Method](#request-path-and-method)
+   - [Request 경로, 호스트, & 메소드](#request-path-and-method)
    - [Request Headers](#request-headers)
    - [Request 헤더](#request-headers)
    - [Request IP Address](#request-ip-address)
@@ -132,8 +132,8 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` route
     }
 
 <a name="request-path-and-method"></a>
-### Request Path & Method
-### Request 경로 & 메소드
+### Request Path, Host, & Method
+### Request 경로, 호스트, & 메소드
 
 The `Illuminate\Http\Request` instance provides a variety of methods for examining the incoming HTTP request and extends the `Symfony\Component\HttpFoundation\Request` class. We will discuss a few of the most important methods below.
 
@@ -186,6 +186,18 @@ If you would like to append query string data to the current URL, you may call t
 현재 URL에 query string 데이터를 추가하려면 `fullUrlWithQuery` 메서드를 호출하면 됩니다. 이 메서드는 주어진 query string 변수 배열을 현재 query string과 병합합니다.
 
     $request->fullUrlWithQuery(['type' => 'phone']);
+
+<a name="retrieving-the-request-host"></a>
+#### Retrieving The Request Host
+#### 요청 호스트 조회하기
+
+You may retrieve the "host" of the incoming request via the `host`, `httpHost`, and `schemeAndHttpHost` methods:
+
+`host`, `httpHost`, `schemeAndHttpHost` 메서드를 통해 들어오는 요청의 "호스트"를 조회할 수 있습니다.
+
+    $request->host();
+    $request->httpHost();
+    $request->schemeAndHttpHost();
 
 <a name="retrieving-the-request-method"></a>
 #### Retrieving The Request Method
@@ -384,11 +396,21 @@ You may call the `query` method without any arguments in order to retrieve all o
 #### Retrieving JSON Input Values
 #### JSON 입력값 조회하기
 
-When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to retrieve values that are nested within JSON arrays:
+When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to retrieve values that are nested within JSON arrays / objects:
 
-JSON 요청을 애플리케이션에 보낼 때 요청의 `Content-Type` 헤더가 `application/json`으로 올바르게 설정되어 있으면 `input` 메소드를 통해 JSON 데이터에 액세스할 수 있습니다. "dot" 구문을 사용하여 JSON 배열 내에 중첩된 값을 검색할 수도 있습니다.
+JSON 요청을 애플리케이션에 보낼 때 요청의 `Content-Type` 헤더가 `application/json`으로 올바르게 설정되어 있으면 `input` 메소드를 통해 JSON 데이터에 액세스할 수 있습니다. "dot" 구문을 사용하여 JSON 배열이나 개체 내에 중첩된 값을 검색할 수도 있습니다.
 
     $name = $request->input('user.name');
+
+<a name="retrieving-stringable-input-values"></a>
+#### Retrieving Stringable Input Values
+#### Stringable 입력 값 조회하기
+
+Instead of retrieving the request's input data as a primitive `string`, you may use the `string` method to retrieve the request data as an instance of [`Illuminate\Support\Stringable`](/docs/{{version}}/helpers#fluent-strings):
+
+요청의 입력 데이터를 `string` 원시 타입으로 조회하는 대신 `string` 메서드를 이용해서 [`Illuminate\Support\Stringable`](/docs/{{version}}/helpers#fluent-strings) 인스턴스로 조회할 수 있습니다.
+
+    $name = $request->string('name')->trim();
 
 <a name="retrieving-boolean-input-values"></a>
 #### Retrieving Boolean Input Values
@@ -419,6 +441,18 @@ The second and third arguments accepted by the `date` method may be used to spec
 If the input value is present but has an invalid format, an `InvalidArgumentException` will be thrown; therefore, it is recommended that you validate the input before invoking the `date` method.
 
 입력 값이 있지만 형식이 잘못된 경우 `InvalidArgumentException`이 발생합니다. 따라서 `date` 메소드를 호출하기 전에 입력을 검증하는 것이 좋습니다.
+
+<a name="retrieving-enum-input-values"></a>
+#### Retrieving Enum Input Values
+#### Enum 입력 값 조회
+
+Input values that correspond to [PHP enums](https://www.php.net/manual/en/language.types.enumerations.php) may also be retrieved from the request. If the request does not contain an input value with the given name or the enum does not have a backing value that matches the input value, `null` will be returned. The `enum` method accepts the name of the input value and the enum class as its first and second arguments:
+
+[PHP enums](https://www.php.net/manual/en/language.types.enumerations.php)에 해당하는 입력 값이 요청으로부터 조회될 수도 있습니다. 요청이 주어진 이름에 해당하는 입력 값을 가지고 있지 않거나, 일치하는 enum 값이 없으면 `null`이 반환됩니다. `enum` 메서드는 첫 번째 인수로 입력 값의 이름을, 두 번째 인수로 enum 클래스를 받습니다. 
+
+    use App\Enums\Status;
+
+    $status = $request->enum('status', Status::class);
 
 <a name="retrieving-input-via-dynamic-properties"></a>
 #### Retrieving Input Via Dynamic Properties
@@ -500,17 +534,17 @@ The `hasAny` method returns `true` if any of the specified values are present:
         //
     }
 
-If you would like to determine if a value is present on the request and is not empty, you may use the `filled` method:
+If you would like to determine if a value is present on the request and is not empty string, you may use the `filled` method:
 
-주어진 변수값이 현재 request 에 존재하고 비어 있지 않은 것을 확인하려면 `filled` 메소드를 사용하면 됩니다.
+주어진 변수값이 현재 request 에 존재하고 빈 문자열이 아닌지를 확인하려면 `filled` 메소드를 사용하면 됩니다.
 
     if ($request->filled('name')) {
         //
     }
 
-The `whenFilled` method will execute the given closure if a value is present on the request and is not empty:
+The `whenFilled` method will execute the given closure if a value is present on the request and is not an empty string:
 
-`whenFilled` 메소드는 값이 요청에 있고 그 값이 비어 있지 않은 경우 주어진 클로저를 실행합니다.
+`whenFilled` 메소드는 값이 요청에 있고 그 값이 빈 문자열이 아닌 경우 주어진 클로저를 실행합니다.
 
     $request->whenFilled('name', function ($input) {
         //
@@ -626,13 +660,41 @@ All cookies created by the Laravel framework are encrypted and signed with an au
 ## Input Trimming & Normalization
 ## 입력 Trimming & 정규화
 
-By default, Laravel includes the `App\Http\Middleware\TrimStrings` and `App\Http\Middleware\ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the global middleware stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
+By default, Laravel includes the `App\Http\Middleware\TrimStrings` and `Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware are listed in the global middleware stack by the `App\Http\Kernel` class. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
 
 기본적으로 라라벨은 애플리케이션의 글로벌 미들웨어 스택에 `App\Http\Middleware\TrimStrings` 및 `App\Http\Middleware\ConvertEmptyStringsToNull` 미들웨어를 포함합니다. 이런 미들웨어는 `App\Http\Kernel` 클래스에 의해 글로벌 미들웨어 스택에 나열됩니다. 이러한 미들웨어는 요청 시 들어오는 모든 문자열 필드를 자동으로 트리밍하고 빈 문자열 필드를 `null`로 변환합니다. 이를 통해 경로 및 컨트롤러에서 이러한 정규화 문제에 대해 걱정할 필요가 없습니다.
 
-If you would like to disable this behavior, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
+#### Disabling Input Normalization
+#### 입력 정규화 비활성화하기
 
-비활성화하려면 `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하여 애플리케이션의 미들웨어 스택에서 두 미들웨어를 제거할 수 있습니다.
+If you would like to disable this behavior for all requests, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
+
+모든 응답에 대해 비활성화하려면 `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하여 애플리케이션의 미들웨어 스택에서 두 미들웨어를 제거할 수 있습니다.
+
+If you would like to disable string trimming and empty string conversion for a subset of requests to your application, you may use the `skipWhen` method offered by both middleware. This method accepts a closure which should return `true` or `false` to indicate if input normalization should be skipped. Typically, the `skipWhen` method should be invoked in the `boot` method of your application's `AppServiceProvider`.
+
+특정 리퀘스트에 대해서만 trimming과 문자열 변환을 비활성화하려면 두 미들웨어에 의해 제공되는 `skipWhen` 메서드를 사용하면 됩니다. 이 메서드는 입력 정규화를 건너 뛸지를 나타내는 `true`, `false` 값을 반환하는 클로저를 받습니다. 일반적으로 `skipWhen` 메서드는 애플리케이션의 `AppServiceProvider`의 `boot` 메서드 내에서 실행되야 합니다.
+
+```php
+use App\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    TrimStrings::skipWhen(function ($request) {
+        return $request->is('admin/*');
+    });
+
+    ConvertEmptyStringsToNull::skipWhen(function ($request) {
+        // ...
+    });
+}
+```
 
 <a name="files"></a>
 ## Files

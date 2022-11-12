@@ -137,7 +137,8 @@ As mentioned, you will typically be interacting with the container within servic
         // ...
     });
 
-> {tip} There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
+> **Note**  
+> There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
 
 <a name="binding-a-singleton"></a>
 #### Binding A Singleton
@@ -228,7 +229,9 @@ Sometimes you may have two classes that utilize the same interface, but you wish
 
 Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
 
-    $this->app->when('App\Http\Controllers\UserController')
+    use App\Http\Controllers\UserController;
+    
+    $this->app->when(UserController::class)
               ->needs('$variableName')
               ->give($value);
 
@@ -339,7 +342,7 @@ Once the services have been tagged, you may easily resolve them all via the cont
 <a name="extending-bindings"></a>
 ### Extending Bindings
 
-The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts a closure, which should return the modified service, as its only argument. The closure receives the service being resolved and the container instance:
+The `extend` method allows the modification of resolved services. For example, when a service is resolved, you may run additional code to decorate or configure the service. The `extend` method accepts two arguments, the service class you're extending and a closure that should return the modified service. The closure receives the service being resolved and the container instance:
 
     $this->app->extend(Service::class, function ($service, $app) {
         return new DecoratedService($service);

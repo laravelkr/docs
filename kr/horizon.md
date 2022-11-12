@@ -32,9 +32,11 @@
 ## Introduction
 ## 시작하기
 
-> {tip} Before digging into Laravel Horizon, you should familiarize yourself with Laravel's base [queue services](/docs/{{version}}/queues). Horizon augments Laravel's queue with additional features that may be confusing if you are not already familiar with the basic queue features offered by Laravel.
+> **Note**
+> Before digging into Laravel Horizon, you should familiarize yourself with Laravel's base [queue services](/docs/{{version}}/queues). Horizon augments Laravel's queue with additional features that may be confusing if you are not already familiar with the basic queue features offered by Laravel.
 
-> {tip} 라라벨 Horizon에 대해 알아보기 전에 라라벨의 기본 [queue services](/docs/{{version}}/queues)에 익숙해져야 합니다. Horizon은 라라벨에서 제공하는 기본 대기열 기능에 아직 익숙하지 않은 경우 혼동될 수 있는 추가 기능으로 라라벨의 대기열을 보강합니다.
+> **Note**
+> 라라벨 Horizon에 대해 알아보기 전에 라라벨의 기본 [queue services](/docs/{{version}}/queues)에 익숙해져야 합니다. Horizon은 라라벨에서 제공하는 기본 대기열 기능에 아직 익숙하지 않은 경우 혼동될 수 있는 추가 기능으로 라라벨의 대기열을 보강합니다.
 
 [Laravel Horizon](https://github.com/laravel/horizon) provides a beautiful dashboard and code-driven configuration for your Laravel powered [Redis queues](/docs/{{version}}/queues). Horizon allows you to easily monitor key metrics of your queue system such as job throughput, runtime, and job failures.
 
@@ -50,9 +52,11 @@ Horizon을 사용하는 경우, 모든 대기열 작업자 설정은 하나의 �
 ## Installation
 ## 설치하기
 
-> {note} Laravel Horizon requires that you use [Redis](https://redis.io) to power your queue. Therefore, you should ensure that your queue connection is set to `redis` in your application's `config/queue.php` configuration file.
+> **Warning**
+> Laravel Horizon requires that you use [Redis](https://redis.io) to power your queue. Therefore, you should ensure that your queue connection is set to `redis` in your application's `config/queue.php` configuration file.
 
-> {note} 라라벨 Horizon을 사용하려면 [Redis](https://redis.io) 를 사용해야 합니다. 따라서 애플리케이션의 `config/queue.php` 설정 파일에서 대기열 연결이 `redis`로 설정되어 있는지 확인해야 합니다.
+> **Warning**
+> 라라벨 Horizon을 사용하려면 [Redis](https://redis.io) 를 사용해야 합니다. 따라서 애플리케이션의 `config/queue.php` 설정 파일에서 대기열 연결이 `redis`로 설정되어 있는지 확인해야 합니다.
 
 You may install Horizon into your project using the Composer package manager:
 
@@ -78,9 +82,11 @@ After publishing Horizon's assets, its primary configuration file will be locate
 
 Horizon 자산을 게시하면 기본 설정 파일이 `config/horizon.php`로 생성됩니다. 이 설정 파일을 사용하면 애플리케이션에 대한 대기열 작업자 옵션을 설정할 수 있습니다. 각 설정 옵션에는 용도에 대한 설명이 포함되어 있으므로 이 파일을 꼼꼼하게 살펴보십시오.
 
-> {note} Horizon uses a Redis connection named `horizon` internally. This Redis connection name is reserved and should not be assigned to another Redis connection in the `database.php` configuration file or as the value of the `use` option in the `horizon.php` configuration file.
+> **Warning**
+> Horizon uses a Redis connection named `horizon` internally. This Redis connection name is reserved and should not be assigned to another Redis connection in the `database.php` configuration file or as the value of the `use` option in the `horizon.php` configuration file.
 
-> {note} Horizon은 내부적으로 `horizon`이라는 Redis 연결을 사용합니다. 이 Redis 연결 이름은 예약되어 있으므로 `database.php` 설정 파일의 다른 Redis 연결에 할당하거나 `horizon.php` 설정 파일의 `use` 옵션 값으로 할당해서는 안 됩니다.
+> **Warning**
+> Horizon은 내부적으로 `horizon`이라는 Redis 연결을 사용합니다. 이 Redis 연결 이름은 예약되어 있으므로 `database.php` 설정 파일의 다른 Redis 연결에 할당하거나 `horizon.php` 설정 파일의 `use` 옵션 값으로 할당해서는 안 됩니다.
 
 <a name="environments"></a>
 #### Environments
@@ -110,9 +116,11 @@ When you start Horizon, it will use the worker process configuration options for
 
 Horizon을 시작하면 애플리케이션이 실행되는 환경에 대한 작업자 프로세스 설정 옵션이 사용됩니다. 일반적으로 환경은 `APP_ENV` [환경 변수](/docs/{{version}}/configuration#determining-the-current-environment)의 값에 의해 결정됩니다. 예를 들어 기본 `local` Horizon 환경은 3개의 작업자 프로세스를 시작하고 각 대기열에 할당된 작업자 프로세스 수의 균형을 자동으로 조정하도록 설정됩니다. 기본 `production` 환경은 최대 10개의 작업자 프로세스를 시작하고 각 대기열에 할당된 작업자 프로세스 수의 균형을 자동으로 조정하도록 설정됩니다.
 
-> {note} You should ensure that the `environments` portion of your `horizon` configuration file contains an entry for each [environment](/docs/{{version}}/configuration#environment-configuration) on which you plan to run Horizon.
+> **Warning**
+> You should ensure that the `environments` portion of your `horizon` configuration file contains an entry for each [environment](/docs/{{version}}/configuration#environment-configuration) on which you plan to run Horizon.
 
-> {note} `horizon` 설정 파일의 `environments` 부분에 Horizon을 실행할 각 [environment](/docs/{{version}}/configuration#environment-configuration) 에 대한 항목이 포함되어 있는지 확인해야 합니다.
+> **Warning**
+> `horizon` 설정 파일의 `environments` 부분에 Horizon을 실행할 각 [environment](/docs/{{version}}/configuration#environment-configuration) 에 대한 항목이 포함되어 있는지 확인해야 합니다.
 
 <a name="supervisors"></a>
 #### Supervisors
@@ -167,11 +175,11 @@ When using the `auto` strategy, you may define the `minProcesses` and `maxProces
         ],
     ],
 
-The `balanceMaxShift` and `balanceCooldown` configuration values to determine how quickly Horizon will scale to meet worker demand. In the example above, a maximum of one new process will be created or destroyed every three seconds. You are free to tweak these values as necessary based on your application's needs.
+The `balanceMaxShift` and `balanceCooldown` configuration values determine how quickly Horizon will scale to meet worker demand. In the example above, a maximum of one new process will be created or destroyed every three seconds. You are free to tweak these values as necessary based on your application's needs.
 
 `balanceMaxShift` 및 `balanceCooldown` 설정 값은 작업자 수요를 충족하기 위해 Horizon이 얼마나 빨리 확장되는지 결정합니다. 위의 예에서 최대 하나의 새 프로세스가 3초마다 생성되거나 소멸됩니다. 애플리케이션의 필요에 따라 필요에 따라 이러한 값을 자유롭게 조정할 수 있습니다.
 
-When the `balance` option is set to `false`, the default Laravel behavior will be used, which processes queues in the order they are listed in your configuration.
+When the `balance` option is set to `false`, the default Laravel behavior will be used, wherein queues are processed in the order they are listed in your configuration.
 
 `balance` 옵션이 `false`로 설정되면 설정에 나열된 순서대로 대기열을 처리하는 기본 라라벨 동작이 사용됩니다.
 
@@ -309,9 +317,11 @@ Supervisor는 Linux 운영 체제용 프로세스 모니터이며, 실행이 중
 sudo apt-get install supervisor
 ```
 
-> {tip} If configuring Supervisor yourself sounds overwhelming, consider using [Laravel Forge](https://forge.laravel.com), which will automatically install and configure Supervisor for your Laravel projects.
+> **Note**
+> If configuring Supervisor yourself sounds overwhelming, consider using [Laravel Forge](https://forge.laravel.com), which will automatically install and configure Supervisor for your Laravel projects.
 
-> {tip} Supervisor를 직접 설정하는 것이 어렵게 들린다면 [라라벨 Forge](https://forge.laravel.com)를 사용해보십시오. 그러면 라라벨 프로젝트에 대해 Supervisor가 자동으로 설치 및 설정됩니다.
+> **Note**
+> Supervisor를 직접 설정하는 것이 어렵게 들린다면 [라라벨 Forge](https://forge.laravel.com)를 사용해보십시오. 그러면 라라벨 프로젝트에 대해 Supervisor가 자동으로 설치 및 설정됩니다.
 
 <a name="supervisor-configuration"></a>
 #### Supervisor Configuration
@@ -337,9 +347,11 @@ When defining your Supervisor configuration, you should ensure that the value of
 
 Supervisor 설정을 정의할 때, `stopwaitsecs` 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 작업이 완료되기 전에 Supervisor 가 프로세스를 종료시킬 수 있습니다. 
 
-> {note} While the examples above are valid for Ubuntu based servers, the location and file extension expected of Supervisor configuration files may vary between other server operating systems. Please consult your server's documentation for more information.
+> **Warning**
+> While the examples above are valid for Ubuntu based servers, the location and file extension expected of Supervisor configuration files may vary between other server operating systems. Please consult your server's documentation for more information.
 
-> {note} 위의 예시는 Ubuntu 기반 서버에서는 유효하지만, Supervisor 설정 파일의 위치및 확장자는 서버 운영체제에 따라 다를 수 있습니다. 보다 자세한 내용은 서버 매뉴얼을 참고하십시오.
+> **Warning**
+> 위의 예시는 Ubuntu 기반 서버에서는 유효하지만, Supervisor 설정 파일의 위치및 확장자는 서버 운영체제에 따라 다를 수 있습니다. 보다 자세한 내용은 서버 매뉴얼을 참고하십시오.
 
 <a name="starting-supervisor"></a>
 #### Starting Supervisor
@@ -357,9 +369,11 @@ sudo supervisorctl update
 sudo supervisorctl start horizon
 ```
 
-> {tip} For more information on running Supervisor, consult the [Supervisor documentation](http://supervisord.org/index.html).
+> **Note**
+> For more information on running Supervisor, consult the [Supervisor documentation](http://supervisord.org/index.html).
 
-> {tip} Supervisor 실행에 대한 자세한 내용은 [Supervisor 문서](http://supervisord.org/index.html) 를 참조하세요.
+> **Note**
+> Supervisor 실행에 대한 자세한 내용은 [Supervisor 문서](http://supervisord.org/index.html) 를 참조하세요.
 
 <a name="tags"></a>
 ## Tags
@@ -449,9 +463,11 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 ## Notifications
 ## 알림
 
-> {note} When configuring Horizon to send Slack or SMS notifications, you should review the [prerequisites for the relevant notification channel](/docs/{{version}}/notifications).
+> **Warning**
+> When configuring Horizon to send Slack or SMS notifications, you should review the [prerequisites for the relevant notification channel](/docs/{{version}}/notifications).
 
-> {note} Slack 또는 SMS 알림을 보내도록 Horizon을 설정할 때 [해당 알림 채널의 전제 조건](/docs/{{version}}/notifications)을 검토해야 합니다.
+> **Warning**
+> Slack 또는 SMS 알림을 보내도록 Horizon을 설정할 때 [해당 알림 채널의 전제 조건](/docs/{{version}}/notifications)을 검토해야 합니다.
 
 If you would like to be notified when one of your queues has a long wait time, you may use the `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo`, and `Horizon::routeSmsNotificationsTo` methods. You may call these methods from the `boot` method of your application's `App\Providers\HorizonServiceProvider`:
 

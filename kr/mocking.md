@@ -156,9 +156,11 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
         }
     }
 
-> {note} You should not mock the `Request` facade. Instead, pass the input you desire into the [HTTP testing methods](/docs/{{version}}/http-tests) such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, call the `Config::set` method in your tests.
+> **Warning**
+> You should not mock the `Request` facade. Instead, pass the input you desire into the [HTTP testing methods](/docs/{{version}}/http-tests) such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, call the `Config::set` method in your tests.
 
-> {note} `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
+> **Warning**
+> `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
 
 ### Facade Spies
 ### Facade Spies
@@ -219,7 +221,7 @@ You may use the `Bus` facade's `fake` method to prevent jobs from being dispatch
             // Assert that a job was dispatched synchronously...
             Bus::assertDispatchedSync(AnotherJob::class);
 
-            // Assert that a job was not dipatched synchronously...
+            // Assert that a job was not dispatched synchronously...
             Bus::assertNotDispatchedSync(AnotherJob::class);
 
             // Assert that a job was dispatched after the response was sent...
@@ -241,6 +243,35 @@ You may pass a closure to the `assertDispatched` or `assertNotDispatched` method
         return $job->order->id === $order->id;
     });
 
+<a name="faking-a-subset-of-jobs"></a>
+#### Faking A Subset Of Jobs
+#### 잡 서브셋 속이기
+
+If you only want to prevent certain jobs from being dispatched, you may pass the jobs that should be faked to the `fake` method:
+
+특정 잡만 디스패치되는 걸 막고 싶다면 `fake` 메서드에 속일 잡을 넘겨주면 됩니다.
+
+    /**
+     * Test order process.
+     */
+    public function test_orders_can_be_shipped()
+    {
+        Bus::fake([
+            ShipOrder::class,
+        ]);
+
+        // ...
+    }
+
+You may fake all jobs except for a set of specified jobs using the `except` method:
+
+`except` 메서드를 사용하면 지정한 잡을 제외한 모든 잡이 속여집니다.
+
+    Bus::fake()->except([
+        ShipOrder::class,
+    ]);
+
+<a name="bus-job-chains"></a>
 ### Job Chains
 ### Job 체인
 
@@ -284,6 +315,22 @@ The `Bus` facade's `assertBatched` method may be used to assert that a [batch of
                $batch->jobs->count() === 10;
     });
 
+<a name="testing-job-batch-interaction"></a>
+#### Testing Job / Batch Interaction
+#### 잡 테스트하기 / 배치 상호작용
+
+In addition, you may occasionally need to test an individual job's interaction with its underlying batch. For example, you may need to test if a job cancelled further processing for its batch. To accomplish this, you need to assign a fake batch to the job via the `withFakeBatch` method. The `withFakeBatch` method returns a tuple containing the job instance and the fake batch:
+
+추가적으로 배치를 돌고 있는 개별 잡을 테스트할 필요가 있을 수 있습니다. 예를 들어, 잡이 이후 작업을 취소 시키는지 테스트가 필요할 수 있습니다. 그렇게 하기 위해서는 `withFakeBatch` 메서드를 통해 잡에 가짜 배치를 배정할 필요가 있습니다. `withFakeBatch` 메서드는 잡 인스턴스와 가짜 배치를 담은 튜플을 반환합니다.  
+
+    [$job, $batch] = (new ShipOrder)->withFakeBatch();
+
+    $job->handle();
+
+    $this->assertTrue($batch->cancelled());
+    $this->assertEmpty($batch->added);
+
+<a name="event-fake"></a>
 ## Event Fake
 ## Event Fake
 
@@ -345,9 +392,11 @@ If you would simply like to assert that an event listener is listening to a give
     );
 
 
-> {note} After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
+> **Warning**
+> After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
 
-> {note} `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않게됩니다. 따라서 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 테스트의 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
+> **Warning**
+> `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않게됩니다. 따라서 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 테스트의 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
 
 #### Faking A Subset Of Events
 #### 이벤트의 일부를 Fake 시키기
@@ -373,6 +422,15 @@ If you only want to fake event listeners for a specific set of events, you may p
         $order->update([...]);
     }
 
+You may fake all events except for a set of specified events using the `except` method:
+
+`except` 메서드를 사용하여 지정한 이벤트를 제외한 모든 이벤트를 속일 수 있습니다.
+
+    Event::fake()->except([
+        OrderCreated::class,
+    ]);
+
+<a name="scoped-event-fakes"></a>
 ### Scoped Event Fakes
 ### Scoped Event Fakes
 
@@ -486,7 +544,36 @@ When calling the `Mail` facade's assertion methods, the mailable instance accept
     Mail::assertSent(OrderShipped::class, function ($mail) use ($user) {
         return $mail->hasTo($user->email) &&
                $mail->hasCc('...') &&
-               $mail->hasBcc('...');
+               $mail->hasBcc('...') &&
+               $mail->hasReplyTo('...') &&
+               $mail->hasFrom('...') &&
+               $mail->hasSubject('...');
+    });
+
+The mailable instance also includes several helpful methods for examining the attachments on a mailable:
+
+메일러블 인스턴스는 첨부 파일을 검사를 위한 여러 유용한 메서드도 포함하고 있습니다.
+
+    use Illuminate\Mail\Mailables\Attachment;
+
+    Mail::assertSent(OrderShipped::class, function ($mail) {
+        return $mail->hasAttachment(
+            Attachment::fromPath('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf')
+        );
+    });
+
+    Mail::assertSent(OrderShipped::class, function ($mail) {
+        return $mail->hasAttachment(
+            Attachment::fromStorageDisk('s3', '/path/to/file')
+        );
+    });
+
+    Mail::assertSent(OrderShipped::class, function ($mail) use ($pdfData) {
+        return $mail->hasAttachment(
+            Attachment::fromData(fn () => $pdfData, 'name.pdf')
+        );
     });
 
 You may have noticed that there are two methods for asserting that mail was not sent: `assertNotSent` and `assertNotQueued`. Sometimes you may wish to assert that no mail was sent **or** queued. To accomplish this, you may use the `assertNothingOutgoing` and `assertNotOutgoing` methods:
@@ -499,6 +586,15 @@ You may have noticed that there are two methods for asserting that mail was not 
         return $mail->order->id === $order->id;
     });
 
+<a name="testing-mailable-content"></a>
+#### Testing Mailable Content
+#### 메일러블 내용 테스트
+
+We suggest testing the content of your mailables separately from your tests that assert that a given mailable was "sent" to a specific user. To learn how to test the content of your mailables, check out our documentation on the [testing mailables](/docs/{{version}}/mail#testing-mailables).
+
+메일러블 내용 테스트를 특정 사용자에게 메일이 보내졌는지 확인하는 테스트와 분리하기를 권장합니다. 메일러블 내용을 테스트 하는 방법은 [메일러블 테스트하기](/docs/{{version}}/mail#testing-mailables)를 참고해주세요.
+
+<a name="notification-fake"></a>
 ## Notification Fake
 ## Notification Fake
 
@@ -540,6 +636,9 @@ After calling the `Notification` facade's `fake` method, you may then assert tha
             Notification::assertNotSentTo(
                 [$user], AnotherNotification::class
             );
+
+            // Assert that a given number of notifications were sent...
+            Notification::assertCount(3);
         }
     }
 
@@ -557,22 +656,17 @@ You may pass a closure to the `assertSentTo` or `assertNotSentTo` methods in ord
 #### On-Demand Notifications
 #### 대상을 지정한 Notifications
 
-If the code you are testing sends [on-demand notifications](/docs/{{version}}/notifications#on-demand-notifications), you will need to assert that the notification was sent to an `Illuminate\Notifications\AnonymousNotifiable` instance:
+If the code you are testing sends [on-demand notifications](/docs/{{version}}/notifications#on-demand-notifications), you can test that the on-demand notification was sent via the `assertSentOnDemand` method:
 
-테스트 중인 코드가 [대상을 지정한 notifications](/docs/{{version}}/notifications#on-demand-notifications)을 보내는 경우 알림이 `Illuminate\Notifications\AnonymousNotifiable` 인스턴스로 전송되었음을 검증해야 합니다.
+테스트 중인 코드가 [대상을 지정한 notifications](/docs/{{version}}/notifications#on-demand-notifications)을 보내는 경우 `assertSentOnDemand` 메서드를 통해 테스트할 수 있습니다.
 
-    use Illuminate\Notifications\AnonymousNotifiable;
+    Notification::assertSentOnDemand(OrderShipped::class);
 
-    Notification::assertSentTo(
-        new AnonymousNotifiable, OrderShipped::class
-    );
+By passing a closure as the second argument to the `assertSentOnDemand` method, you may determine if an on-demand notification was sent to the correct "route" address:
 
-By passing a closure as the third argument to the notification assertion methods, you may determine if an on-demand notification was sent to the correct "route" address:
+알림 검증 메서드에 대한 두 번째 인수로 클로저를 전달하면 대상을 지정한 notifications가 올바른 "경로" 주소로 전송되었는지 확인할 수 있습니다.
 
-알림 검증 메서드에 대한 세 번째 인수로 클로저를 전달하면 대상을 지정한 notifications가 올바른 "경로" 주소로 전송되었는지 확인할 수 있습니다.
-
-    Notification::assertSentTo(
-        new AnonymousNotifiable,
+    Notification::assertSentOnDemand(
         OrderShipped::class,
         function ($notification, $channels, $notifiable) use ($user) {
             return $notifiable->routes['mail'] === $user->email;
@@ -631,6 +725,22 @@ You may pass a closure to the `assertPushed` or `assertNotPushed` methods in ord
     Queue::assertPushed(function (ShipOrder $job) use ($order) {
         return $job->order->id === $order->id;
     });
+
+If you only need to fake specific jobs while allowing your other jobs to execute normally, you may pass the class names of the jobs that should be faked to the `fake` method:
+
+다른 잡들은 정상적으로 동작하고 특정 잡만 속이고 싶으면 속이고자 하는 잡의 클래스 이름을 `fake` 메서드로 전달하면 됩니다.
+
+    public function test_orders_can_be_shipped()
+    {
+        Queue::fake([
+            ShipOrder::class,
+        ]);
+        
+        // Perform order shipping...
+
+        // Assert a job was pushed twice...
+        Queue::assertPushed(ShipOrder::class, 2);
+    }
 
 ### Job Chains
 ### Job 체인
@@ -700,16 +810,21 @@ The `Storage` facade's `fake` method allows you to easily generate a fake disk t
             // Assert one or more files were not stored...
             Storage::disk('photos')->assertMissing('missing.jpg');
             Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+            // Assert that a given directory is empty...
+            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
         }
     }
 
-For more information on testing file uploads, you may consult the [HTTP testing documentation's information on file uploads](/docs/{{version}}/http-tests#testing-file-uploads).
+By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead. For more information on testing file uploads, you may consult the [HTTP testing documentation's information on file uploads](/docs/{{version}}/http-tests#testing-file-uploads).
 
-파일 업로드 테스트에 대한 자세한 내용은 [HTTP 테스트 문서의 파일 업로드 테스트하기](/docs/{{version}}/http-tests#testing-file-uploads)를 참조하세요.
+기본적으로 `fake` 메서드는 임시 디렉터리에 있는 모든 파일을 지웁니다. 파일을 유지하고 싶으면 "persistentFake" 메서드를 사용하면 됩니다. 파일 업로드 테스트에 대한 자세한 내용은 [HTTP 테스트 문서의 파일 업로드 테스트하기](/docs/{{version}}/http-tests#testing-file-uploads)를 참조하세요.
 
-> {tip} By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead.
+> **Note**
+> The `image` method requires the [GD extension](https://www.php.net/manual/en/book.image.php).
 
-> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일을 삭제합니다. 이 파일들을 유지하고자 한다면, 대신 "persistentFake" 메소드를 사용하십시오.
+> **Note**
+> `image` 메서드는 [GD extension](https://www.php.net/manual/en/book.image.php)을 필요로 합니다.
 
 ## Interacting With Time
 ## 시간과의 상호작용
@@ -717,6 +832,8 @@ For more information on testing file uploads, you may consult the [HTTP testing 
 When testing, you may occasionally need to modify the time returned by helpers such as `now` or `Illuminate\Support\Carbon::now()`. Thankfully, Laravel's base feature test class includes helpers that allow you to manipulate the current time:
 
 테스트할 때 `now` 또는 `Illuminate\Support\Carbon::now()`와 같은 헬퍼가 반환한 시간을 수정해야 하는 경우가 있습니다. 고맙게도 Laravel의 기본 기능 테스트 클래스에는 현재 시간을 조작할 수 있는 헬퍼가 포함되어 있습니다.
+
+    use Illuminate\Support\Carbon;
 
     public function testTimeCanBeManipulated()
     {
@@ -728,6 +845,11 @@ When testing, you may occasionally need to modify the time returned by helpers s
         $this->travel(5)->days();
         $this->travel(5)->weeks();
         $this->travel(5)->years();
+
+        // Freeze time and resume normal time after executing closure...
+        $this->freezeTime(function (Carbon $time) {
+            // ...
+        });
 
         // Travel into the past...
         $this->travel(-5)->hours();

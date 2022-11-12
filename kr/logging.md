@@ -104,9 +104,11 @@ Name | Description
 `stack` | "다중 채널" 채널 생성을 용이하게 하는 래퍼
 `syslog` | `SyslogHandler` 기반 Monolog 드라이버
 
-> {tip} Check out the documentation on [advanced channel customization](#monolog-channel-customization) to learn more about the `monolog` and `custom` drivers.
+> **Note**
+> Check out the documentation on [advanced channel customization](#monolog-channel-customization) to learn more about the `monolog` and `custom` drivers.
 
-> {tip} `monolog` 및 `custom` 드라이버에 대한 자세한 내용은 [고급 채널 사용자 정의](#monolog-channel-customization) 문서를 확인하세요.
+> **Note**
+> `monolog` 및 `custom` 드라이버에 대한 자세한 내용은 [고급 채널 사용자 정의](#monolog-channel-customization) 문서를 확인하세요.
 
 <a name="channel-prerequisites"></a>
 ### Channel Prerequisites
@@ -131,6 +133,18 @@ Name | Description | Default
 `bubble` | 메시지가 처리된 후 다른 채널로 버블링되어야 하는지 여부를 나타냅니다. | `true`
 `locking` | 쓰기 전에 로그 파일을 잠그십시오. | `false`
 `permission` | 로그 파일의 권한 | `0644`
+
+Additionally, the retention policy for the `daily` channel can be configured via the `days` option:
+
+또한 `daily` 채널에 대한 보존 정책은 `days` 옵션을 통해 구성할 수 있습니다.
+
+Name | Description                                                       | Default
+------------- |-------------------------------------------------------------------| -------------
+`days` | The number of days that daily log files should be retained | `7`
+
+이름 | 설명                                                       | 기본값
+------------- |-------------------------------------------------------------------| -------------
+`days` | 일간 로그 파일이 보존될 일수 | `7`
 
 <a name="configuring-the-papertrail-channel"></a>
 #### Configuring The Papertrail Channel
@@ -213,9 +227,9 @@ Let's dissect this configuration. First, notice our `stack` channel aggregates t
 #### Log Levels
 #### 로그 레벨
 
-Take note of the `level` configuration option present on the `syslog` and `slack` channel configurations in the example above. This option determines the minimum "level" a message must be in order to be logged by the channel. Monolog, which powers Laravel's logging services, offers all of the log levels defined in the [RFC 5424 specification](https://tools.ietf.org/html/rfc5424): **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, and **debug**.
+Take note of the `level` configuration option present on the `syslog` and `slack` channel configurations in the example above. This option determines the minimum "level" a message must be in order to be logged by the channel. Monolog, which powers Laravel's logging services, offers all of the log levels defined in the [RFC 5424 specification](https://tools.ietf.org/html/rfc5424). In descending order of severity, these log levels are: **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, and **debug**.
 
-앞의 예제에서 확인한 `syslog` 와 `slack` 채널 설정에 있는 `level` 옵션을 확인해 보십시오. 이 옵션은 채널에서 로그가 기록되어야 하는 최소 "레벨"을 결정합니다. 라라벨의 로그 서비스를 제공하는 Monolog는 [RFC 5424 표준 스펙](https://tools.ietf.org/html/rfc5424) 에 정의된 모든 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 레벨을 지원합니다.
+앞의 예제에서 확인한 `syslog` 와 `slack` 채널 설정에 있는 `level` 옵션을 확인해 보십시오. 이 옵션은 채널에서 로그가 기록되어야 하는 최소 "레벨"을 결정합니다. 라라벨의 로그 서비스를 제공하는 Monolog는 [RFC 5424 표준 스펙](https://tools.ietf.org/html/rfc5424) 에 정의된 모든 레벨을 지원합니다. 로그 레벨은 심각도가 높은 순서대로 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 입니다.
 
 So, imagine we log a message using the `debug` method:
 
@@ -288,9 +302,9 @@ An array of contextual data may be passed to the log methods. This contextual da
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
-Occasionally, you may wish to specify some contextual information that should be included with all subsequent log entries. For example, you may wish to log a request ID that is associated with each incoming request to your application. To accomplish this, you may call the `Log` facade's `withContext` method:
+Occasionally, you may wish to specify some contextual information that should be included with all subsequent log entries in a particular channel. For example, you may wish to log a request ID that is associated with each incoming request to your application. To accomplish this, you may call the `Log` facade's `withContext` method:
 
-경우에 따라 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다.
+경우에 따라 특정 채널의 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다.
 
     <?php
 
@@ -318,6 +332,28 @@ Occasionally, you may wish to specify some contextual information that should be
             ]);
 
             return $next($request)->header('Request-Id', $requestId);
+        }
+    }
+
+If you would like to share contextual information across _all_ logging channels, you may call the `Log::shareContext()` method. This method will provide the contextual information to all created channels and any channels that are created subsequently. Typically, the `shareContext` method should be called from the `boot` method of an application service provider:
+
+모든 로깅 채널에서 컨텍스트 정보를 공유 하려면 `Log::shareContext()` 메서드를 호출하면 됩니다. 이 메서드는 생성된 모든 채널과 이후에 생성되는 모든 채널에 컨텍스트 정보를 제공합니다. 일반적으로 `shareContext` 메서드는 서비스 공급자의 `boot` 메서드에서 호출해야 합니다.
+
+    use Illuminate\Support\Facades\Log;
+    use Illuminate\Support\Str;
+
+    class AppServiceProvider
+    {
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Log::shareContext([
+                'invocation-id' => (string) Str::uuid(),
+            ]);
         }
     }
 
@@ -418,9 +454,11 @@ Once you have configured the `tap` option on your channel, you're ready to defin
         }
     }
 
-> {tip} All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
+> **Note**
+> All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
 
-> {tip} 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
+> **Note**
+> 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
 <a name="creating-monolog-handler-channels"></a>
 ### Creating Monolog Handler Channels
@@ -505,6 +543,6 @@ Once you have configured the `custom` driver channel, you're ready to define the
          */
         public function __invoke(array $config)
         {
-            return new Logger(...);
+            return new Logger(/* ... */);
         }
     }

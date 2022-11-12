@@ -23,6 +23,10 @@
     - [첨부 파일](#attachments)
     - [Inline Attachments](#inline-attachments)
     - [인라인 첨부](#inline-attachments)
+    - [Attachable Objects](#attachable-objects)
+    - [첨부 가능한 객체](#attachable-objects)
+    - [Headers](#headers)
+    - [헤더](#headers)
     - [Tags & Metadata](#tags-and-metadata)
     - [태그 & 메타데이터](#tags-and-metadata)
     - [Customizing The Symfony Message](#customizing-the-symfony-message)
@@ -244,35 +248,42 @@ php artisan make:mail OrderShipped
 ## Writing Mailables
 ## Mailables 작성하기
 
-Once you have generated a mailable class, open it up so we can explore its contents. First, note that all of a mailable class' configuration is done in the `build` method. Within this method, you may call various methods such as `from`, `subject`, `view`, and `attach` to configure the email's presentation and delivery.
+Once you have generated a mailable class, open it up so we can explore its contents. Mailable class configuration is done in several methods, including the `envelope`, `content`, and `attachments` methods.
 
-Mailable 클래스를 생성했으면 해당 클래스를 열어 내용을 탐색할 수 있습니다. 첫째, 모든 mailable 클래스 구성은 `build` 메소드로 실행됩니다. 이 메소드 안에서 여러분은 `from`, `subject`, `view` 그리고 `attach` 와 같은, 이메일의 형태와 발송에 대해서 설정할 수 있는 다양한 메소드를 사용할 수 있습니다.
+메일링 가능한 클래스를 생성했으면 해당 클래스의 내용을 탐색할 수 있도록 엽니다. 메일 가능 클래스 구성은 `envelope`, `content`, `attachments` 메소드를 포함한 여러 메소드에서 수행됩니다.
 
-> {tip} You may type-hint dependencies on the mailable's `build` method. The Laravel [service container](/docs/{{version}}/container) automatically injects these dependencies.
+The `envelope` method returns an `Illuminate\Mail\Mailables\Envelope` object that defines the subject and, sometimes, the recipients of the message. The `content` method returns an `Illuminate\Mail\Mailables\Content` object that defines the [Blade template](/docs/{{version}}/blade) that will be used to generate the message content.
 
-> {tip} mailable의 `build` 메소드에 의존성을 타입-힌트로 할 수 있습니다. Laravel [서비스 컨테이너](/docs/{{version}}/container)는 이러한 의존성을 자동으로 주입합니다.
+이 `envelope` 메서드는 제목과 메시지 수신자를 정의하는 `Illuminate\Mail\Mailables\Envelope` 개체를 반환합니다. `content` 메서드는 메시지 콘텐츠를 생성하는 데 사용할 [블레이드 템플릿](/docs/{{version}}/blade)을 정의하는 `Illuminate\Mail\Mailables\Content` 개체를 반환합니다.
 
 <a name="configuring-the-sender"></a>
 ### Configuring The Sender
 ### 발송자 설정하기
 
-<a name="using-the-from-method"></a>
-#### Using The `from` Method
-#### `from` 메소드 사용하기
+<a name="using-the-envelope"></a>
+#### Using The Envelope
+#### 봉투 사용하기
 
-First, let's explore configuring the sender of the email. Or, in other words, who the email is going to be "from". There are two ways to configure the sender. First, you may use the `from` method within your mailable class' `build` method:
+First, let's explore configuring the sender of the email. Or, in other words, who the email is going to be "from". There are two ways to configure the sender. First, you may specify the "from" address on your message's envelope:
 
-먼저 이메일의 발송자 설정을 살펴보겠습니다. 또는 다른 말로 누구로 부터 이메일이 전달되는지에 대해서 말입니다. 발송자를 설정하는 방법에는 두가지가 있습니다. 먼저 mailable 클래스의 `build` 메소드 안에서 `from` 메소드를 사용하는 것입니다.
+먼저 전자 메일의 발신자 구성을 살펴보겠습니다. 즉, "발신인"이 될 사람입니다. 발신자를 구성하는 방법에는 두 가지가 있습니다. 먼저 메시지 봉투에 "from" 주소를 지정할 수 있습니다.
+
+
+
+    use Illuminate\Mail\Mailables\Address;
+    use Illuminate\Mail\Mailables\Envelope;
 
     /**
-     * Build the message.
+     * Get the message envelope.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        return $this->from('example@example.com', 'Example')
-                    ->view('emails.orders.shipped');
+        return new Envelope(
+            from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+            subject: 'Order Shipped',
+        );
     }
 
 <a name="using-a-global-from-address"></a>
@@ -295,42 +306,57 @@ In addition, you may define a global "reply_to" address within your `config/mail
 ### Configuring The View
 ### View-뷰 파일 설정하기
 
-Within a mailable class' `build` method, you may use the `view` method to specify which template should be used when rendering the email's contents. Since each email typically uses a [Blade template](/docs/{{version}}/blade) to render its contents, you have the full power and convenience of the Blade templating engine when building your email's HTML:
+Within a mailable class' `content` method, you may define the `view`, or which template should be used when rendering the email's contents. Since each email typically uses a [Blade template](/docs/{{version}}/blade) to render its contents, you have the full power and convenience of the Blade templating engine when building your email's HTML:
 
-mailable 클래스의 `build` 메소드 안에서 이메일 컨텐츠를 렌더링 할때 사용해야 하는 템플릿을 지정하기 위해서 `view` 메소드를 사용할 수 있습니다. 각각의 이메일은 컨텐츠를 렌더링 하기 위해서 일반적으로 [블레이드 템플릿](/docs/{{version}}/blade)을 사용하기 때문에, 이메일의 HTML을 구성하는데 블레이드 템플릿 엔진의 강력하고 편리한 기능을 사용할 수 있습니다.
+mailable 클래스의 `content` 메소드 안에서 `view`나 이메일 컨텐츠를 렌더링할 때 어떤 템플릿을 사용할 것인지를 정의해야 합니다. 각각의 이메일은 컨텐츠를 렌더링 하기 위해서 일반적으로 [블레이드 템플릿](/docs/{{version}}/blade)을 사용하기 때문에, 이메일의 HTML을 구성하는데 블레이드 템플릿 엔진의 강력하고 편리한 기능을 사용할 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the message content definition.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->view('emails.orders.shipped');
+        return new Content(
+            view: 'emails.orders.shipped',
+        );
     }
 
-> {tip} You may wish to create a `resources/views/emails` directory to house all of your email templates; however, you are free to place them wherever you wish within your `resources/views` directory.
+> **Note**
+> You may wish to create a `resources/views/emails` directory to house all of your email templates; however, you are free to place them wherever you wish within your `resources/views` directory.
 
-> {tip} 모든 이메일 템플릿을 모아놓기 위한 `resources/views/emails` 디렉토리를 만들기를 원할 수도 있습니다. 하지만, 실제로는 `resources/views` 디렉토리 안에 어디에 구성하더라도 상관없습니다.
+> **Note**
+> 모든 이메일 템플릿을 모아놓기 위한 `resources/views/emails` 디렉토리를 만들기를 원할 수도 있습니다. 하지만, 실제로는 `resources/views` 디렉토리 안에 어디에 구성하더라도 상관없습니다.
 
 <a name="plain-text-emails"></a>
 #### Plain Text Emails
 #### 텍스트 전용 이메일
 
-If you would like to define a plain-text version of your email, you may use the `text` method. Like the `view` method, the `text` method accepts a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message:
+If you would like to define a plain-text version of your email, you may specify the plain-text template when creating the message's `Content` definition. Like the `view` parameter, the `text` parameter should be a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message:
 
-이메일을 순수 텍스트 버전으로 정의하고자 한다면, `text` 메소드를 사용하면 됩니다. `view` 메소드와 같이 `text` 메소드는 이메일의 컨텐츠를 렌더링하는데 사용하게될 템플릿의 이름을 인자로 전달받습니다. 이메일 메세지를 HTML 과 순수 텍스트 버전 원하는 것으로 정의할 수 있습니다.
+이메일을 순수 텍스트 버전으로 정의하고자 한다면, 메시지의 `Content` 정의를 생성할 때 순수 텍스트 템플릿을 지정해주면 됩니다.  `view` 메소드와 같이 `text` 파라미터는 이메일의 컨텐츠를 렌더링하는데 사용하게될 템플릿의 이름이어야 합니다. 이메일 메세지를 HTML 과 순수 텍스트 버전 원하는 것으로 정의할 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the message content definition.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->view('emails.orders.shipped')
-                    ->text('emails.orders.shipped_plain');
+        return new Content(
+            view: 'emails.orders.shipped',
+            text: 'emails.orders.shipped-text'
+        );
     }
+
+For clarity, the `html` parameter may be used as an alias of the `view` parameter:
+
+`html` 파라미터는 `view` 파라미터의 별칭으로 사용될 수 있습니다.
+
+    return new Content(
+        html: 'emails.orders.shipped',
+        text: 'emails.orders.shipped-text'
+    );
 
 <a name="view-data"></a>
 ### View Data
@@ -351,6 +377,7 @@ Typically, you will want to pass some data to your view that you can utilize whe
     use App\Models\Order;
     use Illuminate\Bus\Queueable;
     use Illuminate\Mail\Mailable;
+    use Illuminate\Mail\Mailables\Content;
     use Illuminate\Queue\SerializesModels;
 
     class OrderShipped extends Mailable
@@ -376,13 +403,15 @@ Typically, you will want to pass some data to your view that you can utilize whe
         }
 
         /**
-         * Build the message.
+         * Get the message content definition.
          *
-         * @return $this
+         * @return \Illuminate\Mail\Mailables\Content
          */
-        public function build()
+        public function content()
         {
-            return $this->view('emails.orders.shipped');
+            return new Content(
+                view: 'emails.orders.shipped',
+            );
         }
     }
 
@@ -394,13 +423,13 @@ Once the data has been set to a public property, it will automatically be availa
         Price: {{ $order->price }}
     </div>
 
-<a name="via-the-with-method"></a>
-#### Via The `with` Method:
-#### `with` 메소드를 사용하여:
+<a name="via-the-with-parameter"></a>
+#### Via The `with` Parameter:
+#### `with` 파라미터를 사용하여:
 
-If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view via the `with` method. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template. Then, when calling the `with` method, pass an array of data that you wish to make available to the template:
+If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view via the `Content` definition's `with` parameter. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template:
 
-만약 여러분이 이메일 데이터의 유형이 템플릿에 전달되기 전에 수정을 가하고 싶다면, `with` 메소드를 사용하여 수동으로 데이터를 뷰에 전달할 수 있습니다. 일반적으로, 이경우에도 여전히 데이터가 mailable 클래스의 생성자에 전달 될것입니다; 하지만 템플릿에서 자동으로 사용가능하지 않도록, 이 데이터를 `protected` 나 `private` 속성에 지정해야 합니다. 이제 템플릿에서 사용하고자 하는 데이터의 배열을 인자로 `with` 메소드를 호출 하십시오.
+만약 여러분이 이메일 데이터의 유형이 템플릿에 전달되기 전에 수정을 가하고 싶다면, `Content` 정의의 `with` 파라미터를 사용하여 수동으로 데이터를 뷰에 전달할 수 있습니다. 일반적으로, 이경우에도 여전히 데이터가 mailable 클래스의 생성자에 전달 될것입니다; 하지만 템플릿에서 자동으로 사용가능하지 않도록, 이 데이터를 `protected` 나 `private` 속성에 지정해야 합니다.
 
     <?php
 
@@ -409,6 +438,7 @@ If you would like to customize the format of your email's data before it is sent
     use App\Models\Order;
     use Illuminate\Bus\Queueable;
     use Illuminate\Mail\Mailable;
+    use Illuminate\Mail\Mailables\Content;
     use Illuminate\Queue\SerializesModels;
 
     class OrderShipped extends Mailable
@@ -434,17 +464,19 @@ If you would like to customize the format of your email's data before it is sent
         }
 
         /**
-         * Build the message.
+         * Get the message content definition.
          *
-         * @return $this
+         * @return \Illuminate\Mail\Mailables\Content
          */
-        public function build()
+        public function content()
         {
-            return $this->view('emails.orders.shipped')
-                        ->with([
-                            'orderName' => $this->order->name,
-                            'orderPrice' => $this->order->price,
-                        ]);
+            return new Content(
+                view: 'emails.orders.shipped',
+                with: [
+                    'orderName' => $this->order->name,
+                    'orderPrice' => $this->order->price,
+                ],
+            );
         }
     }
 
@@ -460,109 +492,117 @@ Once the data has been passed to the `with` method, it will automatically be ava
 ### Attachments
 ### 첨부 파일
 
-To add attachments to an email, use the `attach` method within the mailable class' `build` method. The `attach` method accepts the full path to the file as its first argument:
+To add attachments to an email, you will add attachments to the array returned by the message's `attachments` method. First, you may add an attachment by providing a file path to the `fromPath` method provided by the `Attachment` class:
 
-이메일에 파일을 첨부하려면, mailable 클래스의 `build` 메소드 안에서 `attach` 메소드를 사용하면 됩니다. `attach` 메소드는 파일의 전체 패스(full path)를 첫번째 인자로 전달 받습니다.
+이메일에 파일을 첨부하려면, 메시지의 `attachments` 메서드에 의해 반환되는 배열에 첨부물을 추가하게 됩니다. 우선 `Attachment` 클래스에 의해 제공되는 `fromPath` 메서드에 파일 경로를 제공함으로써 첨부물을 추가합니다.
+
+    use Illuminate\Mail\Mailables\Attachment;
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attach('/path/to/file');
+        return [
+            Attachment::fromPath('/path/to/file'),
+        ];
     }
 
-When attaching files to a message, you may also specify the display name and / or MIME type by passing an `array` as the second argument to the `attach` method:
+When attaching files to a message, you may also specify the display name and / or MIME type for the attachment using the `as` and `withMime` methods:
 
-이메일에 파일이 첨부 될 때, `attach` 메소드의 두번째 인자로 첨부 파일의 표시되는 이름과 MIME 타입을 지정할 수 있는 `array`을 지정할 수도 있습니다.
+메시지에 파일을 첨부할 때 표시되는 이름과 MIME 타입을 `as`와 `withMime` 메서드를 사용해서 지정해줄 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attach('/path/to/file', [
-                        'as' => 'name.pdf',
-                        'mime' => 'application/pdf',
-                    ]);
+        return [
+            Attachment::fromPath('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="attaching-files-from-disk"></a>
 #### Attaching Files From Disk
 #### 디스크에 있는 파일 첨부하기
 
-If you have stored a file on one of your [filesystem disks](/docs/{{version}}/filesystem), you may attach it to the email using the `attachFromStorage` method:
+If you have stored a file on one of your [filesystem disks](/docs/{{version}}/filesystem), you may attach it to the email using the `fromStorage` attachment method:
 
-[filesystem disks](/docs/{{version}}/filesystem) 중 하나에 파일을 저장했다면, `attachFromStorage` 메소드를 사용하여 이메일에 첨부 할 수 있습니다.
+[filesystem disks](/docs/{{version}}/filesystem) 중 하나에 파일을 저장했다면, `fromStorage` 메소드를 사용하여 이메일에 첨부 할 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorage('/path/to/file');
+        return [
+            Attachment::fromStorage('/path/to/file'),
+        ];
     }
 
-If necessary, you may specify the file's attachment name and additional options using the second and third arguments to the `attachFromStorage` method:
+Of course, you may also specify the attachment's name and MIME type:
 
-필요하다면 `attachFromStorage` 메소드의 두번째와 세번째 인자를 사용하여 파일의 첨부 파일 이름과 추가 옵션을 지정할 수 있습니다.
+물론 첨부물의 이름과 MIME 타입도 지정할 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorage('/path/to/file', 'name.pdf', [
-                       'mime' => 'application/pdf'
-                   ]);
+        return [
+            Attachment::fromStorage('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
-The `attachFromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
+The `fromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
 
-`attachFromStorageDisk` 메소드는 기본 디스크가 아닌 다른 스토리지 디스크를 지정해야 할 때 사용할 수 있습니다.
+`fromStorageDisk` 메소드는 기본 디스크가 아닌 다른 스토리지 디스크를 지정해야 할 때 사용할 수 있습니다.
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-       return $this->view('emails.orders.shipped')
-                   ->attachFromStorageDisk('s3', '/path/to/file');
+        return [
+            Attachment::fromStorageDisk('s3', '/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="raw-data-attachments"></a>
 #### Raw Data Attachments
 #### Raw 데이터 첨부하기
 
-The `attachData` method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the email without writing it to disk. The `attachData` method accepts the raw data bytes as its first argument, the name of the file as its second argument, and an array of options as its third argument:
+The `fromData` attachment method may be used to attach a raw string of bytes as an attachment. For example, you might use this method if you have generated a PDF in memory and want to attach it to the email without writing it to disk. The `fromData` method accepts a closure which resolves the raw data bytes as well as the name that the attachment should be assigned:
 
-`attachData` 메소드는 raw string 의 바이트를 첨부하는데 사용됩니다. 예를 들어 메모리에서 PDF를 생성했고 디스크에 저장하지 않고 메일에 첨부하려는 경우에 사용할 수 있습니다. `attachData` 메소드는 첫번째 인자로 raw 데이터 바이트를, 두번째 인자로 파일의 이름을, 그리고 세번째 인자로 옵션 배열을 전달 받습니다.
+`fromData` 메소드는 raw string 의 바이트를 첨부하는데 사용됩니다. 예를 들어 메모리에서 PDF를 생성했고 디스크에 저장하지 않고 메일에 첨부하려는 경우에 사용할 수 있습니다. `fromData` 메소드는 로우 데이터 바이트를 해결하는 클로저와 첨부 파일에 할당해야 하는 이름을 받습니다.
 
     /**
-     * Build the message.
+     * Get the attachments for the message.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Attachment[]
      */
-    public function build()
+    public function attachments()
     {
-        return $this->view('emails.orders.shipped')
-                    ->attachData($this->pdf, 'name.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+        return [
+            Attachment::fromData(fn () => $this->pdf, 'Report.pdf')
+                    ->withMime('application/pdf'),
+        ];
     }
 
 <a name="inline-attachments"></a>
@@ -581,9 +621,11 @@ Embedding inline images into your emails is typically cumbersome; however, Larav
 </body>
 ```
 
-> {note} The `$message` variable is not available in plain-text message templates since plain-text messages do not utilize inline attachments.
+> **Warning**
+> The `$message` variable is not available in plain-text message templates since plain-text messages do not utilize inline attachments.
 
-> {note} `$message` 변수는 플레인-텍스트 메시지가 인라인 첨부파일을 사용하지 않기 때문에 플레인-텍스트 메시지 템플릿에서 사용할 수 없습니다.
+> **Warning**
+> `$message` 변수는 플레인-텍스트 메시지가 인라인 첨부파일을 사용하지 않기 때문에 플레인-텍스트 메시지 템플릿에서 사용할 수 없습니다.
 
 <a name="embedding-raw-data-attachments"></a>
 #### Embedding Raw Data Attachments
@@ -601,24 +643,131 @@ If you already have a raw image data string you wish to embed into an email temp
 </body>
 ```
 
+<a name="attachable-objects"></a>
+### Attachable Objects
+### 첨부 가능한 개체
+
+While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a `Photo` model that represents that photo. When that is the case, wouldn't it be convenient to simply pass the `Photo` model to the `attach` method? Attachable objects allow you to do just that.
+
+간단한 문자열 경로를 통해 메시지에 파일을 첨부하는 것으로 충분하지만 많은 경우에 응용 프로그램 내의 첨부 가능한 엔터티는 클래스로 표시됩니다. 예를 들어 응용 프로그램이 메시지에 사진을 첨부하는 경우 응용 프로그램에 해당 사진을 나타내는 `Photo` 모델이 있을 수도 있습니다. 그럴 땐 그냥 모델을 `Photo` 모델을 `attach` 메소드 에 넘기는 게 편하지 않을까요? 첨부 가능한 개체를 사용하면 그렇게 할 수 있습니다.
+
+To get started, implement the `Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a `toMailAttachment` method that returns an `Illuminate\Mail\Attachment` instance:
+
+메시지에 첨부할 개체에 `Illuminate\Contracts\Mail\Attachable` 인터페이스를 구현하십시오. 이 인터페이스는 클래스가 `Illuminate\Mail\Attachment` 인스턴스를 반환하는 `toMailAttachment` 메서드를 정의하도록 지시합니다.
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Contracts\Mail\Attachable;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Mail\Attachment;
+
+    class Photo extends Model implements Attachable
+    {
+        /**
+         * Get the attachable representation of the model.
+         *
+         * @return \Illuminate\Mail\Attachment
+         */
+        public function toMailAttachment()
+        {
+            return Attachment::fromPath('/path/to/file');
+        }
+    }
+
+Once you have defined your attachable object, you may return an instance of that object from the `attachments` method when building an email message:
+
+첨부 가능한 객체를 정의하고 나면 이메일 메시지를 작성할 때 `attachments` 메소드에서 해당 객체의 인스턴스를 반환할 수 있습니다 .
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array
+     */
+    public function attachments()
+    {
+        return [$this->photo];
+    }
+
+Of course, attachment data may be stored on a remote file storage service such as Amazon S3. So, Laravel also allows you to generate attachment instances from data that is stored on one of your application's [filesystem disks](/docs/{{version}}/filesystem):
+
+물론 첨부 데이터는 Amazon S3와 같은 원격 파일 스토리지 서비스에 저장될 수 있습니다. 따라서 라라벨을 사용하면 애플리케이션의 [파일 시스템 디스크](/docs/{{version}}/filesystem) 중 하나에 저장된 데이터에서 첨부 파일 인스턴스를 생성할 수도 있습니다 .
+
+    // Create an attachment from a file on your default disk...
+    return Attachment::fromStorage($this->path);
+
+    // Create an attachment from a file on a specific disk...
+    return Attachment::fromStorageDisk('backblaze', $this->path);
+
+In addition, you may create attachment instances via data that you have in memory. To accomplish this, provide a closure to the `fromData` method. The closure should return the raw data that represents the attachment:
+
+또한 메모리에 있는 데이터를 통해 첨부 파일 인스턴스를 생성할 수 있습니다. 이를 수행하려면 `fromData` 메서드에 클로저를 제공합니다. 클로저는 첨부 파일을 나타내는 원시 데이터를 반환해야 합니다.
+
+    return Attachment::fromData(fn () => $this->content, 'Photo Name');
+
+Laravel also provides additional methods that you may use to customize your attachments. For example, you may use the `as` and `withMime` methods to customize the file's name and MIME type:
+
+라라벨은 또한 첨부 파일을 사용자 정의하는 데 사용할 수 있는 추가 방법을 제공합니다. 예를 들어 `as` 및 `withMime` 메서드를 사용하여 파일 이름과 MIME 유형을 사용자 지정할 수 있습니다.
+
+    return Attachment::fromPath('/path/to/file')
+            ->as('Photo Name')
+            ->withMime('image/jpeg');
+
+<a name="headers"></a>
+### Headers
+### 헤더
+
+Sometimes you may need to attach additional headers to the outgoing message. For instance, you may need to set a custom `Message-Id` or other arbitrary text headers.
+
+때로는 보내는 메시지에 추가 헤더를 첨부해야 할 수도 있습니다. 예를 들어 사용자 지정 `Message-Id` 또는 기타 임의의 텍스트 헤더를 설정해야 할 수 있습니다.
+
+To accomplish this, define a `headers` method on your mailable. The `headers` method should return an `Illuminate\Mail\Mailables\Headers` instance. This class accepts `messageId`, `references`, and `text` parameters. Of course, you may provide only the parameters you need for your particular message:
+
+이를 수행하려면 메일러블에 `headers` 메소드를 정의하십시오. `headers` 메서드는 `Illuminate\Mail\Mailables\Headers` 인스턴스를 반환해야 합니다. 이 클래스는 `messageId`, `references` 및 `text` 매개변수를 허용합니다. 물론 특정 메시지에 필요한 매개변수만 제공할 수 있습니다.
+
+    use Illuminate\Mail\Mailables\Headers;
+
+    /**
+     * Get the message headers.
+     *
+     * @return \Illuminate\Mail\Mailables\Headers
+     */
+    public function headers()
+    {
+        return new Headers(
+            messageId: 'custom-message-id@example.com',
+            references: ['previous-message@example.com'],
+            text: [
+                'X-Custom-Header' => 'Custom Value',
+            ],
+        );
+    }
+
 <a name="tags-and-metadata"></a>
 ### Tags & Metadata
 ### 태그 & 메타데이터
 
-Some third-party email providers such as Mailgun and Postmark support message "tags" and "metadata", which may be used to group and track emails sent by your application. You may add tags and metadata to an email message via the `tag` and `metadata` methods:
+Some third-party email providers such as Mailgun and Postmark support message "tags" and "metadata", which may be used to group and track emails sent by your application. You may add tags and metadata to an email message via your `Envelope` definition:
 
-Mailgun 과 Postmark 와 같은 써드파티 이메일 공급자는 애플리케이션에서 보낸 이메일을 그룹으로 묶어서 관리할 수 있도록 "태그" 와 "메타데이터"를 지정하는 기능을 지원합니다. `tag` 와 `metadata` 메소드를 사용하면 이메일 메세지에 태그와 메타데이터를 지정할 수 있습니다.
+Mailgun 과 Postmark 와 같은 써드파티 이메일 공급자는 애플리케이션에서 보낸 이메일을 그룹으로 묶어서 관리할 수 있도록 "태그" 와 "메타데이터"를 지정하는 기능을 지원합니다. `Envelope` 정의를 통 이메일 메세지에 태그와 메타데이터를 지정할 수 있습니다.
+
+    use Illuminate\Mail\Mailables\Envelope;
 
     /**
-     * Build the message.
+     * Get the message envelope.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        return $this->view('emails.orders.shipped')
-                    ->tag('shipment')
-                    ->metadata('order_id', $this->order->id);
+        return new Envelope(
+            subject: 'Order Shipped',
+            tags: ['shipment'],
+            metadata: [
+                'order_id' => $this->order->id,
+            ],
+        );
     }
 
 If your application is using the Mailgun driver, you may consult Mailgun's documentation for more information on [tags](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1) and [metadata](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages). Likewise, the Postmark documentation may also be consulted for more information on their support for [tags](https://postmarkapp.com/blog/tags-support-for-smtp) and [metadata](https://postmarkapp.com/support/article/1125-custom-metadata-faq).
@@ -633,28 +782,28 @@ If your application is using Amazon SES to send emails, you should use the `meta
 ### Customizing The Symfony Message
 ### Symfony 메세지 커스터마이징 하기
 
-The `withSymfonyMessage` method of the `Mailable` base class allows you to register a closure which will be invoked with the Symfony Message instance before sending the message. This gives you an opportunity to deeply customize the message before it is delivered:
+Laravel's mail capabilities are powered by Symfony Mailer. Laravel allows you to register custom callbacks that will be invoked with the Symfony Message instance before sending the message. This gives you an opportunity to deeply customize the message before it is sent. To accomplish this, define a `using` parameter on your `Envelope` definition:
 
-`Mailable` 기본 클래스의 `withSymfonyMessage` 메소드를 사용하면 메시지를 보내기 전에 Symfony 메시지 인스턴스와 함께 호출될 클로저를 등록할 수 있습니다. 이렇게 되면 메세지를 보내기 전에 커스터마이징 할 수 있습니다.
+라라벨의 메일 기능은 Symfony Mailer에 의해 구동됩니다. 라라벨을 사용하면 메시지를 보내기 전에 Symfony Message 인스턴스와 함께 호출될 사용자 정의 콜백을 등록할 수 있습니다. 이렇게 하면 메시지를 보내기 전에 세부적으로 사용자 지정할 수 있습니다. 이를 수행하려면 `Envelope` 정의에 `using` 매개변수를 정의 하십시오.
 
+    use Illuminate\Mail\Mailables\Envelope;
     use Symfony\Component\Mime\Email;
-
+    
     /**
-     * Build the message.
+     * Get the message envelope.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function build()
+    public function envelope()
     {
-        $this->view('emails.orders.shipped');
-
-        $this->withSymfonyMessage(function (Email $message) {
-            $message->getHeaders()->addTextHeader(
-                'Custom-Header', 'Header Value'
-            );
-        });
-
-        return $this;
+        return new Envelope(
+            subject: 'Order Shipped',
+            using: [
+                function (Email $message) {
+                    // ...
+                },
+            ]
+        );
     }
 
 <a name="markdown-mailables"></a>
@@ -677,21 +826,25 @@ To generate a mailable with a corresponding Markdown template, you may use the `
 php artisan make:mail OrderShipped --markdown=emails.orders.shipped
 ```
 
-Then, when configuring the mailable within its `build` method, call the `markdown` method instead of the `view` method. The `markdown` method accepts the name of the Markdown template and an optional array of data to make available to the template:
+Then, when configuring the mailable `Content` definition within its `content` method, use the `markdown` parameter instead of the `view` parameter:
 
-그런다음, `build` 메소드 안에서 mailable을 설정할 때 `view` 메소드 대신에 `markdown` 메소드를 호출합니다. `markdown` 메소드는 마크다운 템플릿의 이름과 선택적으로 사용할 수 있는 데이터 배열을 인자로 받습니다.
+그런다음, `content` 메소드 안에서 메일러블 `Content` 정의를 설정할 때, `view` 파라미터 대신에 `markdown` 파라미터를 사용합니다. 
+
+    use Illuminate\Mail\Mailables\Content;
 
     /**
-     * Build the message.
+     * Get the message content definition.
      *
-     * @return $this
+     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function build()
+    public function content()
     {
-        return $this->from('example@example.com')
-                    ->markdown('emails.orders.shipped', [
-                        'url' => $this->orderUrl,
-                    ]);
+        return new Content(
+            markdown: 'emails.orders.shipped',
+            with: [
+                'url' => $this->orderUrl,
+            ],
+        );
     }
 
 <a name="writing-markdown-messages"></a>
@@ -703,22 +856,24 @@ Markdown mailables use a combination of Blade components and Markdown syntax whi
 마크다운 mailable 은 블레이드 컴포넌트와 마크다운 문법을 조합하여 라라벨이 사전에 구성해둔 이메일 UI 컴포넌트를 활용하여 메일 메시지를 쉽게 생성할 수 있습니다.
 
 ```blade
-@component('mail::message')
+<x-mail::message>
 # Order Shipped
 
 Your order has been shipped!
 
-@component('mail::button', ['url' => $url])
+<x-mail::button :url="$url">
 View Order
-@endcomponent
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>
 ```
-> {tip} Do not use excess indentation when writing Markdown emails. Per Markdown standards, Markdown parsers will render indented content as code blocks.
+> **Note**
+> Do not use excess indentation when writing Markdown emails. Per Markdown standards, Markdown parsers will render indented content as code blocks.
 
-> {tip} 마크다운으로 메일을 작성할 때, 너무 많은 들여쓰기를 사용하지 마십시오. 마크다운 표준에 따라 마크다운 파서는 들여쓰기된 콘텐츠를 코드 블록으로 렌더링합니다.
+> **Note**
+> 마크다운으로 메일을 작성할 때, 너무 많은 들여쓰기를 사용하지 마십시오. 마크다운 표준에 따라 마크다운 파서는 들여쓰기된 콘텐츠를 코드 블록으로 렌더링합니다.
 
 <a name="button-component"></a>
 #### Button Component
@@ -729,9 +884,9 @@ The button component renders a centered button link. The component accepts two a
 버튼 컴포넌트는 가운데 있는 버튼 링크를 렌더링 합니다. 컴포넌트는 두개의 인자를 전달 받는데, `url` 과 옵셔널하게 `color`를 전달받습니다. 사용가능한 컬러는 `primary`, `success`, 그리고 `error` 입니다. 원하는 대로, 여러개의 버튼 컴포넌트를 추가할 수 있습니다.
 
 ```blade
-@component('mail::button', ['url' => $url, 'color' => 'success'])
+<x-mail::button :url="$url" color="success">
 View Order
-@endcomponent
+</x-mail::button>
 ```
 
 <a name="panel-component"></a>
@@ -743,9 +898,9 @@ The panel component renders the given block of text in a panel that has a slight
 패널 컴포넌트는 나머지 텍스트와 배경색이 약간 다른 패널에 텍스트 블럭을 렌더링합니다. 이렇게하면 주어진 텍스트 블럭을 보다 강조할 수 있습니다.
 
 ```blade
-@component('mail::panel')
+<x-mail::panel>
 This is the panel content.
-@endcomponent
+</x-mail::panel>
 ```
 
 <a name="table-component"></a>
@@ -757,12 +912,12 @@ The table component allows you to transform a Markdown table into an HTML table.
 테이블 컴포넌트는 마크다운 테이블을 HTML 테이블로 변환합니다. 이 컴포넌트는 마크다운 테이블을 내용으로 전달받습니다. 테이블 컬럼 정렬은 기본적인 마크다운 테이블 정렬 문법을 사용합니다.
 
 ```blade
-@component('mail::table')
+<x-mail::table>
 | Laravel       | Table         | Example  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
-@endcomponent
+</x-mail::table>
 ```
 
 <a name="customizing-the-components"></a>
@@ -976,9 +1131,11 @@ Alternatively, you may call the `afterCommit` method from your mailable's constr
         }
     }
 
-> {tip} To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
+> **Note**
+> To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
  
-> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
+> **Note**
+> 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
 
 <a name="rendering-mailables"></a>
 ## Rendering Mailables
@@ -1009,9 +1166,11 @@ When designing a mailable's template, it is convenient to quickly preview the re
         return new App\Mail\InvoicePaid($invoice);
     });
 
-> {note} [Inline attachments](#inline-attachments) will not be rendered when a mailable is previewed in your browser. To preview these mailables, you should send them to an email testing application such as [MailHog](https://github.com/mailhog/MailHog) or [HELO](https://usehelo.com).
+> **Warning**
+> [Inline attachments](#inline-attachments) will not be rendered when a mailable is previewed in your browser. To preview these mailables, you should send them to an email testing application such as [MailHog](https://github.com/mailhog/MailHog) or [HELO](https://usehelo.com).
 
-> {note} [인라인 첨부 파일(Inline attachments)](#inline-attachments)은 브라우저에서 메일링을 미리 볼 때 렌더링되지 않습니다. 이러한 메일링을 미리 보려면 [MailHog](https://github.com/mailhog/MailHog) 또는 [HELO](https://usehelo.com)와 같은 이메일 테스트 애플리케이션으로 보내야 합니다.
+> **Warning**
+> [인라인 첨부 파일(Inline attachments)](#inline-attachments)은 브라우저에서 메일링을 미리 볼 때 렌더링되지 않습니다. 이러한 메일링을 미리 보려면 [MailHog](https://github.com/mailhog/MailHog) 또는 [HELO](https://usehelo.com)와 같은 이메일 테스트 애플리케이션으로 보내야 합니다.
 
 <a name="localizing-mailables"></a>
 ## Localizing Mailables
@@ -1062,9 +1221,9 @@ Once you have implemented the interface, Laravel will automatically use the pref
 ## Testing Mailables
 ## Mailables 테스팅
 
-Laravel provides several convenient methods for testing that your mailables contain the content that you expect. These methods are: `assertSeeInHtml`, `assertDontSeeInHtml`, `assertSeeInOrderInHtml`, `assertSeeInText`, `assertDontSeeInText`, and `assertSeeInOrderInText`.
+Laravel provides a variety of methods for inspecting your mailable's structure. In addition, Laravel provides several convenient methods for testing that your mailable contains the content that you expect. These methods are: `assertSeeInHtml`, `assertDontSeeInHtml`, `assertSeeInOrderInHtml`, `assertSeeInText`, `assertDontSeeInText`, `assertSeeInOrderInText`, `assertHasAttachment`, `assertHasAttachedData`, `assertHasAttachmentFromStorage`, and `assertHasAttachmentFromStorageDisk`.
 
-라라벨은 당신의 mailables에 당신이 원하는 내용이 포함되어 있는지 테스트하기 위해 몇 가지 편리한 방법을 제공합니다. 이러한 메소드는 `assertSeeInHtml`, `assertDontSeeInHtml`, `assertSeeInOrderInHtml`, `assertSeeInText`, `assertDontSeeInText`, `assertSeeInOrderInText`입니다.
+라라벨은 메일러블 구조를 검사하는 다양한 메서드를 제공합니다. 라라벨은 당신의 mailables에 당신이 원하는 내용이 포함되어 있는지 테스트하기 위해 몇 가지 편리한 방법을 제공합니다. 이러한 메소드는 `assertSeeInHtml`, `assertDontSeeInHtml`, `assertSeeInOrderInHtml`, `assertSeeInText`, `assertDontSeeInText`, `assertSeeInOrderInText`, `assertHasAttachment`, `assertHasAttachedData`, `assertHasAttachmentFromStorage`, `assertHasAttachmentFromStorageDisk` 입니다.
 
 As you might expect, the "HTML" assertions assert that the HTML version of your mailable contains a given string, while the "text" assertions assert that the plain-text version of your mailable contains a given string:
 
@@ -1079,12 +1238,27 @@ As you might expect, the "HTML" assertions assert that the HTML version of your 
 
         $mailable = new InvoicePaid($user);
 
+        $mailable->assertFrom('jeffrey@example.com');
+        $mailable->assertTo('taylor@example.com');
+        $mailable->assertHasCc('abigail@example.com');
+        $mailable->assertHasBcc('victoria@example.com');
+        $mailable->assertHasReplyTo('tyler@example.com');
+        $mailable->assertHasSubject('Invoice Paid');
+        $mailable->assertHasTag('example-tag');
+        $mailable->assertHasMetadata('key', 'value');
+
         $mailable->assertSeeInHtml($user->email);
         $mailable->assertSeeInHtml('Invoice Paid');
         $mailable->assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
 
         $mailable->assertSeeInText($user->email);
         $mailable->assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+        $mailable->assertHasAttachment('/path/to/file');
+        $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
+        $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+        $mailable->assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
     }
 
 <a name="testing-mailable-sending"></a>
@@ -1153,17 +1327,23 @@ Laravel fires two events during the process of sending mail messages. The `Messa
 
 라라벨은 이메일을 보내는 동안 두개의 이벤트를 발생시킵니다. `MessageSending` 이벤트는 메세지를 보내기 전에 발생하고, `MessageSent` 이벤트는 메세지를 보낸 후에 발생합니다. 주의할 점은 이 이벤트들은 메일이 큐를 통하지 않고 바로 *보내질* 때 발생한다는 것입니다. 여러분은 `App\Providers\EventServiceProvider` 서비스 프로바이더에서 이 이벤트에 대한 이벤트 리스너를 등록할 수 있습니다.
 
+    use App\Listener\LogSendingMessage;
+    use App\Listeners\LogSentMessage;
+    use Illuminate\Mail\Events\MessageSending;
+    use Illuminate\Mail\Events\MessageSent;
+    
     /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Mail\Events\MessageSending' => [
-            'App\Listeners\LogSendingMessage',
+        MessageSending::class => [
+            LogSendingMessage::class,
         ],
-        'Illuminate\Mail\Events\MessageSent' => [
-            'App\Listeners\LogSentMessage',
+
+        MessageSent::class => [
+            LogSentMessage::class,
         ],
     ];
 
@@ -1197,7 +1377,7 @@ Laravel includes a variety of mail transports; however, you may wish to write yo
          */
         public function __construct(ApiClient $client)
         {
-            $this->client = $client
+            $this->client = $client;
         }
 
         /**
@@ -1243,7 +1423,7 @@ Once you've defined your custom transport, you may register it via the `extend` 
     public function boot()
     {
         Mail::extend('mailchimp', function (array $config = []) {
-            return new MailchimpTransport(...);
+            return new MailchimpTransport(/* ... */);
         })
     }
 

@@ -23,6 +23,8 @@
     - [뷰 파일들](#views)
     - [View Components](#view-components)
     - [뷰 컴포넌트 파일](#view-components)
+    - ["About" Artisan Command](#about-artisan-command)
+    - ["About" 아티즌 명령](#about-artisan-command)
 - [Commands](#commands)
 - [명령어](#commands)
 - [Public Assets](#public-assets)
@@ -153,9 +155,11 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
     $value = config('courier.option');
 
-> {note} You should not define closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
+> **Warning**
+> You should not define closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
 
-> {note} 설정 파일에 클로저를 정의해서는 안 됩니다. 사용자가 `config:cache` Artisan 명령을 실행할 때 올바르게 직렬화할 수 없습니다.
+> **Warning**
+> 설정 파일에 클로저를 정의해서는 안 됩니다. 사용자가 `config:cache` Artisan 명령을 실행할 때 올바르게 직렬화할 수 없습니다.
 
 <a name="default-package-configuration"></a>
 #### Default Package Configuration
@@ -181,9 +185,11 @@ The `mergeConfigFrom` method accepts the path to your package's configuration fi
         );
     }
 
-> {note} This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
+> **Warning**
+> This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
 
-> {note} 이 메소드는 설정 배열의 첫번째 레벨만을 병합합니다. 만약 사용자가 부분적으로 다차원 배열로 된 설정 배열을 정의한다면, 손실된 옵션은 병합되지 않습니다.
+> **Warning**
+> 이 메소드는 설정 배열의 첫번째 레벨만을 병합합니다. 만약 사용자가 부분적으로 다차원 배열로 된 설정 배열을 정의한다면, 손실된 옵션은 병합되지 않습니다.
 
 <a name="routes"></a>
 ### Routes
@@ -339,47 +345,95 @@ Now, when users of your package execute Laravel's `vendor:publish` Artisan comma
 ### View Components
 ### 뷰 컴포넌트
 
-If your package contains [view components](/docs/{{version}}/blade#components), you may use the `loadViewComponentsAs` method to inform Laravel how to load them. The `loadViewComponentsAs` method accepts two arguments: the tag prefix for your view components and an array of your view component class names. For example, if your package's prefix is `courier` and you have `Alert` and `Button` view components, you would add the following to your service provider's `boot` method:
+If you are building a package that utilizes Blade components or placing components in non-conventional directories, you will need to manually register your component class and its HTML tag alias so that Laravel knows where to find the component. You should typically register your components in the `boot` method of your package's service provider:
 
-패키지에 [view components](/docs/{{version}}/blade#components)가 포함되어 있으면 `loadViewComponentsAs` 메소드를 사용하여 라라벨에 로드하는 방법을 알려줄 수 있습니다. `loadViewComponentsAs` 메소드는 두 개의 인수, 즉 뷰 컴포넌트의 태그 접두어와 뷰 컴포넌트 클래스 이름의 배열을 입력받습니다. 예를 들어 패키지의 접두사가 `courier`이고 `Alert` 및 `Button` 뷰 컴포넌트가 있는 경우 서비스 프로바이더의 `boot` 메서드에 다음을 추가합니다.
+블레이트 컴포넌트를 활용하거나 컴포넌트를 컨벤션으로 정해진 곳이 아닌 위치에 놓는 패키지를 만드는 중이라면 라라벨이 어디에서 컴퍼넌트를 찾아야 할지 알 수 있도록 여러분의 컴포넌트 클래스와 HTML 태그 별칭을 수동으로 등록해줄 필요가 있습니다. 일반적으로 패키지의 서비스 프로바이더의 `boot` 메서드에서 여러분의 컴포넌트를 등록합니다.
 
-    use Courier\Components\Alert;
-    use Courier\Components\Button;
+    use Illuminate\Support\Facades\Blade;
+    use VendorPackage\View\Components\AlertComponent;
 
     /**
-     * Bootstrap any package services.
+     * Bootstrap your package's services.
      *
      * @return void
      */
     public function boot()
     {
-        $this->loadViewComponentsAs('courier', [
-            Alert::class,
-            Button::class,
-        ]);
+        Blade::component('package-alert', AlertComponent::class);
     }
 
-Once your view components are registered in a service provider, you may reference them in your view like so:
+Once your component has been registered, it may be rendered using its tag alias:
 
-뷰 컴포넌트가 서비스 프로바이더에 등록되고나면, 뷰파일에서 다음과 같이 참조할 수 있습니다.
+컴포넌트가 등록되고 나면, 태그 별칭을 이용하여 렌더링 됩니다.
 
 ```blade
-<x-courier-alert />
-
-<x-courier-button />
+<x-package-alert/>
 ```
+
+<a name="autoloading-package-components"></a>
+#### Autoloading Package Components
+#### 패키지 컴포넌트 자동로드
+
+Alternatively, you may use the `componentNamespace` method to autoload component classes by convention. For example, a `Nightshade` package might have `Calendar` and `ColorPicker` components that reside within the `Nightshade\Views\Components` namespace:
+
+또다른 방법으로 컨벤션에 의해 컴포넌트 클래스를 자동로드하기 위해 `componentNamespace` 메서드를 사용할 수 있습니다. 예를 들어, `Nightshade` 패키지는 `Nightshade\Views\Components` 네임스페이스 하위에 있는 `Calendar`와 `ColorPicker` 컴포넌트를 가지고 있을 겁니다. 
+
+    use Illuminate\Support\Facades\Blade;
+
+    /**
+     * Bootstrap your package's services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
+    }
+
+This will allow the usage of package components by their vendor namespace using the `package-name::` syntax:
+
+이러한 면은 `package-name::` 문법을 사용해서 패키지의 벤더 네임스페이스로 패키지 컴퍼넌트를 이용할 수 있게 해줍니다.
+
+```blade
+<x-nightshade::calendar />
+<x-nightshade::color-picker />
+```
+
+Blade will automatically detect the class that's linked to this component by pascal-casing the component name. Subdirectories are also supported using "dot" notation.
+
+블레이드는 자동으로 파스칼 표기법으로 작성한 컴포넌트 이름을 통해 컴퍼넌트에 연결된 클래스를 식별할 것입니다.
 
 <a name="anonymous-components"></a>
 #### Anonymous Components
 #### 익명 컴포넌트
 
-If your package contains anonymous components, they must be placed within a `components` directory of your package's "views" directory (as specified by `loadViewsFrom`). Then, you may render them by prefixing the component name with the package's view namespace:
+If your package contains anonymous components, they must be placed within a `components` directory of your package's "views" directory (as specified by [`loadViewsFrom` method](#views)). Then, you may render them by prefixing the component name with the package's view namespace:
 
-패키지에 익명의 컴포넌트가 포함 된 경우 패키지의 "views"디렉토리 (`loadViewsFrom`에 지정한대로)의 `components` 디렉토리에 배치해야합니다. 그런 다음 컴포넌트 이름 앞에 패키지의 뷰 네임스페이스를 추가하여 렌더링 할 수 있습니다.
+패키지에 익명의 컴포넌트가 포함 된 경우 패키지의 "views"디렉토리 ([`loadViewsFrom` method](#views)에 지정한대로)의 `components` 디렉토리에 배치해야합니다. 그런 다음 컴포넌트 이름 앞에 패키지의 뷰 네임스페이스를 추가하여 렌더링 할 수 있습니다.
 
 ```blade
 <x-courier::alert />
 ```
+
+<a name="about-artisan-command"></a>
+### "About" Artisan Command
+### "About" 아티즌 커맨드
+
+Laravel's built-in `about` Artisan command provides a synopsis of the application's environment and configuration. Packages may push additional information to this command's output via the `AboutCommand` class. Typically, this information may be added from your package service provider's `boot` method:
+
+라라벨에 내장된 `about` 아티즌 커맨드는 애플리케이션의 환경과 구성에 대한 개요를 제공합니다. 패키지는 `AboutCommand` 클래스를 통해 이 커맨드의 출력에 추가 정보를 더할 수 있습니다.
+
+    use Illuminate\Foundation\Console\AboutCommand;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        AboutCommand::add('My Package', fn () => ['Version' => '1.0.0']);
+    }
 
 <a name="commands"></a>
 ## Commands

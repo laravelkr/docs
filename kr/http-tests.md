@@ -106,9 +106,11 @@ In general, each of your tests should only make one request to your application.
 
 일반적으로 각 테스트는 애플리케이션에 한 번만 요청해야 합니다. 단일 테스트 메서드 내에서 여러 요청이 실행되는 경우 예기치 않은 동작이 발생할 수 있습니다.
 
-> {tip} For convenience, the CSRF middleware is automatically disabled when running tests.
+> **Note**
+> For convenience, the CSRF middleware is automatically disabled when running tests.
 
-> {tip} 편의를 위해 CSRF 미들웨어는 테스트를 실행할 때 자동으로 비활성화됩니다.
+> **Note**
+> 편의를 위해 CSRF 미들웨어는 테스트를 실행할 때 자동으로 비활성화됩니다.
 
 <a name="customizing-request-headers"></a>
 ### Customizing Request Headers
@@ -190,7 +192,7 @@ Laravel provides several helpers for interacting with the session during HTTP te
         }
     }
 
-Laravel's session is typically used to maintain state for the currently authenticated user. Therefore, the `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/database-testing#writing-factories) to generate and authenticate a user:
+Laravel's session is typically used to maintain state for the currently authenticated user. Therefore, the `actingAs` helper method provides a simple way to authenticate a given user as the current user. For example, we may use a [model factory](/docs/{{version}}/eloquent-factories) to generate and authenticate a user:
 
 라라벨의 세션은 일반적으로 현재 인증된 사용자의 상태를 유지하는 데 사용됩니다. 따라서 `actingAs` 헬퍼 메서드는 주어진 사용자를 현재 사용자로 인증하는 간단한 방법을 제공합니다. 예를 들어 [모델 팩토리](/docs/{{version}}/database-testing#writing-factories)를 사용하여 사용자를 생성하고 인증할 수 있습니다.
 
@@ -213,9 +215,9 @@ Laravel's session is typically used to maintain state for the currently authenti
         }
     }
 
-You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method:
+You may also specify which guard should be used to authenticate the given user by passing the guard name as the second argument to the `actingAs` method. The guard that is provided to the `actingAs` method will also become the default guard for the duration of the test:
 
-가드 이름을 `actingAs` 메소드의 두 번째 인수로 전달하여, 주어진 사용자를 인증하는 데 사용할 가드를 지정할 수도 있습니다.
+가드 이름을 `actingAs` 메소드의 두 번째 인수로 전달하여, 주어진 사용자를 인증하는 데 사용할 가드를 지정할 수도 있습니다. `actingAs` 메서드에 제공되는 가드는 테스트 기간 동안의 기본 가드가 될 것입니다.
 
     $this->actingAs($user, 'web')
 
@@ -336,9 +338,11 @@ In addition, JSON response data may be accessed as array variables on the respon
 
     $this->assertTrue($response['created']);
 
-> {tip} The `assertJson` method converts the response to an array and utilizes `PHPUnit::assertArraySubset` to verify that the given array exists within the JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
+> **Note**
+> The `assertJson` method converts the response to an array and utilizes `PHPUnit::assertArraySubset` to verify that the given array exists within the JSON response returned by the application. So, if there are other properties in the JSON response, this test will still pass as long as the given fragment is present.
 
-> {tip} `assertJson` 메소드는 응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 애플리케이션에서 반환된 JSON 응답 내에 주어진 배열이 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있는 경우, 이 테스트는 주어진 조각이 있는 한 계속 통과합니다.
+> **Note**
+> `assertJson` 메소드는 응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 애플리케이션에서 반환된 JSON 응답 내에 주어진 배열이 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있는 경우, 이 테스트는 주어진 조각이 있는 한 계속 통과합니다.
 
 <a name="verifying-exact-match"></a>
 #### Asserting Exact JSON Matches
@@ -404,6 +408,13 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
         }
     }
 
+The `assertJsonPath` method also accepts a closure, which may be used to dynamically determine if the assertion should pass:
+
+`assertJsonPath` 메서드는 검증이 통과할지를 동적으로 판단하는데 쓰이는 클로저도 허용합니다.
+
+    $response->assertJsonPath('team.owner.name', fn ($name) => strlen($name) >= 3);
+
+
 <a name="fluent-json-testing"></a>
 ### Fluent JSON Testing
 ### 유연한 JSON 테스트
@@ -427,6 +438,7 @@ Laravel also offers a beautiful way to fluently test your application's JSON res
             ->assertJson(fn (AssertableJson $json) =>
                 $json->where('id', 1)
                      ->where('name', 'Victoria Faith')
+                     ->whereNot('status', 'pending')
                      ->missing('password')
                      ->etc()
             );
@@ -442,6 +454,10 @@ In the example above, you may have noticed we invoked the `etc` method at the en
 The intention behind this behavior is to protect you from unintentionally exposing sensitive information in your JSON responses by forcing you to either explicitly make an assertion against the attribute or explicitly allow additional attributes via the `etc` method.
 
 이 동작 뒤에 숨겨진 의도는 속성에 대해 명시적으로 검증을 만들거나 `etc` 메서드를 통해 추가 속성을 명시적으로 입력하도록 하여 JSON 응답에서 민감한 정보가 의도치 않게 노출되는 것을 방지하는 것입니다.
+
+However, you should be aware that not including the `etc` method in your assertion chain does not ensure that additional attributes are not being added to arrays that are nested within your JSON object. The `etc` method only ensures that no additional attributes exist at the nesting level in which the `etc` method is invoked.
+
+그러나 어설션 체인에 `etc` 메서드를 포함하지 않는다고 해서 JSON 개체 내에 중첩된 배열에 추가 속성이 추가되지 않는다고 확신할 수 없다는 점을 유의해야 합니다. `etc` 메서드는 `etc` 메서드가 호출되는 중첩 수준에 추가 속성이 없는지만 확인합니다.
 
 <a name="asserting-json-attribute-presence-and-absence"></a>
 #### Asserting Attribute Presence / Absence
@@ -461,8 +477,8 @@ In addition, the `hasAll` and `missingAll` methods allow asserting the presence 
 또한 `hasAll` 및 `missingAll` 메서드를 사용하면 여러 속성의 존재 여부를 동시에 확인할 수 있습니다.
 
     $response->assertJson(fn (AssertableJson $json) =>
-        $json->hasAll('status', 'data')
-             ->missingAll('message', 'code')
+        $json->hasAll(['status', 'data'])
+             ->missingAll(['message', 'code'])
     );
 
 You may use the `hasAny` method to determine if at least one of a given list of attributes is present:
@@ -707,9 +723,9 @@ If necessary, you may use the `blade` method to evaluate and render a raw [Blade
 
     $view->assertSee('Taylor');
 
-You may use the `component` method to evaluate and render a [Blade component](/docs/{{version}}/blade#components). Like the `view` method, the `component` method returns an instance of `Illuminate\Testing\TestView`:
+You may use the `component` method to evaluate and render a [Blade component](/docs/{{version}}/blade#components). The `component` method returns an instance of `Illuminate\Testing\TestComponent`:
 
-`component` 메소드를 사용하여 [Blade component](/docs/{{version}}/blade#components)를 평가하고 렌더링할 수 있습니다. `view` 메소드와 마찬가지로 `component` 메소드는 `Illuminate\Testing\TestView`의 인스턴스를 반환합니다.
+`component` 메소드를 사용하여 [Blade component](/docs/{{version}}/blade#components)를 평가하고 렌더링할 수 있습니다. `component` 메소드는 `Illuminate\Testing\TestComponent`의 인스턴스를 반환합니다.
 
     $view = $this->component(Profile::class, ['name' => 'Taylor']);
 
@@ -746,10 +762,12 @@ Laravel's `Illuminate\Testing\TestResponse` class provides a variety of custom a
 - [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
 - [assertJsonPath](#assert-json-path)
+- [assertJsonMissingPath](#assert-json-missing-path)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertJsonValidationErrorFor](#assert-json-validation-error-for)
 - [assertLocation](#assert-location)
+- [assertContent](#assert-content)  
 - [assertNoContent](#assert-no-content)
 - [assertNotFound](#assert-not-found)
 - [assertOk](#assert-ok)
@@ -814,7 +832,7 @@ response-응답에서 주어진 쿠키가 기간이 만료되지 않은 것을 �
 #### assertCookieMissing
 #### assertCookieMissing
 
-Assert that the response does not contains the given cookie:
+Assert that the response does not contain the given cookie:
 
 response-응답에서 주어진 쿠키를 포함하고 있지 않은 것을 확인:
 
@@ -980,9 +998,11 @@ response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함
 
     $response->assertJsonMissingValidationErrors($keys);
 
-> {tip} The more generic [assertValid](#assert-valid) method may be used to assert that a response does not have validation errors that were returned as JSON **and** that no errors were flashed to session storage.
+> **Note**
+> The more generic [assertValid](#assert-valid) method may be used to assert that a response does not have validation errors that were returned as JSON **and** that no errors were flashed to session storage.
 
-> {tip} 보다 일반적인 [assertValid](#assert-valid) 메서드를 사용하여 응답에 JSON **으로 반환된 유효성 검사 오류가 없고** 세션 저장소에 오류가 표시되지 않았다고 검증할 수 있습니다.
+> **Note**
+> 보다 일반적인 [assertValid](#assert-valid) 메서드를 사용하여 응답에 JSON **으로 반환된 유효성 검사 오류가 없고** 세션 저장소에 오류가 표시되지 않았다고 검증할 수 있습니다.
 
 <a name="assert-json-path"></a>
 #### assertJsonPath
@@ -994,11 +1014,11 @@ response-응답에 지정된 경로와 지정된 데이터가 포함되어 있�
 
     $response->assertJsonPath($path, $expectedValue);
 
-For example, if the JSON response returned by your application contains the following data:
+For example, if the following JSON response is returned by your application:
 
-예를 들어 애플리케이션에서 반환된 JSON 응답에 다음 데이터가 포함된 경우
+예를 들어 애플리케이션에서 다음과 같은 JSON 응답 응답이 반환되는 경우
 
-```js
+```json
 {
     "user": {
         "name": "Steve Schoger"
@@ -1011,6 +1031,34 @@ You may assert that the `name` property of the `user` object matches a given val
 `user` 객체의 `name` 속성이 다음과 같이 주어진 값과 일치한다고 검증할 수 있습니다.
 
     $response->assertJsonPath('user.name', 'Steve Schoger');
+
+<a name="assert-json-missing-path"></a>
+#### assertJsonMissingPath
+#### assertJsonMissingPath
+
+Assert that the response does not contain the given path:
+
+응답이 주어진 경로를 포함하고 있지 않은지 검증합니다.
+
+    $response->assertJsonMissingPath($path);
+
+For example, if the following JSON response is returned by your application:
+
+예를 들어, 다음과 같은 JSON 응답이 반환된 경우
+
+```json
+{
+    "user": {
+        "name": "Steve Schoger"
+    }
+}
+```
+
+You may assert that it does not contain the `email` property of the `user` object:
+
+`user` 객체의 `email` 속성을 포함하고 있지 않은지 검증할 수 있습니다.
+
+    $response->assertJsonMissingPath('user.email');
 
 <a name="assert-json-structure"></a>
 #### assertJsonStructure
@@ -1026,7 +1074,7 @@ For example, if the JSON response returned by your application contains the foll
 
 예를 들어 애플리케이션에서 반환된 JSON 응답에 다음 데이터가 포함된 경우:
 
-```js
+```json
 {
     "user": {
         "name": "Steve Schoger"
@@ -1048,7 +1096,7 @@ Sometimes, JSON responses returned by your application may contain arrays of obj
 
 경우에 따라 애플리케이션에서 반환된 JSON 응답에 객체 배열이 포함될 수 있습니다.
 
-```js
+```json
 {
     "user": [
         {
@@ -1089,9 +1137,11 @@ Assert that the response has the given JSON validation errors for the given keys
 
     $response->assertJsonValidationErrors(array $data, $responseKey = 'errors');
 
-> {tip} The more generic [assertInvalid](#assert-invalid) method may be used to assert that a response has validation errors returned as JSON **or** that errors were flashed to session storage.
+> **Note**
+> The more generic [assertInvalid](#assert-invalid) method may be used to assert that a response has validation errors returned as JSON **or** that errors were flashed to session storage.
 
-> {tip} 보다 일반적인 [assertInvalid](#assert-invalid) 메서드를 사용하여 응답에 유효성 검사 오류가 JSON으로 반환된 **또는** 오류가 세션 저장소로 플래시되었음을 확인할 수 있습니다.
+> **Note**
+> 보다 일반적인 [assertInvalid](#assert-invalid) 메서드를 사용하여 응답에 유효성 검사 오류가 JSON으로 반환된 **또는** 오류가 세션 저장소로 플래시되었음을 확인할 수 있습니다.
 
 <a name="assert-json-validation-error-for"></a>
 #### assertJsonValidationErrorFor
@@ -1112,6 +1162,16 @@ Assert that the response has the given URI value in the `Location` header:
 response-응답의 `Location` 헤더에 주어진 URI를 가지고 있는지 확인:
 
     $response->assertLocation($uri);
+
+<a name="assert-content"></a>
+#### assertContent
+#### assertContent
+
+Assert that the given string matches the response content:
+
+주어진 문자열이 응답 내용과 일치하는지 검증합니다.
+
+    $response->assertContent($value);
 
 <a name="assert-no-content"></a>
 #### assertNoContent

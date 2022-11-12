@@ -62,9 +62,11 @@ Since Fortify does not provide its own user interface, it is meant to be paired 
 
 Fortify는 사용자 인터페이스를 제공하지 않기 때문에 등록된 경로에 대한 요청을 처리하는 사용자 인터페이스와 쌍을 이루도록 되어 있습니다. 이 문서에선 이러한 경로에 요청하는 방법에 대해 정확히 논의할 것입니다.
 
-> {tip} Remember, Fortify is a package that is meant to give you a head start implementing Laravel's authentication features. **You are not required to use it.** You are always free to manually interact with Laravel's authentication services by following the documentation available in the [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords), and [email verification](/docs/{{version}}/verification) documentation.
+> **Note**
+> Remember, Fortify is a package that is meant to give you a head start implementing Laravel's authentication features. **You are not required to use it.** You are always free to manually interact with Laravel's authentication services by following the documentation available in the [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords), and [email verification](/docs/{{version}}/verification) documentation.
 
-> {팁}, Fortify는 라라벨의 인증 기능을 구현하기 시작하는 데 도움이 되는 패키지입니다. **반드시 이 패키지를 사용하지 않아도 됩니다.** 이 패키지와 관계없이 언젠든 [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords)와 [email verification](/docs/{{version}}/verification) 문서에 따라 직접 Laravel 인증 서비스와 자유롭게 사용할 수 있습니다.
+> **Note**
+> Fortify는 라라벨의 인증 기능을 구현하기 시작하는 데 도움이 되는 패키지입니다. **반드시 이 패키지를 사용하지 않아도 됩니다.** 이 패키지와 관계없이 언젠든 [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords)와 [email verification](/docs/{{version}}/verification) 문서에 따라 직접 Laravel 인증 서비스와 자유롭게 사용할 수 있습니다.
 
 <a name="what-is-fortify"></a>
 ### What Is Fortify?
@@ -392,14 +394,18 @@ Next, you should build a screen within your application where users can manage t
 ### Enabling Two Factor Authentication
 ### 2단계 인증 활성화
 
-To enable two factor authentication, your application should make a POST request to the `/user/two-factor-authentication` endpoint defined by Fortify. If the request is successful, the user will be redirected back to the previous URL and the `status` session variable will be set to `two-factor-authentication-enabled`. You may detect this `status` session variable within your templates to display the appropriate success message. If the request was an XHR request, `200` HTTP response will be returned:
+To begin enabling two factor authentication, your application should make a POST request to the `/user/two-factor-authentication` endpoint defined by Fortify. If the request is successful, the user will be redirected back to the previous URL and the `status` session variable will be set to `two-factor-authentication-enabled`. You may detect this `status` session variable within your templates to display the appropriate success message. If the request was an XHR request, `200` HTTP response will be returned.
 
-2단계 인증을 활성화하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.
+2단계 인증 활성화를 시작하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.
+
+After choosing to enable two factor authentication, the user must still "confirm" their two factor authentication configuration by providing a valid two factor authentication code. So, your "success" message should instruct the user that two factor authentication confirmation is still required:
+
+2단계 인증을 활성화하도록 선택한 후에도 사용자는 유효한 2단계 인증 코드를 제공하여 2단계 인증 구성을 "확인"해야 합니다. 따라서 "성공" 메시지는 사용자에게 두 가지 요소 인증 확인이 여전히 필요하다는 것을 알려야 합니다.
 
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
 <div class="mb-4 font-medium text-sm text-green-600">
-  Two factor authentication has been enabled.
+  Please finish configuring two factor authentication below.
 </div>
 @endif
 ```
@@ -415,6 +421,28 @@ $request->user()->twoFactorQrCodeSvg();
 If you are building a JavaScript powered frontend, you may make an XHR GET request to the `/user/two-factor-qr-code` endpoint to retrieve the user's two factor authentication QR code. This endpoint will return a JSON object containing an `svg` key.
 
 JavaScript 기반 프론트엔드를 구축하는 경우 `/user/two-factor-qr-code` 엔드포인트에 XHR GET 요청을 만들어 사용자의 2단계 인증 QR 코드를 검색할 수 있습니다. 이 끝점은 `svg` 키가 포함된 JSON 객체를 반환합니다.
+
+<a name="confirming-two-factor-authentication"></a>
+#### Confirming Two Factor Authentication
+#### 2단계 인증 확인
+
+In addition to displaying the user's two factor authentication QR code, you should provide a text input where the user can supply a valid authentication code to "confirm" their two factor authentication configuration. This code should be provided to the Laravel application via a POST request to the `/user/confirmed-two-factor-authentication` endpoint defined by Fortify.
+
+사용자의 2단계 인증 QR 코드를 표시하는 것 외에도 사용자가 2단계 인증 구성을 "확인"하기 위해 유효한 인증 코드를 제공할 수 있는 텍스트 입력을 제공해야 합니다. 이 코드는 Fortify에서 정의한 `/user/confirmed-two-factor-authentication` 엔드포인트에 대한 POST 요청을 통해 Laravel 애플리케이션에 제공되어야 합니다 .
+
+If the request is successful, the user will be redirected back to the previous URL and the `status` session variable will be set to `two-factor-authentication-confirmed`:
+
+요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-confirmed`에 설정됩니다.
+
+```html
+@if (session('status') == 'two-factor-authentication-confirmed')
+    <div class="mb-4 font-medium text-sm">
+        Two factor authentication confirmed and enabled successfully.
+    </div>
+@endif
+```
+
+If the request to the two factor authentication confirmation endpoint was made via an XHR request, a `200` HTTP response will be returned.
 
 <a name="displaying-the-recovery-codes"></a>
 #### Displaying The Recovery Codes
@@ -494,7 +522,7 @@ To begin implementing our application's registration functionality, we need to i
 
 애플리케이션의 등록 기능 구현을 시작하려면 Fortify에 "등록" View를 반환하는 방법을 지시해야 합니다. Fortify는 헤드리스 인증 라이브러리라는 것을 기억해야합니다. 이미 완료된 라라벨 인증 기능의 프론트엔드 구현을 원하시면 [애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 사용해야 합니다.
 
-All of the Fortify's view rendering logic may be customized using the appropriate methods available via the `Laravel\Fortify\Fortify` class. Typically, you should call this method from the `boot` method of your `App\Providers\FortifyServiceProvider` class:
+All of Fortify's view rendering logic may be customized using the appropriate methods available via the `Laravel\Fortify\Fortify` class. Typically, you should call this method from the `boot` method of your `App\Providers\FortifyServiceProvider` class:
 
 Fortify의 모든 View 렌더링 로직은 `Laravel\Fortify\Fortify` 클래스를 통해 사용할 수 있는 적절한 방법을 사용하여 커스터마이즈할 수 있습니다. 일반적으로 `App\Providers\FortifyServiceProvider` 클래스의 `boot` 메소드에서 이 메소드를 호출해야 합니다.
 
@@ -524,7 +552,7 @@ The `/register` endpoint expects a string `name`, string email address / usernam
 
 `/register` 엔드포인트에는 문자열 `name`, 문자열 이메일 주소/사용자 이름, `password` 및 `password_confirmation` 필드가 필요합니다. 이메일/사용자 이름 필드의 이름은 애플리케이션의 `fortify` 구성 파일에 정의된 `username` 구성 값과 일치해야 합니다.
 
-If the registration attempt is successful, Fortify will redirect the user to the URI configured via the `home` configuration option within your application's `fortify` configuration file. If the login request was an XHR request, a 200 HTTP response will be returned.
+If the registration attempt is successful, Fortify will redirect the user to the URI configured via the `home` configuration option within your application's `fortify` configuration file. If the request was an XHR request, a 201 HTTP response will be returned.
 
 등록 시도가 성공하면 Fortify는 애플리케이션의 `fortify` 구성 파일 내 `home` 구성 옵션을 통해 구성된 URI로 사용자를 리디렉션합니다. 로그인 요청이 XHR 요청인 경우 200 HTTP 응답이 반환됩니다.
 

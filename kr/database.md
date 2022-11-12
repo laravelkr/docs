@@ -13,10 +13,16 @@
   - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
   - [Listening For Query Events](#listening-for-query-events)
   - [쿼리 이벤트 리스닝](#listening-for-query-events)
+  - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
+  - [누적 쿼리 시간 모니터링](#monitoring-cumulative-query-time)
 - [Database Transactions](#database-transactions)
 - [데이터베이스 트랙잭션](#database-transactions)
 - [Connecting To The Database CLI](#connecting-to-the-database-cli)
 - [데이터베이스 CLI에 연결](#connecting-to-the-database-cli)
+- [Inspecting Your Databases](#inspecting-your-databases)
+- [데이터베이스 검사하기](#inspecting-your-databases)
+- [Monitoring Your Databases](#monitoring-your-databases)
+- [데이터베이스 모니터링하기](#monitoring-your-databases)
 
 <a name="introduction"></a>
 ## Introduction
@@ -26,9 +32,9 @@ Almost every modern web application interacts with a database. Laravel makes int
 
 거의 모든 최신 웹 애플리케이션은 데이터베이스와 상호 작용합니다. 라라벨은 원시 SQL, [유창한 쿼리 빌더](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용하여 지원되는 다양한 데이터베이스에서 데이터베이스와 매우 간단하게 상호 작용할 수 있습니다. 현재 라라벨은 5개의 데이터베이스를 주요하게 지원하고 있습니다.
 
-- MariaDB 10.2+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 9.6+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
 - SQLite 3.8.8+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
@@ -205,6 +211,18 @@ The `select` method will always return an `array` of results. Each result within
         echo $user->name;
     }
 
+<a name="selecting-scalar-values"></a>
+#### Selecting Scalar Values
+#### 스칼라 값 선택
+
+Sometimes your database query may result in a single, scalar value. Instead of being required to retrieve the query's scalar result from a record object, Laravel allows you to retrieve this value directly using the `scalar` method:
+
+때로 데이터베이스 쿼리 결과가 단일 스칼라 값일 수 있습니다. 쿼리의 스칼라 결과를 객체로부터 조회하는 대신 `scalar` 메서드를 이용해 바로 조회할 수 있습니다.
+
+    $burgers = DB::scalar(
+        "select count(case when food = 'burger' then 1 end) as burgers from menu"
+    );
+
 <a name="using-named-bindings"></a>
 #### Using Named Bindings
 #### 이름이 부여된 바인딩 사용하기
@@ -302,7 +320,7 @@ If your application defines multiple connections in your `config/database.php` c
 
     use Illuminate\Support\Facades\DB;
 
-    $users = DB::connection('sqlite')->select(...);
+    $users = DB::connection('sqlite')->select(/* ... */);
 
 You may access the raw, underlying PDO instance of a connection using the `getPdo` method on a connection instance:
 
@@ -348,6 +366,48 @@ If you would like to specify a closure that is invoked for each SQL query execut
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
+            });
+        }
+    }
+
+<a name="monitoring-cumulative-query-time"></a>
+### Monitoring Cumulative Query Time
+### 누적 쿼리 시간 모니터링
+
+A common performance bottleneck of modern web applications is the amount of time they spend querying databases. Thankfully, Laravel can invoke a closure or callback of your choice when it spends too much time querying the database during a single request. To get started, provide a query time threshold (in milliseconds) and closure to the `whenQueryingForLongerThan` method. You may invoke this method in the `boot` method of a [service provider](/docs/{{version}}/providers):
+
+모던 웹 애플리케이션의 흔한 성능 병목은 데이터베이스 쿼리하는데 사용하는 시간입니다. 다행히도 라라벨은 단일 요청 중에 데이터베이스 쿼리 시간이 너무 오래 걸리면 클로저나 콜백을 실행할 수 있습니다. 누적 쿼리 시간 모니터링을 사용하려면 쿼리 시간 임계값(밀리초)와 클로저를 `whenQueryingForLongerThan` 메서드에 작성합니다. [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메서드에서 이 메서드를 실행하세요.
+
+    <?php
+
+    namespace App\Providers;
+
+    use Illuminate\Database\Connection;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\ServiceProvider;
+    use Illuminate\Database\Events\QueryExecuted;
+
+    class AppServiceProvider extends ServiceProvider
+    {
+        /**
+         * Register any application services.
+         *
+         * @return void
+         */
+        public function register()
+        {
+            //
+        }
+
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
+                // Notify development team...
             });
         }
     }
@@ -430,4 +490,87 @@ If needed, you may specify a database connection name to connect to a database c
 
 ```shell
 php artisan db mysql
+```
+
+<a name="inspecting-your-databases"></a>
+## Inspecting Your Databases
+## 데이터베이스 검사하기
+
+Using the `db:show` and `db:table` Artisan commands, you can get valuable insight into your database and its associated tables. To see an overview of your database, including its size, type, number of open connections, and a summary of its tables, you may use the `db:show` command:
+
+`db:show`와 `db:table` 아티즌 커맨드를 이용해서 데이터베이스 및 이와 연관된 테이블에 대한 가치있는 인사이트를 얻을 수 있습니다. 크기, 타입, 커넥션 수, 테이브요약을 포함하는 데이터베이스의 개요를 보려면 `db:show` 명령을 사용하세요.
+
+```shell
+php artisan db:show
+```
+
+You may specify which database connection should be inspected by providing the database connection name to the command via the `--database` option:
+
+검사하고자 하는 데이터베이스 커넥션을 `--database` 옵션으로 지정할 수 있습니다.
+
+```shell
+php artisan db:show --database=pgsql
+```
+
+If you would like to include table row counts and database view details within the output of the command, you may provide the `--counts` and `--views` options, respectively. On large databases, retrieving row counts and view details can be slow:
+
+테이블 행 수와 뷰 상세를 보고 싶으면 `--counts`와 `--views` 옵션을 사용하세요. 데이터베이스가 크면 행 수와 뷰 상세를 조회하는데 오래걸릴 수 있습니다.
+
+```shell
+php artisan db:show --counts --views
+```
+
+<a name="table-overview"></a>
+#### Table Overview
+#### 테이블 개요
+
+If you would like to get an overview of an individual table within your database, you may execute the `db:table` Artisan command. This command provides a general overview of a database table, including its columns, types, attributes, keys, and indexes:
+
+개별 테이블에 대한 개요를 보고 싶으면 `db:table` 아티즌 명령을 사용하시면 됩니다. 이 명령은 컬럼, 타입, 속성, 키, 인덱스를 포함하는 개요를 제공합니다.
+
+```shell
+php artisan db:table users
+```
+
+<a name="monitoring-your-databases"></a>
+## Monitoring Your Databases
+## 데이터베이스 모니터링 하기
+
+Using the `db:monitor` Artisan command, you can instruct Laravel to dispatch an `Illuminate\Database\Events\DatabaseBusy` event if your database is managing more than a specified number of open connections.
+
+`db:monitor` 아티즌 명령을 이용해서 특정 수 이상의 커넥션을 넘어서면 `Illuminate\Database\Events\DatabaseBusy` 이벤트를 발행하도록 라라벨에 지시를 내릴 수 있습니다.
+
+To get started, you should schedule the `db:monitor` command to [run every minute](/docs/{{version}}/scheduling). The command accepts the names of the database connection configurations that you wish to monitor as well as the maximum number of open connections that should be tolerated before dispatching an event:
+
+이 기능을 사용하려면 `db:monitor` 명령을 [매분](/docs/{{version}}/scheduling) 실행되도록 설정해야합니다. 이 명령은 모니터링할 데이터베이스 커넥션의 이름들과 이벤트를 발행하기 전까지 허용되는 커넥션 최대값을 받습니다.
+
+```shell
+php artisan db:monitor --databases=mysql,pgsql --max=100
+```
+
+Scheduling this command alone is not enough to trigger a notification alerting you of the number of open connections. When the command encounters a database that has an open connection count that exceeds your threshold, a `DatabaseBusy` event will be dispatched. You should listen for this event within your application's `EventServiceProvider` in order to send a notification to you or your development team:
+
+이 명령을 스케쥴링 하는 것만으로는 커넥션 수에 따라 당신에게 알림을 보낼 수 없습니다. 데이터베이스 커넥션 수가 임계치를 넘으면 `DatabaseBusy` 이벤트가 발행됩니다. 여러분 또는 개발팀에 알림을 전송하기 위해서는 `EventServiceProvider` 내에서 이 이벤트를 듣고 처리해야 합니다.
+
+```php
+use App\Notifications\DatabaseApproachingMaxConnections;
+use Illuminate\Database\Events\DatabaseBusy;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+
+/**
+ * Register any other events for your application.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Event::listen(function (DatabaseBusy $event) {
+        Notification::route('mail', 'dev@example.com')
+                ->notify(new DatabaseApproachingMaxConnections(
+                    $event->connectionName,
+                    $event->connections
+                ));
+    });
+}
 ```

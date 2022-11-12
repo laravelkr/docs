@@ -173,6 +173,7 @@ Method  | Description
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
 `->hourlyAt(17);`  |  Run the task every hour at 17 minutes past the hour
+`->everyOddHour();`  |  Run the task every odd hour
 `->everyTwoHours();`  |  Run the task every two hours
 `->everyThreeHours();`  |  Run the task every three hours
 `->everyFourHours();`  |  Run the task every four hours
@@ -180,6 +181,7 @@ Method  | Description
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
+`->twiceDailyAt(1, 13, 15);`  |  Run the task daily at 1:15 & 13:15
 `->weekly();`  |  Run the task every sunday at 00:00
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task on the first day of every month at 00:00
@@ -187,6 +189,7 @@ Method  | Description
 `->twiceMonthly(1, 16, '13:00');`  |  Run the task monthly on the 1st and 16th at 13:00
 `->lastDayOfMonth('15:00');` | Run the task on the last day of the month at 15:00
 `->quarterly();` |  Run the task on the first day of every quarter at 00:00
+`->quarterlyOn(4, '14:00');` |  Run the task every quarter on the 4th at 14:00
 `->yearly();`  |  Run the task on the first day of every year at 00:00
 `->yearlyOn(6, 1, '17:00');`  |  Run the task every year on June 1st at 17:00
 `->timezone('America/New_York');` | Set the timezone
@@ -204,6 +207,7 @@ Method  | Description
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
+`->everyOddHour();`  |  홀수 시간마다 작업 실행
 `->everyTwoHours();`  |  2시간마다 작업 실행
 `->everyThreeHours();`  |  3시간마다 작업 실행
 `->everyFourHours();`  |  4시간마다 작업 실행
@@ -211,6 +215,7 @@ Method  | Description
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
+`->twiceDailyAt(1, 13, 15);`  |  매일 1:15, 13:15 에 작업
 `->weekly();`  |  매주 일요일 00:00 에 작업 실행
 `->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  매달 1일 00:00 에 작업 실행
@@ -218,6 +223,7 @@ Method  | Description
 `->twiceMonthly(1, 16, '13:00');`  |  매월 1일과 16일 13시에 작업 실행
 `->lastDayOfMonth('15:00');` | 매월 말일 15:00에 작업 실행
 `->quarterly();` |  분기별 첫번째 날 00:00 에 작업 실행
+`->quarterlyOn(4, '14:00');` |  분기별 4일 14:00에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->yearlyOn(6, 1, '17:00');`  |  매년 6월 1일 17:00에 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
@@ -380,9 +386,11 @@ If you are repeatedly assigning the same timezone to all of your scheduled tasks
         return 'America/Chicago';
     }
 
-> {note} Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
+> **Warning**
+> Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
 
-> {note} 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
+> **Warning**
+> 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
 
 <a name="preventing-task-overlaps"></a>
 ### Preventing Task Overlaps
@@ -404,13 +412,19 @@ If needed, you may specify how many minutes must pass before the "without overla
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
+Behind the scenes, the `withoutOverlapping` method utilizes your application's [cache](/docs/{{version}}/cache) to obtain locks. If necessary, you can clear these cache locks using the `schedule:clear-cache` Artisan command. This is typically only necessary if a task becomes stuck due to an unexpected server problem.
+
+뒷단에서 `withoutOverlapping` 메서드는 잠금을 획득하기 위해 애플리케이션의 [캐시](/docs/{{version}}/cache)를 활용합니다. 필요하다면 `schedule:clear-cache` 아티즌 명령을 사용하여 잠금 캐시를 삭제할 수 있습니다. 일반적으로 이 명령은 예상치 못한 서버 문제 때문에 작업이 멈춘 경우에만 필요합니다.
+
 <a name="running-tasks-on-one-server"></a>
 ### Running Tasks On One Server
 ### 한 서버에서 작업 실행하기
 
-> {note} To utilize this feature, your application must be using the `database`, `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+> **Warning**
+> To utilize this feature, your application must be using the `database`, `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> {note} 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
+> **Warning**
+> 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
 
 If your application's scheduler is running on multiple servers, you may limit a scheduled job to only execute on a single server. For instance, assume you have a scheduled task that generates a new report every Friday night. If the task scheduler is running on three worker servers, the scheduled task will run on all three servers and generate the report three times. Not good!
 
@@ -425,6 +439,26 @@ To indicate that the task should run on only one server, use the `onOneServer` m
                     ->at('17:00')
                     ->onOneServer();
 
+<a name="naming-unique-jobs"></a>
+#### Naming Single Server Jobs
+#### 단일 서버 잡 이름 짓기
+
+Sometimes you may need to schedule the same job to be dispatched with different parameters, while still instructing Laravel to run each permutation of the job on a single server. To accomplish this, you may assign each schedule definition a unique name via the `name` method:
+
+같은 잡을 파라미터만 바꿔서 디스패치하고 단일 서버에서 모두 실행할 필요가 있을 수 있습니다. 이를 위해서는 `name` 메서드를 이용해서 각 스케쥴 정의에 이름을 붙여주면 됩니다.
+
+```php
+$schedule->job(new CheckUptime('https://laravel.com'))
+            ->name('check_uptime:laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+
+$schedule->job(new CheckUptime('https://vapor.laravel.com'))
+            ->name('check_uptime:vapor.laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+```
+
 <a name="background-tasks"></a>
 ### Background Tasks
 ### 백그라운드 작업
@@ -437,9 +471,11 @@ By default, multiple tasks scheduled at the same time will execute sequentially 
              ->daily()
              ->runInBackground();
 
-> {note} The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
+> **Warning**
+> The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
 
-> {note} `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
+> **Warning**
+> `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
 
 <a name="maintenance-mode"></a>
 ### Maintenance Mode
@@ -516,9 +552,11 @@ If you only want to email the output if the scheduled Artisan or system command 
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> {note} The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
+> **Warning**
+> The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
 
-> {note} `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
+> **Warning**
+> `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>
 ## Task Hooks

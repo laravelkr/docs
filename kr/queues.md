@@ -108,9 +108,11 @@ Laravel's queue configuration options are stored in your application's `config/q
 
 라라벨의 큐-queue 설정 옵션은 애플리케이션의 `config/queue.php` 설정 파일에 저장됩니다. 이 파일에는 [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), 데이터베이스를 포함하여, 프레임워크에 포함된 각 큐-queue 드라이버에 대한 연결 설정이 있습니다. [Beanstalkd](https://beanstalkd.github.io/) 드라이버, 작업을 즉시 실행하는 동기 드라이버(로컬 개발 중에 사용). 대기 중인 작업을 삭제하는 `null` 큐-queue 드라이버도 포함되어 있습니다.
 
-> {tip} Laravel now offers Horizon, a beautiful dashboard and configuration system for your Redis powered queues. Check out the full [Horizon documentation](/docs/{{version}}/horizon) for more information.
+> **Note**
+> Laravel now offers Horizon, a beautiful dashboard and configuration system for your Redis powered queues. Check out the full [Horizon documentation](/docs/{{version}}/horizon) for more information.
 
-> {tip} 라라벨은 이제 Redis 큐-queue를 위한 멋진 대시보드와 설정 시스템을 제공하는 Horizon을 지원합니다. 보다 자세한 사항은 [Horizon 문서](/docs/{{version}}/horizon)를 참고하십시오.
+> **Note**
+> 라라벨은 이제 Redis 큐-queue를 위한 멋진 대시보드와 설정 시스템을 제공하는 Horizon을 지원합니다. 보다 자세한 사항은 [Horizon 문서](/docs/{{version}}/horizon)를 참고하십시오.
 
 <a name="connections-vs-queues"></a>
 ### Connections Vs. Queues
@@ -205,9 +207,11 @@ Adjusting this value based on your queue load can be more efficient than continu
         'block_for' => 5,
     ],
 
-> {note} Setting `block_for` to `0` will cause queue workers to block indefinitely until a job is available. This will also prevent signals such as `SIGTERM` from being handled until the next job has been processed.
+> **Warning**
+> Setting `block_for` to `0` will cause queue workers to block indefinitely until a job is available. This will also prevent signals such as `SIGTERM` from being handled until the next job has been processed.
 
-> {note} `block_for`를 `0`으로 설정하면 작업을 사용할 수있을 때까지 큐 작업자가 무기한으로 대기됩니다. 이렇게하면 다음 작업이 처리 될 때까지 `SIGTERM`과 같은 신호가 처리되지 않습니다.
+> **Warning**
+> `block_for`를 `0`으로 설정하면 작업을 사용할 수있을 때까지 큐 작업자가 무기한으로 대기됩니다. 이렇게하면 다음 작업이 처리 될 때까지 `SIGTERM`과 같은 신호가 처리되지 않습니다.
 
 <a name="other-driver-prerequisites"></a>
 #### Other Driver Prerequisites
@@ -253,9 +257,11 @@ The generated class will implement the `Illuminate\Contracts\Queue\ShouldQueue` 
 
 생성된 클래스는 Job이 queue를 통해서 비동기적으로 실행되어야 된다는 것을 나타내는, `Illuminate\Contracts\Queue\ShouldQueue` 인터페이스를 구현하고 있습니다.
 
-> {tip} Job stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
+> **Note**
+> Job stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
-> {tip} 작업 스텁은 [스텁 게시하기](/docs/{{version}}/artisan#stub-customization)를 사용하여 사용자 정의할 수 있습니다.
+> **Note**
+> 작업 스텁은 [스텁 게시하기](/docs/{{version}}/artisan#stub-customization)를 사용하여 사용자 정의할 수 있습니다.
 
 <a name="class-structure"></a>
 ### Class Structure
@@ -286,7 +292,7 @@ Job classes are very simple, normally containing only a `handle` method that is 
          *
          * @var \App\Models\Podcast
          */
-        protected $podcast;
+        public $podcast;
 
         /**
          * Create a new job instance.
@@ -338,9 +344,11 @@ If you would like to take total control over how the container injects dependenc
         return $job->handle($app->make(AudioProcessor::class));
     });
 
-> {note} Binary data, such as raw image contents, should be passed through the `base64_encode` function before being passed to a queued job. Otherwise, the job may not properly serialize to JSON when being placed on the queue.
+> **Warning**
+> Binary data, such as raw image contents, should be passed through the `base64_encode` function before being passed to a queued job. Otherwise, the job may not properly serialize to JSON when being placed on the queue.
 
-> {note} Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
+> **Warning**
+> Raw 이미지와 같은 바이너리 데이터의 경우, 큐를 통해서 처리되기 전에 `base64_encode` 함수가 적용된 상태로 전달되어야 합니다. 그렇지 않으면 Job이 큐에 입력 될 때 JSON으로 제대로 serialize 되지 않을 수 있습니다.
 
 <a name="handling-relationships"></a>
 #### Queued Relationships
@@ -369,9 +377,11 @@ Furthermore, when a job is deserialized and model relationships are re-retrieved
 ### Unique Jobs
 ### 고유한 작업-Job
 
-> {note} Unique jobs require a cache driver that supports [locks](/docs/{{version}}/cache#atomic-locks). Currently, the `memcached`, `redis`, `dynamodb`, `database`, `file`, and `array` cache drivers support atomic locks. In addition, unique job constraints do not apply to jobs within batches.
+> **Warning**
+> Unique jobs require a cache driver that supports [locks](/docs/{{version}}/cache#atomic-locks). Currently, the `memcached`, `redis`, `dynamodb`, `database`, `file`, and `array` cache drivers support atomic locks. In addition, unique job constraints do not apply to jobs within batches.
 
-> {note} 고유한 작업에는 [locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버가 필요합니다. 현재 `memcached`, `redis`, `dynamodb`, `database`, `file` 및 `array` 캐시 드라이버는 원자 잠금을 지원합니다. 또한 일괄-Batch 작업 내 작업에는 고유 작업 제약 조건이 적용되지 않습니다.
+> **Warning**
+> 고유한 작업에는 [locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버가 필요합니다. 현재 `memcached`, `redis`, `dynamodb`, `database`, `file` 및 `array` 캐시 드라이버는 원자 잠금을 지원합니다. 또한 일괄-Batch 작업 내 작업에는 고유 작업 제약 조건이 적용되지 않습니다.
 
 Sometimes, you may want to ensure that only one instance of a specific job is on the queue at any point in time. You may do so by implementing the `ShouldBeUnique` interface on your job class. This interface does not require you to define any additional methods on your class:
 
@@ -432,6 +442,12 @@ In the example above, the `UpdateSearchIndex` job is unique by a product ID. So,
 
 위의 예제에서 `UpdateSearchIndex` 작업은 제품 ID별로 고유합니다. 따라서 기존 작업이 처리를 완료할 때까지 동일한 제품 ID를 가진 작업의 새 디스패치가 무시됩니다. 또한 기존 작업이 1시간 이내에 처리되지 않으면 고유 잠금이 해제되고 동일한 고유 키를 가진 다른 작업이 큐-queue에 디스패치될 수 있습니다.
 
+> **Warning**  
+> If your application dispatches jobs from multiple web servers or containers, you should ensure that all of your servers are communicating with the same central cache server so that Laravel can accurately determine if a job is unique.
+
+> **Warning**  
+> 애플ㄹ케이션이 여러 웹서버나 컨테이너에서 잡을 디스패치 한다면, 라라벨이 잡이 유일한지 정확하게 판단할 수 있도록 모든 서버가 같은 중앙 캐시 서버에 연결되었는지 확인해야 합니다.
+
 <a name="keeping-jobs-unique-until-processing-begins"></a>
 #### Keeping Jobs Unique Until Processing Begins
 #### 처리가 시작될 때까지 고유한 작업 유지
@@ -476,9 +492,11 @@ Behind the scenes, when a `ShouldBeUnique` job is dispatched, Laravel attempts t
         }
     }
 
-> {tip} If you only need to limit the concurrent processing of a job, use the [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) job middleware instead.
+> **Note**
+> If you only need to limit the concurrent processing of a job, use the [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) job middleware instead.
 
-> {tip} 작업의 동시 처리만 제한해야 하는 경우 대신 [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) 작업 미들웨어를 사용하세요.
+> **Note**
+> 작업의 동시 처리만 제한해야 하는 경우 대신 [`WithoutOverlapping`](/docs/{{version}}/queues#preventing-job-overlaps) 작업 미들웨어를 사용하세요.
 
 <a name="job-middleware"></a>
 ## Job Middleware
@@ -567,9 +585,11 @@ After creating job middleware, they may be attached to a job by returning them f
         return [new RateLimited];
     }
 
-> {tip} Job middleware can also be assigned to queueable event listeners, mailables, and notifications.
+> **Note**
+> Job middleware can also be assigned to queueable event listeners, mailables, and notifications.
 
-> {tip} job 미들웨어는 큐에 넣을 수 있는 이벤트 리스너, 메일링, 알림에도 할당할 수 있습니다.
+> **Note**
+> job 미들웨어는 큐에 넣을 수 있는 이벤트 리스너, 메일링, 알림에도 할당할 수 있습니다.
 
 <a name="rate-limiting"></a>
 ### Rate Limiting
@@ -640,9 +660,11 @@ If you do not want a job to be retried when it is rate limited, you may use the 
         return [(new RateLimited('backups'))->dontRelease()];
     }
 
-> {tip} If you are using Redis, you may use the `Illuminate\Queue\Middleware\RateLimitedWithRedis` middleware, which is fine-tuned for Redis and more efficient than the basic rate limiting middleware.
+> **Note**
+> If you are using Redis, you may use the `Illuminate\Queue\Middleware\RateLimitedWithRedis` middleware, which is fine-tuned for Redis and more efficient than the basic rate limiting middleware.
 
-> {tip} Redis를 사용하신다면 `Illuminate\Queue\Middleware\RateLimitedWithRedis` 미들웨어를 사용하시면 됩니다. 이 미들웨어는 Redis에 맞게 미세 조정되어 있으며 기본 속도 제한 미들웨어보다 더 효율적입니다.
+> **Note**
+> Redis를 사용하신다면 `Illuminate\Queue\Middleware\RateLimitedWithRedis` 미들웨어를 사용하시면 됩니다. 이 미들웨어는 Redis에 맞게 미세 조정되어 있으며 기본 속도 제한 미들웨어보다 더 효율적입니다.
 
 <a name="preventing-job-overlaps"></a>
 ### Preventing Job Overlaps
@@ -668,9 +690,9 @@ For example, let's imagine you have a queued job that updates a user's credit sc
         return [new WithoutOverlapping($this->user->id)];
     }
 
-Any overlapping jobs will be released back to the queue. You may also specify the number of seconds that must elapse before the released job will be attempted again:
+Any overlapping jobs of the same type will be released back to the queue. You may also specify the number of seconds that must elapse before the released job will be attempted again:
 
-겹치는 작업은 다시 큐-queue로 보내집니다. 보내진 작업을 다시 시도하기 전에 경과해야 하는 시간(초)을 지정할 수도 있습니다.
+같은 타입의 겹치는 작업은 다시 큐-queue로 보내집니다. 보내진 작업을 다시 시도하기 전에 경과해야 하는 시간(초)을 지정할 수도 있습니다.
 
     /**
      * Get the middleware the job should pass through.
@@ -710,9 +732,49 @@ The `WithoutOverlapping` middleware is powered by Laravel's atomic lock feature.
         return [(new WithoutOverlapping($this->order->id))->expireAfter(180)];
     }
 
-> {note} The `WithoutOverlapping` middleware requires a cache driver that supports [locks](/docs/{{version}}/cache#atomic-locks). Currently, the `memcached`, `redis`, `dynamodb`, `database`, `file`, and `array` cache drivers support atomic locks.
+> **Warning**
+> The `WithoutOverlapping` middleware requires a cache driver that supports [locks](/docs/{{version}}/cache#atomic-locks). Currently, the `memcached`, `redis`, `dynamodb`, `database`, `file`, and `array` cache drivers support atomic locks.
 
-> {note} `WithoutOverlapping` 미들웨어는 [locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버가 필요합니다. 현재 `memcached`, `redis`, `dynamodb`, `database`, `file` 및 `array` 캐시 드라이버는 원자 잠금을 지원합니다.
+> **Warning**
+> `WithoutOverlapping` 미들웨어는 [locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버가 필요합니다. 현재 `memcached`, `redis`, `dynamodb`, `database`, `file` 및 `array` 캐시 드라이버는 원자 잠금을 지원합니다.
+
+<a name="sharing-lock-keys"></a>
+#### Sharing Lock Keys Across Job Classes
+#### 잡 클래스 간 잠금 키 공유
+
+By default, the `WithoutOverlapping` middleware will only prevent overlapping jobs of the same class. So, although two different job classes may use the same lock key, they will not be prevented from overlapping. However, you can instruct Laravel to apply the key across job classes using the `shared` method:
+
+기본적으로 `WithoutOverlapping` 미들웨어는 같은 클래스의 잡이 겹치는 것만 막아줍니다. 따라서 서로 다른 두 잡 클래스가 같은 잠금 키를 공유한다고 하더라도 서로 겹치는 것을 막아주지는 못합니다. 하지만 잡 클래스에 `shared` 메서드를 이용해 라라벨로 하여금 잡 클래스 전체에 키를 적용하라고 지시할 수 있습니다. 
+
+```php
+use Illuminate\Queue\Middleware\WithoutOverlapping;
+
+class ProviderIsDown
+{
+    // ...
+
+
+    public function middleware()
+    {
+        return [
+            (new WithoutOverlapping("status:{$this->provider}"))->shared(),
+        ];
+    }
+}
+
+class ProviderIsUp
+{
+    // ...
+
+
+    public function middleware()
+    {
+        return [
+            (new WithoutOverlapping("status:{$this->provider}"))->shared(),
+        ];
+    }
+}
+```
 
 <a name="throttling-exceptions"></a>
 ### Throttling Exceptions
@@ -784,9 +846,11 @@ Internally, this middleware uses Laravel's cache system to implement rate limiti
         return [(new ThrottlesExceptions(10, 10))->by('key')];
     }
 
-> {tip} If you are using Redis, you may use the `Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis` middleware, which is fine-tuned for Redis and more efficient than the basic exception throttling middleware.
+> **Note**
+> If you are using Redis, you may use the `Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis` middleware, which is fine-tuned for Redis and more efficient than the basic exception throttling middleware.
 
-> {tip} Redis를 사용하신다면 `Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis` 미들웨어를 사용하시면 됩니다. 이 미들웨어는 Redis에 맞게 미세 조정되고 기본 예외 조절 미들웨어보다 더 효율적입니다.
+> **Note**
+> Redis를 사용하신다면 `Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis` 미들웨어를 사용하시면 됩니다. 이 미들웨어는 Redis에 맞게 미세 조정되고 기본 예외 조절 미들웨어보다 더 효율적입니다.
 
 <a name="dispatching-jobs"></a>
 ## Dispatching Jobs
@@ -815,7 +879,7 @@ Job 클래스를 작성한 뒤에 클래스의 `dispatch` 메소드를 사용하
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -830,6 +894,10 @@ If you would like to conditionally dispatch a job, you may use the `dispatchIf` 
     ProcessPodcast::dispatchIf($accountActive, $podcast);
 
     ProcessPodcast::dispatchUnless($accountSuspended, $podcast);
+
+In new Laravel applications, the `sync` driver is the default queue driver. This driver executes jobs synchronously in the foreground of the current request, which is often convenient during local development. If you would like to actually begin queueing jobs for background processing, you may specify a different queue driver within your application's `config/queue.php` configuration file.
+
+라라벨에서는 `sync` 가 기본 큐 드라이버 입니다. 이 드라이버는 현재 리퀘스트에서 동기적으로 잡을 실행합니다. 이러한 방식은 로컬 개발할 때 편리합니다. 실제로 잡을 백그라운드로 처리하고 싶으면 `config/queue.php` 구성 파일에 다른 큐 드라이버를 설정해주면 됩니다.
 
 <a name="delayed-dispatching"></a>
 ### Delayed Dispatching
@@ -858,7 +926,7 @@ If you would like to specify that a job should not be immediately available for 
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // ...
 
@@ -867,17 +935,19 @@ If you would like to specify that a job should not be immediately available for 
         }
     }
 
-> {note} The Amazon SQS queue service has a maximum delay time of 15 minutes.
+> **Warning**
+> The Amazon SQS queue service has a maximum delay time of 15 minutes.
 
-> {note} 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
+> **Warning**
+> 아마존 SQS 큐 서비스는 지연시간이 최대 15분을 넘을 수 없습니다.
 
 <a name="dispatching-after-the-response-is-sent-to-browser"></a>
 #### Dispatching After The Response Is Sent To Browser
 #### 브라우저로 응답을 보낸 후 처리
 
-Alternatively, the `dispatchAfterResponse` method delays dispatching a job until after the HTTP response is sent to the user's browser. This will still allow the user to begin using the application even though a queued job is still executing. This should typically only be used for jobs that take about a second, such as sending an email. Since they are processed within the current HTTP request, jobs dispatched in this fashion do not require a queue worker to be running in order for them to be processed:
+Alternatively, the `dispatchAfterResponse` method delays dispatching a job until after the HTTP response is sent to the user's browser if your web server is using FastCGI. This will still allow the user to begin using the application even though a queued job is still executing. This should typically only be used for jobs that take about a second, such as sending an email. Since they are processed within the current HTTP request, jobs dispatched in this fashion do not require a queue worker to be running in order for them to be processed:
 
-또는 `dispatchAfterResponse` 메서드는 HTTP 응답이 사용자의 브라우저로 전송될 때까지 작업 처리를 지연시킵니다. 이렇게 하면 큐-queue에 있는 작업이 계속 실행 중이더라도 사용자가 애플리케이션을 사용할 수 있습니다. 이것은 일반적으로 이메일 보내기와 같이 1초 정도 걸리는 작업에만 사용해야 합니다. 현재 HTTP 요청 내에서 처리되기 때문에 이러한 방식으로 디스패치된 작업은 처리를 위해 큐-queue 작업자를 실행할 필요가 없습니다.
+또는 `dispatchAfterResponse` 메서드는 여러분의 서버가 FastCGI를 사용중이라면 HTTP 응답이 사용자의 브라우저로 전송될 때까지 작업 처리를 지연시킵니다. 이렇게 하면 큐-queue에 있는 작업이 계속 실행 중이더라도 사용자가 애플리케이션을 사용할 수 있습니다. 이것은 일반적으로 이메일 보내기와 같이 1초 정도 걸리는 작업에만 사용해야 합니다. 현재 HTTP 요청 내에서 처리되기 때문에 이러한 방식으로 디스패치된 작업은 처리를 위해 큐-queue 작업자를 실행할 필요가 없습니다.
 
     use App\Jobs\SendNotification;
 
@@ -921,7 +991,7 @@ If you would like to dispatch a job immediately (synchronously), you may use the
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // Create podcast...
 
@@ -955,9 +1025,11 @@ If a transaction is rolled back due to an exception that occurs during the trans
 
 트랜잭션 중에 발생한 예외로 인해 트랜잭션이 롤백되면 해당 트랜잭션 중에 디스패치된 작업은 버려집니다.
 
-> {tip} Setting the `after_commit` configuration option to `true` will also cause any queued event listeners, mailables, notifications, and broadcast events to be dispatched after all open database transactions have been committed.
+> **Note**
+> Setting the `after_commit` configuration option to `true` will also cause any queued event listeners, mailables, notifications, and broadcast events to be dispatched after all open database transactions have been committed.
 
-> {tip} `after_commit` 설정 옵션을 `true`로 설정하면 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 후 대기 중인 이벤트 리스너, 메일 가능 항목, 알림 및 브로드캐스트 이벤트도 전달됩니다.
+> **Note**
+> `after_commit` 설정 옵션을 `true`로 설정하면 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 후 대기 중인 이벤트 리스너, 메일 가능 항목, 알림 및 브로드캐스트 이벤트도 전달됩니다.
 
 <a name="specifying-commit-dispatch-behavior-inline"></a>
 #### Specifying Commit Dispatch Behavior Inline
@@ -1004,13 +1076,15 @@ In addition to chaining job class instances, you may also chain closures:
         new ProcessPodcast,
         new OptimizePodcast,
         function () {
-            Podcast::update(...);
+            Podcast::update(/* ... */);
         },
     ])->dispatch();
 
-> {note} Deleting jobs using the `$this->delete()` method within the job will not prevent chained jobs from being processed. The chain will only stop executing if a job in the chain fails.
+> **Warning**
+> Deleting jobs using the `$this->delete()` method within the job will not prevent chained jobs from being processed. The chain will only stop executing if a job in the chain fails.
 
-> {참고} 작업 내에서 `$this->delete()` 메서드를 사용하여 작업을 삭제해도 연결된 작업이 처리되지 않습니다. 체인은 체인의 작업이 실패하는 경우에만 실행을 중지합니다.
+> **Warning**
+> 작업 내에서 `$this->delete()` 메서드를 사용하여 작업을 삭제해도 연결된 작업이 처리되지 않습니다. 체인은 체인의 작업이 실패하는 경우에만 실행을 중지합니다.
 
 <a name="chain-connection-queue"></a>
 #### Chain Connection & Queue
@@ -1076,7 +1150,7 @@ By pushing jobs to different queues, you may "categorize" your queued jobs and e
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // Create podcast...
 
@@ -1140,7 +1214,7 @@ If your application interacts with multiple queue connections, you may specify w
          */
         public function store(Request $request)
         {
-            $podcast = Podcast::create(...);
+            $podcast = Podcast::create(/* ... */);
 
             // Create podcast...
 
@@ -1245,9 +1319,11 @@ As an alternative to defining how many times a job may be attempted before it fa
         return now()->addMinutes(10);
     }
 
-> {tip} You may also define a `tries` property or `retryUntil` method on your [queued event listeners](/docs/{{version}}/events#queued-event-listeners).
+> **Note**
+> You may also define a `tries` property or `retryUntil` method on your [queued event listeners](/docs/{{version}}/events#queued-event-listeners).
 
-> {tip} [대기 중인 이벤트 리스너](/docs/{{version}}/events#queued-event-listeners)에서 `tries` 속성이나 `retryUntil` 메서드를 정의할 수도 있습니다.
+> **Note**
+> [대기 중인 이벤트 리스너](/docs/{{version}}/events#queued-event-listeners)에서 `tries` 속성이나 `retryUntil` 메서드를 정의할 수도 있습니다.
 
 <a name="max-exceptions"></a>
 #### Max Exceptions
@@ -1303,13 +1379,15 @@ In this example, the job is released for ten seconds if the application is unabl
 #### Timeout
 #### 타임아웃
 
-> {note} The `pcntl` PHP extension must be installed in order to specify job timeouts.
+> **Warning**
+> The `pcntl` PHP extension must be installed in order to specify job timeouts.
 
-> {note} 작업 시간 제한을 지정하려면 `pcntl` PHP 확장기능을 설치해야합니다
+> **Warning**
+> 작업 시간 제한을 지정하려면 `pcntl` PHP 확장기능을 설치해야합니다
 
-Often, you know roughly how long you expect your queued jobs to take. For this reason, Laravel allows you to specify a "timeout" value. If a job is processing for longer than the number of seconds specified by the timeout value, the worker processing the job will exit with an error. Typically, the worker will be restarted automatically by a [process manager configured on your server](#supervisor-configuration).
+Often, you know roughly how long you expect your queued jobs to take. For this reason, Laravel allows you to specify a "timeout" value. By default, the timeout value is 60 seconds. If a job is processing for longer than the number of seconds specified by the timeout value, the worker processing the job will exit with an error. Typically, the worker will be restarted automatically by a [process manager configured on your server](#supervisor-configuration).
 
-대기 중인 작업에 소요되는 시간을 대략적으로 알고 있는 경우가 많습니다. 이러한 이유로 라라벨에서는 "timeout" 값을 지정할 수 있습니다. 작업이 시간 초과 값으로 지정된 시간(초)보다 오래 처리되는 경우, 작업을 처리하는 작업자는 오류와 함께 종료됩니다. 일반적으로 작업자는 [서버에 설정된 프로세스 관리자](#supervisor-configuration)에 의해 자동으로 다시 시작됩니다.
+대기 중인 작업에 소요되는 시간을 대략적으로 알고 있는 경우가 많습니다. 이러한 이유로 라라벨에서는 "timeout" 값을 지정할 수 있습니다. 타임아웃 기본 값은 60초 입니다. 작업이 시간 초과 값으로 지정된 시간(초)보다 오래 처리되는 경우, 작업을 처리하는 작업자는 오류와 함께 종료됩니다. 일반적으로 작업자는 [서버에 설정된 프로세스 관리자](#supervisor-configuration)에 의해 자동으로 다시 시작됩니다.
 
 The maximum number of seconds that jobs can run may be specified using the `--timeout` switch on the Artisan command line:
 
@@ -1422,9 +1500,11 @@ If you would like to mark your job as failed because of an exception that you ha
 
     $this->fail($exception);
 
-> {tip} For more information on failed jobs, check out the [documentation on dealing with job failures](#dealing-with-failed-jobs).
+> **Note**
+> For more information on failed jobs, check out the [documentation on dealing with job failures](#dealing-with-failed-jobs).
 
-> {tip} 실패한 작업에 대한 자세한 내용은 [작업 실패 처리 문서](#dealing-with-failed-jobs)를 확인하세요.
+> **Note**
+> 실패한 작업에 대한 자세한 내용은 [작업 실패 처리 문서](#dealing-with-failed-jobs)를 확인하세요.
 
 <a name="job-batching"></a>
 ## Job Batching
@@ -1513,9 +1593,11 @@ The batch's ID, which may be accessed via the `$batch->id` property, may be used
 
 `$batch->id` 속성을 통해 액세스할 수 있는 배치의 ID는 배치가 발송된 후 배치에 대한 정보를 얻기 위해 [라라벨 명령 버스 쿼리](#inspecting-batches)에 사용될 수 있습니다.
 
-> {note} Since batch callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within the callbacks.
+> **Warning**
+> Since batch callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within the callbacks.
 
-> {note} 일괄 콜백은 나중에 라라벨 큐에 의해 직렬화되어 실행되기 때문에 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
+> **Warning**
+> 일괄 콜백은 나중에 라라벨 큐에 의해 직렬화되어 실행되기 때문에 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
 
 <a name="naming-batches"></a>
 #### Naming Batches
@@ -1610,9 +1692,11 @@ In this example, we will use the `LoadImportBatch` job to hydrate the batch with
         }));
     }
 
-> {note} You may only add jobs to a batch from within a job that belongs to the same batch.
+> **Warning**
+> You may only add jobs to a batch from within a job that belongs to the same batch.
 
-> {note} 동일한 배치에 속하는 job 내에서만 배치에 job들을 추가할 수 있습니다.
+> **Warning**
+> 동일한 배치에 속하는 job 내에서만 배치에 job들을 추가할 수 있습니다.
 
 <a name="inspecting-batches"></a>
 ### Inspecting Batches
@@ -1811,9 +1895,11 @@ Laravel includes an Artisan command that will start a queue worker and process n
 php artisan queue:work
 ```
 
-> {tip} To keep the `queue:work` process running permanently in the background, you should use a process monitor such as [Supervisor](#supervisor-configuration) to ensure that the queue worker does not stop running.
+> **Note**
+> To keep the `queue:work` process running permanently in the background, you should use a process monitor such as [Supervisor](#supervisor-configuration) to ensure that the queue worker does not stop running.
 
-> {tip} `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
+> **Note**
+> `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
 
 Remember, queue workers, are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment). In addition, remember that any static state created or modified by your application will not be automatically reset between jobs.
 
@@ -1954,9 +2040,11 @@ This command will instruct all queue workers to gracefully exit after they finis
 
 이 명령은 기존 작업이 손실되지 않도록 모든 큐-queue 작업자가 현재 작업 처리를 마친 후 정상적으로 종료하도록 지시합니다. 큐 워커는 `queue:restart` 명령이 실행되면 종료되므로 [Supervisor](#supervisor-configuration)와 같은 프로세스 관리자를 실행하여 큐 워커를 자동으로 재시작해야 합니다.
 
-> {tip} The queue uses the [cache](/docs/{{version}}/cache) to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.
+> **Note**
+> The queue uses the [cache](/docs/{{version}}/cache) to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.
 
-> {tip} 큐-queue은 [cache](/docs/{{version}}/cache)를 사용하여 재시작 신호를 저장하므로 이 기능을 사용하기 전에 캐시 드라이버가 애플리케이션에 대해 올바르게 설정되었는지 확인해야 합니다.
+> **Note**
+> 큐-queue은 [cache](/docs/{{version}}/cache)를 사용하여 재시작 신호를 저장하므로 이 기능을 사용하기 전에 캐시 드라이버가 애플리케이션에 대해 올바르게 설정되었는지 확인해야 합니다.
 
 <a name="job-expirations-and-timeouts"></a>
 ### Job Expirations & Timeouts
@@ -1970,17 +2058,19 @@ In your `config/queue.php` configuration file, each queue connection defines a `
 
 `config/queue.php` 설정 파일에서 각 큐-queue 연결은 `retry_after` 옵션을 정의합니다. 이 옵션은 처리 중인 작업을 재시도하기 전에 큐-queue 연결이 대기해야 하는 시간(초)을 지정합니다. 예를 들어 `retry_after` 값이 `90`으로 설정된 경우, 작업이 해제 되거나 삭제되지 않고 90초 동안 처리되면 작업이 큐-queue로 다시 등록 됩니다. 일반적으로 `retry_after` 값은 작업처리를 완료 하는데 합리적으로 걸리는 최대 시간(초)으로 설정해야 합니다.
 
-> {note} The only queue connection which does not contain a `retry_after` value is Amazon SQS. SQS will retry the job based on the [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) which is managed within the AWS console.
+> **Warning**
+> The only queue connection which does not contain a `retry_after` value is Amazon SQS. SQS will retry the job based on the [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) which is managed within the AWS console.
 
-> {note} 아마존 SQS에서는 `retry_after` 값은 포함되어 있지 않습니다. SQS는 AWS 콘솔 안에서 관리되는 [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) 에 의해서 job이 재시작됩니다.
+> **Warning**
+> 아마존 SQS에서는 `retry_after` 값은 포함되어 있지 않습니다. SQS는 AWS 콘솔 안에서 관리되는 [Default Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AboutVT.html) 에 의해서 job이 재시작됩니다.
 
 <a name="worker-timeouts"></a>
 #### Worker Timeouts
 #### worker 타임아웃
 
-The `queue:work` Artisan command exposes a `--timeout` option. If a job is processing for longer than the number of seconds specified by the timeout value, the worker processing the job will exit with an error. Typically, the worker will be restarted automatically by a [process manager configured on your server](#supervisor-configuration):
+The `queue:work` Artisan command exposes a `--timeout` option. By default, the `--timeout` value is 60 seconds. If a job is processing for longer than the number of seconds specified by the timeout value, the worker processing the job will exit with an error. Typically, the worker will be restarted automatically by a [process manager configured on your server](#supervisor-configuration):
 
-`queue:work` Artisan 명령은 `--timeout` 옵션을 표시합니다. 작업이 시간 초과 값으로 지정된 시간(초)보다 오래 처리되는 경우 작업을 처리하는 작업자는 오류와 함께 종료됩니다. 일반적으로 작업자는 [서버에 설정된 프로세스 관리자](#supervisor-configuration)에 의해 자동으로 다시 시작됩니다.
+`queue:work` Artisan 명령은 `--timeout` 옵션을 표시합니다. `--timeout` 기본값은 60초 입니다. 작업이 시간 초과 값으로 지정된 시간(초)보다 오래 처리되는 경우 작업을 처리하는 작업자는 오류와 함께 종료됩니다. 일반적으로 작업자는 [서버에 설정된 프로세스 관리자](#supervisor-configuration)에 의해 자동으로 다시 시작됩니다.
 
 ```shell
 php artisan queue:work --timeout=60
@@ -1990,9 +2080,11 @@ The `retry_after` configuration option and the `--timeout` CLI option are differ
 
 `retry_after` 설정 옵션과 `--timeout` CLI 옵션은 서로 다릅니다. 하지만 job이 한번에 성공적으로 처리될 수 있도록 하는데 함께 작동합니다.
 
-> {note} The `--timeout` value should always be at least several seconds shorter than your `retry_after` configuration value. This will ensure that a worker processing a frozen job is always terminated before the job is retried. If your `--timeout` option is longer than your `retry_after` configuration value, your jobs may be processed twice.
+> **Warning**
+> The `--timeout` value should always be at least several seconds shorter than your `retry_after` configuration value. This will ensure that a worker processing a frozen job is always terminated before the job is retried. If your `--timeout` option is longer than your `retry_after` configuration value, your jobs may be processed twice.
 
-> {note} `--timeout` 값은 항상 `retry_after` 설정 값보다 몇 초 이상 짧아야 합니다. 이렇게 하면 고정된 작업을 처리하는 작업자가 작업을 재시도하기 전에 항상 종료됩니다. `--timeout` 옵션이 `retry_after` 설정 값보다 길면 작업이 두 번 처리될 수 있습니다.
+> **Warning**
+> `--timeout` 값은 항상 `retry_after` 설정 값보다 몇 초 이상 짧아야 합니다. 이렇게 하면 고정된 작업을 처리하는 작업자가 작업을 재시도하기 전에 항상 종료됩니다. `--timeout` 옵션이 `retry_after` 설정 값보다 길면 작업이 두 번 처리될 수 있습니다.
 
 <a name="supervisor-configuration"></a>
 ## Supervisor Configuration
@@ -2018,9 +2110,11 @@ Supervisor는 Linux 운영 체제용 프로세스 모니터이며, `queue:work` 
 sudo apt-get install supervisor
 ```
 
-> {tip} If configuring and managing Supervisor yourself sounds overwhelming, consider using [Laravel Forge](https://forge.laravel.com), which will automatically install and configure Supervisor for your production Laravel projects.
+> **Note**
+> If configuring and managing Supervisor yourself sounds overwhelming, consider using [Laravel Forge](https://forge.laravel.com), which will automatically install and configure Supervisor for your production Laravel projects.
 
-> {tip} Supervisor를 직접 설정하고 관리하는 것이 너무 어렵다면 [Laravel Forge](https://forge.laravel.com)를 사용해 보세요. 그러면 프로덕션 라라벨 프로젝트에 Supervisor가 자동으로 설치되고 설정됩니다.
+> **Note**
+> Supervisor를 직접 설정하고 관리하는 것이 너무 어렵다면 [Laravel Forge](https://forge.laravel.com)를 사용해 보세요. 그러면 프로덕션 라라벨 프로젝트에 Supervisor가 자동으로 설치되고 설정됩니다.
 
 <a name="configuring-supervisor"></a>
 #### Configuring Supervisor
@@ -2049,9 +2143,11 @@ In this example, the `numprocs` directive will instruct Supervisor to run eight 
 
 이 예에서 `numprocs` 지시문은 Supervisor에게 8개의 `queue:work` 프로세스를 실행하고 모든 프로세스를 모니터링하도록 지시하며, 실패하면 자동으로 다시 시작합니다. 원하는 큐-queue 연결 및 작업자 옵션을 반영하도록 설정의 command 지시문을 변경해야 합니다.
 
-> {note} You should ensure that the value of `stopwaitsecs` is greater than the number of seconds consumed by your longest running job. Otherwise, Supervisor may kill the job before it is finished processing.
+> **Warning**
+> You should ensure that the value of `stopwaitsecs` is greater than the number of seconds consumed by your longest running job. Otherwise, Supervisor may kill the job before it is finished processing.
 
-> {note} `stopwaitsecs`의 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 supervisor가 작업을 처리를 완료하기 전에 종료 할 수 있습니다.
+> **Warning**
+> `stopwaitsecs`의 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 supervisor가 작업을 처리를 완료하기 전에 종료 할 수 있습니다.
 
 <a name="starting-supervisor"></a>
 #### Starting Supervisor
@@ -2175,7 +2271,7 @@ When a particular job fails, you may want to send an alert to your users or reve
          *
          * @var \App\Podcast
          */
-        protected $podcast;
+        public $podcast;
 
         /**
          * Create a new job instance.
@@ -2211,9 +2307,11 @@ When a particular job fails, you may want to send an alert to your users or reve
         }
     }
 
-> {note} A new instance of the job is instantiated before invoking the `failed` method; therefore, any class property modifications that may have occurred within the `handle` method will be lost.
+> **Warning**
+> A new instance of the job is instantiated before invoking the `failed` method; therefore, any class property modifications that may have occurred within the `handle` method will be lost.
 
-> {note} `failed` 메서드를 호출하기 전에 작업의 새 인스턴스가 인스턴스화됩니다. 따라서 `handle` 메서드 내에서 발생했을 수 있는 클래스 속성의 변경사항은 손실됩니다.
+> **Warning**
+> `failed` 메서드를 호출하기 전에 작업의 새 인스턴스가 인스턴스화됩니다. 따라서 `handle` 메서드 내에서 발생했을 수 있는 클래스 속성의 변경사항은 손실됩니다.
 
 <a name="retrying-failed-jobs"></a>
 ### Retrying Failed Jobs
@@ -2267,9 +2365,11 @@ If you would like to delete a failed job, you may use the `queue:forget` command
 php artisan queue:forget 91401d2c-0784-4f43-824c-34f94a33c24d
 ```
 
-> {tip} When using [Horizon](/docs/{{version}}/horizon), you should use the `horizon:forget` command to delete a failed job instead of the `queue:forget` command.
+> **Note**
+> When using [Horizon](/docs/{{version}}/horizon), you should use the `horizon:forget` command to delete a failed job instead of the `queue:forget` command.
 
-> {tip} [Horizon](/docs/{{version}}/horizon)을 사용할 때 실패한 작업을 삭제하려면 `queue:forget` 명령 대신 `horizon:forget` 명령을 사용해야 합니다.
+> **Note**
+> [Horizon](/docs/{{version}}/horizon)을 사용할 때 실패한 작업을 삭제하려면 `queue:forget` 명령 대신 `horizon:forget` 명령을 사용해야 합니다.
 
 To delete all of your failed jobs from the `failed_jobs` table, you may use the `queue:flush` command:
 
@@ -2302,7 +2402,7 @@ For convenience, you may choose to automatically delete jobs with missing models
 ### Pruning Failed Jobs
 ### 실패한 작업 정리하기
 
-You may delete all of the records in your application's `failed_jobs` table by invoking the `queue:prune-failed` Artisan command:
+You may prune the records in your application's `failed_jobs` table by invoking the `queue:prune-failed` Artisan command:
 
 `queue:prune-failed` Artisan 명령을 호출하여 애플리케이션의 `failed_jobs` 테이블에 있는 모든 레코드를 삭제할 수 있습니다.
 
@@ -2310,9 +2410,9 @@ You may delete all of the records in your application's `failed_jobs` table by i
 php artisan queue:prune-failed
 ```
 
-If you provide the `--hours` option to the command, only the failed job records that were inserted within the last N number of hours will be retained. For example, the following command will delete all of the failed job records that were inserted more than 48 hours ago:
+By default, all the failed job records that are more than 24 hours old will be pruned. If you provide the `--hours` option to the command, only the failed job records that were inserted within the last N number of hours will be retained. For example, the following command will delete all of the failed job records that were inserted more than 48 hours ago:
 
-명령에 `--hours` 옵션을 제공하면 마지막 N시간 내에 삽입된 실패한 작업 레코드만 유지됩니다. 예를 들어 다음 명령은 48시간 전에 삽입된 실패한 작업 레코드를 모두 삭제합니다.
+기본적으로 모든 24시간이 지난 실패한 잡 레코드는 삭제됩니다. 명령에 `--hours` 옵션을 제공하면 마지막 N시간 내에 삽입된 실패한 작업 레코드만 유지됩니다. 예를 들어 다음 명령은 48시간 전에 삽입된 실패한 작업 레코드를 모두 삭제합니다.
 
 ```shell
 php artisan queue:prune-failed --hours=48
@@ -2411,9 +2511,11 @@ If you would like to register an event listener that will be invoked when a job 
 ## Clearing Jobs From Queues
 ## 큐-queue에서 작업 지우기
 
-> {tip} When using [Horizon](/docs/{{version}}/horizon), you should use the `horizon:clear` command to clear jobs from the queue instead of the `queue:clear` command.
+> **Note**
+> When using [Horizon](/docs/{{version}}/horizon), you should use the `horizon:clear` command to clear jobs from the queue instead of the `queue:clear` command.
 
-> {tip} [Horizon](/docs/{{version}}/horizon)을 사용할 때 큐-queue에서 작업을 지우려면 `queue:clear` 명령 대신 `horizon:clear` 명령을 사용해야 합니다.
+> **Note**
+> [Horizon](/docs/{{version}}/horizon)을 사용할 때 큐-queue에서 작업을 지우려면 `queue:clear` 명령 대신 `horizon:clear` 명령을 사용해야 합니다.
 
 If you would like to delete all jobs from the default queue of the default connection, you may do so using the `queue:clear` Artisan command:
 
@@ -2431,9 +2533,11 @@ You may also provide the `connection` argument and `queue` option to delete jobs
 php artisan queue:clear redis --queue=emails
 ```
 
-> {note} Clearing jobs from queues is only available for the SQS, Redis, and database queue drivers. In addition, the SQS message deletion process takes up to 60 seconds, so jobs sent to the SQS queue up to 60 seconds after you clear the queue might also be deleted.
+> **Warning**
+> Clearing jobs from queues is only available for the SQS, Redis, and database queue drivers. In addition, the SQS message deletion process takes up to 60 seconds, so jobs sent to the SQS queue up to 60 seconds after you clear the queue might also be deleted.
 
-> {note} 큐-queue에서 작업 지우기는 SQS, Redis 및 데이터베이스 큐-queue 드라이버에서만 사용할 수 있습니다. 또한 SQS 메시지 삭제 프로세스는 최대 60초가 걸리므로 큐-queue을 지운 후 최대 60초 동안 SQS 큐-queue로 전송된 작업도 삭제될 수 있습니다.
+> **Warning**
+> 큐-queue에서 작업 지우기는 SQS, Redis 및 데이터베이스 큐-queue 드라이버에서만 사용할 수 있습니다. 또한 SQS 메시지 삭제 프로세스는 최대 60초가 걸리므로 큐-queue을 지운 후 최대 60초 동안 SQS 큐-queue로 전송된 작업도 삭제될 수 있습니다.
 
 <a name="monitoring-your-queues"></a>
 ## Monitoring Your Queues

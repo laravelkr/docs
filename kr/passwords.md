@@ -28,9 +28,11 @@ Most web applications provide a way for users to reset their forgotten passwords
 
 대부분의 웹 애플리케이션은 유저가 잊어버린 비밀번호를 재설정할 수 있는 방법을 제공합니다. 애플리케이션을 만들 때 마다 매번 일일이 비밀번호 재설정을 다시 만드는 수고가 없도록 라라벨은 보안성이 높은 비밀번호 재설정 과정을 제공하며 비밀번호 재설정 링크를 보낼 수 있는 편리한 서비스를 제공합니다.
 
-> {tip} Want to get started fast? Install a Laravel [application starter kit](/docs/{{version}}/starter-kits) in a fresh Laravel application. Laravel's starter kits will take care of scaffolding your entire authentication system, including resetting forgotten passwords.
+> **Note**
+> Want to get started fast? Install a Laravel [application starter kit](/docs/{{version}}/starter-kits) in a fresh Laravel application. Laravel's starter kits will take care of scaffolding your entire authentication system, including resetting forgotten passwords.
 
-> {tip} 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
+> **Note**
+> 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
 
 <a name="model-preparation"></a>
 ### Model Preparation
@@ -135,9 +137,11 @@ You may be wondering how Laravel knows how to retrieve the user record from your
 
 라라벨이 `Password` 파사드의 `sendResetLink` 메소드를 호출할 때 애플리케이션 데이터베이스에서 사용자 레코드를 가져오는 방법을 어떻게 알고 있는지 궁금할 것입니다. 라라벨 비밀번호 브로커는 인증 시스템의 "user providers"를 활용하여 데이터베이스 레코드를 검색합니다. 비밀번호 브로커가 사용하는 user 프로바이더는 `config/auth.php` 설정 파일의 `passwords` 배열 내에서 설정됩니다. user 프로바이더를 커스텀하려면 [인증 문서](/docs/{{version}}/authentication#adding-custom-user-providers)를 참고 하십시오.
 
-> {tip} When manually implementing password resets, you are required to define the contents of the views and routes yourself. If you would like scaffolding that includes all necessary authentication and verification logic, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
+> **Note**
+> When manually implementing password resets, you are required to define the contents of the views and routes yourself. If you would like scaffolding that includes all necessary authentication and verification logic, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 
-> {tip} 메뉴얼대로 비밀번호 재설정을 구현하려고 한다면, 뷰(views) 안의 내용을 정의할 필요가 있습니다. 모든 필수적인 인증과 유효성 검사 로직을 포함하고 있는 스캐폴딩을 사용하고자 한다면 [라라벨 애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 확인하십시오.
+> **Note**
+> 메뉴얼대로 비밀번호 재설정을 구현하려고 한다면, 뷰(views) 안의 내용을 정의할 필요가 있습니다. 모든 필수적인 인증과 유효성 검사 로직을 포함하고 있는 스캐폴딩을 사용하고자 한다면 [라라벨 애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 확인하십시오.
 
 <a name="resetting-the-password"></a>
 ### Resetting The Password

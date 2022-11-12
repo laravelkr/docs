@@ -13,6 +13,8 @@
     - [명령어의 구조](#command-structure)
     - [Closure Commands](#closure-commands)
     - [클로저 명령](#closure-commands)
+    - [Isolatable Commands](#isolatable-commands)
+    - [격리 가능한 명령](#isolatable-commands)
 - [Defining Input Expectations](#defining-input-expectations)
 - [입력 값들 정의하기](#defining-input-expectations)
     - [Arguments](#arguments)
@@ -73,7 +75,7 @@ If you are using [Laravel Sail](/docs/{{version}}/sail) as your local developmen
 로컬 개발 환경으로 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 중이라면 `sail` 명령어을 사용하여 아티즌을 호출해야합니다. Sail은 Docker 컨테이너 내에서 아티즌을 실행해줍니다.
 
 ```shell
-./sail artisan list
+./vendor/bin/sail artisan list
 ```
 
 <a name="tinker"></a>
@@ -96,9 +98,11 @@ All Laravel applications include Tinker by default. However, you may install Tin
 composer require laravel/tinker
 ```
 
-> {tip} Looking for a graphical UI for interacting with your Laravel application? Check out [Tinkerwell](https://tinkerwell.app)!
+> **Note**  
+> Looking for a graphical UI for interacting with your Laravel application? Check out [Tinkerwell](https://tinkerwell.app)!
 
-> {tip} 라라벨 애플리케이션과 대화하기위한 그래픽 UI를 찾고 계십니까? [Tinkerwell](https://tinkerwell.app)을 확인해보세요!
+> **Note**
+> 라라벨 애플리케이션과 대화하기위한 그래픽 UI를 찾고 계십니까? [Tinkerwell](https://tinkerwell.app)을 확인해보세요!
 
 <a name="usage"></a>
 #### Usage
@@ -120,9 +124,11 @@ You can publish Tinker's configuration file using the `vendor:publish` command:
 php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 ```
 
-> {note} The `dispatch` helper function and `dispatch` method on the `Dispatchable` class depends on garbage collection to place the job on the queue. Therefore, when using tinker, you should use `Bus::dispatch` or `Queue::push` to dispatch jobs.
+> **Warning**  
+> The `dispatch` helper function and `dispatch` method on the `Dispatchable` class depends on garbage collection to place the job on the queue. Therefore, when using tinker, you should use `Bus::dispatch` or `Queue::push` to dispatch jobs.
 
-> {note} `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
+> **Warning**
+> `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
 
 <a name="command-allow-list"></a>
 #### Command Allow List
@@ -216,9 +222,11 @@ Let's take a look at an example command. Note that we are able to request any de
         }
     }
 
-> {tip} For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
+> **Note**  
+> For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
 
-> {tip} 코드 재 사용률을 높이려면 콘솔 명령어을 가볍게 유지하고 작업을 수행하기 위해 애플리케이션 서비스를 불러오도록 하는 것이 좋습니다. 위의 예제에서 우리는 이메일을 보내는 "중요한 작업"을 수행하기 위해 서비스 클래스를 주입 받았습니다.
+> **Note**
+> 코드 재 사용률을 높이려면 콘솔 명령어을 가볍게 유지하고 작업을 수행하기 위해 애플리케이션 서비스를 불러오도록 하는 것이 좋습니다. 위의 예제에서 우리는 이메일을 보내는 "중요한 작업"을 수행하기 위해 서비스 클래스를 주입 받았습니다.
 
 <a name="closure-commands"></a>
 ### Closure Commands
@@ -276,6 +284,68 @@ When defining a closure based command, you may use the `purpose` method to add a
     Artisan::command('mail:send {user}', function ($user) {
         // ...
     })->purpose('Send a marketing email to a user');
+
+<a name="isolatable-commands"></a>
+### Isolatable Commands
+### 격리 가능한 명령
+
+> **Warning**
+> To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
+
+> **Warning**
+> 이 기능을 활용하기 위해서는 여러분의 애플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 애플리케이션 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 같은 중앙 캐시 서버와 통신해야 합니다.
+
+Sometimes you may wish to ensure that only one instance of a command can run at a time. To accomplish this, you may implement the `Illuminate\Contracts\Console\Isolatable` interface on your command class:
+
+한 번에 하나의 명령 인스턴스만 실행시키고 싶을 수 있습니다. 그렇게 하려면 여러분의 명령 클래스에 `Illuminate\Contracts\Console\Isolatable` 인터페이스를 구현하면 됩니다.
+
+    <?php
+
+    namespace App\Console\Commands;
+
+    use Illuminate\Console\Command;
+    use Illuminate\Contracts\Console\Isolatable;
+
+    class SendEmails extends Command implements Isolatable
+    {
+        // ...
+    }
+
+When a command is marked as `Isolatable`, Laravel will automatically add an `--isolated` option to the command. When the command is invoked with that option, Laravel will ensure that no other instances of that command are already running. Laravel accomplishes this by attempting to acquire an atomic lock using your application's default cache driver. If other instances of the command are running, the command will not execute; however, the command will still exit with a successful exit status code:
+
+명령이 `Isolatable`로 표시되면 Laravel은 자동으로 명령에 `--isolated` 옵션을 추가합니다. 해당 옵션과 함께 명령이 호출되면 라라벨은 해당 명령의 다른 인스턴스가 이미 실행되고 있지 않은지 확인합니다. 라라벨은 애플리케이션의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령의 다른 인스턴스가 실행 중인 경우 명령이 실행되지 않습니다. 그러나 명령은 성공적인 종료 상태 코드와 함께 계속 종료됩니다.
+
+```shell
+php artisan mail:send 1 --isolated
+```
+
+If you would like to specify the exit status code that the command should return if it is not able to execute, you may provide the desired status code via the `isolated` option:
+
+실행이 불가능할 때 특정 종료 상태 코드를 반환하길 원하면 `isolated` 옵션을 통해 원하는 상태 코드를 전달할 수 있습니다.
+
+```shell
+php artisan mail:send 1 --isolated=12
+```
+
+<a name="lock-expiration-time"></a>
+#### Lock Expiration Time
+#### 잠금 만료 시간
+
+By default, isolation locks expire after the command is finished. Or, if the command is interrupted and unable to finish, the lock will expire after one hour. However, you may adjust the lock expiration time by defining a `isolationLockExpiresAt` method on your command:
+
+기본적으로 격리 잠금은 커맨드가 종료되면 해제됩니다. 명령이 중단되고 종료되지 못하는 경우에는 한 시간 뒤에 만료됩니다. 명령에 `isolationLockExpiresAt` 메서드를 정의해서 잠금 만료 시간을 조정할 수 있습니다.
+
+```php
+/**
+ * Determine when an isolation lock expires for the command.
+ *
+ * @return \DateTimeInterface|\DateInterval
+ */
+public function isolationLockExpiresAt()
+{
+    return now()->addMinutes(5);
+}
+```
 
 <a name="defining-input-expectations"></a>
 ## Defining Input Expectations
@@ -392,12 +462,12 @@ If you would like to define arguments or options to expect multiple input values
 
     'mail:send {user*}'
 
-When calling this method, the `user` arguments may be passed in order to the command line. For example, the following command will set the value of `user` to an array with `foo` and `bar` as its values:
+When calling this method, the `user` arguments may be passed in order to the command line. For example, the following command will set the value of `user` to an array with `1` and `2` as its values:
 
-이 함수를 호출 할 때, 명령 행에 `user` 인자를 순서대로 전달할 수 있습니다. 예를 들어 다음 명령어는 `user` 값을 `foo`와 `bar` 값을 가진 배열로 만들어 줍니다.
+이 함수를 호출 할 때, 명령 행에 `user` 인자를 순서대로 전달할 수 있습니다. 예를 들어 다음 명령어는 `user` 값을 `1`와 `2` 값을 가진 배열로 만들어 줍니다.
 
 ```shell
-php artisan mail:send foo bar
+php artisan mail:send 1 2
 ```
 
 This `*` character can be combined with an optional argument definition to allow zero or more instances of an argument:
@@ -414,7 +484,7 @@ When defining an option that expects multiple input values, each option value pa
 
 여러 입력 값을 예상하는 옵션을 정의 할 때, 명령에 전달 된 각 옵션 값은 옵션 이름으로 시작해야합니다.
 
-    'mail:send {user} {--id=*}'
+    'mail:send {--id=*}'
 
 Such a command may be invoked by passing multiple `--id` arguments:
 
@@ -659,9 +729,11 @@ Sometimes, you may need more manual control over how a progress bar is advanced.
 
     $bar->finish();
 
-> {tip} For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html).
+> **Note**  
+> For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html).
 
-> {tip} 고급 옵션은 [Symfony Progress Bar 구성 요소 문서](https://symfony.com/doc/current/components/console/helpers/progressbar.html) 를 확인하세요.
+> **Note**  
+> 고급 옵션은 [Symfony Progress Bar 구성 요소 문서](https://symfony.com/doc/current/components/console/helpers/progressbar.html) 를 확인하세요.
 
 <a name="registering-commands"></a>
 ## Registering Commands
@@ -804,53 +876,33 @@ If you would like to call another console command and suppress all of its output
 ## Signal Handling
 ## 시그널 처리
 
-The Symfony Console component, which powers the Artisan console, allows you to indicate which process signals (if any) your command handles. For example, you may indicate that your command handles the `SIGINT` and `SIGTERM` signals.
+As you may know, operating systems allow signals to be sent to running processes. For example, the `SIGTERM` signal is how operating systems ask a program to terminate. If you wish to listen for signals in your Artisan console commands and execute code when they occur, you may use the `trap` method:
 
-아티즌 콘솔을 구동하는 Symfony 콘솔 구성 요소를 사용하면, 명령어가 실행되는 동안 프로세스 시그널을(있을 경우) 처리 할 수 있습니다. 예를 들어 명령어가 `SIGINT` and `SIGTERM` 신호를 처리할 수 있습니다.
-
-To get started, you should implement the `Symfony\Component\Console\Command\SignalableCommandInterface` interface on your Artisan command class. This interface requires you to define two methods: `getSubscribedSignals` and `handleSignal`:
-
-사용하려면 아티즌 명령어 클래스에서 `Symfony\Component\Console\Command\SignalableCommandInterface` 인터페이스를 구현해야합니다. 이 인터페이스를 상속받은 경우 `getSubscribedSignals` 및 `handleSignal`의 두 가지 메소드를 구현해야합니다.
-
-```php
-<?php
-
-use Symfony\Component\Console\Command\SignalableCommandInterface;
-
-class StartServer extends Command implements SignalableCommandInterface
-{
-    // ...
+아시다시피 운영 체제는 실행 중인 프로세스에 시그널을 보낼 수 있습니다. 예를 들어, `SIGTERM` 신호는 운영 체제가 프로그램을 종료하도록 요청하는 방법입니다. 여러분의 아티즌 콘솔 명령에서 이러한 신호를 수신하고 이에 따라 코드를 실행하고 싶다면 `trap` 메서드를 사용하면 됩니다.
 
     /**
-     * Get the list of signals handled by the command.
+     * Execute the console command.
      *
-     * @return array
+     * @return mixed
      */
-    public function getSubscribedSignals(): array
+    public function handle()
     {
-        return [SIGINT, SIGTERM];
-    }
+        $this->trap(SIGTERM, fn () => $this->shouldKeepRunning = false);
 
-    /**
-     * Handle an incoming signal.
-     *
-     * @param  int  $signal
-     * @return void
-     */
-    public function handleSignal(int $signal): void
-    {
-        if ($signal === SIGINT) {
-            $this->stopServer();
-
-            return;
+        while ($this->shouldKeepRunning) {
+            // ...
         }
     }
-}
-```
 
-As you might expect, the `getSubscribedSignals` method should return an array of the signals that your command can handle, while the `handleSignal` method receives the signal and can respond accordingly.
+To listen for multiple signals at once, you may provide an array of signals to the `trap` method:
 
-예상했겠지만 `getSubscribedSignals` 메소드는 명령어가 처리 할 수있는 시그널의 배열을 반환하며, `handleSignal` 메소드는 시그널을 수신하고 그에 따른 응답을 처리 할 수 있습니다.
+한 번에 여러 신호를 수신하고 싶으면 `trap` 메서드에 신호 배열을 전달하면 됩니다.
+
+    $this->trap([SIGTERM, SIGQUIT], function ($signal) {
+        $this->shouldKeepRunning = false;
+
+        dump($signal); // SIGTERM / SIGQUIT
+    });
 
 <a name="stub-customization"></a>
 ## Stub Customization

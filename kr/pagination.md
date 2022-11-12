@@ -181,9 +181,11 @@ Once you have retrieved a cursor paginator instance, you may [display the pagina
 
 cursor paginator 인스턴스를 검색한 후에는 일반적으로 `paginate` 및 `simplePaginate` 메서드를 사용할 때와 같이 [페이지네이션 결과 출력하기](#displaying-pagination-results)할 수 있습니다. cursor paginator 에서 제공하는 인스턴스 메소드에 대한 자세한 내용은 [cursor paginator 인스턴스 메소드 문서](#cursor-paginator-instance-methods)를 참조하십시오.
 
-> {note} Your query must contain an "order by" clause in order to take advantage of cursor pagination.
+> **Warning**
+> Your query must contain an "order by" clause in order to take advantage of cursor pagination.
 
-> {노트} 커서 페이지 매기기를 활용하려면 쿼리에 "order by" 절이 포함되어야 합니다.
+> **Warning**
+> 커서 페이지 매기기를 활용하려면 쿼리에 "order by" 절이 포함되어야 합니다.
 
 <a name="cursor-vs-offset-pagination"></a>
 #### Cursor vs. Offset Pagination
@@ -218,10 +220,12 @@ However, cursor pagination has the following limitations:
 - Like `simplePaginate`, cursor pagination can only be used to display "Next" and "Previous" links and does not support generating links with page numbers.
 - It requires that the ordering is based on at least one unique column or a combination of columns that are unique. Columns with `null` values are not supported.
 - Query expressions in "order by" clauses are supported only if they are aliased and added to the "select" clause as well.
+- Query expressions with parameters are not supported.
 
 - `simplePaginate`와 마찬가지로 커서 페이지네이션은 "다음" 및 "이전" 링크를 표시하는 데만 사용할 수 있으며 페이지 번호가 있는 링크 생성을 지원하지 않습니다.
 - 순서가 최소한 하나의 고유한 열 또는 고유한 열의 조합을 기반으로 해야 합니다. `null` 값이 있는 열은 지원되지 않습니다.
 - "order by" 절의 쿼리 표현식은 별칭이 지정되고 "select" 절에도 추가된 경우에만 지원됩니다.
+- 파라미터가 있는 쿼리문은 지원하지 않습니다.
 
 <a name="manually-creating-a-paginator"></a>
 ### Manually Creating A Paginator
@@ -239,9 +243,11 @@ In other words, the `Paginator` corresponds to the `simplePaginate` method on th
 
 즉, `Paginator` 는 쿼리 빌더의 `simplePaginate` 메서드에 해당하고, `CursorPaginator` 는 `cursorPaginate` 메서드에 해당하고, `LengthAwarePaginator` 는 `paginate` 메서드에 해당합니다.
 
-> {note} When manually creating a paginator instance, you should manually "slice" the array of results you pass to the paginator. If you're unsure how to do this, check out the [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP function.
+> **Warning**
+> When manually creating a paginator instance, you should manually "slice" the array of results you pass to the paginator. If you're unsure how to do this, check out the [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP function.
 
-> {노트} 수동으로 paginator 인스턴스를 생성할 때 paginator 에 전달한 결과 배열을 수동으로 "slice" 해야 합니다. 어떻게 하는지 잘 모르겠다면 [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP 함수를 확인하세요.
+> **Warning**
+> 수동으로 paginator 인스턴스를 생성할 때 paginator 에 전달한 결과 배열을 수동으로 "slice" 해야 합니다. 어떻게 하는지 잘 모르겠다면 [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP 함수를 확인하세요.
 
 <a name="customizing-pagination-urls"></a>
 ### Customizing Pagination URLs
@@ -303,7 +309,7 @@ When calling the `paginate` method, you will receive an instance of `Illuminate\
 
 `paginate` 메소드를 호출하면 `Illuminate\Pagination\LengthAwarePaginator`의 인스턴스를 반환하고 `simplePaginate` 메소드를 호출하면 `Illuminate\Pagination\Paginator` 인스턴스를 반환합니다. 그리고 마지막으로 `cursorPaginate` 메소드를 호출하면 `Illuminate\Pagination\CursorPaginator` 인스턴스가 반환됩니다.
 
-These objects provide several methods that describe the result set. In addition to these helpers methods, the paginator instances are iterators and may be looped as an array. So, once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade):
+These objects provide several methods that describe the result set. In addition to these helper methods, the paginator instances are iterators and may be looped as an array. So, once you have retrieved the results, you may display the results and render the page links using [Blade](/docs/{{version}}/blade):
 
 이러한 개체는 결과 집합을 설명하는 여러 메서드를 제공합니다. 이러한 도우미 메서드 외에도 paginator 인스턴스는 iterators 이며 배열처럼 반복문에서 사용할 수 있습니다. 따라서 결과를 검색한 후에는 [블레이드](/docs/{{version}}/blade)를 사용하여 결과를 표시하고 페이지 링크를 렌더링할 수 있습니다.
 

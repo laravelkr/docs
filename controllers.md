@@ -31,8 +31,7 @@ Let's take a look at an example of a basic controller. Note that the controller 
     <?php
 
     namespace App\Http\Controllers;
-
-    use App\Http\Controllers\Controller;
+    
     use App\Models\User;
 
     class UserController extends Controller
@@ -59,7 +58,8 @@ You can define a route to this controller method like so:
 
 When an incoming request matches the specified route URI, the `show` method on the `App\Http\Controllers\UserController` class will be invoked and the route parameters will be passed to the method.
 
-> {tip} Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
+> **Note**  
+> Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
 <a name="single-action-controllers"></a>
 ### Single Action Controllers
@@ -69,8 +69,7 @@ If a controller action is particularly complex, you might find it convenient to 
     <?php
 
     namespace App\Http\Controllers;
-
-    use App\Http\Controllers\Controller;
+    
     use App\Models\User;
 
     class ProvisionServer extends Controller
@@ -98,7 +97,8 @@ You may generate an invokable controller by using the `--invokable` option of th
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> {tip} Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
+> **Note**  
+> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
 <a name="controller-middleware"></a>
 ## Controller Middleware
@@ -182,6 +182,19 @@ Typically, a 404 HTTP response will be generated if an implicitly bound resource
             ->missing(function (Request $request) {
                 return Redirect::route('photos.index');
             });
+
+<a name="soft-deleted-models"></a>
+#### Soft Deleted Models
+
+Typically, implicit model binding will not retrieve models that have been [soft deleted](/docs/{{version}}/eloquent#soft-deleting), and will instead return a 404 HTTP response. However, you can instruct the framework to allow soft deleted models by invoking the `withTrashed` method when defining your resource route:
+
+    use App\Http\Controllers\PhotoController;
+
+    Route::resource('photos', PhotoController::class)->withTrashed();
+
+Calling `withTrashed` with no arguments will allow soft deleted models for the `show`, `edit`, and `update` resource routes. You may specify a subset of these routes by passing an array to the `withTrashed` method:
+
+    Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
 <a name="specifying-the-resource-model"></a>
 #### Specifying The Resource Model
@@ -326,7 +339,7 @@ When using a custom keyed implicit binding as a nested route parameter, Laravel 
 <a name="restful-localizing-resource-uris"></a>
 ### Localizing Resource URIs
 
-By default, `Route::resource` will create resource URIs using English verbs. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done at the beginning of the `boot` method within your application's `App\Providers\RouteServiceProvider`:
+By default, `Route::resource` will create resource URIs using English verbs and plural rules. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done at the beginning of the `boot` method within your application's `App\Providers\RouteServiceProvider`:
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -343,11 +356,11 @@ By default, `Route::resource` will create resource URIs using English verbs. If 
         // ...
     }
 
-Once the verbs have been customized, a resource route registration such as `Route::resource('fotos', PhotoController::class)` will produce the following URIs:
+Laravel's pluralizer supports [several different languages which you may configure based on your needs](/docs/{{version}}/localization#pluralization-language). Once the verbs and pluralization language have been customized, a resource route registration such as `Route::resource('publicacion', PublicacionController::class)` will produce the following URIs:
 
-    /fotos/crear
+    /publicacion/crear
 
-    /fotos/{foto}/editar
+    /publicacion/{publicaciones}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Supplementing Resource Controllers
@@ -359,7 +372,8 @@ If you need to add additional routes to a resource controller beyond the default
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> {tip} Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
+> **Note**  
+> Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers

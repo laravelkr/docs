@@ -17,6 +17,8 @@
     - [재시도](#retries)
     - [Error Handling](#error-handling)
     - [에러 처리](#error-handling)
+    - [Guzzle Middleware](#guzzle-middleware)
+    - [Guzzle 미들웨어](#guzzle-middleware)
     - [Guzzle Options](#guzzle-options)
     - [Guzzle Options](#guzzle-options)
 - [Concurrent Requests](#concurrent-requests)
@@ -29,6 +31,8 @@
     - [응답 속이기](#faking-responses)
     - [Inspecting Requests](#inspecting-requests)
     - [Request 검사하기](#inspecting-requests)
+    - [Preventing Stray Requests](#preventing-stray-requests)
+    - [스트레이 리퀘스트 방지](#preventing-stray-requests)
 - [Events](#events)
 - [이벤트](#events)
 
@@ -205,10 +209,10 @@ You may specify basic and digest authentication credentials using the `withBasic
 `withBasicAuth`와 `withDigestAuth` 메서드를 이용해서 기본 인증을 사용할 건지 다이제스트 인증을 사용할 건지 지정할 수 있습니다.
 
     // Basic authentication...
-    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
     // Digest authentication...
-    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
 <a name="bearer-tokens"></a>
 #### Bearer Tokens
@@ -218,7 +222,7 @@ If you would like to quickly add a bearer token to the request's `Authorization`
 
 Request 헤더에 `Authorization` bearer 토큰을 추가하고 싶으면 `withToken` 메서드를 사용하면 됩니다.
 
-    $response = Http::withToken('token')->post(...);
+    $response = Http::withToken('token')->post(/* ... */);
 
 <a name="timeout"></a>
 ### Timeout
@@ -228,7 +232,7 @@ The `timeout` method may be used to specify the maximum number of seconds to wai
 
 `timeout` 메소드는 응답을 기다리는 최대 시간 (초)을 지정하는 데 사용될 수 있습니다.
 
-    $response = Http::timeout(3)->get(...);
+    $response = Http::timeout(3)->get(/* ... */);
 
 If the given timeout is exceeded, an instance of `Illuminate\Http\Client\ConnectionException` will  be thrown.
 
@@ -238,32 +242,52 @@ You may specify the maximum number of seconds to wait while trying to connect to
 
 `connectTimeout` 메소드를 사용하면 서버에 연결을 시도하는 동안 대기할 최대 시간(초)을 지정할 수 있습니다.
 
-    $response = Http::connectTimeout(3)->get(...);
+    $response = Http::connectTimeout(3)->get(/* ... */);
 
 <a name="retries"></a>
 ### Retries
 ### 재시도
 
-If you would like HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts the maximum number of times the request should be attempted and the number of milliseconds that Laravel should wait in between attempts:
+If you would like the HTTP client to automatically retry the request if a client or server error occurs, you may use the `retry` method. The `retry` method accepts the maximum number of times the request should be attempted and the number of milliseconds that Laravel should wait in between attempts:
 
 클라이언트나 서버 에러 발생 시 자동으로 재시도하고 싶으면 `retry` 메서드를 사용하면 됩니다. `retry` 메서드는 두 개의 인자를 받습니다. 하나는 재시도할 횟수이고 다른 하나는 재시도 간 간격(밀리초)입니다.
 
 
-    $response = Http::retry(3, 100)->post(...);
+    $response = Http::retry(3, 100)->post(/* ... */);
 
 If needed, you may pass a third argument to the `retry` method. The third argument should be a callable that determines if the retries should actually be attempted. For example, you may wish to only retry the request if the initial request encounters an `ConnectionException`:
 
 필요한 경우 `retry` 메서드에 세 번째 인수를 전달할 수 있습니다. 세 번째 인수는 재시도가 실제로 시도되어야 하는지 여부를 결정하는 callable이어야 합니다. 예를 들어, 초기 Request에서 `ConnectionException`이 발생한 경우에만 Request를 재시도할 수 있습니다.
 
-    $response = Http::retry(3, 100, function ($exception) {
+    $response = Http::retry(3, 100, function ($exception, $request) {
         return $exception instanceof ConnectionException;
-    })->post(...);
+    })->post(/* ... */);
+
+If a request attempt fails, you may wish to make a change to the request before a new attempt is made. You can achieve this by modifying the request argument provided to the callable you provided to the `retry` method. For example, you might want to retry the request with a new authorization token if the first attempt returned an authentication error:
+
+요청이 실패하는 경우 새 시도를 하기 전에 변화를 주고 싶을 수 있습니다. `retry` 메서드에 제공한 콜러블에 제공한 요청 인자를 수정하여 이를 달성할 수 있습니다. 예를 들어, 첫 번째 시도가 인증 에러를 반환하면 새 인증 토큰으로 재시도 할 수 있습니다.
+
+    $response = Http::withToken($this->getToken())->retry(2, 0, function ($exception, $request) {
+        if (! $exception instanceof RequestException || $exception->response->status() !== 401) {
+            return false;
+        }
+
+        $request->withToken($this->getNewToken());
+
+        return true;
+    })->post(/* ... */);
 
 If all of the requests fail, an instance of `Illuminate\Http\Client\RequestException` will be thrown. If you would like to disable this behavior, you may provide a `throw` argument with a value of `false`. When disabled, the last response received by the client will be returned after all retries have been attempted:
 
 모든 Request가 실패하면 `Illuminate\Http\Client\RequestException` 인스턴스를 던집니다. 이 동작을 비활성화하려면 `throw` 인자를 `false` 로 지정하면 됩니다. 이 동작이 비활성화되면 모든 재시도가 시도된 후 클라이언트가 수신한 마지막 응답이 반환됩니다.
 
-    $response = Http::retry(3, 100, throw: false)->post(...);
+    $response = Http::retry(3, 100, throw: false)->post(/* ... */);
+
+> **Warning**  
+> If all of the requests fail because of a connection issue, a `Illuminate\Http\Client\ConnectionException` will still be thrown even when the `throw` argument is set to `false`.
+ 
+> **Warning**
+> 커넥션 문제로 모든 요청이 실패하는 경우 `throw` 인자가 `false`로 설정되어 있어도 `Illuminate\Http\Client\ConnectionException` 가 던져질 것입니다.
 
 <a name="error-handling"></a>
 ### Error Handling
@@ -301,7 +325,7 @@ If you have a response instance and would like to throw an instance of `Illumina
 
 응답이 클라이언트나 서버 에러일 경우 `Illuminate\Http\Client\RequestException` 인스턴스를 던지고 싶으면 `throw` 메서드를 사용하면 됩니다.
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
     // Throw an exception if a client or server error occurred...
     // 클라이언트나 서버 에러가 발생하면 예외를 던진다...
@@ -310,6 +334,9 @@ If you have a response instance and would like to throw an instance of `Illumina
     // Throw an exception if an error occurred and the given condition is true...
     // 오류가 발생하고 조건에 해당하는 경우 예외를 던진다...
     $response->throwIf($condition);
+    
+    // Throw an exception if an error occurred and the given condition is false...
+    $response->throwUnless($condition);
 
     return $response['user']['id'];
 
@@ -321,15 +348,53 @@ The `throw` method returns the response instance if no error occurred, allowing 
 
 `throw` 메서드를 써도 실제로 에러가 발생하지 않으면 응답 인스턴스를 반환하기 때문에 `throw` 메서드에 다른 작업을 연결할 수 있습니다.
 
-    return Http::post(...)->throw()->json();
+    return Http::post(/* ... */)->throw()->json();
 
 If you would like to perform some additional logic before the exception is thrown, you may pass a closure to the `throw` method. The exception will be thrown automatically after the closure is invoked, so you do not need to re-throw the exception from within the closure:
 
 예외가 발생하기 전에 몇 가지 추가 로직을 수행하려면 `throw` 메소드에 클로저를 전달할 수 있습니다. 클로저가 호출된 후 예외가 자동으로 throw되므로 클로저 내에서 예외를 다시 throw할 필요가 없습니다.
 
-    return Http::post(...)->throw(function ($response, $e) {
+    return Http::post(/* ... */)->throw(function ($response, $e) {
         //
     })->json();
+
+<a name="guzzle-middleware"></a>
+### Guzzle Middleware
+### Guzzle 미들웨어
+
+Since Laravel's HTTP client is powered by Guzzle, you may take advantage of [Guzzle Middleware](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html) to manipulate the outgoing request or inspect the incoming response. To manipulate the outgoing request, register a Guzzle middleware via the `withMiddleware` method in combination with Guzzle's `mapRequest` middleware factory:
+
+라라벨의 HTTP 클라이언트가 Guzzle에 기반하기 때문에 밖으로 나가는 요청을 조작하거나 들어오는 요청을 검사하는데 [Guzzle 미들웨어](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html)을 활용할 수 있습니다. 밖으로 나가는 요청을 조작하려면 Guzzle의 `mapRequest` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 사용해 Guzzle 미들웨어를 등록하세요.
+
+    use GuzzleHttp\Middleware;
+    use Illuminate\Support\Facades\Http;
+    use Psr\Http\Message\RequestInterface;
+
+    $response = Http::withMiddleware(
+        Middleware::mapRequest(function (RequestInterface $request) {
+            $request->withHeader('X-Example', 'Value');
+            
+            return $request;
+        })
+    )->get('http://example.com');
+
+Likewise, you can inspect the incoming HTTP response by registering a middleware via the `withMiddleware` method in combination with Guzzle's `mapResponse` middleware factory:
+
+마찬가지로 들어오는 HTTP 응답을 `mapResponse` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 통해 미들웨어를 등록하여 검사할 수 있습니다.
+
+    use GuzzleHttp\Middleware;
+    use Illuminate\Support\Facades\Http;
+    use Psr\Http\Message\ResponseInterface;
+
+    $response = Http::withMiddleware(
+        Middleware::mapResponse(function (ResponseInterface $response) {
+            $header = $response->getHeader('X-Example');
+
+            // ...
+            
+            return $response;
+        })
+    )->get('http://example.com');
 
 <a name="guzzle-options"></a>
 ### Guzzle Options
@@ -421,7 +486,7 @@ $response = Http::github()->get('/');
 ## Testing
 ## 테스트
 
-Many Laravel services provide functionality to help you easily and expressively write tests, and Laravel's HTTP wrapper is no exception. The `Http` facade's `fake` method allows you to instruct the HTTP client to return stubbed / dummy responses when requests are made.
+Many Laravel services provide functionality to help you easily and expressively write tests, and Laravel's HTTP client is no exception. The `Http` facade's `fake` method allows you to instruct the HTTP client to return stubbed / dummy responses when requests are made.
 
 많은 라라벨 서비스가 테스트 작성에 도움을 주는 기능을 제공하는데, 라라벨의 HTTP 클라이언트도 예외가 아닙니다. `Http` 퍼사드의 `fake` 메서드를 사용하면 Request가 만들어졌을 때 스텁 / 더미 응답을 반환하도록 HTTP 클라이언트에게 지시할 수 있습니다.
 
@@ -437,7 +502,7 @@ For example, to instruct the HTTP client to return empty, `200` status code resp
 
     Http::fake();
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
 <a name="faking-specific-urls"></a>
 #### Faking Specific URLs
@@ -488,7 +553,7 @@ Sometimes you may need to specify that a single URL should return a series of fa
                                 ->pushStatus(404),
     ]);
 
-When all of the responses in a response sequence have been consumed, any further requests will cause the response sequence to throw an exception. If you would like to specify a default response that should be returned when a sequence is empty, you may use the `whenEmpty` method:
+When all the responses in a response sequence have been consumed, any further requests will cause the response sequence to throw an exception. If you would like to specify a default response that should be returned when a sequence is empty, you may use the `whenEmpty` method:
 
 응답 시퀀스에 있는 모든 응답이 소비되고 나면 그 이후에 응답 시퀀스로 보내는 Request는 예외가 발생합니다. 시퀀스가 비어있을 때의 기본 응답을 지정하고 싶으면 `whenEmpty` 메서드를 사용하면 됩니다.
 
@@ -517,9 +582,33 @@ If you require more complicated logic to determine what responses to return for 
 
 특정 엔드포인트가 어떤 응답을 반환해야하는지 결정하는데 더욱 더 복잡한 로직이 필요하다면 `fake` 메서드에 콜백을 넘겨줄 수 있습니다. 이 콜백은 `Illuminate\Http\Client\Request` 인스턴스를 받고 응답 인스턴스를 반환해야 합니다.
 
-    Http::fake(function ($request) {
+    use Illuminate\Http\Client\Request;
+
+    Http::fake(function (Request $request) {
         return Http::response('Hello World', 200);
     });
+
+<a name="preventing-stray-requests"></a>
+### Preventing Stray Requests
+### 스트레이 요청 방지
+
+If you would like to ensure that all requests sent via the HTTP client have been faked throughout your individual test or complete test suite, you can call the `preventStrayRequests` method. After calling this method, any requests that do not have a corresponding fake response will throw an exception rather than making the actual HTTP request:
+
+HTTP 클라이언트를 통해 보내지는 모든 요청을 개별 테스트나 전체 테스트 스위트에서 위조된 것으로 한정하고 싶은 경우 `preventStrayRequests` 메서드를 호출하면 됩니다. 이 메서드를 호출하고 나면 가짜 응답을 갖지 않은 모든 요청은 실제 HTTP 요청을 만드는 대신 예외를 던지게 됩니다.
+
+    use Illuminate\Support\Facades\Http;
+
+    Http::preventStrayRequests();
+
+    Http::fake([
+        'github.com/*' => Http::response('ok'),
+    ]);
+
+    // An "ok" response is returned...
+    Http::get('https://github.com/laravel/framework');
+
+    // An exception is thrown...
+    Http::get('https://laravel.com');
 
 <a name="inspecting-requests"></a>
 ### Inspecting Requests
@@ -585,6 +674,50 @@ Or, you may use the `assertNothingSent` method to assert that no requests were s
     Http::fake();
 
     Http::assertNothingSent();
+
+<a name="recording-requests-and-responses"></a>
+#### Recording Requests / Responses
+#### 요청 / 응답 기록하기
+
+You may use the `recorded` method to gather all requests and their corresponding responses. The `recorded` method returns a collection of arrays that contains instances of `Illuminate\Http\Client\Request` and `Illuminate\Http\Client\Response`:
+
+모든 요청과 그에 해당하는 응답을 모으기 위해 `recorded` 메서드를 사용할 수 있습니다. `recorded` 메서드는 `Illuminate\Http\Client\Request` 와 `Illuminate\Http\Client\Response` 인스턴스를 담은 배열의 컬렉션을 반환합니다.
+
+```php
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded();
+
+[$request, $response] = $recorded[0];
+```
+
+Additionally, the `recorded` method accepts a closure which will receive an instance of `Illuminate\Http\Client\Request` and `Illuminate\Http\Client\Response` and may be used to filter request / response pairs based on your expectations:
+
+추가적으로 `recorded` 메서드는 `Illuminate\Http\Client\Request` 와 `Illuminate\Http\Client\Response` 인스턴스를 받고 기대에 따라 요청 / 응답 쌍을 필터링하는 데 사용할 수 있는 클로저를 허용합니다.
+
+```php
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Client\Response;
+
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded(function (Request $request, Response $response) {
+    return $request->url() !== 'https://laravel.com' &&
+           $response->successful();
+});
+```
 
 <a name="events"></a>
 ## Events

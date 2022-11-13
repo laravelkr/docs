@@ -80,9 +80,11 @@ The Laravel query builder uses PDO parameter binding to protect your application
 
 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다. 따라서 쿼리 빌더에 쿼리 바인딩으로 전달된 문자열을 정리할 필요가 없습니다.
 
-> {note} PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
+> **Warning**
+> PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> {note} PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
+> **Warning**
+> PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
 
 <a name="running-database-queries"></a>
 ## Running Database Queries
@@ -130,9 +132,11 @@ The `get` method returns an `Illuminate\Support\Collection` instance containing 
         echo $user->name;
     }
 
-> {tip} Laravel collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on Laravel collections, check out the [collection documentation](/docs/{{version}}/collections).
+> **Note**
+> Laravel collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on Laravel collections, check out the [collection documentation](/docs/{{version}}/collections).
 
-> {tip} 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
+> **Note**
+> 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
 #### Retrieving A Single Row / Column From A Table
@@ -224,9 +228,11 @@ If you are updating database records while chunking results, your chunk results 
             }
         });
 
-> {note} When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the chunked results.
+> **Warning**
+> When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the chunked results.
 
-> {note} 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
+> **Warning**
+> 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
 
 <a name="streaming-results-lazily"></a>
 ### Streaming Results Lazily
@@ -257,9 +263,11 @@ DB::table('users')->where('active', false)
     });
 ```
 
-> {note} When updating or deleting records while iterating over them, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the results.
+> **Warning**
+> When updating or deleting records while iterating over them, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the results.
 
-> {note} 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
+> **Warning**
+> 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
 
 <a name="aggregates"></a>
 ### Aggregates
@@ -345,9 +353,11 @@ Sometimes you may need to insert an arbitrary string into a query. To create a r
                  ->groupBy('status')
                  ->get();
 
-> {note} Raw statements will be injected into the query as strings, so you should be extremely careful to avoid creating SQL injection vulnerabilities.
+> **Warning**
+> Raw statements will be injected into the query as strings, so you should be extremely careful to avoid creating SQL injection vulnerabilities.
 
-> {note} 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
+> **Warning**
+> 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
 
 <a name="raw-methods"></a>
 ### Raw Methods
@@ -362,9 +372,9 @@ Instead of using the `DB::raw` method, you may also use the following methods to
 #### `selectRaw`
 #### `selectRaw`
 
-The `selectRaw` method can be used in place of `addSelect(DB::raw(...))`. This method accepts an optional array of bindings as its second argument:
+The `selectRaw` method can be used in place of `addSelect(DB::raw(/* ... */))`. This method accepts an optional array of bindings as its second argument:
 
-`selectRaw` 메소드는 `addSelect(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
+`selectRaw` 메소드는 `addSelect(DB::raw(/* ... */))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])
@@ -479,7 +489,7 @@ You may also specify more advanced join clauses. To get started, pass a closure 
 
     DB::table('users')
             ->join('contacts', function ($join) {
-                $join->on('users.id', '=', 'contacts.user_id')->orOn(...);
+                $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
             })
             ->get();
 
@@ -588,9 +598,11 @@ You may also pass an array of conditions to the `where` function. Each element o
         ['subscribed', '<>', '1'],
     ])->get();
 
-> {note} PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
+> **Warning**
+> PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> {note} PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
+> **Warning**
+> PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
 
 <a name="or-where-clauses"></a>
 ### Or Where Clauses
@@ -623,9 +635,11 @@ If you need to group an "or" condition within parentheses, you may pass a closur
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-> {note} You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
+> **Warning**
+> You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> {tip} 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
+> **Warning**
+> 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="where-not-clauses"></a>
 ### Where Not Clauses
@@ -654,9 +668,9 @@ Laravel also supports querying JSON column types on databases that provide suppo
                     ->where('preferences->dining->meal', 'salad')
                     ->get();
 
-You may use `whereJsonContains` to query JSON arrays. This feature is not supported by the SQLite database:
+You may use `whereJsonContains` to query JSON arrays. This feature is not supported by SQLite database versions less than 3.38.0:
 
-JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다. 이 기능은 SQLite 데이터베이스에서는 지원하지 않습니다.
+JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다. 이 기능은 SQLite 3.38.0 미만 버전의 데이터베이스에서는 지원하지 않습니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', 'en')
@@ -708,6 +722,24 @@ The `whereNotBetween` method verifies that a column's value lies outside of two 
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
+**whereBetweenColumns / whereNotBetweenColumns / orWhereBetweenColumns / orWhereNotBetweenColumns**
+
+The `whereBetweenColumns` method verifies that a column's value is between the two values of two columns in the same table row:
+
+`whereBetweenColumns` 메서드는 컬럼의 값이 같은 로우의 두 컬럼 값 사이에 있는지 확인합니다.
+
+    $patients = DB::table('patients')
+                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
+The `whereNotBetweenColumns` method verifies that a column's value lies outside the two values of two columns in the same table row:
+
+`whereNotBetweenColumns` 메서드는 컬럼의 값이 같은 로우의 두 컬럼 값 밖에 놓여있는지 확인합니다.
+
+    $patients = DB::table('patients')
+                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
 **whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 **whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 
@@ -727,9 +759,11 @@ The `whereNotIn` method verifies that the given column's value is not contained 
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-> {note} If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
+> **Warning**
+> If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 
-> {note} 쿼리에 큰 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
+> **Warning**
+> 쿼리에 큰 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
@@ -846,9 +880,11 @@ As you can see, passing a closure into the `where` method instructs the query bu
 select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 ```
 
-> {note} You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
+> **Warning**
+> You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> {note} 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
+> **Warning**
+> 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="advanced-where-clauses"></a>
 ### Advanced Where Clauses
@@ -915,9 +951,11 @@ Or, you may need to construct a "where" clause that compares a column to the res
 ### Full Text Where Clauses
 ### Full Text Where 절
 
-> {note} Full text where clauses are currently supported by MySQL and PostgreSQL.
+> **Warning**
+> Full text where clauses are currently supported by MySQL and PostgreSQL.
 
-> {note} Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
+> **Warning**
+> Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
 
 The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
 
@@ -1123,19 +1161,24 @@ You may insert several records at once by passing an array of arrays. Each array
         ['email' => 'janeway@example.com', 'votes' => 0],
     ]);
 
-The `insertOrIgnore` method will ignore errors while inserting records into the database:
+The `insertOrIgnore` method will ignore errors while inserting records into the database. When using this method, you should be aware that duplicate record errors will be ignored and other types of errors may also be ignored depending on the database engine. For example, `insertOrIgnore` will [bypass MySQL's strict mode](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution):
 
-`insertOrIgnore` 메소드는 데이터베이스에 레코드를 삽입하는 동안 오류를 무시합니다.
+`insertOrIgnore` 메소드는 데이터베이스에 레코드를 삽입하는 동안 오류를 무시합니다. 이 메서드를 사용할 때는 중복 레코드 에러가 무시되고 다른 에러들도 데이터베이스 엔진에 따라 무시될 수 있다는 점을 알고 있어야 합니다. 예를 들어 `insertOrIgnore` 는 [MySQL의 스트릭트 모드](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)를 무사 통과합니다.
 
     DB::table('users')->insertOrIgnore([
         ['id' => 1, 'email' => 'sisko@example.com'],
         ['id' => 2, 'email' => 'archer@example.com'],
     ]);
 
-> {note} `insertOrIgnore` will ignore duplicate records and also may ignore other types of errors depending on the database engine. For example, `insertOrIgnore` will [bypass MySQL's strict mode](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution).
+The `insertUsing` method will insert new records into the table while using a subquery to determine the data that should be inserted:
 
-> {note} `insertOrIgnore` 중복 레코드를 무시하고 데이터베이스 엔진에 따라 다른 유형의 오류도 무시할 수 있습니다. 예를들어 `insertOrIgnore`는 [MySQL strict mode 우회](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)합니다.
+`insertUsing` 메서드는 삽입될 데이터를 판단하는데 서브쿼리를 사용하면서 테이블에 새 레코드를 추가합니다.
 
+    DB::table('pruned_users')->insertUsing([
+        'id', 'name', 'email', 'email_verified_at'
+    ], DB::table('users')->select(
+        'id', 'name', 'email', 'email_verified_at'
+    )->where('updated_at', '<=', now()->subMonth()));
 
 <a name="auto-incrementing-ids"></a>
 #### Auto-Incrementing IDs
@@ -1149,9 +1192,11 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> {note} When using PostgreSQL the `insertGetId` method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the column name as the second parameter to the `insertGetId` method.
+> **Warning**
+> When using PostgreSQL the `insertGetId` method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the column name as the second parameter to the `insertGetId` method.
 
-> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
+> **Warning**
+> PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
 
 <a name="upserts"></a>
 ### Upserts
@@ -1161,18 +1206,24 @@ The `upsert` method will insert records that do not exist and update the records
 
 `upsert` 메소드는 존재하지 않는 레코드는 삽입하고 이미 존재하는 레코드는 지정한 값으로 업데이트합니다. 메소드의 첫 번째 인수는 삽입하거나 업데이트할 값으로 구성됩니다. 두 번째 인수는 연결된 테이블 내에서 레코드를 고유하게 식별할 수 있는 컬럼을 나열합니다. 메서드의 세 번째이자 마지막 인수는 일치하는 레코드가 데이터베이스에 이미 있는 경우 업데이트해야 하는 컬럼의 배열입니다.
 
-    DB::table('flights')->upsert([
-        ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
-        ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
-    ], ['departure', 'destination'], ['price']);
+        DB::table('flights')->upsert(
+        [
+            ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
+            ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
+        ],
+        ['departure', 'destination'],
+        ['price']
+    );
 
 In the example above, Laravel will attempt to insert two records. If a record already exists with the same `departure` and `destination` column values, Laravel will update that record's `price` column.
 
 위의 예제에서 라라벨은 두 개의 레코드를 삽입하려고 시도합니다. 동일한 `departure` 및 `destination` 컬럼 값을 가진 레코드가 이미 존재하는 경우 라라벨은 해당 레코드의 `price` 컬럼을 업데이트합니다.
 
-> {note} All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
+> **Warning**
+> All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
 
-> {note} SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
+> **Warning**
+> SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
 
 <a name="update-statements"></a>
 ## Update Statements

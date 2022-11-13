@@ -94,9 +94,11 @@ As you can see, the original value of the column is passed to the accessor, allo
 
     $firstName = $user->first_name;
 
-> {tip} If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
+> **Note**
+> If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
-> {tip} 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
+> **Note**
+> 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### Building Value Objects From Multiple Attributes
@@ -115,7 +117,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -125,6 +127,10 @@ public function address(): Attribute
     );
 }
 ```
+
+<a name="accessor-caching"></a>
+#### Accessor Caching
+#### Accessor 캐싱
 
 When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can be return the same instance each time the accessor is invoked:
 
@@ -139,6 +145,19 @@ accessor 로 부터 value object 를 반환할 때, value object에 대한 모�
 
     $user->save();
 
+However, you may sometimes wish to enable caching for primitive values like strings and booleans, particularly if they are computationally intensive. To accomplish this, you may invoke the `shouldCache` method when defining your accessor:
+
+그러나 특히 계산 집약적인 경우 문자열 및 부울과 같은 기본 값에 대해 캐싱을 활성화하려는 경우가 있습니다. 이를 수행하기 위해 접근자를 정의할 때 `shouldCache` 메서드를 호출할 수 있습니다.
+
+```php
+protected function hash(): Attribute
+{
+    return Attribute::make(
+        get: fn ($value) => bcrypt(gzuncompress($value)),
+    )->shouldCache();
+}
+```
+
 If you would like to disable the object caching behavior of attributes, you may invoke the `withoutObjectCaching` method when defining the attribute:
 
 이런 accessor 의 속성 오브젝트 캐싱 동작을 비활성화하려면, 속성을 정의할 때 `withoutObjectCaching` 메소드를 호출하면 됩니다.
@@ -149,7 +168,7 @@ If you would like to disable the object caching behavior of attributes, you may 
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -202,7 +221,7 @@ mutator 클로저는 속성에 설정하고자 하는 값을 인자로 전달받
 
     $user->first_name = 'Sally';
 
-In this example, the `set` callback will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in model's the internal `$attributes` array.
+In this example, the `set` callback will be called with the value `Sally`. The mutator will then apply the `strtolower` function to the name and set its resulting value in the model's internal `$attributes` array.
 
 이 예제에서 `set` 콜백은 `Sally` 라는 값과 함께 호출 될것입니다. mutator 는 이름에 대해 `strtolower` 함수가 실행되도록 하여 그 결과 값을 모델의 내부 `$attributes` 배열에 지정합니다.
 
@@ -223,7 +242,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -258,7 +277,7 @@ The `$casts` property should be an array where the key is the name of the attrib
 - `datetime`
 - `immutable_date`
 - `immutable_datetime`
-- `decimal:`<code>&lt;digits&gt;</code>
+- <code>decimal:&lt;precision&gt;</code>
 - `double`
 - `encrypted`
 - `encrypted:array`
@@ -313,9 +332,11 @@ If you need to add a new, temporary cast at runtime, you may use the `mergeCasts
         'options' => 'object',
     ]);
 
-> {note} Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
+> **Warning**
+> Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
 
-> {note} `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
+> **Warning**
+> `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
 
 <a name="stringable-casting"></a>
 #### Stringable Casting
@@ -503,11 +524,13 @@ If a custom format is applied to the `date` or `datetime` cast, such as `datetim
 ### Enum Casting
 ### 열거형 캐스팅
 
-> {note} Enum casting is only available for PHP 8.1+.
+> **Warning**
+> Enum casting is only available for PHP 8.1+.
 
-> {note} 열거형 캐스팅은 PHP 8.1 이상에서만 사용할 수 있습니다.
+> **Warning**
+> 열거형 캐스팅은 PHP 8.1 이상에서만 사용할 수 있습니다.
 
-Eloquent also allows you to cast your attribute values to PHP ["backed" Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
+Eloquent also allows you to cast your attribute values to PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
 
 Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manual/en/language.enumerations.backed.php)으로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 열거형을 지정할 수 있습니다.
 
@@ -668,7 +691,7 @@ As an example, we will define a custom cast class that casts multiple model valu
 
     namespace App\Casts;
 
-    use App\Models\Address as AddressModel;
+    use App\ValueObjects\Address as AddressValueObject;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
     use InvalidArgumentException;
 
@@ -681,11 +704,11 @@ As an example, we will define a custom cast class that casts multiple model valu
          * @param  string  $key
          * @param  mixed  $value
          * @param  array  $attributes
-         * @return \App\Models\Address
+         * @return \App\ValueObjects\Address
          */
         public function get($model, $key, $value, $attributes)
         {
-            return new AddressModel(
+            return new AddressValueObject(
                 $attributes['address_line_one'],
                 $attributes['address_line_two']
             );
@@ -696,13 +719,13 @@ As an example, we will define a custom cast class that casts multiple model valu
          *
          * @param  \Illuminate\Database\Eloquent\Model  $model
          * @param  string  $key
-         * @param  \App\Models\Address  $value
+         * @param  \App\ValueObjects\Address  $value
          * @param  array  $attributes
          * @return array
          */
         public function set($model, $key, $value, $attributes)
         {
-            if (! $value instanceof AddressModel) {
+            if (! $value instanceof AddressValueObject) {
                 throw new InvalidArgumentException('The given value is not an Address instance.');
             }
 
@@ -725,9 +748,11 @@ When casting to value objects, any changes made to the value object will automat
 
     $user->save();
 
-> {tip} If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
+> **Note**
+> If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
 
-> {tip} 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
+> **Note**
+> 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
 
 <a name="array-json-serialization"></a>
 ### Array / JSON Serialization

@@ -5,9 +5,11 @@
 - [Eloquent Model Conventions](#eloquent-model-conventions)
     - [Table Names](#table-names)
     - [Primary Keys](#primary-keys)
+    - [UUID & ULID Keys](#uuid-and-ulid-keys)
     - [Timestamps](#timestamps)
     - [Database Connections](#database-connections)
     - [Default Attribute Values](#default-attribute-values)
+    - [Configuring Eloquent Strictness](#configuring-eloquent-strictness)
 - [Retrieving Models](#retrieving-models)
     - [Collections](#collections)
     - [Chunking Results](#chunking-results)
@@ -41,7 +43,12 @@
 
 Laravel includes Eloquent, an object-relational mapper (ORM) that makes it enjoyable to interact with your database. When using Eloquent, each database table has a corresponding "Model" that is used to interact with that table. In addition to retrieving records from the database table, Eloquent models allow you to insert, update, and delete records from the table as well.
 
-> {tip} Before getting started, be sure to configure a database connection in your application's `config/database.php` configuration file. For more information on configuring your database, check out [the database configuration documentation](/docs/{{version}}/database#configuration).
+> **Note**  
+> Before getting started, be sure to configure a database connection in your application's `config/database.php` configuration file. For more information on configuring your database, check out [the database configuration documentation](/docs/{{version}}/database#configuration).
+
+#### Laravel Bootcamp
+
+If you're new to Laravel, feel free to jump into the [Laravel Bootcamp](https://bootcamp.laravel.com). The Laravel Bootcamp will walk you through building your first Laravel application using Eloquent. It's a great way to get a tour of everything the Laravel and Eloquent have to offer.
 
 <a name="generating-model-classes"></a>
 ## Generating Model Classes
@@ -88,6 +95,15 @@ php artisan make:model Flight --all
 
 # Generate a pivot model...
 php artisan make:model Member --pivot
+```
+
+<a name="inspecting-models"></a>
+#### Inspecting Models
+
+Sometimes it can be difficult to determine all of a model's available attributes and relationships just by skimming its code. Instead, try the `model:show` Artisan command, which provides a convenient overview of all the model's attributes and relations:
+
+```shell
+php artisan model:show Flight
 ```
 
 <a name="eloquent-model-conventions"></a>
@@ -183,6 +199,69 @@ If your model's primary key is not an integer, you should define a protected `$k
 
 Eloquent requires each model to have at least one uniquely identifying "ID" that can serve as its primary key. "Composite" primary keys are not supported by Eloquent models. However, you are free to add additional multi-column, unique indexes to your database tables in addition to the table's uniquely identifying primary key.
 
+<a name="uuid-and-ulid-keys"></a>
+### UUID & ULID Keys
+
+Instead of using auto-incrementing integers as your Eloquent model's primary keys, you may choose to use UUIDs instead. UUIDs are universally unique alpha-numeric identifiers that are 36 characters long.
+
+If you would like a model to use a UUID key instead of an auto-incrementing integer key, you may use the `Illuminate\Database\Eloquent\Concerns\HasUuids` trait on the model. Of course, you should ensure that the model has a [UUID equivalent primary key column](/docs/{{version}}/migrations#column-method-uuid):
+
+    use Illuminate\Database\Eloquent\Concerns\HasUuids;
+    use Illuminate\Database\Eloquent\Model;
+
+    class Article extends Model
+    {
+        use HasUuids;
+
+        // ...
+    }
+
+    $article = Article::create(['title' => 'Traveling to Europe']);
+
+    $article->id; // "8f8e8478-9035-4d23-b9a7-62f4d2612ce5"
+
+By default, The `HasUuids` trait will generate ["ordered" UUIDs](/docs/{{version}}/helpers#method-str-ordered-uuid) for your models. These UUIDs are more efficient for indexed database storage because they can be sorted lexicographically.
+
+You can override the UUID generation process for a given model by defining a `newUniqueId` method on the model. In addition, you may specify which columns should receive UUIDs by defining a `uniqueIds` method on the model:
+
+    use Ramsey\Uuid\Uuid;
+
+    /**
+     * Generate a new UUID for the model.
+     *
+     * @return string
+     */
+    public function newUniqueId()
+    {
+        return (string) Uuid::uuid4();
+    }
+
+    /**
+     * Get the columns that should receive a unique identifier.
+     *
+     * @return array
+     */
+    public function uniqueIds()
+    {
+        return ['id', 'discount_code'];
+    }
+
+If you wish, you may choose to utilize "ULIDs" instead of UUIDs. ULIDs are similar to UUIDs; however, they are only 26 characters in length. Like ordered UUIDs, ULIDs are lexicographically sortable for efficient database indexing. To utilize ULIDs, you should use the `Illuminate\Database\Eloquent\Concerns\HasUlids` trait on your model. You should also ensure that the model has a [ULID equivalent primary key column](/docs/{{version}}/migrations#column-method-ulid):
+
+    use Illuminate\Database\Eloquent\Concerns\HasUlids;
+    use Illuminate\Database\Eloquent\Model;
+
+    class Article extends Model
+    {
+        use HasUlids;
+
+        // ...
+    }
+
+    $article = Article::create(['title' => 'Traveling to Asia']);
+
+    $article->id; // "01gd4d3tgrrfqeda94gdbtdk5c"
+
 <a name="timestamps"></a>
 ### Timestamps
 
@@ -232,6 +311,10 @@ If you need to customize the names of the columns used to store the timestamps, 
         const UPDATED_AT = 'updated_date';
     }
 
+If you would like to perform model operations without the model having its `updated_at` timestamp modified, you may operate on the model within a closure given to the `withoutTimestamps` method:
+
+    Model::withoutTimestamps(fn () => $post->increment(['reads']));
+
 <a name="database-connections"></a>
 ### Database Connections
 
@@ -276,6 +359,48 @@ By default, a newly instantiated model instance will not contain any attribute v
         ];
     }
 
+<a name="configuring-eloquent-strictness"></a>
+### Configuring Eloquent Strictness
+
+Laravel offers several methods that allow you to configure Eloquent's behavior and "strictness" in a variety of situations.
+
+First, the `preventLazyLoading` method accepts an optional boolean argument that indicates if lazy loading should be prevented. For example, you may wish to only disable lazy loading in non-production environments so that your production environment will continue to function normally even if a lazy loaded relationship is accidentally present in production code. Typically, this method should be invoked in the `boot` method of your application's `AppServiceProvider`:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Model::preventLazyLoading(! $this->app->isProduction());
+}
+```
+
+Also, you may instruct Laravel to throw an exception when attempting to fill an unfillable attribute by invoking the `preventSilentlyDiscardingAttributes` method. This can help prevent unexpected errors during local development when attempting to set an attribute that has not been added to the model's `fillable` array:
+
+```php
+Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
+```
+
+Finally, you may instruct Eloquent to throw an exception if you attempt to access an attribute on a model when that attribute was not actually retrieved from the database or when the attribute does not exist. For example, this may occur when you forget to add an attribute to the `select` clause of an Eloquent query:
+
+```php
+Model::preventAccessingMissingAttributes(! $this->app->isProduction());
+```
+
+<a name="enabling-eloquent-strict-mode"></a>
+#### Enabling Eloquent "Strict Mode"
+
+For convenience, you may enable all three of the methods discussed above by simply invoking the `shouldBeStrict` method:
+
+```php
+Model::shouldBeStrict(! $this->app->isProduction());
+```
+
 <a name="retrieving-models"></a>
 ## Retrieving Models
 
@@ -297,7 +422,8 @@ The Eloquent `all` method will return all of the results in the model's table. H
                    ->take(10)
                    ->get();
 
-> {tip} Since Eloquent models are query builders, you should review all of the methods provided by Laravel's [query builder](/docs/{{version}}/queries). You may use any of these methods when writing your Eloquent queries.
+> **Note**  
+> Since Eloquent models are query builders, you should review all of the methods provided by Laravel's [query builder](/docs/{{version}}/queries). You may use any of these methods when writing your Eloquent queries.
 
 <a name="refreshing-models"></a>
 #### Refreshing Models
@@ -401,7 +527,8 @@ Similar to the `lazy` method, the `cursor` method may be used to significantly r
 
 The `cursor` method will only execute a single database query; however, the individual Eloquent models will not be hydrated until they are actually iterated over. Therefore, only one Eloquent model is kept in memory at any given time while iterating over the cursor.
 
-> {note} Since the `cursor` method only ever holds a single Eloquent model in memory at a time, it cannot eager load relationships. If you need to eager load relationships, consider using [the `lazy` method](#chunking-using-lazy-collections) instead.
+> **Warning**  
+> Since the `cursor` method only ever holds a single Eloquent model in memory at a time, it cannot eager load relationships. If you need to eager load relationships, consider using [the `lazy` method](#chunking-using-lazy-collections) instead.
 
 Internally, the `cursor` method uses PHP [generators](https://www.php.net/manual/en/language.generators.overview.php) to implement this functionality:
 
@@ -476,9 +603,13 @@ In addition to retrieving all of the records matching a given query, you may als
     // Alternative to retrieving the first model matching the query constraints...
     $flight = Flight::firstWhere('active', 1);
 
-Sometimes you may wish to retrieve the first result of a query or perform some other action if no results are found. The `firstOr` method will return the first result matching the query or, if no results are found, execute the given closure. The value returned by the closure will be considered the result of the `firstOr` method:
+Sometimes you may wish to perform some other action if no results are found. The `findOr` and `firstOr` methods will return a single model instance or, if no results are found, execute the given closure. The value returned by the closure will be considered the result of the method:
 
-    $model = Flight::where('legs', '>', 3)->firstOr(function () {
+    $flight = Flight::findOr(1, function () {
+        // ...
+    });
+
+    $flight = Flight::where('legs', '>', 3)->firstOr(function () {
         // ...
     });
 
@@ -611,14 +742,15 @@ Updates can also be performed against models that match a given query. In this e
 
 The `update` method expects an array of column and value pairs representing the columns that should be updated. The `update` method returns the number of affected rows.
 
-> {note} When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
+> **Warning**  
+> When issuing a mass update via Eloquent, the `saving`, `saved`, `updating`, and `updated` model events will not be fired for the updated models. This is because the models are never actually retrieved when issuing a mass update.
 
 <a name="examining-attribute-changes"></a>
 #### Examining Attribute Changes
 
 Eloquent provides the `isDirty`, `isClean`, and `wasChanged` methods to examine the internal state of your model and determine how its attributes have changed from when the model was originally retrieved.
 
-The `isDirty` method determines if any of the model's attributes have been changed since the model was retrieved. You may pass a specific attribute name or an array of attributes to the `isDirty` method to determine if any of the attributes are "dirty". The `isClean` will determine if an attribute has remained unchanged since the model was retrieved. This method also accepts an optional attribute argument:
+The `isDirty` method determines if any of the model's attributes have been changed since the model was retrieved. You may pass a specific attribute name or an array of attributes to the `isDirty` method to determine if any of the attributes are "dirty". The `isClean` method will determine if an attribute has remained unchanged since the model was retrieved. This method also accepts an optional attribute argument:
 
     use App\Models\User;
 
@@ -743,6 +875,25 @@ If you would like to make all of your attributes mass assignable, you may define
      */
     protected $guarded = [];
 
+<a name="mass-assignment-exceptions"></a>
+#### Mass Assignment Exceptions
+
+By default, attributes that are not included in the `$fillable` array are silently discarded when performing mass-assignment operations. In production, this is expected behavior; however, during local development it can lead to confusion as to why model changes are not taking effect.
+
+If you wish, you may instruct Laravel to throw an exception when attempting to fill an unfillable attribute by invoking the `preventSilentlyDiscardingAttributes` method. Typically, this method should be invoked within the `boot` method of one of your application's service providers:
+
+    use Illuminate\Database\Eloquent\Model;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+    }
+
 <a name="upserts"></a>
 ### Upserts
 
@@ -762,7 +913,8 @@ If you would like to perform multiple "upserts" in a single query, then you shou
         ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
     ], ['departure', 'destination'], ['price']);
     
-> {note} All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
+> **Warning**  
+> All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
 
 <a name="deleting-models"></a>
 ## Deleting Models
@@ -792,7 +944,8 @@ In the example above, we are retrieving the model from the database before calli
 
     Flight::destroy(collect([1, 2, 3]));
 
-> {note} The `destroy` method loads each model individually and calls the `delete` method so that the `deleting` and `deleted` events are properly dispatched for each model.
+> **Warning**  
+> The `destroy` method loads each model individually and calls the `delete` method so that the `deleting` and `deleted` events are properly dispatched for each model.
 
 <a name="deleting-models-using-queries"></a>
 #### Deleting Models Using Queries
@@ -801,7 +954,8 @@ Of course, you may build an Eloquent query to delete all models matching your qu
 
     $deleted = Flight::where('active', 0)->delete();
 
-> {note} When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be dispatched for the deleted models. This is because the models are never actually retrieved when executing the delete statement.
+> **Warning**  
+> When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be dispatched for the deleted models. This is because the models are never actually retrieved when executing the delete statement.
 
 <a name="soft-deleting"></a>
 ### Soft Deleting
@@ -820,7 +974,8 @@ In addition to actually removing records from your database, Eloquent can also "
         use SoftDeletes;
     }
 
-> {tip} The `SoftDeletes` trait will automatically cast the `deleted_at` attribute to a `DateTime` / `Carbon` instance for you.
+> **Note**  
+> The `SoftDeletes` trait will automatically cast the `deleted_at` attribute to a `DateTime` / `Carbon` instance for you.
 
 You should also add the `deleted_at` column to your database table. The Laravel [schema builder](/docs/{{version}}/migrations) contains a helper method to create this column:
 
@@ -968,7 +1123,8 @@ You may test your `prunable` query by executing the `model:prune` command with t
 php artisan model:prune --pretend
 ```
 
-> {note} Soft deleting models will be permanently deleted (`forceDelete`) if they match the prunable query.
+> **Warning**  
+> Soft deleting models will be permanently deleted (`forceDelete`) if they match the prunable query.
 
 <a name="mass-pruning"></a>
 #### Mass Pruning
@@ -1049,7 +1205,7 @@ The `Scope` interface requires you to implement one method: `apply`. The `apply`
 
     <?php
 
-    namespace App\Scopes;
+    namespace App\Models\Scopes;
 
     use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
@@ -1070,7 +1226,8 @@ The `Scope` interface requires you to implement one method: `apply`. The `apply`
         }
     }
 
-> {tip} If your global scope is adding columns to the select clause of the query, you should use the `addSelect` method instead of `select`. This will prevent the unintentional replacement of the query's existing select clause.
+> **Note**  
+> If your global scope is adding columns to the select clause of the query, you should use the `addSelect` method instead of `select`. This will prevent the unintentional replacement of the query's existing select clause.
 
 <a name="applying-global-scopes"></a>
 #### Applying Global Scopes
@@ -1081,7 +1238,7 @@ To assign a global scope to a model, you should override the model's `booted` me
 
     namespace App\Models;
 
-    use App\Scopes\AncientScope;
+    use App\Models\Scopes\AncientScope;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
@@ -1260,7 +1417,8 @@ The `is` and `isNot` methods are also available when using the `belongsTo`, `has
 <a name="events"></a>
 ## Events
 
-> {tip} Want to broadcast your Eloquent events directly to your client-side application? Check out Laravel's [model event broadcasting](/docs/{{version}}/broadcasting#model-broadcasting).
+> **Note**  
+> Want to broadcast your Eloquent events directly to your client-side application? Check out Laravel's [model event broadcasting](/docs/{{version}}/broadcasting#model-broadcasting).
 
 Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleted`, `restoring`, `restored`, and `replicating`.
 
@@ -1275,6 +1433,7 @@ To start listening to model events, define a `$dispatchesEvents` property on you
     use App\Events\UserDeleted;
     use App\Events\UserSaved;
     use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
 
     class User extends Authenticatable
     {
@@ -1293,7 +1452,8 @@ To start listening to model events, define a `$dispatchesEvents` property on you
 
 After defining and mapping your Eloquent events, you may use [event listeners](/docs/{{version}}/events#defining-listeners) to handle the events.
 
-> {note} When issuing a mass update or delete query via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be dispatched for the affected models. This is because the models are never actually retrieved when performing mass updates or deletes.
+> **Warning**  
+> When issuing a mass update or delete query via Eloquent, the `saved`, `updated`, `deleting`, and `deleted` model events will not be dispatched for the affected models. This is because the models are never actually retrieved when performing mass updates or deletes.
 
 <a name="events-using-closures"></a>
 ### Using Closures
@@ -1383,6 +1543,17 @@ This command will place the new observer in your `App/Observers` directory. If t
         {
             //
         }
+        
+        /**
+         * Handle the User "restored" event.
+         *
+         * @param  \App\Models\User  $user
+         * @return void
+         */
+        public function restored(User $user)
+        {
+            //
+        }
 
         /**
          * Handle the User "forceDeleted" event.
@@ -1425,7 +1596,8 @@ Alternatively, you may list your observers within an `$observers` property of yo
         User::class => [UserObserver::class],
     ];
 
-> {tip} There are additional events an observer can listen to, such as `saving` and `retrieved`. These events are described within the [events](#events) documentation.
+> **Note**  
+> There are additional events an observer can listen to, such as `saving` and `retrieved`. These events are described within the [events](#events) documentation.
 
 <a name="observers-and-database-transactions"></a>
 #### Observers & Database Transactions
@@ -1466,7 +1638,7 @@ You may occasionally need to temporarily "mute" all events fired by a model. You
 
     use App\Models\User;
 
-    $user = User::withoutEvents(function () use () {
+    $user = User::withoutEvents(function () {
         User::findOrFail(1)->delete();
 
         return User::find(2);
@@ -1482,3 +1654,9 @@ Sometimes you may wish to "save" a given model without dispatching any events. Y
     $user->name = 'Victoria Faith';
 
     $user->saveQuietly();
+
+You may also "update", "delete", "soft delete", "restore", and "replicate" a given model without dispatching any events:
+
+    $user->deleteQuietly();
+
+    $user->restoreQuietly();

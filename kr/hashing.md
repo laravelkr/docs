@@ -101,9 +101,11 @@ If you are using the Argon2 algorithm, the `make` method allows you to manage th
         'threads' => 2,
     ]);
 
-> {tip} For more information on these options, please refer to the [official PHP documentation regarding Argon hashing](https://secure.php.net/manual/en/function.password-hash.php).
+> **Note**
+> For more information on these options, please refer to the [official PHP documentation regarding Argon hashing](https://secure.php.net/manual/en/function.password-hash.php).
 
-> {tip} work factor을 조정하기 위한 옵션에 대한 더 많은 정보를 보시려면 다음을 참고하세요.  [official PHP documentation Argon 해싱에 관하여](https://secure.php.net/manual/en/function.password-hash.php).
+> **Note**
+> work factor을 조정하기 위한 옵션에 대한 더 많은 정보를 보시려면 다음을 참고하세요.  [official PHP documentation Argon 해싱에 관하여](https://secure.php.net/manual/en/function.password-hash.php).
 
 <a name="verifying-that-a-password-matches-a-hash"></a>
 ### Verifying That A Password Matches A Hash

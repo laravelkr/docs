@@ -11,6 +11,8 @@
     - [구동환경 조회하기](#retrieving-environment-configuration)
     - [Determining The Current Environment](#determining-the-current-environment)
     - [현재 구동환경 결정하기](#determining-the-current-environment)
+    - [Encrypting Environment Files](#encrypting-environment-files)
+    - [환경 파일 암호화하기](#encrypting-environment-files)
 - [Accessing Configuration Values](#accessing-configuration-values)
 - [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [Configuration Caching](#configuration-caching)
@@ -32,6 +34,26 @@ These configuration files allow you to configure things like your database conne
 
 이러한 구성 파일을 사용하면 데이터베이스 연결 정보, 메일 서버 정보는 물론 애플리케이션 시간대 및 암호화 키와 같은 다양한 기타 핵심 구성 값을 구성할 수 있습니다.
 
+<a name="application-overview"></a>
+#### Application Overview
+#### 애플리케이션 개요
+
+In a hurry? You can get a quick overview of your application's configuration, drivers, and environment via the `about` Artisan command:
+
+시간이 없으신가요? `about` 아티즌 명령을 통해 애플리테이션의 설정, 드라이버, 환경에 대한 개요를 신속히 확인할 수 있습니다.
+
+```shell
+php artisan about
+```
+
+If you're only interested in a particular section of the application overview output, you may filter for that section using the `--only` option:
+
+특정 분야의 개요에만 관심이 있다면 `--only` 옵션을 이용해서 해당 섹션을 골라낼 수 있습니다.
+
+```shell
+php artisan about --only=environment
+```
+
 <a name="environment-configuration"></a>
 ## Environment Configuration
 ## 구동환경 설정
@@ -52,9 +74,11 @@ If you are developing with a team, you may wish to continue including a `.env.ex
 
 팀으로 개발을 하는 경우라면 `.env.example` 파일을 애플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 애플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env`를 오버라이드 합니다.
 
-> {tip} Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
+> **Note**
+> Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
 
-> {tip} `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
+> **Note**
+> `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
 
 <a name="environment-file-security"></a>
 #### Environment File Security
@@ -63,6 +87,10 @@ If you are developing with a team, you may wish to continue including a `.env.ex
 Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would get exposed.
 
 개별 개발자와 서버에서 애플리케이션별로 다른 구동 환경 설정을 필요로 하기 때문에, `.env` 파일을 애플리케이션의 소스 컨트롤 시스템에 커밋해서는 안 됩니다. 이는 공격자가 소스 컨트롤 저장소에 엑세스 권한을 얻게 되는 경우에, 민감한 계정정보가 노출될 위험이 있어 보안 취약점이 될 수도 있습니다.
+
+However, it is possible to encrypt your environment file using Laravel's built-in [environment encryption](#encrypting-environment-files). Encrypted environment files may be placed in source control safely.
+
+반면, 여러분은 라라벨에 내장된 [환경 암호화](#encrypting-environment-files) 기능을 이용해서 환경 파일을 암호화할 수 있습니다. 암호화된 환경 파일은 소스 컨트롤 내에 안전하게 배치됩니다. 
 
 <a name="additional-environment-files"></a>
 #### Additional Environment Files
@@ -103,9 +131,9 @@ APP_NAME="My Application"
 ### Retrieving Environment Configuration
 ### 구동환경 조회하기
 
-All of the variables listed in this file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` helper to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice many of the options are already using this helper:
+All of the variables listed in the `.env` file will be loaded into the `$_ENV` PHP super-global when your application receives a request. However, you may use the `env` function to retrieve values from these variables in your configuration files. In fact, if you review the Laravel configuration files, you will notice many of the options are already using this function:
 
-이 파일의 목록에 있는 모든 변수는 애플리케이션이 요청을 받을 때 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 헬퍼 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 헬퍼 함수가 사용되었다는 것을 알 수 있을 것입니다!
+이 `.env` 파일 안에 나열된 모든 변수는 애플리케이션이 요청을 받을 때 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 함수가 사용되었다는 것을 알 수 있을 것입니다!
 
     'debug' => env('APP_DEBUG', false),
 
@@ -137,9 +165,101 @@ You may also pass arguments to the `environment` method to determine if the envi
         // The environment is either local OR staging...
     }
 
-> {tip} The current application environment detection can be overridden by defining a server-level `APP_ENV` environment variable.
+> **Note**
+> The current application environment detection can be overridden by defining a server-level `APP_ENV` environment variable.
 
-> {tip} 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
+> **Note**
+> 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
+
+<a name="encrypting-environment-files"></a>
+### Encrypting Environment Files
+### 환경 파일 암호화하기
+
+Unencrypted environment files should never be stored in source control. However, Laravel allows you to encrypt your environment files so that they may be safely be added to source control with the rest of your application.
+
+암호화 되지 않은 환경 파일은 절대 소스 관리에 저장되어선 안됩니다. 하지만 라라벨을 사용하면 환경 파일을 암호화하여 애플리케이션의 나머지 부분과 함께 소스 관리에 안전하게 추가할 수 있습니다.
+
+<a name="encryption"></a>
+#### Encryption
+#### 암호화
+
+To encrypt an environment file, you may use the `env:encrypt` command:
+
+환경 파일을 암호화 하기 위해서는 `env:encrypt` 명령어를 사용하면 됩니다.
+
+```shell
+php artisan env:encrypt
+```
+
+Running the `env:encrypt` command will encrypt your `.env` file and place the encrypted contents in an `.env.encrypted` file. The decryption key is presented in the output of the command and should be stored in a secure password manager. If you would like to provide your own encryption key you may use the `--key` option when invoking the command:
+
+`env:encrypt` 명령을 실행하면 `.env` 파일을 암호화하고 암호화된 내용은 `.env.encrypted` 파일에 저장됩니다. 복호화 키는 명령의 출력에 표시되며 안전한 비밀번호 관리자에 저장해야 합니다. 여러분이 갖고 있는 자체 암호화 키를 사용하려면 명령을 실행할 때 `--key` 옵션을 사용하면 됩니다. 
+
+```shell
+php artisan env:encrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+> **Note**  
+> The length of the key provided should match the key length required by the encryption cipher being used. By default, Laravel will use the `AES-256-CBC` cipher which requires a 32 character key. You are free to use any cipher supported by Laravel's [encrypter](/docs/{{version}}/encryption) by passing the `--cipher` option when invoking the command.
+
+> **Note**
+> 제공된 키의 길이는 사용될 암호화 암호가 요구하는 키 길이와 일치해야 합니다. 라라벨은 32자의 키를 필요로 하는 `AES-256-CBC` 암호를 사용할 것입니다. 라라벨의 [암호화](/docs/{{version}}/encryption)가 지원하는 모든 암호를 `--cipher` 옵션으로 지정하여 사용할 수 있습니다.
+
+If your application has multiple environment files, such as `.env` and `.env.staging`, you may specify the environment file that should be encrypted by providing the environment name via the `--env` option:
+
+`.env`, `.env.staging` 처럼 여러 환경 파일을 가지고 있는 경우 `--env` 옵션을 이용하여 암호화할 환경 파일을 지정할 수 있습니다.
+
+```shell
+php artisan env:encrypt --env=staging
+```
+
+<a name="decryption"></a>
+#### Decryption
+#### 복호화
+
+To decrypt an environment file, you may use the `env:decrypt` command. This command requires a decryption key, which Laravel will retrieve from the `LARAVEL_ENV_ENCRYPTION_KEY` environment variable:
+
+환경 파일을 복호화 하려면 `env:decrypt` 명령을 사용하면 됩니다. 이 명령은 라라벨이 `LARAVEL_ENV_ENCRYPTION_KEY` 환경 변수로 부터 읽어 올 복호화 키를 필요로 합니다.
+
+```shell
+php artisan env:decrypt
+```
+
+Or, the key may be provided directly to the command via the `--key` option:
+
+또는 `--key` 옵션을 통해 키를 직접 제공할 수도 있습니다.
+
+```shell
+php artisan env:decrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+When the `env:decrypt` command is invoked, Laravel will decrypt the contents of the `.env.encrypted` file and place the decrypted contents in the `.env` file.
+
+`env:decrypt` 명령이 실행되면 라라벨은 `.env.encrypted` 파일의 내용을 복호화하고 그 내용을 `.env`에 넣습니다.
+
+The `--cipher` option may be provided to the `env:decrypt` command in order to use a custom encryption cipher:
+
+`env:decrypt` 명령에 사용할 암호화 기법을 지정하려면 `--cipher` 옵션을 사용하면 됩니다. 
+
+```shell
+php artisan env:decrypt --key=qUWuNRdfuImXcKxZ --cipher=AES-128-CBC
+```
+
+If your application has multiple environment files, such as `.env` and `.env.staging`, you may specify the environment file that should be decrypted by providing the environment name via the `--env` option:
+
+`.env`, `.env.staging` 처럼 여러 환경 파일을 가지고 있는 경우 `--env` 옵션을 이용하여 복호화할 환경 파일을 지정할 수 있습니다.
+
+```shell
+php artisan env:decrypt --env=staging
+```
+
+In order to overwrite an existing environment file, you may provide the `--force` option to the `env:decrypt` command:
+
+기존 환경 파일을 덮어쓰고 싶으면 `env:decrypt` 명령에 `--force` 옵션을 사용합니다.
+
+```shell
+php artisan env:decrypt --force
+```
 
 <a name="accessing-configuration-values"></a>
 ## Accessing Configuration Values
@@ -154,9 +274,9 @@ You may easily access your configuration values using the global `config` helper
     // Retrieve a default value if the configuration value does not exist...
     $value = config('app.timezone', 'Asia/Seoul');
 
-To set configuration values at runtime, pass an array to the `config` helper:
+To set configuration values at runtime, pass an array to the `config` function:
 
-애플리케이션의 실행중에 설정값을 변경하려면 `config` 헬퍼에 배열을 전달하십시오:
+애플리케이션의 실행중에 설정값을 변경하려면 `config` 함수에 배열을 전달하십시오:
 
     config(['app.timezone' => 'America/Chicago']);
 
@@ -172,9 +292,11 @@ You should typically run the `php artisan config:cache` command as part of your 
 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
 
-> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
+> **Warning**
+> If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
 
-> {note} 배포 도중에 `config:cache` 명령을 실행하는 경우 설정 파일 내에서만 `env` 함수를 호출하고 있는지 확인해야 합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않습니다. 따라서 `env` 함수는 외부 시스템 수준 환경 변수만 반환합니다.
+> **Warning**
+> 배포 도중에 `config:cache` 명령을 실행하는 경우 설정 파일 내에서만 `env` 함수를 호출하고 있는지 확인해야 합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않습니다. 따라서 `env` 함수는 외부 시스템 수준 환경 변수만 반환합니다.
 
 <a name="debug-mode"></a>
 ## Debug Mode
@@ -224,9 +346,9 @@ php artisan down --retry=60
 #### Bypassing Maintenance Mode
 #### 점검 모드 우회
 
-Even while in maintenance mode, you may use the `secret` option to specify a maintenance mode bypass token:
+To allow maintenance mode to be bypassed using a secret token, you may use the `secret` option to specify a maintenance mode bypass token:
 
-점검 모드인 경우에도 secret 옵션을 사용하여 점검 모드 우회 토큰을 지정할 수 있습니다.
+비밀 토큰을 사용하여 점검 모드를 우회하도록 하려면 `secret`옵션을 사용하여 점검 모드 우회 토큰을 지정할 수 있습니다.
 
 ```shell
 php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
@@ -244,9 +366,11 @@ When accessing this hidden route, you will then be redirected to the `/` route o
 
 이 숨겨진 경로에 엑세스하면 애플리케이션의 / 경로로 리디렉션 될 것입니다. 쿠키가 브라우저에 발급되면 점검 모드가 아닌 것처럼 정상적으로 애플리케이션을 탐색할 수 있습니다.
 
-> {tip} Your maintenance mode secret should typically consist of alpha-numeric characters and, optionally, dashes. You should avoid using characters that have special meaning in URLs such as `?`.
+> **Note**
+> Your maintenance mode secret should typically consist of alpha-numeric characters and, optionally, dashes. You should avoid using characters that have special meaning in URLs such as `?`.
 
-> {tip} 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
+> **Note**
+> 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
 
 <a name="pre-rendering-the-maintenance-mode-view"></a>
 #### Pre-Rendering The Maintenance Mode View
@@ -288,9 +412,11 @@ To disable maintenance mode, use the `up` command:
 php artisan up
 ```
 
-> {tip} You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
+> **Note**
+> You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
 
-> {tip} `resources/views/errors/503.blade.php` 파일을 정의해서 점검모드의 응답페이지 템플릿을 커스터마이징 할 수 있습니다.
+> **Note**
+> `resources/views/errors/503.blade.php` 파일을 정의해서 점검모드의 응답페이지 템플릿을 커스터마이징 할 수 있습니다.
 
 <a name="maintenance-mode-queues"></a>
 #### Maintenance Mode & Queues

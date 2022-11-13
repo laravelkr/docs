@@ -52,13 +52,15 @@
 ## Upgrading To 9.0 From 8.x
 ## 8.x에서 9.0으로 업그레이드
 
-<a name="estimated-upgrade-time-10-minutes"></a>
+<a name="estimated-upgrade-time-30-minutes"></a>
 #### Estimated Upgrade Time: 30 Minutes
 #### 예상되는 업그레이드 시간: 30분
 
-> {tip} We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application. Want to save time? You can use [Laravel Shift](https://laravelshift.com/) to help automate your application upgrades.
+> **Note**
+> We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application. Want to save time? You can use [Laravel Shift](https://laravelshift.com/) to help automate your application upgrades.
 
-> {tip} 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다. 시간을 절약하고 싶다면 [Laravel Shift](https://laravelshift.com/)와 같은 서비스를 사용할수도 있습니다.  
+> **Note**
+> 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다. 시간을 절약하고 싶다면 [Laravel Shift](https://laravelshift.com/)와 같은 서비스를 사용할수도 있습니다.  
 
 <a name="updating-dependencies"></a>
 ### Updating Dependencies
@@ -89,9 +91,9 @@ You should update the following dependencies in your application's `composer.jso
 - `laravel/framework` 을 `^9.0` 으로 지정
 - `nunomaduro/collision` 을 `^6.1` 으로 지정
 
-In addition, please replace `facade/ignition` with `"spatie/laravel-ignition": "^1.0"` in your application's `composer.json` file.
+In addition, please replace `facade/ignition` with `"spatie/laravel-ignition": "^1.0"` and `pusher/pusher-php-server` (if applicable) with `"pusher/pusher-php-server": "^5.0"` in your application's `composer.json` file.
 
-추가적으로 `composer.json` 에서 `facade/ignition` 을 `"spatie/laravel-ignition": "^1.0"` 으로 교체하십시오.
+추가적으로 `composer.json` 에서 `facade/ignition` 을 `"spatie/laravel-ignition": "^1.0"` 으로, `pusher/pusher-php-server` (가능하다면) `"pusher/pusher-php-server": "^5.0"` 으로 교체하십시오.
 
 Furthermore, the following first-party packages have received new major releases to support Laravel 9.x. If applicable, you should read their individual upgrade guides before upgrading:
 
@@ -181,6 +183,16 @@ The exception handler's `ignore` method is now `public` instead of `protected`. 
 public function ignore(string $class);
 ```
 
+#### Exception Handler Contract Binding
+#### 예외 핸들러 컨트랙트 바인딩
+
+**Likelihood Of Impact: Very Low**
+**영향 가능성: 매우 낮음**
+
+Previously, in order to override the default Laravel exception handler, custom implementations were bound into the service container using the `\App\Exceptions\Handler::class` type. However, you should now bind custom implementations using the `\Illuminate\Contracts\Debug\ExceptionHandler::class` type.
+
+이전에는 기본 Laravel 예외 처리기를 재정의하기 위해 사용자 정의 구현이 `\App\Exceptions\Handler::class` 타입을 사용하여 서비스 컨테이너에 바인딩되었습니다 . 그러나 이제 `\Illuminate\Contracts\Debug\ExceptionHandler::class` 유형을 사용하여 사용자 정의 구현을 바인딩해야 합니다.
+
 ### Blade
 ### 블레이드 템플릿
 
@@ -193,6 +205,16 @@ public function ignore(string $class);
 When iterating over a `LazyCollection` instance within a Blade template, the `$loop` variable is no longer available, as accessing this variable causes the entire `LazyCollection` to be loaded into memory, thus rendering the usage of lazy collections pointless in this scenario.
 
 블레이드 템플릿 안에서 `LazyCollection` 인스턴스의 반복문을 처리할 때에는 `$loop` 변수는 더 이상 사용할 수 없습니다. 그 이유는 `$loop` 변수에 접근하게 되면 `LazyCollection` 전체가 메모리에 로딩되기 때문에 지연 컬렉션의 사용 이유가 무색해지기 대문입니다. 
+
+#### Checked / Disabled / Selected Blade Directives
+#### Checked / Disabled / Selected 블레이드 지시어
+
+**Likelihood Of Impact: Low**
+**영향 가능성: 낮음**
+
+The new `@checked`, `@disabled`, and `@selected` Blade directives may conflict with Vue events of the same name. You may use `@@` to escape the directives and avoid this conflict: `@@selected`.
+
+새 `@checked`, `@disabled`, `@selected` 블레이드 지시어는 같은 이름의 Vue 이벤트와 충돌을 일으킬 수 있습니다. 충돌을 피하기 위해서 `@@`를 사용할 수 있습니다. 예 `@@selected`
 
 ### Collections
 ### 컬렉션
@@ -618,7 +640,7 @@ If you wish to specify a longer timeout for a given request, you may do so using
 
 다른 서버로 요청을 보낼 때 기본값 보다 더 긴 타임아웃을 지정하려면 `timeout` 메소드를 사용하면 됩니다.
 
-    $response = Http::timeout(120)->get(...);
+    $response = Http::timeout(120)->get(/* ... */);
 
 #### HTTP Fake & Middleware
 #### HTTP Fake & 미들웨어
@@ -673,9 +695,9 @@ composer require symfony/postmark-mailer symfony/http-client
 #### Updated Return Types
 #### 반환 타입 업데이트
 
-The `send`, `html`, `text`, and `plain` methods no longer return the number of recipients that received the message. Instead, an instance of `Illuminate\Mail\SentMessage` is returned. This object contains an instance of `Symfony\Component\Mailer\SentMessage` that is accessible via the `getSymfonySentMessage` method or by dynamically invoking methods on the object.
+The `send`, `html`, `raw`, and `plain` methods on `Illuminate\Mail\Mailer` no longer return `void`. Instead, an instance of `Illuminate\Mail\SentMessage` is returned. This object contains an instance of `Symfony\Component\Mailer\SentMessage` that is accessible via the `getSymfonySentMessage` method or by dynamically invoking methods on the object.
 
-`send`, `html`, `text`, `plain` 메소드는 더 이상 메세지를 수신한 수신자의 수를 반환하지 않습니다. 그대신 `Illuminate\Mail\SentMessage` 인스턴스가 반환됩니다. 이 객체는 `getSymfonySentMessage` 메소드 또는 객체에 동적 메소드 호출을 사용해서 접근할 수 있는 `Symfony\Component\Mailer\SentMessage` 인스턴스를 포함하고 있습니다.  
+`Illuminate\Mail\Mailer`의 `send`, `html`, `raw`, `plain` 메소드는 더 이상 `void`를 반환하지 않습니다. 그대신 `Illuminate\Mail\SentMessage` 인스턴스가 반환됩니다. 이 객체는 `getSymfonySentMessage` 메소드 또는 객체에 동적 메소드 호출을 사용해서 접근할 수 있는 `Symfony\Component\Mailer\SentMessage` 인스턴스를 포함하고 있습니다.  
 
 #### Renamed "Swift" Methods
 #### "Swift" 메소드의 이름 변경
@@ -759,6 +781,17 @@ Again, many applications may not be interacting with these methods, as they are 
 SwiftMailer offered the ability to define a custom domain to include in generated Message IDs via the `mime.idgenerator.idright` configuration option. This is not supported by Symfony Mailer. Instead, Symfony Mailer will automatically generate a Message ID based on the sender.
 
 SwiftMailer는 `mime.idgenerator.idright` 설정 옵션값을 사용하여 생성된 메시지 ID에 포함할 커스텀 도메인을 정의하는 기능을 제공했습니다. 이 기능은 Symfony Mailer에서는 지원되지 않습니다. 대신 Symfony Mailer는 발신자를 기반으로 메시지 ID를 자동으로 생성합니다.
+
+#### `MessageSent` Event Changes
+#### `MessageSent` 이벤트 변화
+
+The `message` property of the `Illuminate\Mail\Events\MessageSent` event now contains an instance of `Symfony\Component\Mime\Email` instead of an instance of `Swift_Message`. This message represents the email **before** it is sent.
+
+`Illuminate\Mail\Events\MessageSent` 이벤트의 `message` 프로퍼티는 이제 `Swift_Message` 인스턴스 대신 `Symfony\Component\Mime\Email` 인스턴스를 갖습니다. 이 메시지는 발송되기 **전** 이메일을 나타냅니다.
+
+Additionally, a new `sent` property has been added to the `MessageSent` event. This property contains an instance of `Illuminate\Mail\SentMessage` and contains information about the sent email, such as the message ID.
+
+추가적으로 `MessageSent` 이벤트에 `sent` 프로퍼티가 새로 추가되었습니다. 이 프로퍼티는 `Illuminate\Mail\SentMessage` 인스턴스를 포함하고 메시지 ID와 같은 전송된 이메일에 관한 정보를 담고 있습니다.
 
 #### Forced Reconnections
 #### 강제 재연결

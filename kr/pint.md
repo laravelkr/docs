@@ -54,7 +54,7 @@ You can instruct Pint to fix code style issues by invoking the `pint` binary tha
 
 Pint will display a thorough list of all of the files that it updates. You can view even more detail about Pint's changes by providing the `-V` option when invoking Pint:
 
-파인트는 업데이트하는 모든 파일의 전체 목록을 표시합니다. 파인트를 호출할 때 `-V` 옵션을 제공하여 파인트의 변경 사항에 대한 자세한 내용을 볼 수 있습니다 .
+파인트는 업데이트하는 모든 파일의 전체 목록을 표시합니다. 파인트를 호출할 때 `-v` 옵션을 제공하여 파인트의 변경 사항에 대한 자세한 내용을 볼 수 있습니다 .
 
 ```shell
 ./vendor/bin/pint -v

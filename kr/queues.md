@@ -1901,6 +1901,14 @@ php artisan queue:work
 > **Note**
 > `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
 
+You may include the `-v` flag when invoking the `queue:work` command if you would like the processed job IDs to be included in the command's output:
+
+명령의 출력에 처리된 잡 ID가 포함되도록 하고 싶으면 `queue:work` 명령을 호출할 때 `-v` 플래그를 포함하면 됩니다.
+
+```shell
+php artisan queue:work -v
+```
+
 Remember, queue workers, are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment). In addition, remember that any static state created or modified by your application will not be automatically reset between jobs.
 
 큐-queue 작업자는 수명이 긴 프로세스이며, 부팅된 애플리케이션 상태를 메모리에 저장합니다. 결과적으로 그들은 시작된 후에 코드 기반의 변경 사항을 알아차리지 못할 것입니다. 따라서 배포 프로세스 중에 [큐-queue 작업자를 다시 시작](#queue-workers-and-deployment)해야 합니다. 또한 애플리케이션에서 생성하거나 수정한 정적 상태는 작업 간에 자동으로 재설정되지 않습니다.

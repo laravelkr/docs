@@ -1077,6 +1077,7 @@ Below is a list of all available validation rules and their function:
 - [JSON](#rule-json)
 - [Less Than](#rule-lt)
 - [Less Than Or Equal](#rule-lte)
+- [Lowercase](#rule-lowercase)
 - [MAC Address](#rule-mac)
 - [Max](#rule-max)
 - [Max Digits](#rule-max-digits)
@@ -1743,6 +1744,14 @@ The field under validation must be less than the given _field_. The two fields m
 The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
 필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
+
+<a name="rule-lowercase"></a>
+#### lowercase:_field_
+#### lowercase:_field_
+
+The field under validation must be lowercase.
+
+검증 중인 필드는 소문자여야 합니다.
 
 <a name="rule-mac"></a>
 #### mac_address

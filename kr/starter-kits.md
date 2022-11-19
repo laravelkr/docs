@@ -89,6 +89,18 @@ Next, you may navigate to your application's `/login` or `/register` URLs in you
 
 이제 웹 브라우저에서 애플리케이션의 `/login` 또는 `/register` 경로로 접속할 수 있을 것입니다. Breeze의 모든 라우트는 `routes/auth.php` 파일에 정의되어 있습니다.
 
+<a name="dark-mode"></a>
+#### Dark Mode
+#### 다크 모드
+
+If you would like Breeze to include "dark mode" support when scaffolding your application's frontend, simply provide the `--dark` directive when executing the `breeze:install` command:
+
+프론트엔드 스캐폴딩할 때 Breeze가 "다크 모드"를 포함하게 하려면 `breeze:install` 명령을 실행할 때 `--dark` 를 붙여주면 됩니다.
+
+```shell
+php artisan breeze:install --dark
+```
+
 > **Warning**
 > To learn more about compiling your application's CSS and JavaScript, check out the Laravel's [Vite documentation](/docs/{{version}}/vite#running-vite).  
 

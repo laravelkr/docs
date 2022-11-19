@@ -400,23 +400,49 @@ The `extend` method allows the modification of resolved services. For example, w
 #### The `make` Method
 #### `make` 메소드
 
-You may use the `make` method to resolve a class instance out of the container. The `make` method accepts the name of the class or interface you wish to resolve:
+You may use the `make` method to resolve a class instance from the container. The `make` method accepts the name of the class or interface you wish to resolve:
 
-컨테이너 밖에서 클래스 인스턴스에 대한 의존성을 해결하기 위해서 `make` 메소드를 사용할 수 있습니다. `make` 메소드는 의존성 해결을 위해 여러분이 원하는 클래스나 인터페이스에 대한 이름을 전달받습니다. 
+컨테이너로 부터 클래스 인스턴스에 대한 의존성을 해결하기 위해서 `make` 메소드를 사용할 수 있습니다. `make` 메소드는 의존성 해결을 위해 여러분이 원하는 클래스나 인터페이스에 대한 이름을 전달받습니다. 
 
-    $api = $this->app->make('HelpSpot\API');
+    use App\Services\Transistor;
 
-If you are in a location of your code that does not have access to the `$app` variable, you may use the global `resolve` helper:
+    $transistor = $this->app->make(Transistor::class);
 
-`$app` 변수에 대한 접근을 가지고 있지 않은 코드에 위치하고 있다면, 글로벌 `resolve` 헬퍼 함수를 사용할 수 있습니다.
+If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method. For example, we may manually pass the `$id` constructor argument required by the `Transistor` service:
 
-    $api = resolve('HelpSpot\API');
+클래스의 의존성 중 일부가 컨테이너를 통해 해결될 수 없는 경우 `makeWith` 메서드에 연관 배열로 전달하여 의존성을 주입할 수 있습니다. 예를 들어 `Transistor` 서비스에 필요한 생성자 인수 `$id`를 수동으로 전달할 수 있습니다.
 
-If some of your class' dependencies are not resolvable via the container, you may inject them by passing them as an associative array into the `makeWith` method:
+    use App\Services\Transistor;
 
-클래스의 의존성이 컨테이너를 통해서 해결될 수 없다면, `makeWith` 메소드에 관련된 인자를 배열로 전달할 수도 있습니다.
+    $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
 
-    $api = $this->app->makeWith('HelpSpot\API', ['id' => 1]);
+If you are outside of a service provider in a location of your code that does not have access to the `$app` variable, you may use the `App` [facade](/docs/{{version}}/facades) or the `app` [helper](/docs/{{version}}/helpers#method-app) to resolve a class instance from the container:
+
+`$app` 변수에 접근할 수 없는 서비스 프로바이더 밖에서 컨테이너로 부터 클래스 인스턴스를 리졸브하려면 `App` [파사드](/docs/{{version}}/facades)나 `app` [헬퍼](/docs/{{version}}/helpers#method-app)를 사용할 수 있습니다.
+
+    use App\Services\Transistor;
+    use Illuminate\Support\Facades\App;
+
+    $transistor = App::make(Transistor::class);
+
+    $transistor = app(Transistor::class);
+
+If you would like to have the Laravel container instance itself injected into a class that is being resolved by the container, you may type-hint the `Illuminate\Container\Container` class on your class' constructor:
+
+컨테이너에 의해 리졸브되는 클래스에 컨테이너 자체를 의존성 주입하려면 클래스 생성자에 `Illuminate\Container\Container` 클래스를 타입힌트 하면 됩니다.
+
+    use Illuminate\Container\Container;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param  \Illuminate\Container\Container  $container
+     * @return void
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
 <a name="automatic-injection"></a>
 #### Automatic Injection

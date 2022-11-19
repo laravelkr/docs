@@ -211,9 +211,17 @@ Laravel's Flysystem integrations work great with SFTP; however, a sample configu
 ### Scoped & Read-Only Filesystems
 ### 범위 제한 & 읽기 전용 파일시스템
 
-You may create a path scoped instance of any existing filesystem disk by defining a disk that utilizes the `scoped` driver. Scoped disks allow you to define a filesystem where all paths are automatically prefixed with a given path prefix. For example, you may create a disk which scopes your existing `s3` disk to a specific path prefix, and then every file operation using your scoped disk will utilize the specified prefix:
+Scoped disks allow you to define a filesystem where all paths are automatically prefixed with a given path prefix. Before creating a scoped filesystem disk, you will need to install an additional Flysystem package via the Composer package manager:
 
-`scoped` 드라이버를 사용하는 디스크를 정의하여 기존 파일 시스템 디스크의 경로 범위 인스턴스를 만들 수 있습니다. 범위 지정 디스크를 사용하면 모든 경로에 자동으로 지정된 경로 접두사가 붙는 파일 시스템을 정의할 수 있습니다. 예를 들어, 기존 `s3` 디스크의 범위를 특정 경로 접두사로 지정하는 디스크를 생성하면 범위 지정 디스크를 사용하는 모든 파일 작업이 지정된 접두사를 활용할 수 있습니다.
+범위 지정 디스크를 사용하면 모든 경로에 지정된 경로 접두사가 자동으로 붙는 파일 시스템을 정의할 수 있습니다. 범위가 지정된 파일 시스템 디스크를 만들기 전에 Composer 패키지 관리자를 통해 추가 Flysystem 패키지를 설치해야 합니다.
+
+```shell
+composer require league/flysystem-path-prefixing "^3.0"
+```
+
+You may create a path scoped instance of any existing filesystem disk by defining a disk that utilizes the `scoped` driver. For example, you may create a disk which scopes your existing `s3` disk to a specific path prefix, and then every file operation using your scoped disk will utilize the specified prefix:
+
+`scoped` 드라이버를 사용하는 디스크를 정의하여 기존 파일 시스템 디스크의 경로 범위 인스턴스를 만들 수 있습니다. 예를 들어, 기존 `s3` 디스크의 범위를 특정 경로 접두사로 지정하는 디스크를 생성하면 범위 지정 디스크를 사용하는 모든 파일 작업이 지정된 접두사를 활용할 수 있습니다.
 
 ```php
 's3-videos' => [
@@ -223,9 +231,17 @@ You may create a path scoped instance of any existing filesystem disk by definin
 ],
 ```
 
-If you would like to specify that any filesystem disk should be "read-only", you may include the `read-only` configuration option in the disk's configuration array:
+"Read-only" disks allow you to create filesystem disks that do not allow write operations. Before using the `read-only` configuration option, you will need to install an additional Flysystem package via the Composer package manager:
 
-파일 시스템 디스크가 "읽기 전용"이어야 한다고 지정하려면 디스크의 구성 배열에 `read-only` 구성 옵션을 포함할 수 있습니다.
+"읽기 전용" 디스크는 쓰기 작업을 허용하지 않는 디스크를 만들 수 있게 해줍니다. `read-only` 설정 옵션을 사용하기 전에 Composer 패키지 매니저를 통해 추가적인 Flysystem 패키지를 설치해야 합니다.
+
+```shell
+composer require league/flysystem-read-only "^3.0"
+```
+
+Next, you may include the `read-only` configuration option in one or more of your disk's configuration arrays:
+
+그러고 나면 `read-only` 설정 옵션을 디스크 설정 배열에 하나 이상 포함 할 수 있습니다.
 
 ```php
 's3-videos' => [

@@ -459,9 +459,9 @@ $schedule->job(new CheckUptime('https://vapor.laravel.com'))
             ->onOneServer();
 ```
 
-If you are scheduling a closure that should only run on one server, you will also need to provide a name before you call the `onOneServer` method:
+Similarly, scheduled closures must be assigned a name if they are intended to be run on one server:
 
-한 서버에서만 실행되어야 하는 클로저를 스케쥴링할 때도 `onOneServer` 메서드를 호출하기 전에 이름을 제공해야 합니다.
+마찬가지로, 한 서버에서만 실행되어야 한다면 예약된 클로저도 이름을 붙여줘야 합니다.
 
 ```php
 $schedule->call(fn () => User::resetApiRequestCount())

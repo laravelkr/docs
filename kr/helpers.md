@@ -186,6 +186,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [exactly](#method-fluent-str-exactly)
 - [explode](#method-fluent-str-explode)
 - [finish](#method-fluent-str-finish)
+- [headline](#method-fluent-str-headline)
 - [inlineMarkdown](#method-fluent-str-inline-markdown)
 - [is](#method-fluent-str-is)
 - [isAscii](#method-fluent-str-is-ascii)
@@ -2687,6 +2688,23 @@ The `finish` method adds a single instance of the given value to a string if it 
     $adjusted = Str::of('this/string/')->finish('/');
 
     // this/string/
+
+<a name="method-fluent-str-headline"></a>
+#### `headline` {.collection-method}
+
+The `headline` method will convert strings delimited by casing, hyphens, or underscores into a space delimited string with each word's first letter capitalized:
+
+`headline` 메서드는 대소문자, 하이픈, 밑줄로 구분된 문자열을 공백으로 구분되고 각 단어의 첫자는 대문자인 문자열로 바꿔줍니다.
+
+    use Illuminate\Support\Str;
+
+    $headline = Str::of('taylor_otwell')->headline();
+
+    // Taylor Otwell
+
+    $headline = Str::of('EmailNotificationSent')->headline();
+
+    // Email Notification Sent
 
 <a name="method-fluent-str-inline-markdown"></a>
 #### `inlineMarkdown` {.collection-method}

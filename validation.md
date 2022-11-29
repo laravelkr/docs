@@ -846,6 +846,7 @@ Below is a list of all available validation rules and their function:
 [JSON](#rule-json)
 [Less Than](#rule-lt)
 [Less Than Or Equal](#rule-lte)
+[Lowercase](#rule-lowercase)
 [MAC Address](#rule-mac)
 [Max](#rule-max)
 [Max Digits](#rule-max-digits)
@@ -880,6 +881,7 @@ Below is a list of all available validation rules and their function:
 [String](#rule-string)
 [Timezone](#rule-timezone)
 [Unique (Database)](#rule-unique)
+[Uppercase](#rule-uppercase)
 [URL](#rule-url)
 [UUID](#rule-uuid)
 
@@ -1315,6 +1317,11 @@ The field under validation must be less than the given _field_. The two fields m
 
 The field under validation must be less than or equal to the given _field_. The two fields must be of the same type. Strings, numerics, arrays, and files are evaluated using the same conventions as the [`size`](#rule-size) rule.
 
+<a name="rule-lowercase"></a>
+#### lowercase:_field_
+
+The field under validation must be lowercase.
+
 <a name="rule-mac"></a>
 #### mac_address
 
@@ -1617,6 +1624,11 @@ By default, the `unique` rule will check the uniqueness of the column matching t
 You may specify additional query conditions by customizing the query using the `where` method. For example, let's add a query condition that scopes the query to only search records that have an `account_id` column value of `1`:
 
     'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
+
+<a name="rule-uppercase"></a>
+#### uppercase:_field_
+
+The field under validation must be uppercase.
 
 <a name="rule-url"></a>
 #### url

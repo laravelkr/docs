@@ -32,9 +32,13 @@ While you are welcome to use these starter kits, they are not required. You are 
 ## Laravel Breeze
 ## 라라벨 Breeze
 
-[Laravel Breeze](https://github.com/laravel/breeze) is a minimal, simple implementation of all of Laravel's [authentication features](/docs/{{version}}/authentication), including login, registration, password reset, email verification, and password confirmation. Laravel Breeze's default view layer is made up of simple [Blade templates](/docs/{{version}}/blade) styled with [Tailwind CSS](https://tailwindcss.com). Or, Breeze can scaffold your application using Vue or React and [Inertia](https://inertiajs.com).
+[Laravel Breeze](https://github.com/laravel/breeze) is a minimal, simple implementation of all of Laravel's [authentication features](/docs/{{version}}/authentication), including login, registration, password reset, email verification, and password confirmation. In addition, Breeze includes a simple "profile" page where the user may update their name, email address, and password.
 
-[라라벨 Breeze](https://github.com/laravel/breeze)는 로그인, 가입, 비밀번호 재설정, 이메일 인증, 비밀번호 확인을 포함한 라라벨의 [인증 기능](/docs/{{version}}/authentication)을 간단하게 구현한 것입니다. 라라벨 Breeze의 기본 뷰 레이어(View Layer)는 [Tailwind CSS](https://tailwindcss.com)을 사용하여 간단한 [블레이드 템플릿](/docs/{{version}}/blade)으로 구성되어 있습니다. 또는 브리즈는 Vue 나 React 와 [Inertia](https://inertiajs.com)를 사용해서 애플리케이션을 스캐폴딩할 수 있습니다.
+[라라벨 Breeze](https://github.com/laravel/breeze)는 로그인, 가입, 비밀번호 재설정, 이메일 인증, 비밀번호 확인을 포함한 라라벨의 [인증 기능](/docs/{{version}}/authentication)을 간단하게 구현한 것입니다. 또한 브리즈는 사용자들이 이름, 이메일, 주소, 패스워드를 업데이트 할 수 있는 간단한 "프로필" 페이지도 포함합니다.
+
+Laravel Breeze's default view layer is made up of simple [Blade templates](/docs/{{version}}/blade) styled with [Tailwind CSS](https://tailwindcss.com). Or, Breeze can scaffold your application using Vue or React and [Inertia](https://inertiajs.com).
+
+라라벨 Breeze의 기본 뷰 레이어(View Layer)는 [Tailwind CSS](https://tailwindcss.com)을 사용하여 간단한 [블레이드 템플릿](/docs/{{version}}/blade)으로 구성되어 있습니다. 또는 브리즈는 Vue 나 React 와 [Inertia](https://inertiajs.com)를 사용해서 애플리케이션을 스캐폴딩할 수 있습니다.
 
 Breeze provides a wonderful starting point for beginning a fresh Laravel application and is also great choice for projects that plan to take their Blade templates to the next level with [Laravel Livewire](https://laravel-livewire.com).  
 
@@ -88,6 +92,18 @@ npm run dev
 Next, you may navigate to your application's `/login` or `/register` URLs in your web browser. All of Breeze's routes are defined within the `routes/auth.php` file.  
 
 이제 웹 브라우저에서 애플리케이션의 `/login` 또는 `/register` 경로로 접속할 수 있을 것입니다. Breeze의 모든 라우트는 `routes/auth.php` 파일에 정의되어 있습니다.
+
+<a name="dark-mode"></a>
+#### Dark Mode
+#### 다크 모드
+
+If you would like Breeze to include "dark mode" support when scaffolding your application's frontend, simply provide the `--dark` directive when executing the `breeze:install` command:
+
+프론트엔드 스캐폴딩할 때 Breeze가 "다크 모드"를 포함하게 하려면 `breeze:install` 명령을 실행할 때 `--dark` 를 붙여주면 됩니다.
+
+```shell
+php artisan breeze:install --dark
+```
 
 > **Warning**
 > To learn more about compiling your application's CSS and JavaScript, check out the Laravel's [Vite documentation](/docs/{{version}}/vite#running-vite).  

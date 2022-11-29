@@ -9,6 +9,8 @@
 - [기타 유틸리티](#other-utilities)
   - [Benchmarking](#benchmarking)
   - [벤치마킹](#benchmarking)
+  - [Lottery](#lottery)
+  - [복권](#lottery)
 
 <a name="introduction"></a>
 ## Introduction
@@ -184,6 +186,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [exactly](#method-fluent-str-exactly)
 - [explode](#method-fluent-str-explode)
 - [finish](#method-fluent-str-finish)
+- [headline](#method-fluent-str-headline)
 - [inlineMarkdown](#method-fluent-str-inline-markdown)
 - [is](#method-fluent-str-is)
 - [isAscii](#method-fluent-str-is-ascii)
@@ -2686,6 +2689,23 @@ The `finish` method adds a single instance of the given value to a string if it 
 
     // this/string/
 
+<a name="method-fluent-str-headline"></a>
+#### `headline` {.collection-method}
+
+The `headline` method will convert strings delimited by casing, hyphens, or underscores into a space delimited string with each word's first letter capitalized:
+
+`headline` 메서드는 대소문자, 하이픈, 밑줄로 구분된 문자열을 공백으로 구분되고 각 단어의 첫자는 대문자인 문자열로 바꿔줍니다.
+
+    use Illuminate\Support\Str;
+
+    $headline = Str::of('taylor_otwell')->headline();
+
+    // Taylor Otwell
+
+    $headline = Str::of('EmailNotificationSent')->headline();
+
+    // Email Notification Sent
+
 <a name="method-fluent-str-inline-markdown"></a>
 #### `inlineMarkdown` {.collection-method}
 
@@ -4672,3 +4692,55 @@ To invoke a callback more than once, you may specify the number of iterations th
 콜백을 두 번 이상 호출하려면 메소드에 대한 두 번째 인수로 콜백을 호출해야 하는 반복 횟수를 지정할 수 있습니다. 콜백을 두 번 이상 실행하면 `Benchmark` 클래스는 모든 반복에서 콜백을 실행하는 데 걸린 평균 시간(밀리초)을 반환합니다.
 
     Benchmark::dd(fn () => User::count(), iterations: 10); // 0.5 ms
+
+<a name="lottery"></a>
+### Lottery
+### 복권
+
+Laravel's lottery class may be used to execute callbacks based on a set of given odds. This can be particularly useful when you only want to execute code for a percentage of your incoming requests:
+
+라라벨 복권 클래스는 주어진 확률에 기반해서 콜백을 실행하는데 사용할 수 있습니다. 인입되는 요청에 대해 확률적으로 코드를 실행하고자 할 때 특히 유용하게 쓸 수 있습니다.
+
+    use Illuminate\Support\Lottery;
+
+    Lottery::odds(1, 20)
+        ->winner(fn () => $user->won())
+        ->loser(fn () => $user->lost())
+        ->choose();
+
+You may combine Laravel's lottery class with other Laravel features. For example, you may wish to only report a small percentage of slow queries to your exception handler. And, since the lottery class is callable, we may pass an instance of the class into any method that accepts callables:
+
+복권 클래스를 다른 라라벨 기능과 결합해서 사용할 수도 있습니다. 예를 들어, 슬로 쿼리 중 작은 비율만 예외 핸들러에 보고하고 싶을 수 있습니다. 그리고 복권 클래스가 callable 이기 때문에 callable을 허용하는 어떠한 메서드에도 복권 클래스 인스턴스를 전달할 수 있습니다.
+
+    use Carbon\CarbonInterval;
+    use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Lottery;
+
+    DB::whenQueryingForLongerThan(
+        CarbonInterval::seconds(2),
+        Lottery::odds(1, 100)->winner(fn () => report('Querying > 2 seconds.')),
+    );
+
+<a name="testing-lotteries"></a>
+#### Testing Lotteries
+#### 복권 테스트하기
+
+Laravel provides some simple methods to allow you to easily test your application's lottery invocations:
+
+라라벨은 애플리케이션의 복권 호출을 쉽게 테스트할 수 있는 몇 가지 간단한 방법을 제공합니다.
+
+    // Lottery will always win...
+    // 항상 이깁니다...
+    Lottery::alwaysWin();
+
+    // Lottery will always lose...
+    // 항상 집니다...
+    Lottery::alwaysLose();
+
+    // Lottery will win then lose, and finally return to normal behavior...
+    // 한 번 이기고, 한 번 진 다음 원래대로 동작합니다...
+    Lottery::fix([true, false]);
+
+    // Lottery will return to normal behavior...
+    // 정상적인 동작으로 돌아옵니다...
+    Lottery::determineResultsNormally();

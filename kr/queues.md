@@ -1119,6 +1119,10 @@ When chaining jobs, you may use the `catch` method to specify a closure that sho
         // A job within the chain has failed...
     })->dispatch();
 
+> {note} Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
+
+> {note} 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
+
 <a name="customizing-the-queue-and-connection"></a>
 ### Customizing The Queue & Connection
 ### Queue-큐 & 커넥션 커스터마이징
@@ -1853,6 +1857,12 @@ Sometimes, your `jobs_batches` table may accumulate batch records for batches th
 
     $schedule->command('queue:prune-batches --hours=48 --unfinished=72')->daily();
 
+Likewise, your `jobs_batches` table may also accumulate batch records for cancelled batches. You may instruct the `queue:prune-batches` command to prune these cancelled batch records using the `cancelled` option:
+
+마찬가지로 `jobs_batches` 테이블은 취소된 배치 레코드도 축적할 것입니다. 취소된 배치 레코드를 제거하려면 `queue:prune-batches` 명령을 `cancelled` 옵션을 주어 실행하면 됩니다.
+
+    $schedule->command('queue:prune-batches --hours=48 --cancelled=72')->daily();
+
 <a name="queueing-closures"></a>
 ## Queueing Closures
 ## 큐잉 클로저
@@ -1879,6 +1889,11 @@ Using the `catch` method, you may provide a closure that should be executed if t
         // This job has failed...
     });
 
+
+> {note} Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
+
+> {note} 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
+
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker
 ## Queue-큐 worker 실행하기
@@ -1900,6 +1915,14 @@ php artisan queue:work
 
 > **Note**
 > `queue:work` 프로세스를 백그라운드에서 계속 지속되게 하려면, queue worker가 중단되지 않는 것을 보장하기 위해 [Supervisor](#supervisor-configuration)와 같은 프로세스 모니터를 사용해야 합니다.
+
+You may include the `-v` flag when invoking the `queue:work` command if you would like the processed job IDs to be included in the command's output:
+
+명령의 출력에 처리된 잡 ID가 포함되도록 하고 싶으면 `queue:work` 명령을 호출할 때 `-v` 플래그를 포함하면 됩니다.
+
+```shell
+php artisan queue:work -v
+```
 
 Remember, queue workers, are long-lived processes and store the booted application state in memory. As a result, they will not notice changes in your code base after they have been started. So, during your deployment process, be sure to [restart your queue workers](#queue-workers-and-deployment). In addition, remember that any static state created or modified by your application will not be automatically reset between jobs.
 

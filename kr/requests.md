@@ -572,9 +572,9 @@ To determine if a given key is absent from the request, you may use the `missing
 ### Merging Additional Input
 ### 추가 입력 병합
 
-Sometimes you may need to manually merge additional input into the request's existing input data. To accomplish this, you may use the `merge` method:
+Sometimes you may need to manually merge additional input into the request's existing input data. To accomplish this, you may use the `merge` method. If a given input key already exists on the request, it will be overwritten by the data provided to the `merge` method:
 
-때때로 추가 입력을 요청의 기존 입력 데이터에 수동으로 병합해야 할 수도 있습니다. 이를 위해 `merge` 메소드를 사용할 수 있습니다.
+때때로 추가 입력을 요청의 기존 입력 데이터에 수동으로 병합해야 할 수도 있습니다. 이를 위해 `merge` 메소드를 사용할 수 있습니다. 주어진 입력 키가 요청에 이미 존재한다면 `merge` 메서드로 제공된 데이터로 덮어씌워질 것입니다.
 
     $request->merge(['votes' => 0]);
 

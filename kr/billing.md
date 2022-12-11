@@ -147,10 +147,10 @@ When upgrading to a new version of Cashier, it's important that you carefully re
 Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md) 를 주의 깊게 검토해야합니다.
 
 > **Note**
-> To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 13 utilizes Stripe API version `2020-08-27`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
+> To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 13 utilizes Stripe API version `2022-11-15`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
 
 > **Note**
-> 변경을 방지하기 위해 캐셔는 Stripe API 버전을 고정으로 사용합니다. Cashier 12은 Stripe API 버전 `2020-08-27`를 사용합니다. Stripe API 버전은 새로운 Stripe 기능과 개선 사항을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
+> 변경을 방지하기 위해 캐셔는 Stripe API 버전을 고정으로 사용합니다. Cashier 12은 Stripe API 버전 `2022-11-15`를 사용합니다. Stripe API 버전은 새로운 Stripe 기능과 개선 사항을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
 
 <a name="installation"></a>
 ## Installation

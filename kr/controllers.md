@@ -569,6 +569,26 @@ In this example, the following routes will be registered. As you can see, a `DEL
 | PUT/PATCH | `/photos/{photo}/thumbnail`        | update  | photos.thumbnail.update  |
 | DELETE    | `/photos/{photo}/thumbnail`        | destroy | photos.thumbnail.destroy |
 
+<a name="api-singleton-resources"></a>
+#### API Singleton Resources
+#### API 싱글톤 리소스
+
+The `apiSingleton` method may be used to register a singleton resource that will be manipulated via an API, thus rendering the `create` and `edit` routes unnecessary:
+
+`apiSingleton` 메소드는 API를 통해 조작되는 싱글톤 리소스를 등록하는 데 사용할 수 있으므로 `create` 및 `edit` 라우트가 불필요합니다.
+
+```php
+Route::apiSingleton('profile', ProfileController::class);
+```
+
+Of course, API singleton resources may also be `creatable`, which will register `store` and `destroy` routes for the resource:
+
+물론 API 싱글톤 리소스는 `creatable`이 될 수 있으며, 이는 리소스에 대한 `store` 및 `destroy` 라우트를 등록합니다.
+
+```php
+Route::apiSingleton('photos.thumbnail', ProfileController::class)->creatable();
+```
+
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers
 ## 의존성 주입 & 컨트롤러

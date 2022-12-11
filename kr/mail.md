@@ -286,6 +286,16 @@ First, let's explore configuring the sender of the email. Or, in other words, wh
         );
     }
 
+If you would like, you may also specify a `replyTo` address:
+
+필요하다면 `replyTo` 주소를 지정할 수도 있습니다.
+
+    return new Envelope(
+        from: new Address('jeffrey@example.com', 'Jeffrey Way'),
+        replyTo: new Address('taylor@example.com', 'Taylor Otwell'),
+        subject: 'Order Shipped',
+    );
+
 <a name="using-a-global-from-address"></a>
 #### Using A Global `from` Address
 #### 글로벌 `from` 메일 주소 사용하기

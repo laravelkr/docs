@@ -78,7 +78,7 @@ php artisan horizon:install
 ### Configuration
 ### 설정하기
 
-After publishing Horizon's assets, its primary configuration file will be located at `config/horizon.php`. This configuration file allows you to configure the queue worker options for your application. Each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
+After publishing Horizon's assets, its primary configuration file will be located at `config/horizon.php`. This configuration file allows you to configure the queue worker options for your application, each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
 
 Horizon 자산을 게시하면 기본 설정 파일이 `config/horizon.php`로 생성됩니다. 이 설정 파일을 사용하면 애플리케이션에 대한 대기열 작업자 옵션을 설정할 수 있습니다. 각 설정 옵션에는 용도에 대한 설명이 포함되어 있으므로 이 파일을 꼼꼼하게 살펴보십시오.
 

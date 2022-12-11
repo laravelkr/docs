@@ -217,8 +217,8 @@ Once you have defined the cast on your model, the specified attribute will be au
 
 모델에 캐스트 되는 속성을 정의한 다음에는 지정된 속성이 자동으로 enum 으로 캐스팅 되어 값을 확인할 수 있습니다. 
 
-    if ($server->status == ServerStatus::provisioned) {
-        $server->status = ServerStatus::ready;
+    if ($server->status == ServerStatus::Provisioned) {
+        $server->status = ServerStatus::Ready;
 
         $server->save();
     }

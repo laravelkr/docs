@@ -549,8 +549,8 @@ Once you have defined the cast on your model, the specified attribute will be au
 
 모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 열거형으로 자동으로 캐스트되거나 열거형에서 캐스트됩니다.
 
-    if ($server->status == ServerStatus::provisioned) {
-        $server->status = ServerStatus::ready;
+    if ($server->status == ServerStatus::Provisioned) {
+        $server->status = ServerStatus::Ready;
 
         $server->save();
     }

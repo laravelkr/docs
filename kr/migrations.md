@@ -544,6 +544,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [multiPolygon](#column-method-multiPolygon)
 [nullableMorphs](#column-method-nullableMorphs)
 [nullableTimestamps](#column-method-nullableTimestamps)
+[nullableUlidMorphs](#column-method-nullableUlidMorphs)
 [nullableUuidMorphs](#column-method-nullableUuidMorphs)
 [point](#column-method-point)
 [polygon](#column-method-polygon)
@@ -570,6 +571,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [unsignedMediumInteger](#column-method-unsignedMediumInteger)
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
 [unsignedTinyInteger](#column-method-unsignedTinyInteger)
+[ulidMorphs](#column-method-ulidMorphs)
 [uuidMorphs](#column-method-uuidMorphs)
 [ulid](#column-method-ulid)
 [uuid](#column-method-uuid)
@@ -904,6 +906,15 @@ The method is similar to the [morphs](#column-method-morphs) method; however, th
 
     $table->nullableMorphs('taggable');
 
+<a name="column-method-nullableUlidMorphs"></a>
+#### `nullableUlidMorphs()` {.collection-method}
+
+The method is similar to the [ulidMorphs](#column-method-ulidMorphs) method; however, the columns that are created will be "nullable":
+
+이 메서드는 [ulidMorphs](#column-method-ulidMorphs) 메서드와 유사합니다. 그러나 생성되는 컬럼은 "nullable"이 됩니다.
+
+    $table->nullableUlidMorphs('taggable');
+
 <a name="column-method-nullableUuidMorphs"></a>
 #### `nullableUuidMorphs()` {.collection-method}
 
@@ -1134,6 +1145,19 @@ The `unsignedTinyInteger` method creates an `UNSIGNED TINYINT` equivalent column
 `unsignedTinyInteger` 메소드는 `UNSIGNED TINYINT`에 해당하는 컬럼을 생성합니다.
 
     $table->unsignedTinyInteger('votes');
+
+<a name="column-method-ulidMorphs"></a>
+#### `ulidMorphs()` {.collection-method}
+
+The `ulidMorphs` method is a convenience method that adds a `{column}_id` `CHAR(26)` equivalent column and a `{column}_type` `VARCHAR` equivalent column.
+
+`ulidMorphs` 메소드는 `{column}_id` `CHAR(26)`에 해당하는 컬럼과 `{column}_type` `VARCHAR`에 해당하는 컬럼을 추가하는 편의 메소드입니다.
+
+This method is intended to be used when defining the columns necessary for a polymorphic [Eloquent relationship](/docs/{{version}}/eloquent-relationships) that use ULID identifiers. In the following example, `taggable_id` and `taggable_type` columns would be created:
+
+이 메소드는 ULID 식별자를 사용하는 다형적 [Eloquent 관계](/docs/{{version}}/eloquent-relationships)에 필요한 컬럼을 정의할 때 사용합니다. 다음 예에서는 `taggable_id` 및 `taggable_type` 컬럼이 생성됩니다.
+
+    $table->ulidMorphs('taggable');
 
 <a name="column-method-uuidMorphs"></a>
 #### `uuidMorphs()` {.collection-method}

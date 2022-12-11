@@ -26,8 +26,10 @@
     - [Localizing Resource URIs](#restful-localizing-resource-uris)
     - [리소스 URI의 지역화(다국어 동사처리)](#restful-localizing-resource-uris)
     - [Supplementing Resource Controllers](#restful-supplementing-resource-controllers)
-    - [Resource 컨트롤러 라우트에 추가하기](#restful-supplementing-resource-controllers)
-- [Dependency Injection & Controllers](#dependency-injection-and-controllers)
+    - [리소스 컨트롤러에 라우트 추가하기](#restful-supplementing-resource-controllers)
+    - [Singleton Resource Controllers](#singleton-resource-controllers)
+    - [싱글턴 리소스 컨트롤러](#singleton-resource-controllers)
+    - [Resource 컨트롤러 라우트에 추가하기](#dependency-injection-and-controllers)
 - [의존성 주입 & 컨트롤러](#dependency-injection-and-controllers)
 
 <a name="introduction"></a>
@@ -498,6 +500,94 @@ If you need to add additional routes to a resource controller beyond the default
 
 > **Note**
 > 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
+
+<a name="singleton-resource-controllers"></a>
+### Singleton Resource Controllers
+### 싱글톤 리소스 컨트롤러
+
+Sometimes, your application will have resources that may only have a single instance. For example, a user's "profile" can be edited or updated, but a user may not have more than one "profile". Likewise, an image may have a single "thumbnail". These resources are called "singleton resources", meaning one and only one instance of the resource may exist. In these scenarios, you may register a "singleton" resource controller:
+
+때로는 애플리케이션에는 단일 인스턴스만 존재할 수 있는 리소스가 있습니다. 예를 들어, 사용자의 "프로필"은 수정하거나 업데이트 할 수 있지만, 사용자는 하나 이상의 "프로필"을 가질 수 없습니다. 마찬가지로, 이미지는 하나의 "썸네일"을 가질 수 있습니다. 이러한 리소스는 "싱글톤 리소스"라고 부르며, 리소스의 인스턴스는 하나만 존재할 수 있습니다. 이러한 시나리오에서 "싱글톤" 리소스 컨트롤러를 등록할 수 있습니다.
+
+```php
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+Route::singleton('profile', ProfileController::class);
+```
+
+The singleton resource definition above will register the following routes. As you can see, "creation" routes are not registered for singleton resources, and the registered routes do not accept an identifier since only one instance of the resource may exist:
+
+위의 싱글톤 리소스 정의는 다음 라우트를 등록합니다. 보시다시피, "생성" 라우트는 싱글톤 리소스에 대해 등록되지 않으며, 등록된 라우트는 리소스의 인스턴스가 하나만 존재할 수 있으므로 식별자를 허용하지 않습니다.
+
+Verb      | URI                               | Action       | Route Name
+----------|-----------------------------------|--------------|---------------------
+GET       | `/profile`                        | show         | profile.show
+GET       | `/profile/edit`                   | edit         | profile.edit
+PUT/PATCH | `/profile`                        | update       | profile.update
+
+Singleton resources may also be nested within a standard resource:
+
+싱글톤 리소스는 표준 리소스 내에 중첩될 수도 있습니다.
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class);
+```
+
+In this example, the `photos` resource would receive all of the [standard resource routes](#actions-handled-by-resource-controller); however, the `thumbnail` resource would be a singleton resource with the following routes:
+
+이 예에서는 `photos` 리소스가 [표준 리소스 라우트](#actions-handled-by-resource-controller)를 모두 받습니다. 그러나 `thumbnail` 리소스는 다음 라우트를 가진 싱글톤 리소스가 됩니다.
+
+| Verb      | URI                              | Action  | Route Name               |
+|-----------|----------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail`      | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit` | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`      | update  | photos.thumbnail.update  |
+
+<a name="creatable-singleton-resources"></a>
+#### Creatable Singleton Resources
+#### 생성가능한 싱글톤 리소스
+
+Occasionally, you may want to define creation and storage routes for a singleton resource. To accomplish this, you may invoke the `creatable` method when registering the singleton resource route:
+
+가끔은 싱글톤 리소스에 대한 생성 및 저장 라우트를 정의하고 싶을 수 있습니다. 이를 위해 싱글톤 리소스 라우트를 등록할 때 `creatable` 메소드를 호출할 수 있습니다.
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
+```
+
+In this example, the following routes will be registered. As you can see, a `DELETE` route will also be registered for creatable singleton resources:
+
+이 예에서는 다음 라우트가 등록됩니다. 보시다시피, 생성 가능한 싱글톤 리소스에 대한 `DELETE` 라우트도 등록됩니다.
+
+| Verb      | URI                                | Action  | Route Name               |
+|-----------|------------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail/create` | create  | photos.thumbnail.create  |
+| POST      | `/photos/{photo}/thumbnail`        | store   | photos.thumbnail.store   |
+| GET       | `/photos/{photo}/thumbnail`        | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit`   | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`        | update  | photos.thumbnail.update  |
+| DELETE    | `/photos/{photo}/thumbnail`        | destroy | photos.thumbnail.destroy |
+
+<a name="api-singleton-resources"></a>
+#### API Singleton Resources
+#### API 싱글톤 리소스
+
+The `apiSingleton` method may be used to register a singleton resource that will be manipulated via an API, thus rendering the `create` and `edit` routes unnecessary:
+
+`apiSingleton` 메소드는 API를 통해 조작되는 싱글톤 리소스를 등록하는 데 사용할 수 있으므로 `create` 및 `edit` 라우트가 불필요합니다.
+
+```php
+Route::apiSingleton('profile', ProfileController::class);
+```
+
+Of course, API singleton resources may also be `creatable`, which will register `store` and `destroy` routes for the resource:
+
+물론 API 싱글톤 리소스는 `creatable`이 될 수 있으며, 이는 리소스에 대한 `store` 및 `destroy` 라우트를 등록합니다.
+
+```php
+Route::apiSingleton('photos.thumbnail', ProfileController::class)->creatable();
+```
 
 <a name="dependency-injection-and-controllers"></a>
 ## Dependency Injection & Controllers

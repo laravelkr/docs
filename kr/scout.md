@@ -255,6 +255,44 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+<a name="configuring-filterable-data-for-meilisearch"></a>
+#### Configuring Filterable Data & Index Settings (MeiliSearch)
+#### 필터링 가능한 데이터 설정하기(MeiliSearch)
+
+Unlike Scout's other drivers, MeiliSearch requires you to pre-define index search settings such as filterable attributes, sortable attributes, and [other supported settings fields](https://docs.meilisearch.com/reference/api/settings.html).
+
+다른 스카우트 드라이버와 달리, MeiliSearch는 필터링 가능한 속성, 정렬 가능한 속성, 그리고 [다른 지원되는 설정 필드](https://docs.meilisearch.com/reference/api/settings.html)를 미리 정의해야 합니다.
+
+Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method, while sortable attributes are any attributes you plan to sort by when invoking Scout's `orderBy` method. To define your index settings, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
+
+필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
+
+```php
+'meilisearch' => [
+    'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    'key' => env('MEILISEARCH_KEY', null),
+    'index-settings' => [
+        'users' => [
+            'filterableAttributes'=> ['id', 'name', 'email'],
+            'sortableAttributes' => ['created_at'],
+            // Other settings fields...
+        ],
+        'flights' => [
+            'filterableAttributes'=> ['id', 'destination'],
+            'sortableAttributes' => ['updated_at'],
+        ],
+    ],
+],
+```
+
+After configuring your application's index settings, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured index settings. For convenience, you may wish to make this command part of your deployment process:
+
+애플리케이션의 인덱스 설정을 구성한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
+
+```shell
+php artisan scout:sync-index-settings
+```
+
 <a name="configuring-the-model-id"></a>
 ### Configuring The Model ID
 ### 모델 ID 설정하기
@@ -705,6 +743,12 @@ You may use the `whereIn` method to constrain results against a given set of val
 Since a search index is not a relational database, more advanced "where" clauses are not currently supported.
 
 검색 인덱스는 관계형 데이터베이스가 아니므로 현재 고급 "where" 절이 지원되지 않습니다.
+
+> **Warning**
+> If your application is using MeiliSearch, you must configure your application's [filterable attributes](#configuring-filterable-data-for-meilisearch) before utilizing Scout's "where" clauses.
+
+> **Warning**
+> 만약 여러분의 애플리케이션이 MeiliSearch를 사용하고 있다면, 여러분의 애플리케이션의 [필터링 가능한 속성들](#configuring-filterable-data-for-meilisearch)을 설정해야 합니다.
 
 <a name="pagination"></a>
 ### Pagination

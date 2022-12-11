@@ -579,6 +579,8 @@ If you would like to define a custom Valet driver for a single application, crea
 
 단일 애플리케이션에 대한 맞춤형 Valet 드라이버를 정의하려면 애플리케이션의 루트 디렉토리에 `LocalValetDriver.php` 파일을 생성하십시오. 사용자 정의 드라이버는 기본 `ValetDriver` 클래스를 확장하거나 `LaravelValetDriver`와 같은 기존 애플리케이션 특정 드라이버를 확장할 수 있습니다.
 
+    use Valet\Drivers\LaravelValetDriver;
+
     class LocalValetDriver extends LaravelValetDriver
     {
         /**

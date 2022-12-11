@@ -1747,8 +1747,8 @@ The field under validation must be less than or equal to the given _field_. The 
 필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
 <a name="rule-lowercase"></a>
-#### lowercase:_field_
-#### lowercase:_field_
+#### lowercase
+#### lowercase
 
 The field under validation must be lowercase.
 
@@ -2209,8 +2209,8 @@ You may specify additional query conditions by customizing the query using the `
     'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
 
 <a name="rule-uppercase"></a>
-#### uppercase:_field_
-#### uppercase:_field_
+#### uppercase
+#### uppercase
 
 The field under validation must be uppercase.
 

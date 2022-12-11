@@ -256,12 +256,16 @@ By default, the entire `toArray` form of a given model will be persisted to its 
     }
 
 <a name="configuring-filterable-data-for-meilisearch"></a>
-#### Configuring Filterable Data (MeiliSearch)
+#### Configuring Filterable Data & Index Settings (MeiliSearch)
 #### 필터링 가능한 데이터 설정하기(MeiliSearch)
 
-Unlike Scout's other drivers, MeiliSearch requires you to pre-define the attributes that will be "filterable". Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method. To define your filterable attributes, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
+Unlike Scout's other drivers, MeiliSearch requires you to pre-define index search settings such as filterable attributes, sortable attributes, and [other supported settings fields](https://docs.meilisearch.com/reference/api/settings.html).
 
-Scout의 다른 드라이버와 달리, MeiliSearch는 "필터링 가능한" 속성을 미리 정의해야 합니다. 필터링 가능한 속성은 Scout의 `where` 메서드를 호출할 때 필터링할 속성입니다. 필터링 가능한 속성을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 수정하세요.
+다른 스카우트 드라이버와 달리, MeiliSearch는 필터링 가능한 속성, 정렬 가능한 속성, 그리고 [다른 지원되는 설정 필드](https://docs.meilisearch.com/reference/api/settings.html)를 미리 정의해야 합니다.
+
+Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method, while sortable attributes are any attributes you plan to sort by when invoking Scout's `orderBy` method. To define your index settings, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
+
+필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
 
 ```php
 'meilisearch' => [
@@ -270,17 +274,20 @@ Scout의 다른 드라이버와 달리, MeiliSearch는 "필터링 가능한" 속
     'index-settings' => [
         'users' => [
             'filterableAttributes'=> ['id', 'name', 'email'],
+            'sortableAttributes' => ['created_at'],
+            // Other settings fields...
         ],
         'flights' => [
             'filterableAttributes'=> ['id', 'destination'],
+            'sortableAttributes' => ['updated_at'],
         ],
     ],
 ],
 ```
 
-After configuring your application's filterable attributes, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured filterable attributes. For convenience, you may wish to make this command part of your deployment process:
+After configuring your application's index settings, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured index settings. For convenience, you may wish to make this command part of your deployment process:
 
-애플리케이션의 필터링 가능한 속성을 설정한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 설정된 필터링 가능한 속성을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
+애플리케이션의 인덱스 설정을 구성한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
 
 ```shell
 php artisan scout:sync-index-settings

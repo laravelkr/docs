@@ -24,9 +24,9 @@ Throughout the Laravel documentation, you will see examples of code that interac
 
 라라벨 문서 전체에서 "파사드"를 통해 라라벨의 기능을 동작시키는 코드 예제를 볼 수 있습니다. 파사드는 애플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용할 수 있는 클래스에 "정적" 인터페이스를 제공합니다. 라라벨은 라라벨의 거의 모든 기능에 대한 액세스를 제공하는 많은 파사드를 함께 제공됩니다.
 
-Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods. It's perfectly fine if you don't totally understand how facades work under the hood - just go with the flow and continue learning about Laravel.
+Laravel facades serve as "static proxies" to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods. It's perfectly fine if you don't totally understand how facades work - just go with the flow and continue learning about Laravel.
 
-라라벨 파사드는 서비스 컨테이너의 기본 클래스에 대한 "정적 프록시" 역할을 하여, 간결하고 표현적인 구문의 이점을 제공하는 동시에 기존의 정적 방법보다 더 많은 테스트 가능성과 유연성을 유지합니다. 파사드가 후드 아래에서 어떻게 작동하는지 완전히 이해하지 못해도 괜찮습니다. 흐름을 따라가며 라라벨에 대해 계속 배우십시오.
+라라벨 파사드는 서비스 컨테이너의 기본 클래스에 대한 "정적 프록시" 역할을 하여, 간결하고 표현적인 구문의 이점을 제공하는 동시에 기존의 정적 방법보다 더 많은 테스트 가능성과 유연성을 유지합니다. 파사드가 어떻게 작동하는지 완전히 이해하지 못해도 괜찮습니다. 흐름을 따라가며 라라벨에 대해 계속 배우십시오.
 
 All of Laravel's facades are defined in the `Illuminate\Support\Facades` namespace. So, we can easily access a facade like so:
 
@@ -141,7 +141,7 @@ There is absolutely no practical difference between facades and helper functions
         return cache('key');
     });
 
-Under the hood, the `cache` helper is going to call the `get` method on the class underlying the `Cache` facade. So, even though we are using the helper function, we can write the following test to verify that the method was called with the argument we expected:
+The `cache` helper is going to call the `get` method on the class underlying the `Cache` facade. So, even though we are using the helper function, we can write the following test to verify that the method was called with the argument we expected:
 
 위의 코드에서 `cache` 헬퍼 함수는 `Cache` 파사드의 `get` 메소드를 호출합니다. 따라서 헬퍼 함수를 사용하더라도, 기대되는 인자와 함께 메소드가 호출되었는지 확인하기 위해서 다음의 테스트를 작성할 수 있습니다.
 

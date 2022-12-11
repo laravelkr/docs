@@ -278,6 +278,14 @@ Scout의 다른 드라이버와 달리, MeiliSearch는 "필터링 가능한" 속
 ],
 ```
 
+After configuring your application's filterable attributes, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured filterable attributes. For convenience, you may wish to make this command part of your deployment process:
+
+애플리케이션의 필터링 가능한 속성을 설정한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 설정된 필터링 가능한 속성을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
+
+```shell
+php artisan scout:sync-index-settings
+```
+
 <a name="configuring-the-model-id"></a>
 ### Configuring The Model ID
 ### 모델 ID 설정하기

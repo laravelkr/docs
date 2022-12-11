@@ -525,7 +525,6 @@ Verb      | URI                               | Action       | Route Name
 GET       | `/profile`                        | show         | profile.show
 GET       | `/profile/edit`                   | edit         | profile.edit
 PUT/PATCH | `/profile`                        | update       | profile.update
-DELETE    | `/profile`                        | destroy      | profile.destroy
 
 Singleton resources may also be nested within a standard resource:
 
@@ -544,7 +543,6 @@ In this example, the `photos` resource would receive all of the [standard resour
 | GET       | `/photos/{photo}/thumbnail`      | show    | photos.thumbnail.show    |
 | GET       | `/photos/{photo}/thumbnail/edit` | edit    | photos.thumbnail.edit    |
 | PUT/PATCH | `/photos/{photo}/thumbnail`      | update  | photos.thumbnail.update  |
-| DELETE    | `/photos/{photo}/thumbnail`      | destroy | photos.thumbnail.destroy |
 
 <a name="creatable-singleton-resources"></a>
 #### Creatable Singleton Resources
@@ -558,9 +556,9 @@ Occasionally, you may want to define creation and storage routes for a singleton
 Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
 ```
 
-In this example, the following routes will be registered:
+In this example, the following routes will be registered. As you can see, a `DELETE` route will also be registered for creatable singleton resources:
 
-이 예에서는 다음 라우트가 등록됩니다.
+이 예에서는 다음 라우트가 등록됩니다. 보시다시피, 생성 가능한 싱글톤 리소스에 대한 `DELETE` 라우트도 등록됩니다.
 
 | Verb      | URI                                | Action  | Route Name               |
 |-----------|------------------------------------|---------|--------------------------|

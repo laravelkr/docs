@@ -293,6 +293,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [policy](#method-policy)
 - [redirect](#method-redirect)
 - [report](#method-report)
+- [report_if](#method-report-if)
+- [report_unless](#method-report-unless)
 - [request](#method-request)
 - [rescue](#method-rescue)
 - [resolve](#method-resolve)
@@ -4381,6 +4383,28 @@ The `report` function also accepts a string as an argument. When a string is giv
 `report` 함수는 문자열을 인자로 받습니다. 문자열이 함수로 전달되면, 함수는 전달된 문자열을 메시지로 갖는 예외를 생성합니다.
 
     report('Something went wrong.');
+
+<a name="method-report-if"></a>
+#### `report_if()` {.collection-method}
+
+The `report_if` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler) if the given condition is `true`:
+
+`report_if` 함수는 주어진 조건이 `true` 인 경우, [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)를 이용하여 예외를 보고합니다.
+
+    report_if($shouldReport, $e);
+
+    report_if($shouldReport, 'Something went wrong.');
+
+<a name="method-report-unless"></a>
+#### `report_unless()` {.collection-method}
+
+The `report_unless` function will report an exception using your [exception handler](/docs/{{version}}/errors#the-exception-handler) if the given condition is `false`:
+
+`report_unless` 함수는 주어진 조건이 `false` 인 경우, [exception 핸들러](/docs/{{version}}/errors#the-exception-handler)를 이용하여 예외를 보고합니다.
+
+    report_unless($reportingDisabled, $e);
+
+    report_unless($reportingDisabled, 'Something went wrong.');
 
 <a name="method-request"></a>
 #### `request()` {.collection-method}

@@ -102,7 +102,7 @@ When you execute this command, Laravel will write a "schema" file to your applic
 
 이 명령을 실행하면 라라벨은 `database/schema` 폴더에 "schema" 파일을 작성합니다. 스키마 파일의 이름은 데이터베이스 커넥션에 따라 지어집니다. 이제 데이터베이스 마이그레이션을 시도하고 다른 마이그레이션이 실행되지 않은 경우 라라벨은 여러분이 사용하고자 하는 데이터베이스 커넥션의 스키마 파일의 SQL 문을 먼저 실행합니다. 스키마 파일의 명령문을 실행한 후 라라벨은 스키마 덤프의 일부가 아닌 나머지 마이그레이션을 실행합니다.
 
-If your application's tests use a different database connection than the one you typically use during local development, you should ensure you have a dumped a schema file using that database connection so that your tests are able to build your database. You may wish to do this after dumping the database connection you typically use during local development:
+If your application's tests use a different database connection than the one you typically use during local development, you should ensure you have dumped a schema file using that database connection so that your tests are able to build your database. You may wish to do this after dumping the database connection you typically use during local development:
 
 애플리케이션의 테스트가 로컬 개발 중에 사용하는 것과 다른 데이터베이스 연결을 사용하는 경우 테스트에서 데이터베이스를 빌드할 수 있도록 해당 데이터베이스 연결을 사용하여 스키마 파일을 덤프했는지 확인해야 합니다. 로컬 개발 중에 일반적으로 사용하는 데이터베이스 연결을 덤프한 후 이 작업을 수행할 수 있습니다.
 

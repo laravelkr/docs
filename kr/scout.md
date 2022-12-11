@@ -255,6 +255,29 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+<a name="configuring-filterable-data-for-meilisearch"></a>
+#### Configuring Filterable Data (MeiliSearch)
+#### 필터링 가능한 데이터 설정하기(MeiliSearch)
+
+Unlike Scout's other drivers, MeiliSearch requires you to pre-define the attributes that will be "filterable". Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method. To define your filterable attributes, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
+
+Scout의 다른 드라이버와 달리, MeiliSearch는 "필터링 가능한" 속성을 미리 정의해야 합니다. 필터링 가능한 속성은 Scout의 `where` 메서드를 호출할 때 필터링할 속성입니다. 필터링 가능한 속성을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 수정하세요.
+
+```php
+'meilisearch' => [
+    'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    'key' => env('MEILISEARCH_KEY', null),
+    'index-settings' => [
+        'users' => [
+            'filterableAttributes'=> ['id', 'name', 'email'],
+        ],
+        'flights' => [
+            'filterableAttributes'=> ['id', 'destination'],
+        ],
+    ],
+],
+```
+
 <a name="configuring-the-model-id"></a>
 ### Configuring The Model ID
 ### 모델 ID 설정하기
@@ -705,6 +728,12 @@ You may use the `whereIn` method to constrain results against a given set of val
 Since a search index is not a relational database, more advanced "where" clauses are not currently supported.
 
 검색 인덱스는 관계형 데이터베이스가 아니므로 현재 고급 "where" 절이 지원되지 않습니다.
+
+> **Warning**
+> If your application is using MeiliSearch, you must configure your application's [filterable attributes](#configuring-filterable-data-for-meilisearch) before utilizing Scout's "where" clauses.
+
+> **Warning**
+> 만약 여러분의 애플리케이션이 MeiliSearch를 사용하고 있다면, 여러분의 애플리케이션의 [필터링 가능한 속성들](#configuring-filterable-data-for-meilisearch)을 설정해야 합니다.
 
 <a name="pagination"></a>
 ### Pagination

@@ -65,6 +65,8 @@
     - [정기 구독 수량 변경하기](#subscription-quantity)
     - [Multiprice Subscriptions](#multiprice-subscriptions)
     - [다중 가격 구독](#multiprice-subscriptions)
+    - [Multiple Subscriptions](#multiple-subscriptions)
+    - [다중 구독](#multiple-subscriptions)
     - [Metered Billing](#metered-billing)
     - [사용량 계산 청구](#metered-billing)
     - [Subscription Taxes](#subscription-taxes)
@@ -1527,6 +1529,40 @@ You can also retrieve a specific price using the `findItemOrFail` method:
     $user = User::find(1);
 
     $subscriptionItem = $user->subscription('default')->findItemOrFail('price_chat');
+
+<a name="multiple-subscriptions"></a>
+### Multiple Subscriptions
+### 다중 구독
+
+Stripe allows your customers to have multiple subscriptions simultaneously. For example, you may run a gym that offers a swimming subscription and a weight-lifting subscription, and each subscription may have different pricing. Of course, customers should be able to subscribe to either or both plans.
+
+Stripe는 고객이 동시에 여러 구독을 가질 수 있도록 허용합니다. 예를 들어 수영 구독과 웨이트 리프팅 구독을 제공하는 헬스장을 운영하고 각 구독에는 다른 가격이 있을 수 있습니다. 물론 고객은 둘 중 하나 또는 둘 다 가입할 수 있어야 합니다.
+
+When your application creates subscriptions, you may provide the name of the subscription to the `newSubscription` method. The name may be any string that represents the type of subscription the user is initiating:
+
+애플리케이션이 구독을 생성할 때 `newSubscription` 메서드에 구독의 이름을 제공할 수 있습니다. 이름은 사용자가 시작하는 구독 유형을 나타내는 어떤 문자열이어도 됩니다.
+
+    use Illuminate\Http\Request;
+
+    Route::post('/swimming/subscribe', function (Request $request) {
+        $request->user()->newSubscription('swimming')
+            ->price('price_swimming_monthly')
+            ->create($request->paymentMethodId);
+
+        // ...
+    });
+
+In this example, we initiated a monthly swimming subscription for the customer. However, they may want to swap to a yearly subscription at a later time. When adjusting the customer's subscription, we can simply swap the price on the `swimming` subscription:
+
+이 예에서는 고객에게 월간 수영 구독을 시작했습니다. 그러나 나중에 연간 구독으로 교체하려고 할 수 있습니다. 고객의 구독을 조정할 때 `swimming` 구독의 가격을 간단히 교체할 수 있습니다.
+
+    $user->subscription('swimming')->swap('price_swimming_yearly');
+
+Of course, you may also cancel the subscription entirely:
+
+물론 구독 전체를 취소할 수도 있습니다.
+
+    $user->subscription('swimming')->cancel();
 
 <a name="metered-billing"></a>
 ### Metered Billing

@@ -53,6 +53,8 @@
     - [구독 수량](#subscription-quantity)
     - [Subscription Modifiers](#subscription-modifiers)
     - [구독 수정](#subscription-modifiers)
+    - [Multiple Subscriptions](#multiple-subscriptions)
+    - [다중 구](#multiple-subscriptions)
     - [Pausing Subscriptions](#pausing-subscriptions)
     - [구독 일시 중지](#pausing-subscriptions)
     - [Cancelling Subscriptions](#cancelling-subscriptions)
@@ -1096,6 +1098,40 @@ Modifiers may be deleted by invoking the `delete` method on a `Laravel\Paddle\Mo
 수정자는 `Laravel\Paddle\Modifier` 인스턴스에서 `delete` 메소드를 호출하여 삭제할 수 있습니다.
 
     $modifier->delete();
+
+<a name="multiple-subscriptions"></a>
+### Multiple Subscriptions
+### 다중 구독
+
+Paddle allows your customers to have multiple subscriptions simultaneously. For example, you may run a gym that offers a swimming subscription and a weight-lifting subscription, and each subscription may have different pricing. Of course, customers should be able to subscribe to either or both plans.
+
+Paddle은 고객이 동시에 여러 구독을 가질 수 있도록 허용합니다. 예를 들어 수영 구독과 웨이트 리프팅 구독을 제공하는 헬스장을 운영하고 각 구독은 다른 가격을 가질 수 있습니다. 물론 고객은 둘 중 하나 또는 둘 다 가입할 수 있어야 합니다.
+
+When your application creates subscriptions, you may provide the name of the subscription to the `newSubscription` method. The name may be any string that represents the type of subscription the user is initiating:
+
+애플리케이션이 구독을 만들 때 `newSubscription` 메소드에 구독 이름을 제공할 수 있습니다. 이름은 사용자가 시작하는 구독 유형을 나타내는 어떤 문자열이어도 됩니다.
+
+    use Illuminate\Http\Request;
+
+    Route::post('/swimming/subscribe', function (Request $request) {
+        $request->user()
+            ->newSubscription('swimming', $swimmingMonthly = 12345)
+            ->create($request->paymentMethodId);
+
+        // ...
+    });
+
+In this example, we initiated a monthly swimming subscription for the customer. However, they may want to swap to a yearly subscription at a later time. When adjusting the customer's subscription, we can simply swap the price on the `swimming` subscription:
+
+이 예에서는 고객에게 월간 수영 구독을 시작했습니다. 그러나 나중에 연간 구독으로 교체하려고 할 수 있습니다. 고객의 구독을 조정할 때 `swimming` 구독의 가격을 간단히 교체할 수 있습니다.
+
+    $user->subscription('swimming')->swap($swimmingYearly = 34567);
+
+Of course, you may also cancel the subscription entirely:
+
+물론 구독을 완전히 취소할 수도 있습니다.
+
+    $user->subscription('swimming')->cancel();
 
 <a name="pausing-subscriptions"></a>
 ### Pausing Subscriptions

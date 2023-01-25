@@ -301,7 +301,7 @@ use App\Models\Flight;
 ],
 ```
 
-If the model underlying a given index is soft deletable and is included in the `index-settings` array, Scout will automatically include support for filtering on soft deleted models on that index. If you have no other filterable or sortable attributes to define for a soft deletable model index, you may simple add an empty entry to the `index-settings` array for that model:
+If the model underlying a given index is soft deletable and is included in the `index-settings` array, Scout will automatically include support for filtering on soft deleted models on that index. If you have no other filterable or sortable attributes to define for a soft deletable model index, you may simply add an empty entry to the `index-settings` array for that model:
 
 만약 주어진 인덱스의 모델이 소프트 삭제가 가능하고 `index-settings` 배열에 포함되어 있다면, 스카우트는 해당 인덱스에서 소프트 삭제된 모델에 대한 필터링을 자동으로 지원합니다. 소프트 삭제가 가능한 모델 인덱스에 필터링이나 정렬 가능한 속성을 정의할 필요가 없다면, 해당 모델을 위한 `index-settings` 배열에 빈 항목을 추가할 수 있습니다.
 

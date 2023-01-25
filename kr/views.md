@@ -64,9 +64,9 @@ Since this view is stored at `resources/views/greeting.blade.php`, we may return
 ### Writing Views In React / Vue
 ### React / Vue 에서 뷰 작성하기
 
-Instead of writing their frontend templates in PHP via Blade, many developers have begun to prefer to write their templates using React or Vue. Laravel makes this painless thanks to [Inertia](https://inertiajs.com/), a library that makes it a cinch to tie your React / Vue frontend to your Laravel backend.
+Instead of writing their frontend templates in PHP via Blade, many developers have begun to prefer to write their templates using React or Vue. Laravel makes this painless thanks to [Inertia](https://inertiajs.com/), a library that makes it a cinch to tie your React / Vue frontend to your Laravel backend without the typical complexities of building an SPA.
 
-Blade를 통해 PHP로 프론트엔드 템플릿을 작성하는 대신, 많은 개발자들이 React 또는 Vue를 사용하여 템플릿을 작성하기를 선호하기 시작했습니다. 라라벨은 [Inertia](https://inertiajs.com/) 라이브러리를 사용하여 React / Vue 프론트엔드를 라라벨 백엔드와 연결하는 것이 쉽도록 도와줍니다.
+Blade를 통해 PHP로 프론트엔드 템플릿을 작성하는 대신, 많은 개발자들이 React 또는 Vue를 사용하여 템플릿을 작성하기를 선호하기 시작했습니다. Laravel은 [Inertia](https://inertiajs.com/) 라이브러리를 사용하여 SPA를 구축하는 일반적인 복잡성 없이 React / Vue 프론트엔드를 Laravel 백엔드에 연결하는 것이 가능하게 해줍니다.
 
 Our Breeze and Jetstream [starter kits](/docs/{{version}}/starter-kits) give you a great starting point for your next Laravel application powered by Inertia. In addition, the [Laravel Bootcamp](https://bootcamp.laravel.com) provides a full demonstration of building a Laravel application powered by Inertia, including examples in Vue and React.
 

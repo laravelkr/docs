@@ -1037,6 +1037,7 @@ Below is a list of all available validation rules and their function:
 - [Alpha Dash](#rule-alpha-dash)
 - [Alpha Numeric](#rule-alpha-num)
 - [Array](#rule-array)
+- [Ascii](#rule-ascii)
 - [Bail](#rule-bail)
 - [Before (Date)](#rule-before)
 - [Before Or Equal (Date)](#rule-before-or-equal)
@@ -1114,6 +1115,7 @@ Below is a list of all available validation rules and their function:
 - [Unique (Database)](#rule-unique)
 - [Uppercase](#rule-uppercase)  
 - [URL](#rule-url)
+- [ULID](#rule-ulid)
 - [UUID](#rule-uuid)
 
 <a name="rule-accepted"></a>
@@ -1219,6 +1221,14 @@ When additional values are provided to the `array` rule, each key in the input a
 In general, you should always specify the array keys that are allowed to be present within your array. 
 
 일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다.
+
+<a name="rule-ascii"></a>
+#### ascii
+#### ascii
+
+The field under validation must be entirely 7-bit ASCII characters.
+
+필드의 값이 완벽하게 7비트 ASCII 문자로 이루어져야 합니다.
 
 <a name="rule-bail"></a>
 #### bail
@@ -2223,6 +2233,14 @@ The field under validation must be uppercase.
 The field under validation must be a valid URL.
 
 필드는 반드시 유효한 URL이어야 합니다.
+
+<a name="rule-ulid"></a>
+#### ulid
+#### ulid
+
+The field under validation must be a valid [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID).
+
+필드는 반드시 유효한 [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID) 여야 합니다.
 
 <a name="rule-uuid"></a>
 #### uuid

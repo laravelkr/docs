@@ -1275,17 +1275,17 @@ If one of your queued jobs is encountering an error, you likely do not want it t
 
 대기 중인 작업 중 하나에 오류가 발생하는 경우 계속해서 재시도하는 것을 무기한으로 원하지 않을 수 있습니다. 따라서 라라벨은 작업을 시도할 수 있는 횟수 또는 기간을 지정하는 다양한 방법을 제공합니다.
 
-One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies a more specific number of times it may be attempted:
+One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies the number of times it may be attempted:
 
-작업을 시도할 수 있는 최대 횟수를 지정하는 한 가지 방법은 Artisan 명령줄의 `--tries` 스위치를 사용하는 것입니다. 이 옵션은 처리 중인 작업이 더 구체적인 시도 횟수를 지정하지 않는 한 worker가 처리하는 모든 작업에 적용됩니다.
+작업을 시도할 수 있는 최대 횟수를 지정하는 한 가지 방법은 Artisan 명령줄의 `--tries` 스위치를 사용하는 것입니다. 이 옵션은 처리 중인 작업이 시도 횟수를 지정하지 않는 한 worker가 처리하는 모든 작업에 적용됩니다.
 
 ```shell
 php artisan queue:work --tries=3
 ```
 
-If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).
+If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).  If `--tries=0` is provided to the `queue:work` command, the job will retried indefinitely.
 
-작업이 최대 시도 횟수를 초과하면 "실패한" 작업으로 간주됩니다. 실패한 작업 처리에 대한 자세한 내용은 [실패한 작업 문서](#dealing-with-failed-jobs)를 참조하십시오.
+작업이 최대 시도 횟수를 초과하면 "실패한" 작업으로 간주됩니다. 실패한 작업 처리에 대한 자세한 내용은 [실패한 작업 문서](#dealing-with-failed-jobs)를 참조하십시오. `queue:work` 명령에 `--tries=0`을 제공하면 작업은 무기한으로 재시도됩니다.
 
 You may take a more granular approach by defining the maximum number of times a job may be attempted on the job class itself. If the maximum number of attempts is specified on the job, it will take precedence over the `--tries` value provided on the command line:
 

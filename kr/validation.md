@@ -1048,6 +1048,7 @@ Below is a list of all available validation rules and their function:
 - [Date](#rule-date)
 - [Date Equals](#rule-date-equals)
 - [Date Format](#rule-date-format)
+- [Decimal](#rule-decimal)
 - [Declined](#rule-declined)
 - [Declined If](#rule-declined-if)
 - [Different](#rule-different)
@@ -1319,6 +1320,20 @@ The field under validation must be equal to the given date. The dates will be pa
 The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
 검증 중인 필드는 지정된 _format_ 과 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+
+<a name="rule-decimal"></a>
+#### decimal:_min_,_max_
+#### decimal:_min_,_max_
+
+The field under validation must be numeric and must contain the specified number of decimal places:
+
+검증 중인 필드는 숫자이고 지정된 소수점 자릿수를 포함해야 합니다.
+
+    // Must have exactly two decimal places (9.99)...
+    'price' => 'decimal:2'
+
+    // Must have between 2 and 4 decimal places...
+    'price' => 'decimal:2,4'
 
 <a name="rule-declined"></a>
 #### declined

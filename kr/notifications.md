@@ -310,7 +310,24 @@ By default, queued notifications will be queued using your application's default
      */
     public $connection = 'redis';
 
+Or, if you would like to specify a specific queue connection that should be used for each notification channel supported by the notification, you may define a `viaConnections` method on your notification. This method should return an array of channel name / queue connection name pairs:
 
+또는 알림이 지원하는 각 알림 채널에 사용해야 하는 특정 대기열 연결을 지정하려면 알림에 `viaConnections` 메서드를 정의할 수 있습니다. 이 메서드는 채널 이름/대기열 연결 이름 쌍의 배열을 반환해야 합니다.
+
+    /**
+     * Determine which connections should be used for each notification channel.
+     *
+     * @return array
+     */
+    public function viaConnections()
+    {
+        return [
+            'mail' => 'redis',
+            'database' => 'sync',
+        ];
+    }
+
+<a name="customizing-notification-channel-queues"></a>
 #### Customizing Notification Channel Queues
 #### 알림 채널 대기열 커스터마이징
 
@@ -328,23 +345,6 @@ If you would like to specify a specific queue that should be used for each notif
         return [
             'mail' => 'mail-queue',
             'slack' => 'slack-queue',
-        ];
-    }
-
-Likewise, if you would like to specify a specific queue connection that should be used for each notification channel supported by the notification, you may define a `viaConnections` method on your notification. This method should return an array of channel name / queue connection name pairs:
-
-마찬가지로, 알림이 지원하는 각 알림 채널에 사용해야하는 특정 대기열 연결을 지정하려면 알림에 `viaConnections` 메소드를 정의 할 수 있습니다. 이 메서드는 채널 이름 / 대기열 연결 이름 쌍의 배열을 반환해야합니다.
-
-    /**
-     * Determine which connections should be used for each notification channel.
-     *
-     * @return array
-     */
-    public function viaConnections()
-    {
-        return [
-            'mail' => 'redis',
-            'database' => 'sync',
         ];
     }
 

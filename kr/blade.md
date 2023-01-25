@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+  - [Supercharging Blade With Livewire](#supercharging-blade-with-livewire)
+  - [Livewire로 Blade 강화하기](#supercharging-blade-with-livewire)
 - [Displaying Data](#displaying-data)
 - [데이터 표시](#displaying-data)
     - [HTML Entity Encoding](#html-entity-encoding)
@@ -107,8 +109,13 @@ Blade views may be returned from routes or controllers using the global `view` h
 > **Note**
 > Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com).
 
-> **Note**
-> 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https://laravel-livewire.com) 를 확인하세요.
+<a name="supercharging-blade-with-livewire"></a>
+### Supercharging Blade With Livewire
+### 라이브와이어로 블레이드 강화하기
+
+Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com). Livewire allows you to write Blade components that are augmented with dynamic functionality that would typically only be possible via frontend frameworks like React or Vue, providing a great approach to building modern, reactive frontends without the complexities, client-side rendering, or build steps of many JavaScript frameworks.
+
+블레이드 템플릿을 한 단계 높은 수준으로 끌어올리고 쉽게 동적 인터페이스를 구축하고 싶나요? [Laravel Livewire](https://laravel-livewire.com)를 확인하세요. Livewire는 일반적으로 React 또는 Vue와 같은 프론트엔드 프레임워크를 통해서만 가능했던 동적 기능을 블레이드 컴포넌트도 할 수 있도록 허용합니다. 이는 많은 JavaScript 프레임워크의 복잡성, 클라이언트 측 렌더링 또는 빌드 단계 없이 최신의 반응형 프론트엔드를 구축하는 데 좋은 접근 방식을 제공합니다.
 
 <a name="displaying-data"></a>
 ## Displaying Data

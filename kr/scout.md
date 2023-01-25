@@ -281,22 +281,29 @@ Filterable attributes are any attributes you plan to filter on when invoking Sco
 필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
 
 ```php
+use App\Models\User;
+use App\Models\Flight;
+
 'meilisearch' => [
     'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
     'key' => env('MEILISEARCH_KEY', null),
     'index-settings' => [
-        'users' => [
+        User::class => [
             'filterableAttributes'=> ['id', 'name', 'email'],
             'sortableAttributes' => ['created_at'],
             // Other settings fields...
         ],
-        'flights' => [
+        Flight::class => [
             'filterableAttributes'=> ['id', 'destination'],
             'sortableAttributes' => ['updated_at'],
         ],
     ],
 ],
 ```
+
+If the model underlying a given index is soft deletable, Scout will automatically include support for filtering on soft deleted models to that index.
+
+만약 주어진 인덱스의 모델이 소프트 삭제가 가능하다면, 스카우트는 자동으로 소프트 삭제된 모델을 필터링하는 것을 지원합니다.
 
 After configuring your application's index settings, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured index settings. For convenience, you may wish to make this command part of your deployment process:
 

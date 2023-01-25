@@ -317,13 +317,13 @@ The Laravel Vite plugin provides a convenient `resolvePageComponent` function to
 
 ```js
 import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 createInertiaApp({
   resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
+    return createApp({ render: () => h(App, props) })
       .use(plugin)
       .mount(el)
   },
@@ -336,7 +336,7 @@ createInertiaApp({
 <a name="url-processing"></a>
 ### URL Processing
 
-When using Vite and referencing assets in your application's HTML, CSS, or JS, there are a couple of things to consider. First, if you reference assets with an absolute path, Vite will not include the asset in the build; therefore, you should ensure that the asset is available in your public directory.
+When using Vite and referencing assets in your application's HTML, CSS, or JS, there are a couple of caveats to consider. First, if you reference assets with an absolute path, Vite will not include the asset in the build; therefore, you should ensure that the asset is available in your public directory.
 
 When referencing relative asset paths, you should remember that the paths are relative to the file where they are referenced. Any assets referenced via a relative path will be re-written, versioned, and bundled by Vite.
 

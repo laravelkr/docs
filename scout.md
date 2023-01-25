@@ -181,6 +181,17 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+Some search engines such as MeiliSearch will only perform filter operations (`>`, `<`, etc.) on data of the correct type. So, when using these search engines and customizing your searchable data, you should ensure that numeric values are cast to their correct type:
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'price' => (float) $this->price,
+        ];
+    }
+
 <a name="configuring-filterable-data-for-meilisearch"></a>
 #### Configuring Filterable Data & Index Settings (MeiliSearch)
 
@@ -189,20 +200,31 @@ Unlike Scout's other drivers, MeiliSearch requires you to pre-define index searc
 Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method, while sortable attributes are any attributes you plan to sort by when invoking Scout's `orderBy` method. To define your index settings, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
 
 ```php
+use App\Models\User;
+use App\Models\Flight;
+
 'meilisearch' => [
     'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
     'key' => env('MEILISEARCH_KEY', null),
     'index-settings' => [
-        'users' => [
+        User::class => [
             'filterableAttributes'=> ['id', 'name', 'email'],
             'sortableAttributes' => ['created_at'],
             // Other settings fields...
         ],
-        'flights' => [
+        Flight::class => [
             'filterableAttributes'=> ['id', 'destination'],
             'sortableAttributes' => ['updated_at'],
         ],
     ],
+],
+```
+
+If the model underlying a given index is soft deletable and is included in the `index-settings` array, Scout will automatically include support for filtering on soft deleted models on that index. If you have no other filterable or sortable attributes to define for a soft deletable model index, you may simply add an empty entry to the `index-settings` array for that model:
+
+```php
+'index-settings' => [
+    Flight::class => []
 ],
 ```
 

@@ -104,7 +104,7 @@ In order to use the `redis` queue driver, you should configure a Redis database 
 
 **Redis Cluster**
 
-If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
+If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/docs/reference/cluster-spec/#hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
 
     'redis' => [
         'driver' => 'redis',
@@ -996,13 +996,13 @@ Alternatively, you may specify the job's connection by calling the `onConnection
 
 If one of your queued jobs is encountering an error, you likely do not want it to keep retrying indefinitely. Therefore, Laravel provides various ways to specify how many times or for how long a job may be attempted.
 
-One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies a more specific number of times it may be attempted:
+One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies the number of times it may be attempted:
 
 ```shell
 php artisan queue:work --tries=3
 ```
 
-If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).
+If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs). If `--tries=0` is provided to the `queue:work` command, the job will retried indefinitely.
 
 You may take a more granular approach by defining the maximum number of times a job may be attempted on the job class itself. If the maximum number of attempts is specified on the job, it will take precedence over the `--tries` value provided on the command line:
 
@@ -1174,9 +1174,11 @@ Occasionally you may need to manually mark a job as "failed". To do so, you may 
         $this->fail();
     }
 
-If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method:
+If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method. Or, for convenience, you may pass a string error message which will be converted to an exception for you:
 
     $this->fail($exception);
+
+    $this->fail('Something went wrong.');
 
 > **Note**  
 > For more information on failed jobs, check out the [documentation on dealing with job failures](#dealing-with-failed-jobs).

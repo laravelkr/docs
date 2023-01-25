@@ -633,6 +633,13 @@ The `when` method also accepts a closure as its second argument, allowing you to
         return 'secret-value';
     }),
 
+The `whenHas` method may be used to include an attribute if it is actually present on the underlying model:
+
+`whenHas` 메소드는 기본 모델에 실제로 존재하는 경우에 속성을 포함시키는데 사용됩니다.
+
+    'name' => $this->whenHas('name'),
+
+
 Additionally, the `whenNotNull` method may be used to include an attribute in the resource response if the attribute is not null:
 
 추가적으로, `whenNotNull` 메서드는 속성이 null이 아닐 때 리소스 응답에 속성을 포함할 때 사용합니다.

@@ -633,13 +633,13 @@ Choosing good CSS selectors for interacting with elements is one of the hardest 
 
     $browser->click('.login-page .container div > button');
 
-Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `dusk` attribute to your HTML element. Then, when interacting with a Dusk browser, prefix the selector with `@` to manipulate the attached element within your test:
+Dusk selectors allow you to focus on writing effective tests rather than remembering CSS selectors. To define a selector, add a `data-dusk` attribute to your HTML element. Then, when interacting with a Dusk browser, prefix the selector with `@` to manipulate the attached element within your test:
 
-Dusk 선택자를 사용하면 CSS 선택자를 외우는 대신 효과적인 테스트 작성에 집중할 수 있습니다. 선택자를 정의하려면 HTML 요소에 `dusk` 속성을 추가하세요. 그런 다음 Dusk 브라우저와 상호 작용할 때 선택자에 `@` 접두사를 붙여 테스트 내에서 연결된 요소를 조작합니다.
+Dusk 선택자를 사용하면 CSS 선택자를 외우는 대신 효과적인 테스트 작성에 집중할 수 있습니다. 선택자를 정의하려면 HTML 요소에 `data-dusk` 속성을 추가하세요. 그런 다음 Dusk 브라우저와 상호 작용할 때 선택자에 `@` 접두사를 붙여 테스트 내에서 연결된 요소를 조작합니다.
 
     // HTML...
 
-    <button dusk="login-button">Login</button>
+    <button data-dusk="login-button">Login</button>
 
     // Test...
 
@@ -2117,7 +2117,7 @@ Dusk를 사용하면 [Vue component](https://vuejs.org) 데이터의 상태에 �
 
     // HTML...
 
-    <profile dusk="profile-component"></profile>
+    <profile data-dusk="profile-component"></profile>
 
     // Component Definition...
 

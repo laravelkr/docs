@@ -660,9 +660,9 @@ The `whereNot` and `orWhereNot` methods may be used to negate a given group of q
 ### JSON Where Clauses
 ### JSON Where 절
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7+, PostgreSQL, SQL Server 2016, and SQLite 3.9.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
+Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7+, PostgreSQL, SQL Server 2016, and SQLite 3.39.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
 
-라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.9.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
+라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.39.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')

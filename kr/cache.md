@@ -76,7 +76,7 @@ The cache configuration file also contains various other options, which are docu
 #### Database
 #### 데이터베이스
 
-When using the `database` cache driver, you will need to setup a table to contain the cache items. You'll find an example `Schema` declaration for the table below:
+When using the `database` cache driver, you will need to set up a table to contain the cache items. You'll find an example `Schema` declaration for the table below:
 
 `database` 캐시 드라이버를 사용할 때에는, 캐시 정보를 담아둘 테이블을 설정할 필요가 있습니다. 다음과 같이 테이블을 설정하는 `Scheme`를 확인하십시오.
 
@@ -448,7 +448,7 @@ In contrast, this statement would remove only cached values tagged with `authors
 #### Database
 #### Database
 
-When using the `database` cache driver, you will need to setup a table to contain your application's cache locks. You'll find an example `Schema` declaration for the table below:
+When using the `database` cache driver, you will need to set up a table to contain your application's cache locks. You'll find an example `Schema` declaration for the table below:
 
 `database` 캐시 드라이버를 사용하는 경우 캐시 잠금을 포함하도록 테이블을 설정해야합니다. 아래에서 대한 테이블의 `Schema` 선언 예제를 찾을 수 있습니다.
 

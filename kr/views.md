@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+  - [Writing Views In React / Vue](#writing-views-in-react-or-vue)
+  - [React / Vue 에서 뷰 작성하기](#writing-views-in-react-or-vue)
 - [Creating & Rendering Views](#creating-and-rendering-views)
 - [뷰파일 생성 & 렌더](#creating-and-rendering-views)
   - [Nested View Directories](#nested-view-directories)
@@ -26,9 +28,13 @@
 ## Introduction
 ## 시작하기
 
-Of course, it's not practical to return entire HTML documents strings directly from your routes and controllers. Thankfully, views provide a convenient way to place all of our HTML in separate files. Views separate your controller / application logic from your presentation logic and are stored in the `resources/views` directory. A simple view might look something like this:
+Of course, it's not practical to return entire HTML documents strings directly from your routes and controllers. Thankfully, views provide a convenient way to place all of our HTML in separate files. 
 
-물론 route와 controller에서 직접 전체 HTML 문서 문자열을 반환하는 것은 현실적이지 않습니다. 고맙게도 뷰-View는 모든 HTML을 별도의 파일에 배치할 수 있는 편리한 방법을 제공합니다. 뷰-View는 컨트롤러 / 애플리케이션 로직을 프레젠테이션 로직과 분리하고 `resources/views` 디렉토리에 저장됩니다. 간단한 뷰-View 파일의 경우 다음처럼 보일 것입니다.
+물론 route와 controller에서 직접 전체 HTML 문서 문자열을 반환하는 것은 현실적이지 않습니다. 고맙게도 뷰-View는 모든 HTML을 별도의 파일에 배치할 수 있는 편리한 방법을 제공합니다.
+
+Views separate your controller / application logic from your presentation logic and are stored in the `resources/views` directory.  When using Laravel, view templates are usually written using the [Blade templating language](/docs/{{version}}/blade). A simple view might look something like this:
+
+뷰-View는 컨트롤러 / 애플리케이션 로직을 프레젠테이션 로직과 분리하고 `resources/views` 디렉토리에 저장됩니다. 라라벨을 사용할 때 뷰 템플릿은 주로 [블레이드 템플릿 언어](/docs/{{version}}/blade)를 이용해서 작성됩니다. 간단한 뷰-View 파일의 경우 다음처럼 보일 것입니다.
 
 ```blade
 <!-- View stored in resources/views/greeting.blade.php -->
@@ -53,6 +59,18 @@ Since this view is stored at `resources/views/greeting.blade.php`, we may return
 
 > **Note**
 > blade 템플릿 작성 방법에 대한 자세한 정보를 찾고 계십니까? 시작하려면 전체 [blade 문서](/docs/{{version}}/blade)를 확인하세요.
+
+<a name="writing-views-in-react-or-vue"></a>
+### Writing Views In React / Vue
+### React / Vue 에서 뷰 작성하기
+
+Instead of writing their frontend templates in PHP via Blade, many developers have begun to prefer to write their templates in React or Vue. Laravel makes this painless thanks to [Inertia](https://inertiajs.com/), a library that makes it a cinch to tie your React / Vue frontend to your Laravel backend.
+
+Blade를 통해 PHP로 프론트엔드 템플릿을 작성하는 대신, 많은 개발자들이 React 또는 Vue로 템플릿을 작성하기를 선호하기 시작했습니다. 라라벨은 [Inertia](https://inertiajs.com/) 라이브러리를 사용하여 React / Vue 프론트엔드를 라라벨 백엔드와 연결하기 쉽게 도와줍니다.
+
+Our Breeze and Jetstream [starter kits](/docs/{{version}}/starter-kits) give you a great starting point for your next Laravel application powered by Inertia. In addition, the [Laravel Bootcamp](https://bootcamp.laravel.com) provides a full demonstration of building a Laravel application powered by Inertia, including examples in Vue and React.
+
+Breeze와 Jetstream [스타터 키트](/docs/{{version}}/starter-kits)는 Inertia를 사용한 라라벨 애플리케이션의 다음 단계를 위한 좋은 출발점을 제공합니다. 또한 [Laravel Bootcamp](https://bootcamp.laravel.com)에서는 Vue 및 React를 포함하여 Inertia를 사용하여 라라벨 애플리케이션을 구축하는 전체 데모를 제공합니다.
 
 <a name="creating-and-rendering-views"></a>
 ## Creating & Rendering Views

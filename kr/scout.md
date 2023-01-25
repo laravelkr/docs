@@ -255,6 +255,19 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+Some search engines such as MeiliSearch will only perform filter operations (`>`, `<`, etc.) on data of the correct type. So, when using these search engines and customizing your searchable data, you should ensure that numeric values are cast to their correct type:
+
+MeiliSearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 대해서만 필터링 연산(`>`, `<`, 등)을 수행합니다. 그래서 이러한 검색 엔진을 사용하고 검색 데이터를 커스터마이징 할 때는, 숫자 값이 올바른 타입으로 변환되어 있는지 확인해야 합니다.
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'price' => (float) $this->price,
+        ];
+    }
+
 <a name="configuring-filterable-data-for-meilisearch"></a>
 #### Configuring Filterable Data & Index Settings (MeiliSearch)
 #### 필터링 가능한 데이터 설정하기(MeiliSearch)

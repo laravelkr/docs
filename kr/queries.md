@@ -759,6 +759,28 @@ The `whereNotIn` method verifies that the given column's value is not contained 
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
+You may also provide a query object as the `whereIn` method's second argument:
+
+`whereIn` 메소드의 두번째 인자로 쿼리 객체를 제공할 수도 있습니다.
+
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 0);
+
+    $users = DB::table('comments')
+                        ->whereIn('user_id', $activeUsers)
+                        ->get();
+
+The example above will produce the following SQL:
+
+위의 예제는 다음과 같은 SQL을 생성합니다.
+
+```sql
+select * from comments where user_id in (
+    select id
+    from users
+    where is_active = 0
+)
+```
+
 > **Warning**
 > If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 

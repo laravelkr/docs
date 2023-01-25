@@ -331,6 +331,24 @@ If you would like to specify a specific queue that should be used for each notif
         ];
     }
 
+Likewise, if you would like to specify a specific queue connection that should be used for each notification channel supported by the notification, you may define a `viaConnections` method on your notification. This method should return an array of channel name / queue connection name pairs:
+
+마찬가지로, 알림이 지원하는 각 알림 채널에 사용해야하는 특정 대기열 연결을 지정하려면 알림에 `viaConnections` 메소드를 정의 할 수 있습니다. 이 메서드는 채널 이름 / 대기열 연결 이름 쌍의 배열을 반환해야합니다.
+
+    /**
+     * Determine which connections should be used for each notification channel.
+     *
+     * @return array
+     */
+    public function viaConnections()
+    {
+        return [
+            'mail' => 'redis',
+            'database' => 'sync',
+        ];
+    }
+
+<a name="queued-notifications-and-database-transactions"></a>
 #### Queued Notifications & Database Transactions
 #### 대기 중인 알림 및 데이터베이스 트랜잭션
 

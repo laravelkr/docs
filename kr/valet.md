@@ -178,17 +178,17 @@ If your application needs a database, check out [DBngin](https://dbngin.com). DB
 #### Resetting Your Installation
 #### 설치 재설정
 
-If you are having trouble getting your Valet installation to run properly, executing the `composer global update` command followed by `valet install` will reset your installation and can solve a variety of problems. In rare cases, it may be necessary to "hard reset" Valet by executing `valet uninstall --force` followed by `valet install`.
+If you are having trouble getting your Valet installation to run properly, executing the `composer global require laravel/valet` command followed by `valet install` will reset your installation and can solve a variety of problems. In rare cases, it may be necessary to "hard reset" Valet by executing `valet uninstall --force` followed by `valet install`.
 
-발렛 설치를 제대로 실행하는 데 문제가 있는 경우 `composer global update` 명령 다음에 `valet install`을 실행하면 설치가 재설정되고 다양한 문제를 해결할 수 있습니다. 드문 경우지만 `valet uninstall --force` 다음에 `valet install`을 실행하여 발렛을 "강제 초기화"해야 할 수도 있습니다.
+발렛 설치를 제대로 실행하는 데 문제가 있는 경우 `composer global require laravel/valet` 명령 다음에 `valet install`을 실행하면 설치가 재설정되고 다양한 문제를 해결할 수 있습니다. 드문 경우지만 `valet uninstall --force` 다음에 `valet install`을 실행하여 발렛을 "강제 초기화"해야 할 수도 있습니다.
 
 <a name="upgrading-valet"></a>
 ### Upgrading Valet
 ### 발렛 업그레이드
 
-You may update your Valet installation by executing the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
+You may update your Valet installation by executing the `composer global require laravel/valet` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
-터미널에서 `composer global update` 명령을 실행하여 발렛 설치를 업데이트할 수 있습니다. 업그레이드 후에는 발렛이 필요할 경우, 설정 파일을 추가로 업그레이드할 수 있도록 `valet install` 명령을 실행하는 것이 좋습니다.
+터미널에서 `composer global require laravel/valet` 명령을 실행하여 발렛 설치를 업데이트할 수 있습니다. 업그레이드 후에는 발렛이 필요할 경우, 설정 파일을 추가로 업그레이드할 수 있도록 `valet install` 명령을 실행하는 것이 좋습니다.
 
 <a name="serving-sites"></a>
 ## Serving Sites

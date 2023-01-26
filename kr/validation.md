@@ -1945,17 +1945,43 @@ The field under validation must be present in the input data but can be empty.
 #### prohibited
 #### prohibited
 
-The field under validation must be an empty string or not present.
+The field under validation must be missing or "empty". A field is "empty" if it meets one of the following criteria:
 
-필드가 비어있거나 존재하지 않아야 합니다.
+검증 중인 필드가 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 #### prohibited_if:_anotherfield_,_value_,...
 
-The field under validation must be an empty string or not present if the _anotherfield_ field is equal to any _value_.
+The field under validation must be missing or "empty" if the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-_anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 필드는 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 If complex conditional prohibition logic is required, you may utilize the `Rule::prohibitedIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be prohibited:
 
@@ -1976,17 +2002,43 @@ If complex conditional prohibition logic is required, you may utilize the `Rule:
 #### prohibited_unless:_anotherfield_,_value_,...
 #### prohibited_unless:_anotherfield_,_value_,...
 
-The field under validation must be an empty string or not present unless the _anotherfield_ field is equal to any _value_.
+The field under validation must be missing or "empty" unless the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-유효성 검사 중인 필드는 _anotherfield_ 필드가 _value_ 와 같지 않으면 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-prohibits"></a>
 #### prohibits:_anotherfield_,...
 #### prohibits:_anotherfield_,...
 
-If the field under validation is present, no fields in _anotherfield_ can be present, even if empty.
+If the field under validation is not missing or "empty", all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
 
-유효성 검사 중인 필드가 있는 경우 비어 있더라도 _anotherfield_ 에 필드가 있을 수 없습니다.
+검증 중인 필드가 누락되거나 "비어있지 않은" 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-regex"></a>
 #### regex:_pattern_

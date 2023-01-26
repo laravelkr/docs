@@ -331,10 +331,10 @@ For this feature to work properly, your customer's billing details, such as the 
 해당 기능이 올바르기 동작하기 위해서는 고객의 이름, 주소 그리고 tax ID와 같은 고객의 청구 상세 정보가 Stripe와 동기화 되도록 필요로 합니다. 동기화가 되도록 [customer data synchronization](#syncing-customer-data-with-stripe) 그리고 [Tax ID](#tax-ids) 메소드 들을 제공할 것 입니다.
 
 > **Note**
-> Unfortunately, for now, no tax is calculated for [single charges](#single-charges) or [single charge checkouts](#single-charge-checkouts). In addition, Stripe Tax is currently "invite-only" during its beta period. You can request access to Stripe Tax via the [Stripe Tax website](https://stripe.com/tax#request-access).
+> No tax is calculated for [single charges](#single-charges) or [single charge checkouts](#single-charge-checkouts).
 
 > **Note**
-> [single charges](#single-charges) 또는 [single charge checkouts](#single-charge-checkouts) 을 참고 바랍니다. 그리고, Stripe Tax는 현재 베타기간 동안 초대 받은 유저만 사용할 수 있습니다. 사용을 하고자 하신다면 [Stripe Tax website](https://stripe.com/tax#request-access) 에서 요청 하실 수 있습니다.
+> [single charges](#single-charges) 또는 [single charge checkouts](#single-charge-checkouts) 에서는 세금이 계산되지 않습니다.
 
 
 <a name="logging"></a>

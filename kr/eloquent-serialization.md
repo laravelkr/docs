@@ -168,6 +168,14 @@ Likewise, if you would like to hide some attributes that are typically visible, 
 
     return $user->makeHidden('attribute')->toArray();
 
+If you wish to temporarily override all of the visible or hidden attributes, you may use the `setVisible` and `setHidden` methods respectively:
+
+모든 visible 또는 hidden 속성을 일시적으로 덮어쓰려면 `setVisible` 및 `setHidden` 메소드를 각각 사용할 수 있습니다.
+
+    return $user->setVisible(['id', 'name'])->toArray();
+
+    return $user->setHidden(['email', 'password', 'remember_token'])->toArray();
+
 <a name="appending-values-to-json"></a>
 ## Appending Values To JSON
 ## JSON 변환시 특정 값 추가하기

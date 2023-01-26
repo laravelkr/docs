@@ -763,7 +763,7 @@ You may also provide a query object as the `whereIn` method's second argument:
 
 `whereIn` 메소드의 두번째 인자로 쿼리 객체를 제공할 수도 있습니다.
 
-    $activeUsers = DB::table('users')->select('id')->where('is_active', 0);
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
 
     $users = DB::table('comments')
                         ->whereIn('user_id', $activeUsers)
@@ -777,7 +777,7 @@ The example above will produce the following SQL:
 select * from comments where user_id in (
     select id
     from users
-    where is_active = 0
+    where is_active = 1
 )
 ```
 

@@ -1945,9 +1945,9 @@ The field under validation must be present in the input data but can be empty.
 #### prohibited
 #### prohibited
 
-The field under validation may not be present.
+The field under validation must be an empty string or not present.
 
-검증 중인 필드는 존재하지 않아야 합니다.
+필드가 비어있거나 존재하지 않아야 합니다.
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...

@@ -265,6 +265,24 @@ Typically, after updating the disk's credentials to match the credentials of the
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
+<a name="minio"></a>
+#### MinIO
+#### MinIO
+
+In order for Laravel's Flysystem integration to generate proper URLs when using MinIO, you should define the `AWS_URL` environment variable so that it matches your application's local URL and includes the bucket name in the URL path:
+
+Laravel의 Flysystem 통합이 MinIO를 사용할 때 올바른 URL을 생성하도록 하려면 `AWS_URL` 환경 변수를 정의하여 애플리케이션의 로컬 URL과 URL 경로에 버킷 이름이 포함되도록 해야 합니다.
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+> **Warning**  
+> Generating temporary storage URLs via the `temporaryUrl` method is not supported when using MinIO.
+
+> **Warning**  
+> MinIO를 사용할 때는 `temporaryUrl` 메소드를 통해 임시 저장소 URL을 생성하는 것은 지원되지 않습니다.
+
 <a name="obtaining-disk-instances"></a>
 ## Obtaining Disk Instances
 ## 디스크 인스턴스 획득하기

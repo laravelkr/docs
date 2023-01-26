@@ -78,6 +78,14 @@ If you would like Pint to simply inspect your code for style errors without actu
 ./vendor/bin/pint --test
 ```
 
+If you would like Pint to only modify the files that have uncommitted changes according to Git, you may use the `--dirty` option:
+
+파인트가 Git에 따라 커밋되지 않은 변경 사항이 있는 파일만 수정하도록 하려면 `--dirty` 옵션을 사용하면 됩니다.
+
+```shell
+./vendor/bin/pint --dirty
+```
+
 <a name="configuring-pint"></a>
 ## Configuring Pint
 ## 파인트 설정하기

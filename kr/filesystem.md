@@ -471,6 +471,12 @@ The `lastModified` method returns the UNIX timestamp of the last time the file w
 
     $time = Storage::lastModified('file.jpg');
 
+The MIME type of a given file may be obtained via the `mimeType` method:
+
+주어진 파일의 MIME 타입은 `mimeType` 메소드를 통해 조회할 수 있습니다.
+
+    $mime = Storage::mimeType('file.jpg')
+
 <a name="file-paths"></a>
 #### File Paths
 #### 파일 경로

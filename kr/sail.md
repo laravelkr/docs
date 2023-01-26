@@ -551,9 +551,9 @@ sail up
 ## Node Versions
 ## Node 버전
 
-Sail installs Node 16 by default. To change the Node version that is installed when building your images, you may update the `build.args` definition of the `laravel.test` service in your application's `docker-compose.yml` file:
+Sail installs Node 18 by default. To change the Node version that is installed when building your images, you may update the `build.args` definition of the `laravel.test` service in your application's `docker-compose.yml` file:
 
-Sail은 기본적으로 Node 16을 설치합니다. 이미지가 빌드될 때 설치된 Node 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 서비스의 `build.args` 정의를 업데이트하십시오.
+Sail은 기본적으로 Node 18을 설치합니다. 이미지가 빌드될 때 설치된 Node 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 서비스의 `build.args` 정의를 업데이트하십시오.
 
 ```yaml
 build:

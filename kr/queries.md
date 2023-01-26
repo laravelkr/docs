@@ -1315,7 +1315,7 @@ In addition, you may increment or decrement multiple columns at once using the `
 
 또한 `incrementEach` 와 `decrementEach` 메소드를 사용하여 한 번에 여러 컬럼을 증가 또는 감소시킬 수 있습니다.
 
-    DB::table('users')->increment([
+    DB::table('users')->incrementEach([
         'votes' => 5,
         'balance' => 100,
     ]);

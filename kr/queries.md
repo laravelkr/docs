@@ -1305,11 +1305,20 @@ The query builder also provides convenient methods for incrementing or decrement
 
     DB::table('users')->decrement('votes', 5);
 
-You may also specify additional columns to update during the operation:
+If needed, you may also specify additional columns to update during the increment or decrement operation:
 
-또한 이 작업을 수행하는 동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다.
+필요한 경우 증가 또는 감소 작업 중에 업데이트할 추가 컬럼을 지정할 수 있습니다.
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
+
+In addition, you may increment or decrement multiple columns at once using the `incrementEach` and `decrementEach` methods:
+
+또한 `incrementEach` 와 `decrementEach` 메소드를 사용하여 한 번에 여러 컬럼을 증가 또는 감소시킬 수 있습니다.
+
+    DB::table('users')->increment([
+        'votes' => 5,
+        'balance' => 100,
+    ]);
 
 <a name="delete-statements"></a>
 ## Delete Statements

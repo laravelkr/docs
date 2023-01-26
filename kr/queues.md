@@ -1498,11 +1498,13 @@ Occasionally you may need to manually mark a job as "failed". To do so, you may 
         $this->fail();
     }
 
-If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method:
+If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method. Or, for convenience, you may pass a string error message which will be converted to an exception for you:
 
-예외 때문에 작업을 실패한 것으로 표시하려면, catch를 통해 잡은 예외를 `fail` 메서드에 전달하면 됩니다.
+예외 때문에 작업을 실패한 것으로 표시하려면, catch를 통해 잡은 예외를 `fail` 메서드에 전달하면 됩니다. 또는 편의를 위해 문자열 오류 메시지를 전달할 수도 있습니다. 이는 예외로 변환됩니다.
 
     $this->fail($exception);
+
+    $this->fail('Something went wrong.');
 
 > **Note**
 > For more information on failed jobs, check out the [documentation on dealing with job failures](#dealing-with-failed-jobs).

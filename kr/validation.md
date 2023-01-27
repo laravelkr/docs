@@ -2062,7 +2062,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 #### required
 #### required
 
-The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
+The field under validation must be present in the input data and not empty. A field is "empty" if it meets one of the following criteria:
 
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다.
 

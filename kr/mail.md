@@ -1459,7 +1459,7 @@ Laravel includes support for some existing Symfony maintained mail transports li
 라라벨은 Symfony가 관리하는 Mailgun 과 Postmark 와 같은 메일 전송 지원을 포함하고 있습니다. 하지만 추가적인 Symfony 메일 전송기능을 사용할 수도 있습니다. 컴포저를 통해서 필요한 Symfony 메일러를 설치하고 라라벨에 등록하면 됩니다. 예를들어 다음과 같이 "Sendinblue" Symfony 메일러를 설치하고 등록할 수 있습니다. 
 
 ```shell
-composer require symfony/sendinblue-mailer
+composer require symfony/sendinblue-mailer symfony/http-client
 ```
 
 Once the Sendinblue mailer package has been installed, you may add an entry for your Sendinblue API credentials to your application's `services` configuration file:
@@ -1470,9 +1470,9 @@ Sendinblue 메일러 패키지를 설치하고 나면 `services` 설정 파일�
         'key' => 'your-api-key',
     ],
 
-Finally, you may use the `Mail` facade's `extend` method to register the transport with Laravel. Typically, this should be done within the `boot` method of a service provider:
+Next, you may use the `Mail` facade's `extend` method to register the transport with Laravel. Typically, this should be done within the `boot` method of a service provider:
 
-마지막으로 `Mail` 파사드의 `extend` 메소드를 사용하여 라라벨에 추가적인 전송 기능을 등록할 수 있습니다. 일반적으로 이 작업은 서비스프로바이더의 `boot` 메소드 안에서 수행되어야 합니다.
+다음으로 `Mail` 파사드의 `extend` 메소드를 사용하여 라라벨에 추가적인 전송 기능을 등록할 수 있습니다. 일반적으로 이 작업은 서비스프로바이더의 `boot` 메소드 안에서 수행되어야 합니다.
 
     use Illuminate\Support\Facades\Mail;
     use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
@@ -1495,3 +1495,12 @@ Finally, you may use the `Mail` facade's `extend` method to register the transpo
             );
         });
     }
+
+Once your transport has been registered, you may create a mailer definition within your application's config/mail.php configuration file that utilizes the new transport:
+
+전송기능을 등록하였다면, `config/mail.php` 설정 파일에서 새로운 전송기능을 사용할 수 있습니다.
+
+    'sendinblue' => [
+        'transport' => 'sendinblue',
+        // ...
+    ],

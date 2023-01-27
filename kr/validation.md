@@ -1945,9 +1945,9 @@ The field under validation must be present in the input data but can be empty.
 #### prohibited
 #### prohibited
 
-The field under validation must be missing or "empty". A field is "empty" if it meets one of the following criteria:
+The field under validation must be missing or empty. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
@@ -1966,9 +1966,9 @@ The field under validation must be missing or "empty". A field is "empty" if it 
 #### prohibited_if:_anotherfield_,_value_,...
 #### prohibited_if:_anotherfield_,_value_,...
 
-The field under validation must be missing or "empty" if the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
+The field under validation must be missing or empty if the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
@@ -2002,9 +2002,9 @@ If complex conditional prohibition logic is required, you may utilize the `Rule:
 #### prohibited_unless:_anotherfield_,_value_,...
 #### prohibited_unless:_anotherfield_,_value_,...
 
-The field under validation must be missing or "empty" unless the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
+The field under validation must be missing or empty unless the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 "비어있는" 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
@@ -2023,9 +2023,9 @@ The field under validation must be missing or "empty" unless the _anotherfield_ 
 #### prohibits:_anotherfield_,...
 #### prohibits:_anotherfield_,...
 
-If the field under validation is not missing or "empty", all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
+If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 누락되거나 "비어있지 않은" 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 

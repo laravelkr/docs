@@ -655,6 +655,22 @@ If you need to prepare or sanitize any data from the request before you apply yo
         ]);
     }
 
+Likewise, if you need to normalize any request data after validation is complete, you may use the `passedValidation` method:
+
+또한 유효성 검사가 완료된 후에 요청 데이터를 정규화해야 하는 경우 `passedValidation` 메서드를 사용할 수 있습니다.
+
+    use Illuminate\Support\Str;
+
+    /**
+     * Handle a passed validation attempt.
+     *
+     * @return void
+     */
+    protected function passedValidation()
+    {
+        $this->replace(['name' => 'Taylor']);
+    }
+
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 ## Validator 수동으로 생성하기

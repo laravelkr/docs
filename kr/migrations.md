@@ -30,6 +30,8 @@
     - [컬럼 수정자](#column-modifiers)
     - [Modifying Columns](#modifying-columns)
     - [컬럼 수정하기](#modifying-columns)
+    - [Renaming Columns](#renaming-columns)
+    - [컬럼 이름 바꾸기](#renaming-columns)
     - [Dropping Columns](#dropping-columns)
     - [컬럼 삭제하기](#dropping-columns)
 - [Indexes](#indexes)
@@ -1373,27 +1375,39 @@ We could also modify a column to be nullable:
 > 수정할 수 있는 컬럼 유형은 `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText입니다. `, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger` 및 `uuid`. `timestamp` 컬럼 유형을 수정하려면 [Doctrine 타입 등록 필요](#prerequisites).
 
 <a name="renaming-columns"></a>
-#### Renaming Columns
-### 인덱스 이름 변경하기
+### Renaming Columns
+### 컬럼 이름 바꾸기
 
-컬럼의 이름을 바꾸려면 스키마 빌더 청사진(blueprint)에서 제공하는 `renameColumn` 메서드를 사용할 수 있습니다. 컬럼 이름을 바꾸기 전에 Composer 패키지 관리자를 통해 `doctrine/dbal` 라이브러리를 설치했는지 확인하세요:
+To rename a column, you may use the `renameColumn` method provided by the schema builder:
+
+컬럼의 이름을 바꾸려면 스키마 빌더 청사진(blueprint)에서 제공하는 `renameColumn` 메서드를 사용할 수 있습니다:
 
     Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
     });
 
-> **Warning**
-> Renaming an `enum` column is not currently supported.
+<a name="renaming-columns-on-legacy-databases"></a>
+#### Renaming Columns On Legacy Databases
+#### 레거시 데이터베이스에서 컬럼 이름 바꾸기
 
-> **Warning**
-> `enum` 컬럼의 이름을 바꾸는 것은 현재 지원되지 않습니다.
+If you are running a database installation older than one of the following releases, you should ensure that you have installed the `doctrine/dbal` library via the Composer package manager before renaming a column:
+
+다음 릴리스보다 오래된 데이터베이스 설치를 실행 중인 경우 컬럼 이름을 바꾸기 전에 Composer 패키지 관리자를 통해 `doctrine/dbal` 라이브러리를 설치했는지 확인해야 합니다.
+
+<div class="content-list" markdown="1">
+
+- MySQL < `8.0.3`
+- MariaDB < `10.5.2`
+- SQLite < `3.25.0`
+
+</div>
 
 <a name="dropping-columns"></a>
 ### Dropping Columns
 
-To drop a column, you may use the `dropColumn` method on the schema builder blueprint. If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package via the Composer package manager before the `dropColumn` method may be used:
+To drop a column, you may use the `dropColumn` method on the schema builder:
 
-컬럼을 삭제하려면 스키마 빌더 청사진(blueprint)에서 `dropColumn` 메서드를 사용할 수 있습니다. 애플리케이션이 SQLite 데이터베이스를 사용하는 경우 `dropColumn` 메소드를 사용하기 전에 Composer 패키지 관리자를 통해 `doctrine/dbal` 패키지를 설치해야 합니다.
+컬럼을 삭제하려면 스키마 빌더의 `dropColumn` 메서드를 사용할 수 있습니다.
 
     Schema::table('users', function (Blueprint $table) {
         $table->dropColumn('votes');
@@ -1407,11 +1421,13 @@ You may drop multiple columns from a table by passing an array of column names t
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
 
-> **Warning**
-> Dropping or modifying multiple columns within a single migration while using an SQLite database is not supported.
+<a name="dropping-columns-on-legacy-databases"></a>
+#### Dropping Columns On Legacy Databases
+#### 레거시 데이터베이스에서 컬럼 삭제하기
 
-> **Warning**
-> SQLite 데이터베이스를 사용하는 동안 단일 마이그레이션 내에서 여러 컬럼을 삭제하거나 수정하는 것은 지원되지 않습니다.
+If you are running a version of SQLite prior to `3.35.0`, you must install the `doctrine/dbal` package via the Composer package manager before the `dropColumn` method may be used. Dropping or modifying multiple columns within a single migration while using this package is not supported.
+
+`3.35.0` 이전 버전의 SQLite를 실행 중인 경우 `dropColumn` 메서드를 사용하기 전에 Composer 패키지 관리자를 통해 `doctrine/dbal` 패키지를 설치해야 합니다. 이 패키지를 사용하는 동안 단일 마이그레이션에서 여러 컬럼을 삭제하거나 수정하는 것은 지원되지 않습니다.
 
 <a name="available-command-aliases"></a>
 #### Available Command Aliases
@@ -1538,6 +1554,12 @@ To rename an index, you may use the `renameIndex` method provided by the schema 
 인덱스의 이름을 변경하기 위해서는 `renameIndex` 메소드를 사용하면 됩니다. 이 메소드는 현재의 인덱스 이름을 첫번째 인자로, 변경하고자 하는 새이름을 두번째 인자로 전달받습니다.
 
     $table->renameIndex('from', 'to')
+
+> **Warning**  
+> If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package via the Composer package manager before the `renameIndex` method may be used.
+
+> **Warning**  
+> SQLite 데이터베이스를 사용하는 경우, `renameIndex` 메소드를 사용하기 전에 `doctrine/dbal` 패키지를 Composer 패키지 매니저를 통해 설치해야 합니다.
 
 <a name="dropping-indexes"></a>
 ### Dropping Indexes
@@ -1668,6 +1690,10 @@ You may enable or disable foreign key constraints within your migrations by usin
     Schema::enableForeignKeyConstraints();
 
     Schema::disableForeignKeyConstraints();
+
+    Schema::withoutForeignKeyConstraints(function () {
+        // Constraints disabled within this closure...
+    });
 
 > **Warning**
 > SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).

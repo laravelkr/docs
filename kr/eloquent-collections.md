@@ -63,6 +63,8 @@ While most Eloquent collection methods return a new instance of an Eloquent coll
 - [makeVisible](#method-makeVisible)
 - [makeHidden](#method-makeHidden)
 - [only](#method-only)
+- [setVisible](#method-setVisible)
+- [setHidden](#method-setHidden)
 - [toQuery](#method-toquery)
 - [unique](#method-unique)
 
@@ -226,6 +228,24 @@ The `only` method returns all of the models that have the given primary keys:
 `only` 메소드는 주어진 기본-primary 키를 가진 모든 모델을 반환합니다.
 
     $users = $users->only([1, 2, 3]);
+
+<a name="method-setVisible"></a>
+#### `setVisible($attributes)` {.collection-method}
+
+The `setVisible` method [temporarily overrides](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the visible attributes on each model in the collection:
+
+`setVisible` 메소드는 컬렉션의 각 모델에 대해 모든 가시적-visible 속성을 [임시로 덮어씁니다](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility).
+
+    $users = $users->setVisible(['id', 'name']);
+
+<a name="method-setHidden"></a>
+#### `setHidden($attributes)` {.collection-method}
+
+The `setHidden` method [temporarily overrides](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility) all of the hidden attributes on each model in the collection:
+
+`setHidden` 메소드는 컬렉션의 각 모델에 대해 모든 숨겨진-hidden 속성을 [임시로 덮어씁니다](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility).
+
+    $users = $users->setHidden(['email', 'password', 'remember_token']);
 
 <a name="method-toquery"></a>
 #### `toQuery()`

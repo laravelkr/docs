@@ -607,13 +607,17 @@ The `last_posted_at` attribute on the results of this query will be a simple str
 ## Custom Casts
 ## 커스텀 캐스트
 
-Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. You may accomplish this by defining a class that implements the `CastsAttributes` interface.
+Laravel has a variety of built-in, helpful cast types; however, you may occasionally need to define your own cast types. To create a cast, execute the `make:cast` Artisan command. The new cast class will be placed in your `app/Casts` directory:
 
-라라벨은 다양한 캐스트 타입을 내장하고 있습니다. 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
+라라벨은 다양한 캐스트 타입을 내장하고 있습니다. 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. 캐스트를 생성하려면 `make:cast` 아티즌 명령어를 실행하세요. 새 캐스트 클래스는 `app/Casts` 디렉터리에 생성됩니다.
 
-Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+```shell
+php artisan make:cast Json
+```
 
-이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다.
+All custom cast classes implement the `CastsAttributes` interface. Classes that implement this interface must define a `get` and `set` method. The `get` method is responsible for transforming a raw value from the database into a cast value, while the `set` method should transform a cast value into a raw value that can be stored in the database. As an example, we will re-implement the built-in `json` cast type as a custom cast type:
+
+모든 커스텀 캐스트 클래스는 `CastAttributes` 인터페이스를 구현합니다. 이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다.
 
     <?php
 
@@ -784,9 +788,21 @@ Therefore, you may specify that your custom cast class will be responsible for s
 ### Inbound Casting
 ### 인바운드 캐스팅
 
-Occasionally, you may need to write a custom cast that only transforms values that are being set on the model and does not perform any operations when attributes are being retrieved from the model. A classic example of an inbound only cast is a "hashing" cast. Inbound only custom casts should implement the `CastsInboundAttributes` interface, which only requires a `set` method to be defined.
+Occasionally, you may need to write a custom cast class that only transforms values that are being set on the model and does not perform any operations when attributes are being retrieved from the model.
 
-가끔은 모델에서 설정 중인 값만 변환하고 속성을 검색하지 않는 캐스트를 작성해야 할 때가 있습니다. 인바운드 캐스팅의 전형적인 예제는 "해싱(hashing)"입니다, 인바운드 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현 해야 합니다.
+가끔은 모델에 설정되는 값을 변환하기만 하고 모델에서 속성을 조회할 때는 아무 동작도 하지 않는 커스텀 캐스트 클래스를 작성해야할 때도 있습니다. 
+
+Inbound only custom casts should implement the `CastsInboundAttributes` interface, which only requires a `set` method to be defined. The `make:cast` Artisan command may be invoked with the `--inbound` option to generate an inbound only cast class:
+
+인바운드 전용 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현해야 합니다. `--inbound` 옵션을 주고`make:cast` 아티즌 명령을 실행하면 인바운드 전용 캐스트 클래스를 생성할 수 있습니다.
+
+```shell
+php artisan make:cast Hash --inbound
+```
+
+A classic example of an inbound only cast is a "hashing" cast. For example, we may define a cast that hashes inbound values via a given algorithm:
+
+인바운드 전용 캐스트의 대표적인 예는 "해싱(hashing)" 캐스트입니다. 예를 들어, 주어진 알고리즘을 통해 인바운드 값을 해싱하는 캐스트를 정의할 수 있습니다.
 
     <?php
 

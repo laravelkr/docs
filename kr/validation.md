@@ -655,6 +655,22 @@ If you need to prepare or sanitize any data from the request before you apply yo
         ]);
     }
 
+Likewise, if you need to normalize any request data after validation is complete, you may use the `passedValidation` method:
+
+또한 유효성 검사가 완료된 후에 요청 데이터를 정규화해야 하는 경우 `passedValidation` 메서드를 사용할 수 있습니다.
+
+    use Illuminate\Support\Str;
+
+    /**
+     * Handle a passed validation attempt.
+     *
+     * @return void
+     */
+    protected function passedValidation()
+    {
+        $this->replace(['name' => 'Taylor']);
+    }
+
 <a name="manually-creating-validators"></a>
 ## Manually Creating Validators
 ## Validator 수동으로 생성하기
@@ -1037,6 +1053,7 @@ Below is a list of all available validation rules and their function:
 - [Alpha Dash](#rule-alpha-dash)
 - [Alpha Numeric](#rule-alpha-num)
 - [Array](#rule-array)
+- [Ascii](#rule-ascii)
 - [Bail](#rule-bail)
 - [Before (Date)](#rule-before)
 - [Before Or Equal (Date)](#rule-before-or-equal)
@@ -1047,6 +1064,7 @@ Below is a list of all available validation rules and their function:
 - [Date](#rule-date)
 - [Date Equals](#rule-date-equals)
 - [Date Format](#rule-date-format)
+- [Decimal](#rule-decimal)
 - [Declined](#rule-declined)
 - [Declined If](#rule-declined-if)
 - [Different](#rule-different)
@@ -1114,6 +1132,7 @@ Below is a list of all available validation rules and their function:
 - [Unique (Database)](#rule-unique)
 - [Uppercase](#rule-uppercase)  
 - [URL](#rule-url)
+- [ULID](#rule-ulid)
 - [UUID](#rule-uuid)
 
 <a name="rule-accepted"></a>
@@ -1220,6 +1239,14 @@ In general, you should always specify the array keys that are allowed to be pres
 
 일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다.
 
+<a name="rule-ascii"></a>
+#### ascii
+#### ascii
+
+The field under validation must be entirely 7-bit ASCII characters.
+
+필드의 값이 완벽하게 7비트 ASCII 문자로 이루어져야 합니다.
+
 <a name="rule-bail"></a>
 #### bail
 #### bail
@@ -1303,12 +1330,26 @@ The field under validation must be equal to the given date. The dates will be pa
 검증 중인 필드는 지정된 날짜와 같아야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다.
 
 <a name="rule-date-format"></a>
-#### date_format:_format_
-#### date_format:_format_
+#### date_format:_format_,...
+#### date_format:_format_,...
 
-The field under validation must match the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
+The field under validation must match one of the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
-검증 중인 필드는 지정된 _format_ 과 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+검증 중인 필드는 지정된 _format_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+
+<a name="rule-decimal"></a>
+#### decimal:_min_,_max_
+#### decimal:_min_,_max_
+
+The field under validation must be numeric and must contain the specified number of decimal places:
+
+검증 중인 필드는 숫자이고 지정된 소수점 자릿수를 포함해야 합니다.
+
+    // Must have exactly two decimal places (9.99)...
+    'price' => 'decimal:2'
+
+    // Must have between 2 and 4 decimal places...
+    'price' => 'decimal:2,4'
 
 <a name="rule-declined"></a>
 #### declined
@@ -1920,17 +1961,43 @@ The field under validation must be present in the input data but can be empty.
 #### prohibited
 #### prohibited
 
-The field under validation must be an empty string or not present.
+The field under validation must be missing or empty. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드는 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 #### prohibited_if:_anotherfield_,_value_,...
 
-The field under validation must be an empty string or not present if the _anotherfield_ field is equal to any _value_.
+The field under validation must be missing or empty if the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-_anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 필드는 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 If complex conditional prohibition logic is required, you may utilize the `Rule::prohibitedIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be prohibited:
 
@@ -1951,17 +2018,43 @@ If complex conditional prohibition logic is required, you may utilize the `Rule:
 #### prohibited_unless:_anotherfield_,_value_,...
 #### prohibited_unless:_anotherfield_,_value_,...
 
-The field under validation must be an empty string or not present unless the _anotherfield_ field is equal to any _value_.
+The field under validation must be missing or empty unless the _anotherfield_ field is equal to any _value_. A field is "empty" if it meets one of the following criteria:
 
-유효성 검사 중인 필드는 _anotherfield_ 필드가 _value_ 와 같지 않으면 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-prohibits"></a>
 #### prohibits:_anotherfield_,...
 #### prohibits:_anotherfield_,...
 
-If the field under validation is present, no fields in _anotherfield_ can be present, even if empty.
+If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
 
-유효성 검사 중인 필드가 있는 경우 비어 있더라도 _anotherfield_ 에 필드가 있을 수 없습니다.
+검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+<div class="content-list" markdown="1">
+
+- The field's value is `null`.
+- 필드의 값이 `null`입니다.
+- The field's value is an empty string.
+- 필드의 값이 빈 문자열입니다.
+- The field's value is an empty array or empty `Countable` object.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- The field's value is an uploaded file with no path.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+</div>
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
@@ -1985,7 +2078,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 #### required
 #### required
 
-The field under validation must be present in the input data and not empty. A field is considered "empty" if one of the following conditions are true:
+The field under validation must be present in the input data and not empty. A field is "empty" if it meets one of the following criteria:
 
 입력 값 중에 해당 필드가 존재해야 하며 비어 있어서는 안됩니다. 필드는 다음의 조건 중 하나를 충족하면 "빈(empty)" 것으로 간주됩니다.
 
@@ -2224,6 +2317,14 @@ The field under validation must be a valid URL.
 
 필드는 반드시 유효한 URL이어야 합니다.
 
+<a name="rule-ulid"></a>
+#### ulid
+#### ulid
+
+The field under validation must be a valid [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID).
+
+필드는 반드시 유효한 [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID) 여야 합니다.
+
 <a name="rule-uuid"></a>
 #### uuid
 #### uuid
@@ -2438,9 +2539,9 @@ Sometimes you may need to access the value for a given nested array element when
 ### Error Message Indexes & Positions
 ### 에러 메세지에서 순서와 위치 참조하기
 
-When validating arrays, you may want to reference the index or position of a particular item that failed validation within the error message displayed by your application. To accomplish this, you may include the `:index` and `:position` place-holders within your [custom validation message](#manual-customizing-the-error-messages):
+When validating arrays, you may want to reference the index or position of a particular item that failed validation within the error message displayed by your application. To accomplish this, you may include the `:index` (starts from `0`) and `:position` (starts from `1`) placeholders within your [custom validation message](#manual-customizing-the-error-messages):
 
-배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템이 몇 번째 인지 위치를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` 와 `:position` 플레이스홀더를 사용하면 됩니다. 
+배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템이 몇 번째 인지 위치를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` (0 부터 시작)와 `:position` (1 부터 시작) 플레이스홀더를 사용하면 됩니다. 
 
     use Illuminate\Support\Facades\Validator;
 

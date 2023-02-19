@@ -3,6 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+  - [Supercharging Blade With Livewire](#supercharging-blade-with-livewire)
+  - [Livewire로 Blade 강화하기](#supercharging-blade-with-livewire)
 - [Displaying Data](#displaying-data)
 - [데이터 표시](#displaying-data)
     - [HTML Entity Encoding](#html-entity-encoding)
@@ -57,8 +59,8 @@
   - [데이터 프로퍼티 / 속성](#data-properties-attributes)
   - [Accessing Parent Data](#accessing-parent-data)
   - [부모 데이터에 접근하기](#accessing-parent-data)
-  - [Anonymous Components Namespaces](#anonymous-component-namespaces)
-  - [익명 컴포넌트 네임스페이스](#anonymous-component-namespaces)
+  - [Anonymous Components Paths](#anonymous-component-paths)
+  - [익명 컴포넌트 경로](#anonymous-component-paths)
 - [Building Layouts](#building-layouts)
 - [레이아웃 만들기](#building-layouts)
     - [Layouts Using Components](#layouts-using-components)
@@ -107,8 +109,13 @@ Blade views may be returned from routes or controllers using the global `view` h
 > **Note**
 > Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com).
 
-> **Note**
-> 블레이드 템플릿을 한 단계 업그레이드하고 쉽게 동적 인터페이스를 구축하고 싶으십니까? [라라벨 라이브와이어](https://laravel-livewire.com) 를 확인하세요.
+<a name="supercharging-blade-with-livewire"></a>
+### Supercharging Blade With Livewire
+### 라이브와이어로 블레이드 강화하기
+
+Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com). Livewire allows you to write Blade components that are augmented with dynamic functionality that would typically only be possible via frontend frameworks like React or Vue, providing a great approach to building modern, reactive frontends without the complexities, client-side rendering, or build steps of many JavaScript frameworks.
+
+블레이드 템플릿을 한 단계 높은 수준으로 끌어올리고 쉽게 동적 인터페이스를 구축하고 싶나요? [Laravel Livewire](https://laravel-livewire.com)를 확인하세요. Livewire는 일반적으로 React 또는 Vue와 같은 프론트엔드 프레임워크를 통해서만 가능했던 동적 기능을 블레이드 컴포넌트도 할 수 있도록 허용합니다. 이는 많은 JavaScript 프레임워크의 복잡성, 클라이언트 측 렌더링 또는 빌드 단계 없이 최신의 반응형 프론트엔드를 구축하는 데 좋은 접근 방식을 제공합니다.
 
 <a name="displaying-data"></a>
 ## Displaying Data
@@ -1774,21 +1781,17 @@ Because the `color` prop was only passed into the parent (`<x-menu>`), it won't 
 > **Warning**
 > `@aware` 지시어는 HTML 속성을 통해 상위 컴포넌트에 명시적으로 전달되지 않은 상위 데이터에 액세스할 수 없습니다. 상위 컴포넌트에 명시적으로 전달되지 않은 기본 `@props` 값은 `@aware` 지시어로 액세스할 수 없습니다.
 
-<a name="anonymous-component-namespaces"></a>
-### Anonymous Component Namespaces
-### 익명 컴포넌트 네임스페이스
+<a name="anonymous-component-paths"></a>
+### Anonymous Component Paths
+### 익명 컴포넌트 경로
 
 As previously discussed, anonymous components are typically defined by placing a Blade template within your `resources/views/components` directory. However, you may occasionally want to register other anonymous component paths with Laravel in addition to the default path.
 
 앞에서 설명한 것처럼 익명 컴포넌트는 일반적으로 `resources/views/components` 디렉터리 내에 블레이드 템플릿을 배치하여 정의됩니다. 그러나 때때로 기본 경로 외에 다른 익명 컴포넌트 경로를 라라벨에 등록하고 싶을 수도 있습니다.
 
-For example, when building a vacation booking application, you may wish to place flight booking related anonymous components within a `resources/views/flights/bookings/components` directory. To inform Laravel of this anonymous component location, you may use the `anonymousComponentNamespace` method provided by the `Blade` facade.
+The `anonymousComponentNamespace` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/docs/{{version}}/providers):
 
-예를 들어, 휴가 예약 응용 프로그램을 구축할 때 `urces/views/flights/bookings/components` 디렉터리 내에 항공편 예약 관련 익명 컴포넌트를 배치할 수 있습니다. 이 익명 컴포넌트 위치를 라라벨에 알리기 위해 `Blade` 파사드가 제공하는 `anonymousComponentNamespace` 메서드를 사용할 수 있습니다 .
-
-The `anonymousComponentNamespace` method accepts the "path" to the anonymous component location as its first argument and the "namespace" that components should be placed under as its second argument. As you will see in the example below, the "namespace" will be prefixed to the component's name when the component is rendered. Typically, this method should be called from the `boot` method of one of your application's [service providers](/docs/{{version}}/providers):
-
-이 `anonymousComponentNamespace` 메서드는 익명 컴포넌트 위치에 대한 "경로"를 첫 번째 인수로 받아들이고 컴포넌트가 배치되어야 하는 "네임스페이스"를 두 번째 인수로 받아들입니다. 아래 예에서 볼 수 있듯이 컴포넌트가 렌더링될 때 컴포넌트 이름 앞에 "네임스페이스"가 접두사로 붙습니다. 일반적으로 이 메서드는 응용 프로그램의 [서비스 공급자](/docs/{{version}}/providers) 중 하나의 `boot` 메서드에서 호출해야 합니다 .
+이 `anonymousComponentNamespace` 메서드는 익명 컴포넌트 위치에 대한 "경로"를 첫 번째 인수로 받아들이고 컴포넌트가 배치되어야 하는 "네임스페이스"를 두 번째 인수로(선택적) 받아들입니다. 일반적으로 이 메서드는 응용 프로그램의 [서비스 공급자](/docs/{{version}}/providers) 중 하나의 `boot` 메서드에서 호출해야 합니다 .
 
     /**
      * Bootstrap any application services.
@@ -1797,15 +1800,29 @@ The `anonymousComponentNamespace` method accepts the "path" to the anonymous com
      */
     public function boot()
     {
-        Blade::anonymousComponentNamespace('flights.bookings.components', 'flights');
+        Blade::anonymousComponentPath(__DIR__.'/../components');
     }
 
-Given the example above, you may render a `panel` component that exists within the newly registered component directory like so:
+When component paths are registered without a specified prefix as in the example above, they may be rendered in your Blade components without a corresponding prefix as well. For example, if a `panel.blade.php` component exists in the path registered above, it may be rendered like so:
 
-위의 예제와 같이 해두면 새로 등록된 컴포넌트 디렉토리 내에 존재하는 `panel` 컴포넌트를 다음과 같은 방식으로 렌더링 할 수 있습니다.
+위의 예와 같이 지정된 접두사 없이 컴포넌트 경로가 등록되면 Blade 컴포넌트에서 해당 접두사 없이 렌더링할 수 있습니다. 예를 들어, 위에서 등록한 경로에 `panel.blade.php` 컴포넌트가 존재하는 경우 다음과 같이 렌더링할 수 있습니다.
 
 ```blade
-<x-flights::panel :flight="$flight" />
+<x-panel />
+```
+
+Prefix "namespaces" may be provided as the second argument to the `anonymousComponentPath` method:
+
+`anonymousComponentPath` 메서드의 두 번째 인수로 접두사 "네임스페이스"를 제공할 수 있습니다.
+
+    Blade::anonymousComponentPath(__DIR__.'/../components', 'dashboard');
+
+When a prefix is provided, components within that "namespace" may be rendered by prefixing to the component's namespace to the component name when the component is rendered:
+
+접두사가 제공되면 해당 "네임스페이스" 내의 컴포넌트는 컴포넌트가 렌더링될 때 컴포넌트 이름에 접두사를 붙여 렌더링할 수 있습니다.
+
+```blade
+<x-dashboard::panel />
 ```
 
 <a name="building-layouts"></a>

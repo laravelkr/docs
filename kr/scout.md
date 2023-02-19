@@ -255,6 +255,19 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
+Some search engines such as MeiliSearch will only perform filter operations (`>`, `<`, etc.) on data of the correct type. So, when using these search engines and customizing your searchable data, you should ensure that numeric values are cast to their correct type:
+
+MeiliSearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 대해서만 필터링 연산(`>`, `<`, 등)을 수행합니다. 그래서 이러한 검색 엔진을 사용하고 검색 데이터를 커스터마이징 할 때는, 숫자 값이 올바른 타입으로 변환되어 있는지 확인해야 합니다.
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'price' => (float) $this->price,
+        ];
+    }
+
 <a name="configuring-filterable-data-for-meilisearch"></a>
 #### Configuring Filterable Data & Index Settings (MeiliSearch)
 #### 필터링 가능한 데이터 설정하기(MeiliSearch)
@@ -268,20 +281,33 @@ Filterable attributes are any attributes you plan to filter on when invoking Sco
 필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
 
 ```php
+use App\Models\User;
+use App\Models\Flight;
+
 'meilisearch' => [
     'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
     'key' => env('MEILISEARCH_KEY', null),
     'index-settings' => [
-        'users' => [
+        User::class => [
             'filterableAttributes'=> ['id', 'name', 'email'],
             'sortableAttributes' => ['created_at'],
             // Other settings fields...
         ],
-        'flights' => [
+        Flight::class => [
             'filterableAttributes'=> ['id', 'destination'],
             'sortableAttributes' => ['updated_at'],
         ],
     ],
+],
+```
+
+If the model underlying a given index is soft deletable and is included in the `index-settings` array, Scout will automatically include support for filtering on soft deleted models on that index. If you have no other filterable or sortable attributes to define for a soft deletable model index, you may simply add an empty entry to the `index-settings` array for that model:
+
+만약 주어진 인덱스의 모델이 소프트 삭제가 가능하고 `index-settings` 배열에 포함되어 있다면, 스카우트는 해당 인덱스에서 소프트 삭제된 모델에 대한 필터링을 자동으로 지원합니다. 소프트 삭제가 가능한 모델 인덱스에 필터링이나 정렬 가능한 속성을 정의할 필요가 없다면, 해당 모델을 위한 `index-settings` 배열에 빈 항목을 추가할 수 있습니다.
+
+```php
+'index-settings' => [
+    Flight::class => []
 ],
 ```
 

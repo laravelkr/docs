@@ -177,9 +177,9 @@ In order to use the `redis` queue driver, you should configure a Redis database 
 **Redis Cluster**
 **Redis 클러스터**
 
-If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
+If your Redis queue connection uses a Redis Cluster, your queue names must contain a [key hash tag](https://redis.io/docs/reference/cluster-spec/#hash-tags). This is required in order to ensure all of the Redis keys for a given queue are placed into the same hash slot:
 
-Redis queue 커넥션이 Redis 클러스터를 사용한다면, queue 이름은 [key hash tag](https://redis.io/topics/cluster-spec#keys-hash-tags) 를 반드시 포함하고 있어야 합니다. 이것은 큐-queue 가 Redis 동일한 해시 슬롯에 부여됨을 보호 하고자 필요로 합니다.
+Redis queue 커넥션이 Redis 클러스터를 사용한다면, queue 이름은 [key hash tag](https://redis.io/docs/reference/cluster-spec/#hash-tags) 를 반드시 포함하고 있어야 합니다. 이것은 큐-queue 가 Redis 동일한 해시 슬롯에 부여됨을 보호 하고자 필요로 합니다.
 
     'redis' => [
         'driver' => 'redis',
@@ -1119,9 +1119,11 @@ When chaining jobs, you may use the `catch` method to specify a closure that sho
         // A job within the chain has failed...
     })->dispatch();
 
-> {note} Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
+> **Warning**  
+> Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
 
-> {note} 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
+> **Warning**  
+> 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
 
 <a name="customizing-the-queue-and-connection"></a>
 ### Customizing The Queue & Connection
@@ -1275,17 +1277,17 @@ If one of your queued jobs is encountering an error, you likely do not want it t
 
 대기 중인 작업 중 하나에 오류가 발생하는 경우 계속해서 재시도하는 것을 무기한으로 원하지 않을 수 있습니다. 따라서 라라벨은 작업을 시도할 수 있는 횟수 또는 기간을 지정하는 다양한 방법을 제공합니다.
 
-One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies a more specific number of times it may be attempted:
+One approach to specifying the maximum number of times a job may be attempted is via the `--tries` switch on the Artisan command line. This will apply to all jobs processed by the worker unless the job being processed specifies the number of times it may be attempted:
 
-작업을 시도할 수 있는 최대 횟수를 지정하는 한 가지 방법은 Artisan 명령줄의 `--tries` 스위치를 사용하는 것입니다. 이 옵션은 처리 중인 작업이 더 구체적인 시도 횟수를 지정하지 않는 한 worker가 처리하는 모든 작업에 적용됩니다.
+작업을 시도할 수 있는 최대 횟수를 지정하는 한 가지 방법은 Artisan 명령줄의 `--tries` 스위치를 사용하는 것입니다. 이 옵션은 처리 중인 작업이 시도 횟수를 지정하지 않는 한 worker가 처리하는 모든 작업에 적용됩니다.
 
 ```shell
 php artisan queue:work --tries=3
 ```
 
-If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).
+If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).  If `--tries=0` is provided to the `queue:work` command, the job will retried indefinitely.
 
-작업이 최대 시도 횟수를 초과하면 "실패한" 작업으로 간주됩니다. 실패한 작업 처리에 대한 자세한 내용은 [실패한 작업 문서](#dealing-with-failed-jobs)를 참조하십시오.
+작업이 최대 시도 횟수를 초과하면 "실패한" 작업으로 간주됩니다. 실패한 작업 처리에 대한 자세한 내용은 [실패한 작업 문서](#dealing-with-failed-jobs)를 참조하십시오. `queue:work` 명령에 `--tries=0`을 제공하면 작업은 무기한으로 재시도됩니다.
 
 You may take a more granular approach by defining the maximum number of times a job may be attempted on the job class itself. If the maximum number of attempts is specified on the job, it will take precedence over the `--tries` value provided on the command line:
 
@@ -1498,11 +1500,13 @@ Occasionally you may need to manually mark a job as "failed". To do so, you may 
         $this->fail();
     }
 
-If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method:
+If you would like to mark your job as failed because of an exception that you have caught, you may pass the exception to the `fail` method. Or, for convenience, you may pass a string error message which will be converted to an exception for you:
 
-예외 때문에 작업을 실패한 것으로 표시하려면, catch를 통해 잡은 예외를 `fail` 메서드에 전달하면 됩니다.
+예외 때문에 작업을 실패한 것으로 표시하려면, catch를 통해 잡은 예외를 `fail` 메서드에 전달하면 됩니다. 또는 편의를 위해 문자열 오류 메시지를 전달할 수도 있습니다. 이는 예외로 변환됩니다.
 
     $this->fail($exception);
+
+    $this->fail('Something went wrong.');
 
 > **Note**
 > For more information on failed jobs, check out the [documentation on dealing with job failures](#dealing-with-failed-jobs).
@@ -1890,9 +1894,11 @@ Using the `catch` method, you may provide a closure that should be executed if t
     });
 
 
-> {note} Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
+> **Warning**  
+> Since chain callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within chain callbacks.
 
-> {note} 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
+> **Warning**  
+> 체인 콜백은 직렬화된 후 라라벨 큐에 의해 나중에 실행되기 때문에 체인 콜백 내에서 `$this` 변수를 사용해서는 안됩니다.
 
 <a name="running-the-queue-worker"></a>
 ## Running The Queue Worker

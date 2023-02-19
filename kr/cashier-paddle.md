@@ -53,6 +53,8 @@
     - [구독 수량](#subscription-quantity)
     - [Subscription Modifiers](#subscription-modifiers)
     - [구독 수정](#subscription-modifiers)
+    - [Multiple Subscriptions](#multiple-subscriptions)
+    - [다중 구](#multiple-subscriptions)
     - [Pausing Subscriptions](#pausing-subscriptions)
     - [구독 일시 중지](#pausing-subscriptions)
     - [Cancelling Subscriptions](#cancelling-subscriptions)
@@ -94,9 +96,9 @@
 
 [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
 
-While working with Cashier we recommend you also review Paddle's [user guides](https://developer.paddle.com/guides) and [API documentation](https://developer.paddle.com/api-reference/intro).
+While working with Cashier we recommend you also review Paddle's [user guides](https://developer.paddle.com/guides) and [API documentation](https://developer.paddle.com/api-reference).
 
-캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.com/guides) 및 [API 문서](https://developer.paddle.com/api-reference/intro)도 함께 보는것이 좋습니다.
+캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.com/guides) 및 [API 문서](https://developer.paddle.com/api-reference)도 함께 보는것이 좋습니다.
 
 <a name="upgrading-cashier"></a>
 ## Upgrading Cashier
@@ -1097,6 +1099,40 @@ Modifiers may be deleted by invoking the `delete` method on a `Laravel\Paddle\Mo
 
     $modifier->delete();
 
+<a name="multiple-subscriptions"></a>
+### Multiple Subscriptions
+### 다중 구독
+
+Paddle allows your customers to have multiple subscriptions simultaneously. For example, you may run a gym that offers a swimming subscription and a weight-lifting subscription, and each subscription may have different pricing. Of course, customers should be able to subscribe to either or both plans.
+
+Paddle은 고객이 동시에 여러 구독을 가질 수 있도록 허용합니다. 예를 들어 수영 구독과 웨이트 리프팅 구독을 제공하는 헬스장을 운영하고 각 구독은 다른 가격을 가질 수 있습니다. 물론 고객은 둘 중 하나 또는 둘 다 가입할 수 있어야 합니다.
+
+When your application creates subscriptions, you may provide the name of the subscription to the `newSubscription` method. The name may be any string that represents the type of subscription the user is initiating:
+
+애플리케이션이 구독을 만들 때 `newSubscription` 메소드에 구독 이름을 제공할 수 있습니다. 이름은 사용자가 시작하는 구독 유형을 나타내는 어떤 문자열이어도 됩니다.
+
+    use Illuminate\Http\Request;
+
+    Route::post('/swimming/subscribe', function (Request $request) {
+        $request->user()
+            ->newSubscription('swimming', $swimmingMonthly = 12345)
+            ->create($request->paymentMethodId);
+
+        // ...
+    });
+
+In this example, we initiated a monthly swimming subscription for the customer. However, they may want to swap to a yearly subscription at a later time. When adjusting the customer's subscription, we can simply swap the price on the `swimming` subscription:
+
+이 예에서는 고객에게 월간 수영 구독을 시작했습니다. 그러나 나중에 연간 구독으로 교체하려고 할 수 있습니다. 고객의 구독을 조정할 때 `swimming` 구독의 가격을 간단히 교체할 수 있습니다.
+
+    $user->subscription('swimming')->swap($swimmingYearly = 34567);
+
+Of course, you may also cancel the subscription entirely:
+
+물론 구독을 완전히 취소할 수도 있습니다.
+
+    $user->subscription('swimming')->cancel();
+
 <a name="pausing-subscriptions"></a>
 ### Pausing Subscriptions
 ### 구독 일시 중지
@@ -1630,28 +1666,51 @@ Subscription payments fail for various reasons, such as expired cards or a card 
 
 만료 된 카드 또는 자금이 부족한 카드와 같은 다양한 이유로 구독 결제가 실패합니다. 이 경우 Paddle에서 결제 실패를 처리하도록 하는 것이 좋습니다. 구체적으로 Paddle 대시 보드에서 [Paddle의 자동 결제 이메일 설정](https://vendors.paddle.com/subscription-settings) 할 수 있습니다.
 
-Alternatively, you can perform more precise customization by catching the [`subscription_payment_failed`](https://developer.paddle.com/webhook-reference/subscription-alerts/subscription-payment-failed) webhook and enabling the "Subscription Payment Failed" option in the Webhook settings of your Paddle dashboard:
+Alternatively, you can perform more precise customization by [listening](/docs/{{version}}/events) for the `subscription_payment_failed` Paddle event via the `WebhookReceived` event dispatched by Cashier. You should also ensure the "Subscription Payment Failed" option is enabled in the Webhook settings of your Paddle dashboard:
 
-또는 Paddle 대시 보드의 Webhook 설정에 있는 옵션 [`subscription_payment_failed`](https://developer.paddle.com/webhook-reference/subscription-alerts/subscription-payment-failed) 을 찾아 "구독 결제 실패"를 활성화하여 보다 정확한 커스터마이징을 할 수 있습니다.
+또는 Cashier에 의해 전달 된 `WebhookReceived` 이벤트를 통해 `subscription_payment_failed` Paddle 이벤트를 [듣기](/docs/{{version}}/events)를 통해 더 정확한 사용자 지정을 수행할 수 있습니다. 또한 Paddle 대시 보드의 Webhook 설정에서 "Subscription Payment Failed" 옵션이 활성화되어 있는지 확인해야합니다.
 
     <?php
 
-    namespace App\Http\Controllers;
+    namespace App\Listeners;
 
-    use Laravel\Paddle\Http\Controllers\WebhookController as CashierController;
+    use Laravel\Paddle\Events\WebhookReceived;
 
-    class WebhookController extends CashierController
+    class PaddleEventListener
     {
         /**
-         * Handle subscription payment failed.
+         * Handle received Paddle webhooks.
          *
-         * @param  array  $payload
+         * @param  \Laravel\Paddle\Events\WebhookReceived  $event
          * @return void
          */
-        public function handleSubscriptionPaymentFailed($payload)
+        public function handle(WebhookReceived $event)
         {
-            // Handle the failed subscription payment...
+            if ($event->payload['alert_name'] === 'subscription_payment_failed') {
+                // Handle the failed subscription payment...
+            }
         }
+    }
+
+Once your listener has been defined, you should register it within your application's `EventServiceProvider`:
+
+리스너가 정의되면 응용 프로그램의 `EventServiceProvider` 에 등록해야합니다.
+
+    <?php
+
+    namespace App\Providers;
+
+    use App\Listeners\PaddleEventListener;
+    use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+    use Laravel\Paddle\Events\WebhookReceived;
+
+    class EventServiceProvider extends ServiceProvider
+    {
+        protected $listen = [
+            WebhookReceived::class => [
+                PaddleEventListener::class,
+            ],
+        ];
     }
 
 <a name="testing"></a>

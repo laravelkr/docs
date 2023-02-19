@@ -660,9 +660,9 @@ The `whereNot` and `orWhereNot` methods may be used to negate a given group of q
 ### JSON Where Clauses
 ### JSON Where 절
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7+, PostgreSQL, SQL Server 2016, and SQLite 3.9.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
+Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 5.7+, PostgreSQL, SQL Server 2016, and SQLite 3.39.0 (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
 
-라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.9.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
+라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.39.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
@@ -758,6 +758,28 @@ The `whereNotIn` method verifies that the given column's value is not contained 
     $users = DB::table('users')
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
+
+You may also provide a query object as the `whereIn` method's second argument:
+
+`whereIn` 메소드의 두번째 인자로 쿼리 객체를 제공할 수도 있습니다.
+
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
+
+    $users = DB::table('comments')
+                        ->whereIn('user_id', $activeUsers)
+                        ->get();
+
+The example above will produce the following SQL:
+
+위의 예제는 다음과 같은 SQL을 생성합니다.
+
+```sql
+select * from comments where user_id in (
+    select id
+    from users
+    where is_active = 1
+)
+```
 
 > **Warning**
 > If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
@@ -1283,11 +1305,20 @@ The query builder also provides convenient methods for incrementing or decrement
 
     DB::table('users')->decrement('votes', 5);
 
-You may also specify additional columns to update during the operation:
+If needed, you may also specify additional columns to update during the increment or decrement operation:
 
-또한 이 작업을 수행하는 동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다.
+필요한 경우 증가 또는 감소 작업 중에 업데이트할 추가 컬럼을 지정할 수 있습니다.
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
+
+In addition, you may increment or decrement multiple columns at once using the `incrementEach` and `decrementEach` methods:
+
+또한 `incrementEach` 와 `decrementEach` 메소드를 사용하여 한 번에 여러 컬럼을 증가 또는 감소시킬 수 있습니다.
+
+    DB::table('users')->incrementEach([
+        'votes' => 5,
+        'balance' => 100,
+    ]);
 
 <a name="delete-statements"></a>
 ## Delete Statements

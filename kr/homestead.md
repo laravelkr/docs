@@ -93,6 +93,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 
 - Ubuntu 20.04
 - Git
+- PHP 8.2
 - PHP 8.1
 - PHP 8.0
 - PHP 7.4
@@ -105,7 +106,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - MySQL 8.0
 - lmm
 - Sqlite3
-- PostgreSQL 13
+- PostgreSQL 15
 - Composer
 - Docker
 - Node (With Yarn, Bower, Grunt, and Gulp)
@@ -439,6 +440,7 @@ features:
     - meilisearch: true
     - minio: true
     - mongodb: true
+    - mysql: true
     - neo4j: true
     - ohmyzsh: true
     - openresty: true
@@ -713,9 +715,9 @@ Below is a list of additional Homestead service ports that you may wish to map f
 ### PHP Versions
 ### PHP 버전
 
-Homestead 6 introduced support for running multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0" (the default), and "8.1":
+Homestead supports running multiple versions of PHP on the same virtual machine. You may specify which version of PHP to use for a given site within your `Homestead.yaml` file. The available PHP versions are: "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0" (the default), "8.1" and "8.2" (default):
 
-홈스테드 6은 동일한 가상 머신에서 여러 버전의 PHP를 실행하기 위한 지원을 시작했습니다. `Homestead.yaml` 파일 내에서 주어진 사이트에 사용할 PHP 버전을 지정할 수 있습니다. 사용 가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0"(기본값) 및 "8.1"입니다.
+홈스테드 동일한 가상 머신에서 여러 버전의 PHP를 실행하기 위한 지원을 시작했습니다. `Homestead.yaml` 파일 내에서 주어진 사이트에 사용할 PHP 버전을 지정할 수 있습니다. 사용 가능한 PHP 버전은 "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1" 및 "8.2" (기본값) 입니다.
 
 ```yaml
 sites:
@@ -737,6 +739,7 @@ php7.3 artisan list
 php7.4 artisan list
 php8.0 artisan list
 php8.1 artisan list
+php8.2 artisan list
 ```
 
 You may change the default version of PHP used by the CLI by issuing the following commands from within your Homestead virtual machine:
@@ -752,6 +755,7 @@ php73
 php74
 php80
 php81
+php82
 ```
 
 <a name="connecting-to-databases"></a>

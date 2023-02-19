@@ -265,6 +265,24 @@ Typically, after updating the disk's credentials to match the credentials of the
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
 
+<a name="minio"></a>
+#### MinIO
+#### MinIO
+
+In order for Laravel's Flysystem integration to generate proper URLs when using MinIO, you should define the `AWS_URL` environment variable so that it matches your application's local URL and includes the bucket name in the URL path:
+
+Laravel의 Flysystem 통합이 MinIO를 사용할 때 올바른 URL을 생성하도록 하려면 `AWS_URL` 환경 변수를 정의하여 애플리케이션의 로컬 URL과 URL 경로에 버킷 이름이 포함되도록 해야 합니다.
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+> **Warning**  
+> Generating temporary storage URLs via the `temporaryUrl` method is not supported when using MinIO.
+
+> **Warning**  
+> MinIO를 사용할 때는 `temporaryUrl` 메소드를 통해 임시 저장소 URL을 생성하는 것은 지원되지 않습니다.
+
 <a name="obtaining-disk-instances"></a>
 ## Obtaining Disk Instances
 ## 디스크 인스턴스 획득하기
@@ -452,6 +470,12 @@ The `lastModified` method returns the UNIX timestamp of the last time the file w
 `lastModified` 메소드는 마지막에 파일이 업데이트되었을 때의 UNIX 타임 스탬프값을 반환합니다.
 
     $time = Storage::lastModified('file.jpg');
+
+The MIME type of a given file may be obtained via the `mimeType` method:
+
+주어진 파일의 MIME 타입은 `mimeType` 메소드를 통해 조회할 수 있습니다.
+
+    $mime = Storage::mimeType('file.jpg')
 
 <a name="file-paths"></a>
 #### File Paths

@@ -11,6 +11,8 @@
     - [밸런싱 전략](#balancing-strategies)
     - [Dashboard Authorization](#dashboard-authorization)
     - [Dashboard 권한부여](#dashboard-authorization)
+    - [Silenced Jobs](#silenced-jobs)
+    - [음소거된 작업](#silenced-jobs)
 - [Upgrading Horizon](#upgrading-horizon)
 - [Horizon 업그레이드](#upgrading-horizon)
 - [Running Horizon](#running-horizon)
@@ -214,6 +216,31 @@ Horizon은 `/horizon` URI에서 대시보드를 노출합니다. 기본적으로
 Remember that Laravel automatically injects the authenticated user into the gate closure. If your application is providing Horizon security via another method, such as IP restrictions, then your Horizon users may not need to "login". Therefore, you will need to change `function ($user)` closure signature above to `function ($user = null)` in order to force Laravel to not require authentication.
 
 라라벨은 인증된 사용자를 자동으로 게이트 클로저에 주입한다는 것을 기억하십시오. 애플리케이션이 IP 제한과 같은 다른 방법을 통해 Horizon 보안을 제공하는 경우, Horizon 사용자는 "로그인"할 필요가 없습니다. 따라서 라라벨이 인증을 요구하지 않도록 하려면 위 `function($user)` 클로저를 `function($user = null)`으로 변경해야 합니다.
+
+<a name="silenced-jobs"></a>
+### Silenced Jobs
+### 음소거된 작업
+
+Sometimes, you may not be interested in viewing certain jobs dispatched by your application or third-party packages. Instead of these jobs taking up space in your "Completed Jobs" list, you can silence them. To get started, add the job's class name to the `silenced` configuration option in your application's `horizon` configuration file:
+
+때때로 애플리케이션 또는 제 3자 패키지에서 전송한 특정 작업을 보고 싶지 않을 수 있습니다. 이러한 작업이 "완료된 작업" 목록에 공간을 차지하지 않도록 음소거할 수 있습니다. 시작하려면 애플리케이션의 `horizon` 구성 파일의 `silenced` 구성 옵션에 작업 클래스 이름을 추가하십시오.
+
+    'silenced' => [
+        App\Jobs\ProcessPodcast::class,
+    ],
+
+Alternatively, the job you wish to silence can implement the `Laravel\Horizon\Contracts\Silenced` interface. If a job implements this interface, it will automatically be silenced, even if it is not present in the `silenced` configuration array:
+
+또는 음소거하려는 작업은 `Laravel\Horizon\Contracts\Silenced` 인터페이스를 구현할 수 있습니다. 작업이 이 인터페이스를 구현하면 `silenced` 구성 배열에 없더라도 자동으로 음소거됩니다.
+
+    use Laravel\Horizon\Contracts\Silenced;
+
+    class ProcessPodcast implements ShouldQueue, Silenced
+    {
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+        // ...
+    }
 
 <a name="upgrading-horizon"></a>
 ## Upgrading Horizon

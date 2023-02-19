@@ -432,13 +432,13 @@ Laravel Vite 플러그인은 Inertia 페이지 구성 요소를 해결하는 데
 
 ```js
 import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/inertia-vue3';
+import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 createInertiaApp({
   resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
-    createApp({ render: () => h(App, props) })
+    return createApp({ render: () => h(App, props) })
       .use(plugin)
       .mount(el)
   },
@@ -455,9 +455,9 @@ createInertiaApp({
 ### URL Processing
 ### URL Processing
 
-When using Vite and referencing assets in your application's HTML, CSS, or JS, there are a couple of things to consider. First, if you reference assets with an absolute path, Vite will not include the asset in the build; therefore, you should ensure that the asset is available in your public directory.
+When using Vite and referencing assets in your application's HTML, CSS, or JS, there are a couple of caveats to consider. First, if you reference assets with an absolute path, Vite will not include the asset in the build; therefore, you should ensure that the asset is available in your public directory.
 
-Vite를 사용하고 애플리케이션의 HTML, CSS 또는 JS에서 자산을 참조할 때 고려해야 할 몇 가지 사항이 있습니다. 첫째, 절대 경로가 있는 자산을 참조하는 경우 Vite는 빌드에 자산을 포함하지 않습니다. 따라서 자산이 public 디렉토리에서 사용 가능한지 확인해야 합니다.
+Vite를 사용하고 애플리케이션의 HTML, CSS 또는 JS에서 자산을 참조할 때 고려해야 할 몇 가지 주의 사항이 있습니다. 첫째, 절대 경로가 있는 자산을 참조하는 경우 Vite는 빌드에 자산을 포함하지 않습니다. 따라서 자산이 public 디렉토리에서 사용 가능한지 확인해야 합니다.
 
 When referencing relative asset paths, you should remember that the paths are relative to the file where they are referenced. Any assets referenced via a relative path will be re-written, versioned, and bundled by Vite.
 

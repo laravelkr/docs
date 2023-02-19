@@ -1200,7 +1200,7 @@ You may call the `truncate` method to delete all of the model's associated datab
 
 In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without explicitly retrieving it by calling the `destroy` method.  In addition to accepting the single primary key, the `destroy` method will accept multiple primary keys, an array of primary keys, or a [collection](/docs/{{version}}/collections) of primary keys:
 
-위의 예에서 우리는 `delete` 메소드를 호출하기 전에 데이터베이스에서 모델을 검색하고 있습니다. 그러나 모델의 기본 키를 알고 있는 경우 `destroy` 메소드를 호출하여 명시적으로 검색하지 않고 모델을 삭제할 수 있습니다. 단일 기본 키를 허용하는 것 외에도 `destroy` 메소드는 여러 기본 키, 기본 키 배열 또는 기본 키의 [컬렉션]](/docs/{{version}}/collections)을 허용합니다.
+위의 예에서 우리는 `delete` 메소드를 호출하기 전에 데이터베이스에서 모델을 검색하고 있습니다. 그러나 모델의 기본 키를 알고 있는 경우 `destroy` 메소드를 호출하여 명시적으로 검색하지 않고 모델을 삭제할 수 있습니다. 단일 기본 키를 허용하는 것 외에도 `destroy` 메소드는 여러 기본 키, 기본 키 배열 또는 기본 키의 [컬렉션](/docs/{{version}}/collections)을 허용합니다.
 
     Flight::destroy(1);
 

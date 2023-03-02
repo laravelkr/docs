@@ -17,6 +17,7 @@
     - [예외의 렌더링](#rendering-exceptions)
     - [Reportable & Renderable Exceptions](#renderable-exceptions)
     - [보고 가능한(Reportable) & 렌더링 가능한(Renderable) Exceptions](#renderable-exceptions)
+    - [Mapping Exceptions By Type](#mapping-exceptions-by-type)
 - [HTTP Exceptions](#http-exceptions)
 - [HTTP 예외](#http-exceptions)
     - [Custom HTTP Error Pages](#custom-http-error-pages)
@@ -337,6 +338,40 @@ If your exception contains custom reporting logic that is only necessary when ce
 
 > **Note**
 > `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
+
+<a name="mapping-exceptions-by-type"></a>
+### Mapping Exceptions By Type
+### 유형별 예외 매핑하기
+
+Sometimes, third-party libraries used by your application may throw exceptions that you wish to make [renderable](#renderable-exceptions), but are unable to do so because you do not have control over the definitions of third-party exceptions.
+
+때때로, 애플리케이션에서 사용되는 서드파티 라이브러리가 예외를 던지는 경우가 있습니다. 여러분은 이 예외를 [렌더링을 할 수 있는(renderable)](#renderable-exceptions) 예외로 만들고 싶은 경우가 생길 것입니다. 하지만 서드파티 라이브러이에서 발생하는 예외는 제어할 수 없기 때문에 렌더링할 수 있는 예외로 만들 수 없습니다.
+
+Thankfully, Laravel allows you to conveniently map these exceptions to other exception types that you manage within your application. To accomplish this, call the `map` method from your exception handler's `register` method:
+
+다행히도 라라벨을 사용하면 이러한 예외를 애플리케이션 내에서 관리하는 다른 예외 유형에 편리하게 매핑할 수 있습니다. 예외를 매핑하기 위해서는 예외 처리기(handler)의 `register` 메서드에서 `map` 메서드를 호출하면 됩니다:
+
+    use League\Flysystem\Exception;
+    use App\Exceptions\FilesystemException;
+
+    /**
+     * Register the exception handling callbacks for the application.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->map(Exception::class, FilesystemException::class);
+    }
+
+If you would like more control over the creation of the target exception, you may pass a closure to the `map` method:
+
+서드파티의 예외를 라라벨의 예외로 매핑할 때 좀 더 구체적으로 제어하려면 `map` 메서드에 클로저를 사용하면 됩니다.
+
+    use League\Flysystem\Exception;
+    use App\Exceptions\FilesystemException;
+
+    $this->map(fn (Exception $e) => new FilesystemException($e));
 
 <a name="http-exceptions"></a>
 ## HTTP Exceptions

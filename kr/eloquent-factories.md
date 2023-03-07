@@ -341,7 +341,7 @@ Within a sequence closure, you may access the `$index` or `$count` properties on
 
 For convenience, sequences may also be applied using the `sequence` method, which simply invokes the `state` method internally. The `sequence` method accepts a closure or arrays of sequenced attributes:
 
-편의상 단순히 내부적으로 `state` 메소드를 호출하는 `sequence` 메서드를 사용하여 시퀀스를 적용할 수도 있습니다. `sequence` 메서드는 클로저 또는 시퀀스된 속성의 배열을 인자로 받습니다.
+편의상 시퀀스는 단순히 내부적으로 `state` 메소드를 호출하는 `sequence` 메서드를 사용하여 적용할 수도 있습니다. `sequence` 메서드는 클로저 또는 시퀀스된 속성의 배열을 받습니다.
 
     $users = User::factory()
                     ->count(2)

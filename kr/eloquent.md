@@ -313,10 +313,8 @@ You can override the UUID generation process for a given model by defining a `ne
 
     /**
      * Generate a new UUID for the model.
-     *
-     * @return string
      */
-    public function newUniqueId()
+    public function newUniqueId(): string
     {
         return (string) Uuid::uuid4();
     }
@@ -324,7 +322,7 @@ You can override the UUID generation process for a given model by defining a `ne
     /**
      * Get the columns that should receive a unique identifier.
      *
-     * @return array
+     * @return array<int, string>
      */
     public function uniqueIds()
     {
@@ -439,9 +437,9 @@ By default, all Eloquent models will use the default database connection that is
 ### Default Attribute Values
 ### 기본 속성 값
 
-By default, a newly instantiated model instance will not contain any attribute values. If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model:
+By default, a newly instantiated model instance will not contain any attribute values. If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model. Attribute values placed in the `$attributes` array should be in their raw, "storable" format as if they were just read from the database:
 
-기본적으로 새로 인스턴스화된 모델 인스턴스에는 속성 값이 포함되지 않습니다. 일부 모델 속성에 대한 기본값을 정의하려면 모델에 `$attributes` 속성을 정의할 수 있습니다.
+기본적으로 새로 인스턴스화된 모델 인스턴스에는 속성 값이 포함되지 않습니다. 일부 모델 속성에 대한 기본값을 정의하려면 모델에 `$attributes` 속성을 정의할 수 있습니다. `attributes` 배열에 배치된 속성 값은 마치 데이터베이스에서 방금 읽은 것처럼 원시적이고 "저장 가능한" 형식이어야 합니다.
 
     <?php
 
@@ -457,6 +455,7 @@ By default, a newly instantiated model instance will not contain any attribute v
          * @var array
          */
         protected $attributes = [
+            'options' => '[]',
             'delayed' => false,
         ];
     }
@@ -478,10 +477,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Model::preventLazyLoading(! $this->app->isProduction());
 }
@@ -587,7 +584,7 @@ Eloquent `Collection` 클래스는 데이터 컬렉션과 상호작용하기 위
 ```php
 $flights = Flight::where('destination', 'Paris')->get();
 
-$flights = $flights->reject(function ($flight) {
+$flights = $flights->reject(function (Flight $flight) {
     return $flight->cancelled;
 });
 ```
@@ -620,10 +617,11 @@ The `chunk` method will retrieve a subset of Eloquent models, passing them to a 
 
 ```php
 use App\Models\Flight;
+use Illuminate\Database\Eloquent\Collection;
 
-Flight::chunk(200, function ($flights) {
+Flight::chunk(200, function (Collection $flights) {
     foreach ($flights as $flight) {
-        //
+        // ...
     }
 });
 ```
@@ -638,7 +636,7 @@ If you are filtering the results of the `chunk` method based on a column that yo
 
 ```php
 Flight::where('departed', true)
-    ->chunkById(200, function ($flights) {
+    ->chunkById(200, function (Collection $flights) {
         $flights->each->update(['departed' => false]);
     }, $column = 'id');
 ```
@@ -655,7 +653,7 @@ The `lazy` method works similarly to [the `chunk` method](#chunking-results) in 
 use App\Models\Flight;
 
 foreach (Flight::lazy() as $flight) {
-    //
+    // ...
 }
 ```
 
@@ -699,7 +697,7 @@ Internally, the `cursor` method uses PHP [generators](https://www.php.net/manual
 use App\Models\Flight;
 
 foreach (Flight::where('destination', 'Zurich')->cursor() as $flight) {
-    //
+    // ...
 }
 ```
 
@@ -710,7 +708,7 @@ The `cursor` returns an `Illuminate\Support\LazyCollection` instance. [Lazy coll
 ```php
 use App\Models\User;
 
-$users = User::cursor()->filter(function ($user) {
+$users = User::cursor()->filter(function (User $user) {
     return $user->id > 500;
 });
 
@@ -812,7 +810,7 @@ If the `ModelNotFoundException` is not caught, a 404 HTTP response is automatica
 
     use App\Models\Flight;
 
-    Route::get('/api/flights/{id}', function ($id) {
+    Route::get('/api/flights/{id}', function (string $id) {
         return Flight::findOrFail($id);
     });
 
@@ -882,17 +880,15 @@ Of course, when using Eloquent, we don't only need to retrieve models from the d
 
     use App\Http\Controllers\Controller;
     use App\Models\Flight;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
 
     class FlightController extends Controller
     {
         /**
          * Store a new flight in the database.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function store(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             // Validate the request...
 
@@ -901,6 +897,8 @@ Of course, when using Eloquent, we don't only need to retrieve models from the d
             $flight->name = $request->name;
 
             $flight->save();
+
+            return redirect('/flights');
         }
     }
 
@@ -1134,10 +1132,8 @@ If you wish, you may instruct Laravel to throw an exception when attempting to f
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
     }
@@ -1282,7 +1278,7 @@ To determine if a given model instance has been soft deleted, you may use the `t
 주어진 모델 인스턴스가 일시 삭제되었는지 확인하려면 `trashed` 메소드를 사용할 수 있습니다.
 
     if ($flight->trashed()) {
-        //
+        // ...
     }
 
 <a name="restoring-soft-deleted-models"></a>
@@ -1373,6 +1369,7 @@ Sometimes you may want to periodically delete models that are no longer needed. 
 
     namespace App\Models;
 
+    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Prunable;
 
@@ -1382,10 +1379,8 @@ Sometimes you may want to periodically delete models that are no longer needed. 
 
         /**
          * Get the prunable model query.
-         *
-         * @return \Illuminate\Database\Eloquent\Builder
          */
-        public function prunable()
+        public function prunable(): Builder
         {
             return static::where('created_at', '<=', now()->subMonth());
         }
@@ -1397,12 +1392,10 @@ When marking models as `Prunable`, you may also define a `pruning` method on the
 
     /**
      * Prepare the model for pruning.
-     *
-     * @return void
      */
-    protected function pruning()
+    protected function pruning(): void
     {
-        //
+        // ...
     }
 
 After configuring your prunable model, you should schedule the `model:prune` Artisan command in your application's `App\Console\Kernel` class. You are free to choose the appropriate interval at which this command should be run:
@@ -1411,11 +1404,8 @@ After configuring your prunable model, you should schedule the `model:prune` Art
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('model:prune')->daily();
     }
@@ -1462,6 +1452,7 @@ When models are marked with the `Illuminate\Database\Eloquent\MassPrunable` trai
 
     namespace App\Models;
 
+    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\MassPrunable;
 
@@ -1471,10 +1462,8 @@ When models are marked with the `Illuminate\Database\Eloquent\MassPrunable` trai
 
         /**
          * Get the prunable model query.
-         *
-         * @return \Illuminate\Database\Eloquent\Builder
          */
-        public function prunable()
+        public function prunable(): Builder
         {
             return static::where('created_at', '<=', now()->subMonth());
         }
@@ -1556,12 +1545,8 @@ The `Scope` interface requires you to implement one method: `apply`. The `apply`
     {
         /**
          * Apply the scope to a given Eloquent query builder.
-         *
-         * @param  \Illuminate\Database\Eloquent\Builder  $builder
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @return void
          */
-        public function apply(Builder $builder, Model $model)
+        public function apply(Builder $builder, Model $model): void
         {
             $builder->where('created_at', '<', now()->subYears(2000));
         }
@@ -1592,10 +1577,8 @@ To assign a global scope to a model, you should override the model's `booted` me
     {
         /**
          * The "booted" method of the model.
-         *
-         * @return void
          */
-        protected static function booted()
+        protected static function booted(): void
         {
             static::addGlobalScope(new AncientScope);
         }
@@ -1628,10 +1611,8 @@ Eloquent는 또한 클로저를 사용하여 글로벌 스코프를 정의할 �
     {
         /**
          * The "booted" method of the model.
-         *
-         * @return void
          */
-        protected static function booted()
+        protected static function booted(): void
         {
             static::addGlobalScope('ancient', function (Builder $builder) {
                 $builder->where('created_at', '<', now()->subYears(2000));
@@ -1683,28 +1664,23 @@ Scopes should always return the same query builder instance or `void`:
 
     namespace App\Models;
 
+    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
     {
         /**
          * Scope a query to only include popular users.
-         *
-         * @param  \Illuminate\Database\Eloquent\Builder  $query
-         * @return \Illuminate\Database\Eloquent\Builder
          */
-        public function scopePopular($query)
+        public function scopePopular(Builder $query): void
         {
-            return $query->where('votes', '>', 100);
+            $query->where('votes', '>', 100);
         }
 
         /**
          * Scope a query to only include active users.
-         *
-         * @param  \Illuminate\Database\Eloquent\Builder  $query
-         * @return void
          */
-        public function scopeActive($query)
+        public function scopeActive(Builder $query): void
         {
             $query->where('active', 1);
         }
@@ -1754,14 +1730,10 @@ Sometimes you may wish to define a scope that accepts parameters. To get started
     {
         /**
          * Scope a query to only include users of a given type.
-         *
-         * @param  \Illuminate\Database\Eloquent\Builder  $query
-         * @param  mixed  $type
-         * @return \Illuminate\Database\Eloquent\Builder
          */
-        public function scopeOfType($query, $type)
+        public function scopeOfType(Builder $query, string $type): void
         {
-            return $query->where('type', $type);
+            $query->where('type', $type);
         }
     }
 
@@ -1780,11 +1752,11 @@ Sometimes you may need to determine if two models are the "same" or not. The `is
 때로는 두 모델이 "동일한"지 여부를 결정해야 할 수도 있습니다. `is` 및 `isNot` 메소드는 두 모델이 동일한 기본키, 테이블 및 데이터베이스 연결을 가지고 있는지 여부를 빠르게 확인하는 데 사용할 수 있습니다.
 
     if ($post->is($anotherPost)) {
-        //
+        // ...
     }
 
     if ($post->isNot($anotherPost)) {
-        //
+        // ...
     }
 
 The `is` and `isNot` methods are also available when using the `belongsTo`, `hasOne`, `morphTo`, and `morphOne` [relationships](/docs/{{version}}/eloquent-relationships). This method is particularly helpful when you would like to compare a related model without issuing a query to retrieve that model:
@@ -1792,7 +1764,7 @@ The `is` and `isNot` methods are also available when using the `belongsTo`, `has
 `is` 및 `isNot` 메소드는 `belongsTo`, `hasOne`, `morphTo` 및 `morphOne` [관계-relationships](/docs/{{version}}/eloquent-relationships)을 사용할 때도 사용할 수 있습니다. 이 방법은 해당 모델을 검색하기 위해 쿼리를 실행하지 않고 관련 모델을 비교하려는 경우에 특히 유용합니다.
 
     if ($post->author()->is($user)) {
-        //
+        // ...
     }
 
 <a name="events"></a>
@@ -1805,9 +1777,9 @@ The `is` and `isNot` methods are also available when using the `belongsTo`, `has
 > **Note**
 > Eloquent 이벤트를 클라이언트 측 애플리케이션에 직접 브로드캐스트하고 싶으십니까? 라라벨의 [모델 이벤트 브로드캐스트](/docs/{{version}}/broadcasting#model-broadcasting)을 확인하세요.
 
-Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleted`, `restoring`, `restored`, and `replicating`.
+Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleting`, `forceDeleted`, `restoring`, `restored`, and `replicating`.
 
-Eloquent 모델은 여러 이벤트를 전달하여 모델 수명 주기의 `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleted`, `restoring`, `restored`, `replicating` 와 같은 순간에 연결할 수 있습니다.
+Eloquent 모델은 여러 이벤트를 전달하여 모델 수명 주기의 `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleting`, `forceDeleted`, `restoring`, `restored`, `replicating` 와 같은 순간에 연결할 수 있습니다.
 
 The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the changes to the model are persisted.
 
@@ -1869,13 +1841,11 @@ Instead of using custom event classes, you may register closures that execute wh
     {
         /**
          * The "booted" method of the model.
-         *
-         * @return void
          */
-        protected static function booted()
+        protected static function booted(): void
         {
-            static::created(function ($user) {
-                //
+            static::created(function (User $user) {
+                // ...
             });
         }
     }
@@ -1886,8 +1856,8 @@ If needed, you may utilize [queueable anonymous event listeners](/docs/{{version
 
     use function Illuminate\Events\queueable;
 
-    static::created(queueable(function ($user) {
-        //
+    static::created(queueable(function (User $user) {
+        // ...
     }));
 
 <a name="observers"></a>
@@ -1920,57 +1890,42 @@ This command will place the new observer in your `app/Observers` directory. If t
     {
         /**
          * Handle the User "created" event.
-         *
-         * @param  \App\Models\User  $user
-         * @return void
          */
-        public function created(User $user)
+        public function created(User $user): void
         {
-            //
+            // ...
         }
 
         /**
          * Handle the User "updated" event.
-         *
-         * @param  \App\Models\User  $user
-         * @return void
          */
-        public function updated(User $user)
+        public function updated(User $user): void
         {
-            //
+            // ...
         }
 
         /**
          * Handle the User "deleted" event.
-         *
-         * @param  \App\Models\User  $user
-         * @return void
          */
-        public function deleted(User $user)
+        public function deleted(User $user): void
         {
-            //
+            // ...
+        }
+        
+        /**
+         * Handle the User "restored" event.
+         */
+        public function restored(User $user): void
+        {
+            // ...
         }
 
         /**
-        * Handle the User "restored" event.
-        *
-        * @param  \App\Models\User  $user
-        * @return void
-        */
-        public function restored(User $user)
-        {
-        //
-        }
-  
-        /**
          * Handle the User "forceDeleted" event.
-         *
-         * @param  \App\Models\User  $user
-         * @return void
          */
-        public function forceDeleted(User $user)
+        public function forceDeleted(User $user): void
         {
-            //
+            // ...
         }
     }
 
@@ -1983,10 +1938,8 @@ To register an observer, you need to call the `observe` method on the model you 
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         User::observe(UserObserver::class);
     }
@@ -2038,13 +1991,10 @@ When models are being created within a database transaction, you may want to ins
 
         /**
          * Handle the User "created" event.
-         *
-         * @param  \App\Models\User  $user
-         * @return void
          */
-        public function created(User $user)
+        public function created(User $user): void
         {
-            //
+            // ...
         }
     }
 
@@ -2083,5 +2033,5 @@ You may also "update", "delete", "soft delete", "restore", and "replicate" a giv
 주어진 모델을 아무런 이벤트도 발생시키지 않으면서 "수정", "삭제", "소프트 삭제", "복구", "복제"할 수 있습니다.
 
     $user->deleteQuietly();
-
+    $user->forceDeleteQuietly();
     $user->restoreQuietly();

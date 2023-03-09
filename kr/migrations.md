@@ -270,6 +270,8 @@ php artisan migrate:rollback --step=5
 
 You may roll back a specific "batch" of migrations by providing the `batch` option to the `rollback` command, where the `batch` option corresponds to a batch value within your application's `migrations` database table. For example, the following command will roll back all migrations in batch three:
 
+`rollback` 명령어에 `batch` 옵션을 전달하여 마이그레이션의 특정 "배치"를 되돌릴 수 있습니다. 여기서 `batch` 옵션은 애플리케이션의 `migrations` 데이터베이스 테이블 내의 배치 값에 해당합니다. 예를 들어 다음 명령어는 배치 3의 모든 마이그레이션을 되돌립니다.
+
  ```shell
  php artisan migrate:rollback --batch=3
  ```

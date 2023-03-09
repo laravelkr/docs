@@ -16,7 +16,7 @@
     - [Date Casting](#date-casting)
     - [날짜 캐스팅](#date-casting)
     - [Enum Casting](#enum-casting)
-    - [Enum 캐스팅](#enum-casting)
+    - [열거형-Enum 캐스팅](#enum-casting)
     - [Encrypted Casting](#encrypted-casting)
     - [암호화 캐스팅](#encrypted-casting)
     - [Query Time Casting](#query-time-casting)
@@ -508,11 +508,11 @@ If a custom format is applied to the `date` or `datetime` cast, such as `datetim
 
 <a name="enum-casting"></a>
 ### Enum Casting
-### Enum 캐스팅
+### 열거형-Enum 캐스팅
 
 Eloquent also allows you to cast your attribute values to PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
 
-Eloquent를 사용하면 속성 값을 PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php)로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 enum을 지정할 수 있습니다.
+Eloquent를 사용하면 속성 값을 PHP [열거형-Enums](https://www.php.net/manual/en/language.enumerations.backed.php)로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 열거형-enum을 지정할 수 있습니다.
 
     use App\Enums\ServerStatus;
 
@@ -527,7 +527,7 @@ Eloquent를 사용하면 속성 값을 PHP [Enums](https://www.php.net/manual/en
 
 Once you have defined the cast on your model, the specified attribute will be automatically cast to and from an enum when you interact with the attribute:
 
-모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 enum으로 자동으로 캐스트되거나 enum에서 캐스트됩니다.
+모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 열거형-enum으로 자동으로 캐스트되거나 enum에서 캐스트됩니다.
 
     if ($server->status == ServerStatus::Provisioned) {
         $server->status = ServerStatus::Ready;
@@ -537,11 +537,11 @@ Once you have defined the cast on your model, the specified attribute will be au
 
 <a name="casting-arrays-of-enums"></a>
 #### Casting Arrays Of Enums
-#### Enum 배열 캐스팅
+#### 열거형-Enum 배열 캐스팅
 
 Sometimes you may need your model to store an array of enum values within a single column. To accomplish this, you may utilize the `AsEnumArrayObject` or `AsEnumCollection` casts provided by Laravel:
 
-모델이 단일 컬럼에 enum 값의 배열을 저장해야 하는 경우가 있을 수 있습니다. 이를 위해 Laravel에서 제공하는 `AsEnumArrayObject` 또는 `AsEnumCollection` 캐스트를 사용할 수 있습니다.
+모델이 단일 컬럼에 열거형-enum 값의 배열을 저장해야 하는 경우가 있을 수 있습니다. 이를 위해 Laravel에서 제공하는 `AsEnumArrayObject` 또는 `AsEnumCollection` 캐스트를 사용할 수 있습니다.
 
     use App\Enums\ServerStatus;
     use Illuminate\Database\Eloquent\Casts\AsEnumCollection;

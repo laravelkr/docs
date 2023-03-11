@@ -3,18 +3,18 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Configuration](#configuration)
-  - [설정하기](#configuration)
-  - [Read & Write Connections](#read-and-write-connections)
-  - [읽기 & 쓰기 커넥션](#read-and-write-connections)
+    - [Configuration](#configuration)
+    - [설정하기](#configuration)
+    - [Read & Write Connections](#read-and-write-connections)
+    - [읽기 & 쓰기 커넥션](#read-and-write-connections)
 - [Running SQL Queries](#running-queries)
 - [SQL 쿼리 실행](#running-queries)
-  - [Using Multiple Database Connections](#using-multiple-database-connections)
-  - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
-  - [Listening For Query Events](#listening-for-query-events)
-  - [쿼리 이벤트 리스닝](#listening-for-query-events)
-  - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
-  - [누적 쿼리 시간 모니터링](#monitoring-cumulative-query-time)
+    - [Using Multiple Database Connections](#using-multiple-database-connections)
+    - [여러개의 데이터베이스 커넥션 사용하기](#using-multiple-database-connections)
+    - [Listening For Query Events](#listening-for-query-events)
+    - [쿼리 이벤트 리스닝](#listening-for-query-events)
+    - [Monitoring Cumulative Query Time](#monitoring-cumulative-query-time)
+    - [누적 쿼리 시간 모니터링](#monitoring-cumulative-query-time)
 - [Database Transactions](#database-transactions)
 - [데이터베이스 트랙잭션](#database-transactions)
 - [Connecting To The Database CLI](#connecting-to-the-database-cli)
@@ -179,15 +179,14 @@ To run a basic SELECT query, you may use the `select` method on the `DB` facade:
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show a list of all of the application's users.
-         *
-         * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(): View
         {
             $users = DB::select('select * from users where active = ?', [1]);
 
@@ -292,9 +291,11 @@ Sometimes you may want to execute an SQL statement without binding any values. Y
 
     DB::unprepared('update users set votes = 100 where name = "Dries"');
 
-> {note} Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
+> **Warning**  
+> Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
 
-> {참고} 준비되지 않은 구문은 매개변수를 바인딩하지 않으므로 SQL 주입에 취약할 수 있습니다. 준비되지 않은 명령문 내에서 사용자 제어 값을 허용해서는 안 됩니다.
+> **Warning**  
+> 준비되지 않은 구문은 매개변수를 바인딩하지 않으므로 SQL 주입에 취약할 수 있습니다. 준비되지 않은 명령문 내에서 사용자 제어 값을 허용해서는 안 됩니다.
 
 <a name="implicit-commits-in-transactions"></a>
 #### Implicit Commits
@@ -340,6 +341,7 @@ If you would like to specify a closure that is invoked for each SQL query execut
 
     namespace App\Providers;
 
+    use Illuminate\Database\Events\QueryExecuted;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\ServiceProvider;
 
@@ -347,22 +349,18 @@ If you would like to specify a closure that is invoked for each SQL query execut
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            DB::listen(function ($query) {
+            DB::listen(function (QueryExecuted $query) {
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
@@ -391,20 +389,16 @@ A common performance bottleneck of modern web applications is the amount of time
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             DB::whenQueryingForLongerThan(500, function (Connection $connection, QueryExecuted $event) {
                 // Notify development team...
@@ -468,9 +462,11 @@ Lastly, you can commit a transaction via the `commit` method:
 
     DB::commit();
 
-> {tip} The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
+> **Note**  
+> The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
 
-> {tip} `DB` 파사드의 트랜잭션 메소드는 [query builder](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent) 모두에 대한 트랜잭션을 제어합니다.
+> **Note**  
+> `DB` 파사드의 트랜잭션 메소드는 [query builder](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent) 모두에 대한 트랜잭션을 제어합니다.
 
 <a name="connecting-to-the-database-cli"></a>
 ## Connecting To The Database CLI
@@ -560,10 +556,8 @@ use Illuminate\Support\Facades\Notification;
 
 /**
  * Register any other events for your application.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Event::listen(function (DatabaseBusy $event) {
         Notification::route('mail', 'dev@example.com')

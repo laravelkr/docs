@@ -172,7 +172,7 @@ If you would like your application to interact with Redis via the Predis package
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in your application's `config/database.php` configuration file:
 
-Predis는 `host`, `port`, `database`, `password` 기본 서버 설정 옵션 외에도 각 Redis 서버에 대해 정의할 수 있는 추가 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 활용하려면, `config/database.php` 설정 파일의 Redis 서버 설정에 해당 옵션을 추가하세요.
+Predis는 `host`, `port`, `database`, `password` 기본 서버 설정 옵션 외에도 각 Redis 서버에 대해 정의할 수 있는 추가 [커넥션 파라미터](https://github.com/nrk/predis/wiki/Connection-Parameters)를 지원합니다. 이 추가적인 설정 옵션을 활용하려면, `config/database.php` 설정 파일의 레디스 서버 설정에 해당 옵션을 추가하세요.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -200,7 +200,7 @@ Laravel's `config/app.php` configuration file contains an `aliases` array which 
 
 By default, Laravel will use the phpredis extension to communicate with Redis. The client that Laravel will use to communicate with Redis is dictated by the value of the `redis.client` configuration option, which typically reflects the value of the `REDIS_CLIENT` environment variable:
 
-기본적으로 라라벨은 Redis와 통신하기 위해 phpredis 확장을 사용합니다. 라라벨 Redis와 통신하는 데 사용할 클라이언트는 `redis.client` 구성 옵션의 값에 따라 결정되며, 일반적으로 환경 변수의 값을 반영하는 `redis.client` 옵션에 의해 결정됩니다.
+기본적으로 라라벨은 phpredis 확장을 사용하여 레디스와 통신합니다. 라라벨이 레디스와 통신하는 데 사용할 클라이언트는 `redis.client` 옵션의 값에 따라 결정되며, 일반적으로 `REDIS_CLIENT` 환경 변수의 값을 반영합니다:
 
     'redis' => [
 
@@ -211,7 +211,7 @@ By default, Laravel will use the phpredis extension to communicate with Redis. T
 
 In addition to the default `scheme`, `host`, `port`, `database`, and `password` server configuration options, phpredis supports the following additional connection parameters: `name`, `persistent`, `persistent_id`, `prefix`, `read_timeout`, `retry_interval`, `timeout`, and `context`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-기본 `scheme`, `host`, `port`, `database`, `password` 서버 구성 옵션 외에, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `name`, `persistent`, `prefix`, `read_timeout`, `timeout`, `context`. `config/database.php` 파일의 레디스 서버 설정에 이 옵션들을 추가할 수 있습니다.
+기본 `scheme`, `host`, `port`, `database`, `password` 설정 옵션에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `name`, `persistent`, `prefix`, `read_timeout`, `timeout`, `context`. `config/database.php` 파일의 레디스 서버 설정에 이 옵션들을 추가할 수 있습니다.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),

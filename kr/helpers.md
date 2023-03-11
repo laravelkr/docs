@@ -510,7 +510,7 @@ The `Arr::first` method returns the first element of an array passing a given tr
 
     $array = [100, 200, 300];
 
-    $first = Arr::first($array, function ($value, $key) {
+    $first = Arr::first($array, function (int $value, int $key) {
         return $value >= 150;
     });
 
@@ -708,7 +708,7 @@ The `Arr::last` method returns the last element of an array passing a given trut
 
     $array = [100, 200, 300, 110];
 
-    $last = Arr::last($array, function ($value, $key) {
+    $last = Arr::last($array, function (int $value, int $key) {
         return $value >= 150;
     });
 
@@ -952,7 +952,7 @@ You may also sort the array by the results of the given Closure:
         ['name' => 'Chair'],
     ];
 
-    $sorted = array_values(Arr::sort($array, function ($value) {
+    $sorted = array_values(Arr::sort($array, function (array $value) {
         return $value['name'];
     }));
 
@@ -1084,7 +1084,7 @@ The `Arr::where` method filters an array using the given Closure:
 
     $array = [100, '200', 300, '400', 500];
 
-    $filtered = Arr::where($array, function ($value, $key) {
+    $filtered = Arr::where($array, function (string|int $value, int $key) {
         return is_string($value);
     });
 
@@ -1337,6 +1337,12 @@ The `lang_path` function returns the fully qualified path to your application's 
 
     $path = lang_path('en/messages.php');
 
+> **Note**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+> **참고**
+> 기본적으로 Laravel 애플리케이션 스켈레톤은 `lang` 디렉토리를 포함하고 있지 않습니다. `lang:publish` 아티즌 명령어를 사용하여 언어파일을 생성하고 커스터마이징할 수 있습니다.
+
 <a name="method-mix"></a>
 #### `mix()` {.collection-method}
 
@@ -1386,9 +1392,9 @@ The `storage_path` function returns the fully qualified path to your application
 <a name="method-__"></a>
 #### `__()` {.collection-method}
 
-The `__` function translates the given translation string or translation key using your [localization files](/docs/{{version}}/localization):
+The `__` function translates the given translation string or translation key using your [language files](/docs/{{version}}/localization):
 
-`__` 함수는 주어진 다국어 문자열 또는 다국어 키를 [다국어 파일](/docs/{{version}}/localization)을 사용하여 변환합니다.
+`__` 함수는 주어진 다국어 문자열 또는 다국어 키를 [언어 파일](/docs/{{version}}/localization)을 사용하여 변환합니다.
 
     echo __('Welcome to our application');
 
@@ -2433,9 +2439,9 @@ If no argument is provided to the `str` function, the function returns an instan
 <a name="method-trans"></a>
 #### `trans()` {.collection-method}
 
-The `trans` function translates the given translation key using your [localization files](/docs/{{version}}/localization):
+The `trans` function translates the given translation key using your [language files](/docs/{{version}}/localization):
 
-`trans` 함수는 [다국어 파일](/docs/{{version}}/localization)을 이용하여 주어진 다국어 키를 변환합니다.
+`trans` 함수는 [언어 파일](/docs/{{version}}/localization)을 이용하여 주어진 다국어 키를 변환합니다.
 
     echo trans('messages.welcome');
 
@@ -2947,7 +2953,7 @@ The `kebab` method converts the given string to `kebab-case`:
     // foo-bar
 
 <a name="method-fluent-str-lcfirst"></a>
-#### `lcfirst()` {.collection-method}
+#### `lcfirst` {.collection-method}
 
 The `lcfirst` method returns the given string with the first character lowercased:
 
@@ -3186,12 +3192,13 @@ The `pipe` method allows you to transform the string by passing its current valu
 `pipe` 메소드는 현재 문자열을 주어진 callable에 전달하여 변환할 수 있습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
     $hash = Str::of('Laravel')->pipe('md5')->prepend('Checksum: ');
 
     // 'Checksum: a5c95b86291ea299fcbe64458ed12702'
 
-    $closure = Str::of('foo')->pipe(function ($str) {
+    $closure = Str::of('foo')->pipe(function (Stringable $str) {
         return 'bar';
     });
 
@@ -3200,7 +3207,7 @@ The `pipe` method allows you to transform the string by passing its current valu
 <a name="method-fluent-str-plural"></a>
 #### `plural` {.collection-method}
 
-The `plural` method converts a single word string to its plural form. This function supports [any of the languages support by Laravel's pluralizer](/docs/{{version}}/localization#pluralization-language):
+The `plural` method converts a singular word string to its plural form. This function supports [any of the languages support by Laravel's pluralizer](/docs/{{version}}/localization#pluralization-language):
 
 `plural` 메소드는 단수형을 복수형으로 변환합니다. 이 기능은 [라라벨 pluralizer](/docs/{{version}}/localization#pluralization-language)에서 지원하는 모든 언어를 지원합니다.
 
@@ -3330,8 +3337,9 @@ The `replaceMatches` method also accepts a Closure that will be invoked with eac
 `replaceMatches` 메소드는 또한 주어진 파티에 일치하는 문자열의 각 부분에 대해 호출되는 클로저를 허용하므로 closure 내에서 대체 로직을 실행하고 대체된 값을 반환할 수 있습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $replaced = Str::of('123')->replaceMatches('/\d/', function ($match) {
+    $replaced = Str::of('123')->replaceMatches('/\d/', function (Stringable $match) {
         return '['.$match[0].']';
     });
 
@@ -3372,7 +3380,7 @@ The `scan` method parses input from a string into a collection according to a fo
 <a name="method-fluent-str-singular"></a>
 #### `singular` {.collection-method}
 
-The `singular` method converts a string to its singular form. This function currently only supports the English language:
+The `singular` method converts a string to its singular form. This function supports [any of the languages support by Laravel's pluralizer](/docs/{{version}}/localization#pluralization-language):
 
 `singular` 메소드는 문자열을 단수 형식으로 변환합니다. 이 기능은 현재 영어만 지원합니다.
 
@@ -3540,10 +3548,11 @@ The `tap` method passes the string to the given closure, allowing you to examine
 `tap` 메소드는 문자열을 주어진 클로저에 전달하여 문자열 자체에 영향을 주지 않으면서 문자열을 검사하고 상호 작용할 수 있도록 합니다. 원래 문자열은 클로저에 의해 반환된 내용에 관계없이 `tap` 메소드에 의해 반환됩니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
     $string = Str::of('Laravel')
         ->append(' Framework')
-        ->tap(function ($string) {
+        ->tap(function (Stringable $string) {
             dump('String after append: ' . $string);
         })
         ->upper();
@@ -3641,9 +3650,10 @@ The `when` method invokes the given Closure if a given condition is true. The Cl
 `when` 메소드는 주어진 조건이 참이면 주어진 Closure를 호출합니다. Closure는 fluent string 인스턴스를 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
     $string = Str::of('Taylor')
-                    ->when(true, function ($string) {
+                   ->when(true, function (Stringable $string) {
                         return $string->append(' Otwell');
                     });
 
@@ -3662,9 +3672,10 @@ The `whenContains` method invokes the given closure if the string contains the g
 `whenContains` 메소드는 문자열이 주어진 값을 포함하는 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
     $string = Str::of('tony stark')
-                ->whenContains('tony', function ($string) {
+                ->whenContains('tony', function (Stringable $string) {
                     return $string->title();
                 });
 
@@ -3695,9 +3706,10 @@ The `whenContainsAll` method invokes the given closure if the string contains al
 `whenContainsAll` 메소드는 문자열에 주어진 하위 문자열이 모두 포함되어 있으면 전달된 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
     $string = Str::of('tony stark')
-                    ->whenContainsAll(['tony', 'stark'], function ($string) {
+                    ->whenContainsAll(['tony', 'stark'], function (Stringable $string) {
                         return $string->title();
                     });
 
@@ -3715,8 +3727,9 @@ The `whenEmpty` method invokes the given Closure if the string is empty. If the 
 `whenEmpty` 메소드는 문자열이 비어 있으면 주어진 클로저를 호출합니다. 클로저가 값을 반환하면 그 값도 `whenEmpty` 메소드에 의해 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('  ')->whenEmpty(function ($string) {
+    $string = Str::of('  ')->whenEmpty(function (Stringable $string) {
         return $string->trim()->prepend('Laravel');
     });
 
@@ -3730,8 +3743,9 @@ The `whenNotEmpty` method invokes the given closure if the string is not empty. 
 `whenNotEmpty` 메소드는 문자열이 비어 있지 않으면 주어진 클로저를 호출합니다. closure 가 값을 반환하면 해당 값은 `whenNotEmpty` 메소드에서도 반환됩니다. 클로저가 값을 반환하지 않으면 fluent string 인스턴스가 반환됩니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('Framework')->whenNotEmpty(function ($string) {
+    $string = Str::of('Framework')->whenNotEmpty(function (Stringable $string) {
         return $string->prepend('Laravel ');
     });
 
@@ -3745,8 +3759,9 @@ The `whenStartsWith` method invokes the given closure if the string starts with 
 `whenStartsWith` 메소드는 문자열이 주어진 하위 문자열로 시작하면 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('disney world')->whenStartsWith('disney', function ($string) {
+    $string = Str::of('disney world')->whenStartsWith('disney', function (Stringable $string) {
         return $string->title();
     });
 
@@ -3760,8 +3775,9 @@ The `whenEndsWith` method invokes the given closure if the string ends with the 
 `whenEndsWith` 메소드는 문자열이 주어진 하위 문자열로 끝나는 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('disney world')->whenEndsWith('world', function ($string) {
+    $string = Str::of('disney world')->whenEndsWith('world', function (Stringable $string) {
         return $string->title();
     });
 
@@ -3790,8 +3806,9 @@ The `whenNotExactly` method invokes the given closure if the string does not exa
 어진 문자열과 정확히 일치하지 않으면 메서드는 주어진 클로저를 호출합니다. 클로저는 유창한 문자열 인스턴스를 수신합니다:
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('framework')->whenNotExactly('laravel', function ($string) {
+    $string = Str::of('framework')->whenNotExactly('laravel', function (Stringable $string) {
         return $string->title();
     });
 
@@ -3805,8 +3822,9 @@ The `whenIs` method invokes the given closure if the string matches a given patt
 `whenIs` 메소드는 문자열이 주어진 패턴과 일치하면 주어진 클로저를 호출합니다. 별표를 와일드카드 값으로 사용할 수 있습니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('foo/bar')->whenIs('foo/*', function ($string) {
+    $string = Str::of('foo/bar')->whenIs('foo/*', function (Stringable $string) {
         return $string->append('/baz');
     });
 
@@ -3820,8 +3838,9 @@ The `whenIsAscii` method invokes the given closure if the string is 7 bit ASCII.
 `whenIsAscii` 메소드는 문자열이 7비트 ASCII인 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('laravel')->whenIsAscii(function ($string) {
+    $string = Str::of('laravel')->whenIsAscii(function (Stringable $string) {
         return $string->title();
     });
 
@@ -3835,8 +3854,9 @@ The `whenIsUlid` method invokes the given closure if the string is a valid ULID.
 `whenIsUlid` 메소드는 문자열이 유효한 ULID인 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 전달 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('01gd6r360bp37zj17nxb55yv40')->whenIsUlid(function ($string) {
+    $string = Str::of('01gd6r360bp37zj17nxb55yv40')->whenIsUlid(function (Stringable $string) {
         return $string->substr(0, 8);
     });
 
@@ -3850,8 +3870,9 @@ The `whenIsUuid` method invokes the given closure if the string is a valid UUID.
 `whenIsUuid` 메소드는 문자열이 유효한 UUID인 경우 주어진 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('a0a2a2d2-0b87-4a18-83f2-2529882be2de')->whenIsUuid(function ($string) {
+    $string = Str::of('a0a2a2d2-0b87-4a18-83f2-2529882be2de')->whenIsUuid(function (Stringable $string) {
         return $string->substr(0, 8);
     });
 
@@ -3865,8 +3886,9 @@ The `whenTest` method invokes the given closure if the string matches the given 
 `whenTest` 메소드는 문자열이 주어진 정규 표현식과 일치하는 경우 클로저를 호출합니다. 클로저는 fluent string 인스턴스를 받습니다.
 
     use Illuminate\Support\Str;
+    use Illuminate\Support\Stringable;
 
-    $string = Str::of('laravel framework')->whenTest('/laravel/', function ($string) {
+    $string = Str::of('laravel framework')->whenTest('/laravel/', function (Stringable $string) {
         return $string->title();
     });
 
@@ -4289,9 +4311,10 @@ The `env` function retrieves the value of an [environment variable](/docs/{{vers
     // Returns 'production' if APP_ENV is not set...
     $env = env('APP_ENV', 'production');
 
-> {note} If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
-
-> {note} 배포과정에서 `config:cache` 명령어를 실행했다면, 설정 파일안에서 `env` 함수를 호출한 부분이 있는지 확인해야 합니다. 설정이 캐싱되고 나면, `.env` 파일은 로드하지 않고, 모든 `env` 함수는 `null`을 반환합니다.
+> **Warning**  
+> If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
+> **주의**
+> 배포과정에서 `config:cache` 명령어를 실행했다면, 설정 파일안에서 `env` 함수를 호출한 부분이 있는지 확인해야 합니다. 설정이 캐싱되고 나면, `.env` 파일은 로드하지 않고, 모든 `env` 함수는 `null`을 반환합니다.
 
 <a name="method-event"></a>
 #### `event()` {.collection-method}
@@ -4442,7 +4465,7 @@ The `optional` function also accepts a closure as its second argument. The closu
 
 `optional` 함수는 두 번째 인자로 클로저를 받을 수 있습니다. 첫 번째 인자가 `null`이 아닌경우, 클로저가 호출됩니다.
 
-    return optional(User::find($id), function ($user) {
+    return optional(User::find($id), function (User $user) {
         return $user->name;
     });
 
@@ -4576,9 +4599,11 @@ If you would like to manually calculate the number of milliseconds to sleep betw
 
 만약 수동으로 다시 실행을 시도하기까지의 시간(밀리초)을 수동으로 계산하려면 `retry` 함수에 대한 세 번째 인자로 클로저를 전달할 수 있습니다.
 
+    use Exception;
+
     return retry(5, function () {
         // ...
-    }, function ($attempt, $exception) {
+    }, function (int $attempt, Exception $exception) {
         return $attempt * 100;
     });
 
@@ -4594,9 +4619,11 @@ To only retry under specific conditions, you may pass a closure as the fourth ar
 
 특정 조건에서만 재시도하려면 `retry` 함수의 네 번째 인자로 클로저를 전달할 수 있습니다.
 
+    use Exception;
+
     return retry(5, function () {
         // ...
-    }, 100, function ($exception) {
+    }, 100, function (Exception $exception) {
         return $exception instanceof RetryException;
     });
 
@@ -4630,7 +4657,7 @@ The `tap` function accepts two arguments: an arbitrary `$value` and a closure. T
 
 `tap` 함수는 임의의 `$value` 와 클로저 두개의 인자를 받아들입니다. `$value` 는 클로저에 전달되어 `tap` 함수에 의해서 반환됩니다. 반환되는 값은 클로저와 무관합니다.
 
-    $user = tap(User::first(), function ($user) {
+    $user = tap(User::first(), function (User $user) {
         $user->name = 'taylor';
 
         $user->save();
@@ -4649,7 +4676,7 @@ To add a `tap` method to a class, you may add the `Illuminate\Support\Traits\Tap
 
 클래스에 `tap` 메소드를 추가하기 위해서는 `Illuminate\Support\Traits\Tappable` Trait을 클래스에 추가하면됩니다. 이 Trait의 `tap` 메소드는 Closure만 인수로 받아들입니다. 객체 인스턴스 자체는 Closure에 전달되고 `tap` 메소드에 의해 반환됩니다.
 
-    return $user->tap(function ($user) {
+    return $user->tap(function (User $user) {
         //
     });
 
@@ -4708,7 +4735,7 @@ The `transform` function executes a closure on a given value if the value is not
 
 `transform` 함수는 주어진 값이 [빈값](#method-blank)이 아닌 경우에 Closure를 실행하고 Closure의 결과를 반환합니다.
 
-    $callback = function ($value) {
+    $callback = function (int $value) {
         return $value * 2;
     };
 
@@ -4750,6 +4777,15 @@ The `value` function returns the value it is given. However, if you pass a closu
 
     // false
 
+Additional arguments may be passed to the `value` function. If the first argument is a closure then the additional parameters will be passed to the closure as arguments, otherwise they will be ignored:
+`value` 함수에 추가 인자를 전달할 수 있습니다. 첫 번째 인자가 Closure 인 경우, 추가 인자가 Closure의 인자로 전달되고, 그렇지 않은 경우에는 무시됩니다.
+
+    $result = value(function (string $name) {
+        return $name;
+    }, 'Taylor');
+    
+    // 'Taylor'
+
 <a name="method-view"></a>
 #### `view()` {.collection-method}
 
@@ -4766,7 +4802,7 @@ The `with` function returns the value it is given. If a closure is passed as the
 
 `with` 함수는 자신에게 주어진 값을 그대로 반환합니다. 만약 함수에 두 번째 인자로 Closure 가 전달되면, Closure 가 실행되어 그 결과를 반환합니다.
 
-    $callback = function ($value) {
+    $callback = function (mixed $value) {
         return is_numeric($value) ? $value * 2 : 0;
     };
 

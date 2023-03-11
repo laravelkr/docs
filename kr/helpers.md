@@ -127,7 +127,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::limit](#method-str-limit)
 - [Str::lower](#method-str-lower)
 - [Str::markdown](#method-str-markdown)
-  [Str::mask](#method-str-mask)
+- [Str::mask](#method-str-mask)
 - [Str::orderedUuid](#method-str-ordered-uuid)
 - [Str::padBoth](#method-str-padboth)
 - [Str::padLeft](#method-str-padleft)
@@ -158,8 +158,8 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::ucfirst](#method-str-ucfirst)
 - [Str::ucsplit](#method-str-ucsplit)
 - [Str::upper](#method-str-upper)
-- [Str::uuid](#method-str-uuid)
 - [Str::ulid](#method-str-ulid)
+- [Str::uuid](#method-str-uuid)
 - [Str::wordCount](#method-str-word-count)
 - [Str::words](#method-str-words)
 - [str](#method-str)
@@ -204,14 +204,18 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [limit](#method-fluent-str-limit)
 - [lower](#method-fluent-str-lower)
 - [ltrim](#method-fluent-str-ltrim)
+- [markdown](#method-fluent-str-markdown)
+- [mask](#method-fluent-str-mask)
 - [match](#method-fluent-str-match)
 - [matchAll](#method-fluent-str-match-all)
 - [newLine](#method-fluent-str-new-line)
 - [padBoth](#method-fluent-str-padboth)
 - [padLeft](#method-fluent-str-padleft)
 - [padRight](#method-fluent-str-padright)
+- [pipe](#method-fluent-str-pipe)
 - [plural](#method-fluent-str-plural)
 - [prepend](#method-fluent-str-prepend)
+- [remove](#method-fluent-str-remove)
 - [replace](#method-fluent-str-replace)
 - [replaceArray](#method-fluent-str-replace-array)
 - [replaceFirst](#method-fluent-str-replace-first)
@@ -230,12 +234,16 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [substr](#method-fluent-str-substr)
 - [substrReplace](#method-fluent-str-substrreplace)
 - [swap](#method-fluent-str-swap)
+- [tap](#method-fluent-str-tap)
+- [test](#method-fluent-str-test)
 - [title](#method-fluent-str-title)
 - [trim](#method-fluent-str-trim)
 - [ucfirst](#method-fluent-str-ucfirst)
 - [ucsplit](#method-fluent-str-ucsplit)
 - [upper](#method-fluent-str-upper)
 - [when](#method-fluent-str-when)
+- [whenContains](#method-fluent-str-when-contains)
+- [whenContainsAll](#method-fluent-str-when-contains-all)
 - [whenEmpty](#method-fluent-str-when-empty)
 - [whenNotEmpty](#method-fluent-str-when-not-empty)
 - [whenStartsWith](#method-fluent-str-when-starts-with)
@@ -283,12 +291,11 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [decrypt](#method-decrypt)
 - [dd](#method-dd)
 - [dispatch](#method-dispatch)
-- [dispatch_now](#method-dispatch-now)
 - [dump](#method-dump)
 - [encrypt](#method-encrypt)
 - [env](#method-env)
 - [event](#method-event)
-- [factory](#method-factory)
+- [fake](#method-fake)
 - [filled](#method-filled)
 - [info](#method-info)
 - [logger](#method-logger)
@@ -4246,15 +4253,6 @@ The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating
 
     dispatch(new App\Jobs\SendEmails);
 
-<a name="method-dispatch-now"></a>
-#### `dispatch_now()` {.collection-method}
-
-The `dispatch_now` function runs the given [job](/docs/{{version}}/queues#creating-jobs) immediately and returns the value from its `handle` method:
-
-`dispatch_now` 함수는 주어진 [job](/docs/{{version}}/queues#creating-jobs)을 즉시 실행하고 `handle` 메소드의 값을 반환합니다.
-
-    $result = dispatch_now(new App\Jobs\SendEmails);
-
 <a name="method-dump"></a>
 #### `dump()` {.collection-method}
 
@@ -4303,15 +4301,6 @@ The `event` function dispatches the given [event](/docs/{{version}}/events) to i
 `event` 함수는 주어진 [event](/docs/{{version}}/events)를 리스너들에게 보냅니다.
 
     event(new UserRegistered($user));
-
-<a name="method-factory"></a>
-#### `factory()` {.collection-method}
-
-The `factory` function creates a model factory builder for a given class, name, and amount. It can be used while [testing](/docs/{{version}}/database-testing#writing-factories) or [seeding](/docs/{{version}}/seeding#using-model-factories):
-
-`factory` 함수는 주어진 클래스, 이름, 양을 위한 모델 팩토리 빌더를 생성합니다. [testing](/docs/{{version}}/database-testing#writing-factories)이나 [seeding](/docs/{{version}}/seeding#using-model-factories) 중에 이용할 수 있습니다.
-
-    $user = factory(App\User::class)->make();
 
 <a name="method-fake"></a>
 #### `fake()` {.collection-method}

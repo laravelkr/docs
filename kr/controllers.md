@@ -64,8 +64,7 @@ Let's take a look at an example of a basic controller. A controller may have any
     <?php
 
     namespace App\Http\Controllers;
-
-
+    
     use App\Models\User;
     use Illuminate\View\View;
 
@@ -94,7 +93,7 @@ When an incoming request matches the specified route URI, the `show` method on t
 
 들어오는 요청(request)이 지정된 라우트(route)의 URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route)의 파라메터가 `show` 메소드에 전달됩니다.
 
-> **Note**
+> **Note**  
 > Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
 > **Note**
@@ -501,7 +500,7 @@ If you need to add additional routes to a resource controller beyond the default
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> **Note**
+> **Note**  
 > Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
 > **Note**

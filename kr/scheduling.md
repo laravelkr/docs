@@ -65,21 +65,9 @@ You may define all of your scheduled tasks in the `schedule` method of your appl
     class Kernel extends ConsoleKernel
     {
         /**
-         * The Artisan commands provided by your application.
-         *
-         * @var array
-         */
-        protected $commands = [
-            //
-        ];
-
-        /**
          * Define the application's command schedule.
-         *
-         * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-         * @return void
          */
-        protected function schedule(Schedule $schedule)
+        protected function schedule(Schedule $schedule): void
         {
             $schedule->call(function () {
                 DB::table('recent_users')->delete();
@@ -160,6 +148,8 @@ We've already seen a few examples of how you may configure a task to run at spec
 
 지정된 간격으로 실행되도록 작업을 구성하는 방법에 대한 몇 가지 예를 이미 보았습니다. 그러나 작업에 할당할 수 있는 작업 일정 빈도가 더 많습니다.
 
+<div class="overflow-auto">
+
 Method  | Description
 ------------- | -------------
 `->cron('* * * * *');`  |  Run the task on a custom cron schedule
@@ -182,7 +172,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->twiceDailyAt(1, 13, 15);`  |  Run the task daily at 1:15 & 13:15
-`->weekly();`  |  Run the task every sunday at 00:00
+`->weekly();`  |  Run the task every Sunday at 00:00
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task on the first day of every month at 00:00
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
@@ -192,7 +182,9 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  Run the task every quarter on the 4th at 14:00
 `->yearly();`  |  Run the task on the first day of every year at 00:00
 `->yearlyOn(6, 1, '17:00');`  |  Run the task every year on June 1st at 17:00
-`->timezone('America/New_York');` | Set the timezone
+`->timezone('America/New_York');` | Set the timezone for the task
+
+</div>
 
 메소드  | 설명
 ------------- | -------------
@@ -234,7 +226,7 @@ These methods may be combined with additional constraints to create even more fi
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
-        //
+        // ...
     })->weekly()->mondays()->at('13:00');
 
     // Run hourly from 8 AM to 5 PM on weekdays...
@@ -247,6 +239,8 @@ These methods may be combined with additional constraints to create even more fi
 A list of additional schedule constraints may be found below:
 
 추가 일정 제약 목록은 아래에서 찾을 수 있습니다.
+
+<div class="overflow-auto">
 
 Method  | Description
 ------------- | -------------
@@ -264,6 +258,8 @@ Method  | Description
 `->unlessBetween($startTime, $endTime);`  |  Limit the task to not run between start and end times
 `->when(Closure);`  |  Limit the task based on a truth test
 `->environments($env);`  |  Limit the task to specific environments
+
+</div>
 
 메소드  | 설명
 ------------- | -------------
@@ -304,7 +300,7 @@ Alternatively, you may use the constants available on the `Illuminate\Console\Sc
                     ->hourly()
                     ->days([Schedule::SUNDAY, Schedule::WEDNESDAY]);
 
-<a name="between-time-constraints"></a>                   
+<a name="between-time-constraints"></a>
 #### Between Time Constraints
 #### Between 시간 제한
 
@@ -370,23 +366,23 @@ Using the `timezone` method, you may specify that a scheduled task's time should
 
     $schedule->command('report:generate')
              ->timezone('America/New_York')
-             ->at('02:00')
+             ->at('2:00')
 
 If you are repeatedly assigning the same timezone to all of your scheduled tasks, you may wish to define a `scheduleTimezone` method in your `App\Console\Kernel` class. This method should return the default timezone that should be assigned to all scheduled tasks:
 
 만약, 스케줄링된 모든 작업에 동일한 타임존을 반복적으로 할당하는 경우 `App\Console\Kernel` 클래스에서 `scheduleTimezone` 메서드를 정의할 수 있습니다. 이 메서드는 모든 예약된 작업에 할당되어야 하는 기본 타임존을 반환해야 합니다.
 
+    use DateTimeZone;
+
     /**
      * Get the timezone that should be used by default for scheduled events.
-     *
-     * @return \DateTimeZone|string|null
      */
-    protected function scheduleTimezone()
+    protected function scheduleTimezone(): DateTimeZone|string|null
     {
         return 'America/Chicago';
     }
 
-> **Warning**
+> **Warning**  
 > Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
 
 > **Warning**
@@ -420,7 +416,7 @@ Behind the scenes, the `withoutOverlapping` method utilizes your application's [
 ### Running Tasks On One Server
 ### 한 서버에서 작업 실행하기
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `database`, `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
 > **Warning**
@@ -470,6 +466,7 @@ $schedule->call(fn () => User::resetApiRequestCount())
     ->onOneServer();
 ```
 
+
 <a name="background-tasks"></a>
 ### Background Tasks
 ### 백그라운드 작업
@@ -482,7 +479,7 @@ By default, multiple tasks scheduled at the same time will execute sequentially 
              ->daily()
              ->runInBackground();
 
-> **Warning**
+> **Warning**  
 > The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
 
 > **Warning**
@@ -563,7 +560,7 @@ If you only want to email the output if the scheduled Artisan or system command 
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> **Warning**
+> **Warning**  
 > The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
 
 > **Warning**

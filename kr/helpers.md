@@ -68,6 +68,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Arr::set](#method-array-set)
 - [Arr::shuffle](#method-array-shuffle)
 - [Arr::sort](#method-array-sort)
+- [Arr::sortDesc](#method-array-sort-desc)
 - [Arr::sortRecursive](#method-array-sort-recursive)
 - [Arr::toCssClasses](#method-array-to-css-classes)
 - [Arr::undot](#method-array-undot)
@@ -131,6 +132,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Str::padBoth](#method-str-padboth)
 - [Str::padLeft](#method-str-padleft)
 - [Str::padRight](#method-str-padright)
+- [Str::password](#method-str-password)
 - [Str::plural](#method-str-plural)
 - [Str::pluralStudly](#method-str-plural-studly)
 - [Str::random](#method-str-random)
@@ -954,6 +956,46 @@ You may also sort the array by the results of the given Closure:
             ['name' => 'Table'],
         ]
     */
+
+<a name="method-array-sort-desc"></a>
+#### `Arr::sortDesc()` {.collection-method}
+
+The `Arr::sortDesc` method sorts an array in descending order by its values:
+
+`Arr::sortDesc` 메소드는 값을 기반으로 내림차순 정렬을 수행합니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Desk', 'Table', 'Chair'];
+
+    $sorted = Arr::sortDesc($array);
+
+    // ['Table', 'Desk', 'Chair']
+
+You may also sort the array by the results of a given closure:
+
+또한, 주어진 클로저의 결괏값으로 배열을 정렬할 수 있습니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        ['name' => 'Desk'],
+        ['name' => 'Table'],
+        ['name' => 'Chair'],
+    ];
+
+    $sorted = array_values(Arr::sortDesc($array, function (array $value) {
+        return $value['name'];
+    }));
+
+    /*
+        [
+            ['name' => 'Table'],
+            ['name' => 'Desk'],
+            ['name' => 'Chair'],
+        ]
+    */
+
 
 <a name="method-array-sort-recursive"></a>
 #### `Arr::sortRecursive()` {.collection-method}
@@ -1900,6 +1942,23 @@ The `Str::padRight` method wraps PHP's `str_pad` function, padding the right sid
     $padded = Str::padRight('James', 10);
 
     // 'James     '
+
+<a name="method-str-password"></a>
+#### `Str::password()` {.collection-method}
+
+The `Str::password` method may be used to generate a secure, random password of a given length. The password will consist of a combination of letters, numbers, symbols, and spaces. By default, passwords are 32 characters long:
+
+`Str::password` 메소드는 주어진 길이의 안전한 랜덤 비밀번호를 생성하는데 사용됩니다. 비밀번호는 문자, 숫자, 기호, 공백의 조합으로 구성됩니다. 기본적으로 비밀번호는 32자리입니다.
+
+    use Illuminate\Support\Str;
+
+    $password = Str::password();
+
+    // 'EbJo2vE-AS:U,$%_gkrV4n,q~1xy/-_4'
+
+    $password = Str::password(12);
+
+    // 'qwuar>#V|i]N'
 
 <a name="method-str-plural"></a>
 #### `Str::plural()` {.collection-method}

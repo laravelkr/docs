@@ -57,7 +57,7 @@ All exceptions are handled by the `App\Exceptions\Handler` class. This class con
 
 For example, if you need to report different types of exceptions in different ways, you may use the `reportable` method to register a Closure that should be executed when an exception of a given type needs to be reported. Laravel will deduce what type of exception the Closure reports by examining the type-hint of the Closure:
 
-예컨데 여러 가지 유형의 예외를 여러 가지 방법에 따라 보고할 필요가 있다면, `reportable` 메소드를 사용해서 클로저를 등록하여 특정 유형의 예외만 보고될 수 있도록 등록한 클로저를 실행할 수 있습니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 보고할 예외의 유형을 추론합니다.
+예컨데 여러 가지 유형의 예외를 여러 가지 방법에 따라 보고할 필요가 있다면, `reportable` 메소드에 클로저를 등록하여 특정 유형의 예외만 보고될 수 있도록 하고, 등록한 클로저를 실행할 수 있습니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 보고할 예외의 유형을 추론합니다.
 
     use App\Exceptions\InvalidOrderException;
 
@@ -97,7 +97,7 @@ When you register a custom exception reporting callback using the `reportable` m
 
 If available, Laravel automatically adds the current user's ID to every exception's log message as contextual data. You may define your own global contextual data by overriding the `context` method of your application's `App\Exceptions\Handler` class. This information will be included in every exception's log message written by your application:
 
-라라벨은 자동으로 현재의 사용자 ID를 컨텍스트 데이터(contextual data)로써 모든 예외의 로그 메세지에 자동으로 추가합니다. `App\Exceptions\Handler` 클래스의 `context` 메소드를 오버라이딩하여 여러분 자신만의 글로벌 컨텍스트 데이터를 정의할 수 있습니다. 이 정보는 애플리케이션이 기록하는 모든 예외 로그에 포함될 것입니다.
+라라벨은 자동으로 현재 사용자의 ID를 문맥적 데이터(contextual data)로써 로그의 모든 예외 메세지에 자동으로 추가합니다. 또한 `App\Exceptions\Handler` 클래스의 `context` 메소드를 오버라이딩하여 여러분 자신만의 글로벌 컨텍스트 데이터를 정의할 수 있습니다. 이 정보는 애플리케이션이 기록하는 모든 예외 로그에 포함될 것입니다.
 
     /**
      * Get the default context variables for logging.
@@ -117,7 +117,7 @@ If available, Laravel automatically adds the current user's ID to every exceptio
 
 While adding context to every log message can be useful, sometimes a particular exception may have unique context that you would like to include in your logs. By defining a `context` method on one of your application's custom exceptions, you may specify any data relevant to that exception that should be added to the exception's log entry:
 
-모든 로그 메세지에 컨텍스트를 추가하는 것은 편리하지만, 때때로 특정 예외를 통해서 로그에 포함시키고 싶은 고유의 컨텍스트가 있을 수도 있습니다. 애플리케이션의 커스텀 예외에 `context` 메소드를 정의하여, 예외 로그 엔트리(the exception's log entry)에 추가하기로한 예외와 관련된(relevant) 어떠한 데이터든 지정할 수 있습니다.
+모든 로그 메세지에 컨텍스트를 추가하는 것은 편리하지만, 때때로 특정 예외를 통해서 로그에 포함시키고 싶은 특별한 정황(unique context)이 있을 수도 있습니다. 애플리케이션의 커스텀 예외에 `context` 메소드를 정의하여, 예외 로그 엔트리(the exception's log entry)에 추가하기로한 예외와 관련된(relevant) 어떠한 데이터든 지정할 수 있습니다.
 
     <?php
     
@@ -146,7 +146,7 @@ While adding context to every log message can be useful, sometimes a particular 
 
 Sometimes you may need to report an exception but continue handling the current request. The `report` helper function allows you to quickly report an exception via the exception handler without rendering an error page to the user:
 
-때때로 발생한 예외를 보고할 필요는 있지만 현재의 요청(request)을 중지하지 않고 계속 처리할 필요가 있는 경우도 있습니다. `report` 헬퍼 함수를 사용하면 오류 페이지를 표시하지 않으면서 예외 핸들러(Exception handler)를 이용해 예외를 보고 할 수 있습니다. 
+때때로, 발생한 예외를 보고할 필요는 있지만 현재의 요청(request)을 중지하지 않고 계속 처리할 필요가 있는 경우도 있습니다. `report` 헬퍼 함수를 사용하면 오류 페이지를 표시하지 않으면서 예외 핸들러(Exception handler)를 이용해 예외를 보고 할 수 있습니다. 
 
     public function isValid($value)
     {
@@ -173,7 +173,7 @@ As noted above, even when you register a custom exception reporting callback usi
 
 To accomplish this, you may define an array of exception types and their associated log levels within the `$levels` property of your application's exception handler:
 
-그렇게 하기 위해서는 애플리케이션의 예외 핸들어에 있는 `$levels` 프로퍼티에 예외 타입과 그에 해당하는 로그 수준을 배열로 정의하면 됩니다. 
+그렇게 하기 위해서는 애플리케이션의 예외 핸들러에 있는 `$levels` 프로퍼티에 예외 타입과 그에 해당하는 로그 수준을 배열로 정의하면 됩니다. 
 
     use PDOException;
     use Psr\Log\LogLevel;
@@ -337,7 +337,7 @@ If your exception contains custom reporting logic that is only necessary when ce
 > You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
 > **Note**
-> `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
+> `report` 메소드가 요구하는 의존성(dependencies)을 타입힌트 방식으로 적으면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 의존성 객체를 주입해줍니다.
 
 <a name="mapping-exceptions-by-type"></a>
 ### Mapping Exceptions By Type
@@ -345,7 +345,7 @@ If your exception contains custom reporting logic that is only necessary when ce
 
 Sometimes, third-party libraries used by your application may throw exceptions that you wish to make [renderable](#renderable-exceptions), but are unable to do so because you do not have control over the definitions of third-party exceptions.
 
-때때로, 애플리케이션에서 사용되는 서드파티 라이브러리가 예외를 던지는 경우가 있습니다. 여러분은 이 예외를 [렌더링을 할 수 있는(renderable)](#renderable-exceptions) 예외로 만들고 싶은 경우가 생길 것입니다. 하지만 서드파티 라이브러이에서 발생하는 예외는 제어할 수 없기 때문에 렌더링할 수 있는 예외로 만들 수 없습니다.
+때때로, 애플리케이션에서 사용되는 서드파티 라이브러리가 예외를 던지는 경우가 있습니다. 여러분은 이 예외를 [렌더링을 할 수 있는(renderable)](#renderable-exceptions) 예외로 만들고 싶은 경우가 생길 것입니다. 하지만 서드파티 라이브러리에서 발생하는 예외는 제어할 수 없기 때문에 렌더링할 수 있는 예외로 만들 수 없습니다.
 
 Thankfully, Laravel allows you to conveniently map these exceptions to other exception types that you manage within your application. To accomplish this, call the `map` method from your exception handler's `register` method:
 
@@ -395,7 +395,7 @@ Laravel makes it easy to display custom error pages for various HTTP status code
 
 You may publish Laravel's default error page templates using the `vendor:publish` Artisan command. Once the templates have been published, you may customize them to your liking:
 
-`vendor:publish` Artisan 명령을 사용하여 Laravel의 기본 오류 페이지 템플릿을 웹에 띄울 (publish) 수 있습니다. 템플릿을 웹 페이지에 띄웠다면(published), 여러분이 원하는 대로 커스터마이징을 해도 됩니다.
+`vendor:publish` Artisan 명령을 사용하여 라라벨의 기본 오류 페이지 템플릿을 웹에 띄울 (publish) 수 있습니다. 템플릿을 웹 페이지에 띄웠다면(published), 여러분이 원하는 대로 커스터마이징을 해도 됩니다.
 
 ```shell
 php artisan vendor:publish --tag=laravel-errors

@@ -420,7 +420,7 @@ By default, all resource controller actions have a route name; however, you can 
 
 By default, `Route::resource` will create the route parameters for your resource routes based on the "singularized" version of the resource name. You can easily override this on a per resource basis using the `parameters` method. The array passed into the `parameters` method should be an associative array of resource names and parameter names:
 
-기본적으로 `Route::resource`가 라우트 파라미터들을 생성할 때는 리소스 이름의 "단일화된(singularized)" 버전을 기반으로 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 라우팅 엑세스 경로의 파라메터를 재정의할 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다.
+기본적으로 `Route::resource`가 라우트 파라미터들을 생성할 때는 리소스 이름의 "단일화된(singularized)" 버전을 기반으로 생성합니다. 사용자는 각각의 리소스마다 `parameters` 메소드를 사용하여 손쉽게 라우팅 엑세스 경로의 파라메터를 오버라이딩할 수 있습니다. `parameters` 메소드로 전달 된 배열은 리소스의 이름과 파라미터 이름의 연관 배열이어야합니다.
 
     use App\Http\Controllers\AdminUserController;
 
@@ -493,7 +493,7 @@ Laravel's pluralizer supports [several different languages which you may configu
 
 If you need to add additional routes to a resource controller beyond the default set of resource routes, you should define those routes before your call to the `Route::resource` method; otherwise, the routes defined by the `resource` method may unintentionally take precedence over your supplemental routes:
 
-만약 리소스 컨트롤러에 라우트를 추가해야한다면 `Route::resource`메서드를 호출하기 전에 추가하려는 라우트를 정의해야합니다. 그렇지 않으면 `resource` 메소드에 의해서 정의된 라우트들이 추가한 라우트들 보다 우선하게 되어 버립니다.
+만약 리소스 컨트롤러에 라우트를 추가해야 한다면 `Route::resource`메서드를 호출하기 전에 추가하려는 라우트를 정의해야합니다. 그렇지 않으면 `resource` 메소드에 의해서 정의된 라우트들이 추가한 라우트들 보다 우선하게 되어 버립니다.
 
     use App\Http\Controller\PhotoController;
 

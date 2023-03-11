@@ -346,6 +346,7 @@ If your exception contains custom reporting logic that is only necessary when ce
 > **Note**  
 > You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
+> **Note**  
  `report` 메서드에 필요한 의존성 객체의 타입을 타입힌트로 적어주면 라라벨의 [서비스 컨테이너](/docs/{{버전}}/container)의 의존성주입에 의해 자동으로 메서드에 객체가 전달됩니다.
 
 

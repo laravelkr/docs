@@ -51,11 +51,11 @@ During local development, you should set the `APP_DEBUG` environment variable to
 ### Reporting Exceptions
 ### 예외의 보고
 
-All exceptions are handled by the `App\Exceptions\Handler` class. This class contains a `register` method where you may register custom exception reporter and renderer callbacks. We'll examine each of these concepts in detail. Exception reporting is used to log exceptions or send them to an external service like [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, exceptions will be logged based on your [logging](/docs/{{version}}/logging) configuration. However, you are free to log exceptions however you wish.
+All exceptions are handled by the `App\Exceptions\Handler` class. This class contains a `register` method where you may register custom exception reporting and rendering callbacks. We'll examine each of these concepts in detail. Exception reporting is used to log exceptions or send them to an external service like [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) or [Sentry](https://github.com/getsentry/sentry-laravel). By default, exceptions will be logged based on your [logging](/docs/{{version}}/logging) configuration. However, you are free to log exceptions however you wish.
 
 모든 예외는 `App\Exceptions\Handler` 클래스가 다룹니다. 이 클래스는 여러분이 사용자 정의 예외 리포터(custom exception reporter)와 렌더러 콜백(renderer callbacks)을 등록할 수 있는 `register` 메소드를 가지고 있습니다. 이 개념을 자세하게 살펴 봅시다. 예외 보고(Exception Reporting)는, 예외에 대해 로그를 남기거나, [Flare](https://flareapp.io), [Bugsnag](https://bugsnag.com) 또는 [Sentry](https://github.com/getsentry/sentry-laravel)와 같은 외부 서비스로 전송할 때 사용합니다. 기본적으로, 예외에 대한 로그는 [logging](/docs/{{version}}/logging) 설정에 따라서 기록 됩니다. 그러나 여러분이 원하는 대로 예외 로그를 남길 수도 있습니다.
 
-For example, if you need to report different types of exceptions in different ways, you may use the `reportable` method to register a Closure that should be executed when an exception of a given type needs to be reported. Laravel will deduce what type of exception the Closure reports by examining the type-hint of the Closure:
+For example, if you need to report different types of exceptions in different ways, you may use the `reportable` method to register a closure that should be executed when an exception of a given type needs to be reported. Laravel will deduce what type of exception the closure reports by examining the type-hint of the closure:
 
 예컨데 여러 가지 유형의 예외를 여러 가지 방법에 따라 보고할 필요가 있다면, `reportable` 메소드에 클로저를 등록하여 특정 유형의 예외만 보고될 수 있도록 하고, 등록한 클로저를 실행할 수 있습니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 보고할 예외의 유형을 추론합니다.
 
@@ -63,13 +63,11 @@ For example, if you need to report different types of exceptions in different wa
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->reportable(function (InvalidOrderException $e) {
-            //
+            // ...
         });
     }
 
@@ -78,15 +76,15 @@ When you register a custom exception reporting callback using the `reportable` m
 여러분이 `reportable` 메소드를 이용하여 커스텀 예외보고 콜백(custom exception reporting callback) 함수를 등록한 경우에도, 라라벨은 애플리케이션의 기본 로깅 설정에 따라서 예외를 로그에 기록할 것입니다. 만약 여러분이 기본 로깅 스택(default logging stack)으로 더 이상 예외를 전달하지 않도록 하려면 보고 콜백(reporting callback) 함수를 정의할 때 `stop` 메소드를 사용하거나 콜백 함수에서 `false`를 반환하면 됩니다.
 
     $this->reportable(function (InvalidOrderException $e) {
-        //
+        // ...
     })->stop();
-    
+
     $this->reportable(function (InvalidOrderException $e) {
         return false;
     });
 
-> **Note**
-> To customize the exception reporting for a given exception, you may also consider using [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)
+> **Note**  
+> To customize the exception reporting for a given exception, you may also utilize [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions).
 
 > **Note**
 > 주어진 예외에 대한 예외 보고(exception reporting)을 커스터마이징하려면, [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 살펴보세요.
@@ -102,9 +100,9 @@ If available, Laravel automatically adds the current user's ID to every exceptio
     /**
      * Get the default context variables for logging.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function context()
+    protected function context(): array
     {
         return array_merge(parent::context(), [
             'foo' => 'bar',
@@ -120,21 +118,21 @@ While adding context to every log message can be useful, sometimes a particular 
 모든 로그 메세지에 컨텍스트를 추가하는 것은 편리하지만, 때때로 특정 예외를 통해서 로그에 포함시키고 싶은 특별한 정황(unique context)이 있을 수도 있습니다. 애플리케이션의 커스텀 예외에 `context` 메소드를 정의하여, 예외 로그 엔트리(the exception's log entry)에 추가하기로한 예외와 관련된(relevant) 어떠한 데이터든 지정할 수 있습니다.
 
     <?php
-    
+
     namespace App\Exceptions;
-    
+
     use Exception;
-    
+
     class InvalidOrderException extends Exception
     {
         // ...
-    
+
         /**
          * Get the exception's context information.
          *
-         * @return array
+         * @return array<string, mixed>
          */
-        public function context()
+        public function context(): array
         {
             return ['order_id' => $this->orderId];
         }
@@ -148,7 +146,7 @@ Sometimes you may need to report an exception but continue handling the current 
 
 때때로, 발생한 예외를 보고할 필요는 있지만 현재의 요청(request)을 중지하지 않고 계속 처리할 필요가 있는 경우도 있습니다. `report` 헬퍼 함수를 사용하면 오류 페이지를 표시하지 않으면서 예외 핸들러(Exception handler)를 이용해 예외를 보고 할 수 있습니다. 
 
-    public function isValid($value)
+    public function isValid(string $value): bool
     {
         try {
             // Validate the value...
@@ -188,8 +186,8 @@ To accomplish this, you may define an array of exception types and their associa
     ];
 
 <a name="ignoring-exceptions-by-type"></a>
-#### Ignoring Exceptions By Type
-#### 유형에 따른 예외 무시
+### Ignoring Exceptions By Type
+### 유형에 따른 예외 무시
 
 When building your application, there will be some types of exceptions you simply want to ignore and never report. Your application's exception handler contains a `$dontReport` property which is initialized to an empty array. Any classes that you add to this property will never be reported; however, they may still have custom rendering logic:
 
@@ -206,6 +204,20 @@ When building your application, there will be some types of exceptions you simpl
         InvalidOrderException::class,
     ];
 
+Internally, Laravel already ignores some types of errors for you, such as exceptions resulting from 404 HTTP errors or 419 HTTP responses generated by invalid CSRF tokens. If you would like to instruct Laravel to stop ignoring a given type of exception, you may invoke the `stopIgnoring` method within your exception handler's `register` method:
+
+    use Symfony\Component\HttpKernel\Exception\HttpException;
+
+    /**
+     * Register the exception handling callbacks for the application.
+     */
+    public function register(): void
+    {
+        $this->stopIgnoring(HttpException::class);
+
+        // ...
+    }
+
 > **Note**
 > Behind the scenes, Laravel already ignores some types of errors for you, such as exceptions resulting from 404 HTTP "not found" errors or 419 HTTP responses generated by invalid CSRF tokens.
 
@@ -216,42 +228,40 @@ When building your application, there will be some types of exceptions you simpl
 ### Rendering Exceptions
 ### 예외의 렌더링
 
-By default, the Laravel exception handler will convert exceptions into an HTTP response for you. However, you are free to register a custom rendering Closure for exceptions of a given type. You may accomplish this via the `renderable` method of your exception handler.
+By default, the Laravel exception handler will convert exceptions into an HTTP response for you. However, you are free to register a custom rendering closure for exceptions of a given type. You may accomplish this by invoking the `renderable` method within your exception handler.
 
-기본적으로 라라벨의 예외 핸들러는 예외를 HTTP 응답으로 변환합니다. 그러나 특정한 유형의 예외에 대해 사용자 정의 렌더링 클로저(Closure)를 자유롭게 등록할 수 있습니다. 이는 예외 핸들러의 `renderable` 메소드를 통해 이뤄집니다.
+기본적으로 라라벨의 예외 핸들러는 예외를 HTTP 응답으로 변환합니다. 그러나 특정한 유형의 예외에 대해 사용자 정의 렌더링 클로저(Closure)를 자유롭게 등록할 수 있습니다. 예외 헨들러를 따로 등록하기를 원한다면 예외 핸들러의 `renderable` 메소드를 호출하여  합니다.
 
 The closure passed to the `renderable` method should return an instance of `Illuminate\Http\Response`, which may be generated via the `response` helper. Laravel will deduce what type of exception the closure renders by examining the type-hint of the closure:
 
 `rednerable` 메소드에 전달된 클로저(Closure)는 `response` 헬퍼 함수를 통해서 생성된 `Illuminate\Http\Response`의 인스턴스를 반환해야 합니다. 라라벨은 클로저의 타입힌트(type-hint)를 통해서 클로저가 예외 유형을 추론하며 예외 유형에 맞는 렌더링 메시지를 표시합니다.
 
     use App\Exceptions\InvalidOrderException;
+    use Illuminate\Http\Request;
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->renderable(function (InvalidOrderException $e, $request) {
+        $this->renderable(function (InvalidOrderException $e, Request $request) {
             return response()->view('errors.invalid-order', [], 500);
         });
     }
 
 You may also use the `renderable` method to override the rendering behavior for built-in Laravel or Symfony exceptions such as `NotFoundHttpException`. If the closure given to the `renderable` method does not return a value, Laravel's default exception rendering will be utilized:
 
-라라벨 또는 심포니의 내장 렌더링 기능(rendering behavior)을 `renderable` 메소드를 사용하여 재정의 할 수 있습니다. 예를 들어 기본 내장 예외 렌더링 기능에는 `NotFoundHttpException`이란 예외가 있습니다. `renderable` 메소드에서 인자로 할당되는 클로저에 `NotFoundHttpException` 예외를 클로저의 파라메터로 지정한다고 가정해 봅시다. 클로저에서 리턴 값이 반환되지 않는다면 `NotFoundHttpException` 예외일 경우 실행되는 라라벨의 기본 예외 렌더링이 사용됩니다.
+라라벨 또는 심포니의 내장 렌더링 기능(rendering behavior)의 `renderable` 메소드를 사용하여 재정의 할 수 있습니다. 예를 들어 기본 내장 예외 렌더링 기능에는 `NotFoundHttpException`이란 예외가 있습니다. `renderable` 메소드에서 인자로 할당되는 클로저에 `NotFoundHttpException` 예외를 클로저의 파라메터로 지정한다고 가정해 봅시다. 클로저에서 리턴 값이 반환되지 않는다면 `NotFoundHttpException` 예외일 경우 실행되는 라라벨의 기본 예외 렌더링이 사용됩니다.
 
+    use Illuminate\Http\Request;
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->renderable(function (NotFoundHttpException $e, $request) {
+        $this->renderable(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => 'Record not found.'
@@ -261,40 +271,36 @@ You may also use the `renderable` method to override the rendering behavior for 
     }
 
 
-
 <a name="renderable-exceptions"></a>
 ### Reportable & Renderable Exceptions
 ### 보고 가능한(Reportable) & 렌더링 가능한(Renderable) 예외들
 
-Instead of type-checking exceptions in the exception handler's `register` method, you may define `report` and `render` methods directly on your custom exceptions. When these methods exist, they will be automatically called by the framework:
+Instead of defining custom reporting and rendering behavior in your exception handler's `register` method, you may define `report` and `render` methods directly on your custom exceptions. When these methods exist, they will be automatically called by the framework:
 
-예외 핸들러의 `register` 메소드에서 예외의 유형을 확인(type-checking)하는 대신에, 커스텀 예외에 `report` 와 `render` 메소드를 직접 정의할 수 있습니다. 커스텀으로 정의한 `report` 와 `render`가 존재한다면 이들 메소드에 정의된 로직은 프레임워크에 의해 자동으로 호출됩니다.
+예외 핸들러의 `register` 메소드에서 사용자 정의 보고 및 랜더링 동작(behavior)을 정의하는 대신, 커스텀 예외에 `report` 와 `render` 메소드를 직접 정의할 수 있습니다. 커스텀으로 정의한 `report` 와 `render`가 존재한다면 이들 메소드에 정의된 로직은 프레임워크에 의해 자동으로 호출됩니다.
 
     <?php
 
     namespace App\Exceptions;
-    
+
     use Exception;
-    
+    use Illuminate\Http\Request;
+    use Illuminate\Http\Response;
+
     class InvalidOrderException extends Exception
     {
         /**
-        * Report the exception.
-        *
-        * @return bool|null
-        */
-        public function report()
+         * Report the exception.
+         */
+        public function report(): void
         {
-            //
+            // ...
         }
-    
+
         /**
          * Render the exception into an HTTP response.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function render($request)
+        public function render(Request $request): Response
         {
             return response(/* ... */);
         }
@@ -306,13 +312,13 @@ If your exception extends an exception that is already renderable, such as a bui
 
     /**
      * Render the exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function render($request)
+    public function render(Request $request): Response|bool
     {
-        // Determine if the exception needs custom rendering...
+        if (/** Determine if the exception needs custom rendering */) {
+
+            return response(/* ... */);
+        }
 
         return false;
     }
@@ -323,17 +329,20 @@ If your exception contains custom reporting logic that is only necessary when ce
 
     /**
      * Report the exception.
-     *
-     * @return bool|void
      */
-    public function report()
+    public function report(): bool
     {
-        // Determine if the exception needs custom reporting...
+        if (/** Determine if the exception needs custom reporting */) {
+
+            // ...
+
+            return true;
+        }
 
         return false;
     }
 
-> **Note**
+> **Note**  
 > You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
 > **Note**

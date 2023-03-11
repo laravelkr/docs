@@ -32,7 +32,7 @@ Most web applications provide a way for users to reset their forgotten passwords
 > Want to get started fast? Install a Laravel [application starter kit](/docs/{{version}}/starter-kits) in a fresh Laravel application. Laravel's starter kits will take care of scaffolding your entire authentication system, including resetting forgotten passwords.
 
 > **Note**  
-> 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
+> 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능이 포함되어 있습니다.
 
 <a name="model-preparation"></a>
 ### Model Preparation
@@ -80,7 +80,7 @@ To learn more about this middleware, please consult the [`TrustHosts` middleware
 
 To properly implement support for allowing users to reset their passwords, we will need to define several routes. First, we will need a pair of routes to handle allowing the user to request a password reset link via their email address. Second, we will need a pair of routes to handle actually resetting the password once the user visits the password reset link that is emailed to them and completes the password reset form.
 
-사용자의 비밀번호를 재설정하는 기능을 만들기 위해서는 몇 가지 라우트를 구성하는 것이 좋습니다. 먼저 사용자가 이메일 주소를 통해서 비밀번호 재설정 링크로 이동하기 위한 라우트가 필요합니다. 다음으로 사용자가 이메일로 받은 비밀번호 재설정 링크를 방문하여 비밀번호를 재설정하는 양식을 작성해 제출할 때 비밀번호 재설정을 처리하는 라우터가 필요합니다. 비밀번호 재설정 기능을 제공하기 위해서는 폼 화면으로 이동하기 위한 라우터와 제출하기 위한 라우터, 한 쌍의 라우터가 정의 되어 있어야 합니다.
+사용자의 비밀번호를 재설정하는 기능을 만들기 위해서는 몇 가지 라우트를 구성하는 것이 좋습니다. 먼저 사용자가 이메일 주소를 통해서 비밀번호 재설정 링크로 이동하기 위한 라우트가 필요합니다. 다음으로 사용자가 이메일로 받은 비밀번호 재설정 링크를 방문하여 비밀번호를 재설정하는 양식을 작성해 제출할 때 비밀번호 재설정을 처리하는 라우터가 필요합니다. 비밀번호 재설정 기능을 제공하기 위해서는 폼 화면으로 이동하기 위한 라우터와 제출하기 위한 라우터, 한 쌍의 라우터가 정의되어 있어야 합니다.
 
 <a name="requesting-the-password-reset-link"></a>
 ### Requesting The Password Reset Link
@@ -274,7 +274,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `App\Models\User` model. Within this method, you may send the notification using any [notification class](/docs/{{version}}/notifications) of your own creation. The password reset `$token` is the first argument received by the method. You may use this `$token` to build the password reset URL of your choice and send your notification to the user:
 
-비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알림(notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
+비밀번호 재설정 링크를 보내기 위해서는 `notification` 클래스를 사용해야 합니다. `notification` 클래스는 원하는대로 쉽게 수정할 수 있습니다. `notification` 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 직접 만든 어떠한 메시지(notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 메시지(notification)를 보낼 수 있습니다.
 
     use App\Notifications\ResetPasswordNotification;
 

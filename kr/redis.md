@@ -29,11 +29,11 @@
 
 Before using Redis with Laravel, we encourage you to install and use the [phpredis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install compared to "user-land" PHP packages but may yield better performance for applications that make heavy use of Redis. If you are using [Laravel Sail](/docs/{{version}}/sail), this extension is already installed in your application's Docker container.
 
-라라벨에서 Redis를 사용하기 전에, PECL를 통하여 [PhpRedis](https://github.com/phpredis/phpredis) PHP `Extension`를 설치하고 사용하는 것을 권장합니다. 이 PHP 확장(PHP Extension)은 설치가 좀 더 복잡하지만 Redis를 많이 사용하는 어플리케이션에 보다 나은 성능을 제공합니다. [라라벨 세일](/docs/{{version}}/sail) 을 이용하여 환경을 구성하였다면 도커 컨테이너 내에 이미 PECL 방식의 redis extension이 설치되어 있습니다.
+라라벨에서 Redis를 사용하기 전에, PECL를 통하여 [PhpRedis](https://github.com/phpredis/phpredis) PHP Extension를 설치하고 사용하는 것을 권장합니다. 이 PHP 확장(PHP Extension)은 설치가 좀 더 복잡하지만 레디스를 많이 사용하는 어플리케이션에 보다 나은 성능을 제공합니다. [라라벨 세일](/docs/{{version}}/sail)을 이용하여 환경을 구성하였다면 도커 컨테이너 내에 이미 PECL 방식의 PHP Redis Extension이 설치되어 있습니다.
 
 If you are unable to install the phpredis extension, you may install the `predis/predis` package via Composer. Predis is a Redis client written entirely in PHP and does not require any additional extensions:
 
-phpredis 확장을 설치할 수 없는 경우 Composer를 통해 `predis/predis` 패키지를 설치할 수 있습니다. predis는 PHP 로만 작성된 Redis 클라이언트이므로 추가적으로 다른 확장 패키지나 라이브러리를 요구하지 않습니다.
+phpredis 확장을 설치할 수 없는 경우 Composer를 통해 `predis/predis` 패키지를 설치할 수 있습니다. predis는 PHP 로만 작성된 레디스 클라이언트이므로 추가적으로 다른 확장 라이브러리나 패키지를 요구하지 않습니다.
 
 ```shell
 composer require predis/predis
@@ -45,7 +45,7 @@ composer require predis/predis
 
 You may configure your application's Redis settings via the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
-'config/database.php' 구성 파일을 통해 애플리케이션의 Redis 설정을 구성할 수 있습니다. 이 파일 내부의 `redis` 배열은 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다.
+'config/database.php' 파일을 통해 애플리케이션의 레디스 설정을 구성할 수 있습니다. 이 파일 내부의 `redis` 배열은 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다.
 
     'redis' => [
 
@@ -69,7 +69,7 @@ You may configure your application's Redis settings via the `config/database.php
 
 Each Redis server defined in your configuration file is required to have a name, host, and a port unless you define a single URL to represent the Redis connection:
 
-설정 파일에 정의된 각각의 레디스 서버는 각자 name, host 및 port를 가져야 합니다. 만약 Redis 연결을 하나의 url로 연결 설정을 구성할땐 아래와 같이 설정합니다.
+설정 파일에 정의된 레디스 서버는 각각 name, host 및 port를 가져야 합니다. 만약 하나의 url로 레디스 연결을 설정을 하고자 할 때는 아래와 같이 설정합니다.
 
     'redis' => [
 
@@ -114,7 +114,7 @@ By default, Redis clients will use the `tcp` scheme when connecting to your Redi
 
 If your application is utilizing a cluster of Redis servers, you should define these clusters within a `clusters` key of your Redis configuration. This configuration key does not exist by default so you will need to create it within your application's `config/database.php` configuration file:
 
-애플리케이션이 Redis 서버 클러스터를 사용한다면, Redis 설정의 `clusters` 키 안에 설정정보를 정의해야 합니다. 이 구성 키는 디폴트로 제공되지 않으므로 설정 파일 내에 존재하지 않습니다. 애플리케이션의 `config/database.php` 설정 파일 내에 따로 넣어주어야 합니다.
+애플리케이션이 레디스 서버 클러스터를 사용한다면, 레디스 설정의 `clusters` 키 안에 설정값을 정의해야 합니다. 이 설정 키는 디폴트로 제공되지 않으므로 설정 파일 내에 존재하지 않습니다. 애플리케이션의 `config/database.php` 설정 파일 내에 다음과 같이 따로 값을 넣어 주도록 합니다.
 
     'redis' => [
 
@@ -135,11 +135,11 @@ If your application is utilizing a cluster of Redis servers, you should define t
 
 By default, clusters will perform client-side sharding across your nodes, allowing you to pool nodes and create a large amount of available RAM. However, client-side sharding does not handle failover; therefore, it is primarily suited for transient cached data that is available from another primary data store.
 
-기본적으로 클러스트는 노드 전체에서 클라이언트 사이드 샤딩을 수행합니다. 클라이언트 사이드 샤딩은 레디스 저장소 자체의 동작이 아닌 애플리케이션에서 레디스 서버를 조작할 때 사용되는 프로그램을 쪽의 동작을 의미하며 레디스 저장소의 여러 노드를 논리적으로 하나의 대상으로 보도록 하는 풀링(pooling) 작업을 수행합니다. 클러스터링을 통해 여러 노드를 사용할 수 있기 때문에 가능한 많은 RAM(Random Access Memory)을 사용할 수 있습니다. 하지만 클라이언트 사이드 샤딩은 레디스의 노드가 다운되었을 때 노드를 재연결하여 복구하는 failover를 처리하지 않기 때문에 데이터 손실이 일어날 수 있습니다. 따라서 다른 기본 데이터 저장소에서 사용할 수 있는 임시 캐시 데이터에 주로 적합합니다.
+기본적으로 클러스트는 노드 전체에서 클라이언트 사이드 샤딩을 수행합니다. 클라이언트 사이드 샤딩은 레디스 저장소 자체의 동작이 아닌 애플리케이션에서 레디스 서버를 조작할 때 사용되는 프로그램을 쪽의 동작을 의미하며 레디스 저장소의 여러 노드를 논리적으로 하나의 대상으로 보도록 하는 풀링(pooling) 작업을 수행합니다. 클러스터링을 통해 여러 레디스 노드를 사용할 수 있기 때문에 가능한 많은 RAM(Random Access Memory)을 사용할 수 있습니다. 하지만 클라이언트 사이드 샤딩은 레디스의 노드가 다운되었을 때 노드를 재연결하여 복구하는 failover를 처리하지 않기 때문에 데이터 손실이 일어날 수 있습니다. 따라서 다른 기본(primary) 데이터 저장소에 저장되어 있는 값의 캐시 데이터를 일시적으로 저장하는데 적합합니다.
 
 If you would like to use native Redis clustering instead of client-side sharding, you may specify this by setting the `options.cluster` configuration value to `redis` within your application's `config/database.php` configuration file:
 
-클라이언트 사이드 샤딩 대신 레디스 서버 자체에서 분산 저장하는 방식의 구성을 하는 네이티브 Redis 클러스터링을 사용하려면, 애플리케이션의 `config/database.php` 설정 파일 내에서 `options.cluster` 구성 값을 `redis`로 설정하여 네이티브 클러스터링을 지정할 수 있습니다.
+클라이언트 사이드 샤딩 대신 레디스 서버 자체에서 분산 저장하는 방식의 구성을 하는 네이티브 레디스 클러스터링을 사용하려면, 애플리케이션의 `config/database.php` 설정 파일 내에서 `options.cluster` 구성 값을 `redis`로 설정하여 네이티브 클러스터링을 지정할 수 있습니다.
 
     'redis' => [
 
@@ -161,7 +161,7 @@ If you would like to use native Redis clustering instead of client-side sharding
 
 If you would like your application to interact with Redis via the Predis package, you should ensure the `REDIS_CLIENT` environment variable's value is `predis`:
 
-애플리케이션이 `Predis` 패키지를 통해 Redis 서버와 상호 작용하도록 하려면, `REDIS_CLIENT` 환경 변수의 값이 `predis`인지 확인해야 합니다:
+애플리케이션이 `Predis` 패키지를 통해 레디스 서버와 상호 작용하도록 하려면, `REDIS_CLIENT` 환경 변수의 값이 `predis`인지 확인해야 합니다:
 
     'redis' => [
 
@@ -211,7 +211,7 @@ By default, Laravel will use the phpredis extension to communicate with Redis. T
 
 In addition to the default `scheme`, `host`, `port`, `database`, and `password` server configuration options, phpredis supports the following additional connection parameters: `name`, `persistent`, `persistent_id`, `prefix`, `read_timeout`, `retry_interval`, `timeout`, and `context`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
 
-`scheme`, `host`, `port`, `database`, `password` 기본 서버 설정에 더하여, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `name`, `persistent`, `prefix`, `read_timeout`, `timeout`, `context`. `config/database.php` 설정 파일의 Redis 서버 설정에 이 옵션들을 추가할 수 있습니다.
+기본 `scheme`, `host`, `port`, `database`, `password` 서버 구성 옵션 외에, PhpRedis 는 다음의 추가적인 커넥션 파라미터를 지원합니다. `name`, `persistent`, `prefix`, `read_timeout`, `timeout`, `context`. `config/database.php` 파일의 레디스 서버 설정에 이 옵션들을 추가할 수 있습니다.
 
     'default' => [
         'host' => env('REDIS_HOST', 'localhost'),
@@ -231,7 +231,7 @@ In addition to the default `scheme`, `host`, `port`, `database`, and `password` 
 
 The phpredis extension may also be configured to use a variety of serialization and compression algorithms. These algorithms can be configured via the `options` array of your Redis configuration:
 
-phpredis extension 은 다양한 직렬화-serialization 및 압축 알고리즘을 사용하도록 설정할 수 있습니다. 이러한 알고리즘은 Redis 설정의 `options` 배열을 통해 구성할 수 있습니다:
+phpredis extension 은 다양한 직렬화-serialization 및 압축 알고리즘을 사용하도록 설정할 수 있습니다. 이러한 알고리즘은 레디스 설정의 `options` 배열을 통해 구성할 수 있습니다:
 
     'redis' => [
 
@@ -259,7 +259,7 @@ Supported compression algorithms include: `Redis::COMPRESSION_NONE` (default), `
 
 You may interact with Redis by calling various methods on the `Redis` [facade](/docs/{{version}}/facades). The `Redis` facade supports dynamic methods, meaning you may call any [Redis command](https://redis.io/commands) on the facade and the command will be passed directly to Redis. In this example, we will call the Redis `GET` command by calling the `get` method on the `Redis` facade:
 
-`Redis` [파사드](/docs/{{version}}/facades)를 통해서 다양한 메소드를 호출하여 Redis와 상호작용할 수 있습니다. `Redis` 파사드는 동적인 메소드를 지원하며, 이는 파사드에 [Redis 명령어](https://redis.io/commands)를 호출하면 Redis 에 직접 명령어가 전달된다는 것을 의미합니다. 예를 들어 `Redis` 파사드에 `get` 메소드를 호출하여 레디스 `GET` 명령어를 호출할 수 있습니다.
+`Redis` [파사드](/docs/{{version}}/facades)를 통해서 다양한 메소드를 호출하여 Redis와 상호작용할 수 있습니다. `Redis` 파사드는 동적인 메소드를 지원하며, 이는 파사드에 [Redis 명령어](https://redis.io/commands)를 호출하면 레디스에 직접 명령어가 전달된다는 것을 의미합니다. 예를 들어 `Redis` 파사드에 `get` 메소드를 호출하여 레디스 `GET` 명령어를 호출할 수 있습니다.
 
     <?php
 
@@ -284,7 +284,7 @@ You may interact with Redis by calling various methods on the `Redis` [facade](/
 
 As mentioned above, you may call any of Redis' commands on the `Redis` facade. Laravel uses magic methods to pass the commands to the Redis server. If a Redis command expects arguments, you should pass those to the facade's corresponding method:
 
-앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 메소드를 사용하여 명령어를 Redis 서버에 전달합니다. Redis 명령어가 요구하는 인자를 각 명령어의 방법으로 전달해야 합니다.
+앞서 말한바와 같이 `Redis` 파사드에서 어떤 레디스 명령어라도 호출 할 수 있습니다. 라라벨은 매직 메소드를 사용하여 명령어를 레디스 서버에 전달합니다. 레디스 명령어가 요구하는 인자를 각 명령어의 방법으로 전달해야 합니다.
 
     use Illuminate\Support\Facades\Redis;
 
@@ -294,7 +294,7 @@ As mentioned above, you may call any of Redis' commands on the `Redis` facade. L
 
 Alternatively, you may pass commands to the server using the `Redis` facade's `command` method, which accepts the name of the command as its first argument and an array of values as its second argument:
 
-이렇게 하는 대신에, `Redis`파사드의 `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다.
+다른 방법으로는, `Redis` 파사드의 `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다.
 
     $values = Redis::command('lrange', ['name', 5, 10]);
 
@@ -320,7 +320,7 @@ To obtain an instance of the default Redis connection, you may call the `connect
 
 The `Redis` facade's `transaction` method provides a convenient wrapper around Redis' native `MULTI` and `EXEC` commands. The `transaction` method accepts a closure as its only argument. This closure will receive a Redis connection instance and may issue any commands it would like to this instance. All of the Redis commands issued within the closure will be executed in a single, atomic transaction:
 
-Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC` 명령에 대한 편리한 래퍼를 제공합니다. `transaction` 메서드는 하나의 인자를 받는데 클로저(closure)를 인자로 받습니다. 이 클로저는 Redis 연결 인스턴스를 수신하고 이 인스턴스에 원하는 모든 명령을 전달할 수 있습니다. 클로저 내의 모든 Redis 명령은 한 단위의 원자적 트렌젝션으로 실행됩니다.
+Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC` 명령에 대한 편리한 래퍼를 제공합니다. `transaction` 메서드는 하나의 인자를 받는데 클로저(closure)를 인자로 받습니다. 이 클로저는 레디스 연결 인스턴스를 수신하고 이 인스턴스에 원하는 모든 명령을 전달할 수 있습니다. 클로저 내의 모든 레디스 명령은 한 단위의 원자적 트렌젝션으로 실행됩니다.
 
     use Redis;
     use Illuminate\Support\Facades;
@@ -334,7 +334,7 @@ Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC
 > When defining a Redis transaction, you may not retrieve any values from the Redis connection. Remember, your transaction is executed as a single, atomic operation and that operation is not executed until your entire closure has finished executing its commands.
 
 > **Warning**
-> Redis 트랜잭션을 정의할 때 Redis 연결에서 어떤 값도 검색하지 못할 수 있습니다. 트랜잭션은 단일 원자 작업으로 실행되며, 해당 작업은 전체 클로저(closure)가 명령 실행을 완료할 때까지 실행되지 않는다는 점을 기억하세요.
+> 레디스 트랜잭션을 정의할 때, 레디스 연결에서 어떤 값도 검색하지 못할 수 있습니다. 트랜잭션은 단일 원자 작업으로 실행되며, 해당 작업은 전체 클로저(closure)가 명령 실행을 완료할 때까지 실행되지 않는다는 점을 기억하세요.
 
 #### Lua Scripts
 #### Lua Scripts
@@ -373,7 +373,7 @@ In this example, we will increment a counter, inspect its new value, and increme
 
 Sometimes you may need to execute dozens of Redis commands. Instead of making a network trip to your Redis server for each command, you may use the `pipeline` method. The `pipeline` method accepts one argument: a closure that receives a Redis instance. You may issue all of your commands to this Redis instance and they will all be sent to the Redis server at the same time to reduce network trips to the server. The commands will still be executed in the order they were issued:
 
-때로는 수십 개의 Redis 명령을 실행해야 할 수도 있습니다. 각 명령에 대해 레디스 서버간 네트워크 전송(a network trip)을 만드는 것 대신 `pipeline` 메서드를 사용할 수 있습니다. `pipeline` 레디스 인스턴스를 수신하는 클로저(closure)를 하나를 인자로 받습니다. 이 Redis 인스턴스에 모든 명령을 실행하면 모든 명령이 한꺼번에 레디스 서버로 전송되기 때문에 서버간의 네트워크 전송으로 지연되는 시간을 줄일 수 있습니다. 이 명령은 작성한 순서대로 실행됩니다.
+때로는 수십 개의 Redis 명령을 실행해야 할 수도 있습니다. 각 명령에 대해 레디스 한 단위의 서버간 네트워크 전송(a network trip)을 만드는 것 대신 `pipeline` 메서드를 사용할 수 있습니다. `pipeline` 레디스 인스턴스를 수신하는 클로저(closure)를 하나를 인자로 받습니다. 이 레디스 인스턴스에 모든 명령을 실행하면 모든 명령이 한꺼번에 레디스 서버로 전송되기 때문에 서버간의 네트워크 전송으로 지연되는 시간을 줄일 수 있습니다. 이 명령은 작성한 순서대로 실행됩니다.
 
     use Redis;
     use Illuminate\Support\Facades;

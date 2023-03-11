@@ -11,8 +11,8 @@
     - [비밀번호 해싱하기](#hashing-passwords)
     - [Verifying That A Password Matches A Hash](#verifying-that-a-password-matches-a-hash)
     - [A 비밀번호가 A 해시인지 확인하는 방법](#verifying-that-a-password-matches-a-hash)
-        - [Determining If A Password Needs To Be Rehashed](#determining-if-a-password-needs-to-be-rehashed)
-        - [A 비밀번호의 해시화를 다시 해야 할 필요가 있는지 결정하기](#determining-if-a-password-needs-to-be-rehashed)
+    - [Determining If A Password Needs To Be Rehashed](#determining-if-a-password-needs-to-be-rehashed)
+    - [A 비밀번호의 해시화를 다시 해야 할 필요가 있는지 결정하기](#determining-if-a-password-needs-to-be-rehashed)
 
 <a name="introduction"></a>
 ## Introduction
@@ -33,9 +33,9 @@ Bcrypt is a great choice for hashing passwords because its "work factor" is adju
 ## Configuration
 ## 설정
 
-The default hashing driver for your application is configured in your application's `config/hashing.php` configuration file. There are currently three supported drivers: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) and [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i and Argon2id variants).
+The default hashing driver for your application is configured in your application's `config/hashing.php` configuration file. There are currently several supported drivers: [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt) and [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i and Argon2id variants).
 
-라라벨 애플리케이션에 기본(default)으로 설정되어 있는 해시 드라이버를 바꾸려면 `config/hashing.php` 설정 파일을 확인하십시오. 라라벨에서는 현재 세 개의 해싱 드라이버를 지원하고 있습니다. [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i 와 Argon2id 변경버전).
+라라벨 애플리케이션에 기본(default)으로 설정되어 있는 해시 드라이버를 바꾸려면 `config/hashing.php` 설정 파일을 확인하십시오. 라라벨에서는 현재 몇 가지의 해싱 드라이버를 지원하고 있습니다. [Bcrypt](https://en.wikipedia.org/wiki/Bcrypt)와 [Argon2](https://en.wikipedia.org/wiki/Argon2) (Argon2i 와 Argon2id 변경버전).
 
 <a name="basic-usage"></a>
 ## Basic Usage
@@ -54,6 +54,7 @@ You may hash a password by calling the `make` method on the `Hash` facade:
     namespace App\Http\Controllers;
 
     use App\Http\Controllers\Controller;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
 
@@ -61,17 +62,16 @@ You may hash a password by calling the `make` method on the `Hash` facade:
     {
         /**
          * Update the password for the user.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function update(Request $request)
+        public function update(Request $request): RedirectResponse
         {
             // Validate the new password length...
 
             $request->user()->fill([
                 'password' => Hash::make($request->newPassword)
             ])->save();
+
+            return redirect('/profile');
         }
     }
 
@@ -87,13 +87,13 @@ If you are using the Bcrypt algorithm, the `make` method allows you to manage th
         'rounds' => 12,
     ]);
 
-
+<a name="adjusting-the-argon2-work-factor"></a>
 #### Adjusting The Argon2 Work Factor
 #### Argon2의 Work Factor 조정하기
 
-If you are using the Argon2 algorithm, the `make` method allows you to manage the work factor of the algorithm using the `memory`, `time`, and `threads` options; however, the defaults are acceptable for most applications:
+If you are using the Argon2 algorithm, the `make` method allows you to manage the work factor of the algorithm using the `memory`, `time`, and `threads` options; however, the default values managed by Laravel are acceptable for most applications:
 
-만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있게 해줍니다. 하지만, 대부분의 애플리케이션에서는 기본값을 사용할 수 있습니다.
+만약 여러분이 Argon2 알고리즘을 사용하고 있다면, `make` 메소드는 `memory`,`time` 그리고 `threads` 옵션을 사용하는 Argon2 알고리즘의 work factor를 관리할 수 있습니다. 그러나 대부분의 애플리케이션에서는 라라벨에서 관라하는 기본값을 사용해도 무방합니다.
 
     $hashed = Hash::make('password', [
         'memory' => 1024,
@@ -101,7 +101,7 @@ If you are using the Argon2 algorithm, the `make` method allows you to manage th
         'threads' => 2,
     ]);
 
-> **Note**
+> **Note**  
 > For more information on these options, please refer to the [official PHP documentation regarding Argon hashing](https://secure.php.net/manual/en/function.password-hash.php).
 
 > **Note**

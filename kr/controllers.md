@@ -30,6 +30,7 @@
     - [Singleton Resource Controllers](#singleton-resource-controllers)
     - [싱글턴 리소스 컨트롤러](#singleton-resource-controllers)
     - [Resource 컨트롤러 라우트에 추가하기](#dependency-injection-and-controllers)
+- [Dependency Injection & Controllers](#dependency-injection-and-controllers)
 - [의존성 주입 & 컨트롤러](#dependency-injection-and-controllers)
 
 <a name="introduction"></a>
@@ -48,25 +49,32 @@ Instead of defining all of your request handling logic as closures in your route
 ### Basic Controllers
 ### 기본 컨트롤러
 
-Let's take a look at an example of a basic controller. Note that the controller extends the base controller class included with Laravel: `App\Http\Controllers\Controller`:
+To quickly generate a new controller, you may run the `make:controller` Artisan command. By default, all of the controllers for your application are stored in the `app/Http/Controllers` directory:
 
-기본 컨트롤러의 예를 살펴 봅시다. 컨트롤러는 라라벨에 포함된 기본 컨트롤러 클래스를 확장합니다. 기본 컨트롤러 클래스는 `App\Http\Controllers\Controller` 경로에 위치합니다.
+새로운 컨트롤러를 빠르게 생성해 봅시다. `make:controller` 아티산 명령을 실행하면 됩니다. 기본적으로 애플리케이션의 모든 컨트롤러는 `app/Http/Controllers` 디렉터리에 위치합니다.:
+
+```shell
+php artisan make:controller UserController
+```
+
+Let's take a look at an example of a basic controller. A controller may have any number of public methods which will respond to incoming HTTP requests:
+
+기본 컨트롤러의 예를 살펴 봅시다. 컨트롤러는 전달되는 HTTP 요청에 대해 응답하는 여러 퍼블릭 메소드를 가질 수 있습니다.
 
     <?php
 
     namespace App\Http\Controllers;
 
+
     use App\Models\User;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show the profile for a given user.
-         *
-         * @param  int  $id
-         * @return \Illuminate\View\View
          */
-        public function show($id)
+        public function show(string $id): View
         {
             return view('user.profile', [
                 'user' => User::findOrFail($id)
@@ -74,9 +82,9 @@ Let's take a look at an example of a basic controller. Note that the controller 
         }
     }
 
-You can define a route to this controller method like so:
+Once you have written a controller class and method, you may define a route to the controller method like so:
 
-다음과 같이 위 컨트롤러 메서드에 대한 경로를 정의할 수 있습니다.
+컨트롤러 클래스와 메소드를 작성했다면, 다음과 같이 위 컨트롤러 메서드에 대한 경로를 정의할 수 있습니다.
 
     use App\Http\Controllers\UserController;
 
@@ -103,15 +111,14 @@ If a controller action is particularly complex, you might find it convenient to 
     <?php
 
     namespace App\Http\Controllers;
-
+    
     use App\Models\User;
+    use Illuminate\Http\Response;
 
     class ProvisionServer extends Controller
     {
         /**
          * Provision a new web server.
-         *
-         * @return \Illuminate\Http\Response
          */
         public function __invoke()
         {
@@ -135,8 +142,8 @@ Artisan 컨멘드를 사용하면 `make:controller` 에 `--invokable` 옵션을 
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> **Note**
-> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
+> **Note**  
+> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
 > **Note**
 > [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자정의할 수 있습니다.
@@ -159,8 +166,6 @@ Or, you may find it convenient to specify middleware within your controller's co
     {
         /**
          * Instantiate a new controller instance.
-         *
-         * @return void
          */
         public function __construct()
         {
@@ -174,7 +179,10 @@ Controllers also allow you to register middleware using a closure. This provides
 
 컨트롤러를 사용하면 Closure를 사용하여 미들웨어를 등록 할 수 있습니다. 이는 미들웨어 클래스를 따로 정의하지 않고 단일 컨트롤러에 대한 미들웨어를 Closure로 정의하는 편리한 방법을 제공합니다.
 
-    $this->middleware(function ($request, $next) {
+    use Closure;
+    use Illuminate\Http\Request;
+
+    $this->middleware(function (Request $request, Closure $next) {
         return $next($request);
     });
 
@@ -461,10 +469,8 @@ By default, `Route::resource` will create resource URIs using English verbs and 
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Route::resourceVerbs([
             'create' => 'crear',
@@ -474,7 +480,7 @@ By default, `Route::resource` will create resource URIs using English verbs and 
         // ...
     }
 
-Laravel's pluralizer supports [several different languages which you may configure based on your needs](/docs/{{version}}/localization#pluralization-language). Once the verbs and pluralization language have been customized, a resource route registration such as `Route::resource('publication', PublicacionController::class)` will produce the following URIs:
+Laravel's pluralizer supports [several different languages which you may configure based on your needs](/docs/{{version}}/localization#pluralization-language). Once the verbs and pluralization language have been customized, a resource route registration such as `Route::resource('publicacion', PublicacionController::class)` will produce the following URIs:
 
 라라벨 플로러라이저(pluralizer)는 [여러분의 필요에 따라 구성할 수 있는 여러 언어](/docs/{{version}}/localization#pluralization-language)를 지원합니다. 한 번, 동사와 '복수형으로 설정된'(pluralization) 언어를 사용자정의 하게 되면, `Route::resource('publicacion', PublicacionController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
 
@@ -618,20 +624,11 @@ The Laravel [service container](/docs/{{version}}/container) is used to resolve 
     class UserController extends Controller
     {
         /**
-         * The user repository instance.
-         */
-        protected $users;
-
-        /**
          * Create a new controller instance.
-         *
-         * @param  \App\Repositories\UserRepository  $users
-         * @return void
          */
-        public function __construct(UserRepository $users)
-        {
-            $this->users = $users;
-        }
+        public function __construct(
+            protected UserRepository $users,
+        ) {}
     }
 
 <a name="method-injection"></a>
@@ -646,21 +643,21 @@ In addition to constructor injection, you may also type-hint dependencies on you
 
     namespace App\Http\Controllers;
 
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
 
     class UserController extends Controller
     {
         /**
          * Store a new user.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function store(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             $name = $request->name;
 
-            //
+            // Store the user...
+
+            return redirect('/users');
         }
     }
 
@@ -680,19 +677,18 @@ You may still type-hint the `Illuminate\Http\Request` and access your `id` param
 
     namespace App\Http\Controllers;
 
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
 
     class UserController extends Controller
     {
         /**
          * Update the given user.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  string  $id
-         * @return \Illuminate\Http\Response
          */
-        public function update(Request $request, $id)
+        public function update(Request $request, string $id): RedirectResponse
         {
-            //
+            // Update the user...
+
+            return redirect('/users');
         }
     }

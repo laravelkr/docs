@@ -3,12 +3,13 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-    - [Configuration](#configuration)
+- [Configuration](#configuration)
+    - [Clusters](#clusters)
     - [설정하기](#configuration)
     - [Predis](#predis)
     - [Predis](#predis)
-    - [PhpRedis](#phpredis)
-    - [PhpRedis](#phpredis)
+    - [phpredis](#phpredis)
+    - [phpredis](#phpredis)
 - [Interacting With Redis](#interacting-with-redis)
 - [Redis 와 상호작용](#interacting-with-redis)
     - [Transactions](#transactions)
@@ -39,8 +40,8 @@ composer require predis/predis
 ```
 
 <a name="configuration"></a>
-### Configuration
-### 설정하기
+## Configuration
+## 설정하기
 
 You may configure your application's Redis settings via the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
@@ -84,6 +85,7 @@ Each Redis server defined in your configuration file is required to have a name,
 
     ],
 
+<a name="configuring-the-connection-scheme"></a>
 #### Configuring The Connection Scheme
 #### 연결 스키마 설정
 
@@ -106,8 +108,9 @@ By default, Redis clients will use the `tcp` scheme when connecting to your Redi
     ],
 
 
-#### Configuring Clusters
-#### 클러스터 설정하기
+<a name="clusters"></a>
+### Clusters
+### 클러스터
 
 If your application is utilizing a cluster of Redis servers, you should define these clusters within a `clusters` key of your Redis configuration. This configuration key does not exist by default so you will need to create it within your application's `config/database.php` configuration file:
 
@@ -164,7 +167,7 @@ Predis 확장(extension)을 사용하려면 `REDIS_CLIENT` 환경 변수를 `php
 
         'client' => env('REDIS_CLIENT', 'predis'),
 
-        // Rest of Redis configuration...
+        // ...
     ],
 
 In addition to the default `host`, `port`, `database`, and `password` server configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in your application's `config/database.php` configuration file:
@@ -264,16 +267,14 @@ You may interact with Redis by calling various methods on the `Redis` [facade](/
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Redis;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show the profile for the given user.
-         *
-         * @param  int  $id
-         * @return \Illuminate\Http\Response
          */
-        public function show($id)
+        public function show(string $id): View
         {
             return view('user.profile', [
                 'user' => Redis::get('user:profile:'.$id)
@@ -285,16 +286,19 @@ As mentioned above, you may call any of Redis' commands on the `Redis` facade. L
 
 앞서 말한바와 같이 `Redis` 파사드에서 어떤 Redis 명령어라도 호출 할 수 있습니다. 라라벨은 매직 메소드를 사용하여 명령어를 Redis 서버에 전달합니다. Redis 명령어가 요구하는 인자를 각 명령어의 방법으로 전달해야 합니다.
 
+    use Illuminate\Support\Facades\Redis;
+
     Redis::set('name', 'Taylor');
 
     $values = Redis::lrange('names', 5, 10);
 
-Alternatively, you may also pass commands to the server using the `command` method, which accepts the name of the command as its first argument, and an array of values as its second argument:
+Alternatively, you may pass commands to the server using the `Redis` facade's `command` method, which accepts the name of the command as its first argument and an array of values as its second argument:
 
-이렇게 하는 대신에, `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다.
+이렇게 하는 대신에, `Redis`파사드의 `command` 메소드의 첫번째 인자를 명령어의 이름으로 하고, 두번째 인자를 전달하는 값의 배열로 하여 명령어를 서버에 전달 할 수도 있습니다.
 
     $values = Redis::command('lrange', ['name', 5, 10]);
 
+<a name="using-multiple-redis-connections"></a>
 #### Using Multiple Redis Connections
 #### 여러개의 Redis 커넥션 사용하기
 
@@ -318,14 +322,15 @@ The `Redis` facade's `transaction` method provides a convenient wrapper around R
 
 Redis의 네이티브 `MULTY` 와 `EXEC` 명령어를 `Redis` 파사드의 `transaction` 메소드로 편리하게 제공한다. `transaction` 메소드는 closure 로 작성된 인자여야 합니다. closure 내에서 원하는 Redis 명령을 실행할수 있습니다. closure 내의 트랜잭션은 원자적으로 실행됩니다.
 
-    use Illuminate\Support\Facades\Redis;
+    use Redis;
+    use Illuminate\Support\Facades;
 
-    Redis::transaction(function ($redis) {
+    Facades\Redis::transaction(function (Redis $redis) {
         $redis->incr('user_visits', 1);
         $redis->incr('total_visits', 1);
     });
 
-> **Warning**
+> **Warning**  
 > When defining a Redis transaction, you may not retrieve any values from the Redis connection. Remember, your transaction is executed as a single, atomic operation and that operation is not executed until your entire closure has finished executing its commands.
 
 > **Warning**
@@ -370,9 +375,10 @@ Sometimes you may need to execute dozens of Redis commands. Instead of making a 
 
 다수의 레디스 명령을 실행시켜야 할때 네트워크 연결을 줄이기 위해 `pipeline` 메소드를 활용할 수 있습니다. `pipeline` 메소드는 레디스 인스턴스를 받는 클로저 인자를 받습니다. Redis 인스턴스에 작성된 명령은 네트워크 연결을 줄이기 위해 한번에 레디스 서버에 전달됩니다. 명령은 작성한 순서대로 실행됩니다.
 
-    use Illuminate\Support\Facades\Redis;
+    use Redis;
+    use Illuminate\Support\Facades;
 
-    Redis::pipeline(function ($pipe) {
+    Facades\Redis::pipeline(function (Redis $pipe) {
         for ($i = 0; $i < 1000; $i++) {
             $pipe->set("key:$i", $i);
         }
@@ -415,12 +421,10 @@ First, let's setup a channel listener using the `subscribe` method. We'll place 
 
         /**
          * Execute the console command.
-         *
-         * @return mixed
          */
-        public function handle()
+        public function handle(): void
         {
-            Redis::subscribe(['test-channel'], function ($message) {
+            Redis::subscribe(['test-channel'], function (string $message) {
                 echo $message;
             });
         }
@@ -440,17 +444,18 @@ Now we may publish messages to the channel using the `publish` method:
         ]));
     });
 
+<a name="wildcard-subscriptions"></a>
 #### Wildcard Subscriptions
 #### 와일드 카드 Subscriptions
 
-Using the `psubscribe` method, you may subscribe to a wildcard channel, which may be useful for catching all messages on all channels. The `$channel` name will be passed as the second argument to the provided callback `Closure`:
+Using the `psubscribe` method, you may subscribe to a wildcard channel, which may be useful for catching all messages on all channels. The channel name will be passed as the second argument to the provided closure:
 
-`psubscribe` 메소드를 사용하여, 전체 채널에서 모든 메세지를 수신하는데 유용한 와일드 카드 채널을 subscribe 할 수 있습니다. `$channel`의 이름은 콜백 `Closure` 의 두번째 인자로 전달 될 것입니다.
+`psubscribe` 메소드를 사용하여, 전체 채널에서 모든 메세지를 수신하는데 유용한 와일드 카드 채널을 subscribe 할 수 있습니다. 채널이름은 제공된 클로저의 두 번째 인자로 전달됩니다.
 
-    Redis::psubscribe(['*'], function ($message, $channel) {
+    Redis::psubscribe(['*'], function (string $message, string $channel) {
         echo $message;
     });
 
-    Redis::psubscribe(['users.*'], function ($message, $channel) {
+    Redis::psubscribe(['users.*'], function (string $message, string $channel) {
         echo $message;
     });

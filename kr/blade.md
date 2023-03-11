@@ -3,8 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Supercharging Blade With Livewire](#supercharging-blade-with-livewire)
-  - [Livewire로 Blade 강화하기](#supercharging-blade-with-livewire)
+    - [Supercharging Blade With Livewire](#supercharging-blade-with-livewire)
+    - [Livewire로 Blade 강화하기](#supercharging-blade-with-livewire)
 - [Displaying Data](#displaying-data)
 - [데이터 표시](#displaying-data)
     - [HTML Entity Encoding](#html-entity-encoding)
@@ -53,14 +53,14 @@
     - [수동으로 컴포넌트 등록](#manually-registering-components)
 - [Anonymous Components](#anonymous-components)
 - [익명 컴포넌트](#anonymous-components)
-  - [Anonymous Index Components](#anonymous-index-components)
-  - [익명 인덱스 컴포넌트](#anonymous-index-components)
-  - [Data Properties / Attributes](#data-properties-attributes)
-  - [데이터 프로퍼티 / 속성](#data-properties-attributes)
-  - [Accessing Parent Data](#accessing-parent-data)
-  - [부모 데이터에 접근하기](#accessing-parent-data)
-  - [Anonymous Components Paths](#anonymous-component-paths)
-  - [익명 컴포넌트 경로](#anonymous-component-paths)
+    - [Anonymous Index Components](#anonymous-index-components)
+    - [익명 인덱스 컴포넌트](#anonymous-index-components)
+    - [Data Properties / Attributes](#data-properties-attributes)
+    - [데이터 프로퍼티 / 속성](#data-properties-attributes)
+    - [Accessing Parent Data](#accessing-parent-data)
+    - [부모 데이터에 접근하기](#accessing-parent-data)
+    - [Anonymous Components Paths](#anonymous-component-paths)
+    - [익명 컴포넌트 경로](#anonymous-component-paths)
 - [Building Layouts](#building-layouts)
 - [레이아웃 만들기](#building-layouts)
     - [Layouts Using Components](#layouts-using-components)
@@ -170,10 +170,8 @@ By default, Blade (and the Laravel `e` helper) will double encode HTML entities.
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             Blade::withoutDoubleEncoding();
         }
@@ -533,6 +531,7 @@ While iterating through a `foreach` loop, a `$loop` variable will be available i
     <p>This is user {{ $user->id }}</p>
 @endforeach
 ```
+
 If you are in a nested loop, you may access the parent loop's `$loop` variable via the `parent` property:
 
 반복문이 중첩된 경우라면, 상위 반복문의 `$loop` 변수에 `parent` 속성을 통해서 액세스 할 수 있습니다.
@@ -599,6 +598,23 @@ The `@class` directive conditionally compiles a CSS class string. The directive 
 ])></span>
 
 <span class="p-4 text-gray-500 bg-red"></span>
+```
+
+Likewise, the `@style` directive may be used to conditionally add inline CSS styles to an HTML element:
+
+마찬가지로 `@style` 지시문은 인라인 CSS 스타일을 HTML 요소에 조건부로 추가하는 데 사용할 수 있습니다.
+
+```blade
+@php
+    $isActive = true;
+@endphp
+
+<span @style([
+    'background-color: red',
+    'font-weight: bold' => $isActive,
+])></span>
+
+<span style="background-color: red; font-weight: bold;"></span>
 ```
 
 <a name="additional-attributes"></a>
@@ -879,7 +895,7 @@ However, if you are building a package that utilizes Blade components, you will 
     /**
      * Bootstrap your package's services.
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::component('package-alert', Alert::class);
     }
@@ -900,10 +916,8 @@ Alternatively, you may use the `componentNamespace` method to autoload component
 
     /**
      * Bootstrap your package's services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
     }
@@ -943,6 +957,20 @@ If the component class is nested deeper within the `app/View/Components` directo
 <x-inputs.button/>
 ```
 
+If you would like to conditionally render your component, you may define a `shouldRender` method on your component class. If the `shouldRender` method returns `false` the component will not be rendered:
+
+컴포넌트를 조건부로 렌더링하려면 컴포넌트 클래스에 `shouldRender` 메서드를 정의하면 됩니다. `shouldRender` 메서드가 `false`를 반환하면 컴포넌트가 렌더링되지 않습니다.
+
+    use Illuminate\Support\Str;
+
+    /**
+     * Whether the component should be rendered
+     */
+    public function shouldRender(): bool
+    {
+        return Str::length($this->message) > 0;
+    }
+
 <a name="passing-data-to-components"></a>
 ### Passing Data To Components
 ### 컴포넌트에 데이터 전달하기
@@ -964,42 +992,22 @@ You should define all of the component's data attributes in its class constructo
     namespace App\View\Components;
 
     use Illuminate\View\Component;
+    use Illuminate\View\View;
 
     class Alert extends Component
     {
         /**
-         * The alert type.
-         *
-         * @var string
-         */
-        public $type;
-
-        /**
-         * The alert message.
-         *
-         * @var string
-         */
-        public $message;
-
-        /**
          * Create the component instance.
-         *
-         * @param  string  $type
-         * @param  string  $message
-         * @return void
          */
-        public function __construct($type, $message)
-        {
-            $this->type = $type;
-            $this->message = $message;
-        }
+        public function __construct(
+            public string $type,
+            public string $message,
+        ) {}
 
         /**
          * Get the view / contents that represent the component.
-         *
-         * @return \Illuminate\View\View|\Closure|string
          */
-        public function render()
+        public function render(): View
         {
             return view('components.alert');
         }
@@ -1025,14 +1033,10 @@ Component constructor arguments should be specified using `camelCase`, while `ke
 
     /**
      * Create the component instance.
-     *
-     * @param  string  $alertType
-     * @return void
      */
-    public function __construct($alertType)
-    {
-        $this->alertType = $alertType;
-    }
+    public function __construct(
+        public string $alertType,
+    ) {}
 
 The `$alertType` argument may be provided to the component like so:
 
@@ -1051,9 +1055,11 @@ When passing attributes to components, you may also use a "short attribute" synt
 컴포넌트에 속성을 전달할 때는 "짧은 속성" 문법을 사용할 수도 있습니다. 속성 이름이 해당하는 변수 이름과 같은 경우가 많기 때문에 편리합니다.
 
 ```blade
+{{-- Short attribute syntax... --}}
 {{-- 짧은 속성 문법... --}}
 <x-profile :$userId :$name />
 
+{{-- Is equivalent to... --}}
 {{-- 이것과 같습니다... --}}
 <x-profile :user-id="$userId" :name="$name" />
 ```
@@ -1092,11 +1098,8 @@ In addition to public variables being available to your component template, any 
 
     /**
      * Determine if the given option is the currently selected option.
-     *
-     * @param  string  $option
-     * @return bool
      */
-    public function isSelected($option)
+    public function isSelected(string $option): bool
     {
         return $option === $this->selected;
     }
@@ -1119,12 +1122,12 @@ Blade components also allow you to access the component name, attributes, and sl
 
 블레이드 컴포넌트를 사용하면 클래스의 렌더링 메서드 내부에 컴포넌트 이름, 속성 및 슬롯에 액세스할 수도 있습니다. 그러나 이 데이터에 액세스하려면 컴포넌트의 `render` 메서드에서 클로저를 반환해야 합니다. 클로저는 `$data` 배열을 유일한 인수로 받습니다. 이 배열에는 컴포넌트에 대한 정보를 제공하는 여러 요소가 포함됩니다.
 
+    use Closure;
+
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|\Closure|string
      */
-    public function render()
+    public function render(): Closure
     {
         return function (array $data) {
             // $data['componentName'];
@@ -1156,18 +1159,12 @@ use App\Services\AlertCreator;
 
 /**
  * Create the component instance.
- *
- * @param  \App\Services\AlertCreator  $creator
- * @param  string  $type
- * @param  string  $message
- * @return void
  */
-public function __construct(AlertCreator $creator, $type, $message)
-{
-    $this->creator = $creator;
-    $this->type = $type;
-    $this->message = $message;
-}
+public function __construct(
+    public AlertCreator $creator,
+    public string $type,
+    public string $message,
+) {}
 ```
 
 <a name="hiding-attributes-and-methods"></a>
@@ -1187,18 +1184,18 @@ If you would like to prevent some public methods or properties from being expose
     class Alert extends Component
     {
         /**
-         * The alert type.
-         *
-         * @var string
-         */
-        public $type;
-
-        /**
          * The properties / methods that should not be exposed to the component template.
          *
          * @var array
          */
         protected $except = ['type'];
+
+        /**
+         * Create the component instance.
+         */
+        public function __construct(
+            public string $type,
+        ) {}
     }
 
 <a name="component-attributes"></a>
@@ -1344,7 +1341,7 @@ You may filter attributes using the `filter` method. This method accepts a closu
 `filter` 메서드를 사용하여 속성을 필터링할 수 있습니다. 이 메서드는 속성 모음에 속성을 유지하려는 경우 `true`를 반환해야 하는 클로저를 입력받습니다.
 
 ```blade
-{{ $attributes->filter(fn ($value, $key) => $key == 'foo') }}
+{{ $attributes->filter(fn (string $value, string $key) => $key == 'foo') }}
 ```
 
 For convenience, you may use the `whereStartsWith` method to retrieve all attributes whose keys begin with a given string:
@@ -1454,7 +1451,7 @@ You may define the content of the named slot using the `x-slot` tag. Any content
 
 `x-slot` 태그를 사용하여 명명된 슬롯의 내용을 정의할 수 있습니다. 명시적으로 `x-slot` 태그에 포함되지 않은 콘텐츠는 `$slot` 변수의 컴포넌트로 전달됩니다.
 
-```blade
+```xml
 <x-alert>
     <x-slot:title>
         Server Error
@@ -1537,10 +1534,8 @@ For very small components, it may feel cumbersome to manage both the component c
 
     /**
      * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|\Closure|string
      */
-    public function render()
+    public function render(): string
     {
         return <<<'blade'
             <div class="alert alert-danger">
@@ -1596,10 +1591,8 @@ However, if you are building a package that utilizes Blade components or placing
 
     /**
      * Bootstrap your package's services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::component('package-alert', AlertComponent::class);
     }
@@ -1623,10 +1616,8 @@ Alternatively, you may use the `componentNamespace` method to autoload component
 
     /**
      * Bootstrap your package's services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::componentNamespace('Nightshade\\Views\\Components', 'nightshade');
     }
@@ -1789,16 +1780,14 @@ As previously discussed, anonymous components are typically defined by placing a
 
 앞에서 설명한 것처럼 익명 컴포넌트는 일반적으로 `resources/views/components` 디렉터리 내에 블레이드 템플릿을 배치하여 정의됩니다. 그러나 때때로 기본 경로 외에 다른 익명 컴포넌트 경로를 라라벨에 등록하고 싶을 수도 있습니다.
 
-The `anonymousComponentNamespace` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/docs/{{version}}/providers):
+The `anonymousComponentPath` method accepts the "path" to the anonymous component location as its first argument and an optional "namespace" that components should be placed under as its second argument. Typically, this method should be called from the `boot` method of one of your application's [service providers](/docs/{{version}}/providers):
 
-이 `anonymousComponentNamespace` 메서드는 익명 컴포넌트 위치에 대한 "경로"를 첫 번째 인수로 받아들이고 컴포넌트가 배치되어야 하는 "네임스페이스"를 두 번째 인수로(선택적) 받아들입니다. 일반적으로 이 메서드는 응용 프로그램의 [서비스 공급자](/docs/{{version}}/providers) 중 하나의 `boot` 메서드에서 호출해야 합니다 .
+이 `anonymousComponentPath` 메서드는 익명 컴포넌트 위치에 대한 "경로"를 첫 번째 인수로 받아들이고 컴포넌트가 배치되어야 하는 "네임스페이스"를 두 번째 인수로(선택적) 받아들입니다. 일반적으로 이 메서드는 응용 프로그램의 [서비스 공급자](/docs/{{version}}/providers) 중 하나의 `boot` 메서드에서 호출해야 합니다 .
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::anonymousComponentPath(__DIR__.'/../components');
     }
@@ -1948,32 +1937,6 @@ As you can see, this file contains typical HTML mark-up. However, take note of t
 Now that we have defined a layout for our application, let's define a child page that inherits the layout.
 
 이제 애플리케이션에 대한 레이아웃을 정의했으므로 레이아웃을 상속하는 자식 페이지를 정의해 보겠습니다.
-
-<a name="rendering-blade-fragments"></a>
-## Rendering Blade Fragments
-## 블레이드 조각 렌더링
-
-When using frontend frameworks such as [Turbo](https://turbo.hotwired.dev/) and [htmx](https://htmx.org/), you may occasionally need to only return a portion of a Blade template within your HTTP response. Blade "fragments" allow you to do just that. To get started, place a portion of your Blade template within `@fragment` and `@endfragment` directives:
-
-[Turbo](https://turbo.hotwired.dev/) 나 [htmx](https://htmx.org/) 같은 프론트엔드 프레임워크를 사용할 때 HTTP 응답에 블레이드 템플릿의 일부만 반환해야 하는 경우가 있습니다. 블레이드 "fragments" 을 사용하면 그렇게 할 수 있습니다. 이 기능을 쓰려면 우선 블레이드 템플릿의 일부를 `@fragment`와 `@endfragment`로 감쌉니다.
-
-```blade
-@fragment('user-list')
-    <ul>
-        @foreach ($users as $user)
-            <li>{{ $user->name }}</li>
-        @endforeach
-    </ul>
-@endfragment
-```
-
-Then, when rendering the view that utilizes this template, you may invoke the `fragment` method to specify that only the specified fragment should be included in the outgoing HTTP response:
-
-그리고 나서 이 템플릿을 활용하는 뷰를 렌더링 할 때 `fragment` 메서드를 사용하여 HTTP 응답에 fragment로 지정한 부분만 포함되도록 명시할 수 있습니다.
-
-```php
-return view('dashboard', ['users' => $users])->fragment('user-list');
-```
 
 <a name="extending-a-layout"></a>
 #### Extending A Layout
@@ -2203,6 +2166,56 @@ return Blade::render(
 );
 ```
 
+<a name="rendering-blade-fragments"></a>
+## Rendering Blade Fragments
+## 블레이드 조각 렌더링
+
+When using frontend frameworks such as [Turbo](https://turbo.hotwired.dev/) and [htmx](https://htmx.org/), you may occasionally need to only return a portion of a Blade template within your HTTP response. Blade "fragments" allow you to do just that. To get started, place a portion of your Blade template within `@fragment` and `@endfragment` directives:
+
+[Turbo](https://turbo.hotwired.dev/) 나 [htmx](https://htmx.org/) 같은 프론트엔드 프레임워크를 사용할 때 HTTP 응답에 블레이드 템플릿의 일부만 반환해야 하는 경우가 있습니다. 블레이드 "fragments" 을 사용하면 그렇게 할 수 있습니다. 이 기능을 쓰려면 우선 블레이드 템플릿의 일부를 `@fragment`와 `@endfragment`로 감쌉니다.
+
+```blade
+@fragment('user-list')
+    <ul>
+        @foreach ($users as $user)
+            <li>{{ $user->name }}</li>
+        @endforeach
+    </ul>
+@endfragment
+```
+
+Then, when rendering the view that utilizes this template, you may invoke the `fragment` method to specify that only the specified fragment should be included in the outgoing HTTP response:
+
+그리고 나서 이 템플릿을 활용하는 뷰를 렌더링 할 때 `fragment` 메서드를 사용하여 HTTP 응답에 fragment로 지정한 부분만 포함되도록 명시할 수 있습니다.
+
+```php
+return view('dashboard', ['users' => $users])->fragment('user-list');
+```
+
+The `fragmentIf` method allows you to conditionally return a fragment of a view based on a given condition. Otherwise, the entire view will be returned:
+
+`fragmentIf` 메서드를 사용하면 주어진 조건에 따라 뷰의 조각을 조건부로 반환할 수 있습니다. 그렇지 않으면 전체 뷰가 반환됩니다.
+
+```php
+return view('dashboard', ['users' => $users])
+    ->fragmentIf($request->hasHeader('HX-Request'), 'user-list');
+```
+
+The `fragments` and `fragmentsIf` methods allow you to return multiple view fragments in the response. The fragments will be concatenated together:
+
+`fragments` 및 `fragmentsIf` 메서드를 사용하면 응답에서 여러 뷰 조각을 반환할 수 있습니다. fragment가 함께 연결됩니다.
+
+```php
+view('dashboard', ['users' => $users])
+    ->fragments(['user-list', 'comment-list']);
+
+view('dashboard', ['users' => $users])
+    ->fragmentsIf(
+        $request->hasHeader('HX-Request'),
+        ['user-list', 'comment-list']
+    );
+```
+
 <a name="extending-blade"></a>
 ## Extending Blade
 ## 블레이드 기능 확장하기
@@ -2226,22 +2239,18 @@ The following example creates a `@datetime($var)` directive which formats a give
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            Blade::directive('datetime', function ($expression) {
+            Blade::directive('datetime', function (string $expression) {
                 return "<?php echo ($expression)->format('m/d/Y H:i'); ?>";
             });
         }
@@ -2276,10 +2285,8 @@ In these cases, Blade allows you to register a custom echo handler for that part
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Blade::stringable(function (Money $money) {
             return $money->formatTo('en_GB');
@@ -2306,12 +2313,10 @@ Programming a custom directive is sometimes more complex than necessary when def
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Blade::if('disk', function ($value) {
+        Blade::if('disk', function (string $value) {
             return config('filesystems.default') === $value;
         });
     }

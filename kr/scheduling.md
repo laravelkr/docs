@@ -121,7 +121,7 @@ The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues
 
 Optional second and third arguments may be provided to the `job` method which specifies the queue name and queue connection that should be used to queue the job:
 
-선택적인 두 번째 및 세 번째 인수는 작업을 대기열에 넣는 데 사용해야 하는 대기열 이름과 대기열 연결을 지정하는 `job` 메서드에 제공됩니다.
+`job` 메서드에 제공되는 두 번째 및 세 번째 인자는 옵션으로 지정할 수 있습니다. 두 번째 인자로는 대기열의 이름을 지정할 수 있고, 세 번째 인자로는 연결할 커넥션을 지정합니다.
 
     use App\Jobs\Heartbeat;
 
@@ -136,7 +136,7 @@ Optional second and third arguments may be provided to the `job` method which sp
 
 The `exec` method may be used to issue a command to the operating system:
 
-`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다.
+`exec` 메서드는 운영체제에 명령을 실행하게 할 때 사용됩니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -222,7 +222,7 @@ Method  | Description
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, you may schedule a command to run weekly on Monday:
 
-이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다.
+이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 스케줄을 좀 더 디테일하게 만들 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 해 봅시다.
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
@@ -275,8 +275,8 @@ Method  | Description
 `->days(array\|mixed);`  |  특정 요일로 제한
 `->between($startTime, $endTime);`  |  시작과 종료 시간 사이에 작업 실행을 제한
 `->unlessBetween($startTime, $endTime);`  |  시작 시간과 종료 시간 사이에 작업이 실행되지 않도록 제한
-`->when(Closure);`  |  클로저 결과에 따라서 수행
-`->environments($env);`  |  특정 환경으로 작업 제한
+`->when(Closure);`  |  클로저의 참/거짓의 결과에 따라서 실행을 제한
+`->environments($env);`  |  특정 환경변수에 따라 실행을 제한
 
 <a name="day-constraints"></a>
 #### Day Constraints
@@ -306,7 +306,7 @@ Alternatively, you may use the constants available on the `Illuminate\Console\Sc
 
 The `between` method may be used to limit the execution of a task based on the time of day:
 
-`between` 메소드는 하루중에 시간에 따라 실행 시간을 제한하기 위해 사용될 수 있습니다.
+`between` 메소드는 하루 사이에 실행되는 시간 구간을 제한하기 위해 사용될 수 있습니다.
 
     $schedule->command('emails:send')
                         ->hourly()
@@ -326,7 +326,7 @@ Similarly, the `unlessBetween` method can be used to exclude the execution of a 
 
 The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given closure returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
 
-`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다.
+`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이 실행될 것입니다.
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -350,7 +350,7 @@ When using chained `when` methods, the scheduled command will only execute if al
 
 The `environments` method may be used to execute tasks only on the given environments (as defined by the `APP_ENV` [environment variable](/docs/{{version}}/configuration#environment-configuration)):
 
-`environments` 메소드는 주어진 환경에서만 태스크를 실행하는 데 사용될 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
+`environments` 메소드는 주어진 환경변수에 해당할 때만 태스크를 실행하도록 하고 싶을 때 사용할 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
 
     $schedule->command('emails:send')
                 ->daily()
@@ -362,7 +362,7 @@ The `environments` method may be used to execute tasks only on the given environ
 
 Using the `timezone` method, you may specify that a scheduled task's time should be interpreted within a given timezone:
 
-`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 안에서 실행 되도록 지정할 수 있습니다.
+`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 시간에서 실행되도록 합니다.
 
     $schedule->command('report:generate')
              ->timezone('America/New_York')
@@ -404,7 +404,7 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 If needed, you may specify how many minutes must pass before the "without overlapping" lock expires. By default, the lock will expire after 24 hours:
 
-필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다.
+필요한 경우, "중복 방지" 잠금 시간이 얼마나 지난 후 만료되는지 분단위의 시간을 지정할 수 있습니다. 기본적으로 잠금(lock)은 24시간 후에 만료됩니다.
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 

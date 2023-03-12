@@ -218,7 +218,7 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  분기별 4일 14:00에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->yearlyOn(6, 1, '17:00');`  |  매년 6월 1일 17:00에 작업 실행
-`->timezone('America/New_York');` | 타임존 지정
+`->timezone('America/New_York');` | 지정한 타임존의 시간에 작업 실행
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, you may schedule a command to run weekly on Monday:
 

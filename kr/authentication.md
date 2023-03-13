@@ -12,7 +12,7 @@
 - [Authentication Quickstart](#authentication-quickstart)
 - [빠르게 인증 살펴보기](#authentication-quickstart)
     - [Install A Starter Kit](#install-a-starter-kit)
-    - [### 스타터 키트 설치](#install-a-starter-kit)
+    - [스타터 키트 설치](#install-a-starter-kit)
     - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
     - [인증된 사용자 조회하기](#retrieving-the-authenticated-user)
     - [Protecting Routes](#protecting-routes)
@@ -48,7 +48,7 @@
 - [Adding Custom User Providers](#adding-custom-user-providers)
 - [사용자 정의 User 프로바이더 추가하기](#adding-custom-user-providers)
     - [The User Provider Contract](#the-user-provider-contract)
-    - [사용자 프로바이더 Contract](#the-user-provider-contract)
+    - [User 프로바이더 Contract](#the-user-provider-contract)
     - [The Authenticatable Contract](#the-authenticatable-contract)
     - [인증가능 Contract](#the-authenticatable-contract)
 - [Social Authentication](/docs/{{version}}/socialite)
@@ -72,13 +72,15 @@ Providers define how users are retrieved from your persistent storage. Laravel s
 
 프로바이더는 저장소에서 사용자를 어떻게 조회 할 수 있는지 정의합니다. 라라벨은 [Eloquent](/docs/{{version}}/eloquent)와 데이터베이스 쿼리 빌더를 사용하여 사용자를 찾을 수 있도록 지원합니다. 또한, 애플리케이션에서 필요로 하는 추가적인 프로바이더를 자유롭게 정의할 수 있습니다.
 
-Your application's authentication configuration file is located at `config/auth.php`. This file contains several well documented options for tweaking the behavior of Laravel's authentication services.
+Your application's authentication configuration file is located at `config/auth.php`. This file contains several well-documented options for tweaking the behavior of Laravel's authentication services.
 
-애플리케이션의 인증 설정은 `config/auth.php` 파일에서 할 수 있습니다. 이 파일에는 라라벨 인증 서비스의 동작을 조정하기위한 몇 가지 잘 문서화 된 옵션이 포함되어 있습니다.
+애플리케이션의 인증 구성 파일은 `configauth.php`에 있습니다. 이 파일에는 Laravel의 인증 서비스의 동작을 조정하기 위한 몇 가지 잘 문서화된 옵션이 포함되어 있습니다.
 
-> {tip} Guards and providers should not be confused with "roles" and "permissions". To learn more about authorizing user actions via permissions, please refer to the [authorization](/docs/{{version}}/authorization) documentation.
+> **Note**  
+> Guards and providers should not be confused with "roles" and "permissions". To learn more about authorizing user actions via permissions, please refer to the [authorization](/docs/{{version}}/authorization) documentation.
 
-> {tip} 가드와 프로바이더의 "역할"및 "권한"을 혼동해서는 안됩니다. 권한을 통해 사용자의 행동을 승인하기위한 자세한 내용은 [authorization](/docs/{{version}}/authorization) 문서를 참조하세요.
+> **Note** 
+> Guards와 Providers를 "roles" 및 "permissions"과 혼동해서는 안 됩니다. 권한을 통한 사용자 작업 승인에 대한 자세한 내용은 [authorization](/docs/{{version}}/authorization) 문서를 참조하세요.
 
 <a name="starter-kits"></a>
 ### Starter Kits
@@ -128,9 +130,9 @@ When a remote service needs to authenticate to access an API, cookies are not ty
 #### Laravel's Built-in Browser Authentication Services
 #### 라라벨의 내장 브라우져 인증 서비스
 
-Laravel includes built-in authentication and session services which are typically accessed via the `Auth` and `Session` facades. These features provide cookie based authentication for requests that are initiated from web browsers. They provide methods that allow you to verify a user's credentials and authenticate the user. In addition, these services will automatically store the proper authentication data in the user's session and issue the user's session cookie. A discussion of how to use these services is contained within this documentation.
+Laravel includes built-in authentication and session services which are typically accessed via the `Auth` and `Session` facades. These features provide cookie-based authentication for requests that are initiated from web browsers. They provide methods that allow you to verify a user's credentials and authenticate the user. In addition, these services will automatically store the proper authentication data in the user's session and issue the user's session cookie. A discussion of how to use these services is contained within this documentation.
 
-라라벨에는 일반적으로 `Auth` 및 `Session` 파사드를 통해 접근할 수 있는 내장 인증 서비스 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저의 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자 인증정보를 확인하고 사용자를 인증 할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 인증 데이터를 자동으로 저장하고 사용자 세션 쿠키를 생성합니다. 이 문서에는 이러한 서비스를 사용하는 방법에 대한 설명이 포함되어 있습니다.
+Laravel에는 일반적으로 `Auth` 및 `Session` 파사드를 통해 접근할 수 있는 내장 인증 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저의 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자 인증정보를 확인하고 사용자를 인증할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 인증 데이터를 자동으로 저장하고 사용자 세션 쿠키를 생성합니다. 이러한 서비스를 사용하는 방법에 대한 설명이 이 문서에 포함되어 있습니다.
 
 **Application Starter Kits**
 **애플리케이션 스타터 키트**
@@ -256,19 +258,21 @@ Alternatively, once a user is authenticated, you may access the authenticated us
 
     namespace App\Http\Controllers;
 
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
 
     class FlightController extends Controller
     {
         /**
          * Update the flight information for an existing flight.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function update(Request $request)
+        public function update(Request $request): RedirectResponse
         {
-            // $request->user()
+            $user = $request->user();
+
+            // ...
+
+            return redirect('/flights');
         }
     }
 
@@ -286,7 +290,7 @@ To determine if the user making the incoming HTTP request is authenticated, you 
         // The user is logged in...
     }
 
-> **Note**
+> **Note**  
 > Even though it is possible to determine if a user is authenticated using the `check` method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on [protecting routes](/docs/{{version}}/authentication#protecting-routes).
 
 > **Note**
@@ -310,15 +314,14 @@ To determine if the user making the incoming HTTP request is authenticated, you 
 
 When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior by updating the `redirectTo` function in your application's `app/Http/Middleware/Authenticate.php` file:
 
-`auth` 미들웨어는 사용자가 인증되지 않았다면, `login` [이라는 이름이 지정된 라우트](/docs/{{version}}/routing#named-routes)로 사용자를 돌려보냅니다. `app/Http/Middleware/Authenticate.php` 파일의 `redirectTo` 함수를 수정해서 이 동작을 바꿀 수 있습니다.
+`auth` 미들웨어는 사용자가 인증되지 않았다면, `login` [이라는 이름이 지정된 Route](/docs/{{version}}/routing#named-routes)으로 리디렉션합니다. 애플리케이션의 `appHttpMiddlewareAuthenticate.php` 파일의 `redirectTo` 함수를 수정하여 이 동작을 바꿀 수 있습니다.
+
+    use Illuminate\Http\Request;
 
     /**
      * Get the path the user should be redirected to.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
      */
-    protected function redirectTo($request)
+    protected function redirectTo(Request $request): string
     {
         return route('login');
     }
@@ -358,7 +361,7 @@ You are not required to use the authentication scaffolding included with Laravel
 
 라라벨 [스타터 키트](/docs/{{version}}/starter-kits)에 포함된 인증 스캐폴딩을 꼭 사용할 필요는 없습니다. 이 스캐폴딩을 사용하지 않기로 결정했다면, 라라벨 인증 클래스를 사용하여 직접 사용자 인증을 처리해야 합니다. 걱정하지 마세요. 간단합니다!
 
-We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method. The `attempt` method is normally used to handle authentication attempt's from your application's "login" form. If authentication is successful, you should regenerate the user's [session](/docs/{{version}}/session) to prevent [session fixation](https://en.wikipedia.org/wiki/Session_fixation):
+We will access Laravel's authentication services via the `Auth` [facade](/docs/{{version}}/facades), so we'll need to make sure to import the `Auth` facade at the top of the class. Next, let's check out the `attempt` method. The `attempt` method is normally used to handle authentication attempts from your application's "login" form. If authentication is successful, you should regenerate the user's [session](/docs/{{version}}/session) to prevent [session fixation](https://en.wikipedia.org/wiki/Session_fixation):
 
 우리는 라라벨의 인증 서비스를 `Auth` [파사드](/docs/{{version}}/facades)를 통해 접근할 것이기 때문에, 클래스의 가장 상단 부분에 `Auth` 파사드를 사용하도록 선언합니다. 다음은 `attempt` 메소드를 확인해 보겠습니다. `attempt` 메소드는 일반적으로 애플리케이션의 "로그인" 폼에서 인증 시도를 처리하는 데 사용됩니다. 인증에 성공하면 [세션 고정 공격](https://en.wikipedia.org/wiki/Session_fixation) 을 방지하기 위해, 사용자의 [세션](/docs/{{version}}/session)을 다시 생성해야합니다.
 
@@ -368,17 +371,15 @@ We will access Laravel's authentication services via the `Auth` [facade](/docs/{
     namespace App\Http\Controllers;
 
     use Illuminate\Http\Request;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Support\Facades\Auth;
 
     class LoginController extends Controller
     {
         /**
          * Handle an authentication attempt.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function authenticate(Request $request)
+        public function authenticate(Request $request): RedirectResponse
         {
             $credentials = $request->validate([
                 'email' => ['required', 'email'],
@@ -429,10 +430,13 @@ For complex query conditions, you may provide a closure in your array of credent
 
 복잡한 쿼리 조건을 위해서는 인증 정보 배열에 클로저를 제공해주면 됩니다. 이 클로저는 쿼리 인스턴스와 함께 호출되어 애플리케이션의 요구 사항에 따라 쿼리를 사용자 정의할 수 있습니다.
 
+
+    use Illuminate\Database\Eloquent\Builder;
+
     if (Auth::attempt([
         'email' => $email, 
         'password' => $password, 
-        fn ($query) => $query->has('activeSubscription'),
+        fn (Builder $query) => $query->has('activeSubscription'),
     ])) {
         // Authentication was successful...
     }
@@ -450,7 +454,7 @@ The `attemptWhen` method, which receives a closure as its second argument, may b
     if (Auth::attemptWhen([
         'email' => $email,
         'password' => $password,
-    ], function ($user) {
+    ], function (User $user) {
         return $user->isNotBanned();
     })) {
         // Authentication was successful...
@@ -546,14 +550,14 @@ You may pass a boolean value as the second argument to the `loginUsingId` method
 
 <a name="authenticate-a-user-once"></a>
 #### Authenticate A User Once
-#### 한번만 사용자로 인증 하기
+#### 일회성 사용자 인증
 
 You may use the `once` method to authenticate a user with the application for a single request. No sessions or cookies will be utilized when calling this method:
 
 일회성 요청에 대해 사용자로 인증하기 위해 `once` 메소드를 사용할 수 있습니다. 이 메서드를 사용 할 때는 세션이나 쿠키가 사용되지 않습니다.
 
     if (Auth::once($credentials)) {
-        //
+        // ...
     }
 
 <a name="http-basic-authentication"></a>
@@ -597,31 +601,31 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
     namespace App\Http\Middleware;
 
+    use Closure;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Symfony\Component\HttpFoundation\Response;
 
     class AuthenticateOnceWithBasicAuth
     {
         /**
          * Handle an incoming request.
          *
-         * @param  \Illuminate\Http\Request  $request
-         * @param  \Closure  $next
-         * @return mixed
+         * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
          */
-        public function handle($request, $next)
+        public function handle(Request $request, Closure $next): Response
         {
             return Auth::onceBasic() ?: $next($request);
         }
 
     }
 
-Next, [register the route middleware](/docs/{{version}}/middleware#registering-middleware) and attach it to a route:
-
-다음으로, [라우트 미들웨어에 등록하고](/docs/{{version}}/middleware#registering-middleware), 이 미들웨어를 라우트에 추가하십시오.
+Next, attach the middleware to a route:
+다음으로 미들웨어를 Route에 연결합니다.
 
     Route::get('/api/user', function () {
         // Only authenticated users may access this route...
-    })->middleware('auth.basic.once');
+    })->middleware(AuthenticateOnceWithBasicAuth::class);
 
 <a name="logging-out"></a>
 ## Logging Out
@@ -636,15 +640,13 @@ In addition to calling the `logout` method, it is recommended that you invalidat
 `logout` 메소드를 호출하는 것 외에도 사용자의 세션을 무효화하고 [CSRF 토큰](/docs/{{version}}/csrf)을 다시 생성하는 것이 좋습니다. 사용자를 로그아웃 한 후에는 일반적으로 사용자를 애플리케이션의 루트(/)로 이동시킵니다.
 
     use Illuminate\Http\Request;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Support\Facades\Auth;
 
     /**
      * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
 
@@ -663,9 +665,9 @@ Laravel also provides a mechanism for invalidating and "logging out" a user's se
 
 라라벨은 또한 현재 장치에서 로그인정보를 유지하면서, 다른 장치에서 인증된 된 로그인 정보를 무효화하고 "로그아웃"시키는 방법을 제공합니다. 이 기능은 일반적으로 사용자가 암호를 변경하거나 업데이트 할 때, 현재 장치의 인증을 유지하면서 다른 장치에서 세션을 무효화하려는 경우에 사용됩니다.
 
-Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is included on the routes that should receive session authentication. Typically, you should place this middleware on a route group definition so that it can be applied to the majority of your application's routes. By default, the `AuthenticateSession` middleware may be attached to a route using the `auth.session` route middleware key as defined in your application's HTTP kernel:
+Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is included on the routes that should receive session authentication. Typically, you should place this middleware on a route group definition so that it can be applied to the majority of your application's routes. By default, the `AuthenticateSession` middleware may be attached to a route using the `auth.session` route middleware alias as defined in your application's HTTP kernel:
 
-시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 세션 인증을 받아야하는 라우트에 포함되어 있는지 확인해야 합니다. 일반적으로 대부분의 애플리케이션 라우트에 적용할 수 있도록 라우트 그룹 정의에 미들웨어를 적용합니다. 기본적으로 `AuthenticateSession` 미들웨어는 HTTP 커널에 정의된 대로 `auth.session` 라우트 미들웨어 키를 이용하여 라우트에 연결할 수 있습니다.
+시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 세션 인증을 받아야 하는 Route에 포함되어 있는지 확인해야 합니다. 일반적으로 대부분의 애플리케이션 Route에 적용할 수 있도록 라우트 그룹 정의에 미들웨어를 적용합니다. 기본적으로 `AuthenticateSession` 미들웨어는 애플리케이션의 HTTP 커널에 정의된 대로 `auth.session` Route 미들웨어 별칭을 사용하여 Route에 연결할 수 있습니다.
 
     Route::middleware(['auth', 'auth.session'])->group(function () {
         Route::get('/', function () {
@@ -715,9 +717,9 @@ After confirming their password, a user will not be asked to confirm their passw
 #### The Password Confirmation Form
 #### 비밀번호 확인 양식
 
-First, we will define a route to display a view that requests that the user to confirm their password:
+First, we will define a route to display a view that requests the user to confirm their password:
 
-먼저 사용자에게 비밀번호 확인을 요청하는 폼의 경로를 지정합니다.
+먼저 사용자에게 비밀번호 확인을 요청하는 폼의 경로를 지합니다.
 
     Route::get('/confirm-password', function () {
         return view('auth.confirm-password');
@@ -784,6 +786,7 @@ You may define your own authentication guards using the `extend` method on the `
     namespace App\Providers;
 
     use App\Services\Auth\JwtGuard;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Illuminate\Support\Facades\Auth;
 
@@ -791,14 +794,10 @@ You may define your own authentication guards using the `extend` method on the `
     {
         /**
          * Register any application authentication / authorization services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            $this->registerPolicies();
-
-            Auth::extend('jwt', function ($app, $name, array $config) {
+            Auth::extend('jwt', function (Application $app, string $name, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\Guard...
 
                 return new JwtGuard(Auth::createUserProvider($config['provider']));
@@ -835,13 +834,9 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
 
     /**
      * Register any application authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
         Auth::viaRequest('custom-token', function (Request $request) {
             return User::where('token', $request->token)->first();
         });
@@ -857,6 +852,14 @@ Once your custom authentication driver has been defined, you may configure it as
         ],
     ],
 
+Finally, you may reference the guard when assigning the authentication middleware to a route:
+
+마지막으로 인증 미들웨어를 Route에 할당할 때 가드를 참조할 수 있습니다.
+
+    Route::middleware('auth:api')->group(function () {
+        // ...
+    }
+
 <a name="adding-custom-user-providers"></a>
 ## Adding Custom User Providers
 ## 사용자 정의 User 프로바이더 추가하기
@@ -870,6 +873,7 @@ If you are not using a traditional relational database to store your users, you 
     namespace App\Providers;
 
     use App\Extensions\MongoUserProvider;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
     use Illuminate\Support\Facades\Auth;
 
@@ -877,14 +881,10 @@ If you are not using a traditional relational database to store your users, you 
     {
         /**
          * Register any application authentication / authorization services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            $this->registerPolicies();
-
-            Auth::provider('mongo', function ($app, array $config) {
+            Auth::provider('mongo', function (Application $app, array $config) {
                 // Return an instance of Illuminate\Contracts\Auth\UserProvider...
 
                 return new MongoUserProvider($app->make('mongo.connection'));

@@ -29,7 +29,7 @@
 
 Before using Redis with Laravel, we encourage you to install and use the [phpredis](https://github.com/phpredis/phpredis) PHP extension via PECL. The extension is more complex to install compared to "user-land" PHP packages but may yield better performance for applications that make heavy use of Redis. If you are using [Laravel Sail](/docs/{{version}}/sail), this extension is already installed in your application's Docker container.
 
-라라벨에서 Redis를 사용하기 전에, PECL를 통하여 [PhpRedis](https://github.com/phpredis/phpredis) PHP Extension를 설치하고 사용하는 것을 권장합니다. 이 PHP 확장(PHP Extension)은 설치가 좀 더 복잡하지만 레디스를 많이 사용하는 어플리케이션에 보다 나은 성능을 제공합니다. [라라벨 세일](/docs/{{version}}/sail)을 이용하여 환경을 구성하였다면 도커 컨테이너 내에 이미 PECL 방식의 PHP Redis Extension이 설치되어 있습니다.
+라라벨에서 Redis를 사용하기 전에, PECL를 통하여 [PhpRedis](https://github.com/phpredis/phpredis) PHP Extension를 설치하고 사용하는 것을 권장합니다. 이 PHP 확장(PHP Extension)은 설치가 좀 더 복잡하지만 레디스를 많이 사용하는 어플리케이션에 보다 나은 성능을 제공합니다. [라라벨 세일](/docs/{{version}}/sail)을 이용하여 환경을 설정하였다면 도커 컨테이너 내에 이미 PECL 방식의 PHP Redis Extension이 설치되어 있습니다.
 
 If you are unable to install the phpredis extension, you may install the `predis/predis` package via Composer. Predis is a Redis client written entirely in PHP and does not require any additional extensions:
 
@@ -45,7 +45,7 @@ composer require predis/predis
 
 You may configure your application's Redis settings via the `config/database.php` configuration file. Within this file, you will see a `redis` array containing the Redis servers utilized by your application:
 
-'config/database.php' 파일을 통해 애플리케이션의 레디스 설정을 구성할 수 있습니다. 이 파일 내부의 `redis` 배열은 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다.
+'config/database.php' 파일을 통해 애플리케이션의 레디스 설정을 설정할 수 있습니다. 이 파일 내부의 `redis` 배열은 애플리케이션에서 사용할 레디스 서버의 설정 정보를 담고 있습니다.
 
     'redis' => [
 
@@ -91,7 +91,7 @@ Each Redis server defined in your configuration file is required to have a name,
 
 By default, Redis clients will use the `tcp` scheme when connecting to your Redis servers; however, you may use TLS / SSL encryption by specifying a `scheme` configuration option in your Redis server's configuration array:
 
-기본적으로 Redis 클라이언트는 Reids 서버에 연결할 때 `tcp` 스키마를 사용합니다. 그러나 Redis 서버 설정 배열에서 `scheme` 구성 옵션을 지정하여 TLS / SSL 암호화를 사용할 수 있습니다.
+기본적으로 Redis 클라이언트는 Reids 서버에 연결할 때 `tcp` 스키마를 사용합니다. 그러나 Redis 서버 설정 배열에서 `scheme` 설정 옵션을 지정하여 TLS / SSL 암호화를 사용할 수 있습니다.
 
     'redis' => [
 
@@ -139,7 +139,7 @@ By default, clusters will perform client-side sharding across your nodes, allowi
 
 If you would like to use native Redis clustering instead of client-side sharding, you may specify this by setting the `options.cluster` configuration value to `redis` within your application's `config/database.php` configuration file:
 
-클라이언트 사이드 샤딩 대신 레디스 서버 자체에서 분산 저장하는 방식의 구성을 하는 네이티브 레디스 클러스터링을 사용하려면, 애플리케이션의 `config/database.php` 설정 파일 내에서 `options.cluster` 구성 값을 `redis`로 설정하여 네이티브 클러스터링을 지정할 수 있습니다.
+클라이언트 사이드 샤딩 대신 레디스 서버 자체에서 분산 저장하는 방식의 설정을 하는 네이티브 레디스 클러스터링을 사용하려면, 애플리케이션의 `config/database.php` 설정 파일 내에서 `options.cluster` 설정 값을 `redis`로 설정하여 네이티브 클러스터링을 지정할 수 있습니다.
 
     'redis' => [
 
@@ -188,7 +188,7 @@ Predis는 `host`, `port`, `database`, `password` 기본 서버 설정 옵션 외
 
 Laravel's `config/app.php` configuration file contains an `aliases` array which defines all of the class aliases that will be registered by the framework. By default, no `Redis` alias is included because it would conflict with the `Redis` class name provided by the phpredis extension. If you are using the Predis client and would like to add a `Redis` alias, you may add it to the `aliases` array in your application's `config/app.php` configuration file:
 
-라라벨의 `config/app.php` 구성 파일에는 프레임워크에 등록되는 모든 클래스 별칭을 정의하는 `aliases` 배열이 포함되어 있습니다. 편의를 위해 라라벨에서 제공하는 [facade](/docs/{version}/facades)마다 별칭 항목이 포함되어 있지만,  기본적으로 `Redis` 별칭은 포함되지 않는데, 이는 phpredis 확장자가 제공하는 `Redis` 클래스 이름과 충돌할 수 있기 때문입니다. Predis 클라이언트를 사용하는 경우 이 별칭을 활성화하려면 응용 프로그램의 `config/app.php` 설정 파일의 `aliases` 배열에 별칭을 추가해주면 됩니다.
+라라벨의 `config/app.php` 설정 파일에는 프레임워크에 등록되는 모든 클래스 별칭을 정의하는 `aliases` 배열이 포함되어 있습니다. 편의를 위해 라라벨에서 제공하는 [facade](/docs/{version}/facades)마다 별칭 항목이 포함되어 있지만,  기본적으로 `Redis` 별칭은 포함되지 않는데, 이는 phpredis 확장자가 제공하는 `Redis` 클래스 이름과 충돌할 수 있기 때문입니다. Predis 클라이언트를 사용하는 경우 이 별칭을 활성화하려면 응용 프로그램의 `config/app.php` 설정 파일의 `aliases` 배열에 별칭을 추가해주면 됩니다.
 
     'aliases' => Facade::defaultAliases()->merge([
         'Redis' => Illuminate\Support\Facades\Redis::class,
@@ -231,7 +231,7 @@ In addition to the default `scheme`, `host`, `port`, `database`, and `password` 
 
 The phpredis extension may also be configured to use a variety of serialization and compression algorithms. These algorithms can be configured via the `options` array of your Redis configuration:
 
-phpredis extension 은 다양한 직렬화-serialization 및 압축 알고리즘을 사용하도록 설정할 수 있습니다. 이러한 알고리즘은 레디스 설정의 `options` 배열을 통해 구성할 수 있습니다:
+phpredis extension 은 다양한 직렬화-serialization 및 압축 알고리즘을 사용하도록 설정할 수 있습니다. 이러한 알고리즘은 레디스 설정의 `options` 배열을 통해 설정할 수 있습니다:
 
     'redis' => [
 

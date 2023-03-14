@@ -69,7 +69,7 @@ You may configure your application's Redis settings via the `config/database.php
 
 Each Redis server defined in your configuration file is required to have a name, host, and a port unless you define a single URL to represent the Redis connection:
 
-설정 파일에 정의된 레디스 서버는 각각 name, host 및 port를 가져야 합니다. 만약 하나의 url로 레디스 연결을 설정을 하고자 할 때는 아래와 같이 설정합니다.
+설정 파일에 정의된 레디스 서버는 각각 name, host 및 port를 가져야 합니다. 만약 하나의 url로 레디스 연결을 설정하려 할 때는 아래와 같이 설정합니다.
 
     'redis' => [
 

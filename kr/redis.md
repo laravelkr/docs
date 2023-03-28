@@ -135,7 +135,7 @@ If your application is utilizing a cluster of Redis servers, you should define t
 
 By default, clusters will perform client-side sharding across your nodes, allowing you to pool nodes and create a large amount of available RAM. However, client-side sharding does not handle failover; therefore, it is primarily suited for transient cached data that is available from another primary data store.
 
-기본적으로 클러스트는 노드 전체에서 클라이언트 사이드 샤딩을 수행합니다. 클라이언트 사이드 샤딩은 레디스 저장소 자체의 동작이 아닌 애플리케이션에서 레디스 서버를 조작할 때 사용되는 프로그램을 쪽의 동작을 의미하며 레디스 저장소의 여러 노드를 논리적으로 하나의 대상으로 보도록 하는 풀링(pooling) 작업을 수행합니다. 클러스터링을 통해 여러 레디스 노드를 사용할 수 있기 때문에 가능한 많은 RAM(Random Access Memory)을 사용할 수 있습니다. 하지만 클라이언트 사이드 샤딩은 레디스의 노드가 다운되었을 때 노드를 재연결하여 복구하는 failover를 처리하지 않기 때문에 데이터 손실이 일어날 수 있습니다. 따라서 다른 기본(primary) 데이터 저장소에 저장되어 있는 값의 캐시 데이터를 일시적으로 저장하는데 적합합니다.
+기본적으로 클러스트는 노드 전체에서 클라이언트 사이드 샤딩을 수행합니다. 클라이언트 사이드 샤딩은 레디스 저장소 자체의 동작이 아닌 애플리케이션에서 레디스 서버를 조작할 때 사용되는 프로그램을 쪽의 동작을 의미하며 레디스 저장소의 여러 노드를 논리적으로 하나의 대상으로 보도록 하는 pooling-풀링 작업을 수행합니다. 클러스터링을 통해 여러 레디스 노드를 사용할 수 있기 때문에 가능한 많은 RAM(Random Access Memory)을 사용할 수 있습니다. 하지만 클라이언트 사이드 샤딩은 레디스의 노드가 다운되었을 때 노드를 재연결하여 복구하는 failover를 처리하지 않기 때문에 데이터 손실이 일어날 수 있습니다. 따라서 다른 primary-기본 데이터 저장소에 저장되어 있는 값의 캐시 데이터를 일시적으로 저장하는데 적합합니다.
 
 If you would like to use native Redis clustering instead of client-side sharding, you may specify this by setting the `options.cluster` configuration value to `redis` within your application's `config/database.php` configuration file:
 
@@ -320,7 +320,7 @@ To obtain an instance of the default Redis connection, you may call the `connect
 
 The `Redis` facade's `transaction` method provides a convenient wrapper around Redis' native `MULTI` and `EXEC` commands. The `transaction` method accepts a closure as its only argument. This closure will receive a Redis connection instance and may issue any commands it would like to this instance. All of the Redis commands issued within the closure will be executed in a single, atomic transaction:
 
-Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC` 명령에 대한 편리한 래퍼를 제공합니다. `transaction` 메서드는 하나의 인자를 받는데 클로저(closure)를 인자로 받습니다. 이 클로저는 레디스 연결 인스턴스를 수신하고 이 인스턴스에 원하는 모든 명령을 전달할 수 있습니다. 클로저 내의 모든 레디스 명령은 한 단위의 원자적 트렌젝션으로 실행됩니다.
+Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC` 명령에 대한 편리한 래퍼를 제공합니다. `transaction` 메서드는 하나의 인자를 받는데 클로저를 인자로 받습니다. 이 클로저는 레디스 연결 인스턴스를 수신하고 이 인스턴스에 원하는 모든 명령을 전달할 수 있습니다. 클로저 내의 모든 레디스 명령은 한 단위의 원자적 트렌젝션으로 실행됩니다.
 
     use Redis;
     use Illuminate\Support\Facades;
@@ -334,7 +334,7 @@ Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC
 > When defining a Redis transaction, you may not retrieve any values from the Redis connection. Remember, your transaction is executed as a single, atomic operation and that operation is not executed until your entire closure has finished executing its commands.
 
 > **Warning**
-> 레디스 트랜잭션을 정의할 때, 레디스 연결에서 어떤 값도 검색하지 못할 수 있습니다. 트랜잭션은 단일 원자 작업으로 실행되며, 해당 작업은 전체 클로저(closure)가 명령 실행을 완료할 때까지 실행되지 않는다는 점을 기억하세요.
+> 레디스 트랜잭션을 정의할 때, 레디스 연결에서 어떤 값도 검색하지 못할 수 있습니다. 트랜잭션은 단일 원자 작업으로 실행되며, 해당 작업은 전체 클로저가 명령 실행을 완료할 때까지 실행되지 않는다는 점을 기억하세요.
 
 #### Lua Scripts
 #### Lua Scripts
@@ -373,7 +373,7 @@ In this example, we will increment a counter, inspect its new value, and increme
 
 Sometimes you may need to execute dozens of Redis commands. Instead of making a network trip to your Redis server for each command, you may use the `pipeline` method. The `pipeline` method accepts one argument: a closure that receives a Redis instance. You may issue all of your commands to this Redis instance and they will all be sent to the Redis server at the same time to reduce network trips to the server. The commands will still be executed in the order they were issued:
 
-때로는 수십 개의 Redis 명령을 실행해야 할 수도 있습니다. 각 명령에 대해 레디스 한 단위의 서버간 네트워크 전송(a network trip)을 만드는 것 대신 `pipeline` 메서드를 사용할 수 있습니다. `pipeline` 레디스 인스턴스를 수신하는 클로저(closure)를 하나를 인자로 받습니다. 이 레디스 인스턴스에 모든 명령을 실행하면 모든 명령이 한꺼번에 레디스 서버로 전송되기 때문에 서버간의 네트워크 전송으로 지연되는 시간을 줄일 수 있습니다. 이 명령은 작성한 순서대로 실행됩니다.
+때로는 수십 개의 Redis 명령을 실행해야 할 수도 있습니다. 각 명령에 대해 레디스 한 단위의 서버간 네트워크 전송(a network trip)을 만드는 것 대신 `pipeline` 메서드를 사용할 수 있습니다. `pipeline` 레디스 인스턴스를 수신하는 클로저를 하나를 인자로 받습니다. 이 레디스 인스턴스에 모든 명령을 실행하면 모든 명령이 한꺼번에 레디스 서버로 전송되기 때문에 서버간의 네트워크 전송으로 지연되는 시간을 줄일 수 있습니다. 이 명령은 작성한 순서대로 실행됩니다.
 
     use Redis;
     use Illuminate\Support\Facades;

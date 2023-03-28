@@ -280,13 +280,13 @@ So, in our example, the user will be redirected to our controller's `create` met
 #### Customizing The Error Messages
 #### 에러 메시지 사용자 정의
 
-Laravel's built-in validation rules each has an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
 라라벨의 내장 유효성 검사 규칙에는 각각 애플리케이션의 `lang/en/validation.php` 파일에 에러 메시지가 존재합니다. 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
-또한 이 파일을 다른 번역 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+또한 이 파일을 다른 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
 
 > **Warning**
 > By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
@@ -295,9 +295,9 @@ In addition, you may copy this file to another translation language directory to
 #### XHR Requests & Validation
 #### XHR 요청 및 검증
 
-In this example, we used a traditional form to send data to the application. However, many applications receive XHR requests from a JavaScript powered frontend. When using the `validate` method during an XHR request, Laravel will not generate a redirect response. Instead, Laravel generates a JSON response containing all of the validation errors. This JSON response will be sent with a 422 HTTP status code.
+In this example, we used a traditional form to send data to the application. However, many applications receive XHR requests from a JavaScript powered frontend. When using the `validate` method during an XHR request, Laravel will not generate a redirect response. Instead, Laravel generates a [JSON response containing all of the validation errors](#validation-error-response-format). This JSON response will be sent with a 422 HTTP status code.
 
-이 예제에서는 기존의 form을 사용하여 애플리케이션에 데이터를 전송했습니다. 그러나 많은 애플리케이션이 JavaScript 기반 프론트엔드에서 XHR 요청을 수신합니다. XHR 요청 중에 `validate` 메소드를 사용할 때 라라벨은 리디렉션 응답을 생성하지 않습니다. 대신 라라벨은 모든 유효성 검사 오류가 포함된 JSON 응답을 생성합니다. 이 JSON 응답은 422 HTTP 상태 코드와 함께 전송됩니다.
+이 예제에서는 기존의 form을 사용하여 애플리케이션에 데이터를 전송했습니다. 그러나 많은 애플리케이션이 JavaScript 기반 프론트엔드에서 XHR 요청을 수신합니다. XHR 요청 중에 `validate` 메소드를 사용할 때 라라벨은 리디렉션 응답을 생성하지 않습니다. 대신 라라벨은 [모든 유효성 검사 오류가 포함된 JSON 응답](#validation-error-response-format)을 생성합니다. 이 JSON 응답은 422 HTTP 상태 코드와 함께 전송됩니다.
 
 <a name="the-at-error-directive"></a>
 #### The `@error` Directive
@@ -965,9 +965,9 @@ Laravel's built-in validation rules each have an error message that is located i
 
 라라벨의 내장 유효성 검사 규칙은 각각 애플리케이션의 `lang/en/validation.php` 파일에 에러 메시지가 있습니다. 이 파일 내에서 각 유효성 검사 규칙에 대한 번역 항목을 찾을 수 있습니다. 애플리케이션의 필요에 따라 이러한 메시지를 자유롭게 변경하거나 수정할 수 있습니다.
 
-In addition, you may copy this file to another translation language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
+In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
-또한 이 파일을 다른 번역 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
+또한 이 파일을 다른 언어 디렉토리에 복사하여 애플리케이션 언어로 메시지를 번역할 수 있습니다. 라라벨 현지화에 대해 자세히 알아보려면 전체 [현지화 문서](/docs/{{version}}/localization)를 확인하세요.
 
 > **Warning**
 > By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
@@ -1034,6 +1034,8 @@ Instead of displaying `cc` as the payment type value, you may specify a more use
 
 > **Warning**
 > By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+라라벨 애플리케이션 스켈레톤에는 `lang` 디렉터리가 기본적으로 포함되어 있는 것은 아닙니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` 아티즌 명령을 통해 publish-게시할 수 있습니다.
 
 After defining this value, the validation rule will produce the following error message:
 
@@ -1217,7 +1219,9 @@ The field under validation must be a value after or equal to the given date. For
 
 The field under validation must be entirely alphabetic characters.
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.
+The field under validation must be entirely Unicode alphabetic characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=) and [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=).
+
+필드의 값이 완벽하게 (숫자나 기호가 아닌) 완전히 유니코드 알파벳[자음과 모음] 문자로 이루어져야 합니다. 이 문자는 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)과 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)을 포함합니다.
 
 (역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
 
@@ -1231,11 +1235,13 @@ To restrict this validation rule to characters in the ASCII range (`a-z` and `A-
 #### alpha_dash
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=), as well as ASCII dashes (`-`) and ASCII underscores (`_`).
 
-필드의 값이 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다.
+필드의 값이 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다. 이 문자는 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)과 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)을 포함합니다. 또한 ASCII 대시(`-`) 및 ASCII 밑줄(`_`)을 사용할 수 있습니다.
 
 To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+이 유효성 검사 규칙을 ASCII 범위의 문자(`a-z` 및 `A-Z`)로 제한하려면 유효성 검사 규칙에 `ascii` 옵션을 제공하면 됩니다.
 
 ```php
 'username' => 'alpha_dash:ascii',
@@ -1245,9 +1251,11 @@ To restrict this validation rule to characters in the ASCII range (`a-z` and `A-
 #### alpha_num
 #### alpha_num
 
-The field under validation must be entirely alpha-numeric characters.
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), and [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=).
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자로 이루어져야 합니다.
+필드의 값이 완벽하게 (숫자나 기호가 아닌) 완전히 유니코드 알파벳[자음과 모음] 문자로 이루어져야 합니다. 이 문자는 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=)과 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)을 포함합니다.
+
+(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
 
 To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
 
@@ -1281,7 +1289,7 @@ When additional values are provided to the `array` rule, each key in the input a
         'user' => 'array:name,username',
     ]);
 
-In general, you should always specify the array keys that are allowed to be present within your array. 
+In general, you should always specify the array keys that are allowed to be present within your array.
 
 일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다.
 
@@ -1379,9 +1387,9 @@ The field under validation must be equal to the given date. The dates will be pa
 #### date_format:_format_,...
 #### date_format:_format_,...
 
-The field under validation must match one of the given _format_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
+The field under validation must match one of the given _formats_. You should use **either** `date` or `date_format` when validating a field, not both. This validation rule supports all formats supported by PHP's [DateTime](https://www.php.net/manual/en/class.datetime.php) class.
 
-검증 중인 필드는 지정된 _format_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+검증 중인 필드는 지정된 _formats_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
 
 <a name="rule-decimal"></a>
 #### decimal:_min_,_max_
@@ -2024,7 +2032,9 @@ The field under validation must match the authenticated user's password.
 
 The field under validation must be present in the input data but can be empty.
 
-필드가 존재하고 있는지 확인하지만, 값이 비어있을 수 있습니다.
+The field under validation must exist in the input data.
+
+유효성 검사 중인 필드는 input-입력 데이터에 반드시 존재해야 합니다.
 
 <a name="rule-prohibited"></a>
 #### prohibited
@@ -2036,13 +2046,14 @@ The field under validation must be missing or empty. A field is "empty" if it me
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2057,13 +2068,14 @@ The field under validation must be missing or empty if the _anotherfield_ field 
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2093,13 +2105,14 @@ The field under validation must be missing or empty unless the _anotherfield_ fi
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2108,19 +2121,20 @@ The field under validation must be missing or empty unless the _anotherfield_ fi
 #### prohibits:_anotherfield_,...
 #### prohibits:_anotherfield_,...
 
-If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or "empty". A field is "empty" if it meets one of the following criteria:
+If the field under validation is not missing or empty, all fields in _anotherfield_ must be missing or empty. A field is "empty" if it meets one of the following criteria:
 
-검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 비어있어야 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
 
 <div class="content-list" markdown="1">
 
-- The field's value is `null`.
+- The value is `null`.
+- The value is an empty string.
+- The value is an empty array or empty `Countable` object.
+- The value is an uploaded file with an empty path.
+
 - 필드의 값이 `null`입니다.
-- The field's value is an empty string.
 - 필드의 값이 빈 문자열입니다.
-- The field's value is an empty array or empty `Countable` object.
 - 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
-- The field's value is an uploaded file with no path.
 - 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 </div>
@@ -2819,9 +2833,9 @@ Laravel provides a variety of helpful validation rules; however, you may wish to
 php artisan make:rule Uppercase
 ```
 
-Once the rule has been created, we are ready to define its behavior. A rule object contains a single method: `__invoke`. This method receives the attribute name, its value, and a callback that should be invoked on failure with the validation error message:
+Once the rule has been created, we are ready to define its behavior. A rule object contains a single method: `validate`. This method receives the attribute name, its value, and a callback that should be invoked on failure with the validation error message:
 
-rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 `__invokable` 메서드 하나를 가지고 있습니다. 이 메서드는 유효성 검사 오류 메시지와 함께 실패 시 호출되어야 하는 속성 이름, 해당 값 및 콜백을 수신합니다.
+rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 `validate` 메서드 하나를 가지고 있습니다. 이 메서드는 유효성 검사 오류 메시지와 함께 실패 시 호출되어야 하는 속성 이름, 해당 값 및 콜백을 수신합니다.
 
     <?php
 

@@ -44,7 +44,7 @@
     - [Defining Batchable Jobs](#defining-batchable-jobs)
     - [배치처리 될 수 있는 잡 정의](#defining-batchable-jobs)
     - [Dispatching Batches](#dispatching-batches)
-    - [배치작업 실행하기(Dispatching)](#dispatching-batches)
+    - [배치작업 dispatching-발동하기](#dispatching-batches)
     - [Adding Jobs To Batches](#adding-jobs-to-batches)
     - [배치에 잡 추가](#adding-jobs-to-batches)
     - [Inspecting Batches](#inspecting-batches)
@@ -110,7 +110,7 @@ While building your web application, you may have some tasks, such as parsing an
 
 Laravel queues provide a unified queueing API across a variety of different queue backends, such as [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), or even a relational database.
 
-라라벨 큐(queue)는 [Amazon SQS](https://aws.amazon.com/sqs/), [레디스](https://redis.io) 또는 관계형 데이터베이스와 같은 다양한 저장소에서 큐(queue)를 사용 할 수 있는 통합된 큐(queue) API를 제공합니다.
+라라벨 큐는 [Amazon SQS](https://aws.amazon.com/sqs/), [레디스](https://redis.io) 또는 관계형 데이터베이스와 같은 다양한 저장소에서 큐를 사용 할 수 있는 통합된 큐 API를 제공합니다.
 
 Laravel's queue configuration options are stored in your application's `config/queue.php` configuration file. In this file, you will find connection configurations for each of the queue drivers that are included with the framework, including the database, [Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), and [Beanstalkd](https://beanstalkd.github.io/) drivers, as well as a synchronous driver that will execute jobs immediately (for use during local development). A `null` queue driver is also included which discards queued jobs.
 
@@ -391,7 +391,7 @@ Sometimes, you may want to ensure that only one instance of a specific job is on
 
 In the example above, the `UpdateSearchIndex` job is unique. So, the job will not be dispatched if another instance of the job is already on the queue and has not finished processing.
 
-위의 예제에서 `UpdateSearchIndex` 잡은 고유합니다. 따라서 다른 잡 인스턴스가 이미 큐에 있고 처리가 완료되지 않은 경우에는 잡이 큐에 be dispatched-추가되지 않습니다.
+위의 예제에서 `UpdateSearchIndex` 잡은 고유합니다. 따라서 다른 잡 인스턴스가 이미 큐에 있고 처리가 완료되지 않은 경우에는 잡이 큐에 추가되지(be dispatched) 않습니다.
 
 In certain cases, you may want to define a specific "key" that makes the job unique or you may want to specify a timeout beyond which the job no longer stays unique. To accomplish this, you may define `uniqueId` and `uniqueFor` properties or methods on your job class:
 
@@ -430,13 +430,13 @@ In certain cases, you may want to define a specific "key" that makes the job uni
 
 In the example above, the `UpdateSearchIndex` job is unique by a product ID. So, any new dispatches of the job with the same product ID will be ignored until the existing job has completed processing. In addition, if the existing job is not processed within one hour, the unique lock will be released and another job with the same unique key can be dispatched to the queue.
 
-위의 예제에서 `UpdateSearchIndex` 잡은 제품 ID별로 고유합니다. 따라서 큐에 들어 있는 기존 잡이 다 처리 될 때까지 동일한 제품 ID를 가진 새로운 잡을 대기열에 dispatches-추가하는 것은 무시됩니다. 또한 기존 잡이 1시간 이내에 처리되지 않으면 유니크 잠금이 해제되고 동일한 유니크 키를 가진 다른 잡이 큐에 be dispatched-추가될 수 있습니다.
+위의 예제에서 `UpdateSearchIndex` 잡은 제품 ID별로 고유합니다. 따라서 큐에 들어 있는 기존 잡이 다 처리 될 때까지 동일한 제품 ID를 가진 새로운 잡을 큐에 추가하는(dispatches) 것은 무시됩니다. 또한 기존 잡이 1시간 이내에 처리되지 않으면 유니크 잠금이 해제되고 동일한 유니크 키를 가진 다른 잡이 큐에 추가(be dispatched)될 수 있습니다.
 
 > **Warning**  
 > If your application dispatches jobs from multiple web servers or containers, you should ensure that all of your servers are communicating with the same central cache server so that Laravel can accurately determine if a job is unique.
 
 > **Warning**  
-> 애플리케이션이 여러 웹서버나 컨테이너에서 잡을 dispatches-발동 하는 경우, 모든 서버가 동일한 중앙 캐시 서버와 통신하고 있는지 확인하여 라라벨이 해당 잡이 고유한지 정확하게 판단할 수 있도록 해야 합니다.
+> 애플리케이션이 여러 웹서버나 컨테이너에서 잡을 dispatch-발동하는 경우, 모든 서버가 동일한 중앙 캐시 서버와 통신하고 있는지 확인하여 라라벨이 해당 잡이 고유한지 정확하게 판단할 수 있도록 해야 합니다.
 
 <a name="keeping-jobs-unique-until-processing-begins"></a>
 #### Keeping Jobs Unique Until Processing Begins
@@ -463,7 +463,7 @@ By default, unique jobs are "unlocked" after a job completes processing or fails
 
 Behind the scenes, when a `ShouldBeUnique` job is dispatched, Laravel attempts to acquire a [lock](/docs/{{version}}/cache#atomic-locks) with the `uniqueId` key. If the lock is not acquired, the job is not dispatched. This lock is released when the job completes processing or fails all of its retry attempts. By default, Laravel will use the default cache driver to obtain this lock. However, if you wish to use another driver for acquiring the lock, you may define a `uniqueVia` method that returns the cache driver that should be used:
 
-배후에서 `ShouldBeUnique` 잡이 전달되면 라라벨은 `uniqueId` 키를 사용하여 [lock](/docs/{{version}}/cache#atomic-locks)을 획득하려고 시도합니다. 락이 획득되지 않으면 잡이 is dispatched-발동되지 않습니다. 잡의 처리를 완료하거나 모든 재시도에 실패하면 이 락이 해제됩니다. 기본적으로 라라벨은 이 락을 얻기 위해 기본 캐시 드라이버를 사용합니다. 그러나 락을 걸기 위해 다른 드라이버를 사용하려면 사용해야 하는 캐시 드라이버를 반환하는 `uniqueVia` 메서드를 정의할 수 있습니다.
+배후에서 `ShouldBeUnique` 잡이 전달되면 라라벨은 `uniqueId` 키를 사용하여 [lock](/docs/{{version}}/cache#atomic-locks)을 획득하려고 시도합니다. 락이 획득되지 않으면 잡이 dispatch-발동되지 않습니다. 잡의 처리를 완료하거나 모든 재시도에 실패하면 이 락이 해제됩니다. 기본적으로 라라벨은 이 락을 얻기 위해 기본 캐시 드라이버를 사용합니다. 그러나 락을 걸기 위해 다른 드라이버를 사용하려면 사용해야 하는 캐시 드라이버를 반환하는 `uniqueVia` 메서드를 정의할 수 있습니다.
 
     use Illuminate\Contracts\Cache\Repository;
     use Illuminate\Support\Facades\Cache;
@@ -931,7 +931,7 @@ If you would like to specify that a job should not be immediately available for 
 
 Alternatively, the `dispatchAfterResponse` method delays dispatching a job until after the HTTP response is sent to the user's browser if your web server is using FastCGI. This will still allow the user to begin using the application even though a queued job is still executing. This should typically only be used for jobs that take about a second, such as sending an email. Since they are processed within the current HTTP request, jobs dispatched in this fashion do not require a queue worker to be running in order for them to be processed:
 
-또는 여러분의 서버가 FastCGI를 사용중이라면 `dispatchAfterResponse` 메서드는 HTTP 응답이 사용자의 브라우저로 전송될 때까지 잡의 dispatched-발동을 지연시킵니다. 이렇게 하면 큐에 있는 잡이 계속 실행 중이더라도 사용자가 애플리케이션을 사용할 수 있습니다. 이것은 일반적으로 이메일 보내기와 같이 1초 정도 걸리는 잡의 처리에만 사용해야 합니다. 그 이유는 HTTP 리퀘스트를 처리 중에 애플리케이션 로직에 의해 잡을 큐에 추가하는 디스패치 작업이 실행된다면 이는 동일한 프로세스에서 처리되기 때문에 잡을 큐에 추가하는 로직이 실행되는 동안 사용자에게 전달하는 리스폰스를 만들어 내는 처리를 잠시 멈추게 하는 일이 발생할 수 있기 때문입니다. 이미 큐에 추가되었다면 별도의 프로세스에 의해 잡이 처리되기 때문에 HTTP 리스폰스를 만들어내는 작업을 중지시키지는 않습니다. `dispatchAfterResponse` 메소드를 사용하면 현재 HTTP 리퀘스트를 처리하는 프로세스 내에서 리스폰스를 보낸 이후 처리되기 때문에 이러한 방식으로 dispatched-발동된 잡은 처리를 위해 큐 워커가 실행될 필요는 없습니다. HTTP 리퀘스트를 받은 프로세스와 동일한 프로세스 내에서 잡을 처리하므로 큐에 추가한 순서대로 동작하지 않습니다. 처리 순서가 중요하지 않은 간단한 잡을 처리할 때 유용합니다.
+또는 여러분의 서버가 FastCGI를 사용중이라면 `dispatchAfterResponse` 메서드는 HTTP 응답이 사용자의 브라우저로 전송될 때까지 잡의 dispatch-발동을 지연시킵니다. 이렇게 하면 큐에 있는 잡이 계속 실행 중이더라도 사용자가 애플리케이션을 사용할 수 있습니다. 이것은 일반적으로 이메일 보내기와 같이 1초 정도 걸리는 잡의 처리에만 사용해야 합니다. 그 이유는 HTTP 리퀘스트를 처리 중에 애플리케이션 로직에 의해 잡을 큐에 추가하는 디스패치 작업이 실행된다면 이는 동일한 프로세스에서 처리되기 때문에 잡을 큐에 추가하는 로직이 실행되는 동안 사용자에게 전달하는 리스폰스를 만들어 내는 처리를 잠시 멈추게 하는 일이 발생할 수 있기 때문입니다. 이미 큐에 추가되었다면 별도의 프로세스에 의해 잡이 처리되기 때문에 HTTP 리스폰스를 만들어내는 작업을 중지시키지는 않습니다. `dispatchAfterResponse` 메소드를 사용하면 현재 HTTP 리퀘스트를 처리하는 프로세스 내에서 리스폰스를 보낸 이후 처리되기 때문에 이러한 방식으로 dispatch-발동된 잡은 처리를 위해 큐 워커가 실행될 필요는 없습니다. HTTP 리퀘스트를 받은 프로세스와 동일한 프로세스 내에서 잡을 처리하므로 큐에 추가한 순서대로 동작하지 않습니다. 처리 순서가 중요하지 않은 간단한 잡을 처리할 때 유용합니다.
 
     use App\Jobs\SendNotification;
 
@@ -1007,13 +1007,13 @@ When the `after_commit` option is `true`, you may dispatch jobs within database 
 
 If a transaction is rolled back due to an exception that occurs during the transaction, the jobs that were dispatched during that transaction will be discarded.
 
-트랜잭션 중에 발생한 예외로 인해 트랜잭션이 롤백되면 해당 트랜잭션 중에 were dispatched-발동된 잡은 버려집니다.
+트랜잭션 중에 발생한 예외로 인해 트랜잭션이 롤백되면 해당 트랜잭션 중에 were dispatch-발동된 잡은 버려집니다.
 
 > **Note**  
 > Setting the `after_commit` configuration option to `true` will also cause any queued event listeners, mailables, notifications, and broadcast events to be dispatched after all open database transactions have been committed.
 
 > **Note**  
-> `after_commit` 설정 옵션을 `true`로 설정하면 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 이후 큐에 있던 이벤트 리스너, mailables-메일러블, notifications-노티피케이션 및 broadcast-브로드캐스트 이벤트도 be dispatched-발동됩니다.
+> `after_commit` 설정 옵션을 `true`로 설정하면 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 이후 큐에 있던 이벤트 리스너, mailables-메일러블, notifications-노티피케이션 및 broadcast-브로드캐스트 이벤트도 dispatch-발동됩니다.
 
 <a name="specifying-commit-dispatch-behavior-inline"></a>
 #### Specifying Commit Dispatch Behavior Inline
@@ -1021,7 +1021,7 @@ If a transaction is rolled back due to an exception that occurs during the trans
 
 If you do not set the `after_commit` queue connection configuration option to `true`, you may still indicate that a specific job should be dispatched after all open database transactions have been committed. To accomplish this, you may chain the `afterCommit` method onto your dispatch operation:
 
-`after_commit` 큐 커넥션 설정 옵션을 `true`로 설정하지 않은 경우에, 어떤 특정한 잡이 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 후에 be dispatched-발동되도록 지정할 수 있습니다. 이렇게 하려면 디스패치 동작에 `afterCommit` 메서드를 체이닝 방식으로 연결하면 됩니다.
+`after_commit` 큐 커넥션 설정 옵션을 `true`로 설정하지 않은 경우에, 어떤 특정한 잡이 열려 있는 모든 데이터베이스 트랜잭션이 커밋된 후에 dispatch-발동되도록 지정할 수 있습니다. 이렇게 하려면 디스패치 동작에 `afterCommit` 메서드를 체이닝 방식으로 연결하면 됩니다.
 
     use App\Jobs\ProcessPodcast;
 
@@ -1029,7 +1029,7 @@ If you do not set the `after_commit` queue connection configuration option to `t
 
 Likewise, if the `after_commit` configuration option is set to `true`, you may indicate that a specific job should be dispatched immediately without waiting for any open database transactions to commit:
 
-마찬가지로, `after_commit` 설정 옵션을 `true`로 설정하면, 열려 있는 데이터베이스 트랜잭션이 커밋될 때까지 기다리지 않고 특정 잡이 즉시 be dispatched-발동되도록 지정할 수 있습니다.
+마찬가지로, `after_commit` 설정 옵션을 `true`로 설정하면, 열려 있는 데이터베이스 트랜잭션이 커밋될 때까지 기다리지 않고 특정 잡이 즉시 be dispatch-발동되도록 지정할 수 있습니다.
 
     ProcessPodcast::dispatch($podcast)->beforeCommit();
 
@@ -1542,7 +1542,7 @@ To define a batchable job, you should [create a queueable job](#creating-jobs) a
 
 <a name="dispatching-batches"></a>
 ### Dispatching Batches
-### 배치작업 실행하기(Dispatching)
+### 배치작업 Dispatching-발동하기
 
 To dispatch a batch of jobs, you should use the `batch` method of the `Bus` facade. Of course, batching is primarily useful when combined with completion callbacks. So, you may use the `then`, `catch`, and `finally` methods to define completion callbacks for the batch. Each of these callbacks will receive an `Illuminate\Bus\Batch` instance when they are invoked. In this example, we will imagine we are queueing a batch of jobs that each process a given number of rows from a CSV file:
 
@@ -1571,7 +1571,7 @@ To dispatch a batch of jobs, you should use the `batch` method of the `Bus` faca
 
 The batch's ID, which may be accessed via the `$batch->id` property, may be used to [query the Laravel command bus](#inspecting-batches) for information about the batch after it has been dispatched.
 
-배치의 ID는 `$batch->id` 프로퍼티를 통해 액세스할 수 있으며, 배치가 dispatched-발동된 후 배치에 대한 정보를 얻기 위해 [라라벨 명령 버스로 쿼리](#inspecting-batches)를 사용할 수 있습니다.
+배치의 ID는 `$batch->id` 프로퍼티를 통해 액세스할 수 있으며, 배치가 dispatch-발동된 후 배치에 대한 정보를 얻기 위해 [라라벨 명령 버스로 쿼리](#inspecting-batches)를 사용할 수 있습니다.
 
 > **Warning**  
 > Since batch callbacks are serialized and executed at a later time by the Laravel queue, you should not use the `$this` variable within the callbacks.
@@ -1838,7 +1838,7 @@ Likewise, your `jobs_batches` table may also accumulate batch records for cancel
 
 Instead of dispatching a job class to the queue, you may also dispatch a closure. This is great for quick, simple tasks that need to be executed outside of the current request cycle. When dispatching closures to the queue, the closure's code content is cryptographically signed so that it can not be modified in transit:
 
-잡 클래스를 dispatching-'큐에 추가'하는 대신 클로저를 dispatch-'큐에 추가'할 수도 있습니다. 이 방법은 현재 리퀘스트 주기 외부에서 실행해야 하는 빠르고 간단한 작업(tasks)에 유용합니다. 큐에 클로저를 dispatching-추가할 때 클로저의 코드 콘텐츠는 전송 중에 수정할 수 없도록 암호화 서명됩니다.
+잡 클래스를 dispatching-'큐에 추가'하는 대신 클로저를 큐에 추가(dispatch) 할 수도 있습니다. 이 방법은 현재 리퀘스트 주기 외부에서 실행해야 하는 빠르고 간단한 작업(tasks)에 유용합니다. 큐에 클로저를 추가할(dispatching) 때 클로저의 코드 콘텐츠는 전송 중에 수정할 수 없도록 암호화 서명됩니다.
 
     $podcast = App\Podcast::find(1);
 
@@ -2528,7 +2528,7 @@ php artisan queue:monitor redis:default,redis:deployments --max=100
 
 Scheduling this command alone is not enough to trigger a notification alerting you of the queue's overwhelmed status. When the command encounters a queue that has a job count exceeding your threshold, an `Illuminate\Queue\Events\QueueBusy` event will be dispatched. You may listen for this event within your application's `EventServiceProvider` in order to send a notification to you or your development team:
 
-이 명령을 예약하는 것만으로는 큐의 과부하 상태를 알리는 notification-노티피케이션을 to trigger-동작시키기에는 충분하지 않습니다. 이 명령이 임계값을 초과하는 수의 잡을 가진 큐를 발견하면 `Illuminate\Queue\Events\QueueBusy` 이벤트가 dispatched-발동됩니다. 애플리케이션의 `EventServiceProvider` 내에서 이 이벤트 수신을 대기하여 사용자 또는 개발 팀에 노티피케이션(notification)을 보낼 수 있습니다.
+이 명령을 예약하는 것만으로는 큐의 과부하 상태를 알리는 notification-노티피케이션을 to trigger-동작시키기에는 충분하지 않습니다. 이 명령이 임계값을 초과하는 수의 잡을 가진 큐를 발견하면 `Illuminate\Queue\Events\QueueBusy` 이벤트가 dispatch-발동됩니다. 애플리케이션의 `EventServiceProvider` 내에서 이 이벤트 수신을 대기하여 사용자 또는 개발 팀에 노티피케이션(notification)을 보낼 수 있습니다.
 
 ```php
 use App\Notifications\QueueHasLongWaitTime;
@@ -2558,7 +2558,7 @@ public function boot(): void
 
 When testing code that dispatches jobs, you may wish to instruct Laravel to not actually execute the job itself, since the job's code can be tested directly and separately of the code that dispatches it. Of course, to test the job itself, you may instantiate a job instance and invoke the `handle` method directly in your test.
 
-잡을 dispatches-발동하는 코드를 테스트할 때, 라라벨이 실제로 잡 자체를 실행하지 않도록 지시할 수 있습니다. 잡을 dispatches-발동하는 코드와 별도로 큐에 추가되어 처리되는 실행이나 동기방식으로 실행되는 코드를 직접 테스트할 수 있어야 하기 때문입니다. 물론 잡 자체를 테스트하기 위해, 잡 인스턴스를 instantiate-인스턴스화하고 테스트에서 직접 `handle` 메서드를 호출할 수도 있습니다.
+잡을 dispatch-발동하는 코드를 테스트할 때, 라라벨이 실제로 잡 자체를 실행하지 않도록 지시할 수 있습니다. 잡을 dispatch-발동하는 코드와 별도로 큐에 추가되어 처리되는 실행이나 동기방식으로 실행되는 코드를 직접 테스트할 수 있어야 하기 때문입니다. 물론 잡 자체를 테스트하기 위해, 잡 인스턴스를 instantiate-인스턴스화하고 테스트에서 직접 `handle` 메서드를 호출할 수도 있습니다.
 
 You may use the `Queue` facade's `fake` method to prevent queued jobs from actually being pushed to the queue. After calling the `Queue` facade's `fake` method, you may then assert that the application attempted to push jobs to the queue:
 
@@ -2641,7 +2641,7 @@ You may fake all jobs except for a set of specified jobs using the `except` meth
 
 To test job chains, you will need to utilize the `Bus` facade's faking capabilities. The `Bus` facade's `assertChained` method may be used to assert that a [chain of jobs](/docs/{{version}}/queues#job-chaining) was dispatched. The `assertChained` method accepts an array of chained jobs as its first argument:
 
-잡 체인을 테스트하려면 `Bus` 파사드의 faking-페이킹 기능을 활용해야 합니다. `Bus` 파사드의 `assertChained` 메서드를 사용하여 [잡 체인](/docs/{{버전}}/queues#job-chaining)이 dispatched-발동되었음을 assert-확인할 수 있습니다. `assertChained` 메서드는 첫 번째 인자로 체인된 잡 배열을 받습니다.
+잡 체인을 테스트하려면 `Bus` 파사드의 faking-페이킹 기능을 활용해야 합니다. `Bus` 파사드의 `assertChained` 메서드를 사용하여 [잡 체인](/docs/{{버전}}/queues#job-chaining)이 dispatch-발동되었음을 assert-확인할 수 있습니다. `assertChained` 메서드는 첫 번째 인자로 체인된 잡 배열을 받습니다.
 
     use App\Jobs\RecordShipment;
     use App\Jobs\ShipOrder;
@@ -2660,7 +2660,7 @@ To test job chains, you will need to utilize the `Bus` facade's faking capabilit
 
 As you can see in the example above, the array of chained jobs may be an array of the job's class names. However, you may also provide an array of actual job instances. When doing so, Laravel will ensure that the job instances are of the same class and have the same property values of the chained jobs dispatched by your application:
 
-위의 예에서 볼 수 있듯이, 체인된 잡 배열은 잡 클래스 이름으로 구성된 배열일 수 있습니다. 그러나 잡 인스턴스로 구성된 배열을 제공할 수도 있습니다. 이 때, 라라벨은 잡 인스턴스가 동일한 클래스인지 확인(ensure)하며, 애플리케이션에서 dispatched-발동된 체인된 잡이 서로 같은 프로퍼티 값을 갖고 있는지 확인합니다.
+위의 예에서 볼 수 있듯이, 체인된 잡 배열은 잡 클래스 이름으로 구성된 배열일 수 있습니다. 그러나 잡 인스턴스로 구성된 배열을 제공할 수도 있습니다. 이 때, 라라벨은 잡 인스턴스가 동일한 클래스인지 확인(ensure)하며, 애플리케이션에서 dispatch-발동된 체인된 잡이 서로 같은 프로퍼티 값을 갖고 있는지 확인합니다.
 
     Bus::assertChained([
         new ShipOrder,

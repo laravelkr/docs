@@ -14,7 +14,7 @@
     - [Routing](#routing)
     - [라우팅](#routing)
     - [Authentication & Storage](#authentication-and-storage)
-    - [Authentication & Storage](#authentication-and-storage)
+    - [인증과 저장](#authentication-and-storage)
     - [Access Scopes](#access-scopes)
     - [스코프 접근하기](#access-scopes)
     - [Optional Parameters](#optional-parameters)
@@ -162,7 +162,7 @@ You can overwrite all existing scopes on the authentication request using the `s
 ### Optional Parameters
 ### 옵션 파라미터
 
-A number of OAuth providers support other optional parameters in the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
+A number of OAuth providers support other optional parameters on the redirect request. To include any optional parameters in the request, call the `with` method with an associative array:
 
 몇몇 OAuth 공급자는 리다이렉트 요청에서 다른 옵션 파라미터를 지원합니다. Oauth 공급자에게 보내는 요청에 옵션 파라미터를 포함하려면, `with` 메소드에 필요한 값을 배열로 호출하면 됩니다.
 
@@ -172,9 +172,11 @@ A number of OAuth providers support other optional parameters in the redirect re
         ->with(['hd' => 'example.com'])
         ->redirect();
 
-> {note} When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
+> **Warning**  
+> When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
-> {note} `with` 메소드를 사용할 때, `state` 와 `response_type` 같이 사전에 예약된 키워드를 사용하지 않도록 주의하십시오.
+> **Warning**  
+> When using the `with` method, be careful not to pass any reserved keywords such as `state` or `response_type`.
 
 ## Retrieving User Details
 ## 사용자의 상세정보 조회하기
@@ -242,6 +244,8 @@ The `stateless` method may be used to disable session state verification. This i
 
     return Socialite::driver('google')->stateless()->user();
 
-> {note} Stateless authentication is not available for the Twitter OAuth 1.0 driver.
+> **Warning**  
+> Stateless authentication is not available for the Twitter OAuth 1.0 driver.
 
-> {note} Twitter OAuth 1.0 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.
+> **Warning**  
+> Twitter OAuth 1.0 드라이버에는 상태 비 저장 인증을 사용할 수 없습니다.

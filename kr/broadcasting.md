@@ -100,9 +100,9 @@ The core concepts behind broadcasting are simple: clients connect to named chann
 #### Supported Drivers
 #### 지원되는 드라이버
 
-By default, Laravel includes two server-side broadcasting drivers for you to choose from: [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.io). However, community driven packages such as [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) and [soketi](https://docs.soketi.app/) provide additional broadcasting drivers that do not require commercial broadcasting providers.
+By default, Laravel includes two server-side broadcasting drivers for you to choose from: [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.com). However, community driven packages such as [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) and [soketi](https://docs.soketi.app/) provide additional broadcasting drivers that do not require commercial broadcasting providers.
 
-기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
+기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
 
 > **Note** 
 > Before diving into event broadcasting, make sure you have read Laravel's documentation on [events and listeners](/docs/{{version}}/events).
@@ -196,10 +196,16 @@ The [laravel-websockets](https://github.com/beyondcode/laravel-websockets) and [
 <a name="ably"></a>
 ### Ably
 ### Ably
+		
+> **Note**	
+> The documentation below discusses how to use Ably in "Pusher compatibility" mode. However, the Ably team recommends and maintains a broadcaster and Echo client that is able to take advantage of the unique capabilities offered by Ably. For more information on using the Ably maintained drivers, please [consult Ably's Laravel broadcaster documentation](https://github.com/ably/laravel-broadcaster).	
+		
+> **Note**	
+> 아래 문서는 "Pusher 호환" 모드 사용 방법에 대해서 설명합니다. 그러나 Ably 팀 에서는 Ably가 제공하는 고유한 기능을 활용할 수 있는 브로드캐스터 및 Echo 클라이언트를 권장하고 유지 관리합니다. Ably 유지 관리 드라이버 사용에 대한 자세한 내용은 [Ably의 Laravel 브로드캐스터 설명서](https://github.com/ably/laravel-broadcaster)를 참조하십시오.
 
-If you plan to broadcast your events using [Ably](https://ably.io), you should install the Ably PHP SDK using the Composer package manager:
+If you plan to broadcast your events using [Ably](https://ably.com), you should install the Ably PHP SDK using the Composer package manager:
 
-[Ably](https://ably.io)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
+[Ably](https://ably.com)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
 
 ```shell
 composer require ably/ably-php
@@ -288,10 +294,10 @@ npm run dev
 ```
 
 > **Note** 
-> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Vite](/docs/{{version}}/vite).
+> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Vite](/docs/{{version}}/vite).
 
 > **Note** 
-> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="using-an-existing-client-instance"></a>
 #### Using An Existing Client Instance
@@ -319,6 +325,12 @@ window.Echo = new Echo({
 <a name="client-ably"></a>
 ### Ably
 ### Ably
+
+> **Note**
+> The documentation below discusses how to use Ably in "Pusher compatibility" mode. However, the Ably team recommends and maintains a broadcaster and Echo client that is able to take advantage of the unique capabilities offered by Ably. For more information on using the Ably maintained drivers, please [consult Ably's Laravel broadcaster documentation](https://github.com/ably/laravel-broadcaster).
+		
+> **Note**	
+> 아래 문서는 "Pusher 호환" 모드 사용 방법에 대해서 설명합니다. 그러나 Ably 팀 에서는 Ably가 제공하는 고유한 기능을 활용할 수 있는 브로드캐스터 및 Echo 클라이언트를 권장하고 유지 관리합니다. Ably 유지 관리 드라이버 사용에 대한 자세한 내용은 [Ably의 Laravel 브로드캐스터 설명서](https://github.com/ably/laravel-broadcaster)를 참조하십시오.
 
 [Laravel Echo](https://github.com/laravel/echo) is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by your server-side broadcasting driver. You may install Echo via the NPM package manager. In this example, we will also install the `pusher-js` package.
 
@@ -369,18 +381,18 @@ npm run dev
 ```
 
 > **Note** 
-> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Laravel Vite](/docs/{{version}}/vite).
+> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Vite](/docs/{{version}}/vite).
 
 > **Note** 
-> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="concept-overview"></a>
 ## Concept Overview
 ## 컨셉 개요
 
-Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.io) drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#client-side-installation) JavaScript package.
+Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.com) drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#client-side-installation) JavaScript package.
 
-라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
+라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
 
 Events are broadcast over "channels", which may be specified as public or private. Any visitor to your application may subscribe to a public channel without any authentication or authorization; however, in order to subscribe to a private channel, a user must be authenticated and authorized to listen on that channel.
 
@@ -677,7 +689,7 @@ Sometimes you want to broadcast your event only if a given condition is true. Yo
 
 <a name="broadcasting-and-database-transactions"></a>
 #### Broadcasting & Database Transactions
-#### 브로드캐스팅 및 데이터베이스 거래
+#### 브로드캐스팅 및 데이터베이스 트랜잭션
 
 When broadcast events are dispatched within database transactions, they may be processed by the queue before the database transaction has committed. When this happens, any updates you have made to models or database records during the database transaction may not yet be reflected in the database. In addition, any models or database records created within the transaction may not exist in the database. If your event depends on these models, unexpected errors can occur when the job that broadcasts the event is processed.
 
@@ -785,7 +797,9 @@ Next, we need to define the logic that will actually determine if the currently 
 
 다음으로, 현재 인증된 사용자가 주어진 채널을 수신할 수 있는지 여부를 실제로 결정하는 로직을 정의해야 합니다. 이것은 애플리케이션에 포함된 `routes/channels.php` 파일에서 수행됩니다. 이 파일에서 `Broadcast::channel` 메소드를 사용하여 채널 인증 콜백을 등록할 수 있습니다.
 
-    Broadcast::channel('orders.{orderId}', function ($user, $orderId) {
+    use App\Models\User;
+
+    Broadcast::channel('orders.{orderId}', function (User $user, int $orderId) {
         return $user->id === Order::findOrNew($orderId)->user_id;
     });
 
@@ -806,8 +820,9 @@ Just like HTTP routes, channel routes may also take advantage of implicit and ex
 HTTP 경로와 마찬가지로 채널 경로도 암시적 및 명시적 [경로 모델 바인딩](/docs/{{version}}/routing#route-model-binding)을 활용할 수 있습니다. 예를 들어 문자열이나 숫자 주문 ID를 받는 대신 실제 `Order` 모델 인스턴스를 요청할 수 있습니다.
 
     use App\Models\Order;
+    use App\Models\User;
 
-    Broadcast::channel('orders.{order}', function ($user, Order $order) {
+    Broadcast::channel('orders.{order}', function (User $user, Order $order) {
         return $user->id === $order->user_id;
     });
 
@@ -928,7 +943,7 @@ axios.post('/task', task)
 
 However, remember that we also broadcast the task's creation. If your JavaScript application is also listening for this event in order to add tasks to the task list, you will have duplicate tasks in your list: one from the end-point and one from the broadcast. You may solve this by using the `toOthers` method to instruct the broadcaster to not broadcast the event to the current user.
 
-그러나 태스크 생성도 브로드캐스트한다는 것을 기억하십시오. JavaScript 애플리케이션이 작업 목록에 작업을 추가하기 위해 이 이벤트도 수신하는 경우 목록에 중복 작업이 있을 것입니다. 하나는 엔드포인트에서, 다른 하나는 브로드캐스트에서입니다. 브로드캐스터가 현재 사용자에게 이벤트를 브로드캐스트하지 않도록 지시하는 `toOthers` 메서드를 사용하여 이 문제를 해결할 수 있습니다.
+그러나 작업의 생성도 브로드캐스트한다는 점을 기억하세요. JavaScript 애플리케이션이 작업 목록에 작업을 추가하기 위해 이 이벤트도 수신 대기 중인 경우, 목록에 엔드포인트의 작업과 브로드캐스트의 작업이 중복될 수 있습니다. 브로드캐스터가 현재 사용자에게 이벤트를 브로드캐스트하지 않도록 지시하는 `toOthers` 메서드를 사용하여 이 문제를 해결할 수 있습니다.
 
 > **Warning** 
 > Your event must use the `Illuminate\Broadcasting\InteractsWithSockets` trait in order to call the `toOthers` method.
@@ -1104,7 +1119,9 @@ The data returned by the authorization callback will be made available to the pr
 
 승인 콜백에 의해 되돌려받는 데이터는 자바스크립트 애플리케이션의 프레젠스 채널 이벤트 수신자들이 사용할 수 있게 될 것입니다. 만약 사용자가 프레젠스 채널에 들어가는 것이 승인되지 않았으면, `false`나 `null`을 되돌려 주어야 합니다.
 
-    Broadcast::channel('chat.{roomId}', function ($user, $roomId) {
+    use App\Models\User;
+
+    Broadcast::channel('chat.{roomId}', function (User $user, int $roomId) {
         if ($user->canJoinRoom($roomId)) {
             return ['id' => $user->id, 'name' => $user->name];
         }
@@ -1133,7 +1150,7 @@ Echo.join(`chat.${roomId}`)
         console.error(error);
     });
 ```
-
+<!-- 여기 -->
 The `here` callback will be executed immediately once the channel is joined successfully, and will receive an array containing the user information for all of the other users currently subscribed to the channel. The `joining` method will be executed when a new user joins a channel, while the `leaving` method will be executed when a user leaves the channel. The `error` method will be executed when the authentication endpoint returns a HTTP status code other than 200 or if there is a problem parsing the returned JSON.
 
 `here` 콜백은 채널이 성공적으로 연결되면 즉시 실행되며 현재 채널을 구독하고 있는 다른 모든 사용자에 대한 사용자 정보가 포함된 배열을 수신합니다. `joining` 메서드는 새로운 사용자가 채널에 합류할 때 실행되고, `leaving` 메서드는 사용자가 채널을 떠날 때 실행됩니다. `error` 메서드는 인증 엔드포인트가 200이 아닌 HTTP 상태 코드를 반환하거나 반환된 JSON을 구문 분석하는 데 문제가 있는 경우 실행됩니다.
@@ -1237,7 +1254,7 @@ class Post extends Model
 
 Once your model includes this trait and defines its broadcast channels, it will begin automatically broadcasting events when a model instance is created, updated, deleted, trashed, or restored.
 
-모델에 이 특성-trait이 포함되고 브로드캐스트 채널이 정의되면 모델 인스턴스가 생성, 업데이트, 삭제, 휴지통 또는 복원될 때 이벤트 브로드캐스트가 자동으로 시작됩니다.
+모델에 해당 trait이 포함되고 브로드캐스트 채널이 정의되면 모델 인스턴스가 생성, 업데이트, 삭제, 휴지통 또는 복원될 때 이벤트 브로드캐스트가 자동으로 시작됩니다.
 
 In addition, you may have noticed that the `broadcastOn` method receives a string `$event` argument. This argument contains the type of event that has occurred on the model and will have a value of `created`, `updated`, `deleted`, `trashed`, or `restored`. By inspecting the value of this variable, you may determine which channels (if any) the model should broadcast to for a particular event:
 
@@ -1247,10 +1264,9 @@ In addition, you may have noticed that the `broadcastOn` method receives a strin
 /**
  * Get the channels that model events should broadcast on.
  *
- * @param  string  $event
- * @return \Illuminate\Broadcasting\Channel|array
+ * @return array<string, array<int, \Illuminate\Broadcasting\Channel|\Illuminate\Database\Eloquent\Model>>
  */
-public function broadcastOn($event)
+public function broadcastOn(string $event): array
 {
     return match ($event) {
         'deleted' => [],
@@ -1272,11 +1288,8 @@ use Illuminate\Database\Eloquent\BroadcastableModelEventOccurred;
 
 /**
  * Create a new broadcastable model event for the model.
- *
- * @param  string  $event
- * @return \Illuminate\Database\Eloquent\BroadcastableModelEventOccurred
  */
-protected function newBroadcastableEvent($event)
+protected function newBroadcastableEvent(string $event): BroadcastableModelEventOccurred
 {
     return (new BroadcastableModelEventOccurred(
         $this, $event
@@ -1306,12 +1319,13 @@ use Illuminate\Broadcasting\PrivateChannel;
 /**
  * Get the channels that model events should broadcast on.
  *
- * @param  string  $event
- * @return \Illuminate\Broadcasting\Channel|array
+ * @return array<int, \Illuminate\Broadcasting\Channel>
  */
-public function broadcastOn($event)
+public function broadcastOn(string $event): array
 {
-    return [new PrivateChannel('user.'.$this->id)];
+    return [
+        new PrivateChannel('user.'.$this->id)
+    ];
 }
 ```
 
@@ -1366,11 +1380,8 @@ If you would like, you may define a custom broadcast name and payload by adding 
 ```php
 /**
  * The model event's broadcast name.
- *
- * @param  string  $event
- * @return string|null
  */
-public function broadcastAs($event)
+public function broadcastAs(string $event): string|null
 {
     return match ($event) {
         'created' => 'post.created',
@@ -1381,10 +1392,9 @@ public function broadcastAs($event)
 /**
  * Get the data to broadcast for the model.
  *
- * @param  string  $event
- * @return array
+ * @return array<string, mixed>
  */
-public function broadcastWith($event)
+public function broadcastWith(string $event): array
 {
     return match ($event) {
         'created' => ['title' => $this->title],
@@ -1395,11 +1405,11 @@ public function broadcastWith($event)
 
 <a name="listening-for-model-broadcasts"></a>
 ### Listening For Model Broadcasts
-### 모델 브로드캐스팅 듣기
+### 모델 브로드캐스팅 수신
 
 Once you have added the `BroadcastsEvents` trait to your model and defined your model's `broadcastOn` method, you are ready to start listening for broadcasted model events within your client-side application. Before getting started, you may wish to consult the complete documentation on [listening for events](#listening-for-events).
 
-모델에 `BroadcastsEvents` 특성-trait을 추가하고 모델의 `broadcastOn` 메서드를 정의하면 클라이언트 측 애플리케이션 내에서 브로드캐스트된 모델 이벤트 수신을 시작할 준비가 된 것입니다. 시작하기 전에 [이벤트 수신](#listening-for-events)에 대한 전체 문서를 참조할 수 있습니다.
+모델에 `BroadcastsEvents` trait을 추가하고 모델의 `broadcastOn` 메서드를 정의하면 클라이언트 측 애플리케이션 내에서 브로드캐스트된 모델 이벤트 수신을 시작할 준비가 된 것입니다. 시작하기 전에 [이벤트 수신](#listening-for-events)에 대한 전체 문서를 참조할 수 있습니다.
 
 First, use the `private` method to retrieve an instance of a channel, then call the `listen` method to listen for a specified event. Typically, the channel name given to the `private` method should correspond to Laravel's [model broadcasting conventions](#model-broadcasting-conventions).
 

@@ -62,6 +62,15 @@ Finally, you may start Sail. To continue learning how to use Sail, please contin
 ./vendor/bin/sail up
 ```
 
+<a name="adding-additional-services"></a>
+#### Adding Additional Services
+
+If you would like to add an additional service to your existing Sail installation, you may run the `sail:add` Artisan command:
+
+```shell
+php artisan sail:add
+```
+
 <a name="using-devcontainers"></a>
 #### Using Devcontainers
 
@@ -210,7 +219,7 @@ In addition, the first time the MySQL container starts, it will create two datab
 
 Once you have started your containers, you may connect to the MySQL instance within your application by setting your `DB_HOST` environment variable within your application's `.env` file to `mysql`.
 
-To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306.
+To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306 and the access credentials correspond to the values of your `DB_USERNAME` and `DB_PASSWORD` environment variables. Or, you may connect as the `root` user, which also utilizes the value of your `DB_PASSWORD` environment variable as its password.
 
 <a name="redis"></a>
 ### Redis
@@ -323,15 +332,15 @@ selenium:
 <a name="previewing-emails"></a>
 ## Previewing Emails
 
-Laravel Sail's default `docker-compose.yml` file contains a service entry for [MailHog](https://github.com/mailhog/MailHog). MailHog intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, MailHog's default host is `mailhog` and is available via port 1025:
+Laravel Sail's default `docker-compose.yml` file contains a service entry for [Mailpit](https://github.com/axllent/mailpit). Mailpit intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, Mailpit's default host is `mailpit` and is available via port 1025:
 
 ```ini
-MAIL_HOST=mailhog
+MAIL_HOST=mailpit
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 ```
 
-When Sail is running, you may access the MailHog web interface at: http://localhost:8025
+When Sail is running, you may access the Mailpit web interface at: http://localhost:8025
 
 <a name="sail-container-cli"></a>
 ## Container CLI

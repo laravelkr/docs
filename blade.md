@@ -293,7 +293,7 @@ You may determine if a template inheritance section has content using the `@hasS
 @endif
 ```
 
-You may use the `sectionMissing` directive to determine if a section does not have content:
+You may use the `@sectionMissing` directive to determine if a section does not have content:
 
 ```blade
 @sectionMissing('navigation')
@@ -426,7 +426,7 @@ The `$loop` variable also contains a variety of other useful properties:
 | `$loop->parent`    | When in a nested loop, the parent's loop variable.     |
 
 <a name="conditional-classes"></a>
-### Conditional Classes
+### Conditional Classes & Styles
 
 The `@class` directive conditionally compiles a CSS class string. The directive accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
 
@@ -444,6 +444,21 @@ The `@class` directive conditionally compiles a CSS class string. The directive 
 ])></span>
 
 <span class="p-4 text-gray-500 bg-red"></span>
+```
+
+Likewise, the `@style` directive may be used to conditionally add inline CSS styles to an HTML element:
+
+```blade
+@php
+    $isActive = true;
+@endphp
+
+<span @style([
+    'background-color: red',
+    'font-weight: bold' => $isActive,
+])></span>
+
+<span style="background-color: red; font-weight: bold;"></span>
 ```
 
 <a name="additional-attributes"></a>
@@ -532,7 +547,7 @@ If you would like to `@include` a view if a given boolean expression evaluates t
 @includeUnless($boolean, 'view.name', ['status' => 'complete'])
 ```
 
-To include the first view that exists from a given array of views, you may use the `includeFirst` directive:
+To include the first view that exists from a given array of views, you may use the `@includeFirst` directive:
 
 ```blade
 @includeFirst(['custom.admin', 'admin'], ['status' => 'complete'])
@@ -1720,6 +1735,26 @@ Then, when rendering the view that utilizes this template, you may invoke the `f
 
 ```php
 return view('dashboard', ['users' => $users])->fragment('user-list');
+```
+
+The `fragmentIf` method allows you to conditionally return a fragment of a view based on a given condition. Otherwise, the entire view will be returned:
+
+```php
+return view('dashboard', ['users' => $users])
+    ->fragmentIf($request->hasHeader('HX-Request'), 'user-list');
+```
+
+The `fragments` and `fragmentsIf` methods allow you to return multiple view fragments in the response. The fragments will be concatenated together:
+
+```php
+view('dashboard', ['users' => $users])
+    ->fragments(['user-list', 'comment-list']);
+
+view('dashboard', ['users' => $users])
+    ->fragmentsIf(
+        $request->hasHeader('HX-Request'),
+        ['user-list', 'comment-list']
+    );
 ```
 
 <a name="extending-blade"></a>

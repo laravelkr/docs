@@ -2,7 +2,7 @@
 
 - [Artisan Console](#artisan-console)
   - [Introduction](#introduction)
-  - [소개](#소개)
+  - [시작하기](#시작하기)
       - [Laravel Sail](#laravel-sail)
       - [Laravel Sail](#laravel-sail-1)
     - [Tinker (REPL)](#tinker-repl)
@@ -86,11 +86,11 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Artisan is the command line interface included with Laravel. Artisan exists at the root of your application as the `artisan` script and provides a number of helpful commands that can assist you while you build your application. To view a list of all available Artisan commands, you may use the `list` command:
 
-Artisan은 Laravel에 포함된 명령어 인터페이스입니다. Artisan은 `artisan` 스크립트로 애플리케이션의 루트에 있으며 애플리케이션을 구축하는 동안 도움이 되는 다양한 명령어를 제공합니다. 사용 가능한 모든 Artisan 명령어 목록을 보려면 `list` 명령을 사용할 수 있습니다.
+Artisan은 Laravel에 포함된 명령어 인터페이스입니다. Artisan은 `artisan` 스크립트로 어플리케이션의 루트에 있으며 어플리케이션을 구축하는 동안 도움이 되는 다양한 명령어를 제공합니다. 사용 가능한 모든 Artisan 명령어 목록을 보려면 `list` 명령을 사용할 수 있습니다.
 
 ```shell
 php artisan list
@@ -112,7 +112,7 @@ php artisan help migrate
 
 If you are using [Laravel Sail](/docs/{{version}}/sail) as your local development environment, remember to use the `sail` command line to invoke Artisan commands. Sail will execute your Artisan commands within your application's Docker containers:
 
-만약 로컬 개발 환경으로 [Laravel Sail](/docs/{{version}}/sail)을 사용하고 있다면 Artisan 명령어를 실행하기 위해 `sail` 명령어 라인을 사용해야 합니다. Sail은 애플리케이션의 Docker 컨테이너에서 Artisan 명령어를 실행합니다.
+만약 로컬 개발 환경으로 [Laravel Sail](/docs/{{version}}/sail)을 사용하고 있다면 Artisan 명령어를 실행하기 위해 `sail` 명령어 라인을 사용해야 합니다. Sail은 어플리케이션의 Docker 컨테이너에서 Artisan 명령어를 실행합니다.
 
 ```shell
 ./vendor/bin/sail artisan list
@@ -132,7 +132,7 @@ Laravel Tinker는 Laravel 프레임워크의 강력한 REPL로 [PsySH](https://g
 
 All Laravel applications include Tinker by default. However, you may install Tinker using Composer if you have previously removed it from your application:
 
-모든 Laravel 애플리케이션에는 기본적으로 Tinker가 포함되어 있습니다. 하지만, 이전에 애플리케이션에서 Tinker를 제거한 경우 Composer를 사용하여 Tinker를 설치할 수 있습니다.
+모든 Laravel 어플리케이션에는 기본적으로 Tinker가 포함되어 있습니다. 하지만, 이전에 어플리케이션에서 Tinker를 제거한 경우 Composer를 사용하여 Tinker를 설치할 수 있습니다.
 
 ```shell
 composer require laravel/tinker
@@ -140,6 +140,9 @@ composer require laravel/tinker
 
 > **Note**  
 > Looking for a graphical UI for interacting with your Laravel application? Check out [Tinkerwell](https://tinkerwell.app)!
+>
+> **참고**
+> Laravel 어플리케이션과 상호 작용하기 위한 그래픽 UI를 찾고 있나요? [Tinkerwell](https://tinkerwell.app)을 확인해 보세요!
 
 <a name="usage"></a>
 #### Usage
@@ -147,7 +150,7 @@ composer require laravel/tinker
 
 Tinker allows you to interact with your entire Laravel application on the command line, including your Eloquent models, jobs, events, and more. To enter the Tinker environment, run the `tinker` Artisan command:
 
-Tinker를 사용하면 Eloquent 모델, 작업, 이벤트 등을 포함하여 전체 Laravel 애플리케이션과 명령어 인터페이스를 상호 작용할 수 있습니다. Tinker 환경으로 진입하려면 `tinker` Artisan 명령을 실행합니다:
+Tinker를 사용하면 Eloquent 모델, 작업, 이벤트 등을 포함하여 전체 Laravel 어플리케이션과 명령어 인터페이스를 상호 작용할 수 있습니다. Tinker 환경으로 진입하려면 `tinker` Artisan 명령을 실행합니다:
 
 ```shell
 php artisan tinker
@@ -197,7 +200,7 @@ Typically, Tinker automatically aliases classes as you interact with them in Tin
 
 In addition to the commands provided with Artisan, you may build your own custom commands. Commands are typically stored in the `app/Console/Commands` directory; however, you are free to choose your own storage location as long as your commands can be loaded by Composer.
 
-Artisan에 제공되는 명령어 외에도 사용자 정의 명령어를 작성할 수 있습니다. 명령어는 일반적으로 `app/Console/Commands` 디렉터리에 저장되지만, Composer로 로드할 수 있는 명령어의 저장 위치는 자유롭게 선택할 수 있습니다.
+Artisan에 제공되는 명령어 외에도 커스텀 명령어를 작성할 수 있습니다. 명령어는 일반적으로 `app/Console/Commands` 디렉터리에 저장되지만, Composer로 로드할 수 있는 명령어의 저장 위치는 자유롭게 선택할 수 있습니다.
 
 <a name="generating-commands"></a>
 ### Generating Commands
@@ -205,7 +208,7 @@ Artisan에 제공되는 명령어 외에도 사용자 정의 명령어를 작성
 
 To create a new command, you may use the `make:command` Artisan command. This command will create a new command class in the `app/Console/Commands` directory. Don't worry if this directory does not exist in your application - it will be created the first time you run the `make:command` Artisan command:
 
-새 명령어를 생성하려면 `make:command` Artisan 명령을 사용할 수 있습니다. 이 명령은 `app/Console/Commands` 디렉터리에 새 명령어 클래스를 생성합니다. 애플리케이션에 이 디렉터리가 없는 경우 걱정하지 마십시오. `make:command` Artisan 명령을 실행하면 이 디렉터리가 생성됩니다.
+새 명령어를 생성하려면 `make:command` Artisan 명령을 사용할 수 있습니다. 이 명령은 `app/Console/Commands` 디렉터리에 새 명령어 클래스를 생성합니다. 어플리케이션에 이 디렉터리가 없는 경우 걱정하지 마십시오. `make:command` Artisan 명령을 실행하면 이 디렉터리가 생성됩니다.
 
 ```shell
 php artisan make:command SendEmails
@@ -217,7 +220,7 @@ php artisan make:command SendEmails
 
 After generating your command, you should define appropriate values for the `signature` and `description` properties of the class. These properties will be used when displaying your command on the `list` screen. The `signature` property also allows you to define [your command's input expectations](#defining-input-expectations). The `handle` method will be called when your command is executed. You may place your command logic in this method.
 
-명령어를 생성한 후 클래스의 `signature` 및 `description` 속성에 적절한 값을 정의해야 합니다. 이러한 속성은 명령어를 `list` 화면에 표시할 때 사용됩니다. `signature` 속성은 또한 [명령어의 입력 예상값을 정의](#defining-input-expectations)할 수 있도록 합니다. `handle` 메소드는 명령어가 실행될 때 호출됩니다. 이 메소드에 명령어 로직을 배치할 수 있습니다.
+명령어를 생성한 후 클래스의 `signature` 및 `description` 속성에 적절한 값을 정의해야 합니다. 이러한 속성은 명령어를 `list` 화면에 표시할 때 사용됩니다. `signature` 프로퍼티는 또한 [명령어의 입력 예상값을 정의](#defining-input-expectations)할 수 있도록 합니다. `handle` 메소드는 명령어가 실행될 때 호출됩니다. 이 메소드에 명령어 로직을 배치할 수 있습니다.
 
 Let's take a look at an example command. Note that we are able to request any dependencies we need via the command's `handle` method. The Laravel [service container](/docs/{{version}}/container) will automatically inject all dependencies that are type-hinted in this method's signature:
 
@@ -260,7 +263,7 @@ Let's take a look at an example command. Note that we are able to request any de
 > For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
 >
 > **참고**
-> 코드 재사용을 위해 콘솔 명령어를 가볍게 유지하고, 명령어의 작업을 수행하기 위해 응용 프로그램 서비스를 지연시키는 것이 좋습니다. 위의 예에서는 이메일을 보내는 "무거운 작업"을 수행하기 위해 서비스 클래스를 주입했음을 유의하십시오.
+> 코드 재사용을 위해 콘솔 명령어를 가볍게 유지하고, 명령어의 작업을 수행하기 위해 어플리케이션 서비스를 지연시키는 것이 좋습니다. 위의 예에서는 이메일을 보내는 "무거운 작업"을 수행하기 위해 서비스 클래스를 주입했음을 유의하십시오.
 
 <a name="closure-commands"></a>
 ### Closure Commands
@@ -280,7 +283,7 @@ Closure based commands provide an alternative to defining console commands as cl
 
 Even though this file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your closure based console commands using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a closure which receives the command's arguments and options:
 
-이 파일은 HTTP 라우트를 정의하지 않지만, 응용 프로그램에 대한 콘솔 기반 엔트리 포인트(라우트)를 정의합니다. 이 파일 내에서 `Artisan::command` 메소드를 사용하여 모든 클로저 기반 콘솔 명령을 정의할 수 있습니다. `command` 메소드는 두 개의 인수를 받습니다: [명령어 시그니처](#defining-input-expectations) 및 명령어의 인수와 옵션을 받는 클로저입니다:
+이 파일은 HTTP 라우트를 정의하지 않지만, 어플리케이션에 대한 콘솔 기반 엔트리 포인트(라우트)를 정의합니다. 이 파일 내에서 `Artisan::command` 메소드를 사용하여 모든 클로저 기반 콘솔 명령을 정의할 수 있습니다. `command` 메소드는 두 개의 인수를 받습니다: [명령어 시그니처](#defining-input-expectations) 및 명령어의 인수와 옵션을 받는 클로저입니다:
 
     Artisan::command('mail:send {user}', function (string $user) {
         $this->info("Sending email to: {$user}!");
@@ -325,7 +328,7 @@ When defining a closure based command, you may use the `purpose` method to add a
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 >
 > **경고**
-> 이 기능을 사용하려면 응용 프로그램이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 응용 프로그램의 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야 합니다.
+> 이 기능을 사용하려면 어플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 어플리케이션의 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야 합니다.
 
 Sometimes you may wish to ensure that only one instance of a command can run at a time. To accomplish this, you may implement the `Illuminate\Contracts\Console\Isolatable` interface on your command class:
 
@@ -345,7 +348,7 @@ Sometimes you may wish to ensure that only one instance of a command can run at 
 
 When a command is marked as `Isolatable`, Laravel will automatically add an `--isolated` option to the command. When the command is invoked with that option, Laravel will ensure that no other instances of that command are already running. Laravel accomplishes this by attempting to acquire an atomic lock using your application's default cache driver. If other instances of the command are running, the command will not execute; however, the command will still exit with a successful exit status code:
 
-명령어가 `Isolatable`로 표시되면 Laravel은 자동으로 명령어에 `--isolated` 옵션을 추가합니다. 해당 옵션으로 명령어가 호출되면 Laravel은 해당 명령어의 다른 인스턴스가 이미 실행 중인지 확인합니다. Laravel는 응용 프로그램의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령어의 다른 인스턴스가 실행 중인 경우 명령어는 실행되지 않지만, 명령어는 여전히 성공적인 종료 상태 코드로 종료됩니다.
+명령어가 `Isolatable`로 표시되면 Laravel은 자동으로 명령어에 `--isolated` 옵션을 추가합니다. 해당 옵션으로 명령어가 호출되면 Laravel은 해당 명령어의 다른 인스턴스가 이미 실행 중인지 확인합니다. Laravel는 어플리케이션의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령어의 다른 인스턴스가 실행 중인 경우 명령어는 실행되지 않지만, 명령어는 여전히 성공적인 종료 상태 코드로 종료됩니다.
 
 ```shell
 php artisan mail:send 1 --isolated
@@ -386,7 +389,7 @@ public function isolationLockExpiresAt(): DateTimeInterface|DateInterval
 
 When writing console commands, it is common to gather input from the user through arguments or options. Laravel makes it very convenient to define the input you expect from the user using the `signature` property on your commands. The `signature` property allows you to define the name, arguments, and options for the command in a single, expressive, route-like syntax.
 
-콘솔 명령어를 작성할 때, 사용자로부터 인자 또는 옵션을 통해 입력을 수집하는 것이 일반적입니다. Laravel은 명령의 `signature` 속성을 사용하여 사용자로부터 예상하는 입력을 정의하는 것이 매우 편리합니다. `signature` 속성을 사용하면 단일, 표현적인 라우트와 유사한 구문을 사용하여 명령의 이름, 인자 및 옵션을 정의할 수 있습니다.
+콘솔 명령어를 작성할 때, 사용자로부터 인자 또는 옵션을 통해 입력을 수집하는 것이 일반적입니다. Laravel은 명령의 `signature` 속성을 사용하여 사용자로부터 예상하는 입력을 정의하는 것이 매우 편리합니다. `signature` 프로퍼티를 사용하면 단일, 표현적인 라우트와 유사한 구문을 사용하여 명령의 이름, 인자 및 옵션을 정의할 수 있습니다.
 
 <a name="arguments"></a>
 ### Arguments
@@ -713,7 +716,7 @@ You may use the `newLine` method to display a blank line:
 The `table` method makes it easy to correctly format multiple rows / columns of data. All you need to do is provide the column names and the data for the table and Laravel will
 automatically calculate the appropriate width and height of the table for you:
 
-`table` 메소드를 사용하면 여러 행/열의 데이터를 올바르게 포맷하는 것이 쉽습니다. 할 일은 테이블의 열 이름과 데이터를 제공하는 것뿐이며, Laravel은 테이블의 적절한 너비와 높이를 자동으로 계산합니다:
+`table` 메소드를 사용하면 여러 행/컬럼의 데이터를 올바르게 포맷하는 것이 쉽습니다. 할 일은 테이블의 컬럼 이름과 데이터를 제공하는 것뿐이며, Laravel은 테이블의 적절한 너비와 높이를 자동으로 계산합니다:
 
     use App\Models\User;
 
@@ -766,7 +769,7 @@ Sometimes, you may need more manual control over how a progress bar is advanced.
 
 All of your console commands are registered within your application's `App\Console\Kernel` class, which is your application's "console kernel". Within the `commands` method of this class, you will see a call to the kernel's `load` method. The `load` method will scan the `app/Console/Commands` directory and automatically register each command it contains with Artisan. You are even free to make additional calls to the `load` method to scan other directories for Artisan commands:
 
-모든 콘솔 명령어는 `App\Console\Kernel` 클래스에 등록되어 있으며, 이것이 애플리케이션의 "콘솔 커널"입니다. 이 클래스의 `commands` 메소드에서는 커널의 `load` 메소드를 호출하는 것을 볼 수 있습니다. `load` 메소드는 `app/Console/Commands` 디렉토리를 스캔하고 Artisan에 포함된 각 명령어를 자동으로 등록합니다. Artisan 명령어를 스캔하기 위해 다른 디렉토리에 대해 `load` 메소드를 추가로 호출할 수도 있습니다:
+모든 콘솔 명령어는 어플리케이션의 `App\Console\Kernel` 클래스에 등록되어 있으며, 이것이 어플리케이션의 "콘솔 커널"입니다. 이 클래스의 `commands` 메소드에서는 커널의 `load` 메소드를 호출하는 것을 볼 수 있습니다. `load` 메소드는 `app/Console/Commands` 디렉토리를 스캔하고 Artisan에 포함된 각 명령어를 자동으로 등록합니다. Artisan 명령어를 스캔하기 위해 다른 디렉토리에 대해 `load` 메소드를 추가로 호출할 수도 있습니다:
 
     /**
      * Register the commands for the application.
@@ -781,7 +784,7 @@ All of your console commands are registered within your application's `App\Conso
 
 If necessary, you may manually register commands by adding the command's class name to a `$commands` property within your `App\Console\Kernel` class. If this property is not already defined on your kernel, you should define it manually. When Artisan boots, all the commands listed in this property will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan:
 
-필요한 경우, `App\Console\Kernel` 클래스의 `$commands` 속성에 명령어 클래스 이름을 추가하여 명령어를 수동으로 등록할 수 있습니다. 커널에 이미 정의되어 있지 않은 경우 수동으로 정의해야 합니다. Artisan이 부팅되면, 이 속성에 나열된 모든 명령어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해 해결되고 Artisan에 등록됩니다:
+필요한 경우, `App\Console\Kernel` 클래스의 `$commands` 프로퍼티에 명령어 클래스 이름을 추가하여 명령어를 수동으로 등록할 수 있습니다. 커널에 이미 정의되어 있지 않은 경우 수동으로 정의해야 합니다. Artisan이 부팅되면, 이 프로퍼티에 나열된 모든 명령어는 [서비스 컨테이너](/docs/{{version}}/container)에 의해 해결되고 Artisan에 등록됩니다:
 
     protected $commands = [
         Commands\SendEmails::class
@@ -929,7 +932,7 @@ To listen for multiple signals at once, you may provide an array of signals to t
 
 The Artisan console's `make` commands are used to create a variety of classes, such as controllers, jobs, migrations, and tests. These classes are generated using "stub" files that are populated with values based on your input. However, you may want to make small changes to files generated by Artisan. To accomplish this, you may use the `stub:publish` command to publish the most common stubs to your application so that you can customize them:
 
-Artisan 콘솔의 `make` 명령어는 컨트롤러, 작업, 마이그레이션 및 테스트와 같은 다양한 클래스를 생성하는 데 사용됩니다. 이러한 클래스는 사용자 입력에 따라 값이 채워진 "스텁" 파일을 사용하여 생성됩니다. 그러나 Artisan에 의해 생성된 파일을 약간 변경하고 싶을 수 있습니다. 이를 수행하려면, `stub:publish` 명령을 사용하여 애플리케이션에 가장 일반적인 스텁을 게시하여 커스터마이징할 수 있습니다:
+Artisan 콘솔의 `make` 명령어는 컨트롤러, 작업, 마이그레이션 및 테스트와 같은 다양한 클래스를 생성하는 데 사용됩니다. 이러한 클래스는 사용자 입력에 따라 값이 채워진 "스텁" 파일을 사용하여 생성됩니다. 그러나 Artisan에 의해 생성된 파일을 약간 변경하고 싶을 수 있습니다. 이를 수행하려면, `stub:publish` 명령을 사용하여 어플리케이션에 가장 일반적인 스텁을 게시하여 커스터마이징할 수 있습니다:
 
 ```shell
 php artisan stub:publish
@@ -937,7 +940,7 @@ php artisan stub:publish
 
 The published stubs will be located within a `stubs` directory in the root of your application. Any changes you make to these stubs will be reflected when you generate their corresponding classes using Artisan's `make` commands.
 
-게시된 스텁은 애플리케이션의 루트에 있는 `stubs` 디렉토리에 위치합니다. 이러한 스텁에 대한 변경 사항은 Artisan의 `make` 명령을 사용하여 해당 클래스를 생성할 때 반영됩니다.
+게시된 스텁은 어플리케이션의 루트에 있는 `stubs` 디렉토리에 위치합니다. 이러한 스텁에 대한 변경 사항은 Artisan의 `make` 명령을 사용하여 해당 클래스를 생성할 때 반영됩니다.
 
 <a name="events"></a>
 ## Events

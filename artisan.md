@@ -28,7 +28,7 @@
       - [Closure Command Descriptions](#closure-command-descriptions)
       - [클로저 명령어 설명](#클로저-명령어-설명)
     - [Isolatable Commands](#isolatable-commands)
-    - [의존성 명령어 TODO: 번역](#의존성-명령어-todo-번역)
+    - [의존성 명령어](#의존성-명령어)
       - [Lock Expiration Time](#lock-expiration-time)
       - [잠금 만료 시간](#잠금-만료-시간)
   - [Defining Input Expectations](#defining-input-expectations)
@@ -322,7 +322,7 @@ When defining a closure based command, you may use the `purpose` method to add a
 
 <a name="isolatable-commands"></a>
 ### Isolatable Commands
-### 의존성 명령어 TODO: 번역
+### 의존성 명령어
 
 > **Warning**
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.

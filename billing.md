@@ -208,13 +208,13 @@
 
 When upgrading to a new version of Cashier, it's important that you carefully review [the upgrade guide](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md).
 
-캐셔의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)를 주의 깊게 검토해야합니다.
+Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md)를 주의 깊게 검토해야합니다.
 
 > **Warning**  
 > To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 14 utilizes Stripe API version `2022-11-15`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
 >
 > **경고**
-> 변경을 방지하기 위해 캐셔는 고정 된 Stripe API 버전을 사용합니다. Cashier 14는 Stripe API 버전 `2022-11-15`을 사용합니다. Stripe API 버전은 새로운 Stripe 기능 및 개선을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
+> 변경을 방지하기 위해 Cashier는 고정 된 Stripe API 버전을 사용합니다. Cashier 14는 Stripe API 버전 `2022-11-15`을 사용합니다. Stripe API 버전은 새로운 Stripe 기능 및 개선을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
 
 <a name="installation"></a>
 ## Installation
@@ -232,7 +232,7 @@ composer require laravel/cashier
 > To ensure Cashier properly handles all Stripe events, remember to [set up Cashier's webhook handling](#handling-stripe-webhooks).
 >
 > **경고**
-> 캐셔가 모든 Stripe 이벤트를 올바르게 처리하도록하려면 [캐셔 웹훅 처리 설정](#handling-stripe-webhooks)을 기억하십시오.
+> Cashier가 모든 Stripe 이벤트를 올바르게 처리하도록하려면 [Cashier 웹훅 처리 설정](#handling-stripe-webhooks)을 기억하십시오.
 
 <a name="database-migrations"></a>
 ### Database Migrations
@@ -240,7 +240,7 @@ composer require laravel/cashier
 
 Cashier's service provider registers its own database migration directory, so remember to migrate your database after installing the package. The Cashier migrations will add several columns to your `users` table as well as create a new `subscriptions` table to hold all of your customer's subscriptions:
 
-캐셔의 서비스 제공자는 자체 데이터베이스 마이그레이션 디렉토리를 등록하므로 패키지를 설치 한 후 데이터베이스를 마이그레이션해야합니다. Cashier 마이그레이션은 `users` 테이블에 몇 가지 열을 추가하고 모든 고객의 구독을 보관 할 새로운 `subscriptions` 테이블을 만듭니다.
+Cashier의 서비스 제공자는 자체 데이터베이스 마이그레이션 디렉토리를 등록하므로 패키지를 설치 한 후 데이터베이스를 마이그레이션해야합니다. Cashier 마이그레이션은 `users` 테이블에 몇 가지 열을 추가하고 모든 고객의 구독을 보관 할 새로운 `subscriptions` 테이블을 만듭니다.
 
 ```shell
 php artisan migrate

@@ -168,7 +168,7 @@ php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 > The `dispatch` helper function and `dispatch` method on the `Dispatchable` class depends on garbage collection to place the job on the queue. Therefore, when using tinker, you should use `Bus::dispatch` or `Queue::push` to dispatch jobs.
 >
 > **경고**
-> Dispatchable 클래스의 `dispatch` 메소드와 `dispatch` 헬퍼 함수는 가비지 컬렉션에 의존하여 작업을 큐에 배치합니다. 따라서 tinker를 사용할 때는 작업을 배치하기 위해 `Bus::dispatch` 또는 `Queue::push`를 사용해야 합니다.
+> `Dispatchable` 클래스의 `dispatch` 메소드와 `dispatch` 헬퍼 함수는 가비지 컬렉션에 의존하여 작업을 큐에 배치합니다. 따라서 tinker를 사용할 때는 작업을 배치하기 위해 `Bus::dispatch` 또는 `Queue::push`를 사용해야 합니다.
 
 <a name="command-allow-list"></a>
 #### Command Allow List
@@ -433,7 +433,7 @@ Options, like arguments, are another form of user input. Options are prefixed by
 
 In this example, the `--queue` switch may be specified when calling the Artisan command. If the `--queue` switch is passed, the value of the option will be `true`. Otherwise, the value will be `false`:
 
-이 예제에서, `--queue` 스위치는 아티젠 명령을 호출할 때 지정할 수 있습니다. `--queue` 스위치가 전달되면, 옵션의 값은 `true`가 됩니다. 그렇지 않으면, 값은 `false`가 됩니다.
+이 예제에서, `--queue` 스위치는 Artisan 명령을 호출할 때 지정할 수 있습니다. `--queue` 스위치가 전달되면, 옵션의 값은 `true`가 됩니다. 그렇지 않으면, 값은 `false`가 됩니다.
 
 ```shell
 php artisan mail:send 1 --queue

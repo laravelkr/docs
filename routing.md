@@ -110,11 +110,11 @@ The most basic Laravel routes accept a URI and a closure, providing a very simpl
 
 All Laravel routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by your application's `App\Providers\RouteServiceProvider`. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` middleware group, which provides features like session state and CSRF protection. The routes in `routes/api.php` are stateless and are assigned the `api` middleware group.
 
-모든 Laravel 라우트는 라우트 파일에 정의되며, `routes` 디렉토리에 위치합니다. 이 파일들은 애플리케이션의 `App\Providers\RouteServiceProvider`에 의해 자동으로 로드됩니다. `routes/web.php` 파일은 웹 인터페이스를 위한 라우트를 정의합니다. 이 라우트들은 세션 상태와 CSRF 보호와 같은 기능을 제공하는 `web` 미들웨어 그룹에 할당됩니다. `routes/api.php`의 라우트는 무상태이며 `api` 미들웨어 그룹에 할당됩니다.
+모든 Laravel 라우트는 라우트 파일에 정의되며, `routes` 디렉토리에 위치합니다. 이 파일들은 어플리케이션의 `App\Providers\RouteServiceProvider`에 의해 자동으로 로드됩니다. `routes/web.php` 파일은 웹 인터페이스를 위한 라우트를 정의합니다. 이 라우트들은 세션 상태와 CSRF 보호와 같은 기능을 제공하는 `web` 미들웨어 그룹에 할당됩니다. `routes/api.php`의 라우트는 무상태이며 `api` 미들웨어 그룹에 할당됩니다.
 
 For most applications, you will begin by defining routes in your `routes/web.php` file. The routes defined in `routes/web.php` may be accessed by entering the defined route's URL in your browser. For example, you may access the following route by navigating to `http://example.com/user` in your browser:
 
-대부분의 애플리케이션에서는 `routes/web.php` 파일에서 라우트를 정의하기 시작합니다. `routes/web.php`에 정의된 라우트는 브라우저에서 정의된 라우트의 URL을 입력하여 접근할 수 있습니다. 예를 들어, 브라우저에서 `http://example.com/user`로 이동하여 다음 라우트에 접근할 수 있습니다:
+대부분의 어플리케이션에서는 `routes/web.php` 파일에서 라우트를 정의하기 시작합니다. `routes/web.php`에 정의된 라우트는 브라우저에서 정의된 라우트의 URL을 입력하여 접근할 수 있습니다. 예를 들어, 브라우저에서 `http://example.com/user`로 이동하여 다음 라우트에 접근할 수 있습니다:
 
     use App\Http\Controllers\UserController;
 
@@ -190,7 +190,7 @@ Remember, any HTML forms pointing to `POST`, `PUT`, `PATCH`, or `DELETE` routes 
 
 If you are defining a route that redirects to another URI, you may use the `Route::redirect` method. This method provides a convenient shortcut so that you do not have to define a full route or controller for performing a simple redirect:
 
-다른 URI로 리다이렉트하는 라우트를 정의하는 경우 `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 간단한 리다이렉트를 수행하기 위해 전체 라우트 또는 컨트롤러를 정의할 필요가 없도록 편리한 단축 방법을 제공합니다:
+다른 URI로 리다이렉트하는 라우트를 정의하는 경우 `Route::redirect` 메소드를 사용할 수 있습니다. 이 메소드는 간단한 리다이렉트를 수행하기 위해 전체 라우트 또는 컨트롤러를 정의할 필요가 없도록 편리한 단축키를 제공합니다:
 
     Route::redirect('/here', '/there');
 
@@ -218,7 +218,7 @@ Or, you may use the `Route::permanentRedirect` method to return a `301` status c
 
 If your route only needs to return a [view](/docs/{{version}}/views), you may use the `Route::view` method. Like the `redirect` method, this method provides a simple shortcut so that you do not have to define a full route or controller. The `view` method accepts a URI as its first argument and a view name as its second argument. In addition, you may provide an array of data to pass to the view as an optional third argument:
 
-라우트가 [뷰](/docs/{{version}}/views)만 반환해야 하는 경우 `Route::view` 메소드를 사용할 수 있습니다. `redirect` 메소드와 마찬가지로 이 메소드는 전체 라우트 또는 컨트롤러를 정의할 필요가 없도록 간단한 단축 방법을 제공합니다. `view` 메소드는 첫 번째 인수로 URI를, 두 번째 인수로 뷰 이름을 받습니다. 또한, 선택적으로 세 번째 인수로 뷰에 전달할 데이터 배열을 제공할 수 있습니다:
+라우트가 [뷰](/docs/{{version}}/views)만 반환해야 하는 경우 `Route::view` 메소드를 사용할 수 있습니다. `redirect` 메소드와 마찬가지로 이 메소드는 전체 라우트 또는 컨트롤러를 정의할 필요가 없도록 간단한 단축키를 제공합니다. `view` 메소드는 첫 번째 인수로 URI를, 두 번째 인수로 뷰 이름을 받습니다. 또한, 선택적으로 세 번째 인수로 뷰에 전달할 데이터 배열을 제공할 수 있습니다:
 
     Route::view('/welcome', 'welcome');
 
@@ -236,7 +236,7 @@ If your route only needs to return a [view](/docs/{{version}}/views), you may us
 
 The `route:list` Artisan command can easily provide an overview of all of the routes that are defined by your application:
 
-`route:list` Artisan 명령은 애플리케이션에서 정의된 모든 라우트의 개요를 쉽게 제공할 수 있습니다:
+`route:list` Artisan 명령은 어플리케이션에서 정의된 모든 라우트의 개요를 쉽게 제공할 수 있습니다:
 
 ```shell
 php artisan route:list
@@ -716,7 +716,7 @@ When using a custom keyed implicit binding as a nested route parameter, Laravel 
 
 If you wish, you may instruct Laravel to scope "child" bindings even when a custom key is not provided. To do so, you may invoke the `scopeBindings` method when defining your route:
 
-원한다면, 커스텀 키가 제공되지 않더라도 라라벨에게 "자식" 바인딩을 스코프하도록 지시할 수 있습니다. 이를 위해 라우트를 정의할 때 `scopeBindings` 메소드를 호출할 수 있습니다:
+원한다면, 커스텀 키가 제공되지 않더라도 Laravel에게 "자식" 바인딩을 스코프하도록 지시할 수 있습니다. 이를 위해 라우트를 정의할 때 `scopeBindings` 메소드를 호출할 수 있습니다:
 
     use App\Models\Post;
     use App\Models\User;

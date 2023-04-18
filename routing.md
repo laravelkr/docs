@@ -96,7 +96,7 @@
 
 The most basic Laravel routes accept a URI and a closure, providing a very simple and expressive method of defining routes and behavior without complicated routing configuration files:
 
-가장 기본적인 라라벨 라우트는 URI와 클로저를 받아들이며, 복잡한 라우팅 설정 파일 없이 간단하고 표현적인 방법으로 라우트와 동작을 정의합니다:
+가장 기본적인 Laravel 라우트는 URI와 클로저를 받아들이며, 복잡한 라우팅 설정 파일 없이 간단하고 표현적인 방법으로 라우트와 동작을 정의합니다:
 
     use Illuminate\Support\Facades\Route;
 
@@ -618,7 +618,7 @@ The `name` method may be used to prefix each route name in the group with a give
 
 When injecting a model ID to a route or controller action, you will often query the database to retrieve the model that corresponds to that ID. Laravel route model binding provides a convenient way to automatically inject the model instances directly into your routes. For example, instead of injecting a user's ID, you can inject the entire `User` model instance that matches the given ID.
 
-모델 ID를 라우트 또는 컨트롤러 액션에 주입할 때, 해당 ID에 해당하는 모델을 데이터베이스에서 검색하는 일이 종종 있습니다. 라라벨 라우트 모델 바인딩은 모델 인스턴스를 라우트에 직접 주입하는 데 편리한 방법을 제공합니다. 예를 들어, 사용자 ID를 주입하는 대신 주어진 ID와 일치하는 전체 `User` 모델 인스턴스를 주입할 수 있습니다.
+모델 ID를 라우트 또는 컨트롤러 액션에 주입할 때, 해당 ID에 해당하는 모델을 데이터베이스에서 검색하는 일이 종종 있습니다. Laravel 라우트 모델 바인딩은 모델 인스턴스를 라우트에 직접 주입하는 데 편리한 방법을 제공합니다. 예를 들어, 사용자 ID를 주입하는 대신 주어진 ID와 일치하는 전체 `User` 모델 인스턴스를 주입할 수 있습니다.
 
 <a name="implicit-binding"></a>
 ### Implicit Binding
@@ -636,7 +636,7 @@ Laravel은 라우트 또는 컨트롤러 액션에 정의된 Eloquent 모델을 
 
 Since the `$user` variable is type-hinted as the `App\Models\User` Eloquent model and the variable name matches the `{user}` URI segment, Laravel will automatically inject the model instance that has an ID matching the corresponding value from the request URI. If a matching model instance is not found in the database, a 404 HTTP response will automatically be generated.
 
-`$user` 변수가 `App\Models\User` Eloquent 모델로 타입 힌트가 지정되어 있고 변수 이름이 `{user}` URI 세그먼트와 일치하기 때문에 라라벨은 요청 URI에서 해당 값과 일치하는 ID를 가진 모델 인스턴스를 자동으로 주입합니다. 일치하는 모델 인스턴스가 데이터베이스에 없으면 404 HTTP 응답이 자동으로 생성됩니다.
+`$user` 변수가 `App\Models\User` Eloquent 모델로 타입 힌트가 지정되어 있고 변수 이름이 `{user}` URI 세그먼트와 일치하기 때문에 Laravel은 요청 URI에서 해당 값과 일치하는 ID를 가진 모델 인스턴스를 자동으로 주입합니다. 일치하는 모델 인스턴스가 데이터베이스에 없으면 404 HTTP 응답이 자동으로 생성됩니다.
 
 Of course, implicit binding is also possible when using controller methods. Again, note the `{user}` URI segment matches the `$user` variable in the controller which contains an `App\Models\User` type-hint:
 
@@ -712,7 +712,7 @@ When implicitly binding multiple Eloquent models in a single route definition, y
 
 When using a custom keyed implicit binding as a nested route parameter, Laravel will automatically scope the query to retrieve the nested model by its parent using conventions to guess the relationship name on the parent. In this case, it will be assumed that the `User` model has a relationship named `posts` (the plural form of the route parameter name) which can be used to retrieve the `Post` model.
 
-중첩 라우트 파라미터로 커스텀 키를 사용하는 경우 라라벨은 부모의 관계 이름을 추측하여 부모를 사용하여 중첩된 모델을 검색하는 쿼리를 자동으로 스코프합니다. 이 경우, `User` 모델이 `posts` (라우트 파라미터 이름의 복수형)라는 관계를 가지고 있고 이 관계를 사용하여 `Post` 모델을 검색할 수 있다고 가정합니다.
+중첩 라우트 파라미터로 커스텀 키를 사용하는 경우 Laravel은 부모의 관계 이름을 추측하여 부모를 사용하여 중첩된 모델을 검색하는 쿼리를 자동으로 스코프합니다. 이 경우, `User` 모델이 `posts` (라우트 파라미터 이름의 복수형)라는 관계를 가지고 있고 이 관계를 사용하여 `Post` 모델을 검색할 수 있다고 가정합니다.
 
 If you wish, you may instruct Laravel to scope "child" bindings even when a custom key is not provided. To do so, you may invoke the `scopeBindings` method when defining your route:
 
@@ -737,7 +737,7 @@ Or, you may instruct an entire group of route definitions to use scoped bindings
 
 Similarly, you may explicitly instruct Laravel to not scope bindings by invoking the `withoutScopedBindings` method:
 
-비슷하게, `withoutScopedBindings` 메소드를 호출하여 라라벨에게 바인딩을 스코프하지 않도록 지시할 수 있습니다:
+비슷하게, `withoutScopedBindings` 메소드를 호출하여 Laravel에게 바인딩을 스코프하지 않도록 지시할 수 있습니다:
 
     Route::get('/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
         return $post;
@@ -767,7 +767,7 @@ Typically, a 404 HTTP response will be generated if an implicitly bound model is
 
 PHP 8.1 introduced support for [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To compliment this feature, Laravel allows you to type-hint a [string-backed Enum](https://www.php.net/manual/en/language.enumerations.backed.php) on your route definition and Laravel will only invoke the route if that route segment corresponds to a valid Enum value. Otherwise, a 404 HTTP response will be returned automatically. For example, given the following Enum:
 
-PHP 8.1은 [열거형](https://www.php.net/manual/en/language.enumerations.backed.php)을 지원합니다. 이 기능을 보완하기 위해 라라벨은 라우트 정의에서 [문자열 기반 열거형](https://www.php.net/manual/en/language.enumerations.backed.php)을 타입 힌트할 수 있도록 허용하고 라라벨은 라우트 세그먼트가 유효한 열거형 값에 해당하는 경우에만 라우트를 호출합니다. 그렇지 않으면 404 HTTP 응답이 자동으로 반환됩니다. 예를 들어 다음과 같은 열거형이 있다고 가정합니다:
+PHP 8.1은 [열거형](https://www.php.net/manual/en/language.enumerations.backed.php)을 지원합니다. 이 기능을 보완하기 위해 Laravel은 라우트 정의에서 [문자열 기반 열거형](https://www.php.net/manual/en/language.enumerations.backed.php)을 타입 힌트할 수 있도록 허용하고 Laravel은 라우트 세그먼트가 유효한 열거형 값에 해당하는 경우에만 라우트를 호출합니다. 그렇지 않으면 404 HTTP 응답이 자동으로 반환됩니다. 예를 들어 다음과 같은 열거형이 있다고 가정합니다:
 
 ```php
 <?php

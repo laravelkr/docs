@@ -2,7 +2,7 @@
 
 - [Email Verification](#email-verification)
   - [Introduction](#introduction)
-  - [소개](#소개)
+  - [시작하기](#시작하기)
     - [Model Preparation](#model-preparation)
     - [모델 준비](#모델-준비)
     - [Database Preparation](#database-preparation)
@@ -26,7 +26,7 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Many web applications require users to verify their email addresses before using the application. Rather than forcing you to re-implement this feature by hand for each application you create, Laravel provides convenient built-in services for sending and verifying email verification requests.
 
@@ -36,7 +36,7 @@ Many web applications require users to verify their email addresses before using
 > Want to get started fast? Install one of the [Laravel application starter kits](/docs/{{version}}/starter-kits) in a fresh Laravel application. The starter kits will take care of scaffolding your entire authentication system, including email verification support.
 >
 > **참고**
-> 빠르게 시작하고 싶으세요? 새로운 Laravel 어플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits) 중 하나를 설치하세요. 스타터 키트는 이메일 인증 지원을 포함한 전체 인증 시스템을 구성해줍니다.
+> 빠르게 시작하고 싶으세요? 새로운 Laravel 어플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits) 중 하나를 설치하세요. 스타터 키트는 이메일 인증 지원을 포함한 전체 인증 시스템의 스캐폴딩을 마련할 수 있도록 도와줍니다.
 
 <a name="model-preparation"></a>
 ### Model Preparation
@@ -63,11 +63,11 @@ Before getting started, verify that your `App\Models\User` model implements the 
 
 Once this interface has been added to your model, newly registered users will automatically be sent an email containing an email verification link. As you can see by examining your application's `App\Providers\EventServiceProvider`, Laravel already contains a `SendEmailVerificationNotification` [listener](/docs/{{version}}/events) that is attached to the `Illuminate\Auth\Events\Registered` event. This event listener will send the email verification link to the user.
 
-이 인터페이스가 모델에 추가되면 새로 등록된 사용자는 이메일 인증 링크를 포함한 이메일을 자동으로 보냅니다. 애플리케이션의 `App\Providers\EventServiceProvider`를 검사하여 보면 Laravel에는 이미 `Illuminate\Auth\Events\Registered` 이벤트에 연결된 `SendEmailVerificationNotification` [리스너](/docs/{{version}}/events)가 있습니다. 이 이벤트 리스너는 이메일 인증 링크를 사용자에게 보냅니다.
+이 인터페이스가 모델에 추가되면 새로 등록된 사용자는 이메일 인증 링크를 포함한 이메일을 자동으로 보냅니다. 어플리케이션의 `App\Providers\EventServiceProvider`를 검사하여 보면 Laravel에는 이미 `Illuminate\Auth\Events\Registered` 이벤트에 연결된 `SendEmailVerificationNotification` [리스너](/docs/{{version}}/events)가 있습니다. 이 이벤트 리스너는 이메일 인증 링크를 사용자에게 보냅니다.
 
 If you are manually implementing registration within your application instead of using [a starter kit](/docs/{{version}}/starter-kits), you should ensure that you are dispatching the `Illuminate\Auth\Events\Registered` event after a user's registration is successful:
 
-애플리케이션에서 [스타터 키트](/docs/{{version}}/starter-kits)를 사용하는 대신 수동으로 등록을 구현하는 경우, 사용자의 등록이 성공한 후 `Illuminate\Auth\Events\Registered` 이벤트를 디스패치하는지 확인하세요.
+어플리케이션에서 [스타터 키트](/docs/{{version}}/starter-kits)를 사용하는 대신 수동으로 등록을 구현하는 경우, 사용자의 등록이 성공한 후 `Illuminate\Auth\Events\Registered` 이벤트를 디스패치하는지 확인하세요.
 
     use Illuminate\Auth\Events\Registered;
 
@@ -107,7 +107,7 @@ Third, a route will be needed to resend a verification link if the user accident
 
 As mentioned previously, a route should be defined that will return a view instructing the user to click the email verification link that was emailed to them by Laravel after registration. This view will be displayed to users when they try to access other parts of the application without verifying their email address first. Remember, the link is automatically emailed to the user as long as your `App\Models\User` model implements the `MustVerifyEmail` interface:
 
-이전에 언급했듯이, 등록 후 Laravel이 이메일로 보낸 이메일 인증 링크를 클릭하라는 안내를 표시하는 뷰를 반환하는 라우트를 정의해야 합니다. 이 뷰는 사용자가 이메일 주소를 먼저 확인하지 않고 애플리케이션의 다른 부분에 액세스하려고 할 때 표시됩니다. 기억하세요, `App\Models\User` 모델이 `MustVerifyEmail` 인터페이스를 구현하면 링크가 자동으로 사용자에게 이메일로 전송됩니다.
+이전에 언급했듯이, 등록 후 Laravel이 이메일로 보낸 이메일 인증 링크를 클릭하라는 안내를 표시하는 뷰를 반환하는 라우트를 정의해야 합니다. 이 뷰는 사용자가 이메일 주소를 먼저 확인하지 않고 어플리케이션의 다른 부분에 액세스하려고 할 때 표시됩니다. 기억하세요, `App\Models\User` 모델이 `MustVerifyEmail` 인터페이스를 구현하면 링크가 자동으로 사용자에게 이메일로 전송됩니다.
 
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
@@ -121,7 +121,7 @@ The route that returns the email verification notice should be named `verificati
 > When manually implementing email verification, you are required to define the contents of the verification notice view yourself. If you would like scaffolding that includes all necessary authentication and verification views, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 >
 > **참고**
-> 이메일 인증을 수동으로 구현할 때는 인증 공지 뷰의 내용을 직접 정의해야 합니다. 필요한 모든 인증 및 인증 뷰를 포함하는 스캐폴딩을 원한다면 [Laravel 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 확인하세요.
+> 이메일 인증을 수동으로 구현할 때는 인증 공지 뷰의 내용을 직접 정의해야 합니다. 필요한 모든 인증 및 인증 뷰를 포함하는 스캐폴딩을 원한다면 [Laravel 어플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 확인하세요.
 
 <a name="the-email-verification-handler"></a>
 ### The Email Verification Handler
@@ -145,7 +145,7 @@ Before moving on, let's take a closer look at this route. First, you'll notice w
 
 Next, we can proceed directly to calling the `fulfill` method on the request. This method will call the `markEmailAsVerified` method on the authenticated user and dispatch the `Illuminate\Auth\Events\Verified` event. The `markEmailAsVerified` method is available to the default `App\Models\User` model via the `Illuminate\Foundation\Auth\User` base class. Once the user's email address has been verified, you may redirect them wherever you wish.
 
-다음으로, 요청에 대해 `fulfill` 메서드를 직접 호출할 수 있습니다. 이 메서드는 인증된 사용자의 `markEmailAsVerified` 메서드를 호출하고 `Illuminate\Auth\Events\Verified` 이벤트를 디스패치합니다. `markEmailAsVerified` 메서드는 `Illuminate\Foundation\Auth\User` 기본 클래스를 통해 기본 `App\Models\User` 모델에서 사용할 수 있습니다. 사용자의 이메일 주소가 확인되면 원하는 곳으로 리디렉션할 수 있습니다.
+다음으로, 요청에 대해 `fulfill` 메소드를 직접 호출할 수 있습니다. 이 메소드는 인증된 사용자의 `markEmailAsVerified` 메소드를 호출하고 `Illuminate\Auth\Events\Verified` 이벤트를 디스패치합니다. `markEmailAsVerified` 메소드는 `Illuminate\Foundation\Auth\User` 기본 클래스를 통해 기본 `App\Models\User` 모델에서 사용할 수 있습니다. 사용자의 이메일 주소가 확인되면 원하는 곳으로 리디렉션할 수 있습니다.
 
 <a name="resending-the-verification-email"></a>
 ### Resending The Verification Email
@@ -193,7 +193,7 @@ Although the default email verification notification should satisfy the requirem
 
 To get started, pass a closure to the `toMailUsing` method provided by the `Illuminate\Auth\Notifications\VerifyEmail` notification. The closure will receive the notifiable model instance that is receiving the notification as well as the signed email verification URL that the user must visit to verify their email address. The closure should return an instance of `Illuminate\Notifications\Messages\MailMessage`. Typically, you should call the `toMailUsing` method from the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
 
-시작하려면 `Illuminate\Auth\Notifications\VerifyEmail` 알림에 의해 제공되는 `toMailUsing` 메서드에 클로저를 전달합니다. 클로저는 알림을 받는 모델 인스턴스와 사용자가 이메일 주소를 확인하기 위해 방문해야 하는 서명된 이메일 인증 URL을 받습니다. 클로저는 `Illuminate\Notifications\Messages\MailMessage` 인스턴스를 반환해야 합니다. 일반적으로 `App\Providers\AuthServiceProvider` 클래스의 `boot` 메서드에서 `toMailUsing` 메서드를 호출해야 합니다.
+시작하려면 `Illuminate\Auth\Notifications\VerifyEmail` 알림에 의해 제공되는 `toMailUsing` 메소드에 클로저를 전달합니다. 클로저는 알림을 받는 모델 인스턴스와 사용자가 이메일 주소를 확인하기 위해 방문해야 하는 서명된 이메일 인증 URL을 받습니다. 클로저는 `Illuminate\Notifications\Messages\MailMessage` 인스턴스를 반환해야 합니다. 일반적으로 `App\Providers\AuthServiceProvider` 클래스의 `boot` 메소드에서 `toMailUsing` 메소드를 호출해야 합니다.
 
     use Illuminate\Auth\Notifications\VerifyEmail;
     use Illuminate\Notifications\Messages\MailMessage;

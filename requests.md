@@ -2,7 +2,7 @@
 
 - [HTTP Requests](#http-requests)
   - [Introduction](#introduction)
-  - [소개](#소개)
+  - [시작하기](#시작하기)
   - [Interacting With The Request](#interacting-with-the-request)
   - [요청과 상호작용](#요청과-상호작용)
     - [Accessing The Request](#accessing-the-request)
@@ -94,11 +94,11 @@
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 Laravel's `Illuminate\Http\Request` class provides an object-oriented way to interact with the current HTTP request being handled by your application as well as retrieve the input, cookies, and files that were submitted with the request.
 
-Laravel의 `Illuminate\Http\Request` 클래스는 현재 애플리케이션에서 처리되는 HTTP 요청과 상호작용하고 요청에 함께 제출된 입력, 쿠키 및 파일을 검색하는 객체 지향적인 방법을 제공합니다.
+Laravel의 `Illuminate\Http\Request` 클래스는 현재 어플리케이션에서 처리되는 HTTP 요청과 상호작용하고 요청에 함께 제출된 입력, 쿠키 및 파일을 검색하는 객체 지향적인 방법을 제공합니다.
 
 <a name="interacting-with-the-request"></a>
 ## Interacting With The Request
@@ -294,7 +294,7 @@ For convenience, the `bearerToken` method may be used to retrieve a bearer token
 
 The `ip` method may be used to retrieve the IP address of the client that made the request to your application:
 
-`ip` 메소드를 사용하여 애플리케이션에 요청을 보낸 클라이언트의 IP 주소를 검색할 수 있습니다:
+`ip` 메소드를 사용하여 어플리케이션에 요청을 보낸 클라이언트의 IP 주소를 검색할 수 있습니다:
 
     $ipAddress = $request->ip();
 
@@ -324,7 +324,7 @@ You may use the `prefers` method to determine which content type out of a given 
 
 Since many applications only serve HTML or JSON, you may use the `expectsJson` method to quickly determine if the incoming request expects a JSON response:
 
-많은 애플리케이션은 HTML 또는 JSON만 제공하므로, `expectsJson` 메소드를 사용하여 들어오는 요청이 JSON 응답을 기대하는지 빠르게 확인할 수 있습니다:
+많은 어플리케이션은 HTML 또는 JSON만 제공하므로, `expectsJson` 메소드를 사용하여 들어오는 요청이 JSON 응답을 기대하는지 빠르게 확인할 수 있습니다:
 
     if ($request->expectsJson()) {
         // ...
@@ -449,7 +449,7 @@ You may call the `query` method without any arguments in order to retrieve all o
 
 When sending JSON requests to your application, you may access the JSON data via the `input` method as long as the `Content-Type` header of the request is properly set to `application/json`. You may even use "dot" syntax to retrieve values that are nested within JSON arrays / objects:
 
-JSON 요청을 애플리케이션에 보낼 때 요청의 `Content-Type` 헤더가 올바르게 `application/json`으로 설정되어 있는 한 `input` 메소드를 통해 JSON 데이터에 액세스할 수 있습니다. JSON 배열 / 객체 내에 중첩된 값을 가져오려면 "dot" 구문을 사용할 수도 있습니다:
+JSON 요청을 어플리케이션에 보낼 때 요청의 `Content-Type` 헤더가 올바르게 `application/json`으로 설정되어 있는 한 `input` 메소드를 통해 JSON 데이터에 액세스할 수 있습니다. JSON 배열 / 객체 내에 중첩된 값을 가져오려면 "dot" 구문을 사용할 수도 있습니다:
 
     $name = $request->input('user.name');
 
@@ -469,7 +469,7 @@ Instead of retrieving the request's input data as a primitive `string`, you may 
 
 When dealing with HTML elements like checkboxes, your application may receive "truthy" values that are actually strings. For example, "true" or "on". For convenience, you may use the `boolean` method to retrieve these values as booleans. The `boolean` method returns `true` for 1, "1", true, "true", "on", and "yes". All other values will return `false`:
 
-체크박스와 같은 HTML 요소를 처리할 때 애플리케이션은 실제로 문자열인 "truthy" 값을 수신할 수 있습니다. 예를 들어 "true" 또는 "on"입니다. 편의를 위해 `boolean` 메소드를 사용하여 이러한 값을 불리언으로 가져올 수 있습니다. `boolean` 메소드는 1, "1", true, "true", "on", "yes"에 대해 true를 반환합니다. 모든 다른 값은 false를 반환합니다:
+체크박스와 같은 HTML 요소를 처리할 때 어플리케이션은 실제로 문자열인 "truthy" 값을 수신할 수 있습니다. 예를 들어 "true" 또는 "on"입니다. 편의를 위해 `boolean` 메소드를 사용하여 이러한 값을 불리언으로 가져올 수 있습니다. `boolean` 메소드는 1, "1", true, "true", "on", "yes"에 대해 true를 반환합니다. 모든 다른 값은 false를 반환합니다:
 
     $archived = $request->boolean('archived');
 
@@ -511,7 +511,7 @@ Input values that correspond to [PHP enums](https://www.php.net/manual/en/langua
 
 You may also access user input using dynamic properties on the `Illuminate\Http\Request` instance. For example, if one of your application's forms contains a `name` field, you may access the value of the field like so:
 
-`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에도 액세스할 수 있습니다. 예를 들어 애플리케이션의 양식 중 하나에 `name` 필드가 포함되어 있으면 다음과 같이 필드의 값을 액세스할 수 있습니다:
+`Illuminate\Http\Request` 인스턴스의 동적 속성을 사용하여 사용자 입력에도 액세스할 수 있습니다. 예를 들어 어플리케이션의 양식 중 하나에 `name` 필드가 포함되어 있으면 다음과 같이 필드의 값을 액세스할 수 있습니다:
 
     $name = $request->name;
 
@@ -728,7 +728,7 @@ By default, Laravel includes the `App\Http\Middleware\TrimStrings` and `Illumina
 
 If you would like to disable this behavior for all requests, you may remove the two middleware from your application's middleware stack by removing them from the `$middleware` property of your `App\Http\Kernel` class.
 
-모든 요청에 대해이 동작을 비활성화하려면 `App\Http\Kernel` 클래스의 `$middleware` 속성에서 두 미들웨어를 제거하여 응용 프로그램의 미들웨어 스택에서 제거할 수 있습니다.
+모든 요청에 대해이 동작을 비활성화하려면 `App\Http\Kernel` 클래스의 `$middleware` 프로퍼티에서 두 미들웨어를 제거하여 응용 프로그램의 미들웨어 스택에서 제거할 수 있습니다.
 
 If you would like to disable string trimming and empty string conversion for a subset of requests to your application, you may use the `skipWhen` method offered by both middleware. This method accepts a closure which should return `true` or `false` to indicate if input normalization should be skipped. Typically, the `skipWhen` method should be invoked in the `boot` method of your application's `AppServiceProvider`.
 
@@ -796,7 +796,7 @@ In addition to checking if the file is present, you may verify that there were n
 
 The `UploadedFile` class also contains methods for accessing the file's fully-qualified path and its extension. The `extension` method will attempt to guess the file's extension based on its contents. This extension may be different from the extension that was supplied by the client:
 
-`UploadedFile` 클래스에는 파일의 완전한 경로와 확장자에 대한 액세스를위한 메소드도 포함되어 있습니다. `extension` 메소드는 파일의 내용을 기반으로 파일의 확장자를 추측합니다. 이 확장자는 클라이언트가 제공 한 확장자와 다를 수 있습니다:
+`UploadedFile` 클래스에는 파일의 완전한 경로와 확장기능에 대한 액세스를 위한 메소드도 포함되어 있습니다. `extension` 메소드는 파일의 내용을 기반으로 파일의 확장자를 추측합니다. 이 확장자는 클라이언트가 제공한 확장기능과 다를 수 있습니다:
 
     $path = $request->photo->path();
 
@@ -850,11 +850,11 @@ If you do not want a filename to be automatically generated, you may use the `st
 
 When running your applications behind a load balancer that terminates TLS / SSL certificates, you may notice your application sometimes does not generate HTTPS links when using the `url` helper. Typically this is because your application is being forwarded traffic from your load balancer on port 80 and does not know it should generate secure links.
 
-TLS / SSL 인증서를 종료하는 로드 밸런서 뒤에서 애플리케이션을 실행할 때 `url` 헬퍼를 사용할 때 애플리케이션에서 HTTPS 링크를 생성하지 않는 경우가 있습니다. 일반적으로 이는 애플리케이션이 80 포트의 로드 밸런서에서 트래픽을 전달받고 있고 안전한 링크를 생성해야한다는 것을 알지 못하기 때문입니다.
+TLS / SSL 인증서를 종료하는 로드 밸런서 뒤에서 어플리케이션을 실행할 때 `url` 헬퍼를 사용할 때 어플리케이션에서 HTTPS 링크를 생성하지 않는 경우가 있습니다. 일반적으로 이는 어플리케이션이 80 포트의 로드 밸런서에서 트래픽을 전달받고 있고 안전한 링크를 생성해야한다는 것을 알지 못하기 때문입니다.
 
 To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be listed as an array on the `$proxies` property of this middleware. In addition to configuring the trusted proxies, you may configure the proxy `$headers` that should be trusted:
 
-이를 해결하려면 Laravel 애플리케이션에 포함된 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 애플리케이션에서 신뢰해야하는 로드 밸런서 또는 프록시를 빠르게 사용자 정의할 수 있습니다. 신뢰할 수있는 프록시는 이 미들웨어의 `$proxies` 속성에 배열로 나열되어야합니다. 신뢰할 수있는 프록시를 구성하는 것 외에도 신뢰해야하는 프록시 `$headers`를 구성할 수 있습니다.
+이를 해결하려면 Laravel 어플리케이션에 포함된 `App\Http\Middleware\TrustProxies` 미들웨어를 사용하여 어플리케이션에서 신뢰해야하는 로드 밸런서 또는 프록시를 빠르게 사용자 정의할 수 있습니다. 신뢰할 수 있는 프록시는 이 미들웨어의 `$proxies` 프로퍼티에 배열로 나열되어야합니다. 신뢰할 수있는 프록시를 구성하는 것 외에도 신뢰해야하는 프록시 `$headers`를 구성할 수 있습니다.
 
     <?php
 
@@ -887,7 +887,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
 > If you are using AWS Elastic Load Balancing, your `$headers` value should be `Request::HEADER_X_FORWARDED_AWS_ELB`. For more information on the constants that may be used in the `$headers` property, check out Symfony's documentation on [trusting proxies](https://symfony.com/doc/current/deployment/proxies.html).
 >
 > **참고**
-> AWS Elastic Load Balancing을 사용하는 경우 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB` 여야합니다. `$headers` 속성에서 사용할 수있는 상수에 대한 자세한 내용은 Symfony의 [프록시 신뢰](https://symfony.com/doc/current/deployment/proxies.html) 문서를 참조하세요.
+> AWS Elastic Load Balancing을 사용하는 경우 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB` 여야합니다. `$headers` 프로퍼티에서 사용할 수있는 상수에 대한 자세한 내용은 Symfony의 [프록시 신뢰](https://symfony.com/doc/current/deployment/proxies.html) 문서를 참조하세요.
 
 <a name="trusting-all-proxies"></a>
 #### Trusting All Proxies
@@ -910,15 +910,15 @@ Amazon AWS 또는 다른 "클라우드" 로드 밸런서 공급자를 사용하�
 
 By default, Laravel will respond to all requests it receives regardless of the content of the HTTP request's `Host` header. In addition, the `Host` header's value will be used when generating absolute URLs to your application during a web request.
 
-기본적으로 Laravel는 HTTP 요청의 `Host` 헤더의 내용과 관계없이 수신한 모든 요청에 응답합니다. 또한 웹 요청 중 애플리케이션에 대한 절대 URL을 생성할 때 `Host` 헤더의 값이 사용됩니다.
+기본적으로 Laravel는 HTTP 요청의 `Host` 헤더의 내용과 관계없이 수신한 모든 요청에 응답합니다. 또한 웹 요청 중 어플리케이션에 대한 절대 URL을 생성할 때 `Host` 헤더의 값이 사용됩니다.
 
 Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given host name. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain host names, you may do so by enabling the `App\Http\Middleware\TrustHosts` middleware for your application.
 
-일반적으로 Nginx 또는 Apache와 같은 웹 서버를 구성하여 특정 호스트 이름과 일치하는 요청만 애플리케이션으로 전송하도록 설정해야합니다. 그러나 웹 서버를 직접 사용자 정의할 수 없고 특정 호스트 이름에만 응답하도록 Laravel에 지시해야하는 경우 애플리케이션에 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화하여 수행할 수 있습니다.
+일반적으로 Nginx 또는 Apache와 같은 웹 서버를 구성하여 특정 호스트 이름과 일치하는 요청만 어플리케이션으로 전송하도록 설정해야합니다. 그러나 웹 서버를 직접 사용자 정의할 수 없고 특정 호스트 이름에만 응답하도록 Laravel에 지시해야하는 경우 어플리케이션에 `App\Http\Middleware\TrustHosts` 미들웨어를 활성화하여 수행할 수 있습니다.
 
 The `TrustHosts` middleware is already included in the `$middleware` stack of your application; however, you should uncomment it so that it becomes active. Within this middleware's `hosts` method, you may specify the host names that your application should respond to. Incoming requests with other `Host` value headers will be rejected:
 
-`TrustHosts` 미들웨어는 이미 애플리케이션의 `$middleware` 스택에 포함되어 있습니다. 그러나 활성화되도록 해제해야합니다. 이 미들웨어의 `hosts` 메소드에서 응답해야하는 애플리케이션의 호스트 이름을 지정할 수 있습니다. 다른 `Host` 값 헤더를 가진 수신 요청은 거부됩니다.
+`TrustHosts` 미들웨어는 이미 어플리케이션의 `$middleware` 스택에 포함되어 있습니다. 그러나 활성화되도록 해제해야합니다. 이 미들웨어의 `hosts` 메소드에서 응답해야하는 어플리케이션의 호스트 이름을 지정할 수 있습니다. 다른 `Host` 값 헤더를 가진 수신 요청은 거부됩니다.
 
     /**
      * Get the host patterns that should be trusted.
@@ -935,4 +935,4 @@ The `TrustHosts` middleware is already included in the `$middleware` stack of yo
 
 The `allSubdomainsOfApplicationUrl` helper method will return a regular expression matching all subdomains of your application's `app.url` configuration value. This helper method provides a convenient way to allow all of your application's subdomains when building an application that utilizes wildcard subdomains.
 
-`allSubdomainsOfApplicationUrl` 헬퍼 메소드는 애플리케이션의 `app.url` 구성 값의 모든 하위 도메인과 일치하는 정규 표현식을 반환합니다. 이 헬퍼 메소드는 와일드 카드 하위 도메인을 사용하는 애플리케이션을 구축할 때 모든 애플리케이션의 하위 도메인을 허용하는 편리한 방법을 제공합니다.
+`allSubdomainsOfApplicationUrl` 헬퍼 메소드는 어플리케이션의 `app.url` 구성 값의 모든 하위 도메인과 일치하는 정규 표현식을 반환합니다. 이 헬퍼 메소드는 와일드 카드 하위 도메인을 사용하는 어플리케이션을 구축할 때 모든 어플리케이션의 하위 도메인을 허용하는 편리한 방법을 제공합니다.

@@ -1285,7 +1285,7 @@ One approach to specifying the maximum number of times a job may be attempted is
 php artisan queue:work --tries=3
 ```
 
-If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs).  If `--tries=0` is provided to the `queue:work` command, the job will retried indefinitely.
+If a job exceeds its maximum number of attempts, it will be considered a "failed" job. For more information on handling failed jobs, consult the [failed job documentation](#dealing-with-failed-jobs). If `--tries=0` is provided to the `queue:work` command, the job will be retried indefinitely.
 
 작업이 최대 시도 횟수를 초과하면 "실패한" 작업으로 간주됩니다. 실패한 작업 처리에 대한 자세한 내용은 [실패한 작업 문서](#dealing-with-failed-jobs)를 참조하십시오. `queue:work` 명령에 `--tries=0`을 제공하면 작업은 무기한으로 재시도됩니다.
 
@@ -1787,22 +1787,20 @@ Sometimes you may need to cancel a given batch's execution. This can be accompli
         }
     }
 
-As you may have noticed in previous examples, batched jobs should typically check to see if the batch has been cancelled at the beginning of their `handle` method:
+As you may have noticed in the previous examples, batched jobs should typically determine if their corresponding batch has been cancelled before continuing execution. However, for convenience, you may assign the `SkipIfBatchCancelled` [middleware](#job-middleware) to the job instead. As its name indicates, this middleware will instruct Laravel to not process the job if its corresponding batch has been cancelled:
 
-이전 예제에서 알 수 있듯이, 일괄 처리 작업은 일반적으로 `handle` 메서드의 시작 부분에서 일괄 처리가 취소되었는지 확인해야 합니다.
+이전 예제에서 보셨겠지만, 일괄 처리 작업은 일반적으로 실행을 계속하기 전에 해당 배치가 취소되었는지 확인해야 합니다. 좀더 편리한 방법으로는 `SkipIfBatchCancelled` [미들웨어](#job-middleware)를 작업에 지정하면 됩니다. 이름에서 알 수 있듯이 이 미들웨어는 해당 작업이 취소된 경우에는 해당 작업을 처리하지 않도록합니다.
+
+    use Illuminate\Queue\Middleware\SkipIfBatchCancelled;
 
     /**
-     * Execute the job.
+     * Get the middleware the job should pass through.
      *
-     * @return void
+     * @return array
      */
-    public function handle()
+    public function middleware()
     {
-        if ($this->batch()->cancelled()) {
-            return;
-        }
-
-        // Continue processing...
+        return [new SkipIfBatchCancelled];
     }
 
 <a name="batch-failures"></a>
@@ -2017,11 +2015,11 @@ php artisan queue:work --max-time=3600
 
 <a name="worker-sleep-duration"></a>
 #### Worker Sleep Duration
-#### 작업자 수면 시간
+#### 작업자 대기(sleep) 시간
 
-When jobs are available on the queue, the worker will keep processing jobs with no delay in between them. However, the `sleep` option determines how many seconds the worker will "sleep" if there are no new jobs available. While sleeping, the worker will not process any new jobs - the jobs will be processed after the worker wakes up again.
+When jobs are available on the queue, the worker will keep processing jobs with no delay in between jobs. However, the `sleep` option determines how many seconds the worker will "sleep" if there are no jobs available. Of course, while sleeping, the worker will not process any new jobs:
 
-큐-queue에서 작업을 사용할 수 있는 경우 작업자는 작업 사이에 지연 없이 작업을 계속 처리합니다. 그러나 `sleep` 옵션은 사용 가능한 새 작업이 없는 경우 작업자가 "잠자기" 시간(초)을 결정합니다. 잠자는 동안 작업자는 새 작업을 처리하지 않습니다. 작업자가 다시 깨어난 후에 작업이 처리됩니다.
+큐-queue에서 작업을 사용할 수 있게 되면 작업자는 작업들과 작업 사이에 특별한 지연시간 없이 처리를 계속합니다. 그에 반해 `sleep` 옵션은 사용 가능한 새 작업이 없는 경우 작업자에게 대기할 "잠자기" 시간(초)을 결정합니다. 당연하게도, 잠자는 동안에는 새로운 작업은 처리되지 않습니다.
 
 ```shell
 php artisan queue:work --sleep=3

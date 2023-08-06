@@ -430,6 +430,7 @@ Sometimes you may need to send a notification to someone who is not stored as a 
 때로는 애플리케이션의 "User"모델로 저장되지 않은 사람에게 알림을 보내야 할 수도 있습니다. `Notification` 파사드의 `route` 메소드를 사용하여 알림을 보내기 전에 임시 알림 라우팅 정보를 지정할 수 있습니다.
 
     use Illuminate\Broadcasting\Channel;
+    use Illuminate\Support\Facades\Notification;
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('vonage', '5555555555')
@@ -1290,7 +1291,7 @@ The package includes a [configuration file](https://github.com/laravel/vonage-no
 
 패키지에는 [설정 파일](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php)이 포함되어 있습니다. 이 설정 파일을 애플리케이션의 설정 디렉토리로 복사할 필요는 없습니다. `VONAGE_KEY` 및 `VONAGE_SECRET` 환경 변수를 사용하여 Vonage 공개 및 비밀 키를 설정할 수 있습니다.
 
-After defining your keys, you may set a `VONAGE_SMS_FROM` environment variable that defines the phone number that your SMS messages should be sent from by default. You may generate this phone number within the Vonage control panel:
+After defining your keys, you should set a `VONAGE_SMS_FROM` environment variable that defines the phone number that your SMS messages should be sent from by default. You may generate this phone number within the Vonage control panel:
 
 키를 정의한 뒤에는 어떤 SMS 번호로 송신되는지 표시할 발신자 번호를 `VONAGE_SMS_FROM` 환경변수로 설정해야합니다. 이 번호는 Vonage 관리툴에서 생성할 수 있습니다.
 

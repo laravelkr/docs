@@ -1103,6 +1103,11 @@ Below is a list of all available validation rules and their function:
 - [MIME Type By File Extension](#rule-mimes)
 - [Min](#rule-min)
 - [Min Digits](#rule-min-digits)
+- [Missing](#rule-missing)
+- [Missing If](#rule-missing-if)
+- [Missing Unless](#rule-missing-unless)
+- [Missing With](#rule-missing-with)
+- [Missing With All](#rule-missing-with-all]
 - [Multiple Of](#multiple-of)
 - [Not In](#rule-not-in)
 - [Not Regex](#rule-not-regex)
@@ -1189,21 +1194,50 @@ The field under validation must be a value after or equal to the given date. For
 
 The field under validation must be entirely alphabetic characters.
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.
+필드의 값이 완벽하게 유니코드 자음과 모음 문자로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=) 와 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)에 해당하는 문자입니다. 
 
-(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
+(역자주: 영문 알파벳을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다. 링크를 참고하세요.)
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다. 
+
+```php
+'username' => 'alpha:ascii',
+```
+
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 #### alpha_dash
 
-The field under validation may have alpha-numeric characters, as well as dashes and underscores.
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=), as well as ASCII dashes (`-`) and ASCII underscores (`_`).
 
-필드의 값이 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다.
+필드의 값이 완벽한 유니코드 자음과 모음 문자로 이루어지거나 숫자와 dash(-), underscore(_)로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=), 그리고 아스키 dash (`-`) 아스키 underscores (`_`) 입니다. 
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다.
+
+```php
+'username' => 'alpha_dash:ascii',
+```
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
 #### alpha_num
+
+The field under validation must be entirely Unicode alpha-numeric characters contained in [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), and [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=).
+
+필드의 값이 완벽한 유니코드 자음과 모음 문자로 이루어지거나 숫자로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)에 해당하는 문자입니다. 
+
+To restrict this validation rule to characters in the ASCII range (`a-z` and `A-Z`), you may provide the `ascii` option to the validation rule:
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다. 
+
+```php
+'username' => 'alpha_num:ascii',
+```
 
 The field under validation must be entirely alpha-numeric characters.
 
@@ -1878,11 +1912,45 @@ The field under validation must be a multiple of _value_.
 
 검증 중인 필드는 _value_ 의 배수여야 합니다.
 
-> **Warning**
-> The [`bcmath` PHP extension](https://www.php.net/manual/en/book.bc.php) is required in order to use the `multiple_of` rule.
+<a name="rule-missing"></a>
+#### missing
+#### missing
 
-> **Warning**
-> `multiple_of` 규칙을 사용하려면 [`bcmath` PHP 확장 프로그램](https://www.php.net/manual/en/book.bc.php) 이 필요합니다.
+The field under validation must not be present in the input data.
+
+입력 데이터안에 지정한 필드가 존재하지 않아야 합니다.
+
+<a name="rule-missing-if"></a>
+#### missing_if:_anotherfield_,_value_,...
+#### missing_if:_anotherfield_,_value_,...
+
+The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
+
+_특정필드_ 가 특정 _값_과 일치한다면 지정한 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-unless"></a>
+#### missing_unless:_anotherfield_,_value_
+#### missing_unless:_anotherfield_,_value_
+
+The field under validation must not be present unless the _anotherfield_ field is equal to any _value_.
+
+_특정필드_ 가 특정 _값_과 일치하지 않을 때 지정한 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
+#### missing_with:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ any of the other specified fields are present.
+                                                               
+_다른 필드들_이 존재한다면 지정한 필드가 존재하지 않아야 합니다.
+
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
+#### missing_with_all:_foo_,_bar_,...
+
+The field under validation must not be present _only if_ all of the other specified fields are present.
+ 
+_다른 필드들_이 모두 존재한다면 지정한 필드가 존재하지 않아야 합니다.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...

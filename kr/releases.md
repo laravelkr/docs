@@ -36,13 +36,13 @@ For all Laravel releases, bug fixes are provided for 18 months and security fixe
 
 모든 라라벨 릴리즈는 18개월의 버그 픽스와 2년동안의 보안 패치가 지원됩니다. Lumen 을 포함한 모든 추가 라이브러리의 경우 최신 메이저 릴리스에서만 버그 수정을 받습니다. 추가로 [라라벨이 지원하는](/docs/{{version}}/database#introduction) 데이터베이스 버전을 확인하세요.
 
-| Version | PHP (*)   | Release | Bug Fixes Until | Security Fixes Until |
-| --- |-----------| --- | --- | --- |
+| Version | PHP (*)   | Release             | Bug Fixes Until | Security Fixes Until |
+| --- |-----------|---------------------| --- | --- |
 | 6 (LTS) | 7.2 - 8.0 | September 3rd, 2019 | January 25th, 2022 | September 6th, 2022 |
-| 7 | 7.2 - 8.0 | March 3rd, 2020 | October 6th, 2020 | March 3rd, 2021 |
+| 7 | 7.2 - 8.0 | March 3rd, 2020     | October 6th, 2020 | March 3rd, 2021 |
 | 8 | 7.3 - 8.1 | September 8th, 2020 | July 26th, 2022 | January 24th, 2023 |
-| 9 | 8.0 - 8.2 | February 8th, 2022 | August 8th, 2023 | February 6th, 2024 |
-| 10 | 8.1 - 8.2 | February 7th, 2023 | August 6th, 2024 | February 4th, 2025 |
+| 9 | 8.0 - 8.2 | February 8th, 2022  | August 8th, 2023 | February 6th, 2024 |
+| 10 | 8.1 - 8.2 | February 14th, 2023  | August 6th, 2024 | February 4th, 2025 |
 
 | 버전 | PHP (*)   | 릴리즈          | 버그픽스 지원기간    | 보안 패치 지원기간   |
 | --- |-----------|--------------|--------------|--------------|
@@ -50,7 +50,7 @@ For all Laravel releases, bug fixes are provided for 18 months and security fixe
 | 7 | 7.2 - 8.0 | 2020년 3월 3일  | 2020년 10월 6일 | 2021년 3월 3일  |
 | 8 | 7.3 - 8.1 | 2020년 9월 8일  | 2022년 7월 26일 | 2023년 1월 24일 |
 | 9 | 8.0 - 8.2 | 2022년 2월 8일  | 2023년 8월 8일  | 2024년 2월 6일  |
-| 10 | 8.1 - 8.2 | 2023년 2월 7일 | 2024년 8월 6일  | 2025년 2월 4일  |
+| 10 | 8.1 - 8.2 | 2023년 2월 14일 | 2024년 8월 6일  | 2025년 2월 4일  |
 
 <div class="version-colors">
     <div class="end-of-life">

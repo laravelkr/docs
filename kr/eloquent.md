@@ -439,9 +439,9 @@ By default, all Eloquent models will use the default database connection that is
 ### Default Attribute Values
 ### 기본 속성 값
 
-By default, a newly instantiated model instance will not contain any attribute values. If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model:
+By default, a newly instantiated model instance will not contain any attribute values. If you would like to define the default values for some of your model's attributes, you may define an `$attributes` property on your model. Attribute values placed in the `$attributes` array should be in their raw, "storable" format as if they were just read from the database:
 
-기본적으로 새로 인스턴스화된 모델 인스턴스에는 속성 값이 포함되지 않습니다. 일부 모델 속성에 대한 기본값을 정의하려면 모델에 `$attributes` 속성을 정의할 수 있습니다.
+기본적으로 새로 인스턴스화된 모델 인스턴스에는 속성 값이 포함되지 않습니다. 일부 모델 속성에 대한 기본값을 정의하려면 모델에 `$attributes` 속성을 정의하면 됩니다. `$attributes` 배열에 지정한 값은 데이터베이스에서 읽어온 것과 같은 "저장 가능한" 원시값 형태여야 합니다.   
 
     <?php
 
@@ -457,6 +457,7 @@ By default, a newly instantiated model instance will not contain any attribute v
          * @var array
          */
         protected $attributes = [
+            'options' => '[]',
             'delayed' => false,
         ];
     }
@@ -1805,9 +1806,9 @@ The `is` and `isNot` methods are also available when using the `belongsTo`, `has
 > **Note**
 > Eloquent 이벤트를 클라이언트 측 애플리케이션에 직접 브로드캐스트하고 싶으십니까? 라라벨의 [모델 이벤트 브로드캐스트](/docs/{{version}}/broadcasting#model-broadcasting)을 확인하세요.
 
-Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleted`, `restoring`, `restored`, and `replicating`.
+Eloquent models dispatch several events, allowing you to hook into the following moments in a model's lifecycle: `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleting`, `forceDeleted`, `restoring`, `restored`, and `replicating`.
 
-Eloquent 모델은 여러 이벤트를 전달하여 모델 수명 주기의 `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleted`, `restoring`, `restored`, `replicating` 와 같은 순간에 연결할 수 있습니다.
+Eloquent 모델은 여러 이벤트를 전달하여 모델 수명 주기의 `retrieved`, `creating`, `created`, `updating`, `updated`, `saving`, `saved`, `deleting`, `deleted`, `trashed`, `forceDeleting`, `forceDeleted`, `restoring`, `restored`, `replicating` 와 같은 순간에 연결할 수 있습니다.
 
 The `retrieved` event will dispatch when an existing model is retrieved from the database. When a new model is saved for the first time, the `creating` and `created` events will dispatch. The `updating` / `updated` events will dispatch when an existing model is modified and the `save` method is called. The `saving` / `saved` events will dispatch when a model is created or updated - even if the model's attributes have not been changed. Event names ending with `-ing` are dispatched before any changes to the model are persisted, while events ending with `-ed` are dispatched after the changes to the model are persisted.
 
@@ -2083,5 +2084,5 @@ You may also "update", "delete", "soft delete", "restore", and "replicate" a giv
 주어진 모델을 아무런 이벤트도 발생시키지 않으면서 "수정", "삭제", "소프트 삭제", "복구", "복제"할 수 있습니다.
 
     $user->deleteQuietly();
-
+    $user->forceDeleteQuietly();
     $user->restoreQuietly();

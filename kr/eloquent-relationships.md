@@ -544,6 +544,18 @@ The first argument passed to the `hasOneThrough` method is the name of the final
 
 `hasOneThrough` 메서드의 첫번째 인자는 엑세스 하고자 하는 최종 모델의 이름이 됩니다. 두 번재 인자는 연결을 맺어주는 중간 모델의 이름입니다.
 
+Or, if the relevant relationships have already been defined on all of the models involved in the relationship, you may fluently define a "has-one-through" relationship by invoking the `through` method and supplying the names of those relationships. For example, if the `Mechanic` model has a `cars` relationship and the `Car` model has an `owner` relationship, you may define a "has-one-through" relationship connecting the mechanic and the owner like so:
+                                                      
+모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 단일 연관관계(has-one-through)"를 정의할 수 있습니다. 예를 들어 `Mechanic` 모델이 `Car` 모델과 `cars` 연관관계를 맺고 있고, `Car` 모델은 `owner` 연관관계를 가지고 있다면 "연결을 통한 단일 연관관계"는 다음과 같이 정의할 수 있습니다.   
+
+```php
+// String based syntax...
+return $this->through('cars')->has('owner');
+
+// Dynamic syntax...
+return $this->throughCars()->hasOwner();
+```
+
 <a name="has-one-through-key-conventions"></a>
 #### Key Conventions
 #### 키 컨벤션
@@ -569,6 +581,18 @@ Typical Eloquent foreign key conventions will be used when performing the relati
             );
         }
     }
+
+Or, as discussed earlier, if the relevant relationships have already been defined on all of the models involved in the relationship, you may fluently define a "has-one-through" relationship by invoking the `through` method and supplying the names of those relationships. This approach offers the advantage of reusing the key conventions already defined on the existing relationships:
+
+앞서 설명한대로, 모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 단일 연관관계(has-one-through)"를 정의할 수 있습니다. 이런 사용방식은 기존에 연관관계에 정의된 비지니스 규칙들을 그대로 사용할 수 있는 장점이 있습니다.
+
+```php
+// String based syntax...
+return $this->through('cars')->has('owner');
+
+// Dynamic syntax...
+return $this->throughCars()->hasOwner();
+```
 
 <a name="has-many-through"></a>
 ### Has Many Through
@@ -617,6 +641,18 @@ The first argument passed to the `hasManyThrough` method is the name of the fina
 
 `hasManyThrough` 메서드의 첫 번째 인자는 접근하고자 하는 최종 모델의 이름이고, 두 번째 인자는 중간 모델의 이름입니다.
 
+Or, if the relevant relationships have already been defined on all of the models involved in the relationship, you may fluently define a "has-many-through" relationship by invoking the `through` method and supplying the names of those relationships. For example, if the `Project` model has a `environments` relationship and the `Environment` model has a `deployments` relationship, you may define a "has-many-through" relationship connecting the project and the deployments like so:
+
+모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 다수를 가지는 연관관계(has-many-through)"를 정의할 수 있습니다. 예를 들어 `Project` 모델이 `Environment` 모델과 `environments` 연관관계를 맺고 있고, `Environment` 모델은 `deployments` 연관관계를 가지고 있다면 "연결을 통한 다수를 가지는 연관관계"는 다음과 같이 정의할 수 있습니다.   
+
+```php
+// String based syntax...
+return $this->through('environments')->has('deployments');
+
+// Dynamic syntax...
+return $this->throughEnvironments()->hasDeployments();
+```
+
 Though the `Deployment` model's table does not contain a `project_id` column, the `hasManyThrough` relation provides access to a project's deployments via `$project->deployments`. To retrieve these models, Eloquent inspects the `project_id` column on the intermediate `Environment` model's table. After finding the relevant environment IDs, they are used to query the `Deployment` model's table.
 
 `Deployment` 모델의 테이블에는 `project_id` 컬럼이 포함되어 있지 않지만 `hasManyThrough` 연관관계는 `$project->deployments`를 통해 프로젝트의 배포에 대해 접근이 가능하게 해줍니다. 이 모델들(배포 모델들)을 조회하기 위해서 엘로퀀트는 중간 모델 `Environment` 테이블의 `project_id` 컬럼을 확인합니다. 연관된 `Environment` 모델의 ID들을 찾은 다음에 `Deployment`(배포) 모델의 테이블을 쿼리하는 데 사용합니다.
@@ -643,6 +679,19 @@ Typical Eloquent foreign key conventions will be used when performing the relati
             );
         }
     }
+
+Or, as discussed earlier, if the relevant relationships have already been defined on all of the models involved in the relationship, you may fluently define a "has-many-through" relationship by invoking the `through` method and supplying the names of those relationships. This approach offers the advantage of reusing the key conventions already defined on the existing relationships:
+
+앞서 설명한대로, 모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 연결을 통한 다수를 가지는 연관관계(has-one-through)"를 정의할 수 있습니다. 이런 사용방식은 기존에 연관관계에 정의된 비지니스 규칙들을 그대로 사용할 수 있는 장점이 있습니다.
+
+
+```php
+// String based syntax...
+return $this->through('environments')->has('deployments');
+
+// Dynamic syntax...
+return $this->throughEnvironments()->hasDeployments();
+```
 
 <a name="many-to-many"></a>
 ## Many To Many Relationships
@@ -2307,6 +2356,12 @@ If you would like to `save` your model and all of its associated relationships, 
     $post->comments[0]->author->name = 'Author Name';
 
     $post->push();
+
+The `pushQuietly` method may be used to save a model and its associated relationships without raising any events:
+
+`pushQuietly` 메서드는 이벤트를 발생시키지 않고 모델과 관련된 모든 연관관계를 저장합니다.
+
+    $post->pushQuietly();
 
 <a name="the-create-method"></a>
 ### The `create` Method

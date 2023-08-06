@@ -1179,10 +1179,11 @@ When designing a mailable's template, it is convenient to quickly preview the re
     });
 
 > **Warning**
-> [Inline attachments](#inline-attachments) will not be rendered when a mailable is previewed in your browser. To preview these mailables, you should send them to an email testing application such as [MailHog](https://github.com/mailhog/MailHog) or [HELO](https://usehelo.com).
+> **주의**
 
-> **Warning**
-> [인라인 첨부 파일(Inline attachments)](#inline-attachments)은 브라우저에서 메일링을 미리 볼 때 렌더링되지 않습니다. 이러한 메일링을 미리 보려면 [MailHog](https://github.com/mailhog/MailHog) 또는 [HELO](https://usehelo.com)와 같은 이메일 테스트 애플리케이션으로 보내야 합니다.
+> [Inline attachments](#inline-attachments) will not be rendered when a mailable is previewed in your browser. To preview these mailables, you should send them to an email testing application such as [Mailpit](https://github.com/axllent/mailpit) or [HELO](https://usehelo.com).
+
+> [인라인 첨부 파일(Inline attachments)](#inline-attachments)은 브라우저에서 메일링을 미리 볼 때 렌더링되지 않습니다. 이러한 메일링을 미리 보려면 [Mailpit](https://github.com/axllent/mailpit), [HELO](https://usehelo.com)와 같은 이메일 테스트 애플리케이션으로 보내야 합니다.
 
 <a name="localizing-mailables"></a>
 ## Localizing Mailables
@@ -1298,16 +1299,16 @@ Instead of sending your emails, the `log` mail driver will write all email messa
 이메일을 발송하는 대신, `log` 메일 드라이버는 모든 이메일 메시지를 확인하기 위해서 로그파일에 기록합니다. 일반적으로 이 드라이버는 로컬 개발환경 중에만 사용됩니다. 환경별 애플리케이션 구성에 대한 자세한 내용은 [구성 문서](/docs/{{version}}/configuration#environment-configuration)를 확인하세요.
 
 <a name="mailtrap"></a>
-#### HELO / Mailtrap / MailHog
-#### HELO / Mailtrap / MailHog
+#### HELO / Mailtrap / Mailpit
+#### HELO / Mailtrap / Mailpit
 
 Alternatively, you may use a service like [HELO](https://usehelo.com) or [Mailtrap](https://mailtrap.io) and the `smtp` driver to send your email messages to a "dummy" mailbox where you may view them in a true email client. This approach has the benefit of allowing you to actually inspect the final emails in Mailtrap's message viewer.
 
 로그 드라이버 대신에 실제 이메일 클라이언트에서 [HELO](https://usehelo.com) 또는 [Mailtrap](https://mailtrap.io) 및 `smtp` 드라이버와 같은 서비스를 사용하여 이메일 메시지를 볼 수 있는 "더미(dummy)" 사서함으로 보낼 수 있습니다. 이 방법을 사용하면 Mailtrap의 메시지 뷰어에서 최종 이메일을 실제로 확할인 수 있다는 장점이 있습니다.
 
-If you are using [Laravel Sail](/docs/{{version}}/sail), you may preview your messages using [MailHog](https://github.com/mailhog/MailHog). When Sail is running, you may access the MailHog interface at: `http://localhost:8025`.
+If you are using [Laravel Sail](/docs/{{version}}/sail), you may preview your messages using [Mailpit](https://github.com/axllent/mailpit). When Sail is running, you may access the Mailpit interface at: `http://localhost:8025`.
 
-[라라벨 세일(Sail)](/docs/{{version}}/sail)을 사용하는 경우 [MailHog](https://github.com/mailhog/MailHog) 를 사용하여 메시지를 미리 볼 수 있습니다. Sail이 실행 중일 때 `http://localhost:8025`에서 MailHog 인터페이스에 액세스할 수 있습니다.
+[라라벨 세일(Sail)](/docs/{{version}}/sail)을 사용하는 경우 [Mailpit](https://github.com/axllent/mailpit) 를 사용하여 메시지를 미리 볼 수 있습니다. Sail이 실행 중일 때 `http://localhost:8025`에서 MailHog 인터페이스에 액세스할 수 있습니다.
 
 <a name="using-a-global-to-address"></a>
 #### Using A Global `to` Address

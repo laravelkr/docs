@@ -1935,7 +1935,7 @@ If you would like to offer trial periods without collecting the user's payment m
     ]);
 
 > **Warning**
-> Be sure to add a [date cast](/docs/{{version}}/eloquent-mutators##date-casting) for the `trial_ends_at` attribute within your billable model's class definition.
+> Be sure to add a [date cast](/docs/{{version}}/eloquent-mutators#date-casting) for the `trial_ends_at` attribute within your billable model's class definition.
 
 > **Warning**
 > 청구 가능한 모델의 클래스 정의 내에서 `trial_ends_at` 속성에 대해 [날짜 캐스트](/docs/{{version}}/eloquent-mutators##date-casting)를 추가해야 합니다.
@@ -2021,8 +2021,9 @@ To ensure your application can handle Stripe webhooks, be sure to configure the 
 - `customer.subscription.deleted`
 - `customer.updated`
 - `customer.deleted`
-- - `invoice.payment_succeeded`
+- `payment_method.automatically_updated`
 - `invoice.payment_action_required`
+- `invoice.payment_succeeded`
 
 For convenience, Cashier includes a `cashier:webhook` Artisan command. This command will create a webhook in Stripe that listens to all of the events required by Cashier:
 

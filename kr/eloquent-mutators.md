@@ -555,6 +555,26 @@ Once you have defined the cast on your model, the specified attribute will be au
         $server->save();
     }
 
+<a name="casting-arrays-of-enums"></a>
+#### Casting Arrays Of Enums
+#### Enum 의 값 배열 캐스팅
+
+Sometimes you may need your model to store an array of enum values within a single column. To accomplish this, you may utilize the `AsEnumArrayObject` or `AsEnumCollection` casts provided by Laravel:
+
+모델에서 하나의 컬럼에 Enum 의 값 배열을 저장하고자 하는 경우에는 라라벨에서 제공하는 `AsEnumArrayObject`, `AsEnumCollection` 캐스팅을 활용할 수 있습니다.
+
+ use App\Enums\ServerStatus;
+    use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'statuses' => AsEnumCollection::class.':'.ServerStatus::class,
+    ];
+
 <a name="encrypted-casting"></a>
 ### Encrypted Casting
 

@@ -891,9 +891,25 @@ Using the `Route::fallback` method, you may define a route that will be executed
 ### Defining Rate Limiters
 ### 접속 속도 리미터 정의하기
 
-Laravel includes powerful and customizable rate limiting services that you may utilize to restrict the amount of traffic for a given route or group of routes. To get started, you should define rate limiter configurations that meet your application's needs. Typically, this should be done within the `configureRateLimiting` method of your application's `App\Providers\RouteServiceProvider` class.
+Laravel includes powerful and customizable rate limiting services that you may utilize to restrict the amount of traffic for a given route or group of routes. To get started, you should define rate limiter configurations that meet your application's needs. Typically, this should be done within the `configureRateLimiting` method of your application's `App\Providers\RouteServiceProvider` class, which already includes a rate limiter definition that is applied to the routes in your application's `routes/api.php` file:
 
-라라벨에는 주어진 라우트 또는 라우트 그룹에 대한 트래픽 Rate를 제한하는 강력하고 쉽게 커스터마이징이 가능한 접속 속도 제한 기능(Rate Limit)을 제공합니다. 이 기능을 사용하려면 먼저 애플리케이션의 요구사항을 정의한 사용량 제한 설정을 정의해야합니다. 일반적으로 이 설정은 `App\Providers\RouteServiceProvider` 클래스의 `configureRateLimiting` 메서드에서 정의합니다.
+라라벨에는 주어진 라우트 또는 라우트 그룹에 대한 트래픽 Rate를 제한하는 강력하고 쉽게 커스터마이징이 가능한 접속 속도 제한 기능(Rate Limit)을 제공합니다. 이 기능을 사용하려면 먼저 애플리케이션의 요구사항을 정의한 사용량 제한 설정을 정의해야합니다. 일반적으로 이 설정은 `App\Providers\RouteServiceProvider` 클래스의 `configureRateLimiting` 메서드에서 정의합니다. 여기에는 `routes/api.php` 파일에 적용되는 접속 속도 제한기가 이미 정의되어 있습니다.
+
+```php
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+/**
+ * Configure the rate limiters for the application.
+ */
+protected function configureRateLimiting(): void
+{
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+}
+```
 
 Rate limiters are defined using the `RateLimiter` facade's `for` method. The `for` method accepts a rate limiter name and a closure that returns the limit configuration that should apply to routes that are assigned to the rate limiter. Limit configuration are instances of the `Illuminate\Cache\RateLimiting\Limit` class. This class contains helpful "builder" methods so that you can quickly define your limit. The rate limiter name may be any string you wish:
 

@@ -254,15 +254,15 @@ Horizon의 새로운 메이저 버전으로 업그레이드할 때, [업그레�
 php artisan horizon:publish
 ```
 
-To keep the assets up-to-date and avoid issues in future updates, you may add the `horizon:publish` command to the `post-update-cmd` scripts in your application's `composer.json` file:
+To keep the assets up-to-date and avoid issues in future updates, you may add the `vendor:publish --tag=laravel-assets` command to the `post-update-cmd` scripts in your application's `composer.json` file:
 
-자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `horizon:publish` 명령을 추가할 수 있습니다.
+자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `vendor:publish --tag=laravel-assets` 명령을 추가할 수 있습니다.
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan horizon:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }

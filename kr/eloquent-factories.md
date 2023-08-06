@@ -340,6 +340,19 @@ Within a sequence closure, you may access the `$index` or `$count` properties on
                     ->sequence(fn ($sequence) => ['name' => 'Name '.$sequence->index])
                     ->create();
 
+For convenience, sequences may also be applied using the `sequence` method, which simply invokes the `state` method internally. The `sequence` method accepts a closure or arrays of sequenced attributes:
+
+보다 편리한 방법으로, `sequence` 메서드를 사용하여 시퀀스를 적용할 수도 있습니다. 이 메서드는 내부적으로 `state` 메서드를 호출합니다. `sequence` 메서드는 클로저나 시퀀스 속성배열을 인자로 전달 받습니다.  
+
+    $users = User::factory()
+                    ->count(2)
+                    ->sequence(
+                        ['name' => 'First User'],
+                        ['name' => 'Second User'],
+                    )
+                    ->create();
+
+
 <a name="factory-relationships"></a>
 ## Factory Relationships
 ## 팩토리 관계

@@ -68,6 +68,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 - [Arr::set](#method-array-set)
 - [Arr::shuffle](#method-array-shuffle)
 - [Arr::sort](#method-array-sort)
+- [Arr::sortDesc](#method-array-sort-desc)
 - [Arr::sortRecursive](#method-array-sort-recursive)
 - [Arr::toCssClasses](#method-array-to-css-classes)
 - [Arr::undot](#method-array-undot)
@@ -921,7 +922,7 @@ The `Arr::shuffle` method randomly shuffles the items in the array:
 
 The `Arr::sort` method sorts an array by its values:
 
-`Arr::sort` 메소드는 값을 기반으로 정렬을 수행합니다.
+`Arr::sort` 메소드는 배열값을 정렬합니다.
 
     use Illuminate\Support\Arr;
 
@@ -931,7 +932,7 @@ The `Arr::sort` method sorts an array by its values:
 
     // ['Chair', 'Desk', 'Table']
 
-You may also sort the array by the results of the given Closure:
+You may also sort the array by the results of a given closure:
 
 또한, 주어진 클로저의 결괏값으로 배열을 정렬할 수 있습니다.
 
@@ -952,6 +953,46 @@ You may also sort the array by the results of the given Closure:
             ['name' => 'Chair'],
             ['name' => 'Desk'],
             ['name' => 'Table'],
+        ]
+    */
+
+<a name="method-array-sort-desc"></a>
+#### `Arr::sortDesc()` {.collection-method}
+#### `Arr::sortDesc()` {.collection-method}
+
+The `Arr::sortDesc` method sorts an array in descending order by its values:
+
+`Arr::sortDesc` 메소드는 배열값을 내림차순 정렬합니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = ['Desk', 'Table', 'Chair'];
+
+    $sorted = Arr::sortDesc($array);
+
+    // ['Table', 'Desk', 'Chair']
+
+You may also sort the array by the results of a given closure:
+
+또한, 주어진 클로저의 결괏값으로 배열을 정렬할 수 있습니다.
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        ['name' => 'Desk'],
+        ['name' => 'Table'],
+        ['name' => 'Chair'],
+    ];
+
+    $sorted = array_values(Arr::sortDesc($array, function ($value) {
+        return $value['name'];
+    }));
+
+    /*
+        [
+            ['name' => 'Table'],
+            ['name' => 'Desk'],
+            ['name' => 'Chair'],
         ]
     */
 
@@ -2995,13 +3036,17 @@ The `mask` method masks a portion of a string with a repeated character, and may
 
     // tay***************
 
-If needed, you provide a negative number as the third argument to the `mask` method, which will instruct the method to begin masking at the given distance from the end of the string:
+If needed, you may provide negative numbers as the third or fourth argument to the `mask` method, which will instruct the method to begin masking at the given distance from the end of the string:
 
-세번째 인자로 음수를 사용하는 경우, 주어진 문자열의 끝에서부터 마스킹을 할 수 있습니다.
+`mask` 메서드의 세 번째 또는 네 번째 인수자를 음수 값으로 전달하여 문자열 끝에서 지정된 거리만큼 떨어진 지점부터 마스킹을 시작할 수 있습니다.
 
     $string = Str::of('taylor@example.com')->mask('*', -15, 3);
 
     // tay***@example.com
+
+    $string = Str::of('taylor@example.com')->mask('*', 4, -4);
+
+    // tayl**********.com
 
 <a name="method-fluent-str-match"></a>
 #### `match` {.collection-method}
@@ -4701,6 +4746,17 @@ The `value` function returns the value it is given. However, if you pass a closu
     });
 
     // false
+    
+Additional arguments may be passed to the `value` function. If the first argument is a closure then the additional parameters will be passed to the closure as arguments, otherwise they will be ignored:
+
+`value` 함수는 추가적인 인자도 전달 받을 수 있습니다. 첫번째 인자가 클로저인 경우에 두 번째 인자가 클로저로 전달되며 그렇지 않은 경우에는 무시됩니다. 
+
+    $result = value(function ($name) {
+        return $parameter;
+    }, 'Taylor');
+    
+    // 'Taylor'
+
 
 <a name="method-view"></a>
 #### `view()` {.collection-method}

@@ -394,9 +394,9 @@ When the `cache` function is called without any arguments, it returns an instanc
 ### Storing Tagged Cache Items
 ### 태그가 지정된 캐시 항목 저장
 
-Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. Items stored via tags may not be accessed without also providing the tags that were used to store the value. For example, let's access a tagged cache and `put` a value into the cache:
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` a value into the cache:
 
-캐시 태그를 사용하면 캐시의 관련 항목에 태그를 지정한 다음 지정된 태그가 할당 된 모든 캐시 된 값을 플러시 할 수 있습니다. 태그 이름의 정렬 된 배열을 전달하여 태그가 지정된 캐시에 액세스 할 수 있습니다. 태그를 통해 저장된 항목은 값을 저장하는 데 사용된 태그를 제공하지 않으면 액세스할 수 없습니다. 예를 들어, 태그가 지정된 캐시에 액세스하고 캐시의 `put`값에 액세스 해 보겠습니다.
+캐시 태그를 사용하면 캐시의 관련 항목에 태그를 지정한 다음 지정된 태그가 할당 된 모든 캐시 된 값을 플러시 할 수 있습니다. 태그 이름의 정렬 된 배열을 전달하여 태그가 지정된 캐시에 액세스 할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 액세스하고 캐시의 `put`값에 액세스 해 보겠습니다.
 
     Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
 
@@ -406,9 +406,9 @@ Cache tags allow you to tag related items in the cache and then flush all cached
 ### Accessing Tagged Cache Items
 ### 태그가 지정된 캐시 항목 액세스
 
-To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
+Items stored via tags may not be accessed without also providing the tags that were used to store the value. To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
 
-태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
+태그를 통해 저장된 항목은 값을 저장하는 데 사용된 태그를 제공하지 않으면 액세스할 수 없습니다. 태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
 
     $john = Cache::tags(['people', 'artists'])->get('John');
 
@@ -480,8 +480,8 @@ The `get` method also accepts a closure. After the closure is executed, Laravel 
 
 `get` 메소드는 Closure를 사용할 수 있습니다. Closure가 실행 된 후 라라벨은 자동으로 잠금장치(lock)을 해제합니다.
 
-    Cache::lock('foo')->get(function () {
-        // Lock acquired indefinitely and automatically released...
+    Cache::lock('foo', 10)->get(function () {
+        // Lock acquired for 10 seconds and automatically released...
     });
 
 If the lock is not available at the moment you request it, you may instruct Laravel to wait for a specified number of seconds. If the lock can not be acquired within the specified time limit, an `Illuminate\Contracts\Cache\LockTimeoutException` will be thrown:

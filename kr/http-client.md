@@ -69,15 +69,13 @@ The `get` method returns an instance of `Illuminate\Http\Client\Response`, which
 `get` 메소드는 응답을 검사하는 데 사용할 수 있는 다양한 메소드를 제공하는 `Illuminate\Http\Client\Response`의 인스턴스를 반환합니다.
 
     $response->body() : string;
-    $response->json($key = null) : array|mixed;
+    $response->json($key = null, $default = null) : array|mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
     $response->status() : int;
-    $response->ok() : bool;
     $response->successful() : bool;
     $response->redirect(): bool;
     $response->failed() : bool;
-    $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
     $response->headers() : array;
@@ -87,6 +85,44 @@ The `Illuminate\Http\Client\Response` object also implements the PHP `ArrayAcces
 `Illuminate\Http\Client\Response` 객체는 PHP `ArrayAccess` 인터페이스도 구현하고 있기 때문에 응답에서 JSON 응답 데이터에 바로 접근할 수 있습니다.
 
     return Http::get('http://example.com/users/1')['name'];
+
+In addition to the response methods listed above, the following methods may be used to determine if the response has a given status code:
+
+위의 목록에 표시된 메서드 이외에도 다음의 메서드를 사용하여 응답에 주어진 상태코드가 있는지 확인할 수 있습니다. 
+
+    $response->ok() : bool;                  // 200 OK
+    $response->created() : bool;             // 201 Created
+    $response->accepted() : bool;            // 202 Accepted
+    $response->noContent() : bool;           // 204 No Content
+    $response->movedPermanently() : bool;    // 301 Moved Permanently
+    $response->found() : bool;               // 302 Found
+    $response->badRequest() : bool;          // 400 Bad Request
+    $response->unauthorized() : bool;        // 401 Unauthorized
+    $response->paymentRequired() : bool;     // 402 Payment Required
+    $response->forbidden() : bool;           // 403 Forbidden
+    $response->notFound() : bool;            // 404 Not Found
+    $response->requestTimeout() : bool;      // 408 Request Timeout
+    $response->conflict() : bool;            // 409 Conflict
+    $response->unprocessableEntity() : bool; // 422 Unprocessable Entity
+    $response->tooManyRequests() : bool;     // 429 Too Many Requests
+    $response->serverError() : bool;         // 500 Internal Server Error
+
+<a name="uri-templates"></a>
+#### URI Templates
+#### URI Templates
+
+The HTTP client also allows you to construct request URLs using the [URI template specification](https://www.rfc-editor.org/rfc/rfc6570). To define the URL parameters that can be expanded by your URI template, you may use the `withUrlParameters` method:
+
+HTTP 클라이언트를 사용하면 [URI 템플릿 스펙](https://www.rfc-editor.org/rfc/rfc6570)을 사용해 HTTP 요청 URL을 생성할 수도 있습니다. URI 템플릿으로 확장할 수 있는 URL 파라미터를 정의하려면 다음과 같이 할 수 있습니다. 
+
+```php
+Http::withUrlParameters([
+    'endpoint' => 'https://laravel.com',
+    'page' => 'docs',
+    'version' => '9.x',
+    'topic' => 'validation',
+])->get('{+endpoint}/{page}/{version}/{topic}');
+```
 
 <a name="dumping-requests"></a>
 #### Dumping Requests
@@ -346,6 +382,14 @@ If you have a response instance and would like to throw an instance of `Illumina
     // Throw an exception if an error occurred and the given closure resolves to false...
     // 오류가 발생하고 클로저가 false를 반환하는 경우 예외를 던진다...
     $response->throwUnless(fn ($response) => false);
+
+    // Throw an exception if the response has a specific status code...
+    // 응답이 지정된 상태코드를 가진다면 예외를 던진다...
+    $response->throwIfStatus(403);
+
+    // Throw an exception unless the response has a specific status code...
+    // 응답이 지정된 상태코드가 아니라면 예외를 던진다...
+    $response->throwUnlessStatus(200);
 
     return $response['user']['id'];
 

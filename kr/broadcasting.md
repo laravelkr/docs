@@ -100,9 +100,9 @@ The core concepts behind broadcasting are simple: clients connect to named chann
 #### Supported Drivers
 #### 지원되는 드라이버
 
-By default, Laravel includes two server-side broadcasting drivers for you to choose from: [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.io). However, community driven packages such as [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) and [soketi](https://docs.soketi.app/) provide additional broadcasting drivers that do not require commercial broadcasting providers.
+By default, Laravel includes two server-side broadcasting drivers for you to choose from: [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.com). However, community driven packages such as [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) and [soketi](https://docs.soketi.app/) provide additional broadcasting drivers that do not require commercial broadcasting providers.
 
-기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
+기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
 
 > **Note** 
 > Before diving into event broadcasting, make sure you have read Laravel's documentation on [events and listeners](/docs/{{version}}/events).
@@ -197,9 +197,9 @@ The [laravel-websockets](https://github.com/beyondcode/laravel-websockets) and [
 ### Ably
 ### Ably
 
-If you plan to broadcast your events using [Ably](https://ably.io), you should install the Ably PHP SDK using the Composer package manager:
+If you plan to broadcast your events using [Ably](https://ably.com), you should install the Ably PHP SDK using the Composer package manager:
 
-[Ably](https://ably.io)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
+[Ably](https://ably.com)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
 
 ```shell
 composer require ably/ably-php
@@ -378,9 +378,9 @@ npm run dev
 ## Concept Overview
 ## 컨셉 개요
 
-Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.io) drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#client-side-installation) JavaScript package.
+Laravel's event broadcasting allows you to broadcast your server-side Laravel events to your client-side JavaScript application using a driver-based approach to WebSockets. Currently, Laravel ships with [Pusher Channels](https://pusher.com/channels) and [Ably](https://ably.com) drivers. The events may be easily consumed on the client-side using the [Laravel Echo](#client-side-installation) JavaScript package.
 
-라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
+라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
 
 Events are broadcast over "channels", which may be specified as public or private. Any visitor to your application may subscribe to a public channel without any authentication or authorization; however, in order to subscribe to a private channel, a user must be authenticated and authorized to listen on that channel.
 

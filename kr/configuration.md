@@ -292,6 +292,14 @@ You should typically run the `php artisan config:cache` command as part of your 
 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
 
+The `config:clear` command may be used to purge the cached configuration:
+
+`config:clear` 명령어는 캐싱된 설정정보를 제거합니다.
+
+```shell
+php artisan config:clear
+```
+
 > **Warning**
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
 

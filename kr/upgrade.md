@@ -562,6 +562,13 @@ Storage::extend('dropbox', function ($app, $config) {
 });
 ```
 
+#### SFTP Private-Public Key Passphrase
+#### SFTP 개인-공개키 패스프레이즈
+
+If your application is using Flysystem's SFTP adapter and private-public key authentication, the `password` configuration item that is used to decrypt the private key should be renamed to `passphrase`.
+
+애플리케이션에서 SFTP 어댑터와 개인-공개키 인증을 사용하는 경우, 개인키를 해독하는데 사용하는 비밀번호 설정정보인 `password` 를 `passphrase` 로 이름을 변경해야합니다. 
+
 ### Helpers
 ### 헬퍼함수
 

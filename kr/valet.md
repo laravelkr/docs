@@ -170,7 +170,7 @@ Once this file has been created, you may simply execute the `valet use` command 
 #### Database
 #### 데이터베이스
 
-If your application needs a database, check out [DBngin](https://dbngin.com). DBngin provides a free, all-in-one database management tool that includes MySQL, PostgreSQL, and Redis. After DBngin has been installed, you can connect to your database at `127.0.0.1` using the `root` username and an empty string for the password.
+If your application needs a database, check out [DBngin](https://dbngin.com), which provides a free, all-in-one database management tool that includes MySQL, PostgreSQL, and Redis. After DBngin has been installed, you can connect to your database at `127.0.0.1` using the `root` username and an empty string for the password.
 
 애플리케이션에 데이터베이스가 필요한 경우 [DBngin](https://dbngin.com)을 확인하세요. DBngin은 MySQL, PostgreSQL 및 Redis를 포함하는 무료 올인원 데이터베이스 관리 도구를 제공합니다. DBngin을 설치한 후 `root` 사용자 이름과 비밀번호에 빈 문자열을 사용하여 `127.0.0.1`의 데이터베이스에 연결할 수 있습니다.
 

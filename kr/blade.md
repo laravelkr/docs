@@ -411,9 +411,9 @@ You may determine if a template inheritance section has content using the `@hasS
 @endif
 ```
 
-You may use the `sectionMissing` directive to determine if a section does not have content:
+You may use the `@sectionMissing` directive to determine if a section does not have content:
 
-섹션에 콘텐츠가 없는지 확인하려면 `sectionMissing` 지시문을 사용할 수 있습니다.
+섹션에 콘텐츠가 없는지 확인하려면 `@sectionMissing` 지시문을 사용할 수 있습니다.
 
 ```blade
 @sectionMissing('navigation')
@@ -578,8 +578,8 @@ The `$loop` variable also contains a variety of other useful properties:
 | `$loop->parent`    | 반복문이 중첩된 경우 부모의 루프 변수. |
 
 <a name="conditional-classes"></a>
-### Conditional Classes
-### 조건부 클래스
+### Conditional Classes & Styles
+### 조건부 클래스 & 스타일
 
 The `@class` directive conditionally compiles a CSS class string. The directive accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
 
@@ -2201,6 +2201,31 @@ return Blade::render(
     ['name' => 'Julian Bashir'],
     deleteCachedView: true
 );
+```
+
+The `fragmentIf` method allows you to conditionally return a fragment of a view based on a given condition. Otherwise, the entire view will be returned:
+
+`fragmentIf` 메서드를 사용하면 조건에 따라서 뷰 조각을 반환합니다. 조건을 만족하지 않는다면 전체 뷰를 반환합니다. 
+
+```php
+return view('dashboard', ['users' => $users])
+    ->fragmentIf($request->hasHeader('HX-Request'), 'user-list');
+```
+
+The `fragments` and `fragmentsIf` methods allow you to return multiple view fragments in the response. The fragments will be concatenated together:
+
+`fragments`, `fragmentsIf` 메서드를 사용하면 응답에서 여러 개의 뷰 조각을 반환할 수 있습니다. 조각은 서로 이어서 반환됩니다.
+
+
+```php
+view('dashboard', ['users' => $users])
+    ->fragments(['user-list', 'comment-list']);
+
+view('dashboard', ['users' => $users])
+    ->fragmentsIf(
+        $request->hasHeader('HX-Request'),
+        ['user-list', 'comment-list']
+    );
 ```
 
 <a name="extending-blade"></a>

@@ -13,8 +13,8 @@
 - [시작하기](#getting-started)
   - [Generating Tests](#generating-tests)
   - [테스트 클래스 생성하기](#generating-tests)
-  - [Database Migrations](#migrations)
-  - [데이터베이스 마이그레이션](#migrations)
+  - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
+  - [개별 테스트후 데이터베이스 리셋하기](#resetting-the-database-after-each-test)
   - [Running Tests](#running-tests)
   - [테스트 실행하기](#running-tests)
   - [Environment Handling](#environment-handling)
@@ -225,13 +225,21 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 php artisan dusk:make LoginTest
 ```
 
-<a name="migrations"></a>
-### Database Migrations
-### 데이터베이스 마이그레이션
+<a name="resetting-the-database-after-each-test"></a>
+### Resetting The Database After Each Test
+### 개별 테스트후 데이터베이스 리셋하기
 
-Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase `trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, use the `DatabaseMigrations` trait, which re-migrates the database for each test:
+Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase` trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, you have two options: the `DatabaseMigrations` trait and the `DatabaseTruncation` trait.
 
-작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, 각 테스트에 대해 데이터베이스를 다시 마이그레이션하는 `DatabaseMigrations` 특성-trait을 사용하십시오.
+작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, `DatabaseMigrations`,  `DatabaseTruncation` 트레이트-trait을 사용하십시오.
+
+<a name="reset-migrations"></a>
+#### Using Database Migrations
+
+The `DatabaseMigrations` trait will run your database migrations before each test. However, dropping and re-creating your database tables for each test is typically slower than truncating the tables:
+
+`DatabaseMigrations` 트레이트-trait는 각 테스트가 수행되기 전에 데이터베이스 마이그레이션을 실행합니다. 그렇지만 각 테스트별로 데이터베이스 테이블을 삭제하고 다시 생성하는 동작은 일반적인 테이블을 비우는 것보다 느립니다.
+
 
     <?php
 
@@ -252,6 +260,70 @@ Most of the tests you write will interact with pages that retrieve data from you
 
 > **Warning**
 > Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
+
+<a name="reset-truncation"></a>
+#### Using Database Truncation
+#### 데이터베이스 비우기
+
+Before using the `DatabaseTruncation` trait, you must install the `doctrine/dbal` package using the Composer package manager:
+
+`DatabaseTruncation` 트레이트-trait를 사용하려면, 먼저 컴포저 패키지 매니저를 사용하여 `doctrine/dbal`을 설치해야합니다.  
+
+```shell
+composer require --dev doctrine/dbal
+```
+
+The `DatabaseTruncation` trait will migrate your database on the first test in order to ensure your database tables have been properly created. However, on subsequent tests, the database's tables will simply be truncated - providing a speed boost over re-running all of your database migrations:
+
+`DatabaseTruncation` 트레이트-trait는 첫 번째 테스트가 수행될 때 데이터베이스 테이블이 제대로 생성되었는지 확인하기 위해서 데이터베이스 마이그레이션 작업을 실행합니다. 이후에 테스트가 실행될 때에는 데이터베이스의 모든 테이블을 삭제하고 다시 마이그레이션 하는 것보다 비우기만 하는 것이 더 빠릅니다.
+
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use App\Models\User;
+    use Illuminate\Foundation\Testing\DatabaseTruncation;
+    use Laravel\Dusk\Chrome;
+    use Tests\DuskTestCase;
+
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseTruncation;
+    }
+
+By default, this trait will truncate all tables except the `migrations` table. If you would like to customize the tables that should be truncated, you may define a `$tablesToTruncate` property on your test class:
+
+기본적으로 이 트레이트-trait는 `migrations` 테이블을 제외한 모든 테이블을 비웁니다. 테이블을 비우기 작업의 대상에 포함시켜야 한다면 테스트 클래스의 `$tablesToTruncate` 속성을 정의하면 됩니다. 
+
+    /**
+     * Indicates which tables should be truncated.
+     *
+     * @var array
+     */
+    protected $tablesToTruncate = ['users'];
+
+Alternatively, you may define an `$exceptTables` property on your test class to specify which tables should be excluded from truncation:
+
+다른 방법으로는, 비우기 작업에서 제외되어야 하는 테이블을 추가하고 싶다면 테스트 클래스의 `$exceptTables` 속성을 정의하면 됩니다.
+
+    /**
+     * Indicates which tables should be excluded from truncation.
+     *
+     * @var array
+     */
+    protected $exceptTables = ['users'];
+
+To specify the database connections that should have their tables truncated, you may define a `$connectionsToTruncate` property on your test class:
+
+테이블을 비우는데 사용하는 데이터베이스 커넥션을 별도로 지정하고 싶다면 테스트 클래스의 `$connectionsToTruncate` 속성을 정의하면 됩니다. 
+
+    /**
+     * Indicates which connections should have their tables truncated.
+     *
+     * @var array
+     */
+    protected $connectionsToTruncate = ['mysql'];
 
 <a name="running-tests"></a>
 ### Running Tests

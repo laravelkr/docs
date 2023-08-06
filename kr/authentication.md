@@ -857,8 +857,17 @@ Once your custom authentication driver has been defined, you may configure it as
         ],
     ],
 
+Finally, you may reference the guard when assigning the authentication middleware to a route:
+
+마지막으로, 라우트에 인증 미들웨어를 할당할 때는 다음과 같이 가드를 참조할 수 있습니다. 
+
+    Route::middleware('auth:api')->group(function () {
+        // ...
+    }
+
+
 <a name="adding-custom-user-providers"></a>
-## Adding Custom User Providers
+  ## Adding Custom User Providers
 ## 사용자 정의 User 프로바이더 추가하기
 
 If you are not using a traditional relational database to store your users, you will need to extend Laravel with your own authentication user provider. We will use the `provider` method on the `Auth` facade to define a custom user provider. The user provider resolver should return an implementation of `Illuminate\Contracts\Auth\UserProvider`:

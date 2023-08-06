@@ -31,6 +31,8 @@
     - [응답-Response Assertions](#response-assertions)
     - [Authentication Assertions](#authentication-assertions)
     - [인증 Assertions](#authentication-assertions)
+    - [Validation Assertions](#validation-assertions)
+    - [유효성 검증 Assertions](#validation-assertions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -762,6 +764,8 @@ Laravel's `Illuminate\Testing\TestResponse` class provides a variety of custom a
 - [assertJson](#assert-json)
 - [assertJsonCount](#assert-json-count)
 - [assertJsonFragment](#assert-json-fragment)
+- [assertJsonIsArray](#assert-json-is-array)
+- [assertJsonIsObject](#assert-json-is-object)
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
@@ -973,6 +977,26 @@ Assert that the response contains the given JSON data anywhere in the response:
     });
 
     $response->assertJsonFragment(['name' => 'Taylor Otwell']);
+
+<a name="assert-json-is-array"></a>
+#### assertJsonIsArray
+#### assertJsonIsArray
+
+Assert that the response JSON is an array:
+
+JSON 응답 데이터가 배열인지 확인
+
+    $response->assertJsonIsArray();
+
+<a name="assert-json-is-object"></a>
+#### assertJsonIsObject
+#### assertJsonIsObject
+
+Assert that the response JSON is an object:
+
+JSON 응답 데이터가 객체인지 확인
+
+    $response->assertJsonIsObject();
 
 <a name="assert-json-missing"></a>
 #### assertJsonMissing
@@ -1612,3 +1636,45 @@ Assert that a specific user is authenticated:
 특정 사용자가 인증되었는지 확인:
 
     $this->assertAuthenticatedAs($user, $guard = null);
+
+<a name="validation-assertions"></a>
+## Validation Assertions
+## 유효성 검증 Assertions
+
+Laravel provides two primary validation related assertions that you may use to ensure the data provided in your request was either valid or invalid.
+
+라라벨은 요청에 포함되어 있는 데이터가 유효한지 또는 유효하지 않은지 확인하는 유효성 검사를 위한 검증을 제공합니다.
+
+<a name="validation-assert-valid"></a>
+#### assertValid
+#### assertValid
+
+Assert that the response has no validation errors for the given keys. This method may be used for asserting against responses where the validation errors are returned as a JSON structure or where the validation errors have been flashed to the session:
+
+응답의 주어진 키 데이터가 유효성 검사 결과 오류가 없음을 확인합니다. 이 메서드는 유효성 검사 오류가 JSON 구조로 반환되거나 유효성 검사 오류가 세션에 저장된 응답인 경우에도 사용할 수 있습니다.
+
+
+    // Assert that no validation errors are present...
+    $response->assertValid();
+
+    // Assert that the given keys do not have validation errors...
+    $response->assertValid(['name', 'email']);
+
+<a name="validation-assert-invalid"></a>
+#### assertInvalid
+#### assertInvalid
+
+Assert that the response has validation errors for the given keys. This method may be used for asserting against responses where the validation errors are returned as a JSON structure or where the validation errors have been flashed to the session:
+
+응답의 주어진 키 데이터가 유효성 검사 결과 오류가 있는지 확인합니다. 이 메서드는 유효성 검사 오류가 JSON 구조로 반환되거나 유효성 검사 오류가 세션에 저장된 응답인 경우에도 사용할 수 있습니다.
+
+    $response->assertInvalid(['name', 'email']);
+
+You may also assert that a given key has a particular validation error message. When doing so, you may provide the entire message or only a small portion of the message:
+
+지정된 키에 특정 유효성 검사 오류 메시지가 있는지 검증할 수도 있습니다. 이 경우 전체 메시지를 제공하거나 메시지의 일부만 확인할 수도 있습니다.
+
+    $response->assertInvalid([
+        'name' => 'The name field is required.',
+        'email' => 'valid email address',
+    ]);

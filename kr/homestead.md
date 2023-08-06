@@ -37,6 +37,8 @@
     - [PHP 버전](#php-versions)
     - [Connecting To Databases](#connecting-to-databases)
     - [데이터베이스에 연결](#connecting-to-databases)
+    - [Creating Databases](#creating-databases)
+    - [데이터베이스 생성](#creating-databases)
     - [Database Backups](#database-backups)
     - [데이터베이스 백업](#database-backups)
     - [Configuring Cron Schedules](#configuring-cron-schedules)
@@ -93,7 +95,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 
 - Ubuntu 20.04
 - Git
-- PHP 8.2
+- PHP 8.2 (Default)
 - PHP 8.1
 - PHP 8.0
 - PHP 7.4
@@ -109,7 +111,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - PostgreSQL 15
 - Composer
 - Docker
-- Node (With Yarn, Bower, Grunt, and Gulp)
+- Node 18 (With Yarn, Bower, Grunt, and Gulp)
 - Redis
 - Memcached
 - Beanstalkd
@@ -132,9 +134,11 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - Crystal & Lucky Framework
 - Elasticsearch
 - EventStoreDB
+- Flyway
 - Gearman
 - Go
 - Grafana
+- Heroku CLI
 - InfluxDB
 - MariaDB
 - Meilisearch
@@ -144,7 +148,7 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - Oh My Zsh
 - Open Resty
 - PM2
-- Python
+- Python 3
 - R
 - RabbitMQ
 - RVM (Ruby Version Manager)
@@ -161,9 +165,9 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 ### First Steps
 ### 첫번째 단계
 
-Before launching your Homestead environment, you must install [Vagrant](https://www.vagrantup.com/downloads.html) as well as one of the following supported providers:
+Before launching your Homestead environment, you must install [Vagrant](https://developer.hashicorp.com/vagrant/downloads) as well as one of the following supported providers:
 
-홈스테드 환경을 시작하기 전에 [Vagrant](https://www.vagrantup.com/downloads.html) 와 다음의 지원하는 제공자 중 하나를 설치해야 합니다.
+홈스테드 환경을 시작하기 전에 [Vagrant](https://developer.hashicorp.com/vagrant/downloads) 와 다음의 지원하는 제공자 중 하나를 설치해야 합니다.
 
 - [VirtualBox 6.1.x](https://www.virtualbox.org/wiki/Downloads)
 - [Parallels](https://www.parallels.com/products/desktop/)
@@ -432,9 +436,11 @@ features:
         version: 7.9.0
     - eventstore: true
         version: 21.2.0
+    - flyway: true
     - gearman: true
     - golang: true
     - grafana: true
+    - heroku: true
     - influxdb: true
     - mariadb: true
     - meilisearch: true
@@ -472,9 +478,14 @@ You may specify a supported version of Elasticsearch, which must be an exact ver
 #### MariaDB
 #### MariaDB
 
-Enabling MariaDB will remove MySQL and install MariaDB. MariaDB typically serves as a drop-in replacement for MySQL, so you should still use the `mysql` database driver in your application's database configuration.
+Enabling MariaDB will remove MySQL and install MariaDB. MariaDB typically serves as a drop-in replacement for MySQL, so you should still use the `mysql` database driver in your application's database configuration:
 
 MariaDB를 활성화하면 MySQL이 제거되고 MariaDB가 설치됩니다. MariaDB는 일반적으로 MySQL을 대체하는 역할을 하므로 애플리케이션의 데이터베이스 설정에서 `mysql` 데이터베이스 드라이버를 계속 사용해야 합니다.
+
+```yaml
+features:
+  - mariadb: true
+```
 
 <a name="mongodb"></a>
 #### MongoDB
@@ -723,7 +734,7 @@ Homestead supports running multiple versions of PHP on the same virtual machine.
 sites:
     - map: homestead.test
       to: /home/vagrant/project1/public
-      php: "7.1"
+      php: "7.4"
 ```
 
 [Within your Homestead virtual machine](#connecting-via-ssh), you may use any of the supported PHP versions via the CLI:
@@ -742,9 +753,18 @@ php8.1 artisan list
 php8.2 artisan list
 ```
 
-You may change the default version of PHP used by the CLI by issuing the following commands from within your Homestead virtual machine:
+You may also specify the version of PHP that should be used by the CLI in your `Homestead.yaml` file:
 
-홈스테드 가상 머신 내에서 다음 명령을 실행하여 CLI에서 사용하는 PHP의 기본 버전을 변경할 수 있습니다.
+CLI에서 사용하는 PHP의 기본 버전을 `Homestead.yaml` 파일에 지정할 수 있습니다. 
+
+```yaml
+php: 8.0
+```
+
+Or, you may change it manually by issuing the following commands from within your Homestead virtual machine:
+
+또는 홈스테드 가상 머신 안에서 다음 명령어를 실행하여 수동으로 이를 변경할 수도 있습니다.
+
 
 ```shell
 php56
@@ -771,6 +791,20 @@ A `homestead` database is configured for both MySQL and PostgreSQL out of the bo
 
 > **Warning**
 > 호스트 머신에서 데이터베이스에 연결할 때 이러한 비표준 포트만 사용해야 합니다. 라라벨은 가상 머신 _내에서_ 실행 중이므로 라라벨 애플리케이션의 `database` 설정 파일에서는 기본 3306 및 5432 포트를 사용합니다.
+
+<a name="creating-databases"></a>
+### Creating Databases
+### 데이터베이스 생성
+
+Homestead can automatically create any databases needed by your application. If a database service is running during the provisioning process, Homestead will ensure each database in your `Homestead.yaml` configuration file is created if it doesn't already exist:
+
+홈스테드는 애플리케이션에서 필요로 하는 데이터베이스를 자동으로 생성할 수 있습니다. 프로비저닝 처리중에 데이터베이스 서비스가 실행중이라면 홈스테드는 `Homestead.yaml` 설정 파일안에 있는 각각의 데이터베이스가 존재하는지 확인하고, 만약 존재하지 않는다면 새로운 데이터베이스를 생성합니다. 
+
+```yaml
+databases:
+  - database_1
+  - database_2
+```
 
 <a name="database-backups"></a>
 ### Database Backups
@@ -944,7 +978,13 @@ Homestead includes support for step debugging using [Xdebug](https://xdebug.org)
 
 홈스테드는 [Xdebug](https://xdebug.org)를 사용한 단계별 디버깅 지원을 포함합니다. 예를 들어 브라우저에서 페이지에 접속하면 PHP를 IDE에 연결하여 실행 중인 코드를 검사하고 수정할 수 있습니다.
 
-By default, Xdebug is already running and ready to accept connections. If you need to enable Xdebug on the CLI, execute the `sudo phpenmod xdebug` command within your Homestead virtual machine. Next, follow your IDE's instructions to enable debugging. Finally, configure your browser to trigger Xdebug with an extension or [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/).
+By default, Xdebug is already running and ready to accept connections. If you need to enable or disable Xdebug on the CLI, execute the `sudo phpenmod xdebug` or `sudo phpdismod xdebug` commands within your Homestead virtual machine.
+
+기본적으로 Xdebug는 이미 실행 중이며 연결을 수락할 준비가 되어 있습니다. CLI에서 Xdebug를 활성/비활성하려면 홈스테드 가상 머신 안에서 `sudo phpenmod xdebug`, `sudo phpdismod xdebug` 명령을 실행하면 됩니다. 
+
+Next, follow your IDE's instructions to enable debugging. Finally, configure your browser to trigger Xdebug with an extension or [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/).
+
+그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 확장 프로그램 또는 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/) 으로 Xdebug를 실행하도록 브라우저를 구성합니다.
 
 기본적으로 Xdebug는 이미 실행 중이며 연결을 수락할 준비가 되어 있습니다. CLI에서 Xdebug를 활성화해야 하는 경우 홈스테드 가상 머신 내에서 `sudo phpenmod xdebug` 명령을 실행합니다. 그런 다음 IDE의 지침에 따라 디버깅을 활성화합니다. 마지막으로 확장 프로그램 또는 [bookmarklet](https://www.jetbrains.com/phpstorm/marklets/) 으로 Xdebug를 실행하도록 브라우저를 구성합니다.
 

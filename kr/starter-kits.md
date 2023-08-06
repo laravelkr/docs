@@ -49,9 +49,9 @@ Breeze는 새로운 라라벨 애플리케이션을 시작하기 좋은 출발�
 #### Laravel Bootcamp
 #### 라라벨 부트캠프
 
-If you're new to Laravel, feel free to jump into the [Laravel Bootcamp](https://bootcamp.laravel.com). The Laravel Bootcamp will walk you through building your first Laravel application using Breeze. It's a great way to get a tour of everything the Laravel and Breeze have to offer.
+If you're new to Laravel, feel free to jump into the [Laravel Bootcamp](https://bootcamp.laravel.com). The Laravel Bootcamp will walk you through building your first Laravel application using Breeze. It's a great way to get a tour of everything that Laravel and Breeze have to offer.
 
-여러분이 라라벨을 처음 접하신다면 [라라벨 부트캠프](https://bootcamp.laravel.com)를 해보세요. 라라벨 부트캠프는 Breeze를 사용하여 첫 번째 라라벨 애플리케이션을 구축하는 과정을 안내합니다. 라라벨과 Breeze가 제공하는 모든 것을 둘러볼 수 있는 좋은 방법입니다.
+여러분이 라라벨을 처음 접하신다면 [라라벨 부트캠프](https://bootcamp.laravel.com)를 시도 해보세요. 라라벨 부트캠프는 Breeze를 사용하여 첫 번째 라라벨 애플리케이션을 구축하는 과정을 안내합니다. 라라벨과 Breeze가 제공하는 모든 것을 둘러볼 수 있는 좋은 방법입니다.
 
 <a name="laravel-breeze-installation"></a>
 ### Installation
@@ -105,10 +105,10 @@ If you would like Breeze to include "dark mode" support when scaffolding your ap
 php artisan breeze:install --dark
 ```
 
-> **Warning**
+> **Note**
 > To learn more about compiling your application's CSS and JavaScript, check out the Laravel's [Vite documentation](/docs/{{version}}/vite#running-vite).  
 
-> **Warning**
+> **Note**
 > 애플리케이션의 CSS 및 JavaScript 파일을 컴파일 하는 방법에 대해 자세히 알아보려면 라라벨의 [Vite 문서](/docs/{{version}}/vite#running-vite)를 확인하여 주십시오.
 
 <a name="breeze-and-inertia"></a>

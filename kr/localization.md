@@ -236,6 +236,34 @@ If your placeholder contains all capital letters, or only has its first letter c
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
 
+<a name="object-replacement-formatting"></a>
+#### Object Replacement Formatting
+#### 객체 교체 포맷팅
+
+If you attempt to provide an object as a translation placeholder, the object's `__toString` method will be invoked. The [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
+
+번역을 위한 플레이스 홀더에 객체를 지정하면, 이 객체가 표시될 때 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring)메서드는 PHP에 내장된 "매직 메서드"입니다. 그렇지만 사용하고자 하는 클래스가 써드파티 라이브러리에 속해있는 경우와 같이 저징된 클래스에 메서드를 제어할 수 없는 경우도 있습니다.
+
+In these cases, Laravel allows you to register a custom formatting handler for that particular type of object. To accomplish this, you should invoke the translator's `stringable` method. The `stringable` method accepts a closure, which should type-hint the type of object that it is responsible for formatting. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
+
+이런 경우를 위해서 라라벨은 특정 유형의 객체를 위한 커스텀 포맷 핸들러를 등록할 수 있습니다. 이 핸들러를 등록하려면 Translator 의 `stringable` 메서드를 호출하면 됩니다. `stringable` 메서드는 클로저를 인자로 전달 받는데, 이 클로저는 포맷팅을 위한 응답 가능 객체 타입으로 힌트된 인자를 받아야 합니다. 일반적으로 이 `stringable` 메서드는 `AppServiceProvider`클래스의 `boot` 메서드 안에서 호출됩니다.
+
+
+    use Illuminate\Support\Facades\Lang;
+    use Money\Money;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Lang::stringable(function (Money $money) {
+            return $money->formatTo('en_GB');
+        });
+    }
+
 <a name="pluralization"></a>
 ### Pluralization
 ### 복수 표기

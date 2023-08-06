@@ -111,6 +111,19 @@ Finally, you may start Sail. To continue learning how to use Sail, please contin
 ./vendor/bin/sail up
 ```
 
+<a name="adding-additional-services"></a>
+#### Adding Additional Services
+#### 추가 서비스 더하기
+
+If you would like to add an additional service to your existing Sail installation, you may run the `sail:add` Artisan command:
+
+인스톨된 Sail 에 추가적인 서비스를 더하려면 `sail:add` 아티즌 명령어를 사용하면 됩니다.
+
+
+```shell
+php artisan sail:add
+```
+
 <a name="using-devcontainers"></a>
 #### Using Devcontainers
 #### Devcontainers 를 사용하는 방법
@@ -316,9 +329,9 @@ Once you have started your containers, you may connect to the MySQL instance wit
 
 컨테이너를 시작한 후에는 어플리케이션의 `.env` 파일 내에 있는 `DB_HOST` 환경 변수를 `mysql`로 설정하여 프로그램 내 MySQL 인스턴스에 연결할 수 있습니다.
 
-To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306.
+To connect to your application's MySQL database from your local machine, you may use a graphical database management application such as [TablePlus](https://tableplus.com). By default, the MySQL database is accessible at `localhost` port 3306 and the access credentials correspond to the values of your `DB_USERNAME` and `DB_PASSWORD` environment variables. Or, you may connect as the `root` user, which also utilizes the value of your `DB_PASSWORD` environment variable as its password.
 
-로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다.
+로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다. 데이터베이스에 연결하기 위한 인증 정보는 `DB_USERNAME`과 `DB_PASSWORD` 환경 변수의 값을 사용합니다. `root` 유저로 접속하려면 `DB_PASSWORD` 환경변수 값을 비밀번호로 지정하면 됩니다. 
 
 <a name="redis"></a>
 ### Redis
@@ -472,17 +485,17 @@ selenium:
 ## Previewing Emails
 ## 이메일 미리보기
 
-Laravel Sail's default `docker-compose.yml` file contains a service entry for [MailHog](https://github.com/mailhog/MailHog). MailHog intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, MailHog's default host is `mailhog` and is available via port 1025:
+Laravel Sail's default `docker-compose.yml` file contains a service entry for [Mailpit](https://github.com/axllent/mailpit). Mailpit intercepts emails sent by your application during local development and provides a convenient web interface so that you can preview your email messages in your browser. When using Sail, Mailpit's default host is `mailpit` and is available via port 1025:
 
-Laravel Sail의 기본 `docker-docker.yml` 파일에는 [MailHog](https://github.com/mailhog/MailHog)의 서비스 항목이 포함되어 있습니다. MailHog는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 MailHog의 기본 호스트는 `mailhog`이며 포트 1025를 통해 사용할 수 있습니다.
+Laravel Sail의 기본 `docker-docker.yml` 파일에는 [Mailpit](https://github.com/axllent/mailpit)의 서비스 항목이 포함되어 있습니다. Mailpit는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 Mailpit의 기본 호스트는 `mailpit`이며 포트 1025를 통해 사용할 수 있습니다.
 
 ```ini
-MAIL_HOST=mailhog
+MAIL_HOST=mailpit
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 ```
 
-When Sail is running, you may access the MailHog web interface at: http://localhost:8025
+When Sail is running, you may access the Mailpit web interface at: http://localhost:8025
 
 Sail 이 실행중 일때 http://localhost:8025 을 통해 MailHog 웹 인터페이스에 접근 할 수 있습니다.
 

@@ -41,16 +41,17 @@ The Laravel framework has a few system requirements. You should ensure that your
 라라벨 프레임워크는 몇 가지 시스템 요구 사항이 있습니다. 웹 서버에 최소 PHP 버전 및 extension이 다음과 같은지 확인해야 합니다.
 
 - PHP >= 8.0
-- BCMath PHP Extension
 - Ctype PHP Extension
 - cURL PHP Extension
 - DOM PHP Extension
 - Fileinfo PHP Extension
-- JSON PHP Extension
+- Filter PHP Extension
+- Hash PHP Extension
 - Mbstring PHP Extension
 - OpenSSL PHP Extension
 - PCRE PHP Extension
 - PDO PHP Extension
+- Session PHP Extension
 - Tokenizer PHP Extension
 - XML PHP Extension
 

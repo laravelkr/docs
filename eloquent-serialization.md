@@ -13,7 +13,8 @@
 
 라라벨을 사용하여 API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야 하는 경우가 있을겁니다. Eloquent에는 이러한 변환을 수행하는 편리한 메소드와 모델의 직렬화된(serialized) 표현에 포함되는 속성을 제어하는 메소드가 포함되어 있습니다.
 
-> {tip} Eloquent 모델 및 컬렉션 JSON 직렬화를 처리하는 훨씬 더 강력한 방법은 [Eloquent API 리소스](/docs/{{version}}/eloquent-resources)에 대한 문서를 확인하세요.
+> **Note**
+> Eloquent 모델 및 컬렉션 JSON 직렬화를 처리하는 훨씬 더 강력한 방법은 [Eloquent API 리소스](/docs/{{version}}/eloquent-resources)에 대한 문서를 확인하세요.
 
 <a name="serializing-models-and-collections"></a>
 ## 모델 & 컬렉션 Serializing
@@ -90,7 +91,8 @@ Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSO
         protected $hidden = ['password'];
     }
 
-> {tip} 관계를 숨기려면 관계의 메소드 이름을 Eloquent 모델의 `$hidden` 속성에 추가하십시오.
+> **Note**
+> 관계를 숨기려면 관계의 메소드 이름을 Eloquent 모델의 `$hidden` 속성에 추가하십시오.
 
 또한, `visible` 속성을 사용하여 모델의 배열 및 JSON 표현에 포함되어야 하는 속성의 "허용 목록"을 정의할 수 있습니다. `$visible` 배열에 없는 모든 속성은 모델이 배열이나 JSON으로 변환될 때 숨겨집니다.
 
@@ -120,6 +122,12 @@ Eloquent 모델을 JSON으로 변환하면 로드 된 관계가 자동으로 JSO
 마찬가지로, 일반적으로 표시되는 일부 속성을 숨기려면 `makeHidden` 메소드를 사용할 수 있습니다.
 
     return $user->makeHidden('attribute')->toArray();
+
+모든 visible 또는 hidden 속성을 일시적으로 덮어쓰려면 `setVisible` 및 `setHidden` 메소드를 각각 사용할 수 있습니다.
+
+    return $user->setVisible(['id', 'name'])->toArray();
+
+    return $user->setHidden(['email', 'password', 'remember_token'])->toArray();
 
 <a name="appending-values-to-json"></a>
 ## JSON 변환시 특정 값 추가하기

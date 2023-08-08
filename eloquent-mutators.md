@@ -64,7 +64,8 @@ accessor는 접근할 때 Eloquent 속성 값을 변환합니다. accessor를 �
 
     $firstName = $user->first_name;
 
-> {tip} 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
+> **Note**
+> 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
 #### 여러개의 속성을 Value Object
@@ -80,7 +81,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -90,6 +91,9 @@ public function address(): Attribute
     );
 }
 ```
+
+<a name="accessor-caching"></a>
+#### Accessor 캐싱
 
 accessor 로 부터 value object 를 반환할 때, value object에 대한 모든 변경사항은 모델이 저장되기 전에 자동으로 모델에 다시 동기화됩니다. 이런 동작이 가능한 이유는 엘로퀀트가 accessor 가 반환한 인스턴스를 유지하고 있어서 accessor가 호출될 때마다 동일한 인스턴스를 반환할 수 있기 때문입니다.   
 
@@ -102,6 +106,17 @@ accessor 로 부터 value object 를 반환할 때, value object에 대한 모�
 
     $user->save();
 
+그러나 특히 계산 집약적인 경우 문자열 및 부울과 같은 기본 값에 대해 캐싱을 활성화하려는 경우가 있습니다. 이를 수행하기 위해 접근자를 정의할 때 `shouldCache` 메서드를 호출할 수 있습니다.
+
+```php
+protected function hash(): Attribute
+{
+    return Attribute::make(
+        get: fn ($value) => bcrypt(gzuncompress($value)),
+    )->shouldCache();
+}
+```
+
 이런 accessor 의 속성 오브젝트 캐싱 동작을 비활성화하려면, 속성을 정의할 때 `withoutObjectCaching` 메소드를 호출하면 됩니다.
 
 ```php
@@ -110,7 +125,7 @@ accessor 로 부터 value object 를 반환할 때, value object에 대한 모�
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -174,7 +189,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  *
  * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
-public function address(): Attribute
+protected function address(): Attribute
 {
     return Attribute::make(
         get: fn ($value, $attributes) => new Address(
@@ -203,7 +218,7 @@ public function address(): Attribute
 - `datetime`
 - `immutable_date`
 - `immutable_datetime`
-- `decimal:`<code>&lt;digits&gt;</code>
+- <code>decimal:&lt;precision&gt;</code>
 - `double`
 - `encrypted`
 - `encrypted:array`
@@ -251,7 +266,8 @@ public function address(): Attribute
         'options' => 'object',
     ]);
 
-> {note} `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
+> **Warning**
+> `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
 
 <a name="stringable-casting"></a>
 #### 스트링 가능한(Stringable) 캐스팅
@@ -405,7 +421,8 @@ public function address(): Attribute
 <a name="enum-casting"></a>
 ### 열거형 캐스팅
 
-> {note} 열거형 캐스팅은 PHP 8.1 이상에서만 사용할 수 있습니다.
+> **Warning**
+> 열거형 캐스팅은 PHP 8.1 이상에서만 사용할 수 있습니다.
 
 Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manual/en/language.enumerations.backed.php)으로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 열거형을 지정할 수 있습니다.
 
@@ -422,11 +439,28 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
 
 모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 열거형으로 자동으로 캐스트되거나 열거형에서 캐스트됩니다.
 
-    if ($server->status == ServerStatus::provisioned) {
-        $server->status = ServerStatus::ready;
+    if ($server->status == ServerStatus::Provisioned) {
+        $server->status = ServerStatus::Ready;
 
         $server->save();
     }
+
+<a name="casting-arrays-of-enums"></a>
+#### Enum 의 값 배열 캐스팅
+
+모델에서 하나의 컬럼에 Enum 의 값 배열을 저장하고자 하는 경우에는 라라벨에서 제공하는 `AsEnumArrayObject`, `AsEnumCollection` 캐스팅을 활용할 수 있습니다.
+
+ use App\Enums\ServerStatus;
+    use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'statuses' => AsEnumCollection::class.':'.ServerStatus::class,
+    ];
 
 <a name="encrypted-casting"></a>
 ### Encrypted Casting
@@ -467,9 +501,13 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
 <a name="custom-casts"></a>
 ## 커스텀 캐스트
 
-라라벨은 다양한 캐스트 타입을 내장하고 있습니다. 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. `CastsAttributes` 인터페이스를 구현하는 클래스를 정의하여 사용 할 수 있습니다.
+라라벨은 다양한 캐스트 타입을 내장하고 있습니다. 하지만 캐스트 유형을 직접 정의 해야 할 때도 있습니다. 캐스트를 생성하려면 `make:cast` 아티즌 명령어를 실행하세요. 새 캐스트 클래스는 `app/Casts` 디렉터리에 생성됩니다.
 
-이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다.
+```shell
+php artisan make:cast Json
+```
+
+모든 커스텀 캐스트 클래스는 `CastAttributes` 인터페이스를 구현합니다. 이 인터페이스를 구현하는 클래스는 반드시 `get`과 `set` 메소드를 구현해야합니다. `get` 메소드는 데이터베이스의 원시 값을 캐스트 된 값으로 변환하는 역활을 합니다, 반면 `set`메소드는 데이터베이스에 저장할 수 있는 원시 값으로 변환해야 합니다, 예제로 내장된 `json` 캐스팅 타입을 커스텀 캐스트 타입으로 다시 구현하였습니다.
 
     <?php
 
@@ -540,7 +578,7 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
 
     namespace App\Casts;
 
-    use App\Models\Address as AddressModel;
+    use App\ValueObjects\Address as AddressValueObject;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
     use InvalidArgumentException;
 
@@ -553,11 +591,11 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
          * @param  string  $key
          * @param  mixed  $value
          * @param  array  $attributes
-         * @return \App\Models\Address
+         * @return \App\ValueObjects\Address
          */
         public function get($model, $key, $value, $attributes)
         {
-            return new AddressModel(
+            return new AddressValueObject(
                 $attributes['address_line_one'],
                 $attributes['address_line_two']
             );
@@ -568,13 +606,13 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
          *
          * @param  \Illuminate\Database\Eloquent\Model  $model
          * @param  string  $key
-         * @param  \App\Models\Address  $value
+         * @param  \App\ValueObjects\Address  $value
          * @param  array  $attributes
          * @return array
          */
         public function set($model, $key, $value, $attributes)
         {
-            if (! $value instanceof AddressModel) {
+            if (! $value instanceof AddressValueObject) {
                 throw new InvalidArgumentException('The given value is not an Address instance.');
             }
 
@@ -595,7 +633,8 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
 
     $user->save();
 
-> {tip} 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
+> **Note**
+> 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
 
 <a name="array-json-serialization"></a>
 ### 배열 / JSON Serialization
@@ -621,7 +660,15 @@ Eloquent 모델이 `toArray` 및 `toJson` 메소드를 사용하여 배열 또�
 <a name="inbound-casting"></a>
 ### 인바운드 캐스팅
 
-가끔은 모델에서 설정 중인 값만 변환하고 속성을 검색하지 않는 캐스트를 작성해야 할 때가 있습니다. 인바운드 캐스팅의 전형적인 예제는 "해싱(hashing)"입니다, 인바운드 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현 해야 합니다.
+가끔은 모델에 설정되는 값을 변환하기만 하고 모델에서 속성을 조회할 때는 아무 동작도 하지 않는 커스텀 캐스트 클래스를 작성해야할 때도 있습니다. 
+
+인바운드 전용 커스텀 캐스트는 `set` 메소드만 정의하면 되는 `CastsInboundAttributes`인터페이스를 구현해야 합니다. `--inbound` 옵션을 주고`make:cast` 아티즌 명령을 실행하면 인바운드 전용 캐스트 클래스를 생성할 수 있습니다.
+
+```shell
+php artisan make:cast Hash --inbound
+```
+
+인바운드 전용 캐스트의 대표적인 예는 "해싱(hashing)" 캐스트입니다. 예를 들어, 주어진 알고리즘을 통해 인바운드 값을 해싱하는 캐스트를 정의할 수 있습니다.
 
     <?php
 

@@ -1,25 +1,23 @@
 # 뷰-Views
 
 - [시작하기](#introduction)
+  - [React / Vue 에서 뷰 작성하기](#writing-views-in-react-or-vue)
 - [뷰파일 생성 & 렌더](#creating-and-rendering-views)
-  - [Nested View Directories](#nested-view-directories)
   - [중첩된 뷰 디렉토리](#nested-view-directories)
-  - [Creating The First Available View](#creating-the-first-available-view)
   - [사용가능한 첫 뷰 만들기](#creating-the-first-available-view)
-  - [Determining If A View Exists](#determining-if-a-view-exists)
   - [뷰가 있는지 확인하기](#determining-if-a-view-exists)
 - [뷰에 데이터 전달하기](#passing-data-to-views)
-  - [Sharing Data With All Views](#sharing-data-with-all-views)
   - [모든 뷰에서 데이터 공유하기](#sharing-data-with-all-views)
 - [뷰 컴포저](#view-composers)
-  - [View Creators](#view-creators)
   - [뷰 작성자](#view-creators)
 - [뷰 최적화](#optimizing-views)
 
 <a name="introduction"></a>
 ## 시작하기
 
-물론 route와 controller에서 직접 전체 HTML 문서 문자열을 반환하는 것은 현실적이지 않습니다. 고맙게도 뷰-View는 모든 HTML을 별도의 파일에 배치할 수 있는 편리한 방법을 제공합니다. 뷰-View는 컨트롤러 / 애플리케이션 로직을 프레젠테이션 로직과 분리하고 `resources/views` 디렉토리에 저장됩니다. 간단한 뷰-View 파일의 경우 다음처럼 보일 것입니다.
+물론 route와 controller에서 직접 전체 HTML 문서 문자열을 반환하는 것은 현실적이지 않습니다. 고맙게도 뷰-View는 모든 HTML을 별도의 파일에 배치할 수 있는 편리한 방법을 제공합니다.
+
+뷰-View는 컨트롤러 / 애플리케이션 로직을 프레젠테이션 로직과 분리하고 `resources/views` 디렉토리에 저장됩니다. 라라벨을 사용할 때 뷰 템플릿은 주로 [블레이드 템플릿 언어](/docs/{{version}}/blade)를 이용해서 작성됩니다. 간단한 뷰-View 파일의 경우 다음처럼 보일 것입니다.
 
 ```blade
 <!-- View stored in resources/views/greeting.blade.php -->
@@ -37,7 +35,15 @@
         return view('greeting', ['name' => 'James']);
     });
 
-> {tip} blade 템플릿 작성 방법에 대한 자세한 정보를 찾고 계십니까? 시작하려면 전체 [blade 문서](/docs/{{version}}/blade)를 확인하세요.
+> **Note**
+> blade 템플릿 작성 방법에 대한 자세한 정보를 찾고 계십니까? 시작하려면 전체 [blade 문서](/docs/{{version}}/blade)를 확인하세요.
+
+<a name="writing-views-in-react-or-vue"></a>
+### React / Vue 에서 뷰 작성하기
+
+Blade를 통해 PHP로 프론트엔드 템플릿을 작성하는 대신, 많은 개발자들이 React 또는 Vue를 사용하여 템플릿을 작성하기를 선호하기 시작했습니다. Laravel은 [Inertia](https://inertiajs.com/) 라이브러리를 사용하여 SPA를 구축하는 일반적인 복잡성 없이 React / Vue 프론트엔드를 Laravel 백엔드에 연결하는 것이 가능하게 해줍니다.
+
+Breeze와 Jetstream [스타터 키트](/docs/{{version}}/starter-kits)는 Inertia를 사용한 라라벨 애플리케이션의 다음 단계를 위한 좋은 출발점을 제공합니다. 또한 [Laravel Bootcamp](https://bootcamp.laravel.com)에서는 Vue 및 React를 포함하여 Inertia를 사용하여 라라벨 애플리케이션을 구축하는 전체 데모를 제공합니다.
 
 <a name="creating-and-rendering-views"></a>
 ## 뷰파일 생성 & 렌더
@@ -65,7 +71,8 @@
 
     return view('admin.profile', $data);
 
-> {note} View 디렉토리 이름에는 `.` 문자가 포함되지 않아야합니다.
+> **Warning**
+> View 디렉토리 이름에는 `.` 문자가 포함되지 않아야합니다.
 
 <a name="creating-the-first-available-view"></a>
 ### 사용가능한 첫 뷰 만들기
@@ -182,7 +189,8 @@
         }
     }
 
-> {note} 기억할 것은 여러분이 뷰 컴포저를 등록하기 위한 새로운 서비스 프로바이더를 생성했다면, `config/app.php` 설정 파일의 `providers` 배열에 이 서비스 프로바이더를 추가해야 한다는 것입니다.
+> **Warning**
+> 기억할 것은 여러분이 뷰 컴포저를 등록하기 위한 새로운 서비스 프로바이더를 생성했다면, `config/app.php` 설정 파일의 `providers` 배열에 이 서비스 프로바이더를 추가해야 한다는 것입니다.
 
 뷰 컴포저를 등록했으므로 `profile` 뷰-View가 렌더링될 때마다 `App\View\Composers\ProfileComposer` 클래스의 `compose` 메서드가 실행됩니다. 뷰 컴포저 클래스의 예를 살펴보겠습니다.
 
@@ -210,7 +218,6 @@
          */
         public function __construct(UserRepository $users)
         {
-            // Dependencies are automatically resolved by the service container...
             $this->users = $users;
         }
 

@@ -13,7 +13,7 @@
 
 라라벨 문서 전체에서 "파사드"를 통해 라라벨의 기능을 동작시키는 코드 예제를 볼 수 있습니다. 파사드는 애플리케이션의 [서비스 컨테이너](/docs/{{version}}/container)에서 사용할 수 있는 클래스에 "정적" 인터페이스를 제공합니다. 라라벨은 라라벨의 거의 모든 기능에 대한 액세스를 제공하는 많은 파사드를 함께 제공됩니다.
 
-라라벨 파사드는 서비스 컨테이너의 기본 클래스에 대한 "정적 프록시" 역할을 하여, 간결하고 표현적인 구문의 이점을 제공하는 동시에 기존의 정적 방법보다 더 많은 테스트 가능성과 유연성을 유지합니다. 파사드가 후드 아래에서 어떻게 작동하는지 완전히 이해하지 못해도 괜찮습니다. 흐름을 따라가며 라라벨에 대해 계속 배우십시오.
+라라벨 파사드는 서비스 컨테이너의 기본 클래스에 대한 "정적 프록시" 역할을 하여, 간결하고 표현적인 구문의 이점을 제공하는 동시에 기존의 정적 방법보다 더 많은 테스트 가능성과 유연성을 유지합니다. 파사드가 어떻게 작동하는지 완전히 이해하지 못해도 괜찮습니다. 흐름을 따라가며 라라벨에 대해 계속 배우십시오.
 
 모든 라라벨의 파사드는 `Illuminate\Support\Facades` 네임스페이스 안에 정의되어 있습니다. 따라서 다음처럼 손쉽게 파사드에 엑세스 할 수 있습니다.
 
@@ -304,3 +304,4 @@ Validator  |  [Illuminate\Validation\Factory](https://laravel.com/api/{{version}
 Validator (Instance)  |  [Illuminate\Validation\Validator](https://laravel.com/api/{{version}}/Illuminate/Validation/Validator.html)  |  &nbsp;
 View  |  [Illuminate\View\Factory](https://laravel.com/api/{{version}}/Illuminate/View/Factory.html)  |  `view`
 View (Instance)  |  [Illuminate\View\View](https://laravel.com/api/{{version}}/Illuminate/View/View.html)  |  &nbsp;
+Vite  |  [Illuminate\Foundation\Vite](https://laravel.com/api/{{version}}/Illuminate/Foundation/Vite.html)  |  &nbsp;

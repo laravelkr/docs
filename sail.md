@@ -3,7 +3,7 @@
 - [시작하기](#introduction)
 - [설치 & 설정](#installation)
     - [기존 어플리케이션에 Sail 설치하기](#installing-sail-into-existing-applications)
-    - [Bash Alias 설정](#configuring-a-bash-alias)
+    - [Shell Alias 설정](#configuring-a-bash-alias)
 - [Sail 시작 & 정지](#starting-and-stopping-sail)
 - [명령어 실행](#executing-sail-commands)
     - [PHP 명령어 실행](#executing-php-commands)
@@ -67,6 +67,16 @@ php artisan sail:install
 ./vendor/bin/sail up
 ```
 
+<a name="adding-additional-services"></a>
+#### 추가 서비스 더하기
+
+인스톨된 Sail 에 추가적인 서비스를 더하려면 `sail:add` 아티즌 명령어를 사용하면 됩니다.
+
+
+```shell
+php artisan sail:add
+```
+
 <a name="using-devcontainers"></a>
 #### Devcontainers 를 사용하는 방법
 
@@ -77,7 +87,7 @@ php artisan sail:install --devcontainer
 ```
 
 <a name="configuring-a-bash-alias"></a>
-### Bash Alias 설정
+### Shell Alias 설정
 
 기본적으로 Sail 명령어는 라라벨 어플리케이션에 포함된 `vendor/bin/sail` 스크립트로 호출됩니다.
 
@@ -85,13 +95,15 @@ php artisan sail:install --devcontainer
 ./vendor/bin/sail up
 ```
 
-`vendor/bin/sail` 을 직접 타이핑해서 Sail 명령어를 실행하기 보다, Bash alias 를 설정하여 Sail 의 명령어를 더 쉽게 사용할 수 있습니다.
+`vendor/bin/sail` 을 직접 타이핑해서 Sail 명령어를 실행하기 보다, Shell alias 를 설정하여 Sail 의 명령어를 더 쉽게 사용할 수 있습니다.
 
 ```shell
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
-Bash alias가 구성되면 `sail`을 입력하여 Sail 명령을 실행할 수 있습니다. 이 문서의 나머지 예에서는 이 alias를 구성한 것으로 가정합니다.
+이게 항상 가능하게 하려면 `~/.zshrc` 나 `~/.bashrc` 같은 홈디렉토리 내의 쉘 구성 파일에 이걸 추가하고 쉘을 재시작하세요.
+
+shell alias가 구성되면 `sail`을 입력하여 Sail 명령을 실행할 수 있습니다. 이 문서의 나머지 예에서는 이 alias를 구성한 것으로 가정합니다.
 
 ```shell
 sail up
@@ -167,13 +179,14 @@ sail composer require laravel/sanctum
 ```shell
 docker run --rm \
     -u "$(id -u):$(id -g)" \
-    -v $(pwd):/var/www/html \
+    -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/php81-composer:latest \
+    laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
 ```
 
-`laravelsail/phpXX-composer` (XX 부분에는 `74`, `80` 또는 `81` 가 들어갑니다) 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다.
+`laravelsail/phpXX-composer` (XX 부분에는 `74`, `80`, `81` 또는 `82` 가 들어갑니다) 이미지를 사용중이라면, 어플리케이션이 개발된 PHP 버전과 동일한 버전을 사용해야 합니다.
+
 <a name="executing-artisan-commands"></a>
 ### Artisan 명령어 실행
 
@@ -191,7 +204,7 @@ Node 명령은 `node`, NPM 명령은 `npm` 명령어로 실행 할 수 있습니
 ```shell
 sail node --version
 
-sail npm run prod
+sail npm run dev
 ```
 
 NPM 대신 Yarn 을 사용할 수 있습니다.
@@ -206,11 +219,13 @@ sail yarn
 <a name="mysql"></a>
 ### MySQL
 
-어플리케이션의 `docker-compose.yml` 파일에는 MySQL 컨테이너에 대한 항목이 포함되어 있습니다. 이 컨테이너는 [Docker volume](https://docs.docker.com/storage/volumes/)을 사용하여 컨테이너를 중지하고 재시작할 때에도 데이터베이스에 저장된 데이터가 유지됩니다. 또한 MySQL 컨테이너가 시작될 때 이름이 `DB_DATABASE` 환경 변수의 값과 일치하는 데이터베이스가 존재하는지 확인합니다.
+어플리케이션의 `docker-compose.yml` 파일에는 MySQL 컨테이너에 대한 항목이 포함되어 있습니다. 이 컨테이너는 [Docker volume](https://docs.docker.com/storage/volumes/)을 사용하여 컨테이너를 중지하고 재시작할 때에도 데이터베이스에 저장된 데이터가 유지됩니다. 
+
+추가적으로, MySQL 컨테이너가 처음 시작될 때 두 개의 데이터베이스를 만듭니다. 하나는 `DB_DATABASE` 환경 변수의 값을 사용해 만드는 것으로 로컬 개발 환경에 쓰입니다. 두 번째는 `testing` 이라는 이름으로 만들어지며 테스트가 개발 데이터를 다루지 않도록 합니다.
 
 컨테이너를 시작한 후에는 어플리케이션의 `.env` 파일 내에 있는 `DB_HOST` 환경 변수를 `mysql`로 설정하여 프로그램 내 MySQL 인스턴스에 연결할 수 있습니다.
 
-로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다.
+로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 MySQL 데이터베이스는 `localhost` 포트 3306에서 접근할 수 있습니다. 데이터베이스에 연결하기 위한 인증 정보는 `DB_USERNAME`과 `DB_PASSWORD` 환경 변수의 값을 사용합니다. `root` 유저로 접속하려면 `DB_PASSWORD` 환경변수 값을 비밀번호로 지정하면 됩니다. 
 
 <a name="redis"></a>
 ### Redis
@@ -243,6 +258,17 @@ AWS_ENDPOINT=http://minio:9000
 AWS_USE_PATH_STYLE_ENDPOINT=true
 ```
 
+MinIO를 사용할 때 라라벨 파일시스템 통합이 적절한 URL을 생성하도록 하기 위해 `AWS_URL` 환경 변수를 정의해서 애플리케이션 로컬 URL이 일치하고 URL 경로에 버킷 이름을 포함할 수 있도록 해야 합니다. 
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+MinIO 콘솔을 통해 `http://localhost:8900`에서 사용할 수 있는 버킷을 만들 수 있습니다. MinIO 콘솔의 기본 username은 `sail` 이고 비밀번호는 `password` 입니다.
+
+> **Warning**
+> MinIO를 사용할 때는 임시 스토리지 URL을 생성하는 `temporaryUrl` 메서드는 지원되지 않습니다.
+
 <a name="running-tests"></a>
 ## 테스팅 하기
 
@@ -259,6 +285,12 @@ Sail 의 `test` 명령은 Artisan 의 `test` 명령을 실행하는것과 같습
 
 ```shell
 sail artisan test
+```
+
+기본적으로 세일은 전용 `testing` 데이터베이스를 생성해서 테스트가 여러분 데이터베이스의 현재 상태에 간섭하지 않도록 합니다. 기본 라라벨 설치에서 세일은 테스트를 실행할 때 `testing` 데이터베이스를 사용하도록 `phpunit.xml` 파일도 수정합니다.
+
+```xml
+<env name="DB_DATABASE" value="testing"/>
 ```
 
 <a name="laravel-dusk"></a>
@@ -307,10 +339,10 @@ selenium:
 <a name="previewing-emails"></a>
 ## 이메일 미리보기
 
-Laravel Sail의 기본 `docker-docker.yml` 파일에는 [MailHog](https://github.com/mailhog/MailHog)의 서비스 항목이 포함되어 있습니다. MailHog는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 MailHog의 기본 호스트는 `mailhog`이며 포트 1025를 통해 사용할 수 있습니다.
+Laravel Sail의 기본 `docker-docker.yml` 파일에는 [Mailpit](https://github.com/axllent/mailpit)의 서비스 항목이 포함되어 있습니다. Mailpit는 로컬 개발 중에 보낸 전자 메일을 가로채서 브라우저에서 전자 메일 메시지를 미리 볼 수 있도록 편리한 웹 인터페이스를 제공합니다. Sail을 사용할 때 Mailpit의 기본 호스트는 `mailpit`이며 포트 1025를 통해 사용할 수 있습니다.
 
 ```ini
-MAIL_HOST=mailhog
+MAIL_HOST=mailpit
 MAIL_PORT=1025
 MAIL_ENCRYPTION=null
 ```
@@ -337,9 +369,12 @@ sail tinker
 <a name="sail-php-versions"></a>
 ## PHP 버전
 
-Sail은 현재 PHP 8.1, PHP 8.0 또는 PHP 7.4을 지원합니다. Sail에서 사용하는 기본 PHP 버전은 현재 PHP 8.1 입니다. 응용 프로그램 서비스에 사용되는 PHP 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 컨테이너의 `build` 정의를 업데이트해야 합니다.
+Sail은 현재 PHP 8.1, PHP 8.0 또는 PHP 7.4을 지원합니다. Sail에서 사용하는 기본 PHP 버전은 현재 PHP 8.2 입니다. 응용 프로그램 서비스에 사용되는 PHP 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 컨테이너의 `build` 정의를 업데이트해야 합니다.
 
 ```yaml
+# PHP 8.2
+context: ./vendor/laravel/sail/runtimes/8.2
+
 # PHP 8.1
 context: ./vendor/laravel/sail/runtimes/8.1
 
@@ -367,7 +402,7 @@ sail up
 <a name="sail-node-versions"></a>
 ## Node 버전
 
-Sail은 기본적으로 Node 16을 설치합니다. 이미지가 빌드될 때 설치된 Node 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 서비스의 `build.args` 정의를 업데이트하십시오.
+Sail은 기본적으로 Node 18을 설치합니다. 이미지가 빌드될 때 설치된 Node 버전을 변경하려면 어플리케이션의 `docker-compose.yml` 파일에서 `laravel.test` 서비스의 `build.args` 정의를 업데이트하십시오.
 
 ```yaml
 build:
@@ -416,12 +451,12 @@ sail share --subdomain=my-sail-site
 Laravel Sail의 도커에는 인기 있고 강력한 PHP 디버거인 [Xdebug](https://xdebug.org/)을 지원합니다. Xdebug를 활성화하려면 응용 프로그램의 `.env` 파일에 [Xdebug 구성](https://xdebug.org/docs/step_debug#mode)에 몇 가지 변수를 추가해야 합니다. Xdebug를 활성화하려면 Sail을 시작하기 전에 적절한 모드를 설정해야 합니다
 
 ```ini
-SAIL_XDEBUG_MODE=develop,debug
+SAIL_XDEBUG_MODE=develop,debug,coverage
 ```
 
 #### Linux 호스트 IP 설정
 
-내부적으로 `XDEBUG_CONFIG` 환경 변수는 `client_host=host.docker.internal`로 정의되므로 XDEBUG가 Mac 및 Windows(WSL2) 용으로만 제대로 동작합니다. 로컬 개발환경이 Linux라면 이 환경 변수를 수동으로 정의해야 합니다.
+내부적으로 `XDEBUG_CONFIG` 환경 변수는 `client_host=host.docker.internal`로 정의되므로 XDEBUG가 Mac 및 Windows(WSL2) 용으로만 제대로 동작합니다. 로컬 개발환경이 Linux라면 도커 엔진 17.06.0+ 그리고 도커 컴포즈 1.16.0+ 이 실행중인지 확인해야 합니다. 그렇지 않다면 이 환경 변수를 아래와 같이 수동으로 정의해야 합니다.
 
 먼저 다음 명령을 실행하여 환경 변수에 추가할 올바른 호스트 IP 주소를 결정해야 합니다. 일반적으로 `<container-name>`은 어플리케이션을 지원하는 컨테이너 이름이어야 하며 보통 `_laravel.test_1`로 끝납니다.
 

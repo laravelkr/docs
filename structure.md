@@ -33,6 +33,9 @@
 
 기본적인 라라벨 애플리케이션의 구조는 애플리케이션이 크건, 작건 좋은 시작점이 되는것을 의도하고 있습니다. 애플리케이션을 원하는대로 구성해도 됩니다. 컴포저가 클래스를 오토로딩할 수 있는 한 클래스를 어디에 위치시키는가에 대한 제약사항은 없습니다.
 
+> **Note**
+> 라라벨이 처음이신가요? 여러분의 첫번째 라라벨 애플리케이션을 만들어가며 프레임워크를 둘러볼 수 있는 [라라벨 부트캠프](https://bootcamp.laravel.com)를 확인해보세요.
+
 <a name="the-root-directory"></a>
 ## Root 디렉토리
 
@@ -116,7 +119,8 @@ The `storage/app/public` directory may be used to store user-generated files, su
 
 다른 다양한 디렉토리들은 클래스들을 생성하기 위해서 `make` 아티즌 명령어를 실행할 때 `app` 디렉토리 내부에 생성됩니다. 따라서 예를들어, `app/Jobs` 디렉토리는 job 클래스를 생성하기 위해서 `make:job` 아티즌 명령어를 실행하기 전까지 존재하지 않습니다.
 
-> {tip} `app` 디렉토리 안에 있는 많은 클래스들은 아티즌 명령어를 통해서 생성됩니다. 사용가능한 명령어들을 살펴보기 위해서는 터미널에서 `php artisan list make` 명령어를 실행하면 됩니다.
+> **Note**
+> `app` 디렉토리 안에 있는 많은 클래스들은 아티즌 명령어를 통해서 생성됩니다. 사용가능한 명령어들을 살펴보기 위해서는 터미널에서 `php artisan list make` 명령어를 실행하면 됩니다.
 
 <a name="the-broadcasting-directory"></a>
 #### Broadcasting 디렉토리

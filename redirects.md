@@ -35,6 +35,10 @@
 
     return redirect()->route('profile', ['id' => 1]);
 
+편의를 위해서 `to_route` 함수도 제공합니다.
+
+    return to_route('profile', ['id' => 1]);
+
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Eloquent 모델을 통한 파라미터 채우기
 

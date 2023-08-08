@@ -48,12 +48,16 @@
 
 Sanctum은 들어오는 요청이 자신의 SPA 프론트엔드에서 시작된 경우에만 쿠키를 사용하여 인증을 시도합니다. Sanctum은 들어오는 HTTP 요청을 검사할 때 먼저 인증 쿠키를 확인하고, 쿠키가 없으면 Sanctum은 유효한 API 토큰에 대한 `Authorization` 헤더를 검사합니다.
 
-> {tip} Sanctum은 API 토큰 인증에만 사용하거나 SPA 인증에만 사용하는 것이 좋습니다. Sanctum을 사용한다고해서 제공되는 두 기능을 모두 사용해야하는 것은 아닙니다.
+> **Note**
+> Sanctum은 API 토큰 인증에만 사용하거나 SPA 인증에만 사용하는 것이 좋습니다. Sanctum을 사용한다고해서 제공되는 두 기능을 모두 사용해야하는 것은 아닙니다.
 
 <a name="installation"></a>
 ## 설치하기
 
-> {tip} 최신 버전의 라라벨에는 이미 라라벨 Sanctum이 포함되어 있습니다. 그러나 애플리케이션의 `composer.json` 파일에 `laravel/sanctum`이 포함되어 있지 않은 경우 아래 설치 지침을 따를 수 있습니다.
+> **Note**
+> 최신 버전의 라라벨에는 이미 라라벨 Sanctum이 포함되어 있습니다. 그러나 애플리케이션의 `composer.json` 파일에 `laravel/sanctum`이 포함되어 있지 않은 경우 아래 설치 지침을 따를 수 있습니다.
+
+You may install Laravel Sanctum via the Composer package manager:
 
 여러분은 컴포져 패키지 관리자를 통해 라라벨 Sanctum을 설치할 수 있습니다.
 
@@ -119,7 +123,8 @@ Sanctum의 기본 마이그레이션을 사용하지 않으려면 `App\Providers
 <a name="api-token-authentication"></a>
 ## API 토큰 인증
 
-> {tip} 여러분의 자사 SPA를 인증하기 위해서 API 토큰을 사용하지 마세요. 대신, Sanctum에 내장된 [SPA 인증 기능](#spa-authentication)을 사용하세요.
+> **Note**
+> 여러분의 자사 SPA를 인증하기 위해서 API 토큰을 사용하지 마세요. 대신, Sanctum에 내장된 [SPA 인증 기능](#spa-authentication)을 사용하세요.
 
 <a name="issuing-api-tokens"></a>
 ### API 토큰 발급하기
@@ -230,6 +235,19 @@ return $request->user()->id === $server->user_id &&
     // 지정된 토큰 해지...
     $user->tokens()->where('id', $tokenId)->delete();
 
+<a name="token-expiration"></a>
+### 토큰 만료
+
+기본적으로 생텀 토큰은 만료되지 않고 [토큰 해지](#revoking-tokens)를 통해서만 무효화됩니다. 하지만 API 토큰에 만료 시간을 설정하고 싶으면 `sanctum` 설정 파일에 `expiration` 옵션을 정의해주면 됩니다. 이 옵션은 발행된 토큰이 몇 분 뒤에 만료되는지 정의합니다.
+
+```php
+'expiration' => 525600,
+```
+
+```php
+$schedule->command('sanctum:prune-expired --hours=24')->daily();
+```
+
 <a name="spa-authentication"></a>
 ## SPA 인증
 
@@ -237,7 +255,8 @@ Sanctum은 또한 라라벨 기반 API와 통신해야하는 싱글 페이지 �
 
 이 기능을 위해서 Sanctum은 어떤 종류의 토큰도 사용하지 않습니다. 대신, Sanctum은 라라벨에 내장(built-in) 된 쿠키 기반의 세션 인증 서비스를 사용합니다. 이것은 CSRF 보호, 세션 인증이라는 이점을 제공할 뿐만 아니라 XSS를 통한 인증 자격 증명(authentication credentials)의 유출을 방어합니다. 
 
-> {note} 인증을 받으려면 SPA와 API가 동일한 최상위 도메인을 공유해야합니다. 그러나 다른 하위 도메인에 배치 될 수 있습니다. 또한 요청과 함께 `Accept: application/json` 헤더를 보내야 합니다.
+> **Warning**
+> 인증을 받으려면 SPA와 API가 동일한 최상위 도메인을 공유해야합니다. 그러나 다른 하위 도메인에 배치 될 수 있습니다. 또한 요청과 함께 `Accept: application/json` 헤더를 보내야 합니다.
 
 <a name="spa-configuration"></a>
 ### 설정
@@ -247,7 +266,8 @@ Sanctum은 또한 라라벨 기반 API와 통신해야하는 싱글 페이지 �
 
 먼저 SPA가 요청할 도메인을 설정해야 합니다. `sanctum` 설정 파일 안에 `stateful` 설정 옵션을 사용해서 이러한 도메인을 설정합니다. 이 설정 세팅은 어떤 도메인이 API에 요청할 때 라라벨 세션 쿠키를 사용하여 "상태 유지(stateful)" 인증을 유지할 도메인을 결정합니다.
 
-> {note} 포트 (`127.0.0.1:8000`)가 포함 된 URL을 통해 애플리케이션에 액세스하는 경우 도메인에 포트 번호를 포함해야합니다.
+> **Warning**
+> 포트 (`127.0.0.1:8000`)가 포함 된 URL을 통해 애플리케이션에 액세스하는 경우 도메인에 포트 번호를 포함해야합니다.
 
 <a name="sanctum-middleware"></a>
 #### Sanctum 미들웨어
@@ -302,7 +322,8 @@ axios.get('/sanctum/csrf-cookie').then(response => {
 
 물론 사용자의 세션이 활동 부족으로 만료되면 라라벨 애플리케이션에 대한 후속 요청에서 401 또는 419 HTTP 오류 응답을 받을 수 있습니다. 이 경우 사용자를 SPA의 로그인 페이지로 리디렉션해야 합니다.
 
-> {note} 자신만의 `/login` 엔드포인트를 자유롭게 작성할 수 있습니다; 그러나 [라라벨이 제공하는 세션 기반의 인증 서비스](/docs/{{version}}/authentication#authenticating-users)을 사용해서 사용자를 인증해야 합니다. 일반적으로 이것은 `web` 인증 가드를 사용하는 것을 의미합니다
+> **Warning**
+> 자신만의 `/login` 엔드포인트를 자유롭게 작성할 수 있습니다; 그러나 [라라벨이 제공하는 세션 기반의 인증 서비스](/docs/{{version}}/authentication#authenticating-users)을 사용해서 사용자를 인증해야 합니다. 일반적으로 이것은 `web` 인증 가드를 사용하는 것을 의미합니다
 
 
 <a name="protecting-spa-routes"></a>
@@ -387,7 +408,8 @@ Sanctum 토큰을 사용하여 모바일 애플리케이션의 API 요청을 인
 
 모바일 디바이스가 토큰을 사용하여 애플리케이션에 API 요청을 하는 경우, `Authorization` 헤더에 `Bearer` 토큰으로 전달해야 합니다.
 
-> {tip} 모바일 애플리케이션에 대한 토큰을 발행할 때 [토큰 권한](#token-abilities)을 자유롭게 지정할 수도 있습니다
+> **Note**
+> 모바일 애플리케이션에 대한 토큰을 발행할 때 [토큰 권한](#token-abilities)을 자유롭게 지정할 수도 있습니다
 
 <a name="protecting-mobile-api-routes"></a>
 ### 라우트 보호하기

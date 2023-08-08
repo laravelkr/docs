@@ -17,6 +17,7 @@
     - [템플릿 설정하기](#customizing-the-templates)
     - [첨부파일](#mail-attachments)
     - [태그 & 메타데이터 지정하기](#adding-tags-metadata)
+    - [심포니 메시지 커스터마이징](#customizing-the-symfony-message)
     - [Mailable 사용](#using-mailables)
     - [메일 알림 미리보기](#previewing-mail-notifications)
 - [마크다운 이메일 알림](#markdown-mail-notifications)
@@ -53,7 +54,8 @@
 
 [이메일 발송](/docs/{{version}}/mail)기능 이외에도 Laravel은 이메일, SMS ([Vonage](https://www.vonage.com/communications-apis/) 이전에 Nexmo로 알려진 서비스 제공회사) 또는 [Slack](https://slack.com) 를 포함한 다양한 전달 방법들을 통해 알림 전송기능을 제공합니다. 또한 수십 개의 다른 채널로 알림을 보낼 수 있도록 다양한 [커뮤니티 제작 알림 채널](https://laravel-notification-channels.com/about/#suggesting-a-new-channel) 만들어져 있습니다. 물론, 알림은 데이터베이스에 저장되어 웹 인터페이스에 표시될 수도 있습니다.
 
-> {tip} 역자주 국내 SMS으로 [SENS for Laravel](https://github.com/seungmun/laravel-sens) 이 있습니다.
+> **Note**
+> 역자주 국내 SMS으로 [SENS for Laravel](https://github.com/seungmun/laravel-sens) 이 있습니다.
 
 일반적으로, 알림은 애플리케이션 안에서 발생한 어떤 사항을 사용자에게 전달하기 위한 짧은 정보를 담은 메세지입니다. 예를들어, 결제가 필요한 애플리케이션을 작성중이라면, "결제 완료" 알림을 이메일이나 SMS를 통해서 사용자에게 발송할 수 있습니다.
 
@@ -94,7 +96,8 @@ php artisan make:notification InvoicePaid
 
     $user->notify(new InvoicePaid($invoice));
 
-> {tip} 기억하세요. 당신은 당신의 어떤 모델에도 `Notifiable` 트레이트-trait를 사용할 수 있습니다. 오직 `User` 모델에만 한정되지 않습니다.
+> **Note**
+> 기억하세요. 당신은 당신의 어떤 모델에도 `Notifiable` 트레이트-trait를 사용할 수 있습니다. 오직 `User` 모델에만 한정되지 않습니다.
 
 <a name="using-the-notification-facade"></a>
 ### Notification 파사드 사용하기
@@ -114,7 +117,8 @@ php artisan make:notification InvoicePaid
 
 모든 알림 클래스는 알림이 어떤 채널에 전달될지 결정할 수 있는 `via` 메소드를 가지고 있습니다. 알림은 `mail`, `database`, `broadcast`, `vonage` 그리고 `slack` 채널을 통해서 보낼 수 있습니다.
 
-> {tip} 텔레그램이나 Pusher 와 같은 다른 채널을 사용하고자 한다면, [라라벨 알림 채널 웹사이트](http://laravel-notification-channels.com)와 같은 커뮤니티 드라이버를 확인해 보십시오.
+> **Note**
+> 텔레그램이나 Pusher 와 같은 다른 채널을 사용하고자 한다면, [라라벨 알림 채널 웹사이트](http://laravel-notification-channels.com)와 같은 커뮤니티 드라이버를 확인해 보십시오.
 
 `via` 메소드는 알림을 보내고 있는 클래스의 인스턴스인 `$notifiable` 인스턴스를 전달받습니다. 어떤 채널에 알림이 전달되는지 결정하기 위해서 `$notifiable`을 사용할 수 있습니다.
 
@@ -132,7 +136,8 @@ php artisan make:notification InvoicePaid
 <a name="queueing-notifications"></a>
 ### Queue-큐를 통한 Notifications 사용
 
-> {note} 알림을 보내는데 Queue-큐를 사용하기 전에 Queue-큐 설정을 완료하고 [Queue-큐 워커를 구동](/docs/{{version}}/queues)해야 합니다.
+> **Warning**
+> 알림을 보내는데 Queue-큐를 사용하기 전에 Queue-큐 설정을 완료하고 [Queue-큐 워커를 구동](/docs/{{version}}/queues)해야 합니다.
 
 특히 채널이 알림을 전달하기 위해 외부 API를 호출해야 하는 경우 알림을 보내는 데 시간이 걸릴 수 있습니다. 애플리케이션의 응답 시간을 단축하려면 `ShouldQueue` 인터페이스와 `Queueable` 특성을 클래스에 추가하여 알림을 대기열에 추가하세요. 인터페이스와 특성은 `make:notification` 명령을 사용하여 생성된 모든 알림에 대해 이미 임포트되어 있으므로 즉시 알림 클래스에 추가할 수 있습니다.
 
@@ -155,11 +160,19 @@ php artisan make:notification InvoicePaid
 
     $user->notify(new InvoicePaid($invoice));
 
+알림이 대기열에 등록될 때 대기열에 등록되는 잡은 각 수신인과 채널의 조합으로 생성될 것입니다. 예를 들어 여러분의 알림이 세 명의 수신인과 두 개의 채널을 가지고 있다면 총 6개의 잡이 큐에 디스패치 될 것 입니다.
+
+<a name="delaying-notifications"></a>
+#### 알림 지연시키기
+
 알림을 보낼 때 이를 지연해서 보낼 필요가 있다면, 알림 인스턴스에 `delay` 메소드를 체이닝하면 됩니다.
 
     $when = now()->addMinutes(10);
 
     $user->notify((new InvoicePaid($invoice))->delay($when));
+
+<a name="delaying-notifications-per-channel"></a>
+#### 채널별로 알림 지연시키기
 
 특정 채널에 대한 지연을 설정하기 위해 배열을 `delay` 메소드에 전달할 수 있습니다.
 
@@ -168,7 +181,21 @@ php artisan make:notification InvoicePaid
         'sms' => now()->addMinutes(10),
     ]));
 
-알림을 대기열(queue)에 넣을 때 각 수신자 및 채널 조합에 대해 대기열에 있는 작업이 생성됩니다. 예를 들어 알림에 3명의 수신자와 2개의 채널이 있는 경우 6개의 작업이 대기열로 발송됩니다.
+다른 방법으로는 알림 클래스 자체에 `withDelay` 메서드를 정의하는 방법이 있습니다. `withDelay` 메서드는 채널 이름과 지연 값의 배열을 반환해야 합니다.
+
+    /**
+     * Determine the notification's delivery delay.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function withDelay($notifiable)
+    {
+        return [
+            'mail' => now()->addMinutes(5),
+            'sms' => now()->addMinutes(10),
+        ];
+    }
 
 #### 알림 대기열 커넥션 커스터마이징
 
@@ -181,7 +208,22 @@ php artisan make:notification InvoicePaid
      */
     public $connection = 'redis';
 
+또는 알림이 지원하는 각 알림 채널에 사용해야 하는 특정 대기열 연결을 지정하려면 알림에 `viaConnections` 메서드를 정의할 수 있습니다. 이 메서드는 채널 이름/대기열 연결 이름 쌍의 배열을 반환해야 합니다.
 
+    /**
+     * Determine which connections should be used for each notification channel.
+     *
+     * @return array
+     */
+    public function viaConnections()
+    {
+        return [
+            'mail' => 'redis',
+            'database' => 'sync',
+        ];
+    }
+
+<a name="customizing-notification-channel-queues"></a>
 #### 알림 채널 대기열 커스터마이징
 
 알림이 지원하는 각 알림 채널에 사용해야하는 특정 대기열을 지정하려면 알림에 `viaQueues` 메소드를 정의 할 수 있습니다. 이 메서드는 채널 이름 / 큐 이름 쌍의 배열을 반환해야합니다.
@@ -234,8 +276,8 @@ php artisan make:notification InvoicePaid
         }
     }
 
-> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 검토하세요.
-
+> **Note**
+> 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 검토하세요.
 
 #### 대기 중인 알림을 보내야 하는지 여부 결정
 
@@ -260,9 +302,13 @@ php artisan make:notification InvoicePaid
 
 때로는 애플리케이션의 "User"모델로 저장되지 않은 사람에게 알림을 보내야 할 수도 있습니다. `Notification` 파사드의 `route` 메소드를 사용하여 알림을 보내기 전에 임시 알림 라우팅 정보를 지정할 수 있습니다.
 
+    use Illuminate\Broadcasting\Channel;
+    use Illuminate\Support\Facades\Notification;
+
     Notification::route('mail', 'taylor@example.com')
                 ->route('vonage', '5555555555')
                 ->route('slack', 'https://hooks.slack.com/services/...')
+                ->route('broadcast', [new Channel('channel-name')])
                 ->notify(new InvoicePaid($invoice));
 
 필요에 따라 임시적인 알림을 `mail` 경로로 보낼 때 수신자의 이름을 제공하려면 이메일 주소를 키로 포함하고 이름을 배열의 첫 번째 요소 값으로 포함하는 배열을 제공해야 합니다.
@@ -294,17 +340,39 @@ php artisan make:notification InvoicePaid
         return (new MailMessage)
                     ->greeting('Hello!')
                     ->line('One of your invoices has been paid!')
+                    ->lineIf($this->amount > 0, "Amount paid: {$this->amount}")
                     ->action('View Invoice', $url)
                     ->line('Thank you for using our application!');
     }
 
-> {tip} `toMail` 메소드 안에서 `$this->invoice->id`를 사용하고 있다는 것을 주의해주십시오. 알림이 메세지를 생성하기 위해서 필요한 그 어떤 데이터라도 알림 클래스의 생성자에 전달할 수 있습니다.
+> **Note**
+> `toMail` 메소드 안에서 `$this->invoice->id`를 사용하고 있다는 것을 주의해주십시오. 알림이 메세지를 생성하기 위해서 필요한 그 어떤 데이터라도 알림 클래스의 생성자에 전달할 수 있습니다.
 
 이 예시에서는 인사말, 한 줄의 텍스트, 클릭 유도 및 다른 텍스트 줄을 등록합니다. `MailMessage` 객체에서 제공하는 이러한 메소드를 사용하면 작은 트랜잭션 이메일을 간단하고 빠르게 포맷할 수 있습니다. 그러면 메일 채널은 메시지를 일반 텍스트에서 아름답고 반응이 빠른 HTML 이메일 템플릿으로 변환합니다. 다음은 `mail` 채널에서 생성된 이메일의 예입니다.
 
 <img src="https://laravel.com/img/docs/notification-example-2.png">
 
-> {tip} 메일 알림을 보낼 때 `config/app.php` 설정 파일에서 `name` 설정 옵션을 설정해야 합니다. 이 값은 메일 알림 메시지의 머리글과 바닥글에 사용됩니다..
+> **Note**
+> 메일 알림을 보낼 때 `config/app.php` 설정 파일에서 `name` 설정 옵션을 설정해야 합니다. 이 값은 메일 알림 메시지의 머리글과 바닥글에 사용됩니다..
+
+<a name="error-messages"></a>
+#### 에러 메시지
+
+일부 알림은 사용자에게 결제 실패와 같은 에러를 알려줍니다. 메시지를 만들 때 `error` 메서드를 호출함으로써 메시지가 에러에 관한 것이라는 것을 나타낼 수 있습니다. 메일 메시지에 `error` 메서드를 사용하면 행위 유도 버튼이 검정색이 아닌 빨간색으로 표시될 것입니다.
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->error()
+                    ->subject('Invoice Payment Failed')
+                    ->line('...');
+    }
 
 #### 기타 메일 알림 포매팅 옵션
 
@@ -337,25 +405,6 @@ php artisan make:notification InvoicePaid
             ['emails.name.html', 'emails.name.plain'],
             ['invoice' => $this->invoice]
         );
-    }
-
-<a name="error-messages"></a>
-#### 에러 메세지
-
-일부 알림은 결제 실패와 같은 오류를 사용자에게 알려줍니다. 메시지를 작성할 때 `error` 메소드를 호출하여 메일 메시지가 오류에 관한 것임을 나타낼 수 있습니다. 메일 메시지에 `error` 메소드를 사용하면 클릭 유도문안 버튼이 검은색 대신 빨간색으로 표시됩니다.
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Message
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->error()
-                    ->subject('Notification Subject')
-                    ->line('...');
     }
 
 <a name="customizing-the-sender"></a>
@@ -451,6 +500,8 @@ php artisan make:notification InvoicePaid
 
 ```shell
 php artisan vendor:publish --tag=laravel-notifications
+```
+
 ### 첨부 파일
 
 이메일 알림에 첨부 파일을 추가하려면 메시지를 작성하는 동안 `attach` 메소드을 사용하세요. `attach` 메소드는 파일의 절대 경로를 첫 번째 인수로 받아들입니다.
@@ -467,7 +518,9 @@ php artisan vendor:publish --tag=laravel-notifications
                     ->greeting('Hello!')
                     ->attach('/path/to/file');
     }
-```
+
+> **Note**  
+> 알림 메일 메시지가 제공하는 `attach` 메서드는 [첨부 가능한 개체](/docs/{{version}}/mail#attachable-objects)도 받습니다. 전체 내용은 [첨부 가능 개체 문서](/docs/{{version}}/mail#attachable-objects)를 참고하세요.
 
 메시지에 파일을 첨부할 때 `attach` 메소드의 두 번째 인수로 `array`를 전달하여 표시 이름, MIME 유형을 지정할 수도 있습니다.
 
@@ -504,6 +557,27 @@ php artisan vendor:publish --tag=laravel-notifications
                     ->attachFromStorage('/path/to/file');
     }
 
+필요하다면 `attachMany` 메서드를 이용하여 여러 파일을 첨부할 수 있습니다.
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->greeting('Hello!')
+                    ->attachMany([
+                        '/path/to/forge.svg',
+                        '/path/to/vapor.svg' => [
+                            'as' => 'Logo.svg',
+                            'mime' => 'image/svg+xml',
+                        ],
+                    ]);
+    }
+
 #### 로우 데이터 첨부 파일
 
 `attachData` 메소드는 로우 문자열의 바이트를 첨부 파일로 첨부하는 데 사용할 수 있습니다. `attachData` 메소드를 호출할 때 첨부 파일에 할당해야 하는 파일 이름을 제공해야 합니다.
@@ -526,7 +600,7 @@ php artisan vendor:publish --tag=laravel-notifications
 <a name="adding-tags-metadata"></a>
 ### 태그 & 메타데이터 지정하기
 
-`MailMessage`에는 태그와 메타데이터를 지정할수 있습니다. 다만 이 기능은 이메일 서비스에 따라서 사용유무와 사용법이 다릅니다.
+메일건과 포스트마크 같은 제삼자 이메일 제공자들은 여러분의 애플리케이션에서 보낸 이메일을 그룹으로 묶거나 추적하는 데 사용되는 "태그"와 메타데이터를 지원합니다. `tag`와 `metadata` 메서드를 이용하여 이메일 메시지에 태그와 메타데이터를 추가할 수 있습니다.
 
     /**
      * Get the mail representation of the notification.
@@ -542,7 +616,34 @@ php artisan vendor:publish --tag=laravel-notifications
                     ->metadata('comment_id', $this->comment->id);
     }
 
+여러분의 애플리케이션이 메일건 드라이버를 사용중이라면 [태그](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)와 [메타데이터](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)에 관한 추가 정보는 메일건의 문서를 참고하세요. 마찬가지로 포스트마크의 문서에서도 [태그](https://postmarkapp.com/blog/tags-support-for-smtp)와 [메타데이터](https://postmarkapp.com/support/article/1125-custom-metadata-faq)에 대한 추가 정보를 얻을 수 있을 겁니다.
 
+여러분의 애플리케이션이 이메일을 보내는데 아마존 SES를 사용하고 있다면 [SES "태그"](https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html)를 메시지에 첨부하기 위해 `metadata` 메서드를 사용해야 합니다.
+
+<a name="customizing-the-symfony-message"></a>
+### 심포니 메시지 커스터마이징하기
+
+`MailMessage` 클래스의 `withSymfonyMessage` 메서드는 메시지를 전송하기 전에 심포지 메시지 인스턴스와 함께 실행되는 클로저를 등록할 수 있게 해줍니다. 이 기능은 메시지가 전달되기 전에 커스터마이즈할 수 있는 기회를 줍니다.
+
+    use Symfony\Component\Mime\Email;
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+                    ->withSymfonyMessage(function (Email $message) {
+                        $message->getHeaders()->addTextHeader(
+                            'Custom-Header', 'Header Value'
+                        );
+                    });
+    }
+
+### Using Mailables
 ### Mailable 사용
 
 필요한 경우 알림의 `toMail` 메소드에서 전체 [메일가능한 객체](docs/{{version}}/mail)을 반환할 수 있습니다. `MailMessage` 대신 `Mailable`을 반환할 때 메일 가능 객체의 `to` 메소드를 사용하여 메시지 수신자를 지정해야 합니다.
@@ -636,18 +737,18 @@ php artisan make:notification InvoicePaid --markdown=mail.invoice.paid
 마크다운 이메일 알림은 블레이드 컴포넌트와 마크다운 문법을 조합하여 라라벨이 사전에 구성해둔 알림 컴포넌트를 활용하면서 손쉽게 알림을 생성할 수 있게 해줍니다.
 
 ```blade
-@component('mail::message')
+<x-mail::message>
 # Invoice Paid
 
 Your invoice has been paid!
 
-@component('mail::button', ['url' => $url])
+<x-mail::button :url="$url">
 View Invoice
-@endcomponent
+</x-mail::button>
 
 Thanks,<br>
 {{ config('app.name') }}
-@endcomponent
+</x-mail::message>
 ```
 
 #### 버튼 컴포넌트
@@ -655,9 +756,9 @@ Thanks,<br>
 버튼 컴포넌트는 가운데에 있는 버튼 링크를 렌더링합니다. 설정요소는 `url`과 선택적 `color`의 두 인수를 허용합니다. 지원되는 색상은 `primary`, `green`, `red` 입니다. 알림에 원하는 만큼 버튼 컴포넌트를 추가할 수 있습니다.
 
 ```blade
-@component('mail::button', ['url' => $url, 'color' => 'green'])
+<x-mail::button :url="$url" color="green">
 View Invoice
-@endcomponent
+</x-mail::button>
 ```
 
 #### 패널 컴포넌트
@@ -665,9 +766,9 @@ View Invoice
 패널 컴포넌트는 나머지 텍스트와 배경색이 약간 다른 패널에 텍스트 블럭을 렌더링합니다. 이렇게하면 주어진 텍스트 블럭을 보다 강조할 수 있습니다.
 
 ```blade
-@component('mail::panel')
+<x-mail::panel>
 This is the panel content.
-@endcomponent
+</x-mail::panel>
 ```
 
 #### 테이블 컴포넌트
@@ -675,12 +776,12 @@ This is the panel content.
 테이블 컴포넌트는 마크다운 테이블을 HTML 테이블로 변환합니다. 이 컴포넌트는 마크다운 테이블을 내용으로 전달받습니다. 테이블 컬럼 정렬은 기본적인 마크다운 테이블 정렬 문법을 사용합니다.
 
 ```blade
-@component('mail::table')
+<x-mail::table>
 | Laravel       | Table         | Example  |
 | ------------- |:-------------:| --------:|
 | Col 2 is      | Centered      | $10      |
 | Col 3 is      | Right-Aligned | $20      |
-@endcomponent
+</x-mail::table>
 ```
 
 <a name="customizing-the-components"></a>
@@ -774,7 +875,8 @@ php artisan migrate
         echo $notification->type;
     }
 
-> {tip} 자바스크립트 클라이언트에서 알림에 액세스하려면 현재 사용자와 같이 notifiable 관계 모델에 대한 알림을 반환하는 알림 컨트롤러를 애플리케이션에 정의해야 합니다. 그런 다음 JavaScript 클라이언트에서 해당 컨트롤러의 URL로 HTTP 요청을 할 수 있습니다.
+> **Note**
+> 자바스크립트 클라이언트에서 알림에 액세스하려면 현재 사용자와 같이 notifiable 관계 모델에 대한 알림을 반환하는 알림 컨트롤러를 애플리케이션에 정의해야 합니다. 그런 다음 JavaScript 클라이언트에서 해당 컨트롤러의 URL로 HTTP 요청을 할 수 있습니다.
 
 <a name="marking-notifications-as-read"></a>
 ### 알림을 읽음 표시로 전환하기
@@ -1185,14 +1287,17 @@ Slack 알림을 적절한 Slack 팀 및 채널로 라우팅하려면 알림 대�
 
 알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSending` [event](/docs/{{version}}/events)을 전달합니다. 여기에는 "notifiable" 모델과 알림 인스턴스 자체가 포함됩니다. 애플리케이션의 `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
 
+    use App\Listeners\CheckNotificationStatus;
+    use Illuminate\Notifications\Events\NotificationSending;
+   
     /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Notifications\Events\NotificationSending' => [
-            'App\Listeners\CheckNotificationStatus',
+        NotificationSending::class => [
+            CheckNotificationStatus::class,
         ],
     ];
 
@@ -1230,18 +1335,22 @@ Slack 알림을 적절한 Slack 팀 및 채널로 라우팅하려면 알림 대�
 
 알림이 전송되면 알림 시스템에서 `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events)를 전달합니다. 여기에는 "notifiable" 모델와 알림 인스턴스 자체가 포함됩니다. `EventServiceProvider`에서 이 이벤트에 대한 리스너를 등록할 수 있습니다.
 
+    use App\Listeners\LogNotification;
+    use Illuminate\Notifications\Events\NotificationSent;
+
     /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Notifications\Events\NotificationSent' => [
-            'App\Listeners\LogNotification',
+        NotificationSent::class => [
+            LogNotification::class,
         ],
     ];
 
-> {tip} `EventServiceProvider` 에서 리스너를 등록하고 난후, `event:generate` 아티즌 명령어를 사용하여 빠르게 리스너 클래스를 생성할 수 있습니다.
+> **Note**
+> `EventServiceProvider` 에서 리스너를 등록하고 난후, `event:generate` 아티즌 명령어를 사용하여 빠르게 리스너 클래스를 생성할 수 있습니다.
 
 이벤트 리스너 안에서 알림의 수신자 또는 알림 그 자체에 대해서 보다 자세한 정보를 얻기 위해서 이벤트의 `notifiable`, `notification`, 그리고 `channel` 속성에 엑세스 할 수 있습니다.
 

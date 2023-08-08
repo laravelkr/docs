@@ -8,6 +8,7 @@
     - [모델 인덱스 설정하기](#configuring-model-indexes)
     - [검색 데이터 설정하기](#configuring-searchable-data)
     - [모델 ID 설정하기](#configuring-the-model-id)
+    - [모델별로 검색 엔진 설정하기](#configuring-search-engines-per-model)
     - [사용자 식별](#identifying-users)
 - [데이터베이스 / 컬렉션 엔진](#database-and-collection-engines)
     - [데이터베이스 엔진](#database-engine)
@@ -98,7 +99,8 @@ MEILISEARCH_KEY=masterKey
 
 추가로, [MeiliSearch 바이너리 호환성 문서](https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch)를 확인하여 MeiliSearch 바이너리 버전과 호환되는 `meilisearch/meilisearch-php` 버전을 설치했는지 확인하십시오. 
 
-> {note} MeiliSearch를 사용하는 애플리케이션에서 스카우트를 업그레이드 할 때는 항상 MeiliSearch 서비스의 [추가적인 변경사항 리뷰](https://github.com/meilisearch/MeiliSearch/releases)를 확인하십시오.
+> **Warning**
+> MeiliSearch를 사용하는 애플리케이션에서 스카우트를 업그레이드 할 때는 항상 MeiliSearch 서비스의 [추가적인 변경사항 리뷰](https://github.com/meilisearch/MeiliSearch/releases)를 확인하십시오.
 
 <a name="queueing"></a>
 ### 큐 사용하기
@@ -110,6 +112,13 @@ MEILISEARCH_KEY=masterKey
     'queue' => true,
 
 `queue` 옵션이 `false`로 설정된 경우에도 Algolia 와 Meilisearch 같은 일부 Scout 드라이버는 레코드를 항상 비동기식으로 인덱싱 한다는 점을 기억하십시오. 즉, 라라벨 애플리케이션 안에서 인덱스 작업이 완료되었더라도 검색 엔진 자체가 새로운 레코드 및 업데이트된 레코드를 반영하는데는 시간이 필요할 수 있습니다.
+
+스카우트 잡이 활용할 커넥션과 큐를 지정하려면 `queue` 설정 옵션을 배열로 정의하면 됩니다.
+
+    'queue' => [
+        'connection' => 'redis',
+        'queue' => 'scout'
+    ],
 
 <a name="configuration"></a>
 ## 환경 설정
@@ -172,6 +181,59 @@ MEILISEARCH_KEY=masterKey
         }
     }
 
+MeiliSearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 대해서만 필터링 연산(`>`, `<`, 등)을 수행합니다. 그래서 이러한 검색 엔진을 사용하고 검색 데이터를 커스터마이징 할 때는, 숫자 값이 올바른 타입으로 변환되어 있는지 확인해야 합니다.
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int) $this->id,
+            'name' => $this->name,
+            'price' => (float) $this->price,
+        ];
+    }
+
+<a name="configuring-filterable-data-for-meilisearch"></a>
+#### 필터링 가능한 데이터 설정하기(MeiliSearch)
+
+다른 스카우트 드라이버와 달리, MeiliSearch는 필터링 가능한 속성, 정렬 가능한 속성, 그리고 [다른 지원되는 설정 필드](https://docs.meilisearch.com/reference/api/settings.html)를 미리 정의해야 합니다.
+
+필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
+
+```php
+use App\Models\User;
+use App\Models\Flight;
+
+'meilisearch' => [
+    'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    'key' => env('MEILISEARCH_KEY', null),
+    'index-settings' => [
+        User::class => [
+            'filterableAttributes'=> ['id', 'name', 'email'],
+            'sortableAttributes' => ['created_at'],
+            // Other settings fields...
+        ],
+        Flight::class => [
+            'filterableAttributes'=> ['id', 'destination'],
+            'sortableAttributes' => ['updated_at'],
+        ],
+    ],
+],
+```
+
+만약 주어진 인덱스의 모델이 소프트 삭제가 가능하고 `index-settings` 배열에 포함되어 있다면, 스카우트는 해당 인덱스에서 소프트 삭제된 모델에 대한 필터링을 자동으로 지원합니다. 소프트 삭제가 가능한 모델 인덱스에 필터링이나 정렬 가능한 속성을 정의할 필요가 없다면, 해당 모델을 위한 `index-settings` 배열에 빈 항목을 추가할 수 있습니다.
+
+```php
+'index-settings' => [
+    Flight::class => []
+],
+```
+
+애플리케이션의 인덱스 설정을 구성한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
+
+```shell
+php artisan scout:sync-index-settings
+```
+
 <a name="configuring-the-model-id"></a>
 ### 모델 ID 설정하기
 
@@ -209,6 +271,34 @@ MEILISEARCH_KEY=masterKey
         }
     }
 
+<a name="configuring-search-engines-per-model"></a>
+### 모델별 검색 엔진 설정
+
+검색할 때 스카우트는 일반적으로 여러분 애플리케이션의 `scout` 설정 파일에 지정한 기본 검색 엔진을 사용합니다. 하지만 특정 모델을 위한 검색 엔진은 모델의 `searchableUsing` 메서드를 오버라이드해서 변경할 수 있습니다.
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Laravel\Scout\EngineManager;
+    use Laravel\Scout\Searchable;
+
+    class User extends Model
+    {
+        use Searchable;
+
+        /**
+         * Get the engine used to index the model.
+         *
+         * @return \Laravel\Scout\Engines\Engine
+         */
+        public function searchableUsing()
+        {
+            return app(EngineManager::class)->engine('meilisearch');
+        }
+    }
+
 <a name="identifying-users"></a>
 ### 사용자 식별
 
@@ -226,7 +316,8 @@ SCOUT_IDENTIFY=true
 <a name="database-engine"></a>
 ### 데이터베이스 엔진
 
-> {note} 데이터베이스 엔진은 현제 MySQL 및 PostgreSQL을 지원합니다.
+> **Warning**
+> 데이터베이스 엔진은 현제 MySQL 및 PostgreSQL을 지원합니다.
 
 애플리케이션이 크지 않은 데이터베이스에서 동작하고, 부하가 가벼운 경우에는 Scout 의 "데이터베이스" 엔진을 사용하는 것이 편할 수 있습니다. 데이터베이스 엔진은 검색 결과를 얻기 위해서 "where like"을 통해서 Full Text 인덱싱을 사용합니다.  
 
@@ -239,8 +330,6 @@ SCOUT_DRIVER=database
 데이터베이스 엔진을 기본 검색 드라이버로 지정한 뒤에 [검색 가능한 데이터 설정](#configuring-searchable-data)을 완료해야합니다. 그 다음에 모델에 대한 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. 데이터베이스 엔진에서는 Algolia, MeiliSearch와 같은 데이터 인덱싱작업은 필요하지 않습니다.
 
 #### 데이터베이스 엔진의 검색 방식 커스터마이징
-
-By default, the database engine will execute a "where like" query against every model attribute that you have [configured as searchable](#configuring-searchable-data). However, in some situations, this may result in poor performance. Therefore, the database engine's search strategy can be configured so that some specified columns utilize full text search queries or only use "where like" constraints to search the prefixes of strings (`example%`) instead of searching within the entire string (`%example%`).
 
 기본적으로 데이터베이스 엔진은 [검색 가능하다고 설정된](#configuring-searchable-data) 모델에 대해서 "where like" 쿼리를 실행합니다. 하지만 몇몇의 경우에서는 이로 인해서 성능이 낮게 나올 수 있습니다. 따라서 데이터베이스 엔진에서 사용하는 검색 방식을 커스터마이징 할 수 있습니다. Full text 검색을 해야하는 컬럼의 일부가 (`%example%`) 쿼리를 사용하는 대신 (`example%`)를 사용하는 형식으로 지정이 가능합니다. 
 
@@ -255,6 +344,7 @@ use Laravel\Scout\Attributes\SearchUsingPrefix;
  *
  * @return array
  */
+#[SearchUsingPrefix(['id', 'email'])]
 #[SearchUsingFullText(['bio'])]
 public function toSearchableArray()
 {
@@ -269,7 +359,8 @@ public function toSearchableArray()
 
 (역자주) 위의 예제를 확인하면 "id", "email" 은 prefix (`example%`), "bio"는 full text (`%example%`) 형태로 where like 쿼리가 생성됩니다.
 
-> {note} 컬럼이 full text 쿼리 조건을 사용한다고 지정하기 전에 컬럼에 [full text index](/docs/{{version}}/migrations#available-index-types)가 생성되어 있는지 확인하십시오.
+> **Warning**
+> 컬럼이 full text 쿼리 조건을 사용한다고 지정하기 전에 컬럼에 [full text index](/docs/{{version}}/migrations#available-index-types)가 생성되어 있는지 확인하십시오.
 
 <a name="collection-engine"></a>
 ### 컬렉션 엔진
@@ -354,7 +445,8 @@ php artisan scout:flush "App\Models\Post"
 
     $orders->searchable();
 
-> {tip} `searchable` 메서드를 "upsert" 작업으로 생각할 수도 있습니다. 다시 말해, 모델 레코드가 이미 인덱스에 존재한다면, 업데이트될 것입니다. 검색 인덱스에 존재하지 않는다면, 인덱스에 추가될 것입니다.
+> **Note**
+> `searchable` 메서드를 "upsert" 작업으로 생각할 수도 있습니다. 다시 말해, 모델 레코드가 이미 인덱스에 존재한다면, 업데이트될 것입니다. 검색 인덱스에 존재하지 않는다면, 인덱스에 추가될 것입니다.
 
 <a name="updating-records"></a>
 ### 레코드 업데이트하기
@@ -432,7 +524,8 @@ php artisan scout:flush "App\Models\Post"
 
 `shouldBeSearchable` 메서드는 `save` 와 `create` 메서드, 쿼리 또는 관계 모델을 통해서 모델을 조작한 경우에만 적용됩니다. `searchable` 메서드를 사용하여 모델 또는 컬렉션을 직접적으로 검색 가능하게 하면, `shouldBeSearchable` 메서드의 결과를 덮어씌게 됩니다.
 
-> {note} `shouldBeSearchable` 메소드는 "데이터베이스" 엔진을 사용할 때는 활용할 수 없습니다. 검색 가능한 모든 데이터가 항상 데이터베이스에 저장되기 때문입니다. 데이터베이스 엔진을 사용할 때 유사항 동작을 수행하려면 [where 절](#where-clauses)을 사용해야합니다.
+> **Warning**
+> `shouldBeSearchable` 메소드는 "데이터베이스" 엔진을 사용할 때는 활용할 수 없습니다. 검색 가능한 모든 데이터가 항상 데이터베이스에 저장되기 때문입니다. 데이터베이스 엔진을 사용할 때 유사항 동작을 수행하려면 [where 절](#where-clauses)을 사용해야합니다.
 
 <a name="searching"></a>
 ## 검색하기
@@ -482,6 +575,9 @@ php artisan scout:flush "App\Models\Post"
 
 검색 인덱스는 관계형 데이터베이스가 아니므로 현재 고급 "where" 절이 지원되지 않습니다.
 
+> **Warning**
+> 만약 여러분의 애플리케이션이 MeiliSearch를 사용하고 있다면, 여러분의 애플리케이션의 [필터링 가능한 속성들](#configuring-filterable-data-for-meilisearch)을 설정해야 합니다.
+
 <a name="pagination"></a>
 ### 페이지네이션
 
@@ -516,6 +612,9 @@ php artisan scout:flush "App\Models\Post"
         return Order::search($request->input('query'))->paginate(15);
     });
 
+> **Warning**  
+> 검색 엔진은 엘로퀀트 모델의 글로벌 스코프 정의를 알지 못하므로 스카우트 페이지네이션을 활용하는 글로벌 스코프를 사용해서는 안됩니다. 아니면 스카우트를 통해 검색할 때는 글로벌 스코프의 제약조건을 다시 만들어야 합니다.
+
 <a name="soft-deleting"></a>
 ### 소프트 삭제
 
@@ -533,7 +632,8 @@ php artisan scout:flush "App\Models\Post"
     // Only include trashed records when retrieving results...
     $orders = Order::search('Star Trek')->onlyTrashed()->get();
 
-> {tip} `forceDelete` 메서드를 사용하여 소프트 삭제된 모델을 완전히 삭제할 때, Scout-스카우트는 검색 인덱스에서 자동으로 이를 제거합니다.
+> **Note**
+> `forceDelete` 메서드를 사용하여 소프트 삭제된 모델을 완전히 삭제할 때, Scout-스카우트는 검색 인덱스에서 자동으로 이를 제거합니다.
 
 <a name="customizing-engine-searches"></a>
 ### 엔진의 검색 커스터마이징

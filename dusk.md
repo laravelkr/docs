@@ -6,7 +6,7 @@
   - [다른 브라우저 사용하기](#using-other-browsers)
 - [시작하기](#getting-started)
   - [테스트 클래스 생성하기](#generating-tests)
-  - [데이터베이스 마이그레이션](#migrations)
+  - [개별 테스트후 데이터베이스 리셋하기](#resetting-the-database-after-each-test)
   - [테스트 실행하기](#running-tests)
   - [구동환경 처리](#environment-handling)
 - [브라우저 기본조작](#browser-basics)
@@ -62,9 +62,10 @@
 composer require --dev laravel/dusk
 ```
 
-> {note} 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
+> **Warning**
+> 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
 
-Dusk 패키지를 설치한 후 `dusk:install` Artisan 명령을 실행합니다. `dusk:install` 명령은 `tests/Browser` 디렉토리와 Dusk 테스트의 예제를 생성합니다.
+Dusk 패키지를 설치한 후 `dusk:install` Artisan 명령을 실행합니다. `dusk:install` 명령은 `tests/Browser` 디렉토리와 Dusk 테스트의 예제를 생성하고 여러분 운영 체제에 맞는 크롬 드라이버 바이너리를 설치합니다.
 
 ```shell
 php artisan dusk:install
@@ -72,12 +73,13 @@ php artisan dusk:install
 
 다음으로 애플리케이션의 `.env` 파일에서 `APP_URL` 환경 변수를 설정합니다. 이 값은 브라우저에서 애플리케이션에 액세스하는 데 사용하는 URL과 일치해야 합니다.
 
-> {tip} [Laravel Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
+> **Note**
+> [Laravel Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
 
 <a name="managing-chromedriver-installations"></a>
 ### 크롬 드라이버 설치 관리
 
-라라벨 Dusk에 포함 된 것과 다른 버전의 ChromeDriver를 설치하려면 `dusk:chrome-driver` 명령을 사용할 수 있습니다.
+`dusk:install` 명령을 통해 라라벨 Dusk에 의해 설치되는 것과 다른 버전의 ChromeDriver를 설치하려면 `dusk:chrome-driver` 명령을 사용하면 됩니다.
 
 ```shell
 # Install the latest version of ChromeDriver for your OS...
@@ -93,7 +95,8 @@ php artisan dusk:chrome-driver --all
 php artisan dusk:chrome-driver --detect
 ```
 
-> {note} Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
+> **Warning**
+> Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
 ### 다른 브라우저 사용하기
@@ -141,10 +144,16 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 php artisan dusk:make LoginTest
 ```
 
-<a name="migrations"></a>
-### 데이터베이스 마이그레이션
+<a name="resetting-the-database-after-each-test"></a>
+### 개별 테스트후 데이터베이스 리셋하기
 
-작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, 각 테스트에 대해 데이터베이스를 다시 마이그레이션하는 `DatabaseMigrations` 특성-trait을 사용하십시오.
+작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, `DatabaseMigrations`,  `DatabaseTruncation` 트레이트-trait을 사용하십시오.
+
+<a name="reset-migrations"></a>
+#### 데이터베이스 마이그레이션 사용하기
+
+`DatabaseMigrations` 트레이트-trait는 각 테스트가 수행되기 전에 데이터베이스 마이그레이션을 실행합니다. 그렇지만 각 테스트별로 데이터베이스 테이블을 삭제하고 다시 생성하는 동작은 일반적인 테이블을 비우는 것보다 느립니다.
+
 
     <?php
 
@@ -160,7 +169,61 @@ php artisan dusk:make LoginTest
         use DatabaseMigrations;
     }
 
-> {note} Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
+> **Warning**
+> Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
+
+<a name="reset-truncation"></a>
+#### 데이터베이스 비우기
+
+`DatabaseTruncation` 트레이트-trait를 사용하려면, 먼저 컴포저 패키지 매니저를 사용하여 `doctrine/dbal`을 설치해야합니다.  
+
+```shell
+composer require --dev doctrine/dbal
+```
+
+`DatabaseTruncation` 트레이트-trait는 첫 번째 테스트가 수행될 때 데이터베이스 테이블이 제대로 생성되었는지 확인하기 위해서 데이터베이스 마이그레이션 작업을 실행합니다. 이후에 테스트가 실행될 때에는 데이터베이스의 모든 테이블을 삭제하고 다시 마이그레이션 하는 것보다 비우기만 하는 것이 더 빠릅니다.
+
+
+    <?php
+
+    namespace Tests\Browser;
+
+    use App\Models\User;
+    use Illuminate\Foundation\Testing\DatabaseTruncation;
+    use Laravel\Dusk\Chrome;
+    use Tests\DuskTestCase;
+
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseTruncation;
+    }
+
+기본적으로 이 트레이트-trait는 `migrations` 테이블을 제외한 모든 테이블을 비웁니다. 테이블을 비우기 작업의 대상에 포함시켜야 한다면 테스트 클래스의 `$tablesToTruncate` 속성을 정의하면 됩니다. 
+
+    /**
+     * Indicates which tables should be truncated.
+     *
+     * @var array
+     */
+    protected $tablesToTruncate = ['users'];
+
+다른 방법으로는, 비우기 작업에서 제외되어야 하는 테이블을 추가하고 싶다면 테스트 클래스의 `$exceptTables` 속성을 정의하면 됩니다.
+
+    /**
+     * Indicates which tables should be excluded from truncation.
+     *
+     * @var array
+     */
+    protected $exceptTables = ['users'];
+
+테이블을 비우는데 사용하는 데이터베이스 커넥션을 별도로 지정하고 싶다면 테스트 클래스의 `$connectionsToTruncate` 속성을 정의하면 됩니다. 
+
+    /**
+     * Indicates which connections should have their tables truncated.
+     *
+     * @var array
+     */
+    protected $connectionsToTruncate = ['mysql'];
 
 <a name="running-tests"></a>
 ### 테스트 실행하기
@@ -177,13 +240,14 @@ php artisan dusk
 php artisan dusk:fails
 ```
 
-`dusk` 명령은 지정된 [그룹](https://phpunit.de/manual/current/en/appendixes.annotations.html#appendixes.annotations.group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
+`dusk` 명령은 지정된 [그룹](https://phpunit.readthedocs.io/en/9.5/annotations.html#group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
 
 ```shell
 php artisan dusk --group=foo
 ```
 
-> {tip} 로컬 개발 환경을 관리하기 위해 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 경우 [Dusk 테스트 설정 및 실행](/docs/{{ version}}/sail#laravel-dusk).
+> **Note**
+> 로컬 개발 환경을 관리하기 위해 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 경우 [Dusk 테스트 설정 및 실행](/docs/{{ version}}/sail#laravel-dusk).
 
 <a name="manually-starting-chromedriver"></a>
 #### 수동으로 ChromeDriver 시작하기
@@ -379,7 +443,8 @@ php artisan dusk --group=foo
               ->visit('/home');
     });
 
-> {note} `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
+> **Warning**
+> `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
 
 <a name="cookies"></a>
 ### Cookies
@@ -420,6 +485,10 @@ php artisan dusk --group=foo
 `screenshot` 메서드를 사용하여 스크린 샷을 찍고 주어진 파일 이름으로 저장할 수 있습니다. 모든 스크린 샷은 `tests/Browser/screenshots` 디렉토리에 저장됩니다.
 
     $browser->screenshot('filename');
+
+`responsiveScreenshots` 메서드는 다양한 중단점에서 여러장의 스크린샷을 찍을 때 사용합니다.
+
+    $browser->responsiveScreenshots('filename');
 
 <a name="storing-console-output-to-disk"></a>
 ### 콘솔 출력을 디스크에 저장하기
@@ -565,12 +634,13 @@ Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 �
 
     $browser->attach('photo', __DIR__.'/photos/mountains.png');
 
-> {note} 파일 첨부기능을 사용하려면 서버에 `Zip` PHP 확장 기능이 설치되어 있고 활성화 되어 있어야 합니다.
+> **Warning**
+> 파일 첨부기능을 사용하려면 서버에 `Zip` PHP 확장 기능이 설치되어 있고 활성화 되어 있어야 합니다.
 
 <a name="pressing-buttons"></a>
 ### 버튼 누르기
 
-`press` 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. `press` 메서드에 지정된 첫 번째 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
+`press` 메서드는 페이지의 버튼 요소를 클릭하는 데 사용할 수 있습니다. `press` 메서드에 지정된 인수는 버튼의 표시 텍스트 또는 CSS Dusk 선택자일 수 있습니다.
 
     $browser->press('Login');
 
@@ -595,7 +665,8 @@ Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 �
         // ...
     }
 
-> {note} 이 메소드는 jQuery와 상호 작용합니다. 페이지에서 jQuery를 사용할 수 없는 경우 Dusk는 테스트 기간 동안 사용할 수 있도록 페이지에 자동으로 삽입합니다.
+> **Warning**
+> 이 메소드는 jQuery와 상호 작용합니다. 페이지에서 jQuery를 사용할 수 없는 경우 Dusk는 테스트 기간 동안 사용할 수 있도록 페이지에 자동으로 삽입합니다.
 
 <a name="using-the-keyboard"></a>
 ### 키보드 사용하기
@@ -608,7 +679,8 @@ Dusk는 form 과 element와 상호작용할 수 있는 다양한 메소드를 �
 
     $browser->keys('.app', ['{command}', 'j']);
 
-> {tip} `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
+> **Note**
+> `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
 
 <a name="using-the-mouse"></a>
 ### 마우스 사용하기
@@ -730,6 +802,14 @@ JavaScript를 광범위하게 사용하는 애플리케이션을 테스트할 �
 
     $browser->pause(1000);
 
+주어진 조건이 `true` 인 경우에만 테스트를 중단할 필요가 있으면 `pauseIf` 메서드를 사용하세요.
+
+    $browser->pauseIf(App::environment('production'), 1000);
+
+위와 유사하게 주어진 조건이 `true`가 아닌 경우에만 테스트를 중단할 필요가 있으면 `pauseUnless` 메서드를 사용하시면 됩니다.
+
+    $browser->pauseUnless(App::environment('testing'), 1000);
+
 <a name="waiting-for-selectors"></a>
 #### Selector 가 표시되기를 기다리기
 
@@ -811,6 +891,17 @@ JavaScript를 광범위하게 사용하는 애플리케이션을 테스트할 �
     // Wait a maximum of one second for the link...
     $browser->waitForLink('Create', 1);
 
+<a name="waiting-for-inputs"></a>
+#### 입력 기다리기
+
+`waitForInput` 메서드는 페이지에 주어진 입력 필드가 보여질 때 까지 기다리기 위해 사용합니다.
+
+    // Wait a maximum of five seconds for the input...
+    $browser->waitForInput($field);
+
+    // Wait a maximum of one second for the input...
+    $browser->waitForInput($field, 1);
+
 <a name="waiting-on-the-page-location"></a>
 #### 페이지 경로를 기다리기
 
@@ -864,6 +955,33 @@ JavaScript를 광범위하게 사용하는 애플리케이션을 테스트할 �
 
     // Wait until the component attribute doesn't contain the given value...
     $browser->waitUntilVueIsNot('user.name', null, '@user');
+
+<a name="waiting-for-javascript-events"></a>
+#### 자바스크립트 이벤트 기다리기
+
+`waitForEvent` 메서드는 자바스크립트 이벤트가 발생할 때 까지 테스트 실행을 중단 시킬 수 있습니다.
+
+    $browser->waitForEvent('load');
+
+이벤트 리스너는 현재 스코프에 연결되며, `body` 요소가 기본입니다. 스코프 셀렉터를 사용하면 이벤트 리스너는 해당 요소에 연결됩니다.
+
+    $browser->with('iframe', function ($iframe) {
+        // Wait for the iframe's load event...
+        $iframe->waitForEvent('load');
+    });
+
+이벤트 리스너를 특정 요소에 연결 하기 위해 `waitForEvent` 메소드의 두 번째 인수로 셀렉터를 제공할 수도 있습니다 .
+
+    $browser->waitForEvent('load', '.selector');
+
+`document` 와 `window` 객체에 대한 이벤트를 기다릴 수도 있습니다.
+
+    // Wait until the document is scrolled...
+    $browser->waitForEvent('scroll', 'document');
+
+    // Wait a maximum of five seconds until the window is resized...
+    $browser->waitForEvent('resize', 'window', 5);
+
 
 <a name="waiting-with-a-callback"></a>
 #### 콜백 기다리기
@@ -926,6 +1044,7 @@ Dusk는 애플리케이션에서 사용가능한 다양한 assertion을 제공�
 - [assertInputValueIsNot](#assert-input-value-is-not)
 - [assertChecked](#assert-checked)
 - [assertNotChecked](#assert-not-checked)
+- [assertIndeterminate](#assert-indeterminate)
 - [assertRadioSelected](#assert-radio-selected)
 - [assertRadioNotSelected](#assert-radio-not-selected)
 - [assertSelected](#assert-selected)
@@ -1776,7 +1895,8 @@ Dusk을 설치 한 후, 기본 `Page` 클래스는 `tests/Browser/Pages` 디렉�
 <a name="continuous-integration"></a>
 ## CI - 지속적 통합
 
-> {note} 대부분의 Dusk 지속적 통합 설정은 8000포트에서 내장 PHP 개발 서버를 사용하여, 라라벨 애플리케이션이 제공될 것으로 예상합니다. 따라서 계속하기 전에 지속적 통합 환경에 `APP_URL` 환경 변수 값이 `http://127.0.0.1:8000`로 존재하는지 확인해야 합니다.
+> **Warning**
+> 대부분의 Dusk 지속적 통합 설정은 8000포트에서 내장 PHP 개발 서버를 사용하여, 라라벨 애플리케이션이 제공될 것으로 예상합니다. 따라서 계속하기 전에 지속적 통합 환경에 `APP_URL` 환경 변수 값이 `http://127.0.0.1:8000`로 존재하는지 확인해야 합니다.
 
 <a name="running-tests-on-heroku-ci"></a>
 ### Heroku CI
@@ -1829,7 +1949,7 @@ script:
 <a name="running-tests-on-github-actions"></a>
 ### GitHub Actions
 
-[Github Actions](https://github.com/features/actions) 를 사용하여 Dusk 테스트를 실행하는 경우 다음 설정 파일을 시작점으로 사용할 수 있습니다. TravisCI와 마찬가지로 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
+[GitHub Actions](https://github.com/features/actions) 를 사용하여 Dusk 테스트를 실행하는 경우 다음 설정 파일을 시작점으로 사용할 수 있습니다. TravisCI와 마찬가지로 `php artisan serve` 명령을 사용하여 PHP의 내장 웹 서버를 시작합니다.
 
 ```yaml
 name: CI
@@ -1839,26 +1959,24 @@ jobs:
   dusk-php:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Prepare The Environment
         run: cp .env.example .env
       - name: Create Database
         run: |
           sudo systemctl start mysql
-          mysql --user="root" --password="root" -e "CREATE DATABASE 'my-database' character set UTF8mb4 collate utf8mb4_bin;"
+          mysql --user="root" --password="root" -e "CREATE DATABASE \`my-database\` character set UTF8mb4 collate utf8mb4_bin;"
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Generate Application Key
         run: php artisan key:generate
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+        run: php artisan dusk:chrome-driver --detect
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux &
       - name: Run Laravel Server
         run: php artisan serve --no-reload &
       - name: Run Dusk Tests
-        env:
-          APP_URL: "http://127.0.0.1:8000"
         run: php artisan dusk
       - name: Upload Screenshots
         if: failure()

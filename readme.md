@@ -47,7 +47,7 @@
 
 ## 채팅 참여 방법
 
-채팅에 참여하려면 [슬랙](https://modernpug.slack.com)으로 [참가하기](http://slack-invite.modernpug.org/)를 신청하면 됩니다. 채널은 `#laravel`에서 이야기 하고 있습니다.
+채팅에 참여하려면 [디스코드](https://discord.gg/9BuTr5K63g)으로 접속해주세요. `무엇이든 물어보세요`채널에서 자유롭게 질문하실 수 있습니다.
 
 ## 지원
 

@@ -120,7 +120,8 @@
         }
     }
 
-> {note} `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
+> **Warning**
+> `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
 
 ### Facade Spies
 
@@ -173,7 +174,7 @@ job을 처리하는 코드를 테스트할 때 일반적으로 주어진 job이 
             // Assert that a job was dispatched synchronously...
             Bus::assertDispatchedSync(AnotherJob::class);
 
-            // Assert that a job was not dipatched synchronously...
+            // Assert that a job was not dispatched synchronously...
             Bus::assertNotDispatchedSync(AnotherJob::class);
 
             // Assert that a job was dispatched after the response was sent...
@@ -193,6 +194,31 @@ job을 처리하는 코드를 테스트할 때 일반적으로 주어진 job이 
         return $job->order->id === $order->id;
     });
 
+<a name="faking-a-subset-of-jobs"></a>
+#### 잡 서브셋 속이기
+
+특정 잡만 디스패치되는 걸 막고 싶다면 `fake` 메서드에 속일 잡을 넘겨주면 됩니다.
+
+    /**
+     * Test order process.
+     */
+    public function test_orders_can_be_shipped()
+    {
+        Bus::fake([
+            ShipOrder::class,
+        ]);
+
+        // ...
+    }
+
+`except` 메서드를 사용하면 지정한 잡을 제외한 모든 잡이 속여집니다.
+
+    Bus::fake()->except([
+        ShipOrder::class,
+    ]);
+
+<a name="bus-job-chains"></a>
+### Job Chains
 ### Job 체인
 
 `Bus` 파사드의 `assertChained` 메소드는 [Job 체인](/docs/{{version}}/queues#job-chaining)이 dispatch되었음을 확인하는 데 사용할 수 있습니다. `assertChained` 메서드는 연결된 job의 배열을 첫 번째 인수로 허용합니다.
@@ -228,6 +254,19 @@ job을 처리하는 코드를 테스트할 때 일반적으로 주어진 job이 
                $batch->jobs->count() === 10;
     });
 
+<a name="testing-job-batch-interaction"></a>
+#### 잡 테스트하기 / 배치 상호작용
+
+추가적으로 배치를 돌고 있는 개별 잡을 테스트할 필요가 있을 수 있습니다. 예를 들어, 잡이 이후 작업을 취소 시키는지 테스트가 필요할 수 있습니다. 그렇게 하기 위해서는 `withFakeBatch` 메서드를 통해 잡에 가짜 배치를 배정할 필요가 있습니다. `withFakeBatch` 메서드는 잡 인스턴스와 가짜 배치를 담은 튜플을 반환합니다.  
+
+    [$job, $batch] = (new ShipOrder)->withFakeBatch();
+
+    $job->handle();
+
+    $this->assertTrue($batch->cancelled());
+    $this->assertEmpty($batch->added);
+
+<a name="event-fake"></a>
 ## Event Fake
 
 이벤트를 처리하는 코드를 테스트할 때 Laravel이 이벤트 리스너를 실제로 실행하지 않도록 지시할 수 있습니다. `Event` 파사드의 `fake` 메소드를 사용하면 리스너가 실행되는 것을 방지하고 테스트 중인 코드를 실행한 다음 `assertDispatched`, `assertNotDispatched` 및 `assertNothingDispatched` 메소드를 사용하여 애플리케이션에서 처리한 이벤트를 검증할 수 있습니다.
@@ -282,7 +321,8 @@ job을 처리하는 코드를 테스트할 때 일반적으로 주어진 job이 
     );
 
 
-> {note} `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않게됩니다. 따라서 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 테스트의 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
+> **Warning**
+> `Event::fake()`를 호출하면, 모든 이벤트 리스너가 실행되지 않게됩니다. 따라서 모델의 `creating` 이벤트 중에 UUID를 생성하는 것과 같이 이벤트에 의존하는 모델 팩토리를 사용하는 테스트의 경우에는, **팩토리를 사용한 다음에** `Event::fake()`를 호출해야 합니다.
 
 #### 이벤트의 일부를 Fake 시키기
 
@@ -401,7 +441,34 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
     Mail::assertSent(OrderShipped::class, function ($mail) use ($user) {
         return $mail->hasTo($user->email) &&
                $mail->hasCc('...') &&
-               $mail->hasBcc('...');
+               $mail->hasBcc('...') &&
+               $mail->hasReplyTo('...') &&
+               $mail->hasFrom('...') &&
+               $mail->hasSubject('...');
+    });
+
+메일러블 인스턴스는 첨부 파일을 검사를 위한 여러 유용한 메서드도 포함하고 있습니다.
+
+    use Illuminate\Mail\Mailables\Attachment;
+
+    Mail::assertSent(OrderShipped::class, function ($mail) {
+        return $mail->hasAttachment(
+            Attachment::fromPath('/path/to/file')
+                    ->as('name.pdf')
+                    ->withMime('application/pdf')
+        );
+    });
+
+    Mail::assertSent(OrderShipped::class, function ($mail) {
+        return $mail->hasAttachment(
+            Attachment::fromStorageDisk('s3', '/path/to/file')
+        );
+    });
+
+    Mail::assertSent(OrderShipped::class, function ($mail) use ($pdfData) {
+        return $mail->hasAttachment(
+            Attachment::fromData(fn () => $pdfData, 'name.pdf')
+        );
     });
 
 메일이 전송되지 않았는지 확인하는 방법에는 `assertNotSent`와 `assertNotQueued`가 있습니다. 때로는 **메일이 전송되지 않았거나 대기열에 추가되지 않았다고** 검증하고 싶을 수도 있습니다. 이를 위해 `assertNothingOutgoing` 및 `assertNotOutgoing` 메소드를 사용할 수 있습니다.
@@ -412,6 +479,13 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
         return $mail->order->id === $order->id;
     });
 
+<a name="testing-mailable-content"></a>
+#### 메일러블 내용 테스트
+
+메일러블 내용 테스트를 특정 사용자에게 메일이 보내졌는지 확인하는 테스트와 분리하기를 권장합니다. 메일러블 내용을 테스트 하는 방법은 [메일러블 테스트하기](/docs/{{version}}/mail#testing-mailables)를 참고해주세요.
+
+<a name="notification-fake"></a>
+## Notification Fake
 ## Notification Fake
 
 알림이 발송되는 것을 방지하기 위해서 `Notification ` 파사드의 `fake` 메소드를 사용할 수 있습니다. 여러분은 [알림-notification](/docs/{{version}}/notifications)이 사용자에게 보내졌는지 확인하고 데이터가 수신되었는지에 대해서도 검사할 수 있습니다. fake를 사용하면, 테스트 대상 코드가 실행된 뒤에 검증이 수행됩니다.
@@ -448,6 +522,9 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
             Notification::assertNotSentTo(
                 [$user], AnotherNotification::class
             );
+
+            // Assert that a given number of notifications were sent...
+            Notification::assertCount(3);
         }
     }
 
@@ -462,18 +539,13 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
 
 #### 대상을 지정한 Notifications
 
-테스트 중인 코드가 [대상을 지정한 notifications](/docs/{{version}}/notifications#on-demand-notifications)을 보내는 경우 알림이 `Illuminate\Notifications\AnonymousNotifiable` 인스턴스로 전송되었음을 검증해야 합니다.
+테스트 중인 코드가 [대상을 지정한 notifications](/docs/{{version}}/notifications#on-demand-notifications)을 보내는 경우 `assertSentOnDemand` 메서드를 통해 테스트할 수 있습니다.
 
-    use Illuminate\Notifications\AnonymousNotifiable;
+    Notification::assertSentOnDemand(OrderShipped::class);
 
-    Notification::assertSentTo(
-        new AnonymousNotifiable, OrderShipped::class
-    );
+알림 검증 메서드에 대한 두 번째 인수로 클로저를 전달하면 대상을 지정한 notifications가 올바른 "경로" 주소로 전송되었는지 확인할 수 있습니다.
 
-알림 검증 메서드에 대한 세 번째 인수로 클로저를 전달하면 대상을 지정한 notifications가 올바른 "경로" 주소로 전송되었는지 확인할 수 있습니다.
-
-    Notification::assertSentTo(
-        new AnonymousNotifiable,
+    Notification::assertSentOnDemand(
         OrderShipped::class,
         function ($notification, $channels, $notifiable) use ($user) {
             return $notifiable->routes['mail'] === $user->email;
@@ -526,6 +598,21 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
         return $job->order->id === $order->id;
     });
 
+다른 잡들은 정상적으로 동작하고 특정 잡만 속이고 싶으면 속이고자 하는 잡의 클래스 이름을 `fake` 메서드로 전달하면 됩니다.
+
+    public function test_orders_can_be_shipped()
+    {
+        Queue::fake([
+            ShipOrder::class,
+        ]);
+        
+        // Perform order shipping...
+
+        // Assert a job was pushed twice...
+        Queue::assertPushed(ShipOrder::class, 2);
+    }
+
+### Job Chains
 ### Job 체인
 
 `Queue` 파사드의 `assertPushedWithChain` 및 `assertPushedWithoutChain` 메소드를 사용하여 푸시된 job의 job 체인을 검사할 수 있습니다. `assertPushedWithChain` 메소드는 최초 작업을 첫 번째 인수로, 연결된 작업의 배열을 두 번째 인수로 허용합니다.
@@ -584,12 +671,16 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
             // Assert one or more files were not stored...
             Storage::disk('photos')->assertMissing('missing.jpg');
             Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+            // Assert that a given directory is empty...
+            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
         }
     }
 
-파일 업로드 테스트에 대한 자세한 내용은 [HTTP 테스트 문서의 파일 업로드 테스트하기](/docs/{{version}}/http-tests#testing-file-uploads)를 참조하세요.
+기본적으로 `fake` 메서드는 임시 디렉터리에 있는 모든 파일을 지웁니다. 파일을 유지하고 싶으면 "persistentFake" 메서드를 사용하면 됩니다. 파일 업로드 테스트에 대한 자세한 내용은 [HTTP 테스트 문서의 파일 업로드 테스트하기](/docs/{{version}}/http-tests#testing-file-uploads)를 참조하세요.
 
-> {tip} 기본적으로, `fake` 메소드는 임시 디렉토리에 있는 모든 파일을 삭제합니다. 이 파일들을 유지하고자 한다면, 대신 "persistentFake" 메소드를 사용하십시오.
+> **Note**
+> `image` 메서드는 [GD extension](https://www.php.net/manual/en/book.image.php)을 필요로 합니다.
 
 ## 시간과의 상호작용
 
@@ -605,6 +696,11 @@ Mail 파사드의 fake 메서드를 사용하여 메일이 전송되는 것을 �
         $this->travel(5)->days();
         $this->travel(5)->weeks();
         $this->travel(5)->years();
+
+        // Freeze time and resume normal time after executing closure...
+        $this->freezeTime(function (Carbon $time) {
+            // ...
+        });
 
         // Travel into the past...
         $this->travel(-5)->hours();

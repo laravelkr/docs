@@ -8,6 +8,7 @@
     - [유효성 검사 에러 표시하기](#quick-displaying-the-validation-errors)
     - [양식-form 다시 채우기](#repopulating-forms)
     - [옵션 필드에 대한 주의사항](#a-note-on-optional-fields)
+    - [유효성 검증 에러 응답 형식](#validation-error-response-format)
 - [Form Request 유효성 검증](#form-request-validation)
     - [Form Requests 생성하기](#creating-form-requests)
     - [Form Requests 사용자 승인](#authorizing-form-requests)
@@ -28,6 +29,7 @@
 - [배열값 유효성 검증](#validating-arrays)
     - [중첩 배열 입력 검증](#validating-nested-array-input)
     - [에러 메세지에서 순서와 위치 참조하기](#error-message-indexes-and-positions)
+- [파일 유효성 검사](#validating-files)
 - [비밀번호 검증](#validating-passwords)
 - [사용자 정의 유효성 검증 규칙](#custom-validation-rules)
     - [Rule 객체 사용하기](#using-rule-objects)
@@ -99,7 +101,7 @@
 
 이제 새 블로그 게시물의 유효성을 검사하는 논리로 `store` 메서드를 채울 준비가 되었습니다. 이를 위해 `Illuminate\Http\Request` 객체가 제공하는 `validate` 메소드를 사용할 것입니다. 유효성 검사 규칙을 통과하면 코드가 계속 정상적으로 실행됩니다. 그러나 유효성 검사가 실패하면 `Illuminate\Validation\ValidationException` 예외가 발생하고 적절한 오류 응답이 자동으로 사용자에게 다시 전송됩니다.
 
-기존 HTTP 요청 중에 유효성 검사가 실패하면 이전 URL에 대한 리디렉션 응답이 생성됩니다. 들어오는 요청이 XHR 요청인 경우 유효성 검사 에러 메시지가 포함된 JSON 응답이 반환됩니다.
+기존 HTTP 요청 중에 유효성 검사가 실패하면 이전 URL에 대한 리디렉션 응답이 생성됩니다. 들어오는 요청이 XHR 요청인 경우 [유효성 검사 에러 메시지가 포함된 JSON 응답](#validation-error-response-format)이 반환됩니다.
 
 `validate` 메소드에 대해 더 잘 이해하기 위해, 다시 `store` 메소드로 돌아가 보겠습니다.
 
@@ -258,6 +260,34 @@
 
 이 예제에서는 `publish_at` 필드가 `null`이거나 유효한 날짜 형식이라고 지정했습니다. 만약 `nullable` 규칙이 추가되지 않은 경우 `null`값은 유효하지 않다고 결정됩니다.
 
+<a name="validation-error-response-format"></a>
+### 유효성 검증 에러 응답 형식
+
+라라벨이 `Illuminate\Validation\ValidationException` 예외를 던지고 들어온 HTTP 요청이 JSON 응답을 기대하는 경우 라라벨은 자동으로 에러메시지 포맷을 맞춰주고 `422 Unprocessable Entity` HTTP 응답을 반환합니다.
+
+아래에서 유효성 검증 에러에 대한 JSON 응답 포맷 예시를 볼 수 있습니다. 중첨된 에러 키는 "점" 표기법 형식으로 병합된 것을 눈여겨보세요.
+
+```json
+{
+    "message": "The team name must be a string. (and 4 more errors)",
+    "errors": {
+        "team_name": [
+            "The team name must be a string.",
+            "The team name must be at least 1 characters."
+        ],
+        "authorization.role": [
+            "The selected authorization.role is invalid."
+        ],
+        "users.0.email": [
+            "The users.0.email field is required."
+        ],
+        "users.2.email": [
+            "The users.2.email must be a valid email address."
+        ]
+    }
+}
+```
+
 <a name="form-request-validation"></a>
 ## Form Request 유효성 검사
 
@@ -287,7 +317,8 @@ php artisan make:request StorePostRequest
         ];
     }
 
-> {tip} `rules` 메서드의 서명 내에서 필요한 모든 종속성을 입력할 수 있습니다. 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
+> **Note**
+> `rules` 메서드의 서명 내에서 필요한 모든 종속성을 입력할 수 있습니다. 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
 
 그렇다면 유효성 검사 규칙은 어떻게 실행할까요? 여러분이 해야할일은 컨트롤러 메소드에 request 를 타입-힌트 하는 것입니다. 유입된 form request 는 컨트롤러 메소드가 호출되기 전에 유효성 검사를 수행합니다. 즉 컨트롤러에 유효성 검사 로직을 포함시키지 않아도 됩니다.
 
@@ -309,7 +340,7 @@ php artisan make:request StorePostRequest
         $validated = $request->safe()->except(['name', 'email']);
     }
 
-유효성 검사가 실패하면 리디렉션 응답이 생성되어 사용자를 이전 위치로 다시 보냅니다. 오류도 표시할 수 있도록 세션에 플래시됩니다. 요청이 XHR 요청인 경우 유효성 검사 오류의 JSON 표현을 포함하여 422 상태 코드가 포함된 HTTP 응답이 사용자에게 반환됩니다.
+유효성 검사가 실패하면 리디렉션 응답이 생성되어 사용자를 이전 위치로 다시 보냅니다. 오류도 표시할 수 있도록 세션에 플래시됩니다. 요청이 XHR 요청인 경우 [유효성 검사 오류의 JSON 표현](#validation-error-response-format)을 포함하여 422 상태 코드가 포함된 HTTP 응답이 사용자에게 반환됩니다.
 
 <a name="adding-after-hooks-to-form-requests"></a>
 #### Form Request 에 After 후킹 추가하기
@@ -406,7 +437,8 @@ form request 클래스에는 `authorize` 메서드도 포함되어 있습니다.
         return true;
     }
 
-> {tip} `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
+> **Note**
+> `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
 
 <a name="customizing-the-error-messages"></a>
 ### 에러 메세지를 사용자 정의하기(커스터마이징하기)
@@ -460,6 +492,20 @@ form request 클래스에는 `authorize` 메서드도 포함되어 있습니다.
         $this->merge([
             'slug' => Str::slug($this->slug),
         ]);
+    }
+
+또한 유효성 검사가 완료된 후에 요청 데이터를 정규화해야 하는 경우 `passedValidation` 메서드를 사용할 수 있습니다.
+
+    use Illuminate\Support\Str;
+
+    /**
+     * Handle a passed validation attempt.
+     *
+     * @return void
+     */
+    protected function passedValidation()
+    {
+        $this->replace(['name' => 'Taylor']);
     }
 
 <a name="manually-creating-validators"></a>
@@ -522,7 +568,7 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 <a name="automatic-redirection"></a>
 ### 자동으로 리다이렉트하기
 
-유효성 검사기 인스턴스를 수동으로 만들고 싶지만 HTTP 요청의 `validate` 메서드가 제공하는 자동 리디렉션을 계속 활용하려면, 기존 유효성 검사기 인스턴스에서 `validate` 메서드를 호출할 수 있습니다. 유효성 검사가 실패하면 사용자가 자동으로 리디렉션되거나 XHR 요청의 경우 JSON 응답이 반환됩니다.
+유효성 검사기 인스턴스를 수동으로 만들고 싶지만 HTTP 요청의 `validate` 메서드가 제공하는 자동 리디렉션을 계속 활용하려면, 기존 유효성 검사기 인스턴스에서 `validate` 메서드를 호출할 수 있습니다. 유효성 검사가 실패하면 사용자가 자동으로 리디렉션되거나 XHR 요청의 경우 [JSON 응답이 반환됩니다](#validation-error-response-format).
 
     Validator::make($request->all(), [
         'title' => 'required|unique:posts|max:255',
@@ -590,7 +636,7 @@ request 의 `validate` 메소드를 사용하고 싶지 않다면, `Validator` [
 
 유효성 검사가 완료된 후 실행할 콜백을 첨부할 수도 있습니다. 이를 통해 추가 유효성 검사를 쉽게 수행하고 메시지 컬렉션에 더 많은 에러 메시지를 추가할 수 있습니다. 시작하려면 유효성 검사기 인스턴스에서 `after` 메서드를 호출하세요.
 
-    $validator = Validator::make(...);
+    $validator = Validator::make(/* ... */);
 
     $validator->after(function ($validator) {
         if ($this->somethingElseIsInvalid()) {
@@ -759,6 +805,7 @@ The credit card number field is required when payment type is credit card.
 - [Alpha Dash](#rule-alpha-dash)
 - [Alpha Numeric](#rule-alpha-num)
 - [Array](#rule-array)
+- [Ascii](#rule-ascii)
 - [Bail](#rule-bail)
 - [Before (Date)](#rule-before)
 - [Before Or Equal (Date)](#rule-before-or-equal)
@@ -769,6 +816,7 @@ The credit card number field is required when payment type is credit card.
 - [Date](#rule-date)
 - [Date Equals](#rule-date-equals)
 - [Date Format](#rule-date-format)
+- [Decimal](#rule-decimal)
 - [Declined](#rule-declined)
 - [Declined If](#rule-declined-if)
 - [Different](#rule-different)
@@ -776,12 +824,15 @@ The credit card number field is required when payment type is credit card.
 - [Digits Between](#rule-digits-between)
 - [Dimensions (Image Files)](#rule-dimensions)
 - [Distinct](#rule-distinct)
+- [Doesnt Start With](#rule-doesnt-start-with)
+- [Doesnt End With](#rule-doesnt-end-with)
 - [Email](#rule-email)
 - [Ends With](#rule-ends-with)
 - [Enum](#rule-enum)
 - [Exclude](#rule-exclude)
 - [Exclude If](#rule-exclude-if)
 - [Exclude Unless](#rule-exclude-unless)
+- [Exclude With](#rule-exclude-with)
 - [Exclude Without](#rule-exclude-without)
 - [Exists (Database)](#rule-exists)
 - [File](#rule-file)
@@ -793,14 +844,22 @@ The credit card number field is required when payment type is credit card.
 - [In Array](#rule-in-array)
 - [Integer](#rule-integer)
 - [IP Address](#rule-ip)
-- [MAC Address](#rule-mac)
 - [JSON](#rule-json)
 - [Less Than](#rule-lt)
 - [Less Than Or Equal](#rule-lte)
+- [Lowercase](#rule-lowercase)
+- [MAC Address](#rule-mac)
 - [Max](#rule-max)
+- [Max Digits](#rule-max-digits)
 - [MIME Types](#rule-mimetypes)
 - [MIME Type By File Extension](#rule-mimes)
 - [Min](#rule-min)
+- [Min Digits](#rule-min-digits)
+- [Missing](#rule-missing)
+- [Missing If](#rule-missing-if)
+- [Missing Unless](#rule-missing-unless)
+- [Missing With](#rule-missing-with)
+- [Missing With All](#rule-missing-with-all]
 - [Multiple Of](#multiple-of)
 - [Not In](#rule-not-in)
 - [Not Regex](#rule-not-regex)
@@ -828,7 +887,9 @@ The credit card number field is required when payment type is credit card.
 - [String](#rule-string)
 - [Timezone](#rule-timezone)
 - [Unique (Database)](#rule-unique)
+- [Uppercase](#rule-uppercase)  
 - [URL](#rule-url)
+- [ULID](#rule-ulid)
 - [UUID](#rule-uuid)
 
 <a name="rule-accepted"></a>
@@ -865,17 +926,38 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-alpha"></a>
 #### alpha
 
-필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자로 이루어져야 합니다.
+필드의 값이 완벽하게 유니코드 자음과 모음 문자로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=) 와 [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=)에 해당하는 문자입니다. 
 
-(역자주: 영문 알파벳만을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다.)
+(역자주: 영문 알파벳을 의미하지 않고, 숫자나 기호가 아닌경우에 해당하여, 한글도 허용합니다. 링크를 참고하세요.)
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다. 
+
+```php
+'username' => 'alpha:ascii',
+```
+
 
 <a name="rule-alpha-dash"></a>
 #### alpha_dash
 
-필드의 값이 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자와 dash(-), underscore(_)로 이루어져야 합니다.
+필드의 값이 완벽한 유니코드 자음과 모음 문자로 이루어지거나 숫자와 dash(-), underscore(_)로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=), 그리고 아스키 dash (`-`) 아스키 underscores (`_`) 입니다. 
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다.
+
+```php
+'username' => 'alpha_dash:ascii',
+```
 
 <a name="rule-alpha-num"></a>
 #### alpha_num
+
+필드의 값이 완벽한 유니코드 자음과 모음 문자로 이루어지거나 숫자로 이루어져야 합니다. 이 값은 [`\p{L}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AL%3A%5D&g=&i=), [`\p{M}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AM%3A%5D&g=&i=), [`\p{N}`](https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AN%3A%5D&g=&i=)에 해당하는 문자입니다. 
+
+유효성 검사 대상 문자가 `a-z` 와 `A-Z` 인 영문 아스키문자인 경우로 제한하려면 유효성 검사 규칙뒤에 `ascii` 옵션을 추가하면 됩니다. 
+
+```php
+'username' => 'alpha_num:ascii',
+```
 
 필드의 값이 완벽하게 (숫자나 기호가 아닌) 알파벳[자음과 모음] 문자 및 숫자로 이루어져야 합니다.
 
@@ -897,10 +979,15 @@ The credit card number field is required when payment type is credit card.
     ];
 
     Validator::make($input, [
-        'user' => 'array:username,locale',
+        'user' => 'array:name,username',
     ]);
 
 일반적으로 배열 내에 존재하도록 허용된 배열 키를 항상 지정해야 합니다.
+
+<a name="rule-ascii"></a>
+#### ascii
+
+필드의 값이 완벽하게 7비트 ASCII 문자로 이루어져야 합니다.
 
 <a name="rule-bail"></a>
 #### bail
@@ -926,7 +1013,7 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-between"></a>
 #### between:_min_,_max_
 
-필드의 값이, 주어진 _min_ 과 _max_ 의 사이의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 계산될 수 있습니다.
+필드의 값이, 주어진 _min_ 과 _max_ 의 사이(포함)의 값이어야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 계산될 수 있습니다.
 
 <a name="rule-boolean"></a>
 #### boolean
@@ -956,9 +1043,20 @@ The credit card number field is required when payment type is credit card.
 검증 중인 필드는 지정된 날짜와 같아야 합니다. 날짜는 유효한 `DateTime` 인스턴스로 변환하기 위해 PHP `strtotime` 함수를 사용합니다.
 
 <a name="rule-date-format"></a>
-#### date_format:_format_
+#### date_format:_format_,...
 
-검증 중인 필드는 지정된 _format_ 과 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+검증 중인 필드는 지정된 _format_ 중 하나와 일치해야 합니다. 필드의 유효성을 검사할 때 `date` 또는 `date_format` 중 **하나만** 사용해야 합니다. 이 유효성 검사 규칙은 PHP의 [DateTime](https://www.php.net/manual/en/class.datetime.php) 클래스에서 지원하는 모든 형식을 지원합니다.
+
+<a name="rule-decimal"></a>
+#### decimal:_min_,_max_
+
+검증 중인 필드는 숫자이고 지정된 소수점 자릿수를 포함해야 합니다.
+
+    // Must have exactly two decimal places (9.99)...
+    'price' => 'decimal:2'
+
+    // Must have between 2 and 4 decimal places...
+    'price' => 'decimal:2,4'
 
 <a name="rule-declined"></a>
 #### declined
@@ -978,12 +1076,12 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-digits"></a>
 #### digits:_value_
 
-필드의 값이 반드시 _숫자_ 여야 하고, 길이가 _value_ 이어야 합니다.
+유효성 검증하는 integer 길이가 정확히 _value_ 이어야 합니다.
 
 <a name="rule-digits-between"></a>
 #### digits_between:_min_,_max_
 
-필드의 값이 반드시 _숫자_ 여야 하고, 주어진 _min_ 과 _max_ 사이의 길이를 가져야 합니다.
+integer 유효성 검증은 주어진 _min_ 과 _max_ 사이의 길이를 가져야 합니다.
 
 <a name="rule-dimensions"></a>
 #### dimensions
@@ -1025,6 +1123,16 @@ Distinct는 기본적으로 느슨한 변수 비교를 사용합니다. 엄격�
 
     'foo.*.id' => 'distinct:ignore_case'
 
+<a name="rule-doesnt-start-with"></a>
+#### doesnt_start_with:_foo_,_bar_,...
+
+유효성 검사 중인 필드는 지정된 값 중 하나로 시작해서는 안 됩니다.
+
+<a name="rule-doesnt-end-with"></a>
+#### doesnt_end_with:_foo_,_bar_,...
+
+유효성 검사 중인 필드는 지정된 값 중 하나로 끝나지 않아야 합니다.
+
 <a name="rule-email"></a>
 #### email
 
@@ -1039,10 +1147,12 @@ Distinct는 기본적으로 느슨한 변수 비교를 사용합니다. 엄격�
 - `dns`: `DNSCheckValidation`
 - `spoof`: `SpoofCheckValidation`
 - `filter`: `FilterEmailValidation`
+- `filter_unicode`: `FilterEmailValidation::unicode()`
 
 PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라라벨과 함께 제공되며 라라벨 버전 5.8 이전에 라라벨의 기본 이메일 유효성 검사 동작이었습니다.
 
-> {note} `dns` 및 `spoof` 유효성 검사기는 PHP `intl` 확장이 필요합니다.
+> **Warning**
+> `dns` 및 `spoof` 유효성 검사기는 PHP `intl` 확장이 필요합니다.
 
 <a name="rule-ends-with"></a>
 #### ends_with:_foo_,_bar_,...
@@ -1061,7 +1171,8 @@ PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라�
         'status' => [new Enum(ServerStatus::class)],
     ]);
 
-> {note} enum은 PHP 8.1 이상에서만 사용할 수 있습니다.
+> **Warning**
+> enum은 PHP 8.1 이상에서만 사용할 수 있습니다.
 
 <a name="rule-exclude"></a>
 #### exclude
@@ -1073,10 +1184,28 @@ PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라�
 
 _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필드는 `validate` 및 `validated` 메소드가 리턴 한 request 데이터에서 제외됩니다.
 
+복잡한 조건부 제외 로직이 필요하다면 `Rule:excludeIf` 메서드를 활용할 수 있습니다. 이 메서드는 부울 또는 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 검증하려는 필드가 제외되어야 하는지 나타내기 위해 `true` 나 `false` 를 반환해야 합니다.
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::excludeIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::excludeIf(fn () => $request->user()->is_admin),
+    ]);
+
 <a name="rule-exclude-unless"></a>
 #### exclude_unless:_anotherfield_,_value_
 
 유효성 검사 중인 필드는 _anotherfield_ 의 필드가 _value_ 와 같지 않은 한 `validate` 및 `validated` 메서드가 반환하는 요청 데이터에서 제외됩니다. _value_ 가 `null`(`exclude_unless:name,null`)이면 비교 필드가 `null`이 아니거나 요청 데이터에서 비교 필드가 누락되지 않는 한 유효성 검사 중인 필드가 제외됩니다.
+
+<a name="rule-exclude-with"></a>
+#### exclude_with:_anotherfield_
+
+_anotherfield_ 필드가 존재하면 유효성 검증 중인 필드는 `validate` 와 `validated` 메서드에 의해 반환되는 요청 데이터에서 제외될 것입니다.
 
 <a name="rule-exclude-without"></a>
 #### exclude_without:_anotherfield_
@@ -1123,6 +1252,10 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
             }),
         ],
     ]);
+
+`exists` 메서드의 두번째 인수로 컬럼명을 제공함으로써 `Rule::exists` 메서드에 의해 생성된 `exists` 규칙에 의해 사용될 데이터베이스 컬럼 이름을 명시적으로 지정할 수 있습니다. 
+
+    'state' => Rule::exists('states', 'abbreviation'),
 
 <a name="rule-file"></a>
 #### file
@@ -1179,6 +1312,7 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
             'array',
             Rule::in(['NYC', 'LIT']),
         ],
+        'airports.*' => Rule::in(['NYC', 'LIT']),
     ]);
 
 <a name="rule-in-array"></a>
@@ -1191,7 +1325,8 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 필드의 값이 정수여야 합니다.
 
-> {note} 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['숫자' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
+> **Warning**
+> 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['숫자' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
 
 <a name="rule-ip"></a>
 #### ip
@@ -1208,11 +1343,6 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 필드의 값이 IPv6 주소여야 합니다.
 
-<a name="rule-mac"></a>
-#### mac_address
-
-검증 중인 필드는 MAC 주소여야 합니다.
-
 <a name="rule-json"></a>
 #### json
 
@@ -1228,10 +1358,25 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 필드의 값이 주어진 다른 필드의 값보다 적거나 같아야 합니다. 두개의 필드는 동일한 타입이어야 하며, 문자열, 숫자형, 배열 그리고 파일 타입은 [`size`](#rule-size) 규칙에 따라서 계산됩니다.
 
+<a name="rule-lowercase"></a>
+#### lowercase
+
+검증 중인 필드는 소문자여야 합니다.
+
+<a name="rule-mac"></a>
+#### mac_address
+
+검증 중인 필드는 MAC 주소여야 합니다.
+
 <a name="rule-max"></a>
 #### max:_value_
 
 필드의 값이 반드시 _value_ 보다 작거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
+
+<a name="rule-max-digits"></a>
+#### max_digits:_value_
+
+유효성 검증 중인 정수츼 최대 길이는 _value_ 여야 합니다.
 
 <a name="rule-mimetypes"></a>
 #### mimetypes:_text/plain_,...
@@ -1263,12 +1408,40 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 필드의 값이 반드시 _value_ 보다 크거나 같아야 합니다. 문자열, 숫자, 그리고 파일이 [`size`](#rule-size) 규칙에 의해 같은 방식으로 평가될 수 있습니다.
 
+<a name="rule-min-digits"></a>
+#### min_digits:_value_
+
+유효성 검사 중인 정수의 최소 길이는 _value_ 여야 합니다.
+
 <a name="multiple-of"></a>
 #### multiple_of:_value_
 
 검증 중인 필드는 _value_ 의 배수여야 합니다.
 
-> {참고} `multiple_of` 규칙을 사용하려면 [`bcmath` PHP 확장 프로그램](https://www.php.net/manual/en/book.bc.php) 이 필요합니다.
+<a name="rule-missing"></a>
+#### missing
+
+입력 데이터안에 지정한 필드가 존재하지 않아야 합니다.
+
+<a name="rule-missing-if"></a>
+#### missing_if:_anotherfield_,_value_,...
+
+_특정필드_ 가 특정 _값_과 일치한다면 지정한 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-unless"></a>
+#### missing_unless:_anotherfield_,_value_
+
+_특정필드_ 가 특정 _값_과 일치하지 않을 때 지정한 필드는 존재하지 않아야 합니다.
+
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
+
+_다른 필드들_이 존재한다면 지정한 필드가 존재하지 않아야 합니다.
+
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
+
+_다른 필드들_이 모두 존재한다면 지정한 필드가 존재하지 않아야 합니다.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...
@@ -1291,7 +1464,8 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
 
-> {note} `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열을 사용하여 유효성 검사 규칙을 지정해야 할 수도 있습니다.
+> **Warning**
+> `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열을 사용하여 유효성 검사 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-nullable"></a>
 #### nullable
@@ -1308,7 +1482,8 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 
 유효성 검사 필드는 인증된 사용자의 비밀번호와 일치해야 합니다.
 
-> {note} 이 규칙은 라라벨 9에서 제거하기 위해 `current_password`로 이름이 변경되었습니다. 대신 [Current Password](#rule-current-password) 규칙을 사용하세요.
+> **Warning**
+> 이 규칙은 라라벨 9에서 제거하기 위해 `current_password`로 이름이 변경되었습니다. 대신 [Current Password](#rule-current-password) 규칙을 사용하세요.
 
 <a name="rule-present"></a>
 #### present
@@ -1318,22 +1493,58 @@ _anotherfield_ 필드가 _value_ 와 같은 경우 유효성 검증 대상 필�
 <a name="rule-prohibited"></a>
 #### prohibited
 
-검증 중인 필드는 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+- 필드의 값이 `null`입니다.
+- 필드의 값이 빈 문자열입니다.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 <a name="rule-prohibited-if"></a>
 #### prohibited_if:_anotherfield_,_value_,...
 
-_anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 필드는 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+- 필드의 값이 `null`입니다.
+- 필드의 값이 빈 문자열입니다.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
+
+If complex conditional prohibition logic is required, you may utilize the `Rule::prohibitedIf` method. This method accepts a boolean or a closure. When given a closure, the closure should return `true` or `false` to indicate if the field under validation should be prohibited:
+
+복잡한 조건부 금지 로직이 필요한 경우 `Rule::prohibitedIf` 메서드를 활용할 수 있습니다. 이 메서드는 부울이나 클로저를 받습니다. 클로저가 주어지는 경우 클로저는 유효성 검증 중인 필드가 금지되어야 하는지 나타내기 위해 `true`나 `false`를 반환해야 합니다.
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::prohibitedIf($request->user()->is_admin),
+    ]);
+
+    Validator::make($request->all(), [
+        'role_id' => Rule::prohibitedIf(fn () => $request->user()->is_admin),
+    ]);
 
 <a name="rule-prohibited-unless"></a>
 #### prohibited_unless:_anotherfield_,_value_,...
 
-유효성 검사 중인 필드는 _anotherfield_ 필드가 _value_ 와 같지 않으면 비어 있거나 존재하지 않아야 합니다.
+검증 중인 필드가 _anotherfield_ 필드가 _value_와 같지 않은 경우 누락되거나 비어있는 것을 확인합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+
+- 필드의 값이 `null`입니다.
+- 필드의 값이 빈 문자열입니다.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 <a name="rule-prohibits"></a>
 #### prohibits:_anotherfield_,...
 
-유효성 검사 중인 필드가 있는 경우 비어 있더라도 _anotherfield_ 에 필드가 있을 수 없습니다.
+검증 중인 필드가 누락되거나 비어있지 않은 경우 _anotherfield_의 모든 필드는 누락되거나 "비어있어야" 합니다. 필드는 다음 기준 중 하나를 충족하면 "비어있는" 것으로 간주됩니다.
+
+- 필드의 값이 `null`입니다.
+- 필드의 값이 빈 문자열입니다.
+- 필드의 값이 빈 배열이거나 빈 `Countable` 객체입니다.
+- 필드의 값이 경로가 없는 업로드된 파일입니다.
 
 <a name="rule-regex"></a>
 #### regex:_pattern_
@@ -1342,7 +1553,8 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
 
-> {note} `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열에 규칙을 지정해야 할 수도 있습니다.
+> **Warning**
+> `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열에 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-required"></a>
 #### required
@@ -1476,7 +1688,8 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
         ],
     ]);
 
-> {note} `ignore` 메소드에 유저가 전달한 리퀘스트 입력값을 절대 입력해서는 안 됩니다. 대신, 엘로퀀트 모델 인스턴스의 자동 증가 ID나 UUID 등 시스템이 생성한 고유 ID를 전달하십시오. 그렇지 않으면 어플리케이션이 SQL 인젝션 공격에 취약하게 됩니다.
+> **Warning**
+> `ignore` 메소드에 유저가 전달한 리퀘스트 입력값을 절대 입력해서는 안 됩니다. 대신, 엘로퀀트 모델 인스턴스의 자동 증가 ID나 UUID 등 시스템이 생성한 고유 ID를 전달하십시오. 그렇지 않으면 어플리케이션이 SQL 인젝션 공격에 취약하게 됩니다.
 
 `ignore` 메소드에 모델 키 값을 전달하는 대신 전체 모델 인스턴스를 전달할 수도 있습니다. 라라벨은 자동으로 모델에서 키를 추출합니다.
 
@@ -1496,10 +1709,20 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
 
     'email' => Rule::unique('users')->where(fn ($query) => $query->where('account_id', 1))
 
+<a name="rule-uppercase"></a>
+#### uppercase
+
+검증 중인 필드는 반드시 대문자여야 합니다.
+
 <a name="rule-url"></a>
 #### url
 
 필드는 반드시 유효한 URL이어야 합니다.
+
+<a name="rule-ulid"></a>
+#### ulid
+
+필드는 반드시 유효한 [Universally Unique Lexicographically Sortable Identifier](https://github.com/ulid/spec) (ULID) 여야 합니다.
 
 <a name="rule-uuid"></a>
 #### uuid
@@ -1541,7 +1764,8 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
 
 이 예제에서는 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
 
-> {tip} 항상 있어야 하지만 비어 있을 수 있는 필드의 유효성을 검사하려는 경우 [선택 필드에 대한 참고 사항](#a-note-on-optional-fields)을 확인하세요.
+> **Note**
+> 항상 있어야 하지만 비어 있을 수 있는 필드의 유효성을 검사하려는 경우 [선택 필드에 대한 참고 사항](#a-note-on-optional-fields)을 확인하세요.
 
 <a name="complex-conditional-validation"></a>
 #### 복잡한 조건부 유효성 검사
@@ -1567,7 +1791,8 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
         return $input->games >= 100;
     });
 
-> {tip} 클로저에 전달된 `$input` 매개변수는 `Illuminate\Support\Fluent`의 인스턴스가 되며 유효성 검사 중인 입력 및 파일에 액세스하는 데 사용할 수 있습니다.
+> **Note**
+> 클로저에 전달된 `$input` 매개변수는 `Illuminate\Support\Fluent`의 인스턴스가 되며 유효성 검사 중인 입력 및 파일에 액세스하는 데 사용할 수 있습니다.
 
 <a name="complex-conditional-array-validation"></a>
 #### 복잡한 조건부 배열 검증
@@ -1665,7 +1890,7 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
 <a name="error-message-indexes-and-positions"></a>
 ### 에러 메세지에서 순서와 위치 참조하기
 
-배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템이 몇 번째 인지 위치를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` 와 `:position` 플레이스홀더를 사용하면 됩니다. 
+배열의 유효성 검사를 진행할 때, 애플리케이션에서 표시하는 에러 메세지에서 실패한 아이템이 몇 번째 인지 위치를 참조하고 싶을 수 있습니다. 이렇게 하기 위해서는 [에러 메시지 사용자 정의](#manual-customizing-the-error-messages) 안에서 `:index` (0 부터 시작)와 `:position` (1 부터 시작) 플레이스홀더를 사용하면 됩니다. 
 
     use Illuminate\Support\Facades\Validator;
 
@@ -1689,6 +1914,48 @@ _anotherfield_ 필드가 _value_ 와 동일한 경우 유효성 검사 중인 �
     ]);
 
 위와 같은 예제의 경우에는 유효성 겁사는 실패하고 사용자에게 표시되는 에러 메세지는 _"Please describe photo #2."_ 와 같이 나타납니다. ("두 번째 사진에 설명을 입력해주세요")
+
+<a name="validating-files"></a>
+## 파일 검증
+
+라라벨은 `mimes`, `image`, `min`, `max` 같이 업로드된 파일을 검증하는데 사용되는 다양한 유효성 검증 규칙을 제공한다. 파일의 유효성을 검사할 때 이러한 규칙을 개별적으로 자유롭게 지정할 수 있지만 Laravel은 편리한 파일 유효성 검사 규칙 빌더도 제공합니다.
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rules\File;
+
+    Validator::validate($input, [
+        'attachment' => [
+            'required',
+            File::types(['mp3', 'wav'])
+                ->min(1024)
+                ->max(12 * 1024),
+        ],
+    ]);
+
+여러분의 애플리케이션이 유저가 올린 이미지를 허용한다면, 업로드된 파일이 이미지여야 하는지 나타내기 위해 `File` 규칙의 `image` 생성자 메서드를 사용할 수 있습니다. 추가적으로 이미지의 크기를 제한하기 위해 `dimensions` 규칙을 사용할 수 있습니다.
+
+    use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rules\File;
+
+    Validator::validate($input, [
+        'photo' => [
+            'required',
+            File::image()
+                ->min(1024)
+                ->max(12 * 1024)
+                ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
+        ],
+    ]);
+
+> **Note**  
+> 이미지 크기 검증과 관련 정보는 [이미지 크기 문서](#rule-dimensions)에서 찾아볼 수 있습니다.
+
+<a name="validating-files-file-types"></a>
+#### 파일 타입
+
+`types` 메서드를 호출할 때 확장자를 지정해주기만 하면, 이 메서드는 실제로 파일의 내용을 읽고 MIME 형식을 추측하여 파일의 MIME 형식을 확인합니다. MIME 유형 및 해당 확장의 전체 목록은 다음 위치에서 찾을 수 있습니다.
+
+[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="validating-passwords"></a>
 ## 비밀번호 검증
@@ -1787,39 +2054,32 @@ public function boot()
 라라벨은 다양하고 유용한 유효성 검사 규칙을 제공합니다. 그러나 일부를 지정하고 싶을 수도 있습니다. 사용자 정의 유효성 검사 규칙을 등록하는 한 가지 방법은 규칙 개체를 사용하는 것입니다. 새 규칙 개체를 생성하려면 `make:rule` Artisan 명령을 사용할 수 있습니다. 이 명령을 사용하여 문자열이 대문자인지 확인하는 규칙을 생성해 보겠습니다. 라라벨은 `app/Rules` 디렉토리에 새 규칙을 배치합니다. 이 디렉토리가 존재하지 않는 경우 라라벨은 Artisan 명령을 실행하여 규칙을 생성할 때 생성합니다.
 
 ```shell
-php artisan make:rule Uppercase
+php artisan make:rule Uppercase --invokable
 ```
 
-rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 두개의 메소드(`passes` 와 `message`)를 가지고 있습니다. `passes` 메소드는 속성 값과 이름을 전달받아, 속성 값이 유효한지 아닌지에 따라, `true` 또는 `false` 를 반환해야 합니다. `message` 메소드는 유효성 검사가 실패했을 때 사용하는 에러 메세지를 반환해야 합니다.
+rule 객체가 생성되고나면, 유효성 검사가 동작하는 방식을 정해야 합니다. rule 객체는 `__invokable` 메서드 하나를 가지고 있습니다. 이 메서드는 유효성 검사 오류 메시지와 함께 실패 시 호출되어야 하는 속성 이름, 해당 값 및 콜백을 수신합니다.
 
     <?php
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule
+    class Uppercase implements InvokableRule
     {
         /**
-         * Determine if the validation rule passes.
+         * Run the validation rule.
          *
          * @param  string  $attribute
          * @param  mixed  $value
-         * @return bool
+         * @param  \Closure  $fail
+         * @return void
          */
-        public function passes($attribute, $value)
+        public function __invoke($attribute, $value, $fail)
         {
-            return strtoupper($value) === $value;
-        }
-
-        /**
-         * Get the validation error message.
-         *
-         * @return string
-         */
-        public function message()
-        {
-            return 'The :attribute must be uppercase.';
+            if (strtoupper($value) !== $value) {
+                $fail('The :attribute must be uppercase.');
+            }
         }
     }
 
@@ -1843,6 +2103,20 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
         'name' => ['required', 'string', new Uppercase],
     ]);
 
+#### 유효성 검증 메세지 번역
+
+`$fail` 클로저 에 문자 그대로의 오류 메시지를 제공하는 대신 [번역 문자열 키](/docs/{{version}}/localization)를 제공하고 Laravel에게 오류 메시지를 번역하도록 지시할 수도 있습니다.
+
+    if (strtoupper($value) !== $value) {
+        $fail('validation.uppercase')->translate();
+    }
+
+필요한 경우 `translate` 메서드에 대한 첫 번째 및 두 번째 인수로 자리 표시자 대체 및 번역하고자 하는 언어를 제공할 수 있습니다 .
+
+    $fail('validation.location')->translate([
+        'value' => $this->value,
+    ], 'fr')
+
 #### 추가 데이터 액세스
 
 사용자 정의 유효성 검사 규칙 클래스가 유효성 검사를 받는 다른 모든 데이터에 액세스해야 하는 경우 규칙 클래스는 `Illuminate\Contracts\Validation\DataAwareRule` 인터페이스를 구현할 수 있습니다. 이 인터페이스를 사용하려면 클래스에서 `setData` 메서드를 정의해야 합니다. 이 메소드는 검증 중인 모든 데이터와 함께 라라벨에 의해 (검증이 진행되기 전) 자동으로 호출됩니다.
@@ -1852,9 +2126,9 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
     namespace App\Rules;
 
     use Illuminate\Contracts\Validation\Rule;
-    use Illuminate\Contracts\Validation\DataAwareRule;
+    use Illuminate\Contracts\Validation\InvokableRule;
 
-    class Uppercase implements Rule, DataAwareRule
+    class Uppercase implements DataAwareRule, InvokableRule
     {
         /**
          * All of the data under validation.
@@ -1885,10 +2159,10 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
     namespace App\Rules;
 
-    use Illuminate\Contracts\Validation\Rule;
+    use Illuminate\Contracts\Validation\InvokableRule;
     use Illuminate\Contracts\Validation\ValidatorAwareRule;
 
-    class Uppercase implements Rule, ValidatorAwareRule
+    class Uppercase implements InvokableRule, ValidatorAwareRule
     {
         /**
          * The validator instance.
@@ -1945,12 +2219,14 @@ rule 을 정의하고 나면, 다른 유효성 검사 rule 객체들과 함께, 
 
     Validator::make($input, $rules)->passes(); // true
 
-속성이 비어 있는 경우에도, 사용자 지정 규칙이 실행되려면 규칙이 속성이 필수임을 묵시해야 합니다. "묵시적" 규칙을 생성하려면 `Illuminate\Contracts\Validation\ImplicitRule` 인터페이스를 구현하십시오. 이 인터페이스는 유효성 검사기의 "마커 인터페이스" 역할을 합니다. 따라서 일반적인 `Rule` 인터페이스에서 요구하는 메서드 외에 구현해야 하는 추가 메서드가 포함되어 있지 않습니다.
-
-새로운 묵시적 규칙 객체를 생성하려면 `--implicit` 옵션과 함께 `make:rule` Artisan 명령을 사용할 수 있습니다.
+속성이 비어 있는 경우에도 사용자 지정 규칙이 실행되려면 규칙이 해당 속성이 필수임을 암시해야 합니다. 새로운 암시적 규칙 개체를 빠르게 생성하려면 `make:rule` Artisan 명령을 다음 `--implicit` 옵션과 함께 사용할 수 있습니다.
 
 ```shell
-php artisan make:rule Uppercase --implicit
+php artisan make:rule Uppercase --invokable --implicit
 ```
 
-> {note} "묵시적" 규칙은 속성이 필요하다는 것을 _묵시합니다_. 실제로 누락되거나 비어 있는 속성을 무효화하는지 여부는 사용자에게 달려 있습니다.
+> **Warning**
+> An "implicit" rule only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
+
+> **Warning**
+> "묵시적" 규칙은 속성이 필요하다는 것을 _묵시합니다_. 실제로 누락되거나 비어 있는 속성을 무효화하는지 여부는 사용자에게 달려 있습니다.

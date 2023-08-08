@@ -35,20 +35,40 @@
 <a name="available-methods"></a>
 ## 사용가능한 메소드들 
 
+- [append](#method-append)
+- [contains](#method-contains)
 - [diff](#method-diff)
+- [except](#method-except)
 - [find](#method-find)
+- [fresh](#method-fresh)
 - [intersect](#method-intersect)
+- [load](#method-load)
 - [loadMissing](#method-loadMissing)
+- [modelKeys](#method-modelKeys)
 - [makeVisible](#method-makeVisible)
+- [makeHidden](#method-makeHidden)
 - [only](#method-only)
+- [setVisible](#method-setVisible)
+- [setHidden](#method-setHidden)
+- [toQuery](#method-toquery)
 - [unique](#method-unique)
 
 모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
 
 또한, `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 메서드의 상위 집합을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환합니다. 그러나 `modelKeys`와 같은 일부 메소드는 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
 
+<a name="method-append"></a>
+#### `append($attributes)` {.collection-method .first-collection-method}
+
+`append` 메서드는 속성이 컬렉션에 있는 모든 모델에 [추가](/docs/{{version}}/eloquent-serialization#appending-values-to-json)되어야 하는지 나타내는데 쓰입니다. 이 메서드는 단일 속성 또는 속성의 배열을 받습니다.
+
+    $users->append('team');
+    
+    $users->append(['team', 'is_admin']);
+
+
 <a name="method-contains"></a>
-#### `contains($key, $operator = null, $value = null)`
+#### `contains($key, $operator = null, $value = null)` {.collection-method}
 
 `contains` 메소드는 주어진 모델 인스턴스가 컬렉션에 포함되어 있는지를 결정하는데 사용될 수 있습니다. 이 메소드는 기본-primary 키 또는 모델 인스턴스를 허용합니다.
 
@@ -146,6 +166,20 @@
 `only` 메소드는 주어진 기본-primary 키를 가진 모든 모델을 반환합니다.
 
     $users = $users->only([1, 2, 3]);
+
+<a name="method-setVisible"></a>
+#### `setVisible($attributes)` {.collection-method}
+
+`setVisible` 메소드는 컬렉션의 각 모델에 대해 모든 가시적-visible 속성을 [임시로 덮어씁니다](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility).
+
+    $users = $users->setVisible(['id', 'name']);
+
+<a name="method-setHidden"></a>
+#### `setHidden($attributes)` {.collection-method}
+
+`setHidden` 메소드는 컬렉션의 각 모델에 대해 모든 숨겨진-hidden 속성을 [임시로 덮어씁니다](/docs/{{version}}/eloquent-serialization#temporarily-modifying-attribute-visibility).
+
+    $users = $users->setHidden(['email', 'password', 'remember_token']);
 
 <a name="method-toquery"></a>
 #### `toQuery()`

@@ -146,7 +146,11 @@ Predis 확장(extension)을 사용하려면 `REDIS_CLIENT` 환경 변수를 `php
 <a name="the-redis-facade-alias"></a>
 #### Redis Facade 별칭
 
-Laravel의 `config/app.php` 구성 파일에는 프레임워크에 등록될 모든 클래스 별칭을 정의하는 `aliases` 배열이 포함되어 있습니다. 편의를 위해 Laravel에서 제공하는 [facade](/docs/{version}/facades)마다 별칭 항목이 포함되어 있지만, `Redis` 별칭은 phpredis 확장자가 제공하는 `Redis` 클래스 이름과 충돌하므로 사용할 수 없습니다. Predis 클라이언트를 사용하는 경우 이 별칭을 활성화하려면 응용 프로그램의 `config/app.php` 구성 파일에서 별칭을 주석 처리하지 않아도 됩니다.
+Laravel의 `config/app.php` 구성 파일에는 프레임워크에 등록될 모든 클래스 별칭을 정의하는 `aliases` 배열이 포함되어 있습니다. 편의를 위해 Laravel에서 제공하는 [facade](/docs/{version}/facades)마다 별칭 항목이 포함되어 있지만, `Redis` 별칭은 phpredis 확장자가 제공하는 `Redis` 클래스 이름과 충돌하므로 기본으로 포함되어 있지 않습니다. Predis 클라이언트를 사용하는 경우 이 별칭을 활성화하려면 응용 프로그램의 `config/app.php` 구성 파일에 별칭을 추가해주면 됩니다.
+
+    'aliases' => Facade::defaultAliases()->merge([
+        'Redis' => Illuminate\Support\Facades\Redis::class,
+    ])->toArray(),
 
 <a name="phpredis"></a>
 ### PhpRedis
@@ -255,7 +259,8 @@ Redis의 네이티브 `MULTY` 와 `EXEC` 명령어를 `Redis` 파사드의 `tran
         $redis->incr('total_visits', 1);
     });
 
-> {note} 레디스 트랜젝션이 정의 되는 동안 Redis 에서 해당 값을 찾을수 없습니다. 모든 트랜잭션은 원자성이 보장되며 모든 클로저가 실행 될때까지 모든 명령은 실행되지 않음을 기억하세요.
+> **Warning**
+> 레디스 트랜젝션이 정의 되는 동안 Redis 에서 해당 값을 찾을수 없습니다. 모든 트랜잭션은 원자성이 보장되며 모든 클로저가 실행 될때까지 모든 명령은 실행되지 않음을 기억하세요.
 
 #### Lua Scripts
 
@@ -275,7 +280,8 @@ Redis의 네이티브 `MULTY` 와 `EXEC` 명령어를 `Redis` 파사드의 `tran
         return counter
     LUA, 2, 'first-counter', 'second-counter');
 
-> {note} 레디스 스크립팅에 자세한 내용은 [Redis documentation](https://redis.io/commands/eval) 에서 확인하세요.
+> **Warning**
+> 레디스 스크립팅에 자세한 내용은 [Redis documentation](https://redis.io/commands/eval) 에서 확인하세요.
 
 <a name="pipelining-commands"></a>
 ### 파이프라이닝 명령어

@@ -6,6 +6,7 @@
     - [명령 생성](#generating-commands)
     - [명령어의 구조](#command-structure)
     - [클로저 명령](#closure-commands)
+    - [격리 가능한 명령](#isolatable-commands)
 - [입력 값들 정의하기](#defining-input-expectations)
     - [인자들](#arguments)
     - [옵션들](#options)
@@ -38,12 +39,12 @@ php artisan help migrate
 ```
 
 <a name="laravel-sail"></a>
-#### Laravel Sail
+#### 라라벨 Sail
 
 로컬 개발 환경으로 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 중이라면 `sail` 명령어을 사용하여 아티즌을 호출해야합니다. Sail은 Docker 컨테이너 내에서 아티즌을 실행해줍니다.
 
 ```shell
-./sail artisan list
+./vendor/bin/sail artisan list
 ```
 
 <a name="tinker"></a>
@@ -52,7 +53,7 @@ php artisan help migrate
 라라벨 Tinker는 [PsySH](https://github.com/bobthecow/psysh) 패키지로 구동되는 Laravel 프레임워크를 위한 강력한 REPL입니다.
 
 <a name="installation"></a>
-#### Installation
+#### 설치하기
 
 모든 라라벨 애플리케이션은 기본적으로 Tinker를 포함합니다. 이전에 애플리케이션에서 Tinker를 삭제했을 경우 Composer를 사용하여 Tinker를 다시 설치할 수 있습니다.
 
@@ -60,7 +61,8 @@ php artisan help migrate
 composer require laravel/tinker
 ```
 
-> {tip} 라라벨 애플리케이션과 대화하기위한 그래픽 UI를 찾고 계십니까? [Tinkerwell](https://tinkerwell.app)을 확인해보세요!
+> **Note**
+> 라라벨 애플리케이션과 대화하기위한 그래픽 UI를 찾고 계십니까? [Tinkerwell](https://tinkerwell.app)을 확인해보세요!
 
 <a name="usage"></a>
 #### 사용법
@@ -77,7 +79,8 @@ php artisan tinker
 php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 ```
 
-> {note} `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
+> **Warning**
+> `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
 
 <a name="command-allow-list"></a>
 #### 명령어 허용 리스트
@@ -112,7 +115,6 @@ php artisan make:command SendEmails
 ```
 
 <a name="command-structure"></a>
-### Command Structure
 ### 명령어 구조
 
 명령어를 생성 한 후 클래스의 `signature`와 `description` 속성에 적절한 값을 지정해줘야합니다. 이 속성은 화면에 `list` 명령을 표시 할 때 사용됩니다. `signature` 속성을 사용하면 [명령어의 입력 기대 값](#defining-input-expectations)을 정의 할 수도 있습니다. 명령어가 실행되면 `handle` 메소드가 호출됩니다. 이 메소드에 실행할 로직들을 작성하면 됩니다.
@@ -155,7 +157,8 @@ php artisan make:command SendEmails
         }
     }
 
-> {tip} 코드 재 사용률을 높이려면 콘솔 명령어을 가볍게 유지하고 작업을 수행하기 위해 애플리케이션 서비스를 불러오도록 하는 것이 좋습니다. 위의 예제에서 우리는 이메일을 보내는 "중요한 작업"을 수행하기 위해 서비스 클래스를 주입 받았습니다.
+> **Note**
+> 코드 재 사용률을 높이려면 콘솔 명령어을 가볍게 유지하고 작업을 수행하기 위해 애플리케이션 서비스를 불러오도록 하는 것이 좋습니다. 위의 예제에서 우리는 이메일을 보내는 "중요한 작업"을 수행하기 위해 서비스 클래스를 주입 받았습니다.
 
 <a name="closure-commands"></a>
 ### 클로저 명령어
@@ -200,6 +203,55 @@ php artisan make:command SendEmails
     Artisan::command('mail:send {user}', function ($user) {
         // ...
     })->purpose('Send a marketing email to a user');
+
+<a name="isolatable-commands"></a>
+### 격리 가능한 명령
+
+> **Warning**
+> 이 기능을 활용하기 위해서는 여러분의 애플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 애플리케이션 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 같은 중앙 캐시 서버와 통신해야 합니다.
+
+한 번에 하나의 명령 인스턴스만 실행시키고 싶을 수 있습니다. 그렇게 하려면 여러분의 명령 클래스에 `Illuminate\Contracts\Console\Isolatable` 인터페이스를 구현하면 됩니다.
+
+    <?php
+
+    namespace App\Console\Commands;
+
+    use Illuminate\Console\Command;
+    use Illuminate\Contracts\Console\Isolatable;
+
+    class SendEmails extends Command implements Isolatable
+    {
+        // ...
+    }
+
+명령이 `Isolatable`로 표시되면 Laravel은 자동으로 명령에 `--isolated` 옵션을 추가합니다. 해당 옵션과 함께 명령이 호출되면 라라벨은 해당 명령의 다른 인스턴스가 이미 실행되고 있지 않은지 확인합니다. 라라벨은 애플리케이션의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령의 다른 인스턴스가 실행 중인 경우 명령이 실행되지 않습니다. 그러나 명령은 성공적인 종료 상태 코드와 함께 계속 종료됩니다.
+
+```shell
+php artisan mail:send 1 --isolated
+```
+
+실행이 불가능할 때 특정 종료 상태 코드를 반환하길 원하면 `isolated` 옵션을 통해 원하는 상태 코드를 전달할 수 있습니다.
+
+```shell
+php artisan mail:send 1 --isolated=12
+```
+
+<a name="lock-expiration-time"></a>
+#### 잠금 만료 시간
+
+기본적으로 격리 잠금은 커맨드가 종료되면 해제됩니다. 명령이 중단되고 종료되지 못하는 경우에는 한 시간 뒤에 만료됩니다. 명령에 `isolationLockExpiresAt` 메서드를 정의해서 잠금 만료 시간을 조정할 수 있습니다.
+
+```php
+/**
+ * Determine when an isolation lock expires for the command.
+ *
+ * @return \DateTimeInterface|\DateInterval
+ */
+public function isolationLockExpiresAt()
+{
+    return now()->addMinutes(5);
+}
+```
 
 <a name="defining-input-expectations"></a>
 ## 입력 값들 정의하기
@@ -288,10 +340,10 @@ php artisan mail:send 1 -Q
 
     'mail:send {user*}'
 
-이 함수를 호출 할 때, 명령 행에 `user` 인자를 순서대로 전달할 수 있습니다. 예를 들어 다음 명령어는 `user` 값을 `foo`와 `bar` 값을 가진 배열로 만들어 줍니다.
+이 함수를 호출 할 때, 명령 행에 `user` 인자를 순서대로 전달할 수 있습니다. 예를 들어 다음 명령어는 `user` 값을 `1`와 `2` 값을 가진 배열로 만들어 줍니다.
 
 ```shell
-php artisan mail:send foo bar
+php artisan mail:send 1 2
 ```
 
 `*`문자는 0개 이상의 인자를 입력받기 위해 선택적인 인자 정의와 함께 사용 할 수 있습니다.
@@ -303,7 +355,7 @@ php artisan mail:send foo bar
 
 여러 입력 값을 예상하는 옵션을 정의 할 때, 명령에 전달 된 각 옵션 값은 옵션 이름으로 시작해야합니다.
 
-    'mail:send {user} {--id=*}'
+    'mail:send {--id=*}'
 
 다음과 같이 명령어를 실행할 때 여러개의 `--id` 인자를 전달할 수 있습니다.
 
@@ -498,7 +550,8 @@ php artisan mail:send --id=1 --id=2
 
     $bar->finish();
 
-> {tip} 고급 옵션은 [Symfony Progress Bar 구성 요소 문서](https://symfony.com/doc/current/components/console/helpers/progressbar.html) 를 확인하세요.
+> **Note**  
+> 고급 옵션은 [Symfony Progress Bar 구성 요소 문서](https://symfony.com/doc/current/components/console/helpers/progressbar.html) 를 확인하세요.
 
 <a name="registering-commands"></a>
 ## 명령어 등록하기
@@ -614,47 +667,29 @@ php artisan mail:send --id=1 --id=2
 <a name="signal-handling"></a>
 ## 시그널 처리
 
-아티즌 콘솔을 구동하는 Symfony 콘솔 구성 요소를 사용하면, 명령어가 실행되는 동안 프로세스 시그널을(있을 경우) 처리 할 수 있습니다. 예를 들어 명령어가 `SIGINT` and `SIGTERM` 신호를 처리할 수 있습니다.
-
-사용하려면 아티즌 명령어 클래스에서 `Symfony\Component\Console\Command\SignalableCommandInterface` 인터페이스를 구현해야합니다. 이 인터페이스를 상속받은 경우 `getSubscribedSignals` 및 `handleSignal`의 두 가지 메소드를 구현해야합니다.
-
-```php
-<?php
-
-use Symfony\Component\Console\Command\SignalableCommandInterface;
-
-class StartServer extends Command implements SignalableCommandInterface
-{
-    // ...
+아시다시피 운영 체제는 실행 중인 프로세스에 시그널을 보낼 수 있습니다. 예를 들어, `SIGTERM` 신호는 운영 체제가 프로그램을 종료하도록 요청하는 방법입니다. 여러분의 아티즌 콘솔 명령에서 이러한 신호를 수신하고 이에 따라 코드를 실행하고 싶다면 `trap` 메서드를 사용하면 됩니다.
 
     /**
-     * Get the list of signals handled by the command.
+     * Execute the console command.
      *
-     * @return array
+     * @return mixed
      */
-    public function getSubscribedSignals(): array
+    public function handle()
     {
-        return [SIGINT, SIGTERM];
-    }
+        $this->trap(SIGTERM, fn () => $this->shouldKeepRunning = false);
 
-    /**
-     * Handle an incoming signal.
-     *
-     * @param  int  $signal
-     * @return void
-     */
-    public function handleSignal(int $signal): void
-    {
-        if ($signal === SIGINT) {
-            $this->stopServer();
-
-            return;
+        while ($this->shouldKeepRunning) {
+            // ...
         }
     }
-}
-```
 
-예상했겠지만 `getSubscribedSignals` 메소드는 명령어가 처리 할 수있는 시그널의 배열을 반환하며, `handleSignal` 메소드는 시그널을 수신하고 그에 따른 응답을 처리 할 수 있습니다.
+한 번에 여러 신호를 수신하고 싶으면 `trap` 메서드에 신호 배열을 전달하면 됩니다.
+
+    $this->trap([SIGTERM, SIGQUIT], function ($signal) {
+        $this->shouldKeepRunning = false;
+
+        dump($signal); // SIGTERM / SIGQUIT
+    });
 
 <a name="stub-customization"></a>
 ## 스텁 사용자 정의

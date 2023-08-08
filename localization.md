@@ -2,6 +2,7 @@
 
 - [시작하기](#introduction)
     - [Locale 설정하기](#configuring-the-locale)
+    - [복수화 언어](#pluralization-language)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [짧은 키 사용하기](#using-short-keys)
     - [다국어 문자열을 키로 사용하기](#using-translation-strings-as-keys)
@@ -66,6 +67,30 @@
     if (App::isLocale('en')) {
         //
     }
+
+<a name="pluralization-language"></a>
+### Pluralization Language
+### 복수화 언어
+
+Eloquent 및 프레임워크의 다른 부분에서 단수 문자열을 복수 문자열로 변환하는 데 사용하는 라라벨의 "pluralizer"에 영어 이외의 언어를 사용하도록 지시할 수 있습니다. 이것은 애플리케이션의 서비스 공급자 중 하나의 `boot` 메서드 내에서 `useLanguage` 메서드를 호출하여 수행할 수 있습니다 . pluralizer가 현재 지원하는 언어는 `프랑스어`, `norwegian-bokmal`, `포르투갈어`, `스페인어`, `터키어` 입니다.
+
+    use Illuminate\Support\Pluralizer;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Pluralizer::useLanguage('spanish');     
+
+        // ...     
+    }
+
+
+> **Warning**
+> 복수형 언어를 사용자 정의하는 경우 Eloquent 모델의 [테이블 이름](/docs/{{version}}/eloquent#table-names)을 명시적으로 정의해야 합니다 .
 
 <a name="defining-translation-strings"></a>
 ## 다국어 문자값 정의하기
@@ -144,6 +169,29 @@
 
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
+
+<a name="object-replacement-formatting"></a>
+#### 객체 교체 포맷팅
+
+번역을 위한 플레이스 홀더에 객체를 지정하면, 이 객체가 표시될 때 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring)메서드는 PHP에 내장된 "매직 메서드"입니다. 그렇지만 사용하고자 하는 클래스가 써드파티 라이브러리에 속해있는 경우와 같이 저징된 클래스에 메서드를 제어할 수 없는 경우도 있습니다.
+
+이런 경우를 위해서 라라벨은 특정 유형의 객체를 위한 커스텀 포맷 핸들러를 등록할 수 있습니다. 이 핸들러를 등록하려면 Translator 의 `stringable` 메서드를 호출하면 됩니다. `stringable` 메서드는 클로저를 인자로 전달 받는데, 이 클로저는 포맷팅을 위한 응답 가능 객체 타입으로 힌트된 인자를 받아야 합니다. 일반적으로 이 `stringable` 메서드는 `AppServiceProvider`클래스의 `boot` 메서드 안에서 호출됩니다.
+
+
+    use Illuminate\Support\Facades\Lang;
+    use Money\Money;
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Lang::stringable(function (Money $money) {
+            return $money->formatTo('en_GB');
+        });
+    }
 
 <a name="pluralization"></a>
 ### 복수 표기

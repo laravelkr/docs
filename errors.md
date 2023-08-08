@@ -4,6 +4,7 @@
 - [설정하기](#configuration)
 - [예외 핸들러](#the-exception-handler)
     - [예외의 보고](#reporting-exceptions)
+    - [예외 로그 수준](#exception-log-levels)
     - [타입별 예외 무시](#ignoring-exceptions-by-type)
     - [예외의 렌더링](#rendering-exceptions)
     - [보고 가능한(Reportable) & 렌더링 가능한(Renderable) Exceptions](#renderable-exceptions)
@@ -56,7 +57,8 @@
         return false;
     });
 
-> {tip} 주어진 예외에 대한 예외 보고(exception reporting)을 커스터마이징하려면, [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 살펴보세요.
+> **Note**
+> 주어진 예외에 대한 예외 보고(exception reporting)을 커스터마이징하려면, [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions)을 살펴보세요.
 
 <a name="global-log-context"></a>
 #### 글로벌 로그 컨텍스트
@@ -117,23 +119,45 @@
         }
     }
 
+<a name="exception-log-levels"></a>
+### 예외 로그 수준
+
+메시지가 애플리케이션의 [로그](/docs/{{version}}/logging)에 쓰일 때, 메시지는 심각도와 중요도를 나타내는 [로그 수준](/docs/{{version}}/logging#log-levels)으로 쓰여집니다.
+
+앞서 언급한 바와 같이 당신이 `reportable` 메서드를 사용하여 커스텀 예외 보고 콜백을 등록했을 때에도 라라벨은 여전히 애플리케이션의 기본 로깅 설정을 사용하여 예외를 기록할 것입니다. 하지만 어떤 메시지가 기록될지에 있어서 로그 수준이 영향을 미치기 때문에 특정 예외가 로그를 남길 때 로그 수준을 설정하고 싶을 수 있습니다. 
+
+그렇게 하기 위해서는 애플리케이션의 예외 핸들어에 있는 `$levels` 프로퍼티에 예외 타입과 그에 해당하는 로그 수준을 배열로 정의하면 됩니다. 
+
+    use PDOException;
+    use Psr\Log\LogLevel;
+
+    /**
+     * A list of exception types with their corresponding custom log levels.
+     *
+     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     */
+    protected $levels = [
+        PDOException::class => LogLevel::CRITICAL,
+    ];
+
 <a name="ignoring-exceptions-by-type"></a>
 #### 유형에 따른 예외 무시
 
-애플리케이션을 구축할 때, 여러분이 무시하거나 보고하지 않기를 원하는 몇 가지 유형의 예외가 있을 수도 있습니다. 애플리케이션의 예외 헨들러는 빈 배열로 초기화된 `$dontReport` 속성을 가지고 있습니다. 이 속성에 추가된 클래스는 오류를 보고하지 않습니다.(never) 하지만 오류를 보고하지 않더라도 커스텀 렌더링 로직을 가질 수 있습니다.
+애플리케이션을 구축할 때, 여러분이 무시하거나 보고하지 않기를 원하는 몇 가지 유형의 예외가 있을 수도 있습니다. 애플리케이션의 예외 핸들러는 빈 배열로 초기화된 `$dontReport` 속성을 가지고 있습니다. 이 속성에 추가된 클래스는 오류를 보고하지 않습니다.(never) 하지만 오류를 보고하지 않더라도 커스텀 렌더링 로직을 가질 수 있습니다.
 
     use App\Exceptions\InvalidOrderException;
 
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
         InvalidOrderException::class,
     ];
 
-> {tip} 내부적으로 라라벨은 편의를 위해 몇몇 타입의 에러를 무시합니다. 404 HTTP "not found" 에러 또는 CSRF 토큰 인증을 통과하지 못한 경우에 발생하는 419 HTTP responses generated 등의 에러 입니다.
+> **Note**
+> 내부적으로 라라벨은 편의를 위해 몇몇 타입의 에러를 무시합니다. 404 HTTP "not found" 에러 또는 CSRF 토큰 인증을 통과하지 못한 경우에 발생하는 419 HTTP responses generated 등의 에러 입니다.
 
 <a name="rendering-exceptions"></a>
 ### 예외의 렌더링
@@ -209,7 +233,7 @@
          */
         public function render($request)
         {
-            return response(...);
+            return response(/* ... */);
         }
     }
 
@@ -242,7 +266,8 @@
         return false;
     }
 
-> {tip} `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
+> **Note**
+> `report` 메소드에 필요한 의존성을 타입힌트하면 라라벨의 [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 이를 주입해줍니다.
 
 <a name="http-exceptions"></a>
 ## HTTP 예외

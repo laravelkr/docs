@@ -5,6 +5,7 @@
     - [로컬 드라이버](#the-local-driver)
     - [Public 디스크](#the-public-disk)
     - [드라이버 사용시 준비사항](#driver-prerequisites)
+    - [범위 제한 & 읽기 전용 파일시스템](#scoped-and-read-only-filesystems)
     - [Amazon S3 호환 파일 시스템](#amazon-s3-compatible-filesystems)
 - [Disk 인스턴스 획득하기](#obtaining-disk-instances)
 - [온디멘드 디스크](#on-demand-disks)
@@ -34,7 +35,8 @@
 
 `local` 드라이버는 라라벨 애플리케이션을 실행하는 서버에 로컬로 저장된 파일을 다루는 반면 `s3` 드라이버는 Amazon의 S3 클라우드 스토리지 서비스에 사용됩니다.
 
-> {tip} 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
+> **Note**
+> 여러분은 원하는만큼 디스크를 설정할 수 있으며, 동일한 드라이버에 대해 여러개의 디스크를 가질 수도 있습니다.
 
 <a name="the-local-driver"></a>
 ### 로컬 드라이버
@@ -78,7 +80,7 @@ php artisan storage:link
 S3 드라이버를 사용하기 전에 Composer 패키지 관리자를 통해 Flysystem S3 패키지를 설치해야 합니다.
 
 ```shell
-composer require -W league/flysystem-aws-s3-v3 "^3.0"
+composer require league/flysystem-aws-s3-v3 "^3.0"
 ```
 
 S3 드라이버 설정 정보는 `config/filesystems.php` 설정 파일안에 있습니다. 이 파일은 S3 드라이버 설정에 대한 예제 배열을 포함하고 있습니다. 여러분은 자유롭게 여러분의 S3 설정과 인증을 위해서 이 배열을 수정할 수 있습니다. 편의를 위해서, 이 환경설정값들은 AWS CLI를 사용하여 네이밍 컨벤션과 매칭됩니다.
@@ -129,7 +131,7 @@ composer require league/flysystem-sftp-v3 "^3.0"
 
         // Settings for SSH key based authentication with encryption password...
         'privateKey' => env('SFTP_PRIVATE_KEY'),
-        'password' => env('SFTP_PASSWORD'),
+        'passphrase' => env('SFTP_PASSPHRASE'),
 
         // Optional SFTP Settings...
         // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
@@ -141,14 +143,65 @@ composer require league/flysystem-sftp-v3 "^3.0"
         // 'useAgent' => true,
     ],
 
+<a name="scoped-and-read-only-filesystems"></a>
+### 범위 제한 & 읽기 전용 파일시스템
+
+범위 지정 디스크를 사용하면 모든 경로에 지정된 경로 접두사가 자동으로 붙는 파일 시스템을 정의할 수 있습니다. 범위가 지정된 파일 시스템 디스크를 만들기 전에 Composer 패키지 관리자를 통해 추가 Flysystem 패키지를 설치해야 합니다.
+
+```shell
+composer require league/flysystem-path-prefixing "^3.0"
+```
+
+`scoped` 드라이버를 사용하는 디스크를 정의하여 기존 파일 시스템 디스크의 경로 범위 인스턴스를 만들 수 있습니다. 예를 들어, 기존 `s3` 디스크의 범위를 특정 경로 접두사로 지정하는 디스크를 생성하면 범위 지정 디스크를 사용하는 모든 파일 작업이 지정된 접두사를 활용할 수 있습니다.
+
+```php
+'s3-videos' => [
+    'driver' => 'scoped',
+    'disk' => 's3',
+    'prefix' => 'path/to/videos',
+],
+```
+
+"Read-only" disks allow you to create filesystem disks that do not allow write operations. Before using the `read-only` configuration option, you will need to install an additional Flysystem package via the Composer package manager:
+
+"읽기 전용" 디스크는 쓰기 작업을 허용하지 않는 디스크를 만들 수 있게 해줍니다. `read-only` 설정 옵션을 사용하기 전에 Composer 패키지 매니저를 통해 추가적인 Flysystem 패키지를 설치해야 합니다.
+
+```shell
+composer require league/flysystem-read-only "^3.0"
+```
+
+Next, you may include the `read-only` configuration option in one or more of your disk's configuration arrays:
+
+그러고 나면 `read-only` 설정 옵션을 디스크 설정 배열에 하나 이상 포함 할 수 있습니다.
+
+```php
+'s3-videos' => [
+    'driver' => 's3',
+    // ...
+    'read-only' => true,
+],
+```
+
 <a name="amazon-s3-compatible-filesystems"></a>
 ### Amazon S3 호환 파일 시스템
 
 기본적으로 애플리케이션의 `filesystems` 구성 파일에는 `s3` 디스크에 대한 디스크 구성이 포함되어 있습니다. 이 디스크를 사용하여 Amazon S3를 다루는 것 외에도 [MinIO](https://github.com/minio/minio) 또는 [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces) 와 같은 S3 호환 파일 스토리지 서비스를  사용할 수 있습니다.
 
-일반적으로 사용하려는 서비스의 자격 증명과 일치하도록 디스크 자격 증명을 업데이트한 후 `url` 구성 옵션의 값만 업데이트하면 됩니다. 이 옵션의 값은 일반적으로 `AWS_ENDPOINT` 환경 변수를 통해 정의됩니다.
+일반적으로 사용하려는 서비스의 자격 증명과 일치하도록 디스크 자격 증명을 업데이트한 후 `endpoint` 구성 옵션의 값만 업데이트하면 됩니다. 이 옵션의 값은 일반적으로 `AWS_ENDPOINT` 환경 변수를 통해 정의됩니다.
 
     'endpoint' => env('AWS_ENDPOINT', 'https://minio:9000'),
+
+<a name="minio"></a>
+#### MinIO
+
+Laravel의 Flysystem 통합이 MinIO를 사용할 때 올바른 URL을 생성하도록 하려면 `AWS_URL` 환경 변수를 정의하여 애플리케이션의 로컬 URL과 URL 경로에 버킷 이름이 포함되도록 해야 합니다.
+
+```ini
+AWS_URL=http://localhost:9000/local
+```
+
+> **Warning**  
+> MinIO를 사용할 때는 `temporaryUrl` 메소드를 통해 임시 저장소 URL을 생성하는 것은 지원되지 않습니다.
 
 <a name="obtaining-disk-instances"></a>
 ## 디스크 인스턴스 획득하기
@@ -218,7 +271,8 @@ $disk->put('image.jpg', $content);
 
 `local` 드라이버를 사용하는 경우, 공개적으로 접근이 가능한 모든 파일들은 `storage/app/public` 디렉토리 안에 위치해야 합니다. 또한 `storage/app/public` 디렉토리를 가리키는 `public/storage` [심볼릭 링크](#the-public-disk)를 생성해야 합니다.
 
-> {note} `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
+> **Warning**
+> `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
 
 <a name="temporary-urls"></a>
 #### 임시 URLs
@@ -295,6 +349,10 @@ $disk->put('image.jpg', $content);
 `lastModified` 메소드는 마지막에 파일이 업데이트되었을 때의 UNIX 타임 스탬프값을 반환합니다.
 
     $time = Storage::lastModified('file.jpg');
+
+주어진 파일의 MIME 타입은 `mimeType` 메소드를 통해 조회할 수 있습니다.
+
+    $mime = Storage::mimeType('file.jpg')
 
 <a name="file-paths"></a>
 #### 파일 경로
@@ -420,7 +478,8 @@ $disk->put('image.jpg', $content);
         'avatars', $request->file('avatar'), $request->user()->id
     );
 
-> {note} 출력할 수 없거나 유효하지 않은 유니코드 문자는 파일 경로에서 자동으로 삭제됩니다. 그러므로 파일 경로를 라라벨 파일 저장 메소드에 전달하기 전에 sanitize 하시기 바랍니다. 파일 경로는 `League\Flysystem\WhitespacePathNormalizer::normalizePath` 메소드로 정규화됩니다.
+> **Warning**
+> 출력할 수 없거나 유효하지 않은 유니코드 문자는 파일 경로에서 자동으로 삭제됩니다. 그러므로 파일 경로를 라라벨 파일 저장 메소드에 전달하기 전에 sanitize 하시기 바랍니다. 파일 경로는 `League\Flysystem\WhitespacePathNormalizer::normalizePath` 메소드로 정규화됩니다.
 
 <a name="specifying-a-disk"></a>
 #### 디스크 지정하기
@@ -484,7 +543,7 @@ $disk->put('image.jpg', $content);
     );
 
 <a name="local-files-and-visibility"></a>
-####로컬 파일 및 Visibility
+#### 로컬 파일 및 Visibility
 
 `local` 드라이버를 사용할 때 `public` [파일 visibility](file-visibility)는 디렉토리에 대한 `0755` 권한과 파일에 대한 `0644` 권한으로 변환됩니다. 애플리케이션의 `filesystems` 설정 파일에서 권한 매핑을 수정할 수 있습니다.
 

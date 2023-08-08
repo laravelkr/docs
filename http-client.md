@@ -8,12 +8,15 @@
     - [시간초과](#timeout)
     - [재시도](#retries)
     - [에러 처리](#error-handling)
-    - [Guzzle Options](#guzzle-options)
-- [동시 Request](#concurrent-requests)
+    - [Guzzle 미들웨어](#guzzle-middleware)
+    - [Guzzle 옵션](#guzzle-options)
+- [동시 요청](#concurrent-requests)
 - [매크로](#macros)
-- [Testing](#testing)
+- [테스팅](#testing)
     - [응답 속이기](#faking-responses)
     - [Request 검사하기](#inspecting-requests)
+    - [스트레이 요청 방지](#preventing-stray-requests)
+- [Events](#events)
 - [이벤트](#events)
 
 <a name="introduction"></a>
@@ -39,15 +42,13 @@ Request를 만드는데 `Http` 파사드에서 제공하는 `head`, `get`, `post
 `get` 메소드는 응답을 검사하는 데 사용할 수 있는 다양한 메소드를 제공하는 `Illuminate\Http\Client\Response`의 인스턴스를 반환합니다.
 
     $response->body() : string;
-    $response->json($key = null) : array|mixed;
+    $response->json($key = null, $default = null) : array|mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
     $response->status() : int;
-    $response->ok() : bool;
     $response->successful() : bool;
     $response->redirect(): bool;
     $response->failed() : bool;
-    $response->serverError() : bool;
     $response->clientError() : bool;
     $response->header($header) : string;
     $response->headers() : array;
@@ -55,6 +56,42 @@ Request를 만드는데 `Http` 파사드에서 제공하는 `head`, `get`, `post
 `Illuminate\Http\Client\Response` 객체는 PHP `ArrayAccess` 인터페이스도 구현하고 있기 때문에 응답에서 JSON 응답 데이터에 바로 접근할 수 있습니다.
 
     return Http::get('http://example.com/users/1')['name'];
+
+위의 목록에 표시된 메서드 이외에도 다음의 메서드를 사용하여 응답에 주어진 상태코드가 있는지 확인할 수 있습니다. 
+
+    $response->ok() : bool;                  // 200 OK
+    $response->created() : bool;             // 201 Created
+    $response->accepted() : bool;            // 202 Accepted
+    $response->noContent() : bool;           // 204 No Content
+    $response->movedPermanently() : bool;    // 301 Moved Permanently
+    $response->found() : bool;               // 302 Found
+    $response->badRequest() : bool;          // 400 Bad Request
+    $response->unauthorized() : bool;        // 401 Unauthorized
+    $response->paymentRequired() : bool;     // 402 Payment Required
+    $response->forbidden() : bool;           // 403 Forbidden
+    $response->notFound() : bool;            // 404 Not Found
+    $response->requestTimeout() : bool;      // 408 Request Timeout
+    $response->conflict() : bool;            // 409 Conflict
+    $response->unprocessableEntity() : bool; // 422 Unprocessable Entity
+    $response->tooManyRequests() : bool;     // 429 Too Many Requests
+    $response->serverError() : bool;         // 500 Internal Server Error
+
+<a name="uri-templates"></a>
+#### URI Templates
+#### URI Templates
+
+The HTTP client also allows you to construct request URLs using the [URI template specification](https://www.rfc-editor.org/rfc/rfc6570). To define the URL parameters that can be expanded by your URI template, you may use the `withUrlParameters` method:
+
+HTTP 클라이언트를 사용하면 [URI 템플릿 스펙](https://www.rfc-editor.org/rfc/rfc6570)을 사용해 HTTP 요청 URL을 생성할 수도 있습니다. URI 템플릿으로 확장할 수 있는 URL 파라미터를 정의하려면 다음과 같이 할 수 있습니다. 
+
+```php
+Http::withUrlParameters([
+    'endpoint' => 'https://laravel.com',
+    'page' => 'docs',
+    'version' => '9.x',
+    'topic' => 'validation',
+])->get('{+endpoint}/{page}/{version}/{topic}');
+```
 
 <a name="dumping-requests"></a>
 #### Request의 dump하기
@@ -147,30 +184,30 @@ Request할 때 raw request body를 발송하려면 `withBody` 메서드를 사�
 `withBasicAuth`와 `withDigestAuth` 메서드를 이용해서 기본 인증을 사용할 건지 다이제스트 인증을 사용할 건지 지정할 수 있습니다.
 
     // Basic authentication...
-    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withBasicAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
     // Digest authentication...
-    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(...);
+    $response = Http::withDigestAuth('taylor@laravel.com', 'secret')->post(/* ... */);
 
 <a name="bearer-tokens"></a>
 #### Bearer 토큰
 
 Request 헤더에 `Authorization` bearer 토큰을 추가하고 싶으면 `withToken` 메서드를 사용하면 됩니다.
 
-    $response = Http::withToken('token')->post(...);
+    $response = Http::withToken('token')->post(/* ... */);
 
 <a name="timeout"></a>
 ### 시간초과
 
 `timeout` 메소드는 응답을 기다리는 최대 시간 (초)을 지정하는 데 사용될 수 있습니다.
 
-    $response = Http::timeout(3)->get(...);
+    $response = Http::timeout(3)->get(/* ... */);
 
 주어진 타임 아웃이 초과되면 `Illuminate\Http\Client\ConnectionException`의 인스턴스가 발생합니다.
 
 `connectTimeout` 메소드를 사용하면 서버에 연결을 시도하는 동안 대기할 최대 시간(초)을 지정할 수 있습니다.
 
-    $response = Http::connectTimeout(3)->get(...);
+    $response = Http::connectTimeout(3)->get(/* ... */);
 
 <a name="retries"></a>
 ### 재시도
@@ -178,17 +215,32 @@ Request 헤더에 `Authorization` bearer 토큰을 추가하고 싶으면 `withT
 클라이언트나 서버 에러 발생 시 자동으로 재시도하고 싶으면 `retry` 메서드를 사용하면 됩니다. `retry` 메서드는 두 개의 인자를 받습니다. 하나는 재시도할 횟수이고 다른 하나는 재시도 간 간격(밀리초)입니다.
 
 
-    $response = Http::retry(3, 100)->post(...);
+    $response = Http::retry(3, 100)->post(/* ... */);
 
 필요한 경우 `retry` 메서드에 세 번째 인수를 전달할 수 있습니다. 세 번째 인수는 재시도가 실제로 시도되어야 하는지 여부를 결정하는 callable이어야 합니다. 예를 들어, 초기 Request에서 `ConnectionException`이 발생한 경우에만 Request를 재시도할 수 있습니다.
 
-    $response = Http::retry(3, 100, function ($exception) {
+    $response = Http::retry(3, 100, function ($exception, $request) {
         return $exception instanceof ConnectionException;
-    })->post(...);
+    })->post(/* ... */);
+
+요청이 실패하는 경우 새 시도를 하기 전에 변화를 주고 싶을 수 있습니다. `retry` 메서드에 제공한 콜러블에 제공한 요청 인자를 수정하여 이를 달성할 수 있습니다. 예를 들어, 첫 번째 시도가 인증 에러를 반환하면 새 인증 토큰으로 재시도 할 수 있습니다.
+
+    $response = Http::withToken($this->getToken())->retry(2, 0, function ($exception, $request) {
+        if (! $exception instanceof RequestException || $exception->response->status() !== 401) {
+            return false;
+        }
+
+        $request->withToken($this->getNewToken());
+
+        return true;
+    })->post(/* ... */);
 
 모든 Request가 실패하면 `Illuminate\Http\Client\RequestException` 인스턴스를 던집니다. 이 동작을 비활성화하려면 `throw` 인자를 `false` 로 지정하면 됩니다. 이 동작이 비활성화되면 모든 재시도가 시도된 후 클라이언트가 수신한 마지막 응답이 반환됩니다.
 
-    $response = Http::retry(3, 100, throw: false)->post(...);
+    $response = Http::retry(3, 100, throw: false)->post(/* ... */);
+
+> **Warning**
+> 커넥션 문제로 모든 요청이 실패하는 경우 `throw` 인자가 `false`로 설정되어 있어도 `Illuminate\Http\Client\ConnectionException` 가 던져질 것입니다.
 
 <a name="error-handling"></a>
 ### 에러 처리
@@ -220,7 +272,7 @@ Guzzle의 기본 동작과는 달리 라라벨 HTTP 클라이언트는 클라이
 
 응답이 클라이언트나 서버 에러일 경우 `Illuminate\Http\Client\RequestException` 인스턴스를 던지고 싶으면 `throw` 메서드를 사용하면 됩니다.
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
     // Throw an exception if a client or server error occurred...
     // 클라이언트나 서버 에러가 발생하면 예외를 던진다...
@@ -229,6 +281,26 @@ Guzzle의 기본 동작과는 달리 라라벨 HTTP 클라이언트는 클라이
     // Throw an exception if an error occurred and the given condition is true...
     // 오류가 발생하고 조건에 해당하는 경우 예외를 던진다...
     $response->throwIf($condition);
+    
+    // Throw an exception if an error occurred and the given closure resolves to true...
+    // 오류가 발생하고 클로저가 true를 반환하는 경우 예외를 던진다...
+    $response->throwIf(fn ($response) => true);
+
+    // Throw an exception if an error occurred and the given condition is false...
+    // 오류가 발생하고 조건에 해당하지 않는 경우 예외를 던진다...
+    $response->throwUnless($condition);
+
+    // Throw an exception if an error occurred and the given closure resolves to false...
+    // 오류가 발생하고 클로저가 false를 반환하는 경우 예외를 던진다...
+    $response->throwUnless(fn ($response) => false);
+
+    // Throw an exception if the response has a specific status code...
+    // 응답이 지정된 상태코드를 가진다면 예외를 던진다...
+    $response->throwIfStatus(403);
+
+    // Throw an exception unless the response has a specific status code...
+    // 응답이 지정된 상태코드가 아니라면 예외를 던진다...
+    $response->throwUnlessStatus(200);
 
     return $response['user']['id'];
 
@@ -236,13 +308,46 @@ Guzzle의 기본 동작과는 달리 라라벨 HTTP 클라이언트는 클라이
 
 `throw` 메서드를 써도 실제로 에러가 발생하지 않으면 응답 인스턴스를 반환하기 때문에 `throw` 메서드에 다른 작업을 연결할 수 있습니다.
 
-    return Http::post(...)->throw()->json();
+    return Http::post(/* ... */)->throw()->json();
 
 예외가 발생하기 전에 몇 가지 추가 로직을 수행하려면 `throw` 메소드에 클로저를 전달할 수 있습니다. 클로저가 호출된 후 예외가 자동으로 throw되므로 클로저 내에서 예외를 다시 throw할 필요가 없습니다.
 
-    return Http::post(...)->throw(function ($response, $e) {
+    return Http::post(/* ... */)->throw(function ($response, $e) {
         //
     })->json();
+
+<a name="guzzle-middleware"></a>
+### Guzzle 미들웨어
+
+라라벨의 HTTP 클라이언트가 Guzzle에 기반하기 때문에 밖으로 나가는 요청을 조작하거나 들어오는 요청을 검사하는데 [Guzzle 미들웨어](https://docs.guzzlephp.org/en/stable/handlers-and-middleware.html)을 활용할 수 있습니다. 밖으로 나가는 요청을 조작하려면 Guzzle의 `mapRequest` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 사용해 Guzzle 미들웨어를 등록하세요.
+
+    use GuzzleHttp\Middleware;
+    use Illuminate\Support\Facades\Http;
+    use Psr\Http\Message\RequestInterface;
+
+    $response = Http::withMiddleware(
+        Middleware::mapRequest(function (RequestInterface $request) {
+            $request = $request->withHeader('X-Example', 'Value');
+            
+            return $request;
+        })
+    )->get('http://example.com');
+
+마찬가지로 들어오는 HTTP 응답을 `mapResponse` 미들웨어 팩토리와 함께 `withMiddleware` 메서드를 통해 미들웨어를 등록하여 검사할 수 있습니다.
+
+    use GuzzleHttp\Middleware;
+    use Illuminate\Support\Facades\Http;
+    use Psr\Http\Message\ResponseInterface;
+
+    $response = Http::withMiddleware(
+        Middleware::mapResponse(function (ResponseInterface $response) {
+            $header = $response->getHeader('X-Example');
+
+            // ...
+            
+            return $response;
+        })
+    )->get('http://example.com');
 
 <a name="guzzle-options"></a>
 ### Guzzle Options
@@ -254,7 +359,7 @@ Guzzle의 기본 동작과는 달리 라라벨 HTTP 클라이언트는 클라이
     ])->get('http://example.com/users');
 
 <a name="concurrent-requests"></a>
-## 동시 Request
+## 동시 요청
 
 여러 HTTP Request를 동시에 보내고 싶을 수도 있습니다. 즉, Request를 순차적으로 보내는 대신 여러 Request를 동시에 보내려고 하는 것입니다. 이는 느린 HTTP API와 상호 작용할 때 높은 성능 향상으로 이어질 수 있습니다.
 
@@ -316,7 +421,7 @@ $response = Http::github()->get('/');
 ```
 
 <a name="testing"></a>
-## 테스트
+## 테스팅
 
 많은 라라벨 서비스가 테스트 작성에 도움을 주는 기능을 제공하는데, 라라벨의 HTTP 클라이언트도 예외가 아닙니다. `Http` 퍼사드의 `fake` 메서드를 사용하면 Request가 만들어졌을 때 스텁 / 더미 응답을 반환하도록 HTTP 클라이언트에게 지시할 수 있습니다.
 
@@ -329,7 +434,7 @@ $response = Http::github()->get('/');
 
     Http::fake();
 
-    $response = Http::post(...);
+    $response = Http::post(/* ... */);
 
 <a name="faking-specific-urls"></a>
 #### 특정 URL 속이기
@@ -394,9 +499,30 @@ $response = Http::github()->get('/');
 
 특정 엔드포인트가 어떤 응답을 반환해야하는지 결정하는데 더욱 더 복잡한 로직이 필요하다면 `fake` 메서드에 콜백을 넘겨줄 수 있습니다. 이 콜백은 `Illuminate\Http\Client\Request` 인스턴스를 받고 응답 인스턴스를 반환해야 합니다.
 
-    Http::fake(function ($request) {
+    use Illuminate\Http\Client\Request;
+
+    Http::fake(function (Request $request) {
         return Http::response('Hello World', 200);
     });
+
+<a name="preventing-stray-requests"></a>
+### 스트레이 요청 방지
+
+HTTP 클라이언트를 통해 보내지는 모든 요청을 개별 테스트나 전체 테스트 스위트에서 위조된 것으로 한정하고 싶은 경우 `preventStrayRequests` 메서드를 호출하면 됩니다. 이 메서드를 호출하고 나면 가짜 응답을 갖지 않은 모든 요청은 실제 HTTP 요청을 만드는 대신 예외를 던지게 됩니다.
+
+    use Illuminate\Support\Facades\Http;
+
+    Http::preventStrayRequests();
+
+    Http::fake([
+        'github.com/*' => Http::response('ok'),
+    ]);
+
+    // An "ok" response is returned...
+    Http::get('https://github.com/laravel/framework');
+
+    // An exception is thrown...
+    Http::get('https://laravel.com');
 
 <a name="inspecting-requests"></a>
 ### Request 검사하기
@@ -451,6 +577,45 @@ $response = Http::github()->get('/');
     Http::fake();
 
     Http::assertNothingSent();
+
+<a name="recording-requests-and-responses"></a>
+#### 요청 / 응답 기록하기
+
+모든 요청과 그에 해당하는 응답을 모으기 위해 `recorded` 메서드를 사용할 수 있습니다. `recorded` 메서드는 `Illuminate\Http\Client\Request` 와 `Illuminate\Http\Client\Response` 인스턴스를 담은 배열의 컬렉션을 반환합니다.
+
+```php
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded();
+
+[$request, $response] = $recorded[0];
+```
+
+추가적으로 `recorded` 메서드는 `Illuminate\Http\Client\Request` 와 `Illuminate\Http\Client\Response` 인스턴스를 받고 기대에 따라 요청 / 응답 쌍을 필터링하는 데 사용할 수 있는 클로저를 허용합니다.
+
+```php
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Client\Response;
+
+Http::fake([
+    'https://laravel.com' => Http::response(status: 500),
+    'https://nova.laravel.com/' => Http::response(),
+]);
+
+Http::get('https://laravel.com');
+Http::get('https://nova.laravel.com/');
+
+$recorded = Http::recorded(function (Request $request, Response $response) {
+    return $request->url() !== 'https://laravel.com' &&
+           $response->successful();
+});
+```
 
 <a name="events"></a>
 ## 이벤트

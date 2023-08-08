@@ -41,7 +41,8 @@
 
 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다. 따라서 쿼리 빌더에 쿼리 바인딩으로 전달된 문자열을 정리할 필요가 없습니다.
 
-> {note} PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
+> **Warning**
+> PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
 
 <a name="running-database-queries"></a>
 ## 데이터베이스 쿼리 실행하기
@@ -83,7 +84,8 @@
         echo $user->name;
     }
 
-> {tip} 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
+> **Note**
+> 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
 #### 테이블에서 하나의 결과 / 컬럼 가져오기
@@ -156,7 +158,8 @@
             }
         });
 
-> {note} 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
+> **Warning**
+> 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
 
 <a name="streaming-results-lazily"></a>
 ### 결과 지연 스트리밍
@@ -182,7 +185,8 @@ DB::table('users')->where('active', false)
     });
 ```
 
-> {note} 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
+> **Warning**
+> 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
 
 <a name="aggregates"></a>
 ### Aggregates-집계문
@@ -249,7 +253,8 @@ DB::table('users')->where('active', false)
                  ->groupBy('status')
                  ->get();
 
-> {note} 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
+> **Warning**
+> 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
 
 <a name="raw-methods"></a>
 ### Raw 메소드
@@ -260,7 +265,7 @@ DB::table('users')->where('active', false)
 <a name="selectraw"></a>
 #### `selectRaw`
 
-`selectRaw` 메소드는 `addSelect(DB::raw(...))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
+`selectRaw` 메소드는 `addSelect(DB::raw(/* ... */))` 대신 사용할 수 있습니다. 이 메소드는 옵션 배열을 두번째 인자로 받습니다.
 
     $orders = DB::table('orders')
                     ->selectRaw('price * ? as price_with_tax', [1.0825])
@@ -350,7 +355,7 @@ DB::table('users')->where('active', false)
 
     DB::table('users')
             ->join('contacts', function ($join) {
-                $join->on('users.id', '=', 'contacts.user_id')->orOn(...);
+                $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
             })
             ->get();
 
@@ -437,7 +442,8 @@ join에 "where" 절을 사용 하려면 `JoinClause` 인스턴스가 제공하�
         ['subscribed', '<>', '1'],
     ])->get();
 
-> {note} PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
+> **Warning**
+> PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
 
 <a name="or-where-clauses"></a>
 ### Or Where 절
@@ -465,12 +471,13 @@ join에 "where" 절을 사용 하려면 `JoinClause` 인스턴스가 제공하�
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-> {tip} 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
+> **Warning**
+> 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="where-not-clauses"></a>
 ### Where Not 절
 
-`whereNot` 과 `orWhereNot` 메소드는 주어진 쿼리 제약조건그룹에 해당하지 않는 결과를 얻는데 사용합니다. 예를 들어, 다음의 예제는 `clearance` 가 `true` 이거나 `price` 가 10 미만인 제품을 제외한 결과를 확인할 수 있습니다. 
+`whereNot` 과 `orWhereNot` 메소드는 주어진 쿼리 제약조건그룹에 해당하지 않는 결과를 얻는데 사용합니다. 예를 들어, 다음의 예제는 'clearance' 가 'true' 이거나 'price' 가 10 미만인 제품을 제외한 결과를 확인할 수 있습니다. 
 
     $products = DB::table('products')
                     ->whereNot(function ($query) {
@@ -482,13 +489,13 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 <a name="json-where-clauses"></a>
 ### JSON Where 절
 
-라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.9.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
+라라벨은 JSON 컬럼 타입을 지원하는 데이터베이스의 JSON 컬럼 타입 쿼리를 지원합니다. 현재는 MySQL 5.7 이상, PostgreSQL, SQL Server 2016, 그리고 SQLite 3.39.0 ([JSON1 extension](https://www.sqlite.org/json1.html)과 함께)에 포함되어 있습니다. JSON 컬럼 쿼리를 하기 위해서는 `->` 연산자를 사용하십시오:
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
                     ->get();
 
-JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다. 이 기능은 SQLite 데이터베이스에서는 지원하지 않습니다.
+JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습니다. 이 기능은 SQLite 3.38.0 미만 버전의 데이터베이스에서는 지원하지 않습니다.
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', 'en')
@@ -529,6 +536,20 @@ JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습�
                         ->whereNotBetween('votes', [1, 100])
                         ->get();
 
+**whereBetweenColumns / whereNotBetweenColumns / orWhereBetweenColumns / orWhereNotBetweenColumns**
+
+`whereBetweenColumns` 메서드는 컬럼의 값이 같은 로우의 두 컬럼 값 사이에 있는지 확인합니다.
+
+    $patients = DB::table('patients')
+                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
+`whereNotBetweenColumns` 메서드는 컬럼의 값이 같은 로우의 두 컬럼 값 밖에 놓여있는지 확인합니다.
+
+    $patients = DB::table('patients')
+                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
 **whereIn / whereNotIn / orWhereIn / orWhereNotIn**
 
 `whereIn` 메소드는 주어진 컬럼의 값이 주어진 배열안에 값에 속해 있는지 확인합니다.
@@ -543,7 +564,26 @@ JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습�
                         ->whereNotIn('id', [1, 2, 3])
                         ->get();
 
-> {note} 쿼리에 큰 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
+`whereIn` 메소드의 두번째 인자로 쿼리 객체를 제공할 수도 있습니다.
+
+    $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
+
+    $users = DB::table('comments')
+                        ->whereIn('user_id', $activeUsers)
+                        ->get();
+
+위의 예제는 다음과 같은 SQL을 생성합니다.
+
+```sql
+select * from comments where user_id in (
+    select id
+    from users
+    where is_active = 1
+)
+```
+
+> **Warning**
+> If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
 
@@ -632,7 +672,8 @@ JSON 배열을 쿼리하기 위해 `whereJsonContains` 를 사용할 수 있습�
 select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 ```
 
-> {note} 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
+> **Warning**
+> 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="advanced-where-clauses"></a>
 ### 보다 복잡한 Where 절
@@ -687,7 +728,8 @@ where exists (
 <a name="full-text-where-clauses"></a>
 ### Full Text Where 절
 
-> {note} Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
+> **Warning**
+> Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
 
 `whereFullText` 및 `orWhereFullText` 메서드는 [Full Text 인덱스](/docs/{{version}}/migrations#available-index-types)가 있는 컬럼에 대한 쿼리에 Full text "where" 절을 추가하는 데 사용할 수 있습니다. 라라벨은 이 메소드를 기본 데이터베이스 시스템에 적합한 SQL로 변환됩니다. 예를 들어 MySQL의 경우 `MATCH AGAINST` 절을 생성합니다.
 
@@ -843,15 +885,20 @@ where exists (
         ['email' => 'janeway@example.com', 'votes' => 0],
     ]);
 
-`insertOrIgnore` 메소드는 데이터베이스에 레코드를 삽입하는 동안 오류를 무시합니다.
+`insertOrIgnore` 메소드는 데이터베이스에 레코드를 삽입하는 동안 오류를 무시합니다. 이 메서드를 사용할 때는 중복 레코드 에러가 무시되고 다른 에러들도 데이터베이스 엔진에 따라 무시될 수 있다는 점을 알고 있어야 합니다. 예를 들어 `insertOrIgnore` 는 [MySQL의 스트릭트 모드](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)를 무사 통과합니다.
 
     DB::table('users')->insertOrIgnore([
         ['id' => 1, 'email' => 'sisko@example.com'],
         ['id' => 2, 'email' => 'archer@example.com'],
     ]);
 
-> {note} `insertOrIgnore` 중복 레코드를 무시하고 데이터베이스 엔진에 따라 다른 유형의 오류도 무시할 수 있습니다. 예를들어 `insertOrIgnore`는 [MySQL strict mode 우회](https://dev.mysql.com/doc/refman/en/sql-mode.html#ignore-effect-on-execution)합니다.
+`insertUsing` 메서드는 삽입될 데이터를 판단하는데 서브쿼리를 사용하면서 테이블에 새 레코드를 추가합니다.
 
+    DB::table('pruned_users')->insertUsing([
+        'id', 'name', 'email', 'email_verified_at'
+    ], DB::table('users')->select(
+        'id', 'name', 'email', 'email_verified_at'
+    )->where('updated_at', '<=', now()->subMonth()));
 
 <a name="auto-incrementing-ids"></a>
 #### Auto-Incrementing IDs
@@ -862,21 +909,27 @@ where exists (
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> {note} PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
+> **Warning**
+> PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
 
 <a name="upserts"></a>
 ### Upserts
 
 `upsert` 메소드는 존재하지 않는 레코드는 삽입하고 이미 존재하는 레코드는 지정한 값으로 업데이트합니다. 메소드의 첫 번째 인수는 삽입하거나 업데이트할 값으로 구성됩니다. 두 번째 인수는 연결된 테이블 내에서 레코드를 고유하게 식별할 수 있는 컬럼을 나열합니다. 메서드의 세 번째이자 마지막 인수는 일치하는 레코드가 데이터베이스에 이미 있는 경우 업데이트해야 하는 컬럼의 배열입니다.
 
-    DB::table('flights')->upsert([
-        ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
-        ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
-    ], ['departure', 'destination'], ['price']);
+        DB::table('flights')->upsert(
+        [
+            ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
+            ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
+        ],
+        ['departure', 'destination'],
+        ['price']
+    );
 
 위의 예제에서 라라벨은 두 개의 레코드를 삽입하려고 시도합니다. 동일한 `departure` 및 `destination` 컬럼 값을 가진 레코드가 이미 존재하는 경우 라라벨은 해당 레코드의 `price` 컬럼을 업데이트합니다.
 
-> {note} SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
+> **Warning**
+> SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
 
 <a name="update-statements"></a>
 ## Update-수정 구문
@@ -922,9 +975,16 @@ JSON 컬럼을 업데이트 할때에는 JSON 객체의 해당 키에 엑세스�
 
     DB::table('users')->decrement('votes', 5);
 
-또한 이 작업을 수행하는 동안 업데이트 되어야할 컬럼을 추가적으로 지정할 수도 있습니다.
+필요한 경우 증가 또는 감소 작업 중에 업데이트할 추가 컬럼을 지정할 수 있습니다.
 
     DB::table('users')->increment('votes', 1, ['name' => 'John']);
+
+또한 `incrementEach` 와 `decrementEach` 메소드를 사용하여 한 번에 여러 컬럼을 증가 또는 감소시킬 수 있습니다.
+
+    DB::table('users')->incrementEach([
+        'votes' => 5,
+        'balance' => 100,
+    ]);
 
 <a name="delete-statements"></a>
 ## Delete-삭제 구문

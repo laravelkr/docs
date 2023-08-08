@@ -57,7 +57,8 @@ php artisan make:middleware EnsureTokenIsValid
 
 미들웨어를 HTTP 요청이 애플리케이션에 도달하기 전에 반드시 통과해야 하는 일종의 "단계(layers)"라고 생각하는 것이 가장 좋습니다. 각 단계에서 요청을 검사할 수 있고 요청을 완전히 거절할 수도 있습니다.
 
-> {tip} 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
+> **Note**
+> 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
 <a name="before-after-middleware"></a>
 <a name="middleware-and-responses"></a>
@@ -182,7 +183,7 @@ php artisan make:middleware EnsureTokenIsValid
 
 여러 개의 미들웨어를 하나의 이름으로 묶어서 라우트에 할당하고 싶을 수도 있습니다. 이 경우 HTTP 커널의 `$middlewareGroups` 속성을 사용하면 됩니다.
 
-별다른 설정 없이도, 라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다. 이 미들웨어 그룹은 애플리케이션의 `App\Providers\RouteServiceProvider` 서비스 프로바이더가 `web` 및 `api` 라우트 파일 안의 경로에 자동으로 적용한다는 것을 기억하십시오.
+라라벨은 웹 UI 와 API 라우트에 적용할 수 있는 일반적인 미들웨어를 포함하는 미리 정의된 `web` 그리고 `api` 의 미들웨어 그룹을 제공합니다. 이 미들웨어 그룹은 애플리케이션의 `App\Providers\RouteServiceProvider` 서비스 프로바이더가 `web` 및 `api` 라우트 파일 안의 경로에 자동으로 적용한다는 것을 기억하십시오.
 
     /**
      * The application's route middleware groups.
@@ -216,7 +217,8 @@ php artisan make:middleware EnsureTokenIsValid
         //
     });
 
-> {tip} 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
+> **Note**
+> 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
 
 <a name="sorting-middleware"></a>
 ### 미들웨어 순서
@@ -231,6 +233,7 @@ php artisan make:middleware EnsureTokenIsValid
      * @var string[]
      */
     protected $middlewarePriority = [
+        \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
         \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,

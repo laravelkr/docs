@@ -74,7 +74,8 @@
         //
     });
 
-> {tip} 동일한 URI를 공유하는 여러개의 라우트를 정의해야할 때에는 `get`, `post`, `put`, `patch`, `delete`, `options` 메서드를 `any`, `match`, `redirect` 메서드보다 먼저 정의해야합니다. 이렇게 해야 의도대로 올바른 라우트가 일치하는지 확인할 수 있습니다. 
+> **Note**
+> 동일한 URI를 공유하는 여러개의 라우트를 정의해야할 때에는 `get`, `post`, `put`, `patch`, `delete`, `options` 메서드를 `any`, `match`, `redirect` 메서드보다 먼저 정의해야합니다. 이렇게 해야 의도대로 올바른 라우트가 일치하는지 확인할 수 있습니다. 
 
 <a name="dependency-injection"></a>
 #### 의존성 주입
@@ -112,7 +113,8 @@
 
     Route::permanentRedirect('/here', '/there');
 
-> {note} 리다이렉트 라우트에서 라우트 파라미터를 사용할 때에는 사용할 수 없는 매개변수명이 있습니다. 라라벨에 의해서 예약된 `destination` 그리고 `status` 라는 이름을 사용할 수 없습니다.
+> **Warning**
+> 리다이렉트 라우트에서 라우트 파라미터를 사용할 때에는 사용할 수 없는 매개변수명이 있습니다. 라라벨에 의해서 예약된 `destination` 그리고 `status` 라는 이름을 사용할 수 없습니다.
 
 <a name="view-routes"></a>
 ### 뷰-View 라우트
@@ -123,7 +125,8 @@
 
     Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 
-> {note} 뷰-View 라우트에서 라우트 파라미터를 사용할 떼에는 사용할 수 없는 매개변수명이 있습니다. 라라벨에 의해서 예약된 `view`, `data`, `status`, `headers` 라는 이름은 사용할 수 없습니다.
+> **Warning**
+> 뷰-View 라우트에서 라우트 파라미터를 사용할 떼에는 사용할 수 없는 매개변수명이 있습니다. 라라벨에 의해서 예약된 `view`, `data`, `status`, `headers` 라는 이름은 사용할 수 없습니다.
 
 <a name="the-route-list"></a>
 ### 라우트 리스트
@@ -140,10 +143,22 @@ php artisan route:list
 php artisan route:list -v
 ```
 
+주어진 URI로 시작하는 라우트만 보여달라고 지시할 수도 있습니다.
+
+```shell
+php artisan route:list --path=api
+```
+
 그리고, `route:list` 명령어를 실행할 때 `--except-vendor` 옵션을 추가하여 애플리케이션 고유의 라우트가 아닌 써드파티를 통해서 정의된 라우트를 표시 하지 않을 수 있습니다.
 
 ```shell
 php artisan route:list --except-vendor
+```
+
+마찬가지로, `route:list` 명령을 실행할 때 `--only-vendor` 옵션을 주어 제삼자 패키지에 의해 정의된 라우트만 표시할 수도 있습니다.
+
+```shell
+php artisan route:list --only-vendor
 ```
 
 <a name="route-parameters"></a>
@@ -221,6 +236,14 @@ php artisan route:list --except-vendor
         //
     })->whereUuid('id');
 
+    Route::get('/user/{id}', function ($id) {
+        //
+    })->whereUlid('id');
+
+    Route::get('/category/{category}', function ($category) {
+        //
+    })->whereIn('category', ['movie', 'song', 'painting']);
+
 유입된 요청과 라우트 패턴 조건이 일치하지 않으면 404 HTTP 응답이 반환됩니다. 
 
 <a name="parameters-global-constraints"></a>
@@ -257,7 +280,8 @@ php artisan route:list --except-vendor
         return $search;
     })->where('search', '.*');
 
-> {note} 인코딩 된 슬래시는 마지막 경로 세그먼트 내에서만 지원됩니다.
+> **Warning**
+> 인코딩 된 슬래시는 마지막 경로 세그먼트 내에서만 지원됩니다.
 
 <a name="named-routes"></a>
 ## 이름이 지정된 라우트
@@ -275,7 +299,8 @@ php artisan route:list --except-vendor
         [UserProfileController::class, 'show']
     )->name('profile');
 
-> {note} 라우트 이름은 언제나 고유해야 합니다.
+> **Warning**
+> 라우트 이름은 언제나 고유해야 합니다.
 
 <a name="generating-urls-to-named-routes"></a>
 #### 이름이 지정된 라우트들에 대한 URL 생성하기
@@ -306,7 +331,8 @@ php artisan route:list --except-vendor
 
     // /user/1/profile?photos=yes
 
-> {tip} 때때로, 현재 로케일과 같은 URL 파라메터에 대한 요청 전체 기본값을 지정할 수 있습니다. 이를 위해 [`URL::defaults` 메서드](/docs/{{version}}/urls#default-values)을 사용할 수 있습니다.
+> **Note**
+> 때때로, 현재 로케일과 같은 URL 파라메터에 대한 요청 전체 기본값을 지정할 수 있습니다. 이를 위해 [`URL::defaults` 메서드](/docs/{{version}}/urls#default-values)을 사용할 수 있습니다.
 
 <a name="inspecting-the-current-route"></a>
 #### 현재의 라우트 검사하기
@@ -374,7 +400,8 @@ php artisan route:list --except-vendor
         });
     });
 
-> {note} 서브 도메인 라우트가 동작하도록하려면 루트 도메인 라우트를 등록하기 전에 서브 도메인 라우트를 등록해야합니다. 이렇게하면 루트 도메인 라우트가 동일한 URI 라우트를 가진 서브 도메인 라우트를 덮어 쓰지 않습니다.
+> **Warning**
+> 서브 도메인 라우트가 동작하도록하려면 루트 도메인 라우트를 등록하기 전에 서브 도메인 라우트를 등록해야합니다. 이렇게하면 루트 도메인 라우트가 동일한 URI 라우트를 가진 서브 도메인 라우트를 덮어 쓰지 않습니다.
 
 <a name="route-group-prefixes"></a>
 ### 라우트 Prefix
@@ -496,6 +523,12 @@ php artisan route:list --except-vendor
         });
     });
 
+비슷하게 `withoutScopedBindings` 메서드를 호출하여 스코프 바인딩을 하지 않도록 명시적으로 지시할 수 있습니다.
+
+    Route::get('/users/{user}/posts/{post:slug}', function (User $user, Post $post) {
+        return $post;
+    })->withoutScopedBindings();
+
 <a name="customizing-missing-model-behavior"></a>
 #### 모델을 찾을 수 없는 경우의 동작 커스터마이징 하기
 
@@ -515,7 +548,7 @@ php artisan route:list --except-vendor
 <a name="implicit-enum-binding"></a>
 ### 묵시적 Enum 바인딩
 
-PHP 8.1 부터는 [Enums](https://www.php.net/manual/en/language.enumerations.backed.php)을 지원합니다. 이 기능을 사용하여 라라벨은 라우트 정의에서 [Enum](https://www.php.net/manual/en/language.enumerations.backed.php)을 바인딩할 수 있습니다. 라라벨은 라우트 세그먼트의 값이 Enum 값과 일치하는 경우에만 라우트를 연결합니다. 값이 일치하지 않는다면 404 HTTP 응답이 반환됩니다. 예를 들면 다음과 같은 Enum 이 정의되어 있다면
+PHP 8.1 부터는 [Enums](https://www.php.net/manual/en/language.enumerations.backed.php)을 지원합니다. 이 기능을 사용하여 라라벨은 라우트 정의에서 [string-backed Enum](https://www.php.net/manual/en/language.enumerations.backed.php)을 바인딩할 수 있습니다. 라라벨은 라우트 세그먼트의 값이 Enum 값과 일치하는 경우에만 라우트를 연결합니다. 값이 일치하지 않는다면 404 HTTP 응답이 반환됩니다. 예를 들면 다음과 같은 Enum 이 정의되어 있다면
 
 ```php
 <?php
@@ -631,7 +664,8 @@ Route::get('/categories/{category}', function (Category $category) {
         //
     });
 
-> {note} 대체 라우트는 항상 애플리케이션에서 등록한 마지막 라우트 여야합니다.
+> **Warning**
+> 대체 라우트는 항상 애플리케이션에서 등록한 마지막 라우트 여야합니다.
 
 <a name="rate-limiting"></a>
 ## 접속 속도 제한
@@ -639,7 +673,23 @@ Route::get('/categories/{category}', function (Category $category) {
 <a name="defining-rate-limiters"></a>
 ### 접속 속도 리미터 정의하기
 
-라라벨에는 주어진 라우트 또는 라우트 그룹에 대한 트래픽 Rate를 제한하는 강력하고 쉽게 커스터마이징이 가능한 접속 속도 제한 기능(Rate Limit)을 제공합니다. 이 기능을 사용하려면 먼저 애플리케이션의 요구사항을 정의한 사용량 제한 설정을 정의해야합니다. 일반적으로 이 설정은 `App\Providers\RouteServiceProvider` 클래스의 `configureRateLimiting` 메서드에서 정의합니다.
+라라벨에는 주어진 라우트 또는 라우트 그룹에 대한 트래픽 Rate를 제한하는 강력하고 쉽게 커스터마이징이 가능한 접속 속도 제한 기능(Rate Limit)을 제공합니다. 이 기능을 사용하려면 먼저 애플리케이션의 요구사항을 정의한 사용량 제한 설정을 정의해야합니다. 일반적으로 이 설정은 `App\Providers\RouteServiceProvider` 클래스의 `configureRateLimiting` 메서드에서 정의합니다. 여기에는 `routes/api.php` 파일에 적용되는 접속 속도 제한기가 이미 정의되어 있습니다.
+
+```php
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+/**
+ * Configure the rate limiters for the application.
+ */
+protected function configureRateLimiting(): void
+{
+    RateLimiter::for('api', function (Request $request) {
+        return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+    });
+}
+```
 
 접속 속도 리미터는 `RateLimiter` 파사드의 `for` 메서드를 사용하여 정의합니다. `for` 메서드는 Rate limit 을 정의하는 이름과 제한설정을 담고 있는 클로저를 인자로 전달받는다. 제한에 대한 설정은 `Illuminate\Cache\RateLimiting\Limit` 인스턴스를 사용합니다. 이 클래스는 제한을 설정할 수 있도록 "builder" 메서드를 가지고 있습니다. 접속 속도 리미터의 이름은 원하는 문자열로 지정할 수 있습니다.   
 
@@ -661,8 +711,8 @@ Route::get('/categories/{category}', function (Category $category) {
 유입된 요청이 제한을 초과하면 자동으로 라라벨에서는 429 Http 상태 코드가 지정된 응답을 반환합니다. 접속 속도 제한이 넘었을 때 반환하는 응답을 커스터마이징하려면 `response` 메서드를 사용하면 됩니다. 
 
     RateLimiter::for('global', function (Request $request) {
-        return Limit::perMinute(1000)->response(function () {
-            return response('Custom response...', 429);
+        return Limit::perMinute(1000)->response(function (Request $request, array $headers) {
+            return response('Custom response...', 429, $headers);
         });
     });
 
@@ -762,7 +812,8 @@ HTML form은 `PUT`, `PATCH` 와 `DELETE` 액션을 지원하지 않습니다. �
 
 라라벨은 사용자가 지정한 값으로 CORS `OPTION` HTTP 요청에 자동으로 응답할 수 있습니다. 모든 CORS 설정은 애플리케이션의 `config/cors.php` 파일에서 설정할 수 있습니다. `OPTION` 요청은 글로벌 미들웨어에 포함되어 있는 `HandleCors` [미들웨어](/docs/{{version}}/middleware)에 의해서 자동으로 처리됩니다. 글로벌 미들웨어는 애플리케이션의 HTTP 커널(`App\Http\Kernel`) 에서 확인할 수 있습니다.
 
-> {tip} CORS 및 CORS 헤더에 대한 자세한 내용은 [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers) 를 참조하십시오.
+> **Note**
+> CORS 및 CORS 헤더에 대한 자세한 내용은 [MDN web documentation on CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers) 를 참조하십시오.
 
 <a name="route-caching"></a>
 ## 라우트 캐싱

@@ -44,7 +44,8 @@ php artisan make:resource UserCollection
 <a name="concept-overview"></a>
 ## 컨셉 살펴보기
 
-> {tip} 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 간단한 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
+> **Note**
+> 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 간단한 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
 
 리소스 클래스를 작성할 때 사용가능한 모든 옵션들을 살펴보기 전에, 먼저 라라벨에서 리소스를 사용하는 방법을 간략하게 알아보겠습니다. 하나의 리소스 클래스는 JSON으로 변환하고자 하는 하나의 모델을 나타냅니다. 예를 들어 다음은 `UserResource` 리소스 클래스 입니다.
 
@@ -195,7 +196,8 @@ php artisan make:resource UserCollection
 <a name="writing-resources"></a>
 ## 리소스 클래스 작성하기
 
-> {tip} [컨셉 살펴보기](#concept-overview)를 읽지 않았다면, 아래 문서를 확인하기 전에 해당 부분을 먼저 읽어보시기 바랍니다.
+> **Note**
+> [컨셉 살펴보기](#concept-overview)를 읽지 않았다면, 아래 문서를 확인하기 전에 해당 부분을 먼저 읽어보시기 바랍니다.
 
 본질적으로, 리소스라는 것은 간단합니다. 리소스의 역할은 모델을 배열로 반환하는 하는 것입니다. 따라서 각 리소스에는 모델의 속성을 애플리케이션의 라우터 또는 컨트롤러에서 반환할 수 있고 API에 친화적 배열로 변환하는 `toArray` 메소드가 포함되어 있습니다.
 
@@ -259,7 +261,8 @@ php artisan make:resource UserCollection
         ];
     }
 
-> {tip} 이미 로딩된 경우에만, 관계-relationships을 포함하고자 한다면, [조건에 따른 관계 표현](#conditional-relationships) 문서를 확인하십시오.
+> **Note**
+> 이미 로딩된 경우에만, 관계-relationships을 포함하고자 한다면, [조건에 따른 관계 표현](#conditional-relationships) 문서를 확인하십시오.
 
 <a name="writing-resource-collections"></a>
 #### 리소스 컬렉션
@@ -320,12 +323,12 @@ php artisan make:resource UserCollection
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ]
 }
@@ -381,7 +384,8 @@ php artisan make:resource UserCollection
         }
     }
 
-> {note} `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
+> **Warning**
+> `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
 
 <a name="wrapping-nested-resources"></a>
 #### 중첩된 리소스 랩핑
@@ -421,12 +425,12 @@ php artisan make:resource UserCollection
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{
@@ -467,12 +471,12 @@ php artisan make:resource UserCollection
         {
             "id": 1,
             "name": "Eladio Schroeder Sr.",
-            "email": "therese28@example.com",
+            "email": "therese28@example.com"
         },
         {
             "id": 2,
             "name": "Liliana Mayert",
-            "email": "evandervort@example.com",
+            "email": "evandervort@example.com"
         }
     ],
     "links":{
@@ -498,8 +502,6 @@ php artisan make:resource UserCollection
 
 때로는 주어진 조건이 충족 될 때, 리소스 응답에 지정된 속성을 포함시키고자 할 수도 있습니다. 예를 들어 현재 사용자가 "관리자"인 경우에만 값을 포함하고자 할 수 있습니다. 라라벨은 이러한 경우를 지원하기 위해서 다양한 헬퍼 메소드를 제공합니다. `when` 메소드는 리소스 응답-response에 조건에 따라 속성을 추가하는데 사용됩니다.
 
-    use Illuminate\Support\Facades\Auth;
-
     /**
      * Transform the resource into an array.
      *
@@ -512,7 +514,7 @@ php artisan make:resource UserCollection
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'secret' => $this->when(Auth::user()->isAdmin(), 'secret-value'),
+            'secret' => $this->when($request->user()->isAdmin(), 'secret-value'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -522,9 +524,18 @@ php artisan make:resource UserCollection
 
 `when` 메소드는 두번째 인자로 클로저를 받을 수 있는데, 주어진 조건이 `true` 인 경우에 결과 값을 계산합니다.
 
-    'secret' => $this->when(Auth::user()->isAdmin(), function () {
+    'secret' => $this->when($request->user()->isAdmin(), function () {
         return 'secret-value';
     }),
+
+`whenHas` 메소드는 기본 모델에 실제로 존재하는 경우에 속성을 포함시키는데 사용됩니다.
+
+    'name' => $this->whenHas('name'),
+
+
+추가적으로, `whenNotNull` 메서드는 속성이 null이 아닐 때 리소스 응답에 속성을 포함할 때 사용합니다.
+
+    'name' => $this->whenNotNull($this->name),
 
 <a name="merging-conditional-attributes"></a>
 #### 조건에 따라 속성값 포함시키기
@@ -543,7 +554,7 @@ php artisan make:resource UserCollection
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            $this->mergeWhen(Auth::user()->isAdmin(), [
+            $this->mergeWhen($request->user()->isAdmin(), [
                 'first-secret' => 'value',
                 'second-secret' => 'value',
             ]),
@@ -554,7 +565,8 @@ php artisan make:resource UserCollection
 
 다시 말하지만, 주어진 조건이 `false` 인 경우에는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다.
 
-> {note} `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
+> **Warning**
+> `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
 
 <a name="conditional-relationships"></a>
 ### 조건에 따라 관계-relationship 표시하기
@@ -583,6 +595,35 @@ php artisan make:resource UserCollection
     }
 
 이 예제에서 관계-relationship가 로딩되지 않은 경우에 `posts` 키가 클라이언트에 전송되기 전에 리소스 응답-response에서 제거됩니다.
+
+<a name="conditional-relationship-counts"></a>
+#### 조건적 관계 수
+
+조건부로 관계를 포함시키는 것에 더해 관계 수가 모델에 로드되었는지 여부에 따라 조건부로 관계 "수"를 리소스 응답에 포함시킬 수 있습니다.
+
+    new UserResource($user->loadCount('posts'));
+
+`whenCounted` 메서드는 리소스 응답에 관계 수를 조건부로 포함시킬 때 사용됩니다. 이 메서드는 관계 수가 존재하지 않을 때 불필요한 속성을 추가하는 걸 막아줍니다.
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'posts_count' => $this->whenCounted('posts'),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
+이 예제에서 `posts` 관계 수가 로드되지 않았다면, `posts_count` 키는 클라이언트에게 보내지기 전에 리소스 응답에서 제거됩니다.
 
 <a name="conditional-pivot-information"></a>
 #### 조건에 따른 피벗 정보 포함하기

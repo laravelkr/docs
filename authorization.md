@@ -38,6 +38,7 @@ Laravel은 권한 확인하는 두 가지 기본 방법을 제공합니다 : [ga
 <a name="writing-gates"></a>
 ### Gate 작성하기
 
+> **Warning**
 > Gate는 Laravel의 인증 기능에 대한 기본 사항을 배울 수 있는 좋은 방법입니다. 그러나 강력한 Laravel 애플리케이션을 구축할 때 [정책](#creating-policies)을 사용하여 권한 부여 규칙을 구성하는 것을 고려해야 합니다.
 
 Gate는 사용자가 주어진 작업을 수행할 권한이 있는지 여부를 결정하는 단순한 closure입니다. 일반적으로, gate는 `Gate` 파사드를 사용하여 `App\Providers\AuthServiceProvider` 클래스의 `boot` 메소드 내에서 정의됩니다. Gate는 항상 첫 번째 argument로 사용자 인스턴스를 받고, 관련된 Eloquent 모델과 같은 arguments를 선택적으로 추가할 수 있습니다.
@@ -195,6 +196,33 @@ Gate에서 권한 확인 응답을 반환할 때 `Gate::allows` 메소드는 여
 
     // The action is authorized...
 
+<a name="customising-gate-response-status"></a>
+#### HTTP 응답 상태 바꾸기
+
+어떤 행위가 Gate에 의해 거부되면 `403` HTTP 응답이 반환됩니다. 하지만 다른 HTTP 상태 코드를 반환하는게 더 유용한 경우가 있습니다. `Illuminate\Auth\Access\Response` 클래스에 있는 `denyWithStatus` 정적 생성자를 사용해서 권한 확인 실패시 반환되는 HTTP 상태 코드를 변경할 수 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    });
+
+`404` 응답을 통해 리소스를 숨기는 것은 웹 애플리케이션에서 흔하게 사용되는 패턴이기 때문에 편의를 위해 `denyAsNotFound` 메서드를 제공하고 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+    use Illuminate\Support\Facades\Gate;
+
+    Gate::define('edit-settings', function (User $user) {
+        return $user->isAdmin
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    });
+
 <a name="intercepting-gate-checks"></a>
 ### Gate 체크 로직의 후킹
 
@@ -308,7 +336,8 @@ Laravel 애플리케이션에 포함된 `App\Providers\AuthServiceProvider`에�
         // Return the name of the policy class for the given model...
     });
 
-> {note} `AuthServiceProvider` 에 명시적으로 매핑된 모든 정책은 모든 잠재적으로 자동 검색된 정책 보다 우선됩니다.
+> **Warning**
+> `AuthServiceProvider` 에 명시적으로 매핑된 모든 정책은 모든 잠재적으로 자동 검색된 정책 보다 우선됩니다.
 
 <a name="writing-policies"></a>
 ## 정책 작성하기
@@ -346,7 +375,8 @@ policy 클래스를 등록하고 나면, 권한을 확인 하고자 하는 각 �
 
 만약 아티즌 명령어를 통해 policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `viewAny`, `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
 
-> {tip} 모든 정책은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 해결되므로 policy 생성자에 필요한 종속성을 입력하여 자동으로 삽입할 수 있습니다.
+> **Note**
+> 모든 정책은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 해결되므로 policy 생성자에 필요한 종속성을 입력하여 자동으로 삽입할 수 있습니다.
 
 <a name="policy-responses"></a>
 ### Policy 응답
@@ -388,6 +418,50 @@ policy 클래스를 등록하고 나면, 권한을 확인 하고자 하는 각 �
     Gate::authorize('update', $post);
 
     // The action is authorized...
+
+<a name="customising-policy-response-status"></a>
+#### Customizing The HTTP Response Status
+#### HTTP 응답 상태 커스터마이징
+
+어떤 행위가 정책 메서드 의해 거부되면 `403` HTTP 응답이 반환됩니다. 하지만 다른 HTTP 상태 코드를 반환하는게 더 유용한 경우가 있습니다. `Illuminate\Auth\Access\Response` 클래스에 있는 `denyWithStatus` 정적 생성자를 사용해서 권한 확인 실패시 반환되는 HTTP 상태 코드를 변경할 수 있습니다.
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyWithStatus(404);
+    }
+
+`404` 응답을 통해 리소스를 숨기는 것은 웹 애플리케이션에서 흔하게 사용되는 패턴이기 때문에 편의를 위해 `denyAsNotFound` 메서드를 제공하고 있습니다.
+
+    use App\Models\Post;
+    use App\Models\User;
+    use Illuminate\Auth\Access\Response;
+
+    /**
+     * Determine if the given post can be updated by the user.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Auth\Access\Response
+     */
+    public function update(User $user, Post $post)
+    {
+        return $user->id === $post->user_id
+                    ? Response::allow()
+                    : Response::denyAsNotFound();
+    }
 
 <a name="methods-without-models"></a>
 ### 모델없는 메소드
@@ -455,7 +529,8 @@ policy 클래스를 등록하고 나면, 권한을 확인 하고자 하는 각 �
 
 특정 사용자에게 모든 권한을 허용하지 않으려면, `before` 메소드에서 `false`를 반환하면 됩니다. 만약 `null`이 반환되면, 권한을 확인하는 과정은 policy 메소드까지 도달하게 됩니다.
 
-> {note} 클래스가 확인하려는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
+> **Warning**
+> 클래스가 확인하려는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
 
 <a name="authorizing-actions-using-policies"></a>
 ## 정책을 사용하여 액션의 권한을 확인하기
@@ -622,7 +697,8 @@ policy 클래스를 등록하고 나면, 권한을 확인 하고자 하는 각 �
 | update | update |
 | destroy | delete |
 
-> {tip} `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
+> **Note**
+> `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
 
 <a name="via-middleware"></a>
 ### 미들웨어를 통해서

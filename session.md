@@ -35,7 +35,8 @@ HTTP 기반의 애플리케이션은 상태를 저장할수 없기 때문에, HT
 - `memcached` / `redis` - 빠르고, 캐시를 기반으로한 memcached, redis 에 저장합니다.
 - `array` - 세션은 PHP 배열에 저장되며 지속되지 않습니다.
 
-> {tip} array 드라이버는 주로 [테스트](/docs/{{version}}/testing)가 진행되는 동안 사용되고, 세션이 지속적으로 유지되지 않습니다.
+> **Note**
+> array 드라이버는 주로 [테스트](/docs/{{version}}/testing)가 진행되는 동안 사용되고, 세션이 지속적으로 유지되지 않습니다.
 
 <a name="driver-prerequisites"></a>
 ### 드라이버의 사전준비사항
@@ -67,7 +68,8 @@ php artisan migrate
 
 Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PHP 확장모듈을 설치하거나 Composer를 통해 `predis/predis` 패키지 (~ 1.0)를 설치해야합니다. Redis 설정에 대한 자세한 내용은 [Redis 문서](/docs/{{version}}/redis#configuration)을 참조하세요.
 
-> {tip} `session` 설정 파일에서 `connection` 옵션을 사용하여 세션에서 어떤 Redis 연결을 사용할지 지정할 수 있습니다.
+> **Note**
+> `session` 설정 파일에서 `connection` 옵션을 사용하여 세션에서 어떤 Redis 연결을 사용할지 지정할 수 있습니다.
 
 <a name="interacting-with-the-session"></a>
 ## 세션 상호작용
@@ -125,7 +127,8 @@ Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PH
         session(['key' => 'value']);
     });
 
-> {tip} 글로벌 `session` 헬퍼를 사용하는 것에 비해서 HTTP 요청-request 인스턴스에서 세션을 사용하는 것에는 약간의 실질적인 차이가 있습니다. 두가지 메소드는 테스트 케이스 안에서 사용가능한 `assertSessionHas` 메소드를 통해서 [테스트가 가능합니다](/docs/{{version}}/testing).
+> **Note**
+> 글로벌 `session` 헬퍼를 사용하는 것에 비해서 HTTP 요청-request 인스턴스에서 세션을 사용하는 것에는 약간의 실질적인 차이가 있습니다. 두가지 메소드는 테스트 케이스 안에서 사용가능한 `assertSessionHas` 메소드를 통해서 [테스트가 가능합니다](/docs/{{version}}/testing).
 
 <a name="retrieving-all-session-data"></a>
 #### 모든 세션 데이터 조회하기
@@ -149,7 +152,7 @@ Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PH
         //
     }
 
-세션에 항목이 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다. 아이템이 `null`이거나 없는 경우 `missing` 메소드는 `true`를 반환 합니다.
+세션에 항목이 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다. 아이템이 없는 경우 `missing` 메소드는 `true`를 반환 합니다.
 
     if ($request->session()->missing('users')) {
         //
@@ -239,7 +242,8 @@ Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PH
 <a name="session-blocking"></a>
 ## 세션 블로킹
 
-> {note} 세션 블로킹을 활용하려면 애플리케이션에서 [atomic locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버를 사용해야합니다. 현재 이러한 캐시 드라이버에는 `memcached`, `dynamodb`, `redis` 및 `database` 드라이버가 포함됩니다. 또한 `cookie`세션 드라이버를 사용할 수 없습니다.
+> **Warning**
+> 세션 블로킹을 활용하려면 애플리케이션에서 [atomic locks](/docs/{{version}}/cache#atomic-locks)를 지원하는 캐시 드라이버를 사용해야합니다. 현재 이러한 캐시 드라이버에는 `memcached`, `dynamodb`, `redis` 및 `database` 드라이버가 포함됩니다. 또한 `cookie`세션 드라이버를 사용할 수 없습니다.
 
 기본적으로 라라벨은 동일한 세션을 사용하는 요청이 동시에 실행되도록 허용합니다. 예를 들어 자바 스크립트 HTTP 라이브러리를 사용하여 애플리케이션에 두 개의 HTTP 요청을 수행하면 두 요청이 동시에 실행됩니다. 많은 애플리케이션에서 이것이 문제가 되지 않습니다. 그러나 세션 데이터 손실은 둘 다 세션에 데이터를 쓰는 두 개의 서로 다른 애플리케이션 엔드포인트에 동시에 요청하는 애플리케이션의 작은 하위 집합에서 발생할 수 있습니다.
 
@@ -287,7 +291,8 @@ Laravel과 함께 Redis 세션을 사용하기 전에 PECL을 통해 PhpRedis PH
         public function gc($lifetime) {}
     }
 
-> {tip} 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoSessionHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
+> **Note**
+> 라라벨은 이러한 확장 기능을 담아둘 디렉토리를 제공하지는 않습니다. 원하는 곳 어디에든 자유롭게 구성할 수 있습니다. 이 예제에서는, `MongoSessionHandler`를 저장하기 위해서 `Extensions` 디렉토리를 만들었습니다.
 
 이 메소드들의 목적을 쉽게 이해하기 어렵기 때문에, 각각의 메소드를 빠르게 살펴보겠습니다.
 

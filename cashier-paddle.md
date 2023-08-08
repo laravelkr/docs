@@ -26,6 +26,7 @@
     - [플랜 변경](#changing-plans)
     - [구독 수량](#subscription-quantity)
     - [구독 수정](#subscription-modifiers)
+    - [다중 구독](#multiple-subscriptions)
     - [구독 일시 중지](#pausing-subscriptions)
     - [구독 취소](#cancelling-subscriptions)
 - [구독 평가판](#subscription-trials)
@@ -35,20 +36,20 @@
     - [Webhook 이벤트 핸들러 정의](#defining-webhook-event-handlers)
     - [Webhook 서명 확인](#verifying-webhook-signatures)
 - [단일 요금](#single-charges)
-    - [Simple Charge](#simple-charge)
-    - [Charging Products](#charging-products)
-    - [Refunding Orders](#refunding-orders)
+    - [간단 결제](#simple-charge)
+    - [제품 결제](#charging-products)
+    - [주문 환불](#refunding-orders)
 - [영수증](#receipts)
     - [과거 및 향후 지급](#past-and-upcoming-payments)
 - [실패한 결제 처리](#handling-failed-payments)
-- [Testing](#testing)
+- [테스팅](#testing)
 
 <a name="introduction"></a>
 ## 시작하기
 
 [Laravel Cashier Paddle](https://github.com/laravel/cashier-paddle)은 [Paddle](https://paddle.com) 구독 결제 서비스에 대한 쉽고 편리한 인터페이스를 제공합니다. 패들은 당신이 두려워하는 거의 모든 상용 구독 청구 코드를 처리합니다. 기본 구독 관리 외에도 캐셔는 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 등을 처리할 수 있습니다.
 
-캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.com/guides) 및 [API 문서](https://developer.paddle.com/api-reference/intro)도 함께 보는것이 좋습니다.
+캐셔로 작업하는 동안 Paddle의 [사용자 가이드](https://developer.paddle.com/guides) 및 [API 문서](https://developer.paddle.com/api-reference)도 함께 보는것이 좋습니다.
 
 <a name="upgrading-cashier"></a>
 ## 캐셔 업그레이드
@@ -64,7 +65,8 @@
 composer require laravel/cashier-paddle
 ```
 
-> {note} 캐셔의 모든 패들 이벤트를 올바르게 처리하도록 하려면 [캐셔 webhook 처리 설정](#handling-paddle-webhooks)을 기억하세요.
+> **Warning**
+> 캐셔의 모든 패들 이벤트를 올바르게 처리하도록 하려면 [캐셔 webhook 처리 설정](#handling-paddle-webhooks)을 기억하세요.
 
 <a name="paddle-sandbox"></a>
 ### Paddle Sandbox
@@ -175,7 +177,8 @@ CASHIER_CURRENCY=EUR
 CASHIER_CURRENCY_LOCALE=nl_BE
 ```
 
-> {note} `en` 이외의 로케일을 사용하려면 `ext-intl` PHP 확장이 서버에 설치 및 설정되어 있는지 확인하세요.
+> **Warning**
+> `en` 이외의 로케일을 사용하려면 `ext-intl` PHP 확장이 서버에 설치 및 설정되어 있는지 확인하세요.
 
 <a name="overriding-default-models"></a>
 ### 기본 모델 재정의
@@ -241,7 +244,8 @@ Paddle에는 상태 변경을 수행하기위한 광범위한 CRUD API가 없습
 
 결제 링크에 대한 자세한 내용은 [결제 링크 생성에 대한 Paddle API 문서](https://developer.paddle.comapi-referenceproduct-apipay-linkscreatepaylink)를 참조하세요.
 
-> {note} 구독 상태가 변경된 후 해당 웹훅 수신 지연은 일반적으로 최소화되지만 체크아웃을 완료한 후 사용자의 구독을 즉시 사용할 수 없을 수도 있다는 점을 고려하여 애플리케이션에서 이를 고려해야 합니다.
+> **Warning**
+> 구독 상태가 변경된 후 해당 웹훅 수신 지연은 일반적으로 최소화되지만 체크아웃을 완료한 후 사용자의 구독을 즉시 사용할 수 없을 수도 있다는 점을 고려하여 애플리케이션에서 이를 고려해야 합니다.
 
 <a name="manually-rendering-pay-links"></a>
 #### 수동으로 결제 링크 렌더링
@@ -298,7 +302,8 @@ $options = [
 
 인라인 체크아웃의 사용 가능한 옵션에 대한 자세한 내용은 Paddle의 [인라인 체크아웃 가이드](https://developer.paddle.com/guides/how-tos/checkoutinline-checkout) 및 [매개변수 참조](https://developer.paddle.com/reference/paddle-js/parameters)를 참조하세요.
 
-> {note} 사용자 지정 옵션을 지정할 때 `passthrough` 옵션도 사용하려면 키 값 배열을 값으로 제공해야 합니다. 캐셔는 배열을 JSON 문자열로 변환하는 작업을 자동으로 처리합니다. 또한 `customer_id` 패스스루 옵션은 내부 캐셔 사용을 위해 예약되어 있습니다.
+> **Warning**
+> 사용자 지정 옵션을 지정할 때 `passthrough` 옵션도 사용하려면 키 값 배열을 값으로 제공해야 합니다. 캐셔는 배열을 JSON 문자열로 변환하는 작업을 자동으로 처리합니다. 또한 `customer_id` 패스스루 옵션은 내부 캐셔 사용을 위해 예약되어 있습니다.
 
 <a name="manually-rendering-an-inline-checkout"></a>
 #### 인라인 체크아웃 수동 렌더링
@@ -429,7 +434,8 @@ Paddle을 사용하면 통화별로 가격을 커스터마이징 할 수 있으�
 </ul>
 ```
 
-> {note} 가격 API를 사용할 때 Paddle은 일회성 구매 제품에만 쿠폰을 적용 할 수 있으며 구독 플랜에는 적용 할 수 없습니다.
+> **Warning**
+> 가격 API를 사용할 때 Paddle은 일회성 구매 제품에만 쿠폰을 적용 할 수 있으며 구독 플랜에는 적용 할 수 없습니다.
 
 <a name="customers"></a>
 ## 고객
@@ -538,7 +544,8 @@ Paddle을 사용하면 통화별로 가격을 커스터마이징 할 수 있으�
         ->withMetadata(['key' => 'value'])
         ->create();
 
-> {note} 메타 데이터 제공시 `subscription_name`을 메타 데이터 키로 사용하지 마세요. 이 키는 캐셔 내부 용으로 예약되어 있습니다.
+> **Warning**
+> 메타 데이터 제공시 `subscription_name`을 메타 데이터 키로 사용하지 마세요. 이 키는 캐셔 내부 용으로 예약되어 있습니다.
 
 <a name="checking-subscription-status"></a>
 ### 구독 상태 확인
@@ -647,7 +654,8 @@ Paddle을 사용하면 통화별로 가격을 커스터마이징 할 수 있으�
         Cashier::keepPastDueSubscriptionsActive();
     }
 
-> {note} 구독이 `past_due` 상태인 경우 결제 정보가 업데이트될 때까지 변경할 수 없습니다. 따라서 `swap` 및 `updateQuantity` 메소드는 구독이 `past_due` 상태에 있을 때 예외를 발생시킵니다.
+> **Warning**
+> 구독이 `past_due` 상태인 경우 결제 정보가 업데이트될 때까지 변경할 수 없습니다. 따라서 `swap` 및 `updateQuantity` 메소드는 구독이 `past_due` 상태에 있을 때 예외를 발생시킵니다.
 
 <a name="subscription-scopes"></a>
 #### 구독 스코프
@@ -724,7 +732,8 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 
     $user->subscription('default')->swapAndInvoice($premium = 34567);
 
-> {note} 평가판이 활성 상태일 때는 플랜을 바꿀 수 없습니다. 이 제한 사항에 대한 추가 정보는 [패들 문서](https://developer.paddle.comapi-reference/subscription-api/users/updateuser#usage-notes)를 참조하세요.
+> **Warning**
+> 평가판이 활성 상태일 때는 플랜을 바꿀 수 없습니다. 이 제한 사항에 대한 추가 정보는 [패들 문서](https://developer.paddle.comapi-reference/subscription-api/users/updateuser#usage-notes)를 참조하세요.
 
 <a name="prorations"></a>
 #### 비례 배분하기
@@ -801,6 +810,31 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 
     $modifier->delete();
 
+<a name="multiple-subscriptions"></a>
+### 다중 구독
+
+Paddle은 고객이 동시에 여러 구독을 가질 수 있도록 허용합니다. 예를 들어 수영 구독과 웨이트 리프팅 구독을 제공하는 헬스장을 운영하고 각 구독은 다른 가격을 가질 수 있습니다. 물론 고객은 둘 중 하나 또는 둘 다 가입할 수 있어야 합니다.
+
+애플리케이션이 구독을 만들 때 `newSubscription` 메소드에 구독 이름을 제공할 수 있습니다. 이름은 사용자가 시작하는 구독 유형을 나타내는 어떤 문자열이어도 됩니다.
+
+    use Illuminate\Http\Request;
+
+    Route::post('/swimming/subscribe', function (Request $request) {
+        $request->user()
+            ->newSubscription('swimming', $swimmingMonthly = 12345)
+            ->create($request->paymentMethodId);
+
+        // ...
+    });
+
+이 예에서는 고객에게 월간 수영 구독을 시작했습니다. 그러나 나중에 연간 구독으로 교체하려고 할 수 있습니다. 고객의 구독을 조정할 때 `swimming` 구독의 가격을 간단히 교체할 수 있습니다.
+
+    $user->subscription('swimming')->swap($swimmingYearly = 34567);
+
+물론 구독을 완전히 취소할 수도 있습니다.
+
+    $user->subscription('swimming')->cancel();
+
 <a name="pausing-subscriptions"></a>
 ### 구독 일시 중지
 
@@ -820,7 +854,8 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 
     $user->subscription('default')->unpause();
 
-> {note} 일시 중지 된 구독은 수정할 수 없습니다. 다른 플랜으로 교체하거나 수량을 업데이트하려면 먼저 구독을 재개해야합니다.
+> **Warning**
+> 일시 중지 된 구독은 수정할 수 없습니다. 다른 플랜으로 교체하거나 수량을 업데이트하려면 먼저 구독을 재개해야합니다.
 
 <a name="cancelling-subscriptions"></a>
 ### 구독 취소
@@ -841,7 +876,8 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 
     $user->subscription('default')->cancelNow();
 
-> {note} 취소 후에는 Paddle의 구독을 재개 할 수 없습니다. 고객이 구독을 재개하려면 새 구독을 구독해야합니다.
+> **Warning**
+> 취소 후에는 Paddle의 구독을 재개 할 수 없습니다. 고객이 구독을 재개하려면 새 구독을 구독해야합니다.
 
 <a name="subscription-trials"></a>
 ## 구독 평가판
@@ -849,7 +885,8 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 <a name="with-payment-method-up-front"></a>
 ### 결제수단 등록 후 시작하기
 
-> {note} 결제 수단 세부 정보를 미리 평가하고 수집하는 동안 Paddle은 요금제 교환이나 수량 업데이트와 같은 구독의 변경을 방지합니다. 평가판 중에 고객이 요금제를 교체 할 수 있도록 하려면 구독을 취소하고 다시 만들어야합니다.
+> **Warning**
+> 결제 수단 세부 정보를 미리 평가하고 수집하는 동안 Paddle은 요금제 교환이나 수량 업데이트와 같은 구독의 변경을 방지합니다. 평가판 중에 고객이 요금제를 교체 할 수 있도록 하려면 구독을 취소하고 다시 만들어야합니다.
 
 결제 수단 정보를 미리 수집하면서 고객에게 평가판 기간을 제공하려면 구독 결제 링크를 만들 때 `trialDays`메서드를 사용해야합니다.
 
@@ -866,7 +903,8 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
 
 이 방법은 애플리케이션 데이터베이스 내의 구독 레코드에 평가 기간 종료 날짜를 설정하고 Paddle이 이 날짜 이후까지 고객에게 청구를 시작하지 않도록 지시합니다.
 
-> {note} 평가판 종료일 이전에 고객의 구독을 취소하지 않으면 평가판이 만료되는 즉시 요금이 청구되므로 사용자에게 평가판 종료일을 알려야합니다.
+> **Warning**
+> 평가판 종료일 이전에 고객의 구독을 취소하지 않으면 평가판이 만료되는 즉시 요금이 청구되므로 사용자에게 평가판 종료일을 알려야합니다.
 
 사용자 인스턴스의 `onTrial` 메서드 또는 구독 인스턴스의 `onTrial` 메서드를 사용하여 사용자가 평가판 기간 내에 있는지 확인할 수 있습니다. 아래 두 가지 예는 동일합니다.
 
@@ -875,6 +913,16 @@ Paddle은 항상 구독 마다 결제 방법을 저장합니다. 구독에 대�
     }
 
     if ($user->subscription('default')->onTrial()) {
+        //
+    }
+
+평가판 기간이 만료되었는지 판단하기 위해 `hasExpiredTrial` 메서드를 사용할 수 있습니다.
+
+    if ($user->hasExpiredTrial('default')) {
+        //
+    }
+
+    if ($user->subscription('default')->hasExpiredTrial()) {
         //
     }
 
@@ -928,16 +976,18 @@ Paddle 대시 보드에서 플랜의 평가 기간을 정의하거나 항상 캐
         // User is within their "generic" trial period...
     }
 
-> {note} Paddle 구독이 생성 된 후에는 평가 기간을 연장하거나 수정할 수 없습니다.
+> **Warning**
+> Paddle 구독이 생성 된 후에는 평가 기간을 연장하거나 수정할 수 없습니다.
 
 <a name="handling-paddle-webhooks"></a>
 ## 패들 웹훅 처리
 
-> {tip} [Valet의 `share` 명령어](https://laravel.com/docs/{{version}}/valet#sharing-sites)를 사용하여 로컬 개발 중에 웹훅을 테스트 할 수 있습니다.
+> **Note**
+> [Valet의 `share` 명령어](https://laravel.com/docs/{{version}}/valet#sharing-sites)를 사용하여 로컬 개발 중에 웹훅을 테스트 할 수 있습니다.
 
 Paddle은 웹훅을 통해 애플리케이션에 다양한 이벤트를 알릴 수 있습니다. 기본적으로 Cashier의 webhook 컨트롤러를 가리키는 경로는 Cashier 서비스 제공자가 등록합니다. 이 컨트롤러는 들어오는 모든 웹훅 요청을 처리합니다.
 
-기본적으로 이 컨트롤러는 실패한 요금이 너무 많은 구독 취소([Paddle 구독 설정에 정의](https://vendors.paddle.com/subscription-settings)), 구독 업데이트 및 결제 방법 변경을 자동으로 처리합니다. 그러나 곧 알게 되겠지만 이 컨트롤러를 확장하여 원하는 Paddle 웹훅 이벤트를 처리할 수 있습니다.
+기본적으로 이 컨트롤러는 실패한 요금이 너무 많은 구독 취소([Paddle 독촉 설정에 정의](https://vendors.paddle.com/recover-settings#dunning-form-id)), 구독 업데이트 및 결제 방법 변경을 자동으로 처리합니다. 그러나 곧 알게 되겠지만 이 컨트롤러를 확장하여 원하는 Paddle 웹훅 이벤트를 처리할 수 있습니다.
 
 애플리케이션에서 Paddle 웹훅을 처리할 수 있도록 하려면 [Paddle 제어판에서 웹훅 URL 구성](https://vendors.paddle.com/alerts-webhooks)을 확인하세요. 기본적으로 Cashier의 webhook 컨트롤러는 `paddle/webhook` URL 경로에 응답합니다. Paddle 제어판에서 활성화해야 하는 모든 웹훅의 전체 목록은 다음과 같습니다.
 
@@ -947,7 +997,8 @@ Paddle은 웹훅을 통해 애플리케이션에 다양한 이벤트를 알릴 �
 - 결제 성공
 - 구독 결제 성공
 
-> {note} 캐셔에 포함 된 [webhook 서명 확인](/docs/{{version}}/cashier-paddle#verifying-webhook-signatures) 미들웨어로 들어오는 요청을 보호하세요.
+> **Warning**
+> 캐셔에 포함 된 [webhook 서명 확인](/docs/{{version}}/cashier-paddle#verifying-webhook-signatures) 미들웨어로 들어오는 요청을 보호하세요.
 
 <a name="webhooks-csrf-protection"></a>
 #### 웹훅 및 CSRF 보호
@@ -1126,7 +1177,8 @@ Paddle 내에 구성된 특정 제품에 대해 일회성 요금을 부과하려
         $receipt->order_id, 5.00, 'Unused product time'
     );
 
-> {tip} Paddle 지원팀에 문의 할 때 `$refundRequestId`를 환불 참조로 사용할 수 있습니다.
+> **Note**
+> Paddle 지원팀에 문의 할 때 `$refundRequestId`를 환불 참조로 사용할 수 있습니다.
 
 <a name="receipts"></a>
 ## 영수증
@@ -1178,30 +1230,51 @@ Next payment: {{ $nextPayment->amount() }} due on {{ $nextPayment->date()->forma
 
 만료 된 카드 또는 자금이 부족한 카드와 같은 다양한 이유로 구독 결제가 실패합니다. 이 경우 Paddle에서 결제 실패를 처리하도록 하는 것이 좋습니다. 구체적으로 Paddle 대시 보드에서 [Paddle의 자동 결제 이메일 설정](https://vendors.paddle.com/subscription-settings) 할 수 있습니다.
 
-또는 Paddle 대시 보드의 Webhook 설정에 있는 옵션 [`subscription_payment_failed`](https://developer.paddle.com/webhook-reference/subscription-alerts/subscription-payment-failed) 을 찾아 "구독 결제 실패"를 활성화하여 보다 정확한 커스터마이징을 할 수 있습니다.
+또는 Cashier에 의해 전달 된 `WebhookReceived` 이벤트를 통해 `subscription_payment_failed` Paddle 이벤트를 [듣기](/docs/{{version}}/events)를 통해 더 정확한 사용자 지정을 수행할 수 있습니다. 또한 Paddle 대시 보드의 Webhook 설정에서 "Subscription Payment Failed" 옵션이 활성화되어 있는지 확인해야합니다.
 
     <?php
 
-    namespace App\Http\Controllers;
+    namespace App\Listeners;
 
-    use Laravel\Paddle\Http\Controllers\WebhookController as CashierController;
+    use Laravel\Paddle\Events\WebhookReceived;
 
-    class WebhookController extends CashierController
+    class PaddleEventListener
     {
         /**
-         * Handle subscription payment failed.
+         * Handle received Paddle webhooks.
          *
-         * @param  array  $payload
+         * @param  \Laravel\Paddle\Events\WebhookReceived  $event
          * @return void
          */
-        public function handleSubscriptionPaymentFailed($payload)
+        public function handle(WebhookReceived $event)
         {
-            // Handle the failed subscription payment...
+            if ($event->payload['alert_name'] === 'subscription_payment_failed') {
+                // Handle the failed subscription payment...
+            }
         }
     }
 
+리스너가 정의되면 응용 프로그램의 `EventServiceProvider` 에 등록해야합니다.
+
+    <?php
+
+    namespace App\Providers;
+
+    use App\Listeners\PaddleEventListener;
+    use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+    use Laravel\Paddle\Events\WebhookReceived;
+
+    class EventServiceProvider extends ServiceProvider
+    {
+        protected $listen = [
+            WebhookReceived::class => [
+                PaddleEventListener::class,
+            ],
+        ];
+    }
+
 <a name="testing"></a>
-## Testing
+## 테스팅
 
 테스트 진행시, 청구 흐름을 수동으로 테스트하여 통합이 예상대로 작동하는지 확인해야 합니다.
 

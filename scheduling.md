@@ -128,6 +128,7 @@ php artisan schedule:list
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
+`->everyOddHour();`  |  홀수 시간마다 작업 실행
 `->everyTwoHours();`  |  2시간마다 작업 실행
 `->everyThreeHours();`  |  3시간마다 작업 실행
 `->everyFourHours();`  |  4시간마다 작업 실행
@@ -135,6 +136,7 @@ php artisan schedule:list
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
+`->twiceDailyAt(1, 13, 15);`  |  매일 1:15, 13:15 에 작업
 `->weekly();`  |  매주 일요일 00:00 에 작업 실행
 `->weeklyOn(1, '8:00');`  |  매주 월요일 8시에 작업 실행
 `->monthly();`  |  매달 1일 00:00 에 작업 실행
@@ -142,6 +144,7 @@ php artisan schedule:list
 `->twiceMonthly(1, 16, '13:00');`  |  매월 1일과 16일 13시에 작업 실행
 `->lastDayOfMonth('15:00');` | 매월 말일 15:00에 작업 실행
 `->quarterly();` |  분기별 첫번째 날 00:00 에 작업 실행
+`->quarterlyOn(4, '14:00');` |  분기별 4일 14:00에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->yearlyOn(6, 1, '17:00');`  |  매년 6월 1일 17:00에 작업 실행
 `->timezone('America/New_York');` | 타임존 지정
@@ -258,7 +261,8 @@ php artisan schedule:list
         return 'America/Chicago';
     }
 
-> {note} 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
+> **Warning**
+> 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
 
 <a name="preventing-task-overlaps"></a>
 ### 작업의 중복 방지
@@ -273,10 +277,13 @@ php artisan schedule:list
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
+뒷단에서 `withoutOverlapping` 메서드는 잠금을 획득하기 위해 애플리케이션의 [캐시](/docs/{{version}}/cache)를 활용합니다. 필요하다면 `schedule:clear-cache` 아티즌 명령을 사용하여 잠금 캐시를 삭제할 수 있습니다. 일반적으로 이 명령은 예상치 못한 서버 문제 때문에 작업이 멈춘 경우에만 필요합니다.
+
 <a name="running-tasks-on-one-server"></a>
 ### 한 서버에서 작업 실행하기
 
-> {note} 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
+> **Warning**
+> 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
 
 애플리케이션의 스케줄러가 다수의 서버에서 실행된다면, 예약된 작업이 하나의 서버에서만 실행되도록 제한할 수 있습니다. 예를 들어 금요일 저녁마다 새로운 리포트를 생성하는 예약된 작업이 있다고 가정해 보겠습니다. 작업 스케줄러가 세개의 워커 서버에서 실행중이라면, 예약된 작업은 새 대의 서버 모두에서 실행되고, 리포트는 세번 생성됩니다. 이런 상황은 좋지 않습니다!
 
@@ -287,6 +294,32 @@ php artisan schedule:list
                     ->at('17:00')
                     ->onOneServer();
 
+<a name="naming-unique-jobs"></a>
+#### 단일 서버 잡 이름 짓기
+
+같은 잡을 파라미터만 바꿔서 디스패치하고 단일 서버에서 모두 실행할 필요가 있을 수 있습니다. 이를 위해서는 `name` 메서드를 이용해서 각 스케쥴 정의에 이름을 붙여주면 됩니다.
+
+```php
+$schedule->job(new CheckUptime('https://laravel.com'))
+            ->name('check_uptime:laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+
+$schedule->job(new CheckUptime('https://vapor.laravel.com'))
+            ->name('check_uptime:vapor.laravel.com')
+            ->everyFiveMinutes()
+            ->onOneServer();
+```
+
+마찬가지로, 한 서버에서만 실행되어야 한다면 예약된 클로저도 이름을 붙여줘야 합니다.
+
+```php
+$schedule->call(fn () => User::resetApiRequestCount())
+    ->name('reset-api-request-count')
+    ->daily()
+    ->onOneServer();
+```
+
 <a name="background-tasks"></a>
 ### 백그라운드 작업
 
@@ -296,7 +329,8 @@ php artisan schedule:list
              ->daily()
              ->runInBackground();
 
-> {note} `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
+> **Warning**
+> `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
 
 <a name="maintenance-mode"></a>
 ### 점검 모드
@@ -353,7 +387,8 @@ php artisan schedule:work
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> {note} `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
+> **Warning**
+> `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>
 ## 작업 후킹

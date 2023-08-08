@@ -54,7 +54,8 @@ php artisan make:test UserTest --pest
 php artisan make:test UserTest --unit --pest
 ```
 
-> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
+> **Note**
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
 
 테스트 파일이 생성되면, 보통 [PHPUnit](https://phpunit.de)을 사용하는 것처럼 테스트 메소드를 정의할 수 있습니다. 테스트를 실행하려면 터미널에서 `vendor/bin/phpunit` 또는 `php artisan test` 커맨드를 실행하십시오.
 
@@ -77,7 +78,8 @@ php artisan make:test UserTest --unit --pest
         }
     }
 
-> {참고} 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
+> **Warning**
+> 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
 
 <a name="running-tests"></a>
 ## 테스트 실행
@@ -115,12 +117,13 @@ php artisan test --parallel
 php artisan test --parallel --processes=4
 ```
 
-> {참고} 테스트를 병렬로 실행할 때 일부 PHPUnit 옵션(예: `--do-not-cache-result`)을 사용하지 못할 수 있습니다.
+> **Warning**
+> 테스트를 병렬로 실행할 때 일부 PHPUnit 옵션(예: `--do-not-cache-result`)을 사용하지 못할 수 있습니다.
 
 <a name="parallel-testing-and-databases"></a>
 #### 병렬 테스트 및 데이터베이스
 
-라라벨은 테스트를 실행하는 각 병렬 프로세스에 대한 테스트 데이터베이스 생성 및 마이그레이션을 자동으로 처리합니다. 테스트 데이터베이스에는 프로세스마다 고유한 프로세스 토큰이 접미사로 붙습니다. 예를 들어 두 개의 병렬 테스트 프로세스가 있는 경우 라라벨은 `your_db_test_1` 및 `your_db_test_2` 테스트 데이터베이스를 만들고 사용합니다.
+기본 데이터베이스 커넥션을 구성한 상태를 유지하는 한 라라벨은 테스트를 실행하는 각 병렬 프로세스에 대한 테스트 데이터베이스 생성 및 마이그레이션을 자동으로 처리합니다. 테스트 데이터베이스에는 프로세스마다 고유한 프로세스 토큰이 접미사로 붙습니다. 예를 들어 두 개의 병렬 테스트 프로세스가 있는 경우 라라벨은 `your_db_test_1` 및 `your_db_test_2` 테스트 데이터베이스를 만들고 사용합니다.
 
 기본적으로 테스트 데이터베이스는 `test` 아티즌 명령 호출 사이에 유지되므로 후속 `test` 호출에서 다시 사용할 수 있습니다. 그러나 `--recreate-databases` 옵션을 사용하여 다시 생성할 수 있습니다.
 
@@ -185,7 +188,10 @@ php artisan test --parallel --recreate-databases
 <a name="reporting-test-coverage"></a>
 ### 테스트 커버리지 리포트
 
-> {note} 이 기능은 [Xdebug](https://xdebug.org) 또는 [PCOV](https://pecl.php.net/package/pcov)가 필요합니다.
+> **Warning**
+> 이 기능은 [Xdebug](https://xdebug.org) 또는 [PCOV](https://pecl.php.net/package/pcov)가 필요합니다.
+
+When running your application tests, you may want to determine whether your test cases are actually covering the application code and how much application code is used when running your tests. To accomplish this, you may provide the `--coverage` option when invoking the `test` command:
 
 애플리케이션 테스트를 실행할 때, 테스크 케이스가 실제 애플리케이션의 코드를 얼마나 커버하고 있는지와 테스트가 어떤 코드를 실행했는지를 확인하고 싶을 수 있습니다. 이를 위해서 `test` 명령어에 `--coverage` 옵션을 적용할 수 있습니다.
 

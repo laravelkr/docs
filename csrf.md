@@ -3,6 +3,7 @@
 - [소개하기](#csrf-introduction)
 - [사이트 간 요청 위조 방지하기](#preventing-csrf-requests)
     - [특정 URI 제외시기키](#csrf-excluding-uris)
+- [X-CSRF-Token](#csrf-x-csrf-token)
 - [X-XSRF-Token](#csrf-x-xsrf-token)
 
 <a name="csrf-introduction"></a>
@@ -94,7 +95,8 @@
         ];
     }
 
-> {tip} [테스트 실행](/docs/{{version}}/testing) 중에는, CSRF 미들웨어가 자동으로 비활성화 됩니다.
+> **Note**
+> [테스트 실행](/docs/{{version}}/testing) 중에는, CSRF 미들웨어가 자동으로 비활성화 됩니다.
 
 <a name="csrf-x-csrf-token"></a>
 ## X-CSRF-TOKEN
@@ -122,4 +124,5 @@ $.ajaxSetup({
 
 이 쿠키는 Angular 및 Axios와 같은 일부 자바스크립트 프레임워크 및 라이브러리의 개발자에게 편의를 제공하기 위해 전송됩니다. 프레임워크와 라이브러리는 이 쿠키를 통해 X-XSRF-TOKEN 헤더에 값을 설정하여 same-origin 요청을 보낼 수 있도록 합니다.
 
-> {tip} 기본적으로 `resources/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.
+> **Note**
+> 기본적으로 `resources/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.

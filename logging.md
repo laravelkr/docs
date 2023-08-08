@@ -59,7 +59,8 @@
 `stack` | "다중 채널" 채널 생성을 용이하게 하는 래퍼
 `syslog` | `SyslogHandler` 기반 Monolog 드라이버
 
-> {tip} `monolog` 및 `custom` 드라이버에 대한 자세한 내용은 [고급 채널 사용자 정의](#monolog-channel-customization) 문서를 확인하세요.
+> **Note**
+> `monolog` 및 `custom` 드라이버에 대한 자세한 내용은 [고급 채널 사용자 정의](#monolog-channel-customization) 문서를 확인하세요.
 
 <a name="channel-prerequisites"></a>
 ### 채널 전제 조건
@@ -74,6 +75,12 @@
 `bubble` | 메시지가 처리된 후 다른 채널로 버블링되어야 하는지 여부를 나타냅니다. | `true`
 `locking` | 쓰기 전에 로그 파일을 잠그십시오. | `false`
 `permission` | 로그 파일의 권한 | `0644`
+
+또한 `daily` 채널에 대한 보존 정책은 `days` 옵션을 통해 구성할 수 있습니다.
+
+이름 | 설명                                                       | 기본값
+------------- |-------------------------------------------------------------------| -------------
+`days` | 일간 로그 파일이 보존될 일수 | `7`
 
 <a name="configuring-the-papertrail-channel"></a>
 #### Papertrail 채널 설정하기
@@ -137,7 +144,7 @@ PHP, 라라벨 및 기타 라이브러리는 사용자에게 일부 기능이 �
 <a name="log-levels"></a>
 #### 로그 레벨
 
-앞의 예제에서 확인한 `syslog` 와 `slack` 채널 설정에 있는 `level` 옵션을 확인해 보십시오. 이 옵션은 채널에서 로그가 기록되어야 하는 최소 "레벨"을 결정합니다. 라라벨의 로그 서비스를 제공하는 Monolog는 [RFC 5424 표준 스펙](https://tools.ietf.org/html/rfc5424) 에 정의된 모든 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 레벨을 지원합니다.
+앞의 예제에서 확인한 `syslog` 와 `slack` 채널 설정에 있는 `level` 옵션을 확인해 보십시오. 이 옵션은 채널에서 로그가 기록되어야 하는 최소 "레벨"을 결정합니다. 라라벨의 로그 서비스를 제공하는 Monolog는 [RFC 5424 표준 스펙](https://tools.ietf.org/html/rfc5424) 에 정의된 모든 레벨을 지원합니다. 로그 레벨은 심각도가 높은 순서대로 **emergency**, **alert**, **critical**, **error**, **warning**, **notice**, **info**, **debug** 입니다.
 
 따라서, `debug` 메소드를 사용하여 로그를 기록하는 것을 생각해 보겠습니다.
 
@@ -198,7 +205,7 @@ PHP, 라라벨 및 기타 라이브러리는 사용자에게 일부 기능이 �
 
     Log::info('User failed to login.', ['id' => $user->id]);
 
-경우에 따라 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다.
+경우에 따라 특정 채널의 모든 후속 로그 항목에 포함되어야 하는 일부 컨텍스트 정보를 지정할 수 있습니다. 예를 들어 애플리케이션에 들어오는 각 요청과 연결된 요청 ID를 기록할 수 있습니다. 이를 달성하기 위해 `Log` 파사드의 `withContext` 메소드를 호출할 수 있습니다.
 
     <?php
 
@@ -226,6 +233,26 @@ PHP, 라라벨 및 기타 라이브러리는 사용자에게 일부 기능이 �
             ]);
 
             return $next($request)->header('Request-Id', $requestId);
+        }
+    }
+
+모든 로깅 채널에서 컨텍스트 정보를 공유 하려면 `Log::shareContext()` 메서드를 호출하면 됩니다. 이 메서드는 생성된 모든 채널과 이후에 생성되는 모든 채널에 컨텍스트 정보를 제공합니다. 일반적으로 `shareContext` 메서드는 서비스 공급자의 `boot` 메서드에서 호출해야 합니다.
+
+    use Illuminate\Support\Facades\Log;
+    use Illuminate\Support\Str;
+
+    class AppServiceProvider
+    {
+        /**
+         * Bootstrap any application services.
+         *
+         * @return void
+         */
+        public function boot()
+        {
+            Log::shareContext([
+                'invocation-id' => (string) Str::uuid(),
+            ]);
         }
     }
 
@@ -308,7 +335,8 @@ PHP, 라라벨 및 기타 라이브러리는 사용자에게 일부 기능이 �
         }
     }
 
-> {tip} 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
+> **Note**
+> 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
 <a name="creating-monolog-handler-channels"></a>
 ### Monolog 핸들러 채널 생성하기
@@ -378,6 +406,6 @@ Monolog의 인스턴스화 및 설정을 완전히 제어할 수 있는 사용�
          */
         public function __invoke(array $config)
         {
-            return new Logger(...);
+            return new Logger(/* ... */);
         }
     }

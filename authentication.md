@@ -79,7 +79,7 @@ _Laravel Breeze_ 는 로그인, 등록, 비밀번호 재설정, 이메일 확인
 
 _Laravel Fortify_ 는 쿠키 기반 인증과 2단계 인증 및 이메일 확인과 같은 기타 기능을 포함하여, 이 문서에 있는 많은 기능을 구현하는 라라벨용 헤드리스 인증 백엔드입니다. Fortify는 Laravel Jetstream에 대한 인증 백엔드를 제공하거나 [Laravel Sanctum](/docs/{{version}}/sanctum)과 함께 독립적으로 사용하여 Laravel에 인증해야하는 SPA에 인증 기능을 제공 할 수 있습니다.
 
-_[Laravel Jetstream](https://jetstream.laravel.com)_ 은 [Tailwind CSS](https://tailwindcss.com)와 [Livewire](https://laravel-livewire.com) 또는 [Inertia.js](https://inertiajs.com)로 제공하는 아름답고 현대적인 UI로, Laravel Fortify의 인증 서비스를 사용하여 제공하는 강력한 애플리케이션 스타터 키트입니다. Laravel Jetstream은 2 단계 인증, 팀 지원, 브라우저 세션 관리, 프로필 관리 및 API 토큰 인증을 제공하기 위해 [Laravel Sanctum](/docs/{{version}}/sanctum)과의 내장 통합에 대한 선택적인 지원을 포함하고 있습니다. 라라벨의 API 인증 제품은 아래에서 설명합니다.
+_[Laravel Jetstream](https://jetstream.laravel.com)_ 은 [Tailwind CSS](https://tailwindcss.com)와 [Livewire](https://laravel-livewire.com) 또는 [Inertia](https://inertiajs.com)로 제공하는 아름답고 현대적인 UI로, Laravel Fortify의 인증 서비스를 사용하여 제공하는 강력한 애플리케이션 스타터 키트입니다. Laravel Jetstream은 2 단계 인증, 팀 지원, 브라우저 세션 관리, 프로필 관리 및 API 토큰 인증을 제공하기 위해 [Laravel Sanctum](/docs/{{version}}/sanctum)과의 내장 통합에 대한 선택적인 지원을 포함하고 있습니다. 라라벨의 API 인증 제품은 아래에서 설명합니다.
 
 <a name="laravels-api-authentication-services"></a>
 #### 라라벨 API 인증 서비스
@@ -109,12 +109,13 @@ Laravel Sanctum은 [Laravel Jetstream](https://jetstream.laravel.com) 애플리�
 
 애플리케이션에 OAuth2 사양에서 제공하는 모든 기능이 무조건 필요한 경우 Passport를 선택하면 됩니다.
 
-그리고 빠르게 시작하고 싶으시다면 [Laravel Jetstream](https://jetstream.laravel.com)을 추천합니다. 라라벨의 기본 인증 서비스 및 라라벨 Sanctum 스택을 이미 사용하고 있는 새로운 라라벨 애플리케이션을 빠르게 시작할 수 있습니다.
+그리고 빠르게 시작하고 싶으시다면 [Laravel Breeze](/docs/{{version}}/starter-kits#laravel-breeze)을 추천합니다. 라라벨의 기본 인증 서비스 및 라라벨 Sanctum 스택을 이미 사용하고 있는 새로운 라라벨 애플리케이션을 빠르게 시작할 수 있습니다.
 
 <a name="authentication-quickstart"></a>
 ## 빠르게 인증 살펴보기
 
-> {note} 이 부분에서는 개발을 빠르게 시작하는 데 도움이 되는 UI 스캐폴딩이 포함 된 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 이용한 사용자 인증에 대해 살펴봤습니다. 라라벨의 인증 시스템을 직접 만들고 싶다면 [사용자 인증을 직접 구현 하기 위한](#authenticating-users) 문서를 확인해보세요.
+> **Warning**  
+> 이 부분에서는 개발을 빠르게 시작하는 데 도움이 되는 UI 스캐폴딩이 포함 된 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)를 이용한 사용자 인증에 대해 살펴봤습니다. 라라벨의 인증 시스템을 직접 만들고 싶다면 [사용자 인증을 직접 구현 하기 위한](#authenticating-users) 문서를 확인해보세요.
 
 <a name="install-a-starter-kit"></a>
 ### 스타터 키트 설치
@@ -123,7 +124,7 @@ Laravel Sanctum은 [Laravel Jetstream](https://jetstream.laravel.com) 애플리�
 
 Laravel Breeze는 로그인, 사용자 등록, 비밀번호 재설정, 이메일 확인 및 비밀번호 확인을 포함하여 라라벨의 모든 인증 기능을 최소한으로 간단하게 구현해줍니다. Laravel Breeze의 뷰 레이어는 [Tailwind CSS](https://tailwindcss.com) 스타일의 간단한 [Blade templates](/docs/{{version}}/blade)로 만들어집니다. 또한 Breeze는 Vue 또는 React를 사용하는 [Inertia](https://inertiajs.com) 기반 스캐폴딩 옵션도 제공합니다.
 
-[Laravel Jetstream](https://jetstream.laravel.com)은 [Livewire](https://laravel-livewire.com) 또는 [Inertia.js 및 Vue](https://inertiajs.com)를 사용하여 애플리케이션의 스캐폴딩을 지원하는 강력한 애플리케이션 스타터 키트입니다. 또한 Jetstream은 2 단계 인증, 팀, 프로필 관리, 브라우저 세션 관리, [Laravel Sanctum](/docs/{{version}}/sanctum)을 통한 API 지원, 계정 삭제 등에 대해 선택적으로 지원할 수 있는 기능을 제공합니다.
+[Laravel Jetstream](https://jetstream.laravel.com)은 [Livewire](https://laravel-livewire.com) 또는 [Inertia 및 Vue](https://inertiajs.com)를 사용하여 애플리케이션의 스캐폴딩을 지원하는 강력한 애플리케이션 스타터 키트입니다. 또한 Jetstream은 2 단계 인증, 팀, 프로필 관리, 브라우저 세션 관리, [Laravel Sanctum](/docs/{{version}}/sanctum)을 통한 API 지원, 계정 삭제 등에 대해 선택적으로 지원할 수 있는 기능을 제공합니다.
 
 <a name="retrieving-the-authenticated-user"></a>
 ### 승인된 사용자 조회하기
@@ -172,7 +173,8 @@ Laravel Breeze는 로그인, 사용자 등록, 비밀번호 재설정, 이메일
         // The user is logged in...
     }
 
-> {tip} `check` 메서드를 사용하여 사용자가 인증되어 있는지 확인할 수 있지만, 일반적으로 사용자가 특정 라우트 컨트롤러에 접근 할 수 있도록 허용할 때, 미들웨어를 사용하여 사용자가 인증되었는지 확인합니다. 이에 대해 자세히 알아 보려면 [라우트 보호하기](/docs/{{version}}/authentication#protecting-routes)에 대한 문서를 확인하십시오.
+> **Note**
+> `check` 메서드를 사용하여 사용자가 인증되어 있는지 확인할 수 있지만, 일반적으로 사용자가 특정 라우트 컨트롤러에 접근 할 수 있도록 허용할 때, 미들웨어를 사용하여 사용자가 인증되었는지 확인합니다. 이에 대해 자세히 알아 보려면 [라우트 보호하기](/docs/{{version}}/authentication#protecting-routes)에 대한 문서를 확인하십시오.
 
 <a name="protecting-routes"></a>
 ### 라우트 보호하기
@@ -214,7 +216,8 @@ Laravel Breeze는 로그인, 사용자 등록, 비밀번호 재설정, 이메일
 
 Laravel Breeze나 Laravel Jetstream 같은 [스타터 키트](/docs/{{version}}/starter-kits)를 사용하는 경우, 로그인 시도에 횟수 제한이 자동으로 적용됩니다. 기본적으로 사용자는 몇 번의 시도 후에도 올바른 인증 정보를 제공하지 않으면, 1분 동안 로그인할 수 없습니다. 이 제한은 사용자의 사용자 이름 / 이메일 및 IP 주소별로 각각 동작합니다.
 
-> {tip} 애플리케이션 내의 다른 경로에도 횟수를 제한하려면 [횟수 제한 문서](/docs/{{version}}/routing#rate-limiting)를 확인하세요.
+> **Note**  
+> 애플리케이션 내의 다른 경로에도 횟수를 제한하려면 [횟수 제한 문서](/docs/{{version}}/routing#rate-limiting)를 확인하세요.
 
 <a name="authenticating-users"></a>
 ## 수동으로 사용자 인증하기
@@ -254,7 +257,7 @@ Laravel Breeze나 Laravel Jetstream 같은 [스타터 키트](/docs/{{version}}/
 
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
-            ]);
+            ])->onlyInput('email');
         }
     }
 
@@ -275,7 +278,31 @@ Laravel Breeze나 Laravel Jetstream 같은 [스타터 키트](/docs/{{version}}/
         // Authentication was successful...
     }
 
-> {note} 이 예제에서, `email` 은 필수 옵션이 아니라, 그냥 예제에서 사용한 것입니다. 여러분은 데이터베이스 테이블 안에 있는 "username"과 일치하는 어떠한 컬럼 이름을 사용해야 합니다.
+복잡한 쿼리 조건을 위해서는 인증 정보 배열에 클로저를 제공해주면 됩니다. 이 클로저는 쿼리 인스턴스와 함께 호출되어 애플리케이션의 요구 사항에 따라 쿼리를 사용자 정의할 수 있습니다.
+
+    if (Auth::attempt([
+        'email' => $email, 
+        'password' => $password, 
+        fn ($query) => $query->has('activeSubscription'),
+    ])) {
+        // Authentication was successful...
+    }
+
+> **Warning**  
+> 이 예제에서, `email` 은 필수 옵션이 아니라, 그냥 예제에서 사용한 것입니다. 여러분은 데이터베이스 테이블 안에 있는 "username"과 일치하는 어떠한 컬럼 이름을 사용해야 합니다.
+
+The `attemptWhen` method, which receives a closure as its second argument, may be used to perform more extensive inspection of the potential user before actually authenticating the user. The closure receives the potential user and should return `true` or `false` to indicate if the user may be authenticated:
+
+클로저를 두 번째 인수로 받는 이 `attemptWhen` 메서드는 사용자를 실제로 인증하기 전에 잠재적인 사용자에 대한 보다 광범위한 검사를 수행하는 데 사용할 수 있습니다. 클로저는 잠재적 사용자를 수신하고 사용자가 인증될 수 있는지 여부를 나타내기 위해 `true` 나 `false`를 반환해야 합니다.
+
+    if (Auth::attemptWhen([
+        'email' => $email,
+        'password' => $password,
+    ], function ($user) {
+        return $user->isNotBanned();
+    })) {
+        // Authentication was successful...
+    }
 
 <a name="accessing-specific-guard-instances"></a>
 #### 지정된 Guard 인스턴스에 엑세스하기
@@ -299,6 +326,14 @@ Laravel Breeze나 Laravel Jetstream 같은 [스타터 키트](/docs/{{version}}/
 
     if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
         // The user is being remembered...
+    }
+
+애플리케이션이 "기억하기" 기능을 제공하는 경우 현재 인증된 사용자가 "remember me" 쿠키를 사용하여 인증되었는지 확인하는 `viaRemember` 메서드를 사용할 수 있습니다.
+
+    use Illuminate\Support\Facades\Auth;
+
+    if (Auth::viaRemember()) {
+        // ...
     }
 
 <a name="other-authentication-methods"></a>
@@ -427,13 +462,13 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 라라벨은 또한 현재 장치에서 로그인정보를 유지하면서, 다른 장치에서 인증된 된 로그인 정보를 무효화하고 "로그아웃"시키는 방법을 제공합니다. 이 기능은 일반적으로 사용자가 암호를 변경하거나 업데이트 할 때, 현재 장치의 인증을 유지하면서 다른 장치에서 세션을 무효화하려는 경우에 사용됩니다.
 
-시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 존재하고 `App\Http\Kernel` 클래스의 `web` 미들웨어 그룹에서 주석 처리되어있지는 않은지 확인해야합니다.
+시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 세션 인증을 받아야하는 라우트에 포함되어 있는지 확인해야 합니다. 일반적으로 대부분의 애플리케이션 라우트에 적용할 수 있도록 라우트 그룹 정의에 미들웨어를 적용합니다. 기본적으로 `AuthenticateSession` 미들웨어는 HTTP 커널에 정의된 대로 `auth.session` 라우트 미들웨어 키를 이용하여 라우트에 연결할 수 있습니다.
 
-    'web' => [
-        // ...
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        // ...
-    ],
+    Route::middleware(['auth', 'auth.session'])->group(function () {
+        Route::get('/', function () {
+            // ...
+        });
+    });
 
 그런 다음 `Auth` 파사드에서 제공하는 `logoutOtherDevices` 메소드를 사용하면 됩니다. 이 메서드를 사용하려면 사용자가 현재 비밀번호를 입력해줘야 합니다. 애플리케이션이 입력 폼을 통해 입력받아서 처리합니다.
 
@@ -448,7 +483,8 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
 애플리케이션을 만드는 동안, 어떠한 작업을 수행하기 전, 또는 사용자가 애플리케이션의 중요한 곳으로 이동하기 전에 사용자의 암호를 확인해야 할 필요가 있을 수도 있습니다. 라라벨은 이 과정을 쉽게 만들어주는 내장 미들웨어를 포함하고 있습니다. 이 기능을 구현하려면 두 가지 경로를 정의해야 합니다. 하나는 사용자에게 암호 확인을 요청하는 view를 표시하는 경로이고, 다른 하나는 암호가 유효한지 확인 후, 사용자를 원하는 곳으로 이동하는 경로입니다.
 
-> {tip} 아래 문서는 라라벨의 비밀번호 확인 기능을 직접 연동하는 방법에 대해 설명합니다. 그러나 더 빨리 시작하기위해 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)가 이 기능들을 지원하고 있습니다!
+> **Note**
+> 아래 문서는 라라벨의 비밀번호 확인 기능을 직접 연동하는 방법에 대해 설명합니다. 그러나 더 빨리 시작하기위해 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)가 이 기능들을 지원하고 있습니다!
 
 <a name="password-confirmation-configuration"></a>
 ### 환경설정
@@ -578,6 +614,13 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
             'driver' => 'custom-token',
         ],
     ],
+
+마지막으로, 라우트에 인증 미들웨어를 할당할 때는 다음과 같이 가드를 참조할 수 있습니다. 
+
+    Route::middleware('auth:api')->group(function () {
+        // ...
+    }
+
 
 <a name="adding-custom-user-providers"></a>
 ## 사용자 정의 User 프로바이더 추가하기

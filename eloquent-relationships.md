@@ -11,6 +11,7 @@
 - [N:M(다대다) 연관연관관계](#many-to-many)
     - [중간 테이블 컬럼 조회하기](#retrieving-intermediate-table-columns)
     - [중간 테이블을 사용한 필터링 쿼리](#filtering-queries-via-intermediate-table-columns)
+    - [중간 테이블 컬럼을 통한 쿼리 정렬](#ordering-queries-via-intermediate-table-columns)
     - [커스텀 중간 테이블 모델 정의하기](#defining-custom-intermediate-table-models)
 - [다형성 연관관계](#polymorphic-relationships)
     - [1:1(일대일) 연관관계](#one-to-one-polymorphic-relations)
@@ -287,6 +288,12 @@
 
     $posts = Post::whereBelongsTo($user)->get();
 
+`whereBelongsTo` 메서드에 [컬렉션](/docs/{{version}}/eloquent-collections) 인스턴스를 전달할 수도 있습니다. 그렇게 하면, 라라벨은 컬렉션 내에 있는 모든 부모 모델과 연관된 모델을 조회할 것입니다.
+
+    $users = User::where('vip', true)->get();
+
+    $posts = Post::whereBelongsTo($users)->get();
+
 기본적으로, 라라벨은 모델의 클래스 이름을 기반으로 주어진 모델과의 연관관계를 결정합니다. 수동으로 이 이름을 지정하려면 `whereBelongsTo` 메서드의 두번 째 인자로 이름을 전달하면 됩니다. 
 
     $posts = Post::whereBelongsTo($user, 'author')->get();
@@ -332,7 +339,8 @@ public function largestOrder()
 }
 ```
 
-> {note} PostgreSQL은 UUID 컬럼에 대해서 `MAX` 함수를 실행을 지원하지 않기 때문에, PostgreSQL UUID 컬럼과 함께 일대다 연관관계를 사용할수 없습니다. 
+> **Warning**
+> PostgreSQL은 UUID 컬럼에 대해서 `MAX` 함수를 실행을 지원하지 않기 때문에, PostgreSQL UUID 컬럼과 함께 일대다 연관관계를 사용할수 없습니다. 
 
 <a name="advanced-has-one-of-many-relationships"></a>
 ### 좀 더 복잡한 일대다 중에서 하나를 표현하는 연관관계
@@ -398,6 +406,16 @@ public function currentPricing()
 
 `hasOneThrough` 메서드의 첫번째 인자는 엑세스 하고자 하는 최종 모델의 이름이 됩니다. 두 번재 인자는 연결을 맺어주는 중간 모델의 이름입니다.
 
+모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 단일 연관관계(has-one-through)"를 정의할 수 있습니다. 예를 들어 `Mechanic` 모델이 `Car` 모델과 `cars` 연관관계를 맺고 있고, `Car` 모델은 `owner` 연관관계를 가지고 있다면 "연결을 통한 단일 연관관계"는 다음과 같이 정의할 수 있습니다.   
+
+```php
+// String based syntax...
+return $this->through('cars')->has('owner');
+
+// Dynamic syntax...
+return $this->throughCars()->hasOwner();
+```
+
 <a name="has-one-through-key-conventions"></a>
 #### 키 컨벤션
 
@@ -420,6 +438,16 @@ public function currentPricing()
             );
         }
     }
+
+앞서 설명한대로, 모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 단일 연관관계(has-one-through)"를 정의할 수 있습니다. 이런 사용방식은 기존에 연관관계에 정의된 비지니스 규칙들을 그대로 사용할 수 있는 장점이 있습니다.
+
+```php
+// String based syntax...
+return $this->through('cars')->has('owner');
+
+// Dynamic syntax...
+return $this->throughCars()->hasOwner();
+```
 
 <a name="has-many-through"></a>
 ### 연결을 통한 다수를 가지는 연관관계 정의하기
@@ -461,6 +489,18 @@ public function currentPricing()
 
 `hasManyThrough` 메서드의 첫 번째 인자는 접근하고자 하는 최종 모델의 이름이고, 두 번째 인자는 중간 모델의 이름입니다.
 
+모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 "연결을 통한 다수를 가지는 연관관계(has-many-through)"를 정의할 수 있습니다. 예를 들어 `Project` 모델이 `Environment` 모델과 `environments` 연관관계를 맺고 있고, `Environment` 모델은 `deployments` 연관관계를 가지고 있다면 "연결을 통한 다수를 가지는 연관관계"는 다음과 같이 정의할 수 있습니다.   
+
+```php
+// String based syntax...
+return $this->through('environments')->has('deployments');
+
+// Dynamic syntax...
+return $this->throughEnvironments()->hasDeployments();
+```
+
+Though the `Deployment` model's table does not contain a `project_id` column, the `hasManyThrough` relation provides access to a project's deployments via `$project->deployments`. To retrieve these models, Eloquent inspects the `project_id` column on the intermediate `Environment` model's table. After finding the relevant environment IDs, they are used to query the `Deployment` model's table.
+
 `Deployment` 모델의 테이블에는 `project_id` 컬럼이 포함되어 있지 않지만 `hasManyThrough` 연관관계는 `$project->deployments`를 통해 프로젝트의 배포에 대해 접근이 가능하게 해줍니다. 이 모델들(배포 모델들)을 조회하기 위해서 엘로퀀트는 중간 모델 `Environment` 테이블의 `project_id` 컬럼을 확인합니다. 연관된 `Environment` 모델의 ID들을 찾은 다음에 `Deployment`(배포) 모델의 테이블을 쿼리하는 데 사용합니다.
 
 <a name="has-many-through-key-conventions"></a>
@@ -482,6 +522,17 @@ public function currentPricing()
             );
         }
     }
+
+앞서 설명한대로, 모델에 연결에 필요한 연관관계가 이미 정의되어 있는경우, `through` 메서드에 연관관계의 이름을 전달하여 연결을 통한 다수를 가지는 연관관계(has-one-through)"를 정의할 수 있습니다. 이런 사용방식은 기존에 연관관계에 정의된 비지니스 규칙들을 그대로 사용할 수 있는 장점이 있습니다.
+
+
+```php
+// String based syntax...
+return $this->through('environments')->has('deployments');
+
+// Dynamic syntax...
+return $this->throughEnvironments()->hasDeployments();
+```
 
 <a name="many-to-many"></a>
 ## N:M (다대다) 연관관계
@@ -598,7 +649,8 @@ public function currentPricing()
 
     return $this->belongsToMany(Role::class)->withTimestamps();
 
-> {note} 엘로퀀트에 의해서 자동으로 관리되는 타임스탬프 속성을 사용하는 중간 테이블에는 `created_at`와 `updated_at` 타임스탬프 컬럼을 가지고 있어야 합니다. 
+> **Warning**
+> 엘로퀀트에 의해서 자동으로 관리되는 타임스탬프 속성을 사용하는 중간 테이블에는 `created_at`와 `updated_at` 타임스탬프 컬럼을 가지고 있어야 합니다. 
 
 <a name="customizing-the-pivot-attribute-name"></a>
 #### `pivot` 속성의 이름 커스터마이징 하기
@@ -649,10 +701,19 @@ public function currentPricing()
                     ->as('subscriptions')
                     ->wherePivotNotNull('expired_at');
 
+<a name="ordering-queries-via-intermediate-table-columns"></a>
+### 중간 테이블 컬럼을 통한 쿼리 정렬
+
+`orderByPivot` 메서드를 이용해서 `belongsToMany` 관계 쿼리에 의해 반환된 결과를 정렬할 수 있습니다. 아래 예제는 사용자의 모든 뱆지를 역순으로 조회합니다.
+
+    return $this->belongsToMany(Badge::class)
+                    ->where('rank', 'gold')
+                    ->orderByPivot('created_at', 'desc');
+
 <a name="defining-custom-intermediate-table-models"></a>
 ### 커스텀 중간 테이블 모델 정의하기
 
-다대다 연관관계의 중간 테이블을 표현하는 커스텀 모델을 정의할 수 있습니다. 이 때에는 연관관계를 정의할 때 `using` 메서드를 호출하면 됩니다. 커스텀 피벗 모델을 정의하면 이 모델에 추가적인 메서드를 정의하기가 수월해집니다. 
+다대다 연관관계의 중간 테이블을 표현하는 커스텀 모델을 정의할 수 있습니다. 이 때에는 연관관계를 정의할 때 `using` 메서드를 호출하면 됩니다. 커스텀 피벗 모델은 피벗 모델에 메서드나 casts.model 같은 추가적인 행위을 정의할 수 있게 해줍니다. 
 
 커스텀 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\Pivot` 클래스를 상속해야하며 커스텀 다형성 다대다 피벗 모델은 `Illuminate\Database\Eloquent\Relations\MorphPivot` 클래스를 상속해야합니다. 예를 들어 다음과 같이 커스텀 `RoleUser` 피벗 모델을 사용하는 `Role` 모델을 정의할 수 있습니다.
 
@@ -686,7 +747,8 @@ public function currentPricing()
         //
     }
 
-> {note} 피벗 모델은 `SoftDeletes` 트레이트-trait을 사용하지 않습니다. 만약 모델의 레코드에 소프트 삭제기능을 사용해야 한다면, 피벗 모델이 아니라 기본적인 엘로퀀트 모델로 변환하는 것을 고려해보십시오.
+> **Warning**
+> 피벗 모델은 `SoftDeletes` 트레이트-trait을 사용하지 않습니다. 만약 모델의 레코드에 소프트 삭제기능을 사용해야 한다면, 피벗 모델이 아니라 기본적인 엘로퀀트 모델로 변환하는 것을 고려해보십시오.
 
 <a name="custom-pivot-models-and-incrementing-ids"></a>
 #### 커스텀 피벗 모델과 자동증가 ID
@@ -941,7 +1003,8 @@ public function bestImage()
 }
 ```
 
-> {tip} 보다 복잡한 경우의 "다수중 하나의" 연관관계에 대해서 알아보려면 [다수중 하나의 연관관계](#advanced-has-one-of-many-relationships) 매뉴얼을 참고하십시오.
+> **Note**
+> 보다 복잡한 경우의 "다수중 하나의" 연관관계에 대해서 알아보려면 [다수중 하나의 연관관계](#advanced-has-one-of-many-relationships) 매뉴얼을 참고하십시오.
 
 <a name="many-to-many-polymorphic-relations"></a>
 ### N:M(다대다) (다형성)
@@ -968,7 +1031,8 @@ public function bestImage()
         taggable_id - integer
         taggable_type - string
 
-> {tip} 다대다 다형성 연관관계에 대해서 알아보기 전에, 먼저 [다대다 연관관계](#many-to-many)에 대해서 숙지하는 것이 좋습니다. 
+> **Note**
+> 다대다 다형성 연관관계에 대해서 알아보기 전에, 먼저 [다대다 연관관계](#many-to-many)에 대해서 숙지하는 것이 좋습니다. 
 
 <a name="many-to-many-polymorphic-model-structure"></a>
 #### 모델 구조
@@ -1077,7 +1141,8 @@ public function bestImage()
 
     $class = Relation::getMorphedModel($alias);
 
-> {note} 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
+> **Warning**
+> 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
 
 <a name="dynamic-relationships"></a>
 ### 동적 연관관계 정의하기
@@ -1093,7 +1158,8 @@ public function bestImage()
         return $orderModel->belongsTo(Customer::class, 'customer_id');
     });
 
-> {note} 동적 연관관계를 정의 할 때에는 항상 엘로퀀트 연관관계 메서드에 명시적인 키 이름 인자를 제공하십시오.
+> **Warning**
+> 동적 연관관계를 정의 할 때에는 항상 엘로퀀트 연관관계 메서드에 명시적인 키 이름 인자를 제공하십시오.
 
 <a name="querying-relations"></a>
 ## 연관관계 쿼리 질의하기
@@ -1215,12 +1281,16 @@ where user_id = ? and (active = 1 or votes >= 100)
         $query->where('content', 'like', 'code%');
     }, '>=', 10)->get();
 
-> {note} 엘로퀀트는 다른 데이터베이스간의 존재 유무를 판단하는 기능을 지원하지 않습니다. 연관관계의 존재를 확인하는 쿼리를 수행하려면 연관관계가 동일한 데이터베이스 안에 있어야 합니다. 
+> **Warning**
+> Eloquent does not currently support querying for relationship existence across databases. The relationships must exist within the same database.
+
+> **Warning**
+> 엘로퀀트는 다른 데이터베이스간의 존재 유무를 판단하는 기능을 지원하지 않습니다. 연관관계의 존재를 확인하는 쿼리를 수행하려면 연관관계가 동일한 데이터베이스 안에 있어야 합니다. 
 
 <a name="inline-relationship-existence-queries"></a>
 #### 인라인 연관관계의 존재 확인 쿼리 질의하기
 
-연관관계 쿼리에 간단하게 연관관계 존재 확인만을 위한 조건을 추가하려는 경우에는 `whereRelation`과 `whereMorphRelation`메서드를 사용하는 것이 더 편리할 수 있습니다. 예를 들어 승인되지 않은 댓글을 가지는 모든 포스트를 조회할 수 있습니다.
+연관관계 쿼리에 간단하게 연관관계 존재 확인만을 위한 조건을 추가하려는 경우에는 `whereRelation`, `orWhereRelation`, `whereMorphRelation`, `orWhereMorphRelation` 메서드를 사용하는 것이 더 편리할 수 있습니다. 예를 들어 승인되지 않은 댓글을 가지는 모든 포스트를 조회할 수 있습니다.
 
     use App\Models\Post;
 
@@ -1504,6 +1574,15 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
     $books = Book::with('author.contacts')->get();
 
+Alternatively, you may specify nested eager loaded relationships by providing a nested array to the `with` method, which can be convenient when eager loading multiple nested relationships:
+
+$books = Book::with([
+        'author' => [
+            'contacts',
+            'publisher',
+        ],
+    ])->get();
+
 <a name="nested-eager-loading-morphto-relationships"></a>
 #### 중첩 된 `morphTo` 연관관계의 Eager 로딩
 
@@ -1548,7 +1627,8 @@ Eager 로딩에서 조회하고자 하는 연관관계 모델의 모든 컬럼�
 
     $books = Book::with('author:id,name,book_id')->get();
 
-> {note} 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼과 관련 외래 키 컬럼이 포함되어 있어야 합니다.
+> **Warning**
+> 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼과 관련 외래 키 컬럼이 포함되어 있어야 합니다.
 
 <a name="eager-loading-by-default"></a>
 #### 모델을 로딩할 때 연관관계모델을 항상 Eager 로딩 하기
@@ -1612,7 +1692,8 @@ Eager 로딩에서 조회하고자 하는 연관관계 모델의 모든 컬럼�
         $query->orderBy('created_at', 'desc');
     }])->get();
 
-> {note} eager 로드에 제약조건을 추가할 때에는 `limit`과 `take` 쿼리 빌더 메서드는 사용할 수 없습니다.
+> **Warning**
+> eager 로드에 제약조건을 추가할 때에는 `limit`과 `take` 쿼리 빌더 메서드는 사용할 수 없습니다.
 
 <a name="constraining-eager-loading-of-morph-to-relationships"></a>
 #### `morphTo` 연관관계에서의 Eager 로딩 제약조건 추가하기
@@ -1634,6 +1715,17 @@ Eager 로딩에서 조회하고자 하는 연관관계 모델의 모든 컬럼�
     }])->get();
 
 위 예시에서 엘로퀀트는 숨김상태가 아닌 포스트와, `type` 값이 "educational" 인 비디오 모델을 Eager 로딩합니다. 
+
+<a name="constraining-eager-loads-with-relationship-existence"></a>
+#### 관계가 있는 상태에서 이거 로드 제한
+
+동일한 조건을 기반으로 관계를 로드하는 동시에 관계의 존재를 확인해야 하는 경우가 있습니다. 예를 들어, 주어진 쿼리 조건과 일치하면서 `Post` 모델을 자식으로 가지고 있는 `User` 모델만 검색하는 동시에 매칭된 포스트를 즉시 로드하길 원할 수 있습니다. `withWhereHas` 메서드를 사용하여 이 작업을 수행할 수 있습니다.
+
+    use App\Models\User;
+  
+    $users = User::withWhereHas('posts', function ($query) {
+        $query->where('featured', true);
+    })->get();
 
 <a name="lazy-eager-loading"></a>
 ### 지연 Eager 로딩
@@ -1774,6 +1866,10 @@ Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
 
     $post->push();
 
+`pushQuietly` 메서드는 이벤트를 발생시키지 않고 모델과 관련된 모든 연관관계를 저장합니다.
+
+    $post->pushQuietly();
+
 <a name="the-create-method"></a>
 ### `create` 메서드
 
@@ -1798,7 +1894,8 @@ Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
 
 `findOrNew`, `firstOrNew`, `firstOrCreate`, `updateOrCreate` 메서드를 [연관관계에 대한 모델 생성 및 업데이트](/docs/{{version}}/eloquent#upserts)에 사용할 수도 있습니다 .
 
-> {팁} `create` 메서드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
+> **Note**
+> `create` 메서드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
 
 <a name="updating-belongs-to-relationships"></a>
 ### Belongs To 연관관계
@@ -1882,6 +1979,13 @@ Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
 
     $user->roles()->toggle([1, 2, 3]);
 
+추가적인 중간 테이블 값을 ID와 함께 전달할 수도 있습니다.
+
+    $user->roles()->toggle([
+        1 => ['expires' => true],
+        2 => ['expires' => true],
+    ]);
+
 <a name="updating-a-record-on-the-intermediate-table"></a>
 #### 중간 테이블의 레코드 수정하기
 
@@ -1924,4 +2028,5 @@ Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
         }
     }
 
-> {note} 상위 모델의 타임스탬프값은 하위 모델이 엘로퀀트의 `save` 메서드를 사용해서 업데이트 될 때만 갱신됩니다. 
+> **Warning**
+> 상위 모델의 타임스탬프값은 하위 모델이 엘로퀀트의 `save` 메서드를 사용해서 업데이트 될 때만 갱신됩니다. 

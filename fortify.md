@@ -32,7 +32,8 @@
 
 Fortify는 사용자 인터페이스를 제공하지 않기 때문에 등록된 경로에 대한 요청을 처리하는 사용자 인터페이스와 쌍을 이루도록 되어 있습니다. 이 문서에선 이러한 경로에 요청하는 방법에 대해 정확히 논의할 것입니다.
 
-> {팁}, Fortify는 라라벨의 인증 기능을 구현하기 시작하는 데 도움이 되는 패키지입니다. **반드시 이 패키지를 사용하지 않아도 됩니다.** 이 패키지와 관계없이 언젠든 [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords)와 [email verification](/docs/{{version}}/verification) 문서에 따라 직접 Laravel 인증 서비스와 자유롭게 사용할 수 있습니다.
+> **Note**
+> Fortify는 라라벨의 인증 기능을 구현하기 시작하는 데 도움이 되는 패키지입니다. **반드시 이 패키지를 사용하지 않아도 됩니다.** 이 패키지와 관계없이 언젠든 [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords)와 [email verification](/docs/{{version}}/verification) 문서에 따라 직접 Laravel 인증 서비스와 자유롭게 사용할 수 있습니다.
 
 <a name="what-is-fortify"></a>
 ### Fortify 란?
@@ -271,12 +272,14 @@ class User extends Authenticatable
 <a name="enabling-two-factor-authentication"></a>
 ### 2단계 인증 활성화
 
-2단계 인증을 활성화하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.
+2단계 인증 활성화를 시작하려면 애플리케이션이 Fortify에서 정의한 `/user/two-factor-authentication` 엔드포인트에 POST 요청을 해야 합니다. 요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-enabled`로 설정됩니다. 템플릿 내에서 이 `status` 세션 변수를 감지하여 적절한 성공 메시지를 표시할 수 있습니다. 요청이 XHR 요청인 경우 `200` HTTP 응답이 반환됩니다.
+
+2단계 인증을 활성화하도록 선택한 후에도 사용자는 유효한 2단계 인증 코드를 제공하여 2단계 인증 구성을 "확인"해야 합니다. 따라서 "성공" 메시지는 사용자에게 두 가지 요소 인증 확인이 여전히 필요하다는 것을 알려야 합니다.
 
 ```html
 @if (session('status') == 'two-factor-authentication-enabled')
 <div class="mb-4 font-medium text-sm text-green-600">
-  Two factor authentication has been enabled.
+  Please finish configuring two factor authentication below.
 </div>
 @endif
 ```
@@ -288,6 +291,23 @@ $request->user()->twoFactorQrCodeSvg();
 ```
 
 JavaScript 기반 프론트엔드를 구축하는 경우 `/user/two-factor-qr-code` 엔드포인트에 XHR GET 요청을 만들어 사용자의 2단계 인증 QR 코드를 검색할 수 있습니다. 이 끝점은 `svg` 키가 포함된 JSON 객체를 반환합니다.
+
+<a name="confirming-two-factor-authentication"></a>
+#### 2단계 인증 확인
+
+사용자의 2단계 인증 QR 코드를 표시하는 것 외에도 사용자가 2단계 인증 구성을 "확인"하기 위해 유효한 인증 코드를 제공할 수 있는 텍스트 입력을 제공해야 합니다. 이 코드는 Fortify에서 정의한 `/user/confirmed-two-factor-authentication` 엔드포인트에 대한 POST 요청을 통해 Laravel 애플리케이션에 제공되어야 합니다 .
+
+요청이 성공하면 사용자는 이전 URL로 다시 리디렉션되고 `status` 세션 변수는 `two-factor-authentication-confirmed`에 설정됩니다.
+
+```html
+@if (session('status') == 'two-factor-authentication-confirmed')
+    <div class="mb-4 font-medium text-sm">
+        Two factor authentication confirmed and enabled successfully.
+    </div>
+@endif
+```
+
+If the request to the two factor authentication confirmation endpoint was made via an XHR request, a `200` HTTP response will be returned.
 
 <a name="displaying-the-recovery-codes"></a>
 #### 복구 코드 표시

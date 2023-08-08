@@ -66,6 +66,7 @@
     - [Mutators / Casts](/docs/{{version}}/eloquent-mutators)
     - [API 리소스](/docs/{{version}}/eloquent-resources)
     - [Serialization](/docs/{{version}}/eloquent-serialization)
+    - [팩토리](/docs/{{version}}/eloquent-factories)
 - Testing
     - [시작하기](/docs/{{version}}/testing)
     - [HTTP 테스트](/docs/{{version}}/http-tests)
@@ -85,6 +86,7 @@
     - [Jetstream](https://jetstream.laravel.com)
     - [Octane](/docs/{{version}}/octane)
     - [Passport-OAuth2](/docs/{{version}}/passport)
+    - [Pint](/docs/{{version}}/pint)
     - [세일-Sail](/docs/{{version}}/sail)
     - [Sanctum](/docs/{{version}}/sanctum)
     - [Scout-검색](/docs/{{version}}/scout)

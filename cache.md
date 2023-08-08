@@ -50,7 +50,8 @@
         $table->integer('expiration');
     });
 
-> {tip} 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:table` Artisan 명령어를 사용할 수도 있습니다.
+> **Note**
+> 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:table` Artisan 명령어를 사용할 수도 있습니다.
 
 <a name="memcached"></a>
 #### Memcached
@@ -141,7 +142,7 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 클로저를 기본값으로 전달할 수도 있습니다. 지정된 항목이 캐시에 없으면 클로저 결과가 반환됩니다. 클로저를 전달하면 데이터베이스 또는 기타 외부 서비스에서 기본값 검색을 연기할 수 있습니다.
 
     $value = Cache::get('key', function () {
-        return DB::table(...)->get();
+        return DB::table(/* ... */)->get();
     });
 
 <a name="checking-for-item-existence"></a>
@@ -216,7 +217,8 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 
     Cache::forever('key', 'value');
 
-> {tip} 만약 Memcached 드라이버를 사용중이라면, "영구적으로" 저장된 아이템들은 캐시의 사이즈 제한에 도달한 경우 제거될 것입니다.
+> **Note**
+> 만약 Memcached 드라이버를 사용중이라면, "영구적으로" 저장된 아이템들은 캐시의 사이즈 제한에 도달한 경우 제거될 것입니다.
 
 <a name="removing-items-from-the-cache"></a>
 ### 캐시에서 아이템 삭제하기
@@ -235,7 +237,8 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 
     Cache::flush();
 
-> {note} 캐시를 플러시하면 설정된 캐시 "접두사"가 적용되지 않으며, 캐시에서 모든 항목이 제거됩니다. 다른 애플리케이션에서 공유하는 캐시를 지울 때 이 점을 주의 깊게 고려하십시오.
+> **Warning**
+> 캐시를 플러시하면 설정된 캐시 "접두사"가 적용되지 않으며, 캐시에서 모든 항목이 제거됩니다. 다른 애플리케이션에서 공유하는 캐시를 지울 때 이 점을 주의 깊게 고려하십시오.
 
 <a name="the-cache-helper"></a>
 ### 캐시 헬퍼
@@ -256,12 +259,14 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
         return DB::table('users')->get();
     });
 
-> {tip} 전역 `cache` 함수 호출을 테스트 할 때 [파사드 테스트](/docs/{{version}}/mocking#mocking-facades )처럼 `Cache::shouldReceive` 메소드를 사용할 수 있습니다.
+> **Note**
+> 전역 `cache` 함수 호출을 테스트 할 때 [파사드 테스트](/docs/{{version}}/mocking#mocking-facades )처럼 `Cache::shouldReceive` 메소드를 사용할 수 있습니다.
 
 <a name="cache-tags"></a>
 ## 캐시 태그
 
-> {note} `file`, `dynamodb` 또는 `database` 캐시 드라이버를 사용하는 경우 캐시 태그가 지원되지 않습니다. 또한 "forever"로 저장된 캐시와 함께 여러 태그를 사용할 때 만료된 데이터를 자동으로 제거하는 `memcached`와 같은 드라이버를 사용하면 성능이 가장 좋습니다.
+> **Warning**
+> `file`, `dynamodb` 또는 `database` 캐시 드라이버를 사용하는 경우 캐시 태그가 지원되지 않습니다. 또한 "forever"로 저장된 캐시와 함께 여러 태그를 사용할 때 만료된 데이터를 자동으로 제거하는 `memcached`와 같은 드라이버를 사용하면 성능이 가장 좋습니다.
 
 <a name="storing-tagged-cache-items"></a>
 ### 태그가 지정된 캐시 항목 저장
@@ -275,7 +280,7 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 <a name="accessing-tagged-cache-items"></a>
 ### 태그가 지정된 캐시 항목 액세스
 
-태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
+태그를 통해 저장된 항목은 값을 저장하는 데 사용된 태그를 제공하지 않으면 액세스할 수 없습니다. 태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
 
     $john = Cache::tags(['people', 'artists'])->get('John');
 
@@ -295,7 +300,8 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 <a name="atomic-locks"></a>
 ## 원자 잠금장치(Atomic-locks)
 
-> {note} 이 기능을 사용하려면 애플리케이션에서 `memcached`, `redis`, `redis`, `database`, `file` 또는 `array` 캐시 드라이버를 애플리케이션의 기본 캐시 드라이버로 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
+> **Warning**
+> 이 기능을 사용하려면 애플리케이션에서 `memcached`, `redis`, `redis`, `database`, `file` 또는 `array` 캐시 드라이버를 애플리케이션의 기본 캐시 드라이버로 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
 <a name="lock-driver-prerequisites"></a>
 ### 드라이버 전제 조건
@@ -328,8 +334,8 @@ Redis 설정에 대한 자세한 내용은 [Laravel 문서 페이지](/docs/{{ve
 
 `get` 메소드는 Closure를 사용할 수 있습니다. Closure가 실행 된 후 라라벨은 자동으로 잠금장치(lock)을 해제합니다.
 
-    Cache::lock('foo')->get(function () {
-        // Lock acquired indefinitely and automatically released...
+    Cache::lock('foo', 10)->get(function () {
+        // Lock acquired for 10 seconds and automatically released...
     });
 
 요청한 순간에 잠금 장치를 사용할 수없는 경우 라라벨에 지정된 시간 (초) 동안 대기하도록 지시 할 수 있습니다. 지정된 제한 시간 내에 잠금을 획득 할 수 없으면 `Illuminate\Contracts\Cache\LockTimeoutException` 이 발생합니다.
@@ -411,7 +417,8 @@ MongoDB 연결을 사용하여 각각의 메소드를 구현해야 합니다. �
         return Cache::repository(new MongoStore);
     });
 
-> {tip} 만약 여러분이 만든 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
+> **Note**
+> 만약 여러분이 만든 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
 
 <a name="registering-the-driver"></a>
 ### 드라이버 등록하기
@@ -462,25 +469,34 @@ extension이 등록되고 나면, `config/cache.php` 설정 파일의 `driver` �
 
 캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 [이벤트](/docs/{{version}}/events) 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 애플리케이션의 `App\Providers\EventServiceProvider` 클래스 안에 구성합니다.
 
+    use App\Listeners\LogCacheHit;
+    use App\Listeners\LogCacheMissed;
+    use App\Listeners\LogKeyForgotten;
+    use App\Listeners\LogKeyWritten;
+    use Illuminate\Cache\Events\CacheHit;
+    use Illuminate\Cache\Events\CacheMissed;
+    use Illuminate\Cache\Events\KeyForgotten;
+    use Illuminate\Cache\Events\KeyWritten;
+
     /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Cache\Events\CacheHit' => [
-            'App\Listeners\LogCacheHit',
+         CacheHit::class => [
+            LogCacheHit::class,
         ],
 
-        'Illuminate\Cache\Events\CacheMissed' => [
-            'App\Listeners\LogCacheMissed',
+        CacheMissed::class => [
+            LogCacheMissed::class,
         ],
 
-        'Illuminate\Cache\Events\KeyForgotten' => [
-            'App\Listeners\LogKeyForgotten',
+        KeyForgotten::class => [
+            LogKeyForgotten::class,
         ],
 
-        'Illuminate\Cache\Events\KeyWritten' => [
-            'App\Listeners\LogKeyWritten',
+        KeyWritten::class => [
+            LogKeyWritten::class,
         ],
     ];

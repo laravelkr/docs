@@ -13,7 +13,7 @@
 <a name="bug-reports"></a>
 ## 버그 리포트
 
-활발한 협력을 장려하기 위해, 라라벨은 버그 리포트가 아니라 PR을 권장하고 있습니다. "버그 리포트"는 문제가 있는 테스트를 포함한 PR로 보내져야 합니다.
+활발한 협력을 장려하기 위해, 라라벨은 버그 리포트가 아니라 PR을 권장하고 있습니다. PR은 "ready for review" ("draft" 상태가 아닌)로 표시되고 새로운 기능에 대한 모든 테스트가 통과되어야만 리뷰될 것입니다. "draft" 상태로 남아있는 비활성화된 PR은 며칠 후에 닫힙니다.
 
 버그 리포트를 작성하는 경우, 이슈는 제목과 이슈에 대한 명확한 설명을 포함해야 합니다. 또한 해당 이슈에 대한 가능한 많은 관련 정보와 데모 코드 샘플을 포함해야 합니다. 버그 리포트의 목적은 여러분 자신과 다른 사람들이 쉽게 버그를 재현하고, 수정할 수 있게 하는 것입니다.
 
@@ -32,8 +32,9 @@
 - [라라벨 프레임워크](https://github.com/laravel/framework)
 - [라라벨 홈스테드](https://github.com/laravel/homestead)
 - [라라벨 홈스테드 빌드스크립트](https://github.com/laravel/settler)
-- [Laravel Jetstream](https://github.com/laravel/jetstream)
-- [Laravel Passport](https://github.com/laravel/passport)
+- [라라벨 제트스트림(Jetstream)](https://github.com/laravel/jetstream)
+- [라라벨 Passport](https://github.com/laravel/passport)
+- [라라벨 Pint](https://github.com/laravel/pint)
 - [라라벨 생텀(Sanctum)](https://github.com/laravel/sanctum)
 - [라라벨 스카웃(Scout)](https://github.com/laravel/scout)
 - [라라벨 Socialite](https://github.com/laravel/socialite)
@@ -63,7 +64,7 @@ Laravel의 GitHub 이슈 트래커는 Laravel 도움말이나 지원을 제공�
 <a name="which-branch"></a>
 ## 브랜치 선택
 
-**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 8.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
+**모든** 버그 수정은 버그 수정을 지원하는 최신버전(현재는 9.x)에 보내져야 합니다. 다음 릴리스에만 존재하는 기능에 대한 수정사항이 아니라면 버그 수정사항을 `master` 브랜치에 **절대** 보내지 마십시오.
 
 현재 라라벨 릴리스와 **완전한 호환성** 을 가진 **마이너** 기능은 최신 안정 브랜치로(현재 `9.x` ) 보내 주시기 바랍니다.
 

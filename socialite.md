@@ -15,8 +15,10 @@
 
 일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 
-> {tip} 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.com/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
+> **Note**
+> 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.com/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
 
+## Installation
 ## 설치하기
 
 Socialite를 사용하기 위해서는 컴포저를 사용하여 프로젝트에 의존성 패키지를 추가하십시오:
@@ -41,8 +43,10 @@ Socialite를 사용하기 전에 애플리케이션에서 사용할 OAuth 공급
         'redirect' => 'http://example.com/callback-url',
     ],
 
-> {tip} `redirect` 옵션값에 상대경로가 포함된경우, 자동으로 Full URL로 인식됩니다.
+> **Note**
+> `redirect` 옵션값에 상대경로가 포함된경우, 자동으로 Full URL로 인식됩니다.
 
+## Authentication
 ## 인증
 
 ### 라우팅
@@ -89,7 +93,8 @@ OAuth 공급자로부터 사용자를 조회한 뒤에, 애플리케이션 데�
         return redirect('/dashboard');
     });
 
-> {tip} 특정 OAuth 공급자가 제공하는 사용자의 정보에 대한 보다 자세한 내용은 [사용자의 상세정보 조회하기](#retrieving-user-details) 문서를 참고하십시오.
+> **Note**
+> 특정 OAuth 공급자가 제공하는 사용자의 정보에 대한 보다 자세한 내용은 [사용자의 상세정보 조회하기](#retrieving-user-details) 문서를 참고하십시오.
 
 <a name="access-scopes"></a>
 ### 스코프 접근하기

@@ -28,10 +28,11 @@
 <a name="upgrade-9.0"></a>
 ## 8.x에서 9.0으로 업그레이드
 
-<a name="estimated-upgrade-time-10-minutes"></a>
+<a name="estimated-upgrade-time-30-minutes"></a>
 #### 예상되는 업그레이드 시간: 30분
 
-> {tip} 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다. 시간을 절약하고 싶다면 [Laravel Shift](https://laravelshift.com/)와 같은 서비스를 사용할수도 있습니다.  
+> **Note**
+> 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다. 시간을 절약하고 싶다면 [Laravel Shift](https://laravelshift.com/)와 같은 서비스를 사용할수도 있습니다.  
 
 <a name="updating-dependencies"></a>
 ### 의존성 업데이트
@@ -49,7 +50,7 @@
 - `laravel/framework` 을 `^9.0` 으로 지정
 - `nunomaduro/collision` 을 `^6.1` 으로 지정
 
-추가적으로 `composer.json` 에서 `facade/ignition` 을 `"spatie/laravel-ignition": "^1.0"` 으로 교체하십시오.
+추가적으로 `composer.json` 에서 `facade/ignition` 을 `"spatie/laravel-ignition": "^1.0"` 으로, `pusher/pusher-php-server` (가능하다면) `"pusher/pusher-php-server": "^5.0"` 으로 교체하십시오.
 
 그리고 다음의 패키지를 사용한다면 라라벨 9.x 를 지원하는 새로운 버전으로 받으십시오. 개별 패키지를 업데이트하기 전에 패키지별로 업그레이드 가이드를 확인하십시오.  
 
@@ -106,6 +107,13 @@
 public function ignore(string $class);
 ```
 
+#### 예외 핸들러 컨트랙트 바인딩
+
+**영향 가능성: 매우 낮음**
+
+이전에는 기본 Laravel 예외 처리기를 재정의하기 위해 사용자 정의 구현이 `\App\Exceptions\Handler::class` 타입을 사용하여 서비스 컨테이너에 바인딩되었습니다 . 그러나 이제 `\Illuminate\Contracts\Debug\ExceptionHandler::class` 유형을 사용하여 사용자 정의 구현을 바인딩해야 합니다.
+
+### Blade
 ### 블레이드 템플릿
 
 #### 지연 컬렉션 & `$loop` 변수
@@ -114,6 +122,13 @@ public function ignore(string $class);
 
 블레이드 템플릿 안에서 `LazyCollection` 인스턴스의 반복문을 처리할 때에는 `$loop` 변수는 더 이상 사용할 수 없습니다. 그 이유는 `$loop` 변수에 접근하게 되면 `LazyCollection` 전체가 메모리에 로딩되기 때문에 지연 컬렉션의 사용 이유가 무색해지기 대문입니다. 
 
+#### Checked / Disabled / Selected 블레이드 지시어
+
+**영향 가능성: 낮음**
+
+새 `@checked`, `@disabled`, `@selected` 블레이드 지시어는 같은 이름의 Vue 이벤트와 충돌을 일으킬 수 있습니다. 충돌을 피하기 위해서 `@@`를 사용할 수 있습니다. 예 `@@selected`
+
+### Collections
 ### 컬렉션
 
 #### `Enumerable` 인터페이스
@@ -286,7 +301,7 @@ protected static function getFacadeAccessor()
 
 **영향 가능성: 높음**
 
-라라벨 9.x 에서는 [Flysystem](https://flysystem.thephpleague.com/v2/docs/) 을 1.x 에서 3.x으로 마이그레이션하였습니다. 내부적으로 Flysystem은 `Storage` 파사드에서 제공하는 파일을 다루는 모든 메소드를 제공합니다. Flysystem의 버전 변경으로 인해서 애플리케이션의 일부 코드가 영향을 받을 수도 있습니다. 라라벨 9 에서는 이러한 영향이 없게끔 원활한 작업을 지원하도록 노력하였습니다.
+라라벨 9.x 에서는 [Flysystem](https://flysystem.thephpleague.com/v2/docs/)을 1.x 에서 3.x으로 마이그레이션하였습니다. 내부적으로 Flysystem은 `Storage` 파사드에서 제공하는 파일을 다루는 모든 메소드를 제공합니다. Flysystem의 버전 변경으로 인해서 애플리케이션의 일부 코드가 영향을 받을 수도 있습니다. 라라벨 9 에서는 이러한 영향이 없게끔 원활한 작업을 지원하도록 노력하였습니다.
 
 #### 드라이버 필요사항
 
@@ -367,6 +382,11 @@ Storage::extend('dropbox', function ($app, $config) {
 });
 ```
 
+#### SFTP 개인-공개키 패스프레이즈
+
+애플리케이션에서 SFTP 어댑터와 개인-공개키 인증을 사용하는 경우, 개인키를 해독하는데 사용하는 비밀번호 설정정보인 `password` 를 `passphrase` 로 이름을 변경해야합니다. 
+
+### Helpers
 ### 헬퍼함수
 
 <a name="data-get-function"></a>
@@ -421,7 +441,7 @@ $collection->when(function ($collection) {
 
 다른 서버로 요청을 보낼 때 기본값 보다 더 긴 타임아웃을 지정하려면 `timeout` 메소드를 사용하면 됩니다.
 
-    $response = Http::timeout(120)->get(...);
+    $response = Http::timeout(120)->get(/* ... */);
 
 #### HTTP Fake & 미들웨어
 
@@ -458,7 +478,7 @@ composer require symfony/postmark-mailer symfony/http-client
 
 #### 반환 타입 업데이트
 
-`send`, `html`, `text`, `plain` 메소드는 더 이상 메세지를 수신한 수신자의 수를 반환하지 않습니다. 그대신 `Illuminate\Mail\SentMessage` 인스턴스가 반환됩니다. 이 객체는 `getSymfonySentMessage` 메소드 또는 객체에 동적 메소드 호출을 사용해서 접근할 수 있는 `Symfony\Component\Mailer\SentMessage` 인스턴스를 포함하고 있습니다.  
+The `send`, `html`, `raw`, and `plain` methods on `Illuminate\Mail\Mailer` no longer return `void`. Instead, an instance of `Illuminate\Mail\SentMessage` is returned. This object contains an instance of `Symfony\Component\Mailer\SentMessage` that is accessible via the `getSymfonySentMessage` method or by dynamically invoking methods on the object.
 
 #### "Swift" 메소드의 이름 변경
 
@@ -480,7 +500,7 @@ composer require symfony/postmark-mailer symfony/http-client
         );
     });
 
-> {note} `Symfony\Component\Mime\Email`에서 사용가능한 작업들은 [Symfony 메일러 매뉴얼](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages) 을 참고하십시오.
+> {note} `Symfony\Component\Mime\Email`에서 사용가능한 작업들은 [Symfony 메일러 매뉴얼](https://symfony.com/doc/6.0/mailer.html#creating-sending-messages)을 참고하십시오.
 
 다음의 목록에서 이름이 변경된 메소드를 확인할 수 있습니다. 이 메소드 중 다수는 SwiftMailer / Symfony Mailer와 직접 인터렉션하는 메소드입니다. 대부분은 저수준의 메소드이므로 라라벨 애플리케이션에서는 일반적으로 사용되지 않을 수 있습니다.
 
@@ -528,6 +548,12 @@ composer require symfony/postmark-mailer symfony/http-client
 
 SwiftMailer는 `mime.idgenerator.idright` 설정 옵션값을 사용하여 생성된 메시지 ID에 포함할 커스텀 도메인을 정의하는 기능을 제공했습니다. 이 기능은 Symfony Mailer에서는 지원되지 않습니다. 대신 Symfony Mailer는 발신자를 기반으로 메시지 ID를 자동으로 생성합니다.
 
+#### `MessageSent` 이벤트 변화
+
+`Illuminate\Mail\Events\MessageSent` 이벤트의 `message` 프로퍼티는 이제 `Swift_Message` 인스턴스 대신 `Symfony\Component\Mime\Email` 인스턴스를 갖습니다. 이 메시지는 발송되기 **전** 이메일을 나타냅니다.
+
+추가적으로 `MessageSent` 이벤트에 `sent` 프로퍼티가 새로 추가되었습니다. 이 프로퍼티는 `Illuminate\Mail\SentMessage` 인스턴스를 포함하고 메시지 ID와 같은 전송된 이메일에 관한 정보를 담고 있습니다.
+
 #### 강제 재연결
 
 더 이상 강제로 전송 재연결을 수행할 수 없습니다(예: 메일러가 데몬 프로세스를 통해 실행 중인 경우). 대신 Symfony Mailer는 전송 과정에서 자동으로 재연결을 시도하고 재연결이 실패하면 예외를 발생시킵니다.
@@ -548,7 +574,7 @@ SMTP 전송에 대한 스트림 옵션을 정의하는 것은 더 이상 지원�
         'verify_peer' => false,
     ],
 
-사용할 수 있는 설정 옵션에 대해서는 [Symfony Mailer 매뉴얼](https://symfony.com/doc/6.0/mailer.html#transport-setup) 을 참고하십시오.
+사용할 수 있는 설정 옵션에 대해서는 [Symfony Mailer 매뉴얼](https://symfony.com/doc/6.0/mailer.html#transport-setup)을 참고하십시오.
 
 > {note} 위의 예시와 같이 SSL 확인을 비활성화하는 것은 "중간자" 공격의 가능성이 있으므로 일반적으로 사용하지 않는 것이 좋습니다.
 

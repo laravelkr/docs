@@ -142,7 +142,8 @@ Telescope 대시보드는 `/telescope` 으로 접속 가능합니다. 기본적�
         });
     }
 
-> {note} 프로덕션 환경에서 `APP_ENV` 환경 변수를 `production`으로 변경해야합니다. 그렇지 않으면 Telescope가 공개적으로 설치됩니다.
+> **Warning**
+> 프로덕션 환경에서 `APP_ENV` 환경 변수를 `production`으로 변경해야합니다. 그렇지 않으면 Telescope가 공개적으로 설치됩니다.
 
 <a name="upgrading-telescope"></a>
 ## Telescope 업그레이드
@@ -155,13 +156,13 @@ Telescope 대시보드는 `/telescope` 으로 접속 가능합니다. 기본적�
 php artisan telescope:publish
 ```
 
-자산-assets을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 애플리케이션의 `composer.json` 파일에있는 `post-update-cmd` 스크립트에 `telescope:publish` 명령을 추가하면 됩니다.
+자산-assets을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 애플리케이션의 `composer.json` 파일에있는 `post-update-cmd` 스크립트에 `vendor:publish --tag=laravel-assets` 명령을 추가하면 됩니다.
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }

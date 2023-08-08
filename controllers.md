@@ -12,7 +12,9 @@
     - [리소스 라우트 파라미터 이름 지정하기](#restful-naming-resource-route-parameters)
     - [리소스 라우트 범위 지정](#restful-scoping-resource-routes)
     - [리소스 URI의 지역화(다국어 동사처리)](#restful-localizing-resource-uris)
-    - [Resource 컨트롤러 라우트에 추가하기](#restful-supplementing-resource-controllers)
+    - [리소스 컨트롤러에 라우트 추가하기](#restful-supplementing-resource-controllers)
+    - [싱글턴 리소스 컨트롤러](#singleton-resource-controllers)
+    - [Resource 컨트롤러 라우트에 추가하기](#dependency-injection-and-controllers)
 - [의존성 주입 & 컨트롤러](#dependency-injection-and-controllers)
 
 <a name="introduction"></a>
@@ -32,7 +34,6 @@
 
     namespace App\Http\Controllers;
 
-    use App\Http\Controllers\Controller;
     use App\Models\User;
 
     class UserController extends Controller
@@ -59,7 +60,8 @@
 
 들어오는 요청(request)이 지정된 라우트(route)의 URI와 일치하면 `App\Http\Controllers\UserController` 클래스의 `show` 메소드가 호출되고 라우트(route)의 파라메터가 `show` 메소드에 전달됩니다.
 
-> {tip} 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
+> **Note**
+> 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
 
 <a name="single-action-controllers"></a>
 ### 단일 액션 컨트롤러
@@ -70,7 +72,6 @@
 
     namespace App\Http\Controllers;
 
-    use App\Http\Controllers\Controller;
     use App\Models\User;
 
     class ProvisionServer extends Controller
@@ -98,7 +99,8 @@ Artisan 컨멘드를 사용하면 `make:controller` 에 `--invokable` 옵션을 
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> {tip} [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
+> **Note**
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
 
 <a name="controller-middleware"></a>
 ## 컨트롤러 미들웨어
@@ -184,6 +186,18 @@ DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
                 return Redirect::route('photos.index');
             });
 
+<a name="soft-deleted-models"></a>
+#### 소프트 삭제된 모델
+
+기본적으로 소프트 삭제된 모델은 묵시적 바인딩으로 조회되지 않고 404 HTTP 응답이 반환됩니다. 하지만 리소스 라우트를 정의할 때 `withTrashed` 메서드를 호출하여 소프트 삭제된 모델도 허용하도록 프레임워크에 지시할 수 있습니다.
+
+    use App\Http\Controllers\PhotoController;
+
+    Route::resource('photos', PhotoController::class)->withTrashed();
+
+인자 없이 `withTrashed`를 호출하면 `show`, `edit`, `update` 리소스 라우트에 대해 소프트 삭제된 모델을 허용합니다. `withTrashed` 메서드에 배열을 전달하여 라우트 하위 집합을 지정할 수 있습니다.
+
+    Route::resource('photos', PhotoController::class)->withTrashed(['show']);
 
 <a name="specifying-the-resource-model"></a>
 #### 리소스 모델 지정하기
@@ -330,7 +344,7 @@ Laravel의 [범위가 지정된 암시적 모델 바인딩](/docs/{{version}}/ro
 <a name="restful-localizing-resource-uris"></a>
 ### 리소스 URI의 지역화(다국어 동사처리)
 
-기본적으로 `Route::resource` 는 영어 동사형태로 된 리소스 URI를 설정합니다. 만약 `create`와 `edit`와 같은 이름 대신 현지화된 동사 이름을 사용하고자 한다면 `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 애플리케이션의 `App\Providers\RouteServiceProvider`의 `boot` 메소드에서 수행해야 합니다.
+기본적으로 `Route::resource` 는 영어 동사와 복수형 규칙을 사용하여 리소스 URI를 만듭니다. 만약 `create`와 `edit`와 같은 이름 대신 현지화된 동사 이름을 사용하고자 한다면 `Route::resourceVerbs` 메소드를 사용하면 됩니다. 이 작업은 애플리케이션의 `App\Providers\RouteServiceProvider`의 `boot` 메소드에서 수행해야 합니다.
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -347,11 +361,11 @@ Laravel의 [범위가 지정된 암시적 모델 바인딩](/docs/{{version}}/ro
         // ...
     }
 
-액션 동사를 지역화되도록 설정하고 나면, `Route::resource('fotos', PhotoController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
+라라벨 복수형은 [여러분의 필요에 따라 구성할 수 있는 여러 언어](/docs/{{version}}/localization#pluralization-language)를 지원합니다. 동사와 복수형 언어를 설정하고 나면, `Route::resource('publicacion', PublicacionController::class)`와 같은 리소스 라우트는 다음의 URI를 설정하게 됩니다.
 
-    /fotos/crear
+    /publicacion/crear
 
-    /fotos/{foto}/editar
+    /publicacion/{publicaciones}/editar
 
 <a name="restful-supplementing-resource-controllers"></a>
 ### Resource 컨트롤러 라우트에 추가하기
@@ -363,7 +377,101 @@ Laravel의 [범위가 지정된 암시적 모델 바인딩](/docs/{{version}}/ro
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> {tip} 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
+> **Note**
+> 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
+
+<a name="singleton-resource-controllers"></a>
+### 싱글톤 리소스 컨트롤러
+
+때로는 애플리케이션에는 단일 인스턴스만 존재할 수 있는 리소스가 있습니다. 예를 들어, 사용자의 "프로필"은 수정하거나 업데이트 할 수 있지만, 사용자는 하나 이상의 "프로필"을 가질 수 없습니다. 마찬가지로, 이미지는 하나의 "썸네일"을 가질 수 있습니다. 이러한 리소스는 "싱글톤 리소스"라고 부르며, 리소스의 인스턴스는 하나만 존재할 수 있습니다. 이러한 시나리오에서 "싱글톤" 리소스 컨트롤러를 등록할 수 있습니다.
+
+```php
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
+Route::singleton('profile', ProfileController::class);
+```
+
+The singleton resource definition above will register the following routes. As you can see, "creation" routes are not registered for singleton resources, and the registered routes do not accept an identifier since only one instance of the resource may exist:
+
+위의 싱글톤 리소스 정의는 다음 라우트를 등록합니다. 보시다시피, "생성" 라우트는 싱글톤 리소스에 대해 등록되지 않으며, 등록된 라우트는 리소스의 인스턴스가 하나만 존재할 수 있으므로 식별자를 허용하지 않습니다.
+
+Verb      | URI                               | Action       | Route Name
+----------|-----------------------------------|--------------|---------------------
+GET       | `/profile`                        | show         | profile.show
+GET       | `/profile/edit`                   | edit         | profile.edit
+PUT/PATCH | `/profile`                        | update       | profile.update
+
+Singleton resources may also be nested within a standard resource:
+
+싱글톤 리소스는 표준 리소스 내에 중첩될 수도 있습니다.
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class);
+```
+
+In this example, the `photos` resource would receive all of the [standard resource routes](#actions-handled-by-resource-controller); however, the `thumbnail` resource would be a singleton resource with the following routes:
+
+이 예에서는 `photos` 리소스가 [표준 리소스 라우트](#actions-handled-by-resource-controller)를 모두 받습니다. 그러나 `thumbnail` 리소스는 다음 라우트를 가진 싱글톤 리소스가 됩니다.
+
+| Verb      | URI                              | Action  | Route Name               |
+|-----------|----------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail`      | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit` | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`      | update  | photos.thumbnail.update  |
+
+<a name="creatable-singleton-resources"></a>
+#### Creatable Singleton Resources
+#### 생성가능한 싱글톤 리소스
+
+Occasionally, you may want to define creation and storage routes for a singleton resource. To accomplish this, you may invoke the `creatable` method when registering the singleton resource route:
+
+가끔은 싱글톤 리소스에 대한 생성 및 저장 라우트를 정의하고 싶을 수 있습니다. 이를 위해 싱글톤 리소스 라우트를 등록할 때 `creatable` 메소드를 호출할 수 있습니다.
+
+```php
+Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
+```
+
+In this example, the following routes will be registered. As you can see, a `DELETE` route will also be registered for creatable singleton resources:
+
+이 예에서는 다음 라우트가 등록됩니다. 보시다시피, 생성 가능한 싱글톤 리소스에 대한 `DELETE` 라우트도 등록됩니다.
+
+| Verb      | URI                                | Action  | Route Name               |
+|-----------|------------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail/create` | create  | photos.thumbnail.create  |
+| POST      | `/photos/{photo}/thumbnail`        | store   | photos.thumbnail.store   |
+| GET       | `/photos/{photo}/thumbnail`        | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit`   | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`        | update  | photos.thumbnail.update  |
+| DELETE    | `/photos/{photo}/thumbnail`        | destroy | photos.thumbnail.destroy |
+
+If you would like Laravel to register the `DELETE` route for a singleton resource but not register the creation or storage routes, you may utilize the `destroyable` method:
+
+Laravel이 싱글톤 리소스에 대해 `DELETE` 라우트를 등록하되 생성 또는 저장 라우트를 등록하지 않으려면 `destroyable` 메소드를 사용할 수 있습니다.
+
+```php
+Route::singleton(...)->destroyable();
+```
+
+<a name="api-singleton-resources"></a>
+#### API Singleton Resources
+#### API 싱글톤 리소스
+
+The `apiSingleton` method may be used to register a singleton resource that will be manipulated via an API, thus rendering the `create` and `edit` routes unnecessary:
+
+`apiSingleton` 메소드는 API를 통해 조작되는 싱글톤 리소스를 등록하는 데 사용할 수 있으므로 `create` 및 `edit` 라우트가 불필요합니다.
+
+```php
+Route::apiSingleton('profile', ProfileController::class);
+```
+
+Of course, API singleton resources may also be `creatable`, which will register `store` and `destroy` routes for the resource:
+
+물론 API 싱글톤 리소스는 `creatable`이 될 수 있으며, 이는 리소스에 대한 `store` 및 `destroy` 라우트를 등록합니다.
+
+```php
+Route::apiSingleton('photos.thumbnail', ProfileController::class)->creatable();
+```
 
 <a name="dependency-injection-and-controllers"></a>
 ## 의존성 주입 & 컨트롤러

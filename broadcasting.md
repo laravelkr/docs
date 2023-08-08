@@ -52,9 +52,10 @@
 <a name="supported-drivers"></a>
 #### 지원되는 드라이버
 
-기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
+기본적으로 라라벨에는 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 중에서 선택할 수 있는 두 가지 서버 측 브로드캐스팅 드라이버가 포함되어 있습니다. 그러나 [laravel-websockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) 및 [soketi](https://docs.soketi.app/) 와 같은 커뮤니티 기반 패키지는 상업용 브로드캐스팅 시스템이 필요하지 않은 추가적인 브로드캐스팅 시스템 드라이버를 제공합니다.
 
-> {tip} 이벤트 브로드캐스팅을 시작하기 전에 [events and listeners](/docs/{{version}}/events)에 대한 라라벨 문서를 읽어보십시오.
+> **Note** 
+> 이벤트 브로드캐스팅을 시작하기 전에 [events and listeners](/docs/{{version}}/events)에 대한 라라벨 문서를 읽어보십시오.
 
 <a name="server-side-installation"></a>
 ## 서버 측 설치
@@ -114,7 +115,7 @@ BROADCAST_DRIVER=pusher
 <a name="ably"></a>
 ### Ably
 
-[Ably](https://ably.io)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
+[Ably](https://ably.com)를 사용하여 이벤트를 브로드캐스트하려면 Composer 패키지 관리자를 사용하여 Ably PHP SDK를 설치해야 합니다.
 
 ```shell
 composer require ably/ably-php
@@ -163,13 +164,14 @@ Echo가 설치되면 애플리케이션의 JavaScript에서 새로운 Echo 인�
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true
 });
 ```
@@ -180,7 +182,8 @@ window.Echo = new Echo({
 npm run dev
 ```
 
-> {tip} 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Mix](/docs/{{version}}/mix)에 대한 문서를 참조하세요.
+> **Note** 
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="using-an-existing-client-instance"></a>
 #### 기존 클라이언트 인스턴스 사용
@@ -189,20 +192,23 @@ Echo에서 활용하고 싶은, 미리 설정된 Pusher Channels 클라이언트
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-const client = require('pusher-js');
+const options = {
+    broadcaster: 'pusher',
+    key: 'your-pusher-channels-key'
+}
 
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'your-pusher-channels-key',
-    client: client
+    ...options,
+    client: new Pusher(options.key, options)
 });
 ```
 
 <a name="client-ably"></a>
 ### Ably
 
-[Laravel Echo](https://github.com/laravel/echo) 는 손쉽게 채널을 구독하고, 서버 측 브로드캐스팅 드라이버에서 브로드캐스트하는 이벤트를 수신할 수 있도록 하는 JavaScript 라이브러리입니다. NPM 패키지 관리자를 통해 Echo를 설치할 수 있습니다. 이 예제에서는 `pusher-js` 패키지도 설치합니다.
+[라라벨 Echo](https://github.com/laravel/echo) 는 손쉽게 채널을 구독하고, 서버 측 브로드캐스팅 드라이버에서 브로드캐스트하는 이벤트를 수신할 수 있도록 하는 JavaScript 라이브러리입니다. NPM 패키지 관리자를 통해 Echo를 설치할 수 있습니다. 이 예제에서는 `pusher-js` 패키지도 설치합니다.
 
 우리가 이벤트를 브로드캐스트하기 위해 Ably를 사용하고 있음에도 불구하고 `pusher-js` JavaScript 라이브러리를 설치하는 이유가 궁금할 것입니다. 고맙게도 Ably에는 클라이언트 측 애플리케이션에서 이벤트를 수신 대기할 때 Pusher 프로토콜을 사용할 수 있는 Pusher 호환 모드가 포함되어 있습니다.
 
@@ -216,12 +222,13 @@ Echo가 설치되면 애플리케이션의 JavaScript에서 새로운 Echo 인�
 
 ```js
 import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = require('pusher-js');
+window.Pusher = Pusher;
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: process.env.MIX_ABLY_PUBLIC_KEY,
+    key: import.meta.env.VITE_ABLY_PUBLIC_KEY,
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: true,
@@ -229,7 +236,7 @@ window.Echo = new Echo({
 });
 ```
 
-Ably Echo 설정은 `MIX_ABLY_PUBLIC_KEY` 환경 변수를 참조합니다. 이 변수의 값은 Ably 공개 키여야 합니다. 공개 키는 `:` 문자 앞에 나오는 Ably 키 부분입니다.
+Ably Echo 설정은 `VITE_ABLY_PUBLIC_KEY` 환경 변수를 참조합니다. 이 변수의 값은 Ably 공개 키여야 합니다. 공개 키는 `:` 문자 앞에 나오는 Ably 키 부분입니다.
 
 주석을 제거하고 필요에 따라 Echo 설정을 조정한 후에는 애플리케이션의 자산-assets을 컴파일할 수 있습니다.
 
@@ -237,16 +244,18 @@ Ably Echo 설정은 `MIX_ABLY_PUBLIC_KEY` 환경 변수를 참조합니다. 이 
 npm run dev
 ```
 
-> {tip} 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Mix](/docs/{{version}}/mix)에 대한 문서를 참조하세요.
+> **Note** 
+> 애플리케이션의 JavaScript 자산-assets 컴파일에 대한 자세한 내용은 [Laravel Vite](/docs/{{version}}/vite)에 대한 문서를 참조하세요.
 
 <a name="concept-overview"></a>
 ## 컨셉 개요
 
-라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.io) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
+라라벨의 이벤트 브로드캐스팅을 사용하면 WebSocket에 대한 드라이버 기반 접근 방식을 사용하여 서버측 라라벨 이벤트를 클라이언트측 JavaScript 애플리케이션에 브로드캐스트할 수 있습니다. 현재 라라벨은 [Pusher Channels](https://pusher.com/channels) 및 [Ably](https://ably.com) 드라이버와 함께 제공됩니다. 이벤트는 [Laravel Echo](#client-side-installation) JavaScript 패키지를 사용하여 클라이언트 측에서 쉽게 사용할 수 있습니다.
 
 이벤트는 공개 또는 비공개로 지정할 수 있는 "채널"을 통해 브로드캐스트됩니다. 애플리케이션 방문자는 인증이나 승인 없이 공개 채널을 구독할 수 있습니다. 그러나 개인 채널을 구독하려면 사용자가 인증을 받고 해당 채널에서 수신할 수 있는 권한이 있어야 합니다.
 
-> {tip} 푸셔의 오픈 소스 대안을 탐색하고 싶다면 [오픈 소스 대안](#open-source-alternatives)을 확인하세요.
+> **Note** 
+> 푸셔의 오픈 소스 대안을 탐색하고 싶다면 [오픈 소스 대안](#open-source-alternatives)을 확인하세요.
 
 <a name="using-example-application"></a>
 ### 예제 애플리케이션 사용하기
@@ -268,7 +277,7 @@ npm run dev
 
     namespace App\Events;
 
-    use App\Order;
+    use App\Models\Order;
     use Illuminate\Broadcasting\Channel;
     use Illuminate\Broadcasting\InteractsWithSockets;
     use Illuminate\Broadcasting\PresenceChannel;
@@ -505,7 +514,8 @@ Echo.private(`orders.${orderId}`)
         public $afterCommit = true;
     }
 
-> {tip} 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
+> **Note** 
+> 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions)에 관한 문서를 확인하세요.
 
 <a name="authorizing-channels"></a>
 ## 채널 승인하기
@@ -552,10 +562,10 @@ window.Echo = new Echo({
                     channel_name: channel.name
                 })
                 .then(response => {
-                    callback(false, response.data);
+                    callback(null, response.data);
                 })
                 .catch(error => {
-                    callback(true, error);
+                    callback(error);
                 });
             }
         };
@@ -587,7 +597,8 @@ HTTP 경로와 마찬가지로 채널 경로도 암시적 및 명시적 [경로 
         return $user->id === $order->user_id;
     });
 
-> {note} HTTP 경로 모델 바인딩과 달리 채널 모델 바인딩은 자동 [암시적 모델 바인딩 범위 지정](/docs/{{version}}/routing#implicit-model-binding-scoping)을 지원하지 않습니다. 그러나 대부분의 채널이 단일 모델의 고유한 기본 키를 기반으로 범위가 지정될 수 있기 때문에 이는 거의 문제가 되지 않습니다.
+> **Warning** 
+> HTTP 경로 모델 바인딩과 달리 채널 모델 바인딩은 자동 [암시적 모델 바인딩 범위 지정](/docs/{{version}}/routing#implicit-model-binding-scoping)을 지원하지 않습니다. 그러나 대부분의 채널이 단일 모델의 고유한 기본 키를 기반으로 범위가 지정될 수 있기 때문에 이는 거의 문제가 되지 않습니다.
 
 <a name="authorization-callback-authentication"></a>
 #### 인증 권한 부여 콜백
@@ -647,7 +658,8 @@ php artisan make:channel OrderChannel
         }
     }
 
-> {tip} 라라벨에 다른 많은 클래스와 같이, 채널 클래스도 자동으로 [서비스 컨테이너](/docs/{{version}}/container)를 통해 의존성이 해결됩니다. 따라서, 의존성을 가진 객체들을 채널 클래스 생성자에서 타입 힌트로 제공받을 수 있습니다.
+> **Note** 
+> 라라벨에 다른 많은 클래스와 같이, 채널 클래스도 자동으로 [서비스 컨테이너](/docs/{{version}}/container)를 통해 의존성이 해결됩니다. 따라서, 의존성을 가진 객체들을 채널 클래스 생성자에서 타입 힌트로 제공받을 수 있습니다.
 
 <a name="broadcasting-events"></a>
 ## 이벤트 브로드캐스트하기
@@ -678,7 +690,8 @@ axios.post('/task', task)
 
 그러나 태스크 생성도 브로드캐스트한다는 것을 기억하십시오. JavaScript 애플리케이션이 작업 목록에 작업을 추가하기 위해 이 이벤트도 수신하는 경우 목록에 중복 작업이 있을 것입니다. 하나는 엔드포인트에서, 다른 하나는 브로드캐스트에서입니다. 브로드캐스터가 현재 사용자에게 이벤트를 브로드캐스트하지 않도록 지시하는 `toOthers` 메서드를 사용하여 이 문제를 해결할 수 있습니다.
 
-> {note} `toOthers` 메소드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
+> **Warning** 
+> `toOthers` 메소드를 호출할려면 반드시 이벤트에 `Illuminate\Broadcasting\InteractsWithSockets` 트레이트를 사용해야 합니다.
 
 <a name="only-to-others-configuration"></a>
 #### 설정
@@ -748,9 +761,9 @@ Echo.channel(`orders.${this.order.id}`)
 
 ```js
 Echo.private(`orders.${this.order.id}`)
-    .listen(...)
-    .listen(...)
-    .listen(...);
+    .listen(/* ... */)
+    .listen(/* ... */)
+    .listen(/* ... */);
 ```
 
 <a name="stop-listening-for-events"></a>
@@ -865,9 +878,9 @@ Echo.join(`chat.${roomId}`)
 
 ```js
 Echo.join(`chat.${roomId}`)
-    .here(...)
-    .joining(...)
-    .leaving(...)
+    .here(/* ... */)
+    .joining(/* ... */)
+    .leaving(/* ... */)
     .listen('NewMessage', (e) => {
         //
     });
@@ -876,7 +889,8 @@ Echo.join(`chat.${roomId}`)
 <a name="model-broadcasting"></a>
 ## 모델 브로드캐스팅
 
-> {note} 모델 브로드캐스팅에 대한 다음 문서를 읽기 전에 라라벨의 모델 브로드캐스팅 서비스에 대한 일반적인 개념과 브로드캐스트 이벤트를 수동으로 생성하고 수신하는 방법을 숙지하는 것이 좋습니다.
+> **Warning** 
+> 모델 브로드캐스팅에 대한 다음 문서를 읽기 전에 라라벨의 모델 브로드캐스팅 서비스에 대한 일반적인 개념과 브로드캐스트 이벤트를 수동으로 생성하고 수신하는 방법을 숙지하는 것이 좋습니다.
 
 애플리케이션의 [Eloquent 모델](/docs/{{version}}/eloquent)이 생성, 업데이트 또는 삭제될 때 이벤트를 브로드캐스트하는 것이 일반적입니다. 물론 이것은 수동으로 [Eloquent 모델 상태 변경에 대한 사용자 정의 이벤트 정의](/docs/{{version}}/eloquent#events) 및 `ShouldBroadcast` 인터페이스로 해당 이벤트를 표시하여 쉽게 수행할 수 있습니다.
 
@@ -1070,7 +1084,8 @@ Echo.private(`App.Models.User.${this.user.id}`)
 <a name="client-events"></a>
 ## 클라이언트 이벤트
 
-> {tip} [Pusher Channels](https://pusher.com/channels) 를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/) 의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
+> **Note** 
+> [Pusher Channels](https://pusher.com/channels) 를 사용하는 경우, 클라이언트 이벤트를 전송하려면 [애플리케이션 대시 보드](https://dashboard.pusher.com/) 의 "App Settings"섹션에서 "Client Events" 옵션을 활성화해야합니다.
 
 때로는 라라벨 애플리케이션을 거치지 않고, 연결된 다른 클라이언트에게 이벤트를 브로드캐스트 해야할 수도 있습니다. 이는 특정한 경우 유용할 수 있는데, 어떤 사용자가 화면에 메세지를 "입력"하고 있다는 것을 다른 사용자에게 알리는 경우가 그렇습니다. 
 

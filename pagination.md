@@ -126,7 +126,8 @@ http://localhost/users?cursor=eyJpZCI6MTUsIl9wb2ludHNUb05leHRJdGVtcyI6dHJ1ZX0
 
 cursor paginator 인스턴스를 검색한 후에는 일반적으로 `paginate` 및 `simplePaginate` 메서드를 사용할 때와 같이 [페이지네이션 결과 출력하기](#displaying-pagination-results)할 수 있습니다. cursor paginator 에서 제공하는 인스턴스 메소드에 대한 자세한 내용은 [cursor paginator 인스턴스 메소드 문서](#cursor-paginator-instance-methods)를 참조하십시오.
 
-> {노트} 커서 페이지 매기기를 활용하려면 쿼리에 "order by" 절이 포함되어야 합니다.
+> **Warning**
+> 커서 페이지 매기기를 활용하려면 쿼리에 "order by" 절이 포함되어야 합니다.
 
 <a name="cursor-vs-offset-pagination"></a>
 #### 커서 vs. 오프셋 페이지네이션
@@ -161,7 +162,8 @@ select * from users where id > 15 order by id asc limit 15;
 
 즉, `Paginator` 는 쿼리 빌더의 `simplePaginate` 메서드에 해당하고, `CursorPaginator` 는 `cursorPaginate` 메서드에 해당하고, `LengthAwarePaginator` 는 `paginate` 메서드에 해당합니다.
 
-> {노트} 수동으로 paginator 인스턴스를 생성할 때 paginator 에 전달한 결과 배열을 수동으로 "slice" 해야 합니다. 어떻게 하는지 잘 모르겠다면 [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP 함수를 확인하세요.
+> **Warning**
+> 수동으로 paginator 인스턴스를 생성할 때 paginator 에 전달한 결과 배열을 수동으로 "slice" 해야 합니다. 어떻게 하는지 잘 모르겠다면 [array_slice](https://secure.php.net/manual/en/function.array-slice.php) PHP 함수를 확인하세요.
 
 <a name="customizing-pagination-urls"></a>
 ### 사용자 정의 페이지네이션 URL

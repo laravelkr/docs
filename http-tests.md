@@ -11,10 +11,11 @@
     - [유연한 JSON 테스트](#fluent-json-testing)
 - [파일 업로드 테스트하기](#testing-file-uploads)
 - [뷰 테스트하기](#testing-views)
-    - [Rendering Blade & Components](#rendering-blade-and-components)
+    - [블레이드와 컴포넌트 렌더링하기](#rendering-blade-and-components)
 - [사용가능한 Assertions](#available-assertions)
     - [응답-Response Assertions](#response-assertions)
     - [인증 Assertions](#authentication-assertions)
+    - [유효성 검증 Assertions](#validation-assertions)
 
 <a name="introduction"></a>
 ## 시작하기
@@ -78,7 +79,8 @@
 
 일반적으로 각 테스트는 애플리케이션에 한 번만 요청해야 합니다. 단일 테스트 메서드 내에서 여러 요청이 실행되는 경우 예기치 않은 동작이 발생할 수 있습니다.
 
-> {tip} 편의를 위해 CSRF 미들웨어는 테스트를 실행할 때 자동으로 비활성화됩니다.
+> **Note**
+> 편의를 위해 CSRF 미들웨어는 테스트를 실행할 때 자동으로 비활성화됩니다.
 
 <a name="customizing-request-headers"></a>
 ### 요청-Request 헤더 커스터마이징하기
@@ -172,7 +174,7 @@
         }
     }
 
-가드 이름을 `actingAs` 메소드의 두 번째 인수로 전달하여, 주어진 사용자를 인증하는 데 사용할 가드를 지정할 수도 있습니다.
+가드 이름을 `actingAs` 메소드의 두 번째 인수로 전달하여, 주어진 사용자를 인증하는 데 사용할 가드를 지정할 수도 있습니다. `actingAs` 메서드에 제공되는 가드는 테스트 기간 동안의 기본 가드가 될 것입니다.
 
     $this->actingAs($user, 'web')
 
@@ -278,7 +280,8 @@
 
     $this->assertTrue($response['created']);
 
-> {tip} `assertJson` 메소드는 응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 애플리케이션에서 반환된 JSON 응답 내에 주어진 배열이 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있는 경우, 이 테스트는 주어진 조각이 있는 한 계속 통과합니다.
+> **Note**
+> `assertJson` 메소드는 응답을 배열로 변환하고 `PHPUnit::assertArraySubset`을 사용하여 애플리케이션에서 반환된 JSON 응답 내에 주어진 배열이 존재하는지 확인합니다. 따라서 JSON 응답에 다른 속성이 있는 경우, 이 테스트는 주어진 조각이 있는 한 계속 통과합니다.
 
 <a name="verifying-exact-match"></a>
 #### 정확하게 JSON 일치 검증
@@ -338,6 +341,11 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
         }
     }
 
+`assertJsonPath` 메서드는 검증이 통과할지를 동적으로 판단하는데 쓰이는 클로저도 허용합니다.
+
+    $response->assertJsonPath('team.owner.name', fn ($name) => strlen($name) >= 3);
+
+
 <a name="fluent-json-testing"></a>
 ### 유연한 JSON 테스트
 
@@ -358,6 +366,8 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
             ->assertJson(fn (AssertableJson $json) =>
                 $json->where('id', 1)
                      ->where('name', 'Victoria Faith')
+                     ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
+                     ->whereNot('status', 'pending')
                      ->missing('password')
                      ->etc()
             );
@@ -382,8 +392,8 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
 또한 `hasAll` 및 `missingAll` 메서드를 사용하면 여러 속성의 존재 여부를 동시에 확인할 수 있습니다.
 
     $response->assertJson(fn (AssertableJson $json) =>
-        $json->hasAll('status', 'data')
-             ->missingAll('message', 'code')
+        $json->hasAll(['status', 'data'])
+             ->missingAll(['message', 'code'])
     );
 
 `hasAny` 메소드를 사용하여 주어진 속성 목록 중 적어도 하나가 존재하는지 확인할 수 있습니다.
@@ -410,6 +420,7 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
                  ->first(fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )
@@ -436,6 +447,7 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
                  ->has('users.0', fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )
@@ -449,6 +461,7 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
                  ->has('users', 3, fn ($json) =>
                     $json->where('id', 1)
                          ->where('name', 'Victoria Faith')
+                         ->where('email', fn ($email) => str($email)->is('victoria@gmail.com'))
                          ->missing('password')
                          ->etc()
                  )
@@ -582,7 +595,7 @@ JSON 응답의 속성이 특정 유형인지만 검증 할 수도 있습니다. 
 
     $view->assertSee('Taylor');
 
-`component` 메소드를 사용하여 [Blade component](/docs/{{version}}/blade#components)를 평가하고 렌더링할 수 있습니다. `view` 메소드와 마찬가지로 `component` 메소드는 `Illuminate\Testing\TestView`의 인스턴스를 반환합니다.
+`component` 메소드를 사용하여 [Blade component](/docs/{{version}}/blade#components)를 평가하고 렌더링할 수 있습니다. `component` 메소드는 `Illuminate\Testing\TestComponent`의 인스턴스를 반환합니다.
 
     $view = $this->component(Profile::class, ['name' => 'Taylor']);
 
@@ -611,20 +624,26 @@ JSON 응답의 속성이 특정 유형인지만 검증 할 수도 있습니다. 
 - [assertJson](#assert-json)
 - [assertJsonCount](#assert-json-count)
 - [assertJsonFragment](#assert-json-fragment)
+- [assertJsonIsArray](#assert-json-is-array)
+- [assertJsonIsObject](#assert-json-is-object)
 - [assertJsonMissing](#assert-json-missing)
 - [assertJsonMissingExact](#assert-json-missing-exact)
 - [assertJsonMissingValidationErrors](#assert-json-missing-validation-errors)
 - [assertJsonPath](#assert-json-path)
+- [assertJsonMissingPath](#assert-json-missing-path)
 - [assertJsonStructure](#assert-json-structure)
 - [assertJsonValidationErrors](#assert-json-validation-errors)
 - [assertJsonValidationErrorFor](#assert-json-validation-error-for)
 - [assertLocation](#assert-location)
+- [assertContent](#assert-content)  
 - [assertNoContent](#assert-no-content)
+- [assertStreamedContent](#assert-streamed-content)
 - [assertNotFound](#assert-not-found)
 - [assertOk](#assert-ok)
 - [assertPlainCookie](#assert-plain-cookie)
 - [assertRedirect](#assert-redirect)
 - [assertRedirectContains](#assert-redirect-contains)
+- [assertRedirectToRoute](#assert-redirect-to-route)  
 - [assertRedirectToSignedRoute](#assert-redirect-to-signed-route)
 - [assertSee](#assert-see)
 - [assertSeeInOrder](#assert-see-in-order)
@@ -770,6 +789,20 @@ response-응답 JSON 에 주어진 키에 해당되는 아이템 숫자의 배�
 
     $response->assertJsonFragment(['name' => 'Taylor Otwell']);
 
+<a name="assert-json-is-array"></a>
+#### assertJsonIsArray
+
+JSON 응답 데이터가 배열인지 확인
+
+    $response->assertJsonIsArray();
+
+<a name="assert-json-is-object"></a>
+#### assertJsonIsObject
+
+JSON 응답 데이터가 객체인지 확인
+
+    $response->assertJsonIsObject();
+
 <a name="assert-json-missing"></a>
 #### assertJsonMissing
 
@@ -791,7 +824,8 @@ response-응답에 주어진키에 대한 JSON 유효성 검사 에러가 포함
 
     $response->assertJsonMissingValidationErrors($keys);
 
-> {tip} 보다 일반적인 [assertValid](#assert-valid) 메서드를 사용하여 응답에 JSON **으로 반환된 유효성 검사 오류가 없고** 세션 저장소에 오류가 표시되지 않았다고 검증할 수 있습니다.
+> **Note**
+> 보다 일반적인 [assertValid](#assert-valid) 메서드를 사용하여 응답에 JSON **으로 반환된 유효성 검사 오류가 없고** 세션 저장소에 오류가 표시되지 않았다고 검증할 수 있습니다.
 
 <a name="assert-json-path"></a>
 #### assertJsonPath
@@ -800,9 +834,9 @@ response-응답에 지정된 경로와 지정된 데이터가 포함되어 있�
 
     $response->assertJsonPath($path, $expectedValue);
 
-예를 들어 애플리케이션에서 반환된 JSON 응답에 다음 데이터가 포함된 경우
+예를 들어 애플리케이션에서 다음과 같은 JSON 응답 응답이 반환되는 경우
 
-```js
+```json
 {
     "user": {
         "name": "Steve Schoger"
@@ -814,6 +848,31 @@ response-응답에 지정된 경로와 지정된 데이터가 포함되어 있�
 
     $response->assertJsonPath('user.name', 'Steve Schoger');
 
+<a name="assert-json-missing-path"></a>
+#### assertJsonMissingPath
+
+응답이 주어진 경로를 포함하고 있지 않은지 검증합니다.
+
+    $response->assertJsonMissingPath($path);
+
+For example, if the following JSON response is returned by your application:
+
+예를 들어, 다음과 같은 JSON 응답이 반환된 경우
+
+```json
+{
+    "user": {
+        "name": "Steve Schoger"
+    }
+}
+```
+
+You may assert that it does not contain the `email` property of the `user` object:
+
+`user` 객체의 `email` 속성을 포함하고 있지 않은지 검증할 수 있습니다.
+
+    $response->assertJsonMissingPath('user.email');
+
 <a name="assert-json-structure"></a>
 #### assertJsonStructure
 
@@ -823,7 +882,7 @@ response-응답에 지정된 JSON 구조가 있는지 확인:
 
 예를 들어 애플리케이션에서 반환된 JSON 응답에 다음 데이터가 포함된 경우:
 
-```js
+```json
 {
     "user": {
         "name": "Steve Schoger"
@@ -841,7 +900,7 @@ response-응답에 지정된 JSON 구조가 있는지 확인:
 
 경우에 따라 애플리케이션에서 반환된 JSON 응답에 객체 배열이 포함될 수 있습니다.
 
-```js
+```json
 {
     "user": [
         {
@@ -877,7 +936,8 @@ response-응답에 지정된 JSON 구조가 있는지 확인:
 
     $response->assertJsonValidationErrors(array $data, $responseKey = 'errors');
 
-> {tip} 보다 일반적인 [assertInvalid](#assert-invalid) 메서드를 사용하여 응답에 유효성 검사 오류가 JSON으로 반환된 **또는** 오류가 세션 저장소로 플래시되었음을 확인할 수 있습니다.
+> **Note**
+> 보다 일반적인 [assertInvalid](#assert-invalid) 메서드를 사용하여 응답에 유효성 검사 오류가 JSON으로 반환된 **또는** 오류가 세션 저장소로 플래시되었음을 확인할 수 있습니다.
 
 <a name="assert-json-validation-error-for"></a>
 #### assertJsonValidationErrorFor
@@ -893,12 +953,26 @@ response-응답의 `Location` 헤더에 주어진 URI를 가지고 있는지 확
 
     $response->assertLocation($uri);
 
+<a name="assert-content"></a>
+#### assertContent
+
+주어진 문자열이 응답 내용과 일치하는지 검증합니다.
+
+    $response->assertContent($value);
+
 <a name="assert-no-content"></a>
 #### assertNoContent
 
 response-응답에 주어진 HTTP 상태 코드가 있고 내용이 없는지 확인:
 
     $response->assertNoContent($status = 204);
+
+<a name="assert-streamed-content"></a>
+#### assertStreamedContent
+
+주어진 문자열이 스트리밍된 응답 내용과 일치하는지 검증합니다.
+
+    $response->assertStreamedContent($value);
 
 <a name="assert-not-found"></a>
 #### assertNotFound
@@ -934,6 +1008,13 @@ response-응답이 주어진 URI로 리다이렉트되는지 여부를 확인:
 응답이 주어진 문자열을 포함하는 URI로 리디렉션되는지 여부를 확인:
 
     $response->assertRedirectContains($string);
+
+<a name="assert-redirect-to-route"></a>
+#### assertRedirectToRoute
+
+응답이 주어진 [이름의 라우트](/docs/{{version}}/routing#named-routes)로 리디렉션되는지 확인:
+
+    $response->assertRedirectToRoute($name = null, $parameters = []);
 
 <a name="assert-redirect-to-signed-route"></a>
 #### assertRedirectToSignedRoute
@@ -1187,3 +1268,34 @@ response-응답 뷰에서 주어진 데이터 리스트를 가지고 있는지 �
 특정 사용자가 인증되었는지 확인:
 
     $this->assertAuthenticatedAs($user, $guard = null);
+
+<a name="validation-assertions"></a>
+## 유효성 검증 Assertions
+
+라라벨은 요청에 포함되어 있는 데이터가 유효한지 또는 유효하지 않은지 확인하는 유효성 검사를 위한 검증을 제공합니다.
+
+<a name="validation-assert-valid"></a>
+#### assertValid
+
+응답의 주어진 키 데이터가 유효성 검사 결과 오류가 없음을 확인합니다. 이 메서드는 유효성 검사 오류가 JSON 구조로 반환되거나 유효성 검사 오류가 세션에 저장된 응답인 경우에도 사용할 수 있습니다.
+
+
+    // Assert that no validation errors are present...
+    $response->assertValid();
+
+    // Assert that the given keys do not have validation errors...
+    $response->assertValid(['name', 'email']);
+
+<a name="validation-assert-invalid"></a>
+#### assertInvalid
+
+응답의 주어진 키 데이터가 유효성 검사 결과 오류가 있는지 확인합니다. 이 메서드는 유효성 검사 오류가 JSON 구조로 반환되거나 유효성 검사 오류가 세션에 저장된 응답인 경우에도 사용할 수 있습니다.
+
+    $response->assertInvalid(['name', 'email']);
+
+지정된 키에 특정 유효성 검사 오류 메시지가 있는지 검증할 수도 있습니다. 이 경우 전체 메시지를 제공하거나 메시지의 일부만 확인할 수도 있습니다.
+
+    $response->assertInvalid([
+        'name' => 'The name field is required.',
+        'email' => 'valid email address',
+    ]);

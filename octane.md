@@ -47,7 +47,8 @@ php artisan octane:install
 <a name="server-prerequisites"></a>
 ## 서버 전제 조건
 
-> {note} Laravel Octane [PHP 8.0+](https://php.net/releases/) 을 필요로 합니다.
+> **Warning**
+> 라라벨 Octane은 [PHP 8.0+](https://php.net/releases/) 을 필요로 합니다.
 
 <a name="roadrunner"></a>
 ### RoadRunner
@@ -83,7 +84,7 @@ RoadRunner binary를 설치한 후에, Sail shell 세션을 끝낼수 있습니�
 그 다음, 애플리케이션의 `docker/supervisord.conf` 파일의 `command`를 업데이트하여 Sail이 PHP 개발 서버 대신 Octane을 사용하여 애플리케이션이 제공되도록 합니다.
 
 ```ini
-command=/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=8000
+command=/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=80
 ```
 
 마지막으로, `rr` binary가 실행 가능한지 확인하고 Sail 이미지를 빌드합니다.
@@ -104,9 +105,10 @@ pecl install swoole
 ```
 
 <a name="swoole-via-laravel-sail"></a>
-#### Laravel Sail을 통한 Swoole
+#### 라라벨 Sail을 통한 Swoole
 
-> {note} Octane 애플리케이션을 Sail로 제공하기 전에, Laravel Sail의 가장 최신버전을 확인하기 위해 애플리케이션의 root 디렉토리에서 `./vendor/bin/sail build --no-cache` 를 실행해야 합니다. 
+> **Warning**
+> Octane 애플리케이션을 Sail로 제공하기 전에, Laravel Sail의 가장 최신버전을 확인하기 위해 애플리케이션의 root 디렉토리에서 `./vendor/bin/sail build --no-cache` 를 실행해야 합니다. 
 
 다른 대안으로, Swoole 베이스의 Octane 애플리케이션을 개발할때 라라벨을 위한 공식 Docker 기반 개발 환경인 [Laravel Sail](/docs/{{version}}/sail)을 사용할수 있습니다. Laravel Sail은 Swoole 확장모듈을 기본으로 포함하고 있습니다. 그러나 애플리케이션을 계속 실행하려면 Sail에서 사용하는 `supervisor.conf` 파일을 조정해야 합니다. 시작하기 위해 `sail:publish` Artisan 명령을 실행합니다.
 
@@ -137,7 +139,7 @@ Swoole은 `octane` 설정 파일에 필요한 것을 추가할 수 있도록 몇
         'log_file' => storage_path('logs/swoole_http.log'),
         'package_max_length' => 10 * 1024 * 1024,
     ],
-];
+],
 ```
 
 <a name="serving-your-application"></a>
@@ -385,7 +387,8 @@ $service->method($request->input('name'));
 
 전역 `request` 헬퍼는 항상 애플리케이션이 현재 처리하고 있는 요청을 반환하므로 애플리케이션 내에서 안전하게 사용할 수 있습니다.
 
-> {note} 컨트롤러의 메서드와 route의 클로저에서 `Illuminate\Http\Request` 인스턴스를 타입힌트로 사용하는 것은 허용 됩니다. 
+> **Warning**
+> 컨트롤러의 메서드와 route의 클로저에서 `Illuminate\Http\Request` 인스턴스를 타입힌트로 사용하는 것은 허용 됩니다. 
 
 <a name="configuration-repository-injection"></a>
 ### 설정 Repository 주입
@@ -456,7 +459,8 @@ public function index(Request $request)
 <a name="concurrent-tasks"></a>
 ## 동시성 Tasks
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다. 
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다. 
 
 Swoole 사용할 때, 가벼운 백그라운드 작업을 통해 동시에 작업을 실행할 수 있습니다. Octane의 `concurrently` 메서드를 사용해 수행할 수도 있습니다. 이 방법은 PHP 배열 구조 분해하고 결합하여 각 작업의 결과를 검색할 수 있습니다.
 
@@ -477,10 +481,13 @@ Octane은 Swoole의 "task workers"를 통해 동시적으로 task들을 수행�
 php artisan octane:start --workers=4 --task-workers=6
 ```
 
+`concurrently` 메서드를 호출할 때 Swoole의 작업 시스템에 의해 부과된 제한으로 인해 1024개 이상의 작업을 제공해서는 안 됩니다.
+
 <a name="ticks-and-intervals"></a>
 ## Ticks & Intervals
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 Swoole을 사용해, "tick" 지정된 시간(초)마다 실행될 작업을 등록할 수 있습니다. "tick" 콜백은 `tick`메서드를 통해서 등록할수 있습니다. 첫번째 인자는 `tick`메서드를 대표하는 ticker의 이름을 문자열을 받습니다. 두번째 인자는 지정된 간격으로 호출되는 callable 입니다. 
 
@@ -502,7 +509,8 @@ Octane::tick('simple-ticker', fn () => ray('Ticking...'))
 <a name="the-octane-cache"></a>
 ## Octane 캐시
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 Swoole을 사용할 때, 초당 최대 200만 작업의 읽기 및 쓰기 속도 제공하는 Octane 캐시 드라이버 활용할 수 있습니다. 그러므로, 캐시 드라이버는 caching layer를 이용해 extream한 읽기/쓰기 속도가 필요한 애플리케이션에서 위한 최고의 선택입니다. 
 
@@ -530,7 +538,8 @@ Cache::store('octane')->interval('random', function () {
 <a name="tables"></a>
 ## Tables
 
-> {note} 이 기능은 [Swoole](#swoole)이 필요합니다.
+> **Warning**
+> 이 기능은 [Swoole](#swoole)이 필요합니다.
 
 Swoole을 사용할때, 임의의 [Swoole 테이블]을 정의하고 상호 작용할 수 있습니다. Swoole 테이블은 extream한 성능 처리량을 제공하며, 이 테이블의 데이터는 서버의 모든 작업자가 접근할 수 있습니다. 하지만, 서버가 재시작되면 데이터가 사라지게 됩니다. 
 
@@ -558,4 +567,5 @@ Octane::table('example')->set('uuid', [
 return Octane::table('example')->get('uuid');
 ```
 
-> {note} 컬럼 타입은 Swoole 테이블에서 `string`, `int`, `float`을 제공합니다. 
+> **Warning**
+> 컬럼 타입은 Swoole 테이블에서 `string`, `int`, `float`을 제공합니다. 

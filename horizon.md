@@ -5,6 +5,7 @@
     - [설정하기](#configuration)
     - [밸런싱 전략](#balancing-strategies)
     - [Dashboard 권한부여](#dashboard-authorization)
+    - [음소거된 작업](#silenced-jobs)
 - [Horizon 업그레이드](#upgrading-horizon)
 - [Horizon 실행하기](#running-horizon)
     - [Horizon 배포하기](#deploying-horizon)
@@ -17,7 +18,8 @@
 <a name="introduction"></a>
 ## 시작하기
 
-> {tip} 라라벨 Horizon에 대해 알아보기 전에 라라벨의 기본 [queue services](/docs/{{version}}/queues)에 익숙해져야 합니다. Horizon은 라라벨에서 제공하는 기본 대기열 기능에 아직 익숙하지 않은 경우 혼동될 수 있는 추가 기능으로 라라벨의 대기열을 보강합니다.
+> **Note**
+> 라라벨 Horizon에 대해 알아보기 전에 라라벨의 기본 [queue services](/docs/{{version}}/queues)에 익숙해져야 합니다. Horizon은 라라벨에서 제공하는 기본 대기열 기능에 아직 익숙하지 않은 경우 혼동될 수 있는 추가 기능으로 라라벨의 대기열을 보강합니다.
 
 [라라벨 Horizon](https://github.com/laravel/horizon) 은 라라벨 기반 [Redis 대기열-queue](/docs/{{version}}/queues)을 위한 아름다운 대시보드 및 코드 기반 설정을 제공합니다. Horizon을 사용하면 작업 처리량, 런타임 및 작업 실패와 같은 대기열 시스템의 주요 메트릭을 쉽게 모니터링할 수 있습니다.
 
@@ -28,7 +30,8 @@ Horizon을 사용하는 경우, 모든 대기열 작업자 설정은 하나의 �
 <a name="installation"></a>
 ## 설치하기
 
-> {note} 라라벨 Horizon을 사용하려면 [Redis](https://redis.io) 를 사용해야 합니다. 따라서 애플리케이션의 `config/queue.php` 설정 파일에서 대기열 연결이 `redis`로 설정되어 있는지 확인해야 합니다.
+> **Warning**
+> 라라벨 Horizon을 사용하려면 [Redis](https://redis.io) 를 사용해야 합니다. 따라서 애플리케이션의 `config/queue.php` 설정 파일에서 대기열 연결이 `redis`로 설정되어 있는지 확인해야 합니다.
 
 Composer 패키지 관리자를 사용하여 프로젝트에 Horizon을 설치할 수 있습니다.
 
@@ -47,7 +50,8 @@ php artisan horizon:install
 
 Horizon 자산을 게시하면 기본 설정 파일이 `config/horizon.php`로 생성됩니다. 이 설정 파일을 사용하면 애플리케이션에 대한 대기열 작업자 옵션을 설정할 수 있습니다. 각 설정 옵션에는 용도에 대한 설명이 포함되어 있으므로 이 파일을 꼼꼼하게 살펴보십시오.
 
-> {note} Horizon은 내부적으로 `horizon`이라는 Redis 연결을 사용합니다. 이 Redis 연결 이름은 예약되어 있으므로 `database.php` 설정 파일의 다른 Redis 연결에 할당하거나 `horizon.php` 설정 파일의 `use` 옵션 값으로 할당해서는 안 됩니다.
+> **Warning**
+> Horizon은 내부적으로 `horizon`이라는 Redis 연결을 사용합니다. 이 Redis 연결 이름은 예약되어 있으므로 `database.php` 설정 파일의 다른 Redis 연결에 할당하거나 `horizon.php` 설정 파일의 `use` 옵션 값으로 할당해서는 안 됩니다.
 
 <a name="environments"></a>
 #### 환경설정
@@ -72,7 +76,8 @@ Horizon 자산을 게시하면 기본 설정 파일이 `config/horizon.php`로 �
 
 Horizon을 시작하면 애플리케이션이 실행되는 환경에 대한 작업자 프로세스 설정 옵션이 사용됩니다. 일반적으로 환경은 `APP_ENV` [환경 변수](/docs/{{version}}/configuration#determining-the-current-environment)의 값에 의해 결정됩니다. 예를 들어 기본 `local` Horizon 환경은 3개의 작업자 프로세스를 시작하고 각 대기열에 할당된 작업자 프로세스 수의 균형을 자동으로 조정하도록 설정됩니다. 기본 `production` 환경은 최대 10개의 작업자 프로세스를 시작하고 각 대기열에 할당된 작업자 프로세스 수의 균형을 자동으로 조정하도록 설정됩니다.
 
-> {note} `horizon` 설정 파일의 `environments` 부분에 Horizon을 실행할 각 [environment](/docs/{{version}}/configuration#environment-configuration) 에 대한 항목이 포함되어 있는지 확인해야 합니다.
+> **Warning**
+> `horizon` 설정 파일의 `environments` 부분에 Horizon을 실행할 각 [environment](/docs/{{version}}/configuration#environment-configuration) 에 대한 항목이 포함되어 있는지 확인해야 합니다.
 
 <a name="supervisors"></a>
 #### Supervisor
@@ -142,6 +147,26 @@ Horizon은 `/horizon` URI에서 대시보드를 노출합니다. 기본적으로
 
 라라벨은 인증된 사용자를 자동으로 게이트 클로저에 주입한다는 것을 기억하십시오. 애플리케이션이 IP 제한과 같은 다른 방법을 통해 Horizon 보안을 제공하는 경우, Horizon 사용자는 "로그인"할 필요가 없습니다. 따라서 라라벨이 인증을 요구하지 않도록 하려면 위 `function($user)` 클로저를 `function($user = null)`으로 변경해야 합니다.
 
+<a name="silenced-jobs"></a>
+### 음소거된 작업
+
+때때로 애플리케이션 또는 제 3자 패키지에서 전송한 특정 작업을 보고 싶지 않을 수 있습니다. 이러한 작업이 "완료된 작업" 목록에 공간을 차지하지 않도록 음소거할 수 있습니다. 시작하려면 애플리케이션의 `horizon` 구성 파일의 `silenced` 구성 옵션에 작업 클래스 이름을 추가하십시오.
+
+    'silenced' => [
+        App\Jobs\ProcessPodcast::class,
+    ],
+
+또는 음소거하려는 작업은 `Laravel\Horizon\Contracts\Silenced` 인터페이스를 구현할 수 있습니다. 작업이 이 인터페이스를 구현하면 `silenced` 구성 배열에 없더라도 자동으로 음소거됩니다.
+
+    use Laravel\Horizon\Contracts\Silenced;
+
+    class ProcessPodcast implements ShouldQueue, Silenced
+    {
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+        // ...
+    }
+
 <a name="upgrading-horizon"></a>
 ## Horizon 업그레이드
 
@@ -151,13 +176,13 @@ Horizon의 새로운 메이저 버전으로 업그레이드할 때, [업그레�
 php artisan horizon:publish
 ```
 
-자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `horizon:publish` 명령을 추가할 수 있습니다.
+자산을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면, 애플리케이션의 `composer.json` 파일에 있는 `post-update-cmd` 스크립트에 `vendor:publish --tag=laravel-assets` 명령을 추가할 수 있습니다.
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan horizon:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }
@@ -220,7 +245,8 @@ Supervisor는 Linux 운영 체제용 프로세스 모니터이며, 실행이 중
 sudo apt-get install supervisor
 ```
 
-> {tip} Supervisor를 직접 설정하는 것이 어렵게 들린다면 [라라벨 Forge](https://forge.laravel.com)를 사용해보십시오. 그러면 라라벨 프로젝트에 대해 Supervisor가 자동으로 설치 및 설정됩니다.
+> **Note**
+> Supervisor를 직접 설정하는 것이 어렵게 들린다면 [라라벨 Forge](https://forge.laravel.com)를 사용해보십시오. 그러면 라라벨 프로젝트에 대해 Supervisor가 자동으로 설치 및 설정됩니다.
 
 <a name="supervisor-configuration"></a>
 #### Supervisor 설정하기
@@ -241,7 +267,8 @@ stopwaitsecs=3600
 
 Supervisor 설정을 정의할 때, `stopwaitsecs` 값이 가장 긴 실행 작업에서 소비하는 시간(초)보다 큰지 확인해야합니다. 그렇지 않으면 작업이 완료되기 전에 Supervisor 가 프로세스를 종료시킬 수 있습니다. 
 
-> {note} 위의 예시는 Ubuntu 기반 서버에서는 유효하지만, Supervisor 설정 파일의 위치및 확장자는 서버 운영체제에 따라 다를 수 있습니다. 보다 자세한 내용은 서버 매뉴얼을 참고하십시오.
+> **Warning**
+> 위의 예시는 Ubuntu 기반 서버에서는 유효하지만, Supervisor 설정 파일의 위치및 확장자는 서버 운영체제에 따라 다를 수 있습니다. 보다 자세한 내용은 서버 매뉴얼을 참고하십시오.
 
 <a name="starting-supervisor"></a>
 #### Supervisor 시작하기
@@ -256,7 +283,8 @@ sudo supervisorctl update
 sudo supervisorctl start horizon
 ```
 
-> {tip} Supervisor 실행에 대한 자세한 내용은 [Supervisor 문서](http://supervisord.org/index.html) 를 참조하세요.
+> **Note**
+> Supervisor 실행에 대한 자세한 내용은 [Supervisor 문서](http://supervisord.org/index.html) 를 참조하세요.
 
 <a name="tags"></a>
 ## 태그
@@ -337,7 +365,8 @@ queueable objects에 수동으로 태그를 정하고 싶은 경우 클래스의
 <a name="notifications"></a>
 ## 알림
 
-> {note} Slack 또는 SMS 알림을 보내도록 Horizon을 설정할 때 [해당 알림 채널의 전제 조건](/docs/{{version}}/notifications)을 검토해야 합니다.
+> **Warning**
+> Slack 또는 SMS 알림을 보내도록 Horizon을 설정할 때 [해당 알림 채널의 전제 조건](/docs/{{version}}/notifications)을 검토해야 합니다.
 
 대기열 중 하나가 긴 대기 시간을 가질 때 알림을 받고 싶다면 `Horizon::routeMailNotificationsTo`, `Horizon::routeSlackNotificationsTo` 및 `Horizon::routeSmsNotificationsTo` 메소드를 사용할 수 있습니다. 애플리케이션의 `App\Providers\HorizonServiceProvider`의 `boot` 메소드에서 다음 메소드를 호출할 수 있습니다.
 

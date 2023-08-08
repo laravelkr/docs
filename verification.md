@@ -16,7 +16,8 @@
 
 많은 웹 애플리케이션들이 사용자에게 사용 전 이메일 검증을 요구합니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현할 수 있도록 편리한 방법을 제공합니다.
 
-> {tip} 빠르게 적용하고 싶으신가요? 새로운 라라벨 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 검증과 여러 지원을 포함하여 인증 시스템 전체를 스캐 폴딩합니다!
+> **Note**
+> 빠르게 적용하고 싶으신가요? 새로운 라라벨 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 검증과 여러 지원을 포함하여 인증 시스템 전체를 스캐 폴딩합니다!
 
 <a name="model-preparation"></a>
 ## 모델 준비사항
@@ -73,7 +74,8 @@ php artisan migrate
         return view('auth.verify-email');
     })->middleware('auth')->name('verification.notice');
 
-> {tip} 이메일 검증을 수동으로 구현할 때 이메일 검증 링크 확인을 요청하는 뷰는 여러분이 직접 정의 해야 합니다. 필요한 모든 검증 및 검증 요청 뷰가 포함 된 스캐폴딩을 원하신다면 [Laravel application starter kits](/docs/{{version}}/starter-kits)를 확인하십시오.
+> **Note**
+> 이메일 검증을 수동으로 구현할 때 이메일 검증 링크 확인을 요청하는 뷰는 여러분이 직접 정의 해야 합니다. 필요한 모든 검증 및 검증 요청 뷰가 포함 된 스캐폴딩을 원하신다면 [Laravel application starter kits](/docs/{{version}}/starter-kits)를 확인하십시오.
 
 <a name="the-email-verification-handler"></a>
 ### 이메일 검증 핸들러
@@ -108,11 +110,11 @@ php artisan migrate
 <a name="protecting-routes"></a>
 ### 라우트 보호하기
 
-[Route middleware](/docs/{{version}}/middleware)는 이메일이 검증된 사용자만 주어진 라우터에 접근할 수 있게 허용합니다. 라라벨은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified`에 정의되어 있습니다. 이 미들웨어는 이미 애플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다.
+[Route middleware](/docs/{{version}}/middleware)는 이메일이 검증된 사용자만 주어진 라우터에 접근할 수 있게 허용합니다. 라라벨은 `verified` 미들웨어를 가지고 있으며 `Illuminate\Auth\Middleware\EnsureEmailIsVerified`에 정의되어 있습니다. 이 미들웨어는 이미 애플리케이션의 HTTP 커널에 등록되어 있기 때문에 미들웨어를 라우트 정의에 추가하면 됩니다. 일반적으로 이 미들웨어는 `auth` 미들웨어와 쌍을 이룹니다.
 
     Route::get('/profile', function () {
         // Only verified users may access this route...
-    })->middleware('verified');
+    })->middleware(['auth', 'verified']);
 
 <a name="customization"></a>
 ## 사용자 정의
@@ -144,20 +146,24 @@ php artisan migrate
         });
     }
 
-> {tip} 메일 알림에 대한 자세한 내용은 [mail notification documentation](/docs/{{version}}/notifications#mail-notifications)에서 참조하세요.
+> **Note**
+> 메일 알림에 대한 자세한 내용은 [mail notification documentation](/docs/{{version}}/notifications#mail-notifications)에서 참조하세요.
 
 <a name="events"></a>
 ## 이벤트
 
 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 사용할 때 라라벨은 이메일 검증 과정에서 [이벤트](/docs/{{version}}/events)를 전달합니다. 여러분의 애플리케이션에 대한 이메일 검증을 수동으로 처리하는 경우, 이메일 검증 완료 이벤트를 수동으로 전달할 수 있습니다. 여러분 애플리케이션의 `EventServiceProvider`에서 이벤트에 리스너를 연결할 수 있습니다.
 
-    /*
+    use App\Listeners\LogVerifiedUser;
+    use Illuminate\Auth\Events\Verified;
+    
+    /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-        'Illuminate\Auth\Events\Verified' => [
-            'App\Listeners\LogVerifiedUser',
+        Verified::class => [
+            LogVerifiedUser::class,
         ],
     ];

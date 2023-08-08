@@ -5,6 +5,7 @@
     - [환경 변수의 타입](#environment-variable-types)
     - [구동환경 조회하기](#retrieving-environment-configuration)
     - [현재 구동환경 결정하기](#determining-the-current-environment)
+    - [환경 파일 암호화하기](#encrypting-environment-files)
 - [설정 값에 엑세스 하기](#accessing-configuration-values)
 - [설정 캐시](#configuration-caching)
 - [디버그 모드](#debug-mode)
@@ -17,6 +18,21 @@
 
 이러한 구성 파일을 사용하면 데이터베이스 연결 정보, 메일 서버 정보는 물론 애플리케이션 시간대 및 암호화 키와 같은 다양한 기타 핵심 구성 값을 구성할 수 있습니다.
 
+<a name="application-overview"></a>
+#### 애플리케이션 개요
+
+시간이 없으신가요? `about` 아티즌 명령을 통해 애플리테이션의 설정, 드라이버, 환경에 대한 개요를 신속히 확인할 수 있습니다.
+
+```shell
+php artisan about
+```
+
+특정 분야의 개요에만 관심이 있다면 `--only` 옵션을 이용해서 해당 섹션을 골라낼 수 있습니다.
+
+```shell
+php artisan about --only=environment
+```
+
 <a name="environment-configuration"></a>
 ## 구동환경 설정
 
@@ -28,12 +44,15 @@
 
 팀으로 개발을 하는 경우라면 `.env.example` 파일을 애플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 애플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env`를 오버라이드 합니다.
 
-> {tip} `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
+> **Note**
+> `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
 
 <a name="environment-file-security"></a>
 #### env 파일 보안
 
 개별 개발자와 서버에서 애플리케이션별로 다른 구동 환경 설정을 필요로 하기 때문에, `.env` 파일을 애플리케이션의 소스 컨트롤 시스템에 커밋해서는 안 됩니다. 이는 공격자가 소스 컨트롤 저장소에 엑세스 권한을 얻게 되는 경우에, 민감한 계정정보가 노출될 위험이 있어 보안 취약점이 될 수도 있습니다.
+
+반면, 여러분은 라라벨에 내장된 [환경 암호화](#encrypting-environment-files) 기능을 이용해서 환경 파일을 암호화할 수 있습니다. 암호화된 환경 파일은 소스 컨트롤 내에 안전하게 배치됩니다. 
 
 <a name="additional-environment-files"></a>
 #### 추가 환경 파일
@@ -65,7 +84,7 @@ APP_NAME="My Application"
 <a name="retrieving-environment-configuration"></a>
 ### 구동환경 조회하기
 
-이 파일의 목록에 있는 모든 변수는 애플리케이션이 요청을 받을 때 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 헬퍼 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 헬퍼 함수가 사용되었다는 것을 알 수 있을 것입니다!
+이 `.env` 파일 안에 나열된 모든 변수는 애플리케이션이 요청을 받을 때 `$_ENV` PHP 슈퍼 전역변수에 로드됩니다. `env` 함수를 통해서 설정 파일안에 있는 이러한 변수값들을 조회 할 수 있습니다. 만약 여러분이 라라벨 설정 파일들을 살펴보았다면 이미 여러 옵션 설정에 함수가 사용되었다는 것을 알 수 있을 것입니다!
 
     'debug' => env('APP_DEBUG', false),
 
@@ -90,7 +109,72 @@ APP_NAME="My Application"
         // The environment is either local OR staging...
     }
 
-> {tip} 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
+> **Note**
+> 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
+
+<a name="encrypting-environment-files"></a>
+### 환경 파일 암호화하기
+
+암호화 되지 않은 환경 파일은 절대 소스 관리에 저장되어선 안됩니다. 하지만 라라벨을 사용하면 환경 파일을 암호화하여 애플리케이션의 나머지 부분과 함께 소스 관리에 안전하게 추가할 수 있습니다.
+
+<a name="encryption"></a>
+#### 암호화
+
+환경 파일을 암호화 하기 위해서는 `env:encrypt` 명령어를 사용하면 됩니다.
+
+```shell
+php artisan env:encrypt
+```
+
+`env:encrypt` 명령을 실행하면 `.env` 파일을 암호화하고 암호화된 내용은 `.env.encrypted` 파일에 저장됩니다. 복호화 키는 명령의 출력에 표시되며 안전한 비밀번호 관리자에 저장해야 합니다. 여러분이 갖고 있는 자체 암호화 키를 사용하려면 명령을 실행할 때 `--key` 옵션을 사용하면 됩니다. 
+
+```shell
+php artisan env:encrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+> **Note**
+> 제공된 키의 길이는 사용될 암호화 암호가 요구하는 키 길이와 일치해야 합니다. 라라벨은 32자의 키를 필요로 하는 `AES-256-CBC` 암호를 사용할 것입니다. 라라벨의 [암호화](/docs/{{version}}/encryption)가 지원하는 모든 암호를 `--cipher` 옵션으로 지정하여 사용할 수 있습니다.
+
+`.env`, `.env.staging` 처럼 여러 환경 파일을 가지고 있는 경우 `--env` 옵션을 이용하여 암호화할 환경 파일을 지정할 수 있습니다.
+
+```shell
+php artisan env:encrypt --env=staging
+```
+
+<a name="decryption"></a>
+#### 복호화
+
+환경 파일을 복호화 하려면 `env:decrypt` 명령을 사용하면 됩니다. 이 명령은 라라벨이 `LARAVEL_ENV_ENCRYPTION_KEY` 환경 변수로 부터 읽어 올 복호화 키를 필요로 합니다.
+
+```shell
+php artisan env:decrypt
+```
+
+또는 `--key` 옵션을 통해 키를 직접 제공할 수도 있습니다.
+
+```shell
+php artisan env:decrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
+```
+
+`env:decrypt` 명령이 실행되면 라라벨은 `.env.encrypted` 파일의 내용을 복호화하고 그 내용을 `.env`에 넣습니다.
+
+`env:decrypt` 명령에 사용할 암호화 기법을 지정하려면 `--cipher` 옵션을 사용하면 됩니다. 
+
+```shell
+php artisan env:decrypt --key=qUWuNRdfuImXcKxZ --cipher=AES-128-CBC
+```
+
+`.env`, `.env.staging` 처럼 여러 환경 파일을 가지고 있는 경우 `--env` 옵션을 이용하여 복호화할 환경 파일을 지정할 수 있습니다.
+
+```shell
+php artisan env:decrypt --env=staging
+```
+
+기존 환경 파일을 덮어쓰고 싶으면 `env:decrypt` 명령에 `--force` 옵션을 사용합니다.
+
+```shell
+php artisan env:decrypt --force
+```
 
 <a name="accessing-configuration-values"></a>
 ## 설정 값에 엑세스 하기
@@ -102,7 +186,7 @@ APP_NAME="My Application"
     // Retrieve a default value if the configuration value does not exist...
     $value = config('app.timezone', 'Asia/Seoul');
 
-애플리케이션의 실행중에 설정값을 변경하려면 `config` 헬퍼에 배열을 전달하십시오:
+애플리케이션의 실행중에 설정값을 변경하려면 `config` 함수에 배열을 전달하십시오:
 
     config(['app.timezone' => 'America/Chicago']);
 
@@ -113,7 +197,14 @@ APP_NAME="My Application"
 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
 
-> {note} 배포 도중에 `config:cache` 명령을 실행하는 경우 설정 파일 내에서만 `env` 함수를 호출하고 있는지 확인해야 합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않습니다. 따라서 `env` 함수는 외부 시스템 수준 환경 변수만 반환합니다.
+`config:clear` 명령어는 캐싱된 설정정보를 제거합니다.
+
+```shell
+php artisan config:clear
+```
+
+> **Warning**
+> 배포 도중에 `config:cache` 명령을 실행하는 경우 설정 파일 내에서만 `env` 함수를 호출하고 있는지 확인해야 합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않습니다. 따라서 `env` 함수는 외부 시스템 수준 환경 변수만 반환합니다.
 
 <a name="debug-mode"></a>
 ## 디버그 모드
@@ -148,7 +239,7 @@ php artisan down --retry=60
 <a name="bypassing-maintenance-mode"></a>
 #### 점검 모드 우회
 
-점검 모드인 경우에도 secret 옵션을 사용하여 점검 모드 우회 토큰을 지정할 수 있습니다.
+비밀 토큰을 사용하여 점검 모드를 우회하도록 하려면 `secret`옵션을 사용하여 점검 모드 우회 토큰을 지정할 수 있습니다.
 
 ```shell
 php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
@@ -162,7 +253,8 @@ https://example.com/1630542a-246b-4b66-afa1-dd72a4c43515
 
 이 숨겨진 경로에 엑세스하면 애플리케이션의 / 경로로 리디렉션 될 것입니다. 쿠키가 브라우저에 발급되면 점검 모드가 아닌 것처럼 정상적으로 애플리케이션을 탐색할 수 있습니다.
 
-> {tip} 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
+> **Note**
+> 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
 
 <a name="pre-rendering-the-maintenance-mode-view"></a>
 #### 점검 모드 사전 렌더링 View
@@ -193,7 +285,8 @@ php artisan down --redirect=/
 php artisan up
 ```
 
-> {tip} `resources/views/errors/503.blade.php` 파일을 정의해서 점검모드의 응답페이지 템플릿을 커스터마이징 할 수 있습니다.
+> **Note**
+> `resources/views/errors/503.blade.php` 파일을 정의해서 점검모드의 응답페이지 템플릿을 커스터마이징 할 수 있습니다.
 
 <a name="maintenance-mode-queues"></a>
 #### 점검모드 & 큐-Queue

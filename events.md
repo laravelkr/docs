@@ -39,7 +39,8 @@
         ],
     ];
 
-> {tip} `event:list` 명령어는 애플리케이션에 등록된 모든 이벤트와 리스너 목록을 확인하는데 사용할 수 있습니다.
+> **Note**
+> `event:list` 명령어는 애플리케이션에 등록된 모든 이벤트와 리스너 목록을 확인하는데 사용할 수 있습니다.
 
 <a name="generating-events-and-listeners"></a>
 ### 이벤트 & 리스너 생성하기
@@ -261,7 +262,8 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
         }
     }
 
-> {tip} 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다.
+> **Note**
+> 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다.
 
 <a name="stopping-the-propagation-of-an-event"></a>
 #### 이벤트 전달 중단하기
@@ -435,7 +437,8 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
         public $afterCommit = true;
     }
 
-> {tip} 이 이슈에 대한 보다 자세한 내용은 [큐를 통해 처리되는 작업과 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 확인하십시오.
+> **Note**
+> 이 이슈에 대한 보다 자세한 내용은 [큐를 통해 처리되는 작업과 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 확인하십시오.
 
 <a name="handling-failed-jobs"></a>
 ### 실패한 job 처리하기
@@ -549,7 +552,10 @@ php artisan make:listener SendPodcastNotification --event=PodcastProcessed
         }
     }
 
-> {tip} 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](/docs/{{version}}/mocking#event-fake) 를 통해서 수행됩니다.
+조건부로 이벤트를 디스패치하고 싶으면 `dispatchIf` 와 `dispatchUnless` 메서드를 사용하면 됩니다.
+
+> **Note**
+> 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](/docs/{{version}}/mocking#event-fake) 를 통해서 수행됩니다.
 
 <a name="event-subscribers"></a>
 ## 이벤트 Subscribers

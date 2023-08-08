@@ -31,7 +31,8 @@
 
     $collection = collect([1, 2, 3]);
 
-> {tip} [Eloquent](/docs/{{version}}/eloquent) 쿼리의 결과는 항상 `Collection` 인스턴스를 반환합니다.
+> **Note**
+> [Eloquent](/docs/{{version}}/eloquent) 쿼리의 결과는 항상 `Collection` 인스턴스를 반환합니다.
 
 <a name="extending-collections"></a>
 ### 컬렉션 확장하기
@@ -89,6 +90,7 @@
 - [combine](#method-combine)
 - [concat](#method-concat)
 - [contains](#method-contains)
+- [containsOneItem](#method-containsoneitem)
 - [containsStrict](#method-containsstrict)
 - [count](#method-count)
 - [countBy](#method-countBy)
@@ -116,6 +118,7 @@
 - [get](#method-get)
 - [groupBy](#method-groupby)
 - [has](#method-has)
+- [hasAny](#method-hasany)
 - [implode](#method-implode)
 - [intersect](#method-intersect)
 - [intersectByKeys](#method-intersectbykeys)
@@ -125,6 +128,7 @@
 - [keyBy](#method-keyby)
 - [keys](#method-keys)
 - [last](#method-last)
+- [lazy](#method-lazy)
 - [macro](#method-macro)
 - [make](#method-make)
 - [map](#method-map)
@@ -162,11 +166,11 @@
 - [search](#method-search)
 - [shift](#method-shift)
 - [shuffle](#method-shuffle)
-- [sliding](#method-sliding)
 - [skip](#method-skip)
 - [skipUntil](#method-skipuntil)
 - [skipWhile](#method-skipwhile)
 - [slice](#method-slice)
+- [sliding](#method-sliding)
 - [sole](#method-sole)
 - [some](#method-some)
 - [sort](#method-sort)
@@ -196,6 +200,7 @@
 - [unlessEmpty](#method-unlessempty)
 - [unlessNotEmpty](#method-unlessnotempty)
 - [unwrap](#method-unwrap)
+- [value](#method-value)
 - [values](#method-values)
 - [when](#method-when)
 - [whenEmpty](#method-whenempty)
@@ -214,6 +219,7 @@
 - [wrap](#method-wrap)
 - [zip](#method-zip)
 
+</div>
 
 <a name="method-listing"></a>
 ## 메소드 목록
@@ -339,7 +345,8 @@
 
     // [1, 2, 3]
 
-> {tip} `collect` 메소드는 `Enumerable` 인스턴스를 가지고 있고, 비지연(non-lazy) 컬렉션 인스턴스가 필요할 때 특히 유용합니다. `collect()`는 `Enumerable` contract에 속해있기 때문에, `Collection` 인스턴스를 얻는데 안전하게 사용할 수 있습니다.
+> **Note**
+> `collect` 메소드는 `Enumerable` 인스턴스를 가지고 있고, 비지연(non-lazy) 컬렉션 인스턴스가 필요할 때 특히 유용합니다. `collect()`는 `Enumerable` contract에 속해있기 때문에, `Collection` 인스턴스를 얻는데 안전하게 사용할 수 있습니다.
 
 
 <a name="method-combine"></a>
@@ -410,12 +417,30 @@
 
 `contains`의 부정(반대)에 대해서는 [doesntContain](#method-doesntcontain) 메서드를 참조하세요.
 
+<a name="method-containsoneitem"></a>
+#### `containsOneItem()` {.collection-method}
+
+`containsOneItem`메서드는 컬렉션이 아이템을 하나 가지고 있는지 여부를 판단합니다.
+
+    collect([])->containsOneItem();
+
+    // false
+
+    collect(['1'])->containsOneItem();
+
+    // true
+
+    collect(['1', '2'])->containsOneItem();
+
+    // false
+
 <a name="method-containsstrict"></a>
 #### `containsStrict()` {.collection-method}
 
 이 메소드는 [`contains`](#method-contains) 메소드와 동일하게 사용되지만, "엄격한" 비교를 수행하는 것이 차이점입니다.
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains)를 사용할 때 수정됩니다.
 
 <a name="method-count"></a>
 #### `count()` {.collection-method}
@@ -525,7 +550,8 @@
 
     // [1, 3, 5]
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff)를 사용할 때 수정됩니다.
 
 <a name="method-diffassoc"></a>
 #### `diffAssoc()` {.collection-method}
@@ -729,7 +755,8 @@
 
 `except`의 반대는, [only](#method-only)메소드를 확인하십시오.
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except)를 사용할 때 수정됩니다.
 
 <a name="method-filter"></a>
 #### `filter()` {.collection-method}
@@ -772,6 +799,23 @@
     collect([1, 2, 3, 4])->first();
 
     // 1
+
+<a name="method-first-or-fail"></a>
+#### `firstOrFail()` {.collection-method}
+
+`firstOrFail` 메서드는 `first` 메서드와 같지만 조회 결과가 없으면 ``Illuminate\Support\ItemNotFoundException` 예외를 던집니다.
+
+    collect([1, 2, 3, 4])->firstOrFail(function ($value, $key) {
+        return $value > 5;
+    });
+
+    // Throws ItemNotFoundException...
+
+컬렉션의 첫 번째 요소를 얻기 위해 인자 없이 `firstOrFail` 메서드를 호출할 수도 있습니다. 만약 컬렉션이 비어있으면 `Illuminate\Support\ItemNotFoundException` 예외가 발생합니다.
+
+    collect([])->firstOrFail();
+
+    // Throws ItemNotFoundException...
 
 <a name="method-first-where"></a>
 #### `firstWhere()` {.collection-method}
@@ -894,7 +938,8 @@
 
     // ['framework' => 'laravel']
 
-> {note} 다른 컬렉션 메소드와는 달리 `forget`는 수정된 새로운 컬렉션을 반환하지 않습니다; 호출된 컬렉션을 변경합니다.
+> **Warning**
+> 다른 컬렉션 메소드와는 달리 `forget`는 수정된 새로운 컬렉션을 반환하지 않습니다; 호출된 컬렉션을 변경합니다.
 
 <a name="method-forpage"></a>
 #### `forPage()` {.collection-method}
@@ -994,7 +1039,7 @@
 
     $result = $data->groupBy(['skill', function ($item) {
         return $item['roles'];
-    }], $preserveKeys = true);
+    }], preserveKeys: true);
 
     /*
     [
@@ -1040,6 +1085,21 @@
 
     // false
 
+<a name="method-hasany"></a>
+#### `hasAny()` {.collection-method}
+
+`hasAny` 메서드는 주어진 키들 중 하나라도 컬렉션 안에 존재하는지 알려줍니다. 
+
+    $collection = collect(['account_id' => 1, 'product' => 'Desk', 'amount' => 5]);
+
+    $collection->hasAny(['product', 'price']);
+
+    // true
+
+    $collection->hasAny(['name', 'price']);
+
+    // false
+
 <a name="method-implode"></a>
 #### `implode()` {.collection-method}
 
@@ -1060,6 +1120,14 @@
 
     // '1-2-3-4-5'
 
+합쳐질 값들의 형태를 바꾸고 싶으면 `implode` 메서드에 클로저를 전달하면 됩니다. 
+
+    $collection->implode(function ($item, $key) {
+        return strtoupper($item['product']);
+    }, ', ');
+
+    // DESK, CHAIR
+
 <a name="method-intersect"></a>
 #### `intersect()` {.collection-method}
 
@@ -1073,7 +1141,8 @@
 
     // [0 => 'Desk', 2 => 'Chair']
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect)를 사용할 때 수정됩니다.
 
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {.collection-method}
@@ -1144,7 +1213,7 @@
 
 메소드에 콜백은 전달할 수도 있습니다. 콜백은 컬렉션의 키 값을 반환해야합니다.
 
-    $keyed = $collection->keyBy(function ($item) {
+    $keyed = $collection->keyBy(function ($item, $key) {
         return strtoupper($item['product_id']);
     });
 
@@ -1190,6 +1259,31 @@
 
     // 4
 
+<a name="method-lazy"></a>
+#### `lazy()` {.collection-method}
+
+`lazy` 메서드는 배열 항목으로부터 새 [`LazyCollection`](#lazy-collections) 인스턴스를 반환합니다.
+
+    $lazyCollection = collect([1, 2, 3, 4])->lazy();
+
+    get_class($lazyCollection);
+
+    // Illuminate\Support\LazyCollection
+
+    $lazyCollection->all();
+
+    // [1, 2, 3, 4]
+
+이 기능은 많은 항목을 가진 거대한 `컬렉션`을 변환할 필요가 있을 때 특히 유용합니다.
+
+    $count = $hugeCollection
+        ->lazy()
+        ->where('country', 'FR')
+        ->where('balance', '>', '100')
+        ->count();
+
+컬렉션을 `LazyCollection`로 변환하면 엄청난 양의 추가 메모리를 할당할 필요가 없습니다. 원래 컬렉션은 여전히 해당 값을 메모리에 유지하지만 후속 필터는 유지하지 않습니다. 따라서 컬렉션의 결과를 필터링할 때 사실상 추가 메모리가 할당되지 않습니다.
+
 <a name="method-macro"></a>
 #### `macro()` {.collection-method}
 
@@ -1215,7 +1309,8 @@
 
     // [2, 4, 6, 8, 10]
 
-> {note} 대다수의 다른 컬렉션 메소드와 같이, `map` 메소드는 새로운 컬렉션 인스턴스를 반환합니다; 이 메소드는 호출된 컬렉션을 변경하지 않습니다. 원래의 컬렉션을 변경하고자 한다면 [`transform`](#method-transform)메소드를 사용하십시오.
+> **Warning**
+> 대다수의 다른 컬렉션 메소드와 같이, `map` 메소드는 새로운 컬렉션 인스턴스를 반환합니다; 이 메소드는 호출된 컬렉션을 변경하지 않습니다. 원래의 컬렉션을 변경하고자 한다면 [`transform`](#method-transform)메소드를 사용하십시오.
 
 <a name="method-mapinto"></a>
 #### `mapInto()` {.collection-method}
@@ -1477,7 +1572,8 @@
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only)를 사용할 때 수정됩니다.
 
 <a name="method-pad"></a>
 #### `pad()` {.collection-method}
@@ -1610,9 +1706,15 @@
 
     $collection = collect([
         [
+            'name' => 'Laracon',
             'speakers' => [
                 'first_day' => ['Rosa', 'Judith'],
-                'second_day' => ['Angela', 'Kathleen'],
+            ],
+        ],
+        [
+            'name' => 'VueConf',
+            'speakers' => [
+                'first_day' => ['Abigail', 'Joey'],
             ],
         ],
     ]);
@@ -1621,7 +1723,7 @@
 
     $plucked->all();
 
-    // ['Rosa', 'Judith']
+    // [['Rosa', 'Judith'], ['Abigail', 'Joey']]
 
 중복되는 키가 존재한다면, 마지막에 매칭되는 요소가 pluck 결과 컬렉션에 추가됩니다.
 
@@ -1749,6 +1851,14 @@
     // [2, 4, 5] - (retrieved randomly)
 
 컬렉션 인스턴스가 요청된 것보다 더 적은 개수의 아이템을 가지고 있다면, `random` 메소드는 `InvalidArgumentException`을 던집니다.
+
+`random` 메서드는 현재 컬렉션 인스턴스를 받을 클로저도 받습니다.
+
+    $random = $collection->random(fn ($items) => min(10, count($items)));
+
+    $random->all();
+
+    // [1, 2, 3, 4, 5] - (retrieved randomly)
 
 <a name="method-range"></a>
 #### `range()` {.collection-method}
@@ -1959,35 +2069,6 @@
 
     // [3, 2, 5, 1, 4] - (generated randomly)
 
-<a name="method-sliding"></a>
-#### `sliding()` {.collection-method}
-
-`sliding` 메소드는 컬렉션에 있는 항목의 "슬라이딩 창" 보기를 나타내는 청크의 새로운 컬렉션을 반환합니다.
-
-    $collection = collect([1, 2, 3, 4, 5]);
-
-    $chunks = $collection->sliding(2);
-
-    $chunks->toArray();
-
-    // [[1, 2], [2, 3], [3, 4], [4, 5]]
-
-이것은 [`eachSpread`](#method-eachspread) 메소드와 함께 특히 유용합니다.
-
-    $transactions->sliding(2)->eachSpread(function ($previous, $current) {
-        $current->total = $previous->total + $current->amount;
-    });
-
-선택적으로 모든 청크의 첫 번째 항목 사이의 거리를 결정하는 두 번째 "단계" 값을 전달할 수 있습니다.
-
-    $collection = collect([1, 2, 3, 4, 5]);
-
-    $chunks = $collection->sliding(3, step: 2);
-
-    $chunks->toArray();
-
-    // [[1, 2, 3], [3, 4, 5]]
-
 <a name="method-skip"></a>
 #### `skip()` {.collection-method}
 
@@ -2026,7 +2107,8 @@
 
     // [3, 4]
 
-> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `skipUntil` 메서드는 빈 컬렉션을 반환합니다.
+> **Warning**
+> 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `skipUntil` 메서드는 빈 컬렉션을 반환합니다.
 
 <a name="method-skipwhile"></a>
 #### `skipWhile()` {.collection-method}
@@ -2043,7 +2125,8 @@
 
     // [4]
 
-> {note} 콜백이 `false`를 반환하지 않는 경우 `skipWhile` 메서드는 빈 컬렉션을 반환합니다.
+> **Warning**
+> 콜백이 `false`를 반환하지 않는 경우 `skipWhile` 메서드는 빈 컬렉션을 반환합니다.
 
 <a name="method-slice"></a>
 #### `slice()` {.collection-method}
@@ -2067,6 +2150,35 @@
     // [5, 6]
 
 반환되는 슬라이스는 기본적으로 키 값을 유지 한 채 반환합니다. 만약 이전의 원래 키를 유지하지 않길 원한다면, 새로운 인덱스를 구성하기 위해서 [`values`](#method-values) 메소드를 사용할 수 있습니다.
+
+<a name="method-sliding"></a>
+#### `sliding()` {.collection-method}
+
+`sliding` 메소드는 컬렉션에 있는 항목의 "슬라이딩 창" 보기를 나타내는 청크의 새로운 컬렉션을 반환합니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(2);
+
+    $chunks->toArray();
+
+    // [[1, 2], [2, 3], [3, 4], [4, 5]]
+
+이것은 [`eachSpread`](#method-eachspread) 메소드와 함께 특히 유용합니다.
+
+    $transactions->sliding(2)->eachSpread(function ($previous, $current) {
+        $current->total = $previous->total + $current->amount;
+    });
+
+선택적으로 모든 청크의 첫 번째 항목 사이의 거리를 결정하는 두 번째 "단계" 값을 전달할 수 있습니다.
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $chunks = $collection->sliding(3, step: 2);
+
+    $chunks->toArray();
+
+    // [[1, 2, 3], [3, 4, 5]]
 
 <a name="method-sole"></a>
 #### `sole()` {.collection-method}
@@ -2123,7 +2235,8 @@
 
 보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 내부적으로 호출될 때의 동작은 [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters)PHP 문서를 참고하십시오.
 
-> {tip} 만약 중첩된 배열이나 객체의 컬렉션을 정렬할 필요가 있다면, [`sortBy`](#method-sortby) 또는 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
+> **Note**
+> 만약 중첩된 배열이나 객체의 컬렉션을 정렬할 필요가 있다면, [`sortBy`](#method-sortby) 또는 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
 
 <a name="method-sortby"></a>
 #### `sortBy()` {.collection-method}
@@ -2466,7 +2579,8 @@
 
     // [1, 2]
 
-> {note} 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `takeUntil` 메서드는 컬렉션의 모든 항목을 반환합니다.
+> **Warning**
+> 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `takeUntil` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-takewhile"></a>
 #### `takeWhile()` {.collection-method}
@@ -2483,7 +2597,8 @@
 
     // [1, 2]
 
-> {note} 콜백이 `false`를 반환하지 않으면 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
+> **Warning**
+> 콜백이 `false`를 반환하지 않으면 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-tap"></a>
 #### `tap()` {.collection-method}
@@ -2527,7 +2642,8 @@
         ]
     */
 
-> {note} 또한 `toArray`는 컬렉션 내의 `Arrayable` 인스턴스인 모든 중첩된 객체를 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
+> **Warning**
+> 또한 `toArray`는 컬렉션 내의 `Arrayable` 인스턴스인 모든 중첩된 객체를 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
 
 <a name="method-tojson"></a>
 #### `toJson()` {.collection-method}
@@ -2555,7 +2671,8 @@
 
     // [2, 4, 6, 8, 10]
 
-> {note} 다른 컬렉션 메소드와 다르게, `transform` 메소드는 컬렉션 자신을 변경합니다. 대신에, 새로운 컬렉션을 생성하려면 [`map`](#method-map) 메소드를 사용하십시오.
+> **Warning**
+> 다른 컬렉션 메소드와 다르게, `transform` 메소드는 컬렉션 자신을 변경합니다. 대신에, 새로운 컬렉션을 생성하려면 [`map`](#method-map) 메소드를 사용하십시오.
 
 <a name="method-undot"></a>
 #### `undot()` {.collection-method}
@@ -2570,7 +2687,7 @@
         'address.suburb' => 'Detroit',
         'address.state' => 'MI',
         'address.postcode' => '48219'
-    ])
+    ]);
 
     $person = $person->undot();
 
@@ -2659,7 +2776,8 @@
 
 `unique` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`uniqueStrict`](#method-uniquestrict) 메소드를 사용하십시오.
 
-> {tip} 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique)를 사용할 때 수정됩니다.
+> **Note**
+> 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique)를 사용할 때 수정됩니다.
 
 <a name="method-uniquestrict"></a>
 #### `uniqueStrict()` {.collection-method}
@@ -2728,6 +2846,20 @@
 
     // 'John Doe'
 
+<a name="method-value"></a>
+#### `value()` {.collection-method}
+
+`value` 메서드는 컬렉션의 첫 번째 요소로부터 주어진 값을 조회합니다.
+
+    $collection = collect([
+        ['product' => 'Desk', 'price' => 200],
+        ['product' => 'Speaker', 'price' => 400],
+    ]);
+
+    $value = $collection->value('price');
+
+    // 200
+
 <a name="method-values"></a>
 #### `values()` {.collection-method}
 
@@ -2752,15 +2884,15 @@
 <a name="method-when"></a>
 #### `when()` {.collection-method}
 
-`when` 메소드는 when 메소드에 주어진 첫 번째 인자가 `true`로 판정 될 때 두 번째 인자로 전달되는 콜백을 실행합니다.
+`when` 메소드는 when 메소드에 주어진 첫 번째 인자가 `true`로 판정 될 때 두 번째 인자로 전달되는 콜백을 실행합니다. 컬렉션 인스턴스와 `when` 메서드에 주어진 첫 번째 인자가 클로저에 전달됩니다.
 
     $collection = collect([1, 2, 3]);
 
-    $collection->when(true, function ($collection) {
+    $collection->when(true, function ($collection, $value) {
         return $collection->push(4);
     });
 
-    $collection->when(false, function ($collection) {
+    $collection->when(false, function ($collection, $value) {
         return $collection->push(5);
     });
 
@@ -2772,7 +2904,7 @@
 
     $collection = collect([1, 2, 3]);
 
-    $collection->when(false, function ($collection) {
+    $collection->when(false, function ($collection, $value) {
         return $collection->push(4);
     }, function ($collection) {
         return $collection->push(5);
@@ -2891,9 +3023,9 @@
         ]
     */
 
-`where` 메소드는 아이템의 값을 확인할 때 타입을 "느슨하게" 비교하기 때문에, 문자형으로 된 정수값이라도 정수형과 동일하다고 판단합니다. "엄격한" 비교를 사용하여 필터링을 하려면 [`whereLoose`](#method-whereloose) 메소드를 사용하십시오.
+`where` 메소드는 아이템의 값을 확인할 때 타입을 "느슨하게" 비교하기 때문에, 문자형으로 된 정수값이라도 정수형과 동일하다고 판단합니다. "엄격한" 비교를 사용하여 필터링을 하려면 [`whereStrict`](#method-wherestrict) 메소드를 사용하십시오.
 
-선택적으로, 비교 연산자로 쓰인 두 번째 파라미터를 생략할 수 있습니다.
+선택적으로, 비교 연산자로 쓰인 두 번째 파라미터를 생략할 수 있습니다. '===', '!==', '!=', '==', '=', '<>', '>', '<', '>=', '<=' 연산자를 지원합니다.
 
     $collection = collect([
         ['name' => 'Jim', 'deleted_at' => '2019-01-01 00:00:00'],
@@ -3154,7 +3286,8 @@
 <a name="lazy-collection-introduction"></a>
 ### 시작하기
 
-라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
+> **Warning**
+> 라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
 
 이미 강력한 `컬렉션` 클래스를 보완하기 위해 `LazyCollection`은 PHP의 [generators](https://www.php.net/manual/en/language.generators.overview.php)를 이용해 메모리 사용량을 적게 유지하면서도 매우 큰 데이터 셋을 처리할 수 있게 해줍니다.
 
@@ -3242,6 +3375,7 @@
 - [except](#method-except)
 - [filter](#method-filter)
 - [first](#method-first)
+- [firstOrFail](#method-first-or-fail)
 - [firstWhere](#method-first-where)
 - [flatMap](#method-flatmap)
 - [flatten](#method-flatten)
@@ -3288,6 +3422,7 @@
 - [shuffle](#method-shuffle)
 - [skip](#method-skip)
 - [slice](#method-slice)
+- [sole](#method-sole)
 - [some](#method-some)
 - [sort](#method-sort)
 - [sortBy](#method-sortby)
@@ -3324,7 +3459,7 @@
 - [wrap](#method-wrap)
 - [zip](#method-zip)
 
-> {note} `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
+> `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
 
 <a name="lazy-collection-methods"></a>
 ### 지연 컬렉션 메소드

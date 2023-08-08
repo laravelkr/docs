@@ -114,7 +114,8 @@
 
 대부분의 서비스 컨테이너 바인딩들은 [서비스 프로바이더](/docs/{{version}}/providers) 내에서 등록됩니다. 따라서 이러한 모든 예제들은 해당 컨텍스트에서 컨테이너를 사용하는 데모가 될 것입니다.
 
-> {tip} 특정 인터페이스에 대한 의존성이 없을 때에는 컨테이너에 클래스를 바인딩 할 필요는 없습니다. 이러한 객체들은 리플랙션에 의해서 자동으로 의존성이 해결되기 때문에, 컨테이너가 각각의 객체들이 어떻게 생성될지 알 필요는 없습니다. 
+> **Note**
+> 특정 인터페이스에 대한 의존성이 없을 때에는 컨테이너에 클래스를 바인딩 할 필요는 없습니다. 이러한 객체들은 리플랙션에 의해서 자동으로 의존성이 해결되기 때문에, 컨테이너가 각각의 객체들이 어떻게 생성될지 알 필요는 없습니다. 
 
 #### 간단한 바인딩 
 
@@ -208,7 +209,9 @@
 
 때로는, 클래스가 주입되는 클래스들을 받아들일 수도 있지만, 정수형과 같은 기본 타입의 값들을 주입 할 필요가 있을 수도 있습니다. 여러분은 손쉽게 문맥에 따라 조건적 바인딩을 통해서 클래스가 필요한 값을 주입할 수 있습니다.
 
-    $this->app->when('App\Http\Controllers\UserController')
+    use App\Http\Controllers\UserController;
+
+    $this->app->when(UserController::class)
               ->needs('$variableName')
               ->give($value);
 
@@ -290,7 +293,7 @@
 <a name="extending-bindings"></a>
 ### 바인딩 확장
 
-`extend` 메소드로 서비스의 의존성을 수정할 수 있습니다. 예를 들어, 서비스의 의존성이 해결되었을 때, 서비스를 꾸미거나(decorate) 혹은 설정하는 위한 추가 코드를 실행할 수 있습니다. 클로저는 해결중인 서비스와 컨테이너 인스턴스를 입력 받습니다.    
+`extend` 메소드로 서비스의 의존성을 수정할 수 있습니다. 예를 들어, 서비스의 의존성이 해결되었을 때, 서비스를 꾸미거나(decorate) 혹은 설정하는 위한 추가 코드를 실행할 수 있습니다. `extend` 메서드는 두 인자를 받습니다. 하나는 확장하려는 서비스 클래스이고 다른 하나는 수정된 서비스를 반환할 클로저입니다. 클로저는 해결중인 서비스와 컨테이너 인스턴스를 입력 받습니다.  
 
     $this->app->extend(Service::class, function ($service, $app) {
         return new DecoratedService($service);
@@ -302,17 +305,41 @@
 <a name="the-make-method"></a>
 #### `make` 메소드
 
-컨테이너 밖에서 클래스 인스턴스에 대한 의존성을 해결하기 위해서 `make` 메소드를 사용할 수 있습니다. `make` 메소드는 의존성 해결을 위해 여러분이 원하는 클래스나 인터페이스에 대한 이름을 전달받습니다. 
+컨테이너로 부터 클래스 인스턴스에 대한 의존성을 해결하기 위해서 `make` 메소드를 사용할 수 있습니다. `make` 메소드는 의존성 해결을 위해 여러분이 원하는 클래스나 인터페이스에 대한 이름을 전달받습니다. 
 
-    $api = $this->app->make('HelpSpot\API');
+    use App\Services\Transistor;
 
-`$app` 변수에 대한 접근을 가지고 있지 않은 코드에 위치하고 있다면, 글로벌 `resolve` 헬퍼 함수를 사용할 수 있습니다.
+    $transistor = $this->app->make(Transistor::class);
 
-    $api = resolve('HelpSpot\API');
+클래스의 의존성 중 일부가 컨테이너를 통해 해결될 수 없는 경우 `makeWith` 메서드에 연관 배열로 전달하여 의존성을 주입할 수 있습니다. 예를 들어 `Transistor` 서비스에 필요한 생성자 인수 `$id`를 수동으로 전달할 수 있습니다.
 
-클래스의 의존성이 컨테이너를 통해서 해결될 수 없다면, `makeWith` 메소드에 관련된 인자를 배열로 전달할 수도 있습니다.
+    use App\Services\Transistor;
 
-    $api = $this->app->makeWith('HelpSpot\API', ['id' => 1]);
+    $transistor = $this->app->makeWith(Transistor::class, ['id' => 1]);
+
+`$app` 변수에 접근할 수 없는 서비스 프로바이더 밖에서 컨테이너로 부터 클래스 인스턴스를 리졸브하려면 `App` [파사드](/docs/{{version}}/facades)나 `app` [헬퍼](/docs/{{version}}/helpers#method-app)를 사용할 수 있습니다.
+
+    use App\Services\Transistor;
+    use Illuminate\Support\Facades\App;
+
+    $transistor = App::make(Transistor::class);
+
+    $transistor = app(Transistor::class);
+
+컨테이너에 의해 리졸브되는 클래스에 컨테이너 자체를 의존성 주입하려면 클래스 생성자에 `Illuminate\Container\Container` 클래스를 타입힌트 하면 됩니다.
+
+    use Illuminate\Container\Container;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param  \Illuminate\Container\Container  $container
+     * @return void
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
 <a name="automatic-injection"></a>
 #### 자동 주입

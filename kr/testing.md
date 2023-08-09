@@ -13,6 +13,8 @@
     - [병렬로 테스트 실행](#running-tests-in-parallel)
     - [Reporting Test Coverage](#reporting-test-coverage)
     - [테스트 커버리지 리포트](#reporting-test-coverage)
+    - [Profiling Tests](#profiling-tests)
+    - [프로파일링 테스트](#profiling-tests)
 
 <a name="introduction"></a>
 ## Introduction
@@ -107,10 +109,8 @@ Once the test has been generated, you may define test methods as you normally wo
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_basic_test()
+        public function test_basic_test(): void
         {
             $this->assertTrue(true);
         }
@@ -211,34 +211,33 @@ Using the `ParallelTesting` facade, you may specify code to be executed on the `
     use Illuminate\Support\Facades\Artisan;
     use Illuminate\Support\Facades\ParallelTesting;
     use Illuminate\Support\ServiceProvider;
+    use PHPUnit\Framework\TestCase;
 
     class AppServiceProvider extends ServiceProvider
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            ParallelTesting::setUpProcess(function ($token) {
+            ParallelTesting::setUpProcess(function (int $token) {
                 // ...
             });
 
-            ParallelTesting::setUpTestCase(function ($token, $testCase) {
+            ParallelTesting::setUpTestCase(function (int $token, TestCase $testCase) {
                 // ...
             });
 
             // Executed when a test database is created...
-            ParallelTesting::setUpTestDatabase(function ($database, $token) {
+            ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
                 Artisan::call('db:seed');
             });
 
-            ParallelTesting::tearDownTestCase(function ($token, $testCase) {
+            ParallelTesting::tearDownTestCase(function (int $token, TestCase $testCase) {
                 // ...
             });
 
-            ParallelTesting::tearDownProcess(function ($token) {
+            ParallelTesting::tearDownProcess(function (int $token) {
                 // ...
             });
         }
@@ -282,4 +281,16 @@ You may use the `--min` option to define a minimum test coverage threshold for y
 
 ```shell
 php artisan test --coverage --min=80.3
+```
+
+<a name="profiling-tests"></a>
+### Profiling Test
+### 프로파일링 테스트
+
+The Artisan test runner also includes a convenient mechanism for listing your application's slowest tests. Invoke the `test` command with the `--profile` option to be presented with a list of your ten slowest tests, allowing you to easily investigate which tests can be improved to speed up your test suite:
+
+아티즌 테스트 러너에는 애플리케이션에서 가장 느린 테스트 목록을 편리하게 나열하는 기능도 포함되어 있습니다. `test` 명령을 `--profile` 옵션을 사용해서 호출하면 애플리케이션에서 가장 느린 10개의 테스트 목록이 표시되며, 이를 통해 테스트 세트를 빠르게 실행할 수 있는 방법을 찾아 개선할 수 있습니다.
+
+```shell
+php artisan test --profile
 ```

@@ -31,6 +31,8 @@
     - [응답-Response Assertions](#response-assertions)
     - [Authentication Assertions](#authentication-assertions)
     - [인증 Assertions](#authentication-assertions)
+    - [Validation Assertions](#authentication-assertions)
+    - [검증 Assertions](#validation-assertions)
 
 <a name="introduction"></a>
 ## Introduction
@@ -52,10 +54,8 @@ Laravel provides a very fluent API for making HTTP requests to your application 
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_a_basic_request()
+        public function test_a_basic_request(): void
         {
             $response = $this->get('/');
 
@@ -91,10 +91,8 @@ Instead of returning an `Illuminate\Http\Response` instance, test request method
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_a_basic_request()
+        public function test_a_basic_request(): void
         {
             $response = $this->get('/');
 
@@ -130,10 +128,8 @@ You may use the `withHeaders` method to customize the request's headers before i
     {
         /**
          * A basic functional test example.
-         *
-         * @return void
          */
-        public function test_interacting_with_headers()
+        public function test_interacting_with_headers(): void
         {
             $response = $this->withHeaders([
                 'X-Header' => 'Value',
@@ -159,7 +155,7 @@ You may use the `withCookie` or `withCookies` methods to set cookie values befor
 
     class ExampleTest extends TestCase
     {
-        public function test_interacting_with_cookies()
+        public function test_interacting_with_cookies(): void
         {
             $response = $this->withCookie('color', 'blue')->get('/');
 
@@ -186,7 +182,7 @@ Laravel provides several helpers for interacting with the session during HTTP te
 
     class ExampleTest extends TestCase
     {
-        public function test_interacting_with_the_session()
+        public function test_interacting_with_the_session(): void
         {
             $response = $this->withSession(['banned' => false])->get('/');
         }
@@ -205,7 +201,7 @@ Laravel's session is typically used to maintain state for the currently authenti
 
     class ExampleTest extends TestCase
     {
-        public function test_an_action_that_requires_authentication()
+        public function test_an_action_that_requires_authentication(): void
         {
             $user = User::factory()->create();
 
@@ -239,10 +235,8 @@ After making a test request to your application, the `dump`, `dumpHeaders`, and 
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_basic_test()
+        public function test_basic_test(): void
         {
             $response = $this->get('/');
 
@@ -268,10 +262,8 @@ Alternatively, you may use the `dd`, `ddHeaders`, and `ddSession` methods to dum
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_basic_test()
+        public function test_basic_test(): void
         {
             $response = $this->get('/');
 
@@ -317,10 +309,8 @@ Laravel also provides several helpers for testing JSON APIs and their responses.
     {
         /**
          * A basic functional test example.
-         *
-         * @return void
          */
-        public function test_making_an_api_request()
+        public function test_making_an_api_request(): void
         {
             $response = $this->postJson('/api/user', ['name' => 'Sally']);
 
@@ -362,10 +352,8 @@ As previously mentioned, the `assertJson` method may be used to assert that a fr
     {
         /**
          * A basic functional test example.
-         *
-         * @return void
          */
-        public function test_asserting_an_exact_json_match()
+        public function test_asserting_an_exact_json_match(): void
         {
             $response = $this->postJson('/user', ['name' => 'Sally']);
 
@@ -395,10 +383,8 @@ JSON 응답에 지정된 경로에 지정된 데이터가 포함되어 있는지
     {
         /**
          * A basic functional test example.
-         *
-         * @return void
          */
-        public function test_asserting_a_json_paths_value()
+        public function test_asserting_a_json_paths_value(): void
         {
             $response = $this->postJson('/user', ['name' => 'Sally']);
 
@@ -427,10 +413,8 @@ Laravel also offers a beautiful way to fluently test your application's JSON res
 
     /**
      * A basic functional test example.
-     *
-     * @return void
      */
-    public function test_fluent_json()
+    public function test_fluent_json(): void
     {
         $response = $this->getJson('/users/1');
 
@@ -616,7 +600,7 @@ The `Illuminate\Http\UploadedFile` class provides a `fake` method which may be u
 
     class ExampleTest extends TestCase
     {
-        public function test_avatars_can_be_uploaded()
+        public function test_avatars_can_be_uploaded(): void
         {
             Storage::fake('avatars');
 
@@ -680,7 +664,7 @@ Laravel also allows you to render a view without making a simulated HTTP request
 
     class ExampleTest extends TestCase
     {
-        public function test_a_welcome_view_can_be_rendered()
+        public function test_a_welcome_view_can_be_rendered(): void
         {
             $view = $this->view('welcome', ['name' => 'Taylor']);
 
@@ -1612,3 +1596,45 @@ Assert that a specific user is authenticated:
 특정 사용자가 인증되었는지 확인:
 
     $this->assertAuthenticatedAs($user, $guard = null);
+
+<a name="validation-assertions"></a>
+### Validation Assertions
+### Validation Assertions
+
+Laravel provides two primary validation related assertions that you may use to ensure the data provided in your request was either valid or invalid.
+
+Laravel은 요청에 제공된 데이터가 유효한지 또는 유효하지 않은 경우를 확인하기 위해 사용할 수 있는 두 가지 기본 유효성 검사 관련 검증을 제공합니다.
+
+<a name="validation-assert-valid"></a>
+#### assertValid
+#### assertValid
+
+Assert that the response has no validation errors for the given keys. This method may be used for asserting against responses where the validation errors are returned as a JSON structure or where the validation errors have been flashed to the session:
+
+주어진 키에 대한 유효성 검사 오류가 응답에 포함되어 있지 않음을 검증합니다. 이 방법은 유효성 오류가 JSON 구조로 반환되는 응답이나 유효성 오류가 세션에 플래시된 경우에 대해 검증하는 데 사용할 수 있습니다.
+
+    // Assert that no validation errors are present...
+    $response->assertValid();
+
+    // Assert that the given keys do not have validation errors...
+    $response->assertValid(['name', 'email']);
+
+<a name="validation-assert-invalid"></a>
+#### assertInvalid
+#### assertInvalid
+
+Assert that the response has validation errors for the given keys. This method may be used for asserting against responses where the validation errors are returned as a JSON structure or where the validation errors have been flashed to the session:
+
+주어진 키에 대한 유효성 검사 오류가 응답에 포함되어 있는지 확인하는 검증을 실행합니다. 이 방법은 유효성 오류가 JSON 구조로 반환되는 응답이나 유효성 오류가 세션에 플래시된 경우에 대해 검증하는 데 사용할 수 있습니다.
+
+    $response->assertInvalid(['name', 'email']);
+
+You may also assert that a given key has a particular validation error message. When doing so, you may provide the entire message or only a small portion of the message:
+
+또한 특정한 유효성 검사 오류 메시지가 주어진 키에 대해 존재함을 검증할 수도 있습니다. 이 때 전체 메시지나 일부분만 제공할 수 있습니다.
+
+
+    $response->assertInvalid([
+        'name' => 'The name field is required.',
+        'email' => 'valid email address',
+    ]);

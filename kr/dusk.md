@@ -13,6 +13,8 @@
 - [시작하기](#getting-started)
   - [Generating Tests](#generating-tests)
   - [테스트 클래스 생성하기](#generating-tests)
+  - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
+  - [각 항목 테스트 후 데이터베이스 재설정](#resetting-the-database-after-each-test) 
   - [Database Migrations](#migrations)
   - [데이터베이스 마이그레이션](#migrations)
   - [Running Tests](#running-tests)
@@ -186,7 +188,7 @@ To get started, open your `tests/DuskTestCase.php` file, which is the base Dusk 
      * @beforeClass
      * @return void
      */
-    public static function prepare()
+    public static function prepare(): void
     {
         // static::startChromeDriver();
     }
@@ -197,12 +199,14 @@ Next, you may modify the `driver` method to connect to the URL and port of your 
 
 (역자주 : "desired capabilities"는 Facebook\WebDriver\Remote\RemoteWebDriver 의 create 메소드에서 필요한 DesiredCapabilities 클래스 호출을 의미합니다)
 
+    use Facebook\WebDriver\Remote\RemoteWebDriver;
+
     /**
      * Create the RemoteWebDriver instance.
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
-    protected function driver()
+    protected function driver(): RemoteWebDriver
     {
         return RemoteWebDriver::create(
             'http://localhost:4444/wd/hub', DesiredCapabilities::phantomjs()
@@ -225,13 +229,19 @@ Dusk 테스트를 생성하기 위해서는 `dusk:make` 아티즌 명령어를 �
 php artisan dusk:make LoginTest
 ```
 
-<a name="migrations"></a>
-### Database Migrations
-### 데이터베이스 마이그레이션
+<a name="resetting-the-database-after-each-test"></a>
+### Resetting The Database After Each Test
+### 각 항목 테스트 후 데이터베이스 재설정
 
-Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase `trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, use the `DatabaseMigrations` trait, which re-migrates the database for each test:
+Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase `trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, you have two options: the `DatabaseMigrations` trait and the `DatabaseTruncation` trait:
 
-작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, 각 테스트에 대해 데이터베이스를 다시 마이그레이션하는 `DatabaseMigrations` 특성-trait을 사용하십시오.
+작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, 두가지 옵션 : `DatabaseMigrations` 특성-trait 그리고 `DatabaseTruncation` 특성-trait 을 사용하십시오.
+
+#### Using Database Migrations
+#### 데이터베이스 마이그레이션을 사용하기
+
+The `DatabaseMigrations` trait will run your database migrations before each test. However, dropping and re-creating your database tables for each test is typically slower than truncating the tables:
+`DatabaseMigrations` 특성-trait는 각 항목 테스트 이전에 데이터베이스 마이그레이션을 실행합니다. 그러나 각 테스트에 대한 데이터베이스 테이블 삭제 및 재생성은 일반적으로 테이블을 초기화(역주:truncating) 하는 것보다 느립니다.
 
     <?php
 
@@ -252,6 +262,62 @@ Most of the tests you write will interact with pages that retrieve data from you
 
 > **Warning**
 > Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
+
+#### Using Database Truncation
+#### 데이터베이스 마이그레이션을 사용하기
+
+Before using the `DatabaseTruncation` trait, you must install the `doctrine/dbal` package using the Composer package manager:
+
+```shell
+composer require --dev doctrine/dbal
+```
+
+The `DatabaseTruncation` trait will migrate your database on the first test in order to ensure your database tables have been properly created. However, on subsequent tests, the database's tables will simply be truncated - providing a speed boost over re-running all of your database migrations:
+`DatabaseTruncation` 특성-trait는 데이터베이스 테이블이 제대로 생성되었는지 확인하기 위해 첫 번째 테스트에서 데이터베이스를 마이그레이션합니다. 그러나 후속 테스트에서는 데이터베이스의 테이블을 초기화하여, 모든 데이터베이스 마이그레이션을 다시 실행하는 것보다 빠른 속도를 제공합니다.
+
+    <?php
+     
+    namespace Tests\Browser;
+     
+    use App\Models\User;
+    use Illuminate\Foundation\Testing\DatabaseTruncation;
+    use Laravel\Dusk\Chrome;
+    use Tests\DuskTestCase;
+     
+    class ExampleTest extends DuskTestCase
+    {
+        use DatabaseTruncation;
+    }
+
+By default, this trait will truncate all tables except the `migrations` table. If you would like to customize the tables that should be truncated, you may define a `$tablesToTruncate` property on your test class:
+`DatabaseTruncation` 특성-trait는 데이터베이스 테이블이 제대로 생성되었는지 확인하기 위해, 첫 번째 테스트에서 데이터베이스를 마이그레이션합니다. 그러나 후속 테스트에서 데이터베이스의 테이블을 초기화하여, 모든 데이터베이스 마이그레이션을 다시 실행하는 것보다 빠른 속도를 제공합니다.
+
+    /**
+     * Indicates which tables should be truncated.
+     *
+     * @var array
+     */
+    protected $tablesToTruncate = ['users'];
+
+Alternatively, you may define an `$exceptTables` property on your test class to specify which tables should be excluded from truncation:
+또는 테스트 클래스에서 `$exceptTables` 속성을 정의하여 초기화에서 제외해야 하는 테이블을 지정할 수 있습니다.
+
+    /**
+     * Indicates which tables should be excluded from truncation.
+     *
+     * @var array
+     */
+    protected $exceptTables = ['users'];
+
+To specify the database connections that should have their tables truncated, you may define a `$connectionsToTruncate` property on your test class:
+테이블이 초기화하는 데이터베이스 연결을 지정하려면 테스트 클래스에서 `$connectionsToTruncate` 속성을 정의할 수 있습니다.
+
+    /**
+     * Indicates which connections should have their tables truncated.
+     *
+     * @var array
+     */
+    protected $connectionsToTruncate = ['mysql'];
 
 <a name="running-tests"></a>
 ### Running Tests
@@ -301,7 +367,7 @@ By default, Dusk will automatically attempt to start ChromeDriver. If this does 
      * @beforeClass
      * @return void
      */
-    public static function prepare()
+    public static function prepare(): void
     {
         // static::startChromeDriver();
     }
@@ -310,12 +376,14 @@ In addition, if you start ChromeDriver on a port other than 9515, you should mod
 
 또한 9515 이외의 포트에서 ChromeDriver를 시작하는 경우, 올바른 포트를 반영하도록 동일한 클래스의 `driver` 메서드를 수정해야 합니다.
 
+    use Facebook\WebDriver\Remote\RemoteWebDriver;
+
     /**
      * Create the RemoteWebDriver instance.
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver
      */
-    protected function driver()
+    protected function driver(): RemoteWebDriver
     {
         return RemoteWebDriver::create(
             'http://localhost:9515', DesiredCapabilities::chrome()
@@ -352,6 +420,7 @@ To get started, let's write a test that verifies we can log into our application
 
     use App\Models\User;
     use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Laravel\Dusk\Browser;
     use Laravel\Dusk\Chrome;
     use Tests\DuskTestCase;
 
@@ -361,16 +430,14 @@ To get started, let's write a test that verifies we can log into our application
 
         /**
          * A basic browser test example.
-         *
-         * @return void
          */
-        public function test_basic_example()
+        public function test_basic_example(): void
         {
             $user = User::factory()->create([
                 'email' => 'taylor@laravel.com',
             ]);
 
-            $this->browse(function ($browser) use ($user) {
+            $this->browse(function (Browser $browser) use ($user) {
                 $browser->visit('/login')
                         ->type('email', $user->email)
                         ->type('password', 'password')
@@ -392,7 +459,7 @@ Sometimes you may need multiple browsers in order to properly carry out a test. 
 
 때때로 테스트를 제대로 수행하기 위해 여러 브라우저가 필요할 수 있습니다. 예를 들어 웹 소켓과 상호 작용하는 채팅 화면을 테스트하려면 여러 브라우저가 필요할 수 있습니다. 여러 브라우저를 만들려면 `browse` 메서드에 제공된 클로저 서명에 브라우저 인수를 더 추가하기만 하면 됩니다.
 
-    $this->browse(function ($first, $second) {
+    $this->browse(function (Browser $first, Browser $second) {
         $first->loginAs(User::find(1))
               ->visit('/home')
               ->waitForText('Message');
@@ -493,9 +560,9 @@ If you would like to define a custom browser method that you can re-use in a var
          *
          * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            Browser::macro('scrollToElement', function ($element = null) {
+            Browser::macro('scrollToElement', function (string $element = null) {
                 $this->script("$('html, body').animate({ scrollTop: $('$element').offset().top }, 0);");
 
                 return $this;
@@ -507,7 +574,7 @@ The `macro` function accepts a name as its first argument, and a closure as its 
 
 `macro` 함수는 이름을 첫 번째 인수로 받아들이고 클로저를 두 번째 인수로 받아들입니다. 매크로의 클로저는 `Browser` 인스턴스의 메소드로 매크로를 호출할 때 실행됩니다.
 
-    $this->browse(function ($browser) use ($user) {
+    $this->browse(function (Browser $browser) use ($user) {
         $browser->visit('/pay')
                 ->scrollToElement('#credit-card-details')
                 ->assertSee('Enter Credit Card Details');
@@ -522,8 +589,9 @@ Often, you will be testing pages that require authentication. You can use Dusk's
 종종 인증이 필요한 페이지를 테스트하게 됩니다. 모든 테스트 중에 애플리케이션의 로그인 화면과 상호 작용하는 것을 피하기 위해 Dusk의 `loginAs` 메소드를 사용할 수 있습니다. `loginAs` 메소드는 인증 가능한 모델 또는 인증 가능한 모델 인스턴스와 연결된 기본 키를 입력받습니다.
 
     use App\Models\User;
+    use Laravel\Dusk\Browser;
 
-    $this->browse(function ($browser) {
+    $this->browse(function (Browser $browser) {
         $browser->loginAs(User::find(1))
               ->visit('/home');
     });
@@ -2216,10 +2284,8 @@ The `url` method should return the path of the URL that represents the page. Dus
 
     /**
      * Get the URL for the page.
-     *
-     * @return string
      */
-    public function url()
+    public function url(): string
     {
         return '/login';
     }
@@ -2234,10 +2300,8 @@ The `assert` method may make any assertions necessary to verify that the browser
 
     /**
      * Assert that the browser is on the page.
-     *
-     * @return void
      */
-    public function assert(Browser $browser)
+    public function assert(Browser $browser): void
     {
         $browser->assertPathIs($this->url());
     }
@@ -2276,9 +2340,9 @@ The `elements` method within page classes allows you to define quick, easy-to-re
     /**
      * Get the element shortcuts for the page.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function elements()
+    public function elements(): array
     {
         return [
             '@email' => 'input[name=email]',
@@ -2302,9 +2366,9 @@ Dusk을 설치 한 후, 기본 `Page` 클래스는 `tests/Browser/Pages` 디렉�
     /**
      * Get the global element shortcuts for the site.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public static function siteElements()
+    public static function siteElements(): array
     {
         return [
             '@element' => '#selector',
@@ -2331,12 +2395,8 @@ In addition to the default methods defined on pages, you may define additional m
 
         /**
          * Create a new playlist.
-         *
-         * @param  \Laravel\Dusk\Browser  $browser
-         * @param  string  $name
-         * @return void
          */
-        public function createPlaylist(Browser $browser, $name)
+        public function createPlaylist(Browser $browser, string $name): void
         {
             $browser->type('name', $name)
                     ->check('share')
@@ -2387,21 +2447,16 @@ As shown above, a "date picker" is an example of a component that might exist th
     {
         /**
          * Get the root selector for the component.
-         *
-         * @return string
          */
-        public function selector()
+        public function selector(): string
         {
             return '.date-picker';
         }
 
         /**
          * Assert that the browser page contains the component.
-         *
-         * @param  Browser  $browser
-         * @return void
          */
-        public function assert(Browser $browser)
+        public function assert(Browser $browser): void
         {
             $browser->assertVisible($this->selector());
         }
@@ -2409,9 +2464,9 @@ As shown above, a "date picker" is an example of a component that might exist th
         /**
          * Get the element shortcuts for the component.
          *
-         * @return array
+         * @return array<string, string>
          */
-        public function elements()
+        public function elements(): array
         {
             return [
                 '@date-field' => 'input.datepicker-input',
@@ -2423,14 +2478,8 @@ As shown above, a "date picker" is an example of a component that might exist th
 
         /**
          * Select the given date.
-         *
-         * @param  \Laravel\Dusk\Browser  $browser
-         * @param  int  $year
-         * @param  int  $month
-         * @param  int  $day
-         * @return void
          */
-        public function selectDate(Browser $browser, $year, $month, $day)
+        public function selectDate(Browser $browser, int $year, int $month, int $day)
         {
             $browser->click('@date-field')
                     ->within('@year-list', function ($browser) use ($year) {
@@ -2466,14 +2515,12 @@ Once the component has been defined, we can easily select a date within the date
     {
         /**
          * A basic component test example.
-         *
-         * @return void
          */
-        public function testBasicExample()
+        public function test_basic_example(): void
         {
             $this->browse(function (Browser $browser) {
                 $browser->visit('/')
-                        ->within(new DatePicker, function ($browser) {
+                        ->within(new DatePicker, function (Browser $browser) {
                             $browser->selectDate(2019, 1, 30);
                         })
                         ->assertSee('January');

@@ -28,11 +28,11 @@
 ## Introduction
 ## 시작하기
 
-Of course, it's not practical to return entire HTML documents strings directly from your routes and controllers. Thankfully, views provide a convenient way to place all of our HTML in separate files. 
+Of course, it's not practical to return entire HTML documents strings directly from your routes and controllers. Thankfully, views provide a convenient way to place all of our HTML in separate files.
 
 물론 route와 controller에서 직접 전체 HTML 문서 문자열을 반환하는 것은 현실적이지 않습니다. 고맙게도 뷰-View는 모든 HTML을 별도의 파일에 배치할 수 있는 편리한 방법을 제공합니다.
 
-Views separate your controller / application logic from your presentation logic and are stored in the `resources/views` directory.  When using Laravel, view templates are usually written using the [Blade templating language](/docs/{{version}}/blade). A simple view might look something like this:
+Views separate your controller / application logic from your presentation logic and are stored in the `resources/views` directory. When using Laravel, view templates are usually written using the [Blade templating language](/docs/{{version}}/blade). A simple view might look something like this:
 
 뷰-View는 컨트롤러 / 애플리케이션 로직을 프레젠테이션 로직과 분리하고 `resources/views` 디렉토리에 저장됩니다. 라라벨을 사용할 때 뷰 템플릿은 주로 [블레이드 템플릿 언어](/docs/{{version}}/blade)를 이용해서 작성됩니다. 간단한 뷰-View 파일의 경우 다음처럼 보일 것입니다.
 
@@ -139,7 +139,7 @@ If you need to determine if a view exists, you may use the `View` facade. The `e
     use Illuminate\Support\Facades\View;
 
     if (View::exists('emails.customer')) {
-        //
+        // ...
     }
 
 <a name="passing-data-to-views"></a>
@@ -182,20 +182,16 @@ Occasionally, you may need to share data with all views that are rendered by you
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             View::share('key', 'value');
         }
@@ -222,34 +218,35 @@ We'll use the `View` facade's `composer` method to register the view composer. L
     namespace App\Providers;
 
     use App\View\Composers\ProfileComposer;
-    use Illuminate\Support\Facades\View;
+    use Illuminate\Support\Facades;
     use Illuminate\Support\ServiceProvider;
+    use Illuminate\View\View;
 
     class ViewServiceProvider extends ServiceProvider
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
             // Using class based composers...
-            View::composer('profile', ProfileComposer::class);
+            Facades\View::composer('profile', ProfileComposer::class);
 
             // Using closure based composers...
-            View::composer('dashboard', function ($view) {
-                //
+            Facades\View::composer('welcome', function (View $view) {
+                // ...
+            });
+
+            Facades\View::composer('dashboard', function (View $view) {
+                // ...
             });
         }
     }
@@ -274,30 +271,16 @@ Now that we have registered the composer, the `compose` method of the `App\View\
     class ProfileComposer
     {
         /**
-         * The user repository implementation.
-         *
-         * @var \App\Repositories\UserRepository
-         */
-        protected $users;
-
-        /**
          * Create a new profile composer.
-         *
-         * @param  \App\Repositories\UserRepository  $users
-         * @return void
          */
-        public function __construct(UserRepository $users)
-        {
-            $this->users = $users;
-        }
+        public function __construct(
+            protected UserRepository $users,
+        ) {}
 
         /**
          * Bind data to the view.
-         *
-         * @param  \Illuminate\View\View  $view
-         * @return void
          */
-        public function compose(View $view)
+        public function compose(View $view): void
         {
             $view->with('count', $this->users->count());
         }
@@ -316,6 +299,7 @@ You may attach a view composer to multiple views at once by passing an array of 
 `composer` 메소드의 첫번째 인자로 뷰 파일들의 배열을 전달하여, 뷰 컴포저가 적용될 다수의 뷰 파일들을 지정할 수 있습니다.
 
     use App\Views\Composers\MultiComposer;
+    use Illuminate\Support\Facades\View;
 
     View::composer(
         ['profile', 'dashboard'],
@@ -326,8 +310,11 @@ The `composer` method also accepts the `*` character as a wildcard, allowing you
 
 `composer` 메소드는 또한 `*` 와일드 캐릭터로 인자를 받을 수 있는데, 이렇게 하면 모든 뷰에 뷰컴포저를 지정하게 됩니다.
 
-    View::composer('*', function ($view) {
-        //
+    use Illuminate\Support\Facades;
+    use Illuminate\View\View;
+
+    Facades\View::composer('*', function (View $view) {
+        // ...
     });
 
 <a name="view-creators"></a>

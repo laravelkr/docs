@@ -32,9 +32,9 @@ However, as previously mentioned, collections are much more powerful than arrays
 
 그러나 이전에 언급했듯이, 컬렉션은 배열보다 강력하며, 직관적인 인터페이스를 사용하여 메소드 체인이 가능한 map / reduce 메소드를 사용 할 수 있습니다. 예를 들어 사용자 중에서 비활성화된 사용자를 제외하고 남은 사용자들의 이름을 확인하려면 다음과 같이 하면 됩니다.
 
-    $names = User::all()->reject(function ($user) {
+    $names = User::all()->reject(function (User $user) {
         return $user->active === false;
-    })->map(function ($user) {
+    })->map(function (User $user) {
         return $user->name;
     });
 
@@ -286,6 +286,7 @@ If you would like to use a custom `Collection` object when interacting with a gi
     namespace App\Models;
 
     use App\Support\UserCollection;
+    use Illuminate\Database\Eloquent\Collection;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
@@ -293,10 +294,10 @@ If you would like to use a custom `Collection` object when interacting with a gi
         /**
          * Create a new Eloquent Collection instance.
          *
-         * @param  array  $models
-         * @return \Illuminate\Database\Eloquent\Collection
+         * @param  array<int, \Illuminate\Database\Eloquent\Model>  $models
+         * @return \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model>
          */
-        public function newCollection(array $models = [])
+        public function newCollection(array $models = []): Collection
         {
             return new UserCollection($models);
         }

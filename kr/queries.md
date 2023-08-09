@@ -104,15 +104,14 @@ You may use the `table` method provided by the `DB` facade to begin a query. The
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show a list of all of the application's users.
-         *
-         * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(): View
         {
             $users = DB::table('users')->get();
 
@@ -179,7 +178,7 @@ If you would like to retrieve an `Illuminate\Support\Collection` instance contai
         echo $title;
     }
 
-You may specify the column that the resulting collection should use as its keys by providing a second argument to the `pluck` method:
+ You may specify the column that the resulting collection should use as its keys by providing a second argument to the `pluck` method:
 
 `pluck` 메소드에 두 번째 인수를 입력하여 결과 컬렉션이 키로 사용하는 컬럼을 지정할 수 있습니다 .
 
@@ -197,11 +196,12 @@ If you need to work with thousands of database records, consider using the `chun
 
 데이터베이스 레코드가 많은 작업을 수행해야 한다면, `DB` 파사드가 제공하는 `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 청크로 획득하고, 각각의 청크를 `Closure` 를 통해서 처리합니다. 예제로 `users` 테이블을 한번에 100개의 레코드 청크로 전체 검색해 보겠습니다.
 
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\DB;
 
-    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function (Collection $users) {
         foreach ($users as $user) {
-            //
+            // ...
         }
     });
 
@@ -209,7 +209,7 @@ You may stop further chunks from being processed by returning `false` from the c
 
 클로저에서 `false`를 반환하여, 더이상의 청크를 처리하지 않도록 중단할 수 있습니다.
 
-    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function (Collection $users) {
         // Process the records...
 
         return false;
@@ -220,7 +220,7 @@ If you are updating database records while chunking results, your chunk results 
 결과를 청킹 하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경될 수 있습니다. 청킹 중 검색된 레코드를 업데이트 하려는 경우 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메소드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징 합니다.
 
     DB::table('users')->where('active', false)
-        ->chunkById(100, function ($users) {
+        ->chunkById(100, function (Collection $users) {
             foreach ($users as $user) {
                 DB::table('users')
                     ->where('id', $user->id)
@@ -245,8 +245,8 @@ The `lazy` method works similarly to [the `chunk` method](#chunking-results) in 
 ```php
 use Illuminate\Support\Facades\DB;
 
-DB::table('users')->orderBy('id')->lazy()->each(function ($user) {
-    //
+DB::table('users')->orderBy('id')->lazy()->each(function (object $user) {
+    // ...
 });
 ```
 
@@ -256,7 +256,7 @@ Once again, if you plan to update the retrieved records while iterating over the
 
 ```php
 DB::table('users')->where('active', false)
-    ->lazyById()->each(function ($user) {
+    ->lazyById()->each(function (object $user) {
         DB::table('users')
             ->where('id', $user->id)
             ->update(['active' => true]);
@@ -488,7 +488,7 @@ You may also specify more advanced join clauses. To get started, pass a closure 
 보다 복잡한 join 절도 지정할 수 있습니다. 시작하려면 `join` 메소드의 두 번째 인자로 클로저를 전달하십시오. 클로저는 `Illuminate\Database\Query\JoinClause`의 인스턴스를 전달받아 `join` 절에 제약사항을 지정할 것입니다.
 
     DB::table('users')
-            ->join('contacts', function ($join) {
+            ->join('contacts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
             })
             ->get();
@@ -499,7 +499,7 @@ join에 "where" 절을 사용 하려면 `JoinClause` 인스턴스가 제공하�
 
 
     DB::table('users')
-            ->join('contacts', function ($join) {
+            ->join('contacts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'contacts.user_id')
                      ->where('contacts.user_id', '>', 5);
             })
@@ -519,7 +519,7 @@ You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a q
                        ->groupBy('user_id');
 
     $users = DB::table('users')
-            ->joinSub($latestPosts, 'latest_posts', function ($join) {
+            ->joinSub($latestPosts, 'latest_posts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'latest_posts.user_id');
             })->get();
 
@@ -623,11 +623,13 @@ If you need to group an "or" condition within parentheses, you may pass a closur
 
     $users = DB::table('users')
                 ->where('votes', '>', 100)
-                ->orWhere(function($query) {
+                ->orWhere(function(Builder $query) {
                     $query->where('name', 'Abigail')
                           ->where('votes', '>', 50);
                 })
                 ->get();
+
+The example above will produce the following SQL:
 
 위의 예제는 아래의 SQL 문을 생성합니다.
 
@@ -650,7 +652,7 @@ The `whereNot` and `orWhereNot` methods may be used to negate a given group of q
 `whereNot` 과 `orWhereNot` 메소드는 주어진 쿼리 제약조건그룹에 해당하지 않는 결과를 얻는데 사용합니다. 예를 들어, 다음의 예제는 'clearance' 가 'true' 이거나 'price' 가 10 미만인 제품을 제외한 결과를 확인할 수 있습니다. 
 
     $products = DB::table('products')
-                    ->whereNot(function ($query) {
+                    ->whereNot(function (Builder $query) {
                         $query->where('clearance', true)
                               ->orWhere('price', '<', 10);
                     })
@@ -888,7 +890,7 @@ Sometimes you may need to group several "where" clauses within parentheses in or
 
     $users = DB::table('users')
                ->where('name', '=', 'John')
-               ->where(function ($query) {
+               ->where(function (Builder $query) {
                    $query->where('votes', '>', 100)
                          ->orWhere('title', '=', 'Admin');
                })
@@ -921,16 +923,28 @@ The `whereExists` method allows you to write "where exists" SQL clauses. The `wh
 `whereExists` 메소드를 사용하면 "where exists" SQL 절을 작성할 수 있습니다. `whereExists` 메소드는 쿼리 빌더 인스턴스를 인자로 받아들이는 클로저를 받으므로 "exists" 절 내부에 위치해야 하는 쿼리를 정의할 수 있습니다.
 
     $users = DB::table('users')
-               ->whereExists(function ($query) {
+               ->whereExists(function (Builder $query) {
                    $query->select(DB::raw(1))
                          ->from('orders')
                          ->whereColumn('orders.user_id', 'users.id');
                })
                ->get();
 
-The query above will produce the following SQL:
+Alternatively, you may provide a query object to the `whereExists` method instead of a closure:
 
-위의 쿼리는 다음과 같은 SQL을 생성합니다.
+또는 클로저 대신 `whereExists` 메서드에 쿼리 객체를 제공할 수 있습니다.
+
+    $orders = DB::table('orders')
+                    ->select(DB::raw(1))
+                    ->whereColumn('orders.user_id', 'users.id');
+
+    $users = DB::table('users')
+                        ->whereExists($orders)
+                        ->get();
+
+Both of the examples above will produce the following SQL:
+
+위의 두 예는 모두 다음 SQL 문을 생성합니다.
 
 ```sql
 select * from users
@@ -950,8 +964,9 @@ Sometimes you may need to construct a "where" clause that compares the results o
 주어진 값에 대한 서브쿼리의 결과를 비교하는 "where" 절을 생성해야 할때, 클로저와 값을 `where` 메서드에 전달하면 됩니다. 예를 들어 다음 쿼리는 주어진 유형의 최근 "membership"을 가진 모든 유저를 검색합니다.
 
     use App\Models\User;
+    use Illuminate\Database\Query\Builder;
 
-    $users = User::where(function ($query) {
+    $users = User::where(function (Builder $query) {
         $query->select('type')
             ->from('membership')
             ->whereColumn('membership.user_id', 'users.id')
@@ -964,8 +979,9 @@ Or, you may need to construct a "where" clause that compares a column to the res
 또는 컬럼을 서브쿼리의 결과와 비교하는 "where" 절을 구성해야 하는 경우 컬럼명, 연산자, 클로저를 `where` 메소드에 전달하여 됩니다. 예를 들어 다음 쿼리는 amount가 평균 미만인 모든 income 레코드를 검색합니다.
 
     use App\Models\Income;
+    use Illuminate\Database\Query\Builder;
 
-    $incomes = Income::where('amount', '<', function ($query) {
+    $incomes = Income::where('amount', '<', function (Builder $query) {
         $query->selectRaw('avg(i.amount)')->from('incomes as i');
     })->get();
 
@@ -1135,10 +1151,10 @@ Sometimes you may want certain query clauses to apply to a query based on anothe
 
 때로는 특정 쿼리 절이 다른 조건에 따라 쿼리에 적용되기를 원할 수 있습니다. 예를 들어, 현재의 HTTP 요청에서 주어진 입력값이 존재할 때에만 `where` 구문을 적용하고 싶을 수도 있습니다. 이 경우 `when` 메소드를 사용할 수 있습니다.
 
-    $role = $request->input('role');
+    $role = $request->string('role');
 
     $users = DB::table('users')
-                    ->when($role, function ($query, $role) {
+                    ->when($role, function (Builder $query, string $role) {
                         $query->where('role_id', $role);
                     })
                     ->get();
@@ -1151,12 +1167,12 @@ You may pass another closure as the third argument to the `when` method. This cl
 
 `when` 메소드의 세번째 인수로 또다른 클로저를 전달할 수 있습니다. 이 클로저는 첫번째 파라미터가 `false` 일때만 실행됩니다. 다음은 이 기능을 어떻게 사용하는지 보여주기 위한 예로, 쿼리의 기본 정렬을 구성한 것입니다.
 
-    $sortByVotes = $request->input('sort_by_votes');
+    $sortByVotes = $request->boolean('sort_by_votes');
 
     $users = DB::table('users')
-                    ->when($sortByVotes, function ($query, $sortByVotes) {
+                    ->when($sortByVotes, function (Builder $query, bool $sortByVotes) {
                         $query->orderBy('votes');
-                    }, function ($query) {
+                    }, function (Builder $query) {
                         $query->orderBy('name');
                     })
                     ->get();
@@ -1228,7 +1244,7 @@ The `upsert` method will insert records that do not exist and update the records
 
 `upsert` 메소드는 존재하지 않는 레코드는 삽입하고 이미 존재하는 레코드는 지정한 값으로 업데이트합니다. 메소드의 첫 번째 인수는 삽입하거나 업데이트할 값으로 구성됩니다. 두 번째 인수는 연결된 테이블 내에서 레코드를 고유하게 식별할 수 있는 컬럼을 나열합니다. 메서드의 세 번째이자 마지막 인수는 일치하는 레코드가 데이터베이스에 이미 있는 경우 업데이트해야 하는 컬럼의 배열입니다.
 
-        DB::table('flights')->upsert(
+    DB::table('flights')->upsert(
         [
             ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
             ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]

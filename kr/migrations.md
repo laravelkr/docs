@@ -145,10 +145,8 @@ Within both of these methods, you may use the Laravel schema builder to expressi
     {
         /**
          * Run the migrations.
-         *
-         * @return void
          */
-        public function up()
+        public function up(): void
         {
             Schema::create('flights', function (Blueprint $table) {
                 $table->id();
@@ -160,10 +158,8 @@ Within both of these methods, you may use the Laravel schema builder to expressi
 
         /**
          * Reverse the migrations.
-         *
-         * @return void
          */
-        public function down()
+        public function down(): void
         {
             Schema::drop('flights');
         }
@@ -186,12 +182,10 @@ If your migration will be interacting with a database connection other than your
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        //
+        // ...
     }
 
 <a name="running-migrations"></a>
@@ -273,6 +267,14 @@ You may roll back a limited number of migrations by providing the `step` option 
 ```shell
 php artisan migrate:rollback --step=5
 ```
+
+You may roll back a specific "batch" of migrations by providing the `batch` option to the `rollback` command, where the `batch` option corresponds to a batch value within your application's `migrations` database table. For example, the following command will roll back all migrations in batch three:
+
+`rollback` 명령어에 `batch` 옵션을 전달하여 마이그레이션의 특정 "배치"를 되돌릴 수 있습니다. 여기서 `batch` 옵션은 애플리케이션의 `migrations` 데이터베이스 테이블 내의 배치 값에 해당합니다. 예를 들어 다음 명령어는 배치 3의 모든 마이그레이션을 되돌립니다.
+
+ ```shell
+ php artisan migrate:rollback --batch=3
+ ```
 
 The `migrate:reset` command will roll back all of your application's migrations:
 
@@ -424,7 +426,7 @@ If you would like to add a "comment" to a database table, you may invoke the `co
 ### Updating Tables
 ### 테이블 수정하기
 
-The `table` method on the `Schem-a` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a closure that receives a `Blueprint` instance you may use to add columns or indexes to the table:
+The `table` method on the `Schema` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a closure that receives a `Blueprint` instance you may use to add columns or indexes to the table:
 
 `Schema` 파사드의 `table` 메소드는 기존 테이블을 수정하는 데 사용할 수 있습니다. `create` 메소드와 마찬가지로 `table` 메소드는 테이블 이름과 테이블에 컬럼이나 인덱스를 추가하는 데 사용할 수 있는 `Blueprint` 인스턴스를 받는 클로저의 두 가지 인수를 허용합니다.
 
@@ -1280,10 +1282,8 @@ The `default` modifier accepts a value or an `Illuminate\Database\Query\Expressi
     {
         /**
          * Run the migrations.
-         *
-         * @return void
          */
-        public function up()
+        public function up(): void
         {
             Schema::create('flights', function (Blueprint $table) {
                 $table->id();
@@ -1308,7 +1308,7 @@ When using the MySQL database, the `after` method may be used to add columns aft
 
 MySQL 데이터베이스를 사용할 때 `after` 메서드를 사용하여 스키마의 기존 컬럼 뒤에 컬럼을 추가할 수 있습니다.
 
-    $table->after('password', function ($table) {
+    $table->after('password', function (Blueprint $table) {
         $table->string('address_line1');
         $table->string('address_line2');
         $table->string('city');
@@ -1318,13 +1318,29 @@ MySQL 데이터베이스를 사용할 때 `after` 메서드를 사용하여 스�
 ### Modifying Columns
 ### 컬럼 수정
 
-<a name="prerequisites"></a>
-#### Prerequisites
-#### 전제 조건
+The `change` method allows you to modify the type and attributes of existing columns. For example, you may wish to increase the size of a `string` column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50. To accomplish this, we simply define the new state of the column and then call the `change` method:
 
-Before modifying a column, you must install the `doctrine/dbal` package using the Composer package manager. The Doctrine DBAL library is used to determine the current state of the column and to create the SQL queries needed to make the requested changes to your column:
+`change` 메소드는 이미 존재하는 컬럼 타입을 유형과 속성을 변경합니다. 예를 들어, `string` 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다. 이를 수행하기 위해 컬럼의 새 상태를 정의한 다음 `change` 메서드를 호출하기만 하면 됩니다.
 
-열을 수정하기 전에 Composer 패키지 관리자를 사용하여 `doctrine/dbal` 패키지를 설치해야 합니다. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 컬럼에 요청된 변경을 수행하는 데 필요한 SQL 쿼리를 만드는 데 사용됩니다.
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('name', 50)->change();
+    });
+
+When modifying a column, you must explicitly include all of the modifiers you want to keep on the column definition - any missing attribute will be dropped. For example, to retain the `unsigned`, `default`, and `comment` attributes, you must call each modifier explicitly when changing the column:
+
+컬럼을 수정할 때 컬럼 정의에 유지하려는 모든 수정자를 명시적으로 포함해야 합니다. 누락된 속성은 모두 삭제됩니다. 예를 들어 `unsigned`, `default` 및 `comment` 속성을 유지하려면 열을 변경할 때 각 수정자를 명시적으로 호출해야 합니다.
+
+    Schema::table('users', function (Blueprint $table) {
+        $table->integer('votes')->unsigned()->default(1)->comment('my comment')->change();
+    });
+
+<a name="modifying-columns-on-sqlite"></a>
+#### Modifying Columns On SQLite
+#### SQLite에서 컬럼 수정
+
+If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package using the Composer package manager before modifying a column. The Doctrine DBAL library is used to determine the current state of the column and to create the SQL queries needed to make the requested changes to your column:
+
+애플리케이션이 SQLite 데이터베이스를 사용하는 경우 Composer 패키지 관리자를 사용하여 `doctrine/dbal` 패키지를 설치해야 컬럼을 수정할 수 있습니다. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 요청된 컬럼 변경을 수행하는 데 필요한 SQL 쿼리를 생성하는 데 사용됩니다.
 
     composer require doctrine/dbal
 
@@ -1342,37 +1358,11 @@ use Illuminate\Database\DBAL\TimestampType;
 ],
 ```
 
-> **Warning**
-> If your application is using Microsoft SQL Server, please ensure that you install `doctrine/dbal:^3.0`.
+> **Warning**  
+> When using the `doctrine/dbal` package, the following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, `ulid`, and `uuid`.
 
 > **Warning**
-> 응용 프로그램이 Microsoft SQL Server를 사용하는 경우 `doctrine/dbal:^3.0`을 설치해야 합니다.
-
-<a name="updating-column-attributes"></a>
-#### Updating Column Attributes
-#### 컬럼의 속성 변경하기
-
-The `change` method allows you to modify the type and attributes of existing columns. For example, you may wish to increase the size of a `string` column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50. To accomplish this, we simply define the new state of the column and then call the `change` method:
-
-`change` 메소드는 이미 존재하는 컬럼 타입을 유형과 속성을 변경합니다. 예를 들어, `string` 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다. 이를 수행하기 위해 컬럼의 새 상태를 정의한 다음 `change` 메서드를 호출하기만 하면 됩니다.
-
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('name', 50)->change();
-    });
-
-We could also modify a column to be nullable:
-
-컬럼을 nullable로 수정할 수도 있습니다.
-
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('name', 50)->nullable()->change();
-    });
-
-> **Warning**
-> The following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, and `uuid`.  To modify a `timestamp` column type a [Doctrine type must be registered](#prerequisites).
-
-> **Warning**
-> 수정할 수 있는 컬럼 유형은 `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText입니다. `, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger` 및 `uuid`. `timestamp` 컬럼 유형을 수정하려면 [Doctrine 타입 등록 필요](#prerequisites).
+> `doctrine/dbal` 패키지를 사용할 때 다음 컬럼 유형을 수정할 수 있습니다. `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, `ulid`, `uuid`.
 
 <a name="renaming-columns"></a>
 ### Renaming Columns
@@ -1533,10 +1523,8 @@ By default, Laravel uses the `utf8mb4` character set. If you are running a versi
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
     }

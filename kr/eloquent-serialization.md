@@ -195,8 +195,6 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
     {
         /**
          * Determine if the user is an administrator.
-         *
-         * @return \Illuminate\Database\Eloquent\Casts\Attribute
          */
         protected function isAdmin(): Attribute
         {
@@ -206,9 +204,9 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
         }
     }
 
-After creating the accessor, add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
+If you would like the accessor to always be appended to your model's array and JSON representations, you may add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
 
-accessor를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor는 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
+accessor가 항상 모델의 배열 및 JSON 표현에 추가되도록 하려면 속성 이름을 모델의 `appends` 속성에 추가할 수 있습니다. accessor는 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
 
     <?php
 
@@ -256,11 +254,8 @@ You may customize the default serialization format by overriding the `serializeD
 
     /**
      * Prepare a date for array / JSON serialization.
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
      */
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d');
     }

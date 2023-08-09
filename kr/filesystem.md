@@ -17,14 +17,16 @@
     - [Amazon S3 호환 파일 시스템](#amazon-s3-compatible-filesystems)
 - [Obtaining Disk Instances](#obtaining-disk-instances)
 - [Disk 인스턴스 획득하기](#obtaining-disk-instances)
-- [On-Demand Disks](#on-demand-disks)
-- [온디멘드 디스크](#on-demand-disks)
+    - [On-Demand Disks](#on-demand-disks)
+    - [온디멘드 디스크](#on-demand-disks)
 - [Retrieving Files](#retrieving-files)
 - [파일 조회하기](#retrieving-files)
     - [Downloading Files](#downloading-files)
     - [파일 다운로드](#downloading-files)
     - [File URLs](#file-urls)
     - [파일 URL](#file-urls)
+    - [Temporary URLs](#temporary-urls)
+    - [임시 URLs](#temporary-urls)
     - [File Metadata](#file-metadata)
     - [파일의 메타 데이터](#file-metadata)
 - [Storing Files](#storing-files)
@@ -43,6 +45,8 @@
 - [파일 삭제하기](#deleting-files)
 - [Directories](#directories)
 - [디렉토리들](#directories)
+- [Testing](#testing)
+- [테스팅](#testing)
 - [Custom Filesystems](#custom-filesystems)
 - [사용자 정의 파일 시스템](#custom-filesystems)
 
@@ -188,7 +192,7 @@ Laravel's Flysystem integrations work great with SFTP; however, a sample configu
     'sftp' => [
         'driver' => 'sftp',
         'host' => env('SFTP_HOST'),
-        
+
         // Settings for basic authentication...
         'username' => env('SFTP_USERNAME'),
         'password' => env('SFTP_PASSWORD'),
@@ -380,6 +384,20 @@ When using the `local` driver, all files that should be publicly accessible shou
 > **Warning**
 > `local` 드라이버를 사용할 때, 반환되는 `url` 은 URL 인코딩된 값이 아닙니다. 따라서, 파일 이름을 항상 유효한 URL이 되도록 저장하는 것을 권장합니다.
 
+#### URL Host Customization
+#### URL 호스트 커스터마이징
+
+If you would like to pre-define the host for URLs generated using the `Storage` facade, you may add a `url` option to the disk's configuration array:
+
+`Storage` 파사드를 사용하여 생성된 URL에 대한 호스트를 미리 정의하려면 디스크의 설정 배열에 `url` 옵션을 추가하면 됩니다.
+
+    'public' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public'),
+        'url' => env('APP_URL').'/storage',
+        'visibility' => 'public',
+    ],
+
 <a name="temporary-urls"></a>
 #### Temporary URLs
 #### 임시 URLs
@@ -415,6 +433,7 @@ If you need to customize how temporary URLs are created for a specific storage d
 
     namespace App\Providers;
 
+    use DateTime;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Facades\URL;
     use Illuminate\Support\ServiceProvider;
@@ -423,35 +442,44 @@ If you need to customize how temporary URLs are created for a specific storage d
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            Storage::disk('local')->buildTemporaryUrlsUsing(function ($path, $expiration, $options) {
-                return URL::temporarySignedRoute(
-                    'files.download',
-                    $expiration,
-                    array_merge($options, ['path' => $path])
-                );
-            });
+            Storage::disk('local')->buildTemporaryUrlsUsing(
+                function (string $path, DateTime $expiration, array $options) {
+                    return URL::temporarySignedRoute(
+                        'files.download',
+                        $expiration,
+                        array_merge($options, ['path' => $path])
+                    );
+                }
+            );
         }
     }
 
-<a name="url-host-customization"></a>
-#### URL Host Customization
-#### URL 호스트 커스터마이징
+<a name="temporary-upload-urls"></a>
+#### Temporary Upload URLs
+#### 임시 업로드 URL
 
-If you would like to pre-define the host for URLs generated using the `Storage` facade, you may add a `url` option to the disk's configuration array:
+> **Warning**
+> The ability to generate temporary upload URLs is only supported by the `s3` driver.
 
-`Storage` 파사드를 사용하여 생성된 URL에 대한 호스트를 미리 정의하려면 디스크의 설정 배열에 `url` 옵션을 추가하면 됩니다.
+> **Warning**
+> 임시 업로드 URL을 생성하는 기능은 `s3` 드라이버에서만 지원됩니다.
 
-    'public' => [
-        'driver' => 'local',
-        'root' => storage_path('app/public'),
-        'url' => env('APP_URL').'/storage',
-        'visibility' => 'public',
-    ],
+If you need to generate a temporary URL that can be used to upload a file directly from your client-side application, you may use the `temporaryUploadUrl` method. This method accepts a path and a `DateTime` instance specifying when the URL should expire. The `temporaryUploadUrl` method returns an associative array which may be destructured into the upload URL and the headers that should be included with the upload request:
+
+클라이언트측 애플리케이션에서 직접 파일을 업로드하는 데 사용할 수 있는 임시 URL을 생성해야 하는 경우 `temporaryUploadUrl` 메서드를 사용할 수 있습니다. 이 메서드는 경로와 URL이 만료되는 시기를 지정하는 `DateTime` 인스턴스를 허용합니다. `temporaryUploadUrl` 메서드는 업로드 URL과 업로드 요청에 포함되어야 하는 헤더로 분해될 수 있는 연관 배열을 반환합니다.
+
+    use Illuminate\Support\Facades\Storage;
+
+    ['url' => $url, 'headers' => $headers] = Storage::temporaryUploadUrl(
+        'file.jpg', now()->addMinutes(5)
+    );
+
+This method is primarily useful in serverless environments that require the client-side application to directly upload files to a cloud storage system such as Amazon S3.
+
+이 방법은 클라이언트 측 애플리케이션이 파일을 Amazon S3와 같은 클라우드 스토리지 시스템에 직접 업로드해야 하는 서버리스 환경에서 주로 유용합니다.
 
 <a name="file-metadata"></a>
 ### File Metadata
@@ -595,11 +623,8 @@ In web applications, one of the most common use-cases for storing files is stori
     {
         /**
          * Update the avatar for the user.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function update(Request $request)
+        public function update(Request $request): string
         {
             $path = $request->file('avatar')->store('avatars');
 
@@ -818,6 +843,53 @@ Finally, the `deleteDirectory` method may be used to remove a directory and all 
 
     Storage::deleteDirectory($directory);
 
+<a name="testing"></a>
+## Testing
+## 테스팅
+
+The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `Illuminate\Http\UploadedFile` class, greatly simplifies the testing of file uploads. For example:
+
+`Storage` 파사드의 `fake` 메서드를 사용하면 `Illuminate\Http\UploadedFile` 클래스의 파일 생성 유틸리티와 결합하여 파일 업로드 테스트를 크게 단순화하는 가짜 디스크를 쉽게 생성할 수 있습니다. 예를 들어,
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use Illuminate\Http\UploadedFile;
+    use Illuminate\Support\Facades\Storage;
+    use Tests\TestCase;
+
+    class ExampleTest extends TestCase
+    {
+        public function test_albums_can_be_uploaded(): void
+        {
+            Storage::fake('photos');
+
+            $response = $this->json('POST', '/photos', [
+                UploadedFile::fake()->image('photo1.jpg'),
+                UploadedFile::fake()->image('photo2.jpg')
+            ]);
+
+            // Assert one or more files were stored...
+            Storage::disk('photos')->assertExists('photo1.jpg');
+            Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
+
+            // Assert one or more files were not stored...
+            Storage::disk('photos')->assertMissing('missing.jpg');
+            Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+            // Assert that a given directory is empty...
+            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
+        }
+    }
+
+By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead. For more information on testing file uploads, you may consult the [HTTP testing documentation's information on file uploads](/docs/{{version}}/http-tests#testing-file-uploads).
+
+기본적으로 `fake` 메서드는 임시 디렉토리에 있는 모든 파일을 삭제합니다. 이러한 파일을 보관하려면 "persistentFake" 방법을 대신 사용할 수 있습니다. 파일 업로드 테스트에 대한 자세한 내용은 [HTTP 테스트 문서에 있는 파일 업로드 테스트하기](/docs/{{version}}/http-tests#testing-file-uploads)를 참조하십시오.
+
+> **Warning**
+> The `image` method requires the [GD extension](https://www.php.net/manual/en/book.image.php).
+
 <a name="custom-filesystems"></a>
 ## Custom Filesystems
 ## 커스텀(사용자 정의) 파일 시스템
@@ -842,6 +914,7 @@ Next, you can register the driver within the `boot` method of one of your applic
 
     namespace App\Providers;
 
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Filesystem\FilesystemAdapter;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\ServiceProvider;
@@ -853,22 +926,18 @@ Next, you can register the driver within the `boot` method of one of your applic
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            Storage::extend('dropbox', function ($app, $config) {
+            Storage::extend('dropbox', function (Application $app, array $config) {
                 $adapter = new DropboxAdapter(new DropboxClient(
                     $config['authorization_token']
                 ));

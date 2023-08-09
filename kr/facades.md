@@ -107,10 +107,8 @@ Using Laravel's facade testing methods, we can write the following test to verif
 
     /**
      * A basic functional test example.
-     *
-     * @return void
      */
-    public function testBasicExample()
+    public function test_basic_example(): void
     {
         Cache::shouldReceive('get')
              ->with('key')
@@ -149,10 +147,8 @@ The `cache` helper is going to call the `get` method on the class underlying the
 
     /**
      * A basic functional test example.
-     *
-     * @return void
      */
-    public function testBasicExample()
+    public function test_basic_example(): void
     {
         Cache::shouldReceive('get')
              ->with('key')
@@ -181,16 +177,14 @@ The `Facade` base class makes use of the `__callStatic()` magic-method to defer 
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Cache;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show the profile for the given user.
-         *
-         * @param  int  $id
-         * @return Response
          */
-        public function showProfile($id)
+        public function showProfile(string $id): View
         {
             $user = Cache::get('user:'.$id);
 
@@ -210,10 +204,11 @@ If we look at that `Illuminate\Support\Facades\Cache` class, you'll see that the
     {
         /**
          * Get the registered name of the component.
-         *
-         * @return string
          */
-        protected static function getFacadeAccessor() { return 'cache'; }
+        protected static function getFacadeAccessor(): string
+        {
+            return 'cache';
+        }
     }
 
 Instead, the `Cache` facade extends the base `Facade` class and defines the method `getFacadeAccessor()`. This method's job is to return the name of a service container binding. When a user references any static method on the `Cache` facade, Laravel resolves the `cache` binding from the [service container](/docs/{{version}}/container) and runs the requested method (in this case, `get`) against that object.
@@ -239,11 +234,8 @@ Using real-time facades, you may treat any class in your application as if it wa
     {
         /**
          * Publish the podcast.
-         *
-         * @param  Publisher  $publisher
-         * @return void
          */
-        public function publish(Publisher $publisher)
+        public function publish(Publisher $publisher): void
         {
             $this->update(['publishing' => now()]);
 
@@ -266,10 +258,8 @@ Injecting a publisher implementation into the method allows us to easily test th
     {
         /**
          * Publish the podcast.
-         *
-         * @return void
          */
-        public function publish()
+        public function publish(): void
         {
             $this->update(['publishing' => now()]);
 
@@ -296,10 +286,8 @@ When the real-time facade is used, the publisher implementation will be resolved
 
         /**
          * A test example.
-         *
-         * @return void
          */
-        public function test_podcast_can_be_published()
+        public function test_podcast_can_be_published(): void
         {
             $podcast = Podcast::factory()->create();
 

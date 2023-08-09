@@ -42,10 +42,8 @@ Before proceeding much further, let's discuss how to reset your database after e
 
         /**
          * A basic functional test example.
-         *
-         * @return void
          */
-        public function test_basic_example()
+        public function test_basic_example(): void
         {
             $response = $this->get('/');
 
@@ -57,9 +55,9 @@ The `Illuminate\Foundation\Testing\RefreshDatabase` trait does not migrate your 
 
 `Illuminate\Foundation\Testing\RefreshDatabase` 트레이트-trait는 스키마가 최신상태인 경우에 데이터베이스 마이그레이션을 수행하지 않습니다. 대신에, 데이터베이스 트랜잭션 안에서만 테스트를 실행합니다. 따라서 데이터베이스에 이 트레이트-trait을 사용하지 않는 테스트 케이스에 의해 추가된 레코드는 계속 남아 있을 수 있습니다. 
 
-If you would like to totally reset the database using migrations, you may use the `Illuminate\Foundation\Testing\DatabaseMigrations` trait instead. However, the `DatabaseMigrations` trait is significantly slower than the `RefreshDatabase` trait.
+If you would like to totally reset the database, you may use the `Illuminate\Foundation\Testing\DatabaseMigrations` or `Illuminate\Foundation\Testing\DatabaseTruncation` traits instead. However, both of these options are significantly slower than the `RefreshDatabase` trait.
 
-마이그레이션을 사용하여 데이터베이스를 완전히 리셋하려면 `Illuminate\Foundation\Testing\DatabaseMigrations` 트레이트-trait을 사용할 수 있습니다. 하지만 `DatabaseMigrations` 트레이트-trait 는 `RefreshDatabase` 보다 훨씬 느립니다.
+데이터베이스를 완전히 리셋하려면 `Illuminate\Foundation\Testing\DatabaseMigrations` 또는 `Illuminate\Foundation\Testing\DatabaseTruncation` 트레이트-trait을 사용할 수 있습니다. 하지만 이 두 옵션은 `RefreshDatabase` 보다 훨씬 느립니다.
 
 <a name="model-factories"></a>
 ## Model Factories
@@ -105,10 +103,8 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
 
         /**
          * Test creating a new order.
-         *
-         * @return void
          */
-        public function test_orders_can_be_created()
+        public function test_orders_can_be_created(): void
         {
             // Run the DatabaseSeeder...
             $this->seed();
@@ -213,7 +209,7 @@ The `assertSoftDeleted` method may be used to assert a given Eloquent model has 
 `assertSoftDeleted` 메소드는 주어진 Eloquent 모델이 "소프트 삭제"되었다고 확인하기 위해 사용될 수 있습니다.
 
     $this->assertSoftDeleted($user);
-
+    
 <a name="assert-not-deleted"></a>
 #### assertNotSoftDeleted
 
@@ -252,3 +248,15 @@ Assert that a given model does not exist in the database:
     $user->delete();
 
     $this->assertModelMissing($user);
+
+<a name="expects-database-query-count"></a>
+#### expectsDatabaseQueryCount
+#### expectsDatabaseQueryCount
+
+The `expectsDatabaseQueryCount` method may be invoked at the beginning of your test to specify the total number of database queries that you expect to be run during the test. If the actual number of executed queries does not exactly match this expectation, the test will fail:
+
+`expectsDatabaseQueryCount` 메서드는 테스트 시작 시 테스트 중 실행될 데이터베이스 쿼리의 총 개수를 지정하는 데 사용할 수 있습니다. 실제로 실행된 쿼리의 개수가 이 기대치와 정확히 일치하지 않으면 테스트가 실패합니다.
+
+    $this->expectsDatabaseQueryCount(5);
+
+    // Test...

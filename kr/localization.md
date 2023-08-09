@@ -3,8 +3,12 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
+    - [Publishing The Language Files](#publishing-the-language-files)
+    - [언어 파일 생성하기](#publishing-the-language-files)
     - [Configuring The Locale](#configuring-the-locale)
+    - [Locale 설정하기](#configuring-the-locale)
     - [Pluralization Language](#pluralization-language)
+    - [복수화 언어](#pluralization-language)
 - [Defining Translation Strings](#defining-translation-strings)
 - [다국어 문자값 정의하기](#defining-translation-strings)
     - [Using Short Keys](#using-short-keys)
@@ -28,9 +32,9 @@ Laravel's localization features provide a convenient way to retrieve strings in 
 
 라라벨의 현지화 기능은 다양한 언어로 된 문자열을 검색하는 편리한 방법을 제공하므로 애플리케이션 내에서 여러 언어를 쉽게 지원할 수 있습니다.
 
-Laravel provides two ways to manage translation strings. First, language strings may be stored in files within the `lang` directory. Within this directory, there may be subdirectories for each language supported by the application. This is the approach Laravel uses to manage translation strings for built-in Laravel features such as validation error messages:
+Laravel provides two ways to manage translation strings. First, language strings may be stored in files within the application's `lang` directory. Within this directory, there may be subdirectories for each language supported by the application. This is the approach Laravel uses to manage translation strings for built-in Laravel features such as validation error messages:
 
-라라벨은 번역 문자열을 관리하는 두 가지 방법을 제공합니다. 첫째, 언어 문자열은 `lang` 디렉토리 내의 파일에 저장할 수 있습니다. 이 디렉토리에는 애플리케이션에서 지원하는 각 언어에 대한 하위 디렉토리가 있을 수 있습니다. 이것은 라라벨이 유효성 검사 오류 메시지와 같은 내장 라라벨 기능에 대한 번역 문자열을 관리하는 데 사용하는 접근 방식입니다.
+라라벨은 번역 문자열을 관리하는 두 가지 방법을 제공합니다. 첫째, 언어 문자열은 애플리케이션의 `lang` 디렉토리 내 파일에 저장할 수 있습니다. 이 디렉토리에는 애플리케이션에서 지원하는 각 언어에 대한 하위 디렉토리가 있을 수 있습니다. 이것은 라라벨이 유효성 검사 오류 메시지와 같은 내장 라라벨 기능에 대한 번역 문자열을 관리하는 데 사용하는 접근 방식입니다.
 
     /lang
         /en
@@ -50,6 +54,18 @@ We'll discuss each approach to managing translation strings within this document
 
 이 문서에서 번역 문자열을 관리하는 각 접근 방식에 대해 설명합니다.
 
+<a name="publishing-the-language-files"></a>
+### Publishing The Language Files
+### 언어 파일 생성하기
+
+By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files or create your own, you should scaffold the `lang` directory via the `lang:publish` Artisan command. The `lang:publish` command will create the `lang` directory in your application and publish the default set of language files used by Laravel:
+
+기본적으로 Laravel 애플리케이션 스켈레톤은 `lang` 디렉토리를 포함하지 않습니다. 라라벨의 언어 파일을 커스터마이징하거나 직접 만들고 싶다면 `lang:publish` Artisan 명령을 통해 `lang` 디렉토리를 스캐폴딩해야 합니다. `lang:publish` 명령은 애플리케이션에 `lang` 디렉토리를 생성하고 Laravel이 사용하는 기본 언어 파일 세트를 생성합니다.
+
+```shell
+php artisan lang:publish
+```
+
 <a name="configuring-the-locale"></a>
 ### Configuring The Locale
 ### 로케일 설정하기
@@ -64,14 +80,14 @@ You may modify the default language for a single HTTP request at runtime using t
 
     use Illuminate\Support\Facades\App;
 
-    Route::get('/greeting/{locale}', function ($locale) {
+    Route::get('/greeting/{locale}', function (string $locale) {
         if (! in_array($locale, ['en', 'es', 'fr'])) {
             abort(400);
         }
 
         App::setLocale($locale);
 
-        //
+        // ...
     });
 
 You may configure a "fallback language", which will be used when the active language does not contain a given translation string. Like the default language, the fallback language is also configured in the `config/app.php` configuration file:
@@ -93,7 +109,7 @@ You may use the `currentLocale` and `isLocale` methods on the `App` facade to de
     $locale = App::currentLocale();
 
     if (App::isLocale('en')) {
-        //
+        // ...
     }
 
 <a name="pluralization-language"></a>
@@ -108,10 +124,8 @@ Eloquent 및 프레임워크의 다른 부분에서 단수 문자열을 복수 �
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Pluralizer::useLanguage('spanish');     
 
@@ -154,9 +168,11 @@ All language files return an array of keyed strings. For example:
         'welcome' => 'Welcome to our application!',
     ];
 
-> {note} For languages that differ by territory, you should name the language directories according to the ISO 15897. For example, "en_GB" should be used for British English rather than "en-gb".
+> **Warning**  
+> For languages that differ by territory, you should name the language directories according to the ISO 15897. For example, "en_GB" should be used for British English rather than "en-gb".
 
-> {note} 지역별로 다른 언어의 경우 ISO 15897에 따라 언어 디렉토리의 이름을 지정해야 합니다. 예를 들어 영국식 영어의 경우 "en-gb"가 아닌 "en_GB"를 사용해야 합니다.
+> **Warning**  
+> 지역별로 다른 언어의 경우 ISO 15897에 따라 언어 디렉토리의 이름을 지정해야 합니다. 예를 들어 영국식 영어의 경우 "en-gb"가 아닌 "en_GB"를 사용해야 합니다.
 
 <a name="using-translation-strings-as-keys"></a>
 ### Using Translation Strings As Keys
@@ -166,9 +182,9 @@ For applications with a large number of translatable strings, defining every str
 
 번역 가능한 문자열이 많은 애플리케이션의 경우, 뷰에서 키를 참조할 때 "짧은 키"로 모든 문자열을 정의하는 것이 혼란스러울 수 있으며, 애플리케이션에서 지원하는 모든 번역 문자열에 대해 키를 계속해서 생성하는 것은 번거롭습니다.
 
-For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key. Translation files that use translation strings as keys are stored as JSON files in the `lang` directory. For example, if your application has a Spanish translation, you should create a `lang/es.json` file:
+For this reason, Laravel also provides support for defining translation strings using the "default" translation of the string as the key. Language files that use translation strings as keys are stored as JSON files in the `lang` directory. For example, if your application has a Spanish translation, you should create a `lang/es.json` file:
 
-이러한 이유로 라라벨은 문자열의 "기본" 번역을 키로 사용하여 번역 문자열 정의에 대한 지원도 제공합니다. 번역 문자열을 키로 사용하는 번역 파일은 `lang` 디렉토리에 JSON 파일로 저장됩니다. 예를 들어 애플리케이션에 스페인어 번역이 있는 경우 `lang/es.json` 파일을 만들어야 합니다.
+이러한 이유로 라라벨은 문자열의 "기본" 번역을 키로 사용하여 번역 문자열 정의에 대한 지원도 제공합니다. 번역 문자열을 키로 사용하는 언어 파일은 `lang` 디렉토리에 JSON 파일로 저장됩니다. 예를 들어 애플리케이션에 스페인어 번역이 있는 경우 `lang/es.json` 파일을 만들어야 합니다.
 
 ```json
 {
@@ -179,9 +195,9 @@ For this reason, Laravel also provides support for defining translation strings 
 #### Key / File Conflicts
 #### 키 / 파일 충돌
 
-You should not define translation string keys that conflict with other translation filenames. For example, translating `__('Action')` for the "NL" locale while a `nl/action.php` file exists but a `nl.json` file does not exist will result in the translator returning the contents of `nl/action.php`.
+You should not define translation string keys that conflict with other translation filenames. For example, translating `__('Action')` for the "NL" locale while a `nl/action.php` file exists but a `nl.json` file does not exist will result in the translator returning the entire contents of `nl/action.php`.
 
-다른 번역 파일 이름과 충돌하는 번역 문자열 키를 정의하면 안 됩니다. 예를 들어, `nl/action.php` 파일이 존재하지만 `nl.json` 파일이 존재하지 않는  경우, "NL" 로케일에 대해 `__('Action')`을 번역하면 번역기가 `nl/action.php`의 내용을 반환하게 됩니다..
+다른 번역 파일 이름과 충돌하는 번역 문자열 키를 정의하면 안 됩니다. 예를 들어, `nl/action.php` 파일이 존재하지만 `nl.json` 파일이 존재하지 않는  경우, "NL" 로케일에 대해 `__('Action')`을 번역하면 번역기가 `nl/action.php`의 전체 내용을 반환하게 됩니다..
 
 <a name="retrieving-translation-strings"></a>
 ## Retrieving Translation Strings
@@ -236,6 +252,31 @@ If your placeholder contains all capital letters, or only has its first letter c
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
 
+<a name="object-replacement-formatting"></a>
+#### Object Replacement Formatting
+#### 객체 대체 서식
+
+If you attempt to provide an object as a translation placeholder, the object's `__toString` method will be invoked. The [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) method is one of PHP's built-in "magic methods". However, sometimes you may not have control over the `__toString` method of a given class, such as when the class that you are interacting with belongs to a third-party library.
+
+객체를 번역 placeholder로 제공하려고 하면 객체의 `__toString` 메서드가 호출됩니다. [`__toString`](https://www.php.net/manual/en/language.oop5.magic.php#object.tostring) 메소드는 PHP의 내장 "매직 메소드" 중 하나입니다. 그러나 때로는 상호 작용하는 클래스가 타사 라이브러리에 속하는 경우와 같이 지정된 클래스의 `__toString` 메서드를 제어하지 못할 수 있습니다.
+
+In these cases, Laravel allows you to register a custom formatting handler for that particular type of object. To accomplish this, you should invoke the translator's `stringable` method. The `stringable` method accepts a closure, which should type-hint the type of object that it is responsible for formatting. Typically, the `stringable` method should be invoked within the `boot` method of your application's `AppServiceProvider` class:
+
+이러한 경우 라라벨은 특정 유형의 객체에 대한 사용자 정의 서식 핸들러를 등록할 수 있도록 합니다. 이를 달성하려면 번역기의 `stringable` 메서드를 호출해야 합니다. `stringable` 메서드는 클로저를 허용하며, 이는 서식 지정을 담당하는 개체 유형을 암시해야 합니다. 일반적으로 `stringable` 메서드는 애플리케이션 `AppServiceProvider` 클래스의 `boot` 메소드 내에서 호출되어야 합니다.
+
+    use Illuminate\Support\Facades\Lang;
+    use Money\Money;
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Lang::stringable(function (Money $money) {
+            return $money->formatTo('en_GB');
+        });
+    }
+
 <a name="pluralization"></a>
 ### Pluralization
 ### 복수 표기
@@ -252,7 +293,7 @@ Of course, pluralization is also supported when using [translation strings as ke
 
 ```json
 {
-  "There is one apple|There are many apples": "Hay una manzana|Hay muchas manzanas"
+    "There is one apple|There are many apples": "Hay una manzana|Hay muchas manzanas"
 }
 ```
 

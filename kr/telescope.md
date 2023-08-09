@@ -126,10 +126,8 @@ After running `telescope:install`, you should remove the `TelescopeServiceProvid
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
@@ -189,16 +187,16 @@ The Telescope dashboard may be accessed at the `/telescope` route. By default, y
 
 Telescope 대시보드는 `/telescope` 으로 접속 가능합니다. 기본적으로 `local` 환경에서만 이 대시보드에 접근이 가능합니다. `app/Providers/TelescopeServiceProvider.php` 파일에는 [인증 게이트](/docs/{{version}}/authorization#gates) 정의가 있습니다. 이 인증 게이트는 **로컬이 아닌** 환경에서 Telescope에 대한 액세스를 제어합니다. Telescope 설치에 대한 액세스를 제한하기 위해 필요에 따라 이 게이트를 자유롭게 수정할 수 있습니다.
 
+    use App\Models\User;
+
     /**
      * Register the Telescope gate.
      *
      * This gate determines who can access Telescope in non-local environments.
-     *
-     * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
-        Gate::define('viewTelescope', function ($user) {
+        Gate::define('viewTelescope', function (User $user) {
             return in_array($user->email, [
                 'taylor@laravel.com',
             ]);
@@ -227,15 +225,15 @@ In addition, when upgrading to any new Telescope version, you should re-publish 
 php artisan telescope:publish
 ```
 
-To keep the assets up-to-date and avoid issues in future updates, you may add the `telescope:publish` command to the `post-update-cmd` scripts in your application's `composer.json` file:
+To keep the assets up-to-date and avoid issues in future updates, you may add the `vendor:publish --tag=laravel-assets` command to the `post-update-cmd` scripts in your application's `composer.json` file:
 
-자산-assets을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 애플리케이션의 `composer.json` 파일에있는 `post-update-cmd` 스크립트에 `telescope:publish` 명령을 추가하면 됩니다.
+자산-assets을 최신 상태로 유지하고 향후 업데이트에서 문제를 방지하려면 애플리케이션의 `composer.json` 파일에있는 `post-update-cmd` 스크립트에 `vendor:publish --tag=laravel-assets` 명령을 추가하면 됩니다.
 
 ```json
 {
     "scripts": {
         "post-update-cmd": [
-            "@php artisan telescope:publish --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     }
 }
@@ -258,10 +256,8 @@ You may filter the data that is recorded by Telescope via the `filter` closure t
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->hideSensitiveRequestDetails();
 
@@ -287,14 +283,13 @@ While the `filter` closure filters data for individual entries, you may use the 
 `filter` 클로저는 개별 항목에 대한 데이터를 필터링하는 동안, `filterBatch` 메소드를 사용하여 주어진 request-요청 또는 콘솔 명령어에 대한 모든 데이터를 필터링 하는 클로저를 등록할 수 있습니다. 클로저가 `true`를 반환하면 모든 항목이 Telescope에 의해 기록됩니다.
 
     use Illuminate\Support\Collection;
+    use Laravel\Telescope\IncomingEntry;
     use Laravel\Telescope\Telescope;
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->hideSensitiveRequestDetails();
 
@@ -303,7 +298,7 @@ While the `filter` closure filters data for individual entries, you may use the 
                 return true;
             }
 
-            return $entries->contains(function ($entry) {
+            return $entries->contains(function (IncomingEntry $entry) {
                 return $entry->isReportableException() ||
                     $entry->isFailedJob() ||
                     $entry->isScheduledTask() ||
@@ -326,10 +321,8 @@ Telescope을 사용하면 "태그"로 항목을 검색할 수 있습니다. 종�
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->hideSensitiveRequestDetails();
 
@@ -462,6 +455,19 @@ The log watcher records the [log data](/docs/{{version}}/logging) for any logs w
 
 로그 와처는 애플리케이션에서 작성하는 모든 [로그 데이터](/docs/{{version}}/logging)를 기록합니다.
 
+By default, Telescope will only record logs at the `error` level and above. However, you can modify the `level` option in your application's `config/telescope.php` configuration file to modify this behavior:
+
+기본적으로 Telescope는 `error` 레벨 이상의 로그만 기록합니다. 그러나 애플리케이션의 `config/telescope.php` 설정 파일에서 `level` 옵션을 수정하여 이 동작을 수정할 수 있습니다.
+
+    'watchers' => [
+        Watchers\LogWatcher::class => [
+            'enabled' => env('TELESCOPE_LOG_WATCHER', true),
+            'level' => 'debug',
+        ],
+
+        // ...
+    ],
+
 <a name="mail-watcher"></a>
 ### Mail Watcher
 ### Mail Watcher
@@ -576,14 +582,12 @@ Telescope 대시보드에는 주어진 항목이 저장될 때 로그인 한 사
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         // ...
 
-        Telescope::avatar(function ($id, $email) {
+        Telescope::avatar(function (string $id, string $email) {
             return '/avatars/'.User::find($id)->avatar_path;
         });
     }

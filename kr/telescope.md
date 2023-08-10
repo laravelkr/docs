@@ -203,10 +203,10 @@ Telescope 대시보드는 `/telescope` 으로 접속 가능합니다. 기본적�
         });
     }
 
-> **Warning**
+> **Warning**  
 > You should ensure you change your `APP_ENV` environment variable to `production` in your production environment. Otherwise, your Telescope installation will be publicly available.
 
-> **Warning**
+> **Warning**  
 > 프로덕션 환경에서 `APP_ENV` 환경 변수를 `production`으로 변경해야합니다. 그렇지 않으면 Telescope가 공개적으로 설치됩니다.
 
 <a name="upgrading-telescope"></a>

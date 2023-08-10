@@ -24,10 +24,10 @@ When building APIs using Laravel, you will often need to convert your models and
 
 라라벨을 사용하여 API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야 하는 경우가 있을겁니다. Eloquent에는 이러한 변환을 수행하는 편리한 메소드와 모델의 직렬화된(serialized) 표현에 포함되는 속성을 제어하는 메소드가 포함되어 있습니다.
 
-> **Note**
+> **Note**  
 > For an even more robust way of handling Eloquent model and collection JSON serialization, check out the documentation on [Eloquent API resources](/docs/{{version}}/eloquent-resources).
 
-> **Note**
+> **Note**  
 > Eloquent 모델 및 컬렉션 JSON 직렬화를 처리하는 훨씬 더 강력한 방법은 [Eloquent API 리소스](/docs/{{version}}/eloquent-resources)에 대한 문서를 확인하세요.
 
 <a name="serializing-models-and-collections"></a>
@@ -126,10 +126,10 @@ Sometimes you may wish to limit the attributes, such as passwords, that are incl
         protected $hidden = ['password'];
     }
 
-> **Note**
+> **Note**  
 > To hide relationships, add the relationship's method name to your Eloquent model's `$hidden` property.
 
-> **Note**
+> **Note**  
 > 관계를 숨기려면 관계의 메소드 이름을 Eloquent 모델의 `$hidden` 속성에 추가하십시오.
 
 Alternatively, you may use the `visible` property to define an "allow list" of attributes that should be included in your model's array and JSON representation. All attributes that are not present in the `$visible` array will be hidden when the model is converted to an array or JSON:

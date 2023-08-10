@@ -80,10 +80,10 @@ The Laravel query builder uses PDO parameter binding to protect your application
 
 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다. 따라서 쿼리 빌더에 쿼리 바인딩으로 전달된 문자열을 정리할 필요가 없습니다.
 
-> **Warning**
+> **Warning**  
 > PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> **Warning**
+> **Warning**  
 > PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
 
 <a name="running-database-queries"></a>
@@ -131,10 +131,10 @@ The `get` method returns an `Illuminate\Support\Collection` instance containing 
         echo $user->name;
     }
 
-> **Note**
+> **Note**  
 > Laravel collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on Laravel collections, check out the [collection documentation](/docs/{{version}}/collections).
 
-> **Note**
+> **Note**  
 > 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
@@ -228,10 +228,10 @@ If you are updating database records while chunking results, your chunk results 
             }
         });
 
-> **Warning**
+> **Warning**  
 > When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the chunked results.
 
-> **Warning**
+> **Warning**  
 > 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
 
 <a name="streaming-results-lazily"></a>
@@ -263,10 +263,10 @@ DB::table('users')->where('active', false)
     });
 ```
 
-> **Warning**
+> **Warning**  
 > When updating or deleting records while iterating over them, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the results.
 
-> **Warning**
+> **Warning**  
 > 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
 
 <a name="aggregates"></a>
@@ -353,10 +353,10 @@ Sometimes you may need to insert an arbitrary string into a query. To create a r
                  ->groupBy('status')
                  ->get();
 
-> **Warning**
+> **Warning**  
 > Raw statements will be injected into the query as strings, so you should be extremely careful to avoid creating SQL injection vulnerabilities.
 
-> **Warning**
+> **Warning**  
 > 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
 
 <a name="raw-methods"></a>
@@ -598,10 +598,10 @@ You may also pass an array of conditions to the `where` function. Each element o
         ['subscribed', '<>', '1'],
     ])->get();
 
-> **Warning**
+> **Warning**  
 > PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> **Warning**
+> **Warning**  
 > PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
 
 <a name="or-where-clauses"></a>
@@ -637,10 +637,10 @@ The example above will produce the following SQL:
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-> **Warning**
+> **Warning**  
 > You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> **Warning**
+> **Warning**  
 > 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="where-not-clauses"></a>
@@ -783,10 +783,10 @@ select * from comments where user_id in (
 )
 ```
 
-> **Warning**
+> **Warning**  
 > If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 
-> **Warning**
+> **Warning**  
 > 쿼리에 큰 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
@@ -904,10 +904,10 @@ As you can see, passing a closure into the `where` method instructs the query bu
 select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 ```
 
-> **Warning**
+> **Warning**  
 > You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> **Warning**
+> **Warning**  
 > 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="advanced-where-clauses"></a>
@@ -989,10 +989,10 @@ Or, you may need to construct a "where" clause that compares a column to the res
 ### Full Text Where Clauses
 ### Full Text Where 절
 
-> **Warning**
+> **Warning**  
 > Full text where clauses are currently supported by MySQL and PostgreSQL.
 
-> **Warning**
+> **Warning**  
 > Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
 
 The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
@@ -1230,10 +1230,10 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> **Warning**
+> **Warning**  
 > When using PostgreSQL the `insertGetId` method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the column name as the second parameter to the `insertGetId` method.
 
-> **Warning**
+> **Warning**  
 > PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
 
 <a name="upserts"></a>
@@ -1257,10 +1257,10 @@ In the example above, Laravel will attempt to insert two records. If a record al
 
 위의 예제에서 라라벨은 두 개의 레코드를 삽입하려고 시도합니다. 동일한 `departure` 및 `destination` 컬럼 값을 가진 레코드가 이미 존재하는 경우 라라벨은 해당 레코드의 `price` 컬럼을 업데이트합니다.
 
-> **Warning**
+> **Warning**  
 > All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
 
-> **Warning**
+> **Warning**  
 > SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
 
 <a name="update-statements"></a>

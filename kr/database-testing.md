@@ -3,8 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-  - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
-  - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
+    - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
+    - [각각의 테스트 수행 후에 데이터베이스 재설정하기](#resetting-the-database-after-each-test)
 - [Model Factories](#model-factories)
 - [모델 팩토리](#model-factories)
 - [Running Seeders](#running-seeders)
@@ -33,7 +33,6 @@ Before proceeding much further, let's discuss how to reset your database after e
     namespace Tests\Feature;
 
     use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
     use Tests\TestCase;
 
     class ExampleTest extends TestCase
@@ -73,13 +72,14 @@ To learn more about creating and utilizing model factories to create models, ple
 
     use App\Models\User;
 
-    public function test_models_can_be_instantiated()
+    public function test_models_can_be_instantiated(): void
     {
         $user = User::factory()->create();
 
         // ...
     }
 
+<a name="running-seeders"></a>
 ## Running Seeders
 ## 시더 실행하기
 
@@ -94,7 +94,6 @@ If you would like to use [database seeders](/docs/{{version}}/seeding) to popula
     use Database\Seeders\OrderStatusSeeder;
     use Database\Seeders\TransactionStatusSeeder;
     use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
     use Tests\TestCase;
 
     class ExampleTest extends TestCase

@@ -74,10 +74,10 @@ If you are developing with a team, you may wish to continue including a `.env.ex
 
 팀으로 개발을 하는 경우라면 `.env.example` 파일을 애플리케이션에 포함할 수 있습니다. example 설정 파일에 적절한 기본값을 넣어두면 다른 개발자들이 애플리케이션을 실행하는 데 어떤 환경 변수 설정이 필요한지 명확하게 이해할 수 있습니다. 또한 `.env.testing` 파일을 생성할 수 있습니다. 이 파일은 PHPUnit 테스트나 아티즌 명령어가 `--env=testing` 옵션과 함께 실행될 때 `.env`를 오버라이드 합니다.
 
-> **Note**
+> **Note**  
 > Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
 
-> **Note**
+> **Note**  
 > `.env` 파일의 어떤 변수는 서버의 또는 시스템의 환경 변수와 같은 외부 환경 변수에 의해서 무시될 수도 있습니다.
 
 <a name="environment-file-security"></a>
@@ -165,10 +165,10 @@ You may also pass arguments to the `environment` method to determine if the envi
         // The environment is either local OR staging...
     }
 
-> **Note**
+> **Note**  
 > The current application environment detection can be overridden by defining a server-level `APP_ENV` environment variable.
 
-> **Note**
+> **Note**  
 > 현재 애플리케이션의 구동 환경은 서버의 'APP_ENV' 환경 변수를 정의하여 재정의할 수 있습니다.
 
 <a name="encrypting-environment-files"></a>
@@ -202,7 +202,7 @@ php artisan env:encrypt --key=3UVsEgGVK36XN82KKeyLFMhvosbZN1aF
 > **Note**  
 > The length of the key provided should match the key length required by the encryption cipher being used. By default, Laravel will use the `AES-256-CBC` cipher which requires a 32 character key. You are free to use any cipher supported by Laravel's [encrypter](/docs/{{version}}/encryption) by passing the `--cipher` option when invoking the command.
 
-> **Note**
+> **Note**  
 > 제공된 키의 길이는 사용될 암호화 암호가 요구하는 키 길이와 일치해야 합니다. 라라벨은 32자의 키를 필요로 하는 `AES-256-CBC` 암호를 사용할 것입니다. 라라벨의 [암호화](/docs/{{version}}/encryption)가 지원하는 모든 암호를 `--cipher` 옵션으로 지정하여 사용할 수 있습니다.
 
 If your application has multiple environment files, such as `.env` and `.env.staging`, you may specify the environment file that should be encrypted by providing the environment name via the `--env` option:
@@ -292,10 +292,10 @@ You should typically run the `php artisan config:cache` command as part of your 
 
 일반적으로 `php artisan config:cache` 명령어를 애플리케이션 배포 프로세스의 일부에서 실행하도록 해야 합니다. 애플리케이션 개발 중에는 설정 옵션값이 자주 바뀔 필요가 있기 때문에, 로컬 개발 환경에서는 이 명령어를 실행하지 말아야 합니다.
 
-> **Warning**
+> **Warning**  
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
 
-> **Warning**
+> **Warning**  
 > 배포 도중에 `config:cache` 명령을 실행하는 경우 설정 파일 내에서만 `env` 함수를 호출하고 있는지 확인해야 합니다. 설정이 캐시되면 `.env` 파일은 로드되지 않습니다. 따라서 `env` 함수는 외부 시스템 수준 환경 변수만 반환합니다.
 
 <a name="debug-mode"></a>
@@ -366,10 +366,10 @@ When accessing this hidden route, you will then be redirected to the `/` route o
 
 이 숨겨진 경로에 엑세스하면 애플리케이션의 / 경로로 리디렉션 될 것입니다. 쿠키가 브라우저에 발급되면 점검 모드가 아닌 것처럼 정상적으로 애플리케이션을 탐색할 수 있습니다.
 
-> **Note**
+> **Note**  
 > Your maintenance mode secret should typically consist of alpha-numeric characters and, optionally, dashes. You should avoid using characters that have special meaning in URLs such as `?`.
 
-> **Note**
+> **Note**  
 > 점검 모드 암호는 일반적으로 영숫자 및 선택적으로 대시로 구성되어야 합니다. URL에서 `?`와 같은 특별한 의미를 갖는 문자는 사용하지 않아야 합니다.
 
 <a name="pre-rendering-the-maintenance-mode-view"></a>
@@ -412,10 +412,10 @@ To disable maintenance mode, use the `up` command:
 php artisan up
 ```
 
-> **Note**
+> **Note**  
 > You may customize the default maintenance mode template by defining your own template at `resources/views/errors/503.blade.php`.
 
-> **Note**
+> **Note**  
 > `resources/views/errors/503.blade.php` 파일을 정의해서 점검모드의 응답페이지 템플릿을 커스터마이징 할 수 있습니다.
 
 <a name="maintenance-mode-queues"></a>

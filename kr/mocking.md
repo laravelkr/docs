@@ -4,26 +4,27 @@
 - [Introduction](#introduction)
 - [시작하기](#introduction)
 - [Mocking Objects](#mocking-objects)
-- [Mocking 객체](#mocking-objects)
+- [객체 Mocking](#mocking-objects)
 - [Mocking Facades](#mocking-facades)
-- [Mocking 파사드](#mocking-facades)
+- [파사드 Mocking](#mocking-facades)
     - [Facade Spies](#facade-spies)
     - [파사드 Spies](#facade-spies)
 - [Interacting With Time](#interacting-with-time)
-- [시간과의 상호작용](#interacting-with-time)
+- [시간 다루기](#interacting-with-time)
 
 ## Introduction
 ## 시작하기
 
-When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that dispatches an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners since the event listeners can be tested in their own test case:
+When testing Laravel applications, you may wish to "mock" certain aspects of your application so they are not actually executed during a given test. For example, when testing a controller that dispatches an event, you may wish to mock the event listeners so they are not actually executed during the test. This allows you to only test the controller's HTTP response without worrying about the execution of the event listeners since the event listeners can be tested in their own test case.
 
 라라벨 애플리케이션을 테스트할 때, 주어진 테스트 중에 실행되지 않도록 애플리케이션의 특정 부분을 "mock"하고 싶을 수 있습니다. 예를 들어, 이벤트를 발송하는 컨트롤러를 테스트할 때, 이벤트 리스너를 'mock' 해서 테스트 중에 실제로 실행되지 않도록 할 수 있습니다. 이렇게 하면 이벤트 리스너는 자체적인 테스트 케이스에서 테스트할 수 있으므로 컨트롤러의 HTTP 응답만 테스트하면 되므로 이벤트 리스너의 실행에 대해 걱정할 필요가 없습니다.
 
 
-Laravel provides helpful methods for mocking events, jobs, and other facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls:
+Laravel provides helpful methods for mocking events, jobs, and other facades out of the box. These helpers primarily provide a convenience layer over Mockery so you do not have to manually make complicated Mockery method calls.
 
 라라벨은 이벤트, 작업 및 파사드를 쉽게 모의(mock)를 할 수 있는 유용한 메서드를 제공합니다. 이러한 헬퍼들은 대부분 Mockery를 기반으로 구현되어 있어서 복잡한 Mockery 메서드 호출을 수동으로 처리할 필요 없이 간편하게 사용할 수 있도록 편의성을 제공합니다.
 
+<a name="mocking-objects"></a>
 ## Mocking Objects
 ## Mocking 객체
 
@@ -45,14 +46,14 @@ When mocking an object that is going to be injected into your application via La
         );
     }
 
-In order to make this more convenient, you may use the `mock` method, which is provided by Laravel's base test case class. For example, the following example is equivalent to the example above:
+In order to make this more convenient, you may use the `mock` method that is provided by Laravel's base test case class. For example, the following example is equivalent to the example above:
 
 보다 편하게 사용하기 위해서, 라라벨의 기본 테스트 케이스 클래스가 제공하는 `mock` 메소드를 사용할 수도 있습니다. 예를 들어 다음 예는 위의 예와 동일합니다.
 
     use App\Service;
     use Mockery\MockInterface;
 
-    $this->mock(Service::class, function (MockInterface $mock) {
+    $mock = $this->mock(Service::class, function (MockInterface $mock) {
         $mock->shouldReceive('process')->once();
     });
 
@@ -63,7 +64,7 @@ You may use the `partialMock` method when you only need to mock a few methods of
     use App\Service;
     use Mockery\MockInterface;
 
-    $this->partialMock(Service::class, function (MockInterface $mock) {
+    $mock = $this->partialMock(Service::class, function (MockInterface $mock) {
         $mock->shouldReceive('process')->once();
     });
 
@@ -79,8 +80,9 @@ Similarly, if you want to [spy](http://docs.mockery.io/en/latest/reference/spies
 
     $spy->shouldHaveReceived('process');
 
+<a name="mocking-facades"></a>
 ## Mocking Facades
-## Mocking 파사드
+## 파사드 Mocking
 
 Unlike traditional static method calls, [facades](/docs/{{version}}/facades) (including [real-time facades](/docs/{{version}}/facades#real-time-facades)) may be mocked. This provides a great advantage over traditional static methods and grants you the same testability that you would have if you were using traditional dependency injection. When testing, you may often want to mock a call to a Laravel facade that occurs in one of your controllers. For example, consider the following controller action:
 
@@ -120,7 +122,7 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
 
     class UserControllerTest extends TestCase
     {
-        public function testGetIndex(): void
+        public function test_get_index(): void
         {
             Cache::shouldReceive('get')
                         ->once()
@@ -133,14 +135,15 @@ We can mock the call to the `Cache` facade by using the `shouldReceive` method, 
         }
     }
 
-> **Warning**
+> **Warning**  
 > You should not mock the `Request` facade. Instead, pass the input you desire into the [HTTP testing methods](/docs/{{version}}/http-tests) such as `get` and `post` when running your test. Likewise, instead of mocking the `Config` facade, call the `Config::set` method in your tests.
 
-> **Warning**
+> **Warning**  
 > `Request` 파사드를 mock해서는 안 됩니다. 대신 테스트를 실행할 때 `get` 및 `post`와 같은 [HTTP 테스트 방법](/docs/{{version}}/http-tests)에 원하는 입력을 전달하세요. 마찬가지로, `Config` 파사드를 mocking하는 대신 테스트에서 `Config::set` 메소드를 호출하세요.
 
+<a name="facade-spies"></a>
 ### Facade Spies
-### Facade Spies
+### 파사드 Spies
 
 If you would like to [spy](http://docs.mockery.io/en/latest/reference/spies.html) on a facade, you may call the `spy` method on the corresponding facade. Spies are similar to mocks; however, spies record any interaction between the spy and the code being tested, allowing you to make assertions after the code is executed:
 
@@ -159,9 +162,9 @@ If you would like to [spy](http://docs.mockery.io/en/latest/reference/spies.html
         Cache::shouldHaveReceived('put')->once()->with('name', 'Taylor', 10);
     }
 
-
+<a name="interacting-with-time"></a>
 ## Interacting With Time
-## 시간과의 상호작용
+## 시간 다루기
 
 When testing, you may occasionally need to modify the time returned by helpers such as `now` or `Illuminate\Support\Carbon::now()`. Thankfully, Laravel's base feature test class includes helpers that allow you to manipulate the current time:
 
@@ -169,7 +172,7 @@ When testing, you may occasionally need to modify the time returned by helpers s
 
     use Illuminate\Support\Carbon;
 
-    public function testTimeCanBeManipulated(): void
+    public function test_time_can_be_manipulated(): void
     {
         // Travel into the future...
         $this->travel(5)->milliseconds();
@@ -179,11 +182,6 @@ When testing, you may occasionally need to modify the time returned by helpers s
         $this->travel(5)->days();
         $this->travel(5)->weeks();
         $this->travel(5)->years();
-
-        // Freeze time and resume normal time after executing closure...
-        $this->freezeTime(function (Carbon $time) {
-            // ...
-        });
 
         // Travel into the past...
         $this->travel(-5)->hours();
@@ -202,7 +200,7 @@ You may also provide a closure to the various time travel methods. The closure w
     $this->travel(5)->days(function () {
         // Test something five days into the future...
     });
-
+    
     $this->travelTo(now()->subDays(10), function () {
         // Test something during a given moment...
     });
@@ -216,7 +214,7 @@ The `freezeTime` method may be used to freeze the current time. Similarly, the `
 
     // Freeze time and resume normal time after executing closure...
     $this->freezeTime(function (Carbon $time) {
-         // ...
+        // ...
     });
 
     // Freeze time at the current second and resume normal time after executing closure...
@@ -228,3 +226,13 @@ As you would expect, all of the methods discussed above are primarily useful for
 
 위의 방법들은 대개 시간 제한이 있는 애플리케이션 동작을 테스트하는 데 유용하며, 예를 들어 토론 포럼에서 비활성화된 게시물을 자동으로 잠그는 등의 작업에 적합합니다.
 
+    use App\Models\Thread;
+    
+    public function test_forum_threads_lock_after_one_week_of_inactivity()
+    {
+        $thread = Thread::factory()->create();
+        
+        $this->travel(1)->week();
+        
+        $this->assertTrue($thread->isLockedByInactivity());
+    }

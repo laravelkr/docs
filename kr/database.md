@@ -32,9 +32,9 @@ Almost every modern web application interacts with a database. Laravel makes int
 
 거의 모든 최신 웹 애플리케이션은 데이터베이스와 상호 작용합니다. 라라벨은 원시 SQL, [유창한 쿼리 빌더](/docs/{{version}}/queries) 및 [Eloquent ORM](/docs/{{version}}/eloquent)을 사용하여 지원되는 다양한 데이터베이스에서 데이터베이스와 매우 간단하게 상호 작용할 수 있습니다. 현재 라라벨은 5개의 데이터베이스를 주요하게 지원하고 있습니다.
 
-- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.10+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- PostgreSQL 11.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
 - SQLite 3.8.8+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
@@ -220,6 +220,18 @@ Sometimes your database query may result in a single, scalar value. Instead of b
 
     $burgers = DB::scalar(
         "select count(case when food = 'burger' then 1 end) as burgers from menu"
+    );
+
+<a name="selecting-multiple-result-sets"></a>
+#### Selecting Multiple Result Sets
+#### 다중 결과셋 선택
+
+If your application calls stored procedures that return multiple result sets, you may use the `selectResultSets` method to retrieve all of the result sets returned by the stored procedure:
+
+애플리케이션에서 여러개의 결과셋을 반환하는 스토어 프로시저를 호출하려 한다면 `selectResultSets` 메서드를 사용할 수 있습니다. 이 메서드를 사용하여 스토어 프로시저가 반환하는 모든 결과셋을 조회할 수 있습니다.
+
+    [$options, $notifications] = DB::selectResultSets(
+        "CALL get_user_options_and_notifications(?)", $request->user()->id
     );
 
 <a name="using-named-bindings"></a>

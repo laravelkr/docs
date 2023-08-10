@@ -106,16 +106,16 @@ Blade views may be returned from routes or controllers using the global `view` h
         return view('greeting', ['name' => 'Finn']);
     });
 
-> **Note**
-> Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com).
+> **Note**  
+> Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://livewire.laravel.com).
 
 <a name="supercharging-blade-with-livewire"></a>
 ### Supercharging Blade With Livewire
 ### 라이브와이어로 블레이드 강화하기
 
-Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://laravel-livewire.com). Livewire allows you to write Blade components that are augmented with dynamic functionality that would typically only be possible via frontend frameworks like React or Vue, providing a great approach to building modern, reactive frontends without the complexities, client-side rendering, or build steps of many JavaScript frameworks.
+Want to take your Blade templates to the next level and build dynamic interfaces with ease? Check out [Laravel Livewire](https://livewire.laravel.com). Livewire allows you to write Blade components that are augmented with dynamic functionality that would typically only be possible via frontend frameworks like React or Vue, providing a great approach to building modern, reactive frontends without the complexities, client-side rendering, or build steps of many JavaScript frameworks.
 
-블레이드 템플릿을 한 단계 높은 수준으로 끌어올리고 쉽게 동적 인터페이스를 구축하고 싶나요? [Laravel Livewire](https://laravel-livewire.com)를 확인하세요. Livewire는 일반적으로 React 또는 Vue와 같은 프론트엔드 프레임워크를 통해서만 가능했던 동적 기능을 블레이드 컴포넌트도 할 수 있도록 허용합니다. 이는 많은 JavaScript 프레임워크의 복잡성, 클라이언트 측 렌더링 또는 빌드 단계 없이 최신의 반응형 프론트엔드를 구축하는 데 좋은 접근 방식을 제공합니다.
+블레이드 템플릿을 한 단계 높은 수준으로 끌어올리고 쉽게 동적 인터페이스를 구축하고 싶나요? [Laravel Livewire](https://livewire.laravel.com)를 확인하세요. Livewire는 일반적으로 React 또는 Vue와 같은 프론트엔드 프레임워크를 통해서만 가능했던 동적 기능을 블레이드 컴포넌트도 할 수 있도록 허용합니다. 이는 많은 JavaScript 프레임워크의 복잡성, 클라이언트 측 렌더링 또는 빌드 단계 없이 최신의 반응형 프론트엔드를 구축하는 데 좋은 접근 방식을 제공합니다.
 
 <a name="displaying-data"></a>
 ## Displaying Data
@@ -137,10 +137,10 @@ You may display the contents of the `name` variable like so:
 Hello, {{ $name }}.
 ```
 
-> **Note**
+> **Note**  
 > Blade's `{{ }}` echo statements are automatically sent through PHP's `htmlspecialchars` function to prevent XSS attacks.
 
-> **Note**
+> **Note**  
 > 블레이드의 `{{ }}` 구문은 XSS 공격을 방지하기 위해서 자동으로 PHP의 `htmlspecialchars` 함수를 실행하게 됩니다.
 
 You are not limited to displaying the contents of the variables passed to the view. You may also echo the results of any PHP function. In fact, you can put any PHP code you wish inside of a Blade echo statement:
@@ -189,10 +189,10 @@ By default, Blade `{{ }}` statements are automatically sent through PHP's `htmls
 Hello, {!! $name !!}.
 ```
 
-> **Warning**
+> **Warning**  
 > Be very careful when echoing content that is supplied by users of your application. You should typically use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.
 
-> **Warning**
+> **Warning**  
 > 애플리케이션의 사용자가 입력한 콘텐츠를 출력할 때는 매우 주의하십시오. 일반적으로는 사용자가 입력한 데이터를 표시할 때 XSS 공격을 방지하려면 이스케이프된 이중 중괄호 구문을 사용해야 합니다.
 
 <a name="blade-and-javascript-frameworks"></a>
@@ -259,10 +259,10 @@ The latest versions of the Laravel application skeleton include a `Js` facade, w
 </script>
 ```
 
-> **Warning**
+> **Warning**  
 > You should only use the `Js::from` method to render existing variables as JSON. The Blade templating is based on regular expressions and attempts to pass a complex expression to the directive may cause unexpected failures.
 
-> **Warning**
+> **Warning**  
 > 기존 변수를 JSON으로 렌더링하려면 `Js::from` 메서드만 사용해야 합니다. 블레이드 템플릿은 정규 표현식을 기반으로 하며 복잡한 표현식을 지시문에 전달하려고 하면 예기치 않은 오류가 발생할 수 있습니다.
 
 <a name="the-at-verbatim-directive"></a>
@@ -472,10 +472,10 @@ In addition to conditional statements, Blade provides simple directives for work
 @endwhile
 ```
 
-> **Note**
+> **Note**  
 > While iterating through a `foreach` loop, you may use the [loop variable](#the-loop-variable) to gain valuable information about the loop, such as whether you are in the first or last iteration through the loop.
  
-> **Note**
+> **Note**  
 > `foreach` 반복문 안에서 [루프 변수](#the-loop-variable)를 사용하여 반복문의 처음과 마지막에 대한 정보를 얻을 수 있는 것처럼 반복문에 대한 정보를 사용할 수 있습니다. 
 
 When using loops you may also skip the current iteration or end the loop using the `@continue` and `@break` directives:
@@ -577,8 +577,8 @@ The `$loop` variable also contains a variety of other useful properties:
 | `$loop->parent`    | 반복문이 중첩된 경우 부모의 루프 변수. |
 
 <a name="conditional-classes"></a>
-### Conditional Classes
-### 조건부 클래스
+### Conditional Classes & Styles
+### 조건부 클래스 & 스타일
 
 The `@class` directive conditionally compiles a CSS class string. The directive accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
 
@@ -680,10 +680,10 @@ In addition, the `@required` directive may be used to indicate if a given elemen
 ### Including Subviews
 ### 하위 뷰 포함하기
 
-> **Note**
+> **Note**  
 > While you're free to use the `@include` directive, Blade [components](#components) provide similar functionality and offer several benefits over the `@include` directive such as data and attribute binding.
 
-> **Note**
+> **Note**  
 > `@include` 지시문을 자유롭게 사용할 수도 있지만, `@include` 지시문에 비해 Blade [components](#components)는 유사한 기능을 제공하고 데이터 및 속성 바인딩과 같은 여러 이점을 제공합니다.
 
 Blade's `@include` directive allows you to include a Blade view from within another view. All variables that are available to the parent view will be made available to the included view:
@@ -734,10 +734,10 @@ To include the first view that exists from a given array of views, you may use t
 @includeFirst(['custom.admin', 'admin'], ['status' => 'complete'])
 ```
 
-> **Warning**
+> **Warning**  
 > You should avoid using the `__DIR__` and `__FILE__` constants in your Blade views, since they will refer to the location of the cached, compiled view.
 
-> **Warning**
+> **Warning**  
 > 블레이드 뷰에서 `__DIR__` 및 `__FILE__` 상수는 캐시되고 컴파일된 뷰의 위치를 참조하므로 사용을 피해야 합니다.
 
 <a name="rendering-views-for-collections"></a>
@@ -764,10 +764,10 @@ You may also pass a fourth argument to the `@each` directive. This argument dete
 @each('view.name', $jobs, 'job', 'view.empty')
 ```
 
-> **Warning**
+> **Warning**  
 > Views rendered via `@each` do not inherit the variables from the parent view. If the child view requires these variables, you should use the `@foreach` and `@include` directives instead.
 
-> **Warning**
+> **Warning**  
 > `@each`를 통해 렌더링된 뷰는 상위 뷰에서 변수를 상속하지 않습니다. 자식 뷰에 이러한 변수가 필요한 경우 `@foreach` 및 `@include` 지시문을 사용해야 합니다.
 
 <a name="the-once-directive"></a>
@@ -1220,10 +1220,10 @@ All of the attributes that are not part of the component's constructor will auto
 </div>
 ```
 
-> **Warning**
+> **Warning**  
 > Using directives such as `@env` within component tags is not supported at this time. For example, `<x-alert :live="@env('production')"/>` will not be compiled.
 
-> **Warning**
+> **Warning**  
 > 현재 컴포넌트 태그 내에서 `@env`와 같은 지시어을 사용하는 것은 지원하지 않습니다. 예를 들어 `<x-alert :live="@env('production')">`는 컴파일되지 않습니다.
 
 <a name="default-merged-attributes"></a>
@@ -1282,10 +1282,10 @@ If you need to merge other attributes onto your component, you can chain the `me
 </button>
 ```
 
-> **Note**
+> **Note**  
 > If you need to conditionally compile classes on other HTML elements that shouldn't receive merged attributes, you can use the [`@class` directive](#conditional-classes).
 
-> **Note**
+> **Note**  
 > 병합된 속성을 받지 않아야 하는 다른 HTML 요소의 클래스를, 조건에 따라 컴파일해야 하는 경우 [`@class` 지시어](#conditional-classes)을 사용할 수 있습니다.
 
 <a name="non-class-attribute-merging"></a>
@@ -1378,6 +1378,26 @@ If you would like to check if an attribute is present on the component, you may 
 @endif
 ```
 
+If an array is passed to the `has` method, the method will determine if all of the given attributes are present on the component:
+
+`has` 메서드에 배열을 전달하면, 메서드는 모든 속성이 컴포넌트에 있는지 확인합니다.
+
+```blade
+@if ($attributes->has(['name', 'class']))
+    <div>All of the attributes are present</div>
+@endif
+```
+
+The `hasAny` method may be used to determine if any of the given attributes are present on the component:
+
+`hasAny` 메서드는 주어진 속성중 하나라도 존재하는지 확인하는데 사용합니다. 
+
+```blade
+@if ($attributes->hasAny(['href', ':href', 'v-bind:href']))
+    <div>One of the attributes is present</div>
+@endif
+```
+
 You may retrieve a specific attribute's value using the `get` method:
 
 `get` 메소드를 사용하여 특정 속성의 값을 검색할 수 있습니다.
@@ -1395,8 +1415,6 @@ By default, some keywords are reserved for Blade's internal use in order to rend
 기본적으로 일부 키워드는 블레이드의 내부에서 컴포넌트를 렌더링하기 위해 예약되어 있습니다. 다음 키워드는 컴포넌트 내에서 public 속성 또는 메서드 이름으로 정의할 수 없습니다.
 
 
-<div class="content-list" markdown="1">
-
 - `data`
 - `render`
 - `resolveView`
@@ -1404,8 +1422,6 @@ By default, some keywords are reserved for Blade's internal use in order to rend
 - `view`
 - `withAttributes`
 - `withName`
-
-</div>
 
 <a name="slots"></a>
 ### Slots
@@ -1565,6 +1581,8 @@ Sometimes you may need to render a component but not know which component should
 때로는 컴포넌트를 렌더링해야 하지만 런타임까지 어떤 컴포넌트를 렌더링해야 하는지 모를 수 있습니다. 이때 라라벨에 내장된 `dynamic-component` 컴포넌트를 이용하여 런타임 값 이나 변수를 기반으로 컴포넌트를 렌더링할 수 있습니다.
 
 ```blade
+// $componentName = "secondary-button";
+
 <x-dynamic-component :component="$componentName" class="mt-4" />
 ```
 
@@ -1575,7 +1593,7 @@ Sometimes you may need to render a component but not know which component should
 > **Warning**  
 > The following documentation on manually registering components is primarily applicable to those who are writing Laravel packages that include view components. If you are not writing a package, this portion of the component documentation may not be relevant to you.
 
-> **Warning**
+> **Warning**  
 > 수동으로 컴포넌트를 등록하는 것과 관련하여 앞으로 나오는 내용은 기본적으로 뷰 컴포넌트를 포함하는 라라벨 패키지를 만드는 사람들에게 주로 적용됩니다. 패키지를 작성하지 않는 경우 구성 요소 설명서의 이 부분은 귀하와 관련이 없을 수 있습니다. 
 
 When writing components for your own application, components are automatically discovered within the `app/View/Components` directory and `resources/views/components` directory.
@@ -1766,10 +1784,10 @@ Because the `color` prop was only passed into the parent (`<x-menu>`), it won't 
 </li>
 ```
 
-> **Warning**
+> **Warning**  
 > The `@aware` directive can not access parent data that is not explicitly passed to the parent component via HTML attributes. Default `@props` values that are not explicitly passed to the parent component can not be accessed by the `@aware` directive.
 
-> **Warning**
+> **Warning**  
 > `@aware` 지시어는 HTML 속성을 통해 상위 컴포넌트에 명시적으로 전달되지 않은 상위 데이터에 액세스할 수 없습니다. 상위 컴포넌트에 명시적으로 전달되지 않은 기본 `@props` 값은 `@aware` 지시어로 액세스할 수 없습니다.
 
 <a name="anonymous-component-paths"></a>
@@ -1968,10 +1986,10 @@ In this example, the `sidebar` section is utilizing the `@@parent` directive to 
 
 이 예제에서 `sidebar` 섹션은 `@@parent` 지시문을 활용하여 레이아웃의 사이드바에 콘텐츠를 (덮어쓰기가 아니라) 추가합니다. `@@parent` 지시문은 뷰가 렌더링될 때 레이아웃의 내용으로 대체됩니다.
 
-> **Note**
+> **Note**  
 > Contrary to the previous example, this `sidebar` section ends with `@endsection` instead of `@show`. The `@endsection` directive will only define a section while `@show` will define and **immediately yield** the section.
 
-> **Note**
+> **Note**  
 > 이전 예제와 달리 이 `sidebar` 섹션은 `@show` 대신 `@endsection`으로 끝납니다. `@endsection` 지시문은 섹션만 정의하는 반면 `@show`는 섹션을 정의하고 즉시 생성합니다.
 
 The `@yield` directive also accepts a default value as its second parameter. This value will be rendered if the section being yielded is undefined:
@@ -2262,10 +2280,10 @@ As you can see, we will chain the `format` method onto whatever expression is pa
 
     <?php echo ($var)->format('m/d/Y H:i'); ?>
 
-> **Warning**
+> **Warning**  
 > After updating the logic of a Blade directive, you will need to delete all of the cached Blade views. The cached Blade views may be removed using the `view:clear` Artisan command.
 
-> **Warning**
+> **Warning**  
 > 블레이드 지시어 로직을 수정한 뒤에는, 블레이드 뷰 캐시를 삭제할 필요가 있습니다. 블레이드 뷰의 캐시는 `view:clear` 아티즌 명령어를 사용하여 제거할 수 있습니다.
 
 <a name="custom-echo-handlers"></a>

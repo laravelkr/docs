@@ -54,10 +54,10 @@ Since this view is stored at `resources/views/greeting.blade.php`, we may return
         return view('greeting', ['name' => 'James']);
     });
 
-> **Note**
+> **Note**  
 > Looking for more information on how to write Blade templates? Check out the full [Blade documentation](/docs/{{version}}/blade) to get started.
 
-> **Note**
+> **Note**  
 > blade 템플릿 작성 방법에 대한 자세한 정보를 찾고 계십니까? 시작하려면 전체 [blade 문서](/docs/{{version}}/blade)를 확인하세요.
 
 <a name="writing-views-in-react-or-vue"></a>
@@ -110,10 +110,10 @@ Views may also be nested within subdirectories of the `resources/views` director
 
     return view('admin.profile', $data);
 
-> **Warning**
+> **Warning**  
 > View directory names should not contain the `.` character.
 
-> **Warning**
+> **Warning**  
 > View 디렉토리 이름에는 `.` 문자가 포함되지 않아야합니다.
 
 <a name="creating-the-first-available-view"></a>
@@ -251,10 +251,10 @@ We'll use the `View` facade's `composer` method to register the view composer. L
         }
     }
 
-> **Warning**
+> **Warning**  
 > Remember, if you create a new service provider to contain your view composer registrations, you will need to add the service provider to the `providers` array in the `config/app.php` configuration file.
 
-> **Warning**
+> **Warning**  
 > 기억할 것은 여러분이 뷰 컴포저를 등록하기 위한 새로운 서비스 프로바이더를 생성했다면, `config/app.php` 설정 파일의 `providers` 배열에 이 서비스 프로바이더를 추가해야 한다는 것입니다.
 
 Now that we have registered the composer, the `compose` method of the `App\View\Composers\ProfileComposer` class will be executed each time the `profile` view is being rendered. Let's take a look at an example of the composer class:

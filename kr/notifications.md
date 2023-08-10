@@ -3,8 +3,8 @@
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
-- [Creating Notifications](#creating-notifications)
-- [알림 생성하기](#creating-notifications)
+- [Generating Notifications](#generating-notifications)
+- [알림 생성하기](#generating-notifications)
 - [Sending Notifications](#sending-notifications)
 - [알림 발송하기](#sending-notifications)
     - [Using The Notifiable Trait](#using-the-notifiable-trait)
@@ -73,8 +73,8 @@
     - [사전준비사항](#sms-prerequisites)
     - [Formatting SMS Notifications](#formatting-sms-notifications)
     - [SMS 알림 포맷 지정하기](#formatting-sms-notifications)
-    - [Formatting Shortcode Notifications](#formatting-shortcode-notifications)
-    - [Shortcode 알림 포맷 지정하기](#formatting-shortcode-notifications)
+    - [Unicode Content](#unicode-content)
+    - [유니코드 콘텐츠](#unicode-content)
     - [Customizing The "From" Number](#customizing-the-from-number)
     - [발신자 번호 수정하기](#customizing-the-from-number)
     - [Adding A Client Reference](#adding-a-client-reference)
@@ -87,10 +87,12 @@
     - [사전준비사항](#slack-prerequisites)
     - [Formatting Slack Notifications](#formatting-slack-notifications)
     - [Slack 알림 포맷 지정하기](#formatting-slack-notifications)
-    - [Slack Attachments](#slack-attachments)
-    - [슬랙 첨부 파일](#slack-attachments)
+    - [Slack Interactivity](#slack-interactivity)
+    - [슬랙 앱의 상호작용 사용하기](#slack-interactivity)
     - [Routing Slack Notifications](#routing-slack-notifications)
     - [슬랙 알림 라우팅](#routing-slack-notifications)
+    - [Notifying External Slack Workspaces](#notifying-external-slack-workspaces)
+    - [외부 슬랙 워크스페이스에 알리기](#notifying-external-slack-workspaces)
 - [Localizing Notifications](#localizing-notifications)
 - [알림의 현지화](#localizing-notifications)
 - [Testing](#testing)
@@ -108,15 +110,15 @@ In addition to support for [sending email](/docs/{{version}}/mail), Laravel prov
 
 [이메일 발송](/docs/{{version}}/mail)기능 이외에도 Laravel은 이메일, SMS ([Vonage](https://www.vonage.com/communications-apis/) 이전에 Nexmo로 알려진 서비스 제공회사) 또는 [Slack](https://slack.com) 를 포함한 다양한 전달 방법들을 통해 알림 전송기능을 제공합니다. 또한 수십 개의 다른 채널로 알림을 보낼 수 있도록 다양한 [커뮤니티 제작 알림 채널](https://laravel-notification-channels.com/about/#suggesting-a-new-channel) 만들어져 있습니다. 물론, 알림은 데이터베이스에 저장되어 웹 인터페이스에 표시될 수도 있습니다.
 
-> **Note**
+> **Note**  
 > 역자주 국내 SMS으로 [SENS for Laravel](https://github.com/seungmun/laravel-sens) 이 있습니다.
 
 Typically, notifications should be short, informational messages that notify users of something that occurred in your application. For example, if you are writing a billing application, you might send an "Invoice Paid" notification to your users via the email and SMS channels.
 
 일반적으로, 알림은 애플리케이션 안에서 발생한 어떤 사항을 사용자에게 전달하기 위한 짧은 정보를 담은 메세지입니다. 예를들어, 결제가 필요한 애플리케이션을 작성중이라면, "결제 완료" 알림을 이메일이나 SMS를 통해서 사용자에게 발송할 수 있습니다.
 
-<a name="creating-notifications"></a>
-## Creating Notifications
+<a name="generating-notifications"></a>
+## Generating Notifications
 ## 알림 생성하기
 
 In Laravel, each notification is represented by a single class that is typically stored in the `app/Notifications` directory. Don't worry if you don't see this directory in your application - it will be created for you when you run the `make:notification` Artisan command:
@@ -163,10 +165,10 @@ The `notify` method that is provided by this trait expects to receive a notifica
 
     $user->notify(new InvoicePaid($invoice));
 
-> **Note**
+> **Note**  
 > Remember, you may use the `Notifiable` trait on any of your models. You are not limited to only including it on your `User` model.
 
-> **Note**
+> **Note**  
 > 기억하세요. 당신은 당신의 어떤 모델에도 `Notifiable` 트레이트-trait를 사용할 수 있습니다. 오직 `User` 모델에만 한정되지 않습니다.
 
 <a name="using-the-notification-facade"></a>
@@ -195,10 +197,10 @@ Every notification class has a `via` method that determines on which channels th
 
 모든 알림 클래스는 알림이 어떤 채널에 전달될지 결정할 수 있는 `via` 메소드를 가지고 있습니다. 알림은 `mail`, `database`, `broadcast`, `vonage` 그리고 `slack` 채널을 통해서 보낼 수 있습니다.
 
-> **Note**
+> **Note**  
 > If you would like to use other delivery channels such as Telegram or Pusher, check out the community driven [Laravel Notification Channels website](http://laravel-notification-channels.com).
 
-> **Note**
+> **Note**  
 > 텔레그램이나 Pusher 와 같은 다른 채널을 사용하고자 한다면, [라라벨 알림 채널 웹사이트](http://laravel-notification-channels.com)와 같은 커뮤니티 드라이버를 확인해 보십시오.
 
 The `via` method receives a `$notifiable` instance, which will be an instance of the class to which the notification is being sent. You may use `$notifiable` to determine which channels the notification should be delivered on:
@@ -219,10 +221,10 @@ The `via` method receives a `$notifiable` instance, which will be an instance of
 ### Queueing Notifications
 ### Queue-큐를 통한 Notifications 사용
 
-> **Warning**
+> **Warning**  
 > Before queueing notifications you should configure your queue and [start a worker](/docs/{{version}}/queues).
 
-> **Warning**
+> **Warning**  
 > 알림을 보내는데 Queue-큐를 사용하기 전에 Queue-큐 설정을 완료하고 [Queue-큐 워커를 구동](/docs/{{version}}/queues)해야 합니다.
 
 Sending notifications can take time, especially if the channel needs to make an external API call to deliver the notification. To speed up your application's response time, let your notification be queued by adding the `ShouldQueue` interface and `Queueable` trait to your class. The interface and trait are already imported for all notifications generated using the `make:notification` command, so you may immediately add them to your notification class:
@@ -296,6 +298,7 @@ Alternatively, you may define a `withDelay` method on the notification class its
         ];
     }
 
+<a name="customizing-the-notification-queue-connection"></a>
 #### Customizing The Notification Queue Connection
 #### 알림 대기열 커넥션 커스터마이징
 
@@ -389,13 +392,14 @@ Alternatively, you may call the `afterCommit` method from your notification's co
         }
     }
 
-> **Note**
+> **Note**  
 > To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
 
-> **Note**
+> **Note**  
 > 이러한 문제를 해결하는 방법에 대해 자세히 알아보려면 [대기 중인 작업 및 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 검토하세요.
 
 
+<a name="determining-if-the-queued-notification-should-be-sent"></a>
 #### Determining If A Queued Notification Should Be Sent
 #### 대기 중인 알림을 보내야 하는지 여부 결정
 
@@ -424,6 +428,7 @@ Sometimes you may need to send a notification to someone who is not stored as a 
 때로는 애플리케이션의 "User"모델로 저장되지 않은 사람에게 알림을 보내야 할 수도 있습니다. `Notification` 파사드의 `route` 메소드를 사용하여 알림을 보내기 전에 임시 알림 라우팅 정보를 지정할 수 있습니다.
 
     use Illuminate\Broadcasting\Channel;
+    use Illuminate\Support\Facades\Notification;
 
     Notification::route('mail', 'taylor@example.com')
                 ->route('vonage', '5555555555')
@@ -470,10 +475,10 @@ The `MailMessage` class contains a few simple methods to help you build transact
                     ->line('Thank you for using our application!');
     }
 
-> **Note**
+> **Note**  
 > Note we are using `$this->invoice->id` in our `toMail` method. You may pass any data your notification needs to generate its message into the notification's constructor.
 
-> **Note**
+> **Note**  
 > `toMail` 메소드 안에서 `$this->invoice->id`를 사용하고 있다는 것을 주의해주십시오. 알림이 메세지를 생성하기 위해서 필요한 그 어떤 데이터라도 알림 클래스의 생성자에 전달할 수 있습니다.
 
 In this example, we register a greeting, a line of text, a call to action, and then another line of text. These methods provided by the `MailMessage` object make it simple and fast to format small transactional emails. The mail channel will then translate the message components into a beautiful, responsive HTML email template with a plain-text counterpart. Here is an example of an email generated by the `mail` channel:
@@ -482,10 +487,10 @@ In this example, we register a greeting, a line of text, a call to action, and t
 
 <img src="https://laravel.com/img/docs/notification-example-2.png">
 
-> **Note**
+> **Note**  
 > When sending mail notifications, be sure to set the `name` configuration option in your `config/app.php` configuration file. This value will be used in the header and footer of your mail notification messages.
 
-> **Note**
+> **Note**  
 > 메일 알림을 보낼 때 `config/app.php` 설정 파일에서 `name` 설정 옵션을 설정해야 합니다. 이 값은 메일 알림 메시지의 머리글과 바닥글에 사용됩니다..
 
 <a name="error-messages"></a>
@@ -507,6 +512,7 @@ Some notifications inform users of errors, such as a failed invoice payment. You
                     ->line('...');
     }
 
+<a name="other-mail-notification-formatting-options"></a>
 #### Other Mail Notification Formatting Options
 #### 기타 메일 알림 포매팅 옵션
 
@@ -640,6 +646,7 @@ You can modify the HTML and plain-text template used by mail notifications by pu
 php artisan vendor:publish --tag=laravel-notifications
 ```
 
+<a name="mail-attachments"></a>
 ### Attachments
 ### 첨부 파일
 
@@ -716,6 +723,7 @@ When necessary, multiple files may be attached to a message using the `attachMan
                     ]);
     }
 
+<a name="raw-data-attachments"></a>
 #### Raw Data Attachments
 #### 로우 데이터 첨부 파일
 
@@ -785,6 +793,7 @@ The `withSymfonyMessage` method of the `MailMessage` class allows you to registe
                     });
     }
 
+<a name="using-mailables"></a>
 ### Using Mailables
 ### Mailable 사용
 
@@ -804,6 +813,7 @@ If needed, you may return a full [mailable object](/docs/{{version}}/mail) from 
                     ->to($notifiable->email);
     }
 
+<a name="mailables-and-on-demand-notifications"></a>
 #### Mailables & On-Demand Notifications
 #### 메일가능한 객체 & 임시적인 알림
 
@@ -905,6 +915,7 @@ Thanks,<br>
 </x-mail::message>
 ```
 
+<a name="button-component"></a>
 #### Button Component
 #### 버튼 컴포넌트
 
@@ -918,6 +929,7 @@ View Invoice
 </x-mail::button>
 ```
 
+<a name="panel-component"></a>
 #### Panel Component
 #### 패널 컴포넌트
 
@@ -931,6 +943,7 @@ This is the panel content.
 </x-mail::panel>
 ```
 
+<a name="table-component"></a>
 #### Table Component
 #### 테이블 컴포넌트
 
@@ -963,6 +976,7 @@ This command will publish the Markdown mail components to the `resources/views/v
 
 이 명령어는 마크다운 메일 컴포넌트를 `resources/views/vendor/mail` 디렉토리에 퍼블리싱 합니다. `mail` 디렉토리는 `html` 과 `text` 디렉토리를 가지고 있는데, 각각은 사용가능한 컴포넌트의 표현들이 들어 있습니다. 원하시는대로 이 컴포넌트를 커스터마이징 할 수 있습니다.
 
+<a name="customizing-the-css"></a>
 #### Customizing The CSS
 #### CSS 커스터마이징
 
@@ -1011,6 +1025,12 @@ php artisan notifications:table
 php artisan migrate
 ```
 
+> **Note**  
+> If your notifiable models are using [UUID or ULID primary keys](/docs/{{version}}/eloquent#uuid-and-ulid-keys), you should replace the `morphs` method with [`uuidMorphs`](docs/{{version}}/migrations#column-method-uuidMorphs) or [`ulidMorphs`](/docs/{{version}}/migrations#column-method-ulidMorphs) in the notification table migration.
+
+> **Note**  
+> 알림 가능 모델이 [UUID 혹은 ULID primary keys](/docs/{{version}}/eloquent#uuid-and-ulid-keys)를 사용한다면 알림 테이블 마이그레이션에서 `morphs` 메서드 대신 [`uuidMorphs`](docs/{{version}}/migrations#column-method-uuidMorphs) 또는 [`ulidMorphs`](/docs/{{version}}/migrations#column-method-ulidMorphs) 메서드를 사용하십시오.
+
 <a name="formatting-database-notifications"></a>
 ### Formatting Database Notifications
 ### 데이터베이스 알림 포맷 지정하기
@@ -1032,6 +1052,7 @@ If a notification supports being stored in a database table, you should define a
         ];
     }
 
+<a name="todatabase-vs-toarray"></a>
 #### `toDatabase` Vs. `toArray`
 #### `toDatabase` Vs `toArray`
 
@@ -1063,10 +1084,10 @@ If you want to retrieve only the "unread" notifications, you may use the `unread
         echo $notification->type;
     }
 
-> **Note**
+> **Note**  
 > To access your notifications from your JavaScript client, you should define a notification controller for your application which returns the notifications for a notifiable entity, such as the current user. You may then make an HTTP request to that controller's URL from your JavaScript client.
 
-> **Note**
+> **Note**  
 > 자바스크립트 클라이언트에서 알림에 액세스하려면 현재 사용자와 같이 notifiable 관계 모델에 대한 알림을 반환하는 알림 컨트롤러를 애플리케이션에 정의해야 합니다. 그런 다음 JavaScript 클라이언트에서 해당 컨트롤러의 URL로 HTTP 요청을 할 수 있습니다.
 
 <a name="marking-notifications-as-read"></a>
@@ -1136,6 +1157,7 @@ The `broadcast` channel broadcasts notifications using Laravel's [event broadcas
         ]);
     }
 
+<a name="broadcast-queue-configuration"></a>
 #### Broadcast Queue Configuration
 #### 브로드캐스트 Queue-큐 설정하기
 
@@ -1147,6 +1169,7 @@ All broadcast notifications are queued for broadcasting. If you would like to co
                     ->onConnection('sqs')
                     ->onQueue('broadcasts');
 
+<a name="customizing-the-notification-type"></a>
 #### Customizing The Notification Type
 #### 알림 유형 사용자 정의
 
@@ -1164,6 +1187,7 @@ In addition to the data you specify, all broadcast notifications also have a `ty
         return 'broadcast.message';
     }
 
+<a name="listening-for-notifications"></a>
 ### Listening For Notifications
 ### 알림 수신하기
 
@@ -1176,6 +1200,7 @@ Notifications will broadcast on a private channel formatted using a `{notifiable
             console.log(notification.type);
         });
 
+<a name="customizing-the-notification-channel"></a>
 #### Customizing The Notification Channel
 #### 알림 채널 커스터미이징하기
 
@@ -1216,21 +1241,17 @@ Sending SMS notifications in Laravel is powered by [Vonage](https://www.vonage.c
 
 라라벨에서 SMS 알림 보내기는 [Vonage](https://www.vonage.com)(이전 Nexmo로 알려짐)에서 제공합니다. Vonage를 통해 알림을 보내기 전에 `laravel/vonage-notification-channel` 및 `guzzlehttp/guzzle` Composer 패키지를 설치해야 합니다.
 
-```shell
-composer require laravel/vonage-notification-channel guzzlehttp/guzzle
-```
+    composer require laravel/vonage-notification-channel guzzlehttp/guzzle
 
 The package includes a [configuration file](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php). However, you are not required to export this configuration file to your own application. You can simply use the `VONAGE_KEY` and `VONAGE_SECRET` environment variables to define your Vonage public and secret keys.
 
 패키지에는 [설정 파일](https://github.com/laravel/vonage-notification-channel/blob/3.x/config/vonage.php)이 포함되어 있습니다. 이 설정 파일을 애플리케이션의 설정 디렉토리로 복사할 필요는 없습니다. `VONAGE_KEY` 및 `VONAGE_SECRET` 환경 변수를 사용하여 Vonage 공개 및 비밀 키를 설정할 수 있습니다.
 
-After defining your keys, you may set a `VONAGE_SMS_FROM` environment variable that defines the phone number that your SMS messages should be sent from by default. You may generate this phone number within the Vonage control panel:
+After defining your keys, you should set a `VONAGE_SMS_FROM` environment variable that defines the phone number that your SMS messages should be sent from by default. You may generate this phone number within the Vonage control panel:
 
 키를 정의한 뒤에는 어떤 SMS 번호로 송신되는지 표시할 발신자 번호를 `VONAGE_SMS_FROM` 환경변수로 설정해야합니다. 이 번호는 Vonage 관리툴에서 생성할 수 있습니다.
 
-```ini
-VONAGE_SMS_FROM=15556666666
-```
+    VONAGE_SMS_FROM=15556666666
 
 <a name="formatting-sms-notifications"></a>
 ### Formatting SMS Notifications
@@ -1251,6 +1272,7 @@ If a notification supports being sent as an SMS, you should define a `toVonage` 
                     ->content('Your SMS message content');
     }
 
+<a name="unicode-content"></a>
 #### Unicode Content
 #### 유니코드 컨텐츠
 
@@ -1290,6 +1312,7 @@ If you would like to send some notifications from a phone number that is differe
                     ->from('15554443333');
     }
 
+<a name="adding-a-client-reference"></a>
 ### Adding a Client Reference
 ### 클라이언트 참조 추가
 
@@ -1346,27 +1369,53 @@ Vonage 알림을 적절한 전화번호로 라우팅하려면 알림 대상이 �
 ### Prerequisites
 ### 사전 준비사항
 
-Before you can send notifications via Slack, you must install the Slack notification channel via Composer:
+Before sending Slack notifications, you should install the Slack notification channel via Composer:
 
-Slack을 통해 알림을 보내려면 먼저 Composer를 통해 Slack 알림 채널을 설치해야 합니다.
+Slack을 통해 알림을 보내려면 먼저 Composer를 통해 Slack 알림 채널 패키지를 설치해야 합니다.
 
 ```shell
 composer require laravel/slack-notification-channel
 ```
 
-You will also need to create a [Slack App](https://api.slack.com/apps?new_app=1) for your team. After creating the App, you should configure an "Incoming Webhook" for the workspace. Slack will then provide you with a webhook URL that you may use when [routing Slack notifications](#routing-slack-notifications).
+Additionally, you must create a [Slack App](https://api.slack.com/apps?new_app=1) for your Slack workspace.
 
-팀을 위한 [Slack 앱](https://api.slack.com/apps?new_app=1) 도 생성해야 합니다. 앱을 생성한 후 작업 영역에 대해 "Incoming Webhook"을 설정해야 합니다. 그러면 Slack에서 [Slack 알림 라우팅](#routing-slack-notifications) 시 사용할 수 있는 웹훅 URL을 제공합니다.
+그리고 슬랙 워크스페이스에 [슬랙 앱](https://api.slack.com/apps?new_app=1)을 생성해야합니다.
+
+If you only need to send notifications to the same Slack workspace that the App is created in, you should ensure that your App has the `chat:write`, `chat:write.public`, and `chat:write.customize` scopes. These scopes can be added from the "OAuth & Permissions" App management tab within Slack.
+
+생성된 앱과 동일한 슬랙 워크스페이스에 알림을 보내려면 생성한 앱이 `chat:write`, `chat:write.public`, `chat:write.customize` 스코프 권한을 가지고 있는지 확인하십시오. 이 설정은 슬랙의 앱관리 영역페이지의 "OAuth & Permissions" 탭에서 추가할 수 있습니다.
+
+Next, copy the App's "Bot User OAuth Token" and place it within a `slack` configuration array in your application's `services.php` configuration file. This token can be found on the "OAuth & Permissions" tab within Slack:
+
+그런다음 앱의 "봇 사용자 OAuth 토큰"을 복사하여 애플리케이션의 `services.php` 설정 파일의 `slack` 배열 안에 넣습니다. 이 토큰은 Slack의 "OAuth & Permissions" 탭에서 찾을 수 있습니다:
+
+    'slack' => [
+        'notifications' => [
+            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
+            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
+        ],
+    ],
+
+<a name="slack-app-distribution"></a>
+#### App Distribution
+#### 앱 배포
+
+If your application will be sending notifications to external Slack workspaces that are owned by your application's users, you will need to "distribute" your App via Slack. App distribution can be managed from your App's "Manage Distribution" tab within Slack. Once your App has been distributed, you may use [Socialite](/docs/{{version}}/socialite) to [obtain Slack Bot tokens](/docs/{{version}}/socialite#slack-bot-scopes) on behalf of your application's users.
+
+애플리케이션이 사용자가 소유한 외부 슬랙 워크스페이스에 알림을 보내려고 한다면 슬랙을 통해서 앱을 "배포" 해야합니다. 앱 배포는 슬랙 내부 앱의 "Manage Distribution" 탭에서 관리할 수 있습니다. 앱이 배포되고나면 애플리케이션 사용자를 대신하여 [Socialite](/docs/{{version}}/socialite) 를 사용하여 [슬랙 봇 토큰 획득하기](/docs/{{version}}/socialite#slack-bot-scopes) 작업을 수행할 수 있습니다. 
 
 <a name="formatting-slack-notifications"></a>
 ### Formatting Slack Notifications
 ### 슬랙 알림 포맷 지정하기
 
-If a notification supports being sent as a Slack message, you should define a `toSlack` method on the notification class. This method will receive a `$notifiable` entity and should return an `Illuminate\Notifications\Messages\SlackMessage` instance. Slack messages may contain text content as well as an "attachment" that formats additional text or an array of fields. Let's take a look at a basic `toSlack` example:
+If a notification supports being sent as a Slack message, you should define a `toSlack` method on the notification class. This method will receive a `$notifiable` entity and should return an `Illuminate\Notifications\Slack\SlackMessage` instance. You can construct rich notifications using [Slack's Block Kit API](https://api.slack.com/block-kit). The following example may be previewed in [Slack's Block Kit builder](https://app.slack.com/block-kit-builder/T01KWS6K23Z#%7B%22blocks%22:%5B%7B%22type%22:%22header%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Invoice%20Paid%22%7D%7D,%7B%22type%22:%22context%22,%22elements%22:%5B%7B%22type%22:%22plain_text%22,%22text%22:%22Customer%20%231234%22%7D%5D%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22An%20invoice%20has%20been%20paid.%22%7D,%22fields%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Invoice%20No:*%5Cn1000%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Invoice%20Recipient:*%5Cntaylor@laravel.com%22%7D%5D%7D,%7B%22type%22:%22divider%22%7D,%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22Congratulations!%22%7D%7D%5D%7D):
 
-알림이 Slack 메시지로 전송되는 것을 지원하는 경우 알림 클래스에 `toSlack` 메소드를 정의해야 합니다. 이 메소드는 `$notifiable` 모델을 수신하고 `Illuminate\Notifications\Messages\SlackMessage` 인스턴스를 반환해야 합니다. Slack 메시지에는 추가 텍스트 또는 필드 배열의 형식을 지정하는 "첨부 파일"뿐만 아니라 텍스트 콘텐츠가 포함될 수 있습니다. 기본 `toSlack` 예제를 살펴보겠습니다.
+알림 클래스가 Slack 메시지로 전송되는 것을 지원하려면 알림 클래스에 `toSlack` 메소드를 정의하면 됩니다. 이 메소드는 `$notifiable` 모델을 인자로 받아 `Illuminate\Notifications\Slack\SlackMessage` 인스턴스를 반환해야 합니다. [슬랙 블록 kit API](https://api.slack.com/block-kit)를 사용하여 알림의 형태를 조정하십시오. 아래의 예제는 다음과 같이 보여집니다. 
 
-    use Illuminate\Notifications\Messages\SlackMessage;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\ContextBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\SectionBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Composites\ConfirmObject;
+    use Illuminate\Notifications\Slack\SlackMessage;
 
     /**
      * Get the Slack representation of the notification.
@@ -1374,99 +1423,137 @@ If a notification supports being sent as a Slack message, you should define a `t
     public function toSlack(object $notifiable): SlackMessage
     {
         return (new SlackMessage)
-                    ->content('One of your invoices has been paid!');
+                ->text('One of your invoices has been paid!')
+                ->headerBlock('Invoice Paid')
+                ->contextBlock(function (ContextBlock $block) {
+                    $block->text('Customer #1234');
+                })
+                ->sectionBlock(function (SectionBlock $block) {
+                    $block->text('An invoice has been paid.');
+                    $block->field("*Invoice No:*\n1000")->markdown();
+                    $block->field("*Invoice Recipient:*\ntaylor@laravel.com")->markdown();
+                })
+                ->dividerBlock()
+                ->sectionBlock(function (SectionBlock $block) {
+                    $block->text('Congratulations!');
+                });
     }
 
-<a name="slack-attachments"></a>
-### Slack Attachments
-### 슬랙 첨부 파일
+<a name="slack-interactivity"></a>
+### Slack Interactivity
+### 슬랙 앱의 상호작용 사용하기
 
-You may also add "attachments" to Slack messages. Attachments provide richer formatting options than simple text messages. In this example, we will send an error notification about an exception that occurred in an application, including a link to view more details about the exception:
+Slack's Block Kit notification system provides powerful features to [handle user interaction](https://api.slack.com/interactivity/handling). To utilize these features, your Slack App should have "Interactivity" enabled and a "Request URL" configured that points to a URL served by your application. These settings can be managed from the "Interactivity & Shortcuts" App management tab within Slack.
 
-또한 슬랙 메세지에 "첨부파일"을 추가할 수도 있습니다. 첨부파일은 간단한 텍스트 메세지보다 풍부한 포맷 옵션을 제공합니다. 다음 예제에서, 애플리케이션에서 발생한 예외-exception에 대한 에러 알림에 보다 자세한 정보를 표시하는 링크를 포함하여 전송할 것입니다.
+슬랙의 블록킷 알림 시스템은 슬랙에서 [사용자가 다양한 상호작용을 처리](handle user interaction](https://api.slack.com/interactivity/handling)하는 강력한 기능을 제공합니다. 이 기능을 활용하려면 슬랙 앱에서 "Interactivity"을 활성화 하고 "요청 URL"을 애플리케이션이 제공하는 URL을 가리키도록 설정해야합니다. 이 설정은 슬랙의 개별 앱 관리 기능 안에 있는 "Interactivity & Shortcuts" 메뉴에서 찾을 수 있습니다. 
 
-    use Illuminate\Notifications\Messages\SlackAttachment;
-    use Illuminate\Notifications\Messages\SlackMessage;
+In the following example, which utilizes the `actionsBlock` method, Slack will send a `POST` request to your "Request URL" with a payload containing the Slack user who clicked the button, the ID of the clicked button, and more. Your application can then determine the action to take based on the payload. You should also [verify the request](https://api.slack.com/authentication/verifying-requests-from-slack) was made by Slack:
+
+
+액션블록 메서드를 사용하는 다음 예제에서는 버튼을 클릭한 사용자, 클릭한 버튼의 ID 등을 포함하는 페이로드와 함께 등록한 "요청 URL"로 POST 요청을 보냅니다. 그러면 애플리케이션에서 페이로드를 기반으로 수행할 작업을 결정할 수 있습니다. 또한 [요청이 Slack에 의해 이루어졌는지](https://api.slack.com/authentication/verifying-requests-from-slack) 확인해야 합니다.
+
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\ActionsBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\ContextBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\SectionBlock;
+    use Illuminate\Notifications\Slack\SlackMessage;
 
     /**
      * Get the Slack representation of the notification.
      */
     public function toSlack(object $notifiable): SlackMessage
     {
-        $url = url('/exceptions/'.$this->exception->id);
-
         return (new SlackMessage)
-                    ->error()
-                    ->content('Whoops! Something went wrong.')
-                    ->attachment(function (SlackAttachment $attachment) use ($url) {
-                        $attachment->title('Exception: File Not Found', $url)
-                                   ->content('File [background.jpg] was not found.');
-                    });
+                ->text('One of your invoices has been paid!')
+                ->headerBlock('Invoice Paid')
+                ->contextBlock(function (ContextBlock $block) {
+                    $block->text('Customer #1234');
+                })
+                ->sectionBlock(function (SectionBlock $block) {
+                    $block->text('An invoice has been paid.');
+                })
+                ->actionsBlock(function (ActionsBlock $block) {
+                     // ID defaults to "button_acknowledge_invoice"...
+                    $block->button('Acknowledge Invoice')->primary();
+
+                    // Manually configure the ID...
+                    $block->button('Deny')->danger()->id('deny_invoice');
+                });
     }
 
-Attachments also allow you to specify an array of data that should be presented to the user. The given data will be presented in a table-style format for easy reading:
+<a name="slack-confirmation-modals"></a>
+#### Confirmation Modals
+#### 확인 모달창
 
-첨부파일은 또한 사용자에게 보여져야할 데이터의 배열을 지정할 수도 있습니다. 주어진 데이터는 쉽게 읽을 수 있도록 테이블 스타일의 형식으로 표시됩니다.
+If you would like users to be required to confirm an action before it is performed, you may invoke the `confirm` method when defining your button. The `confirm` method accepts a message and a closure which receives a `ConfirmObject` instance:
 
-    use Illuminate\Notifications\Messages\SlackAttachment;
-    use Illuminate\Notifications\Messages\SlackMessage;
+사용자가 실제 액션을 수행하기 전에 확인하는 과정을 거치도록 하려면 버튼을 정의할 때 `confirm` 메서드를 호출하면 됩니다. `confirm` 메서드는 화면에 표시할 메세지와 `ConfirmObject` 인스턴스를 인자로 받는 클로저를 인자로 전달받습니다.  
+
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\ActionsBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\ContextBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Blocks\SectionBlock;
+    use Illuminate\Notifications\Slack\BlockKit\Composites\ConfirmObject;
+    use Illuminate\Notifications\Slack\SlackMessage;
 
     /**
      * Get the Slack representation of the notification.
      */
     public function toSlack(object $notifiable): SlackMessage
     {
-        $url = url('/invoices/'.$this->invoice->id);
-
         return (new SlackMessage)
-                    ->success()
-                    ->content('One of your invoices has been paid!')
-                    ->attachment(function (SlackAttachment $attachment) use ($url) {
-                        $attachment->title('Invoice 1322', $url)
-                                   ->fields([
-                                        'Title' => 'Server Expenses',
-                                        'Amount' => '$1,234',
-                                        'Via' => 'American Express',
-                                        'Was Overdue' => ':-1:',
-                                    ]);
-                    });
+                ->text('One of your invoices has been paid!')
+                ->headerBlock('Invoice Paid')
+                ->contextBlock(function (ContextBlock $block) {
+                    $block->text('Customer #1234');
+                })
+                ->sectionBlock(function (SectionBlock $block) {
+                    $block->text('An invoice has been paid.');
+                })
+                ->actionsBlock(function (ActionsBlock $block) {
+                    $block->button('Acknowledge Invoice')
+                        ->primary()
+                        ->confirm(
+                            'Acknowledge the payment and send a thank you email?',
+                            function (ConfirmObject $dialog) {
+                                $dialog->confirm('Yes');
+                                $dialog->deny('No');
+                            }
+                        );
+                });
     }
 
-#### Markdown Attachment Content
-#### 마크다운에 첨부파일 표시하기
+<a name="inspecting-slack-blocks"></a>
+#### Inspecting Slack Blocks
+#### 작성한 슬랙 블록 검사하기
 
-If some of your attachment fields contain Markdown, you may use the `markdown` method to instruct Slack to parse and display the given attachment fields as Markdown formatted text. The values accepted by this method are: `pretext`, `text`, and / or `fields`. For more information about Slack attachment formatting, check out the [Slack API documentation](https://api.slack.com/docs/message-formatting#message_formatting):
+If you would like to quickly inspect the blocks you've been building, you can invoke the `dd` method on the `SlackMessage` instance. The `dd` method will generate and dump a URL to Slack's [Block Kit Builder](https://app.slack.com/block-kit-builder/), which displays a preview of the payload and notification in your browser. You may pass `true` to the `dd` method to dump the raw payload:
 
-첨부 파일 필드 중 일부가 마크다운이 포함되어 있는 경우 `markdown` 메소드를 사용하여 슬랙에 주어진 마크다운 텍스트를 파싱하여 첨부파일이 표시하도록 할 수 있습니다.
+작성한 블록이 동작하는지 빠르게 확인하는 방법은 `SlackMessage` 인스턴스의 `dd` 메서드를 호출하는 것입니다. 그러면 `dd` 메서드가 슬랙의 [블록 킷 빌더](https://app.slack.com/block-kit-builder/)에 대한 URL을 생성하고 내용을 덤프하여 브라우저에서 페이로드와 알림의 미리보기를 표시합니다. 만약 페이로드를 날것 그대로(raw) 확인하려면 `dd` 헬퍼에 인자로 `true`를 전달하면 됩니다.  
 
-    use Illuminate\Notifications\Messages\SlackAttachment;
-    use Illuminate\Notifications\Messages\SlackMessage;
-
-    /**
-     * Get the Slack representation of the notification.
-     */
-    public function toSlack(object $notifiable): SlackMessage
-    {
-        $url = url('/exceptions/'.$this->exception->id);
-
-        return (new SlackMessage)
-                    ->error()
-                    ->content('Whoops! Something went wrong.')
-                    ->attachment(function (SlackAttachment $attachment) use ($url) {
-                        $attachment->title('Exception: File Not Found', $url)
-                                   ->content('File [background.jpg] was *not found*.')
-                                   ->markdown(['text']);
-                    });
-    }
+    return (new SlackMessage)
+            ->text('One of your invoices has been paid!')
+            ->headerBlock('Invoice Paid')
+            ->dd();
 
 <a name="routing-slack-notifications"></a>
 ### Routing Slack Notifications
 ### 슬랙 알림 라우팅(수신자설정)
 
-To route Slack notifications to the proper Slack team and channel, define a `routeNotificationForSlack` method on your notifiable entity. This should return the webhook URL to which the notification should be delivered. Webhook URLs may be generated by adding an "Incoming Webhook" service to your Slack team:
+To direct Slack notifications to the appropriate Slack team and channel, define a `routeNotificationForSlack` method on your notifiable model. This method can return one of three values:
 
-Slack 알림을 적절한 Slack 팀 및 채널로 라우팅하려면 알림 대상 모델에서 `routeNotificationForSlack` 메소드를 정의하세요. 알림이 전달되어야 하는 웹훅 URL을 반환해야 합니다. Webhook URL은 Slack 팀에 "Incoming Webhook" 서비스를 추가하여 생성할 수 있습니다.
+정확한 팀 그리고 채널로 알림을 전달하려면, 알림 모델에 `routeNotificationForSlack` 메서드를 정의하면 됩니다. 이 메서드는 다음의 세 가지 값 중 하나를 반환하면 됩니다.  
 
+- `null` - which defers routing to the channel configured in the notification itself. You may use the `to` method when building your `SlackMessage` to configure the channel within the notification.
+- A string specifying the Slack channel to send the notification to, e.g. `#support-channel`.
+- A `SlackRoute` instance, which allows you to specify an OAuth token and channel name, e.g. `SlackRoute::make($this->slack_channel, $this->slack_token)`. This method should be used to send notifications to external workspaces.
+
+- `null` - 알림 자체에 설정된 채널로 라우팅을 처리합니다. `SlackMessage`를 빌드할 때 `to` 메서드를 사용하여 알림 내에서 채널을 직접 지정할 수도 있습니다.
+- 알림을 보내려는 채널을 지정하는 문자열(예: `#support-channel`).
+- OAuth 토큰 및 채널 이름을 지정할 수 있는 `SlackRoute` 인스턴스(예: `SlackRoute::make($this->slack_channel, $this->slack_token)`). 이 메서드는 외부 워크스페이스로 알림을 보내는 데 사용해야 합니다.
+
+For instance, returning `#support-channel` from the `routeNotificationForSlack` method will send the notification to the `#support-channel` channel in the workspace associated with the Bot User OAuth token located in your application's `services.php` configuration file:
+
+예를 들어 `routeNotificationForSlack` 메서드에서 `#support-channel`을 반환하면 애플리케이션의 `services.php` 설정 파일에 있는 봇 사용자 OAuth 토큰과 연결된 워크스페이스의 `#support-channel` 채널로 알림이 전송됩니다.
+ 
     <?php
 
     namespace App\Models;
@@ -1482,9 +1569,49 @@ Slack 알림을 적절한 Slack 팀 및 채널로 라우팅하려면 알림 대�
         /**
          * Route notifications for the Slack channel.
          */
-        public function routeNotificationForSlack(Notification $notification): string
+        public function routeNotificationForSlack(Notification $notification): mixed
         {
-            return 'https://hooks.slack.com/services/...';
+            return '#support-channel';
+        }
+    }
+
+<a name="notifying-external-slack-workspaces"></a>
+### Notifying External Slack Workspaces
+### 외부 슬랙 워크스페이스에 알리기
+
+> **Note**
+> Before sending notifications to external Slack workspaces, your Slack App must be [distributed](#slack-app-distribution).
+
+> **Note**
+> 알림을 외부 슬랙 워크스페이스로 보내기 전에 반드시 [앱 배포-distributed](#slack-app-distribution)가 되어 있어야 합니다.
+
+Of course, you will often want to send notifications to the Slack workspaces owned by your application's users. To do so, you will first need to obtain a Slack OAuth token for the user. Thankfully, [Laravel Socialite](/docs/{{version}}/socialite) includes a Slack driver that will allow you to easily authenticate your application's users with Slack and [obtain a bot token](/docs/{{version}}/socialite#slack-bot-scopes).
+
+대부분은 애플리케이션 사용자가 소유한 슬랙 워크스페이스로 알림을 보내는 경우가 많습니다. 외부 슬랙 워크스페이스로 알림을 보내려면 Slack OAuth 토큰을 가져와야 합니다. 고맙게도 [라라벨 소셜라이트](/docs/{{version}}/socialite)에는 Slack 애플리케이션 사용자를 쉽게 인증하고 [봇 토큰을 획득](/docs/{{version}}/socialite#slack-bot-scopes)할 수 있는 슬랙 드라이버가 포함되어 있습니다. 
+
+Once you have obtained the bot token and stored it within your application's database, you may utilize the `SlackRoute::make` method to route a notification to the user's workspace. In addition, your application will likely need to offer an opportunity for the user to specify which channel notifications should be sent to:
+
+봇 토큰을 획득하고 이를 애플리케이션 데이터베이스에 저장한 뒤에, `SlackRoute::make` 메서드를 사용하여 알림을 사용자의 워크스페이스로 보낼 수 있습니다. 추가적으로 앱의 사용자가 어떤 채널로 알림을 보낼지 지정할 수 있는 방법을 제공해야합니다. 
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Foundation\Auth\User as Authenticatable;
+    use Illuminate\Notifications\Notifiable;
+    use Illuminate\Notifications\Notification;
+    use Illuminate\Notifications\Slack\SlackRoute;
+
+    class User extends Authenticatable
+    {
+        use Notifiable;
+
+        /**
+         * Route notifications for the Slack channel.
+         */
+        public function routeNotificationForSlack(Notification $notification): mixed
+        {
+            return SlackRoute::make($this->slack_channel, $this->slack_token);
         }
     }
 
@@ -1510,6 +1637,7 @@ Localization of multiple notifiable entries may also be achieved via the `Notifi
         $users, new InvoicePaid($invoice)
     );
 
+<a name="user-preferred-locales"></a>
 ### User Preferred Locales
 ### 사용자 선호 언어
 
@@ -1618,6 +1746,7 @@ By passing a closure as the second argument to the `assertSentOnDemand` method, 
 ## Notification Events
 ## 알림 이벤트
 
+<a name="notification-sending-event"></a>
 #### Notification Sending Event
 #### 알림 전송 이벤트
 
@@ -1667,6 +1796,8 @@ Within an event listener, you may access the `notifiable`, `notification`, and `
         // $event->notification
     }
 
+<a name="notification-sent-event"></a>
+#### Notification Sent Event
 #### 알림 전송 이벤트
 
 When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your `EventServiceProvider`:
@@ -1687,10 +1818,10 @@ When a notification is sent, the `Illuminate\Notifications\Events\NotificationSe
         ],
     ];
 
-> **Note**
+> **Note**  
 > After registering listeners in your `EventServiceProvider`, use the `event:generate` Artisan command to quickly generate listener classes.
 
-> **Note**
+> **Note**  
 > `EventServiceProvider` 에서 리스너를 등록하고 난후, `event:generate` 아티즌 명령어를 사용하여 빠르게 리스너 클래스를 생성할 수 있습니다.
 
 Within an event listener, you may access the `notifiable`, `notification`, `channel`, and `response` properties on the event to learn more about the notification recipient or the notification itself:

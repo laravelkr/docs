@@ -88,10 +88,10 @@ When using the `database` cache driver, you will need to set up a table to conta
         $table->integer('expiration');
     });
 
-> **Note**
+> **Note**  
 > You may also use the `php artisan cache:table` Artisan command to generate a migration with the proper schema.
 
-> **Note**
+> **Note**  
 > 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:table` Artisan 명령어를 사용할 수도 있습니다.
 
 <a name="memcached"></a>
@@ -233,6 +233,10 @@ The `increment` and `decrement` methods may be used to adjust the value of integ
 
 `increment` 와 `decrement` 메소드는 캐시에 들어 있는 정수형 아이템의 값을 변경하는데 사용합니다. 두 메소드는 모두 해당 아이템의 값을 얼마나 증가 또는 감소 시킬지 결정하는 두 번째 인자를 선택적으로 전달할 수 있습니다.
 
+    // Initialize the value if it does not exist...
+    Cache::add('key', 0, now()->addHours(4));
+
+    // Increment or decrement the value...
     Cache::increment('key');
     Cache::increment('key', $amount);
     Cache::decrement('key');
@@ -314,10 +318,10 @@ The `forever` method may be used to store an item in the cache permanently. Sinc
 
     Cache::forever('key', 'value');
 
-> **Note**
+> **Note**  
 > If you are using the Memcached driver, items that are stored "forever" may be removed when the cache reaches its size limit.
 
-> **Note**
+> **Note**  
 > 만약 Memcached 드라이버를 사용중이라면, "영구적으로" 저장된 아이템들은 캐시의 사이즈 제한에 도달한 경우 제거될 것입니다.
 
 <a name="removing-items-from-the-cache"></a>
@@ -344,10 +348,10 @@ You may clear the entire cache using the `flush` method:
 
     Cache::flush();
 
-> **Warning**
+> **Warning**  
 > Flushing the cache does not respect your configured cache "prefix" and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.
 
-> **Warning**
+> **Warning**  
 > 캐시를 플러시하면 설정된 캐시 "접두사"가 적용되지 않으며, 캐시에서 모든 항목이 제거됩니다. 다른 애플리케이션에서 공유하는 캐시를 지울 때 이 점을 주의 깊게 고려하십시오.
 
 <a name="the-cache-helper"></a>
@@ -376,20 +380,20 @@ When the `cache` function is called without any arguments, it returns an instanc
         return DB::table('users')->get();
     });
 
-> **Note**
+> **Note**  
 > When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing the facade](/docs/{{version}}/mocking#mocking-facades).
 
-> **Note**
+> **Note**  
 > 전역 `cache` 함수 호출을 테스트 할 때 [파사드 테스트](/docs/{{version}}/mocking#mocking-facades )처럼 `Cache::shouldReceive` 메소드를 사용할 수 있습니다.
 
 <a name="cache-tags"></a>
 ## Cache Tags
 ## 캐시 태그
 
-> **Warning**
+> **Warning**  
 > Cache tags are not supported when using the `file`, `dynamodb`, or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
 
-> **Warning**
+> **Warning**  
 > `file`, `dynamodb` 또는 `database` 캐시 드라이버를 사용하는 경우 캐시 태그가 지원되지 않습니다. 또한 "forever"로 저장된 캐시와 함께 여러 태그를 사용할 때 만료된 데이터를 자동으로 제거하는 `memcached`와 같은 드라이버를 사용하면 성능이 가장 좋습니다.
 
 <a name="storing-tagged-cache-items"></a>
@@ -436,10 +440,10 @@ In contrast, this statement would remove only cached values tagged with `authors
 ### Pruning Stale Cache Tags
 ### 오래된 캐시 태그 정리
 
-> **Warning**
+> **Warning**  
 > Pruning stale cache tags is only necessary when using Redis as your application's cache driver.
 
-> **Warning**
+> **Warning**  
 > 오래된 캐시 태그 정리는 애플리케이션의 캐시 드라이버로 Redis를 사용할 때만 필요합니다.
 
 In order to properly prune stale cache tag entries when using the Redis cache driver, Laravel's `cache:prune-stale-tags` Artisan command should be [scheduled](/docs/{{version}}/scheduling) in your application's `App\Console\Kernel` class:
@@ -452,10 +456,10 @@ Redis 캐시 드라이버를 사용할 때 오래된 캐시 태그 항목을 적
 ## Atomic Locks
 ## 원자 잠금장치(Atomic-locks)
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 사용하려면 애플리케이션에서 `memcached`, `redis`, `redis`, `database`, `file` 또는 `array` 캐시 드라이버를 애플리케이션의 기본 캐시 드라이버로 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
 <a name="lock-driver-prerequisites"></a>
@@ -476,13 +480,19 @@ When using the `database` cache driver, you will need to setup a table to contai
         $table->integer('expiration');
     });
 
+> **Note**  
+> If you used the `cache:table` Artisan command to create the database driver's cache table, the migration created by that command already includes a definition for the `cache_locks` table.
+
+> **Note**  
+> `cache:table` 아티즌 명령어를 사용하여 데이터베이스 캐시 드라이버 용도의 테이블을 생성한 경우라면 이미 `cache_locks` 테이블이 포함되어 있습니다.
+
 <a name="managing-locks"></a>
 ### Managing Locks
 ### 잠금 관리
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
-원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
+원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [라라벨 Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
 
     use Illuminate\Support\Facades\Cache;
 
@@ -600,10 +610,10 @@ MongoDB 연결을 사용하여 각각의 메소드를 구현해야 합니다. �
         return Cache::repository(new MongoStore);
     });
 
-> **Note**
+> **Note**  
 > If you're wondering where to put your custom cache driver code, you could create an `Extensions` namespace within your `app` directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.
 
-> **Note**
+> **Note**  
 > 만약 여러분이 만든 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
 
 <a name="registering-the-driver"></a>
@@ -623,7 +633,7 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     use Illuminate\Support\Facades\Cache;
     use Illuminate\Support\ServiceProvider;
 
-    class CacheServiceProvider extends ServiceProvider
+    class AppServiceProvider extends ServiceProvider
     {
         /**
          * Register any application services.
@@ -662,6 +672,7 @@ To execute code on every cache operation, you may listen for the [events](/docs/
 
 캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 [이벤트](/docs/{{version}}/events) 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 애플리케이션의 `App\Providers\EventServiceProvider` 클래스 안에 구성합니다.
 
+    
     use App\Listeners\LogCacheHit;
     use App\Listeners\LogCacheMissed;
     use App\Listeners\LogKeyForgotten;

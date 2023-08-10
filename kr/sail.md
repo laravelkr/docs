@@ -381,7 +381,7 @@ MinIO 콘솔을 통해 `http://localhost:8900`에서 사용할 수 있는 버킷
 > **Warning**  
 > Generating temporary storage URLs via the `temporaryUrl` method is not supported when using MinIO.
 
-> **Warning**
+> **Warning**  
 > MinIO를 사용할 때는 임시 스토리지 URL을 생성하는 `temporaryUrl` 메서드는 지원되지 않습니다.
 
 <a name="running-tests"></a>

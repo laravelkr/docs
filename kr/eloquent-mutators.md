@@ -92,10 +92,10 @@ As you can see, the original value of the column is passed to the accessor, allo
 
     $firstName = $user->first_name;
 
-> **Note**
+> **Note**  
 > If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
-> **Note**
+> **Note**  
 > 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
@@ -128,7 +128,7 @@ protected function address(): Attribute
 #### Accessor Caching
 #### Accessor 캐싱
 
-When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can be return the same instance each time the accessor is invoked:
+When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can return the same instance each time the accessor is invoked:
 
 accessor 로 부터 value object 를 반환할 때, value object에 대한 모든 변경사항은 모델이 저장되기 전에 자동으로 모델에 다시 동기화됩니다. 이런 동작이 가능한 이유는 엘로퀀트가 accessor 가 반환한 인스턴스를 유지하고 있어서 accessor가 호출될 때마다 동일한 인스턴스를 반환할 수 있기 때문입니다.   
 
@@ -245,6 +245,7 @@ protected function address(): Attribute
     );
 }
 ```
+
 <a name="attribute-casting"></a>
 ## Attribute Casting
 ## 속성(Attribute) 캐스팅
@@ -257,7 +258,6 @@ The `$casts` property should be an array where the key is the name of the attrib
 
 `$casts` 속성은 key가 캐스트되는 속성의 이름이고 값이 컬럼을 캐스팅하려는 데이터 타입이 배열이어야 합니다. 지원되는 캐스트의 데이터 타입은 다음과 같습니다.
 
-<div class="content-list" markdown="1">
 - `array`
 - `AsStringable::class`
 - `boolean`
@@ -273,12 +273,12 @@ The `$casts` property should be an array where the key is the name of the attrib
 - `encrypted:collection`
 - `encrypted:object`
 - `float`
+- `hashed`
 - `integer`
 - `object`
 - `real`
 - `string`
 - `timestamp`
-</div>
 
 To demonstrate attribute casting, let's cast the `is_admin` attribute, which is stored in our database as an integer (`0` or `1`) to a boolean value:
 
@@ -321,11 +321,11 @@ If you need to add a new, temporary cast at runtime, you may use the `mergeCasts
         'options' => 'object',
     ]);
 
-> **Warning**
-> Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
+> **Warning**  
+> Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship or assign a cast to the model's primary key.
 
-> **Warning**
-> `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
+> **Warning**  
+> `null`인 속성은 캐스트되지 않습니다. 또한 연관 관계와 이름이 같게 하거나, 모델의 primary key를캐스트(또는 속성)하도록 정의하면 안됩니다.
 
 <a name="stringable-casting"></a>
 #### Stringable Casting
@@ -446,6 +446,22 @@ Similarly, Laravel offers an `AsCollection` cast that casts your JSON attribute 
         'options' => AsCollection::class,
     ];
 
+If you would like the `AsCollection` cast to instantiate a custom collection class instead of Laravel's base collection class, you may provide the collection class name as a cast argument:
+
+라라벨의 기본 컬렉션 클래스 대신에, 커스텀 컬렉션 클래스를 인스턴스화 하기 위해서 `AsCollection` 캐스트를 하려는 경우 컬렉션 클래스의 이름을 캐스트 인자로 전달하면 됩니다. 
+
+    use App\Collections\OptionCollection;
+    use Illuminate\Database\Eloquent\Casts\AsCollection;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'options' => AsCollection::class.':'.OptionCollection::class,
+    ];
+
 <a name="date-casting"></a>
 ### Date Casting
 ### 날짜 캐스팅
@@ -498,9 +514,9 @@ To specify the format that should be used when actually storing a model's dates 
 #### Date Casting, Serialization, & Timezones
 #### 날짜 캐스팅, 직렬화 & 타임존
 
-By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`1986-05-28T21:05:54.000000Z`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
+By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`YYYY-MM-DDTHH:MM:SS.uuuuuuZ`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
 
-기본적으로 `date` 및 `datetime` 캐스트는 애플리케이션의 `timezone` 구성 옵션에 지정된 시간대에 관계없이 UTC ISO-8601 날짜 문자열(`1986-05-28T21:05:54.0000Z`) 로 날짜를 직렬화합니다. 애플리케이션의 `timezone` 구성 옵션을 기본 `UTC` 값에서 변경하지 않음으로써 애플리케이션의 날짜를 UTC 표준 시간대에 저장하는 것은 물론 직렬화 형식을 사용하는 것을 강력히 권장합니다. 애플리케이션 전체에서 UTC 시간대를 일관되게 사용하면 PHP 및 JavaScript로 작성된 다른 날짜 라이브러리와의 최대 상호 운용성을 제공할 수 있습니다. 
+기본적으로 `date` 및 `datetime` 캐스트는 애플리케이션의 `timezone` 구성 옵션에 지정된 시간대에 관계없이 UTC ISO-8601 날짜 문자열(`YYYY-MM-DDTHH:MM:SS.uuuuuuZ`) 로 날짜를 직렬화합니다. 애플리케이션의 `timezone` 구성 옵션을 기본 `UTC` 값에서 변경하지 않음으로써 애플리케이션의 날짜를 UTC 표준 시간대에 저장하는 것은 물론 직렬화 형식을 사용하는 것을 강력히 권장합니다. 애플리케이션 전체에서 UTC 시간대를 일관되게 사용하면 PHP 및 JavaScript로 작성된 다른 날짜 라이브러리와의 최대 상호 운용성을 제공할 수 있습니다. 
 
 If a custom format is applied to the `date` or `datetime` cast, such as `datetime:Y-m-d H:i:s`, the inner timezone of the Carbon instance will be used during date serialization. Typically, this will be the timezone specified in your application's `timezone` configuration option.
 
@@ -740,11 +756,33 @@ When casting to value objects, any changes made to the value object will automat
 
     $user->save();
 
-> **Note**
+> **Note**  
 > If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
 
-> **Note**
+> **Note**  
 > 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
+
+<a name="value-object-caching"></a>
+#### Value Object Caching
+#### 밸류 오브젝트 캐싱
+
+When attributes that are cast to value objects are resolved, they are cached by Eloquent. Therefore, the same object instance will be returned if the attribute is accessed again.
+
+밸류 오브젝트로 캐스팅된 attribute(속성)이 있다면 Eloquent에 의해서 캐싱이 됩니다. 이 경우 다시 attribute에 접근하더라도 동일한 객체 인스턴스가 반환됩니다. 
+
+If you would like to disable the object caching behavior of custom cast classes, you may declare a public `withoutObjectCaching` property on your custom cast class:
+
+커스텀 캐스트 클래스의 객체 캐싱을 비활성화 하고자 한다면 커스컴 캐스트 클래스에서 
+`withoutObjectCaching` 속성을 true 로 정의하면 됩니다.
+
+```php
+class Address implements CastsAttributes
+{
+    public bool $withoutObjectCaching = true;
+
+    // ...
+}
+```
 
 <a name="array-json-serialization"></a>
 ### Array / JSON Serialization
@@ -801,7 +839,7 @@ A classic example of an inbound only cast is a "hashing" cast. For example, we m
          * Create a new cast class instance.
          */
         public function __construct(
-            protected string $algorithm = null,
+            protected string|null $algorithm = null,
         ) {}
 
         /**

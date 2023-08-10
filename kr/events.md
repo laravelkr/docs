@@ -33,10 +33,10 @@
     - [이벤트 Subscribers 등록하기](#registering-event-subscribers)
 - [Testing](#testing)
 - [테스팅](#testing)
-  - [Faking A Subset Of Events](#faking-a-subset-of-events)
-  - [이벤트의 하위 집합 속이기](#faking-a-subset-of-events)
-  - [Scoped Events Fakes](#scoped-event-fakes)
-  - [범위가 지정된 가짜 이벤트](#scoped-event-fakes)
+    - [Faking A Subset Of Events](#faking-a-subset-of-events)
+    - [이벤트의 하위 집합 속이기](#faking-a-subset-of-events)
+    - [Scoped Events Fakes](#scoped-event-fakes)
+    - [범위가 지정된 가짜 이벤트](#scoped-event-fakes)
 
 <a name="introduction"></a>
 ## Introduction
@@ -64,7 +64,7 @@ The `App\Providers\EventServiceProvider` included with your Laravel application 
     /**
      * The event listener mappings for the application.
      *
-     * @var array
+     * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
         OrderShipped::class => [
@@ -72,10 +72,10 @@ The `App\Providers\EventServiceProvider` included with your Laravel application 
         ],
     ];
 
-> **Note**
+> **Note**  
 > The `event:list` command may be used to display a list of all events and listeners registered by your application.
 
-> **Note**
+> **Note**  
 > `event:list` 명령어는 애플리케이션에 등록된 모든 이벤트와 리스너 목록을 확인하는데 사용할 수 있습니다.
 
 <a name="generating-events-and-listeners"></a>
@@ -311,10 +311,10 @@ Next, let's take a look at the listener for our example event. Event listeners r
         }
     }
 
-> **Note**
+> **Note**  
 > Your event listeners may also type-hint any dependencies they need on their constructors. All event listeners are resolved via the Laravel [service container](/docs/{{version}}/container), so dependencies will be injected automatically.
 
-> **Note**
+> **Note**  
 > 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다.
 
 <a name="stopping-the-propagation-of-an-event"></a>
@@ -353,6 +353,7 @@ That's it! Now, when an event handled by this listener is dispatched, the listen
 
 이게 다입니다. 이제 리스너를 통해서 이벤트가 처리될 때 리스너는 라라벨의 [Queue-큐 시스템](/docs/{{version}}/queues)을 이용하는 이벤트 디스패처에 의해서 자동으로 Queue-큐에 저장됩니다. 큐-queue를 통해서 리스너가 실행되고, 예외-exception 이 발생하지 않는다면 큐-queue 에 저장된 작업은 실행이 완료된 뒤 자동으로 삭제됩니다. 
 
+<a name="customizing-the-queue-connection-queue-name"></a>
 #### Customizing The Queue Connection & Queue Name
 #### Queue-큐 커넥션과 Queue-큐 이름 커스터마이징 하기
 
@@ -502,10 +503,10 @@ If your queue connection's `after_commit` configuration option is set to `false`
         public $afterCommit = true;
     }
 
-> **Note**
+> **Note**  
 > To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
 
-> **Note**
+> **Note**  
 > 이 이슈에 대한 보다 자세한 내용은 [큐를 통해 처리되는 작업과 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 확인하십시오.
 
 <a name="handling-failed-jobs"></a>
@@ -635,11 +636,11 @@ To dispatch an event, you may call the static `dispatch` method on the event. Th
 
     OrderShipped::dispatchUnless($condition, $order);
 
-> **Note**
-> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#event-fake) makes it a cinch.
+> **Note**  
+> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](#testing) make it a cinch.
 
-> **Note**
-> 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](/docs/{{version}}/mocking#event-fake) 를 통해서 수행됩니다.
+> **Note**  
+> 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](#testing) 를 통해서 수행됩니다.
 
 <a name="event-subscribers"></a>
 ## Event Subscribers
@@ -827,10 +828,10 @@ If you would simply like to assert that an event listener is listening to a give
         SendShipmentNotification::class
     );
 
-> **Warning**
+> **Warning**  
 > After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
 
-> **Warning**
+> **Warning**  
 > `Event::fake()`를 호출한 후에는 이벤트 리스너가 실행되지 않습니다. 따라서 테스트에서 모델의 `creating` 이벤트 동안 UUID 생성과 같은 이벤트에 의존하는 모델 팩토리를 사용하는 경우 팩토리를 사용한 후 `Event::fake()`를 호출해야 합니다.
 
 <a name="faking-a-subset-of-events"></a>

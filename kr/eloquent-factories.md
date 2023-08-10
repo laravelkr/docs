@@ -127,9 +127,9 @@ The `HasFactory` trait's `factory` method will use conventions to determine the 
         return FlightFactory::new();
     }
 
-Next, define a `model` property on the corresponding factory:
+Then, define a `model` property on the corresponding factory:
 
-다음으로 해당 팩토리에서 `model` 속성을 정의합니다.
+그리고, 해당 팩토리에서 `model` 속성을 정의합니다.
 
     use App\Administration\Flight;
     use Illuminate\Database\Eloquent\Factories\Factory;
@@ -139,7 +139,7 @@ Next, define a `model` property on the corresponding factory:
         /**
          * The name of the factory's corresponding model.
          *
-         * @var string
+         * @var class-string<\Illuminate\Database\Eloquent\Model>
          */
         protected $model = Flight::class;
     }
@@ -212,6 +212,29 @@ Factory callbacks are registered using the `afterMaking` and `afterCreating` met
         // ...
     }
 
+You may also register factory callbacks within state methods to perform additional tasks that are specific to a given state:
+
+지정된 상태에 추가적인 작업을 수행하기 위해서, 상태 메서드 안에서 팩토리 콜랙을 등록할 수도 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Database\Eloquent\Factories\Factory;
+
+    /**
+     * Indicate that the user is suspended.
+     */
+    public function suspended(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'account_status' => 'suspended',
+            ];
+        })->afterMaking(function (User $user) {
+            // ...
+        })->afterCreating(function (User $user) {
+            // ...
+        });
+    }
+
 <a name="creating-models-using-factories"></a>
 ## Creating Models Using Factories
 ## 팩토리를 사용하여 모델 생성하기
@@ -267,7 +290,7 @@ Alternatively, the `state` method may be called directly on the factory instance
 > **Note**  
 > [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled when creating models using factories.
 
-> **Note**
+> **Note**  
 > [대량 할당 보호](/docs/{{version}}/eloquent#mass-assignment)는 팩토리를 사용하여 모델을 생성할 때는 자동으로 비활성화됩니다.
 
 <a name="persisting-models"></a>

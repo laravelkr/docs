@@ -28,6 +28,12 @@
 ## Introduction
 ## 시작하기
 
+> **Note**  
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+> **Note**  
+> 기본적으로, 라라벨 애플리케이션은 `lang` 디렉토리를 포함하고 있지 않습니다. 라라벨의 언어 파일을 편집하고 싶다면 `lang:publish` 아티즌 명령어를 사용하여 이를 편집 가능하게 만드십시오.
+
 Laravel's localization features provide a convenient way to retrieve strings in various languages, allowing you to easily support multiple languages within your application.
 
 라라벨의 현지화 기능은 다양한 언어로 된 문자열을 검색하는 편리한 방법을 제공하므로 애플리케이션 내에서 여러 언어를 쉽게 지원할 수 있습니다.
@@ -135,7 +141,7 @@ Eloquent 및 프레임워크의 다른 부분에서 단수 문자열을 복수 �
 > **Warning**  
 > If you customize the pluralizer's language, you should explicitly define your Eloquent model's [table names](/docs/{{version}}/eloquent#table-names).
 
-> **Warning**
+> **Warning**  
 > 복수형 언어를 사용자 정의하는 경우 Eloquent 모델의 [테이블 이름](/docs/{{version}}/eloquent#table-names)을 명시적으로 정의해야 합니다 .
 
 <a name="defining-translation-strings"></a>
@@ -188,7 +194,7 @@ For this reason, Laravel also provides support for defining translation strings 
 
 ```json
 {
-  "I love programming.": "Me encanta programar."
+    "I love programming.": "Me encanta programar."
 }
 ```
 

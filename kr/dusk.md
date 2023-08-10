@@ -5,98 +5,100 @@
 - [시작하기](#introduction)
 - [Installation](#installation)
 - [설치하기](#installation)
-  - [Managing ChromeDriver Installations](#managing-chromedriver-installations)
-  - [크롬 드라이버 설치 관리](#managing-chromedriver-installations)
-  - [Using Other Browsers](#using-other-browsers)
-  - [다른 브라우저 사용하기](#using-other-browsers)
+    - [Managing ChromeDriver Installations](#managing-chromedriver-installations)
+    - [크롬 드라이버 설치 관리](#managing-chromedriver-installations)
+    - [Using Other Browsers](#using-other-browsers)
+    - [다른 브라우저 사용하기](#using-other-browsers)
 - [Getting Started](#getting-started)
 - [시작하기](#getting-started)
-  - [Generating Tests](#generating-tests)
-  - [테스트 클래스 생성하기](#generating-tests)
-  - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
-  - [각 항목 테스트 후 데이터베이스 재설정](#resetting-the-database-after-each-test) 
-  - [Database Migrations](#migrations)
-  - [데이터베이스 마이그레이션](#migrations)
-  - [Running Tests](#running-tests)
-  - [테스트 실행하기](#running-tests)
-  - [Environment Handling](#environment-handling)
-  - [구동환경 처리](#environment-handling)
+    - [Generating Tests](#generating-tests)
+    - [테스트 클래스 생성하기](#generating-tests)
+    - [Resetting The Database After Each Test](#resetting-the-database-after-each-test)
+    - [각 항목 테스트 후 데이터베이스 재설정](#resetting-the-database-after-each-test) 
+    - [Running Tests](#running-tests)
+    - [테스트 실행하기](#running-tests)
+    - [Environment Handling](#environment-handling)
+    - [구동환경 처리](#environment-handling)
 - [Browser Basics](#browser-basics)
 - [브라우저 기본조작](#browser-basics)
-  - [Creating Browsers](#creating-browsers)
-  - [브라우저 생성하기](#creating-browsers)
-  - [Navigation](#navigation)
-  - [Navigation](#navigation)
-  - [Resizing Browser Windows](#resizing-browser-windows)
-  - [브라우저 창 크기 조정](#resizing-browser-windows)
-  - [Browser Macros](#browser-macros)
-  - [브라우저 매크로](#browser-macros)
-  - [Authentication](#authentication)
-  - [인증](#authentication)
-  - [Cookies](#cookies)
-  - [Cookies](#cookies)
-  - [Executing JavaScript](#executing-javascript)
-  - [JavaScript 실행하기](#executing-javascript)
-  - [Taking A Screenshot](#taking-a-screenshot)
-  - [스크린샷 찍기](#taking-a-screenshot)
-  - [Storing Console Output To Disk](#storing-console-output-to-disk)
-  - [콘솔 출력을 디스크에 저장하기](#storing-console-output-to-disk)
-  - [Storing Page Source To Disk](#storing-page-source-to-disk)
-  - [페이지 소스를 디스크에 저장하기](#storing-page-source-to-disk)
+    - [Creating Browsers](#creating-browsers)
+    - [브라우저 생성하기](#creating-browsers)
+    - [Navigation](#navigation)
+    - [Navigation](#navigation)
+    - [Resizing Browser Windows](#resizing-browser-windows)
+    - [브라우저 창 크기 조정](#resizing-browser-windows)
+    - [Browser Macros](#browser-macros)
+    - [브라우저 매크로](#browser-macros)
+    - [Authentication](#authentication)
+    - [인증](#authentication)
+    - [Cookies](#cookies)
+    - [Cookies](#cookies)
+    - [Executing JavaScript](#executing-javascript)
+    - [JavaScript 실행하기](#executing-javascript)
+    - [Taking A Screenshot](#taking-a-screenshot)
+    - [스크린샷 찍기](#taking-a-screenshot)
+    - [Storing Console Output To Disk](#storing-console-output-to-disk)
+    - [콘솔 출력을 디스크에 저장하기](#storing-console-output-to-disk)
+    - [Storing Page Source To Disk](#storing-page-source-to-disk)
+    - [페이지 소스를 디스크에 저장하기](#storing-page-source-to-disk)
 - [Interacting With Elements](#interacting-with-elements)
 - [Element 조작하기](#interacting-with-elements)
-  - [Dusk Selectors](#dusk-selectors)
-  - [Dusk 선택자](#dusk-selectors)
-  - [Text, Values, & Attributes](#text-values-and-attributes)
-  - [Text, Values, & Attributes](#text-values-and-attributes)
-  - [Interacting With Forms](#interacting-with-forms)
-  - [폼 조작하기](#interacting-with-forms)
-  - [Attaching Files](#attaching-files)
-  - [파일 첨부](#attaching-files)
-  - [Pressing Buttons](#pressing-buttons)
-  - [버튼 누르기](#pressing-buttons)
-  - [Clicking Links](#clicking-links)
-  - [링크 클릭](#clicking-links)
-  - [Using The Keyboard](#using-the-keyboard)
-  - [키보드 사용하기](#using-the-keyboard)
-  - [Using The Mouse](#using-the-mouse)
-  - [마우스 사용하기](#using-the-mouse)
-  - [JavaScript Dialogs](#javascript-dialogs)
-  - [자바스크립트 대화상자](#javascript-dialogs)
-  - [Scoping Selectors](#scoping-selectors)
-  - [Selector의 범위 제한](#scoping-selectors)
-  - [Waiting For Elements](#waiting-for-elements)
-  - [Element 기다리기](#waiting-for-elements)
-  - [Scrolling An Element Into View](#scrolling-an-element-into-view)
-  - [Element가 보이는 곳으로 스크롤하기](#scrolling-an-element-into-view)
+    - [Dusk Selectors](#dusk-selectors)
+    - [Dusk 선택자](#dusk-selectors)
+    - [Text, Values, & Attributes](#text-values-and-attributes)
+    - [Text, Values, & Attributes](#text-values-and-attributes)
+    - [Interacting With Forms](#interacting-with-forms)
+    - [폼 조작하기](#interacting-with-forms)
+    - [Attaching Files](#attaching-files)
+    - [파일 첨부](#attaching-files)
+    - [Pressing Buttons](#pressing-buttons)
+    - [버튼 누르기](#pressing-buttons)
+    - [Clicking Links](#clicking-links)
+    - [링크 클릭](#clicking-links)
+    - [Using The Keyboard](#using-the-keyboard)
+    - [키보드 사용하기](#using-the-keyboard)
+    - [Using The Mouse](#using-the-mouse)
+    - [마우스 사용하기](#using-the-mouse)
+    - [JavaScript Dialogs](#javascript-dialogs)
+    - [자바스크립트 대화상자](#javascript-dialogs)
+    - [Interacting With Inline Frames](#interacting-with-iframes)
+    - [인라인 프레임(iframe) 다루기](#interacting-with-iframes)
+    - [Scoping Selectors](#scoping-selectors)
+    - [Selector의 범위 제한](#scoping-selectors)
+    - [Waiting For Elements](#waiting-for-elements)
+    - [Element 기다리기](#waiting-for-elements)
+    - [Scrolling An Element Into View](#scrolling-an-element-into-view)
+    - [Element가 보이는 곳으로 스크롤하기](#scrolling-an-element-into-view)
 - [Available Assertions](#available-assertions)
 - [사용 가능한 Assertions](#available-assertions)
 - [Pages](#pages)
 - [페이지-Pages](#pages)
-  - [Generating Pages](#generating-pages)
-  - [페이지 생성하기](#generating-pages)
-  - [Configuring Pages](#configuring-pages)
-  - [페이지 설정하기](#configuring-pages)
-  - [Navigating To Pages](#navigating-to-pages)
-  - [페이지 탐색](#navigating-to-pages)
-  - [Shorthand Selectors](#shorthand-selectors)
-  - [단축 셀렉터](#shorthand-selectors)
-  - [Page Methods](#page-methods)
-  - [페이지 메소드](#page-methods)
+    - [Generating Pages](#generating-pages)
+    - [페이지 생성하기](#generating-pages)
+    - [Configuring Pages](#configuring-pages)
+    - [페이지 설정하기](#configuring-pages)
+    - [Navigating To Pages](#navigating-to-pages)
+    - [페이지 탐색](#navigating-to-pages)
+    - [Shorthand Selectors](#shorthand-selectors)
+    - [단축 셀렉터](#shorthand-selectors)
+    - [Page Methods](#page-methods)
+    - [페이지 메소드](#page-methods)
 - [Components](#components)
 - [컴포넌트](#components)
-  - [Generating Components](#generating-components)
-  - [컴포넌트 생성하기](#generating-components)
-  - [Using Components](#using-components)
-  - [컴포넌트 사용하기](#using-components)
+    - [Generating Components](#generating-components)
+    - [컴포넌트 생성하기](#generating-components)
+    - [Using Components](#using-components)
+    - [컴포넌트 사용하기](#using-components)
 - [Continuous Integration](#continuous-integration)
 - [CI - 지속적 통합](#continuous-integration)
-  - [Heroku CI](#running-tests-on-heroku-ci)
-  - [Heroku CI](#running-tests-on-heroku-ci)
-  - [Travis CI](#running-tests-on-travis-ci)
-  - [Travis CI](#running-tests-on-travis-ci)
-  - [GitHub Actions](#running-tests-on-github-actions)
-  - [GitHub Actions](#running-tests-on-github-actions)
+    - [Heroku CI](#running-tests-on-heroku-ci)
+    - [Heroku CI](#running-tests-on-heroku-ci)
+    - [Travis CI](#running-tests-on-travis-ci)
+    - [Travis CI](#running-tests-on-travis-ci)
+    - [GitHub Actions](#running-tests-on-github-actions)
+    - [GitHub Actions](#running-tests-on-github-actions)
+    - [Chipper CI](#running-tests-on-chipper-ci)
+    - [Chipper CI](#running-tests-on-chipper-ci)
 
 <a name="introduction"></a>
 ## Introduction
@@ -118,10 +120,10 @@ To get started, you should install [Google Chrome](https://www.google.com/chrome
 composer require --dev laravel/dusk
 ```
 
-> **Warning**
+> **Warning**  
 > If you are manually registering Dusk's service provider, you should **never** register it in your production environment, as doing so could lead to arbitrary users being able to authenticate with your application.
 
-> **Warning**
+> **Warning**  
 > 여러분이 Dusk의 서비스 프로바이더를 수동으로 등록하는 경우, 실서버 환경에서는 **절대로** 이를 등록하면 안됩니다. 이렇게 하면 익명의 사용자가 애플리케이션의 인증을 통과할 수가 있습니다.
 
 After installing the Dusk package, execute the `dusk:install` Artisan command. The `dusk:install` command will create a `tests/Browser` directory, an example Dusk test, and install the Chrome Driver binary for your operating system:
@@ -136,11 +138,11 @@ Next, set the `APP_URL` environment variable in your application's `.env` file. 
 
 다음으로 애플리케이션의 `.env` 파일에서 `APP_URL` 환경 변수를 설정합니다. 이 값은 브라우저에서 애플리케이션에 액세스하는 데 사용하는 URL과 일치해야 합니다.
 
-> **Note**
+> **Note**  
 > If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please also consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
 
-> **Note**
-> [Laravel Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
+> **Note**  
+> [라라벨 Sail](/docs/{{version}}/sail)을 사용하여 로컬 개발 환경을 관리하는 경우, [Dusk 테스트 설정 및 실행](/docs/{{version}}/sail#laravel-dusk)에 대한 Sail 문서도 참조하세요.
 
 <a name="managing-chromedriver-installations"></a>
 ### Managing ChromeDriver Installations
@@ -164,10 +166,10 @@ php artisan dusk:chrome-driver --all
 php artisan dusk:chrome-driver --detect
 ```
 
-> **Warning**
+> **Warning**  
 > Dusk requires the `chromedriver` binaries to be executable. If you're having problems running Dusk, you should ensure the binaries are executable using the following command: `chmod -R 0755 vendor/laravel/dusk/bin/`.
 
-> **Warning**
+> **Warning**  
 > Dusk 를 실행하기 위해서는 `chromedriver` 바이너리가 필요합니다. Dusk를 구동하는데 문제가 있다면, 다음 명령어를 통해서 바이너리가 실행가능해야 합니다. `chmod -R 0755 vendor/laravel/dusk/bin`.
 
 <a name="using-other-browsers"></a>
@@ -233,10 +235,11 @@ php artisan dusk:make LoginTest
 ### Resetting The Database After Each Test
 ### 각 항목 테스트 후 데이터베이스 재설정
 
-Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase `trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, you have two options: the `DatabaseMigrations` trait and the `DatabaseTruncation` trait:
+Most of the tests you write will interact with pages that retrieve data from your application's database; however, your Dusk tests should never use the `RefreshDatabase` trait. The `RefreshDatabase` trait leverages database transactions which will not be applicable or available across HTTP requests. Instead, you have two options: the `DatabaseMigrations` trait and the `DatabaseTruncation` trait.
 
 작성하는 대부분의 테스트는 애플리케이션 데이터베이스에서 데이터를 검색하는 페이지와 상호 작용합니다. 그러나 Dusk 테스트는 `RefreshDatabase` 특성-trait을 사용해서는 안 됩니다. `RefreshDatabase` 특성-trait은 HTTP 요청에서 적용할 수 없거나 사용할 수 없는 데이터베이스 트랜잭션을 활용합니다. 대신, 두가지 옵션 : `DatabaseMigrations` 특성-trait 그리고 `DatabaseTruncation` 특성-trait 을 사용하십시오.
 
+<a name="reset-migrations"></a>
 #### Using Database Migrations
 #### 데이터베이스 마이그레이션을 사용하기
 
@@ -257,12 +260,13 @@ The `DatabaseMigrations` trait will run your database migrations before each tes
         use DatabaseMigrations;
     }
 
-> **Warning**
+> **Warning**  
 > SQLite in-memory databases may not be used when executing Dusk tests. Since the browser executes within its own process, it will not be able to access the in-memory databases of other processes.
 
-> **Warning**
+> **Warning**  
 > Dusk 테스트를 실행할 때 SQLite 인메모리 데이터베이스를 사용할 수 없습니다. 브라우저는 자체 프로세스 내에서 실행되기 때문에 다른 프로세스의 메모리 내 데이터베이스에 액세스할 수 없습니다.
 
+<a name="reset-truncation"></a>
 #### Using Database Truncation
 #### 데이터베이스 마이그레이션을 사용하기
 
@@ -276,14 +280,14 @@ The `DatabaseTruncation` trait will migrate your database on the first test in o
 `DatabaseTruncation` 특성-trait는 데이터베이스 테이블이 제대로 생성되었는지 확인하기 위해 첫 번째 테스트에서 데이터베이스를 마이그레이션합니다. 그러나 후속 테스트에서는 데이터베이스의 테이블을 초기화하여, 모든 데이터베이스 마이그레이션을 다시 실행하는 것보다 빠른 속도를 제공합니다.
 
     <?php
-     
+
     namespace Tests\Browser;
-     
+
     use App\Models\User;
     use Illuminate\Foundation\Testing\DatabaseTruncation;
     use Laravel\Dusk\Chrome;
     use Tests\DuskTestCase;
-     
+
     class ExampleTest extends DuskTestCase
     {
         use DatabaseTruncation;
@@ -339,18 +343,18 @@ If you had test failures the last time you ran the `dusk` command, you may save 
 php artisan dusk:fails
 ```
 
-The `dusk` command accepts any argument that is normally accepted by the PHPUnit test runner, such as allowing you to only run the tests for a given [group](https://phpunit.readthedocs.io/en/9.5/annotations.html#group):
+The `dusk` command accepts any argument that is normally accepted by the PHPUnit test runner, such as allowing you to only run the tests for a given [group](https://phpunit.readthedocs.io/en/10.1/annotations.html#group):
 
-`dusk` 명령은 지정된 [그룹](https://phpunit.readthedocs.io/en/9.5/annotations.html#group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
+`dusk` 명령은 지정된 [그룹](https://phpunit.readthedocs.io/en/10.1/annotations.html#group) 에 대한 테스트만 실행할 수 있도록 입력받는 것처럼, PHPUnit의 일반적으로 입력받는 모든 인수를 입력받습니다.
 
 ```shell
 php artisan dusk --group=foo
 ```
 
-> **Note**
+> **Note**  
 > If you are using [Laravel Sail](/docs/{{version}}/sail) to manage your local development environment, please consult the Sail documentation on [configuring and running Dusk tests](/docs/{{version}}/sail#laravel-dusk).
 
-> **Note**
+> **Note**  
 > 로컬 개발 환경을 관리하기 위해 [Laravel Sail](/docs/{{version}}/sail)을 사용하는 경우 [Dusk 테스트 설정 및 실행](/docs/{{ version}}/sail#laravel-dusk).
 
 <a name="manually-starting-chromedriver"></a>
@@ -365,7 +369,6 @@ By default, Dusk will automatically attempt to start ChromeDriver. If this does 
      * Prepare for Dusk test execution.
      *
      * @beforeClass
-     * @return void
      */
     public static function prepare(): void
     {
@@ -557,8 +560,6 @@ If you would like to define a custom browser method that you can re-use in a var
     {
         /**
          * Register Dusk's browser macros.
-         *
-         * @return void
          */
         public function boot(): void
         {
@@ -596,10 +597,10 @@ Often, you will be testing pages that require authentication. You can use Dusk's
               ->visit('/home');
     });
 
-> **Warning**
+> **Warning**  
 > After using the `loginAs` method, the user session will be maintained for all tests within the file.
 
-> **Warning**
+> **Warning**  
 > `loginAs` 메소드를 사용하면, 파일 내의 모든 테스트에서 사용자 세션이 유지됩니다.
 
 <a name="cookies"></a>
@@ -861,10 +862,10 @@ The `attach` method may be used to attach a file to a `file` input element. Like
 
     $browser->attach('photo', __DIR__.'/photos/mountains.png');
 
-> **Warning**
+> **Warning**  
 > The attach function requires the `Zip` PHP extension to be installed and enabled on your server.
 
-> **Warning**
+> **Warning**  
 > 파일 첨부기능을 사용하려면 서버에 `Zip` PHP 확장 기능이 설치되어 있고 활성화 되어 있어야 합니다.
 
 <a name="pressing-buttons"></a>
@@ -905,10 +906,10 @@ You may use the `seeLink` method to determine if a link with the given display t
         // ...
     }
 
-> **Warning**
+> **Warning**  
 > These methods interact with jQuery. If jQuery is not available on the page, Dusk will automatically inject it into the page so it is available for the test's duration.
 
-> **Warning**
+> **Warning**  
 > 이 메소드는 jQuery와 상호 작용합니다. 페이지에서 jQuery를 사용할 수 없는 경우 Dusk는 테스트 기간 동안 사용할 수 있도록 페이지에 자동으로 삽입합니다.
 
 <a name="using-the-keyboard"></a>
@@ -927,10 +928,10 @@ Another valuable use case for the `keys` method is sending a "keyboard shortcut"
 
     $browser->keys('.app', ['{command}', 'j']);
 
-> **Note**
+> **Note**  
 > All modifier keys such as `{command}` are wrapped in `{}` characters, and match the constants defined in the `Facebook\WebDriver\WebDriverKeys` class, which can be [found on GitHub](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php).
 
-> **Note**
+> **Note**  
 > `{command}`와 같은 모든 수식 키는 `{}` 문자로 래핑되며, [GitHub에서 찾을 수 있는](https://github.com/php-webdriver/php-webdriver/blob/master/lib/WebDriverKeys.php) `Facebook\WebDriver\WebDriverKeys` 클래스에 정의된 상수와 일치합니다.
 
 <a name="using-the-mouse"></a>
@@ -1050,6 +1051,21 @@ To close an open JavaScript dialog by clicking the "Cancel" button, you may invo
 
     $browser->dismissDialog();
 
+<a name="interacting-with-iframes"></a>
+### Interacting With Inline Frames
+### 인라인 프레임(iframe) 다루기
+
+If you need to interact with elements within an iframe, you may use the `withinFrame` method. All element interactions that take place within the closure provided to the `withinFrame` method will be scoped to the context of the specified iframe:
+
+iframe 안에 있는 요소들을 다뤄야 한다면 `withinFrame` 메서드를 사용할 수 있습니다. `withinFrame` 메서드에 전달되는 클로저 안에 정의된 내용들은 모두 지정된 iframe 컨텍스트로 범위가 한정됩니다.
+
+    $browser->withinFrame('#credit-card-details', function ($browser) {
+        $browser->type('input[name="cardnumber"]', '4242424242424242')
+            ->type('input[name="exp-date"]', '12/24')
+            ->type('input[name="cvc"]', '123');
+        })->press('Pay');
+    });
+
 <a name="scoping-selectors"></a>
 ### Scoping Selectors
 ### Selector의 범위 제한
@@ -1058,7 +1074,7 @@ Sometimes you may wish to perform several operations while scoping all of the op
 
 주어진 선택자 내에서 모든 작업의 범위를 지정하는 동안 여러 작업을 수행하려는 경우가 있습니다. 예를 들어, 일부 텍스트가 테이블 내에만 존재한다고 검증한 다음 해당 테이블 내에서 버튼을 클릭할 수 있습니다. 이를 수행하기 위해 `with` 메소드를 사용할 수 있습니다. `with` 메소드에 제공된 클로저 내에서 수행되는 모든 작업은 원래 선택자로 범위가 지정됩니다.
 
-    $browser->with('.table', function ($table) {
+    $browser->with('.table', function (Browser $table) {
         $table->assertSee('Hello World')
               ->clickLink('Delete');
     });
@@ -1067,15 +1083,15 @@ You may occasionally need to execute assertions outside of the current scope. Yo
 
 때때로 현재 범위 외부에서 어설션을 실행해야 할 수도 있습니다. 이를 위해 `elsewhere` 및 `elsewhereWhenAvailable` 메소드를 사용할 수 있습니다.
 
-     $browser->with('.table', function ($table) {
+     $browser->with('.table', function (Browser $table) {
         // Current scope is `body .table`...
 
-        $browser->elsewhere('.page-title', function ($title) {
+        $browser->elsewhere('.page-title', function (Browser $title) {
             // Current scope is `body .page-title`...
             $title->assertSee('Hello World');
         });
 
-        $browser->elsewhereWhenAvailable('.page-title', function ($title) {
+        $browser->elsewhereWhenAvailable('.page-title', function (Browser $title) {
             // Current scope is `body .page-title`...
             $title->assertSee('Hello World');
         });
@@ -1169,7 +1185,7 @@ Occasionally, you may wish to wait for an element to appear that matches a given
 
 때때로 주어진 선택자와 일치하는 요소가 나타날 때까지 기다렸다가 요소와 상호 작용할 수 있습니다. 예를 들어, 모달 창을 사용할 수 있을 때까지 기다렸다가 모달 내에서 "확인" 버튼을 누를 수 있습니다. 이를 수행하기 위해 `whenAvailable` 메서드를 사용할 수 있습니다. 주어진 클로저 내에서 수행되는 모든 요소 작업은 원래 선택자로 범위가 지정됩니다.
 
-    $browser->whenAvailable('.modal', function ($modal) {
+    $browser->whenAvailable('.modal', function (Browser $modal) {
         $modal->assertSee('Hello World')
               ->press('OK');
     });
@@ -1312,7 +1328,7 @@ The event listener is attached to the current scope, which is the `body` element
 
 이벤트 리스너는 현재 스코프에 연결되며, `body` 요소가 기본입니다. 스코프 셀렉터를 사용하면 이벤트 리스너는 해당 요소에 연결됩니다.
 
-    $browser->with('iframe', function ($iframe) {
+    $browser->with('iframe', function (Browser $iframe) {
         // Wait for the iframe's load event...
         $iframe->waitForEvent('load');
     });
@@ -2207,10 +2223,8 @@ You may assert on the state of the Vue component like so:
 
     /**
      * A basic Vue test example.
-     *
-     * @return void
      */
-    public function testVue()
+    public function test_vue(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
@@ -2479,16 +2493,16 @@ As shown above, a "date picker" is an example of a component that might exist th
         /**
          * Select the given date.
          */
-        public function selectDate(Browser $browser, int $year, int $month, int $day)
+        public function selectDate(Browser $browser, int $year, int $month, int $day): void
         {
             $browser->click('@date-field')
-                    ->within('@year-list', function ($browser) use ($year) {
+                    ->within('@year-list', function (Browser $browser) use ($year) {
                         $browser->click($year);
                     })
-                    ->within('@month-list', function ($browser) use ($month) {
+                    ->within('@month-list', function (Browser $browser) use ($month) {
                         $browser->click($month);
                     })
-                    ->within('@day-list', function ($browser) use ($day) {
+                    ->within('@day-list', function (Browser $browser) use ($day) {
                         $browser->click($day);
                     });
         }
@@ -2532,10 +2546,10 @@ Once the component has been defined, we can easily select a date within the date
 ## Continuous Integration
 ## CI - 지속적 통합
 
-> **Warning**
+> **Warning**  
 > Most Dusk continuous integration configurations expect your Laravel application to be served using the built-in PHP development server on port 8000. Therefore, before continuing, you should ensure that your continuous integration environment has an `APP_URL` environment variable value of `http://127.0.0.1:8000`.
 
-> **Warning**
+> **Warning**  
 > 대부분의 Dusk 지속적 통합 설정은 8000포트에서 내장 PHP 개발 서버를 사용하여, 라라벨 애플리케이션이 제공될 것으로 예상합니다. 따라서 계속하기 전에 지속적 통합 환경에 `APP_URL` 환경 변수 값이 `http://127.0.0.1:8000`로 존재하는지 확인해야 합니다.
 
 <a name="running-tests-on-heroku-ci"></a>
@@ -2645,3 +2659,56 @@ jobs:
           name: console
           path: tests/Browser/console
 ```
+
+<a name="running-tests-on-chipper-ci"></a>
+### Chipper CI
+### Chipper CI
+
+If you are using [Chipper CI](https://chipperci.com) to run your Dusk tests, you may use the following configuration file as a starting point. We will use PHP's built-in server to run Laravel so we can listen for requests:
+
+[Chipper CI](https://chipperci.com) 를 사용하여 Dusk 테스트를 실행하는 경우 다음 설정 파일을 시작점으로 사용할 수 있습니다. 요청을 수신할 수 있도록 라라벨을 실행하는데 PHP 내장 서버를 사용합니다.
+
+```yaml
+# file .chipperci.yml
+version: 1
+
+environment:
+  php: 8.2
+  node: 16
+
+# Include Chrome in the build environment
+services:
+  - dusk
+
+# Build all commits
+on:
+   push:
+      branches: .*
+
+pipeline:
+  - name: Setup
+    cmd: |
+      cp -v .env.example .env
+      composer install --no-interaction --prefer-dist --optimize-autoloader
+      php artisan key:generate
+      
+      # Create a dusk env file, ensuring APP_URL uses BUILD_HOST
+      cp -v .env .env.dusk.ci
+      sed -i "s@APP_URL=.*@APP_URL=http://$BUILD_HOST:8000@g" .env.dusk.ci
+
+  - name: Compile Assets
+    cmd: |
+      npm ci --no-audit
+      npm run build
+
+  - name: Browser Tests
+    cmd: |
+      php -S [::0]:8000 -t public 2>server.log &
+      sleep 2
+      php artisan dusk:chrome-driver $CHROME_DRIVER
+      php artisan dusk --env=ci
+```
+
+To learn more about running Dusk tests on Chipper CI, including how to use databases, consult the [official Chipper CI documentation](https://chipperci.com/docs/testing/laravel-dusk-new/).
+
+데이터베이스 사용법을 포함하여 Chipper CI에서 Dusk 테스트를 실행하는 방법에 대한 자세한 내용은 [공식 Chipper CI 매뉴얼](https://chipperci.com/docs/testing/laravel-dusk-new/)을 참고하세요.

@@ -464,11 +464,37 @@ public function largestOrder(): HasOne
 }
 ```
 
-> **Warning**
+> **Warning**  
 > Because PostgreSQL does not support executing the `MAX` function against UUID columns, it is not currently possible to use one-of-many relationships in combination with PostgreSQL UUID columns.
 
-> **Warning**
+> **Warning**  
 > PostgreSQL은 UUID 컬럼에 대해서 `MAX` 함수를 실행을 지원하지 않기 때문에, PostgreSQL UUID 컬럼과 함께 일대다 연관관계를 사용할수 없습니다. 
+
+<a name="converting-many-relationships-to-has-one-relationships"></a>
+#### Converting "Many" Relationships To Has One Relationships
+#### 여러개의 연관관계를 하나의 연관관계로 변환하기
+
+Often, when retrieving a single model using the `latestOfMany`, `oldestOfMany`, or `ofMany` methods, you already have a "has many" relationship defined for the same model. For convenience, Laravel allows you to easily convert this relationship into a "has one" relationship by invoking the `one` method on the relationship:
+
+`latestOfMany`, `oldestOfMany`, `ofMany` 메서드를 사용하여 단일 모델을 조회할 때 동일한 모델에 대해 "has many" 연관관계가 이미 정의된 경우가 있습니다. 편의를 위해 라라벨은 연관관계에 `one` 메소드를 호출하여 이 연관관계를 "has one" 관계로 쉽게 변환할 수 있게 해줍니다.
+
+```php
+/**
+ * Get the user's orders.
+ */
+public function orders(): HasMany
+{
+    return $this->hasMany(Order::class);
+}
+
+/**
+ * Get the user's largest order.
+ */
+public function largestOrder(): HasOne
+{
+    return $this->orders()->one()->ofMany('price', 'max');
+}
+```
 
 <a name="advanced-has-one-of-many-relationships"></a>
 #### Advanced Has One Of Many Relationships
@@ -848,10 +874,10 @@ If you would like your intermediate table to have `created_at` and `updated_at` 
 
     return $this->belongsToMany(Role::class)->withTimestamps();
 
-> **Warning**
+> **Warning**  
 > Intermediate tables that utilize Eloquent's automatically maintained timestamps are required to have both `created_at` and `updated_at` timestamp columns.
 
-> **Warning**
+> **Warning**  
 > 엘로퀀트에 의해서 자동으로 관리되는 타임스탬프 속성을 사용하는 중간 테이블에는 `created_at`와 `updated_at` 타임스탬프 컬럼을 가지고 있어야 합니다. 
 
 <a name="customizing-the-pivot-attribute-name"></a>
@@ -970,10 +996,10 @@ When defining the `RoleUser` model, you should extend the `Illuminate\Database\E
         // ...
     }
 
-> **Warning**
+> **Warning**  
 > Pivot models may not use the `SoftDeletes` trait. If you need to soft delete pivot records consider converting your pivot model to an actual Eloquent model.
 
-> **Warning**
+> **Warning**  
 > 피벗 모델은 `SoftDeletes` 트레이트-trait을 사용하지 않습니다. 만약 모델의 레코드에 소프트 삭제기능을 사용해야 한다면, 피벗 모델이 아니라 기본적인 엘로퀀트 모델로 변환하는 것을 고려해보십시오.
 
 <a name="custom-pivot-models-and-incrementing-ids"></a>
@@ -1291,10 +1317,10 @@ public function bestImage(): MorphOne
 }
 ```
 
-> **Note**
+> **Note**  
 > It is possible to construct more advanced "one of many" relationships. For more information, please consult the [has one of many documentation](#advanced-has-one-of-many-relationships).
 
-> **Note**
+> **Note**  
 > 보다 복잡한 경우의 "다수중 하나의" 연관관계에 대해서 알아보려면 [다수중 하나의 연관관계](#advanced-has-one-of-many-relationships) 매뉴얼을 참고하십시오.
 
 <a name="many-to-many-polymorphic-relations"></a>
@@ -1326,10 +1352,10 @@ Many-to-many polymorphic relations are slightly more complicated than "morph one
         taggable_id - integer
         taggable_type - string
 
-> **Note**
+> **Note**  
 > Before diving into polymorphic many-to-many relationships, you may benefit from reading the documentation on typical [many-to-many relationships](#many-to-many).
 
-> **Note**
+> **Note**  
 > 다대다 다형성 연관관계에 대해서 알아보기 전에, 먼저 [다대다 연관관계](#many-to-many)에 대해서 숙지하는 것이 좋습니다. 
 
 <a name="many-to-many-polymorphic-model-structure"></a>
@@ -1465,10 +1491,10 @@ You may determine the morph alias of a given model at runtime using the model's 
 
     $class = Relation::getMorphedModel($alias);
 
-> **Warning**
+> **Warning**  
 > When adding a "morph map" to your existing application, every morphable `*_type` column value in your database that still contains a fully-qualified class will need to be converted to its "map" name.
 
-> **Warning**
+> **Warning**  
 > 기존 애플리케이션에 "morph map"을 추가 할 때 정규화 된 클래스를 포함하고 있는 데이터베이스의 모든 변형 가능한 `*_type` 컬럼 값을 "map"이름으로 변환해야합니다.
 
 <a name="dynamic-relationships"></a>
@@ -1490,10 +1516,10 @@ The `resolveRelationUsing` method accepts the desired relationship name as its f
         return $orderModel->belongsTo(Customer::class, 'customer_id');
     });
 
-> **Warning**
+> **Warning**  
 > When defining dynamic relationships, always provide explicit key name arguments to the Eloquent relationship methods.
 
-> **Warning**
+> **Warning**  
 > 동적 연관관계를 정의 할 때에는 항상 엘로퀀트 연관관계 메서드에 명시적인 키 이름 인자를 제공하십시오.
 
 <a name="querying-relations"></a>
@@ -1553,7 +1579,7 @@ As demonstrated in the example above, you are free to add additional constraints
             ->orWhere('votes', '>=', 100)
             ->get();
 
-The example above will generate the following SQL. As you can see, the `or` clause instructs the query to return _any_ user with greater than 100 votes. The query is no longer constrained to a specific user:
+The example above will generate the following SQL. As you can see, the `or` clause instructs the query to return _any_ post with greater than 100 votes. The query is no longer constrained to a specific user:
 
 위의 코드는 아래와 같은 SQL을 생성합니다. 보시다시피 `or` 절은 100개 이상의 투표를 가진 포스트를 반환하도록 쿼리를 실행합니다. 연관관계를 통해서 의도한대로 특정 사용자가 제한되지 않습니다.  
 
@@ -1649,10 +1675,10 @@ If you need even more power, you may use the `whereHas` and `orWhereHas` methods
         $query->where('content', 'like', 'code%');
     }, '>=', 10)->get();
 
-> **Warning**
+> **Warning**  
 > Eloquent does not currently support querying for relationship existence across databases. The relationships must exist within the same database.
 
-> **Warning**
+> **Warning**  
 > 엘로퀀트는 다른 데이터베이스간의 존재 유무를 판단하는 기능을 지원하지 않습니다. 연관관계의 존재를 확인하는 쿼리를 수행하려면 연관관계가 동일한 데이터베이스 안에 있어야 합니다. 
 
 <a name="inline-relationship-existence-queries"></a>
@@ -2081,10 +2107,10 @@ Eager 로딩에서 조회하고자 하는 연관관계 모델의 모든 컬럼�
 
     $books = Book::with('author:id,name,book_id')->get();
 
-> **Warning**
+> **Warning**  
 > When using this feature, you should always include the `id` column and any relevant foreign key columns in the list of columns you wish to retrieve.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 사용할 때에는, 조회하고자 하는 컬럼에 항상 `id` 컬럼과 관련 외래 키 컬럼이 포함되어 있어야 합니다.
 
 <a name="eager-loading-by-default"></a>
@@ -2149,6 +2175,7 @@ Sometimes you may wish to eager load a relationship but also specify additional 
 연관관계 모델을 Eager 로드하고 싶지만 로딩할 때 추가적인 쿼리 제약조건을 지정할 수 있습니다. `with` 메서드에 인자로 전달하는 값은 배열의 키는 연관관계의 이름이되고 배열의 값은 Eager 로딩 쿼리에 제약조건을 추가할 클로저로 이루어져 있습니다. 
 
     use App\Models\User;
+    use Illuminate\Contracts\Database\Eloquent\Builder;
 
     $users = User::with(['posts' => function (Builder $query) {
         $query->where('title', 'like', '%code%');
@@ -2162,10 +2189,10 @@ In this example, Eloquent will only eager load posts where the post's `title` co
         $query->orderBy('created_at', 'desc');
     }])->get();
 
-> **Warning**
+> **Warning**  
 > The `limit` and `take` query builder methods may not be used when constraining eager loads.
 
-> **Warning**
+> **Warning**  
 > eager 로드에 제약조건을 추가할 때에는 `limit`과 `take` 쿼리 빌더 메서드는 사용할 수 없습니다.
 
 <a name="constraining-eager-loading-of-morph-to-relationships"></a>
@@ -2181,10 +2208,10 @@ If you are eager loading a `morphTo` relationship, Eloquent will run multiple qu
 
     $comments = Comment::with(['commentable' => function (MorphTo $morphTo) {
         $morphTo->constrain([
-            Post::class => function (Builder $query) {
+            Post::class => function ($query) {
                 $query->whereNull('hidden_at');
             },
-            Video::class => function (Builder $query) {
+            Video::class => function ($query) {
                 $query->where('type', 'educational');
             },
         ]);
@@ -2203,9 +2230,8 @@ You may sometimes find yourself needing to check for the existence of a relation
 동일한 조건을 기반으로 관계를 로드하는 동시에 관계의 존재를 확인해야 하는 경우가 있습니다. 예를 들어, 주어진 쿼리 조건과 일치하면서 `Post` 모델을 자식으로 가지고 있는 `User` 모델만 검색하는 동시에 매칭된 포스트를 즉시 로드하길 원할 수 있습니다. `withWhereHas` 메서드를 사용하여 이 작업을 수행할 수 있습니다.
 
     use App\Models\User;
-    use Illuminate\Database\Eloquent\Builder;
 
-    $users = User::withWhereHas('posts', function (Builder $query) {
+    $users = User::withWhereHas('posts', function ($query) {
         $query->where('featured', true);
     })->get();
 
@@ -2437,10 +2463,10 @@ You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCr
 
 `findOrNew`, `firstOrNew`, `firstOrCreate`, `updateOrCreate` 메서드를 [연관관계에 대한 모델 생성 및 업데이트](/docs/{{version}}/eloquent#upserts)에 사용할 수도 있습니다 .
 
-> **Note**
+> **Note**  
 > Before using the `create` method, be sure to review the [mass assignment](/docs/{{version}}/eloquent#mass-assignment) documentation.
 
-> **Note**
+> **Note**  
 > `create` 메서드를 사용하기 전에 [대량 할당-mass assignment](/docs/{{version}}/eloquent#mass-assignment) 문서를 반드시 확인하시기 바랍니다.
 
 <a name="updating-belongs-to-relationships"></a>
@@ -2612,8 +2638,8 @@ For example, when a `Comment` model is updated, you may want to automatically "t
         }
     }
 
-> **Warning**
+> **Warning**  
 > Parent model timestamps will only be updated if the child model is updated using Eloquent's `save` method.
 
-> **Warning**
+> **Warning**  
 > 상위 모델의 타임스탬프값은 하위 모델이 엘로퀀트의 `save` 메서드를 사용해서 업데이트 될 때만 갱신됩니다. 

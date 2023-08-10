@@ -50,10 +50,10 @@ As mentioned above, the `collect` helper returns a new `Illuminate\Support\Colle
 
     $collection = collect([1, 2, 3]);
 
-> **Note**
+> **Note**  
 > The results of [Eloquent](/docs/{{version}}/eloquent) queries are always returned as `Collection` instances.
 
-> **Note**
+> **Note**  
 > [Eloquent](/docs/{{version}}/eloquent) 쿼리의 결과는 항상 `Collection` 인스턴스를 반환합니다.
 
 <a name="extending-collections"></a>
@@ -112,162 +112,149 @@ For the majority of the remaining collection documentation, we'll discuss each m
 
 이 문서의 나머지는 대부분 `Collection` 클래스에서 사용할 수 있는 각각의 메소드를 설명합니다. 모든 메소드들은 보다 유연하게 배열을 처리할 수 있도록 체이닝 할 수 있다는 것을 기억하십시오. 또한, 대부분의 모든 메소드는 필요한 경우 원래의 컬렉션을 사용할 수 있도록, 새로운 `Collection` 인스턴스를 반환합니다.
 
-<style>
-    .collection-method-list > p {
-        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
-    }
 
-    .collection-method-list a {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
-
-<div class="collection-method-list" markdown="1">
-
-[all](#method-all)
-[average](#method-average)
-[avg](#method-avg)
-[chunk](#method-chunk)
-[chunkWhile](#method-chunkwhile)
-[collapse](#method-collapse)
-[collect](#method-collect)
-[combine](#method-combine)
-[concat](#method-concat)
-[contains](#method-contains)
-[containsOneItem](#method-containsoneitem)
-[containsStrict](#method-containsstrict)
-[count](#method-count)
-[countBy](#method-countBy)
-[crossJoin](#method-crossjoin)
-[dd](#method-dd)
-[diff](#method-diff)
-[diffAssoc](#method-diffassoc)
-[diffKeys](#method-diffkeys)
-[doesntContain](#method-doesntcontain)
-[dump](#method-dump)
-[duplicates](#method-duplicates)
-[duplicatesStrict](#method-duplicatesstrict)
-[each](#method-each)
-[eachSpread](#method-eachspread)
-[every](#method-every)
-[except](#method-except)
-[filter](#method-filter)
-[first](#method-first)
-[firstOrFail](#method-first-or-fail)
-[firstWhere](#method-first-where)
-[flatMap](#method-flatmap)
-[flatten](#method-flatten)
-[flip](#method-flip)
-[forget](#method-forget)
-[forPage](#method-forpage)
-[get](#method-get)
-[groupBy](#method-groupby)
-[has](#method-has)
-[hasAny](#method-hasany)
-[implode](#method-implode)
-[intersect](#method-intersect)
-[intersectByKeys](#method-intersectbykeys)
-[isEmpty](#method-isempty)
-[isNotEmpty](#method-isnotempty)
-[join](#method-join)
-[keyBy](#method-keyby)
-[keys](#method-keys)
-[last](#method-last)
-[lazy](#method-lazy)
-[macro](#method-macro)
-[make](#method-make)
-[map](#method-map)
-[mapInto](#method-mapinto)
-[mapSpread](#method-mapspread)
-[mapToGroups](#method-maptogroups)
-[mapWithKeys](#method-mapwithkeys)
-[max](#method-max)
-[median](#method-median)
-[merge](#method-merge)
-[mergeRecursive](#method-mergerecursive)
-[min](#method-min)
-[mode](#method-mode)
-[nth](#method-nth)
-[only](#method-only)
-[pad](#method-pad)
-[partition](#method-partition)
-[pipe](#method-pipe)
-[pipeInto](#method-pipeinto)
-[pipeThrough](#method-pipethrough)
-[pluck](#method-pluck)
-[pop](#method-pop)
-[prepend](#method-prepend)
-[pull](#method-pull)
-[push](#method-push)
-[put](#method-put)
-[random](#method-random)
-[range](#method-range)
-[reduce](#method-reduce)
-[reduceSpread](#method-reduce-spread)
-[reject](#method-reject)
-[replace](#method-replace)
-[replaceRecursive](#method-replacerecursive)
-[reverse](#method-reverse)
-[search](#method-search)
-[shift](#method-shift)
-[shuffle](#method-shuffle)
-[skip](#method-skip)
-[skipUntil](#method-skipuntil)
-[skipWhile](#method-skipwhile)
-[slice](#method-slice)
-[sliding](#method-sliding)
-[sole](#method-sole)
-[some](#method-some)
-[sort](#method-sort)
-[sortBy](#method-sortby)
-[sortByDesc](#method-sortbydesc)
-[sortDesc](#method-sortdesc)
-[sortKeys](#method-sortkeys)
-[sortKeysDesc](#method-sortkeysdesc)
-[sortKeysUsing](#method-sortkeysusing)
-[splice](#method-splice)
-[split](#method-split)
-[splitIn](#method-splitin)
-[sum](#method-sum)
-[take](#method-take)
-[takeUntil](#method-takeuntil)
-[takeWhile](#method-takewhile)
-[tap](#method-tap)
-[times](#method-times)
-[toArray](#method-toarray)
-[toJson](#method-tojson)
-[transform](#method-transform)
-[undot](#method-undot)
-[union](#method-union)
-[unique](#method-unique)
-[uniqueStrict](#method-uniquestrict)
-[unless](#method-unless)
-[unlessEmpty](#method-unlessempty)
-[unlessNotEmpty](#method-unlessnotempty)
-[unwrap](#method-unwrap)
-[value](#method-value)
-[values](#method-values)
-[when](#method-when)
-[whenEmpty](#method-whenempty)
-[whenNotEmpty](#method-whennotempty)
-[where](#method-where)
-[whereStrict](#method-wherestrict)
-[whereBetween](#method-wherebetween)
-[whereIn](#method-wherein)
-[whereInStrict](#method-whereinstrict)
-[whereInstanceOf](#method-whereinstanceof)
-[whereNotBetween](#method-wherenotbetween)
-[whereNotIn](#method-wherenotin)
-[whereNotInStrict](#method-wherenotinstrict)
-[whereNotNull](#method-wherenotnull)
-[whereNull](#method-wherenull)
-[wrap](#method-wrap)
-[zip](#method-zip)
-
-</div>
+- [all](#method-all)
+- [average](#method-average)
+- [avg](#method-avg)
+- [chunk](#method-chunk)
+- [chunkWhile](#method-chunkwhile)
+- [collapse](#method-collapse)
+- [collect](#method-collect)
+- [combine](#method-combine)
+- [concat](#method-concat)
+- [contains](#method-contains)
+- [containsOneItem](#method-containsoneitem)
+- [containsStrict](#method-containsstrict)
+- [count](#method-count)
+- [countBy](#method-countBy)
+- [crossJoin](#method-crossjoin)
+- [dd](#method-dd)
+- [diff](#method-diff)
+- [diffAssoc](#method-diffassoc)
+- [diffKeys](#method-diffkeys)
+- [doesntContain](#method-doesntcontain)
+- [dot](#method-dot)
+- [dump](#method-dump)
+- [duplicates](#method-duplicates)
+- [duplicatesStrict](#method-duplicatesstrict)
+- [each](#method-each)
+- [eachSpread](#method-eachspread)
+- [ensure](#method-ensure)
+- [every](#method-every)
+- [except](#method-except)
+- [filter](#method-filter)
+- [first](#method-first)
+- [firstOrFail](#method-first-or-fail)
+- [firstWhere](#method-first-where)
+- [flatMap](#method-flatmap)
+- [flatten](#method-flatten)
+- [flip](#method-flip)
+- [forget](#method-forget)
+- [forPage](#method-forpage)
+- [get](#method-get)
+- [groupBy](#method-groupby)
+- [has](#method-has)
+- [hasAny](#method-hasany)
+- [implode](#method-implode)
+- [intersect](#method-intersect)
+- [intersectAssoc](#method-intersectAssoc)
+- [intersectByKeys](#method-intersectbykeys)
+- [isEmpty](#method-isempty)
+- [isNotEmpty](#method-isnotempty)
+- [join](#method-join)
+- [keyBy](#method-keyby)
+- [keys](#method-keys)
+- [last](#method-last)
+- [lazy](#method-lazy)
+- [macro](#method-macro)
+- [make](#method-make)
+- [map](#method-map)
+- [mapInto](#method-mapinto)
+- [mapSpread](#method-mapspread)
+- [mapToGroups](#method-maptogroups)
+- [mapWithKeys](#method-mapwithkeys)
+- [max](#method-max)
+- [median](#method-median)
+- [merge](#method-merge)
+- [mergeRecursive](#method-mergerecursive)
+- [min](#method-min)
+- [mode](#method-mode)
+- [nth](#method-nth)
+- [only](#method-only)
+- [pad](#method-pad)
+- [partition](#method-partition)
+- [pipe](#method-pipe)
+- [pipeInto](#method-pipeinto)
+- [pipeThrough](#method-pipethrough)
+- [pluck](#method-pluck)
+- [pop](#method-pop)
+- [prepend](#method-prepend)
+- [pull](#method-pull)
+- [push](#method-push)
+- [put](#method-put)
+- [random](#method-random)
+- [range](#method-range)
+- [reduce](#method-reduce)
+- [reduceSpread](#method-reduce-spread)
+- [reject](#method-reject)
+- [replace](#method-replace)
+- [replaceRecursive](#method-replacerecursive)
+- [reverse](#method-reverse)
+- [search](#method-search)
+- [shift](#method-shift)
+- [shuffle](#method-shuffle)
+- [skip](#method-skip)
+- [skipUntil](#method-skipuntil)
+- [skipWhile](#method-skipwhile)
+- [slice](#method-slice)
+- [sliding](#method-sliding)
+- [sole](#method-sole)
+- [some](#method-some)
+- [sort](#method-sort)
+- [sortBy](#method-sortby)
+- [sortByDesc](#method-sortbydesc)
+- [sortDesc](#method-sortdesc)
+- [sortKeys](#method-sortkeys)
+- [sortKeysDesc](#method-sortkeysdesc)
+- [sortKeysUsing](#method-sortkeysusing)
+- [splice](#method-splice)
+- [split](#method-split)
+- [splitIn](#method-splitin)
+- [sum](#method-sum)
+- [take](#method-take)
+- [takeUntil](#method-takeuntil)
+- [takeWhile](#method-takewhile)
+- [tap](#method-tap)
+- [times](#method-times)
+- [toArray](#method-toarray)
+- [toJson](#method-tojson)
+- [transform](#method-transform)
+- [undot](#method-undot)
+- [union](#method-union)
+- [unique](#method-unique)
+- [uniqueStrict](#method-uniquestrict)
+- [unless](#method-unless)
+- [unlessEmpty](#method-unlessempty)
+- [unlessNotEmpty](#method-unlessnotempty)
+- [unwrap](#method-unwrap)
+- [value](#method-value)
+- [values](#method-values)
+- [when](#method-when)
+- [whenEmpty](#method-whenempty)
+- [whenNotEmpty](#method-whennotempty)
+- [where](#method-where)
+- [whereStrict](#method-wherestrict)
+- [whereBetween](#method-wherebetween)
+- [whereIn](#method-wherein)
+- [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
+- [whereNotBetween](#method-wherenotbetween)
+- [whereNotIn](#method-wherenotin)
+- [whereNotInStrict](#method-wherenotinstrict)
+- [whereNotNull](#method-wherenotnull)
+- [whereNull](#method-wherenull)
+- [wrap](#method-wrap)
+- [zip](#method-zip)
 
 <a name="method-listing"></a>
 ## Method Listing
@@ -422,10 +409,10 @@ The `collect` method is primarily useful for converting [lazy collections](#lazy
 
     // [1, 2, 3]
 
-> **Note**
+> **Note**  
 > The `collect` method is especially useful when you have an instance of `Enumerable` and need a non-lazy collection instance. Since `collect()` is part of the `Enumerable` contract, you can safely use it to get a `Collection` instance.
 
-> **Note**
+> **Note**  
 > `collect` 메소드는 `Enumerable` 인스턴스를 가지고 있고, 비지연(non-lazy) 컬렉션 인스턴스가 필요할 때 특히 유용합니다. `collect()`는 `Enumerable` contract에 속해있기 때문에, `Collection` 인스턴스를 얻는데 안전하게 사용할 수 있습니다.
 
 
@@ -539,10 +526,10 @@ This method has the same signature as the [`contains`](#method-contains) method;
 
 이 메소드는 [`contains`](#method-contains) 메소드와 동일하게 사용되지만, "엄격한" 비교를 수행하는 것이 차이점입니다.
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-contains)를 사용할 때 수정됩니다.
 
 <a name="method-count"></a>
@@ -667,10 +654,10 @@ The `diff` method compares the collection against another collection or a plain 
 
     // [1, 3, 5]
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-diff)를 사용할 때 수정됩니다.
 
 <a name="method-diffassoc"></a>
@@ -768,6 +755,21 @@ You may also pass a key / value pair to the `doesntContain` method, which will d
 The `doesntContain` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value.
 
 `doesntContain` 메소드는 항목 값을 확인할 때 "느슨한" 비교를 사용합니다. 즉, 정수 값이 있는 문자열은 동일한 값의 정수와 동일한 것으로 간주됩니다.
+
+<a name="method-dot"></a>
+#### `dot()` {.collection-method}
+
+The `dot` method flattens a multi-dimensional collection into a single level collection that uses "dot" notation to indicate depth:
+
+`dot` 메서드는 중첩된 구조의 컬렉션을 깊이가 하나인 컬렉션으로 만들고 대신 깊이를 "점" 으로 붙여서 표현합니다.
+
+    $collection = collect(['products' => ['desk' => ['price' => 100]]]);
+
+    $flattened = $collection->dot();
+
+    $flattened->all();
+
+    // ['products.desk.price' => 100]
 
 <a name="method-dump"></a>
 #### `dump()` {.collection-method}
@@ -871,6 +873,27 @@ You may stop iterating through the items by returning `false` from the callback:
         return false;
     });
 
+<a name="method-ensure"></a>
+#### `ensure()` {.collection-method}
+
+The `ensure` method may be used to verify that all elements of a collection are of a given type. Otherwise, an `UnexpectedValueException` will be thrown:
+
+`ensure` 메서드는 컬렉션의 모든 값이 주어진 타입이 맞는지 확인하는데 사용합니다. 만약 타입이 일치하지 않는다면 `UnexpectedValueException` 예외가 발생합니다. 
+
+    return $collection->ensure(User::class);
+
+Primitive types such as `string`, `int`, `float`, `bool`, and `array` may also be specified:
+
+`string`, `int`, `float`, `bool`, `array`과 같은 기본 타입도 지정할 수 있습니다.
+
+    return $collection->ensure('int');
+
+> **Warning**  
+> The `ensure` method does not guarantee that elements of different types will not be added to the collection at a later time.
+
+> **Warning**  
+> `ensure` 메서드가 컬렉션에 다른 타입의 요소가 추가되지 않는다는 것을 보장하지는 않습니다. 
+
 <a name="method-every"></a>
 #### `every()` {.collection-method}
 
@@ -916,10 +939,10 @@ For the inverse of `except`, see the [only](#method-only) method.
 
 `except`의 반대는, [only](#method-only)메소드를 확인하십시오.
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-except)를 사용할 때 수정됩니다.
 
 <a name="method-filter"></a>
@@ -1134,10 +1157,10 @@ The `forget` method removes an item from the collection by its key:
 
     // ['framework' => 'laravel']
 
-> **Warning**
+> **Warning**  
 > Unlike most other collection methods, `forget` does not return a new modified collection; it modifies the collection it is called on.
 
-> **Warning**
+> **Warning**  
 > 다른 컬렉션 메소드와는 달리 `forget`는 수정된 새로운 컬렉션을 반환하지 않습니다; 호출된 컬렉션을 변경합니다.
 
 <a name="method-forpage"></a>
@@ -1366,11 +1389,34 @@ The `intersect` method removes any values from the original collection that are 
 
     // [0 => 'Desk', 2 => 'Chair']
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect)를 사용할 때 수정됩니다.
+
+<a name="method-intersectAssoc"></a>
+#### `intersectAssoc()` {.collection-method}
+
+The `intersectAssoc` method compares the original collection against another collection or `array`, returning the key / value pairs that are present in all of the given collections:
+
+`intersectAssoc` 메서드는 하나의 컬렉션과 다른 컬렉션 또는 `array`(배열)을 비교하여 키와 값이 일치하는 항목들만 반환합니다. 
+
+    $collection = collect([
+        'color' => 'red',
+        'size' => 'M',
+        'material' => 'cotton'
+    ]);
+
+    $intersect = $collection->intersectAssoc([
+        'color' => 'blue',
+        'size' => 'M',
+        'material' => 'polyester'
+    ]);
+
+    $intersect->all();
+
+    // ['size' => 'M']
 
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {.collection-method}
@@ -1567,10 +1613,10 @@ The `map` method iterates through the collection and passes each value to the gi
 
     // [2, 4, 6, 8, 10]
 
-> **Warning**
+> **Warning**  
 > Like most other collection methods, `map` returns a new collection instance; it does not modify the collection it is called on. If you want to transform the original collection, use the [`transform`](#method-transform) method.
 
-> **Warning**
+> **Warning**  
 > 대다수의 다른 컬렉션 메소드와 같이, `map` 메소드는 새로운 컬렉션 인스턴스를 반환합니다; 이 메소드는 호출된 컬렉션을 변경하지 않습니다. 원래의 컬렉션을 변경하고자 한다면 [`transform`](#method-transform)메소드를 사용하십시오.
 
 <a name="method-mapinto"></a>
@@ -1859,10 +1905,10 @@ For the inverse of `only`, see the [except](#method-except) method.
 
 `only` 메소드의 반대는, [except](#method-except)메소드를 확인하십시오.
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-only)를 사용할 때 수정됩니다.
 
 <a name="method-pad"></a>
@@ -2209,7 +2255,7 @@ The `reduce` method reduces the collection to a single value, passing the result
 
     $collection = collect([1, 2, 3]);
 
-    $total = $collection->reduce(function (int $carry, int $item) {
+    $total = $collection->reduce(function (?int $carry, int $item) {
         return $carry + $item;
     });
 
@@ -2472,10 +2518,10 @@ You may also pass a simple value to the `skipUntil` method to skip all items unt
 
     // [3, 4]
 
-> **Warning**
+> **Warning**  
 > If the given value is not found or the callback never returns `true`, the `skipUntil` method will return an empty collection.
 
-> **Warning**
+> **Warning**  
 > 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `skipUntil` 메서드는 빈 컬렉션을 반환합니다.
 
 <a name="method-skipwhile"></a>
@@ -2495,10 +2541,10 @@ The `skipWhile` method skips over items from the collection while the given call
 
     // [4]
 
-> **Warning**
+> **Warning**  
 > If the callback never returns `false`, the `skipWhile` method will return an empty collection.
 
-> **Warning**
+> **Warning**  
 > 콜백이 `false`를 반환하지 않는 경우 `skipWhile` 메서드는 빈 컬렉션을 반환합니다.
 
 <a name="method-slice"></a>
@@ -2634,10 +2680,10 @@ If your sorting needs are more advanced, you may pass a callback to `sort` with 
 
 보다 복잡한 정렬이 필요하다면, `sort` 메소드에 여러분의 고유한 알고리즘을 위한 콜백을 전달할 수 있습니다. 컬렉션의 `sort` 메소드가 내부적으로 호출될 때의 동작은 [`uasort`](https://secure.php.net/manual/en/function.uasort.php#refsect1-function.uasort-parameters)PHP 문서를 참고하십시오.
 
-> **Note**
+> **Note**  
 > If you need to sort a collection of nested arrays or objects, see the [`sortBy`](#method-sortby) and [`sortByDesc`](#method-sortbydesc) methods.
 
-> **Note**
+> **Note**  
 > 만약 중첩된 배열이나 객체의 컬렉션을 정렬할 필요가 있다면, [`sortBy`](#method-sortby) 또는 [`sortByDesc`](#method-sortbydesc) 메소드를 확인하십시오.
 
 <a name="method-sortby"></a>
@@ -3029,10 +3075,10 @@ You may also pass a simple value to the `takeUntil` method to get the items unti
 
     // [1, 2]
 
-> **Warning**
+> **Warning**  
 > If the given value is not found or the callback never returns `true`, the `takeUntil` method will return all items in the collection.
 
-> **Warning**
+> **Warning**  
 > 주어진 값을 찾을 수 없거나 콜백이 `true`를 반환하지 않으면 `takeUntil` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-takewhile"></a>
@@ -3052,10 +3098,10 @@ The `takeWhile` method returns items in the collection until the given callback 
 
     // [1, 2]
 
-> **Warning**
+> **Warning**  
 > If the callback never returns `false`, the `takeWhile` method will return all items in the collection.
 
-> **Warning**
+> **Warning**  
 > 콜백이 `false`를 반환하지 않으면 `takeWhile` 메서드는 컬렉션의 모든 항목을 반환합니다.
 
 <a name="method-tap"></a>
@@ -3106,10 +3152,10 @@ The `toArray` method converts the collection into a plain PHP `array`. If the co
         ]
     */
 
-> **Warning**
+> **Warning**  
 > `toArray` also converts all of the collection's nested objects that are an instance of `Arrayable` to an array. If you want to get the raw array underlying the collection, use the [`all`](#method-all) method instead.
 
-> **Warning**
+> **Warning**  
 > 또한 `toArray`는 컬렉션 내의 `Arrayable` 인스턴스인 모든 중첩된 객체를 배열로 변환할 것입니다. 근본적인 raw 배열을 얻기를 원한다면 [`all`](#method-all) 메소드를 대신 사용하십시오.
 
 <a name="method-tojson"></a>
@@ -3142,10 +3188,10 @@ The `transform` method iterates over the collection and calls the given callback
 
     // [2, 4, 6, 8, 10]
 
-> **Warning**
+> **Warning**  
 > Unlike most other collection methods, `transform` modifies the collection itself. If you wish to create a new collection instead, use the [`map`](#method-map) method.
 
-> **Warning**
+> **Warning**  
 > 다른 컬렉션 메소드와 다르게, `transform` 메소드는 컬렉션 자신을 변경합니다. 대신에, 새로운 컬렉션을 생성하려면 [`map`](#method-map) 메소드를 사용하십시오.
 
 <a name="method-undot"></a>
@@ -3262,10 +3308,10 @@ The `unique` method uses "loose" comparisons when checking item values, meaning 
 
 `unique` 메소드는 아이템의 값을 비교할 때 "느슨한" 비교를 수행하기 때문에, 정수값이 문자형일 때에도 정수형 값과 동일하다고 판단합니다. 타입에 대한 "엄격한" 비교를 원한다면 [`uniqueStrict`](#method-uniquestrict) 메소드를 사용하십시오.
 
-> **Note**
+> **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique).
 
-> **Note**
+> **Note**  
 > 이 메서드의 동작은 [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-unique)를 사용할 때 수정됩니다.
 
 <a name="method-uniquestrict"></a>
@@ -3855,7 +3901,7 @@ Likewise, we can use the `sum` higher order message to gather the total number o
 ### Introduction
 ### 시작하기
 
-> **Warning**
+> **Warning**  
 > Before learning more about Laravel's lazy collections, take some time to familiarize yourself with [PHP generators](https://www.php.net/manual/en/language.generators.overview.php).
 
 라라벨 지연 컬렉션-lazy collections에 대해 배우기 전에, [PHP generators](https://www.php.net/manual/en/language.generators.overview.php)에 익숙해지는데 시간을 투자하세요. 
@@ -3933,138 +3979,124 @@ Almost all methods available on the `Collection` class are also available on the
 
 `Collection` 클래스에서 사용가능한 거의 모든 메소드들은 `LazyCollection` 클래스에서도 사용할 수 있습니다. 두 클래스 모두 다음에 나오는 메소드들을 정의하는 `Illuminate\Support\Enumerable` contract에 구현되어 있습니다.
 
-<style>
-    .collection-method-list > p {
-        columns: 10.8em 3; -moz-columns: 10.8em 3; -webkit-columns: 10.8em 3;
-    }
 
-    .collection-method-list a {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
+- [all](#method-all)
+- [average](#method-average)
+- [avg](#method-avg)
+- [chunk](#method-chunk)
+- [chunkWhile](#method-chunkwhile)
+- [collapse](#method-collapse)
+- [collect](#method-collect)
+- [combine](#method-combine)
+- [concat](#method-concat)
+- [contains](#method-contains)
+- [containsStrict](#method-containsstrict)
+- [count](#method-count)
+- [countBy](#method-countBy)
+- [crossJoin](#method-crossjoin)
+- [dd](#method-dd)
+- [diff](#method-diff)
+- [diffAssoc](#method-diffassoc)
+- [diffKeys](#method-diffkeys)
+- [dump](#method-dump)
+- [duplicates](#method-duplicates)
+- [duplicatesStrict](#method-duplicatesstrict)
+- [each](#method-each)
+- [eachSpread](#method-eachspread)
+- [every](#method-every)
+- [except](#method-except)
+- [filter](#method-filter)
+- [first](#method-first)
+- [firstOrFail](#method-first-or-fail)
+- [firstWhere](#method-first-where)
+- [flatMap](#method-flatmap)
+- [flatten](#method-flatten)
+- [flip](#method-flip)
+- [forPage](#method-forpage)
+- [get](#method-get)
+- [groupBy](#method-groupby)
+- [has](#method-has)
+- [implode](#method-implode)
+- [intersect](#method-intersect)
+- [intersectAssoc](#method-intersectAssoc)
+- [intersectByKeys](#method-intersectbykeys)
+- [isEmpty](#method-isempty)
+- [isNotEmpty](#method-isnotempty)
+- [join](#method-join)
+- [keyBy](#method-keyby)
+- [keys](#method-keys)
+- [last](#method-last)
+- [macro](#method-macro)
+- [make](#method-make)
+- [map](#method-map)
+- [mapInto](#method-mapinto)
+- [mapSpread](#method-mapspread)
+- [mapToGroups](#method-maptogroups)
+- [mapWithKeys](#method-mapwithkeys)
+- [max](#method-max)
+- [median](#method-median)
+- [merge](#method-merge)
+- [mergeRecursive](#method-mergerecursive)
+- [min](#method-min)
+- [mode](#method-mode)
+- [nth](#method-nth)
+- [only](#method-only)
+- [pad](#method-pad)
+- [partition](#method-partition)
+- [pipe](#method-pipe)
+- [pluck](#method-pluck)
+- [random](#method-random)
+- [reduce](#method-reduce)
+- [reject](#method-reject)
+- [replace](#method-replace)
+- [replaceRecursive](#method-replacerecursive)
+- [reverse](#method-reverse)
+- [search](#method-search)
+- [shuffle](#method-shuffle)
+- [skip](#method-skip)
+- [slice](#method-slice)
+- [sole](#method-sole)
+- [some](#method-some)
+- [sort](#method-sort)
+- [sortBy](#method-sortby)
+- [sortByDesc](#method-sortbydesc)
+- [sortKeys](#method-sortkeys)
+- [sortKeysDesc](#method-sortkeysdesc)
+- [split](#method-split)
+- [sum](#method-sum)
+- [take](#method-take)
+- [tap](#method-tap)
+- [times](#method-times)
+- [toArray](#method-toarray)
+- [toJson](#method-tojson)
+- [union](#method-union)
+- [unique](#method-unique)
+- [uniqueStrict](#method-uniquestrict)
+- [unless](#method-unless)
+- [unlessEmpty](#method-unlessempty)
+- [unlessNotEmpty](#method-unlessnotempty)
+- [unwrap](#method-unwrap)
+- [values](#method-values)
+- [when](#method-when)
+- [whenEmpty](#method-whenempty)
+- [whenNotEmpty](#method-whennotempty)
+- [where](#method-where)
+- [whereStrict](#method-wherestrict)
+- [whereBetween](#method-wherebetween)
+- [whereIn](#method-wherein)
+- [whereInStrict](#method-whereinstrict)
+- [whereInstanceOf](#method-whereinstanceof)
+- [whereNotBetween](#method-wherenotbetween)
+- [whereNotIn](#method-wherenotin)
+- [whereNotInStrict](#method-wherenotinstrict)
+- [wrap](#method-wrap)
+- [zip](#method-zip)
 
-<div class="collection-method-list" markdown="1">
 
-[all](#method-all)
-[average](#method-average)
-[avg](#method-avg)
-[chunk](#method-chunk)
-[chunkWhile](#method-chunkwhile)
-[collapse](#method-collapse)
-[collect](#method-collect)
-[combine](#method-combine)
-[concat](#method-concat)
-[contains](#method-contains)
-[containsStrict](#method-containsstrict)
-[count](#method-count)
-[countBy](#method-countBy)
-[crossJoin](#method-crossjoin)
-[dd](#method-dd)
-[diff](#method-diff)
-[diffAssoc](#method-diffassoc)
-[diffKeys](#method-diffkeys)
-[dump](#method-dump)
-[duplicates](#method-duplicates)
-[duplicatesStrict](#method-duplicatesstrict)
-[each](#method-each)
-[eachSpread](#method-eachspread)
-[every](#method-every)
-[except](#method-except)
-[filter](#method-filter)
-[first](#method-first)
-[firstOrFail](#method-first-or-fail)
-[firstWhere](#method-first-where)
-[flatMap](#method-flatmap)
-[flatten](#method-flatten)
-[flip](#method-flip)
-[forPage](#method-forpage)
-[get](#method-get)
-[groupBy](#method-groupby)
-[has](#method-has)
-[implode](#method-implode)
-[intersect](#method-intersect)
-[intersectByKeys](#method-intersectbykeys)
-[isEmpty](#method-isempty)
-[isNotEmpty](#method-isnotempty)
-[join](#method-join)
-[keyBy](#method-keyby)
-[keys](#method-keys)
-[last](#method-last)
-[macro](#method-macro)
-[make](#method-make)
-[map](#method-map)
-[mapInto](#method-mapinto)
-[mapSpread](#method-mapspread)
-[mapToGroups](#method-maptogroups)
-[mapWithKeys](#method-mapwithkeys)
-[max](#method-max)
-[median](#method-median)
-[merge](#method-merge)
-[mergeRecursive](#method-mergerecursive)
-[min](#method-min)
-[mode](#method-mode)
-[nth](#method-nth)
-[only](#method-only)
-[pad](#method-pad)
-[partition](#method-partition)
-[pipe](#method-pipe)
-[pluck](#method-pluck)
-[random](#method-random)
-[reduce](#method-reduce)
-[reject](#method-reject)
-[replace](#method-replace)
-[replaceRecursive](#method-replacerecursive)
-[reverse](#method-reverse)
-[search](#method-search)
-[shuffle](#method-shuffle)
-[skip](#method-skip)
-[slice](#method-slice)
-[sole](#method-sole)
-[some](#method-some)
-[sort](#method-sort)
-[sortBy](#method-sortby)
-[sortByDesc](#method-sortbydesc)
-[sortKeys](#method-sortkeys)
-[sortKeysDesc](#method-sortkeysdesc)
-[split](#method-split)
-[sum](#method-sum)
-[take](#method-take)
-[tap](#method-tap)
-[times](#method-times)
-[toArray](#method-toarray)
-[toJson](#method-tojson)
-[union](#method-union)
-[unique](#method-unique)
-[uniqueStrict](#method-uniquestrict)
-[unless](#method-unless)
-[unlessEmpty](#method-unlessempty)
-[unlessNotEmpty](#method-unlessnotempty)
-[unwrap](#method-unwrap)
-[values](#method-values)
-[when](#method-when)
-[whenEmpty](#method-whenempty)
-[whenNotEmpty](#method-whennotempty)
-[where](#method-where)
-[whereStrict](#method-wherestrict)
-[whereBetween](#method-wherebetween)
-[whereIn](#method-wherein)
-[whereInStrict](#method-whereinstrict)
-[whereInstanceOf](#method-whereinstanceof)
-[whereNotBetween](#method-wherenotbetween)
-[whereNotIn](#method-wherenotin)
-[whereNotInStrict](#method-wherenotinstrict)
-[wrap](#method-wrap)
-[zip](#method-zip)
-
-</div>
-
-> **Warning**
+> **Warning**  
 > Methods that mutate the collection (such as `shift`, `pop`, `prepend` etc.) are **not** available on the `LazyCollection` class.
 
-> **Warning**
+> **Warning**  
 > `shift`, `pop`, `prepend` 등과 같이 컬렉션을 변형시키는 메소드들은 `LazyCollection` 클래스 에서 사용할 수 없습니다.
 
 <a name="lazy-collection-methods"></a>

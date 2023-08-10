@@ -70,10 +70,10 @@ php artisan make:resource UserCollection
 ## Concept Overview
 ## 컨셉 살펴보기
 
-> **Note**
+> **Note**  
 > This is a high-level overview of resources and resource collections. You are highly encouraged to read the other sections of this documentation to gain a deeper understanding of the customization and power offered to you by resources.
 
-> **Note**
+> **Note**  
 > 아래 내용은 리소스 클래스와 리소스 컬렉션 클래스에 대한 간단한 내용입니다. 리소스에 대한 커스터마이징과 기능에 대한 자세한 내용은 이 문서의 다른 영역을 참고하십시오.
 
 Before diving into all of the options available to you when writing resources, let's first take a high-level look at how resources are used within Laravel. A resource class represents a single model that needs to be transformed into a JSON structure. For example, here is a simple `UserResource` resource class:
@@ -251,15 +251,15 @@ For example, `UserCollection` will attempt to map the given user instances into 
 ## Writing Resources
 ## 리소스 클래스 작성하기
 
-> **Note**
+> **Note**  
 > If you have not read the [concept overview](#concept-overview), you are highly encouraged to do so before proceeding with this documentation.
 
-> **Note**
+> **Note**  
 > [컨셉 살펴보기](#concept-overview)를 읽지 않았다면, 아래 문서를 확인하기 전에 해당 부분을 먼저 읽어보시기 바랍니다.
 
-In essence, resources are simple. They only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned from your application's routes or controllers:
+Resources only need to transform a given model into an array. So, each resource contains a `toArray` method which translates your model's attributes into an API friendly array that can be returned from your application's routes or controllers:
 
-본질적으로, 리소스라는 것은 간단합니다. 리소스의 역할은 모델을 배열로 반환하는 하는 것입니다. 따라서 각 리소스에는 모델의 속성을 애플리케이션의 라우터 또는 컨트롤러에서 반환할 수 있고 API에 친화적 배열로 변환하는 `toArray` 메소드가 포함되어 있습니다.
+리소스의 역할은 모델을 배열로 반환하는 하는 것입니다. 따라서 각 리소스에는 모델의 속성을 애플리케이션의 라우터 또는 컨트롤러에서 반환할 수 있고 API에 친화적 배열로 변환하는 `toArray` 메소드가 포함되어 있습니다.
 
     <?php
 
@@ -326,10 +326,10 @@ If you would like to include related resources in your response, you may add the
         ];
     }
 
-> **Note**
+> **Note**  
 > If you would like to include relationships only when they have already been loaded, check out the documentation on [conditional relationships](#conditional-relationships).
 
-> **Note**
+> **Note**  
 > 이미 로딩된 경우에만, 관계-relationships을 포함하고자 한다면, [조건에 따른 관계 표현](#conditional-relationships) 문서를 확인하십시오.
 
 <a name="writing-resource-collections"></a>
@@ -461,10 +461,10 @@ If you would like to disable the wrapping of the outermost resource, you should 
         }
     }
 
-> **Warning**
+> **Warning**  
 > The `withoutWrapping` method only affects the outermost response and will not remove `data` keys that you manually add to your own resource collections.
 
-> **Warning**
+> **Warning**  
 > `withoutWrapping` 메소드는 가장 바깥쪽의 데이터 구조에만 영향을 주며, `data` 키를 제거하지는 않습니다.
 
 <a name="wrapping-nested-resources"></a>
@@ -521,8 +521,8 @@ When returning paginated collections via a resource response, Laravel will wrap 
         }
     ],
     "links":{
-        "first": "http://example.com/pagination?page=1",
-        "last": "http://example.com/pagination?page=1",
+        "first": "http://example.com/users?page=1",
+        "last": "http://example.com/users?page=1",
         "prev": null,
         "next": null
     },
@@ -530,7 +530,7 @@ When returning paginated collections via a resource response, Laravel will wrap 
         "current_page": 1,
         "from": 1,
         "last_page": 1,
-        "path": "http://example.com/pagination",
+        "path": "http://example.com/users",
         "per_page": 15,
         "to": 10,
         "total": 10
@@ -572,8 +572,8 @@ Paginated responses always contain `meta` and `links` keys with information abou
         }
     ],
     "links":{
-        "first": "http://example.com/pagination?page=1",
-        "last": "http://example.com/pagination?page=1",
+        "first": "http://example.com/users?page=1",
+        "last": "http://example.com/users?page=1",
         "prev": null,
         "next": null
     },
@@ -581,7 +581,7 @@ Paginated responses always contain `meta` and `links` keys with information abou
         "current_page": 1,
         "from": 1,
         "last_page": 1,
-        "path": "http://example.com/pagination",
+        "path": "http://example.com/users",
         "per_page": 15,
         "to": 10,
         "total": 10
@@ -589,6 +589,29 @@ Paginated responses always contain `meta` and `links` keys with information abou
 }
 ```
 
+<a name="customizing-the-pagination-information"></a>
+#### Customizing The Pagination Information
+#### 페이지네이션 정보 커스터마이징하기
+
+If you would like to customize the information included in the `links` or `meta` keys of the pagination response, you may define a `paginationInformation` method on the resource. This method will receive the `$paginated` data and the array of `$default` information, which is an array containing the `links` and `meta` keys:
+
+페이지네이션 응답의 `links` 혹은 `meta` 키에 포함된 정보를 커스터마이징 하려면 리소스에 `paginationInformation` 메서드를 정의하면 됩니다. 이 메서드는 `$paginated` 데이터와 `links` 와 `meta` 키를 가지고 있는 배열인 `$default` 정보를 인자로 전달받습니다.
+
+    /**
+     * Customize the pagination information for the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array $paginated
+     * @param  array $default
+     * @return array
+     */
+    public function paginationInformation($request, $paginated, $default)
+    {
+        $default['links']['custom'] = 'https://example.com';
+
+        return $default;
+    }
+    
 <a name="conditional-attributes"></a>
 ### Conditional Attributes
 ### 조건에 따른 속성값 표현
@@ -671,10 +694,10 @@ Again, if the given condition is `false`, these attributes will be removed from 
 
 다시 말하지만, 주어진 조건이 `false` 인 경우에는 리소스 응답-response이 클라이언트에게 보내기 전에 제거됩니다.
 
-> **Warning**
+> **Warning**  
 > The `mergeWhen` method should not be used within arrays that mix string and numeric keys. Furthermore, it should not be used within arrays with numeric keys that are not ordered sequentially.
 
-> **Warning**
+> **Warning**  
 > `mergeWhen` 메소드는 문자열과 숫자 키가 섞여 있는 배열 안에서 사용하면 안됩니다. 그리고 순서대로 정렬되지 않은 숫자 키가 있는 배열에서도 마찬가지로 사용하면 안됩니다.
 
 <a name="conditional-relationships"></a>
@@ -746,6 +769,17 @@ The `whenCounted` method may be used to conditionally include a relationship's c
 In this example, if the `posts` relationship's count has not been loaded, the `posts_count` key will be removed from the resource response before it is sent to the client.
 
 이 예제에서 `posts` 관계 수가 로드되지 않았다면, `posts_count` 키는 클라이언트에게 보내지기 전에 리소스 응답에서 제거됩니다.
+
+Other types of aggregates, such as `avg`, `sum`, `min`, and `max` may also be conditionally loaded using the `whenAggregated` method:
+
+`avg`, `sum`, `min`, `max`와 같은 다른 유형의 집계도 `whenAggregated` 메서드를 사용하여 조건부로 로드할 수 있습니다.
+
+```php
+'words_avg' => $this->whenAggregated('posts', 'words', 'avg'),
+'words_sum' => $this->whenAggregated('posts', 'words', 'sum'),
+'words_min' => $this->whenAggregated('posts', 'words', 'min'),
+'words_max' => $this->whenAggregated('posts', 'words', 'max'),
+```
 
 <a name="conditional-pivot-information"></a>
 #### Conditional Pivot Information

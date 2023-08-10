@@ -188,10 +188,10 @@ public function address(): Attribute
 ### Enum Eloquent Attribute Casting
 ### Enum 엘로퀀트 속성 캐스팅
 
-> **Warning**
+> **Warning**  
 > Enum casting is only available for PHP 8.1+.
 
-> **Warning**
+> **Warning**  
 > Enum 캐스팅은 PHP 8.1이상 버전에서만 사용가능합니다. 
 
 _Enum casting was contributed by [Mohamed Said](https://github.com/themsaid)_.

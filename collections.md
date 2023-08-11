@@ -219,7 +219,6 @@
 - [wrap](#method-wrap)
 - [zip](#method-zip)
 
-</div>
 
 <a name="method-listing"></a>
 ## 메소드 목록

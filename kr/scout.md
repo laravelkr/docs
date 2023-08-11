@@ -64,9 +64,9 @@
 
 [라라벨 스카우트](https://github.com/laravel/scout)는 [Eloquent 모델](/docs/{{version}}/eloquent)에 full-text 검색 기능을 장착할 수 있는 드라이버 기반의 단순한 솔루션을 제공합니다. 스카우트는 모델 옵저버를 사용하여 엘로퀀트 레코드와 동기화된 검색 인덱스를 자동으로 유지합니다.
 
-Currently, Scout ships with [Algolia](https://www.algolia.com/), [MeiliSearch](https://www.meilisearch.com), and MySQL / PostgreSQL (`database`) drivers. In addition, Scout includes a "collection" driver that is designed for local development usage and does not require any external dependencies or third-party services. Furthermore, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
+Currently, Scout ships with [Algolia](https://www.algolia.com/), [Meilisearch](https://www.meilisearch.com), and MySQL / PostgreSQL (`database`) drivers. In addition, Scout includes a "collection" driver that is designed for local development usage and does not require any external dependencies or third-party services. Furthermore, writing custom drivers is simple and you are free to extend Scout with your own search implementations.
 
-현재 스카우트는  [Algolia](https://www.algolia.com/)와 [MeiliSearch](https://www.meilisearch.com), MySQL / PostgreSQL (`database`) 드라이버를 내장하고 있습니다. 여기에 더해 추가적인 의존성이 필요하지 않은 로컬 개발환경용 "컬렉션" 드라이버도 제공합니다. 그리고 간단하게 커스텀 드라이버를 작성할 수 있으므로, 자유롭게 스카우트를 확장하여 여러분 자신의 검색 기능을 구현할 수 있습니다. 
+현재 스카우트는  [Algolia](https://www.algolia.com/)와 [Meilisearch](https://www.meilisearch.com), MySQL / PostgreSQL (`database`) 드라이버를 내장하고 있습니다. 여기에 더해 추가적인 의존성이 필요하지 않은 로컬 개발환경용 "컬렉션" 드라이버도 제공합니다. 그리고 간단하게 커스텀 드라이버를 작성할 수 있으므로, 자유롭게 스카우트를 확장하여 여러분 자신의 검색 기능을 구현할 수 있습니다. 
 
 <a name="installation"></a>
 ## Installation
@@ -121,24 +121,24 @@ composer require algolia/algoliasearch-client-php
 ```
 
 <a name="meilisearch"></a>
-#### MeiliSearch
-#### MeiliSearch
+#### Meilisearch
+#### Meilisearch
 
-[MeiliSearch](https://www.meilisearch.com) is a blazingly fast and open source search engine. If you aren't sure how to install MeiliSearch on your local machine, you may use [Laravel Sail](/docs/{{version}}/sail#meilisearch), Laravel's officially supported Docker development environment.
+[Meilisearch](https://www.meilisearch.com) is a blazingly fast and open source search engine. If you aren't sure how to install Meilisearch on your local machine, you may use [Laravel Sail](/docs/{{version}}/sail#meilisearch), Laravel's officially supported Docker development environment.
 
-[MeiliSearch](https://www.meilisearch.com)는 엄청 빠른 속도를 자랑하는 오픈소스 검색엔진입니다. 로컬머신에서 MeiliSearch 를 설치하기 어렵다면 라라벨에서 공식적으로 지원하는 도커 개발환경인 [라라벨 Sail](/docs/{{version}}/sail#meilisearch)을 사용할 수 있습니다.
+[Meilisearch](https://www.meilisearch.com)는 엄청 빠른 속도를 자랑하는 오픈소스 검색엔진입니다. 로컬머신에서 Meilisearch 를 설치하기 어렵다면 라라벨에서 공식적으로 지원하는 도커 개발환경인 [라라벨 Sail](/docs/{{version}}/sail#Meilisearch)을 사용할 수 있습니다.
 
-When using the MeiliSearch driver you will need to install the MeiliSearch PHP SDK via the Composer package manager:
+When using the Meilisearch driver you will need to install the Meilisearch PHP SDK via the Composer package manager:
 
-MeiliSearch 드라이버를 사용하려면 컴포저 패키지 매니저를 통해서 다음과 같이 MeiliSearch PHP SDK 를 설치해야 합니다. 
+Meilisearch 드라이버를 사용하려면 컴포저 패키지 매니저를 통해서 다음과 같이 Meilisearch PHP SDK 를 설치해야 합니다. 
 
 ```shell
 composer require meilisearch/meilisearch-php http-interop/http-factory-guzzle
 ```
 
-Then, set the `SCOUT_DRIVER` environment variable as well as your MeiliSearch `host` and `key` credentials within your application's `.env` file:
+Then, set the `SCOUT_DRIVER` environment variable as well as your Meilisearch `host` and `key` credentials within your application's `.env` file:
 
-그 다음에 애플리케이션의 `.env` 파일에 다음과 같이 드라이버를 지정하고 MeiliSearch `host`와 `key` 자격증명값을 설정해야합니다. 
+그 다음에 애플리케이션의 `.env` 파일에 다음과 같이 드라이버를 지정하고 Meilisearch `host`와 `key` 자격증명값을 설정해야합니다. 
 
 ```ini
 SCOUT_DRIVER=meilisearch
@@ -146,19 +146,19 @@ MEILISEARCH_HOST=http://127.0.0.1:7700
 MEILISEARCH_KEY=masterKey
 ```
 
-For more information regarding MeiliSearch, please consult the [MeiliSearch documentation](https://docs.meilisearch.com/learn/getting_started/quick_start.html).
+For more information regarding Meilisearch, please consult the [Meilisearch documentation](https://docs.meilisearch.com/learn/getting_started/quick_start.html).
 
-보다 자세한 내용은 [MeiliSearch 공식문서](https://docs.meilisearch.com/learn/getting_started/quick_start.html)를 참고하십시오
+보다 자세한 내용은 [Meilisearch 공식문서](https://docs.meilisearch.com/learn/getting_started/quick_start.html)를 참고하십시오
 
-In addition, you should ensure that you install a version of `meilisearch/meilisearch-php` that is compatible with your MeiliSearch binary version by reviewing [MeiliSearch's documentation regarding binary compatibility](https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch).
+In addition, you should ensure that you install a version of `meilisearch/meilisearch-php` that is compatible with your Meilisearch binary version by reviewing [Meilisearch's documentation regarding binary compatibility](https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch).
 
-추가로, [MeiliSearch 바이너리 호환성 문서](https://github.com/meilisearch/meilisearch-php#-compatibility-with-meilisearch)를 확인하여 MeiliSearch 바이너리 버전과 호환되는 `meilisearch/meilisearch-php` 버전을 설치했는지 확인하십시오. 
-
-> **Warning**  
-> When upgrading Scout on an application that utilizes MeiliSearch, you should always [review any additional breaking changes](https://github.com/meilisearch/MeiliSearch/releases) to the MeiliSearch service itself.
+추가로, [Meilisearch 바이너리 호환성 문서](https://github.com/Meilisearch/Meilisearch-php#-compatibility-with-Meilisearch)를 확인하여 Meilisearch 바이너리 버전과 호환되는 `Meilisearch/Meilisearch-php` 버전을 설치했는지 확인하십시오. 
 
 > **Warning**  
-> MeiliSearch를 사용하는 애플리케이션에서 스카우트를 업그레이드 할 때는 항상 MeiliSearch 서비스의 [추가적인 변경사항 리뷰](https://github.com/meilisearch/MeiliSearch/releases)를 확인하십시오.
+> When upgrading Scout on an application that utilizes Meilisearch, you should always [review any additional breaking changes](https://github.com/meilisearch/Meilisearch/releases) to the Meilisearch service itself.
+
+> **Warning**  
+> Meilisearch를 사용하는 애플리케이션에서 스카우트를 업그레이드 할 때는 항상 Meilisearch 서비스의 [추가적인 변경사항 리뷰](https://github.com/meilisearch/Meilisearch/releases)를 확인하십시오.
 
 <a name="queueing"></a>
 ### Queueing
@@ -253,9 +253,9 @@ By default, the entire `toArray` form of a given model will be persisted to its 
         }
     }
 
-Some search engines such as MeiliSearch will only perform filter operations (`>`, `<`, etc.) on data of the correct type. So, when using these search engines and customizing your searchable data, you should ensure that numeric values are cast to their correct type:
+Some search engines such as Meilisearch will only perform filter operations (`>`, `<`, etc.) on data of the correct type. So, when using these search engines and customizing your searchable data, you should ensure that numeric values are cast to their correct type:
 
-MeiliSearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 대해서만 필터링 연산(`>`, `<`, 등)을 수행합니다. 그래서 이러한 검색 엔진을 사용하고 검색 데이터를 커스터마이징 할 때는, 숫자 값이 올바른 타입으로 변환되어 있는지 확인해야 합니다.
+Meilisearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 대해서만 필터링 연산(`>`, `<`, 등)을 수행합니다. 그래서 이러한 검색 엔진을 사용하고 검색 데이터를 커스터마이징 할 때는, 숫자 값이 올바른 타입으로 변환되어 있는지 확인해야 합니다.
 
     public function toSearchableArray()
     {
@@ -267,16 +267,16 @@ MeiliSearch와 같은 일부 검색 엔진은 올바른 타입의 데이터에 �
     }
 
 <a name="configuring-filterable-data-for-meilisearch"></a>
-#### Configuring Filterable Data & Index Settings (MeiliSearch)
-#### 필터링 가능한 데이터 설정하기(MeiliSearch)
+#### Configuring Filterable Data & Index Settings (Meilisearch)
+#### 필터링 가능한 데이터 설정하기(Meilisearch)
 
-Unlike Scout's other drivers, MeiliSearch requires you to pre-define index search settings such as filterable attributes, sortable attributes, and [other supported settings fields](https://docs.meilisearch.com/reference/api/settings.html).
+Unlike Scout's other drivers, Meilisearch requires you to pre-define index search settings such as filterable attributes, sortable attributes, and [other supported settings fields](https://docs.meilisearch.com/reference/api/settings.html).
 
-다른 스카우트 드라이버와 달리, MeiliSearch는 필터링 가능한 속성, 정렬 가능한 속성, 그리고 [다른 지원되는 설정 필드](https://docs.meilisearch.com/reference/api/settings.html)를 미리 정의해야 합니다.
+다른 스카우트 드라이버와 달리, Meilisearch는 필터링 가능한 속성, 정렬 가능한 속성, 그리고 [다른 지원되는 설정 필드](https://docs.meilisearch.com/reference/api/settings.html)를 미리 정의해야 합니다.
 
 Filterable attributes are any attributes you plan to filter on when invoking Scout's `where` method, while sortable attributes are any attributes you plan to sort by when invoking Scout's `orderBy` method. To define your index settings, adjust the `index-settings` portion of your `meilisearch` configuration entry in your application's `scout` configuration file:
 
-필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
+필터링 가능한 속성은 스카우트의 `where` 메서드를 호출할 때 필터링할 속성이고, 정렬 가능한 속성은 스카우트의 `orderBy` 메서드를 호출할 때 정렬할 속성입니다. 인덱스 설정을 정의하려면, 애플리케이션의 `scout` 설정 파일에서 `Meilisearch` 설정 항목의 `index-settings` 부분을 조정하세요.
 
 ```php
 use App\Models\User;
@@ -309,9 +309,9 @@ If the model underlying a given index is soft deletable and is included in the `
 ],
 ```
 
-After configuring your application's index settings, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform MeiliSearch of your currently configured index settings. For convenience, you may wish to make this command part of your deployment process:
+After configuring your application's index settings, you must invoke the `scout:sync-index-settings` Artisan command. This command will inform Meilisearch of your currently configured index settings. For convenience, you may wish to make this command part of your deployment process:
 
-애플리케이션의 인덱스 설정을 구성한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 MeiliSearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
+애플리케이션의 인덱스 설정을 구성한 후, `scout:sync-index-settings` 아티즌 명령을 실행해야 합니다. 이 명령은 현재 구성된 인덱스 설정을 Meilisearch에 알려줍니다. 편의를 위해, 이 명령을 배포 프로세스의 일부로 만들 수 있습니다.
 
 ```shell
 php artisan scout:sync-index-settings
@@ -395,7 +395,7 @@ Scout를 사용하면 [Algolia](https://algolia.com)를 사용할 때 사용자�
 SCOUT_IDENTIFY=true
 ```
 
-Enabling this feature this will also pass the request's IP address and your authenticated user's primary identifier to Algolia so this data is associated with any search request that is made by the user.
+Enabling this feature will also pass the request's IP address and your authenticated user's primary identifier to Algolia so this data is associated with any search request that is made by the user.
 
 이 기능을 활성화하면 요청의 IP 주소와 인증 된 사용자의 기본 식별자도 Algolia에 전달되므로이 데이터는 사용자가 만든 모든 검색 요청과 연결됩니다.
 
@@ -425,9 +425,9 @@ To use the database engine, you may simply set the value of the `SCOUT_DRIVER` e
 SCOUT_DRIVER=database
 ```
 
-Once you have specified the database engine as your preferred driver, you must [configure your searchable data](#configuring-searchable-data). Then, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or MeiliSearch indexes, is unnecessary when using the database engine.
+Once you have specified the database engine as your preferred driver, you must [configure your searchable data](#configuring-searchable-data). Then, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or Meilisearch indexes, is unnecessary when using the database engine.
 
-데이터베이스 엔진을 기본 검색 드라이버로 지정한 뒤에 [검색 가능한 데이터 설정](#configuring-searchable-data)을 완료해야합니다. 그 다음에 모델에 대한 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. 데이터베이스 엔진에서는 Algolia, MeiliSearch와 같은 데이터 인덱싱작업은 필요하지 않습니다.
+데이터베이스 엔진을 기본 검색 드라이버로 지정한 뒤에 [검색 가능한 데이터 설정](#configuring-searchable-data)을 완료해야합니다. 그 다음에 모델에 대한 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. 데이터베이스 엔진에서는 Algolia, Meilisearch와 같은 데이터 인덱싱작업은 필요하지 않습니다.
 
 #### Customizing Database Searching Strategies
 #### 데이터베이스 엔진의 검색 방식 커스터마이징
@@ -474,9 +474,9 @@ public function toSearchableArray(): array
 ### Collection Engine
 ### 컬렉션 엔진
 
-While you are free to use the Algolia or MeiliSearch search engines during local development, you may find it more convenient to get started with the "collection" engine. The collection engine will use "where" clauses and collection filtering on results from your existing database to determine the applicable search results for your query. When using this engine, it is not necessary to "index" your searchable models, as they will simply be retrieved from your local database.
+While you are free to use the Algolia or Meilisearch search engines during local development, you may find it more convenient to get started with the "collection" engine. The collection engine will use "where" clauses and collection filtering on results from your existing database to determine the applicable search results for your query. When using this engine, it is not necessary to "index" your searchable models, as they will simply be retrieved from your local database.
 
-로컬 개발을 진행할 때도 Algolia 또는 MeiliSearch 검색 엔진을 사용할 수 있지만 "컬렉션" 엔진을 사용하는 것이 더 편리할 수 있습니다. 컬렉션 엔진은 "where" 절과 기존 데이터베이스의 결과에 대한 컬렉션 필터링을 사용하여 쿼리에 적용 가능한 검색 결과를 결정합니다. 이 엔진을 사용할 때 검색 가능한 모델을 "인덱싱"할 필요가 없습니다. 로컬 데이터베이스에서 간단히 검색되기 때문입니다.
+로컬 개발을 진행할 때도 Algolia 또는 Meilisearch 검색 엔진을 사용할 수 있지만 "컬렉션" 엔진을 사용하는 것이 더 편리할 수 있습니다. 컬렉션 엔진은 "where" 절과 기존 데이터베이스의 결과에 대한 컬렉션 필터링을 사용하여 쿼리에 적용 가능한 검색 결과를 결정합니다. 이 엔진을 사용할 때 검색 가능한 모델을 "인덱싱"할 필요가 없습니다. 로컬 데이터베이스에서 간단히 검색되기 때문입니다.
 
 To use the collection engine, you may simply set the value of the `SCOUT_DRIVER` environment variable to `collection`, or specify the `collection` driver directly in your application's `scout` configuration file:
 
@@ -486,9 +486,9 @@ To use the collection engine, you may simply set the value of the `SCOUT_DRIVER`
 SCOUT_DRIVER=collection
 ```
 
-Once you have specified the collection driver as your preferred driver, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or MeiliSearch indexes, is unnecessary when using the collection engine.
+Once you have specified the collection driver as your preferred driver, you may start [executing search queries](#searching) against your models. Search engine indexing, such as the indexing needed to seed Algolia or Meilisearch indexes, is unnecessary when using the collection engine.
 
-컬렉션 드라이버를 기본 드라이버로 지정했으면 모델에 대해 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. Algolia 또는 MeiliSearch 색인을 시드하는 데 필요한 색인과 같은 검색 엔진 색인은 수집 엔진을 사용할 때 필요하지 않습니다.
+컬렉션 드라이버를 기본 드라이버로 지정했으면 모델에 대해 [검색 쿼리 실행](#searching)을 시작할 수 있습니다. Algolia 또는 Meilisearch 색인을 시드하는 데 필요한 색인과 같은 검색 엔진 색인은 수집 엔진을 사용할 때 필요하지 않습니다.
 
 #### Differences From Database Engine
 #### 데이터베이스 엔진과의 차이점
@@ -542,6 +542,13 @@ If you would like to modify the query that is used to retrieve all of your model
     {
         return $query->with('author');
     }
+
+> **Warning**  
+> The `makeAllSearchableUsing` method may not be applicable when using a queue to batch import models. Relationships are [not restored](/docs/{{version}}/queues#handling-relationships) when model collections are processed by jobs.
+
+> **Warning**  
+> 큐-queue를 사용하여 모델을 배치하여 가져올 때 `makeAllSearchableUsing` 메서드를 적용하지 못할수 있습니다. 모델 컬렉션이 job에 의해서 처리될 때는 연관관계가 [복원되지 않음](/docs/{{version}}/queues#handling-relationships) 입니다.  
+
 
 <a name="adding-records"></a>
 ### Adding Records
@@ -622,6 +629,24 @@ Or, if you already have a collection of Eloquent models in memory, you may call 
 또는 메모리에 엘로퀀트 모델 컬렉션을 획득한 다음, 컬렉션 인스턴스에서 `searchable` 메서드를 호출하여 모델에 해당하는 검색 인덱스에서 레코드를 업데이트 할 수 있습니다.
 
     $orders->searchable();
+
+<a name="modifying-records-before-importing"></a>
+#### Modifying Records Before Importing
+#### 가져오기 전에 레코드 수정하기
+
+Sometimes you may need to prepare the collection of models before they are made searchable. For instance, you may want to eager load a relationship so that the relationship data can be efficiently added to your search index. To accomplish this, define a `makeSearchableUsing` method on the corresponding model:
+
+모델 컬렉션을 검색 가능하게 만들기 전에 준비가 필요한 경우가 있습니다. 예를 들어, 연관관계 데이터를 검색 인덱스에 효율적으로 추가할 수 있도록 연관 관계를 eager load 하고 싶을 수 있습니다. 이 작업을 수행하려면 해당 모델에 `makeSearchableUsing` 메서드를 정의하면 됩니다.
+
+    use Illuminate\Database\Eloquent\Collection;
+
+    /**
+     * Modify the collection of models being made searchable.
+     */
+    public function makeSearchableUsing(Collection $models): Collection
+    {
+        return $models->load('author');
+    }
 
 <a name="removing-records"></a>
 ### Removing Records
@@ -761,10 +786,10 @@ Since a search index is not a relational database, more advanced "where" clauses
 검색 인덱스는 관계형 데이터베이스가 아니므로 현재 고급 "where" 절이 지원되지 않습니다.
 
 > **Warning**  
-> If your application is using MeiliSearch, you must configure your application's [filterable attributes](#configuring-filterable-data-for-meilisearch) before utilizing Scout's "where" clauses.
+> If your application is using Meilisearch, you must configure your application's [filterable attributes](#configuring-filterable-data-for-meilisearch) before utilizing Scout's "where" clauses.
 
 > **Warning**  
-> 만약 여러분의 애플리케이션이 MeiliSearch를 사용하고 있다면, 여러분의 애플리케이션의 [필터링 가능한 속성들](#configuring-filterable-data-for-meilisearch)을 설정해야 합니다.
+> 만약 여러분의 애플리케이션이 Meilisearch를 사용하고 있다면, 여러분의 애플리케이션의 [필터링 가능한 속성들](#configuring-filterable-data-for-meilisearch)을 설정해야 합니다.
 
 <a name="pagination"></a>
 ### Pagination
@@ -940,36 +965,3 @@ Once your engine has been registered, you may specify it as your default Scout `
 여러분의 엔진을 등록한 즉시, 애플리케이션의 `config/scout.php` 설정 파일의 `driver`를 변경하여 스카우트의 기본 드라이버를 그것으로 지정하십시오.
 
     'driver' => 'mysql',
-
-<a name="builder-macros"></a>
-## Builder Macros
-## 빌더 매크로
-
-If you would like to define a custom Scout search builder method, you may use the `macro` method on the `Laravel\Scout\Builder` class. Typically, "macros" should be defined within a [service provider's](/docs/{{version}}/providers) `boot` method:
-
-커스텀 스카운 검색 빌더 메서드를 정의하고 싶다면 `Laravel\Scout\Builder` 클래스에 `macro` 메서드를 사용할 수 있습니다. 일반적으로 "매크로"는 [서비스 프로바이더](/docs/{{version}}/providers)의 `boot` 메서드 내에 정의되어야합니다.
-
-
-    use Illuminate\Support\Facades\Response;
-    use Illuminate\Support\ServiceProvider;
-    use Laravel\Scout\Builder;
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        Builder::macro('count', function () {
-            return $this->engine()->getTotalCount(
-                $this->engine()->search($this)
-            );
-        });
-    }
-
-The `macro` function accepts a macro name as its first argument and a closure as its second argument. The macro's closure will be executed when calling the macro name from a `Laravel\Scout\Builder` implementation:
-
-`macro` 함수는 첫 번째 인수로 매크로의 이름을 받아들입니다. 두 번째 인수는 클로저입니다. 매크로의 클로저는 `Laravel\Scout\Builder` 구현에서 매크로 이름을 호출 할 때 실행됩니다.
-
-    use App\Models\Order;
-
-    Order::search('Star Trek')->count();

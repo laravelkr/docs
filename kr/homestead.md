@@ -136,6 +136,8 @@ Homestead runs on any Windows, macOS, or Linux system and includes Nginx, PHP, M
 - Go
 - Grafana
 - InfluxDB
+- Logstash
+- Mailpit <small>(Replaces Mailhog)</small>
 - MariaDB
 - Meilisearch
 - MinIO

@@ -301,17 +301,17 @@ Once the application's Docker containers have been started, you can access the a
 ### Choosing Your Sail Services
 ### Sail 서비스 선택
 
-When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, and `mailhog`:
+When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, and `mailhog`:
 
-Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, 그리고 `mailhog`가 있습니다.
+Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, 그리고 `mailhog`가 있습니다.
 
 ```shell
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
-If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `meilisearch`, `mailhog`, and `selenium` will be configured.
+If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `Meilisearch`, `mailhog`, and `selenium` will be configured.
 
-구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `meilisearch`, `mailhog`, 그리고 `selenium`의 기본 스택이 구성됩니다.
+구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `Meilisearch`, `mailhog`, 그리고 `selenium`의 기본 스택이 구성됩니다.
 
 <a name="initial-configuration"></a>
 ## Initial Configuration

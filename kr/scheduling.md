@@ -386,10 +386,10 @@ If you are repeatedly assigning the same timezone to all of your scheduled tasks
         return 'America/Chicago';
     }
 
-> **Warning**
+> **Warning**  
 > Remember that some timezones utilize daylight savings time. When daylight saving time changes occur, your scheduled task may run twice or even not run at all. For this reason, we recommend avoiding timezone scheduling when possible.
 
-> **Warning**
+> **Warning**  
 > 일부 타임존에서는 서머타임(daylight savings time)을 사용합니다. 서머타임에 따라 시간이 변경되버리면, 예약 된 작업이 두 번 실행되거나 아예 실행되지 않을 수도 있습니다. 따라서 가능한 경우 작업을 예약할 때 타임존 지정을 사용하지 않는 것이 좋습니다.
 
 <a name="preventing-task-overlaps"></a>
@@ -420,10 +420,10 @@ Behind the scenes, the `withoutOverlapping` method utilizes your application's [
 ### Running Tasks On One Server
 ### 한 서버에서 작업 실행하기
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `database`, `memcached`, `dynamodb`, or `redis` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 사용하기 위해서는, 애플리케이션이 기본 캐시 드라이버로 반드시 `database`, `memcached`, `dynamodb` 또는 `redis` 캐시 드라이버를 사용해야 합니다. 또한 모든 서버는 하나의 중앙 캐시 서버와 통신해야 합니다.
 
 If your application's scheduler is running on multiple servers, you may limit a scheduled job to only execute on a single server. For instance, assume you have a scheduled task that generates a new report every Friday night. If the task scheduler is running on three worker servers, the scheduled task will run on all three servers and generate the report three times. Not good!
@@ -482,10 +482,10 @@ By default, multiple tasks scheduled at the same time will execute sequentially 
              ->daily()
              ->runInBackground();
 
-> **Warning**
+> **Warning**  
 > The `runInBackground` method may only be used when scheduling tasks via the `command` and `exec` methods.
 
-> **Warning**
+> **Warning**  
 > `runInBackground` 메소드는 `command`와 `exec` 메소드를 통해 작업을 스케쥴 할 때만 사용될 수 있습니다.
 
 <a name="maintenance-mode"></a>
@@ -563,10 +563,10 @@ If you only want to email the output if the scheduled Artisan or system command 
              ->daily()
              ->emailOutputOnFailure('taylor@example.com');
 
-> **Warning**
+> **Warning**  
 > The `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo`, and `appendOutputTo` methods are exclusive to the `command` and `exec` methods.
 
-> **Warning**
+> **Warning**  
 > `emailOutputTo`, `emailOutputOnFailure`, `sendOutputTo` 그리고 `appendOutputTo` 메소드는 `command` 와 `exec` 메소드에서만 사용가능합니다.
 
 <a name="task-hooks"></a>

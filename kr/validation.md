@@ -437,10 +437,10 @@ As you might have guessed, the `authorize` method is responsible for determining
         ];
     }
 
-> **Note**
+> **Note**  
 > You may type-hint any dependencies you require within the `rules` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
-> **Note**
+> **Note**  
 > `rules` 메서드의 서명 내에서 필요한 모든 종속성을 입력할 수 있습니다. 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 해결됩니다.
 
 So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
@@ -586,10 +586,10 @@ If you plan to handle authorization logic for the request in another part of you
         return true;
     }
 
-> **Note**
+> **Note**  
 > You may type-hint any dependencies you need within the `authorize` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
-> **Note**
+> **Note**  
 > `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 라라벨 [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
 
 <a name="customizing-the-error-messages"></a>
@@ -1487,10 +1487,10 @@ The `filter` validator, which uses PHP's `filter_var` function, ships with Larav
 
 PHP의 `filter_var` 기능을 사용하는 `filter` 유효성 검사기는 라라벨과 함께 제공되며 라라벨 버전 5.8 이전에 라라벨의 기본 이메일 유효성 검사 동작이었습니다.
 
-> **Warning**
+> **Warning**  
 > The `dns` and `spoof` validators require the PHP `intl` extension.
 
-> **Warning**
+> **Warning**  
 > `dns` 및 `spoof` 유효성 검사기는 PHP `intl` 확장이 필요합니다.
 
 <a name="rule-ends-with"></a>
@@ -1516,10 +1516,10 @@ The `Enum` rule is a class based rule that validates whether the field under val
         'status' => [new Enum(ServerStatus::class)],
     ]);
 
-> **Warning**
+> **Warning**  
 > Enums are only available on PHP 8.1+.
 
-> **Warning**
+> **Warning**  
 > enum은 PHP 8.1 이상에서만 사용할 수 있습니다.
 
 <a name="rule-exclude"></a>
@@ -1733,10 +1733,10 @@ The field under validation must be an integer.
 
 필드의 값이 정수여야 합니다.
 
-> **Warning**
+> **Warning**  
 > This validation rule does not verify that the input is of the "integer" variable type, only that the input is of a type accepted by PHP's `FILTER_VALIDATE_INT` rule. If you need to validate the input as being a number please use this rule in combination with [the `numeric` validation rule](#rule-numeric).
 
-> **Warning**
+> **Warning**  
 > 이 유효성 검사 규칙은 입력이 "정수" 변수 유형인지 확인하지 않고 입력이 PHP의 `FILTER_VALIDATE_INT` 규칙에 의해 허용되는 유형인지만 확인합니다. 입력이 숫자인지 확인해야 하는 경우 ['숫자' 유효성 검사 규칙](#rule-numeric)과 함께 이 규칙을 사용하세요.
 
 <a name="rule-ip"></a>
@@ -1878,10 +1878,10 @@ The field under validation must be a multiple of _value_.
 
 검증 중인 필드는 _value_ 의 배수여야 합니다.
 
-> **Warning**
+> **Warning**  
 > The [`bcmath` PHP extension](https://www.php.net/manual/en/book.bc.php) is required in order to use the `multiple_of` rule.
 
-> **Warning**
+> **Warning**  
 > `multiple_of` 규칙을 사용하려면 [`bcmath` PHP 확장 프로그램](https://www.php.net/manual/en/book.bc.php) 이 필요합니다.
 
 <a name="rule-not-in"></a>
@@ -1913,10 +1913,10 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'not_regex:/^.+@.+$/i'`.
 
-> **Warning**
+> **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify your validation rules using an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
 
-> **Warning**
+> **Warning**  
 > `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열을 사용하여 유효성 검사 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-nullable"></a>
@@ -1943,10 +1943,10 @@ The field under validation must match the authenticated user's password.
 
 유효성 검사 필드는 인증된 사용자의 비밀번호와 일치해야 합니다.
 
-> **Warning**
+> **Warning**  
 > This rule was renamed to `current_password` with the intention of removing it in Laravel 9. Please use the [Current Password](#rule-current-password) rule instead.
 
-> **Warning**
+> **Warning**  
 > 이 규칙은 라라벨 9에서 제거하기 위해 `current_password`로 이름이 변경되었습니다. 대신 [Current Password](#rule-current-password) 규칙을 사용하세요.
 
 <a name="rule-present"></a>
@@ -2068,10 +2068,10 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 
 이 규칙은 내부적으로 PHP의 `preg_match` 함수를 사용합니다. 지정된 패턴은 `preg_match` 에 필요한 것과 동일한 양식을 따라야하며 유효한 구분 기호를 포함해야합니다. 예를 들면 다음과 같습니다. `'email' => 'regex:/^.+@.+$/i'`.
 
-> **Warning**
+> **Warning**  
 > When using the `regex` / `not_regex` patterns, it may be necessary to specify rules in an array instead of using `|` delimiters, especially if the regular expression contains a `|` character.
 
-> **Warning**
+> **Warning**  
 > `regex` / `not_regex` 패턴을 사용할 때, 특히 정규 표현식에 `|` 문자가 포함된 경우 `|` 구분 기호를 사용하는 대신 배열에 규칙을 지정해야 할 수도 있습니다.
 
 <a name="rule-required"></a>
@@ -2268,10 +2268,10 @@ To instruct the validator to ignore the user's ID, we'll use the `Rule` class to
         ],
     ]);
 
-> **Warning**
+> **Warning**  
 > You should never pass any user controlled request input into the `ignore` method. Instead, you should only pass a system generated unique ID such as an auto-incrementing ID or UUID from an Eloquent model instance. Otherwise, your application will be vulnerable to an SQL injection attack.
 
-> **Warning**
+> **Warning**  
 > `ignore` 메소드에 유저가 전달한 리퀘스트 입력값을 절대 입력해서는 안 됩니다. 대신, 엘로퀀트 모델 인스턴스의 자동 증가 ID나 UUID 등 시스템이 생성한 고유 ID를 전달하십시오. 그렇지 않으면 어플리케이션이 SQL 인젝션 공격에 취약하게 됩니다.
 
 Instead of passing the model key's value to the `ignore` method, you may also pass the entire model instance. Laravel will automatically extract the key from the model:
@@ -2379,10 +2379,10 @@ In the example above, the `email` field will only be validated if it is present 
 
 이 예제에서는 `$data` 배열에 `email` 필드가 존재할 경우에만 그 필드의 유효성 검사가 실행됩니다.
 
-> **Note**
+> **Note**  
 > If you are attempting to validate a field that should always be present but may be empty, check out [this note on optional fields](#a-note-on-optional-fields).
 
-> **Note**
+> **Note**  
 > 항상 있어야 하지만 비어 있을 수 있는 필드의 유효성을 검사하려는 경우 [선택 필드에 대한 참고 사항](#a-note-on-optional-fields)을 확인하세요.
 
 <a name="complex-conditional-validation"></a>
@@ -2416,10 +2416,10 @@ The first argument passed to the `sometimes` method is the name of the field we 
         return $input->games >= 100;
     });
 
-> **Note**
+> **Note**  
 > The `$input` parameter passed to your closure will be an instance of `Illuminate\Support\Fluent` and may be used to access your input and files under validation.
 
-> **Note**
+> **Note**  
 > 클로저에 전달된 `$input` 매개변수는 `Illuminate\Support\Fluent`의 인스턴스가 되며 유효성 검사 중인 입력 및 파일에 액세스하는 데 사용할 수 있습니다.
 
 <a name="complex-conditional-array-validation"></a>
@@ -2934,8 +2934,8 @@ For a custom rule to run even when an attribute is empty, the rule must imply th
 php artisan make:rule Uppercase --invokable --implicit
 ```
 
-> **Warning**
+> **Warning**  
 > An "implicit" rule only _implies_ that the attribute is required. Whether it actually invalidates a missing or empty attribute is up to you.
 
-> **Warning**
+> **Warning**  
 > "묵시적" 규칙은 속성이 필요하다는 것을 _묵시합니다_. 실제로 누락되거나 비어 있는 속성을 무효화하는지 여부는 사용자에게 달려 있습니다.

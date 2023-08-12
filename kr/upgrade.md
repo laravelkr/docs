@@ -56,10 +56,10 @@
 #### Estimated Upgrade Time: 30 Minutes
 #### 예상되는 업그레이드 시간: 30분
 
-> **Note**
+> **Note**  
 > We attempt to document every possible breaking change. Since some of these breaking changes are in obscure parts of the framework only a portion of these changes may actually affect your application. Want to save time? You can use [Laravel Shift](https://laravelshift.com/) to help automate your application upgrades.
 
-> **Note**
+> **Note**  
 > 이전 버전과 호환되지 않는 모든 변경사항을 기록했습니다만 변경사항들 중 일부는 프레임워크의 모호한 부분에 있기 때문에 실제로는 여러분의 어플리케이션에 영향을 끼치지 않을 수도 있습니다. 시간을 절약하고 싶다면 [Laravel Shift](https://laravelshift.com/)와 같은 서비스를 사용할수도 있습니다.  
 
 <a name="updating-dependencies"></a>

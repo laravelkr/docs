@@ -148,10 +148,10 @@ When upgrading to a new version of Cashier, it's important that you carefully re
 
 Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이드](https://github.com/laravel/cashier-stripe/blob/master/UPGRADE.md) 를 주의 깊게 검토해야합니다.
 
-> **Note**
+> **Note**  
 > To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 13 utilizes Stripe API version `2022-11-15`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
 
-> **Note**
+> **Note**  
 > 변경을 방지하기 위해 캐셔는 Stripe API 버전을 고정으로 사용합니다. Cashier 12은 Stripe API 버전 `2022-11-15`를 사용합니다. Stripe API 버전은 새로운 Stripe 기능과 개선 사항을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
 
 <a name="installation"></a>
@@ -166,10 +166,10 @@ First, install the Cashier package for Stripe using the Composer package manager
 composer require laravel/cashier
 ```
 
-> **Note**
+> **Note**  
 > To ensure Cashier properly handles all Stripe events, remember to [set up Cashier's webhook handling](#handling-stripe-webhooks).
 
-> **Note**
+> **Note**  
 > 캐셔가 모든 스트라이프 이벤트를 올바르게 처리하도록하려면 [Cashier의 웹훅 처리](#handling-stripe-webhooks)를 설정해야합니다.
 
 <a name="database-migrations"></a>
@@ -208,10 +208,10 @@ Cashier의 마이그레이션이 실행되지 않게하려면 캐셔가 제공�
         Cashier::ignoreMigrations();
     }
 
-> **Warning**
+> **Warning**  
 > Stripe recommends that any column used for storing Stripe identifiers should be case-sensitive. Therefore, you should ensure the column collation for the `stripe_id` column is set to `utf8_bin` when using MySQL. More information regarding this can be found in the [Stripe documentation](https://stripe.com/docs/upgrades#what-changes-does-stripe-consider-to-be-backwards-compatible).
 
-> **Warning**
+> **Warning**  
 > Stripe는 Stripe 식별자를 저장하는 데 사용되는 모든 열을 대소문자를 구분할 것을 권장합니다. 따라서 MySQL을 사용할 때 `stripe_id` 열에 대한 열 데이터 정렬이 `utf8_bin`으로 설정되어 있는지 확인해야 합니다. 이에 대한 자세한 내용은 [Stripe 문서](https://stripe.com/docs/upgrades#what-changes-does-stripe-consider-to-be-backwards-compatible) 에서 확인할 수 있습니다.
 
 <a name="configuration"></a>
@@ -250,10 +250,10 @@ Cashier assumes your billable model will be the `App\Models\User` class that shi
         Cashier::useCustomerModel(User::class);
     }
 
-> **Warning**
+> **Warning**  
 > If you're using a model other than Laravel's supplied `App\Models\User` model, you'll need to publish and alter the [Cashier migrations](#installation) provided to match your alternative model's table name.
 
-> **Warning**
+> **Warning**  
 > Laravel에서 제공 한 `App\Models\User` 모델 이외의 모델을 사용하는 경우, 대체 모델의 테이블 이름과 일치하도록 제공된 [Cashier migrations](#installation)을 퍼블리싱하고 변경해야합니다.
 
 <a name="api-keys"></a>
@@ -296,10 +296,10 @@ Cashier의 통화 구성 외에도 송장에 표시 할 돈의 값을 포매팅-
 CASHIER_CURRENCY_LOCALE=nl_BE
 ```
 
-> **Note**
+> **Note**  
 > In order to use locales other than `en`, ensure the `ext-intl` PHP extension is installed and configured on your server.
 
-> **Note**
+> **Note**  
 > `en` 이외의 로케일을 사용하려면 서버에 `ext-intl` PHP 확장모듈이 설치 및 설정되어 있는지 확인하십시오.
 
 <a name="tax-configuration"></a>
@@ -330,10 +330,10 @@ For this feature to work properly, your customer's billing details, such as the 
 
 해당 기능이 올바르기 동작하기 위해서는 고객의 이름, 주소 그리고 tax ID와 같은 고객의 청구 상세 정보가 Stripe와 동기화 되도록 필요로 합니다. 동기화가 되도록 [customer data synchronization](#syncing-customer-data-with-stripe) 그리고 [Tax ID](#tax-ids) 메소드 들을 제공할 것 입니다.
 
-> **Note**
+> **Note**  
 > No tax is calculated for [single charges](#single-charges) or [single charge checkouts](#single-charge-checkouts).
 
-> **Note**
+> **Note**  
 > [single charges](#single-charges) 또는 [single charge checkouts](#single-charge-checkouts) 에서는 세금이 계산되지 않습니다.
 
 
@@ -676,10 +676,10 @@ After the card has been verified by Stripe, you may pass the resulting `setupInt
 
 Stripe에서 카드인증 후 결과값을 `setupIntent.payment_method` 식별자를 라라벨 애플리케이션에 전달하여 고객에게 추가 할 수 있습니다. 결제 수단은 [결제 수단 추가](#adding-payment-methods) 또는 [기본 결제 수단 업데이트](#updating-the-default-payment-method) 일 수 있습니다. 결제 수단 식별자를 즉시 ​​사용하여 [새로운 정기 구독 생성하기](#creating-subscriptions)를 할 수도 있습니다.
 
-> **Note**
+> **Note**  
 > If you would like more information about Setup Intents and gathering customer payment details please [review this overview provided by Stripe](https://stripe.com/docs/payments/save-and-reuse#php).
 
-> **Note**
+> **Note**  
 > 설정 의도 및 고객 지불 정보 수집에 대한 자세한 내용을 보려면 [Stripe에서 제공하는 개요](https://stripe.com/docs/payments/save-and-reuse#php) 를 참고하십시오.
 
 <a name="payment-methods-for-single-charges"></a>
@@ -817,10 +817,10 @@ To sync your default payment method information with the customer's default paym
 
     $user->updateDefaultPaymentMethodFromStripe();
 
-> **Warning**
+> **Warning**  
 > The default payment method on a customer can only be used for invoicing and creating new subscriptions. Due to limitations imposed by Stripe, it may not be used for single charges.
 
-> **Warning**
+> **Warning**  
 > 고객의 기본 결제 수단은 인보이스 발행 및 새 구독 생성에만 사용할 수 있습니다. Stripe에서 부과하는 제한 사항으로 인해 1회 충전에 사용할 수 없습니다.
 
 <a name="adding-payment-methods"></a>
@@ -833,10 +833,10 @@ To add a new payment method, you may call the `addPaymentMethod` method on the b
 
     $user->addPaymentMethod($paymentMethod);
 
-> **Note**
+> **Note**  
 > To learn how to retrieve payment method identifiers please review the [payment method storage documentation](#storing-payment-methods).
 
-> **Note**
+> **Note**  
 > 결제 수단 식별자를 조회하는 방법을 알아 보려면 [결제 수단 저장](#storing-payment-methods)을 확인하십시오.
 
 <a name="deleting-payment-methods"></a>
@@ -867,10 +867,10 @@ By default, this method will delete payment methods of the `card` type. To delet
 
     $user->deletePaymentMethods('sepa_debit');
 
-> **Warning**
+> **Warning**  
 > If a user has an active subscription, your application should not allow them to delete their default payment method.
 
-> **Warning**
+> **Warning**  
 > 사용자가 현재 정기 구독중인 경우, 애플리케이션에서 기본 결제 수단을 삭제하지 못하게 해야합니다.
 
 <a name="subscriptions"></a>
@@ -907,10 +907,10 @@ The `create` method, which accepts [a Stripe payment method identifier](#storing
 
 [Stripe 지불 방법 식별자](#storing-payment-methods) 또는 Stripe의 `PaymentMethod` 객체를 허용하는 `create` 메소드는 구독을 시작하고 청구 가능한 모델의 Stripe 고객 ID 및 기타 관련 청구정보로 데이터베이스를 업데이트합니다.
 
-> **Warning**
+> **Warning**  
 > Passing a payment method identifier directly to the `create` subscription method will also automatically add it to the user's stored payment methods.
 
-> **Warning**
+> **Warning**  
 > 결제 수단 식별자를 `create` 구독 수단에 직접 전달하면 사용자의 저장된 결제 수단에도 자동으로 추가됩니다.
 
 <a name="collecting-recurring-payments-via-invoice-emails"></a>
@@ -1147,10 +1147,10 @@ The `recurring` method may be used to determine if the user is currently subscri
         //
     }
 
-> **Warning**
+> **Warning**  
 > If a user has two subscriptions with the same name, the most recent subscription will always be returned by the `subscription` method. For example, a user might have two subscription records named `default`; however, one of the subscriptions may be an old, expired subscription, while the other is the current, active subscription. The most recent subscription will always be returned while older subscriptions are kept in the database for historical review.
 
-> **Warning**
+> **Warning**  
 > 같은 이름의 구독이 2개 있는 사용자의 경우 항상 `subscription` 메서드를 통해 가장 최근 구독을 반환합니다. 예를 들어, 사용자는 `default`라는 두 개의 구독 레코드를 가질 수 있습니다. 그러나 구독 중 하나는 만료된 오래된 구독이고 다른 하나는 현재 활성 구독일 수 있습니다. 가장 최근의 구독은 항상 반환되며 이전 구독은 기록 검토를 위해 데이터베이스에 보관됩니다.
 
 <a name="cancelled-subscription-status"></a>
@@ -1228,10 +1228,10 @@ If you would like the subscription to still be considered active when it's in a 
         Cashier::keepIncompleteSubscriptionsActive();
     }
 
-> **Warning**
+> **Warning**  
 > When a subscription is in an `incomplete` state it cannot be changed until the payment is confirmed. Therefore, the `swap` and `updateQuantity` methods will throw an exception when the subscription is in an `incomplete` state.
 
-> **Warning**
+> **Warning**  
 > 구독이 `incomplete`상태 인 경우 결제가 확인 될 때까지 구독을 변경할 수 없습니다. 따라서 `swap`및 `updateQuantity`메소드는 구독이 `incomplete`상태 인 경우 예외를 발생시킵니다.
 
 <a name="subscription-scopes"></a>
@@ -1312,10 +1312,10 @@ For more information on subscription proration, consult the [Stripe documentatio
 
 구독의 일할계산에 대한 자세한 내용은 [스트라이프 문서](https://stripe.com/docs/billing/subscriptions/prorations) 를 참조하십시오.
 
-> **Warning**
+> **Warning**  
 > Executing the `noProrate` method before the `swapAndInvoice` method will have no effect on proration. An invoice will always be issued.
 
-> **Warning**
+> **Warning**  
 > `swapAndInvoice` 메소드보다 먼저 `noProrate` 메소드를 실행해도 일할계산에 영향을 미치지 않습니다. 청구서는 항상 발행됩니다.
 
 <a name="subscription-quantity"></a>
@@ -1427,10 +1427,10 @@ You may remove prices from subscriptions using the `removePrice` method:
 
     $user->subscription('default')->removePrice('price_chat');
 
-> **Warning**
+> **Warning**  
 > You may not remove the last price on a subscription. Instead, you should simply cancel the subscription.
 
-> **Warning**
+> **Warning**  
 > 구독의 마지막 가격을 삭제할 수 없습니다. 대신 구독을 취소하기만 하면 됩니다.
 
 <a name="swapping-prices"></a>
@@ -1498,10 +1498,10 @@ If you would like to update quantities on individual subscription prices, you ma
 
     $user->subscription('default')->updateQuantity(10, 'price_chat');
 
-> **Warning**
+> **Warning**  
 > When a subscription has multiple prices the `stripe_price` and `quantity` attributes on the `Subscription` model will be `null`. To access the individual price attributes, you should use the `items` relationship available on the `Subscription` model.
 
-> **Warning**
+> **Warning**  
 > 구독에 여러 가격이 있는 경우 `Subscription` 모델의 `stripe_price` 및 `수량` 속성은 `null`이 됩니다. 개별 가격 속성에 액세스하려면 `Subscription` 모델에서 사용 가능한 `items` 관계를 사용해야 합니다.
 
 <a name="subscription-items"></a>
@@ -1673,10 +1673,10 @@ For a full reference of all usage data returned and how to use Stripe's cursor b
 ### Subscription Taxes
 ### 구독 세금
 
-> **Warning**
+> **Warning**  
 > Instead of calculating Tax Rates manually, you can [automatically calculate taxes using Stripe Tax](#tax-configuration)
 
-> **Warning**
+> **Warning**  
 > 수동으로 세율을 계산하는 대신 [Stripe Tax를 사용하여 세금 자동 계산](#tax-configuration)을 할 수 있습니다.
 
 To specify the tax rates a user pays on a subscription, you should implement the `taxRates` method on your billable model and return an array containing the Stripe tax rate IDs. You can define these tax rates in [your Stripe dashboard](https://dashboard.stripe.com/test/tax-rates):
@@ -1713,10 +1713,10 @@ If you're offering subscriptions with multiple products, you may define differen
         ];
     }
 
-> **Warning**
+> **Warning**  
 > The `taxRates` method only applies to subscription charges. If you use Cashier to make "one off" charges, you will need to manually specify the tax rate at that time.
 
-> **Warning**
+> **Warning**  
 > `taxRates` 메소드는 정기구독의 결제 시에만 적용됩니다. "한번 결제"에서 캐셔를 사용하는 경우 세율을 직접 적용해야합니다.
 
 <a name="syncing-tax-rates"></a>
@@ -1749,10 +1749,10 @@ Cashier also offers the `isNotTaxExempt`, `isTaxExempt`, and `reverseChargeAppli
     $user->isNotTaxExempt();
     $user->reverseChargeApplies();
 
-> **Warning**
+> **Warning**  
 > These methods are also available on any `Laravel\Cashier\Invoice` object. However, when invoked on an `Invoice` object, the methods will determine the exemption status at the time the invoice was created.
 
-> **Warning**
+> **Warning**  
 > 이 메소드는 모든 `Laravel\Cashier\Invoice` 객체에서도 사용할 수 있습니다. 그러나 `Invoice` 객체에서 호출되는 경우 메서드는 인보이스가 생성된 시점의 면제 상태를 결정합니다.
 
 <a name="subscription-anchor-date"></a>
@@ -1865,10 +1865,10 @@ This method will set the trial period ending date on the subscription record wit
 
 이 메서드는 데이터베이스 내의 구독 레코드에 평가판 기간 종료 날짜를 설정하고, 이 날짜 이후까지 고객에게 청구를 시작하지 않도록 Stripe에 지시합니다. `trialDays` 방법을 사용할 때 캐셔는 Stripe의 가격에 대해 구성된 모든 기본 평가 기간을 덮어씁니다.
 
-> **Warning**
+> **Warning**  
 > If the customer's subscription is not canceled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
 
-> **Warning**
+> **Warning**  
 > 평가판 종료일 이전에 고객의 구독을 취소하지 않으면 평가판 만료 즉시 요금이 청구되므로 사용자에게 평가판 종료일을 알려야 합니다.
 
 The `trialUntil` method allows you to provide a `DateTime` instance that specifies when the trial period should end:
@@ -1934,10 +1934,10 @@ If you would like to offer trial periods without collecting the user's payment m
         'trial_ends_at' => now()->addDays(10),
     ]);
 
-> **Warning**
+> **Warning**  
 > Be sure to add a [date cast](/docs/{{version}}/eloquent-mutators##date-casting) for the `trial_ends_at` attribute within your billable model's class definition.
 
-> **Warning**
+> **Warning**  
 > 청구 가능한 모델의 클래스 정의 내에서 `trial_ends_at` 속성에 대해 [날짜 캐스트](/docs/{{version}}/eloquent-mutators##date-casting)를 추가해야 합니다.
 
 Cashier refers to this type of trial as a "generic trial", since it is not attached to any existing subscription. The `onTrial` method on the billable model instance will return `true` if the current date is not past the value of `trial_ends_at`:
@@ -1998,10 +1998,10 @@ The `extendTrial` method allows you to extend the trial period of a subscription
 ## Handling Stripe Webhooks
 ## Stripe webhook 처리하기
 
-> **Note**
+> **Note**  
 > You may use [the Stripe CLI](https://stripe.com/docs/stripe-cli) to help test webhooks during local development.
 
-> **Note**
+> **Note**  
 > [the Stripe CLI](https://stripe.com/docs/stripe-cli) 을 사용하여 로컬 개발 도중에도 웹훅을 테스트 할 수 있습니다.
 
 Stripe can notify your application of a variety of events via webhooks. By default, a route that points to Cashier's webhook controller is automatically registered by the Cashier service provider. This controller will handle all incoming webhook requests.
@@ -2056,10 +2056,10 @@ After creation, the webhook will be immediately active. If you wish to create th
 php artisan cashier:webhook --disabled
 ```
 
-> **Warning**
+> **Warning**  
 > Make sure you protect incoming Stripe webhook requests with Cashier's included [webhook signature verification](#verifying-webhook-signatures) middleware.
 
-> **Warning**
+> **Warning**  
 > Cashier에 포함된 [webhook 서명 확인](#verifying-webhook-signatures) 미들웨어를 사용하여 들어오는 Stripe 웹훅 요청을 보호해야 합니다.
 
 <a name="webhooks-csrf-protection"></a>
@@ -2192,10 +2192,10 @@ The `charge` method will throw an exception if the charge fails. If the charge i
         //
     }
 
-> **Warning**
+> **Warning**  
 > The `charge` method accepts the amount you would like to charge in the lowest denominator of the currency used by your application. For example, when using United States Dollars, amounts should be specified in pennies.
 
-> **Warning**
+> **Warning**  
 > `charge` 메소드는 사용하는 통화 중 가장 낮은 청구하고자 하는 가장 낮은 금액을 허용합니다. 예를 들어, 미국 달러를 사용할 때, 금액은 센트로 명시되어야 합니다.
 
 <a name="charge-with-invoice"></a>
@@ -2283,7 +2283,7 @@ When using the `pay` method, the default payment methods that are enabled within
 > **Warning**  
 > The `pay` and `payWith` methods accept the payment amount in the lowest denominator of the currency used by your application. For example, if customers are paying in United States Dollars, amounts should be specified in pennies.
 
-> **Warning**
+> **Warning**  
 > `pay` 및 `payWith` 메서드는 애플리케이션에서 사용하는 통화의 가장 낮은 분모로 지불 금액을 수락합니다 . 예를 들어 고객이 미국 달러로 지불하는 경우 금액을 페니로 지정해야 합니다.
 
 <a name="refunding-charges"></a>
@@ -2552,20 +2552,20 @@ You can also perform a simple charge for an ad-hoc product that has not been cre
         return $request->user()->checkoutCharge(1200, 'T-Shirt', 5);
     });
 
-> **Warning**
+> **Warning**  
 > When using the `checkoutCharge` method, Stripe will always create a new product and price in your Stripe dashboard. Therefore, we recommend that you create the products up front in your Stripe dashboard and use the `checkout` method instead.
 
-> **Warning**
+> **Warning**  
 > `checkoutCharge` 메소드 사용시, Stripe는 항상 Stripe 대시보드에서 새로운 상품을 생성합니다. 그러므로, 우리는 Stripe dashboard 프론트에서 상품을 생성하고 `checkout` 메소드를 대신 사용하기를 추천합니다.
 
 <a name="subscription-checkouts"></a>
 ### Subscription Checkouts
 ### 구독 결제
 
-> **Warning**
+> **Warning**  
 > Using Stripe Checkout for subscriptions requires you to enable the `customer.subscription.created` webhook in your Stripe dashboard. This webhook will create the subscription record in your database and store all of the relevant subscription items.
 
-> **Warning**
+> **Warning**  
 > 구독에 스트라이프 체크아웃을 사용하려면 `customer.subscription.created` webhook을 Stripe dashboard에서 활성화 해야합니다. 이 webhook은 구독을 만들고, 데이터베이스에 모든 구독 관련 항목을 다 저장합니다.
 
 You may also use Stripe Checkout to initiate subscriptions. After defining your subscription with Cashier's subscription builder methods, you may call the `checkout `method. When a customer visits this route they will be redirected to Stripe's Checkout page:
@@ -2608,10 +2608,10 @@ Of course, you can also enable promotion codes for subscription checkouts:
             ->checkout();
     });
 
-> **Warning**
+> **Warning**  
 > Unfortunately Stripe Checkout does not support all subscription billing options when starting subscriptions. Using the `anchorBillingCycleOn` method on the subscription builder, setting proration behavior, or setting payment behavior will not have any effect during Stripe Checkout sessions. Please consult [the Stripe Checkout Session API documentation](https://stripe.com/docs/api/checkout/sessions/create) to review which parameters are available.
 
-> **Warning**
+> **Warning**  
 > 아쉽게도 Stripe Checkout은 구독 시작 시 모든 구독결제 옵션을 지원하지 않습니다. 구독 빌더에서 `anchorBillingCycleOn` 메소드 사용 시, Stripe Checkout 세션에서 정렬 설정 또는 결제 동작 중 영향을 미치지 않습니다. [Stripe Checkout 세션 API 문서](https://stripe.com/docs/api/checkout/sessions/create)문서중 어떤 파라미터 가능한지 확인 바랍니다.
 
 <a name="stripe-checkout-trial-periods"></a>
@@ -2652,10 +2652,10 @@ When this method is invoked, a new checkbox will be available to the customer th
 
 이 메서드가 실행되면 고객이 회사로서 구매하는지 여부를 표시할 수 있는 새 체크박스가 고객에게 제공됩니다, 그리고 Tax ID를 제공할 수 있는 기회가 주어집니다.
 
-> **Warning**
+> **Warning**  
 > If you have already configured [automatic tax collection](#tax-configuration) in your application's service provider then this feature will be enabled automatically and there is no need to invoke the `collectTaxIds` method.
 
-> **Warning**
+> **Warning**  
 > 이미 [자동 세금 수집](#tax-configuration) 세팅을 어플리케이션에서 설정했다면 해당 기능은 자동으로 활성화 되며, `TaxIds` 메소드를 호출 할 필요가 없습니다.
 
 <a name="guest-checkouts"></a>
@@ -2781,10 +2781,10 @@ If your business or one of your customers is based in Europe you will need to ab
 
 귀하의 비즈니스 또는 고객 중 하나가 유럽에 기반을 두고 있는 경우 EU의 강력한 고객 인증(SCA) 규정을 준수해야 합니다. 이러한 규정은 결제 사기를 방지하기 위해 유럽 연합에서 2019년 9월에 부과되었습니다. 다행히 Stripe와 Cashier는 SCA 호환 응용 프로그램을 구축할 준비가 되어 있습니다.
 
-> **Warning**
+> **Warning**  
 > Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/guides/strong-customer-authentication) as well as their [documentation on the new SCA APIs](https://stripe.com/docs/strong-customer-authentication).
 
-> **Warning**
+> **Warning**  
 > 시작하기 전에 [PS2 및 SCA에 대한 Stripe 안내서](https://stripe.com/guides/strong-customer-authentication) 와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication) 를 검토하십시오.
 
 <a name="payments-requiring-additional-confirmation"></a>
@@ -2883,8 +2883,8 @@ Now, whenever you interact with Cashier while testing, it will send actual API r
 
 이제 테스트하는 동안 캐셔와 상호 작용할 때마다 실제 API 요청을 Stripe 테스트 환경으로 보냅니다. 편의를 위해 테스트 중에 사용할 수 있는 구독 가격으로 Stripe 테스트 계정을 미리 등록해둬야 합니다.
 
-> **Note**
+> **Note**  
 > In order to test a variety of billing scenarios, such as credit card denials and failures, you may use the vast range of [testing card numbers and tokens](https://stripe.com/docs/testing) provided by Stripe.
 
-> **Note**
+> **Note**  
 > 신용 카드 거부 및 실패와 같은 다양한 결제 시나리오를 테스트하기 위해 Stripe가 제공하는 광범위한 [테스트 카드 번호 및 토큰](https://stripe.com/docs/testing) 을 사용할 수 있습니다.

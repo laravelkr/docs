@@ -13,6 +13,8 @@
     - [병렬로 테스트 실행](#running-tests-in-parallel)
     - [Reporting Test Coverage](#reporting-test-coverage)
     - [테스트 커버리지 리포트](#reporting-test-coverage)
+    - [Profiling Tests](#profiling-tests)
+    - [테스트 프로파일링](#profiling-tests)
 
 <a name="introduction"></a>
 ## Introduction
@@ -45,6 +47,10 @@ When running tests, Laravel will automatically set the [configuration environmen
 You are free to define other testing environment configuration values as necessary. The `testing` environment variables may be configured in your application's `phpunit.xml` file, but make sure to clear your configuration cache using the `config:clear` Artisan command before running your tests!
 
 필요한 다른 테스트 환경 설정 값들을 자유롭게 정의할 수 있습니다. `testing` 환경 변수는 당신의 애플리케이션 안의 `phpunit.xml` 파일에 설정되어 있지만, 테스트를 실행 하기 전에 `config:clear` 아티즌 명령을 이용하여 설정된 캐시를 지우십시오!
+
+<a name="the-env-testing-environment-file"></a>
+#### The `.env.testing` Environment File
+#### `.env.testing` 환경 파일
 
 In addition, you may create a `.env.testing` file in the root of your project. This file will be used instead of the `.env` file when running PHPUnit tests or executing Artisan commands with the `--env=testing` option.
 
@@ -87,10 +93,10 @@ php artisan make:test UserTest --pest
 php artisan make:test UserTest --unit --pest
 ```
 
-> **Note**
+> **Note**  
 > Test stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
-> **Note**
+> **Note**  
 > [stub publishing](/docs/{{version}}/artisan#stub-customization)을 사용하여 Test Stub을 커스터마이징 할 수 있습니다.
 
 Once the test has been generated, you may define test methods as you normally would using [PHPUnit](https://phpunit.de). To run your tests, execute the `vendor/bin/phpunit` or `php artisan test` command from your terminal:
@@ -107,19 +113,17 @@ Once the test has been generated, you may define test methods as you normally wo
     {
         /**
          * A basic test example.
-         *
-         * @return void
          */
-        public function test_basic_test()
+        public function test_basic_test(): void
         {
             $this->assertTrue(true);
         }
     }
 
-> **Warning**
+> **Warning**  
 > If you define your own `setUp` / `tearDown` methods within a test class, be sure to call the respective `parent::setUp()` / `parent::tearDown()` methods on the parent class.
 
-> **Warning**
+> **Warning**  
 > 테스트 클래스 내에서 자신만의 `setUp` / `tearDown` 메소드를 정의한다면, 부모 클래스에서 `parent::setUp()` / `parent::tearDown()` 메소드를 호출해야 합니다.
 
 <a name="running-tests"></a>
@@ -152,11 +156,11 @@ php artisan test --testsuite=Feature --stop-on-failure
 
 <a name="running-tests-in-parallel"></a>
 ### Running Tests In Parallel
-### Parallel에서 테스트 실행
+### 병렬로 테스트 실행
 
-By default, Laravel and PHPUnit execute your tests sequentially within a single process. However, you may greatly reduce the amount of time it takes to run your tests by running tests simultaneously across multiple processes. To get started, ensure your application depends on version `^5.3` or greater of the `nunomaduro/collision` package. Then, include the `--parallel` option when executing the `test` Artisan command:
+By default, Laravel and PHPUnit execute your tests sequentially within a single process. However, you may greatly reduce the amount of time it takes to run your tests by running tests simultaneously across multiple processes. To get started, you should install the `brianium/paratest` Composer package as a "dev" dependency. Then, include the `--parallel` option when executing the `test` Artisan command:
 
-기본적으로 라라벨과 PHPUnit은 단일 프로세스 내에서 테스트를 순차적으로 실행합니다. 그러나 여러 프로세스에서 동시에 테스트를 실행하여 테스트를 실행하는 데 걸리는 시간을 크게 줄일 수 있습니다. 시작하려면 애플리케이션이 `nunomaduro/collision` 패키지 버전 `^5.3` 이상에 의존하는지 확인하십시오. 그런 다음 `test` 아티즌 명령을 실행할 때 `--parallel` 옵션을 포함합니다.
+기본적으로 라라벨과 PHPUnit은 단일 프로세스 내에서 테스트를 순차적으로 실행합니다. 그러나 여러 프로세스에서 동시에 테스트를 실행하여 테스트를 실행하는 데 걸리는 시간을 크게 줄일 수 있습니다. 시작하려면 애플리케이션이 `brianium/paratest` 패키지를 "dev" 의존성으로 설치해야합니다. 그런 다음 `test` 아티즌 명령을 실행할 때 `--parallel` 옵션을 포함합니다.
 
 ```shell
 php artisan test --parallel
@@ -170,10 +174,10 @@ By default, Laravel will create as many processes as there are available CPU cor
 php artisan test --parallel --processes=4
 ```
 
-> **Warning**
+> **Warning**  
 > When running tests in parallel, some PHPUnit options (such as `--do-not-cache-result`) may not be available.
 
-> **Warning**
+> **Warning**  
 > 테스트를 병렬로 실행할 때 일부 PHPUnit 옵션(예: `--do-not-cache-result`)을 사용하지 못할 수 있습니다.
 
 <a name="parallel-testing-and-databases"></a>
@@ -211,34 +215,33 @@ Using the `ParallelTesting` facade, you may specify code to be executed on the `
     use Illuminate\Support\Facades\Artisan;
     use Illuminate\Support\Facades\ParallelTesting;
     use Illuminate\Support\ServiceProvider;
+    use PHPUnit\Framework\TestCase;
 
     class AppServiceProvider extends ServiceProvider
     {
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            ParallelTesting::setUpProcess(function ($token) {
+            ParallelTesting::setUpProcess(function (int $token) {
                 // ...
             });
 
-            ParallelTesting::setUpTestCase(function ($token, $testCase) {
+            ParallelTesting::setUpTestCase(function (int $token, TestCase $testCase) {
                 // ...
             });
 
             // Executed when a test database is created...
-            ParallelTesting::setUpTestDatabase(function ($database, $token) {
+            ParallelTesting::setUpTestDatabase(function (string $database, int $token) {
                 Artisan::call('db:seed');
             });
 
-            ParallelTesting::tearDownTestCase(function ($token, $testCase) {
+            ParallelTesting::tearDownTestCase(function (int $token, TestCase $testCase) {
                 // ...
             });
 
-            ParallelTesting::tearDownProcess(function ($token) {
+            ParallelTesting::tearDownProcess(function (int $token) {
                 // ...
             });
         }
@@ -258,10 +261,10 @@ If you would like to access the current parallel process "token" from any other 
 ### Reporting Test Coverage
 ### 테스트 커버리지 리포트
 
-> **Warning**
+> **Warning**  
 > This feature requires [Xdebug](https://xdebug.org) or [PCOV](https://pecl.php.net/package/pcov).
 
-> **Warning**
+> **Warning**  
 > 이 기능은 [Xdebug](https://xdebug.org) 또는 [PCOV](https://pecl.php.net/package/pcov)가 필요합니다.
 
 When running your application tests, you may want to determine whether your test cases are actually covering the application code and how much application code is used when running your tests. To accomplish this, you may provide the `--coverage` option when invoking the `test` command:
@@ -282,4 +285,16 @@ You may use the `--min` option to define a minimum test coverage threshold for y
 
 ```shell
 php artisan test --coverage --min=80.3
+```
+
+<a name="profiling-tests"></a>
+### Profiling Tests
+### 테스트 프로파일링
+
+The Artisan test runner also includes a convenient mechanism for listing your application's slowest tests. Invoke the `test` command with the `--profile` option to be presented with a list of your ten slowest tests, allowing you to easily investigate which tests can be improved to speed up your test suite:
+
+아티즌 테스트 러너에는 애플리케이션에서 가장 느린 테스트 목록을 편리하게 나열하는 기능도 포함되어 있습니다. `test` 명령을 `--profile` 옵션을 사용해서 호출하면 애플리케이션에서 가장 느린 10개의 테스트 목록이 표시되며, 이를 통해 테스트 세트를 빠르게 실행할 수 있는 방법을 찾아 개선할 수 있습니다.
+
+```shell
+php artisan test --profile
 ```

@@ -1,12 +1,12 @@
 # Laravel Mix
-# Laravel Mix
+# 라라벨 Mix
 
 - [Introduction](#introduction)
-- [소개](#introduction)
+- [시작하기](#introduction)
 
 <a name="introduction"></a>
 ## Introduction
-## 소개
+## 시작하기
 
 [Laravel Mix](https://github.com/laravel-mix/laravel-mix), a package developed by [Laracasts](https://laracasts.com) creator Jeffrey Way, provides a fluent API for defining [webpack](https://webpack.js.org) build steps for your Laravel application using several common CSS and JavaScript pre-processors.
 

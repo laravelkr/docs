@@ -5,12 +5,12 @@
 - [시작하기](#introduction)
 - [Running Database Queries](#running-database-queries)
 - [데이터베이스 쿼리 실행하기](#running-database-queries)
-  - [Chunking Results](#chunking-results)
-  - [결과 분활 하기](#chunking-results)
-  - [Streaming Results Lazily](#streaming-results-lazily)
-  - [결과 지연 스트리밍](#streaming-results-lazily)
-  - [Aggregates](#aggregates)
-  - [Aggregates-집계문](#aggregates)
+    - [Chunking Results](#chunking-results)
+    - [결과 분활 하기](#chunking-results)
+    - [Streaming Results Lazily](#streaming-results-lazily)
+    - [결과 지연 스트리밍](#streaming-results-lazily)
+    - [Aggregates](#aggregates)
+    - [Aggregates-집계문](#aggregates)
 - [Select Statements](#select-statements)
 - [Select-선택 구문](#select-statements)
 - [Raw Expressions](#raw-expressions)
@@ -21,46 +21,46 @@
 - [Unions-유니온](#unions)
 - [Basic Where Clauses](#basic-where-clauses)
 - [기본 Where 절](#basic-where-clauses)
-  - [Where Clauses](#where-clauses)
-  - [Where 절](#where-clauses)
-  - [Or Where Clauses](#or-where-clauses)
-  - [Or Where 절](#or-where-clauses)
-  - [Where Not Clauses](#where-not-clauses)
-  - [Where Not 절](#where-not-clauses)
-  - [JSON Where Clauses](#json-where-clauses)
-  - [JSON Where 절](#json-where-clauses)
-  - [Additional Where Clauses](#additional-where-clauses)
-  - [추가 Where 절](#additional-where-clauses)
-  - [Logical Grouping](#logical-grouping)
-  - [논리적 그룹화](#logical-grouping)
+    - [Where Clauses](#where-clauses)
+    - [Where 절](#where-clauses)
+    - [Or Where Clauses](#or-where-clauses)
+    - [Or Where 절](#or-where-clauses)
+    - [Where Not Clauses](#where-not-clauses)
+    - [Where Not 절](#where-not-clauses)
+    - [JSON Where Clauses](#json-where-clauses)
+    - [JSON Where 절](#json-where-clauses)
+    - [Additional Where Clauses](#additional-where-clauses)
+    - [추가 Where 절](#additional-where-clauses)
+    - [Logical Grouping](#logical-grouping)
+    - [논리적 그룹화](#logical-grouping)
 - [Advanced Where Clauses](#advanced-where-clauses)
 - [보다 복잡한 Where 절](#advanced-where-clauses)
-  - [Where Exists Clauses](#where-exists-clauses)
-  - [존재여부를 판단하는 Where 절](#where-exists-clauses)
-  - [Subquery Where Clauses](#subquery-where-clauses)
-  - [서브쿼리 Where 절](#subquery-where-clauses)
-  - [Full Text Where Clauses](#full-text-where-clauses)
-  - [Full Text Where 절](#full-text-where-clauses)
+    - [Where Exists Clauses](#where-exists-clauses)
+    - [존재여부를 판단하는 Where 절](#where-exists-clauses)
+    - [Subquery Where Clauses](#subquery-where-clauses)
+    - [서브쿼리 Where 절](#subquery-where-clauses)
+    - [Full Text Where Clauses](#full-text-where-clauses)
+    - [풀 텍스트 Where 절](#full-text-where-clauses)
 - [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
 - [Ordering, Grouping, Limit & Offset](#ordering-grouping-limit-and-offset)
-  - [Ordering](#ordering)
-  - [Ordering](#ordering)
-  - [Grouping](#grouping)
-  - [Grouping](#grouping)
-  - [Limit & Offset](#limit-and-offset)
-  - [Limit & Offset](#limit-and-offset)
+    - [Ordering](#ordering)
+    - [Ordering](#ordering)
+    - [Grouping](#grouping)
+    - [Grouping](#grouping)
+    - [Limit & Offset](#limit-and-offset)
+    - [Limit & Offset](#limit-and-offset)
 - [Conditional Clauses](#conditional-clauses)
 - [Conditional-조건적 where 절](#conditional-clauses)
 - [Insert Statements](#insert-statements)
 - [Insert-삽입 구문](#insert-statements)
-  - [Upserts](#upserts)
-  - [Upserts](#upserts)
+    - [Upserts](#upserts)
+    - [Upserts](#upserts)
 - [Update Statements](#update-statements)
 - [Update-수정 구문](#update-statements)
-  - [Updating JSON Columns](#updating-json-columns)
-  - [JSON 컬럼 업데이트](#updating-json-columns)
-  - [Increment & Decrement](#increment-and-decrement)
-  - [Increment-증가 & Decrement-감소](#increment-and-decrement)
+    - [Updating JSON Columns](#updating-json-columns)
+    - [JSON 컬럼 업데이트](#updating-json-columns)
+    - [Increment & Decrement](#increment-and-decrement)
+    - [Increment-증가 & Decrement-감소](#increment-and-decrement)
 - [Delete Statements](#delete-statements)
 - [Delete-삭제 구문](#delete-statements)
 - [Pessimistic Locking](#pessimistic-locking)
@@ -80,10 +80,10 @@ The Laravel query builder uses PDO parameter binding to protect your application
 
 라라벨의 쿼리 빌더는 PDO 파라미터 바인딩을 사용하여 SQL injection 공격을 방지합니다. 따라서 쿼리 빌더에 쿼리 바인딩으로 전달된 문자열을 정리할 필요가 없습니다.
 
-> **Warning**
+> **Warning**  
 > PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> **Warning**
+> **Warning**  
 > PDO는 컬럼명 바인딩을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 사용자 입력이 쿼리에서 참조하는 컬럼 이름을 지시하도록 허용해서는 안됩니다.
 
 <a name="running-database-queries"></a>
@@ -104,15 +104,14 @@ You may use the `table` method provided by the `DB` facade to begin a query. The
 
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\DB;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show a list of all of the application's users.
-         *
-         * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(): View
         {
             $users = DB::table('users')->get();
 
@@ -132,10 +131,10 @@ The `get` method returns an `Illuminate\Support\Collection` instance containing 
         echo $user->name;
     }
 
-> **Note**
+> **Note**  
 > Laravel collections provide a variety of extremely powerful methods for mapping and reducing data. For more information on Laravel collections, check out the [collection documentation](/docs/{{version}}/collections).
 
-> **Note**
+> **Note**  
 > 라라벨 컬렉션은 데이터를 매핑하고 축소를 위한 매우 강력한 메소드를 다양하게 제공합니다 라라벨 컬렉션의 더 많은 정보를 확인하고 싶다면 [컬렉션 문서](/docs/{{version}}/collections)를 확인하세요.
 
 <a name="retrieving-a-single-row-column-from-a-table"></a>
@@ -179,7 +178,7 @@ If you would like to retrieve an `Illuminate\Support\Collection` instance contai
         echo $title;
     }
 
-You may specify the column that the resulting collection should use as its keys by providing a second argument to the `pluck` method:
+ You may specify the column that the resulting collection should use as its keys by providing a second argument to the `pluck` method:
 
 `pluck` 메소드에 두 번째 인수를 입력하여 결과 컬렉션이 키로 사용하는 컬럼을 지정할 수 있습니다 .
 
@@ -197,11 +196,12 @@ If you need to work with thousands of database records, consider using the `chun
 
 데이터베이스 레코드가 많은 작업을 수행해야 한다면, `DB` 파사드가 제공하는 `chunk` 메소드를 사용하는 것을 고려하십시오. 이 메소드는 한번에 결과에 대한 하나의 작은 청크로 획득하고, 각각의 청크를 `Closure` 를 통해서 처리합니다. 예제로 `users` 테이블을 한번에 100개의 레코드 청크로 전체 검색해 보겠습니다.
 
+    use Illuminate\Support\Collection;
     use Illuminate\Support\Facades\DB;
 
-    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function (Collection $users) {
         foreach ($users as $user) {
-            //
+            // ...
         }
     });
 
@@ -209,7 +209,7 @@ You may stop further chunks from being processed by returning `false` from the c
 
 클로저에서 `false`를 반환하여, 더이상의 청크를 처리하지 않도록 중단할 수 있습니다.
 
-    DB::table('users')->orderBy('id')->chunk(100, function ($users) {
+    DB::table('users')->orderBy('id')->chunk(100, function (Collection $users) {
         // Process the records...
 
         return false;
@@ -220,7 +220,7 @@ If you are updating database records while chunking results, your chunk results 
 결과를 청킹 하는 동안 데이터베이스 레코드를 업데이트하는 경우 청크 결과가 예상치 못한 방식으로 변경될 수 있습니다. 청킹 중 검색된 레코드를 업데이트 하려는 경우 항상 `chunkById` 메소드를 사용하는 것이 좋습니다. 이 메소드는 레코드의 기본 키를 기반으로 결과에 자동으로 페이징 합니다.
 
     DB::table('users')->where('active', false)
-        ->chunkById(100, function ($users) {
+        ->chunkById(100, function (Collection $users) {
             foreach ($users as $user) {
                 DB::table('users')
                     ->where('id', $user->id)
@@ -228,10 +228,10 @@ If you are updating database records while chunking results, your chunk results 
             }
         });
 
-> **Warning**
+> **Warning**  
 > When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the chunked results.
 
-> **Warning**
+> **Warning**  
 > 청크 콜백 내에서 레코드를 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 청크 결과에 포함되지 않을 수 있습니다.
 
 <a name="streaming-results-lazily"></a>
@@ -245,8 +245,8 @@ The `lazy` method works similarly to [the `chunk` method](#chunking-results) in 
 ```php
 use Illuminate\Support\Facades\DB;
 
-DB::table('users')->orderBy('id')->lazy()->each(function ($user) {
-    //
+DB::table('users')->orderBy('id')->lazy()->each(function (object $user) {
+    // ...
 });
 ```
 
@@ -256,17 +256,17 @@ Once again, if you plan to update the retrieved records while iterating over the
 
 ```php
 DB::table('users')->where('active', false)
-    ->lazyById()->each(function ($user) {
+    ->lazyById()->each(function (object $user) {
         DB::table('users')
             ->where('id', $user->id)
             ->update(['active' => true]);
     });
 ```
 
-> **Warning**
+> **Warning**  
 > When updating or deleting records while iterating over them, any changes to the primary key or foreign keys could affect the chunk query. This could potentially result in records not being included in the results.
 
-> **Warning**
+> **Warning**  
 > 레코드를 반복하며 업데이트하거나 삭제할 때 기본 키나 외래 키를 변경하면 청크 쿼리에 영향을 줄 수 있습니다. 이로 인해 잠재적으로 레코드가 결과에 포함되지 않을 수 있습니다.
 
 <a name="aggregates"></a>
@@ -353,10 +353,10 @@ Sometimes you may need to insert an arbitrary string into a query. To create a r
                  ->groupBy('status')
                  ->get();
 
-> **Warning**
+> **Warning**  
 > Raw statements will be injected into the query as strings, so you should be extremely careful to avoid creating SQL injection vulnerabilities.
 
-> **Warning**
+> **Warning**  
 > 이러한 구문들은 쿼리를 문자열 형태로 주입하기 때문에, SQL 인젝션에 취약하지 않도록 특별히 주의해야 합니다!
 
 <a name="raw-methods"></a>
@@ -488,7 +488,7 @@ You may also specify more advanced join clauses. To get started, pass a closure 
 보다 복잡한 join 절도 지정할 수 있습니다. 시작하려면 `join` 메소드의 두 번째 인자로 클로저를 전달하십시오. 클로저는 `Illuminate\Database\Query\JoinClause`의 인스턴스를 전달받아 `join` 절에 제약사항을 지정할 것입니다.
 
     DB::table('users')
-            ->join('contacts', function ($join) {
+            ->join('contacts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
             })
             ->get();
@@ -499,7 +499,7 @@ join에 "where" 절을 사용 하려면 `JoinClause` 인스턴스가 제공하�
 
 
     DB::table('users')
-            ->join('contacts', function ($join) {
+            ->join('contacts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'contacts.user_id')
                      ->where('contacts.user_id', '>', 5);
             })
@@ -519,7 +519,7 @@ You may use the `joinSub`, `leftJoinSub`, and `rightJoinSub` methods to join a q
                        ->groupBy('user_id');
 
     $users = DB::table('users')
-            ->joinSub($latestPosts, 'latest_posts', function ($join) {
+            ->joinSub($latestPosts, 'latest_posts', function (JoinClause $join) {
                 $join->on('users.id', '=', 'latest_posts.user_id');
             })->get();
 
@@ -598,10 +598,10 @@ You may also pass an array of conditions to the `where` function. Each element o
         ['subscribed', '<>', '1'],
     ])->get();
 
-> **Warning**
+> **Warning**  
 > PDO does not support binding column names. Therefore, you should never allow user input to dictate the column names referenced by your queries, including "order by" columns.
 
-> **Warning**
+> **Warning**  
 > PDO는 바인딩 컬럼 이름을 지원하지 않습니다. 따라서 "order by" 컬럼을 포함하여 쿼리에서 참조하는 컬럼 이름을 사용자 입력이 지시하도록 허용해서는 안 됩니다.
 
 <a name="or-where-clauses"></a>
@@ -623,11 +623,13 @@ If you need to group an "or" condition within parentheses, you may pass a closur
 
     $users = DB::table('users')
                 ->where('votes', '>', 100)
-                ->orWhere(function($query) {
+                ->orWhere(function (Builder $query) {
                     $query->where('name', 'Abigail')
                           ->where('votes', '>', 50);
                 })
                 ->get();
+
+The example above will produce the following SQL:
 
 위의 예제는 아래의 SQL 문을 생성합니다.
 
@@ -635,10 +637,10 @@ If you need to group an "or" condition within parentheses, you may pass a closur
 select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 ```
 
-> **Warning**
+> **Warning**  
 > You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> **Warning**
+> **Warning**  
 > 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="where-not-clauses"></a>
@@ -650,7 +652,7 @@ The `whereNot` and `orWhereNot` methods may be used to negate a given group of q
 `whereNot` 과 `orWhereNot` 메소드는 주어진 쿼리 제약조건그룹에 해당하지 않는 결과를 얻는데 사용합니다. 예를 들어, 다음의 예제는 'clearance' 가 'true' 이거나 'price' 가 10 미만인 제품을 제외한 결과를 확인할 수 있습니다. 
 
     $products = DB::table('products')
-                    ->whereNot(function ($query) {
+                    ->whereNot(function (Builder $query) {
                         $query->where('clearance', true)
                               ->orWhere('price', '<', 10);
                     })
@@ -781,10 +783,10 @@ select * from comments where user_id in (
 )
 ```
 
-> **Warning**
+> **Warning**  
 > If you are adding a large array of integer bindings to your query, the `whereIntegerInRaw` or `whereIntegerNotInRaw` methods may be used to greatly reduce your memory usage.
 
-> **Warning**
+> **Warning**  
 > 쿼리에 큰 정수 배열을 추가하는 경우 `whereIntegerInRaw` 또는 `whereIntegerNotInRaw` 메서드를 사용하여 메모리 사용량을 크게 줄일 수 있습니다.
 
 **whereNull / whereNotNull / orWhereNull / orWhereNotNull**
@@ -888,7 +890,7 @@ Sometimes you may need to group several "where" clauses within parentheses in or
 
     $users = DB::table('users')
                ->where('name', '=', 'John')
-               ->where(function ($query) {
+               ->where(function (Builder $query) {
                    $query->where('votes', '>', 100)
                          ->orWhere('title', '=', 'Admin');
                })
@@ -902,10 +904,10 @@ As you can see, passing a closure into the `where` method instructs the query bu
 select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 ```
 
-> **Warning**
+> **Warning**  
 > You should always group `orWhere` calls in order to avoid unexpected behavior when global scopes are applied.
 
-> **Warning**
+> **Warning**  
 > 글로벌 스코프가 적용될 때 예상치 못한 동작이 실행되는 것을 방지하기 위해서 항상 `orWhere` 그룹을 호출해야합니다.
 
 <a name="advanced-where-clauses"></a>
@@ -921,16 +923,28 @@ The `whereExists` method allows you to write "where exists" SQL clauses. The `wh
 `whereExists` 메소드를 사용하면 "where exists" SQL 절을 작성할 수 있습니다. `whereExists` 메소드는 쿼리 빌더 인스턴스를 인자로 받아들이는 클로저를 받으므로 "exists" 절 내부에 위치해야 하는 쿼리를 정의할 수 있습니다.
 
     $users = DB::table('users')
-               ->whereExists(function ($query) {
+               ->whereExists(function (Builder $query) {
                    $query->select(DB::raw(1))
                          ->from('orders')
                          ->whereColumn('orders.user_id', 'users.id');
                })
                ->get();
 
-The query above will produce the following SQL:
+Alternatively, you may provide a query object to the `whereExists` method instead of a closure:
 
-위의 쿼리는 다음과 같은 SQL을 생성합니다.
+또는 클로저 대신 `whereExists` 메서드에 쿼리 객체를 제공할 수 있습니다.
+
+    $orders = DB::table('orders')
+                    ->select(DB::raw(1))
+                    ->whereColumn('orders.user_id', 'users.id');
+
+    $users = DB::table('users')
+                        ->whereExists($orders)
+                        ->get();
+
+Both of the examples above will produce the following SQL:
+
+위의 두 예는 모두 다음 SQL 문을 생성합니다.
 
 ```sql
 select * from users
@@ -950,8 +964,9 @@ Sometimes you may need to construct a "where" clause that compares the results o
 주어진 값에 대한 서브쿼리의 결과를 비교하는 "where" 절을 생성해야 할때, 클로저와 값을 `where` 메서드에 전달하면 됩니다. 예를 들어 다음 쿼리는 주어진 유형의 최근 "membership"을 가진 모든 유저를 검색합니다.
 
     use App\Models\User;
+    use Illuminate\Database\Query\Builder;
 
-    $users = User::where(function ($query) {
+    $users = User::where(function (Builder $query) {
         $query->select('type')
             ->from('membership')
             ->whereColumn('membership.user_id', 'users.id')
@@ -964,8 +979,9 @@ Or, you may need to construct a "where" clause that compares a column to the res
 또는 컬럼을 서브쿼리의 결과와 비교하는 "where" 절을 구성해야 하는 경우 컬럼명, 연산자, 클로저를 `where` 메소드에 전달하여 됩니다. 예를 들어 다음 쿼리는 amount가 평균 미만인 모든 income 레코드를 검색합니다.
 
     use App\Models\Income;
+    use Illuminate\Database\Query\Builder;
 
-    $incomes = Income::where('amount', '<', function ($query) {
+    $incomes = Income::where('amount', '<', function (Builder $query) {
         $query->selectRaw('avg(i.amount)')->from('incomes as i');
     })->get();
 
@@ -973,10 +989,10 @@ Or, you may need to construct a "where" clause that compares a column to the res
 ### Full Text Where Clauses
 ### Full Text Where 절
 
-> **Warning**
+> **Warning**  
 > Full text where clauses are currently supported by MySQL and PostgreSQL.
 
-> **Warning**
+> **Warning**  
 > Full text where 절은 현재 MySQL과 PostgreSQL을 지원합니다.
 
 The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
@@ -1135,10 +1151,10 @@ Sometimes you may want certain query clauses to apply to a query based on anothe
 
 때로는 특정 쿼리 절이 다른 조건에 따라 쿼리에 적용되기를 원할 수 있습니다. 예를 들어, 현재의 HTTP 요청에서 주어진 입력값이 존재할 때에만 `where` 구문을 적용하고 싶을 수도 있습니다. 이 경우 `when` 메소드를 사용할 수 있습니다.
 
-    $role = $request->input('role');
+    $role = $request->string('role');
 
     $users = DB::table('users')
-                    ->when($role, function ($query, $role) {
+                    ->when($role, function (Builder $query, string $role) {
                         $query->where('role_id', $role);
                     })
                     ->get();
@@ -1151,12 +1167,12 @@ You may pass another closure as the third argument to the `when` method. This cl
 
 `when` 메소드의 세번째 인수로 또다른 클로저를 전달할 수 있습니다. 이 클로저는 첫번째 파라미터가 `false` 일때만 실행됩니다. 다음은 이 기능을 어떻게 사용하는지 보여주기 위한 예로, 쿼리의 기본 정렬을 구성한 것입니다.
 
-    $sortByVotes = $request->input('sort_by_votes');
+    $sortByVotes = $request->boolean('sort_by_votes');
 
     $users = DB::table('users')
-                    ->when($sortByVotes, function ($query, $sortByVotes) {
+                    ->when($sortByVotes, function (Builder $query, bool $sortByVotes) {
                         $query->orderBy('votes');
-                    }, function ($query) {
+                    }, function (Builder $query) {
                         $query->orderBy('name');
                     })
                     ->get();
@@ -1214,10 +1230,10 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> **Warning**
+> **Warning**  
 > When using PostgreSQL the `insertGetId` method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the column name as the second parameter to the `insertGetId` method.
 
-> **Warning**
+> **Warning**  
 > PostgreSQL에서 `insertGetId` 메소드를 사용하는 경우 auto-incrementing 컬럼의 이름은 `id` 이어야 합니다. 다른 이름의 ID를 원한다면는 `insertGetId` 메소드의 두 번째 인자로 컬럼 이름을 전달 하십시오.
 
 <a name="upserts"></a>
@@ -1228,7 +1244,7 @@ The `upsert` method will insert records that do not exist and update the records
 
 `upsert` 메소드는 존재하지 않는 레코드는 삽입하고 이미 존재하는 레코드는 지정한 값으로 업데이트합니다. 메소드의 첫 번째 인수는 삽입하거나 업데이트할 값으로 구성됩니다. 두 번째 인수는 연결된 테이블 내에서 레코드를 고유하게 식별할 수 있는 컬럼을 나열합니다. 메서드의 세 번째이자 마지막 인수는 일치하는 레코드가 데이터베이스에 이미 있는 경우 업데이트해야 하는 컬럼의 배열입니다.
 
-        DB::table('flights')->upsert(
+    DB::table('flights')->upsert(
         [
             ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
             ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
@@ -1241,10 +1257,10 @@ In the example above, Laravel will attempt to insert two records. If a record al
 
 위의 예제에서 라라벨은 두 개의 레코드를 삽입하려고 시도합니다. 동일한 `departure` 및 `destination` 컬럼 값을 가진 레코드가 이미 존재하는 경우 라라벨은 해당 레코드의 `price` 컬럼을 업데이트합니다.
 
-> **Warning**
+> **Warning**  
 > All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
 
-> **Warning**
+> **Warning**  
 > SQL Server를 제외한 모든 데이터베이스는 `upsert` 메소드의 두 번째 인수의 컬럼은 "primary" 또는 "unique" 인덱스가 있어야 합니다. 또한 MySQL 데이터베이스 드라이버는 `upsert` 메소드의 두 번째 인수를 무시하고 항상 테이블의 "primary" 및 "unique" 인덱스를 사용하여 기존 레코드를 감지합니다.
 
 <a name="update-statements"></a>
@@ -1378,3 +1394,11 @@ You may use the `dd` and `dump` methods while building a query to dump the curre
     DB::table('users')->where('votes', '>', 100)->dd();
 
     DB::table('users')->where('votes', '>', 100)->dump();
+
+The `dumpRawSql` and `ddRawSql` methods may be invoked on a query to dump the query's SQL with all parameter bindings properly substituted:
+
+쿼리에서 `dumpRawSql` 과 `ddRawSql` 메서드를 호출하면 모든 매개 변수 바인딩이 적용된 SQL 덤프를 확인할 수 있습니다. 
+
+    DB::table('users')->where('votes', '>', 100)->dumpRawSql();
+
+    DB::table('users')->where('votes', '>', 100)->ddRawSql();

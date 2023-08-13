@@ -30,10 +30,10 @@ Many web applications require users to verify their email addresses before using
 
 많은 웹 애플리케이션들이 사용자에게 사용 전 이메일 검증을 요구합니다. 라라벨은 여러분이 생성하는 애플리케이션에서 이 기능을 쉽게 구현할 수 있도록 편리한 방법을 제공합니다.
 
-> **Note**
+> **Note**  
 > Want to get started fast? Install one of the [Laravel application starter kits](/docs/{{version}}/starter-kits) in a fresh Laravel application. The starter kits will take care of scaffolding your entire authentication system, including email verification support.
 
-> **Note**
+> **Note**  
 > 빠르게 적용하고 싶으신가요? 새로운 라라벨 애플리케이션에 [Laravel application starter kits](/docs/{{version}}/starter-kits)을 설치합니다. Starter kits은 이메일 검증과 여러 지원을 포함하여 인증 시스템 전체를 스캐 폴딩합니다!
 
 <a name="model-preparation"></a>
@@ -111,10 +111,10 @@ As mentioned previously, a route should be defined that will return a view instr
         return view('auth.verify-email');
     })->middleware('auth')->name('verification.notice');
 
-> **Note**
+> **Note**  
 > When manually implementing email verification, you are required to define the contents of the verification notice view yourself. If you would like scaffolding that includes all necessary authentication and verification views, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 
-> **Note**
+> **Note**  
 > 이메일 검증을 수동으로 구현할 때 이메일 검증 링크 확인을 요청하는 뷰는 여러분이 직접 정의 해야 합니다. 필요한 모든 검증 및 검증 요청 뷰가 포함 된 스캐폴딩을 원하신다면 [Laravel application starter kits](/docs/{{version}}/starter-kits)를 확인하십시오.
 
 <a name="the-email-verification-handler"></a>
@@ -206,10 +206,10 @@ To get started, pass a closure to the `toMailUsing` method provided by the `Illu
         });
     }
 
-> **Note**
+> **Note**  
 > To learn more about mail notifications, please consult the [mail notification documentation](/docs/{{version}}/notifications#mail-notifications).
 
-> **Note**
+> **Note**  
 > 메일 알림에 대한 자세한 내용은 [mail notification documentation](/docs/{{version}}/notifications#mail-notifications)에서 참조하세요.
 
 <a name="events"></a>

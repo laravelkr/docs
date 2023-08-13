@@ -88,10 +88,10 @@ However, you may extend Valet with your own [custom drivers](#custom-valet-drive
 ## Installation
 ## 설치하기
 
-> **Warning**
+> **Warning**  
 > Valet requires macOS and [Homebrew](https://brew.sh/). Before installation, you should make sure that no other programs such as Apache or Nginx are binding to your local machine's port 80.
 
-> **Warning**
+> **Warning**  
 > 발렛은 macOS 및 [Homebrew](https://brew.s/h) 가 필요합니다. 설치하기 전에 Apache 또는 Nginx와 같은 다른 프로그램이 로컬 시스템의 포트 80에 바인딩되어 있지 않은지 확인해야 합니다.
 
 To get started, you first need to ensure that Homebrew is up to date using the `update` command:
@@ -160,10 +160,10 @@ Once this file has been created, you may simply execute the `valet use` command 
 
 이 파일이 생성되면 `valet use` 명령을 실행하기만 하면 이 명령이 파일을 읽어 사이트의 기본 PHP 버전을 결정합니다.
 
-> **Warning**
+> **Warning**  
 > Valet only serves one PHP version at a time, even if you have multiple PHP versions installed.
 
-> **Warning**
+> **Warning**  
 > 발렛은 여러 PHP 버전이 설치되어 있어도 한 번에 하나의 PHP 버전만 제공합니다.
 
 <a name="database"></a>
@@ -374,10 +374,10 @@ To stop sharing your site, you may press `Control + C`.
 
 사이트 공유를 중지하려면 `Control + C`를 누르면 됩니다.
 
-> **Note**
+> **Note**  
 > You may pass additional Ngrok parameters to the share command, such as `valet share --region=eu`. For more information, consult the [ngrok documentation](https://ngrok.com/docs).
 
-> **Note**
+> **Note**  
 > `valet share --region=eu`와 같은 추가 Ngrok 매개변수를 share 명령에 전달할 수 있습니다. 자세한 내용은 [ngrok 문서](https://ngrok.com/docs) 를 참조하세요.
 
 <a name="sharing-sites-via-expose"></a>
@@ -544,10 +544,10 @@ The `isStaticFile` should determine if the incoming request is for a file that i
         return false;
     }
 
-> **Warning**
+> **Warning**  
 > The `isStaticFile` method will only be called if the `serves` method returns `true` for the incoming request and the request URI is not `/`.
 
-> **Warning**
+> **Warning**  
 > `isStaticFile` 메소드는 유입된 요청이 `/` 가 아니고 `serves` 메소드가 `true`를 반환하는 경우에만 호출될 것입니다.
 
 <a name="the-frontcontrollerpath-method"></a>

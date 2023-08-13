@@ -5,42 +5,44 @@
 - [시작하기](#introduction)
 - [Configuration](#configuration)
 - [설정하기](#configuration)
-  - [Driver Prerequisites](#driver-prerequisites)
-  - [드라이버 사전 준비사항](#driver-prerequisites)
+    - [Driver Prerequisites](#driver-prerequisites)
+    - [드라이버 사전 준비사항](#driver-prerequisites)
 - [Cache Usage](#cache-usage)
 - [캐시 사용법](#cache-usage)
-  - [Obtaining A Cache Instance](#obtaining-a-cache-instance)
-  - [캐시 인스턴스 획득하기](#obtaining-a-cache-instance)
-  - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
-  - [캐시에서 아이템 찾기](#retrieving-items-from-the-cache)
-  - [Storing Items In The Cache](#storing-items-in-the-cache)
-  - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
-  - [Removing Items From The Cache](#removing-items-from-the-cache)
-  - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
-  - [The Cache Helper](#the-cache-helper)
-  - [캐시 헬퍼 함수](#the-cache-helper)
+    - [Obtaining A Cache Instance](#obtaining-a-cache-instance)
+    - [캐시 인스턴스 획득하기](#obtaining-a-cache-instance)
+    - [Retrieving Items From The Cache](#retrieving-items-from-the-cache)
+    - [캐시에서 아이템 찾기](#retrieving-items-from-the-cache)
+    - [Storing Items In The Cache](#storing-items-in-the-cache)
+    - [캐시에 아이템 저장하기](#storing-items-in-the-cache)
+    - [Removing Items From The Cache](#removing-items-from-the-cache)
+    - [캐시에서 아이템 삭제하기](#removing-items-from-the-cache)
+    - [The Cache Helper](#the-cache-helper)
+    - [캐시 헬퍼 함수](#the-cache-helper)
 - [Cache Tags](#cache-tags)
 - [캐시 태그](#cache-tags)
-  - [Storing Tagged Cache Items](#storing-tagged-cache-items)
-  - [태그가 추가된 캐시 아이템 저장하기](#storing-tagged-cache-items)
-  - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
-  - [태그로 캐시 아이템 엑세스하기](#accessing-tagged-cache-items)
-  - [Removing Tagged Cache Items](#removing-tagged-cache-items)
-  - [태그가 추가된 캐시 아이템 삭제하기](#removing-tagged-cache-items)
+    - [Storing Tagged Cache Items](#storing-tagged-cache-items)
+    - [태그가 추가된 캐시 아이템 저장하기](#storing-tagged-cache-items)
+    - [Accessing Tagged Cache Items](#accessing-tagged-cache-items)
+    - [태그로 캐시 아이템 엑세스하기](#accessing-tagged-cache-items)
+    - [Removing Tagged Cache Items](#removing-tagged-cache-items)
+    - [태그가 추가된 캐시 아이템 삭제하기](#removing-tagged-cache-items)
+    - [Pruning Stale Cache Tags](#pruning-stale-cache-tags)
+    - [오래된 캐시 태그 정리](#pruning-stale-cache-tags)
 - [Atomic Locks](#atomic-locks)
 - [원자 잠금장치](#atomic-locks)
-  - [Driver Prerequisites](#lock-driver-prerequisites)
-  - [드라이버 전제 조건](#lock-driver-prerequisites)
-  - [Managing Locks](#managing-locks)
-  - [잠금 관리](#managing-locks)
-  - [Managing Locks Across Processes](#managing-locks-across-processes)
-  - [프로세스 간 잠금 관리](#managing-locks-across-processes)
+    - [Driver Prerequisites](#lock-driver-prerequisites)
+    - [드라이버 전제 조건](#lock-driver-prerequisites)
+    - [Managing Locks](#managing-locks)
+    - [잠금 관리](#managing-locks)
+    - [Managing Locks Across Processes](#managing-locks-across-processes)
+    - [프로세스 간 잠금 관리](#managing-locks-across-processes)
 - [Adding Custom Cache Drivers](#adding-custom-cache-drivers)
 - [사용자 정의 캐시 드라이버 추가하기](#adding-custom-cache-drivers)
-  - [Writing The Driver](#writing-the-driver)
-  - [드라이버 작성하기](#writing-the-driver)
-  - [Registering The Driver](#registering-the-driver)
-  - [드라이버 등록하기](#registering-the-driver)
+    - [Writing The Driver](#writing-the-driver)
+    - [드라이버 작성하기](#writing-the-driver)
+    - [Registering The Driver](#registering-the-driver)
+    - [드라이버 등록하기](#registering-the-driver)
 - [Events](#events)
 - [이벤트](#events)
 
@@ -80,16 +82,16 @@ When using the `database` cache driver, you will need to set up a table to conta
 
 `database` 캐시 드라이버를 사용할 때에는, 캐시 정보를 담아둘 테이블을 설정할 필요가 있습니다. 다음과 같이 테이블을 설정하는 `Scheme`를 확인하십시오.
 
-    Schema::create('cache', function ($table) {
+    Schema::create('cache', function (Blueprint $table) {
         $table->string('key')->unique();
         $table->text('value');
         $table->integer('expiration');
     });
 
-> **Note**
+> **Note**  
 > You may also use the `php artisan cache:table` Artisan command to generate a migration with the proper schema.
 
-> **Note**
+> **Note**  
 > 적절한 스키마 마이그레이션을 생성하기 위해 `php artisan cache:table` Artisan 명령어를 사용할 수도 있습니다.
 
 <a name="memcached"></a>
@@ -168,14 +170,14 @@ To obtain a cache store instance, you may use the `Cache` facade, which is what 
     {
         /**
          * Show a list of all users of the application.
-         *
-         * @return Response
          */
-        public function index()
+        public function index(): array
         {
             $value = Cache::get('key');
 
-            //
+            return [
+                // ...
+            ];
         }
     }
 
@@ -220,7 +222,7 @@ The `has` method may be used to determine if an item exists in the cache. This m
 `has` 메서드는 캐시에 항목이 있는지 확인하는 데 사용할 수 있습니다. 이 메서드는 항목이 존재하지만 값이 `null`인 경우에도 `false`를 반환합니다.
 
     if (Cache::has('key')) {
-        //
+        // ...
     }
 
 <a name="incrementing-decrementing-values"></a>
@@ -231,6 +233,10 @@ The `increment` and `decrement` methods may be used to adjust the value of integ
 
 `increment` 와 `decrement` 메소드는 캐시에 들어 있는 정수형 아이템의 값을 변경하는데 사용합니다. 두 메소드는 모두 해당 아이템의 값을 얼마나 증가 또는 감소 시킬지 결정하는 두 번째 인자를 선택적으로 전달할 수 있습니다.
 
+    // Initialize the value if it does not exist...
+    Cache::add('key', 0, now()->addHours(4));
+
+    // Increment or decrement the value...
     Cache::increment('key');
     Cache::increment('key', $amount);
     Cache::decrement('key');
@@ -312,10 +318,10 @@ The `forever` method may be used to store an item in the cache permanently. Sinc
 
     Cache::forever('key', 'value');
 
-> **Note**
+> **Note**  
 > If you are using the Memcached driver, items that are stored "forever" may be removed when the cache reaches its size limit.
 
-> **Note**
+> **Note**  
 > 만약 Memcached 드라이버를 사용중이라면, "영구적으로" 저장된 아이템들은 캐시의 사이즈 제한에 도달한 경우 제거될 것입니다.
 
 <a name="removing-items-from-the-cache"></a>
@@ -342,10 +348,10 @@ You may clear the entire cache using the `flush` method:
 
     Cache::flush();
 
-> **Warning**
+> **Warning**  
 > Flushing the cache does not respect your configured cache "prefix" and will remove all entries from the cache. Consider this carefully when clearing a cache which is shared by other applications.
 
-> **Warning**
+> **Warning**  
 > 캐시를 플러시하면 설정된 캐시 "접두사"가 적용되지 않으며, 캐시에서 모든 항목이 제거됩니다. 다른 애플리케이션에서 공유하는 캐시를 지울 때 이 점을 주의 깊게 고려하십시오.
 
 <a name="the-cache-helper"></a>
@@ -374,29 +380,29 @@ When the `cache` function is called without any arguments, it returns an instanc
         return DB::table('users')->get();
     });
 
-> **Note**
+> **Note**  
 > When testing call to the global `cache` function, you may use the `Cache::shouldReceive` method just as if you were [testing the facade](/docs/{{version}}/mocking#mocking-facades).
 
-> **Note**
+> **Note**  
 > 전역 `cache` 함수 호출을 테스트 할 때 [파사드 테스트](/docs/{{version}}/mocking#mocking-facades )처럼 `Cache::shouldReceive` 메소드를 사용할 수 있습니다.
 
 <a name="cache-tags"></a>
 ## Cache Tags
 ## 캐시 태그
 
-> **Warning**
+> **Warning**  
 > Cache tags are not supported when using the `file`, `dynamodb`, or `database` cache drivers. Furthermore, when using multiple tags with caches that are stored "forever", performance will be best with a driver such as `memcached`, which automatically purges stale records.
 
-> **Warning**
+> **Warning**  
 > `file`, `dynamodb` 또는 `database` 캐시 드라이버를 사용하는 경우 캐시 태그가 지원되지 않습니다. 또한 "forever"로 저장된 캐시와 함께 여러 태그를 사용할 때 만료된 데이터를 자동으로 제거하는 `memcached`와 같은 드라이버를 사용하면 성능이 가장 좋습니다.
 
 <a name="storing-tagged-cache-items"></a>
 ### Storing Tagged Cache Items
 ### 태그가 지정된 캐시 항목 저장
 
-Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. Items stored via tags may not be accessed without also providing the tags that were used to store the value. For example, let's access a tagged cache and `put` a value into the cache:
+Cache tags allow you to tag related items in the cache and then flush all cached values that have been assigned a given tag. You may access a tagged cache by passing in an ordered array of tag names. For example, let's access a tagged cache and `put` a value into the cache:
 
-캐시 태그를 사용하면 캐시의 관련 항목에 태그를 지정한 다음 지정된 태그가 할당 된 모든 캐시 된 값을 플러시 할 수 있습니다. 태그 이름의 정렬 된 배열을 전달하여 태그가 지정된 캐시에 액세스 할 수 있습니다. 태그를 통해 저장된 항목은 값을 저장하는 데 사용된 태그를 제공하지 않으면 액세스할 수 없습니다. 예를 들어, 태그가 지정된 캐시에 액세스하고 캐시의 `put`값에 액세스 해 보겠습니다.
+캐시 태그를 사용하면 캐시의 관련 항목에 태그를 지정한 다음 지정된 태그가 할당 된 모든 캐시 된 값을 플러시 할 수 있습니다. 태그 이름의 정렬 된 배열을 전달하여 태그가 지정된 캐시에 액세스 할 수 있습니다. 예를 들어, 태그가 지정된 캐시에 액세스하고 캐시의 `put`값에 액세스 해 보겠습니다.
 
     Cache::tags(['people', 'artists'])->put('John', $john, $seconds);
 
@@ -406,9 +412,9 @@ Cache tags allow you to tag related items in the cache and then flush all cached
 ### Accessing Tagged Cache Items
 ### 태그가 지정된 캐시 항목 액세스
 
-To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
+Items stored via tags may not be accessed without also providing the tags that were used to store the value. To retrieve a tagged cache item, pass the same ordered list of tags to the `tags` method and then call the `get` method with the key you wish to retrieve:
 
-태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
+태그를 통해 저장된 항목은 값을 저장하는 데 사용된 태그를 제공하지 않으면 액세스할 수 없습니다. 태그가 지정된 캐시 항목을 검색하려면 동일한 순서의 태그 목록을 `tags` 메서드에 전달한 다음 검색하려는 키로 `get` 메서드를 호출합니다.
 
     $john = Cache::tags(['people', 'artists'])->get('John');
 
@@ -430,14 +436,30 @@ In contrast, this statement would remove only cached values tagged with `authors
 
     Cache::tags('authors')->flush();
 
+<a name="pruning-stale-cache-tags"></a>
+### Pruning Stale Cache Tags
+### 오래된 캐시 태그 정리
+
+> **Warning**  
+> Pruning stale cache tags is only necessary when using Redis as your application's cache driver.
+
+> **Warning**  
+> 오래된 캐시 태그 정리는 애플리케이션의 캐시 드라이버로 Redis를 사용할 때만 필요합니다.
+
+In order to properly prune stale cache tag entries when using the Redis cache driver, Laravel's `cache:prune-stale-tags` Artisan command should be [scheduled](/docs/{{version}}/scheduling) in your application's `App\Console\Kernel` class:
+
+Redis 캐시 드라이버를 사용할 때 오래된 캐시 태그 항목을 적절하게 제거하려면 Laravel의 `cache:prune-stale-tags` 아티즌 명령이 애플리케이션의 `App\Console\Kernel` 클래스에서 [스케줄링](/docs/{{version}}/scheduling)되어야 합니다.
+
+    $schedule->command('cache:prune-stale-tags')->hourly();
+
 <a name="atomic-locks"></a>
 ## Atomic Locks
 ## 원자 잠금장치(Atomic-locks)
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 사용하려면 애플리케이션에서 `memcached`, `redis`, `redis`, `database`, `file` 또는 `array` 캐시 드라이버를 애플리케이션의 기본 캐시 드라이버로 사용해야합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야합니다.
 
 <a name="lock-driver-prerequisites"></a>
@@ -448,15 +470,21 @@ In contrast, this statement would remove only cached values tagged with `authors
 #### Database
 #### Database
 
-When using the `database` cache driver, you will need to set up a table to contain your application's cache locks. You'll find an example `Schema` declaration for the table below:
+When using the `database` cache driver, you will need to setup a table to contain your application's cache locks. You'll find an example `Schema` declaration for the table below:
 
 `database` 캐시 드라이버를 사용하는 경우 캐시 잠금을 포함하도록 테이블을 설정해야합니다. 아래에서 대한 테이블의 `Schema` 선언 예제를 찾을 수 있습니다.
 
-    Schema::create('cache_locks', function ($table) {
+    Schema::create('cache_locks', function (Blueprint $table) {
         $table->string('key')->primary();
         $table->string('owner');
         $table->integer('expiration');
     });
+
+> **Note**  
+> If you used the `cache:table` Artisan command to create the database driver's cache table, the migration created by that command already includes a definition for the `cache_locks` table.
+
+> **Note**  
+> `cache:table` 아티즌 명령어를 사용하여 데이터베이스 캐시 드라이버 용도의 테이블을 생성한 경우라면 이미 `cache_locks` 테이블이 포함되어 있습니다.
 
 <a name="managing-locks"></a>
 ### Managing Locks
@@ -464,7 +492,7 @@ When using the `database` cache driver, you will need to set up a table to conta
 
 Atomic locks allow for the manipulation of distributed locks without worrying about race conditions. For example, [Laravel Forge](https://forge.laravel.com) uses atomic locks to ensure that only one remote task is being executed on a server at a time. You may create and manage locks using the `Cache::lock` method:
 
-원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [Laravel Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
+원자 잠금장치(Atomic-locks)은 경쟁 조건에 대한 걱정없이 분산 잠금장치(lock)를 조작 할 수있게합니다. 예를 들어 [라라벨 Forge](https://forge.laravel.com)는 원자 잠금장치(Atomic-locks)을 사용하여 한 번에 하나의 원격 작업 만 서버에서 실행되도록합니다. `Cache::lock` 메소드를 사용하여 잠금장치(lock)을 생성하고 관리 할 수 있습니다.
 
     use Illuminate\Support\Facades\Cache;
 
@@ -480,8 +508,8 @@ The `get` method also accepts a closure. After the closure is executed, Laravel 
 
 `get` 메소드는 Closure를 사용할 수 있습니다. Closure가 실행 된 후 라라벨은 자동으로 잠금장치(lock)을 해제합니다.
 
-    Cache::lock('foo')->get(function () {
-        // Lock acquired indefinitely and automatically released...
+    Cache::lock('foo', 10)->get(function () {
+        // Lock acquired for 10 seconds and automatically released...
     });
 
 If the lock is not available at the moment you request it, you may instruct Laravel to wait for a specified number of seconds. If the lock can not be acquired within the specified time limit, an `Illuminate\Contracts\Cache\LockTimeoutException` will be thrown:
@@ -499,7 +527,7 @@ If the lock is not available at the moment you request it, you may instruct Lara
     } catch (LockTimeoutException $e) {
         // Unable to acquire lock...
     } finally {
-        optional($lock)->release();
+        $lock?->release();
     }
 
 The example above may be simplified by passing a closure to the `block` method. When a closure is passed to this method, Laravel will attempt to acquire the lock for the specified number of seconds and will automatically release the lock once the closure has been executed:
@@ -578,14 +606,14 @@ We just need to implement each of these methods using a MongoDB connection. For 
 
 MongoDB 연결을 사용하여 각각의 메소드를 구현해야 합니다. 각각의 메소드가 어떻게 구현되는가에 대한 예시로, [라라벨 프레임워크 소스코드](https://github.com/laravel/framework) 상에서 `Illuminate\Cache\MemcachedStore` 를 참고하세요. 구현을 완료하면 `Cache` 파사드의 `extend` 메소드를 호출하여 사용자 정의 드라이버 등록을 완료할 수 있습니다.
 
-    Cache::extend('mongo', function ($app) {
+    Cache::extend('mongo', function (Application $app) {
         return Cache::repository(new MongoStore);
     });
 
-> **Note**
+> **Note**  
 > If you're wondering where to put your custom cache driver code, you could create an `Extensions` namespace within your `app` directory. However, keep in mind that Laravel does not have a rigid application structure and you are free to organize your application according to your preferences.
 
-> **Note**
+> **Note**  
 > 만약 여러분이 만든 캐시 드라이버 코드를 어디에 놓아둘지 고민된다면, `app` 디렉토리 안에 `Extensions` 네임스페이스를 만들 수도 있습니다. 하지만, 라라벨은 엄격한 애플리케이션 구조를 가지고 있지 않기 때문에, 어느 곳이든 여러분이 설정하고자 하는 곳에 코드를 둘 수 있다는 점을 기억하세요.
 
 <a name="registering-the-driver"></a>
@@ -601,20 +629,19 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
     namespace App\Providers;
 
     use App\Extensions\MongoStore;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Support\Facades\Cache;
     use Illuminate\Support\ServiceProvider;
 
-    class CacheServiceProvider extends ServiceProvider
+    class AppServiceProvider extends ServiceProvider
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
             $this->app->booting(function () {
-                 Cache::extend('mongo', function ($app) {
+                 Cache::extend('mongo', function (Application $app) {
                      return Cache::repository(new MongoStore);
                  });
              });
@@ -622,12 +649,10 @@ To register the custom cache driver with Laravel, we will use the `extend` metho
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            //
+            // ...
         }
     }
 
@@ -647,6 +672,7 @@ To execute code on every cache operation, you may listen for the [events](/docs/
 
 캐시가 동작할 때에 특정한 코드를 실행하기 위해서는 캐시에 의해 실행되는 [이벤트](/docs/{{version}}/events) 리스너를 등록해야 합니다. 일반적으로 이벤트 리스너에 대한 코드는 애플리케이션의 `App\Providers\EventServiceProvider` 클래스 안에 구성합니다.
 
+    
     use App\Listeners\LogCacheHit;
     use App\Listeners\LogCacheMissed;
     use App\Listeners\LogKeyForgotten;
@@ -655,14 +681,14 @@ To execute code on every cache operation, you may listen for the [events](/docs/
     use Illuminate\Cache\Events\CacheMissed;
     use Illuminate\Cache\Events\KeyForgotten;
     use Illuminate\Cache\Events\KeyWritten;
-
+    
     /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-         CacheHit::class => [
+        CacheHit::class => [
             LogCacheHit::class,
         ],
 

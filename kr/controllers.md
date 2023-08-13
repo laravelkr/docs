@@ -96,7 +96,7 @@ When an incoming request matches the specified route URI, the `show` method on t
 > **Note**  
 > Controllers are not **required** to extend a base class. However, you will not have access to convenient features such as the `middleware` and `authorize` methods.
 
-> **Note**
+> **Note**  
 > 컨트롤러는 기본 컨트롤러 클래스를 **필수**로 상속 받지 않아도 작동합니다. 하지만 기본 컨트롤러 클래스를 상속하지 않는다면 `미들웨어(middleware)` 및 `권한 부여(authorize)` 메서드와 같은 편리한 기능을 사용하기 위한 접근을 할 수 없습니다.
 
 <a name="single-action-controllers"></a>
@@ -142,10 +142,10 @@ php artisan make:controller ProvisionServer --invokable
 ```
 
 > **Note**  
-> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
+> Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization)
 
-> **Note**
-> [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자정의할 수 있습니다.
+> **Note**  
+> [stub publishing](/docs/{{version}}/artisan#stub-customization)를 사용하여 controller stub을 사용자가 정의할 수 있습니다.
 
 <a name="controller-middleware"></a>
 ## Controller Middleware
@@ -503,7 +503,7 @@ If you need to add additional routes to a resource controller beyond the default
 > **Note**  
 > Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
-> **Note**
+> **Note**  
 > 컨트롤러에 포커스를 맞춰야 한다는 것을 기억하세요. 기본 유형(the typical set)의 리소스 엑션 세트 이외의 빈번하게 사용할 엑션이 필요한 경우 컨트롤러를 두 개의 컨트롤러로 분할하는 것, 컨트롤러를 작게 만드는 것을 고려하세요.
 
 <a name="singleton-resource-controllers"></a>

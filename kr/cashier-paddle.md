@@ -120,10 +120,10 @@ First, install the Cashier package for Paddle using the Composer package manager
 composer require laravel/cashier-paddle
 ```
 
-> **Warning**
+> **Warning**  
 > To ensure Cashier properly handles all Paddle events, remember to [set up Cashier's webhook handling](#handling-paddle-webhooks).
 
-> **Warning**
+> **Warning**  
 > 캐셔의 모든 패들 이벤트를 올바르게 처리하도록 하려면 [캐셔 webhook 처리 설정](#handling-paddle-webhooks)을 기억하세요.
 
 <a name="paddle-sandbox"></a>
@@ -268,10 +268,10 @@ In addition to configuring Cashier's currency, you may also specify a locale to 
 CASHIER_CURRENCY_LOCALE=nl_BE
 ```
 
-> **Warning**
+> **Warning**  
 > In order to use locales other than `en`, ensure the `ext-intl` PHP extension is installed and configured on your server.
 
-> **Warning**
+> **Warning**  
 > `en` 이외의 로케일을 사용하려면 `ext-intl` PHP 확장이 서버에 설치 및 설정되어 있는지 확인하세요.
 
 <a name="overriding-default-models"></a>
@@ -355,10 +355,10 @@ For more information on pay links, you may review [the Paddle API documentation 
 
 결제 링크에 대한 자세한 내용은 [결제 링크 생성에 대한 Paddle API 문서](https://developer.paddle.comapi-referenceproduct-apipay-linkscreatepaylink)를 참조하세요.
 
-> **Warning**
+> **Warning**  
 > After a subscription state change, the delay for receiving the corresponding webhook is typically minimal but you should account for this in your application by considering that your user's subscription might not be immediately available after completing the checkout.
 
-> **Warning**
+> **Warning**  
 > 구독 상태가 변경된 후 해당 웹훅 수신 지연은 일반적으로 최소화되지만 체크아웃을 완료한 후 사용자의 구독을 즉시 사용할 수 없을 수도 있다는 점을 고려하여 애플리케이션에서 이를 고려해야 합니다.
 
 <a name="manually-rendering-pay-links"></a>
@@ -436,10 +436,10 @@ Please consult Paddle's [guide on Inline Checkout](https://developer.paddle.com/
 
 인라인 체크아웃의 사용 가능한 옵션에 대한 자세한 내용은 Paddle의 [인라인 체크아웃 가이드](https://developer.paddle.com/guides/how-tos/checkoutinline-checkout) 및 [매개변수 참조](https://developer.paddle.com/reference/paddle-js/parameters)를 참조하세요.
 
-> **Warning**
+> **Warning**  
 > If you would like to also use the `passthrough` option when specifying custom options, you should provide a key / value array as its value. Cashier will automatically handle converting the array to a JSON string. In addition, the `customer_id` passthrough option is reserved for internal Cashier usage.
 
-> **Warning**
+> **Warning**  
 > 사용자 지정 옵션을 지정할 때 `passthrough` 옵션도 사용하려면 키 값 배열을 값으로 제공해야 합니다. 캐셔는 배열을 JSON 문자열로 변환하는 작업을 자동으로 처리합니다. 또한 `customer_id` 패스스루 옵션은 내부 캐셔 사용을 위해 예약되어 있습니다.
 
 <a name="manually-rendering-an-inline-checkout"></a>
@@ -610,10 +610,10 @@ You may display the original listed prices (without coupon discounts) using the 
 </ul>
 ```
 
-> **Warning**
+> **Warning**  
 > When using the prices API, Paddle only allows applying coupons to one-time purchase products and not to subscription plans.
 
-> **Warning**
+> **Warning**  
 > 가격 API를 사용할 때 Paddle은 일회성 구매 제품에만 쿠폰을 적용 할 수 있으며 구독 플랜에는 적용 할 수 없습니다.
 
 <a name="customers"></a>
@@ -748,10 +748,10 @@ You can also pass an array of metadata using the `withMetadata` method:
         ->withMetadata(['key' => 'value'])
         ->create();
 
-> **Warning**
+> **Warning**  
 > When providing metadata, please avoid using `subscription_name` as a metadata key. This key is reserved for internal use by Cashier.
 
-> **Warning**
+> **Warning**  
 > 메타 데이터 제공시 `subscription_name`을 메타 데이터 키로 사용하지 마세요. 이 키는 캐셔 내부 용으로 예약되어 있습니다.
 
 <a name="checking-subscription-status"></a>
@@ -888,10 +888,10 @@ If you would like subscriptions to still be considered active when they are `pas
         Cashier::keepPastDueSubscriptionsActive();
     }
 
-> **Warning**
+> **Warning**  
 > When a subscription is in a `past_due` state it cannot be changed until payment information has been updated. Therefore, the `swap` and `updateQuantity` methods will throw an exception when the subscription is in a `past_due` state.
 
-> **Warning**
+> **Warning**  
 > 구독이 `past_due` 상태인 경우 결제 정보가 업데이트될 때까지 변경할 수 없습니다. 따라서 `swap` 및 `updateQuantity` 메소드는 구독이 `past_due` 상태에 있을 때 예외를 발생시킵니다.
 
 <a name="subscription-scopes"></a>
@@ -991,10 +991,10 @@ If you would like to swap plans and immediately invoice the user instead of wait
 
     $user->subscription('default')->swapAndInvoice($premium = 34567);
 
-> **Warning**
+> **Warning**  
 > Plans may not be swapped when a trial is active. For additional information regarding this limitation, please see the [Paddle documentation](https://developer.paddle.com/api-reference/subscription-api/users/updateuser#usage-notes).
 
-> **Warning**
+> **Warning**  
 > 평가판이 활성 상태일 때는 플랜을 바꿀 수 없습니다. 이 제한 사항에 대한 추가 정보는 [패들 문서](https://developer.paddle.comapi-reference/subscription-api/users/updateuser#usage-notes)를 참조하세요.
 
 <a name="prorations"></a>
@@ -1161,10 +1161,10 @@ To resume a paused a subscription, you may call the `unpause` method on the user
 
     $user->subscription('default')->unpause();
 
-> **Warning**
+> **Warning**  
 > A subscription cannot be modified while it is paused. If you want to swap to a different plan or update quantities you must resume the subscription first.
 
-> **Warning**
+> **Warning**  
 > 일시 중지 된 구독은 수정할 수 없습니다. 다른 플랜으로 교체하거나 수량을 업데이트하려면 먼저 구독을 재개해야합니다.
 
 <a name="cancelling-subscriptions"></a>
@@ -1195,10 +1195,10 @@ If you wish to cancel a subscription immediately, you may call the `cancelNow` m
 
     $user->subscription('default')->cancelNow();
 
-> **Warning**
+> **Warning**  
 > Paddle's subscriptions cannot be resumed after cancellation. If your customer wishes to resume their subscription, they will have to subscribe to a new subscription.
 
-> **Warning**
+> **Warning**  
 > 취소 후에는 Paddle의 구독을 재개 할 수 없습니다. 고객이 구독을 재개하려면 새 구독을 구독해야합니다.
 
 <a name="subscription-trials"></a>
@@ -1209,10 +1209,10 @@ If you wish to cancel a subscription immediately, you may call the `cancelNow` m
 ### With Payment Method Up Front
 ### 결제수단 등록 후 시작하기
 
-> **Warning**
+> **Warning**  
 > While trialing and collecting payment method details up front, Paddle prevents any subscription changes such as swapping plans or updating quantities. If you want to allow a customer to swap plans during a trial the subscription must be cancelled and recreated.
 
-> **Warning**
+> **Warning**  
 > 결제 수단 세부 정보를 미리 평가하고 수집하는 동안 Paddle은 요금제 교환이나 수량 업데이트와 같은 구독의 변경을 방지합니다. 평가판 중에 고객이 요금제를 교체 할 수 있도록 하려면 구독을 취소하고 다시 만들어야합니다.
 
 If you would like to offer trial periods to your customers while still collecting payment method information up front, you should use the `trialDays` method when creating your subscription pay links:
@@ -1234,10 +1234,10 @@ This method will set the trial period ending date on the subscription record wit
 
 이 방법은 애플리케이션 데이터베이스 내의 구독 레코드에 평가 기간 종료 날짜를 설정하고 Paddle이 이 날짜 이후까지 고객에게 청구를 시작하지 않도록 지시합니다.
 
-> **Warning**
+> **Warning**  
 > If the customer's subscription is not cancelled before the trial ending date they will be charged as soon as the trial expires, so you should be sure to notify your users of their trial ending date.
 
-> **Warning**
+> **Warning**  
 > 평가판 종료일 이전에 고객의 구독을 취소하지 않으면 평가판이 만료되는 즉시 요금이 청구되므로 사용자에게 평가판 종료일을 알려야합니다.
 
 You may determine if the user is within their trial period using either the `onTrial` method of the user instance or the `onTrial` method of the subscription instance. The two examples below are equivalent:
@@ -1328,20 +1328,20 @@ You may use the `onGenericTrial` method if you wish to know specifically that th
         // User is within their "generic" trial period...
     }
 
-> **Warning**
+> **Warning**  
 > There is no way to extend or modify a trial period on a Paddle subscription after it has been created.
 
-> **Warning**
+> **Warning**  
 > Paddle 구독이 생성 된 후에는 평가 기간을 연장하거나 수정할 수 없습니다.
 
 <a name="handling-paddle-webhooks"></a>
 ## Handling Paddle Webhooks
 ## 패들 웹훅 처리
 
-> **Note**
+> **Note**  
 > You may use [Valet's `share` command](https://laravel.com/docs/{{version}}/valet#sharing-sites) to help test webhooks during local development.
 
-> **Note**
+> **Note**  
 > [Valet의 `share` 명령어](https://laravel.com/docs/{{version}}/valet#sharing-sites)를 사용하여 로컬 개발 중에 웹훅을 테스트 할 수 있습니다.
 
 Paddle can notify your application of a variety of events via webhooks. By default, a route that points to Cashier's webhook controller is registered by the Cashier service provider. This controller will handle all incoming webhook requests.
@@ -1368,10 +1368,10 @@ To ensure your application can handle Paddle webhooks, be sure to [configure the
 - 결제 성공
 - 구독 결제 성공
 
-> **Warning**
+> **Warning**  
 > Make sure you protect incoming requests with Cashier's included [webhook signature verification](/docs/{{version}}/cashier-paddle#verifying-webhook-signatures) middleware.
 
-> **Warning**
+> **Warning**  
 > 캐셔에 포함 된 [webhook 서명 확인](/docs/{{version}}/cashier-paddle#verifying-webhook-signatures) 미들웨어로 들어오는 요청을 보호하세요.
 
 <a name="webhooks-csrf-protection"></a>
@@ -1597,10 +1597,10 @@ You may optionally specify a specific amount to refund as well as a reason for t
         $receipt->order_id, 5.00, 'Unused product time'
     );
 
-> **Note**
+> **Note**  
 > You can use the `$refundRequestId` as a reference for the refund when contacting Paddle support.
 
-> **Note**
+> **Note**  
 > Paddle 지원팀에 문의 할 때 `$refundRequestId`를 환불 참조로 사용할 수 있습니다.
 
 <a name="receipts"></a>

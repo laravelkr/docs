@@ -33,6 +33,12 @@ If you're only interested in a particular section of the application overview ou
 php artisan about --only=environment
 ```
 
+Or, to explore a specific configuration file's values in detail, you may use the `config:show` Artisan command:
+
+```shell
+php artisan config:show database
+```
+
 <a name="environment-configuration"></a>
 ## Environment Configuration
 
@@ -200,6 +206,12 @@ You should typically run the `php artisan config:cache` command as part of your 
 Once the configuration has been cached, your application's `.env` file will not be loaded by the framework during requests or Artisan commands; therefore, the `env` function will only return external, system level environment variables.
 
 For this reason, you should ensure you are only calling the `env` function from within your application's configuration (`config`) files. You can see many examples of this by examining Laravel's default configuration files. Configuration values may be accessed from anywhere in your application using the `config` function [described above](#accessing-configuration-values).
+
+The `config:clear` command may be used to purge the cached configuration:
+
+```shell
+php artisan config:clear
+```
 
 > **Warning**  
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.

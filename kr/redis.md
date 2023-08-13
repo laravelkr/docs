@@ -325,10 +325,10 @@ Redis의 네이티브 `MULTY` 와 `EXEC` 명령어를 `Redis` 파사드의 `tran
         $redis->incr('total_visits', 1);
     });
 
-> **Warning**
+> **Warning**  
 > When defining a Redis transaction, you may not retrieve any values from the Redis connection. Remember, your transaction is executed as a single, atomic operation and that operation is not executed until your entire closure has finished executing its commands.
 
-> **Warning**
+> **Warning**  
 > 레디스 트랜젝션이 정의 되는 동안 Redis 에서 해당 값을 찾을수 없습니다. 모든 트랜잭션은 원자성이 보장되며 모든 클로저가 실행 될때까지 모든 명령은 실행되지 않음을 기억하세요.
 
 #### Lua Scripts
@@ -356,10 +356,10 @@ In this example, we will increment a counter, inspect its new value, and increme
         return counter
     LUA, 2, 'first-counter', 'second-counter');
 
-> **Warning**
+> **Warning**  
 > Please consult the [Redis documentation](https://redis.io/commands/eval) for more information on Redis scripting.
 
-> **Warning**
+> **Warning**  
 > 레디스 스크립팅에 자세한 내용은 [Redis documentation](https://redis.io/commands/eval) 에서 확인하세요.
 
 <a name="pipelining-commands"></a>

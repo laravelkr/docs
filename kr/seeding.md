@@ -22,10 +22,10 @@ Laravel includes the ability to seed your database with data using seed classes.
 
 라라벨에는 시드 클래스를 사용하여 데이터로 데이터베이스를 시드하는 기능이 포함되어 있습니다. 모든 시드 클래스는 `database/seeders` 디렉토리에 저장됩니다. 기본적으로 `DatabaseSeeder` 클래스가 정의되어 있습니다. 이 클래스에서 `call` 메소드를 사용하여 다른 시드 클래스를 실행할 수 있으므로 시드 순서를 제어할 수 있습니다.
 
-> **Note**
+> **Note**  
 > [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled during database seeding.
 
-> **Note**
+> **Note**  
 > [대량 할당 보호](/docs/{{version}}/eloquent#mass-assignment)는 데이터베이스 시딩 중에 자동으로 비활성화됩니다.
 
 <a name="writing-seeders"></a>
@@ -61,10 +61,8 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
     {
         /**
          * Run the database seeders.
-         *
-         * @return void
          */
-        public function run()
+        public function run(): void
         {
             DB::table('users')->insert([
                 'name' => Str::random(10),
@@ -74,10 +72,10 @@ As an example, let's modify the default `DatabaseSeeder` class and add a databas
         }
     }
 
-> **Note**
+> **Note**  
 > You may type-hint any dependencies you need within the `run` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
-> **Note**
+> **Note**  
 > `run` 메소드에 필요한 모든 의존성의 타입힌트를 지정할 수 있습니다. 이 의존성은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 자동으로 처리됩니다.
 
 <a name="using-model-factories"></a>
@@ -96,10 +94,8 @@ For example, let's create 50 users that each has one related post:
 
     /**
      * Run the database seeders.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         User::factory()
                 ->count(50)
@@ -117,10 +113,8 @@ Within the `DatabaseSeeder` class, you may use the `call` method to execute addi
 
     /**
      * Run the database seeders.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             UserSeeder::class,
@@ -150,10 +144,8 @@ While running seeds, you may want to prevent models from dispatching events. You
 
         /**
          * Run the database seeders.
-         *
-         * @return void
          */
-        public function run()
+        public function run(): void
         {
             $this->call([
                 UserSeeder::class,

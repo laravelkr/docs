@@ -114,11 +114,13 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [diffAssoc](#method-diffassoc)
 [diffKeys](#method-diffkeys)
 [doesntContain](#method-doesntcontain)
+[dot](#method-dot)
 [dump](#method-dump)
 [duplicates](#method-duplicates)
 [duplicatesStrict](#method-duplicatesstrict)
 [each](#method-each)
 [eachSpread](#method-eachspread)
+[ensure](#method-ensure)
 [every](#method-every)
 [except](#method-except)
 [filter](#method-filter)
@@ -136,6 +138,7 @@ For the majority of the remaining collection documentation, we'll discuss each m
 [hasAny](#method-hasany)
 [implode](#method-implode)
 [intersect](#method-intersect)
+[intersectAssoc](#method-intersectAssoc)
 [intersectByKeys](#method-intersectbykeys)
 [isEmpty](#method-isempty)
 [isNotEmpty](#method-isnotempty)
@@ -660,6 +663,19 @@ You may also pass a key / value pair to the `doesntContain` method, which will d
 
 The `doesntContain` method uses "loose" comparisons when checking item values, meaning a string with an integer value will be considered equal to an integer of the same value.
 
+<a name="method-dot"></a>
+#### `dot()` {.collection-method}
+
+The `dot` method flattens a multi-dimensional collection into a single level collection that uses "dot" notation to indicate depth:
+
+    $collection = collect(['products' => ['desk' => ['price' => 100]]]);
+
+    $flattened = $collection->dot();
+
+    $flattened->all();
+
+    // ['products.desk.price' => 100]
+
 <a name="method-dump"></a>
 #### `dump()` {.collection-method}
 
@@ -743,6 +759,20 @@ You may stop iterating through the items by returning `false` from the callback:
     $collection->eachSpread(function (string $name, int $age) {
         return false;
     });
+
+<a name="method-ensure"></a>
+#### `ensure()` {.collection-method}
+
+The `ensure` method may be used to verify that all elements of a collection are of a given type. Otherwise, an `UnexpectedValueException` will be thrown:
+
+    return $collection->ensure(User::class);
+
+Primitive types such as `string`, `int`, `float`, `bool`, and `array` may also be specified:
+
+    return $collection->ensure('int');
+
+> **Warning**
+> The `ensure` method does not guarantee that elements of different types will not be added to the collection at a later time.
 
 <a name="method-every"></a>
 #### `every()` {.collection-method}
@@ -1168,6 +1198,27 @@ The `intersect` method removes any values from the original collection that are 
 
 > **Note**  
 > This method's behavior is modified when using [Eloquent Collections](/docs/{{version}}/eloquent-collections#method-intersect).
+
+<a name="method-intersectAssoc"></a>
+#### `intersectAssoc()` {.collection-method}
+
+The `intersectAssoc` method compares the original collection against another collection or `array`, returning the key / value pairs that are present in all of the given collections:
+
+    $collection = collect([
+        'color' => 'red',
+        'size' => 'M',
+        'material' => 'cotton'
+    ]);
+
+    $intersect = $collection->intersectAssoc([
+        'color' => 'blue',
+        'size' => 'M',
+        'material' => 'polyester'
+    ]);
+
+    $intersect->all();
+
+    // ['size' => 'M']
 
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {.collection-method}
@@ -1892,7 +1943,7 @@ The `reduce` method reduces the collection to a single value, passing the result
 
     $collection = collect([1, 2, 3]);
 
-    $total = $collection->reduce(function (int $carry, int $item) {
+    $total = $collection->reduce(function (?int $carry, int $item) {
         return $carry + $item;
     });
 
@@ -3412,6 +3463,7 @@ Almost all methods available on the `Collection` class are also available on the
 [has](#method-has)
 [implode](#method-implode)
 [intersect](#method-intersect)
+[intersectAssoc](#method-intersectAssoc)
 [intersectByKeys](#method-intersectbykeys)
 [isEmpty](#method-isempty)
 [isNotEmpty](#method-isnotempty)

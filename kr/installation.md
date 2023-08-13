@@ -46,10 +46,10 @@ Whether you are new to PHP web frameworks or have years of experience, Laravel i
 
 PHP 웹 프레임워크를 처음 접하거나 다년간의 경험이 있더라도 라라벨은 함께 성장할 수 있는 프레임워크입니다. 웹 개발자로서의 첫 걸음을 떼도록 돕거나 전문 지식을 한 단계 높일 수 있도록 도와드립니다. 우리는 당신이 무엇을 만들지 기대하고 있습니다.
 
-> **Note**
+> **Note**  
 > New to Laravel? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com) for a hands-on tour of the framework while we walk you through building your first Laravel application.
 
-> **Note**
+> **Note**  
 > 라라벨이 처음인가요? 여러분의 첫 라라벨 애플리케이션을 만드는 과정을 하나하나 보여주는 실습 투어인 [라라벨 부트캠프](https://bootcamp.laravel.com)를 살펴보세요. 
 
 <a name="why-laravel"></a>
@@ -132,7 +132,7 @@ Once you have started the Artisan development server, your application will be a
 > **Note**  
 > If you would like a head start when developing your Laravel application, consider using one of our [starter kits](/docs/{{version}}/starter-kits). Laravel's starter kits provide backend and frontend authentication scaffolding for your new Laravel application.
 
-> **Note**
+> **Note**  
 > 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.
 
 <a name="laravel-and-docker"></a>
@@ -153,7 +153,7 @@ Laravel Sail is a light-weight command-line interface for interacting with Larav
 > **Note**  
 > Already a Docker expert? Don't worry! Everything about Sail can be customized using the `docker-compose.yml` file included with Laravel.
 
-> **Note**
+> **Note**  
 > 이미 도커 전문가이신가요? 괜찮아요! Sail에 대한 모든 것은 Laravel에 포함된 docker-compose.yml 파일을 사용하여 사용자 정의할 수 있습니다.
 
 <a name="getting-started-on-macos"></a>
@@ -193,7 +193,7 @@ Once the application's Docker containers have been started, you can access the a
 > **Note**  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
 
-> **Note**
+> **Note**  
 > 라라벨 Sail에 대해 자세히 알아보려면 [전체 문서](/docs/{{version}}/sail)를 검토하세요.
 
 <a name="getting-started-on-windows"></a>
@@ -207,7 +207,7 @@ Windows 컴퓨터에서 새 라라벨 애플리케이션을 생성하기 전에 
 > **Note**  
 > After installing and enabling WSL2, you should ensure that Docker Desktop is [configured to use the WSL2 backend](https://docs.docker.com/docker-for-windows/wsl/).
 
-> **Note**
+> **Note**  
 > WSL2를 설치하고 활성화한 후에는 Docker Desktop이 [WSL2 백엔드를 사용하도록 구성](https://docs.docker.com/docker-for-windows/wsl/)해야 합니다.
 
 Next, you are ready to create your first Laravel project. Launch [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab) and begin a new terminal session for your WSL2 Linux operating system. Next, you can use a simple terminal command to create a new Laravel project. For example, to create a new Laravel application in a directory named "example-app", you may run the following command in your terminal:
@@ -243,7 +243,7 @@ Once the application's Docker containers have been started, you can access the a
 > **Note**  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
 
-> **Note**
+> **Note**  
 > 라라벨 Sail에 대해 자세히 알아보려면 [전체 문서](/docs/{{version}}/sail)를 검토하세요.
 
 #### Developing Within WSL2
@@ -294,24 +294,24 @@ Once the application's Docker containers have been started, you can access the a
 > **Note**  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
 
-> **Note**
+> **Note**  
 > 라라벨 Sail에 대해 자세히 알아보려면 [전체 문서](/docs/{{version}}/sail)를 검토하세요.
 
 <a name="choosing-your-sail-services"></a>
 ### Choosing Your Sail Services
 ### Sail 서비스 선택
 
-When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, and `mailhog`:
+When creating a new Laravel application via Sail, you may use the `with` query string variable to choose which services should be configured in your new application's `docker-compose.yml` file. Available services include `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, and `mailhog`:
 
-Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `meilisearch`, `minio`, `selenium`, 그리고 `mailhog`가 있습니다.
+Sail을 통해 새 라라벨 애플리케이션을 생성할 때 `with` 쿼리 문자열 변수를 사용하여 새 애플리케이션의 `docker-compose.yml` 파일에서 구성해야 하는 서비스를 선택할 수 있습니다. 사용 가능한 서비스에는 `mysql`, `pgsql`, `mariadb`, `redis`, `memcached`, `Meilisearch`, `minio`, `selenium`, 그리고 `mailhog`가 있습니다.
 
 ```shell
 curl -s "https://laravel.build/example-app?with=mysql,redis" | bash
 ```
 
-If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `meilisearch`, `mailhog`, and `selenium` will be configured.
+If you do not specify which services you would like configured, a default stack of `mysql`, `redis`, `Meilisearch`, `mailhog`, and `selenium` will be configured.
 
-구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `meilisearch`, `mailhog`, 그리고 `selenium`의 기본 스택이 구성됩니다.
+구성할 서비스를 지정하지 않으면 `mysql`, `redis`, `Meilisearch`, `mailhog`, 그리고 `selenium`의 기본 스택이 구성됩니다.
 
 <a name="initial-configuration"></a>
 ## Initial Configuration
@@ -406,10 +406,10 @@ How you want to use Laravel will also dictate the next steps on your journey. Th
 
 라라벨을 어떻게 사용하고 싶은지에 따라 여정의 다음 단계도 결정됩니다. 라라벨을 사용하는 방법은 다양하며 아래 프레임워크에 대한 두 가지 주요 사용 사례를 살펴보겠습니다.
 
-> **Note**
+> **Note**  
 > New to Laravel? Check out the [Laravel Bootcamp](https://bootcamp.laravel.com) for a hands-on tour of the framework while we walk you through building your first Laravel application.
 
-> **Note**
+> **Note**  
 > 라라벨이 처음인가요? 여러분의 첫 라라벨 애플리케이션을 만드는 과정을 하나하나 보여주는 실습 투어인 [라라벨 부트캠프](https://bootcamp.laravel.com)를 살펴보세요. 
 
 <a name="laravel-the-fullstack-framework"></a>
@@ -420,9 +420,9 @@ Laravel may serve as a full stack framework. By "full stack" framework we mean t
 
 라라벨은 풀 스택 프레임워크 역할을 할 수 있습니다. "풀 스택" 프레임워크는 라라벨을 사용하여 요청을 애플리케이션으로 라우팅하고 [블레이드 템플릿](/docs/{{version}}/blade) 또는 [Inertia.js](https://inertiajs.com)와 같은 단일 페이지 애플리케이션 하이브리드 기술을 통해 프런트엔드를 렌더링한다는 것을 의미합니다. 이것은 라라벨 프레임워크를 사용하는 가장 일반적인 방법이고 저희가 생각하기에 라라벨을 가장 생산적으로 사용하는 방법입니다.
 
-If this is how you plan to use Laravel, you may want to check out our documentation on [frontend development](/docs/{{version}}/frontend), [routing](/docs/{{version}}/routing), [views](/docs/{{version}}/views), or the [Eloquent ORM](/docs/{{version}}/eloquent). In addition, you might be interested in learning about community packages like [Livewire](https://laravel-livewire.com) and [Inertia](https://inertiajs.com). These packages allow you to use Laravel as a full-stack framework while enjoying many of the UI benefits provided by single-page JavaScript applications.
+If this is how you plan to use Laravel, you may want to check out our documentation on [frontend development](/docs/{{version}}/frontend), [routing](/docs/{{version}}/routing), [views](/docs/{{version}}/views), or the [Eloquent ORM](/docs/{{version}}/eloquent). In addition, you might be interested in learning about community packages like [Livewire](https://livewire.laravel.com) and [Inertia](https://inertiajs.com). These packages allow you to use Laravel as a full-stack framework while enjoying many of the UI benefits provided by single-page JavaScript applications.
 
-라라벨을 이렇게 사용할 계획이라면 [프론트엔드 개발](/docs/{{version}}/frontend), [라우팅](/docs/{{version}}/routing), [뷰](/docs/{{version}}/views) 또는 [Eloquent ORM](/docs/{{version}}/eloquent)에 대한 문서를 확인하는 것이 좋습니다. 또한 [Livewire](https://laravel-livewire.com) 및 [Inertia](https://inertiajs.com)와 같은 커뮤니티 패키지에 대해 학습하는 데 관심이 있을 수 있습니다. 이 패키지를 사용하면 단일 페이지 자바스크립트 애플리케이션이 제공하는 많은 UI의 이점을 즐기면서 라라벨을 풀 스택 프레임워크로 사용할 수 있습니다.
+라라벨을 이렇게 사용할 계획이라면 [프론트엔드 개발](/docs/{{version}}/frontend), [라우팅](/docs/{{version}}/routing), [뷰](/docs/{{version}}/views) 또는 [Eloquent ORM](/docs/{{version}}/eloquent)에 대한 문서를 확인하는 것이 좋습니다. 또한 [Livewire](https://livewire.laravel.com) 및 [Inertia](https://inertiajs.com)와 같은 커뮤니티 패키지에 대해 학습하는 데 관심이 있을 수 있습니다. 이 패키지를 사용하면 단일 페이지 자바스크립트 애플리케이션이 제공하는 많은 UI의 이점을 즐기면서 라라벨을 풀 스택 프레임워크로 사용할 수 있습니다.
 
 If you are using Laravel as a full stack framework, we also strongly encourage you to learn how to compile your application's CSS and JavaScript using [Vite](/docs/{{version}}/vite).
 
@@ -431,7 +431,7 @@ If you are using Laravel as a full stack framework, we also strongly encourage y
 > **Note**  
 > If you would like a head start when developing your Laravel application, consider using one of our [starter kits](/docs/{{version}}/starter-kits). Laravel's starter kits provide backend and frontend authentication scaffolding for your new Laravel application.
 
-> **Note**
+> **Note**  
 > 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.
 
 <a name="laravel-the-api-backend"></a>
@@ -449,5 +449,5 @@ If this is how you plan to use Laravel, you may want to check out our documentat
 > **Note**  
 > If you would like a head start when developing your Laravel application, consider using one of our [starter kits](/docs/{{version}}/starter-kits). Laravel's starter kits provide backend and frontend authentication scaffolding for your new Laravel application.
 
-> **Note**
+> **Note**  
 > 라라벨 애플리케이션을 개발할 때 한발 앞서 시작하려면 당사의 [스타터 키트](/docs/{{version}}/starter-kits) 중 하나를 사용하는 것을 고려하십시오 . 라라벨의 스타터 키트는 새로운 라라벨 애플리케이션을 위한 백엔드 및 프론트엔드 인증 스캐폴딩을 제공합니다.

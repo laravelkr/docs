@@ -70,10 +70,10 @@ You do not need to choose between exclusively using gates or exclusively using p
 ### Writing Gates
 ### Gate 작성하기
 
-> **Warning**
+> **Warning**  
 > Gates are a great way to learn the basics of Laravel's authorization features; however, when building robust Laravel applications you should consider using [policies](#creating-policies) to organize your authorization rules.
 
-> **Warning**
+> **Warning**  
 > Gate는 Laravel의 인증 기능에 대한 기본 사항을 배울 수 있는 좋은 방법입니다. 그러나 강력한 Laravel 애플리케이션을 구축할 때 [정책](#creating-policies)을 사용하여 권한 부여 규칙을 구성하는 것을 고려해야 합니다.
 
 Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the `boot` method of the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
@@ -434,10 +434,10 @@ If you would like to define your own policy discovery logic, you may register a 
         // Return the name of the policy class for the given model...
     });
 
-> **Warning**
+> **Warning**  
 > Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potentially auto-discovered policies.
 
-> **Warning**
+> **Warning**  
 > `AuthServiceProvider` 에 명시적으로 매핑된 모든 정책은 모든 잠재적으로 자동 검색된 정책 보다 우선됩니다.
 
 <a name="writing-policies"></a>
@@ -486,10 +486,10 @@ If you used the `--model` option when generating your policy via the Artisan con
 
 만약 아티즌 명령어를 통해 policy 클래스를 생성할 때 `--model` 옵션을 사용했다면, 이미 `viewAny`, `view`, `create`, `update`, `delete`, `restore` 그리고 `forceDelete` 액션에 해당하는 메소드가 포함되어 있을 겁니다.
 
-> **Note**
+> **Note**  
 > All policies are resolved via the Laravel [service container](/docs/{{version}}/container), allowing you to type-hint any needed dependencies in the policy's constructor to have them automatically injected.
 
-> **Note**
+> **Note**  
 > 모든 정책은 Laravel [서비스 컨테이너](/docs/{{version}}/container)를 통해 해결되므로 policy 생성자에 필요한 종속성을 입력하여 자동으로 삽입할 수 있습니다.
 
 <a name="policy-responses"></a>
@@ -664,10 +664,10 @@ If you would like to deny all authorization checks for a particular type of user
 
 특정 사용자에게 모든 권한을 허용하지 않으려면, `before` 메소드에서 `false`를 반환하면 됩니다. 만약 `null`이 반환되면, 권한을 확인하는 과정은 policy 메소드까지 도달하게 됩니다.
 
-> **Warning**
+> **Warning**  
 > The `before` method of a policy class will not be called if the class doesn't contain a method with a name matching the name of the ability being checked.
 
-> **Warning**
+> **Warning**  
 > 클래스가 확인하려는 ability와 매칭되는 이름의 메소드를 포함하고 있지 않다면, policy 클래스의 `before` 메소드가 호출되지 않습니다.
 
 <a name="authorizing-actions-using-policies"></a>
@@ -859,10 +859,10 @@ The following controller methods will be mapped to their corresponding policy me
 | update | update |
 | destroy | delete |
 
-> **Note**
+> **Note**  
 > You may use the `make:policy` command with the `--model` option to quickly generate a policy class for a given model: `php artisan make:policy PostPolicy --model=Post`.
 
-> **Note**
+> **Note**  
 > `make:policy` 명령어에 `--model` 옵션을 지정해서 주어진 모델에 대한 Policy 클래스를 생성할 수 있습니다. `php artisan make:policy PostPolicy --model=Post`.
 
 <a name="via-middleware"></a>

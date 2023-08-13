@@ -146,7 +146,7 @@ You may be wondering how Laravel knows how to retrieve the user record from your
 > **Note**  
 > When manually implementing password resets, you are required to define the contents of the views and routes yourself. If you would like scaffolding that includes all necessary authentication and verification logic, check out the [Laravel application starter kits](/docs/{{version}}/starter-kits).
 
-> **Note**
+> **Note**  
 > 메뉴얼대로 비밀번호 재설정을 구현하려고 한다면, 뷰(views) 안의 내용을 정의할 필요가 있습니다. 모든 필수적인 인증과 유효성 검사 로직을 포함하고 있는 스캐폴딩을 사용하고자 한다면 [라라벨 애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 확인하십시오.
 
 <a name="resetting-the-password"></a>

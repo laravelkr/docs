@@ -55,6 +55,7 @@ For convenience, Laravel also offers the global `to_route` function:
 편의를 위해 라라벨은 글로벌 `to_route` 함수도 제공합니다:
 
     return to_route('profile', ['id' => 1]);
+
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Populating Parameters Via Eloquent Models
 #### Eloquent 모델을 통한 파라미터 채우기

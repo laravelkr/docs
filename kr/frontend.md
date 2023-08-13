@@ -77,17 +77,17 @@ Others, preferring to stick with the backend language they are comfortable with,
 
 편안한 백엔드 언어를 선호하는 다른 사람들은 선택한 백엔드 언어를 주로 사용하면서 최신 웹 애플리케이션 UI를 구성할 수 있는 솔루션을 개발했습니다. 예를 들어, [레일즈](https://rubyonrails.org/) 생태계에서 이는 [Turbo](https://turbo.hotwired.dev/) [Hotwire](https://hotwired.dev/) 및 [Stimulus](https://stimulus.hotwired.dev/) 와 같은 라이브러리 생성에 박차를 가했습니다.
 
-Within the Laravel ecosystem, the need to create modern, dynamic frontends by primarily using PHP has led to the creation of [Laravel Livewire](https://laravel-livewire.com) and [Alpine.js](https://alpinejs.dev/).
+Within the Laravel ecosystem, the need to create modern, dynamic frontends by primarily using PHP has led to the creation of [Laravel Livewire](https://livewire.laravel.com) and [Alpine.js](https://alpinejs.dev/).
 
-라라벨 생태계 내에서 주로 PHP를 사용하여 현대적이고 동적인 프론트엔드를 생성해야 하는 필요성으로 인해 라라벨 [라이브와이어](https://laravel-livewire.com) 및 [Alpine.js](https://alpinejs.dev/) 가 생성되었습니다 .
+라라벨 생태계 내에서 주로 PHP를 사용하여 현대적이고 동적인 프론트엔드를 생성해야 하는 필요성으로 인해 라라벨 [라이브와이어](https://livewire.laravel.com) 및 [Alpine.js](https://alpinejs.dev/) 가 생성되었습니다 .
 
 <a name="livewire"></a>
 ### Livewire
 ### 라이브와이어
 
-[Laravel Livewire](https://laravel-livewire.com) is a framework for building Laravel powered frontends that feel dynamic, modern, and alive just like frontends built with modern JavaScript frameworks like Vue and React.
+[Laravel Livewire](https://livewire.laravel.com) is a framework for building Laravel powered frontends that feel dynamic, modern, and alive just like frontends built with modern JavaScript frameworks like Vue and React.
 
-[라라벨 라이브와이어](https://laravel-livewire.com)는 Vue 및 React와 같은 최신 자바스크립트 프레임워크로 구축된 프론트엔드와 마찬가지로 역동적이고 현대적이며 생생한 느낌을 주는 라라벨 기반 프론트엔드를 구축하기 위한 프레임워크입니다.
+[라라벨 라이브와이어](https://livewire.laravel.com)는 Vue 및 React와 같은 최신 자바스크립트 프레임워크로 구축된 프론트엔드와 마찬가지로 역동적이고 현대적이며 생생한 느낌을 주는 라라벨 기반 프론트엔드를 구축하기 위한 프레임워크입니다.
 
 When using Livewire, you will create Livewire "components" that render a discrete portion of your UI and expose methods and data that can be invoked and interacted with from your application's frontend. For example, a simple "Counter" component might look like the following:
 
@@ -135,9 +135,9 @@ For many, Livewire has revolutionized frontend development with Laravel, allowin
 
 많은 사람들에게 라이브와이어는 라라벨과 함께 프론트엔드 개발에 혁명을 일으켜 라라벨의 편안함을 유지하면서 현대적이고 동적인 웹 애플리케이션을 구축할 수 있도록 했습니다. 일반적으로 라이브와이어를 사용하는 개발자는 [Alpine.js](https://alpinejs.dev/)를 사용하여 대화 창을 렌더링하는 것과 같이 필요한 경우에만 자바스크립트를 프론트엔드에 "뿌릴" 것입니다.
 
-If you're new to Laravel, we recommend getting familiar with the basic usage of [views](/docs/{{version}}/views) and [Blade](/docs/{{version}}/blade). Then, consult the official [Laravel Livewire documentation](https://laravel-livewire.com/docs) to learn how to take your application to the next level with interactive Livewire components.
+If you're new to Laravel, we recommend getting familiar with the basic usage of [views](/docs/{{version}}/views) and [Blade](/docs/{{version}}/blade). Then, consult the official [Laravel Livewire documentation](https://livewire.laravel.com/docs) to learn how to take your application to the next level with interactive Livewire components.
 
-라라벨이 처음이라면 [뷰](/docs/{{version}}/views) 와 [블레이드](/docs/{{version}}/blade)의 기본 사용법에 익숙해지는 것이 좋습니다 . 그런 다음 공식 [라라벨 라이브와이어 설명서](https://laravel-livewire.com/docs)를 참조 하여 대화형 라이브와이어 컴포넌트를 사용하여 애플리케이션을 다음 단계로 끌어올리는 방법을 배우십시오.
+라라벨이 처음이라면 [뷰](/docs/{{version}}/views) 와 [블레이드](/docs/{{version}}/blade)의 기본 사용법에 익숙해지는 것이 좋습니다 . 그런 다음 공식 [라라벨 라이브와이어 설명서](https://livewire.laravel.com/docs)를 참조 하여 대화형 라이브와이어 컴포넌트를 사용하여 애플리케이션을 다음 단계로 끌어올리는 방법을 배우십시오.
 
 <a name="php-starter-kits"></a>
 ### Starter Kits

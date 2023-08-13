@@ -18,7 +18,7 @@
     - [Automatic Redirection](#automatic-redirection)
     - [Named Error Bags](#named-error-bags)
     - [Customizing The Error Messages](#manual-customizing-the-error-messages)
-    - [After Validation Hook](#after-validation-hook)
+    - [Performing Additional Validation](#performing-additional-validation)
 - [Working With Validated Input](#working-with-validated-input)
 - [Working With Error Messages](#working-with-error-messages)
     - [Specifying Custom Messages In Language Files](#specifying-custom-messages-in-language-files)
@@ -197,7 +197,9 @@ So, in our example, the user will be redirected to our controller's `create` met
 <a name="quick-customizing-the-error-messages"></a>
 #### Customizing The Error Messages
 
-Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. If your application does not have a `lang` directory, you may instruct Laravel to create it using the `lang:publish` Artisan command.
+
+Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
 In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
@@ -320,7 +322,7 @@ As you might have guessed, the `authorize` method is responsible for determining
         ];
     }
 
-> **Note**  
+> **Note**
 > You may type-hint any dependencies you require within the `rules` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
 So, how are the validation rules evaluated? All you need to do is type-hint the request on your controller method. The incoming form request is validated before the controller method is called, meaning you do not need to clutter your controller with any validation logic:
@@ -346,28 +348,59 @@ So, how are the validation rules evaluated? All you need to do is type-hint the 
 
 If validation fails, a redirect response will be generated to send the user back to their previous location. The errors will also be flashed to the session so they are available for display. If the request was an XHR request, an HTTP response with a 422 status code will be returned to the user including a [JSON representation of the validation errors](#validation-error-response-format).
 
-<a name="adding-after-hooks-to-form-requests"></a>
-#### Adding After Hooks To Form Requests
+> **Note**
+> Need to add real-time form request validation to your Inertia powered Laravel frontend? Check out [Laravel Precognition](/docs/{{version}}/precognition).
 
-If you would like to add an "after" validation hook to a form request, you may use the `withValidator` method. This method receives the fully constructed validator, allowing you to call any of its methods before the validation rules are actually evaluated:
+<a name="performing-additional-validation-on-form-requests"></a>
+#### Performing Additional Validation
+
+Sometimes you need to perform additional validation after your initial validation is complete. You can accomplish this using the form request's `after` method.
+
+The `after` method should return an array of callables or closures which will be invoked after validation is complete. The given callables will receive an `Illuminate\Validation\Validator` instance, allowing you to raise additional error messages if necessary:
 
     use Illuminate\Validation\Validator;
 
     /**
-     * Configure the validator instance.
+     * Get the "after" validation callables for the request.
      */
-    public function withValidator(Validator $validator): void
+    public function after(): array
     {
-        $validator->after(function (Validator $validator) {
-            if ($this->somethingElseIsInvalid()) {
-                $validator->errors()->add('field', 'Something is wrong with this field!');
+        return [
+            function (Validator $validator) {
+                if ($this->somethingElseIsInvalid()) {
+                    $validator->errors()->add(
+                        'field',
+                        'Something is wrong with this field!'
+                    );
+                }
             }
-        });
+        ];
     }
 
+As noted, the array returned by the `after` method may also contain invokable classes. The `__invoke` method of these classes will receive an `Illuminate\Validation\Validator` instance:
+
+```php
+use App\Validation\ValidateShippingTime;
+use App\Validation\ValidateUserStatus;
+use Illuminate\Validation\Validator;
+
+/**
+ * Get the "after" validation callables for the request.
+ */
+public function after(): array
+{
+    return [
+        new ValidateUserStatus,
+        new ValidateShippingTime,
+        function (Validator $validator) {
+            //
+        }
+    ];
+}
+```
 
 <a name="request-stopping-on-first-validation-rule-failure"></a>
-#### Stopping On First Validation Failure Attribute
+#### Stopping On The First Validation Failure
 
 By adding a `stopOnFirstFailure` property to your request class, you may inform the validator that it should stop validating all attributes once a single validation failure has occurred:
 
@@ -436,7 +469,7 @@ If you plan to handle authorization logic for the request in another part of you
         return true;
     }
 
-> **Note**  
+> **Note**
 > You may type-hint any dependencies you need within the `authorize` method's signature. They will automatically be resolved via the Laravel [service container](/docs/{{version}}/container).
 
 <a name="customizing-the-error-messages"></a>
@@ -492,8 +525,6 @@ If you need to prepare or sanitize any data from the request before you apply yo
     }
 
 Likewise, if you need to normalize any request data after validation is complete, you may use the `passedValidation` method:
-
-    use Illuminate\Support\Str;
 
     /**
      * Handle a passed validation attempt.
@@ -626,17 +657,16 @@ Many of Laravel's built-in error messages include an `:attribute` placeholder th
         'email' => 'email address',
     ]);
 
-<a name="after-validation-hook"></a>
-### After Validation Hook
+<a name="performing-additional-validation"></a>
+### Performing Additional Validation
 
-You may also attach callbacks to be run after validation is completed. This allows you to easily perform further validation and even add more error messages to the message collection. To get started, call the `after` method on a validator instance:
+Sometimes you need to perform additional validation after your initial validation is complete. You can accomplish this using the validator's `after` method. The `after` method accepts a closure or an array of callables which will be invoked after validation is complete. The given callables will receive an `Illuminate\Validation\Validator` instance, allowing you to raise additional error messages if necessary:
 
-    use Illuminate\Support\Facades;
-    use Illuminate\Validation\Validator;
+    use Illuminate\Support\Facades\Validator;
 
-    $validator = Facades\Validator::make(/* ... */);
+    $validator = Validator::make(/* ... */);
 
-    $validator->after(function (Validator $validator) {
+    $validator->after(function ($validator) {
         if ($this->somethingElseIsInvalid()) {
             $validator->errors()->add(
                 'field', 'Something is wrong with this field!'
@@ -647,6 +677,21 @@ You may also attach callbacks to be run after validation is completed. This allo
     if ($validator->fails()) {
         // ...
     }
+
+As noted, the `after` method also accepts an array of callables, which is particularly convenient if your "after validation" logic is encapsulated in invokable classes, which will receive an `Illuminate\Validation\Validator` instance via their `__invoke` method:
+
+```php
+use App\Validation\ValidateShippingTime;
+use App\Validation\ValidateUserStatus;
+
+$validator->after([
+    new ValidateUserStatus,
+    new ValidateShippingTime,
+    function ($validator) {
+        // ...
+    },
+]);
+```
 
 <a name="working-with-validated-input"></a>
 ## Working With Validated Input
@@ -735,7 +780,9 @@ The `has` method may be used to determine if any error messages exist for a give
 <a name="specifying-custom-messages-in-language-files"></a>
 ### Specifying Custom Messages In Language Files
 
-Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. Within this file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
+Laravel's built-in validation rules each have an error message that is located in your application's `lang/en/validation.php` file. If your application does not have a `lang` directory, you may instruct Laravel to create it using the `lang:publish` Artisan command.
+
+Within the `lang/en/validation.php` file, you will find a translation entry for each validation rule. You are free to change or modify these messages based on the needs of your application.
 
 In addition, you may copy this file to another language directory to translate the messages for your application's language. To learn more about Laravel localization, check out the complete [localization documentation](/docs/{{version}}/localization).
 
@@ -1684,7 +1731,15 @@ The field under validation must be a string. If you would like to allow the fiel
 <a name="rule-timezone"></a>
 #### timezone
 
-The field under validation must be a valid timezone identifier according to the `timezone_identifiers_list` PHP function.
+The field under validation must be a valid timezone identifier according to the `DateTimeZone::listIdentifiers` method.
+
+The arguments [accepted by the `DateTimeZone::listIdentifiers` method](https://www.php.net/manual/en/datetimezone.listidentifiers.php) may also be provided to this validation rule:
+
+    'timezone' => 'required|timezone:all';
+
+    'timezone' => 'required|timezone:Africa';
+
+    'timezone' => 'required|timezone:per_country,US';
 
 <a name="rule-unique"></a>
 #### unique:_table_,_column_
@@ -1713,7 +1768,6 @@ Sometimes, you may wish to ignore a given ID during unique validation. For examp
 
 To instruct the validator to ignore the user's ID, we'll use the `Rule` class to fluently define the rule. In this example, we'll also specify the validation rules as an array instead of using the `|` character to delimit the rules:
 
-    use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
 
@@ -1754,6 +1808,14 @@ The field under validation must be uppercase.
 #### url
 
 The field under validation must be a valid URL.
+
+If you would like to specify the URL protocols that should be considered valid, you may pass the protocols as validation rule parameters:
+
+```php
+'url' => 'url:http,https',
+
+'game' => 'url:minecraft,steam',
+```
 
 <a name="rule-ulid"></a>
 #### ulid
@@ -1876,7 +1938,7 @@ As discussed in the [`array` validation rule documentation](#rule-array), the `a
     ];
 
     Validator::make($input, [
-        'user' => 'array:username,locale',
+        'user' => 'array:name,username',
     ]);
 
 In general, you should always specify the array keys that are allowed to be present within your array. Otherwise, the validator's `validate` and `validated` methods will return all of the validated data, including the array and all of its keys, even if those keys were not validated by other nested array validation rules.
@@ -1973,6 +2035,7 @@ Laravel provides a variety of validation rules that may be used to validate uplo
 If your application accepts images uploaded by your users, you may use the `File` rule's `image` constructor method to indicate that the uploaded file should be an image. In addition, the `dimensions` rule may be used to limit the dimensions of the image:
 
     use Illuminate\Support\Facades\Validator;
+    use Illuminate\Validation\Rule;
     use Illuminate\Validation\Rules\File;
 
     Validator::validate($input, [
@@ -1987,6 +2050,17 @@ If your application accepts images uploaded by your users, you may use the `File
 
 > **Note**  
 > More information regarding validating image dimensions may be found in the [dimension rule documentation](#rule-dimensions).
+
+<a name="validating-files-file-sizes"></a>
+#### File Sizes
+
+For convenience, minimum and maximum file sizes may be specified as a string with a suffix indicating the file size units. The `kb`, `mb`, `gb`, and `tb` suffixes are supported:
+
+```php
+File::image()
+    ->min('1kb')
+    ->max('10mb')
+```
 
 <a name="validating-files-file-types"></a>
 #### File Types
@@ -2210,6 +2284,7 @@ Or, if your validation rule requires access to the validator instance performing
 If you only need the functionality of a custom rule once throughout your application, you may use a closure instead of a rule object. The closure receives the attribute's name, the attribute's value, and a `$fail` callback that should be called if validation fails:
 
     use Illuminate\Support\Facades\Validator;
+    use Closure;
 
     $validator = Validator::make($request->all(), [
         'title' => [

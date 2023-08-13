@@ -62,10 +62,10 @@ Since Fortify does not provide its own user interface, it is meant to be paired 
 
 Fortify는 사용자 인터페이스를 제공하지 않기 때문에 등록된 경로에 대한 요청을 처리하는 사용자 인터페이스와 쌍을 이루도록 되어 있습니다. 이 문서에선 이러한 경로에 요청하는 방법에 대해 정확히 논의할 것입니다.
 
-> **Note**
+> **Note**  
 > Remember, Fortify is a package that is meant to give you a head start implementing Laravel's authentication features. **You are not required to use it.** You are always free to manually interact with Laravel's authentication services by following the documentation available in the [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords), and [email verification](/docs/{{version}}/verification) documentation.
 
-> **Note**
+> **Note**  
 > Fortify는 라라벨의 인증 기능을 구현하기 시작하는 데 도움이 되는 패키지입니다. **반드시 이 패키지를 사용하지 않아도 됩니다.** 이 패키지와 관계없이 언젠든 [authentication](/docs/{{version}}/authentication), [password reset](/docs/{{version}}/passwords)와 [email verification](/docs/{{version}}/verification) 문서에 따라 직접 Laravel 인증 서비스와 자유롭게 사용할 수 있습니다.
 
 <a name="what-is-fortify"></a>

@@ -24,10 +24,10 @@ When building APIs using Laravel, you will often need to convert your models and
 
 라라벨을 사용하여 API를 구성할 때, 여러분은 자주 특정 모델과, 연관된 모델들을 배열 또는 JSON 으로 변환해야 하는 경우가 있을겁니다. Eloquent에는 이러한 변환을 수행하는 편리한 메소드와 모델의 직렬화된(serialized) 표현에 포함되는 속성을 제어하는 메소드가 포함되어 있습니다.
 
-> **Note**
+> **Note**  
 > For an even more robust way of handling Eloquent model and collection JSON serialization, check out the documentation on [Eloquent API resources](/docs/{{version}}/eloquent-resources).
 
-> **Note**
+> **Note**  
 > Eloquent 모델 및 컬렉션 JSON 직렬화를 처리하는 훨씬 더 강력한 방법은 [Eloquent API 리소스](/docs/{{version}}/eloquent-resources)에 대한 문서를 확인하세요.
 
 <a name="serializing-models-and-collections"></a>
@@ -126,10 +126,10 @@ Sometimes you may wish to limit the attributes, such as passwords, that are incl
         protected $hidden = ['password'];
     }
 
-> **Note**
+> **Note**  
 > To hide relationships, add the relationship's method name to your Eloquent model's `$hidden` property.
 
-> **Note**
+> **Note**  
 > 관계를 숨기려면 관계의 메소드 이름을 Eloquent 모델의 `$hidden` 속성에 추가하십시오.
 
 Alternatively, you may use the `visible` property to define an "allow list" of attributes that should be included in your model's array and JSON representation. All attributes that are not present in the `$visible` array will be hidden when the model is converted to an array or JSON:
@@ -195,8 +195,6 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
     {
         /**
          * Determine if the user is an administrator.
-         *
-         * @return \Illuminate\Database\Eloquent\Casts\Attribute
          */
         protected function isAdmin(): Attribute
         {
@@ -206,9 +204,9 @@ Occasionally, when converting models to arrays or JSON, you may wish to add attr
         }
     }
 
-After creating the accessor, add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
+If you would like the accessor to always be appended to your model's array and JSON representations, you may add the attribute name to the `appends` property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's PHP method is defined using "camel case":
 
-accessor를 생성한 다음에, 모델의 `appends`값에 속성의 이름을 추가합니다. accessor는 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
+accessor가 항상 모델의 배열 및 JSON 표현에 추가되도록 하려면 속성 이름을 모델의 `appends` 속성에 추가할 수 있습니다. accessor는 PHP 메소드가 "camel case" 를 사용하여 정의되더라도 속성 이름은 일반적으로 "snake case"로 엑세스 됩니다.
 
     <?php
 
@@ -256,11 +254,8 @@ You may customize the default serialization format by overriding the `serializeD
 
     /**
      * Prepare a date for array / JSON serialization.
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
      */
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d');
     }

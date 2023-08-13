@@ -29,10 +29,10 @@ In addition to typical, form based authentication, Laravel also provides a simpl
 
 일반적인 Form을 기반으로한 인증에 더해서, 라라벨은 [라라벨 소셜라이트-Socialite](https://github.com/laravel/socialite)를 사용하여 OAuth 인증을 간단하고 편리하게 제공합니다. Socialite는 현재 페이스북, 트위터, 링크드인, 구글, 깃허브, 깃랩 그리고 Bitbucket을 기본적으로 지원하고 있습니다.
 
-> **Note**
+> **Note**  
 > Adapters for other platforms are available via the community driven [Socialite Providers](https://socialiteproviders.com/) website.
 
-> **Note**
+> **Note**  
 > 다른 플랫폼을 위한 어댑터는 커뮤니티에서 주도하는 [Socialite Providers](https://socialiteproviders.com/) 웹사이트에서 확인할 수 있습니다. (한국 사용자들이 많이 사용하는 카카오, 네이버, 라인등도 제공됩니다)
 
 ## Installation
@@ -70,10 +70,10 @@ These credentials should be placed in your application's `config/services.php` c
         'redirect' => 'http://example.com/callback-url',
     ],
 
-> **Note**
+> **Note**  
 > If the `redirect` option contains a relative path, it will automatically be resolved to a fully qualified URL.
 
-> **Note**
+> **Note**  
 > `redirect` 옵션값에 상대경로가 포함된경우, 자동으로 Full URL로 인식됩니다.
 
 ## Authentication
@@ -131,10 +131,10 @@ OAuth 공급자로부터 사용자를 조회한 뒤에, 애플리케이션 데�
         return redirect('/dashboard');
     });
 
-> **Note**
+> **Note**  
 > For more information regarding what user information is available from specific OAuth providers, please consult the documentation on [retrieving user details](#retrieving-user-details).
 
-> **Note**
+> **Note**  
 > 특정 OAuth 공급자가 제공하는 사용자의 정보에 대한 보다 자세한 내용은 [사용자의 상세정보 조회하기](#retrieving-user-details) 문서를 참고하십시오.
 
 <a name="access-scopes"></a>

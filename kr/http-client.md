@@ -286,7 +286,7 @@ If all of the requests fail, an instance of `Illuminate\Http\Client\RequestExcep
 > **Warning**  
 > If all of the requests fail because of a connection issue, a `Illuminate\Http\Client\ConnectionException` will still be thrown even when the `throw` argument is set to `false`.
  
-> **Warning**
+> **Warning**  
 > 커넥션 문제로 모든 요청이 실패하는 경우 `throw` 인자가 `false`로 설정되어 있어도 `Illuminate\Http\Client\ConnectionException` 가 던져질 것입니다.
 
 <a name="error-handling"></a>

@@ -81,10 +81,10 @@ It's best to envision middleware as a series of "layers" HTTP requests must pass
 
 미들웨어를 HTTP 요청이 애플리케이션에 도달하기 전에 반드시 통과해야 하는 일종의 "단계(layers)"라고 생각하는 것이 가장 좋습니다. 각 단계에서 요청을 검사할 수 있고 요청을 완전히 거절할 수도 있습니다.
 
-> **Note**
+> **Note**  
 > All middleware are resolved via the [service container](/docs/{{version}}/container), so you may type-hint any dependencies you need within a middleware's constructor.
 
-> **Note**
+> **Note**  
 > 모든 미들웨어는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되므로 미들웨어의 생성자에 필요한 모든 의존성을 입력 할 수 있습니다.
 
 <a name="before-after-middleware"></a>
@@ -276,10 +276,10 @@ Middleware groups may be assigned to routes and controller actions using the sam
         //
     });
 
-> **Note**
+> **Note**  
 > Out of the box, the `web` and `api` middleware groups are automatically applied to your application's corresponding `routes/web.php` and `routes/api.php` files by the `App\Providers\RouteServiceProvider`.
 
-> **Note**
+> **Note**  
 > 별다른 설정없이도, `web` 과 `api` 미들웨어 그룹이 `App\Providers\RouteServiceProvider` 에 의해서 자동으로 애플리케이션의 `routes/web.php`과 `routes/api.php` 파일에 적용됩니다.
 
 <a name="sorting-middleware"></a>

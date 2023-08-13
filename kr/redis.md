@@ -333,8 +333,8 @@ Redis` 파사드의 `transaction` 메서드는 Redis의 기본 `MULTI` 및 `EXEC
 > **Warning**  
 > When defining a Redis transaction, you may not retrieve any values from the Redis connection. Remember, your transaction is executed as a single, atomic operation and that operation is not executed until your entire closure has finished executing its commands.
 
-> **Warning**
-> 레디스 트랜잭션을 정의할 때, 레디스 연결에서 어떤 값도 검색하지 못할 수 있습니다. 트랜잭션은 단일 원자 작업으로 실행되며, 해당 작업은 전체 클로저가 명령 실행을 완료할 때까지 실행되지 않는다는 점을 기억하세요.
+> **Warning**  
+> 레디스 트랜젝션이 정의 되는 동안 Redis 에서 해당 값을 찾을수 없습니다. 모든 트랜잭션은 원자성이 보장되며 모든 클로저가 실행 될때까지 모든 명령은 실행되지 않음을 기억하세요.
 
 #### Lua Scripts
 #### Lua Scripts
@@ -361,10 +361,10 @@ In this example, we will increment a counter, inspect its new value, and increme
         return counter
     LUA, 2, 'first-counter', 'second-counter');
 
-> **Warning**
+> **Warning**  
 > Please consult the [Redis documentation](https://redis.io/commands/eval) for more information on Redis scripting.
 
-> **Warning**
+> **Warning**  
 > 레디스 스크립팅에 자세한 내용은 [Redis documentation](https://redis.io/commands/eval) 에서 확인하세요.
 
 <a name="pipelining-commands"></a>

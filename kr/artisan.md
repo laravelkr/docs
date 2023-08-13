@@ -101,7 +101,7 @@ composer require laravel/tinker
 > **Note**  
 > Looking for a graphical UI for interacting with your Laravel application? Check out [Tinkerwell](https://tinkerwell.app)!
 
-> **Note**
+> **Note**  
 > 라라벨 애플리케이션과 대화하기위한 그래픽 UI를 찾고 계십니까? [Tinkerwell](https://tinkerwell.app)을 확인해보세요!
 
 <a name="usage"></a>
@@ -127,7 +127,7 @@ php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 > **Warning**  
 > The `dispatch` helper function and `dispatch` method on the `Dispatchable` class depends on garbage collection to place the job on the queue. Therefore, when using tinker, you should use `Bus::dispatch` or `Queue::push` to dispatch jobs.
 
-> **Warning**
+> **Warning**  
 > `dispatch` 헬퍼 함수와 `Dispatchable` 클래스의 `dispatch` 메소드는 job을 큐에 배치하기 위해 가비지 콜렉션에 의존합니다. 따라서, tinker를 사용할 때는 `Bus::dispatch` 또는 `Queue::push`를 사용하여 job을 전달해야 합니다.
 
 <a name="command-allow-list"></a>
@@ -225,7 +225,7 @@ Let's take a look at an example command. Note that we are able to request any de
 > **Note**  
 > For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
 
-> **Note**
+> **Note**  
 > 코드 재 사용률을 높이려면 콘솔 명령어을 가볍게 유지하고 작업을 수행하기 위해 애플리케이션 서비스를 불러오도록 하는 것이 좋습니다. 위의 예제에서 우리는 이메일을 보내는 "중요한 작업"을 수행하기 위해 서비스 클래스를 주입 받았습니다.
 
 <a name="closure-commands"></a>
@@ -289,10 +289,10 @@ When defining a closure based command, you may use the `purpose` method to add a
 ### Isolatable Commands
 ### 격리 가능한 명령
 
-> **Warning**
+> **Warning**  
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
 
-> **Warning**
+> **Warning**  
 > 이 기능을 활용하기 위해서는 여러분의 애플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 애플리케이션 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 같은 중앙 캐시 서버와 통신해야 합니다.
 
 Sometimes you may wish to ensure that only one instance of a command can run at a time. To accomplish this, you may implement the `Illuminate\Contracts\Console\Isolatable` interface on your command class:

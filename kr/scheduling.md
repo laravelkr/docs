@@ -65,21 +65,9 @@ You may define all of your scheduled tasks in the `schedule` method of your appl
     class Kernel extends ConsoleKernel
     {
         /**
-         * The Artisan commands provided by your application.
-         *
-         * @var array
-         */
-        protected $commands = [
-            //
-        ];
-
-        /**
          * Define the application's command schedule.
-         *
-         * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-         * @return void
          */
-        protected function schedule(Schedule $schedule)
+        protected function schedule(Schedule $schedule): void
         {
             $schedule->call(function () {
                 DB::table('recent_users')->delete();
@@ -133,7 +121,7 @@ The `job` method may be used to schedule a [queued job](/docs/{{version}}/queues
 
 Optional second and third arguments may be provided to the `job` method which specifies the queue name and queue connection that should be used to queue the job:
 
-선택적인 두 번째 및 세 번째 인수는 작업을 대기열에 넣는 데 사용해야 하는 대기열 이름과 대기열 연결을 지정하는 `job` 메서드에 제공됩니다.
+`job` 메서드에 제공되는 두 번째 및 세 번째 인자는 옵션으로 지정할 수 있습니다. 두 번째 인자로는 대기열의 이름을 지정할 수 있고, 세 번째 인자로는 연결할 커넥션을 지정합니다.
 
     use App\Jobs\Heartbeat;
 
@@ -148,7 +136,7 @@ Optional second and third arguments may be provided to the `job` method which sp
 
 The `exec` method may be used to issue a command to the operating system:
 
-`exec` 메소드는 커맨드는 OS에 직접 명령어를 실행하는데 사용됩니다.
+`exec` 메서드는 운영체제에 명령을 실행하게 할 때 사용됩니다:
 
     $schedule->exec('node /home/forge/script.js')->daily();
 
@@ -159,6 +147,8 @@ The `exec` method may be used to issue a command to the operating system:
 We've already seen a few examples of how you may configure a task to run at specified intervals. However, there are many more task schedule frequencies that you may assign to a task:
 
 지정된 간격으로 실행되도록 작업을 구성하는 방법에 대한 몇 가지 예를 이미 보았습니다. 그러나 작업에 할당할 수 있는 작업 일정 빈도가 더 많습니다.
+
+<div class="overflow-auto">
 
 Method  | Description
 ------------- | -------------
@@ -182,7 +172,7 @@ Method  | Description
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
 `->twiceDailyAt(1, 13, 15);`  |  Run the task daily at 1:15 & 13:15
-`->weekly();`  |  Run the task every sunday at 00:00
+`->weekly();`  |  Run the task every Sunday at 00:00
 `->weeklyOn(1, '8:00');`  |  Run the task every week on Monday at 8:00
 `->monthly();`  |  Run the task on the first day of every month at 00:00
 `->monthlyOn(4, '15:00');`  |  Run the task every month on the 4th at 15:00
@@ -192,7 +182,9 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  Run the task every quarter on the 4th at 14:00
 `->yearly();`  |  Run the task on the first day of every year at 00:00
 `->yearlyOn(6, 1, '17:00');`  |  Run the task every year on June 1st at 17:00
-`->timezone('America/New_York');` | Set the timezone
+`->timezone('America/New_York');` | Set the timezone for the task
+
+</div>
 
 메소드  | 설명
 ------------- | -------------
@@ -226,15 +218,15 @@ Method  | Description
 `->quarterlyOn(4, '14:00');` |  분기별 4일 14:00에 작업 실행
 `->yearly();`  |  매년 1월1일 00:00 에 작업 실행
 `->yearlyOn(6, 1, '17:00');`  |  매년 6월 1일 17:00에 작업 실행
-`->timezone('America/New_York');` | 타임존 지정
+`->timezone('America/New_York');` | 지정한 타임존의 시간에 작업 실행
 
 These methods may be combined with additional constraints to create even more finely tuned schedules that only run on certain days of the week. For example, you may schedule a command to run weekly on Monday:
 
-이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 세밀한 스케줄을 생성할 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 할 수 있습니다.
+이 메소드와 추가적인 제한들을 조합하면 특정 요일에만 실행하는 스케줄을 좀 더 디테일하게 만들 수 있습니다. 예를 들어 매주 월요일에 커맨드가 실행하도록 스케줄링을 지정 해 봅시다.
 
     // Run once per week on Monday at 1 PM...
     $schedule->call(function () {
-        //
+        // ...
     })->weekly()->mondays()->at('13:00');
 
     // Run hourly from 8 AM to 5 PM on weekdays...
@@ -247,6 +239,8 @@ These methods may be combined with additional constraints to create even more fi
 A list of additional schedule constraints may be found below:
 
 추가 일정 제약 목록은 아래에서 찾을 수 있습니다.
+
+<div class="overflow-auto">
 
 Method  | Description
 ------------- | -------------
@@ -265,6 +259,8 @@ Method  | Description
 `->when(Closure);`  |  Limit the task based on a truth test
 `->environments($env);`  |  Limit the task to specific environments
 
+</div>
+
 메소드  | 설명
 ------------- | -------------
 `->weekdays();`  |  평일로 제한
@@ -279,8 +275,8 @@ Method  | Description
 `->days(array\|mixed);`  |  특정 요일로 제한
 `->between($startTime, $endTime);`  |  시작과 종료 시간 사이에 작업 실행을 제한
 `->unlessBetween($startTime, $endTime);`  |  시작 시간과 종료 시간 사이에 작업이 실행되지 않도록 제한
-`->when(Closure);`  |  클로저 결과에 따라서 수행
-`->environments($env);`  |  특정 환경으로 작업 제한
+`->when(Closure);`  |  클로저의 참/거짓의 결과에 따라서 실행을 제한
+`->environments($env);`  |  특정 환경변수에 따라 실행을 제한
 
 <a name="day-constraints"></a>
 #### Day Constraints
@@ -304,13 +300,13 @@ Alternatively, you may use the constants available on the `Illuminate\Console\Sc
                     ->hourly()
                     ->days([Schedule::SUNDAY, Schedule::WEDNESDAY]);
 
-<a name="between-time-constraints"></a>                   
+<a name="between-time-constraints"></a>
 #### Between Time Constraints
 #### Between 시간 제한
 
 The `between` method may be used to limit the execution of a task based on the time of day:
 
-`between` 메소드는 하루중에 시간에 따라 실행 시간을 제한하기 위해 사용될 수 있습니다.
+`between` 메소드는 하루 사이에 실행되는 시간 구간을 제한하기 위해 사용될 수 있습니다.
 
     $schedule->command('emails:send')
                         ->hourly()
@@ -330,7 +326,7 @@ Similarly, the `unlessBetween` method can be used to exclude the execution of a 
 
 The `when` method may be used to limit the execution of a task based on the result of a given truth test. In other words, if the given closure returns `true`, the task will execute as long as no other constraining conditions prevent the task from running:
 
-`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이  실행될 것입니다.
+`when` 메소드는 참/거짓 결과에 따라 작업의 실행을 제한하는 데에 사용 될 수 있습니다. 즉, 클로저가 `true`를 반환한다면 다른 제한 조건들이 없는 경우 작업이 실행될 것입니다.
 
     $schedule->command('emails:send')->daily()->when(function () {
         return true;
@@ -354,7 +350,7 @@ When using chained `when` methods, the scheduled command will only execute if al
 
 The `environments` method may be used to execute tasks only on the given environments (as defined by the `APP_ENV` [environment variable](/docs/{{version}}/configuration#environment-configuration)):
 
-`environments` 메소드는 주어진 환경에서만 태스크를 실행하는 데 사용될 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
+`environments` 메소드는 주어진 환경변수에 해당할 때만 태스크를 실행하도록 하고 싶을 때 사용할 수 있습니다 (`APP_ENV`에 정의된대로 [환경 변수](/docs/{{version}}/configuration#environment-configuration)).
 
     $schedule->command('emails:send')
                 ->daily()
@@ -366,22 +362,22 @@ The `environments` method may be used to execute tasks only on the given environ
 
 Using the `timezone` method, you may specify that a scheduled task's time should be interpreted within a given timezone:
 
-`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 안에서 실행 되도록 지정할 수 있습니다.
+`timezone` 메소드를 사용하면 예약 된 작업의 시간을 주어진 타임존 시간에서 실행되도록 합니다.
 
     $schedule->command('report:generate')
              ->timezone('America/New_York')
-             ->at('02:00')
+             ->at('2:00')
 
 If you are repeatedly assigning the same timezone to all of your scheduled tasks, you may wish to define a `scheduleTimezone` method in your `App\Console\Kernel` class. This method should return the default timezone that should be assigned to all scheduled tasks:
 
 만약, 스케줄링된 모든 작업에 동일한 타임존을 반복적으로 할당하는 경우 `App\Console\Kernel` 클래스에서 `scheduleTimezone` 메서드를 정의할 수 있습니다. 이 메서드는 모든 예약된 작업에 할당되어야 하는 기본 타임존을 반환해야 합니다.
 
+    use DateTimeZone;
+
     /**
      * Get the timezone that should be used by default for scheduled events.
-     *
-     * @return \DateTimeZone|string|null
      */
-    protected function scheduleTimezone()
+    protected function scheduleTimezone(): DateTimeZone|string|null
     {
         return 'America/Chicago';
     }
@@ -408,7 +404,7 @@ In this example, the `emails:send` [Artisan command](/docs/{{version}}/artisan) 
 
 If needed, you may specify how many minutes must pass before the "without overlapping" lock expires. By default, the lock will expire after 24 hours:
 
-필요한 경우, "중복 방지" 잠금이 얼마나 지나야 하는지 분단위의 시간을 지정할 수 있습니다. 기본적으로, 잠금(lock)은 24시간 후에 만료됩니다.
+필요한 경우, "중복 방지" 잠금 시간이 얼마나 지난 후 만료되는지 분단위의 시간을 지정할 수 있습니다. 기본적으로 잠금(lock)은 24시간 후에 만료됩니다.
 
     $schedule->command('emails:send')->withoutOverlapping(10);
 
@@ -469,6 +465,7 @@ $schedule->call(fn () => User::resetApiRequestCount())
     ->daily()
     ->onOneServer();
 ```
+
 
 <a name="background-tasks"></a>
 ### Background Tasks

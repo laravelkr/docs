@@ -32,7 +32,7 @@ Most web applications provide a way for users to reset their forgotten passwords
 > Want to get started fast? Install a Laravel [application starter kit](/docs/{{version}}/starter-kits) in a fresh Laravel application. Laravel's starter kits will take care of scaffolding your entire authentication system, including resetting forgotten passwords.
 
 > **Note**  
-> 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능을 포함합니다.
+> 애플리케이션을 빠르게 만들고 싶으신가요? 라라벨 애플리케이션을 새로 만들었다면 [애플리케이션 스타터 킷](/docs/{{version}}/starter-kits)을 설치하세요. 라라벨 스타터 킷은 전체 인증 시스템을 스캐폴딩을 통해 설치합니다. 스타터 킷의 인증 스캐폴딩은 비밀번호를 잊어 버렸을 때 재설정하는 기능이 포함되어 있습니다.
 
 <a name="model-preparation"></a>
 ### Model Preparation
@@ -80,7 +80,7 @@ To learn more about this middleware, please consult the [`TrustHosts` middleware
 
 To properly implement support for allowing users to reset their passwords, we will need to define several routes. First, we will need a pair of routes to handle allowing the user to request a password reset link via their email address. Second, we will need a pair of routes to handle actually resetting the password once the user visits the password reset link that is emailed to them and completes the password reset form.
 
-사용자의 비밀번호를 재설정하는 기능을 만들기 위해서는 몇 가지 라우트를 구성하는 것이 좋습니다. 먼저 사용자가 이메일 주소를 통해서 비밀번호 재설정 링크로 이동하기 위한 라우트가 필요합니다. 다음으로 사용자가 이메일로 받은 비밀번호 재설정 링크를 방문하여 비밀번호를 재설정하는 양식을 작성해 제출할 때 비밀번호 재설정을 처리하는 라우터가 필요합니다. 비밀번호 재설정 기능을 제공하기 위해서는 폼 화면으로 이동하기 위한 라우터와 제출하기 위한 라우터, 한 쌍의 라우터가 정의 되어 있어야 합니다.
+사용자의 비밀번호를 재설정하는 기능을 만들기 위해서는 몇 가지 라우트를 구성하는 것이 좋습니다. 먼저 사용자가 이메일 주소를 통해서 비밀번호 재설정 링크로 이동하기 위한 라우트가 필요합니다. 다음으로 사용자가 이메일로 받은 비밀번호 재설정 링크를 방문하여 비밀번호를 재설정하는 양식을 작성해 제출할 때 비밀번호 재설정을 처리하는 라우터가 필요합니다. 비밀번호 재설정 기능을 제공하기 위해서는 폼 화면으로 이동하기 위한 라우터와 제출하기 위한 라우터, 한 쌍의 라우터가 정의되어 있어야 합니다.
 
 <a name="requesting-the-password-reset-link"></a>
 ### Requesting The Password Reset Link
@@ -102,7 +102,7 @@ The view that is returned by this route should have a form containing an `email`
 
 이 라우트에 의해 반환되는 뷰(view)에는 `email` 필드가 포함된 양식이 있어야 하며, 유저가 제출한 이메일 주소에 대한 패스워드 재설정 링크를 요청하는 것을 허가합니다.
 
-<a name="password-reset-handling-the-form-submission"></a>
+<a name="password-reset-link-handling-the-form-submission"></a>
 #### Handling The Form Submission
 #### 양식 제출 처리
 
@@ -133,6 +133,12 @@ The `sendResetLink` method returns a "status" slug. This status may be translate
 
 `sendResetLink` 메소드는 "스테이터스(status)" [메시지(slug)](https://en.wikipedia.org/wiki/Clean_URL#Slug)를 반환합니다. 스테이터스 메시지(slug)는 유저 상태와 관련된 메시지를 표시합니다. 또한 스테이터스 메시지(slug)는 라라벨의 [로컬라이제이션](/docs/{{version}}/localization) 헬퍼를 통해 번역을 제공하므로 유저 친화적인 메시지를 표시하게 됩니다. 비밀번호 재설정 스테이터스 메시지는 애플리케이션의 `lang/{lang}/passwords.php` 파일에 정의된 내용을 바탕으로 번역됩니다. 스테이터스 메시지(slug)로 가능한 각각의 항목값은 `passwords` 언어 파일 내에 정의되어 있습니다.
 
+> **Note**
+> By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
+
+> **Note**
+기본적으로 라라벨 애플리케이션 스켈레톤에는 `lang` 디렉터리가 포함되어 있지 않습니다. 라라벨의 언어 파일을 사용자 정의하려면 `lang:publish` Artisan 명령어로 추가할 수 있습니다.
+
 You may be wondering how Laravel knows how to retrieve the user record from your application's database when calling the `Password` facade's `sendResetLink` method. The Laravel password broker utilizes your authentication system's "user providers" to retrieve database records. The user provider used by the password broker is configured within the `passwords` configuration array of your `config/auth.php` configuration file. To learn more about writing custom user providers, consult the [authentication documentation](/docs/{{version}}/authentication#adding-custom-user-providers).
 
 라라벨이 `Password` 파사드의 `sendResetLink` 메소드를 호출할 때 애플리케이션 데이터베이스에서 사용자 레코드를 가져오는 방법을 어떻게 알고 있는지 궁금할 것입니다. 라라벨 비밀번호 브로커는 인증 시스템의 "user providers"를 활용하여 데이터베이스 레코드를 검색합니다. 비밀번호 브로커가 사용하는 user 프로바이더는 `config/auth.php` 설정 파일의 `passwords` 배열 내에서 설정됩니다. user 프로바이더를 커스텀하려면 [인증 문서](/docs/{{version}}/authentication#adding-custom-user-providers)를 참고 하십시오.
@@ -155,7 +161,7 @@ Next, we will define the routes necessary to actually reset the password once th
 
 다음으로, 실제로 비밀번호를 재설정하고 새로운 비밀번호를 제출하기 위해서 필요한 라우트를 정의할 것입니다. 이 라우트는 유저의 메일로 발송된 비밀번호 재설정 링크를 유저가 클릭했을 때 사용됩니다. 먼저 유저가 비밀번호 재설정 링크를 클릭했을 때 비밀번호 재설정 폼을 표시하기 위한 라우트를 정의합니다. 이 라우트는 비밀번호 재설정 요청을 인증하기 위해 추후 사용될 `token` 파라메터를 받습니다. 
 
-    Route::get('/reset-password/{token}', function ($token) {
+    Route::get('/reset-password/{token}', function (string $token) {
         return view('auth.reset-password', ['token' => $token]);
     })->middleware('guest')->name('password.reset');
 
@@ -171,6 +177,7 @@ Of course, we need to define a route to actually handle the password reset form 
 
 당연히 비밀번호 재설정 폼에서 제출된 데이터를 실제로 처리하기 위해서는 라우트를 정의해야 합니다. 이 라우트는 들어오는 요청의 유효성을 검사하고 데이터베이스에서 유저의 비밀번호를 업데이트 하는 역할을 담당하고 있습니다.
 
+    use App\Models\User;
     use Illuminate\Auth\Events\PasswordReset;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
@@ -186,7 +193,7 @@ Of course, we need to define a route to actually handle the password reset form 
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
+            function (User $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
@@ -210,9 +217,9 @@ If the token, email address, and password given to the password broker are valid
 
 암호 브로커에 제공된 토큰, 이메일 주소, 암호가 유효하면 `reset` 메소드로 전달된 클로저가 호출(invoked)됩니다. 이 클로저는 인자로 유저 인스턴스와 비밀번호 재설정 폼(form)에서 보내진 평문 비밀번호를 전달 받아 데이터베이스의 사용자 암호를 업데이트 합니다.
 
-The `reset` method returns a "status" slug. This status may be translated using Laravel's [localization](/docs/{{version}}/localization) helpers in order to display a user-friendly message to the user regarding the status of their request. The translation of the password reset status is determined by your application's `lang/{lang}/passwords.php` language file. An entry for each possible value of the status slug is located within the `passwords` language file.
+The `reset` method returns a "status" slug. This status may be translated using Laravel's [localization](/docs/{{version}}/localization) helpers in order to display a user-friendly message to the user regarding the status of their request. The translation of the password reset status is determined by your application's `lang/{lang}/passwords.php` language file. An entry for each possible value of the status slug is located within the `passwords` language file. If your application does not contain a `lang` directory, you may create it using the `lang:publish` Artisan command.
 
-`reset` 메소드는 "스테이터스(status)" [메시지(slug)](https://en.wikipedia.org/wiki/Clean_URL#Slug)를 반환합니다. 스테이터스 메시지(slug)는 유저 상태와 관련된 메시지를 표시합니다. 또한 스테이터스 메시지(slug)는 라라벨의 [로컬라이제이션](/docs/{{version}}/localization) 헬퍼를 통해 번역 되어 유저 친화적인 메시지를 표시합니다. 비밀번호 재설정 스테이터스 메시지는 애플리케이션의 `lang/{lang}/passwords.php` 파일에 정의된 내용을 바탕으로 번역됩니다. 스테이터스 메시지(slug)로 가능한 각각의 항목값은 `passwords` 언어 파일 내에 정의되어 있습니다.
+`reset` 메소드는 "스테이터스(status)" [메시지(slug)](https://en.wikipedia.org/wiki/Clean_URL#Slug)를 반환합니다. 스테이터스 메시지(slug)는 유저 상태와 관련된 메시지를 표시합니다. 또한 스테이터스 메시지(slug)는 라라벨의 [로컬라이제이션](/docs/{{version}}/localization) 헬퍼를 통해 번역 되어 유저 친화적인 메시지를 표시합니다. 비밀번호 재설정 스테이터스 메시지는 애플리케이션의 `lang/{lang}/passwords.php` 파일에 정의된 내용을 바탕으로 번역됩니다. 스테이터스 메시지(slug)로 가능한 각각의 항목값은 `passwords` 언어 파일 내에 정의되어 있습니다. 애플리케이션에 `lang` 디렉터리가 없는 경우 `lang:publish` Artisan 커멘드를 사용하여 디렉터리를 만들 수 있습니다.
 
 Before moving on, you may be wondering how Laravel knows how to retrieve the user record from your application's database when calling the `Password` facade's `reset` method. The Laravel password broker utilizes your authentication system's "user providers" to retrieve database records. The user provider used by the password broker is configured within the `passwords` configuration array of your `config/auth.php` configuration file. To learn more about writing custom user providers, consult the [authentication documentation](/docs/{{version}}/authentication#adding-custom-user-providers).
 
@@ -248,18 +255,15 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 `ResetPassword` notification 클래스에서 제공하는 `createUrlUsing` 메소드를 사용하여 비밀번호 재설정 링크의 URL을 커스터마이징할 수 있습니다. `createUrlUsing` 메소드는 클로저를 인자로 받습니다. 이 클로저는 user 인스턴스와 비밀번호 재설정 링크의 토큰을 인자로 받습니다. 유저 인스턴스는 알림(notification)을 받을 사용자를 선택하는 역할을 합니다. 일반적으로 `ResetPassword` 클래스의 `createUrlUsing` 메소드는 `App\Providers\AuthServiceProvider` 서비스 프로바이더의 `boot` 메서드에서 호출해야 합니다.
 
+    use App\Models\User;
     use Illuminate\Auth\Notifications\ResetPassword;
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->registerPolicies();
-
-        ResetPassword::createUrlUsing(function ($user, string $token) {
+        ResetPassword::createUrlUsing(function (User $user, string $token) {
             return 'https://example.com/reset-password?token='.$token;
         });
     }
@@ -270,7 +274,7 @@ You may customize the password reset link URL using the `createUrlUsing` method 
 
 You may easily modify the notification class used to send the password reset link to the user. To get started, override the `sendPasswordResetNotification` method on your `App\Models\User` model. Within this method, you may send the notification using any [notification class](/docs/{{version}}/notifications) of your own creation. The password reset `$token` is the first argument received by the method. You may use this `$token` to build the password reset URL of your choice and send your notification to the user:
 
-비밀번호 재설정 링크를 보내기 위해서는 notification 클래스를 사용해야 합니다. notification 클래스는 원하는대로 쉽게 수정할 수 있습니다. notification 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 어떠한 알림(notification)이라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 알림(notification)을 보낼 수 있습니다.
+비밀번호 재설정 링크를 보내기 위해서는 `notification` 클래스를 사용해야 합니다. `notification` 클래스는 원하는대로 쉽게 수정할 수 있습니다. `notification` 클래스를 수정하려면 `App\Models\User` 모델에서 `sendPasswordResetNotification` 메소드를 오버라이드 해야 합니다. [notification class](/docs/{{version}}/notifications)를 사용하여 이 메소드를 오버라이딩 하면 직접 만든 어떠한 메시지(notification)라도 보낼 수 있습니다. 비밀번호 재설정 메소드의 첫번째 인자는 `$token`을 전달 받습니다. 전달된 `$token`을 사용하여 원하는 비밀번호 재설정 URL을 만들고 사용자에게 메시지(notification)를 보낼 수 있습니다.
 
     use App\Notifications\ResetPasswordNotification;
 
@@ -278,9 +282,8 @@ You may easily modify the notification class used to send the password reset lin
      * Send a password reset notification to the user.
      *
      * @param  string  $token
-     * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $url = 'https://example.com/reset-password?token='.$token;
 

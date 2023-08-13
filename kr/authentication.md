@@ -149,9 +149,9 @@ _Laravel Fortify_ is a headless authentication backend for Laravel that implemen
 
 _Laravel Fortify_ 는 쿠키 기반 인증과 2단계 인증 및 이메일 확인과 같은 기타 기능을 포함하여, 이 문서에 있는 많은 기능을 구현하는 라라벨용 헤드리스 인증 백엔드입니다. Fortify는 Laravel Jetstream에 대한 인증 백엔드를 제공하거나 [Laravel Sanctum](/docs/{{version}}/sanctum)과 함께 독립적으로 사용하여 Laravel에 인증해야하는 SPA에 인증 기능을 제공 할 수 있습니다.
 
-_[Laravel Jetstream](https://jetstream.laravel.com)_ is a robust application starter kit that consumes and exposes Laravel Fortify's authentication services with a beautiful, modern UI powered by [Tailwind CSS](https://tailwindcss.com), [Livewire](https://laravel-livewire.com), and / or [Inertia](https://inertiajs.com). Laravel Jetstream includes optional support for two-factor authentication, team support, browser session management, profile management, and built-in integration with [Laravel Sanctum](/docs/{{version}}/sanctum) to offer API token authentication. Laravel's API authentication offerings are discussed below.
+_[Laravel Jetstream](https://jetstream.laravel.com)_ is a robust application starter kit that consumes and exposes Laravel Fortify's authentication services with a beautiful, modern UI powered by [Tailwind CSS](https://tailwindcss.com), [Livewire](https://livewire.laravel.com), and / or [Inertia](https://inertiajs.com). Laravel Jetstream includes optional support for two-factor authentication, team support, browser session management, profile management, and built-in integration with [Laravel Sanctum](/docs/{{version}}/sanctum) to offer API token authentication. Laravel's API authentication offerings are discussed below.
 
-_[Laravel Jetstream](https://jetstream.laravel.com)_ 은 [Tailwind CSS](https://tailwindcss.com)와 [Livewire](https://laravel-livewire.com) 또는 [Inertia](https://inertiajs.com)로 제공하는 아름답고 현대적인 UI로, Laravel Fortify의 인증 서비스를 사용하여 제공하는 강력한 애플리케이션 스타터 키트입니다. Laravel Jetstream은 2 단계 인증, 팀 지원, 브라우저 세션 관리, 프로필 관리 및 API 토큰 인증을 제공하기 위해 [Laravel Sanctum](/docs/{{version}}/sanctum)과의 내장 통합에 대한 선택적인 지원을 포함하고 있습니다. 라라벨의 API 인증 제품은 아래에서 설명합니다.
+_[Laravel Jetstream](https://jetstream.laravel.com)_ 은 [Tailwind CSS](https://tailwindcss.com)와 [Livewire](https://livewire.laravel.com) 또는 [Inertia](https://inertiajs.com)로 제공하는 아름답고 현대적인 UI로, Laravel Fortify의 인증 서비스를 사용하여 제공하는 강력한 애플리케이션 스타터 키트입니다. Laravel Jetstream은 2 단계 인증, 팀 지원, 브라우저 세션 관리, 프로필 관리 및 API 토큰 인증을 제공하기 위해 [Laravel Sanctum](/docs/{{version}}/sanctum)과의 내장 통합에 대한 선택적인 지원을 포함하고 있습니다. 라라벨의 API 인증 제품은 아래에서 설명합니다.
 
 <a name="laravels-api-authentication-services"></a>
 #### Laravel's API Authentication Services
@@ -229,9 +229,9 @@ Laravel Breeze is a minimal, simple implementation of all of Laravel's authentic
 
 Laravel Breeze는 로그인, 사용자 등록, 비밀번호 재설정, 이메일 확인 및 비밀번호 확인을 포함하여 라라벨의 모든 인증 기능을 최소한으로 간단하게 구현해줍니다. Laravel Breeze의 뷰 레이어는 [Tailwind CSS](https://tailwindcss.com) 스타일의 간단한 [Blade templates](/docs/{{version}}/blade)로 만들어집니다. 또한 Breeze는 Vue 또는 React를 사용하는 [Inertia](https://inertiajs.com) 기반 스캐폴딩 옵션도 제공합니다.
 
-[Laravel Jetstream](https://jetstream.laravel.com) is a more robust application starter kit that includes support for scaffolding your application with [Livewire](https://laravel-livewire.com) or [Inertia and Vue](https://inertiajs.com). In addition, Jetstream features optional support for two-factor authentication, teams, profile management, browser session management, API support via [Laravel Sanctum](/docs/{{version}}/sanctum), account deletion, and more.
+[Laravel Jetstream](https://jetstream.laravel.com) is a more robust application starter kit that includes support for scaffolding your application with [Livewire](https://livewire.laravel.com) or [Inertia and Vue](https://inertiajs.com). In addition, Jetstream features optional support for two-factor authentication, teams, profile management, browser session management, API support via [Laravel Sanctum](/docs/{{version}}/sanctum), account deletion, and more.
 
-[Laravel Jetstream](https://jetstream.laravel.com)은 [Livewire](https://laravel-livewire.com) 또는 [Inertia 및 Vue](https://inertiajs.com)를 사용하여 애플리케이션의 스캐폴딩을 지원하는 강력한 애플리케이션 스타터 키트입니다. 또한 Jetstream은 2 단계 인증, 팀, 프로필 관리, 브라우저 세션 관리, [Laravel Sanctum](/docs/{{version}}/sanctum)을 통한 API 지원, 계정 삭제 등에 대해 선택적으로 지원할 수 있는 기능을 제공합니다.
+[Laravel Jetstream](https://jetstream.laravel.com)은 [Livewire](https://livewire.laravel.com) 또는 [Inertia 및 Vue](https://inertiajs.com)를 사용하여 애플리케이션의 스캐폴딩을 지원하는 강력한 애플리케이션 스타터 키트입니다. 또한 Jetstream은 2 단계 인증, 팀, 프로필 관리, 브라우저 세션 관리, [Laravel Sanctum](/docs/{{version}}/sanctum)을 통한 API 지원, 계정 삭제 등에 대해 선택적으로 지원할 수 있는 기능을 제공합니다.
 
 <a name="retrieving-the-authenticated-user"></a>
 ### Retrieving The Authenticated User
@@ -293,7 +293,7 @@ To determine if the user making the incoming HTTP request is authenticated, you 
 > **Note**  
 > Even though it is possible to determine if a user is authenticated using the `check` method, you will typically use a middleware to verify that the user is authenticated before allowing the user access to certain routes / controllers. To learn more about this, check out the documentation on [protecting routes](/docs/{{version}}/authentication#protecting-routes).
 
-> **Note**
+> **Note**  
 > `check` 메서드를 사용하여 사용자가 인증되어 있는지 확인할 수 있지만, 일반적으로 사용자가 특정 라우트 컨트롤러에 접근 할 수 있도록 허용할 때, 미들웨어를 사용하여 사용자가 인증되었는지 확인합니다. 이에 대해 자세히 알아 보려면 [라우트 보호하기](/docs/{{version}}/authentication#protecting-routes)에 대한 문서를 확인하십시오.
 
 <a name="protecting-routes"></a>
@@ -315,6 +315,8 @@ To determine if the user making the incoming HTTP request is authenticated, you 
 When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior by updating the `redirectTo` function in your application's `app/Http/Middleware/Authenticate.php` file:
 
 `auth` 미들웨어는 사용자가 인증되지 않았다면, `login` [이라는 이름이 지정된 Route](/docs/{{version}}/routing#named-routes)으로 리디렉션합니다. 애플리케이션의 `appHttpMiddlewareAuthenticate.php` 파일의 `redirectTo` 함수를 수정하여 이 동작을 바꿀 수 있습니다.
+
+    use Illuminate\Http\Request;
 
     use Illuminate\Http\Request;
 
@@ -429,7 +431,6 @@ If you wish, you may also add extra query conditions to the authentication query
 For complex query conditions, you may provide a closure in your array of credentials. This closure will be invoked with the query instance, allowing you to customize the query based on your application's needs:
 
 복잡한 쿼리 조건을 위해서는 인증 정보 배열에 클로저를 제공해주면 됩니다. 이 클로저는 쿼리 인스턴스와 함께 호출되어 애플리케이션의 요구 사항에 따라 쿼리를 사용자 정의할 수 있습니다.
-
 
     use Illuminate\Database\Eloquent\Builder;
 
@@ -621,6 +622,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
     }
 
 Next, attach the middleware to a route:
+
 다음으로 미들웨어를 Route에 연결합니다.
 
     Route::get('/api/user', function () {
@@ -667,7 +669,7 @@ Laravel also provides a mechanism for invalidating and "logging out" a user's se
 
 Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is included on the routes that should receive session authentication. Typically, you should place this middleware on a route group definition so that it can be applied to the majority of your application's routes. By default, the `AuthenticateSession` middleware may be attached to a route using the `auth.session` route middleware alias as defined in your application's HTTP kernel:
 
-시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 세션 인증을 받아야 하는 Route에 포함되어 있는지 확인해야 합니다. 일반적으로 대부분의 애플리케이션 Route에 적용할 수 있도록 라우트 그룹 정의에 미들웨어를 적용합니다. 기본적으로 `AuthenticateSession` 미들웨어는 애플리케이션의 HTTP 커널에 정의된 대로 `auth.session` Route 미들웨어 별칭을 사용하여 Route에 연결할 수 있습니다.
+시작하기 전에 `Illuminate\Session\Middleware\AuthenticateSession` 미들웨어가 세션 인증을 받아야하는 라우트에 포함되어 있는지 확인해야 합니다. 일반적으로 대부분의 애플리케이션 라우트에 적용할 수 있도록 라우트 그룹 정의에 미들웨어를 적용합니다. 기본적으로 `AuthenticateSession` 미들웨어는 HTTP 커널에 정의된 대로 `auth.session` 라우트 미들웨어 별칭을 이용하여 라우트에 연결할 수 있습니다.
 
     Route::middleware(['auth', 'auth.session'])->group(function () {
         Route::get('/', function () {
@@ -698,7 +700,7 @@ While building your application, you may occasionally have actions that should r
 > **Note**  
 > The following documentation discusses how to integrate with Laravel's password confirmation features directly; however, if you would like to get started more quickly, the [Laravel application starter kits](/docs/{{version}}/starter-kits) include support for this feature!
 
-> **Note**
+> **Note**  
 > 아래 문서는 라라벨의 비밀번호 확인 기능을 직접 연동하는 방법에 대해 설명합니다. 그러나 더 빨리 시작하기위해 [라라벨 애플리케이션 스타터 키트](/docs/{{version}}/starter-kits)가 이 기능들을 지원하고 있습니다!
 
 <a name="password-confirmation-configuration"></a>
@@ -838,7 +840,7 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
     public function boot(): void
     {
         Auth::viaRequest('custom-token', function (Request $request) {
-            return User::where('token', $request->token)->first();
+            return User::where('token', (string) $request->token)->first();
         });
     }
 
@@ -854,7 +856,7 @@ Once your custom authentication driver has been defined, you may configure it as
 
 Finally, you may reference the guard when assigning the authentication middleware to a route:
 
-마지막으로 인증 미들웨어를 Route에 할당할 때 가드를 참조할 수 있습니다.
+마지막으로 인증 미들웨어를 라우트에 부여할 때 가드를 참조할 수 있습니다.
 
     Route::middleware('auth:api')->group(function () {
         // ...

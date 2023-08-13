@@ -22,6 +22,7 @@
     - [Renaming / Dropping Tables](#renaming-and-dropping-tables)
     - [테이블의 이름변경 / 제거](#renaming-and-dropping-tables)
 - [Columns](#columns)
+- [컬럼](#columns)
     - [Creating Columns](#creating-columns)
     - [컬럼 생성하기](#creating-columns)
     - [Available Column Types](#available-column-types)
@@ -79,10 +80,10 @@ If you would like to specify a custom path for the generated migration, you may 
 
 생성된 마이그레이션에 대한 사용자 지정 경로를 지정하려면 `make:migration` 명령을 실행할 때 `--path` 옵션을 사용할 수 있습니다. 주어진 경로는 애플리케이션의 기본 경로에 상대적이어야 합니다.
 
-> **Note**
+> **Note**  
 > Migration stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
-> **Note**
+> **Note**  
 > [stub publishing](/docs/{{version}}/artisan#stub-customization)를 통해서 마이그레이션 stubs을 커스트마이징 할 수 있습니다.
 
 <a name="squashing-migrations"></a>
@@ -100,7 +101,7 @@ php artisan schema:dump
 php artisan schema:dump --prune
 ```
 
-When you execute this command, Laravel will write a "schema" file to your application's `database/schema` directory. The schema file's name will correspond to the database connection. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will execute first the SQL statements of the schema file of the database connection you are using. After executing the schema file's statements, Laravel will execute any remaining migrations that were not part of the schema dump.
+When you execute this command, Laravel will write a "schema" file to your application's `database/schema` directory. The schema file's name will correspond to the database connection. Now, when you attempt to migrate your database and no other migrations have been executed, Laravel will first execute the SQL statements in the schema file of the database connection you are using. After executing the schema file's SQL statements, Laravel will execute any remaining migrations that were not part of the schema dump.
 
 이 명령을 실행하면 라라벨은 `database/schema` 폴더에 "schema" 파일을 작성합니다. 스키마 파일의 이름은 데이터베이스 커넥션에 따라 지어집니다. 이제 데이터베이스 마이그레이션을 시도하고 다른 마이그레이션이 실행되지 않은 경우 라라벨은 여러분이 사용하고자 하는 데이터베이스 커넥션의 스키마 파일의 SQL 문을 먼저 실행합니다. 스키마 파일의 명령문을 실행한 후 라라벨은 스키마 덤프의 일부가 아닌 나머지 마이그레이션을 실행합니다.
 
@@ -117,10 +118,10 @@ You should commit your database schema file to source control so that other new 
 
 여러분은 팀의 다른 새로운 개발자가 애플리케이션의 초기 데이터베이스 구조를 빠르게 만들 수 있도록 데이터베이스 스키마 파일을 소스 컨트롤에 커밋해야 합니다.
 
-> **Warning**
+> **Warning**  
 > Migration squashing is only available for the MySQL, PostgreSQL, and SQLite databases and utilizes the database's command-line client. Schema dumps may not be restored to in-memory SQLite databases.
 
-> **Warning**
+> **Warning**  
 > 마이그레이션 스쿼싱은 MySQL, PostgreSQL 및 SQLite 데이터베이스에서만 사용할 수 있으며 데이터베이스의 명령줄 클라이언트를 활용합니다. 스키마 덤프는 메모리 내 SQLite 데이터베이스로 복원되지 않을 수 있습니다.
 
 <a name="migration-structure"></a>
@@ -145,10 +146,8 @@ Within both of these methods, you may use the Laravel schema builder to expressi
     {
         /**
          * Run the migrations.
-         *
-         * @return void
          */
-        public function up()
+        public function up(): void
         {
             Schema::create('flights', function (Blueprint $table) {
                 $table->id();
@@ -160,10 +159,8 @@ Within both of these methods, you may use the Laravel schema builder to expressi
 
         /**
          * Reverse the migrations.
-         *
-         * @return void
          */
-        public function down()
+        public function down(): void
         {
             Schema::drop('flights');
         }
@@ -186,12 +183,10 @@ If your migration will be interacting with a database connection other than your
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        //
+        // ...
     }
 
 <a name="running-migrations"></a>
@@ -274,6 +269,20 @@ You may roll back a limited number of migrations by providing the `step` option 
 php artisan migrate:rollback --step=5
 ```
 
+You may roll back a specific "batch" of migrations by providing the `batch` option to the `rollback` command, where the `batch` option corresponds to a batch value within your application's `migrations` database table. For example, the following command will roll back all migrations in batch three:
+
+`rollback` 명령어에 `batch` 옵션을 전달하여 마이그레이션의 특정 "배치"를 되돌릴 수 있습니다. 여기서 `batch` 옵션은 애플리케이션의 `migrations` 데이터베이스 테이블 내의 배치 값에 해당합니다. 예를 들어 다음 명령어는 배치 3의 모든 마이그레이션을 되돌립니다.
+
+ ```shell
+ php artisan migrate:rollback --batch=3
+ ```
+
+If you would like to see the SQL statements that will be executed by the migrations without actually running them, you may provide the `--pretend` flag to the `migrate:rollback` command:
+
+```shell
+php artisan migrate:rollback --pretend
+```
+
 The `migrate:reset` command will roll back all of your application's migrations:
 
 `migrate:reset` 커맨드는 애플리케이션의 모든 마이그레이션을 되돌립니다.
@@ -319,10 +328,10 @@ php artisan migrate:fresh
 php artisan migrate:fresh --seed
 ```
 
-> **Warning**
+> **Warning**  
 > The `migrate:fresh` command will drop all database tables regardless of their prefix. This command should be used with caution when developing on a database that is shared with other applications.
 
-> **Warning**
+> **Warning**  
 > `migrate:fresh` 명령은 접두어에 관계없이 모든 데이터베이스 테이블을 삭제합니다. 이 명령은 다른 응용 프로그램과 공유되는 데이터베이스에서 개발할 때 주의해서 사용해야 합니다.
 
 <a name="tables"></a>
@@ -424,7 +433,7 @@ If you would like to add a "comment" to a database table, you may invoke the `co
 ### Updating Tables
 ### 테이블 수정하기
 
-The `table` method on the `Schem-a` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a closure that receives a `Blueprint` instance you may use to add columns or indexes to the table:
+The `table` method on the `Schema` facade may be used to update existing tables. Like the `create` method, the `table` method accepts two arguments: the name of the table and a closure that receives a `Blueprint` instance you may use to add columns or indexes to the table:
 
 `Schema` 파사드의 `table` 메소드는 기존 테이블을 수정하는 데 사용할 수 있습니다. `create` 메소드와 마찬가지로 `table` 메소드는 테이블 이름과 테이블에 컬럼이나 인덱스를 추가하는 데 사용할 수 있는 `Blueprint` 인스턴스를 받는 클로저의 두 가지 인수를 허용합니다.
 
@@ -490,95 +499,74 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 
 스키마 빌더 청사진(blueprint)은 데이터베이스 테이블에 추가할 수 있는 다양한 유형의 컬럼에 해당하는 다양한 방법을 제공합니다. 사용 가능한 각 방법은 아래 표에 나열되어 있습니다.
 
-<style>
-    #collection-method-list > p {
-        column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
-        column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
-    }
-
-    #collection-method-list a {
-        display: block;
-    }
-
-    .collection-method code {
-        font-size: 14px;
-    }
-
-    .collection-method:not(.first-collection-method) {
-        margin-top: 50px;
-    }
-</style>
-
-<div id="collection-method-list" markdown="1">
-[bigIncrements](#column-method-bigIncrements)
-[bigInteger](#column-method-bigInteger)
-[binary](#column-method-binary)
-[boolean](#column-method-boolean)
-[char](#column-method-char)
-[dateTimeTz](#column-method-dateTimeTz)
-[dateTime](#column-method-dateTime)
-[date](#column-method-date)
-[decimal](#column-method-decimal)
-[double](#column-method-double)
-[enum](#column-method-enum)
-[float](#column-method-float)
-[foreignId](#column-method-foreignId)
-[foreignIdFor](#column-method-foreignIdFor)
-[foreignUlid](#column-method-foreignUlid)
-[foreignUuid](#column-method-foreignUuid)
-[geometryCollection](#column-method-geometryCollection)
-[geometry](#column-method-geometry)
-[id](#column-method-id)
-[increments](#column-method-increments)
-[integer](#column-method-integer)
-[ipAddress](#column-method-ipAddress)
-[json](#column-method-json)
-[jsonb](#column-method-jsonb)
-[lineString](#column-method-lineString)
-[longText](#column-method-longText)
-[macAddress](#column-method-macAddress)
-[mediumIncrements](#column-method-mediumIncrements)
-[mediumInteger](#column-method-mediumInteger)
-[mediumText](#column-method-mediumText)
-[morphs](#column-method-morphs)
-[multiLineString](#column-method-multiLineString)
-[multiPoint](#column-method-multiPoint)
-[multiPolygon](#column-method-multiPolygon)
-[nullableMorphs](#column-method-nullableMorphs)
-[nullableTimestamps](#column-method-nullableTimestamps)
-[nullableUlidMorphs](#column-method-nullableUlidMorphs)
-[nullableUuidMorphs](#column-method-nullableUuidMorphs)
-[point](#column-method-point)
-[polygon](#column-method-polygon)
-[rememberToken](#column-method-rememberToken)
-[set](#column-method-set)
-[smallIncrements](#column-method-smallIncrements)
-[smallInteger](#column-method-smallInteger)
-[softDeletesTz](#column-method-softDeletesTz)
-[softDeletes](#column-method-softDeletes)
-[string](#column-method-string)
-[text](#column-method-text)
-[timeTz](#column-method-timeTz)
-[time](#column-method-time)
-[timestampTz](#column-method-timestampTz)
-[timestamp](#column-method-timestamp)
-[timestampsTz](#column-method-timestampsTz)
-[timestamps](#column-method-timestamps)
-[tinyIncrements](#column-method-tinyIncrements)
-[tinyInteger](#column-method-tinyInteger)
-[tinyText](#column-method-tinyText)
-[unsignedBigInteger](#column-method-unsignedBigInteger)
-[unsignedDecimal](#column-method-unsignedDecimal)
-[unsignedInteger](#column-method-unsignedInteger)
-[unsignedMediumInteger](#column-method-unsignedMediumInteger)
-[unsignedSmallInteger](#column-method-unsignedSmallInteger)
-[unsignedTinyInteger](#column-method-unsignedTinyInteger)
-[ulidMorphs](#column-method-ulidMorphs)
-[uuidMorphs](#column-method-uuidMorphs)
-[ulid](#column-method-ulid)
-[uuid](#column-method-uuid)
-[year](#column-method-year)
-</div>
+- [bigIncrements](#column-method-bigIncrements)
+- [bigInteger](#column-method-bigInteger)
+- [binary](#column-method-binary)
+- [boolean](#column-method-boolean)
+- [char](#column-method-char)
+- [dateTimeTz](#column-method-dateTimeTz)
+- [dateTime](#column-method-dateTime)
+- [date](#column-method-date)
+- [decimal](#column-method-decimal)
+- [double](#column-method-double)
+- [enum](#column-method-enum)
+- [float](#column-method-float)
+- [foreignId](#column-method-foreignId)
+- [foreignIdFor](#column-method-foreignIdFor)
+- [foreignUlid](#column-method-foreignUlid)
+- [foreignUuid](#column-method-foreignUuid)
+- [geometryCollection](#column-method-geometryCollection)
+- [geometry](#column-method-geometry)
+- [id](#column-method-id)
+- [increments](#column-method-increments)
+- [integer](#column-method-integer)
+- [ipAddress](#column-method-ipAddress)
+- [json](#column-method-json)
+- [jsonb](#column-method-jsonb)
+- [lineString](#column-method-lineString)
+- [longText](#column-method-longText)
+- [macAddress](#column-method-macAddress)
+- [mediumIncrements](#column-method-mediumIncrements)
+- [mediumInteger](#column-method-mediumInteger)
+- [mediumText](#column-method-mediumText)
+- [morphs](#column-method-morphs)
+- [multiLineString](#column-method-multiLineString)
+- [multiPoint](#column-method-multiPoint)
+- [multiPolygon](#column-method-multiPolygon)
+- [nullableMorphs](#column-method-nullableMorphs)
+- [nullableTimestamps](#column-method-nullableTimestamps)
+- [nullableUlidMorphs](#column-method-nullableUlidMorphs)
+- [nullableUuidMorphs](#column-method-nullableUuidMorphs)
+- [point](#column-method-point)
+- [polygon](#column-method-polygon)
+- [rememberToken](#column-method-rememberToken)
+- [set](#column-method-set)
+- [smallIncrements](#column-method-smallIncrements)
+- [smallInteger](#column-method-smallInteger)
+- [softDeletesTz](#column-method-softDeletesTz)
+- [softDeletes](#column-method-softDeletes)
+- [string](#column-method-string)
+- [text](#column-method-text)
+- [timeTz](#column-method-timeTz)
+- [time](#column-method-time)
+- [timestampTz](#column-method-timestampTz)
+- [timestamp](#column-method-timestamp)
+- [timestampsTz](#column-method-timestampsTz)
+- [timestamps](#column-method-timestamps)
+- [tinyIncrements](#column-method-tinyIncrements)
+- [tinyInteger](#column-method-tinyInteger)
+- [tinyText](#column-method-tinyText)
+- [unsignedBigInteger](#column-method-unsignedBigInteger)
+- [unsignedDecimal](#column-method-unsignedDecimal)
+- [unsignedInteger](#column-method-unsignedInteger)
+- [unsignedMediumInteger](#column-method-unsignedMediumInteger)
+- [unsignedSmallInteger](#column-method-unsignedSmallInteger)
+- [unsignedTinyInteger](#column-method-unsignedTinyInteger)
+- [ulidMorphs](#column-method-ulidMorphs)
+- [uuidMorphs](#column-method-uuidMorphs)
+- [ulid](#column-method-ulid)
+- [uuid](#column-method-uuid)
+- [year](#column-method-year)
 
 <a name="column-method-bigIncrements"></a>
 #### `bigIncrements()` {.collection-method .first-collection-method}
@@ -777,6 +765,10 @@ The `ipAddress` method creates a `VARCHAR` equivalent column:
 `ipAddress` 메소드는 `VARCHAR`에 해당하는 컬럼을 생성합니다.
 
     $table->ipAddress('visitor');
+    
+When using Postgres, an `INET` column will be created.
+
+Postgres를 사용할 때는 `INET` 컬럼이 생성됩니다.
 
 <a name="column-method-json"></a>
 #### `json()` {.collection-method}
@@ -1103,12 +1095,16 @@ The `tinyText` method creates a `TINYTEXT` equivalent column:
 
 The `unsignedBigInteger` method creates an `UNSIGNED BIGINT` equivalent column:
 
+`unsignedBigInteger` 메소드는 `UNSIGNED BIGINT`에 해당하는 컬럼을 생성합니다.
+
     $table->unsignedBigInteger('votes');
 
 <a name="column-method-unsignedDecimal"></a>
 #### `unsignedDecimal()` {.collection-method}
 
 The `unsignedDecimal` method creates an `UNSIGNED DECIMAL` equivalent column with an optional precision (total digits) and scale (decimal digits):
+
+`unsignedDecimal` 메소드는 (총 자릿수, 소수점 자리) 옵션을 사용하여 `UNSIGNED DECIMAL`에 해당하는 컬럼을 생성합니다.
 
     $table->unsignedDecimal('amount', $precision = 8, $scale = 2);
 
@@ -1234,7 +1230,7 @@ Modifier  |  Description
 `->storedAs($expression)`  |  Create a stored generated column (MySQL / PostgreSQL).
 `->unsigned()`  |  Set INTEGER columns as UNSIGNED (MySQL).
 `->useCurrent()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP as default value.
-`->useCurrentOnUpdate()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP when a record is updated.
+`->useCurrentOnUpdate()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP when a record is updated (MySQL).
 `->virtualAs($expression)`  |  Create a virtual generated column (MySQL).
 `->generatedAs($expression)`  |  Create an identity column with specified sequence options (PostgreSQL).
 `->always()`  |  Defines the precedence of sequence values over input for an identity column (PostgreSQL).
@@ -1255,7 +1251,7 @@ Modifier  |  설명
 `->storedAs($expression)`  |  stored generated 컬럼 생성하기 (MySQL)
 `->unsigned()`  |  INTEGER 컬럼을 UNSIGNED 으로 지정 (MySQL)
 `->useCurrent()`  |  CURRENT_TIMESTAMP를 기본값으로 사용하도록 TIMESTAMP 컬럼을 설정합니다.
-`->useCurrentOnUpdate()`  |  레코드가 수정될 때 CURRENT_TIMESTAMP를 사용하도록 TIMESTAMP 컬럼을 설정합니다.
+`->useCurrentOnUpdate()`  |  레코드가 수정될 때 CURRENT_TIMESTAMP를 사용하도록 TIMESTAMP 컬럼을 설정합니다. (MySQL)
 `->virtualAs($expression)`  |  virtual generated 컬럼 생성하기 (MySQL)
 `->generatedAs($expression)`  |  지정한 시퀀스 옵션을 사용하여 ID 컬럼 만들기 (PostgreSQL)
 `->always()`  |  id 컬럼에 입력할 순차 값의 우선 순위를 정의합니다 (PostgreSQL)
@@ -1280,10 +1276,8 @@ The `default` modifier accepts a value or an `Illuminate\Database\Query\Expressi
     {
         /**
          * Run the migrations.
-         *
-         * @return void
          */
-        public function up()
+        public function up(): void
         {
             Schema::create('flights', function (Blueprint $table) {
                 $table->id();
@@ -1293,12 +1287,11 @@ The `default` modifier accepts a value or an `Illuminate\Database\Query\Expressi
         }
     };
 
-> **Warning**
-> Support for default expressions depends on your database driver, database version, and the field type. Please refer to your database's documentation. In addition, it is not possible to combine raw `default` expressions (using `DB::raw`) with column changes via the `change` method.
+> **Warning**  
+> Support for default expressions depends on your database driver, database version, and the field type. Please refer to your database's documentation.
 
-
-> **Warning**
-> 기본 표현식 지원은 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 데이터베이스의 설명서를 참조하십시오. 추가적으로 `default` 표현식(`DB::raw`를 사용하는)은 `change` 메서드를 통해 변경되는 컬럼과 합쳐질 수 없습니다.
+> **Warning**  
+> 기본 표현식 지원은 데이터베이스 드라이버, 데이터베이스 버전 및 필드 유형에 따라 다릅니다. 데이터베이스의 설명서를 참조하십시오. 
 
 <a name="column-order"></a>
 #### Column Order
@@ -1308,7 +1301,7 @@ When using the MySQL database, the `after` method may be used to add columns aft
 
 MySQL 데이터베이스를 사용할 때 `after` 메서드를 사용하여 스키마의 기존 컬럼 뒤에 컬럼을 추가할 수 있습니다.
 
-    $table->after('password', function ($table) {
+    $table->after('password', function (Blueprint $table) {
         $table->string('address_line1');
         $table->string('address_line2');
         $table->string('city');
@@ -1318,13 +1311,29 @@ MySQL 데이터베이스를 사용할 때 `after` 메서드를 사용하여 스�
 ### Modifying Columns
 ### 컬럼 수정
 
-<a name="prerequisites"></a>
-#### Prerequisites
-#### 전제 조건
+The `change` method allows you to modify the type and attributes of existing columns. For example, you may wish to increase the size of a `string` column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50. To accomplish this, we simply define the new state of the column and then call the `change` method:
 
-Before modifying a column, you must install the `doctrine/dbal` package using the Composer package manager. The Doctrine DBAL library is used to determine the current state of the column and to create the SQL queries needed to make the requested changes to your column:
+`change` 메소드는 이미 존재하는 컬럼 타입을 유형과 속성을 변경합니다. 예를 들어, `string` 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다. 이를 수행하기 위해 컬럼의 새 상태를 정의한 다음 `change` 메서드를 호출하기만 하면 됩니다.
 
-열을 수정하기 전에 Composer 패키지 관리자를 사용하여 `doctrine/dbal` 패키지를 설치해야 합니다. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 컬럼에 요청된 변경을 수행하는 데 필요한 SQL 쿼리를 만드는 데 사용됩니다.
+    Schema::table('users', function (Blueprint $table) {
+        $table->string('name', 50)->change();
+    });
+
+When modifying a column, you must explicitly include all of the modifiers you want to keep on the column definition - any missing attribute will be dropped. For example, to retain the `unsigned`, `default`, and `comment` attributes, you must call each modifier explicitly when changing the column:
+
+컬럼을 수정할 때 컬럼 정의에 유지하려는 모든 수정자를 명시적으로 포함해야 합니다. 누락된 속성은 모두 삭제됩니다. 예를 들어 `unsigned`, `default` 및 `comment` 속성을 유지하려면 열을 변경할 때 각 수정자를 명시적으로 호출해야 합니다.
+
+    Schema::table('users', function (Blueprint $table) {
+        $table->integer('votes')->unsigned()->default(1)->comment('my comment')->change();
+    });
+
+<a name="modifying-columns-on-sqlite"></a>
+#### Modifying Columns On SQLite
+#### SQLite에서 컬럼 수정
+
+If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package using the Composer package manager before modifying a column. The Doctrine DBAL library is used to determine the current state of the column and to create the SQL queries needed to make the requested changes to your column:
+
+애플리케이션이 SQLite 데이터베이스를 사용하는 경우 Composer 패키지 관리자를 사용하여 `doctrine/dbal` 패키지를 설치해야 컬럼을 수정할 수 있습니다. Doctrine DBAL 라이브러리는 컬럼의 현재 상태를 확인하고 요청된 컬럼 변경을 수행하는 데 필요한 SQL 쿼리를 생성하는 데 사용됩니다.
 
     composer require doctrine/dbal
 
@@ -1342,37 +1351,11 @@ use Illuminate\Database\DBAL\TimestampType;
 ],
 ```
 
-> **Warning**
-> If your application is using Microsoft SQL Server, please ensure that you install `doctrine/dbal:^3.0`.
+> **Warning**  
+> When using the `doctrine/dbal` package, the following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, `ulid`, and `uuid`.
 
-> **Warning**
-> 응용 프로그램이 Microsoft SQL Server를 사용하는 경우 `doctrine/dbal:^3.0`을 설치해야 합니다.
-
-<a name="updating-column-attributes"></a>
-#### Updating Column Attributes
-#### 컬럼의 속성 변경하기
-
-The `change` method allows you to modify the type and attributes of existing columns. For example, you may wish to increase the size of a `string` column. To see the `change` method in action, let's increase the size of the `name` column from 25 to 50. To accomplish this, we simply define the new state of the column and then call the `change` method:
-
-`change` 메소드는 이미 존재하는 컬럼 타입을 유형과 속성을 변경합니다. 예를 들어, `string` 컬럼의 사이즈를 늘이고 싶을 수 있습니다. `change` 메소드가 어떻게 작동하는지 `name` 컬럼 사이즈를 25에서 50으로 늘여서 확인해 보겠습니다. 이를 수행하기 위해 컬럼의 새 상태를 정의한 다음 `change` 메서드를 호출하기만 하면 됩니다.
-
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('name', 50)->change();
-    });
-
-We could also modify a column to be nullable:
-
-컬럼을 nullable로 수정할 수도 있습니다.
-
-    Schema::table('users', function (Blueprint $table) {
-        $table->string('name', 50)->nullable()->change();
-    });
-
-> **Warning**
-> The following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, and `uuid`.  To modify a `timestamp` column type a [Doctrine type must be registered](#prerequisites).
-
-> **Warning**
-> 수정할 수 있는 컬럼 유형은 `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText입니다. `, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger` 및 `uuid`. `timestamp` 컬럼 유형을 수정하려면 [Doctrine 타입 등록 필요](#prerequisites).
+> **Warning**  
+> `doctrine/dbal` 패키지를 사용할 때 다음 컬럼 유형을 수정할 수 있습니다. `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, `ulid`, `uuid`.
 
 <a name="renaming-columns"></a>
 ### Renaming Columns
@@ -1533,10 +1516,8 @@ By default, Laravel uses the `utf8mb4` character set. If you are running a versi
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
     }
@@ -1618,12 +1599,14 @@ Since this syntax is rather verbose, Laravel provides additional, terser methods
         $table->foreignId('user_id')->constrained();
     });
 
-The `foreignId` method creates an `UNSIGNED BIGINT` equivalent column, while the `constrained` method will use conventions to determine the table and column name being referenced. If your table name does not match Laravel's conventions, you may specify the table name by passing it as an argument to the `constrained` method:
+The `foreignId` method creates an `UNSIGNED BIGINT` equivalent column, while the `constrained` method will use conventions to determine the table and column being referenced. If your table name does not match Laravel's conventions, you may manually provide it to the `constrained` method. In addition, the name that should be assigned to the generated index may be specified as well:
 
-`foreignId` 메서드는 `UNSIGNED BIGINT`에 해당하는 컬럼을 생성하는 반면, `constrained` 메서드는 규칙을 사용하여 참조되는 테이블과 컬럼 이름을 결정합니다. 테이블 이름이 라라벨의 규칙과 일치하지 않으면 `constrained` 메소드에 인수로 전달하여 테이블 이름을 지정할 수 있습니다.
+`foreignId` 메서드는 `UNSIGNED BIGINT`에 해당하는 컬럼을 생성하는 반면, `constrained` 메서드는 규칙을 사용하여 참조되는 테이블과 컬럼 이름을 결정합니다. 테이블 이름이 라라벨의 컨벤션과 일치하지 않으면 `constrained` 메소드에 인자로 테이블 이름을 지정할 수 있습니다. 추가적으로 생성된 인덱스에 할당해야 하는 이름도 지정할 수 있습니다: 
 
     Schema::table('posts', function (Blueprint $table) {
-        $table->foreignId('user_id')->constrained('users');
+        $table->foreignId('user_id')->constrained(
+            table: 'users', indexName: 'posts_user_id'
+        );
     });
 
 You may also specify the desired action for the "on delete" and "on update" properties of the constraint:
@@ -1695,10 +1678,10 @@ You may enable or disable foreign key constraints within your migrations by usin
         // Constraints disabled within this closure...
     });
 
-> **Warning**
+> **Warning**  
 > SQLite disables foreign key constraints by default. When using SQLite, make sure to [enable foreign key support](/docs/{{version}}/database#configuration) in your database configuration before attempting to create them in your migrations. In addition, SQLite only supports foreign keys upon creation of the table and [not when tables are altered](https://www.sqlite.org/omitted.html).
 
-> **Warning**
+> **Warning**  
 > SQLite는 기본적으로 외래 키 제약 조건을 비활성화합니다. SQLite를 사용하는 경우 마이그레이션에서 생성을 시도하기 전에 데이터베이스 구성에서 [외래 키 지원 활성화](/docs/{{version}}/database#configuration)를 확인하십시오. 또한 SQLite는 테이블 생성 시에만 외래 키를 지원하며 [테이블이 변경되는 경우는 지원하지 않음](https://www.sqlite.org/omitted.html).
 
 <a name="events"></a>

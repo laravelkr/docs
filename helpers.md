@@ -4,7 +4,10 @@
 - [Available Methods](#available-methods)
 - [Other Utilities](#other-utilities)
     - [Benchmarking](#benchmarking)
+    - [Dates](#dates)
     - [Lottery](#lottery)
+    - [Pipeline](#pipeline)
+    - [Sleep](#sleep)
 
 <a name="introduction"></a>
 ## Introduction
@@ -52,6 +55,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
 [Arr::map](#method-array-map)
+[Arr::mapWithKeys](#method-array-map-with-keys)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
 [Arr::prepend](#method-array-prepend)
@@ -64,7 +68,9 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::sort](#method-array-sort)
 [Arr::sortDesc](#method-array-sort-desc)
 [Arr::sortRecursive](#method-array-sort-recursive)
+[Arr::sortRecursiveDesc](#method-array-sort-recursive-desc)
 [Arr::toCssClasses](#method-array-to-css-classes)
+[Arr::toCssStyles](#method-array-to-css-styles)
 [Arr::undot](#method-array-undot)
 [Arr::where](#method-array-where)
 [Arr::whereNotNull](#method-array-where-not-null)
@@ -72,6 +78,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [data_fill](#method-data-fill)
 [data_get](#method-data-get)
 [data_set](#method-data-set)
+[data_forget](#method-data-forget)
 [head](#method-head)
 [last](#method-last)
 </div>
@@ -121,6 +128,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::isAscii](#method-str-is-ascii)
 [Str::isJson](#method-str-is-json)
 [Str::isUlid](#method-str-is-ulid)
+[Str::isUrl](#method-str-is-url)
 [Str::isUuid](#method-str-is-uuid)
 [Str::kebab](#method-kebab-case)
 [Str::lcfirst](#method-str-lcfirst)
@@ -138,6 +146,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::pluralStudly](#method-str-plural-studly)
 [Str::random](#method-str-random)
 [Str::remove](#method-str-remove)
+[Str::repeat](#method-str-repeat)
 [Str::replace](#method-str-replace)
 [Str::replaceArray](#method-str-replace-array)
 [Str::replaceFirst](#method-str-replace-first)
@@ -163,6 +172,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Str::uuid](#method-str-uuid)
 [Str::wordCount](#method-str-word-count)
 [Str::words](#method-str-words)
+[Str::wrap](#method-str-wrap)
 [str](#method-str)
 [trans](#method-trans)
 [trans_choice](#method-trans-choice)
@@ -201,6 +211,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [isNotEmpty](#method-fluent-str-is-not-empty)
 [isJson](#method-fluent-str-is-json)
 [isUlid](#method-fluent-str-is-ulid)
+[isUrl](#method-fluent-str-is-url)
 [isUuid](#method-fluent-str-is-uuid)
 [kebab](#method-fluent-str-kebab)
 [lcfirst](#method-fluent-str-lcfirst)
@@ -212,6 +223,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [mask](#method-fluent-str-mask)
 [match](#method-fluent-str-match)
 [matchAll](#method-fluent-str-match-all)
+[isMatch](#method-fluent-str-is-match)
 [newLine](#method-fluent-str-new-line)
 [padBoth](#method-fluent-str-padboth)
 [padLeft](#method-fluent-str-padleft)
@@ -220,6 +232,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [plural](#method-fluent-str-plural)
 [prepend](#method-fluent-str-prepend)
 [remove](#method-fluent-str-remove)
+[repeat](#method-fluent-str-repeat)
 [replace](#method-fluent-str-replace)
 [replaceArray](#method-fluent-str-replace-array)
 [replaceFirst](#method-fluent-str-replace-first)
@@ -303,6 +316,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [decrypt](#method-decrypt)
 [dd](#method-dd)
 [dispatch](#method-dispatch)
+[dispatch_sync](#method-dispatch-sync)
 [dump](#method-dump)
 [encrypt](#method-encrypt)
 [env](#method-env)
@@ -705,6 +719,37 @@ The `Arr::map` method iterates through the array and passes each value and key t
 
     // ['first' => 'James', 'last' => 'Kirk']
 
+<a name="method-array-map-with-keys"></a>
+#### `Arr::mapWithKeys()` {.collection-method}
+
+The `Arr::mapWithKeys` method iterates through the array and passes each value to the given callback. The callback should return an associative array containing a single key / value pair:
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        [
+            'name' => 'John',
+            'department' => 'Sales',
+            'email' => 'john@example.com',
+        ],
+        [
+            'name' => 'Jane',
+            'department' => 'Marketing',
+            'email' => 'jane@example.com',
+        ]
+    ];
+
+    $mapped = Arr::mapWithKeys($array, function (array $item, int $key) {
+        return [$item['email'] => $item['name']];
+    });
+
+    /*
+        [
+            'john@example.com' => 'John',
+            'jane@example.com' => 'Jane',
+        ]
+    */
+
 <a name="method-array-only"></a>
 #### `Arr::only()` {.collection-method}
 
@@ -964,6 +1009,10 @@ The `Arr::sortRecursive` method recursively sorts an array using the `sort` func
         ]
     */
 
+If you would like the results sorted in descending order, you may use the `Arr::sortRecursiveDesc` method.
+
+    $sorted = Arr::sortRecursiveDesc($array);
+
 <a name="method-array-to-css-classes"></a>
 #### `Arr::toCssClasses()` {.collection-method}
 
@@ -981,6 +1030,23 @@ The `Arr::toCssClasses` conditionally compiles a CSS class string. The method ac
     /*
         'p-4 bg-red'
     */
+
+<a name="method-array-to-css-styles"></a>
+#### `Arr::toCssStyles()` {.collection-method}
+
+The `Arr::toCssStyles` conditionally compiles a CSS style string. The method accepts an array of classes where the array key contains the class or classes you wish to add, while the value is a boolean expression. If the array element has a numeric key, it will always be included in the rendered class list:
+
+```php
+$hasColor = true;
+
+$array = ['background-color: blue', 'color: blue' => $hasColor];
+
+$classes = Arr::toCssStyles($array);
+
+/*
+    'background-color: blue; color: blue;'
+*/
+```
 
 This method powers Laravel's functionality allowing [merging classes with a Blade component's attribute bag](/docs/{{version}}/blade#conditionally-merge-classes) as well as the `@class` [Blade directive](/docs/{{version}}/blade#conditional-classes).
 
@@ -1150,6 +1216,37 @@ By default, any existing values are overwritten. If you wish to only set a value
     data_set($data, 'products.desk.price', 200, overwrite: false);
 
     // ['products' => ['desk' => ['price' => 100]]]
+
+<a name="method-data-forget"></a>
+#### `data_forget()` {.collection-method}
+
+The `data_forget` function removes a value within a nested array or object using "dot" notation:
+
+    $data = ['products' => ['desk' => ['price' => 100]]];
+
+    data_forget($data, 'products.desk.price');
+
+    // ['products' => ['desk' => []]]
+
+This function also accepts wildcards using asterisks and will remove values on the target accordingly:
+
+    $data = [
+        'products' => [
+            ['name' => 'Desk 1', 'price' => 100],
+            ['name' => 'Desk 2', 'price' => 150],
+        ],
+    ];
+
+    data_forget($data, 'products.*.price');
+
+    /*
+        [
+            'products' => [
+                ['name' => 'Desk 1'],
+                ['name' => 'Desk 2'],
+            ],
+        ]
+    */
 
 <a name="method-head"></a>
 #### `head()` {.collection-method}
@@ -1559,6 +1656,21 @@ The `Str::isJson` method determines if the given string is valid JSON:
 
     // false
 
+<a name="method-str-is-url"></a>
+#### `Str::isUrl()` {.collection-method}
+
+The `Str::isUrl` method determines if the given string is a valid URL:
+
+    use Illuminate\Support\Str;
+
+    $isUrl = Str::isUrl('http://example.com');
+
+    // true
+
+    $isUrl = Str::isUrl('laravel');
+
+    // false
+
 <a name="method-str-is-ulid"></a>
 #### `Str::isUlid()` {.collection-method}
 
@@ -1833,6 +1945,21 @@ The `Str::remove` method removes the given value or array of values from the str
 
 You may also pass `false` as a third argument to the `remove` method to ignore case when removing strings.
 
+<a name="method-str-repeat"></a>
+#### `Str::repeat()` {.collection-method}
+
+The `Str::repeat` method repeats the given string:
+
+```php
+use Illuminate\Support\Str;
+
+$string = 'a';
+
+$repeat = Str::repeat($string, 5);
+
+// aaaaa
+```
+
 <a name="method-str-replace"></a>
 #### `Str::replace()` {.collection-method}
 
@@ -1845,6 +1972,10 @@ The `Str::replace` method replaces a given string within the string:
     $replaced = Str::replace('8.x', '9.x', $string);
 
     // Laravel 9.x
+
+The `replace` method also accepts a `caseSensitive` argument. By default, the `replace` method is case sensitive:
+
+    Str::replace('Framework', 'Laravel', caseSensitive: false);
 
 <a name="method-str-replace-array"></a>
 #### `Str::replaceArray()` {.collection-method}
@@ -2093,13 +2224,22 @@ The `Str::upper` method converts the given string to uppercase:
 <a name="method-str-ulid"></a>
 #### `Str::ulid()` {.collection-method}
 
-The `Str::ulid` method generates a ULID:
+The `Str::ulid` method generates a ULID, which is a compact, time-ordered unique identifier:
 
     use Illuminate\Support\Str;
 
     return (string) Str::ulid();
     
     // 01gd6r360bp37zj17nxb55yv40
+
+If you would like to retrieve a `Illuminate\Support\Carbon` date instance representing the date and time that a given ULID was created, you may use the `createFromId` method provided by Laravel's Carbon integration:
+
+```php
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
+$date = Carbon::createFromId((string) Str::ulid());
+```
 
 <a name="method-str-uuid"></a>
 #### `Str::uuid()` {.collection-method}
@@ -2131,6 +2271,21 @@ The `Str::words` method limits the number of words in a string. An additional st
     return Str::words('Perfectly balanced, as all things should be.', 3, ' >>>');
 
     // Perfectly balanced, as >>>
+
+<a name="method-str-wrap"></a>
+#### `Str::wrap()` {.collection-method}
+
+The `Str::wrap` method wraps the given string with an additional string or pair of strings:
+
+    use Illuminate\Support\Str;
+
+    Str::wrap('Laravel', '"');
+
+    // "Laravel"
+
+    Str::wrap('is', before: 'This ', after: ' Laravel!');
+
+    // This is Laravel!
 
 <a name="method-str"></a>
 #### `str()` {.collection-method}
@@ -2555,6 +2710,21 @@ The `isUlid` method determines if a given string is a ULID:
 
     // false
 
+<a name="method-fluent-str-is-url"></a>
+#### `isUrl` {.collection-method}
+
+The `isUrl` method determines if a given string is a URL:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('http://example.com')->isUrl();
+
+    // true
+
+    $result = Str::of('Taylor')->isUrl();
+
+    // false
+
 <a name="method-fluent-str-is-uuid"></a>
 #### `isUuid` {.collection-method}
 
@@ -2723,6 +2893,21 @@ If you specify a matching group within the expression, Laravel will return a col
 
 If no matches are found, an empty collection will be returned.
 
+<a name="method-fluent-str-is-match"></a>
+#### `isMatch` {.collection-method}
+
+The `isMatch` method will return `true` if the string matches a given regular expression:
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('foo bar')->isMatch('/foo (.*)/');
+
+    // true
+
+    $result = Str::of('laravel')->isMatch('/foo (.*)/');
+
+    // false
+
 <a name="method-fluent-str-new-line"></a>
 #### `newLine` {.collection-method}
 
@@ -2849,6 +3034,19 @@ The `remove` method removes the given value or array of values from the string:
 
 You may also pass `false` as a second parameter to ignore case when removing strings.
 
+<a name="method-fluent-str-repeat"></a>
+#### `repeat` {.collection-method}
+
+The `repeat` method repeats the given string:
+
+```php
+use Illuminate\Support\Str;
+
+$repeated = Str::of('a')->repeat(5);
+
+// aaaaa
+```
+
 <a name="method-fluent-str-replace"></a>
 #### `replace` {.collection-method}
 
@@ -2859,6 +3057,12 @@ The `replace` method replaces a given string within the string:
     $replaced = Str::of('Laravel 6.x')->replace('6.x', '7.x');
 
     // Laravel 7.x
+
+The `replace` method also accepts a `caseSensitive` argument. By default, the `replace` method is case sensitive:
+
+    $replaced = Str::of('macOS 13.x')->replace(
+        'macOS', 'iOS', caseSensitive: false
+    );
 
 <a name="method-fluent-str-replace-array"></a>
 #### `replaceArray` {.collection-method}
@@ -2909,10 +3113,9 @@ The `replaceMatches` method replaces all portions of a string matching a pattern
 The `replaceMatches` method also accepts a closure that will be invoked with each portion of the string matching the given pattern, allowing you to perform the replacement logic within the closure and return the replaced value:
 
     use Illuminate\Support\Str;
-    use Illuminate\Support\Stringable;
 
-    $replaced = Str::of('123')->replaceMatches('/\d/', function (Stringable $match) {
-        return '['.$match[0].']';
+    $replaced = Str::of('123')->replaceMatches('/\d/', function (array $matches) {
+        return '['.$matches[0].']';
     });
 
     // '[1][2][3]'
@@ -3684,6 +3887,13 @@ The `dispatch` function pushes the given [job](/docs/{{version}}/queues#creating
 
     dispatch(new App\Jobs\SendEmails);
 
+<a name="method-dispatch-sync"></a>
+#### `dispatch_sync()` {.collection-method}
+
+The `dispatch_sync` function pushes the given job to the [sync](/docs/{{version}}/queues#synchronous-dispatching) queue so that it is processed immediately:
+
+    dispatch_sync(new App\Jobs\SendEmails);
+
 <a name="method-dump"></a>
 #### `dump()` {.collection-method}
 
@@ -4148,6 +4358,25 @@ To invoke a callback more than once, you may specify the number of iterations th
 
     Benchmark::dd(fn () => User::count(), iterations: 10); // 0.5 ms
 
+<a name="dates"></a>
+### Dates
+
+Laravel includes [Carbon](https://carbon.nesbot.com/docs/), a powerful date and time manipulation library. To create a new `Carbon` instance, you may invoke the `now` function. This function is globally available within your Laravel application:
+
+```php
+$now = now();
+```
+
+Or, you may create a new `Carbon` instance using the `Illuminate\Support\Carbon` class:
+
+```php
+use Illuminate\Support\Carbon;
+
+$now = Carbon::now();
+```
+
+For a thorough discussion of Carbon and its features, please consult the [official Carbon documentation](https://carbon.nesbot.com/docs/).
+
 <a name="lottery"></a>
 ### Lottery
 
@@ -4187,3 +4416,164 @@ Laravel provides some simple methods to allow you to easily test your applicatio
 
     // Lottery will return to normal behavior...
     Lottery::determineResultsNormally();
+
+<a name="pipeline"></a>
+### Pipeline
+
+Laravel's `Pipeline` facade provides a convenient way to "pipe" a given input through a series of invokable classes, closures, or callables, giving each class the opportunity to inspect or modify the input and invoke the next callable in the pipeline:
+
+```php
+use Closure;
+use App\Models\User;
+use Illuminate\Support\Facades\Pipeline;
+
+$user = Pipeline::send($user)
+            ->through([
+                function (User $user, Closure $next) {
+                    // ...
+
+                    return $next($user);
+                },
+                function (User $user, Closure $next) {
+                    // ...
+
+                    return $next($user);
+                },
+            ])
+            ->then(fn (User $user) => $user);
+```
+
+As you can see, each invokable class or closure in the pipeline is provided the input and a `$next` closure. Invoking the `$next` closure will invoke the next callable in the pipeline. As you may have noticed, this is very similar to [middleware](/docs/{{version}}/middleware).
+
+When the last callable in the pipeline invokes the `$next` closure, the callable provided to the `then` method will be invoked. Typically, this callable will simply return the given input.
+
+Of course, as discussed previously, you are not limited to providing closures to your pipeline. You may also provide invokable classes. If a class name is provided, the class will be instantiated via Laravel's [service container](/docs/{{version}}/container), allowing dependencies to be injected into the invokable class:
+
+```php
+$user = Pipeline::send($user)
+            ->through([
+                GenerateProfilePhoto::class,
+                ActivateSubscription::class,
+                SendWelcomeEmail::class,
+            ])
+            ->then(fn (User $user) => $user);
+```
+
+<a name="sleep"></a>
+### Sleep
+
+Laravel's `Sleep` class is a light-weight wrapper around PHP's native `sleep` and `usleep` functions, offering greater testability while also exposing a developer friendly API for working with time:
+
+    use Illuminate\Support\Sleep;
+
+    $waiting = true;
+
+    while ($waiting) {
+        Sleep::for(1)->second();
+
+        $waiting = /* ... */;
+    }
+
+The `Sleep` class offers a variety of methods that allow you to work with different units of time:
+
+    // Pause execution for 90 seconds...
+    Sleep::for(1.5)->minutes();
+
+    // Pause execution for 2 seconds...
+    Sleep::for(2)->seconds();
+
+    // Pause execution for 500 milliseconds...
+    Sleep::for(500)->milliseconds();
+
+    // Pause execution for 5,000 microseconds...
+    Sleep::for(5000)->microseconds();
+
+    // Pause execution until a given time...
+    Sleep::until(now()->addMinute());
+
+    // Alias of PHP's native "sleep" function...
+    Sleep::sleep(2);
+
+    // Alias of PHP's native "usleep" function...
+    Sleep::usleep(5000);
+
+To easily combine units of time, you may use the `and` method:
+
+    Sleep::for(1)->second()->and(10)->milliseconds();
+
+<a name="testing-sleep"></a>
+#### Testing Sleep
+
+When testing code that utilizes the `Sleep` class or PHP's native sleep functions, your test will pause execution. As you might expect, this makes your test suite significantly slower. For example, imagine you are testing the following code:
+
+    $waiting = /* ... */;
+
+    $seconds = 1;
+
+    while ($waiting) {
+        Sleep::for($seconds++)->seconds();
+
+        $waiting = /* ... */;
+    }
+
+Typically, testing this code would take _at least_ one second. Luckily, the `Sleep` class allows us to "fake" sleeping so that our test suite stays fast:
+
+    public function test_it_waits_until_ready()
+    {
+        Sleep::fake();
+
+        // ...
+    }
+
+When faking the `Sleep` class, the actual execution pause is by-passed, leading to a substantially faster test.
+
+Once the `Sleep` class has been faked, it is possible to make assertions against the expected "sleeps" that should have occurred. To illustrate this, let's imagine we are testing code that pauses execution three times, with each pause increasing by a single second. Using the `assertSequence` method, we can assert that our code "slept" for the proper amount of time while keeping our test fast:
+
+    public function test_it_checks_if_ready_four_times()
+    {
+        Sleep::fake();
+
+        // ...
+
+        Sleep::assertSequence([
+            Sleep::for(1)->second(),
+            Sleep::for(2)->seconds(),
+            Sleep::for(3)->seconds(),
+        ]);
+    }
+
+Of course, the `Sleep` class offers a variety of other assertions you may use when testing:
+
+    use Carbon\CarbonInterval as Duration;
+    use Illuminate\Support\Sleep;
+
+    // Assert that sleep was called 3 times...
+    Sleep::assertSleptTimes(3);
+
+    // Assert against the duration of sleep...
+    Sleep::assertSlept(function (Duration $duration): bool {
+        return /* ... */;
+    }, times: 1);
+
+    // Assert that the Sleep class was never invoked...
+    Sleep::assertNeverSlept();
+
+    // Assert that, even if Sleep was called, no execution paused occurred...
+    Sleep::assertInsomniac();
+
+Sometimes it may be useful to perform an action whenever a fake sleep occurs in your application code. To achieve this, you may provide a callback to the `whenFakingSleep` method. In the following example, we use Laravel's [time manipulation helpers](/docs/{{version}}/mocking#interacting-with-time) to instantly progress time by the duration of each sleep:
+
+```php
+use Carbon\CarbonInterval as Duration;
+
+$this->freezeTime();
+
+Sleep::fake();
+
+Sleep::whenFakingSleep(function (Duration $duration) {
+    // Progress time when faking sleep...
+    $this->travel($duration->totalMilliseconds)->milliseconds();
+});
+```
+
+Laravel uses the `Sleep` class internally whenever it is pausing execution. For example, the [`retry`](#method-retry) helper uses the `Sleep` class when sleeping, allowing for improved testability when using that helper.

@@ -82,7 +82,7 @@ You may configure additional symbolic links in your `filesystems` configuration 
 Before using the S3 driver, you will need to install the Flysystem S3 package via the Composer package manager:
 
 ```shell
-composer require league/flysystem-aws-s3-v3 "^3.0"
+composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
 ```
 
 The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
@@ -134,6 +134,10 @@ Laravel's Flysystem integrations work great with SFTP; however, a sample configu
         // Settings for SSH key based authentication with encryption password...
         'privateKey' => env('SFTP_PRIVATE_KEY'),
         'passphrase' => env('SFTP_PASSPHRASE'),
+
+        // Settings for file / directory permissions...
+        'visibility' => 'private', // `private` = 0600, `public` = 0644
+        'directory_visibility' => 'private', // `private` = 0700, `public` = 0755
 
         // Optional SFTP Settings...
         // 'hostFingerprint' => env('SFTP_HOST_FINGERPRINT'),
@@ -236,6 +240,10 @@ $disk->put('image.jpg', $content);
 The `get` method may be used to retrieve the contents of a file. The raw string contents of the file will be returned by the method. Remember, all file paths should be specified relative to the disk's "root" location:
 
     $contents = Storage::get('file.jpg');
+
+If the file you are retrieving contains JSON, you may use the `json` method to retrieve the file and decode its contents:
+
+    $orders = Storage::json('orders.json');
 
 The `exists` method may be used to determine if a file exists on the disk:
 

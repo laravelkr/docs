@@ -188,10 +188,10 @@ public function address(): Attribute
 ### Enum Eloquent Attribute Casting
 ### Enum 엘로퀀트 속성 캐스팅
 
-> **Warning**
+> **Warning**  
 > Enum casting is only available for PHP 8.1+.
 
-> **Warning**
+> **Warning**  
 > Enum 캐스팅은 PHP 8.1이상 버전에서만 사용가능합니다. 
 
 _Enum casting was contributed by [Mohamed Said](https://github.com/themsaid)_.
@@ -346,9 +346,9 @@ _The Laravel Scout database engine was contributed by [Taylor Otwell](https://gi
 
 _라라벨의 Scout 데이터베이스 엔진은 [Taylor Otwell](https://github.com/taylorotwell) 와 [Dries Vints](https://github.com/driesvints)가 기여하였습니다_.
 
-If your application interacts with small to medium sized databases or has a light workload, you may now use Scout's "database" engine instead of a dedicated search service such as Algolia or MeiliSearch. The database engine will use "where like" clauses and full text indexes when filtering results from your existing database to determine the applicable search results for your query.
+If your application interacts with small to medium sized databases or has a light workload, you may now use Scout's "database" engine instead of a dedicated search service such as Algolia or Meilisearch. The database engine will use "where like" clauses and full text indexes when filtering results from your existing database to determine the applicable search results for your query.
 
-애플리케이션이 크지 않은 데이터베이스에서 동작하고, 부하가 가벼운 경우에는 검색을 위해서 Algolia 또는 MeiliSearch와 같은 검색 서비스를 사용하는 대신에 Scout 의 "데이터베이스" 엔진을 사용하는 것이 편리한 방법입니다. 데이터베이스 엔진은 검색 결과를 얻기 위해서 "where like"을 통해서 Full Text 인덱싱을 사용합니다.
+애플리케이션이 크지 않은 데이터베이스에서 동작하고, 부하가 가벼운 경우에는 검색을 위해서 Algolia 또는 Meilisearch와 같은 검색 서비스를 사용하는 대신에 Scout 의 "데이터베이스" 엔진을 사용하는 것이 편리한 방법입니다. 데이터베이스 엔진은 검색 결과를 얻기 위해서 "where like"을 통해서 Full Text 인덱싱을 사용합니다.
 
 To learn more about the Scout database engine, consult the [Scout documentation](/docs/{{version}}/scout).
 

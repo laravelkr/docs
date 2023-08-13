@@ -84,9 +84,9 @@ Before transitioning to Vite, new Laravel applications utilized [Mix](https://la
 
 Vite로 전환하기 전에 새로운 라라벨 애플리케이션은 자산을 번들링할 때 [webpack](https://webpack.js.org/) 으로 구동되는 [Mix](https://laravel-mix.com/) 를 활용했습니다. Vite는 리치 자바스크립트 애플리케이션을 구축할 때 더 빠르고 생산적인 경험을 제공하는 데 중점을 둡니다. [Inertia](https://inertiajs.com) 와 같은 도구로 개발된 애플리케이션을 포함하여 SPA(단일 페이지 애플리케이션)를 개발하는 경우 Vite가 가장 적합합니다.
 
-Vite also works well with traditional server-side rendered applications with JavaScript "sprinkles", including those using [Livewire](https://laravel-livewire.com). However, it lacks some features that Laravel Mix supports, such as the ability to copy arbitrary assets into the build that are not referenced directly in your JavaScript application.
+Vite also works well with traditional server-side rendered applications with JavaScript "sprinkles", including those using [Livewire](https://livewire.laravel.com). However, it lacks some features that Laravel Mix supports, such as the ability to copy arbitrary assets into the build that are not referenced directly in your JavaScript application.
 
-Vite는 또한 [Livewire](https://laravel-livewire.com) 를 사용하는 애플리케이션을 포함하여 자바스크립트 "sprinkles"가 있는 기존 서버 사이드 렌더링 애플리케이션과도 잘 작동합니다. 그러나 자바스크립트 애플리케이션에서 직접 참조되지 않는 임의의 자산을 빌드에 복사하는 기능과 같이 Laravel Mix가 지원하는 일부 기능이 부족합니다.
+Vite는 또한 [Livewire](https://livewire.laravel.com) 를 사용하는 애플리케이션을 포함하여 자바스크립트 "sprinkles"가 있는 기존 서버 사이드 렌더링 애플리케이션과도 잘 작동합니다. 그러나 자바스크립트 애플리케이션에서 직접 참조되지 않는 임의의 자산을 빌드에 복사하는 기능과 같이 Laravel Mix가 지원하는 일부 기능이 부족합니다.
 
 <a name="migrating-back-to-mix"></a>
 #### Migrating Back To Mix

@@ -31,6 +31,12 @@
     - [이벤트 Subscribers 작성하기](#writing-event-subscribers)
     - [Registering Event Subscribers](#registering-event-subscribers)
     - [이벤트 Subscribers 등록하기](#registering-event-subscribers)
+- [Testing](#testing)
+- [테스팅](#testing)
+    - [Faking A Subset Of Events](#faking-a-subset-of-events)
+    - [이벤트의 하위 집합 속이기](#faking-a-subset-of-events)
+    - [Scoped Events Fakes](#scoped-event-fakes)
+    - [범위가 지정된 가짜 이벤트](#scoped-event-fakes)
 
 <a name="introduction"></a>
 ## Introduction
@@ -52,10 +58,13 @@ The `App\Providers\EventServiceProvider` included with your Laravel application 
 
 라라벨 애플리케이션에 포함된 `App\Providers\EventServiceProvider`는 애플리케이션의 모든 이벤트 리스너들을 등록하는 편리한 장소 입니다. `listen` 속성은 모든 이벤트(키)와 리스너(값)의 배열을 가집니다. 애플리케이션이 필요로 하는 모든 이벤트들을 이 배열에 추가할 수 있습니다. 다음과 같이, 예를 들어 `OrderShipped ` 이벤트를 추가할 수 있습니다.
 
+    use App\Events\OrderShipped;
+    use App\Listeners\SendShipmentNotification;
+
     /**
      * The event listener mappings for the application.
      *
-     * @var array
+     * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
         OrderShipped::class => [
@@ -63,10 +72,10 @@ The `App\Providers\EventServiceProvider` included with your Laravel application 
         ],
     ];
 
-> **Note**
+> **Note**  
 > The `event:list` command may be used to display a list of all events and listeners registered by your application.
 
-> **Note**
+> **Note**  
 > `event:list` 명령어는 애플리케이션에 등록된 모든 이벤트와 리스너 목록을 확인하는데 사용할 수 있습니다.
 
 <a name="generating-events-and-listeners"></a>
@@ -105,10 +114,8 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
 
     /**
      * Register any other events for your application.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Event::listen(
             PodcastProcessed::class,
@@ -116,7 +123,7 @@ Typically, events should be registered via the `EventServiceProvider` `$listen` 
         );
 
         Event::listen(function (PodcastProcessed $event) {
-            //
+            // ...
         });
     }
 
@@ -134,13 +141,11 @@ When registering closure based event listeners manually, you may wrap the listen
 
     /**
      * Register any other events for your application.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Event::listen(queueable(function (PodcastProcessed $event) {
-            //
+            // ...
         }));
     }
 
@@ -149,12 +154,12 @@ Like queued jobs, you may use the `onConnection`, `onQueue`, and `delay` methods
 큐로 처리되는 작업들처럼, 여러분은 `onConnection`, `onQueue`, 그리고 `delay` 메소드를 통해 큐잉된 리스너의 실행을 설정할 수 있습니다.
 
     Event::listen(queueable(function (PodcastProcessed $event) {
-        //
+        // ...
     })->onConnection('redis')->onQueue('podcasts')->delay(now()->addSeconds(10)));
 
-If you would like to handle anonymous queued listener failures, you may provide a closure to the `catch` method while defining the `queueable` listener:
+If you would like to handle anonymous queued listener failures, you may provide a closure to the `catch` method while defining the `queueable` listener. This closure will receive the event instance and the `Throwable` instance that caused the listener's failure:
 
-만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 전달하면 됩니다. 이 클로저는 이벤트 인스턴스와 리스너의 실패가 담겨져 있는 `Throwable` 인스턴스를 전달받습니다.
+만약 익명의 큐잉된 리스너의 실패에 대해 처리하고 싶다면, `queueable` 리스너를 정의하면서 `catch` 메소드에 클로져를 전달하면 됩니다. 이 클로저는 이벤트 인스턴스와 리스너의 실패가 담겨져 있는 `Throwable` 인스턴스를 전달받습니다. 이 클로저는 이벤트 인스턴스와 리스너의 실패를 야기한 `Throwable` 인스턴스를 받습니다.
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
@@ -162,7 +167,7 @@ If you would like to handle anonymous queued listener failures, you may provide 
     use Throwable;
 
     Event::listen(queueable(function (PodcastProcessed $event) {
-        //
+        // ...
     })->catch(function (PodcastProcessed $event, Throwable $e) {
         // The queued listener failed...
     }));
@@ -175,8 +180,8 @@ You may even register listeners using the `*` as a wildcard parameter, allowing 
 
 `*`를 와일드카드 파라미터로 사용하여 리스너를 등록하면 동일한 리스너 에서 여러 개의 이벤트에 대응 할 수 있습니다. 와일드카드 리스너는 이벤트 이름을 첫번째 인자로, 전체 이벤트 데이터 배열을 두번째 인자로 받습니다.
 
-    Event::listen('event.*', function ($eventName, array $data) {
-        //
+    Event::listen('event.*', function (string $eventName, array $data) {
+        // ...
     });
 
 <a name="event-discovery"></a>
@@ -197,13 +202,10 @@ Laravel finds event listeners by scanning the listener classes using PHP's refle
     {
         /**
          * Handle the given event.
-         *
-         * @param  \App\Events\PodcastProcessed  $event
-         * @return void
          */
-        public function handle(PodcastProcessed $event)
+        public function handle(PodcastProcessed $event): void
         {
-            //
+            // ...
         }
     }
 
@@ -213,10 +215,8 @@ Event discovery is disabled by default, but you can enable it by overriding the 
 
     /**
      * Determine if events and listeners should be automatically discovered.
-     *
-     * @return bool
      */
-    public function shouldDiscoverEvents()
+    public function shouldDiscoverEvents(): bool
     {
         return true;
     }
@@ -228,9 +228,9 @@ By default, all listeners within your application's `app/Listeners` directory wi
     /**
      * Get the listener directories that should be used to discover events.
      *
-     * @return array
+     * @return array<int, string>
      */
-    protected function discoverEventsWithin()
+    protected function discoverEventsWithin(): array
     {
         return [
             $this->app->path('Listeners'),
@@ -267,22 +267,11 @@ An event class is essentially a data container which holds the information relat
         use Dispatchable, InteractsWithSockets, SerializesModels;
 
         /**
-         * The order instance.
-         *
-         * @var \App\Models\Order
-         */
-        public $order;
-
-        /**
          * Create a new event instance.
-         *
-         * @param  \App\Models\Order  $order
-         * @return void
          */
-        public function __construct(Order $order)
-        {
-            $this->order = $order;
-        }
+        public function __construct(
+            public Order $order,
+        ) {}
     }
 
 As you can see, this event class contains no logic. It is a container for the `App\Models\Order` instance that was purchased. The `SerializesModels` trait used by the event will gracefully serialize any Eloquent models if the event object is serialized using PHP's `serialize` function, such as when utilizing [queued listeners](#queued-event-listeners).
@@ -307,30 +296,25 @@ Next, let's take a look at the listener for our example event. Event listeners r
     {
         /**
          * Create the event listener.
-         *
-         * @return void
          */
         public function __construct()
         {
-            //
+            // ...
         }
 
         /**
          * Handle the event.
-         *
-         * @param  \App\Events\OrderShipped  $event
-         * @return void
          */
-        public function handle(OrderShipped $event)
+        public function handle(OrderShipped $event): void
         {
             // Access the order using $event->order...
         }
     }
 
-> **Note**
+> **Note**  
 > Your event listeners may also type-hint any dependencies they need on their constructors. All event listeners are resolved via the Laravel [service container](/docs/{{version}}/container), so dependencies will be injected automatically.
 
-> **Note**
+> **Note**  
 > 이벤트 리스너는 또한 생성자에서, 필요한 모든 의존성들을 타입힌트 할 수 있습니다. 모든 이벤트 리스너는 [서비스 컨테이너](/docs/{{version}}/container)를 통해 처리되기 때문에 의존성은 자동으로 주입됩니다.
 
 <a name="stopping-the-propagation-of-an-event"></a>
@@ -362,13 +346,14 @@ To specify that a listener should be queued, add the `ShouldQueue` interface to 
 
     class SendShipmentNotification implements ShouldQueue
     {
-        //
+        // ...
     }
 
 That's it! Now, when an event handled by this listener is dispatched, the listener will automatically be queued by the event dispatcher using Laravel's [queue system](/docs/{{version}}/queues). If no exceptions are thrown when the listener is executed by the queue, the queued job will automatically be deleted after it has finished processing.
 
 이게 다입니다. 이제 리스너를 통해서 이벤트가 처리될 때 리스너는 라라벨의 [Queue-큐 시스템](/docs/{{version}}/queues)을 이용하는 이벤트 디스패처에 의해서 자동으로 Queue-큐에 저장됩니다. 큐-queue를 통해서 리스너가 실행되고, 예외-exception 이 발생하지 않는다면 큐-queue 에 저장된 작업은 실행이 완료된 뒤 자동으로 삭제됩니다. 
 
+<a name="customizing-the-queue-connection-queue-name"></a>
 #### Customizing The Queue Connection & Queue Name
 #### Queue-큐 커넥션과 Queue-큐 이름 커스터마이징 하기
 
@@ -413,20 +398,16 @@ If you would like to define the listener's queue connection or queue name at run
 
     /**
      * Get the name of the listener's queue connection.
-     *
-     * @return string
      */
-    public function viaConnection()
+    public function viaConnection(): string
     {
         return 'sqs';
     }
 
     /**
      * Get the name of the listener's queue.
-     *
-     * @return string
      */
-    public function viaQueue()
+    public function viaQueue(): string
     {
         return 'listeners';
     }
@@ -450,22 +431,16 @@ Sometimes, you may need to determine whether a listener should be queued based o
     {
         /**
          * Reward a gift card to the customer.
-         *
-         * @param  \App\Events\OrderCreated  $event
-         * @return void
          */
-        public function handle(OrderCreated $event)
+        public function handle(OrderCreated $event): void
         {
-            //
+            // ...
         }
 
         /**
          * Determine whether the listener should be queued.
-         *
-         * @param  \App\Events\OrderCreated  $event
-         * @return bool
          */
-        public function shouldQueue(OrderCreated $event)
+        public function shouldQueue(OrderCreated $event): bool
         {
             return $event->order->subtotal >= 5000;
         }
@@ -493,11 +468,8 @@ If you need to manually access the listener's underlying queue job's `delete` an
 
         /**
          * Handle the event.
-         *
-         * @param  \App\Events\OrderShipped  $event
-         * @return void
          */
-        public function handle(OrderShipped $event)
+        public function handle(OrderShipped $event): void
         {
             if (true) {
                 $this->release(30);
@@ -531,10 +503,10 @@ If your queue connection's `after_commit` configuration option is set to `false`
         public $afterCommit = true;
     }
 
-> **Note**
+> **Note**  
 > To learn more about working around these issues, please review the documentation regarding [queued jobs and database transactions](/docs/{{version}}/queues#jobs-and-database-transactions).
 
-> **Note**
+> **Note**  
 > 이 이슈에 대한 보다 자세한 내용은 [큐를 통해 처리되는 작업과 데이터베이스 트랜잭션](/docs/{{version}}/queues#jobs-and-database-transactions) 문서를 확인하십시오.
 
 <a name="handling-failed-jobs"></a>
@@ -552,6 +524,7 @@ Sometimes your queued event listeners may fail. If the queued listener exceeds t
     use App\Events\OrderShipped;
     use Illuminate\Contracts\Queue\ShouldQueue;
     use Illuminate\Queue\InteractsWithQueue;
+    use Throwable;
 
     class SendShipmentNotification implements ShouldQueue
     {
@@ -559,25 +532,18 @@ Sometimes your queued event listeners may fail. If the queued listener exceeds t
 
         /**
          * Handle the event.
-         *
-         * @param  \App\Events\OrderShipped  $event
-         * @return void
          */
-        public function handle(OrderShipped $event)
+        public function handle(OrderShipped $event): void
         {
-            //
+            // ...
         }
 
         /**
          * Handle a job failure.
-         *
-         * @param  \App\Events\OrderShipped  $event
-         * @param  \Throwable  $exception
-         * @return void
          */
-        public function failed(OrderShipped $event, $exception)
+        public function failed(OrderShipped $event, Throwable $exception): void
         {
-            //
+            // ...
         }
     }
 
@@ -617,12 +583,12 @@ As an alternative to defining how many times a listener may be attempted before 
 
 횟수를 지정하는 대신에 리스너가 시도되는 시간을 정의할 수도 있습니다. 이 경우 리스너가 주어진 시간동안 성공할 때까지 여러번 시도될 수 있습니다. 리스너가 성공할 때까지 재시도할 시간값을 정의하려면 리스너 클래스에 `retryUntil` 메서드를 추가하면 됩니다. 이 메서드는 `DateTime` 인스턴스를 반환해야 합니다.  
 
+    use DateTime;
+
     /**
      * Determine the time at which the listener should timeout.
-     *
-     * @return \DateTime
      */
-    public function retryUntil()
+    public function retryUntil(): DateTime
     {
         return now()->addMinutes(5);
     }
@@ -642,35 +608,39 @@ To dispatch an event, you may call the static `dispatch` method on the event. Th
     use App\Events\OrderShipped;
     use App\Http\Controllers\Controller;
     use App\Models\Order;
+    use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
 
     class OrderShipmentController extends Controller
     {
         /**
          * Ship the given order.
-         *
-         * @param  \Illuminate\Http\Request  $request
-         * @return \Illuminate\Http\Response
          */
-        public function store(Request $request)
+        public function store(Request $request): RedirectResponse
         {
             $order = Order::findOrFail($request->order_id);
 
             // Order shipment logic...
 
             OrderShipped::dispatch($order);
+
+            return redirect('/orders');
         }
     }
-
-If you would like to conditionally dispatch an event, you may use the `dispatchIf` and `dispatchUnless` methods:
+    
+ If you would like to conditionally dispatch an event, you may use the `dispatchIf` and `dispatchUnless` methods:
 
 조건부로 이벤트를 디스패치하고 싶으면 `dispatchIf` 와 `dispatchUnless` 메서드를 사용하면 됩니다.
 
-> **Note**
-> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](/docs/{{version}}/mocking#event-fake) makes it a cinch.
+    OrderShipped::dispatchIf($condition, $order);
 
-> **Note**
-> 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](/docs/{{version}}/mocking#event-fake) 를 통해서 수행됩니다.
+    OrderShipped::dispatchUnless($condition, $order);
+
+> **Note**  
+> When testing, it can be helpful to assert that certain events were dispatched without actually triggering their listeners. Laravel's [built-in testing helpers](#testing) make it a cinch.
+
+> **Note**  
+> 테스트를 수행할 때에는 실제 이벤트 리스너를 실행하지 않고서도 해당 이벤트가 발생했는지 확인할 수 있습니다. 라라벨의 [내장된 테스팅 헬퍼](#testing) 를 통해서 수행됩니다.
 
 <a name="event-subscribers"></a>
 ## Event Subscribers
@@ -690,26 +660,24 @@ Event subscribers are classes that may subscribe to multiple events from within 
 
     use Illuminate\Auth\Events\Login;
     use Illuminate\Auth\Events\Logout;
+    use Illuminate\Events\Dispatcher;
 
     class UserEventSubscriber
     {
         /**
          * Handle user login events.
          */
-        public function handleUserLogin($event) {}
+        public function handleUserLogin(string $event): void {}
 
         /**
          * Handle user logout events.
          */
-        public function handleUserLogout($event) {}
+        public function handleUserLogout(string $event): void {}
 
         /**
          * Register the listeners for the subscriber.
-         *
-         * @param  \Illuminate\Events\Dispatcher  $events
-         * @return void
          */
-        public function subscribe($events)
+        public function subscribe(Dispatcher $events): void
         {
             $events->listen(
                 Login::class,
@@ -733,26 +701,26 @@ If your event listener methods are defined within the subscriber itself, you may
 
     use Illuminate\Auth\Events\Login;
     use Illuminate\Auth\Events\Logout;
+    use Illuminate\Events\Dispatcher;
 
     class UserEventSubscriber
     {
         /**
          * Handle user login events.
          */
-        public function handleUserLogin($event) {}
+        public function handleUserLogin(string $event): void {}
 
         /**
          * Handle user logout events.
          */
-        public function handleUserLogout($event) {}
+        public function handleUserLogout(string $event): void {}
 
         /**
          * Register the listeners for the subscriber.
          *
-         * @param  \Illuminate\Events\Dispatcher  $events
-         * @return array
+         * @return array<string, string>
          */
-        public function subscribe($events)
+        public function subscribe(Dispatcher $events): array
         {
             return [
                 Login::class => 'handleUserLogin',
@@ -784,7 +752,7 @@ subscriber가 작성되었다면 이벤트 dispatcher와 함께 등록할 준비
          * @var array
          */
         protected $listen = [
-            //
+            // ...
         ];
 
         /**
@@ -795,4 +763,143 @@ subscriber가 작성되었다면 이벤트 dispatcher와 함께 등록할 준비
         protected $subscribe = [
             UserEventSubscriber::class,
         ];
+    }
+
+<a name="testing"></a>
+## Testing
+## 테스팅
+
+When testing code that dispatches events, you may wish to instruct Laravel to not actually execute the event's listeners, since the listener's code can be tested directly and separately of the code that dispatches the corresponding event. Of course, to test the listener itself, you may instantiate a listener instance and invoke the `handle` method directly in your test.
+
+이벤트를 전달하는 코드를 테스트할 때, 리스너의 코드는 해당 이벤트를 전달하는 코드와 별개로 직접 테스트할 수 있기 때문에 이벤트의 리스너를 실제로 실행하지 않도록 Laravel에 지시할 수 있습니다. 물론 리스너 자체를 테스트하려면 리스너 인스턴스를 인스턴스화하고 테스트에서 직접 `handle` 메소드를 호출할 수 있습니다.
+
+Using the `Event` facade's `fake` method, you may prevent listeners from executing, execute the code under test, and then assert which events were dispatched by your application using the `assertDispatched`, `assertNotDispatched`, and `assertNothingDispatched` methods:
+
+`Event` 파사드의 `fake` 메서드를 사용하여 리스너가 실행되는 것을 방지하고 테스트 중인 코드를 실행한 다음 `assertDispatched`, `assertNotDispatched` 및 `assertNothingDispatched` 메서드를 사용하여 애플리케이션에서 어떤 이벤트가 발송되었는지 검증할 수 있습니다.
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use App\Events\OrderFailedToShip;
+    use App\Events\OrderShipped;
+    use Illuminate\Support\Facades\Event;
+    use Tests\TestCase;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * Test order shipping.
+         */
+        public function test_orders_can_be_shipped(): void
+        {
+            Event::fake();
+
+            // Perform order shipping...
+
+            // Assert that an event was dispatched...
+            Event::assertDispatched(OrderShipped::class);
+
+            // Assert an event was dispatched twice...
+            Event::assertDispatched(OrderShipped::class, 2);
+
+            // Assert an event was not dispatched...
+            Event::assertNotDispatched(OrderFailedToShip::class);
+
+            // Assert that no events were dispatched...
+            Event::assertNothingDispatched();
+        }
+    }
+
+You may pass a closure to the `assertDispatched` or `assertNotDispatched` methods in order to assert that an event was dispatched that passes a given "truth test". If at least one event was dispatched that passes the given truth test then the assertion will be successful:
+
+주어진 "실제 테스트"를 통과하는 이벤트가 전달되었음을 확인하기 위해 `assertDispatched` 또는 `assertNotDispatched` 메서드에 클로저를 전달할 수 있습니다. 주어진 실제 테스트를 통과하는 이벤트가 하나 이상 전달되면 검증이 성공합니다.
+
+    Event::assertDispatched(function (OrderShipped $event) use ($order) {
+        return $event->order->id === $order->id;
+    });
+
+If you would simply like to assert that an event listener is listening to a given event, you may use the `assertListening` method:
+
+단순히 이벤트 리스너가 주어진 이벤트를 수신하고 있음을 검증하고 싶다면 `assertListening` 메소드를 사용할 수 있습니다.
+
+    Event::assertListening(
+        OrderShipped::class,
+        SendShipmentNotification::class
+    );
+
+> **Warning**  
+> After calling `Event::fake()`, no event listeners will be executed. So, if your tests use model factories that rely on events, such as creating a UUID during a model's `creating` event, you should call `Event::fake()` **after** using your factories.
+
+> **Warning**  
+> `Event::fake()`를 호출한 후에는 이벤트 리스너가 실행되지 않습니다. 따라서 테스트에서 모델의 `creating` 이벤트 동안 UUID 생성과 같은 이벤트에 의존하는 모델 팩토리를 사용하는 경우 팩토리를 사용한 후 `Event::fake()`를 호출해야 합니다.
+
+<a name="faking-a-subset-of-events"></a>
+### Faking A Subset Of Events
+### 이벤트의 하위 집합 속이기
+
+If you only want to fake event listeners for a specific set of events, you may pass them to the `fake` or `fakeFor` method:
+
+특정 이벤트 집합에 대한 가짜 이벤트 리스너만 원하는 경우 `fake` 또는 `fakeFor` 메서드에 전달할 수 있습니다.
+
+    /**
+     * Test order process.
+     */
+    public function test_orders_can_be_processed(): void
+    {
+        Event::fake([
+            OrderCreated::class,
+        ]);
+
+        $order = Order::factory()->create();
+
+        Event::assertDispatched(OrderCreated::class);
+
+        // Other events are dispatched as normal...
+        $order->update([...]);
+    }
+
+You may fake all events except for a set of specified events using the `except` method:
+
+`except` 메소드를 사용하여 지정된 이벤트 세트를 제외한 모든 이벤트를 속일 수 있습니다.
+
+    Event::fake()->except([
+        OrderCreated::class,
+    ]);
+
+<a name="scoped-event-fakes"></a>
+### Scoped Event Fakes
+### 범위가 지정된 가짜 이벤트
+
+If you only want to fake event listeners for a portion of your test, you may use the `fakeFor` method:
+
+테스트의 일부에 대해서만 이벤트 리스너를 가짜로 만들려면 `fakeFor` 메서드를 사용할 수 있습니다.
+
+    <?php
+
+    namespace Tests\Feature;
+
+    use App\Events\OrderCreated;
+    use App\Models\Order;
+    use Illuminate\Support\Facades\Event;
+    use Tests\TestCase;
+
+    class ExampleTest extends TestCase
+    {
+        /**
+         * Test order process.
+         */
+        public function test_orders_can_be_processed(): void
+        {
+            $order = Event::fakeFor(function () {
+                $order = Order::factory()->create();
+
+                Event::assertDispatched(OrderCreated::class);
+
+                return $order;
+            });
+
+            // Events are dispatched as normal and observers will run ...
+            $order->update([...]);
+        }
     }

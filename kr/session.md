@@ -52,6 +52,7 @@ The session `driver` configuration option defines where session data will be sto
 
 세션 `driver` 설정 옵션은 각각의 요청-request에 따른 세션을 어디에 저장할 것인지 정의합니다. 라라벨은 별다른 설정 없이도 다양한 드라이버를 제공합니다.
 
+<div class="content-list" markdown="1">
 
 - `file` - sessions are stored in `storage/framework/sessions`.
 - `cookie` - sessions are stored in secure, encrypted cookies.
@@ -60,7 +61,9 @@ The session `driver` configuration option defines where session data will be sto
 - `dynamodb` - sessions are stored in AWS DynamoDB.
 - `array` - sessions are stored in a PHP array and will not be persisted.
 
+</div>
 
+<div class="content-list" markdown="1">
 
 - `file` - `storage/framework/sessions` 디렉토리에 세션을 저장합니다.
 - `cookie` - 암호화된 쿠키를 사용하여 안전하게 세션을 저장할 것입니다.
@@ -69,6 +72,7 @@ The session `driver` configuration option defines where session data will be sto
 - `memcached` / `redis` - 빠르고, 캐시를 기반으로한 memcached, redis 에 저장합니다.
 - `array` - 세션은 PHP 배열에 저장되며 지속되지 않습니다.
 
+</div>
 
 > **Note**  
 > The array driver is primarily used during [testing](/docs/{{version}}/testing) and prevents the data stored in the session from being persisted.
@@ -88,7 +92,10 @@ When using the `database` session driver, you will need to create a table to con
 
 `database` 세션 드라이버를 사용하는 경우, 세션 레코드를 저장할 수 있는 테이블을 생성해야 합니다. 다음의 `Schema` 예제를 통해 테이블을 생성할 수 있습니다.
 
-    Schema::create('sessions', function ($table) {
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
+
+    Schema::create('sessions', function (Blueprint $table) {
         $table->string('id')->primary();
         $table->foreignId('user_id')->nullable()->index();
         $table->string('ip_address', 45)->nullable();
@@ -139,21 +146,22 @@ There are two primary ways of working with session data in Laravel: the global `
 
     use App\Http\Controllers\Controller;
     use Illuminate\Http\Request;
+    use Illuminate\View\View;
 
     class UserController extends Controller
     {
         /**
          * Show the profile for the given user.
-         *
-         * @param  Request  $request
-         * @param  int  $id
-         * @return Response
          */
-        public function show(Request $request, $id)
+        public function show(Request $request, string $id): View
         {
             $value = $request->session()->get('key');
 
-            //
+            // ...
+
+            $user = $this->users->find($id);
+
+            return view('user.profile', ['user' => $user]);
         }
     }
 
@@ -211,7 +219,7 @@ To determine if an item is present in the session, you may use the `has` method.
 세션안에 아이템이 존재하는지 확인하려면 `has` 메소드를 사용하면 됩니다. `has` 메소드는 아이템이 현재 존재하고 `null`이 아니라면 `true`를 반환합니다.
 
     if ($request->session()->has('users')) {
-        //
+        // ...
     }
 
 To determine if an item is present in the session, even if its value is `null`, you may use the `exists` method:
@@ -219,7 +227,7 @@ To determine if an item is present in the session, even if its value is `null`, 
 값이 `null`이더라도 세션안에 아이템이 들어 있는지 확인하려면 `exists` 메소드를 사용할 수 있습니다.
 
     if ($request->session()->exists('users')) {
-        //
+        // ...
     }
 
 To determine if an item is not present in the session, you may use the `missing` method. The `missing` method returns `true` if the item is not present:
@@ -227,7 +235,7 @@ To determine if an item is not present in the session, you may use the `missing`
 세션에 항목이 없는지 확인하려면 `missing` 메소드를 사용할 수 있습니다. 아이템이 없는 경우 `missing` 메소드는 `true`를 반환 합니다.
 
     if ($request->session()->missing('users')) {
-        //
+        // ...
     }
 
 <a name="storing-data"></a>
@@ -268,9 +276,9 @@ The `pull` method will retrieve and delete an item from the session in a single 
 #### Incrementing & Decrementing Session Values
 #### 세션 값 증가 & 감소
 
-If your session data contains an integer you wish to increment or decrement, you may use the `increment` and `decrement`methods:
+If your session data contains an integer you wish to increment or decrement, you may use the `increment` and `decrement` methods:
 
-세션 데이터의 수를 증가-increment 및 감소-decrement 하기 위해서는 `increment` 및 `decrement` 메소드를 사용할 수 있습니다.
+세션 데이터의 수를 증가 시키거나 감소 시키기 위해서는 `increment` 및 `decrement` 메소드를 사용할 수 있습니다.
 
     $request->session()->increment('count');
 
@@ -361,11 +369,11 @@ To mitigate this, Laravel provides functionality that allows you to limit concur
 이를 완화하기 위해 라라벨은 주어진 세션에 대한 동시 요청을 제한 할 수있는 기능을 제공합니다. 시작하려면 단순히 `block` 메소드를 라우트 정의에 연결하면됩니다. 다음 예제에서 `/profile` 엔드 포인트에 대한 수신 요청은 세션 잠금을 획득합니다. 이 잠금이 유지되는 동안 동일한 세션 ID를 공유하는 `/profile` 또는 `/order` 엔드 포인트로 들어오는 모든 요청은 실행을 계속하기 전에 첫 번째 요청의 실행이 완료 될 때까지 기다립니다.
 
     Route::post('/profile', function () {
-        //
+        // ...
     })->block($lockSeconds = 10, $waitSeconds = 10)
 
     Route::post('/order', function () {
-        //
+        // ...
     })->block($lockSeconds = 10, $waitSeconds = 10)
 
 The `block` method accepts two optional arguments. The first argument accepted by the `block` method is the maximum number of seconds the session lock should be held for before it is released. Of course, if the request finishes executing before this time the lock will be released earlier.
@@ -381,7 +389,7 @@ If neither of these arguments is passed, the lock will be obtained for a maximum
 이 인수 중 어느 것도 전달되지 않으면 최대 10 초 동안 잠금을 획득하고 요청은 잠금 획득을 시도하는 동안 최대 10 초 동안 대기합니다.
 
     Route::post('/profile', function () {
-        //
+        // ...
     })->block()
 
 <a name="adding-custom-session-drivers"></a>
@@ -420,6 +428,7 @@ Since the purpose of these methods is not readily understandable, let's quickly 
 
 이 메소드들의 목적을 쉽게 이해하기 어렵기 때문에, 각각의 메소드를 빠르게 살펴보겠습니다.
 
+<div class="content-list" markdown="1">
 
 - The `open` method would typically be used in file based session store systems. Since Laravel ships with a `file` session driver, you will rarely need to put anything in this method. You can simply leave this method empty.
 - The `close` method, like the `open` method, can also usually be disregarded. For most drivers, it is not needed.
@@ -428,7 +437,9 @@ Since the purpose of these methods is not readily understandable, let's quickly 
 - The `destroy` method should remove the data associated with the `$sessionId` from persistent storage.
 - The `gc` method should destroy all session data that is older than the given `$lifetime`, which is a UNIX timestamp. For self-expiring systems like Memcached and Redis, this method may be left empty.
 
+</div>
 
+<div class="content-list" markdown="1">
 
 - `open` 메소드는 일반적으로 파일 기반의 세션 저장 시스템에서 사용됩니다. 라라벨은 `file` 세션 드라이버를 제공하고 있기 때문에, 여러분은 해당 메소드에 추가할 것이 없습니다. 이 메소드는 비어 있는 형태로 구성해도 됩니다. 
 - `close` 메소드 역시 `open` 메소드와 마찬가지로 무시할 수 있습니다. 대부분의 드라이버에서는 필요가 없습니다.
@@ -437,6 +448,7 @@ Since the purpose of these methods is not readily understandable, let's quickly 
 - `destory` 메소드는 저장소에서 주어진 `$sessionId` 에 해당하는 데이터를 삭제해야 합니다.
 - `gc` 메소드는 UNIX 타임스탬프로 주어진 `$lifetime` 보다 오래된 모든 세션 데이터들을 제거해야합니다. Memcached와 Redis처럼 스스로 오래된 데이터를 삭제하는 시스템에서는, 이 메소드는 비워 둡니다.
 
+</div>
 
 <a name="registering-the-driver"></a>
 #### Registering The Driver
@@ -451,6 +463,7 @@ Once your driver has been implemented, you are ready to register it with Laravel
     namespace App\Providers;
 
     use App\Extensions\MongoSessionHandler;
+    use Illuminate\Contracts\Foundation\Application;
     use Illuminate\Support\Facades\Session;
     use Illuminate\Support\ServiceProvider;
 
@@ -458,22 +471,18 @@ Once your driver has been implemented, you are ready to register it with Laravel
     {
         /**
          * Register any application services.
-         *
-         * @return void
          */
-        public function register()
+        public function register(): void
         {
-            //
+            // ...
         }
 
         /**
          * Bootstrap any application services.
-         *
-         * @return void
          */
-        public function boot()
+        public function boot(): void
         {
-            Session::extend('mongo', function ($app) {
+            Session::extend('mongo', function (Application $app) {
                 // Return an implementation of SessionHandlerInterface...
                 return new MongoSessionHandler;
             });

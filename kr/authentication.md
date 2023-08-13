@@ -12,7 +12,7 @@
 - [Authentication Quickstart](#authentication-quickstart)
 - [빠르게 인증 살펴보기](#authentication-quickstart)
     - [Install A Starter Kit](#install-a-starter-kit)
-    - [### 스타터 키트 설치](#install-a-starter-kit)
+    - [스타터 키트 설치](#install-a-starter-kit)
     - [Retrieving The Authenticated User](#retrieving-the-authenticated-user)
     - [인증된 사용자 조회하기](#retrieving-the-authenticated-user)
     - [Protecting Routes](#protecting-routes)
@@ -48,7 +48,7 @@
 - [Adding Custom User Providers](#adding-custom-user-providers)
 - [사용자 정의 User 프로바이더 추가하기](#adding-custom-user-providers)
     - [The User Provider Contract](#the-user-provider-contract)
-    - [사용자 프로바이더 Contract](#the-user-provider-contract)
+    - [User 프로바이더 Contract](#the-user-provider-contract)
     - [The Authenticatable Contract](#the-authenticatable-contract)
     - [인증가능 Contract](#the-authenticatable-contract)
 - [Social Authentication](/docs/{{version}}/socialite)
@@ -74,13 +74,13 @@ Providers define how users are retrieved from your persistent storage. Laravel s
 
 Your application's authentication configuration file is located at `config/auth.php`. This file contains several well-documented options for tweaking the behavior of Laravel's authentication services.
 
-애플리케이션의 인증 설정은 `config/auth.php` 파일에서 할 수 있습니다. 이 파일에는 라라벨 인증 서비스의 동작을 조정하기위한 몇 가지 잘 문서화 된 옵션이 포함되어 있습니다.
+애플리케이션의 인증 구성 파일은 `configauth.php`에 있습니다. 이 파일에는 Laravel의 인증 서비스의 동작을 조정하기 위한 몇 가지 잘 문서화된 옵션이 포함되어 있습니다.
 
 > **Note**  
 > Guards and providers should not be confused with "roles" and "permissions". To learn more about authorizing user actions via permissions, please refer to the [authorization](/docs/{{version}}/authorization) documentation.
 
 > **Note** 
-> 가드와 프로바이더의 "역할"및 "권한"을 혼동해서는 안됩니다. 권한을 통해 사용자의 행동을 승인하기위한 자세한 내용은 [authorization](/docs/{{version}}/authorization) 문서를 참조하세요.
+> Guards와 Providers를 "roles" 및 "permissions"과 혼동해서는 안 됩니다. 권한을 통한 사용자 작업 승인에 대한 자세한 내용은 [authorization](/docs/{{version}}/authorization) 문서를 참조하세요.
 
 <a name="starter-kits"></a>
 ### Starter Kits
@@ -132,7 +132,7 @@ When a remote service needs to authenticate to access an API, cookies are not ty
 
 Laravel includes built-in authentication and session services which are typically accessed via the `Auth` and `Session` facades. These features provide cookie-based authentication for requests that are initiated from web browsers. They provide methods that allow you to verify a user's credentials and authenticate the user. In addition, these services will automatically store the proper authentication data in the user's session and issue the user's session cookie. A discussion of how to use these services is contained within this documentation.
 
-라라벨에는 일반적으로 `Auth` 및 `Session` 파사드를 통해 접근할 수 있는 내장 인증 서비스 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저의 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자 인증정보를 확인하고 사용자를 인증 할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 인증 데이터를 자동으로 저장하고 사용자 세션 쿠키를 생성합니다. 이 문서에는 이러한 서비스를 사용하는 방법에 대한 설명이 포함되어 있습니다.
+Laravel에는 일반적으로 `Auth` 및 `Session` 파사드를 통해 접근할 수 있는 내장 인증 및 세션 서비스가 포함되어 있습니다. 이러한 기능은 웹 브라우저의 요청에 대해 쿠키 기반 인증을 제공합니다. 사용자 인증정보를 확인하고 사용자를 인증할 수 있는 방법을 제공합니다. 또한 이러한 서비스는 사용자 세션에 적절한 인증 데이터를 자동으로 저장하고 사용자 세션 쿠키를 생성합니다. 이러한 서비스를 사용하는 방법에 대한 설명이 이 문서에 포함되어 있습니다.
 
 **Application Starter Kits**
 **애플리케이션 스타터 키트**
@@ -314,7 +314,9 @@ To determine if the user making the incoming HTTP request is authenticated, you 
 
 When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior by updating the `redirectTo` function in your application's `app/Http/Middleware/Authenticate.php` file:
 
-`auth` 미들웨어는 사용자가 인증되지 않았다면, `login` [이라는 이름이 지정된 라우트](/docs/{{version}}/routing#named-routes)로 사용자를 돌려보냅니다. `app/Http/Middleware/Authenticate.php` 파일의 `redirectTo` 함수를 수정해서 이 동작을 바꿀 수 있습니다.
+`auth` 미들웨어는 사용자가 인증되지 않았다면, `login` [이라는 이름이 지정된 Route](/docs/{{version}}/routing#named-routes)으로 리디렉션합니다. 애플리케이션의 `appHttpMiddlewareAuthenticate.php` 파일의 `redirectTo` 함수를 수정하여 이 동작을 바꿀 수 있습니다.
+
+    use Illuminate\Http\Request;
 
     use Illuminate\Http\Request;
 
@@ -549,7 +551,7 @@ You may pass a boolean value as the second argument to the `loginUsingId` method
 
 <a name="authenticate-a-user-once"></a>
 #### Authenticate A User Once
-#### 한번만 사용자로 인증 하기
+#### 일회성 사용자 인증
 
 You may use the `once` method to authenticate a user with the application for a single request. No sessions or cookies will be utilized when calling this method:
 
@@ -621,7 +623,7 @@ You may also use HTTP Basic Authentication without setting a user identifier coo
 
 Next, attach the middleware to a route:
 
-다음으로, 이 미들웨어를 라우트에 추가하십시오.
+다음으로 미들웨어를 Route에 연결합니다.
 
     Route::get('/api/user', function () {
         // Only authenticated users may access this route...
@@ -719,7 +721,7 @@ After confirming their password, a user will not be asked to confirm their passw
 
 First, we will define a route to display a view that requests the user to confirm their password:
 
-먼저 사용자에게 비밀번호 확인을 요청하는 폼의 경로를 지정합니다.
+먼저 사용자에게 비밀번호 확인을 요청하는 폼의 경로를 지합니다.
 
     Route::get('/confirm-password', function () {
         return view('auth.confirm-password');

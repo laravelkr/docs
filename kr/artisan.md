@@ -2,85 +2,50 @@
 
 - [Introduction](#introduction)
 - [시작하기](#시작하기)
-  - [Tinker (REPL)](#tinker-repl)
-  - [Tinker (REPL)](#tinker-repl)
-    - [Installation](#installation)
-    - [설치](#설치)
-    - [Usage](#usage)
-    - [사용법](#사용법)
-    - [Command Allow List](#command-allow-list)
-    - [명령어 허용 목록](#명령어-허용-목록)
-    - [Classes That Should Not Be Aliased](#classes-that-should-not-be-aliased)
-    - [별칭을 지정해서는 안되는 클래스](#별칭을-지정해서는-안되는-클래스)
+    - [Tinker (REPL)](#tinker)
+    - [Tinker (REPL)](#tinker)
 - [Writing Commands](#writing-commands)
-- [명령어 작성](#명령어-작성)
-  - [Generating Commands](#generating-commands)
-  - [명령어 생성](#명령어-생성)
-  - [Command Structure](#command-structure)
-  - [명령어 구조](#명령어-구조)
-  - [Closure Commands](#closure-commands)
-  - [클로저 명령어](#클로저-명령어)
-    - [Type-Hinting Dependencies](#type-hinting-dependencies)
-    - [타입힌팅 의존성](#타입힌팅-의존성)
-    - [Closure Command Descriptions](#closure-command-descriptions)
-    - [클로저 명령어 설명](#클로저-명령어-설명)
-  - [Isolatable Commands](#isolatable-commands)
-  - [의존성 명령어](#의존성-명령어)
-    - [Lock Expiration Time](#lock-expiration-time)
-    - [잠금 만료 시간](#잠금-만료-시간)
+- [명령어 작성하기](#writing-commands)
+    - [Generating Commands](#generating-commands)
+    - [명령어 생성](#generating-commands)
+    - [Command Structure](#command-structure)
+    - [명령어의 구조](#command-structure)
+    - [Closure Commands](#closure-commands)
+    - [클로저 명령어](#closure-commands)
+    - [Isolatable Commands](#isolatable-commands)
+    - [격리 가능한 명령](#isolatable-commands)
 - [Defining Input Expectations](#defining-input-expectations)
-- [입력 예상 정의](#입력-예상-정의)
-  - [Arguments](#arguments)
-  - [인자](#인자)
-  - [Options](#options)
-  - [옵션](#옵션)
-    - [Options With Values](#options-with-values)
-    - [값이 있는 옵션](#값이-있는-옵션)
-    - [Option Shortcuts](#option-shortcuts)
-    - [옵션 단축키](#옵션-단축키)
-  - [Input Arrays](#input-arrays)
-  - [입력 배열](#입력-배열)
-    - [Option Arrays](#option-arrays)
-    - [옵션 배열](#옵션-배열)
-  - [Input Descriptions](#input-descriptions)
-  - [입력 설명](#입력-설명)
-  - [Prompting For Missing Input](#prompting-for-missing-input)
+- [입력값들 정의하기](#defining-input-expectations)
+    - [Arguments](#arguments)
+    - [인자들](#arguments)
+    - [Options](#options)
+    - [옵션들](#options)
+    - [Input Arrays](#input-arrays)
+    - [배열 입력](#input-arrays)
+    - [Input Descriptions](#input-descriptions)
+    - [설명 입력](#input-descriptions)
+    - [Prompting For Missing Input](#prompting-for-missing-input)
+    - [누락된 입력 프롬프트](#prompting-for-missing-input)
 - [Command I/O](#command-io)
-- [명령 I/O](#command-io)
+- [명령어 입출력](#command-io)
     - [Retrieving Input](#retrieving-input)
-    - [입력 검색](#입력-검색)
+    - [입력 조회](#retrieving-input)
     - [Prompting For Input](#prompting-for-input)
-    - [입력 프롬프트](#입력-프롬프트)
-      - [Asking For Confirmation](#asking-for-confirmation)
-      - [확인 요청](#확인-요청)
-      - [Auto-Completion](#auto-completion)
-      - [자동 완성](#자동-완성)
-      - [Multiple Choice Questions](#multiple-choice-questions)
-      - [다중 선택 질문](#다중-선택-질문)
+    - [입력 프롬프트](#prompting-for-input)
     - [Writing Output](#writing-output)
-    - [출력 작성](#출력-작성)
-      - [Tables](#tables)
-      - [테이블](#테이블)
-      - [Progress Bars](#progress-bars)
-      - [진행률 표시줄](#진행률-표시줄)
-  - [Registering Commands](#registering-commands)
-  - [명령어 등록](#명령어-등록)
-  - [Programmatically Executing Commands](#programmatically-executing-commands)
-  - [명령어 프로그래밍적 실행](#명령어-프로그래밍적-실행)
-      - [Passing Array Values](#passing-array-values)
-      - [배열 값 전달](#배열-값-전달)
-      - [Passing Boolean Values](#passing-boolean-values)
-      - [불리언 값 전달](#불리언-값-전달)
-      - [Queueing Artisan Commands](#queueing-artisan-commands)
-      - [Artisan 명령어 큐에 넣기](#artisan-명령어-큐에-넣기)
+    - [출력 작성](#writing-output)
+- [Registering Commands](#registering-commands)
+- [명령어 등록하기](#registering-commands)
+- [Programmatically Executing Commands](#programmatically-executing-commands)
+- [프로그래밍 방식으로 명령 실행하기](#programmatically-executing-commands)
     - [Calling Commands From Other Commands](#calling-commands-from-other-commands)
-    - [다른 명령어에서 명령어 호출하기](#다른-명령어에서-명령어-호출하기)
-  - [Signal Handling](#signal-handling)
-  - [시그널 처리](#시그널-처리)
-  - [Stub Customization](#stub-customization)
-  - [스텁 커스터마이징](#스텁-커스터마이징)
-  - [Events](#events)
-  - [이벤트](#이벤트)
+    - [다른 명령어에서 명령어 호출](#calling-commands-from-other-commands)
+- [Signal Handling](#signal-handling)
+- [시그널 처리](#signal-handling)
+- [Stub Customization](#stub-customization)
+- [Stub 커스터마이징](#stub-customization)
+- [Events](#events)
+- [이벤트](#events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -106,7 +71,7 @@ php artisan help migrate
 
 <a name="laravel-sail"></a>
 #### Laravel Sail
-#### Laravel Sail
+#### 라라벨 Sail
 
 If you are using [Laravel Sail](/docs/{{version}}/sail) as your local development environment, remember to use the `sail` command line to invoke Artisan commands. Sail will execute your Artisan commands within your application's Docker containers:
 
@@ -130,7 +95,7 @@ Laravel Tinker는 Laravel 프레임워크의 강력한 REPL로 [PsySH](https://g
 
 All Laravel applications include Tinker by default. However, you may install Tinker using Composer if you have previously removed it from your application:
 
-모든 Laravel 어플리케이션에는 기본적으로 Tinker가 포함되어 있습니다. 하지만, 이전에 어플리케이션에서 Tinker를 제거한 경우 Composer를 사용하여 Tinker를 설치할 수 있습니다.
+모든 라라벨 어플리케이션에는 기본적으로 Tinker가 포함되어 있습니다. 하지만, 이전에 어플리케이션에서 Tinker를 제거한 경우 Composer를 사용하여 Tinker를 설치할 수 있습니다.
 
 ```shell
 composer require laravel/tinker
@@ -140,7 +105,7 @@ composer require laravel/tinker
 > Looking for a graphical UI for interacting with your Laravel application? Check out [Tinkerwell](https://tinkerwell.app)!
 >
 > **참고**
-> Laravel 어플리케이션과 상호 작용하기 위한 그래픽 UI를 찾고 있나요? [Tinkerwell](https://tinkerwell.app)을 확인해 보세요!
+> 라라벨 어플리케이션과 상호 작용하기 위한 그래픽 UI를 찾고 있나요? [Tinkerwell](https://tinkerwell.app)을 확인해 보세요!
 
 <a name="usage"></a>
 #### Usage
@@ -259,8 +224,8 @@ Let's take a look at an example command. Note that we are able to request any de
 
 > **Note**  
 > For greater code reuse, it is good practice to keep your console commands light and let them defer to application services to accomplish their tasks. In the example above, note that we inject a service class to do the "heavy lifting" of sending the e-mails.
->
-> **참고**
+
+> **Note**
 > 코드 재사용을 위해 콘솔 명령어를 가볍게 유지하고, 명령어의 작업을 수행하기 위해 어플리케이션 서비스를 지연시키는 것이 좋습니다. 위의 예에서는 이메일을 보내는 "무거운 작업"을 수행하기 위해 서비스 클래스를 주입했음을 유의하십시오.
 
 <a name="closure-commands"></a>
@@ -320,11 +285,11 @@ When defining a closure based command, you may use the `purpose` method to add a
 
 <a name="isolatable-commands"></a>
 ### Isolatable Commands
-### 의존성 명령어
+### 명령어의 격리
 
 > **Warning**
 > To utilize this feature, your application must be using the `memcached`, `redis`, `dynamodb`, `database`, `file`, or `array` cache driver as your application's default cache driver. In addition, all servers must be communicating with the same central cache server.
->
+
 > **경고**
 > 이 기능을 사용하려면 어플리케이션이 `memcached`, `redis`, `dynamodb`, `database`, `file`, 또는 `array` 캐시 드라이버를 어플리케이션의 기본 캐시 드라이버로 사용해야 합니다. 또한 모든 서버는 동일한 중앙 캐시 서버와 통신해야 합니다.
 
@@ -346,7 +311,7 @@ Sometimes you may wish to ensure that only one instance of a command can run at 
 
 When a command is marked as `Isolatable`, Laravel will automatically add an `--isolated` option to the command. When the command is invoked with that option, Laravel will ensure that no other instances of that command are already running. Laravel accomplishes this by attempting to acquire an atomic lock using your application's default cache driver. If other instances of the command are running, the command will not execute; however, the command will still exit with a successful exit status code:
 
-명령어가 `Isolatable`로 표시되면 Laravel은 자동으로 명령어에 `--isolated` 옵션을 추가합니다. 해당 옵션으로 명령어가 호출되면 Laravel은 해당 명령어의 다른 인스턴스가 이미 실행 중인지 확인합니다. Laravel는 어플리케이션의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령어의 다른 인스턴스가 실행 중인 경우 명령어는 실행되지 않지만, 명령어는 여전히 성공적인 종료 상태 코드로 종료됩니다.
+명령어가 `Isolatable`로 표시되면 라라벨은 자동으로 명령어에 `--isolated` 옵션을 추가합니다. 해당 옵션으로 명령어가 호출되면 라라벨은 해당 명령어의 다른 인스턴스가 이미 실행 중인지 확인합니다. Laravel는 어플리케이션의 기본 캐시 드라이버를 사용하여 원자적 잠금을 획득하려고 시도하여 이를 수행합니다. 명령어의 다른 인스턴스가 실행 중인 경우 명령어는 실행되지 않지만, 명령어는 여전히 성공적인 종료 상태 코드로 종료됩니다.
 
 ```shell
 php artisan mail:send 1 --isolated
@@ -362,8 +327,11 @@ php artisan mail:send 1 --isolated=12
 
 <a name="lock-id"></a>
 #### Lock ID
+#### 잠금 ID
 
 By default, Laravel will use the command's name to generate the string key that is used to acquire the atomic lock in your application's cache. However, you may customize this key by defining an `isolatableId` method on your Artisan command class, allowing you to integrate the command's arguments or options into the key:
+
+기본적으로 라라벨은 애플리케이션 캐시에서 잠금 ID로 사용하는 문자열을 생성하는데 명령어의 이름을 사용합니다. 필요한경우 아티즌 명령어 클래스의 `isolatableId` 메서드를 정의하여 이 키를 커스터마이징할 수 있습니다.
 
 ```php
 /**
@@ -560,8 +528,11 @@ You may assign descriptions to input arguments and options by separating the arg
 
 <a name="prompting-for-missing-input"></a>
 ### Prompting For Missing Input
+### 누락된 입력 프롬프트
 
 If your command contains required arguments, the user will receive an error message when they are not provided. Alternatively, you may configure your command to automatically prompt the user when required arguments are missing by implementing the `PromptsForMissingInput` interface:
+
+명령어가 필수 인자를 가지고 있는 경우, 이 인자가 제공되지 않으면 사용자에게 오류 메세지가 표시됩니다. 또는 `PromptsForMissingInput` 인터페이스를 구현하여 필수 인자가 누락된 경우에 사용자에게 자동으로 프롬프트를 표시하도록 명령어을 구성할 수 있습니다.
 
     <?php
 
@@ -584,6 +555,8 @@ If your command contains required arguments, the user will receive an error mess
 
 If Laravel needs to gather a required argument from the user, it will automatically ask the user for the argument by intelligently phrasing the question using either the argument name or description. If you wish to customize the question used to gather the required argument, you may implement the `promptForMissingArgumentsUsing` method, returning an array of questions keyed by the argument names:
 
+라라벨이 사용자로부터 필수 인자를 받아야 하는 경우, 인자의 이름이나 설명을 사용하여 좀 더 지능적으로 질문을 표시하여 사용자가 인자를 입력하도록 요청합니다. 필수 인자를 전달받는데 사용되는 질문을 커스터마이징하려면 `promptForMissingArgumentsUsing` 메서드를 구현하여 인자의 이름으로 키가 지정된 질문 배열을 반환하면 됩니다.
+
     /**
      * Prompt for missing input arguments using the returned questions.
      *
@@ -598,11 +571,15 @@ If Laravel needs to gather a required argument from the user, it will automatica
 
 You may also provide placeholder text by using a tuple containing the question and placeholder:
 
+질문과 플레이스홀더를 가지는 튜플을 사용하여 플레이스 홀더를 표시할 수도 있습니다.
+
     return [
         'user' => ['Which user ID should receive the mail?', 'E.g. 123'],
     ];
 
 If you would like complete control over the prompt, you may provide a closure that should prompt the user and return their answer:
+
+프롬프트를 세세하게 제어하려면 사용자에게 메시지를 표시하고 답변을 반환 하는 클로저를 정의할 수도 있습니다.
 
     use App\Models\User;
     use function Laravel\Prompts\search;
@@ -621,8 +598,12 @@ If you would like complete control over the prompt, you may provide a closure th
 
 > **Note**  
 The comprehensive [Laravel Prompts](/docs/{{version}}/prompts) documentation includes additional information on the available prompts and their usage.
+ 
+> 종합적인 [라라벨 프롬프트](/docs/{{version}}/prompts) 문서에는 사용 가능한 프롬프트와 그 사용법에 대한 추가 정보가 포함되어 있습니다.
 
 If you wish to prompt the user to select or enter [options](#options), you may include prompts in your command's `handle` method. However, if you only wish to prompt the user when they have also been automatically prompted for missing arguments, then you may implement the `afterPromptingForMissingArguments` method:
+
+사용자에게 [옵션](#options)을 선택하거나 입력하라는 메시지를 표시하려면 명령어의 `handle` 메서드에 프롬프트를 포함하면 됩니다. 이와 달리 누락된 인자에 대한 자동 프롬프트가 표시된 경우에만 사용자에게 프롬프트를 표시하려면 `afterPromptingForMissingArguments` 메서드를 구현하면 됩니다.
 
     use Symfony\Component\Console\Input\InputInterface;
     use Symfony\Component\Console\Output\OutputInterface;
@@ -647,11 +628,11 @@ If you wish to prompt the user to select or enter [options](#options), you may i
 
 <a name="command-io"></a>
 ## Command I/O
-## 명령 I/O
+## 명령어 입출력
 
 <a name="retrieving-input"></a>
 ### Retrieving Input
-### 입력 검색
+### 입력 조회
 
 While your command is executing, you will likely need to access the values for the arguments and options accepted by your command. To do so, you may use the `argument` and `option` methods. If an argument or option does not exist, `null` will be returned:
 
@@ -687,6 +668,9 @@ Options may be retrieved just as easily as arguments using the `option` method. 
 
 > **Note**  
 > [Laravel Prompts](/docs/{{version}}/prompts) is a PHP package for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
+
+> **Note**  
+> [라라벨 Prompts](/docs/{{version}}/prompts) 는 CLI 애플리케이션에 사용자 친화적이고 예쁜 입력폼을 추가할 수 있는 PHP 패키지입니다. 이 패키지에는 브라우저와 비슷하게 플레이스홀더와 유효성 검증을 수행하는 기능들을 가지고 있습니다.
 
 In addition to displaying output, you may also ask the user to provide input during the execution of your command. The `ask` method will prompt the user with the given question, accept their input, and then return the user's input back to your command:
 
@@ -862,13 +846,13 @@ Sometimes, you may need more manual control over how a progress bar is advanced.
 
 > **Note**  
 > For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html).
->
+
 > **참고**
 > 고급 옵션에 대해서는 [Symfony Progress Bar component documentation](https://symfony.com/doc/current/components/console/helpers/progressbar.html)을 확인하세요.
 
 <a name="registering-commands"></a>
 ## Registering Commands
-## 명령어 등록
+## 명령어 등록하기
 
 All of your console commands are registered within your application's `App\Console\Kernel` class, which is your application's "console kernel". Within the `commands` method of this class, you will see a call to the kernel's `load` method. The `load` method will scan the `app/Console/Commands` directory and automatically register each command it contains with Artisan. You are even free to make additional calls to the `load` method to scan other directories for Artisan commands:
 
@@ -895,7 +879,7 @@ If necessary, you may manually register commands by adding the command's class n
 
 <a name="programmatically-executing-commands"></a>
 ## Programmatically Executing Commands
-## 명령어 프로그래밍적 실행
+## 프로그래밍 방식으로 명령 실행하기
 
 Sometimes you may wish to execute an Artisan command outside of the CLI. For example, you may wish to execute an Artisan command from a route or controller. You may use the `call` method on the `Artisan` facade to accomplish this. The `call` method accepts either the command's signature name or class name as its first argument, and an array of command parameters as the second argument. The exit code will be returned:
 

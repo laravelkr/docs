@@ -119,7 +119,7 @@ Sometimes you may need to register a route that responds to multiple HTTP verbs.
 
 > **Note**  
 > When defining multiple routes that share the same URI, routes using the `get`, `post`, `put`, `patch`, `delete`, and `options` methods should be defined before routes using the `any`, `match`, and `redirect` methods. This ensures the incoming request is matched with the correct route.
->
+
 > **참고**
 > 동일한 URI를 공유하는 여러 라우트를 정의할 때 `get`, `post`, `put`, `patch`, `delete`, `options` 메소드를 사용하는 라우트는 `any`, `match`, `redirect` 메소드를 사용하는 라우트보다 먼저 정의되어야 합니다. 이렇게 하면 들어오는 요청이 올바른 라우트와 일치하도록 보장됩니다.
 
@@ -869,7 +869,7 @@ Using the `Route::fallback` method, you may define a route that will be executed
 
 > **Warning**  
 > The fallback route should always be the last route registered by your application.
->
+
 > **경고**
 > 대체 라우트는 응용 프로그램에 의해 등록된 마지막 라우트여야 합니다.
 

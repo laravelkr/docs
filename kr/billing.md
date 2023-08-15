@@ -1,10 +1,10 @@
 # Laravel Cashier (Stripe)
-# 라라벨 캐셔 (Stripe)
+# 라라벨 Cashier (Stripe)
 
 - [Introduction](#introduction)
 - [시작하기](#introduction)
 - [Upgrading Cashier](#upgrading-cashier)
-- [캐셔 업그레이드하기](#upgrading-cashier)
+- [Cashier 업그레이드하기](#upgrading-cashier)
 - [Installation](#installation)
 - [설치하기](#installation)
     - [Database Migrations](#database-migrations)
@@ -63,8 +63,8 @@
     - [가격 변경하기](#changing-prices)
     - [Subscription Quantity](#subscription-quantity)
     - [정기 구독 수량 변경하기](#subscription-quantity)
-    - [Multiprice Subscriptions](#multiprice-subscriptions)
-    - [다중 가격 구독](#multiprice-subscriptions)
+    - [Subscriptions With Multiple Products](#subscriptions-with-multiple-products)
+    - [여러 제품의 구독](#subscriptions-with-multiple-products)
     - [Multiple Subscriptions](#multiple-subscriptions)
     - [다중 구독](#multiple-subscriptions)
     - [Metered Billing](#metered-billing)
@@ -97,6 +97,8 @@
     - [기본 결제](#simple-charge)
     - [Charge With Invoice](#charge-with-invoice)
     - [청구서와 같이 결제](#charge-with-invoice)
+    - [Creating Payment Intents](#creating-payment-intents)
+    - [지불 의도 생성](#creating-payment-intents)
     - [Refunding Charges](#refunding-charges)
     - [환불 수수료](#refunding-charges)
 - [Checkout](#checkout)
@@ -109,6 +111,8 @@
     - [구독 결제하기](#subscription-checkouts)
     - [Collecting Tax IDs](#collecting-tax-ids)
     - [세금 ID 수집](#collecting-tax-ids)
+    - [Guest Checkouts](#guest-checkouts)
+    - [게스트 체크아웃](#guest-checkouts)
 - [Invoices](#invoices)
 - [청구서](#invoices)
     - [Retrieving Invoices](#retrieving-invoices)
@@ -121,6 +125,8 @@
     - [인보이스 PDF 생성](#generating-invoice-pdfs)
 - [Handling Failed Payments](#handling-failed-payments)
 - [결제 실패 처리](#handling-failed-payments)
+    - [Confirming Payments](#confirming-payments)
+    - [결제 확인](#confirming-payments)
 - [Strong Customer Authentication (SCA)](#strong-customer-authentication)
 - [강력한 고객 인증 (SCA)](#strong-customer-authentication)
     - [Payments Requiring Additional Confirmation](#payments-requiring-additional-confirmation)
@@ -138,7 +144,7 @@
 
 [Laravel Cashier Stripe](https://github.com/laravel/cashier-stripe) provides an expressive, fluent interface to [Stripe's](https://stripe.com) subscription billing services. It handles almost all of the boilerplate subscription billing code you are dreading writing. In addition to basic subscription management, Cashier can handle coupons, swapping subscription, subscription "quantities", cancellation grace periods, and even generate invoice PDFs.
 
-[Laravel Cashier Stripe](https://github.com/laravel/cashier-stripe) 는 [Stripe](https://stripe.com) 의 구독 결제 서비스를 표현적이고 플루언트한 인터페이스를 제공합니다. 당신이 쓰고 싶어하는 모든 보일러 플레이트 구독 결제 코드를 처리합니다. 기본 구독 관리뿐만 아니라 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 및 청구서 PDF 생성까지 Cashier가 처리할 수 있습니다.
+[라라벨 Cashier Stripe](https://github.com/laravel/cashier-stripe) 는 [Stripe](https://stripe.com) 의 구독 결제 서비스를 표현적이고 플루언트한 인터페이스를 제공합니다. 당신이 쓰고 싶어하는 모든 보일러 플레이트 구독 결제 코드를 처리합니다. 기본 구독 관리뿐만 아니라 쿠폰, 구독 교환, 구독 "수량", 취소 유예 기간 및 청구서 PDF 생성까지 Cashier가 처리할 수 있습니다.
 
 <a name="upgrading-cashier"></a>
 ## Upgrading Cashier
@@ -150,7 +156,7 @@ Cashier의 새 버전으로 업그레이드 할 때는 [업그레이드 가이�
 
 > **Warning**  
 > To prevent breaking changes, Cashier uses a fixed Stripe API version. Cashier 14 utilizes Stripe API version `2022-11-15`. The Stripe API version will be updated on minor releases in order to make use of new Stripe features and improvements.
->
+
 > **경고**
 > 변경을 방지하기 위해 Cashier는 고정 된 Stripe API 버전을 사용합니다. Cashier 14는 Stripe API 버전 `2022-11-15`을 사용합니다. Stripe API 버전은 새로운 Stripe 기능 및 개선을 사용하기 위해 마이너 릴리스에서 업데이트됩니다.
 
@@ -168,7 +174,7 @@ composer require laravel/cashier
 
 > **Warning**  
 > To ensure Cashier properly handles all Stripe events, remember to [set up Cashier's webhook handling](#handling-stripe-webhooks).
->
+
 > **경고**
 > Cashier가 모든 Stripe 이벤트를 올바르게 처리하도록하려면 [Cashier 웹훅 처리 설정](#handling-stripe-webhooks)을 기억하십시오.
 
@@ -208,13 +214,13 @@ Cashier의 마이그레이션을 전혀 실행하지 않도록하려면 Cashier�
 
 > **Warning**  
 > Stripe recommends that any column used for storing Stripe identifiers should be case-sensitive. Therefore, you should ensure the column collation for the `stripe_id` column is set to `utf8_bin` when using MySQL. More information regarding this can be found in the [Stripe documentation](https://stripe.com/docs/upgrades#what-changes-does-stripe-consider-to-be-backwards-compatible).
->
+
 > **경고**
 > Stripe에서는 Stripe 식별자를 저장하는 데 사용되는 컬럼에 대해 대소 문자를 구분하는 것을 권장합니다. 따라서 MySQL을 사용할 때 `stripe_id` 컬럼 콜레이션을 `utf8_bin`으로 설정해야합니다. 이에 대한 자세한 내용은 [Stripe 문서](https://stripe.com/docs/upgrades#what-changes-does-stripe-consider-to-be-backwards-compatible)에서 찾을 수 있습니다.
 
 <a name="configuration"></a>
 ## Configuration
-## 구성
+## 설정하기
 
 <a name="billable-model"></a>
 ### Billable Model
@@ -248,7 +254,7 @@ Cashier는 청구 가능한 모델이 Laravel과 함께 제공되는 `App\Models
 
 > **Warning**  
 > If you're using a model other than Laravel's supplied `App\Models\User` model, you'll need to publish and alter the [Cashier migrations](#installation) provided to match your alternative model's table name.
->
+
 > **경고**
 > Laravel이 제공하는 `App\Models\User` 모델이 아닌 모델을 사용하는 경우 게시하고 대체 모델의 테이블 이름과 일치하도록 제공되는 [Cashier 마이그레이션](#installation)을 변경해야합니다.  
 
@@ -1139,7 +1145,7 @@ The `recurring` method may be used to determine if the user is currently subscri
 
 > **Warning**  
 > If a user has two subscriptions with the same name, the most recent subscription will always be returned by the `subscription` method. For example, a user might have two subscription records named `default`; however, one of the subscriptions may be an old, expired subscription, while the other is the current, active subscription. The most recent subscription will always be returned while older subscriptions are kept in the database for historical review.
->
+
 > **경고**
 > 사용자에게 동일한 이름의 두 개의 구독이 있는 경우, `subscription` 메소드는 항상 가장 최근의 구독을 반환합니다. 예를 들어 사용자는 `default`라는 두 개의 구독 기록을 가질 수 있습니다. 그러나 구독 중 하나는 오래된 만료된 구독이고 다른 하나는 현재 활성화된 구독일 수 있습니다. 가장 최근의 구독은 항상 반환되고 오래된 구독은 데이터베이스에 보관되어 이력을 검토합니다.
 
@@ -2590,7 +2596,7 @@ Of course, you can also enable promotion codes for subscription checkouts:
 
 > **Warning**  
 > Unfortunately Stripe Checkout does not support all subscription billing options when starting subscriptions. Using the `anchorBillingCycleOn` method on the subscription builder, setting proration behavior, or setting payment behavior will not have any effect during Stripe Checkout sessions. Please consult [the Stripe Checkout Session API documentation](https://stripe.com/docs/api/checkout/sessions/create) to review which parameters are available.
->
+
 > **경고**
 > 안타깝게도 Stripe Checkout는 구독을 시작할 때 모든 구독 결제 옵션을 지원하지 않습니다. 구독 빌더의 `anchorBillingCycleOn` 메소드, 조정 행동 또는 결제 행동을 설정하는 것은 Stripe Checkout 세션 동안에는 아무런 영향을 미치지 않습니다. 사용 가능한 매개 변수를 검토하려면 [Stripe Checkout 세션 API 문서](https://stripe.com/docs/api/checkout/sessions/create)를 참조하십시오.
 
@@ -2634,7 +2640,7 @@ When this method is invoked, a new checkbox will be available to the customer th
 
 > **Warning**  
 > If you have already configured [automatic tax collection](#tax-configuration) in your application's service provider then this feature will be enabled automatically and there is no need to invoke the `collectTaxIds` method.
->
+
 > **경고**
 > 어플리케이션의 서비스 제공자에서 [자동 세금 수집](#tax-configuration)을 구성했다면 이 기능은 자동으로 활성화되며 `collectTaxIds` 메소드를 호출할 필요가 없습니다.
 
@@ -2704,8 +2710,6 @@ On the payment confirmation page, the customer will be prompted to enter their c
 
 결제 확인 페이지에서 고객은 신용 카드 정보를 다시 입력하고 Stripe에서 필요로 하는 추가 작업을 수행하도록 요청됩니다. 예를 들어 "3D Secure" 확인. 결제를 확인한 후, 사용자는 위에서 지정한 `redirect` 매개 변수에 의해 제공된 URL로 리디렉션됩니다. 리디렉션 시, `message` (문자열) 및 `success` (정수) 쿼리 문자열 변수가 URL에 추가됩니다. 결제 페이지는 현재 다음 결제 방법 유형을 지원합니다:
 
-<div class="content-list" markdown="1">
-
 - Credit Cards
 - Alipay
 - Bancontact
@@ -2714,8 +2718,6 @@ On the payment confirmation page, the customer will be prompted to enter their c
 - Giropay
 - iDEAL
 - SEPA Direct Debit
-
-</div>
 
 Alternatively, you could allow Stripe to handle the payment confirmation for you. In this case, instead of redirecting to the payment confirmation page, you may [setup Stripe's automatic billing emails](https://dashboard.stripe.com/account/billing/automatic) in your Stripe dashboard. However, if an `IncompletePayment` exception is caught, you should still inform the user they will receive an email with further payment confirmation instructions.
 
@@ -2759,8 +2761,11 @@ You can derive the specific status of an incomplete payment by inspecting the `p
 
 <a name="confirming-payments"></a>
 ### Confirming Payments
+### 결제 확인
 
 Some payment methods require additional data in order to confirm payments. For example, SEPA payment methods require additional "mandate" data during the payment process. You may provide this data to Cashier using the `withPaymentConfirmationOptions` method:
+
+일부 결제수단은 결제 확인을 위해 추가 데이터가 필요합니다. 예를 들어, SEPA 결제 방법은 결제 과정에서 추가 "위임" 데이터가 필요합니다. 이 데이터는 `withPaymentConfirmationOptions` 메서드를 사용하여 Cashier 에게 제공할 수 있습니다.
 
     $subscription->withPaymentConfirmationOptions([
         'mandate_data' => '...',
@@ -2768,17 +2773,19 @@ Some payment methods require additional data in order to confirm payments. For e
     
 You may consult the [Stripe API documentation](https://stripe.com/docs/api/payment_intents/confirm) to review all of the options accepted when confirming payments.
 
+결제 확인에 사용되는 모든 옵션을 확인하려면 [Stripe API 문서](https://stripe.com/docs/api/payment_intents/confirm)를 참조하세요.
+
 <a name="strong-customer-authentication"></a>
 ## Strong Customer Authentication
 ## 강력한 고객 인증
 
-If your business or one of your customers is based in Europe you will need to abide by the EU's Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
+If your business or one of your customers is based in Europe you will need to abide by the EU's Strong Customer Authentication (SCA) regulations. These regulations were imposed in September 2019 by the European Union to prevent payment fraud. Luckily, Stripe and Cashier are prepared for building SCA compliant applications.
 
 만약 당신의 비즈니스 또는 고객 중 한 명이 유럽에 있다면, EU의 강력한 고객 인증 (SCA) 규정을 준수해야 합니다. 이 규정은 유럽 연합에 의해 2019년 9월에 결제 사기를 방지하기 위해 시행되었습니다. 다행히도, Stripe와 Cashier는 SCA 준수 어플리케이션을 구축하기 위해 준비되어 있습니다.
 
 > **Warning**  
 > Before getting started, review [Stripe's guide on PSD2 and SCA](https://stripe.com/guides/strong-customer-authentication) as well as their [documentation on the new SCA APIs](https://stripe.com/docs/strong-customer-authentication).
->
+
 > **경고**
 > 시작하기 전에, [Stripe의 PSD2 및 SCA 가이드](https://stripe.com/guides/strong-customer-authentication)와 [새로운 SCA API에 대한 문서](https://stripe.com/docs/strong-customer-authentication)를 검토하십시오.
 

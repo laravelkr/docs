@@ -5,38 +5,38 @@
 - [소개하기](#introduction)
 - [Interacting With The Request](#interacting-with-the-request)
 - [Request와 상호작용](#interacting-with-the-request)
-   - [Accessing The Request](#accessing-the-request)
-   - [Request 접근](#accessing-the-request)
-   - [Request Path, Host, & Method](#request-path-and-method)
-   - [Request 경로, 호스트, & 메소드](#request-path-and-method)
-   - [Request Headers](#request-headers)
-   - [Request 헤더](#request-headers)
-   - [Request IP Address](#request-ip-address)
-   - [Request IP 주소](#request-ip-address)
-   - [Content Negotiation](#content-negotiation)
-   - [Content 협상](#content-negotiation)
-   - [PSR-7 Requests](#psr7-requests)
-   - [PSR-7 Requests](#psr7-requests)
+    - [Accessing The Request](#accessing-the-request)
+    - [Request 접근](#accessing-the-request)
+    - [Request Path, Host, & Method](#request-path-and-method)
+    - [Request 경로, 호스트, & 메소드](#request-path-and-method)
+    - [Request Headers](#request-headers)
+    - [Request 헤더](#request-headers)
+    - [Request IP Address](#request-ip-address)
+    - [Request IP 주소](#request-ip-address)
+    - [Content Negotiation](#content-negotiation)
+    - [Content 협상](#content-negotiation)
+    - [PSR-7 Requests](#psr7-requests)
+    - [PSR-7 Requests](#psr7-requests)
 - [Input](#input)
 - [입력](#input)
-   - [Retrieving Input](#retrieving-input)
-   - [검색값 조회](#retrieving-input)
-   - [Determining If Input Is Present](#determining-if-input-is-present)
-   - [입력이 있는지 확인하기](#determining-if-input-is-present)
-   - [Merging Additional Input](#merging-additional-input)
-   - [추가 입력 병합](#merging-additional-input)
-   - [Old Input](#old-input)
-   - [이전 입력](#old-input)
-   - [Cookies](#cookies)
-   - [쿠키](#cookies)
-   - [Input Trimming & Normalization](#input-trimming-and-normalization)
-   - [입력 Trimming & 표준화](#input-trimming-and-normalization)
+    - [Retrieving Input](#retrieving-input)
+    - [검색값 조회](#retrieving-input)
+    - [Determining If Input Is Present](#determining-if-input-is-present)
+    - [입력이 있는지 확인하기](#determining-if-input-is-present)
+    - [Merging Additional Input](#merging-additional-input)
+    - [추가 입력 병합](#merging-additional-input)
+    - [Old Input](#old-input)
+    - [이전 입력](#old-input)
+    - [Cookies](#cookies)
+    - [쿠키](#cookies)
+    - [Input Trimming & Normalization](#input-trimming-and-normalization)
+    - [입력 Trimming & 표준화](#input-trimming-and-normalization)
 - [Files](#files)
 - [파일](#files)
-   - [Retrieving Uploaded Files](#retrieving-uploaded-files)
-   - [업로드 파일 검색](#retrieving-uploaded-files)
-   - [Storing Uploaded Files](#storing-uploaded-files)
-   - [업로드 파일 수납](#storing-uploaded-files)
+    - [Retrieving Uploaded Files](#retrieving-uploaded-files)
+    - [업로드 파일 검색](#retrieving-uploaded-files)
+    - [Storing Uploaded Files](#storing-uploaded-files)
+    - [업로드 파일 수납](#storing-uploaded-files)
 - [Configuring Trusted Proxies](#configuring-trusted-proxies)
 - [신뢰할 수 있는 프록시 설정](#configuring-trusted-proxies)
 - [Configuring Trusted Hosts](#configuring-trusted-hosts)
@@ -60,7 +60,7 @@ Laravel의 `Illuminate\Http\Request` 클래스는 현재 어플리케이션에�
 
 To obtain an instance of the current HTTP request via dependency injection, you should type-hint the `Illuminate\Http\Request` class on your route closure or controller method. The incoming request instance will automatically be injected by the Laravel [service container](/docs/{{version}}/container):
 
-종속성 주입을 통해 현재 HTTP 요청의 인스턴스를 얻으려면 라우트 클로저 또는 컨트롤러 메소드에 `Illuminate\Http\Request` 클래스를 타입 힌트해야 합니다. Laravel [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 주입합니다:
+의존성 주입을 통해 현재 HTTP 요청의 인스턴스를 얻으려면 라우트 클로저 또는 컨트롤러 메소드에 `Illuminate\Http\Request` 클래스를 타입 힌트해야 합니다. Laravel [서비스 컨테이너](/docs/{{version}}/container)가 자동으로 주입합니다:
 
     <?php
 
@@ -519,6 +519,8 @@ When given an array, the `has` method will determine if all of the specified val
 
 The `hasAny` method returns `true` if any of the specified values are present:
 
+`hasAny` 메서드는 주어진 값이 하나라도 있다면 `true` 를 반환합니다.
+
     if ($request->hasAny(['name', 'email'])) {
         // ...
     }
@@ -550,6 +552,8 @@ If you would like to determine if a value is present on the request and is not a
     }
 
 The `anyFilled` method returns `true` if any of the specified values is not an empty string:
+
+`anyFilled` 메서드는 주어진 값중 하나라도 빈 문자열이 아니라면 `true` 를 반환합니다.
 
     if ($request->anyFilled(['name', 'email'])) {
         // ...
@@ -657,7 +661,7 @@ To retrieve flashed input from the previous request, invoke the `old` method on 
 
 Laravel also provides a global `old` helper. If you are displaying old input within a [Blade template](/docs/{{version}}/blade), it is more convenient to use the `old` helper to repopulate the form. If no old input exists for the given field, `null` will be returned:
 
-Laravel은 전역 `old` 헬퍼도 제공합니다. [Blade 템플릿](/docs/{{version}}/blade) 내에서 이전 입력을 표시하는 경우 폼을 다시 채우기 위해 `old` 헬퍼를 사용하는 것이 더 편리합니다. 주어진 필드에 이전 입력이 없으면 `null`이 반환됩니다:
+라라벨은 전역 `old` 헬퍼도 제공합니다. [Blade 템플릿](/docs/{{version}}/blade) 내에서 이전 입력을 표시하는 경우 폼을 다시 채우기 위해 `old` 헬퍼를 사용하는 것이 더 편리합니다. 주어진 필드에 이전 입력이 없으면 `null`이 반환됩니다:
 
     <input type="text" name="username" value="{{ old('username') }}">
 
@@ -845,7 +849,7 @@ To solve this, you may use the `App\Http\Middleware\TrustProxies` middleware tha
 
 > **Note**  
 > If you are using AWS Elastic Load Balancing, your `$headers` value should be `Request::HEADER_X_FORWARDED_AWS_ELB`. For more information on the constants that may be used in the `$headers` property, check out Symfony's documentation on [trusting proxies](https://symfony.com/doc/current/deployment/proxies.html).
->
+
 > **참고**
 > AWS Elastic Load Balancing을 사용하는 경우 `$headers` 값은 `Request::HEADER_X_FORWARDED_AWS_ELB` 여야합니다. `$headers` 프로퍼티에서 사용할 수있는 상수에 대한 자세한 내용은 Symfony의 [프록시 신뢰](https://symfony.com/doc/current/deployment/proxies.html) 문서를 참조하세요.
 

@@ -195,8 +195,8 @@ Laravel's `config/app.php` configuration file contains an `aliases` array which 
     ])->toArray(),
 
 <a name="phpredis"></a>
-### PhpRedis
-### PhpRedis
+### phpredis
+### phpredis
 
 By default, Laravel will use the phpredis extension to communicate with Redis. The client that Laravel will use to communicate with Redis is dictated by the value of the `redis.client` configuration option, which typically reflects the value of the `REDIS_CLIENT` environment variable:
 

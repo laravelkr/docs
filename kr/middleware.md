@@ -190,7 +190,7 @@ For convenience, you may assign aliases to middleware in your application's `app
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-Once the middleware alias has been defined in the HTTP kernel, you may use the alias when assigning middlware to routes:
+Once the middleware alias has been defined in the HTTP kernel, you may use the alias when assigning middleware to routes:
 
 미들웨어 별칭을 HTTP 커널에 등록했다면 미들웨어를 Route에 할당할 때 별칭을 사용할 수 있습니다.
 

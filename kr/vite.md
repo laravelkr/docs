@@ -5,38 +5,38 @@
 - [시작하기](#introduction)
 - [Installation & Setup](#installation)
 - [설치 & 설정](#installation)
-    - [Installing Node](#installing-node)
-    - [Node 설치](#installing-node)
-    - [Installing Vite And The Laravel Plugin](#installing-vite-and-laravel-plugin)
-    - [Vite와 라라벨 플러그인 설치](#installing-vite-and-laravel-plugin)
-    - [Configuring Vite](#configuring-vite)
-    - [Vite 설정](#configuring-vite)
-    - [Loading Your Scripts And Styles](#loading-your-scripts-and-styles)
-    - [스크립트와 스타일 불러오기](#loading-your-scripts-and-styles)
+  - [Installing Node](#installing-node)
+  - [Node 설치](#installing-node)
+  - [Installing Vite And The Laravel Plugin](#installing-vite-and-laravel-plugin)
+  - [Vite와 라라벨 플러그인 설치](#installing-vite-and-laravel-plugin)
+  - [Configuring Vite](#configuring-vite)
+  - [Vite 설정](#configuring-vite)
+  - [Loading Your Scripts And Styles](#loading-your-scripts-and-styles)
+  - [스크립트와 스타일 불러오기](#loading-your-scripts-and-styles)
 - [Running Vite](#running-vite)
 - [Vite 실행](#running-vite)
 - [Working With JavaScript](#working-with-scripts)
 - [자바스크립트 작업](#working-with-scripts)
-    - [Aliases](#aliases)
-    - [별칭](#aliases)
-    - [Vue](#vue)
-    - [Vue](#vue)
-    - [React](#react)
-    - [React](#react)
-    - [Inertia](#inertia)
-    - [Inertia](#inertia)
-    - [URL Processing](#url-processing)
-    - [URL Processing](#url-processing)
+  - [Aliases](#aliases)
+  - [별칭](#aliases)
+  - [Vue](#vue)
+  - [Vue](#vue)
+  - [React](#react)
+  - [React](#react)
+  - [Inertia](#inertia)
+  - [Inertia](#inertia)
+  - [URL Processing](#url-processing)
+  - [URL Processing](#url-processing)
 - [Working With Stylesheets](#working-with-stylesheets)
 - [스타일시트 작업](#working-with-stylesheets)
 - [Working With Blade & Routes](#working-with-blade-and-routes)
 - [블레이드 및 라우트 작업](#working-with-blade-and-routes)
-    - [Processing Static Assets With Vite](#blade-processing-static-assets)
-    - [Vite로 정적 에셋 처리](#blade-processing-static-assets)
-    - [Refreshing On Save](#blade-refreshing-on-save)
-    - [저장시 새로고침](#blade-refreshing-on-save)
-    - [Aliases](#blade-aliases)
-    - [별칭](#blade-aliases)
+  - [Processing Static Assets With Vite](#blade-processing-static-assets)
+  - [Vite로 정적 에셋 처리](#blade-processing-static-assets)
+  - [Refreshing On Save](#blade-refreshing-on-save)
+  - [저장시 새로고침](#blade-refreshing-on-save)
+  - [Aliases](#blade-aliases)
+  - [별칭](#blade-aliases)
 - [Custom Base URLs](#custom-base-urls)
 - [커스텀 정의 기본 URL](#custom-base-urls)
 - [Environment Variables](#environment-variables)
@@ -47,12 +47,12 @@
 - [서버 사이드 렌더링(SSR)](#ssr)
 - [Script & Style Tag Attributes](#script-and-style-attributes)
 - [스크립트 및 스타일 태그 속성](#script-and-style-attributes)
-    - [Content Security Policy (CSP) Nonce](#content-security-policy-csp-nonce)
-    - [컨텐트 보안 정책 (CSP) 논스](#content-security-policy-csp-nonce)
-    - [Subresource Integrity (SRI)](#subresource-integrity-sri)
-    - [하위 리소스 무결성 (SRI)](#subresource-integrity-sri)
-    - [Arbitrary Attributes](#arbitrary-attributes)
-    - [임의 속성](#arbitrary-attributes)
+  - [Content Security Policy (CSP) Nonce](#content-security-policy-csp-nonce)
+  - [컨텐트 보안 정책 (CSP) 논스](#content-security-policy-csp-nonce)
+  - [Subresource Integrity (SRI)](#subresource-integrity-sri)
+  - [하위 리소스 무결성 (SRI)](#subresource-integrity-sri)
+  - [Arbitrary Attributes](#arbitrary-attributes)
+  - [임의 속성](#arbitrary-attributes)
 - [Advanced Customization](#advanced-customization)
 - [고급 사용자 정의](#advanced-customization)
   - [Correcting Dev Server URLs](#correcting-dev-server-urls)
@@ -250,11 +250,36 @@ If you are unable to generate a trusted certificate for your system, you may ins
 
 시스템에 대한 신뢰할 수 있는 인증서를 생성할 수 없는 경우 [`@vitejs/plugin-basic-ssl` 플러그인](https://github.com/vitejs/vite-plugin-basic-ssl) 을 설치하고 구성할 수 있습니다. 신뢰할 수 없는 인증서를 사용하는 경우 `npm run dev` 명령을 실행할 때 콘솔의 "로컬" 링크를 따라 브라우저에서 Vite의 개발 서버에 대한 인증서 경고를 수락해야 합니다 .
 
+<a name="configuring-hmr-in-sail-on-wsl2"></a>
+#### Running The Development Server In Sail On WSL2
+#### WSL2의 Sail에서 개발서버 실행하기
+
+When running the Vite development server within [Laravel Sail](/docs/{{version}}/sail) on Windows Subsystem for Linux 2 (WSL2), you should add the following configuration to your `vite.config.js` file to ensure the browser can communicate with the development server:
+
+윈도우 서브시스템 for Linux 2 (WSL2)에 있는 [라라벨 Sail](/docs/{{version}}/sail)에서 Vite 개발서버를 실행한다면 브라우저가 개발서버와 통신할 수 있게하기 위해서 다음의 설정을 `vite.config.js` 파일에 추가해야합니다.
+
+```js
+// ...
+
+export default defineConfig({
+    // ...
+    server: { // [tl! add:start]
+        hmr: {
+            host: 'localhost',
+        },
+    }, // [tl! add:end]
+});
+```
+
+If your file changes are not being reflected in the browser while the development server is running, you may also need to configure Vite's [`server.watch.usePolling` option](https://vitejs.dev/config/server-options.html#server-watch).
+
+개발 서버가 실행되는 동안 파일의 변경 사항이 브라우저에 반영되지 않는다면, Vite의 [`server.watch.usePolling` 옵션](https://vitejs.dev/config/server-options.html#server-watch)을 설정해야 할 수도 있습니다.
+
 <a name="loading-your-scripts-and-styles"></a>
 ### Loading Your Scripts And Styles
 ### 스크립트와 스타일 불러오기
 
-With your Vite entry points configured, you only need reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
+With your Vite entry points configured, you may now reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
 
 Vite 진입점을 구성하면 애플리케이션의 루트 템플릿의 `<head>`에 추가하는 `@vite()` Blade 지시문에서만 참조하면 됩니다.
 
@@ -319,6 +344,10 @@ npm run dev
 npm run build
 ```
 
+If you are running the development server in [Sail](/docs/{{version}}/sail) on WSL2, you may need some [additional configuration](#configuring-hmr-in-sail-on-wsl2) options.
+
+WSL2의 [Sail]() 안에서 개발서버를 실행중이라면 [추가적인 설정](#configuring-hmr-in-sail-on-wsl2)이 필요할 수도 있습니다. 
+
 <a name="working-with-scripts"></a>
 ## Working With JavaScript
 ## 자바스크립트 작업
@@ -361,7 +390,7 @@ export default defineConfig({
 ### Vue
 ### Vue
 
-If you would like to build your front-end using the [Vue](https://vuejs.org/) framework, then you will also need to install the `@vitejs/plugin-vue` plugin:
+If you would like to build your frontend using the [Vue](https://vuejs.org/) framework, then you will also need to install the `@vitejs/plugin-vue` plugin:
 [Vue](https:vuejs.org) 프레임워크를 사용하여 프런트 엔드를 구축하려면 `@vitejsplugin-vue` 플러그인도 설치해야 합니다.:
 
 ```sh
@@ -411,7 +440,7 @@ export default defineConfig({
 ### React
 ### React
 
-If you would like to build your front-end using the [React](https://reactjs.org/) framework, then you will also need to install the `@vitejs/plugin-react` plugin:
+If you would like to build your frontend using the [React](https://reactjs.org/) framework, then you will also need to install the `@vitejs/plugin-react` plugin:
 [React](https://reactjs.org/) 프레임워크를 사용하여 프런트 엔드를 구축하려면 `@vitejsplugin-react` 플러그인도 설치해야 합니다.:
 
 ```sh
@@ -534,7 +563,7 @@ You can learn more about Vite's CSS support within the [Vite documentation](http
 [Vite 문서](https://vitejs.dev/guide/features.html#css) 에서 Vite의 CSS 지원에 대해 자세히 알아볼 수 있습니다. [Tailwind](https://tailwindcss.com) 와 같은 PostCSS 플러그인을 사용하는 경우 프로젝트 루트에 `postcss.config.js` 파일을 생성하면 Vite가 자동으로 적용합니다.
 
 ```js
-module.exports = {
+export default {
     plugins: {
         tailwindcss: {},
         autoprefixer: {},
@@ -811,7 +840,15 @@ Then, to build and start the SSR server, you may run the following commands:
 
 ```sh
 npm run build
-node bootstrap/ssr/ssr.mjs
+node bootstrap/ssr/ssr.js
+```
+
+If you are using [SSR with Inertia](https://inertiajs.com/server-side-rendering), you may instead use the `inertia:start-ssr` Artisan command to start the SSR server:
+
+[Inertia과 SSR](https://inertiajs.com/server-side-rendering)를 사용하는 경우, `inertia:start-ssr` 아티즌 명령어를 사용하여 SSR 서버를 시작할수 있습니다.
+
+```sh
+php artisan inertia:start-ssr
 ```
 
 > **Note**  
@@ -849,7 +886,7 @@ class AddContentSecurityPolicyHeaders
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next): Response
     {
         Vite::useCspNonce();
 
@@ -1030,11 +1067,13 @@ For example, the `vite-imagetools` plugin outputs URLs like the following while 
 <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520">
 ```
 
-The `vite-imagetools` plugin is expecting that the output URL will be intercepted by Vite and the plugin may then handle all URLs that start with `/@imagetools`. If you are using plugins that are expecting this behaviour, you will need to manually correct the URLs. You can do this in your `vite.config.js` file by using the `transformOnServe` option.
+The `vite-imagetools` plugin is expecting that the output URL will be intercepted by Vite and the plugin may then handle all URLs that start with `/@imagetools`. If you are using plugins that are expecting this behaviour, you will need to manually correct the URLs. You can do this in your `vite.config.js` file by using the `transformOnServe` option. 
+
 `vite-imagetools` 플러그인은 출력 URL이 Vite에 의해 차단될 것으로 예상하고 플러그인은 `@imagetools`로 시작하는 모든 URL을 처리할 수 있습니다. 이 동작이 예상되는 플러그인을 사용하는 경우 URL을 수동으로 수정해야 합니다. `transformOnServe` 옵션을 사용하여 `vite.config.js` 파일에서 이 작업을 수행할 수 있습니다.
 
-In this particular example, we will append the dev server URL to all occurrences of `/@imagetools` within the generated code:
-이 특정 예에서는 생성된 코드 내 모든 `@imagetools` 항목에 개발 서버 URL을 추가합니다.:
+In this particular example, we will prepend the dev server URL to all occurrences of `/@imagetools` within the generated code:
+
+이 예시에서 생성된 코드에 있는 모든 `/@imagetools` 항목 앞에 개발 서버 URL을 추가합니다.
 
 ```js
 import { defineConfig } from 'vite';

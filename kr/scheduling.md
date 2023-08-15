@@ -25,6 +25,8 @@
     - [점검 모드](#maintenance-mode)
 - [Running The Scheduler](#running-the-scheduler)
 - [스케줄러 실행하기](#running-the-scheduler)
+    - [Sub-Minute Scheduled Tasks](#sub-minute-scheduled-tasks)
+    - [1분 미만 단위로 예약된 작업](#sub-minute-scheduled-tasks)
     - [Running The Scheduler Locally](#running-the-scheduler-locally)
     - [로컬에서 스케줄러 실행하기](#running-the-scheduler-locally)
 - [Task Output](#task-output)
@@ -148,11 +150,17 @@ We've already seen a few examples of how you may configure a task to run at spec
 
 지정된 간격으로 실행되도록 작업을 구성하는 방법에 대한 몇 가지 예를 이미 보았습니다. 그러나 작업에 할당할 수 있는 작업 일정 빈도가 더 많습니다.
 
-<div class="overflow-auto">
 
 Method  | Description
 ------------- | -------------
 `->cron('* * * * *');`  |  Run the task on a custom cron schedule
+`->everySecond();`  |  Run the task every second
+`->everyTwoSeconds();`  |  Run the task every two seconds
+`->everyFiveSeconds();`  |  Run the task every five seconds
+`->everyTenSeconds();`  |  Run the task every ten seconds
+`->everyFifteenSeconds();`  |  Run the task every fifteen seconds
+`->everyTwentySeconds();`  |  Run the task every twenty seconds
+`->everyThirtySeconds();`  |  Run the task every thirty seconds
 `->everyMinute();`  |  Run the task every minute
 `->everyTwoMinutes();`  |  Run the task every two minutes
 `->everyThreeMinutes();`  |  Run the task every three minutes
@@ -163,11 +171,11 @@ Method  | Description
 `->everyThirtyMinutes();`  |  Run the task every thirty minutes
 `->hourly();`  |  Run the task every hour
 `->hourlyAt(17);`  |  Run the task every hour at 17 minutes past the hour
-`->everyOddHour();`  |  Run the task every odd hour
-`->everyTwoHours();`  |  Run the task every two hours
-`->everyThreeHours();`  |  Run the task every three hours
-`->everyFourHours();`  |  Run the task every four hours
-`->everySixHours();`  |  Run the task every six hours
+`->everyOddHour($minutes = 0);`  |  Run the task every odd hour
+`->everyTwoHours($minutes = 0);`  |  Run the task every two hours
+`->everyThreeHours($minutes = 0);`  |  Run the task every three hours
+`->everyFourHours($minutes = 0);`  |  Run the task every four hours
+`->everySixHours($minutes = 0);`  |  Run the task every six hours
 `->daily();`  |  Run the task every day at midnight
 `->dailyAt('13:00');`  |  Run the task every day at 13:00
 `->twiceDaily(1, 13);`  |  Run the task daily at 1:00 & 13:00
@@ -184,11 +192,16 @@ Method  | Description
 `->yearlyOn(6, 1, '17:00');`  |  Run the task every year on June 1st at 17:00
 `->timezone('America/New_York');` | Set the timezone for the task
 
-</div>
-
 메소드  | 설명
 ------------- | -------------
 `->cron('* * * * *');`  |  지정한 cron 형태로 작업 실행
+`->everySecond();`  |  매초 마다 작업 실행
+`->everyTwoSeconds();`  |  2초마다 작업 실행
+`->everyFiveSeconds();`  |  5초 간격으로 작업 실행
+`->everyTenSeconds();`  |  10초 간격으로 작업 실행 
+`->everyFifteenSeconds();`  |  15초 간격으로 작업 실행
+`->everyTwentySeconds();`  |  20초 간격으로 작업 실행
+`->everyThirtySeconds();`  |  30초 간격으로 작업 실행
 `->everyMinute();`  |  매분 마다 작업 실행
 `->everyTwoMinutes();`  |  2분마다 작업 실행
 `->everyThreeMinutes();`  |  3분마다 작업 실행
@@ -199,11 +212,11 @@ Method  | Description
 `->everyThirtyMinutes();`  |  30분 간격으로 작업 실행
 `->hourly();`  |  1시간 간격으로 작업 실행
 `->hourlyAt(17);`  |  매시간 17분에 실행
-`->everyOddHour();`  |  홀수 시간마다 작업 실행
-`->everyTwoHours();`  |  2시간마다 작업 실행
-`->everyThreeHours();`  |  3시간마다 작업 실행
-`->everyFourHours();`  |  4시간마다 작업 실행
-`->everySixHours();`  |  6시간마다 작업 실행
+`->everyOddHour($minutes = 0);`  |  홀수 시간마다 작업 실행
+`->everyTwoHours($minutes = 0);`  |  2시간마다 작업 실행
+`->everyThreeHours($minutes = 0);`  |  3시간마다 작업 실행
+`->everyFourHours($minutes = 0);`  |  4시간마다 작업 실행
+`->everySixHours($minutes = 0);`  |  6시간마다 작업 실행
 `->daily();`  |  한밤중을 기준으로 하루에 한번 작업 실행
 `->dailyAt('13:00');`  |  매일 13:00에 작업 실행
 `->twiceDaily(1, 13);`  |  하루중 1:00 & 13:00 에 작업 실행(총2번)
@@ -511,9 +524,53 @@ So, when using Laravel's scheduler, we only need to add a single cron configurat
 * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
+<a name="sub-minute-scheduled-tasks"></a>
+### Sub-Minute Scheduled Tasks
+### 1분 미만 단위로 예약된 작업
+
+On most operating systems, cron jobs are limited to running a maximum of once per minute. However, Laravel's scheduler allows you to schedule tasks to run at more frequent intervals, even as often as once per second:
+
+대부분의 운영 체제에서 크론 작업은 분당 최대 한 번 실행되도록 제한됩니다. 하지만 라라벨의 스케줄러를 사용하면 초당 한 번 단위로 운영 체제에 등록된 크론보다 더 자주 실행되도록 작업을 예약할 수 있습니다.
+
+    $schedule->call(function () {
+        DB::table('recent_users')->delete();
+    })->everySecond();
+
+When sub-minute tasks are defined within your application, the `schedule:run` command will continue running until the end of the current minute instead of exiting immediately. This allows the command to invoke all required sub-minute tasks throughout the minute.
+
+애플리케이션에서 1분 미만의 작업이 정의되면 `schedule:run` 명령어는 작업을 확인하는 프로세스를 즉시 종료되지 않고 현재 확인된 시간(분)이 종료될 때까지 계속 프로세스를 실행합니다. 이를 통해 명령어는 1분 동안 필요한 모든 1분 미만의 작업을 처리할 수 있습니다.
+
+(역자주: schedule:run 명령어는 1분 단위로 실행된다는 점을 생각하면 그보다 더 작은 단위의 작업을 처리하기 위해서 프로세스가 1분동안 유지되면서 초단위 작업을 처리하는 것을 의미합니다.)
+
+Since sub-minute tasks that take longer than expected to run could delay the execution of later sub-minute tasks, it is recommend that all sub-minute tasks dispatch queued jobs or background commands to handle the actual task processing:
+
+1분 미만 작업의 실행 시간이 예상보다 오래 걸리면 다음번의 1분 미만 작업이 실행되는 것을 지연시킬 수 있으므로 모든 1분 미만 작업은 큐-queue 또는 백그라운드 명령을 통해서 실제 작업이 처리하는 것을 권장합니다.
+
+    use App\Jobs\DeleteRecentUsers;
+
+    $schedule->job(new DeleteRecentUsers)->everyTenSeconds();
+
+    $schedule->command('users:delete')->everyTenSeconds()->runInBackground();
+
+<a name="interrupting-sub-minute-tasks"></a>
+#### Interrupting Sub-Minute Tasks
+#### 1분 미만 단위 작업의 중단
+
+As the `schedule:run` command runs for the entire minute of invocation when sub-minute tasks are defined, you may sometimes need to interrupt the command when deploying your application. Otherwise, an instance of the `schedule:run` command that is already running would continue using your application's previously deployed code until the current minute ends.
+
+1분 미만의 작업을 정의하면 `schedule:run` 명령어는 적어도 1분동안은 계속 실행상태이기 때문에 애플리케이션을 배포하는 순간과 같이 때때로 명령어를 중단시켜야 할 때가 있습니다. 그렇지 않으면 `schedule:run`명령어는 계속 실행중이지만, 1분이 완전이 끝나기 전 까지 이전에 배포된 애플리케이션 코드가 계속 사용됩니다.
+
+To interrupt in-progress `schedule:run` invocations, you may add the `schedule:interrupt` command to your application's deployment script. This command should be invoked after your application is finished deploying:
+
+`schedule:run`으로 실행중인 프로세스를 중단하려면 애플리케이션을 배포하는 스크립트에 `schedule:interrupt` 명령어를 추가하면 됩니다. 이 명령어는 애플리케이션이 배포된 뒤에 호출하도록 해야합니다.  
+
+```shell
+php artisan schedule:interrupt
+```
+
 <a name="running-the-scheduler-locally"></a>
-## Running The Scheduler Locally
-## 로컬에서 스케줄러 실행하기
+### Running The Scheduler Locally
+### 로컬에서 스케줄러 실행하기
 
 Typically, you would not add a scheduler cron entry to your local development machine. Instead, you may use the `schedule:work` Artisan command. This command will run in the foreground and invoke the scheduler every minute until you terminate the command:
 

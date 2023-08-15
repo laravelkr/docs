@@ -7,6 +7,8 @@
 - [성공 / 실패 기대](#success-failure-expectations)
 - [Input / Output Expectations](#input-output-expectations)
 - [Input / Output 기대](#input-output-expectations)
+- [Console Events](#console-events)
+- [콘솔 이벤트](#console-events)
 
 <a name="introduction"></a>
 ## Introduction
@@ -29,7 +31,7 @@ To get started, let's explore how to make assertions regarding an Artisan comman
      *
      * @return void
      */
-    public function test_console_command()
+    public function test_console_command(): void
     {
         $this->artisan('inspire')->assertExitCode(0);
     }
@@ -68,16 +70,14 @@ Laravel allows you to easily "mock" user input for your console commands using t
         $this->line('Your name is '.$name.' and you prefer '.$language.'.');
     });
 
-You may test this command with the following test which utilizes the `expectsQuestion`, `expectsOutput`, `doesntExpectOutput`, `expectsOutputToContain`, `doesntExpectOutputToContain` and `assertExitCode` methods:
+You may test this command with the following test which utilizes the `expectsQuestion`, `expectsOutput`, `doesntExpectOutput`, `expectsOutputToContain`, `doesntExpectOutputToContain`, and `assertExitCode` methods:
 
 `expectsQuestion`, `expectsOutput`, `doesntExpectOutput`, `expectsOutputToContain`, `doesntExpectOutputToContain` 및 `assertExitCode` 메소드를 사용하는 다음 테스트로 이 명령을 테스트할 수 있습니다.
 
     /**
      * Test a console command.
-     *
-     * @return void
      */
-    public function test_console_command()
+    public function test_console_command(): void
     {
         $this->artisan('question')
              ->expectsQuestion('What is your name?', 'Taylor Otwell')
@@ -117,3 +117,25 @@ If your command displays a table of information using Artisan's `table` method, 
             [1, 'taylor@example.com'],
             [2, 'abigail@example.com'],
         ]);
+
+<a name="console-events"></a>
+## Console Events
+## 콘솔 이벤트
+
+By default, the `Illuminate\Console\Events\CommandStarting` and `Illuminate\Console\Events\CommandFinished` events are not dispatched while running your application's tests. However, you can enable these events for a given test class by adding the `Illuminate\Foundation\Testing\WithConsoleEvents` trait to the class:
+
+기본적으로, 테스팅 중에는 `Illuminate\Console\Events\CommandStarting` 이벤트와 `Illuminate\Console\Events\CommandFinished` 이벤트가 처리되지 않습니다. 그렇지만 테스트 클래스에 `Illuminate\Foundation\Testing\WithConsoleEvents` 트레이트-trait 을 추가하면 이벤트를 활성화 할 수 있습니다.   
+
+    <?php
+    
+    namespace Tests\Feature;
+
+    use Illuminate\Foundation\Testing\WithConsoleEvents;
+    use Tests\TestCase;
+    
+    class ConsoleEventTest extends TestCase
+    {
+        use WithConsoleEvents;
+    
+        // ...
+    }

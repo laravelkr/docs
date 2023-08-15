@@ -179,10 +179,16 @@
     - [세금 ID 수집](#세금-id-수집)
     - [Guest Checkouts](#guest-checkouts)
     - [게스트 체크아웃](#게스트-체크아웃)
-  - [Handling Failed Payments](#handling-failed-payments)
-  - [실패한 결제 처리](#실패한-결제-처리)
-  - [Strong Customer Authentication](#strong-customer-authentication)
-  - [강력한 고객 인증](#강력한-고객-인증)
+- [Invoices](#invoices)
+    - [Retrieving Invoices](#retrieving-invoices)
+    - [Upcoming Invoices](#upcoming-invoices)
+    - [Previewing Subscription Invoices](#previewing-subscription-invoices)
+    - [Generating Invoice PDFs](#generating-invoice-pdfs)
+- [Handling Failed Payments](#handling-failed-payments)
+- [실패한 결제 처리](#실패한-결제-처리)
+- [Confirming Payments](#confirming-payments)
+- [Strong Customer Authentication (SCA)](#strong-customer-authentication)
+- [강력한 고객 인증](#강력한-고객-인증)
     - [Payments Requiring Additional Confirmation](#payments-requiring-additional-confirmation)
     - [추가 확인이 필요한 결제](#추가-확인이-필요한-결제)
       - [Incomplete and Past Due State](#incomplete-and-past-due-state)
@@ -2071,8 +2077,9 @@ To ensure your application can handle Stripe webhooks, be sure to configure the 
 - `customer.subscription.deleted`
 - `customer.updated`
 - `customer.deleted`
-- `invoice.payment_succeeded`
+- `payment_method.automatically_updated`
 - `invoice.payment_action_required`
+- `invoice.payment_succeeded`
 
 For convenience, Cashier includes a `cashier:webhook` Artisan command. This command will create a webhook in Stripe that listens to all of the events required by Cashier:
 
@@ -2817,6 +2824,17 @@ You can derive the specific status of an incomplete payment by inspecting the `p
             // ...
         }
     }
+
+<a name="confirming-payments"></a>
+### Confirming Payments
+
+Some payment methods require additional data in order to confirm payments. For example, SEPA payment methods require additional "mandate" data during the payment process. You may provide this data to Cashier using the `withPaymentConfirmationOptions` method:
+
+    $subscription->withPaymentConfirmationOptions([
+        'mandate_data' => '...',
+    ])->swap('price_xxx');
+    
+You may consult the [Stripe API documentation](https://stripe.com/docs/api/payment_intents/confirm) to review all of the options accepted when confirming payments.
 
 <a name="strong-customer-authentication"></a>
 ## Strong Customer Authentication

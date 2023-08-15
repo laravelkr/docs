@@ -104,10 +104,10 @@ Name | Description
 `stack` | "다중 채널" 채널 생성을 용이하게 하는 래퍼
 `syslog` | `SyslogHandler` 기반 Monolog 드라이버
 
-> **Note**
+> **Note**  
 > Check out the documentation on [advanced channel customization](#monolog-channel-customization) to learn more about the `monolog` and `custom` drivers.
 
-> **Note**
+> **Note**  
 > `monolog` 및 `custom` 드라이버에 대한 자세한 내용은 [고급 채널 사용자 정의](#monolog-channel-customization) 문서를 확인하세요.
 
 <a name="channel-prerequisites"></a>
@@ -454,10 +454,10 @@ Once you have configured the `tap` option on your channel, you're ready to defin
         }
     }
 
-> **Note**
+> **Note**  
 > All of your "tap" classes are resolved by the [service container](/docs/{{version}}/container), so any constructor dependencies they require will automatically be injected.
 
-> **Note**
+> **Note**  
 > 모든 "tap" 클래스는 [서비스 컨테이너](/docs/{{version}}/container)에 의해서 의존성이 해결되기 때문에, 생성자에 정의된 의존성은 자동으로 주입됩니다.
 
 <a name="creating-monolog-handler-channels"></a>

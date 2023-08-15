@@ -32,6 +32,7 @@
 <div class="content-list" markdown="1">
 
 - [Closure Validation Rule Messages](#closure-validation-rule-messages)
+- [Form Request `after` Method](#form-request-after-method)
 - [Public Path Binding](#public-path-binding)
 - [Query Exception Constructor](#query-exception-constructor)
 - [Rate Limiter Return Values](#rate-limiter-return-values)
@@ -75,6 +76,7 @@ You should update the following dependencies in your application's `composer.jso
 - `laravel/sanctum` to `^3.2`
 - `doctrine/dbal` to `^3.0`
 - `spatie/laravel-ignition` to `^2.0`
+- `laravel/passport` to `^11.0` ([Upgrade Guide](https://github.com/laravel/passport/blob/11.x/UPGRADE.md))
 
 </div>
 
@@ -94,7 +96,7 @@ Finally, examine any other third-party packages consumed by your application and
 <a name="updating-minimum-stability"></a>
 #### Minimum Stability
 
-You should update the `minimum-stability` setting in your application's `composer.json` file to `stable`:
+You should update the `minimum-stability` setting in your application's `composer.json` file to `stable`. Or, since the default value of `minimum-stability` is `stable`, you may delete this setting from your application's `composer.json` file:
 
 ```json
 "minimum-stability": "stable",
@@ -129,7 +131,7 @@ The `registerPolicies` method of the `AuthServiceProvider` is now invoked automa
 
 **Likelihood Of Impact: Medium**
 
-Redis [cache tag](/docs/{{version}}/cache#cache-tags) support has been rewritten for better performance and storage efficiency. In previously releases of Laravel, stale cache tags would accumulate in the cache when using Redis as your application's cache driver.
+Redis [cache tag](/docs/{{version}}/cache#cache-tags) support has been rewritten for better performance and storage efficiency. In previous releases of Laravel, stale cache tags would accumulate in the cache when using Redis as your application's cache driver.
 
 However, to properly prune stale cache tag entries, Laravel's new `cache:prune-stale-tags` Artisan command should be [scheduled](/docs/{{version}}/scheduling) in your application's `App\Console\Kernel` class:
 
@@ -294,6 +296,13 @@ public function rules()
     ],
 }
 ```
+
+<a name="form-request-after-method"></a>
+#### Form Request After Method
+
+**Likelihood Of Impact: Very Low**
+
+Within form requests, the `after` method is now [reserved by Laravel](https://github.com/laravel/framework/pull/46757). If your form requests define an `after` method, the method should be renamed or modified to utilize the new "after validation" feature of Laravel's form requests.
 
 <a name="miscellaneous"></a>
 ### Miscellaneous

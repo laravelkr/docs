@@ -236,6 +236,12 @@ If you would like to append query string data to the current URL, you may call t
 
     $request->fullUrlWithQuery(['type' => 'phone']);
 
+If you would like to get the current URL without a given query string parameter, you may utilize the `fullUrlWithoutQuery` method:
+
+```php
+$request->fullUrlWithoutQuery(['type']);
+```
+
 <a name="retrieving-the-request-host"></a>
 #### Retrieving The Request Host
 #### 요청 호스트 가져오기
@@ -383,7 +389,7 @@ Using the `collect` method, you may retrieve all of the incoming request's input
 
     $input = $request->collect();
 
-The `collect` method also allows you to retrieve a subset of the incoming request input as a collection:
+The `collect` method also allows you to retrieve a subset of the incoming request's input as a collection:
 
 `collect` 메소드는 또한 들어오는 요청 입력의 하위 집합을 컬렉션으로 가져올 수 있습니다:
 
@@ -561,6 +567,12 @@ When given an array, the `has` method will determine if all of the specified val
         // ...
     }
 
+The `hasAny` method returns `true` if any of the specified values are present:
+
+    if ($request->hasAny(['name', 'email'])) {
+        // ...
+    }
+
 The `whenHas` method will execute the given closure if a value is present on the request:
 
 `whenHas` 메소드는 요청에 값이 있으면 주어진 클로저를 실행합니다:
@@ -579,19 +591,17 @@ A second closure may be passed to the `whenHas` method that will be executed if 
         // The "name" value is not present...
     });
 
-The `hasAny` method returns `true` if any of the specified values are present:
-
-`hasAny` 메소드는 지정된 값 중 하나라도 존재하면 true를 반환합니다:
-
-    if ($request->hasAny(['name', 'email'])) {
-        // ...
-    }
-
 If you would like to determine if a value is present on the request and is not an empty string, you may use the `filled` method:
 
 요청에 값이 있고 빈 문자열이 아닌지 확인하려면 `filled` 메소드를 사용할 수 있습니다:
 
     if ($request->filled('name')) {
+        // ...
+    }
+
+The `anyFilled` method returns `true` if any of the specified values is not an empty string:
+
+    if ($request->anyFilled(['name', 'email'])) {
         // ...
     }
 

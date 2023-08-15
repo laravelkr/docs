@@ -155,10 +155,10 @@ Now, when users of your package execute Laravel's `vendor:publish` command, your
 
     $value = config('courier.option');
 
-> **Warning**
+> **Warning**  
 > You should not define closures in your configuration files. They can not be serialized correctly when users execute the `config:cache` Artisan command.
 
-> **Warning**
+> **Warning**  
 > 설정 파일에 클로저를 정의해서는 안 됩니다. 사용자가 `config:cache` Artisan 명령을 실행할 때 올바르게 직렬화할 수 없습니다.
 
 <a name="default-package-configuration"></a>
@@ -185,10 +185,10 @@ The `mergeConfigFrom` method accepts the path to your package's configuration fi
         );
     }
 
-> **Warning**
+> **Warning**  
 > This method only merges the first level of the configuration array. If your users partially define a multi-dimensional configuration array, the missing options will not be merged.
 
-> **Warning**
+> **Warning**  
 > 이 메소드는 설정 배열의 첫번째 레벨만을 병합합니다. 만약 사용자가 부분적으로 다차원 배열로 된 설정 배열을 정의한다면, 손실된 옵션은 병합되지 않습니다.
 
 <a name="routes"></a>

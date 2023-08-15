@@ -7,8 +7,8 @@
 - [설치 & 설정](#installation)
     - [Installing Sail Into Existing Applications](#installing-sail-into-existing-applications)
     - [기존 어플리케이션에 Sail 설치하기](#installing-sail-into-existing-applications)
-    - [Configuring A Shell Alias](#configuring-a-bash-alias)
-    - [Shell Alias 설정](#configuring-a-bash-alias)
+    - [Configuring A Shell Alias](#configuring-a-shell-alias)
+    - [Shell Alias 설정](#configuring-a-shell-alias)
 - [Starting & Stopping Sail](#starting-and-stopping-sail)
 - [Sail 시작 & 정지](#starting-and-stopping-sail)
 - [Executing Commands](#executing-sail-commands)
@@ -27,8 +27,8 @@
     - [MySQL](#mysql)
     - [Redis](#redis)
     - [Redis](#redis)
-    - [MeiliSearch](#meilisearch)
-    - [MeiliSearch](#meilisearch)
+    - [Meilisearch](#meilisearch)
+    - [Meilisearch](#meilisearch)
 - [File Storage](#file-storage)
 - [파일 저장소](#file-storage)
 - [Running Tests](#running-tests)
@@ -332,17 +332,17 @@ To connect to your application's Redis database from your local machine, you may
 
 로컬 컴퓨터에서 [TablePlus](https://tableplus.com)와 같은 GUI 데이터베이스 관리 어플리케이션을 활용하여 데이터베이스에 연결 할 수 있습니다. 기본적으로 Redis 는 `localhost` 포트 6379에서 접근할 수 있습니다.
 
-<a name="meilisearch"></a>
-### MeiliSearch
-### MeiliSearch
+<a name="Meilisearch"></a>
+### Meilisearch
+### Meilisearch
 
-If you chose to install the [MeiliSearch](https://www.meilisearch.com) service when installing Sail, your application's `docker-compose.yml` file will contain an entry for this powerful search-engine that is [compatible](https://github.com/meilisearch/meilisearch-laravel-scout) with [Laravel Scout](/docs/{{version}}/scout). Once you have started your containers, you may connect to the MeiliSearch instance within your application by setting your `MEILISEARCH_HOST` environment variable to `http://meilisearch:7700`.
+If you chose to install the [Meilisearch](https://www.meilisearch.com) service when installing Sail, your application's `docker-compose.yml` file will contain an entry for this powerful search-engine that is [compatible](https://github.com/Meilisearch/Meilisearch-laravel-scout) with [Laravel Scout](/docs/{{version}}/scout). Once you have started your containers, you may connect to the Meilisearch instance within your application by setting your `Meilisearch_HOST` environment variable to `http://Meilisearch:7700`.
 
-Sail을 설치할 때 [MeiliSearch](https://www.meilisearch.com) 서비스를 설치하도록 선택한 경우 어플리케이션의 `docker-such.yml` 파일에 [Laravel Scout](/docs/{version}/scout)이 있는 이 강력한 검색 엔진에 대한 항목이 포함됩니다. 컨테이너를 시작한 후에는 `MEILISEARCH_HOST` 환경 변수를 `http://meilisearch:7700`으로 설정하여 어플리케이션 내의 MeiliSearch 인스턴스에 연결할 수 있습니다.
+Sail을 설치할 때 [Meilisearch](https://www.meilisearch.com) 서비스를 설치하도록 선택한 경우 어플리케이션의 `docker-such.yml` 파일에 [Laravel Scout](/docs/{version}/scout)이 있는 이 강력한 검색 엔진에 대한 항목이 포함됩니다. 컨테이너를 시작한 후에는 `Meilisearch_HOST` 환경 변수를 `http://Meilisearch:7700`으로 설정하여 어플리케이션 내의 Meilisearch 인스턴스에 연결할 수 있습니다.
 
-From your local machine, you may access MeiliSearch's web based administration panel by navigating to `http://localhost:7700` in your web browser.
+From your local machine, you may access Meilisearch's web based administration panel by navigating to `http://localhost:7700` in your web browser.
 
-로컬 컴퓨터에서 `http://localhost:7700` 으로 MeiliSearch 의 웹 기반 관리패널을 접속 할 수 있습니다.
+로컬 컴퓨터에서 `http://localhost:7700` 으로 Meilisearch 의 웹 기반 관리패널을 접속 할 수 있습니다.
 
 <a name="file-storage"></a>
 ## File Storage
@@ -381,7 +381,7 @@ MinIO 콘솔을 통해 `http://localhost:8900`에서 사용할 수 있는 버킷
 > **Warning**  
 > Generating temporary storage URLs via the `temporaryUrl` method is not supported when using MinIO.
 
-> **Warning**
+> **Warning**  
 > MinIO를 사용할 때는 임시 스토리지 URL을 생성하는 `temporaryUrl` 메서드는 지원되지 않습니다.
 
 <a name="running-tests"></a>

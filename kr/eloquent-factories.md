@@ -48,17 +48,17 @@ To see an example of how to write a factory, take a look at the `database/factor
 
     namespace Database\Factories;
 
-    use Illuminate\Database\Eloquent\Factories\Factory;
     use Illuminate\Support\Str;
+    use Illuminate\Database\Eloquent\Factories\Factory;
 
     class UserFactory extends Factory
     {
         /**
          * Define the model's default state.
          *
-         * @return array
+         * @return array<string, mixed>
          */
-        public function definition()
+        public function definition(): array
         {
             return [
                 'name' => fake()->name(),
@@ -116,21 +116,20 @@ The `HasFactory` trait's `factory` method will use conventions to determine the 
 
 `HasFactory` 트레잇의 `factory` 메소드는 규칙을 사용하여 트레잇이 할당된 모델에 대한 적절한 팩토리를 결정합니다. 특히 이 메서드는 모델 이름과 일치하는 클래스 이름이 있고 접미사가 `Factory`인 `Database\Factories` 네임스페이스의 팩토리를 찾습니다. 이러한 규칙이 특정 애플리케이션이나 팩토리에 적용되지 않는 경우 모델의 `newFactory` 메소드를 덮어써서 모델의 해당 팩토리 인스턴스를 직접 반환할 수 있습니다.
 
+    use Illuminate\Database\Eloquent\Factories\Factory;
     use Database\Factories\Administration\FlightFactory;
 
     /**
      * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    protected static function newFactory()
+    protected static function newFactory(): Factory
     {
         return FlightFactory::new();
     }
 
-Next, define a `model` property on the corresponding factory:
+Then, define a `model` property on the corresponding factory:
 
-다음으로 해당 팩토리에서 `model` 속성을 정의합니다.
+그리고, 해당 팩토리에서 `model` 속성을 정의합니다.
 
     use App\Administration\Flight;
     use Illuminate\Database\Eloquent\Factories\Factory;
@@ -140,7 +139,7 @@ Next, define a `model` property on the corresponding factory:
         /**
          * The name of the factory's corresponding model.
          *
-         * @var string
+         * @var class-string<\Illuminate\Database\Eloquent\Model>
          */
         protected $model = Flight::class;
     }
@@ -157,12 +156,12 @@ State transformation methods typically call the `state` method provided by Larav
 
 상태 변환 메소드는 일반적으로 라라벨의 기본 팩토리 클래스에서 제공하는 `state` 메소드를 호출합니다. `state` 메소드는 팩토리에 대해 정의된 원시 속성의 배열을 수신하고 수정할 속성의 배열을 반환해야 하는 클로저를 입력받습니다.
 
+    use Illuminate\Database\Eloquent\Factories\Factory;
+
     /**
      * Indicate that the user is suspended.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function suspended()
+    public function suspended(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -200,19 +199,40 @@ Factory callbacks are registered using the `afterMaking` and `afterCreating` met
     {
         /**
          * Configure the model factory.
-         *
-         * @return $this
          */
-        public function configure()
+        public function configure(): static
         {
             return $this->afterMaking(function (User $user) {
-                //
+                // ...
             })->afterCreating(function (User $user) {
-                //
+                // ...
             });
         }
 
         // ...
+    }
+
+You may also register factory callbacks within state methods to perform additional tasks that are specific to a given state:
+
+지정된 상태에 추가적인 작업을 수행하기 위해서, 상태 메서드 안에서 팩토리 콜랙을 등록할 수도 있습니다.
+
+    use App\Models\User;
+    use Illuminate\Database\Eloquent\Factories\Factory;
+
+    /**
+     * Indicate that the user is suspended.
+     */
+    public function suspended(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'account_status' => 'suspended',
+            ];
+        })->afterMaking(function (User $user) {
+            // ...
+        })->afterCreating(function (User $user) {
+            // ...
+        });
     }
 
 <a name="creating-models-using-factories"></a>
@@ -270,7 +290,7 @@ Alternatively, the `state` method may be called directly on the factory instance
 > **Note**  
 > [Mass assignment protection](/docs/{{version}}/eloquent#mass-assignment) is automatically disabled when creating models using factories.
 
-> **Note**
+> **Note**  
 > [대량 할당 보호](/docs/{{version}}/eloquent#mass-assignment)는 팩토리를 사용하여 모델을 생성할 때는 자동으로 비활성화됩니다.
 
 <a name="persisting-models"></a>
@@ -324,10 +344,12 @@ If necessary, you may include a closure as a sequence value. The closure will be
 
 필요한 경우 클로저를 시퀀스 값으로 포함할 수 있습니다. 시퀀스에 새 값이 필요할 때마다 클로저가 호출됩니다.
 
+    use Illuminate\Database\Eloquent\Factories\Sequence;
+
     $users = User::factory()
                     ->count(10)
                     ->state(new Sequence(
-                        fn ($sequence) => ['role' => UserRoles::all()->random()],
+                        fn (Sequence $sequence) => ['role' => UserRoles::all()->random()],
                     ))
                     ->create();
 
@@ -337,7 +359,19 @@ Within a sequence closure, you may access the `$index` or `$count` properties on
 
     $users = User::factory()
                     ->count(10)
-                    ->sequence(fn ($sequence) => ['name' => 'Name '.$sequence->index])
+                    ->sequence(fn (Sequence $sequence) => ['name' => 'Name '.$sequence->index])
+                    ->create();
+
+For convenience, sequences may also be applied using the `sequence` method, which simply invokes the `state` method internally. The `sequence` method accepts a closure or arrays of sequenced attributes:
+
+편의상 시퀀스는 단순히 내부적으로 `state` 메소드를 호출하는 `sequence` 메서드를 사용하여 적용할 수도 있습니다. `sequence` 메서드는 클로저 또는 시퀀스된 속성의 배열을 받습니다.
+
+    $users = User::factory()
+                    ->count(2)
+                    ->sequence(
+                        ['name' => 'First User'],
+                        ['name' => 'Second User'],
+                    )
                     ->create();
 
 <a name="factory-relationships"></a>
@@ -593,9 +627,9 @@ To define a relationship within your model factory, you will typically assign a 
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'user_id' => User::factory(),
@@ -611,9 +645,9 @@ If the relationship's columns depend on the factory that defines it you may assi
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'user_id' => User::factory(),

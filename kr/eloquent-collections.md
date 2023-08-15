@@ -32,9 +32,9 @@ However, as previously mentioned, collections are much more powerful than arrays
 
 그러나 이전에 언급했듯이, 컬렉션은 배열보다 강력하며, 직관적인 인터페이스를 사용하여 메소드 체인이 가능한 map / reduce 메소드를 사용 할 수 있습니다. 예를 들어 사용자 중에서 비활성화된 사용자를 제외하고 남은 사용자들의 이름을 확인하려면 다음과 같이 하면 됩니다.
 
-    $names = User::all()->reject(function ($user) {
+    $names = User::all()->reject(function (User $user) {
         return $user->active === false;
-    })->map(function ($user) {
+    })->map(function (User $user) {
         return $user->name;
     });
 
@@ -49,6 +49,14 @@ While most Eloquent collection methods return a new instance of an Eloquent coll
 <a name="available-methods"></a>
 ## Available Methods
 ## 사용가능한 메소드들 
+
+All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
+
+모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
+
+In addition, the `Illuminate\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Illuminate\Database\Eloquent\Collection` instances; however, some methods, like `modelKeys`, return an `Illuminate\Support\Collection` instance.
+
+또한, `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 메서드의 상위 집합을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환합니다. 그러나 `modelKeys`와 같은 일부 메소드는 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
 
 - [append](#method-append)
 - [contains](#method-contains)
@@ -67,14 +75,6 @@ While most Eloquent collection methods return a new instance of an Eloquent coll
 - [setHidden](#method-setHidden)
 - [toQuery](#method-toquery)
 - [unique](#method-unique)
-
-All Eloquent collections extend the base [Laravel collection](/docs/{{version}}/collections#available-methods) object; therefore, they inherit all of the powerful methods provided by the base collection class.
-
-모든 Eloquent 컬렉션은 기본 [Laravel collection](/docs/{{version}}/collections#available-methods) 객체를 확장합니다. 따라서 기본 컬렉션 클래스에서 제공하는 모든 강력한 메소드를 상속받습니다.
-
-In addition, the `Illuminate\Database\Eloquent\Collection` class provides a superset of methods to aid with managing your model collections. Most methods return `Illuminate\Database\Eloquent\Collection` instances; however, some methods, like `modelKeys`, return an `Illuminate\Support\Collection` instance.
-
-또한, `Illuminate\Database\Eloquent\Collection` 클래스는 모델 컬렉션을 관리하는 데 도움이 되는 메서드의 상위 집합을 제공합니다. 대부분의 메소드는 `Illuminate\Database\Eloquent\Collection` 인스턴스를 반환합니다. 그러나 `modelKeys`와 같은 일부 메소드는 `Illuminate\Support\Collection` 인스턴스를 반환합니다.
 
 <a name="method-append"></a>
 #### `append($attributes)` {.collection-method .first-collection-method}
@@ -102,8 +102,8 @@ The `contains` method may be used to determine if a given model instance is cont
     $users->contains(User::find(1));
 
 <a name="method-diff"></a>
-#### `diff($items)`
-#### `diff($items)`
+#### `diff($items)` {.collection-method}
+#### `diff($items)` {.collection-method}
 
 The `diff` method returns all of the models that are not present in the given collection:
 
@@ -114,8 +114,8 @@ The `diff` method returns all of the models that are not present in the given co
     $users = $users->diff(User::whereIn('id', [1, 2, 3])->get());
 
 <a name="method-except"></a>
-#### `except($keys)`
-#### `except($keys)`
+#### `except($keys)` {.collection-method}
+#### `except($keys)` {.collection-method}
 
 The `except` method returns all of the models that do not have the given primary keys:
 
@@ -124,8 +124,8 @@ The `except` method returns all of the models that do not have the given primary
     $users = $users->except([1, 2, 3]);
 
 <a name="method-find"></a>
-#### `find($key)`
-#### `find($key)`
+#### `find($key)` {.collection-method}
+#### `find($key)` {.collection-method}
 
 The `find` method returns the model that has a primary key matching the given key. If `$key` is a model instance, `find` will attempt to return a model matching the primary key. If `$key` is an array of keys, `find` will return all models which have a primary key in the given array:
 
@@ -136,8 +136,8 @@ The `find` method returns the model that has a primary key matching the given ke
     $user = $users->find(1);
 
 <a name="method-fresh"></a>
-#### `fresh($with = [])`
-#### `fresh($with = [])`
+#### `fresh($with = [])` {.collection-method}
+#### `fresh($with = [])` {.collection-method}
 
 The `fresh` method retrieves a fresh instance of each model in the collection from the database. In addition, any specified relationships will be eager loaded:
 
@@ -148,8 +148,8 @@ The `fresh` method retrieves a fresh instance of each model in the collection fr
     $users = $users->fresh('comments');
 
 <a name="method-intersect"></a>
-#### `intersect($items)`
-#### `intersect($items)`
+#### `intersect($items)` {.collection-method}
+#### `intersect($items)` {.collection-method}
 
 The `intersect` method returns all of the models that are also present in the given collection:
 
@@ -160,8 +160,8 @@ The `intersect` method returns all of the models that are also present in the gi
     $users = $users->intersect(User::whereIn('id', [1, 2, 3])->get());
 
 <a name="method-load"></a>
-#### `load($relations)`
-#### `load($relations)`
+#### `load($relations)` {.collection-method}
+#### `load($relations)` {.collection-method}
 
 The `load` method eager loads the given relationships for all models in the collection:
 
@@ -170,12 +170,12 @@ The `load` method eager loads the given relationships for all models in the coll
     $users->load(['comments', 'posts']);
 
     $users->load('comments.author');
-
+    
     $users->load(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-loadMissing"></a>
-#### `loadMissing($relations)`
-#### `loadMissing($relations)`
+#### `loadMissing($relations)` {.collection-method}
+#### `loadMissing($relations)` {.collection-method}
 
 The `loadMissing` method eager loads the given relationships for all models in the collection if the relationships are not already loaded:
 
@@ -184,12 +184,12 @@ The `loadMissing` method eager loads the given relationships for all models in t
     $users->loadMissing(['comments', 'posts']);
 
     $users->loadMissing('comments.author');
-
+    
     $users->loadMissing(['comments', 'posts' => fn ($query) => $query->where('active', 1)]);
 
 <a name="method-modelKeys"></a>
-#### `modelKeys()`
-#### `modelKeys()`
+#### `modelKeys()` {.collection-method}
+#### `modelKeys()` {.collection-method}
 
 The `modelKeys` method returns the primary keys for all models in the collection:
 
@@ -200,8 +200,8 @@ The `modelKeys` method returns the primary keys for all models in the collection
     // [1, 2, 3, 4, 5]
 
 <a name="method-makeVisible"></a>
-#### `makeVisible($attributes)`
-#### `makeVisible($attributes)`
+#### `makeVisible($attributes)` {.collection-method}
+#### `makeVisible($attributes)` {.collection-method}
 
 The `makeVisible` method [makes attributes visible](/docs/{{version}}/eloquent-serialization#hiding-attributes-from-json) that are typically "hidden" on each model in the collection:
 
@@ -210,8 +210,8 @@ The `makeVisible` method [makes attributes visible](/docs/{{version}}/eloquent-s
     $users = $users->makeVisible(['address', 'phone_number']);
 
 <a name="method-makeHidden"></a>
-#### `makeHidden($attributes)`
-#### `makeHidden($attributes)`
+#### `makeHidden($attributes)` {.collection-method}
+#### `makeHidden($attributes)` {.collection-method}
 
 The `makeHidden` method [hides attributes](/docs/{{version}}/eloquent-serialization#hiding-attributes-from-json) that are typically "visible" on each model in the collection:
 
@@ -220,8 +220,8 @@ The `makeHidden` method [hides attributes](/docs/{{version}}/eloquent-serializat
     $users = $users->makeHidden(['address', 'phone_number']);
 
 <a name="method-only"></a>
-#### `only($keys)`
-#### `only($keys)`
+#### `only($keys)` {.collection-method}
+#### `only($keys)` {.collection-method}
 
 The `only` method returns all of the models that have the given primary keys:
 
@@ -248,8 +248,8 @@ The `setHidden` method [temporarily overrides](/docs/{{version}}/eloquent-serial
     $users = $users->setHidden(['email', 'password', 'remember_token']);
 
 <a name="method-toquery"></a>
-#### `toQuery()`
-#### `toQuery()`
+#### `toQuery()` {.collection-method}
+#### `toQuery()` {.collection-method}
 
 The `toQuery` method returns an Eloquent query builder instance containing a `whereIn` constraint on the collection model's primary keys:
 
@@ -264,8 +264,8 @@ The `toQuery` method returns an Eloquent query builder instance containing a `wh
     ]);
 
 <a name="method-unique"></a>
-#### `unique($key = null, $strict = false)`
-#### `unique($key = null, $strict = false)`
+#### `unique($key = null, $strict = false)` {.collection-method}
+#### `unique($key = null, $strict = false)` {.collection-method}
 
 The `unique` method returns all of the unique models in the collection. Any models of the same type with the same primary key as another model in the collection are removed:
 
@@ -286,6 +286,7 @@ If you would like to use a custom `Collection` object when interacting with a gi
     namespace App\Models;
 
     use App\Support\UserCollection;
+    use Illuminate\Database\Eloquent\Collection;
     use Illuminate\Database\Eloquent\Model;
 
     class User extends Model
@@ -293,10 +294,10 @@ If you would like to use a custom `Collection` object when interacting with a gi
         /**
          * Create a new Eloquent Collection instance.
          *
-         * @param  array  $models
-         * @return \Illuminate\Database\Eloquent\Collection
+         * @param  array<int, \Illuminate\Database\Eloquent\Model>  $models
+         * @return \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model>
          */
-        public function newCollection(array $models = [])
+        public function newCollection(array $models = []): Collection
         {
             return new UserCollection($models);
         }

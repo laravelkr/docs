@@ -16,7 +16,7 @@
     - [Date Casting](#date-casting)
     - [날짜 캐스팅](#date-casting)
     - [Enum Casting](#enum-casting)
-    - [열거형 캐스팅](#enum-casting)
+    - [열거형-Enum 캐스팅](#enum-casting)
     - [Encrypted Casting](#encrypted-casting)
     - [암호화 캐스팅](#encrypted-casting)
     - [Query Time Casting](#query-time-casting)
@@ -69,13 +69,11 @@ In this example, we'll define an accessor for the `first_name` attribute. The ac
     {
         /**
          * Get the user's first name.
-         *
-         * @return \Illuminate\Database\Eloquent\Casts\Attribute
          */
         protected function firstName(): Attribute
         {
             return Attribute::make(
-                get: fn ($value) => ucfirst($value),
+                get: fn (string $value) => ucfirst($value),
             );
         }
     }
@@ -94,10 +92,10 @@ As you can see, the original value of the column is passed to the accessor, allo
 
     $firstName = $user->first_name;
 
-> **Note**
+> **Note**  
 > If you would like these computed values to be added to the array / JSON representations of your model, [you will need to append them](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
-> **Note**
+> **Note**  
 > 계산된 값을 모델의 배열 / JSON 표현에 추가하려면 [이 값을 추가해야 합니다](/docs/{{version}}/eloquent-serialization#appending-values-to-json).
 
 <a name="building-value-objects-from-multiple-attributes"></a>
@@ -114,13 +112,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * Interact with the user's address.
- *
- * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
 protected function address(): Attribute
 {
     return Attribute::make(
-        get: fn ($value, $attributes) => new Address(
+        get: fn (mixed $value, array $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
         ),
@@ -132,7 +128,7 @@ protected function address(): Attribute
 #### Accessor Caching
 #### Accessor 캐싱
 
-When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can be return the same instance each time the accessor is invoked:
+When returning value objects from accessors, any changes made to the value object will automatically be synced back to the model before the model is saved. This is possible because Eloquent retains instances returned by accessors so it can return the same instance each time the accessor is invoked:
 
 accessor 로 부터 value object 를 반환할 때, value object에 대한 모든 변경사항은 모델이 저장되기 전에 자동으로 모델에 다시 동기화됩니다. 이런 동작이 가능한 이유는 엘로퀀트가 accessor 가 반환한 인스턴스를 유지하고 있어서 accessor가 호출될 때마다 동일한 인스턴스를 반환할 수 있기 때문입니다.   
 
@@ -153,7 +149,7 @@ However, you may sometimes wish to enable caching for primitive values like stri
 protected function hash(): Attribute
 {
     return Attribute::make(
-        get: fn ($value) => bcrypt(gzuncompress($value)),
+        get: fn (string $value) => bcrypt(gzuncompress($value)),
     )->shouldCache();
 }
 ```
@@ -165,13 +161,11 @@ If you would like to disable the object caching behavior of attributes, you may 
 ```php
 /**
  * Interact with the user's address.
- *
- * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
 protected function address(): Attribute
 {
     return Attribute::make(
-        get: fn ($value, $attributes) => new Address(
+        get: fn (mixed $value, array $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
         ),
@@ -198,15 +192,12 @@ mutator 는 엘로퀀트 속성값이 설정될 때 값을 변환합니다. muta
     {
         /**
          * Interact with the user's first name.
-         *
-         * @param  string  $value
-         * @return \Illuminate\Database\Eloquent\Casts\Attribute
          */
         protected function firstName(): Attribute
         {
             return Attribute::make(
-                get: fn ($value) => ucfirst($value),
-                set: fn ($value) => strtolower($value),
+                get: fn (string $value) => ucfirst($value),
+                set: fn (string $value) => strtolower($value),
             );
         }
     }
@@ -239,13 +230,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * Interact with the user's address.
- *
- * @return  \Illuminate\Database\Eloquent\Casts\Attribute
  */
 protected function address(): Attribute
 {
     return Attribute::make(
-        get: fn ($value, $attributes) => new Address(
+        get: fn (mixed $value, array $attributes) => new Address(
             $attributes['address_line_one'],
             $attributes['address_line_two'],
         ),
@@ -256,6 +245,7 @@ protected function address(): Attribute
     );
 }
 ```
+
 <a name="attribute-casting"></a>
 ## Attribute Casting
 ## 속성(Attribute) 캐스팅
@@ -268,7 +258,6 @@ The `$casts` property should be an array where the key is the name of the attrib
 
 `$casts` 속성은 key가 캐스트되는 속성의 이름이고 값이 컬럼을 캐스팅하려는 데이터 타입이 배열이어야 합니다. 지원되는 캐스트의 데이터 타입은 다음과 같습니다.
 
-<div class="content-list" markdown="1">
 - `array`
 - `AsStringable::class`
 - `boolean`
@@ -284,12 +273,12 @@ The `$casts` property should be an array where the key is the name of the attrib
 - `encrypted:collection`
 - `encrypted:object`
 - `float`
+- `hashed`
 - `integer`
 - `object`
 - `real`
 - `string`
 - `timestamp`
-</div>
 
 To demonstrate attribute casting, let's cast the `is_admin` attribute, which is stored in our database as an integer (`0` or `1`) to a boolean value:
 
@@ -320,7 +309,7 @@ After defining the cast, the `is_admin` attribute will always be cast to a boole
     $user = App\Models\User::find(1);
 
     if ($user->is_admin) {
-        //
+        // ...
     }
 
 If you need to add a new, temporary cast at runtime, you may use the `mergeCasts` method. These cast definitions will be added to any of the casts already defined on the model:
@@ -332,11 +321,11 @@ If you need to add a new, temporary cast at runtime, you may use the `mergeCasts
         'options' => 'object',
     ]);
 
-> **Warning**
-> Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship.
+> **Warning**  
+> Attributes that are `null` will not be cast. In addition, you should never define a cast (or an attribute) that has the same name as a relationship or assign a cast to the model's primary key.
 
-> **Warning**
-> `null`인 속성은 캐스트되지 않습니다. 또한 관계와 이름이 같은 캐스트(또는 속성)를 정의하면 안됩니다.
+> **Warning**  
+> `null`인 속성은 캐스트되지 않습니다. 또한 연관 관계와 이름이 같게 하거나, 모델의 primary key를캐스트(또는 속성)하도록 정의하면 안됩니다.
 
 <a name="stringable-casting"></a>
 #### Stringable Casting
@@ -457,6 +446,22 @@ Similarly, Laravel offers an `AsCollection` cast that casts your JSON attribute 
         'options' => AsCollection::class,
     ];
 
+If you would like the `AsCollection` cast to instantiate a custom collection class instead of Laravel's base collection class, you may provide the collection class name as a cast argument:
+
+라라벨의 기본 컬렉션 클래스 대신에, 커스텀 컬렉션 클래스를 인스턴스화 하기 위해서 `AsCollection` 캐스트를 하려는 경우 컬렉션 클래스의 이름을 캐스트 인자로 전달하면 됩니다. 
+
+    use App\Collections\OptionCollection;
+    use Illuminate\Database\Eloquent\Casts\AsCollection;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'options' => AsCollection::class.':'.OptionCollection::class,
+    ];
+
 <a name="date-casting"></a>
 ### Date Casting
 ### 날짜 캐스팅
@@ -488,11 +493,8 @@ You may customize the default serialization format for all of your model's dates
 
     /**
      * Prepare a date for array / JSON serialization.
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
      */
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d');
     }
@@ -512,9 +514,9 @@ To specify the format that should be used when actually storing a model's dates 
 #### Date Casting, Serialization, & Timezones
 #### 날짜 캐스팅, 직렬화 & 타임존
 
-By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`1986-05-28T21:05:54.000000Z`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
+By default, the `date` and `datetime` casts will serialize dates to a UTC ISO-8601 date string (`YYYY-MM-DDTHH:MM:SS.uuuuuuZ`), regardless of the timezone specified in your application's `timezone` configuration option. You are strongly encouraged to always use this serialization format, as well as to store your application's dates in the UTC timezone by not changing your application's `timezone` configuration option from its default `UTC` value. Consistently using the UTC timezone throughout your application will provide the maximum level of interoperability with other date manipulation libraries written in PHP and JavaScript.
 
-기본적으로 `date` 및 `datetime` 캐스트는 애플리케이션의 `timezone` 구성 옵션에 지정된 시간대에 관계없이 UTC ISO-8601 날짜 문자열(`1986-05-28T21:05:54.0000Z`) 로 날짜를 직렬화합니다. 애플리케이션의 `timezone` 구성 옵션을 기본 `UTC` 값에서 변경하지 않음으로써 애플리케이션의 날짜를 UTC 표준 시간대에 저장하는 것은 물론 직렬화 형식을 사용하는 것을 강력히 권장합니다. 애플리케이션 전체에서 UTC 시간대를 일관되게 사용하면 PHP 및 JavaScript로 작성된 다른 날짜 라이브러리와의 최대 상호 운용성을 제공할 수 있습니다. 
+기본적으로 `date` 및 `datetime` 캐스트는 애플리케이션의 `timezone` 구성 옵션에 지정된 시간대에 관계없이 UTC ISO-8601 날짜 문자열(`YYYY-MM-DDTHH:MM:SS.uuuuuuZ`) 로 날짜를 직렬화합니다. 애플리케이션의 `timezone` 구성 옵션을 기본 `UTC` 값에서 변경하지 않음으로써 애플리케이션의 날짜를 UTC 표준 시간대에 저장하는 것은 물론 직렬화 형식을 사용하는 것을 강력히 권장합니다. 애플리케이션 전체에서 UTC 시간대를 일관되게 사용하면 PHP 및 JavaScript로 작성된 다른 날짜 라이브러리와의 최대 상호 운용성을 제공할 수 있습니다. 
 
 If a custom format is applied to the `date` or `datetime` cast, such as `datetime:Y-m-d H:i:s`, the inner timezone of the Carbon instance will be used during date serialization. Typically, this will be the timezone specified in your application's `timezone` configuration option.
 
@@ -522,17 +524,11 @@ If a custom format is applied to the `date` or `datetime` cast, such as `datetim
 
 <a name="enum-casting"></a>
 ### Enum Casting
-### 열거형 캐스팅
-
-> **Warning**
-> Enum casting is only available for PHP 8.1+.
-
-> **Warning**
-> 열거형 캐스팅은 PHP 8.1 이상에서만 사용할 수 있습니다.
+### 열거형-Enum 캐스팅
 
 Eloquent also allows you to cast your attribute values to PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `$casts` property array:
 
-Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manual/en/language.enumerations.backed.php)으로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 열거형을 지정할 수 있습니다.
+Eloquent를 사용하면 속성 값을 PHP [열거형-Enums](https://www.php.net/manual/en/language.enumerations.backed.php)로 캐스팅할 수도 있습니다. 이를 수행하기 위해 모델의 `$casts` 속성 배열에 캐스팅하려는 속성과 열거형-enum을 지정할 수 있습니다.
 
     use App\Enums\ServerStatus;
 
@@ -547,13 +543,33 @@ Eloquent를 사용하면 속성 값을 PHP [열거형](https://www.php.net/manua
 
 Once you have defined the cast on your model, the specified attribute will be automatically cast to and from an enum when you interact with the attribute:
 
-모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 열거형으로 자동으로 캐스트되거나 열거형에서 캐스트됩니다.
+모델에 대한 캐스트를 정의하고 나면 속성과 상호 작용할 때 지정된 속성이 열거형-enum으로 자동으로 캐스트되거나 enum에서 캐스트됩니다.
 
     if ($server->status == ServerStatus::Provisioned) {
         $server->status = ServerStatus::Ready;
 
         $server->save();
     }
+
+<a name="casting-arrays-of-enums"></a>
+#### Casting Arrays Of Enums
+#### 열거형-Enum 배열 캐스팅
+
+Sometimes you may need your model to store an array of enum values within a single column. To accomplish this, you may utilize the `AsEnumArrayObject` or `AsEnumCollection` casts provided by Laravel:
+
+모델이 단일 컬럼에 열거형-enum 값의 배열을 저장해야 하는 경우가 있을 수 있습니다. 이를 위해 Laravel에서 제공하는 `AsEnumArrayObject` 또는 `AsEnumCollection` 캐스트를 사용할 수 있습니다.
+
+    use App\Enums\ServerStatus;
+    use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'statuses' => AsEnumCollection::class.':'.ServerStatus::class,
+    ];
 
 <a name="encrypted-casting"></a>
 ### Encrypted Casting
@@ -624,19 +640,17 @@ All custom cast classes implement the `CastsAttributes` interface. Classes that 
     namespace App\Casts;
 
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+    use Illuminate\Database\Eloquent\Model;
 
     class Json implements CastsAttributes
     {
         /**
          * Cast the given value.
          *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  mixed  $value
-         * @param  array  $attributes
-         * @return array
+         * @param  array<string, mixed>  $attributes
+         * @return array<string, mixed>
          */
-        public function get($model, $key, $value, $attributes)
+        public function get(Model $model, string $key, mixed $value, array $attributes): array
         {
             return json_decode($value, true);
         }
@@ -644,13 +658,9 @@ All custom cast classes implement the `CastsAttributes` interface. Classes that 
         /**
          * Prepare the given value for storage.
          *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  array  $value
-         * @param  array  $attributes
-         * @return string
+         * @param  array<string, mixed>  $attributes
          */
-        public function set($model, $key, $value, $attributes)
+        public function set(Model $model, string $key, mixed $value, array $attributes): string
         {
             return json_encode($value);
         }
@@ -697,6 +707,7 @@ As an example, we will define a custom cast class that casts multiple model valu
 
     use App\ValueObjects\Address as AddressValueObject;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+    use Illuminate\Database\Eloquent\Model;
     use InvalidArgumentException;
 
     class Address implements CastsAttributes
@@ -704,13 +715,9 @@ As an example, we will define a custom cast class that casts multiple model valu
         /**
          * Cast the given value.
          *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  mixed  $value
-         * @param  array  $attributes
-         * @return \App\ValueObjects\Address
+         * @param  array<string, mixed>  $attributes
          */
-        public function get($model, $key, $value, $attributes)
+        public function get(Model $model, string $key, mixed $value, array $attributes): AddressValueObject
         {
             return new AddressValueObject(
                 $attributes['address_line_one'],
@@ -721,13 +728,10 @@ As an example, we will define a custom cast class that casts multiple model valu
         /**
          * Prepare the given value for storage.
          *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  \App\ValueObjects\Address  $value
-         * @param  array  $attributes
-         * @return array
+         * @param  array<string, mixed>  $attributes
+         * @return array<string, string>
          */
-        public function set($model, $key, $value, $attributes)
+        public function set(Model $model, string $key, mixed $value, array $attributes): array
         {
             if (! $value instanceof AddressValueObject) {
                 throw new InvalidArgumentException('The given value is not an Address instance.');
@@ -752,11 +756,33 @@ When casting to value objects, any changes made to the value object will automat
 
     $user->save();
 
-> **Note**
+> **Note**  
 > If you plan to serialize your Eloquent models containing value objects to JSON or arrays, you should implement the `Illuminate\Contracts\Support\Arrayable` and `JsonSerializable` interfaces on the value object.
 
-> **Note**
+> **Note**  
 > 밸류 오브젝트를 포함하는 Eloquent 모델을 JSON 또는 배열로 직렬화하려는 경우 밸류 오브젝트에 `Illuminate\Contracts\Support\Arrayable` 및 `JsonSerializable` 인터페이스를 구현해야 합니다.
+
+<a name="value-object-caching"></a>
+#### Value Object Caching
+#### 밸류 오브젝트 캐싱
+
+When attributes that are cast to value objects are resolved, they are cached by Eloquent. Therefore, the same object instance will be returned if the attribute is accessed again.
+
+밸류 오브젝트로 캐스팅된 attribute(속성)이 있다면 Eloquent에 의해서 캐싱이 됩니다. 이 경우 다시 attribute에 접근하더라도 동일한 객체 인스턴스가 반환됩니다. 
+
+If you would like to disable the object caching behavior of custom cast classes, you may declare a public `withoutObjectCaching` property on your custom cast class:
+
+커스텀 캐스트 클래스의 객체 캐싱을 비활성화 하고자 한다면 커스컴 캐스트 클래스에서 
+`withoutObjectCaching` 속성을 true 로 정의하면 됩니다.
+
+```php
+class Address implements CastsAttributes
+{
+    public bool $withoutObjectCaching = true;
+
+    // ...
+}
+```
 
 <a name="array-json-serialization"></a>
 ### Array / JSON Serialization
@@ -773,13 +799,9 @@ Therefore, you may specify that your custom cast class will be responsible for s
     /**
      * Get the serialized representation of the value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
-     * @return mixed
+     * @param  array<string, mixed>  $attributes
      */
-    public function serialize($model, string $key, $value, array $attributes)
+    public function serialize(Model $model, string $key, mixed $value, array $attributes): string
     {
         return (string) $value;
     }
@@ -809,37 +831,23 @@ A classic example of an inbound only cast is a "hashing" cast. For example, we m
     namespace App\Casts;
 
     use Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes;
+    use Illuminate\Database\Eloquent\Model;
 
     class Hash implements CastsInboundAttributes
     {
         /**
-         * The hashing algorithm.
-         *
-         * @var string
-         */
-        protected $algorithm;
-
-        /**
          * Create a new cast class instance.
-         *
-         * @param  string|null  $algorithm
-         * @return void
          */
-        public function __construct($algorithm = null)
-        {
-            $this->algorithm = $algorithm;
-        }
+        public function __construct(
+            protected string|null $algorithm = null,
+        ) {}
 
         /**
          * Prepare the given value for storage.
          *
-         * @param  \Illuminate\Database\Eloquent\Model  $model
-         * @param  string  $key
-         * @param  array  $value
-         * @param  array  $attributes
-         * @return string
+         * @param  array<string, mixed>  $attributes
          */
-        public function set($model, $key, $value, $attributes)
+        public function set(Model $model, string $key, mixed $value, array $attributes): string
         {
             return is_null($this->algorithm)
                         ? bcrypt($value)
@@ -895,10 +903,9 @@ Objects that implement the `Castable` interface must define a `castUsing` method
         /**
          * Get the name of the caster class to use when casting from / to this cast target.
          *
-         * @param  array  $arguments
-         * @return string
+         * @param  array<string, mixed>  $arguments
          */
-        public static function castUsing(array $arguments)
+        public static function castUsing(array $arguments): string
         {
             return AddressCast::class;
         }
@@ -928,6 +935,7 @@ By combining "castables" with PHP's [anonymous classes](https://www.php.net/manu
 
     use Illuminate\Contracts\Database\Eloquent\Castable;
     use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+    use Illuminate\Database\Eloquent\Model;
 
     class Address implements Castable
     {
@@ -936,14 +944,13 @@ By combining "castables" with PHP's [anonymous classes](https://www.php.net/manu
         /**
          * Get the caster class to use when casting from / to this cast target.
          *
-         * @param  array  $arguments
-         * @return object|string
+         * @param  array<string, mixed>  $arguments
          */
-        public static function castUsing(array $arguments)
+        public static function castUsing(array $arguments): CastsAttributes
         {
             return new class implements CastsAttributes
             {
-                public function get($model, $key, $value, $attributes)
+                public function get(Model $model, string $key, mixed $value, array $attributes): Address
                 {
                     return new Address(
                         $attributes['address_line_one'],
@@ -951,7 +958,7 @@ By combining "castables" with PHP's [anonymous classes](https://www.php.net/manu
                     );
                 }
 
-                public function set($model, $key, $value, $attributes)
+                public function set(Model $model, string $key, mixed $value, array $attributes): array
                 {
                     return [
                         'address_line_one' => $value->lineOne,

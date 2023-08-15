@@ -130,10 +130,10 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
         ];
     }
 
-> **Note**
+> **Note**  
 > For convenience, the CSRF middleware is automatically disabled for all routes when [running tests](/docs/{{version}}/testing).  
 
-> **Note**
+> **Note**  
 > [테스트 실행](/docs/{{version}}/testing) 중에는, CSRF 미들웨어가 자동으로 비활성화 됩니다.
 
 <a name="csrf-x-csrf-token"></a>
@@ -172,8 +172,8 @@ This cookie is primarily sent as a developer convenience since some JavaScript f
 
 이 쿠키는 Angular 및 Axios와 같은 일부 자바스크립트 프레임워크 및 라이브러리의 개발자에게 편의를 제공하기 위해 전송됩니다. 프레임워크와 라이브러리는 이 쿠키를 통해 X-XSRF-TOKEN 헤더에 값을 설정하여 same-origin 요청을 보낼 수 있도록 합니다.
 
-> **Note**
+> **Note**  
 > By default, the `resources/js/bootstrap.js` file includes the Axios HTTP library which will automatically send the `X-XSRF-TOKEN` header for you.  
 
-> **Note**
+> **Note**  
 > 기본적으로 `resources/js/bootstrap.js` 파일에는 자동으로 이를 전송하는 Axios HTTP 라이브러리가 포함되어 있습니다.

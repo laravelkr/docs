@@ -91,7 +91,7 @@ Sanctum은 애플리케이션으로 유입된 리퀘스트가 여러분 소유�
 > **Note**  
 > It is perfectly fine to use Sanctum only for API token authentication or only for SPA authentication. Just because you use Sanctum does not mean you are required to use both features it offers.
 
-> **Note**
+> **Note**  
 > Sanctum은 API 토큰 인증에만 사용하거나 SPA 인증에만 사용하는 것이 좋습니다. Sanctum을 사용한다고해서 제공되는 두 기능을 모두 사용해야하는 것은 아닙니다.
 
 <a name="installation"></a>
@@ -101,7 +101,7 @@ Sanctum은 애플리케이션으로 유입된 리퀘스트가 여러분 소유�
 > **Note**  
 > The most recent versions of Laravel already include Laravel Sanctum. However, if your application's `composer.json` file does not include `laravel/sanctum`, you may follow the installation instructions below.
 
-> **Note**
+> **Note**  
 > 최신 버전의 라라벨에는 이미 라라벨 Sanctum이 포함되어 있습니다. 그러나 애플리케이션의 `composer.json` 파일에 `laravel/sanctum`이 포함되어 있지 않은 경우 아래 설치 지침을 따를 수 있습니다.
 
 You may install Laravel Sanctum via the Composer package manager:
@@ -393,7 +393,7 @@ First, you should configure which domains your SPA will be making requests from.
 > **Warning**  
 > If you are accessing your application via a URL that includes a port (`127.0.0.1:8000`), you should ensure that you include the port number with the domain.
 
-> **Warning**
+> **Warning**  
 > 포트 (`127.0.0.1:8000`)가 포함 된 URL을 통해 애플리케이션에 액세스하는 경우 도메인에 포트 번호를 포함해야합니다.
 
 <a name="sanctum-middleware"></a>
@@ -478,8 +478,7 @@ Of course, if your user's session expires due to lack of activity, subsequent re
 > You are free to write your own `/login` endpoint; however, you should ensure that it authenticates the user using the standard, [session based authentication services that Laravel provides](/docs/{{version}}/authentication#authenticating-users). Typically, this means using the `web` authentication guard.
 
 > **Warning**
-> 자신만의 `/login` 엔드포인트를 자유롭게 작성할 수 있습니다. 그러나 표준인 [라라벨이 제공하는 세션 기반의 인증 서비스](/docs/{{version}}/authentication#authenticating-users)를 사용해서 유저를 인증할 수 있습니다. 일반적으로 이것은 `web` 인증 가드를 사용하는 것을 의미합니다
-
+> 자신만의 `/login` 엔드포인트를 자유롭게 작성할 수 있습니다. 그러나 [라라벨이 제공하는 세션 기반의 인증 서비스](/docs/{{version}}/authentication#authenticating-users)를 사용해서 유저를 인증할 수 있습니다. 일반적으로 이것은 `web` 인증 가드를 사용하는 것을 의미합니다
 
 <a name="protecting-spa-routes"></a>
 ### Protecting Routes

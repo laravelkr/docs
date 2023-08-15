@@ -26,7 +26,7 @@ Under the hood, Laravel utilizes the [Monolog](https://github.com/Seldaek/monolo
 <a name="configuration"></a>
 ## Configuration
 
-All of the configuration options for your application's logging behavior is housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
+All of the configuration options for your application's logging behavior are housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
 
 By default, Laravel will use the `stack` channel when logging messages. The `stack` channel is used to aggregate multiple log channels into a single channel. For more information on building stacks, check out the [documentation below](#building-log-stacks).
 
@@ -200,7 +200,7 @@ You may call any of these methods to log a message for the corresponding level. 
          */
         public function show(string $id): View
         {
-            Log::info('Showing the user profile for user: '.$id);
+            Log::info('Showing the user profile for user: {id}', ['id' => $id]);
 
             return view('user.profile', [
                 'user' => User::findOrFail($id)
@@ -215,7 +215,7 @@ An array of contextual data may be passed to the log methods. This contextual da
 
     use Illuminate\Support\Facades\Log;
 
-    Log::info('User failed to login.', ['id' => $user->id]);
+    Log::info('User {id} failed to login.', ['id' => $user->id]);
 
 Occasionally, you may wish to specify some contextual information that should be included with all subsequent log entries in a particular channel. For example, you may wish to log a request ID that is associated with each incoming request to your application. To accomplish this, you may call the `Log` facade's `withContext` method:
 
@@ -383,6 +383,33 @@ If you are using a Monolog handler that is capable of providing its own formatte
         'handler' => Monolog\Handler\NewRelicHandler::class,
         'formatter' => 'default',
     ],
+
+
+ <a name="monolog-processors"></a>
+ #### Monolog Processors
+
+ Monolog can also process messages before logging them. You can create your own processors or use the [existing processors offered by Monolog](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor).
+
+ If you would like to customize the processors for a `monolog` driver, add a `processors` configuration value to your channel's configuration:
+
+     'memory' => [
+         'driver' => 'monolog',
+         'handler' => Monolog\Handler\StreamHandler::class,
+         'with' => [
+             'stream' => 'php://stderr',
+         ],
+         'processors' => [
+             // Simple syntax...
+             Monolog\Processor\MemoryUsageProcessor::class,
+
+             // With options...
+             [
+                'processor' => Monolog\Processor\PsrLogMessageProcessor::class,
+                'with' => ['removeUsedContextFields' => true],
+            ],
+         ],
+     ],
+
 
 <a name="creating-custom-channels-via-factories"></a>
 ### Creating Custom Channels Via Factories
